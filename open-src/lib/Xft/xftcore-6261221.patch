@@ -1,0 +1,23 @@
+D 1.4	05/05/24 14:18:14 wangd	5 4	00009/00002/01375
+fixed CR6261221: view page source causes mozilla crash on S10 b74L2a
+
+--- xftcore.c	Wed Aug 24 19:24:00 2005
++++ xftcore.c	Fri Jun 10 13:52:54 2005
+@@ -1256,8 +1256,15 @@
+ 	g_y2 = g_y1 + gi.height;
+ 	if (i)
+ 	{
+-	    if (g_x1 < x1)
+-		x1 = g_x1;
++	    if (g_x1 < x1) {
++                if(g_x1 < 0 ) {
++                    /* do nothing if the given glyphs are out of range */
++                    short t = glyphs[i-1].font->max_advance_width + glyphs[i-1].x;
++                    if(t < 0 && glyphs[i-1].x > 0)
++                        goto bail1;
++                }
++                x1 = g_x1;
++            }
+ 	    if (g_y1 < y1)
+ 		y1 = g_y1;
+ 	    if (g_x2 > x2)

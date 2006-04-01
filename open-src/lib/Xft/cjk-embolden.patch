@@ -1,0 +1,324 @@
+This combined patch includes the fixes for:
+Bug 5048680, 5067795: Add embolden/italicize support for CJK
+Bug 5071008: darken chinese characters
+Bug 5104233: Chinese font rendering is not correct for certain sizes
+
+diff -u libXft-2.1.6-orig/xftfreetype.c libXft-2.1.6/xftfreetype.c
+--- xftfreetype.c	Fri Mar 19 10:54:08 2004
++++ xftfreetype.c	Tue Jan 11 16:23:09 2005
+@@ -374,6 +374,8 @@
+     _XftUnlockFile (font->info.file);
+ }
+ 
++int darken_candidate = 0;
++
+ static FcBool
+ XftFontInfoFill (Display *dpy, _Xconst FcPattern *pattern, XftFontInfo *fi)
+ {
+@@ -390,6 +392,7 @@
+     FcChar32	    hash, *hashp;
+     FT_Face	    face;
+     int		    nhash;
++    FcBool          embed; /* Use embededbitmap switch */
+ 
+     if (!info)
+ 	return FcFalse;
+@@ -433,6 +436,35 @@
+     if (FcPatternGetDouble (pattern, FC_PIXEL_SIZE, 0, &dsize) != FcResultMatch)
+ 	goto bail1;
+ 
++    /*
++     * Determine if user wants text darker than normally created.
++     */
++    switch ( FcPatternGetBool (pattern, "darken", 0, &darken_candidate)) {
++    case FcResultNoMatch:
++        darken_candidate = FcFalse;
++        break;
++    case FcResultMatch:
++	if ( dsize < 24 )
++	{
++            if (FcPatternGetInteger (pattern, "darken_value", 0, &darken_candidate) != FcResultMatch)
++		darken_candidate = 6;
++
++	    if ( darken_candidate < 1 || darken_candidate > 9 )
++		darken_candidate = 6;
++	}
++	else
++            darken_candidate = FcFalse;
++        break;
++    default:
++        goto bail1;
++    }
++
++    /*
++     * Add By Firefly (firefly@firefly.idv.tw)
++     */
++    if (dsize != (long)dsize) /* for speed - avoid math compute */
++        dsize = ((dsize - (long)dsize) >= 0.5) ? (long)dsize + 1: (long)dsize;
++
+     if (FcPatternGetDouble (pattern, FC_ASPECT, 0, &aspect) != FcResultMatch)
+ 	aspect = 1.0;
+     
+@@ -513,8 +545,36 @@
+     fi->load_flags = FT_LOAD_DEFAULT;
+ 
+     /* disable bitmaps when anti-aliasing or transforming glyphs */
+-    if (fi->antialias || fi->transform)
++
++    /*------------------------------------------------------------------
++     * Add by Firefly ( firefly@firefly.idv.tw)
++     * enable bitmaps first if requested
++     */
++    switch ( FcPatternGetBool (pattern, "prefer_bitmap", 0, &embed)) {
++    case FcResultNoMatch:
++        embed = FcTrue;
++        break;
++    case FcResultMatch:
++        break;
++    default:
++        goto bail1;
++    }
++
++    if ((fi->antialias && !embed ) || fi->transform)
+ 	fi->load_flags |= FT_LOAD_NO_BITMAP;
++
++    /*
++     * Check for weight
++     */
++    switch (FcPatternGetInteger(pattern, FC_WEIGHT, 0, &fi->weight)) {
++    case FcResultNoMatch:
++        fi->weight = FC_WEIGHT_MEDIUM;
++        break;
++    case FcResultMatch:
++        break;
++    default:
++        goto bail1;
++    }
+     
+     /* disable hinting if requested */
+     switch (FcPatternGetBool (pattern, FC_HINTING, 0, &hinting)) {
+diff -u xftglyphs.c xftglyphs.c
+--- xftglyphs.c	Wed Apr 30 17:13:17 2003
++++ xftglyphs.c	Tue Jan 11 16:23:09 2005
+@@ -103,6 +103,9 @@
+     FT_Vector	    vector;
+     Bool	    subpixel = False;
+     FT_Face	    face;
++    int             bold_advance_width = 0;
++    int             darken = 0;
++    extern int      darken_candidate;
+ 
+     if (!info)
+ 	return;
+@@ -112,6 +115,15 @@
+     if (!face)
+ 	return;
+ 
++    /*-------------------------------------------------------
++     * Add by Firefly (firefly@firefly.idv.tw)
++     *------------------------------------------------------*/
++    if (font->info.weight >= FC_WEIGHT_BOLD &&
++       !(face->style_flags & FT_STYLE_FLAG_BOLD))
++    {
++       bold_advance_width = 64;
++    }
++
+     matrix.xx = matrix.yy = 0x10000L;
+     matrix.xy = matrix.yx = 0;
+ 
+@@ -136,6 +148,10 @@
+     while (nglyph--)
+     {
+ 	glyphindex = *glyphs++;
++
++	if ( glyphindex > 256 && darken_candidate )
++	    darken = 1;
++
+ 	xftg = font->glyphs[glyphindex];
+ 	if (!xftg)
+ 	    continue;
+@@ -216,7 +232,7 @@
+ 	    bottom = FLOOR( glyphslot->metrics.horiBearingY - glyphslot->metrics.height );
+ 	}
+ 
+-	width = TRUNC(right - left);
++	width = TRUNC(right - left) + (bold_advance_width/64);
+ 	height = TRUNC( top - bottom );
+ 
+ 	/*
+@@ -223,34 +239,43 @@
+ 	 * Try to keep monospace fonts ink-inside
+ 	 * XXX transformed?
+ 	 */
++        /* Modified by Firefly (firefly@firefly.idv.tw)
++         *
++         * Don't use "font->public.max_advance_width", because CJK fonts
++         * have both half-width and full-width.
++         * So must use "glyphslot->metrics.vertAdvance" &
++         * "glyphslot->metrics.horiAdvance" in order to get correctly width.
++         *----------------------------------------------------------------*/
++        glyphslot->metrics.horiAdvance += bold_advance_width;
++
+ 	if (font->info.spacing != FC_PROPORTIONAL && !font->info.transform)
+ 	{
+ 	    if (font->info.load_flags & FT_LOAD_VERTICAL_LAYOUT)
+ 	    {
+-		if (TRUNC(bottom) > font->public.max_advance_width)
++		if (bottom > glyphslot->metrics.vertAdvance)
+ 		{
+ 		    int adjust;
+     
+-		    adjust = bottom - (font->public.max_advance_width << 6);
++		    adjust = bottom - glyphslot->metrics.vertAdvance;
+ 		    if (adjust > top)
+ 			adjust = top;
+ 		    top -= adjust;
+ 		    bottom -= adjust;
+-		    height = font->public.max_advance_width;
++		    height = TRUNC(glyphslot->metrics.vertAdvance);
+ 		}
+ 	    }
+ 	    else
+ 	    {
+-		if (TRUNC(right) > font->public.max_advance_width)
++		if (right > glyphslot->metrics.horiAdvance)
+ 		{
+ 		    int adjust;
+     
+-		    adjust = right - (font->public.max_advance_width << 6);
++		    adjust = right - glyphslot->metrics.horiAdvance;
+ 		    if (adjust > left)
+ 			adjust = left;
+ 		    left -= adjust;
+ 		    right -= adjust;
+-		    width = font->public.max_advance_width;
++		    width = TRUNC(glyphslot->metrics.horiAdvance);
+ 		}
+ 	    }
+ 	}
+@@ -274,11 +299,11 @@
+ 		if (font->info.load_flags & FT_LOAD_VERTICAL_LAYOUT)
+ 		{
+ 		    vector.x = 0;
+-		    vector.y = -face->size->metrics.max_advance;
++		    vector.y = -glyphslot->metrics.vertAdvance;
+ 		}
+ 		else
+ 		{
+-		    vector.x = face->size->metrics.max_advance;
++		    vector.x = glyphslot->metrics.horiAdvance;
+ 		    vector.y = 0;
+ 		}
+ 		FT_Vector_Transform (&vector, &font->info.matrix);
+@@ -290,11 +315,11 @@
+ 		if (font->info.load_flags & FT_LOAD_VERTICAL_LAYOUT)
+ 		{
+ 		    xftg->metrics.xOff = 0;
+-		    xftg->metrics.yOff = -font->public.max_advance_width;
++		    xftg->metrics.yOff = -(glyphslot->metrics.vertAdvance >> 6);
+ 		}
+ 		else
+ 		{
+-		    xftg->metrics.xOff = font->public.max_advance_width;
++		    xftg->metrics.xOff = glyphslot->metrics.horiAdvance >> 6;
+ 		    xftg->metrics.yOff = 0;
+ 		}
+ 	    }
+@@ -301,7 +326,7 @@
+ 	}
+ 	else
+ 	{
+-	    xftg->metrics.xOff = TRUNC(ROUND(glyphslot->advance.x));
++	    xftg->metrics.xOff = TRUNC(ROUND(glyphslot->advance.x + bold_advance_width));
+ 	    xftg->metrics.yOff = -TRUNC(ROUND(glyphslot->advance.y));
+ 	}
+ 	
+@@ -402,7 +427,75 @@
+ 			(int) glyphindex);
+ 	    continue;
+ 	}
+-	
++
++	if ( font->info.antialias && darken )
++	{
++	    int h = height * vmul;
++            int w = font->info.antialias ? pitch : pitch * 8;
++            unsigned char *p = bufBitmap;
++	    int i, x, y;
++	    int steps = 10 - darken_candidate;
++	    int max   = 255 / steps;
++
++	    for ( y = 0; y < h; y++ )
++	    {
++		for ( x = 0; x < w; x++ )
++		{
++		    int val = p[x] / steps;
++/**
++		    if ( p[x] )
++		    {
++		        p[x] += 30;
++		        if ( p[x] > 255 )
++			    p[x] = 255;
++		    }
++**/
++		    p[x] += ( p[x] > 30 ? max-val: 0 );
++/**
++		    p[x] += ( p[x] ? ((val > max - val)?max-val:val): 0 );
++**/
++		}
++                p += w;
++	    }
++	}
++
++        /*-------------------------------------------------------
++         * Add by Firefly (firefly@firefly.idv.tw)
++         * some code from XFree86's X-TrueType module.
++         *------------------------------------------------------*/
++        if ( bold_advance_width)
++        {
++            int h = height * vmul;
++            int w = font->info.antialias ? pitch : pitch * 8;
++            unsigned char *p = bufBitmap;
++            unsigned char lsb, tmp;
++            int i, x, y;
++            
++            for (y = 0; y < h ; y++)
++            {
++                if (font->info.antialias)
++                {
++                    for (x = w; x > 0; x--)
++                    {
++                        if ( p[x] < p[x-1] )
++                            p[x] = p[x-1];
++                    }
++                }
++                else
++                {
++                    lsb = 0;
++
++                    for (x = 0; x < w; x++)
++                    {
++                        tmp = p[x] << 7;
++                        p[x] |= (p[x] >> 1) | lsb;
++                        lsb = tmp;
++                    }
++                }
++                p += w;
++            }
++	}
++
+ 	if (XftDebug() & XFT_DBG_GLYPH)
+ 	{
+ 	    printf ("glyph %d:\n", (int) glyphindex);
+diff -u libXft-2.1.6-orig/xftint.h libXft-2.1.6/xftint.h
+--- xftint.h	Wed Mar 10 14:07:29 2004
++++ xftint.h	Tue Jan 11 16:23:09 2005
+@@ -120,6 +120,7 @@
+     int			spacing;
+     FcBool		minspace;
+     int			char_width;
++    int                 weight;
+ };
+ 
+ /*
+

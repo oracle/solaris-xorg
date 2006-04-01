@@ -1,0 +1,148 @@
+#	Copyright 2002-2005 Sun Microsystems, Inc.  All Rights Reserved.
+#	Use subject to license terms.
+#
+#	@(#)prototype	1.10	05/07/01 (c) Sun Microsystems, Inc.
+#
+#  FreeType 2 package
+
+i pkginfo
+i copyright=copyright
+i depend
+
+!HOME=../sfw
+
+d none sfw 							0755 root bin
+
+!search $HOME/bin
+d none sfw/bin 							0755 root bin
+f none sfw/bin/freetype-config					0755 root bin
+
+!search $HOME/include/
+d none sfw/include 						0755 root bin
+f none sfw/include/ft2build.h					0755 root bin
+d none sfw/include/freetype2					0755 root bin
+
+!search $HOME/include/freetype2/freetype
+d none sfw/include/freetype2/freetype				0755 root bin
+f none sfw/include/freetype2/freetype/freetype.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftbbox.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftbdf.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftbitmap.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftcache.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftchapters.h		0755 root bin
+f none sfw/include/freetype2/freetype/fterrdef.h		0755 root bin
+f none sfw/include/freetype2/freetype/fterrors.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftglyph.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftgzip.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftimage.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftincrem.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftlist.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftlzw.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftmac.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftmm.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftmodapi.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftmoderr.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftotval.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftoutln.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftpfr.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftrender.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftsizes.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftsnames.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftstroke.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftsynth.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftsysio.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftsysmem.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftsystem.h		0755 root bin
+f none sfw/include/freetype2/freetype/fttrigon.h		0755 root bin
+f none sfw/include/freetype2/freetype/fttypes.h			0755 root bin
+f none sfw/include/freetype2/freetype/ftwinfnt.h		0755 root bin
+f none sfw/include/freetype2/freetype/ftxf86.h			0755 root bin
+f none sfw/include/freetype2/freetype/t1tables.h		0755 root bin
+f none sfw/include/freetype2/freetype/ttnameid.h		0755 root bin
+f none sfw/include/freetype2/freetype/tttables.h		0755 root bin
+f none sfw/include/freetype2/freetype/tttags.h			0755 root bin
+f none sfw/include/freetype2/freetype/ttunpat.h			0755 root bin
+
+!search $HOME/include/freetype2/freetype/cache
+d none sfw/include/freetype2/freetype/cache			0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftccache.h		0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftccmap.h		0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftcglyph.h		0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftcimage.h		0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftcmanag.h		0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftcmru.h		0755 root bin
+f none sfw/include/freetype2/freetype/cache/ftcsbits.h		0755 root bin
+
+!search $HOME/include/freetype2/freetype/config
+d none sfw/include/freetype2/freetype/config			0755 root bin
+f none sfw/include/freetype2/freetype/config/ftconfig.h		0755 root bin
+f none sfw/include/freetype2/freetype/config/ftheader.h		0755 root bin
+f none sfw/include/freetype2/freetype/config/ftmodule.h		0755 root bin
+f none sfw/include/freetype2/freetype/config/ftoption.h		0755 root bin
+f none sfw/include/freetype2/freetype/config/ftstdlib.h		0755 root bin
+
+!search $HOME/include/freetype2/freetype/internal
+d none sfw/include/freetype2/freetype/internal			0755 root bin
+f none sfw/include/freetype2/freetype/internal/autohint.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftcalc.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftdebug.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftdriver.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftgloadr.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftmemory.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftobjs.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftrfork.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftserv.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftstream.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/fttrace.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/ftvalid.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/internal.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/pcftypes.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/psaux.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/pshints.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/sfnt.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/svbdf.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/svgldict.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svmm.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/svotval.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svpfr.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/svpostnm.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svpscmap.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svpsinfo.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svsfnt.h		0755 root bin
+f none sfw/include/freetype2/freetype/internal/svttcmap.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svwinfnt.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/svxf86nm.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/t1types.h	0755 root bin
+f none sfw/include/freetype2/freetype/internal/tttypes.h	0755 root bin
+
+!search $HOME/lib
+d none sfw/lib 							0755 root bin
+f none sfw/lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.8	0755 root bin
+s none sfw/lib/libfreetype.so=libfreetype.so.6
+
+d none sfw/share 						0755 root bin
+
+!search $HOME/share/aclocal
+d none sfw/share/aclocal					0755 root bin
+f none sfw/share/aclocal/freetype2.m4				0755 root bin
+
+!search $HOME/lib/pkgconfig
+d none lib	 						0755 root bin
+d none lib/pkgconfig 						0755 root other 
+f none lib/pkgconfig/freetype2.pc				0644 root bin
+
+#  FreeType 2 64-bit libraries 
+
+!search $HOME/lib/$plat_64
+d none sfw/lib/$plat_64						0755 root bin
+s none sfw/lib/64=$plat_64
+f none sfw/lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.8	0755 root bin
+s none sfw/lib/$plat_64/libfreetype.so=libfreetype.so.6
+
+!search $HOME/lib/$plat_64/pkgconfig
+d none lib/$plat_64						0755 root bin
+d none lib/$plat_64/pkgconfig					0755 root other 
+f none lib/$plat_64/pkgconfig/freetype2.pc			0644 root bin
+
+
+

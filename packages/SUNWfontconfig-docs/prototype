@@ -1,0 +1,179 @@
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident	"@(#)prototype	1.5	06/03/30 SMI"
+#
+# Fontconfig documentation
+
+i pkginfo
+i copyright
+i depend
+
+!HOME=../usr/man
+
+d none share 							0755 root sys
+d none share/man						0755 root bin
+
+!search      $HOME/man1
+d none share/man/man1						0755 root bin
+f none share/man/man1/fc-cache.1				0444 root bin
+f none share/man/man1/fc-list.1					0444 root bin
+
+!search      $HOME/man4
+d none share/man/man4						0755 root bin
+f none share/man/man4/fonts.conf.4				0444 root bin
+
+!search      $HOME/man3lib
+d none share/man/man3lib					0755 root bin
+f none share/man/man3lib/libfontconfig.3lib  0444 root bin
+
+!search      $HOME/man3
+d none share/man/man3fontconfig					0755 root bin
+f none share/man/man3fontconfig/FcAtomicCreate.3fontconfig=$HOME/man3/FcAtomicCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicDeleteNew.3fontconfig=$HOME/man3/FcAtomicDeleteNew.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicDestroy.3fontconfig=$HOME/man3/FcAtomicDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicLock.3fontconfig=$HOME/man3/FcAtomicLock.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicNewFile.3fontconfig=$HOME/man3/FcAtomicNewFile.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicOrigFile.3fontconfig=$HOME/man3/FcAtomicOrigFile.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicReplaceOrig.3fontconfig=$HOME/man3/FcAtomicReplaceOrig.3 0444 root bin
+f none share/man/man3fontconfig/FcAtomicUnlock.3fontconfig=$HOME/man3/FcAtomicUnlock.3 0444 root bin
+f none share/man/man3fontconfig/FcBlanksAdd.3fontconfig=$HOME/man3/FcBlanksAdd.3 0444 root bin
+f none share/man/man3fontconfig/FcBlanksCreate.3fontconfig=$HOME/man3/FcBlanksCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcBlanksDestroy.3fontconfig=$HOME/man3/FcBlanksDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcBlanksIsMember.3fontconfig=$HOME/man3/FcBlanksIsMember.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetAddChar.3fontconfig=$HOME/man3/FcCharSetAddChar.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetCopy.3fontconfig=$HOME/man3/FcCharSetCopy.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetCount.3fontconfig=$HOME/man3/FcCharSetCount.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetCreate.3fontconfig=$HOME/man3/FcCharSetCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetDestroy.3fontconfig=$HOME/man3/FcCharSetDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetEqual.3fontconfig=$HOME/man3/FcCharSetEqual.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetFirstPage.3fontconfig=$HOME/man3/FcCharSetFirstPage.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetHasChar.3fontconfig=$HOME/man3/FcCharSetHasChar.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetIntersect.3fontconfig=$HOME/man3/FcCharSetIntersect.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetIntersectCount.3fontconfig=$HOME/man3/FcCharSetIntersectCount.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetIsSubset.3fontconfig=$HOME/man3/FcCharSetIsSubset.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetNextPage.3fontconfig=$HOME/man3/FcCharSetNextPage.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetSubtract.3fontconfig=$HOME/man3/FcCharSetSubtract.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetSubtractCount.3fontconfig=$HOME/man3/FcCharSetSubtractCount.3 0444 root bin
+f none share/man/man3fontconfig/FcCharSetUnion.3fontconfig=$HOME/man3/FcCharSetUnion.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigAppFontAddDir.3fontconfig=$HOME/man3/FcConfigAppFontAddDir.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigAppFontAddFile.3fontconfig=$HOME/man3/FcConfigAppFontAddFile.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigAppFontClear.3fontconfig=$HOME/man3/FcConfigAppFontClear.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigBuildFonts.3fontconfig=$HOME/man3/FcConfigBuildFonts.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigCreate.3fontconfig=$HOME/man3/FcConfigCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigDestroy.3fontconfig=$HOME/man3/FcConfigDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigFilename.3fontconfig=$HOME/man3/FcConfigFilename.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetBlanks.3fontconfig=$HOME/man3/FcConfigGetBlanks.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetCache.3fontconfig=$HOME/man3/FcConfigGetCache.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetConfigDirs.3fontconfig=$HOME/man3/FcConfigGetConfigDirs.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetConfigFiles.3fontconfig=$HOME/man3/FcConfigGetConfigFiles.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetCurrent.3fontconfig=$HOME/man3/FcConfigGetCurrent.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetFontDirs.3fontconfig=$HOME/man3/FcConfigGetFontDirs.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetFonts.3fontconfig=$HOME/man3/FcConfigGetFonts.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigGetRescanInverval.3fontconfig=$HOME/man3/FcConfigGetRescanInverval.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigParseAndLoad.3fontconfig=$HOME/man3/FcConfigParseAndLoad.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigSetCurrent.3fontconfig=$HOME/man3/FcConfigSetCurrent.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigSetRescanInverval.3fontconfig=$HOME/man3/FcConfigSetRescanInverval.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigSubstitute.3fontconfig=$HOME/man3/FcConfigSubstitute.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigSubstituteWithPat.3fontconfig=$HOME/man3/FcConfigSubstituteWithPat.3 0444 root bin
+f none share/man/man3fontconfig/FcConfigUptoDate.3fontconfig=$HOME/man3/FcConfigUptoDate.3 0444 root bin
+f none share/man/man3fontconfig/FcDefaultSubstitute.3fontconfig=$HOME/man3/FcDefaultSubstitute.3 0444 root bin
+f none share/man/man3fontconfig/FcDirCacheValid.3fontconfig=$HOME/man3/FcDirCacheValid.3 0444 root bin
+f none share/man/man3fontconfig/FcDirSave.3fontconfig=$HOME/man3/FcDirSave.3 0444 root bin
+f none share/man/man3fontconfig/FcDirScan.3fontconfig=$HOME/man3/FcDirScan.3 0444 root bin
+f none share/man/man3fontconfig/FcFileScan.3fontconfig=$HOME/man3/FcFileScan.3 0444 root bin
+f none share/man/man3fontconfig/FcFontList.3fontconfig=$HOME/man3/FcFontList.3 0444 root bin
+f none share/man/man3fontconfig/FcFontMatch.3fontconfig=$HOME/man3/FcFontMatch.3 0444 root bin
+f none share/man/man3fontconfig/FcFontRenderPrepare.3fontconfig=$HOME/man3/FcFontRenderPrepare.3 0444 root bin
+f none share/man/man3fontconfig/FcFontSetAdd.3fontconfig=$HOME/man3/FcFontSetAdd.3 0444 root bin
+f none share/man/man3fontconfig/FcFontSetCreate.3fontconfig=$HOME/man3/FcFontSetCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcFontSetDestroy.3fontconfig=$HOME/man3/FcFontSetDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcFontSort.3fontconfig=$HOME/man3/FcFontSort.3 0444 root bin
+f none share/man/man3fontconfig/FcFreeTypeCharIndex.3fontconfig=$HOME/man3/FcFreeTypeCharIndex.3 0444 root bin
+f none share/man/man3fontconfig/FcFreeTypeCharSet.3fontconfig=$HOME/man3/FcFreeTypeCharSet.3 0444 root bin
+f none share/man/man3fontconfig/FcFreeTypeQuery.3fontconfig=$HOME/man3/FcFreeTypeQuery.3 0444 root bin
+f none share/man/man3fontconfig/FcGetVersion.3fontconfig=$HOME/man3/FcGetVersion.3 0444 root bin
+f none share/man/man3fontconfig/FcInit.3fontconfig=$HOME/man3/FcInit.3 0444 root bin
+f none share/man/man3fontconfig/FcInitBringUptoDate.3fontconfig=$HOME/man3/FcInitBringUptoDate.3 0444 root bin
+f none share/man/man3fontconfig/FcInitLoadConfig.3fontconfig=$HOME/man3/FcInitLoadConfig.3 0444 root bin
+f none share/man/man3fontconfig/FcInitLoadConfigAndFonts.3fontconfig=$HOME/man3/FcInitLoadConfigAndFonts.3 0444 root bin
+f none share/man/man3fontconfig/FcInitReinitialize.3fontconfig=$HOME/man3/FcInitReinitialize.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixCopy.3fontconfig=$HOME/man3/FcMatrixCopy.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixEqual.3fontconfig=$HOME/man3/FcMatrixEqual.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixInit.3fontconfig=$HOME/man3/FcMatrixInit.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixMultiply.3fontconfig=$HOME/man3/FcMatrixMultiply.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixRotate.3fontconfig=$HOME/man3/FcMatrixRotate.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixScale.3fontconfig=$HOME/man3/FcMatrixScale.3 0444 root bin
+f none share/man/man3fontconfig/FcMatrixShear.3fontconfig=$HOME/man3/FcMatrixShear.3 0444 root bin
+f none share/man/man3fontconfig/FcNameConstant.3fontconfig=$HOME/man3/FcNameConstant.3 0444 root bin
+f none share/man/man3fontconfig/FcNameGetConstant.3fontconfig=$HOME/man3/FcNameGetConstant.3 0444 root bin
+f none share/man/man3fontconfig/FcNameGetObjectType.3fontconfig=$HOME/man3/FcNameGetObjectType.3 0444 root bin
+f none share/man/man3fontconfig/FcNameParse.3fontconfig=$HOME/man3/FcNameParse.3 0444 root bin
+f none share/man/man3fontconfig/FcNameRegisterConstants.3fontconfig=$HOME/man3/FcNameRegisterConstants.3 0444 root bin
+f none share/man/man3fontconfig/FcNameRegisterObjectTypes.3fontconfig=$HOME/man3/FcNameRegisterObjectTypes.3 0444 root bin
+f none share/man/man3fontconfig/FcNameUnparse.3fontconfig=$HOME/man3/FcNameUnparse.3 0444 root bin
+f none share/man/man3fontconfig/FcNameUnregisterConstants.3fontconfig=$HOME/man3/FcNameUnregisterConstants.3 0444 root bin
+f none share/man/man3fontconfig/FcNameUnregisterObjectTypes.3fontconfig=$HOME/man3/FcNameUnregisterObjectTypes.3 0444 root bin
+f none share/man/man3fontconfig/FcObjectSetAdd.3fontconfig=$HOME/man3/FcObjectSetAdd.3 0444 root bin
+f none share/man/man3fontconfig/FcObjectSetBuild.3fontconfig=$HOME/man3/FcObjectSetBuild.3 0444 root bin
+f none share/man/man3fontconfig/FcObjectSetCreate.3fontconfig=$HOME/man3/FcObjectSetCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcObjectSetDestroy.3fontconfig=$HOME/man3/FcObjectSetDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternAdd-Type.3fontconfig=$HOME/man3/FcPatternAdd-Type.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternAdd.3fontconfig=$HOME/man3/FcPatternAdd.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternAddWeak.3fontconfig=$HOME/man3/FcPatternAddWeak.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternBuild.3fontconfig=$HOME/man3/FcPatternBuild.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternCreate.3fontconfig=$HOME/man3/FcPatternCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternDel.3fontconfig=$HOME/man3/FcPatternDel.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternDestroy.3fontconfig=$HOME/man3/FcPatternDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternEqual.3fontconfig=$HOME/man3/FcPatternEqual.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternEqualSubset.3fontconfig=$HOME/man3/FcPatternEqualSubset.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternGet-Type.3fontconfig=$HOME/man3/FcPatternGet-Type.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternGet.3fontconfig=$HOME/man3/FcPatternGet.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternHash.3fontconfig=$HOME/man3/FcPatternHash.3 0444 root bin
+f none share/man/man3fontconfig/FcPatternPrint.3fontconfig=$HOME/man3/FcPatternPrint.3 0444 root bin
+f none share/man/man3fontconfig/FcStrBasename.3fontconfig=$HOME/man3/FcStrBasename.3 0444 root bin
+f none share/man/man3fontconfig/FcStrCmpIgnoreCase.3fontconfig=$HOME/man3/FcStrCmpIgnoreCase.3 0444 root bin
+f none share/man/man3fontconfig/FcStrCopy.3fontconfig=$HOME/man3/FcStrCopy.3 0444 root bin
+f none share/man/man3fontconfig/FcStrCopyFilename.3fontconfig=$HOME/man3/FcStrCopyFilename.3 0444 root bin
+f none share/man/man3fontconfig/FcStrDirname.3fontconfig=$HOME/man3/FcStrDirname.3 0444 root bin
+f none share/man/man3fontconfig/FcStrListCreate.3fontconfig=$HOME/man3/FcStrListCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcStrListDone.3fontconfig=$HOME/man3/FcStrListDone.3 0444 root bin
+f none share/man/man3fontconfig/FcStrListNext.3fontconfig=$HOME/man3/FcStrListNext.3 0444 root bin
+f none share/man/man3fontconfig/FcStrSetAdd.3fontconfig=$HOME/man3/FcStrSetAdd.3 0444 root bin
+f none share/man/man3fontconfig/FcStrSetAddFilename.3fontconfig=$HOME/man3/FcStrSetAddFilename.3 0444 root bin
+f none share/man/man3fontconfig/FcStrSetCreate.3fontconfig=$HOME/man3/FcStrSetCreate.3 0444 root bin
+f none share/man/man3fontconfig/FcStrSetDel.3fontconfig=$HOME/man3/FcStrSetDel.3 0444 root bin
+f none share/man/man3fontconfig/FcStrSetDestroy.3fontconfig=$HOME/man3/FcStrSetDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcStrSetMember.3fontconfig=$HOME/man3/FcStrSetMember.3 0444 root bin
+f none share/man/man3fontconfig/FcUcs4ToUtf8.3fontconfig=$HOME/man3/FcUcs4ToUtf8.3 0444 root bin
+f none share/man/man3fontconfig/FcUtf16Len.3fontconfig=$HOME/man3/FcUtf16Len.3 0444 root bin
+f none share/man/man3fontconfig/FcUtf16ToUcs4.3fontconfig=$HOME/man3/FcUtf16ToUcs4.3 0444 root bin
+f none share/man/man3fontconfig/FcUtf8Len.3fontconfig=$HOME/man3/FcUtf8Len.3 0444 root bin
+f none share/man/man3fontconfig/FcUtf8ToUcs4.3fontconfig=$HOME/man3/FcUtf8ToUcs4.3 0444 root bin
+f none share/man/man3fontconfig/FcValueDestroy.3fontconfig=$HOME/man3/FcValueDestroy.3 0444 root bin
+f none share/man/man3fontconfig/FcValueSave.3fontconfig=$HOME/man3/FcValueSave.3 0444 root bin

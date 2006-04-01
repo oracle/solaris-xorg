@@ -1,0 +1,126 @@
+Fixes these bugs:
+5036458: Chinese font is ugly and not match with English  [fccfg.c, fclang.c]
+5080044: Display Chinese in Japanese Font in UTF-8		[fcdefault.c]
+
+diff -ur src/fccfg.c
+--- src/fccfg.c	Wed Jun 30 11:20:19 2004
++++ src/fccfg.c	Wed Jun 30 14:24:04 2004
+@@ -606,12 +606,12 @@
+ 	case FcTypeCharSet:
+ 	    switch (op) {
+ 	    case FcOpContains:
+-		/* m contains v if v is a subset of m */
+-		ret = FcCharSetIsSubset (v.u.c, m.u.c);
++		/* v contains m if m is a subset of v */
++		ret = FcCharSetIsSubset (m.u.c, v.u.c);
+ 		break;
+ 	    case FcOpNotContains:
+-		/* m contains v if v is a subset of m */
+-		ret = !FcCharSetIsSubset (v.u.c, m.u.c);
++		/* v contains m if m is a subset of v */
++		ret = !FcCharSetIsSubset (m.u.c, v.u.c);
+ 		break;
+ 	    case FcOpEqual:
+ 		ret = FcCharSetEqual (m.u.c, v.u.c);
+@@ -626,16 +626,16 @@
+ 	case FcTypeLangSet:
+ 	    switch (op) {
+ 	    case FcOpContains:
+-		ret = FcLangSetContains (v.u.l, m.u.l);
++		ret = FcLangSetContains (m.u.l, v.u.l);
+ 		break;
+ 	    case FcOpNotContains:
+-		ret = FcLangSetContains (v.u.l, m.u.l);
++		ret = FcLangSetContains (m.u.l, v.u.l);
+ 		break;
+ 	    case FcOpEqual:
+-		ret = FcLangSetEqual (v.u.l, m.u.l);
++		ret = FcLangSetEqual (m.u.l, v.u.l);
+ 		break;
+ 	    case FcOpNotEqual:
+-		ret = !FcLangSetEqual (v.u.l, m.u.l);
++		ret = !FcLangSetEqual (m.u.l, v.u.l);
+ 		break;
+ 	    default:
+ 		break;
+diff -ur src/fclang.c
+--- src/fclang.c	Mon Jun  9 11:25:04 2003
++++ src/fclang.c	Wed Jun 30 14:24:04 2004
+@@ -144,29 +144,33 @@
+ }
+ 
+ /*
+- * Return FcTrue when s1 contains s2. 
++ * Return FcTrue when super contains sub. 
+  *
+- * s1 contains s2 if s1 equals s2 or if s1 is a
+- * language with a country and s2 is just a language
++ * super contains sub if super and sub have the same
++ * language and either the same country or one
++ * is missing the country
+  */
+ 
+ static FcBool
+-FcLangContains (const FcChar8 *s1, const FcChar8 *s2)
++FcLangContains (const FcChar8 *super, const FcChar8 *sub)
+ {
+     FcChar8	    c1, c2;
+ 
+     for (;;)
+     {
+-	c1 = *s1++;
+-	c2 = *s2++;
++	c1 = *super++;
++	c2 = *sub++;
+ 	
+ 	c1 = FcToLower (c1);
+ 	c2 = FcToLower (c2);
+ 	if (c1 != c2)
+ 	{
+-	    /* see if s1 has a country while s2 is mising one */
++	    /* see if super has a country while sub is mising one */
+ 	    if (c1 == '-' && c2 == '\0')
+ 		return FcTrue;
++	    /* see if sub has a country while super is mising one */
++	    if (c1 == '\0' && c2 == '-')
++		return FcTrue;
+ 	    return FcFalse;
+ 	}
+ 	else if (!c1)
+--- src/fcdefault.c	Wed Mar 12 14:16:25 2003
++++ src/fcdefault.c	Thu Sep 23 13:36:36 2004
+@@ -115,8 +115,11 @@
+ 	{
+ 	    lang = ctype;
+ 	    territory = strchr (ctype, '_');
+-	    if (territory)
++	    after = strchr (ctype, '.');
++	    if (territory || after)
+ 	    {
++	      if (territory)
++	      {
+ 		lang_len = territory - lang;
+ 		territory = territory + 1;
+ 		after = strchr (territory, '.');
+@@ -135,6 +138,21 @@
+ 		    lang_local[lang_len + 1 + territory_len] = '\0';
+ 		    FcPatternAddString (pattern, FC_LANG, (FcChar8 *) lang_local);
+ 		}
++              }
++	      /*
++	       * Hack for Solaris platform, it has some locales that don't have
++	       * territory information in their locale name such as zh.GBK,
++	       * zh.UTF-8 and ko.UTF-8 etc.
++	       * Bugfix 5080044, without this hack, Japanese font would be 
++	       * wrongly used in gnome terminal in above locales.
++               */
++	      else
++	      {
++		  lang_len = after - lang;
++		  strncpy (lang_local, lang, lang_len);
++		  lang_local[lang_len] = '\0';
++		  FcPatternAddString (pattern, FC_LANG, (FcChar8 *) lang_local);
++	      }
+ 	    }
+ 	    else
+ 		FcPatternAddString (pattern, FC_LANG, (FcChar8 *) lang);

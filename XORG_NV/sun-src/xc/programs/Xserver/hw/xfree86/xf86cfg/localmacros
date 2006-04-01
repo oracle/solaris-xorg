@@ -1,0 +1,3 @@
+
+XCOMM Redefine run time library search path
+CCLINK = LD_RUN_PATH=$(USRLIBDIRPATH)/$(PROG):$(USRLIBDIRPATH):$(SYSTEMUSRLIBDIR) $(CC)

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+	Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+	Use is subject to license terms.
+
+	ident	"@(#)fc-cache.xml	1.3	05/01/24 SMI"
+
+	Service manifest for ensuring fontconfig caches are up to date.
+-->
+
+<service_bundle type='manifest' name='SUNWfontconfig-root:fc-cache'>
+
+<service
+	name='application/font/fc-cache'
+	type='service'
+	version='1'>
+
+	<create_default_instance enabled='true' />
+
+	<single_instance />
+
+	<dependency
+		name='usr'
+		type='service'
+		grouping='require_all'
+		restart_on='none'>
+		<service_fmri value='svc:/system/filesystem/local' />
+	</dependency>
+
+	<dependency
+		name='config-file'
+		grouping='require_all'
+		restart_on='refresh'
+		type='path'>
+		<service_fmri value='file://localhost/etc/fonts/fonts.conf' />
+	</dependency>
+
+	<dependency
+		name='fc-cache'
+		grouping='require_all'
+		restart_on='none'
+		type='path'>
+		<service_fmri value='file://localhost/usr/bin/fc-cache' />
+	</dependency>
+
+	<exec_method
+		type='method'
+		name='start'
+		exec='/usr/bin/fc-cache'
+		timeout_seconds='3600'>
+		<method_context>
+                        <method_credential user='root' group='root' />
+                </method_context>
+        </exec_method>
+
+	<property_group name='startd' type='framework'>
+		<propval name='duration' type='astring'
+			value='transient' />
+	</property_group>
+
+	<property_group name='general' type='framework'>
+		<!-- manage server state -->
+		<propval name='action_authorization' type='astring'
+			value='solaris.smf.manage.font' />
+	</property_group>
+
+	<stability value='Evolving' />
+
+	<template>
+		<common_name>
+			<loctext xml:lang='C'>FontConfig Cache Builder
+				</loctext>
+		</common_name>
+
+		<documentation>
+			<manpage
+				title='fc-cache'
+				section='1M'
+				manpath='/usr/share/man' />
+		</documentation>
+	</template>
+</service>
+
+</service_bundle>

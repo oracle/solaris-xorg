@@ -1,0 +1,138 @@
+###########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)prototype 1.2     05/11/02 SMI"
+#
+# X.Org Foundation X client library documentation for Solaris
+
+!HOME=../usr/X11
+
+i pkginfo
+i depend
+i copyright
+
+d none X11 0755 root bin
+d none X11/share 0755 root bin
+d none X11/share/man 0755 root bin
+s none X11/man=share/man
+
+!search $HOME/share/man/man3
+d none X11/share/man/man3 0755 root bin
+f none X11/share/man/man3/Xfixes.3 0444 root bin
+f none X11/share/man/man3/Xft.3 0444 root bin
+
+!search $HOME/share/man/man3Xrandr
+d none X11/share/man/man3Xrandr 0755 root bin
+f none X11/share/man/man3Xrandr/Xrandr.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfig.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigCurrentConfiguration.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigCurrentRate.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigRates.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigRotations.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigSizes.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigTimes.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRFreeScreenConfigInfo.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRGetScreenInfo.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRQueryExtension.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRQueryVersion.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRRootToScreen.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRScreenConfig.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRSelectInput.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRSetScreenConfig.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRSetScreenConfigAndRate.3Xrandr 0444 root bin
+
+!search $HOME/share/man/man3Xevie
+d none X11/share/man/man3Xevie 0755 root bin
+f none X11/share/man/man3Xevie/Xevie.3Xevie 0444 root bin
+f none X11/share/man/man3Xevie/XevieEnd.3Xevie 0444 root bin
+f none X11/share/man/man3Xevie/XevieQueryVersion.3Xevie 0444 root bin
+f none X11/share/man/man3Xevie/XevieSelectInput.3Xevie 0444 root bin
+f none X11/share/man/man3Xevie/XevieSendEvent.3Xevie 0444 root bin
+f none X11/share/man/man3Xevie/XevieStart.3Xevie 0444 root bin
+
+!search $HOME/share/man/man3Xv
+d none X11/share/man/man3Xv 0755 root bin
+f none X11/share/man/man3Xv/Xv.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvFreeAdaptorInfo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvFreeEncodingInfo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGetPortAttribute.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGetStill.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGetVideo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGrabPort.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvPortNotify.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvPutStill.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvPutVideo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryAdaptors.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryBestSize.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryEncodings.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryExtension.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvSelectPortNotify.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvSelectVideoNotify.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvSetPortAttribute.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvStopVideo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvUngrabPort.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvVideoNotify.3Xv 0444 root bin
+
+!search $HOME/share/man/man3Xxf86vm
+d none X11/share/man/man3Xxf86vm 0755 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidMode.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeDeleteModeLine.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetAllModeLines.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetDotClocks.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetGamma.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetGammaRamp.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetGammaRampSize.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetModeLine.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetMonitor.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetPermissions.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetViewPort.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeLockModeSwitch.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeModModeLine.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeQueryExtension.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeQueryVersion.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetClientVersion.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetGamma.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetGammaRamp.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetViewPort.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSwitchMode.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSwitchToMode.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeValidateModeLine.3Xxf86vm 0444 root bin
+
+!search $HOME/share/man/man3Xxf86misc
+d none X11/share/man/man3Xxf86misc 0755 root bin
+f none X11/share/man/man3Xxf86misc/XF86Misc.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscGetKbdSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscGetMouseSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscQueryExtension.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscQueryVersion.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscSetKbdSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscSetMouseSettings.3Xxf86misc 0444 root bin
+

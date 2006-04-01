@@ -1,0 +1,265 @@
+#! /bin/sh
+#
+###########################################################################
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)make_release_packages 1.19     06/03/06 SMI"
+#
+# make_release_packages:
+#
+#	Create and fill a package staging area for X
+#
+#	This script should be run from the base of the build tree.
+#	It takes no parameters.
+#
+#	Example:
+#	    cd /export/home/username/XORG_WS
+#	    ./make_release_packages
+#
+#   To build a subset of packages
+#	env PACKAGE_LIST="packages" ./make_release_packages
+#
+###########################################################################
+
+#   Make sure that we aren't affected by the personal environment of
+#   whoever is running this script
+PATH=/opt/SUNWspro/bin:/usr/bin:/usr/ccs/bin:/usr/sbin:.
+SHELL=/bin/sh
+
+MACH=`uname -p`
+DATE=`date +0.%Y.%m.%d`
+
+SOURCEDIR=`pwd`
+
+cd $SOURCEDIR/packages
+
+# Get build version from pkgversion
+if [ -f pkgversion ] ; then
+    . pkgversion
+else
+    echo "Error: $SOURCEDIR/packages/pkgversion not found.  Cannot continue."
+    exit 1
+fi
+
+if [ "x${VERSION}" = "x" ] ; then
+    echo "VERSION not set in $SOURCEDIR/packages/pkgversion - run newPkRev"
+    exit 1
+fi
+
+if [ "x${BUILD}" = "x" ] ; then
+    echo "BUILD not set in $SOURCEDIR/packages/pkgversion - run newPkRev"
+    exit 1
+fi
+
+DECIMAL_BUILD=`echo ${BUILD} | awk '{print $1 / 100.0}'`
+echo "Building packages for X11 version ${VERSION} build ${DECIMAL_BUILD}"
+
+#
+# Trusted Extensions packages do not get built by default.
+# export BUILD_XTSOL=yes and run this script 
+#
+if [ x$BUILD_XTSOL = xyes ] ; then
+    TSOL_PACKAGE="SUNWxorg-tsol-module"
+fi
+
+
+#   List of official (deliverable) X-window packages
+XW_CLIENT_PACKAGE_LIST="SUNWxorg-clientlibs SUNWxorg-headers SUNWxorg-compatlinks SUNWxorg-client-programs SUNWxorg-client-docs SUNWxorg-devel-docs"
+XW_SERVER_PACKAGE_LIST="SUNWxorg-doc SUNWxorg-server SUNWxorg-graphics-ddx SUNWxorg-xkb SUNWxorg-cfg SUNWxorg-mesa $TSOL_PACKAGE"
+
+XW_L10N_PACKAGES=" "
+
+# Packages from XW_PACKAGELIST with platform-specific prototype files
+XW_PLT_PACKAGES="SUNWxorg-graphics-ddx SUNWxorg-doc"
+
+# L10N packages are normally only built on sparc since they only have text
+# files that are the same for both platforms
+# Server packages are only built for x86 currently
+if [ "$MACH" = "sparc" ]; then
+	XW_PACKAGE_LIST="$XW_CLIENT_PACKAGE_LIST $XW_L10N_PACKAGES"
+else
+	XW_PACKAGE_LIST="$XW_CLIENT_PACKAGE_LIST $XW_SERVER_PACKAGE_LIST"
+fi
+
+# dtlogin integration package is currently only built for Solaris 9/Metropolis
+# special release
+if [ "x${VERSION}" = "x6.7.0.5.9" ] ; then
+    XW_PACKAGE_LIST="$XW_PACKAGE_LIST SUNWxorg-dtlogin-integration"
+fi
+
+EXTRA_PACKAGES=" "
+
+#   To build a subset of packages
+#	PACKAGE_LIST="packages" make_release_packages
+#
+: ${PACKAGE_LIST:="$XW_PACKAGE_LIST $EXTRA_PACKAGES $XW_L10N_PACKAGES"}
+
+: ${PACKAGE_DIR:=$SOURCEDIR/proto-packages}
+
+# Which platform name do we use for 64-bit?
+if [ "$MACH" = "sparc" ]; then
+    PLAT_64="sparcv9"
+else 
+    if [ "$MACH" = "i386" ]; then
+	PLAT_64="amd64"
+    else
+	echo "Unknown architecture - not SPARC nor i386."
+	exit 1
+    fi
+fi
+
+#   Next, create the staging area.  Make sure that the logs directory
+#   is writeable by everyone because it is likely that we will need to
+#   write into it as root across an NFS link...
+#
+echo 'Removing old proto-packages and recreating'
+/bin/rm -rf $PACKAGE_DIR
+/bin/mkdir $PACKAGE_DIR
+/bin/mkdir $PACKAGE_DIR/logs
+/bin/chmod a+w $PACKAGE_DIR/logs
+
+
+#  Now copy the package description info
+echo 'Copying package descriptions'
+
+#   We can't just use `sccs get SCCS' because it will punt if it hits
+#   a file which is being edited (writeable).
+#   
+for F in SCCS/s.*
+do
+    /usr/ccs/bin/get -s $F
+done
+
+#/bin/cp i.* r.* $PACKAGE_DIR >/dev/null 2>&1
+
+for package in common_files $PACKAGE_LIST 
+do
+    cd $package
+
+    #   See above about sccs usage
+    for F in SCCS/s.*
+    do
+	/usr/ccs/bin/get $F >/dev/null 2>&1
+    done
+
+    /bin/mkdir $PACKAGE_DIR/$package
+    /bin/cp p* d* lib* i.* r.* M* $PACKAGE_DIR/$package >/dev/null 2>&1
+
+    if [ $package != "common_files" ] ; then
+    # We keep the master copyright in the common_files copyright file
+    # Packages that need additional copyright have copyright.add files
+    # that we then merge here
+	if [ -f copyright.add ] ; then
+	    cat ../common_files/copyright copyright.add > \
+		$PACKAGE_DIR/$package/copyright
+	else
+	    cp ../common_files/copyright $PACKAGE_DIR/$package/copyright
+	fi
+    fi
+    cd ..
+done
+
+
+#   Now move into the package staging area and build the packages.
+cd $PACKAGE_DIR
+
+if [ "$MACH" = "sparc" ]; then
+    PROTOMACH=sun4
+    SUBDIR64=sparcv9
+else
+    PROTOMACH=${MACH}
+    SUBDIR64=amd64
+fi
+
+PROTODIR=$SOURCEDIR/build_32/proto-${PROTOMACH}-svr4
+
+/bin/rm -f etc usr
+
+/bin/ln -s $PROTODIR/usr usr
+/bin/ln -s $PROTODIR/etc etc
+
+for D in /usr/X11/lib /usr/lib ; do
+    /bin/rm -f ${PROTODIR}${D}/${SUBDIR64}
+    /bin/ln -s ../../../../../build_64/proto-${PROTOMACH}-svr4${D}/${SUBDIR64} ${PROTODIR}${D}/${SUBDIR64}
+done
+
+LOGfile=logs/package_build
+
+echo '---Building packages'
+XW_PLT_PAT="`echo $XW_PLT_PACKAGES | tr ' ' '|'`"
+
+# Variables to pass to pkgmk for use in prototype files
+# They must start with lowercase letters to be resolved at pkgmk time
+PKGMK_VARS="plat_64=${PLAT_64}"
+
+for package in $PACKAGE_LIST
+do
+	cd $package
+	date
+	echo "******** Making the $package package ********"
+
+	cat pkginfo.tmpl | sed -e '/ARCH/s/ISA/'$MACH'/' -e 's/SUNW_PRODVERS=.*$/SUNW_PRODVERS='${VERSION}/ -e 's/VERSION=.*$/VERSION='${VERSION}.${BUILD},REV=${DATE}/ > pkginfo
+	if [ -f Makefile ]; then
+		echo make all
+		/usr/ccs/bin/make SOURCEDIR=$SOURCEDIR/packages all
+	fi
+
+	eval "case $package in
+	$XW_PLT_PAT)
+		if [ ! -f prototype_$MACH ]; then
+		    ln -s prototype_com prototype_$MACH
+		fi
+		echo /usr/bin/pkgmk -f prototype_$MACH -d $PACKAGE_DIR/$package -o ${PKGMK_VARS}
+		/usr/bin/pkgmk -f prototype_$MACH -d $PACKAGE_DIR/$package -o ${PKGMK_VARS}
+		;;
+	*)
+		echo /usr/bin/pkgmk -d $PACKAGE_DIR/$package -o ${PKGMK_VARS}
+		/usr/bin/pkgmk -d $PACKAGE_DIR/$package -o ${PKGMK_VARS}
+		;;
+	esac"
+
+	chmod -R a+rX $PACKAGE_DIR/$package
+	
+	echo "******** Done Making the $package package ********"
+	cd ..
+done >$LOGfile 2>&1
+
+echo result log is in $PACKAGE_DIR/$LOGfile
+
+# Create an installdir with symlinks to SUNW* pkgs
+cd $PACKAGE_DIR
+mkdir installdir
+cd installdir
+ln -s ../SUNW*/SUNW* .
+cp $SOURCEDIR/packages/upgrade-Xorg .
+chmod +x upgrade-Xorg
+
+exit

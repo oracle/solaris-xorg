@@ -1,0 +1,296 @@
+diff -ur fontconfig-2.3.2/src/fccfg.c fontconfig-2.3.2.new/src/fccfg.c
+--- src/fccfg.c	Wed Jun 30 11:20:19 2004
++++ new/src/fccfg.c	Wed Jun 30 14:24:04 2004
+@@ -655,12 +655,12 @@
+ 	    switch (op) {
+ 	    case FcOpContains:
+ 	    case FcOpListing:
+-		/* left contains right if right is a subset of left */
+-		ret = FcCharSetIsSubset (right.u.c, left.u.c);
++		/* right contains left if left is a subset of right */
++		ret = FcCharSetIsSubset (left.u.c, right.u.c);
+ 		break;
+ 	    case FcOpNotContains:
+-		/* left contains right if right is a subset of left */
+-		ret = !FcCharSetIsSubset (right.u.c, left.u.c);
++		/* right contains left if left is a subset of right */
++		ret = !FcCharSetIsSubset (left.u.c, right.u.c);
+ 		break;
+ 	    case FcOpEqual:
+ 		ret = FcCharSetEqual (left.u.c, right.u.c);
+--- src/fcdefault.c	Wed Mar 12 14:16:25 2003
++++ new/src/fcdefault.c	Thu Sep 23 13:36:36 2004
+@@ -115,8 +115,11 @@
+ 	{
+ 	    lang = ctype;
+ 	    territory = strchr (ctype, '_');
+-	    if (territory)
++	    after = strchr (ctype, '.');
++	    if (territory || after)
+ 	    {
++	      if (territory)
++	      {
+ 		lang_len = territory - lang;
+ 		territory = territory + 1;
+ 		after = strchr (territory, '.');
+@@ -135,6 +138,21 @@
+ 		    lang_local[lang_len + 1 + territory_len] = '\0';
+ 		    FcPatternAddString (pattern, FC_LANG, (FcChar8 *) lang_local);
+ 		}
++	      }
++              /*
++               * Hack for Solaris platform, it has some locales that don't have
++               * territory information in their locale name such as zh.GBK,
++               * zh.UTF-8 and ko.UTF-8 etc.
++               * Bugfix 5080044, without this hack, Japanese font would be
++               * wrongly used in gnome terminal in above locales.
++                */
++              else
++              {
++                  lang_len = after - lang;
++                  strncpy (lang_local, lang, lang_len);
++                  lang_local[lang_len] = '\0';
++                  FcPatternAddString (pattern, FC_LANG, (FcChar8 *) lang_local);
++              }
+ 	    }
+ 	    else
+ 		FcPatternAddString (pattern, FC_LANG, (FcChar8 *) lang);
+--- src/fcmatch.c	Tue Oct  4 15:13:20 2005
++++ new/src/fcmatch.c	Fri Jan 13 14:49:32 2006
+@@ -162,6 +162,15 @@
+     if (v2 == 0)
+ 	return 0;
+     v = v2 - v1;
++
++    /*
++     * Hack to allow bitmap fonts to equal requested font if it is close
++     */
++    if ( v > -.5 && v <= .5 )
++    {
++        v = 0;
++    }
++
+     if (v < 0)
+ 	v = -v;
+     return v;
+@@ -482,6 +491,45 @@
+     return new;
+ }
+ 
++static void
++FcChangeFormat ( FcPattern *p )
++{
++    int i;
++
++    /*
++     * Hack. If user want monochrome mode, then try to pick bitmaps over
++     * outlines.
++     */
++    for ( i = 0; i < p->num; i++ )
++    {
++        if ( !strcmp(p->elts[i].object, "antialias" ))
++        {
++            int aa = (int)p->elts[i].values->value.u.b;
++            int j;
++            int done = 0;
++            FcValue v;
++ 
++            v.type = FcTypeBool;
++            v.u.b  = aa;
++ 
++            for ( j = 0; j < p->num; j++ )
++            {
++                if ( !strcmp(p->elts[j].object, "outline" ))
++                {
++                    done = 1;
++                    break;
++                }
++            }
++            if ( !done )
++            {
++                FcPatternAddWithBinding  (p, "outline", v,
++                            FcValueBindingStrong, 1);
++            }
++            break;
++        }
++    }
++}
++
+ FcPattern *
+ FcFontSetMatch (FcConfig    *config,
+ 		FcFontSet   **sets,
+@@ -496,6 +544,8 @@
+     int		    i;
+     int		    set;
+ 
++    FcChangeFormat ( p );
++
+     for (i = 0; i < NUM_MATCH_VALUES; i++)
+ 	bestscore[i] = 0;
+     best = 0;
+@@ -679,9 +729,11 @@
+     int		    f;
+     int		    i;
+     int		    nPatternLang;
+-    FcBool    	    *patternLangSat;
++    int    	    *patternLangSat;
+     FcValue	    patternLang;
+ 
++    FcChangeFormat ( p );
++
+     if (FcDebug () & FC_DBG_MATCH)
+     {
+ 	printf ("Sort ");
+@@ -710,7 +762,7 @@
+     if (!nodes)
+ 	goto bail0;
+     nodeps = (FcSortNode **) (nodes + nnodes);
+-    patternLangSat = (FcBool *) (nodeps + nnodes);
++    patternLangSat = (int *) (nodeps + nnodes);
+     
+     new = nodes;
+     nodep = nodeps;
+@@ -750,8 +802,13 @@
+ 	   FcSortCompare);
+     
+     for (i = 0; i < nPatternLang; i++)
+-	patternLangSat[i] = FcFalse;
+-    
++	patternLangSat[i] = 0;
++
++    /*
++     * For Solaris, because of ja_JP, en_US, and such locales, exact matches
++     * with font language support is sporatic. To resolve this, allow close
++     * matches to succeed, but be able to accept exact matches above them.
++     */
+     for (f = 0; f < nnodes; f++)
+     {
+ 	FcBool	satisfies = FcFalse;
+@@ -759,19 +816,19 @@
+ 	 * If this node matches any language, go check
+ 	 * which ones and satisfy those entries
+ 	 */
+-	if (nodeps[f]->score[MATCH_LANG_INDEX] < nPatternLang)
++	if (nodeps[f]->score[MATCH_LANG_INDEX] <= 100 )
+ 	{
+ 	    for (i = 0; i < nPatternLang; i++)
+ 	    {
+ 		FcValue	    nodeLang;
+ 		
+-		if (!patternLangSat[i] &&
++		if (patternLangSat[i] != 1 &&
+ 		    FcPatternGet (p, FC_LANG, i, &patternLang) == FcResultMatch &&
+ 		    FcPatternGet (nodeps[f]->pattern, FC_LANG, 0, &nodeLang) == FcResultMatch)
+ 		{
+ 		    double  compare = FcCompareLang (FC_LANG, patternLang, 
+ 						     nodeLang);
+-		    if (compare >= 0 && compare < 2)
++		    if (compare >= 0 && compare < 2 && ( patternLangSat[i] == 0 || compare + 1 < patternLangSat[i]))
+ 		    {
+ 			if (FcDebug () & FC_DBG_MATCHV)
+ 			{
+@@ -782,7 +839,7 @@
+ 				FcPatternGetString (nodeps[f]->pattern, FC_STYLE, 0, &style) == FcResultMatch)
+ 				printf ("Font %s:%s matches language %d\n", family, style, i);
+ 			}
+-			patternLangSat[i] = FcTrue;
++			patternLangSat[i] = (int)compare + 1;
+ 			satisfies = FcTrue;
+ 			break;
+ 		    }
+--- src/fcxml.c		Tue Jan 24 10:37:09 2006
++++ new/src/fcxml.c	Tue Jan 24 10:46:08 2006
+@@ -22,6 +22,7 @@
+  * PERFORMANCE OF THIS SOFTWARE.
+  */
+ 
++#include <fcntl.h>
+ #include <stdarg.h>
+ #include "fcint.h"
+ #include <dirent.h>
+@@ -2304,7 +2305,7 @@
+ 
+     XML_Parser	    p;
+     FcChar8	    *filename;
+-    FILE	    *f;
++    int		    fd;
+     int		    len;
+     void	    *buf;
+     FcConfigParse   parse;
+@@ -2330,12 +2331,15 @@
+     if (FcDebug () & FC_DBG_CONFIG)
+ 	printf ("\tLoading config file %s\n", filename);
+ 
+-    f = fopen ((char *) filename, "r");
+-    FcStrFree (filename);
+-    if (!f)
++    fd = open ((char *) filename, O_RDONLY);
++    if (fd == -1) { 
++	FcStrFree (filename);
+ 	goto bail0;
++    }
+     
+     p = XML_ParserCreate ("UTF-8");
++    FcStrFree (filename);
++
+     if (!p)
+ 	goto bail1;
+ 
+@@ -2355,7 +2359,7 @@
+ 	    FcConfigMessage (&parse, FcSevereError, "cannot get parse buffer");
+ 	    goto bail3;
+ 	}
+-	len = fread (buf, 1, BUFSIZ, f);
++	len = read (fd, buf, BUFSIZ);
+ 	if (len < 0)
+ 	{
+ 	    FcConfigMessage (&parse, FcSevereError, "failed reading config file");
+@@ -2374,7 +2378,8 @@
+ bail2:
+     XML_ParserFree (p);
+ bail1:
+-    fclose (f);
++    close (fd);
++    fd = -1;
+ bail0:
+     if (error && complain)
+     {
+
+--- Makefile.am	Wed Mar  2 22:20:57 2005
++++ Makefile.am	Wed Feb  8 13:21:18 2006
+@@ -91,16 +91,6 @@
+ 	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf"; \
+ 	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
+ 	fi; fi
+-	if $(RUN_FC_CACHE_TEST); then \
+-	    echo " fc-cache/fc-cache -f -v"; \
+-	    fc-cache/fc-cache -f -v; \
+-	else \
+-	    echo "***"; \
+-	    echo "*** Warning: fonts.cache not built"; \
+-	    echo "***"; \
+-	    echo "*** Generate this file manually on host system using fc-cache"; \
+-	    echo "***"; \
+-	fi
+ 
+ uninstall-local:
+ 	if [ -f $(srcdir)/fonts.conf ]; then \
+--- Makefile.in	Wed Apr 27 12:08:47 2005
++++ Makefile.in	Wed Feb  8 13:32:14 2006
+@@ -733,16 +733,6 @@
+ 	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf"; \
+ 	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
+ 	fi; fi
+-	if $(RUN_FC_CACHE_TEST); then \
+-	    echo " fc-cache/fc-cache -f -v"; \
+-	    fc-cache/fc-cache -f -v; \
+-	else \
+-	    echo "***"; \
+-	    echo "*** Warning: fonts.cache not built"; \
+-	    echo "***"; \
+-	    echo "*** Generate this file manually on host system using fc-cache"; \
+-	    echo "***"; \
+-	fi
+ 
+ uninstall-local:
+ 	if [ -f $(srcdir)/fonts.conf ]; then \

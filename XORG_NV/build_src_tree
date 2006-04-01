@@ -1,0 +1,324 @@
+#!/usr/perl5/bin/perl -w
+#
+###########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)build_src_tree 1.8     05/12/22 SMI"
+#
+# Creates a directory containing links to the source files needed to build
+# the X.org monolithic tree for Solaris.  Source files are linked to the X.org
+# master source tree from the X.org workspace, with files replaced by the ones
+# in the sun-src directory if they overlap.
+#
+# Command line options:
+#	-d path Destination directory to build links in
+#	-f	Force replacing existing files/links in target directory
+#	-i	Interactive - ask to replace existing files/links in target
+#	-n	Don't actually do anything, just report
+#	-p path	Only do partial tree under specified path
+#	-q	Quieter
+#	-v	More Verbose
+
+require 5.6.1;                          # minimal Perl version required
+use strict;                             # 
+use diagnostics;                        #
+use File::Find;
+use Getopt::Std;
+use Cwd;
+
+# Directory to build with links
+my $LINK_DIR = "build";
+
+# Command line options
+my $verbose = 1;
+my $doit = 1;
+my $forceit = 0;
+my $askme = 0;
+my @parts;
+
+my %opts;
+getopts('d:finp:qv', \%opts);
+
+if (exists $opts{"v"}) {
+  if (exists $opts{"q"}) {
+    print STDERR "$0: -v and -q are incompatible options\n";
+    exit 1;
+  }
+  $verbose = 2;
+} elsif (exists $opts{"q"}) {
+  $verbose = 0;
+}
+
+if (exists $opts{"d"}) {
+  $LINK_DIR = $opts{"d"};
+}
+
+if (exists $opts{"n"}) {
+  $doit = 0;
+}
+
+if (exists $opts{"f"}) {
+  $forceit = 1;
+}
+
+if (exists $opts{"i"}) {
+  $askme = 1;
+}
+
+if ($verbose) {
+  print ("Linking source trees into $LINK_DIR\n");
+}
+
+my $targetbase = cwd() . "/$LINK_DIR";
+my $target;
+my $part;
+
+# Directory with Sun customizations
+my $sunsrc = "sun-src";
+
+# non-modified sources are linked to directory listed in config file 
+# "other_masters"
+
+my %master_vars = ();
+my %other_masters = ();
+my $lineno = 0;
+open(XORG_SRC, "<other_masters") or die "$0: Can't open other_masters: $!\n";
+while ($_ = <XORG_SRC>) {
+  $lineno++;
+  next if $_ =~ /^\#/;
+  next if $_ =~ /^\s*$/;
+  chomp $_;
+  $_ =~ s|\s+$||;	
+  $_ =~ s|/$||;	# Strip trailing slash for readability
+  if ($_ =~ /^(\w+)=(\S+)$/) { # Variable definition
+    $master_vars{$1} = $2;
+  } else {
+    my ($s, $m) = split;
+    while ($m =~ /\$\((\w+)\)/) {
+      my $varname = $1;
+      if (exists $master_vars{$varname}) {
+	$m =~ s/\$\($varname\)/$master_vars{$varname}/g;
+      } else {
+	die "$0: Undefined variable \$($varname) on other_masters line $lineno\n";
+      }
+    }
+    $other_masters{$s} = $m;
+  }
+}
+close(XORG_SRC);
+
+if (exists $opts{"p"}) {
+  @parts = split(/[,: ]+/, $opts{"p"});
+} else {
+  @parts = keys %other_masters;
+}
+
+my %files_seen = ();
+my $badlinks = 0;
+
+for my $p ( @parts ) {
+  my @searchlist = ();
+
+  my $master_src_top;
+
+  $part = $p;
+
+  if (! exists $other_masters{$p}) {
+    print STDERR "$0: $part not found in other_masters file,\n";
+    next;
+  } else {
+    $master_src_top = $other_masters{$p};
+  }
+
+  # Handle tarballs
+  if ( $master_src_top =~ m/^tarball:(\S+)$/ ) {
+    my $tarball = $1;
+    my $unpacked = "unpacked/$tarball";
+
+    $unpacked =~ s/\.tar\.bz2$//;
+
+    if (! -d $unpacked ) {
+      do_mkdirP($unpacked);
+      if ($verbose) {
+	print "Unpacking tarball $tarball to $unpacked...\n"
+      }
+      system("(cd $unpacked ; /usr/sfw/bin/gtar -jxf ../../tarballs/$tarball)");
+    }
+    $master_src_top = $unpacked;
+  }
+
+  if (! -e "$master_src_top/$part" && ! -e "$sunsrc/$part" ) {
+    print STDERR "$0: $part not found in either place.\n";
+    exit 1;
+  }
+
+  $target = "$targetbase/$part";
+  my $targetdir = $target;
+
+  if (! -d "$master_src_top/$part" && ! -d "$sunsrc/$part" ) {
+    $targetdir =~ s|/[^/]+$||;
+  } 
+  if (! -d $targetdir) {
+    do_mkdirP($targetdir);
+  }
+
+  if (-e "$master_src_top/$part") {
+    unshift(@searchlist, "$master_src_top/$part");
+  }
+
+  if (-e "$sunsrc/$part") {
+    unshift(@searchlist, "$sunsrc/$part");
+  }
+
+  find({wanted => \&make_links, preprocess => \&skip_CVS_and_SCCS}, @searchlist);
+
+}
+
+if ($doit) {
+  system("cp other_masters $targetbase/.master_srcs");
+}
+
+
+if ($askme == 0) {
+  print "$badlinks files that were not properly linked.\n";
+}
+
+#### End of main program, subroutines follow...
+
+sub skip_CVS_and_SCCS {
+  return grep {$_ ne "CVS" && $_ ne "SCCS"} @_;
+}
+
+sub make_links {
+  my $sourcepath = "$File::Find::dir/$_";
+  $sourcepath =~ s|/\.$||;
+  $sourcepath =~ s|//|/|g;
+  my $path = $sourcepath;
+  $path =~ s|$File::Find::topdir(/?)||;
+  my $targetpath = "$target/$path";
+  $targetpath =~ s|/$||;
+
+  if (-d $_) {
+    if ($verbose) {
+      if ($_ eq ".") {
+	print "Starting tree $File::Find::topdir\n";
+      } elsif ($verbose == 2) {
+	print "Entering directory $path\n";
+      }
+    }
+    if (! -d $targetpath) {
+      do_mkdir($targetpath);
+    }
+  } else {
+    return if (exists $files_seen{"$part/$path"});
+    $files_seen{"$part/$path"} = 1;
+    
+    if ($verbose > 1) {
+      print $targetpath, "\n";
+    }
+    
+    if ($sourcepath !~ m|^/|) {		# If source path is not absolute path
+      my $depth = $path;		# add ../'s to make it the right depth
+      if ($part) {
+	$depth = "$part/$depth";
+      }
+      $depth =~ s|[^/]+/|../|g;
+      $depth =~ s|/[^/]+$||;
+      $sourcepath = "$depth/../$sourcepath";
+    }      
+
+
+    if (-e $targetpath) {		# If target already exists
+      if (-l $targetpath) {		# Check to see if it's a symlink
+	my $l = readlink($targetpath);	#  and if so, where it points to
+	if ($l eq $sourcepath) {
+	  return;
+	} else {
+	  $badlinks++;
+
+	  if ($forceit) {
+	    print STDERR "Undoing old link from $part/$path to $l.\n";
+	  } else {
+	    print STDERR "$part/$path is linked to $l, should be $sourcepath.\n";
+	    return;
+	  }
+	}
+      } else {
+	$badlinks++;
+	if ($forceit) {
+	  print STDERR "Moving old file found at $part/$path.\n";
+	} else {
+	  print STDERR "$part/$path is a file, not a symlink\n";
+	  return;
+	}
+      }
+      my $bak = 1;
+      while (-e "$targetpath.bak$bak") {
+	$bak++;
+      }
+      rename $targetpath, "$targetpath.bak$bak";
+    }
+    symlink $sourcepath, $targetpath or print STDERR "$0: can't symlink $sourcepath to $targetpath: $!\n";
+  }
+}
+    
+
+sub do_mkdir {
+  my $d;
+  foreach $d (@_) {
+    if ($doit) {
+      mkdir $d or print STDERR "$0: could not mkdir $d\n";
+    } else {
+      if ($verbose) {
+	print "Would run: mkdir $d\n";
+      }
+    }
+  }
+}
+
+# Equivalent of "mkdir -p"
+sub do_mkdirP {
+  my $d;
+  my $p = "";
+  foreach $d (split /\/+/,$_[0]) {
+    $p .= "$d/";
+    next if -d $p;
+
+    if ($doit) {
+      mkdir $p or print STDERR "$0: could not mkdir $p\n";
+    } else {
+      if ($verbose) {
+	print "Would run: mkdir $p\n";
+      }
+    }
+  }
+}
+

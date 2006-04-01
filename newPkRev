@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# Copyright 1999-2004 by Sun Microsystems Inc.  All rights reserved.
+#
+# @(#)newPkRev	1.19 04/12/17
+#
+
+if [ x${1}x = "xx" ] ; then
+	echo need a build number
+	exit
+fi
+
+# Sun's X11 version number - should match what's in xc/config/OWversion
+VERSION="6.6.3"
+
+sccs edit pkgversion
+echo VERSION=\"$VERSION\" > pkgversion
+echo BUILD=\"$1\" >> pkgversion
+sccs delget -y"VERSION=${VERSION}.${1}" pkgversion
+

@@ -1,0 +1,277 @@
+XCOMM #########################################################################
+XCOMM
+XCOMM Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+XCOMM
+XCOMM Permission is hereby granted, free of charge, to any person obtaining a
+XCOMM copy of this software and associated documentation files (the
+XCOMM "Software"), to deal in the Software without restriction, including
+XCOMM without limitation the rights to use, copy, modify, merge, publish,
+XCOMM distribute, and/or sell copies of the Software, and to permit persons
+XCOMM to whom the Software is furnished to do so, provided that the above
+XCOMM copyright notice(s) and this permission notice appear in all copies of
+XCOMM the Software and that both the above copyright notice(s) and this
+XCOMM permission notice appear in supporting documentation.
+XCOMM
+XCOMM THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+XCOMM OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+XCOMM MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+XCOMM OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+XCOMM HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+XCOMM INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+XCOMM FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+XCOMM NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+XCOMM WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+XCOMM
+XCOMM Except as contained in this notice, the name of a copyright holder
+XCOMM shall not be used in advertising or otherwise to promote the sale, use
+XCOMM or other dealings in this Software without prior written authorization
+XCOMM of the copyright holder.
+XCOMM
+XCOMM #########################################################################
+XCOMM
+XCOMM ident "@(#)host.def 1.46     06/03/28 SMI"
+XCOMM
+
+/* Settings for official Solaris package builds */
+
+#define SunSolarisXorgBuilds	YES
+#define BuildLikeSun		YES
+
+#ifndef LibManSuffix
+#define LibManSuffix		3
+#endif
+
+/* Don't waste time building things we don't need in 64-bit builds */
+#if defined(Sparc64Architecture) || defined(AMD64Architecture)
+# define BuildDocs		NO
+# define BuildFonts		NO
+# define BuildClients		NO
+# define BuildXprint		NO
+#endif
+
+/* 64-bit X server doesn't built correctly on SPARC yet */
+#if defined(Sparc64Architecture)
+# define BuildServer		NO
+# define CompilerServerExtraDefines /* Don't need .il files when not building server */
+#endif
+
+#define UseExportLists		NO	/* Use spec files instead */
+#define HasWeakSymbols		YES
+#define GLwUseXmStubs		NO
+#define MotifDir		/usr/dt
+
+#ifdef SparcArchitecture
+#define BuildGlxExt		NO      /* Don't build GL on SPARC */
+#define BuildXDriInfo		NO
+#endif
+
+/* Used in error messages in the form "send the error log to ____" */
+#define BuilderEmailAddr	"your technical support contact"
+/* Used in error messages in the form "check ____  for latest version" */
+#define VendorSupportAddress	"http://sunsolve.sun.com/"
+#define XVendorWebSupport	http://sunsolve.sun.com/
+
+#define XVendorString		"Sun Microsystems, Inc."
+
+#define VendorDefines -DSUNSOFT -DXVENDORNAME='"$(VENDORNAME)"' -DXVENDORNAMESHORT='"$(VENDORNAMESHORT)"' -DMODULEVENDORSTRING='"Sun Microsystems, Inc."' -DXORG_CUSTOM_VERSION='"$(SUN_XORG_CUSTOM_VERSION)"'
+
+#define SunXOrgVersionNumber	1.2
+
+/* Install into package building area */
+PWD:sh=pwd
+#if defined(i386Architecture) || defined(AMD64Architecture)
+DESTDIR=$(PWD)/$(TOP)/../proto-i386-svr4
+#else
+DESTDIR=$(PWD)/$(TOP)/../proto-sun4-svr4
+#endif
+
+/* Use existing Solaris fonts in /usr/openwin for now */
+#define DefaultFontPath $(FONTDIR)/TrueType/,$(FONTDIR)/Type1/,$(FONTDIR)/Type1/sun/,$(FONTDIR)/F3bitmaps/,$(FONTDIR)/misc/,$(FONTDIR)/100dpi/,$(FONTDIR)/75dpi/
+
+#ifndef OSMajorVersion
+# define OSMajorVersion	DefaultOSMajorVersion
+#endif
+#ifndef OSMinorVersion
+# define OSMinorVersion	DefaultOSMinorVersion
+#endif
+#ifndef OSTeenyVersion
+# define OSTeenyVersion	DefaultOSTeenyVersion
+#endif
+
+/* Set optimizer flags for correct Sun cc version */
+#if HasSunC 
+/* # define UseCCMakeDepend	YES  XXX: FIXME
+# define DependFlags		-cc $(CC) -d -xM */
+# ifndef OSServerExtraDefines
+#  ifdef SparcArchitecture
+#   define OSServerExtraDefines -D__sparc__
+#  endif
+# endif
+#endif
+
+#ifdef AfterVendorCF
+/* This has to be done after xorg.cf loads so it gets the version defines */
+# ifndef XorgVersionString
+#  include <xorg.cf>
+# endif
+XCOMM String stored in binaries for identification - view with /usr/ccs/bin/mcs -p
+#if OSMinorVersion < 10
+/* Too long of a string breaks builds on Solaris 9 for some reason */
+      MCS_BUILD_ID = Sun Xorg Release SunXOrgVersionNumber (X.Org X11R/**/XorgVersionString - `date +'%e %B %Y'`)
+#else
+#if OSTeenyVersion != 0 
+      SOLARIS_VERSION:sh = printf "%s.%s" OSMinorVersion OSTeenyVersion
+#else
+      SOLARIS_VERSION = OSMinorVersion
+#endif
+
+      MCS_BUILD_ID = Sun Xorg Release SunXOrgVersionNumber (X.Org X11R/**/XorgVersionString for Solaris $(SOLARIS_VERSION), built `date +'%e %B %Y'`)
+#endif
+      SUN_XORG_CUSTOM_VERSION = Sun Xorg Release SunXOrgVersionNumber for Solaris $(SOLARIS_VERSION)
+
+#undef HasXdmAuth
+#define HasXdmAuth		NO	/* Not in libXdmcp yet */
+
+
+#endif
+
+/* Extra linker flags we like to use */
+#ifndef ExtraLoadFlags
+# ifdef SparcArchitecture
+#  if OSMinorVersion == 9
+XCOMM Solaris 9 sparc linker causes build failures when used with normal
+XCOMM mapfile_pga_sparc so we just use this one for S9 sparc builds 
+#   define MapFilePGA /usr/lib/ld/map.noexstk
+#  else
+#   define MapFilePGA $(CONFIGSRC)/mapfiles/mapfile_pga_sparc
+#  endif
+# else
+#  define MapFilePGA $(CONFIGSRC)/mapfiles/mapfile_pga_i386
+# endif
+       MAPFILE_PGA = MapFilePGA
+/* ExtraLoadFlags apply to all binaries - programs & libraries */
+# define ExtraLoadFlags -M $(MAPFILE_PGA) -z combreloc -z lazyload -mr,"$(MCS_BUILD_ID)"
+/* ExtraLoadOptions only apply to programs */
+# define ExtraLoadOptions -B direct
+#endif
+
+/* Make loadable modules link to their own symbols first to avoid cross-module
+   symbol clashes */
+#if HasSunC 
+MODULE_GCC_FLAGS = -xldscope=symbolic
+#endif
+
+/* Follow Solaris conventions for shared libs naming - single digit versions */
+#define SharedXvRev 1
+#define SharedXvMCRev 1
+#define SharedXrandrRev 2
+#define SharedGlxRev 1
+#define SharedGluRev 1
+#define SharedGLwRev 1
+#define SharedOSMesaRev 4
+#define SharedxkbfileRev 5
+#define SharedX11Rev 4
+#define SharedXxf86miscRev 1
+#define SharedXxf86vmRev 1
+
+#define NormalLibxkbui YES
+#define SharedLibxkbui NO
+
+#define BuildGLULibrary BuildGlxExt
+#define SharedGLPreLib -L/usr/openwin/lib -R/usr/openwin/lib -R/usr/X11/lib
+
+/* Override sv4Lib.rules SharedLibraryTarget to use specfiles */
+#ifndef SharedLibraryTarget
+# define SharedLibraryTarget(libname,rev,solist,down,up)		@@\
+AllTarget(Concat(down/lib,libname.so.rev))				@@\
+									@@\
+Concat(down/lib,libname.so.rev):  solist $(EXTRALIBRARYDEPS)	down/$(VERSMAPFILE)		@@\
+	$(RM) $@~							@@\
+	LinkWithExports(libname,rev,solist $(SHLIBVERSMAPFLAG),down,up)	@@\
+	$(RM) $@ 							@@\
+	$(MV) $@~ $@							@@\
+	@if $(SOSYMLINK); then (set -x; \				@@\
+	  $(RM) Concat(down/lib,libname.so); \				@@\
+	  $(LN) Concat(lib,libname.so.rev) Concat(down/lib,libname.so)); fi @@\
+	LinkBuildLibrary(Concat(lib,libname.so.rev))			@@\
+	LinkBuildLibraryMaybe(Concat(lib,libname.so),$(SOSYMLINK))	@@\
+									@@\
+VersMapfileRule($(VERSMAPFILE),libname,spec/libname.spec,down)		@@\
+									@@\
+clean::									@@\
+	$(RM) Concat(lib,libname.so.rev) Concat(lib,libname.so)	down/$(VERSMAPFILE)
+#endif /* SharedLibraryTarget */
+
+#ifndef SharedLibraryVersMapfileFlag
+# define SharedLibraryVersMapfileFlag -M $(VERSMAPFILE)
+#endif
+    SHLIBVERSMAPFLAG = SharedLibraryVersMapfileFlag
+
+#ifndef VersMapfileName
+# define VersMapfileName   mapfile-vers
+#endif
+	 VERSMAPFILE = VersMapfileName
+
+#ifdef i386Architecture
+# define MachType i386
+#elif defined(AMD64Architecture)
+# define MachType amd64
+#elif defined(Sparc64Architecture)
+# define MachType sparcv9
+#else
+# define MachType sparc
+#endif
+                MACH = MachType
+
+/*
+ * VersMapfileRule - generate rules to make versioning mapfiles for linking
+ */
+#ifndef VersMapfileRule
+#define VersMapfileRule(versmapfile,libname,specfiles,down)             @@\
+down/versmapfile::                                                      @@\
+        if [ -d spec ] ; then /usr/lib/abi/spec2map -a $(MACH) -l libname -v spec/versions -o $@ specfiles ; fi @@\
+        if [ ! -f $@ ] ; then touch $@ ; fi
+#endif
+
+#ifndef CppManTarget
+XCOMM Support for adding attributes sections to man pages
+XCOMM Required by ARC for all interfaces with External stability
+XCOMM
+XCOMM To use this, add to the localdefines or Imakefile lines such as:
+XCOMM	SUNMANDEFS = -D__package__=SUNWpackage-name -D__stability__=External
+XCOMM  SUNMANSTART = $(SUNMAN_TABLE_PREPEND)
+XCOMM    SUNMANEND = $(SUNMAN_ATTRIBUTES_APPEND)
+
+
+    SUNMAN_TABLE_PREPEND = $(CONFIGSRC)/sun-manpage-templates/table-prepend
+SUNMAN_ATTRIBUTES_APPEND = $(CONFIGSRC)/sun-manpage-templates/attributes
+
+#define CppManTarget(name,defs)						@@\
+AllTarget(name.$(MANNEWSUFFIX))						@@\
+									@@\
+name.$(MANNEWSUFFIX): name.$(MANSRCSUFFIX) $(SUNMANSTART) $(SUNMANEND)	@@\
+	RemoveFile($@)							@@\
+	if test -z "$(PREPROCESSMANPAGES)" ; then \			@@\
+	   cd `dirname name` && \					@@\
+	   $(LN) `basename name.$(MANSRCSUFFIX)` `basename $@`; \	@@\
+	else \								@@\
+	     ClearmakeOSName \
+	     cat $(SUNMANSTART) name.$(MANSRCSUFFIX) $(SUNMANEND) \	@@\
+		| $(RAWCPP) CppNoLineInfoOption $(MANDEFS) defs $(SUNMANDEFS) \	@@\
+		| $(PERL) -pe 'BEGIN { $$/ = undef; } s/\n\.\\\"\s*\n+\.\\\"\n/\n.\\"\n/g;' \	@@\
+	     	| CppSedMagic >$@; \					@@\
+	fi								@@\
+									@@\
+clean::									@@\
+	RemoveFile(name.$(MANNEWSUFFIX))
+#endif /* CppManTarget */
+
+/* Automatically add Sun external stability sections to all driver modules */
+#ifndef InstallModuleManPage
+#define InstallModuleManPage(module)                                    @@\
+ SUNMANDEFS = -D__package__=SUNWxorg-server -D__stability__=External	@@\
+SUNMANSTART = $(SUNMAN_TABLE_PREPEND)					@@\
+  SUNMANEND = $(SUNMAN_ATTRIBUTES_APPEND)				@@\
+									@@\
+InstallGenManPage(module,$(DRIVERMANDIR),$(DRIVERMANSUFFIX))
+#endif

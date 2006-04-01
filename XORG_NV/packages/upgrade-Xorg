@@ -1,0 +1,238 @@
+#!/bin/ksh
+#
+###########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)upgrade-Xorg 1.13     05/11/01 SMI"
+#
+# Description: This script upgrades Xorg software on a Solaris 10 or Nevada
+#	       system. It should be run as root from a Xorg package area.
+#
+# Arguments:	-a 	Install all supported packages.  This is now the
+#			default, so this option does nothing any more.
+#		-q	Be quiet and don't report packages that aren't 
+#			installed.
+#
+#
+###
+
+    # Update this when X package version number changes
+    XVERS="6.9.0"
+
+###
+#  
+#   First check for a correct upgrade environment. 
+#
+###
+
+    MACH=`uname -p`
+    OSREV=`uname -r`
+
+    DATE=`LANG=C date '+%d%b%y-%H:%M:%S'`
+
+    USER=`/bin/id | grep root | wc -l`
+    if [ $USER -eq 0 ]
+    then
+	echo ""
+        echo "You must be root to run this script"
+        echo ""
+        exit 1
+    fi
+
+
+    X_BASE_PKG=SUNWxorg-clientlibs/pkginfo
+
+    if [ -f ${X_BASE_PKG} ]; then
+        X_VERSION=`grep PRODVERS ${X_BASE_PKG} | /bin/cut -f2 -d= | /bin/cut -f1-3 -d.`
+        X_OSREV=`grep PRODVERS ${X_BASE_PKG} | /bin/cut -f2 -d= | /bin/cut -f5- -d.`
+	X_BUILD=`nawk '/^VERSION=/ {FS="[,.]+" ; print $6/100}' ${X_BASE_PKG} `
+    else
+	echo ""
+        echo "Cannot find base X package -- ${X_BASE_PKG}" 
+	echo "You need to run this script from the X ${XVERS} package area"
+        echo ""
+        exit 1
+    fi
+
+    if [ -z "${X_VERSION}" ]; then
+	echo ""
+        echo "Cannot find ${X_BASE_PKG} package version." 
+	echo "It should have a X ${XVERS} version string"
+        echo ""
+        exit 1
+    else
+      if [ "${X_VERSION}" != "${XVERS}" ]; then
+	echo ""
+        echo "${X_BASE_PKG} package has wrong version (${X_VERSION})." 
+	echo "It should have a X ${XVERS} version string"
+        echo ""
+        #exit 1
+      fi
+    fi
+
+    case "X$(uname -r)" in
+
+	X5.10)
+	PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
+	if [ $(grep -c XF86 /usr/openwin/lib/X11/XKeysymDB) -lt 145 ] ; then
+	    echo "You must install SUNWxwplt from s10_58 or later before upgrading to this"
+ 	    echo "version of Xorg.  You can do this via an OS upgrade or via the commands:"
+	    echo " cd /net/xserver.sfbay/export/x-re/pkgs2/X_S10_milestone/x86/B58"
+	    echo "../upgrade-X -a"
+	    exit 1
+	fi
+	;;
+
+	X5.10.1)
+	PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
+	;;
+
+	X5.11)
+	PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
+	;;
+
+	*)
+	echo "Incorrect Solaris version number"
+	echo "Xorg ${XVERS} is only supported on Solaris 10 or later"
+	exit 1
+	;;
+    esac
+
+####
+#
+#   Process command line options
+#
+####
+
+INSTALLALL=1
+QUIET=0
+
+while getopts agq flag ; do
+    case $flag in
+      a)	INSTALLALL=1 ;;
+      q)	QUIET=1 ;;
+      ?)	printf "Usage: %s [-agq]\n"  $0
+		exit 1 ;;
+    esac
+done
+
+####
+#
+#   List of packages to upgrade
+#
+####        
+
+#   List of official (deliverable) X-window packages
+XW_CLIENT_PACKAGE_LIST="SUNWxorg-clientlibs SUNWxorg-headers SUNWxorg-compatlinks SUNWxorg-client-programs SUNWxorg-client-docs SUNWxorg-devel-docs"
+XW_SERVER_PACKAGE_LIST="SUNWxorg-doc SUNWxorg-server SUNWxorg-graphics-ddx SUNWxorg-xkb SUNWxorg-cfg"
+
+if [ "${MACH}" = "sparc" ] ; then
+    PKGS="${XW_CLIENT_PACKAGE_LIST}"
+    GL_PKGS=""
+else
+    PKGS="${XW_CLIENT_PACKAGE_LIST} ${XW_SERVER_PACKAGE_LIST}"
+    GL_PKGS="SUNWxorg-mesa"
+fi
+    
+# Old packages to remove and not replace - none yet
+#    REM_PKGS=""
+
+    pkg_list="${PKGS} ${GL_PKGS}"
+
+
+###
+#
+#   Do the upgrade
+#
+###
+
+    echo ""
+    echo "Starting Xorg ${XVERS} Build ${X_BUILD} for Solaris ${X_OSREV} upgrade."
+    echo "  An upgrade log file can be found at:"
+    echo "    $PKG_UPGRADE_LOG"
+    echo ""
+
+    VERBOSE="-n -a /tmp/admin.$$"
+
+    cat >/tmp/admin.$$ <<EOF
+basedir=default
+mail=
+runlevel=quit
+conflict=nocheck
+setuid=nocheck
+action=nocheck
+partial=nocheck
+instance=unique
+idepend=nocheck
+rdepend=nocheck
+space=quit
+EOF
+
+
+#    for pkg in $REM_PKGS
+#    do
+#	/bin/pkginfo -q ${pkg}
+#	FOUNDPKG=$?
+#	if [ $FOUNDPKG -eq 0 ]; then
+#	    /usr/sbin/pkgrm $VERBOSE ${pkg}.* 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
+#	fi
+#    done
+
+    for pkg in $pkg_list
+    do
+	/bin/pkginfo -q ${pkg}
+	FOUNDPKG=$?
+	if [ $FOUNDPKG -eq 0 ]; then
+	    /usr/sbin/pkgrm $VERBOSE ${pkg}.\* 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
+	fi
+
+	if [ $FOUNDPKG -eq 0 -o $INSTALLALL -eq 1 ]; then
+	  if [ -e $pkg ] ; then
+	    /usr/sbin/pkgadd $VERBOSE  -d `pwd` $pkg 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
+	    echo ""
+	  else
+	    if [ $QUIET -eq 0 ] ; then
+	        echo "No replacement found for $pkg"
+	    fi
+	  fi
+	else
+	    if [ $QUIET -eq 0 ] ; then
+	      if [ -d $pkg ] ; then
+	    	echo "Warning:  ${pkg} not currently installed - not installing new ${pkg}."
+  	    	echo "  Run upgrade-X -a to install all new packages."
+		echo ""
+	      fi
+	    fi
+	fi
+    done
+
+    echo "Xorg ${XVERS} upgrade is complete"
+

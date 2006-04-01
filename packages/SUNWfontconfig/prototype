@@ -1,0 +1,70 @@
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident	"@(#)prototype	1.5	06/03/30 SMI"
+#
+# Fontconfig library & binaries
+
+i pkginfo
+i copyright
+i depend
+
+!HOME=../usr
+
+!search      $HOME/bin
+d none bin 						0755 root bin
+f none bin/fc-cache					0755 root bin
+f none bin/fc-list					0755 root bin
+
+!search      $HOME/include/fontconfig
+d none include 						0755 root bin
+d none include/fontconfig				0755 root bin
+f none include/fontconfig/fcfreetype.h			0755 root bin
+f none include/fontconfig/fcprivate.h			0755 root bin
+f none include/fontconfig/fontconfig.h			0755 root bin
+
+!search      $HOME/lib
+d none lib 						0755 root bin
+f none lib/libfontconfig.so.1=$HOME/lib/libfontconfig.so.1.0.4	0755 root bin
+s none lib/libfontconfig.so=libfontconfig.so.1
+
+!search      $HOME/lib/pkgconfig
+d none lib/pkgconfig					0755 root other
+f none lib/pkgconfig/fontconfig.pc			0444 root other
+
+# 64-bit versions
+
+!search      $HOME/lib/$plat_64
+d none lib/$plat_64						0755 root bin
+s none lib/64=$plat_64
+f none lib/$plat_64/libfontconfig.so.1=$HOME/lib/$plat_64/libfontconfig.so.1.0.4	0755 root bin
+s none lib/$plat_64/libfontconfig.so=libfontconfig.so.1
+
+!search      $HOME/lib/$plat_64/pkgconfig
+d none lib/$plat_64/pkgconfig					0755 root other
+f none lib/$plat_64/pkgconfig/fontconfig.pc			0444 root other

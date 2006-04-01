@@ -1,0 +1,120 @@
+// $XdotOrg: $
+//
+// Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, and/or sell copies of the Software, and to permit persons
+// to whom the Software is furnished to do so, provided that the above
+// copyright notice(s) and this permission notice appear in all copies of
+// the Software and that both the above copyright notice(s) and this
+// permission notice appear in supporting documentation.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+// OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+// HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+// INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+// FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+// NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+// WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+// 
+// Except as contained in this notice, the name of a copyright holder
+// shall not be used in advertising or otherwise to promote the sale, use
+// or other dealings in this Software without prior written authorization
+// of the copyright holder.
+//
+
+xkb_symbols "type4" {
+    include "sun/us(type4basic)"
+    // A few keys are different
+
+    key <FK01> { [ Escape               ]                       };
+    key <FK02> { [ F1                   ]                       };
+    key <FK03> { [ F2                   ]                       };
+    key <FK04> { [ F3                   ]                       };
+    key <FK05> { [ F4                   ]                       };
+    key <FK06> { [ F5                   ]                       };
+    key <FK07> { [ F6                   ]                       };
+    key <FK08> { [ F7                   ]                       };
+    key <FK09> { [ F8                   ]                       };
+    key <FK10> { [ F9                   ]                       };
+    key <FK11> { [ F10                  ]                       };
+    key <FK12> { [ SunF36               ]                       };
+    key <BKSL> { [ SunF37, NoSymbol	] 			};
+    key <ESC>  { [ degree		], [ notsign	]	};
+    key <AE02> { [ 2, quotedbl		], [ at		]	};
+    key <AE06> { [ 6, question		] 			};
+    key <AE07> { [ 7, ampersand		], [ braceleft	]	};
+    key <AE08> { [ 8, asterisk		], [ bracketleft ]	};
+    key <AE09> { [ 9, parenleft		], [ bracketright ]	};
+    key <AE10> { [ 0, parenright	], [ braceright	]	};
+//    key <AD11> { [ SunFA_Circum, SunFA_Diaresis ], [ asciicircum ] };
+    key <AD12> { [ Ccedilla, NoSymbol	], [ asciitilde	]	};
+    key <LCTL> { [ Caps_Lock		]			};
+    key <AC11> { [ Egrave		]			};
+    key <TLDE> { [ Agrave, NoSymbol	], [ quoteleft 	]	};
+    key <LSGT> { [ Ugrave, NoSymbol	], [ backslash	]	};
+    key <AB08> { [ comma, quoteright	], [ less	]	};
+    key <AB09> { [ period, NoSymbol	], [ greater	]	};
+    key <AB10> { [ Eacute, NoSymbol	], [ slash	]	};
+    key <CAPS> { [ SunAltGraph		]			};
+    key <COMP> { [ SunCompose		]			};
+    key <ALGR> { [ Control_R		]			};
+ 
+};
+
+xkb_symbols "type5" {
+
+    key <TLDE> { [ slash, backslash	], [ bar			]};
+    key <AE01> { [ 1, exclam		], [ plusminus			]};
+    key <AE02> { [ 2, at		]				};
+    key <AE03> { [ 3, numbersign	], [ sterling			]};
+    key <AE04> { [ 4, dollar		], [ cent			]};
+    key <AE05> { [ 5, percent		], [ currency			]};
+    key <AE06> { [ 6, question		]				};
+    key <AE07> { [ 7, ampersand		], [ braceleft ]		};
+    key <AE08> { [ 8, asterisk		], [ braceright ]		};
+    key <AE09> { [ 9, parenleft		], [ bracketleft		]};
+    key <AE10> { [ 0, parenright	], [ bracketright		]};
+    key <AE11> { [ minus, underscore	]				};
+    key <AE12> { [ equal, plus		], [ notsign			]};
+    
+    key <AD10> { [ p, P			], [ paragraph			]};
+    key <AD11> { [ SunFA_Circum, SunFA_Diaeresis], [ SunFA_Grave	]};
+    key <AD12> { [ ccedilla, Ccedilla	], [ asciitilde			]};
+
+    key <AC10> { [ semicolon, colon	], [ degree			]};
+    key <AC11> { [ Egrave		]				};
+    key <BKSL> { [ Agrave		]				};
+
+    key <LSGT> { [ Uacute		]				};
+    key <AB01> { [ z, Z			], [ guillemotleft		]};
+    key <AB02> { [ x, X			], [ guillemotright		]};
+    key <AB07> { [ m, M			], [ mu				]};
+    key <AB08> { [ comma, quoteright	], [ less			]};
+    key <AB09> { [ period, quotedbl	], [ greater			]};
+    key <AB10> { [ eacute, Eacute	], [ quoteleft			]};
+    
+};
+
+xkb_symbols "type5tbits5"
+{
+    include "sun/ca(type5)"
+    
+    key <LSGT> { [ Ugrave		]				};
+    key <SPCE> { [ space, space		], [ nobreakspace		]};
+};
+
+xkb_symbols "x86"
+{
+    include "ca"
+    
+    key <ALGR> { [ Mode_switch		]				};
+    key <RALT> { [ Alt_R		]				};
+    key <RCTL> { [ Control_R		]				};
+};
+

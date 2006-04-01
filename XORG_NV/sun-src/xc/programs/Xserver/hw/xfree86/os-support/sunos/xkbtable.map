@@ -1,0 +1,203 @@
+##########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+##########################################################################
+#
+# ident "@(#)xkbtable.map	1.7	05/11/08 SMI"
+#
+# xkbtable.map
+#
+# The xkbtable map associates a keyboard with its corresponding XKB names,
+# in order to associate it
+#
+# The keyboard Type and Layout are generally obtained from the kernel using
+# appropriate ioctl calls.  The keyboard Type is stored in a keyboard PROM.
+# The keyboard Layout may be stored in a keyboard PROM or determined by a 
+# DIP switch setting.
+#
+# Format of an entry:
+# Type  Layout  XKB_Keymap	XKB_Model	XKB_Layout
+#
+# The XKB_Model and XKB_Layout fields are optional, but you must specify an
+# XKB_model in order to specify an XKB_Layout
+#
+# The XKB_Keymap field may be - to specify not setting the keymap and using
+# the XKB_Model and XKB_Layout to lookup the rules in the xorg.rules file
+#
+# The layout field may be a * to indicate a default entry for a keyboard
+# of the specified type if an exact match is not found.
+#
+# The type & layout fields may be both be a * to indicate a default entry 
+# for a keyboard if an exact match is not found, and a default entry of 
+# the correct type is not found.
+#
+##############################################################################
+#
+# Type 4 Keyboards
+#
+4	0	-	sun_type4		us	# US4
+4	1	-	sun_type4		us	# US4
+4	2	-	sun_type4_euro		fr	# FranceBelg4
+4	3	-	sun_type4_ca		ca	# Canada4
+4	4	-	sun_type4_euro		dk	# Denmark4
+4	5	-	sun_type4_euro		de	# Germany4
+4	6	-	sun_type4_euro		it	# Italy4
+4	7	-	sun_type4_euro		nl	# Netherland4
+4	8	-	sun_type4_euro		no	# Norway4
+4	9	-	sun_type4_euro		pt	# Portugal4
+4	10	-	sun_type4_euro		es	# SpainLatAm4
+4	11	-	sun_type4_euro		se	# SwedenFin4
+4	12	-	sun_type4_euro		fr_CH	# Switzer_Fr4
+4	13	-	sun_type4_euro		de_CH	# Switzer_Ge4
+4	14	-	sun_type4_euro		gb	# UK4
+4	16	-	sun_type4		ko	# Korea4
+4	17	-	sun_type4		tw	# Taiwan4
+4	32	-	sun_type4_jp		jp	# Japan4
+#
+# Uncomment either the PC compatible or Sun compatible layout
+# Sun 101A -- PC compatible layout:
+4	19	-	sun_type5		us	# US101A_PC
+# Sun 101A -- Sun compatible layout:
+#4	19	-	sun_type5		us	# US101A_Sun
+#
+#
+# Type 5 Keyboards
+#
+# Type 5 keyboards identify themselves as type 4 for backward compatibility
+#
+4	33	-	sun_type5		us	# US5
+4	34	-	sun_type5_unix		us	# US_UNIX5
+4	35	-	sun_type5_euro		fr	# France5
+4	36	-	sun_type5_euro		dk	# Denmark5
+4	37	-	sun_type5_euro		de	# Germany5
+4	38	-	sun_type5_euro		it	# Italy5
+4	39	-	sun_type5_euro		nl	# Netherland5
+4	40	-	sun_type5_euro		no	# Norway5
+4	41	-	sun_type5_euro		pt	# Portugal5
+4	42	-	sun_type5_euro		es	# Spain5
+4	43	-	sun_type5_euro		se	# Sweden5
+4	44	-	sun_type5_euro		fr_CH	# Switzer_Fr5
+4	45	-	sun_type5_euro		de_CH	# Switzer_Ge5
+4	46	-	sun_type5_euro		gb	# UK5
+4	47	-	sun_type5		ko	# Korea5
+4	48	-	sun_type5		tw	# Taiwan5
+4	49	-	sun_type5_jp		jp	# Japan5
+4	50	-	sun_type5_euro		fr_CA	# Canada_Fr5
+4	51	-	sun_type5_euro		hu	# Hungary5
+4	52	-	sun_type5_euro		pl	# Poland5
+4	53	-	sun_type5_euro		cz	# Czech5
+4	54	-	sun_type5_euro		ru	# Russia5
+4	55	-	sun_type5_euro		lv	# Latvia5
+4	57	-	sun_type5_euro		gr	# Greece5
+4	59	-	sun_type5_euro		lt	# Lithuania5
+4	63	-	sun_type5_euro		fr_CA	# Canada_Fr5_TBITS5
+4	56	-	sun_type5_euro		tr	# TurkeyQ5
+4	58	-	sun_type5_euro		ar	# Arabic5
+4	60	-	sun_type5_euro		be	# Belgian5
+4	62	-	sun_type5_euro		tr_f	# TurkeyF5
+#
+# Type 5 Hobo Keyboards
+#
+4	80	-	sun_type5_hobo		us	# US5_Hobo
+4	81	-	sun_type5_unix_hobo	us	# US_UNIX5_Hobo
+4	82	-	sun_type5_euro_hobo	fr	# France5_Hobo
+4	83	-	sun_type5_euro_hobo	dk	# Denmark5_Hobo
+4	84	-	sun_type5_euro_hobo	de	# Germany5_Hobo
+4	85	-	sun_type5_euro_hobo	it	# Italy5_Hobo
+4	86	-	sun_type5_euro_hobo	nl	# Netherland5_Hobo
+4	87	-	sun_type5_euro_hobo	no	# Norway5_Hobo
+4	88	-	sun_type5_euro_hobo	pt	# Portugal5_Hobo
+4	89	-	sun_type5_euro_hobo	es	# Spain5_Hobo
+4	90	-	sun_type5_euro_hobo	se	# Sweden5_Hobo
+4	91	-	sun_type5_euro_hobo	fr_CH	# Switzer_Fr5_Hobo
+4	92	-	sun_type5_euro_hobo	de_CH	# Switzer_Ge5_Hobo
+4	93	-	sun_type5_euro_hobo	gb	# UK5_Hobo
+4	94	-	sun_type5_hobo		ko	# Korea5_Hobo
+4	95	-	sun_type5_hobo		tw	# Taiwan5_Hobo
+4	96	-	sun_type5_jp_hobo	jp	# Japan5_Hobo
+4	97	-	sun_type5_euro_hobo	fr_CA	# Canada_Fr5_Hobo
+#
+# Type 101 Keyboards (Solaris x86 Keyboards)
+#
+101	*	-	pc105			us	# MS_US101A_x86
+101	1	-	pc105			us	# US101A_x86
+101	34	-	pc105				# J3100_x86
+101	35	-	pc105			fr	# France_x86
+101	36	-	pc105			dk	# Denmark_x86
+101	37	-	pc105			de	# Germany_x86
+101	38	-	pc105			it	# Italy_x86
+101	39	-	pc105			nl	# Netherland_x86
+101	40	-	pc105			no	# Norway_x86
+101	41	-	pc105			pt     	# Portugal_x86
+101	42	-	pc105			es	# Spain_x86
+101	43	-	pc105			se	# Sweden_x86
+101	44	-	pc105			fr_CH	# Switzer_Fr_x86
+101	45	-	pc105			de_CH	# Switzer_Ge_x86
+101	46	-	pc105			gb	# UK_x86
+101	47	-	pc105			ko	# Korea_x86
+101	48	-	pc105			tw	# Taiwan_x86
+101	49	-	jp106			jp	# Japan_x86
+101	50	-	pc105			fr_CA	# Canada_Fr2_x86
+101	51	-	pc105			hu	# Hungary_x86
+101	52	-	pc105			pl	# Poland_x86
+101	53	-	pc105			cz	# Czech_x86
+101	54	-	pc105			ru	# Russia_x86
+101	55	-	pc105			lv	# Latvia_x86
+101	56	-	pc105			tr	# Turkey_x86
+101	57	-	pc105			el	# Greece_x86
+101	59	-	pc105			lt	# Lithuania_x86
+101	1001	-	pc105			us	# MS_US101A_x86
+#
+# Type 6 USB Keyboards
+#
+6	*	-	sun_type6_usb		us	# US6_usb
+6	6	-	sun_type6_euro_usb	dk	# Denmark6_usb
+6	7	-	sun_type6_euro_usb	fi	# Finnish6_usb
+6	8	-	sun_type6_euro_usb	fr	# France6_usb
+6	9	-	sun_type6_euro_usb	de	# Germany6_usb
+6	14	-	sun_type6_euro_usb	it	# Italy6_usb
+6	15	-	sun_type7_jp_usb	jp	# Japan7_usb
+6	16	-	sun_type6_usb		ko	# Korea6_usb
+6	18	-	sun_type6_euro_usb	nl	# Netherland6_usb
+6	19	-	sun_type6_euro_usb	no	# Norway6_usb
+6	22	-	sun_type6_euro_usb	pt	# Portugal6_usb
+6	23	-	sun_type6_euro_usb	ru	# Russia6_usb
+6	25	-	sun_type6_euro_usb	es	# Spain6_usb
+6	26	-	sun_type6_euro_usb	se	# Sweden6_usb
+6	27	-	sun_type6_euro_usb	fr_CH	# Switzer_Fr6_usb
+6	28	-	sun_type6_euro_usb	de_CH	# Switzer_Ge6_usb
+6	30	-	sun_type6_usb		tw	# Taiwan6_usb
+6	32	-	sun_type6_euro_usb	gb	# UK6_usb
+6	33	-	sun_type6_usb		us	# US6_usb
+6	1	-	sun_type6_euro_usb	ar	# Arabic6_usb
+6	2	-	sun_type6_euro_usb	be	# Belgian6_usb
+6	31	-	sun_type6_euro_usb	tr	# TurkeyQ6_usb
+6	35	-	sun_type6_euro_usb	tr_f	# TurkeyF6_usb
+6	271	-	sun_type6_jp_usb	jp	# Japan6_usb
+

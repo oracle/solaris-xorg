@@ -1,0 +1,233 @@
+XCOMM $XdotOrg: xc/programs/Xserver/hw/xfree86/xf86cfg/Imakefile,v 1.3 2004/09/02 01:10:29 kem Exp $
+XCOMM $XFree86: xc/programs/Xserver/hw/xfree86/xf86cfg/Imakefile,v 1.25 2003/10/31 15:02:55 tsi Exp $
+
+#include <Server.tmpl>
+
+XCOMM CDEBUGFLAGS=-g -Wall -ansi -pedantic
+
+#if DoLoadableServer
+LDSRCS	= libc_wrapper.c loader.c loadmod.c
+LDOBJS	= libc_wrapper.o loader.o loadmod.o
+#endif
+
+#if HasNCurses
+TEXTSRC	= text-mode.c
+TEXTOBJ	= text-mode.o
+#endif
+
+#if !HasStrlcat
+STRLSRCS = strlcat.c strlcpy.c
+STRLOBJS = strlcat.o strlcpy.o
+#endif
+
+#if !HasSnprintf
+SNPRINTFSRCS = snprintf.c
+SNPRINTFOBJS = snprintf.o
+#endif
+
+#if HasDlopen
+SRCS	=\
+	accessx.c\
+	card-cfg.c\
+	cards.c\
+	config.c\
+	expert.c\
+	help.c\
+	interface.c\
+	keyboard-cfg.c\
+	$(LDSRCS) \
+	monitor-cfg.c\
+	mouse-cfg.c\
+	options.c\
+	screen-cfg.c\
+	screen.c\
+	$(SNPRINTFSRCS)\
+	startx.c\
+	$(STRLSRCS)\
+	stubs.c\
+	$(TEXTSRC)\
+	vidmode.c\
+	xf86config.c\
+	dummy.c 
+#else
+SRCS	=\
+	accessx.c\
+	card-cfg.c\
+	cards.c\
+	config.c\
+	expert.c\
+	help.c\
+	interface.c\
+	keyboard-cfg.c\
+	$(LDSRCS) \
+	monitor-cfg.c\
+	mouse-cfg.c\
+	options.c\
+	screen-cfg.c\
+	screen.c\
+	$(SNPRINTFSRCS)\
+	startx.c\
+	$(STRLSRCS)\
+	stubs.c\
+	$(TEXTSRC)\
+	vidmode.c\
+	xf86config.c
+#endif
+
+#if HasDlopen
+OBJS	=\
+	accessx.o\
+	cards.o\
+	config.o\
+	card-cfg.o\
+	expert.o\
+	help.o\
+	interface.o\
+	keyboard-cfg.o\
+	$(LDOBJS) \
+	monitor-cfg.o\
+	mouse-cfg.o\
+	options.o\
+	screen-cfg.o\
+	screen.o\
+	$(SNPRINTFOBJS)\
+	startx.o\
+	$(STRLOBJS)\
+	stubs.o\
+	$(TEXTOBJ)\
+	vidmode.o\
+	xf86config.o\
+	dummy.o
+#else
+OBJS	=\
+	accessx.o\
+	cards.o\
+	config.o\
+	card-cfg.o\
+	expert.o\
+	help.o\
+	interface.o\
+	keyboard-cfg.o\
+	$(LDOBJS) \
+	monitor-cfg.o\
+	mouse-cfg.o\
+	options.o\
+	screen-cfg.o\
+	screen.o\
+	$(SNPRINTFOBJS)\
+	startx.o\
+	$(STRLOBJS)\
+	stubs.o\
+	$(TEXTOBJ)\
+	vidmode.o\
+	xf86config.o
+#endif
+
+PROG	= xorgcfg
+
+#if HasDlopen
+DUMMYGENSRC = dummygen.c
+DUMMYGENTOOL = dummygen
+#endif
+
+XBMPICS =\
+	card.xbm\
+	keyboard.xbm\
+	monitor.xbm\
+	mouse.xbm\
+	left.xbm\
+	right.xbm\
+	up.xbm\
+	down.xbm\
+	wider.xbm\
+	narrower.xbm\
+	shorter.xbm\
+	taller.xbm
+
+XPMPICS =\
+	card.xpm\
+	computer.xpm\
+	keyboard.xpm\
+	monitor.xpm\
+	mouse.xpm
+
+#if HasDlopen
+dummy.c ::  $(DUMMYGENTOOL) $(DUMMYGENSRC)
+	./$(DUMMYGENTOOL)
+
+clean::
+	RemoveFiles($(DUMMYGENTOOL) dummy.c)
+#endif
+
+AllTarget(ProgramTargetName($(PROG)))
+
+#if DoLoadableServer
+LOADERLIB      = -L../loader -lxloader -L../dummylib -ldummy
+MODULEDEFINES  = -DUSE_MODULES
+INCLUDES       = -I../common -I../scanpci -I../loader -I$(XF86OSSRC) \
+		 -I$(SERVERSRC)/include -I$(XINCLUDESRC) \
+		 -I$(FONTLIBSRC)/include
+#if !HasSnprintf
+SNPRINTF_DEFS  = -DNEED_SNPRINTF
+#endif
+WRAPPERDEFINES = -DSELF_CONTAINED_WRAPPER $(SNPRINTF_DEFS)
+#endif
+
+#if HasNCurses
+CURSESLIB = NCursesLibName
+CURSESDEFINES  = -DHAS_NCURSES
+#endif
+
+XF86CONFIGFILE = XConfigFile
+XF86CONFIGDIR = XConfigDir
+XF86CONSOLEDEFS = XFree86ConsoleDefines
+
+DEFINES        = -DXF86CONFIG=\"$(XF86CONFIGFILE)\" $(MODULEDEFINES) \
+		 $(CURSESDEFINES) \
+		 -DPROJECT_ROOT=\"$(PROJECTROOT)\" \
+		 -DXF86CONFIGDIR=\"$(XF86CONFIGDIR)\" $(XF86CONSOLEDEFS) \
+		 $(CONFIG_DEFINES) $(XKBDEFRULESDEFS)
+
+#if HasDlopen
+DLLIB = DlLibrary
+#endif
+
+LOCAL_LIBRARIES = $(BUILDLIBDIR)/libxkbfile.so \
+		  $(BUILDLIBDIR)/libxkbui.a \
+		  $(BUILDLIBDIR)/libxf86config.a \
+		  $(BUILDLIBDIR)/libXxf86misc.so \
+		  $(BUILDLIBDIR)/libXxf86vm.so \
+		  $(BUILDLIBDIR)/libXaw.so \
+		  $(XMULIB) \
+		  $(XTOOLLIB) \
+		  $(XPMLIB) $(EXTRAXAWCLIENTLIBS) $(LOADERLIB) $(DLLIB) \
+		  $(EXTENSIONLIB) \
+		  $(XONLYLIB) \
+		  $(CURSESLIB) RegexLibrary -lm
+
+NormalProgramTarget($(PROG),$(OBJS),,$(LOCAL_LIBRARIES),)
+InstallProgramWithFlags($(PROG),$(BINDIR),NullParameter)
+InstallMultipleFlags($(XBMPICS),$(INCDIR)/X11/bitmaps,$(INSTINCFLAGS))
+InstallMultipleFlags($(XPMPICS),$(INCDIR)/X11/pixmaps,$(INSTINCFLAGS))
+CppRawFileTarget(XOrgCfg.ad,XOrgCfg.cpp,-D__VENDORNAME__="$(VENDORNAMESHORT)" -D__VENDORVERS__="$(VENDORMANVERSION)",NullParameter)
+InstallAppDefaults(XOrgCfg)
+
+InstallManPage(xorgcfg,$(MANDIR))
+
+NormalLibraryObjectRule()
+
+#if DoLoadableServer
+LinkSourceFile(libc_wrapper.c, $(XF86OSSRC)/shared)
+SpecialCObjectRule(libc_wrapper,NullParameter,$(WRAPPERDEFINES) $(EXT_DEFINES))
+#endif
+
+#if !HasStrlcat
+LinkSourceFile(strlcat.c,$(LIBSRC)/misc)
+LinkSourceFile(strlcpy.c,$(LIBSRC)/misc)
+#endif
+
+#if !HasSnprintf
+LinkSourceFile(snprintf.c,$(LIBSRC)/misc)
+#endif
+
+DependTarget()

@@ -1,0 +1,114 @@
+#!/bin/sh
+#
+# buildit
+# Script for building OpenSolaris X Consolidation
+#
+###########################################################################
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)buildit	1.1	06/03/31 SMI"
+#
+
+
+CLOBBER=0
+MAKE_PKGS=0
+XORG_BUILD_ARGS="$*"
+
+set -- `getopt cp $*`
+if [ $? != 0 ]
+then
+    echo USAGE: $0 [-c] [-p]
+    exit 2
+fi
+
+for i in $* ; do 
+    case $i in
+	-c)     CLOBBER=1; shift;;
+	-p)     MAKE_PKGS=1; shift;;
+    esac
+done
+
+
+# Add /usr/sfw/bin & /opt/sfw/bin to path for GNU tools for external modules
+
+PATH=$PATH:/usr/sfw/bin:/opt/sfw/bin
+export PATH
+
+[ -d log ] || mkdir log
+
+# Append all further output & errors to the log file
+exec > log/buildit-XW 2>&1
+
+echo "------------------------------------------------------------------------------"
+echo "Start time: "
+date
+START=`perl -e 'print time'`
+echo "Building on: "
+uname -a
+echo "Using this compiler: "
+which cc
+cc -V
+
+MACH=`uname -p`
+if [ "$MACH" = "i386" ]; then
+    /bin/rm -rf proto-i386-svr4
+else
+    /bin/rm -rf proto-sun4-svr4
+fi
+
+cd open-src
+make -k clean beforeX-install
+cd ../..
+
+cd XORG_NV/
+./buildit $XORG_BUILD_ARGS
+cd ..
+
+cd open-src
+make -k afterX-install
+cd ..
+
+if [ $MAKE_PKGS = 1 ] ; then
+    PACKAGE_LIST=`cd packages && echo SUNW*`
+    export PACKAGE_LIST
+    chmod +x make_release_packages
+    mkdir packages/common_files
+    ./make_release_packages
+fi
+
+
+echo ""
+date
+echo "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
+echo ""
+echo "Finish time: "
+date
+perl -e '$runtime=time-$ARGV[0];printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' $START

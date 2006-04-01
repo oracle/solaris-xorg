@@ -1,0 +1,95 @@
+#! /usr/bin/ksh
+#
+###########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)SUNW-build 1.17     05/11/03 SMI"
+#
+# Sets options for building STSF for inclusion in Solaris
+# Only available flag is -64 to do a 64-bit build
+
+PATH=$PATH:/opt/sfw/bin
+export PATH
+MACH=`uname -p`
+ARCH=`arch | sed s/i86pc/i386/`
+
+DROPIN_FLAGS=""
+
+if [ "x${1}" == "x-64" ] ; then
+    if [ "$MACH" == "sparc" ] ; then
+	ARCH_CFLAGS="-xtarget=ultra2 -xarch=v9"
+    	INST_LIB_SUBDIR="/sparcv9"
+    else
+        if [ "$MACH" == "i386" ] ; then
+	    ARCH_CFLAGS="-xarch=generic64"
+	    INST_LIB_SUBDIR="/amd64"
+	else
+	    echo "Don't know how to produce 64-bit code for $MACH platform."
+	    exit 1
+	fi
+    fi
+    LIB_SUBDIR="/64"
+    DROPIN_FLAGS="--enable-dropins=no"
+fi
+
+DEBUG_FLAGS="--disable-debug-flags"
+
+if [ "x${1}" == "x-d" ] ; then
+    DEBUG_FLAGS="--disable-optimizer-flags"
+else
+    if [ "$MACH" == "i386" ] ; then
+	if [ "x${ARCH_CFLAGS}" == "x" ] ; then
+	    ARCH_CFLAGS="-xpentium"
+	fi
+
+# -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
+# avoid losing stack frame pointers so you can't get stack traces or debug 
+	ARCH_CFLAGS="${ARCH_CFLAGS} -xregs=no%frameptr"
+    fi
+fi
+
+TARGETDIR=`pwd`"/../proto-${ARCH}-svr4/usr"
+
+LD_LIBRARY_PATH=${TARGETDIR}/lib${LIB_SUBDIR}:${TARGETDIR}/sfw/lib${LIB_SUBDIR}:${TARGETDIR}/lib/fontconfig${LIB_SUBDIR}:${LD_LIBRARY_PATH:-/usr/lib${LIB_SUBDIR}}
+export LD_LIBRARY_PATH
+
+CC=cc \
+ARCH_CFLAGS="${ARCH_CFLAGS}" \
+CPPFLAGS="-I${TARGETDIR}/include -I${TARGETDIR}/sfw/include -I${TARGETDIR}/sfw/include/freetype2" \
+FTLDFLAGS="-L${TARGETDIR}/sfw/lib${LIB_SUBDIR} -R/usr/sfw/lib${LIB_SUBDIR}" \
+ST_LIB_PATH="/usr/lib/ST${LIB_SUBDIR}" \
+LIB_SUBDIR="${LIB_SUBDIR}" \
+PKG_CONFIG_PATH="${TARGETDIR}/lib${LIB_SUBDIR}/pkgconfig:/usr/lib/pkgconfig" \
+/bin/sh ./configure --prefix=/usr ${DEBUG_FLAGS} --enable-fontconfig --with-default-scaler-path=/usr/lib/ST/dropins${LIB_SUBDIR} ${DROPIN_FLAGS}
+
+gmake -k clean
+gmake -k LIB_SUBDIR="${LIB_SUBDIR}" TARGETLIBDIR="/usr/lib${LIB_SUBDIR}" TARGETSCALERDIR="/usr/lib/ST/dropins${INST_LIB_SUBDIR}" TARGETLIBEXECDIR="/usr/lib/ST${LIB_SUBDIR}"
+gmake -k install TARGETDIR=${TARGETDIR} TARGETLIBDIR="${TARGETDIR}/lib${INST_LIB_SUBDIR}"  TARGETSCALERDIR="${TARGETDIR}/lib/ST/dropins${INST_LIB_SUBDIR}" TARGETLIBEXECDIR="${TARGETDIR}/lib/ST${INST_LIB_SUBDIR}"
