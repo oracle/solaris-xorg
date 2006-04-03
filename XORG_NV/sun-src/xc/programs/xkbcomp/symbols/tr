@@ -18,14 +18,12 @@ xkb_symbols "basic" {
     // Alphanumeric section
     name[Group1]= "Turkish \"Q\" (computer modern)";
 
-    key <AE02> {	[         2,	apostrophe	],
-			[        at			]	};
-    key <AE03> {	[         3,	dead_circumflex	],
+    key <AE02> {	[         2,	apostrophe	]	};
+    key <AE03> {	[         3,	asciicircum	],
 			[ numbersign			]	};
     key <AE04> {	[         4,	plus     	],
 			[    dollar			]	};
-    key <AE06> {	[         6,	ampersand	],
-			[ asciicircum			]	};
+    key <AE06> {	[         6,	ampersand	]	};
     key <AE07> {	[         7,	slash    	],
 			[ braceleft			]	};
     key <AE08> {	[         8,	parenleft	],
@@ -37,16 +35,18 @@ xkb_symbols "basic" {
     key <AE11> {	[  asterisk,	question 	],
 			[ backslash			]	};
     key <AE12> {	[     minus,	underscore	]	};
+    key <AD01> {        [         q,    Q               ],
+			[	at			]	};
     key <AD08> {	[  idotless,    I		]	};
-    key <AD11> {	[    gbreve,    Gbreve		]	};
+    key <AD11> {	[    gbreve,    Gbreve		],
+			[  diaeresis			]	};
     key <AD12> {	[ udiaeresis,	Udiaeresis	],
 			[ asciitilde			]	};
     key <AC10> {	[   scedilla,   Scedilla	]	};
     key <AC11> {	[         i,    Iabovedot	]	};
-    key <TLDE> {	[ backslash,	quotedbl 	],
-			[ asciitilde			]	};
+    key <TLDE> {	[ quotedbl, eacute      	]	};
     key <BKSL> {	[     comma,	semicolon	],
-			[       bar			]	};
+			[       grave			]	};
     key <AB08> {	[ odiaeresis,	Odiaeresis	],
 			[      less			]	};
     key <AB09> {	[  ccedilla,	Ccedilla 	],

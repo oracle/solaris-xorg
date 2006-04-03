@@ -22,7 +22,7 @@ xkb_symbols "basic" {
     key <AE04> {	[         4,	dollar   	],
 			[ onequarter			]	};
     key <AE05> {	[         5,	percent  	],
-			[ EuroSign			]	};
+			[ onehalf			]	};
     key <AE06> {	[         6,	ampersand	],
 			[ threequarters			]	};
     key <AE07> {	[         7,	underscore	],
@@ -31,64 +31,59 @@ xkb_symbols "basic" {
 			[ braceleft			]	};
     key <AE09> {	[         9,	parenright	],
 			[ braceright			]	};
-    key <AE10> {	[         0,	apostrophe	]	};
+    key <AE10> {	[         0,	quoteright	],	
+			[ quoteleft                     ]       };              
     key <AE11> {	[     slash,	question 	],
 			[ backslash			]	};
     key <AE12> {	[    degree,	dead_tilde	],
 			[ dead_cedilla			]	};
     key <AD03> {	[         e,	E        	],
-			[    EuroSign,	cent    	]	};
+			[    EuroSign		   	]	};
     key <AD04> {	[         r,	R        	],
-			[ paragraph,	registered	]	};
-    key <AD05> {	[         t,	T        	],
-			[     thorn,	THORN    	]	};
-    key <AD06> {	[         y,	Y        	],
-			[ ydiaeresis,	yen      	]	};
-    key <AD07> {	[         u,	U        	],
-			[ udiaeresis,	Udiaeresis	]	};
-    key <AD08> {	[         i,	I        	],
-			[ idiaeresis,	Idiaeresis	]	};
-    key <AD09> {	[         o,	O        	],
-			[    ograve,	Ograve   	]	};
-    key <AD10> {	[         p,	P        	],
 			[ paragraph			]	};
+    key <AD05> {	[         t,	T        	]	};
+    key <AD06> {	[         y,	Y        	]	};
+    key <AD07> {	[         u,	U        	]	};
+    key <AD08> {	[         i,	I        	]	};
+    key <AD09> {	[         o,	O        	]	};
+    key <AD10> {	[         p,	P        	]	};
     key <AD11> {	[ dead_diaeresis,	dead_circumflex	],
 			[ asciitilde,	asciicircum	]	};
-    key <AD12> {	[  asterisk,	bar      	]	};
-    key <AC01> {	[         a,	A        	],
-			[    aacute,	Aacute   	]	};
+    key <AD12> {	[  asterisk,	bar      	],
+                        [  asciitilde 			]	};
+    key <AC01> {	[         a,	A        	]	};
     key <AC02> {	[         s,	S        	],
 			[    ssharp			]	};
-    key <AC03> {	[         d,	D        	],
-			[       eth,	ETH      	]	};
-    key <AC04> {	[         f,	F        	],
-			[ ordfeminine,	ordfeminine	]	};
+    key <AC03> {	[         d,	D        	]	};
+    key <AC04> {	[         f,	F        	]	};
     key <AC10> {	[      plus,	plusminus	]	};
-    key <AC11> {	[ apostrophe,	grave    	],
-			[ dead_acute,	dead_grave	]	};
+    key <AC11> {	[ dead_acute,   dead_grave    	],
+			[ apostrophe,	grave		]	};
     key <TLDE> {	[        at,	section  	],
 			[   notsign			]	};
-    key <BKSL> {	[      less,	greater  	]	};
+    key <BKSL> {	[      less,	greater  	],	
+                        [   asciicircum                 ]       };
     key <AB01> {	[         z,	Z        	],
 			[ guillemotleft			]	};
     key <AB02> {	[         x,	X        	],
-			[ guillemotright			]	};
+			[ guillemotright		]	};
     key <AB03> {	[         c,	C        	],
-			[      cent,	copyright	]	};
-    key <AB06> {	[         n,	N        	],
-			[    ntilde,	Ntilde   	]	};
+			[      cent			]	};
+    key <AB06> {	[         n,	N        	]	};
     key <AB07> {	[         m,	M        	],
-			[  Greek_mu,	masculine	]	};
-    key <AB08> {	[     comma,	semicolon	],
-			[   cedilla,	guillemotleft	]	};
-    key <AB09> {	[    period,	colon    	],
-			[ periodcentered,	guillemotright	]	};
-    key <AB10> {	[     minus,	equal    	],
-			[    hyphen			]	};
-    key <LSGT> {	[ bracketright,	bracketleft	],
-			[       bar			]	};
+			[  Greek_mu,	Greek_mu	]	};
+    key <AB08> {	[     comma,	semicolon	]	};
+    key <AB09> {	[    period,	colon    	],	
+			[ periodcentered		]	};
+    key <AB10> {	[     minus,	equal    	]	};
+    key <LSGT> {	[ bracketleft,	bracketright	],
+			[ brokenbar			]	};
 
-    // End alphanumeric section
+
+    // End alphanumeric section, begin "Keypad"
+    key <KPDL> {	[  KP_Delete,	KP_Separator	]	};
+    // End "Keypad" section
+
 
     // begin modifier mappings
     modifier_map Shift  { Shift_L };
