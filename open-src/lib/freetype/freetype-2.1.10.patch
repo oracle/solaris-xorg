@@ -90,9 +90,8 @@ fixed CR6229445: fc-cache crash
 +         if ( FT_ALLOC( face->style_name, 7 ) )
 +           return error;
 +         ft_strcpy( face->style_name, "Medium" );
-+         face->style_name[7] = '\0';
++         face->style_name[6] = '\0';
 +      }
      }
      else
      {
-
