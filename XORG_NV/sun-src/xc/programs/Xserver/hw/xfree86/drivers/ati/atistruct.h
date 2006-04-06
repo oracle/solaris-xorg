@@ -456,7 +456,6 @@ typedef struct _ATIRec
     CARD8 OptionProbeClocks:1;  /* Force probe for fixed clocks */
     CARD8 OptionShadowFB:1;     /* Use shadow frame buffer */
     CARD8 OptionLCDSync:1;      /* Temporary */
-    CARD8 OptionOffScrnPixmap:1;  /* Off screen pixmap */
 
     /*
      * State flags.

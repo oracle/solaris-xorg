@@ -47,8 +47,7 @@ typedef enum
     ATI_OPTION_CRT_SCREEN,      /* Legacy negation of "PanelDisplay" */
     ATI_OPTION_DEVEL,           /* Intentionally undocumented */
     ATI_OPTION_BLEND,           /* Force horizontal blending of small modes */
-    ATI_OPTION_LCDSYNC,         /* Use XF86Config panel mode porches */
-    ATI_OPTION_OFFSCRN_PIXMAP   /* Enable offscreen pixmap */
+    ATI_OPTION_LCDSYNC          /* Use XF86Config panel mode porches */
 } ATIPrivateOptionType;
 
 /*
@@ -102,13 +101,6 @@ ATIProcessOptions
             {0, },
             FALSE
         },
-	{
-	    ATI_OPTION_OFFSCRN_PIXMAP, /* ON: disable offscreen  pixmap */
-	    "offscreenpixmap",             /* OFF: enable offscreen pixmap */
-	    OPTV_BOOLEAN,
-	    {0, },
-	    FALSE
-	},
         {
             -1,
             NULL,
@@ -160,7 +152,6 @@ ATIProcessOptions
 #   define ShadowFB      PublicOption[ATI_OPTION_SHADOW_FB].value.bool
 #   define SWCursor      PublicOption[ATI_OPTION_SWCURSOR].value.bool
 #   define LCDSync       PrivateOption[ATI_OPTION_LCDSYNC].value.bool
-#   define OffScrnPixmap PrivateOption[ATI_OPTION_OFFSCRN_PIXMAP].value.bool
 
 #   define ReferenceClock \
         PublicOption[ATI_OPTION_REFERENCE_CLOCK].value.freq.freq
@@ -271,7 +262,6 @@ ATIProcessOptions
     pATI->OptionProbeClocks = ProbeClocks;
     pATI->OptionShadowFB = ShadowFB;
     pATI->OptionLCDSync = LCDSync;
-    pATI->OptionOffScrnPixmap = OffScrnPixmap;
 
     /* "CRTScreen" is now "NoPanelDisplay" */
     if ((PanelDisplay != CRTScreen) ||

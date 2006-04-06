@@ -956,10 +956,7 @@ ATIMach64AccelInit
     /* This doesn't seem quite right... */
     if (pATI->XModifier == 1)
     {
-	if (pATI->OptionOffScrnPixmap)
-            pXAAInfo->Flags = PIXMAP_CACHE | OFFSCREEN_PIXMAPS;
-	else
-	    pXAAInfo->Flags = PIXMAP_CACHE;
+        pXAAInfo->Flags = PIXMAP_CACHE ; /* OFFSCREEN_PIXMAPS not set */
 
 #ifndef AVOID_CPIO
 
