@@ -1482,7 +1482,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 
 		    /* Do not validate modes with too high dpi */
 		    h_dpi = dt->h_active/(dt->h_size/25.4);
-		    if (h_dpi < 186) {
+		    if (h_dpi < 148) {
 		    	dt_mode_names[numDtModes++]	= xnfstrdup(name);
 		    	dt_mode_names[numDtModes] = NULL;
 		    }

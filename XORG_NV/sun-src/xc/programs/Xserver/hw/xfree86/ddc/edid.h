@@ -22,6 +22,7 @@
 #define HEADER 6
 
 #define STD_TIMINGS 8
+#define STD_ADD_TIMINGS 6
 #define DET_TIMINGS 4
 
 #ifdef _PARSE_EDID_
