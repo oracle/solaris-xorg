@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.59	05/09/02
+# @(#)Makefile.inc	1.60	06/04/11
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -97,6 +97,9 @@ OW_X11LIB_DIR=$(OW_DIR)/lib/X11
 
 FONT_DIR=$(OW_X11LIB_DIR)/fonts
 TRUETYPE_DIR=$(FONT_DIR)/TrueType
+
+X11_DIR=/usr/X11
+X11_INCLUDES_DIR=$(X11_DIR)/include
 
 ### Default rules
 
@@ -170,6 +173,8 @@ source_gen::
 TARBALLDIR=$(TOP)/tarballs
 WGET=/usr/sfw/bin/wget
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
+
+XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
 
 download:
 	if [ ! -f $(SOURCE_TARBALL) ] ; then \

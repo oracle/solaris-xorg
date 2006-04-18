@@ -1,0 +1,16 @@
+--- Xos.h	Mon Nov  7 22:33:25 2005
++++ Xos.h	Fri Apr  7 11:06:30 2006
+@@ -92,12 +92,9 @@
+ #ifndef X_NOT_STDC_ENV
+ 
+ #include <string.h>
+-#if defined(__SCO__) || defined(__UNIXWARE__)
++#if defined(__SCO__) || defined(__UNIXWARE__) || (defined(sun) && defined(__SVR4))
+ #include <strings.h>
+ #else
+-#if (defined(sun) && defined(__SVR4))
+-#include <strings.h>
+-#endif
+ #ifdef __STDC__
+ #ifndef index
+ #define index(s,c) (strchr((s),(c)))
