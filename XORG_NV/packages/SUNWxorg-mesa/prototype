@@ -29,13 +29,14 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.9	06/02/03 SMI"
+# ident	"@(#)prototype	1.11	06/04/18 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
 !HOME=../usr/X11
 
 i pkginfo
+i preremove
 i depend
 i copyright
 
@@ -120,7 +121,7 @@ f none X11/include/mesa/GLwMDrawA.h 0755 root bin
 f none X11/include/mesa/GLwMDrawAP.h 0755 root bin
 d none X11/include/GL 0755 root bin
 s none X11/include/GL/gl.h=../../../../var/run/opengl/include/gl.h 0755 root bin
-s none X11/include/GL/glext.h=../../../var/run/opengl/include/glxext.h  0755 root bin
+s none X11/include/GL/glext.h=../../../../var/run/opengl/include/glext.h  0755 root bin
 s none X11/include/GL/glu.h=../mesa/glu.h 0755 root bin
 s none X11/include/GL/glx.h=../../../../var/run/opengl/include/glx.h 0755 root bin
 s none X11/include/GL/glxext.h=../../../../var/run/opengl/include/glxext.h 0755 root bin
