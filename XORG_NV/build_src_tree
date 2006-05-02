@@ -31,7 +31,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)build_src_tree 1.8     05/12/22 SMI"
+# ident "@(#)build_src_tree 1.9     06/05/01 SMI"
 #
 # Creates a directory containing links to the source files needed to build
 # the X.org monolithic tree for Solaris.  Source files are linked to the X.org
@@ -203,6 +203,7 @@ for my $p ( @parts ) {
 }
 
 if ($doit) {
+  unlink("$targetbase/.master_srcs");
   system("cp other_masters $targetbase/.master_srcs");
 }
 
