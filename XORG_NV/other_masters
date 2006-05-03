@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "%Z%%M% %I%     %E% SMI"
+# ident "@(#)other_masters 1.2     06/05/12 SMI"
 #
 # Configuration file for build_src_links script
 #
@@ -45,7 +45,8 @@
 # <name>=<value>
 # and referenced as $(<name>) in the source (right) side of link lines
 
-XORG_MASTER=tarball:X11R6.9.0-src.tar.bz2
-
 # X.Org base release
-xc				   		$(XORG_MASTER)
+xc				tarball:X11R6.9.0-src.tar.bz2
+
+# driver updates
+xf86-video-ati-6.5.8.0		tarball:xf86-video-ati-6.5.8.0.tar.bz2
