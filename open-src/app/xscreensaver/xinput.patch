@@ -1,0 +1,464 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Add support for listening to X Input Extension devices to wake up the system
+to support users of the GNOME On-screen Keyboard (GOK) and similar 
+accessibility helpers  (Sun bugid 5077966)
+
+
+diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
+--- driver/Makefile.in	2006-05-10 08:48:46.809952000 -0700
++++ driver/Makefile.in	2006-05-10 08:48:52.404220000 -0700
+@@ -197,7 +197,7 @@ DEMO_OBJS	= prefs.o dpms.o remote.o exec
+ 
+ SAVER_LIBS	= $(LIBS) $(X_LIBS) $(XMU_LIBS) @SAVER_LIBS@ \
+ 		  $(XDPMS_LIBS) $(GL_LIBS) $(X_PRE_LIBS) \
+-		  -lXt -lX11 -lXext $(X_EXTRA_LIBS) \
++		  -lXt -lX11 -lXext -lXi $(X_EXTRA_LIBS) \
+ 		  $(PASSWD_LIBS)
+ 
+ CMD_LIBS	= $(LIBS) $(X_LIBS) \
+diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
+--- driver/XScreenSaver.ad.in	2006-05-10 08:48:46.868803000 -0700
++++ driver/XScreenSaver.ad.in	2006-05-10 08:48:52.397560000 -0700
+@@ -66,6 +66,7 @@
+ *mitSaverExtension:	False
+ *xidleExtension:	True
+ *procInterrupts:	True
++*xinputExtensionDev:	True
+ 
+ ! This is what the "Demo" button on the splash screen runs (/bin/sh syntax.)
+ *demoCommand: xscreensaver-demo
+diff -urp -x '*~' driver/prefs.c driver/prefs.c
+--- driver/prefs.c	2006-05-10 08:48:46.891011000 -0700
++++ driver/prefs.c	2006-05-10 08:48:52.388565000 -0700
+@@ -279,6 +279,7 @@ static const char * const prefs[] = {
+   "mitSaverExtension",
+   "xidleExtension",
+   "procInterrupts",
++  "xinputExtensionDev",
+   "overlayStderr",
+   "overlayTextBackground",	/* not saved -- X resources only */
+   "overlayTextForeground",	/* not saved -- X resources only */
+@@ -810,6 +811,10 @@ write_init_file (saver_preferences *p, c
+       CHECK("mitSaverExtension")type = pref_bool, b=p->use_mit_saver_extension;
+       CHECK("xidleExtension")	type = pref_bool, b = p->use_xidle_extension;
+       CHECK("procInterrupts")	type = pref_bool, b = p->use_proc_interrupts;
++	                        /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++CHECK("xinputExtensionDev") type = pref_bool, b=p->use_xinputdev_extension;
+       CHECK("overlayStderr")	type = pref_bool, b = overlay_stderr_p;
+       CHECK("overlayTextBackground") continue;  /* don't save */
+       CHECK("overlayTextForeground") continue;  /* don't save */
+@@ -1060,6 +1065,11 @@ load_init_file (saver_preferences *p)
+   p->use_sgi_saver_extension = get_boolean_resource ("sgiSaverExtension",
+ 						     "Boolean");
+   p->use_proc_interrupts = get_boolean_resource ("procInterrupts", "Boolean");
++                                  /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++  p->use_xinputdev_extension = 
++	get_boolean_resource ("xinputExtensionDev", "Boolean");
+ 
+   get_screenhacks (p);                /* Parse the "programs" resource. */
+ 
+diff -urp -x '*~' driver/prefs.h driver/prefs.h
+--- driver/prefs.h	2006-05-10 08:48:46.902760000 -0700
++++ driver/prefs.h	2006-05-10 08:48:52.389118000 -0700
+@@ -91,6 +91,10 @@ struct saver_preferences {
+   Bool use_mit_saver_extension;
+   Bool use_sgi_saver_extension;
+   Bool use_proc_interrupts;
++  				/* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++				*/
++  Bool use_xinputdev_extension;
+ 
+   char *shell;			/* where to find /bin/sh */
+ 
+diff -urp -x '*~' driver/timers.c driver/timers.c
+--- driver/timers.c	2006-05-10 08:48:46.849018000 -0700
++++ driver/timers.c	2006-05-10 08:48:52.407651000 -0700
+@@ -60,6 +60,12 @@ extern void unblank_screen (saver_info *
+ extern Bool Ignore_SmartCard;
+ #endif /* HAVE_SCF_SMARTCARD */
+ 
++                                /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++extern int valuator_type, press_type, release_type;
++
++
+ void
+ idle_timer (XtPointer closure, XtIntervalId *id)
+ {
+@@ -609,10 +615,14 @@ sleep_until_idle (saver_info *si, Bool u
+      and query the server with that extension.  For our purposes, polling
+      /proc/interrupts is just like polling the mouse position.  It has to
+      happen on the same kind of schedule. */
++/*CR 5077966 P1 "password prompt cant be directly activated by GOK device
++*/
++
+   Bool polling_mouse_position = (si->using_proc_interrupts ||
+                                  !(si->using_xidle_extension ||
+                                    si->using_mit_saver_extension ||
+-                                   si->using_sgi_saver_extension));
++                                   si->using_sgi_saver_extension) ||
++				   si->using_xinputdev_extension);
+ 
+ #ifdef HAVE_SCF_SMARTCARD
+   static Bool display_required = False;
+@@ -1000,6 +1010,49 @@ sleep_until_idle (saver_info *si, Bool u
+ 	  }
+ 	else
+ #endif /* HAVE_SGI_SAVER_EXTENSION */
++                                /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++/*
++CR6200441(P1)Fix for bug #5077966 breaks 2nd mouse working with GOK
++	it causes flashing screen as GOK geneerates a lot of 
++	XInputExtension dev XEvents
++	it needs to check only when the screen is locked
++*/
++
++       if ((!until_idle_p) &&  (event.type == valuator_type ||
++		event.type == press_type ||
++		event.type == release_type ))
++       {
++/* for debug only
++
++        if (si->locking_disabled_p)
++	  fprintf (stderr, "BUG ext event locking_disabled_p  is true\n");
++	else
++	  fprintf (stderr, "BUG ext event locking_disabled_p is false\n");
++        if (si->locked_p)
++	  fprintf (stderr, "BUG ext event locked_p  is true\n");
++	else
++	  fprintf (stderr, "BUG ext event locked_p  is false\n");
++        if (p->lock_p)
++	  fprintf (stderr, "BUG ext event lock_p  is true\n");
++	else
++	  fprintf (stderr, "BUG ext event lock_p  is false\n");
++*/
++	dispatch_event (si, &event);
++	if (si->demoing_p &&
++		event.type == valuator_type ||
++		event.type == release_type )
++              /* When we're demoing a single hack, mouse motion doesn't
++                 cause deactivation.  Only clicks and keypresses do. */
++		;
++   	else
++              /* If we're not demoing, then any activity causes deactivation.
++               */
++		goto DONE;
++        } /* ext dev */
++
++       else
+ 
+           /* Just some random event.  Let the Widgets handle it, if desired. */
+ 	  dispatch_event (si, &event);
+diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
+--- driver/xscreensaver.c	2006-05-10 08:48:46.850383000 -0700
++++ driver/xscreensaver.c	2006-05-10 08:48:52.422327000 -0700
+@@ -820,12 +820,18 @@ initialize_server_extensions (saver_info
+   Bool server_has_mit_saver_extension_p = False;
+   Bool system_has_proc_interrupts_p = False;
+   const char *piwhy = 0;
++                                /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++  Bool server_has_xinputdev_extension_p = False;
+ 
+   si->using_xidle_extension = p->use_xidle_extension;
+   si->using_sgi_saver_extension = p->use_sgi_saver_extension;
+   si->using_mit_saver_extension = p->use_mit_saver_extension;
+   si->using_proc_interrupts = p->use_proc_interrupts;
+ 
++  si->using_xinputdev_extension = p->use_xinputdev_extension;
++
+ #ifdef HAVE_XIDLE_EXTENSION
+   server_has_xidle_extension_p = query_xidle_extension (si);
+ #endif
+@@ -838,6 +844,10 @@ initialize_server_extensions (saver_info
+ #ifdef HAVE_PROC_INTERRUPTS
+   system_has_proc_interrupts_p = query_proc_interrupts_available (si, &piwhy);
+ #endif
++                                /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++  server_has_xinputdev_extension_p = query_xinputdev_extension (si);
+ 
+   if (!server_has_xidle_extension_p)
+     si->using_xidle_extension = False;
+@@ -874,6 +884,22 @@ initialize_server_extensions (saver_info
+ 		 blurb());
+     }
+ 
++                                /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++  if (!server_has_xinputdev_extension_p)
++    si->using_xinputdev_extension = False;
++  else if (p->verbose_p)
++    {
++      if (si->using_xinputdev_extension)
++        fprintf (stderr, "%s: using XInputExtension device.\n",
++                 blurb());
++      else
++        fprintf (stderr,
++                 "%s: not using XInputExtension device.\n",
++                 blurb());
++    }
++
+   if (!system_has_proc_interrupts_p)
+     {
+       si->using_proc_interrupts = False;
+@@ -1964,6 +1990,8 @@ analyze_display (saver_info *si)
+ #     endif
+    }, { "XINERAMA",                             "Xinerama",
+         True
++   }, { "XInputExtension",                             "XInputExtension",
++        True
+    },
+   };
+ 
+diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
+--- driver/xscreensaver.h	2006-05-10 08:48:46.850991000 -0700
++++ driver/xscreensaver.h	2006-05-10 08:48:52.404876000 -0700
+@@ -80,6 +80,12 @@ struct saver_info {
+   int sgi_saver_ext_event_number;
+   int sgi_saver_ext_error_number;
+ # endif
++                                 /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++  Bool using_xinputdev_extension;  /* Note that `p->use_*' is the *request*, */
++  int xinputdev_ext_event_number; 	/*may not be used */
++  int xinputdev_ext_error_number;
+ 
+ 
+   /* =======================================================================
+@@ -305,6 +311,10 @@ extern Bool query_xidle_extension (saver
+ #ifdef HAVE_PROC_INTERRUPTS
+ extern Bool query_proc_interrupts_available (saver_info *, const char **why);
+ #endif
++                                 /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++extern Bool query_xinputdev_extension (saver_info *);
+ 
+ /* Display Power Management System (DPMS) interface. */
+ extern Bool monitor_powered_on_p (saver_info *si);
+diff -urp -x '*~' driver/xset.c driver/xset.c
+--- driver/xset.c	2006-05-10 08:48:46.708383000 -0700
++++ driver/xset.c	2006-05-10 08:48:52.421037000 -0700
+@@ -34,6 +34,22 @@
+ #ifdef _VROOT_H_
+ ERROR!  You must not include vroot.h in this file.
+ #endif
++			/* XInputExtension dev support */
++#include <X11/extensions/XInput.h>
++
++/* Xinput protocol allows for 129 devices (unique id's in range 0-128),
++   but Xsun supports a max of 9, and Xorg a max of 20, so this should be
++   enough for now.   We only care about 3 event types per device
++   (DeviceButtonPress, DeviceButtonRelease, and DeviceMotionNotify), hence
++   the * 3 for the event count.
++*/
++#define MAX_XI_DEVICES  24
++#define MAX_XI_EVENTS	(MAX_XI_DEVICES * 3)
++static XDevice *xdevice[MAX_XI_DEVICES];
++
++static int extdev_count = 0;
++
++int valuator_type = 0, press_type = 0, release_type = 0;
+ 
+ 
+ /* MIT SCREEN-SAVER server extension hackery.
+@@ -94,6 +110,141 @@ init_mit_saver_extension (saver_info *si
+ }
+ #endif /* HAVE_MIT_SAVER_EXTENSION */
+ 
++/* 
++Adding XInputExtension dev support (5077966)
++*/
++
++
++#include <X11/extensions/XInput.h>
++
++Bool
++query_xinputdev_extension (saver_info *si)
++{
++ XExtCodes codes;
++
++ if (si->prefs.verbose_p)
++   fprintf (stderr, "-->query_xinputdev_extension()\n");
++
++ if (!XQueryExtension (si->dpy, INAME, &codes.major_opcode, &codes.first_event,
++				&codes.first_error))
++  {
++    if (si->prefs.verbose_p)
++      fprintf (stderr, "\t XInputExtension is not present!\n");
++    return (False);
++  }
++ else
++  {
++    if (si->prefs.verbose_p)
++      fprintf (stderr, "\t XInputExtension is present!\n");
++    return (True);
++  }
++}
++
++static void
++init_xinputdev_extension (saver_info *si)
++{
++  int i,loop,ndevices;
++  int xid = -1;
++  int class;
++  int nkeys, nvaluators, nbuttons;
++  XAnyClassPtr pClass;
++  XDeviceInfo *list = NULL;
++  int nevents = 0;
++  XEventClass event_list[MAX_XI_EVENTS];
++
++
++  list = XListInputDevices (si->dpy, &ndevices);
++
++  bzero(xdevice, MAX_XI_DEVICES * sizeof(XDevice));
++  bzero(event_list, MAX_XI_EVENTS * sizeof(XEventClass));
++  extdev_count = 0;
++  
++  for (loop = 0; (loop < ndevices) && (extdev_count < MAX_XI_DEVICES); loop++)
++    {
++
++
++      if(list[loop].use == IsXExtensionDevice)
++
++	{
++	  if (si->prefs.debug_p)
++	    fprintf(stderr,
++		    "Device count %2d: XID=%2d  type=%3d  name=\"%s\"\n",
++		    loop, list[loop].id, list[loop].type, list[loop].name);
++
++	  xid = list[loop].id;
++	  xdevice[extdev_count] = XOpenDevice (si->dpy, xid);
++	  /* it needs to check , xid might be -1 */
++
++	  pClass = list[loop].inputclassinfo;
++	  nbuttons = 0;
++	  nvaluators = 0;
++	  for (class = 0; class < list[loop].num_classes; class++)
++	    {
++	      switch (pClass->class)
++		{
++		case KeyClass:
++		  break;
++		case ButtonClass:
++		  nbuttons = ((XButtonInfo *) pClass)->num_buttons;
++		  if (nbuttons && ((nevents + 1) < MAX_XI_EVENTS))
++		    {
++		      DeviceButtonPress (xdevice[extdev_count],
++					 press_type, event_list[nevents]);
++		      nevents++;
++		      DeviceButtonRelease (xdevice[extdev_count],
++					   release_type, event_list[nevents]);
++		      nevents++;
++		    }
++		  break;
++		case ValuatorClass:
++		  nvaluators = ((XValuatorInfo *) pClass)->num_axes;
++		  if (nvaluators && (nevents < MAX_XI_EVENTS))
++		    {
++		      DeviceMotionNotify (xdevice[extdev_count],
++					  valuator_type, event_list[nevents]);
++		      nevents++;
++		    }
++		  
++		  break;
++		default:
++		  fprintf (stderr," Class %d is unknown class %d.\n", class, pClass->class);
++		  break;
++		}
++	      
++	      pClass = (XAnyClassPtr) & ((char *) pClass)[pClass->length];
++	    }
++
++	  extdev_count++;
++	  
++	}
++      
++    }
++
++  if (list)
++    XFreeDeviceList (list);
++
++  for (i = 0; i < si->nscreens; i++)
++    {
++      saver_screen_info *ssi = &si->screens[i];
++      Window root = RootWindowOfScreen (ssi->screen);
++      XSelectExtensionEvent(si->dpy, root, event_list, nevents);
++    }
++}
++
++#if 0
++/* not used */
++
++static void
++close_xinputdev_extension (saver_info *si)
++{
++  int i;
++
++  for (i = 0; i < extdev_count; i++)
++        XCloseDevice (si->dpy, xdevice[i]);
++}
++#endif
++
++
+ 
+ /* SGI SCREEN_SAVER server extension hackery.
+  */
+@@ -252,6 +403,15 @@ disable_builtin_screensaver (saver_info 
+ # ifdef HAVE_SGI_SAVER_EXTENSION
+ 	if (si->using_sgi_saver_extension) init_sgi_saver_extension(si);
+ # endif
++/* since HAVE_MIT_SAVER_EXTENSION is configured on all 3 Sun platforms
++   it is safe to add the XInputExtension dev suppport here
++*/
++                                /* Adding XInputExtension Dev support
++#5077966 P1 "password prompt cant be directly activated by GOK device"
++                                */
++	if (si->using_xinputdev_extension) init_xinputdev_extension(si);
++
++
+       }
+   }
+ #endif /* HAVE_MIT_SAVER_EXTENSION || HAVE_SGI_SAVER_EXTENSION */

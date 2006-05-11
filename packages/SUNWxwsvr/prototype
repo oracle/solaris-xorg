@@ -1,0 +1,76 @@
+#	Copyright 2003 Sun Microsystems, Inc.  All Rights Reserved
+#	Use is subject to license terms
+#
+#	@(#)prototype	1.7	04/07/01 Sun Microsystems, Inc.
+
+i pkginfo
+i copyright
+i depend 
+
+# Many of the search paths in this file look strange due to the weird
+# Xscreensaver install process
+
+!HOME=../openwin
+
+!search      $HOME/bin
+d none bin 0755 root bin
+f none bin/screensaver-properties-capplet 0755 root bin
+
+!search      $HOME/bin
+d none openwin 0755 root bin
+d none openwin/bin 0755 root bin
+f none openwin/bin/xscreensaver 4755 root bin
+f none openwin/bin/xscreensaver-command 0755 root bin
+f none openwin/bin/xscreensaver-demo 0755 root bin
+
+d none openwin/lib 0755 root bin
+d none openwin/lib/xscreensaver 0755 root bin
+d none openwin/lib/xscreensaver/bin 0755 root bin
+!search      $HOME/lib/xscreensaver/bin
+f none openwin/lib/xscreensaver/bin/xscreensaver-lock 0555 root bin
+!search      $HOME/bin
+f none openwin/lib/xscreensaver/bin/xscreensaver-getimage 0555 root bin
+f none openwin/lib/xscreensaver/bin/xscreensaver-getimage-file 0555 root bin 
+f none openwin/lib/xscreensaver/bin/xscreensaver-getimage-video 0555 root bin
+
+!search $HOME/share/man/man1
+1 s none openwin/man=./share/man
+1 d none openwin/share 0755 root bin
+1 d none openwin/share/man 0755 root bin
+d none openwin/share/man/man1 0755 root bin
+f none openwin/share/man/man1/xscreensaver-command.1 0444 root bin
+f none openwin/share/man/man1/xscreensaver-demo.1 0444 root bin 
+f none openwin/share/man/man1/xscreensaver-getimage-file.1 0444 root bin
+f none openwin/share/man/man1/xscreensaver-getimage-video.1 0444 root bin 
+f none openwin/share/man/man1/xscreensaver-getimage.1 0444 root bin
+f none openwin/share/man/man1/xscreensaver.1 0444 root bin
+
+!search      $HOME/lib/X11/app-defaults
+d none openwin/lib/app-defaults 0755 root bin
+f none openwin/lib/app-defaults/XScreenSaver 0444 root bin
+
+!search      $HOME/lib/xscreensaver/config/applications
+d none share 0755 root sys
+d none share/applications 0755 root other 
+f none share/applications/screensaver-properties.desktop 0444 root bin
+
+d none share/gnome 0755 root other
+d none share/gnome/control-center-2.0 0755 root other
+!search      $HOME/share/control-center-2.0/capplets
+d none share/gnome/control-center-2.0/capplets 0755 root other
+s none share/gnome/control-center-2.0/capplets/screensaver-properties.desktop=../../../applications/screensaver-properties.desktop
+
+!search      $HOME/lib/xscreensaver/config/control-center-2.0/
+d none openwin/lib/xscreensaver/config 0755 root bin
+d none openwin/lib/xscreensaver/config/control-center-2.0 0755 root other
+f none openwin/lib/xscreensaver/config/control-center-2.0/README 0444 root bin
+
+!search      $HOME/lib/xscreensaver/config
+f none openwin/lib/xscreensaver/config/screensaver-cmndln.xpm 0444 root bin
+f none openwin/lib/xscreensaver/config/screensaver-colorselector.xpm 0444 root bin
+f none openwin/lib/xscreensaver/config/screensaver-diagnostic.xpm 0444 root bin
+f none openwin/lib/xscreensaver/config/screensaver-locking.xpm 0444 root bin
+f none openwin/lib/xscreensaver/config/screensaver-power.xpm 0444 root bin
+f none openwin/lib/xscreensaver/config/screensaver-snap.xpm 0444 root bin
+f none openwin/lib/xscreensaver/config/xscreensaver-demo.glade2 0444 root bin
+f none openwin/lib/xscreensaver/config/xscreensaver.xpm 0444 root bin

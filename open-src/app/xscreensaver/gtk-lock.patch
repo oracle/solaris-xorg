@@ -1,0 +1,2999 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Solaris uses the gtk unlock dialog program originally written by 
+Ximian & Wipro, in order to provide a dialog box that works with
+the GNOME accessibility framework.   This was done as a fork of
+the original xscreensaver because the maintainer would not allow
+use of a toolkit in the lock dialog - he has since softened his
+stance a bit, but this has not been presented to him to see if it
+meets his requirements as spelled out at:
+	http://www.jwz.org/xscreensaver/toolkits.html
+
+This file contains changes to the existing xscreensaver source to
+enable that - the lock dialog itself is contained in the separate
+file sun-src/driver/lock-Gtk.c.
+
+This file also contains changes to make the pam code in xscreensaver
+act more like a correct pam client, allowing different interaction
+models than just a single password for authentication.
+
+diff -urp -x '*~' config.h.in config.h.in
+--- config.h.in	2002-05-28 17:44:37.000000000 -0700
++++ config.h.in	2006-05-10 08:48:29.922847000 -0700
+@@ -147,6 +147,10 @@
+  */
+ #undef HAVE_GTK2
+ 
++/*  Define this to build the external lock dialog
++ */
++#undef HAVE_XSCREENSAVER_LOCK
++
+ /*  Define this if you have Gnome and want to build support for the 
+     xscreensaver control panel in the Gnome Control Center (gnomecc).
+     (This is needed only with Gtk 1.x.)
+diff -urp -x '*~' configure.in configure.in
+--- configure.in	2006-05-10 08:48:24.125209000 -0700
++++ configure.in	2006-05-10 08:48:29.922219000 -0700
+@@ -1462,7 +1462,7 @@ if test "$enable_locking" = yes -a "$wit
+   if test "$ac_cv_pam" = yes ; then
+     have_pam=yes
+     AC_DEFINE(HAVE_PAM)
+-    PASSWD_LIBS="${PASSWD_LIBS} -lpam"
++    PASSWD_LIBS="${PASSWD_LIBS} -lcmd -lpam"
+ 
+     # libpam typically requires dlopen and dlsym.  On FreeBSD,
+     # those are in libc.  On Linux and Solaris, they're in libdl.
+@@ -1943,11 +1943,16 @@ if test "$with_gtk" = yes; then
+     pkg_check_version  gmodule-2.0  2.0.0
+     pkg_check_version   libxml-2.0  2.4.6
+     pkg_check_version libglade-2.0  1.99.0
++    pkg_check_version    gconf-2.0  2.6.1
++    pkg_check_version libloginhelper-1.0 1.0
+     have_gtk="$ok"
+ 
+     if test "$have_gtk" = yes; then
+       have_gtk2=yes
+       AC_DEFINE(HAVE_GTK2)
++#--- Begin SUNW addition
++      AC_DEFINE(HAVE_XSCREENSAVER_LOCK)
++#--- End SUNW addition
+     else
+       if test -n "$ac_gtk_version_string" ; then
+         gtk2_halfassed="$ac_gtk_version_string"
+@@ -3256,6 +3261,28 @@ if test "$have_gtk" = yes; then
+   ALL_DEMO_PROGRAMS="$PREFERRED_DEMO_PROGRAM $ALL_DEMO_PROGRAMS"
+ fi
+ 
++#--- Begin SUNW addition
++PREFERRED_LOCK_PROGRAM=
++ALL_LOCK_PROGRAMS=
++LOCK_PROGRAM=
++if test "$have_gtk2" = yes; then
++  PREFERRED_LOCK_PROGRAM=xscreensaver-lock-Gtk
++  ALL_LOCK_PROGRAMS="$PREFERRED_LOCK_PROGRAM $ALL_LOCK_PROGRAMS"
++  LOCK_PROGRAM=xscreensaver-lock
++fi
++
++if test -r driver/sunlogo.xpm ; then
++	XPM_LOGO_FILE=sunlogo.xpm
++	XPM_LOGO_NAME=sunlogo_xpm
++else
++	XPM_LOGO_FILE=../utils/images/logo-180.xpm
++	XPM_LOGO_NAME=logo_180_xpm
++fi
++
++AC_SUBST([XPM_LOGO_FILE])
++AC_SUBST([XPM_LOGO_NAME])
++
++#--- End SUNW addition
+ 
+ if test "$have_kerberos" = yes; then
+   PASSWD_SRCS="$PASSWD_SRCS \$(KERBEROS_SRCS)"
+@@ -3387,6 +3414,11 @@ AC_SUBST(INCLUDES)
+ 
+ AC_SUBST(PREFERRED_DEMO_PROGRAM)
+ AC_SUBST(ALL_DEMO_PROGRAMS)
++#--- Begin SUNW addition
++AC_SUBST(PREFERRED_LOCK_PROGRAM)
++AC_SUBST(ALL_LOCK_PROGRAMS)
++AC_SUBST(LOCK_PROGRAM)
++#--- End SUNW addition
+ AC_SUBST(SAVER_LIBS)
+ AC_SUBST(MOTIF_LIBS)
+ AC_SUBST(GTK_LIBS)
+@@ -3855,7 +3887,8 @@ HACK_CONF_DIR=`echo "${HACK_CONF_DIR}" |
+ 
+ 
+ # Sanity check the hackdir
+-for bad_choice in xscreensaver xscreensaver-demo xscreensaver-command ; do
++# SUNW addition: added xscreensaver-lock to list on next line
++for bad_choice in xscreensaver xscreensaver-demo xscreensaver-command xscreensaver-lock ; do
+   if test "${HACKDIR}" = "${bindir}/${bad_choice}" ; then
+     echo ""
+     AC_MSG_ERROR([\"--with-hackdir=${bindir}/${bad_choice}\" won't work.
+diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
+--- driver/Makefile.in	2002-06-11 02:09:07.000000000 -0700
++++ driver/Makefile.in	2006-05-10 08:48:29.938067000 -0700
+@@ -14,6 +14,7 @@ install_prefix	=
+ prefix		= @prefix@
+ exec_prefix	= @exec_prefix@
+ bindir		= @bindir@
++libexecdir	= @libexecdir@
+ mandir		= @mandir@
+ man1dir		= $(mandir)/man1
+ mansuffix	= 1
+@@ -30,6 +31,7 @@ GNOME_PANELDIR	= @GNOME_PANELDIR@
+ GLADE_DATADIR	= @GLADE_DATADIR@
+ GNOME_BINDIR	= $(bindir)
+ HACK_CONF_DIR	= @HACK_CONF_DIR@
++LOCK_DIR	= $(libexecdir)
+ 
+ CC		= @CC@
+ CFLAGS		= @CFLAGS@
+@@ -39,6 +41,7 @@ INTL_DEFS	= -DLOCALEDIR=\"$(localedir)\"
+ SUBP_DEFS	= $(DEFS) -DDEFAULT_PATH_PREFIX='"@HACKDIR@"'
+ GTK_DEFS	= $(DEFS) -DDEFAULT_ICONDIR='"$(GLADE_DATADIR)"'
+ CONF_DEFS	= -DHACK_CONFIGURATION_PATH='"$(HACK_CONF_DIR)"'
++LOCK_DEFS	= $(DEFS) -DLOCKDIR=\"$(LOCK_DIR)\"
+ 
+ LIBS		= @LIBS@
+ INTL_LIBS	= @INTLLIBS@
+@@ -95,6 +98,8 @@ GTK_SRCS	= demo-Gtk.c demo-Gtk-conf.c \
+ 		  demo-Gtk-widgets.c demo-Gtk-support.c
+ GTK_EXTRA_OBJS  = demo-Gtk-widgets.o demo-Gtk-support.o
+ GTK_OBJS	= demo-Gtk.o demo-Gtk-conf.o @GTK_EXTRA_OBJS@
++GTK_LOCK_SRCS	= lock-Gtk.c remote.c
++GTK_LOCK_OBJS	= lock-Gtk.o remote.o
+ 
+ PWENT_SRCS	= passwd-pwent.c
+ PWENT_OBJS	= passwd-pwent.o
+@@ -199,8 +204,8 @@ GETIMG_LIBS	= $(LIBS) $(X_LIBS) $(XPM_LI
+ 		  $(X_PRE_LIBS) -lXt -lX11 $(XMU_LIBS) -lXext $(X_EXTRA_LIBS)
+ 
+ EXES		= xscreensaver xscreensaver-command xscreensaver-demo \
+-		  xscreensaver-getimage
+-EXES2		= @ALL_DEMO_PROGRAMS@
++		  xscreensaver-getimage @LOCK_PROGRAM@
++EXES2		= @ALL_DEMO_PROGRAMS@ @ALL_LOCK_PROGRAMS@
+ SCRIPTS		= xscreensaver-getimage-file xscreensaver-getimage-video
+ 
+ HDRS		= XScreenSaver_ad.h xscreensaver.h prefs.h remote.h \
+@@ -222,7 +227,7 @@ VMSFILES	= compile_axp.com compile_decc.
+ 		  vms_axp.opt vms_axp_12.opt vms_decc.opt vms_decc_12.opt
+ 
+ TARFILES	= $(EXTRAS) $(VMSFILES) $(SAVER_SRCS_1) \
+-		  $(MOTIF_SRCS) $(GTK_SRCS) $(PWENT_SRCS) \
++		  $(MOTIF_SRCS) $(GTK_SRCS) $(GTK_LOCK_SRCS) $(PWENT_SRCS) \
+ 		  $(KERBEROS_SRCS) $(PAM_SRCS) $(LOCK_SRCS_1) $(DEMO_SRCS_1) \
+ 		  $(CMD_SRCS) $(GETIMG_SRCS_1) $(HDRS) $(SCRIPTS) \
+ 		  $(TEST_SRCS) $(MEN)
+@@ -245,6 +250,9 @@ install-program: $(EXES)
+ 	@if [ ! -d $(install_prefix)$(bindir) ]; then			\
+ 	  $(INSTALL_DIRS) $(install_prefix)$(bindir) ;			\
+ 	 fi
++	@if [ -n "@LOCK_PROGRAM@" -a ! -d $(install_prefix)$(LOCK_DIR) ]; then \
++	  $(INSTALL_DIRS) $(install_prefix)$(LOCK_DIR) ; 		\
++	 fi
+ 	@inst="$(INSTALL_PROGRAM)" ;					\
+ 	if [ @NEED_SETUID@ = yes ]; then				\
+ 	   me=`PATH="$$PATH:/usr/ucb" whoami` ;				\
+@@ -280,6 +288,12 @@ install-program: $(EXES)
+ 	  $(install_prefix)$(bindir)/xscreensaver-getimage ; \
+ 	$(INSTALL_PROGRAM) xscreensaver-getimage \
+ 	  $(install_prefix)$(bindir)/xscreensaver-getimage
++	@if [ -n "@LOCK_PROGRAM@" ]; then				     \
++	  echo $(INSTALL_PROGRAM) xscreensaver-lock \
++	    $(install_prefix)$(LOCK_DIR)/xscreensaver-lock ; \
++	   $(INSTALL_PROGRAM) xscreensaver-lock \
++	    $(install_prefix)$(LOCK_DIR)/xscreensaver-lock ; \
++	fi
+ 
+ install-ad: XScreenSaver.ad
+ 	@if [ ! -d $(install_prefix)$(AD_DIR) ]; then			      \
+@@ -767,13 +781,18 @@ $(SAVER_UTIL_OBJS):
+ 
+ # How we build object files in this directory.
+ .c.o:
+-	$(CC) -c $(INCLUDES) $(DEFS)  $(CFLAGS) $(X_CFLAGS) $<
++	$(CC) -c $(INCLUDES) $(DEFS) $(INTL_DEFS) $(CFLAGS) $(X_CFLAGS) $<
+ 
+ # subprocs takes an extra -D option.
+ subprocs.o: subprocs.c
+ 	$(CC) -c $(INCLUDES) $(SUBP_DEFS) $(CFLAGS) $(X_CFLAGS) \
+ 	  $(srcdir)/subprocs.c
+ 
++# lock takes an extra -D option.
++lock.o:
++	$(CC) -c $(INCLUDES) $(LOCK_DEFS) $(CFLAGS) $(X_CFLAGS) \
++	  $(srcdir)/lock.c
++
+ # demo-Gtk takes extra -D options, and an extra -I option.
+ demo-Gtk.o: demo-Gtk.c
+ 	$(CC) -c $(INCLUDES) $(SUBP_DEFS) -I$(ICON_SRC) \
+@@ -785,6 +804,14 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
+ 	$(CC) -c $(INCLUDES) $(CONF_DEFS) $(GTK_DEFS) $(CFLAGS) $(X_CFLAGS) \
+ 	  $(srcdir)/demo-Gtk-conf.c
+ 
++# lock-Gtk takes extra -D and -I options.
++GTK_LOCK_LOGO_DEFS=-DXPM_LOGO_FILE=\"@XPM_LOGO_FILE@\" \
++		  -DXPM_LOGO_NAME=@XPM_LOGO_NAME@
++
++lock-Gtk.o: lock-Gtk.c
++	$(CC) -c $(INCLUDES) -I$(ICON_SRC) $(GTK_DEFS) \
++	  $(CFLAGS) $(X_CFLAGS) $(INTL_DEFS) $(GTK_LOCK_LOGO_DEFS) \
++	  $(srcdir)/lock-Gtk.c
+ 
+ # How we build the default app-defaults file into the program.
+ #
+@@ -806,6 +833,15 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
+ 	cp -p @PREFERRED_DEMO_PROGRAM@@EXEEXT@ $@@EXEEXT@
+ #	$(INSTALL_PROGRAM) @PREFERRED_DEMO_PROGRAM@ $@
+ 
++xscreensaver-lock: @PREFERRED_LOCK_PROGRAM@
++	$(INSTALL_PROGRAM) @PREFERRED_LOCK_PROGRAM@ $@
++
++xscreensaver-lock-Gtk: $(GTK_LOCK_OBJS)
++	$(CC) $(LDFLAGS) -o $@ $(GTK_LOCK_OBJS) $(LIBS) $(X_LIBS) \
++	$(GTK_LIBS) $(XML_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
++	$(XDPMS_LIBS) -lXext \
++	$(X_EXTRA_LIBS)
++
+ xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOTIF_OBJS)
+ 	$(CC) $(LDFLAGS) -o $@ $(DEMO_OBJS) $(MOTIF_OBJS) $(LIBS) $(X_LIBS) \
+ 	$(MOTIF_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
+@@ -821,7 +857,7 @@ xscreensaver-getimage: $(GETIMG_OBJS)
+ 
+ 
+ TEST_PASSWD_OBJS = test-passwd.o $(LOCK_OBJS_1) $(PASSWD_OBJS) \
+-	 subprocs.o setuid.o splash.o prefs.o \
++	 subprocs.o setuid.o splash.o prefs.o exec.o stderr.o \
+ 	$(SAVER_UTIL_OBJS)
+ test-passwd.o: XScreenSaver_ad.h
+ 
+diff -urp -x '*~' driver/dpms.c driver/dpms.c
+--- driver/dpms.c	2001-03-22 10:10:53.000000000 -0800
++++ driver/dpms.c	2006-05-10 08:48:29.971953000 -0700
+@@ -16,6 +16,7 @@
+ 
+ #include <stdio.h>
+ #include <X11/Xlib.h>
++# include <X11/Intrinsic.h>
+ 
+ #ifdef HAVE_DPMS_EXTENSION
+ 
+diff -urp -x '*~' driver/lock.c driver/lock.c
+--- driver/lock.c	2002-03-05 18:15:03.000000000 -0800
++++ driver/lock.c	2006-05-10 08:48:29.981598000 -0700
+@@ -21,6 +21,8 @@
+ #include <X11/Xos.h>		/* for time() */
+ #include <time.h>
+ #include <sys/time.h>
++#include <errno.h>
++#include <signal.h>
+ #include "xscreensaver.h"
+ #include "resources.h"
+ 
+@@ -68,281 +70,428 @@ vms_passwd_valid_p(char *pw, Bool verbos
+ # define passwd_valid_p vms_passwd_valid_p
+ 
+ #endif /* VMS */
++ 
++extern void await_dying_children (saver_info *si);
++void hack_uid (saver_info *si);
+ 
++Bool g_passwd_dialog_created = 0;
+ 
+ #undef MAX
+ #define MAX(a,b) ((a)>(b)?(a):(b))
+ 
+ enum passwd_state { pw_read, pw_ok, pw_null, pw_fail, pw_cancel, pw_time };
+ 
+-struct passwd_dialog_data {
+ 
+-  saver_screen_info *prompt_screen;
+-  int previous_mouse_x, previous_mouse_y;
+ 
+-  enum passwd_state state;
+-  char typed_passwd [80];
+-  XtIntervalId timer;
+-  int i_beam;
+-
+-  float ratio;
+-  Position x, y;
+-  Dimension width;
+-  Dimension height;
+-  Dimension border_width;
+-
+-  char *heading_label;
+-  char *body_label;
+-  char *user_label;
+-  char *passwd_label;
+-  char *date_label;
+-  char *user_string;
+-  char *passwd_string;
+-
+-  XFontStruct *heading_font;
+-  XFontStruct *body_font;
+-  XFontStruct *label_font;
+-  XFontStruct *passwd_font;
+-  XFontStruct *date_font;
+-
+-  Pixel foreground;
+-  Pixel background;
+-  Pixel passwd_foreground;
+-  Pixel passwd_background;
+-  Pixel thermo_foreground;
+-  Pixel thermo_background;
+-  Pixel shadow_top;
+-  Pixel shadow_bottom;
+-
+-  Dimension logo_width;
+-  Dimension logo_height;
+-  Dimension thermo_width;
+-  Dimension internal_border;
+-  Dimension shadow_width;
+-
+-  Dimension passwd_field_x, passwd_field_y;
+-  Dimension passwd_field_width, passwd_field_height;
+-
+-  Dimension thermo_field_x, thermo_field_y;
+-  Dimension thermo_field_height;
+-
+-  Pixmap logo_pixmap;
+-  int logo_npixels;
+-  unsigned long *logo_pixels;
+ 
+-  Pixmap save_under;
+-};
+ 
++
++
++
++
++
++static void make_window (saver_info *si, enum window_type w_type);
+ static void draw_passwd_window (saver_info *si);
+-static void update_passwd_window (saver_info *si, const char *printed_passwd,
++void update_passwd_window (saver_info *si, const char *printed_passwd,
+ 				  float ratio);
+-static void destroy_passwd_window (saver_info *si);
++void destroy_passwd_window (saver_info *si);
+ static void undo_vp_motion (saver_info *si);
+ 
++extern Atom XA_UNLOCK_RATIO;
+ 
+-static void
++#if defined (HAVE_XF86VMODE) || defined (HAVE_XSCREENSAVER_LOCK)
++static Bool vp_got_error = False;
++
++static int
++ignore_all_errors_ehandler (Display *dpy, XErrorEvent *error)
++{
++  vp_got_error = True;
++  return 0;
++}
++#endif /* defined (HAVE_XF86VMODE) || defined (HAVE_XSCREENSAVER_LOCK) */
++
++#ifdef HAVE_XSCREENSAVER_LOCK
++
++int
++write_to_child (saver_info* si, char* msg)
++{
++      if (si->external_passwd && g_passwd_dialog_created && si->pw_data->stdin_fd != -1)
++	{
++	  ssize_t len;
++	  char *nlmsg;
++
++	  nlmsg = (char *)malloc (strlen (msg) + 2);
++	  sprintf (nlmsg, "%s\n", msg);
++
++	  if (si->prefs.verbose_p)
++	    {
++              fprintf (stderr, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
++              fprintf (stderr, "HAVE_SCRSVR_LOCK message is:%s writing to fd:%d\n",
++	                 	   msg, si->pw_data->stdin_fd);
++              fprintf (stderr, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
++	    }
++
++	write_msg:
++	  len = write (si->pw_data->stdin_fd, nlmsg, strlen (nlmsg));
++	  if (len < 0 && errno == EINTR)
++	    goto write_msg;
++
++	  free (nlmsg);	  
++          return (1);
++	}
++      return (0); /* if we didnt write anything return 0*/
++}
++
++static int
++sane_dup2 (int fd1, int fd2)
++{
++  int ret;
++
++ retry:
++  ret = dup2 (fd1, fd2);
++  if (ret < 0 && errno == EINTR)
++    goto retry;
++
++  return ret;
++}
++
++static int
++close_and_invalidate (int *fd)
++{
++  int ret;
++
++  ret = close (*fd);
++  *fd = -1;
++
++  return ret;
++}
++
++void
++handle_passwd_input (XtPointer data, int *fd, XtInputId *id)
++{
++  saver_info *si = (saver_info *)data;
++  saver_preferences *p = &si->prefs;
++  char buffer[1024];
++  char *s;
++
++  if (si->prefs.verbose_p)
++    fprintf (stderr, "passwd input handler() fd=%d\n",*fd);
++
++  s = fgets (buffer, sizeof (buffer), si->pw_data->input_file);
++  if (!s)
++    {
++      if (si->prefs.verbose_p)
++	{
++	  fprintf (stderr, "done reading...\n");
++	  fprintf (stderr, "removing input handler...\n");
++	}
++      XtRemoveInput (*id);
++      si->pw_data->stdout_input_id = 0;
++
++      if (si->pw_data->state == pw_read)
++	si->pw_data->state = pw_null;
++
++      if (si->prefs.verbose_p)
++        fprintf (stderr, "passwd input handler() returning...done reading\n");
++ 
++      return;
++    }
++
++  if (si->pw_data->got_windowid)
++    {
++      char *nl;
++      if (si->prefs.verbose_p)
++	fprintf (stderr, "got a password\n");
++      nl = strchr (s, '\n');
++      if (nl)
++	*nl = '\0';
++      si->pw_data->passwd_string = strdup (s);
++      if (si->prefs.verbose_p)
++        fprintf(stderr,"Dude got password and saving it in passwd_string:%s\n", s);
++
++     /* We want to send null to lock dialog to say we are working on authentication*/
++     si->pw_data->state = pw_null;
++    }
++  else /* Get the window id of lock dialog from Child ***/
++    {
++      Window window = strtoul (s, NULL, 0);
++      /* FIXME: what to revert to? */
++      XSetInputFocus (si->dpy, window, RevertToParent, CurrentTime);
++      XSync (si->dpy, False);
++      si->pw_data->got_windowid = True;
++      si->passwd_dialog = window;
++      /**g_passwd_dialog_created = True;**/ /*set global flag to check in timers.c*/
++      if (si->prefs.verbose_p)
++	fprintf (stderr, "<---handle_passwd_input(): gotwindowid:0x%x\n", passwd_win);
++    }
++}
++
++/* returns successful fork/exec */
++Bool
++spawn_external_passwd_process (saver_info *si, passwd_dialog_data *pw)
++{
++  saver_preferences *p = &si->prefs;
++  pid_t forked;
++  const char *command = LOCKDIR "/xscreensaver-lock";
++  int stdin_pipe[2]  = { -1, -1 };
++  int stdout_pipe[2] = { -1, -1 };
++
++  si->passwd_pid = 0;
++  pw->stdin_fd = pw->stdout_fd = -1;
++  pw->got_windowid = False;
++
++  if (si->prefs.verbose_p)
++     fprintf(stderr, "-->spawn_external_passwd()\n");
++
++  if (pipe (stdin_pipe) < 0)
++   {
++    perror ("pipe(stdin_pipe) failed!");
++    return False;
++   }
++
++  if (pipe (stdout_pipe) < 0)
++    {
++      perror ("pipe(stdout_pipe) failed!");
++      close_and_invalidate (&stdin_pipe[0]);
++      close_and_invalidate (&stdin_pipe[1]);
++      return False;
++    }
++  switch ((int) (forked = fork ()))
++    {
++    case -1:
++      fprintf (stderr, "%s: ", blurb ());
++      perror ("couldn't fork");
++
++      close_and_invalidate (&stdin_pipe[0]);
++      close_and_invalidate (&stdin_pipe[1]);
++      close_and_invalidate (&stdout_pipe[0]);
++      close_and_invalidate (&stdout_pipe[1]);
++
++      return False;
++
++    case 0:
++      close (ConnectionNumber (si->dpy)); /* close display fd */
++      /* limit_subproc_memory (p->inferior_memory_limit, p->verbose_p); */
++      /* hack_subproc_environment (ssi); */ /* FIX $DISPLAY */
++
++      /* Inside Child Process */
++      if (p->verbose_p)
++	fprintf (stderr, "%s: spawning \"%s\" in pid %lu.\n",
++		 blurb(), command, (unsigned long) getpid ());
++
++      close_and_invalidate (&stdin_pipe[1]);
++      close_and_invalidate (&stdout_pipe[0]);
++
++      sane_dup2 (stdin_pipe[0], 0);  /* Listen to Parent from here */
++      sane_dup2 (stdout_pipe[1], 9); /* Talk to Parent from here */
++
++      /* Make sure we have relinquished setuid privs or lock dialog gtk
++       * program will not run as libgtk is not setuid safe.
++       */
++      hack_uid (si);
++
++      exec_command (p->shell, command, 0);
++      /* print_path_error (command); */
++      fprintf (stderr, "%s: couldn't exec: %s\n", 
++	       blurb (), command);
++      abort ();
++
++    default:
++
++      /* In Parent */
++      close_and_invalidate (&stdin_pipe[0]);
++      close_and_invalidate (&stdout_pipe[1]);
++
++      sane_dup2 (stdin_pipe[0], 0);  /* Listen to Child from here */
++      sane_dup2 (stdout_pipe[1], 13); /* Talk to Child from here */
++
++      pw->stdin_fd   = stdin_pipe[1];   /* Talk to child from here */
++      pw->stdout_fd  = stdout_pipe[0];  /* Listen to Child from here */
++      si->passwd_pid = forked;
++
++      write_to_child (si, "Hello There"); /* Send a test message to Child */
++
++      /* Password from child dialog comes through this pipe/fd */
++      pw->input_file = fdopen (pw->stdout_fd, "r");
++
++      pw->stdout_input_id = XtAppAddInput (si->app, pw->stdout_fd,
++					   (XtPointer) XtInputReadMask,
++					   handle_passwd_input,
++					   si);
++
++      /* Set global flag to indicate that lock dialog is visible */
++      g_passwd_dialog_created = True;
++      return True;
++    }
++
++  /* shouldn't reach */
++  abort ();
++  return False;
++}
++#endif /* HAVE_XSCREENSAVER_LOCK */
++
++void
+ make_passwd_window (saver_info *si)
+ {
++  make_window(si, w_dialog);
++}
++
++
++static void
++make_window (saver_info *si, enum window_type w_type)
++{
+   struct passwd *p = getpwuid (getuid ());
+   XSetWindowAttributes attrs;
+   unsigned long attrmask = 0;
+-  passwd_dialog_data *pw = (passwd_dialog_data *) calloc (1, sizeof(*pw));
+   Screen *screen;
+   Colormap cmap;
+   char *f;
+ 
+-  pw->prompt_screen = &si->screens [mouse_screen (si)];
+   if (si->prefs.verbose_p)
+-    fprintf (stderr, "%s: %d: creating password dialog.\n",
+-             blurb(), pw->prompt_screen->number);
++     fprintf(stderr, "-->make_window()\n");
++
++#ifdef HAVE_XSCREENSAVER_LOCK
++      if (spawn_external_passwd_process (si, si->pw_data))
++	{ 
++/***************
++          if (si->prefs.verbose_p)
++	    fprintf(stderr, "spawning external passwd process in make_window()\n");
++*******************/
++
++/****************mali blank_fails remove this...
++	  if(!blank_screen(si))
++	    fprintf(stderr, "Failed to blank the screen\n");
++*******************/
++
++	  si->pw_data->ratio = 1.0;
++	  si->pw_data->w_type = w_type;
++	  /*si->pw_data = pw;*/
++	  si->external_passwd = True;
++	  return;
++	}
++  si->external_passwd = False;
++  /* FIXME: don't abort() */
++  /*abort ();*/
++#endif /* HAVE_XSCREENSAVER_LOCK */
++
++  if (si->prefs.verbose_p)
++     fprintf (stderr, "creating message window\n");
+ 
+-  screen = pw->prompt_screen->screen;
++  si->pw_data->prompt_screen = &si->screens [mouse_screen (si)];
++  /*mali pw->prompt_screen = &si->screens[0];   hardwired for now */
++  if (si->prefs.verbose_p)
++    fprintf (stderr, "%s: %d: creating message window.\n",
++             blurb(), si->pw_data->prompt_screen->number);
++
++  screen = si->pw_data->prompt_screen->screen;
+   cmap = DefaultColormapOfScreen (screen);
+ 
+-  pw->ratio = 1.0;
++  si->pw_data->w_type = w_type;  
++  si->pw_data->state = pw_read;
++  si->pw_data->ratio = 1.0;
+ 
+-  pw->heading_label = get_string_resource ("passwd.heading.label",
++  si->pw_data->heading_label = get_string_resource ("passwd.heading.label",
+ 					   "Dialog.Label.Label");
+-  pw->body_label = get_string_resource ("passwd.body.label",
+-					"Dialog.Label.Label");
+-  pw->user_label = get_string_resource ("passwd.user.label",
+-					"Dialog.Label.Label");
+-  pw->passwd_label = get_string_resource ("passwd.passwd.label",
+-					  "Dialog.Label.Label");
+-  pw->date_label = get_string_resource ("dateFormat", "DateFormat");
+-
+-  if (!pw->heading_label)
+-    pw->heading_label = strdup("ERROR: REESOURCES NOT INSTALLED CORRECTLY");
+-  if (!pw->body_label)
+-    pw->body_label = strdup("ERROR: REESOURCES NOT INSTALLED CORRECTLY");
+-  if (!pw->user_label) pw->user_label = strdup("ERROR");
+-  if (!pw->passwd_label) pw->passwd_label = strdup("ERROR");
+-  if (!pw->date_label) pw->date_label = strdup("ERROR");
++  si->pw_data->date_label = get_string_resource ("dateFormat", "DateFormat");
++
++  if (!si->pw_data->heading_label)
++    si->pw_data->heading_label = strdup("ERROR: REESOURCES NOT INSTALLED CORRECTLY");
++  if (!si->pw_data->date_label) si->pw_data->date_label = strdup("ERROR");
+ 
+   /* Put the version number in the label. */
+   {
+-    char *s = (char *) malloc (strlen(pw->heading_label) + 20);
+-    sprintf(s, pw->heading_label, si->version);
+-    free (pw->heading_label);
+-    pw->heading_label = s;
++    char *s = (char *) malloc (strlen(si->pw_data->heading_label) + 20);
++    sprintf(s, si->pw_data->heading_label, si->version);
++    free (si->pw_data->heading_label);
++    si->pw_data->heading_label = s;
+   }
+ 
+-  pw->user_string = strdup (p && p->pw_name ? p->pw_name : "???");
+-  pw->passwd_string = strdup("");
+-
+   f = get_string_resource ("passwd.headingFont", "Dialog.Font");
+-  pw->heading_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
+-  if (!pw->heading_font) pw->heading_font = XLoadQueryFont (si->dpy, "fixed");
++  si->pw_data->heading_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
++  if (!si->pw_data->heading_font) si->pw_data->heading_font = XLoadQueryFont (si->dpy, "fixed");
+   if (f) free (f);
+ 
+   f = get_string_resource("passwd.bodyFont", "Dialog.Font");
+-  pw->body_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
+-  if (!pw->body_font) pw->body_font = XLoadQueryFont (si->dpy, "fixed");
+-  if (f) free (f);
+-
+-  f = get_string_resource("passwd.labelFont", "Dialog.Font");
+-  pw->label_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
+-  if (!pw->label_font) pw->label_font = XLoadQueryFont (si->dpy, "fixed");
+-  if (f) free (f);
+-
+-  f = get_string_resource("passwd.passwdFont", "Dialog.Font");
+-  pw->passwd_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
+-  if (!pw->passwd_font) pw->passwd_font = XLoadQueryFont (si->dpy, "fixed");
++  si->pw_data->body_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
++  if (!si->pw_data->body_font) si->pw_data->body_font = XLoadQueryFont (si->dpy, "fixed");
+   if (f) free (f);
+ 
+   f = get_string_resource("passwd.dateFont", "Dialog.Font");
+-  pw->date_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
+-  if (!pw->date_font) pw->date_font = XLoadQueryFont (si->dpy, "fixed");
++  si->pw_data->date_font = XLoadQueryFont (si->dpy, (f ? f : "fixed"));
++  if (!si->pw_data->date_font) si->pw_data->date_font = XLoadQueryFont (si->dpy, "fixed");
+   if (f) free (f);
+ 
+-  pw->foreground = get_pixel_resource ("passwd.foreground",
++  si->pw_data->foreground = get_pixel_resource ("passwd.foreground",
+ 				       "Dialog.Foreground",
+ 				       si->dpy, cmap);
+-  pw->background = get_pixel_resource ("passwd.background",
++  si->pw_data->background = get_pixel_resource ("passwd.background",
+ 				       "Dialog.Background",
+ 				       si->dpy, cmap);
+ 
+-  if (pw->foreground == pw->background)
++  if (si->pw_data->foreground == si->pw_data->background)
+     {
+       /* Make sure the error messages show up. */
+-      pw->foreground = BlackPixelOfScreen (screen);
+-      pw->background = WhitePixelOfScreen (screen);
++      si->pw_data->foreground = BlackPixelOfScreen (screen);
++      si->pw_data->background = WhitePixelOfScreen (screen);
+     }
+ 
+-  pw->passwd_foreground = get_pixel_resource ("passwd.text.foreground",
+-					      "Dialog.Text.Foreground",
+-					      si->dpy, cmap);
+-  pw->passwd_background = get_pixel_resource ("passwd.text.background",
+-					      "Dialog.Text.Background",
+-					      si->dpy, cmap);
+-  pw->thermo_foreground = get_pixel_resource ("passwd.thermometer.foreground",
++  si->pw_data->thermo_foreground = get_pixel_resource ("passwd.thermometer.foreground",
+ 					      "Dialog.Thermometer.Foreground",
+ 					      si->dpy, cmap);
+-  pw->thermo_background = get_pixel_resource ("passwd.thermometer.background",
++  si->pw_data->thermo_background = get_pixel_resource ("passwd.thermometer.background",
+ 					      "Dialog.Thermometer.Background",
+ 					      si->dpy, cmap);
+-  pw->shadow_top = get_pixel_resource ("passwd.topShadowColor",
++  si->pw_data->shadow_top = get_pixel_resource ("passwd.topShadowColor",
+ 				       "Dialog.Foreground",
+ 				       si->dpy, cmap);
+-  pw->shadow_bottom = get_pixel_resource ("passwd.bottomShadowColor",
++  si->pw_data->shadow_bottom = get_pixel_resource ("passwd.bottomShadowColor",
+ 					  "Dialog.Background",
+ 					  si->dpy, cmap);
+ 
+-  pw->logo_width = get_integer_resource ("passwd.logo.width",
++  si->pw_data->logo_width = get_integer_resource ("passwd.logo.width",
+ 					 "Dialog.Logo.Width");
+-  pw->logo_height = get_integer_resource ("passwd.logo.height",
++  si->pw_data->logo_height = get_integer_resource ("passwd.logo.height",
+ 					  "Dialog.Logo.Height");
+-  pw->thermo_width = get_integer_resource ("passwd.thermometer.width",
++  si->pw_data->thermo_width = get_integer_resource ("passwd.thermometer.width",
+ 					   "Dialog.Thermometer.Width");
+-  pw->internal_border = get_integer_resource ("passwd.internalBorderWidth",
++  si->pw_data->internal_border = get_integer_resource ("passwd.internalBorderWidth",
+ 					      "Dialog.InternalBorderWidth");
+-  pw->shadow_width = get_integer_resource ("passwd.shadowThickness",
++  si->pw_data->shadow_width = get_integer_resource ("passwd.shadowThickness",
+ 					   "Dialog.ShadowThickness");
+ 
+-  if (pw->logo_width == 0)  pw->logo_width = 150;
+-  if (pw->logo_height == 0) pw->logo_height = 150;
+-  if (pw->internal_border == 0) pw->internal_border = 15;
+-  if (pw->shadow_width == 0) pw->shadow_width = 4;
+-  if (pw->thermo_width == 0) pw->thermo_width = pw->shadow_width;
++  if (si->pw_data->logo_width == 0)  si->pw_data->logo_width = 150;
++  if (si->pw_data->logo_height == 0) si->pw_data->logo_height = 150;
++  if (si->pw_data->internal_border == 0) si->pw_data->internal_border = 15;
++  if (si->pw_data->shadow_width == 0) si->pw_data->shadow_width = 4;
++  if (si->pw_data->thermo_width == 0) si->pw_data->thermo_width = si->pw_data->shadow_width;
+ 
+   {
+     int direction, ascent, descent;
+     XCharStruct overall;
+ 
+-    pw->width = 0;
+-    pw->height = 0;
++    si->pw_data->width = 0;
++    si->pw_data->height = 0;
+ 
+     /* Measure the heading_label. */
+-    XTextExtents (pw->heading_font,
+-		  pw->heading_label, strlen(pw->heading_label),
++    XTextExtents (si->pw_data->heading_font,
++		  si->pw_data->heading_label, strlen(si->pw_data->heading_label),
+ 		  &direction, &ascent, &descent, &overall);
+-    if (overall.width > pw->width) pw->width = overall.width;
+-    pw->height += ascent + descent;
++    if (overall.width > si->pw_data->width) si->pw_data->width = overall.width;
++    si->pw_data->height += ascent + descent;
+ 
+-    /* Measure the body_label. */
+-    XTextExtents (pw->body_font,
+-		  pw->body_label, strlen(pw->body_label),
+-		  &direction, &ascent, &descent, &overall);
+-    if (overall.width > pw->width) pw->width = overall.width;
+-    pw->height += ascent + descent;
++    si->pw_data->width  += (si->pw_data->internal_border * 2);
++    si->pw_data->height += (si->pw_data->internal_border * 4);
+ 
+-    {
+-      Dimension w2 = 0, w3 = 0;
+-      Dimension h2 = 0, h3 = 0;
+-      const char *passwd_string = "MMMMMMMMMMMM";
+-
+-      /* Measure the user_label. */
+-      XTextExtents (pw->label_font,
+-		    pw->user_label, strlen(pw->user_label),
+-		    &direction, &ascent, &descent, &overall);
+-      if (overall.width > w2)  w2 = overall.width;
+-      h2 += ascent + descent;
+-
+-      /* Measure the passwd_label. */
+-      XTextExtents (pw->label_font,
+-		    pw->passwd_label, strlen(pw->passwd_label),
+-		    &direction, &ascent, &descent, &overall);
+-      if (overall.width > w2)  w2 = overall.width;
+-      h2 += ascent + descent;
+-
+-      /* Measure the user_string. */
+-      XTextExtents (pw->passwd_font,
+-		    pw->user_string, strlen(pw->user_string),
+-		    &direction, &ascent, &descent, &overall);
+-      overall.width += (pw->shadow_width * 4);
+-      ascent += (pw->shadow_width * 4);
+-      if (overall.width > w3)  w3 = overall.width;
+-      h3 += ascent + descent;
+-
+-      /* Measure the (maximally-sized, dummy) passwd_string. */
+-      XTextExtents (pw->passwd_font,
+-		    passwd_string, strlen(passwd_string),
+-		    &direction, &ascent, &descent, &overall);
+-      overall.width += (pw->shadow_width * 4);
+-      ascent += (pw->shadow_width * 4);
+-      if (overall.width > w3)  w3 = overall.width;
+-      h3 += ascent + descent;
+-
+-      w2 = w2 + w3 + (pw->shadow_width * 2);
+-      h2 = MAX (h2, h3);
+-
+-      if (w2 > pw->width)  pw->width  = w2;
+-      pw->height += h2;
+-    }
+-
+-    pw->width  += (pw->internal_border * 2);
+-    pw->height += (pw->internal_border * 4);
+-
+-    pw->width += pw->thermo_width + (pw->shadow_width * 3);
+-
+-    if (pw->logo_height > pw->height)
+-      pw->height = pw->logo_height;
+-    else if (pw->height > pw->logo_height)
+-      pw->logo_height = pw->height;
++    si->pw_data->width += si->pw_data->thermo_width + (si->pw_data->shadow_width * 3);
++
++    if (si->pw_data->logo_height > si->pw_data->height)
++      si->pw_data->height = si->pw_data->logo_height;
++    else if (si->pw_data->height > si->pw_data->logo_height)
++      si->pw_data->logo_height = si->pw_data->height;
+ 
+-    pw->logo_width = pw->logo_height;
++    si->pw_data->logo_width = si->pw_data->logo_height;
+ 
+-    pw->width += pw->logo_width;
++    si->pw_data->width += si->pw_data->logo_width;
+   }
+ 
+   attrmask |= CWOverrideRedirect; attrs.override_redirect = True;
+@@ -356,22 +505,22 @@ make_passwd_window (saver_info *si)
+     Window pointer_root, pointer_child;
+     int root_x, root_y, win_x, win_y;
+     unsigned int mask;
+-    pw->previous_mouse_x = 0;
+-    pw->previous_mouse_y = 0;
+-    if (XQueryPointer (si->dpy, RootWindowOfScreen (pw->prompt_screen->screen),
++    si->pw_data->previous_mouse_x = 0;
++    si->pw_data->previous_mouse_y = 0;
++    if (XQueryPointer (si->dpy, RootWindowOfScreen (si->pw_data->prompt_screen->screen),
+                        &pointer_root, &pointer_child,
+                        &root_x, &root_y, &win_x, &win_y, &mask))
+       {
+-        pw->previous_mouse_x = root_x;
+-        pw->previous_mouse_y = root_y;
++        si->pw_data->previous_mouse_x = root_x;
++        si->pw_data->previous_mouse_y = root_y;
+         if (si->prefs.verbose_p)
+           fprintf (stderr, "%s: %d: mouse is at %d,%d.\n",
+-                   blurb(), pw->prompt_screen->number,
+-                   pw->previous_mouse_x, pw->previous_mouse_y);
++                   blurb(), si->pw_data->prompt_screen->number,
++                   si->pw_data->previous_mouse_x, si->pw_data->previous_mouse_y);
+       }
+     else if (si->prefs.verbose_p)
+       fprintf (stderr, "%s: %d: unable to determine mouse position?\n",
+-               blurb(), pw->prompt_screen->number);
++               blurb(), si->pw_data->prompt_screen->number);
+   }
+ 
+   /* Figure out where on the desktop to place the window so that it will
+@@ -379,31 +528,31 @@ make_passwd_window (saver_info *si)
+      well as Xinerama. */
+   {
+     int x, y, w, h;
+-    get_screen_viewport (pw->prompt_screen, &x, &y, &w, &h,
+-                         pw->previous_mouse_x, pw->previous_mouse_y,
++    get_screen_viewport (si->pw_data->prompt_screen, &x, &y, &w, &h,
++                         si->pw_data->previous_mouse_x, si->pw_data->previous_mouse_y,
+                          si->prefs.verbose_p);
+     if (si->prefs.debug_p) w /= 2;
+-    pw->x = x + ((w + pw->width) / 2) - pw->width;
+-    pw->y = y + ((h + pw->height) / 2) - pw->height;
+-    if (pw->x < x) pw->x = x;
+-    if (pw->y < y) pw->y = y;
++    si->pw_data->x = x + ((w + si->pw_data->width) / 2) - si->pw_data->width;
++    si->pw_data->y = y + ((h + si->pw_data->height) / 2) - si->pw_data->height;
++    if (si->pw_data->x < x) si->pw_data->x = x;
++    if (si->pw_data->y < y) si->pw_data->y = y;
+   }
+ 
+-  pw->border_width = get_integer_resource ("passwd.borderWidth",
++  si->pw_data->border_width = get_integer_resource ("passwd.borderWidth",
+                                            "Dialog.BorderWidth");
+ 
+   si->passwd_dialog =
+     XCreateWindow (si->dpy,
+ 		   RootWindowOfScreen(screen),
+-		   pw->x, pw->y, pw->width, pw->height, pw->border_width,
++		   si->pw_data->x, si->pw_data->y, si->pw_data->width, si->pw_data->height, si->pw_data->border_width,
+ 		   DefaultDepthOfScreen (screen), InputOutput,
+ 		   DefaultVisualOfScreen(screen),
+ 		   attrmask, &attrs);
+-  XSetWindowBackground (si->dpy, si->passwd_dialog, pw->background);
++  XSetWindowBackground (si->dpy, si->passwd_dialog, si->pw_data->background);
+ 
+-  pw->logo_pixmap = xscreensaver_logo (si->dpy, si->passwd_dialog, cmap,
+-                                       pw->background, 
+-                                       &pw->logo_pixels, &pw->logo_npixels,
++  si->pw_data->logo_pixmap = xscreensaver_logo (si->dpy, si->passwd_dialog, cmap,
++                                       si->pw_data->background, 
++                                       &si->pw_data->logo_pixels, &si->pw_data->logo_npixels,
+                                        0, True);
+ 
+   /* Before mapping the window, save the bits that are underneath the
+@@ -414,18 +563,18 @@ make_passwd_window (saver_info *si)
+   {
+     XGCValues gcv;
+     GC gc;
+-    pw->save_under = XCreatePixmap (si->dpy,
+-                                    pw->prompt_screen->screensaver_window,
+-                                    pw->width + (pw->border_width*2) + 1,
+-                                    pw->height + (pw->border_width*2) + 1,
+-                                    pw->prompt_screen->current_depth);
++    si->pw_data->save_under = XCreatePixmap (si->dpy,
++                                    si->pw_data->prompt_screen->screensaver_window,
++                                    si->pw_data->width + (si->pw_data->border_width*2) + 1,
++                                    si->pw_data->height + (si->pw_data->border_width*2) + 1,
++                                    si->pw_data->prompt_screen->current_depth);
+     gcv.function = GXcopy;
+-    gc = XCreateGC (si->dpy, pw->save_under, GCFunction, &gcv);
+-    XCopyArea (si->dpy, pw->prompt_screen->screensaver_window,
+-               pw->save_under, gc,
+-               pw->x - pw->border_width, pw->y - pw->border_width,
+-               pw->width + (pw->border_width*2) + 1,
+-               pw->height + (pw->border_width*2) + 1,
++    gc = XCreateGC (si->dpy, si->pw_data->save_under, GCFunction, &gcv);
++    XCopyArea (si->dpy, si->pw_data->prompt_screen->screensaver_window,
++               si->pw_data->save_under, gc,
++               si->pw_data->x - si->pw_data->border_width, si->pw_data->y - si->pw_data->border_width,
++               si->pw_data->width + (si->pw_data->border_width*2) + 1,
++               si->pw_data->height + (si->pw_data->border_width*2) + 1,
+                0, 0);
+     XFreeGC (si->dpy, gc);
+   }
+@@ -434,11 +583,11 @@ make_passwd_window (saver_info *si)
+   XSync (si->dpy, False);
+ 
+   move_mouse_grab (si, si->passwd_dialog,
+-                   pw->prompt_screen->cursor,
+-                   pw->prompt_screen->number);
++                   si->pw_data->prompt_screen->cursor,
++                   si->pw_data->prompt_screen->number);
+   undo_vp_motion (si);
+ 
+-  si->pw_data = pw;
++  /*mali si->pw_data_data = si->pw_data;***/
+ 
+   if (cmap)
+     XInstallColormap (si->dpy, cmap);
+@@ -458,6 +607,10 @@ draw_passwd_window (saver_info *si)
+   int sw;
+   int tb_height;
+ 
++
++  if (si->prefs.verbose_p)
++    fprintf (stderr, "-->draw_passwd_window() case w_dialog!!\n");
++
+   height = (pw->heading_font->ascent + pw->heading_font->descent +
+ 	    pw->body_font->ascent + pw->body_font->descent +
+ 	    (2 * MAX ((pw->label_font->ascent + pw->label_font->descent),
+@@ -676,7 +829,7 @@ draw_passwd_window (saver_info *si)
+ }
+ 
+ 
+-static void
++void
+ update_passwd_window (saver_info *si, const char *printed_passwd, float ratio)
+ {
+   passwd_dialog_data *pw = si->pw_data;
+@@ -686,8 +839,20 @@ update_passwd_window (saver_info *si, co
+   XRectangle rects[1];
+ 
+   pw->ratio = ratio;
++
++  if (si->prefs.verbose_p)
++    fprintf (stderr, "-->update_passwd_window() w_dialog !!\n");
++  
++  if (!si->pw_data->got_windowid )
++    {
++      if (si->prefs.verbose_p)
++	fprintf (stderr, "-->update_passwd_window() lockdialog not created returning.. !!\n");
++      return;
++    }
++  
+   gcv.foreground = pw->passwd_foreground;
+-  gcv.font = pw->passwd_font->fid;
++  if (pw->passwd_font)
++    gcv.font = pw->passwd_font->fid;
+   gc1 = XCreateGC (si->dpy, si->passwd_dialog, GCForeground|GCFont, &gcv);
+   gcv.foreground = pw->passwd_background;
+   gc2 = XCreateGC (si->dpy, si->passwd_dialog, GCForeground, &gcv);
+@@ -760,114 +925,186 @@ update_passwd_window (saver_info *si, co
+ }
+ 
+ 
+-static void
++void
+ destroy_passwd_window (saver_info *si)
+ {
+   saver_preferences *p = &si->prefs;
+   passwd_dialog_data *pw = si->pw_data;
+-  saver_screen_info *ssi = pw->prompt_screen;
+-  Colormap cmap = DefaultColormapOfScreen (ssi->screen);
+-  Pixel black = BlackPixelOfScreen (ssi->screen);
+-  Pixel white = WhitePixelOfScreen (ssi->screen);
++  saver_screen_info *ssi;
++  Colormap cmap;
++  Pixel black, white;
+   XEvent event;
+ 
+-  memset (pw->typed_passwd, 0, sizeof(pw->typed_passwd));
+-  memset (pw->passwd_string, 0, strlen(pw->passwd_string));
++  if (si->prefs.verbose_p)
++    fprintf (stderr, "destroy_passwd_window\n");
++
++  if (pw == NULL || pw->got_windowid == 0 || si->external_passwd == 0)
++    return;
+ 
+   if (pw->timer)
+     XtRemoveTimeOut (pw->timer);
+ 
+-  move_mouse_grab (si, RootWindowOfScreen (ssi->screen),
+-                   ssi->cursor, ssi->number);
+-
+-  if (p->verbose_p)
+-    fprintf (stderr, "%s: %d: moving mouse back to %d,%d.\n",
+-             blurb(), ssi->number,
+-             pw->previous_mouse_x, pw->previous_mouse_y);
+-
+-  XWarpPointer (si->dpy, None, RootWindowOfScreen (ssi->screen),
+-                0, 0, 0, 0,
+-                pw->previous_mouse_x, pw->previous_mouse_y);
+-
+-  XSync (si->dpy, False);
+-  while (XCheckMaskEvent (si->dpy, PointerMotionMask, &event))
+-    if (p->verbose_p)
+-      fprintf (stderr, "%s: discarding MotionNotify event.\n", blurb());
++  /*reset global flag to indicate passwd dialog is no longer there*/
++  g_passwd_dialog_created = 0;
+ 
+-  if (si->passwd_dialog)
++#ifdef HAVE_XSCREENSAVER_LOCK
++  if (si->external_passwd)
+     {
+-      XDestroyWindow (si->dpy, si->passwd_dialog);
+-      si->passwd_dialog = 0;
++      /* kill the child etc. */
++      
++      if (si->passwd_dialog)
++	{
++	  XErrorHandler old_handler;
++	  
++	  XSync (si->dpy, False);
++	  old_handler = XSetErrorHandler (ignore_all_errors_ehandler);
++	  
++	  XDestroyWindow (si->dpy, si->passwd_dialog);
++	  XSync (si->dpy, False);
++	  XSetErrorHandler (old_handler);
++	  
++	  si->passwd_dialog = 0;
++	}
++      
++      if (pw->stdout_input_id)
++	XtRemoveInput (pw->stdout_input_id);
++      if (pw->stdin_fd != -1)
++	close_and_invalidate (&pw->stdin_fd);
++      if (pw->input_file)
++	fclose (pw->input_file);
++      else if (pw->stdout_fd != -1)
++	close_and_invalidate (&pw->stdout_fd);
++      
++      block_sigchld ();
++      
++      if (si->passwd_pid)
++	{
++	  int status = -1;
++	  
++	  status = kill (si->passwd_pid, SIGTERM);
++	  
++	  await_dying_children (si);  
++	  
++	  si->passwd_pid = 0;
++	}
++      
++      unblock_sigchld ();
++      
++      si->external_passwd = False;
+     }
+-  
+-  if (pw->save_under)
++  else
++#endif /* HAVE_XSCREENSAVER_LOCK */
+     {
+-      XGCValues gcv;
+-      GC gc;
+-      gcv.function = GXcopy;
+-      gc = XCreateGC (si->dpy, ssi->screensaver_window, GCFunction, &gcv);
+-      XCopyArea (si->dpy, pw->save_under,
+-                 ssi->screensaver_window, gc,
+-                 0, 0,
+-                 pw->width + (pw->border_width*2) + 1,
+-                 pw->height + (pw->border_width*2) + 1,
+-                 pw->x - pw->border_width, pw->y - pw->border_width);
+-      XFreePixmap (si->dpy, pw->save_under);
+-      pw->save_under = 0;
+-      XFreeGC (si->dpy, gc);
+-    }
+-
+-  if (pw->heading_label) free (pw->heading_label);
+-  if (pw->body_label)    free (pw->body_label);
+-  if (pw->user_label)    free (pw->user_label);
+-  if (pw->passwd_label)  free (pw->passwd_label);
+-  if (pw->date_label)    free (pw->date_label);
+-  if (pw->user_string)   free (pw->user_string);
+-  if (pw->passwd_string) free (pw->passwd_string);
+-
+-  if (pw->heading_font) XFreeFont (si->dpy, pw->heading_font);
+-  if (pw->body_font)    XFreeFont (si->dpy, pw->body_font);
+-  if (pw->label_font)   XFreeFont (si->dpy, pw->label_font);
+-  if (pw->passwd_font)  XFreeFont (si->dpy, pw->passwd_font);
+-  if (pw->date_font)    XFreeFont (si->dpy, pw->date_font);
+-
+-  if (pw->foreground != black && pw->foreground != white)
+-    XFreeColors (si->dpy, cmap, &pw->foreground, 1, 0L);
+-  if (pw->background != black && pw->background != white)
+-    XFreeColors (si->dpy, cmap, &pw->background, 1, 0L);
+-  if (pw->passwd_foreground != black && pw->passwd_foreground != white)
+-    XFreeColors (si->dpy, cmap, &pw->passwd_foreground, 1, 0L);
+-  if (pw->passwd_background != black && pw->passwd_background != white)
+-    XFreeColors (si->dpy, cmap, &pw->passwd_background, 1, 0L);
+-  if (pw->thermo_foreground != black && pw->thermo_foreground != white)
+-    XFreeColors (si->dpy, cmap, &pw->thermo_foreground, 1, 0L);
+-  if (pw->thermo_background != black && pw->thermo_background != white)
+-    XFreeColors (si->dpy, cmap, &pw->thermo_background, 1, 0L);
+-  if (pw->shadow_top != black && pw->shadow_top != white)
+-    XFreeColors (si->dpy, cmap, &pw->shadow_top, 1, 0L);
+-  if (pw->shadow_bottom != black && pw->shadow_bottom != white)
+-    XFreeColors (si->dpy, cmap, &pw->shadow_bottom, 1, 0L);
++      if (p->verbose_p)
++	fprintf (stderr, "In destroy_passwd else case..i.e. si->external-passwd is False already\n");
+ 
+-  if (pw->logo_pixmap)
+-    XFreePixmap (si->dpy, pw->logo_pixmap);
+-  if (pw->logo_pixels)
+-    {
+-      if (pw->logo_npixels)
+-        XFreeColors (si->dpy, cmap, pw->logo_pixels, pw->logo_npixels, 0L);
+-      free (pw->logo_pixels);
+-      pw->logo_pixels = 0;
+-      pw->logo_npixels = 0;
+-    }
++      if (pw->passwd_string == NULL)
++	pw->passwd_string = 0;
+ 
+-  if (pw->save_under)
+-    XFreePixmap (si->dpy, pw->save_under);
++      memset (pw->typed_passwd, 0, sizeof(pw->typed_passwd));
++      memset (pw->passwd_string, 0, strlen(pw->passwd_string));
+ 
+-  if (cmap)
+-    XInstallColormap (si->dpy, cmap);
++      ssi = pw->prompt_screen;
++      cmap = DefaultColormapOfScreen (ssi->screen);
++      black = BlackPixelOfScreen (ssi->screen);
++      white = WhitePixelOfScreen (ssi->screen);
++
++      move_mouse_grab (si, RootWindowOfScreen (ssi->screen),
++		       ssi->cursor, ssi->number);
++      
++      if (p->verbose_p)
++	fprintf (stderr, "%s: %d: moving mouse back to %d,%d.\n",
++		 blurb(), ssi->number,
++		 pw->previous_mouse_x, pw->previous_mouse_y);
++      
++      XWarpPointer (si->dpy, None, RootWindowOfScreen (ssi->screen),
++		    0, 0, 0, 0,
++		    pw->previous_mouse_x, pw->previous_mouse_y);
++      
++      XSync (si->dpy, False);
++      while (XCheckMaskEvent (si->dpy, PointerMotionMask, &event))
++	if (p->verbose_p)
++	  fprintf (stderr, "%s: discarding MotionNotify event.\n", blurb());
++      
++      if (si->passwd_dialog)
++	{
++	  XDestroyWindow (si->dpy, si->passwd_dialog);
++	  si->passwd_dialog = 0;
++	}
++      
++      if (pw->save_under)
++	{
++	  XGCValues gcv;
++	  GC gc;
++	  gcv.function = GXcopy;
++	  gc = XCreateGC (si->dpy, ssi->screensaver_window, GCFunction, &gcv);
++	  XCopyArea (si->dpy, pw->save_under,
++		     ssi->screensaver_window, gc,
++		     0, 0,
++		     pw->width + (pw->border_width*2) + 1,
++		     pw->height + (pw->border_width*2) + 1,
++		     pw->x - pw->border_width, pw->y - pw->border_width);
++	  XFreePixmap (si->dpy, pw->save_under);
++	  pw->save_under = 0;
++	  XFreeGC (si->dpy, gc);
++	}
++      
++      if (pw->heading_label) free (pw->heading_label);
++      if (pw->body_label)    free (pw->body_label);
++      if (pw->user_label)    free (pw->user_label);
++      if (pw->passwd_label)  free (pw->passwd_label);
++      if (pw->date_label)    free (pw->date_label);
++      if (pw->user_string)   free (pw->user_string);
++      if (pw->passwd_string) free (pw->passwd_string);
++      
++      if (pw->heading_font) XFreeFont (si->dpy, pw->heading_font);
++      if (pw->body_font)    XFreeFont (si->dpy, pw->body_font);
++      if (pw->label_font)   XFreeFont (si->dpy, pw->label_font);
++      if (pw->passwd_font)  XFreeFont (si->dpy, pw->passwd_font);
++      if (pw->date_font)    XFreeFont (si->dpy, pw->date_font);
++      
++      if (pw->foreground != black && pw->foreground != white)
++	XFreeColors (si->dpy, cmap, &pw->foreground, 1, 0L);
++      if (pw->background != black && pw->background != white)
++	XFreeColors (si->dpy, cmap, &pw->background, 1, 0L);
++
++      if (pw->passwd_foreground != black && pw->passwd_foreground != white)
++	XFreeColors (si->dpy, cmap, &pw->passwd_foreground, 1, 0L);
++      if (pw->passwd_background != black && pw->passwd_background != white)
++	XFreeColors (si->dpy, cmap, &pw->passwd_background, 1, 0L);
++      if (pw->thermo_foreground != black && pw->thermo_foreground != white)
++	XFreeColors (si->dpy, cmap, &pw->thermo_foreground, 1, 0L);
++      if (pw->thermo_background != black && pw->thermo_background != white)
++	XFreeColors (si->dpy, cmap, &pw->thermo_background, 1, 0L);
++      if (pw->shadow_top != black && pw->shadow_top != white)
++	XFreeColors (si->dpy, cmap, &pw->shadow_top, 1, 0L);
++      if (pw->shadow_bottom != black && pw->shadow_bottom != white)
++	XFreeColors (si->dpy, cmap, &pw->shadow_bottom, 1, 0L);
++      
++      if (pw->logo_pixmap)
++	XFreePixmap (si->dpy, pw->logo_pixmap);
++      if (pw->logo_pixels)
++	{
++	  if (pw->logo_npixels)
++	    XFreeColors (si->dpy, cmap, pw->logo_pixels, pw->logo_npixels, 0L);
++	  free (pw->logo_pixels);
++	  pw->logo_pixels = 0;
++	  pw->logo_npixels = 0;
++	}
++  
++      if (pw->save_under)
++	XFreePixmap (si->dpy, pw->save_under);
++  
++      if (cmap)
++	XInstallColormap (si->dpy, cmap);
++    }
+ 
+   memset (pw, 0, sizeof(*pw));
+-  free (pw);
+-  si->pw_data = 0;
++  /*** NO mali99 we only create a copy of pw in main and keep it
++     so dont free it.
++     free (pw);
++     si->pw_data = 0;
++   ************/
+ }
+ 
+ 
+@@ -968,9 +1205,6 @@ linux_lock_vt_switch (saver_info *si, Bo
+  */
+ #ifdef HAVE_XF86VMODE
+ 
+-static int ignore_all_errors_ehandler (Display *dpy, XErrorEvent *error);
+-static Bool vp_got_error = False;
+-
+ static void
+ xfree_lock_mode_switch (saver_info *si, Bool lock_p)
+ {
+@@ -1010,13 +1244,6 @@ xfree_lock_mode_switch (saver_info *si, 
+     }
+ }
+ 
+-static int
+-ignore_all_errors_ehandler (Display *dpy, XErrorEvent *error)
+-{
+-  vp_got_error = True;
+-  return 0;
+-}
+-
+ #endif /* HAVE_XF86VMODE */
+ 
+ 
+@@ -1085,17 +1312,64 @@ passwd_animate_timer (XtPointer closure,
+   int tick = 166;
+   passwd_dialog_data *pw = si->pw_data;
+ 
+-  if (!pw) return;
++/*  if (si->prefs.verbose_p)
++   fprintf (stderr,"-->passwd_animate_timer()\n");
++**/
++
++  /*We want to make sure dialog isup before we try to animate**/
++  if (!si->external_passwd || !g_passwd_dialog_created) 
++   {
++    if (si->prefs.verbose_p)
++      fprintf (stderr,"-->passwd_animate_timer() returning..no dialog yet\n");
++    return;
++   }
+ 
+   pw->ratio -= (1.0 / ((double) si->prefs.passwd_timeout / (double) tick));
+   if (pw->ratio < 0)
+     {
+       pw->ratio = 0;
+-      if (pw->state == pw_read)
++      if (pw->state == pw_read || pw->state == pw_null)
++       {
+ 	pw->state = pw_time;
++       }
+     }
+ 
++/*** Communicating with the Child lock dialog...sending ratio back... mali99***/
++#ifdef HAVE_XSCREENSAVER_LOCK
++  if (si->passwd_dialog)
++    {
++      XEvent event;
++      Bool status;
++      XErrorHandler old_handler;
++
++/*      fprintf (stderr,"-->passwd_animate_timer() sending ratio to child\n");
++**/
++
++      event.xany.type = ClientMessage;
++      event.xclient.display = si->dpy;
++      event.xclient.window = si->passwd_dialog;
++      event.xclient.message_type = XA_UNLOCK_RATIO;
++      event.xclient.format = 32;
++      memset (&event.xclient.data, 0, sizeof (event.xclient.data));
++      event.xclient.data.l[0] = (long)(pw->ratio * 100);
++      event.xclient.data.l[1] = 0;
++      event.xclient.data.l[2] = 0;
++
++      XSync (si->dpy, False);
++      old_handler = XSetErrorHandler (ignore_all_errors_ehandler);
++      
++      status = XSendEvent (si->dpy, si->passwd_dialog, False, 0L, &event);
++
++      XSync (si->dpy, False);
++      XSetErrorHandler (old_handler);
++
++      if (!status)
++	fprintf (stderr, "%s: error sending ratio to lock dialog\n", blurb ());
++      
++    }
++#else /* !HAVE_XSCREENSAVER_LOCK */
+   update_passwd_window (si, 0, pw->ratio);
++#endif /* !HAVE_XSCREENSAVER_LOCK */
+ 
+   if (pw->state == pw_read)
+     pw->timer = XtAppAddTimeOut (si->app, tick, passwd_animate_timer,
+@@ -1147,11 +1421,15 @@ handle_passwd_key (saver_info *si, XKeyE
+         {
+           update_passwd_window (si, "Checking...", pw->ratio);
+           XSync (si->dpy, False);
+-          if (passwd_valid_p (typed_passwd, p->verbose_p))
++
++/***************mali99************************************************
++          if (passwd_valid_p (typed_passwd, p->verbose_p, PAM_SERVICE))
+             pw->state = pw_ok;
+           else
+             pw->state = pw_fail;
+           update_passwd_window (si, "", pw->ratio);
++****************************************************************************/
++            pw->state = pw_ok;
+         }
+       break;
+ 
+@@ -1176,7 +1454,7 @@ handle_passwd_key (saver_info *si, XKeyE
+ }
+ 
+ 
+-static void
++void
+ passwd_event_loop (saver_info *si)
+ {
+   saver_preferences *p = &si->prefs;
+@@ -1187,20 +1465,75 @@ passwd_event_loop (saver_info *si)
+   while (si->pw_data && si->pw_data->state == pw_read)
+     {
+       XtAppNextEvent (si->app, &event);
++#ifdef HAVE_XSCREENSAVER_LOCK
++      if (event.xany.type == KeyPress)
++	{
++	  if (si->pw_data->got_windowid)
++	    {
++	      Bool status;
++	      XErrorHandler old_handler;
++	     
++              if(p->verbose_p)
++               fprintf (stderr, "event loop..gotwindowid..and keypress event...\n");
++
++               event.xany.window = si->passwd_dialog;
++
++              XSync (si->dpy, False);
++              old_handler = XSetErrorHandler (ignore_all_errors_ehandler);
++
++              status = 
++	XSendEvent (si->dpy, si->passwd_dialog, False, KeyPressMask, &event);
++              XSync (si->dpy, False);
++              XSetErrorHandler (old_handler);
++
++              if (p->verbose_p)
++                {
++                  if (status)
++                    fprintf (stderr, "sent key...\n");
++                  else
++                    fprintf (stderr, "error sending key...\n");
++                }
++	    }
++	  else
++	    {
++	      if (p->verbose_p)
++		fprintf (stderr, "got keypress but no window id yet :(\n");
++	      XtDispatchEvent (&event);
++	    }
++	}
++#else /* !HAVE_XSCREENSAVER_LOCK */
+       if (event.xany.window == si->passwd_dialog && event.xany.type == Expose)
+ 	draw_passwd_window (si);
+       else if (event.xany.type == KeyPress)
+ 	handle_passwd_key (si, &event.xkey);
++#endif /* !HAVE_XSCREENSAVER_LOCK */
++      else if (event.xany.window == si->passwd_dialog && event.xany.type == Expose &&
++               si->pw_data->passwd_label != NULL)
++       {
++          if(p->verbose_p)
++            fprintf (stderr, "event loop...and expose event.should update lock with new label...\n");
++          /***if (si->pw_data->passwd_label)**/
++          update_passwd_window (si, si->pw_data->passwd_label, pw->ratio);
++          free (si->pw_data->passwd_label);
++          si->pw_data->passwd_label = 0;
++	  si->pw_data->state = pw_read;
++       }
++
+       else
+ 	XtDispatchEvent (&event);
+     }
+ 
+   switch (si->pw_data->state)
+     {
+-    case pw_ok:   msg = 0; break;
+-    case pw_null: msg = ""; break;
+-    case pw_time: msg = "Timed out!"; break;
+-    default:      msg = "Sorry!"; break;
++    case pw_ok:   msg = strdup("pw_ok"); break;
++    case pw_null: msg = strdup("pw_null"); break;
++    case pw_time: msg = strdup("pw_time"); break;
++    case pw_read: msg = strdup("pw_read"); break;
++    case pw_fail: msg = strdup("pw_fail"); break;
++    case pw_cancel: msg = strdup("pw_cancel"); break;
++    default:      msg = 0; 
++	fprintf(stderr, "si->pw_data->state is bad, serious error\n");
++        break;
+     }
+ 
+   if (si->pw_data->state == pw_fail)
+@@ -1210,7 +1543,12 @@ passwd_event_loop (saver_info *si)
+     switch (si->pw_data->state)
+       {
+       case pw_ok:
+-	fprintf (stderr, "%s: password correct.\n", blurb()); break;
++       {
++	fprintf (stderr, "%s: password correct.\n", blurb());
++	fprintf (stderr, "%s: setting state to be null.\n", blurb());
++        si->pw_data->state = pw_null;
++        break;
++       }
+       case pw_fail:
+ 	fprintf (stderr, "%s: password incorrect!\n", blurb()); break;
+       case pw_null:
+@@ -1218,7 +1556,8 @@ passwd_event_loop (saver_info *si)
+ 	fprintf (stderr, "%s: password entry cancelled.\n", blurb()); break;
+       case pw_time:
+ 	fprintf (stderr, "%s: password entry timed out.\n", blurb()); break;
+-      default: break;
++      default: 
++        break;
+       }
+ 
+ #ifdef HAVE_SYSLOG
+@@ -1266,17 +1605,57 @@ passwd_event_loop (saver_info *si)
+ 	fprintf (real_stderr,
+ 		 "%s: WARNING: %d failed attempts to unlock the screen.\n",
+ 		 blurb(), si->unlock_failures);
+-      fflush (real_stderr);
+ 
+       si->unlock_failures = 0;
+     }
+ 
+   if (msg)
+     {
++	  if (p->verbose_p)
++	    {
++              fprintf (stderr, "..eventloop...msg is:%s\n",msg);
++            }
++#ifdef HAVE_XSCREENSAVER_LOCK
++    /* DONT NEED TO SEND ANY INFO TO CHILD AT THIS STAGE */
++    /*  if (write_to_child (si, msg));**/ /*if write is successful do nothing*/
++      free(msg);
++
++      /*********************************************************
++      if (si->external_passwd && si->pw_data->stdin_fd != -1)
++	{
++	  ssize_t len;
++	  char *nlmsg;
++
++	  nlmsg = (char *)malloc (strlen (msg) + 2);
++	  sprintf (nlmsg, "%s\n", msg);
++
++	  if (p->verbose_p)
++	    {
++              fprintf (stderr, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
++              fprintf (stderr, "HAVE_SCRSVR_LOCK message is:%s writing to fd:%d\n",
++	                 	   msg, si->pw_data->stdin_fd);
++              fprintf (stderr, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
++	    }
++
++	write_msg:
++	  len = write (si->pw_data->stdin_fd, nlmsg, strlen (nlmsg));
++	  if (len < 0 && errno == EINTR)
++	    goto write_msg;
++
++	  free (nlmsg);	  
++	}
++      else
++      ******************************************************************************/
++#endif /* HAVE_XSCREENSAVER_LOCK */
++/************
++    {
+       si->pw_data->i_beam = 0;
+       update_passwd_window (si, msg, 0.0);
++    }
++************/
++
+       XSync (si->dpy, False);
+-      sleep (1);
++      usleep (250000);  /* 1/4 second */
+ 
+       /* Swallow all pending KeyPress/KeyRelease events. */
+       {
+@@ -1288,7 +1667,7 @@ passwd_event_loop (saver_info *si)
+ }
+ 
+ 
+-static void
++void
+ handle_typeahead (saver_info *si)
+ {
+   passwd_dialog_data *pw = si->pw_data;
+@@ -1305,7 +1684,13 @@ handle_typeahead (saver_info *si)
+ 
+   memset (si->unlock_typeahead, '*', strlen(si->unlock_typeahead));
+   si->unlock_typeahead[i] = 0;
++#ifdef HAVE_XSCREENSAVER_LOCK
++  /* FIXME: bugzilla.gnome.org #77077 */
++  /* need to handle this in the external dialog case */
++
++#else
+   update_passwd_window (si, si->unlock_typeahead, pw->ratio);
++#endif /* !HAVE_XSCREENSAVER_LOCK */
+ 
+   free (si->unlock_typeahead);
+   si->unlock_typeahead = 0;
+@@ -1321,12 +1706,14 @@ unlock_p (saver_info *si)
+   raise_window (si, True, True, True);
+ 
+   if (p->verbose_p)
+-    fprintf (stderr, "%s: prompting for password.\n", blurb());
++    fprintf (stderr, "%s: -->unlock_p()\n", blurb());
+ 
++/*******mali99**/
+   if (si->pw_data || si->passwd_dialog)
+     destroy_passwd_window (si);
+ 
+   make_passwd_window (si);
++/****mali99*********/
+ 
+   compose_status = calloc (1, sizeof (*compose_status));
+ 
+@@ -1334,7 +1721,8 @@ unlock_p (saver_info *si)
+   passwd_event_loop (si);
+ 
+   status = (si->pw_data->state == pw_ok);
++
+   destroy_passwd_window (si);
+ 
+   free (compose_status);
+
+--- driver/passwd-kerberos.c	2000-02-27 14:21:41.000000000 -0800
++++ driver/passwd-kerberos.c	2006-04-10 13:48:06.182897000 -0700
+@@ -143,7 +143,7 @@ key_to_key(char *user, char *instance, c
+    some sites. So, we do a quick, painful hack with a tmpfile.
+  */
+ Bool
+-kerberos_passwd_valid_p (const char *typed_passwd, Bool verbose_p)
++kerberos_passwd_valid_p (const char *typed_passwd, Bool verbose_p, int whichService)
+ {
+     C_Block mitkey;
+     Bool success;
+
+diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
+--- driver/passwd-pam.c	2006-05-10 08:48:24.113115000 -0700
++++ driver/passwd-pam.c	2006-05-10 08:48:29.973056000 -0700
+@@ -39,11 +39,18 @@
+ #ifndef NO_LOCKING  /* whole file */
+ 
+ #include <stdlib.h>
++#include <xscreensaver-intl.h>
++
+ #ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif
+ 
+-extern char *blurb(void);
++# ifdef sun
++#  include <deflt.h>
++# endif
++
++
++/*extern char *blurb(void);*/
+ 
+ 
+ #include <stdio.h>
+@@ -55,8 +62,26 @@ extern char *blurb(void);
+ 
+ #include <sys/stat.h>
+ 
++#include <X11/Intrinsic.h>
++#include <X11/Xos.h>            /* for time() */
++#include <time.h>
++#include <sys/time.h>
++#include <errno.h>
++#include <signal.h>
++#include "xscreensaver.h"
++
++extern int write_to_child (saver_info* si, char* msg);
++extern void make_passwd_window (saver_info* si);
++extern void destroy_passwd_window (saver_info* si);
++extern void handle_typeahead (saver_info* si);
++extern void update_passwd_window (saver_info *si, const char *printed_passwd, float ratio);
+ extern void block_sigchld (void);
+ extern void unblock_sigchld (void);
++extern void passwd_event_loop(saver_info* si);
++extern passwd_dialog_data* ptr_mygtkpwd;
++
++extern saver_info *global_si_kludge;
++extern Bool g_passwd_dialog_created;
+ 
+ /* blargh */
+ #undef  Bool
+@@ -66,6 +91,9 @@ extern void unblock_sigchld (void);
+ #define True  1
+ #define False 0
+ 
++
++Bool we_have_pam;
++
+ #undef countof
+ #define countof(x) (sizeof((x))/sizeof(*(x)))
+ 
+@@ -76,14 +104,14 @@ extern void unblock_sigchld (void);
+ # define PAM_REFRESH_CRED PAM_CRED_REFRESH
+ #endif
+ 
+-static int pam_conversation (int nmsgs,
+-                             const struct pam_message **msg,
++int pam_conversation (int nmsgs,
++                      struct pam_message **msg,
+                              struct pam_response **resp,
+                              void *closure);
+ 
+ struct pam_closure {
+   const char *user;
+-  const char *typed_passwd;
++/*  const char *typed_passwd; No need for this, pam_conv should get this*/
+   Bool verbose_p;
+ };
+ 
+@@ -171,22 +199,34 @@ static void *suns_pam_implementation_blo
+    to root.
+  */
+ Bool
+-pam_passwd_valid_p (const char *typed_passwd, Bool verbose_p)
++pam_passwd_valid_p ()
+ {
+   const char *service = PAM_SERVICE_NAME;
++  uid_t euid;
+   pam_handle_t *pamh = 0;
+-  int status = -1;
++  int pam_auth_status = 0;  /* Specific for pam_authenticate() status*/
++  int status,acct_rc,setcred_rc,chauth_rc;
+   struct pam_conv pc;
+   struct pam_closure c;
+   char *user = 0;
++  char* tmp_buf;
++  int  pam_flags = 0;
++  saver_info *si = global_si_kludge;
+ 
+   struct passwd *p = getpwuid (getuid ());
++  Bool verbose_p = si->prefs.verbose_p;
++
++  if (verbose_p)
++    fprintf (stderr, "-->pam_passwd_valid_p()\n");
++
+   if (!p) return False;
+ 
++  euid = geteuid();
++
+   user = strdup (p->pw_name);
+ 
+   c.user = user;
+-  c.typed_passwd = typed_passwd;
++/**  c.typed_passwd = NULL; **/
+   c.verbose_p = verbose_p;
+ 
+   pc.conv = &pam_conversation;
+@@ -196,6 +236,20 @@ pam_passwd_valid_p (const char *typed_pa
+      `closure' argument to pc.conv always comes in as random garbage. */
+   suns_pam_implementation_blows = (void *) &c;
+ 
++  if (si->prefs.verbose_p)
++    fprintf (stderr, "Before uid=%d euid=%d \n\n", getuid(), geteuid());
++
++ if (seteuid (0) != 0)
++  {
++   if (verbose_p)
++     perror("Could not change euid to root, pam may not work!\n");
++  }
++  
++  if (verbose_p)
++   fprintf (stderr, "After seteuid(0) uid=%d euid=%d \n\n", getuid(), geteuid());
++
++  if (verbose_p)
++   fprintf (stderr, "PAM is using SERVICE_NAME=\"%s\"\n\n", service);
+ 
+   /* Initialize PAM.
+    */
+@@ -204,21 +258,61 @@ pam_passwd_valid_p (const char *typed_pa
+     fprintf (stderr, "%s: pam_start (\"%s\", \"%s\", ...) ==> %d (%s)\n",
+              blurb(), service, c.user,
+              status, PAM_STRERROR (pamh, status));
+-  if (status != PAM_SUCCESS) goto DONE;
++  if (status != PAM_SUCCESS) 
++   {
++    we_have_pam = False;
++    goto DONE;
++   }
++  else
++    we_have_pam = True; /* if this flag is set we dont want to try shadow
++			 * passwords, i.e. method pwent, so if pam fails
++			 * screen remains locked.
++      			 ***/
++
++/* copying from xlock */
++
++#ifdef sun
++        /* Check /etc/default/login to see if we should add
++           PAM_DISALLOW_NULL_AUTHTOK to pam_flags */
++        if (defopen("/etc/default/login") == 0) {
++            char *ptr;
++            int flags = defcntl(DC_GETFLAGS, 0);
++            TURNOFF(flags, DC_CASE);
++            (void) defcntl(DC_SETFLAGS, flags);
++            if ((ptr = defread("PASSREQ=")) != NULL &&
++              strcasecmp("YES", ptr) == 0) {
++                pam_flags |= PAM_DISALLOW_NULL_AUTHTOK;
++            }
++
++            (void) defopen((char *)NULL); /* close current file */
++        }
++#endif
+ 
+   /* #### We should set PAM_TTY to the display we're using, but we
+      don't have that handy from here.  So set it to :0.0, which is a
+      good guess (and has the bonus of counting as a "secure tty" as
+      far as PAM is concerned...)
+    */
++
++/* From the pam trace and log file, it is found out that the 
++   Sun pam modules can drive itself.
++*/
++
++#if 0
++
+   {
+-    char *tty = strdup (":0.0");
++    char *tty,*displayname;
++    if ((displayname = getenv ("DISPLAY")) != NULL)
++        tty = strdup(displayname);
++    else
++   	tty = strdup (":0.0");
+     status = pam_set_item (pamh, PAM_TTY, tty);
+     if (verbose_p)
+       fprintf (stderr, "%s:   pam_set_item (p, PAM_TTY, \"%s\") ==> %d (%s)\n",
+                blurb(), tty, status, PAM_STRERROR(pamh, status));
+     free (tty);
+   }
++#endif
+ 
+   /* Try to authenticate as the current user.
+      We must turn off our SIGCHLD handler for the duration of the call to
+@@ -242,31 +336,132 @@ pam_passwd_valid_p (const char *typed_pa
+ 
+   PAM_NO_DELAY(pamh);
+ 
++/************* no need
++  fprintf(stderr,"before calling pam_authenticate passwd_string: %s\n",si->pw_data->passwd_string);
++  if (si->pw_data->passwd_string)
++****************************/
++   {
++
+   block_sigchld();
+-  status = pam_authenticate (pamh, 0);
++     pam_auth_status = pam_authenticate (pamh, pam_flags);
+   unblock_sigchld();
++     /* Send status message to unlock dialog ***/
++     if (pam_auth_status == PAM_SUCCESS)
++      {
++        write_to_child (si, "pw_ok");
++        tmp_buf = (char*)PAM_STRERROR(pamh, pam_auth_status);
++        write_to_child (si, tmp_buf);
++        if (verbose_p)
++          sleep (1);
++      }
++     else
++      {
++        write_to_child (si, "pw_fail");
++        tmp_buf = (char*)PAM_STRERROR(pamh, pam_auth_status);
++        write_to_child (si, tmp_buf);
++        if (verbose_p)
++          sleep (1);
++        else
++          usleep (500000); /*sleep for 1/2 of sec */
++      }
++
++     /* PAM_SUCCESS defined to be 0 in /usr/include/security/pam_appl.h */
++     si->pw_data->state = (pam_auth_status == PAM_SUCCESS ? pw_ok : pw_fail);
++  if (verbose_p)
++        fprintf(stderr,"after calling pam_authenticate status is:%d state is:%d\n",
++			pam_auth_status,si->pw_data->state);
++
++     /* We get here implies regardless of success/failure nuke lock dialog */
++     /* no..wait till pam_end..to display error msgs...destroy_passwd_window (si);**/
++   }
+ 
+   if (verbose_p)
+     fprintf (stderr, "%s:   pam_authenticate (...) ==> %d (%s)\n",
+-             blurb(), status, PAM_STRERROR(pamh, status));
+-  if (status == PAM_SUCCESS)  /* Win! */
++             blurb(), pam_auth_status, PAM_STRERROR(pamh, pam_auth_status));
++  if (pam_auth_status == PAM_SUCCESS)  /* Win! */
+     {
++        /* perform PAM account validation procedures for login user only */
++	acct_rc   = pam_acct_mgmt(pamh, pam_flags);
++
++        /******************************************************************
++           ignore other cases for the time being 
++           PAM_USER_UNKNOWN, PAM_AUTH_ERR, PAM_ACCT_EXPIRED
++           (password mgn service module)
++           same as pam_setcred(), focus on auth. service module only
++         *****************************************************************/
++
++	if (acct_rc   == PAM_NEW_AUTHTOK_REQD) {
++		do {
++			chauth_rc  = pam_chauthtok(pamh, 0);
++                    } while (chauth_rc == PAM_AUTHTOK_ERR ||
++                      chauth_rc  == PAM_TRY_AGAIN);
++      		if (verbose_p)
++        	  fprintf (stderr, "%s:   pam_chauthtok (...) ==> %d (%s)\n",
++                 blurb(), chauth_rc, PAM_STRERROR(pamh, chauth_rc));
++	}
++        if (verbose_p)
++        fprintf (stderr, "%s:   pam_acct_mgmt (...) ==> %d (%s)\n",
++                 blurb(), acct_rc, PAM_STRERROR(pamh, acct_rc));
++
++     /* Send status message to unlock dialog ***/
++     if (acct_rc == PAM_SUCCESS)
++      {
++        write_to_child (si, "pw_acct_ok");
++        tmp_buf = (char*)PAM_STRERROR(pamh, acct_rc);
++        write_to_child (si, tmp_buf);
++        if (verbose_p)
++          sleep (1);
++      }
++     else
++      {
++        write_to_child (si, "pw_acct_fail");
++        tmp_buf = (char*)PAM_STRERROR(pamh, acct_rc);
++        write_to_child (si, tmp_buf);
++        if (verbose_p)
++          sleep (1);
++      }
++
+       /* Each time we successfully authenticate, refresh credentials,
+          for Kerberos/AFS/DCE/etc.  If this fails, just ignore that
+          failure and blunder along; it shouldn't matter.
+        */
+-      int status2 = pam_setcred (pamh, PAM_REFRESH_CRED);
++      setcred_rc = pam_setcred (pamh, PAM_REFRESH_CRED);
+       if (verbose_p)
+         fprintf (stderr, "%s:   pam_setcred (...) ==> %d (%s)\n",
+-                 blurb(), status2, PAM_STRERROR(pamh, status2));
++                 blurb(), setcred_rc , PAM_STRERROR(pamh, setcred_rc));
++
++     /* Send status message to unlock dialog ***/
++     if (setcred_rc == PAM_SUCCESS)
++      {
++        write_to_child (si, "pw_setcred_ok");
++        tmp_buf = (char*)PAM_STRERROR(pamh, setcred_rc);
++        write_to_child (si, tmp_buf);
++        if (verbose_p)
++           sleep (1);
++      }
++     else
++      {
++        write_to_child (si, "pw_setcred_fail");
++        tmp_buf = (char*)PAM_STRERROR(pamh, setcred_rc);
++        write_to_child (si, tmp_buf);
++        if (verbose_p)
++          sleep (1);
++      }
++
+       goto DONE;
+     }
+ 
++/* security hole if root pwd is not set (or CR)
++   cannot delete it and is user function spec.
++*/
++
+   /* If that didn't work, set the user to root, and try to authenticate again.
+    */
+   if (user) free (user);
+   user = strdup ("root");
+   c.user = user;
++
++  status = -1;  	/* Reset status */
+   status = pam_set_item (pamh, PAM_USER, c.user);
+   if (verbose_p)
+     fprintf (stderr, "%s:   pam_set_item(p, PAM_USER, \"%s\") ==> %d (%s)\n",
+@@ -274,23 +469,72 @@ pam_passwd_valid_p (const char *typed_pa
+   if (status != PAM_SUCCESS) goto DONE;
+ 
+   PAM_NO_DELAY(pamh);
+-  status = pam_authenticate (pamh, 0);
++  pam_auth_status = -1;  	/* Reset status */
++
++  block_sigchld();
++  pam_auth_status = pam_authenticate (pamh, 0);
++  unblock_sigchld();
++
++/* Send status message to unlock dialog ***/
++     if (pam_auth_status == PAM_SUCCESS)
++      {
++        write_to_child (si, "pw_ok");
++        tmp_buf = strdup (_("Letting you in as ROOT!!"));
++        write_to_child (si, tmp_buf);
++        free (tmp_buf);
+   if (verbose_p)
+-    fprintf (stderr, "%s:   pam_authenticate (...) ==> %d (%s)\n",
+-             blurb(), status, PAM_STRERROR(pamh, status));
++         sleep (1);
++      }
++
++  /* PAM_SUCCESS defined to be 0 in /usr/include/security/pam_appl.h */
++  si->pw_data->state = (pam_auth_status == PAM_SUCCESS ? pw_ok : pw_fail);
++
++  if (verbose_p)
++    fprintf (stderr, "%s:   pam_authenticate as root user (...) ==> %d (%s)\n",
++             blurb(), pam_auth_status, PAM_STRERROR(pamh, pam_auth_status));
++
++
+ 
+  DONE:
+   if (user) free (user);
+   if (pamh)
+     {
+-      int status2 = pam_end (pamh, status);
++      int status2 = pam_end (pamh, pam_auth_status);
+       pamh = 0;
+       if (verbose_p)
+         fprintf (stderr, "%s: pam_end (...) ==> %d (%s)\n",
+                  blurb(), status2,
+                  (status2 == PAM_SUCCESS ? "Success" : "Failure"));
+     }
+-  return (status == PAM_SUCCESS ? True : False);
++ 
++  if (seteuid (euid) != 0)
++   {
++    if (verbose_p)
++      perror("Error pam could not revert euid to user running as euid root, locking may not work now\n");
++}
++
++  if (verbose_p)
++     fprintf (stderr, "<--end of pam_authenticate() returning ok_to_unblank = %d\n",
++                            (int) ((pam_auth_status == PAM_SUCCESS) ? True:False));
++
++  /* Now destroy unlock dialog window created in pam_conv func ***/
++
++  destroy_passwd_window (si);
++  usleep (250000); /* if repeatedly tried to unlock dialog with bad passwd, old dialog
++                    * doesnt get completely unmapped before new one posts, this should
++                    * help the unmapping to go through before new one is posted */
++  XSync (si->dpy, False);
++
++  if (si->pw_data->passwd_string)
++   {
++    free (si->pw_data->passwd_string); 
++    si->pw_data->passwd_string = 0;
++   }
++
++  if(pam_auth_status == PAM_SUCCESS) 
++     return (True);
++  else 
++     return (False);
+ }
+ 
+ 
+@@ -308,8 +552,14 @@ pam_priv_init (int argc, char **argv, Bo
+   const char   dir[] = "/etc/pam.d";
+   const char  file[] = "/etc/pam.d/" PAM_SERVICE_NAME;
+   const char file2[] = "/etc/pam.conf";
++
+   struct stat st;
+ 
++  if (! verbose_p)	/* SUN addition: only print warnings in verbose mode */
++    {			/* since they are rarely useful and mostly just      */
++      return True;	/* cause confusion when users see them.		     */
++    }
++
+ #ifndef S_ISDIR
+ # define S_ISDIR(mode)   (((mode) & S_IFMT) == S_IFDIR)
+ #endif
+@@ -336,6 +586,9 @@ pam_priv_init (int argc, char **argv, Bo
+                 break;
+               }
+           fclose (f);
++          
++/* 
++** comment out the misleading message
+           if (!ok)
+             {
+               fprintf (stderr,
+@@ -343,9 +596,12 @@ pam_priv_init (int argc, char **argv, Bo
+                   "%s: password authentication via PAM is unlikely to work.\n",
+                        blurb(), file2, PAM_SERVICE_NAME, blurb());
+             }
++*/
+         }
+       /* else warn about file2 existing but being unreadable? */
+     }
++/*
++** comment out the misleading message
+   else
+     {
+       fprintf (stderr,
+@@ -353,6 +609,7 @@ pam_priv_init (int argc, char **argv, Bo
+                "%s: password authentication via PAM is unlikely to work.\n",
+                blurb(), file2, file, blurb());
+     }
++*/
+ 
+   /* Return true anyway, just in case. */
+   return True;
+@@ -373,67 +630,144 @@ pam_priv_init (int argc, char **argv, Bo
+    would never see this string, and the prompted-for password would be
+    ignored.
+  */
+-static int
++int
+ pam_conversation (int nmsgs,
+-                  const struct pam_message **msg,
++                  struct pam_message **msg,
+                   struct pam_response **resp,
+                   void *closure)
+ {
+   int replies = 0;
+   struct pam_response *reply = 0;
+   struct pam_closure *c = (struct pam_closure *) closure;
++  saver_info *si = global_si_kludge;
+ 
+   /* On SunOS 5.6, the `closure' argument always comes in as random garbage. */
+   c = (struct pam_closure *) suns_pam_implementation_blows;
+ 
++  if (c->verbose_p)
++     fprintf(stderr, "-->pam_conv() \n");
+ 
+   reply = (struct pam_response *) calloc (nmsgs, sizeof (*reply));
+   if (!reply) return PAM_CONV_ERR;
+ 	
+   for (replies = 0; replies < nmsgs; replies++)
+     {
++     /* Means pam requires interaction..spawn dialog dont use unlock_p() here
++      * Another issue is pam conv can be called many times by pam, for pam_auth
++      * and then again for pam_setcred etc.. so make sure we dont keep creating
++      * multiple copies of dialog. 
++      */
++        if (!g_passwd_dialog_created)
++         {
++           make_passwd_window (si);
++         }
++
++/**fprintf(stderr, "top of switch %d\n", replies);**/
+       switch (msg[replies]->msg_style)
+         {
+         case PAM_PROMPT_ECHO_ON:
+-          reply[replies].resp_retcode = PAM_SUCCESS;
+-          reply[replies].resp = strdup (c->user);	   /* freed by PAM */
+-          if (c->verbose_p)
+-            fprintf (stderr, "%s:     PAM ECHO_ON(\"%s\") ==> \"%s\"\n",
+-                     blurb(), msg[replies]->msg,
+-                     reply[replies].resp);
+-          break;
+         case PAM_PROMPT_ECHO_OFF:
+-          reply[replies].resp_retcode = PAM_SUCCESS;
+-          reply[replies].resp = strdup (c->typed_passwd);   /* freed by PAM */
++         {
+           if (c->verbose_p)
+             fprintf (stderr, "%s:     PAM ECHO_OFF(\"%s\") ==> password\n",
+                      blurb(), msg[replies]->msg);
+-          break;
+-        case PAM_TEXT_INFO:
+-          /* ignore it... */
++
++          /**fprintf(stderr, "PAM_ECHO_OFF/ECHO_ON nmsgs=%d\n",nmsgs);**/
++
++             write_to_child (si, msg[replies]->msg);
++             if (c->verbose_p)
++              sleep (1); /* let user see these */
++
++             if (c->verbose_p)
++                fprintf(stderr, "PAM_ECHO_OFF/ECHO_ON msg[replies]-> %s\n",
++					msg[replies]->msg);
++
++             si->pw_data->state = pw_read;
++             while (!si->pw_data->got_windowid && si->pw_data->state == pw_read)
++              {
++               if (c->verbose_p)
++                 fprintf(stderr,"WAiting for window id from lock dialog\n");
++               handle_typeahead (si);
++               passwd_event_loop (si);
++               if (c->verbose_p)
++                 fprintf(stderr,"<---passwd_event_loop() state =%d\n",si->pw_data->state);
++              }
++
+           reply[replies].resp_retcode = PAM_SUCCESS;
+-          reply[replies].resp = 0;
++
++             /*Make sure user inputs a response..and dialog is not timiing out **/
++             if (si->pw_data->state != pw_time && si->pw_data->passwd_string != NULL)
++              {
++               reply[replies].resp = strdup (si->pw_data->passwd_string);/*freed by PAM*/
+           if (c->verbose_p)
+-            fprintf (stderr, "%s:     PAM TEXT_INFO(\"%s\") ==> ignored\n",
+-                     blurb(), msg[replies]->msg);
++                 fprintf(stderr, "in ECHO OFF and got a passwd..:%s\n",
++                                       si->pw_data->passwd_string);
++              }
++             else /* Perhaps user does not want to enter input, dialog times out */
++              {
++               /* this shouldnt happen...perhaps sending null passwd to pam is 
++	        * best for now**/
++               /* reply[replies].resp = 0;Dont send any resp*/ /* freed by PAM */
++               /* Reset state to fail */
++               si->pw_data->state = pw_fail;
++
++               if (c->verbose_p)
++                {
++                  fprintf(stderr, "Dude sending null password to pam..\n");
++                  fprintf(stderr,"We didnt receive any input from user!!!\n");
++                }
++              }
+           break;
++         }
++        case PAM_TEXT_INFO:
+         case PAM_ERROR_MSG:
+-          /* ignore it... */
+-          reply[replies].resp_retcode = PAM_SUCCESS;
+-          reply[replies].resp = 0;
++	{
++	 char* tmp_msg;
++
++          /* display messages coming from pam... */
++          /* we should have dialog up still to show this */
+           if (c->verbose_p)
+-            fprintf (stderr, "%s:     PAM ERROR_MSG(\"%s\") ==> ignored\n",
+-                     blurb(), msg[replies]->msg);
++            fprintf(stderr, "PAM_ERROR/PAM_TEXT_INFO nmsgs=%d\n",nmsgs);
++          if (!g_passwd_dialog_created)
++           {
++            make_passwd_window (si);
++            /*sleep (1);*/ /*make sure window is created by now **/
++           }
++          tmp_msg = strdup (msg[replies]->msg);
++          write_to_child (si, tmp_msg);
++          sleep(1);
++
++          if (c->verbose_p)
++            fprintf(stderr, "PAM_ERROR/PAM_TEXT_INFO msg[%d]-> %s\n",
++					replies,msg[replies]->msg);
++
++          reply[replies].resp_retcode = PAM_CONV_ERR;
++          /*reply[replies].resp = 0;*/
++          /* Reset state to read */
++          si->pw_data->state = pw_read;
++
++          free(tmp_msg);
+           break;
++	}
++
+         default:
+-          /* Must be an error of some sort... */
+-          free (reply);
++
++         {
++           int i;
+           if (c->verbose_p)
+-            fprintf (stderr, "%s:     PAM unknown %d(\"%s\") ==> ignored\n",
++            fprintf (stderr, "%s:     PAM unknown %d(\"%s\") ==> ERROR..default case:\n",
+                      blurb(), msg[replies]->msg_style, msg[replies]->msg);
++          /* Must be an error of some sort... */
++            for (i = 0; i < replies; i++)
++                    if (reply[replies].resp != NULL)
++                            free (reply[replies].resp);
++            free (reply);
++            reply = NULL;
+           return PAM_CONV_ERR;
+-        }
+-    }
++
++          } /* end default */
++        } /* end switch */
++    } /* end for loop */
+   *resp = reply;
+   return PAM_SUCCESS;
+ }
+diff -urp -x '*~' driver/passwd.c driver/passwd.c
+--- driver/passwd.c	2002-03-05 18:15:47.000000000 -0800
++++ driver/passwd.c	2006-05-10 08:48:29.955519000 -0700
+@@ -49,15 +49,15 @@ struct auth_methods {
+ 
+ #ifdef HAVE_KERBEROS
+ extern Bool kerberos_lock_init (int argc, char **argv, Bool verbose_p);
+-extern Bool kerberos_passwd_valid_p (const char *typed_passwd, Bool verbose_p);
++extern Bool kerberos_passwd_valid_p (const char *typed_passwd, Bool verbose_p, int whichService);
+ #endif
+ #ifdef HAVE_PAM
+ extern Bool pam_priv_init (int argc, char **argv, Bool verbose_p);
+-extern Bool pam_passwd_valid_p (const char *typed_passwd, Bool verbose_p);
++extern Bool pam_passwd_valid_p (void);
+ #endif
+ extern Bool pwent_lock_init (int argc, char **argv, Bool verbose_p);
+ extern Bool pwent_priv_init (int argc, char **argv, Bool verbose_p);
+-extern Bool pwent_passwd_valid_p (const char *typed_passwd, Bool verbose_p);
++extern Bool pwent_passwd_valid_p (const char *typed_passwd, Bool verbose_p, int whichService);
+ 
+ 
+ /* The authorization methods to try, in order.
+@@ -73,9 +73,10 @@ struct auth_methods methods[] = {
+ # ifdef HAVE_PAM
+   { "PAM",              0, pam_priv_init, pam_passwd_valid_p, 
+                         False, False },
+-# endif
++# else    /* If we dont have PAM only then fall back to shadow passwords authentication */
+   { "normal",           pwent_lock_init, pwent_priv_init, pwent_passwd_valid_p,
+                         False, False }
++# endif  /* HAVE_PAM */
+ };
+ 
+ 
+diff -urp -x '*~' driver/setuid.c driver/setuid.c
+--- driver/setuid.c	2000-11-08 05:13:18.000000000 -0800
++++ driver/setuid.c	2006-05-10 08:48:29.941707000 -0700
+@@ -15,6 +15,7 @@
+ #endif
+ 
+ #include <X11/Xlib.h>		/* not used for much... */
++#include <X11/Intrinsic.h>		/* not used for much... */
+ 
+ /* This file doesn't need the Xt headers, so stub these types out... */
+ #undef XtPointer
+@@ -101,7 +102,10 @@ set_ids_by_number (uid_t uid, gid_t gid,
+     gid_errno = errno ? errno : -1;
+ 
+   errno = 0;
+-  if (setuid (uid) != 0)
++/*mali  if (setuid (uid) != 0)**we need root privs back at pam_authenticate
++  this is causing to loose root priv for good, not good **/
++
++ if (seteuid (uid) != 0)
+     uid_errno = errno ? errno : -1;
+ 
+   if (uid_errno == 0 && gid_errno == 0)
+diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
+--- driver/subprocs.c	2006-05-10 08:48:24.156389000 -0700
++++ driver/subprocs.c	2006-05-10 08:48:29.955074000 -0700
+@@ -20,6 +20,7 @@
+ #include <string.h>
+ 
+ #include <X11/Xlib.h>		/* not used for much... */
++#include <X11/Intrinsic.h>		/* not used for much... */
+ 
+ #ifndef ESRCH
+ # include <errno.h>
+@@ -277,7 +278,7 @@ find_job (pid_t pid)
+   return 0;
+ }
+ 
+-static void await_dying_children (saver_info *si);
++void await_dying_children (saver_info *si);
+ #ifndef VMS
+ static void describe_dead_child (saver_info *, pid_t, int wait_status);
+ #endif
+@@ -413,7 +414,7 @@ sigchld_handler (int sig)
+ 
+ 
+ #ifndef VMS
+-static void
++void
+ await_dying_children (saver_info *si)
+ {
+   while (1)
+@@ -468,9 +469,15 @@ describe_dead_child (saver_info *si, pid
+ 	 mention them) if we've just killed the subprocess.  But mention them
+ 	 if they happen on their own.
+        */
+-      if (!job ||
++
++      if ((!job 
++#ifdef HAVE_XSCREENSAVER_LOCK
++	   && kid != si->passwd_pid
++#endif /* HAVE_XSCREENSAVER_LOCK */
++		  ) ||
+ 	  (exit_status != 0 &&
+-	   (p->verbose_p || job->status != job_killed)))
++	   (p->verbose_p || (job && job->status != job_killed))))
++
+ 	fprintf (stderr,
+ 		 "%s: %d: child pid %lu (%s) exited abnormally (code %d).\n",
+ 		 blurb(), screen_no, (unsigned long) kid, name, exit_status);
+@@ -484,8 +491,12 @@ describe_dead_child (saver_info *si, pid
+   else if (WIFSIGNALED (wait_status))
+     {
+       if (p->verbose_p ||
+-	  !job ||
+-	  job->status != job_killed ||
++	  (!job
++#ifdef HAVE_XSCREENSAVER_LOCK
++	   && kid != si->passwd_pid
++#endif /* HAVE_XSCREENSAVER_LOCK */
++		  ) ||
++	  (job && job->status != job_killed) ||
+ 	  WTERMSIG (wait_status) != SIGTERM)
+ 	fprintf (stderr, "%s: %d: child pid %lu (%s) terminated with %s.\n",
+ 		 blurb(), screen_no, (unsigned long) kid, name,
+@@ -515,12 +526,23 @@ describe_dead_child (saver_info *si, pid
+   /* Clear out the pid so that screenhack_running_p() knows it's dead.
+    */
+   if (!job || job->status == job_dead)
++    {
+     for (i = 0; i < si->nscreens; i++)
+       {
+ 	saver_screen_info *ssi = &si->screens[i];
+ 	if (kid == ssi->pid)
+ 	  ssi->pid = 0;
+       }
++#ifdef HAVE_XSCREENSAVER_LOCK
++      if (kid == si->passwd_pid)
++	{
++/*unsafe	  if (p->verbose_p)
++	    fprintf (stderr, "passwd dialog died!\n");
++**/
++	  si->passwd_pid = 0;
++	}
++#endif
++    }
+ }
+ 
+ #else  /* VMS */
+diff -urp -x '*~' driver/timers.c driver/timers.c
+--- driver/timers.c	2002-05-10 03:40:32.000000000 -0700
++++ driver/timers.c	2006-05-10 08:48:29.940928000 -0700
+@@ -49,6 +49,12 @@ static Bool proc_interrupts_activity_p (
+ #endif /* HAVE_PROC_INTERRUPTS */
+ 
+ static void check_for_clock_skew (saver_info *si);
++static void watchdog_timer (XtPointer closure, XtIntervalId *id);
++extern Bool g_passwd_dialog_created;
++extern Bool ok_to_unblank;
++extern Bool pam_passwd_valid_p(void);
++extern Bool blank_screen (saver_info *si);
++extern void unblank_screen (saver_info *si);
+ 
+ 
+ void
+@@ -229,7 +235,8 @@ cycle_timer (XtPointer closure, XtInterv
+        crash.  So, restart the thing once an hour. */
+     how_long = 1000 * 60 * 60;
+ 
+-  if (si->dbox_up_p)
++/**mali99  if (si->dbox_up_p)*/
++   if (si->external_passwd)
+     {
+       if (p->verbose_p)
+ 	fprintf (stderr, "%s: dialog box up; delaying hack change.\n",
+@@ -277,8 +284,20 @@ activate_lock_timer (XtPointer closure, 
+   saver_preferences *p = &si->prefs;
+ 
+   if (p->verbose_p)
+-    fprintf (stderr, "%s: timed out; activating lock.\n", blurb());
++    fprintf (stderr, "-->activate_lock_timer() %s: timed out; activating lock.\n", 
++					blurb());
++  if (si->screen_blanked_p) /* Make sure screen is blanked before posting dialogbox*/
++   {
+   set_locked_p (si, True);
++    ok_to_unblank = pam_passwd_valid_p();
++    if (ok_to_unblank == True) 
++     {
++      set_locked_p(si,False);
++      unblank_screen(si);
++}
++   }
++  else /* blanking of screen failed reset lock flag */
++    set_locked_p (si, False);
+ }
+ 
+ 
+@@ -684,7 +703,10 @@ sleep_until_idle (saver_info *si, Bool u
+ 
+       case ClientMessage:
+ 	if (handle_clientmessage (si, &event, until_idle_p))
++         {
++          si->emergency_lock_p = True;
+ 	  goto DONE;
++         }
+ 	break;
+ 
+       case CreateNotify:
+@@ -697,8 +719,47 @@ sleep_until_idle (saver_info *si, Bool u
+ 	  }
+ 	break;
+ 
++      case VisibilityNotify:
++	{
++	  int k;
++
++          if (p->debug_p)
++	   {
++            fprintf(stderr,"************************************\n");
++	    fprintf(stderr,"-->sleep_until_idle() event:VisibilityNotify\n"); 
++            fprintf(stderr,"\t Window of VisibilityNotify:%x\n",
++				event.xvisibility.window);
++            fprintf(stderr,"\t until_idle_p=%d g_passwd_dialog_created=%d\n",
++				until_idle_p, g_passwd_dialog_created);
++	    fflush(stderr);
++	   }
++
++	  /*Dont raise root window when passwd dialog wants to come up */
++	  if (g_passwd_dialog_created == 0 && !until_idle_p)
++	    {
++	      if (event.xvisibility.state != VisibilityUnobscured)
++		{
++		  for (k = 0; k < si->nscreens; k++)
++		    {
++		      saver_screen_info *ssi = &si->screens[k];
++		      XClearWindow (si->dpy, ssi->screensaver_window);
++		      clear_stderr (ssi);
++		      XMapRaised (si->dpy, ssi->screensaver_window);
++		    }
++		  if (p->debug_p)
++		    {
++		      fprintf (stderr,"A window is trying to popup.\n");
++		      fprintf(stderr, "Raising saver root Window.\n");
++		      fprintf(stderr,"************************************\n");
++		      fflush(stderr);
++		    }
++		}
++	    }
++	  break;
++	} 
++
+       case KeyPress:
+-      case KeyRelease:
++/*mali99      case KeyRelease:**/
+       case ButtonPress:
+       case ButtonRelease:
+       case MotionNotify:
+@@ -1152,7 +1213,8 @@ watchdog_timer (XtPointer closure, XtInt
+     {
+       Bool running_p = screenhack_running_p (si);
+ 
+-      if (si->dbox_up_p)
++      /**mali9 if (si->dbox_up_p)****/
++      if (si->external_passwd)
+         {
+           if (si->prefs.debug_p)
+             fprintf (stderr, "%s: dialog box is up: not raising screen.\n",
+diff -urp -x '*~' driver/windows.c driver/windows.c
+--- driver/windows.c	2002-05-28 17:42:12.000000000 -0700
++++ driver/windows.c	2006-05-10 08:48:29.939107000 -0700
+@@ -35,6 +35,7 @@
+ #include <X11/Xutil.h>		/* for XSetClassHint() */
+ #include <X11/Xatom.h>
+ #include <X11/Xos.h>		/* for time() */
++#include <X11/Intrinsic.h>
+ #include <signal.h>		/* for the signal names */
+ #include <time.h>
+ #include <sys/time.h>
+@@ -1230,6 +1231,7 @@ initialize_screensaver_window_1 (saver_s
+    */
+   attrs.event_mask = (KeyPressMask | KeyReleaseMask |
+ 		      ButtonPressMask | ButtonReleaseMask |
++		      VisibilityChangeMask |
+ 		      PointerMotionMask);
+ 
+   attrs.backing_store = NotUseful;
+@@ -1397,6 +1399,9 @@ raise_window (saver_info *si,
+   saver_preferences *p = &si->prefs;
+   int i;
+ 
++  if (p->verbose_p)
++      fprintf(stderr,"-->raise_window()\n");
++
+   if (si->demoing_p)
+     inhibit_fade = True;
+ 
+@@ -1604,6 +1609,9 @@ unblank_screen (saver_info *si)
+   Bool unfade_p = (si->fading_possible_p && p->unfade_p);
+   int i;
+ 
++  if (p->verbose_p)
++      fprintf(stderr,"-->unblank_screen()\n");
++
+   monitor_power_on (si);
+   reset_watchdog_timer (si, False);
+ 
+diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
+--- driver/xscreensaver.c	2006-05-10 08:48:24.232166000 -0700
++++ driver/xscreensaver.c	2006-05-10 08:48:29.979552000 -0700
+@@ -156,8 +156,21 @@
+ #include "visual.h"
+ #include "usleep.h"
+ 
++extern Bool pam_passwd_valid_p ();
++
+ saver_info *global_si_kludge = 0;	/* I hate C so much... */
+ 
++/* Globals */
++Bool ok_to_unblank = False;
++
++/* Global storage for gtk passwd lock dialog 
++ * we assign this to si->pw_data and this is needed
++ * to set user/passwd labels on gtk lock dialog by
++ * pam conv function.
++ */
++passwd_dialog_data mygtkpwd;
++passwd_dialog_data *ptr_mygtkpwd = &mygtkpwd;
++
+ char *progname = 0;
+ char *progclass = 0;
+ XrmDatabase db = 0;
+@@ -168,6 +181,7 @@ static Atom XA_ACTIVATE, XA_DEACTIVATE, 
+ static Atom XA_RESTART, XA_SELECT;
+ static Atom XA_THROTTLE, XA_UNTHROTTLE;
+ Atom XA_DEMO, XA_PREFS, XA_EXIT, XA_LOCK, XA_BLANK;
++Atom XA_UNLOCK_RATIO;
+ 
+ 
+ static XrmOptionDescRec options [] = {
+@@ -555,6 +569,7 @@ connect_to_server (saver_info *si, int *
+   XA_BLANK = XInternAtom (si->dpy, "BLANK", False);
+   XA_THROTTLE = XInternAtom (si->dpy, "THROTTLE", False);
+   XA_UNTHROTTLE = XInternAtom (si->dpy, "UNTHROTTLE", False);
++  XA_UNLOCK_RATIO = XInternAtom (si->dpy, "UNLOCK_RATIO", False);
+ 
+   return toplevel_shell;
+ }
+@@ -951,7 +966,7 @@ static void
+ main_loop (saver_info *si)
+ {
+   saver_preferences *p = &si->prefs;
+-  Bool ok_to_unblank;
++  /* Bool ok_to_unblank; made this a global flag, gets set in timers.c */
+ 
+   while (1)
+     {
+@@ -982,6 +997,14 @@ main_loop (saver_info *si)
+             fprintf (stderr, "%s: idle with blanking disabled at %s.\n",
+                      blurb(), timestring());
+ 
++          /* mali Bug 6221109 Changing mode from disable to anything else,doesnt lock screen.
++           * This is Disable Screen Saver mode, in this mode we dont lock screen
++           * but si->locked_p is already set to True, since someone tried to lock screen,
++           * reset it to False, else when we change mode from disable and try to lock screen,
++           * xscreensaver thinks screen is already locked and doesnt lock screen anymore.
++           */
++          set_locked_p (si, False);
++
+           /* Go around the loop and wait for the next bout of idleness,
+              or for the init file to change, or for a remote command to
+              come in, or something.
+@@ -1005,6 +1028,7 @@ main_loop (saver_info *si)
+           fprintf (stderr,
+                   "%s: unable to grab keyboard or mouse!  Blanking aborted.\n",
+                    blurb());
++          set_locked_p(si, False);
+           continue;
+         }
+ 
+@@ -1049,7 +1073,17 @@ main_loop (saver_info *si)
+             p->lock_p &&                /* and locking is enabled */
+             !si->locking_disabled_p &&  /* and locking is possible */
+             lock_timeout == 0)          /* and locking is not timer-deferred */
++         {
++          if (p->debug_p)
++            fprintf(stderr, "going to lock screen B\n");
+           set_locked_p (si, True);      /* then lock right now. */
++          ok_to_unblank = pam_passwd_valid_p();
++          if (ok_to_unblank == True)
++           {
++            set_locked_p (si, False);
++            goto DONE;
++           }
++         }
+ 
+         /* locked_p might be true already because of the above, or because of
+            the LOCK ClientMessage.  But if not, and if we're supposed to lock
+@@ -1064,10 +1098,7 @@ main_loop (saver_info *si)
+       }
+ #endif /* !NO_LOCKING */
+ 
+-
+-      ok_to_unblank = True;
+       do {
+-
+         check_for_leaks ("blanked A");
+ 	sleep_until_idle (si, False);		/* until not idle */
+         check_for_leaks ("blanked B");
+@@ -1077,6 +1108,12 @@ main_loop (saver_info *si)
+ #ifndef NO_LOCKING
+         /* Maybe unlock the screen.
+          */
++        if (si->demoing_p) goto DONE; /*in demoing mode and user wants out unblankscreen */
++
++        /* This is when blank timeout has happened but lock timeout hasnt and user
++         * gets active. Simply get him out of the blank screen */
++        if (si->screen_blanked_p && !si->locked_p) goto DONE;
++
+ 	if (si->locked_p)
+ 	  {
+ 	    saver_screen_info *ssi = si->default_screen;
+@@ -1087,7 +1124,21 @@ main_loop (saver_info *si)
+ 	    suspend_screenhack (si, True);
+ 	    XUndefineCursor (si->dpy, ssi->screensaver_window);
+ 
+-	    ok_to_unblank = unlock_p (si);
++            /*Prevents lock dialog posting on non blanked screen */
++            if (!si->screen_blanked_p)  /*locked_p is true, so blank now*/
++              blank_screen (si);
++            if (si->screen_blanked_p) /* if blanking successful, call PAM*/
++             {
++              set_locked_p (si, True);
++              ok_to_unblank = pam_passwd_valid_p();
++              if (ok_to_unblank == True)
++               {
++                set_locked_p (si, False);
++                goto DONE;
++               }
++              }
++             else /* blanking failed, probably couldnt grab keyboard/mouse */
++               set_locked_p (si, False);
+ 
+ 	    si->dbox_up_p = False;
+ 	    XDefineCursor (si->dpy, ssi->screensaver_window, ssi->cursor);
+@@ -1111,6 +1162,7 @@ main_loop (saver_info *si)
+ 
+ 	} while (!ok_to_unblank);
+ 
++DONE:
+ 
+       if (p->verbose_p)
+ 	fprintf (stderr, "%s: unblanking screen at %s.\n",
+@@ -1120,8 +1172,6 @@ main_loop (saver_info *si)
+       kill_screenhack (si);
+       unblank_screen (si);
+ 
+-      set_locked_p (si, False);
+-      si->emergency_lock_p = False;
+       si->demoing_p = 0;
+       si->selection_mode = 0;
+ 
+@@ -1208,6 +1258,11 @@ main (int argc, char **argv)
+   int i;
+ 
+   memset(si, 0, sizeof(*si));
++
++/* Initialize and point si to pw_data i.e. the lock dialog struct */
++  memset(ptr_mygtkpwd, 0, sizeof(*ptr_mygtkpwd));
++  si->pw_data = ptr_mygtkpwd;
++
+   global_si_kludge = si;	/* I hate C so much... */
+ 
+ # undef ya_rand_init
+@@ -1215,7 +1270,7 @@ main (int argc, char **argv)
+ 
+   save_argv (argc, argv);
+   set_version_string (si, &argc, argv);
+-  privileged_initialization (si, &argc, argv);
++/*oldplace  privileged_initialization (si, &argc, argv);*/
+   hack_environment (si);
+ 
+   shell = connect_to_server (si, &argc, argv);
+@@ -1223,6 +1278,8 @@ main (int argc, char **argv)
+   print_banner (si);
+ 
+   load_init_file (p);  /* must be before initialize_per_screen_info() */
++  privileged_initialization (si, &argc, argv);
++
+   blurb_timestamp_p = p->timestamp_p;  /* kludge */
+   initialize_per_screen_info (si, shell); /* also sets si->fading_possible_p */
+ 
+@@ -1263,6 +1320,7 @@ main (int argc, char **argv)
+   handle_signals (si);
+ 
+   make_splash_dialog (si);
++  /*spawn_external_passwd_process (si);*/
+ 
+   main_loop (si);		/* doesn't return */
+   return 0;
+@@ -1413,13 +1471,18 @@ handle_clientmessage (saver_info *si, XE
+   Atom type = 0;
+   Window window = event->xclient.window;
+ 
++  if (p->verbose_p) 
++     fprintf(stderr, "handle_clientmessage\n");
++
+   /* Preferences might affect our handling of client messages. */
+   maybe_reload_init_file (si);
++  XFlush (si->dpy);
++  XSync (si->dpy, False);
+ 
+   if (event->xclient.message_type != XA_SCREENSAVER ||
+       event->xclient.format != 32)
+     {
+-      bogus_clientmessage_warning (si, event);
++      /*bogus_clientmessage_warning (si, event); mali */
+       return False;
+     }
+ 
+@@ -1667,10 +1730,17 @@ handle_clientmessage (saver_info *si, XE
+ 			    : "locking.");
+ 	  sprintf (buf, "LOCK ClientMessage received; %s", response);
+ 	  clientmessage_response (si, window, False, buf, response);
++
++          if (p->verbose_p)
++             fprintf(stderr, "going to lock screen A\n");
++
+ 	  set_locked_p (si, True);
++          si->emergency_lock_p = True;
+ 	  si->selection_mode = 0;
+ 	  si->demoing_p = False;
+ 
++          return True; /* dont set lock_id to 0, causes to go in lock in main_loop above */
++
+ 	  if (si->lock_id)	/* we're doing it now, so lose the timeout */
+ 	    {
+ 	      XtRemoveTimeOut (si->lock_id);
+diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
+--- driver/xscreensaver.h	2002-03-04 13:16:20.000000000 -0800
++++ driver/xscreensaver.h	2006-05-10 08:48:29.939723000 -0700
+@@ -115,6 +115,15 @@ struct saver_info {
+ 				   privileged user. */
+ 
+   Window passwd_dialog;		/* The password dialog, if its up. */
++#ifdef HAVE_XSCREENSAVER_LOCK
++  pid_t passwd_pid;             /* The pid of the password dialog if
++				   we ran an external process for
++				   it. */
++  Bool external_passwd;
++  Bool at_external_passwd;	/* AT-enabled, bugid 
++				5059445(p3) screen kb and reader support
++				*/
++#endif /* HAVE_XSCREENSAVER_LOCK */
+   passwd_dialog_data *pw_data;	/* Other info necessary to draw it. */
+ 
+   int unlock_failures;		/* Counts failed login attempts while the
+@@ -318,7 +327,7 @@ extern void get_screen_viewport (saver_s
+ extern Bool unlock_p (saver_info *si);
+ extern Bool lock_priv_init (int argc, char **argv, Bool verbose_p);
+ extern Bool lock_init (int argc, char **argv, Bool verbose_p);
+-extern Bool passwd_valid_p (const char *typed_passwd, Bool verbose_p);
++extern Bool passwd_valid_p (void);
+ #endif /* NO_LOCKING */
+ 
+ extern void set_locked_p (saver_info *si, Bool locked_p);
+@@ -326,6 +335,87 @@ extern int move_mouse_grab (saver_info *
+                             int to_screen_no);
+ extern int mouse_screen (saver_info *si);
+ 
++/* =======================================================================
++   For lock.c
++   ======================================================================= */
++
++enum window_type { w_dialog, w_message };
++
++struct passwd_dialog_data {
++
++  saver_screen_info *prompt_screen;
++  int previous_mouse_x, previous_mouse_y;
++
++  enum passwd_state state;
++  char typed_passwd [80];
++
++  enum window_type  w_type;
++
++  XtIntervalId timer;
++  int i_beam;
++
++  float ratio;
++  Position x, y;
++  Dimension width;
++  Dimension height;
++  Dimension border_width;
++
++  char *heading_label;
++  char *body_label;
++  /*
++   * For message dialog the body label may contain more than
++   * one line of text
++   */
++  char **message_body_label;
++
++  char *user_label;
++  char *passwd_label;
++  char *date_label;
++  char *user_string;
++  char *passwd_string;
++
++  XFontStruct *heading_font;
++  XFontStruct *body_font;
++  XFontStruct *label_font;
++  XFontStruct *passwd_font;
++  XFontStruct *date_font;
++
++  Pixel foreground;
++  Pixel background;
++  Pixel passwd_foreground;
++  Pixel passwd_background;
++  Pixel thermo_foreground;
++  Pixel thermo_background;
++  Pixel shadow_top;
++  Pixel shadow_bottom;
++
++  Dimension logo_width;
++  Dimension logo_height;
++  Dimension thermo_width;
++  Dimension internal_border;
++  Dimension shadow_width;
++
++  Dimension passwd_field_x, passwd_field_y;
++  Dimension passwd_field_width, passwd_field_height;
++
++  Dimension thermo_field_x, thermo_field_y;
++  Dimension thermo_field_height;
++
++  Pixmap logo_pixmap;
++  int logo_npixels;
++  unsigned long *logo_pixels;
++
++  Pixmap save_under;
++
++#ifdef HAVE_XSCREENSAVER_LOCK
++  /* extern passwd dialog stuff */
++  XtInputId stdout_input_id;
++  int       stdin_fd;
++  int       stdout_fd;
++  Bool      got_windowid;
++  FILE     *input_file;
++#endif
++};
+ 
+ /* =======================================================================
+    runtime privileges
+diff -urp -x '*~' driver/xset.c driver/xset.c
+--- driver/xset.c	2002-02-25 15:25:49.000000000 -0800
++++ driver/xset.c	2006-05-10 08:48:29.941372000 -0700
+@@ -19,6 +19,7 @@
+ #include <X11/Xutil.h>
+ #include <X11/Xatom.h>
+ #include <X11/Xos.h>
++#include <X11/Intrinsic.h>
+ 
+ /* This file doesn't need the Xt headers, so stub these types out... */
+ #undef XtPointer
+

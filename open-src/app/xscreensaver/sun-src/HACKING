@@ -1,0 +1,12 @@
+This CVS module is only for GTK 2 porting and gettext support.
+
+This module is being maintained by jacob berkman <jacob@ximian.com>
+(gnome cvs jberkman).
+
+all patches should be submitted to bugzilla in the xscreensaver
+module.
+
+When this stuff is merged upstream this module will be removed.
+
+jacob berkman  <jacob@ximian.com>
+march 8 2002

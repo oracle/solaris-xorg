@@ -1,0 +1,571 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Sun bug 5077993/GNOME Bug 147639: 
+	Gok cant automatically UI grab screensaver preferences
+	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=5077993
+	http://bugzilla.gnome.org/show_bug.cgi?id=147639
+
+Sun bug 5083155:
+	Unable to unlock screen when running dual-head magnification
+	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=5083155
+
+Sun bug 5059445:
+	screen kb and screen reader support
+	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=5059445
+
+Sun bug 5039878:
+	"Password:" field should be focused / have flashing caret
+	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=5039878
+
+Sun bug 6176524:
+	passwdTimeoutEnable for disabled user (xscreensaver-lock)
+	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=6176524
+
+diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
+--- driver/demo-Gtk.c	2006-05-10 08:49:37.280822000 -0700
++++ driver/demo-Gtk.c	2006-05-10 08:49:43.010409000 -0700
+@@ -84,6 +84,8 @@
+ #include <glade/glade-xml.h>
+ #endif /* HAVE_GTK2 */
+ 
++#include <gconf/gconf-client.h>
++
+ #if defined(DEFAULT_ICONDIR) && !defined(GLADE_DIR)
+ # define GLADE_DIR DEFAULT_ICONDIR
+ #endif
+@@ -3826,6 +3828,10 @@ create_xscreensaver_settings_dialog (voi
+ 
+ #endif /* HAVE_GTK2 */
+ 
++/* AT-enabled */
++#define KEY "/desktop/gnome/interface/accessibility"
++gboolean         at_enable  = FALSE;
++
+ int
+ main (int argc, char **argv)
+ {
+@@ -3840,6 +3846,12 @@ main (int argc, char **argv)
+   char window_title[255];
+   Bool crapplet_p = False;
+   char *str;
++/*
++** 5077993(P2)147639: Gok cant automatically UI grab screensaver preference
++*/
++  GConfClient *client;
++  const char *modulesptr = NULL;
++
+ 
+ #ifdef ENABLE_NLS
+   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+@@ -4067,6 +4079,15 @@ main (int argc, char **argv)
+   p->db = db;
+   load_init_file (p);
+   initialize_sort_map (s);
++  /* Bug 147639:Gok cant automatically UI grab screensaver preferences
++  */
++    /* AT-enable mode ? */
++  client = gconf_client_get_default ();
++  at_enable = gconf_client_get_bool (client, KEY, NULL);
++   /* GTK Accessibility Module initialized */
++  modulesptr = g_getenv ("GTK_MODULES");
++  if (at_enable && (!modulesptr || modulesptr [0] == '\0'))
++        putenv ("GTK_MODULES=gail:atk-bridge");
+ 
+   /* Now that Xt has been initialized, and the resources have been read,
+      we can set our `progname' variable to something more in line with
+diff -urp -x '*~' driver/lock.c driver/lock.c
+--- driver/lock.c	2006-05-10 08:49:37.437773000 -0700
++++ driver/lock.c	2006-05-10 08:49:43.058171000 -0700
+@@ -25,6 +25,7 @@
+ 
+ #include <X11/Intrinsic.h>
+ #include <X11/Xos.h>		/* for time() */
++#include <X11/Xatom.h>
+ #include <time.h>
+ #include <sys/time.h>
+ #include <errno.h>
+@@ -77,6 +78,10 @@ vms_passwd_valid_p(char *pw, Bool verbos
+ 
+ #endif /* VMS */
+  
++/* 5059445(p3) screen kb and reader support */
++extern
++int grab_mouse (saver_info *si, Window window, Cursor cursor, int screen_no);
++extern int grab_kbd (saver_info *si, Window window,  int screen_no);
+ extern void await_dying_children (saver_info *si);
+ void hack_uid (saver_info *si);
+ 
+@@ -181,8 +186,106 @@ void update_passwd_window (saver_info *s
+ 				  float ratio);
+ void destroy_passwd_window (saver_info *si);
+ static void undo_vp_motion (saver_info *si);
++/* GOK bug */
+ 
+ extern Atom XA_UNLOCK_RATIO;
++Window at_win[4] = {0,0,0,0};	/* wIds for XRestackWindows() */
++				/* dialog, GOK, or MAG or screenSaver */
++
++int no_atserv = 0;		/* GOK or MAG or Both on def. screen 0 */
++ 
++Bool at_enabled = False; 	/* Ass. Tech support? def. no */
++				/* for restoring the origin setting
++				   override_redirect setting of MAG/GOK
++				*/
++Bool winatt_reset[2] = {FALSE,FALSE};
++
++/* 
++5083155 Unable to unlock screen when running dual-head MAG
++*adding dual or multiple heads for magnifier support
++*
++  screen 0: loginhelp can pass the raisedWid of GOK or MAG or both
++	    found: return its parent Wid (child of root)
++	    not found: 	0
++
++  other screen:	MAG only if the target screen no > 0 is selected
++	found:	restack on that screen
++		return 0
++	not-found : rturn 0
++
++*/
++Atom atom_type[1], atom_window_type;
++
++Window
++check_raisedWid(saver_info *si,Window wid)
++{
++int screen_no,status;
++Bool loop, found = FALSE;
++Window root_ret, parent_ret, *children = NULL,root;
++unsigned int nchildren = 0;
++
++Screen *screen;
++saver_screen_info *ssi;
++Display *dpy;
++Window screen_win[2] = {0,0};
++
++
++for (screen_no = 0; screen_no < si->nscreens; screen_no++)
++ {
++   loop = TRUE;
++   ssi = &si->screens[screen_no];
++   screen = ssi->screen;
++   root =    RootWindowOfScreen (screen);
++   if (screen_no == 0)
++	dpy = DisplayOfScreen(screen);
++   else
++	dpy = ssi->other_dpy;
++   if (dpy)
++   {
++     while (loop)
++     {
++     status =  
++	XQueryTree (dpy, wid ,&root_ret,&parent_ret, &children, &nchildren);
++/*  AT_LOCK_DEBUG
++fprintf(stderr, " ==>screen(%x) root(%x) wid(%x) root_ret(%x) parent_ret(%x)\n", screen, root, wid, root_ret, parent_ret);
++fprintf(stderr, " screen_no(%d) ==>dpy(%x)\n", screen_no,dpy);
++*/
++
++	if (parent_ret == 0 || root != root_ret) /* not found */
++			loop = FALSE;
++        else if ( root_ret != parent_ret)
++          wid  = parent_ret;
++        else
++	{
++		    
++	  loop = FALSE;
++	  found = TRUE;
++/*  AT_LOCK_DEBUG
++fprintf(stderr,"==> found wid is 0x%x screen_no(%d)\n", wid, screen_no);
++*/
++	  if (screen_no)
++	  {
++/* 
++** found in other screen(not scn 0), implies MAG target scn, 
++** invoke XRestackWindow()
++*/
++		screen_win[0] = wid;
++		screen_win[1] = ssi->screensaver_window;
++		XRestackWindows(dpy, screen_win, 2);
++		XSync (dpy, False);
++		wid = 0;   /* no need to do the restack on screen 0 */
++	   }
++	   screen_no = si->nscreens;
++	}
++	} /* while loop */
++  } /*dpy check */
++   
++ } /* for loop */
++ if (found)
++	return wid;
++ else 
++	return 0;
++}
+ 
+ #if defined (HAVE_XF86VMODE) || defined (HAVE_XSCREENSAVER_LOCK)
+ static Bool vp_got_error = False;
+@@ -258,6 +361,7 @@ handle_passwd_input (XtPointer data, int
+   saver_preferences *p = &si->prefs;
+   char buffer[1024];
+   char *s;
++  int status;
+ 
+   if (si->prefs.verbose_p)
+     fprintf (stderr, "passwd input handler() fd=%d\n",*fd);
+@@ -300,9 +404,100 @@ handle_passwd_input (XtPointer data, int
+   else /* Get the window id of lock dialog from Child ***/
+     {
+       Window window = strtoul (s, NULL, 0);
+-      /* FIXME: what to revert to? */
+-      XSetInputFocus (si->dpy, window, RevertToParent, CurrentTime);
++
++        XSetWindowAttributes setwinattr;
++        unsigned long valuemask = CWOverrideRedirect;
++        XWindowChanges changes;
++        setwinattr.override_redirect = True;
++	XWindowAttributes window_attributes_return;
++
++      Window window1 = 0, passwd_win = 0,wintemp = 0; int j;
++/*CR 5039878 2 3 "Password:" field should be focused / have flashing caret */
++      s = fgets (buffer, sizeof (buffer), si->pw_data->input_file);
++      passwd_win = strtoul (s, NULL, 0);
++      no_atserv = 0;
++      at_win[no_atserv] = window;
++		
++	/* There is no need to reset the timer for Normal user
++	   for each pop-up dialog
++	*/
++      at_enabled = False;
++
++
++      for (j= 0; j < 2; j++)
++      {
++        s = fgets (buffer, sizeof (buffer), si->pw_data->input_file);
++        window1 = strtoul (s, NULL, 0);
++/* GOK, MAG, not running, Ass. Tech support is still selected
++   not enough interface info from loginhelper to cover all
++   possible conditions, ungrab kb/mouse now
++ */
++        if (window1 == 0x1)
++		at_enabled = True;
++	else
++        if (window1 != 0x0 ) {
++/*
++5083155 Unable to unlock screen when running dual-head MAG
++*adding dual or multiple heads for magnifier support
++*/
++
++		at_enabled = True;
++		wintemp = check_raisedWid(si, window1);
++                if (wintemp) {
++	status = 
++	XGetWindowAttributes(si->dpy,wintemp,&window_attributes_return);
++	
++	if ((status) && (!window_attributes_return.override_redirect))
++	{
++           XFlush(si->dpy);
++	   XChangeWindowAttributes(si->dpy,wintemp,valuemask,&setwinattr);
++	   winatt_reset[j] = TRUE;
++/*  AT_LOCK_DEBUG
++fprintf(stderr,"Debug: ==> winatt_reset[%d] override_redirect needs to be reset\n",j);
++*/
++        }
++        XMapSubwindows(si->dpy, wintemp);
++        no_atserv++;
++        at_win[no_atserv] = wintemp;
++		} /* wintemp != 0 */
++        }
++      }
++	/* common parent, i.e root win */
++
++/* cases for running GOK , or MAG or GOK+MAG */
++
++        if (no_atserv > 0) {
++        /* pop-up dialog in dock mode */
++/* AT_LOCK_DEBUG
++fprintf(stderr,"==> found dialog wid 0x%x\n", window);
++*/
++          XRestackWindows(si->dpy, at_win, no_atserv+1);
++	  XUngrabKeyboard(si->dpy, CurrentTime);
++          XUngrabPointer(si->dpy, CurrentTime);
++          si->at_external_passwd = True;
++          XFlush(si->dpy);
++        }
++	/* no MAG or GOK, only SPEECH is running 
++	   just Ass. Tech support is selected
++	*/
++	else if ((no_atserv == 0) && (at_enabled))
++	{
++		XUngrabKeyboard(si->dpy, CurrentTime);
++          	XUngrabPointer(si->dpy, CurrentTime);
++		si->at_external_passwd = True;
++		XFlush(si->dpy);
++	}
++
++/*  AT_LOCK_DEBUG
++	fprintf(stderr,"debug no_atserv   0x%x\n", no_atserv);
++	fprintf(stderr,"debug passwd win   0x%x\n", passwd_win);
++	fprintf(stderr,"debug window   0x%x\n", window);
++*/
++ 
++      XSelectInput(si->dpy, passwd_win,KeyPressMask);
++      XSetInputFocus (si->dpy, passwd_win,RevertToPointerRoot, CurrentTime);
+       XSync (si->dpy, False);
++ 
+       si->pw_data->got_windowid = True;
+       si->passwd_dialog = window;
+       /**g_passwd_dialog_created = True;**/ /*set global flag to check in timers.c*/
+@@ -469,7 +664,9 @@ make_window (saver_info *si, enum window
+ 	  si->external_passwd = True;
+ 	  return;
+ 	}
++    }
+   si->external_passwd = False;
++  si->at_external_passwd = False;
+   /* FIXME: don't abort() */
+   /*abort ();*/
+ #endif /* HAVE_XSCREENSAVER_LOCK */
+@@ -1129,6 +1326,13 @@ destroy_passwd_window (saver_info *si)
+   Colormap cmap;
+   Pixel black, white;
+   XEvent event;
++/* CR5083155 [Cinn Solaris]Unable to unlock screen when running dual-head MAG
++*/
++  int j;
++  XSetWindowAttributes setwinattr;
++  unsigned long valuemask = CWOverrideRedirect;
++  XWindowChanges changes;
++  setwinattr.override_redirect = FALSE;
+ 
+   if (si->prefs.verbose_p)
+     fprintf (stderr, "destroy_passwd_window\n");
+@@ -1186,6 +1390,7 @@ destroy_passwd_window (saver_info *si)
+       unblock_sigchld ();
+       
+       si->external_passwd = False;
++      si->at_external_passwd = False;
+     }
+   else
+ #endif /* HAVE_XSCREENSAVER_LOCK */
+@@ -1324,6 +1529,19 @@ destroy_passwd_window (saver_info *si)
+      free (pw);
+      si->pw_data = 0;
+    ************/
++
++ for (j= 1; j < 3 ; j++)
++ {
++   if (winatt_reset[j-1] && at_win[j] )
++   {
++      XChangeWindowAttributes(si->dpy,at_win[j],valuemask,&setwinattr);
++      winatt_reset[j-1] = FALSE;
++      at_win[j] = 0;
++/*fprintf(stderr, "DEBUG: at(%d) override_redirect set to FALSE\n", j);
++*/
++   }
++ }
++
+ }
+ 
+ 
+@@ -1574,6 +1792,10 @@ passwd_animate_timer (XtPointer closure,
+       event.xclient.data.l[1] = 0;
+       event.xclient.data.l[2] = 0;
+ 
++/* CR 6176524 passwdTimeoutEnable for disabled user */
++      if (!si->prefs.pwd_p)
++        event.xclient.data.l[1] = 1;
++
+       XSync (si->dpy, False);
+       old_handler = XSetErrorHandler (ignore_all_errors_ehandler);
+       
+@@ -1687,8 +1909,13 @@ passwd_event_loop (saver_info *si)
+   saver_preferences *p = &si->prefs;
+   char *msg = 0;
+   XEvent event;
++/* bugid 6176524 passwdTimeout and reset timer for each key press */
++  passwd_dialog_data *pw = si->pw_data;
++  int ii;
++
+   passwd_animate_timer ((XtPointer) si, 0);
+ 
++      
+   while (si->pw_data && si->pw_data->state == pw_read)
+     {
+       XtAppNextEvent (si->app, &event);
+@@ -1697,7 +1924,7 @@ passwd_event_loop (saver_info *si)
+ 	{
+ 	  if (si->pw_data->got_windowid)
+ 	    {
+-	      Bool status;
++	      Bool status,pwd_status;
+ 	      XErrorHandler old_handler;
+ 	     
+               if(p->verbose_p)
+@@ -1713,6 +1940,22 @@ passwd_event_loop (saver_info *si)
+               XSync (si->dpy, False);
+               XSetErrorHandler (old_handler);
+ 
++/* CR 6176524 passwdTimeoutEnable for disabled user
++   timer will be reset if 4 conditions art true (for each char of pwd)
++   (status) && (p->pwd_p) && (at_enabled) && (pw->timer)
++   However AT group wants to remove at_enabled
++   i.e reset the password timer for each key for all users
++   * 6240938 screensaver-lock's password timer needs to to be reset
++        for each key (all users) and enabling AT support
++*/
++
++	if ((status) && (p->pwd_p)  && (pw->timer)) {
++        XtRemoveTimeOut (pw->timer);
++	pw->ratio = 1.0;
++        pw->timer = XtAppAddTimeOut (si->app, 166, passwd_animate_timer,
++                                 (XtPointer) si);
++	}
++
+               if (p->verbose_p)
+                 {
+                   if (status)
+@@ -1758,8 +2001,61 @@ passwd_event_loop (saver_info *si)
+ 	  si->pw_data->state = pw_read;
+        }
+ 
++ /*
++* 5077974 P1 "Bug 147583: Screen Lock unlocks because of GOK dwell movement in
++              core pointer mode"
++* 
++* ScreenLock did not unlock the screen, but WM's XRestackWindow() did.
++* Once WM/metacity fixes the problem, the code can be removed.
++  The problem:
++  repositioning the Wids in the wrong positions when
++  1. the window type is changed from NORMAL to DOCK or vice versa
++  2. the Wid is managed
++  within the X window stack with or without screen-lock in a mixed Wids
++  there are two temp. get-around solutions:
++  1. non-managed GOK or MAG Wid
++  or
++  2. screensaver picks up the WM's restacking task and fixes the prevous
++     restacking problem.
++     the cons: there is a flashing screen when corepointer is touching
++     GOK or MAG and mouse is moved in a fast way
++     when GOK or MAG window type is DOCK only.
++     and it is not a good temp. get-around solution.
++     This is the only choice if WM did not want to fix the problem now
++     and AT group did not want to use non-managed Wids.
++     Now, GOK only supports 2nd USB/mouse/Dwell, corepointer is supposed
++     not to be used, and GOK cannot disable it
++*/
++        else if (((event.type == UnmapNotify)
++                || (event.type == MapNotify )
++                || (event.type == ConfigureNotify)
++                || (event.type == PropertyNotify )
++                || (event.type == ReparentNotify ))
++                && (si->passwd_dialog) && (no_atserv))
++        {
++/* AT_LOCK_DEBUG
++fprintf (stderr, "client window(0x%x) %s\n", event.xclient.window,blurb());
++fprintf (stderr, "dialog window 0x%x:\n", si->passwd_dialog);
++fprintf(stderr, "** no_atserv: %d \n", no_atserv);
++for (ii = 0; ii < 4;  ii++)
++         fprintf(stderr, "** win : 0x%x \n", at_win[ii]);
++*/
++          at_win[no_atserv+1] = si->screens[0].screensaver_window;
++/* 2 => screensaver and dialog Wids */
++         XRestackWindows(si->dpy, at_win, no_atserv+2);
++          XFlush(si->dpy);
++        }
++/* the above new code for restacking under the conidtion
++*/
+       else
+-	XtDispatchEvent (&event);
++        {
++/*
++         if ((si->passwd_dialog) && (no_atserv) && (event.type != 0))
++         fprintf(stderr, "** DEbug other event %d\n", event.type);
++*/
++        XtDispatchEvent (&event);
++        }
++
+     }
+ 
+   switch (si->pw_data->state)
+diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
+--- driver/xscreensaver.c	2006-05-10 08:49:37.424123000 -0700
++++ driver/xscreensaver.c	2006-05-10 08:49:43.046876000 -0700
+@@ -808,6 +808,21 @@ initialize_per_screen_info (saver_info *
+ 	      get_visual (ssi->screen, "GrayScale", True, False))
+ 	    found_any_writable_cells = True;
+ 	}
++/* 
++** 5083155 unable to unlock scr when runing dual-head MAG
++*/
++        if (i > 0)       /* other screens */
++        {
++        char other_dpyname[20];
++        char *pdpy;
++	sprintf(other_dpyname,":0.%d\0",i);
++	pdpy = strdup(other_dpyname);
++        ssi->other_dpy = XOpenDisplay(pdpy);
++	free(pdpy);
++/*
++fprintf(stderr,"==>other dpy i(%d) dpy(%s) 0x%x\n",i,other_dpyname, ssi->other_dpy);
++*/
++    }
+     }
+ 
+   si->fading_possible_p = found_any_writable_cells;
+@@ -1026,6 +1041,18 @@ main_loop (saver_info *si)
+ {
+   saver_preferences *p = &si->prefs;
+   /* Bool ok_to_unblank; made this a global flag, gets set in timers.c */
++  const char *modulesptr = NULL;
++
++/*
++** CR4784055(P1)locked-screen dialog is inaccessible to Gnopernicus
++** voice for each type-in char in the password field of
++** pop-up diaglog
++*/
++
++ /* GTK Accessibility Module initialized */
++  modulesptr = getenv ("GTK_MODULES");
++  if (!modulesptr || modulesptr [0] == '\0')
++        putenv ("GTK_MODULES=gail:atk-bridge");
+ 
+   while (1)
+     {
+diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
+--- driver/xscreensaver.h	2006-05-10 08:49:37.266733000 -0700
++++ driver/xscreensaver.h	2006-05-10 08:49:43.045439000 -0700
+@@ -286,6 +286,8 @@ struct saver_screen_info {
+   GC stderr_gc;
+   Window stderr_overlay_window;    /* Used if the server has overlay planes */
+   Colormap stderr_cmap;
++  Display *other_dpy;              /* used by AT's MAG XRestackWindow() */
++				   /* 5083155 mag dual-heads */
+ };
+ 
+ 

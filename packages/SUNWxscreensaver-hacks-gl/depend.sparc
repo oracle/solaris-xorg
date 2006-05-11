@@ -1,0 +1,15 @@
+#	Copyright 2005 Sun Microsystems, Inc.  All Rights Reserved
+#	Use is subject to license terms
+#
+#	@(#)depend.sparc	1.4	04/12/17 Sun Microsystems, Inc.
+
+P SUNWcsr	Core Sparc, (Root)
+P SUNWcsu	Core Sparc, (Usr)
+P SUNWcsl	Core Solaris, (Shared Libs)
+P SUNWglrt	Sun OpenGL for Solaris Runtime Libraries
+P SUNWgnome-base-libs  GNOME base GUI libraries
+P SUNWlibms	Forte Developer Bundled shared libm
+P SUNWxwplt	X Window System platform software
+P SUNWxwrtl	X Window System & Graphics Runtime Library Links in /usr/lib
+P SUNWxwsvr	XScreenSaver
+P SUNWxwice	X Window System Inter-Client Exchange (ICE) Components

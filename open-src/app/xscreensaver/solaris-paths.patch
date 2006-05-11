@@ -1,0 +1,234 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Various fixes to deal with where we install things on Solaris:
+
+- Allow variables passed in from Makefile to override the values configure 
+  tries to determine for GNOME_DATADIR & GLADE_DATADIR, since we install 
+  in a different place for historical reasons.
+
+- Only run hacks from the hacks dir, not $PATH
+
+- Find xscreensaver-gl-helper even though it's not in $PATH
+
+diff -urp -x '*~' configure.in configure.in
+--- configure.in	2006-05-10 08:48:12.212319000 -0700
++++ configure.in	2006-05-10 08:48:17.091582000 -0700
+@@ -2108,7 +2108,9 @@ if test "$with_gtk" = yes; then
+                    $ac_gnome_config_libs)
+   fi
+ 
+-
++#--- Begin SUNW addition
++ if test -z "$GNOME_DATADIR" ; then
++#--- End SUNW addition
+   GNOME_DATADIR=""
+   if test "$have_gnome" = yes -a "$have_gtk" = yes; then
+     if test -n "$pkg_config"; then
+@@ -2122,6 +2124,9 @@ if test "$with_gtk" = yes; then
+     fi
+     GNOME_DATADIR="$GNOME_DATADIR/share"
+   fi
++#--- Begin SUNW addition
++ fi
++#--- End SUNW addition
+ 
+   # .desktop files go in different places in Gnome 1.x and Gnome 2.x...
+   if test "$have_gtk2" = yes; then
+@@ -3342,6 +3347,10 @@ fi
+ # "/usr/X11R6/share/pixmaps/", which is wrong.  It needs to be the
+ # Gnome/Gtk prefix, not the overall prefix.
+ #
++
++#--- Begin SUNW addition
++if test -z "$GLADE_DATADIR" ; then
++#--- End SUNW addition
+ if test -n "$GNOME_DATADIR" ; then
+   GLADE_DATADIR='$(GNOME_DATADIR)/xscreensaver'
+ elif test "$have_gtk" = yes; then
+@@ -3358,6 +3367,9 @@ elif test "$have_gtk" = yes; then
+ else
+   GLADE_DATADIR=''
+ fi
++#--- Begin SUNW addition
++fi
++#--- End SUNW addition
+ 
+ 
+ # canonicalize slashes.
+diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
+--- driver/demo-Gtk.c	2002-06-05 23:00:38.000000000 -0700
++++ driver/demo-Gtk.c	2006-05-10 08:48:17.094156000 -0700
+@@ -770,7 +770,7 @@ restart_menu_cb (GtkWidget *widget, gpoi
+   flush_dialog_changes_and_save (s);
+   xscreensaver_command (GDK_DISPLAY(), XA_EXIT, 0, False, NULL);
+   sleep (1);
+-  system ("xscreensaver -nosplash &");
++  system ("/usr/openwin/bin/xscreensaver -nosplash &");
+ 
+   await_xscreensaver (s);
+ }
+@@ -3940,7 +3940,7 @@ main (int argc, char **argv)
+ 
+       if (init_results == 1)
+ 	{
+-	  system ("xscreensaver -nosplash &");
++	  system ("/usr/openwin/bin/xscreensaver -nosplash &");
+ 	  return 0;
+ 	}
+ 
+diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
+--- driver/subprocs.c	2002-03-05 18:10:17.000000000 -0800
++++ driver/subprocs.c	2006-05-10 08:48:17.092506000 -0700
+@@ -14,6 +14,7 @@
+ # include "config.h"
+ #endif
+ 
++#include <sys/stat.h>
+ #include <ctype.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -605,6 +606,8 @@ print_path_error (const char *program)
+   free (cmd);
+   perror (buf);
+ 
++/* mali - security issue do not want to display user's path */
++#ifdef EXPOSE_USER_PATH  
+   if (errno == ENOENT &&
+       (token = getenv("PATH")))
+     {
+@@ -634,6 +637,7 @@ print_path_error (const char *program)
+         }
+       fprintf (stderr, "\n");
+     }
++#endif
+ }
+ 
+ 
+@@ -661,6 +665,11 @@ spawn_screenhack_1 (saver_screen_info *s
+           /* No hacks at all */
+           new_hack = -1;
+         }
++      else if (p->screenhacks_count == 1)
++        {
++          /* Exactly one hack in the list */
++          new_hack = 0;
++        }
+       else if (si->selection_mode == -1)
+         {
+           /* Select the next hack, wrapping. */
+@@ -755,20 +764,34 @@ spawn_screenhack_1 (saver_screen_info *s
+ 	  saver_exit (si, 1, 0);
+ 
+ 	case 0:
++	 {
++          /* We need complete path to hack command else any executable
++           * with the same name in the path gets executed...and we should
++           * really be using DEFAULT_PATH_PREFIX for the path where hacks are.
++           */
++	  char* complete_hack_command = malloc (strlen(hack->command) +
++		      strlen ("/usr/openwin/lib/xscreensaver/hacks") + 10); 
++
+ 	  close (ConnectionNumber (si->dpy));	/* close display fd */
+ 	  limit_subproc_memory (p->inferior_memory_limit, p->verbose_p);
+ 	  hack_subproc_environment (ssi);	/* set $DISPLAY */
++	  sprintf(complete_hack_command,
++			"/usr/openwin/lib/xscreensaver/hacks/%s",
++			hack->command);
+ 
+           if (p->verbose_p)
+             fprintf (stderr, "%s: %d: spawning \"%s\" in pid %lu.\n",
+                      blurb(), ssi->number, hack->command,
+                      (unsigned long) getpid ());
+ 
+-	  exec_command (p->shell, hack->command, p->nice_inferior);
++	  exec_command (p->shell, complete_hack_command, p->nice_inferior);
++
+           /* If that returned, we were unable to exec the subprocess. */
+-          print_path_error (hack->command);
++          print_path_error (complete_hack_command);
++	  free (complete_hack_command);
+           exit (1);  /* exits child fork */
+ 	  break;
++         }
+ 
+ 	default:
+ 	  ssi->pid = forked;
+@@ -778,10 +801,41 @@ spawn_screenhack_1 (saver_screen_info *s
+     }
+ }
+ 
++Bool
++check_if_hacks_dir_exists(void)
++{
++  const char hackdir[] = "/usr/openwin/lib/xscreensaver/hacks";
++
++  int status;
++  struct stat st;
++
++  status = stat (hackdir, &st);
++  
++  if (status == 0 && S_ISDIR(st.st_mode))
++    {
++     return True;
++    }
++   else
++    {
++     fprintf(stderr, "\t*** Warning: dir: %s missing. Will not run hacks\n",
++			hackdir);
++     return False;
++    }
++}
++
+ 
+ void
+ spawn_screenhack (saver_info *si, Bool first_time_p)
+ {
++  if (si->prefs.verbose_p)
++   fprintf(stderr, "--> spawn_screenhack()\n");
++
++  if (check_if_hacks_dir_exists() == False)
++   {
++    store_saver_status (si);  /* store current hack numbers */
++    return;
++   }
++
+   if (monitor_powered_on_p (si))
+     {
+       int i;
+@@ -947,7 +1001,7 @@ get_best_gl_visual (saver_screen_info *s
+   char *av[10];
+   int ac = 0;
+ 
+-  av[ac++] = "xscreensaver-gl-helper";
++  av[ac++] = "/usr/openwin/lib/xscreensaver/bin/xscreensaver-gl-helper";
+   av[ac] = 0;
+ 
+   if (pipe (fds))

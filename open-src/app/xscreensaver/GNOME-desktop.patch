@@ -1,0 +1,77 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Changes needed for integration into Sun's GNOME desktop menus.
+Localized name & tooltips (Sun bug 5103358)
+
+diff -urp -x '*~' driver/screensaver-properties.desktop.in driver/screensaver-properties.desktop.in
+--- driver/screensaver-properties.desktop.in	2002-05-28 17:42:12.000000000 -0700
++++ driver/screensaver-properties.desktop.in	2006-05-10 08:48:12.224912000 -0700
+@@ -1,9 +1,36 @@
+ [Desktop Entry]
+ Exec=xscreensaver-demo --crapplet
+ TryExec=xscreensaver-demo
+-Icon=xscreensaver.xpm
++Icon=gnome-ccscreensaver.png
+ Terminal=0
+-_Name=Screensaver
+-_Comment=Configure the settings of the screensaver.
++Name=Screensaver
++Name[cs]=Spořič obrazovky
++Name[de]=Bildschirmschoner
++Name[es]=Salvapantallas
++Name[fr]=Économiseur d'écran
++Name[hu]=Képernyővédő
++Name[it]=Salvaschermo
++Name[ja]=スクリーンセーバー
++Name[ko]=화면 보호기
++Name[pt_BR]=Protetor de tela
++Name[sv]=Skärmsläckare
++Name[zh_CN]=屏幕保护程序
++Name[zh_HK]=螢幕保護程式
++Name[zh_TW]=螢幕保護程式
++
++Comment=Configure the settings of the screensaver.
++Comment[cs]=Konfigurace nastavení spořiče obrazovky.
++Comment[de]=Bildschirmschonereinstellungen konfigurieren
++Comment[es]=Configura los valores del salvapantallas.
++Comment[fr]=Configurer les paramètres de l'économiseur d'écran.
++Comment[hu]=A képernyővédő beállításainak megváltoztatása
++Comment[it]=Configura le impostazioni del salvaschermo.
++Comment[ja]=スクリーンセーバーを設定
++Comment[ko]=화면 보호기 설정 구성
++Comment[pt_BR]=Definir as configurações do protetor de tela.
++Comment[sv]=Konfigurera inställningarna för skärmsläckaren.
++Comment[zh_CN]=配置屏幕保护程序的设置。
++Comment[zh_HK]=配置螢幕保護程式設定。
++Comment[zh_TW]=配置螢幕保護程式設定。
+ Type=Application
+-Categories=Applications;Settings;
++Categories=GNOME;Settings;Appearance;

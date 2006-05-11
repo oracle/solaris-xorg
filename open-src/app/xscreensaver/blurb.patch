@@ -1,0 +1,356 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Removed unsafe calls to blurb from signal handlers and other places.
+
+diff -urp -x '*~' driver/lock.c driver/lock.c
+--- driver/lock.c	2006-05-10 08:49:29.423263000 -0700
++++ driver/lock.c	2006-05-10 08:49:37.437773000 -0700
+@@ -1841,12 +1841,11 @@ passwd_event_loop (saver_info *si)
+     {
+       if (si->unlock_failures == 1)
+ 	fprintf (real_stderr,
+-		 "%s: WARNING: 1 failed attempt to unlock the screen.\n",
+-		 blurb());
++		 "WARNING: 1 failed attempt to unlock the screen.\n");
+       else
+ 	fprintf (real_stderr,
+-		 "%s: WARNING: %d failed attempts to unlock the screen.\n",
+-		 blurb(), si->unlock_failures);
++		 "WARNING: %d failed attempts to unlock the screen.\n",
++		 si->unlock_failures);
+ 
+       si->unlock_failures = 0;
+     }
+diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
+--- driver/subprocs.c	2006-05-10 08:49:29.616989000 -0700
++++ driver/subprocs.c	2006-05-10 08:49:37.422733000 -0700
+@@ -104,7 +104,7 @@ limit_subproc_memory (int address_space_
+   if (getrlimit (RLIMIT_AS, &r) != 0)
+     {
+       char buf [512];
+-      sprintf (buf, "%s: getrlimit(RLIMIT_AS) failed", blurb());
++      sprintf (buf, "getrlimit(RLIMIT_AS) failed");
+       perror (buf);
+       return;
+     }
+@@ -114,8 +114,8 @@ limit_subproc_memory (int address_space_
+   if (setrlimit (RLIMIT_AS, &r) != 0)
+     {
+       char buf [512];
+-      sprintf (buf, "%s: setrlimit(RLIMIT_AS, {%lu, %lu}) failed",
+-               blurb(), r.rlim_cur, r.rlim_max);
++      sprintf (buf, "setrlimit(RLIMIT_AS, {%lu, %lu}) failed",
++                r.rlim_cur, r.rlim_max);
+       perror (buf);
+       return;
+     }
+@@ -133,8 +133,8 @@ limit_subproc_memory (int address_space_
+       else
+         sprintf(buf, "%d bytes", i);
+ 
+-      fprintf (stderr, "%s: limited pid %lu address space to %s.\n",
+-               blurb(), (unsigned long) getpid (), buf);
++      fprintf (stderr, "limited pid %lu address space to %s.\n",
++                (unsigned long) getpid (), buf);
+     }
+ 
+ #endif /* HAVE_SETRLIMIT && RLIMIT_AS */
+@@ -169,7 +169,7 @@ void
+ show_job_list (void)
+ {
+   struct screenhack_job *job;
+-  fprintf(stderr, "%s: job list:\n", blurb());
++  fprintf(stderr, "job list:\n");
+   for (job = jobs; job; job = job->next)
+     fprintf (stderr, "  %5ld: %2d: (%s) %s\n",
+ 	     (long) job->pid,
+@@ -342,8 +342,8 @@ kill_job (saver_info *si, pid_t pid, int
+       job->status == job_killed)
+     {
+       if (p->verbose_p)
+-	fprintf (stderr, "%s: no child %ld to signal!\n",
+-		 blurb(), (long) pid);
++	fprintf (stderr, " no child %ld to signal!\n",
++		  (long) pid);
+       goto DONE;
+     }
+ 
+@@ -358,8 +358,8 @@ kill_job (saver_info *si, pid_t pid, int
+   }
+ 
+   if (p->verbose_p)
+-    fprintf (stderr, "%s: %d: %s pid %lu (%s)\n",
+-             blurb(), job->screen,
++    fprintf (stderr, "%d: %s pid %lu (%s)\n",
++             job->screen,
+              (job->status == job_killed  ? "killing" :
+               job->status == job_stopped ? "suspending" : "resuming"),
+              (unsigned long) job->pid,
+@@ -371,13 +371,13 @@ kill_job (saver_info *si, pid_t pid, int
+     {
+       if (errno == ESRCH)
+ 	fprintf (stderr,
+-                 "%s: %d: child process %lu (%s) was already dead.\n",
+-		 blurb(), job->screen, job->pid, job->name);
++                 " %d: child process %lu (%s) was already dead.\n",
++		  job->screen, job->pid, job->name);
+       else
+ 	{
+ 	  char buf [1024];
+-	  sprintf (buf, "%s: %d: couldn't kill child process %lu (%s)",
+-		   blurb(), job->screen, job->pid, job->name);
++	  sprintf (buf, "%d: couldn't kill child process %lu (%s)",
++		    job->screen, job->pid, job->name);
+ 	  perror (buf);
+ 	}
+     }
+@@ -401,7 +401,7 @@ sigchld_handler (int sig)
+   saver_info *si = global_si_kludge;	/* I hate C so much... */
+ 
+   if (si->prefs.debug_p)
+-    fprintf(stderr, "%s: got SIGCHLD%s\n", blurb(),
++    fprintf(stderr, " got SIGCHLD%s\n", 
+ 	    (block_sigchld_handler ? " (blocked)" : ""));
+ 
+   if (block_sigchld_handler < 0)
+@@ -433,10 +433,10 @@ await_dying_children (saver_info *si)
+       if (si->prefs.debug_p)
+ 	{
+ 	  if (kid < 0 && errno)
+-	    fprintf (stderr, "%s: waitpid(-1) ==> %ld (%d)\n", blurb(),
++	    fprintf (stderr, " waitpid(-1) ==> %ld (%d)\n", 
+ 		     (long) kid, errno);
+ 	  else
+-	    fprintf (stderr, "%s: waitpid(-1) ==> %ld\n", blurb(),
++	    fprintf (stderr, " waitpid(-1) ==> %ld\n", 
+ 		     (long) kid);
+ 	}
+ 
+@@ -475,6 +475,7 @@ describe_dead_child (saver_info *si, pid
+ 	 if they happen on their own.
+        */
+ 
++#if UNSAFE_CALLS_REMOVE_THESE
+       if ((!job 
+ #ifdef HAVE_XSCREENSAVER_LOCK
+ 	   && kid != si->passwd_pid
+@@ -489,12 +490,15 @@ describe_dead_child (saver_info *si, pid
+       else if (p->verbose_p)
+ 	fprintf (stderr, "%s: %d: child pid %lu (%s) exited normally.\n",
+ 		 blurb(), screen_no, (unsigned long) kid, name);
++#endif /*UNSAFE_CALLS_REMOVE_THESE**/
+ 
+       if (job)
+ 	job->status = job_dead;
+     }
+   else if (WIFSIGNALED (wait_status))
+     {
++
++#if UNSAFE_CALLS_REMOVE_THESE
+       if (p->verbose_p ||
+ 	  (!job
+ #ifdef HAVE_XSCREENSAVER_LOCK
+@@ -506,24 +510,29 @@ describe_dead_child (saver_info *si, pid
+ 	fprintf (stderr, "%s: %d: child pid %lu (%s) terminated with %s.\n",
+ 		 blurb(), screen_no, (unsigned long) kid, name,
+ 		 signal_name (WTERMSIG(wait_status)));
++#endif /*UNSAFE_CALLS_REMOVE_THESE*/
+ 
+       if (job)
+ 	job->status = job_dead;
+     }
+   else if (WIFSTOPPED (wait_status))
+     {
++#if UNSAFE_CALLS_REMOVE_THESE
+       if (p->verbose_p)
+ 	fprintf (stderr, "%s: child pid %lu (%s) stopped with %s.\n",
+ 		 blurb(), (unsigned long) kid, name,
+ 		 signal_name (WSTOPSIG (wait_status)));
++#endif /*UNSAFE_CALLS_REMOVE_THESE*/
+ 
+       if (job)
+ 	job->status = job_stopped;
+     }
+   else
+     {
++#if UNSAFE_CALLS_REMOVE_THESE
+       fprintf (stderr, "%s: child pid %lu (%s) died in a mysterious way!",
+ 	       blurb(), (unsigned long) kid, name);
++#endif /*UNSAFE_CALLS_REMOVE_THESE*/
+       if (job)
+ 	job->status = job_dead;
+     }
+@@ -574,7 +583,7 @@ init_sigchld (void)
+       if (sigaction(SIGCHLD, &action, &old) < 0)
+ 	{
+ 	  char buf [255];
+-	  sprintf (buf, "%s: couldn't catch SIGCHLD", blurb());
++	  sprintf (buf, "couldn't catch SIGCHLD");
+ 	  perror (buf);
+ 	}
+       sigchld_initialized_p = True;
+@@ -585,7 +594,7 @@ init_sigchld (void)
+   if (((long) signal (SIGCHLD, sigchld_handler)) == -1L)
+     {
+       char buf [255];
+-      sprintf (buf, "%s: couldn't catch SIGCHLD", blurb());
++      sprintf (buf, "couldn't catch SIGCHLD");
+       perror (buf);
+     }
+ # endif /* !HAVE_SIGACTION */
+@@ -629,7 +638,7 @@ print_path_error (const char *program)
+   char *token = strchr (cmd, ' ');
+ 
+   if (token) *token = 0;
+-  sprintf (buf, "%s: could not execute \"%.100s\"", blurb(), cmd);
++  sprintf (buf, "could not execute \"%.100s\"", cmd);
+   free (cmd);
+   perror (buf);
+ 
+@@ -768,8 +777,8 @@ spawn_screenhack_1 (saver_screen_info *s
+ 	      */
+ 	      if (p->verbose_p)
+ 		fprintf(stderr,
+-		      "%s: %d: no programs enabled, or no suitable visuals.\n",
+-			blurb(), ssi->number);
++		      "%d: no programs enabled, or no suitable visuals.\n",
++			ssi->number);
+ 	      return;
+ 	    }
+ 	  else
+@@ -785,7 +794,7 @@ spawn_screenhack_1 (saver_screen_info *s
+       switch ((int) (forked = fork ()))
+ 	{
+ 	case -1:
+-	  sprintf (buf, "%s: couldn't fork", blurb());
++	  sprintf (buf, "couldn't fork");
+ 	  perror (buf);
+ 	  restore_real_vroot (si);
+ 	  saver_exit (si, 1, 0);
+@@ -807,9 +816,9 @@ spawn_screenhack_1 (saver_screen_info *s
+ 			hack->command);
+ 
+           if (p->verbose_p)
+-            fprintf (stderr, "%s: %d: spawning \"%s\" in pid %lu.\n",
+-                     blurb(), ssi->number, hack->command,
+-                     (unsigned long) getpid ());
++            fprintf (stderr, "%d: spawning \"%s\" in pid %lu nice=%d.\n",
++                      ssi->number, complete_hack_command,
++                     (unsigned long) getpid (), p->nice_inferior);
+ 
+ 	  exec_command (p->shell, complete_hack_command, p->nice_inferior);
+ 
+@@ -877,8 +886,8 @@ spawn_screenhack (saver_info *si, Bool f
+     }
+   else if (si->prefs.verbose_p)
+     fprintf (stderr,
+-             "%s: X says monitor has powered down; "
+-             "not launching a hack.\n", blurb());
++             "X says monitor has powered down; "
++             "not launching a hack.\n");
+ 
+   store_saver_status (si);  /* store current hack numbers */
+ }
+@@ -1068,7 +1077,7 @@ get_best_gl_visual (saver_screen_info *s
+     {
+     case -1:
+       {
+-        sprintf (buf, "%s: couldn't fork", blurb());
++        sprintf (buf, "couldn't fork");
+         perror (buf);
+         saver_exit (si, 1, 0);
+       }
+@@ -1103,7 +1112,7 @@ get_best_gl_visual (saver_screen_info *s
+           {
+             /* Ignore "no such file or directory" errors, unless verbose.
+                Issue all other exec errors, though. */
+-            sprintf (buf, "%s: running %s", blurb(), av[0]);
++            sprintf (buf, "running %s", av[0]);
+             perror (buf);
+           }
+         exit (1);                               /* exits fork */
+@@ -1141,16 +1150,16 @@ get_best_gl_visual (saver_screen_info *s
+         if (result == 0)
+           {
+             if (si->prefs.verbose_p)
+-              fprintf (stderr, "%s: %s did not report a GL visual!\n",
+-                       blurb(), av[0]);
++              fprintf (stderr, "%s did not report a GL visual!\n",
++                       av[0]);
+             return 0;
+           }
+         else
+           {
+             Visual *v = id_to_visual (ssi->screen, result);
+             if (si->prefs.verbose_p)
+-              fprintf (stderr, "%s: %d: %s: GL visual is 0x%X%s.\n",
+-                       blurb(), ssi->number,
++              fprintf (stderr, "%d: %s: GL visual is 0x%X%s.\n",
++                        ssi->number,
+                        av[0], result,
+                        (v == ssi->default_visual ? " (default)" : ""));
+             return v;
+@@ -1192,7 +1201,7 @@ restart_process (saver_info *si)
+   if (si->prefs.verbose_p)
+     {
+       int i;
+-      fprintf (stderr, "%s: re-executing", blurb());
++      fprintf (stderr, "re-executing");
+       for (i = 0; saved_argv[i]; i++)
+ 	fprintf (stderr, " %s", saved_argv[i]);
+       fprintf (stderr, "\n");
+@@ -1205,7 +1214,7 @@ restart_process (saver_info *si)
+   execvp (saved_argv [0], saved_argv);	/* shouldn't return */
+   {
+     char buf [512];
+-    sprintf (buf, "%s: could not restart process", blurb());
++    sprintf (buf, "could not restart process");
+     perror(buf);
+     fflush(stderr);
+     abort();
+diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
+--- driver/xscreensaver.c	2006-05-10 08:49:29.603987000 -0700
++++ driver/xscreensaver.c	2006-05-10 08:49:37.424123000 -0700
+@@ -298,6 +298,14 @@ static Bool blurb_timestamp_p = False;  
+ const char *
+ blurb (void)
+ {
++ /* A alot of functions call blurb and calling blurb from a 
++    signal handler is not safe. Causes a hang as timestring is not
++    a safe call to make from a signal handler. 
++    So, just returning as timestamp in error msgs is not important.
++  */
++
++  return progname;
++
+   if (!blurb_timestamp_p)
+     return progname;
+   else

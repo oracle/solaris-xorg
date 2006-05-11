@@ -1,0 +1,55 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Sun bug 4818062:
+	mouse-over displays incorrect information
+	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=4818062
+
+diff -urp -x '*~' driver/xscreensaver-demo.glade2 driver/xscreensaver-demo.glade2
+--- driver/xscreensaver-demo.glade2	2006-05-10 08:49:02.837844000 -0700
++++ driver/xscreensaver-demo.glade2	2006-05-10 08:49:10.988281000 -0700
+@@ -385,7 +385,7 @@
+ 		  <child>
+ 		    <widget class="GtkSpinButton" id="lock_spinbutton">
+ 		      <property name="visible">True</property>
+-		      <property name="tooltip" translatable="yes">How long before the monitor goes completely black.</property>
++		      <property name="tooltip" translatable="yes">How long before the screen becomes locked.</property>
+ 		      <property name="can_focus">True</property>
+ 		      <property name="climb_rate">15</property>
+ 		      <property name="digits">0</property>
+@@ -439,7 +439,7 @@
+ 		  <child>
+ 		    <widget class="GtkSpinButton" id="cycle_spinbutton">
+ 		      <property name="visible">True</property>
+-		      <property name="tooltip" translatable="yes">How long before the monitor goes completely black.</property>
++		      <property name="tooltip" translatable="yes">How long before the new hack sub-process starts.</property>
+ 		      <property name="can_focus">True</property>
+ 		      <property name="climb_rate">15</property>
+ 		      <property name="digits">0</property>

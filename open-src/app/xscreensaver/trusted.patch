@@ -1,0 +1,392 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Support needed for Solaris Trusted Extensions / Trusted Java Desktop System.
+
+diff -urp -x '*~' configure.in configure.in
+--- configure.in	2006-05-10 08:49:50.311248000 -0700
++++ configure.in	2006-05-10 08:49:57.787065000 -0700
+@@ -3308,6 +3308,18 @@ fi
+ AC_SUBST([XPM_LOGO_FILE])
+ AC_SUBST([XPM_LOGO_NAME])
+ 
++if test -r driver/tsunlogo.xpm ; then
++	TRUSTED_XPM_LOGO_FILE=tsunlogo.xpm
++	TRUSTED_XPM_LOGO_NAME=tsunlogo_xpm
++	TRUSTED_XPM_COMMENT=""
++else
++	TRUSTED_XPM_COMMENT="#"
++fi
++
++AC_SUBST([TRUSTED_XPM_LOGO_FILE])
++AC_SUBST([TRUSTED_XPM_LOGO_NAME])
++AC_SUBST([TRUSTED_XPM_COMMENT])
++
+ #--- End SUNW addition
+ 
+ if test "$have_kerberos" = yes; then
+diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
+--- driver/Makefile.in	2006-05-10 08:49:50.406340000 -0700
++++ driver/Makefile.in	2006-05-10 08:49:57.796787000 -0700
+@@ -101,6 +101,10 @@ GTK_OBJS	= demo-Gtk.o demo-Gtk-conf.o @G
+ GTK_LOCK_SRCS	= lock-Gtk.c remote.c
+ GTK_LOCK_OBJS	= lock-Gtk.o remote.o
+ 
++TRUSTED_LIBS	= -lglib-2.0 -lsecdb
++TRUSTED_SRCS	= trusted-utils.c
++TRUSTED_OBJS	= trusted-utils.o
++
+ PWENT_SRCS	= passwd-pwent.c
+ PWENT_OBJS	= passwd-pwent.o
+ 
+@@ -808,8 +812,10 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
+ 	  $(srcdir)/demo-Gtk-conf.c
+ 
+ # lock-Gtk takes extra -D and -I options.
++@TRUSTED_XPM_COMMENT@ TRUSTED_LOGO_DEFS=-DTRUSTED_XPM_LOGO_FILE=\"@TRUSTED_XPM_LOGO_FILE@\" \
++@TRUSTED_XPM_COMMENT@		  -DTRUSTED_XPM_LOGO_NAME=@TRUSTED_XPM_LOGO_NAME@
+ GTK_LOCK_LOGO_DEFS=-DXPM_LOGO_FILE=\"@XPM_LOGO_FILE@\" \
+-		  -DXPM_LOGO_NAME=@XPM_LOGO_NAME@
++		  -DXPM_LOGO_NAME=@XPM_LOGO_NAME@ $(TRUSTED_LOGO_DEFS)
+ 
+ lock-Gtk.o: lock-Gtk.c
+ 	$(CC) -c $(INCLUDES) -I$(ICON_SRC) $(GTK_DEFS) \
+@@ -825,8 +831,9 @@ XScreenSaver_ad.h: XScreenSaver.ad
+ 
+ # The executables linked in this directory.
+ #
+-xscreensaver: $(SAVER_OBJS)
+-	$(CC) $(LDFLAGS) -o $@ $(SAVER_OBJS) $(SAVER_LIBS)
++xscreensaver: $(SAVER_OBJS) $(TRUSTED_OBJS)
++	$(CC) $(LDFLAGS) -o $@ $(SAVER_OBJS) $(TRUSTED_OBJS) \
++	$(TRUSTED_LIBS) $(SAVER_LIBS)
+ 
+ xscreensaver-command: $(CMD_OBJS)
+ 	$(CC) $(LDFLAGS) -o $@ $(CMD_OBJS) $(CMD_LIBS)
+@@ -839,8 +846,9 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
+ xscreensaver-lock: @PREFERRED_LOCK_PROGRAM@
+ 	$(INSTALL_PROGRAM) @PREFERRED_LOCK_PROGRAM@ $@
+ 
+-xscreensaver-lock-Gtk: $(GTK_LOCK_OBJS)
++xscreensaver-lock-Gtk: $(GTK_LOCK_OBJS) $(TRUSTED_OBJS)
+ 	$(CC) $(LDFLAGS) -o $@ $(GTK_LOCK_OBJS) $(LIBS) $(X_LIBS) \
++	$(TRUSTED_OBJS) $(TRUSTED_LIBS) \
+ 	$(GTK_LIBS) $(XML_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
+ 	$(XDPMS_LIBS) -lXext \
+ 	$(X_EXTRA_LIBS)
+@@ -850,13 +858,15 @@ xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOT
+ 	$(MOTIF_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
+ 	$(XDPMS_LIBS) -lXext $(X_EXTRA_LIBS)
+ 
+-xscreensaver-demo-Gtk: $(DEMO_OBJS) $(GTK_OBJS)
+-	$(CC) $(LDFLAGS) -o $@ $(DEMO_OBJS) $(GTK_OBJS) $(LIBS) $(X_LIBS) \
+-	$(GTK_LIBS) $(XML_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
++xscreensaver-demo-Gtk: $(DEMO_OBJS) $(GTK_OBJS) $(TRUSTED_OBJS)
++	$(CC) $(LDFLAGS) -o $@ $(DEMO_OBJS) $(GTK_OBJS) $(TRUSTED_OBJS) \
++	$(LIBS) $(X_LIBS) $(GTK_LIBS) $(XML_LIBS) $(INTL_LIBS) \
++	$(TRUSTED_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
+ 	$(XDPMS_LIBS) -lXext $(X_EXTRA_LIBS)
+ 
+-xscreensaver-getimage: $(GETIMG_OBJS)
+-	$(CC) $(LDFLAGS) -o $@ $(GETIMG_OBJS) $(GETIMG_LIBS) -lm
++xscreensaver-getimage: $(GETIMG_OBJS) $(TRUSTED_OBJS)
++	$(CC) $(LDFLAGS) -o $@ $(GETIMG_OBJS) $(TRUSTED_OBJS) \
++	$(GETIMG_LIBS) $(TRUSTED_LIBS) -lm
+ 
+ 
+ TEST_PASSWD_OBJS = test-passwd.o $(LOCK_OBJS_1) $(PASSWD_OBJS) \
+diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
+--- driver/demo-Gtk.c	2006-05-10 08:49:50.661964000 -0700
++++ driver/demo-Gtk.c	2006-05-10 08:49:57.837940000 -0700
+@@ -112,6 +112,8 @@
+ #include <string.h>
+ #include <ctype.h>
+ 
++#include <user_attr.h>
++
+ #ifdef HAVE_GTK2
+ enum {
+   COL_ENABLED,
+@@ -126,6 +128,7 @@ extern void exec_command (const char *sh
+ #undef countof
+ #define countof(x) (sizeof((x))/sizeof((*x)))
+ 
++extern Display *global_dpy;
+ 
+ char *progname = 0;
+ char *progclass = "XScreenSaver";
+@@ -2231,10 +2234,15 @@ update_list_sensitivity (state *s)
+ #endif /* !HAVE_GTK2 */
+ }
+ 
++void XTSOLgetWorkstationOwner(Display *, uid_t *);
++char *getusrattrval(userattr_t *, char *);
++gboolean tsol_is_multi_label_session (void);
+ 
+ static void
+ populate_prefs_page (state *s)
+ {
++  static gboolean tsol_hack_initialized = False;
++  static gboolean tsol_multi_label_session = False;
+   saver_preferences *p = &s->prefs;
+ 
+   /* The file supports timeouts of less than a minute, but the GUI does
+@@ -2361,9 +2369,61 @@ populate_prefs_page (state *s)
+     SENSITIZE ("pwd_spinbutton", p->pwd_p);
+     SENSITIZE ("pwd_mlabel",     p->pwd_p);
+ 
++    tsol_multi_label_session = tsol_is_multi_label_session();
++    if ( ! tsol_hack_initialized && tsol_multi_label_session )
++    {
++	GtkWidget *lock_spinbutton = name_to_widget(s, "lock_spinbutton");
++	GtkWidget *lock_container = name_to_widget(s, "blanking_table");
++	GtkWidget *lock_button_eventbox = name_to_widget(s, "lock_button_eventbox");
++	Widget *newlabel = g_object_new(GTK_TYPE_LABEL, "label",
++			_("_Lock Screen After"), 
++			"use-underline", TRUE,
++			"mnemonic-widget", lock_spinbutton,
++			NULL);
++	GValue *gv = g_new0(GValue, 1);
++	GtkAdjustment *adj;
++	userattr_t *uent;
++	int idletime;
++	char *value = NULL;
++	uid_t WorkstationOwner;
++	Display *dpy = GDK_DISPLAY();
++
++	adj = gtk_spin_button_get_adjustment((GtkSpinButton  *)lock_spinbutton);
++
++	XTSOLgetWorkstationOwner(dpy, &WorkstationOwner);
++	uent = getuseruid(WorkstationOwner);
++	value = getusrattrval(uent, USERATTR_IDLETIME_KW);
++	if (value != NULL && *value != '\0')
++	  idletime = atoi(value);
++	adj->upper = (gdouble)idletime;
++	if (adj->value > adj->upper)
++	  adj->value = adj->upper;
++
++	gtk_spin_button_set_adjustment((GtkSpinButton *)lock_spinbutton, adj);
++
++	gtk_container_add(GTK_CONTAINER(lock_container), GTK_WIDGET(newlabel));
++	g_value_init(gv, G_TYPE_INT);
++	g_value_set_int(gv, 2);
++	gtk_container_child_set_property(GTK_CONTAINER(lock_container), GTK_WIDGET(newlabel), "top_attach", gv); 
++	g_value_set_int(gv, 1);
++	gtk_container_child_set_property(GTK_CONTAINER(lock_container), GTK_WIDGET(newlabel), "left_attach", gv); 
++	gtk_widget_show(GTK_WIDGET(newlabel));
++	gtk_widget_hide(GTK_WIDGET(lock_button_eventbox));
++	g_object_set(lock_button_eventbox, "active", TRUE, NULL);
++
++	SENSITIZE ("lock_button",     1);
++    } 
++
++    if ( tsol_multi_label_session )
++    {
++	SENSITIZE ("lock_spinbutton", 1);
++	SENSITIZE ("lock_mlabel",     1);
++    }
++    else
++    {
+     SENSITIZE ("lock_spinbutton", p->lock_p);
+     SENSITIZE ("lock_mlabel",     p->lock_p);
+-
++    }
+     /* DPMS
+      */
+     SENSITIZE ("dpms_frame",              dpms_supported);
+@@ -2392,6 +2452,7 @@ populate_prefs_page (state *s)
+ 
+ # undef SENSITIZE
+   }
++  tsol_hack_initialized = True;
+ }
+ 
+ 
+@@ -4043,7 +4104,7 @@ main (int argc, char **argv)
+                                      applicationShellWidgetClass,
+                                      dpy, 0, 0);
+ 
+-  dpy = XtDisplay (toplevel_shell);
++  global_dpy = dpy = XtDisplay (toplevel_shell);
+   db = XtDatabase (dpy);
+   XtGetApplicationNameAndClass (dpy, &progname, &progclass);
+   XSetErrorHandler (demo_ehandler);
+diff -urp -x '*~' driver/prefs.c driver/prefs.c
+--- driver/prefs.c	2006-05-10 08:49:50.519771000 -0700
++++ driver/prefs.c	2006-05-10 08:49:57.816439000 -0700
+@@ -36,6 +36,7 @@
+ # include "vms-pwd.h"
+ #endif /* VMS */
+ 
++#include <user_attr.h>
+ 
+ /* This file doesn't need the Xt headers, so stub these types out... */
+ #undef XtPointer
+@@ -65,12 +66,13 @@
+ 
+ #include "prefs.h"
+ #include "resources.h"
+-
++#include "trusted-utils.h"
+ 
+ extern char *progname;
+ extern char *progclass;
+ extern const char *blurb (void);
+ 
++Display *global_dpy;
+ 
+ 
+ static void get_screenhacks (saver_preferences *p);
+@@ -970,6 +972,9 @@ free_screenhack_list (screenhack **list,
+   free (list);
+ }
+ 
++void XTSOLgetWorkstationOwner(Display *, uid_t *);
++char *getusrattrval(userattr_t *, char *);
++int tsol_is_multi_label_session (void);
+ 
+ 
+ /* Populate `saver_preferences' with the contents of the resource database.
+@@ -1010,7 +1015,10 @@ load_init_file (saver_preferences *p)
+   p->xsync_p	    = get_boolean_resource ("synchronous", "Synchronous");
+   p->verbose_p	    = get_boolean_resource ("verbose", "Boolean");
+   p->timestamp_p    = get_boolean_resource ("timestamp", "Boolean");
+-  p->lock_p	    = get_boolean_resource ("lock", "Boolean");
++  if ( tsol_is_multi_label_session() )
++    p->lock_p       = True; /* always lock in a Multi Label Session */
++  else
++    p->lock_p       = get_boolean_resource ("lock", "Boolean");
+   /* *bugid 5077981 pwd timeout */
+   p->pwd_p	    = get_boolean_resource ("passwdTimeoutEnabled", "Boolean");
+   p->lock_vt_p	    = get_boolean_resource ("lockVTs", "Boolean");
+@@ -1030,6 +1038,27 @@ load_init_file (saver_preferences *p)
+   p->lock_timeout    = 1000 * get_minutes_resource ("lockTimeout", "Time");
+   p->cycle           = 1000 * get_minutes_resource ("cycle", "Time");
+   p->passwd_timeout  = 1000 * get_seconds_resource ("passwdTimeout", "Time");
++  if ( tsol_is_multi_label_session() )
++  {
++    userattr_t *uent;
++    int idletime;
++    char *value = NULL;
++    uid_t WorkstationOwner;
++
++    XTSOLgetWorkstationOwner(global_dpy, &WorkstationOwner);
++    uent = getuseruid(WorkstationOwner);
++    value = getusrattrval(uent, USERATTR_IDLETIME_KW);
++    if (value != NULL && *value != '\0')
++      idletime = atoi(value) * 1000;
++    if (p->passwd_timeout > idletime)
++      p->passwd_timeout = idletime;
++    
++    value = getusrattrval(uent, USERATTR_IDLECMD_KW);
++    if (value && strcmp(value, USERATTR_IDLECMD_LOGOUT_KW) == 0)
++      p->lock_cmd = LOGOUT_CMD;
++    else
++      p->lock_cmd = LOCK_CMD;
++  }
+   p->pointer_timeout = 1000 * get_seconds_resource ("pointerPollTime", "Time");
+   p->notice_events_timeout = 1000*get_seconds_resource("windowCreationTimeout",
+ 						       "Time");
+diff -urp -x '*~' driver/prefs.h driver/prefs.h
+--- driver/prefs.h	2006-05-10 08:49:50.407982000 -0700
++++ driver/prefs.h	2006-05-10 08:49:57.831994000 -0700
+@@ -70,6 +70,7 @@ struct saver_preferences {
+   Time initial_delay;		/* how long to sleep after launch */
+   Time splash_duration;		/* how long the splash screen stays up */
+   Time timeout;			/* how much idle time before activation */
++  int lock_cmd;			/* tsol only  - whether to lock or logout */
+   Time lock_timeout;		/* how long after activation locking starts */
+   Time cycle;			/* how long each hack should run */
+   Time passwd_timeout;		/* how much time before pw dialog goes down */
+diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
+--- driver/subprocs.c	2006-05-10 08:49:50.587973000 -0700
++++ driver/subprocs.c	2006-05-10 08:49:57.835657000 -0700
+@@ -74,6 +74,7 @@ extern int kill (pid_t, int);		/* signal
+ #include "xscreensaver.h"
+ #include "yarandom.h"
+ #include "visual.h"    /* for id_to_visual() */
++#include "trusted-utils.h"
+ 
+ extern saver_info *global_si_kludge;	/* I hate C so much... */
+ 
+@@ -820,6 +821,14 @@ spawn_screenhack_1 (saver_screen_info *s
+                       ssi->number, complete_hack_command,
+                      (unsigned long) getpid (), p->nice_inferior);
+ 
++	  if ( tsol_is_multi_label_session() )
++	    if (p->lock_cmd == LOGOUT_CMD)
++	    {
++	      free (complete_hack_command);
++	      exec_command (p->shell, "/usr/bin/pkill gnome-session", 0);
++	      exit(1);
++	    }
++	      
+ 	  exec_command (p->shell, complete_hack_command, p->nice_inferior);
+ 
+           /* If that returned, we were unable to exec the subprocess. */
+diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
+--- driver/xscreensaver-getimage.c	2002-05-29 13:49:34.000000000 -0700
++++ driver/xscreensaver-getimage.c	2006-05-10 08:49:57.797465000 -0700
+@@ -58,6 +58,7 @@ static char *defaults[] = {
+  0
+ };
+ 
++extern Display *global_dpy;
+ 
+ 
+ char *progname = 0;
+@@ -596,7 +597,7 @@ main (int argc, char **argv)
+   toplevel = XtAppInitialize (&app, progclass, 0, 0, &argc, argv,
+ 			      defaults, 0, 0);
+   argv[0] = progname;
+-  dpy = XtDisplay (toplevel);
++  global_dpy = dpy = XtDisplay (toplevel);
+   screen = XtScreen (toplevel);
+   db = XtDatabase (dpy);
+ 
+diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
+--- driver/xscreensaver.c	2006-05-10 08:49:50.641581000 -0700
++++ driver/xscreensaver.c	2006-05-10 08:49:57.862256000 -0700
+@@ -189,6 +189,7 @@ passwd_dialog_data *ptr_mygtkpwd = &mygt
+ char *progname = 0;
+ char *progclass = 0;
+ XrmDatabase db = 0;
++extern Display *global_dpy;
+ 
+ 
+ static Atom XA_SCREENSAVER_RESPONSE;
+@@ -1381,6 +1382,7 @@ while (debug_flag)
+   hack_environment (si);
+ 
+   shell = connect_to_server (si, &argc, argv);
++  global_dpy = XtDisplay(shell);
+   process_command_line (si, &argc, argv);
+   print_banner (si);
+ 

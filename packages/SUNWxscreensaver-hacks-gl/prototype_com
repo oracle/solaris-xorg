@@ -1,0 +1,126 @@
+#	Copyright 2003 Sun Microsystems, Inc.  All Rights Reserved
+#	Use is subject to license terms
+#
+#       "@(#)prototype_com	1.5	05/05/03 Sun Microsystems"
+#
+
+i pkginfo
+i copyright
+
+# OpenGL hacks and helper app
+
+!HOME=../openwin
+d none openwin 0755 root bin
+d none openwin/lib 0755 root bin
+d none openwin/lib/xscreensaver 0755 root bin
+
+!search      $HOME/bin
+d none openwin/lib/xscreensaver/bin 0755 root bin
+f none openwin/lib/xscreensaver/bin/xscreensaver-gl-helper 0555 root bin
+
+!search      $HOME/lib/xscreensaver/hacks
+d none openwin/lib/xscreensaver/hacks 0755 root bin
+f none openwin/lib/xscreensaver/hacks/atlantis 0555 root bin
+f none openwin/lib/xscreensaver/hacks/boxed 0555 root bin
+f none openwin/lib/xscreensaver/hacks/bubble3d 0555 root bin
+f none openwin/lib/xscreensaver/hacks/cage 0555 root bin
+f none openwin/lib/xscreensaver/hacks/circuit 0555 root bin
+f none openwin/lib/xscreensaver/hacks/cubenetic 0555 root bin
+f none openwin/lib/xscreensaver/hacks/dangerball 0555 root bin
+f none openwin/lib/xscreensaver/hacks/endgame 0555 root bin
+f none openwin/lib/xscreensaver/hacks/engine 0555 root bin
+f none openwin/lib/xscreensaver/hacks/gears 0555 root bin
+f none openwin/lib/xscreensaver/hacks/gflux 0555 root bin
+f none openwin/lib/xscreensaver/hacks/glforestfire 0555 root bin
+f none openwin/lib/xscreensaver/hacks/glplanet 0555 root bin
+f none openwin/lib/xscreensaver/hacks/glsnake 0555 root bin
+f none openwin/lib/xscreensaver/hacks/gltext 0555 root bin
+f none openwin/lib/xscreensaver/hacks/lament 0555 root bin
+f none openwin/lib/xscreensaver/hacks/lavalite 0555 root bin
+f none openwin/lib/xscreensaver/hacks/menger 0555 root bin
+f none openwin/lib/xscreensaver/hacks/moebius 0555 root bin
+f none openwin/lib/xscreensaver/hacks/molecule 0555 root bin
+f none openwin/lib/xscreensaver/hacks/morph3d 0555 root bin
+f none openwin/lib/xscreensaver/hacks/pipes 0555 root bin
+f none openwin/lib/xscreensaver/hacks/pulsar 0555 root bin
+f none openwin/lib/xscreensaver/hacks/queens 0555 root bin
+f none openwin/lib/xscreensaver/hacks/rubik 0555 root bin
+f none openwin/lib/xscreensaver/hacks/sballs 0555 root bin
+f none openwin/lib/xscreensaver/hacks/sierpinski3d 0555 root bin
+f none openwin/lib/xscreensaver/hacks/spheremonics 0555 root bin
+f none openwin/lib/xscreensaver/hacks/sproingies 0555 root bin
+f none openwin/lib/xscreensaver/hacks/stairs 0555 root bin
+f none openwin/lib/xscreensaver/hacks/starwars 0555 root bin
+f none openwin/lib/xscreensaver/hacks/stonerview 0555 root bin
+f none openwin/lib/xscreensaver/hacks/superquadrics 0555 root bin
+
+!search $HOME/share/man/man1
+1 s none openwin/man=./share/man
+1 d none openwin/share 0755 root bin
+1 d none openwin/share/man 0755 root bin
+d none openwin/share/man/man1 0755 root bin
+f none openwin/share/man/man1/xscreensaver-gl-helper.1 0444 root bin
+f none openwin/share/man/man1/atlantis.1 0444 root bin
+f none openwin/share/man/man1/boxed.1 0444 root bin
+f none openwin/share/man/man1/cage.1 0444 root bin
+f none openwin/share/man/man1/circuit.1 0444 root bin
+f none openwin/share/man/man1/cubenetic.1 0444 root bin
+f none openwin/share/man/man1/dangerball.1 0444 root bin
+f none openwin/share/man/man1/endgame.1 0444 root bin
+f none openwin/share/man/man1/engine.1 0444 root bin
+f none openwin/share/man/man1/extrusion.1 0444 root bin
+f none openwin/share/man/man1/gears.1 0444 root bin
+f none openwin/share/man/man1/gflux.1 0444 root bin
+f none openwin/share/man/man1/glplanet.1 0444 root bin
+f none openwin/share/man/man1/glsnake.1 0444 root bin
+f none openwin/share/man/man1/gltext.1 0444 root bin
+f none openwin/share/man/man1/lament.1 0444 root bin
+f none openwin/share/man/man1/lavalite.1 0444 root bin
+f none openwin/share/man/man1/menger.1 0444 root bin
+f none openwin/share/man/man1/moebius.1 0444 root bin
+f none openwin/share/man/man1/molecule.1 0444 root bin
+f none openwin/share/man/man1/morph3d.1 0444 root bin
+f none openwin/share/man/man1/pipes.1 0444 root bin
+f none openwin/share/man/man1/pulsar.1 0444 root bin
+f none openwin/share/man/man1/queens.1 0444 root bin
+f none openwin/share/man/man1/rubik.1 0444 root bin
+f none openwin/share/man/man1/sballs.1 0444 root bin
+f none openwin/share/man/man1/spheremonics.1 0444 root bin
+f none openwin/share/man/man1/sproingies.1 0444 root bin
+f none openwin/share/man/man1/stairs.1 0444 root bin
+f none openwin/share/man/man1/starwars.1 0444 root bin 
+f none openwin/share/man/man1/superquadrics.1 0444 root bin
+
+!search      $HOME/lib/xscreensaver/config/control-center-2.0/
+d none openwin/lib/xscreensaver/config 0755 root bin
+d none openwin/lib/xscreensaver/config/control-center-2.0 0755 root other
+f none openwin/lib/xscreensaver/config/control-center-2.0/atlantis.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/boxed.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/bubble3d.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/cage.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/circuit.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/cubenetic.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/dangerball.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/engine.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/gears.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/gflux.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/glforestfire.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/glplanet.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/glsnake.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/gltext.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/lament.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/menger.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/moebius.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/molecule.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/morph3d.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/pipes.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/pulsar.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/rubik.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/sballs.xml 0444 root bin 
+f none openwin/lib/xscreensaver/config/control-center-2.0/sierpinski3d.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/spheremonics.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/sproingies.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/stairs.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/starwars.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/stonerview.xml 0444 root bin
+f none openwin/lib/xscreensaver/config/control-center-2.0/superquadrics.xml 0444 root bin

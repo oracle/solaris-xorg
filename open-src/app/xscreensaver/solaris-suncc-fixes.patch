@@ -1,0 +1,95 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Patches to fix build problems on Solaris using Sun Studio compilers.
+These were submitted to jwz, who incorporated them into xscreensaver 4.11,
+so are not needed once we upgrade to 4.11 or later.
+
+Fixes:
+
+1. Only add Motif library options to $MOTIF_LIBS, so they're not used if
+   building with gtk instead of Motif
+
+2. Allow configure to detect DPMS on Solaris (Solaris dpms.h requires 
+   <X11/Xmd.h> - current XFree86 dpms.h includes that file directly).
+
+3. Use only pure-integral expressions in switch cases (our language lawyers
+   insist this is required by the C99 standard).
+
+diff -urp -x '*~' configure.in configure.in
+--- configure.in	2002-06-11 02:02:00.000000000 -0700
++++ configure.in	2006-05-10 08:47:54.754406000 -0700
+@@ -585,10 +585,10 @@ AC_DEFUN(AC_X_RANDOM_PATHS,
+       #
+       if test -f /usr/dt/include/Xm/Xm.h ; then
+         X_CFLAGS="$X_CFLAGS -I/usr/dt/include"
+-        X_LIBS="$X_LIBS -L/usr/dt/lib -R:/usr/dt/lib"
++        MOTIF_LIBS="$MOTIF_LIBS -L/usr/dt/lib -R/usr/dt/lib"
+ 
+         # Some versions of Slowlaris Motif require -lgen.  But not all.  Why?
+-        AC_CHECK_LIB(gen, regcmp, [X_LIBS="$X_LIBS -lgen"])
++        AC_CHECK_LIB(gen, regcmp, [MOTIF_LIBS="$MOTIF_LIBS -lgen"])
+       fi
+     ;;
+   esac])
+@@ -1139,7 +1139,8 @@ if test "$with_dpms" = yes; then
+ 
+   # first check for dpms.h
+   AC_CHECK_X_HEADER(X11/extensions/dpms.h, [have_dpms=yes],,
+-                    [#include <X11/Xlib.h>])
++                    [#include <X11/Xlib.h>
++		     #include <X11/Xmd.h>])
+ 
+   # if that succeeded, then check for the DPMS code in the libraries
+   if test "$have_dpms" = yes; then
+diff -urp -x '*~' hacks/glx/glsnake.c hacks/glx/glsnake.c
+--- hacks/glx/glsnake.c	2002-05-05 03:31:09.000000000 -0700
++++ hacks/glx/glsnake.c	2006-05-10 08:47:54.755187000 -0700
+@@ -457,15 +457,15 @@ void calc_snake_metrics(glsnake_configur
+     y += GETSCALAR(prev_dest_dir, Y_MASK);
+     z += GETSCALAR(prev_dest_dir, Z_MASK);
+ 
+-    switch ((int) bp->node[i].dest_angle) {
+-      case (int) (ZERO * 90.0):
++    switch ((int) (bp->node[i].dest_angle / 90.0)) {
++      case ZERO:
+         dest_dir = -prev_src_dir;
+         break;
+-      case (int) (PIN * 90.0):
++      case PIN:
+         dest_dir = prev_src_dir;
+         break;
+-      case (int) (RIGHT * 90.):
+-      case (int) (LEFT * 90.0):
++      case RIGHT:
++      case LEFT:
+         dest_dir = cross_product(prev_src_dir, prev_dest_dir);
+         if (bp->node[i].dest_angle == (int) (RIGHT * 90.0))
+           dest_dir = -dest_dir;

@@ -1,0 +1,107 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Various settings to meet Sun/Solaris policies/customizations, including:
+
+   -    enable screen lock by default, disable splash screen
+   -    disable using screen grabs in hacks to avoid security leaks
+   -    set default mode to screen blank
+   -    disable bsod by default to avoid confusion in shops with real NT boxes
+4871833 DPMS settings should be consistent between CDE and Gnome
+6368607 increase unlock dialog box timeout to 2 minutes
+
+
+diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
+--- driver/XScreenSaver.ad.in	2002-06-11 02:09:05.000000000 -0700
++++ driver/XScreenSaver.ad.in	2006-05-10 08:48:06.305863000 -0700
+@@ -28,21 +28,21 @@
+ 
+ ! /* (xrdb prevention kludge: whole file)
+ 
+-*timeout:		0:10:00
++*timeout:		0:15:00
+ *cycle:			0:10:00
+-*lockTimeout:		0:00:00
+-*passwdTimeout:		0:00:30
+-*dpmsEnabled:		False
+-*dpmsStandby:		2:00:00
+-*dpmsSuspend:		2:00:00
+-*dpmsOff:		4:00:00
+-*grabDesktopImages:	True
++*lockTimeout:		0:30:00
++*passwdTimeout:		0:02:00
++*dpmsEnabled:		True
++*dpmsStandby:		0:24:00
++*dpmsSuspend:		0:27:00
++*dpmsOff:		0:30:00
++*grabDesktopImages:	False
+ *grabVideoFrames:	False
+ *chooseRandomImages:	False
+ *imageDirectory:	
+-*nice:			10
++*nice:			19
+ *memoryLimit:		0
+-*lock:			False
++*lock:			True
+ *lockVTs:		True
+ *verbose:		False
+ *timestamp:		True
+@@ -50,11 +50,11 @@
+ *unfade:		False
+ *fadeSeconds:		0:00:03
+ *fadeTicks:		20
+-*splash:		True
++*splash:		False
+ *splashDuration:	0:00:05
+ *visualID:		default
+ 
+-*captureStderr: 	True
++*captureStderr: 	False
+ *overlayTextForeground:	#FFFF00
+ *overlayTextBackground:	#000000
+ *overlayStderr:		True
+@@ -102,6 +102,8 @@
+ !
+ *installColormap:	True
+ 
++! We want the default mode to be just blank the screen
++*mode: blank
+ 
+ ! Any program which can draw on the root window will work as a screensaver.
+ ! The following resource enumerates them.
+@@ -227,7 +229,7 @@
+ 				epicycle -root				    \n\
+ 				interference -root			    \n\
+ 				truchet -root -randomize		    \n\
+-				bsod -root				    \n\
++-				bsod -root				    \n\
+ 				crystal -root				    \n\
+ 				discrete -root				    \n\
+ 				kumppa -root				    \n\

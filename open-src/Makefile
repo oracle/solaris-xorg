@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/04/11
+# @(#)Makefile	1.4	06/05/26
 #
 ###############################################################################
 #
@@ -39,11 +39,13 @@
 
 BEFOREX = \
 	proto \
+	util/lndir \
 	lib/freetype \
 	lib/fontconfig \
 	lib/Xft
 
 AFTERX = \
+	app/xscreensaver \
 	font/bitstream-vera
 
 ALL = $(BEFOREX) $(AFTERX)

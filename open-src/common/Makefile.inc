@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.60	06/04/11
+# @(#)Makefile.inc	1.61	06/05/10
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -50,7 +50,7 @@ LIB_REQUIRED_LDFLAGS	= -z text -z defs
 LIB_LDFLAGS 		= $(LDFLAGS) $(LIB_REQUIRED_LDFLAGS)
 
 # Flags for programs
-PROG_LDFLAGS		= $(LDFLAGS) $(MAPFILES_FOR_PROGS)
+PROG_LDFLAGS		= $(LDFLAGS) $(MAPFILES_FOR_PROGS) -B direct
 
 # Linker mapfiles to link with for better performance & security
 # SPARC archicteture requires PLT section in .data be executable, so
@@ -174,7 +174,7 @@ TARBALLDIR=$(TOP)/tarballs
 WGET=/usr/sfw/bin/wget
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 
-XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
+XORG_RELEASES_URL=http://ftp.x.org/pub/individual
 
 download:
 	if [ ! -f $(SOURCE_TARBALL) ] ; then \

@@ -1,0 +1,21 @@
+#	Copyright 2005 Sun Microsystems, Inc.  All Rights Reserved
+#	Use is subject to license terms
+#
+#	@(#)depend	1.3	05/05/03 Sun Microsystems, Inc.
+
+P SUNWcsr	Core Sparc, (Root)
+P SUNWcsu	Core Sparc, (Usr)
+P SUNWcsl	Core Solaris, (Shared Libs)
+P SUNWgnome-base-libs  GNOME base GUI libraries
+P SUNWlibms	Forte Developer Bundled shared libm
+P SUNWlxml	The XML library
+P SUNWocf	Open Card Framework
+P SUNWxwplt	X Window System platform software
+P SUNWxwrtl	X Window System & Graphics Runtime Library Links in /usr/lib
+P SUNWzlib	The Zip compression library
+P SUNWgnome-config	GNOME configuration framework
+P SUNWgnome-component	GNOME CORBA ORB and component framework
+P SUNWgnome-a11y-libs	Accessibility Implementation for GNOME
+P SUNWxwice	X Window System Inter-Client Exchange (ICE) Components
+P SUNWxorg-clientlibs X.Org Foundation X Client Libraries
+
