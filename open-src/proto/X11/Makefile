@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	06/04/11
+# @(#)Makefile	1.2	06/05/15
 #
 
 PWD:sh=pwd
@@ -38,7 +38,7 @@ TOP=$(PWD)/../..
 BUILD_TYPES=32 
 
 # Version number (used in path names)
-VERSION=7.0.4
+VERSION=7.0.5
 
 # Source tarball
 SOURCE_TARBALL_NAME=xproto-$(VERSION).tar.bz2
@@ -47,7 +47,7 @@ SOURCE_TARBALL_NAME=xproto-$(VERSION).tar.bz2
 SOURCE_URL=$(XORG_RELEASES_URL)/proto/$(SOURCE_TARBALL_NAME)
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	Xmd.h-patch Xos.h-patch Xpoll.h-patch X.h-patch
+SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xproto-$(VERSION)
