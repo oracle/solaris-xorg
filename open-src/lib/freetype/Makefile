@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.60	05/11/21
+# @(#)Makefile	1.61	06/05/22
 #
 
 PWD:sh=pwd
@@ -49,7 +49,7 @@ SOURCE_TARBALL_NAME=freetype-$(FT_VERS).tar.bz2
 SOURCE_URL=http://savannah.nongnu.org/download/freetype/$(SOURCE_TARBALL_NAME)
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=freetype-$(FT_VERS).patch
+SOURCE_PATCHES=freetype-$(FT_VERS).patch 6425531.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
