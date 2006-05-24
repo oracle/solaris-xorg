@@ -1,0 +1,106 @@
+// $Xorg: no,v 1.3 2000/08/17 19:54:43 cpqbld Exp $
+
+
+
+
+// $XFree86: xc/programs/xkbcomp/symbols/no,v 3.9 2001/01/17 23:45:59 dawes Exp $
+
+partial alphanumeric_keys 
+ xkb_symbols "basic" {
+ 
+     // Describes the differences between a very simple en_US
+    // keyboard and a Norwegian keyboard with dead key support
+    // and all of ISO-8859-1 characters available.
+ 
+     name[Group1]= "Norwegian";
+ 
+    key <TLDE> {	[             bar,         section      ],
+			[       brokenbar       		]};
+    key <LSGT> {	[	     less,	   greater	]};
+    key <SPCE> {	[	    space,	     space	],
+			[    nobreakspace,    nobreakspace	]};
+    key <AE01> {	[               1,          exclam  	]};
+    key <AE02> {	[               2,        quotedbl  	],
+			[	       at    			]};
+    key <AE03> {	[              	3,	numbersign	],
+			[	 sterling   			]};
+    key <AE04> {	[               4,        currency     	],
+			[	   dollar			]};
+    key <AE05> {	[               5,         percent     	],
+			[       asciitilde			]};
+    key <AE06> {	[               6,       ampersand     	],
+			[     asciicircum			]};
+    key <AE07> {	[               7,           slash     	],
+			[       braceleft        		]};
+    key <AE08> {	[               8,       parenleft     	],
+			[     bracketleft   			]};
+    key <AE09> {	[               9,      parenright     	],
+			[    bracketright  			]};
+    key <AE10> {	[               0,           equal     	],
+                        [      braceright 	                ]};
+    key <AB08> {	[           comma,       semicolon     	]};
+    key <AB09> {	[          period,           colon     	]};
+    key <AB03> {        [               c,               C      ],
+                        [       copyright,        NoSymbol      ]};
+    key <AB10> {	[           minus,      underscore     	]};
+    key <AC01> {        [               a,               A      ]};
+    key <AC03> {        [               d,               D      ]};
+    key <AD03> {        [               e,               E      ],
+                        [        EuroSign,            cent      ]};
+    key <AD04> {        [               r,               R      ]};
+    key <AD05> {        [               t,               T      ]};
+    key <AD09> {        [               o,               O      ]};
+    key	<AC10> {	[	   oslash,        Oslash 	]}; 
+    key <AE11> {	[            plus,        question      ]};
+    key <AC11> {	[	      ae,	        AE	]};
+    key <BKSL> {	[      apostrophe,        asterisk	],
+                 	[ 	grave			        ]};
+    key <AD11> {	[	    aring,           Aring 	]};
+    key <AE12> {   	[       backslash,      dead_grave      ],
+                 	[      dead_acute          	        ]};
+    key <AD12> {   	[  dead_diaeresis, dead_circumflex      ],
+                 	[      dead_tilde       	        ]};
+
+ 
+    // End alphanumeric section, begin "Keypad"
+    key <KPDL> {	[  KP_Delete,	KP_Separator	]	};
+    // End "Keypad" section
+
+    // begin modifier mappings
+    
+    modifier_map Shift  { Shift_L };
+    modifier_map Lock   { Caps_Lock };
+    modifier_map Control{ Control_L };
+    modifier_map Mod3   { Mode_switch };
+};
+
+partial alphanumeric_keys 
+xkb_symbols "Sundeadkeys" {
+
+    // For naming consistency
+
+    include "no(basic)"
+
+};
+
+partial alphanumeric_keys 
+xkb_symbols "sundeadkeys" {
+
+    // For naming consistency
+
+    include "no(Sundeadkeys)"
+
+};
+
+partial alphanumeric_keys 
+xkb_symbols "nodeadkeys" {
+
+    // Modifies the basic Norwegian layout to eliminate dead keys
+
+    include "no(basic)"
+    key <AE12> {	[       backslash,           grave	],
+			[	    acute,          ogonek 	]	};
+    key <AD12> {	[       diaeresis,     asciicircum     	],	
+			[      asciitilde,          macron     	]      	};
+
+};

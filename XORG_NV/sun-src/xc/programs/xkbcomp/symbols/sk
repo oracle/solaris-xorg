@@ -59,14 +59,14 @@ xkb_symbols "basic" {
     key <LSGT>  { [     ampersand,      asterisk,       less,           less     ] };
     key <AB01>  { [     y,              Y,      greater,                greater  ] };
     key <AB02>  { [     x,              X,      numbersign,             numbersign ] };
-    key <AB03>  { [     c,              C,      ampersand,              ampersand ] };
+    key <AB03>  { [     c,              C	 ] };
     key <AB04>  { [     v,              V,      at,                     at       ] };
     key <AB05>  { [     b,              B,      braceleft,              braceleft ] };
     key <AB06>  { [     n,              N,      braceright,             braceright ] };
     key <AB07>  { [     m,              M,      NoSymbol,               NoSymbol ] };
-    key <AB08>  { [     comma,          question,       less,           less ] };
-    key <AB09>  { [     period,         colon,  greater,                greater ] };
-    key <AB10>  { [     minus,          underscore,     asterisk,       asterisk ] };
+    key <AB08>  { [     comma,          question ] };
+    key <AB09>  { [     period,         colon ] };
+    key <AB10>  { [     minus,          underscore ] };
 
     key <SPCE>  { [     space,          space,  nobreakspace,           nobreakspace ] };
 

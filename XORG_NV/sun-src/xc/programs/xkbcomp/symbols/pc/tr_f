@@ -1,0 +1,148 @@
+// Converted keytable file to xkb/symbols/ file
+// with mk_xkb by root@linux.chanae.stben.be Tue Sep 30 01:29:39 MET DST 1997
+
+//  turkish "F" keyboard, copyed from LyX turkish keyboard description
+//  right Ctrl key switches to an almost US keyboard (number row is mangled
+//  us keyboard mode, this to allow simple access by AltGr while in turkish
+//  mode to all needed symbols)
+//  as the names of some chars in iso-8859-9 are not consistent whith
+//  the rest of latin iso-8859-* I declare them in hexa (ugly, but what else?)
+//
+//  Pablo Saratxaga <srtxg@f2219.n293.z2.fidonet.org>
+//  FIXME: I'm not sure about the ISO_* stuff, the original *.map uses
+//         AltGr_Lock as modifier.
+
+
+default partial alphanumeric_keys
+xkb_symbols "basic" {
+
+    // Describes the differences between a very simple US/ASCII
+    // keyboard and a very simple Turkish "F" (traditional) keyboard
+
+    // Alphanumeric section
+    name[Group1]= "Turkish \"F\" (traditional)";
+    #name[Group2]= "US/ASCII";
+
+    key <AE01> {	[	  1,	exclam 		],
+			[ onesuperior			]	};	
+    key <AE02> {	[         2,	quotedbl	],
+			[ twosuperior			]	};
+    key <AE03> {	[         3,	asciicircum	],
+			[ numbersign			]	};
+    key <AE04> {	[         4,	dollar     	],
+			[ onequarter			]	};
+    key <AE05> {	[         5,	percent  	],
+			[ onehalf			]	};
+    key <AE06> {	[         6,	ampersand	],
+			[ threequarters			]	};
+    key <AE07> {	[         7,	quoteright    	],
+			[ braceleft			]	};
+    key <AE08> {	[         8,	parenleft	],
+			[ bracketleft			]	};
+    key <AE09> {	[         9,	parenright	],
+			[ bracketright			]	};
+    key <AE10> {	[         0,	equal    	],
+			[ braceright			]	};
+    key <AE11> {	[  slash,	question 	],
+			[ backslash 		   	]	};
+    key <AE12> {	[     minus,	underscore	],
+			[     bar,    brokenbar		]	};
+    key <AD01> {	[         f,	F        	],
+			[         at,	at        	]	};
+    key <AD02> {	[         g,    G		],
+			[         w,	W        	]	};
+    key <AD03> {	[    gbreve,	Gbreve		],
+			[         e,	E        	]	};
+    key <AD04> {	[  idotless,	I		],      
+			[ paragraph		      	]	};
+    key <AD05> {	[         o,	O        	],
+			[         t,	T        	]	};
+    key <AD06> {	[         d,	D        	],
+			[         yen	        	]	};
+    key <AD07> {	[         r,	R        	],
+			[         u,	U        	]	};
+    key <AD08> {	[         n,	N        	],
+			[         i,	I        	]	};
+    key <AD09> {	[         h,	H        	],
+			[    degree 		       	]	};
+    key <AD10> {	[         p,    P	 	],
+			[  sterling			]	};
+    key <AD11> {	[         q,	Q        	],
+			[ diaeresis, dead_diaeresis	]	};
+    key <AD12> {	[         w,	W        	],
+			[ asciitilde, dead_tilde	]	};
+    key <AC01> {	[         u,	U        	],
+			[         ae,	AE        	]	};
+    key <AC02> {	[         i,	Iabovedot	],
+			[  ssharp 		       	]	};
+    key <AC03> {	[         e,	E        	],
+			[         d,	D        	]	};
+    key <AC04> {	[         a,	A        	],
+			[         f,	F        	]	};
+    key <AC05> {	[  udiaeresis,	Udiaeresis	],
+			[	  g,	G		]	};	
+    key <AC06> {	[         t,	T        	],
+			[         h,	H        	]	};
+    key <AC07> {	[         k,	K        	],
+			[         j,	J        	]	};
+    key <AC08> {	[         m,	M        	],
+			[         k,	K        	]	};
+    key <AC09> {	[         l,    L		]	};
+    key <AC10> {	[         y,	Y        	],
+			[ quoteright, dead_acute    	]	};
+    key <AC11> {	[  scedilla,	Scedilla	],
+			[ numbersign		 	]	};
+    key <TLDE> {	[ plus,		plusminus	],
+			[     notsign			]	};
+    key <BKSL> {	[         x,	X        	],
+			[ quoteleft,   dead_grave      	]	};
+    key <AB01> {	[         j,	J        	],
+			[ guillemotleft	        	]	};
+    key <AB02> {	[ odiaeresis,	Odiaeresis	],
+			[ guillemotright               	]	};
+    key <AB03> {	[         v,	V        	],
+			[         cent 		       	]	};
+    key <AB04> {	[         c,	C        	],
+			[         v,	V        	]	};
+    key <AB05> {	[  ccedilla,	Ccedilla 	],
+			[         b,	B        	]	};
+    key <AB06> {	[         z,	Z        	],
+			[         n,	N        	]	};
+    key <AB07> {	[         s,	S        	],
+			[         mu 		       	]	};
+    key <AB08> {	[         b,	B        	],
+			[     multiply		     	]	};
+    key <AB09> {	[    period,	colon    	],
+			[    division 		 	]	};
+    key <AB10> {	[     comma,	semicolon	]	};
+    key <LSGT> {	[      less,	greater  	],
+			[      bar, 	brokenbar	]	};
+
+    // End alphanumeric section
+
+    // begin modifier mappings
+    modifier_map Shift  { Shift_L };
+    modifier_map Lock   { Caps_Lock };
+    modifier_map Control{ Control_L };
+    modifier_map Mod3   { Mode_switch };
+};
+
+
+partial alphanumeric_keys
+xkb_symbols "Sundeadkeys" {
+
+    // For naming consistency
+
+    include "tr_f(basic)"
+
+};
+
+partial alphanumeric_keys
+xkb_symbols "sundeadkeys" {
+
+    // For naming consistency
+
+    include "tr_f(Sundeadkeys)"
+
+};
+

@@ -1,0 +1,97 @@
+// $Xorg: de_CH,v 1.3 2000/08/17 19:54:42 cpqbld Exp $
+
+
+
+
+// $XFree86: xc/programs/xkbcomp/symbols/de_CH,v 3.4 2000/01/21 01:12:27 dawes Exp $
+
+partial default alphanumeric_keys 
+xkb_symbols "basic" {
+
+    // Describes the differences between a very simple US/ASCII
+    // keyboard and a very simple Swiss keyboard
+
+    // Alphanumeric section
+    name[Group1]= "Swiss German";
+    key <TLDE> {	[   section,	degree		]	};
+    key <AE01> {	[	  1,	plus 		],
+			[       bar			]	};
+    key <AE02> {	[	  2,	quotedbl	],
+			[        at			]	};
+    key <AE03> {	[	  3,	asterisk	],
+			[ numbersign			]	};
+    key <AE04> {	[	  4,	ccedilla	],
+			[  asciicircum 		        ]       };	
+    key <AE05> {	[	  5,	percent		],
+                        [  asciitilde                   ]       };
+    key <AE06> {	[	  6,	ampersand	],
+			[         6,    ampersand	]	};
+    key <AE07> {	[	  7,	slash		],
+			[ 	 7,    slash		]	};
+    key <AE08> {	[	  8,	parenleft	],
+			[      	8,    parenleft 	]	};
+    key <AE09> {	[	  9,	parenright	]	};
+    key <AE10> {	[	  0,	equal		],
+  			[         acute		        ]	};
+    key <AE11> {	[ apostrophe,	question	],
+			[ dead_acute			]	};
+    key <AE12> {	[ dead_circumflex, dead_grave	],
+			[ dead_tilde			]	};
+
+    key <AD03> {	[	  e,	E		],
+			[  EuroSign			]	};
+    key <AD06> {	[	  z,	Z		]	};
+    key <AD11> {	[ udiaeresis,	egrave		],
+			[ bracketleft			]	};
+    key <AD12> {	[ dead_diaeresis, exclam	],
+			[ bracketright			]	};
+
+    key <AC10> {	[ odiaeresis,	eacute		]	};
+    key <AC11> {	[ adiaeresis,	agrave		],
+			[  braceleft			]	};
+    key <BKSL> {	[     dollar,	sterling	],
+			[ braceright			]	};
+
+    key <LSGT> {	[      less,	greater		],
+			[ backslash			]	};
+    key <AB01> {	[	  y,	Y 		]	};
+    key <AB08> {	[     comma,	semicolon	]	};
+    key <AB09> {	[    period,	colon		]	};
+    key <AB10> {	[     minus,	underscore	]	};
+
+    // End alphanumeric section, begin "Keypad"
+    key <KPDL> {        [  KP_Delete,   KP_Separator    ]       };
+    // End "Keypad" section
+
+
+    // begin modifier mappings
+    modifier_map Shift  { Shift_L };
+    modifier_map Lock   { Caps_Lock };
+    modifier_map Control{ Control_L };
+};
+partial alphanumeric_keys 
+xkb_symbols "Sundeadkeys" {
+    // modify the default Swiss German layout to use Sun dead keys
+    include "de_CH(basic)"
+    key <AE11> {	[ apostrophe,	question	],
+			[ dead_acute			]	};
+    key <AE12> {	[ dead_circumflex,	dead_grave	],
+			[ dead_tilde			]	};
+    key <AD12> {	[ dead_diaeresis, exclam	],
+			[ bracketright			]	};
+};
+partial alphanumeric_keys 
+xkb_symbols "sundeadkeys" {
+    include "de_CH(Sundeadkeys)"
+};
+partial alphanumeric_keys 
+xkb_symbols "nodeadkeys" {
+    // modify the default Swiss German layout not to have any dead keys
+    include "de_CH(basic)"
+    key <AE11> {	[ apostrophe,	question	],
+			[ acute				]	};
+    key <AE12> {	[ asciicircum,	grave		],
+			[ asciitilde			]	};
+    key <AD12> {	[ diaeresis,	exclam		],
+			[ bracketright			]	};
+};

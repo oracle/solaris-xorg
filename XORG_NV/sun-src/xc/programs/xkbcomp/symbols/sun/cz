@@ -47,6 +47,7 @@ xkb_symbols "type5" {
     key <AE10> { [ eacute, 0		], [ braceright		]	};
 
     key <AD03> { [ e, E		        ]                               };
+    key  <AD06> { [ dcaron, d         ,D            ]                   };
     key <AD11> { [ uacute, slash        ], [ bracketleft		] };
     key <AD12> { [ parenright, parenleft], [ bracketright		] };
     
