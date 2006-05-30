@@ -174,7 +174,7 @@ TARBALLDIR=$(TOP)/tarballs
 WGET=/usr/sfw/bin/wget
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 
-XORG_RELEASES_URL=http://ftp.x.org/pub/individual
+XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
 
 download:
 	if [ ! -f $(SOURCE_TARBALL) ] ; then \
