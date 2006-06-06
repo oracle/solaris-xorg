@@ -95,3 +95,21 @@ fixed CR6229445: fc-cache crash
      }
      else
      {
+--- src/sfnt/sfobjs.c       Wed May 31 09:40:31 2006
++++ src/sfnt/sfobjs.c       Wed May 31 09:41:08 2006
+@@ -236,13 +236,10 @@
+       {
+       case TT_MS_ID_UNICODE_CS:
+       case TT_MS_ID_SYMBOL_CS:
++      case TT_MS_ID_UCS_4:
+         convert = tt_name_entry_ascii_from_utf16;
+         break;
+
+-      case TT_MS_ID_UCS_4:
+-        convert = tt_name_entry_ascii_from_ucs4;
+-        break;
+-
+       default:
+         ;
+       }
+

@@ -294,3 +294,14 @@ diff -ur fontconfig-2.3.2/src/fccfg.c fontconfig-2.3.2.new/src/fccfg.c
  
  uninstall-local:
  	if [ -f $(srcdir)/fonts.conf ]; then \
+--- src/fcfreetype.c.orig   Wed May 31 09:37:18 2006
++++ src/fcfreetype.c        Wed May 31 09:38:03 2006
+@@ -129,7 +129,7 @@
+  {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_BIG_5,		"BIG-5" },
+  {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_WANSUNG,	"Wansung" },
+  {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_JOHAB,		"Johab" },
+- {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UCS4" },
++ {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UTF-16BE" },
+  {  TT_PLATFORM_ISO,		TT_ISO_ID_7BIT_ASCII,	"ASCII" },
+  {  TT_PLATFORM_ISO,		TT_ISO_ID_10646,	"UCS-2BE" },
+  {  TT_PLATFORM_ISO,		TT_ISO_ID_8859_1,	"ISO-8859-1" },
