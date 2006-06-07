@@ -1743,9 +1743,12 @@ static void RADEONGetClockInfo(ScrnInfoPtr pScrn)
     if (info->ChipFamily == CHIP_FAMILY_RV100 && !info->HasCRTC2) {
         /* Avoid RN50 corruption due to memory bandwidth starvation.
          * 18 is an empirical value based on the databook and Windows driver.
-        */
+         *
+         * Empirical value changed to 24 to raise pixel clock limit and
+         * allow higher resolution modes on capable monitors.
+         */
         pll->max_pll_freq = min(pll->max_pll_freq,
-                               18 * info->mclk * 100 / pScrn->bitsPerPixel *
+                               24 * info->mclk * 100 / pScrn->bitsPerPixel *
                                info->RamWidth / 16);
     }
 
