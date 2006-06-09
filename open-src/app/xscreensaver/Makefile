@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.61	06/05/10
+# @(#)Makefile	1.62	06/06/09
 #
 
 PWD:sh=pwd
@@ -43,10 +43,10 @@ XSCREENSAVER_VERS=4.05
 # Source tarball
 SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.gz
 
-# Download site for source
+# Download site for source - master site no longer carries 4.05 so we use
+# a mirror site until we upgrade to a newer version
 #SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
 SOURCE_URL=http://slackware.osuosl.org/unsupported/source/gnome-1.4.1/xscreensaver/$(SOURCE_TARBALL_NAME)
-
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
