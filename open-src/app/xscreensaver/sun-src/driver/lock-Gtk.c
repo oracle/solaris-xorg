@@ -790,6 +790,11 @@ ok_clicked_cb (GtkWidget *button, PasswdDialog *pwd)
   s = g_strdup_printf ("%s\n", gtk_entry_get_text (GTK_ENTRY (pwd->passwd_entry)));
      
   write_string (s);
+
+/* Reset password field to blank, else passwd field shows old passwd *'s, visible when
+   passwd is expired, and pam is walking the user to change old passwd.
+ */
+  gtk_editable_delete_text (pwd->passwd_entry, 0, strlen(s));
   g_free (s);
 
 /* #6178584 P1 "Xscreensaver needs to use ROLE_PASSWORD_TEXT 
@@ -915,7 +920,7 @@ handle_input (GIOChannel *source, GIOCondition cond, gpointer data)
         }
        else if ((strncmp(str,"pw_acct_fail",12)) == 0 ) 
         {
-          hmsg = strdup (_("Just a Warning PAM Account Management Unsuccessful"));
+          hmsg = strdup (_("Your Password has expired."));
         }
        else if ((strncmp(str,"pw_fail",7)) == 0 ) 
         {

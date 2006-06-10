@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.62	06/06/09
+# @(#)Makefile	1.63	06/06/12
 #
 
 PWD:sh=pwd
@@ -71,7 +71,8 @@ SOURCE_PATCHES = \
 	blurb.patch \
 	accessibility.patch \
 	misc.patch \
-	trusted.patch
+	trusted.patch \
+        pam_audit.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
