@@ -323,6 +323,8 @@ static void nv10GetConfig (NVPtr pNv)
 }
 
 
+extern xf86MonPtr nvProbeDDC(ScrnInfoPtr pScrn, int index);
+
 void
 NVCommonSetup(ScrnInfoPtr pScrn)
 {
@@ -470,7 +472,11 @@ NVCommonSetup(ScrnInfoPtr pScrn)
 
     if(!pNv->twoHeads) {
        pNv->CRTCnumber = 0;
-       if((monitorA = NVProbeDDC(pScrn, 0))) {
+       if(!(monitorA = NVProbeDDC(pScrn, 0)))
+              monitorA = nvProbeDDC(pScrn, 
+              	xf86GetEntityInfo(pScrn->entityList[0])->index);
+
+       if (monitorA) {
            FlatPanel = monitorA->features.input_type ? 1 : 0;
 
            /* NV4 doesn't support FlatPanels */
@@ -556,6 +562,10 @@ NVCommonSetup(ScrnInfoPtr pScrn)
 
        monitorA = NVProbeDDC(pScrn, 0);
        monitorB = NVProbeDDC(pScrn, 1);
+
+       if (!monitorA && !monitorB)
+              monitorA = nvProbeDDC(pScrn, 
+              	xf86GetEntityInfo(pScrn->entityList[0])->index);
 
        if(slaved_on_A && !tvA) {
           CRTCnumber = 0;

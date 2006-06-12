@@ -1200,9 +1200,6 @@ modestrcmp(const char **p1, const char **p2)
 }
 
 
-extern DisplayModePtr xf86CVTMode(int HDisplay, int VDisplay, float VRefresh,
-    Bool Reduced, Bool Interlaced);
-
 /*
  * xf86ValidateModes
  *
@@ -1285,7 +1282,10 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
     int numDtModelines = 0;
     int numStdModes = 0;
     char **rmodeNames;
-    DisplayModePtr modePool;
+    float hmin = 1e6, hmax = 0.0, vmin = 1e6, vmax = 0.0;
+    int useBuiltin = FALSE;
+    float builtinHSync = 0.0;
+    float builtinVRfrsh = 0.0;
 
 #ifdef DEBUG
     ErrorF("xf86ValidateModes(%p, %p, %p, %p,\n\t\t  %p, %d, %d, %d, %d, %d, %d, %d, %d, 0x%x)\n",
@@ -1316,44 +1316,6 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
     }
 
     /*
-     * If DDC is empty, try VBE DDC probing, since xf86DoEDID_DDC2
-     * probing, which at least nv and ati drivers count on, sometimes
-     * fails for some CRT monitors
-     */
-#ifdef sun
-#ifdef improve_for_nvidia_driver
-    /* 
-     * With nvidia driver, EDID modes are added to availModes with type 0, 
-     * reconstruct them.
-     */
-    if (!strcmp (scrp->driverName, "nvidia")) {
-	for (p = availModes; p != NULL; p = p->next)
-	    if (p->type == 0) {
-		dt_modes[numDtModelines] = *p;
-		dt_modes[numDtModelines].type = M_T_EDID;
-		dt_mode_names[numDtModes++] = xnfstrdup(p->name);
-		dt_mode_names[numDtModes] = NULL;
-	    }
-	/* 
-         * If monitor probing failed with nvidia driver, try the results from
-	 * VBE probing 
-	 */
-    }
-    if ((!scrp->monitor->DDC) && (strcmp (scrp->driverName, "nvidia") || 
-	(!numDtModelines))) {
-#else
-    if ((!scrp->monitor->DDC) && strcmp (scrp->driverName, "nvidia")) {
-#endif
-#else
-    if (!scrp->monitor->DDC) {
-#endif
-	int entityIndex = scrp->entityList[0];
-
-	if ((xf86LoadSubModule(scrp, "vbe")) && xf86FallbackDDCProbe)
-	    	scrp->monitor->DDC = xf86FallbackDDCProbe (entityIndex, scrp);
-    }
-
-    /*
      * Probe monitor so that we can enforce/warn about its limits.
      * If one or more DS_RANGES descriptions are present, use the parameters
      * that they provide.  Otherwise, deduce limits based on the modes that
@@ -1365,7 +1327,6 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 	MonPtr monitor = scrp->monitor;
 	xf86MonPtr DDC = (xf86MonPtr)(scrp->monitor->DDC);
 	int i, j, c;
-	float hmin = 1e6, hmax = 0.0, vmin = 1e6, vmax = 0.0;
 	float h;
 	struct std_timings *t;
 	struct detailed_timings *dt;
@@ -1557,60 +1518,86 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 		numTimings++;
 	    }
 	}
+    } else {
+	/* Check built-in modes */
+	for (p = scrp->modePool; p != NULL; p = p->next) {
+	    if (p->type == M_T_BUILTIN) {
+		std_mode_names[numStdModes++]	= xnfstrdup(p->name);
+		std_mode_names[numStdModes] = NULL;
+		useBuiltin = TRUE;
+		if (ModeHSync(p) > builtinHSync)
+		    builtinHSync = ModeHSync(p);
+		if ((float) ModeVRefresh(p) > builtinVRfrsh)
+		    builtinVRfrsh = (float) ModeVRefresh(p);
+	    }
+	}
+	if (numStdModes == 0) 
+	    for (p = scrp->monitor->Modes; p != NULL; p = p->next) {
+	    	if (p->type == M_T_BUILTIN) {
+		    std_mode_names[numStdModes++]	= xnfstrdup(p->name);
+		    std_mode_names[numStdModes] = NULL;
+		    useBuiltin = TRUE;
+		    if (ModeHSync(p) > builtinHSync)
+		    	builtinHSync = ModeHSync(p);
+		    if ((float) ModeVRefresh(p) > builtinVRfrsh)
+		    	builtinVRfrsh = (float) ModeVRefresh(p);
+	    	}
+	    }
+    }
 
-	if (numTimings > 0) {
+    if (numTimings > 0) {
+	MonPtr monitor = scrp->monitor;
+	int i, j;
 
 #ifdef DEBUG
-	    for (i = 0; i < numTimings; i++) {
-		ErrorF("DDC - Hsync %.1f-%.1f kHz - Vrefresh %.1f-%.1f Hz\n",
-		       hsync[i].lo, hsync[i].hi,
-		       vrefresh[i].lo, vrefresh[i].hi);
-	    }
+        for (i = 0; i < numTimings; i++) {
+	    ErrorF("DDC - Hsync %.1f-%.1f kHz - Vrefresh %.1f-%.1f Hz\n",
+	    	hsync[i].lo, hsync[i].hi, vrefresh[i].lo, vrefresh[i].hi);
+    	}
 #endif
 
 #define DDC_SYNC_TOLERANCE SYNC_TOLERANCE
-	    if (monitor->nHsync > 0) {
-		for (i = 0; i < monitor->nHsync; i++) {
-		    Bool good = FALSE;
-		    for (j = 0; j < numTimings; j++) {
-			if ((1.0 - DDC_SYNC_TOLERANCE) * hsync[j].lo <=
-				monitor->hsync[i].lo &&
-			    (1.0 + DDC_SYNC_TOLERANCE) * hsync[j].hi >=
-				monitor->hsync[i].hi) {
-			    good = TRUE;
-			    break;
-			}
+  	if (monitor->nHsync > 0) {
+	    for (i = 0; i < monitor->nHsync; i++) {
+	    	Bool good = FALSE;
+	    	for (j = 0; j < numTimings; j++) {
+		    if ((1.0 - DDC_SYNC_TOLERANCE) * hsync[j].lo <=
+			monitor->hsync[i].lo &&
+		    	(1.0 + DDC_SYNC_TOLERANCE) * hsync[j].hi >=
+			monitor->hsync[i].hi) {
+		    	good = TRUE;
+		    	break;
 		    }
-		    if (!good) {
-			xf86DrvMsg(scrp->scrnIndex, X_WARNING,
-			  "config file hsync range %g-%gkHz not within DDC "
-			  "hsync ranges.\n",
-			  monitor->hsync[i].lo, monitor->hsync[i].hi);
-		    }
+	 	}
+	    	if (!good) {
+		    xf86DrvMsg(scrp->scrnIndex, X_WARNING,
+		       	"config file hsync range %g-%gkHz not within DDC "
+			"hsync ranges.\n",
+ 			monitor->hsync[i].lo, monitor->hsync[i].hi);
 		}
 	    }
+	}
 
-	    if (monitor->nVrefresh > 0) {
-		for (i = 0; i < monitor->nVrefresh; i++) {
-		    Bool good = FALSE;
-		    for (j = 0; j < numTimings; j++) {
-			if ((1.0 - DDC_SYNC_TOLERANCE) * vrefresh[j].lo <=
-				monitor->vrefresh[0].lo &&
-			    (1.0 + DDC_SYNC_TOLERANCE) * vrefresh[j].hi >=
-				monitor->vrefresh[0].hi) {
-			    good = TRUE;
-			    break;
-			}
+	if (monitor->nVrefresh > 0) {
+	    for (i = 0; i < monitor->nVrefresh; i++) {
+	    	Bool good = FALSE;
+	    	for (j = 0; j < numTimings; j++) {
+		    if ((1.0 - DDC_SYNC_TOLERANCE) * vrefresh[j].lo <=
+			monitor->vrefresh[0].lo &&
+			(1.0 + DDC_SYNC_TOLERANCE) * vrefresh[j].hi >=
+			monitor->vrefresh[0].hi) {
+		    	good = TRUE;
+		    	break;
 		    }
-		    if (!good) {
-			xf86DrvMsg(scrp->scrnIndex, X_WARNING,
-			  "config file vrefresh range %g-%gHz not within DDC "
-			  "vrefresh ranges.\n",
-			  monitor->vrefresh[i].lo, monitor->vrefresh[i].hi);
-		    }
+	 	}
+	    	if (!good) {
+		    xf86DrvMsg(scrp->scrnIndex, X_WARNING,
+	 		"config file vrefresh range %g-%gHz not within DDC "
+			"vrefresh ranges.\n",
+			monitor->vrefresh[i].lo, monitor->vrefresh[i].hi);
 		}
 	    }
-        }
+	}
     }
 
     /*
@@ -1631,7 +1618,11 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 		}
 	    } else {
 		scrp->monitor->hsync[0].lo = 28;
-		scrp->monitor->hsync[0].hi = 60;
+		if (useBuiltin)
+		    scrp->monitor->hsync[0].hi = builtinHSync * 
+			(1.0 + SYNC_TOLERANCE);
+		else
+		    scrp->monitor->hsync[0].hi = 60;
 		scrp->monitor->nHsync = 1;
 	    }
 	    type = "default ";
@@ -1660,7 +1651,11 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 		}
 	    } else {
 		scrp->monitor->vrefresh[0].lo = 43;
-		scrp->monitor->vrefresh[0].hi = 72;
+		if (useBuiltin)
+		    scrp->monitor->vrefresh[0].hi = builtinVRfrsh *
+			(1.0 + SYNC_TOLERANCE);
+		else
+		    scrp->monitor->vrefresh[0].hi = 72;
 		scrp->monitor->nVrefresh = 1;
 	    }
 	    type = "default ";
@@ -1800,7 +1795,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 		    * Don't prepend EDID mode if there exits a user-defined or 
 		    * built-in mode having the same name.
 		    */
-		   if (((s->type & M_T_USERDEF) || (s->type & M_T_BUILTIN)) && 
+		   if ((s->type & M_T_USERDEF) && 
 			(!strcmp(p->name, s->name)))
 			break;
 		}
@@ -1818,21 +1813,6 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 	    else {
 	    	if ((p = r) == NULL)
 		    break;
-		else {
-#ifdef sun
-#ifdef improve_for_nvidia_driver
-		   /*
-		    * Type 0 modes are EDID modes added by nvidia driver, ignore 
-                    * them because they were converted to type EDID in dt_modes[] 
-                    * and have been prepended.
-		    */
-	            if (p->type == 0) {
-			r = r->next;
-			continue;
-		    }
-#endif
-#endif
-		}
 	    }
 	    
 	    status = xf86InitialCheckModeForDriver(scrp, p, clockRanges,
@@ -1861,23 +1841,23 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 
 		switch (p->type) {
 		case M_T_BUILTIN:	
-		    typestring = xnfstrdup("builtin");
+		    typestring = xnfstrdup("(B)");
 		    break;
 		case M_T_USERDEF:	
-		    typestring = xnfstrdup("user");
+		    typestring = xnfstrdup("(U)");
 		    break;
 		case M_T_EDID:	
-		    typestring = xnfstrdup("EDID");
+		    typestring = xnfstrdup("(E)");
 		    break;
 		case M_T_DEFAULT:	
-		    typestring = xnfstrdup("default");
+		    typestring = xnfstrdup("(D)");
 		    break;
 		default:	
 		    typestring = xnfstrdup("");
 		    break;
 		}
 		xf86DrvMsg(scrp->scrnIndex, X_INFO,
-		    "Not including %s \"%s\" %.1fMHz (%s) in pool\n", typestring,
+		    "Excluding %s \"%s\" %.1fMHz (%s)\n", typestring,
 		    p->name, p->Clock/1000.0, xf86ModeStatusToString(status));
 	    }
 	    if (i < numDtModelines)
@@ -1968,26 +1948,36 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 	for (i = 0; rmodeNames[i] != NULL; i++) {
 	    if (fallbackMode)
 	    	xf86DrvMsg(scrp->scrnIndex, X_INFO, 
-		    "Prepend Fallback mode name \"%s\" to validation list\n", 
+		    "Prepend Fallback mode name (F) \"%s\" to validation list\n", 
 		    rmodeNames[i]);
 	    else {
 	    	if (userModes)
 	    	    xf86DrvMsg(scrp->scrnIndex, X_INFO, 
-		    	"Prepend User mode name \"%s\" to validation list\n", 
+		    	"Prepend User mode name (U) \"%s\" to validation list\n", 
 		    	rmodeNames[i]);
 		else
-	    	    xf86DrvMsg(scrp->scrnIndex, X_INFO, 
-		    	"Prepend EDID mode name \"%s\" to validation list\n", rmodeNames[i]);
+		    if (useBuiltin)
+	    	    	xf86DrvMsg(scrp->scrnIndex, X_INFO, 
+		    	    "Prepend BUILTIN mode name (B) \"%s\" to validation list\n", 
+			    rmodeNames[i]);
+		    else
+	    	    	xf86DrvMsg(scrp->scrnIndex, X_INFO, 
+		    	    "Prepend EDID mode name (E) \"%s\" to validation list\n", 
+			    rmodeNames[i]);
 	    }
 	    new = xnfcalloc(1, sizeof(DisplayModeRec));
 	    new->prev = last;
 	    if (userModes)
 	    	new->type = M_T_USERDEF;
-	    else {
-		if (fallbackMode)
-	    	    new->type = M_T_DEFAULT;
-		else
-	    	    new->type = M_T_EDID;
+	    else  {
+	    	if (useBuiltin)
+	    	    new->type = M_T_BUILTIN;
+		else {
+		    if (fallbackMode)
+	    	    	new->type = M_T_DEFAULT;
+		    else
+	    	    	new->type = M_T_EDID;
+		}
 	    }
 	    new->name = xnfalloc(strlen(rmodeNames[i]) + 1);
 	    strcpy(new->name, rmodeNames[i]);
@@ -2088,16 +2078,16 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 
 	    switch (p->type) {
 	    	case M_T_BUILTIN:	
-	    	    typestring = xnfstrdup("builtin");
+	    	    typestring = xnfstrdup("(B)");
 		    break;
 	    	case M_T_USERDEF:	
-	    	    typestring = xnfstrdup("user");
+	    	    typestring = xnfstrdup("(U)");
 		    break;
 	    	case M_T_EDID:	
-	    	    typestring = xnfstrdup("EDID");
+	    	    typestring = xnfstrdup("(E)");
 		    break;
 	    	case M_T_DEFAULT:	
-		    typestring = xnfstrdup("default");
+		    typestring = xnfstrdup("(D)");
 		    break;
 	    	default:	
 	    	    typestring = xnfstrdup("");
@@ -2117,16 +2107,16 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 
 	    switch (p->type) {
 	    	case M_T_BUILTIN:	
-	    	    typestring = xnfstrdup("builtin");
+	    	    typestring = xnfstrdup("(B)");
 		    break;
 	    	case M_T_USERDEF:	
-	    	    typestring = xnfstrdup("user");
+	    	    typestring = xnfstrdup("(U)");
 		    break;
 	    	case M_T_EDID:	
-	    	    typestring = xnfstrdup("EDID");
+	    	    typestring = xnfstrdup("(E)");
 		    break;
 	    	case M_T_DEFAULT:	
-		    typestring = xnfstrdup("default");
+		    typestring = xnfstrdup("(D)");
 		    break;
 	    	default:	
 	    	    typestring = xnfstrdup("");
@@ -2258,7 +2248,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes,
 	    break;
     if (p) {
 	xf86DrvMsg(scrp->scrnIndex, X_INFO,
-	    "Valid mode on top of list : \"%s\" %.1f MHz %.1f kHz, %.1f Hz with --\n", 
+	    "Valid mode on top: \"%s\" %.1f MHz %.1f kHz, %.1f Hz with --\n", 
 	    p->name, p->Clock/1000.0, ModeHSync(p), ModeVRefresh(p));
 	PrintModeline(scrp->scrnIndex, p);
     }
@@ -2446,7 +2436,7 @@ PrintModeline(int scrnIndex,DisplayModePtr mode)
     if (mode->Flags & V_CLKDIV2) add(&flags, "vclk/2");
 #endif
     xf86DrvMsgVerb(scrnIndex, X_INFO, 3,
-		   "Modeline \"%s\"  %6.2f  %i %i %i %i  %i %i %i %i%s\n",
+		   "\"%s\" %6.2f  %i %i %i %i  %i %i %i %i%s\n",
 		   mode->name, mode->Clock/1000., mode->HDisplay,
 		   mode->HSyncStart, mode->HSyncEnd, mode->HTotal,
 		   mode->VDisplay, mode->VSyncStart, mode->VSyncEnd,
@@ -2486,13 +2476,13 @@ xf86PrintModes(ScrnInfoPtr scrp)
 	    desc2 = " (VScan)";
 	}
 	if (!(p->type) || (p->type & M_T_EDID))
-            prefix = "EDID mode";
+            prefix = "(E)";
 	else if (p->type & M_T_USERDEF)
-	    prefix = "User mode";
+	    prefix = "(U)";
 	else if (p->type & M_T_BUILTIN)
-	    prefix = "Builtin mode";
+	    prefix = "(B)";
 	else if (p->type & M_T_DEFAULT)
-	    prefix = "Default mode";
+	    prefix = "(D)";
 	else
 	    prefix = "Mode";
 	uprefix = "";

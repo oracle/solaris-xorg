@@ -1465,6 +1465,21 @@ R128I2cInit(ScrnInfoPtr pScrn)
     return TRUE;
 }
 
+static xf86MonPtr 
+R128ProbeDDC(ScrnInfoPtr pScrn, int indx)
+{
+    vbeInfoPtr pVbe;
+    xf86MonPtr monitor;
+
+    if (xf86LoadSubModule(pScrn, "vbe")) {
+	pVbe = VBEInit(NULL,indx);
+	monitor = vbeDoEDID(pVbe, NULL);
+	vbeFree(pVbe);
+	return (monitor);
+    } else
+	return (NULL);
+}
+
 /* return TRUE is a DFP is indeed connected to a DVI port */
 static Bool R128GetDFPInfo(ScrnInfoPtr pScrn)
 {
@@ -1486,6 +1501,10 @@ static Bool R128GetDFPInfo(ScrnInfoPtr pScrn)
            & ~(CARD32)(R128_GPIO_MONID_A_0 | R128_GPIO_MONID_A_3));
 
     MonInfo = xf86DoEDID_DDC2(pScrn->scrnIndex, info->pI2CBus);
+
+    if(!MonInfo)
+	    MonInfo = R128ProbeDDC(pScrn, info->pEnt->index);
+
     if(!MonInfo) {
         xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
                    "No DFP detected\n");
@@ -1683,7 +1702,6 @@ static void R128SetSyncRangeFromEdid(ScrnInfoPtr pScrn, int flag)
 	}
     }
 }
-
 
 /***********
    xfree's xf86ValidateModes routine deosn't work well with DFPs
@@ -2068,17 +2086,6 @@ static Bool R128PreInitDRI(ScrnInfoPtr pScrn)
 }
 #endif
 
-static void
-R128ProbeDDC(ScrnInfoPtr pScrn, int indx)
-{
-    vbeInfoPtr pVbe;
-    if (xf86LoadSubModule(pScrn, "vbe")) {
-	pVbe = VBEInit(NULL,indx);
-	ConfiguredMonitor = vbeDoEDID(pVbe, NULL);
-	vbeFree(pVbe);
-    }
-}
-
 /* R128PreInit is called once at server startup. */
 _X_EXPORT Bool R128PreInit(ScrnInfoPtr pScrn, int flags)
 {
@@ -2132,7 +2139,7 @@ _X_EXPORT Bool R128PreInit(ScrnInfoPtr pScrn, int flags)
     }
 
     if (flags & PROBE_DETECT) {
-	R128ProbeDDC(pScrn, info->pEnt->index);
+	ConfiguredMonitor = R128ProbeDDC(pScrn, info->pEnt->index);
 	return TRUE;
     }
 

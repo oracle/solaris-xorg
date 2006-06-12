@@ -934,7 +934,7 @@ NVValidMode(int scrnIndex, DisplayModePtr mode, Bool verbose, int flags)
     if(pNv->fpWidth && pNv->fpHeight) {
       if((pNv->fpWidth < mode->HDisplay) || (pNv->fpHeight < mode->VDisplay)) {
          xf86DrvMsg(scrnIndex, X_INFO, "Mode \"%s\" is larger than "
-                    "BIOS programmed panel size of %d x %d.  Removing.\n",
+                    "BIOS panel size of %d x %d.  Removing.\n",
                      mode->name, pNv->fpWidth, pNv->fpHeight);
          return (MODE_BAD);
       }
@@ -943,18 +943,20 @@ NVValidMode(int scrnIndex, DisplayModePtr mode, Bool verbose, int flags)
     return (MODE_OK);
 }
 
-static void
+xf86MonPtr
 nvProbeDDC(ScrnInfoPtr pScrn, int index)
 {
     vbeInfoPtr pVbe;
+    xf86MonPtr monitor;
 
     if (xf86LoadSubModule(pScrn, "vbe")) {
         pVbe = VBEInit(NULL,index);
-        ConfiguredMonitor = vbeDoEDID(pVbe, NULL);
+        monitor = vbeDoEDID(pVbe, NULL);
 	vbeFree(pVbe);
-    }
+	return (monitor);
+    } else
+	return (NULL);
 }
-
 
 Bool NVI2CInit(ScrnInfoPtr pScrn)
 {
@@ -987,7 +989,8 @@ NVPreInit(ScrnInfoPtr pScrn, int flags)
     const char *s;
 
     if (flags & PROBE_DETECT) {
-        nvProbeDDC( pScrn, xf86GetEntityInfo(pScrn->entityList[0])->index );
+        ConfiguredMonitor = nvProbeDDC( pScrn, 
+	    xf86GetEntityInfo(pScrn->entityList[0])->index );
 	return TRUE;
     }
 
@@ -1497,6 +1500,19 @@ NVPreInit(ScrnInfoPtr pScrn, int flags)
     } else {
        max_width = (pScrn->bitsPerPixel > 16) ? 4080 : 4096;
        max_height = 4096;
+    }
+
+    /* If DFP, add a modeline corresponding to its panel size */
+    if (pNv->FlatPanel && !pNv->Television && pNv->fpWidth && pNv->fpHeight) {
+	DisplayModePtr Mode;
+	
+	Mode = xnfcalloc(1, sizeof(DisplayModeRec));
+        Mode = xf86CVTMode(pNv->fpWidth, pNv->fpHeight, 60.00, TRUE, FALSE);
+	Mode->type = M_T_BUILTIN;
+	Mode->HSync = 0;
+	Mode->next = pScrn->monitor->Modes;
+	pScrn->monitor->Modes->prev = Mode;
+	pScrn->monitor->Modes = Mode;
     }
 
     /*
