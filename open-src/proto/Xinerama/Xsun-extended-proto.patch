@@ -1,0 +1,178 @@
+In the early days of Xinerama, Solaris Xsun extended the protocol in one
+direction, while XFree86 extended differently.   X.Org has adopted the more
+widely adopted XFree86 extensions, and thus the Solaris version is deprecated,
+but Sun maintains backwards compatibility with old versions of Solaris, so
+we still have this here for now.
+
+For more info, see:
+ http://blogs.sun.com/roller/page/alanc?entry=xinerama_protocol_clashes_on_solaris
+
+diff -uwb build_32/xineramaproto-1.1.2/panoramiXext.h ../../../xc/include/extensions//panoramiXext.h
+--- panoramiXext.h	Fri Apr 23 11:43:06 2004
++++ panoramiXext.h	Tue Apr 18 17:41:37 2006
+@@ -46,3 +46,76 @@
+ extern XPanoramiXInfo *XPanoramiXAllocInfo (
+     void
+ );        
++
++#ifdef SUNSOFT
++/************************************************************************
++ * Xsun addition to Xinerama 1.0 protocol, now deprecated in favor of 1.1
++ * protocol.
++ *
++ * Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
++
++#define XINERAMA_PLACE_TOP	1
++#define XINERAMA_PLACE_BOTTOM	2
++#define XINERAMA_PLACE_RIGHT	4
++#define XINERAMA_PLACE_LEFT	8
++
++#ifndef _XINERAMAINFO_
++#define _XINERAMAINFO_
++
++#define XinID	int
++#define MAXSCREEN 16
++#define DELTA	int
++#define POINT	int
++
++typedef struct subwid
++{
++	XinID	wid;	/* sub window id */
++	DELTA	dx,dy;	/* delta in screen co-ord from virtual zero */
++	POINT	x,y;	/* location of window in screen co-ord */
++	DELTA 	wdx,wdy;/* size of window in screen co-ord */
++}SubWID, *pSubWID;
++
++typedef struct xineramainfo
++{
++	XinID 	wid;	/* Window ID of requested virtual window */
++	SubWID	subs[MAXSCREEN];	/* there will be 16 slots */
++}XineramaInfo, *pXineramaInfo;
++#endif
++
++#ifndef NO_PROTO_HERE
++Bool XDgaGetXineramaInfo(
++#if NeedFunctionPrototypes
++/* this brakes the server
++Display *, int, XID, XineramaInfo *
++*/
++#endif
++);
++#endif /* SUNSOFT */
++
++#endif
+diff -uwb build_32/xineramaproto-1.1.2/panoramiXproto.h ../../../xc/include/extensions//panoramiXproto.h
+--- panoramiXproto.h	Fri Apr 23 11:43:06 2004
++++ panoramiXproto.h	Tue Apr 18 17:42:17 2006
+@@ -189,4 +189,85 @@
+ } xXineramaScreenInfo;
+ #define sz_XineramaScreenInfo 8
+ 
++#ifdef SUNSOFT
++/************************************************************************
++ * Xsun addition to Xinerama 1.0 protocol, now deprecated in favor of 1.1
++ * protocol.
++ *
++ * Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
++#pragma ident   "@(#)Xsun-extended-proto.patch	1.1	06/06/12 SMI"
++
++#define X_PanoramiXGetInfo	4
++#define X_XineramaInfo		4
++
++#ifndef _XINERAMAINFO_
++#define _XINERAMAINFO_
++#define XinID	int
++#define MAXSCREEN 16
++#define DELTA	int
++#define POINT	int
++
++typedef struct subwid
++{
++	XinID	wid;	/* sub window id */
++	DELTA	dx,dy;	/* delta in screen co-ord from virtual zero */
++	POINT	x,y;	/* location of window in screen co-ord */
++	DELTA 	wdx,wdy;/* size of window in screen co-ord */
++}SubWID, *pSubWID;
++
++typedef struct xineramainfo
++{
++	XinID 	wid;	/* Window ID of requested virtual window */
++	SubWID	subs[MAXSCREEN];	/* there will be 16 slots */
++}XineramaInfo, *pXineramaInfo;
++
++#endif
++
++typedef struct _XXineramaInfoReply
++{
++	BYTE	type;
++	CARD8	unused;
++	CARD16	sequenceNumber B16;
++	CARD32	length B32;
++	XinID 	wid;	/* Window ID of requested virtual window */
++	SubWID	subs[MAXSCREEN];	/* there will be 16 slots */
++}xXineramaInfoReply;
++
++typedef struct _XXineramaInfoReq
++{
++	CARD8	reqType;
++	CARD8	xXineramaReqType;
++	CARD16	length B16;
++	CARD32	visual B32;
++}xXineramaInfoReq;
++
++#define sz_xXineramaInfoReq 8
++#endif /* SUNSOFT */
++
+ #endif 

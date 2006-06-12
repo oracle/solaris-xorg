@@ -28,51 +28,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/05/15
+# @(#)Makefile	1.3	06/06/12
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-
-# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
-BUILD_TYPES=32 
+# Package name used in tarballs
+PROTO_NAME=xproto
 
 # Version number (used in path names)
 VERSION=7.0.5
 
-# Source tarball
-SOURCE_TARBALL_NAME=xproto-$(VERSION).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/proto/$(SOURCE_TARBALL_NAME)
-
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/xproto-$(VERSION)
-
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
-### Rules specific to this directory:
-
-# Command line options to GNU autoconf configure script
-XPROTO_CFG=--prefix=$(X11_DIR)
-
-build_gen: $(SOURCE_DIR)/Makefile
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" ./configure $(XPROTO_CFG) )
-
-# Install - first is for packages, second is for building the old monolith
-install_gen: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+# Extra install for bootstrapping the old monolith
+install_gen:: $(SOURCE_DIR)/Makefile
 	@if [ -d $(PROTODIR)/../xc/include ] ; then \
 		(set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) xprotodir=/../xc/include install) ;\
 	fi
-
-

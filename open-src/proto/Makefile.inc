@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source Protocol modules
+###############################################################################
 #
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,33 +28,43 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/06/12
+# @(#)Makefile.inc	1.1	06/06/12
 #
-###############################################################################
 
-OS_SUBDIRS = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
-	Input KB PM Randr Record Render Resource ScrnSaver Video \
-	XCMisc XExt XF86BigFont XF86Misc XF86VidMode Xinerama
+### Makefile settings/rules common to all X.Org protocol modules
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+PWD:sh=pwd
+TOP=$(PWD)/../..
 
-World: clean install
+# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
+BUILD_TYPES=32 
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Source tarball
+SOURCE_TARBALL_NAME=$(PROTO_NAME)-$(VERSION).tar.bz2
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# Download site for source
+SOURCE_URL=$(XORG_RELEASES_URL)/proto/$(SOURCE_TARBALL_NAME)
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# Directory created by unpacking source
+SOURCE_DIR=$(BUILD_DIR)/$(PROTO_NAME)-$(VERSION)
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+### Include common rulesets
+include $(TOP)/common/Makefile.inc
+
+# Command line options to GNU autoconf configure script
+PROTO_CFG=--prefix=$(X11_DIR)
+
+build_gen: $(SOURCE_DIR)/Makefile
+
+# Run configure script
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
+	(cd $(SOURCE_DIR) ; \
+	 chmod a+x configure ; \
+	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" ./configure $(PROTO_CFG) )
+
+# Install
+install_gen:: $(SOURCE_DIR)/Makefile
+	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+
+
+

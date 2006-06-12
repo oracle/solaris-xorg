@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source Protocol modules
+###############################################################################
 #
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,33 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/06/12
+# @(#)Makefile	1.1	06/06/12
 #
-###############################################################################
 
-OS_SUBDIRS = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
-	Input KB PM Randr Record Render Resource ScrnSaver Video \
-	XCMisc XExt XF86BigFont XF86Misc XF86VidMode Xinerama
+# Package name used in tarballs
+PROTO_NAME=xf86vidmodeproto
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+# Version number (used in path names)
+VERSION=2.2.2
 
-World: clean install
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES=	
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+### Include common rulesets
+include ../Makefile.inc
