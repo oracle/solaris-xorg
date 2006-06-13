@@ -132,6 +132,8 @@ static void RADEONSetDynamicClock(ScrnInfoPtr pScrn, int mode);
 static void RADEONUpdatePanelSize(ScrnInfoPtr pScrn);
 static void RADEONSaveMemMapRegisters(ScrnInfoPtr pScrn, RADEONSavePtr save);
 static void RADEONAdjustMemMapRegisters(ScrnInfoPtr pScrn, RADEONSavePtr save);
+static xf86MonPtr RADEONProbeDDC(ScrnInfoPtr pScrn, int indx);
+static RADEONMonitorType RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn, int IsCrtDac);
 
 /* psuedo xinerama support */
 
@@ -1007,6 +1009,8 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
     RADEONMonitorType MonType = MT_NONE;
     xf86MonPtr* MonInfo = &port->MonInfo;
     int i, j;
+    RADEONEntPtr pRADEONEnt  = RADEONEntPriv(pScrn);
+    int vbeProbe = FALSE;;
 
     DDCReg = info->DDCReg;
     switch(DDCType)
@@ -1025,7 +1029,9 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
 	break;
     default:
 	info->DDCReg = DDCReg;
+	/* Fall through, can still try ... 
 	return MT_NONE;
+	*/
     }
 
     /* Read and output monitor info using DDC2 over I2C bus */
@@ -1091,6 +1097,15 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
     OUTREG(info->DDCReg, INREG(info->DDCReg) &
 	   ~(RADEON_GPIO_EN_0 | RADEON_GPIO_EN_1));
 
+    if ((!*MonInfo) && ((port == &pRADEONEnt->PortInfo[0]) ||
+	(RADEONCrtIsPhysicallyConnected(pScrn, !(pRADEONEnt->PortInfo[1].DACType)) 
+	== MT_CRT))) {
+	vbeProbe = TRUE;
+	xf86DrvMsg(pScrn->scrnIndex, X_INFO, "VBE DDC probing on port %d ::: \n", 
+	    (port == &pRADEONEnt->PortInfo[0])? 1:2);
+	*MonInfo = RADEONProbeDDC(pScrn, info->pEnt->index);
+    }
+
     if (*MonInfo) {
 	if ((*MonInfo)->rawData[0x14] & 0x80) {
 	    /* Note some laptops have a DVI output that uses internal TMDS,
@@ -1100,14 +1115,32 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
 	     * Also for laptop, when X starts with lid closed (no DVI connection)
 	     * both LDVS and TMDS are disable, we still need to treat it as a LVDS panel.
 	     */
-	    if (port->TMDSType == TMDS_EXT) MonType = MT_DFP;
-	    else {
-		if ((INREG(RADEON_FP_GEN_CNTL) & (1<<7)) || !info->IsMobility)
-		    MonType = MT_DFP;
-		else 
-		    MonType = MT_LCD;
+	    if (vbeProbe && 
+		(RADEONCrtIsPhysicallyConnected(pScrn, !(port->DACType)) == MT_CRT)) {
+	    	    MonType = MT_NONE;
+	    	    *MonInfo = NULL;
+		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "VBE probed DDC info nullified on port %d :::\n", (port == &pRADEONEnt->PortInfo[0])? 1:2);
+		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "CRT physically connected but digital device indicated in DDC\n");
+	    } else {
+		if (port->TMDSType == TMDS_EXT) MonType = MT_DFP;
+	    	else {
+		    if ((INREG(RADEON_FP_GEN_CNTL) & (1<<7)) || !info->IsMobility)
+		    	MonType = MT_DFP;
+		    else 
+		    	MonType = MT_LCD;
+		}
 	    }
-	} else MonType = MT_CRT;
+	} else  {
+	    	if ((RADEONCrtIsPhysicallyConnected(pScrn, 
+		    !(pRADEONEnt->PortInfo[1].DACType)) == MT_CRT) && 
+	 	    (port == &pRADEONEnt->PortInfo[0])) {
+	    	    MonType = MT_NONE;
+	    	    *MonInfo = NULL;
+		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "DDC info nullified on port 1 :::\n");
+		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Analog device indicated in DDC and port 1 CRT physically connected\n");
+		} else
+	    	    MonType = MT_CRT;
+	}
     } else MonType = MT_NONE;
 
     info->DDCReg = DDCReg;
@@ -1131,6 +1164,7 @@ RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn, int IsCrtDac)
     if(IsCrtDac) {
 	unsigned long ulOrigVCLK_ECP_CNTL;
 	unsigned long ulOrigDAC_CNTL;
+	unsigned long ulOrigDAC_MACRO_CNTL;
 	unsigned long ulOrigDAC_EXT_CNTL;
 	unsigned long ulOrigCRTC_EXT_CNTL;
 	unsigned long ulData;
@@ -1165,11 +1199,21 @@ RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn, int IsCrtDac)
 	OUTREG(RADEON_DAC_EXT_CNTL, ulData);
 
 	ulOrigDAC_CNTL     = INREG(RADEON_DAC_CNTL);
+
+	if (ulOrigDAC_CNTL & RADEON_DAC_PDWN) {
+	    /* turn on power so testing can go through */
+	    ulOrigDAC_MACRO_CNTL = INREG(RADEON_DAC_MACRO_CNTL);
+	    ulOrigDAC_MACRO_CNTL &= ~(RADEON_DAC_PDWN_R | RADEON_DAC_PDWN_G |
+		RADEON_DAC_PDWN_B);
+	    OUTREG(RADEON_DAC_MACRO_CNTL, ulOrigDAC_MACRO_CNTL);
+	}
+
 	ulData             = ulOrigDAC_CNTL;
 	ulData            |= RADEON_DAC_CMP_EN;
 	ulData            &= ~(RADEON_DAC_RANGE_CNTL_MASK
 			       | RADEON_DAC_PDWN);
 	ulData            |= 0x2;
+
 	OUTREG(RADEON_DAC_CNTL, ulData);
 
 	usleep(10000);
@@ -1184,6 +1228,18 @@ RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn, int IsCrtDac)
 	OUTREG(RADEON_DAC_CNTL,      ulOrigDAC_CNTL     );
 	OUTREG(RADEON_DAC_EXT_CNTL,  ulOrigDAC_EXT_CNTL );
 	OUTREG(RADEON_CRTC_EXT_CNTL, ulOrigCRTC_EXT_CNTL);
+
+	if (!bConnected) {
+	    /* Power DAC down if CRT is not connected */
+            ulOrigDAC_MACRO_CNTL = INREG(RADEON_DAC_MACRO_CNTL);
+            ulOrigDAC_MACRO_CNTL |= (RADEON_DAC_PDWN_R | RADEON_DAC_PDWN_G |
+	    	RADEON_DAC_PDWN_B);
+            OUTREG(RADEON_DAC_MACRO_CNTL, ulOrigDAC_MACRO_CNTL);
+
+	    ulData     = INREG(RADEON_DAC_CNTL);
+	    ulData     |= RADEON_DAC_PDWN ;
+	    OUTREG(RADEON_DAC_CNTL, ulData);
+    	}
     } else { /* TV DAC */
 
         /* This doesn't seem to work reliably (maybe worse on some OEM cards),
@@ -1882,7 +1938,9 @@ static BOOL RADEONQueryConnectedMonitors(ScrnInfoPtr pScrn)
 	pRADEONEnt->PortInfo[i].ConnectorType = CONNECTOR_NONE;
     }
 
-    if (!RADEONGetConnectorInfoFromBIOS(pScrn)) {
+    if (!RADEONGetConnectorInfoFromBIOS(pScrn) ||
+	((pRADEONEnt->PortInfo[0].DDCType == 0) &&
+	(pRADEONEnt->PortInfo[1].DDCType == 0))) {
 	/* Below is the most common setting, but may not be true */
 	pRADEONEnt->PortInfo[0].MonType = MT_UNKNOWN;
 	pRADEONEnt->PortInfo[0].MonInfo = NULL;
@@ -4874,15 +4932,18 @@ static Bool RADEONPreInitXv(ScrnInfoPtr pScrn)
     return TRUE;
 }
 
-static void
+static xf86MonPtr
 RADEONProbeDDC(ScrnInfoPtr pScrn, int indx)
 {
     vbeInfoPtr  pVbe;
+    xf86MonPtr monitor;
 
     if (xf86LoadSubModule(pScrn, "vbe")) {
 	pVbe = VBEInit(NULL,indx);
-	ConfiguredMonitor = vbeDoEDID(pVbe, NULL);
-    }
+	monitor = vbeDoEDID(pVbe, NULL);
+	return (monitor);
+    } else
+	return (NULL);
 }
 
 _X_EXPORT Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
@@ -4974,7 +5035,7 @@ _X_EXPORT Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
     }
 
     if (flags & PROBE_DETECT) {
-	RADEONProbeDDC(pScrn, info->pEnt->index);
+	ConfiguredMonitor = RADEONProbeDDC(pScrn, info->pEnt->index);
 	RADEONPostInt10Check(pScrn, int10_save);
 	if(info->MMIO) RADEONUnmapMMIO(pScrn);
 	return TRUE;
