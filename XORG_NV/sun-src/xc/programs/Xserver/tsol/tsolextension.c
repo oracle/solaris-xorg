@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.11     06/03/07 SMI"
+#pragma ident   "@(#)tsolextension.c 1.16     06/06/08 SMI"
 
 #include <stdio.h>
 #include <bsm/auditwrite.h>
@@ -38,6 +38,7 @@
 #include <sys/wait.h>
 #include <ucred.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <sys/tsol/tndb.h>
 #include <strings.h>
@@ -69,7 +70,8 @@
 #define  MAX_SCREENS        3         /* screens allowed */
 #define EXTNSIZE 128
 
-extern Bool il_enabled;
+#define SECURE_RPC_AUTH	"SUN-DES-1"
+#define SECURE_RPC_LEN	9
 
 extern bslabel_t *lookupSL();
 extern void (*ReplySwapVector[]) ();
@@ -108,6 +110,8 @@ static void TsolReset();
 static void BreakAllGrabs(ClientPtr client);
 
 extern void init_xtsol();
+extern void init_win_privsets();
+extern void free_win_privsets();
 extern int DoScreenStripeHeight(int screen_num);
 extern int AddUID(int *userid);
 
@@ -121,6 +125,7 @@ extern int tsolWindowPrivateIndex;
 extern int tsolPixmapPrivateIndex;
 
 static HotKeyRec hotkey = {FALSE, 0, 0, 0, 0};
+static int tsolMultiLevel = TRUE;
 
 int OwnerUIDint;
 extern uid_t OwnerUID;
@@ -202,6 +207,10 @@ extern int ProcTsolListInstalledColormaps(ClientPtr client);
 extern int ProcTsolGetImage(ClientPtr client);
 extern int ProcTsolQueryTree(ClientPtr client);
 extern int ProcTsolQueryPointer(ClientPtr client);
+extern int ProcTsolQueryExtension(ClientPtr client);
+extern int ProcTsolListExtensions(ClientPtr client);
+extern int ProcTsolMapWindow(ClientPtr client);
+extern int ProcTsolMapSubwindows(ClientPtr client);
 
 /*
  * Initialize the extension. Main entry point for this loadable
@@ -225,9 +234,11 @@ TsolExtensionInit()
 		return;
 	}
 
+	tsolMultiLevel = TRUE;
 	(void) setpflags(PRIV_AWARE, 1);
 
 	init_xtsol();
+	init_win_privsets();
 
 	extEntry = AddExtension(TSOLNAME, TSOL_NUM_EVENTS, TSOL_NUM_ERRORS,
 		ProcTsolDispatch, SProcTsolDispatch, TsolReset, 
@@ -238,6 +249,7 @@ TsolExtensionInit()
 		return;
 	}
 
+	extEntry->secure = TRUE;
         TsolReqCode = (unsigned char) extEntry->base;
         tsolEventBase = extEntry->eventBase;
 
@@ -333,6 +345,10 @@ TsolExtensionInit()
 	ProcVector[X_GetImage] = ProcTsolGetImage;
 	ProcVector[X_QueryTree] = ProcTsolQueryTree;
 	ProcVector[X_QueryPointer] = ProcTsolQueryPointer;
+	ProcVector[X_QueryExtension] = ProcTsolQueryExtension;
+	ProcVector[X_ListExtensions] = ProcTsolListExtensions;
+	ProcVector[X_MapWindow] = ProcTsolMapWindow;
+	ProcVector[X_MapSubwindows] = ProcTsolMapSubwindows;
 
 }
 
@@ -388,7 +404,6 @@ TsolCheckResourceIDAccess(
 		case X_PolyFillRectangle:
 		case X_PolyFillArc:
 		case X_PutImage:
-		case X_GetImage:
 		case X_PolyText8:
 		case X_PolyText16:
 		case X_ImageText8:
@@ -475,19 +490,33 @@ TsolClientStateCallback(CallbackListPtr *pcbl,
 		if (tsolinfo != NULL && tsolinfo->privs != NULL) {
 			priv_freeset(tsolinfo->privs);
 		}
+		/* Audit disconnect */
+		if (system_audit_on && (au_preselect(AUE_ClientDisconnect, &(tsolinfo->amask),
+                              AU_PRS_BOTH, AU_PRS_USECACHE) == 1)) {
+			auditwrite(AW_PRESELECT, &(tsolinfo->amask),AW_END);
+			auditwrite(AW_EVENTNUM, AUE_ClientDisconnect,
+                               AW_XCLIENT, client->index,
+			       AW_SLABEL, tsolinfo->sl,
+                               AW_RETURN, 0, 0, AW_WRITE, AW_END);
+
+			tsolinfo->flags &= ~TSOL_DOXAUDIT;
+			tsolinfo->flags &= ~TSOL_AUDITEVENT;
+			auditwrite(AW_FLUSH, AW_END);
+			auditwrite(AW_DISCARDRD, tsolinfo->asaverd, AW_END);
+			auditwrite(AW_NOPRESELECT, AW_END);
+		}
 		break;
+
 	default:
                 break;
 	}
 
 }
 
-/*
- * Reset routine. Don't know what to put here yet
- */
 static void
 TsolReset()
 {
+	free_win_privsets();
 }
 
 /*
@@ -1145,7 +1174,7 @@ ProcGetClientAttributes(ClientPtr client)
     rep.pid = (CARD32) res_tsolinfo->pid;
     rep.gid = (CARD32) res_tsolinfo->gid;
     rep.auditid = (CARD32) res_tsolinfo->auid;
-    rep.sessionid = (CARD32) res_tsolinfo->sid;
+    rep.sessionid = (CARD32) res_tsolinfo->asid;
     rep.iaddr = (CARD32) res_tsolinfo->iaddr;
     rep.length = (CARD32) 0;
 
@@ -1499,11 +1528,23 @@ ProcMakeTPWindow(ClientPtr client)
 {
     WindowPtr pWin, pParent;
     int       err_code;
+    TsolInfoPtr  tsolinfo;
     extern void ReflectStackChange(WindowPtr, WindowPtr, VTKind);
 
 
     REQUEST(xMakeTPWindowReq);
     REQUEST_SIZE_MATCH(xMakeTPWindowReq);
+
+    /*
+     * Session type single-level? This is set by the 
+     * label builder
+     */
+    tsolinfo = GetClientTsolInfo(client);
+    if (tsolinfo && HasTrustedPath(tsolinfo) && 
+		blequal(&SessionLO, &SessionHI) && stuff->id == 0) {
+	tsolMultiLevel = FALSE;
+	return (client->noClientException);
+    }
 
     pWin = LookupWindow(stuff->id, client);
 
@@ -1640,6 +1681,11 @@ TsolSetClientInfo(ClientPtr client)
 	priv_set_t *privs;
 	const au_tid64_addr_t *tid64;
 	const au_mask_t *amask;
+	au_mask_t mask;		/* user audit mask */
+	socklen_t namelen;
+	struct passwd *pw;
+	struct auditinfo auinfo;
+	struct auditinfo *pauinfo;
 	OsCommPtr oc = (OsCommPtr)client->osPrivate;
 	register ConnectionInputPtr oci = oc->input;
 	int fd = oc->fd;
@@ -1647,7 +1693,6 @@ TsolSetClientInfo(ClientPtr client)
 	extern  au_id_t ucred_getauid(const ucred_t *uc);
 	extern  au_asid_t ucred_getasid(const ucred_t *uc);
 	extern  const au_mask_t *ucred_getamask(const ucred_t *uc);
-	extern  const au_tid64_addr_t *ucred_getatid(const ucred_t *uc);
 
 	TsolInfoPtr tsolinfo = (TsolInfoPtr)
 		(client->devPrivates[tsolClientPrivateIndex].ptr);
@@ -1672,33 +1717,18 @@ TsolSetClientInfo(ClientPtr client)
 	tsolinfo->sl = (bslabel_t *)lookupSL(sl);
 
 	/* Set privileges */
-        privs = (priv_set_t *)ucred_getprivset(uc, PRIV_EFFECTIVE);
 	if ((tsolinfo->privs = priv_allocset()) != NULL) {
-		if (privs == NULL) {
-			priv_emptyset(tsolinfo->privs);
+		if (tsolMultiLevel) {
+			privs = (priv_set_t *)ucred_getprivset(uc, PRIV_EFFECTIVE);
+			if (privs == NULL) {
+				priv_emptyset(tsolinfo->privs);
+			} else {
+				priv_copyset(privs, tsolinfo->privs);
+			}
 		} else {
-			priv_copyset(privs, tsolinfo->privs);
+			priv_fillset(tsolinfo->privs); 
 		}
 	}
-
-	/* Set audit info */
-	tsolinfo->auinfo.ai_auid = ucred_getauid(uc);
-	tsolinfo->auinfo.ai_asid = ucred_getasid(uc);
-	if ((amask = ucred_getamask(uc)) != NULL) {
-	    tsolinfo->auinfo.ai_mask = *amask;
-	}
-	if ((tid64 = ucred_getatid(uc)) != NULL) {
-#ifdef	_LP64
-	    tsolinfo->auinfo.ai_termid = *tid64;
-#else
-	    tsolinfo->auinfo.ai_termid.at_type = tid64->at_type;
-	    tsolinfo->auinfo.ai_termid.at_port = (tid64->at_port.at_major & MAXMIN32);
-	    tsolinfo->auinfo.ai_termid.at_port |= (tid64->at_port.at_major & MAXMAJ32) <<
-                NBITSMINOR32;
-	    tsolinfo->auinfo.ai_termid.at_addr[0] = *(tid64->at_addr);
-#endif
-	}
-	ucred_free(uc);
 
 	tsolinfo->priv_debug = FALSE;
 
@@ -1717,59 +1747,148 @@ TsolSetClientInfo(ClientPtr client)
 	/* Set Trusted Path for local clients */
 	if (tsolinfo->zid == GLOBAL_ZONEID) {
 		tsolinfo->trusted_path = TRUE;
-		client->trustLevel = XSecurityClientTrusted;
 	}else {
 		tsolinfo->trusted_path = FALSE;
-		client->trustLevel = XSecurityClientUntrusted;
 	}
+
+	if (tsolinfo->trusted_path || !tsolMultiLevel)
+		client->trustLevel = XSecurityClientTrusted;
+	else
+		client->trustLevel = XSecurityClientUntrusted;
 
         tsolinfo->forced_trust = 0;
         tsolinfo->iaddr = 0;
 
 	bsllow(&admin_low);
+
+	namelen = sizeof (tsolinfo->saddr);
+	if (getpeername(fd, (struct sockaddr *)&tsolinfo->saddr, &namelen) != 0) {
+		return;
+	}
+
 	/* Set reasonable defaults for remote clients */
 	if (tsolinfo->client_type == CLIENT_REMOTE) {
-		struct sockaddr sname;
-		socklen_t namelen;
-		char *rhost;
+		int errcode;
+		char hostbuf[NI_MAXHOST];
 		tsol_host_type_t host_type; 
-		struct sockaddr_in *so = (struct sockaddr_in *)&sname;
+		struct sockaddr sname;
 		extern tsol_host_type_t tsol_getrhtype(char *);
 
-		namelen = sizeof (sname);
-		if (getpeername(fd, &sname, &namelen) == 0) {
-			tsolinfo->iaddr = so->sin_addr.s_addr;
-			rhost = inet_ntoa(so->sin_addr);
-			host_type = tsol_getrhtype(rhost);
+		/* Use NI_NUMERICHOST to avoid DNS lookup */
+		errcode = getnameinfo((struct sockaddr *)&(tsolinfo->saddr), namelen,
+			hostbuf, sizeof(hostbuf), NULL, 0, NI_NUMERICHOST);
+
+		if (errcode) {
+			perror(gai_strerror(errcode));
+		} else {
+			host_type = tsol_getrhtype(hostbuf);
 			if ((host_type == SUN_CIPSO) && 
-					blequal(tsolinfo->sl, &admin_low)) {
+				blequal(tsolinfo->sl, &admin_low)) {
 				tsolinfo->trusted_path = TRUE;
 				client->trustLevel = XSecurityClientTrusted;
 				priv_fillset(tsolinfo->privs);
 			}
 		}
 	}
-	/* TBD: Initialize audit context here */
-	{
-		au_mask_t mask;
-		struct passwd *pw = getpwuid(getuid());
-		if ((pw != NULL) && (!au_user_mask(pw->pw_name, &mask))) {
-	if (!getaudit(&tsolinfo->aw_auinfo)) {
-			tsolinfo->aw_auinfo.ai_mask.am_success = mask.am_success;
-			tsolinfo->aw_auinfo.ai_mask.am_failure = mask.am_failure;
-                    }
-	 }
-		tsolinfo->sid = 0;
+
+	/* setup audit context */
+	if (getaudit(&auinfo) == 0) {
+	    pauinfo = &auinfo;
+	} else {
+	    pauinfo = NULL;
 	}
+
+	/* Audit id */
+	tsolinfo->auid = ucred_getauid(uc);
+	if (tsolinfo->auid == AU_NOAUDITID) {
+	    tsolinfo->auid = UID_NOBODY;
+	}
+
+	/* session id */
+	tsolinfo->asid = ucred_getasid(uc);
+
+	/* Audit mask */
+	if ((amask = ucred_getamask(uc)) != NULL) {
+	    tsolinfo->amask = *amask;
+	} else {
+	    if (pauinfo != NULL) {
+	        tsolinfo->amask = pauinfo->ai_mask;
+	    } else {
+	        tsolinfo->amask.am_failure = 0; /* clear the masks */
+	        tsolinfo->amask.am_success = 0;
+	    }
+	}
+
+	tsolinfo->asaverd = 0;
+
+	ucred_free(uc);
 }
 
-static Bool
-CheckNetName (addr, len, closure)
-    unsigned char    *addr;
-    short            len;
-    pointer         closure;
+static enum auth_stat tsol_why;
+
+static char * 
+tsol_authdes_decode(inmsg, len)
+char *inmsg;
+int  len;
 {
-    return (len == strlen ((char *) closure) &&
+    struct rpc_msg  msg;
+    char            cred_area[MAX_AUTH_BYTES];
+    char            verf_area[MAX_AUTH_BYTES];
+    char            *temp_inmsg;
+    struct svc_req  r;
+    bool_t          res0, res1, auth_ret;
+    XDR             xdr;
+    SVCXPRT         xprt;
+    extern bool_t xdr_opaque_auth(XDR *, struct opaque_auth *);
+
+    temp_inmsg = (char *) xalloc(len);
+    memmove(temp_inmsg, inmsg, len);
+
+    memset((char *)&msg, 0, sizeof(msg));
+    memset((char *)&r, 0, sizeof(r));
+    memset(cred_area, 0, sizeof(cred_area));
+    memset(verf_area, 0, sizeof(verf_area));
+
+    msg.rm_call.cb_cred.oa_base = cred_area;
+    msg.rm_call.cb_verf.oa_base = verf_area;
+    tsol_why = AUTH_FAILED; 
+    xdrmem_create(&xdr, temp_inmsg, len, XDR_DECODE);
+
+    if ((r.rq_clntcred = (caddr_t) xalloc(MAX_AUTH_BYTES)) == NULL)
+        goto bad1;
+    r.rq_xprt = &xprt;
+
+    /* decode into msg */
+    res0 = xdr_opaque_auth(&xdr, &(msg.rm_call.cb_cred)); 
+    res1 = xdr_opaque_auth(&xdr, &(msg.rm_call.cb_verf));
+    if ( ! (res0 && res1) )
+         goto bad2;
+
+    /* do the authentication */
+
+    r.rq_cred = msg.rm_call.cb_cred;        /* read by opaque stuff */
+    if (r.rq_cred.oa_flavor != AUTH_DES) {
+        tsol_why = AUTH_TOOWEAK;
+        goto bad2;
+    }
+#ifdef SVR4
+    if ((tsol_why = __authenticate(&r, &msg)) != AUTH_OK) {
+#else
+    if ((tsol_why = _authenticate(&r, &msg)) != AUTH_OK) {
+#endif
+            goto bad2;
+    }
+    return (((struct authdes_cred *) r.rq_clntcred)->adc_fullname.name); 
+
+bad2:
+    Xfree(r.rq_clntcred);
+bad1:
+    return ((char *)0); /* ((struct authdes_cred *) NULL); */
+}
+static Bool
+TsolCheckNetName (unsigned char *addr, short len, pointer closure)
+{
+    return (len == (short) strlen ((char *) closure) &&
             strncmp ((char *) addr, (char *) closure, len) == 0);
 }
 
@@ -1778,40 +1897,58 @@ XID
 TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_length, 
 	char *data, ClientPtr client, char **reason)
 {
-	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	char	domainname[128];
 	char	netname[128];
+	char	audit_ret;
+	u_int	audit_val;
+	uid_t	client_uid;
+	gid_t	client_gid;
+	int	client_gidlen;
+	char	*fullname;
+	gid_t	client_gidlist;
+	XID	auth_token = (XID)(-1);
+	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+	extern	int getdomainname(char *, int);
 
+	if (tsolinfo->uid == -1) {
+		/* Retrieve uid from SecureRPC */
+		if (strncmp(name, SECURE_RPC_AUTH, (size_t)name_length) == 0) {
+			fullname = tsol_authdes_decode(data, data_length);
+			if (fullname == NULL) {
+				ErrorF("Unable to authenticate Secure RPC client");
+			} else {
+				if (netname2user(fullname, 
+					&client_uid, &client_gid, 
+					&client_gidlen, &client_gidlist)) {
+					tsolinfo->uid = client_uid;
+				} else {
+					ErrorF("netname2user failed");
+				}
+			}
+		}
+	}
 	 
+	if (tsolinfo->uid == (uid_t)-1) {
+		tsolinfo->uid = UID_NOBODY; /* uid not available */
+	}
+
 	/* Workstation Owner not set */
 	if (OwnerUID == (uid_t )(-1)) {
 		if (HasTrustedPath(tsolinfo)) {
-			return (CheckAuthorization(name_length, name, data_length,
-				data, client, reason));
+			auth_token = CheckAuthorization(name_length, name, data_length,
+				data, client, reason);
 		}
 	} else {
-		/* Reject all invalid SLs or invalid uids for local hosts */
-		if (tsolinfo->sl == NULL || !bslvalid(tsolinfo->sl) || 
-			(tsolinfo->client_type == CLIENT_LOCAL && 
-				tsolinfo->uid == (uid_t)-1)) {
-			return ((XID)-1);
-		}
-
-		/* uid needs to be retrieved from Secure RPC */
-		if (tsolinfo->uid == -1) {
-			/* Temporary kludge */
-			tsolinfo->uid = OwnerUID;
-		}
-
 		/* 
 		 * Workstation Owner set, client must be within label
 		 * range or have trusted path
 		 */
 		if (tsolinfo->uid == OwnerUID) {
-			if ((bldominates(tsolinfo->sl, &SessionLO) &&
-				bldominates(&SessionHI, tsolinfo->sl)) ||
-				(HasTrustedPath(tsolinfo))) {
-				return ((XID)(tsolinfo->uid));
+			if (tsolinfo->sl != NULL && 
+					(bldominates(tsolinfo->sl, &SessionLO) &&
+					bldominates(&SessionHI, tsolinfo->sl)) || 
+					(HasTrustedPath(tsolinfo))) {
+				auth_token = (XID)(tsolinfo->uid);
 			}
 		} else {
 			if (tsolinfo->uid != 0) {
@@ -1820,7 +1957,7 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 				if (!user2netname(netname, tsolinfo->uid, domainname)) {
 					return ((XID)-1);
 				}
-				if (ForEachHostInFamily (FamilyNetname, CheckNetName,
+				if (ForEachHostInFamily (FamilyNetname, TsolCheckNetName,
 						(pointer) netname)) {
 					return ((XID)(tsolinfo->uid));
 				} else {
@@ -1830,9 +1967,62 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 			} else
 				/* Allow all connections from global zones for now */
 				if (HasTrustedPath(tsolinfo)) {
-					return ((XID)(tsolinfo->uid));
+					auth_token = (XID)(tsolinfo->uid);
 			}
 		}
+	}
+
+	/* Audit the connection */
+	if (auth_token == (XID)(-1)) {
+		audit_ret = (char )-1; /* failure */
+		audit_val = 1;
+	} else {
+		audit_ret = 0; /* success */
+		audit_val = 0;
+	}
+
+	if (system_audit_on &&
+		(au_preselect(AUE_ClientConnect, &(tsolinfo->amask),
+                      AU_PRS_BOTH, AU_PRS_USECACHE) == 1)) {
+		int status;
+		u_short connect_port = 0;
+		struct in_addr *connect_addr = NULL;
+		struct sockaddr_in *sin;
+		struct sockaddr_in6 *sin6;
+
+		switch (tsolinfo->saddr.ss_family) {
+                        case AF_INET:
+                                sin = (struct sockaddr_in *)&(tsolinfo->saddr);
+                                connect_addr = &(sin->sin_addr);
+                                connect_port = sin->sin_port;
+                                break;
+                        case AF_INET6:
+                                sin6 = (struct sockaddr_in6 *)&(tsolinfo->saddr);
+                                connect_addr = (struct in_addr *)&(sin6->sin6_addr);
+                                connect_port = sin6->sin6_port;
+                                break;
+		}
+
+		if (connect_addr == NULL || connect_port == 0) {
+        		status = auditwrite(AW_EVENTNUM, AUE_ClientConnect,
+				AW_XCLIENT, client->index,
+				AW_SLABEL, tsolinfo->sl,
+				AW_RETURN, audit_ret, audit_val,
+				AW_WRITE, AW_END);
+		} else {
+        		status = auditwrite(AW_EVENTNUM, AUE_ClientConnect,
+				AW_XCLIENT, client->index,
+				AW_SLABEL, tsolinfo->sl,
+				AW_INADDR, connect_addr,
+				AW_IPORT, connect_port,
+				AW_RETURN, audit_ret, audit_val,
+				AW_WRITE, AW_END);
+		}
+
+		if (!status)
+			(void) auditwrite(AW_FLUSH, AW_END);
+		tsolinfo->flags &= ~TSOL_DOXAUDIT;
+		tsolinfo->flags &= ~TSOL_AUDITEVENT;
 	}
 }
 

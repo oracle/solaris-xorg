@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolutils.c 1.9     06/03/07 SMI"
+#pragma ident   "@(#)tsolutils.c 1.12     06/05/25 SMI"
 
 
 #define NEED_EVENTS
@@ -37,7 +37,7 @@
 #include <bsm/auditwrite.h>
 #include <bsm/audit_uevents.h>
 #include <regex.h>
-#include "tsolpriv.h"
+#include <priv.h>
 #include "Xproto.h"
 #include "windowstr.h"
 #include "scrnintstr.h"
@@ -411,30 +411,24 @@ DoScreenStripeHeight(screen_num)
 void
 init_xtsol()
 {
-    extern Bool system_audit_on;      /* from main.c */
+	extern Bool system_audit_on;
 	extern bslabel_t	PublicObjSL;
 	extern bclear_t SessionHI;	/* HI Clearance */
 	extern bclear_t SessionLO;	/* LO Clearance */
-    int cant_audit = 0;
+	extern int cannot_audit(int);	/* bsm function */
 
 	bclearhigh(&SessionHI);
 	bclearlow(&SessionLO);
 	bsllow(&PublicObjSL);
 	init_TSOL_cached_SL();
 	init_TSOL_uid_table();
-	set_effective_priv(PRIV_OFF, 1, PRIV_NET_REPLY_EQUAL);
 
-    /* cant_audit = cannot_audit(1); */
-    cant_audit = TRUE;
+	if (cannot_audit(TRUE))
+		system_audit_on = FALSE;
+	else
+		system_audit_on = TRUE;
 
-    if (cant_audit)
-        system_audit_on = FALSE;
-    else
-        system_audit_on = TRUE;
 	auditwrite(AW_QUEUE, XAUDIT_Q_SIZE, AW_END);
-#ifdef DEBUG
-	ErrorF("---------NEW LOG BEGINS HERE----------\n"); /* init the err log file */ 
-#endif /* DEBUG */
 }
 
 /*
@@ -857,8 +851,6 @@ RootOf(WindowPtr pWin)
     return (NULL);
 }
 	
-#define SameClient(xid,client) \
-	(CLIENT_BITS(xid) == (client)->clientAsMask)
 
 /*
  * same_client returns true if xid is owned/created by
@@ -945,4 +937,25 @@ WindowPtr
 TsolPointerWindow()
 {
 	return (GetSpriteWindow());	/* Window currently under mouse */
+}
+
+/*
+ * Matches in the list of disabled extensions via 
+ * the policy file (TrustedExtensionsPolicy)
+ * Returns
+ *  TRUE  - if a match is found
+ *  FALSE - otherwise
+ */
+int
+TsolDisabledExtension(char *extname, int extlen)
+{
+	int i;
+
+	for (i = 0; i < tsolconfig[TSOL_EXTENSION].count; i++) {
+		if (strncmp(extname, tsolconfig[TSOL_EXTENSION].list[i], extlen) == 0) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }

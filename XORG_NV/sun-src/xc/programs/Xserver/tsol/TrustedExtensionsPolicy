@@ -1,12 +1,13 @@
 #
-# Copyright 2004 Sun Microsystems, Inc.	 All rights reserved.
+# Copyright 2006 Sun Microsystems, Inc.	 All rights reserved.
 # Use is subject to license terms.
 #
 
-# ident	"@(#)TrustedExtensionsPolicy 1.1	04/08/03 SMI"
+# ident	"@(#)TrustedExtensionsPolicy 1.3	06/04/12 SMI"
 
-# TrustedSolarisPolicy
+# TrustedExtensionsPolicy
 # Syntax: <atom|property|selection|extension|privilege> name
+# Blank lines or lines starting with # are ignored.
 #
 # property and selection can take a regular expression for name.
 # name must start with / for regular expresssions.
@@ -157,11 +158,20 @@ property _MOTIF_ATOM_1
 property _MOTIF_ATOM_2
 property _MOTIF_ATOM_3
 property _MOTIF_DRAG_RECEIVER_INFO
+
+#
+# Sun Ray Support
+#
 property _SUN_CORONA_SESSION
 property _SUN_SUNRAY_SESSION
 property _SUN_SUNRAY_CONN_INFO
 property _SUN_SUNRAY_SESSION_GEOMETRY
 
+#
+# Multilevel JDS/GNOME Support
+#
+property NAUTILUS_ACTIVE_DESKTOP_ID
+property _NET_WORKAREA
 
 selection Dtfile
 selection Dtpad

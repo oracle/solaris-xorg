@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsol.h 1.3     06/03/07 SMI"
+#pragma ident   "@(#)tsol.h 1.5     06/04/18 SMI"
 
 /*
  * tsol.h server side extension
@@ -56,3 +56,13 @@
 
 extern int tsolWindowPrivateIndex;  /* declared in tsol.c */
 extern int tsolPixmapPrivateIndex; 
+extern int SpecialName(char *string, int len);
+extern TsolInfoPtr GetClientTsolInfo();
+extern bslabel_t *lookupSL_low();
+extern int PolyPropReadable(PropertyPtr pProp, ClientPtr client);
+extern void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
+extern WindowPtr TsolPointerWindow();
+
+#ifdef PANORAMIX
+extern int PanoramiXGetInputFocus(ClientPtr client);
+#endif

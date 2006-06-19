@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolpolicy.h	1.4	06/03/07 SMI"
+#pragma ident	"@(#)tsolpolicy.h	1.5	06/04/18 SMI"
 
 
 #ifndef	_TSOL_POLICY_H
@@ -38,7 +38,6 @@
 extern "C" {
 #endif
 
-#include "tsolpriv.h"
 #include <assert.h>
 
 #define	PASSED		0	/* success code 0 */

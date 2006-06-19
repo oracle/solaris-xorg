@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.8	06/03/07 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.12	06/05/25 SMI"
 
 #include <sys/param.h>
 #include <fcntl.h>
@@ -68,106 +68,106 @@
 #define MAX_AUDIT_EVENTS 100
 
 int audit_eventsid[100][2] = {
-    X_CreateWindow, 9103,
-    X_ChangeWindowAttributes, 9104,
-    X_GetWindowAttributes, 9105,
-    X_DestroyWindow, 9106,
-    X_DestroySubwindows, 9107,
-    X_ChangeSaveSet, 9108,
-    X_ReparentWindow, 9109,
-    X_MapWindow, 9110,
-    X_MapSubwindows, 9111,
-    X_UnmapWindow, 9112, 
-    X_UnmapSubwindows, 9113,
-    X_ConfigureWindow, 9114,
-    X_CirculateWindow, 9115,
-    X_GetGeometry, 9116,
-    X_QueryTree, 9117,
-    X_InternAtom, 9118,
-    X_GetAtomName, 9119,
-    X_ChangeProperty, 9120,
-    X_DeleteProperty, 9121,
-    X_GetProperty, 9122,
-    X_ListProperties, 9123,
-    X_SetSelectionOwner, 9124,
-    X_GetSelectionOwner, 9125,
-    X_ConvertSelection, 9126,
-    X_SendEvent, 9127,
-    X_GrabPointer, 9128,
-    X_UngrabPointer, 9129,
-    X_GrabButton, 9130,
-    X_UngrabButton, 9131,
-    X_ChangeActivePointerGrab, 9132,
-    X_GrabKeyboard, 9133,
-    X_UngrabKeyboard, 9134,
-    X_GrabKey, 9135,
-    X_UngrabKey, 9136,
-    X_GrabServer, 9137,
-    X_UngrabServer, 9138,
-    X_QueryPointer, 9139,
-    X_GetMotionEvents, 9140,
-    X_TranslateCoords, 9141,
-    X_WarpPointer, 9142,
-    X_SetInputFocus, 9143,
-    X_GetInputFocus, 9144,
-    X_QueryKeymap, 9145,
-    X_SetFontPath, 9146,
-    X_FreePixmap, 9147,
-    X_ChangeGC, 9148,
-    X_CopyGC, 9149,
-    X_SetDashes, 9150,
-    X_SetClipRectangles, 9151,
-    X_FreeGC, 9152,
-    X_ClearArea, 9153,
-    X_CopyArea, 9154,
-    X_CopyPlane, 9155,
-    X_PolyPoint, 9156,
-    X_PolyLine, 9157,
-    X_PolySegment, 9158,
-    X_PolyRectangle, 9159,
-    X_PolyArc, 9160,
-    X_FillPoly, 9161,
-    X_PolyFillRectangle, 9162,
-    X_PolyFillArc, 9163,
-    X_PutImage, 9164,
-    X_GetImage, 9165,
-    X_PolyText8, 9166,
-    X_PolyText16, 9167,
-    X_ImageText8, 9168,
-    X_ImageText16, 9169,
-    X_CreateColormap, 9170,
-    X_FreeColormap, 9171,
-    X_CopyColormapAndFree, 9172,
-    X_InstallColormap, 9173,
-    X_UninstallColormap, 9174,
-    X_ListInstalledColormaps, 9175,
-    X_AllocColor, 9176,
-    X_AllocNamedColor, 9177,
-    X_AllocColorCells, 9178,
-    X_AllocColorPlanes, 9179,
-    X_FreeColors, 9180,
-    X_StoreColors, 9181,
-    X_StoreNamedColor, 9182,
-    X_QueryColors, 9183,
-    X_LookupColor, 9184,
-    X_CreateCursor, 9185,
-    X_CreateGlyphCursor, 9186,
-    X_FreeCursor, 9187,
-    X_RecolorCursor, 9188,
-    X_ChangeKeyboardMapping, 9189,
-    X_ChangeKeyboardControl, 9190,
-    X_Bell, 9191,
-    X_ChangePointerControl, 9192,
-    X_SetScreenSaver, 9193,
-    X_ChangeHosts, 9194,
-    X_SetAccessControl, 9195,
-    X_SetCloseDownMode, 9196,
-    X_KillClient, 9197,
-    X_RotateProperties, 9198,
-    X_ForceScreenSaver, 9199,
-    X_SetPointerMapping, 9200,
-    X_SetModifierMapping, 9201,
-    X_NoOperation, 9202
+	X_CreateWindow, AUE_CreateWindow,
+	X_ChangeWindowAttributes, AUE_ChangeWindowAttributes,
+	X_GetWindowAttributes, AUE_GetWindowAttributes,
+	X_DestroyWindow, AUE_DestroyWindow,
+	X_DestroySubwindows, AUE_DestroySubwindows,
+	X_ChangeSaveSet, AUE_ChangeSaveSet,
+	X_ReparentWindow, AUE_ReparentWindow,
+	X_MapWindow, AUE_MapWindow,
+	X_MapSubwindows, AUE_MapSubwindows,
+	X_UnmapWindow, AUE_UnmapWindow,
+	X_UnmapSubwindows, AUE_UnmapSubwindows,
+	X_ConfigureWindow, AUE_ConfigureWindow,
+	X_CirculateWindow, AUE_CirculateWindow,
+	X_GetGeometry, AUE_GetGeometry,
+	X_QueryTree, AUE_QueryTree,
+	X_InternAtom, AUE_InternAtom,
+	X_GetAtomName, AUE_GetAtomName,
+	X_ChangeProperty, AUE_ChangeProperty,
+	X_DeleteProperty, AUE_DeleteProperty,
+	X_GetProperty, AUE_GetProperty,
+	X_ListProperties, AUE_ListProperties,
+	X_SetSelectionOwner, AUE_SetSelectionOwner,
+	X_GetSelectionOwner, AUE_GetSelectionOwner,
+	X_ConvertSelection, AUE_ConvertSelection,
+	X_SendEvent, AUE_SendEvent,
+	X_GrabPointer, AUE_GrabPointer,
+	X_UngrabPointer, AUE_UngrabPointer,
+	X_GrabButton, AUE_GrabButton,
+	X_UngrabButton, AUE_UngrabButton,
+	X_ChangeActivePointerGrab, AUE_ChangeActivePointerGrab,
+	X_GrabKeyboard, AUE_GrabKeyboard,
+	X_UngrabKeyboard, AUE_UngrabKeyboard,
+	X_GrabKey, AUE_GrabKey,
+	X_UngrabKey, AUE_UngrabKey,
+	X_GrabServer, AUE_GrabServer,
+	X_UngrabServer, AUE_UngrabServer,
+	X_QueryPointer, AUE_QueryPointer,
+	X_GetMotionEvents, AUE_GetMotionEvents,
+	X_TranslateCoords, AUE_TranslateCoords,
+	X_WarpPointer, AUE_WarpPointer,
+	X_SetInputFocus, AUE_SetInputFocus,
+	X_GetInputFocus, AUE_GetInputFocus,
+	X_QueryKeymap, AUE_QueryKeymap,
+	X_SetFontPath, AUE_SetFontPath,
+	X_FreePixmap, AUE_FreePixmap,
+	X_ChangeGC, AUE_ChangeGC,
+	X_CopyGC, AUE_CopyGC,
+	X_SetDashes, AUE_SetDashes,
+	X_SetClipRectangles, AUE_SetClipRectangles,
+	X_FreeGC, AUE_FreeGC,
+	X_ClearArea, AUE_ClearArea,
+	X_CopyArea, AUE_CopyArea,
+	X_CopyPlane, AUE_CopyPlane,
+	X_PolyPoint, AUE_PolyPoint,
+	X_PolyLine, AUE_PolyLine,
+	X_PolySegment, AUE_PolySegment,
+	X_PolyRectangle, AUE_PolyRectangle,
+	X_PolyArc, AUE_PolyArc,
+	X_FillPoly, AUE_FillPolygon,
+	X_PolyFillRectangle, AUE_PolyFillRectangle,
+	X_PolyFillArc, AUE_PolyFillArc,
+	X_PutImage, AUE_PutImage,
+	X_GetImage, AUE_GetImage,
+	X_PolyText8, AUE_PolyText8,
+	X_PolyText16, AUE_PolyText16,
+	X_ImageText8, AUE_ImageText8,
+	X_ImageText16, AUE_ImageText16,
+	X_CreateColormap, AUE_CreateColormap,
+	X_FreeColormap, AUE_FreeColormap,
+	X_CopyColormapAndFree, AUE_CopyColormapAndFree,
+	X_InstallColormap, AUE_InstallColormap,
+	X_UninstallColormap, AUE_UninstallColormap,
+	X_ListInstalledColormaps, AUE_ListInstalledColormaps,
+	X_AllocColor, AUE_AllocColor,
+	X_AllocNamedColor, AUE_AllocNamedColor,
+	X_AllocColorCells, AUE_AllocColorCells,
+	X_AllocColorPlanes, AUE_AllocColorPlanes,
+	X_FreeColors, AUE_FreeColors,
+	X_StoreColors, AUE_StoreColors,
+	X_StoreNamedColor, AUE_StoreNamedColor,
+	X_QueryColors, AUE_QueryColors,
+	X_LookupColor, AUE_LookupColor,
+	X_CreateCursor, AUE_CreateCursor,
+	X_CreateGlyphCursor, AUE_CreateGlyphCursor,
+	X_FreeCursor, AUE_FreeCursor,
+	X_RecolorCursor, AUE_RecolorCursor,
+	X_ChangeKeyboardMapping, AUE_ChangeKeyboardMapping,
+	X_ChangeKeyboardControl, AUE_ChangeKeyboardControl,
+	X_Bell, AUE_Bell,
+	X_ChangePointerControl, AUE_ChangePointerControl,
+	X_SetScreenSaver, AUE_SetScreenSaver,
+	X_ChangeHosts, AUE_ChangeHosts,
+	X_SetAccessControl, AUE_SetAccessControl,
+	X_SetCloseDownMode, AUE_SetCloseDownMode,
+	X_KillClient, AUE_KillClient,
+	X_RotateProperties, AUE_RotateProperties,
+	X_ForceScreenSaver, AUE_ForceScreenSaver,
+	X_SetPointerMapping, AUE_SetPointerMapping,
+	X_SetModifierMapping, AUE_SetModifierMapping,
+	X_NoOperation, AUE_XExtensions
 };
 extern void Swap32Write();
 extern int (*TsolSavedProcVector[PROCVECTORSIZE])(ClientPtr /*client*/);
@@ -1090,6 +1090,8 @@ TsolInitWindow(client, pWin)
 	tsolres->uid = tsolinfo->uid;
 	tsolres->sl = tsolinfo->sl;
     }
+
+    return (Success);
 }
 
 int
@@ -1441,104 +1443,131 @@ int
 ProcTsolChangeKeyboardMapping(client)
     ClientPtr client;
 {
-    int err_code;
+    int status;
+    int savedtrust = client->trustLevel;
 
-    if (err_code = xtsol_policy(TSOL_RES_KEYMAP, TSOL_MODIFY, 
+    client->trustLevel = XSecurityClientTrusted;
+
+    if (xtsol_policy(TSOL_RES_KEYMAP, TSOL_MODIFY, 
 	NULL, client, TSOL_ALL, (void *)MAJOROP))
     {
-	/* Ignore error */
-	return client->noClientException;
+	status = client->noClientException; /* ignore error */
     }
     else
     {
-	return (*TsolSavedProcVector[X_ChangeKeyboardMapping])(client);
+	status = (*TsolSavedProcVector[X_ChangeKeyboardMapping])(client);
     }
+
+    client->trustLevel = savedtrust;
+    return (status);
 }
 
 int
 ProcTsolSetPointerMapping(client)
     ClientPtr client;
 {
-    int err_code;
+    int status;
+    int savedtrust = client->trustLevel;
 
-    if (err_code = xtsol_policy(TSOL_RES_PTRMAP, TSOL_MODIFY, 
+    client->trustLevel = XSecurityClientTrusted;
+
+    if (xtsol_policy(TSOL_RES_PTRMAP, TSOL_MODIFY, 
 	NULL, client, TSOL_ALL, (void *)MAJOROP))
     {
-	/* Ignore error */
-	return Success;
+	status = Success; /* ignore error */
     }
     else
     {
-	return (*TsolSavedProcVector[X_SetPointerMapping])(client);
+	status = (*TsolSavedProcVector[X_SetPointerMapping])(client);
     }
+
+    client->trustLevel = savedtrust;
+    return (status);
 }
 
 int
 ProcTsolChangeKeyboardControl(client)
     ClientPtr client;
 {
-    int err_code;
+    int status;
+    int savedtrust = client->trustLevel;
 
-    if (err_code = xtsol_policy(TSOL_RES_KBDCTL, TSOL_MODIFY, 
+    client->trustLevel = XSecurityClientTrusted;
+
+    if (xtsol_policy(TSOL_RES_KBDCTL, TSOL_MODIFY, 
 	NULL, client, TSOL_ALL, (void *)MAJOROP))
     {
-	/* Ignore error */
-	return Success;
+	status = Success; /* ignore error */
     }
     else
     {
-	return (*TsolSavedProcVector[X_ChangeKeyboardControl])(client);
+	status = (*TsolSavedProcVector[X_ChangeKeyboardControl])(client);
     }
+
+    client->trustLevel = savedtrust;
+    return (status);
 }
 
 int
 ProcTsolBell(client)
     ClientPtr client;
 {
-    int err_code;
+    int status;
+    int savedtrust = client->trustLevel;
 
-    if (err_code = xtsol_policy(TSOL_RES_BELL, TSOL_MODIFY, 
+    client->trustLevel = XSecurityClientTrusted;
+
+    if (xtsol_policy(TSOL_RES_BELL, TSOL_MODIFY, 
 	NULL, client, TSOL_ALL, (void *)MAJOROP))
     {
-	/* Ignore error */
-	return Success;
+	status = Success; /* ignore error */
     }
     else
     {
-	return (*TsolSavedProcVector[X_Bell])(client);
+	status = (*TsolSavedProcVector[X_Bell])(client);
     }
+
+    client->trustLevel = savedtrust;
+    return (status);
 }
 
 int
 ProcTsolChangePointerControl(client)
     ClientPtr client;
 {
-    int err_code;
+    int status;
+    int savedtrust = client->trustLevel;
 
-    if (err_code = xtsol_policy(TSOL_RES_PTRCTL, TSOL_MODIFY, 
+    client->trustLevel = XSecurityClientTrusted;
+
+    if (xtsol_policy(TSOL_RES_PTRCTL, TSOL_MODIFY, 
 	NULL, client, TSOL_ALL, (void *)MAJOROP))
     {
-	/* Ignore error */
-	return Success;
+	status = Success; /* ignore error */
     }
     else
     {
-	return (*TsolSavedProcVector[X_ChangePointerControl])(client);
+	status = (*TsolSavedProcVector[X_ChangePointerControl])(client);
     }
+
+    client->trustLevel = savedtrust;
+    return (status);
 }
 
 int 
 ProcTsolSetModifierMapping(client)
     ClientPtr client;
 {
+
     xSetModifierMappingReply rep;
     REQUEST(xSetModifierMappingReq);
     KeyCode *inputMap;
     int inputMapLen;
     register int i;
-    int err_code;
+    int status;
     DeviceIntPtr keybd = inputInfo.keyboard;
     register KeyClassPtr keyc = keybd->key;
+    int savedtrust = client->trustLevel;
     
     REQUEST_AT_LEAST_SIZE(xSetModifierMappingReq);
 
@@ -1571,8 +1600,9 @@ ProcTsolSetModifierMapping(client)
     rep.sequenceNumber = client->sequence;
     rep.success = MappingSuccess;
 
+    client->trustLevel = XSecurityClientTrusted;
 
-    if (err_code = xtsol_policy(TSOL_RES_MODMAP, TSOL_MODIFY, 
+    if (xtsol_policy(TSOL_RES_MODMAP, TSOL_MODIFY, 
 	NULL, client, TSOL_ALL, (void *)MAJOROP))
     {
 	/* 
@@ -1582,12 +1612,15 @@ ProcTsolSetModifierMapping(client)
 	 */
          SendMappingNotify(MappingModifier, 0, 0,client);
 	 WriteReplyToClient(client, sizeof(xSetModifierMappingReply), &rep);
-	 return(client->noClientException);
+	 status = client->noClientException;
     }
     else
     {
-	return (*TsolSavedProcVector[X_SetModifierMapping])(client);
+	status = (*TsolSavedProcVector[X_SetModifierMapping])(client);
     }
+
+    client->trustLevel = savedtrust;
+    return (status);
 }
 
 void
@@ -1611,13 +1644,17 @@ RemoveStripeWindow()
     }
 }
 
-void
-ResetStripeWindow()
+static void
+ResetStripeWindow(ClientPtr client)
 {
     WindowPtr pParent;
+    WindowPtr pWin = NULL;
 
-    /* Ignore if stripe is not set */
-    if (!tpwin)
+    /* Validate trusted stripe window */
+    if (tpwin)
+        pWin = LookupWindow(tpwin->drawable.id, client);
+
+    if (tpwin == NullWindow || pWin == NullWindow)
 	return;
 
     pParent = tpwin->parent;
@@ -1676,7 +1713,7 @@ ProcTsolCreateWindow(client)
     else
         tsolres->flags = 0;
 
-    ResetStripeWindow();
+    ResetStripeWindow(client);
 
     return result;
 }
@@ -1703,7 +1740,7 @@ ProcTsolChangeWindowAttributes(client)
     }
 
     result = (*TsolSavedProcVector[X_ChangeWindowAttributes])(client);
-    ResetStripeWindow();
+    ResetStripeWindow(client);
 
     return result;
 }
@@ -1715,7 +1752,7 @@ ProcTsolConfigureWindow(client)
     int result;
 
     result = (*TsolSavedProcVector[X_ConfigureWindow])(client);
-    ResetStripeWindow();
+    ResetStripeWindow(client);
 
     return result;
 }
@@ -1727,7 +1764,7 @@ ProcTsolCirculateWindow(client)
     int result;
 
     result = (*TsolSavedProcVector[X_CirculateWindow])(client);
-    ResetStripeWindow();
+    ResetStripeWindow(client);
 
     return result;
 }
@@ -1739,7 +1776,7 @@ ProcTsolReparentWindow(client)
     int result;
 
     result = (*TsolSavedProcVector[X_ReparentWindow])(client);
-    ResetStripeWindow();
+    ResetStripeWindow(client);
 
     return result;
 }
@@ -2048,6 +2085,7 @@ ProcTsolChangeHosts(client)
     register ClientPtr client;
 {
     int result;
+    int savedtrust = client->trustLevel;
 
     REQUEST(xChangeHostsReq);
 
@@ -2057,7 +2095,11 @@ ProcTsolChangeHosts(client)
              client, TSOL_ALL, (void *)MAJOROP))
         return (result);
 
-    return (*TsolSavedProcVector[X_ChangeHosts])(client);
+    client->trustLevel = XSecurityClientTrusted;
+    result = (*TsolSavedProcVector[X_ChangeHosts])(client);
+    client->trustLevel = savedtrust;
+
+    return (result);
 }
 
 int
@@ -2065,6 +2107,7 @@ ProcTsolChangeAccessControl(client)
     register ClientPtr client;
 {
     int result;
+    int savedtrust = client->trustLevel;
 
     REQUEST(xSetAccessControlReq);
 
@@ -2077,7 +2120,11 @@ ProcTsolChangeAccessControl(client)
         return (result);
     }
 
-    return (*TsolSavedProcVector[X_SetAccessControl])(client);
+    client->trustLevel = XSecurityClientTrusted;
+    result = (*TsolSavedProcVector[X_SetAccessControl])(client);
+    client->trustLevel = savedtrust;
+
+    return (result);
 }
 
 int
@@ -2533,61 +2580,53 @@ TsolAuditStart(ClientPtr client)
     char audit_ret = (char)NULL;
     TsolInfoPtr tsolinfo = (TsolInfoPtr)NULL;
     tsolinfo = GetClientTsolInfo(client);
-    if (system_audit_on &&
-    (tsolinfo->aw_auinfo.ai_mask.am_success ||
-    tsolinfo->aw_auinfo.ai_mask.am_failure))
-    {
-        do_x_audit = TRUE;
-        auditwrite(AW_PRESELECT, &(tsolinfo->aw_auinfo.ai_mask), AW_END);
-    }
-    return;
-            /*
-             * X audit events start from 9101 in audit_uevents.h. The first two
-             * events are non-protocol ones viz. ClientConnect, mapped to 9101
-             * and ClientDisconnect, mapped to 9102.
-             * The protocol events are mapped from 9103 onwards in the serial
-             * order of their respective protocol opcode, for eg, the protocol
-             * UngrabPointer which is has a protocol opcode 27 is mapped to
-             * 9129 (9102 + 27).
-             * All extension protocols are mapped to a single audit event
-             * AUE_XExtension as opcodes are assigined dynamically to these
-             * protocols. We set the extension protocol opcode to be 128, one
-             * more than the last standard opcode.
-             */
-            protocol = (unsigned int)MAJOROP;
-            if (protocol > X_NoOperation)
-            {
-                xevent_num = audit_eventsid[MAX_AUDIT_EVENTS - 1][1];
-                audit_event = TRUE;
-            }
-            else
-            {
-                for (count = 0; count < MAX_AUDIT_EVENTS; count++)
-                {
-                    if (protocol == audit_eventsid[count][0])
-                    {
-                        xevent_num = audit_eventsid[count][1];
+    if (system_audit_on && 
+	(tsolinfo->amask.am_success || tsolinfo->amask.am_failure)) {
+
+	do_x_audit = TRUE;
+        auditwrite(AW_PRESELECT, &(tsolinfo->amask), AW_END);
+		
+        /*
+         * X audit events start from 9101 in audit_uevents.h. The first two
+         * events are non-protocol ones viz. ClientConnect, mapped to 9101
+         * and ClientDisconnect, mapped to 9102.
+         * The protocol events are mapped from 9103 onwards in the serial
+         * order of their respective protocol opcode, for eg, the protocol
+         * UngrabPointer which is has a protocol opcode 27 is mapped to
+         * 9129 (9102 + 27).
+         * All extension protocols are mapped to a single audit event
+         * AUE_XExtension as opcodes are assigined dynamically to these
+         * protocols. We set the extension protocol opcode to be 128, one
+         * more than the last standard opcode.
+         */
+        protocol = (unsigned int)MAJOROP;
+	if (protocol > X_NoOperation) {
+             xevent_num = audit_eventsid[MAX_AUDIT_EVENTS - 1][1];
+             audit_event = TRUE;
+	} else {
+            for (count = 0; count < MAX_AUDIT_EVENTS; count++) {
+                 if (protocol == audit_eventsid[count][0]) {
+                 	xevent_num = audit_eventsid[count][1];
                         audit_event = TRUE;
                         break;
-                    }
-                }
-            }
-            if (audit_event &&
-                do_x_audit &&
-                (au_preselect(xevent_num,
-                              &(tsolinfo->aw_auinfo.ai_mask),
-                              AU_PRS_BOTH,
-                              AU_PRS_USECACHE) == 1))
-            {
-                tsolinfo->flags |= TSOL_AUDITEVENT;
-                status = auditwrite(AW_EVENTNUM, xevent_num, AW_APPEND, AW_END);
+                  }
+	    }
+	}
 
-            }
-            else
-            {
-                tsolinfo->flags &= ~TSOL_AUDITEVENT;
-                tsolinfo->flags &= ~TSOL_DOXAUDIT;
-            }
+	/*
+	 * Exclude Clients with Trusted Path such as tsoldtwm, tsoldtsession etc
+	 * from generating the audit records for X protocols
+	 */
+	if (audit_event && do_x_audit &&  !HasTrustedPath(tsolinfo) &&
+	    (au_preselect(xevent_num, &(tsolinfo->amask), AU_PRS_BOTH,
+                              AU_PRS_USECACHE) == 1)) {
+            tsolinfo->flags |= TSOL_AUDITEVENT;
+            status = auditwrite(AW_EVENTNUM, xevent_num, AW_APPEND, AW_END);
+	} else {
+	    tsolinfo->flags &= ~TSOL_AUDITEVENT;
+            tsolinfo->flags &= ~TSOL_DOXAUDIT;
+	}
+    }
 }
 
 void
@@ -2658,4 +2697,100 @@ ProcTsolQueryPointer(client)
     WriteReplyToClient(client, sizeof(xQueryPointerReply), &rep);
 
     return(Success);    
+}
+
+int
+ProcTsolQueryExtension(client)
+    ClientPtr client;
+{
+    xQueryExtensionReply reply;
+    int savedtrust;
+    int status = client->noClientException;
+   
+    REQUEST(xQueryExtensionReq);
+
+    REQUEST_FIXED_SIZE(xQueryExtensionReq, stuff->nbytes);
+    
+    reply.type = X_Reply;
+    reply.length = 0;
+    reply.major_opcode = 0;
+    reply.sequenceNumber = client->sequence;
+
+    /* Allow extensions in the labeled zones */
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+
+    if (!TsolDisabledExtension((char *)&stuff[1],  stuff->nbytes)) {
+    	status = (*TsolSavedProcVector[X_QueryExtension])(client);
+    } else {
+	/* Hide this extension */
+        reply.present = xFalse;
+        WriteReplyToClient(client, sizeof(xQueryExtensionReply), &reply);
+        status = client->noClientException;
+    }
+
+    client->trustLevel = savedtrust;
+
+    return (status);
+}
+
+int
+ProcTsolListExtensions(client)
+    ClientPtr client;
+{
+    int savedtrust;
+    int status;
+
+    REQUEST(xReq);
+    REQUEST_SIZE_MATCH(xReq);
+
+    /* Allow extensions in the labeled zones */
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+    status = (*TsolSavedProcVector[X_ListExtensions])(client);
+    client->trustLevel = savedtrust;
+
+    return (status);
+}
+
+int
+ProcTsolMapWindow(register ClientPtr client)
+{
+    int savedtrust;
+
+    WindowPtr pWin;
+    REQUEST(xResourceReq);
+
+    REQUEST_SIZE_MATCH(xResourceReq);
+    pWin = (WindowPtr)SecurityLookupWindow(stuff->id, client,
+					   SecurityReadAccess);
+    if (!pWin)
+        return(BadWindow);
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+    MapWindow(pWin, client);
+    client->trustLevel = savedtrust;
+
+    return(client->noClientException);
+}
+
+int
+ProcTsolMapSubwindows(register ClientPtr client)
+{
+    int savedtrust;
+
+    WindowPtr pWin;
+    REQUEST(xResourceReq);
+
+    REQUEST_SIZE_MATCH(xResourceReq);
+    pWin = (WindowPtr)SecurityLookupWindow( stuff->id, client,
+					    SecurityReadAccess);
+    if (!pWin)
+        return(BadWindow);
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+    MapSubwindows(pWin, client);
+    client->trustLevel = savedtrust;
+
+    return(client->noClientException);
 }

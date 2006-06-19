@@ -26,12 +26,14 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.9     06/03/07 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.11     06/05/25 SMI"
 
 #include "X.h"
 #define		NEED_REPLIES
 #define		NEED_EVENTS
 #include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <bsm/auditwrite.h>
 #include <bsm/audit_kevents.h>
 #include <bsm/audit_uevents.h>
@@ -56,6 +58,18 @@
 #include "tsolinfo.h"
 #include "tsolpolicy.h"
 
+static priv_set_t *pset_win_mac_read = NULL;
+static priv_set_t *pset_win_mac_write = NULL;
+static priv_set_t *pset_win_dac_read = NULL;
+static priv_set_t *pset_win_dac_write = NULL;
+static priv_set_t *pset_win_config = NULL;
+static priv_set_t *pset_win_devices = NULL;
+static priv_set_t *pset_win_fontpath = NULL;
+static priv_set_t *pset_win_colormap = NULL;
+static priv_set_t *pset_win_upgrade_sl = NULL;
+static priv_set_t *pset_win_downgrade_sl = NULL;
+static priv_set_t *pset_win_selection = NULL;
+
 extern TsolInfoPtr GetClientTsolInfo();
 extern int tsolWindowPrivateIndex;
 extern int tsolPixmapPrivateIndex;
@@ -74,12 +88,14 @@ extern Bool priv_win_fontpath;
 
 #define SAMECLIENT(client, xid) ((client)->index == CLIENT_ID(xid))
 
+int access_xid(xresource_t res, xmethod_t method, void *resource,
+		   void *subject, xpolicy_t policy_flags, void *misc, 
+		   RESTYPE res_type, priv_set_t *which_priv);
+
+int check_priv(xresource_t res, xmethod_t method, void *resource,
+	void *subject, xpolicy_t policy_flags, void *misc, priv_set_t *priv);
+
 #ifdef DEBUG
-struct optimization_stats {
-	unsigned long pixel_count;
-	unsigned long window_count;
-};
-struct optimization_stats opt_stats = {0, 0};
 
 int	xtsol_debug = XTSOL_FAIL;	/* set it to 0 if no logging is required */
 void XTsolErr(char *err_type, int protocol, bslabel_t *osl,
@@ -134,7 +150,7 @@ unset_audit_flags(TsolInfoPtr tsolinfo)
  */
 
 int
-xpriv_policy(priv_set_t *set, priv_t priv, xresource_t res,
+xpriv_policy(priv_set_t *set, priv_set_t *priv, xresource_t res,
 			 xmethod_t method, void *subject, Bool do_audit)
 {
 	int	i;
@@ -144,7 +160,7 @@ xpriv_policy(priv_set_t *set, priv_t priv, xresource_t res,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
-	if (priv_test(set, priv))
+	if (priv_issubset(priv, set))
 	{
 		status = 1;
 		audit_status = 1;
@@ -211,9 +227,6 @@ read_window(xresource_t res, xmethod_t method, void *resource,
 	/* optimization based on client id */
 	if (SAMECLIENT(client, pWin->drawable.id))
 	{
-#ifdef DEBUG
-		opt_stats.window_count++;
-#endif /* DEBUG */
 		return PASSED;
 	}
 	/*
@@ -225,7 +238,7 @@ read_window(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit) ||
 				(tsolownerinfo && HasWinSelection(tsolownerinfo))) 
 			{
@@ -253,7 +266,7 @@ read_window(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -296,9 +309,6 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 	/* optimization based on client id */
 	if (SAMECLIENT(client, pWin->drawable.id))
 	{
-#ifdef DEBUG
-		opt_stats.window_count++;
-#endif /* DEBUG */
 		return PASSED;
 	}
 	/*
@@ -321,7 +331,7 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -345,7 +355,7 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -420,7 +430,7 @@ create_window(xresource_t res, xmethod_t method, void *resource,
             {
 				do_audit = TRUE;
             }
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -447,7 +457,7 @@ create_window(xresource_t res, xmethod_t method, void *resource,
             {
 				do_audit = TRUE;
             }
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -512,7 +522,7 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -537,7 +547,7 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -637,7 +647,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
                     tsolinfo->flags |= MAC_READ_AUDITED;
                 }
 				/* PRIV override? */
-				if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+				if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 								 res, method, client, do_audit))
 				{
 					ret_stat = PASSED;
@@ -665,7 +675,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
                     do_audit = TRUE;
                     tsolinfo->flags |= DAC_READ_AUDITED;
                 }
-				if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+				if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 								 res, method, client, do_audit))
 				{
 					ret_stat = PASSED;
@@ -681,12 +691,6 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 			}
 		}
 	}  /* end if !SAMECLIENT */
-	else
-	{
-#ifdef DEBUG
-		opt_stats.pixel_count++;
-#endif /* DEBUG */
-	}
 
 	if (do_audit)
 	{
@@ -768,7 +772,7 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
                 do_audit = TRUE;
                 tsolinfo->flags |= CONFIG_AUDITED;
             }
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_CONFIG,
+			if (xpriv_policy(tsolinfo->privs, pset_win_config,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -795,7 +799,7 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
                     do_audit = TRUE;
                     tsolinfo->flags |= MAC_WRITE_AUDITED;
                 }
-				if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+				if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 								 res, method, client, do_audit))
 				{
 					ret_stat = PASSED;
@@ -823,7 +827,7 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
                     do_audit = TRUE;
                     tsolinfo->flags |= DAC_WRITE_AUDITED;
                 }
-				if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+				if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 								 res, method, client, do_audit))
 				{
 					ret_stat = PASSED;
@@ -839,12 +843,6 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 			}
 		}
 	}  /* end if SAMECLIENT */
-	else
-	{
-#ifdef DEBUG
-		opt_stats.pixel_count++;
-#endif /* DEBUG */
-	}
 
 	if (do_audit)
 	{
@@ -879,7 +877,7 @@ read_pixmap(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -903,7 +901,7 @@ read_pixmap(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -952,7 +950,7 @@ modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -976,7 +974,7 @@ modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1025,7 +1023,7 @@ destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1049,7 +1047,7 @@ destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1103,7 +1101,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1128,7 +1126,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1189,7 +1187,7 @@ modify_client(xresource_t res, xmethod_t method, void *resource,
 	/*
 	 * Needs win_config priv
 	 */
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_CONFIG,
+	if (xpriv_policy(tsolinfo->privs, pset_win_config,
 					 res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -1247,7 +1245,7 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1272,7 +1270,7 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1319,7 +1317,7 @@ read_gc(xresource_t res, xmethod_t method, void *resource,
 		void *subject, xpolicy_t policy_flags, void *misc)
 {
 	return (access_xid(res, method, resource, subject, policy_flags,
-					   misc, RT_GC, PRIV_WIN_DAC_READ));
+					   misc, RT_GC, pset_win_dac_read));
 }
 
 /*
@@ -1332,7 +1330,7 @@ modify_gc(xresource_t res, xmethod_t method, void *resource,
     unsigned int protocol = (unsigned int)misc;
 
     return (access_xid(res, method, resource, subject, policy_flags,
-                       misc, RT_GC, PRIV_WIN_DAC_WRITE));    
+                       misc, RT_GC, pset_win_dac_write));    
 }
 
 /*
@@ -1343,7 +1341,7 @@ read_font(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
 	return (access_xid(res, method, resource, subject, policy_flags,
-			misc, RT_FONT, PRIV_WIN_DAC_READ));
+			misc, RT_FONT, pset_win_dac_read));
 }
 
 /*
@@ -1354,7 +1352,7 @@ modify_font(xresource_t res, xmethod_t method, void *resource,
 			void *subject, xpolicy_t policy_flags, void *misc)
 {
 	return (access_xid(res, method, resource, subject, policy_flags,
-					   misc,RT_FONT, PRIV_WIN_DAC_WRITE));
+					   misc,RT_FONT, pset_win_dac_write));
 }
 
 /*
@@ -1365,7 +1363,7 @@ modify_cursor(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
 	return (access_xid(res, method, resource, subject, policy_flags,
-					   misc, RT_CURSOR, PRIV_WIN_DAC_WRITE));
+					   misc, RT_CURSOR, pset_win_dac_write));
 }
 
 /*
@@ -1394,11 +1392,11 @@ access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
             priv =
-                (method == TSOL_READ) ? PRIV_WIN_MAC_READ : PRIV_WIN_MAC_WRITE;
+                (method == TSOL_READ) ? pset_win_mac_read : pset_win_mac_write;
             /*
              * any colorcell owned by root is readable by all
              */
-            if ((priv == PRIV_WIN_MAC_READ) && (pentp->uid == 0))
+            if ((priv == pset_win_mac_read) && (pentp->uid == 0))
                 ret_stat = PASSED;
             else if (xpriv_policy(tsolinfo->privs, priv,
                                   res, method, client, do_audit))
@@ -1425,11 +1423,11 @@ access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
             priv = (method == TSOL_READ) ?
-                PRIV_WIN_DAC_READ : PRIV_WIN_DAC_WRITE;
+                pset_win_dac_read : pset_win_dac_write;
             /*
              * any colorcell owned by root is readable by all
              */
-            if ((priv == PRIV_WIN_DAC_READ) && (pentp->uid == 0))
+            if ((priv == pset_win_dac_read) && (pentp->uid == 0))
                 ret_stat = PASSED;
             else if (xpriv_policy(tsolinfo->privs, priv,
                                   res, method, client, do_audit))
@@ -1521,7 +1519,7 @@ read_cmap(xresource_t res, xmethod_t method, void *resource,
 		return (PASSED);
 
 	return (access_xid(res, method, (void *)(pcmp->mid), subject, policy_flags,
-					   misc, RT_COLORMAP, PRIV_WIN_DAC_READ));
+					   misc, RT_COLORMAP, pset_win_dac_read));
 }
 
 /*
@@ -1538,7 +1536,7 @@ modify_cmap(xresource_t res, xmethod_t method, void *resource,
 		return (PASSED);
 
 	return (access_xid(res, method,(void *)(pcmp->mid) , subject, policy_flags,
-			misc, RT_COLORMAP, PRIV_WIN_DAC_WRITE));
+			misc, RT_COLORMAP, pset_win_dac_write));
 }
 
 /*
@@ -1568,7 +1566,7 @@ install_cmap(xresource_t res, xmethod_t method, void *resource,
 	/*
 	 * check only win_colormap priv
 	 */
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_COLORMAP,
+	if (xpriv_policy(tsolinfo->privs, pset_win_colormap,
 					 res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -1595,7 +1593,7 @@ install_cmap(xresource_t res, xmethod_t method, void *resource,
 int
 access_xid(xresource_t res, xmethod_t method, void *resource,
 		   void *subject, xpolicy_t policy_flags, void *misc, 
-		   RESTYPE res_type, priv_t which_priv)
+		   RESTYPE res_type, priv_set_t *which_priv)
 {
 	int ret_stat = PASSED;
 	int object_code = 0;
@@ -1695,7 +1693,7 @@ modify_fontpath(xresource_t res, xmethod_t method, void *resource,
 	/*
 	 * No MAC & DAC. Check win_fontpath priv only
 	 */
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_FONTPATH,
+	if (xpriv_policy(tsolinfo->privs, pset_win_fontpath,
 					 res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -1737,7 +1735,7 @@ read_devices(xresource_t res, xmethod_t method, void *resource,
 	/*
 	 * No MAC/DAC check. Needs win_devices priv
 	 */
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DEVICES,
+	if (xpriv_policy(tsolinfo->privs, pset_win_devices,
 					 res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -1777,7 +1775,7 @@ modify_devices(xresource_t res, xmethod_t method, void *resource,
 	/*
 	 * No MAC/DAC check. Needs win_devices priv
 	 */
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DEVICES,
+	if (xpriv_policy(tsolinfo->privs, pset_win_devices,
 					 res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -1818,7 +1816,7 @@ modify_acl(xresource_t res, xmethod_t method, void *resource,
 	 */
     if (tsolinfo->uid != OwnerUID)
     {
-	    if (xpriv_policy(tsolinfo->privs, PRIV_WIN_CONFIG, res,
+	    if (xpriv_policy(tsolinfo->privs, pset_win_config, res,
                          method, client, do_audit))
 	    {
 		    ret_stat = PASSED;
@@ -1885,7 +1883,7 @@ read_atom(xresource_t res, xmethod_t method, void *resource,
 			/* PRIV override? */
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
 				status = PASSED;
@@ -1950,7 +1948,7 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -1976,7 +1974,7 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2038,7 +2036,7 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2063,7 +2061,7 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2113,7 +2111,7 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2138,7 +2136,7 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2200,7 +2198,7 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2226,7 +2224,7 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2294,7 +2292,7 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2318,7 +2316,7 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2362,7 +2360,7 @@ create_srvgrab(xresource_t res, xmethod_t method, void *resource,
     else
 	{
 		return (check_priv(res, method, resource, subject, policy_flags, 
-						   misc, PRIV_WIN_CONFIG));
+						   misc, pset_win_config));
 	}
 }
 
@@ -2380,7 +2378,7 @@ destroy_srvgrab(xresource_t res, xmethod_t method, void *resource,
     else
     {
 		return (check_priv(res, method, resource, subject, policy_flags, 
-						   misc, PRIV_WIN_CONFIG));
+						   misc, pset_win_config));
 	}
 }
 
@@ -2390,7 +2388,7 @@ destroy_srvgrab(xresource_t res, xmethod_t method, void *resource,
  */
 int
 check_priv(xresource_t res, xmethod_t method, void *resource,
-		   void *subject, xpolicy_t policy_flags, void *misc, priv_t priv)
+		   void *subject, xpolicy_t policy_flags, void *misc, priv_set_t *priv)
 {
 	int ret_stat = PASSED;
 	int	err_code = BadValue;
@@ -2465,7 +2463,7 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2491,7 +2489,7 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2564,7 +2562,7 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2588,7 +2586,7 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2639,7 +2637,7 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2665,7 +2663,7 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2710,7 +2708,7 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!SameClient(grab, client))
 		{
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DEVICES,
+			if (xpriv_policy(tsolinfo->privs, pset_win_devices,
 				res, method, client))
 			{
 				/* audit? */
@@ -2771,7 +2769,7 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
                 do_audit = TRUE;
                 tsolinfo->flags |= MAC_READ_AUDITED;
             }
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2801,7 +2799,7 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
                 do_audit = TRUE;
                 tsolinfo->flags |= DAC_READ_AUDITED;
             }
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_READ,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2906,7 +2904,7 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2930,7 +2928,7 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -2996,7 +2994,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
         
         if (tsolinfo->flags & TSOL_AUDITEVENT)
             do_audit = TRUE;
-		if (xpriv_policy(tsolinfo->privs, PRIV_WIN_CONFIG,
+		if (xpriv_policy(tsolinfo->privs, pset_win_config,
                          res, method, client, do_audit))
 		{
 			ret_stat = PASSED;
@@ -3022,7 +3020,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 	{
         if (tsolinfo->flags & TSOL_AUDITEVENT)
             do_audit = TRUE;
-		if (xpriv_policy(tsolinfo->privs, PRIV_WIN_UPGRADE_SL,
+		if (xpriv_policy(tsolinfo->privs, pset_win_upgrade_sl,
 						 res, method, client, do_audit))
 		{
 			ret_stat = PASSED;
@@ -3039,7 +3037,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 	{
         if (tsolinfo->flags & TSOL_AUDITEVENT)
             do_audit = TRUE;
-		if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DOWNGRADE_SL,
+		if (xpriv_policy(tsolinfo->privs, pset_win_downgrade_sl,
 						 res, method, client, do_audit))
 		{
 			ret_stat = PASSED;
@@ -3103,7 +3101,7 @@ modify_eventwin(xresource_t res, xmethod_t method, void *resource,
 			 */
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit) ||
 				(tsolownerinfo && HasWinSelection(tsolownerinfo)))
 			{
@@ -3131,7 +3129,7 @@ modify_eventwin(xresource_t res, xmethod_t method, void *resource,
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
-			if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
@@ -3217,7 +3215,7 @@ modify_uid(xresource_t res, xmethod_t method, void *resource,
 
     if (tsolinfo->flags & TSOL_AUDITEVENT)
         do_audit = TRUE;
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+	if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
                      res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -3250,11 +3248,11 @@ modify_polyinfo(xresource_t res, xmethod_t method, void *resource,
 
         if (tsolinfo->flags & TSOL_AUDITEVENT)
             do_audit = TRUE;
-	if (xpriv_policy(tsolinfo->privs, PRIV_WIN_MAC_WRITE,
+	if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
                      res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
-		if (xpriv_policy(tsolinfo->privs, PRIV_WIN_DAC_WRITE,
+		if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 						 res, method, client, do_audit))
 		{
 			ret_stat = PASSED;
@@ -3302,12 +3300,6 @@ swap_dbe(xresource_t res, xmethod_t method, void *resource,
             return PASSED;
         else 
             return BadAccess;   
-}
-
-int
-priv_test(priv_set_t *set, priv_t priv)
-{
-	return (PRIV_ISASSERT(set, priv));
 }
 
 /*
@@ -3494,3 +3486,65 @@ xtsol_policy(xresource_t res,	xmethod_t method,	void *resource,
 		return ret_value;
 	}
 }
+
+/*
+ * Allocate a single privilege set
+ */
+static priv_set_t *
+alloc_win_priv(const char *priv)
+{
+	priv_set_t *pset;
+
+	if ((pset = priv_allocset()) == NULL) {
+		perror("priv_allocset");
+		FatalError("Cannot allocate privilege set");
+	}
+	priv_emptyset(pset);
+	priv_addset(pset, priv);
+
+	return pset;
+}
+
+/*
+ * Initialize all string window privileges to the binary equivalent.
+ * Binary privilege testing is much faster than the string testing
+ */
+void
+init_win_privsets()
+{
+
+	pset_win_mac_read = alloc_win_priv(PRIV_WIN_MAC_READ);
+	pset_win_mac_write = alloc_win_priv(PRIV_WIN_MAC_WRITE);
+	pset_win_dac_read = alloc_win_priv(PRIV_WIN_DAC_READ);
+	pset_win_dac_write = alloc_win_priv(PRIV_WIN_DAC_WRITE);
+	pset_win_config = alloc_win_priv(PRIV_WIN_CONFIG);
+	pset_win_devices = alloc_win_priv(PRIV_WIN_DEVICES);
+	pset_win_fontpath = alloc_win_priv(PRIV_WIN_FONTPATH);
+	pset_win_colormap = alloc_win_priv(PRIV_WIN_COLORMAP);
+	pset_win_upgrade_sl = alloc_win_priv(PRIV_WIN_UPGRADE_SL);
+	pset_win_downgrade_sl = alloc_win_priv(PRIV_WIN_DOWNGRADE_SL);
+	pset_win_selection = alloc_win_priv(PRIV_WIN_SELECTION);
+}
+
+void
+free_win_privsets()
+{
+	priv_freeset(pset_win_mac_read);
+	priv_freeset(pset_win_mac_write);
+	priv_freeset(pset_win_dac_read);
+	priv_freeset(pset_win_dac_write);
+	priv_freeset(pset_win_config);
+	priv_freeset(pset_win_devices);
+	priv_freeset(pset_win_fontpath);
+	priv_freeset(pset_win_colormap);
+	priv_freeset(pset_win_upgrade_sl);
+	priv_freeset(pset_win_downgrade_sl);
+	priv_freeset(pset_win_selection);
+}
+
+int
+HasWinSelection(TsolInfoPtr tsolinfo)
+{
+	return (priv_issubset(pset_win_selection, (tsolinfo->privs)));
+}
+

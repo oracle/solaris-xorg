@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# ident "@(#)depend	1.2	06/03/06 SMI"
+# ident "@(#)depend	1.3	06/05/30 SMI"
 #
 # Xorg Trusted Extensions
 #
@@ -35,4 +35,4 @@ P SUNWcsr	Core Solaris, (Root)
 P SUNWcsu	Core Solaris, (Usr)
 P SUNWcsl	Core Solaris, (Shared Libs)
 P SUNWxorg-server X.Org Foundation Xserver
-P SUNWxwts	X Trusted Extensions
+P SUNWxwts	Trusted Extensions, X Windows

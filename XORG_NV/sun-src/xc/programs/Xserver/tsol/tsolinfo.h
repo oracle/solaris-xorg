@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolinfo.h 1.11     06/03/07 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.14     06/05/25 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -43,7 +43,6 @@ extern "C" {
 #include <bsm/audit.h>
 #include <sys/mkdev.h>
 #include <ucred.h>
-#include "tsolpriv.h"
 #include "misc.h"
 #include "dixstruct.h"
 #include "keysym.h"
@@ -160,12 +159,6 @@ typedef enum tsolconfig_types tsolconfig_t;
 #define XTSOLTrusted(pWin)\
 	(((TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr))->flags & TRUSTED_MASK)
 
-/*
- * win_selection can be  a process attribute or  a priv
- */
-#define HasWinSelection(tsolinfo)\
-	(priv_test((tsolinfo->privs), PRIV_WIN_SELECTION))
-
 
 /*********************************
  *
@@ -192,17 +185,17 @@ typedef struct _TsolInfo {
     zoneid_t		zid;		/* zone id */
     priv_set_t          *privs;         /* privileges */
     bslabel_t		*sl;            /* sensitivity label */
-    u_long              sid;            /* session id */
     u_long              iaddr;          /* internet addr */
     Bool		trusted_path;	/* has trusted path */
     Bool		priv_debug;	/* do privilege debugging */
     u_long              flags;          /* various flags */
     int                 forced_trust;   /* client masked as trusted */
-    struct auditinfo_addr	auinfo; /* audit addr */
     au_id_t		auid;		/* audit id */
-    au_tid_addr_t	tid;		/* terminal  id */
-    auditinfo_t		aw_auinfo;		/* audit info */
+    au_mask_t		amask;		/* audit mask */
+    au_asid_t		asid;         	/* audit session id */
     client_type_t    	client_type;    /* Local or Remote client */
+    int			asaverd;
+    struct sockaddr_storage saddr;	/* socket information */
 } TsolInfoRec, *TsolInfoPtr;
 
 /*
@@ -360,7 +353,7 @@ extern  TsolPolyInstInfoRec tsolpolyinstinfo;
 extern  int tsolWindowPrivateIndex;
 extern  int tsolPixmapPrivateIndex;
 extern  uid_t OwnerUID;                 /* Workstation owner uid */
-
+extern Bool system_audit_on;
 
 /*********************************
  *
@@ -375,6 +368,17 @@ extern WindowPtr RootWin(WindowPtr pWin);
 extern WindowPtr XYToWin(int x, int y); /* Defined in events.c */
 extern Window RootOf(WindowPtr pWin);
 extern Window RootOfClient(WindowPtr pWin);
+extern int TsolDisabledExtension(char *extname, int extlen);
+extern int MatchTsolConfig(char *name, int len);
+extern int HasWinSelection(TsolInfoPtr tsolinfo);
+extern int same_client (ClientPtr client, XID xid);
+extern int client_private (ClientPtr client, XID xid);
+extern TsolPropPtr AllocTsolProp();
+extern bslabel_t *lookupSL_low();
+extern bslabel_t *lookupSL(bslabel_t *slptr);
+extern BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox);
+extern Bool ShapeOverlap(WindowPtr pWin, BoxPtr pWinBox,
+	WindowPtr pSib, BoxPtr pSibBox);
 
 
 #ifdef    __cplusplus
