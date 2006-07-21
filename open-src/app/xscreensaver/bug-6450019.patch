@@ -1,0 +1,66 @@
+Fix for bug id 6450019. I was checking if the user is root before deciding
+wether to prompt the user for password or simply use the cached password 
+for the root hack. This backfired when user logged in as root in which case
+there is no cached flag and we simply do not prompt user for password, 
+causing unlock dialog to not prompt for password and failing continously.
+
+Also, added a check for chauth_rc failure, in which case we do not unlock
+dialog box. This case was missing if password got expired and xscreensaver
+was letting user back in with expired passwd CR 6417168.
+
+--- driver/passwd-pam.c	Thu Jul 20 16:51:39 2006
++++ driver/passwd-pam.c	Fri Jul 21 11:28:28 2006
+@@ -90,7 +90,14 @@
+ 
+ extern saver_info *global_si_kludge;
+ extern Bool g_passwd_dialog_created;
++/* CR 6450019 Added this flag to track if orig passwd failed and before
++ * trying root passwd. Trick is for orig passwd we prompt user and wait 
++ * in PAM_ECHO_OFF/ON case whereas for root passwd we need to cache it 
++ * and without prompting user send it to PAM to try root.
++ */
++static Bool not_a_failover_case = False; 
+ 
++
+ /* blargh */
+ #undef  Bool
+ #undef  True
+@@ -579,6 +586,15 @@
+           goto DONE;
+          }
+ 	}
++     else if (acct_rc != PAM_SUCCESS)
++         {
++          pam_auth_status = acct_rc;
++          write_to_child (si, "pw_acct_fail");
++          tmp_buf = (char*)PAM_STRERROR(pamh, acct_rc);
++          write_to_child (si, tmp_buf);
++          sleep (3);
++          goto DONE;
++         }
+ 
+       /* Each time we successfully authenticate, refresh credentials,
+          for Kerberos/AFS/DCE/etc.  If this fails, just ignore that
+@@ -626,6 +642,11 @@
+   user = strdup ("root");
+   c.user = user;
+ 
++  not_a_failover_case = True; /* Set this so user is not prompted for root
++                               * passwd instead the cached passwd from above
++                               * call to pam_authenticate() is used. 
++                               */
++
+   status = -1;  	/* Reset status */
+   status = pam_set_item (pamh, PAM_USER, c.user);
+   if (verbose_p)
+@@ -848,8 +869,9 @@
+ 					msg[replies]->msg);
+ 
+              /* For our hack to see if the user typed in root passwd to unlock. */
+-             if (strcmp (c->user, "root") == 0)
++             if (not_a_failover_case)
+               {
++               not_a_failover_case = False; /* Reset flag */
+                if (c->verbose_p)
+                 {
+                  write_to_child (si, "Checking if you typed root password");
