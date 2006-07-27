@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.64	06/07/21
+# @(#)Makefile	1.65	06/07/27
 #
 
 PWD:sh=pwd
@@ -119,7 +119,9 @@ INCLUDES=-I/usr/X11/include
 
 # Additional optimization flags, to make the hacks show off the hardware
 # better and we can get away with optimizations not allowed in the core X code
-XS_CFLAGS=$(CFLAGS) -fsimple=2 -nofstore -xprefetch $(XS_ARCH_FLAGS) -xstrconst
+#
+# Temporarily removed -fsimple=2 to avoid bug 6453103 in Studio 11 compilers
+XS_CFLAGS=$(CFLAGS) -nofstore -xprefetch $(XS_ARCH_FLAGS) -xstrconst
 XS_ARCH_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(XS_\1_ARCH_FLAGS\)/'
 XS_sun4_ARCH_FLAGS=-xtarget=ultra2
 
