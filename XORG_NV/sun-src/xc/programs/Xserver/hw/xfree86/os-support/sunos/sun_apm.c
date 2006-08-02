@@ -63,6 +63,7 @@ typedef struct apm_event_info
  very soon...
 */
 #define APM_DEVICE "/dev/apm"
+#define APM_DEVICE1 "/dev/srn"
 
 static pointer APMihPtr = NULL;
 static void sunCloseAPM(void);
@@ -181,7 +182,9 @@ xf86OSPMOpen(void)
     }
 
     if ((fd = open(APM_DEVICE, O_RDWR)) == -1) {
-	return NULL;
+    	if ((fd = open(APM_DEVICE1, O_RDWR)) == -1) {
+		return NULL;
+	}
     }
     xf86PMGetEventFromOs = sunPMGetEventFromOS;
     xf86PMConfirmEventToOs = sunPMConfirmEventToOs;
