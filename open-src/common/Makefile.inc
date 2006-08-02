@@ -1,5 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
+# Copyright 2006 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -27,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.61	06/05/10
+# @(#)Makefile.inc	1.62	06/07/28
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -87,6 +88,14 @@ SUBDIR64:sh=arch | sed 's/^\(.*\)$/\$\(SUBDIR64_\1\)/'
 
 ARCH_MAPFILE:sh=uname -p | sed 's/^\(.*\)$/mapfile_pga_\1/'
 MAPFILE_FLAGS = -M $(TOP)/common/mapfiles/$(ARCH_MAPFILE)
+
+MACH32_sun4	= sparc
+MACH32_i86pc	= i386
+MACH64_sun4 	= sparcv9
+MACH64_i86pc 	= amd64
+
+MACH32:sh=arch | sed 's/^\(.*\)$/\$\(MACH32_\1\)/'
+MACH64:sh=arch | sed 's/^\(.*\)$/\$\(MACH64_\1\)/'
 
 ### Proto directory to install into for packaging
 PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
@@ -165,6 +174,13 @@ source_gen::
 		fi ; \
 	    done ; \
 	fi
+	@if [ "x$(SUNTOUCHED_MANPAGES)" != "x" ] ; then \
+	    echo "/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES)" ; \
+	    (cd $(SOURCE_DIR) && \
+		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
+	fi
 	touch $(BUILD_DIR)/.unpack_done
 
 
@@ -181,6 +197,24 @@ download:
 		$(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ;\
 	fi
 
+### Generate mapfiles to limit/version exported symbols in libraries
+
+SPEC2MAP=       /usr/lib/abi/spec2map
+
+SPECMAP=	mapfile.vers.$(LIBNAME)
+SPECFILE=	spec/$(LIBNAME).spec 
+VERSFILE=	spec/versions
+
+$(BUILD_DIR_32)/$(SPECMAP): $(SPECFILE) $(VERSFILE)
+	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) MACH=$(MACH32) spec_gen
+
+$(BUILD_DIR_64)/$(SPECMAP): $(SPECFILE) $(VERSFILE)
+	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) MACH=$(MACH64) spec_gen
+
+spec_gen:
+	$(SPEC2MAP) -a $(MACH) -v $(VERSFILE) -p -l $(LIBNAME) \
+	 -o $(BUILD_DIR)/$(SPECMAP) $(SPECFILE)
+
 ### Other tools needed to build
 
 # Some modules (such as FreeType 2) require GNU make
@@ -190,4 +224,12 @@ $(GNUMAKE):
 	@echo "Checking for GNU make:"
 	$(GNUMAKE) --version
 
+### Dependencies
+
+# Almost everything depends on the headers in xproto
+XPROTO_DEP=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig/xproto.pc
+
+$(XPROTO_DEP):
+	@echo "Installing dependency proto/X11"
+	(cd $(TOP)/proto/X11 ; make install)
 

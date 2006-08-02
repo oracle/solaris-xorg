@@ -1,5 +1,7 @@
 ###############################################################################
 #
+# Xau 1.x Makefile
+#
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
@@ -28,45 +30,65 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.2	06/07/28
+# @(#)Makefile	1.2	06/08/02
 #
-
-### Makefile settings/rules common to all X.Org protocol modules
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
+BUILD_TYPES=32 64
 
-# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
-BUILD_TYPES=32 
+# Version number (used in path names)
+XAU_VERS=1.0.2
 
 # Source tarball
-SOURCE_TARBALL_NAME=$(PROTO_NAME)-$(VERSION).tar.bz2
+SOURCE_TARBALL_NAME=libXau-$(XAU_VERS).tar.bz2
 
 # Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/proto/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(XORG_RELEASES_URL)/lib/$(SOURCE_TARBALL_NAME)
+
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
 # Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(PROTO_NAME)-$(VERSION)
+SOURCE_DIR=$(BUILD_DIR)/libXau-$(XAU_VERS)
 
-### Include common rulesets
+# Library name (used for specfiles/mapfiles)
+LIBNAME=Xau
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=Xau.man
+SUNTOUCH_MAN_FLAGS= -l Xau \
+ -a '{Availability, SUNWxwplt} {Interface Stability, Committed} {MT-Level, Unsafe}'
+
 include $(TOP)/common/Makefile.inc
 
-# Command line options to GNU autoconf configure script
-PROTO_CFG=--prefix=$(X11_DIR)
+# Where to install files
+XAU_prefix=$(X11_DIR)
 
-build_gen: $(SOURCE_DIR)/Makefile
+# Command line options to GNU autoconf configure script
+CONFIG_OPTS = --enable-shared=yes --enable-static=no \
+	--prefix=$(XAU_prefix) --libdir='$${exec_prefix}/lib$(LIBSUBDIR)' \
+	--enable-xthreads --with-lint --enable-lint-library
+
+# Environment variable options to GNU autoconf configure script
+CONFIG_ENV = CC=$(CC) CFLAGS="$(LIB_CFLAGS)" \
+	LD="$(LD) $(LDFLAGS)"  LDFLAGS="$(LIB_LDFLAGS)" \
+	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig \
+	LIB_MAN_SUFFIX=3Xau
 
 # Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" ./configure $(PROTO_CFG) )
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
+	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
+	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
+# Library built in tree
+XAU_LIB=$(BUILD_DIR)/.libs/libXau.so.6.0.0
+
+build_gen: $(XAU_LIB)
+
+$(XAU_LIB): $(SOURCE_DIR)/Makefile $(BUILD_DIR)/$(SPECMAP)
+	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)" $(MAKE) $(MFLAGS) )
 
 
-
+install_gen: $(XAU_LIB)
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(XAU_prefix)/lib$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig)
