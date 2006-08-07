@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.44 06/29/06 06/06/29
+# @(#)make_release_packages	1.45 08/04/06 06/08/04
 #
 #	Create and fill a package staging area for X
 #
@@ -60,7 +60,7 @@ XW_PACKAGE_LIST="SUNWxwcft SUNWxwdem SUNWxwdim SUNWxwfs SUNWxwinc \
 
 # L10N packages are normally only built on sparc since they only have text
 # files that are the same for both platforms
-if [ "$MACH" = "sparc" ]; then
+if [ "$MACH" = "sparc" -o "x$BUILD_L10N" = "xyes" ]; then
     XW_L10N_PACKAGES="SUNW0xacx SUNW0xman SUNW0xpmn SUNW0xwfa SUNW0xwplt \
 	    SUNW0xwopt SUNW0xwsvr"
 else
