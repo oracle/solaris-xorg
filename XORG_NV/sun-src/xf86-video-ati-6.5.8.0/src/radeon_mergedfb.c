@@ -536,14 +536,26 @@ RADEONGenerateModeList(ScrnInfoPtr pScrn, char* str,
    if(str != NULL) {
       return(RADEONGenerateModeListFromMetaModes(pScrn, str, i, j, srel));
    } else {
-      xf86DrvMsg(pScrn->scrnIndex, X_INFO,
-	"No MetaModes given, linking %s modes by default\n",
-	(srel == radeonClone) ? "largest common" :
-	   (info->NonRect ?
+	if (srel == radeonClone ) {
+      	   DisplayModePtr p, q, result = NULL;
+
+      	   xf86DrvMsg(pScrn->scrnIndex, X_INFO,
+		"Clone mode, list all common modes\n");
+	   for (p = i; p->next != i; p = p->next)
+		for (q = j; q->next != j; q = q->next)
+		   if ((p->HDisplay == q->HDisplay) &&
+			(p->VDisplay == q->VDisplay))
+		   	result = RADEONCopyModeNLink(pScrn, result, p, q, srel);
+	   return result;
+	} else {
+      	   xf86DrvMsg(pScrn->scrnIndex, X_INFO,
+		"No MetaModes given, linking %s modes by default\n",
+	   	(info->NonRect ?
 		(((srel == radeonLeftOf) || (srel == radeonRightOf)) ? "widest" :  "tallest")
 		:
 		(((srel == radeonLeftOf) || (srel == radeonRightOf)) ? "widest common" :  "tallest common")) );
-      return(RADEONGenerateModeListFromLargestModes(pScrn, i, j, srel));
+           return(RADEONGenerateModeListFromLargestModes(pScrn, i, j, srel));
+	}
    }
 }
 
