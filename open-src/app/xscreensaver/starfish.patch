@@ -28,28 +28,26 @@
  *
  */
 
-Sun bug 4818062:
-	mouse-over displays incorrect information
-	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=4818062
+Fix a memory leak and a core dump when resetting the starfish.
+(Submitted upstream to jwz on Aug 9, 2006.)
 
-diff -urp -x '*~' driver/xscreensaver-demo.glade2 driver/xscreensaver-demo.glade2
---- driver/xscreensaver-demo.glade2	2006-05-10 08:49:02.837844000 -0700
-+++ driver/xscreensaver-demo.glade2	2006-05-10 08:49:10.988281000 -0700
-@@ -385,7 +385,7 @@
- 		  <child>
- 		    <widget class="GtkSpinButton" id="lock_spinbutton">
- 		      <property name="visible">True</property>
--		      <property name="tooltip" translatable="yes">How long before the monitor goes completely black.</property>
-+		      <property name="tooltip" translatable="yes">How long before the screen becomes locked.</property>
- 		      <property name="can_focus">True</property>
- 		      <property name="climb_rate">15</property>
- 		      <property name="digits">0</property>
-@@ -439,7 +439,7 @@
- 		  <child>
- 		    <widget class="GtkSpinButton" id="cycle_spinbutton">
- 		      <property name="visible">True</property>
--		      <property name="tooltip" translatable="yes">How long before the monitor goes completely black.</property>
-+		      <property name="tooltip" translatable="yes">How long before the new hack sub-process starts.</property>
- 		      <property name="can_focus">True</property>
- 		      <property name="climb_rate">15</property>
- 		      <property name="digits">0</property>
+diff -urp -x '*~' hacks/starfish.c hacks/starfish.c
+--- hacks/starfish.c	2006-03-12 03:04:27.000000000 -0800
++++ hacks/starfish.c	2006-08-09 13:45:20.130609000 -0700
+@@ -345,6 +345,7 @@ reset_starfish (struct state *st)
+       if (st->colors)
+ 	free (st->colors);
+       st->colors = 0;
++      XFreeGC(st->dpy, st->gc);
+     }
+ 
+   st->ncolors = get_integer_resource (st->dpy, "colors", "Colors");
+@@ -479,6 +480,8 @@ starfish_draw (Display *dpy, Window wind
+             s = reset_starfish (st);
+           else
+             s = make_window_starfish (st);
++
++	  st->starfish = s;
+         }
+     }
+ 

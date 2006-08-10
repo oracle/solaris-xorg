@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.62	06/07/28
+# @(#)Makefile.inc	1.63	06/08/09
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -36,7 +36,8 @@ BUILD_ID = X11 for Solaris Nevada, built $(BUILD_DATE)
 
 ### Default compiler & options
 CC     			= cc
-DEFAULT_OPT_CFLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch
+CXX			= CC
+DEFAULT_OPT_CFLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch -xdepend
 OPT_CFLAGS 		= $(DEFAULT_OPT_CFLAGS)
 CFLAGS 			=  -v -mc $(OPT_CFLAGS) $(ARCH_FLAGS)
 LDFLAGS 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
@@ -51,6 +52,7 @@ LIB_REQUIRED_LDFLAGS	= -z text -z defs
 LIB_LDFLAGS 		= $(LDFLAGS) $(LIB_REQUIRED_LDFLAGS)
 
 # Flags for programs
+PROG_CFLAGS		= $(CFLAGS)
 PROG_LDFLAGS		= $(LDFLAGS) $(MAPFILES_FOR_PROGS) -B direct
 
 # Linker mapfiles to link with for better performance & security
@@ -233,3 +235,29 @@ $(XPROTO_DEP):
 	@echo "Installing dependency proto/X11"
 	(cd $(TOP)/proto/X11 ; make install)
 
+### Useful rules for maintaining patch sets
+
+# regenerate patches against new baseline to reduce messages about hunks
+# having fuzz or offsets when applying patches - new patches will be in new/
+
+regen-patches: $(SOURCE_PATCHES)
+	CUR_LIST=""
+	rm -rf tmp-regen
+	make SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen source_gen
+	mkdir -p new
+	for f in $(SOURCE_PATCHES) ; do \
+	    echo '=================' $$f ; \
+	    rm -rf prev ; \
+	    mv tmp-regen prev ; \
+	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen source_gen ; \
+	    awk '/^--- /	{exit} \
+		 /^diff -u/	{exit} \
+			 	{print}' $$f > new/$$f ; \
+	    gdiff -urp -x '*~' ./prev ./tmp-regen \
+		| sed -e 's% \./prev$(SOURCE_DIR)/% %' -e 's% \./tmp-regen$(SOURCE_DIR)/% %' \
+		| grep -v '^Common subdirectories:' \
+		| grep -v '^Only in ' \
+		>> new/$$f ; \
+	    CUR_LIST="$${CUR_LIST} new/$$f" ; \
+	done
+	rm -rf tmp-regen

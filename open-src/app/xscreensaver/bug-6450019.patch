@@ -1,5 +1,35 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
 Fix for bug id 6450019. I was checking if the user is root before deciding
-wether to prompt the user for password or simply use the cached password 
+whether to prompt the user for password or simply use the cached password 
 for the root hack. This backfired when user logged in as root in which case
 there is no cached flag and we simply do not prompt user for password, 
 causing unlock dialog to not prompt for password and failing continously.
@@ -8,24 +38,24 @@ Also, added a check for chauth_rc failure, in which case we do not unlock
 dialog box. This case was missing if password got expired and xscreensaver
 was letting user back in with expired passwd CR 6417168.
 
---- driver/passwd-pam.c	Thu Jul 20 16:51:39 2006
-+++ driver/passwd-pam.c	Fri Jul 21 11:28:28 2006
-@@ -90,7 +90,14 @@
- 
+diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
+--- driver/passwd-pam.c	2006-08-08 15:25:38.341257000 -0700
++++ driver/passwd-pam.c	2006-08-08 15:25:42.962275000 -0700
+@@ -85,6 +85,13 @@ extern passwd_dialog_data* ptr_mygtkpwd;
  extern saver_info *global_si_kludge;
  extern Bool g_passwd_dialog_created;
+ 
 +/* CR 6450019 Added this flag to track if orig passwd failed and before
 + * trying root passwd. Trick is for orig passwd we prompt user and wait 
 + * in PAM_ECHO_OFF/ON case whereas for root passwd we need to cache it 
 + * and without prompting user send it to PAM to try root.
 + */
 +static Bool not_a_failover_case = False; 
- 
 +
- /* blargh */
- #undef  Bool
- #undef  True
-@@ -579,6 +586,15 @@
+ extern sigset_t block_sigchld (void);
+ extern void unblock_sigchld (void);
+ 
+@@ -585,6 +592,15 @@ pam_passwd_valid_p (void)
            goto DONE;
           }
  	}
@@ -41,19 +71,20 @@ was letting user back in with expired passwd CR 6417168.
  
        /* Each time we successfully authenticate, refresh credentials,
           for Kerberos/AFS/DCE/etc.  If this fails, just ignore that
-@@ -626,6 +642,11 @@
+@@ -635,6 +651,12 @@ pam_passwd_valid_p (void)
+   if (user) free (user);
    user = strdup ("root");
    c.user = user;
- 
++ 
 +  not_a_failover_case = True; /* Set this so user is not prompted for root
 +                               * passwd instead the cached passwd from above
 +                               * call to pam_authenticate() is used. 
 +                               */
 +
-   status = -1;  	/* Reset status */
    status = pam_set_item (pamh, PAM_USER, c.user);
    if (verbose_p)
-@@ -848,8 +869,9 @@
+     fprintf (stderr, "%s:   pam_set_item(p, PAM_USER, \"%s\") ==> %d (%s)\n",
+@@ -857,8 +879,9 @@ pam_conversation (int nmsgs,
  					msg[replies]->msg);
  
               /* For our hack to see if the user typed in root passwd to unlock. */

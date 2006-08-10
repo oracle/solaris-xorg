@@ -34,18 +34,22 @@ Various settings to meet Sun/Solaris policies/customizations, including:
    -    disable using screen grabs in hacks to avoid security leaks
    -    set default mode to screen blank
    -    disable bsod by default to avoid confusion in shops with real NT boxes
+   -    enable & disable various hacks by default for aesthetic reasons
 4871833 DPMS settings should be consistent between CDE and Gnome
 6368607 increase unlock dialog box timeout to 2 minutes
 
 
 diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
---- driver/XScreenSaver.ad.in	2002-06-11 02:09:05.000000000 -0700
-+++ driver/XScreenSaver.ad.in	2006-05-10 08:48:06.305863000 -0700
-@@ -28,21 +28,21 @@
+--- driver/XScreenSaver.ad.in	2006-05-23 16:01:34.000000000 -0700
++++ driver/XScreenSaver.ad.in	2006-08-08 15:24:18.298277000 -0700
+@@ -28,39 +28,40 @@
  
  ! /* (xrdb prevention kludge: whole file)
  
+-*mode:			random
 -*timeout:		0:10:00
++! We want the default mode to be just blank the screen
++*mode:			blank
 +*timeout:		0:15:00
  *cycle:			0:10:00
 -*lockTimeout:		0:00:00
@@ -63,17 +67,16 @@ diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
 +*dpmsOff:		0:30:00
 +*grabDesktopImages:	False
  *grabVideoFrames:	False
- *chooseRandomImages:	False
- *imageDirectory:	
+ *chooseRandomImages:	@DEFAULT_IMAGES_P@
+ *imageDirectory:	@DEFAULT_IMAGE_DIRECTORY@
 -*nice:			10
 +*nice:			19
  *memoryLimit:		0
 -*lock:			False
 +*lock:			True
- *lockVTs:		True
  *verbose:		False
  *timestamp:		True
-@@ -50,11 +50,11 @@
+ *fade:			True
  *unfade:		False
  *fadeSeconds:		0:00:03
  *fadeTicks:		20
@@ -81,27 +84,227 @@ diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
 +*splash:		False
  *splashDuration:	0:00:05
  *visualID:		default
+ *captureStderr: 	True
+ *ignoreUninstalledPrograms: False
  
--*captureStderr: 	True
-+*captureStderr: 	False
+-*textMode:		file
++*textMode:		date
+ *textLiteral:		XScreenSaver
+ *textFile:		@DEFAULT_TEXT_FILE@
+-*textProgram:		fortune
+-*textURL:		http://www.livejournal.com/stats/latest-rss.bml
++*textProgram:		date
++*textURL:		http://blogs.sun.com/roller/rss
+ 
  *overlayTextForeground:	#FFFF00
  *overlayTextBackground:	#000000
- *overlayStderr:		True
-@@ -102,6 +102,8 @@
+@@ -149,9 +150,9 @@ GetViewPortIsFullOfLies: False
+ ! screen savers interactively.
  !
- *installColormap:	True
- 
-+! We want the default mode to be just blank the screen
-+*mode: blank
- 
- ! Any program which can draw on the root window will work as a screensaver.
- ! The following resource enumerates them.
-@@ -227,7 +229,7 @@
+ *programs:								      \
+-		 "Qix (solid)" 	qix -root -solid -segments 100		    \n\
+-	   "Qix (transparent)" 	qix -root -count 4 -solid -transparent	    \n\
+-		"Qix (linear)" 	qix -root -count 5 -solid -transparent	      \
++-		 "Qix (solid)" 	qix -root -solid -segments 100		    \n\
++-	   "Qix (transparent)" 	qix -root -count 4 -solid -transparent	    \n\
++-		"Qix (linear)" 	qix -root -count 5 -solid -transparent	      \
+ 				  -linear -segments 250 -size 100	    \n\
+ 									      \
+ 	  "Attraction (balls)" 	attraction -root -mode balls		    \n\
+@@ -164,11 +165,11 @@ GetViewPortIsFullOfLies: False
+ 									      \
+ 				pyro -root				    \n\
+ 				rocks -root				    \n\
+-				helix -root				    \n\
+-				pedal -root				    \n\
+-				rorschach -root				    \n\
++-				helix -root				    \n\
++-				pedal -root				    \n\
++-				rorschach -root				    \n\
+ 				hopalong -root				    \n\
+-				greynetic -root				    \n\
++-				greynetic -root				    \n\
+ 				imsmap -root				    \n\
+ 				slidescreen -root			    \n\
+ 				decayscreen -root			    \n\
+@@ -179,49 +180,49 @@ GetViewPortIsFullOfLies: False
+ 				spotlight -root				    \n\
+ 	      "Ripples (stir)"	ripples -root -oily -light 2 -stir	    \n\
+ 	   "Ripples (desktop)"	ripples -root -water -light 6		    \n\
+-				hypercube -root				    \n\
++-				hypercube -root				    \n\
+ -				hyperball -root				    \n\
+ 				halo -root				    \n\
+ 				maze -root				    \n\
+ 				noseguy -root				    \n\
+-				flame -root				    \n\
++-				flame -root				    \n\
+ -				lmorph -root				    \n\
+ 				deco -root				    \n\
+-				moire -root				    \n\
+-				moire2 -root				    \n\
++-				moire -root				    \n\
++-				moire2 -root				    \n\
+ 				lightning -root				    \n\
+ 				strange -root				    \n\
+ -				spiral -root				    \n\
+-				laser -root				    \n\
++-				laser -root				    \n\
+ 	       			grav -root				    \n\
+ 				drift -root				    \n\
+ 				ifs -root				    \n\
+-				julia -root				    \n\
++-				julia -root				    \n\
+ 				penrose -root				    \n\
+ -				sierpinski -root			    \n\
+ 				braid -root				    \n\
+ 				galaxy -root				    \n\
+ 				bouboule -root				    \n\
+ 				swirl -root				    \n\
+-				flag -root				    \n\
+-				sphere -root				    \n\
+-				forest -root				    \n\
++-				flag -root				    \n\
++-				sphere -root				    \n\
++-				forest -root				    \n\
+ -				lisa -root				    \n\
+ -				lissie -root				    \n\
+ 				goop -root				    \n\
+ 				starfish -root				    \n\
+-				munch -root				    \n\
++-				munch -root				    \n\
+ 				mismunch -root				    \n\
+ 				fadeplot -root				    \n\
+-				coral -root				    \n\
++-				coral -root				    \n\
+ 				mountain -root				    \n\
+ 				triangle -root				    \n\
+ -				worm -root				    \n\
+ -				rotor -root				    \n\
+--				demon -root				    \n\
++				demon -root				    \n\
+ -				loop -root				    \n\
+ -				vines -root				    \n\
+-				kaleidescope -root			    \n\
++-				kaleidescope -root			    \n\
+ 				xjack -root				    \n\
+ 				xlyap -root				    \n\
+ 				cynosure -root				    \n\
+@@ -229,7 +230,7 @@ GetViewPortIsFullOfLies: False
  				epicycle -root				    \n\
  				interference -root			    \n\
- 				truchet -root -randomize		    \n\
+ 				truchet -root				    \n\
 -				bsod -root				    \n\
 +-				bsod -root				    \n\
  				crystal -root				    \n\
  				discrete -root				    \n\
  				kumppa -root				    \n\
+@@ -239,9 +240,9 @@ GetViewPortIsFullOfLies: False
+ 				t3d -root				    \n\
+ 				penetrate -root				    \n\
+ 				deluxe -root				    \n\
+-				compass -root				    \n\
++-				compass -root				    \n\
+ 				squiral -root				    \n\
+-				xflame -root				    \n\
++				xflame -root -bitmap /usr/share/pixmaps/gnome-logo-large.png \n\
+ 				wander -root				    \n\
+ 	      "Wander (spots)" 	wander -root -advance 0 -size 10 -circles     \
+ 				  -length 10000 -reset 100000		    \n\
+@@ -259,18 +260,18 @@ GetViewPortIsFullOfLies: False
+ 				bumps -root				    \n\
+ 				xanalogtv -root				    \n\
+ 				xspirograph -root			    \n\
+-				nerverot -root				    \n\
++-				nerverot -root				    \n\
+ 				xrayswarm -root				    \n\
+ -	       "Zoom (Fatbits)"	zoom -root				    \n\
+ 	       "Zoom (Lenses)"	zoom -root -lenses			    \n\
+ 				rotzoomer -root				    \n\
+ 				whirlwindwarp -root			    \n\
+  	            		whirlygig -root				    \n\
+- 	            		speedmine -root				    \n\
+- 	            "SpeedWorm"	speedmine -root -worm			    \n\
++- 	            		speedmine -root				    \n\
++- 	            "SpeedWorm"	speedmine -root -worm			    \n\
+  	                	vermiculate -root			    \n\
+  	                	twang -root				    \n\
+- 	                	apollonian -root			    \n\
++- 	                	apollonian -root			    \n\
+  	                	euler2d -root				    \n\
+ 	     "Euler2d (dense)"	euler2d -root -count 4000 -eulertail 400      \
+ 				  -ncolors 230				    \n\
+@@ -287,11 +288,9 @@ GetViewPortIsFullOfLies: False
+  	                	piecewise -root				    \n\
+  	                	cloudlife -root				    \n\
+ 		   		fontglide -root				    \n\
+-				apple2 -root				    \n\
+                                 bubbles -root				    \n\
+ 				pong -root				    \n\
+ 				wormhole -root				    \n\
+-				pacman -root				    \n\
+ 				fuzzyflakes -root			    \n\
+ 				anemotaxis -root			    \n\
+ 				memscroller -root			    \n\
+@@ -352,7 +351,6 @@ GetViewPortIsFullOfLies: False
+ @GL_KLUDGE@ GL:			endgame -root				    \n\
+ -	   GL:			glblur -root				    \n\
+ @GL_KLUDGE@ GL:			atunnel -root				    \n\
+-@GL_KLUDGE@ GL:			flyingtoasters -root			    \n\
+ @GL_KLUDGE@ GL:			bouncingcow -root			    \n\
+ @GL_KLUDGE@ GL:			jigglypuff -root			    \n\
+ @GL_KLUDGE@ GL:			klein -root				    \n\
+@@ -363,23 +361,23 @@ GetViewPortIsFullOfLies: False
+ @GL_KLUDGE@ GL:			blocktube -root				    \n\
+ @GL_KLUDGE@ GL:			flipflop -root				    \n\
+ @GL_KLUDGE@ GL:			antspotlight -root			    \n\
+--	   GL:			glslideshow -root			    \n\
++@GL_KLUDGE@ GL:			glslideshow -root			    \n\
+ @GL_KLUDGE@ GL:			polytopes -root				    \n\
+ @GL_KLUDGE@ GL:			gleidescope -root			    \n\
+-- 	   GL:			mirrorblob -root			    \n\
+-@GL_KLUDGE@ GL:	    "MirrorBlob (color only)"				      \
++@GL_KLUDGE@ GL:			mirrorblob -root			    \n\
++-	   GL:	    "MirrorBlob (color only)"				      \
+                                 mirrorblob -root -colour -no-texture	    \n\
+ @GL_KLUDGE@ GL:			blinkbox -root				    \n\
+ @GL_KLUDGE@ GL:			noof -root				    \n\
+ @GL_KLUDGE@ GL:			polyhedra -root				    \n\
+--	   GL:                  antinspect -root                            \n\
+-@GL_KLUDGE@ GL:			providence -root			    \n\
++@GL_KLUDGE@ GL:			antinspect -root                            \n\
++-	   GL:			providence -root			    \n\
+ @GL_KLUDGE@ GL:	"Pinion (large gears)"	pinion -root			    \n\
+ @GL_KLUDGE@ GL:	"Pinion (small gears)"	pinion -root -size 0.2 -scroll 0.3  \n\
+ @GL_KLUDGE@ GL:			boing -root -lighting -smooth		    \n\
+--	   GL:                  carousel -root                              \n\
++@GL_KLUDGE@ GL:			carousel -root                              \n\
+ @GL_KLUDGE@ GL:			fliptext -root				    \n\
+--	   GL:                  antmaze -root                               \n\
++@GL_KLUDGE@ GL:			antmaze -root                               \n\
+ @GL_KLUDGE@ GL:			tangram -root				    \n\
+ @GL_KLUDGE@ GL:			crackberg -root				    \n\
+ @GL_KLUDGE@ GL:			glhanoi -root				    \n\
+@@ -452,12 +450,12 @@ XScreenSaver.bourneShell:		/bin/sh
+ *Dialog.shadowThickness:	2
+ 
+ *passwd.heading.label:		XScreenSaver %s
+-*passwd.body.label:		Please enter your password.
++*passwd.body.label:		This display is locked.
+ *passwd.login.label:		New Login
+ *passwd.user.label:		Username:
+ *passwd.passwd.label:		Password:
+ *passwd.thermometer.width:	8
+-*passwd.asterisks:              True
++*passwd.asterisks:              False
+ *passwd.uname:                  True
+ 
+ *splash.heading.label:		XScreenSaver %s
+@@ -512,7 +510,6 @@ XScreenSaver.bourneShell:		/bin/sh
+ *hacks.electricsheep.name:  ElectricSheep
+ *hacks.sphereEversion.name: SphereEversion
+ *hacks.fluidballs.name:     FluidBalls
+-*hacks.flyingtoasters.name: FlyingToasters
+ *hacks.bouncingcow.name:    BouncingCow
+ *hacks.jigglypuff.name:     JigglyPuff
+ *hacks.hypertorus.name:     HyperTorus

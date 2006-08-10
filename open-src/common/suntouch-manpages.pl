@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)suntouch-manpages.pl	1.1	06/07/28
+# @(#)suntouch-manpages.pl	1.2	06/08/09
 #
 
 # Updates manual pages to include standard Sun man page sections
@@ -37,13 +37,14 @@
 # Arguments: 
 #	-a '{attribute, value}, ...' - entries for Attributes section table
 #	-l libname		     - add library line to synopsis
+#	-p path			     - add path to command in synopsis
 
 use Getopt::Std;
 use integer;
 use strict;
 
 my %opts;
-getopts('a:l:', \%opts);
+getopts('a:l:p:', \%opts);
 
 my $add_attributes = 0;
 my $attributes;
@@ -59,6 +60,14 @@ my $library;
 if (exists($opts{"l"})) {
   $add_library_to_synopsis = 1;
   $library = $opts{"l"};
+}
+
+my $add_path_to_synopsis = 0;
+my $synpath;
+
+if (exists($opts{"p"})) {
+  $add_path_to_synopsis = 1;
+  $synpath = $opts{"p"};
 }
 
 my $filename;
@@ -97,11 +106,16 @@ while ($filename = shift) {
   while ($nextline = <IN>) {
     print OUT $nextline;
 
-    if ($add_library_to_synopsis) {
-      if ($nextline =~ m/.SH[\s "]*SYNOPSIS/) {
+    if ($nextline =~ m/.SH[\s "]*SYNOPSIS/) {
+      if ($add_library_to_synopsis) {
 	print OUT ".nf\n",
 	  q(\fBcc\fR [ \fIflag\fR\&.\&.\&. ] \fIfile\fR\&.\&.\&. \fB\-l),
 	    $library, q(\fR [ \fIlibrary\fR\&.\&.\&. ]), "\n.fi\n";
+      }
+      elsif ($add_path_to_synopsis) {
+	$nextline = <IN>;
+	$nextline =~ s/^(\.B[IR]*\s+\"?)/$1$synpath/;
+	print OUT $nextline;
       }
     }
   }

@@ -50,18 +50,18 @@ Sun bug 6176524:
 	http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=6176524
 
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2006-05-10 08:49:37.280822000 -0700
-+++ driver/demo-Gtk.c	2006-05-10 08:49:43.010409000 -0700
-@@ -84,6 +84,8 @@
- #include <glade/glade-xml.h>
- #endif /* HAVE_GTK2 */
+--- driver/demo-Gtk.c	2006-08-09 14:27:11.803220000 -0700
++++ driver/demo-Gtk.c	2006-08-09 14:27:18.141511000 -0700
+@@ -98,6 +98,8 @@
+ # define G_MODULE_EXPORT /**/
+ #endif /* !HAVE_GTK2 */
  
 +#include <gconf/gconf-client.h>
 +
  #if defined(DEFAULT_ICONDIR) && !defined(GLADE_DIR)
  # define GLADE_DIR DEFAULT_ICONDIR
  #endif
-@@ -3826,6 +3828,10 @@ create_xscreensaver_settings_dialog (voi
+@@ -4578,6 +4580,10 @@ create_xscreensaver_settings_dialog (voi
  
  #endif /* HAVE_GTK2 */
  
@@ -72,8 +72,8 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  int
  main (int argc, char **argv)
  {
-@@ -3840,6 +3846,12 @@ main (int argc, char **argv)
-   char window_title[255];
+@@ -4593,6 +4599,12 @@ main (int argc, char **argv)
+   char *geom = 0;
    Bool crapplet_p = False;
    char *str;
 +/*
@@ -85,9 +85,9 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  
  #ifdef ENABLE_NLS
    bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-@@ -4067,6 +4079,15 @@ main (int argc, char **argv)
-   p->db = db;
-   load_init_file (p);
+@@ -4876,6 +4888,15 @@ main (int argc, char **argv)
+ 
+   load_init_file (dpy, p);
    initialize_sort_map (s);
 +  /* Bug 147639:Gok cant automatically UI grab screensaver preferences
 +  */
@@ -102,11 +102,11 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
    /* Now that Xt has been initialized, and the resources have been read,
       we can set our `progname' variable to something more in line with
 diff -urp -x '*~' driver/lock.c driver/lock.c
---- driver/lock.c	2006-05-10 08:49:37.437773000 -0700
-+++ driver/lock.c	2006-05-10 08:49:43.058171000 -0700
-@@ -25,6 +25,7 @@
- 
+--- driver/lock.c	2006-08-09 14:27:11.540710000 -0700
++++ driver/lock.c	2006-08-09 14:27:18.181823000 -0700
+@@ -21,6 +21,7 @@
  #include <X11/Intrinsic.h>
+ #include <X11/cursorfont.h>
  #include <X11/Xos.h>		/* for time() */
 +#include <X11/Xatom.h>
  #include <time.h>
@@ -115,21 +115,19 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
 @@ -77,6 +78,10 @@ vms_passwd_valid_p(char *pw, Bool verbos
  
  #endif /* VMS */
-  
+ 
 +/* 5059445(p3) screen kb and reader support */
-+extern
-+int grab_mouse (saver_info *si, Window window, Cursor cursor, int screen_no);
++extern int grab_mouse (saver_info *si, Window window, Cursor cursor, int screen_no);
 +extern int grab_kbd (saver_info *si, Window window,  int screen_no);
- extern void await_dying_children (saver_info *si);
++
+ extern int kill_job (saver_info *si, pid_t pid, int signal);
+ extern struct screenhack_job *make_job (pid_t pid, int screen, const char *cmd);
  void hack_uid (saver_info *si);
- 
-@@ -181,8 +186,106 @@ void update_passwd_window (saver_info *s
- 				  float ratio);
- void destroy_passwd_window (saver_info *si);
- static void undo_vp_motion (saver_info *si);
-+/* GOK bug */
- 
+@@ -99,6 +104,105 @@ static void handle_passwd_button (saver_
  extern Atom XA_UNLOCK_RATIO;
+ 
+ 
++/* GOK bug */
 +Window at_win[4] = {0,0,0,0};	/* wIds for XRestackWindows() */
 +				/* dialog, GOK, or MAG or screenSaver */
 +
@@ -227,10 +225,11 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
 + else 
 +	return 0;
 +}
++
+ static int  ignore_all_errors_ehandler (Display *dpy, XErrorEvent *error);
  
- #if defined (HAVE_XF86VMODE) || defined (HAVE_XSCREENSAVER_LOCK)
- static Bool vp_got_error = False;
-@@ -258,6 +361,7 @@ handle_passwd_input (XtPointer data, int
+ #ifdef HAVE_XSCREENSAVER_LOCK
+@@ -164,6 +268,7 @@ handle_passwd_input (XtPointer data, int
    saver_preferences *p = &si->prefs;
    char buffer[1024];
    char *s;
@@ -238,7 +237,7 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
  
    if (si->prefs.verbose_p)
      fprintf (stderr, "passwd input handler() fd=%d\n",*fd);
-@@ -300,9 +404,100 @@ handle_passwd_input (XtPointer data, int
+@@ -206,9 +311,100 @@ handle_passwd_input (XtPointer data, int
    else /* Get the window id of lock dialog from Child ***/
      {
        Window window = strtoul (s, NULL, 0);
@@ -341,17 +340,15 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
        si->pw_data->got_windowid = True;
        si->passwd_dialog = window;
        /**g_passwd_dialog_created = True;**/ /*set global flag to check in timers.c*/
-@@ -469,7 +664,9 @@ make_window (saver_info *si, enum window
- 	  si->external_passwd = True;
- 	  return;
- 	}
-+    }
+@@ -363,6 +559,7 @@ make_window (saver_info *si, enum window
+       return;
+     }
    si->external_passwd = False;
 +  si->at_external_passwd = False;
    /* FIXME: don't abort() */
    /*abort ();*/
- #endif /* HAVE_XSCREENSAVER_LOCK */
-@@ -1129,6 +1326,13 @@ destroy_passwd_window (saver_info *si)
+ #endif /* HAVE_XSCREENSAVER_LOCK */ 
+@@ -1123,6 +1320,13 @@ destroy_passwd_window (saver_info *si)
    Colormap cmap;
    Pixel black, white;
    XEvent event;
@@ -365,18 +362,18 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
  
    if (si->prefs.verbose_p)
      fprintf (stderr, "destroy_passwd_window\n");
-@@ -1186,6 +1390,7 @@ destroy_passwd_window (saver_info *si)
-       unblock_sigchld ();
+@@ -1171,6 +1375,7 @@ destroy_passwd_window (saver_info *si)
+ 	}
        
        si->external_passwd = False;
 +      si->at_external_passwd = False;
-     }
+      }     
    else
  #endif /* HAVE_XSCREENSAVER_LOCK */
-@@ -1324,6 +1529,19 @@ destroy_passwd_window (saver_info *si)
-      free (pw);
-      si->pw_data = 0;
-    ************/
+@@ -1292,6 +1497,19 @@ destroy_passwd_window (saver_info *si)
+   free (pw);
+   si->pw_data = 0;
+   ************/
 +
 + for (j= 1; j < 3 ; j++)
 + {
@@ -393,7 +390,7 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
  }
  
  
-@@ -1574,6 +1792,10 @@ passwd_animate_timer (XtPointer closure,
+@@ -1540,6 +1758,10 @@ passwd_animate_timer (XtPointer closure,
        event.xclient.data.l[1] = 0;
        event.xclient.data.l[2] = 0;
  
@@ -404,21 +401,18 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
        XSync (si->dpy, False);
        old_handler = XSetErrorHandler (ignore_all_errors_ehandler);
        
-@@ -1687,8 +1909,13 @@ passwd_event_loop (saver_info *si)
-   saver_preferences *p = &si->prefs;
-   char *msg = 0;
+@@ -1709,6 +1931,10 @@ passwd_event_loop (saver_info *si)
    XEvent event;
+   unsigned int caps_p = 0;
+ 
 +/* bugid 6176524 passwdTimeout and reset timer for each key press */
 +  passwd_dialog_data *pw = si->pw_data;
 +  int ii;
 +
    passwd_animate_timer ((XtPointer) si, 0);
  
-+      
    while (si->pw_data && si->pw_data->state == pw_read)
-     {
-       XtAppNextEvent (si->app, &event);
-@@ -1697,7 +1924,7 @@ passwd_event_loop (saver_info *si)
+@@ -1719,7 +1945,7 @@ passwd_event_loop (saver_info *si)
  	{
  	  if (si->pw_data->got_windowid)
  	    {
@@ -427,7 +421,7 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
  	      XErrorHandler old_handler;
  	     
                if(p->verbose_p)
-@@ -1713,6 +1940,22 @@ passwd_event_loop (saver_info *si)
+@@ -1735,6 +1961,22 @@ passwd_event_loop (saver_info *si)
                XSync (si->dpy, False);
                XSetErrorHandler (old_handler);
  
@@ -450,7 +444,7 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
                if (p->verbose_p)
                  {
                    if (status)
-@@ -1758,8 +2001,61 @@ passwd_event_loop (saver_info *si)
+@@ -1775,8 +2017,61 @@ passwd_event_loop (saver_info *si)
  	  si->pw_data->state = pw_read;
         }
  
@@ -514,9 +508,9 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
  
    switch (si->pw_data->state)
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:49:37.424123000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:49:43.046876000 -0700
-@@ -808,6 +808,21 @@ initialize_per_screen_info (saver_info *
+--- driver/xscreensaver.c	2006-08-09 14:27:11.897652000 -0700
++++ driver/xscreensaver.c	2006-08-09 14:27:18.183551000 -0700
+@@ -933,6 +933,21 @@ initialize_per_screen_info (saver_info *
  	      get_visual (ssi->screen, "GrayScale", True, False))
  	    found_any_writable_cells = True;
  	}
@@ -538,7 +532,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
      }
  
    si->fading_possible_p = found_any_writable_cells;
-@@ -1026,6 +1041,18 @@ main_loop (saver_info *si)
+@@ -1168,6 +1183,18 @@ main_loop (saver_info *si)
  {
    saver_preferences *p = &si->prefs;
    /* Bool ok_to_unblank; made this a global flag, gets set in timers.c */
@@ -558,9 +552,9 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
    while (1)
      {
 diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
---- driver/xscreensaver.h	2006-05-10 08:49:37.266733000 -0700
-+++ driver/xscreensaver.h	2006-05-10 08:49:43.045439000 -0700
-@@ -286,6 +286,8 @@ struct saver_screen_info {
+--- driver/xscreensaver.h	2006-08-09 14:27:11.790468000 -0700
++++ driver/xscreensaver.h	2006-08-09 14:27:18.199788000 -0700
+@@ -302,6 +302,8 @@ struct saver_screen_info {
    GC stderr_gc;
    Window stderr_overlay_window;    /* Used if the server has overlay planes */
    Colormap stderr_cmap;

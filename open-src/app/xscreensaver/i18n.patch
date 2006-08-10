@@ -29,35 +29,22 @@
  */
 
 Fixes for bugs that cause problems localizing xscreensaver:
-4806728 Dialognostics should be Diagnostics
 6203951 xscreensaver-lock was not properly l10ned
 
-diff -urp -x '*~' driver/xscreensaver-demo.glade2 driver/xscreensaver-demo.glade2
---- driver/xscreensaver-demo.glade2	2006-05-10 08:48:52.368024000 -0700
-+++ driver/xscreensaver-demo.glade2	2006-05-10 08:48:56.382041000 -0700
-@@ -1094,7 +1094,7 @@ Available</property>
- 			    <widget class="GtkCheckButton" id="verbose_button">
- 			      <property name="visible">True</property>
- 			      <property name="can_focus">True</property>
--			      <property name="label" translatable="yes">_Verbose Dialognostics</property>
-+			      <property name="label" translatable="yes">_Verbose Diagnostics</property>
- 			      <property name="use_underline">True</property>
- 			      <property name="relief">GTK_RELIEF_NORMAL</property>
- 			      <property name="active">False</property>
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:48:52.422327000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:48:56.397896000 -0700
-@@ -127,6 +127,9 @@
- #include <stdio.h>
+--- driver/xscreensaver.c	2006-08-08 15:24:55.054560000 -0700
++++ driver/xscreensaver.c	2006-08-08 15:25:01.031812000 -0700
+@@ -142,6 +142,9 @@
  #include <ctype.h>
  #include <X11/Xlib.h>
+ 
 +#include <locale.h>
 +#include <libintl.h>
-+#include <X11/Xlibint.h>
++
+ #include <X11/Xlibint.h>
+ 
  #include <X11/Xatom.h>
- #include <X11/Intrinsic.h>
- #include <X11/StringDefs.h>
-@@ -1305,6 +1308,15 @@ main (int argc, char **argv)
+@@ -1454,6 +1457,15 @@ main (int argc, char **argv)
    saver_preferences *p = &si->prefs;
    int i;
  
@@ -72,4 +59,4 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
 +
    memset(si, 0, sizeof(*si));
  
- #ifdef HAVE_SCF_SMARTCARD
+ /* Initialize and point si to pw_data i.e. the lock dialog struct */

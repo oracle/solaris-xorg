@@ -28,23 +28,18 @@
  *
  */
 
-6348365 - S_IFMT comparison abuse in X
-Submitted to jwz 11/9/2005 - accepted into xscreensaver 4.24
+You must include <X11/Xlib.h> before <X11/Xutil.h> on systems based on
+X11R6.6 and earlier.   (XFree86 and X11R6.7 and later added the include
+directly to Xutil.h.)
 
-
-diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
---- driver/passwd-pam.c	2002-03-03 19:57:17.000000000 -0800
-+++ driver/passwd-pam.c	2006-05-10 08:48:01.063112000 -0700
-@@ -310,7 +310,11 @@ pam_priv_init (int argc, char **argv, Bo
-   const char file2[] = "/etc/pam.conf";
-   struct stat st;
- 
--  if (stat (dir, &st) == 0 && st.st_mode & S_IFDIR)
-+#ifndef S_ISDIR
-+# define S_ISDIR(mode)   (((mode) & S_IFMT) == S_IFDIR)
-+#endif
-+  
-+  if (stat (dir, &st) == 0 && S_ISDIR(st.st_mode))
-     {
-       if (stat (file, &st) != 0)
-         fprintf (stderr,
+diff -urp -x '*~' hacks/apple2-main.c hacks/apple2-main.c
+--- hacks/apple2-main.c	2006-03-26 21:34:17.000000000 -0800
++++ hacks/apple2-main.c	2006-08-08 15:26:04.882637000 -0700
+@@ -27,6 +27,7 @@
+ #ifndef HAVE_COCOA
+ # define XK_MISCELLANY
+ # include <X11/keysymdef.h>
++# include <X11/Xlib.h>
+ # include <X11/Xutil.h>
+ # include <X11/Intrinsic.h>
+ #endif

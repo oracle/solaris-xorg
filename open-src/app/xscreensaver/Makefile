@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.65	06/07/27
+# @(#)Makefile	1.66	06/08/09
 #
 
 PWD:sh=pwd
@@ -38,42 +38,40 @@ TOP=$(PWD)/../..
 BUILD_TYPES=32
 
 # Version number (used in path names)
-XSCREENSAVER_VERS=4.05
+XSCREENSAVER_VERS=5.00
 
 # Source tarball
 SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.gz
 
-# Download site for source - master site no longer carries 4.05 so we use
-# a mirror site until we upgrade to a newer version
-#SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
-SOURCE_URL=http://slackware.osuosl.org/unsupported/source/gnome-1.4.1/xscreensaver/$(SOURCE_TARBALL_NAME)
+# Download site for source
+SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	solaris-suncc-fixes.patch \
-	s_isdir.patch \
 	Sun.app-defaults.patch \
 	GNOME-desktop.patch \
 	solaris-paths.patch \
 	dont-bug-jwz.patch \
 	gtk-lock.patch \
 	allow-root.patch \
-	scf-smartcard.patch \
 	passwdTimeout-pref.patch \
 	xinput.patch \
 	i18n.patch \
 	debug-msgs.patch \
-	tooltips.patch \
 	dpms.patch \
 	IPv6.patch \
 	gl-error-capture.patch \
-	blurb.patch \
 	accessibility.patch \
-	misc.patch \
 	trusted.patch \
-        pam_audit.patch \
-        bug-6450019.patch
+	pam_audit.patch \
+	bug-6450019.patch \
+	Sun-colors.patch \
+	barcode-hack.patch \
+	starfish.patch \
+	glsnake.patch \
+	apple2.patch \
+	topblock.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
@@ -102,14 +100,25 @@ OPENGL_DIR_i86pc=/usr/X11
 OPENGL_DIR:sh=arch | sed 's/^\(.*\)$/\$\(OPENGL_DIR_\1\)/'
 
 # Command line options to GNU autoconf configure script
-XS_CFG=--prefix=/usr/openwin/ --enable-maintainer-mode --enable-gtk-doc --with-shadow --with-dpms --enable-locking --disable-screengrab --enable-dpms --with-gtk2=/usr --with-gl=$(OPENGL_DIR) --with-pixbuf=/usr  --with-pam=/usr --without-motif --with-jpeg=/usr/sfw --mandir='$${prefix}/share/man' --libexecdir='$${prefix}/lib/xscreensaver/bin' --datadir='$${prefix}/share' --with-hackdir=lib/xscreensaver/hacks --with-configdir=lib/xscreensaver/config/control-center-2.0 --with-gnome --with-scf-smartcard
+XS_CFG= --prefix=/usr/X11 --enable-maintainer-mode \
+ --with-gnome --enable-gtk-doc --with-gtk2=/usr --with-pixbuf=/usr \
+ --enable-locking --with-pam=/usr --without-shadow --without-kerberos \
+ --with-dpms --enable-dpms --disable-screengrab \
+ --with-gl=$(OPENGL_DIR)  --without-motif --with-jpeg=/usr \
+ --mandir='$${prefix}/share/man' --datadir='$${prefix}/share' \
+ --libexecdir='$${prefix}/lib/xscreensaver/bin' \
+ --with-hackdir='$${prefix}/lib/xscreensaver/hacks' \
+ --with-configdir=/usr/X11/lib/xscreensaver/config/control-center-2.0 \
+ --with-image-directory=/usr/share/pixmaps/backgrounds \
+ --with-text-file=/etc/motd \
+ --with-x-app-defaults=/usr/X11/lib/X11/app-defaults
 
 # BINARY built in tree
 XS_BIN=$(SOURCE_DIR)/xscreensaver
 
 # Messages for translation
 XS_POT=$(SOURCE_DIR)/po/xscreensaver.pot
-POT_DEST=$(PROTODIR)/usr/openwin/share/locale/C/LC_MESSAGES
+POT_DEST=$(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
 
 # Man pages
 XS_MAN=$(SOURCE_DIR)/driver/xscreensaver.man.orig
@@ -119,9 +128,7 @@ INCLUDES=-I/usr/X11/include
 
 # Additional optimization flags, to make the hacks show off the hardware
 # better and we can get away with optimizations not allowed in the core X code
-#
-# Temporarily removed -fsimple=2 to avoid bug 6453103 in Studio 11 compilers
-XS_CFLAGS=$(CFLAGS) -nofstore -xprefetch $(XS_ARCH_FLAGS) -xstrconst
+XS_CFLAGS=$(CFLAGS) -fsimple=2 -nofstore -xprefetch $(XS_ARCH_FLAGS) -xstrconst
 XS_ARCH_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(XS_\1_ARCH_FLAGS\)/'
 XS_sun4_ARCH_FLAGS=-xtarget=ultra2
 
@@ -159,15 +166,23 @@ $(XS_POT): $(SOURCE_DIR)/Makefile
 
 # Add Sun attributes section to man pages
 $(XS_MAN):
-	for f in $(SOURCE_DIR)/driver/*.man ; do \
-	  if [ ! -f $$f.orig ] ; then \
-	    mv $$f $$f.orig ; \
-	  fi ; \
-	  cat	$(TOP)/common/table-prepend \
-		$$f.orig \
-		$(TOP)/common/sunman-stability \
-	    | sed 's/__package__/SUNWxscreensaver/g' > $$f ; \
-	done
+	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+	    -a '{Availability, SUNWxscreensaver} {Interface Stability, Volatile}' \
+		-p /usr/X11/bin \
+		$(SOURCE_DIR)/driver/xscreensaver.man \
+		$(SOURCE_DIR)/driver/xscreensaver-command.man \
+		$(SOURCE_DIR)/driver/xscreensaver-demo.man
+	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+	    -a '{Availability, SUNWxscreensaver} {Interface Stability, Private}' \
+		-p /usr/X11/lib/xscreensaver/bin \
+		$(SOURCE_DIR)/driver/xscreensaver-get*.man \
+		$(SOURCE_DIR)/driver/xscreensaver-text.man
+	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+	    -a '{Availability, SUNWxscreensaver-hacks} {Interface Stability, Private}' \
+		-p /usr/X11/lib/xscreensaver/hacks/ $(SOURCE_DIR)/hacks/*.man
+	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+	    -a '{Availability, SUNWxscreensaver-hacks-gl} {Interface Stability, Private}' \
+		-p /usr/X11/lib/xscreensaver/hacks/ $(SOURCE_DIR)/hacks/glx/*.man
 
 install_gen: $(XS_BIN) $(XS_MAN) $(XS_POT)
 	chmod +w $(SOURCE_DIR)/hacks/vidwhacker \

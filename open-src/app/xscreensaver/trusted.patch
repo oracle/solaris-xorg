@@ -31,9 +31,9 @@
 Support needed for Solaris Trusted Extensions / Trusted Java Desktop System.
 
 diff -urp -x '*~' configure.in configure.in
---- configure.in	2006-05-10 08:49:50.311248000 -0700
-+++ configure.in	2006-05-10 08:49:57.787065000 -0700
-@@ -3308,6 +3308,18 @@ fi
+--- configure.in	2006-08-08 17:27:15.440757000 -0700
++++ configure.in	2006-08-08 17:27:22.191138000 -0700
+@@ -3440,6 +3440,18 @@ fi
  AC_SUBST([XPM_LOGO_FILE])
  AC_SUBST([XPM_LOGO_NAME])
  
@@ -53,9 +53,9 @@ diff -urp -x '*~' configure.in configure.in
  
  if test "$have_kerberos" = yes; then
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-05-10 08:49:50.406340000 -0700
-+++ driver/Makefile.in	2006-05-10 08:49:57.796787000 -0700
-@@ -101,6 +101,10 @@ GTK_OBJS	= demo-Gtk.o demo-Gtk-conf.o @G
+--- driver/Makefile.in	2006-08-08 17:27:15.943106000 -0700
++++ driver/Makefile.in	2006-08-08 17:27:22.192257000 -0700
+@@ -103,6 +103,10 @@ GTK_OBJS	= demo-Gtk.o demo-Gtk-conf.o @G
  GTK_LOCK_SRCS	= lock-Gtk.c remote.c
  GTK_LOCK_OBJS	= lock-Gtk.o remote.o
  
@@ -66,8 +66,8 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  PWENT_SRCS	= passwd-pwent.c
  PWENT_OBJS	= passwd-pwent.o
  
-@@ -808,8 +812,10 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
- 	  $(srcdir)/demo-Gtk-conf.c
+@@ -774,8 +778,10 @@ lock.o:
+ 	  $(srcdir)/lock.c
  
  # lock-Gtk takes extra -D and -I options.
 +@TRUSTED_XPM_COMMENT@ TRUSTED_LOGO_DEFS=-DTRUSTED_XPM_LOGO_FILE=\"@TRUSTED_XPM_LOGO_FILE@\" \
@@ -78,7 +78,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  lock-Gtk.o: lock-Gtk.c
  	$(CC) -c $(INCLUDES) -I$(ICON_SRC) $(GTK_DEFS) \
-@@ -825,8 +831,9 @@ XScreenSaver_ad.h: XScreenSaver.ad
+@@ -794,8 +800,9 @@ XScreenSaver_Xm_ad.h: XScreenSaver-Xm.ad
  
  # The executables linked in this directory.
  #
@@ -90,7 +90,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  xscreensaver-command: $(CMD_OBJS)
  	$(CC) $(LDFLAGS) -o $@ $(CMD_OBJS) $(CMD_LIBS)
-@@ -839,8 +846,9 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
+@@ -814,8 +821,9 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
  xscreensaver-lock: @PREFERRED_LOCK_PROGRAM@
  	$(INSTALL_PROGRAM) @PREFERRED_LOCK_PROGRAM@ $@
  
@@ -101,18 +101,21 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  	$(GTK_LIBS) $(XML_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
  	$(XDPMS_LIBS) -lXext \
  	$(X_EXTRA_LIBS)
-@@ -850,13 +858,15 @@ xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOT
+@@ -825,16 +833,18 @@ xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOT
  	$(MOTIF_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
- 	$(XDPMS_LIBS) -lXext $(X_EXTRA_LIBS)
+ 	$(XDPMS_LIBS) $(XINERAMA_LIBS) -lXext $(X_EXTRA_LIBS)
  
 -xscreensaver-demo-Gtk: $(DEMO_OBJS) $(GTK_OBJS)
 -	$(CC) $(LDFLAGS) -o $@ $(DEMO_OBJS) $(GTK_OBJS) $(LIBS) $(X_LIBS) \
--	$(GTK_LIBS) $(XML_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
+-	$(GTK_LIBS) $(XPM_LIBS) $(XML_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) \
 +xscreensaver-demo-Gtk: $(DEMO_OBJS) $(GTK_OBJS) $(TRUSTED_OBJS)
 +	$(CC) $(LDFLAGS) -o $@ $(DEMO_OBJS) $(GTK_OBJS) $(TRUSTED_OBJS) \
-+	$(LIBS) $(X_LIBS) $(GTK_LIBS) $(XML_LIBS) $(INTL_LIBS) \
-+	$(TRUSTED_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
- 	$(XDPMS_LIBS) -lXext $(X_EXTRA_LIBS)
++	$(LIBS) $(X_LIBS) $(GTK_LIBS) $(XPM_LIBS) $(XML_LIBS) $(INTL_LIBS) \
++	$(TRUSTED_LIBS) $(X_PRE_LIBS) \
+ 	-lXt -lX11 $(XDPMS_LIBS) $(XINERAMA_LIBS) -lXext $(X_EXTRA_LIBS)
+ 
+ demo-Gtk.o: XScreenSaver_ad.h
+ demo-Xm.o:  XScreenSaver_ad_Xm.h
  
 -xscreensaver-getimage: $(GETIMG_OBJS)
 -	$(CC) $(LDFLAGS) -o $@ $(GETIMG_OBJS) $(GETIMG_LIBS) -lm
@@ -120,12 +123,12 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
 +	$(CC) $(LDFLAGS) -o $@ $(GETIMG_OBJS) $(TRUSTED_OBJS) \
 +	$(GETIMG_LIBS) $(TRUSTED_LIBS) -lm
  
- 
- TEST_PASSWD_OBJS = test-passwd.o $(LOCK_OBJS_1) $(PASSWD_OBJS) \
+ pdf2jpeg: $(PDF2JPEG_OBJS)
+ 	$(OBJCC) $(LDFLAGS) -o $@ $(PDF2JPEG_OBJS) $(PDF2JPEG_LIBS) -lm
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2006-05-10 08:49:50.661964000 -0700
-+++ driver/demo-Gtk.c	2006-05-10 08:49:57.837940000 -0700
-@@ -112,6 +112,8 @@
+--- driver/demo-Gtk.c	2006-08-08 17:27:16.160940000 -0700
++++ driver/demo-Gtk.c	2006-08-08 17:27:22.195132000 -0700
+@@ -136,6 +136,8 @@
  #include <string.h>
  #include <ctype.h>
  
@@ -134,7 +137,7 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  #ifdef HAVE_GTK2
  enum {
    COL_ENABLED,
-@@ -126,6 +128,7 @@ extern void exec_command (const char *sh
+@@ -153,6 +155,7 @@ static void hack_subproc_environment (Wi
  #undef countof
  #define countof(x) (sizeof((x))/sizeof((*x)))
  
@@ -142,7 +145,7 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  
  char *progname = 0;
  char *progclass = "XScreenSaver";
-@@ -2231,10 +2234,15 @@ update_list_sensitivity (state *s)
+@@ -2673,10 +2676,15 @@ update_list_sensitivity (state *s)
  #endif /* !HAVE_GTK2 */
  }
  
@@ -157,8 +160,8 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
 +  static gboolean tsol_multi_label_session = False;
    saver_preferences *p = &s->prefs;
  
-   /* The file supports timeouts of less than a minute, but the GUI does
-@@ -2361,9 +2369,61 @@ populate_prefs_page (state *s)
+   Bool can_lock_p = True;
+@@ -2855,10 +2863,62 @@ populate_prefs_page (state *s)
      SENSITIZE ("pwd_spinbutton", p->pwd_p);
      SENSITIZE ("pwd_mlabel",     p->pwd_p);
  
@@ -214,14 +217,15 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
 +    }
 +    else
 +    {
-     SENSITIZE ("lock_spinbutton", p->lock_p);
-     SENSITIZE ("lock_mlabel",     p->lock_p);
+     SENSITIZE ("lock_button",     can_lock_p);
+     SENSITIZE ("lock_spinbutton", can_lock_p && p->lock_p);
+     SENSITIZE ("lock_mlabel",     can_lock_p && p->lock_p);
 -
 +    }
      /* DPMS
       */
      SENSITIZE ("dpms_frame",              dpms_supported);
-@@ -2392,6 +2452,7 @@ populate_prefs_page (state *s)
+@@ -2887,6 +2947,7 @@ populate_prefs_page (state *s)
  
  # undef SENSITIZE
    }
@@ -229,7 +233,7 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  }
  
  
-@@ -4043,7 +4104,7 @@ main (int argc, char **argv)
+@@ -4845,7 +4906,7 @@ main (int argc, char **argv)
                                       applicationShellWidgetClass,
                                       dpy, 0, 0);
  
@@ -239,9 +243,9 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
    XtGetApplicationNameAndClass (dpy, &progname, &progclass);
    XSetErrorHandler (demo_ehandler);
 diff -urp -x '*~' driver/prefs.c driver/prefs.c
---- driver/prefs.c	2006-05-10 08:49:50.519771000 -0700
-+++ driver/prefs.c	2006-05-10 08:49:57.816439000 -0700
-@@ -36,6 +36,7 @@
+--- driver/prefs.c	2006-08-08 17:27:16.076574000 -0700
++++ driver/prefs.c	2006-08-08 17:27:22.267393000 -0700
+@@ -37,6 +37,7 @@
  # include "vms-pwd.h"
  #endif /* VMS */
  
@@ -249,22 +253,23 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
  
  /* This file doesn't need the Xt headers, so stub these types out... */
  #undef XtPointer
-@@ -65,12 +66,13 @@
+@@ -66,6 +67,7 @@
  
  #include "prefs.h"
  #include "resources.h"
--
 +#include "trusted-utils.h"
  
- extern char *progname;
+ /* don't use realpath() on fedora system */
+ #ifdef _FORTIFY_SOURCE
+@@ -77,6 +79,7 @@ extern char *progname;
  extern char *progclass;
  extern const char *blurb (void);
  
 +Display *global_dpy;
  
  
- static void get_screenhacks (saver_preferences *p);
-@@ -970,6 +972,9 @@ free_screenhack_list (screenhack **list,
+ static void get_screenhacks (Display *, saver_preferences *);
+@@ -1021,6 +1024,9 @@ free_screenhack_list (screenhack **list,
    free (list);
  }
  
@@ -274,22 +279,22 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
  
  
  /* Populate `saver_preferences' with the contents of the resource database.
-@@ -1010,7 +1015,10 @@ load_init_file (saver_preferences *p)
-   p->xsync_p	    = get_boolean_resource ("synchronous", "Synchronous");
-   p->verbose_p	    = get_boolean_resource ("verbose", "Boolean");
-   p->timestamp_p    = get_boolean_resource ("timestamp", "Boolean");
--  p->lock_p	    = get_boolean_resource ("lock", "Boolean");
+@@ -1061,7 +1067,10 @@ load_init_file (Display *dpy, saver_pref
+   p->xsync_p	    = get_boolean_resource (dpy, "synchronous", "Synchronous");
+   p->verbose_p	    = get_boolean_resource (dpy, "verbose", "Boolean");
+   p->timestamp_p    = get_boolean_resource (dpy, "timestamp", "Boolean");
+-  p->lock_p	    = get_boolean_resource (dpy, "lock", "Boolean");
 +  if ( tsol_is_multi_label_session() )
 +    p->lock_p       = True; /* always lock in a Multi Label Session */
 +  else
-+    p->lock_p       = get_boolean_resource ("lock", "Boolean");
-   /* *bugid 5077981 pwd timeout */
-   p->pwd_p	    = get_boolean_resource ("passwdTimeoutEnabled", "Boolean");
-   p->lock_vt_p	    = get_boolean_resource ("lockVTs", "Boolean");
-@@ -1030,6 +1038,27 @@ load_init_file (saver_preferences *p)
-   p->lock_timeout    = 1000 * get_minutes_resource ("lockTimeout", "Time");
-   p->cycle           = 1000 * get_minutes_resource ("cycle", "Time");
-   p->passwd_timeout  = 1000 * get_seconds_resource ("passwdTimeout", "Time");
++    p->lock_p       = get_boolean_resource (dpy, "lock", "Boolean");
+   p->fade_p	    = get_boolean_resource (dpy, "fade", "Boolean");
+   p->unfade_p	    = get_boolean_resource (dpy, "unfade", "Boolean");
+   p->fade_seconds   = 1000 * get_seconds_resource (dpy, "fadeSeconds", "Time");
+@@ -1085,6 +1094,27 @@ load_init_file (Display *dpy, saver_pref
+   p->lock_timeout    = 1000 * get_minutes_resource (dpy, "lockTimeout", "Time");
+   p->cycle           = 1000 * get_minutes_resource (dpy, "cycle", "Time");
+   p->passwd_timeout  = 1000 * get_seconds_resource (dpy, "passwdTimeout", "Time");
 +  if ( tsol_is_multi_label_session() )
 +  {
 +    userattr_t *uent;
@@ -311,13 +316,13 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
 +    else
 +      p->lock_cmd = LOCK_CMD;
 +  }
-   p->pointer_timeout = 1000 * get_seconds_resource ("pointerPollTime", "Time");
-   p->notice_events_timeout = 1000*get_seconds_resource("windowCreationTimeout",
- 						       "Time");
+   /* *bugid 5077981 pwd timeout */
+   p->pwd_p	    = get_boolean_resource (dpy, "passwdTimeoutEnabled", "Boolean");
+   p->pointer_timeout = 1000 * get_seconds_resource (dpy, "pointerPollTime", "Time");
 diff -urp -x '*~' driver/prefs.h driver/prefs.h
---- driver/prefs.h	2006-05-10 08:49:50.407982000 -0700
-+++ driver/prefs.h	2006-05-10 08:49:57.831994000 -0700
-@@ -70,6 +70,7 @@ struct saver_preferences {
+--- driver/prefs.h	2006-08-08 17:27:15.972813000 -0700
++++ driver/prefs.h	2006-08-08 17:27:22.267954000 -0700
+@@ -81,6 +81,7 @@ struct saver_preferences {
    Time initial_delay;		/* how long to sleep after launch */
    Time splash_duration;		/* how long the splash screen stays up */
    Time timeout;			/* how much idle time before activation */
@@ -326,35 +331,34 @@ diff -urp -x '*~' driver/prefs.h driver/prefs.h
    Time cycle;			/* how long each hack should run */
    Time passwd_timeout;		/* how much time before pw dialog goes down */
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-05-10 08:49:50.587973000 -0700
-+++ driver/subprocs.c	2006-05-10 08:49:57.835657000 -0700
-@@ -74,6 +74,7 @@ extern int kill (pid_t, int);		/* signal
- #include "xscreensaver.h"
+--- driver/subprocs.c	2006-08-08 17:27:16.150981000 -0700
++++ driver/subprocs.c	2006-08-08 17:27:22.269506000 -0700
+@@ -71,6 +71,7 @@ extern int kill (pid_t, int);		/* signal
+ #include "exec.h"
  #include "yarandom.h"
  #include "visual.h"    /* for id_to_visual() */
 +#include "trusted-utils.h"
  
  extern saver_info *global_si_kludge;	/* I hate C so much... */
  
-@@ -820,6 +821,14 @@ spawn_screenhack_1 (saver_screen_info *s
-                       ssi->number, complete_hack_command,
-                      (unsigned long) getpid (), p->nice_inferior);
- 
-+	  if ( tsol_is_multi_label_session() )
-+	    if (p->lock_cmd == LOGOUT_CMD)
-+	    {
-+	      free (complete_hack_command);
-+	      exec_command (p->shell, "/usr/bin/pkill gnome-session", 0);
-+	      exit(1);
-+	    }
-+	      
- 	  exec_command (p->shell, complete_hack_command, p->nice_inferior);
- 
-           /* If that returned, we were unable to exec the subprocess. */
+@@ -1020,6 +1021,13 @@ spawn_screenhack_1 (saver_screen_info *s
+ 					      strlen (HACK_PATH)); 
+       sprintf(complete_hack_command, HACK_PATH"/%s", hack->command);
+       
++      if ( tsol_is_multi_label_session() )
++	if (p->lock_cmd == LOGOUT_CMD)
++	  {
++	    free (complete_hack_command);
++	    exec_command (p->shell, "/usr/bin/pkill gnome-session", 0);
++	    exit(1);
++	  }
+       
+       forked = fork_and_exec (ssi, complete_hack_command);
+       free (complete_hack_command);
 diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
---- driver/xscreensaver-getimage.c	2002-05-29 13:49:34.000000000 -0700
-+++ driver/xscreensaver-getimage.c	2006-05-10 08:49:57.797465000 -0700
-@@ -58,6 +58,7 @@ static char *defaults[] = {
+--- driver/xscreensaver-getimage.c	2006-03-09 13:35:35.000000000 -0800
++++ driver/xscreensaver-getimage.c	2006-08-08 17:27:22.270497000 -0700
+@@ -83,6 +83,7 @@ static char *defaults[] = {
   0
  };
  
@@ -362,19 +366,19 @@ diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
  
  
  char *progname = 0;
-@@ -596,7 +597,7 @@ main (int argc, char **argv)
+@@ -1761,7 +1762,7 @@ main (int argc, char **argv)
+ 
    toplevel = XtAppInitialize (&app, progclass, 0, 0, &argc, argv,
- 			      defaults, 0, 0);
-   argv[0] = progname;
+                               defaults, 0, 0);
 -  dpy = XtDisplay (toplevel);
 +  global_dpy = dpy = XtDisplay (toplevel);
    screen = XtScreen (toplevel);
    db = XtDatabase (dpy);
- 
+   XtGetApplicationNameAndClass (dpy, &s, &progclass);
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:49:50.641581000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:49:57.862256000 -0700
-@@ -189,6 +189,7 @@ passwd_dialog_data *ptr_mygtkpwd = &mygt
+--- driver/xscreensaver.c	2006-08-08 17:27:16.183058000 -0700
++++ driver/xscreensaver.c	2006-08-08 17:27:22.283861000 -0700
+@@ -198,6 +198,7 @@ passwd_dialog_data *ptr_mygtkpwd = &mygt
  char *progname = 0;
  char *progclass = 0;
  XrmDatabase db = 0;
@@ -382,7 +386,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  
  
  static Atom XA_SCREENSAVER_RESPONSE;
-@@ -1381,6 +1382,7 @@ while (debug_flag)
+@@ -1517,6 +1518,7 @@ while (debug_flag)
    hack_environment (si);
  
    shell = connect_to_server (si, &argc, argv);

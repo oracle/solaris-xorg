@@ -28,17 +28,13 @@
  *
  */
 
-Miscellaneous DPMS fixes, including:
-- Allow xset dpms settings to override .xscreensaver.
-- Changed dpms hack of not allowing to run a hack if system did not support 
-  DPMS, for sunray performance issues. Now, we check if hack dir exists and 
-  not use DPMS support before running a hack.
+Allow xset dpms settings to override .xscreensaver.
 
 
 diff -urp -x '*~' driver/timers.c driver/timers.c
---- driver/timers.c	2006-05-10 08:49:10.952391000 -0700
-+++ driver/timers.c	2006-05-10 08:49:17.369181000 -0700
-@@ -1387,13 +1387,17 @@ watchdog_timer (XtPointer closure, XtInt
+--- driver/timers.c	2006-08-08 15:25:07.958865000 -0700
++++ driver/timers.c	2006-08-08 15:25:12.822517000 -0700
+@@ -1533,13 +1533,17 @@ watchdog_timer (XtPointer closure, XtInt
  
    /* If the DPMS settings on the server have changed, change them back to
       what ~/.xscreensaver says they should be. */
@@ -58,9 +54,9 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
    if (p->verbose_p)
     fprintf (stderr, "--->watchdog_timer()\n");
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:49:10.960069000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:49:17.373784000 -0700
-@@ -1380,6 +1380,11 @@ while (debug_flag)
+--- driver/xscreensaver.c	2006-08-08 15:25:07.960461000 -0700
++++ driver/xscreensaver.c	2006-08-08 15:25:12.823864000 -0700
+@@ -1529,6 +1529,11 @@ while (debug_flag)
    init_sigchld ();
  
    disable_builtin_screensaver (si, True);
@@ -72,61 +68,3 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
    sync_server_dpms_settings (si->dpy,
                               (p->dpms_enabled_p  &&
                                p->mode != DONT_BLANK),
-diff -urp -x '*~' driver/xset.c driver/xset.c
---- driver/xset.c	2006-05-10 08:49:10.891006000 -0700
-+++ driver/xset.c	2006-05-10 08:49:17.372412000 -0700
-@@ -491,15 +491,33 @@ monitor_powered_on_p (saver_info *si)
-     result = True;
- 
-   else if (!DPMSCapable(si->dpy))
-+   {
-     /* Server says the monitor doesn't do power management -- so it's on. */
--    result = True;
-+    /* mali- No, for sunrays if dpms is not working we dont want hacks to run */
-+       if (si->prefs.verbose_p)
-+       {
-+         fprintf(stderr, "Monitor is not DPMSCapable!!\n");
-+         fflush(stderr);
-+       }
-+       result = True;
-+    }
- 
-   else
-     {
-+
-       DPMSInfo(si->dpy, &state, &onoff);
-+      if (si->prefs.verbose_p)
-+       {
-+         fprintf(stderr, "DPMSInfo returned onoff=%d and state=%d\n", onoff, state);
-+         fflush(stderr);
-+       }
-+
-       if (!onoff)
-+       {
- 	/* Server says DPMS is disabled -- so the monitor is on. */
--	result = True;
-+        /*mali no if DPMS is diabled then still run hacks **/
-+	 result = True;
-+       }
-       else
- 	switch (state) {
- 	case DPMSModeOn:      result = True;  break;  /* really on */
-@@ -516,14 +534,17 @@ monitor_powered_on_p (saver_info *si)
- void
- monitor_power_on (saver_info *si)
- {
--  if (!monitor_powered_on_p (si))
-+  if (!monitor_powered_on_p (si) && si->prefs.dpms_enabled_p)
-     {
-+return;
-+/***mali causing BadMatch X Error
-       DPMSForceLevel(si->dpy, DPMSModeOn);
-       XSync(si->dpy, False);
-       if (!monitor_powered_on_p (si))
- 	fprintf (stderr,
-        "%s: DPMSForceLevel(dpy, DPMSModeOn) did not power the monitor on?\n",
- 		 blurb());
-+****/
-     }
- }
- 

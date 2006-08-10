@@ -32,17 +32,16 @@ Changes needed for integration into Sun's GNOME desktop menus.
 Localized name & tooltips (Sun bug 5103358)
 
 diff -urp -x '*~' driver/screensaver-properties.desktop.in driver/screensaver-properties.desktop.in
---- driver/screensaver-properties.desktop.in	2002-05-28 17:42:12.000000000 -0700
-+++ driver/screensaver-properties.desktop.in	2006-05-10 08:48:12.224912000 -0700
-@@ -1,9 +1,36 @@
+--- driver/screensaver-properties.desktop.in	2003-12-15 03:16:12.000000000 -0800
++++ driver/screensaver-properties.desktop.in	2006-08-08 15:24:22.756630000 -0700
+@@ -1,8 +1,35 @@
  [Desktop Entry]
- Exec=xscreensaver-demo --crapplet
- TryExec=xscreensaver-demo
+ Exec=xscreensaver-demo
 -Icon=xscreensaver.xpm
 +Icon=gnome-ccscreensaver.png
- Terminal=0
+ Terminal=false
 -_Name=Screensaver
--_Comment=Configure the settings of the screensaver.
+-_Comment=Change screensaver properties
 +Name=Screensaver
 +Name[cs]=Spořič obrazovky
 +Name[de]=Bildschirmschoner
@@ -73,5 +72,5 @@ diff -urp -x '*~' driver/screensaver-properties.desktop.in driver/screensaver-pr
 +Comment[zh_HK]=配置螢幕保護程式設定。
 +Comment[zh_TW]=配置螢幕保護程式設定。
  Type=Application
--Categories=Applications;Settings;
+-Categories=Application;Settings;Appearance;AdvancedSettings;
 +Categories=GNOME;Settings;Appearance;

@@ -33,9 +33,9 @@ Capture stderr from subproc in get_best_gl_visual
 
 
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-05-10 08:49:23.643545000 -0700
-+++ driver/subprocs.c	2006-05-10 08:49:29.616989000 -0700
-@@ -1029,6 +1029,10 @@ get_best_gl_visual (saver_screen_info *s
+--- driver/subprocs.c	2006-08-08 17:27:03.422319000 -0700
++++ driver/subprocs.c	2006-08-08 17:27:08.533828000 -0700
+@@ -1255,6 +1255,10 @@ get_best_gl_visual (saver_screen_info *s
    pid_t forked;
    int fds [2];
    int in, out;
@@ -46,7 +46,7 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    char buf[1024];
  
    char *av[10];
-@@ -1046,6 +1050,20 @@ get_best_gl_visual (saver_screen_info *s
+@@ -1272,6 +1276,20 @@ get_best_gl_visual (saver_screen_info *s
    in = fds [0];
    out = fds [1];
  
@@ -67,7 +67,7 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    switch ((int) (forked = fork ()))
      {
      case -1:
-@@ -1066,6 +1084,17 @@ get_best_gl_visual (saver_screen_info *s
+@@ -1292,6 +1310,17 @@ get_best_gl_visual (saver_screen_info *s
              perror ("could not dup() a new stdout:");
              return 0;
            }
@@ -85,8 +85,8 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
          hack_subproc_environment (ssi);		/* set $DISPLAY */
  
          execvp (av[0], av);			/* shouldn't return. */
-@@ -1095,6 +1124,14 @@ get_best_gl_visual (saver_screen_info *s
-         fgets (buf, sizeof(buf)-1, f);
+@@ -1322,6 +1351,14 @@ get_best_gl_visual (saver_screen_info *s
+           *buf = 0;
          fclose (f);
  
 +/* Begin: SUN addition: capture stderr as well */

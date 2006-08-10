@@ -38,32 +38,31 @@ Let root lock the screen, but don't launch the hacks for root.
 
 
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2006-05-10 08:48:29.898310000 -0700
-+++ driver/demo-Gtk.c	2006-05-10 08:48:35.790594000 -0700
-@@ -533,6 +533,14 @@ run_cmd (state *s, Atom command, int arg
+--- driver/demo-Gtk.c	2006-08-08 17:26:21.212926000 -0700
++++ driver/demo-Gtk.c	2006-08-08 17:26:28.136415000 -0700
+@@ -623,6 +623,14 @@ run_cmd (state *s, Atom command, int arg
    char *err = 0;
    int status;
  
 +  if (getuid() == 0) 
 +   {
 +      char buf [255];
-+      strcpy (buf, _("Cant run hacks if logged in as root!"));
++      strlcpy (buf, ("Can not run hacks if logged in as root!"), sizeof(buf));
 +      warning_dialog (s->toplevel_widget, buf, False, 100);
-+     return; 
++      return; 
 +   }
 +
    flush_dialog_changes_and_save (s);
    status = xscreensaver_command (GDK_DISPLAY(), command, arg, False, &err);
-   if (status < 0)
-@@ -552,6 +560,15 @@ static void
- run_hack (state *s, int list_elt, Bool report_errors_p)
- {
-   int hack_number;
-+
+ 
+@@ -653,6 +661,14 @@ run_hack (state *s, int list_elt, Bool r
+   char *err = 0;
+   int status;
+ 
 +  if (getuid() == 0) 
 +   {
 +      char buf [255];
-+      strcpy (buf, _("Cant run hacks if logged in as root!"));
++      strlcpy (buf, _("Can not run hacks if logged in as root!"), sizeof(buf));
 +      warning_dialog (s->toplevel_widget, buf, False, 100);
 +     return; 
 +   }
@@ -71,32 +70,34 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
    if (list_elt < 0) return;
    hack_number = s->list_elt_to_hack_number[list_elt];
  
-@@ -4131,11 +4148,21 @@ main (int argc, char **argv)
-     GtkOptionMenu *opt = GTK_OPTION_MENU (name_to_widget (s, "mode_menu"));
+@@ -4948,6 +4964,15 @@ main (int argc, char **argv)
      GtkMenu *menu = GTK_MENU (gtk_option_menu_get_menu (opt));
      GList *kids = gtk_container_children (GTK_CONTAINER (menu));
+     int i;
 +
 +    if (getuid() == 0)
 +     {
 +      /*mali if logged in as root disable menu so user cant activate a hack...*/
-+      gtk_widget_set_sensitive (opt, False);
-+      gtk_widget_set_sensitive (menu, False);
++      gtk_widget_set_sensitive (GTK_WIDGET (opt), False);
++      gtk_widget_set_sensitive (GTK_WIDGET (menu), False);
 +     }
 +    else
 +     {
-     for (; kids; kids = kids->next)
-       gtk_signal_connect (GTK_OBJECT (kids->data), "activate",
-                           GTK_SIGNAL_FUNC (mode_menu_item_cb),
-                           (gpointer) s);
-   }
-+  }
+     for (i = 0; kids; kids = kids->next, i++)
+       {
+         gtk_signal_connect (GTK_OBJECT (kids->data), "activate",
+@@ -4961,6 +4986,7 @@ main (int argc, char **argv)
+             mode_menu_order[i] == RANDOM_HACKS_SAME)
+           gtk_widget_hide (GTK_WIDGET (kids->data));
+       }
++     }
  
- 
-   /* Handle the -prefs command-line argument. */
+     if (s->nscreens <= 1)   /* recompute option-menu size */
+       {
 diff -urp -x '*~' driver/exec.c driver/exec.c
---- driver/exec.c	2002-01-17 00:34:43.000000000 -0800
-+++ driver/exec.c	2006-05-10 08:48:35.753517000 -0700
-@@ -185,6 +185,7 @@ exec_command (const char *shell, const c
+--- driver/exec.c	2006-02-03 23:36:33.000000000 -0800
++++ driver/exec.c	2006-08-08 17:26:28.136858000 -0700
+@@ -187,6 +187,7 @@ exec_command (const char *shell, const c
    hairy_p = !!strpbrk (command, "*?$&!<>[];`'\\\"=");
    /* note: = is in the above because of the sh syntax "FOO=bar cmd". */
  
@@ -104,7 +105,7 @@ diff -urp -x '*~' driver/exec.c driver/exec.c
    if (getuid() == (uid_t) 0 || geteuid() == (uid_t) 0)
      {
        /* If you're thinking of commenting this out, think again.
-@@ -195,6 +196,7 @@ exec_command (const char *shell, const c
+@@ -197,6 +198,7 @@ exec_command (const char *shell, const c
                 blurb());
        exit (-1);
      }
@@ -113,20 +114,20 @@ diff -urp -x '*~' driver/exec.c driver/exec.c
    if (hairy_p)
      /* If it contains any shell metacharacters, do it the hard way,
 diff -urp -x '*~' driver/setuid.c driver/setuid.c
---- driver/setuid.c	2006-05-10 08:48:29.941707000 -0700
-+++ driver/setuid.c	2006-05-10 08:48:35.755829000 -0700
-@@ -83,6 +83,10 @@ set_ids_by_number (uid_t uid, gid_t gid,
+--- driver/setuid.c	2006-08-08 17:26:21.309244000 -0700
++++ driver/setuid.c	2006-08-08 17:26:28.137412000 -0700
+@@ -122,6 +122,10 @@ set_ids_by_number (uid_t uid, gid_t gid,
    struct passwd *p = getpwuid (uid);
    struct group  *g = getgrgid (gid);
  
 +  /* if we are logged in as root i.e. uid==0 then dont do anything*/
 +  if (getuid() == 0)
-+   return;
++   return 0;
 +
    if (message_ret)
      *message_ret = 0;
  
-@@ -192,6 +196,9 @@ hack_uid (saver_info *si)
+@@ -279,6 +283,9 @@ hack_uid (saver_info *si)
           of the xscreensaver manual titled "LOCKING AND ROOT LOGINS",
           and "USING XDM".
     */
@@ -136,7 +137,7 @@ diff -urp -x '*~' driver/setuid.c driver/setuid.c
    if (getuid() == (uid_t) 0)
      {
        si->locking_disabled_p = True;
-@@ -229,6 +236,7 @@ hack_uid (saver_info *si)
+@@ -316,6 +323,7 @@ hack_uid (saver_info *si)
        if (set_ids_by_number (p->pw_uid, p->pw_gid, &si->uid_message) != 0)
  	saver_exit (si, -1, 0);
      }
@@ -144,7 +145,7 @@ diff -urp -x '*~' driver/setuid.c driver/setuid.c
  
  
    /* If there's anything even remotely funny looking about the passwd struct,
-@@ -271,7 +279,10 @@ hack_uid (saver_info *si)
+@@ -358,7 +366,10 @@ hack_uid (saver_info *si)
  		 (p && p->pw_name && *p->pw_name
  		  ? p->pw_name : "<unknown>"));
  	si->nolock_reason = buf;
@@ -156,9 +157,9 @@ diff -urp -x '*~' driver/setuid.c driver/setuid.c
        }
    }
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-05-10 08:48:29.955074000 -0700
-+++ driver/subprocs.c	2006-05-10 08:48:35.788404000 -0700
-@@ -849,6 +849,9 @@ check_if_hacks_dir_exists(void)
+--- driver/subprocs.c	2006-08-08 17:26:21.310147000 -0700
++++ driver/subprocs.c	2006-08-08 17:26:28.179189000 -0700
+@@ -1066,6 +1066,9 @@ check_if_hacks_dir_exists(void)
  void
  spawn_screenhack (saver_info *si, Bool first_time_p)
  {
@@ -169,9 +170,9 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
     fprintf(stderr, "--> spawn_screenhack()\n");
  
 diff -urp -x '*~' driver/timers.c driver/timers.c
---- driver/timers.c	2006-05-10 08:48:29.940928000 -0700
-+++ driver/timers.c	2006-05-10 08:48:35.781471000 -0700
-@@ -248,7 +248,8 @@ cycle_timer (XtPointer closure, XtInterv
+--- driver/timers.c	2006-08-08 17:26:21.311523000 -0700
++++ driver/timers.c	2006-08-08 17:26:28.180256000 -0700
+@@ -274,7 +274,8 @@ cycle_timer (XtPointer closure, XtInterv
        maybe_reload_init_file (si);
        kill_screenhack (si);
  
@@ -182,9 +183,9 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
        else
          {
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:48:29.979552000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:48:35.764178000 -0700
-@@ -399,6 +399,7 @@ startup_ehandler (String name, String ty
+--- driver/xscreensaver.c	2006-08-08 17:26:21.345515000 -0700
++++ driver/xscreensaver.c	2006-08-08 17:26:28.181466000 -0700
+@@ -402,6 +402,7 @@ startup_ehandler (String name, String ty
  
    describe_uids (si, stderr);
  
@@ -192,7 +193,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
    if (si->orig_uid && !strncmp (si->orig_uid, "root/", 5))
      {
        fprintf (stderr, "\n"
-@@ -412,11 +413,11 @@ startup_ehandler (String name, String ty
+@@ -415,11 +416,11 @@ startup_ehandler (String name, String ty
                 blurb());
      }
    else
@@ -206,7 +207,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
             blurb());
      }
  
-@@ -1034,7 +1035,7 @@ main_loop (saver_info *si)
+@@ -1244,7 +1245,7 @@ main_loop (saver_info *si)
  
        kill_screenhack (si);
  

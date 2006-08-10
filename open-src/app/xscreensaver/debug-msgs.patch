@@ -31,9 +31,9 @@
 Various tidbits found to aid debugging over the years.
 
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2006-05-10 08:48:56.250032000 -0700
-+++ driver/demo-Gtk.c	2006-05-10 08:49:02.885168000 -0700
-@@ -2327,9 +2327,23 @@ populate_prefs_page (state *s)
+--- driver/demo-Gtk.c	2006-08-08 15:25:01.015494000 -0700
++++ driver/demo-Gtk.c	2006-08-08 15:25:07.860347000 -0700
+@@ -2823,9 +2823,23 @@ populate_prefs_page (state *s)
  
  #ifdef HAVE_DPMS_EXTENSION
      {
@@ -58,9 +58,9 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  #endif /* HAVE_DPMS_EXTENSION */
  
 diff -urp -x '*~' driver/prefs.c driver/prefs.c
---- driver/prefs.c	2006-05-10 08:48:56.328495000 -0700
-+++ driver/prefs.c	2006-05-10 08:49:02.873669000 -0700
-@@ -458,6 +458,12 @@ init_file_changed_p (saver_preferences *
+--- driver/prefs.c	2006-08-08 15:25:01.023671000 -0700
++++ driver/prefs.c	2006-08-08 15:25:07.942311000 -0700
+@@ -482,6 +482,12 @@ init_file_changed_p (saver_preferences *
    const char *name = init_file_name();
    struct stat st;
  
@@ -73,7 +73,7 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
    if (!name) return False;
  
    if (stat(name, &st) != 0)
-@@ -466,6 +472,12 @@ init_file_changed_p (saver_preferences *
+@@ -490,6 +496,12 @@ init_file_changed_p (saver_preferences *
    if (p->init_file_date == st.st_mtime)
      return False;
  
@@ -87,9 +87,9 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
  }
  
 diff -urp -x '*~' driver/timers.c driver/timers.c
---- driver/timers.c	2006-05-10 08:48:56.343046000 -0700
-+++ driver/timers.c	2006-05-10 08:49:02.882875000 -0700
-@@ -152,7 +152,7 @@ notice_events (saver_info *si, Window wi
+--- driver/timers.c	2006-08-08 15:25:01.024861000 -0700
++++ driver/timers.c	2006-08-08 15:25:07.958865000 -0700
+@@ -175,7 +175,7 @@ notice_events (saver_info *si, Window wi
     */
    XSelectInput (si->dpy, window, SubstructureNotifyMask | events);
  
@@ -98,7 +98,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
      {
        /* Only mention one window per tree (hack hack). */
        fprintf (stderr, "%s: %d: selected KeyPress on 0x%lX\n",
-@@ -235,6 +235,9 @@ cycle_timer (XtPointer closure, XtInterv
+@@ -258,6 +258,9 @@ cycle_timer (XtPointer closure, XtInterv
    saver_preferences *p = &si->prefs;
    Time how_long = p->cycle;
  
@@ -108,7 +108,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
    if (si->selection_mode > 0 &&
        screenhack_running_p (si))
      /* If we're in "SELECT n" mode, the cycle timer going off will just
-@@ -254,7 +257,14 @@ cycle_timer (XtPointer closure, XtInterv
+@@ -277,7 +280,14 @@ cycle_timer (XtPointer closure, XtInterv
      }
    else
      {
@@ -123,7 +123,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
        kill_screenhack (si);
  
        /* if we are root then dont run hacks*/
-@@ -274,13 +284,13 @@ cycle_timer (XtPointer closure, XtInterv
+@@ -297,13 +307,13 @@ cycle_timer (XtPointer closure, XtInterv
        si->cycle_id = XtAppAddTimeOut (si->app, how_long, cycle_timer,
                                        (XtPointer) si);
  
@@ -136,10 +136,10 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
      {
 -      if (p->debug_p)
 +      if (p->verbose_p)
-         fprintf (stderr, "%s: not starting cycle_timer: how_long == %d\n",
-                  blurb(), how_long);
+         fprintf (stderr, "%s: not starting cycle_timer: how_long == %ld\n",
+                  blurb(), (unsigned long) how_long);
      }
-@@ -322,7 +332,7 @@ reset_timers (saver_info *si)
+@@ -345,7 +355,7 @@ reset_timers (saver_info *si)
  
    if (si->timer_id)
      {
@@ -148,9 +148,9 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
          fprintf (stderr, "%s: killing idle_timer  (%ld, %ld)\n",
                   blurb(), p->timeout, si->timer_id);
        XtRemoveTimeOut (si->timer_id);
-@@ -640,6 +650,9 @@ sleep_until_idle (saver_info *si, Bool u
-     }
- #endif /* HAVE_SCF_SMARTCARD */
+@@ -723,6 +733,9 @@ sleep_until_idle (saver_info *si, Bool u
+                                    si->using_sgi_saver_extension) ||
+ 				   si->using_xinputdev_extension);
  
 +  if (si->prefs.debug_p)
 +   fprintf(stderr,"--> sleep_until_idle()\n");
@@ -158,7 +158,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
    if (until_idle_p)
      {
        if (polling_for_idleness)
-@@ -729,6 +742,9 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -800,17 +813,24 @@ sleep_until_idle (saver_info *si, Bool u
                     an event (again, user activity.)
                   */
  		idle = 1000 * (si->last_activity_time - time ((time_t *) 0));
@@ -167,8 +167,6 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
 +
  	      }
  
- #ifdef HAVE_SCF_SMARTCARD
-@@ -756,12 +772,16 @@ sleep_until_idle (saver_info *si, Bool u
  	    if (idle >= p->timeout)
                {
                  /* Look, we've been idle long enough.  We're done. */
@@ -185,17 +183,17 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
                  goto DONE;
                }
              else
-@@ -769,6 +789,9 @@ sleep_until_idle (saver_info *si, Bool u
-                 /* The event went off, but it turns out that the user has not
-                    yet been idle for long enough.  So re-signal the event.
-                    */
+@@ -821,6 +841,9 @@ sleep_until_idle (saver_info *si, Bool u
+                    user has been idle for 2 minutes, then set this timer to
+                    go off in 3 minutes.
+                  */
 +  	        if (si->prefs.verbose_p)
 +   	         fprintf(stderr,"polling_for_idleness (sleep_until_idle)\n");
 +
                  if (polling_for_idleness)
                    schedule_wakeup_event (si, p->timeout - idle, p->debug_p);
                }
-@@ -857,7 +880,7 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -890,7 +913,7 @@ sleep_until_idle (saver_info *si, Bool u
        case ButtonRelease:
        case MotionNotify:
  
@@ -204,7 +202,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  	  {
              Window root=0, window=0;
              int x=-1, y=-1;
-@@ -877,6 +900,13 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -910,6 +933,13 @@ sleep_until_idle (saver_info *si, Bool u
                  window = event.xkey.window;
                  x = y = -1;
                }
@@ -218,7 +216,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  	    else if (event.xany.type == ButtonPress)
                {
                  type = "ButtonPress";
-@@ -885,6 +915,14 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -918,6 +948,14 @@ sleep_until_idle (saver_info *si, Bool u
                  x = event.xmotion.x_root;
                  y = event.xmotion.y_root;
                }
@@ -233,7 +231,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  
              if (type)
                {
-@@ -899,6 +937,14 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -945,6 +983,14 @@ sleep_until_idle (saver_info *si, Bool u
                  else
                    fprintf (stderr, " at %d,%d.\n", x, y);
                }
@@ -248,7 +246,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  	  }
  
  	/* If any widgets want to handle this event, let them. */
-@@ -920,7 +966,11 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -987,7 +1033,11 @@ sleep_until_idle (saver_info *si, Bool u
  	    else
  	      /* If we're not demoing, then any activity causes deactivation.
  	       */
@@ -260,7 +258,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  	  }
  	else
  	  reset_timers (si);
-@@ -1345,6 +1395,9 @@ watchdog_timer (XtPointer closure, XtInt
+@@ -1491,6 +1541,9 @@ watchdog_timer (XtPointer closure, XtInt
                               p->dpms_off / 1000,
                               False);
  
@@ -270,7 +268,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
    if (si->screen_blanked_p)
      {
        Bool running_p = screenhack_running_p (si);
-@@ -1358,7 +1411,7 @@ watchdog_timer (XtPointer closure, XtInt
+@@ -1504,7 +1557,7 @@ watchdog_timer (XtPointer closure, XtInt
          }
        else
          {
@@ -279,7 +277,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
              fprintf (stderr, "%s: watchdog timer raising %sscreen.\n",
                       blurb(), (running_p ? "" : "and clearing "));
  
-@@ -1370,7 +1423,8 @@ watchdog_timer (XtPointer closure, XtInt
+@@ -1516,7 +1569,8 @@ watchdog_timer (XtPointer closure, XtInt
  	{
  	  if (si->prefs.verbose_p)
  	    fprintf (stderr,
@@ -289,7 +287,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  		     "killing running hacks.\n", blurb());
  	  kill_screenhack (si);
  	}
-@@ -1400,7 +1454,7 @@ reset_watchdog_timer (saver_info *si, Bo
+@@ -1546,7 +1600,7 @@ reset_watchdog_timer (saver_info *si, Bo
        si->watchdog_id = XtAppAddTimeOut (si->app, p->watchdog_timeout,
  					 watchdog_timer, (XtPointer) si);
  
@@ -299,9 +297,9 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  		 blurb(), p->watchdog_timeout, si->watchdog_id);
      }
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:48:56.397896000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:49:02.886459000 -0700
-@@ -692,7 +692,7 @@ print_banner (saver_info *si)
+--- driver/xscreensaver.c	2006-08-08 15:25:01.031812000 -0700
++++ driver/xscreensaver.c	2006-08-08 15:25:07.960461000 -0700
+@@ -706,7 +706,7 @@ print_banner (saver_info *si)
  
    if (p->debug_p)
      fprintf (stderr, "\n"
@@ -310,7 +308,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  	     "\n"
  	     "\tNote that in debug mode, the xscreensaver window will only\n"
  	     "\tcover the left half of the screen.  (The idea is that you\n"
-@@ -1306,7 +1306,12 @@ main (int argc, char **argv)
+@@ -1455,7 +1455,12 @@ main (int argc, char **argv)
    saver_info the_si;
    saver_info *si = &the_si;
    saver_preferences *p = &si->prefs;

@@ -30,83 +30,74 @@
 
 Various fixes to deal with where we install things on Solaris:
 
-- Allow variables passed in from Makefile to override the values configure 
-  tries to determine for GNOME_DATADIR & GLADE_DATADIR, since we install 
-  in a different place for historical reasons.
-
 - Only run hacks from the hacks dir, not $PATH
 
-- Find xscreensaver-gl-helper even though it's not in $PATH
+- Find helper programs even though they are not in $PATH
 
-diff -urp -x '*~' configure.in configure.in
---- configure.in	2006-05-10 08:48:12.212319000 -0700
-+++ configure.in	2006-05-10 08:48:17.091582000 -0700
-@@ -2108,7 +2108,9 @@ if test "$with_gtk" = yes; then
-                    $ac_gnome_config_libs)
-   fi
+- Show author names when reading RSS feeds from sites like blogs.sun.com
+
+diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
+--- driver/Makefile.in	2006-05-23 16:01:35.000000000 -0700
++++ driver/Makefile.in	2006-08-09 15:42:26.024807000 -0700
+@@ -26,7 +26,7 @@ INTLTOOL_MERGE	= @INTLTOOL_MERGE@
+ GTK_DATADIR	= @GTK_DATADIR@
+ GTK_APPDIR	= $(GTK_DATADIR)/applications
+ GTK_ICONDIR	= $(GTK_DATADIR)/pixmaps
+-GTK_GLADEDIR	= $(GTK_DATADIR)/xscreensaver/glade
++GTK_GLADEDIR	= $(prefix)/lib/xscreensaver/config
+ HACK_CONF_DIR	= @HACK_CONF_DIR@
  
--
-+#--- Begin SUNW addition
-+ if test -z "$GNOME_DATADIR" ; then
-+#--- End SUNW addition
-   GNOME_DATADIR=""
-   if test "$have_gnome" = yes -a "$have_gtk" = yes; then
-     if test -n "$pkg_config"; then
-@@ -2122,6 +2124,9 @@ if test "$with_gtk" = yes; then
-     fi
-     GNOME_DATADIR="$GNOME_DATADIR/share"
-   fi
-+#--- Begin SUNW addition
-+ fi
-+#--- End SUNW addition
+ CC		= @CC@
+@@ -35,8 +35,11 @@ CFLAGS		= @CFLAGS@
+ LDFLAGS		= @LDFLAGS@
+ DEFS		= @DEFS@
+ INTL_DEFS	= -DLOCALEDIR=\"$(localedir)\"
+-SUBP_DEFS	= $(DEFS) -DDEFAULT_PATH_PREFIX='"@HACKDIR@"'
+-GTK_DEFS	= $(DEFS) -DDEFAULT_ICONDIR='"$(GTK_GLADEDIR)"'
++SUBP_DEFS	= $(DEFS) -DHACK_PATH='"@HACKDIR@"' \
++	-DDEFAULT_PATH_PREFIX='"@HACKDIR@:$(libexecdir)"' \
++	-DHELPER_PATH='"$(libexecdir)"'
++GTK_DEFS	= $(DEFS) -DDEFAULT_ICONDIR='"$(GTK_GLADEDIR)"' \
++			-DBINDIR='"$(bindir)"'
+ CONF_DEFS	= -DHACK_CONFIGURATION_PATH='"$(HACK_CONF_DIR)"'
  
-   # .desktop files go in different places in Gnome 1.x and Gnome 2.x...
-   if test "$have_gtk2" = yes; then
-@@ -3342,6 +3347,10 @@ fi
- # "/usr/X11R6/share/pixmaps/", which is wrong.  It needs to be the
- # Gnome/Gtk prefix, not the overall prefix.
- #
-+
-+#--- Begin SUNW addition
-+if test -z "$GLADE_DATADIR" ; then
-+#--- End SUNW addition
- if test -n "$GNOME_DATADIR" ; then
-   GLADE_DATADIR='$(GNOME_DATADIR)/xscreensaver'
- elif test "$have_gtk" = yes; then
-@@ -3358,6 +3367,9 @@ elif test "$have_gtk" = yes; then
- else
-   GLADE_DATADIR=''
- fi
-+#--- Begin SUNW addition
-+fi
-+#--- End SUNW addition
- 
- 
- # canonicalize slashes.
+ LIBS		= @LIBS@
+diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
+--- driver/XScreenSaver.ad.in	2006-08-09 15:42:21.902455000 -0700
++++ driver/XScreenSaver.ad.in	2006-08-09 15:44:48.663894000 -0700
+@@ -96,7 +96,7 @@ GetViewPortIsFullOfLies: False
+ !
+ @GNOME24@*loadURL: gnome-open '%s'
+ @GNOME24@*manualCommand: gnome-terminal --title '%s manual' \
+-@GNOME24@		--command '/bin/sh -c "man %s; read foo"'
++@GNOME24@		--command '/bin/sh -c "man -M /usr/X11/man %s; read foo"'
+ !
+ !   Gnome 2.2:
+ !
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2002-06-05 23:00:38.000000000 -0700
-+++ driver/demo-Gtk.c	2006-05-10 08:48:17.094156000 -0700
-@@ -770,7 +770,7 @@ restart_menu_cb (GtkWidget *widget, gpoi
+--- driver/demo-Gtk.c	2006-05-23 15:02:44.000000000 -0700
++++ driver/demo-Gtk.c	2006-08-09 15:42:26.027370000 -0700
+@@ -924,7 +924,7 @@ restart_menu_cb (GtkWidget *widget, gpoi
    flush_dialog_changes_and_save (s);
    xscreensaver_command (GDK_DISPLAY(), XA_EXIT, 0, False, NULL);
    sleep (1);
--  system ("xscreensaver -nosplash &");
-+  system ("/usr/openwin/bin/xscreensaver -nosplash &");
+-  if (system ("xscreensaver -nosplash &") < 0)
++  if (system (BINDIR "/xscreensaver -nosplash &") < 0)
+     fprintf (stderr, "%s: fork error\n", blurb());
  
    await_xscreensaver (s);
- }
-@@ -3940,7 +3940,7 @@ main (int argc, char **argv)
+@@ -4745,7 +4745,7 @@ main (int argc, char **argv)
  
        if (init_results == 1)
  	{
 -	  system ("xscreensaver -nosplash &");
-+	  system ("/usr/openwin/bin/xscreensaver -nosplash &");
++	  system (BINDIR "/xscreensaver -nosplash &");
  	  return 0;
  	}
  
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2002-03-05 18:10:17.000000000 -0800
-+++ driver/subprocs.c	2006-05-10 08:48:17.092506000 -0700
+--- driver/subprocs.c	2006-03-07 21:52:23.000000000 -0800
++++ driver/subprocs.c	2006-08-09 15:42:26.052932000 -0700
 @@ -14,6 +14,7 @@
  # include "config.h"
  #endif
@@ -115,7 +106,7 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
  #include <ctype.h>
  #include <stdio.h>
  #include <string.h>
-@@ -605,6 +606,8 @@ print_path_error (const char *program)
+@@ -775,6 +776,8 @@ print_path_error (const char *program)
    free (cmd);
    perror (buf);
  
@@ -124,7 +115,7 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    if (errno == ENOENT &&
        (token = getenv("PATH")))
      {
-@@ -634,6 +637,7 @@ print_path_error (const char *program)
+@@ -805,6 +808,7 @@ print_path_error (const char *program)
          }
        fprintf (stderr, "\n");
      }
@@ -132,63 +123,42 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
  }
  
  
-@@ -661,6 +665,11 @@ spawn_screenhack_1 (saver_screen_info *s
-           /* No hacks at all */
-           new_hack = -1;
-         }
-+      else if (p->screenhacks_count == 1)
-+        {
-+          /* Exactly one hack in the list */
-+          new_hack = 0;
-+        }
-       else if (si->selection_mode == -1)
-         {
-           /* Select the next hack, wrapping. */
-@@ -755,20 +764,34 @@ spawn_screenhack_1 (saver_screen_info *s
- 	  saver_exit (si, 1, 0);
+@@ -867,6 +871,8 @@ spawn_screenhack_1 (saver_screen_info *s
+ {
+   saver_info *si = ssi->global;
+   saver_preferences *p = &si->prefs;
++  char* complete_hack_command;
++  
+   raise_window (si, first_time_p, True, False);
+   XFlush (si->dpy);
  
- 	case 0:
-+	 {
-+          /* We need complete path to hack command else any executable
-+           * with the same name in the path gets executed...and we should
-+           * really be using DEFAULT_PATH_PREFIX for the path where hacks are.
-+           */
-+	  char* complete_hack_command = malloc (strlen(hack->command) +
-+		      strlen ("/usr/openwin/lib/xscreensaver/hacks") + 10); 
-+
- 	  close (ConnectionNumber (si->dpy));	/* close display fd */
- 	  limit_subproc_memory (p->inferior_memory_limit, p->verbose_p);
- 	  hack_subproc_environment (ssi);	/* set $DISPLAY */
-+	  sprintf(complete_hack_command,
-+			"/usr/openwin/lib/xscreensaver/hacks/%s",
-+			hack->command);
+@@ -985,7 +991,17 @@ spawn_screenhack_1 (saver_screen_info *s
+       if (si->selection_mode < 0)
+ 	si->selection_mode = 0;
  
-           if (p->verbose_p)
-             fprintf (stderr, "%s: %d: spawning \"%s\" in pid %lu.\n",
-                      blurb(), ssi->number, hack->command,
-                      (unsigned long) getpid ());
- 
--	  exec_command (p->shell, hack->command, p->nice_inferior);
-+	  exec_command (p->shell, complete_hack_command, p->nice_inferior);
-+
-           /* If that returned, we were unable to exec the subprocess. */
--          print_path_error (hack->command);
-+          print_path_error (complete_hack_command);
-+	  free (complete_hack_command);
-           exit (1);  /* exits child fork */
- 	  break;
-+         }
- 
- 	default:
- 	  ssi->pid = forked;
-@@ -778,10 +801,41 @@ spawn_screenhack_1 (saver_screen_info *s
+-      forked = fork_and_exec (ssi, hack->command);
++      
++      /* We need complete path to hack command else any executable
++       * with the same name in the path gets executed.
++       */
++      complete_hack_command = malloc (10 + strlen(hack->command) +
++					      strlen (HACK_PATH)); 
++      sprintf(complete_hack_command, HACK_PATH"/%s", hack->command);
++      
++      
++      forked = fork_and_exec (ssi, complete_hack_command);
++      free (complete_hack_command);
+       switch ((int) forked)
+ 	{
+ 	case -1: /* fork failed */
+@@ -1003,10 +1019,41 @@ spawn_screenhack_1 (saver_screen_info *s
      }
  }
  
 +Bool
 +check_if_hacks_dir_exists(void)
 +{
-+  const char hackdir[] = "/usr/openwin/lib/xscreensaver/hacks";
++  const char hackdir[] = HACK_PATH;
 +
 +  int status;
 +  struct stat st;
@@ -223,12 +193,53 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    if (monitor_powered_on_p (si))
      {
        int i;
-@@ -947,7 +1001,7 @@ get_best_gl_visual (saver_screen_info *s
+@@ -1186,7 +1233,7 @@ get_best_gl_visual (saver_screen_info *s
    char *av[10];
    int ac = 0;
  
 -  av[ac++] = "xscreensaver-gl-helper";
-+  av[ac++] = "/usr/openwin/lib/xscreensaver/bin/xscreensaver-gl-helper";
++  av[ac++] = HELPER_PATH "/xscreensaver-gl-helper";
    av[ac] = 0;
  
    if (pipe (fds))
+diff -urp -x '*~' driver/xscreensaver-text driver/xscreensaver-text
+--- driver/xscreensaver-text	2006-04-14 19:29:49.000000000 -0700
++++ driver/xscreensaver-text	2006-08-09 15:42:26.053609000 -0700
+@@ -374,6 +374,10 @@ sub output() {
+       system ("cat", "/etc/redhat-release");
+     }
+ 
++    if (-f "/etc/release") {	    	    # "Solaris 10 3/05 s10_74L2a X86"
++      safe_system ("head", "-1", "/etc/release");
++    }
++
+     if (-f "/usr/sbin/system_profiler") {   # "Mac OS X 10.4.5 (8H14)"
+       my $sp =				    # "iMac G5"
+         `/usr/sbin/system_profiler SPSoftwareDataType SPHardwareDataType`;
+@@ -660,12 +664,15 @@ sub reformat_rss($) {
+     $i++;
+ 
+     my ($title, $body1, $body2, $body3);
++    my $author;
+     
+     $title = $3 if (m@<((TITLE)       [^<>\s]*)[^<>]*>\s*(.*?)\s*</\1>@xsi);
+     $body1 = $3 if (m@<((DESCRIPTION) [^<>\s]*)[^<>]*>\s*(.*?)\s*</\1>@xsi);
+     $body2 = $3 if (m@<((CONTENT)     [^<>\s]*)[^<>]*>\s*(.*?)\s*</\1>@xsi);
+     $body3 = $3 if (m@<((SUMMARY)     [^<>\s]*)[^<>]*>\s*(.*?)\s*</\1>@xsi);
+ 
++    $author = $3 if (m@<((DC:CREATOR) [^<>\s]*)[^<>]*>\s*(.*?)\s*</\1>@xsi);
++
+     # If there are both <description> and <content> or <content:encoded>,
+     # use whichever one contains more text.
+     #
+@@ -689,8 +696,9 @@ sub reformat_rss($) {
+ 
+     $title = rss_field_to_html ($title || '');
+     $body1 = rss_field_to_html ($body1 || '');
++    $author = rss_field_to_html ($author || '');
+ 
+-    reformat_html ("$title<P>$body1", 1);
++    reformat_html ("$title<BR>$author<P>$body1", 1);
+     print "\n";
+   }
+ }

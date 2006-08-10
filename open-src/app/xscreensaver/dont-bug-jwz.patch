@@ -34,27 +34,22 @@ in the places we've chosen to differ and to avoid our users asking him to
 fix things that aren't his fault.
 
 diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
---- driver/XScreenSaver.ad.in	2006-05-10 08:48:17.084393000 -0700
-+++ driver/XScreenSaver.ad.in	2006-05-10 08:48:24.193863000 -0700
-@@ -73,11 +73,11 @@
- *prefsCommand: xscreensaver-demo -prefs
+--- driver/XScreenSaver.ad.in	2006-08-08 15:24:27.689831000 -0700
++++ driver/XScreenSaver.ad.in	2006-08-08 15:24:33.346473000 -0700
+@@ -85,7 +85,7 @@ GetViewPortIsFullOfLies: False
  
- ! This is the URL that the "Help" button on the splash screen loads.
+ ! This is the URL loaded by the "Help" button on the splash screen,
+ ! and by the "Documentation" menu item in xscreensaver-demo.
 -*helpURL: http://www.jwz.org/xscreensaver/man.html
 +*helpURL: 
  
- ! This is how the "Help" button loads URLs (/bin/sh syntax.)
- ! The "helpURL" will be substituted for up to two occurrences of "%s".
--*loadURL: netscape -remote 'openURL(%s)' || netscape '%s'
-+*loadURL: 
- 
- ! This is what the "Manual" button in xscreensaver-demo runs (/bin/sh syntax.)
- @GNOMEHELP_N@*manualCommand: xterm +sb -fg black -bg gray75 -T '%s manual' \
+ ! loadURL       -- how the "Help" buttons load the helpURL (/bin/sh syntax.)
+ ! manualCommand -- how the "Documentation" buttons display man pages.
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2006-05-10 08:48:17.094156000 -0700
-+++ driver/demo-Gtk.c	2006-05-10 08:48:24.196159000 -0700
-@@ -716,6 +716,10 @@ about_menu_cb (GtkMenuItem *menuitem, gp
- void
+--- driver/demo-Gtk.c	2006-08-08 15:24:27.699568000 -0700
++++ driver/demo-Gtk.c	2006-08-08 15:24:33.383606000 -0700
+@@ -860,6 +860,10 @@ about_menu_cb (GtkMenuItem *menuitem, gp
+ G_MODULE_EXPORT void
  doc_menu_cb (GtkMenuItem *menuitem, gpointer user_data)
  {
 +
@@ -64,9 +59,9 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
    state *s = global_state_kludge;  /* I hate C so much... */
    saver_preferences *p = &s->prefs;
    char *help_command;
-@@ -736,6 +740,9 @@ doc_menu_cb (GtkMenuItem *menuitem, gpoi
-   strcat (help_command, " ) &");
-   system (help_command);
+@@ -882,6 +886,9 @@ doc_menu_cb (GtkMenuItem *menuitem, gpoi
+   if (system (help_command) < 0)
+     fprintf (stderr, "%s: fork error\n", blurb());
    free (help_command);
 +#endif /*JWZ_HELP*/
 +
@@ -75,9 +70,9 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  
  
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2002-04-13 03:27:02.000000000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:48:24.232166000 -0700
-@@ -240,9 +240,9 @@ xscreensaver %s, copyright (c) 1991-2002
+--- driver/xscreensaver.c	2006-05-17 16:35:54.000000000 -0700
++++ driver/xscreensaver.c	2006-08-08 15:24:33.384967000 -0700
+@@ -239,9 +239,9 @@ xscreensaver %s, copyright (c) 1991-2006
          xscreensaver &\n\
          xscreensaver-demo\n\
  \n\
@@ -86,12 +81,12 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  \n\
 -       http://www.jwz.org/xscreensaver/\n\
 +       man xscreensaver/\n\
- \n",
- 	  si->version);
+ \n");
+ 
    fflush (stdout);
-@@ -340,9 +340,6 @@ saver_ehandler (Display *dpy, XErrorEven
-    "    file in your bug report.  *DO NOT* mail the core file itself!\n"
-    "    That won't work.\n"
+@@ -343,9 +343,6 @@ saver_ehandler (Display *dpy, XErrorEven
+    "    That won't work.\n");
+           fprintf (real_stderr,
     "\n"
 -   "    http://www.jwz.org/xscreensaver/bugs.html explains how to create\n"
 -   "    the most useful bug reports, and how to examine core files.\n"
@@ -99,7 +94,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
     "    The more information you can provide, the better.  But please\n"
     "    report this bug, regardless!\n"
     "\n");
-@@ -409,11 +406,6 @@ startup_ehandler (String name, String ty
+@@ -412,11 +409,6 @@ startup_ehandler (String name, String ty
             blurb());
      }
  
@@ -111,7 +106,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
    fflush (stderr);
    fflush (stdout);
    exit (1);
-@@ -619,8 +611,7 @@ process_command_line (saver_info *si, in
+@@ -653,8 +645,7 @@ process_command_line (saver_info *si, in
      The `xscreensaver' program is a daemon that runs in the background.\n\
      You control a running xscreensaver process by sending it messages\n\
      with `xscreensaver-demo' or `xscreensaver-command'.\n\

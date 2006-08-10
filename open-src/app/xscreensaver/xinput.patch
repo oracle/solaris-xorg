@@ -34,66 +34,68 @@ accessibility helpers  (Sun bugid 5077966)
 
 
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-05-10 08:48:46.809952000 -0700
-+++ driver/Makefile.in	2006-05-10 08:48:52.404220000 -0700
-@@ -197,7 +197,7 @@ DEMO_OBJS	= prefs.o dpms.o remote.o exec
+--- driver/Makefile.in	2006-08-08 15:24:49.603877000 -0700
++++ driver/Makefile.in	2006-08-08 15:24:55.050626000 -0700
+@@ -210,7 +210,7 @@ PDF2JPEG_LIBS	= -framework Cocoa
  
  SAVER_LIBS	= $(LIBS) $(X_LIBS) $(XMU_LIBS) @SAVER_LIBS@ \
- 		  $(XDPMS_LIBS) $(GL_LIBS) $(X_PRE_LIBS) \
+ 		  $(XDPMS_LIBS) $(XINERAMA_LIBS) $(GL_LIBS) $(X_PRE_LIBS) \
 -		  -lXt -lX11 -lXext $(X_EXTRA_LIBS) \
 +		  -lXt -lX11 -lXext -lXi $(X_EXTRA_LIBS) \
  		  $(PASSWD_LIBS)
  
  CMD_LIBS	= $(LIBS) $(X_LIBS) \
 diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
---- driver/XScreenSaver.ad.in	2006-05-10 08:48:46.868803000 -0700
-+++ driver/XScreenSaver.ad.in	2006-05-10 08:48:52.397560000 -0700
-@@ -66,6 +66,7 @@
- *mitSaverExtension:	False
+--- driver/XScreenSaver.ad.in	2006-08-08 15:24:49.627321000 -0700
++++ driver/XScreenSaver.ad.in	2006-08-08 15:24:55.051108000 -0700
+@@ -73,6 +73,7 @@
+ *sgiSaverExtension:	True
  *xidleExtension:	True
  *procInterrupts:	True
 +*xinputExtensionDev:	True
  
- ! This is what the "Demo" button on the splash screen runs (/bin/sh syntax.)
- *demoCommand: xscreensaver-demo
+ ! Set this to True if you are experiencing longstanding XFree86 bug #421
+ ! (xscreensaver not covering the whole screen)
 diff -urp -x '*~' driver/prefs.c driver/prefs.c
---- driver/prefs.c	2006-05-10 08:48:46.891011000 -0700
-+++ driver/prefs.c	2006-05-10 08:48:52.388565000 -0700
-@@ -279,6 +279,7 @@ static const char * const prefs[] = {
-   "mitSaverExtension",
+--- driver/prefs.c	2006-08-08 15:24:49.631015000 -0700
++++ driver/prefs.c	2006-08-08 15:24:55.052054000 -0700
+@@ -303,6 +303,7 @@ static const char * const prefs[] = {
    "xidleExtension",
+   "GetViewPortIsFullOfLies",
    "procInterrupts",
 +  "xinputExtensionDev",
    "overlayStderr",
    "overlayTextBackground",	/* not saved -- X resources only */
    "overlayTextForeground",	/* not saved -- X resources only */
-@@ -810,6 +811,10 @@ write_init_file (saver_preferences *p, c
-       CHECK("mitSaverExtension")type = pref_bool, b=p->use_mit_saver_extension;
+@@ -857,6 +858,11 @@ write_init_file (Display *dpy,
+       CHECK("mitSaverExtension") continue;  /* don't save */
        CHECK("xidleExtension")	type = pref_bool, b = p->use_xidle_extension;
        CHECK("procInterrupts")	type = pref_bool, b = p->use_proc_interrupts;
 +	                        /* Adding XInputExtension Dev support
 +#5077966 P1 "password prompt cant be directly activated by GOK device"
 +                                */
-+CHECK("xinputExtensionDev") type = pref_bool, b=p->use_xinputdev_extension;
++      CHECK("xinputExtensionDev") type = pref_bool, 
++                                        b = p->use_xinputdev_extension;
+       CHECK("GetViewPortIsFullOfLies")  type = pref_bool,
+ 					b = p->getviewport_full_of_lies_p;
        CHECK("overlayStderr")	type = pref_bool, b = overlay_stderr_p;
-       CHECK("overlayTextBackground") continue;  /* don't save */
-       CHECK("overlayTextForeground") continue;  /* don't save */
-@@ -1060,6 +1065,11 @@ load_init_file (saver_preferences *p)
-   p->use_sgi_saver_extension = get_boolean_resource ("sgiSaverExtension",
+@@ -1129,6 +1135,12 @@ load_init_file (Display *dpy, saver_pref
+   p->use_sgi_saver_extension = get_boolean_resource (dpy,
+                                                      "sgiSaverExtension",
  						     "Boolean");
-   p->use_proc_interrupts = get_boolean_resource ("procInterrupts", "Boolean");
++ 
 +                                  /* Adding XInputExtension Dev support
 +#5077966 P1 "password prompt cant be directly activated by GOK device"
 +                                */
 +  p->use_xinputdev_extension = 
-+	get_boolean_resource ("xinputExtensionDev", "Boolean");
- 
-   get_screenhacks (p);                /* Parse the "programs" resource. */
++	get_boolean_resource (dpy, "xinputExtensionDev", "Boolean");
+   p->use_proc_interrupts = get_boolean_resource (dpy,
+                                                  "procInterrupts", "Boolean");
  
 diff -urp -x '*~' driver/prefs.h driver/prefs.h
---- driver/prefs.h	2006-05-10 08:48:46.902760000 -0700
-+++ driver/prefs.h	2006-05-10 08:48:52.389118000 -0700
-@@ -91,6 +91,10 @@ struct saver_preferences {
+--- driver/prefs.h	2006-08-08 15:24:49.631360000 -0700
++++ driver/prefs.h	2006-08-08 15:24:55.052341000 -0700
+@@ -109,6 +109,10 @@ struct saver_preferences {
    Bool use_mit_saver_extension;
    Bool use_sgi_saver_extension;
    Bool use_proc_interrupts;
@@ -102,14 +104,14 @@ diff -urp -x '*~' driver/prefs.h driver/prefs.h
 +				*/
 +  Bool use_xinputdev_extension;
  
-   char *shell;			/* where to find /bin/sh */
+   Bool getviewport_full_of_lies_p; /* XFree86 bug #421 */
  
 diff -urp -x '*~' driver/timers.c driver/timers.c
---- driver/timers.c	2006-05-10 08:48:46.849018000 -0700
-+++ driver/timers.c	2006-05-10 08:48:52.407651000 -0700
-@@ -60,6 +60,12 @@ extern void unblank_screen (saver_info *
- extern Bool Ignore_SmartCard;
- #endif /* HAVE_SCF_SMARTCARD */
+--- driver/timers.c	2006-08-08 15:24:49.622337000 -0700
++++ driver/timers.c	2006-08-08 15:24:55.053314000 -0700
+@@ -68,6 +68,12 @@ extern Bool blank_screen (saver_info *si
+ extern void unblank_screen (saver_info *si);
+ 
  
 +                                /* Adding XInputExtension Dev support
 +#5077966 P1 "password prompt cant be directly activated by GOK device"
@@ -120,7 +122,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  void
  idle_timer (XtPointer closure, XtIntervalId *id)
  {
-@@ -609,10 +615,14 @@ sleep_until_idle (saver_info *si, Bool u
+@@ -708,10 +714,14 @@ sleep_until_idle (saver_info *si, Bool u
       and query the server with that extension.  For our purposes, polling
       /proc/interrupts is just like polling the mouse position.  It has to
       happen on the same kind of schedule. */
@@ -134,9 +136,9 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
 +                                   si->using_sgi_saver_extension) ||
 +				   si->using_xinputdev_extension);
  
- #ifdef HAVE_SCF_SMARTCARD
-   static Bool display_required = False;
-@@ -1000,6 +1010,49 @@ sleep_until_idle (saver_info *si, Bool u
+   if (until_idle_p)
+     {
+@@ -1067,6 +1077,49 @@ sleep_until_idle (saver_info *si, Bool u
  	  }
  	else
  #endif /* HAVE_SGI_SAVER_EXTENSION */
@@ -184,12 +186,12 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
 +
 +       else
  
-           /* Just some random event.  Let the Widgets handle it, if desired. */
- 	  dispatch_event (si, &event);
+ #ifdef HAVE_RANDR
+         if (event.type == (si->randr_event_number + RRScreenChangeNotify))
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-05-10 08:48:46.850383000 -0700
-+++ driver/xscreensaver.c	2006-05-10 08:48:52.422327000 -0700
-@@ -820,12 +820,18 @@ initialize_server_extensions (saver_info
+--- driver/xscreensaver.c	2006-08-08 15:24:49.623491000 -0700
++++ driver/xscreensaver.c	2006-08-08 15:24:55.054560000 -0700
+@@ -953,12 +953,18 @@ initialize_server_extensions (saver_info
    Bool server_has_mit_saver_extension_p = False;
    Bool system_has_proc_interrupts_p = False;
    const char *piwhy = 0;
@@ -208,7 +210,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  #ifdef HAVE_XIDLE_EXTENSION
    server_has_xidle_extension_p = query_xidle_extension (si);
  #endif
-@@ -838,6 +844,10 @@ initialize_server_extensions (saver_info
+@@ -971,6 +977,10 @@ initialize_server_extensions (saver_info
  #ifdef HAVE_PROC_INTERRUPTS
    system_has_proc_interrupts_p = query_proc_interrupts_available (si, &piwhy);
  #endif
@@ -219,9 +221,9 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  
    if (!server_has_xidle_extension_p)
      si->using_xidle_extension = False;
-@@ -874,6 +884,22 @@ initialize_server_extensions (saver_info
- 		 blurb());
-     }
+@@ -1020,6 +1030,22 @@ initialize_server_extensions (saver_info
+   query_randr_extension (si);
+ #endif
  
 +                                /* Adding XInputExtension Dev support
 +#5077966 P1 "password prompt cant be directly activated by GOK device"
@@ -242,9 +244,9 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
    if (!system_has_proc_interrupts_p)
      {
        si->using_proc_interrupts = False;
-@@ -1964,6 +1990,8 @@ analyze_display (saver_info *si)
+@@ -2175,6 +2201,8 @@ analyze_display (saver_info *si)
  #     endif
-    }, { "XINERAMA",                             "Xinerama",
+    }, { "Apple-DRI",                            "Apple-DRI (XDarwin)",
          True
 +   }, { "XInputExtension",                             "XInputExtension",
 +        True
@@ -252,11 +254,11 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
    };
  
 diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
---- driver/xscreensaver.h	2006-05-10 08:48:46.850991000 -0700
-+++ driver/xscreensaver.h	2006-05-10 08:48:52.404876000 -0700
-@@ -80,6 +80,12 @@ struct saver_info {
-   int sgi_saver_ext_event_number;
-   int sgi_saver_ext_error_number;
+--- driver/xscreensaver.h	2006-08-08 15:24:49.613614000 -0700
++++ driver/xscreensaver.h	2006-08-08 15:24:55.055086000 -0700
+@@ -84,6 +84,12 @@ struct saver_info {
+   int randr_event_number;
+   int randr_error_number;
  # endif
 +                                 /* Adding XInputExtension Dev support
 +#5077966 P1 "password prompt cant be directly activated by GOK device"
@@ -267,7 +269,7 @@ diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
  
  
    /* =======================================================================
-@@ -305,6 +311,10 @@ extern Bool query_xidle_extension (saver
+@@ -324,6 +330,10 @@ extern Bool query_randr_extension (saver
  #ifdef HAVE_PROC_INTERRUPTS
  extern Bool query_proc_interrupts_available (saver_info *, const char **why);
  #endif
@@ -279,8 +281,8 @@ diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
  /* Display Power Management System (DPMS) interface. */
  extern Bool monitor_powered_on_p (saver_info *si);
 diff -urp -x '*~' driver/xset.c driver/xset.c
---- driver/xset.c	2006-05-10 08:48:46.708383000 -0700
-+++ driver/xset.c	2006-05-10 08:48:52.421037000 -0700
+--- driver/xset.c	2006-08-08 15:24:49.613951000 -0700
++++ driver/xset.c	2006-08-08 15:24:55.055931000 -0700
 @@ -34,6 +34,22 @@
  #ifdef _VROOT_H_
  ERROR!  You must not include vroot.h in this file.
@@ -446,7 +448,7 @@ diff -urp -x '*~' driver/xset.c driver/xset.c
  
  /* SGI SCREEN_SAVER server extension hackery.
   */
-@@ -252,6 +403,15 @@ disable_builtin_screensaver (saver_info 
+@@ -296,6 +447,15 @@ disable_builtin_screensaver (saver_info 
  # ifdef HAVE_SGI_SAVER_EXTENSION
  	if (si->using_sgi_saver_extension) init_sgi_saver_extension(si);
  # endif

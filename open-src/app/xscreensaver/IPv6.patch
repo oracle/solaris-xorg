@@ -31,12 +31,12 @@
 4802743 - xscreensaver mangles IPv6 numeric addresses in $DISPLAY
 
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-05-10 08:49:17.229068000 -0700
-+++ driver/subprocs.c	2006-05-10 08:49:23.643545000 -0700
-@@ -994,14 +994,17 @@ hack_subproc_environment (saver_screen_i
-   saver_info *si = ssi->global;
+--- driver/subprocs.c	2006-08-08 17:26:57.491298000 -0700
++++ driver/subprocs.c	2006-08-08 17:27:03.422319000 -0700
+@@ -1211,14 +1211,17 @@ hack_subproc_environment (saver_screen_i
    const char *odpy = DisplayString (si->dpy);
-   char *ndpy = (char *) malloc(strlen(odpy) + 20);
+   char *ndpy = (char *) malloc (strlen(odpy) + 20);
+   char *nssw = (char *) malloc (40);
 -  char *s;
 +  char *s, *c;
  
