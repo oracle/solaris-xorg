@@ -135,6 +135,7 @@ static void RADEONAdjustMemMapRegisters(ScrnInfoPtr pScrn, RADEONSavePtr save);
 static xf86MonPtr RADEONProbeDDC(ScrnInfoPtr pScrn, int indx);
 static RADEONMonitorType RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn, int IsCrtDac);
 
+
 /* psuedo xinerama support */
 
 extern Bool 		RADEONnoPanoramiXExtension;
@@ -1133,11 +1134,11 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
 	} else  {
 	    	if ((RADEONCrtIsPhysicallyConnected(pScrn, 
 		    !(pRADEONEnt->PortInfo[1].DACType)) == MT_CRT) && 
-	 	    (port == &pRADEONEnt->PortInfo[0])) {
+		    (info->HasCRTC2) && (port == &pRADEONEnt->PortInfo[0])) {
 	    	    MonType = MT_NONE;
 	    	    *MonInfo = NULL;
 		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "DDC info nullified on port 1 :::\n");
-		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Analog device indicated in DDC and port 1 CRT physically connected\n");
+		    xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Analog device indicated in DDC but port 2 CRT physically connected\n");
 		} else
 	    	    MonType = MT_CRT;
 	}
@@ -1389,7 +1390,6 @@ RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn, int IsCrtDac)
 	}
 #endif
     }
-
     return(bConnected ? MT_CRT : MT_NONE);
 }
 
@@ -4128,6 +4128,9 @@ static Bool RADEONPreInitModes(ScrnInfoPtr pScrn, xf86Int10InfoPtr pInt10)
     int            modesFound;
     RADEONEntPtr pRADEONEnt = RADEONEntPriv(pScrn);
     char           *s;
+    DisplayModePtr	first = NULL;
+    DisplayModePtr 	last = NULL;
+    DisplayModePtr 	start, mp;
 
     /* This option has two purposes:
      *
@@ -4410,6 +4413,29 @@ static Bool RADEONPreInitModes(ScrnInfoPtr pScrn, xf86Int10InfoPtr pInt10)
 			   modesFound);
 	    }
 	}
+    }
+
+    /* Sort the modes, retain the first */
+    if (pScrn->modes && (start = pScrn->modes->next)) {
+       for (mp = start; mp->next != pScrn->modes; mp = mp->next) {
+           DisplayModePtr 	new = NULL;
+
+           new = xnfcalloc(1, sizeof (DisplayModeRec));
+           memcpy(new, mp, sizeof (DisplayModeRec));
+           new->name = strdup(mp->name);
+           RADEONSortModes(&new, &first, &last);
+       }
+
+       if (last && first) {
+           pScrn->modes->next = first;
+           pScrn->modes->prev = last;
+           first->prev = pScrn->modes;
+           /* Make the list circular */
+           last->next = pScrn->modes;
+
+           for (mp = start; mp->next != pScrn->modes; mp = mp->next) 
+	       xf86DeleteMode(&start, mp);
+       }
     }
 
     pScrn->currentMode = pScrn->modes;
