@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	06/07/28
+# @(#)Makefile	1.6	06/08/14
 #
 ###############################################################################
 #
@@ -43,6 +43,7 @@ BEFOREX = \
 	lib/freetype \
 	lib/fontconfig \
 	lib/libXau \
+	lib/libXdmcp \
 	lib/Xft
 
 AFTERX = \
