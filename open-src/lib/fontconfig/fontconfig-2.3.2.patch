@@ -305,3 +305,23 @@ diff -ur fontconfig-2.3.2/src/fccfg.c fontconfig-2.3.2.new/src/fccfg.c
   {  TT_PLATFORM_ISO,		TT_ISO_ID_7BIT_ASCII,	"ASCII" },
   {  TT_PLATFORM_ISO,		TT_ISO_ID_10646,	"UCS-2BE" },
   {  TT_PLATFORM_ISO,		TT_ISO_ID_8859_1,	"ISO-8859-1" },
+--- src/fcxml.c.orig	Mon Aug 28 11:19:34 2006
++++ src/fcxml.c	Mon Aug 28 11:19:55 2006
+@@ -2310,6 +2310,9 @@
+     void	    *buf;
+     FcConfigParse   parse;
+     FcBool	    error = FcTrue;
++    char           *cur_locale = setlocale ( LC_NUMERIC, NULL );
++
++    setlocale ( LC_NUMERIC, "C" );
+     
+     filename = FcConfigFilename (name);
+     if (!filename)
+@@ -2381,6 +2384,7 @@
+     close (fd);
+     fd = -1;
+ bail0:
++    setlocale ( LC_NUMERIC, cur_locale );
+     if (error && complain)
+     {
+ 	if (name)
