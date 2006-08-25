@@ -1,0 +1,248 @@
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident "@(#)prototype_com 1.34     06/08/25 SMI"
+#
+#  X Window System Runtime Compatability Package
+#
+
+! sixty_four=$plat_64
+
+i pkginfo
+i copyright=../copyright
+i depend 
+
+d none lib 0755 root bin
+d none lib/$plat_64 0755 root bin
+s none lib/64=$plat_64
+d none sfw 0755 root bin
+d none sfw/lib 0755 root bin
+
+s none lib/libX11.so=./libX11.so.4
+s none lib/libX11.so.4=../openwin/lib/libX11.so.4
+s none lib/libX11.so.5=../openwin/lib/libX11.so.4
+
+#The directories /usr/X, /usr/X/lib, /usr/X/lib/locale, and
+#/usr/X/lib/app-defaults are missing.  
+#They are required by SVID3 ABI .
+
+s none X=./openwin
+#
+#	all the rest follow X...
+#
+#s none X/lib=./openwin/lib
+#s none X/lib/locale=./openwin/lib/locale
+#s none X/lib/app-defaults=./openwin/lib/app-defaults
+
+s none lib/libXau.so=libXau.so.6
+s none lib/libXau.so.6=../X11/lib/libXau.so.6
+
+s none lib/libXdmcp.so=libXdmcp.so.6
+s none lib/libXdmcp.so.6=../X11/lib/libXdmcp.so.6
+
+s none lib/libXext.so=./libXext.so.0
+s none lib/libXext.so.0=../openwin/lib/libXext.so.0
+
+s none lib/libXi.so=./libXi.so.5
+s none lib/libXi.so.5=../openwin/lib/libXi.so.5
+
+s none lib/libXmu.so=./libXmu.so.4
+s none lib/libXmu.so.4=../openwin/lib/libXmu.so.4
+
+s none lib/libICE.so=./libICE.so.6
+s none lib/libICE.so.6=../openwin/lib/libICE.so.6
+
+s none lib/libSM.so=./libSM.so.6
+s none lib/libSM.so.6=../openwin/lib/libSM.so.6
+
+s none lib/libXIE.so=./libXIE.so.6
+s none lib/libXIE.so.6=../openwin/lib/libXIE.so.6
+
+s none lib/libXaw.so=./libXaw.so.5
+s none lib/libXaw.so.4=../openwin/lib/libXaw.so.4
+s none lib/libXaw.so.5=../openwin/lib/libXaw.so.5
+
+s none lib/libXt.so=./libXt.so.4
+s none lib/libXt.so.4=../openwin/lib/libXt.so.4
+s none lib/libXt.so.5=../openwin/lib/libXt.so.4
+
+s none lib/libXtst.so=./libXtst.so.1
+s none lib/libXtst.so.1=../openwin/lib/libXtst.so.1
+
+s none lib/libXp.so=./libXp.so.1
+s none lib/libXp.so.1=../openwin/lib/libXp.so.1
+
+s none lib/libxkbfile.so=./libxkbfile.so.4
+s none lib/libxkbfile.so.4=../openwin/lib/libxkbfile.so.4
+
+s none lib/libXpm.so=./libXpm.so.4
+s none lib/libXpm.so.4=../openwin/lib/libXpm.so.4
+s none lib/libXpm.so.4.11=../openwin/lib/libXpm.so.4.11
+
+s none sfw/lib/libXrender.so=../../openwin/sfw/lib/libXrender.so
+s none sfw/lib/libXrender.so.1=../../openwin/sfw/lib/libXrender.so.1
+
+s none sfw/lib/libXfixes.so=../../openwin/sfw/lib/libXfixes.so
+s none sfw/lib/libXfixes.so.1=../../openwin/sfw/lib/libXfixes.so.1
+
+s none sfw/lib/libXdamage.so=../../openwin/sfw/lib/libXdamage.so
+s none sfw/lib/libXdamage.so.1=../../openwin/sfw/lib/libXdamage.so.1
+
+s none lib/libXft.so=./libXft.so.2
+s none lib/libXft.so.2=../openwin/lib/libXft.so.2
+
+s none lib/libXrandr.so=libXrandr.so.2
+s none lib/libXrandr.so.2=../X11/lib/libXrandr.so.2
+
+s none lib/libXv.so=libXv.so.1
+s none lib/libXv.so.1=../X11/lib/libXv.so.1
+
+s none lib/libXvMC.so=libXvMC.so.1
+s none lib/libXvMC.so.1=../X11/lib/libXvMC.so.1
+
+s none lib/libXxf86misc.so=libXxf86misc.so.1
+s none lib/libXxf86misc.so.1=../X11/lib/libXxf86misc.so.1
+
+s none lib/libXxf86vm.so=libXxf86vm.so.1
+s none lib/libXxf86vm.so.1=../X11/lib/libXxf86vm.so.1
+
+#
+# libXol is already in /usr/lib for SVID. Should we add the build
+# time link even though this API is obsolete?
+s none lib/libXol.so=./libXol.so.3
+#the following link exists already in SUNWxwplt for SVID
+# so we need to remove it from there when we add it here
+#s none lib/libXol.so.3=../openwin/lib/libXol.so.3
+
+#
+# XIL
+#
+s none lib/libxil.so=./libxil.so.1
+s none lib/libxil.so.1=../openwin/lib/libxil.so.1
+
+
+#
+#  Motif
+#
+s none lib/libXm.so=./libXm.so.4
+s none lib/libXm.so.4=../dt/lib/libXm.so.4
+s none lib/libXm.so.1.2=../dt/lib/libXm.so.3
+s none lib/libXm.so.3=../dt/lib/libXm.so.3
+
+s none lib/libMrm.so=./libMrm.so.4
+s none lib/libMrm.so.4=../dt/lib/libMrm.so.4
+s none lib/libMrm.so.1.2=../dt/lib/libMrm.so.3
+s none lib/libMrm.so.3=../dt/lib/libMrm.so.3
+
+s none lib/libUil.so=./libUil.so.3
+s none lib/libUil.so.3=../dt/lib/libUil.so.3
+
+
+###
+#
+# 64-bit libraries found on both SPARC & x86
+#
+
+s none lib/$plat_64/libX11.so=./libX11.so.4
+s none lib/$plat_64/libX11.so.4=../../openwin/lib/64/libX11.so.4
+s none lib/$plat_64/libX11.so.5=../../openwin/lib/64/libX11.so.4
+
+s none lib/$plat_64/libXau.so=libXau.so.6
+s none lib/$plat_64/libXau.so.6=../../X11/lib/64/libXau.so.6
+
+s none lib/$plat_64/libXdmcp.so=libXdmcp.so.6
+s none lib/$plat_64/libXdmcp.so.6=../../X11/lib/64/libXdmcp.so.6
+
+s none lib/$plat_64/libXext.so=./libXext.so.0
+s none lib/$plat_64/libXext.so.0=../../openwin/lib/64/libXext.so.0
+
+s none lib/$plat_64/libXi.so=./libXi.so.5
+s none lib/$plat_64/libXi.so.5=../../openwin/lib/64/libXi.so.5
+
+s none lib/$plat_64/libXmu.so=./libXmu.so.4
+s none lib/$plat_64/libXmu.so.4=../../openwin/lib/64/libXmu.so.4
+
+s none lib/$plat_64/libICE.so=./libICE.so.6
+s none lib/$plat_64/libICE.so.6=../../openwin/lib/64/libICE.so.6
+
+s none lib/$plat_64/libSM.so=./libSM.so.6
+s none lib/$plat_64/libSM.so.6=../../openwin/lib/64/libSM.so.6
+
+s none lib/$plat_64/libXaw.so=./libXaw.so.5
+s none lib/$plat_64/libXaw.so.5=../../openwin/lib/64/libXaw.so.5
+
+s none lib/$plat_64/libXt.so=./libXt.so.4
+s none lib/$plat_64/libXt.so.4=../../openwin/lib/64/libXt.so.4
+s none lib/$plat_64/libXt.so.5=../../openwin/lib/64/libXt.so.4
+
+s none lib/$plat_64/libXtst.so=./libXtst.so.1
+s none lib/$plat_64/libXtst.so.1=../../openwin/lib/64/libXtst.so.1
+
+s none lib/$plat_64/libXp.so=./libXp.so.1
+s none lib/$plat_64/libXp.so.1=../../openwin/lib/64/libXp.so.1
+
+s none lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
+s none lib/$plat_64/libxkbfile.so.4=../../openwin/lib/64/libxkbfile.so.4
+
+s none lib/$plat_64/libXpm.so=./libXpm.so.4
+s none lib/$plat_64/libXpm.so.4=../../openwin/lib/64/libXpm.so.4
+s none lib/$plat_64/libXpm.so.4.11=../../openwin/lib/64/libXpm.so.4.11
+
+d none sfw/lib/$plat_64 	0755 root bin
+s none sfw/lib/$plat_64/libXrender.so=../../../openwin/sfw/lib/64/libXrender.so
+s none sfw/lib/$plat_64/libXrender.so.1=../../../openwin/sfw/lib/64/libXrender.so.1
+s none sfw/lib/$plat_64/libXfixes.so=../../../openwin/sfw/lib/64/libXfixes.so
+s none sfw/lib/$plat_64/libXfixes.so.1=../../../openwin/sfw/lib/64/libXfixes.so.1
+s none sfw/lib/$plat_64/libXdamage.so=../../../openwin/sfw/lib/64/libXdamage.so
+s none sfw/lib/$plat_64/libXdamage.so.1=../../../openwin/sfw/lib/64/libXdamage.so.1
+
+s none lib/$plat_64/libXft.so=./libXft.so.2
+s none lib/$plat_64/libXft.so.2=../../openwin/lib/64/libXft.so.2
+
+s none lib/$plat_64/libXrandr.so=libXrandr.so.2
+s none lib/$plat_64/libXrandr.so.2=../../X11/lib/64/libXrandr.so.2
+
+s none lib/$plat_64/libXv.so=libXv.so.1
+s none lib/$plat_64/libXv.so.1=../../X11/lib/64/libXv.so.1
+
+s none lib/$plat_64/libXvMC.so=libXvMC.so.1
+s none lib/$plat_64/libXvMC.so.1=../../X11/lib/64/libXvMC.so.1
+
+s none lib/$plat_64/libXxf86misc.so=libXxf86misc.so.1
+s none lib/$plat_64/libXxf86misc.so.1=../../X11/lib/64/libXxf86misc.so.1
+
+s none lib/$plat_64/libXxf86vm.so=libXxf86vm.so.1
+s none lib/$plat_64/libXxf86vm.so.1=../../X11/lib/64/libXxf86vm.so.1
+
+
+#
+#  Motif
+#
+s none lib/$plat_64/libXm.so=./libXm.so.4
+s none lib/$plat_64/libXm.so.4=../../dt/lib/64/libXm.so.4
+
