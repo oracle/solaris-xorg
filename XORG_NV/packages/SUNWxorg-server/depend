@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)depend 1.5     05/11/07 SMI"
+# ident "@(#)depend 1.6     06/08/25 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -43,4 +43,3 @@ P SUNWlibms	Sun Compilers Bundled shared libm
 P SUNWzlib	The Zip compression library
 P SUNWxorg-xkb	X.org Foundation Xserver keyboard layouts
 P SUNWxsvc	Xserver pseudo driver
-P SUNWstsf	Standard Type Services Framework
