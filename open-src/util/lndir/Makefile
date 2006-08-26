@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	06/05/10
+# @(#)Makefile	1.2	06/08/25
 #
 
 PWD:sh=pwd
@@ -66,7 +66,7 @@ build_gen: $(SOURCE_DIR)/Makefile
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) ; \
 	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(PROG_CFLAGS) $(LDFLAGS)" LDFLAGS="$(PROG_LDFLAGS)" PKG_CONFIG_PATH=$(PROTODIR)/usr/X11/lib/pkgconfig ./configure $(LNDIR_CFG) )
+	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(PROG_CFLAGS) $(LDFLAGS)" LDFLAGS="$(PROG_LDFLAGS)" PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/pkgconfig:$(PROTODIR)/usr/X11/lib/pkgconfig ./configure $(LNDIR_CFG) )
 
 # Install
 install_gen: $(SOURCE_DIR)/Makefile
