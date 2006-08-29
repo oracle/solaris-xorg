@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.61	05/11/30
+# @(#)Makefile	1.62	06/08/29
 #
 
 PWD:sh=pwd
@@ -49,7 +49,8 @@ SOURCE_URL=http://fontconfig.org/release/fontconfig-2.3.2.tar.gz
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=fontconfig-$(FONTCONFIG_VERS).patch
+SOURCE_PATCHES=fontconfig-$(FONTCONFIG_VERS).patch \
+	       fontconfig-$(FONTCONFIG_VERS).patch.hide
 
 include $(TOP)/common/Makefile.inc
 

@@ -97,3 +97,14 @@
 	</edit>
 </match>
 
+<!--
+ Mark Lucida Sans Typewriter as poor support for AR locale
+ Use KacstQurn instead.
+-->
+<alias>
+	<family>Monospace</family>
+	<poor>
+		<family>Lucida Sans Typewriter</family>
+		<lang>ar</lang>
+	</poor>
+</alias>
