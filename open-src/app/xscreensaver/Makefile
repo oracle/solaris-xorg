@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.66	06/08/09
+# @(#)Makefile	1.67	06/09/13
 #
 
 PWD:sh=pwd
@@ -71,7 +71,8 @@ SOURCE_PATCHES = \
 	starfish.patch \
 	glsnake.patch \
 	apple2.patch \
-	topblock.patch
+	topblock.patch \
+        allowRootByPassFlag.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
