@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	06/08/14
+# @(#)Makefile	1.7	06/09/15
 #
 ###############################################################################
 #
@@ -39,6 +39,7 @@
 
 BEFOREX = \
 	proto \
+	data/xbitmaps \
 	util/lndir \
 	lib/freetype \
 	lib/fontconfig \
