@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.34     06/08/25 SMI"
+# ident "@(#)prototype_com 1.35     06/09/19 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -245,4 +245,9 @@ s none lib/$plat_64/libXxf86vm.so.1=../../X11/lib/64/libXxf86vm.so.1
 #
 s none lib/$plat_64/libXm.so=./libXm.so.4
 s none lib/$plat_64/libXm.so.4=../../dt/lib/64/libXm.so.4
+#
+# Trusted Extensions
+#
+s none lib/$plat_64/libXtsol.so=./libXtsol.so.1
+s none lib/$plat_64/libXtsol.so.1=../../openwin/lib/64/libXtsol.so.1
 
