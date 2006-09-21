@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.16     06/06/08 SMI"
+#pragma ident   "@(#)tsolextension.c 1.17     06/08/04 SMI"
 
 #include <stdio.h>
 #include <bsm/auditwrite.h>
@@ -211,6 +211,10 @@ extern int ProcTsolQueryExtension(ClientPtr client);
 extern int ProcTsolListExtensions(ClientPtr client);
 extern int ProcTsolMapWindow(ClientPtr client);
 extern int ProcTsolMapSubwindows(ClientPtr client);
+extern int ProcTsolCopyArea(ClientPtr client);
+extern int ProcTsolCopyPlane(ClientPtr client);
+extern int ProcTsolPolySegment(ClientPtr client);
+extern int ProcTsolPolyRectangle(ClientPtr client);
 
 /*
  * Initialize the extension. Main entry point for this loadable
@@ -349,7 +353,10 @@ TsolExtensionInit()
 	ProcVector[X_ListExtensions] = ProcTsolListExtensions;
 	ProcVector[X_MapWindow] = ProcTsolMapWindow;
 	ProcVector[X_MapSubwindows] = ProcTsolMapSubwindows;
-
+	ProcVector[X_CopyArea] = ProcTsolCopyArea;
+	ProcVector[X_CopyPlane] = ProcTsolCopyPlane;
+	ProcVector[X_PolySegment] = ProcTsolPolySegment;
+	ProcVector[X_PolyRectangle] = ProcTsolPolyRectangle;
 }
 
 static pointer
@@ -397,8 +404,6 @@ TsolCheckResourceIDAccess(
 	    switch (reqtype) {
 		case X_PolyPoint:
 		case X_PolyLine:
-		case X_PolySegment:
-		case X_PolyRectangle:
 		case X_PolyArc:
 		case X_FillPoly:
 		case X_PolyFillRectangle:

@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.11     06/05/25 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.12     06/08/04 SMI"
 
 #include "X.h"
 #define		NEED_REPLIES
@@ -619,20 +619,12 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 	if (!SAMECLIENT(client, pDraw->id))
 	{
 	    /*
-	     * Trusted Path Windows require Trusted Path attrib when a 
-             * client doesn't have the PRIV_WIN_DGA privilege.
+	     * Client must have Trusted Path to access a Trusted Path Window
 	     */
-	    if ((pDraw->type == DRAWABLE_WINDOW) &&
-            XTSOLTrusted(pWin) &&
-            !HasTrustedPath(tsolinfo) &&
-            !priv_win_dga)
-		{
-		    XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "read pixel", pWin->drawable.id);
-			return (err_code);
-	    }
+	    if ((pDraw->type == DRAWABLE_WINDOW) && XTSOLTrusted(pWin) &&
+		    !HasTrustedPath(tsolinfo))
+		return (err_code);
+
 		/*
 	 	 * MAC Check
 		 */

@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.12	06/05/25 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.14	06/09/19 SMI"
 
 #include <sys/param.h>
 #include <fcntl.h>
@@ -2375,19 +2375,6 @@ ProcTsolListInstalledColormaps(client)
     return(client->noClientException);
 }
 
-int
-ProcTsolGetImage(client)
-    register ClientPtr	client;
-{
-    REQUEST(xGetImageReq);
-
-    REQUEST_SIZE_MATCH(xGetImageReq);
-
-    return DoGetImage(client, stuff->format, stuff->drawable,
-		      stuff->x, stuff->y,
-		      (int)stuff->width, (int)stuff->height,
-		      stuff->planeMask, (xGetImageReply **)NULL);
-}
 
 int
 ProcTsolQueryTree(client)
@@ -2793,4 +2780,545 @@ ProcTsolMapSubwindows(register ClientPtr client)
     client->trustLevel = savedtrust;
 
     return(client->noClientException);
+}
+
+static int
+TsolDoGetImage(client, format, drawable, x, y, width, height, planemask, im_return)
+    register ClientPtr	client;
+    Drawable drawable;
+    int format;
+    int x, y, width, height;
+    Mask planemask;
+    xGetImageReply **im_return;
+{
+    register DrawablePtr pDraw;
+    int			nlines, linesPerBuf;
+    register int	linesDone;
+    long		widthBytesLine, length;
+    Mask		plane = 0;
+    char		*pBuf;
+    xGetImageReply	xgi;
+    RegionPtr pVisibleRegion = NULL;
+
+#ifdef TSOL
+    Bool        getimage_ok = TRUE; /* if false get all 0s */
+    Bool        overlap = FALSE;
+    Bool        not_root_window = FALSE;
+    WindowPtr   pHead, pWin, pRoot, pChild;
+    TsolResPtr  tsolres_win;
+    BoxRec      winbox, box;
+    BoxPtr      pwinbox;
+    DrawablePtr pDrawtmp;
+#endif /* TSOL */
+
+    if ((format != XYPixmap) && (format != ZPixmap))
+    {
+	client->errorValue = format;
+        return(BadValue);
+    }
+    SECURITY_VERIFY_DRAWABLE(pDraw, drawable, client, SecurityReadAccess);
+    if(pDraw->type == DRAWABLE_WINDOW)
+    {
+#ifdef TSOL
+        if (DrawableIsRoot(pDraw))
+        {
+            /* Get the actual window on which get image is done */
+
+            pWin = XYToWindow( x, y);
+            if (!WindowIsRoot(pWin))
+            {
+                not_root_window = TRUE;
+                pDrawtmp = &(pWin->parent->drawable);
+                if (((WindowPtr) pDrawtmp)->realized)
+                {
+                    pDraw = pDrawtmp;
+                    /*
+                     * Adjust the coordinates only w.r.t the new drawable.
+		     * Adjusting width and height will cause incorrect
+		     * amount of data being returned to client.
+                     */
+                    x -= pDraw->x;
+                    if (x < 0)
+                        x = 0;
+                    y -= pDraw->y;
+                    if (y < 0)
+                        y = 0;
+                }
+            }
+        }
+        else
+        {
+            not_root_window = TRUE;
+        }
+
+        if (not_root_window)
+        {
+            Window   root;
+            WindowPtr tmpwin;
+
+            tmpwin = (WindowPtr)LookupWindow(pDraw->id, client);
+            while (tmpwin)
+            {
+                if (tmpwin->parent && WindowIsRoot(tmpwin->parent))
+                {
+                    pWin = tmpwin;
+                    break;
+                }
+                tmpwin = tmpwin->parent;
+            }
+            pwinbox = WindowExtents(pWin, &winbox);
+            box.x1 = pwinbox->x1;
+            box.y1 = pwinbox->y1;
+            box.x2 = pwinbox->x2;
+            box.y2 = box.y1;
+            tsolres_win =
+                (TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+            root = WindowTable[pWin->drawable.pScreen->myNum]->drawable.id;
+            pRoot = (WindowPtr)LookupIDByType(root, RT_WINDOW);
+            pHead = pRoot->firstChild;
+        }
+
+        if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pDraw,
+                         client, TSOL_ALL, (void *)MAJOROP))
+        {
+            /* Don't return error code. Return  contents  all zero */
+            getimage_ok = FALSE;
+        }
+#endif /* TSOL */
+
+      if( /* check for being viewable */
+	 !((WindowPtr) pDraw)->realized ||
+	  /* check for being on screen */
+         pDraw->x + x < 0 ||
+ 	 pDraw->x + x + width > pDraw->pScreen->width ||
+         pDraw->y + y < 0 ||
+         pDraw->y + y + height > pDraw->pScreen->height ||
+          /* check for being inside of border */
+         x < - wBorderWidth((WindowPtr)pDraw) ||
+         x + width > wBorderWidth((WindowPtr)pDraw) + (int)pDraw->width ||
+         y < -wBorderWidth((WindowPtr)pDraw) ||
+         y + height > wBorderWidth ((WindowPtr)pDraw) + (int)pDraw->height
+        )
+	    return(BadMatch);
+	xgi.visual = wVisual (((WindowPtr) pDraw));
+    }
+    else
+    {
+#ifdef TSOL
+        if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pDraw,
+                         client, TSOL_ALL, (void *)MAJOROP))
+        {
+            /* Don't return error code. Return  contents  all zero */
+            getimage_ok = FALSE;
+        }
+#endif  /* TSOL */
+
+      if(x < 0 ||
+         x+width > (int)pDraw->width ||
+         y < 0 ||
+         y+height > (int)pDraw->height
+        )
+	    return(BadMatch);
+	xgi.visual = None;
+    }
+
+    SET_DBE_SRCBUF(pDraw, drawable);
+
+    xgi.type = X_Reply;
+    xgi.sequenceNumber = client->sequence;
+    xgi.depth = pDraw->depth;
+    if(format == ZPixmap)
+    {
+	widthBytesLine = PixmapBytePad(width, pDraw->depth);
+	length = widthBytesLine * height;
+
+    }
+    else 
+    {
+	widthBytesLine = BitmapBytePad(width);
+	plane = ((Mask)1) << (pDraw->depth - 1);
+	/* only planes asked for */
+	length = widthBytesLine * height *
+		 Ones(planemask & (plane | (plane - 1)));
+
+    }
+
+    xgi.length = length;
+
+    if (im_return) {
+	pBuf = (char *)xalloc(sz_xGetImageReply + length);
+	if (!pBuf)
+	    return (BadAlloc);
+	if (widthBytesLine == 0)
+	    linesPerBuf = 0;
+	else
+	    linesPerBuf = height;
+	*im_return = (xGetImageReply *)pBuf;
+	*(xGetImageReply *)pBuf = xgi;
+	pBuf += sz_xGetImageReply;
+    } else {
+	xgi.length = (xgi.length + 3) >> 2;
+	if (widthBytesLine == 0 || height == 0)
+	    linesPerBuf = 0;
+	else if (widthBytesLine >= IMAGE_BUFSIZE)
+	    linesPerBuf = 1;
+	else
+	{
+	    linesPerBuf = IMAGE_BUFSIZE / widthBytesLine;
+	    if (linesPerBuf > height)
+		linesPerBuf = height;
+	}
+	length = linesPerBuf * widthBytesLine;
+	if (linesPerBuf < height)
+	{
+	    /* we have to make sure intermediate buffers don't need padding */
+	    while ((linesPerBuf > 1) &&
+		   (length & ((1L << LOG2_BYTES_PER_SCANLINE_PAD)-1)))
+	    {
+		linesPerBuf--;
+		length -= widthBytesLine;
+	    }
+	    while (length & ((1L << LOG2_BYTES_PER_SCANLINE_PAD)-1))
+	    {
+		linesPerBuf++;
+		length += widthBytesLine;
+	    }
+	}
+	if(!(pBuf = (char *) ALLOCATE_LOCAL(length)))
+	    return (BadAlloc);
+	WriteReplyToClient(client, sizeof (xGetImageReply), &xgi);
+    }
+
+    if (linesPerBuf == 0)
+    {
+	/* nothing to do */
+    }
+    else if (format == ZPixmap)
+    {
+        linesDone = 0;
+        while (height - linesDone > 0)
+        {
+	    nlines = min(linesPerBuf, height - linesDone);
+	    (*pDraw->pScreen->GetImage) (pDraw,
+	                                 x,
+				         y + linesDone,
+				         width, 
+				         nlines,
+				         format,
+				         planemask,
+				         (pointer) pBuf);
+#ifdef TSOL
+        if (not_root_window)
+        {
+            WindowPtr  over_win = (WindowPtr)NULL;
+
+            box.y1 = y + linesDone + pDraw->y;
+            box.y2 = box.y1 + nlines;
+            over_win = AnyWindowOverlapsJustMe(pWin, pHead, &box);
+            if (over_win &&
+                xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, over_win,
+                             client, TSOL_ALL, (void *)MAJOROP))
+            {
+                overlap = TRUE;
+            }
+        }
+
+        /*
+         * fill the buffer with zeros in case of security failure
+         */
+            if (!getimage_ok || overlap)
+        {
+            if (overlap)
+                overlap = FALSE;
+            memset(pBuf, 0, (int)(nlines * widthBytesLine));
+
+        }
+#endif /* TSOL */
+
+	    /* Note that this is NOT a call to WriteSwappedDataToClient,
+               as we do NOT byte swap */
+	    if (!im_return)
+	    {
+/* Don't split me, gcc pukes when you do */
+		(void)WriteToClient(client,
+				    (int)(nlines * widthBytesLine),
+				    pBuf);
+	    }
+	    linesDone += nlines;
+        }
+    }
+    else /* XYPixmap */
+    {
+        for (; plane; plane >>= 1)
+	{
+	    if (planemask & plane)
+	    {
+	        linesDone = 0;
+	        while (height - linesDone > 0)
+	        {
+		    nlines = min(linesPerBuf, height - linesDone);
+	            (*pDraw->pScreen->GetImage) (pDraw,
+	                                         x,
+				                 y + linesDone,
+				                 width, 
+				                 nlines,
+				                 format,
+				                 plane,
+				                 (pointer)pBuf);
+#ifdef TSOL
+                if (not_root_window)
+                {
+                    WindowPtr  over_win = (WindowPtr)NULL;
+
+                    box.y1 = y + linesDone + pDraw->y;
+                    box.y2 = box.y1 + nlines;
+                    over_win = AnyWindowOverlapsJustMe(pWin, pHead, &box);
+                    if (over_win &&
+                        xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, over_win,
+                                     client, TSOL_ALL, (void *)MAJOROP))
+                    {
+                        overlap = TRUE;
+                    }
+                }
+                /*
+                 * fill the buffer with zeros in case of security failure
+                 */
+                if (!getimage_ok || overlap)
+                {
+                    if (overlap)
+                        overlap = FALSE;
+                    memset(pBuf, 0, (int)(nlines * widthBytesLine));
+
+                }
+#endif /* TSOL */
+
+		    /* Note: NOT a call to WriteSwappedDataToClient,
+		       as we do NOT byte swap */
+		    if (im_return) {
+			pBuf += nlines * widthBytesLine;
+		    } else {
+/* Don't split me, gcc pukes when you do */
+			(void)WriteToClient(client,
+					(int)(nlines * widthBytesLine),
+					pBuf);
+		    }
+		    linesDone += nlines;
+		}
+            }
+	}
+    }
+
+    if (!im_return)
+	DEALLOCATE_LOCAL(pBuf);
+    return (client->noClientException);
+}
+
+int
+ProcTsolGetImage(client)
+    register ClientPtr	client;
+{
+    int status;
+    int savedtrust = client->trustLevel;
+
+    client->trustLevel = XSecurityClientTrusted;
+
+    REQUEST(xGetImageReq);
+
+    REQUEST_SIZE_MATCH(xGetImageReq);
+
+    status = TsolDoGetImage(client, stuff->format, stuff->drawable,
+		      stuff->x, stuff->y,
+		      (int)stuff->width, (int)stuff->height,
+		      stuff->planeMask, (xGetImageReply **)NULL);
+
+    client->trustLevel = savedtrust;
+    return (status);
+}
+
+int
+ProcTsolPolySegment(client)
+    register ClientPtr client;
+{
+    int savedtrust;
+    int status;
+    GC *pGC;
+    DrawablePtr pDraw;
+    REQUEST(xPolySegmentReq);
+
+    REQUEST_AT_LEAST_SIZE(xPolySegmentReq);
+
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+
+    VALIDATE_DRAWABLE_AND_GC(stuff->drawable, pDraw, pGC, client);
+
+    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pDraw,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        /* ignore the error message for DnD zap effect */
+        return (client->noClientException);
+    }
+    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, (void *)stuff->gc,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        client->errorValue = stuff->gc;
+        return (BadGC);
+    }
+
+    status = (*TsolSavedProcVector[X_PolySegment])(client);
+    client->trustLevel = savedtrust;
+
+    return (status);
+}
+
+int
+ProcTsolPolyRectangle (client)
+    register ClientPtr client;
+{
+    int savedtrust;
+    int status;
+    GC *pGC;
+    DrawablePtr pDraw;
+
+    REQUEST(xPolyRectangleReq);
+    REQUEST_AT_LEAST_SIZE(xPolyRectangleReq);
+
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+
+    VALIDATE_DRAWABLE_AND_GC(stuff->drawable, pDraw, pGC, client);
+
+    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pDraw,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        /* ignore the error message */
+        return (client->noClientException);
+    }
+    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, (void *)stuff->gc,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        client->errorValue = stuff->gc;
+        return (BadGC);
+    }
+
+    status = (*TsolSavedProcVector[X_PolyRectangle])(client);
+    client->trustLevel = savedtrust;
+
+    return (status);
+}
+
+int
+ProcTsolCopyArea (client)
+    register ClientPtr client;
+{
+    int savedtrust;
+    int status;
+    register DrawablePtr pDst;
+    register DrawablePtr pSrc;
+    register GC *pGC;
+    REQUEST(xCopyAreaReq);
+
+    REQUEST_SIZE_MATCH(xCopyAreaReq);
+
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+
+    VALIDATE_DRAWABLE_AND_GC(stuff->dstDrawable, pDst, pGC, client);
+
+    if (stuff->dstDrawable != stuff->srcDrawable)
+    {
+        SECURITY_VERIFY_DRAWABLE(pSrc, stuff->srcDrawable, client,
+                                 SecurityReadAccess);
+        if ((pDst->pScreen != pSrc->pScreen) || (pDst->depth != pSrc->depth))
+        {
+            client->errorValue = stuff->dstDrawable;
+            return (BadMatch);
+        }
+    }
+    else
+        pSrc = pDst;
+
+    SET_DBE_SRCBUF(pSrc, stuff->srcDrawable);
+
+    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pSrc,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        /* ignore the error message for DnD zap effect */
+        return(client->noClientException);
+    }
+    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pDst,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        /* ignore the error message for DnD zap effect */
+        return(client->noClientException);
+    }
+    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, (void *)stuff->gc,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        client->errorValue = stuff->gc;
+        return (BadGC);
+    }
+
+    status = (*TsolSavedProcVector[X_CopyArea])(client);
+    client->trustLevel = savedtrust;
+
+    return (status);
+}
+
+int
+ProcTsolCopyPlane(client)
+    register ClientPtr client;
+{
+    int savedtrust;
+    int status;
+    register DrawablePtr psrcDraw, pdstDraw;
+    register GC *pGC;
+    REQUEST(xCopyPlaneReq);
+    RegionPtr pRgn;
+
+    REQUEST_SIZE_MATCH(xCopyPlaneReq);
+
+    savedtrust = client->trustLevel;
+    client->trustLevel = XSecurityClientTrusted;
+
+    VALIDATE_DRAWABLE_AND_GC(stuff->dstDrawable, pdstDraw, pGC, client);
+
+    if (stuff->dstDrawable != stuff->srcDrawable)
+    {
+	SECURITY_VERIFY_DRAWABLE(psrcDraw, stuff->srcDrawable, client,
+				 SecurityReadAccess);
+	if (pdstDraw->pScreen != psrcDraw->pScreen)
+	{
+	    client->errorValue = stuff->dstDrawable;
+	    return (BadMatch);
+	}
+    }
+    else
+        psrcDraw = pdstDraw;
+
+    SET_DBE_SRCBUF(psrcDraw, stuff->srcDrawable);
+
+    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, psrcDraw,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        /* ignore the error message for DnD zap effect */
+        return(client->noClientException);
+    }
+    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pdstDraw,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        /* ignore the error message for DnD zap effect */
+        return(client->noClientException);
+    }
+    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, (void *)stuff->gc,
+                     client, TSOL_ALL, (void *)MAJOROP))
+    {
+        client->errorValue = stuff->gc;
+        return (BadGC);
+    }
+
+    status = (*TsolSavedProcVector[X_CopyPlane])(client);
+    client->trustLevel = savedtrust;
+
+    return (status);
 }
