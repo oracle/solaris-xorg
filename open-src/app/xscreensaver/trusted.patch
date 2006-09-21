@@ -31,9 +31,9 @@
 Support needed for Solaris Trusted Extensions / Trusted Java Desktop System.
 
 diff -urp -x '*~' configure.in configure.in
---- configure.in	2006-08-08 17:27:15.440757000 -0700
-+++ configure.in	2006-08-08 17:27:22.191138000 -0700
-@@ -3440,6 +3440,18 @@ fi
+--- configure.in	2006-09-19 17:08:52.782397000 -0700
++++ configure.in	2006-09-19 17:08:57.994986000 -0700
+@@ -3526,6 +3526,18 @@ fi
  AC_SUBST([XPM_LOGO_FILE])
  AC_SUBST([XPM_LOGO_NAME])
  
@@ -53,8 +53,8 @@ diff -urp -x '*~' configure.in configure.in
  
  if test "$have_kerberos" = yes; then
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-08-08 17:27:15.943106000 -0700
-+++ driver/Makefile.in	2006-08-08 17:27:22.192257000 -0700
+--- driver/Makefile.in	2006-09-19 17:08:52.909585000 -0700
++++ driver/Makefile.in	2006-09-19 17:08:58.014661000 -0700
 @@ -103,6 +103,10 @@ GTK_OBJS	= demo-Gtk.o demo-Gtk-conf.o @G
  GTK_LOCK_SRCS	= lock-Gtk.c remote.c
  GTK_LOCK_OBJS	= lock-Gtk.o remote.o
@@ -66,7 +66,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  PWENT_SRCS	= passwd-pwent.c
  PWENT_OBJS	= passwd-pwent.o
  
-@@ -774,8 +778,10 @@ lock.o:
+@@ -776,8 +780,10 @@ lock.o:
  	  $(srcdir)/lock.c
  
  # lock-Gtk takes extra -D and -I options.
@@ -78,7 +78,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  lock-Gtk.o: lock-Gtk.c
  	$(CC) -c $(INCLUDES) -I$(ICON_SRC) $(GTK_DEFS) \
-@@ -794,8 +800,9 @@ XScreenSaver_Xm_ad.h: XScreenSaver-Xm.ad
+@@ -796,8 +802,9 @@ XScreenSaver_Xm_ad.h: XScreenSaver-Xm.ad
  
  # The executables linked in this directory.
  #
@@ -90,7 +90,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  xscreensaver-command: $(CMD_OBJS)
  	$(CC) $(LDFLAGS) -o $@ $(CMD_OBJS) $(CMD_LIBS)
-@@ -814,8 +821,9 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
+@@ -816,8 +823,9 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
  xscreensaver-lock: @PREFERRED_LOCK_PROGRAM@
  	$(INSTALL_PROGRAM) @PREFERRED_LOCK_PROGRAM@ $@
  
@@ -101,7 +101,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  	$(GTK_LIBS) $(XML_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
  	$(XDPMS_LIBS) -lXext \
  	$(X_EXTRA_LIBS)
-@@ -825,16 +833,18 @@ xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOT
+@@ -827,16 +835,18 @@ xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOT
  	$(MOTIF_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
  	$(XDPMS_LIBS) $(XINERAMA_LIBS) -lXext $(X_EXTRA_LIBS)
  
@@ -126,8 +126,8 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  pdf2jpeg: $(PDF2JPEG_OBJS)
  	$(OBJCC) $(LDFLAGS) -o $@ $(PDF2JPEG_OBJS) $(PDF2JPEG_LIBS) -lm
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
---- driver/demo-Gtk.c	2006-08-08 17:27:16.160940000 -0700
-+++ driver/demo-Gtk.c	2006-08-08 17:27:22.195132000 -0700
+--- driver/demo-Gtk.c	2006-09-19 17:08:53.064585000 -0700
++++ driver/demo-Gtk.c	2006-09-19 17:08:58.017718000 -0700
 @@ -136,6 +136,8 @@
  #include <string.h>
  #include <ctype.h>
@@ -243,8 +243,8 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
    XtGetApplicationNameAndClass (dpy, &progname, &progclass);
    XSetErrorHandler (demo_ehandler);
 diff -urp -x '*~' driver/prefs.c driver/prefs.c
---- driver/prefs.c	2006-08-08 17:27:16.076574000 -0700
-+++ driver/prefs.c	2006-08-08 17:27:22.267393000 -0700
+--- driver/prefs.c	2006-09-19 17:08:52.983584000 -0700
++++ driver/prefs.c	2006-09-19 17:08:58.045493000 -0700
 @@ -37,6 +37,7 @@
  # include "vms-pwd.h"
  #endif /* VMS */
@@ -320,8 +320,8 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
    p->pwd_p	    = get_boolean_resource (dpy, "passwdTimeoutEnabled", "Boolean");
    p->pointer_timeout = 1000 * get_seconds_resource (dpy, "pointerPollTime", "Time");
 diff -urp -x '*~' driver/prefs.h driver/prefs.h
---- driver/prefs.h	2006-08-08 17:27:15.972813000 -0700
-+++ driver/prefs.h	2006-08-08 17:27:22.267954000 -0700
+--- driver/prefs.h	2006-09-19 17:08:52.911363000 -0700
++++ driver/prefs.h	2006-09-19 17:08:58.048306000 -0700
 @@ -81,6 +81,7 @@ struct saver_preferences {
    Time initial_delay;		/* how long to sleep after launch */
    Time splash_duration;		/* how long the splash screen stays up */
@@ -331,8 +331,8 @@ diff -urp -x '*~' driver/prefs.h driver/prefs.h
    Time cycle;			/* how long each hack should run */
    Time passwd_timeout;		/* how much time before pw dialog goes down */
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-08-08 17:27:16.150981000 -0700
-+++ driver/subprocs.c	2006-08-08 17:27:22.269506000 -0700
+--- driver/subprocs.c	2006-09-19 17:08:53.058962000 -0700
++++ driver/subprocs.c	2006-09-19 17:08:58.049445000 -0700
 @@ -71,6 +71,7 @@ extern int kill (pid_t, int);		/* signal
  #include "exec.h"
  #include "yarandom.h"
@@ -356,8 +356,8 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
        forked = fork_and_exec (ssi, complete_hack_command);
        free (complete_hack_command);
 diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
---- driver/xscreensaver-getimage.c	2006-03-09 13:35:35.000000000 -0800
-+++ driver/xscreensaver-getimage.c	2006-08-08 17:27:22.270497000 -0700
+--- driver/xscreensaver-getimage.c	2006-09-17 18:03:58.000000000 -0700
++++ driver/xscreensaver-getimage.c	2006-09-19 17:08:58.053620000 -0700
 @@ -83,6 +83,7 @@ static char *defaults[] = {
   0
  };
@@ -366,7 +366,7 @@ diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
  
  
  char *progname = 0;
-@@ -1761,7 +1762,7 @@ main (int argc, char **argv)
+@@ -1783,7 +1784,7 @@ main (int argc, char **argv)
  
    toplevel = XtAppInitialize (&app, progclass, 0, 0, &argc, argv,
                                defaults, 0, 0);
@@ -376,8 +376,8 @@ diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
    db = XtDatabase (dpy);
    XtGetApplicationNameAndClass (dpy, &s, &progclass);
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-08-08 17:27:16.183058000 -0700
-+++ driver/xscreensaver.c	2006-08-08 17:27:22.283861000 -0700
+--- driver/xscreensaver.c	2006-09-19 17:08:53.074090000 -0700
++++ driver/xscreensaver.c	2006-09-19 17:08:58.055083000 -0700
 @@ -198,6 +198,7 @@ passwd_dialog_data *ptr_mygtkpwd = &mygt
  char *progname = 0;
  char *progclass = 0;

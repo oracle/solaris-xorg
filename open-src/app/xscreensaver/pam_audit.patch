@@ -33,8 +33,8 @@ Fixes for bugs:
 6417168, P3, gnome/screensaver - xscreensaver loops while trying to unlock a session for a user whose password was expired
 
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-08-08 15:25:33.406256000 -0700
-+++ driver/Makefile.in	2006-08-08 15:25:38.339890000 -0700
+--- driver/Makefile.in	2006-09-19 17:08:58.014661000 -0700
++++ driver/Makefile.in	2006-09-19 17:09:03.064561000 -0700
 @@ -215,7 +215,7 @@ PDF2JPEG_LIBS	= -framework Cocoa
  SAVER_LIBS	= $(LIBS) $(X_LIBS) $(XMU_LIBS) @SAVER_LIBS@ \
  		  $(XDPMS_LIBS) $(XINERAMA_LIBS) $(GL_LIBS) $(X_PRE_LIBS) \
@@ -45,8 +45,8 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  CMD_LIBS	= $(LIBS) $(X_LIBS) \
  		  $(X_PRE_LIBS) -lX11 -lXext $(X_EXTRA_LIBS)
 diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
---- driver/passwd-pam.c	2006-08-08 15:25:33.120329000 -0700
-+++ driver/passwd-pam.c	2006-08-08 15:25:38.341257000 -0700
+--- driver/passwd-pam.c	2006-09-19 17:08:57.704528000 -0700
++++ driver/passwd-pam.c	2006-09-19 17:09:03.071424000 -0700
 @@ -44,10 +44,12 @@
  #ifdef HAVE_UNISTD_H
  # include <unistd.h>
@@ -411,7 +411,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
        }
  
        goto DONE;
-@@ -521,10 +669,11 @@ pam_passwd_valid_p (void)
+@@ -524,10 +672,11 @@ pam_passwd_valid_p (void)
  
   DONE:
    if (user) free (user);
@@ -424,7 +424,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
        if (verbose_p)
          fprintf (stderr, "%s: pam_end (...) ==> %d (%s)\n",
                   blurb(), status2,
-@@ -554,6 +703,7 @@ pam_passwd_valid_p (void)
+@@ -557,6 +706,7 @@ pam_passwd_valid_p (void)
  
    if (si->pw_data->passwd_string)
      {
@@ -432,7 +432,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
        free (si->pw_data->passwd_string); 
        si->pw_data->passwd_string = 0;
      }
-@@ -662,10 +812,10 @@ pam_conversation (int nmsgs,
+@@ -665,10 +815,10 @@ pam_conversation (int nmsgs,
                    struct pam_response **resp,
                    void *closure)
  {
@@ -445,7 +445,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
  
    /* On SunOS 5.6, the `closure' argument always comes in as random garbage. */
    c = (struct pam_closure *) suns_pam_implementation_blows;
-@@ -674,6 +824,7 @@ pam_conversation (int nmsgs,
+@@ -677,6 +827,7 @@ pam_conversation (int nmsgs,
       fprintf(stderr, "-->pam_conv() \n");
  
    reply = (struct pam_response *) calloc (nmsgs, sizeof (*reply));
@@ -453,7 +453,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
    if (!reply) return PAM_CONV_ERR;
  	
    for (replies = 0; replies < nmsgs; replies++)
-@@ -688,7 +839,6 @@ pam_conversation (int nmsgs,
+@@ -691,7 +842,6 @@ pam_conversation (int nmsgs,
             make_passwd_window (si);
           }
  
@@ -461,7 +461,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
        switch (msg[replies]->msg_style)
          {
          case PAM_PROMPT_ECHO_ON:
-@@ -698,8 +848,6 @@ pam_conversation (int nmsgs,
+@@ -701,8 +851,6 @@ pam_conversation (int nmsgs,
              fprintf (stderr, "%s:     PAM ECHO_OFF(\"%s\") ==> password\n",
                       blurb(), msg[replies]->msg);
  
@@ -470,7 +470,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
               write_to_child (si, msg[replies]->msg);
               if (c->verbose_p)
                sleep (1); /* let user see these */
-@@ -708,8 +856,36 @@ pam_conversation (int nmsgs,
+@@ -711,8 +859,36 @@ pam_conversation (int nmsgs,
                  fprintf(stderr, "PAM_ECHO_OFF/ECHO_ON msg[replies]-> %s\n",
  					msg[replies]->msg);
  
@@ -508,7 +508,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
                {
                 if (c->verbose_p)
                   fprintf(stderr,"WAiting for window id from lock dialog\n");
-@@ -719,13 +895,13 @@ pam_conversation (int nmsgs,
+@@ -722,13 +898,13 @@ pam_conversation (int nmsgs,
                   fprintf(stderr,"<---passwd_event_loop() state =%d\n",si->pw_data->state);
                }
  
@@ -525,7 +525,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
                   fprintf(stderr, "in ECHO OFF and got a passwd..:%s\n",
                                         si->pw_data->passwd_string);
                }
-@@ -733,46 +909,44 @@ pam_conversation (int nmsgs,
+@@ -736,46 +912,44 @@ pam_conversation (int nmsgs,
                {
                 /* this shouldnt happen...perhaps sending null passwd to pam is 
  	        * best for now**/
@@ -579,7 +579,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
            break;
  	}
  
-@@ -780,16 +954,13 @@ pam_conversation (int nmsgs,
+@@ -783,16 +957,13 @@ pam_conversation (int nmsgs,
  
           {
             int i;

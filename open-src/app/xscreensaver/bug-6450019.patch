@@ -39,8 +39,8 @@ dialog box. This case was missing if password got expired and xscreensaver
 was letting user back in with expired passwd CR 6417168.
 
 diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
---- driver/passwd-pam.c	2006-08-08 15:25:38.341257000 -0700
-+++ driver/passwd-pam.c	2006-08-08 15:25:42.962275000 -0700
+--- driver/passwd-pam.c	2006-09-19 17:09:03.071424000 -0700
++++ driver/passwd-pam.c	2006-09-19 17:09:08.463282000 -0700
 @@ -85,6 +85,13 @@ extern passwd_dialog_data* ptr_mygtkpwd;
  extern saver_info *global_si_kludge;
  extern Bool g_passwd_dialog_created;
@@ -71,7 +71,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
  
        /* Each time we successfully authenticate, refresh credentials,
           for Kerberos/AFS/DCE/etc.  If this fails, just ignore that
-@@ -635,6 +651,12 @@ pam_passwd_valid_p (void)
+@@ -636,6 +652,12 @@ pam_passwd_valid_p (void)
    if (user) free (user);
    user = strdup ("root");
    c.user = user;
@@ -84,7 +84,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
    status = pam_set_item (pamh, PAM_USER, c.user);
    if (verbose_p)
      fprintf (stderr, "%s:   pam_set_item(p, PAM_USER, \"%s\") ==> %d (%s)\n",
-@@ -857,8 +879,9 @@ pam_conversation (int nmsgs,
+@@ -860,8 +882,9 @@ pam_conversation (int nmsgs,
  					msg[replies]->msg);
  
               /* For our hack to see if the user typed in root passwd to unlock. */

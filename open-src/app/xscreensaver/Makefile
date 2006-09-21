@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.67	06/09/13
+# @(#)Makefile	1.68	06/09/21
 #
 
 PWD:sh=pwd
@@ -38,7 +38,7 @@ TOP=$(PWD)/../..
 BUILD_TYPES=32
 
 # Version number (used in path names)
-XSCREENSAVER_VERS=5.00
+XSCREENSAVER_VERS=5.01
 
 # Source tarball
 SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.gz
@@ -60,7 +60,6 @@ SOURCE_PATCHES = \
 	i18n.patch \
 	debug-msgs.patch \
 	dpms.patch \
-	IPv6.patch \
 	gl-error-capture.patch \
 	accessibility.patch \
 	trusted.patch \
@@ -68,10 +67,7 @@ SOURCE_PATCHES = \
 	bug-6450019.patch \
 	Sun-colors.patch \
 	barcode-hack.patch \
-	starfish.patch \
 	glsnake.patch \
-	apple2.patch \
-	topblock.patch \
         allowRootByPassFlag.patch
 
 # Directory created by unpacking source
@@ -104,7 +100,7 @@ OPENGL_DIR:sh=arch | sed 's/^\(.*\)$/\$\(OPENGL_DIR_\1\)/'
 XS_CFG= --prefix=/usr/X11 --enable-maintainer-mode \
  --with-gnome --enable-gtk-doc --with-gtk2=/usr --with-pixbuf=/usr \
  --enable-locking --with-pam=/usr --without-shadow --without-kerberos \
- --with-dpms --enable-dpms --disable-screengrab \
+ --with-dpms --enable-dpms --disable-screengrab --enable-root-passwd \
  --with-gl=$(OPENGL_DIR)  --without-motif --with-jpeg=/usr \
  --mandir='$${prefix}/share/man' --datadir='$${prefix}/share' \
  --libexecdir='$${prefix}/lib/xscreensaver/bin' \

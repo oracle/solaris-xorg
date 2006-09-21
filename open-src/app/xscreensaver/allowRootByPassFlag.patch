@@ -30,8 +30,9 @@
 
 Fix for CR 6448236 xscreensaver should have option to control allowing root to unlock screen. Added allowRoot flag in XScreenSaver_ad.in which gets written to ~/.xscreensaver file through which you can allow if root has permission to break into a users locked screen, by typing in the root password.
 
---- driver/XScreenSaver.ad.in	Wed Sep 13 11:45:13 2006
-+++ driver/XScreenSaver.ad.in	Mon Sep 11 17:48:29 2006
+diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
+--- driver/XScreenSaver.ad.in	2006-09-19 17:09:25.247483000 -0700
++++ driver/XScreenSaver.ad.in	2006-09-19 17:09:31.272293000 -0700
 @@ -35,6 +35,7 @@
  *lockTimeout:		0:30:00
  *passwdTimeout:		0:02:00
@@ -40,12 +41,13 @@ Fix for CR 6448236 xscreensaver should have option to control allowing root to u
  *dpmsEnabled:		True
  *dpmsStandby:		0:24:00
  *dpmsSuspend:		0:27:00
---- driver/passwd-pam.c	Tue Sep 12 16:22:28 2006
-+++ driver/passwd-pam.c	Wed Sep 13 11:35:51 2006
-@@ -646,32 +646,40 @@
-    cannot delete it and is user function spec.
+diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
+--- driver/passwd-pam.c	2006-09-19 17:09:25.244047000 -0700
++++ driver/passwd-pam.c	2006-09-19 17:09:31.273288000 -0700
+@@ -647,32 +647,40 @@ pam_passwd_valid_p (void)
  */
  
+ #ifdef ALLOW_ROOT_PASSWD
 -  /* If that didn't work, set the user to root, and try to authenticate again.
 -   */
 -  if (user) free (user);
@@ -99,7 +101,7 @@ Fix for CR 6448236 xscreensaver should have option to control allowing root to u
      {
        write_to_child (si, "pw_ok");
        tmp_buf = strdup (_("Letting you in as ROOT!!"));
-@@ -682,12 +690,13 @@
+@@ -683,12 +691,13 @@ pam_passwd_valid_p (void)
  	sleep (1);
      }
  
@@ -114,11 +116,12 @@ Fix for CR 6448236 xscreensaver should have option to control allowing root to u
               blurb(), pam_auth_status, PAM_STRERROR(pamh, pam_auth_status));
 + } /* if prefs.allowRoot is True */
  
-  DONE:
-   if (user) free (user);
---- driver/prefs.c	Tue Sep 12 16:22:29 2006
-+++ driver/prefs.c	Mon Sep 11 17:48:29 2006
-@@ -256,6 +256,7 @@
+ #endif /* ALLOW_ROOT_PASSWD */
+ 
+diff -urp -x '*~' driver/prefs.c driver/prefs.c
+--- driver/prefs.c	2006-09-19 17:09:25.231979000 -0700
++++ driver/prefs.c	2006-09-19 17:09:31.294427000 -0700
+@@ -256,6 +256,7 @@ static const char * const prefs[] = {
    "lockTimeout",
    "passwdTimeout",
    "passwdTimeoutEnabled",
@@ -126,7 +129,7 @@ Fix for CR 6448236 xscreensaver should have option to control allowing root to u
    "visualID",
    "installColormap",
    "verbose",
-@@ -799,6 +800,7 @@
+@@ -799,6 +800,7 @@ write_init_file (Display *dpy,
        CHECK("lockVTs")		continue;  /* don't save, unused */
        CHECK("lockTimeout")	type = pref_time, t = p->lock_timeout;
        CHECK("passwdTimeout")	type = pref_time, t = p->passwd_timeout;
@@ -134,7 +137,7 @@ Fix for CR 6448236 xscreensaver should have option to control allowing root to u
  
  /* *bugid 5077981 pwd timeout */
        CHECK("passwdTimeoutEnabled")		type = pref_bool, b = p->pwd_p;
-@@ -1117,6 +1119,7 @@
+@@ -1117,6 +1119,7 @@ load_init_file (Display *dpy, saver_pref
    }
    /* *bugid 5077981 pwd timeout */
    p->pwd_p	    = get_boolean_resource (dpy, "passwdTimeoutEnabled", "Boolean");
@@ -142,9 +145,10 @@ Fix for CR 6448236 xscreensaver should have option to control allowing root to u
    p->pointer_timeout = 1000 * get_seconds_resource (dpy, "pointerPollTime", "Time");
    p->pointer_hysteresis = get_integer_resource (dpy, "pointerHysteresis","Integer");
    p->notice_events_timeout = 1000*get_seconds_resource(dpy,
---- driver/prefs.h	Wed Sep 13 12:31:07 2006
-+++ driver/prefs.h	Mon Sep 11 17:48:29 2006
-@@ -55,6 +55,7 @@
+diff -urp -x '*~' driver/prefs.h driver/prefs.h
+--- driver/prefs.h	2006-09-19 17:09:25.232258000 -0700
++++ driver/prefs.h	2006-09-19 17:09:31.306751000 -0700
+@@ -55,6 +55,7 @@ struct saver_preferences {
    Bool lock_p;			/* whether to lock as well as save */
    Bool pwd_p;			/* whether to disable/enable pwd timeout */
  				/* bugid 5077981 */

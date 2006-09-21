@@ -32,8 +32,8 @@ Use Sun branding colors in various hacks to better match color schemes of JDS
 desktop.
 
 diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
---- driver/XScreenSaver.ad.in	2006-08-08 17:27:33.957438000 -0700
-+++ driver/XScreenSaver.ad.in	2006-08-08 17:27:40.097943000 -0700
+--- driver/XScreenSaver.ad.in	2006-09-19 17:09:08.203402000 -0700
++++ driver/XScreenSaver.ad.in	2006-09-19 17:09:13.618387000 -0700
 @@ -293,7 +293,7 @@ GetViewPortIsFullOfLies: False
                                  bubbles -root				    \n\
  				pong -root				    \n\
@@ -45,7 +45,7 @@ diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
  				substrate -root				    \n\
 diff -urp -x '*~' hacks/glx/antinspect.c hacks/glx/antinspect.c
 --- hacks/glx/antinspect.c	2006-02-25 12:13:26.000000000 -0800
-+++ hacks/glx/antinspect.c	2006-08-08 17:27:40.098471000 -0700
++++ hacks/glx/antinspect.c	2006-09-19 17:09:13.619018000 -0700
 @@ -94,13 +94,13 @@ static const float position1[] = {-1.0, 
  static const float lmodel_ambient[] = {0.5, 0.5, 0.5, 1.0};
  static const float lmodel_twoside[] = {GL_TRUE};
@@ -67,7 +67,7 @@ diff -urp -x '*~' hacks/glx/antinspect.c hacks/glx/antinspect.c
  
 diff -urp -x '*~' hacks/glx/antmaze.c hacks/glx/antmaze.c
 --- hacks/glx/antmaze.c	2006-03-14 19:55:05.000000000 -0800
-+++ hacks/glx/antmaze.c	2006-08-08 17:27:40.099297000 -0700
++++ hacks/glx/antmaze.c	2006-09-19 17:09:13.619973000 -0700
 @@ -148,13 +148,13 @@ typedef struct {
  static antmazestruct *antmaze = (antmazestruct *) NULL;
  
@@ -87,36 +87,9 @@ diff -urp -x '*~' hacks/glx/antmaze.c hacks/glx/antmaze.c
  
  /* lighting variables */
  static const GLfloat front_shininess[] = {60.0};
-diff -urp -x '*~' hacks/glx/flipflop.c hacks/glx/flipflop.c
---- hacks/glx/flipflop.c	2006-02-25 12:13:27.000000000 -0800
-+++ hacks/glx/flipflop.c	2006-08-08 17:27:40.744299000 -0700
-@@ -337,6 +337,10 @@ draw_sheet(void)
-   glEnd();
- }
- 
-+static const float sun_colors [ 3 ][ 3 ] = {
-+ { 0.3255, 0.5098, 0.6314 }, { 0.9059, 0.4353, 0.0 }, { 1.0, 0.7804, 0.1490 }
-+};
-+
- static void
- randsheet_initialize( randsheet *rs )
- {
-@@ -354,9 +358,9 @@ randsheet_initialize( randsheet *rs )
- 		  rs->xpos[ index ] = i;
- 		  rs->ypos[ index ] = j;
- 		  /* have the square colors start out as a pattern */
--		  rs->color[ index ][ 0 ] = ((i+j)%3 == 0)||((i+j+1)%3 == 0);
--		  rs->color[ index ][ 1 ] = ((i+j+1)%3 == 0);
--		  rs->color[ index ][ 2 ] = ((i+j+2)%3 == 0);
-+		  rs->color[ index ][ 0 ] = sun_colors[(i+j)%3][0];
-+		  rs->color[ index ][ 1 ] = sun_colors[(i+j)%3][1];
-+		  rs->color[ index ][ 2 ] = sun_colors[(i+j)%3][2];
- 		 ++index;
- 		}
- 		/* leave everything else empty*/
 diff -urp -x '*~' hacks/glx/gears.c hacks/glx/gears.c
 --- hacks/glx/gears.c	2006-03-12 03:15:36.000000000 -0800
-+++ hacks/glx/gears.c	2006-08-08 17:27:40.099886000 -0700
++++ hacks/glx/gears.c	2006-09-19 17:09:13.624041000 -0700
 @@ -640,10 +640,10 @@ pinit(ModeInfo * mi)
  {
  	gearsstruct *gp = &gears[MI_SCREEN(mi)];
@@ -133,9 +106,9 @@ diff -urp -x '*~' hacks/glx/gears.c hacks/glx/gears.c
  	int         wire = MI_IS_WIREFRAME(mi);
  	int         mono = MI_IS_MONO(mi);
 diff -urp -x '*~' hacks/glx/sproingies.c hacks/glx/sproingies.c
---- hacks/glx/sproingies.c	2006-02-25 12:13:28.000000000 -0800
-+++ hacks/glx/sproingies.c	2006-08-08 17:27:40.100400000 -0700
-@@ -94,9 +94,9 @@ build_TopsSides(int wireframe)
+--- hacks/glx/sproingies.c	2006-09-18 14:45:17.000000000 -0700
++++ hacks/glx/sproingies.c	2006-09-19 17:09:13.657559000 -0700
+@@ -113,9 +113,9 @@ build_TopsSides(int wireframe)
  
  	/* Surface: Tops */
  	glNewList(dl_num, GL_COMPILE);
@@ -148,7 +121,7 @@ diff -urp -x '*~' hacks/glx/sproingies.c hacks/glx/sproingies.c
  	if (wireframe)
  		glColor3fv(mat_color);
  	else {
-@@ -110,9 +110,9 @@ build_TopsSides(int wireframe)
+@@ -129,9 +129,9 @@ build_TopsSides(int wireframe)
  		glColor3fv(mat_color);
  	else {
        /* jwz: in wireframe mode, color tops and sides the same. */
@@ -163,7 +136,7 @@ diff -urp -x '*~' hacks/glx/sproingies.c hacks/glx/sproingies.c
  	glEndList();
 diff -urp -x '*~' utils/colors.c utils/colors.c
 --- utils/colors.c	2006-02-04 05:39:41.000000000 -0800
-+++ utils/colors.c	2006-08-08 17:27:40.100974000 -0700
++++ utils/colors.c	2006-09-19 17:09:13.658183000 -0700
 @@ -598,6 +598,13 @@ make_uniform_colormap (Display *dpy, Vis
    *ncolorsP = ncolors;
  }

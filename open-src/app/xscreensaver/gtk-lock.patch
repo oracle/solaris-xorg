@@ -46,9 +46,9 @@ act more like a correct pam client, allowing different interaction
 models than just a single password for authentication.
 
 diff -urp -x '*~' config.h.in config.h.in
---- config.h.in	2006-05-17 16:36:52.000000000 -0700
-+++ config.h.in	2006-08-09 14:26:27.988140000 -0700
-@@ -129,6 +129,9 @@
+--- config.h.in	2006-09-18 14:39:56.000000000 -0700
++++ config.h.in	2006-09-19 17:08:14.999476000 -0700
+@@ -132,6 +132,9 @@
  /* Define this if you have Gtk 2.x. */
  #undef HAVE_GTK2
  
@@ -59,9 +59,9 @@ diff -urp -x '*~' config.h.in config.h.in
     you have /usr/include/hpsecurity.h, you probably have this.) I haven't
     tested this one, let me know if it works. */
 diff -urp -x '*~' configure.in configure.in
---- configure.in	2006-05-23 15:07:00.000000000 -0700
-+++ configure.in	2006-08-09 14:26:27.990806000 -0700
-@@ -1834,7 +1834,7 @@ if test "$enable_locking" = yes -a "$wit
+--- configure.in	2006-09-18 13:56:10.000000000 -0700
++++ configure.in	2006-09-19 17:08:15.011239000 -0700
+@@ -1858,7 +1858,7 @@ if test "$enable_locking" = yes -a "$wit
      AC_DEFINE(HAVE_PAM)
      AC_DEFINE_UNQUOTED(PAM_SERVICE_NAME,"$pam_service_name")
      
@@ -70,7 +70,7 @@ diff -urp -x '*~' configure.in configure.in
  
      # libpam typically requires dlopen and dlsym.  On FreeBSD,
      # those are in libc.  On Linux and Solaris, they're in libdl.
-@@ -2386,6 +2386,8 @@ if test "$with_gtk" = yes; then
+@@ -2432,6 +2432,8 @@ if test "$with_gtk" = yes; then
    pkg_check_version        libglade-2.0  1.99.0
    pkg_check_version      gdk-pixbuf-2.0  2.0.0
    pkg_check_version gdk-pixbuf-xlib-2.0  2.0.0
@@ -79,7 +79,7 @@ diff -urp -x '*~' configure.in configure.in
    have_gtk="$ok"
  
    if test "$have_gtk" = no; then
-@@ -2401,6 +2403,9 @@ if test "$with_gtk" = yes; then
+@@ -2447,6 +2449,9 @@ if test "$with_gtk" = yes; then
    fi
  
    if test "$have_gtk" = yes; then
@@ -89,7 +89,7 @@ diff -urp -x '*~' configure.in configure.in
      AC_CACHE_CHECK([for Gtk includes], ac_cv_gtk_config_cflags,
                     [ac_cv_gtk_config_cflags=`$pkg_config --cflags $pkgs`])
      AC_CACHE_CHECK([for Gtk libs], ac_cv_gtk_config_libs,
-@@ -3414,6 +3419,28 @@ if test "$have_gtk" = yes; then
+@@ -3500,6 +3505,28 @@ if test "$have_gtk" = yes; then
    ALL_DEMO_PROGRAMS="$PREFERRED_DEMO_PROGRAM $ALL_DEMO_PROGRAMS"
  fi
  
@@ -118,7 +118,7 @@ diff -urp -x '*~' configure.in configure.in
  
  if test "$have_kerberos" = yes; then
    PASSWD_SRCS="$PASSWD_SRCS \$(KERBEROS_SRCS)"
-@@ -3556,6 +3583,11 @@ AC_SUBST(INCLUDES)
+@@ -3642,6 +3669,11 @@ AC_SUBST(INCLUDES)
  
  AC_SUBST(PREFERRED_DEMO_PROGRAM)
  AC_SUBST(ALL_DEMO_PROGRAMS)
@@ -130,7 +130,7 @@ diff -urp -x '*~' configure.in configure.in
  AC_SUBST(SAVER_LIBS)
  AC_SUBST(MOTIF_LIBS)
  AC_SUBST(GTK_LIBS)
-@@ -4038,7 +4070,8 @@ HACK_CONF_DIR=`echo "${HACK_CONF_DIR}" |
+@@ -4126,7 +4158,8 @@ HACK_CONF_DIR=`echo "${HACK_CONF_DIR}" |
  
  
  # Sanity check the hackdir
@@ -141,8 +141,8 @@ diff -urp -x '*~' configure.in configure.in
      echo ""
      AC_MSG_ERROR([\"--with-hackdir=${bindir}/${bad_choice}\" won't work.
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-08-09 14:26:22.840872000 -0700
-+++ driver/Makefile.in	2006-08-09 14:26:27.991816000 -0700
+--- driver/Makefile.in	2006-09-19 17:08:10.183708000 -0700
++++ driver/Makefile.in	2006-09-19 17:08:15.026509000 -0700
 @@ -28,6 +28,7 @@ GTK_APPDIR	= $(GTK_DATADIR)/applications
  GTK_ICONDIR	= $(GTK_DATADIR)/pixmaps
  GTK_GLADEDIR	= $(prefix)/lib/xscreensaver/config
@@ -220,7 +220,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  install-ad: XScreenSaver.ad
  	@if [ ! -d $(install_prefix)$(AD_DIR) ]; then			      \
-@@ -734,7 +747,7 @@ $(SAVER_UTIL_OBJS):
+@@ -736,7 +749,7 @@ $(SAVER_UTIL_OBJS):
  
  # How we build object files in this directory.
  .c.o:
@@ -229,7 +229,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  .m.o:
  	$(OBJCC) -c $(INCLUDES) $(DEFS) $(CFLAGS) $(X_CFLAGS) $<
-@@ -755,6 +768,19 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
+@@ -757,6 +770,19 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
  	$(CC) -c $(INCLUDES) $(CONF_DEFS) $(GTK_DEFS) $(CFLAGS) $(X_CFLAGS) \
  	  $(srcdir)/demo-Gtk-conf.c
  
@@ -249,7 +249,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  # How we build the default app-defaults file into the program.
  #
-@@ -785,6 +811,15 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
+@@ -787,6 +813,15 @@ xscreensaver-demo: @PREFERRED_DEMO_PROGR
  	       cp -p @PREFERRED_DEMO_PROGRAM@@EXEEXT@ $@@EXEEXT@      ;	\
  	fi
  
@@ -265,7 +265,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  xscreensaver-demo-Xm: $(DEMO_OBJS) $(MOTIF_OBJS)
  	$(CC) $(LDFLAGS) -o $@ $(DEMO_OBJS) $(MOTIF_OBJS) $(LIBS) $(X_LIBS) \
  	$(MOTIF_LIBS) $(INTL_LIBS) $(X_PRE_LIBS) -lXt -lX11 \
-@@ -806,7 +841,7 @@ pdf2jpeg: $(PDF2JPEG_OBJS)
+@@ -808,7 +843,7 @@ pdf2jpeg: $(PDF2JPEG_OBJS)
  
  
  TEST_PASSWD_OBJS = test-passwd.o $(LOCK_OBJS_1) $(PASSWD_OBJS) \
@@ -276,7 +276,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
 diff -urp -x '*~' driver/dpms.c driver/dpms.c
 --- driver/dpms.c	2005-03-21 18:07:21.000000000 -0800
-+++ driver/dpms.c	2006-08-09 14:26:27.992239000 -0700
++++ driver/dpms.c	2006-09-19 17:08:15.026976000 -0700
 @@ -50,6 +50,7 @@
  
  #include <stdio.h>
@@ -287,7 +287,7 @@ diff -urp -x '*~' driver/dpms.c driver/dpms.c
  
 diff -urp -x '*~' driver/lock.c driver/lock.c
 --- driver/lock.c	2006-05-17 16:35:54.000000000 -0700
-+++ driver/lock.c	2006-08-09 14:26:27.994490000 -0700
++++ driver/lock.c	2006-09-19 17:08:15.056092000 -0700
 @@ -23,6 +23,9 @@
  #include <X11/Xos.h>		/* for time() */
  #include <time.h>
@@ -1242,7 +1242,7 @@ diff -urp -x '*~' driver/lock.c driver/lock.c
    free (compose_status);
 diff -urp -x '*~' driver/passwd-kerberos.c driver/passwd-kerberos.c
 --- driver/passwd-kerberos.c	2005-06-21 20:20:11.000000000 -0700
-+++ driver/passwd-kerberos.c	2006-08-09 14:26:28.016423000 -0700
++++ driver/passwd-kerberos.c	2006-09-19 17:08:15.056804000 -0700
 @@ -178,7 +178,7 @@ key_to_key(char *user, char *instance, c
     some sites. So, we do a quick, painful hack with a tmpfile.
   */
@@ -1253,8 +1253,8 @@ diff -urp -x '*~' driver/passwd-kerberos.c driver/passwd-kerberos.c
  # ifdef HAVE_DARWIN
      return (klNoErr ==
 diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
---- driver/passwd-pam.c	2006-05-16 19:14:58.000000000 -0700
-+++ driver/passwd-pam.c	2006-08-09 14:26:28.017901000 -0700
+--- driver/passwd-pam.c	2006-09-18 14:01:00.000000000 -0700
++++ driver/passwd-pam.c	2006-09-19 17:08:15.067544000 -0700
 @@ -39,11 +39,18 @@
  #ifndef NO_LOCKING  /* whole file */
  
@@ -1610,10 +1610,10 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
 +   cannot delete it and is user function spec.
 +*/
 +
+ #ifdef ALLOW_ROOT_PASSWD
    /* If that didn't work, set the user to root, and try to authenticate again.
     */
-   if (user) free (user);
-@@ -302,26 +496,72 @@ pam_passwd_valid_p (const char *typed_pa
+@@ -303,13 +497,28 @@ pam_passwd_valid_p (const char *typed_pa
    PAM_NO_DELAY(pamh);
  
    set = block_sigchld();
@@ -1643,7 +1643,9 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
 +    fprintf (stderr, "%s:   pam_authenticate as root user (...) ==> %d (%s)\n",
 +             blurb(), pam_auth_status, PAM_STRERROR(pamh, pam_auth_status));
  
-  DONE:
+ #endif /* ALLOW_ROOT_PASSWD */
+ 
+@@ -317,14 +526,45 @@ pam_passwd_valid_p (const char *typed_pa
    if (user) free (user);
    if (pamh)
      {
@@ -1691,7 +1693,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
  }
  
  
-@@ -341,6 +581,11 @@ pam_priv_init (int argc, char **argv, Bo
+@@ -344,6 +584,11 @@ pam_priv_init (int argc, char **argv, Bo
    const char file2[] = "/etc/pam.conf";
    struct stat st;
  
@@ -1703,7 +1705,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
  # ifndef S_ISDIR
  #  define S_ISDIR(mode) (((mode) & S_IFMT) == S_IFDIR)
  # endif
-@@ -367,6 +612,9 @@ pam_priv_init (int argc, char **argv, Bo
+@@ -370,6 +615,9 @@ pam_priv_init (int argc, char **argv, Bo
                  break;
                }
            fclose (f);
@@ -1713,7 +1715,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
            if (!ok)
              {
                fprintf (stderr,
-@@ -374,9 +622,12 @@ pam_priv_init (int argc, char **argv, Bo
+@@ -377,9 +625,12 @@ pam_priv_init (int argc, char **argv, Bo
                    "%s: password authentication via PAM is unlikely to work.\n",
                         blurb(), file2, PAM_SERVICE_NAME, blurb());
              }
@@ -1726,7 +1728,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
    else
      {
        fprintf (stderr,
-@@ -384,6 +635,7 @@ pam_priv_init (int argc, char **argv, Bo
+@@ -387,6 +638,7 @@ pam_priv_init (int argc, char **argv, Bo
                 "%s: password authentication via PAM is unlikely to work.\n",
                 blurb(), file2, file, blurb());
      }
@@ -1734,7 +1736,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
  
    /* Return true anyway, just in case. */
    return True;
-@@ -404,67 +656,144 @@ pam_priv_init (int argc, char **argv, Bo
+@@ -407,67 +659,144 @@ pam_priv_init (int argc, char **argv, Bo
     would never see this string, and the prompted-for password would be
     ignored.
   */
@@ -1908,7 +1910,7 @@ diff -urp -x '*~' driver/passwd-pam.c driver/passwd-pam.c
  }
 diff -urp -x '*~' driver/passwd.c driver/passwd.c
 --- driver/passwd.c	2006-05-16 19:14:58.000000000 -0700
-+++ driver/passwd.c	2006-08-09 14:26:28.056099000 -0700
++++ driver/passwd.c	2006-09-19 17:08:15.073303000 -0700
 @@ -49,11 +49,11 @@ struct auth_methods {
  
  #ifdef HAVE_KERBEROS
@@ -1950,7 +1952,7 @@ diff -urp -x '*~' driver/passwd.c driver/passwd.c
  
 diff -urp -x '*~' driver/setuid.c driver/setuid.c
 --- driver/setuid.c	2006-02-08 18:33:29.000000000 -0800
-+++ driver/setuid.c	2006-08-09 14:26:28.056755000 -0700
++++ driver/setuid.c	2006-09-19 17:08:15.073889000 -0700
 @@ -15,6 +15,7 @@
  #endif
  
@@ -1972,8 +1974,8 @@ diff -urp -x '*~' driver/setuid.c driver/setuid.c
  
    if (uid_errno == 0 && gid_errno == 0 && sgs_errno == 0)
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-08-09 14:26:22.847052000 -0700
-+++ driver/subprocs.c	2006-08-09 14:26:28.058300000 -0700
+--- driver/subprocs.c	2006-09-19 17:08:10.188909000 -0700
++++ driver/subprocs.c	2006-09-19 17:08:15.079767000 -0700
 @@ -20,6 +20,7 @@
  #include <string.h>
  
@@ -2059,7 +2061,7 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
  #else  /* VMS */
 diff -urp -x '*~' driver/timers.c driver/timers.c
 --- driver/timers.c	2005-11-28 02:14:22.000000000 -0800
-+++ driver/timers.c	2006-08-09 14:26:28.059781000 -0700
++++ driver/timers.c	2006-09-19 17:08:15.080886000 -0700
 @@ -60,6 +60,12 @@ static Bool proc_interrupts_activity_p (
  #endif /* HAVE_PROC_INTERRUPTS */
  
@@ -2177,7 +2179,7 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
              fprintf (stderr, "%s: dialog box is up: not raising screen.\n",
 diff -urp -x '*~' driver/windows.c driver/windows.c
 --- driver/windows.c	2006-05-14 22:13:54.000000000 -0700
-+++ driver/windows.c	2006-08-09 14:26:28.061233000 -0700
++++ driver/windows.c	2006-09-19 17:08:15.082113000 -0700
 @@ -35,6 +35,7 @@
  #include <X11/Xutil.h>		/* for XSetClassHint() */
  #include <X11/Xatom.h>
@@ -2215,8 +2217,8 @@ diff -urp -x '*~' driver/windows.c driver/windows.c
    reset_watchdog_timer (si, False);
  
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-08-09 14:26:22.878497000 -0700
-+++ driver/xscreensaver.c	2006-08-09 14:26:28.075976000 -0700
+--- driver/xscreensaver.c	2006-09-19 17:08:10.214882000 -0700
++++ driver/xscreensaver.c	2006-09-19 17:08:15.095484000 -0700
 @@ -177,8 +177,21 @@
  #include "visual.h"
  #include "usleep.h"
@@ -2436,7 +2438,7 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  	      XtRemoveTimeOut (si->lock_id);
 diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
 --- driver/xscreensaver.h	2006-02-03 23:38:06.000000000 -0800
-+++ driver/xscreensaver.h	2006-08-09 14:26:28.077140000 -0700
++++ driver/xscreensaver.h	2006-09-19 17:08:15.096225000 -0700
 @@ -126,6 +126,15 @@ struct saver_info {
  				   privileged user. */
  
@@ -2574,7 +2576,7 @@ diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
     runtime privileges
 diff -urp -x '*~' driver/xset.c driver/xset.c
 --- driver/xset.c	2005-03-21 18:04:48.000000000 -0800
-+++ driver/xset.c	2006-08-09 14:26:28.077634000 -0700
++++ driver/xset.c	2006-09-19 17:08:15.096586000 -0700
 @@ -19,6 +19,7 @@
  #include <X11/Xutil.h>
  #include <X11/Xatom.h>

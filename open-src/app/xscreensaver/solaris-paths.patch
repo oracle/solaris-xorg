@@ -37,8 +37,8 @@ Various fixes to deal with where we install things on Solaris:
 - Show author names when reading RSS feeds from sites like blogs.sun.com
 
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-05-23 16:01:35.000000000 -0700
-+++ driver/Makefile.in	2006-08-09 15:42:26.024807000 -0700
+--- driver/Makefile.in	2006-09-18 19:36:40.000000000 -0700
++++ driver/Makefile.in	2006-09-19 17:08:05.690087000 -0700
 @@ -26,7 +26,7 @@ INTLTOOL_MERGE	= @INTLTOOL_MERGE@
  GTK_DATADIR	= @GTK_DATADIR@
  GTK_APPDIR	= $(GTK_DATADIR)/applications
@@ -63,11 +63,11 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  LIBS		= @LIBS@
 diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
---- driver/XScreenSaver.ad.in	2006-08-09 15:42:21.902455000 -0700
-+++ driver/XScreenSaver.ad.in	2006-08-09 15:44:48.663894000 -0700
+--- driver/XScreenSaver.ad.in	2006-09-19 17:08:01.418108000 -0700
++++ driver/XScreenSaver.ad.in	2006-09-19 17:08:05.692837000 -0700
 @@ -96,7 +96,7 @@ GetViewPortIsFullOfLies: False
  !
- @GNOME24@*loadURL: gnome-open '%s'
+ @GNOME24@*loadURL: @WITH_BROWSER@ '%s'
  @GNOME24@*manualCommand: gnome-terminal --title '%s manual' \
 -@GNOME24@		--command '/bin/sh -c "man %s; read foo"'
 +@GNOME24@		--command '/bin/sh -c "man -M /usr/X11/man %s; read foo"'
@@ -76,7 +76,7 @@ diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
  !
 diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
 --- driver/demo-Gtk.c	2006-05-23 15:02:44.000000000 -0700
-+++ driver/demo-Gtk.c	2006-08-09 15:42:26.027370000 -0700
++++ driver/demo-Gtk.c	2006-09-19 17:08:05.695373000 -0700
 @@ -924,7 +924,7 @@ restart_menu_cb (GtkWidget *widget, gpoi
    flush_dialog_changes_and_save (s);
    xscreensaver_command (GDK_DISPLAY(), XA_EXIT, 0, False, NULL);
@@ -96,8 +96,8 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  	}
  
 diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
---- driver/subprocs.c	2006-03-07 21:52:23.000000000 -0800
-+++ driver/subprocs.c	2006-08-09 15:42:26.052932000 -0700
+--- driver/subprocs.c	2006-09-14 00:03:53.000000000 -0700
++++ driver/subprocs.c	2006-09-19 17:08:05.712131000 -0700
 @@ -14,6 +14,7 @@
  # include "config.h"
  #endif
@@ -193,7 +193,7 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    if (monitor_powered_on_p (si))
      {
        int i;
-@@ -1186,7 +1233,7 @@ get_best_gl_visual (saver_screen_info *s
+@@ -1189,7 +1236,7 @@ get_best_gl_visual (saver_screen_info *s
    char *av[10];
    int ac = 0;
  
@@ -203,20 +203,9 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
  
    if (pipe (fds))
 diff -urp -x '*~' driver/xscreensaver-text driver/xscreensaver-text
---- driver/xscreensaver-text	2006-04-14 19:29:49.000000000 -0700
-+++ driver/xscreensaver-text	2006-08-09 15:42:26.053609000 -0700
-@@ -374,6 +374,10 @@ sub output() {
-       system ("cat", "/etc/redhat-release");
-     }
- 
-+    if (-f "/etc/release") {	    	    # "Solaris 10 3/05 s10_74L2a X86"
-+      safe_system ("head", "-1", "/etc/release");
-+    }
-+
-     if (-f "/usr/sbin/system_profiler") {   # "Mac OS X 10.4.5 (8H14)"
-       my $sp =				    # "iMac G5"
-         `/usr/sbin/system_profiler SPSoftwareDataType SPHardwareDataType`;
-@@ -660,12 +664,15 @@ sub reformat_rss($) {
+--- driver/xscreensaver-text	2006-09-14 00:35:46.000000000 -0700
++++ driver/xscreensaver-text	2006-09-19 17:08:05.712858000 -0700
+@@ -664,12 +664,15 @@ sub reformat_rss($) {
      $i++;
  
      my ($title, $body1, $body2, $body3);
@@ -232,7 +221,7 @@ diff -urp -x '*~' driver/xscreensaver-text driver/xscreensaver-text
      # If there are both <description> and <content> or <content:encoded>,
      # use whichever one contains more text.
      #
-@@ -689,8 +696,9 @@ sub reformat_rss($) {
+@@ -693,8 +696,9 @@ sub reformat_rss($) {
  
      $title = rss_field_to_html ($title || '');
      $body1 = rss_field_to_html ($body1 || '');
