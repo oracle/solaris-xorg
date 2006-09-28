@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.35     06/09/19 SMI"
+# ident "@(#)prototype_com 1.36     06/09/27 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -104,14 +104,25 @@ s none lib/libXpm.so=./libXpm.so.4
 s none lib/libXpm.so.4=../openwin/lib/libXpm.so.4
 s none lib/libXpm.so.4.11=../openwin/lib/libXpm.so.4.11
 
-s none sfw/lib/libXrender.so=../../openwin/sfw/lib/libXrender.so
-s none sfw/lib/libXrender.so.1=../../openwin/sfw/lib/libXrender.so.1
+s none lib/libXrender.so=../X11/lib/libXrender.so
+s none lib/libXrender.so.1=../X11/lib/libXrender.so.1
 
-s none sfw/lib/libXfixes.so=../../openwin/sfw/lib/libXfixes.so
-s none sfw/lib/libXfixes.so.1=../../openwin/sfw/lib/libXfixes.so.1
+s none lib/libXfixes.so=../X11/lib/libXfixes.so
+s none lib/libXfixes.so.1=../X11/lib/libXfixes.so.1
 
-s none sfw/lib/libXdamage.so=../../openwin/sfw/lib/libXdamage.so
-s none sfw/lib/libXdamage.so.1=../../openwin/sfw/lib/libXdamage.so.1
+s none lib/libXdamage.so=../X11/lib/libXdamage.so
+s none lib/libXdamage.so.1=../X11/lib/libXdamage.so.1
+
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/libXrender.so=../../X11/lib/libXrender.so
+s none sfw/lib/libXrender.so.1=../../X11/lib/libXrender.so.1
+s none sfw/lib/libXfixes.so=../../X11/lib/libXfixes.so
+s none sfw/lib/libXfixes.so.1=../../X11/lib/libXfixes.so.1
+s none sfw/lib/libXdamage.so=../../X11/lib/libXdamage.so
+s none sfw/lib/libXdamage.so.1=../../X11/lib/libXdamage.so.1
+
+s none lib/libXRes.so=../X11/lib/libXRes.so
+s none lib/libXRes.so.1=../X11/lib/libXRes.so.1
 
 s none lib/libXft.so=./libXft.so.2
 s none lib/libXft.so.2=../openwin/lib/libXft.so.2
@@ -213,13 +224,24 @@ s none lib/$plat_64/libXpm.so=./libXpm.so.4
 s none lib/$plat_64/libXpm.so.4=../../openwin/lib/64/libXpm.so.4
 s none lib/$plat_64/libXpm.so.4.11=../../openwin/lib/64/libXpm.so.4.11
 
+s none lib/$plat_64/libXRes.so=../../X11/lib/64/libXRes.so
+s none lib/$plat_64/libXRes.so.1=../../X11/lib/64/libXRes.so.1
+
+s none lib/$plat_64/libXrender.so=../../X11/lib/64/libXrender.so
+s none lib/$plat_64/libXrender.so.1=../../X11/lib/64/libXrender.so.1
+s none lib/$plat_64/libXfixes.so=../../X11/lib/64/libXfixes.so
+s none lib/$plat_64/libXfixes.so.1=../../X11/lib/64/libXfixes.so.1
+s none lib/$plat_64/libXdamage.so=../../X11/lib/64/libXdamage.so
+s none lib/$plat_64/libXdamage.so.1=../../X11/lib/64/libXdamage.so.1
+
+# Backwards compatibility for original locations [see PSARC/2006/557]
 d none sfw/lib/$plat_64 	0755 root bin
-s none sfw/lib/$plat_64/libXrender.so=../../../openwin/sfw/lib/64/libXrender.so
-s none sfw/lib/$plat_64/libXrender.so.1=../../../openwin/sfw/lib/64/libXrender.so.1
-s none sfw/lib/$plat_64/libXfixes.so=../../../openwin/sfw/lib/64/libXfixes.so
-s none sfw/lib/$plat_64/libXfixes.so.1=../../../openwin/sfw/lib/64/libXfixes.so.1
-s none sfw/lib/$plat_64/libXdamage.so=../../../openwin/sfw/lib/64/libXdamage.so
-s none sfw/lib/$plat_64/libXdamage.so.1=../../../openwin/sfw/lib/64/libXdamage.so.1
+s none sfw/lib/$plat_64/libXrender.so=../../../X11/lib/64/libXrender.so
+s none sfw/lib/$plat_64/libXrender.so.1=../../../X11/lib/64/libXrender.so.1
+s none sfw/lib/$plat_64/libXfixes.so=../../../X11/lib/64/libXfixes.so
+s none sfw/lib/$plat_64/libXfixes.so.1=../../../X11/lib/64/libXfixes.so.1
+s none sfw/lib/$plat_64/libXdamage.so=../../../X11/lib/64/libXdamage.so
+s none sfw/lib/$plat_64/libXdamage.so.1=../../../X11/lib/64/libXdamage.so.1
 
 s none lib/$plat_64/libXft.so=./libXft.so.2
 s none lib/$plat_64/libXft.so.2=../../openwin/lib/64/libXft.so.2
