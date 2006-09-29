@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	06/09/15
+# @(#)Makefile	1.8	06/09/28
 #
 ###############################################################################
 #
@@ -45,7 +45,8 @@ BEFOREX = \
 	lib/fontconfig \
 	lib/libXau \
 	lib/libXdmcp \
-	lib/Xft
+	lib/Xft \
+	lib/libXfixes
 
 AFTERX = \
 	app/xscreensaver \
