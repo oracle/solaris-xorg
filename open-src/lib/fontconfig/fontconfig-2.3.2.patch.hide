@@ -15,7 +15,7 @@
 +typedef struct _FcHide {
 +    FcChar8             *alias;         /* Name of alias Sans/Serif */
 +    FcFontLang          *family;        /* Hidden languages struct */
-+    FcFontLang          *az[26];        /* Quick pointers */
++    FcFontLang          *az[27];        /* Quick pointers */
 +    struct _FcHide      *next;          /* Next alias */
 +} FcHide;
 +
@@ -272,7 +272,7 @@
 +        v = FcLangSetHasLang (ls, value->u.s);
 +        break;
 +    }
-+    return ( v != 2.0 ) * 1.5 * 100;
++    return (( v == 2.0 ) ? 200.0: v * 1.5 * 100);
 +}
 +
  static void
@@ -924,3 +924,35 @@
      case FcElementTest:
  	FcParseTest (parse);
  	break;
+--- src/fcxml.c	Mon Oct  2 11:22:01 2006
++++ new/src/fcxml.c	Mon Oct  2 11:20:32 2006
+@@ -1727,7 +1727,7 @@
+         fl = next;
+     }
+ 
+-    for ( i = 0; i < 26; i++ )
++    for ( i = 0; i < 27; i++ )
+         new->az[i] = NULL;
+ 
+     fl = new->family;
+@@ -1734,6 +1734,8 @@
+     while ( fl )
+     {
+         int pos = (int)(fl->family[0]) - (int)'A';
++	if ( pos < 0 || pos > 26 )
++	    pos = 26;
+         if ( !new->az[pos] )
+         {
+             new->az[pos] = fl;
+--- src/fcmatch.c	Mon Oct  2 11:21:08 2006
++++ new/src/fcmatch.c	Mon Oct  2 11:21:28 2006
+@@ -544,6 +544,9 @@
+     {
+         int pos = (int)(FcToLower(pe->values->value.u.s[0])) - 'a';
+ 
++	if ( pos < 0 || pos > 26 )
++	    pos = 26;
++
+         fl = r->az[pos];
+ 
+ 	/*
