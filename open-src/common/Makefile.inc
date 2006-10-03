@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.63	06/08/09
+# @(#)Makefile.inc	1.65	06/10/03
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -37,7 +37,8 @@ BUILD_ID = X11 for Solaris Nevada, built $(BUILD_DATE)
 ### Default compiler & options
 CC     			= cc
 CXX			= CC
-DEFAULT_OPT_CFLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch -xdepend
+DEFAULT_OPT_CFLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch \
+				-xdepend -xstrconst
 OPT_CFLAGS 		= $(DEFAULT_OPT_CFLAGS)
 CFLAGS 			=  -v -mc $(OPT_CFLAGS) $(ARCH_FLAGS)
 LDFLAGS 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
@@ -182,6 +183,13 @@ source_gen::
 	    (cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
+	fi
+	@if [ "x$(FIX_PC_FILES)"  != "x" ] ; then \
+	    echo "/usr/perl5/bin/perl -i.orig -p -e \
+		's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|' $(FIX_PC_FILES)" ; \
+	    (cd $(SOURCE_DIR) && \
+		/usr/perl5/bin/perl -i.orig -p -e \
+		's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|' $(FIX_PC_FILES) ); \
 	fi
 	touch $(BUILD_DIR)/.unpack_done
 

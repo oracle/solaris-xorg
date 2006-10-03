@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	06/02/22
+# @(#)Makefile	1.5	06/10/02
 #
 
 PWD:sh=pwd
@@ -55,13 +55,18 @@ SOURCE_PATCHES = \
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/libXft-$(XFT_VERS)
 
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=Xft.3.in Xft.3
+SUNTOUCH_MAN_FLAGS= -l Xft \
+ -a '{Availability, SUNWxwxft} {Interface Stability, Volatile} {MT-Level, See XInitThreads(3X11)}'
+
 include $(TOP)/common/Makefile.inc
 
 # Where to install files
 XFT_prefix=$(OW_DIR)
 
 # Command line options to GNU autoconf configure script
-CONFIG_OPTS = --enable-shared=yes --enable-static=no --prefix=$(XFT_prefix) --x-libraries="/usr/openwin/lib$(LIBSUBDIR) -L/usr/openwin/sfw/lib$(LIBSUBDIR) -R/usr/openwin/lib$(LIBSUBDIR) -R/usr/openwin/sfw/lib$(LIBSUBDIR)" --libdir='$${exec_prefix}/lib$(LIBSUBDIR)'
+CONFIG_OPTS = --enable-shared=yes --enable-static=no --prefix=$(XFT_prefix) --x-libraries="/usr/openwin/lib$(LIBSUBDIR) -L/usr/openwin/sfw/lib$(LIBSUBDIR) -R/usr/openwin/lib$(LIBSUBDIR) -R/usr/openwin/sfw/lib$(LIBSUBDIR)" --libdir='$${exec_prefix}/lib$(LIBSUBDIR)' --mandir=$(X11_DIR)/share/man
 
 # Paths to find libraries at build time (LD_LIBRARY_PATH) 
 # and run time (LD_RUN_PATH) and freetype-config binary at build time (PATH)

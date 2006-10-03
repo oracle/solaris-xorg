@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Xau 1.x Makefile
+# xrandr 1.x Makefile
 #
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,39 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	06/10/03
+# @(#)Makefile	1.1	06/10/02
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXau
+APP_NAME=xrandr
 
 # Version number (used in path names)
-LIB_VERS=1.0.2
+APP_VERS=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Library name (used for specfiles/mapfiles)
-LIBNAME=Xau
-
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=Xau.man
-SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
-LIB_MAN_SUFFIX=3Xau
-LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
-
-# Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library
-
-# Library built in tree
-LIB_BUILT=$(BUILD_DIR)/.libs/libXau.so.6.0.0
-
-# Use specfile to make mapfile & link with it
-LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
-
-# pkg-config files that need to have -R added
-FIX_PC_FILES=xau.pc.in
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxorg-client-programs} {Interface Stability, Volatile}'
 
 include ../Makefile.inc

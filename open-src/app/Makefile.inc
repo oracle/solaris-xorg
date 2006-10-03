@@ -1,7 +1,4 @@
 ###############################################################################
-#
-# Xau 1.x Makefile
-#
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
@@ -30,39 +27,50 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	06/10/03
+# @(#)Makefile.inc	1.1	06/10/02
 #
 
-# Package name used in tarballs
-LIB_MODULE=libXau
+### Makefile settings/rules common to all X.Org application modules
 
-# Version number (used in path names)
-LIB_VERS=1.0.2
+PWD:sh=pwd
+TOP=$(PWD)/../..
+BUILD_TYPES=32
 
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+# Source tarball
+SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.bz2
 
-# Library name (used for specfiles/mapfiles)
-LIBNAME=Xau
+# Download site for source
+SOURCE_URL=$(XORG_RELEASES_URL)/app/$(SOURCE_TARBALL_NAME)
 
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=Xau.man
-SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
-LIB_MAN_SUFFIX=3Xau
-LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
+# Directory created by unpacking source
+SOURCE_DIR=$(BUILD_DIR)/$(APP_NAME)-$(APP_VERS)
+
+include $(TOP)/common/Makefile.inc
+
+# Where to install files
+APP_prefix=$(X11_DIR)
 
 # Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library
+CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
+	$(APP_CONFIG_OPTS)
 
-# Library built in tree
-LIB_BUILT=$(BUILD_DIR)/.libs/libXau.so.6.0.0
+# Environment variable options to GNU autoconf configure script
+CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" \
+	LD="$(LD) $(LDFLAGS)"  LDFLAGS="$(PROG_LDFLAGS)" \
+	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) 
 
-# Use specfile to make mapfile & link with it
-LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+# Run configure script
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
+	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
+	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 
-# pkg-config files that need to have -R added
-FIX_PC_FILES=xau.pc.in
+# Binary built in tree
+APP_BIN=$(SOURCE_DIR)/src/$(APP_NAME)
 
-include ../Makefile.inc
+build_gen: $(APP_BIN)
+
+$(APP_BIN): $(SOURCE_DIR)/Makefile
+	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) )
+
+install_gen: $(APP_BIN)
+	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)

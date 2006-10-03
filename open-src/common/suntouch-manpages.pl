@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)suntouch-manpages.pl	1.2	06/08/09
+# @(#)suntouch-manpages.pl	1.3	06/10/02
 #
 
 # Updates manual pages to include standard Sun man page sections
@@ -106,7 +106,7 @@ while ($filename = shift) {
   while ($nextline = <IN>) {
     print OUT $nextline;
 
-    if ($nextline =~ m/.SH[\s "]*SYNOPSIS/) {
+    if ($nextline =~ m/.SH[\s "]*(SYNOPSIS|SYNTAX)/) {
       if ($add_library_to_synopsis) {
 	print OUT ".nf\n",
 	  q(\fBcc\fR [ \fIflag\fR\&.\&.\&. ] \fIfile\fR\&.\&.\&. \fB\-l),

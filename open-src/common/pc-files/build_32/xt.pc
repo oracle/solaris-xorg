@@ -1,0 +1,13 @@
+prefix=/usr/openwin
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+appdefaultdir=/usr/X11/lib/X11/app-defaults
+
+Name: Xt
+Description: X Toolkit Library
+Version: 0.1
+Requires: xproto x11 
+Requires.private: x11 
+Cflags: -I${includedir}
+Libs: -L${libdir} -lXt

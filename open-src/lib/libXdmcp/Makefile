@@ -30,69 +30,43 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	06/08/15
+# @(#)Makefile	1.2	06/10/03
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-BUILD_TYPES=32 64
+# Package name used in tarballs
+LIB_MODULE=libXdmcp
 
 # Version number (used in path names)
-XDMCP_VERS=1.0.2
-
-# Source tarball
-SOURCE_TARBALL_NAME=libXdmcp-$(XDMCP_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/lib/$(SOURCE_TARBALL_NAME)
+LIB_VERS=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/libXdmcp-$(XDMCP_VERS)
-
-# Library name (used for specfiles/mapfiles)
+# Library name
 LIBNAME=Xdmcp
 
 # libXdmcp has no man pages to apply Sun footer to
 #SUNTOUCHED_MANPAGES=Xdmcp.man
-#SUNTOUCH_MAN_FLAGS= -l Xdmcp \
-# -a '{Availability, SUNWxwplt} {Interface Stability, Committed} {MT-Level, Unsafe}'
-
-include $(TOP)/common/Makefile.inc
-
-# Where to install files
-XDMCP_prefix=$(X11_DIR)
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Committed
+LIB_MAN_SUFFIX=3Xdmcp
+LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
 
 # Command line options to GNU autoconf configure script
-CONFIG_OPTS = --enable-shared=yes --enable-static=no \
-	--prefix=$(XDMCP_prefix) --libdir='$${exec_prefix}/lib$(LIBSUBDIR)' \
-	--with-lint --enable-lint-library
+LIB_ADD_CONFIG_OPTS = --with-lint --enable-lint-library
 
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(LIB_CFLAGS)" \
-	LD="$(LD) $(LDFLAGS)"  LDFLAGS="$(LIB_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig \
-	LIB_MAN_SUFFIX=3Xdmcp
+# Library built in tree
+LIB_BUILT=$(BUILD_DIR)/.libs/libXdmcp.so.6.0.0
+
+# Use specfile to make mapfile & link with it
+LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
+LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xdmcp.pc.in
+
+include ../Makefile.inc
 
 # Remove encryption source before building
 source_gen::
 	-rm $(SOURCE_DIR)/Wraphelp.*
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
-	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
-
-# Library built in tree
-XDMCP_LIB=$(BUILD_DIR)/.libs/libXdmcp.so.6.0.0
-
-build_gen: $(XDMCP_LIB)
-
-$(XDMCP_LIB): $(SOURCE_DIR)/Makefile $(BUILD_DIR)/$(SPECMAP)
-	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)" $(MAKE) $(MFLAGS) )
-
-
-install_gen: $(XDMCP_LIB)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(XDMCP_prefix)/lib$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig)

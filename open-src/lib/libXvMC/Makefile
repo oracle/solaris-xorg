@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Xau 1.x Makefile
+# XvMC 1.x Makefile
 #
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,39 +30,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	06/10/03
+# @(#)Makefile	1.2	06/10/03
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXau
+LIB_MODULE=libXvMC
 
 # Version number (used in path names)
-LIB_VERS=1.0.2
+LIB_VERS=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Library name (used for specfiles/mapfiles)
-LIBNAME=Xau
+# Library name
+LIBNAME=XvMC
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=Xau.man
-SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
-LIB_MAN_SUFFIX=3Xau
-LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
-
-# Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library
+#SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxorg-clientlibs
+LIB_STABILITY=Volatile
+LIB_MAN_SUFFIX=3XvMC
 
 # Library built in tree
-LIB_BUILT=$(BUILD_DIR)/.libs/libXau.so.6.0.0
-
-# Use specfile to make mapfile & link with it
-LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXvMC.so.1.0.0
 
 # pkg-config files that need to have -R added
-FIX_PC_FILES=xau.pc.in
+FIX_PC_FILES=xvmc.pc.in
 
 include ../Makefile.inc
