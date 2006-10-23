@@ -958,6 +958,11 @@ handle_input (GIOChannel *source, GIOCondition cond, gpointer data)
      if ( strncmp(str,"pw_", 3) != 0) 
       {
       gtk_label_set_text (GTK_LABEL(pwd->user_prompt_label), str); 
+/*
+** 6478362(P3) When the AT support is enabled, the input focus
+** is located at password label
+*/
+      gtk_widget_grab_focus(pwd->passwd_entry);
       }
 
       g_free (str);
