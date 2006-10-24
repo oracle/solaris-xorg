@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.68	06/09/21
+# @(#)Makefile	1.69	06/10/24
 #
 
 PWD:sh=pwd
@@ -68,7 +68,8 @@ SOURCE_PATCHES = \
 	Sun-colors.patch \
 	barcode-hack.patch \
 	glsnake.patch \
-        allowRootByPassFlag.patch
+        allowRootByPassFlag.patch \
+	bug-6478841.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
