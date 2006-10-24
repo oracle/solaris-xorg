@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.14	06/09/19 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.15	06/10/06 SMI"
 
 #include <sys/param.h>
 #include <fcntl.h>
@@ -178,12 +178,17 @@ Atom MakeTSOLAtom(ClientPtr client, char *string, unsigned int len, Bool makeit)
 
 #define INITIAL_TSOL_NODELENGTH 1500
 
+extern WindowPtr XYToWindow(int x, int y);
+extern WindowPtr AnyWindowOverlapsJustMe(WindowPtr pWin, 
+	WindowPtr pHead, BoxPtr box);
+
 extern Atom tsol_lastAtom;
 extern int tsol_nodelength;
 extern TsolNodePtr tsol_node;
 extern int NumCurrentSelections;
 extern Selection *CurrentSelections;
 extern WindowPtr tpwin;
+extern int tsolMultiLevel;
 
 static int tsol_sel_agnt = -1; /* index this to CurrentSelection to get seln */
 
@@ -2817,32 +2822,41 @@ TsolDoGetImage(client, format, drawable, x, y, width, height, planemask, im_retu
         return(BadValue);
     }
     SECURITY_VERIFY_DRAWABLE(pDraw, drawable, client, SecurityReadAccess);
-    if(pDraw->type == DRAWABLE_WINDOW)
-    {
+
 #ifdef TSOL
+    if (!xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, 
+	    pDraw, client, TSOL_ALL, (void *)MAJOROP) &&
+	(DrawableIsRoot(pDraw) || !tsolMultiLevel))
+    {
+	return DoGetImage(client, format, drawable, x, y, 
+		width, height, planemask, im_return);
+    }
+
+    if (pDraw->type == DRAWABLE_WINDOW)
+    {
         if (DrawableIsRoot(pDraw))
         {
-            /* Get the actual window on which get image is done */
-
-            pWin = XYToWindow( x, y);
+            pWin = XYToWindow(x, y);
             if (!WindowIsRoot(pWin))
             {
-                not_root_window = TRUE;
                 pDrawtmp = &(pWin->parent->drawable);
                 if (((WindowPtr) pDrawtmp)->realized)
                 {
-                    pDraw = pDrawtmp;
-                    /*
-                     * Adjust the coordinates only w.r.t the new drawable.
-		     * Adjusting width and height will cause incorrect
-		     * amount of data being returned to client.
-                     */
-                    x -= pDraw->x;
-                    if (x < 0)
-                        x = 0;
-                    y -= pDraw->y;
-                    if (y < 0)
-                        y = 0;
+		    int tmpx, tmpy;
+
+                    tmpx = x - pDrawtmp->x;
+                    tmpy = y - pDrawtmp->y;
+
+		    /* requested area must be a subset of the window area */
+		    if (tmpx >= 0 && tmpy >= 0 &&
+			width <= pDrawtmp->width &&
+			height <= pDrawtmp->height)
+		    {
+                        pDraw = pDrawtmp;
+			x = tmpx;
+			y = tmpy;
+                	not_root_window = TRUE;
+		    }
                 }
             }
         }
@@ -2856,6 +2870,7 @@ TsolDoGetImage(client, format, drawable, x, y, width, height, planemask, im_retu
             Window   root;
             WindowPtr tmpwin;
 
+            not_root_window = TRUE;
             tmpwin = (WindowPtr)LookupWindow(pDraw->id, client);
             while (tmpwin)
             {
@@ -2880,11 +2895,14 @@ TsolDoGetImage(client, format, drawable, x, y, width, height, planemask, im_retu
 
         if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pDraw,
                          client, TSOL_ALL, (void *)MAJOROP))
-        {
-            /* Don't return error code. Return  contents  all zero */
             getimage_ok = FALSE;
-        }
+	else
+            getimage_ok = TRUE;
+    }
 #endif /* TSOL */
+
+    if(pDraw->type == DRAWABLE_WINDOW)
+    {
 
       if( /* check for being viewable */
 	 !((WindowPtr) pDraw)->realized ||
@@ -2904,15 +2922,6 @@ TsolDoGetImage(client, format, drawable, x, y, width, height, planemask, im_retu
     }
     else
     {
-#ifdef TSOL
-        if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pDraw,
-                         client, TSOL_ALL, (void *)MAJOROP))
-        {
-            /* Don't return error code. Return  contents  all zero */
-            getimage_ok = FALSE;
-        }
-#endif  /* TSOL */
-
       if(x < 0 ||
          x+width > (int)pDraw->width ||
          y < 0 ||

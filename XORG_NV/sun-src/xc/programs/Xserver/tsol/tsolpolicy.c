@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.12     06/08/04 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.14     06/10/13 SMI"
 
 #include "X.h"
 #define		NEED_REPLIES
@@ -85,6 +85,7 @@ extern Bool priv_win_config;
 extern Bool priv_win_devices;
 extern Bool priv_win_dga;
 extern Bool priv_win_fontpath;
+extern int tsolMultiLevel;
 
 #define SAMECLIENT(client, xid) ((client)->index == CLIENT_ID(xid))
 
@@ -619,12 +620,12 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 	if (!SAMECLIENT(client, pDraw->id))
 	{
 	    /*
-	     * Client must have Trusted Path to access a Trusted Path Window
+	     * Client must have Trusted Path to access root window
+	     * in multilevel desktop.
 	     */
-	    if ((pDraw->type == DRAWABLE_WINDOW) && XTSOLTrusted(pWin) &&
-		    !HasTrustedPath(tsolinfo))
+	    if (tsolMultiLevel && DrawableIsRoot(pDraw) && 
+			!HasTrustedPath(tsolinfo))
 		return (err_code);
-
 		/*
 	 	 * MAC Check
 		 */
@@ -1961,8 +1962,8 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	 */
 	if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
 	{
-		/* uid == DEF_UID means public property, shared read */
-		if (!(tsolprop->uid == DEF_UID || tsolinfo->uid == tsolprop->uid))
+		/* property created by workstation owner at admin_low is readable by roles */
+		if (!(tsolprop->uid == OwnerUID || tsolinfo->uid == tsolprop->uid))
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;

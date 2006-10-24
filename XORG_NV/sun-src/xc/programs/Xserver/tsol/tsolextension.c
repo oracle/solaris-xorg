@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.17     06/08/04 SMI"
+#pragma ident   "@(#)tsolextension.c 1.18     06/10/06 SMI"
 
 #include <stdio.h>
 #include <bsm/auditwrite.h>
@@ -125,7 +125,8 @@ extern int tsolWindowPrivateIndex;
 extern int tsolPixmapPrivateIndex;
 
 static HotKeyRec hotkey = {FALSE, 0, 0, 0, 0};
-static int tsolMultiLevel = TRUE;
+
+int tsolMultiLevel = TRUE;
 
 int OwnerUIDint;
 extern uid_t OwnerUID;
