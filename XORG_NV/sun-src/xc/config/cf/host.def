@@ -29,7 +29,7 @@ XCOMM of the copyright holder.
 XCOMM
 XCOMM #########################################################################
 XCOMM
-XCOMM ident "@(#)host.def 1.46     06/03/28 SMI"
+XCOMM ident	"@(#)host.def	1.47	06/10/25 SMI"
 XCOMM
 
 /* Settings for official Solaris package builds */
@@ -65,6 +65,9 @@ XCOMM
 #define BuildXDriInfo		NO
 #endif
 
+#define BuildGlxExt		YES
+#define BuildXF86DRI		YES
+
 /* Used in error messages in the form "send the error log to ____" */
 #define BuilderEmailAddr	"your technical support contact"
 /* Used in error messages in the form "check ____  for latest version" */
@@ -99,7 +102,7 @@ DESTDIR=$(PWD)/$(TOP)/../proto-sun4-svr4
 #endif
 
 /* Set optimizer flags for correct Sun cc version */
-#if HasSunC 
+#if HasSunC
 /* # define UseCCMakeDepend	YES  XXX: FIXME
 # define DependFlags		-cc $(CC) -d -xM */
 # ifndef OSServerExtraDefines
@@ -119,7 +122,7 @@ XCOMM String stored in binaries for identification - view with /usr/ccs/bin/mcs 
 /* Too long of a string breaks builds on Solaris 9 for some reason */
       MCS_BUILD_ID = Sun Xorg Release SunXOrgVersionNumber (X.Org X11R/**/XorgVersionString - `date +'%e %B %Y'`)
 #else
-#if OSTeenyVersion != 0 
+#if OSTeenyVersion != 0
       SOLARIS_VERSION:sh = printf "%s.%s" OSMinorVersion OSTeenyVersion
 #else
       SOLARIS_VERSION = OSMinorVersion
@@ -140,7 +143,7 @@ XCOMM String stored in binaries for identification - view with /usr/ccs/bin/mcs 
 # ifdef SparcArchitecture
 #  if OSMinorVersion == 9
 XCOMM Solaris 9 sparc linker causes build failures when used with normal
-XCOMM mapfile_pga_sparc so we just use this one for S9 sparc builds 
+XCOMM mapfile_pga_sparc so we just use this one for S9 sparc builds
 #   define MapFilePGA /usr/lib/ld/map.noexstk
 #  else
 #   define MapFilePGA $(CONFIGSRC)/mapfiles/mapfile_pga_sparc
@@ -157,7 +160,7 @@ XCOMM mapfile_pga_sparc so we just use this one for S9 sparc builds
 
 /* Make loadable modules link to their own symbols first to avoid cross-module
    symbol clashes */
-#if HasSunC 
+#if HasSunC
 MODULE_GCC_FLAGS = -xldscope=symbolic
 #endif
 
@@ -275,3 +278,21 @@ SUNMANSTART = $(SUNMAN_TABLE_PREPEND)					@@\
 									@@\
 InstallGenManPage(module,$(DRIVERMANDIR),$(DRIVERMANSUFFIX))
 #endif
+
+#define DriDrivers i915
+
+# ifndef SharedDriModuleTarget
+#  define SharedDriModuleTarget(name,deps,solist)			@@\
+AllTarget(name)								@@\
+									@@\
+name: deps								@@\
+	$(RM) $@~ $@.map						@@\
+	$(CC) -o $@~ $(SHLIBLDFLAGS) solist $(REQUIREDLIBS)		@@\
+	$(RM) $@ $@.map							@@\
+	$(MV) $@~ $@							@@\
+									@@\
+clean::									@@\
+	$(RM) name							@@\
+	$(RM) name.map
+
+# endif /* SharedDriModuleTarget */

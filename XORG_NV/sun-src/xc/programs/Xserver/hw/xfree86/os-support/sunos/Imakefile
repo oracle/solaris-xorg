@@ -32,7 +32,7 @@ XCOMM
 
 #include <Server.tmpl>
 
-#if !HasGcc 
+#if !HasGcc
 # if HasSunC
 #  if !defined(AsmArch) || !defined(AsmFlags)
 #   error "Unsupported Architecture for building Xorg server with Sun compilers."
@@ -92,22 +92,38 @@ AGP_OBJ = agp_noop.o
 SYSVIPCDEFINES = -DHAVE_SYSV_IPC
 #endif
 
+DRI_SRC = sigiostubs.c
+DRI_OBJ = sigiostubs.o
+
 SRCS = sun_bios.c sun_init.c $(IO_SRC) $(KBD_SRCS) $(PROWORKS_INOUT_SRC) \
        sun_mouse.c sun_vid.c $(AGP_SRC) libc_wrapper.c kmod_noop.c sun_apm.c \
-       posix_tty.c sigiostubs.c stdPci.c stdResource.c $(VTSW_SRC)
+       posix_tty.c sigiostubs.c stdPci.c stdResource.c $(VTSW_SRC) $(DRI_SRC)
 OBJS = sun_bios.o sun_init.o $(IO_OBJ) $(KBD_OBJS) $(PROWORKS_INOUT_OBJ) \
        sun_mouse.o sun_vid.o $(AGP_OBJ) libc_wrapper.o kmod_noop.o sun_apm.o \
-       posix_tty.o sigiostubs.o stdPci.o stdResource.o $(VTSW_OBJ)
+       posix_tty.o sigiostubs.o stdPci.o stdResource.o $(VTSW_OBJ) $(DRI_OBJ)
 
 INCLUDES = -I. -I$(XF86OSSRC) -I$(XF86COMSRC) \
 	   -I$(SERVERSRC)/mi -I$(SERVERSRC)/include -I$(SERVERSRC)/Xext \
-	   -I$(XINCLUDESRC) -I$(EXTINCSRC)
+	   -I$(XINCLUDESRC) -I$(EXTINCSRC) -I$(DRMSRCDIR)/shared-core
 
 DEFINES = -DUSESTDRES $(VENDOR_DEFINES) $(SYSVIPCDEFINES)
 
 SubdirLibraryRule($(OBJS))
 NormalLibraryObjectRule()
 NormalAsmObjectRule()
+
+#if BuildXF86DRI
+DRISUBDIR = drm
+#endif
+
+#if XF86INT10_BUILD > X86EMU_GENERIC
+INT10SUBDIR = int10
+#endif
+
+#if BuildXF86DRI || (XF86INT10_BUILD > X86EMU_GENERIC)
+#define IHaveSubdirs
+SUBDIRS = $(DRISUBDIR) $(INT10SUBDIR)
+#endif
 
 LinkSourceFile($(VTSW_SRC),../shared)
 LinkSourceFile(agp_noop.c,../shared)
@@ -121,6 +137,8 @@ LinkSourceFile(stdResource.c,../shared)
 LinkSourceFile(std_kbdEv.c,../shared)
 LinkSourceFile(sysv_io.c,../sysv)
 LinkSourceFile(sysv_kbd.c,../shared)
+
+LinkSourceFile($(DRI_SRC),../shared)
 
 DependTarget()
 LintTarget()

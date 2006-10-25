@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.11	06/04/18 SMI"
+# ident	"@(#)prototype	1.12	06/10/25 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -148,8 +148,13 @@ f none X11/demo/glxgears 0755 root bin
 
 # X server-side components
 d none X11/lib/modules 0755 root bin
+d none X11/lib/modules/dri 0755 root bin
+!search $HOME/lib/modules/dri
+f none X11/lib/modules/dri/i915_dri.so 0755 root bin
 d none X11/lib/modules/extensions 0755 root bin
 !search $HOME/lib/modules/extensions
+f none X11/lib/modules/extensions/libdri.so 0755 root bin
+f none X11/lib/modules/extensions/libdrm.so 0755 root bin
 d none X11/lib/modules/extensions/mesa 0755 root bin
 f none X11/lib/modules/extensions/mesa/libGLcore.so 0755 root bin
 f none X11/lib/modules/extensions/mesa/libglx.so 0755 root bin
