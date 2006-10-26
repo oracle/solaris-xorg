@@ -1011,7 +1011,7 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
     xf86MonPtr* MonInfo = &port->MonInfo;
     int i, j;
     RADEONEntPtr pRADEONEnt  = RADEONEntPriv(pScrn);
-    int vbeProbe = FALSE;;
+    int vbeProbe = FALSE;
 
     DDCReg = info->DDCReg;
     switch(DDCType)
@@ -1030,7 +1030,7 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
 	break;
     default:
 	info->DDCReg = DDCReg;
-	/* Fall through, can still try ... 
+	/* Fall through, can still try ...
 	return MT_NONE;
 	*/
     }
@@ -1133,7 +1133,7 @@ static RADEONMonitorType RADEONDisplayDDCConnected(ScrnInfoPtr pScrn, RADEONDDCT
 	    }
 	} else  {
 	    	if ((RADEONCrtIsPhysicallyConnected(pScrn, 
-		    !(pRADEONEnt->PortInfo[1].DACType)) == MT_CRT) && 
+		    !(pRADEONEnt->PortInfo[1].DACType)) == MT_CRT) && vbeProbe && 
 		    (info->HasCRTC2) && (port == &pRADEONEnt->PortInfo[0])) {
 	    	    MonType = MT_NONE;
 	    	    *MonInfo = NULL;
@@ -1938,9 +1938,11 @@ static BOOL RADEONQueryConnectedMonitors(ScrnInfoPtr pScrn)
 	pRADEONEnt->PortInfo[i].ConnectorType = CONNECTOR_NONE;
     }
 
+    /* On a lot of laptops, DDCType is deteced 0 on port 0, and DDCType for
+       port 1 may be wrong too. Use default common setting 
+     */
     if (!RADEONGetConnectorInfoFromBIOS(pScrn) ||
-	((pRADEONEnt->PortInfo[0].DDCType == 0) &&
-	(pRADEONEnt->PortInfo[1].DDCType == 0))) {
+	(pRADEONEnt->PortInfo[0].DDCType == 0)) { 
 	/* Below is the most common setting, but may not be true */
 	pRADEONEnt->PortInfo[0].MonType = MT_UNKNOWN;
 	pRADEONEnt->PortInfo[0].MonInfo = NULL;
@@ -2089,9 +2091,14 @@ static BOOL RADEONQueryConnectedMonitors(ScrnInfoPtr pScrn)
 	    pRADEONEnt->PortInfo[1].TMDSType = TMDS_UNKNOWN;
 	    pRADEONEnt->PortInfo[1].DDCType = DDC_VGA;
 	    pRADEONEnt->PortInfo[1].ConnectorType = CONNECTOR_CRT;
+	    /* Don't know why need to set port 1, but at least DDCType can't be
+               set to DDC_NONE_DETECTED, since this will prevent probing
+            */
 	    pRADEONEnt->PortInfo[0].DACType = DAC_TVDAC;
 	    pRADEONEnt->PortInfo[0].TMDSType = TMDS_UNKNOWN;
+	    /*
 	    pRADEONEnt->PortInfo[0].DDCType = DDC_NONE_DETECTED;
+	     */
 	    pRADEONEnt->PortInfo[0].ConnectorType = pRADEONEnt->PortInfo[0].MonType+1;
 	    pRADEONEnt->PortInfo[0].MonInfo = NULL;
         }
@@ -4417,7 +4424,8 @@ static Bool RADEONPreInitModes(ScrnInfoPtr pScrn, xf86Int10InfoPtr pInt10)
 
     /* Sort the modes, retain the first */
     if (pScrn->modes && (start = pScrn->modes->next)) {
-       for (mp = start; mp->next != pScrn->modes; mp = mp->next) {
+	/* Copy modelist into a new sorted modelist */
+	for (mp = start; mp != pScrn->modes; mp = mp->next) {
            DisplayModePtr 	new = NULL;
 
            new = xnfcalloc(1, sizeof (DisplayModeRec));
@@ -4427,14 +4435,18 @@ static Bool RADEONPreInitModes(ScrnInfoPtr pScrn, xf86Int10InfoPtr pInt10)
        }
 
        if (last && first) {
+           /* Clean up the old modelist */
+           start->prev = pScrn->modes->prev;
+           if (start->prev)
+		start->prev->next = start;
+           while (start)
+		xf86DeleteMode(&start, start);
+
+           /* Switch to the new sorted modelist */
            pScrn->modes->next = first;
            pScrn->modes->prev = last;
            first->prev = pScrn->modes;
-           /* Make the list circular */
-           last->next = pScrn->modes;
-
-           for (mp = start; mp->next != pScrn->modes; mp = mp->next) 
-	       xf86DeleteMode(&start, mp);
+	   last->next = pScrn->modes;
        }
     }
 
