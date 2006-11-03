@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	06/10/02
+# @(#)Makefile	1.6	06/11/02
 #
 
 PWD:sh=pwd
@@ -50,7 +50,8 @@ SOURCE_URL=http://xlibs.freedesktop.org/release/$(SOURCE_TARBALL_NAME)
 SOURCE_PATCHES = \
 	xft.pc.patch \
 	xftcore-6261221.patch \
-	cjk-embolden.patch
+	cjk-embolden.patch \
+	xft.hint.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/libXft-$(XFT_VERS)
