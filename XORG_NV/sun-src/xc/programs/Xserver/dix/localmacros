@@ -29,14 +29,19 @@ XCOMM of the copyright holder.
 XCOMM
 XCOMM ########################################################################
 XCOMM
-XCOMM ident "@(#)localdefines 1.4     06/11/07 SMI"
+XCOMM ident "@(#)localmacros 1.1     06/11/07 SMI"
 XCOMM
 
-DTRACE_DEFINES = -DXSERVER_DTRACE -DXERRORDB_PATH=\"$(LIBDIR)/XErrorDB\"
+all:: Xserver-dtrace.h
 
-XCOMM Default DPMS settings for Solaris
-EXTRA_DEFINES = -DDEFAULT_STANDBY_TIME=1440000 \
-		-DDEFAULT_SUSPEND_TIME=1620000 \
-		-DDEFAULT_OFF_TIME=1800000 \
-		-DDEFAULT_DPMS_ENABLED=TRUE \
-		$(DTRACE_DEFINES)
+Xserver-dtrace.h: ../Xserver.d
+	dtrace -C -h -o $@ -s ../Xserver.d
+
+dispatch.o: Xserver-dtrace.h
+
+includes:: Xserver-dtrace.h
+
+depend::  Xserver-dtrace.h
+
+clean::
+        RemoveFiles(Xserver-dtrace.h)

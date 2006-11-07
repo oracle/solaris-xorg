@@ -150,6 +150,17 @@ int ProcInitialConnection();
 #include "lbxserve.h"
 #endif
 
+#ifdef XSERVER_DTRACE
+#include <sys/types.h>
+typedef const char *string;
+#include "Xserver-dtrace.h"
+
+char *RequestNames[256];
+static void LoadRequestNames(void);
+static void FreeRequestNames(void);
+#define GetRequestName(i) (RequestNames[i])
+#endif
+
 #define mskcnt ((MAXCLIENTS + 31) / 32)
 #define BITMASK(i) (1U << ((i) & 31))
 #define MASKIDX(i) ((i) >> 5)
@@ -408,6 +419,10 @@ Dispatch(void)
     if (!clientReady)
 	return;
 
+#ifdef XSERVER_DTRACE
+    LoadRequestNames();
+#endif
+
     while (!dispatchException)
     {
         if (*icheck[0] != *icheck[1])
@@ -484,6 +499,11 @@ Dispatch(void)
 		client->requestLog[client->requestLogIndex] = MAJOROP;
 		client->requestLogIndex++;
 #endif
+#ifdef XSERVER_DTRACE
+		XSERVER_REQUEST_START(GetRequestName(MAJOROP), MAJOROP,
+			      ((xReq *)client->requestBuffer)->length,
+			      client->index, client->requestBuffer);
+#endif
 		if (result > (maxBigRequestSize << 2))
 		    result = BadLength;
 		else
@@ -498,6 +518,10 @@ Dispatch(void)
 #else
                     result = (* client->requestVector[MAJOROP])(client);
 #endif /* TSOL */
+#ifdef XSERVER_DTRACE
+		XSERVER_REQUEST_DONE(GetRequestName(MAJOROP), MAJOROP,
+			      client->sequence, client->index, result);
+#endif
 
 		if (result != Success) 
 		{
@@ -529,6 +553,9 @@ Dispatch(void)
     KillAllClients();
     DEALLOCATE_LOCAL(clientReady);
     dispatchException &= ~DE_RESET;
+#ifdef XSERVER_DTRACE
+    FreeRequestNames();
+#endif
 }
 
 #undef MAJOROP
@@ -3653,6 +3680,9 @@ CloseDownClient(register ClientPtr client)
 	    CallCallbacks((&ClientStateCallback), (pointer)&clientinfo);
 	} 	    
 	FreeClientResources(client);
+#ifdef XSERVER_DTRACE
+	XSERVER_CLIENT_DISCONNECT(client->index);
+#endif	
 	if (client->index < nextFreeClientID)
 	    nextFreeClientID = client->index;
 	clients[client->index] = NullClient;
@@ -4083,3 +4113,60 @@ MarkClientException(ClientPtr client)
 {
     client->noClientException = -1;
 }
+
+#ifdef XSERVER_DTRACE
+#include <ctype.h>
+
+/* Load table of request names for dtrace probes */
+static void LoadRequestNames(void)
+{
+    int i;
+    FILE *xedb;
+    extern void LoadExtensionNames(char **RequestNames);
+
+    bzero(RequestNames, 256 * sizeof(char *));
+
+    xedb = fopen(XERRORDB_PATH, "r");
+    if (xedb != NULL) {
+	char buf[256];
+	while (fgets(buf, sizeof(buf), xedb)) {
+	    if ((strncmp("XRequest.", buf, 9) == 0) && (isdigit(buf[9]))) {
+		char *name;
+		i = strtol(buf + 9, &name, 10);
+		if (RequestNames[i] == 0) {
+		    char *end = strchr(name, '\n');
+		    if (end) { *end = '\0'; }
+		    RequestNames[i] = strdup(name + 1);
+		}
+	    }
+	}
+	fclose(xedb);
+    }
+
+    LoadExtensionNames(RequestNames);
+
+    for (i = 0; i < 256; i++) {
+	if (RequestNames[i] == 0) {
+#define RN_SIZE 12 /* "Request#' + up to 3 digits + \0 */
+	    RequestNames[i] = xalloc(RN_SIZE);
+	    if (RequestNames[i]) {
+		snprintf(RequestNames[i], RN_SIZE, "Request#%d", i);
+	    }
+	}
+	/* fprintf(stderr, "%d: %s\n", i, RequestNames[i]); */
+    }
+}
+
+static void FreeRequestNames(void)
+{
+    int i;
+
+    for (i = 0; i < 256; i++) {
+	if (RequestNames[i] != 0) {
+	    free(RequestNames[i]);
+	    RequestNames[i] = 0;
+	}
+    }
+}
+
+#endif

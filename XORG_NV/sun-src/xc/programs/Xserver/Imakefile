@@ -10,13 +10,18 @@ XCOMM $XFree86: xc/programs/Xserver/Imakefile,v 3.296 2003/11/23 06:47:00 torrey
 #endif
 #define InstallServerSetUID InstallXserverSetUID
 
+#if BuildDTraceSupport
+DTRACE_OBJ = Xserver-dtrace.o
+SITEEXTS = $(DTRACE_OBJ)
+#endif
+
 #include <Server.tmpl>
 
 /* On most systems the linker requires the libraries in dependency order. 
    But we have no real order because there are cycles. We fix this by adding
    some libraries twice on the commandline. dependLib will add the 
    dependency library to the commandline if the link order is important */ 
-#if 1 /* This is currently enabled for all systems */
+#if !defined(SunArchitecture) /* SUNSOFT: Disabled for Solaris builds */
 #define dependLib(x) x
 #else
 #define dependLib(x)
@@ -233,7 +238,11 @@ XPFBLIBS = dix/LibraryTargetName(xpstubs)
 #if BuildLBX || GzipFontCompression
            ZLIB = GzipLibrary
 #endif
+#if BuildDTraceSupport
+             OS = os/os.Osuf
+#else
              OS = os/LibraryTargetName(os)
+#endif
         BSDEMUL = $(DEPXBSDLIB)
 #if DoLoadableServer
             MFB = mfb/ModuleLibraryTargetName(mfb)
@@ -295,7 +304,11 @@ XPFBLIBS = dix/LibraryTargetName(xpstubs)
              MI = mi/LibraryTargetName(mi)
 #endif
    MIINITEXTOBJ = mi/miinitext.o
+#if BuildDTraceSupport
+            DIX = dix/dix.Osuf
+#else
             DIX = dix/LibraryTargetName(dix)
+#endif
        FONTBASE = $(FONTLIBSRC)/fontbase.o \
 		  $(FONTLIBSRC)/LibraryTargetName(fontbase)
 #if XserverStaticFontLib
@@ -1242,4 +1255,21 @@ linker-deps:
 	  echo "relinking with dependency flags in $(CURRENT_DIR)/$$i..."; \
                 MakeNamedTargetSubdir($$i,NullParameter,all) ; \
         done
+#endif
+
+#if BuildDTraceSupport
+XCOMM DTrace magic
+
+DTRACE_SRC = Xserver.d
+DTRACE_MODULES = $(DIX) $(OS)
+
+# if defined(Sparc64Architecture) || defined(AMD64Architecture)
+DTRACE_BITS = -64
+# else
+DTRACE_BITS = -32
+# endif
+
+$(DTRACE_OBJ): $(DTRACE_SRC) $(DTRACE_MODULES)
+	dtrace -G -C $(DTRACE_BITS) -s $(DTRACE_SRC) -o $(DTRACE_OBJ) $(DTRACE_MODULES)
+
 #endif

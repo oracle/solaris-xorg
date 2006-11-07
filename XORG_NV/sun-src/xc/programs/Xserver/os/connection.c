@@ -204,6 +204,18 @@ extern __const__ int _nfiles;
 extern void DtloginInit(void);
 #endif /* SUNSOFT */
 
+#ifdef HAS_GETPEERUCRED
+# include <ucred.h>
+# include <zone.h>
+#endif
+
+#ifdef XSERVER_DTRACE
+# include <sys/types.h>
+typedef const char *string;
+# include "../dix/Xserver-dtrace.h"
+# include <ucred.h>
+#endif
+
 int lastfdesc;			/* maximum file descriptor */
 
 fd_set WellKnownConnections;	/* Listener mask */
@@ -606,6 +618,13 @@ AuthAudit (ClientPtr client, Bool letin,
 {
     char addr[128];
     char *out = addr;
+    int client_uid;
+    char client_uid_string[64];
+#ifdef HAS_GETPEERUCRED
+    ucred_t *peercred = NULL;
+    pid_t client_pid = -1;
+    zoneid_t client_zid = -1;
+#endif
 
     if (!((OsCommPtr)client->osPrivate)->trans_conn) {
 	strcpy(addr, "LBX proxy at ");
@@ -646,14 +665,58 @@ AuthAudit (ClientPtr client, Bool letin,
 	default:
 	    strcpy(out, "unknown address");
 	}
+
+#ifdef HAS_GETPEERUCRED
+    if (getpeerucred(((OsCommPtr)client->osPrivate)->fd, &peercred) >= 0) {
+	client_uid = ucred_geteuid(peercred);
+	client_pid = ucred_getpid(peercred);
+	client_zid = ucred_getzoneid(peercred);
+
+	ucred_free(peercred);
+	snprintf(client_uid_string, sizeof(client_uid_string),
+		 " (uid %ld, pid %ld, zone %ld)",
+		 (long) client_uid, (long) client_pid, (long) client_zid);
+    }
+#else    
+    if (LocalClientCred(client, &client_uid, NULL) != -1) {
+	snprintf(client_uid_string, sizeof(client_uid_string),
+		 " (uid %d)", client_uid);
+    }
+#endif
+    else {
+	client_uid_string[0] = '\0';
+    }
+
+#ifdef XSERVER_DTRACE
+  if (auditTrailLevel > 1) {
+#endif
     
     if (proto_n)
-	AuditF("client %d %s from %s\n  Auth name: %.*s ID: %d\n", 
+	AuditF("client %d %s from %s%s\n  Auth name: %.*s ID: %d\n", 
 	       client->index, letin ? "connected" : "rejected", addr,
-	       (int)proto_n, auth_proto, auth_id);
+	       client_uid_string, (int)proto_n, auth_proto, auth_id);
     else 
-	AuditF("client %d %s from %s\n", 
-	       client->index, letin ? "connected" : "rejected", addr);
+	AuditF("client %d %s from %s%s\n", 
+	       client->index, letin ? "connected" : "rejected", addr,
+	       client_uid_string);
+#ifdef XSERVER_DTRACE
+  }
+  if (XSERVER_CLIENT_AUTH_ENABLED())
+  {
+      ucred_t *peercred = NULL;
+      pid_t pid = -1;
+      zoneid_t zid = -1;
+      
+      if (getpeerucred(((OsCommPtr)client->osPrivate)->fd, &peercred) >= 0) {
+	  pid = ucred_getpid(peercred);
+	  zid = ucred_getzoneid(peercred);
+	  ucred_free(peercred);
+      }
+    
+      XSERVER_CLIENT_AUTH(client->index, addr, pid, zid);
+  }
+#endif	
+
 }
 
 XID
@@ -782,7 +845,9 @@ ClientAuthorized(ClientPtr client,
 	    else
 	    {
 		auth_id = (XID) 0;
+#ifndef XSERVER_DTRACE
 		if (auditTrailLevel > 1)
+#endif
 		    AuthAudit(client, TRUE,
 			(struct sockaddr *) from, fromlen,
 			proto_n, auth_proto, auth_id);
@@ -806,7 +871,11 @@ ClientAuthorized(ClientPtr client,
 		return "Client is not authorized to connect to Server";
 	}
     }
+#ifdef XSERVER_DTRACE
+    else
+#else
     else if (auditTrailLevel > 1)
+#endif
     {
 	if (_XSERVTransGetPeerAddr (trans_conn,
 	    &family, &fromlen, &from) != -1)
@@ -914,6 +983,9 @@ AllocNewConnection (XtransConnInfo trans_conn, int fd, CARD32 conn_time)
     ErrorF("AllocNewConnection: client index = %d, socket fd = %d\n",
 	   client->index, fd);
 #endif
+#ifdef XSERVER_DTRACE
+    XSERVER_CLIENT_CONNECT(client->index, fd);
+#endif	
 
     return client;
 }

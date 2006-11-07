@@ -29,11 +29,11 @@ XCOMM of the copyright holder.
 XCOMM
 XCOMM ########################################################################
 XCOMM
-XCOMM ident "@(#)localdefines 1.3     05/11/08 SMI"
+XCOMM ident "@(#)localdefines 1.4     06/11/03 SMI"
 XCOMM
 
 XCOMM Add VENDOR_DEFINES so we get -DSUNSOFT and other Sun-specific definitions
-    EXTRA_DEFINES = $(VENDOR_DEFINES)
+    EXTRA_DEFINES = $(VENDOR_DEFINES) -DXSERVER_DTRACE
 
 /* Add dtlogin.c for dtlogin authentication information pipe */
 #define OtherSources dtlogin.c

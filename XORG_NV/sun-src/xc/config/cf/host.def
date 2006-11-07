@@ -29,13 +29,14 @@ XCOMM of the copyright holder.
 XCOMM
 XCOMM #########################################################################
 XCOMM
-XCOMM ident	"@(#)host.def	1.47	06/10/25 SMI"
+XCOMM ident	"@(#)host.def	1.48	06/11/07 SMI"
 XCOMM
 
 /* Settings for official Solaris package builds */
 
 #define SunSolarisXorgBuilds	YES
 #define BuildLikeSun		YES
+#define BuildDTraceSupport	YES
 
 #ifndef LibManSuffix
 #define LibManSuffix		3
