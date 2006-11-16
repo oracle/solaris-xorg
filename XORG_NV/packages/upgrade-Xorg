@@ -31,7 +31,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)upgrade-Xorg 1.14     06/10/04 SMI"
+# ident "@(#)upgrade-Xorg 1.15     06/11/16 SMI"
 #
 # Description: This script upgrades Xorg software on a Solaris 10 or Nevada
 #	       system. It should be run as root from a Xorg package area.
@@ -159,7 +159,11 @@ if [ -f SUNWxorg-clientlibs/pkginfo ] ; then
 else
     XW_CLIENT_PACKAGE_LIST=""
 fi
-XW_SERVER_PACKAGE_LIST="SUNWxorg-doc SUNWxorg-server SUNWxorg-graphics-ddx SUNWxorg-xkb SUNWxorg-cfg"
+XW_SERVER_PACKAGE_LIST="SUNWxorg-doc SUNWxorg-server SUNWxorg-graphics-ddx SUNWxorg-cfg"
+
+if [ -f SUNWxorg-xkb/pkginfo ] ; then
+    XW_SERVER_PACKAGE_LIST="${XW_SERVER_PACKAGE_LIST} SUNWxorg-xkb"
+fi
 
 if [ "${MACH}" = "sparc" ] ; then
     PKGS="${XW_CLIENT_PACKAGE_LIST}"

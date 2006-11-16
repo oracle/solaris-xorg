@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.46 10/03/06 06/10/03
+# @(#)make_release_packages	1.47 11/17/06 06/11/17
 #
 #	Create and fill a package staging area for X
 #
@@ -93,7 +93,7 @@ fi
 # 64-bit libraries
 XW_PLT_PACKAGE="SUNWxwplt SUNWxwplr SUNWxwfnt SUNWxwrtl SUNWxwslb \
     SUNWxwmod SUNWxscreensaver-hacks-gl SUNWxwman \
-    SUNWxsun-server SUNWxsun-keytables $TSOL_PACKAGE"
+    SUNWxsun-server $TSOL_PACKAGE"
 
 # Some packages are only built for sparc currently
 if [ "$MACH" = "sparc" ]; then

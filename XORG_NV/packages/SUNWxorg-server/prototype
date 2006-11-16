@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.15     06/03/28 SMI"
+# ident "@(#)prototype 1.16     06/11/16 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -123,6 +123,10 @@ d none X11/lib/X11/getconfig 0755 root bin
 f none X11/lib/X11/getconfig/getconfig=$HOME/bin/getconfig-sun 0555 root bin
 f none X11/lib/X11/getconfig/cfg.sample 0444 root bin
 f none X11/lib/X11/getconfig/xorg.cfg 0444 root bin
+
+!search $HOME/lib/X11/xkb
+d none X11/lib/X11/xkb 0755 root bin
+f none X11/lib/X11/xkb/xkbcomp 0755 root bin
 
 !search $HOME/lib/X11/xserver
 d none X11/lib/X11/xserver 0755 root bin
