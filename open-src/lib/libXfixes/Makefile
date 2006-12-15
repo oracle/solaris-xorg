@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/10/03
+# @(#)Makefile	1.3	06/12/13
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXfixes
 
 # Version number (used in path names)
-LIB_VERS=3.0.1.2
+LIB_VERS=4.0.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 5099413.patch soversion.patch
+SOURCE_PATCHES = soversion.patch
 
 # Library name
 LIBNAME=Xfixes

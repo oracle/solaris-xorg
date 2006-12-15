@@ -1,4 +1,4 @@
-###############################################################################
+# -*- Makefile -*- rules common to most X.Org library modules
 #
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,10 +28,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.1	06/10/03
+# @(#)Makefile.inc	1.4	06/12/13
 #
-
-### Makefile settings/rules common to most X.Org library modules
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
@@ -56,15 +54,18 @@ LIB_prefix=$(X11_DIR)
 
 # Command line options to GNU autoconf configure script
 CONFIG_OPTS = --enable-shared=yes --enable-static=no \
-	--prefix=$(LIB_prefix) --libdir='$${exec_prefix}/lib$(LIBSUBDIR)' \
-	--mandir='$${prefix}/share/man' $(LIB_ADD_CONFIG_OPTS)
+	--prefix=$(LIB_prefix) 	--mandir='$${prefix}/share/man' \
+	--libdir='$${exec_prefix}/lib$(LIB_ADD_SUBDIR)$(LIBSUBDIR)' \
+	$(LIB_ADD_CONFIG_OPTS)
 
 # Environment variable options to GNU autoconf configure script
-THIS_LIB_CFLAGS=$(LIB_CFLAGS) -I$(PROTODIR)/usr/X11/include
+THIS_LIB_CFLAGS=$(LIB_CFLAGS) -I$(PROTODIR)/usr/X11/include $(LIB_ADD_CFLAGS)
 
-CONFIG_ENV = CC=$(CC) CFLAGS="$(THIS_LIB_CFLAGS)" \
-	LD="$(LD) $(LDFLAGS)"  LDFLAGS="$(LIB_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
+CONFIG_ENV = CC=$(CC) CFLAGS="$(THIS_LIB_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
+	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR)" \
+	LDFLAGS="$(LIB_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)" \
+	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
+	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
 	LIB_MAN_SUFFIX=$(LIB_MAN_SUFFIX)
 
 # Run configure script
@@ -75,8 +76,8 @@ $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
 build_gen: $(LIB_BUILT)
 
 $(LIB_BUILT): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
-	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) )
+	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) $(LIB_ADD_MAKEFLAGS) )
 
 
 install_gen: $(LIB_BUILT)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_prefix)/lib$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig)
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_prefix)/lib$(LIB_ADD_SUBDIR)$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig $(LIB_ADD_MAKEFLAGS))

@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	06/06/12
+# @(#)Makefile	1.2	06/11/20
 #
 
 # Package name used in tarballs
 PROTO_NAME=fixesproto
 
 # Version number (used in path names)
-VERSION=3.0.2
+VERSION=4.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
