@@ -1,0 +1,352 @@
+commit bcda4f17ab3fa9f0572f876dbeb09b45fbc23f3d
+Author: Alan Coopersmith <alan.coopersmith@sun.com>
+Date:   Tue Nov 21 17:12:18 2006 -0800
+
+    Sun bug 4486226: Xpm is not internationalized
+    
+    <http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=4486226>
+    Use gettext() to allow translated messages in sxpm & cxpm
+
+diff --git a/acinclude.m4 b/acinclude.m4
+new file mode 100644
+index 0000000..4c60e33
+--- /dev/null
++++ b/acinclude.m4
+@@ -0,0 +1,15 @@
++# AC_DEFINE_DIR macro from autoconf-archive.cryp.to
++AC_DEFUN([AC_DEFINE_DIR], [
++  prefix_NONE=
++  exec_prefix_NONE=
++  test "x$prefix" = xNONE && prefix_NONE=yes && prefix=$ac_default_prefix
++  test "x$exec_prefix" = xNONE && exec_prefix_NONE=yes && exec_prefix=$prefix
++dnl In Autoconf 2.60, ${datadir} refers to ${datarootdir}, which in turn
++dnl refers to ${prefix}.  Thus we have to use `eval' twice.
++  eval ac_define_dir="\"[$]$2\""
++  eval ac_define_dir="\"$ac_define_dir\""
++  AC_SUBST($1, "$ac_define_dir")
++  AC_DEFINE_UNQUOTED($1, "$ac_define_dir", [$3])
++  test "$prefix_NONE" && prefix=NONE
++  test "$exec_prefix_NONE" && exec_prefix=NONE
++])
+diff --git a/configure.ac b/configure.ac
+index 5dad93d..ff7e245 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -33,6 +33,26 @@ if test "x$GCC" = "xyes"; then
+ 	CFLAGS="$GCC_WARNINGS $CFLAGS"
+ fi
+ 
++# Internationalization & localization support
++AC_SEARCH_LIBS([gettext], [intl], [USE_GETTEXT="yes"], [USE_GETTEXT="no"])
++AC_MSG_CHECKING([where to install localized messages])
++AC_ARG_WITH([localedir], AC_HELP_STRING([--with-localedir=<path>],
++	[Path to install message files in (default: datadir/locale)]),
++	[LOCALEDIR=${withval}], [LOCALEDIR=${datadir}/locale])
++AC_DEFINE_DIR([LOCALEDIR], [LOCALEDIR], [Location of translated messages])
++if test "x$LOCALEDIR" = "xno" -o "x$USE_GETTEXT" = "xno" ; then
++	AC_MSG_RESULT([nowhere])
++	USE_GETTEXT="no"
++else
++	AC_MSG_RESULT([$LOCALEDIR])
++fi
++
++if test "x$USE_GETTEXT" = "xyes" ; then
++	AC_DEFINE([USE_GETTEXT], 1, 
++		  [Define to 1 if you want to use the gettext() function.])
++fi
++AM_CONDITIONAL(USE_GETTEXT, test "x$USE_GETTEXT" = "xyes")
++
+ # Optional feature: When ___.xpm is requested, also look for ___.xpm.Z & .gz
+ # Replaces ZFILEDEF = -DSTAT_ZFILE in old Imakefile
+ AC_ARG_ENABLE(stat-zfile,
+diff --git a/cxpm/Makefile.am b/cxpm/Makefile.am
+index 4a1faa9..eea6dae 100644
+--- a/cxpm/Makefile.am
++++ b/cxpm/Makefile.am
+@@ -37,3 +37,11 @@ SUFFIXES = .$(APP_MAN_SUFFIX) .man
+ .man.$(APP_MAN_SUFFIX):
+ 	sed $(MAN_SUBSTS) < $< > $@
+ 
++if USE_GETTEXT
++noinst_DATA = cxpm.po
++
++cxpm.po: $(cxpm_SOURCES)
++	xgettext -c"L10N_Comments" -d cxpm -n $(cxpm_SOURCES)
++
++CLEANFILES += cxpm.po
++endif
+diff --git a/cxpm/cxpm.c b/cxpm/cxpm.c
+index 6a7cd9d..3b5e603 100644
+--- a/cxpm/cxpm.c
++++ b/cxpm/cxpm.c
+@@ -34,7 +34,16 @@
+ 
+ #define CXPMPROG
+ 
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
+ #include "XpmI.h"
++#ifdef USE_GETTEXT
++#include <locale.h>
++#include <libintl.h>
++#else
++#define gettext(a) (a)
++#endif
+ 
+ #undef xpmGetC
+ #define xpmGetC(data) sGetc(data, data->stream.file)
+@@ -86,9 +95,9 @@ #include "Attrib.c"
+ #include "Image.c"
+ 
+ void
+-ErrorMessage(ErrorStatus, data)
+-    int ErrorStatus;
+-    xpmData *data;
++ErrorMessage(
++    int ErrorStatus,
++    xpmData *data)
+ 
+ {
+     char *error = NULL;
+@@ -97,23 +106,36 @@ ErrorMessage(ErrorStatus, data)
+     case XpmSuccess:
+ 	return;
+     case XpmOpenFailed:
+-	error = "Cannot open file";
++	/* L10N_Comments : Error produced when filename does not exist 
++	   or insufficient permissions to open (i.e. cxpm /no/such/file ) */
++	error = gettext("Cannot open file");
+ 	break;
+     case XpmFileInvalid:
+-	error = "Invalid XPM file";
++	/* L10N_Comments : Error produced when filename can be read, but
++	   is not an XPM file (i.e. cxpm /dev/null ) */
++	error = gettext("Invalid XPM file");
+ 	break;
+     case XpmNoMemory:
+-	error = "Not enough memory";
++	/* L10N_Comments : Error produced when filename can be read, but
++	   is too big for memory 
++	   (i.e. limit datasize 32 ; cxpm /usr/dt/backdrops/Crochet.pm ) */
++	error = gettext("Not enough memory");
+ 	break;
+     case XpmColorFailed:
+-	error = "Failed to parse color";
++	/* L10N_Comments : Error produced when filename can be read, but
++	   contains an invalid color specification (need to create test case)*/
++	error = gettext("Failed to parse color");
+ 	break;
+     }
+ 
+     if (error) {
+-	fprintf(stderr, "Xpm Error: %s.\n", error);
++	/* L10N_Comments : Wrapper around above Xpm errors - %s is
++	   replaced with the contents of the error message retrieved above */
++	fprintf(stderr, gettext("Xpm Error: %s.\n"), error);
+ 	if (ErrorStatus == XpmFileInvalid && data)
+-	  fprintf(stderr, "Error found line %d near character %d\n",
++	/* L10N_Comments : Error produced when filename can be read, but
++	   is not an XPM file (i.e. cxpm /dev/null ) */
++	  fprintf(stderr, gettext("Error found line %d near character %d\n"),
+ 		  data->lineNum + 1,
+ 		  data->charNum + 1);
+ 	exit(1);
+@@ -130,9 +152,17 @@ main(argc, argv)
+     int ErrorStatus;
+     xpmData data;
+ 
++#ifdef USE_GETTEXT
++    setlocale(LC_ALL,"");
++    bindtextdomain("cxpm",LOCALEDIR);
++    textdomain("cxpm");
++#endif
++
+     if (argc > 1) {
+         if (!strcmp(argv[1], "-?") || !strncmp(argv[1], "-h", 2)) {
+-	    fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
++	    /* L10N_Comments : Usage message produced by running cxpm -h
++		%s will be replaced by argv[0] (program name) */
++	    fprintf(stderr, gettext("Usage: %s [filename]\n"), argv[0]);
+ 	    exit(1);
+ 	}
+         filename = argv[1];
+diff --git a/sxpm/Makefile.am b/sxpm/Makefile.am
+index 1b63cb3..04571de 100644
+--- a/sxpm/Makefile.am
++++ b/sxpm/Makefile.am
+@@ -42,6 +42,14 @@ SUFFIXES = .$(APP_MAN_SUFFIX) .man
+ .man.$(APP_MAN_SUFFIX):
+ 	sed $(MAN_SUBSTS) < $< > $@
+ 
++if USE_GETTEXT
++noinst_DATA = sxpm.po
++
++sxpm.po: $(sxpm_SOURCES)
++	xgettext -c"L10N_Comments" -d sxpm -n $(sxpm_SOURCES)
++
++CLEANFILES += sxpm.po
++endif
+ endif
+ 
+ EXTRA_DIST = \
+diff --git a/sxpm/sxpm.c b/sxpm/sxpm.c
+index 9d0b42e..a43d441 100644
+--- a/sxpm/sxpm.c
++++ b/sxpm/sxpm.c
+@@ -32,6 +32,10 @@
+ *  Developed by Arnaud Le Hors                                                *
+ \*****************************************************************************/
+ 
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <X11/StringDefs.h>
+@@ -47,6 +51,13 @@ #endif
+ 
+ #include <X11/xpm.h>
+ 
++#ifdef USE_GETTEXT
++#include <locale.h>
++#include <libintl.h>
++#else
++#define gettext(a) (a)
++#endif
++
+ /* XPM */
+ /* plaid pixmap */
+ static char *plaid[] = {
+@@ -158,11 +169,19 @@ #ifdef Debug
+     char *buffer;
+ #endif
+ 
++#ifdef USE_GETTEXT
++    XtSetLanguageProc(NULL,NULL,NULL);
++    bindtextdomain("sxpm",LOCALEDIR);
++    textdomain("sxpm");
++#endif
++
+     topw = XtInitialize(argv[0], "Sxpm",
+ 			options, XtNumber(options), &argc, argv);
+ 
+     if (!topw) {
+-	fprintf(stderr, "Sxpm Error... [ Undefined DISPLAY ]\n");
++	/* L10N_Comments : Error if no $DISPLAY or $DISPLAY can't be opened.
++	   Not normally reached as Xt exits before we get here. */
++	fprintf(stderr, gettext("Sxpm Error... [ Undefined DISPLAY ]\n"));
+ 	exit(1);
+     }
+     colormap = XDefaultColormapOfScreen(XtScreen(topw));
+@@ -467,7 +486,9 @@ #endif
+ 	    unsigned int i, j;
+ 
+ 	    for (i = 0; i < view.attributes.nextensions; i++) {
+-		fprintf(stderr, "Xpm extension : %s\n",
++		/* L10N_Comments : Output when -v & file has extensions 
++		   %s is replaced by extension name */
++		fprintf(stderr, gettext("Xpm extension : %s\n"),
+ 			view.attributes.extensions[i].name);
+ 		for (j = 0; j < view.attributes.extensions[i].nlines; j++)
+ 		    fprintf(stderr, "\t\t%s\n",
+@@ -559,8 +580,10 @@ #endif
+ void
+ Usage()
+ {
+-    fprintf(stderr, "\nUsage:  %s [options...]\n", command[0]);
+-    fprintf(stderr, "Where options are:\n\
++    /* L10N_Comments : Usage message (sxpm -h) in two parts. 
++       In the first part %s is replaced by the command name. */
++    fprintf(stderr, gettext("\nUsage:  %s [options...]\n"), command[0]);
++    fprintf(stderr, gettext("Where options are:\n\
+ \n\
+ [-d host:display]            Display to connect to.\n\
+ [-g geom]                    Geometry of window.\n\
+@@ -587,7 +610,7 @@ Usage()
+ [-version]                   Print out program's version number\n\
+                              and library's version number if different.\n\
+ if no input is specified sxpm reads from standard input.\n\
+-\n");
++\n"));
+     exit(0);
+ }
+ 
+@@ -604,27 +627,48 @@ ErrorMessage(ErrorStatus, tag)
+     case XpmSuccess:
+ 	return;
+     case XpmColorError:
+-	warning = "Could not parse or alloc requested color";
++/* L10N_Comments : The following set of messages are classified as 
++   either errors or warnings.  Based on the class of message, different
++   wrappers are selected at the end to state the message source & class. 
++
++	   L10N_Comments : WARNING produced when filename can be read, but
++	   contains an invalid color specification (need to create test case)*/
++	warning = gettext("Could not parse or alloc requested color");
+ 	break;
+     case XpmOpenFailed:
+-	error = "Cannot open file";
++	/* L10N_Comments : ERROR produced when filename does not exist 
++	   or insufficient permissions to open (i.e. sxpm /no/such/file ) */
++	error = gettext("Cannot open file");
+ 	break;
+     case XpmFileInvalid:
+-	error = "Invalid XPM file";
++	/* L10N_Comments : ERROR produced when filename can be read, but
++	   is not an XPM file (i.e. sxpm /dev/null ) */
++	error = gettext("Invalid XPM file");
+ 	break;
+     case XpmNoMemory:
+-	error = "Not enough memory";
++	/* L10N_Comments : ERROR produced when filename can be read, but
++	   is too big for memory 
++	   (i.e. limit datasize 32 ; sxpm /usr/dt/backdrops/Crochet.pm ) */
++	error = gettext("Not enough memory");
+ 	break;
+     case XpmColorFailed:
+-	error = "Failed to parse or alloc some color";
++	/* L10N_Comments : ERROR produced when filename can be read, but
++	   contains an invalid color specification (need to create test case)*/
++	error = gettext("Failed to parse or alloc some color");
+ 	break;
+     }
+ 
+     if (warning)
+-	fprintf(stderr, "%s Xpm Warning: %s.\n", tag, warning);
++	/* L10N_Comments : Wrapper around above WARNING messages.
++	   First %s is the tag for the operation that produced the warning.
++	   Second %s is the message selected from the above set. */
++	fprintf(stderr, gettext("%s Xpm Warning: %s.\n"), tag, warning);
+ 
+     if (error) {
+-	fprintf(stderr, "%s Xpm Error: %s.\n", tag, error);
++	/* L10N_Comments : Wrapper around above ERROR messages.
++	   First %s is the tag for the operation that produced the error.
++	   Second %s is the message selected from the above set */
++	fprintf(stderr, gettext("%s Xpm Error: %s.\n"), tag, error);
+ 	Punt(1);
+     }
+ }
+@@ -695,15 +739,16 @@ VersionInfo()
+     char libminor;
+ 
+     GetNumbers(XpmIncludeVersion, &format, &libmajor, &libminor);
+-    fprintf(stderr, "sxpm version: %d.%d%c\n",
++    /* L10N_Comments : sxpm -version output */
++    fprintf(stderr, gettext("sxpm version: %d.%d%c\n"),
+ 	    format, libmajor, libminor);
+-    /*
++    /* L10N_Comments :
+      * if we are linked to an XPM library different from the one we've been
+-     * compiled with, print its own number too.
++     * compiled with, print its own number too when sxpm -version is called.
+      */
+     if (XpmIncludeVersion != XpmLibraryVersion()) {
+ 	GetNumbers(XpmLibraryVersion(), &format, &libmajor, &libminor);
+-	fprintf(stderr, "using the XPM library version: %d.%d%c\n",
++	fprintf(stderr, gettext("using the XPM library version: %d.%d%c\n"),
+ 		format, libmajor, libminor);
+     }
+ }

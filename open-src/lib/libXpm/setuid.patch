@@ -1,7 +1,5 @@
-# Makefile for X Consolidation Open Source Application modules
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -12,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,42 +20,47 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
+# 
+# @(#)setuid.patch	1.2	07/01/03 SMI
 #
-# @(#)Makefile	1.2	07/01/03
-#
-###############################################################################
 
-OS_SUBDIRS = \
-	xgamma \
-	xpm \
-	xrandr \
-	xvidtune \
-	xvinfo \
-	xscreensaver
+Additional security checks for setuid programs that X.Org upstream doesn't
+have yet.
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+--- src/RdFToI.c	2006-10-11 15:31:40.000000000 -0700
++++ src/RdFToI.c	2006-10-03 16:34:35.553330000 -0700
+@@ -154,7 +154,15 @@
+ 	    goto err;
+ 	if ( 0 == pid )
+ 	{
+-	    execlp(cmd, cmd, arg1, (char *)NULL);
++/* #ifdef SUNSOFT */
++	    closefrom(3);
++	    if (issetugid()) {
++		char commandpath[32] = "/usr/bin/";
++		strlcat(commandpath, cmd, sizeof(commandpath));
++		execl(commandpath, cmd, arg1, NULL);
++	    } else
++/* #endif */
++	    execlp(cmd, cmd, arg1, NULL);
+ 	    perror(cmd);
+ 	    goto err;
+ 	}
 
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+--- src/WrFFrI.c	2006-10-11 15:31:40.000000000 -0700
++++ src/WrFFrI.c	2006-10-03 16:34:35.563386000 -0700
+@@ -139,7 +139,8 @@
+ 	}
+ 	if (index(name, '-')) {
+ 	    if (name != new_name) {
+-		strcpy(new_name, name);
++		strncpy(new_name, name, sizeof(new_name));
++		new_name[sizeof(new_name)-1] = '\0';
+ 		name = new_name;
+ 	    }
+ 	    /* change '-' to '_' */

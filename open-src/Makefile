@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	06/10/02
+# @(#)Makefile	1.10	07/01/03
 #
 ###############################################################################
 #
@@ -45,6 +45,7 @@ BEFOREX = \
 	lib/fontconfig \
 	lib/libXau \
 	lib/libXdmcp \
+	lib/libXpm \
 	lib/libXfixes \
 	lib/Xft \
 	lib/libxkbfile \

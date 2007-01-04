@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.65	06/10/03
+# @(#)Makefile.inc	1.70	06/12/21
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -36,6 +36,7 @@ BUILD_ID = X11 for Solaris Nevada, built $(BUILD_DATE)
 
 ### Default compiler & options
 CC     			= cc
+GCC			= /usr/sfw/bin/gcc
 CXX			= CC
 DEFAULT_OPT_CFLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch \
 				-xdepend -xstrconst
@@ -85,8 +86,32 @@ ARCH32_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH32_FLAGS\)/'
 ARCH64_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH64_FLAGS\)/'
 ARCH_LIB_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH_LIB_FLAGS\)/'
 
+### Flags for gcc
+DEFAULT_GCC_CFLAGS		= -O3 -fno-omit-frame-pointer -Wall
+DEFAULT_sun4_ARCH32_GCC_FLAGS 	= -mcpu=ultrasparc -m32
+DEFAULT_sun4_ARCH64_GCC_FLAGS 	= -mcpu=ultrasparc -m64
+DEFAULT_i86pc_ARCH32_GCC_FLAGS 	= -march=i686 -m32
+DEFAULT_i86pc_ARCH64_GCC_FLAGS 	= -march=opteron -m64
+ARCH32_GCC_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH32_GCC_FLAGS\)/'
+ARCH64_GCC_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH64_GCC_FLAGS\)/'
+
+# Need to use -Wl,.. to pass linker flags through gcc
+GCC_LDFLAGS_CMD=echo $(LDFLAGS) | \
+	sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
+GCC_LDFLAGS=$(GCC_LDFLAGS_CMD:sh)
+GCC_LIB_LDFLAGS_CMD=echo $(LIB_LDFLAGS) | \
+	sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
+GCC_LIB_LDFLAGS=$(GCC_LIB_LDFLAGS_CMD:sh)
+GCC_PROG_LDFLAGS_CMD=echo $(PROG_LDFLAGS) | \
+	sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
+GCC_PROG_LDFLAGS=$(GCC_PROG_LDFLAGS_CMD:sh)
+
+
+SUBDIR32_sun4	= sparcv8
+SUBDIR32_i86pc	= i386
 SUBDIR64_sun4 	= sparcv9
 SUBDIR64_i86pc 	= amd64
+SUBDIR32:sh=arch | sed 's/^\(.*\)$/\$\(SUBDIR32_\1\)/'
 SUBDIR64:sh=arch | sed 's/^\(.*\)$/\$\(SUBDIR64_\1\)/'
 
 ARCH_MAPFILE:sh=uname -p | sed 's/^\(.*\)$/mapfile_pga_\1/'
@@ -112,6 +137,11 @@ TRUETYPE_DIR=$(FONT_DIR)/TrueType
 
 X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
+X11_LOCALE_DIR=$(X11_DIR)/share/locale
+X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
+# Subdirectory of /usr/X11/lib for X server private libraries
+X11_SERVERLIBS_SUBDIR=/X11/xserver
+X11_SERVERLIBS_DIR=$(X11_DIR)/lib/$(X11_SERVERLIBS_SUBDIR)
 
 ### Default rules
 
@@ -132,16 +162,16 @@ clean_64::
 build_gen: $(BUILD_TARGETS)
 
 build_32::
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" build_gen
+	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) build_gen
 
 build_64::
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/$(SUBDIR64) build_gen
+	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) build_gen
 
-install_32::
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" install_gen
+install_32:: build_32
+	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) install_gen
 
-install_64::
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/64 ARCHLIBSUBDIR=/$(SUBDIR64) install_gen
+install_64:: build_64
+	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/64 ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) install_gen
 
 debug:
 	$(MAKE) $(MFLAGS) all OPT_FLAGS="-g"
@@ -160,6 +190,12 @@ $(BUILD_DIR_32)/.unpack_done:
 $(BUILD_DIR_64)/.unpack_done:
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) source_gen
 
+FIX_PC_OPS= \
+	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
+	-e 's|Requires.private: .*$$||;'
+
+#	-e 's|^prefix=@prefix@|prefix=\$$\{top_builddir\}@prefix@|'
+
 source_gen::
 	mkdir -p $(BUILD_DIR)
 	@if [ "x$(SOURCE_UNCOMPRESS)" = "x" ] ; then \
@@ -172,8 +208,9 @@ source_gen::
 	@if [ "x$(SOURCE_PATCHES)" != "x" ] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
 	        if [ "$$p" != "x" ] ; then \
-		    echo "gpatch -d $(SOURCE_DIR) -p0 < $$p" ; \
-		    gpatch -d $(SOURCE_DIR) -p0 < $$p ; \
+		    PATCH_CMD=`echo $$p | awk -F, '{if (NF > 1) FLAGS = $$2; else FLAGS="-p0" ; printf "gpatch -d $(SOURCE_DIR) %s < %s\n", FLAGS, $$1}'` ; \
+		    echo "$${PATCH_CMD}" ; \
+		    eval $${PATCH_CMD} ; \
 		fi ; \
 	    done ; \
 	fi
@@ -185,11 +222,11 @@ source_gen::
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
 	fi
 	@if [ "x$(FIX_PC_FILES)"  != "x" ] ; then \
-	    echo "/usr/perl5/bin/perl -i.orig -p -e \
-		's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|' $(FIX_PC_FILES)" ; \
+	    echo "/usr/perl5/bin/perl -i.orig -p \
+			$(FIX_PC_OPS) $(FIX_PC_FILES)" ; \
 	    (cd $(SOURCE_DIR) && \
-		/usr/perl5/bin/perl -i.orig -p -e \
-		's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|' $(FIX_PC_FILES) ); \
+		/usr/perl5/bin/perl -i.orig -p \
+			$(FIX_PC_OPS) $(FIX_PC_FILES) ); \
 	fi
 	touch $(BUILD_DIR)/.unpack_done
 
@@ -234,6 +271,12 @@ $(GNUMAKE):
 	@echo "Checking for GNU make:"
 	$(GNUMAKE) --version
 
+# Some modules use lndir to merge in sources from Sun specific directories
+LNDIR=$(PROTODIR)/usr/X11/bin/lndir
+
+$(LNDIR):
+	(cd $(TOP)/util/lndir && $(MAKE) $(MFLAGS) install)
+
 ### Dependencies
 
 # Almost everything depends on the headers in xproto
@@ -248,24 +291,25 @@ $(XPROTO_DEP):
 # regenerate patches against new baseline to reduce messages about hunks
 # having fuzz or offsets when applying patches - new patches will be in new/
 
-regen-patches: $(SOURCE_PATCHES)
+regen-patches: 
 	CUR_LIST=""
 	rm -rf tmp-regen
 	make SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen source_gen
 	mkdir -p new
 	for f in $(SOURCE_PATCHES) ; do \
-	    echo '=================' $$f ; \
+	    p=`echo $$f | sed 's/,.*$$//'` ; \
+	    echo '=================' $$p ; \
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
 	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen source_gen ; \
 	    awk '/^--- /	{exit} \
 		 /^diff -u/	{exit} \
-			 	{print}' $$f > new/$$f ; \
+			 	{print}' $$p > new/$$p ; \
 	    gdiff -urp -x '*~' ./prev ./tmp-regen \
 		| sed -e 's% \./prev$(SOURCE_DIR)/% %' -e 's% \./tmp-regen$(SOURCE_DIR)/% %' \
 		| grep -v '^Common subdirectories:' \
 		| grep -v '^Only in ' \
-		>> new/$$f ; \
-	    CUR_LIST="$${CUR_LIST} new/$$f" ; \
+		>> new/$$p ; \
+	    CUR_LIST="$${CUR_LIST} new/$$p" ; \
 	done
 	rm -rf tmp-regen

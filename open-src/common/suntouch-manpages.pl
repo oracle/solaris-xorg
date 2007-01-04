@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)suntouch-manpages.pl	1.3	06/10/02
+# @(#)suntouch-manpages.pl	1.4	06/12/14
 #
 
 # Updates manual pages to include standard Sun man page sections
@@ -115,6 +115,7 @@ while ($filename = shift) {
       elsif ($add_path_to_synopsis) {
 	$nextline = <IN>;
 	$nextline =~ s/^(\.B[IR]*\s+\"?)/$1$synpath/;
+	$nextline =~ s/^(\\fB)/$1$synpath/;
 	print OUT $nextline;
       }
     }

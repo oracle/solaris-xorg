@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# Xpm Makefile
 #
 # Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,36 +30,38 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/01/03
+# @(#)Makefile	1.1	06/12/07
 #
-###############################################################################
 
-OS_SUBDIRS = \
-	xgamma \
-	xpm \
-	xrandr \
-	xvidtune \
-	xvinfo \
-	xscreensaver
+# Package name used in tarballs
+LIB_MODULE=libXpm
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Version number (used in path names)
+LIB_VERS=3.5.6
 
-World: clean all
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = setuid.patch
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Library name
+LIBNAME=Xpm
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# Library man pages to apply Sun footer to & attributes to list
+# SUNTOUCHED_MANPAGES=
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Uncommitted
+LIB_MAN_SUFFIX=3
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXpm.so.1.0.0
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xpm.pc.in
+
+# Additional arguments to pass to make
+LIB_ADD_MAKEFLAGS= -e SUBDIRS=src
+
+include ../Makefile.inc
+
