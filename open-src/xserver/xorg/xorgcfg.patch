@@ -1,0 +1,601 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+# 
+
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/cards.c hw/xfree86/utils/xorgcfg/cards.c
+--- hw/xfree86/utils/xorgcfg/cards.c	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/cards.c	2007-01-05 15:23:49.350763000 -0800
+@@ -691,5 +691,8 @@ CompareCards(_Xconst void *left, _Xconst
+ static int
+ BCompareCards(_Xconst void *name, _Xconst void *card)
+ {
++  if (card == NULL)
++	return 0;
++
+   return (strcasecmp((char*)name, (*(CardsEntry**)card)->name));
+ }
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/config.c hw/xfree86/utils/xorgcfg/config.c
+--- hw/xfree86/utils/xorgcfg/config.c	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/config.c	2007-01-05 15:23:49.351310000 -0800
+@@ -107,14 +107,25 @@ StartConfig(void)
+     static int first = 1;
+     Widget pane, top, bottom, cancel;
+     const char *filename;
++    char *p, *name;
+ 
+     if (!first)
+ 	return;
+     first = 0;
+ 
+     /* Read initial configuration */
+-    if ((filename = xf86openConfigFile(getuid() == 0 ? CONFPATH : USER_CONFPATH,
+-				       XF86Config_path, NULL)) == NULL) {
++    if (getuid() == 0)
++    	filename = xf86openConfigFile(CONFPATH, XF86Config_path, NULL);
++    else {
++	/* Relative path must be used for non-root users */
++        name = XF86Config_path;
++        while (p = strchr(name, '/'))
++		name = p + 1;
++  	XF86Config_path = name;
++    	filename = xf86openConfigFile(USER_CONFPATH, XF86Config_path, NULL);
++    }
++
++    if (filename == NULL) {
+ 	int length = XF86Config_path ? strlen(XF86Config_path) : -1;
+ 
+ 	if (length > 2 &&
+@@ -137,6 +148,14 @@ StartConfig(void)
+ 	exit(1);
+     }
+ 
++#ifdef sun
++    /* If .xorg.conf in the path, replace it with xorg.conf */
++    if (p = strstr(XF86Config_path, ".xorg.conf")) {
++	strncpy(p, "xorg.conf", strlen("xorg.conf"));
++	p[strlen("xorg.conf")] = '\0';
++    }
++#endif
++
+     shell = XtCreatePopupShell("config", transientShellWidgetClass,
+ 			       toplevel, NULL, 0);
+     pane = XtCreateManagedWidget("pane", panedWidgetClass,
+@@ -148,7 +167,7 @@ StartConfig(void)
+     ident_widget = XtVaCreateManagedWidget("identifier", asciiTextWidgetClass,
+ 					   top,
+ 					   XtNeditType, XawtextEdit,
+-					   NULL);
++					   NULL, 0);
+     configp = XtCreateManagedWidget("work", formWidgetClass,
+ 				    pane, NULL, 0);
+     current = XtCreateManagedWidget("wellcome", labelWidgetClass,
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/config.h hw/xfree86/utils/xorgcfg/config.h
+--- hw/xfree86/utils/xorgcfg/config.h	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/config.h	2007-01-05 15:23:49.382920000 -0800
+@@ -104,6 +104,29 @@
+ extern int config_mode;
+ 
+ #ifndef __UNIXOS2__
++#ifdef sun
++#define CONFPATH	"%A," "%R," \
++			"/etc/X11/%R," "%P/etc/X11/%R," \
++			"%E," "%F," \
++			"/etc/X11/%F," "%P/etc/X11/%F," \
++			"%D/%X," \
++			"/etc/X11/%X-%M," "/etc/X11/%X," "/etc/%X," \
++			"%P/etc/X11/%X.%H," "%P/etc/X11/%X-%M," \
++			"%P/etc/X11/%X," \
++			"%P/lib/X11/%X.%H," "%P/lib/X11/%X-%M," \
++			"%P/lib/X11/%X," \
++			"/etc/X11/.%S," \
++			"/etc/X11/.%X"
++#define USER_CONFPATH	"/etc/X11/%S," "%P/etc/X11/%S," \
++                        "/etc/X11/%G," "%P/etc/X11/%G," \
++                        "/etc/X11/%X," "%P/etc/X11/%X," \
++			"%P/etc/X11/%X.%H," "%P/etc/X11/%X-%M," \
++			"%P/etc/X11/%X," \
++			"%P/lib/X11/%X.%H," "%P/lib/X11/%X-%M," \
++			"%P/lib/X11/%X," \
++			"/etc/X11/.%S," \
++			"/etc/X11/.%X"
++#else
+ #define CONFPATH	"%A," "%R," \
+ 			"/etc/X11/%R," "%P/etc/X11/%R," \
+ 			"%E," "%F," \
+@@ -120,6 +143,7 @@ extern int config_mode;
+ 			"%P/etc/X11/%X," \
+ 			"%P/lib/X11/%X.%H," "%P/lib/X11/%X-%M," \
+ 			"%P/lib/X11/%X"
++#endif
+ #else
+ #define CONFPATH	"%&"XF86CONFIGDIR"/%R," "%&"XF86CONFIGDIR"/%X," \
+ 			"%A," "%R," \
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/interface.c hw/xfree86/utils/xorgcfg/interface.c
+--- hw/xfree86/utils/xorgcfg/interface.c	2006-12-21 10:50:47.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/interface.c	2007-01-05 15:23:49.384667000 -0800
+@@ -63,12 +63,16 @@
+ #ifdef PROJECT_ROOT
+ #define DefaultXFree86Dir	PROJECT_ROOT
+ #else
+-#define DefaultXFree86Dir	"/usr"
++#define DefaultXFree86Dir	"/usr/X11"
+ #endif
+ 
+ #define IS_KBDDRIV(S) ((strcasecmp((S),"kbd") == 0) || \
+ 	(strcasecmp((S), "keyboard") == 0))
+ 
++#ifdef sun
++#define DefaultOpenwinDir	"/usr/openwin"
++#endif
++
+ /*
+  * Prototypes
+  */
+@@ -130,6 +134,9 @@ char *XF86Font_path = NULL;
+ char *XF86RGB_path = NULL;
+ char *XkbConfig_path = NULL;
+ char *XFree86Dir;
++#ifdef sun
++char *OpenwinDir;
++#endif
+ static char XF86Config_path_static[1024];
+ static char XkbConfig_path_static[1024];
+ Bool xf86config_set = False;
+@@ -199,7 +206,7 @@ static XtResource appResources[] = {
+       0, XtRString, "/etc/X11/"__XCONFIGFILE__},
+ #endif
+     {"menuBitmap",  "MenuBitmap",  XtRString, sizeof(char*),
+-      0, XtRString, "menu10"},
++      0, XtRString, "menu8"},
+ };
+ 
+ static void
+@@ -243,10 +250,19 @@ main(int argc, char *argv[])
+     int i, startedx;
+     char *menuPixmapPath = NULL;
+     XrmValue from, to;
++#ifdef sun
++    char *oldPath, *newPath;
++    int pathmodified = 0;
++#endif
+ 
+     if ((XFree86Dir = getenv("XWINHOME")) == NULL)
+ 	XFree86Dir = DefaultXFree86Dir;
+ 
++#ifdef sun
++    if ((OpenwinDir = getenv("OPENWINHOME")) == NULL)
++	OpenwinDir = DefaultOpenwinDir;
++#endif
++
+     chdir(XFree86Dir);
+ 
+ #ifdef USE_MODULES
+@@ -308,6 +324,20 @@ main(int argc, char *argv[])
+ 		    "%s/%s%s", XFree86Dir, XkbConfigDir, XkbConfigFile);
+ 	XkbConfig_path = XkbConfig_path_static;
+     }
++
++#ifdef sun
++    if ((oldPath = getenv("XFILESEARCHPATH")) &&
++	(!strstr(oldPath, "/usr/X11/lib"))) {
++	newPath = malloc (strlen ("XFILESEARCHPATH=") + strlen(oldPath) +
++		strlen(":/usr/X11/lib/X11/%T/%N%S") + 1);
++	strcpy (newPath, "XFILESEARCHPATH=");
++	strcat (newPath, oldPath);
++	strcat (newPath, ":/usr/X11/lib/X11/%T/%N%S");
++	putenv (newPath);
++	pathmodified = 1;
++    }
++#endif
++
+     toplevel = XtAppInitialize(&appcon, "XOrgCfg",
+ 		    	       NULL, 0,
+ 			       &argc, argv,
+@@ -507,7 +537,11 @@ main(int argc, char *argv[])
+ 	    case 0: {
+ 		char path[PATH_MAX];
+ 
++#ifdef sun
++                XmuSnprintf(path, sizeof(path), "%s/bin/twm", OpenwinDir);
++#else
+ 		XmuSnprintf(path, sizeof(path), "%s/bin/twm", XFree86Dir);
++#endif
+ 		execl(path, "twm", (void *)NULL);
+ 		exit(-127);
+ 	    }	break;
+@@ -543,6 +577,11 @@ main(int argc, char *argv[])
+     if (startedx)
+ 	endx();
+ 
++#ifdef sun
++    if (pathmodified)
++        putenv(oldPath);
++#endif
++
+     return (0);
+ }
+ 
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/loader.c hw/xfree86/utils/xorgcfg/loader.c
+--- hw/xfree86/utils/xorgcfg/loader.c	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/loader.c	2007-01-05 15:23:49.385165000 -0800
+@@ -277,7 +277,7 @@ LoaderInitializeOptions(void)
+ 			nfont_modules = numFontModules;
+ 			error_level = 0;
+ 			ErrorF("CHECK MODULE %s\n", *ploaderList);
+-			if ((ok = xf86cfgCheckModule()) == 0) {
++			if ((ok = xf86cfgCheckModule(module_types[i])) == 0) {
+ 			    CheckMsg(CHECKER_LOAD_FAILED,
+ 				     "ERROR Failed to load module.\n");
+ 			    error_level += 50;
+@@ -375,7 +375,7 @@ LoaderInitializeOptions(void)
+ 			ErrorF("  SUMMARY error_level set to %d.\n\n", error_level);
+ 		    }
+ 		    else
+-			(void)xf86cfgCheckModule();
++			(void)xf86cfgCheckModule(module_types[i]);
+ 		}
+ 		signal(SIGTRAP, SIG_DFL);
+ 		signal(SIGBUS, SIG_DFL);
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/loader.h hw/xfree86/utils/xorgcfg/loader.h
+--- hw/xfree86/utils/xorgcfg/loader.h	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/loader.h	2007-01-05 15:23:49.397328000 -0800
+@@ -35,6 +35,9 @@
+ 
+ #else
+ 
++#ifndef XFree86LOADER
++#define XFree86LOADER		/* not really */
++#endif
+ #define IN_LOADER
+ 
+ #include "xf86.h"
+@@ -51,6 +54,7 @@
+ #include "loaderProcs.h"
+ 
+ #include <sym.h>
++#include <xf86_ansic.h>
+ 
+ void LoaderDefaultFunc(void);
+ #endif
+@@ -61,7 +65,6 @@ void LoaderDefaultFunc(void);
+ void xf86cfgLoaderInit(void);
+ void xf86cfgLoaderInitList(int);
+ void xf86cfgLoaderFreeList(void);
+-int xf86cfgCheckModule(void);
+ 
+ #ifndef LOADER_PRIVATE
+ /* common/xf86Opt.h */
+@@ -127,6 +130,8 @@ typedef enum {
+     FontRendererModule
+ } ModuleType;
+ 
++int xf86cfgCheckModule(ModuleType);
++
+ typedef struct _xf86cfgModuleOptions {
+     char *name;
+     ModuleType type;
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/loadmod.c hw/xfree86/utils/xorgcfg/loadmod.c
+--- hw/xfree86/utils/xorgcfg/loadmod.c	2006-12-21 10:50:47.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/loadmod.c	2007-01-05 15:23:49.398123000 -0800
+@@ -41,6 +41,7 @@
+ 
+ #define LOADER_PRIVATE
+ #include "loader.h"
++#include "xf86PciInfo.h"
+ 
+ #define	True		1
+ #define False		0
+@@ -322,6 +323,51 @@ LOOKUP xfree86LookupTab[] = {
+     {0,0}
+ };
+ 
++static SymTabRec ATIChipsets[] = {
++    { PCI_CHIP_MACH64CT, "Mach 64 CT" },
++    { PCI_CHIP_MACH64CX, "Mach 64 CX" },
++    { PCI_CHIP_MACH64ET, "Mach 64 ET" },
++    { PCI_CHIP_MACH64GB, "Mach 64 GB" },
++    { PCI_CHIP_MACH64GD, "Mach 64 GD" },
++    { PCI_CHIP_MACH64GI, "Mach 64 GI" },
++    { PCI_CHIP_MACH64GL, "Mach 64 GL" },
++    { PCI_CHIP_MACH64GM, "Mach 64 GM" },
++    { PCI_CHIP_MACH64GN, "Mach 64 GN" },
++    { PCI_CHIP_MACH64GO, "Mach 64 GO" },
++    { PCI_CHIP_MACH64GP, "Mach 64 GP" },
++    { PCI_CHIP_MACH64GQ, "Mach 64 GQ" },
++    { PCI_CHIP_MACH64GR, "Mach 64 GR" },
++    { PCI_CHIP_MACH64GS, "Mach 64 GS" },
++    { PCI_CHIP_MACH64GT, "Mach 64 GT" },
++    { PCI_CHIP_MACH64GU, "Mach 64 GU" },
++    { PCI_CHIP_MACH64GV, "Mach 64 GV" },
++    { PCI_CHIP_MACH64GW, "Mach 64 GW" },
++    { PCI_CHIP_MACH64GX, "Mach 64 GX" },
++    { PCI_CHIP_MACH64GY, "Mach 64 GY" },
++    { PCI_CHIP_MACH64GZ, "Mach 64 GZ" },
++    { PCI_CHIP_MACH64LB, "Mach 64 LB" },
++    { PCI_CHIP_MACH64LD, "Mach 64 LD" },
++    { PCI_CHIP_MACH64LG, "Mach 64 LG" },
++    { PCI_CHIP_MACH64LI, "Mach 64 LI" },
++    { PCI_CHIP_MACH64LM, "Mach 64 LM" },
++    { PCI_CHIP_MACH64LN, "Mach 64 LN" },
++    { PCI_CHIP_MACH64LP, "Mach 64 LP" },
++    { PCI_CHIP_MACH64LQ, "Mach 64 LQ" },
++    { PCI_CHIP_MACH64LR, "Mach 64 LR" },
++    { PCI_CHIP_MACH64LS, "Mach 64 LS" },
++    { PCI_CHIP_MACH64VT, "Mach 64 VT" },
++    { PCI_CHIP_MACH64VU, "Mach 64 VU" },
++    { PCI_CHIP_MACH64VV, "Mach 64 VV" },
++    { PCI_CHIP_R200_QI, "R200 QI" },
++    { PCI_CHIP_R200_QJ, "R200 QJ" },
++    { PCI_CHIP_R200_QK, "R200 QK" },
++    { PCI_CHIP_RS300_5836, "R300 5836" },
++    { PCI_CHIP_RS300_5837, "R300 5837" },
++    { PCI_CHIP_RV250_Le, "RV250 Le" },
++    { PCI_CHIP_RV250_Ln, "RV250 Ln" },
++    {-1, NULL}
++};
++
+ static DriverPtr driver;
+ static ModuleInfoPtr info;
+ static SymTabPtr chips;
+@@ -335,6 +381,7 @@ AddModuleOptions(char *name, const Optio
+     const OptionInfoRec *tmp;
+     SymTabPtr ctmp;
+     int count;
++    SymTabRec *symptr;
+ 
+     /* XXX If the module is already in the list, then it means that
+      * it is now being properly loaded by xf86cfg and the "fake" entry
+@@ -364,6 +411,13 @@ AddModuleOptions(char *name, const Optio
+     }
+     else
+ 	ptr->option = NULL;
++
++    /* Exception handling: ati driver does not call xf86MatchPciInstances(),
++       below is workaround */
++    if ((vendor == -1 || !chips) &&  (!strcmp(name, "ati"))) {
++	vendor = PCI_VENDOR_ATI;
++	chips = ATIChipsets;
++    }
+     if (vendor != -1 && chips) {
+ 	ptr->vendor = vendor;
+ 	for (count = 0, ctmp = chips; ctmp->name; ctmp++, count++)
+@@ -436,12 +490,16 @@ xf86cfgLoaderInitList(int type)
+     /* XXX Xf86cfg isn't able to provide enough wrapper functions
+      * to these drivers. Maybe the drivers could also be changed
+      * to work better when being loaded "just for testing" */
++    /* Workaround for ati is in place, and vmware no longer causes problem,
++     * do not need to do the following to make ati/vmware duplicate */
++    /*
+     if (type == VideoModule) {
+ 	module_type = VideoModule;
+ 	AddModuleOptions("vmware", NULL);
+ 	AddModuleOptions("ati", NULL);
+ 	module_type = NullModule;
+     }
++    */
+ }
+ 
+ void
+@@ -451,12 +509,16 @@ xf86cfgLoaderFreeList(void)
+ }
+ 
+ int
+-xf86cfgCheckModule(void)
++xf86cfgCheckModule(ModuleType modtype)
+ {
+     int errmaj, errmin;
+     ModuleDescPtr module;
+     int nfonts;
+     FontModule *fonts, *pfont_module;
++    char name[64];
++    int i = 0;
++    void (*Identify)();
++    Bool (*Probe)();
+ 
+     driver = NULL;
+     chips = NULL;
+@@ -472,14 +534,35 @@ xf86cfgCheckModule(void)
+     }
+     else if (driver && driver->AvailableOptions) {
+ 	/* at least fbdev does not call xf86MatchPciInstances in Probe */
++	/* ati driver is known to fail in probing, but we still need to
++           load it because it loads r128 and radeon symbles */
++	if (!strcmp(*ploaderList, "ati"))
++		AddModuleOptions(*ploaderList, NULL); 
+ 	if (driver->Identify)
+-	    (*driver->Identify)(-1);
++    		(*driver->Identify)(-1);
+ 	if (driver->Probe)
+-	    (*driver->Probe)(driver, PROBE_DETECT);
++    		(*driver->Probe)(driver, PROBE_DETECT);
+ 	AddModuleOptions(*ploaderList, (*driver->AvailableOptions)(-1, -1));
+     }
+     else if (info && info->AvailableOptions)
+ 	AddModuleOptions(*ploaderList, (*info->AvailableOptions)(NULL));
++    /* Exception handling: some video drivers (radeon, r128) do not call 
++       xf86AddDriver(), therefore driver is NULL. Below is workaround  */
++    else if (!driver && (modtype == VideoModule)) {
++	for (i = 0; i < strlen(ploaderList[0]); i++)
++		name[i] = (char) toupper(ploaderList[0][i]);
++	name[i] = '\0';
++	driver = (DriverPtr) LoaderSymbol(name);
++	strncpy(&name[i], "Identify", strlen("Identify") + 1);
++	Identify = (void (*) ()) LoaderSymbol(name);
++	if (Identify) 
++		(*Identify)(-1);
++	strncpy(&name[i], "Probe", strlen("Probe") + 1);
++	Probe = (Bool (*) ()) LoaderSymbol(name);
++	if (Probe) 
++		(*Probe)(driver, PROBE_DETECT);
++	AddModuleOptions(*ploaderList, NULL);
++    }
+ 
+     if (!noverify) {
+ 	XF86ModuleData *initdata = NULL;
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/mouse-cfg.c hw/xfree86/utils/xorgcfg/mouse-cfg.c
+--- hw/xfree86/utils/xorgcfg/mouse-cfg.c	2006-12-21 10:50:47.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/mouse-cfg.c	2007-01-05 15:23:49.414822000 -0800
+@@ -278,7 +278,10 @@ MouseApplyCallback(Widget w, XtPointer u
+     XF86MiscMouseSettings mouse;
+ 
+     XF86MiscGetMouseSettings(XtDisplay(w), &mouse);
++
++#ifndef sun
+     XtFree(mouse.device);
++#endif
+ 
+     if (mouse.baudrate == 0 || mouse.baudrate < 0 || mouse.baudrate > 9600 ||
+ 	mouse.baudrate % 1200)
+@@ -294,7 +297,9 @@ MouseApplyCallback(Widget w, XtPointer u
+     mouse.emulate3buttons = emulate;
+     mouse.flags |= MF_REOPEN;
+ 
++#ifndef sun
+     mouse.device = device;
++#endif
+ 
+     XFlush(XtDisplay(w));
+     XF86MiscSetMouseSettings(XtDisplay(w), &mouse);
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/screen-cfg.c hw/xfree86/utils/xorgcfg/screen-cfg.c
+--- hw/xfree86/utils/xorgcfg/screen-cfg.c	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/screen-cfg.c	2007-01-05 15:23:49.415382000 -0800
+@@ -73,6 +73,7 @@ static char *standard_modes[] = {
+     "512x384",
+     "1400x1050",
+     "2048x1536",
++    "1920x1200",
+     "1920x1440",
+ };
+ 
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/startx.c hw/xfree86/utils/xorgcfg/startx.c
+--- hw/xfree86/utils/xorgcfg/startx.c	2006-11-13 16:59:40.000000000 -0800
++++ hw/xfree86/utils/xorgcfg/startx.c	2007-01-05 15:23:49.415853000 -0800
+@@ -46,11 +46,32 @@ Bool
+ startx(void)
+ {
+     int timeout = 8;
++#ifdef sun
++    const char *filename;
++#endif
+ 
+     if (getenv("DISPLAY") != NULL)
+ 	/* already running Xserver */
+ 	return (False);
+ 
++#ifdef sun
++    /* If there exits any config file, including .xorg.conf, use it. */ 
++    if ((filename = xf86openConfigFile(getuid() == 0 ? CONFPATH : USER_CONFPATH,
++				       XF86Config_path, NULL)) == NULL) {
++	int length = XF86Config_path ? strlen(XF86Config_path) : -1;
++
++	if (length > 2 &&
++	    XF86Config_path[length - 2] == '-' &&
++	    XF86Config_path[length - 1] == '4') {
++	    XF86Config_path[length - 2] = '\0';
++	    filename = xf86openConfigFile(getuid() == 0 ?
++					  CONFPATH : USER_CONFPATH,
++					  XF86Config_path, NULL);
++	}
++    }
++    XF86Config_path = (char *)filename;
++#endif
++
+     if (XF86Config_path == NULL) {
+ 	char *home, filename[PATH_MAX];
+ 	char commandline[PATH_MAX * 4];
+@@ -103,13 +124,25 @@ startx(void)
+     switch (xpid = fork()) {
+ 	case 0: {
+ 	    char path[PATH_MAX];
++	    char *filename, *p;
+ 	    /* Don't change to X! see above */
+ 	    if (XFree86_path)
+ 	        XmuSnprintf(path, sizeof(path), "%s/"__XSERVERNAME__, XFree86_path);
+ 	    else
+ 	        XmuSnprintf(path, sizeof(path), "%s/bin/"__XSERVERNAME__, XFree86Dir);
+-	    execl(path, "X", ":8", /*"+xinerama",*/ "+accessx","-allowMouseOpenFail",
+-		  "-xf86config", XF86Config_path, (void *)NULL);
++	    if (getuid() == 0) 
++	    	execl(path, "X", ":8", /*"+xinerama",*/ "+accessx",
++			"-allowMouseOpenFail", 
++			"-xf86config", XF86Config_path, (void *)NULL);
++	    else {
++		/* Use relative path for non-root users */
++		filename = XF86Config_path;
++		while (p = strchr(filename, '/'))
++        		filename = p + 1;
++	    	execl(path, "X", ":8", /*"+xinerama",*/ "+accessx",
++			"-allowMouseOpenFail", 
++			"-xf86config", filename, (void *)NULL);
++	    }
+ 	    exit(-127);
+ 	}   break;
+ 	case -1:
+diff -urp -x '*~' hw/xfree86/utils/xorgcfg/text-mode.c hw/xfree86/utils/xorgcfg/text-mode.c
+--- hw/xfree86/utils/xorgcfg/text-mode.c	2007-01-05 15:23:35.567891000 -0800
++++ hw/xfree86/utils/xorgcfg/text-mode.c	2007-01-05 15:23:49.417927000 -0800
+@@ -50,16 +50,14 @@
+ 	(strcmp((X), "keyboard") == 0))
+ 
+ #ifndef PROJECT_ROOT
+-#define PROJECT_ROOT "/usr"
++#define PROJECT_ROOT "/usr/X11"
+ #endif
+ 
+-#ifndef XKB_RULES_DIR
+ #ifndef __UNIXOS2__
+-#define XKB_RULES_DIR PROJECT_ROOT "/share/X11/xkb/rules"
++#define XKB_RULES_DIR PROJECT_ROOT "/lib/X11/xkb/rules"
+ #else
+ #define XKB_RULES_DIR XF86CONFIGDIR "/xkb/rules"
+ #endif
+-#endif
+ 
+ #define CONTROL_A	1
+ #define CONTROL_D	4
+@@ -302,9 +300,21 @@ static int
+ WriteXF86Config(void)
+ {
+     char *xf86config;
++#ifdef sun
++    char *p;
++#endif
+ 
+     ClearScreen();
+     refresh();
++
++#ifdef sun
++    /* If .xorg.conf in the path, replace it with xorg.conf */
++    if (p = strstr(XF86Config_path, ".xorg.conf")) {
++	strncpy(p, "xorg.conf", strlen("xorg.conf"));
++	p[strlen("xorg.conf")] = '\0';
++    }
++#endif
++
+     xf86config = DialogInput("Write "__XCONFIGFILE__, "Write configuration to file:",
+ 			     10, 60, XF86Config_path ? XF86Config_path :
+ #ifndef __UNIXOS2__

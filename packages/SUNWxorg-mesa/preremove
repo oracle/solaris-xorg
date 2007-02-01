@@ -1,0 +1,21 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#pragma ident	"@(#)preremove	1.2	07/01/31 SMI"
+#
+# SUNWxorg-mesa preremove script.
+
+# If the NVIDIA web installation has been run prior to
+# the integration of the OpenGL switcher, it will have
+# created the directory /usr/include/GL which the package
+# programs will refuse to replace with a symlink. 
+(   # Run in a subshell to isolate any directory changes if we later expand this
+    # script.
+
+    if [ -d $BASEDIR/include/GL ]; then
+        rm -rf $BASEDIR/include/GL
+    fi
+)
+
+exit 0
+

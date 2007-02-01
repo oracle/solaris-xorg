@@ -1,0 +1,126 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+6420309: auto-config improve: Need to move VBE DDC fallback probing from server
+to drivers
+6420320: auto-config improve: nv - Need to consider panel size in mode validation
+
+diff -urp -x '*~' src/nv_driver.c src/nv_driver.c
+--- src/nv_driver.c	2006-11-30 17:12:36.000000000 -0800
++++ src/nv_driver.c	2006-12-01 17:08:44.651256000 -0800
+@@ -960,19 +960,21 @@ NVValidMode(int scrnIndex, DisplayModePt
+     return (MODE_OK);
+ }
+ 
+-static void
++xf86MonPtr
+ nvProbeDDC(ScrnInfoPtr pScrn, int index)
+ {
+     vbeInfoPtr pVbe;
++    xf86MonPtr monitor;
+ 
+     if (xf86LoadSubModule(pScrn, "vbe")) {
+         pVbe = VBEInit(NULL,index);
+-        ConfiguredMonitor = vbeDoEDID(pVbe, NULL);
++        monitor = vbeDoEDID(pVbe, NULL);
+ 	vbeFree(pVbe);
+-    }
++	return (monitor);
++    } else
++	return (NULL);
+ }
+ 
+-
+ Bool NVI2CInit(ScrnInfoPtr pScrn)
+ {
+     char *mod = "i2c";
+@@ -1012,7 +1014,7 @@ NVPreInit(ScrnInfoPtr pScrn, int flags)
+         i = pEnt->index;
+         xfree(pEnt);
+ 
+-        nvProbeDDC(pScrn, i);
++        ConfiguredMonitor = nvProbeDDC(pScrn, i);
+         return TRUE;
+     }
+ 
+@@ -1528,6 +1530,19 @@ NVPreInit(ScrnInfoPtr pScrn, int flags)
+        max_height = 4096;
+     }
+ 
++    /* If DFP, add a modeline corresponding to its panel size */
++    if (pNv->FlatPanel && !pNv->Television && pNv->fpWidth && pNv->fpHeight) {
++	DisplayModePtr Mode;
++	
++	Mode = xnfcalloc(1, sizeof(DisplayModeRec));
++        Mode = xf86CVTMode(pNv->fpWidth, pNv->fpHeight, 60.00, TRUE, FALSE);
++	Mode->type = M_T_BUILTIN;
++	Mode->HSync = 0;
++	Mode->next = pScrn->monitor->Modes;
++	pScrn->monitor->Modes->prev = Mode;
++	pScrn->monitor->Modes = Mode;
++    }
++
+     /*
+      * xf86ValidateModes will check that the mode HTotal and VTotal values
+      * don't exceed the chipset's limit if pScrn->maxHValue and
+diff -urp -x '*~' src/nv_setup.c src/nv_setup.c
+--- src/nv_setup.c	2006-11-30 17:29:39.000000000 -0800
++++ src/nv_setup.c	2006-12-01 17:08:44.652928000 -0800
+@@ -327,6 +327,8 @@ static void nv10GetConfig (NVPtr pNv)
+ }
+ 
+ 
++extern xf86MonPtr nvProbeDDC(ScrnInfoPtr pScrn, int index);
++
+ void
+ NVCommonSetup(ScrnInfoPtr pScrn)
+ {
+@@ -474,7 +476,11 @@ NVCommonSetup(ScrnInfoPtr pScrn)
+ 
+     if(!pNv->twoHeads) {
+        pNv->CRTCnumber = 0;
+-       if((monitorA = NVProbeDDC(pScrn, 0))) {
++       if(!(monitorA = NVProbeDDC(pScrn, 0)))
++              monitorA = nvProbeDDC(pScrn, 
++              	xf86GetEntityInfo(pScrn->entityList[0])->index);
++
++       if (monitorA) {
+            FlatPanel = monitorA->features.input_type ? 1 : 0;
+ 
+            /* NV4 doesn't support FlatPanels */
+@@ -561,6 +567,10 @@ NVCommonSetup(ScrnInfoPtr pScrn)
+        monitorA = NVProbeDDC(pScrn, 0);
+        monitorB = NVProbeDDC(pScrn, 1);
+ 
++       if (!monitorA && !monitorB)
++              monitorA = nvProbeDDC(pScrn, 
++              	xf86GetEntityInfo(pScrn->entityList[0])->index);
++
+        if(slaved_on_A && !tvA) {
+           CRTCnumber = 0;
+           FlatPanel = 1;

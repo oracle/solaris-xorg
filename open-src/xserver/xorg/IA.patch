@@ -1,0 +1,88 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
+--- Makefile.am	2006-12-01 14:48:41.000000000 -0800
++++ Makefile.am	2007-01-18 08:22:59.519005000 -0800
+@@ -58,6 +58,7 @@ SUBDIRS = \
+ 	$(XTRAP_DIR) \
+ 	$(COMPOSITE_DIR) \
+ 	$(GLX_DIR) \
++	IA \
+ 	exa \
+ 	hw
+ 
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2007-01-18 08:22:44.595715000 -0800
++++ configure.ac	2007-01-18 08:22:59.518766000 -0800
+@@ -1867,3 +1867,6 @@ hw/xprint/config/en_US/print/Makefile
+ hw/xprint/config/en_US/Makefile
+ xorg-server.pc
+ ])
++
++# Add Sun IA extension
++AC_OUTPUT([IA/Makefile])
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
+--- hw/xfree86/common/xf86AutoConfig.c	2006-12-01 08:15:54.000000000 -0800
++++ hw/xfree86/common/xf86AutoConfig.c	2007-01-18 08:22:59.515973000 -0800
+@@ -51,6 +51,7 @@
+ 	"\tLoad\t\"type1\"\n" \
+ 	"\tLoad\t\"record\"\n" \
+ 	"\tLoad\t\"dri\"\n" \
++	"\tLoad\t\"IA\"\n" \
+ 	"EndSection\n\n"
+ 
+ #define BUILTIN_DEVICE_NAME \
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2006-12-01 14:48:41.000000000 -0800
++++ hw/xfree86/common/xf86Config.c	2007-01-18 08:22:59.517641000 -0800
+@@ -294,6 +294,10 @@ xf86ModulelistFromConfig(pointer **optli
+ 	ptr = xf86addNewLoadDirective(ptr, "record", XF86_LOAD_MODULE, NULL);
+ 	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
+ 	count = 7;
++
++	/* Sun addition - IA extension */
++	ptr = xf86addNewLoadDirective(ptr, "IA", XF86_LOAD_MODULE, NULL);
++	count++;
+     }
+ 
+     /*
+diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
+--- hw/xfree86/dixmods/Makefile.am	2006-12-01 14:48:41.000000000 -0800
++++ hw/xfree86/dixmods/Makefile.am	2007-01-18 08:22:59.769629000 -0800
+@@ -102,3 +102,10 @@ libxorgxkb_la_LIBADD = $(top_builddir)/d
+ libxtrap_la_LDFLAGS = -avoid-version
+ libxtrap_la_LIBADD = $(top_builddir)/XTrap/libxtrap.la
+ libxtrap_la_SOURCES = xf86XTrapModule.c
++
++
++# Sun IA extension module additions
++extsmodule_LTLIBRARIES += libIA.la
++libIA_la_LDFLAGS = -avoid-version
++libIA_la_LIBADD = $(top_builddir)/IA/libIA.la
++libIA_la_SOURCES = iamodule.c

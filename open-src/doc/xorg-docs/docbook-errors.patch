@@ -1,0 +1,569 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+commit 8cade4ba11c7793101a28671c8263a93a1ec307e
+Author: Alan Coopersmith <alan.coopersmith@sun.com>
+Date:   Tue Jan 30 13:25:44 2007 -0800
+
+    Add missing closing tags to clear docbook2txt errors
+
+diff --git a/sgml/RELNOTES.sgml b/sgml/RELNOTES.sgml
+index 836ca07..7d8f610 100644
+--- a/sgml/RELNOTES.sgml
++++ b/sgml/RELNOTES.sgml
+@@ -189,7 +189,7 @@ (&relvers;) compared with the previous f
+             <row>
+                 <entry>Driver Name</entry>
+                 <entry>Description</entry>
+-                <entry>Further Information
++                <entry>Further Information</entry>
+             </row>
+             <row>
+                 <entry><Literal remap="tt">apm</Literal></entry>
+@@ -403,7 +403,7 @@ (&relvers;) compared with the previous f
+             <row>
+                 <entry><Literal remap="tt">vga</Literal></entry>
+                 <entry>Generic VGA</entry>
+-                <entry><ulink URL="vga.4.html">vga(4)</ulink>
++                <entry><ulink URL="vga.4.html">vga(4)</ulink></entry>
+             </row>
+             <row>
+                 <entry><Literal remap="tt">via</Literal></entry>
+@@ -488,7 +488,7 @@ (&relvers;) compared with the previous f
+             <row>
+                 <entry><Literal remap="tt">citron</Literal></entry>
+                 <entry>Citron</entry>
+-                <entry><ulink URL="citron.4.html">citron(4)</ulink>
++                <entry><ulink URL="citron.4.html">citron(4)</ulink></entry>
+             </row>
+             <row>
+                 <entry><Literal remap="tt">digitaledge</Literal></entry>
+@@ -498,7 +498,7 @@ (&relvers;) compared with the previous f
+             <row>
+                 <entry><Literal remap="tt">dmc</Literal></entry>
+                 <entry>DMC</entry>
+-                <entry><ulink URL="dmc.4.html">dmc(4)</ulink>
++                <entry><ulink URL="dmc.4.html">dmc(4)</ulink></entry>
+             </row>
+             <row>
+                 <entry><Literal remap="tt">dynapro</Literal></entry>
+@@ -523,7 +523,7 @@ (&relvers;) compared with the previous f
+             <row>
+                 <entry><Literal remap="tt">fpit</Literal></entry>
+                 <entry>Fujitsu Stylistic Tablet PCs</entry>
+-                <entry><ulink URL="fpit.4.html">fpit(4)</ulink>
++                <entry><ulink URL="fpit.4.html">fpit(4)</ulink></entry>
+             </row>
+             <row>
+                 <entry><Literal remap="tt">hyperpen</Literal></entry>
+@@ -1372,6 +1372,8 @@ (&relvers;) compared with the previous f
+             <ListItem>
+             <Para>
+             The LBX extension is has been removed in this release.
++            </Para>
++            </ListItem>
+         </VarListEntry> 
+         <VarListEntry>
+             <Term>CID Fonts</Term>
+@@ -1380,6 +1382,7 @@ (&relvers;) compared with the previous f
+             Support for CID fonts has been removed as of this release.
+             mkcfm has also been deprecated as a result.
+             </Para>
++            </ListItem>
+         </VarListEntry>
+         <VarListEntry>
+             <Term>xkbdata</Term>
+@@ -1390,6 +1393,7 @@ (&relvers;) compared with the previous f
+             data provided by the xkeyboard-config project, which located in
+             the xkbdesc CVS module.
+             </Para>
++            </ListItem>
+         </VarListEntry>
+       </VariableList>
+     </Para>
+@@ -1478,6 +1482,7 @@ (&relvers;) compared with the previous f
+     Thomas Winischhofer, 
+     David Woodhouse, 
+     </Para>
++    </ListItem>
+     </VarListEntry>
+     </VariableList>
+     </Para>
+@@ -1866,38 +1871,39 @@ (&relvers;) compared with the previous f
+     X-TrueType Server Project and their contributors,
+     Yu Shao.
+     </Para>
+-    
++    </ListItem>
++    </VarListEntry>
++    </VariableList>
++    </Para>
++
+     <Para>
+     This product includes software developed by The XFree86 Project, Inc
+     (http://www.xfree86.org/) and its contributors.
+     </Para>
+-    
++
+     <Para>
+     This produce includes software that is based in part of the work of the
+     FreeType Team (http://www.freetype.org).
+     </Para>
+-    
++
+     <Para>
+     This product includes software developed by the University of California,
+     Berkeley and its contributors.
+     </Para>
+-    
++
+     <Para>
+     This product includes software developed by Christopher G. Demetriou.
+     </Para>
+-    
++
+     <Para>
+     This product includes software developed by the NetBSD Foundation, Inc. and its
+     contributors.
+     </Para>
+-    
++
+     <Para>
+     This product includes software developed by the X-Oz Technologies and its
+     contributors.
+     </Para>
+-    </VarListEntry>
+-    </VariableList>
+-    </Para>
+ 
+ </Sect1>
+ 
+diff --git a/sgml/Versions.sgml b/sgml/Versions.sgml
+index b3426bf..00f0995 100644
+--- a/sgml/Versions.sgml
++++ b/sgml/Versions.sgml
+@@ -127,6 +127,7 @@ development leading up to version 6.8:
+ <Para>
+ The first snapshot of the pre-6.8 development branch.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.7.99.23</Literal></Term>
+@@ -134,6 +135,7 @@ The first snapshot of the pre-6.8 develo
+ <Para>
+ The twenty-third snapshot of the pre-6.8 development branch.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.7.99.900</Literal></Term>
+@@ -141,6 +143,7 @@ The twenty-third snapshot of the pre-6.8
+ <Para>
+ The start of the 6.8 feature freeze.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.7.99.903</Literal></Term>
+@@ -148,6 +151,7 @@ The start of the 6.8 feature freeze.
+ <Para>
+ The third 6.8 release candidate.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.0</Literal></Term>
+@@ -155,6 +159,7 @@ The third 6.8 release candidate.
+ <Para>
+ The 6.8 release.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.99.1</Literal></Term>
+@@ -163,6 +168,7 @@ The 6.8 release.
+ The first pre-6.9 development snapshot, which  is the first main
+ branch snapshot after creating the 6.8 stable branch.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ </VariableList>
+ </Para>
+@@ -196,6 +202,7 @@ stable branch:
+ <Para>
+ The 6.8 release.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.0.901</Literal></Term>
+@@ -203,6 +210,7 @@ The 6.8 release.
+ <Para>
+ The first pre 6.8.1 snapshot.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.0.903</Literal></Term>
+@@ -211,6 +219,7 @@ The first pre 6.8.1 snapshot.
+ The third pre 6.8.1 snapshot, also known as the third 6.8.1 release
+ candidate.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.1</Literal></Term>
+@@ -218,6 +227,7 @@ candidate.
+ <Para>
+ The 6.8.1 release.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.1.901</Literal></Term>
+@@ -225,6 +235,7 @@ The 6.8.1 release.
+ <Para>
+ The first pre 6.8.2 snapshot.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term><Literal remap="tt">6.8.2</Literal></Term>
+@@ -232,6 +243,7 @@ The first pre 6.8.2 snapshot.
+ <Para>
+ The 6.8.2 release.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ </VariableList>
+ </Para>
+diff --git a/sgml/input/XKB-Enhancing.sgml b/sgml/input/XKB-Enhancing.sgml
+index 034b510..bd83083 100644
+--- a/sgml/input/XKB-Enhancing.sgml
++++ b/sgml/input/XKB-Enhancing.sgml
+@@ -109,6 +109,7 @@ etc.
+ </ItemizedList>
+ 
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>Types</Term>
+@@ -118,6 +119,7 @@ Types describe how the produced key is c
+ Shift, Control, Alt, ...). There are several predefined types which
+ cover most of used combinations.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>Compat</Term>
+@@ -128,6 +130,7 @@ compat component you can assign various 
+ in xkb specification) to key events. This is also the place where
+ LED-indicators behaviour is defined.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>Symbols</Term>
+@@ -139,6 +142,7 @@ symbolic name, see above). There may be 
+ for each key and then it depends on a key type and on modifiers state
+ (respective compat component) which value will be the resulting one.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>Geometry</Term>
+@@ -147,6 +151,7 @@ (respective compat component) which valu
+ Geometry files aren't used by xkb itself but they may be used by some
+ external programs to depict a keyboard image.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ </VariableList>
+ All these components have the files located in xkb configuration tree
+@@ -456,6 +461,7 @@ The most used schemes are:
+ The key does not depend on any modifiers. The symbol from first level
+ is always chosen.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>TWO&lowbar;LEVEL</Term>
+@@ -468,6 +474,7 @@ system-specific capitalization rules. If
+ symbol from the second level is taken and capitalization rules are applied
+ (and usually have no effect).
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>ALPHABETIC</Term>
+@@ -481,6 +488,7 @@ modifier apply the symbol from the first
+ capitalization rules applied. This is often called shift-cancels-caps
+ behaviour.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>THREE&lowbar;LEVEL</Term>
+@@ -494,6 +502,7 @@ the resulting level. Only Shift and Leve
+ consideration. If the Lock modifier is active capitalization rules
+ are applied on the resulting symbol.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>FOUR&lowbar;LEVEL</Term>
+@@ -502,6 +511,7 @@ are applied on the resulting symbol.
+ Is the same as THREE&lowbar;LEVEL but unlike LEVEL&lowbar;THREE if both Shift+LevelThree
+ modifiers apply the symbol is taken from the fourth level.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>FOUR&lowbar;LEVEL&lowbar;ALPHABETIC</Term>
+@@ -513,6 +523,7 @@ third level is taken and the capitalizat
+ If Lock+Shift+LevelThree apply the symbol from the third level is taken
+ and no capitalization rules are applied.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>KEYPAD</Term>
+@@ -525,6 +536,7 @@ Shift or NumLock modifiers apply the sym
+ If both Shift+NumLock modifiers apply the symbol from the first level
+ is taken. Again, shift-cancels-caps variant.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>FOUR&lowbar;LEVEL&lowbar;KEYPAD</Term>
+@@ -536,6 +548,7 @@ If Shift+LevelThree or NumLock+LevelThre
+ level is taken. If all Shift+NumLock+LevelThree modifiers apply the symbol
+ from the third level is taken. This also, shift-cancels-caps variant.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ </VariableList>
+ </Para>
+@@ -552,6 +565,7 @@ It is similar to TWO&lowbar;LEVEL scheme
+ modifier rather than Shift. That means, the symbol from the second level
+ is chosen by Control rather than by Shift.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>PC&lowbar;SYSRQ</Term>
+@@ -561,6 +575,7 @@ It is similar to TWO&lowbar;LEVEL scheme
+ than Shift. That means, the symbol from the second level
+ is chosen by Alt rather than by Shift.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>CTRL+ALT</Term>
+@@ -571,6 +586,7 @@ values. If only one modifier (Alt or Con
+ from the first level is chosen. Only if both Alt+Control modifiers apply
+ the symbol from the second level is chosen.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ <VarListEntry>
+ <Term>SHIFT+ALT</Term>
+@@ -581,6 +597,7 @@ If only one modifier (Alt or Shift) appl
+ from the first level is chosen. Only if both Alt+Shift modifiers apply
+ the symbol from the second level is chosen.
+ </Para>
++</ListItem>
+ </VarListEntry>
+ </VariableList>
+ </Para>
+diff --git a/sgml/platforms/Solaris.sgml b/sgml/platforms/Solaris.sgml
+index 23c1370..eee02db 100644
+--- a/sgml/platforms/Solaris.sgml
++++ b/sgml/platforms/Solaris.sgml
+@@ -181,6 +181,7 @@ however a number of <Literal remap="tt">
+ Both GCC, and the Sun Studio compilers are supported by X11R&relvers;.
+ The minimum recommended GCC release is 2.7.2.
+ Some earlier GCC's are known to not work and should be avoided.
++</Para>
+ <Para>
+ You should also make certain your version of GCC predefines `sun'.
+ If needed edit <Literal remap="tt">/usr/local/lib/gcc-lib/*/*/specs</Literal>, and modify the
+@@ -199,13 +200,16 @@ Also on SPARCs, you may be able to build
+ older cg* graphics devices by adding "&num;define XsunServer YES" or "&num;define 
+ Xsun24Server YES" or "&num;define XsunMonoServer YES" to &nbsp;xc/config/cf/host.def.
+ These servers are no longer maintained nor supported and may not build in
+-this release.</ListItem>
++this release.
++</Para>
++</ListItem>
+ <ListItem>
+ <Para>
+ A Threaded Xlib compiled with GCC has subtle problems.
+ It'll work 98&percnt; of the time, however clients will occasionally exhibit
+ strange hangs.
+ Most notably image viewers such as xv-3.10 exhibit this problem.
++</Para>
+ <Para>
+ It is recommended that you set ThreadedX in <Literal remap="tt">&tilde;xc/config/cf/host.def</Literal> to
+ NO, if you are using GCC.
+@@ -218,6 +222,7 @@ Whether this behaviour still exists with
+ To build X11R&relvers; with GCC you need gcc and (optionally) c++filt from GNU
+ binutils.
+ Don't install gas or ld from GNU binutils, use the one provided by Sun.
++</Para>
+ <Para>
+ You might need to setup a /opt/SUNWspro/bin directory containing symbolic links
+ named <Literal remap="tt">cc</Literal>, <Literal remap="tt">CC</Literal>, and <Literal remap="tt">c++filt</Literal> pointing respectively to the actual
+@@ -228,7 +233,9 @@ named <Literal remap="tt">cc</Literal>, 
+ <Para>
+ If you are using Sun compilers to compile the X11R&relvers; distribution, you need to
+ modify your PATH appropriately so the Sun compiler tools are available.
+-Normally, they should be in <Literal remap="tt">/opt/SUNWspro/bin</Literal></ListItem>
++Normally, they should be in <Literal remap="tt">/opt/SUNWspro/bin</Literal>
++</Para>
++</ListItem>
+ <ListItem>
+ <Para>
+ You <Emphasis remap="bf">MUST</Emphasis> put <Literal remap="tt">/usr/ccs/bin</Literal> at the front of your PATH.
+@@ -236,7 +243,9 @@ There are known problems with some GNU r
+ there.
+ So the <Literal remap="tt">/usr/ccs/bin</Literal> versions of these programs must be found before
+ any possible GNU versions.
+-(Most notably GNU '<Literal remap="tt">ar</Literal>' does not work during the build).</ListItem>
++(Most notably GNU '<Literal remap="tt">ar</Literal>' does not work during the build).
++</Para>
++</ListItem>
+ 
+ </OrderedList>
+ 
+@@ -254,6 +263,7 @@ (Most notably GNU '<Literal remap="tt">a
+ <Para>
+ Depending on the release or architecture of Solaris you are running, you might
+ need to install an OS driver for an aperture device.
++</Para>
+ <Para>
+ Under Solaris x86 2.5 and later, there's a system driver (<Literal remap="tt">/dev/xsvc</Literal>)
+ that provides this functionality.
+@@ -278,12 +288,12 @@ If you have not made the Virtual Termina
+ terminal device to run the Xserver on.
+ The correct device is vt00 so your <Literal remap="tt">xinit</Literal> command would look like
+ so:
+-<Para>
++<InformalExample>
+ 
+ <Screen>
+ 	xinit -- vt00
+ </Screen>
+-
++</InformalExample>
+ If you have made the virtual terminal devices you do not need to specify the VT
+ to run the Xserver on.
+ </Para>
+@@ -294,6 +304,7 @@ For old releases of Solaris you will pro
+ <Literal remap="tt">/usr/X11R6/lib:/usr/openwin/lib:/usr/dt/lib</Literal>.
+ Including <Literal remap="tt">/usr/X11R6/lib</Literal> in your LD&lowbar;LIBRARY&lowbar;PATH is probably not
+ necessary, however it doesn't hurt. :)
++</Para>
+ <Para>
+ Including <Literal remap="tt">/usr/openwin/lib</Literal> in the LD&lowbar;LIBRARY&lowbar;PATH is recommended
+ on older releases because some Sun supplied binaries were not compiled with LD&lowbar;RUN&lowbar;PATH set
+@@ -310,14 +321,18 @@ LD&lowbar;LIBRARY&lowbar;PATH too.
+ Xqueue is <Emphasis remap="bf">NOT</Emphasis> supported under Solaris.
+ The includes necessary for Xqueue are available, however the driver does not
+ seem to be in the kernel.
+-(Go figure)</ListItem>
++(Go figure)
++</Para>
++</ListItem>
+ <ListItem>
+ <Para>
+ If you want to use xdm with Solaris, extract the files from the shar file in
+ <Literal remap="tt">/usr/X11R6/lib/X11/etc/XdmConf.svr4</Literal> into a temporary directory.
+ The <Literal remap="tt">README</Literal> file tells where the individual files need to be installed.
+ Be sure to read through each file and make any site-specific changes that you
+-need.</ListItem>
++need.
++</Para>
++</ListItem>
+ 
+ </OrderedList>
+ 
+@@ -337,6 +352,7 @@ The Solaris 2.1 for x86 OpenWindows file
+ Xserver, it probably will also not work against a X11R6 Xserver.
+ Attempting to 'Drag and Drop' a file causes the filemgr to abort with an
+ 'X error'
++</Para>
+ <Para>
+ Solaris x86 2.4 does not have this problem.
+ </Para>
+@@ -349,7 +365,9 @@ There is no known work around.
+ <Para>
+ The SPARC port is still quite new, so instability is to be expected (and
+ reported!).
+-It might even have broken some aspects of the x86 port.</ListItem>
++It might even have broken some aspects of the x86 port.
++</Para>
++</ListItem>
+ 
+ </OrderedList>
+ 
+commit 95fc2f18c07ce12e3a86395a96f70ffee96f2a02
+Author: Alan Coopersmith <alan.coopersmith@sun.com>
+Date:   Tue Jan 30 13:31:24 2007 -0800
+
+    Update video driver table
+    
+    - Add wsfb
+    - Remove vmware man page from listings for voodoo & wfb
+
+diff --git a/sgml/RELNOTES.sgml b/sgml/RELNOTES.sgml
+index 7d8f610..5589a3b 100644
+--- a/sgml/RELNOTES.sgml
++++ b/sgml/RELNOTES.sgml
+@@ -418,12 +418,17 @@ (&relvers;) compared with the previous f
+             <row>
+                 <entry><Literal remap="tt">voodoo</Literal></entry>
+                 <entry>3Dfx Voodoo</entry>
+-                <entry><ulink URL="vmware.4.html">vmware(4)</ulink></entry>
++                <entry>&nbsp;</entry>
+             </row>
+             <row>
+                 <entry><Literal remap="tt">wfb</Literal></entry>
+                 <entry>Wrapper Framebuffer</entry>
+-                <entry><ulink URL="vmware.4.html">vmware(4)</ulink></entry>
++                <entry>&nbsp;</entry>
++            </row>
++            <row>
++                <entry><Literal remap="tt">wsfb</Literal></entry>
++                <entry>Workstation Framebuffer</entry>
++                <entry><ulink URL="wsfb.4.html">wsfb(4)</ulink></entry>
+             </row>
+         </tbody>
+         </tgroup>

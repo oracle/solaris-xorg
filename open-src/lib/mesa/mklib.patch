@@ -1,0 +1,51 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+Pass -R flags through to linker
+
+--- bin/mklib	2006-04-20 18:03:51.000000000 -0700
++++ bin/mklib	2006-11-08 15:51:57.924308000 -0800
+@@ -61,6 +61,8 @@
+ 	    echo '  -patch N      specifies patch version number (default is 0)'
+ 	    echo '  -lLIBRARY     specifies a dependency on LIBRARY'
+ 	    echo '  -LDIR         search in DIR for library dependencies'
++	    echo '  -RDIR         search in DIR for library dependencies'
++	    echo '  -Wl           explicitly pass flags through to linker'
+ 	    echo '  -linker L     explicity specify the linker program to use (eg: gcc, g++)'
+ 	    echo '                Not observed on all systems at this time.'
+ 	    echo '  -cplusplus    link with C++ runtime'
+@@ -100,6 +101,9 @@
+ 	-L*)
+ 	    DEPS="$DEPS $1"
+ 	    ;;
++	-R*|-Wl*)
++	    DEPS="$DEPS $1"
++	    ;;
+ 	'-cplusplus')
+ 	    CPLUSPLUS=1
+ 	    ;;

@@ -1,0 +1,93 @@
+##########################################################################
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+##########################################################################
+#
+# ident "@(#)prototype_i386 1.10     07/01/31 SMI"
+#
+# X.Org Foundation X server for Solaris
+
+# Include ISA independent files (prototype_com)
+#
+!include prototype_com
+
+!search $HOME/share/doc
+f none X11/share/doc/README.I128 0444 root bin
+f none X11/share/doc/README.SiS 0444 root bin
+f none X11/share/doc/README.apm 0444 root bin
+f none X11/share/doc/README.ati 0444 root bin
+f none X11/share/doc/README.chips 0444 root bin
+f none X11/share/doc/README.cyrix 0444 root bin
+f none X11/share/doc/README.i740 0444 root bin
+f none X11/share/doc/README.i810 0444 root bin
+f none X11/share/doc/README.r128 0444 root bin
+f none X11/share/doc/README.rapidaccess 0444 root bin
+f none X11/share/doc/README.rendition 0444 root bin
+f none X11/share/doc/README.s3virge 0444 root bin
+
+!search $HOME/share/man/man7
+f none X11/share/man/man7/apm.7 0444 root bin
+f none X11/share/man/man7/chips.7 0444 root bin
+f none X11/share/man/man7/cirrus.7 0444 root bin
+f none X11/share/man/man7/citron.7 0444 root bin
+f none X11/share/man/man7/cyrix.7 0444 root bin
+f none X11/share/man/man7/dmc.7 0444 root bin
+f none X11/share/man/man7/dynapro.7 0444 root bin
+f none X11/share/man/man7/elographics.7 0444 root bin
+f none X11/share/man/man7/fpit.7 0444 root bin
+f none X11/share/man/man7/glint.7 0444 root bin
+f none X11/share/man/man7/i128.7 0444 root bin
+f none X11/share/man/man7/i740.7 0444 root bin
+f none X11/share/man/man7/i810.7 0444 root bin
+f none X11/share/man/man7/mga.7 0444 root bin
+f none X11/share/man/man7/microtouch.7 0444 root bin
+f none X11/share/man/man7/mutouch.7 0444 root bin
+f none X11/share/man/man7/neomagic.7 0444 root bin
+f none X11/share/man/man7/nsc.7 0444 root bin
+f none X11/share/man/man7/nv.7 0444 root bin
+f none X11/share/man/man7/palmax.7 0444 root bin
+f none X11/share/man/man7/penmount.7 0444 root bin
+f none X11/share/man/man7/r128.7 0444 root bin
+f none X11/share/man/man7/radeon.7 0444 root bin
+f none X11/share/man/man7/rendition.7 0444 root bin
+f none X11/share/man/man7/s3virge.7 0444 root bin
+f none X11/share/man/man7/savage.7 0444 root bin
+f none X11/share/man/man7/siliconmotion.7 0444 root bin
+f none X11/share/man/man7/sis.7 0444 root bin
+f none X11/share/man/man7/tdfx.7 0444 root bin
+f none X11/share/man/man7/tek4957.7 0444 root bin
+f none X11/share/man/man7/trident.7 0444 root bin
+f none X11/share/man/man7/tseng.7 0444 root bin
+f none X11/share/man/man7/vesa.7 0444 root bin
+f none X11/share/man/man7/vga.7 0444 root bin
+f none X11/share/man/man7/via.7 0444 root bin
+f none X11/share/man/man7/vmware.7 0444 root bin
+#f none X11/share/man/man7/wacom.7 0444 root bin
+
+

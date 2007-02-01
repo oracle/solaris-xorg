@@ -1,0 +1,22 @@
+--- include/GL/glext.h	2006-09-15 21:11:02.000000000 -0700
++++ include/GL/glext.h	2006-11-10 15:35:02.232652000 -0800
+@@ -3165,9 +3165,9 @@
+ /* (as used in the GLX_OML_sync_control extension). */
+ #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+ #include <inttypes.h>
+-#elif defined(__sun__)
++#elif defined(sun)
+ #include <inttypes.h>
+-#if defined(__STDC__)
++#elif defined(__STDC__)
+ #if defined(__arch64__)
+ typedef long int int64_t;
+ typedef unsigned long int uint64_t;
+@@ -3193,7 +3193,6 @@
+ #else
+ #include <inttypes.h>     /* Fallback option */
+ #endif
+-#endif
+ 
+ #ifndef GL_EXT_timer_query
+ typedef int64_t GLint64EXT;

@@ -1,0 +1,11 @@
+--- hw/xfree86/dixmods/Makefile.am	2006-10-13 15:52:55.000000000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2006-11-13 17:51:21.657883000 -0800
+@@ -66,7 +66,7 @@
+ libfb_la_SOURCES = $(top_builddir)/fb/fbcmap.c fbmodule.c
+ libfb_la_CFLAGS = -DXFree86Server $(AM_CFLAGS)
+ 
+-libglx_la_LDFLAGS = -avoid-version
++libglx_la_LDFLAGS = -avoid-version -mimpure-text
+ if AIGLX
+ GLXDRI_LIBRARY = $(top_builddir)/GL/glx/libglxdri.la
+ endif

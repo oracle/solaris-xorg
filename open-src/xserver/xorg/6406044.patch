@@ -1,0 +1,80 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+Merge the fix for bug 6398094 in 6.9 tree: Screen off center with left
+margin on 24.1" monitor with analog input
+
+--- hw/xfree86/ddc.orig/ddcProperty.c	Fri Dec  1 14:48:41 2006
++++ hw/xfree86/ddc/ddcProperty.c	Tue Dec 19 15:33:47 2006
+@@ -295,6 +295,25 @@
+     }
+ }
+ 
++static double
++ModeVRefresh(DisplayModePtr mode)
++{
++    double refresh = 0.0;
++
++    if (mode->VRefresh > 0.0)
++	refresh = mode->VRefresh;
++    else if (mode->HTotal > 0 && mode->VTotal > 0) {
++	refresh = mode->Clock * 1000.0 / mode->HTotal / mode->VTotal;
++	if (mode->Flags & V_INTERLACE)
++	    refresh *= 2.0;
++	if (mode->Flags & V_DBLSCAN)
++	    refresh /= 2.0;
++	if (mode->VScan > 1)
++	    refresh /= (float)(mode->VScan);
++    }
++    return refresh;
++}
++
+ /*
+  * Fill out MonPtr with xf86MonPtr information.
+  */
+@@ -374,6 +393,20 @@
+             Mode = DDCModeFromDetailedTiming(scrnIndex, 
+                                              &DDC->det_mon[i].section.d_timings,
+ 					     preferred);
++
++	    if ((DDC->features.input_type == 0) &&
++            	(((Mode->HDisplay * 5 / 4) & ~0x07) > Mode->HTotal)) {
++		struct detailed_timings *dt = &DDC->det_mon[i].section.d_timings;
++		DisplayModeRec *cvtmode;
++
++		cvtmode = xf86CVTMode(dt->h_active, dt->v_active,
++                                (double) ModeVRefresh(Mode), TRUE, FALSE);
++		memcpy(Mode, cvtmode, sizeof(DisplayModeRec));
++		Mode->type       = M_T_DRIVER;
++    		if (preferred)
++		    Mode->type |= M_T_PREFERRED;
++	    }
++		
+ 	    preferred = 0;
+             Modes = xf86ModesAdd(Modes, Mode);
+             break;

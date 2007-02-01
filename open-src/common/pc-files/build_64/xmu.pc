@@ -1,0 +1,12 @@
+prefix=/usr/openwin
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib/64
+includedir=${prefix}/include
+
+Name: Xmu
+Description: Xmu Library
+Version: 0.1
+Requires: xproto x11 xt
+Requires.private: x11 xt xext
+Cflags: -I${includedir}
+Libs: -L${libdir} -lXmu

@@ -1,0 +1,23 @@
+--- src/aticonsole.c	2006-10-03 07:49:13.000000000 -0700
++++ src/aticonsole.c	2006-04-26 15:45:53.781236000 -0700
+@@ -564,6 +565,20 @@
+     ATIPtr      pATI
+ )
+ {
++    unsigned int PciReg;
++    pciConfigPtr           pPCI;
++    pciVideoPtr            pVideo, *xf86PciVideoInfo = xf86GetPciVideoInfo();
++
++    pVideo = xf86PciVideoInfo[pScreenInfo->scrnIndex];
++    pPCI = pVideo->thisCard;
++/*
++* Possibly fix block I/O indicator in PCI configuration space.
++*/
++    PciReg = pciReadLong(pPCI->tag, PCI_REG_USERCONFIG);
++    if (!(PciReg & 0x00000004U))
++		pciWriteLong(pPCI->tag, PCI_REG_USERCONFIG, PciReg | 
++				0x00000004U);
++
+     /* Map apertures */
+     if (!ATIMapApertures(pScreenInfo->scrnIndex, pATI))
+         return FALSE;

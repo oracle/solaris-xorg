@@ -1,0 +1,35 @@
+diff -urp -x '*~' Xext/Makefile.am Xext/Makefile.am
+--- Xext/Makefile.am	2006-11-13 16:59:38.000000000 -0800
++++ Xext/Makefile.am	2006-12-21 14:19:20.440059000 -0800
+@@ -34,7 +34,7 @@ MODULE_SRCS =			\
+ 	xcmisc.c
+ 
+ # Extra configuration files ship with some extensions
+-SERVERCONFIGdir = $(libdir)/xserver
++SERVERCONFIGdir = $(libdir)/X11/xserver
+ SERVERCONFIG_DATA =
+ 
+ # Optional sources included if extension enabled by configure.ac rules
+diff -urp -x '*~' xkb/Makefile.am xkb/Makefile.am
+--- xkb/Makefile.am	2006-11-13 16:59:41.000000000 -0800
++++ xkb/Makefile.am	2006-12-21 14:19:20.503671000 -0800
+@@ -1,6 +1,7 @@
+ noinst_LTLIBRARIES = libxkb.la libxkbstubs.la
+ 
+ AM_CFLAGS = $(DIX_CFLAGS) \
++	-DMAKE_XKM_OUTPUT_DIR \
+ 	-DHAVE_XKB_CONFIG_H
+ 
+ DDX_SRCS = \
+diff -urp -x '*~' xkb/xkbInit.c xkb/xkbInit.c
+--- xkb/xkbInit.c	2006-11-13 16:59:41.000000000 -0800
++++ xkb/xkbInit.c	2006-12-21 14:19:20.503312000 -0800
+@@ -123,7 +123,7 @@ typedef struct	_SrvXkmInfo {
+ #endif
+ 
+ char	*		XkbBaseDirectory=	XKB_BASE_DIRECTORY;
+-char	*		XkbBinDirectory=	XKB_BIN_DIRECTORY;
++char	*		XkbBinDirectory=	XKB_BASE_DIRECTORY;
+ int	 		XkbWantAccessX=		0;	
+ static XkbFileInfo *	_XkbInitFileInfo=	NULL;
+ 

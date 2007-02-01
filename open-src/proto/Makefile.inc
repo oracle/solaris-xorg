@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.2	06/07/28
+# @(#)Makefile.inc	1.4	07/01/31
 #
 
 ### Makefile settings/rules common to all X.Org protocol modules
@@ -60,7 +60,7 @@ build_gen: $(SOURCE_DIR)/Makefile
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) ; \
 	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" ./configure $(PROTO_CFG) )
+	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" /usr/bin/bash ./configure $(PROTO_CFG) )
 
 # Install
 install_gen:: $(SOURCE_DIR)/Makefile

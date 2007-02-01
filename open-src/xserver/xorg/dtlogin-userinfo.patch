@@ -1,0 +1,108 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x '*~' configure.ac configure.ac
+--- configure.ac	2006-12-21 14:21:37.260843000 -0800
++++ configure.ac	2006-12-21 14:21:51.350495000 -0800
+@@ -881,6 +881,7 @@ PKG_CHECK_MODULES([XSERVERCFLAGS], [$REQ
+ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUIRED_LIBS])
+ 
+ XSERVER_CFLAGS="${XSERVERCFLAGS_CFLAGS}"
++LIBS="${LIBS} -lproject"
+ XSERVER_LIBS="${XSERVERLIBS_LIBS} ${SYS_LIBS} ${LIBS}"
+ AC_SUBST([SYS_LIBS])
+ 
+diff -urp -x '*~' os/Makefile.am os/Makefile.am
+--- os/Makefile.am	2006-12-21 14:21:37.266897000 -0800
++++ os/Makefile.am	2006-12-21 14:21:51.334148000 -0800
+@@ -27,6 +27,7 @@ libos_la_SOURCES = 	\
+ 	xdmauth.c	\
+ 	xstrans.c	\
+ 	xprintf.c	\
++	dtlogin.c	\
+ 	$(XORG_SOURCES)
+ 
+ if XCSECURITY
+@@ -41,6 +42,8 @@ if NEED_STRLCAT
+ libos_la_SOURCES += $(STRLCAT_SOURCES)
+ endif
+ 
++libos_la_LIBADD = -lproject
++
+ libcwrapper_la_SOURCES = \
+ 	$(top_srcdir)/hw/xfree86/os-support/shared/libc_wrapper.c
+ libcwrapper_la_CFLAGS = \
+diff -urp -x '*~' os/auth.c os/auth.c
+--- os/auth.c	2006-11-13 16:59:41.000000000 -0800
++++ os/auth.c	2006-12-21 14:21:51.334597000 -0800
+@@ -332,6 +332,19 @@ AddAuthorization (unsigned name_length, 
+     return 0;
+ }
+ 
++#ifdef SUNSOFT
++/* This function is called from dtlogin.c 
++ * This is added to do "chmod authorization_file" since
++ * this file is owned by root and we need to change this
++ * to user logged on.  
++ */
++const char *
++GetAuthFilename(void)
++{
++    return (authorization_file);
++}
++#endif
++
+ #ifdef XCSECURITY
+ 
+ XID
+diff -urp -x '*~' os/connection.c os/connection.c
+--- os/connection.c	2006-12-21 14:21:37.267651000 -0800
++++ os/connection.c	2006-12-21 14:21:51.340845000 -0800
+@@ -176,6 +176,10 @@ typedef const char *string;
+ # include "../dix/Xserver-dtrace.h"
+ #endif
+ 
++#ifdef SUNSOFT
++extern void DtloginInit(void);
++#endif /* SUNSOFT */
++
+ int lastfdesc;			/* maximum file descriptor */
+ 
+ fd_set WellKnownConnections;	/* Listener mask */
+@@ -472,6 +476,11 @@ CreateWellKnownSockets(void)
+      */
+     ParentProcess = GetPPID (ParentProcess);
+ #endif /* __UNIXOS2__ */
++#ifdef SUNSOFT
++    /* Create pipe for dtlogin authentication info before we tell dtlogin 
++       we're done and ready for it to run. */
++    DtloginInit ();
++#endif
+     if (RunFromSmartParent) {
+ 	if (ParentProcess > 1) {
+ 	    kill (ParentProcess, SIGUSR1);

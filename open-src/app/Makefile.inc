@@ -1,5 +1,6 @@
-###############################################################################
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# -*- Makefile -*- rules common to most X.Org application modules
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -27,10 +28,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.1	06/10/02
+# @(#)Makefile.inc	1.4	07/01/31
 #
-
-### Makefile settings/rules common to all X.Org application modules
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
@@ -55,9 +54,11 @@ CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
 	$(APP_CONFIG_OPTS)
 
 # Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" \
-	LD="$(LD) $(LDFLAGS)"  LDFLAGS="$(PROG_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) 
+CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
+	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR)" \
+	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
+	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
+	$(APP_CONFIG_ENV)
 
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)

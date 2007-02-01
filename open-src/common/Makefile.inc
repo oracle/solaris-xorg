@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright 2006 Sun Microsystems, Inc.  All Rights Reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.70	06/12/21
+# @(#)Makefile.inc	1.75	07/01/31
 #
 
 BUILD_DATE:sh=date +'%e-%B-%Y'
@@ -137,11 +137,24 @@ TRUETYPE_DIR=$(FONT_DIR)/TrueType
 
 X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
+X11_DOC_DIR=$(X11_DIR)/share/doc
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
 X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
 # Subdirectory of /usr/X11/lib for X server private libraries
 X11_SERVERLIBS_SUBDIR=/X11/xserver
-X11_SERVERLIBS_DIR=$(X11_DIR)/lib/$(X11_SERVERLIBS_SUBDIR)
+X11_SERVERLIBS_DIR=$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)
+
+# Subdirectory of /usr/X11/lib for X server loadable modules
+X11_SERVERMODS_SUBDIR=/modules
+X11_SERVERMODS_DIR=$(X11_DIR)/lib$(X11_SERVERMODS_SUBDIR)
+
+MODULE_subdir_sun4=
+MODULE_subdir_i86pc=$(ARCHLIBSUBDIR)
+MODULE_subdir:sh=arch | sed 's/^\(.*\)$/\$\(MODULE_subdir_\1\)/'
+
+# Directory used for installing tools used during build but not
+# delivered in packages
+TOOLS_DIR=/tools
 
 ### Default rules
 
@@ -198,12 +211,14 @@ FIX_PC_OPS= \
 
 source_gen::
 	mkdir -p $(BUILD_DIR)
-	@if [ "x$(SOURCE_UNCOMPRESS)" = "x" ] ; then \
-	    echo "bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
-	    ( bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
-	else \
-	    echo "$(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
-	    ( $(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
+	@if [ "x$(SOURCE_TARBALL_NAME)" != "xNONE" ] ; then \
+	    if [ "x$(SOURCE_UNCOMPRESS)" = "x" ] ; then \
+	        echo "bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
+	        ( bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
+	    else \
+	        echo "$(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
+	        ( $(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
+	    fi ; \
 	fi
 	@if [ "x$(SOURCE_PATCHES)" != "x" ] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
@@ -277,6 +292,12 @@ LNDIR=$(PROTODIR)/usr/X11/bin/lndir
 $(LNDIR):
 	(cd $(TOP)/util/lndir && $(MAKE) $(MFLAGS) install)
 
+DOCBOOKUTIL_BINDIR=$(PROTODIR)$(TOOLS_DIR)/bin
+DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/dockbook2html
+
+$(DOCBOOK2HTML):
+	(cd $(TOP)/doc/docbook-utils && $(MAKE) $(MFLAGS) install)
+
 ### Dependencies
 
 # Almost everything depends on the headers in xproto
@@ -305,7 +326,7 @@ regen-patches:
 	    awk '/^--- /	{exit} \
 		 /^diff -u/	{exit} \
 			 	{print}' $$p > new/$$p ; \
-	    gdiff -urp -x '*~' ./prev ./tmp-regen \
+	    gdiff -urp -x '*~' -x '*.orig' ./prev ./tmp-regen \
 		| sed -e 's% \./prev$(SOURCE_DIR)/% %' -e 's% \./tmp-regen$(SOURCE_DIR)/% %' \
 		| grep -v '^Common subdirectories:' \
 		| grep -v '^Only in ' \

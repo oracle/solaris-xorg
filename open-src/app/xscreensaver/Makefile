@@ -2,7 +2,7 @@
 #
 # Xscreensaver Makefile
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.71	06/11/22
+# @(#)Makefile	1.73	07/01/31
 #
 
 PWD:sh=pwd
@@ -76,23 +76,15 @@ SOURCE_PATCHES = \
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
 
+include $(TOP)/common/Makefile.inc
+
 # Merge in additional sources from sun-src directory
-LNDIR=$(PROTODIR)/usr/X11/bin/lndir
-
-default: all
-
 source_gen:: $(LNDIR)
 	mkdir -p $(SOURCE_DIR)
 	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 	if [ -d closed-src ] ; then \
 	    (cd $(SOURCE_DIR) && $(LNDIR) ../../closed-src) \
 	fi
-
-$(LNDIR):
-	(cd ../../util/lndir && $(MAKE) $(MFLAGS) install)
-
-
-include $(TOP)/common/Makefile.inc
 
 # Where to find OpenGL headers/libraries
 OPENGL_DIR_sun4=/usr/openwin

@@ -1,0 +1,64 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+--- hw/xfree86/os-support/solaris/sun_kbdEv.c	2006-10-11 13:46:15.000000000 -0700
++++ hw/xfree86/os-support/sunos/sun_kbdEv.c	2005-11-03 14:16:51.843027000 -0800
+@@ -77,6 +115,16 @@
+ #define KEY_Kanji	0x82
+ #define KEY_Execute	0x83
+ 
++#if 0 /* def SUNSOFT */
++/* On Solaris we swap the modifier numbers for AltGraph & NumLock from the
++ * values listed in common/atKeynames.h
++ */
++#undef NumLockMask
++#undef AltLangMask
++#define NumLockMask     Mod3Mask
++#define AltLangMask     Mod2Mask
++#endif /* SUNSOFT */
++
+ static unsigned char map[256] = {
+ #if defined(i386) || defined(__i386) || defined(__i386__) || defined(__x86)
+ 	KEY_NOTUSED,		/*   0 */
+
+--- hw/xfree86/common/atKeynames.h	2006-10-11 15:42:19.000000000 -0700
++++ hw/xfree86/common/atKeynames.h	2005-11-02 16:31:27.626268000 -0800
+@@ -215,11 +216,11 @@
+ #define KEY_F13          /* F13                   0x6e  */  110
+ #define KEY_F14          /* F14                   0x6f  */  111
+ #define KEY_F15          /* F15                   0x70  */  112
+-#define KEY_HKTG         /* Hirugana/Katakana tog 0x70  */  112
++#define KEY_HKTG         /* Hirugana/Katakana tog 0x70  */  200 /* was 112 */
+ #define KEY_F16          /* F16                   0x71  */  113
+ #define KEY_F17          /* F17                   0x72  */  114
+ #define KEY_KP_DEC       /* KP_DEC                0x73  */  115
+-#define KEY_BSlash2      /* \           _         0x73  */  115
++#define KEY_BSlash2      /* \           _         0x73  */  203 /* was 115 */
+ #define KEY_KP_Equal	 /* Equal (Keypad)        0x76  */  118
+ #define KEY_XFER         /* Kanji Transfer        0x79  */  121
+ #define KEY_NFER         /* No Kanji Transfer     0x7b  */  123

@@ -1,0 +1,100 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+--- hw/xfree86/common/xf86AutoConfig.c	2006-12-06 22:08:26.575466000 -0800
++++ hw/xfree86/common/xf86AutoConfig.c	2006-12-07 15:19:47.671859000 -0800
+@@ -40,6 +40,10 @@
+ #include "xf86Priv.h"
+ #include "xf86_OSlib.h"
+ 
++#if defined(sun) && !defined(__sparc)
++# include <sys/visual_io.h>
++#endif
++
+ /* Sections for the default built-in configuration. */
+ 
+ #define BUILTIN_MODULE_SECTION \
+@@ -242,6 +246,22 @@
+     if (info)
+ 	driver = videoPtrToDriverName(info);
+ 
++#if defined(sun) && !defined(__sparc)
++    /* Check for nvidia accelerated driver - needs to be replaced with
++     * more general mechanism for selecting drivers based on fbtype
++     */
++    if (xf86Info.consoleFd  >= 0) {
++	struct vis_identifier   visid;
++
++	if (ioctl(xf86Info.consoleFd, VIS_GETIDENTIFIER, &visid) >= 0) {
++	    xf86Msg(X_PROBED, "console driver: %s\n", visid.name);
++	    if (strcmp(visid.name, "NVDAnvda") == 0) {
++		driver = "nvidia";
++	    }
++	}	
++    }
++#endif    
++    
+     AppendToConfig(BUILTIN_MODULE_SECTION);
+     AppendToConfig(BUILTIN_MONITOR_SECTION);
+ 
+
+--- hw/xfree86/common/xf86Config.c	2006-12-06 22:08:26.479334000 -0800
++++ hw/xfree86/common/xf86Config.c	2006-12-07 15:31:59.400139000 -0800
+@@ -513,11 +513,30 @@
+                 if (!strcmp(*drv, "ati")) {
+                     ati = drv;
+                     x = *ati; *ati = *atimisc; *atimisc = x;
+-                    return;
++		    break;
+                 }
+             }
+             /* if we get here, ati was already ahead of atimisc */
+-            return;
++	    break;
++        }
++    }
++    /*
++     * Since the nvidia kernel driver interferes with the nv Xorg driver,
++     * make sure to prefer nvidia if it's installed
++     */
++    for (drv = drivers; drv != end; drv++) {
++	char **nv, **nvidia;
++        if (!strcmp(*drv, "nv")) {
++            nv = drv;
++            for (drv = nv; drv != end; drv++) {
++                if (!strcmp(*drv, "nvidia")) {
++                    nvidia = drv;
++                    x = *nvidia; *nvidia = *nv; *nv = x;
++		    break;
++                }
++            }
++            /* if we get here, nvidia was already ahead of nv */
++            break;
+         }
+     }
+ }

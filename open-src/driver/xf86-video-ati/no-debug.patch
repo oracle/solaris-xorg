@@ -1,0 +1,14 @@
+fix for 6473283
+
+diff -urp -x '*~' src/radeon.h src/radeon.h
+--- src/radeon.h	2006-10-03 07:49:13.000000000 -0700
++++ src/radeon.h	2006-11-03 16:38:52.186691000 -0800
+@@ -172,7 +172,7 @@ typedef struct _region {
+ 
+ /* ------------------------------------- */
+ 
+-#define RADEON_DEBUG            1 /* Turn off debugging output               */
++#define RADEON_DEBUG            0 /* Turn off debugging output               */
+ #define RADEON_IDLE_RETRY      16 /* Fall out of idle loops after this count */
+ #define RADEON_TIMEOUT    2000000 /* Fall out of wait loops after this count */
+ 

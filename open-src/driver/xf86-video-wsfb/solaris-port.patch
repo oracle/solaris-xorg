@@ -1,0 +1,348 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+# 
+
+diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
+--- src/wsfb_driver.c	2007-01-02 06:38:33.000000000 -0800
++++ src/wsfb_driver.c	2007-01-02 13:39:11.809759000 -0800
+@@ -43,12 +43,28 @@
+ #include <fcntl.h>
+ #include <sys/types.h>
+ #include <sys/time.h>
+-#include <dev/wscons/wsconsio.h>
++#ifdef sun
++# include <sys/fbio.h>
++# include <sys/visual_io.h>
++# define wsdisplay_fbinfo	fbtype
++# define height			fb_height
++# define width			fb_width
++# define depth			fb_depth
++# define cmsize			fb_cmsize
++# define wsdisplay_cmap		fbcmap
++# define WSDISPLAYIO_PUTCMAP	FBIOPUTCMAP
++# define WSDISPLAYIO_GETCMAP	FBIOGETCMAP
++# define WSDISPLAYIO_SVIDEO	FBIOSVIDEO
++# define WSDISPLAYIO_VIDEO_ON	FBVIDEO_ON
++# define WSDISPLAYIO_VIDEO_OFF	FBVIDEO_OFF
++# include "xf86sbusBus.h"
++#else
++# include <dev/wscons/wsconsio.h>
++#endif
+ 
+ /* all driver need this */
+ #include "xf86.h"
+ #include "xf86_OSproc.h"
+-#include "xf86_ansic.h"
+ 
+ #include "mipointer.h"
+ #include "mibstore.h"
+@@ -71,10 +87,10 @@
+ #endif
+ 
+ /* #include "wsconsio.h" */
+-
+-#ifndef XFree86LOADER
++#include <errno.h>
++#include <unistd.h>
+ #include <sys/mman.h>
+-#endif
++
+ 
+ #ifdef USE_PRIVSEP
+ extern int priv_open_device(const char *);
+@@ -84,16 +100,18 @@ extern int priv_open_device(const char *
+ 
+ #if defined(__NetBSD__)
+ #define WSFB_DEFAULT_DEV "/dev/ttyE0"
++#elif defined(sun)
++#define WSFB_DEFAULT_DEV "/dev/fb"
+ #else
+ #define WSFB_DEFAULT_DEV "/dev/ttyC0"
+ #endif
+ 
+-#define DEBUG 0
++#define DEBUG 1
+ 
+ #if DEBUG
+-# define TRACE_ENTER(str)       ErrorF("wsfb: " str " %d\n",pScrn->scrnIndex)
+-# define TRACE_EXIT(str)        ErrorF("wsfb: " str " done\n")
+-# define TRACE(str)             ErrorF("wsfb trace: " str "\n")
++# define TRACE_ENTER(str)       xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, 4, "wsfb: " str " %d\n", pScrn->scrnIndex)
++# define TRACE_EXIT(str)        xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, 4, "wsfb: " str " done\n")
++# define TRACE(str)             xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, 4, "wsfb trace: " str "\n")
+ #else
+ # define TRACE_ENTER(str)
+ # define TRACE_EXIT(str)
+@@ -227,7 +245,8 @@ WsfbSetup(pointer module, pointer opts, 
+ 	/* Check that we're being loaded on a OpenBSD or NetBSD system */
+ 	LoaderGetOS(&osname, NULL, NULL, NULL);
+ 	if (!osname || (strcmp(osname, "openbsd") != 0 &&
+-	                strcmp(osname, "netbsd") != 0)) {
++	                strcmp(osname, "netbsd") != 0 &&
++	    		strcmp(osname, "solaris") != 0)) {
+ 		if (errmaj)
+ 			*errmaj = LDR_BADOS;
+ 		if (errmin)
+@@ -353,7 +372,7 @@ wsfb_mmap(size_t len, off_t off, int fd)
+ 		mapaddr = NULL;
+ 	}
+ #if DEBUG
+-	ErrorF("mmap returns: addr %p len 0x%x\n", mapaddr, mapsize);
++	xf86DrvMsgVerb(-1, X_INFO, 4, "wsfb: mmap returns: addr %p len 0x%x pagesize 0x%x\n", mapaddr, mapsize);
+ #endif
+ 	return mapaddr;
+ }
+@@ -366,13 +385,50 @@ WsfbProbe(DriverPtr drv, int flags)
+ 	int numDevSections;
+ 	char *dev;
+ 	Bool foundScreen = FALSE;
++	ScrnInfoPtr pScrn = NULL;
++		
++	xf86DrvMsgVerb(-1, X_INFO, 4, "wsfb trace: probe start\n");
++
++#ifdef sun
++	if (flags & PROBE_DETECT) {
++	    GDevPtr *devSections;
++	    int *usedChips;
++
++	    xf86DrvMsgVerb(-1, X_INFO, 4, "wsfb trace: PROBE_DETECT start\n");
++	    if ((fd = wsfb_open(dev)) >= 0) {
++		struct fbtype	fbtype;
++		struct cg6_info         fbinfo;
++
++		if (ioctl(fd, FBIOGTYPE, &fbtype) == -1) {
++		    xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
++			       "ioctl FBIOGTYPE: %s\n",
++			       strerror(errno));
++		    close(fd);
++		    return FALSE;
++		}
+ 
+-	TRACE("probe start");
++		if (ioctl(fd, FBIOGXINFO, &fbinfo) == -1) {
++		    xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
++			       "ioctl FBIOGTYPE: %s\n",
++			       strerror(errno));
++		    close(fd);
++		    return FALSE;
++		}
++		xf86DrvMsgVerb(-1, X_INFO, 4,
++			       "wsfb trace: PROBE_DETECT succeeded\n");
+ 
++		xf86MatchSbusInstances(WSFB_NAME, SBUS_DEVICE_UNK,
++				       NULL, 0, drv, &usedChips);
++		return TRUE;
++	    } else 
++		return FALSE;
++	}
++#else	
+ 	/* For now, just bail out for PROBE_DETECT. */
+ 	if (flags & PROBE_DETECT)
+ 		return FALSE;
+-
++#endif
++	
+ 	if ((numDevSections = xf86MatchDevice(WSFB_DRIVER_NAME,
+ 					      &devSections)) <= 0)
+ 		return FALSE;
+@@ -406,7 +462,7 @@ WsfbProbe(DriverPtr drv, int flags)
+ 		}
+ 	}
+ 	xfree(devSections);
+-	TRACE("probe done");
++	xf86DrvMsgVerb(-1, X_INFO, 4, "wsfb trace: probe done\n");
+ 	return foundScreen;
+ }
+ 
+@@ -414,7 +470,11 @@ static Bool
+ WsfbPreInit(ScrnInfoPtr pScrn, int flags)
+ {
+ 	WsfbPtr fPtr;
+-	int default_depth, wstype;
++#ifdef sun
++	struct vis_identifier   visid; 
++	struct cg6_info		fbinfo;
++#endif		
++	int default_depth, wstype;	
+ 	char *dev, *s;
+ 	char *mod = NULL;
+ 	const char *reqSym = NULL;
+@@ -443,6 +503,34 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+ 		return FALSE;
+ 	}
+ 
++#ifdef sun	
++	if (ioctl(fPtr->fd, VIS_GETIDENTIFIER, &visid) == -1) {
++		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
++			   "ioctl VIS_GETIDENTIFIER: %s\n",
++			   strerror(errno));
++	} else {
++		xf86DrvMsg(pScrn->scrnIndex, X_INFO,
++			   "frame buffer type: %s\n",
++			   visid.name);
++	}
++
++	if (ioctl(fPtr->fd, FBIOGTYPE, &fPtr->info) == -1) {
++		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
++			   "ioctl FBIOGTYPE: %s\n",
++			   strerror(errno));
++		return FALSE;
++	}
++	wstype = fPtr->info.fb_type;
++
++	if (ioctl(fPtr->fd, FBIOGXINFO, &fbinfo) == -1) {
++		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
++			   "ioctl FBIOGXINFO: %s\n",
++			   strerror(errno));
++		return FALSE;
++	}
++
++	fPtr->linebytes = fbinfo.line_bytes;
++#else
+ 	if (ioctl(fPtr->fd, WSDISPLAYIO_GINFO, &fPtr->info) == -1) {
+ 		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+ 			   "ioctl WSDISPLAY_GINFO: %s\n",
+@@ -461,6 +549,8 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+ 			   strerror(errno));
+ 		return FALSE;
+ 	}
++#endif
++	
+ 	/*
+ 	 * Allocate room for saving the colormap 
+ 	 */
+@@ -516,6 +606,7 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+ 	if (pScrn->depth > 8) {
+ 		rgb zeros = { 0, 0, 0 }, masks;
+ 
++#ifndef sun		/* XXX - fixme */
+ 		if (wstype == WSDISPLAY_TYPE_SUN24 ||
+ 		    wstype == WSDISPLAY_TYPE_SUNCG12 ||
+ 		    wstype == WSDISPLAY_TYPE_SUNCG14 ||
+@@ -524,7 +615,9 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+ 			masks.red = 0x0000ff;
+ 			masks.green = 0x00ff00;
+ 			masks.blue = 0xff0000;
+-		} else {
++		} else
++#endif		    
++		{
+ 			masks.red = 0;
+ 			masks.green = 0;
+ 			masks.blue = 0;
+@@ -728,12 +821,16 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
+ 	WsfbPtr fPtr = WSFBPTR(pScrn);
+ 	VisualPtr visual;
+ 	int ret, flags, ncolors;
++#ifdef WSDISPLAYIO_SMODE
+ 	int wsmode = WSDISPLAYIO_MODE_DUMBFB;
++#endif
+ 	size_t len;
+ 
+ 	TRACE_ENTER("WsfbScreenInit");
+ #if DEBUG
+-	ErrorF("\tbitsPerPixel=%d, depth=%d, defaultVisual=%s\n"
++	xf86DrvMsgVerb
++	      (pScrn->scrnIndex, X_INFO, 4,
++	       "\tbitsPerPixel=%d, depth=%d, defaultVisual=%s\n"
+ 	       "\tmask: %x,%x,%x, offset: %u,%u,%u\n",
+ 	       pScrn->bitsPerPixel,
+ 	       pScrn->depth,
+@@ -773,6 +870,7 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
+ 			   "unsupported depth %d\n", fPtr->info.depth);
+ 		return FALSE;
+ 	}
++#ifdef WSDISPLAYIO_SMODE
+ 	/* Switch to graphics mode - required before mmap */
+ 	if (ioctl(fPtr->fd, WSDISPLAYIO_SMODE, &wsmode) == -1) {
+ 		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+@@ -780,6 +878,7 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
+ 			   strerror(errno));
+ 		return FALSE;
+ 	}
++#endif
+ 	fPtr->fbmem = wsfb_mmap(len, 0, fPtr->fd);
+ 
+ 	if (fPtr->fbmem == NULL) {
+@@ -975,9 +1074,16 @@ WsfbWindowLinear(ScreenPtr pScreen, CARD
+ 	if (fPtr->linebytes)
+ 		*size = fPtr->linebytes;
+ 	else {
++#ifdef sun
++		struct cg6_info		fbinfo;
++		if (ioctl(fPtr->fd, FBIOGXINFO, &fbinfo) == -1)
++		    return NULL;
++		fPtr->linebytes = fbinfo.line_bytes;
++#else		
+ 		if (ioctl(fPtr->fd, WSDISPLAYIO_LINEBYTES, size) == -1)
+ 			return NULL;
+ 		fPtr->linebytes = *size;
++#endif
+ 	}
+ 	return ((CARD8 *)fPtr->fbmem + row *fPtr->linebytes + offset);
+ }
+@@ -1163,7 +1269,9 @@ static void
+ WsfbRestore(ScrnInfoPtr pScrn)
+ {
+ 	WsfbPtr fPtr = WSFBPTR(pScrn);
++#ifdef WSDISPLAYIO_SMODE
+ 	int mode;
++#endif
+ 
+ 	TRACE_ENTER("WsfbRestore");
+ 
+@@ -1180,12 +1288,14 @@ WsfbRestore(ScrnInfoPtr pScrn)
+ 	/* Clear the screen */
+ 	memset(fPtr->fbmem, 0, fPtr->fbmem_len);
+ 
++#ifdef WSDISPLAYIO_SMODE
+ 	/* Restore the text mode */
+ 	mode = WSDISPLAYIO_MODE_EMUL;
+ 	if (ioctl(fPtr->fd, WSDISPLAYIO_SMODE, &mode) == -1) {
+ 		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+ 			   "error setting text mode %s\n", strerror(errno));
+ 	}
++#endif	
+ 	TRACE_EXIT("WsfbRestore");
+ }
+ 
+@@ -1294,9 +1404,15 @@ WsfbDGAAddModes(ScrnInfoPtr pScrn)
+ 		if (fPtr->linebytes)
+ 			pDGAMode->bytesPerScanline = fPtr->linebytes;
+ 		else {
++#ifdef sun
++			struct cg6_info		fbinfo;
++			ioctl(fPtr->fd, FBIOGXINFO, &fbinfo);
++			pDGAMode->bytesPerScanline = fbinfo.line_bytes;
++#else		
+ 			ioctl(fPtr->fd, WSDISPLAYIO_LINEBYTES,
+ 			      &fPtr->linebytes);
+ 			pDGAMode->bytesPerScanline = fPtr->linebytes;
++#endif
+ 		}
+ 
+ 		pDGAMode->imageWidth = pMode->HDisplay;

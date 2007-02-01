@@ -1,0 +1,50 @@
+--- hw/xfree86/os-support/solaris/sun_mouse.c	2006-10-11 13:46:15.000000000 -0700
++++ hw/xfree86/os-support/sunos/sun_mouse.c	2006-01-25 17:42:37.627729000 -0800
+@@ -601,44 +603,9 @@
+ solarisMouseAutoProbe(InputInfoPtr pInfo, const char **protocol, 
+ 	const char **device)
+ {
+-    const char **pdev, **pproto, *dev = NULL;
+-    int fd = -1;
+-    Bool found;
+-
+-    for (pdev = solarisMouseDevs; *pdev; pdev += 2) {
+-	pproto = pdev + 1;
+-	if ((*protocol != NULL) && (strcmp(*protocol, "Auto") != 0) &&
+-	  (*pproto != NULL) && (strcmp(*pproto, *protocol) != 0)) {
+-	    continue;
+-	}
+-	if ((*device != NULL) && (strcmp(*device, *pdev) != 0)) {
+-	    continue;
+-	}
+-        SYSCALL (fd = open(*pdev, O_RDWR | O_NONBLOCK));
+-	if (fd == -1) {
+-#ifdef DEBUG
+-	    ErrorF("Cannot open %s (%s)\n", pdev, strerror(errno));
+-#endif
+-	} else {
+-	    found = TRUE;
+-	    if ((*pproto != NULL) && (strcmp(*pproto, "VUID") == 0)) {
+-		int i, r;
+-		SYSCALL(r = ioctl(fd, VUIDGFORMAT, &i));
+-    		if (r < 0) {
+-		    found = FALSE;
+-		}
+-	    }
+-	    close(fd);
+-	    if (found == TRUE) {
+-		if (*pproto != NULL) {
+-		    *protocol = *pproto;
+-		}
+-		*device = *pdev;
+-		return TRUE;
+-	    }
+-	}
+-    }
+-    return FALSE;
++    *protocol = "VUID";
++    *device = "/dev/mouse";
++    return TRUE;
+ }
+ 
+ static const char *

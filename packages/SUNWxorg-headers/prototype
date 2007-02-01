@@ -29,11 +29,11 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.5     05/11/07 SMI"
+# ident "@(#)prototype 1.6     06/10/03 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
-!HOME=../usr/X11
+!HOME=../usr
 
 i pkginfo
 i depend
@@ -44,7 +44,7 @@ d none X11 0755 root bin
 d none X11/include				0755 root bin
 d none X11/include/X11				0755 root bin
 
-!search $HOME/include/X11/extensions
+!search $HOME/X11/include/X11/extensions
 d none X11/include/X11/extensions		0755 root bin
 f none X11/include/X11/extensions/Xv.h		0444 root bin
 f none X11/include/X11/extensions/Xvlib.h	0444 root bin
@@ -69,3 +69,40 @@ f none X11/include/X11/extensions/xf86mscstr.h	0444 root bin
 f none X11/include/X11/extensions/xf86vmode.h	0444 root bin
 f none X11/include/X11/extensions/xf86vmstr.h	0444 root bin
 
+# pkgconfig data files for X modular protocols & libraries
+
+## 32-bit versions
+!search $HOME/lib/pkgconfig
+d none lib/pkgconfig				0755 root bin
+
+# Protocol headers
+f none lib/pkgconfig/randrproto.pc		0444 root bin
+f none lib/pkgconfig/videoproto.pc		0444 root bin
+f none lib/pkgconfig/xf86miscproto.pc		0444 root bin
+f none lib/pkgconfig/xf86vidmodeproto.pc	0444 root bin
+
+# Libraries
+
+f none lib/pkgconfig/xrandr.pc			0444 root bin
+f none lib/pkgconfig/xv.pc			0444 root bin
+f none lib/pkgconfig/xvmc.pc			0444 root bin
+f none lib/pkgconfig/xxf86misc.pc		0444 root bin
+f none lib/pkgconfig/xxf86vm.pc			0444 root bin
+
+## 64-bit versions
+!search $HOME/lib/$plat_64/pkgconfig
+d none lib/$plat_64/pkgconfig				0755 root bin
+
+# Protocol headers are the same in 32-bit & 64-bit
+s none lib/$plat_64/pkgconfig/randrproto.pc=../../pkgconfig/randrproto.pc
+s none lib/$plat_64/pkgconfig/videoproto.pc=../../pkgconfig/videoproto.pc
+s none lib/$plat_64/pkgconfig/xf86miscproto.pc=../../pkgconfig/xf86miscproto.pc
+s none lib/$plat_64/pkgconfig/xf86vidmodeproto.pc=../../pkgconfig/xf86vidmodeproto.pc
+
+# Libraries need separate ones for 64-bit to get library paths right
+
+f none lib/$plat_64/pkgconfig/xrandr.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xv.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xvmc.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xxf86misc.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xxf86vm.pc		0444 root bin

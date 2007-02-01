@@ -1,0 +1,63 @@
+From edd5f1745461f995670969cb736d1569ca94643f Mon Sep 17 00:00:00 2001
+From: Carl Switzky <Carl.Switzky@Sun.COM>
+Date: Thu, 19 Oct 2006 17:30:54 -0700
+Subject: [PATCH] Add ast driver/device info to Xorg server & config utilities
+---
+ hw/xfree86/common/xf86PciInfo.h      |    4 ++++
+ hw/xfree86/utils/xorgcfg/text-mode.c |    1 +
+ hw/xfree86/utils/xorgconfig/Cards    |    5 +++++
+ 3 files changed, 10 insertions(+), 0 deletions(-)
+
+diff --git hw/xfree86/common/xf86PciInfo.h hw/xfree86/common/xf86PciInfo.h
+index b8ba73f..0630cfa 100644
+--- hw/xfree86/common/xf86PciInfo.h
++++ hw/xfree86/common/xf86PciInfo.h
+@@ -92,6 +92,7 @@ #define PCI_VENDOR_SMI			0x126F
+ #define PCI_VENDOR_TRITECH		0x1292
+ #define PCI_VENDOR_NVIDIA_SGS		0x12D2
+ #define PCI_VENDOR_VMWARE		0x15AD
++#define PCI_VENDOR_AST			0x1A03
+ #define PCI_VENDOR_3DLABS		0x3D3D
+ #define PCI_VENDOR_AVANCE_2		0x4005
+ #define PCI_VENDOR_HERCULES		0x4843
+@@ -358,6 +359,9 @@ #define PCI_CHIP_RV410_5E4F             
+ #define PCI_CHIP_RS350_7834             0x7834
+ #define PCI_CHIP_RS350_7835             0x7835
+ 
++/* ASPEED Technology (AST) */
++#define PCI_CHIP_AST2000		0x2000
++
+ /* Avance Logic */
+ #define PCI_CHIP_ALG2064		0x2064
+ #define PCI_CHIP_ALG2301		0x2301
+diff --git hw/xfree86/utils/xorgcfg/text-mode.c hw/xfree86/utils/xorgcfg/text-mode.c
+index 10f4b69..0fc5770 100644
+--- hw/xfree86/utils/xorgcfg/text-mode.c
++++ hw/xfree86/utils/xorgcfg/text-mode.c
+@@ -1128,6 +1128,7 @@ CardConfig(void)
+     static char *xdrivers[] = {
+ 	"apm",
+ 	"ark",
++	"ast",
+ 	"ati",
+ 	"r128",
+ 	"radeon",
+diff --git hw/xfree86/utils/xorgconfig/Cards hw/xfree86/utils/xorgconfig/Cards
+index bf30eab..b95928c 100644
+--- hw/xfree86/utils/xorgconfig/Cards
++++ hw/xfree86/utils/xorgconfig/Cards
+@@ -51,6 +51,11 @@ #CHIPSET ark
+ SERVER SVGA
+ DRIVER ark
+ 
++NAME ** ASPEED Technology (generic)        [ast]
++#CHIPSET ast
++SERVER SVGA
++DRIVER ast
++
+ NAME ** ATI (generic)                      [ati]
+ #CHIPSET ati
+ SERVER SVGA
+-- 
+1.4.1
+

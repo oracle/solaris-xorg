@@ -1,0 +1,66 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -u hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
+--- hw/xfree86/common/xf86AutoConfig.c	2006-10-19 13:33:29.795058000 -0700
++++ hw/xfree86/common/xf86AutoConfig.c	2006-10-19 13:34:40.826519000 -0700
+@@ -47,7 +47,7 @@
+ 	"\tLoad\t\"extmod\"\n" \
+ 	"\tLoad\t\"dbe\"\n" \
+ 	"\tLoad\t\"glx\"\n" \
+-	"\tLoad\t\"freetype\"\n" \
++	"\tLoad\t\"bitstream\"\n" \
+ 	"\tLoad\t\"type1\"\n" \
+ 	"\tLoad\t\"record\"\n" \
+ 	"\tLoad\t\"dri\"\n" \
+diff -u hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2006-10-19 13:33:29.796528000 -0700
++++ hw/xfree86/common/xf86Config.c	2006-10-19 13:35:08.190361000 -0700
+@@ -289,7 +289,7 @@
+ 	ptr = xf86addNewLoadDirective(ptr, "extmod", XF86_LOAD_MODULE, NULL);
+ 	ptr = xf86addNewLoadDirective(ptr, "dbe", XF86_LOAD_MODULE, NULL);
+ 	ptr = xf86addNewLoadDirective(ptr, "glx", XF86_LOAD_MODULE, NULL);
+-	ptr = xf86addNewLoadDirective(ptr, "freetype", XF86_LOAD_MODULE, NULL);
++	ptr = xf86addNewLoadDirective(ptr, "bitstream", XF86_LOAD_MODULE, NULL);
+ 	ptr = xf86addNewLoadDirective(ptr, "type1", XF86_LOAD_MODULE, NULL);
+ 	ptr = xf86addNewLoadDirective(ptr, "record", XF86_LOAD_MODULE, NULL);
+ 	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
+diff -u hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
+--- hw/xfree86/common/xf86Configure.c	2006-10-11 15:42:19.000000000 -0700
++++ hw/xfree86/common/xf86Configure.c	2006-10-19 13:37:52.908844000 -0700
+@@ -641,7 +641,8 @@
+             /* Add only those font backends which are referenced by fontpath */
+             /* 'strstr(dFP,"/dir")' is meant as 'dFP =~ m(/dir\W)' */
+     	    if (defaultFontPath && (
+-		(strcmp(*el, "freetype")  == 0 &&
++		(((strcmp(*el, "bitstream") == 0) ||
++		  (strcmp(*el, "freetype")  == 0)) &&
+ 		 strstr(defaultFontPath, "/TTF")) ||
+     	        (strcmp(*el, "type1")  == 0 &&
+ 		 strstr(defaultFontPath, "/Type1")))) 
+

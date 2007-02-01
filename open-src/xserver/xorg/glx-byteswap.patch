@@ -1,0 +1,138 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x Makefile.in GL/glx/indirect_dispatch_swap.c GL/glx/indirect_dispatch_swap.c
+--- GL/glx/indirect_dispatch_swap.c	2006-10-13 15:52:33.000000000 -0700
++++ GL/glx/indirect_dispatch_swap.c	2006-11-10 19:25:30.378975000 -0800
+@@ -35,6 +35,18 @@
+ #define bswap_16 __swap16
+ #define bswap_32 __swap32
+ #define bswap_64 __swap64
++#elif defined(sun)
++#define	bswap_16(value)  \
++ 	((((value) & 0xff) << 8) | ((value) >> 8))
++
++#define	bswap_32(value)	\
++ 	(((uint32_t)bswap_16((uint16_t)((value) & 0xffff)) << 16) | \
++ 	(uint32_t)bswap_16((uint16_t)((value) >> 16)))
++ 
++#define	bswap_64(value)	\
++ 	(((uint64_t)bswap_32((uint32_t)((value) & 0xffffffff)) \
++ 	    << 32) | \
++ 	(uint64_t)bswap_32((uint32_t)((value) >> 32)))
+ #else
+ #include <sys/endian.h>
+ #define bswap_16 bswap16
+diff -urp -x Makefile.in GL/glx/indirect_program.c GL/glx/indirect_program.c
+--- GL/glx/indirect_program.c	2006-10-11 15:42:19.000000000 -0700
++++ GL/glx/indirect_program.c	2006-11-10 19:24:45.323007000 -0800
+@@ -53,6 +53,18 @@
+ #define bswap_16 __swap16
+ #define bswap_32 __swap32
+ #define bswap_64 __swap64
++#elif defined(sun)
++#define	bswap_16(value)  \
++ 	((((value) & 0xff) << 8) | ((value) >> 8))
++
++#define	bswap_32(value)	\
++ 	(((uint32_t)bswap_16((uint16_t)((value) & 0xffff)) << 16) | \
++ 	(uint32_t)bswap_16((uint16_t)((value) >> 16)))
++ 
++#define	bswap_64(value)	\
++ 	(((uint64_t)bswap_32((uint32_t)((value) & 0xffffffff)) \
++ 	    << 32) | \
++ 	(uint64_t)bswap_32((uint32_t)((value) >> 32)))
+ #else
+ #include <sys/endian.h>
+ #define bswap_16 bswap16
+diff -urp -x Makefile.in GL/glx/indirect_texture_compression.c GL/glx/indirect_texture_compression.c
+--- GL/glx/indirect_texture_compression.c	2006-10-11 15:42:19.000000000 -0700
++++ GL/glx/indirect_texture_compression.c	2006-11-10 19:25:39.197558000 -0800
+@@ -46,6 +46,18 @@
+ #define bswap_16 __swap16
+ #define bswap_32 __swap32
+ #define bswap_64 __swap64
++#elif defined(sun)
++#define	bswap_16(value)  \
++ 	((((value) & 0xff) << 8) | ((value) >> 8))
++
++#define	bswap_32(value)	\
++ 	(((uint32_t)bswap_16((uint16_t)((value) & 0xffff)) << 16) | \
++ 	(uint32_t)bswap_16((uint16_t)((value) >> 16)))
++ 
++#define	bswap_64(value)	\
++ 	(((uint64_t)bswap_32((uint32_t)((value) & 0xffffffff)) \
++ 	    << 32) | \
++ 	(uint64_t)bswap_32((uint32_t)((value) >> 32)))
+ #else
+ #include <sys/endian.h>
+ #define bswap_16 bswap16
+diff -urp -x Makefile.in GL/glx/indirect_util.c GL/glx/indirect_util.c
+--- GL/glx/indirect_util.c	2006-10-11 15:42:19.000000000 -0700
++++ GL/glx/indirect_util.c	2006-11-10 19:26:04.183304000 -0800
+@@ -35,6 +35,18 @@
+ #define bswap_16 __swap16
+ #define bswap_32 __swap32
+ #define bswap_64 __swap64
++#elif defined(sun)
++#define	bswap_16(value)  \
++ 	((((value) & 0xff) << 8) | ((value) >> 8))
++
++#define	bswap_32(value)	\
++ 	(((uint32_t)bswap_16((uint16_t)((value) & 0xffff)) << 16) | \
++ 	(uint32_t)bswap_16((uint16_t)((value) >> 16)))
++ 
++#define	bswap_64(value)	\
++ 	(((uint64_t)bswap_32((uint32_t)((value) & 0xffffffff)) \
++ 	    << 32) | \
++ 	(uint64_t)bswap_32((uint32_t)((value) >> 32)))
+ #else
+ #include <sys/endian.h>
+ #define bswap_16 bswap16
+diff -urp -x Makefile.in GL/glx/swap_interval.c GL/glx/swap_interval.c
+--- GL/glx/swap_interval.c	2006-10-11 15:42:19.000000000 -0700
++++ GL/glx/swap_interval.c	2006-11-10 19:26:43.705203000 -0800
+@@ -47,6 +47,18 @@
+ #define bswap_16 __swap16
+ #define bswap_32 __swap32
+ #define bswap_64 __swap64
++#elif defined(sun)
++#define	bswap_16(value)  \
++ 	((((value) & 0xff) << 8) | ((value) >> 8))
++
++#define	bswap_32(value)	\
++ 	(((uint32_t)bswap_16((uint16_t)((value) & 0xffff)) << 16) | \
++ 	(uint32_t)bswap_16((uint16_t)((value) >> 16)))
++ 
++#define	bswap_64(value)	\
++ 	(((uint64_t)bswap_32((uint32_t)((value) & 0xffffffff)) \
++ 	    << 32) | \
++ 	(uint64_t)bswap_32((uint32_t)((value) >> 32)))
+ #else
+ #include <sys/endian.h>
+ #define bswap_16 bswap16

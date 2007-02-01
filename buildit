@@ -5,7 +5,7 @@
 #
 ###########################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -34,7 +34,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.1	06/03/31 SMI"
+# ident "@(#)buildit	1.2	07/01/31 SMI"
 #
 
 
@@ -85,15 +85,7 @@ else
 fi
 
 cd open-src
-make -k clean beforeX-install
-cd ../..
-
-cd XORG_NV/
-./buildit $XORG_BUILD_ARGS
-cd ..
-
-cd open-src
-make -k afterX-install
+make -k clean install
 cd ..
 
 if [ $MAKE_PKGS = 1 ] ; then

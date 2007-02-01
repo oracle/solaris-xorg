@@ -1,0 +1,715 @@
+diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
+--- Makefile.am	2007-01-24 20:08:20.608596000 -0800
++++ Makefile.am	2007-01-24 20:08:34.851352000 -0800
+@@ -34,6 +34,10 @@ if DBE
+ DBE_DIR=dbe
+ endif
+ 
++if BUILD_TSOL_MODULE
++TSOL_DIR=tsol
++endif
++
+ SUBDIRS = \
+ 	doc \
+ 	include \
+@@ -59,6 +63,7 @@ SUBDIRS = \
+ 	$(COMPOSITE_DIR) \
+ 	$(GLX_DIR) \
+ 	IA \
++	$(TSOL_DIR) \
+ 	exa \
+ 	hw
+ 
+diff -urp -x '*~' -x '*.orig' Xext/Makefile.am Xext/Makefile.am
+--- Xext/Makefile.am	2007-01-24 20:08:20.471166000 -0800
++++ Xext/Makefile.am	2007-01-24 20:08:34.853082000 -0800
+@@ -149,6 +149,10 @@ if DPMSExtension
+ MODULE_SRCS += $(DPMS_SRCS)
+ endif
+ 
++# Solaris Trusted Extensions / XACE compatibility
++TSOL_SRCS = tsolCompat.c
++BUILTIN_SRCS += $(TSOL_SRCS)
++
+ # Now take all of the above, mix well, bake for 10 minutes and get libXext*.la
+ 
+ libXext_la_SOURCES =		$(BUILTIN_SRCS) $(MODULE_SRCS)
+diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
+--- Xext/security.c	2007-01-22 21:39:15.000000000 -0800
++++ Xext/security.c	2007-01-24 20:08:34.879559000 -0800
+@@ -72,10 +72,15 @@ typedef struct {
+     ((extnsn)->devPrivates[securityExtnsnPrivateIndex].val)
+ #define STATEPTR(client) \
+     ((client)->devPrivates[securityClientPrivateIndex].ptr)
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++#define TRUSTLEVEL(client) ((client)->trustLevel)
++#define AUTHID(client)    ((client)->authId)
++#else
+ #define TRUSTLEVEL(client) \
+     (((SecurityClientStateRec*)STATEPTR(client))->trustLevel)
+ #define AUTHID(client) \
+     (((SecurityClientStateRec*)STATEPTR(client))->authId)
++#endif
+ 
+ CallbackListPtr SecurityValidateGroupCallback = NULL;  /* see security.h */
+ 
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2007-01-24 20:08:20.616515000 -0800
++++ configure.ac	2007-01-24 20:08:34.852663000 -0800
+@@ -113,6 +113,10 @@ AC_CHECK_FUNC([mmap], AC_DEFINE(HAS_MMAP
+ dnl Find the math libary
+ AC_CHECK_LIB(m, sqrt)
+ 
++dnl Check for libtlc for Solaris Trusted Extensions module
++AC_CHECK_LIB(tlc, auditwrite, [BUILD_TSOL_MODULE=yes], [BUILD_TSOL_MODULE=no])
++AM_CONDITIONAL(BUILD_TSOL_MODULE, [test x$BUILD_TSOL_MODULE = xyes])
++
+ AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])
+ 
+ dnl AGPGART headers
+@@ -1859,3 +1863,6 @@ xorg-server.pc
+ 
+ # Add Sun IA extension
+ AC_OUTPUT([IA/Makefile])
++
++# Add Sun Trusted Extensions extension
++AC_OUTPUT([tsol/Makefile])
+diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
+--- dix/dispatch.c	2007-01-24 20:08:20.363701000 -0800
++++ dix/dispatch.c	2007-01-24 20:08:34.869584000 -0800
+@@ -74,8 +74,8 @@ Equipment Corporation.
+ 
+ ******************************************************************/
+ 
+-/* XSERVER_DTRACE additions:
+- * Copyright 2005-2006 Sun Microsystems, Inc.  All rights reserved.
++/* 
++ * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -188,6 +188,11 @@ static void KillAllClients(void);
+ 
+ static void DeleteClientFromAnySelections(ClientPtr client);
+ 
++#ifdef TSOL
++#include <X11/extensions/security.h>
++SecurityHookPtr pSecHook = NULL;
++#endif /* TSOL */
++
+ static int nextFreeClientID; /* always MIN free client ID */
+ 
+ static int	nClients;	/* number of authorized clients */
+@@ -3563,6 +3568,11 @@ CloseDownClient(register ClientPtr clien
+ 	    UngrabServer(client);
+ 	}
+ 	BITCLEAR(grabWaiters, client->index);
++#ifdef TSOL
++        if (pSecHook)
++            (*pSecHook->DeleteClientFromAnySelections)(client);
++        else
++#endif
+ 	DeleteClientFromAnySelections(client);
+ 	ReleaseActiveGrabs(client);
+ 	DeleteClientFontStuff(client);
+@@ -3716,6 +3726,11 @@ void InitClient(ClientPtr client, int i,
+     }
+ #endif
+     client->replyBytesRemaining = 0;
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++    client->trustLevel = XSecurityClientTrusted;
++    client->CheckAccess = NULL;
++    client->authId = 0;
++#endif
+ #ifdef XAPPGROUP
+     client->appgroup = NULL;
+ #endif
+diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
+--- dix/events.c	2007-01-24 20:08:20.365698000 -0800
++++ dix/events.c	2007-01-24 20:08:34.871662000 -0800
+@@ -76,7 +76,7 @@ Equipment Corporation.
+ 
+ /*****************************************************************
+ 
+-Copyright 2003-2005 Sun Microsystems, Inc.
++Copyright 2007 Sun Microsystems, Inc.
+ 
+ All rights reserved.
+ 
+@@ -266,7 +266,12 @@ static void DoEnterLeaveEvents(
+     int mode
+ );
+ 
+-static WindowPtr XYToWindow(
++#ifdef TSOL
++_X_EXPORT
++#else
++static
++#endif
++WindowPtr XYToWindow(
+     int x,
+     int y
+ );
+@@ -1947,7 +1952,12 @@ PointInBorderSize(WindowPtr pWin, int x,
+     return FALSE;
+ }
+ 
+-static WindowPtr 
++#ifdef TSOL
++_X_EXPORT
++#else
++static
++#endif
++WindowPtr 
+ XYToWindow(int x, int y)
+ {
+     register WindowPtr  pWin;
+diff -urp -x '*~' -x '*.orig' dix/property.c dix/property.c
+--- dix/property.c	2007-01-22 21:39:15.000000000 -0800
++++ dix/property.c	2007-01-24 20:08:34.872393000 -0800
+@@ -45,6 +45,34 @@ SOFTWARE.
+ 
+ ******************************************************************/
+ 
++/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */ 
++
+ #ifdef HAVE_DIX_CONFIG_H
+ #include <dix-config.h>
+ #endif
+@@ -62,6 +90,11 @@ SOFTWARE.
+ #include "xace.h"
+ #endif
+ 
++#ifdef TSOL
++#include "extnsionst.h"
++extern SecurityHookPtr pSecHook;
++#endif /* TSOL */
++
+ /*****************************************************************
+  * Property Stuff
+  *
+@@ -245,6 +278,12 @@ ProcChangeProperty(ClientPtr client)
+     }
+ #endif
+ 
++#ifdef TSOL
++    if (pSecHook)
++	err = (*pSecHook->ChangeWindowProperty)(client, pWin, stuff->property,
++	   stuff->type, (int)format, (int)mode, len, (pointer)&stuff[1], TRUE);
++    else
++#endif /* TSOL */
+     err = ChangeWindowProperty(pWin, stuff->property, stuff->type, (int)format,
+ 			       (int)mode, len, (pointer)&stuff[1], TRUE);
+     if (err != Success)
+@@ -298,6 +337,9 @@ ChangeWindowProperty(WindowPtr pWin, Ato
+ 	pProp->size = len;
+         pProp->next = pWin->optional->userProps;
+         pWin->optional->userProps = pProp;
++#ifdef TSOL
++        pProp->secPrivate = (pointer)NULL;
++#endif /* TSOL */	
+     }
+     else
+     {
+@@ -400,6 +442,9 @@ DeleteProperty(WindowPtr pWin, Atom prop
+ 	event.u.property.time = currentTime.milliseconds;
+ 	DeliverEvents(pWin, &event, 1, (WindowPtr)NULL);
+ 	xfree(pProp->data);
++#ifdef TSOL
++	xfree(pProp->secPrivate);
++#endif /* TSOL */
+         xfree(pProp);
+     }
+     return(Success);
+@@ -422,6 +467,9 @@ DeleteAllWindowProperties(WindowPtr pWin
+ 	DeliverEvents(pWin, &event, 1, (WindowPtr)NULL);
+ 	pNextProp = pProp->next;
+         xfree(pProp->data);
++#ifdef TSOL
++	xfree(pProp->secPrivate);
++#endif /* TSOL */
+         xfree(pProp);
+ 	pProp = pNextProp;
+     }
+@@ -675,6 +723,11 @@ ProcDeleteProperty(register ClientPtr cl
+     }
+ #endif
+ 
++#ifdef TSOL
++    if (pSecHook)
++	result = (*pSecHook->DeleteProperty)(client, pWin, stuff->property);
++    else
++#endif /* TSOL */
+     result = DeleteProperty(pWin, stuff->property);
+     if (client->noClientException != Success)
+ 	return(client->noClientException);
+diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
+--- dix/window.c	2007-01-22 21:39:15.000000000 -0800
++++ dix/window.c	2007-01-24 20:08:34.874164000 -0800
+@@ -98,6 +98,33 @@ Equipment Corporation.
+ 
+ ******************************************************************/
+ 
++/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */ 
+ 
+ #ifdef HAVE_DIX_CONFIG_H
+ #include <dix-config.h>
+@@ -181,6 +208,11 @@ static Bool TileScreenSaver(int i, int k
+ _X_EXPORT int numSaveUndersViewable = 0;
+ _X_EXPORT int deltaSaveUndersViewable = 0;
+ 
++#ifdef TSOL
++#include "extnsionst.h"
++extern SecurityHookPtr pSecHook;
++#endif /* TSOL */
++
+ #ifdef DEBUG
+ /******
+  * PrintWindowTree
+@@ -846,6 +878,11 @@ FreeWindowResources(register WindowPtr p
+     register ScreenPtr pScreen = pWin->drawable.pScreen;
+ 
+     DeleteWindowFromAnySaveSet(pWin);
++#ifdef TSOL
++    if (pSecHook)
++	(*pSecHook->DeleteWindowFromAnySelections)(pWin);
++    else
++#endif
+     DeleteWindowFromAnySelections(pWin);
+     DeleteWindowFromAnyEvents(pWin, TRUE);
+     REGION_UNINIT(pScreen, &pWin->clipList);
+@@ -1929,7 +1966,12 @@ IsSiblingAboveMe(
+     return(Below);
+ }
+ 
+-static BoxPtr
++#ifdef TSOL
++_X_EXPORT
++#else
++static
++#endif
++BoxPtr
+ WindowExtents(
+     register WindowPtr pWin,
+     register BoxPtr pBox)
+@@ -1965,7 +2007,12 @@ MakeBoundingRegion (
+     return pRgn;
+ }
+ 
+-static Bool
++#ifdef TSOL
++_X_EXPORT
++#else
++static
++#endif
++Bool
+ ShapeOverlap (
+     WindowPtr	pWin,
+     BoxPtr	pWinBox,
+@@ -2174,7 +2221,12 @@ WhereDoIGoInTheStack(
+     }
+ }
+ 
+-static void
++#ifdef TSOL
++_X_EXPORT
++#else
++static
++#endif
++void
+ ReflectStackChange(
+     register WindowPtr pWin,
+     register WindowPtr pSib,
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
+--- hw/xfree86/common/xf86AutoConfig.c	2007-01-24 20:08:20.616860000 -0800
++++ hw/xfree86/common/xf86AutoConfig.c	2007-01-24 20:08:34.874529000 -0800
+@@ -52,6 +52,7 @@
+ 	"\tLoad\t\"record\"\n" \
+ 	"\tLoad\t\"dri\"\n" \
+ 	"\tLoad\t\"IA\"\n" \
++	"\tLoad\t\"xtsol\"\n" \
+ 	"EndSection\n\n"
+ 
+ #define BUILTIN_DEVICE_NAME \
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2007-01-24 20:08:20.618280000 -0800
++++ hw/xfree86/common/xf86Config.c	2007-01-24 20:08:34.875808000 -0800
+@@ -298,6 +298,10 @@ xf86ModulelistFromConfig(pointer **optli
+ 	/* Sun addition - IA extension */
+ 	ptr = xf86addNewLoadDirective(ptr, "IA", XF86_LOAD_MODULE, NULL);
+ 	count++;
++
++	/* Sun addition - extension for Solaris Trusted Extensions */
++	ptr = xf86addNewLoadDirective(ptr, "xtsol", XF86_LOAD_MODULE, NULL);
++	count++;
+     }
+ 
+     /*
+diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
+--- hw/xfree86/dixmods/Makefile.am	2007-01-24 20:08:20.618782000 -0800
++++ hw/xfree86/dixmods/Makefile.am	2007-01-24 20:08:34.876106000 -0800
+@@ -109,3 +109,11 @@ extsmodule_LTLIBRARIES += libIA.la
+ libIA_la_LDFLAGS = -avoid-version
+ libIA_la_LIBADD = $(top_builddir)/IA/libIA.la
+ libIA_la_SOURCES = iamodule.c
++
++if BUILD_TSOL_MODULE
++# Sun Trusted Extensions extension module additions
++extsmodule_LTLIBRARIES += libxtsol.la
++libxtsol_la_LDFLAGS = -avoid-version
++libxtsol_la_LIBADD = $(top_builddir)/tsol/libxtsol.la
++libxtsol_la_SOURCES = tsolmodule.c
++endif
+diff -urp -x '*~' -x '*.orig' include/dixstruct.h include/dixstruct.h
+--- include/dixstruct.h	2007-01-22 21:39:17.000000000 -0800
++++ include/dixstruct.h	2007-01-24 20:08:34.876423000 -0800
+@@ -127,7 +127,20 @@ typedef struct _Client {
+     unsigned char requestLog[MAX_REQUEST_LOG];
+     int         requestLogIndex;
+ #endif
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++    int	(*pad1)(ClientPtr /*client*/);
++#endif    
+     unsigned long replyBytesRemaining;
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++    XID                authId;
++    unsigned int trustLevel;
++    pointer (* CheckAccess)(
++	ClientPtr /*pClient*/,
++	XID /*id*/,
++	RESTYPE /*classes*/,
++	Mask /*access_mode*/,
++	pointer /*resourceval*/);
++#endif
+ #ifdef XAPPGROUP
+     struct _AppGroupRec*	appgroup;
+ #endif
+diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
+--- include/extnsionst.h	2007-01-22 21:39:17.000000000 -0800
++++ include/extnsionst.h	2007-01-24 20:08:34.876825000 -0800
+@@ -45,6 +45,34 @@ SOFTWARE.
+ 
+ ******************************************************************/
+ 
++/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */ 
++
+ #ifndef EXTENSIONSTRUCT_H
+ #define EXTENSIONSTRUCT_H 
+ 
+@@ -54,6 +82,10 @@ SOFTWARE.
+ #include "extension.h"
+ #include "gc.h"
+ 
++#ifdef TSOL
++#include "inputstr.h"
++#endif /* TSOL */
++
+ typedef struct _ExtensionEntry {
+     int index;
+     void (* CloseDown)(	/* called at server shutdown */
+@@ -69,6 +101,9 @@ typedef struct _ExtensionEntry {
+     pointer extPrivate;
+     unsigned short (* MinorOpcode)(	/* called for errors */
+ 	ClientPtr /* client */);
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++    Bool secure;		/* extension visible to untrusted clients? */
++#endif
+     DevUnion *devPrivates;
+ } ExtensionEntry;
+ 
+@@ -146,5 +181,28 @@ extern void DeclareExtensionSecurity(
+     char * /*extname*/,
+     Bool /*secure*/);
+ 
++#ifdef TSOL
++typedef struct
++{
++   XID (*CheckAuthorization)(unsigned int, char *, unsigned int,
++        char *, ClientPtr , char **);
++    int (*InitWindow)(ClientPtr, WindowPtr);
++    int (*ChangeWindowProperty)(ClientPtr, WindowPtr, Atom, Atom, int, int,
++        unsigned long, pointer, Bool);
++    int (*DeleteProperty)(ClientPtr, WindowPtr, Atom);
++    char (*CheckPropertyAccess)(ClientPtr, WindowPtr, ATOM, Mask);
++    void (*ProcessKeyboard)(xEvent *, KeyClassPtr);
++    void (*DeleteClientFromAnySelections)(ClientPtr);
++    void (*DeleteWindowFromAnySelections)(WindowPtr);
++    void (*AuditStart)(ClientPtr);
++    void (*AuditEnd)(ClientPtr, int);
++} SecurityHook, *SecurityHookPtr;
++
++extern SecurityHookPtr pSecHook;
++
++extern void tsolCompatRegisterHooks(void);
++
++#endif /* TSOL */
++
+ #endif /* EXTENSIONSTRUCT_H */
+ 
+diff -urp -x '*~' -x '*.orig' include/propertyst.h include/propertyst.h
+--- include/propertyst.h	2007-01-22 21:39:17.000000000 -0800
++++ include/propertyst.h	2007-01-24 20:08:34.877120000 -0800
+@@ -45,6 +45,35 @@ SOFTWARE.
+ 
+ ******************************************************************/
+ 
++/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */ 
++
++
+ #ifndef PROPERTYSTRUCT_H
+ #define PROPERTYSTRUCT_H 
+ #include "misc.h"
+@@ -60,6 +89,13 @@ typedef struct _Property {
+ 	short		format;     /* format of data for swapping - 8,16,32 */
+ 	long		size;       /* size of data in (format/8) bytes */
+ 	pointer         data;       /* private to client */
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++    	short		pad1;	    /* previously used by LBX */
++  	XID		pad2;
++#endif
++#ifdef TSOL
++	pointer		secPrivate;	/* Security information */
++#endif /* TSOL */
+ } PropertyRec;
+ 
+ #endif /* PROPERTYSTRUCT_H */
+diff -urp -x '*~' -x '*.orig' include/selection.h include/selection.h
+--- include/selection.h	2007-01-22 21:39:17.000000000 -0800
++++ include/selection.h	2007-01-24 20:08:34.877423000 -0800
+@@ -49,6 +49,34 @@ SOFTWARE.
+ 
+ ******************************************************************/
+ 
++/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */ 
++
+ #include "dixstruct.h"
+ /*
+  *
+@@ -61,6 +89,9 @@ typedef struct _Selection {
+     Window window;
+     WindowPtr pWin;
+     ClientPtr client;
++#ifdef TSOL
++    pointer secPrivate;	/* Security Information */
++#endif /* TSOL */
+ } Selection;
+ 
+ #endif /* SELECTION_H */
+diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
+--- mi/miinitext.c	2007-01-22 21:39:17.000000000 -0800
++++ mi/miinitext.c	2007-01-24 20:08:34.877931000 -0800
+@@ -84,6 +84,10 @@ SOFTWARE.
+ #include "micmap.h"
+ #include "globals.h"
+ 
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++#include "extnsionst.h"
++#endif
++
+ #if defined(QNX4) /* sleaze for Watcom on QNX4 ... */
+ #undef GLXEXT
+ #endif
+@@ -774,6 +778,11 @@ InitExtensions(argc, argv)
+ 	    (ext->initFunc)();
+ 	}
+     }
++#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
++    if (pSecHook) { /* If TSOL security hooks set, add to XACE callbacks */
++	tsolCompatRegisterHooks();
++    }
++#endif
+ }
+ 
+ static void (*__miHookInitVisualsFunction)(miInitVisualsProcPtr *);
+diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
+--- os/connection.c	2007-01-24 20:08:20.601169000 -0800
++++ os/connection.c	2007-01-24 20:08:34.878666000 -0800
+@@ -44,6 +44,33 @@ ARISING OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE.
+ 
+ ******************************************************************/
++/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
+ /*****************************************************************
+  *  Stuff to create connections --- OS dependent
+  *
+@@ -309,6 +336,11 @@ int		ListenTransCount;
+ 
+ static void ErrorConnMax(XtransConnInfo /* trans_conn */);
+ 
++#ifdef TSOL
++#include "extnsionst.h"
++extern SecurityHookPtr pSecHook;
++#endif /* TSOL */
++
+ static XtransConnInfo
+ lookup_trans_conn (int fd)
+ {
+@@ -711,6 +743,12 @@ ClientAuthorized(ClientPtr client, 
+     priv = (OsCommPtr)client->osPrivate;
+     trans_conn = priv->trans_conn;
+ 
++#ifdef TSOL
++    if (pSecHook)
++	auth_id = (*pSecHook->CheckAuthorization) (proto_n, auth_proto,
++				   string_n, auth_string, client, &reason);
++    else
++#endif /* TSOL */
+     auth_id = CheckAuthorization (proto_n, auth_proto,
+ 				  string_n, auth_string, client, &reason);
+ 

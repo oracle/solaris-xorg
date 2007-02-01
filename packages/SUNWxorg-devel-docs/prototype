@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.2     05/11/02 SMI"
+# ident "@(#)prototype 1.3     06/10/02 SMI"
 #
 # X.Org Foundation X client library documentation for Solaris
 
@@ -69,14 +69,14 @@ f none X11/share/man/man3Xrandr/XRRSelectInput.3Xrandr 0444 root bin
 f none X11/share/man/man3Xrandr/XRRSetScreenConfig.3Xrandr 0444 root bin
 f none X11/share/man/man3Xrandr/XRRSetScreenConfigAndRate.3Xrandr 0444 root bin
 
-!search $HOME/share/man/man3Xevie
-d none X11/share/man/man3Xevie 0755 root bin
-f none X11/share/man/man3Xevie/Xevie.3Xevie 0444 root bin
-f none X11/share/man/man3Xevie/XevieEnd.3Xevie 0444 root bin
-f none X11/share/man/man3Xevie/XevieQueryVersion.3Xevie 0444 root bin
-f none X11/share/man/man3Xevie/XevieSelectInput.3Xevie 0444 root bin
-f none X11/share/man/man3Xevie/XevieSendEvent.3Xevie 0444 root bin
-f none X11/share/man/man3Xevie/XevieStart.3Xevie 0444 root bin
+#!search $HOME/share/man/man3Xevie
+#d none X11/share/man/man3Xevie 0755 root bin
+#f none X11/share/man/man3Xevie/Xevie.3Xevie 0444 root bin
+#f none X11/share/man/man3Xevie/XevieEnd.3Xevie 0444 root bin
+#f none X11/share/man/man3Xevie/XevieQueryVersion.3Xevie 0444 root bin
+#f none X11/share/man/man3Xevie/XevieSelectInput.3Xevie 0444 root bin
+#f none X11/share/man/man3Xevie/XevieSendEvent.3Xevie 0444 root bin
+#f none X11/share/man/man3Xevie/XevieStart.3Xevie 0444 root bin
 
 !search $HOME/share/man/man3Xv
 d none X11/share/man/man3Xv 0755 root bin
@@ -103,7 +103,7 @@ f none X11/share/man/man3Xv/XvVideoNotify.3Xv 0444 root bin
 
 !search $HOME/share/man/man3Xxf86vm
 d none X11/share/man/man3Xxf86vm 0755 root bin
-f none X11/share/man/man3Xxf86vm/XF86VidMode.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VM.3Xxf86vm 0444 root bin
 f none X11/share/man/man3Xxf86vm/XF86VidModeDeleteModeLine.3Xxf86vm 0444 root bin
 f none X11/share/man/man3Xxf86vm/XF86VidModeGetAllModeLines.3Xxf86vm 0444 root bin
 f none X11/share/man/man3Xxf86vm/XF86VidModeGetDotClocks.3Xxf86vm 0444 root bin

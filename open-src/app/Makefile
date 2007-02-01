@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Application modules
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,17 +28,26 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/01/03
+# @(#)Makefile	1.4	07/01/31
 #
 ###############################################################################
 
-OS_SUBDIRS = \
+OS_SUBDIRS_common = \
+	mkfontscale \
 	xgamma \
+	xkbcomp \
 	xpm \
 	xrandr \
 	xvidtune \
 	xvinfo \
 	xscreensaver
+
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
+	mesa-demos
+
+OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
 
 all: 
 	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all

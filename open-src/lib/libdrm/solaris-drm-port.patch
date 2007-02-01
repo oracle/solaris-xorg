@@ -1,0 +1,497 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x '*~' libdrm/xf86drm.c libdrm/xf86drm.c
+--- libdrm/xf86drm.c	2006-11-08 13:54:38.000000000 -0800
++++ libdrm/xf86drm.c	2006-11-30 20:01:39.007051000 -0800
+@@ -882,7 +882,7 @@ int drmRmMap(int fd, drm_handle_t handle
+ {
+     drm_map_t map;
+ 
+-    map.handle = (void *)handle;
++    map.handle = (drm_handle_t)handle;
+ 
+     if(ioctl(fd, DRM_IOCTL_RM_MAP, &map)) return -errno;
+     return 0;
+diff -urp -x '*~' libdrm/xf86drm.h libdrm/xf86drm.h
+--- libdrm/xf86drm.h	2006-11-08 13:55:14.000000000 -0800
++++ libdrm/xf86drm.h	2006-11-30 20:01:39.008328000 -0800
+@@ -40,6 +40,11 @@
+ #include <sys/types.h>
+ #include <drm.h>
+ 
++#if defined(__SUNPRO_C)
++#define STRINGIZE(x) #x
++#define STRINGIZE_EVAL(x) STRINGIZE(x)
++#define __FUNCTION__    STRINGIZE_EVAL(__FILE__)",line"STRINGIZE_EVAL(__LINE__)
++#endif
+ 				/* Defaults, if nothing set in xf86config */
+ #define DRM_DEV_UID	 0
+ #define DRM_DEV_GID	 0
+@@ -122,7 +127,8 @@ typedef enum {
+     DRM_SHM             = 2,      /**< shared, cached */
+     DRM_AGP             = 3,	  /**< AGP/GART */
+     DRM_SCATTER_GATHER  = 4,	  /**< PCI scatter/gather */
+-    DRM_CONSISTENT      = 5	  /**< PCI consistent */
++    DRM_CONSISTENT      = 5,	  /**< PCI consistent */
++    DRM_AGP_UMEM	= 8
+ } drmMapType;
+ 
+ typedef enum {
+@@ -423,6 +429,17 @@ do {	register unsigned int __old __asm("
+ #endif /* architecture */
+ #endif /* __GNUC__ >= 2 */
+ 
++#if defined(__SUNPRO_C)
++extern char atomic_cmpset_int(void *, unsigned int, unsigned int);
++#define DRM_CAS(lock,old,new,__ret)             \
++	        do {                                    \
++			                unsigned int __result, __old = (old);   \
++			                __result = !atomic_cmpset_int(lock,old,new); \
++			                __ret = __result;          \
++			        } while(0)
++#endif
++
++
+ #ifndef DRM_CAS
+ #define DRM_CAS(lock,old,new,ret) do { ret=1; } while (0) /* FAST LOCK FAILS */
+ #endif
+diff -urp -x '*~' shared-core/drm.h shared-core/drm.h
+--- shared-core/drm.h	2006-11-07 20:05:14.000000000 -0800
++++ shared-core/drm.h	2006-11-30 20:01:39.009785000 -0800
+@@ -58,6 +58,9 @@
+ #ifndef _DRM_H_
+ #define _DRM_H_
+ 
++
++#include <sys/types32.h>
++
+ #ifndef __user
+ #define __user
+ #endif
+@@ -66,6 +69,7 @@
+ # define DEPRECATED  __attribute__ ((deprecated))
+ #else
+ # define DEPRECATED
++# define __volatile__ volatile
+ #endif
+ 
+ #if defined(__linux__)
+@@ -93,6 +97,63 @@
+ #define DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
+ #endif
+ 
++/* Solaris-specific. */
++#if defined(__SOLARIS__) || defined(sun)
++#define	_IOC_NR(nr)	(((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
++
++#define	_IOC_NRBITS	8
++#define	_IOC_TYPEBITS   8
++#define	_IOC_SIZEBITS   14
++#define	_IOC_DIRBITS    2
++
++#define	_IOC_NRMASK	((1 << _IOC_NRBITS)-1)
++#define	_IOC_TYPEMASK   ((1 << _IOC_TYPEBITS)-1)
++#define	_IOC_SIZEMASK   ((1 << _IOC_SIZEBITS)-1)
++#define	_IOC_DIRMASK    ((1 << _IOC_DIRBITS)-1)
++
++#define	_IOC_NRSHIFT    0
++#define	_IOC_TYPESHIFT  (_IOC_NRSHIFT+_IOC_NRBITS)
++#define	_IOC_SIZESHIFT  (_IOC_TYPESHIFT+_IOC_TYPEBITS)
++#define	_IOC_DIRSHIFT   (_IOC_SIZESHIFT+_IOC_SIZEBITS)
++
++#define	_IOC_NONE	0U
++#define	_IOC_WRITE	1U
++#define	_IOC_READ	2U
++
++#define	_IOC(dir, type, nr, size) \
++	(((dir)  << _IOC_DIRSHIFT) | \
++	((type) << _IOC_TYPESHIFT) | \
++	((nr)   << _IOC_NRSHIFT) | \
++	((size) << _IOC_SIZESHIFT))
++
++/* used for X server compile */
++#if !defined(_KERNEL)
++#define	_IO(type, nr)		_IOC(_IOC_NONE, (type), (nr), 0)
++#define	_IOR(type, nr, size)	_IOC(_IOC_READ, (type), (nr), sizeof (size))
++#define	_IOW(type, nr, size)	_IOC(_IOC_WRITE, (type), (nr), sizeof (size))
++#define	_IOWR(type, nr, size)	_IOC(_IOC_READ|_IOC_WRITE, \
++				(type), (nr), sizeof (size))
++
++#define	_IOC_DIR(nr)		(((nr) >> _IOC_DIRSHIFT) & _IOC_DIRMASK)
++#define	_IOC_TYPE(nr)		(((nr) >> _IOC_TYPESHIFT) & _IOC_TYPEMASK)
++#define	_IOC_NR(nr)		(((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
++#define	_IOC_SIZE(nr)		(((nr) >> _IOC_SIZESHIFT) & _IOC_SIZEMASK)
++
++#define	IOC_IN			(_IOC_WRITE << _IOC_DIRSHIFT)
++#define	IOC_OUT			(_IOC_READ << _IOC_DIRSHIFT)
++#define	IOC_INOUT		((_IOC_WRITE|_IOC_READ) << _IOC_DIRSHIFT)
++#define	IOCSIZE_MASK		(_IOC_SIZEMASK << _IOC_SIZESHIFT)
++#define	IOCSIZE_SHIFT		(_IOC_SIZESHIFT)
++#endif /* _KERNEL */
++
++#define	DRM_IOCTL_NR(n)		_IOC_NR(n)
++#define	DRM_IOC_VOID		IOC_VOID
++#define	DRM_IOC_READ		IOC_OUT
++#define	DRM_IOC_WRITE		IOC_IN
++#define	DRM_IOC_READWRITE	IOC_INOUT
++#define	DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
++
++#endif /* __Solaris__ or sun */
+ #define XFREE86_VERSION(major,minor,patch,snap) \
+ 		((major << 16) | (minor << 8) | patch)
+ 
+@@ -140,8 +201,8 @@ typedef unsigned long long drm_u64_t;
+ typedef unsigned int drm_handle_t;
+ #else
+ #include <sys/types.h>
+-typedef u_int64_t drm_u64_t;
+-typedef unsigned long drm_handle_t;	/**< To mapped regions */
++typedef uint64_t drm_u64_t;
++typedef unsigned long long drm_handle_t;	/**< To mapped regions */
+ #endif
+ typedef unsigned int drm_context_t;	/**< GLXContext handle */
+ typedef unsigned int drm_drawable_t;
+@@ -206,7 +267,9 @@ typedef struct drm_hw_lock {
+ #ifdef __SIZE_TYPE__
+ # define DRM_SIZE_T __SIZE_TYPE__
+ #else
++#if !defined(__SOLARIS__) && !defined(sun)
+ # warning "__SIZE_TYPE__ not defined.  Assuming sizeof(size_t) == sizeof(unsigned long)!"
++#endif
+ # define DRM_SIZE_T unsigned long
+ #endif
+ 
+@@ -227,6 +290,20 @@ typedef struct drm_version {
+ 	char __user *desc;		  /**< User-space buffer to hold desc */
+ } drm_version_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_version32 {
++	int version_major;		/* Major version */
++	int version_minor;		/* Minor version */
++	int version_patchlevel;	  	/* Patch level */
++	uint32_t name_len;		/* Length of name buffer */
++	caddr32_t name;			/* Name of driver */
++	uint32_t date_len;		/* Length of date buffer */
++	caddr32_t date;			/* User-space buffer to hold date */
++	uint32_t desc_len;		/* Length of desc buffer */
++	caddr32_t desc;			/* User-space buffer to hold desc */
++} drm_version32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_GET_UNIQUE ioctl argument type.
+  *
+@@ -234,9 +311,16 @@ typedef struct drm_version {
+  */
+ typedef struct drm_unique {
+ 	DRM_SIZE_T unique_len;	  /**< Length of unique */
+-	char __user *unique;		  /**< Unique name for driver instantiation */
++	char __user *unique;	  /**< Unique name for driver instantiation */
+ } drm_unique_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_unique32 {
++	uint32_t unique_len;	/* Length of unique */
++	caddr32_t unique;	/* Unique name for driver instantiation */
++} drm_unique32_t;
++#endif
++
+ #undef DRM_SIZE_T
+ 
+ typedef struct drm_list {
+@@ -273,7 +357,8 @@ typedef enum drm_map_type {
+ 	_DRM_AGP = 3,		  /**< AGP/GART */
+ 	_DRM_SCATTER_GATHER = 4,  /**< Scatter/gather memory for PCI DMA */
+ 	_DRM_CONSISTENT = 5,	  /**< Consistent memory for PCI DMA */
+-	_DRM_TTM = 6
++	_DRM_TTM = 6,
++	_DRM_AGP_UMEM	= 6
+ } drm_map_type_t;
+ 
+ /**
+@@ -294,6 +379,13 @@ typedef struct drm_ctx_priv_map {
+ 	void *handle;		 /**< Handle of map */
+ } drm_ctx_priv_map_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_ctx_priv_map32 {
++	unsigned int ctx_id;	 /* Context requesting private mapping */
++	caddr32_t handle;	 /* Handle of map */
++} drm_ctx_priv_map32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_GET_MAP, DRM_IOCTL_ADD_MAP and DRM_IOCTL_RM_MAP ioctls
+  * argument type.
+@@ -301,16 +393,28 @@ typedef struct drm_ctx_priv_map {
+  * \sa drmAddMap().
+  */
+ typedef struct drm_map {
+-	unsigned long offset;	 /**< Requested physical address (0 for SAREA)*/
++	unsigned long long offset;	 /**< Requested physical address (0 for SAREA)*/
++	unsigned long long handle;
++				/**< User-space: "Handle" to pass to mmap() */
++				/**< Kernel-space: kernel-virtual address */
+ 	unsigned long size;	 /**< Requested physical size (bytes) */
+ 	drm_map_type_t type;	 /**< Type of memory to map */
+ 	drm_map_flags_t flags;	 /**< Flags */
+-	void *handle;		 /**< User-space: "Handle" to pass to mmap() */
+-				 /**< Kernel-space: kernel-virtual address */
+ 	int mtrr;		 /**< MTRR slot used */
+ 	/*   Private data */
+ } drm_map_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_map32 {
++	unsigned long long offset;
++	unsigned long long handle;
++	uint32_t size;
++	drm_map_type_t type;
++	drm_map_flags_t flags;
++	int mtrr;
++} drm_map32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_GET_CLIENT ioctl argument type.
+  */
+@@ -323,6 +427,17 @@ typedef struct drm_client {
+ 	unsigned long iocs;	/**< Ioctl count */
+ } drm_client_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_client32 {
++	int idx;		/**< Which client desired? */
++	int auth;		/**< Is client authenticated? */
++	uint32_t pid;	/**< Process ID */
++	uint32_t uid;	/**< User ID */
++	uint32_t magic;	/**< Magic */
++	uint32_t iocs;	/**< Ioctl count */
++} drm_client32_t;
++#endif
++
+ typedef enum {
+ 	_DRM_STAT_LOCK,
+ 	_DRM_STAT_OPENS,
+@@ -354,6 +469,16 @@ typedef struct drm_stats {
+ 	} data[15];
+ } drm_stats_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_stats32 {
++	uint32_t count;
++	struct {
++		uint32_t value;
++		drm_stat_type_t type;
++	} data[15];
++} drm_stats32_t;
++#endif
++
+ /**
+  * Hardware locking flags.
+  */
+@@ -413,24 +538,39 @@ typedef enum drm_dma_flags {
+  *
+  * \sa drmAddBufs().
+  */
++typedef enum {
++	_DRM_PAGE_ALIGN = 0x01,	/**< Align on page boundaries for DMA */
++	_DRM_AGP_BUFFER = 0x02,	/**< Buffer is in AGP space */
++	_DRM_SG_BUFFER  = 0x04,	/**< Scatter/gather memory buffer */
++	_DRM_FB_BUFFER  = 0x08, /**< Buffer is in frame buffer */
++	_DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
++} drm_buf_flag;
+ typedef struct drm_buf_desc {
+ 	int count;		 /**< Number of buffers of this size */
+ 	int size;		 /**< Size in bytes */
+ 	int low_mark;		 /**< Low water mark */
+ 	int high_mark;		 /**< High water mark */
+-	enum {
+-		_DRM_PAGE_ALIGN = 0x01,	/**< Align on page boundaries for DMA */
+-		_DRM_AGP_BUFFER = 0x02,	/**< Buffer is in AGP space */
+-		_DRM_SG_BUFFER  = 0x04,	/**< Scatter/gather memory buffer */
+-		_DRM_FB_BUFFER  = 0x08, /**< Buffer is in frame buffer */
+-		_DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
+-	} flags;
++	drm_buf_flag flags;
+ 	unsigned long agp_start; /**<
+ 				  * Start address of where the AGP buffers are
+ 				  * in the AGP aperture
+ 				  */
+ } drm_buf_desc_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_buf_desc32 {
++	int count;		 /**< Number of buffers of this size */
++	int size;		 /**< Size in bytes */
++	int low_mark;		 /**< Low water mark */
++	int high_mark;		 /**< High water mark */
++	drm_buf_flag flags;
++	uint32_t agp_start; /**<
++				  * Start address of where the AGP buffers are
++				  * in the AGP aperture
++				  */
++} drm_buf_desc32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_INFO_BUFS ioctl argument type.
+  */
+@@ -447,6 +587,13 @@ typedef struct drm_buf_free {
+ 	int __user *list;
+ } drm_buf_free_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_buf_free32 {
++	int count;
++	caddr32_t list;
++} drm_buf_free32_t;
++#endif
++
+ /**
+  * Buffer information
+  *
+@@ -472,6 +619,18 @@ typedef struct drm_buf_map {
+ 	drm_buf_pub_t __user *list;	/**< Buffer information */
+ } drm_buf_map_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_buf_map32 {
++	int count;		/**< Length of the buffer list */
++#if defined(__cplusplus)
++	caddr32_t c_virtual;
++#else
++	caddr32_t virtual;		/**< Mmap'd area in user-virtual */
++#endif
++	caddr32_t list;	/**< Buffer information */
++} drm_buf_map32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_DMA ioctl argument type.
+  *
+@@ -515,6 +674,13 @@ typedef struct drm_ctx_res {
+ 	drm_ctx_t __user *contexts;
+ } drm_ctx_res_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_ctx_res32 {
++	int count;
++	caddr32_t contexts;
++} drm_ctx_res32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_ADD_DRAW and DRM_IOCTL_RM_DRAW ioctl argument type.
+  */
+@@ -599,6 +765,12 @@ typedef struct drm_agp_mode {
+ 	unsigned long mode;	/**< AGP mode */
+ } drm_agp_mode_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_agp_mode32 {
++	uint32_t mode;	/**< AGP mode */
++} drm_agp_mode32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_AGP_ALLOC and DRM_IOCTL_AGP_FREE ioctls argument type.
+  *
+@@ -611,6 +783,15 @@ typedef struct drm_agp_buffer {
+ 	unsigned long physical;	/**< Physical used by i810 */
+ } drm_agp_buffer_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_agp_buffer32 {
++	uint32_t size;	/**< In bytes -- will round to page boundary */
++	uint32_t handle;	/**< Used for binding / unbinding */
++	uint32_t type;	/**< Type of memory to allocate */
++	uint32_t physical;	/**< Physical used by i810 */
++} drm_agp_buffer32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_AGP_BIND and DRM_IOCTL_AGP_UNBIND ioctls argument type.
+  *
+@@ -621,6 +802,13 @@ typedef struct drm_agp_binding {
+ 	unsigned long offset;	/**< In bytes -- will round to page boundary */
+ } drm_agp_binding_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_agp_binding32 {
++	uint32_t handle;	/**< From drm_agp_buffer */
++	uint32_t offset;	/**< In bytes -- will round to page boundary */
++} drm_agp_binding32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_AGP_INFO ioctl argument type.
+  *
+@@ -644,6 +832,20 @@ typedef struct drm_agp_info {
+ 	/*@} */
+ } drm_agp_info_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_agp_info32 {
++	int agp_version_major;
++	int agp_version_minor;
++	uint32_t mode;
++	uint32_t aperture_base;
++	uint32_t aperture_size;
++	uint32_t memory_allowed;
++	uint32_t memory_used;
++	unsigned short id_vendor;
++	unsigned short id_device;
++} drm_agp_info32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_SG_ALLOC ioctl argument type.
+  */
+@@ -652,6 +854,13 @@ typedef struct drm_scatter_gather {
+ 	unsigned long handle;	/**< Used for mapping / unmapping */
+ } drm_scatter_gather_t;
+ 
++#if defined(__sun) && defined(_KERNEL)
++typedef struct drm_scatter_gather32 {
++	uint32_t size;		/* In bytes -- will round to page boundary */
++	uint32_t handle;	/* Used for mapping / unmapping */
++} drm_scatter_gather32_t;
++#endif
++
+ /**
+  * DRM_IOCTL_SET_VERSION ioctl argument type.
+  */
+@@ -930,4 +1139,4 @@ typedef union drm_mm_init_arg{
+ #define DRM_COMMAND_BASE                0x40
+ #define DRM_COMMAND_END                 0xA0
+ 
+-#endif
++#endif /* _DRM_H_ */

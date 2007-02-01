@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Protocol modules
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,13 +28,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/06/12
+# @(#)Makefile	1.5	07/01/31
 #
 ###############################################################################
 
-OS_SUBDIRS = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
-	Input KB PM Randr Record Render Resource ScrnSaver Video \
-	XCMisc XExt XF86BigFont XF86Misc XF86VidMode Xinerama
+COMMON_SUBDIRS = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
+	Input KB PM Randr Record Render Resource ScrnSaver Trap Video \
+	XCMisc XExt XF86BigFont XF86DGA XF86Misc XF86VidMode Xinerama \
+	lg3dproto
+
+sparc_SUBDIRS = $(COMMON_SUBDIRS)
+
+i386_SUBDIRS  = $(COMMON_SUBDIRS)       \
+	glproto xf86driproto
+
+OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(\1_SUBDIRS\)/'
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.

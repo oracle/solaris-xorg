@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,36 +28,27 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	07/01/03
+# @(#)Makefile	1.13	07/01/30
 #
 ###############################################################################
 #
 # Modules in this makefile are divided into 2 sections - those that need to
-# be built before the X11 monolithic tree (because X depends on them) and 
+# be built before the X11 monolithic tree (because it depends on them) and 
 # those that need to be build after the X11 monolithic tree (because they 
-# depend on X).
+# depend on portions of the monolithic tree).
 
 BEFOREX = \
 	proto \
 	data/xbitmaps \
 	util/lndir \
-	lib/freetype \
-	lib/fontconfig \
-	lib/libXau \
-	lib/libXdmcp \
-	lib/libXpm \
-	lib/libXfixes \
-	lib/Xft \
-	lib/libxkbfile \
-	lib/libXrandr \
-	lib/libXv \
-	lib/libXvMC \
-	lib/libXxf86misc \
-	lib/libXxf86vm
+	doc \
+	lib
 
 AFTERX = \
 	app \
-	font/bitstream-vera
+	xserver/xorg \
+	driver \
+	font
 
 ALL = $(BEFOREX) $(AFTERX)
 

@@ -1,0 +1,77 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
+Comment out calls to Xutf8* functions until libX11 has them integrated.
+
+diff -urp -x '*~' src/Text.c src/Text.c
+--- src/Text.c	2006-07-11 11:04:58.000000000 -0700
++++ src/Text.c	2007-01-04 13:02:06.869697000 -0800
+@@ -2079,7 +2079,10 @@ TextConvertSelection(Widget w, Atom *sel
+ 	    *value = (XtPointer)textprop.value;
+ 	    *length = textprop.nitems;
+ 	    XwcFreeStringList(wlist);
+-	} else if (*type == XA_UTF8_STRING(d)) {
++	} else 
++	/* Do not support XA_UTF8_STRING */
++	/*
++	if (*type == XA_UTF8_STRING(d)) {
+ 	    XTextProperty textprop;
+ 	    char **list;
+ 	    int count;
+@@ -2099,6 +2102,7 @@ TextConvertSelection(Widget w, Atom *sel
+ 	    *length = strlen(*list);
+ 	    XFree(list);
+ 	}
++	*/
+ 	*format = 8;
+ 	return (True);
+     }
+diff -urp -x '*~' src/TextAction.c src/TextAction.c
+--- src/TextAction.c	2006-07-11 11:04:58.000000000 -0700
++++ src/TextAction.c	2007-01-04 13:02:06.872089000 -0800
+@@ -1093,7 +1093,10 @@ ConvertSelection(Widget w, Atom *selecti
+ 	    *value = (XtPointer)textprop.value;
+ 	    *length = textprop.nitems;
+ 	    XwcFreeStringList((wchar_t**) wlist);
+-	} else if (*type == XA_UTF8_STRING(d)) {
++	} else 
++	/* Do not support XA_UTF8_STRING */
++	/*
++	if (*type == XA_UTF8_STRING(d)) {
+ 	    XTextProperty textprop;
+ 	    char **list;
+ 	    int count;
+@@ -1113,6 +1116,7 @@ ConvertSelection(Widget w, Atom *selecti
+ 	    *length = strlen(*list);
+ 	    XFree(list);
+ 	}
++	*/
+ 	*format = 8;
+ 	return (True);
+     }
