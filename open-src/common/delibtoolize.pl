@@ -3,7 +3,7 @@
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# ident	"@(#)delibtoolize.pl	1.3	07/01/30 SMI"
+# ident	"@(#)delibtoolize.pl	1.5	07/02/03 SMI"
 #
 
 #
@@ -42,7 +42,6 @@ sub process_file {
       # TODO: handle line continuation
       if ($l =~ m%^(\S*)_la_LDFLAGS\s=.*-version-number (\d+)[:\d]+%) {
 	$so_versions{$1} = $2;
-	$l =~ s%-version-number (\d+)[:\d]+%-G%;
       }
       if ($l =~ m%^(\S*)_la_LDFLAGS\s=.*\s*-avoid-version\b%) {
 	$so_versions{$1} = "none";
@@ -54,27 +53,31 @@ sub process_file {
     close(OLD) or die;
 
     my $picflags = "-Kpic -DPIC";
+    my $sharedobjflags = "-G";
 
     if ($compiler =~ m/gcc/) {
       $picflags = "-fpic -DPIC";
+      $sharedobjflags = "-shared";
     }
 
     my $curtarget = "";
 
     foreach $l (@inlines) {
-      # Remove libtool script from compile & link steps
-      $l =~ s%\$\(LIBTOOL\)( --tag=CC)? --mode=(compile|link)\s*%%;
+      # Remove libtool script from compile steps &
+      # add PIC flags that libtool normally provides
+      $l =~ s%\$\(LIBTOOL\)( --tag=CC)? --mode=compile\s*(\$\(CC\))%$2 $picflags%;
+      $l =~ s%\$\(LIBTOOL\)( --tag=CC)? --mode=compile\s*(\$\(CCAS\))%$2 $picflags%;
 
-      # Add -KPIC & -DPIC flags that libtool normally provides
-      $l =~ s%(LTCOMPILE\s*=\s*\$\(CC\))%$1 $picflags%;
-      $l =~ s%(LTCCASCOMPILE\s*=\s*\$\(CCAS\))%$1 $picflags%;
+      # Remove libtool script from link step
+      $l =~ s%\$\(LIBTOOL\)( --tag=CC)? --mode=link\s*%%;
 
       # Change -rpath to -R in link arguments
       $l =~ s%(\s*)-rpath(\s*)%$1-R$2%g;
 
       # Change flags for building shared object from arguments to libtool
       # script into arguments to linker
-      $l =~ s%(_la_LDFLAGS\s*=.*) -module%$1 -G%;
+      $l =~ s%(_la_LDFLAGS\s*=.*) -module%$1 $sharedobjflags%;
+      $l =~ s%(_la_LDFLAGS\s*=.*) -version-number (\d+)[:\d]+%$1 $sharedobjflags%;
       $l =~ s%(_la_LDFLAGS\s*=.*) -no-undefined%$1 -z defs%;
 
       # Change file names
