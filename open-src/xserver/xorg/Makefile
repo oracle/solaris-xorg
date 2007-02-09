@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.30	07/01/30
+# @(#)Makefile	1.31	07/02/02
 #
 
 PWD:sh=pwd
@@ -55,6 +55,7 @@ SOURCE_URL=$(XORG_RELEASES_URL)/xserver/$(SOURCE_TARBALL_NAME)
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	xf1bpp.patch,-p1 \
+	xephyr.patch,-p1 \
 	server-libs.patch \
 	dtrace.patch \
 	ast-driver.patch \
