@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# xf86-video-vmware 1.x Makefile
+# xf86-video-vmware Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/02/13
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-DRIVER_VERS=10.14.1
+DRIVER_VERS=10.15.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6370961.patch
@@ -53,6 +53,6 @@ DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lramdac -lshadowfb -lvgahw -lxaa -lXfont
+	-lfb -lramdac -lshadowfb -lvgahw -lXfont
 
 include ../Makefile.inc
