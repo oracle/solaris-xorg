@@ -26,11 +26,15 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolmodule.c 1.4     07/01/31 SMI"
+#pragma ident   "@(#)tsolmodule.c 1.5     07/02/15 SMI"
 
 /*
  * X Trusted Extension module for X.org X server 
  */
+
+#ifdef HAVE_XORG_CONFIG_H
+#include <xorg-config.h>
+#endif
 
 #include "xf86Module.h"
 

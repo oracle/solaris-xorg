@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.31	07/02/02
+# @(#)Makefile	1.32	07/02/15
 #
 
 PWD:sh=pwd
@@ -166,6 +166,7 @@ XORG_CPPFLAGS= \
 	-I $(PROTODIR)$(X11_INCLUDES_DIR) \
 	-I $(PROTODIR)$(X11_INCLUDES_DIR)/drm \
 	-I $(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri \
+	-I $(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions \
 	$(DPMS_DEFINES) -DSUNSOFT -DTSOL
 
 # Uncomment to build debug

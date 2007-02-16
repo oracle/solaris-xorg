@@ -29,7 +29,7 @@
 # 
 #########################################################################
 # 
-# ident	"@(#)Makefile.am 1.7	07/01/24 SMI"
+# ident	"@(#)Makefile.am 1.8	07/02/15 SMI"
 #
 
 noinst_LTLIBRARIES = libxtsol.la
@@ -43,6 +43,6 @@ SERVERCONFIG_DATA = TrustedExtensionsPolicy
 
 TSOLPOLICYFILEDEF = -DTSOLPOLICYFILE=\"$(SERVERCONFIGdir)/TrustedExtensionsPolicy\"
 
-AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF)
+AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF) -DIN_MODULE
 
 libxtsol_la_LIBADD = -ltsol -ltsnet -ltlc -lsecdb -lbsm
