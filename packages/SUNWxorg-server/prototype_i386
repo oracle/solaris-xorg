@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.8     07/01/19 SMI"
+# ident "@(#)prototype_i386 1.9     07/02/16 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -44,11 +44,13 @@ i depend=depend_i386
 # On x86 we ship two sets of modules and server - 32-bit & 64-bit
 l none X11/bin/Xorg=../../lib/isaexec
 l none X11/bin/Xephyr=../../lib/isaexec
+l none X11/bin/Xvfb=../../lib/isaexec
 
 !search $HOME/bin/i386
 d none X11/bin/i386 0755 root bin
 f none X11/bin/i386/Xorg 4555 root bin
 f none X11/bin/i386/Xephyr 0555 root bin
+f none X11/bin/i386/Xvfb 0555 root bin
 f none X11/bin/pcitweak 0555 root bin
 f none X11/bin/scanpci 0555 root bin
 
@@ -56,6 +58,7 @@ f none X11/bin/scanpci 0555 root bin
 d none X11/bin/amd64 0755 root bin
 f none X11/bin/amd64/Xorg 4555 root bin
 f none X11/bin/amd64/Xephyr 0555 root bin
+f none X11/bin/amd64/Xvfb 0555 root bin
 
 !search $HOME/lib/X11/xserver/amd64
 d none X11/lib/X11/xserver/amd64 0755 root bin

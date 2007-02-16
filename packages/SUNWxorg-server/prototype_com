@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.22     07/01/19 SMI"
+# ident "@(#)prototype_com 1.23     07/02/16 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -45,7 +45,6 @@ d none X11/bin 0755 root bin
 f none X11/bin/gtf 0555 root bin
 f none X11/bin/cvt 0555 root bin
 f none X11/bin/xorgconfig 0555 root bin
-f none X11/bin/Xvfb 0555 root bin
 
 d none X11/lib 0755 root bin
 

@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.6     07/02/15 SMI"
+# ident "@(#)prototype_sparc 1.7     07/02/16 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -47,6 +47,7 @@ i depend=depend_sparc
 d none X11/bin 0755 root bin
 f none X11/bin/Xorg 2555 root root
 f none X11/bin/Xephyr 0555 root bin
+f none X11/bin/Xvfb 0555 root bin
 
 !search $HOME/lib/X11/xserver/sparcv9
 d none X11/lib/X11/xserver/sparcv9 0755 root bin
