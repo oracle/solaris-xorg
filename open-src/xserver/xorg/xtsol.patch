@@ -76,7 +76,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +AC_OUTPUT([tsol/Makefile])
 diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
 --- dix/dispatch.c	2007-01-24 20:08:20.363701000 -0800
-+++ dix/dispatch.c	2007-01-24 20:08:34.869584000 -0800
++++ dix/dispatch.c	2007-02-15 15:47:10.697015000 -0800
 @@ -74,8 +74,8 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -124,6 +124,23 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
  #ifdef XAPPGROUP
      client->appgroup = NULL;
  #endif
+@@ -3761,6 +3776,8 @@ InitClientPrivates(ClientPtr client)
+ 	    ppriv->ptr = (pointer)NULL;
+     }
+ 
++#ifndef TSOL
++/* Temporarily removed to preserve compatibility with old Xtsol module */
+     /* Allow registrants to initialize the serverClient devPrivates */
+     if (!client->index && ClientStateCallback)
+     {
+@@ -3771,6 +3788,7 @@ InitClientPrivates(ClientPtr client)
+ 	clientinfo.setup = (xConnSetup *) NULL;
+ 	CallCallbacks((&ClientStateCallback), (pointer)&clientinfo);
+     } 
++#endif /* TSOL */    
+     return 1;
+ }
+ 
 diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
 --- dix/events.c	2007-01-24 20:08:20.365698000 -0800
 +++ dix/events.c	2007-01-24 20:08:34.871662000 -0800
