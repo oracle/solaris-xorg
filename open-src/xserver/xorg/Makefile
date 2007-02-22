@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.32	07/02/15
+# @(#)Makefile	1.33	07/02/21
 #
 
 PWD:sh=pwd
@@ -220,7 +220,12 @@ install_gen: $(XORGSERVER_BIN)
 	(cd $(SOURCE_DIR) ;  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
 	 DESTDIR=$(PROTODIR) CPPROG="cp -p" \
 	 pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig )
-	sed 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' $(SOURCE_DIR)/include/xorg-server.h > $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xorg-server.h
+	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
+	    -e 's%^.* _XSERVER64 .*$$%#include <sys/isa_defs.h>\
+#ifdef _LP64\
+#define _XSERVER64 1\
+#endif%' \
+	    $(SOURCE_DIR)/include/xorg-server.h > $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xorg-server.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
 
