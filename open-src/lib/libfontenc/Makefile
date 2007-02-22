@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	07/02/21
 #
 
 # Package name used in tarballs
@@ -57,7 +57,8 @@ LIB_BUILT=$(SOURCE_DIR)/src/.libs/libfontenc.so.1.0.0
 # pkg-config files that need to have -R added
 FIX_PC_FILES=fontenc.pc.in
 
-# Install in private subdir
+# Install in private subdir, but don't look there for encodings
 LIB_ADD_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
+LIB_ADD_CONFIG_OPTS=--with-encodingsdir=$(X11_DIR)/lib/X11/fonts/encodings
 
 include ../Makefile.inc

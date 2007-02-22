@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/02/21
 #
 
 # Package name used in tarballs
@@ -52,7 +52,7 @@ LIB_STABILITY=Project Private
 LIB_MAN_SUFFIX=3Xfont
 
 # Additional configure script options to select the modules we use
-LIB_ADD_CONFIG_OPTS= --enable-freetype --enable-type1 --enable-cid \
+LIB_ADD_CONFIG_OPTS= --disable-freetype --enable-type1 --disable-cid \
 	--disable-speedo --enable-fontcache --enable-fc --disable-builtins
 
 # Library built in tree
