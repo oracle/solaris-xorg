@@ -1,0 +1,669 @@
+diff -ur xf86-video-mga-X11R7.2-1.4.6.1/src/mga_dacG.c ./build_32/xf86-video-mga-1.4.6.1/mga_dacG.c
+--- xf86-video-mga-X11R7.2-1.4.6.1/src/mga_dacG.c	2007-01-09 15:39:23.000000000 -0500
++++ src/mga_dacG.c	2007-02-16 13:30:53.000000000 -0500
+@@ -60,6 +60,7 @@
+ static Bool MGAGInit(ScrnInfoPtr, DisplayModePtr);
+ static void MGAGLoadPalette(ScrnInfoPtr, int, int*, LOCO*, VisualPtr);
+ static Bool MGAG_i2cInit(ScrnInfoPtr pScrn);
++static void MGAG200SEComputePLLParam( ScrnInfoPtr pScrn, long lFo, int *M, int *N, int *P);
+ 
+ static void
+ MGAG200SEComputePLLParam(ScrnInfoPtr pScrn, long lFo, int *M, int *N, int *P)
+@@ -810,15 +811,15 @@
+ 
+ 	   /* This handles restoring the generic VGA registers. */
+ 	   if (pMga->is_G200SE) {
+-	      vgaHWRestore(pScrn, vgaReg, VGA_SR_MODE);
++	      MGAG200SERestoreMode(pScrn, vgaReg);
+ 	      if (restoreFonts)
+ 	         MGAG200SERestoreFonts(pScrn, vgaReg);
+ 	   } else {
+ 	      vgaHWRestore(pScrn, vgaReg,
+ 			VGA_SR_MODE | (restoreFonts ? VGA_SR_FONTS : 0));
+ 	   }
+-  	   MGAGRestorePalette(pScrn, vgaReg->DAC); 
+-	   
++  	   MGAGRestorePalette(pScrn, vgaReg->DAC);
++
+ 	   /*
+ 	    * this is needed to properly restore start address
+ 	    */
+@@ -904,13 +905,13 @@
+ 	 * Code is needed to get back to bank zero.
+ 	 */
+ 	OUTREG16(0x1FDE, 0x0004);
+-	
++
+ 	/*
+ 	 * This function will handle creating the data structure and filling
+ 	 * in the generic VGA portion.
+ 	 */
+ 	if (pMga->is_G200SE) {
+-	    vgaHWSave(pScrn, vgaReg, VGA_SR_MODE);
++	    MGAG200SESaveMode(pScrn, vgaReg);
+ 	    if (saveFonts)
+ 		MGAG200SESaveFonts(pScrn, vgaReg);
+ 	} else {
+diff -ur xf86-video-mga-X11R7.2-1.4.6.1/src/mga_driver.c mga/src/mga_driver.c
+--- xf86-video-mga-X11R7.2-1.4.6.1/src/mga_driver.c	2007-01-08 18:45:22.000000000 -0500
++++ src/mga_driver.c	2007-02-22 15:37:36.000000000 -0500
+@@ -821,6 +856,16 @@
+ 	MGAMapMem(pScrn);
+ 	base = pMga->FbBase;
+ 
++	if (pMga->is_G200SE) {
++        OUTREG(MGAREG_SEQ_INDEX, 0x01);
++        seq1 = INREG8(MGAREG_SEQ_DATA);
++        seq1 |= 0x20;
++        MGAWAITVSYNC();
++        MGAWAITBUSY();
++        OUTREG(MGAREG_SEQ_DATA, seq1);
++        usleep(20000);
++    }
++
+ 	/* turn MGA mode on - enable linear frame buffer (CRTCEXT3) */
+ 	OUTREG8(MGAREG_CRTCEXT_INDEX, 3);
+ 	tmp = INREG8(MGAREG_CRTCEXT_DATA);
+@@ -896,6 +954,16 @@
+ 	OUTREG8(MGAREG_CRTCEXT_INDEX, 3);
+ 	OUTREG8(MGAREG_CRTCEXT_DATA, tmp);
+ 
++	if (pMga->is_G200SE) {
++        OUTREG(MGAREG_SEQ_INDEX, 0x01);
++        seq1 = INREG8(MGAREG_SEQ_DATA);
++        seq1 &= ~0x20;
++        MGAWAITVSYNC();
++        MGAWAITBUSY();
++        OUTREG(MGAREG_SEQ_DATA, seq1);
++        usleep(20000);
++    }
++
+ 	MGAUnmapMem(pScrn);
+    }
+    return SizeFound;
+@@ -941,6 +1009,10 @@
+     }
+ #endif /* MGAuseI2C */
+ 
++  if (pMga->is_G200SE) {
++    return NULL;
++  }
++
+   /* Map the MGA memory and MMIO areas */
+   if (!MGAMapMem(pScrn))
+     return NULL;
+@@ -1286,6 +1360,7 @@
+ 	|| (pMga->Chipset == PCI_CHIP_MGAG550);
+     pMga->is_G200SE = (pMga->Chipset == PCI_CHIP_MGAG200_SE_A_PCI)
+ 	|| (pMga->Chipset == PCI_CHIP_MGAG200_SE_B_PCI);
++    pMga->is_G200SE_A = (pMga->Chipset == PCI_CHIP_MGAG200_SE_A_PCI);
+     pMga->is_HAL_chipset = ((pMga->Chipset == PCI_CHIP_MGAG200_PCI) ||
+ 		  (pMga->Chipset == PCI_CHIP_MGAG200) ||
+ 		  (pMga->Chipset == PCI_CHIP_MGAG200_SE_A_PCI) ||
+@@ -1451,13 +1545,22 @@
+     /* Collect all of the relevant option flags (fill in pScrn->options) */
+     xf86CollectOptions(pScrn, NULL);
+ 
++    if (pMga->is_G200SE) {
++         /* Disable MTRR support on PCIe systems */
++         temp = pciReadLong(pMga->PciTag, 0xDC);
++         if ((temp & 0x0000FF00) != 0x0) {
++             xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Disabling MTRR support.\n");
++             pScrn->options = xf86ReplaceBoolOption(pScrn->options, "MTRR", FALSE);
++         }
++    }
++
+     /* Process the options */
+     if (!(pMga->Options = xalloc(sizeof(MGAOptions))))
+ 	return FALSE;
+     memcpy(pMga->Options, MGAOptions, sizeof(MGAOptions));
+     xf86ProcessOptions(pScrn->scrnIndex, pScrn->options, pMga->Options);
+ 
+-    
++
+ #if !defined(__powerpc__)
+     pMga->softbooted = FALSE;
+     if (pMga->Chipset >= PCI_CHIP_MGAG400
+@@ -2135,17 +2238,22 @@
+ 	MGAFreeRec(pScrn);
+ 	return FALSE;
+     }
++
++    if ((pScrn->modes->VDisplay > 1600) && 
++        (pScrn->modes->HDisplay > 1200) &&
++        (pMga->is_G200SE_A)) {
++        return FALSE;
++    }
+ #ifdef USEMGAHAL
+     MGA_HAL(
+-
+     if(pMga->SecondCrtc == FALSE) {
+-	
++
+         pMga->pBoard = xalloc(sizeof(CLIENTDATA) + MGAGetBOARDHANDLESize());
+         pMga->pClientStruct = xalloc(sizeof(CLIENTDATA));
+         pMga->pClientStruct->pMga = (MGAPtr) pMga;
+ 
+         MGAMapMem(pScrn);
+-	/* 
++	/*
+ 	 * For some reason the MGAOPM_DMA_BLIT bit needs to be set
+ 	 * on G200 before opening the HALlib. I don't know why.
+ 	 * MATROX: hint, hint.
+@@ -2787,13 +2913,17 @@
+ 	return FALSE;
+ 
+     /* Program the registers */
+-    vgaHWProtect(pScrn, TRUE);
++    if (pMga->is_G200SE) {
++        MGAG200SEHWProtect(pScrn, TRUE);
++    } else {
++        vgaHWProtect(pScrn, TRUE);
++    }
+     vgaReg = &hwp->ModeReg;
+     mgaReg = &pMga->ModeReg;
+ #ifdef USEMGAHAL
+-    MGA_HAL( 
++    MGA_HAL(
+         MGAFillModeInfoStruct(pScrn,mode);
+-                    
++
+         /* Validate the parameters */
+         if ((status = MGAValidateMode(pMga->pBoard, pMga->pMgaModeInfo)) != 0) {
+             xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+@@ -2890,7 +3036,7 @@
+     		  outMGAdac(MGA1064_COL_KEY_LSB,pMga->colorKey);
+   		  outMGAdac(MGA1064_COL_KEY_MSK_MSB,0xFF);
+   		  outMGAdac(MGA1064_COL_KEY_MSB,0xFF);
+-	      }		
++	      }
+ 	      break;
+ 	    default:
+ 	      break;
+@@ -2903,7 +3049,11 @@
+     MGAStormSync(pScrn);
+     MGAStormEngineInit(pScrn);
+ 
+-    vgaHWProtect(pScrn, FALSE);
++    if (pMga->is_G200SE) {
++        MGAG200SEHWProtect(pScrn, TRUE);
++    } else {
++        vgaHWProtect(pScrn, TRUE);
++    }
+ 
+     if (xf86IsPc98()) {
+ 	if (pMga->Chipset == PCI_CHIP_MGA2064)
+@@ -2999,16 +3162,20 @@
+     if((!xf86IsEntityShared(pScrn->entityList[0]) && !pMga->SecondCrtc)
+        || pMga->SecondCrtc || pMga->MergedFB) {
+ 	/*       if(pMga->MergedFB) {
+-		 if(pMga->pScrn2) 
++		 if(pMga->pScrn2)
+                  MGARestoreSecondCrtc(pMga->pScrn2);
+ 		 } else*/
+ 	MGARestoreSecondCrtc(pScrn);
+ 	/* if we are second instance of driver, we've done our job, exit */
+ 	if(pMga->SecondCrtc) return;
+     }
+-    
++
+     /* Only restore text mode fonts/text for the primary card */
+-    vgaHWProtect(pScrn, TRUE);
++    if (pMga->is_G200SE) {
++        MGAG200SEHWProtect(pScrn, TRUE);
++    } else {
++        vgaHWProtect(pScrn, TRUE);
++    }
+     if (pMga->Primary) {
+ #ifdef USEMGAHAL
+ 	MGA_HAL(
+@@ -3022,7 +3189,11 @@
+     } else {
+         vgaHWRestore(pScrn, vgaReg, VGA_SR_MODE);
+     }
+-    vgaHWProtect(pScrn, FALSE);
++    if (pMga->is_G200SE) {
++        MGAG200SEHWProtect(pScrn, TRUE);
++    } else {
++        vgaHWProtect(pScrn, TRUE);
++    }
+ }
+ 
+ 
+@@ -4063,7 +4234,10 @@
+ 	/* XXX Prefer an implementation that doesn't depend on VGA specifics */
+ 	OUTREG8(MGAREG_SEQ_INDEX, 0x01);	/* Select SEQ1 */
+ 	seq1 |= INREG8(MGAREG_SEQ_DATA) & ~0x20;
+-	OUTREG8(MGAREG_SEQ_DATA, seq1);
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++ 	OUTREG8(MGAREG_SEQ_DATA, seq1);
++    usleep(20000);
+ 	OUTREG8(MGAREG_CRTCEXT_INDEX, 0x01);	/* Select CRTCEXT1 */
+ 	crtcext1 |= INREG8(MGAREG_CRTCEXT_DATA) & ~0x30;
+ 	OUTREG8(MGAREG_CRTCEXT_DATA, crtcext1);
+diff -ur xf86-video-mga-X11R7.2-1.4.6.1/src/mga.h mga/src/mga.h
+--- xf86-video-mga-X11R7.2-1.4.6.1/src/mga.h	2007-01-08 18:45:22.000000000 -0500
++++ src/mga.h	2007-02-16 13:52:17.000000000 -0500
+@@ -147,6 +147,42 @@
+ 	    outMGAdreg(MGA1064_DATA, tmp | (val)); \
+ 	} while (0)
+ 
++#define MGAWAITVSYNC() \
++    {\
++	    unsigned int uiCount = 0; \
++    	unsigned int uiStatus = 0; \
++	    do \
++    	{ \
++	        uiStatus = INREG( MGAREG_Status ); \
++	        uiCount++; \
++    	} \
++	    while( ( uiStatus & 0x08 ) && (uiCount < 250000) );\
++	    uiCount = 0; \
++    	uiStatus = 0; \
++	    do \
++    	{ \
++	        uiStatus = INREG( MGAREG_Status ); \
++	        uiCount++; \
++    	} \
++	    while( !( uiStatus & 0x08 ) && (uiCount < 250000) );\
++    }
++
++#define MGAWAITBUSY() \
++    { \
++    	unsigned int uiCount = 0; \
++	    unsigned int uiStatus = 0; \
++    	do \
++	    { \
++    	    uiStatus = INREG8( MGAREG_Status + 2 ); \
++	        uiCount++; \
++    	} \
++	    while( ( uiStatus & 0x01 ) && (uiCount < 500000) ); \
++    }
++
++#ifndef MAX_BW
++#define MAX_BW 0x10000000
++#endif
++
+ #define PORT_OFFSET 	(0x1F00 - 0x300)
+ 
+ #define MGA_VERSION 4000
+@@ -391,6 +427,7 @@
+ 
+     int is_Gx50:1;
+     int is_G200SE:1;
++    int is_G200SE_A:1;
+     int is_HAL_chipset:1;
+ 
+     Bool		Primary;
+diff -ur xf86-video-mga-X11R7.2-1.4.6.1/src/mga_vga.c mga/src/mga_vga.c
+--- xf86-video-mga-X11R7.2-1.4.6.1/src/mga_vga.c	2007-01-08 18:45:22.000000000 -0500
++++ src/mga_vga.c	2007-02-20 10:49:26.000000000 -0500
+@@ -1,9 +1,13 @@
++
++#include "X11/X.h"
+ #include "misc.h"
+ #include "xf86.h"
+ #include "xf86_OSproc.h"
+ #include "vgaHW.h"
+ #include "compiler.h"
+ #include "xf86cmap.h"
++#include "mga.h"
++#include "mga_reg.h"
+ 
+ #define TEXT_AMOUNT 16384
+ #define FONT_AMOUNT (8*8192)
+@@ -12,9 +16,11 @@
+ MGAG200SERestoreFonts(ScrnInfoPtr scrninfp, vgaRegPtr restore)
+ {
+     vgaHWPtr hwp = VGAHWPTR(scrninfp);
++    MGAPtr pMga = MGAPTR(scrninfp);
+     int savedIOBase;
+     unsigned char miscOut, attr10, gr1, gr3, gr4, gr5, gr6, gr8, seq2, seq4;
+     Bool doMap = FALSE;
++    unsigned char scrn;
+ 
+     /* If nothing to do, return now */
+     if (!hwp->FontInfo1 && !hwp->FontInfo2 && !hwp->TextInfo)
+@@ -24,7 +30,7 @@
+ 	doMap = TRUE;
+ 	if (!vgaHWMapMem(scrninfp)) {
+ 	    xf86DrvMsg(scrninfp->scrnIndex, X_ERROR,
+-		    "vgaHWRestoreFonts: vgaHWMapMem() failed\n");
++		       "vgaHWRestoreFonts: vgaHWMapMem() failed\n");
+ 	    return;
+ 	}
+     }
+@@ -48,7 +54,14 @@
+     /* Force into colour mode */
+     hwp->writeMiscOut(hwp, miscOut | 0x01);
+ 
+-    vgaHWBlankScreen(scrninfp, FALSE);
++    scrn = hwp->readSeq(hwp, 0x01);
++    scrn |= 0x20;/* blank screen */
++    vgaHWSeqReset(hwp, TRUE);
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++    hwp->writeSeq(hwp, 0x01, scrn);/* change mode */
++    usleep(20000);
++    vgaHWSeqReset(hwp, FALSE);
+ 
+     /*
+      * here we temporarily switch to 16 colour planar mode, to simply
+@@ -57,47 +70,39 @@
+      * BUG ALERT: The (S)VGA's segment-select register MUST be set correctly!
+      */
+ #if 0
+-    hwp->writeAttr(hwp, 0x10, 0x01);   /* graphics mode */
++    hwp->writeAttr(hwp, 0x10, 0x01);	/* graphics mode */
+ #endif
+     if (scrninfp->depth == 4) {
+ 	/* GJA */
+-	hwp->writeGr(hwp, 0x03, 0x00);  /* don't rotate, write unmodified */
+-	hwp->writeGr(hwp, 0x08, 0xFF);  /* write all bits in a byte */
+-	hwp->writeGr(hwp, 0x01, 0x00);  /* all planes come from CPU */
++	hwp->writeGr(hwp, 0x03, 0x00);	/* don't rotate, write unmodified */
++	hwp->writeGr(hwp, 0x08, 0xFF);	/* write all bits in a byte */
++	hwp->writeGr(hwp, 0x01, 0x00);	/* all planes come from CPU */
+     }
+ 
++	hwp->writeSeq(hwp, 0x04, 0x06);	/* enable plane graphics */
++	hwp->writeGr(hwp, 0x05, 0x00);	/* write mode 0, read mode 0 */
++	hwp->writeGr(hwp, 0x06, 0x05);	/* set graphics */
++
+     if (hwp->FontInfo1) {
+-	hwp->writeSeq(hwp, 0x02, 0x04); /* write to plane 2 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x02);  /* read plane 2 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x04);	/* write to plane 2 */
++	hwp->writeGr(hwp, 0x04, 0x02);	/* read plane 2 */
+ 	slowbcopy_tobus(hwp->FontInfo1, hwp->Base, FONT_AMOUNT);
+     }
+ 
+     if (hwp->FontInfo2) {
+-	hwp->writeSeq(hwp, 0x02, 0x08); /* write to plane 3 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x03);  /* read plane 3 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x08);	/* write to plane 3 */
++	hwp->writeGr(hwp, 0x04, 0x03);	/* read plane 3 */
+ 	slowbcopy_tobus(hwp->FontInfo2, hwp->Base, FONT_AMOUNT);
+     }
+ 
+     if (hwp->TextInfo) {
+-	hwp->writeSeq(hwp, 0x02, 0x01); /* write to plane 0 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x00);  /* read plane 0 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x01);	/* write to plane 0 */
++	hwp->writeGr(hwp, 0x04, 0x00);	/* read plane 0 */
+ 	slowbcopy_tobus(hwp->TextInfo, hwp->Base, TEXT_AMOUNT);
+-	hwp->writeSeq(hwp, 0x02, 0x02); /* write to plane 1 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x01);  /* read plane 1 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x02);	/* write to plane 1 */
++	hwp->writeGr(hwp, 0x04, 0x01);	/* read plane 1 */
+ 	slowbcopy_tobus((unsigned char *)hwp->TextInfo + TEXT_AMOUNT,
+-		hwp->Base, TEXT_AMOUNT);
++			hwp->Base, TEXT_AMOUNT);
+     }
+ 
+     /* restore the registers that were changed */
+@@ -113,7 +118,14 @@
+     hwp->writeSeq(hwp, 0x04, seq4);
+     hwp->IOBase = savedIOBase;
+ 
+-    vgaHWBlankScreen(scrninfp, TRUE);
++    scrn = hwp->readSeq(hwp, 0x01);
++    scrn &= ~0x20;/* enable screen */
++    vgaHWSeqReset(hwp, TRUE);
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++    hwp->writeSeq(hwp, 0x01, scrn);/* change mode */
++    usleep(20000);
++    vgaHWSeqReset(hwp, FALSE);
+ 
+     if (doMap)
+ 	vgaHWUnmapMem(scrninfp);
+@@ -124,15 +136,17 @@
+ MGAG200SESaveFonts(ScrnInfoPtr scrninfp, vgaRegPtr save)
+ {
+     vgaHWPtr hwp = VGAHWPTR(scrninfp);
++    MGAPtr pMga = MGAPTR(scrninfp);
+     int savedIOBase;
+     unsigned char miscOut, attr10, gr4, gr5, gr6, seq2, seq4;
+     Bool doMap = FALSE;
++    unsigned char scrn;
+ 
+     if (hwp->Base == NULL) {
+ 	doMap = TRUE;
+ 	if (!vgaHWMapMem(scrninfp)) {
+ 	    xf86DrvMsg(scrninfp->scrnIndex, X_ERROR,
+-		    "vgaHWSaveFonts: vgaHWMapMem() failed\n");
++		       "vgaHWSaveFonts: vgaHWMapMem() failed\n");
+ 	    return;
+ 	}
+     }
+@@ -157,7 +171,14 @@
+     /* Force into colour mode */
+     hwp->writeMiscOut(hwp, miscOut | 0x01);
+ 
+-    vgaHWBlankScreen(scrninfp, FALSE);
++    scrn = hwp->readSeq(hwp, 0x01);
++    scrn |= 0x20;/* blank screen */
++    vgaHWSeqReset(hwp, TRUE);
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++    hwp->writeSeq(hwp, 0x01, scrn);/* change mode */
++    usleep(20000);
++    vgaHWSeqReset(hwp, FALSE);
+ 
+     /*
+      * get the character sets, and text screen if required
+@@ -169,36 +190,27 @@
+      * BUG ALERT: The (S)VGA's segment-select register MUST be set correctly!
+      */
+ #if 0
+-    hwp->writeAttr(hwp, 0x10, 0x01);   /* graphics mode */
++    hwp->writeAttr(hwp, 0x10, 0x01);	/* graphics mode */
+ #endif
++	hwp->writeSeq(hwp, 0x04, 0x06);	/* enable plane graphics */
++	hwp->writeGr(hwp, 0x05, 0x00);	/* write mode 0, read mode 0 */
++	hwp->writeGr(hwp, 0x06, 0x05);	/* set graphics */
+     if (hwp->FontInfo1 || (hwp->FontInfo1 = xalloc(FONT_AMOUNT))) {
+-	hwp->writeSeq(hwp, 0x02, 0x04); /* write to plane 2 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x02);  /* read plane 2 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x04);	/* write to plane 2 */
++	hwp->writeGr(hwp, 0x04, 0x02);	/* read plane 2 */
+ 	slowbcopy_frombus(hwp->Base, hwp->FontInfo1, FONT_AMOUNT);
+     }
+     if (hwp->FontInfo2 || (hwp->FontInfo2 = xalloc(FONT_AMOUNT))) {
+-	hwp->writeSeq(hwp, 0x02, 0x08); /* write to plane 3 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x03);  /* read plane 3 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x08);	/* write to plane 3 */
++	hwp->writeGr(hwp, 0x04, 0x03);	/* read plane 3 */
+ 	slowbcopy_frombus(hwp->Base, hwp->FontInfo2, FONT_AMOUNT);
+     }
+     if (hwp->TextInfo || (hwp->TextInfo = xalloc(2 * TEXT_AMOUNT))) {
+-	hwp->writeSeq(hwp, 0x02, 0x01); /* write to plane 0 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x00);  /* read plane 0 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x01);	/* write to plane 0 */
++	hwp->writeGr(hwp, 0x04, 0x00);	/* read plane 0 */
+ 	slowbcopy_frombus(hwp->Base, hwp->TextInfo, TEXT_AMOUNT);
+-	hwp->writeSeq(hwp, 0x02, 0x02); /* write to plane 1 */
+-	hwp->writeSeq(hwp, 0x04, 0x06); /* enable plane graphics */
+-	hwp->writeGr(hwp, 0x04, 0x01);  /* read plane 1 */
+-	hwp->writeGr(hwp, 0x05, 0x00);  /* write mode 0, read mode 0 */
+-	hwp->writeGr(hwp, 0x06, 0x05);  /* set graphics */
++	hwp->writeSeq(hwp, 0x02, 0x02);	/* write to plane 1 */
++	hwp->writeGr(hwp, 0x04, 0x01);	/* read plane 1 */
+ 	slowbcopy_frombus(hwp->Base,
+ 		(unsigned char *)hwp->TextInfo + TEXT_AMOUNT, TEXT_AMOUNT);
+     }
+@@ -213,8 +225,150 @@
+     hwp->writeMiscOut(hwp, miscOut);
+     hwp->IOBase = savedIOBase;
+ 
+-    vgaHWBlankScreen(scrninfp, TRUE);
++    scrn = hwp->readSeq(hwp, 0x01);
++    scrn &= ~0x20;/* enable screen */
++    vgaHWSeqReset(hwp, TRUE);
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++    hwp->writeSeq(hwp, 0x01, scrn);/* change mode */
++    usleep(20000);
++    vgaHWSeqReset(hwp, FALSE);
+ 
+     if (doMap)
+ 	vgaHWUnmapMem(scrninfp);
+ }
++
++
++void
++MGAG200SERestoreMode(ScrnInfoPtr scrninfp, vgaRegPtr restore)
++{
++    vgaHWPtr hwp = VGAHWPTR(scrninfp);
++    MGAPtr pMga = MGAPTR(scrninfp);
++    int i;
++    unsigned char scrn;
++
++    if (restore->MiscOutReg & 0x01)
++    hwp->IOBase = VGA_IOBASE_COLOR;
++    else
++    hwp->IOBase = VGA_IOBASE_MONO;
++
++    hwp->writeMiscOut(hwp, restore->MiscOutReg);
++
++
++    for (i = 1; i < restore->numSequencer; i++)
++    {
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++	hwp->writeSeq(hwp, i, restore->Sequencer[i]);
++	usleep(20000);
++    }
++
++    scrn = hwp->readSeq(hwp, 0x01);
++    scrn |= 0x20;/* blank screen */
++    vgaHWSeqReset(hwp, TRUE);
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++    hwp->writeSeq(hwp, 0x01, scrn);/* change mode */
++    usleep(20000);
++
++    /* Ensure CRTC registers 0-7 are unlocked by clearing bit 7 of CRTC[17] */
++    hwp->writeCrtc(hwp, 17, restore->CRTC[17] & ~0x80);
++
++    for (i = 0; i < restore->numCRTC; i++)
++	hwp->writeCrtc(hwp, i, restore->CRTC[i]);
++
++    for (i = 0; i < restore->numGraphics; i++)
++    hwp->writeGr(hwp, i, restore->Graphics[i]);
++
++    hwp->enablePalette(hwp);
++    for (i = 0; i < restore->numAttribute; i++)
++    hwp->writeAttr(hwp, i, restore->Attribute[i]);
++    hwp->disablePalette(hwp);
++
++    MGAWAITVSYNC();
++    MGAWAITBUSY();
++	hwp->writeSeq(hwp, 1, restore->Sequencer[1]);
++    usleep(20000);
++}
++
++void
++MGAG200SESaveMode(ScrnInfoPtr scrninfp, vgaRegPtr save)
++{
++    vgaHWPtr hwp = VGAHWPTR(scrninfp);
++    int i;
++
++    save->MiscOutReg = hwp->readMiscOut(hwp);
++    if (save->MiscOutReg & 0x01)
++    hwp->IOBase = VGA_IOBASE_COLOR;
++    else
++    hwp->IOBase = VGA_IOBASE_MONO;
++
++    for (i = 0; i < save->numCRTC; i++) {
++    save->CRTC[i] = hwp->readCrtc(hwp, i);
++#ifdef DEBUG
++    ErrorF("CRTC[0x%02x] = 0x%02x\n", i, save->CRTC[i]);
++#endif
++    }
++
++    hwp->enablePalette(hwp);
++    for (i = 0; i < save->numAttribute; i++) {
++    save->Attribute[i] = hwp->readAttr(hwp, i);
++#ifdef DEBUG
++    ErrorF("Attribute[0x%02x] = 0x%02x\n", i, save->Attribute[i]);
++#endif
++    }
++    hwp->disablePalette(hwp);
++
++    for (i = 0; i < save->numGraphics; i++) {
++    save->Graphics[i] = hwp->readGr(hwp, i);
++#ifdef DEBUG
++    ErrorF("Graphics[0x%02x] = 0x%02x\n", i, save->Graphics[i]);
++#endif
++    }
++
++    for (i = 1; i < save->numSequencer; i++) {
++    save->Sequencer[i] = hwp->readSeq(hwp, i);
++#ifdef DEBUG
++    ErrorF("Sequencer[0x%02x] = 0x%02x\n", i, save->Sequencer[i]);
++#endif
++    }
++}
++
++void
++MGAG200SEHWProtect(ScrnInfoPtr pScrn, Bool on)
++{
++  vgaHWPtr hwp = VGAHWPTR(pScrn);
++  MGAPtr pMga = MGAPTR(pScrn);
++
++  unsigned char tmp;
++
++  if (pScrn->vtSema) {
++    if (on) {
++      /*
++       * Turn off screen and disable sequencer.
++       */
++      tmp = hwp->readSeq(hwp, 0x01);
++
++      vgaHWSeqReset(hwp, TRUE);         /* start synchronous reset */
++      MGAWAITVSYNC();
++      MGAWAITBUSY();
++      hwp->writeSeq(hwp, 0x01, tmp | 0x20); /* disable the display */
++      usleep(20000);
++      hwp->enablePalette(hwp);
++    } else {
++      /*
++       * Reenable sequencer, then turn on screen.
++       */
++
++      tmp = hwp->readSeq(hwp, 0x01);
++
++      MGAWAITVSYNC();
++      MGAWAITBUSY();
++      hwp->writeSeq(hwp, 0x01, tmp & ~0x20);    /* reenable display */
++      usleep(20000);
++      vgaHWSeqReset(hwp, FALSE);        /* clear synchronousreset */
++
++      hwp->disablePalette(hwp);
++    }
++  }
++}

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/01/31
+# @(#)Makefile	1.7	07/02/26
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ DRIVER_NAME=xf86-video-mga
 DRIVER_VERS=1.4.6.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = no-hal.patch
+SOURCE_PATCHES = no-hal.patch mga_xorg_72_pilot1.patch mga_xorg_72_pilot2.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
