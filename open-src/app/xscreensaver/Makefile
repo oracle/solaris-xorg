@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.73	07/01/31
+# @(#)Makefile	1.74	07/02/27
 #
 
 PWD:sh=pwd
@@ -71,7 +71,8 @@ SOURCE_PATCHES = \
         allowRootByPassFlag.patch \
 	bug-6478841.patch \
 	bug-6461887.patch \
-	bug1-6461887.patch
+	bug1-6461887.patch \
+	bug-6520014.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
