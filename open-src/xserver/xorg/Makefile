@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.33	07/02/21
+# @(#)Makefile	1.34	07/03/02
 #
 
 PWD:sh=pwd
@@ -56,6 +56,7 @@ SOURCE_URL=$(XORG_RELEASES_URL)/xserver/$(SOURCE_TARBALL_NAME)
 SOURCE_PATCHES = \
 	xf1bpp.patch,-p1 \
 	xephyr.patch,-p1 \
+	immu.h.patch,-p1 \
 	server-libs.patch \
 	dtrace.patch \
 	ast-driver.patch \
