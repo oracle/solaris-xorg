@@ -1,0 +1,54 @@
+diff -ur xf86-video-vesa-X11R7.2-1.3.0/src/vesa.c vesa/src/vesa.c
+--- xf86-video-vesa-X11R7.2-1.3.0/src/vesa.c	2007-01-08 18:50:04.000000000 -0500
++++ src/vesa.c	2007-02-23 08:56:40.000000000 -0500
+@@ -1406,19 +1406,19 @@
+     WriteGr(0x06, 0x05);	/* set graphics */
+     slowbcopy_frombus(pVesa->VGAbase, pVesa->fonts + 8192, 8192);
+ 
+-    scrn = ReadSeq(pVesa, 0x01) & ~0x20;
+-    SeqReset(pVesa, TRUE);
+-    WriteSeq(0x01, scrn);
+-    SeqReset(pVesa, FALSE);
+-
+     /* Restore clobbered registers */
+     WriteAttr(pVesa, 0x10, attr10);
+-    WriteSeq(0x02, seq2);
+-    WriteSeq(0x04, seq4);
+     WriteGr(0x04, gr4);
+     WriteGr(0x05, gr5);
+     WriteGr(0x06, gr6);
++    WriteSeq(0x02, seq2);
++    WriteSeq(0x04, seq4);
+     WriteMiscOut(miscOut);
++
++    scrn = ReadSeq(pVesa, 0x01) & ~0x20;
++    SeqReset(pVesa, TRUE);
++    WriteSeq(0x01, scrn);
++    SeqReset(pVesa, FALSE);
+ }
+ 
+ static void
+@@ -1475,11 +1475,6 @@
+     WriteGr(0x06, 0x05);    /* set graphics */
+     slowbcopy_tobus(pVesa->fonts + 8192, pVesa->VGAbase, 8192);
+ 
+-    scrn = ReadSeq(pVesa, 0x01) & ~0x20;
+-    SeqReset(pVesa, TRUE);
+-    WriteSeq(0x01, scrn);
+-    SeqReset(pVesa, FALSE);
+-
+     /* restore the registers that were changed */
+     WriteMiscOut(miscOut);
+     WriteAttr(pVesa, 0x10, attr10);
+@@ -1491,6 +1486,11 @@
+     WriteGr(0x08, gr8);
+     WriteSeq(0x02, seq2);
+     WriteSeq(0x04, seq4);
++
++    scrn = ReadSeq(pVesa, 0x01) & ~0x20;
++    SeqReset(pVesa, TRUE);
++    WriteSeq(0x01, scrn);
++    SeqReset(pVesa, FALSE);
+ }
+ 
+ static Bool

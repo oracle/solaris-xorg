@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/02/27
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ DRIVER_NAME=xf86-video-vesa
 DRIVER_VERS=1.3.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = vesa_xorg72.patch 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
