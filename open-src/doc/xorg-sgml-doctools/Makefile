@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/01/31
+# @(#)Makefile	1.3	07/03/08
 #
 
 # Package name used in tarballs
 DOC_NAME=xorg-sgml-doctools
 
 # Version number (used in path names)
-VERSION=1.1.1
+VERSION=1.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
