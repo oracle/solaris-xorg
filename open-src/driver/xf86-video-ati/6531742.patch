@@ -1,0 +1,66 @@
+--- src/radeon_driver.c	Mon Mar  5 20:24:36 2007
++++ src/radeon_driver.c	Tue Mar  6 00:22:41 2007
+@@ -3222,6 +3222,11 @@
+ 	     ((*new)->VDisplay < p->VDisplay)) ||
+ 	    (((*new)->HDisplay == p->HDisplay) &&
+ 	     ((*new)->VDisplay == p->VDisplay) &&
++	     ((*new)->type < p->type) && 
++	     !(((*new)->type == M_T_USERDEF) || (!(*new)->type))) ||
++	    (((*new)->HDisplay == p->HDisplay) &&
++	     ((*new)->VDisplay == p->VDisplay) &&
++	     ((*new)->type == p->type) && 
+ 	     ((*new)->Clock < p->Clock))) {
+ 
+ 	    if (p->next) p->next->prev = *new;
+@@ -3311,7 +3316,7 @@
+ 	    new->Clock      = d_timings->clock / 1000;
+ 	    new->Flags      = (d_timings->interlaced ? V_INTERLACE : 0);
+ 	    new->status     = MODE_OK;
+-	    new->type       = M_T_DEFAULT;
++	    new->type       = M_T_DRIVER;
+ 
+ 	    if (d_timings->sync == 3) {
+ 		switch (d_timings->misc) {
+@@ -3335,8 +3340,10 @@
+     for (j = 0; j < 8; j++) {
+         if (ddc->timings2[j].hsize == 0 || ddc->timings2[j].vsize == 0)
+                continue;
+-	for (p = pScrn->monitor->Modes; p && p->next; p = p->next->next) {
++	for (p = pScrn->monitor->Modes; p && p->next; p = p->next) {
+ 	    /* Ignore all double scan modes */
++	    if (p->Flags & V_DBLSCAN)
++		continue;
+ 	    if ((ddc->timings2[j].hsize == p->HDisplay) &&
+ 		(ddc->timings2[j].vsize == p->VDisplay)) {
+ 		float  refresh =
+@@ -3349,7 +3356,8 @@
+ 		    new->name = xnfalloc(strlen(p->name) + 1);
+ 		    strcpy(new->name, p->name);
+ 		    new->status = MODE_OK;
+-		    new->type   = M_T_DEFAULT;
++		    if ((new->type != M_T_USERDEF) && (new->type))
++		    	new->type   = M_T_DEFAULT;
+ 
+ 		    count++;
+ 
+@@ -3368,7 +3376,10 @@
+     tmp = (ddc->timings1.t1 << 8) | ddc->timings1.t2;
+     for (j = 0; j < 16; j++) {
+ 	if (tmp & (1 << j)) {
+-	    for (p = pScrn->monitor->Modes; p && p->next; p = p->next->next) {
++	    for (p = pScrn->monitor->Modes; p && p->next; p = p->next) {
++		/* Ignore all double scan modes */
++		if (p->Flags & V_DBLSCAN)
++		    continue;
+ 		if ((est_timings[j].hsize == p->HDisplay) &&
+ 		    (est_timings[j].vsize == p->VDisplay)) {
+ 		    float  refresh =
+@@ -3381,7 +3392,8 @@
+ 			new->name = xnfalloc(strlen(p->name) + 1);
+ 			strcpy(new->name, p->name);
+ 			new->status = MODE_OK;
+-			new->type   = M_T_DEFAULT;
++		    	if ((new->type != M_T_USERDEF) && (new->type))
++		    	    new->type   = M_T_DEFAULT;
+ 
+ 			count++;
