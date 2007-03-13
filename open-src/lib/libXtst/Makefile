@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# Xtst library Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,58 +30,35 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/03/12
+# @(#)Makefile	1.1	07/03/09
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libfontenc \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXfont \
-	Xft \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# Package name used in tarballs
+LIB_MODULE=libXtst
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=1.0.1
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = solaris-abi.patch
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
+# Library name
+LIBNAME=Xtst
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+#SUNTOUCHED_MANPAGES=man/*.man
+#SUN_PACKAGE=SUNWxwplt
+#LIB_STABILITY=Committed
+#LIB_MAN_SUFFIX=3Xtst
 
-World: clean all
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXtst.so.1
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xtst.pc.in
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+include ../Makefile.inc
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
