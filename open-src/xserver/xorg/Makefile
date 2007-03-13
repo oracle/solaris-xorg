@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.34	07/03/02
+# @(#)Makefile	1.35	07/03/12
 #
 
 PWD:sh=pwd
@@ -59,6 +59,7 @@ SOURCE_PATCHES = \
 	immu.h.patch,-p1 \
 	server-libs.patch \
 	dtrace.patch \
+	client-privates-leak.patch,-p1 \
 	ast-driver.patch \
 	sun-paths.patch \
 	sun-extramodes.patch \
