@@ -1,0 +1,179 @@
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
+6534189: Xorg not offering TrueType fonts
+
+The LOADABLEFONT option was not being used to build, so the loadable module
+list was not being traversed to add modules unknown to the source, such as
+libbitstream.   Defining it caused build failures due to the missing weak
+symbol, and caused other uses of the code to not initialize the modules they
+used to know about.
+
+diff -urp -x '*~' -x '*.orig' src/fontfile/register.c src/fontfile/register.c
+--- src/fontfile/register.c	2007-01-17 13:49:10.000000000 -0800
++++ src/fontfile/register.c	2007-03-13 19:39:36.813562000 -0700
+@@ -42,10 +42,7 @@ in this Software without prior written a
+ #include <X11/fonts/fontmisc.h>
+ #include <X11/fonts/fntfilst.h>
+ #include <X11/fonts/bitmap.h>
+-
+-#ifdef LOADABLEFONTS
+ #include <X11/fonts/fontmod.h>
+-#endif
+ 
+ /*
+  * Translate monolithic build symbols to modular build symbols.
+@@ -67,36 +64,56 @@ in this Software without prior written a
+ # define XFONT_FREETYPE 1
+ #endif
+ 
++static FontModule builtinFontModuleList[] = {
++#ifdef XFONT_SPEEDO
++    {
++	SpeedoRegisterFontFileFunctions,
++	"speedo",
++	NULL
++    },
++#endif
++#ifdef XFONT_TYPE1
++    {
++	Type1RegisterFontFileFunctions,
++	"type1",
++	NULL
++    },
++#endif
++#ifdef XFONT_FREETYPE    
++    {
++	FreeTypeRegisterFontFileFunctions,
++	"freetype",
++	NULL
++    },
++#endif
++    /* List terminator - must be last entry */
++    {	NULL, NULL, NULL }
++};
++
+ void
+ FontFileRegisterFpeFunctions(void)
+ {
+-#ifndef LOADABLEFONTS
++    FontModule *fmlist = builtinFontModuleList;
+ 
+ #ifdef XFONT_BITMAP
++    /* bitmap is always builtin to libXfont */
+     BitmapRegisterFontFileFunctions ();
+ #endif
+-#ifdef XFONT_SPEEDO
+-    SpeedoRegisterFontFileFunctions ();
+-#endif
+-#ifdef XFONT_TYPE1
+-    Type1RegisterFontFileFunctions();
+-#endif
+-#ifdef XFONT_FREETYPE
+-    FreeTypeRegisterFontFileFunctions();
+-#endif
+ 
+-#else
+-    {
++#ifdef LOADABLEFONTS
++    if (FontModuleList) {
++	fmlist = FontModuleList;
++    }
++#endif    
++
++    if (fmlist) {
+ 	int i;
+ 
+-	if (FontModuleList) {
+-	    for (i = 0; FontModuleList[i].name; i++) {
+-		if (FontModuleList[i].initFunc)
+-		    FontModuleList[i].initFunc();
+-	    }
++	for (i = 0; fmlist[i].name; i++) {
++	    if (fmlist[i].initFunc)
++		fmlist[i].initFunc();
+ 	}
+     }
+-#endif
+     
+     FontFileRegisterLocalFpeFunctions ();
+ }
+diff -urp -x '*~' -x '*.orig' src/stubs/Makefile.am src/stubs/Makefile.am
+--- src/stubs/Makefile.am	2006-07-04 11:55:31.000000000 -0700
++++ src/stubs/Makefile.am	2007-03-13 19:39:36.813908000 -0700
+@@ -10,6 +10,7 @@ libstubs_la_SOURCES = 		\
+ 	errorf.c		\
+ 	fatalerror.c		\
+ 	findoldfnt.c		\
++	fontmod.c		\
+ 	getcres.c		\
+ 	getdefptsize.c		\
+ 	getnewfntcid.c		\
+diff -urp -x '*~' -x '*.orig' src/stubs/Makefile.in src/stubs/Makefile.in
+--- src/stubs/Makefile.in	2007-01-22 15:28:02.000000000 -0800
++++ src/stubs/Makefile.in	2007-03-13 19:39:36.814361000 -0700
+@@ -49,6 +49,7 @@ CONFIG_CLEAN_FILES =
+ LTLIBRARIES = $(noinst_LTLIBRARIES)
+ libstubs_la_LIBADD =
+ am_libstubs_la_OBJECTS = cauthgen.lo csignal.lo delfntcid.lo errorf.lo \
++	fontmod.lo \
+ 	fatalerror.lo findoldfnt.lo getcres.lo getdefptsize.lo \
+ 	getnewfntcid.lo gettime.lo initfshdl.lo regfpefunc.lo \
+ 	rmfshdl.lo servclient.lo setfntauth.lo stfntcfnt.lo xpstubs.lo
+@@ -213,6 +214,7 @@ libstubs_la_SOURCES = \
+ 	errorf.c		\
+ 	fatalerror.c		\
+ 	findoldfnt.c		\
++	fontmod.c		\
+ 	getcres.c		\
+ 	getdefptsize.c		\
+ 	getnewfntcid.c		\
+@@ -283,6 +285,7 @@ distclean-compile:
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/errorf.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fatalerror.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/findoldfnt.Plo@am__quote@
++@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fontmod.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getcres.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getdefptsize.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getnewfntcid.Plo@am__quote@
+
+--- src/stubs/fontmod.c	1969-12-31 16:00:00.000000000 -0800
++++ src/stubs/fontmod.c	2007-03-13 18:33:10.410058000 -0700
+@@ -0,0 +1,10 @@
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
++#ifdef LOADABLEFONTS
++#include "stubs.h"
++#include <X11/fonts/fontmod.h>
++
++weak FontModule *FontModuleList;
++#endif /* LOADABLEFONTS */

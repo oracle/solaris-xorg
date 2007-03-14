@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/02/21
+# @(#)Makefile	1.7	07/03/13
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ LIB_MODULE=libXfont
 LIB_VERS=1.2.7
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=6206898.patch
+SOURCE_PATCHES=6206898.patch loadablefonts.patch
 
 # Library name
 LIBNAME=Xfont
@@ -67,6 +67,9 @@ LIB_ADD_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 # Find freetype & fontenc libraries in private subdir
 LIB_ADD_LD_OPTIONS=-L $(PROTODIR)/usr/sfw/lib$(LIBSUBDIR) \
 	-L $(PROTODIR)$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)$(LIBSUBDIR)
+
+# Support font modules like libbitstream.so that libXfont doesn't already know
+LIB_ADD_CFLAGS=-DLOADABLEFONTS
 
 include ../Makefile.inc
 
