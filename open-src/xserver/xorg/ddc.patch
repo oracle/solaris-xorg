@@ -1,0 +1,60 @@
+From b5a8a71e64c76b8dd42962cbd7984215c6ce4aa8 Mon Sep 17 00:00:00 2001
+From: Keith Packard <keithp@neko.keithp.com>
+Date: Sat, 17 Mar 2007 17:26:11 -0700
+Subject: [PATCH] Remove extra (and wrong) I2C ByteTimeout setting in DDC code.
+
+The DDC code sets the I2C timeouts to VESA standards, except that it had an
+extra setting of the ByteTimeout value which was wrong (off by a factor of
+50). Removing this should help DDC work on many more monitors. Note that the
+Intel driver duplicated these settings, along with the error. Yay for cult
+and paste coding.
+---
+ hw/xfree86/ddc/xf86DDC.c |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+diff --git a/hw/xfree86/ddc/xf86DDC.c b/hw/xfree86/ddc/xf86DDC.c
+index 4ce585c..0f24c52 100644
+--- a/hw/xfree86/ddc/xf86DDC.c
++++ b/hw/xfree86/ddc/xf86DDC.c
+@@ -344,7 +344,6 @@ DDCRead_DDC2(int scrnIndex, I2CBusPtr pB
+ 	dev->ByteTimeout = 2200; /* VESA DDC spec 3 p. 43 (+10 %) */
+ 	dev->StartTimeout = 550;
+ 	dev->BitTimeout = 40;
+-	dev->ByteTimeout = 40;
+ 	dev->AcknTimeout = 40;
+ 
+ 	dev->pI2CBus = pBus;
+-- 
+1.4.1
+
+From 720f302d241e88e6e9f2962207da1aa9a79728b7 Mon Sep 17 00:00:00 2001
+From: Keith Packard <keithp@neko.keithp.com>
+Date: Sat, 17 Mar 2007 20:14:05 -0700
+Subject: [PATCH] Slow down DDC I2C bus using a RiseFallTime of 20us for old monitors.
+
+This time value makes the bus run slowly enough for even the least reliable
+of monitors. Thanks to Pavel Troller for finding the necessary change.
+---
+ hw/xfree86/ddc/xf86DDC.c |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/hw/xfree86/ddc/xf86DDC.c b/hw/xfree86/ddc/xf86DDC.c
+index 0f24c52..8080c8d 100644
+--- a/hw/xfree86/ddc/xf86DDC.c
++++ b/hw/xfree86/ddc/xf86DDC.c
+@@ -337,6 +337,12 @@ DDCRead_DDC2(int scrnIndex, I2CBusPtr pB
+     unsigned char *R_Buffer;
+     int i;
+     
++    /*
++     * Slow down the bus so that older monitors don't 
++     * miss things.
++     */
++    pBus->RiseFallTime = 20;
++    
+     if (!(dev = xf86I2CFindDev(pBus, 0x00A0))) {
+ 	dev = xf86CreateI2CDevRec();
+ 	dev->DevName = "ddc2";
+-- 
+1.4.1
+
