@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xdpyinfo Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,46 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/03/20
+# @(#)Makefile	1.1	07/03/20
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	mkfontscale \
-	xdpyinfo \
-	xgamma \
-	xkbcomp \
-	xpm \
-	xrandr \
-	xvidtune \
-	xvinfo \
-	xscreensaver
+# Package name used in tarballs
+APP_NAME=xdpyinfo
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+APP_VERS=1.0.2
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	mesa-demos
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc
