@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/01/31
+# @(#)Makefile	1.5	07/03/21
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-siliconmotion
 
 # Version number (used in path names)
-DRIVER_VERS=1.4.2
+DRIVER_VERS=1.5.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -54,6 +54,6 @@ DRIVER_ADD_LIBS= \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lddc -lfb -li2c -lint10 -lramdac -lshadowfb -lvbe -lvgahw -lxaa \
-	-lXfont
+	-lXfont -lexa
 
 include ../Makefile.inc
