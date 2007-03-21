@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.36	07/03/19
+# @(#)Makefile	1.37	07/03/21
 #
 
 PWD:sh=pwd
@@ -61,6 +61,7 @@ SOURCE_PATCHES = \
 	dtrace.patch \
 	client-privates-leak.patch,-p1 \
 	ddc.patch,-p1 \
+	xcmisc-security.patch \
 	ast-driver.patch \
 	sun-paths.patch \
 	sun-extramodes.patch \
