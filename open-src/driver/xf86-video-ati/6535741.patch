@@ -1,0 +1,66 @@
+--- src/radeon_driver.c.orig	Thu Mar  8 16:12:01 2007
++++ src/radeon_driver.c	Wed Mar 21 13:00:24 2007
+@@ -144,6 +144,9 @@
+ static xf86MonPtr RADEONProbeDDC(ScrnInfoPtr pScrn, int indx);
+ static RADEONMonitorType RADEONCrtIsPhysicallyConnected(ScrnInfoPtr pScrn,
+ 							int IsCrtDac);
++#ifdef RANDR
++static Bool RADEONDriverFunc(ScrnInfoPtr pScrnInfo, xorgDriverFuncOp op, pointer data);
++#endif
+ 
+ 
+ /* psuedo xinerama support */
+@@ -6346,6 +6349,9 @@
+     pScreen->SaveScreen  = RADEONSaveScreen;
+     info->BlockHandler = pScreen->BlockHandler;
+     pScreen->BlockHandler = RADEONBlockHandler;
++#ifdef RANDR
++    pScrn->DriverFunc = RADEONDriverFunc;
++#endif
+ 
+     /* Note unused options */
+     if (serverGeneration == 1)
+@@ -10291,3 +10297,43 @@
+     pScrn->FreeScreen    = RADEONFreeScreen;
+     pScrn->ValidMode     = RADEONValidMode;
+ }
++
++
++#ifdef RANDR
++static Bool
++RADEONDriverFunc(ScrnInfoPtr pScrn, xorgDriverFuncOp op, pointer data)
++{
++    RADEONInfoPtr info       = RADEONPTR(pScrn);
++    unsigned char *RADEONMMIO = info->MMIO;
++    unsigned long mcData;
++    unsigned long ulData;
++
++    if ((op == RR_GET_INFO) && !(info->IsSecondary)) {
++    	/* Power DAC down first */
++    	mcData = INREG(RADEON_DAC_MACRO_CNTL);
++        mcData |= (RADEON_DAC_PDWN_R | RADEON_DAC_PDWN_G | RADEON_DAC_PDWN_B);
++	OUTREG(RADEON_DAC_MACRO_CNTL, mcData);
++
++	ulData     = INREG(RADEON_DAC_CNTL);
++	ulData     |= RADEON_DAC_PDWN ;
++	OUTREG(RADEON_DAC_CNTL, ulData);
++
++    	RADEONCrtIsPhysicallyConnected(pScrn, TRUE);
++	
++	/* Restore registers that may be altered in previous call */
++    	OUTREGP(RADEON_DAC_CNTL,
++            (&info->ModeReg)->dac_cntl,
++            RADEON_DAC_RANGE_CNTL |
++            RADEON_DAC_BLANKING);
++
++    	OUTREGP(RADEON_CRTC_EXT_CNTL,
++            (&info->ModeReg)->crtc_ext_cntl,
++            RADEON_CRTC_VSYNC_DIS |
++            RADEON_CRTC_HSYNC_DIS |
++            RADEON_CRTC_DISPLAY_DIS);
++    }
++
++    return TRUE;
++}
++#endif
++
