@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# xf86-video-nv 1.x Makefile
+# xf86-video-nv Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,30 +30,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/01/31
+# @(#)Makefile	1.7	07/03/23
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-nv
 
 # Version number (used in path names)
-DRIVER_VERS=1.2.2.1
+DRIVER_VERS=2.0.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = autoconfig.patch autoconfig2.patch mapfiles.patch
+SOURCE_PATCHES = autoconfig.patch autoconfig2.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUNTOUCH_MAN_FLAGS= \
  -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
 
-# Paths to find libraries/modules to link with - libraries themselves listed
-# in src/Makefile.am since nv has submodules with different needs
+# Libraries/modules to link with
 DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/linux \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)/linux$(ARCHLIBSUBDIR)
+	-R$(X11_SERVERMODS_DIR)/linux$(ARCHLIBSUBDIR) \
+	-lddc -lfb -li2c -lint10 -lramdac -lshadowfb -lvbe -lvgahw -lxaa \
+	-lfbdevhw -lXfont -lm
 
 include ../Makefile.inc
 
