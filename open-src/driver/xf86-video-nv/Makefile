@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/03/23
+# @(#)Makefile	1.8	07/03/23
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ DRIVER_NAME=xf86-video-nv
 DRIVER_VERS=2.0.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = autoconfig.patch autoconfig2.patch
+SOURCE_PATCHES = 6536127.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

@@ -1,0 +1,69 @@
+--- src/nv_driver.c.orig	Fri Mar 23 14:38:31 2007
++++ src/nv_driver.c	Fri Mar 23 14:40:58 2007
+@@ -35,6 +35,8 @@
+ 
+ #include "xf86int10.h"
+ 
++extern DisplayModePtr xf86ModesAdd(DisplayModePtr Modes, DisplayModePtr Additions);
++
+ const   OptionInfoRec * RivaAvailableOptions(int chipid, int busid);
+ Bool    RivaGetScrnInfoRec(PciChipsets *chips, int chip);
+ Bool    G80GetScrnInfoRec(PciChipsets *chips, int chip);
+@@ -1027,6 +1029,7 @@
+     int i, max_width, max_height;
+     ClockRangePtr clockRanges;
+     const char *s;
++    int config_mon_rates;
+ 
+     if (flags & PROBE_DETECT) {
+         EntityInfoPtr pEnt = xf86GetEntityInfo(pScrn->entityList[0]);
+@@ -1484,6 +1487,12 @@
+     pNv->alphaCursor = (pNv->Architecture >= NV_ARCH_10) &&
+                        ((pNv->Chipset & 0x0ff0) != 0x0100);
+ 
++    if ((pScrn->monitor->nHsync == 0) && 
++	(pScrn->monitor->nVrefresh == 0))
++	config_mon_rates = FALSE;
++    else
++	config_mon_rates = TRUE;
++
+     NVCommonSetup(pScrn);
+ 
+     if (pNv->FBDev) {
+@@ -1553,6 +1562,36 @@
+        max_height = 4096;
+     }
+ 
++    /* If DFP, add a modeline corresponding to its panel size */
++    if (pNv->FlatPanel && !pNv->Television && pNv->fpWidth && pNv->fpHeight) {
++	DisplayModePtr Mode;
++
++	Mode = xnfcalloc(1, sizeof(DisplayModeRec));
++	Mode = xf86CVTMode(pNv->fpWidth, pNv->fpHeight, 60.00, TRUE, FALSE);
++	Mode->type = M_T_DRIVER;
++	pScrn->monitor->Modes = xf86ModesAdd(pScrn->monitor->Modes, Mode);
++
++	if (!config_mon_rates) {
++	    if (!Mode->HSync)
++            	Mode->HSync = ((float) Mode->Clock ) / ((float) Mode->HTotal);
++            if (!Mode->VRefresh)
++            	Mode->VRefresh = (1000.0 * ((float) Mode->Clock)) /
++                    ((float) (Mode->HTotal * Mode->VTotal));
++
++ 	    if (Mode->HSync < pScrn->monitor->hsync[0].lo)
++            	pScrn->monitor->hsync[0].lo = Mode->HSync;
++            if (Mode->HSync > pScrn->monitor->hsync[0].hi)
++            	pScrn->monitor->hsync[0].hi = Mode->HSync;
++            if (Mode->VRefresh < pScrn->monitor->vrefresh[0].lo)
++            	pScrn->monitor->vrefresh[0].lo = Mode->VRefresh;
++            if (Mode->VRefresh > pScrn->monitor->vrefresh[0].hi)
++            	pScrn->monitor->vrefresh[0].hi = Mode->VRefresh;
++
++	    pScrn->monitor->nHsync = 1;
++	    pScrn->monitor->nVrefresh = 1;
++	}
++    }
++
+     /*
+      * xf86ValidateModes will check that the mode HTotal and VTotal values
+      * don't exceed the chipset's limit if pScrn->maxHValue and
