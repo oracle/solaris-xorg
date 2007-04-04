@@ -61,15 +61,6 @@ diff -urp -x '*~' config.h.in config.h.in
 diff -urp -x '*~' configure.in configure.in
 --- configure.in	2006-09-18 13:56:10.000000000 -0700
 +++ configure.in	2006-09-19 17:08:15.011239000 -0700
-@@ -1858,7 +1858,7 @@ if test "$enable_locking" = yes -a "$wit
-     AC_DEFINE(HAVE_PAM)
-     AC_DEFINE_UNQUOTED(PAM_SERVICE_NAME,"$pam_service_name")
-     
--    PASSWD_LIBS="${PASSWD_LIBS} -lpam"
-+    PASSWD_LIBS="${PASSWD_LIBS} -lcmd -lpam"
- 
-     # libpam typically requires dlopen and dlsym.  On FreeBSD,
-     # those are in libc.  On Linux and Solaris, they're in libdl.
 @@ -2432,6 +2432,8 @@ if test "$with_gtk" = yes; then
    pkg_check_version        libglade-2.0  1.99.0
    pkg_check_version      gdk-pixbuf-2.0  2.0.0
