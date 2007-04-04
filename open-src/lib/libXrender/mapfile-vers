@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# libXrender version mapfile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,60 +30,93 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/04/03
+# @(#)mapfile-vers	1.1	07/04/02
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libfontenc \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXrender \
-	libXfont \
-	Xft \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+RENDER_0.0 {
+    global:
+	XRenderFindVisualFormat;
+	XRenderChangePicture;
+	XRenderFreePicture;
+	XRenderCreatePicture;
+	XRenderFindFormat;
+	XRenderComposite;
+	XRenderCreateGlyphSet;
+	XRenderQueryFormats;
+	XRenderCompositeString8;
+	XRenderFreeGlyphSet;
+	XRenderQueryExtension;
+	XRenderReferenceGlyphSet;
+	XRenderAddGlyphs;
+	XRenderFreeGlyphs;
+	XRenderQueryVersion;
+    local:
+	*;
+};
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+RENDER_0.1 {
+    global:
+	XRenderFillRectangles;
+	XRenderSetPictureClipRegion;
+	XRenderFillRectangle;
+	XRenderCompositeString32;
+	XRenderCompositeString16;
+	XRenderSetPictureClipRectangles;
+};
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+RENDER_0.2 {
+    global:
+	XRenderCompositeText32;
+	XRenderCompositeText16;
+	XRenderCompositeText8;
+};
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
+RENDER_0.3 {
+    global:
+	RENDER_0.3;
+};
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+RENDER_0.4 {
+    global:
+	XRenderCompositeTriStrip;
+	XRenderCompositeTriFan;
+	XRenderCompositeTrapezoids;
+	XRenderCompositeTriangles;
+	XRenderCompositeDoublePoly;
+};
 
-World: clean all
+RENDER_0.5 {
+    global:
+	XRenderFindStandardFormat;
+	XRenderParseColor;
+	XRenderCreateCursor;
+};
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+RENDER_0.6 {
+    global:
+	XRenderQuerySubpixelOrder;
+	XRenderQueryFilters;
+	XRenderSetPictureTransform;
+	XRenderSetSubpixelOrder;
+	XRenderSetPictureFilter;
+};
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+RENDER_0.7 {
+    global:
+	XRenderQueryPictIndexValues;
+};
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+RENDER_0.8 {
+    global:
+	XRenderCreateAnimCursor;
+};
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+RENDER_0.9 {
+    global:
+	XRenderAddTraps;
+	XRenderCreateSolidFill;
+	XRenderCreateLinearGradient;
+	XRenderCreateRadialGradient;
+	XRenderCreateConicalGradient;
+};
+

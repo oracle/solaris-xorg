@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# Xrender 1.x Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,60 +30,42 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/04/03
+# @(#)Makefile	1.3	07/04/03
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libfontenc \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXrender \
-	libXfont \
-	Xft \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# Package name used in tarballs
+LIB_MODULE=libXrender
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=0.9.2
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
+# Library name
+LIBNAME=Xrender
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+#SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxorg-clientlibs
+LIB_STABILITY=Volatile
+LIB_MAN_SUFFIX=3Xrender
 
-World: clean all
+# Environment variable options to GNU autoconf configure script
+LIB_ADD_CFLAGS=-I../include
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXrender.so.1.3.0
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xrender.pc.in
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc
+
+# xc/lib/X11/region.h is equivalent to modular <X11/Xregion.h> so use 
+# this hack to get Xregion.h until modular libX11 is integrated.
+source_gen:: 
+	(cd $(SOURCE_DIR)/include/X11 ; ln -s $(TOP)/../xc/lib/X11/region.h Xregion.h)
