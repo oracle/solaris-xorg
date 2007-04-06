@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.37	07/03/21
+# @(#)Makefile	1.38	07/04/05
 #
 
 PWD:sh=pwd
@@ -95,7 +95,8 @@ SOURCE_PATCHES = \
 	6406044.patch \
 	cfbmskbits.patch \
 	xf86ModesAdd.patch \
-	lg3d.patch
+	lg3d.patch \
+	6535006.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)
