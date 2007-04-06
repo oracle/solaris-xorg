@@ -30,19 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/03/23
+# @(#)Makefile	1.9	07/04/05
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXfont
 
 # Version number (used in path names)
-LIB_VERS=1.2.7
+LIB_VERS=1.2.8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	security.patch,-p1 \
-	loadablefonts.patch \
 	6206898.patch
 
 
