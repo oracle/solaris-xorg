@@ -378,6 +378,14 @@ diff -urp -x '*~' driver/xscreensaver-getimage.c driver/xscreensaver-getimage.c
 diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
 --- driver/xscreensaver.c	2006-09-19 17:08:53.074090000 -0700
 +++ driver/xscreensaver.c	2006-09-19 17:08:58.055083000 -0700
+@@ -140,6 +140,7 @@
+
+ #include <stdio.h>
+ #include <ctype.h>
++#include <zone.h>
+ #include <X11/Xlib.h>
+
+ #include <locale.h>
 @@ -198,6 +198,7 @@ passwd_dialog_data *ptr_mygtkpwd = &mygt
  char *progname = 0;
  char *progclass = 0;
@@ -386,6 +394,16 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
  
  
  static Atom XA_SCREENSAVER_RESPONSE;
+@@ -1485,6 +1515,9 @@ main (int argc, char **argv)
+   saver_preferences *p = &si->prefs;
+   int i,debug_flag;
+
++  if (tsol_is_multi_label_session() && (getzoneid() != 0))
++    exit ( 1 );
++
+ /*Wait till we can attach debugger to the process*/
+ debug_flag=0;
+ while (debug_flag)
 @@ -1517,6 +1518,7 @@ while (debug_flag)
    hack_environment (si);
  
