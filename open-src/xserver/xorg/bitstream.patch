@@ -52,7 +52,7 @@ diff -u hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
  	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
 diff -u hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
 --- hw/xfree86/common/xf86Configure.c	2006-10-11 15:42:19.000000000 -0700
-+++ hw/xfree86/common/xf86Configure.c	2006-10-19 13:37:52.908844000 -0700
++++ hw/xfree86/common/xf86Configure.c	2007-04-17 10:58:40.734088000 -0700
 @@ -641,7 +641,8 @@
              /* Add only those font backends which are referenced by fontpath */
              /* 'strstr(dFP,"/dir")' is meant as 'dFP =~ m(/dir\W)' */
@@ -60,7 +60,6 @@ diff -u hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
 -		(strcmp(*el, "freetype")  == 0 &&
 +		(((strcmp(*el, "bitstream") == 0) ||
 +		  (strcmp(*el, "freetype")  == 0)) &&
- 		 strstr(defaultFontPath, "/TTF")) ||
+  		 (strstr(defaultFontPath, "/TrueType") ||
+  		  strstr(defaultFontPath, "/TTF"))) ||
      	        (strcmp(*el, "type1")  == 0 &&
- 		 strstr(defaultFontPath, "/Type1")))) 
-

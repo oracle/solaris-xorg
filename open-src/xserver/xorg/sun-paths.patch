@@ -33,3 +33,16 @@ diff -urp -x '*~' xkb/xkbInit.c xkb/xkbInit.c
  int	 		XkbWantAccessX=		0;	
  static XkbFileInfo *	_XkbInitFileInfo=	NULL;
  
+
+--- hw/xfree86/common/xf86Configure.c	2007-04-17 10:43:56.616816000 -0700
++++ hw/xfree86/common/xf86Configure.c	2007-04-17 10:57:03.148386000 -0700
+@@ -642,7 +642,8 @@
+             /* 'strstr(dFP,"/dir")' is meant as 'dFP =~ m(/dir\W)' */
+     	    if (defaultFontPath && (
+ 		(strcmp(*el, "freetype")  == 0 &&
+-		 strstr(defaultFontPath, "/TTF")) ||
++ 		 (strstr(defaultFontPath, "/TrueType") ||
++ 		  strstr(defaultFontPath, "/TTF"))) ||
+     	        (strcmp(*el, "type1")  == 0 &&
+ 		 strstr(defaultFontPath, "/Type1")))) 
+ 	    	ptr->mod_load_lst = (XF86LoadPtr)xf86addListItem(
