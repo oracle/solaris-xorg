@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/03/23
+# @(#)Makefile	1.9	07/04/19
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-nv
 
 # Version number (used in path names)
-DRIVER_VERS=2.0.0
+DRIVER_VERS=2.0.2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6536127.patch
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -58,5 +58,3 @@ DRIVER_ADD_LIBS= \
 
 include ../Makefile.inc
 
-source_gen:: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && automake)
