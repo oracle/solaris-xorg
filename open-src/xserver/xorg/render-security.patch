@@ -1,0 +1,33 @@
+# On branch refs/heads/server-1.3-branch
+# Updated but not checked in:
+#   (will commit)
+#
+#	modified:   fb/fbtrap.c
+#	modified:   render/renderedge.c
+#
+diff --git a/fb/fbtrap.c b/fb/fbtrap.c
+index 8639695..52fcfed 100644
+--- a/fb/fbtrap.c
++++ b/fb/fbtrap.c
+@@ -115,6 +115,9 @@ fbRasterizeTrapezoid (PicturePtr    pPicture,
+     RenderEdge	l, r;
+     xFixed	t, b;
+     
++    if (!xTrapezoidValid (trap))
++	return;
++
+     fbGetDrawable (pPicture->pDrawable, buf, stride, bpp, pxoff, pyoff);
+ 
+     width = pPicture->pDrawable->width;
+diff --git a/render/renderedge.c b/render/renderedge.c
+index 199ec22..c2ffabe 100644
+--- a/render/renderedge.c
++++ b/render/renderedge.c
+@@ -143,6 +143,7 @@ RenderEdgeInit (RenderEdge	*e,
+     dx = x_bot - x_top;
+     dy = y_bot - y_top;
+     e->dy = dy;
++    e->dx = 0;
+     if (dy)
+     {
+ 	if (dx >= 0)
