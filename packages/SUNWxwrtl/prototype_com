@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.37     07/01/16 SMI"
+# ident "@(#)prototype_com 1.38     07/04/27 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -148,13 +148,6 @@ s none lib/libXol.so=./libXol.so.3
 #the following link exists already in SUNWxwplt for SVID
 # so we need to remove it from there when we add it here
 #s none lib/libXol.so.3=../openwin/lib/libXol.so.3
-
-#
-# XIL
-#
-s none lib/libxil.so=./libxil.so.1
-s none lib/libxil.so.1=../openwin/lib/libxil.so.1
-
 
 #
 #  Motif
