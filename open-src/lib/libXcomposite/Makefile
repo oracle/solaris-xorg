@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# Xcomposite 1.x Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,61 +30,37 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/05/03
+# @(#)Makefile	1.3	07/05/03
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libfontenc \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXfont \
-	Xft \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# Package name used in tarballs
+LIB_MODULE=libXcomposite
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=0.3.2
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
+# Library name
+LIBNAME=Xcomposite
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxorg-clientlibs
+LIB_STABILITY=Volatile
+LIB_MAN_SUFFIX=3Xcomposite
 
-World: clean all
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXcomposite.so.1.0.0
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xcomposite.pc.in
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# Use proto area for building on older machines without /usr/X11/lib/libXfixes
+LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc
