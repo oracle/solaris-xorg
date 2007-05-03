@@ -1,0 +1,17 @@
+--- src/base/ftutil.c   Fri Jan 12 10:18:00 2007
++++ src/base/ftutil.c   Thu Apr 19 16:54:10 2007
+@@ -120,12 +120,12 @@
+     FT_Error  error = FT_Err_Ok;
+
+
+-    if ( cur_count < 0 || new_count < 0 || item_size <= 0 )
++    if ( cur_count < 0 || new_count < 0 || item_size < 0 )
+     {
+       /* may help catch/prevent nasty security issues */
+       error = FT_Err_Invalid_Argument;
+   }
+-    else if ( new_count == 0 )
++    else if ( new_count == 0 || item_size == 0 )
+   {
+       ft_mem_free( memory, block );
+       block = NULL;
