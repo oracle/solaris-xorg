@@ -29,8 +29,10 @@
 Merge the fix for bug 6398094 in 6.9 tree: Screen off center with left
 margin on 24.1" monitor with analog input
 
---- hw/xfree86/ddc.orig/ddcProperty.c	Fri Dec  1 14:48:41 2006
-+++ hw/xfree86/ddc/ddcProperty.c	Tue Dec 19 15:33:47 2006
+Merge the fix for bug 6553135: libddc.so doesn't handle null mode
+
+--- hw/xfree86/ddc/ddcProperty.c.orig	Thu May  3 16:44:39 2007
++++ hw/xfree86/ddc/ddcProperty.c	Thu May  3 17:54:04 2007
 @@ -295,6 +295,25 @@
      }
  }
@@ -57,11 +59,13 @@ margin on 24.1" monitor with analog input
  /*
   * Fill out MonPtr with xf86MonPtr information.
   */
-@@ -374,6 +393,20 @@
+@@ -374,6 +393,22 @@
              Mode = DDCModeFromDetailedTiming(scrnIndex, 
                                               &DDC->det_mon[i].section.d_timings,
  					     preferred);
 +
++	    if (Mode == NULL)
++		break;
 +	    if ((DDC->features.input_type == 0) &&
 +            	(((Mode->HDisplay * 5 / 4) & ~0x07) > Mode->HTotal)) {
 +		struct detailed_timings *dt = &DDC->det_mon[i].section.d_timings;
