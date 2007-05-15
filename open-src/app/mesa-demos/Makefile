@@ -28,14 +28,11 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/01/31
+# @(#)Makefile	1.5	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
-
-# Build 32-bit, 64-bit, or both?
-BUILD_TYPES=32
 
 # Version number (used in path names)
 MESA_VERS=6.5.2
@@ -44,7 +41,8 @@ MESA_VERS=6.5.2
 SOURCE_TARBALL_NAME=MesaDemos-$(MESA_VERS).tar.bz2
 
 # Download site for source
-SOURCE_URL=http://easynews.dl.sourceforge.net/sourceforge/mesa3d/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(SF_DOWNLOADS_URL)/mesa3d/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
@@ -79,13 +77,13 @@ source_gen:: $(LNDIR)
 DEMOS_DIR=$(SOURCE_DIR)/progs/xdemos
 
 # Mesa config file names
-MESA_CFG_32_sun4=sunos5-v8
-MESA_CFG_64_sun4=sunos5-v9
-MESA_CFG_32_i86pc=solaris-x86-cc-dri
-MESA_CFG_64_i86pc=solaris-x64-cc-dri
+MESA_CFG_32_sparc=sunos5-v8
+MESA_CFG_64_sparc=sunos5-v9
+MESA_CFG_32_i386=solaris-x86-cc-dri
+MESA_CFG_64_i386=solaris-x64-cc-dri
 
-MESA_CFG_32:sh=arch | sed 's/^\(.*\)$/\$\(MESA_CFG_32_\1\)/'
-MESA_CFG_64:sh=arch | sed 's/^\(.*\)$/\$\(MESA_CFG_64_\1\)/'
+MESA_CFG_32= $(MESA_CFG_32_$(MACH))
+MESA_CFG_64= $(MESA_CFG_64_$(MACH))
 
 BUILD_32_FLAGS= MESA_CFG=$(MESA_CFG_32)
 BUILD_64_FLAGS= MESA_CFG=$(MESA_CFG_64)

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/03/20
+# @(#)Makefile	1.6	07/05/15
 #
 ###############################################################################
 
@@ -48,7 +48,8 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
 	mesa-demos
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(OS_SUBDIRS_\1\)/'
+MACH:sh=uname -p
+OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
 all: 
 	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all

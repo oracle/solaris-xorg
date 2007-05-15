@@ -27,12 +27,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
+
 BUILD_TYPES=32 64
+BUILD_TYPES_SET=yes
 
 # Package name used in tarballs
 LIB_MODULE=libdrm
@@ -62,6 +64,7 @@ SOURCE_TARBALL_NAME=$(LIB_MODULE)-$(LIB_VERS).tar.bz2
 
 # Download site for source
 SOURCE_URL=http://dri.freedesktop.org/libdrm/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(LIB_MODULE)-$(LIB_VERS)

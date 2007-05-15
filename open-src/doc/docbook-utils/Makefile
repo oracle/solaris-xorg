@@ -28,14 +28,11 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/01/30
+# @(#)Makefile	1.2	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
-
-# Build 32-bit, 64-bit, or both?
-BUILD_TYPES=32
 
 # Version number (used in path names)
 DOCBOOK_TOOLS_VERS=0.6.14
@@ -46,6 +43,7 @@ SOURCE_UNCOMPRESS=gzcat
 
 # Download site for source
 SOURCE_URL=ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= solaris-port.patch

@@ -28,18 +28,15 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.4	07/01/31
+# @(#)Makefile.inc	1.5	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
-BUILD_TYPES=32
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/app/$(SOURCE_TARBALL_NAME)
+SOURCE_TARBALL_DIR=app
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(APP_NAME)-$(APP_VERS)

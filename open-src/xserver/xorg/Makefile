@@ -30,15 +30,16 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.40	07/05/04
+# @(#)Makefile	1.41	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-BUILD_TYPES_sun4=64
-BUILD_TYPES_i86pc=32 64
-BUILD_TYPES:sh=arch | sed 's/^\(.*\)$/\$\(BUILD_TYPES_\1\)/'
+BUILD_TYPES_SET=yes
+BUILD_TYPES_sparc=64
+BUILD_TYPES_i386=32 64
+BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 # Package name used in tarballs
 MODULE_NAME=xorg-server
@@ -48,9 +49,7 @@ XORGSERVER_VERS=1.2.0
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(XORGSERVER_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/xserver/$(SOURCE_TARBALL_NAME)
+SOURCE_TARBALL_DIR=xserver
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -139,7 +138,7 @@ MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-6.5.2
 MODULES_DIR='$${libdir}/modules$(MODULE_subdir)'
 
 # Command line options to GNU autoconf configure script
-# XXX: enable xorgcfg --disable-dga enable security
+# XXX: --disable-dga
 CONFIG_OPTS_COMMON = \
 	--prefix=$(XORGSERVER_PREFIX) --mandir='$${prefix}/share/man' \
 	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
@@ -155,9 +154,9 @@ CONFIG_OPTS_COMMON = \
 	--with-xkb-path='$${libdir}/X11/xkb' \
 	--with-default-font-path="$(FONTDIR)/TrueType/,$(FONTDIR)/Type1/,$(FONTDIR)/Type1/sun/,$(FONTDIR)/F3bitmaps/,$(FONTDIR)/misc/,$(FONTDIR)/100dpi/,$(FONTDIR)/75dpi/" 
 
-CONFIG_OPTS_sun4=$(CONFIG_OPTS_COMMON)
-CONFIG_OPTS_i86pc=$(CONFIG_OPTS_COMMON) --with-mesa-source=$(MESA_SRC_DIR)
-CONFIG_OPTS:sh=arch | sed 's/^\(.*\)$/\$\(CONFIG_OPTS_\1\)/'
+CONFIG_OPTS_sparc=$(CONFIG_OPTS_COMMON)
+CONFIG_OPTS_i386=$(CONFIG_OPTS_COMMON) --with-mesa-source=$(MESA_SRC_DIR)
+CONFIG_OPTS=$(CONFIG_OPTS_$(MACH))
 
 
 # Need to append header path with gcc headers for MMX/SSE intrinsics
@@ -197,15 +196,15 @@ CONFIG_ENV_gcc = CC=$(GCC) CFLAGS="$(DEFAULT_GCC_CFLAGS) $(ARCH_GCC_FLAGS)" \
 	LDFLAGS="$(GCC_PROG_LDFLAGS) -L/usr/sfw/lib$(ARCHLIBSUBDIR) -R/usr/sfw/lib$(ARCHLIBSUBDIR) $(LDPATH_ADD)" \
 	CPPFLAGS="$(GCC_HEADERS) $(XORG_CPPFLAGS)"
 
-CONFIG_ENV_sun4= $(CONFIG_ENV_cc) $(CONFIG_ENV_common)
-CONFIG_ENV_i86pc= $(CONFIG_ENV_gcc) $(CONFIG_ENV_common)
-CONFIG_ENV:sh=arch | sed 's/^\(.*\)$/\$\(CONFIG_ENV_\1\)/'
+CONFIG_ENV_sparc= $(CONFIG_ENV_cc) $(CONFIG_ENV_common)
+CONFIG_ENV_i386= $(CONFIG_ENV_gcc) $(CONFIG_ENV_common)
+CONFIG_ENV= $(CONFIG_ENV_$(MACH))
 
 BUILD_32_FLAGS=ARCH_GCC_FLAGS="$(ARCH32_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR32)"
 
-BUILD_64_FLAGS_sun4=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)"
-BUILD_64_FLAGS_i86pc=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR64)"
-BUILD_64_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(BUILD_64_FLAGS_\1\)/'
+BUILD_64_FLAGS_sparc=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)"
+BUILD_64_FLAGS_i386=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR64)"
+BUILD_64_FLAGS=$(BUILD_64_FLAGS_$(MACH))
 
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)

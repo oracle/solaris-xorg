@@ -30,30 +30,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	07/05/15
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
 # compiled into other modules at build time.
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-BUILD_TYPES=32 
+# Package name used in tarballs
+LIB_MODULE=xtrans
 
 # Version number (used in path names)
-XTRANS_VERS=1.0.3
-
-# Source tarball
-SOURCE_TARBALL_NAME=xtrans-$(XTRANS_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/lib/$(SOURCE_TARBALL_NAME)
+LIB_VERS=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = inetv6.patch socket-perm.patch
-
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/xtrans-$(XTRANS_VERS)
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=xtrans
@@ -61,38 +51,9 @@ LIBNAME=xtrans
 # Man pages to apply Sun footer to & attributes to list
 # - Xtrans has none
 
-include $(TOP)/common/Makefile.inc
-
-# Where to install files
-XTRANS_prefix=$(X11_DIR)
-
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --enable-shared=yes --enable-static=no \
-	--prefix=$(XTRANS_prefix) --libdir='$${exec_prefix}/lib$(LIBSUBDIR)' \
-	--enable-xthreads --with-lint --enable-lint-library
-
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(LIB_CFLAGS)" \
-	LD="$(LD) $(LDFLAGS)"  LDFLAGS="$(LIB_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig \
-	LIB_MAN_SUFFIX=3xtrans
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
-	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
-
 # Library built in tree
 # - Xtrans doesn't build a library, so we use the pkgconfig file it builds instead
-XTRANS_LIB = xtrans.pc
+LIB_BUILT = xtrans.pc
 
-build_gen: $(XTRANS_LIB)
+include ../Makefile.inc
 
-$(XTRANS_LIB): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)" $(MAKE) $(MFLAGS) )
-
-
-install_gen: $(XTRANS_LIB)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(XTRANS_prefix)/lib$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig)
-	-rm -f $(PROTODIR)/usr/lib/$(MACH64)/pkgconfig/xtrans.pc
-	ln -s ../../pkgconfig/xtrans.pc $(PROTODIR)/usr/lib/$(MACH64)/pkgconfig/xtrans.pc

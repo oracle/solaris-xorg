@@ -28,21 +28,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/05/15
 #
 ###############################################################################
 
-COMMON_SUBDIRS = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
+OS_SUBDIRS_common = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
 	Input KB PM Randr Record Render Resource ScrnSaver Trap Video \
 	XCMisc XExt XF86BigFont XF86DGA XF86Misc XF86VidMode Xinerama \
 	lg3dproto
 
-sparc_SUBDIRS = $(COMMON_SUBDIRS)
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
-i386_SUBDIRS  = $(COMMON_SUBDIRS)       \
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)       \
 	glproto xf86driproto
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(\1_SUBDIRS\)/'
+MACH:sh=uname -p
+OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.

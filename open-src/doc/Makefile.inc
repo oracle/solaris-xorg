@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.2	07/01/31
+# @(#)Makefile.inc	1.3	07/05/15
 #
 
 ### Makefile settings/rules common to all X.Org protocol modules
@@ -36,14 +36,9 @@
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
-BUILD_TYPES=32 
-
 # Source tarball
 SOURCE_TARBALL_NAME=$(DOC_NAME)-$(VERSION).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/doc/$(SOURCE_TARBALL_NAME)
+SOURCE_TARBALL_DIR=doc
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(DOC_NAME)-$(VERSION)

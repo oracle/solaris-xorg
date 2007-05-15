@@ -30,14 +30,11 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	05/09/02
+# @(#)Makefile	1.2	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
-
-# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
-BUILD_TYPES=32 
 
 # Version number (used in path names)
 VERSION=1.10
@@ -47,6 +44,7 @@ SOURCE_TARBALL_NAME=ttf-bitstream-vera-$(VERSION).tar.bz2
 
 # Download site for source
 SOURCE_URL=http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/$(VERSION)/ttf-bitstream-vera-$(VERSION).tar.bz2
+SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.65	07/04/19
+# @(#)Makefile	1.66	07/05/15
 #
 
 PWD:sh=pwd
@@ -38,6 +38,7 @@ TOP=$(PWD)/../..
 
 # Build 32-bit, 64-bit, or both?
 BUILD_TYPES=32 64
+BUILD_TYPES_SET=yes
 
 # Version number (used in path names)
 FT_VERS=2.1.10
@@ -47,6 +48,7 @@ SOURCE_TARBALL_NAME=freetype-$(FT_VERS).tar.bz2
 
 # Download site for source
 SOURCE_URL=http://savannah.nongnu.org/download/freetype/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=freetype-$(FT_VERS).patch 6425531.patch 6542352.patch freetype-$(FT_VERS).hint.patch 6539893.patch,-p1

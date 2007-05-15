@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,18 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.4	06/12/13
+# @(#)Makefile.inc	1.5	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
+
 BUILD_TYPES=32 64
-
-# Source tarball
-SOURCE_TARBALL_NAME=$(LIB_MODULE)-$(LIB_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/lib/$(SOURCE_TARBALL_NAME)
+BUILD_TYPES_SET=yes
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(LIB_MODULE)-$(LIB_VERS)
@@ -49,12 +45,18 @@ SUNTOUCH_MAN_FLAGS= -l $(LIBNAME) \
 
 include $(TOP)/common/Makefile.inc
 
-# Where to install files
-LIB_prefix=$(X11_DIR)
+# Source tarball
+SOURCE_TARBALL_DEFAULT	= $(SOURCE_TARBALL_SET:yes=$(POUND_SIGN))
+$(SOURCE_TARBALL_DEFAULT) SOURCE_TARBALL_NAME=$(LIB_MODULE)-$(LIB_VERS).tar.bz2
+SOURCE_TARBALL_DIR=lib
+
+# Where to install files - default is /usr/X11
+LIB_PREFIX_DEFAULT	= $(LIB_PREFIX_SET:yes=$(POUND_SIGN))
+$(LIB_PREFIX_DEFAULT)	LIB_PREFIX=$(X11_DIR)
 
 # Command line options to GNU autoconf configure script
 CONFIG_OPTS = --enable-shared=yes --enable-static=no \
-	--prefix=$(LIB_prefix) 	--mandir='$${prefix}/share/man' \
+	--prefix=$(LIB_PREFIX) 	--mandir='$${prefix}/share/man' \
 	--libdir='$${exec_prefix}/lib$(LIB_ADD_SUBDIR)$(LIBSUBDIR)' \
 	$(LIB_ADD_CONFIG_OPTS)
 
@@ -66,7 +68,7 @@ CONFIG_ENV = CC=$(CC) CFLAGS="$(THIS_LIB_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
 	LDFLAGS="$(LIB_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)" \
 	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
 	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
-	LIB_MAN_SUFFIX=$(LIB_MAN_SUFFIX)
+	LIB_MAN_SUFFIX=$(LIB_MAN_SUFFIX) $(LIB_ADD_CONFIG_ENV)
 
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
@@ -76,8 +78,8 @@ $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
 build_gen: $(LIB_BUILT)
 
 $(LIB_BUILT): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
-	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) $(LIB_ADD_MAKEFLAGS) )
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) $(LIB_ADD_MAKEFLAGS) )
 
 
-install_gen: $(LIB_BUILT)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_prefix)/lib$(LIB_ADD_SUBDIR)$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig $(LIB_ADD_MAKEFLAGS))
+install_gen:: $(LIB_BUILT)
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_PREFIX)/lib$(LIB_ADD_SUBDIR)$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig $(LIB_ADD_MAKEFLAGS))

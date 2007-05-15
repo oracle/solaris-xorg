@@ -1,4 +1,4 @@
-###############################################################################
+# -*- Makefile -*- rules common to most X.Org protocol modules
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,22 +28,15 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.4	07/01/31
+# @(#)Makefile.inc	1.5	07/05/15
 #
-
-### Makefile settings/rules common to all X.Org protocol modules
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
-BUILD_TYPES=32 
-
 # Source tarball
 SOURCE_TARBALL_NAME=$(PROTO_NAME)-$(VERSION).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/proto/$(SOURCE_TARBALL_NAME)
+SOURCE_TARBALL_DIR=proto
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(PROTO_NAME)-$(VERSION)

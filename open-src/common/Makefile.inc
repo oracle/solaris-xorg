@@ -28,11 +28,37 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.75	07/01/31
+# @(#)Makefile.inc	1.76	07/05/15
 #
 
-BUILD_DATE:sh=date +'%e-%B-%Y'
-BUILD_ID = X11 for Solaris Nevada, built $(BUILD_DATE)
+# Borrowed from Solaris OS/Net makefile.master:
+# The declaration POUND_SIGN is always '#'. This is needed to get around the
+# make feature that '#' is always a comment delimiter, even when escaped or
+# quoted.  The only way of generating this is the :sh macro mechanism.  Note
+# however that in general :sh macros should be avoided in makefiles that are
+# widely included into other makefiles, as the resulting shell executions can
+# cause a noticable slowdown in build times.
+#
+POUND_SIGN:sh= echo \\043
+
+# BUILD_DATE:sh=date +'%e-%B-%Y'
+# BUILD_ID = X11 for Solaris Nevada, built $(BUILD_DATE)
+
+###  Machine architecture macros
+
+# MACH will be either "sparc" or "i386"
+MACH:sh=uname -p
+
+# ARCH will be either "sun4" or "i386" - mainly used in $(PROTODIR)
+ARCH=$(MACH:sparc=sun4)
+
+MACH32_sparc	= sparc
+MACH64_sparc 	= sparcv9
+MACH32_i386	= i386
+MACH64_i386 	= amd64
+
+MACH32= $(MACH32_$(MACH))
+MACH64= $(MACH64_$(MACH))
 
 ### Default compiler & options
 CC     			= cc
@@ -62,38 +88,37 @@ PROG_LDFLAGS		= $(LDFLAGS) $(MAPFILES_FOR_PROGS) -B direct
 # we can only make .bss, not all of .data no-exec on SPARC
 MAPFILE_DIR 		= $(TOP)/common/mapfiles/
 MAPFILE_NOEXBSS		= $(MAPFILE_DIR)/map.noexbss
-MAPFILE_NOEXDATA_sun4	= $(MAPFILE_NOEXBSS)
-MAPFILE_NOEXDATA_i86pc	= /usr/lib/ld/map.noexdata
-MAPFILE_NOEXDATA:sh=arch | sed 's/^\(.*\)$/\$\(MAPFILE_NOEXDATA_\1\)/'
+MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
+MAPFILE_NOEXDATA_i386	= /usr/lib/ld/map.noexdata
+MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
 
 MAPFILES_FOR_ALL   = -M /usr/lib/ld/map.pagealign -M $(MAPFILE_NOEXDATA)
 MAPFILES_FOR_PROGS = -M /usr/lib/ld/map.bssalign -M /usr/lib/ld/map.noexstk \
 			-M $(MAPFILE_NOEXBSS)
 
 ### Architecture specific flags
-DEFAULT_sun4_ARCH32_FLAGS 	= -xarch=v8plus
-DEFAULT_sun4_ARCH64_FLAGS 	= -xarch=v9
-DEFAULT_sun4_ARCH_LIB_FLAGS 	= -xregs=no%appl
+DEFAULT_ARCH32_FLAGS_sparc 	= -xarch=v8plus
+DEFAULT_ARCH64_FLAGS_sparc	= -xarch=v9
+DEFAULT_ARCH_LIB_FLAGS_sparc 	= -xregs=no%appl
 
 # -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
 # avoid losing stack frame pointers so you can't get stack traces or debug
-DEFAULT_i86pc_ARCH32_FLAGS 	= -xpentium -xregs=no%frameptr
-DEFAULT_i86pc_ARCH64_FLAGS 	= -xarch=generic64 -xregs=no%frameptr
-DEFAULT_i86pc_ARCH_LIB_FLAGS 	=  
+DEFAULT_ARCH32_FLAGS_i386 	= -xpentium -xregs=no%frameptr
+DEFAULT_ARCH64_FLAGS_i386 	= -xarch=generic64 -xregs=no%frameptr
+DEFAULT_ARCH_LIB_FLAGS_i386 	=  
 
-ARCH:sh=arch | sed s/i86pc/i386/
-ARCH32_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH32_FLAGS\)/'
-ARCH64_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH64_FLAGS\)/'
-ARCH_LIB_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH_LIB_FLAGS\)/'
+ARCH32_FLAGS = $(DEFAULT_ARCH32_FLAGS_$(MACH))
+ARCH64_FLAGS = $(DEFAULT_ARCH64_FLAGS_$(MACH))
+ARCH_LIB_FLAGS = $(DEFAULT_ARCH_LIB_FLAGS_$(MACH))
 
 ### Flags for gcc
 DEFAULT_GCC_CFLAGS		= -O3 -fno-omit-frame-pointer -Wall
-DEFAULT_sun4_ARCH32_GCC_FLAGS 	= -mcpu=ultrasparc -m32
-DEFAULT_sun4_ARCH64_GCC_FLAGS 	= -mcpu=ultrasparc -m64
-DEFAULT_i86pc_ARCH32_GCC_FLAGS 	= -march=i686 -m32
-DEFAULT_i86pc_ARCH64_GCC_FLAGS 	= -march=opteron -m64
-ARCH32_GCC_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH32_GCC_FLAGS\)/'
-ARCH64_GCC_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(DEFAULT_\1_ARCH64_GCC_FLAGS\)/'
+DEFAULT_ARCH32_GCC_FLAGS_sparc 	= -mcpu=ultrasparc -m32
+DEFAULT_ARCH64_GCC_FLAGS_sparc 	= -mcpu=ultrasparc -m64
+DEFAULT_ARCH32_GCC_FLAGS_i386 	= -march=i686 -m32
+DEFAULT_ARCH64_GCC_FLAGS_i386 	= -march=opteron -m64
+ARCH32_GCC_FLAGS=$(DEFAULT_ARCH32_GCC_FLAGS_$(MACH))
+ARCH64_GCC_FLAGS=$(DEFAULT_ARCH64_GCC_FLAGS_$(MACH))
 
 # Need to use -Wl,.. to pass linker flags through gcc
 GCC_LDFLAGS_CMD=echo $(LDFLAGS) | \
@@ -107,23 +132,13 @@ GCC_PROG_LDFLAGS_CMD=echo $(PROG_LDFLAGS) | \
 GCC_PROG_LDFLAGS=$(GCC_PROG_LDFLAGS_CMD:sh)
 
 
-SUBDIR32_sun4	= sparcv8
-SUBDIR32_i86pc	= i386
-SUBDIR64_sun4 	= sparcv9
-SUBDIR64_i86pc 	= amd64
-SUBDIR32:sh=arch | sed 's/^\(.*\)$/\$\(SUBDIR32_\1\)/'
-SUBDIR64:sh=arch | sed 's/^\(.*\)$/\$\(SUBDIR64_\1\)/'
+SUBDIR32_sparc	= sparcv8
+SUBDIR32_i386	= i386
+SUBDIR64_sparc 	= sparcv9
+SUBDIR64_i386 	= amd64
+SUBDIR32 = $(SUBDIR32_$(MACH))
+SUBDIR64 = $(SUBDIR64_$(MACH))
 
-ARCH_MAPFILE:sh=uname -p | sed 's/^\(.*\)$/mapfile_pga_\1/'
-MAPFILE_FLAGS = -M $(TOP)/common/mapfiles/$(ARCH_MAPFILE)
-
-MACH32_sun4	= sparc
-MACH32_i86pc	= i386
-MACH64_sun4 	= sparcv9
-MACH64_i86pc 	= amd64
-
-MACH32:sh=arch | sed 's/^\(.*\)$/\$\(MACH32_\1\)/'
-MACH64:sh=arch | sed 's/^\(.*\)$/\$\(MACH64_\1\)/'
 
 ### Proto directory to install into for packaging
 PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
@@ -148,9 +163,9 @@ X11_SERVERLIBS_DIR=$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)
 X11_SERVERMODS_SUBDIR=/modules
 X11_SERVERMODS_DIR=$(X11_DIR)/lib$(X11_SERVERMODS_SUBDIR)
 
-MODULE_subdir_sun4=
-MODULE_subdir_i86pc=$(ARCHLIBSUBDIR)
-MODULE_subdir:sh=arch | sed 's/^\(.*\)$/\$\(MODULE_subdir_\1\)/'
+MODULE_subdir_sparc=
+MODULE_subdir_i386=$(ARCHLIBSUBDIR)
+MODULE_subdir=$(MODULE_subdir_$(MACH))
 
 # Directory used for installing tools used during build but not
 # delivered in packages
@@ -160,6 +175,10 @@ TOOLS_DIR=/tools
 
 BUILD_DIR_32 = build_32
 BUILD_DIR_64 = build_64
+
+# Set default build type to 32-bit if not set in module makefile
+BUILD_TYPES_DEFAULT	= $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
+$(BUILD_TYPES_DEFAULT)	BUILD_TYPES=32
 
 all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
 install: $(BUILD_TYPES:%=install_%)
@@ -253,6 +272,11 @@ WGET=/usr/sfw/bin/wget
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 
 XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
+SF_DOWNLOADS_URL=http://easynews.dl.sourceforge.net/sourceforge
+
+# Set default download location if not set in module makefile
+SOURCE_URL_DEFAULT	= $(SOURCE_URL_SET:yes=$(POUND_SIGN))
+$(SOURCE_URL_DEFAULT)	SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
 download:
 	if [ ! -f $(SOURCE_TARBALL) ] ; then \

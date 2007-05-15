@@ -28,20 +28,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/01/31
+# @(#)Makefile	1.5	07/05/15
 #
 ###############################################################################
 
-COMMON_SUBDIRS= \
+OS_SUBDIRS_common = \
 	xf86-input-keyboard		\
 	xf86-input-mouse		\
 	xf86-input-void			\
 	xf86-video-dummy		
 
-sparc_SUBDIRS = $(COMMON_SUBDIRS)	\
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)	\
 	xf86-video-wsfb
 
-i386_SUBDIRS  = $(COMMON_SUBDIRS)	\
+OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-acecad		\
 	xf86-input-calcomp		\
 	xf86-input-citron		\
@@ -91,8 +91,8 @@ i386_SUBDIRS  = $(COMMON_SUBDIRS)	\
 	xf86-video-vmware
 
 
-OS_SUBDIRS:sh=uname -p | sed 's/^\(.*\)$/\$\(\1_SUBDIRS\)/'
-
+MACH:sh=uname -p
+OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
 all: install
 

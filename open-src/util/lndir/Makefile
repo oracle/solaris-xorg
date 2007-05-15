@@ -28,23 +28,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/08/25
+# @(#)Makefile	1.3	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
-
-# Not really 32 or 64-bit, but we call it 32-bit to avoid subdirs
-BUILD_TYPES=32 
 
 # Version number (used in path names)
 VERSION=1.0.1
 
 # Source tarball
 SOURCE_TARBALL_NAME=lndir-$(VERSION).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/util/$(SOURCE_TARBALL_NAME)
+SOURCE_TARBALL_DIR=util
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -28,21 +28,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.9	07/01/31
+# @(#)Makefile.inc	1.10	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-BUILD_TYPES_sun4=64
-BUILD_TYPES_i86pc=32 64
-BUILD_TYPES:sh=arch | sed 's/^\(.*\)$/\$\(BUILD_TYPES_\1\)/'
+BUILD_TYPES_SET=yes
+BUILD_TYPES_sparc=64
+BUILD_TYPES_i386=32 64
+BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(DRIVER_NAME)-$(DRIVER_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/driver/$(SOURCE_TARBALL_NAME)
+SOURCE_TARBALL_DIR=driver
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(DRIVER_NAME)-$(DRIVER_VERS)
@@ -83,9 +82,9 @@ CONFIG_ENV_cc = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" \
 CONFIG_ENV_gcc = CC=$(GCC) CFLAGS="$(DEFAULT_GCC_CFLAGS) $(ARCH_GCC_FLAGS)" \
 	LD="$(GCC) $(DRIVER_LDFLAGS_gcc)" LDFLAGS="$(DRIVER_LDFLAGS_gcc)"
 
-CONFIG_ENV_sun4= $(CONFIG_ENV_cc) $(CONFIG_ENV_common)
-CONFIG_ENV_i86pc= $(CONFIG_ENV_gcc) $(CONFIG_ENV_common)
-CONFIG_ENV:sh=arch | sed 's/^\(.*\)$/\$\(CONFIG_ENV_\1\)/'
+CONFIG_ENV_sparc= $(CONFIG_ENV_cc)
+CONFIG_ENV_i386= $(CONFIG_ENV_gcc)
+CONFIG_ENV=$(CONFIG_ENV_$(MACH)) $(CONFIG_ENV_common)
 
 
 # Run configure script

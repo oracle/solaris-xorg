@@ -30,12 +30,11 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.74	07/02/27
+# @(#)Makefile	1.75	07/05/15
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
-BUILD_TYPES=32
 
 # Version number (used in path names)
 XSCREENSAVER_VERS=5.01
@@ -45,6 +44,7 @@ SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.gz
 
 # Download site for source
 SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
@@ -88,9 +88,9 @@ source_gen:: $(LNDIR)
 	fi
 
 # Where to find OpenGL headers/libraries
-OPENGL_DIR_sun4=/usr/openwin
-OPENGL_DIR_i86pc=/usr/X11
-OPENGL_DIR:sh=arch | sed 's/^\(.*\)$/\$\(OPENGL_DIR_\1\)/'
+OPENGL_DIR_sparc=/usr/openwin
+OPENGL_DIR_i386=/usr/X11
+OPENGL_DIR=$(OPENGL_DIR_$(MACH))
 
 # Command line options to GNU autoconf configure script
 XS_CFG= --prefix=/usr/X11 --enable-maintainer-mode \
@@ -122,8 +122,9 @@ INCLUDES=-I/usr/X11/include
 # Additional optimization flags, to make the hacks show off the hardware
 # better and we can get away with optimizations not allowed in the core X code
 XS_CFLAGS=$(CFLAGS) -fsimple=2 -nofstore -xprefetch $(XS_ARCH_FLAGS) -xstrconst
-XS_ARCH_FLAGS:sh=arch | sed 's/^\(.*\)$/\$\(XS_\1_ARCH_FLAGS\)/'
-XS_sun4_ARCH_FLAGS=-xtarget=ultra2
+XS_ARCH_FLAGS=$(XS_ARCH_FLAGS_$(MACH))
+XS_ARCH_FLAGS_sparc=-xtarget=ultra2
+XS_ARCH_FLAGS_i386=
 
 # Configure/Make variables to override
 # Set PERL to /usr/perl5/bin so it uses that path to perl for scripts
