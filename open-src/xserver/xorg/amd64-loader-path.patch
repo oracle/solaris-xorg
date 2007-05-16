@@ -29,46 +29,57 @@
 diff -urp -x '*~' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loadmod.c
 --- hw/xfree86/loader/loadmod.c	2006-10-11 15:42:19.000000000 -0700
 +++ hw/xfree86/loader/loadmod.c	2006-10-26 14:30:02.522460000 -0700
-@@ -453,18 +453,37 @@ FindModule(const char *module, const cha
-     const char **s;
- 
-     dirpath = (char *)dirname;
--    if (strlen(dirpath) > PATH_MAX)
-+    dirlen = strlen(dirpath);
-+    if (dirlen > PATH_MAX)
- 	return NULL;
-+
-+    xf86MsgVerb(X_INFO, 4, "Loading module %s from path \"%s\"\n", module, dirname);
-+
-+#if defined(SUNSOFT) && (defined(__amd64) || defined(__amd64__))
-+    const char *amd64subdir = "amd64/";
-+    
-+    if (strcmp(dirpath + (dirlen - 6), amd64subdir) == 0) {
-+	dirpath = strdup(dirname);
-+	dirpath[dirlen - 6] = '\0';
-+    }
+@@ -176,6 +176,12 @@
+ 		list[n][len - 1] = '/';
+ 		list[n][len] = '\0';
+ 	    }
++#ifdef SUNSOFT /* strip amd64/ off loader path if it's there */
++	    if (strcmp(list[n] + (len - 6), "amd64/") == 0) {
++		    list[n][len - 6] = '\0';
++	    }
 +#endif
-     
-     subdirs = InitSubdirs(subdirlist);
-     if (!subdirs)
- 	return NULL;
- 
-     for (s = subdirs; *s; s++) {
++	    
+ 	    n++;
+ 	}
+ 	elem = strtok(NULL, ",");
+@@ -353,6 +359,9 @@
+ 	    } else
+ 		slash = "";
+ 	    len += oslen + 2;
 +#if defined(SUNSOFT) && (defined(__amd64) || defined(__amd64__))
-+	if ((dirlen = strlen(dirpath) + strlen(*s) + sizeof(amd64subdir)) > PATH_MAX)
-+#else
- 	if ((dirlen = strlen(dirpath) + strlen(*s)) > PATH_MAX)
-+#endif
- 	    continue;
- 	strcpy(buf, dirpath);
- 	strcat(buf, *s);
++	    len += 6; /* strlen("amd64/") */
++#endif	    
+ 	    if (!(subdirs[i] = xalloc(len))) {
+ 		while (--i >= 0)
+ 		    xfree(subdirs[i]);
+@@ -362,10 +371,26 @@
+ 		return NULL;
+ 	    }
+ 	    /* tack on the OS name */
 +#if defined(SUNSOFT) && (defined(__amd64) || defined(__amd64__))
-+	strcat(buf, amd64subdir);
-+#endif		
-         if ((name = FindModuleInSubdir(buf, module)))
-             break;
-     }
-@@ -903,7 +922,7 @@ doLoadModule(const char *module, const c
++	    sprintf(subdirs[i], "%s%s%s/amd64/", *s, slash, osname);
++#else	    
+ 	    sprintf(subdirs[i], "%s%s%s/", *s, slash, osname);
++#endif	    
+ 	    i++;
+ 	    /* path as given */
++#if defined(SUNSOFT) && (defined(__amd64) || defined(__amd64__))
++	    if (!(subdirs[i] = xalloc(len))) {
++		while (--i >= 0)
++		    xfree(subdirs[i]);
++		xfree(subdirs);
++		if (tmp_subdirlist)
++		    xfree(tmp_subdirlist);
++		return NULL;
++	    }
++	    sprintf(subdirs[i], "%s%samd64/", *s, slash);
++#else	    
+ 	    subdirs[i] = xstrdup(*s);
++#endif	    
+ 	    i++;
+ 	    s++;
+ 	    if (indefault && !s) {
+@@ -903,8 +922,8 @@ doLoadModule(const char *module, const c
       * check the elements in the path
       */
      if (PathIsAbsolute(module))
