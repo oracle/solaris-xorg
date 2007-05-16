@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/05/15
+# @(#)Makefile	1.7	07/05/16
 #
 
 PWD:sh=pwd
@@ -53,7 +53,8 @@ SOURCE_PATCHES= \
 	solaris-paths.patch	\
 	mklib.patch		\
 	solaris-dri-port.patch	\
-	glext.h.patch
+	glext.h.patch           \
+	6538497.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/Mesa-$(MESA_VERS)

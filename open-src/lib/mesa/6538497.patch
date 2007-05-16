@@ -1,0 +1,35 @@
+--- src/mesa/drivers/dri/i915/server/i830_common.h	Fri Sep 29 00:42:14 2006
++++ src/mesa/drivers/dri/i915/server/i830_common.h	Wed Apr  4 09:59:55 2007
+@@ -89,6 +89,7 @@
+         int pf_current_page;	/* which buffer is being displayed? */
+         int perf_boxes;	        /* performance boxes to be displayed */   
+ 	int width, height;      /* screen size in pixels */
++	int pad0;
+ 
+ 	drm_handle_t front_handle;
+ 	int front_offset;
+
+
+--- src/mesa/drivers/dri/i915/server/i830_dri.h	Mon Jan 23 18:10:49 2006
++++ src/mesa/drivers/dri/i915/server/i830_dri.h	Wed Apr  4 10:04:50 2007
+@@ -22,16 +22,20 @@
+    drm_handle_t backbuffer;
+ 
+    drmSize depthbufferSize;
++   drmSize pad0;
+    drm_handle_t depthbuffer;
+ 
+    drmSize rotatedSize;
++   drmSize pad1;
+    drm_handle_t rotatedbuffer;
+ 
+    drm_handle_t textures;
+    int textureSize;
++   drmSize pad2;
+ 
+    drm_handle_t agp_buffers;
+    drmSize agp_buf_size;
++   drmSize pad3;
+ 
+    int deviceID;
+    int width;

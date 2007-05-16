@@ -1,0 +1,24 @@
+--- hw/xfree86/dri/dri.c	Tue Jan 23 13:39:16 2007
++++ hw/xfree86/dri/dri.c	Tue Mar 27 10:07:00 2007
+@@ -2158,7 +2158,11 @@
+     entry     = drmGetEntry(fd);
+     entry->f  = f;
+ 
++#if defined(__sun) && defined(__SVR4)
++    return 1;
++#else
+     return xf86InstallSIGIOHandler(fd, drmSIGIOHandler, 0);
++#endif
+ }
+ 
+ int drmRemoveSIGIOHandler(int fd)
+@@ -2167,5 +2171,9 @@
+ 
+     entry->f = NULL;
+ 
++#if defined(__sun) && defined(__SVR4)
++    return 1;
++#else
+     return xf86RemoveSIGIOHandler(fd);
++#endif
+ }
