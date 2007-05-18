@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_i386 1.10     07/01/31 SMI"
+# ident "@(#)prototype_i386 1.11     07/05/18 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -87,6 +87,7 @@ f none X11/share/man/man7/tseng.7 0444 root bin
 f none X11/share/man/man7/vesa.7 0444 root bin
 f none X11/share/man/man7/vga.7 0444 root bin
 f none X11/share/man/man7/via.7 0444 root bin
+f none X11/share/man/man7/vmmouse.7 0444 root bin
 f none X11/share/man/man7/vmware.7 0444 root bin
 #f none X11/share/man/man7/wacom.7 0444 root bin
 

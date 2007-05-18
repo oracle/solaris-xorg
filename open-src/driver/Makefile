@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/05/15
+# @(#)Makefile	1.6	07/05/18
 #
 ###############################################################################
 
@@ -60,6 +60,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-spaceorb		\
 	xf86-input-summa		\
 	xf86-input-tek4957		\
+	xf86-input-vmmouse		\
 	xf86-video-apm			\
 	xf86-video-ark			\
 	xf86-video-ast			\
