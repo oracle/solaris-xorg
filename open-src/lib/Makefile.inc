@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.5	07/05/15
+# @(#)Makefile.inc	1.6	07/05/25
 #
 
 PWD:sh=pwd
@@ -58,6 +58,7 @@ $(LIB_PREFIX_DEFAULT)	LIB_PREFIX=$(X11_DIR)
 CONFIG_OPTS = --enable-shared=yes --enable-static=no \
 	--prefix=$(LIB_PREFIX) 	--mandir='$${prefix}/share/man' \
 	--libdir='$${exec_prefix}/lib$(LIB_ADD_SUBDIR)$(LIBSUBDIR)' \
+	--bindir='$${exec_prefix}/bin$(LIBSUBDIR)' \
 	$(LIB_ADD_CONFIG_OPTS)
 
 # Environment variable options to GNU autoconf configure script
