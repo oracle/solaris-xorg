@@ -456,6 +456,32 @@ diff -urp -x '*~' hw/xfree86/utils/xorgcfg/loadmod.c hw/xfree86/utils/xorgcfg/lo
  
      if (!noverify) {
  	XF86ModuleData *initdata = NULL;
+
+--- hw/xfree86/utils/xorgcfg/keyboard-cfg.c
++++ hw/xfree86/utils/xorgcfg/keyboard-cfg.c
+@@ -71,7 +71,7 @@ static void UpdateRulesPopups(void);
+  */
+ static XF86XkbRulesDescInfo **xkb_desc, *xkb_rules;
+ static int num_xkb_desc;
+-static char *XkbRulesDir = "share/X11/xkb/rules/";
++static char *XkbRulesDir = "lib/X11/xkb/rules/";
+ #ifdef XFREE98_XKB
+ static char *XkbRulesFile = "xfree98";
+ #else
+
+--- hw/xfree86/utils/xorgcfg/keyboard-cfg.h
++++ hw/xfree86/utils/xorgcfg/keyboard-cfg.h
+@@ -37,7 +37,7 @@ #define _xf86cfg_keyboard_h
+ /*
+  * All file names are from XProjectRoot or XWINHOME environment variable.
+  */
+-#define	XkbConfigDir		"share/X11/xkb/"
++#define	XkbConfigDir		"lib/X11/xkb/"
+ #define	XkbConfigFile		"X0-config.keyboard"
+ 
+ /*
+
+
 diff -urp -x '*~' hw/xfree86/utils/xorgcfg/mouse-cfg.c hw/xfree86/utils/xorgcfg/mouse-cfg.c
 --- hw/xfree86/utils/xorgcfg/mouse-cfg.c	2006-12-21 10:50:47.000000000 -0800
 +++ hw/xfree86/utils/xorgcfg/mouse-cfg.c	2007-01-05 15:23:49.414822000 -0800
