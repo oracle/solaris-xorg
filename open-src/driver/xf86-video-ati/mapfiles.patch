@@ -62,7 +62,7 @@
 +
 +radeon_drv_la_LDFLAGS += \
 +	-lddc -lexa -li2c -lfb -lint10 -lramdac -lvbe -lvgahw -lxaa \
-+	-lfbdevhw -lXfont -lm
++	-lfbdevhw -lm
 +
 +mapfiles: $(MAPFILES)
 +
