@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/05/08
+# @(#)Makefile	1.9	07/06/01
 #
 
 # Package name used in tarballs
@@ -41,7 +41,8 @@ DRIVER_VERS=1.7.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=6484688.patch build-dri.patch libraries.patch \
-		6538497_6554161.patch
+		6538497_6554161.patch \
+		6559710.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

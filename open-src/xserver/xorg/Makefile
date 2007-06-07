@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.43	07/05/23
+# @(#)Makefile	1.44	07/06/01
 #
 
 PWD:sh=pwd
@@ -99,7 +99,8 @@ SOURCE_PATCHES = \
 	6535006.patch \
 	6540484.patch \
 	signal-handler.patch \
-	kbd-driver.patch
+	kbd-driver.patch  \
+	6559710.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)
@@ -138,6 +139,7 @@ FONTDIR=$(X11_DIR)/lib/X11/fonts
 MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-6.5.2
 
 MODULES_DIR='$${libdir}/modules$(MODULE_subdir)'
+DRI_MODULES_DIR='$${libdir}/modules/dri$(MODULE_subdir)'
 
 # Command line options to GNU autoconf configure script
 # XXX: --disable-dga
@@ -153,6 +155,7 @@ CONFIG_OPTS_COMMON = \
 	--with-os-name="`uname -srmv`" \
 	--with-log-dir=/var/log --with-xkb-output=/var/run/xkb \
 	--with-module-dir=$(MODULES_DIR) \
+	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
 	--with-default-font-path="$(FONTDIR)/TrueType/,$(FONTDIR)/Type1/,$(FONTDIR)/Type1/sun/,$(FONTDIR)/F3bitmaps/,$(FONTDIR)/misc/,$(FONTDIR)/100dpi/,$(FONTDIR)/75dpi/" 
 

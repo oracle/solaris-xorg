@@ -1,0 +1,15 @@
+--- hw/xfree86/common/xf86RandR.c	Tue Jan 23 13:39:16 2007
++++ hw/xfree86/common/xf86Randr.c	Fri Jun  1 12:29:46 2007
+@@ -416,6 +416,12 @@
+ 	xfree (randrp);
+ 	return FALSE;
+     }
++    
++    if (rrPrivIndex == xf86RandRIndex)
++    {
++	xf86RandRIndex = AllocateScreenPrivateIndex();
++    }
++
+     rp = rrGetScrPriv(pScreen);
+     rp->rrGetInfo = xf86RandRGetInfo;
+     rp->rrSetConfig = xf86RandRSetConfig;

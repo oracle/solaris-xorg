@@ -1,0 +1,15 @@
+--- src/i830_randr.c	Wed May 30 10:33:16 2007
++++ src/i830_randr.c	Wed May 30 10:32:58 2007
+@@ -339,6 +339,12 @@
+ 	xfree (randrp);
+ 	return FALSE;
+     }
++
++    if (i830RandRIndex == rrPrivIndex)
++    {
++	i830RandRIndex = AllocateScreenPrivateIndex();
++    }
++
+     rp = rrGetScrPriv(pScreen);
+     rp->rrGetInfo = I830RandRGetInfo;
+     rp->rrSetConfig = I830RandRSetConfig;
