@@ -26,13 +26,13 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.15     07/01/24 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.18     07/06/08 SMI"
 
-#ifdef HAVE_DIX_CONFIG_H
-#include <dix-config.h>
-#endif
+#ifdef HAVE_DIX_CONFIG_H 
+#include <dix-config.h> 
+#endif 
 
-#include <X11/X.h>
+#include <X11/X.h> 
 #define		NEED_REPLIES
 #define		NEED_EVENTS
 #include <stdio.h>
@@ -1921,20 +1921,18 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	int	err_code = BadAtom;
 	PropertyPtr pProp = resource;
 	ClientPtr client = subject;
-	TsolPropPtr tsolprop = (TsolPropPtr)(pProp->secPrivate);
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+	TsolPropPtr tsolprop;
 
 	/* Initialize property created internally by server */
-	if (tsolprop == NULL)
+	if (pProp->secPrivate == NULL)
 	{
-            tsolprop = AllocTsolProp();
-            if (tsolprop == NULL)
-                return(BadAlloc);
-
-	    tsolprop->uid = getuid();
-	    tsolprop->sl = (bslabel_t *)lookupSL_low();
-            pProp->secPrivate = (pointer)tsolprop;
+            pProp->secPrivate = (pointer)AllocServerTsolProp();
+	    if (pProp->secPrivate == NULL)
+		return(BadAlloc);
 	}
+
+	tsolprop = (TsolPropPtr)(pProp->secPrivate);
 
 	/*
 	 * MAC Check
@@ -1966,11 +1964,19 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	 */
 	if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
 	{
-		/* property created by workstation owner at admin_low is readable by roles */
-		if (!(tsolprop->uid == OwnerUID || tsolinfo->uid == tsolprop->uid))
+	    extern bslabel_t        PublicObjSL;
+		/* 
+		 * workstation owner can read properties created internally by loadable modules.
+		 * roles can read property created by workstation owner at admin_low.
+		 */
+
+		if (!((tsolprop->serverOwned && tsolinfo->uid == OwnerUID) ||
+			(tsolprop->uid == OwnerUID && blequal(tsolprop->sl, &PublicObjSL)) || 
+			tsolprop->uid == tsolinfo->uid))
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
+
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
@@ -1978,11 +1984,6 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("dac", (int) misc, tsolprop->sl,
-						  tsolprop->uid, tsolprop->pid, tsolprop->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "read property",
-						  NameForAtom(pProp->propertyName));
 				ret_stat = err_code;
 			}
 		}
@@ -2009,20 +2010,18 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 	int	err_code = BadAtom;
 	PropertyPtr pProp = resource;
 	ClientPtr client = subject;
-	TsolPropPtr tsolprop = (TsolPropPtr)(pProp->secPrivate);
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+	TsolPropPtr tsolprop;
 
 	/* Initialize property created internally by server */
-	if (tsolprop == NULL)
+	if (pProp->secPrivate == NULL)
 	{
-            tsolprop = AllocTsolProp();
-            if (tsolprop == NULL)
-                return(BadAlloc);
-
-	    tsolprop->uid = getuid();
-	    tsolprop->sl = (bslabel_t *)lookupSL_low();
-            pProp->secPrivate = (pointer)tsolprop;
+            pProp->secPrivate = (pointer)AllocServerTsolProp();
+	    if (pProp->secPrivate == NULL)
+		return(BadAlloc);
 	}
+
+	tsolprop = (TsolPropPtr)(pProp->secPrivate);
 
 	/*
 	 * MAC Check
@@ -2054,10 +2053,15 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 	 */
 	if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
 	{
-		if (tsolinfo->uid != tsolprop->uid)
+		/* 
+		 * workstation owner can write properties created internally by loadable modules.
+		 */
+
+		if (!((tsolprop->serverOwned && tsolinfo->uid == OwnerUID) || tsolprop->uid == tsolinfo->uid))
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
                 do_audit = TRUE;
+
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
@@ -2065,11 +2069,6 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("dac", (int) misc, tsolprop->sl,
-						  tsolprop->uid, tsolprop->pid, tsolprop->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "modify property",
-						  NameForAtom(pProp->propertyName));
 				ret_stat = err_code;
 			}
 		}
@@ -2097,7 +2096,17 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 	PropertyPtr pProp = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolPropPtr tsolprop = (TsolPropPtr)(pProp->secPrivate);
+	TsolPropPtr tsolprop;
+
+	/* Initialize property created internally by server */
+	if (pProp->secPrivate == NULL)
+	{
+            pProp->secPrivate = (pointer)AllocServerTsolProp();
+	    if (pProp->secPrivate == NULL)
+		return(BadAlloc);
+	}
+
+	tsolprop = (TsolPropPtr)(pProp->secPrivate);
 
 	/*
 	 * MAC Check

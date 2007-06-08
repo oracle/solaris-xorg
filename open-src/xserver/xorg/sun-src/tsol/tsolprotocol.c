@@ -26,11 +26,11 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.16	07/01/24 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.19	07/06/08 SMI"
 
-#ifdef HAVE_DIX_CONFIG_H
-#include <dix-config.h>
-#endif
+#ifdef HAVE_DIX_CONFIG_H 
+#include <dix-config.h> 
+#endif 
 
 #include <sys/param.h>
 #include <fcntl.h>
@@ -847,6 +847,34 @@ AllocTsolProp()
 	tsolprop->size = 0;
 	tsolprop->data = NULL;
         tsolprop->next = NULL;
+        tsolprop->serverOwned = FALSE;
+    }
+
+    return tsolprop;
+}
+
+/* 
+ * Allocate and initialize tsolprop created
+ * internally by the X server
+ */
+
+TsolPropPtr
+AllocServerTsolProp()
+{
+    TsolPropPtr tsolprop;
+
+    tsolprop = (TsolPropPtr)Xcalloc(sizeof(TsolPropRec));
+
+    if (tsolprop)
+    {
+	tsolprop->size = 0;
+	tsolprop->data = NULL;
+        tsolprop->next = NULL;
+
+	tsolprop->serverOwned = TRUE;
+	tsolprop->uid = getuid(); /* of server process */
+	tsolprop->pid = getpid(); /* of server process */
+	tsolprop->sl = (bslabel_t *)lookupSL_low();
     }
 
     return tsolprop;
@@ -920,11 +948,13 @@ TsolChangeWindowProperty(client, pWin, property, type,
         {
             tsolprop->sl = tsolinfo->sl;	/* use client's sl/uid */
             tsolprop->uid = tsolinfo->uid;
+            tsolprop->pid = tsolinfo->pid;
         }
         else
         {
             tsolprop->sl = tsolres->sl;		/* use window's sl/uid */
             tsolprop->uid = tsolres->uid;
+            tsolprop->pid = tsolres->pid;
         }
 
 	return (result);

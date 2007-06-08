@@ -26,10 +26,10 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolutils.c 1.13     07/01/24 SMI"
+#pragma ident   "@(#)tsolutils.c 1.16     07/06/08 SMI"
 
-#ifdef HAVE_DIX_CONFIG_H
-#include <dix-config.h>
+#ifdef HAVE_DIX_CONFIG_H 
+#include <dix-config.h> 
 #endif
 
 #define NEED_EVENTS
@@ -41,10 +41,11 @@
 #include <bsm/audit_uevents.h>
 #include <regex.h>
 #include <priv.h>
+#include <X11/Xproto.h>
 #include "windowstr.h"
 #include "scrnintstr.h"
 #include  "tsolinfo.h"
-#include <X11/keysym.h>
+#include  <X11/keysym.h>
 #include  "misc.h"
 #include  "inputstr.h"
 #include  "propertyst.h"
@@ -541,7 +542,7 @@ InitHotKey(HotKeyPtr hk)
 
 	/* Alt + Break/Pause */
 	hk->altshift = KeysymToModifier(XK_Alt_L);
-	hk->altkey = KeysymToKeycode(XK_Break);
+	hk->altkey = KeysymToKeycode(XK_Pause);
 
 	hk->initialized = TRUE;
 }

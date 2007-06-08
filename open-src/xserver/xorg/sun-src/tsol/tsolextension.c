@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.19     07/01/24 SMI"
+#pragma ident   "@(#)tsolextension.c 1.22     07/06/08 SMI"
 
 #include <stdio.h>
 #include <bsm/auditwrite.h>
@@ -877,6 +877,15 @@ ProcSetPropLabel(ClientPtr client)
         client->errorValue = stuff->atom;
         return (BadAtom);
     }
+
+    /* Initialize property created internally by server */
+    if (pProp->secPrivate == NULL)
+    {
+        pProp->secPrivate = (pointer)AllocServerTsolProp();
+        if (pProp->secPrivate == NULL)
+	    return(BadAlloc);
+    }
+
     tsolprop = (TsolPropPtr)(pProp->secPrivate);
 
     sl = (bslabel_t *)(stuff + 1);
@@ -943,6 +952,14 @@ ProcSetPropUID(ClientPtr client)
     {
         return (err_code);
     }
+    /* Initialize property created internally by server */
+    if (pProp->secPrivate == NULL)
+    {
+        pProp->secPrivate = (pointer)AllocServerTsolProp();
+        if (pProp->secPrivate == NULL)
+	    return(BadAlloc);
+    }
+
     tsolprop = (TsolPropPtr)(pProp->secPrivate);
     tsolprop->uid = stuff->uid;
 

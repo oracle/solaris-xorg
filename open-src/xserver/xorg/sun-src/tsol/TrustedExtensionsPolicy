@@ -3,7 +3,7 @@
 # Use is subject to license terms.
 #
 
-# ident	"@(#)TrustedExtensionsPolicy 1.5	07/01/31 SMI"
+# ident	"@(#)TrustedExtensionsPolicy 1.7	07/06/08 SMI"
 
 # TrustedExtensionsPolicy
 # Syntax: <atom|property|selection|extension|privilege> name
@@ -166,6 +166,7 @@ property _SUN_CORONA_SESSION
 property _SUN_SUNRAY_SESSION
 property _SUN_SUNRAY_CONN_INFO
 property _SUN_SUNRAY_SESSION_GEOMETRY
+property _SUN_SUNRAY_HOME
 
 #
 # Multilevel JDS/GNOME Support
@@ -189,6 +190,12 @@ selection /^jp.co.justsystem.atokx2/
 
 selection /^_XIMP_/
 selection /^_HTT_/
+
+#
+# Input Method of zh_TW.UTF-8 and zh_CN.UTF-8
+selection /^Wnn/
+selection /^wnn/
+selection /^com.sun.iiim/
 
 extension SYNC
 

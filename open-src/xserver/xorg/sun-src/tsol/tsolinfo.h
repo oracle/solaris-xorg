@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolinfo.h 1.15     07/01/24 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.18     07/06/08 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -219,6 +219,7 @@ typedef struct _TsolProp {
     struct _TsolProp  *next;            /* points to next struct */
     struct _TsolProp  *head;            /* head of poly'd prop list */
     pid_t              pid;             /* who created it */
+    int                serverOwned;	/* internally created by the Server */
 } TsolPropRec, *TsolPropPtr;
 
 /*
@@ -374,6 +375,7 @@ extern int HasWinSelection(TsolInfoPtr tsolinfo);
 extern int same_client (ClientPtr client, XID xid);
 extern int client_private (ClientPtr client, XID xid);
 extern TsolPropPtr AllocTsolProp();
+extern TsolPropPtr AllocServerTsolProp();
 extern bslabel_t *lookupSL_low();
 extern bslabel_t *lookupSL(bslabel_t *slptr);
 extern BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox);
