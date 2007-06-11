@@ -30,28 +30,32 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)solaris-abi.patch	1.1	07/03/09
+# @(#)solaris-abi.patch	1.2	07/06/11
 #
 
 Solaris has always shipped libXtst as libXtst.so.1
 
---- src/Makefile.am	2005-08-02 20:28:02.000000000 -0700
-+++ src/Makefile.am	2007-03-09 13:45:54.272107000 -0800
-@@ -7,4 +7,4 @@
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2007-06-06 14:08:46.000000000 -0700
++++ src/Makefile.am	2007-06-06 19:22:53.876251000 -0700
+@@ -7,7 +7,7 @@ libXtst_la_SOURCES = \
  libXtst_la_LIBADD = @XTST_LIBS@
  AM_CFLAGS = @XTST_CFLAGS@
  
 -libXtst_la_LDFLAGS = -version-number 6:1:0 -no-undefined
 +libXtst_la_LDFLAGS = -version-number 1 -no-undefined
-
---- src/Makefile.in	2005-12-20 23:17:24.000000000 -0800
-+++ src/Makefile.in	2007-03-09 13:48:47.288356000 -0800
-@@ -146,7 +146,7 @@
+ 
+ if LINT
+ ALL_LINT_FLAGS=$(LINT_FLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
+--- src/Makefile.in	2007-06-06 18:49:05.000000000 -0700
++++ src/Makefile.in	2007-06-06 19:22:53.876927000 -0700
+@@ -209,7 +209,7 @@ libXtst_la_SOURCES = \
+ 
  libXtst_la_LIBADD = @XTST_LIBS@
  AM_CFLAGS = @XTST_CFLAGS@
- 
 -libXtst_la_LDFLAGS = -version-number 6:1:0 -no-undefined
 +libXtst_la_LDFLAGS = -version-number 1 -no-undefined
- subdir = src
- ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
- mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+ @LINT_TRUE@ALL_LINT_FLAGS = $(LINT_FLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+ @LINT_TRUE@	       $(AM_CPPFLAGS) $(CPPFLAGS)
+ 

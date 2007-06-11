@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/03/09
+# @(#)Makefile	1.2	07/06/11
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXtst
 
 # Version number (used in path names)
-LIB_VERS=1.0.1
+LIB_VERS=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch
@@ -46,10 +46,10 @@ SOURCE_PATCHES = solaris-abi.patch
 LIBNAME=Xtst
 
 # Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=man/*.man
-#SUN_PACKAGE=SUNWxwplt
-#LIB_STABILITY=Committed
-#LIB_MAN_SUFFIX=3Xtst
+SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Committed
+LIB_MAN_SUFFIX=3Xtst
 
 # Library built in tree
 LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXtst.so.1
