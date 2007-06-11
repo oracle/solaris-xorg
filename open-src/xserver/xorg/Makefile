@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.44	07/06/01
+# @(#)Makefile	1.45	07/06/11
 #
 
 PWD:sh=pwd
@@ -148,7 +148,7 @@ CONFIG_OPTS_COMMON = \
 	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
         --enable-builddocs --disable-xdm-auth-1 --enable-xcsecurity \
 	--enable-shared --disable-static \
-	--enable-kdrive --enable-xephyr \
+	--enable-kdrive --enable-xephyr --disable-xsdl \
 	--disable-install-setuid --enable-xorgcfg \
 	--with-vendor-name="Sun Microsystems, Inc." \
 	--with-vendor-web="http://sunsolve.sun.com/" \
