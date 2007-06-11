@@ -28,9 +28,21 @@
 
 Make docbook2txt work on Solaris for Xorg doc builds
 
+diff -urp -x '*~' -x '*.orig' backends/man.in backends/man.in
+--- backends/man.in	2003-02-11 04:56:23.000000000 -0800
++++ backends/man.in	2007-06-07 11:08:04.434079000 -0700
+@@ -3,7 +3,7 @@
+ # This program is under GPL license. See LICENSE file for details.
+ 
+ # Convert to *roff
+-HELPER=$SGML_BASE_DIR/docbook/utils-@VERSION@/helpers/docbook2man-spec.pl
++HELPER=@prefix@/share/sgml/docbook/utils-@VERSION@/helpers/docbook2man-spec.pl
+ TMPDIR=`mktemp -d /tmp/man.XXXXXX` || \
+  { echo >&2 "man backend: could not create secure temporary directory"; exit 1;}
+ trap 'rm -rf "${TMPDIR}"' EXIT
 diff -urp -x '*~' -x '*.orig' backends/txt backends/txt
 --- backends/txt	2004-02-11 05:58:03.000000000 -0800
-+++ backends/txt	2007-01-29 21:07:20.359122000 -0800
++++ backends/txt	2007-06-07 11:08:04.434363000 -0700
 @@ -1,3 +1,4 @@
 +#! /usr/bin/bash
  # Backend to convert something into ASCII text
@@ -49,35 +61,47 @@ diff -urp -x '*~' -x '*.orig' backends/txt backends/txt
    CONVERT=/usr/bin/links
 diff -urp -x '*~' -x '*.orig' bin/jw.in bin/jw.in
 --- bin/jw.in	2003-04-30 09:21:49.000000000 -0700
-+++ bin/jw.in	2007-01-29 21:07:20.359852000 -0800
++++ bin/jw.in	2007-06-07 11:08:04.435367000 -0700
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#! /bin/bash
  # Jade Wrapper
  # Script to convert a SGML file into some other format
  # Send any comments to Eric Bischoff <eric@caldera.de>
-@@ -77,7 +77,8 @@ SGML_EXTRA_CATALOGS=""
- 
- # Set SGML base directory and centralized catalogs directory
- SGML_BASE_DIR="@prefix@/share/sgml"
--SGML_CATALOGS_DIR="/etc/sgml"
-+SGML_CATALOGS_DIR="/usr/share/sgml"
-+SGML_SEARCH_PATH=$SGML_SEARCH_PATH:/usr/share/lib/sgml/locale/C/entities:/usr/share/sgml/db42xml ; export SGML_SEARCH_PATH
- if [ -f "$SGML_CONF" ]
- then
-   RE='^[:space:]*SGML_BASE_DIR[:space:]*=[:space:]*'
-@@ -290,7 +291,9 @@ fi
- 
- # Use SGML declaration for XML if needed
- if [ "$SGML_DECL" = "" -a "$SGML_XML" = "xml" ]
--then SGML_DECL=${SGML_BASE_DIR}/xml.dcl
-+then SGML_DECL=/usr/share/sgml/openjade/xml.dcl
-+elif [ "$SGML_DECL" = "" ]
-+then SGML_DECL=/usr/share/sgml/docbook_4.2/docbook.dcl
+@@ -86,11 +86,13 @@ then
+   SGML_CATALOGS_DIR=`grep $RE $SGML_CONF | sed "s/$RE//"`
  fi
  
- # Try to find the SGML normalizer
-@@ -306,13 +309,13 @@ fi
++DOCBOOK_UTILS_DIRS="@prefix@/share/sgml/docbook/utils-@VERSION@"
++
+ # Set frontend to use
+-SGML_FRONTEND="$SGML_BASE_DIR/docbook/utils-@VERSION@/frontends/docbook"
++SGML_FRONTEND="$DOCBOOK_UTILS_DIRS/frontends/docbook"
+ 
+ # Set backend to use
+-SGML_BACKEND="$SGML_BASE_DIR/docbook/utils-@VERSION@/backends/html"
++SGML_BACKEND="$DOCBOOK_UTILS_DIRS/backends/html"
+ 
+ # Set main stylesheet
+ SGML_STYLESHEET="default"
+@@ -120,14 +122,14 @@ while [ $# -gt 0 ]
+ do case $1 in
+   -f|--frontend) case "$2" in
+ 		  /*) SGML_FRONTEND="$2" ;;
+-		   *) d=$SGML_BASE_DIR/docbook/utils-@VERSION@/frontends
++		   *) d=$DOCBOOK_UTILS_DIRS/frontends
+ 		      SGML_FRONTEND="$d/$2" ;;
+ 		esac
+ 		shift 2
+ 		;;
+   -b|--backend)	case "$2" in
+ 		  /*) SGML_BACKEND="$2" ;;
+-		   *) d=$SGML_BASE_DIR/docbook/utils-@VERSION@/backends
++		   *) d=$DOCBOOK_UTILS_DIRS/backends
+ 		      SGML_BACKEND="$d/$2" ;;
+ 		esac
+ 		shift 2
+@@ -306,19 +308,19 @@ fi
  # Set path to SGML catalogs (first try centralized catalog)
  case $SGML_STANDARD_CATALOGS in
    yes)	export SGML_CATALOGS_DIR SGML_FILE SGML_XML SGML_NORM
@@ -87,14 +111,20 @@ diff -urp -x '*~' -x '*.orig' bin/jw.in bin/jw.in
  	then
  	  SGML_CATALOG_FILES=$SGML_CENTRALIZED_CATALOG
  	else
--	  SGML_CATALOG_FILES=`find $SGML_BASE_DIR -name catalog`
+ 	  SGML_CATALOG_FILES=`find $SGML_BASE_DIR -name catalog`
 -	  SGML_CATALOG_FILES=`echo "$SGML_CATALOG_FILES" | tr [:space:] :`
-+	  SGML_CATALOG_FILES=`find $SGML_BASE_DIR /usr/share/sgml -name catalog`
 +	  SGML_CATALOG_FILES=`echo "$SGML_CATALOG_FILES" | tr '[:space:]' :::::::`
  	fi
  	;;
    no)	SGML_CATALOG_FILES=""
-@@ -340,7 +343,7 @@ esac
+ 	;;
+ esac
+-SGML_CATALOG_FILES=${SGML_CATALOG_FILES}${SGML_EXTRA_CATALOGS}
++SGML_CATALOG_FILES=@prefix@/share/sgml/catalog:${SGML_CATALOG_FILES}${SGML_EXTRA_CATALOGS}
+ SGML_CATALOG_FILES=`echo "$SGML_CATALOG_FILES" | sed 's/^://;s/:$//'`
+ if [ -z "$SGML_CATALOG_FILES" ]
+ then
+@@ -340,7 +342,7 @@ esac
  if [ "$SGML_STYLESHEET" = "default" -o "$SGML_STYLESHEET" = "none" ]
  then
    export SGML_BASE_DIR SGML_TYPE SGML_STYLESHEET
@@ -103,7 +133,7 @@ diff -urp -x '*~' -x '*.orig' bin/jw.in bin/jw.in
    SGML_RETURN=$?
    if [ $SGML_RETURN -gt 0 ]
    then exit `expr 7 + $SGML_RETURN`
-@@ -428,9 +431,9 @@ export SGML_CATALOG_FILES SGML_BASE_DIR 
+@@ -428,9 +430,9 @@ export SGML_CATALOG_FILES SGML_BASE_DIR 
  NOCHUNKS=`echo $SGML_OPTIONS | grep nochunks`
  if [ -z "$NOCHUNKS" ]
  then
@@ -115,23 +145,9 @@ diff -urp -x '*~' -x '*.orig' bin/jw.in bin/jw.in
  fi
  SGML_RETURN=$?
  cd $SGML_CURRENT_DIRECTORY
-diff -urp -x '*~' -x '*.orig' doc/HTML/Makefile.am doc/HTML/Makefile.am
---- doc/HTML/Makefile.am	2002-04-22 04:48:20.000000000 -0700
-+++ doc/HTML/Makefile.am	2007-01-29 21:07:20.360396000 -0800
-@@ -23,8 +23,8 @@ $(html_DATA): $(top_srcdir)/doc/docbook-
- 		$(top_srcdir)/doc/refentry/docbook2texi-spec.pl.sgml \
- 		$(top_srcdir)/doc/refentry/frontend-spec.sgml \
- 		$(top_srcdir)/doc/refentry/sgmldiff.sgml
--	SGML_CATALOG_FILES=/etc/sgml/catalog \
--	SGML_SEARCH_PATH=$(top_srcdir):$(top_srcdir)/doc:.. \
-+	SGML_CATALOG_FILES=/etc/sgml/catalog:/usr/share/sgml/docbook_3/docbook.cat:/usr/share/sgml/docbook/dsssl-stylesheets/catalog:/usr/share/sgml/openjade/catalog \
-+	SGML_SEARCH_PATH=$(top_srcdir):$(top_srcdir)/doc:..:/usr/share/lib/sgml/locale/C/entities \
- 		jade -t sgml -i html -d $(top_srcdir)/docbook-utils.dsl\#html \
- 			-V '%use-id-as-filename%' $<
- 
 diff -urp -x '*~' -x '*.orig' frontends/docbook.in frontends/docbook.in
 --- frontends/docbook.in	2002-11-02 09:45:10.000000000 -0800
-+++ frontends/docbook.in	2007-01-29 21:07:20.360680000 -0800
++++ frontends/docbook.in	2007-06-07 11:08:04.456155000 -0700
 @@ -15,7 +15,7 @@ case "$1" in
  	SGML_VERSION=`"$SGML_NORM" $SGML_NORM_OPTS -- "$SGML_FILE" 2>/dev/null |
  			grep -i '<!DOCTYPE' |
@@ -141,8 +157,12 @@ diff -urp -x '*~' -x '*.orig' frontends/docbook.in frontends/docbook.in
  	SGML_CATALOG=
  	for f in "${SGML_CATALOGS_DIR}/${SGML_XML}-docbook-${SGML_VERSION}"*".cat"
  	do 
-@@ -41,7 +41,7 @@ case "$1" in
- 	    echo "${SGML_BASE_DIR}/docbook/utils-@VERSION@/docbook-utils.dsl#${SGML_TYPE}"
+@@ -38,10 +38,10 @@ case "$1" in
+   style-sheet)
+ 	case $SGML_STYLESHEET in
+ 	  default)
+-	    echo "${SGML_BASE_DIR}/docbook/utils-@VERSION@/docbook-utils.dsl#${SGML_TYPE}"
++	    echo "@prefix@/share/sgml/docbook/utils-@VERSION@/docbook-utils.dsl#${SGML_TYPE}"
  	    ;;
  	  none)
 -	    find $SGML_BASE_DIR -name docbook.dsl | grep "$SGML_TYPE/docbook.dsl" | awk '{print $1}'

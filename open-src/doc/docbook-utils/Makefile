@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/05/15
+# @(#)Makefile	1.3	07/06/11
 #
 
 PWD:sh=pwd
@@ -92,9 +92,6 @@ $(CATALOG):
 	echo "OVERRIDE YES" > $@
 	echo "" >> $@
 	echo 'SYSTEM "X11/defs.ent" "$(PROTODIR)$(X11_DIR)/share/sgml/X11/defs.ent"' >> $@
-	cat /usr/share/sgml/docbook_4.2/docbook.cat | \
-	perl -p -e 's%"(.*)\.(mod|dtd)"%"/usr/share/sgml/docbook_4.2/\1.\2"%' | \
-	perl -p -e 's%"(.*)\.gml"%"/usr/share/lib/sgml/locale/C/entities/\1.gml"%' \
-	>> $@ 
-	echo "CATALOG /usr/share/sgml/CATALOG.docbook-dsssl-stylesheets" >> $@
+	echo "CATALOG /etc/sgml/catalog" >> $@
+	echo "CATALOG /usr/share/sgml/docbook/dsssl-stylesheets/catalog" >> $@
 	echo "CATALOG /usr/share/sgml/openjade/catalog" >> $@
