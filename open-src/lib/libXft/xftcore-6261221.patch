@@ -1,9 +1,10 @@
 D 1.4	05/05/24 14:18:14 wangd	5 4	00009/00002/01375
 fixed CR6261221: view page source causes mozilla crash on S10 b74L2a
 
---- xftcore.c	Wed Aug 24 19:24:00 2005
-+++ xftcore.c	Fri Jun 10 13:52:54 2005
-@@ -1256,8 +1256,15 @@
+diff -urp -x '*~' -x '*.orig' src/xftcore.c src/xftcore.c
+--- src/xftcore.c	2006-12-07 02:17:19.000000000 -0800
++++ src/xftcore.c	2007-06-11 17:36:56.256417000 -0700
+@@ -1254,8 +1254,15 @@ XftGlyphFontSpecCore (XftDraw			*draw,
  	g_y2 = g_y1 + gi.height;
  	if (i)
  	{

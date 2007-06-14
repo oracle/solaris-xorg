@@ -2,7 +2,7 @@
 #
 # Xft 2.x Makefile
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/05/15
+# @(#)Makefile	1.8	07/06/13
 #
 
 PWD:sh=pwd
@@ -40,15 +40,10 @@ TOP=$(PWD)/../..
 LIB_MODULE=libXft
 
 # Version number (used in path names)
-LIB_VERS=2.1.6
-
-# Download site for source
-SOURCE_URL=http://xlibs.freedesktop.org/release/$(SOURCE_TARBALL_NAME)
-SOURCE_URL_SET=yes
+LIB_VERS=2.1.12
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	xft.pc.patch \
 	xftcore-6261221.patch \
 	cjk-embolden.patch \
 	xft.hint.patch
@@ -57,14 +52,10 @@ SOURCE_PATCHES = \
 LIBNAME=Xft
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=Xft.3.in Xft.3
+SUNTOUCHED_MANPAGES=man/Xft.3.in man/Xft.3
 SUN_PACKAGE=SUNWxwxft
 LIB_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
-
-# Where to install files
-LIB_PREFIX=$(OW_DIR)
-LIB_PREFIX_SET=yes
 
 # Command line options to GNU autoconf configure script
 LIB_ADD_CONFIG_OPTS = --mandir=$(X11_DIR)/share/man
@@ -85,7 +76,7 @@ XFT_MAPFILE=$(PWD)/mapfile.scope
 LIB_ADD_LD_OPTIONS=-M$(XFT_MAPFILE)
 
 # pkg-config files that need to have -R added
-# FIX_PC_FILES=xft.pc.in - already has -R
+FIX_PC_FILES=xft.pc.in
 
 include ../Makefile.inc
 

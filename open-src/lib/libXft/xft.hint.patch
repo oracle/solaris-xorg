@@ -1,0 +1,37 @@
+diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
+--- src/Makefile.in	2006-12-07 02:27:43.000000000 -0800
++++ src/Makefile.in	2007-06-11 17:36:57.028658000 -0700
+@@ -63,7 +63,7 @@ am_libXft_la_OBJECTS = xftcolor.lo xftco
+ 	xftinit.lo xftlist.lo xftname.lo xftrender.lo xftstr.lo \
+ 	xftswap.lo xftxlfd.lo
+ libXft_la_OBJECTS = $(am_libXft_la_OBJECTS)
+-DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
++DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir) -DFT_CONFIG_ADD_FULL_HINTING -I../../../freetype/build_32/freetype-2.1.10/include
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+diff -urp -x '*~' -x '*.orig' src/xftfreetype.c src/xftfreetype.c
+--- src/xftfreetype.c	2007-06-11 17:36:56.663306000 -0700
++++ src/xftfreetype.c	2007-06-11 17:36:57.027356000 -0700
+@@ -618,7 +618,20 @@ XftFontInfoFill (Display *dpy, _Xconst F
+     {
+ 	fi->load_flags |= FT_LOAD_NO_HINTING;
+     }
+-
++#ifdef FC_HINT_STYLE
++#ifdef FT_CONFIG_ADD_FULL_HINTING
++    /*
++     * So long as we are not in NO_HINTING, then check to see if the user has
++     * selected Full hinting mode. If they have, then set the new FT flag to
++     * use full hinting.
++     */
++    else
++    {
++	if ( hint_style == FC_HINT_FULL )
++	    fi->load_flags |= FT_LOAD_USE_FULL_HINTING;
++    }
++#endif /* FT_CONFIG_ADD_FULL_HINTING */
++#endif /* FC_HINT_STYLE */
+     /* Figure out the load target, which modifies the hinting
+      * behavior of FreeType based on the intended use of the glyphs.
+      */
