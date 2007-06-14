@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	07/01/30
+# @(#)Makefile	1.14	07/06/13
 #
 ###############################################################################
 #
@@ -38,6 +38,7 @@
 # depend on portions of the monolithic tree).
 
 BEFOREX = \
+	util/util-macros \
 	proto \
 	data/xbitmaps \
 	util/lndir \

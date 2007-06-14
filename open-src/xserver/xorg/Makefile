@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.45	07/06/11
+# @(#)Makefile	1.46	07/06/13
 #
 
 PWD:sh=pwd
@@ -211,10 +211,12 @@ BUILD_64_FLAGS_sparc=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)"
 BUILD_64_FLAGS_i386=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR64)"
 BUILD_64_FLAGS=$(BUILD_64_FLAGS_$(MACH))
 
+ACLOCAL_PATH=aclocal -I $(PROTODIR)/usr/X11/share/aclocal
+
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && automake && autoconf && \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
+	(cd $(SOURCE_DIR) && ACLOCAL="$(ACLOCAL_PATH)" autoreconf \
+	 && $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 	(cd $(SOURCE_DIR)/hw/xfree86/xf1bpp && \
 	 $(MAKE) $(MFLAGS) maintainer-clean-generic)
 
