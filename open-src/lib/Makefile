@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/05/15
+# @(#)Makefile	1.8	07/06/13
 #
 ###############################################################################
 
@@ -46,7 +46,7 @@ OS_SUBDIRS_common = \
 	libXrender \
 	libXdamage \
 	libXfont \
-	Xft \
+	libXft \
 	libXinerama \
 	libxkbfile \
 	libxkbui \
