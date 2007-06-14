@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.64	07/05/17
+# @(#)Makefile	1.66	07/06/14
 #
 
 # Package name used in tarballs
@@ -133,7 +133,9 @@ FC_MAN_FIX=perl -n -MPOSIX=strftime -e \
 	s%^\\\|\.%.IR \\|.%; \
 	print \
    }'
-
+#
+# 6368378: fc-cache and fc-list man pages are broken
+#
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
 fontconfig-sunman-install:
@@ -148,12 +150,17 @@ fontconfig-sunman-install:
 		rm -f $(FC_MAN_DIR)/man1/$$i.1 ; 		\
 	    fi ;						\
 	    if [ -f sunman-notes-$$i ] ; then			\
-		APPEND="sunman-notes-$$i $(TOP)/common/sunman-stability" ;	\
-	    else						\
+		APPEND="sunman-notes-$$i $(TOP)/common/sunman-stability" ; \
+		else						\
 		APPEND=$(TOP)/common/sunman-stability ;		\
 	    fi ;						\
+	    if [ -f $(SOURCE_DIR)/$$i/$$i.man ] ; then \
 	    $(FC_MAN_FIX) $(SOURCE_DIR)/$$i/$$i.man $$APPEND > \
 		$(FC_MAN_DIR)/man1/$$i.1 ;		\
+	    else						\
+		$(FC_MAN_FIX) $$i.man $$APPEND > \
+		$(FC_MAN_DIR)/man1/$$i.1 ;		\
+		fi ;						\
 	done
 
 install_64::
