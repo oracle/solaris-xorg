@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.66	07/06/14
+# @(#)Makefile	1.67	07/06/14
 #
 
 # Package name used in tarballs
@@ -103,6 +103,10 @@ FC_OPTFLAGS_sparc = $(DEFAULT_OPT_CFLAGS)
 FC_OPTFLAGS=$(FC_OPTFLAGS_$(MACH))
 
 $(SOURCE_DIR)/Makefile: $(FONTCONFIG_FT2CFG)
+
+# Need to regenerate configure with newer autoconf to work with Studio 12
+source_gen::
+	(cd $(SOURCE_DIR) && autoreconf -v)
 
 $(SOURCE_DIR)/fonts.conf-SUNW: $(SOURCE_DIR)/fonts.conf fonts.conf.append fonts.conf.preuser fix-fonts.conf.pl
 	perl fix-fonts.conf.pl < $(SOURCE_DIR)/fonts.conf > $(SOURCE_DIR)/fonts.conf-SUNW
