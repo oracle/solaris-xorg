@@ -1,0 +1,10 @@
+--- src/radeon_driver.c.orig	Wed Jun 13 14:15:10 2007
++++ src/radeon_driver.c	Wed Jun 13 14:17:07 2007
+@@ -9896,6 +9896,7 @@
+ 	         currentm = newm;
+ 	         tempm = tempm->next;
+ 	  }
++	  info->CRT2pScrn->monitor->Last = currentm;
+ 
+ 	  /* xf86SetDDCproperties(info->CRT2pScrn, pRADEONEnt->MonInfo2); */
+           info->CRT2pScrn->monitor->DDC = pRADEONEnt->MonInfo2;

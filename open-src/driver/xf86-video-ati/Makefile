@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	07/03/21
+# @(#)Makefile	1.11	07/06/13
 #
 
 # Package name used in tarballs
@@ -48,7 +48,8 @@ SOURCE_PATCHES = \
 	autoconfig3.patch	\
 	mapfiles.patch		\
 	6531742.patch		\
-	6535741.patch
+	6535741.patch		\
+	6568883.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
