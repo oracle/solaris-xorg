@@ -1,0 +1,16 @@
+--- hw/xfree86/ddc/ddcProperty.c.orig	Fri Jun  1 14:43:50 2007
++++ hw/xfree86/ddc/ddcProperty.c	Wed Jun  6 11:50:25 2007
+@@ -264,11 +264,11 @@
+ 
+     /* set up the ranges for scanning through the modes */
+     Monitor->nHsync = 1;
+-    Monitor->hsync[0].lo = 1024.0;
++    Monitor->hsync[0].lo = 31.5;
+     Monitor->hsync[0].hi = 0.0;
+ 
+     Monitor->nVrefresh = 1;
+-    Monitor->vrefresh[0].lo = 1024.0;
++    Monitor->vrefresh[0].lo = 50.0;
+     Monitor->vrefresh[0].hi = 0.0;
+ 
+     while (Mode) {
