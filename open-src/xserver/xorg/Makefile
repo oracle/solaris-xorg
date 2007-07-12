@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.47	07/06/15
+# @(#)Makefile	1.48	07/07/12
 #
 
 PWD:sh=pwd
@@ -247,5 +247,5 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@
 	printf '# Functions exported by Xorg server to loadable modules\n\n' > $@
 	printf '{\n  global:\n' >> $@
-	/usr/ccs/bin/nm -g $(XORGSERVER_BIN) | grep -v UNDEF | sed -n -e 's/^.*\|FUNC \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = FUNCTION extern;/p' -e 's/^.*\|OBJT \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = DATA extern;/p' >> $@
+	/usr/ccs/bin/nm -g $(XORGSERVER_BIN) $(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/libXfont.so | grep -v UNDEF | sed -n -e 's/^.*\|FUNC \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = FUNCTION extern;/p' -e 's/^.*\|OBJT \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = DATA extern;/p' >> $@
 	printf '};\n' >> $@
