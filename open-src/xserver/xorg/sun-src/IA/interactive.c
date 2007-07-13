@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)interactive.c 35.16     07/01/24 SMI"
+#pragma ident   "@(#)interactive.c 35.17     07/07/11 SMI"
 
 /************************************************************
 	Basic boilerplate extension.
@@ -287,11 +287,11 @@ ProcIASetProcessInfo(ClientPtr client)
 
     REQUEST(xIASetProcessInfoReq);
     register int length;
-    static uid_t ServerUid = -1;
+    static uid_t ServerUid = (uid_t)-1;
 
     REQUEST_AT_LEAST_SIZE(xIASetProcessInfoReq);
 
-    if (ServerUid < 0)
+    if (ServerUid == (uid_t)-1)
 	ServerUid=getuid();
 
     if ((stuff->flags & INTERACTIVE_INFO) && 

@@ -1,0 +1,16 @@
+--- src/mesa/main/texenvprogram.c	Fri Nov 17 05:31:59 2006
++++ src/mesa/main/texenvprogram.c	Tue Jun 26 10:09:24 2007
+@@ -34,10 +34,10 @@
+ #include "shader/program_instruction.h"
+ 
+ /**
+- * According to Glean's texCombine test, no more than 21 instructions
+- * are needed.  Allow a few extra just in case.
++ * Intel 965 allows maximum 8 textures, so 24 instructions are needed now.
++ * Allow a few extra just in case.
+  */
+-#define MAX_INSTRUCTIONS 24
++#define MAX_INSTRUCTIONS 27
+ 
+ #define DISASSEM (MESA_VERBOSE & VERBOSE_DISASSEM)
+ 

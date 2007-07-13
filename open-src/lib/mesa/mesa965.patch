@@ -1,0 +1,83 @@
+--- src/mesa/drivers/dri/i965/server/i830_common.h	Fri Sep 29 00:42:14 2006
++++ src/mesa/drivers/dri/i965/server/i830_common.h	Wed Apr  4 09:59:55 2007
+@@ -89,6 +89,7 @@
+         int pf_current_page;	/* which buffer is being displayed? */
+         int perf_boxes;	        /* performance boxes to be displayed */   
+ 	int width, height;      /* screen size in pixels */
++	int pad0;
+ 
+ 	drm_handle_t front_handle;
+ 	int front_offset;
+
+--- src/mesa/drivers/dri/i965/server/i830_dri.h		Wed Jun 13 14:55:59 2007
++++ src/mesa/drivers/dri/i965/server/i830_dri.h		Wed Jun 13 14:55:09 2007
+@@ -19,19 +19,23 @@
+    drmSize regsSize;
+ 
+    drmSize unused1; /* backbufferSize */
++   drmSize pad0;
+    drm_handle_t unused2; /* backbuffer */
+ 
+    drmSize unused3; /* depthbufferSize */
+    drm_handle_t unused4; /* depthbuffer */
+ 
+-   drmSize unused5; /* rotatedSize /*/
++   drmSize unused5; /* rotatedSize */
++   drmSize pad1;
+    drm_handle_t unused6; /* rotatedbuffer */
+ 
+    drm_handle_t unused7; /* textures */
+    int unused8; /* textureSize */
++   drmSize pad2;
+ 
+    drm_handle_t unused9; /* agp_buffers */
+    drmSize unused10; /* agp_buf_size */
++   drmSize pad3;
+ 
+    int deviceID;
+    int width;
+--- src/mesa/drivers/dri/i965/brw_draw_upload.c	2006-11-21 23:03:46.000000000 +0800
++++ src/mesa/drivers/dri/i965/brw_draw_upload.c	2007-06-20 16:24:44.984501652 +0800
+@@ -26,6 +26,7 @@
+  **************************************************************************/
+ 
+ #include <stdlib.h>
++#include <string.h>
+ 
+ #include "glheader.h"
+ #include "context.h"
+@@ -187,6 +188,23 @@
+    BRW_SURFACEFORMAT_R8G8B8A8_SSCALED
+ };
+ 
++#if defined (sun)
++/* Solaris does not have ffsll in libc */
++#define	NBITS_INT	(CHAR_BIT * sizeof (int))
++static int ffsll(long long i)
++{
++	int i1;
++	int ret;
++
++	i1 = i & UINT_MAX;
++	ret = ffs(i1);
++	if (ret == 0) {
++		i1 = (i & 0xffffffff00000000) >> NBITS_INT;
++		ret = ffs(i1) + NBITS_INT;
++	}
++	return ret;
++}
++#endif
+ 
+ static GLuint get_surface_type( GLenum type, GLuint size, GLboolean normalized )
+ {
+--- src/mesa/drivers/dri/i965/brw_aub.c	Mon Jun 11 09:57:08 2007
++++ src/mesa/drivers/dri/i965/brw_aub.c	Mon Jun 11 09:57:23 2007
+@@ -34,7 +34,7 @@
+ #include "intel_regions.h"
+ #include <stdio.h>
+ 
+-extern char *__progname;
++char *__progname = "testaub";
+ 
+ 
+ /* Registers to control page table

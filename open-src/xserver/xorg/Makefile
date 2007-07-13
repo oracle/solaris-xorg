@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.48	07/07/12
+# @(#)Makefile	1.49	07/07/13
 #
 
 PWD:sh=pwd
@@ -101,7 +101,8 @@ SOURCE_PATCHES = \
 	signal-handler.patch \
 	kbd-driver.patch  \
 	6559710.patch \
-	6561019.patch
+	6561019.patch \
+	6577124.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)

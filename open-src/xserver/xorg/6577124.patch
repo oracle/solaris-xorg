@@ -1,0 +1,28 @@
+--- GL/glx/glxdri.c	Tue Jan 23 13:39:15 2007
++++ GL/glx/glxdri.c	Thu Jul  5 09:18:56 2007
+@@ -231,9 +231,12 @@
+ {
+     __GLXDRIcontext *context = (__GLXDRIcontext *) baseContext;
+ 
+-    context->driContext.destroyContext(NULL,
+-				       context->base.pScreen->myNum,
+-				       context->driContext.private);
++
++    if (context->driContext.destroyContext != NULL) {
++	    context->driContext.destroyContext(NULL,
++		context->base.pScreen->myNum,
++		context->driContext.private);
++    }
+     __glXContextDestroy(&context->base);
+     xfree(context);
+ }
+@@ -243,6 +246,9 @@
+ {
+     __GLXDRIcontext *context = (__GLXDRIcontext *) baseContext;
+ 
++    if (context->driContext.bindContext == NULL)
++	    return GL_FALSE;
++
+     return (*context->driContext.bindContext)(NULL,
+ 					      context->base.pScreen->myNum,
+ 					      baseContext->drawPriv->drawId,
