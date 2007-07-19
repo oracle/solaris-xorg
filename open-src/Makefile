@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14	07/06/13
+# @(#)Makefile	1.15	07/07/18
 #
 ###############################################################################
 #
@@ -43,7 +43,8 @@ BEFOREX = \
 	data/xbitmaps \
 	util/lndir \
 	doc \
-	lib
+	lib \
+	app/bdftopcf
 
 AFTERX = \
 	app \
