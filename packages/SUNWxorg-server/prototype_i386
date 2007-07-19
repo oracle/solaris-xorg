@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.10     07/05/18 SMI"
+# ident "@(#)prototype_i386 1.11     07/07/24 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -59,12 +59,6 @@ d none X11/bin/amd64 0755 root bin
 f none X11/bin/amd64/Xorg 4555 root bin
 f none X11/bin/amd64/Xephyr 0555 root bin
 f none X11/bin/amd64/Xvfb 0555 root bin
-
-!search $HOME/lib/X11/xserver/amd64
-d none X11/lib/X11/xserver/amd64 0755 root bin
-f none X11/lib/X11/xserver/amd64/libfontenc.so.1 0444 root bin
-f none X11/lib/X11/xserver/amd64/libXfont.so.1 0444 root bin
-
 
 !search $HOME/lib/modules/amd64
 d none X11/lib/modules/amd64 0755 root bin
