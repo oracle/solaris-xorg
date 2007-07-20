@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/05/05
+# @(#)Makefile	1.3	07/07/20
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXdamage
 
 # Version number (used in path names)
-LIB_VERS=1.0.4
+LIB_VERS=1.1.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

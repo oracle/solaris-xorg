@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)mapfile-vers	1.1	07/05/03 SMI"
+# ident	"@(#)mapfile-vers	1.2	07/07/20 SMI"
 #
 
 libXdamage_1.0 {
@@ -40,4 +40,9 @@ libXdamage_1.0 {
     local:
 	*;
 };
+
+libXdamage_1.1 {
+    global:
+	XDamageAdd;
+} libXdamage_1.0;
 
