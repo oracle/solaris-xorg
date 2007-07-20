@@ -29,9 +29,11 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.12     07/03/23 SMI"
+# ident "@(#)prototype_i386 1.13     07/07/20 SMI"
 #
 # X.Org Foundation X server for Solaris
+
+i depend=depend_i386
 
 # Include ISA independent files (prototype_com)
 #

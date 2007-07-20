@@ -29,14 +29,13 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.5     07/01/31 SMI"
+# ident "@(#)prototype_com 1.6     07/07/20 SMI"
 #
 # X.Org Foundation X server for Solaris Graphics Device DDX modules
 
 !HOME=../usr/X11
 
 i pkginfo
-i depend
 i copyright
 
 d none X11 0755 root bin

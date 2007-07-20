@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)depend_i386 1.11     07/07/18 SMI"
+# ident "@(#)depend_i386 1.12     07/07/20 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -46,3 +46,5 @@ P SUNWxorg-xkb	X.org Foundation Xserver keyboard layouts
 P SUNWxsvc	Xserver pseudo driver
 P SUNWxwplt	X Window System platform software
 P SUNWxorg-clientlibs	X.Org Foundation X Client Libraries
+# Needed since we build with gcc:
+P SUNWgccruntime	GCC Runtime libraries

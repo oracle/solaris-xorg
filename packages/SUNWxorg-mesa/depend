@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)depend 1.4     06/12/07 SMI"
+# ident "@(#)depend 1.5     07/07/20 SMI"
 #
 # Mesa OpenGL workalike for Xorg on Solaris
 
@@ -39,3 +39,5 @@ P SUNWcsl	Core Solaris, (Shared Libs)
 P SUNWlibms	Sun Compilers Bundled shared libm
 P SUNWxorg-server X.Org Foundation Xserver
 P SUNWlexpt	libexpat - XML parser library
+# Needed since we build with gcc:
+P SUNWgccruntime	GCC Runtime libraries

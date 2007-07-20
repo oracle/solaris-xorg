@@ -29,9 +29,11 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.3     07/01/31 SMI"
+# ident "@(#)prototype_sparc 1.4     07/07/20 SMI"
 #
 # X.Org Foundation X server for Solaris
+
+i depend=depend_sparc
 
 # Include ISA independent files (prototype_com)
 #

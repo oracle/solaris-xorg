@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,12 +29,16 @@
 #
 ##########################################################################
 #
-# ident "@(#)depend 1.4     07/07/20 SMI"
+# ident "%Z%%M% %I%     %E% SMI"
 #
-# X.Org Foundation X libraries for Solaris
+# X.Org Foundation X server graphics driver modules for Solaris
 
 P SUNWcsr	Core Solaris, (Root)
 P SUNWcsu	Core Solaris, (Usr)
 P SUNWcsl	Core Solaris, (Shared Libs)
-P SUNWlibms	Sun Compilers Bundled shared libm
-P SUNWxwplt	X Window System platform software
+P SUNWesu	Extended System Utilities
+P SUNWxorg-server	X.org Foundation Xserver
+# Needed for drivers that depend on dri bits from Mesa pkg:
+P SUNWxorg-mesa		Xorg Server Mesa Modules and Libraries
+# Needed since we build with gcc:
+P SUNWgccruntime	GCC Runtime libraries
