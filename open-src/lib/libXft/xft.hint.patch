@@ -6,7 +6,7 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
  	xftswap.lo xftxlfd.lo
  libXft_la_OBJECTS = $(am_libXft_la_OBJECTS)
 -DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
-+DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir) -DFT_CONFIG_ADD_FULL_HINTING -I../../../freetype/build_32/freetype-2.1.10/include
++DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir) -DFT_CONFIG_ADD_FULL_HINTING -I../../../../freetype/build_32/freetype-2.1.10/include
  depcomp = $(SHELL) $(top_srcdir)/depcomp
  am__depfiles_maybe = depfiles
  COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
