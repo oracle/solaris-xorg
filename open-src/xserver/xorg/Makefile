@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.49	07/07/13
+# @(#)Makefile	1.50	07/07/25
 #
 
 PWD:sh=pwd
@@ -58,6 +58,7 @@ SOURCE_PATCHES = \
 	immu.h.patch,-p1 \
 	server-libs.patch \
 	dtrace.patch \
+	automake-1.10.patch,-p1 \
 	client-privates-leak.patch,-p1 \
 	ddc.patch,-p1 \
 	xcmisc-security.patch \
@@ -213,12 +214,10 @@ BUILD_64_FLAGS_sparc=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)"
 BUILD_64_FLAGS_i386=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR64)"
 BUILD_64_FLAGS=$(BUILD_64_FLAGS_$(MACH))
 
-ACLOCAL_PATH=aclocal -I $(PROTODIR)/usr/X11/share/aclocal
-
 # Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && ACLOCAL="$(ACLOCAL_PATH)" autoreconf \
-	 && $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
+	(cd $(SOURCE_DIR) && \
+	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 	(cd $(SOURCE_DIR)/hw/xfree86/xf1bpp && \
 	 $(MAKE) $(MFLAGS) maintainer-clean-generic)
 

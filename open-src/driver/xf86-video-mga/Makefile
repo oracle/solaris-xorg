@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/02/26
+# @(#)Makefile	1.8	07/07/25
 #
 
 # Package name used in tarballs
@@ -60,5 +60,5 @@ DRIVER_ADD_LIBS= \
 
 include ../Makefile.inc
 
-source_gen::
-	(cd $(SOURCE_DIR) && automake)
+source_gen:: $(UNPACK_TARGET) autoreconf
+

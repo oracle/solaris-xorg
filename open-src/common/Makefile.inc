@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.76	07/05/15
+# @(#)Makefile.inc	1.77	07/07/25
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -154,6 +154,7 @@ X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
 X11_DOC_DIR=$(X11_DIR)/share/doc
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
+X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal
 X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
 # Subdirectory of /usr/X11/lib for X server private libraries
 X11_SERVERLIBS_SUBDIR=/X11/xserver
@@ -230,7 +231,8 @@ FIX_PC_OPS= \
 
 source_gen::
 	mkdir -p $(BUILD_DIR)
-	@if [ "x$(SOURCE_TARBALL_NAME)" != "xNONE" ] ; then \
+	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
+	if [ "x$(SOURCE_TARBALL_NAME)" != "xNONE" ] ; then \
 	    if [ "x$(SOURCE_UNCOMPRESS)" = "x" ] ; then \
 	        echo "bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
 	        ( bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
@@ -238,8 +240,8 @@ source_gen::
 	        echo "$(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
 	        ( $(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
 	    fi ; \
-	fi
-	@if [ "x$(SOURCE_PATCHES)" != "x" ] ; then \
+	fi ; \
+	if [ "x$(SOURCE_PATCHES)" != "x" ] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
 	        if [ "$$p" != "x" ] ; then \
 		    PATCH_CMD=`echo $$p | awk -F, '{if (NF > 1) FLAGS = $$2; else FLAGS="-p0" ; printf "gpatch -d $(SOURCE_DIR) %s < %s\n", FLAGS, $$1}'` ; \
@@ -247,15 +249,15 @@ source_gen::
 		    eval $${PATCH_CMD} ; \
 		fi ; \
 	    done ; \
-	fi
-	@if [ "x$(SUNTOUCHED_MANPAGES)" != "x" ] ; then \
+	fi ; \
+	if [ "x$(SUNTOUCHED_MANPAGES)" != "x" ] ; then \
 	    echo "/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES)" ; \
 	    (cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
-	fi
-	@if [ "x$(FIX_PC_FILES)"  != "x" ] ; then \
+	fi ; \
+	if [ "x$(FIX_PC_FILES)"  != "x" ] ; then \
 	    echo "/usr/perl5/bin/perl -i.orig -p \
 			$(FIX_PC_OPS) $(FIX_PC_FILES)" ; \
 	    (cd $(SOURCE_DIR) && \
@@ -264,6 +266,14 @@ source_gen::
 	fi
 	touch $(BUILD_DIR)/.unpack_done
 
+### Regenerate autoconf/automake/libtools files after patching when needed
+
+# Include Xorg autoconf macros when rebuilding configure scripts
+ACLOCAL_PATH=aclocal -I $(PROTODIR)/usr/X11/share/aclocal
+
+autoreconf: $(UNPACK_TARGET)
+	(cd $(SOURCE_DIR) && \
+	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force )
 
 ### Source tarballs & downloading if necessary
 
@@ -279,7 +289,7 @@ SOURCE_URL_DEFAULT	= $(SOURCE_URL_SET:yes=$(POUND_SIGN))
 $(SOURCE_URL_DEFAULT)	SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
 download:
-	if [ ! -f $(SOURCE_TARBALL) ] ; then \
+	if [ ! -s $(SOURCE_TARBALL) ] ; then \
 		$(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ;\
 	fi
 

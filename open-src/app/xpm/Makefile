@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/05/15
+# @(#)Makefile	1.6	07/07/20
 #
 
 PWD:sh=pwd
@@ -76,10 +76,8 @@ CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
 	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) 
 
 # Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; cat acinclude.m4 >> aclocal.m4 ; \
-	 automake && autoconf  && \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
+	(cd $(SOURCE_DIR) && $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 
 # Binary built in tree
 APP_BIN=$(SOURCE_DIR)/cxpm/cxpm $(SOURCE_DIR)/sxpm/sxpm 
