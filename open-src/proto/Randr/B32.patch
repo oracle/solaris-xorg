@@ -1,0 +1,25 @@
+commit d1c5739ae19f7cc01a6a5603d3fae93e1f9ee3d1
+Author: Alan Coopersmith <alan.coopersmith@sun.com>
+Date:   Mon Apr 9 14:31:10 2007 -0700
+
+    Delete duplicate B32's in xRRScreenChangeNotifyEvent
+    
+    Caused compiler warnings:
+      "randrproto.h", line 567: warning: syntax error:  empty member declaration
+      "randrproto.h", line 568: warning: syntax error:  empty member declaration
+
+diff --git a/randrproto.h b/randrproto.h
+index abca369..cf7a022 100644
+--- a/randrproto.h
++++ b/randrproto.h
+@@ -564,8 +564,8 @@ typedef struct {
+     CARD8 type;				/* always evBase + ScreenChangeNotify */
+     CARD8 rotation;			/* new rotation */
+     CARD16 sequenceNumber B16;
+-    Time timestamp B32; B32;			/* time screen was changed */
+-    Time configTimestamp B32; B32;		/* time config data was changed */
++    Time timestamp B32;			/* time screen was changed */
++    Time configTimestamp B32;		/* time config data was changed */
+     Window root B32;			/* root window */
+     Window window B32;			/* window requesting notification */
+     SizeID sizeID B16;			/* new size ID */

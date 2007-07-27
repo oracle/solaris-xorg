@@ -2,7 +2,7 @@
 #
 # xrandr 1.x Makefile
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	06/10/02
+# @(#)Makefile	1.2	07/07/25
 #
 
 # Package name used in tarballs
 APP_NAME=xrandr
 
 # Version number (used in path names)
-APP_VERS=1.0.2
+APP_VERS=1.2.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

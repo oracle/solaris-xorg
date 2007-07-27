@@ -1,0 +1,31 @@
+commit 126143add5349fc34488b23d54d1bdcc7e8847b9
+Author: Keith Packard <keithp@neko.keithp.com>
+Date:   Tue Jul 3 09:58:09 2007 -0700
+
+    CrtcChange event format conversion was using 'height' for 'width'.
+    
+    CrtcChange events were getting the source 'height' value stored in the
+    'width' target in both conversion directions.
+
+diff --git a/src/Xrandr.c b/src/Xrandr.c
+index f8bdf02..fdaa80d 100644
+--- a/src/Xrandr.c
++++ b/src/Xrandr.c
+@@ -116,7 +116,7 @@ static Bool XRRWireToEvent(Display *dpy,
+ 	    aevent->rotation = awire->rotation;
+ 	    aevent->x = awire->x;
+ 	    aevent->y = awire->y;
+-	    aevent->width = awire->height;
++	    aevent->width = awire->width;
+ 	    aevent->height = awire->height;
+ 	    return True;
+ 	}
+@@ -191,7 +191,7 @@ static Status XRREventToWire(Display *dp
+ 	    awire->rotation = aevent->rotation;
+ 	    awire->x = aevent->x;
+ 	    awire->y = aevent->y;
+-	    awire->width = aevent->height;
++	    awire->width = aevent->width;
+ 	    awire->height = aevent->height;
+ 	    return True;
+ 	}

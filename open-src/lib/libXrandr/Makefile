@@ -2,7 +2,7 @@
 #
 # Xrandr 1.x Makefile
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/10/03
+# @(#)Makefile	1.4	07/07/27
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXrandr
 
 # Version number (used in path names)
-LIB_VERS=1.1.1
+LIB_VERS=1.2.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = CrtcChange.patch,-p1
 
 # Library name
 LIBNAME=Xrandr
@@ -56,5 +56,8 @@ LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXrandr.so.1.0.0
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xrandr.pc.in
+
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc

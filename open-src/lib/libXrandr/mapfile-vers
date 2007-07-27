@@ -1,7 +1,5 @@
-###############################################################################
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -12,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,23 +20,73 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
+# 
 #
-# @(#)Makefile	1.2	07/07/25
+# ident	"@(#)mapfile-vers	1.1	07/07/27 SMI"
 #
 
-# Package name used in tarballs
-PROTO_NAME=randrproto
+libXrandr_1.0 {
+    global:
+	XRRQueryExtension;
+	XRRQueryVersion;
+	XRRGetScreenInfo;
+	XRRFreeScreenConfigInfo;
+	XRRSetScreenConfig;
+	XRRConfigRotations;
+	XRRConfigTimes;
+	XRRConfigSizes;
+	XRRConfigCurrentConfiguration;
+	XRRRootToScreen;
+	XRRSelectInput;
+	XRRRotations;
+	XRRSizes;
+	XRRTimes;
+    local:
+	*;
+};
 
-# Version number (used in path names)
-VERSION=1.2.1
+libXrandr_1.1 {
+    global:
+	XRRSetScreenConfigAndRate;
+	XRRConfigRates;
+	XRRConfigCurrentRate;
+	XRRRates;
+} libXrandr_1.0;
 
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	B32.patch,-p1
 
-### Include common rulesets
-include ../Makefile.inc
+libXrandr_1.2 {
+    global:
+	XRRGetScreenSizeRange;
+	XRRSetScreenSize;
+	XRRGetScreenResources;
+	XRRFreeScreenResources;
+	XRRGetOutputInfo;
+	XRRFreeOutputInfo;
+	XRRListOutputProperties;
+	XRRQueryOutputProperty;
+	XRRConfigureOutputProperty;
+	XRRChangeOutputProperty;
+	XRRDeleteOutputProperty;
+	XRRGetOutputProperty;
+	XRRAllocModeInfo;
+	XRRCreateMode;
+	XRRDestroyMode;
+	XRRAddOutputMode;
+	XRRDeleteOutputMode;
+	XRRFreeModeInfo;
+	XRRGetCrtcInfo;
+	XRRFreeCrtcInfo;
+	XRRSetCrtcConfig;
+	XRRGetCrtcGammaSize;
+	XRRGetCrtcGamma;
+	XRRAllocGamma;
+	XRRSetCrtcGamma;
+	XRRFreeGamma;
+	XRRUpdateConfiguration;
+} libXrandr_1.1;
+
