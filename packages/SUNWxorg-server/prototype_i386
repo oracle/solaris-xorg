@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.11     07/07/24 SMI"
+# ident "@(#)prototype_i386 1.12     07/07/31 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -63,19 +63,11 @@ f none X11/bin/amd64/Xvfb 0555 root bin
 !search $HOME/lib/modules/amd64
 d none X11/lib/modules/amd64 0755 root bin
 f none X11/lib/modules/amd64/libafb.so 0755 root bin
-#f none X11/lib/modules/amd64/libcfb.so 0755 root bin
-#f none X11/lib/modules/amd64/libcfb16.so 0755 root bin
-#f none X11/lib/modules/amd64/libcfb32.so 0755 root bin
-f none X11/lib/modules/amd64/libddc.so 0755 root bin
 f none X11/lib/modules/amd64/libexa.so 0755 root bin
 f none X11/lib/modules/amd64/libfb.so 0755 root bin
-f none X11/lib/modules/amd64/libi2c.so 0755 root bin
 f none X11/lib/modules/amd64/libint10.so 0755 root bin
-#f none X11/lib/modules/amd64/liblayer.so 0755 root bin
 f none X11/lib/modules/amd64/libmfb.so 0755 root bin
 f none X11/lib/modules/amd64/libpcidata.so 0755 root bin
-#f none X11/lib/modules/amd64/librac.so 0755 root bin
-f none X11/lib/modules/amd64/libramdac.so 0755 root bin
 f none X11/lib/modules/amd64/libscanpci.so 0755 root bin
 f none X11/lib/modules/amd64/libshadow.so 0755 root bin
 f none X11/lib/modules/amd64/libshadowfb.so 0755 root bin
@@ -156,8 +148,3 @@ f none X11/lib/modules/input/amd64/tek4957_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/void_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/vmmouse_drv.so 0755 root bin
 #f none X11/lib/modules/input/amd64/wacom_drv.so 0755 root bin
-
-!search $HOME/lib/modules/amd64/linux
-d none X11/lib/modules/linux/amd64 0755 root bin
-f none X11/lib/modules/linux/amd64/libfbdevhw.so 0755 root bin
-

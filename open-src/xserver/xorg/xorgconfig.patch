@@ -111,7 +111,7 @@
  		}
  		switch (c) {
  		case 0 :
-@@ -1940,16 +1988,28 @@
+@@ -1940,16 +1988,30 @@
  "    EndSubSection\n"
  "\n"
  "# This loads the font modules\n"
@@ -133,6 +133,8 @@
 +"     Load       \"IA\"\n"
 +"# This loads the GLX module\n"
 +"     Load       \"glx\"\n"
++"# This loads the Solaris Trusted Extensions module if it is installed\n"
++"     Load       \"xtsol\"\n"
 +#else
  "# This loads the GLX module\n"
  "#    Load       \"glx\"\n"

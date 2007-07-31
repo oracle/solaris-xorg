@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.50	07/07/25
+# @(#)Makefile	1.51	07/07/31
 #
 
 PWD:sh=pwd
@@ -45,7 +45,7 @@ BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 MODULE_NAME=xorg-server
 
 # Version number (used in path names)
-XORGSERVER_VERS=1.2.0
+XORGSERVER_VERS=1.3.0.0
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(XORGSERVER_VERS).tar.bz2
@@ -53,17 +53,12 @@ SOURCE_TARBALL_DIR=xserver
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	xf1bpp.patch,-p1 \
 	xephyr.patch,-p1 \
-	immu.h.patch,-p1 \
-	server-libs.patch \
 	dtrace.patch \
 	automake-1.10.patch,-p1 \
-	client-privates-leak.patch,-p1 \
-	ddc.patch,-p1 \
-	xcmisc-security.patch \
 	render-security.patch,-p1 \
-	ast-driver.patch \
+	ramdac-symbols.patch,-p1 \
+	RandR-1.2-man.patch,-p1 \
 	sun-paths.patch \
 	sun-extramodes.patch \
 	sun-apm.patch \
@@ -84,7 +79,6 @@ SOURCE_PATCHES = \
 	Xorg-mapfile.patch \
 	bitstream.patch \
 	xevie.patch \
-	sparc.patch,-p1 \
 	wsfb.patch \
 	sparc-probe.patch \
 	glx-byteswap.patch \
@@ -95,7 +89,6 @@ SOURCE_PATCHES = \
 	autoconfig2.patch \
 	6406044.patch \
 	cfbmskbits.patch \
-	xf86ModesAdd.patch \
 	lg3d.patch \
 	6535006.patch \
 	6540484.patch \
@@ -160,6 +153,7 @@ CONFIG_OPTS_COMMON = \
 	--with-module-dir=$(MODULES_DIR) \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
+	--with-rgb-path='$${libdir}/X11/rgb' \
 	--with-default-font-path="$(FONTDIR)/TrueType/,$(FONTDIR)/Type1/,$(FONTDIR)/Type1/sun/,$(FONTDIR)/F3bitmaps/,$(FONTDIR)/misc/,$(FONTDIR)/100dpi/,$(FONTDIR)/75dpi/" 
 
 CONFIG_OPTS_sparc=$(CONFIG_OPTS_COMMON)
@@ -188,9 +182,12 @@ XORG_CPPFLAGS= \
 # DEFAULT_GCC_CFLAGS = -g -O3 -fno-omit-frame-pointer -Wall
 
 # Environment variable options to GNU autoconf configure script
+#  - XSERVERCFLAGS_CFLAGS - force CFLAGS to avoid -I /usr/X11/include breaking
+#    use of headers from proto area
 CONFIG_ENV_common = \
         PKG_CONFIG_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
 	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
+	XSERVERCFLAGS_CFLAGS="-DHAS_FCHOWN -DHAS_STICKY_DIR_BIT -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DXTHREADS -DXUSE_MTSAFE_API" \
 	PATH=$(PATH):/usr/sbin
 
 LDPATH_ADD = -L$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \

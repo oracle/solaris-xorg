@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/07/31
 #
 
 # Package name used in tarballs
@@ -51,6 +51,6 @@ SUNTOUCH_MAN_FLAGS= \
 DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-lddc -lfb -li2c -lint10 -lramdac -lvbe -lvgahw -lxaa
+	-lfb -lint10 -lvbe -lvgahw -lxaa
 
 include ../Makefile.inc

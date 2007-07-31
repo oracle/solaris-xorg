@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/01/31
+# @(#)Makefile	1.6	07/07/31
 #
 
 # Package name used in tarballs
@@ -51,6 +51,6 @@ SOURCE_PATCHES =
 DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(MODULE_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(MODULE_subdir) \
-	-lramdac -lfb
+	-lfb
 
 include ../Makefile.inc

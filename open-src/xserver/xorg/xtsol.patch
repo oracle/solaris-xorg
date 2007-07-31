@@ -54,9 +54,9 @@ diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
  CallbackListPtr SecurityValidateGroupCallback = NULL;  /* see security.h */
  
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2007-01-24 20:08:20.616515000 -0800
-+++ configure.ac	2007-01-24 20:08:34.852663000 -0800
-@@ -113,6 +113,10 @@ AC_CHECK_FUNC([mmap], AC_DEFINE(HAS_MMAP
+--- configure.ac	2007-07-30 18:33:49.575258000 -0700
++++ configure.ac	2007-07-30 18:34:04.958972000 -0700
+@@ -127,6 +127,10 @@ AC_CHECK_FUNC([mmap], AC_DEFINE(HAS_MMAP
  dnl Find the math libary
  AC_CHECK_LIB(m, sqrt)
  
@@ -67,7 +67,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])
  
  dnl AGPGART headers
-@@ -1859,3 +1863,6 @@ xorg-server.pc
+@@ -1868,3 +1872,6 @@ xorg-server.pc
  
  # Add Sun IA extension
  AC_OUTPUT([IA/Makefile])

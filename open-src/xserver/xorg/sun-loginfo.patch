@@ -26,9 +26,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-diff -urp -x '*~' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
---- hw/xfree86/common/xf86Init.c	2006-12-21 10:50:46.000000000 -0800
-+++ hw/xfree86/common/xf86Init.c	2006-12-21 14:22:33.881433000 -0800
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
+--- hw/xfree86/common/xf86Init.c	2006-11-30 17:40:10.000000000 -0800
++++ hw/xfree86/common/xf86Init.c	2007-07-30 18:34:21.833819000 -0700
 @@ -103,6 +103,7 @@ static void xf86PrintMarkers(void);
  static void xf86PrintDefaultModulePath(void);
  static void xf86PrintDefaultLibraryPath(void);
@@ -128,3 +128,31 @@ diff -urp -x '*~' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
 +	}
 +    }
 +}
+diff -urp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loadmod.c
+--- hw/xfree86/loader/loadmod.c	2007-04-16 09:37:51.000000000 -0700
++++ hw/xfree86/loader/loadmod.c	2007-07-30 18:34:21.915061000 -0700
+@@ -869,7 +869,7 @@ doLoadModule(const char *module, const c
+     for (cim = compiled_in_modules; *cim; cim++)
+ 	if (!strcmp (module, *cim))
+ 	{
+-	    xf86MsgVerb(X_INFO, 0, "Module already built-in\n");
++	    xf86MsgVerb(X_INFO, 0, "Module \"%s\" already built-in\n", module);
+ 	    return (ModuleDescPtr) 1;
+ 	}
+ 
+@@ -1310,6 +1310,15 @@ LoaderErrorMsg(const char *name, const c
+     default:
+ 	msg = "unknown error";
+     }
++#ifdef SUNSOFT
++    /* We don't ship fbdev in Solaris, xtsol is only required on Trusted (TX)
++       systems, so it's not an error if either of them are not found */
++    if ( (errmaj == LDR_NOENT) &&
++	 ((strcmp(modname, "xtsol") == 0) || (strcmp(modname, "fbdev") == 0)))
++    {
++	type = X_INFO;
++    }
++#endif    
+     if (name)
+ 	xf86Msg(type, "%s: Failed to load module \"%s\" (%s, %d)\n",
+ 		name, modname, msg, errmin);

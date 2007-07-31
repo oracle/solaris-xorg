@@ -8,7 +8,7 @@
 +
 +# Add libraries needed by driver module
 +i810_drv_la_LDFLAGS += \
-+	-lddc -ldrm -lfb -li2c -lint10 -lramdac -lshadow -lshadowfb \
++	-ldrm -lfb -lint10 -lshadow -lshadowfb \
 +	-lvbe -lvgahw -lxaa -ldri -lglx -lXfont -lm
 
 --- src/xvmc/Makefile.am	2006-09-28 07:48:32.000000000 -0700

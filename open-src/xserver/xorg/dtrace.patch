@@ -1,6 +1,4 @@
-Xserver dtrace provider 0.2 for Xorg server 1.2
-
-/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -28,18 +26,6 @@ Xserver dtrace provider 0.2 for Xorg server 1.2
  * of the copyright holder.
  */
 
-This patch is built against the Xorg server 1.2 RC1 (aka X11R7.2 RC1).
-Download the base source from 
-http://xorg.freedesktop.org/releases/individual/xserver/xorg-server-1.1.99.901.tar.bz2
-To build, do:
-	bzcat xorg-server-1.1.99.901.tar.bz2 | tar -xf -
-	cd xorg-server-1.1.99.901
-	gpatch -p0 < 7.2-dtrace.patch
-	./configure ; make 
-
-Once you're done, you should be able to drop in hw/xfree86/Xorg
-as a replacement for /usr/X11/bin/Xorg on a Solaris 10 or Nevada/Express
-system.
 
 --- dix/Xserver.d	1969-12-31 16:00:00.000000000 -0800
 +++ dix/Xserver.d	2005-07-04 11:09:17.267106000 -0700
@@ -104,10 +90,10 @@ system.
 +#pragma D attributes Unstable/Unstable/Common provider Xserver args
 +
 
-diff -urp -x '*~' configure.ac configure.ac
---- configure.ac	2006-10-13 15:53:18.000000000 -0700
-+++ configure.ac	2006-10-30 14:16:57.837404000 -0800
-@@ -64,6 +64,15 @@ AC_PROG_LEX
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2007-04-19 18:23:40.000000000 -0700
++++ configure.ac	2007-07-30 18:29:34.753611000 -0700
+@@ -77,6 +77,15 @@ AC_PROG_LEX
  AC_PROG_YACC
  XORG_PROG_RAWCPP
  
@@ -123,7 +109,7 @@ diff -urp -x '*~' configure.ac configure.ac
  AC_HEADER_DIRENT
  AC_HEADER_STDC
  AC_CHECK_HEADERS([fcntl.h stdlib.h string.h unistd.h])
-@@ -852,8 +861,8 @@ AC_DEFINE(XCMISC, 1, [Support XCMisc ext
+@@ -860,8 +869,8 @@ AC_DEFINE(XCMISC, 1, [Support XCMisc ext
  AC_DEFINE(BIGREQS, 1, [Support BigRequests extension])
  AC_DEFINE(PIXPRIV, 1, [Support pixmap privates])
  
@@ -134,9 +120,9 @@ diff -urp -x '*~' configure.ac configure.ac
  CWRAP_LIB='$(top_builddir)/os/libcwrapper.la'
  MI_LIB='$(top_builddir)/mi/libmi.la'
  MINIMI_LIB='$(top_builddir)/mi/libminimi.la'
-diff -urp -x '*~' dix/Makefile.am dix/Makefile.am
---- dix/Makefile.am	2006-10-11 15:42:19.000000000 -0700
-+++ dix/Makefile.am	2006-10-30 14:16:57.801240000 -0800
+diff -urp -x '*~' -x '*.orig' dix/Makefile.am dix/Makefile.am
+--- dix/Makefile.am	2006-11-16 10:01:22.000000000 -0800
++++ dix/Makefile.am	2007-07-30 18:29:34.754152000 -0700
 @@ -37,4 +37,21 @@ libxpstubs_la_SOURCES =	\
  
  INCLUDES = -I$(top_srcdir)/Xprint
@@ -155,14 +141,14 @@ diff -urp -x '*~' dix/Makefile.am dix/Makefile.am
 +dtrace-os.o: $(top_srcdir)/dix/Xserver.d $(am_libdix_la_OBJECTS)
 +	$(DTRACE) -G -C -o $@ -s $(top_srcdir)/dix/Xserver.d .libs/*.o
 +
-+noinst_LIBRARIES = dix.O
++noinst_PROGRAMS = dix.O
 +
 +dix.O: dtrace-os.o $(am_libdix_la_OBJECTS)
 +	ld -r -o $@ dtrace-os.o .libs/*.o
 +endif
-diff -urp -x '*~' dix/dispatch.c dix/dispatch.c
---- dix/dispatch.c	2006-10-11 15:42:19.000000000 -0700
-+++ dix/dispatch.c	2006-10-30 14:16:57.798697000 -0800
+diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
+--- dix/dispatch.c	2006-11-16 10:01:22.000000000 -0800
++++ dix/dispatch.c	2007-07-30 18:29:34.761328000 -0700
 @@ -74,6 +74,36 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -274,7 +260,7 @@ diff -urp -x '*~' dix/dispatch.c dix/dispatch.c
  	if (client->index < nextFreeClientID)
  	    nextFreeClientID = client->index;
  	clients[client->index] = NullClient;
-@@ -3991,3 +4051,60 @@ MarkClientException(ClientPtr client)
+@@ -3990,3 +4050,60 @@ MarkClientException(ClientPtr client)
  {
      client->noClientException = -1;
  }
@@ -335,9 +321,9 @@ diff -urp -x '*~' dix/dispatch.c dix/dispatch.c
 +}
 +
 +#endif
-diff -urp -x '*~' dix/events.c dix/events.c
---- dix/events.c	2006-10-11 15:42:19.000000000 -0700
-+++ dix/events.c	2006-10-30 14:16:57.839461000 -0800
+diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
+--- dix/events.c	2006-11-16 10:01:22.000000000 -0800
++++ dix/events.c	2007-07-30 18:29:34.764143000 -0700
 @@ -139,6 +139,12 @@ extern Bool XkbFilterEvents(ClientPtr, i
  #include "xace.h"
  #endif
@@ -366,9 +352,9 @@ diff -urp -x '*~' dix/events.c dix/events.c
      if(pClient->swapped)
      {
  	for(i = 0; i < count; i++)
-diff -urp -x '*~' dix/extension.c dix/extension.c
---- dix/extension.c	2006-10-11 15:42:19.000000000 -0700
-+++ dix/extension.c	2006-10-30 14:16:57.799190000 -0800
+diff -urp -x '*~' -x '*.orig' dix/extension.c dix/extension.c
+--- dix/extension.c	2006-11-16 10:01:23.000000000 -0800
++++ dix/extension.c	2007-07-30 18:29:34.808650000 -0700
 @@ -482,3 +482,17 @@ RegisterScreenProc(char *name, ScreenPtr
      }
      return TRUE;
@@ -387,9 +373,9 @@ diff -urp -x '*~' dix/extension.c dix/extension.c
 +    }
 +}
 +#endif
-diff -urp -x '*~' dix/resource.c dix/resource.c
---- dix/resource.c	2006-10-11 15:42:19.000000000 -0700
-+++ dix/resource.c	2006-10-30 14:16:57.799909000 -0800
+diff -urp -x '*~' -x '*.orig' dix/resource.c dix/resource.c
+--- dix/resource.c	2006-11-16 10:01:23.000000000 -0800
++++ dix/resource.c	2007-07-30 18:29:34.809719000 -0700
 @@ -72,6 +72,34 @@ dealings in this Software without prior 
  Equipment Corporation.
  
@@ -495,12 +481,12 @@ diff -urp -x '*~' dix/resource.c dix/resource.c
  	    *head = this->next;
  	    if (rtype & RC_CACHED)
  		FlushClientCaches(this->id);
-diff -urp -x '*~' include/dix-config.h.in include/dix-config.h.in
---- include/dix-config.h.in	2006-10-11 15:42:19.000000000 -0700
-+++ include/dix-config.h.in	2006-10-30 14:16:57.801020000 -0800
-@@ -442,4 +442,10 @@
- /* Define to 1 if modules should avoid the libcwrapper */
- #undef NO_LIBCWRAPPER
+diff -urp -x '*~' -x '*.orig' include/dix-config.h.in include/dix-config.h.in
+--- include/dix-config.h.in	2007-01-29 22:03:18.000000000 -0800
++++ include/dix-config.h.in	2007-07-30 18:29:34.810329000 -0700
+@@ -440,4 +440,10 @@
+ /* Have a monotonic clock from clock_gettime() */
+ #undef MONOTONIC_CLOCK
  
 +/* Define to 1 if the DTrace Xserver provider probes should be built in */
 +#undef XSERVER_DTRACE
@@ -509,9 +495,9 @@ diff -urp -x '*~' include/dix-config.h.in include/dix-config.h.in
 +#undef XERRORDB_PATH
 +
  #endif /* _DIX_CONFIG_H_ */
-diff -urp -x '*~' os/Makefile.am os/Makefile.am
---- os/Makefile.am	2006-10-11 15:42:19.000000000 -0700
-+++ os/Makefile.am	2006-10-30 14:16:57.836238000 -0800
+diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
+--- os/Makefile.am	2006-11-30 17:40:11.000000000 -0800
++++ os/Makefile.am	2007-07-30 18:29:34.810652000 -0700
 @@ -50,3 +50,15 @@ libcwrapper_la_CFLAGS = \
  
  EXTRA_DIST = $(K5AUTH_SOURCES) $(SECURERPC_SOURCES) $(INTERNALMALLOC_SOURCES) \
@@ -522,16 +508,16 @@ diff -urp -x '*~' os/Makefile.am os/Makefile.am
 +dtrace-os.o: $(top_srcdir)/dix/Xserver.d $(am_libos_la_OBJECTS)
 +	$(DTRACE) -G -C -o $@ -s $(top_srcdir)/dix/Xserver.d .libs/*.o
 +
-+noinst_LIBRARIES = os.O
++noinst_PROGRAMS = os.O
 +
 +os.O: dtrace-os.o $(am_libos_la_OBJECTS)
 +	ld -r -o $@ dtrace-os.o .libs/*.o
 +
 +endif
-diff -urp -x '*~' os/connection.c os/connection.c
---- os/connection.c	2006-10-11 15:42:19.000000000 -0700
-+++ os/connection.c	2006-10-30 14:16:57.800659000 -0800
-@@ -165,6 +165,12 @@ extern __const__ int _nfiles;
+diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
+--- os/connection.c	2007-02-17 17:37:56.000000000 -0800
++++ os/connection.c	2007-07-30 18:29:34.811624000 -0700
+@@ -170,6 +170,12 @@ extern __const__ int _nfiles;
  # include <zone.h>
  #endif
  
@@ -544,7 +530,7 @@ diff -urp -x '*~' os/connection.c os/connection.c
  int lastfdesc;			/* maximum file descriptor */
  
  fd_set WellKnownConnections;	/* Listener mask */
-@@ -585,6 +592,10 @@ AuthAudit (ClientPtr client, Bool letin,
+@@ -618,6 +624,10 @@ AuthAudit (ClientPtr client, Bool letin,
      else {
  	client_uid_string[0] = '\0';
      }
@@ -555,8 +541,7 @@ diff -urp -x '*~' os/connection.c os/connection.c
      
      if (proto_n)
  	AuditF("client %d %s from %s%s\n  Auth name: %.*s ID: %d\n", 
-@@ -593,7 +604,25 @@ AuthAudit (ClientPtr client, Bool letin,
-     else 
+@@ -627,6 +637,24 @@ AuthAudit (ClientPtr client, Bool letin,
  	AuditF("client %d %s from %s%s\n", 
  	       client->index, letin ? "connected" : "rejected", addr,
  	       client_uid_string);
@@ -581,7 +566,7 @@ diff -urp -x '*~' os/connection.c os/connection.c
  }
  
  XID
-@@ -659,7 +688,9 @@ ClientAuthorized(ClientPtr client, 
+@@ -693,7 +721,9 @@ ClientAuthorized(ClientPtr client, 
  	    else
  	    {
  		auth_id = (XID) 0;
@@ -591,7 +576,7 @@ diff -urp -x '*~' os/connection.c os/connection.c
  		    AuthAudit(client, TRUE,
  			(struct sockaddr *) from, fromlen,
  			proto_n, auth_proto, auth_id);
-@@ -675,7 +706,11 @@ ClientAuthorized(ClientPtr client, 
+@@ -709,7 +739,11 @@ ClientAuthorized(ClientPtr client, 
  		return "Client is not authorized to connect to Server";
  	}
      }
@@ -603,7 +588,7 @@ diff -urp -x '*~' os/connection.c os/connection.c
      {
  	if (_XSERVTransGetPeerAddr (trans_conn,
  	    &family, &fromlen, &from) != -1)
-@@ -753,6 +788,9 @@ AllocNewConnection (XtransConnInfo trans
+@@ -787,6 +821,9 @@ AllocNewConnection (XtransConnInfo trans
      ErrorF("AllocNewConnection: client index = %d, socket fd = %d\n",
  	   client->index, fd);
  #endif

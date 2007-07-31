@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	07/07/12
+# @(#)Makefile	1.11	07/07/31
 #
 
 # Package name used in tarballs
@@ -53,8 +53,7 @@ DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/linux \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)/linux$(ARCHLIBSUBDIR) \
-	-lddc -lexa -lfb -li2c -lint10 -lramdac -lshadowfb -lvbe -lvgahw \
-	-lxaa -lfbdevhw -lm
+	-lexa -lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa -lfbdevhw -lm
 
 include ../Makefile.inc
 

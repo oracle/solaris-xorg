@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2006-12-01 14:48:41.000000000 -0800
-+++ Makefile.am	2007-01-18 08:22:59.519005000 -0800
+--- Makefile.am	2006-11-16 10:01:22.000000000 -0800
++++ Makefile.am	2007-07-30 18:33:49.554487000 -0700
 @@ -58,6 +58,7 @@ SUBDIRS = \
  	$(XTRAP_DIR) \
  	$(COMPOSITE_DIR) \
@@ -38,9 +38,9 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	hw
  
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2007-01-18 08:22:44.595715000 -0800
-+++ configure.ac	2007-01-18 08:22:59.518766000 -0800
-@@ -1867,3 +1867,6 @@ hw/xprint/config/en_US/print/Makefile
+--- configure.ac	2007-07-30 18:33:33.880185000 -0700
++++ configure.ac	2007-07-30 18:33:49.575258000 -0700
+@@ -1865,3 +1865,6 @@ hw/xprint/config/en_US/print/Makefile
  hw/xprint/config/en_US/Makefile
  xorg-server.pc
  ])
@@ -48,8 +48,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +# Add Sun IA extension
 +AC_OUTPUT([IA/Makefile])
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2006-12-01 08:15:54.000000000 -0800
-+++ hw/xfree86/common/xf86AutoConfig.c	2007-01-18 08:22:59.515973000 -0800
+--- hw/xfree86/common/xf86AutoConfig.c	2006-11-16 10:01:24.000000000 -0800
++++ hw/xfree86/common/xf86AutoConfig.c	2007-07-30 18:33:49.575752000 -0700
 @@ -51,6 +51,7 @@
  	"\tLoad\t\"type1\"\n" \
  	"\tLoad\t\"record\"\n" \
@@ -59,8 +59,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/comm
  
  #define BUILTIN_DEVICE_NAME \
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2006-12-01 14:48:41.000000000 -0800
-+++ hw/xfree86/common/xf86Config.c	2007-01-18 08:22:59.517641000 -0800
+--- hw/xfree86/common/xf86Config.c	2006-11-30 17:40:10.000000000 -0800
++++ hw/xfree86/common/xf86Config.c	2007-07-30 18:33:49.577216000 -0700
 @@ -294,6 +294,10 @@ xf86ModulelistFromConfig(pointer **optli
  	ptr = xf86addNewLoadDirective(ptr, "record", XF86_LOAD_MODULE, NULL);
  	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
@@ -73,8 +73,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  
      /*
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2006-12-01 14:48:41.000000000 -0800
-+++ hw/xfree86/dixmods/Makefile.am	2007-01-18 08:22:59.769629000 -0800
+--- hw/xfree86/dixmods/Makefile.am	2006-11-16 10:01:24.000000000 -0800
++++ hw/xfree86/dixmods/Makefile.am	2007-07-30 18:33:49.577490000 -0700
 @@ -102,3 +102,10 @@ libxorgxkb_la_LIBADD = $(top_builddir)/d
  libxtrap_la_LDFLAGS = -avoid-version
  libxtrap_la_LIBADD = $(top_builddir)/XTrap/libxtrap.la

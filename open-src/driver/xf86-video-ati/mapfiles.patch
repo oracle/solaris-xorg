@@ -28,7 +28,7 @@
 
 --- src/Makefile.am	2006-10-03 07:49:13.000000000 -0700
 +++ src/Makefile.am	2007-01-10 18:41:48.343028000 -0800
-@@ -195,3 +195,50 @@
+@@ -195,3 +195,47 @@
  	theatre.h \
  	theatre_reg.h \
  	atipciids.h
@@ -53,16 +53,13 @@
 +
 +atimisc_drv_la_LDFLAGS += \
 +	-Wl,-M,mapfile-ati_drv-external \
-+	-lddc -lexa -lfb -li2c -lint10 -lramdac -lshadowfb -lvbe -lxaa \
-+	-lxf1bpp -lxf4bpp -lXfont
++	-lexa -lfb -lint10 -lshadowfb -lvbe -lxaa -lxf1bpp -lxf4bpp
 +
 +r128_drv_la_LDFLAGS += \
-+	-lddc -lfb -li2c -lint10 -lramdac -lshadowfb -lvbe -lvgahw -lxaa \
-+	-lfbdevhw -lXfont
++	-lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa -lfbdevhw
 +
 +radeon_drv_la_LDFLAGS += \
-+	-lddc -lexa -li2c -lfb -lint10 -lramdac -lvbe -lvgahw -lxaa \
-+	-lfbdevhw -lm
++	-lexa -lfb -lint10 -lvbe -lvgahw -lxaa -lfbdevhw -lm
 +
 +mapfiles: $(MAPFILES)
 +

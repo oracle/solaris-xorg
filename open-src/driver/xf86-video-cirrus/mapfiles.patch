@@ -47,16 +47,16 @@
 +cirrus_drv_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_alpine-external \
 +	-Wl,-M,mapfile-cirrus_laguna-external \
-+	-lddc -li2c -lint10 -lvgahw -lvbe
++	-lint10 -lvgahw -lvbe
 +
 +cirrus_alpine_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lddc -lfb -li2c -lint10 -lramdac -lshadowfb -lvgahw -lxaa \
-+	-lxf1bpp -lxf4bpp -lXfont
++	-lfb -lint10 -lshadowfb -lvgahw -lxaa \
++	-lxf1bpp -lxf4bpp 
 +
 +cirrus_laguna_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lddc -lfb -li2c -lint10 -lramdac -lvgahw -lxaa
++	-lfb -lint10 -lvgahw -lxaa
 +
 +mapfiles: $(MAPFILES)
 +

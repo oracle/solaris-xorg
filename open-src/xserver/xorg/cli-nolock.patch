@@ -27,10 +27,10 @@
 # of the copyright holder.
 
 
-diff -urp -x '*~' os/utils.c os/utils.c
---- os/utils.c	2006-12-21 10:50:47.000000000 -0800
-+++ os/utils.c	2006-12-21 14:20:53.648154000 -0800
-@@ -630,9 +630,11 @@ void UseMsg(void)
+diff -urp -x '*~' -x '*.orig' os/utils.c os/utils.c
+--- os/utils.c	2007-04-19 19:13:13.000000000 -0700
++++ os/utils.c	2007-07-30 18:32:29.905008000 -0700
+@@ -614,9 +614,11 @@ void UseMsg(void)
  #ifdef RLIMIT_STACK
      ErrorF("-ls int                limit stack space to N Kb\n");
  #endif
@@ -42,7 +42,7 @@ diff -urp -x '*~' os/utils.c os/utils.c
  #ifndef NOLOGOHACK
      ErrorF("-logo                  enable logo in screen saver\n");
      ErrorF("nologo                 disable logo in screen saver\n");
-@@ -914,6 +916,7 @@ ProcessCommandLine(int argc, char *argv[
+@@ -898,6 +900,7 @@ ProcessCommandLine(int argc, char *argv[
  		UseMsg();
  	}
  #endif
@@ -50,7 +50,7 @@ diff -urp -x '*~' os/utils.c os/utils.c
  #ifdef SERVER_LOCK
  	else if ( strcmp ( argv[i], "-nolock") == 0)
  	{
-@@ -925,6 +928,7 @@ ProcessCommandLine(int argc, char *argv[
+@@ -909,6 +912,7 @@ ProcessCommandLine(int argc, char *argv[
  	    nolock = TRUE;
  	}
  #endif

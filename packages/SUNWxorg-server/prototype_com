@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.24     07/07/18 SMI"
+# ident "@(#)prototype_com 1.25     07/07/31 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -81,19 +81,11 @@ f none X11/lib/X11/xkb/xkbcomp 0755 root bin
 !search $HOME/$XSERVERMODDIR
 d none X11/lib/modules 0755 root bin
 f none X11/lib/modules/libafb.so 0755 root bin
-#f none X11/lib/modules/libcfb.so 0755 root bin
-#f none X11/lib/modules/libcfb16.so 0755 root bin
-#f none X11/lib/modules/libcfb32.so 0755 root bin
-f none X11/lib/modules/libddc.so 0755 root bin
 f none X11/lib/modules/libexa.so 0755 root bin
 f none X11/lib/modules/libfb.so 0755 root bin
-f none X11/lib/modules/libi2c.so 0755 root bin
 f none X11/lib/modules/libint10.so 0755 root bin
-#f none X11/lib/modules/liblayer.so 0755 root bin
 f none X11/lib/modules/libmfb.so 0755 root bin
 f none X11/lib/modules/libpcidata.so 0755 root bin
-#f none X11/lib/modules/librac.so 0755 root bin
-f none X11/lib/modules/libramdac.so 0755 root bin
 f none X11/lib/modules/libscanpci.so 0755 root bin
 f none X11/lib/modules/libshadow.so 0755 root bin
 f none X11/lib/modules/libshadowfb.so 0755 root bin
@@ -163,7 +155,3 @@ d none X11/lib/modules/input 0755 root bin
 f none X11/lib/modules/input/kbd_drv.so 0755 root bin
 f none X11/lib/modules/input/mouse_drv.so 0755 root bin
 f none X11/lib/modules/input/void_drv.so 0755 root bin
-
-!search $HOME/$XSERVERMODDIR/linux
-d none X11/lib/modules/linux 0755 root bin
-f none X11/lib/modules/linux/libfbdevhw.so 0755 root bin
