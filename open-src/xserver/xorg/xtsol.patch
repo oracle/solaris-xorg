@@ -60,8 +60,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  dnl Find the math libary
  AC_CHECK_LIB(m, sqrt)
  
-+dnl Check for libtlc for Solaris Trusted Extensions module
-+AC_CHECK_LIB(tlc, auditwrite, [BUILD_TSOL_MODULE=yes], [BUILD_TSOL_MODULE=no])
++dnl Check for libtsol for Solaris Trusted Extensions module
++AC_CHECK_LIB(tsol, bsllow, [BUILD_TSOL_MODULE=yes], [BUILD_TSOL_MODULE=no])
 +AM_CONDITIONAL(BUILD_TSOL_MODULE, [test x$BUILD_TSOL_MODULE = xyes])
 +
  AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])

@@ -26,10 +26,10 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.22     07/06/08 SMI"
+#pragma ident   "@(#)tsolextension.c 1.21     07/04/03 SMI"
 
 #include <stdio.h>
-#include <bsm/auditwrite.h>
+#include "auditwrite.h"
 #include <bsm/libbsm.h>
 #include <bsm/audit_uevents.h>
 #include <sys/param.h>
@@ -220,6 +220,8 @@ extern int ProcTsolCopyPlane(ClientPtr client);
 extern int ProcTsolPolySegment(ClientPtr client);
 extern int ProcTsolPolyRectangle(ClientPtr client);
 
+extern int TsolPanoramiXGetGeometry(ClientPtr client);
+
 /*
  * Initialize the extension. Main entry point for this loadable
  * module.
@@ -361,6 +363,7 @@ TsolExtensionInit()
 	ProcVector[X_CopyPlane] = ProcTsolCopyPlane;
 	ProcVector[X_PolySegment] = ProcTsolPolySegment;
 	ProcVector[X_PolyRectangle] = ProcTsolPolyRectangle;
+
 }
 
 static pointer
@@ -1958,8 +1961,12 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 		tsolinfo->uid = UID_NOBODY; /* uid not available */
 	}
 
-	/* Workstation Owner not set */
-	if (OwnerUID == (uid_t )(-1)) {
+	/* 
+	 * For multilevel desktop, limit connections to the trusted path
+	 * i.e. global zone until a user logs in and the trusted stripe 
+	 * is in place. Unlabeled connections are rejected.
+	 */
+	if ((OwnerUID == (uid_t )(-1)) || (tsolMultiLevel && tpwin == NULL)) {
 		if (HasTrustedPath(tsolinfo)) {
 			auth_token = CheckAuthorization(name_length, name, data_length,
 				data, client, reason);
@@ -2050,6 +2057,8 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 		tsolinfo->flags &= ~TSOL_DOXAUDIT;
 		tsolinfo->flags &= ~TSOL_AUDITEVENT;
 	}
+
+	return (auth_token);
 }
 
 static void

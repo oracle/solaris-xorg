@@ -3,7 +3,7 @@
 # Use is subject to license terms.
 #
 
-# ident	"@(#)TrustedExtensionsPolicy 1.7	07/06/08 SMI"
+# ident	"@(#)TrustedExtensionsPolicy 1.8	07/07/23 SMI"
 
 # TrustedExtensionsPolicy
 # Syntax: <atom|property|selection|extension|privilege> name
@@ -167,6 +167,7 @@ property _SUN_SUNRAY_SESSION
 property _SUN_SUNRAY_CONN_INFO
 property _SUN_SUNRAY_SESSION_GEOMETRY
 property _SUN_SUNRAY_HOME
+property _SCREENSAVER_STATUS
 
 #
 # Multilevel JDS/GNOME Support

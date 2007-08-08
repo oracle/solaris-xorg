@@ -29,12 +29,13 @@
 # 
 #########################################################################
 # 
-# ident	"@(#)Makefile.am 1.8	07/02/15 SMI"
+# ident	"@(#)Makefile.am 1.9	07/05/29 SMI"
 #
 
 noinst_LTLIBRARIES = libxtsol.la
 
-libxtsol_la_SOURCES= tsolpolicy.c tsolutils.c tsolextension.c tsolprotocol.c
+libxtsol_la_SOURCES= tsolpolicy.c tsolutils.c tsolextension.c tsolprotocol.c \
+			auditwrite.c au_to_tsol.c
 
 INCLUDES = -I.. -I$(top_srcdir)/include -I$(top_srcdir)/os
 
@@ -45,4 +46,4 @@ TSOLPOLICYFILEDEF = -DTSOLPOLICYFILE=\"$(SERVERCONFIGdir)/TrustedExtensionsPolic
 
 AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF) -DIN_MODULE
 
-libxtsol_la_LIBADD = -ltsol -ltsnet -ltlc -lsecdb -lbsm
+libxtsol_la_LIBADD = -ltsol -ltsnet -lsecdb -lbsm

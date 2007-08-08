@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.18     07/06/08 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.19     07/07/31 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -38,7 +38,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <bsm/auditwrite.h>
+#include "auditwrite.h"
 #include <bsm/audit_kevents.h>
 #include <bsm/audit_uevents.h>
 #include <X11/Xproto.h>

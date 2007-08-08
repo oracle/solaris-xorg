@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.19	07/06/08 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.18	07/04/03 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -41,7 +41,7 @@
 #include <pwd.h>
 #include <strings.h>
 #include <sys/wait.h>
-#include <bsm/auditwrite.h>
+#include "auditwrite.h"
 #include <bsm/libbsm.h>
 #include <bsm/audit_uevents.h>
 #include "tsol.h"
@@ -193,6 +193,9 @@ extern int NumCurrentSelections;
 extern Selection *CurrentSelections;
 extern WindowPtr tpwin;
 extern int tsolMultiLevel;
+
+extern char     *ConnectionInfo;
+extern int      connBlockScreenStart;
 
 static int tsol_sel_agnt = -1; /* index this to CurrentSelection to get seln */
 
@@ -2006,18 +2009,26 @@ ProcTsolGetGeometry(client)
 
     REQUEST(xResourceReq);
 
-    if ((status = GetGeometry(client, &rep)) != Success)
-	return status;
-
-    /* Reduce root window height = stripe height */
-    if (stuff->id == rep.root)
+    if ( noPanoramiXExtension )
     {
-        extern unsigned int StripeHeight;
-        rep.height -= StripeHeight;
-    }
+        if ((status = GetGeometry(client, &rep)) != Success)
+	    return status;
 
-    WriteReplyToClient(client, sizeof(xGetGeometryReply), &rep);
-    return(client->noClientException);
+        /* Reduce root window height = stripe height */
+        if (stuff->id == rep.root)
+        {
+            extern unsigned int StripeHeight;
+            rep.height -= StripeHeight;
+        }
+
+        WriteReplyToClient(client, sizeof(xGetGeometryReply), &rep);
+        return(client->noClientException);
+
+    } else 
+    {
+        status = (*TsolSavedProcVector[X_GetGeometry])(client);
+        return (status);
+    }
 }
 
 int
@@ -2783,6 +2794,7 @@ int
 ProcTsolMapWindow(register ClientPtr client)
 {
     int savedtrust;
+    int status;
 
     WindowPtr pWin;
     REQUEST(xResourceReq);
@@ -2794,16 +2806,17 @@ ProcTsolMapWindow(register ClientPtr client)
         return(BadWindow);
     savedtrust = client->trustLevel;
     client->trustLevel = XSecurityClientTrusted;
-    MapWindow(pWin, client);
+    status = (*TsolSavedProcVector[X_MapWindow])(client);
     client->trustLevel = savedtrust;
 
-    return(client->noClientException);
+    return(status);
 }
 
 int
 ProcTsolMapSubwindows(register ClientPtr client)
 {
     int savedtrust;
+    int status;
 
     WindowPtr pWin;
     REQUEST(xResourceReq);
@@ -2815,10 +2828,10 @@ ProcTsolMapSubwindows(register ClientPtr client)
         return(BadWindow);
     savedtrust = client->trustLevel;
     client->trustLevel = XSecurityClientTrusted;
-    MapSubwindows(pWin, client);
+    status = (*TsolSavedProcVector[X_MapSubwindows])(client);
     client->trustLevel = savedtrust;
 
-    return(client->noClientException);
+    return(status);
 }
 
 static int

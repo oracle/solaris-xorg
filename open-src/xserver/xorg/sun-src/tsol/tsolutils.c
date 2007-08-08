@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolutils.c 1.16     07/06/08 SMI"
+#pragma ident   "@(#)tsolutils.c 1.15     07/04/03 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -37,7 +37,7 @@
 #include <X11/X.h>
 #include <X11/Xproto.h>
 #include <X11/Xprotostr.h>
-#include <bsm/auditwrite.h>
+#include "auditwrite.h"
 #include <bsm/audit_uevents.h>
 #include <regex.h>
 #include <priv.h>
@@ -108,6 +108,7 @@ bslabel_t PublicObjSL;
 Atom tsol_lastAtom = None;
 int tsol_nodelength  = 0;
 TsolNodePtr tsol_node = NULL;
+extern int PanoramiXPixHeight;
 
 /* This structure is used for protocol request ListHosts */
 struct xUIDreply
@@ -387,6 +388,8 @@ DoScreenStripeHeight(screen_num)
 	xWindowRoot 	*root;
 	register xDepth *pDepth;
 	ScreenPtr	pScreen;
+        int             old_height;
+        float           height_mult;
 
 	root = (xWindowRoot *)(ConnectionInfo + connBlockScreenStart);
 	for (i = 0; i < screen_num; i++)
@@ -400,14 +403,20 @@ DoScreenStripeHeight(screen_num)
 		root = (xWindowRoot *) pDepth;
 
 	}
+        old_height = root->pixHeight;
 
-	pScreen = screenInfo.screens[screen_num];
-	root->pixHeight = pScreen->height - StripeHeight;
+        if (noPanoramiXExtension)
+        {
+            pScreen = screenInfo.screens[screen_num];
+            root->pixHeight = pScreen->height - StripeHeight;
+        } else
+        {
+            root->pixHeight = PanoramiXPixHeight - StripeHeight;
+        }
 
-	/* compute new millimeter height */
-
-	root->mmHeight = (pScreen->mmHeight * root->pixHeight +
-			((int)(pScreen->height)/2))/(int)(pScreen->height);
+        /* compute new millimeter height */
+        height_mult = (1.0 * root->pixHeight) / old_height;
+        root->mmHeight *= height_mult;
 
 	return (0);
 }

@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.51 07/07/24
+# @(#)make_release_packages	1.52 07/08/06
 #
 #	Create and fill a package staging area for X
 #
@@ -82,12 +82,10 @@ else
 fi
 
 #
-# Trusted Extensions packages do not get built by default.
-# export BUILD_XTSOL=yes and run this script to build
+# Trusted Extensions packages 
 #
-if [ x$BUILD_XTSOL = xyes ] ; then
-    TSOL_PACKAGE="SUNWxwts SUNWxorg-tsol-module"
-fi
+
+TSOL_PACKAGE="SUNWxwts SUNWxorg-tsol-module"
 
 # Packages with platform-specific prototype files, including those with
 # 64-bit libraries
