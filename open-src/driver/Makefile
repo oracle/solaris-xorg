@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/05/18
+# @(#)Makefile	1.7	07/08/10
 #
 ###############################################################################
 
@@ -71,7 +71,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-glint		\
 	xf86-video-i128			\
 	xf86-video-i740			\
-	xf86-video-i810			\
+	xf86-video-intel		\
 	xf86-video-mga			\
 	xf86-video-neomagic		\
 	xf86-video-nsc			\

@@ -1,5 +1,5 @@
---- src/i830_dri.h	Tue Jan  9 22:05:04 2007
-+++ src/i830_dri.h	Wed Apr  4 10:16:29 2007
+--- src/i830_dri.h	Tue May 22 10:57:01 2007
++++ src/i830_dri.h	Tue May 22 10:57:57 2007
 @@ -22,16 +22,20 @@
     drm_handle_t unused2; /* backbuffer */
  
@@ -7,7 +7,8 @@
 +   drmSize pad0;
     drm_handle_t unused4; /* depthbuffer */
  
-    drmSize unused5; /* rotatedSize /*/
+-   drmSize unused5; /* rotatedSize /*/
++   drmSize unused5; /* rotatedSize */
 +   drmSize pad1;
     drm_handle_t unused6; /* rotatedbuffer */
  
@@ -21,9 +22,8 @@
  
     int deviceID;
     int width;
-
---- src/i830_common.h	Fri Sep 29 15:47:07 2006
-+++ src/i830_common.h	Wed Apr  4 10:15:54 2007
+--- src/i830_common.h	Tue May 22 10:58:16 2007
++++ src/i830_common.h	Tue May 22 10:58:40 2007
 @@ -92,6 +92,7 @@
          int pf_current_page;	/* which buffer is being displayed? */
          int perf_boxes;	        /* performance boxes to be displayed */   
@@ -32,16 +32,15 @@
  
  	drm_handle_t front_handle;
  	int front_offset;
-
---- src/i830_randr.c	Wed Dec 13 23:42:14 2006
-+++ src/i830_randr.c	Thu Apr 26 09:22:38 2007
-@@ -182,6 +182,11 @@
+--- src/modes/xf86RandR12.c	Tue May 22 10:59:52 2007
++++ src/modes/xf86RandR12.c	Tue May 22 11:00:45 2007
+@@ -207,6 +207,11 @@
          /* Reset, just so we ensure the drivers SwitchMode is called */
          scrp->currentMode = NULL;
      }
-+#if defined(__sun)
++#if defined (__sun)
 +    else {
-+        currentMode = scrp->currentMode;
++	currentMode = scrp->currentMode;
 +    }
 +#endif
      /*

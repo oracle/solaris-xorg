@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.13     07/07/20 SMI"
+# ident "@(#)prototype_i386 1.14     07/08/10 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -59,7 +59,8 @@ f none X11/lib/modules/drivers/cyrix_drv.so 0755 root bin
 f none X11/lib/modules/drivers/glint_drv.so 0755 root bin
 f none X11/lib/modules/drivers/i128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/i740_drv.so 0755 root bin
-f none X11/lib/modules/drivers/i810_drv.so 0755 root bin
+f none X11/lib/modules/drivers/intel_drv.so 0755 root bin
+s none X11/lib/modules/drivers/i810_drv.so=intel_drv.so
 f none X11/lib/modules/drivers/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/neomagic_drv.so 0755 root bin
 f none X11/lib/modules/drivers/nsc_drv.so 0755 root bin
@@ -93,7 +94,8 @@ f none X11/lib/modules/drivers/amd64/r128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/vesa_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/vga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/ast_drv.so 0755 root bin
-f none X11/lib/modules/drivers/amd64/i810_drv.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/intel_drv.so 0755 root bin
+s none X11/lib/modules/drivers/amd64/i810_drv.so=intel_drv.so
 f none X11/lib/modules/drivers/amd64/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/nv_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/trident_drv.so 0755 root bin

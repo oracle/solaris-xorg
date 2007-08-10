@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# xf86-video-i810 Makefile
+# xf86-video-intel Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,19 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	07/07/25
+# @(#)Makefile	1.11	07/08/10
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-i810
+DRIVER_NAME=xf86-video-intel
 
 # Version number (used in path names)
-DRIVER_VERS=1.7.4
+DRIVER_VERS=2.1.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=6484688.patch build-dri.patch libraries.patch \
-		6538497_6554161.patch \
-		6559710.patch
+SOURCE_PATCHES= build-dri.patch libraries.patch \
+		6538497_6554161.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -62,8 +61,10 @@ DRIVER_ADD_LIBS= \
 
 include ../Makefile.inc
 
-source_gen:: $(UNPACK_TARGET) autoreconf
+# Need to regenerate configure & Makefile.in's after patching
+# configure.ac & Makefile.am's in libraries.patch & build-dri.patch
+$(SOURCE_DIR)/Makefile: autoreconf
 
 install_gen::
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.i810
+	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.intel
