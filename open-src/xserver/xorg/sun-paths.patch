@@ -46,3 +46,15 @@ diff -urp -x '*~' xkb/xkbInit.c xkb/xkbInit.c
      	        (strcmp(*el, "type1")  == 0 &&
  		 strstr(defaultFontPath, "/Type1")))) 
  	    	ptr->mod_load_lst = (XF86LoadPtr)xf86addListItem(
+
+--- configure.ac	2007-07-31 09:47:31.997346000 -0700
++++ configure.ac	2007-08-06 18:05:43.360363000 -0700
+@@ -84,7 +84,7 @@
+       [Define to 1 if the DTrace Xserver provider probes should be built in.])
+ fi
+ AM_CONDITIONAL(XSERVER_DTRACE, [test "x$DTRACE" != "xnot_found"])
+-AC_DEFINE_DIR(XERRORDB_PATH, libdir/XErrorDB, [Path to XErrorDB file])
++AC_DEFINE([XERRORDB_PATH], ["/usr/openwin/lib/X11/XErrorDB"], [Path to XErrorDB file])
+ 
+ AC_HEADER_DIRENT
+ AC_HEADER_STDC

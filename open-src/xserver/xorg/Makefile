@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.51	07/07/31
+# @(#)Makefile	1.52	07/08/10
 #
 
 PWD:sh=pwd
@@ -212,11 +212,14 @@ BUILD_64_FLAGS_i386=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR
 BUILD_64_FLAGS=$(BUILD_64_FLAGS_$(MACH))
 
 # Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/configure
 	(cd $(SOURCE_DIR) && \
 	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 	(cd $(SOURCE_DIR)/hw/xfree86/xf1bpp && \
 	 $(MAKE) $(MFLAGS) maintainer-clean-generic)
+
+$(SOURCE_DIR)/configure: $(UNPACK_TARGET) $(SOURCE_DIR)/configure.ac
+	$(MAKE) $(MFLAGS) autoreconf
 
 # Environment variable options to use when building
 BUILD_ENV= PATH=$(PATH):/usr/sbin \
