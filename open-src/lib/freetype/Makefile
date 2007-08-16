@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.66	07/05/15
+# @(#)Makefile	1.67	07/08/10
 #
 
 PWD:sh=pwd
@@ -51,7 +51,7 @@ SOURCE_URL=http://savannah.nongnu.org/download/freetype/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=freetype-$(FT_VERS).patch 6425531.patch 6542352.patch freetype-$(FT_VERS).hint.patch 6539893.patch,-p1
+SOURCE_PATCHES=freetype-$(FT_VERS).patch 6425531.patch 6542352.patch freetype-$(FT_VERS).hint.patch 6539893.patch,-p1 CVE-2007-2754.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
