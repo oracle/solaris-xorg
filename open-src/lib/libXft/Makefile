@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/06/13
+# @(#)Makefile	1.9	07/08/17
 #
 
 PWD:sh=pwd
@@ -45,7 +45,6 @@ LIB_VERS=2.1.12
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	xftcore-6261221.patch \
-	cjk-embolden.patch \
 	xft.hint.patch
 
 # Library name (used for specfiles/mapfiles)

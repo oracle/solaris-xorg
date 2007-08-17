@@ -13,7 +13,7 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
 diff -urp -x '*~' -x '*.orig' src/xftfreetype.c src/xftfreetype.c
 --- src/xftfreetype.c	2007-06-11 17:36:56.663306000 -0700
 +++ src/xftfreetype.c	2007-06-11 17:36:57.027356000 -0700
-@@ -618,7 +618,20 @@ XftFontInfoFill (Display *dpy, _Xconst F
+@@ -558,7 +558,20 @@ XftFontInfoFill (Display *dpy, _Xconst F
      {
  	fi->load_flags |= FT_LOAD_NO_HINTING;
      }
