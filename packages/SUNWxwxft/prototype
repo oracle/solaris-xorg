@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#	"@(#)prototype	1.5	07/06/13   Sun Microsystems" 
+#	"@(#)prototype	1.6	07/07/02   Sun Microsystems" 
 #
 # Xft
 
@@ -72,7 +72,7 @@ d none openwin 						0755 root bin
 d none openwin/share 					0755 root bin
 d none openwin/share/include 				0755 root bin
 d none openwin/share/include/X11 			0755 root bin
-s none openwin/share/include/X11/Xft=../../../../../X11/include/Xft
+s none openwin/share/include/X11/Xft=../../../../../X11/share/include/X11/Xft
 
 d none openwin/lib 					0755 root bin
 s none openwin/lib/libXft.so=./libXft.so.2
