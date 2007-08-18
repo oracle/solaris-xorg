@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.67	07/08/10
+# @(#)Makefile	1.68	07/08/17
 #
 
 PWD:sh=pwd
@@ -51,13 +51,17 @@ SOURCE_URL=http://savannah.nongnu.org/download/freetype/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=freetype-$(FT_VERS).patch 6425531.patch 6542352.patch freetype-$(FT_VERS).hint.patch 6539893.patch,-p1 CVE-2007-2754.patch
+SOURCE_PATCHES= freetype-$(FT_VERS).patch 6425531.patch 6542352.patch \
+	freetype-$(FT_VERS).hint.patch 6539893.patch,-p1 CVE-2007-2754.patch \
+	freetype-config.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
 
 # Command line options to GNU autoconf configure script
-FT_CFG="--enable-shared=yes --enable-static=no --prefix=/usr/sfw"
+FT_CFG=--enable-shared=yes --enable-static=no --prefix=/usr/sfw \
+	--libdir=/usr/sfw/lib$(LIBSUBDIR) \
+	--bindir=/usr/sfw/bin$(LIBSUBDIR)
 
 # Library built in tree
 FT_LIB=$(FT_DIR)/objs/.libs/libfreetype.so.6.3.8
@@ -71,6 +75,9 @@ FT_libdir=$(FT_prefix)/lib
 # What to build
 BUILD_TARGETS=$(GNUMAKE) $(FT_LIB)
 
+# pkg-config files that need to have -R added
+FIX_PC_FILES=builds/unix/freetype2.in
+
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
 
@@ -81,30 +88,21 @@ include $(TOP)/common/Makefile.inc
 $(SOURCE_DIR)/config.mk: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) ; \
 	 chmod a+x builds/unix/configure builds/unix/mkinstalldirs builds/unix/install-sh ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" MAKE=$(GNUMAKE) CFG=$(FT_CFG) \
+	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" \
+	 LDFLAGS="$(LIB_LDFLAGS)" MAKE=$(GNUMAKE) CFG="$(FT_CFG)" \
+	 INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
 	 $(GNUMAKE) $(MFLAGS) )
 
 # Build Freetype
 $(FT_LIB): $(SOURCE_DIR)/config.mk
 	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_LDFLAGS)" $(GNUMAKE) )
 
-install_gen: $(FT_LIB) $(SOURCE_DIR)/builds/unix/SUNW-freetype-config
-	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(FT_prefix) libdir=$(FT_libdir)/$(ARCHLIBSUBDIR) install )
+install_gen: $(FT_LIB)
+	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(FT_prefix) libdir=$(FT_libdir)$(ARCHLIBSUBDIR) bindir=$(FT_prefix)/bin$(ARCHLIBSUBDIR) install )
 	mkdir -p $(PROTODIR)/usr/sfw/bin$(ARCHLIBSUBDIR)
-	-rm -f $(PROTODIR)/usr/sfw/bin$(ARCHLIBSUBDIR)/freetype-config 
-	rm $(PROTODIR)/usr/sfw/lib$(ARCHLIBSUBDIR)/pkgconfig/freetype2.pc $(PROTODIR)/usr/sfw/lib$(ARCHLIBSUBDIR)/libfreetype.la
-	$(SOURCE_DIR)/builds/unix/install-sh -m 755 $(SOURCE_DIR)/builds/unix/SUNW-freetype-config $(PROTODIR)/usr/sfw/bin$(ARCHLIBSUBDIR)/freetype-config
-	$(SOURCE_DIR)/builds/unix/install-sh -m 755 $(SOURCE_DIR)/builds/unix/SUNW-freetype2.pc $(PROTODIR)/usr/sfw/lib$(ARCHLIBSUBDIR)/pkgconfig/freetype2.pc
 
 install_64::
 	-/bin/rm -f $(FT_libdir)/64 $(PROTODIR)/usr/sfw/bin/64
 	ln -s $(FT_libdir)/$(SUBDIR64) $(FT_libdir)/64
 	ln -s $(PROTODIR)/usr/sfw/bin/$(SUBDIR64) $(PROTODIR)/usr/sfw/bin/64
 
-# Hack to add -R option required for linking on Solaris and 64-bit library path
-# and remove unnecessary -lz
-$(SOURCE_DIR)/builds/unix/freetype-config: $(SOURCE_DIR)/config.mk
-
-$(SOURCE_DIR)/builds/unix/SUNW-freetype-config: $(SOURCE_DIR)/builds/unix/freetype-config
-	sed -e 's|libdir=$${exec_prefix}/lib$$|libdir=$${exec_prefix}/lib${LIBSUBDIR}|' -e 's|-lz||' $(SOURCE_DIR)/builds/unix/freetype-config > $(SOURCE_DIR)/builds/unix/SUNW-freetype-config
-	sed -e 's|-L$${exec_prefix}/lib|-L$${exec_prefix}/lib -R$${exec_prefix}/lib|' -e 's|-L$${libdir}|-L$${libdir} -R$${libdir}|' -e 's|$${exec_prefix}/lib|$${exec_prefix}/lib${LIBSUBDIR}|' -e 's|-lz||' -e 's|-I$${includedir}/freetype2|-I$${includedir} -I$${includedir}/freetype2|' $(SOURCE_DIR)/builds/unix/freetype2.pc > $(SOURCE_DIR)/builds/unix/SUNW-freetype2.pc
