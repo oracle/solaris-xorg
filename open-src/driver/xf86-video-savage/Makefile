@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/07/31
+# @(#)Makefile	1.6	07/08/17
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-savage
 
 # Version number (used in path names)
-DRIVER_VERS=2.1.2
+DRIVER_VERS=2.1.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -57,7 +57,3 @@ DRIVER_ADD_LIBS= -M $(PWD)/mapfile-vbemodeinit-external \
 
 include ../Makefile.inc
 
-# Strip ^M's out of source file that confuse Sun Studio cc
-source_gen::
-	(cd $(SOURCE_DIR)/src && mv savage_driver.h savage_driver.h.orig && \
-	 tr -d '\015' < savage_driver.h.orig > savage_driver.h)
