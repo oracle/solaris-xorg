@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.52	07/08/10
+# @(#)Makefile	1.53	07/08/23
 #
 
 PWD:sh=pwd
@@ -240,6 +240,8 @@ install_gen: $(XORGSERVER_BIN)
 #define _XSERVER64 1\
 #endif%' \
 	    $(SOURCE_DIR)/include/xorg-server.h > $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xorg-server.h
+	    cp -p $(SOURCE_DIR)/mi/mioverlay.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/mioverlay.h
+	    cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
 

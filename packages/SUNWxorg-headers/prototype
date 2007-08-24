@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.6     06/10/03 SMI"
+# ident "@(#)prototype 1.7     07/08/23 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -43,6 +43,7 @@ d none X11 0755 root bin
 
 d none X11/include				0755 root bin
 d none X11/include/X11				0755 root bin
+d none X11/include/xorg				0755 root bin
 
 !search $HOME/X11/include/X11/extensions
 d none X11/include/X11/extensions		0755 root bin
@@ -58,16 +59,46 @@ f none X11/include/X11/extensions/randr.h	0444 root bin
 f none X11/include/X11/extensions/randrproto.h	0444 root bin
 
 # libxkbfile
-f none X11/include/X11/extensions/XKBbells.h	0444 root bin
-f none X11/include/X11/extensions/XKBconfig.h	0444 root bin
-f none X11/include/X11/extensions/XKBfile.h	0444 root bin
-f none X11/include/X11/extensions/XKBrules.h	0444 root bin
-f none X11/include/X11/extensions/XKBsrv.h	0444 root bin
+f none X11/include/X11/extensions/XKBbells.h    0444 root bin
+f none X11/include/X11/extensions/XKBconfig.h   0444 root bin
+f none X11/include/X11/extensions/XKBfile.h     0444 root bin
+f none X11/include/X11/extensions/XKBrules.h    0444 root bin
+f none X11/include/X11/extensions/XKBsrv.h      0444 root bin
 
-f none X11/include/X11/extensions/xf86misc.h	0444 root bin
-f none X11/include/X11/extensions/xf86mscstr.h	0444 root bin
-f none X11/include/X11/extensions/xf86vmode.h	0444 root bin
-f none X11/include/X11/extensions/xf86vmstr.h	0444 root bin
+f none X11/include/X11/extensions/xf86dgastr.h  0444 root bin
+f none X11/include/X11/extensions/xf86dga1str.h 0444 root bin
+f none X11/include/X11/extensions/xf86misc.h    0444 root bin
+f none X11/include/X11/extensions/xf86mscstr.h  0444 root bin
+f none X11/include/X11/extensions/xf86vmode.h   0444 root bin
+f none X11/include/X11/extensions/xf86vmstr.h   0444 root bin
+ 
+f none X11/include/X11/extensions/panoramiXproto.h   0444 root bin
+
+!search $HOME/X11/include/X11/fonts
+d none X11/include/X11/fonts               	0755 root bin
+f none X11/include/X11/fonts/font.h        	0444 root bin
+f none X11/include/X11/fonts/FS.h       	0444 root bin
+f none X11/include/X11/fonts/FSproto.h     	0444 root bin
+f none X11/include/X11/fonts/bdfint.h        	0444 root bin
+f none X11/include/X11/fonts/bitmap.h     	0444 root bin
+f none X11/include/X11/fonts/bufio.h   		0444 root bin
+f none X11/include/X11/fonts/fntfil.h      	0444 root bin
+f none X11/include/X11/fonts/fntfilio.h       	0444 root bin
+f none X11/include/X11/fonts/fntfilst.h  	0444 root bin
+f none X11/include/X11/fonts/fontconf.h  	0444 root bin
+f none X11/include/X11/fonts/fontenc.h  	0444 root bin
+f none X11/include/X11/fonts/fontencc.h  	0444 root bin
+f none X11/include/X11/fonts/fontmisc.h  	0444 root bin
+f none X11/include/X11/fonts/fontmod.h  	0444 root bin
+f none X11/include/X11/fonts/fontproto.h  	0444 root bin
+f none X11/include/X11/fonts/fontshow.h  	0444 root bin
+f none X11/include/X11/fonts/fontstruct.h  	0444 root bin
+f none X11/include/X11/fonts/fontutil.h  	0444 root bin
+f none X11/include/X11/fonts/fontxlfd.h  	0444 root bin
+f none X11/include/X11/fonts/fsmasks.h  	0444 root bin
+f none X11/include/X11/fonts/ft.h  		0444 root bin
+f none X11/include/X11/fonts/ftfuncs.h  	0444 root bin
+f none X11/include/X11/fonts/pcf.h  		0444 root bin
 
 # pkgconfig data files for X modular protocols & libraries
 
@@ -88,6 +119,7 @@ f none lib/pkgconfig/xv.pc			0444 root bin
 f none lib/pkgconfig/xvmc.pc			0444 root bin
 f none lib/pkgconfig/xxf86misc.pc		0444 root bin
 f none lib/pkgconfig/xxf86vm.pc			0444 root bin
+f none lib/pkgconfig/xorg-server.pc		0444 root bin
 
 ## 64-bit versions
 !search $HOME/lib/$plat_64/pkgconfig
@@ -106,3 +138,161 @@ f none lib/$plat_64/pkgconfig/xv.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xvmc.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xxf86misc.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xxf86vm.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xorg-server.pc		0444 root bin
+
+# Headers needed to build a Xorg ddx
+!search $HOME/X11/include/xorg
+f none X11/include/xorg/BT.h				0444 root bin
+f none X11/include/xorg/IBM.h				0444 root bin
+f none X11/include/xorg/TI.h				0444 root bin
+f none X11/include/xorg/XIstubs.h			0444 root bin
+f none X11/include/xorg/afb.h				0444 root bin
+f none X11/include/xorg/agpgart.h			0444 root bin
+f none X11/include/xorg/assyntax.h			0444 root bin
+f none X11/include/xorg/atKeynames.h			0444 root bin
+f none X11/include/xorg/bstore.h			0444 root bin
+f none X11/include/xorg/bstorestr.h			0444 root bin
+f none X11/include/xorg/bt829.h				0444 root bin
+f none X11/include/xorg/cfb.h				0444 root bin
+f none X11/include/xorg/cfb16.h				0444 root bin
+f none X11/include/xorg/cfb32.h				0444 root bin
+f none X11/include/xorg/cfb8_16.h			0444 root bin
+f none X11/include/xorg/cfb8_32.h			0444 root bin
+f none X11/include/xorg/cfbmap.h			0444 root bin
+f none X11/include/xorg/cfbmskbits.h			0444 root bin
+f none X11/include/xorg/cfbunmap.h			0444 root bin
+f none X11/include/xorg/closestr.h			0444 root bin
+f none X11/include/xorg/closure.h			0444 root bin
+f none X11/include/xorg/colormap.h			0444 root bin
+f none X11/include/xorg/colormapst.h			0444 root bin
+f none X11/include/xorg/compiler.h			0444 root bin
+f none X11/include/xorg/cursor.h			0444 root bin
+f none X11/include/xorg/cursorstr.h			0444 root bin
+f none X11/include/xorg/damage.h			0444 root bin
+f none X11/include/xorg/damagestr.h			0444 root bin
+f none X11/include/xorg/dbestruct.h			0444 root bin
+f none X11/include/xorg/dgaproc.h			0444 root bin
+f none X11/include/xorg/dix.h				0444 root bin
+f none X11/include/xorg/dixevents.h			0444 root bin
+f none X11/include/xorg/dixfont.h			0444 root bin
+f none X11/include/xorg/dixfontstr.h			0444 root bin
+f none X11/include/xorg/dixgrabs.h			0444 root bin
+f none X11/include/xorg/dixstruct.h			0444 root bin
+f none X11/include/xorg/edid.h				0444 root bin
+f none X11/include/xorg/exa.h				0444 root bin
+f none X11/include/xorg/exevents.h			0444 root bin
+f none X11/include/xorg/extension.h			0444 root bin
+f none X11/include/xorg/extinit.h			0444 root bin
+f none X11/include/xorg/extnsionst.h			0444 root bin
+f none X11/include/xorg/fb.h				0444 root bin
+f none X11/include/xorg/fbdevhw.h			0444 root bin
+f none X11/include/xorg/fboverlay.h			0444 root bin
+f none X11/include/xorg/fbpseudocolor.h			0444 root bin
+f none X11/include/xorg/fbrop.h				0444 root bin
+f none X11/include/xorg/fi1236.h			0444 root bin
+f none X11/include/xorg/fourcc.h			0444 root bin
+f none X11/include/xorg/gc.h				0444 root bin
+f none X11/include/xorg/gcstruct.h			0444 root bin
+f none X11/include/xorg/globals.h			0444 root bin
+f none X11/include/xorg/glyphstr.h			0444 root bin
+f none X11/include/xorg/i2c_def.h			0444 root bin
+f none X11/include/xorg/input.h				0444 root bin
+f none X11/include/xorg/inputstr.h			0444 root bin
+f none X11/include/xorg/mfb.h				0444 root bin
+f none X11/include/xorg/mfbmap.h			0444 root bin
+f none X11/include/xorg/mfbunmap.h			0444 root bin
+f none X11/include/xorg/mi.h				0444 root bin
+f none X11/include/xorg/mibank.h			0444 root bin
+f none X11/include/xorg/mibstore.h			0444 root bin
+f none X11/include/xorg/micmap.h			0444 root bin
+f none X11/include/xorg/micoord.h			0444 root bin
+f none X11/include/xorg/mifillarc.h			0444 root bin
+f none X11/include/xorg/mifpoly.h			0444 root bin
+f none X11/include/xorg/migc.h				0444 root bin
+f none X11/include/xorg/miline.h			0444 root bin
+f none X11/include/xorg/mioverlay.h			0444 root bin
+f none X11/include/xorg/mipict.h			0444 root bin
+f none X11/include/xorg/mipointer.h			0444 root bin
+f none X11/include/xorg/mipointrst.h			0444 root bin
+f none X11/include/xorg/misc.h				0444 root bin
+f none X11/include/xorg/miscstruct.h			0444 root bin
+f none X11/include/xorg/mispans.h			0444 root bin
+f none X11/include/xorg/mistruct.h			0444 root bin
+f none X11/include/xorg/miwideline.h			0444 root bin
+f none X11/include/xorg/mizerarc.h			0444 root bin
+f none X11/include/xorg/msp3430.h			0444 root bin
+f none X11/include/xorg/opaque.h			0444 root bin
+f none X11/include/xorg/os.h				0444 root bin
+f none X11/include/xorg/picture.h			0444 root bin
+f none X11/include/xorg/picturestr.h			0444 root bin
+f none X11/include/xorg/pixmap.h			0444 root bin
+f none X11/include/xorg/pixmapstr.h			0444 root bin
+f none X11/include/xorg/property.h			0444 root bin
+f none X11/include/xorg/propertyst.h			0444 root bin
+f none X11/include/xorg/randrstr.h			0444 root bin
+f none X11/include/xorg/region.h			0444 root bin
+f none X11/include/xorg/regionstr.h			0444 root bin
+f none X11/include/xorg/renderedge.h			0444 root bin
+f none X11/include/xorg/resource.h			0444 root bin
+f none X11/include/xorg/rgb.h				0444 root bin
+f none X11/include/xorg/screenint.h			0444 root bin
+f none X11/include/xorg/scrnintstr.h			0444 root bin
+f none X11/include/xorg/selection.h			0444 root bin
+f none X11/include/xorg/servermd.h			0444 root bin
+f none X11/include/xorg/shadow.h			0444 root bin
+f none X11/include/xorg/shadowfb.h			0444 root bin
+f none X11/include/xorg/site.h				0444 root bin
+f none X11/include/xorg/swaprep.h			0444 root bin
+f none X11/include/xorg/swapreq.h			0444 root bin
+f none X11/include/xorg/tda8425.h			0444 root bin
+f none X11/include/xorg/tda9850.h			0444 root bin
+f none X11/include/xorg/tda9885.h			0444 root bin
+f none X11/include/xorg/uda1380.h			0444 root bin
+f none X11/include/xorg/validate.h			0444 root bin
+f none X11/include/xorg/vbe.h				0444 root bin
+f none X11/include/xorg/vbeModes.h			0444 root bin
+f none X11/include/xorg/vdif.h				0444 root bin
+f none X11/include/xorg/vgaHW.h				0444 root bin
+f none X11/include/xorg/window.h			0444 root bin
+f none X11/include/xorg/windowstr.h			0444 root bin
+f none X11/include/xorg/xaa.h				0444 root bin
+f none X11/include/xorg/xaaWrapper.h			0444 root bin
+f none X11/include/xorg/xaalocal.h			0444 root bin
+f none X11/include/xorg/xaarop.h			0444 root bin
+f none X11/include/xorg/xf1bpp.h			0444 root bin
+f none X11/include/xorg/xf4bpp.h			0444 root bin
+f none X11/include/xorg/xf86.h				0444 root bin
+f none X11/include/xorg/xf86Cursor.h			0444 root bin
+f none X11/include/xorg/xf86DDC.h			0444 root bin
+f none X11/include/xorg/xf86Module.h			0444 root bin
+f none X11/include/xorg/xf86OSKbd.h			0444 root bin
+f none X11/include/xorg/xf86OSmouse.h			0444 root bin
+f none X11/include/xorg/xf86Opt.h			0444 root bin
+f none X11/include/xorg/xf86Pci.h			0444 root bin
+f none X11/include/xorg/xf86PciInfo.h			0444 root bin
+f none X11/include/xorg/xf86Priv.h			0444 root bin
+f none X11/include/xorg/xf86Privstr.h			0444 root bin
+f none X11/include/xorg/xf86RAC.h			0444 root bin
+f none X11/include/xorg/xf86RamDac.h			0444 root bin
+f none X11/include/xorg/xf86Resources.h			0444 root bin
+f none X11/include/xorg/xf86Sbus.h			0444 root bin
+f none X11/include/xorg/xf86Version.h			0444 root bin
+f none X11/include/xorg/xf86Xinput.h			0444 root bin
+f none X11/include/xorg/xf86_OSlib.h			0444 root bin
+f none X11/include/xorg/xf86_OSproc.h			0444 root bin
+f none X11/include/xorg/xf86_ansic.h			0444 root bin
+f none X11/include/xorg/xf86_libc.h			0444 root bin
+f none X11/include/xorg/xf86cmap.h			0444 root bin
+f none X11/include/xorg/xf86fbman.h			0444 root bin
+f none X11/include/xorg/xf86i2c.h			0444 root bin
+f none X11/include/xorg/xf86int10.h			0444 root bin
+f none X11/include/xorg/xf86sbusBus.h			0444 root bin
+f none X11/include/xorg/xf86str.h			0444 root bin
+f none X11/include/xorg/xf86xv.h			0444 root bin
+f none X11/include/xorg/xf86xvmc.h			0444 root bin
+f none X11/include/xorg/xf86xvpriv.h			0444 root bin
+f none X11/include/xorg/xisb.h				0444 root bin
+f none X11/include/xorg/xorg-server.h			0444 root bin
+f none X11/include/xorg/xorgVersion.h			0444 root bin
+f none X11/include/xorg/xvdix.h				0444 root bin
+f none X11/include/xorg/xvmcext.h			0444 root bin
