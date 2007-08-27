@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.53	07/08/23
+# @(#)Makefile	1.54	07/08/24
 #
 
 PWD:sh=pwd
@@ -59,6 +59,7 @@ SOURCE_PATCHES = \
 	render-security.patch,-p1 \
 	ramdac-symbols.patch,-p1 \
 	RandR-1.2-man.patch,-p1 \
+	secure-rpc.patch,-p1 \
 	sun-paths.patch \
 	sun-extramodes.patch \
 	sun-apm.patch \
