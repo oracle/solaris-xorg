@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	07/08/17
+# @(#)Makefile	1.10	07/08/28
 #
 
 PWD:sh=pwd
@@ -72,7 +72,7 @@ LIB_BUILT=$(BUILD_DIR)/.libs/libXft.so.2
 
 # Mapfile used to control which symbols are exported
 XFT_MAPFILE=$(PWD)/mapfile.scope
-LIB_ADD_LD_OPTIONS=-M$(XFT_MAPFILE)
+LIB_ADD_LD_OPTIONS=-M$(XFT_MAPFILE) -lX11
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xft.pc.in
