@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.1	06/09/15
+# @(#)Makefile.inc	1.3	07/08/29
 #
 
 ### Makefile settings/rules common to all X.Org protocol modules
@@ -49,19 +49,23 @@ include $(TOP)/common/Makefile.inc
 # Command line options to GNU autoconf configure script
 DATA_CFG=--prefix=$(X11_DIR)
 
-build_gen: $(SOURCE_DIR)/Makefile
+build_gen: $(MODULE_BUILT)
 
+# Environment variable options to GNU autoconf configure script
+CONFIG_ENV = CC=$(CC) CFLAGS="$(LIB_CFLAGS)" \
+    LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" \
+    PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
+    $(ADD_CONFIG_ENV)
+    
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) ; \
 	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" ./configure $(DATA_CFG) )
+	 $(CONFIG_ENV) ./configure $(DATA_CFG) )
 
 # Install
 install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
-
+	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install ) 
 
 

@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# Xcursor 1.x Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,48 +30,38 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/08/29
+# @(#)Makefile	1.1	07/08/29
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	mkfontscale \
-	xcursorgen \
-	xdpyinfo \
-	xgamma \
-	xkbcomp \
-	xpm \
-	xrandr \
-	xvidtune \
-	xvinfo \
-	xscreensaver
+# Package name used in tarballs
+LIB_MODULE=libXcursor
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=1.1.9
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	mesa-demos
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Library name
+LIBNAME=Xcursor
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Uncommitted
+LIB_MAN_SUFFIX=3Xcursor
 
-World: clean all
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXcursor.so.1.0.0
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xcursor.pc.in
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# Use proto area for building on older machines without /usr/X11/lib/libXfixes
+LIB_ADD_LD_OPTIONS=-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# Use /usr/share/icons only, not /usr/X11/share, for consistency with GNOME
+LIB_ADD_CONFIG_OPTS=--with-icondir=/usr/share/icons \
+	--with-cursorpath='~/.icons:/usr/share/icons:/usr/share/pixmaps'
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc

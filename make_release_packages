@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.52 07/08/06
+# @(#)make_release_packages	1.53 07/08/29
 #
 #	Create and fill a package staging area for X
 #
@@ -58,7 +58,7 @@ XW_PACKAGE_LIST="SUNWxwcft SUNWxwdem SUNWxwdim SUNWxwfs SUNWxwinc \
 	SUNWxscreensaver-hacks SUNWfreetype2 SUNWxwxft \
 	SUNWxorg-clientlibs SUNWxorg-devel-docs SUNWxorg-headers \
     	SUNWxorg-client-docs SUNWxorg-client-programs SUNWxorg-compatlinks \
-	SUNWxprint-server"
+	SUNWxprint-server SUNWxcursor-themes"
 
 # L10N packages are normally only built on sparc since they only have text
 # files that are the same for both platforms

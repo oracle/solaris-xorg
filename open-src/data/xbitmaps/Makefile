@@ -40,8 +40,18 @@ VERSION=1.0.1
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# What gets built - none needed for bitmaps
+MODULE_BUILT=$(SOURCE_DIR)/Makefile
+
 ### Include common rulesets
 include ../Makefile.inc
+
+# Install copy of xbitmaps.pc in 64-bit pkgconfig files as well
+install_gen:: $(SOURCE_DIR)/Makefile
+	(cd $(SOURCE_DIR) ; \
+	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
+
+
 
 # Extra install for bootstrapping the old monolith
 install_gen:: $(SOURCE_DIR)/Makefile

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.15	07/07/18
+# @(#)Makefile	1.16	07/08/29
 #
 ###############################################################################
 #
@@ -50,6 +50,7 @@ AFTERX = \
 	app \
 	xserver/xorg \
 	driver \
+	data/xcursor-themes \
 	font
 
 ALL = $(BEFOREX) $(AFTERX)

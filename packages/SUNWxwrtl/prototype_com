@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.40     07/05/03 SMI"
+# ident "@(#)prototype_com 1.41     07/08/29 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -144,6 +144,9 @@ s none lib/libXxf86vm.so.1=../X11/lib/libXxf86vm.so.1
 s none lib/libXcomposite.so=libXcomposite.so.1
 s none lib/libXcomposite.so.1=../X11/lib/libXcomposite.so.1
 
+s none lib/libXcursor.so=libXcursor.so.1
+s none lib/libXcursor.so.1=../X11/lib/libXcursor.so.1
+
 s none lib/libXinerama.so=libXinerama.so.1
 s none lib/libXinerama.so.1=../X11/lib/libXinerama.so.1
 
@@ -260,6 +263,9 @@ s none lib/$plat_64/libXxf86vm.so.1=../../X11/lib/64/libXxf86vm.so.1
 
 s none lib/$plat_64/libXcomposite.so=libXcomposite.so.1
 s none lib/$plat_64/libXcomposite.so.1=../../X11/lib/64/libXcomposite.so.1
+
+s none lib/$plat_64/libXcursor.so=libXcursor.so.1
+s none lib/$plat_64/libXcursor.so.1=../../X11/lib/64/libXcursor.so.1
 
 s none lib/$plat_64/libXinerama.so=libXinerama.so.1
 s none lib/$plat_64/libXinerama.so.1=../../X11/lib/64/libXinerama.so.1

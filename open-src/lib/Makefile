@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/06/13
+# @(#)Makefile	1.9	07/08/29
 #
 ###############################################################################
 
@@ -45,6 +45,7 @@ OS_SUBDIRS_common = \
 	libXcomposite \
 	libXrender \
 	libXdamage \
+	libXcursor \
 	libXfont \
 	libXft \
 	libXinerama \

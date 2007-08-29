@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,48 +28,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/08/29
-#
-###############################################################################
 
-OS_SUBDIRS_common = \
-	mkfontscale \
-	xcursorgen \
-	xdpyinfo \
-	xgamma \
-	xkbcomp \
-	xpm \
-	xrandr \
-	xvidtune \
-	xvinfo \
-	xscreensaver
+# Package name used in tarballs
+MODULE_NAME=xcursor-themes
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+VERSION=1.0.1
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	mesa-demos
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES=	
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# What gets built
+MODULE_BUILT=$(SOURCE_DIR)/redglas/X_cursor
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Additional environment variable options to GNU autoconf configure script
+ADD_CONFIG_ENV= PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
 
-World: clean all
+### Include common rulesets
+include ../Makefile.inc
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Environment variable options needed when building
+BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_DIR)/lib" \
+	PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+$(MODULE_BUILT): $(SOURCE_DIR)/Makefile
+	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))

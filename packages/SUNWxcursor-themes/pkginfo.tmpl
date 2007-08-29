@@ -1,7 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+##########################################################################
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -12,7 +11,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,54 +21,28 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/08/29
+##########################################################################
 #
-###############################################################################
+# ident "@(#)pkginfo.tmpl 1.1     07/08/28 SMI"
 
-OS_SUBDIRS_common = \
-	mkfontscale \
-	xcursorgen \
-	xdpyinfo \
-	xgamma \
-	xkbcomp \
-	xpm \
-	xrandr \
-	xvidtune \
-	xvinfo \
-	xscreensaver
-
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	mesa-demos
-
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
-
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+PKG="SUNWxcursor-themes"
+NAME="X.Org Foundation X11 cursor themes"
+ARCH="ISA"
+VERSION=0.1,REV=0.2000.02.02
+CATEGORY="system"
+DESC="X Window System full-color, translucent cursor themes from X.Org Foundation open source release"
+BASEDIR="/usr"
+VENDOR="Sun Microsystems, Inc."
+HOTLINE="Please contact your local service provider"
+EMAIL=""
+MAXINST="1000"
+SUNW_PKGVERS=1.0
+SUNW_PRODNAME="X.Org Foundation X11 for Solaris"
+SUNW_PRODVERS=1.0
+SUNW_PKGTYPE=usr
