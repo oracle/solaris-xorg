@@ -9,16 +9,13 @@
  	drm_handle_t front_handle;
  	int front_offset;
 
---- src/mesa/drivers/dri/i965/server/i830_dri.h		Wed Jun 13 14:55:59 2007
-+++ src/mesa/drivers/dri/i965/server/i830_dri.h		Wed Jun 13 14:55:09 2007
-@@ -19,19 +19,23 @@
-    drmSize regsSize;
- 
-    drmSize unused1; /* backbufferSize */
-+   drmSize pad0;
+--- src/mesa/drivers/dri/i965/server/i830_dri.h	Fri Aug 11 05:26:50 2006
++++ src/mesa/drivers/dri/i965/server/i830_dri.h	Wed Aug 29 10:17:18 2007
+@@ -22,16 +22,20 @@
     drm_handle_t unused2; /* backbuffer */
  
     drmSize unused3; /* depthbufferSize */
++   drmSize pad0;
     drm_handle_t unused4; /* depthbuffer */
  
 -   drmSize unused5; /* rotatedSize /*/
