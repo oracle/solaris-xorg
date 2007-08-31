@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.54	07/08/24
+# @(#)Makefile	1.55	07/08/31
 #
 
 PWD:sh=pwd
@@ -231,7 +231,11 @@ BUILD_ENV= PATH=$(PATH):/usr/sbin \
 $(XORGSERVER_BIN): $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
 
-install_gen: $(XORGSERVER_BIN)
+EXTRA_INSTALL_sparc=install_pc
+EXTRA_INSTALL_i386=
+EXTRA_INSTALL=$(EXTRA_INSTALL_$(MACH))
+
+install_gen: $(XORGSERVER_BIN) $(EXTRA_INSTALL)
 	(cd $(SOURCE_DIR) ;  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
 	 DESTDIR=$(PROTODIR) CPPROG="cp -p" \
 	 pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig )
@@ -245,6 +249,10 @@ install_gen: $(XORGSERVER_BIN)
 	    cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
+
+# Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
+install_pc:
+	cp -p $(SOURCE_DIR)/xorg-server.pc $(PROTODIR)/usr/lib/pkgconfig/
 
 $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@
