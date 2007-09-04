@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+
+Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, and/or sell copies of the Software, and to permit persons
+to whom the Software is furnished to do so, provided that the above
+copyright notice(s) and this permission notice appear in all copies of
+the Software and that both the above copyright notice(s) and this
+permission notice appear in supporting documentation.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder
+shall not be used in advertising or otherwise to promote the sale, use
+or other dealings in this Software without prior written authorization
+of the copyright holder.
+
+-->
+
+<service_bundle type='manifest' name='SUNWxwplr:ogl-select'>
+
+<service
+	name='application/opengl/ogl-select'
+	type='service'
+	version='1'>
+
+	<create_default_instance enabled='true'/>
+	<single_instance/>
+
+	<!-- Need / & /usr filesystems mounted, /var mounted read/write -->
+	<dependency
+		name='fs-local'
+		type='service'
+		grouping='require_all'
+		restart_on='none'>
+		<service_fmri value='svc:/system/filesystem/local' />
+	</dependency>
+
+        <dependency
+            name='network-service'
+            grouping='require_all'
+            restart_on='none'
+            type='service'>
+                <service_fmri value='svc:/network/service' />
+        </dependency>
+
+        <dependency
+            name='name-services'
+            grouping='require_all'
+            restart_on='refresh'
+            type='service'>
+                <service_fmri value='svc:/milestone/name-services' />
+        </dependency>
+
+        <!-- We need to run before x11/dtlogin/gdm starts -->
+        <dependent
+            name='ogl-select_before_x11-server'
+            grouping='optional_all'
+            restart_on='none'>
+                <service_fmri value='svc:/application/x11/x11-server' />
+        </dependent>
+
+        <dependent
+            name='ogl-select_before_dtlogin'
+            grouping='optional_all'
+            restart_on='none'>
+                <service_fmri value='svc:/application/graphical-login/cde-login' />
+        </dependent>
+
+        <dependent
+            name='ogl-select_before_gdm2-login'
+            grouping='optional_all'
+            restart_on='none'>
+                <service_fmri value='svc:/application/gdm2-login' />
+        </dependent>
+
+	<exec_method
+		type='method'
+		name='start'
+		exec='/lib/svc/method/ogl-select start'
+		timeout_seconds='30'>
+	</exec_method>
+
+	<exec_method
+		type='method'
+		name='stop'
+		exec='/lib/svc/method/ogl-select stop'
+		timeout_seconds='30'>
+	</exec_method>
+
+	<property_group name='startd' type='framework'>
+		<propval name='duration' type='astring' value='transient' />
+	</property_group>
+
+	<property_group name='options' type='application'>
+               	<stability value='Evolving' />
+
+               	<propval name='vendor' type='astring'	
+		 	value='notset' />
+
+		<propval name='value_authorization' type='astring'
+			value='solaris.smf.manage.opengl' />
+	</property_group> 	
+
+	<stability value='Evolving' />
+
+	<template>
+		<common_name>
+			<loctext xml:lang='C'>
+			OpenGL runtime select
+			</loctext>
+		</common_name>
+		<documentation>
+			<manpage title='ogl-select' section='1' manpath='/usr/X11/share/man' />
+		</documentation>
+	</template>
+</service>
+
+</service_bundle>
+

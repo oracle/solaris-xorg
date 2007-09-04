@@ -1,0 +1,101 @@
+#!/bin/ksh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident	"@(#)nvidia_vendor_select	1.2	07/09/04 SMI"
+#
+
+LINKDIR=/var/run/opengl
+
+PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+
+#
+# No support for SPARC, yet
+#
+if [ `uname -p` = "sparc" ]; then
+	return 0
+fi
+
+MYIDENTITY="NVDAnvda nvidia"
+
+# If this is just a probe, identify ourself and leave.
+if [ $# -eq 1 ]; then
+	if [ $1 = "identify" ]; then
+		echo $MYIDENTITY
+		return 0
+	fi
+fi
+
+# Make a directory link. $1 is the pathname.
+make_dir_link() {
+	if [ $# != 1 ]; then
+		return
+	fi
+	if [ ! -d $1 ]; then
+		mkdir -p $1
+	fi	
+	chmod 755 $1
+}
+
+dir_init() {
+	make_dir_link $LINKDIR
+	make_dir_link $LINKDIR/lib
+	make_dir_link $LINKDIR/lib/amd64
+	make_dir_link $LINKDIR/include
+	make_dir_link $LINKDIR/server
+	make_dir_link $LINKDIR/server/amd64
+}
+
+# Make a file link. $1 is the source path, $2 is the target path
+make_file_link() {
+	if [ $# != 2 ]; then
+		return
+	fi
+	if [ -h $2 ]; then
+		rm -f $2
+	fi
+	ln -sf $1 $2
+}
+
+dir_init
+
+# User libraries
+make_file_link /usr/X11/lib/NVIDIA/libGL.so.1 $LINKDIR/lib/libGL.so.1
+make_file_link /usr/X11/lib/NVIDIA/amd64/libGL.so.1 $LINKDIR/lib/amd64/libGL.so.1
+
+# Server libraries
+make_file_link /usr/X11/lib/modules/extensions/NVIDIA/libglx.so $LINKDIR/server/libglx.so
+make_file_link /usr/X11/lib/modules/extensions/NVIDIA/amd64/libglx.so $LINKDIR/server/amd64/libglx.so
+
+# Includes
+make_file_link /usr/X11/include/NVIDIA/GL/gl.h $LINKDIR/include/gl.h
+make_file_link /usr/X11/include/NVIDIA/GL/glext.h $LINKDIR/include/glext.h
+make_file_link /usr/X11/include/NVIDIA/GL/glx.h $LINKDIR/include/glx.h
+make_file_link /usr/X11/include/NVIDIA/GL/glxext.h $LINKDIR/include/glxext.h
+
+return 0

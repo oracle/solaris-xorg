@@ -1,0 +1,3 @@
+solaris.smf.manage.x11:::Manage X11 Service States:::help=X11States.html
+solaris.smf.manage.font:::Manage Font Service States:::help=FontStates.html
+

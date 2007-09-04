@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source bits
+# Makefile for X Consolidation Open Source data modules
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,73 +28,33 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17	07/09/04
+# @(#)Makefile	1.1	07/09/04
 #
 ###############################################################################
-#
-# Modules in this makefile are divided into 2 sections - those that need to
-# be built before the X11 monolithic tree (because it depends on them) and 
-# those that need to be build after the X11 monolithic tree (because they 
-# depend on portions of the monolithic tree).
 
-BEFOREX = \
-	util/util-macros \
-	proto \
-	data/xbitmaps \
-	util/lndir \
-	doc \
-	lib \
-	app/bdftopcf
+OS_SUBDIRS = \
+	smf-rbac \
+	workspace-patterns \
+	xcursor-themes
 
-AFTERX = \
-	app \
-	xserver/xorg \
-	driver \
-	data \
-	font
+all: 
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
 
-ALL = $(BEFOREX) $(AFTERX)
+World: clean all
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+clean: 
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
 
-World: clean install
+install:
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
 
-beforeX-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all OS_SUBDIRS=BEFOREX
-
-afterX-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all OS_SUBDIRS=AFTERX
-
-clean: beforeX-clean afterX-clean
-
-beforeX-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=BEFOREX
-
-afterX-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=AFTERX
-
-install: beforeX-install afterX-install
-
-beforeX-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install OS_SUBDIRS=BEFOREX
-
-afterX-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install OS_SUBDIRS=AFTERX
-
-download: beforeX-download afterX-download
-
-beforeX-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download OS_SUBDIRS=BEFOREX
-
-afterX-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download OS_SUBDIRS=AFTERX
+download:
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
 
 subdirs:
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $($(OS_SUBDIRS)) ;\
+	for i in $(OS_SUBDIRS) ;\
 	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/$$i..."; \
+	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
 	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
 	done

@@ -1,0 +1,181 @@
+#!/bin/ksh
+#
+# ident	"@(#)Xserver	1.4	07/09/04 SMI"
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
+USAGE="Usage: $0 [-c <class>] :<display> [<X server arguments>]"
+
+PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+
+#########
+#
+# Default values
+# 
+# Users must not modify this script to change them - change via SMF properties
+#
+
+DISPLAY="0"
+DEFDEPTH="24"
+CLASSES=""
+TCP_LISTEN=""
+SERVERARGS=""
+
+if [ `arch` = "sun4" ] ; then
+    XSERVER="/usr/openwin/bin/Xsun"
+else
+    XSERVER="/usr/X11/bin/Xorg"
+fi
+
+while getopts :c: opt; do
+    case $opt in
+	c)	CLASSES="$CLASSES :$OPTARG" ;;
+	?)	echo $USAGE ; exit 2;;
+    esac
+done
+
+shift `expr $OPTIND - 1`
+
+if [ $# -gt 1 ] ; then
+    case $1 in
+	:*)
+	    DISPLAY=$1
+	    DISPLAY=$(echo $DISPLAY | sed 's/^://')
+	    shift
+	    ;;
+	*)
+	    # Do nothing
+	    ;;
+    esac
+fi
+
+REMOTE="false"
+for a in $SERVERARGS $* ; do
+    case $a in 
+	-query|-broadcast|-multicast|-indirect)
+	    REMOTE="true"
+	    ;;
+	*)
+	    # Do nothing
+	    ;;
+    esac
+done
+
+if [ "$REMOTE" = "true" ] ; then
+    CLASSES="$CLASSES remote"
+else
+    CLASSES="$CLASSES local"
+fi
+
+getprop() {
+    PROPVAL=""
+    # The "" instance is to get the properties from the base service without
+    # any instance specifier
+    for INSTANCE in ":display$DISPLAY" $CLASSES "" ; do
+	svcprop -q -p $1 application/x11/x11-server$INSTANCE
+	if [ $? -eq 0 ] ; then
+	    PROPVAL=$(svcprop -p $1 application/x11/x11-server$INSTANCE)
+	    if [ "$PROPVAL" == "\"\"" ] ; then
+		PROPVAL=""
+	    fi
+	    return
+	fi
+    done
+    return
+}
+
+getprop options/default_depth
+if [ "$PROPVAL" != "" ] ; then
+    DEFDEPTH=$PROPVAL
+fi
+
+getprop options/server
+if [ "$PROPVAL" != "" ] ; then
+    XSERVER=$PROPVAL
+fi
+
+getprop options/server_args
+if [ "$PROPVAL" != "" ] ; then
+    SERVERARGS=$PROPVAL
+fi
+
+getprop options/tcp_listen
+if [ "$PROPVAL" != "" ] ; then
+    TCP_LISTEN=$PROPVAL
+fi
+
+# Make sure $XSERVER is a known X server binary
+
+case $XSERVER in
+    /usr/openwin/bin/Xsun)	;;
+    /usr/openwin/bin/Xvfb)	;;
+    /usr/X11/bin/Xorg)		;;
+    /usr/X11/bin/amd64/Xorg)	;;
+    /usr/X11/bin/i386/Xorg)	;;
+    /usr/X11/bin/Xvfb)		;;
+    /usr/X11/bin/amd64/Xvfb)	;;
+    /usr/X11/bin/i386/Xvfb)	;;
+    *)
+	echo "$0: $XSERVER is not a valid X server"
+	exit 1
+	;;
+esac
+
+
+case $XSERVER in
+    *Xsun)
+	DEPTHARG="-defdepth $DEFDEPTH"
+	;;
+    *Xorg)
+	DEPTHARG="-depth $DEFDEPTH"
+	;;
+    *)
+	DEPTHARG=""
+	;;
+esac
+
+# Should not happen, but just in case
+if [ "$TCP_LISTEN" = "" ] ; then
+    if [ "$REMOTE" = "true" ] ; then
+	TCP_LISTEN="true"
+    else
+	TCP_LISTEN="false"
+    fi
+fi
+
+if [ "$TCP_LISTEN" = "false" ] ; then
+    LISTENARG="-nolisten tcp"
+else
+    LISTENARG=""
+fi
+
+ALLARGS="$DEPTHARG $LISTENARG $SERVERARGS $*"
+
+exec $XSERVER :$DISPLAY $ALLARGS
+
