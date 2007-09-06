@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	07/04/05
+# @(#)Makefile	1.10	07/09/06
 #
 
 # Package name used in tarballs
@@ -54,7 +54,7 @@ LIB_STABILITY=Project Private
 LIB_MAN_SUFFIX=3Xfont
 
 # Additional configure script options to select the modules we use
-LIB_ADD_CONFIG_OPTS= --disable-freetype --enable-type1 --disable-cid \
+LIB_ADD_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
 	--disable-speedo --enable-fontcache --enable-fc --disable-builtins
 
 # Library built in tree
@@ -75,18 +75,3 @@ LIB_ADD_CFLAGS=-DLOADABLEFONTS
 
 include ../Makefile.inc
 
-# Merge in additional sources from closed-src directory
-#source_gen:: $(LNDIR)
-#	if [ -d closed-src ] ; then \
-#	    mkdir -p $(SOURCE_DIR)/src/bitstream/module ; \
-#	    (cd $(SOURCE_DIR)/src/bitstream && \
-#		$(LNDIR) $(TOP)/../closed-src/xc/lib/font/bitstream) ; \
-#	    (cd $(SOURCE_DIR)/src/bitstream/module && \
-#		xmkmf $(TOP)/../xc) ; \
-#	    perl -i.bak -p -e 's%SUBDIRS=%SUBDIRS=bitstream/module%' \
-#		$(SOURCE_DIR)/src/Makefile.am ; \
-#	fi
-
-#	    (cd $(SOURCE_DIR) && $(LNDIR) ../../closed-src) ; \
-#	    perl -i.bak -p -e 's%AC_OUTPUT\(\[Makefile%AC_OUTPUT([Makefile src/bitstream/Makefile%' $(SOURCE_DIR)/configure.ac ; \
-#	    (cd $(SOURCE_DIR) && ACLOCAL="aclocal -I /usr/share/aclocal" autoreconf -v) \

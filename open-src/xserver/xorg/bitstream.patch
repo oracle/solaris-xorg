@@ -26,30 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-diff -u hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2006-10-19 13:33:29.795058000 -0700
-+++ hw/xfree86/common/xf86AutoConfig.c	2006-10-19 13:34:40.826519000 -0700
-@@ -47,7 +47,7 @@
- 	"\tLoad\t\"extmod\"\n" \
- 	"\tLoad\t\"dbe\"\n" \
- 	"\tLoad\t\"glx\"\n" \
--	"\tLoad\t\"freetype\"\n" \
-+	"\tLoad\t\"bitstream\"\n" \
- 	"\tLoad\t\"type1\"\n" \
- 	"\tLoad\t\"record\"\n" \
- 	"\tLoad\t\"dri\"\n" \
-diff -u hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2006-10-19 13:33:29.796528000 -0700
-+++ hw/xfree86/common/xf86Config.c	2006-10-19 13:35:08.190361000 -0700
-@@ -289,7 +289,7 @@
- 	ptr = xf86addNewLoadDirective(ptr, "extmod", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "dbe", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "glx", XF86_LOAD_MODULE, NULL);
--	ptr = xf86addNewLoadDirective(ptr, "freetype", XF86_LOAD_MODULE, NULL);
-+	ptr = xf86addNewLoadDirective(ptr, "bitstream", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "type1", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "record", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
 diff -u hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
 --- hw/xfree86/common/xf86Configure.c	2006-10-11 15:42:19.000000000 -0700
 +++ hw/xfree86/common/xf86Configure.c	2007-04-17 10:58:40.734088000 -0700
@@ -63,3 +39,20 @@ diff -u hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
   		 (strstr(defaultFontPath, "/TrueType") ||
   		  strstr(defaultFontPath, "/TTF"))) ||
      	        (strcmp(*el, "type1")  == 0 &&
+
+--- hw/xfree86/dixmods/Makefile.am	2007-06-28 15:24:42.319069000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2007-06-28 16:39:20.990865000 -0700
+@@ -103,6 +103,13 @@
+ libxtrap_la_LIBADD = $(top_builddir)/XTrap/libxtrap.la
+ libxtrap_la_SOURCES = xf86XTrapModule.c
+ 
++# bitstream -> freetype mapping module for compatibility with old conf files
++fontsmodule_LTLIBRARIES += libbitstream.la 
++libbitstream_la_LDFLAGS = -avoid-version
++libbitstream_la_SOURCES = btmodule.c
++
++btmodule.c: ftmodule.c
++	sed -e s/\"freetype\"/\"bitstream\"/ ftmodule.c > btmodule.c
+ 
+ # Sun IA extension module additions
+ extsmodule_LTLIBRARIES += libIA.la

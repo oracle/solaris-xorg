@@ -111,20 +111,11 @@
  		}
  		switch (c) {
  		case 0 :
-@@ -1940,16 +1988,30 @@
- "    EndSubSection\n"
- "\n"
- "# This loads the font modules\n"
-+#ifdef SUNSOFT
-+"    Load        \"bitstream\"\n"
-+"    Load        \"type1\"\n"
-+#else
- #ifdef HAS_TYPE1
- "    Load        \"type1\"\n"
- #else
+@@ -1946,10 +1994,21 @@
  "#    Load        \"type1\"\n"
  #endif
  "    Load        \"freetype\"\n"
++#ifndef SUNSOFT
  "#    Load        \"xtt\"\n"
 +#endif
  "\n"

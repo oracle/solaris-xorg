@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.12     07/07/31 SMI"
+# ident "@(#)prototype_i386 1.13     07/09/06 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -94,7 +94,7 @@ f none X11/lib/modules/extensions/amd64/libxtrap.so 0755 root bin
 !search $HOME/lib/modules/amd64/fonts
 d none X11/lib/modules/fonts/amd64 0755 root bin
 f none X11/lib/modules/fonts/amd64/libbitstream.so 0755 root bin
-#f none X11/lib/modules/fonts/amd64/libfreetype.so 0755 root bin
+f none X11/lib/modules/fonts/amd64/libfreetype.so 0755 root bin
 f none X11/lib/modules/fonts/amd64/libtype1.so 0755 root bin
 
 !search $HOME/$XSERVERMODDIR/input
