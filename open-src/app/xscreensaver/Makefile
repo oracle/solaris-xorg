@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.76	07/06/18
+# @(#)Makefile	1.77	07/09/10
 #
 
 PWD:sh=pwd
@@ -138,6 +138,7 @@ XS_CNFG_ENV=CC=$(CC) CFLAGS="$(XS_CFLAGS) $(INCLUDES)" CPPFLAGS="$(INCLUDES)" \
 	GNOME_DATADIR='$${prefix}/lib/xscreensaver/config' \
 	GLADE_DATADIR='$${prefix}/lib/xscreensaver/config' \
 	LDFLAGS="$(PROG_LDFLAGS) -L/usr/X11/lib -R/usr/X11/lib" \
+	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
 	PERL=/usr/perl5/bin/perl
 XS_MAKE_ENV=install_prefix=$(PROTODIR) 
 
