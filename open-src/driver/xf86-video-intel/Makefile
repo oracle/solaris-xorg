@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	07/08/10
+# @(#)Makefile	1.12	07/09/06
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-intel
 
 # Version number (used in path names)
-DRIVER_VERS=2.1.0
+DRIVER_VERS=2.1.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
