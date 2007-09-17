@@ -11,6 +11,6 @@ l | l .
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
 =
 Availability	__package__
-Interface Stability	External
+Interface Stability	Volatile
 .TE 
 .\\" End Sun update

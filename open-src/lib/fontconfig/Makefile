@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.67	07/06/14
+# @(#)Makefile	1.68	07/09/17
 #
 
 # Package name used in tarballs
@@ -149,7 +149,8 @@ fontconfig-sunman-install:
 		rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib ; \
 	fi
 	perl -p -e 's/^$$/.LP/;' -e 's/\251/\\(co/;' libfontconfig.3lib $(SOURCE_DIR)/COPYING >> $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
-	for i in fc-cache fc-list ; do 			\
+	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; set -x ;	\
+	for i in fc-cache fc-list fc-match ; do 		\
 	    if [ -f $(FC_MAN_DIR)/man1/$$i.1 ] ; then 	\
 		rm -f $(FC_MAN_DIR)/man1/$$i.1 ; 		\
 	    fi ;						\
@@ -158,8 +159,8 @@ fontconfig-sunman-install:
 		else						\
 		APPEND=$(TOP)/common/sunman-stability ;		\
 	    fi ;						\
-	    if [ -f $(SOURCE_DIR)/$$i/$$i.man ] ; then \
-	    $(FC_MAN_FIX) $(SOURCE_DIR)/$$i/$$i.man $$APPEND > \
+	    if [ -f $(SOURCE_DIR)/$$i/$$i.1 ] ; then \
+	    $(FC_MAN_FIX) $(SOURCE_DIR)/$$i/$$i.1 $$APPEND > \
 		$(FC_MAN_DIR)/man1/$$i.1 ;		\
 	    else						\
 		$(FC_MAN_FIX) $$i.man $$APPEND > \
