@@ -1,7 +1,7 @@
-# Makefile for X Consolidation Open Source font modules
+#! /usr/perl5/bin/perl
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,34 +28,51 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/09/14
+# ident	"@(#)merge-fonts.scale.pl	1.1	07/09/14 SMI"
 #
-###############################################################################
 
-OS_SUBDIRS = \
-	encodings \
-	bitstream-vera \
-	deja-vu
+# Merge fonts.scale files
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+use strict;
+use warnings;
+use integer;
 
-World: clean install
+use Getopt::Long;
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+my @infiles;
+my $outfile;
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+my $options_ok = GetOptions(
+	   "in=s" => \@infiles, 	# --in=<filename>, may be repeated
+	   "out=s" => \$outfile);	# --out=<filename>, only once	
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+die "Invalid options" if !$options_ok;
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+die "No input specified" if (scalar(@infiles) < 1);
+
+die "No output specified" if !defined($outfile);
+
+my %fonts = ();
+
+for my $f (@infiles) {
+  open my $IN, '<', $f or die "Couldn't open $f for reading: $!\n";
+
+  my $firstline = <$IN>;  # count of lines, ignore
+
+  while (my $l = <$IN>) {
+    chomp $l;
+    $l =~ m/(\S*)\s+(.*)/;
+    $fonts{$2} = $1;
+  }
+  close $IN;
+}
+
+open my $OUT, '>', $outfile or die "Couldn't open $outfile for writing: $!\n";
+
+print $OUT scalar(keys %fonts), "\n";
+
+for my $ft (sort {$fonts{$a} cmp $fonts{$b}} keys %fonts) {
+  print $OUT $fonts{$ft}, ' ', $ft, "\n";
+}
+
+close $OUT or die "Couldn't finish writing $outfile: $!\n";

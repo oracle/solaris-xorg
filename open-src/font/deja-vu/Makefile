@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Bitstream Vera Fonts Makefile
+# Deja Vu Fonts Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,27 +30,27 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/09/14
+# @(#)Makefile	1.1	07/09/14
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
 # Version number (used in path names)
-VERSION=1.10
+VERSION=2.19
 
 # Source tarball
-SOURCE_TARBALL_NAME=ttf-bitstream-vera-$(VERSION).tar.bz2
+SOURCE_TARBALL_NAME=dejavu-ttf-$(VERSION).tar.bz2
 
 # Download site for source
-SOURCE_URL=http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/$(VERSION)/ttf-bitstream-vera-$(VERSION).tar.bz2
+SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
 
 # Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/ttf-bitstream-vera-$(VERSION)
+SOURCE_DIR=$(BUILD_DIR)/dejavu-ttf-$(VERSION)
 
 # What to build
 BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
@@ -63,17 +63,28 @@ include $(TOP)/common/Makefile.inc
 
 ### Rules specific to this directory:
 
-VERA_FONT_FILES= \
-	Vera.ttf	\
-	VeraBI.ttf	\
-	VeraBd.ttf	\
-	VeraIt.ttf	\
-	VeraMoBI.ttf	\
-	VeraMoBd.ttf	\
-	VeraMoIt.ttf	\
-	VeraMono.ttf	\
-	VeraSe.ttf	\
-	VeraSeBd.ttf
+DEJAVU_FONT_FILES= \
+	DejaVuSans-Bold.ttf \
+	DejaVuSans-BoldOblique.ttf \
+	DejaVuSans-ExtraLight.ttf \
+	DejaVuSans-Oblique.ttf \
+	DejaVuSans.ttf \
+	DejaVuSansCondensed-Bold.ttf \
+	DejaVuSansCondensed-BoldOblique.ttf \
+	DejaVuSansCondensed-Oblique.ttf \
+	DejaVuSansCondensed.ttf \
+	DejaVuSansMono-Bold.ttf \
+	DejaVuSansMono-BoldOblique.ttf \
+	DejaVuSansMono-Oblique.ttf \
+	DejaVuSansMono.ttf \
+	DejaVuSerif-Bold.ttf \
+	DejaVuSerif-BoldItalic.ttf \
+	DejaVuSerif-Italic.ttf \
+	DejaVuSerif.ttf \
+	DejaVuSerifCondensed-Bold.ttf \
+	DejaVuSerifCondensed-BoldItalic.ttf \
+	DejaVuSerifCondensed-Italic.ttf \
+	DejaVuSerifCondensed.ttf
 
 build_gen: $(BUILD_TARGETS)
 
@@ -84,11 +95,10 @@ $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
 
 install_gen: $(BUILD_TARGETS)
 	mkdir -p $(DEST_DIR)
-	-( cd $(DEST_DIR) ; rm -f $(VERA_FONT_FILES) VeraFontsCopyright.txt )
-	( cd $(SOURCE_DIR) ; cp -p $(VERA_FONT_FILES) $(DEST_DIR) )
-	cp -p $(SOURCE_DIR)/COPYRIGHT.TXT $(DEST_DIR)/VeraFontsCopyright.txt 
+	-( cd $(DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
+	( cd $(SOURCE_DIR) ; cp -p $(DEJAVU_FONT_FILES) $(DEST_DIR) )
+	cp -p $(SOURCE_DIR)/LICENSE $(DEST_DIR)/DejaVuFontsCopyright.txt 
 	touch $(DEST_DIR)/fonts.scale
 	chmod +w $(DEST_DIR)/fonts.scale
 	../merge-fonts.scale.pl -i $(DEST_DIR)/fonts.scale \
 		-i $(SOURCE_DIR)/fonts.scale -o $(DEST_DIR)/fonts.scale
-
