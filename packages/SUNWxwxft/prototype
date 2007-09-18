@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#	"@(#)prototype	1.7	07/09/05   Sun Microsystems" 
+#	"@(#)prototype	1.8	07/09/18   Sun Microsystems" 
 #
 # Xft
 
@@ -39,12 +39,11 @@ i depend
 d none X11 0755 root bin
 
 !search  $HOME/X11/include/X11/Xft
-d none X11/share 					0755 root bin
-d none X11/share/include 				0755 root bin
-d none X11/share/include/X11 				0755 root bin
-d none X11/share/include/X11/Xft 			0755 root bin
-f none X11/share/include/X11/Xft/Xft.h 			0444 root bin
-f none X11/share/include/X11/Xft/XftCompat.h 		0444 root bin
+d none X11/include 				0755 root bin
+d none X11/include/X11 				0755 root bin
+d none X11/include/X11/Xft 			0755 root bin
+f none X11/include/X11/Xft/Xft.h 			0444 root bin
+f none X11/include/X11/Xft/XftCompat.h 		0444 root bin
 
 !search  $HOME/X11/lib
 d none X11/lib 						0755 root bin
@@ -72,7 +71,7 @@ d none openwin 						0755 root bin
 d none openwin/share 					0755 root bin
 d none openwin/share/include 				0755 root bin
 d none openwin/share/include/X11 			0755 root bin
-s none openwin/share/include/X11/Xft=../../../../X11/share/include/X11/Xft
+s none openwin/share/include/X11/Xft=../../../../X11/include/X11/Xft
 
 d none openwin/lib 					0755 root bin
 s none openwin/lib/libXft.so=./libXft.so.2
