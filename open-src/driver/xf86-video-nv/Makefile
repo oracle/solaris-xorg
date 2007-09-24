@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	07/07/31
+# @(#)Makefile	1.12	07/09/24
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-nv
 
 # Version number (used in path names)
-DRIVER_VERS=2.1.2
+DRIVER_VERS=2.1.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
