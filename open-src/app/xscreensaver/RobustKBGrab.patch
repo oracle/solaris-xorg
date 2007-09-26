@@ -1,0 +1,141 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, and/or sell copies of the Software, and to permit persons
+ * to whom the Software is furnished to do so, provided that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the Software and that both the above copyright notice(s) and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as contained in this notice, the name of a copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+Fix for 6580862, P2, gnome/screensaver - Unable to type in windows session with full screen mode when hotdesked into the same DTU on TJDS
+Fix for 6531358 P2, gnome/screensaver - xscreensaver fails to properly lock screeen during typing break
+
+--- driver/lock.c	Tue Sep 25 19:45:57 2007
++++ driver/lock.c	Tue Sep 25 19:44:00 2007
+@@ -1960,11 +1960,53 @@
+   char *msg = 0;
+   XEvent event;
+   unsigned int caps_p = 0;
+-
+-/* bugid 6176524 passwdTimeout and reset timer for each key press */
+   passwd_dialog_data *pw = si->pw_data;
+   int ii;
++   Window w;
++  int mscreen;
++  int status = -2;
++  int counter = 0;
++  int retries = 2;
+ 
++  /*bugid 6580862 Unable to type in windows session with full screen mode when hotdesked...
++    The issue is sunray connector grabs keyboard and focus is in connector window. When xscreensaver
++    pastes the unlock dialog box the password typed by user goes into connector window.
++    The following code attempts to set focus back in unlock dialog box. The connector is looking
++    for focus out events to get a hint to let go of keyboard grab. Which is exactly what we try to
++    do in the following code.
++  */
++  write_to_child (si, "pw_read");
++  mscreen = mouse_screen (si);
++  w = RootWindowOfScreen(si->screens[mscreen].screen);
++  /* grab_kbd() uses GrabModeSync which is holding up pointer events and hence unlcok
++   * dialog box does not show up when you move mouse, only when you hit a key.
++   * So, we locally call XGrabKeyboard() with GrabModeAsync instead of calling grab_kbd().
++   * status = grab_kbd(si, w, mscreen);
++   **/
++  status = XGrabKeyboard (si->dpy, w, True,
++                          GrabModeAsync, GrabModeAsync,
++                          CurrentTime);
++
++  XSync (si->dpy, False);
++  while (status != GrabSuccess && counter++ <=retries)
++   {
++    status = XGrabKeyboard (si->dpy, w, True,
++                            GrabModeAsync, GrabModeAsync,
++                            CurrentTime);
++    write_to_child (si, "pw_read");
++    usleep (250000); /** 1/4 second */
++    XSync (si->dpy, False);
++    if(p->verbose_p)
++      fprintf (stderr, "event loop..trying to grab keyboard######\n");
++   }
++
++  if (status == GrabSuccess)
++    {
++      si->keyboard_grab_window = w;
++      si->keyboard_grab_screen = mscreen;
++    }
++
++/* bugid 6176524 passwdTimeout and reset timer for each key press  */
+   passwd_animate_timer ((XtPointer) si, 0);
+ 
+   while (si->pw_data && si->pw_data->state == pw_read)
+
+--- driver/windows.c	Tue Sep 25 19:45:56 2007
++++ driver/windows.c	Tue Sep 25 19:44:00 2007
+@@ -110,7 +110,7 @@
+     }
+ }
+ 
+-static int
++int
+ grab_kbd(saver_info *si, Window w, int screen_no)
+ {
+   saver_preferences *p = &si->prefs;
+@@ -245,8 +245,10 @@
+       if (kstatus == GrabSuccess)
+         break;
+ 
+-      /* else, wait a second and try to grab again. */
+-      sleep (1);
++      /* else, wait 1/8th second and try to grab again. 
++       * sleeping for 1 sec is too long, compounded wih retries.
++       */
++      usleep (125000);
+     }
+ 
+   if (kstatus != GrabSuccess)
+@@ -269,8 +271,8 @@
+       if (mstatus == GrabSuccess)
+         break;
+ 
+-      /* else, wait a second and try to grab again. */
+-      sleep (1);
++      /* else, wait 1/8th second and try to grab again. */
++      usleep (125000);
+     }
+ 
+   if (mstatus != GrabSuccess)
+@@ -1890,7 +1892,12 @@
+ # endif /* 0 */
+ 
+   if (!ok)
+-    return False;
++    {
++     /* IF you have grabbed either the mouse or keyboard then let go of it */
++     ungrab_keyboard_and_mouse(si);
++     XSync (si->dpy, False);
++     return False;
++    }
+ 
+   for (i = 0; i < si->nscreens; i++)
+     {
