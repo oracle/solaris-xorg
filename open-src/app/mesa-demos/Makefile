@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/05/15
+# @(#)Makefile	1.6	07/10/02
 #
 
 PWD:sh=pwd
@@ -106,6 +106,8 @@ all-xdemos:
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) all-xdemos_gen
 
 install_gen: $(GLXGEARS_BIN) $(GLXINFO_BIN)
+	mkdir -p $(MESA_prefix)/bin $(MESA_prefix)/share/man/man1
 	cp -p $(GLXGEARS_BIN) $(GLXINFO_BIN) $(MESA_prefix)/bin
+	cp -p glxgears.1 glxinfo.1 $(MESA_prefix)/share/man/man1
 
 

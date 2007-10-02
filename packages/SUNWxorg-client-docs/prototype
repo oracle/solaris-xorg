@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.4     06/10/02 SMI"
+# ident "@(#)prototype 1.5     07/10/02 SMI"
 #
 # X.Org Foundation X clients for Solaris
 
@@ -47,11 +47,9 @@ s none X11/man=share/man
 
 d none X11/share/man/man1 0755 root bin
 
-!search $HOME/openwin/share/man/man1
+!search $HOME/X11/share/man/man1
 f none X11/share/man/man1/glxgears.1 0444 root bin
 f none X11/share/man/man1/glxinfo.1 0444 root bin
-
-!search $HOME/X11/share/man/man1
 f none X11/share/man/man1/xgamma.1 0444 root bin
 f none X11/share/man/man1/xrandr.1 0444 root bin
 f none X11/share/man/man1/xvidtune.1 0444 root bin

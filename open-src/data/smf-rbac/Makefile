@@ -29,7 +29,7 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile 1.4     07/09/04 SMI"
+# ident "@(#)Makefile 1.5     07/10/02 SMI"
 #
 # Files for integration with Solaris Service Management Framework (SMF) and
 # Role Based Access Control (RBAC)
@@ -102,9 +102,10 @@ OGL_VENDOR_SCRIPTS=nvidia_vendor_select mesa_vendor_select
 install_i386: install_common
 	mkdir -p $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl \
 		$(DESTDIR)$(SUN_SMF_METHOD_DIR) \
+		$(DESTDIR)$(X11_DIR)/share/man/man1 \
 		$(DESTDIR)/lib/opengl/ogl_select/
 	cp -p ogl-select.xml $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl
+	cp -p ogl-select.man $(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
 	cp -p ogl-select $(DESTDIR)$(SUN_SMF_METHOD_DIR)/ogl-select
 	cp -p $(OGL_VENDOR_SCRIPTS) $(DESTDIR)/lib/opengl/ogl_select/
-
 
