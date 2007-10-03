@@ -237,10 +237,8 @@ TsolExtensionInit()
 
 	/* sleep(20); */
 
-	/* Extension can be loaded on a Trusted Solaris system only */
+	/* This extension is supported on a labeled system */
 	if (!is_system_labeled()) {
-		ErrorF("TsolExtensionInit: cannot load X Trusted Extensions\n");
-		ErrorF("Trusted Extensions is not enabled/installed on your system\n");
 		return;
 	}
 

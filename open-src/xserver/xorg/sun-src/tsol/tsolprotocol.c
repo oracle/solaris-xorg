@@ -1939,10 +1939,7 @@ ProcTsolGetInputFocus(client)
     FocusClassPtr focus = inputInfo.keyboard->focus;
 
     REQUEST_SIZE_MATCH(xReq);
-#ifdef PANORAMIX
-    if ( !noPanoramiXExtension )
-        return PanoramiXGetInputFocus(client);
-#endif
+
     rep.type = X_Reply;
     rep.length = 0;
     rep.sequenceNumber = client->sequence;
