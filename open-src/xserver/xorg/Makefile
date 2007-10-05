@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.55	07/08/31
+# @(#)Makefile	1.56	07/10/03
 #
 
 PWD:sh=pwd
@@ -97,7 +97,8 @@ SOURCE_PATCHES = \
 	kbd-driver.patch  \
 	6559710.patch \
 	6561019.patch \
-	6577124.patch
+	6577124.patch \
+	shm-across-zones.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)
