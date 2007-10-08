@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/10/02
+# @(#)Makefile	1.7	07/10/08
 #
 
 PWD:sh=pwd
@@ -60,7 +60,14 @@ GLXINFO_BIN=$(SOURCE_DIR)/progs/xdemos/glxinfo
 MESA_prefix=$(PROTODIR)/usr/X11
 
 # What to build
-BUILD_TARGETS=$(GLXGEARS_BIN) $(GLXINFO_BIN)
+BUILD_TARGETS_sparc=$(GLXGEARS_BIN)
+BUILD_TARGETS_i386=$(GLXGEARS_BIN) $(GLXINFO_BIN)
+BUILD_TARGETS= $(BUILD_TARGETS_$(MACH))
+
+# What to install
+INSTALL_TARGETS_sparc=install_glxgears install_man
+INSTALL_TARGETS_i386=install_glxgears install_glxinfo install_man
+INSTALL_TARGETS= $(INSTALL_TARGETS_$(MACH))
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
@@ -77,7 +84,7 @@ source_gen:: $(LNDIR)
 DEMOS_DIR=$(SOURCE_DIR)/progs/xdemos
 
 # Mesa config file names
-MESA_CFG_32_sparc=sunos5-v8
+MESA_CFG_32_sparc=solaris-sparcv8-cc
 MESA_CFG_64_sparc=sunos5-v9
 MESA_CFG_32_i386=solaris-x86-cc-dri
 MESA_CFG_64_i386=solaris-x64-cc-dri
@@ -105,9 +112,18 @@ all-xdemos_gen: $(UNPACK_TARGET)
 all-xdemos:
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) all-xdemos_gen
 
-install_gen: $(GLXGEARS_BIN) $(GLXINFO_BIN)
-	mkdir -p $(MESA_prefix)/bin $(MESA_prefix)/share/man/man1
-	cp -p $(GLXGEARS_BIN) $(GLXINFO_BIN) $(MESA_prefix)/bin
-	cp -p glxgears.1 glxinfo.1 $(MESA_prefix)/share/man/man1
+install_gen: $(INSTALL_TARGETS)
+
+install_glxgears: $(GLXGEARS_BIN)
+	mkdir -p $(MESA_prefix)/bin
+	cp -pf $(GLXGEARS_BIN) $(MESA_prefix)/bin
+
+install_glxinfo: $(GLXINFO_BIN)
+	mkdir -p $(MESA_prefix)/bin
+	cp -pf $(GLXINFO_BIN) $(MESA_prefix)/bin
+
+install_man: 
+	mkdir -p $(MESA_prefix)/share/man/man1
+	cp -pf glxgears.1 glxinfo.1 $(MESA_prefix)/share/man/man1
 
 

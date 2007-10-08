@@ -28,12 +28,13 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/08/31
+# @(#)Makefile	1.9	07/10/08
 #
 ###############################################################################
 
 OS_SUBDIRS_common = \
 	constype \
+	mesa-demos \
 	mkfontscale \
 	xcursorgen \
 	xdpyinfo \
@@ -47,8 +48,7 @@ OS_SUBDIRS_common = \
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	mesa-demos
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 MACH:sh=uname -p
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
