@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.57	07/10/08
+# @(#)Makefile	1.58	07/10/09
 #
 
 PWD:sh=pwd
@@ -78,7 +78,7 @@ SOURCE_PATCHES = \
 	xorgcfg.patch \
 	amd64-loader-path.patch \
 	Xorg-mapfile.patch \
-	bitstream.patch \
+	fontmod.patch \
 	xevie.patch \
 	wsfb.patch \
 	sparc-probe.patch \
