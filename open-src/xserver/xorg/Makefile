@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.56	07/10/03
+# @(#)Makefile	1.57	07/10/08
 #
 
 PWD:sh=pwd
@@ -98,7 +98,8 @@ SOURCE_PATCHES = \
 	6559710.patch \
 	6561019.patch \
 	6577124.patch \
-	shm-across-zones.patch
+	shm-across-zones.patch \
+	6425775.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)
