@@ -29,7 +29,7 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile 1.5     07/10/02 SMI"
+# ident "@(#)Makefile 1.6     07/10/09 SMI"
 #
 # Files for integration with Solaris Service Management Framework (SMF) and
 # Role Based Access Control (RBAC)
@@ -85,15 +85,17 @@ install_common: $(BUILD_TARGETS)
 	mkdir -p $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/x11 \
 		$(DESTDIR)$(SUN_SMF_METHOD_DIR) \
 		$(DESTDIR)$(X11_DIR)/bin \
+		$(DESTDIR)$(X11_DIR)/share/man/man1 \
 		$(DESTDIR)/etc/security \
 		$(DESTDIR)/usr/lib/help/auths/locale/C \
 		$(DESTDIR)/usr/lib/help/profiles/locale/C
-	cp -p x11-server.xml $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/x11
-	cp -p x11-server $(DESTDIR)$(SUN_SMF_METHOD_DIR)
-	cp -p Xserver $(DESTDIR)$(X11_DIR)/bin
-	cp -p $(RBAC_ATTR_FILES) $(DESTDIR)/etc/security
-	cp -p $(RBAC_AUTH_HELP) $(DESTDIR)/usr/lib/help/auths/locale/C
-	cp -p $(RBAC_PROFILE_HELP) $(DESTDIR)/usr/lib/help/profiles/locale/C
+	cp -pf x11-server.xml $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/x11
+	cp -pf x11-server $(DESTDIR)$(SUN_SMF_METHOD_DIR)
+	cp -pf Xserver $(DESTDIR)$(X11_DIR)/bin
+	cp -pf $(RBAC_ATTR_FILES) $(DESTDIR)/etc/security
+	cp -pf $(RBAC_AUTH_HELP) $(DESTDIR)/usr/lib/help/auths/locale/C
+	cp -pf $(RBAC_PROFILE_HELP) $(DESTDIR)/usr/lib/help/profiles/locale/C
+	cp -pf ogl-select.man $(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
 
 install_sparc: install_common
 
@@ -102,10 +104,8 @@ OGL_VENDOR_SCRIPTS=nvidia_vendor_select mesa_vendor_select
 install_i386: install_common
 	mkdir -p $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl \
 		$(DESTDIR)$(SUN_SMF_METHOD_DIR) \
-		$(DESTDIR)$(X11_DIR)/share/man/man1 \
 		$(DESTDIR)/lib/opengl/ogl_select/
-	cp -p ogl-select.xml $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl
-	cp -p ogl-select.man $(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
-	cp -p ogl-select $(DESTDIR)$(SUN_SMF_METHOD_DIR)/ogl-select
-	cp -p $(OGL_VENDOR_SCRIPTS) $(DESTDIR)/lib/opengl/ogl_select/
+	cp -pf ogl-select.xml $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl
+	cp -pf ogl-select $(DESTDIR)$(SUN_SMF_METHOD_DIR)/ogl-select
+	cp -pf $(OGL_VENDOR_SCRIPTS) $(DESTDIR)/lib/opengl/ogl_select/
 
