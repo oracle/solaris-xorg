@@ -1,0 +1,14 @@
+## Subset of patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-s390.patch
+
+--- vnc-4_1_2-unixsrc/unix/xorg-x11-server-source/hw/xfree86/int10/Makefile.am.s390	2007-06-06 15:00:23.000000000 +0200
++++ vnc-4_1_2-unixsrc/unix/xorg-x11-server-source/hw/xfree86/int10/Makefile.am	2007-06-06 15:00:26.000000000 +0200
+@@ -38,7 +38,8 @@ libint10_la_SOURCES = \
+ endif
+ 
+ if INT10_STUB
+-AM_CFLAGS = $(I386_VIDEO_CFLAGS) -D_VM86_LINUX $(XORG_CFLAGS) $(EXTRA_CFLAGS)
++AM_CFLAGS = $(I386_VIDEO_CFLAGS) -D_VM86_LINUX $(XORG_CFLAGS) $(EXTRA_CFLAGS) \
++	-I../common -I../os-support -I../os-support/bus
+ libint10_la_SOURCES = stub.c xf86int10module.c
+ endif
+ 

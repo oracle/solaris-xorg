@@ -14,7 +14,7 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
 --- doc/Xserver.man.pre	2006-12-21 10:50:46.000000000 -0800
 +++ doc/Xserver.man.pre	2007-01-19 16:24:28.082214000 -0800
 @@ -1,3 +1,32 @@
-+.\" ident	"@(#)sun-manpage.patch	1.4	07/02/21 SMI"
++.\" ident	"@(#)sun-manpage.patch	1.5	07/10/10 SMI"
 +.\" 
 +.\" Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 +.\" 
@@ -281,7 +281,7 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-xkbmap \fIfilename\fP
  loads keyboard description in \fIfilename\fP on server startup.
-@@ -732,6 +873,90 @@ __default_font_path__ .
+@@ -732,6 +873,91 @@ __default_font_path__ .
  .LP
  The font path can be set with the \fB\-fp\fP option or by \fIxset\fP(1)
  after the server has started.
@@ -339,6 +339,7 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
 +\fB/usr/X11/bin/Xvfb\fP
 +\fB/usr/X11/bin/i386/Xvfb\fP
 +\fB/usr/X11/bin/amd64/Xvfb\fP
++\fB/usr/X11/bin/Xvnc\fP
 +.fi
 +.TP
 +.B options/tcp_listen

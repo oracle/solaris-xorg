@@ -1,9 +1,33 @@
 #! /usr/perl5/bin/perl
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
 #
-# ident	"@(#)delibtoolize.pl	1.6	07/07/25 SMI"
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident	"@(#)delibtoolize.pl	1.7	07/10/10 SMI"
 #
 
 #
@@ -18,46 +42,47 @@ use integer;
 use File::Find;
 
 sub process_file {
-  if ($_ eq "Makefile" && -f $_) {
+  if ($_ eq 'Makefile' && -f $_) {
     print "delibtoolizing $File::Find::name...\n";
-    my $old_file = $_ . "~";
+    my $old_file = $_ . '~';
     my $new_file = $_;
     rename($new_file, $old_file) or 
       die "Can't rename $new_file to $old_file: $!\n";
 
-    open(OLD, "<$old_file") or die "Can't open $old_file for reading: $!\n";
-    open(NEW, ">$new_file") or die "Can't open $new_file for writing: $!\n";
+    open my $OLD, '<', $old_file
+      or die "Can't open $old_file for reading: $!\n";
+    open my $NEW, '>', $new_file
+      or die "Can't open $new_file for writing: $!\n";
     
     my $compiler;
-    my $l;
     my @inlines = ();
     my %so_versions = ();
 
     # Read in original file and preprocess for data we'll need later
-    while ($l = <OLD>) {
-      if ($l =~ m%^\s*CC\s*=\s*(\S*)%) {
+    while (my $l = <$OLD>) {
+      if ($l =~ m/^\s*CC\s*=\s*(\S*)/) {
 	$compiler = $1;
       }
 
       # TODO: handle line continuation
-      if ($l =~ m%^(\S*)_la_LDFLAGS\s=.*-version-number (\d+)[:\d]+%) {
+      if ($l =~ m/^(\S*)_la_LDFLAGS\s=.*-version-number (\d+)[:\d]+/ms) {
 	$so_versions{$1} = $2;
       }
-      if ($l =~ m%^(\S*)_la_LDFLAGS\s=.*\s*-avoid-version\b%) {
-	$so_versions{$1} = "none";
-	$l =~ s%-avoid-version\b%%;
+      if ($l =~ m/^(\S*)_la_LDFLAGS\s=.*\s*-avoid-version\b/ms) {
+	$so_versions{$1} = 'none';
+	$l =~ s{-avoid-version\b}{}ms;
       }
 
       push @inlines, $l;
     }
-    close(OLD) or die;
+    close($OLD) or die;
 
-    my $picflags = "-Kpic -DPIC";
-    my $sharedobjflags = "-G";
+    my $picflags = '-Kpic -DPIC';
+    my $sharedobjflags = '-G';
 
-    if ($compiler =~ m/gcc/) {
-      $picflags = "-fpic -DPIC";
-      $sharedobjflags = "-shared";
+    if (defined($compiler) && ($compiler =~ m/gcc/)) {
+      $picflags = '-fpic -DPIC';
+      $sharedobjflags = '-shared';
     }
 
     my $curtarget = "";
@@ -67,58 +92,68 @@ sub process_file {
     foreach my $curline (@inlines) {
       $l .= $curline;
       next if ($curline =~ m/\\$/);
+      chomp $l;
 
       # Remove libtool script from compile steps &
       # add PIC flags that libtool normally provides
       $l =~ s{\$\(LIBTOOL\)
-	      (?:[\\\s]+ --tag=CC)?
+	      (?:[\\\s]+ \$\(LT_QUIET\))?
+	      (?:[\\\s]+ --tag=(?:CC|CXX))?
 	      (?:[\\\s]+ \$\(AM_LIBTOOLFLAGS\) [\\\s]+ \$\(LIBTOOLFLAGS\))?
 	      [\\\s]+ --mode=compile
-	      [\\\s]+ (\$\(CC\)|\$\(CCAS\))
+	      [\\\s]+ (\$\(CC\)|\$\(CCAS\)|\$\(CXX\))
 	    }{$1 $picflags}xs;
 
       # Remove libtool script from link step
       $l =~ s{\$\(LIBTOOL\)
-	      (?:[\\\s]+ --tag=CC)?
+	      (?:[\\\s]+ \$\(LT_QUIET\))?
+	      (?:[\\\s]+ --tag=(?:CC|CXX))?
 	      (?:[\\\s]+ \$\(AM_LIBTOOLFLAGS\) [\\\s]+ \$\(LIBTOOLFLAGS\))?
 	      [\\\s]+ --mode=link
 	    }{}xs;
 
       # Change -rpath to -R in link arguments
-      $l =~ s{(\s*)-rpath(\s*)}{$1-R$2}g;
+      $l =~ s{(\s*)-rpath(\s*)}{$1-R$2}msg;
 
       # Change flags for building shared object from arguments to libtool
       # script into arguments to linker
-      $l =~ s{(_la_LDFLAGS\s*=.*) -module}{$1 $sharedobjflags};
-      $l =~ s{(_la_LDFLAGS\s*=.*) -version-number (\d+)[:\d]+}
-	     {$1 $sharedobjflags};
-      $l =~ s{(_la_LDFLAGS\s*=.*) -no-undefined}{$1 -z defs};
+      if ($l =~ m/_la_LDFLAGS\s*=/) {
+	$l =~ s{(\s*$sharedobjflags)+\b}{}msg;
+	$l =~ s{(_la_LDFLAGS\s*=\s*)}{$1 $sharedobjflags }ms;
+	$l =~ s{\s+-module\b}{}ms;
+	$l =~ s{\s+-version-number\s+\d+[:\d]+}{}ms;
+	$l =~ s{\s+-no-undefined\b}{ -z defs}ms;
+      }
 
       # Change file names
-      my $so;
-      foreach $so (keys %so_versions) {
-	if ($so_versions{$so} eq "none") {
-	  $l =~ s%$so\.la\b%$so.so%g;
+      foreach my $so (keys %so_versions) {
+	if ($so_versions{$so} eq 'none') {
+	  $l =~ s{$so\.la\b}{$so.so}msg;
 	} else {
-	  $l =~ s%$so\.la\b%$so.so.$so_versions{$so}%g;
+	  $l =~ s{$so\.la\b}{$so.so.$so_versions{$so}}msg;
 	}
       }
-      $l =~ s%\.la\b%.a%g;
+      $l =~ s{\.la\b}{.a}msg;
+      $l =~ s{\.libs/\*\.o\b}{*.lo}msg;
+      $l =~ s{\.lo\b}{.o}msg;
 
-      if ($l =~ m%^(\S+):%) {
+      if ($l =~ m/^(\S+):/) {
 	$curtarget = $1;
-      } elsif ($l =~ m%^\s*$%) {
+      } elsif ($l =~ m/^\s*$/) {
 	$curtarget = "";
       }
 
-      if ($curtarget =~ m%^.*\.a$%) {
-	$l =~ s%\$\(LINK\)%\$(AR) cru $curtarget%;
+      # Static libraries
+      if ($curtarget =~ m/^.*\.a$/) {
+	$l =~ s{\$\(\w*LINK\)}{\$(AR) cru $curtarget}ms;
+	$l =~ s{\$\(\w*(?:LIBS|LIBADD)\)}{}msg;
+	$l =~ s{(\$\((?:\w*_)?AR\).*\s+)-R\s*\$\(libdir\)}{$1}msg;
       }
 
-      print NEW $l;
+      print $NEW $l, "\n";
       $l = "";
     }
-    close(NEW) or die;
+    close($NEW) or die;
   }
 }
 

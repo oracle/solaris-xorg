@@ -28,7 +28,7 @@
 
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
 --- Makefile.am	2006-11-16 10:01:22.000000000 -0800
-+++ Makefile.am	2007-07-30 18:33:49.554487000 -0700
++++ Makefile.am	2007-09-20 14:21:57.003122000 -0700
 @@ -58,6 +58,7 @@ SUBDIRS = \
  	$(XTRAP_DIR) \
  	$(COMPOSITE_DIR) \
@@ -38,9 +38,46 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	hw
  
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2007-07-30 18:33:33.880185000 -0700
-+++ configure.ac	2007-07-30 18:33:49.575258000 -0700
-@@ -1865,3 +1865,6 @@ hw/xprint/config/en_US/print/Makefile
+--- configure.ac	2007-09-20 14:21:36.871770000 -0700
++++ configure.ac	2007-09-20 14:21:57.684612000 -0700
+@@ -783,6 +783,9 @@
+ 	XI_INC='-I$(top_srcdir)/Xi'
+ fi
+ 
++# SolarisIA extension
++IA_LIB='$(top_builddir)/IA/libIA.la'
++
+ AM_CONDITIONAL(XF86UTILS, test "x$XF86UTILS" = xyes)
+ 
+ AC_DEFINE(SHAPE, 1, [Support SHAPE extension])
+@@ -1023,7 +1026,7 @@
+ AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
+ 
+ if test "x$XVFB" = xyes; then
+-	XVFB_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $CWRAP_LIB $OS_LIB $LIBS"
++	XVFB_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $CWRAP_LIB $OS_LIB $LIBS"
+ 	AC_SUBST([XVFB_LIBS])
+ fi
+ 
+@@ -1039,7 +1042,7 @@
+ AM_CONDITIONAL(XNEST, [test "x$XNEST" = xyes])
+ 
+ if test "x$XNEST" = xyes; then
+-	XNEST_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $CWRAP_LIB $OS_LIB $LIBS"
++	XNEST_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $CWRAP_LIB $OS_LIB $LIBS"
+ 	AC_SUBST([XNEST_LIBS])
+ fi
+ 
+@@ -1559,7 +1562,7 @@
+     # dix os fb mi extension glx (NOTYET) damage shadow xpstubs
+     #KDRIVE_PURE_LIBS="$DIX_LIB $OS_LIB $FB_LIB $XEXT_LIB $MIEXT_DAMAGE_LIB \
+     #    $MIEXT_SHADOW_LIB $XPSTUBS_LIB"
+-    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $OS_LIB"
++    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $OS_LIB"
+     KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.a'
+     case $host_os in
+ 	*linux*)
+@@ -1866,3 +1866,6 @@ hw/xprint/config/en_US/print/Makefile
  hw/xprint/config/en_US/Makefile
  xorg-server.pc
  ])
@@ -49,7 +86,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +AC_OUTPUT([IA/Makefile])
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
 --- hw/xfree86/common/xf86AutoConfig.c	2006-11-16 10:01:24.000000000 -0800
-+++ hw/xfree86/common/xf86AutoConfig.c	2007-07-30 18:33:49.575752000 -0700
++++ hw/xfree86/common/xf86AutoConfig.c	2007-09-20 14:21:57.861184000 -0700
 @@ -51,6 +51,7 @@
  	"\tLoad\t\"type1\"\n" \
  	"\tLoad\t\"record\"\n" \
@@ -60,7 +97,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/comm
  #define BUILTIN_DEVICE_NAME \
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
 --- hw/xfree86/common/xf86Config.c	2006-11-30 17:40:10.000000000 -0800
-+++ hw/xfree86/common/xf86Config.c	2007-07-30 18:33:49.577216000 -0700
++++ hw/xfree86/common/xf86Config.c	2007-09-20 14:21:57.862784000 -0700
 @@ -294,6 +294,10 @@ xf86ModulelistFromConfig(pointer **optli
  	ptr = xf86addNewLoadDirective(ptr, "record", XF86_LOAD_MODULE, NULL);
  	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
@@ -74,7 +111,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
      /*
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
 --- hw/xfree86/dixmods/Makefile.am	2006-11-16 10:01:24.000000000 -0800
-+++ hw/xfree86/dixmods/Makefile.am	2007-07-30 18:33:49.577490000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2007-09-20 14:21:57.863164000 -0700
 @@ -102,3 +102,10 @@ libxorgxkb_la_LIBADD = $(top_builddir)/d
  libxtrap_la_LDFLAGS = -avoid-version
  libxtrap_la_LIBADD = $(top_builddir)/XTrap/libxtrap.la
@@ -86,3 +123,73 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/
 +libIA_la_LDFLAGS = -avoid-version
 +libIA_la_LIBADD = $(top_builddir)/IA/libIA.la
 +libIA_la_SOURCES = iamodule.c
+diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
+--- mi/miinitext.c	2006-11-16 10:01:26.000000000 -0800
++++ mi/miinitext.c	2007-09-20 14:21:57.965252000 -0700
+@@ -84,6 +84,8 @@ SOFTWARE.
+ #include "micmap.h"
+ #include "globals.h"
+ 
++#define SolarisIAExtension
++
+ #if defined(QNX4) /* sleaze for Watcom on QNX4 ... */
+ #undef GLXEXT
+ #endif
+@@ -109,6 +111,7 @@ SOFTWARE.
+ #undef DAMAGE
+ #undef XFIXES
+ #undef XEVIE
++#undef SolarisIAExtension
+ #else
+ #ifndef LOADABLEPRINTDDX
+ #undef XPRINT
+@@ -215,6 +218,9 @@ extern Bool noXIdleExtension;
+ #ifdef XV
+ extern Bool noXvExtension;
+ #endif
++#ifdef SolarisIAExtension
++Bool noIAExtension;
++#endif
+ 
+ #ifndef XFree86LOADER
+ #define INITARGS void
+@@ -257,6 +263,9 @@ typedef void (*InitExtension)(INITARGS);
+ #ifdef RES
+ #include <X11/extensions/XResproto.h>
+ #endif
++#ifdef SolarisIAExtension
++#include <X11/extensions/interactive.h>
++#endif
+ 
+ /* FIXME: this whole block of externs should be from the appropriate headers */
+ #ifdef EVI
+@@ -384,6 +393,9 @@ extern void DamageExtensionInit(INITARGS
+ #ifdef COMPOSITE
+ extern void CompositeExtensionInit(INITARGS);
+ #endif
++#ifdef SolarisIAExtension
++extern void IAExtensionInit(void);
++#endif
+ 
+ /* The following is only a small first step towards run-time
+  * configurable extensions.
+@@ -447,6 +459,9 @@ static ExtensionToggle ExtensionToggleLi
+ #ifdef XSYNC
+     { "SYNC", &noSyncExtension },
+ #endif
++#ifdef SolarisIAExtension
++    { IANAME /* "SolarisIA" */, &noIAExtension },
++#endif    
+ #ifdef TOGCUP
+     { "TOG-CUP", &noXcupExtension },
+ #endif
+@@ -663,6 +678,9 @@ InitExtensions(argc, argv)
+ #ifdef DAMAGE
+     if (!noDamageExtension) DamageExtensionInit();
+ #endif
++#ifdef SolarisIAExtension
++    if (!noIAExtension) IAExtensionInit();
++#endif
+ }
+ 
+ void

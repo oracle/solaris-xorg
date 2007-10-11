@@ -1,0 +1,44 @@
+## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-render.patch
+
+--- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc.24bit	2007-06-07 17:27:46.000000000 +0200
++++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc	2007-06-07 17:29:01.000000000 +0200
+@@ -762,7 +762,7 @@ static Bool vfbScreenInit(int index, Scr
+ 
+   miSetPixmapDepths();
+ 
+-  switch (pvfb->bitsPerPixel)
++  switch (pvfb->depth)
+   {
+   case 8:
+       miSetVisualTypesAndMasks (8, 1 << PseudoColor, 8, PseudoColor, 0, 0, 0);
+@@ -771,6 +771,9 @@ static Bool vfbScreenInit(int index, Scr
+   case 16:
+         miSetVisualTypesAndMasks (16, 1 << TrueColor, 8, TrueColor, 0xf800, 0x07e0, 0x001f);
+     break;
++  case 24:
++	miSetVisualTypesAndMasks (24, 1 << TrueColor, 8, TrueColor, 0xff0000, 0x00ff00, 0x0000ff);
++    break;
+   case 32:
+         miSetVisualTypesAndMasks (32, 1 << TrueColor , 8, TrueColor, 0xff000000, 0x00ff0000, 0x0000ff00);
+     break;
+@@ -778,15 +781,17 @@ static Bool vfbScreenInit(int index, Scr
+     return FALSE;
+   }
+ 
+-  if (!fbScreenInit(pScreen, pbits, pvfb->width, pvfb->height,
+-                    dpi, dpi, pvfb->paddedWidth, pvfb->bitsPerPixel))
+-      return FALSE;
++  ret =fbScreenInit(pScreen, pbits, pvfb->width, pvfb->height,
++                    dpi, dpi, pvfb->paddedWidth, pvfb->bitsPerPixel);
+ 
+ #ifdef RENDER
+   if (ret && Render)
+       fbPictureInit(pScreen, 0, 0);
+ #endif /* RENDER */
+ 
++  if (!ret)
++      return FALSE;
++
+   pScreen->InstallColormap = vfbInstallColormap;
+   pScreen->UninstallColormap = vfbUninstallColormap;
+   pScreen->ListInstalledColormaps = vfbListInstalledColormaps;

@@ -1,0 +1,203 @@
+--- common/rfb/Makefile.am	2007-06-27 19:05:47.368239000 -0700
++++ common/rfb/Makefile.am	2007-06-27 19:47:41.890789000 -0700
+@@ -130,8 +130,8 @@
+ 	ZRLEEncoder.cxx \
+ 	ZRLEEncoder.h
+ 
+-librfb_la_LIBADD = \
++librfb_la_LIBADD = -lsocket -lnsl \
+ 	$(top_srcdir)/network/libnetwork.la \
+ 	$(top_srcdir)/rdr/librdr.la \
+ 	$(top_srcdir)/Xregion/libXregion.la
+
+--- unix/vncviewer/Makefile.am	2007-06-29 10:08:32.097924000 -0700
++++ unix/vncviewer/Makefile.am	2007-06-29 10:43:37.891451000 -0700
+@@ -19,6 +19,8 @@
+ 	-I$(top_srcdir)/tx
+ 
+ vncviewer_LDADD = \
+-	$(top_srcdir)/../common/rfb/librfb.la \
+ 	$(top_srcdir)/tx/libtx.la \
+-	-lXext
++	$(top_srcdir)/../common/rfb/librfb.la \
++	$(top_srcdir)/../common/network/libnetwork.la \
++	$(top_srcdir)/../common/rdr/librdr.la \
++	-lXext -lX11 -lsocket -lnsl -lz
+
+--- unix/vncconfig/Makefile.am	2007-06-29 10:08:32.073422000 -0700
++++ unix/vncconfig/Makefile.am	2007-06-29 10:46:21.399874000 -0700
+@@ -13,5 +13,7 @@
+ 	-I$(top_srcdir)/tx
+ 
+ vncconfig_LDADD = \
++	$(top_srcdir)/tx/libtx.la \
+ 	$(top_srcdir)/../common/rfb/librfb.la \
+-	$(top_srcdir)/tx/libtx.la
++	$(top_srcdir)/../common/rdr/librdr.la \
++	-lX11
+
+--- unix/x0vncserver/Makefile.am~	2007-06-29 14:25:14.848138000 -0700
++++ unix/x0vncserver/Makefile.am	2007-06-29 16:29:44.949322000 -0700
+@@ -14,7 +14,10 @@
+ 	-I$(top_srcdir)/tx
+ 
+ x0vncserver_LDADD = \
+-	$(top_srcdir)/../common/rfb/librfb.la \
+ 	$(top_srcdir)/tx/libtx.la \
++	$(top_srcdir)/../common/rfb/librfb.la \
++	$(top_srcdir)/../common/network/libnetwork.la \
++	$(top_srcdir)/../common/rdr/librdr.la \
++	-lX11 -lsocket -lnsl -lz \
+ 	-lXext \
+ 	-lXtst
+
+
+--- unix/xorg-x11-server-source/hw/Makefile.am~	2007-09-19 13:17:07.009236000 -0700
++++ unix/xorg-x11-server-source/hw/Makefile.am	2007-09-19 13:57:41.224962000 -0700
+@@ -6,6 +6,15 @@
+ XORG_SUBDIRS = xfree86
+ else
+ XORG_SUBDIRS = xfree86/os-support xfree86/common
++
++# Needs to be built before any files are compiled when using Sun compilers
++# so in*/out* inline definitions are properly processed.
++
++BUILT_SOURCES = xfree86/os-support/solaris/solaris-@SOLARIS_INOUT_ARCH@.il
++
++xfree86/os-support/solaris/solaris-@SOLARIS_INOUT_ARCH@.il:
++	cd xfree86/os-support/solaris ; make solaris-@SOLARIS_INOUT_ARCH@.il
++
+ endif
+ 
+ if XVFB
+
+--- unix/xorg-x11-server-source/hw/vnc/Makefile.am~	2007-09-19 16:36:35.755205000 -0700
++++ unix/xorg-x11-server-source/hw/vnc/Makefile.am	2007-09-19 16:40:43.150927000 -0700
+@@ -26,10 +26,25 @@
+ 		$(top_srcdir)/mi/miinitext.c \
+ 		$(top_srcdir)/fb/fbcmap.c
+ 
++if MMX_CAPABLE
++FBMMX_LIBS = ../../fb/libfbmmx.la
++endif
++
++if BUILD_TSOL_MODULE
++TSOL_LIBS = 	../../tsol/libxtsol.la -ltsol -ltsnet -lsecdb -lbsm
++endif
++
++if GLX
++GLX_LIBS = 	-lGLcore
++endif
++
+ Xvnc_LDADD =	$(XORG_CORE_LIBS) \
+ 		$(XORG_LIBS) \
+ 		$(XSERVER_LIBS) \
+ 		../../fb/libfb.la \
++		$(FBMMX_LIBS) \
++		../../IA/libIA.la \
++		$(TSOL_LIBS) \
+ 		../../mi/libminimi.la \
+ 		../../render/librender.la \
+ 		../../xkb/libxkbstubs.la \
+@@ -42,7 +46,12 @@
+ 		../xfree86/common/libcommon.la \
+ 		-lX11 \
+ 		libvnccommon.la \
+-		../../../../common/rfb/librfb.la
++		../../../../common/rfb/librfb.la \
++		../../../../common/network/libnetwork.la \
++		../../../../common/rdr/librdr.la \
++		../../../../common/Xregion/libXregion.la \
++		-lz \
++		$(GLX_LIBS)
+ 
+ Xvnc_CFLAGS =  -DHAVE_DIX_CONFIG_H \
+ 		-DNO_HW_ONLY_EXTS \
+
+--- unix/xc/programs/Xserver/Xvnc.man	2007-10-08 21:26:03.141427000 -0700
++++ unix/xc/programs/Xserver/Xvnc.man	2007-10-09 11:37:23.168899000 -0700
+@@ -68,8 +68,7 @@
+ 
+ .SH PARAMETERS
+ VNC parameters can be set both via the command-line and through the
+-\fBvncconfig\fP(1) program, and with a VNC-enabled XFree86 server via Options
+-entries in the XF86Config file.
++\fBvncconfig\fP(1) program.
+ 
+ Parameters can be turned on with -\fIparam\fP or off with
+ -\fIparam\fP=0.  Parameters which take a value can be specified as
+@@ -222,12 +221,12 @@
+ RemapKeys=0x22<>0x40
+ 
+ .SH USAGE WITH INETD
+-By configuring the \fBinetd\fP(1) service appropriately, Xvnc can be launched
++By configuring the \fBinetd\fP(1M) service appropriately, Xvnc can be launched
+ on demand when a connection comes in, rather than having to be started
+ manually.  When given the \fB-inetd\fP option, instead of listening for TCP
+ connections on a given port it uses its standard input and standard output.
+ There are two modes controlled by the wait/nowait entry in the inetd.conf file.
+-
++.PP
+ In the nowait mode, Xvnc uses its standard input and output directly as the
+ connection to a viewer.  It never has a listening socket, so cannot accept
+ further connections from viewers (it can however connect out to listening
+@@ -235,17 +234,28 @@
+ same TCP port result in inetd spawning off a new Xvnc to deal with each
+ connection.  When the connection to the viewer dies, the Xvnc and any
+ associated X clients die.  This behaviour is most useful when combined with the
+-XDMCP options -query and -once.  An typical example in inetd.conf might be (all
+-on one line):
+-
+-5950   stream   tcp nowait nobody  /usr/local/bin/Xvnc Xvnc -inetd -query
+-localhost -once securitytypes=none
+-
+-In this example a viewer connection to :50 will result in a new Xvnc for that
+-connection which should display the standard XDM login screen on that machine.
+-Because the user needs to login via XDM, it is usually OK to accept connections
+-without a VNC password in this case.
+-
++XDMCP options -query and -once.  
++.PP
++The provided application/x11/xvnc-inetd service defaults to running
++
++.B "/usr/X11/bin/Xvnc -inetd -query localhost -once securitytypes=none"
++
++in nowait mode.   This service can be enabled via 
++.BR svcadm (1m),
++and configured to use other modes or arguments via
++.BR svccfg (1m).
++.PP
++In this configuration, connecting to :0 will result in a new Xvnc for that
++connection which should display the standard graphical login screen on that 
++machine.   (To enable this, you will also have to enable XDMCP network 
++connections on the login screen.   See 
++.BR dtlogin (1)
++or 
++.BR gdm (1)
++for details.)
++Because the user needs to login via this screen, it is usually OK to accept 
++connections without a VNC password in this case.
++.PP
+ In the wait mode, when the first connection comes in, inetd gives the listening
+ socket to Xvnc.  This means that for a given TCP port, there is only ever one
+ Xvnc at a time.  Further viewer connections to the same port are accepted by
+@@ -253,14 +263,14 @@
+ the Xvnc will continue to run.  If this is used with the XDMCP options -query
+ and -once, the Xvnc and associated X clients will die when the user logs out of
+ the X session in the normal way.  It is important to use a VNC password in this
+-case.  A typical entry in inetd.conf might be:
+-
+-5951   stream   tcp wait   james     /usr/local/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd
++case.  A typical command line to include in the service exec property might be:
+ 
++.B "/usr/local/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd"
++.PP
+ In fact typically, you would have one entry for each user who uses VNC
+ regularly, each of whom has their own dedicated TCP port which they use.  In
+-this example, when user "james" connects to :51, he enters his VNC password,
+-then gets the XDM login screen where he logs in in the normal way.  However,
++this example, when user "james" connects, he enters his VNC password,
++then gets the login screen where he logs in in the normal way.  However,
+ unlike the previous example, if he disconnects, the session remains persistent,
+ and when he reconnects he will get the same session back again.  When he logs
+ out of the X session, the Xvnc will die, but of course a new one will be

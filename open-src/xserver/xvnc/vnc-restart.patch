@@ -1,0 +1,23 @@
+## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-restart.patch
+
+--- vnc-4_1-unixsrc/common/network/TcpSocket.cxx.restart	2005-03-04 09:02:21.000000000 +0000
++++ vnc-4_1-unixsrc/common/network/TcpSocket.cxx	2005-03-04 09:03:05.000000000 +0000
+@@ -140,10 +140,14 @@
+   }
+ 
+   // Attempt to connect to the remote host
+-  if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
+-    int e = errorNumber;
+-    closesocket(sock);
+-    throw SocketException("unable to connect to host", e);
++  for (;;) {
++    if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
++      int e = errorNumber;
++      if (e == EINTR)
++        continue;
++      closesocket(sock);
++      throw SocketException("unable to connect to host", e);
++    } else break;
+   }
+ 
+   // Disable Nagle's algorithm, to reduce latency

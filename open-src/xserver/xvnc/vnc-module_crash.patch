@@ -1,0 +1,30 @@
+## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-module_crash.patch
+
+--- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/vncHooks.cc.module_crash	2007-03-26 20:00:49.000000000 +0200
++++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/vncHooks.cc	2007-03-26 20:05:20.000000000 +0200
+@@ -509,7 +509,12 @@
+   BoxRec box;
+   PictureScreenPtr ps = GetPictureScreen(pScreen);
+ 
+-  if ((xDst >= 0) && (yDst >= 0)) {
++  ps->Composite = vncHooksScreen->Composite;
++  (*ps->Composite)(op, pSrc, pMask, pDst, xSrc, ySrc,
++                   xMask, yMask, xDst, yDst, width, height);
++  ps->Composite = vncHooksComposite;
++
++  if((xDst >= 0) && (yDst >= 0) && pDst->pDrawable->type == DRAWABLE_WINDOW) {
+       box.x1 = pDst->pDrawable->x + xDst;
+       box.y1 = pDst->pDrawable->y + yDst;
+       box.x2 = box.x1 + width;
+@@ -518,11 +523,6 @@
+       RegionHelper changed(pScreen, &box, 0);
+       vncHooksScreen->desktop->add_changed(changed.reg);
+   }
+-
+-  ps->Composite = vncHooksScreen->Composite;
+-  (*ps->Composite)(op, pSrc, pMask, pDst, xSrc, ySrc,
+-                   xMask, yMask, xDst, yDst, width, height);
+-  ps->Composite = vncHooksComposite;
+ }
+ 
+ #endif /* RENDER */

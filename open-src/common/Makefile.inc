@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.78	07/08/27
+# @(#)Makefile.inc	1.79	07/10/10
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -64,10 +64,13 @@ MACH64= $(MACH64_$(MACH))
 CC     			= cc
 GCC			= /usr/sfw/bin/gcc
 CXX			= CC
-DEFAULT_OPT_CFLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch \
-				-xdepend -xstrconst
+DEFAULT_OPT_FLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch -xdepend
+DEFAULT_OPT_CFLAGS	= $(DEFAULT_OPT_FLAGS) -xstrconst
+DEFAULT_OPT_CXXFLAGS	= $(DEFAULT_OPT_FLAGS)
 OPT_CFLAGS 		= $(DEFAULT_OPT_CFLAGS)
-CFLAGS 			=  -v -mc $(OPT_CFLAGS) $(ARCH_FLAGS)
+OPT_CXXFLAGS 		= $(DEFAULT_OPT_CXXFLAGS)
+CFLAGS 			= -v -mc $(OPT_CFLAGS) $(ARCH_FLAGS)
+CXXFLAGS		= -mc $(OPT_CXXFLAGS) $(ARCH_FLAGS)
 LDFLAGS 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
 
 ### Flags for libraries to meet various Solaris requirements
@@ -81,6 +84,7 @@ LIB_LDFLAGS 		= $(LDFLAGS) $(LIB_REQUIRED_LDFLAGS)
 
 # Flags for programs
 PROG_CFLAGS		= $(CFLAGS)
+PROG_CXXFLAGS		= $(CXXFLAGS)
 PROG_LDFLAGS		= $(LDFLAGS) $(MAPFILES_FOR_PROGS) -B direct
 
 # Linker mapfiles to link with for better performance & security
@@ -154,6 +158,7 @@ X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
 X11_DOC_DIR=$(X11_DIR)/share/doc
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
+X11_MAN_DIR=$(X11_DIR)/share/man
 X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal
 X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
 # Subdirectory of /usr/X11/lib for X server private libraries

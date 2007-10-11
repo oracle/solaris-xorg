@@ -1,0 +1,102 @@
+<?xml version='1.0'?>
+<!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
+<!--
+    Service manifest for the Xvnc service, when run from inetd(1M)
+
+    Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, and/or sell copies of the Software, and to permit persons
+    to whom the Software is furnished to do so, provided that the above
+    copyright notice(s) and this permission notice appear in all copies of
+    the Software and that both the above copyright notice(s) and this
+    permission notice appear in supporting documentation.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+    OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+    INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+    FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+    NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+    Except as contained in this notice, the name of a copyright holder
+    shall not be used in advertising or otherwise to promote the sale, use
+    or other dealings in this Software without prior written authorization
+    of the copyright holder.
+-->
+
+<service_bundle type='manifest' name='SUNWxwplr:vnc'>
+
+<service
+	name='application/x11/xvnc-inetd'
+	type='service'
+	version='1'>
+
+	<create_default_instance enabled='false' />
+
+	<restarter>
+		<service_fmri value='svc:/network/inetd:default' />
+	</restarter>
+
+	<!--
+	    Set a timeout of 0 to signify to inetd that we don't want to
+	    timeout this service, since the forked process is the one that
+	    does the service's work. This is the case for most/all legacy
+	    inetd services; for services written to take advantage of SMF
+	    capabilities, the start method should fork off a process to
+	    handle the request and return a success code.
+	-->
+	<exec_method
+		type='method'
+		name='inetd_start'
+		exec='/usr/X11/bin/Xvnc -inetd -query localhost -once securitytypes=none'
+		timeout_seconds='0'>
+		<method_context>
+			<method_credential user='noaccess' group='noaccess' />
+		</method_context>
+	</exec_method>
+
+	<!--
+	    Use inetd's built-in kill support to disable services.
+	-->
+	<exec_method
+		type='method'
+		name='inetd_disable'
+		exec=':kill'
+		timeout_seconds='0'>
+	</exec_method>
+
+	<property_group name='inetd' type='framework'>
+		<propval name='name' type='astring' value='vnc-server' />
+		<propval name='endpoint_type' type='astring' value='stream' />
+		<propval name='proto' type='astring' value='tcp' />
+		<propval name='wait' type='boolean' value='false' />
+		<propval name='isrpc' type='boolean' value='false' />
+                <propval name='action_authorization' type='astring'
+                        value='solaris.smf.manage.x11' />
+                <propval name='value_authorization' type='astring'
+                        value='solaris.smf.manage.x11' />
+	</property_group>
+
+	<stability value='External' />
+
+	<template>
+		<common_name>
+			<loctext xml:lang='C'>
+				X server that displays to VNC viewers
+			</loctext>
+		</common_name>
+		<documentation>
+			<manpage title='Xvnc' section='1' 
+				manpath='/usr/X11/share/man' />
+		</documentation>
+	</template>
+</service>
+
+</service_bundle>

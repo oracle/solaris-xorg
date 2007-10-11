@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2007-01-24 20:08:20.608596000 -0800
-+++ Makefile.am	2007-01-24 20:08:34.851352000 -0800
+--- Makefile.am	2007-09-20 14:21:57.003122000 -0700
++++ Makefile.am	2007-09-20 14:22:20.855563000 -0700
 @@ -34,6 +34,10 @@ if DBE
  DBE_DIR=dbe
  endif
@@ -21,8 +21,8 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	hw
  
 diff -urp -x '*~' -x '*.orig' Xext/Makefile.am Xext/Makefile.am
---- Xext/Makefile.am	2007-01-24 20:08:20.471166000 -0800
-+++ Xext/Makefile.am	2007-01-24 20:08:34.853082000 -0800
+--- Xext/Makefile.am	2007-09-20 14:21:56.845261000 -0700
++++ Xext/Makefile.am	2007-09-20 14:22:20.855984000 -0700
 @@ -149,6 +149,10 @@ if DPMSExtension
  MODULE_SRCS += $(DPMS_SRCS)
  endif
@@ -35,8 +35,8 @@ diff -urp -x '*~' -x '*.orig' Xext/Makefile.am Xext/Makefile.am
  
  libXext_la_SOURCES =		$(BUILTIN_SRCS) $(MODULE_SRCS)
 diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
---- Xext/security.c	2007-01-22 21:39:15.000000000 -0800
-+++ Xext/security.c	2007-01-24 20:08:34.879559000 -0800
+--- Xext/security.c	2006-11-16 09:39:03.000000000 -0800
++++ Xext/security.c	2007-09-20 14:22:20.858055000 -0700
 @@ -72,10 +72,15 @@ typedef struct {
      ((extnsn)->devPrivates[securityExtnsnPrivateIndex].val)
  #define STATEPTR(client) \
@@ -54,20 +54,59 @@ diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
  CallbackListPtr SecurityValidateGroupCallback = NULL;  /* see security.h */
  
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2007-07-30 18:33:49.575258000 -0700
-+++ configure.ac	2007-07-30 18:34:04.958972000 -0700
-@@ -127,6 +127,10 @@ AC_CHECK_FUNC([mmap], AC_DEFINE(HAS_MMAP
+--- configure.ac	2007-09-20 14:21:57.684612000 -0700
++++ configure.ac	2007-09-20 14:22:20.875351000 -0700
+@@ -127,6 +127,13 @@ AC_CHECK_FUNC([mmap], AC_DEFINE(HAS_MMAP
  dnl Find the math libary
  AC_CHECK_LIB(m, sqrt)
  
 +dnl Check for libtsol for Solaris Trusted Extensions module
 +AC_CHECK_LIB(tsol, bsllow, [BUILD_TSOL_MODULE=yes], [BUILD_TSOL_MODULE=no])
 +AM_CONDITIONAL(BUILD_TSOL_MODULE, [test x$BUILD_TSOL_MODULE = xyes])
++if test "x$BUILD_TSOL_MODULE" = xyes; then
++	TSOL_LIB='$(top_builddir)/tsol/libxtsol.la -ltsol -ltsnet -lsecdb -lbsm'
++fi
 +
  AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])
  
  dnl AGPGART headers
-@@ -1868,3 +1872,6 @@ xorg-server.pc
+@@ -1026,7 +1029,7 @@
+ AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
+ 
+ if test "x$XVFB" = xyes; then
+-	XVFB_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $CWRAP_LIB $OS_LIB $LIBS"
++	XVFB_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $TSOL_LIB $CWRAP_LIB $OS_LIB $LIBS"
+ 	AC_SUBST([XVFB_LIBS])
+ fi
+ 
+@@ -1042,7 +1045,7 @@
+ AM_CONDITIONAL(XNEST, [test "x$XNEST" = xyes])
+ 
+ if test "x$XNEST" = xyes; then
+-	XNEST_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $CWRAP_LIB $OS_LIB $LIBS"
++	XNEST_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $TSOL_LIB $CWRAP_LIB $OS_LIB $LIBS"
+ 	AC_SUBST([XNEST_LIBS])
+ fi
+ 
+@@ -1403,7 +1406,7 @@
+ 
+ if test "x$XPRINT" = xyes; then
+ 	PKG_CHECK_MODULES([XPRINT], [printproto x11 xfont $XDMCP_MODULES xau])
+-	XPRINT_EXTENSIONS="$XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $RENDER_LIB $COMPOSITE_LIB $RANDR_LIB $XI_LIB $FIXES_LIB $DAMAGE_LIB $XI_LIB $GLX_LIBS"
++	XPRINT_EXTENSIONS="$XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $RENDER_LIB $COMPOSITE_LIB $RANDR_LIB $XI_LIB $FIXES_LIB $DAMAGE_LIB $XI_LIB $GLX_LIBS $TSOL_LIB"
+ 	XPRINT_LIBS="$XPRINT_LIBS $DIX_LIB $XKB_LIB $XKB_STUB_LIB $XPRINT_EXTENSIONS $MI_LIB $MIEXT_DAMAGE_LIB $CWRAP_LIB $OS_LIB $LIBS"
+ 	AC_SUBST([XPRINT_CFLAGS])
+ 	AC_SUBST([XPRINT_LIBS])
+@@ -1562,7 +1565,7 @@
+     # dix os fb mi extension glx (NOTYET) damage shadow xpstubs
+     #KDRIVE_PURE_LIBS="$DIX_LIB $OS_LIB $FB_LIB $XEXT_LIB $MIEXT_DAMAGE_LIB \
+     #    $MIEXT_SHADOW_LIB $XPSTUBS_LIB"
+-    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $OS_LIB"
++    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $XTRAP_LIB $RECORD_LIB $GLX_LIBS $RENDER_LIB $RANDR_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $XPSTUBS_LIB $IA_LIB $TSOL_LIB $OS_LIB"
+     KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.a'
+     case $host_os in
+ 	*linux*)
+@@ -1869,3 +1873,6 @@ xorg-server.pc
  
  # Add Sun IA extension
  AC_OUTPUT([IA/Makefile])
@@ -75,8 +114,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +# Add Sun Trusted Extensions extension
 +AC_OUTPUT([tsol/Makefile])
 diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
---- dix/dispatch.c	2007-01-24 20:08:20.363701000 -0800
-+++ dix/dispatch.c	2007-02-15 15:47:10.697015000 -0800
+--- dix/dispatch.c	2007-09-20 14:21:56.671742000 -0700
++++ dix/dispatch.c	2007-09-20 14:22:20.877325000 -0700
 @@ -74,8 +74,8 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -142,8 +181,8 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
  }
  
 diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
---- dix/events.c	2007-01-24 20:08:20.365698000 -0800
-+++ dix/events.c	2007-01-24 20:08:34.871662000 -0800
+--- dix/events.c	2007-09-20 14:21:56.673705000 -0700
++++ dix/events.c	2007-09-20 14:22:20.879320000 -0700
 @@ -76,7 +76,7 @@ Equipment Corporation.
  
  /*****************************************************************
@@ -182,8 +221,8 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
  {
      register WindowPtr  pWin;
 diff -urp -x '*~' -x '*.orig' dix/property.c dix/property.c
---- dix/property.c	2007-01-22 21:39:15.000000000 -0800
-+++ dix/property.c	2007-01-24 20:08:34.872393000 -0800
+--- dix/property.c	2006-10-24 17:25:19.000000000 -0700
++++ dix/property.c	2007-09-20 14:22:20.880023000 -0700
 @@ -45,6 +45,34 @@ SOFTWARE.
  
  ******************************************************************/
@@ -287,8 +326,8 @@ diff -urp -x '*~' -x '*.orig' dix/property.c dix/property.c
      if (client->noClientException != Success)
  	return(client->noClientException);
 diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
---- dix/window.c	2007-01-22 21:39:15.000000000 -0800
-+++ dix/window.c	2007-01-24 20:08:34.874164000 -0800
+--- dix/window.c	2007-03-17 17:29:16.000000000 -0700
++++ dix/window.c	2007-09-20 14:22:20.881976000 -0700
 @@ -98,6 +98,33 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -390,8 +429,8 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
      register WindowPtr pWin,
      register WindowPtr pSib,
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2007-01-24 20:08:20.616860000 -0800
-+++ hw/xfree86/common/xf86AutoConfig.c	2007-01-24 20:08:34.874529000 -0800
+--- hw/xfree86/common/xf86AutoConfig.c	2007-09-20 14:21:57.861184000 -0700
++++ hw/xfree86/common/xf86AutoConfig.c	2007-09-20 14:22:20.882348000 -0700
 @@ -52,6 +52,7 @@
  	"\tLoad\t\"record\"\n" \
  	"\tLoad\t\"dri\"\n" \
@@ -401,8 +440,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/comm
  
  #define BUILTIN_DEVICE_NAME \
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2007-01-24 20:08:20.618280000 -0800
-+++ hw/xfree86/common/xf86Config.c	2007-01-24 20:08:34.875808000 -0800
+--- hw/xfree86/common/xf86Config.c	2007-09-20 14:21:57.862784000 -0700
++++ hw/xfree86/common/xf86Config.c	2007-09-20 14:22:20.883535000 -0700
 @@ -298,6 +298,10 @@ xf86ModulelistFromConfig(pointer **optli
  	/* Sun addition - IA extension */
  	ptr = xf86addNewLoadDirective(ptr, "IA", XF86_LOAD_MODULE, NULL);
@@ -415,8 +454,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  
      /*
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2007-01-24 20:08:20.618782000 -0800
-+++ hw/xfree86/dixmods/Makefile.am	2007-01-24 20:08:34.876106000 -0800
+--- hw/xfree86/dixmods/Makefile.am	2007-09-20 14:21:57.863164000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2007-09-20 14:22:20.883822000 -0700
 @@ -109,3 +109,11 @@ extsmodule_LTLIBRARIES += libIA.la
  libIA_la_LDFLAGS = -avoid-version
  libIA_la_LIBADD = $(top_builddir)/IA/libIA.la
@@ -430,8 +469,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/
 +libxtsol_la_SOURCES = tsolmodule.c
 +endif
 diff -urp -x '*~' -x '*.orig' include/dixstruct.h include/dixstruct.h
---- include/dixstruct.h	2007-01-22 21:39:17.000000000 -0800
-+++ include/dixstruct.h	2007-01-24 20:08:34.876423000 -0800
+--- include/dixstruct.h	2006-10-24 17:25:19.000000000 -0700
++++ include/dixstruct.h	2007-09-20 14:22:20.884203000 -0700
 @@ -127,7 +127,20 @@ typedef struct _Client {
      unsigned char requestLog[MAX_REQUEST_LOG];
      int         requestLogIndex;
@@ -454,8 +493,8 @@ diff -urp -x '*~' -x '*.orig' include/dixstruct.h include/dixstruct.h
      struct _AppGroupRec*	appgroup;
  #endif
 diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
---- include/extnsionst.h	2007-01-22 21:39:17.000000000 -0800
-+++ include/extnsionst.h	2007-01-24 20:08:34.876825000 -0800
+--- include/extnsionst.h	2006-10-24 17:25:19.000000000 -0700
++++ include/extnsionst.h	2007-09-20 14:22:20.884616000 -0700
 @@ -45,6 +45,34 @@ SOFTWARE.
  
  ******************************************************************/
@@ -542,8 +581,8 @@ diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
  #endif /* EXTENSIONSTRUCT_H */
  
 diff -urp -x '*~' -x '*.orig' include/propertyst.h include/propertyst.h
---- include/propertyst.h	2007-01-22 21:39:17.000000000 -0800
-+++ include/propertyst.h	2007-01-24 20:08:34.877120000 -0800
+--- include/propertyst.h	2006-09-17 23:04:18.000000000 -0700
++++ include/propertyst.h	2007-09-20 14:22:20.884994000 -0700
 @@ -45,6 +45,35 @@ SOFTWARE.
  
  ******************************************************************/
@@ -595,8 +634,8 @@ diff -urp -x '*~' -x '*.orig' include/propertyst.h include/propertyst.h
  
  #endif /* PROPERTYSTRUCT_H */
 diff -urp -x '*~' -x '*.orig' include/selection.h include/selection.h
---- include/selection.h	2007-01-22 21:39:17.000000000 -0800
-+++ include/selection.h	2007-01-24 20:08:34.877423000 -0800
+--- include/selection.h	2006-09-17 23:04:18.000000000 -0700
++++ include/selection.h	2007-09-20 14:22:20.885346000 -0700
 @@ -49,6 +49,34 @@ SOFTWARE.
  
  ******************************************************************/
@@ -643,11 +682,11 @@ diff -urp -x '*~' -x '*.orig' include/selection.h include/selection.h
  
  #endif /* SELECTION_H */
 diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
---- mi/miinitext.c	2007-01-22 21:39:17.000000000 -0800
-+++ mi/miinitext.c	2007-01-24 20:08:34.877931000 -0800
-@@ -84,6 +84,10 @@ SOFTWARE.
- #include "micmap.h"
- #include "globals.h"
+--- mi/miinitext.c	2007-09-20 14:21:57.965252000 -0700
++++ mi/miinitext.c	2007-09-20 14:22:21.276990000 -0700
+@@ -86,6 +86,10 @@ SOFTWARE.
+ 
+ #define SolarisIAExtension
  
 +#ifdef TSOL	/* Maintaining binary compatibility with Xtsol module */
 +#include "extnsionst.h"
@@ -656,7 +695,63 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  #if defined(QNX4) /* sleaze for Watcom on QNX4 ... */
  #undef GLXEXT
  #endif
-@@ -774,6 +778,11 @@ InitExtensions(argc, argv)
+@@ -221,6 +225,9 @@ extern Bool noXvExtension;
+ #ifdef SolarisIAExtension
+ Bool noIAExtension;
+ #endif
++#ifdef TSOL
++Bool noXTSolExtension;
++#endif
+ 
+ #ifndef XFree86LOADER
+ #define INITARGS void
+@@ -266,6 +273,10 @@ typedef void (*InitExtension)(INITARGS);
+ #ifdef SolarisIAExtension
+ #include <X11/extensions/interactive.h>
+ #endif
++#ifdef TSOL
++#define _XTSOL_SERVER
++#include <X11/extensions/Xtsol.h>
++#endif
+ 
+ /* FIXME: this whole block of externs should be from the appropriate headers */
+ #ifdef EVI
+@@ -396,6 +407,9 @@ extern void CompositeExtensionInit(INITA
+ #ifdef SolarisIAExtension
+ extern void IAExtensionInit(void);
+ #endif
++#ifdef TSOL
++extern void TsolExtensionInit(void);
++#endif
+ 
+ /* The following is only a small first step towards run-time
+  * configurable extensions.
+@@ -456,6 +470,9 @@ static ExtensionToggle ExtensionToggleLi
+ #ifdef XCSECURITY
+     { "SECURITY", &noSecurityExtension },
+ #endif
++#ifdef TSOL
++    { TSOLNAME /* "SUN_TSOL" */, &noXTSolExtension },
++#endif    
+ #ifdef XSYNC
+     { "SYNC", &noSyncExtension },
+ #endif
+@@ -681,6 +698,14 @@ InitExtensions(argc, argv)
+ #ifdef SolarisIAExtension
+     if (!noIAExtension) IAExtensionInit();
+ #endif
++#ifdef TSOL
++    if (!noXTSolExtension) {
++	TsolExtensionInit();
++	if (pSecHook) { /* If TSOL security hooks set, add to XACE callbacks */
++	    tsolCompatRegisterHooks();
++	}
++    }
++#endif
+ }
+ 
+ void
+@@ -792,6 +817,11 @@ InitExtensions(argc, argv)
  	    (ext->initFunc)();
  	}
      }
@@ -669,8 +764,8 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  static void (*__miHookInitVisualsFunction)(miInitVisualsProcPtr *);
 diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
---- os/connection.c	2007-01-24 20:08:20.601169000 -0800
-+++ os/connection.c	2007-01-24 20:08:34.878666000 -0800
+--- os/connection.c	2007-09-20 14:21:56.995403000 -0700
++++ os/connection.c	2007-09-20 14:22:21.289634000 -0700
 @@ -44,6 +44,33 @@ ARISING OUT OF OR IN CONNECTION WITH THE
  SOFTWARE.
  

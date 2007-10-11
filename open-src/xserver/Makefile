@@ -1,4 +1,7 @@
+# Makefile for X Consolidation Open Source xserver modules
+#
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -9,7 +12,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -19,49 +22,36 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_com	1.6	07/10/10 SMI"
+# @(#)Makefile	1.1	07/10/10
 #
-# This required package information file contains a list of package contents.
-# The 'pkgmk' command uses this file to identify the contents of a package
-# and their location on the development machine when building the package.
-# Can be created via a text editor or through use of the 'pkgproto' command.
+###############################################################################
 
-#!search
-#!default 0711 root bin
+OS_SUBDIRS = xorg xvnc
 
-# packaging files
-i pkginfo
-i copyright
-i depend
-i preinstall
+all: 
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
 
-#
-# source locations relative to the prototype file
-#
-# SUNWxwplr
-#
-d none etc 755 root sys
-d none etc/security 755 root sys
-!search ../etc/security
-e rbac etc/security/auth_attr 0644 root sys
-e rbac etc/security/prof_attr 0644 root sys
-d none lib 755 root bin
-d none lib/svc 755 root bin
-d none lib/svc/method 755 root bin
-!search ../lib/svc/method
-f none lib/svc/method/x11-server 755 root bin
-d none var 755 root sys
-d none var/svc 755 root sys
-d none var/svc/manifest 755 root sys
-d none var/svc/manifest/application 755 root sys
-d none var/svc/manifest/application/x11 755 root sys
-!search ../var/svc/manifest/application/x11
-f manifest var/svc/manifest/application/x11/x11-server.xml 0444 root sys
-f manifest var/svc/manifest/application/x11/xfs.xml 0444 root sys
-f manifest var/svc/manifest/application/x11/xvnc-inetd.xml 0444 root sys
+World: clean all
+
+clean: 
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+
+install:
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+
+download:
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+
+subdirs:
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(OS_SUBDIRS) ;\
+	do \
+	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
+	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
+	done

@@ -1,6 +1,6 @@
 #!/bin/ksh
 #
-# ident	"@(#)Xserver	1.4	07/09/04 SMI"
+# ident	"@(#)Xserver	1.5	07/10/10 SMI"
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -141,6 +141,7 @@ case $XSERVER in
     /usr/X11/bin/Xvfb)		;;
     /usr/X11/bin/amd64/Xvfb)	;;
     /usr/X11/bin/i386/Xvfb)	;;
+    /usr/X11/bin/Xvnc)		;;
     *)
 	echo "$0: $XSERVER is not a valid X server"
 	exit 1
@@ -149,10 +150,12 @@ esac
 
 
 case $XSERVER in
-    *Xsun)
+    # Xsun based
+    /usr/openwin/bin/*)
 	DEPTHARG="-defdepth $DEFDEPTH"
 	;;
-    *Xorg)
+    # Xorg based
+    /usr/X11/bin/*)
 	DEPTHARG="-depth $DEFDEPTH"
 	;;
     *)

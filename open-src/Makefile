@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17	07/09/04
+# @(#)Makefile	1.18	07/10/10
 #
 ###############################################################################
 #
@@ -48,7 +48,7 @@ BEFOREX = \
 
 AFTERX = \
 	app \
-	xserver/xorg \
+	xserver \
 	driver \
 	data \
 	font

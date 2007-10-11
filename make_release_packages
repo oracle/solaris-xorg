@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.53 07/08/29
+# @(#)make_release_packages	1.54 07/10/10
 #
 #	Create and fill a package staging area for X
 #
@@ -92,7 +92,7 @@ TSOL_PACKAGE="SUNWxwts SUNWxorg-tsol-module"
 XW_PLT_PACKAGE="SUNWxwplt SUNWxwplr SUNWxwfnt SUNWxwrtl SUNWxwslb \
     SUNWxwmod SUNWxscreensaver-hacks-gl SUNWxwman SUNWxwfsw \
     SUNWxorg-server SUNWxorg-graphics-ddx SUNWxorg-doc SUNWxorg-cfg \
-    SUNWxsun-server $TSOL_PACKAGE"
+    SUNWxsun-server SUNWxvnc $TSOL_PACKAGE"
 
 # Some packages are only built for certain platforms currently
 if [ "$MACH" = "sparc" ]; then

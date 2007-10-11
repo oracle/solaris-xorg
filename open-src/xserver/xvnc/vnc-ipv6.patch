@@ -1,0 +1,69 @@
+## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-210617.patch
+
+--- vnc-4_1_2-unixsrc/common/network/TcpSocket.cxx.ipv6	2006-10-13 11:31:37.000000000 +0100
++++ vnc-4_1_2-unixsrc/common/network/TcpSocket.cxx	2006-10-13 12:05:40.000000000 +0100
+@@ -106,11 +106,29 @@
+ TcpSocket::TcpSocket(const char *host, int port)
+   : closeFd(true)
+ {
++  struct sockaddr_storage addr;
++  size_t addrlen;
++  struct addrinfo *hostai;
+   int sock;
+ 
+-  // - Create a socket
+   initSockets();
+-  if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
++
++  if (getaddrinfo(host, NULL, NULL, &hostai)) {
++    int e = errorNumber;
++    throw SocketException("unable to resolve host by name", e);
++  }
++
++  addrlen = hostai->ai_addrlen;
++  memset(&addr, 0, sizeof(addr));
++  memcpy(&addr, hostai->ai_addr, addrlen);
++  freeaddrinfo(hostai);
++  if (addr.ss_family == AF_INET)
++    ((struct sockaddr_in *)&addr)->sin_port = htons(port);
++  else if (addr.ss_family == AF_INET6)
++    ((struct sockaddr_in6 *)&addr)->sin6_port = htons(port);
++
++  // - Create a socket
++  if ((sock = socket(addr.ss_family, SOCK_STREAM, 0)) < 0)
+     throw SocketException("unable to create socket", errorNumber);
+ 
+ #ifndef WIN32
+@@ -118,30 +136,9 @@
+   fcntl(sock, F_SETFD, FD_CLOEXEC);
+ #endif
+ 
+-  // - Connect it to something
+-
+-  // Try processing the host as an IP address
+-  struct sockaddr_in addr;
+-  memset(&addr, 0, sizeof(addr));
+-  addr.sin_family = AF_INET;
+-  addr.sin_addr.s_addr = inet_addr(host);
+-  addr.sin_port = htons(port);
+-  if ((int)addr.sin_addr.s_addr == -1) {
+-    // Host was not an IP address - try resolving as DNS name
+-    struct hostent *hostinfo;
+-    hostinfo = gethostbyname(host);
+-    if (hostinfo && hostinfo->h_addr) {
+-      addr.sin_addr.s_addr = ((struct in_addr *)hostinfo->h_addr)->s_addr;
+-    } else {
+-      int e = errorNumber;
+-      closesocket(sock);
+-      throw SocketException("unable to resolve host by name", e);
+-    }
+-  }
+-
+   // Attempt to connect to the remote host
+   for (;;) {
+-    if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
++    if (connect(sock, (struct sockaddr *)&addr, addrlen) != 0) {
+       int e = errorNumber;
+       if (e == EINTR)
+         continue;
+
