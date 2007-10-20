@@ -45,3 +45,4 @@ kbd-driver.patch
 6577124.patch
 shm-across-zones.patch
 6425775.patch
+KB_EncodingAtXCrash.patch
