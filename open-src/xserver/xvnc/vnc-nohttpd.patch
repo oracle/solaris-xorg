@@ -48,7 +48,7 @@
  must be 8 bits deep.
  
  .TP
-+.B \-httpdl
++.B \-httpd
 +Instruct Xvnc to run a mini-httpd if the VNC Java applet is found.
 +
 +.TP
