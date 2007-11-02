@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	06/12/19
+# @(#)Makefile	1.5	07/11/02
 #
 
 # Package name used in tarballs
@@ -38,7 +38,8 @@ PROTO_NAME=xproto
 VERSION=7.0.10
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
+SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch \
+	Xalloca.h-patch,-p1
 
 ### Include common rulesets
 include ../Makefile.inc

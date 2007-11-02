@@ -105,7 +105,7 @@
 +		-I../../../../common \
 +		-I../../../vncconfig \
 +		-I../../mi \
-+		-I ../../render \
++		-I../../render \
 +		-I/usr/include/X11
 +
 +libvnc_la_LTLIBRARIES = libvnc.la

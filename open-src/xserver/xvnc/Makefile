@@ -31,14 +31,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/10/11
+# @(#)Makefile	1.4	07/11/02
 #
-
-# Build 32-bit or 64-bit?
-BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=64
-BUILD_TYPES_i386=32
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 # Package name used in tarballs
 MODULE_NAME=vnc
@@ -96,9 +90,8 @@ SUNTOUCHED_MANPAGES= unix/xc/programs/Xserver/Xvnc.man \
 SUNTOUCH_MAN_FLAGS= \
  -a '{Availability, SUNWxvnc} {Interface Stability, Volatile}'
 
-# Compiler to use - VNC code only builds with g++, not Sun Studio, so use
-# gcc/g++ on both platforms for now
-COMPILER=gcc
+# Compiler to use
+COMPILER=cc
 
 # Binary built in tree
 XVNCSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
@@ -161,6 +154,7 @@ XVNC_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
 	--disable-xprint --disable-kdrive
 
 XVNC_CPPFLAGS = \
+	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
 	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig \
 	$(XSERVER_CPPFLAGS)
@@ -191,7 +185,7 @@ $(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET)
 	(cd $(XORG_BUILD_DIR) &&  \
 	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf --install --force && \
 	 $(CONFIG_ENV) ./configure $(XVNC_CONFIG_OPTS) )
-	$(TOP)/common/delibtoolize.pl $(SOURCE_DIR)
+	$(TOP)/common/delibtoolize.pl -P $(SOURCE_DIR)
 
 $(XVNCSERVER_BIN): $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 	(cd $(SOURCE_DIR)/common ; $(BUILD_ENV) $(MAKE) $(MFLAGS))

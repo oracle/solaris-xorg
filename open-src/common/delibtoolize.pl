@@ -27,19 +27,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)delibtoolize.pl	1.7	07/10/10 SMI"
+# ident	"@(#)delibtoolize.pl	1.8	07/11/02 SMI"
 #
 
 #
 # Undo libtool damage to makefiles to allow us to control the linker
 # settings that libtool tries to force on us.
 #
+# Usage: delibtoolize.pl [-P] <path>
+# -P - Use large pic flags (-KPIC/-fPIC) instead of default/small (-Kpic/-fpic)
 
 use strict;
 use warnings;
 use integer;
+use Getopt::Std;
 
 use File::Find;
+
+my %opts;
+getopts('P', \%opts);
+
+my $pic_size = "pic";
+if (exists($opts{'P'})) {
+  $pic_size = "PIC";
+}
 
 sub process_file {
   if ($_ eq 'Makefile' && -f $_) {
@@ -77,11 +88,11 @@ sub process_file {
     }
     close($OLD) or die;
 
-    my $picflags = '-Kpic -DPIC';
+    my $picflags = "-K$pic_size -DPIC";
     my $sharedobjflags = '-G';
 
     if (defined($compiler) && ($compiler =~ m/gcc/)) {
-      $picflags = '-fpic -DPIC';
+      $picflags = "-f$pic_size -DPIC";
       $sharedobjflags = '-shared';
     }
 

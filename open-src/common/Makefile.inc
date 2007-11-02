@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.79	07/10/10
+# @(#)Makefile.inc	1.80	07/11/02
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -70,7 +70,7 @@ DEFAULT_OPT_CXXFLAGS	= $(DEFAULT_OPT_FLAGS)
 OPT_CFLAGS 		= $(DEFAULT_OPT_CFLAGS)
 OPT_CXXFLAGS 		= $(DEFAULT_OPT_CXXFLAGS)
 CFLAGS 			= -v -mc $(OPT_CFLAGS) $(ARCH_FLAGS)
-CXXFLAGS		= -mc $(OPT_CXXFLAGS) $(ARCH_FLAGS)
+CXXFLAGS		= -mc $(OPT_CXXFLAGS) $(ARCH_FLAGS) -norunpath
 LDFLAGS 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
 
 ### Flags for libraries to meet various Solaris requirements
@@ -107,7 +107,7 @@ DEFAULT_ARCH_LIB_FLAGS_sparc 	= -xregs=no%appl
 
 # -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
 # avoid losing stack frame pointers so you can't get stack traces or debug
-DEFAULT_ARCH32_FLAGS_i386 	= -xpentium -xregs=no%frameptr
+DEFAULT_ARCH32_FLAGS_i386 	= -xtarget=pentium -xregs=no%frameptr
 DEFAULT_ARCH64_FLAGS_i386 	= -xarch=generic64 -xregs=no%frameptr
 DEFAULT_ARCH_LIB_FLAGS_i386 	=  
 
