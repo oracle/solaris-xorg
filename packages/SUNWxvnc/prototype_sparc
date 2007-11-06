@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.1     07/10/10 SMI"
+# ident "@(#)prototype_sparc 1.2     07/11/05 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -37,6 +37,6 @@ i depend=depend_sparc
 
 # Include ISA independent files (prototype_com)
 #
-!XSERVERBINDIR=bin
+!XSERVERBINDIR=bin/sparcv8
 !XSERVERMODDIR=lib/modules
 !include prototype_com
