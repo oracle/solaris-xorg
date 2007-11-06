@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +29,37 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#	@(#)prototype	35.16	07/11/05
 #
-# SUNWxorg-mesa preremove script.
+#  X Window System demo programs
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+i pkginfo
+i copyright=../copyright
+i depend
+i postinstall
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+!HOME=../openwin
 
-exit 0
+d none openwin				0755 root bin
 
+!search       $HOME/demo
+d none openwin/demo			0755 root bin
+f none openwin/demo/dpsexec 		0755 root bin
+f none openwin/demo/ico			0755 root bin
+f none openwin/demo/ico2		0755 root bin
+f none openwin/demo/maze		0755 root bin
+f none openwin/demo/muncher		0755 root bin
+f none openwin/demo/plaid		0755 root bin
+f none openwin/demo/puzzle		0755 root bin
+f none openwin/demo/texteroids		0755 root bin
+f none openwin/demo/worm		0755 root bin
+f none openwin/demo/xev			0755 root bin
+f none openwin/demo/xepsf		0755 root bin
+f none openwin/demo/xeyes		0755 root bin
+f none openwin/demo/xgc			0755 root bin
+f none openwin/demo/xmac		0755 root bin
+f none openwin/demo/xmag_multivis	0755 root bin
+f none openwin/demo/xscope		0755 root bin
+f none openwin/demo/xsol		0755 root bin
+!search       $HOME/bin
+f none openwin/demo/xieperf		0755 root bin

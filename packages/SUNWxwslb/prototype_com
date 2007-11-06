@@ -1,6 +1,5 @@
-###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,24 +25,34 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
+# 
 #
-###########################################################################
+# ident	"@(#)prototype_com	35.15	06/07/28 SMI"
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
-#
-# SUNWxorg-mesa preremove script.
+#  X Window System lint libraries
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+i pkginfo
+i copyright=../copyright
+i depend=../depend
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+!HOME=../usr
 
-exit 0
+d none openwin					0755 root bin
+
+!search      $HOME/openwin/lib
+d none openwin/lib				0755 root bin
+f none openwin/lib/llib-lX11.ln			0755 root bin
+s none openwin/lib/llib-lXau.ln=../../X11/lib/llib-lXau.ln
+f none openwin/lib/llib-lXaw.ln			0755 root bin
+f none openwin/lib/llib-lXext.ln		0755 root bin
+f none openwin/lib/llib-lXmu.ln			0755 root bin
+f none openwin/lib/llib-lXt.ln			0755 root bin
+
+!search $HOME/X11/lib
+d none X11/lib					0755 root bin
+f none X11/lib/llib-lXau.ln			0555 root bin
+
+!search $HOME/X11/lib/$plat_64
+d none X11/lib/$plat_64				0755 root bin
+f none X11/lib/$plat_64/llib-lXau.ln		0555 root bin
 

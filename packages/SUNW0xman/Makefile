@@ -1,4 +1,3 @@
-###########################################################################
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -27,23 +26,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+# ident "@(#)Makefile	1.3    07/01/31 SMI"
 #
-# SUNWxorg-mesa preremove script.
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+SOURCEDIR=../../packages
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+PROTO_SOURCES = \
+	$(SOURCEDIR)/SUNWxwman/prototype_com			\
+	$(SOURCEDIR)/SUNWxwman/prototype_i386			\
+	$(SOURCEDIR)/SUNWfontconfig-docs/prototype 		\
+	$(SOURCEDIR)/SUNWxwsvr/prototype			\
+	$(SOURCEDIR)/SUNWxorg-doc/prototype_com			\
+	$(SOURCEDIR)/SUNWxorg-client-docs/prototype		\
+	$(SOURCEDIR)/SUNWxscreensaver-hacks/prototype		\
+	$(SOURCEDIR)/SUNWxscreensaver-hacks-gl/prototype_com
 
-exit 0
+#	$(SOURCEDIR)/SUNWxorg-doc/prototype_i386		\
+#	$(SOURCEDIR)/SUNWxorg-doc/prototype_sparc		\
 
+
+all: prototype
+
+prototype: $(PROTO_SOURCES) $(SOURCEDIR)/SUNW0xman/make_l10n_man_proto.pl
+	-rm -f $@
+	perl $(SOURCEDIR)/SUNW0xman/make_l10n_man_proto.pl $(PROTO_SOURCES) > $@

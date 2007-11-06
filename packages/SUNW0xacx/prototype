@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +29,35 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#       @(#)prototype	35.17     07/11/05 (c) Sun Microsystems, Inc.
 #
-# SUNWxorg-mesa preremove script.
+#  AccessX and associated files
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+i pkginfo
+i copyright=../copyright
+i depend
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+!HOME=../openwin
 
-exit 0
+d none openwin			0755 root bin
 
+!search  $HOME/lib
+d none openwin/lib 0755 root bin
+
+!search  $HOME/lib/X11/locale/C/help
+d none openwin/lib/locale 0755 root bin
+d none openwin/lib/locale/C 0755 root bin
+d none openwin/lib/locale/C/help 0755 root bin
+f none openwin/lib/locale/C/help/accessx.hlp 0644 root bin
+
+!search  $HOME/lib/X11/app-defaults
+d none openwin/lib/locale/C/app-defaults 0755 root bin
+f none openwin/lib/locale/C/app-defaults/accessx.uil 0644 root bin
+f none openwin/lib/locale/C/app-defaults/accessxstrings.uil 0644 root bin
+
+!search  $HOME/share/man/man1
+s none openwin/man=./share/man
+d none openwin/share 0755 root bin
+d none openwin/share/man 0755 root bin
+d none openwin/share/man/man1 0755 root bin
+f none openwin/share/man/man1/accessx.1 0444 root bin

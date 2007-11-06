@@ -1,6 +1,8 @@
+#!/bin/sh
+#
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 1996 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +31,41 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#ident  "@(#)r.encodingsdir	1.3	07/11/05 SMI"
 #
-# SUNWxorg-mesa preremove script.
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+cat > /tmp/$$ttmaps.dir.delete  << EOF
+FROM-ENCODING iso8859-1
+TO-ENCODING unicode
+FILENAME iso8859-1.ttmap
+FROM-ENCODING iso8859-2
+TO-ENCODING unicode
+FILENAME iso8859-2.ttmap
+FROM-ENCODING symbol
+TO-ENCODING unicode
+FILENAME symbol.ttmap
+FROM-ENCODING dingbats
+TO-ENCODING unicode
+FILENAME dingbats.ttmap
+EOF
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+while read dest
+do
+	if [ -f $dest ] ; then
+		cat $dest | sed -e '1d' > /tmp/$$ttmaps.dir
+		diff /tmp/$$ttmaps.dir /tmp/$$ttmaps.dir.delete | \
+			grep '^<' | sed -e 's/^< //' > /tmp/$$ttmaps.dir.new
+		count=`grep '^FILENAME' /tmp/$$ttmaps.dir.new | wc -l`
+		if [ $count -eq 0 ]; then
+			rm  $dest
+		else
+			echo $count > $dest
+			cat /tmp/$$ttmaps.dir.new  >> $dest
+		fi
+		rm /tmp/$$ttmaps.dir /tmp/$$ttmaps.dir.delete \
+			/tmp/$$ttmaps.dir.new
+	fi
+done
 
 exit 0
 

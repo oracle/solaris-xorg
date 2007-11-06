@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +29,23 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
-#
-# SUNWxorg-mesa preremove script.
+#	@(#)pkginfo.tmpl	1.2	07/11/05 SMI
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
-
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
-
-exit 0
+PKG="SUNW0xpmn"
+NAME="Localizable X Window System online programmers pages"
+ARCH="all"
+VERSION=6.4.2.5200,REV=0.2001.11.20
+CATEGORY="system"
+SUNW_PRODNAME="Solaris X11"
+SUNW_PRODVERS="6.4.2"
+DESC="X Window System online user man pages"
+BASEDIR="/usr"
+VENDOR="Sun Microsystems, Inc."
+HOTLINE="Please contact your local service provider"
+EMAIL=""
+MAXINST="1000"
+SUNW_PKGTYPE="ow"
+SUNW_LOC="C"
+SUNW_PKGLIST="SUNWxwpmn"
+SUNW_PKGVERS=1.0
 

@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +29,41 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#	@(#)prototype_sparc	35.9	07/11/05	Sun Microsystems.
 #
-# SUNWxorg-mesa preremove script.
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+#
+# Include ISA independent files (prototype_com)
+#
+!include prototype_com
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+!HOME=../openwin
 
-exit 0
+!search	 $HOME/lib
+d none openwin/lib				0755 root bin
+
+!search  $HOME/lib/X11
+d none openwin/lib/X11 				0755 root bin
+
+!search  $HOME/lib/X11/fonts
+d none openwin/lib/X11/fonts 0755 root bin
+
+!search  $HOME/lib/X11/fonts/Type1
+d none openwin/lib/X11/fonts/Type1 			0755 root bin
+
+!search  $HOME/lib/X11/fonts/Type1/prebuilt
+d none openwin/lib/X11/fonts/Type1/prebuilt 0755 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Courier-Bold.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Courier-BoldOblique.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Courier-Oblique.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Courier.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Helvetica-Bold.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Helvetica-BoldOblique.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Helvetica-Oblique.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Helvetica.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Symbol.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Times-Bold.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Times-BoldItalic.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Times-Italic.bepf 0644 root bin
+f none openwin/lib/X11/fonts/Type1/prebuilt/Times-Roman.bepf 0644 root bin
 

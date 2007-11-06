@@ -1,0 +1,91 @@
+##########################################################################
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+##########################################################################
+#
+# ident "@(#)prototype 1.9     06/12/14 SMI"
+#
+# X Window System required core package localizable files
+
+i pkginfo
+i copyright=../copyright
+i depend
+
+!HOME=../usr
+
+!search      $HOME/openwin/lib/X11/app-defaults
+d none openwin 0755 root bin
+d none openwin/lib                      0755 root bin
+d none openwin/lib/locale               0755 root bin
+d none openwin/lib/locale/C               0755 root bin
+d none openwin/lib/locale/C/app-defaults 0755 root bin
+f none openwin/lib/locale/C/app-defaults/Bitmap 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Bitmap-color 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Clock-color 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Editres 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Editres-color 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XCalc 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XCalc-color 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XClipboard 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XClock 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XConsole 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XLock 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XLogo 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XLogo-color 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XTerm 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Xfd 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Xmag 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Xmh 0644 root bin
+
+!search      $HOME/openwin/lib/locale/C/LC_MESSAGES
+d none openwin/lib/locale/C/LC_MESSAGES 		0755 root bin
+f none openwin/lib/locale/C/LC_MESSAGES/xfd.po 		0644 root bin
+f none openwin/lib/locale/C/LC_MESSAGES/xhost.po	0644 root bin
+
+!search      $HOME/X11/share/locale/C/LC_MESSAGES
+d none X11/share/locale/C/LC_MESSAGES 			0755 root bin
+f none X11/share/locale/C/LC_MESSAGES/cxpm.po		0444 root bin
+f none X11/share/locale/C/LC_MESSAGES/sxpm.po 		0444 root bin
+
+
+# RBAC help files
+d none lib 0755 root bin
+d none lib/help 755 root bin
+d none lib/help/auths 755 root bin
+d none lib/help/auths/locale 755 root bin
+!search ../usr/lib/help/auths/locale/C
+f none lib/help/auths/locale/C/X11States.html 444 root bin
+f none lib/help/auths/locale/C/FontStates.html 444 root bin
+d none lib/help/auths/locale/C 755 root bin
+d none lib/help/profiles 755 root bin
+d none lib/help/profiles/locale 755 root bin
+d none lib/help/profiles/locale/C 755 root bin
+!search ../usr/lib/help/profiles/locale/C
+f none lib/help/profiles/locale/C/RtDesktopConfiguration.html 444 root bin

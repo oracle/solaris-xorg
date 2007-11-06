@@ -1,6 +1,5 @@
-###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,23 +26,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
+# ident "@(#)depend	1.1	06/06/05 SMI"
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
-#
-# SUNWxorg-mesa preremove script.
-
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
-
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
-
-exit 0
-
+P SUNWcsr	Core Solaris, (Root)
+P SUNWcsu	Core Solaris, (Usr)
+P SUNWcsl	Core Solaris, (Shared Libs)
+P SUNWcsd	Core Solaris Devices
+P SUNWcar	Core Architecture, (Root)
+P SUNWkvm	Core Architecture, (Kvm)
+P SUNWxwfnt	X Window System Fonts
+P SUNWlibmsr	Math & Microtasking Libraries (Root)
+P SUNWzlib	The Zip compression library
+P SUNWxwplt	X Window System platform software
+P SUNWxwfsw	X Window System platform required font software
+P SUNWxsun-server	X Window System: Xsun server

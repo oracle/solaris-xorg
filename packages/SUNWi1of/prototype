@@ -1,0 +1,210 @@
+###########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+
+#
+# ident "@(#)prototype 1.20     07/11/05 SMI"
+#
+#  ISO-8859-1 (Latin-1) Optional Fonts
+
+i pkginfo
+# postinstall and postremove are obsoleted by fontsdir class
+#i postinstall
+i postremove
+i copyright=../copyright
+i depend=../depend
+i i.fontsdir
+i r.fontsdir
+i i.fontsalias
+i r.fontsalias
+i i.encodingsdir
+i r.encodingsdir
+
+!HOME=../openwin/lib/X11/fonts
+
+d none openwin 0755 root bin
+d none openwin/lib 0755 root bin
+d none openwin/lib/X11 0755 root bin
+
+!search            $HOME
+d none openwin/lib/X11/fonts 0755 root bin
+
+!search            $HOME/TTbitmaps
+d none openwin/lib/X11/fonts/TTbitmaps 0755 root bin
+e fontsalias openwin/lib/X11/fonts/TTbitmaps/fonts.alias.all 0644 root bin
+e fontsdir openwin/lib/X11/fonts/TTbitmaps/fonts.dir 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/fonts.upr 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Italic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Italic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-Italic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial-italic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Arial18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Bembo18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Italic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Italic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Italic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans-italic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/GillSans18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/TTbitmaps/Rockwell18.pcf 0644 root bin
+
+!search  $HOME/F3
+d none openwin/lib/X11/fonts/F3 				0755 root bin
+e fontsdir openwin/lib/X11/fonts/F3/fonts.dir 			0644 root bin
+e fontsalias openwin/lib/X11/fonts/F3/fonts.alias.all 		0644 root bin
+f none openwin/lib/X11/fonts/F3/AvantGarde-Book.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/AvantGarde-Demi.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Courier-Bold.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Courier-BoldOblique.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/Courier-Oblique.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Courier.f3b 			0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-Bold.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-BoldOblique.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-Oblique.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica.f3b 			0644 root bin
+f none openwin/lib/X11/fonts/F3/LucidaSans-Bold.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/LucidaSans-BoldItalic.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/LucidaSans-Italic.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/LucidaSans.f3b 			0644 root bin
+f none openwin/lib/X11/fonts/F3/LucidaSansTypewriter-Bold.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/LucidaSansTypewriter.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/NewCenturySchlbk-Bold.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/NewCenturySchlbk-BoldItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/NewCenturySchlbk-Italic.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/NewCenturySchlbk-Roman.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/Palatino-Bold.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Palatino-BoldItalic.f3b 	0644 root bin
+f none openwin/lib/X11/fonts/F3/Palatino-Italic.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Palatino-Roman.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Symbol.f3b 			0644 root bin
+f none openwin/lib/X11/fonts/F3/Times-Bold.f3b 			0644 root bin
+f none openwin/lib/X11/fonts/F3/Times-BoldItalic.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Times-Italic.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/Times-Roman.f3b 		0644 root bin
+f none openwin/lib/X11/fonts/F3/ZapfDingbats.f3b 		0644 root bin
+
+!search  $HOME/F3/afm
+d none openwin/lib/X11/fonts/F3/afm 0755 root bin
+f none openwin/lib/X11/fonts/F3/afm/AvantGarde-Book.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/AvantGarde-Demi.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Courier-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Courier-BoldOblique.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Courier-Oblique.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Courier.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-BoldOblique.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-Oblique.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/LucidaSans-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/LucidaSans-BoldItalic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/LucidaSans-Italic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/LucidaSansTypewriter.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/LucidaSansTypewriter-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/LucidaSans.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/NewCenturySchlbk-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/NewCenturySchlbk-BoldItalic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/NewCenturySchlbk-Italic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/NewCenturySchlbk-Roman.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Palatino-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Palatino-BoldItalic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Palatino-Italic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Palatino-Roman.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Symbol.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Times-Bold.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Times-BoldItalic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Times-Italic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Times-Roman.afm 0644 root bin

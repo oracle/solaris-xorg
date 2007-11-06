@@ -1,0 +1,205 @@
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident "@(#)prototype_com 35.34     07/08/31 SMI"
+#
+#  X Window System online user man pages
+
+i pkginfo
+i copyright=../copyright
+i depend=../depend
+
+!HOME=../usr/openwin/share/man
+!NEWHOME=../usr/X11/share/man
+
+d none openwin 0755 root bin
+s none openwin/man=./share/man
+d none openwin/share 0755 root bin
+d none openwin/share/man 0755 root bin
+
+d none X11 0755 root bin
+d none X11/share 0755 root bin
+d none X11/share/man 0755 root bin
+d none X11/share/man/man1 0755 root bin
+s none X11/man=share/man
+
+!search            $HOME/man1
+d none openwin/share/man/man1 0755 root bin
+f none openwin/share/man/man1/xfwp.1 0444 root bin
+f none openwin/share/man/man1/lbxproxy.1 0444 root bin
+f none openwin/share/man/man1/proxymngr.1 0444 root bin
+f none openwin/share/man/man1/xrx.1 0444 root bin
+f none openwin/share/man/man1/xfindproxy.1 0444 root bin
+f none openwin/share/man/man1/rstart.1 0444 root bin
+f none openwin/share/man/man1/rstartd.1 0444 root bin
+f none openwin/share/man/man1/libxrx.1 0444 root bin
+f none openwin/share/man/man1/xkbcomp.1 0444 root bin
+f none openwin/share/man/man1/xkbprint.1 0444 root bin
+
+f none openwin/share/man/man1/xkbbell.1 0444 root bin
+f none openwin/share/man/man1/xkbvleds.1 0444 root bin
+f none openwin/share/man/man1/xkbwatch.1 0444 root bin
+
+f none openwin/share/man/man1/Xprt.1 0444 root bin
+f none openwin/share/man/man1/Xsun.1 0444 root bin 
+f none openwin/share/man/man1/Xnest.1 0444 root bin 
+f none openwin/share/man/man1/Xvfb.1 0444 root bin 
+f none openwin/share/man/man1/appres.1 0444 root bin
+f none openwin/share/man/man1/atobm.1 0444 root bin
+f none openwin/share/man/man1/bdftopcf.1 0444 root bin
+f none openwin/share/man/man1/bdftosnf.1 0444 root bin
+f none openwin/share/man/man1/bitmap.1 0444 root bin
+f none openwin/share/man/man1/bmtoa.1 0444 root bin
+f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
+f none openwin/share/man/man1/cmap_compact.1 0444 root bin
+f none openwin/share/man/man1/editres.1 0444 root bin
+f none openwin/share/man/man1/fs.1 0444 root bin
+f none openwin/share/man/man1/fsadmin.1 0444 root bin
+f none openwin/share/man/man1/fsinfo.1 0444 root bin
+f none openwin/share/man/man1/fslsfonts.1 0444 root bin
+f none openwin/share/man/man1/fstobdf.1 0444 root bin
+f none openwin/share/man/man1/htt.1 0444 root bin
+f none openwin/share/man/man1/iceauth.1 0444 root bin
+f none openwin/share/man/man1/imake.1 0444 root bin
+f none openwin/share/man/man1/kbd_mode.1 0444 root bin
+f none openwin/share/man/man1/listres.1 0444 root bin
+f none openwin/share/man/man1/makebdf.1 0444 root bin
+f none openwin/share/man/man1/makedepend.1 0444 root bin
+f none openwin/share/man/man1/makepsres.1 0444 root bin
+f none openwin/share/man/man1/mkdirhier.1 0444 root bin
+f none openwin/share/man/man1/mkfontdir.1 0444 root bin
+f none openwin/share/man/man1/oclock.1 0444 root bin
+f none openwin/share/man/man1/pswrap.1 0444 root bin
+f none openwin/share/man/man1/redxblue.1 0444 root bin
+f none openwin/share/man/man1/resize.1 0444 root bin
+f none openwin/share/man/man1/rgb.1 0444 root bin
+f none openwin/share/man/man1/sessreg.1 0444 root bin
+f none openwin/share/man/man1/showfont.1 0444 root bin
+f none openwin/share/man/man1/showrgb.1 0444 root bin
+f none openwin/share/man/man1/showsnf.1 0444 root bin
+f none openwin/share/man/man1/twm.1 0444 root bin
+f none openwin/share/man/man1/viewres.1 0444 root bin
+f none openwin/share/man/man1/winsysck.1 0444 root bin
+f none openwin/share/man/man1/xauth.1 0444 root bin
+f none openwin/share/man/man1/xbiff.1 0444 root bin
+f none openwin/share/man/man1/xcalc.1 0444 root bin
+f none openwin/share/man/man1/xclipboard.1 0444 root bin
+f none openwin/share/man/man1/xclock.1 0444 root bin
+f none openwin/share/man/man1/xcmsdb.1 0444 root bin
+f none openwin/share/man/man1/xcolor.1 0444 root bin
+f none openwin/share/man/man1/xconsole.1 0444 root bin
+f none openwin/share/man/man1/xcutsel.1 0444 root bin
+f none openwin/share/man/man1/xditview.1 0444 root bin
+f none openwin/share/man/man1/xdm.1 0444 root bin
+f none openwin/share/man/man1/xdpr.1 0444 root bin
+f none openwin/share/man/man1/xedit.1 0444 root bin
+f none openwin/share/man/man1/xfd.1 0444 root bin
+f none openwin/share/man/man1/xfontsel.1 0444 root bin
+f none openwin/share/man/man1/xfs.1 0444 root bin
+f none openwin/share/man/man1/xhost.1 0444 root bin
+f none openwin/share/man/man1/xinit.1 0444 root bin
+f none openwin/share/man/man1/xkill.1 0444 root bin
+f none openwin/share/man/man1/xload.1 0444 root bin
+f none openwin/share/man/man1/xlock.1 0444 root bin
+f none openwin/share/man/man1/xlogo.1 0444 root bin
+f none openwin/share/man/man1/xlsatoms.1 0444 root bin
+f none openwin/share/man/man1/xlsclients.1 0444 root bin
+f none openwin/share/man/man1/xlsfonts.1 0444 root bin
+f none openwin/share/man/man1/xlswins.1 0444 root bin
+f none openwin/share/man/man1/xmag.1 0444 root bin
+f none openwin/share/man/man1/xmakemap.1 0444 root bin
+f none openwin/share/man/man1/xman.1 0444 root bin
+f none openwin/share/man/man1/xmh.1 0444 root bin
+f none openwin/share/man/man1/xmkmf.1 0444 root bin
+f none openwin/share/man/man1/xmodmap.1 0444 root bin
+f none openwin/share/man/man1/xpr.1 0444 root bin
+f none openwin/share/man/man1/xprop.1 0444 root bin
+f none openwin/share/man/man1/xrdb.1 0444 root bin
+f none openwin/share/man/man1/xrefresh.1 0444 root bin
+f none openwin/share/man/man1/xset.1 0444 root bin
+f none openwin/share/man/man1/xsetroot.1 0444 root bin
+f none openwin/share/man/man1/xstdcmap.1 0444 root bin
+f none openwin/share/man/man1/xterm.1 0444 root bin
+f none openwin/share/man/man1/xwd.1 0444 root bin
+f none openwin/share/man/man1/xwininfo.1 0444 root bin
+f none openwin/share/man/man1/xwud.1 0444 root bin
+
+!search            $HOME/man4
+d none openwin/share/man/man4 0755 root bin
+f none openwin/share/man/man4/keytable.map.4 0444 root bin
+f none openwin/share/man/man4/rasterfile.4 0444 root bin
+
+!search            $HOME/man6
+d none openwin/share/man/man6 0755 root bin
+f none openwin/share/man/man6/dpsexec.6 0444 root bin
+f none openwin/share/man/man6/ico.6 0444 root bin
+f none openwin/share/man/man6/ico2.6 0444 root bin
+f none openwin/share/man/man6/maze.6 0444 root bin
+f none openwin/share/man/man6/muncher.6 0444 root bin
+f none openwin/share/man/man6/plaid.6 0444 root bin
+f none openwin/share/man/man6/puzzle.6 0444 root bin
+f none openwin/share/man/man6/texteroids.6 0444 root bin
+f none openwin/share/man/man6/worm.6 0444 root bin
+f none openwin/share/man/man6/xepsf.6 0444 root bin
+f none openwin/share/man/man6/xev.6 0444 root bin
+f none openwin/share/man/man6/xeyes.6 0444 root bin
+f none openwin/share/man/man6/xgc.6 0444 root bin
+f none openwin/share/man/man6/xmac.6 0444 root bin
+f none openwin/share/man/man6/xmag_multivis.6 0444 root bin
+f none openwin/share/man/man6/xscope.6 0444 root bin
+f none openwin/share/man/man6/xsol.6 0444 root bin
+
+
+!search            $HOME/man5
+d none openwin/share/man/man5 0755 root bin
+f none openwin/share/man/man5/dps.5 0444 root bin
+f none openwin/share/man/man5/X.5 0444 root bin
+f none openwin/share/man/man5/X11.5 0444 root bin
+f none openwin/share/man/man5/XProjectTeam.5 0444 root bin
+f none openwin/share/man/man5/XStandards.5 0444 root bin
+f none openwin/share/man/man5/Xsecurity.5 0444 root bin
+
+!search $NEWHOME/man1
+f none openwin/share/man/man1/Xserver.1 0444 root bin 
+
+#### applications replaced with new versions from open-src/app
+
+!search $NEWHOME/man1
+
+# open-src/app/constype
+f none X11/share/man/man1/constype.1 	0444 root bin
+
+# open-src/app/xcursorgen
+f none X11/share/man/man1/xcursorgen.1 	0444 root bin
+
+# open-src/app/xdpyinfo
+f none X11/share/man/man1/xdpyinfo.1 	0444 root bin
+
+# open-src/app/xpm
+f none X11/share/man/man1/cxpm.1	0444 root bin
+f none X11/share/man/man1/sxpm.1 	0444 root bin

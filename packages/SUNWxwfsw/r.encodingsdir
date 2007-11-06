@@ -1,6 +1,7 @@
+#!/bin/sh
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 1994 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +30,42 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#	@(#)r.encodingsdir	35.2	07/11/05	Sun Microsystems, Inc.
 #
-# SUNWxorg-mesa preremove script.
+#
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+cat > /tmp/$$encodings.dir.delete  << EOF
+POSTSCRIPT DingbatsEncoding
+FILENAME dingbats.enc
+POSTSCRIPT ISOLatin1Encoding
+X11 iso8859-1
+FILENAME iso8859-1.enc
+POSTSCRIPT ISOLatin2Encoding
+X11 iso8859-2
+FILENAME iso8859-2.enc
+POSTSCRIPT SymbolEncoding
+FILENAME symbol.enc
+X11 iso8859-2
+FILENAME iso8859-2.enc
+EOF
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+while read dest
+do
+	if [ -f $dest ] ; then
+		cat $dest | sed -e '1d' > /tmp/$$encodings.dir
+		diff /tmp/$$encodings.dir /tmp/$$encodings.dir.delete | \
+			grep '^<' | sed -e 's/^< //' > /tmp/$$encodings.dir.new
+		count=`grep '^FILENAME' /tmp/$$encodings.dir.new | wc -l`
+		if [ $count -eq 0 ]; then
+			rm  $dest
+		else
+			echo $count > $dest
+			cat /tmp/$$encodings.dir.new  >> $dest
+		fi
+		rm /tmp/$$encodings.dir /tmp/$$encodings.dir.delete \
+			/tmp/$$encodings.dir.new
+	fi
+done
 
 exit 0
 

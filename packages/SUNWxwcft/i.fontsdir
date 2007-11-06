@@ -1,3 +1,5 @@
+#!/bin/sh -x
+#
 ###########################################################################
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
@@ -29,21 +31,59 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#	@(#)i.fontsdir	35.10	07/11/05 SMI
 #
-# SUNWxorg-mesa preremove script.
+# SUNWxwcft (X Window System common fonts package) class action script for
+# fontsdir class. 
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+EXEC_BASE=/usr
+PKGCOND=/usr/bin/pkgcond
+DISKLESS_SRVC=`echo $BASEDIR | /usr/bin/grep export/Solaris_[1-9][0-9]/usr_${ARCH}.all`
+is_srngz=99
+is_wrngz=99
+is_ngz=99
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+if [ -x $PKGCOND ]; then
+    $PKGCOND  is_sparse_root_nonglobal_zone
+    is_srngz=$?
+    $PKGCOND  is_whole_root_nonglobal_zone
+    is_wrngz=$?
+    $PKGCOND -v is_nonglobal_zone > /dev/null 2>&1
+    is_ngz=$?
+fi
+
+if [ $is_ngz -eq 0 ]; then
+        if [  "$DISKLESS_SRVC" ]; then
+                EXEC_BASE=/usr
+        else
+                EXEC_BASE=$BASEDIR
+        fi
+LD_LIBRARY_PATH=$BASEDIR/openwin/server/lib:$BASEDIR/openwin/lib
+export LD_LIBRARY_PATH
+fi
+
+if [ $is_srngz -ne 0 ]; then
+        if [ ! -x $EXEC_BASE/openwin/bin/mkfontdir ]
+        then
+            # if installalias doesn't exist we cannot proceed
+            exit 2
+        fi
+fi
+
+while read src dst
+do
+        DIRNAME=`dirname $dst`
+        # If pkgcond exists
+        if [ $is_srngz -ne 99 ]; then
+                $PKGCOND is_path_writable $DIRNAME || \
+                        continue
+        fi
+        cd $DIRNAME
+        $EXEC_BASE/openwin/bin/mkfontdir . || exit 2
+        # Bug 4198211: chgrp to bin to match pkg database
+        chgrp bin fonts.dir
+done
 
 exit 0
+
 

@@ -1,0 +1,667 @@
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+# 
+#
+# ident	"@(#)prototype	35.73	07/08/29 SMI"
+#
+#  X Window System include files
+
+i pkginfo
+i copyright=../copyright
+i depend=../depend
+
+!HOME=../usr
+
+d none openwin 0755 root bin
+d none openwin/share 0755 root bin
+d none openwin/share/include 0755 root bin
+d none openwin/share/include/X11 0755 root bin
+s none openwin/share/include/Xau=./X11
+
+d none X11 				0755 root bin
+d none X11/include			0755 root bin
+d none X11/include/X11			0755 root bin
+
+!search                $HOME/X11/include/X11
+
+# open-src/proto/X11 headers
+f none X11/include/X11/DECkeysym.h	0444 root bin
+f none X11/include/X11/HPkeysym.h	0444 root bin
+f none X11/include/X11/Sunkeysym.h	0444 root bin
+f none X11/include/X11/X.h		0444 root bin
+f none X11/include/X11/XF86keysym.h	0444 root bin
+f none X11/include/X11/XWDFile.h	0444 root bin
+f none X11/include/X11/Xalloca.h	0444 root bin
+f none X11/include/X11/Xarch.h		0444 root bin
+f none X11/include/X11/Xatom.h		0444 root bin
+f none X11/include/X11/Xdefs.h		0444 root bin
+f none X11/include/X11/Xfuncproto.h	0444 root bin
+f none X11/include/X11/Xfuncs.h		0444 root bin
+f none X11/include/X11/Xmd.h		0444 root bin
+f none X11/include/X11/Xos.h		0444 root bin
+f none X11/include/X11/Xos_r.h		0444 root bin
+f none X11/include/X11/Xosdefs.h	0444 root bin
+f none X11/include/X11/Xpoll.h		0444 root bin
+f none X11/include/X11/Xproto.h		0444 root bin
+f none X11/include/X11/Xprotostr.h	0444 root bin
+f none X11/include/X11/Xthreads.h	0444 root bin
+f none X11/include/X11/ap_keysym.h	0444 root bin
+f none X11/include/X11/keysym.h		0444 root bin
+f none X11/include/X11/keysymdef.h	0444 root bin
+s none openwin/share/include/X11/DECkeysym.h=../../../../X11/include/X11/DECkeysym.h
+s none openwin/share/include/X11/HPkeysym.h=../../../../X11/include/X11/HPkeysym.h
+s none openwin/share/include/X11/Sunkeysym.h=../../../../X11/include/X11/Sunkeysym.h
+s none openwin/share/include/X11/X.h=../../../../X11/include/X11/X.h
+s none openwin/share/include/X11/XF86keysym.h=../../../../X11/include/X11/XF86keysym.h
+s none openwin/share/include/X11/XWDFile.h=../../../../X11/include/X11/XWDFile.h
+s none openwin/share/include/X11/Xalloca.h=../../../../X11/include/X11/Xalloca.h
+s none openwin/share/include/X11/Xarch.h=../../../../X11/include/X11/Xarch.h
+s none openwin/share/include/X11/Xatom.h=../../../../X11/include/X11/Xatom.h
+s none openwin/share/include/X11/Xdefs.h=../../../../X11/include/X11/Xdefs.h
+s none openwin/share/include/X11/Xfuncproto.h=../../../../X11/include/X11/Xfuncproto.h
+s none openwin/share/include/X11/Xfuncs.h=../../../../X11/include/X11/Xfuncs.h
+s none openwin/share/include/X11/Xmd.h=../../../../X11/include/X11/Xmd.h
+s none openwin/share/include/X11/Xos.h=../../../../X11/include/X11/Xos.h
+s none openwin/share/include/X11/Xos_r.h=../../../../X11/include/X11/Xos_r.h
+s none openwin/share/include/X11/Xosdefs.h=../../../../X11/include/X11/Xosdefs.h
+s none openwin/share/include/X11/Xpoll.h=../../../../X11/include/X11/Xpoll.h
+s none openwin/share/include/X11/Xproto.h=../../../../X11/include/X11/Xproto.h
+s none openwin/share/include/X11/Xprotostr.h=../../../../X11/include/X11/Xprotostr.h
+s none openwin/share/include/X11/Xthreads.h=../../../../X11/include/X11/Xthreads.h
+s none openwin/share/include/X11/ap_keysym.h=../../../../X11/include/X11/ap_keysym.h
+s none openwin/share/include/X11/keysym.h=../../../../X11/include/X11/keysym.h
+s none openwin/share/include/X11/keysymdef.h=../../../../X11/include/X11/keysymdef.h
+
+# open-src/lib/libXau
+s none openwin/share/include/X11/Xauth.h=../../../../X11/include/X11/Xauth.h
+f none X11/include/X11/Xauth.h		0444 root bin
+
+# open-src/lib/libXdmcp
+s none openwin/share/include/X11/Xdmcp.h=../../../../X11/include/X11/Xdmcp.h
+f none X11/include/X11/Xdmcp.h		0444 root bin
+
+# open-src/lib/libXpm
+s none openwin/share/include/X11/xpm.h=../../../../X11/include/X11/xpm.h
+f none X11/include/X11/xpm.h		0444 root bin
+
+!search                $HOME/openwin/include/X11
+f none openwin/share/include/X11/Composite.h 0644 root bin
+f none openwin/share/include/X11/CompositeP.h 0644 root bin
+f none openwin/share/include/X11/ConstrainP.h 0644 root bin
+f none openwin/share/include/X11/Constraint.h 0644 root bin
+f none openwin/share/include/X11/Core.h 0644 root bin
+f none openwin/share/include/X11/CoreP.h 0644 root bin
+f none openwin/share/include/X11/Intrinsic.h 0644 root bin
+f none openwin/share/include/X11/IntrinsicP.h 0644 root bin
+f none openwin/share/include/X11/Object.h 0644 root bin
+f none openwin/share/include/X11/ObjectP.h 0644 root bin
+f none openwin/share/include/X11/RectObj.h 0644 root bin
+f none openwin/share/include/X11/RectObjP.h 0644 root bin
+f none openwin/share/include/X11/Shell.h 0644 root bin
+f none openwin/share/include/X11/ShellP.h 0644 root bin
+f none openwin/share/include/X11/StringDefs.h 0644 root bin
+f none openwin/share/include/X11/Suncompose.h 0644 root bin
+#f none openwin/share/include/X11/SunExtToken.h 0664 root bin
+f none openwin/share/include/X11/Vendor.h 0644 root bin
+f none openwin/share/include/X11/VendorP.h 0644 root bin
+f none openwin/share/include/X11/XKBlib.h 0644 root bin
+f none openwin/share/include/X11/XSunExt.h 0644 root bin
+f none openwin/share/include/X11/Xcms.h 0644 root bin
+f none openwin/share/include/X11/Xlib.h 0644 root bin
+f none openwin/share/include/X11/Xlibint.h 0644 root bin
+f none openwin/share/include/X11/Xlocale.h 0644 root bin
+f none openwin/share/include/X11/Xresource.h 0644 root bin
+f none openwin/share/include/X11/Xstreams.h 0644 root bin
+f none openwin/share/include/X11/Xutil.h 0644 root bin
+f none openwin/share/include/X11/cursorfont.h 0644 root bin
+f none openwin/share/include/X11/Sunowconfig.h 0644 root bin
+f none openwin/share/include/X11/XlcGeneric.h 0644 root bin
+f none openwin/share/include/X11/XlcPubI.h 0644 root bin
+f none openwin/share/include/X11/XlcPublic.h 0644 root bin
+f none openwin/share/include/X11/Xlcint.h 0644 root bin
+f none openwin/share/include/X11/Xvarargs.h 0644 root bin
+
+
+d none openwin/share/include/X11/DPS 0755 root bin
+!search                $HOME/openwin/include/X11/DPS
+f none openwin/share/include/X11/DPS/PSres.h 0644 root bin
+f none openwin/share/include/X11/DPS/XDPS.h 0644 root bin
+f none openwin/share/include/X11/DPS/XDPSlib.h 0644 root bin
+f none openwin/share/include/X11/DPS/XDPSproto.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsXclient.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsXcommon.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsXpreview.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsXshare.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsXuserpath.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsclient.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsconfig.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsexcept.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsfriends.h 0644 root bin
+f none openwin/share/include/X11/DPS/dpsops.h 0644 root bin
+f none openwin/share/include/X11/DPS/psops.h 0644 root bin
+
+
+d none openwin/share/include/X11/Xaw 0755 root bin
+!search                $HOME/openwin/include/X11/Xaw
+f none openwin/share/include/X11/Xaw/AllWidgets.h 0644 root bin
+f none openwin/share/include/X11/Xaw/AsciiSink.h 0644 root bin
+f none openwin/share/include/X11/Xaw/AsciiSinkP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/AsciiSrc.h 0644 root bin
+f none openwin/share/include/X11/Xaw/AsciiSrcP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/AsciiText.h 0644 root bin
+f none openwin/share/include/X11/Xaw/AsciiTextP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Box.h 0644 root bin
+f none openwin/share/include/X11/Xaw/BoxP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Cardinals.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Clock.h 0644 root bin
+f none openwin/share/include/X11/Xaw/ClockP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Command.h 0644 root bin
+f none openwin/share/include/X11/Xaw/CommandP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Dialog.h 0644 root bin
+f none openwin/share/include/X11/Xaw/DialogP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Form.h 0644 root bin
+f none openwin/share/include/X11/Xaw/FormP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Grip.h 0644 root bin
+f none openwin/share/include/X11/Xaw/GripP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Label.h 0644 root bin
+f none openwin/share/include/X11/Xaw/LabelP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/List.h 0644 root bin
+f none openwin/share/include/X11/Xaw/ListP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Logo.h 0644 root bin
+f none openwin/share/include/X11/Xaw/LogoP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Mailbox.h 0644 root bin
+f none openwin/share/include/X11/Xaw/MailboxP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/MenuButtoP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/MenuButton.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Paned.h 0644 root bin
+f none openwin/share/include/X11/Xaw/PanedP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Panner.h 0644 root bin
+f none openwin/share/include/X11/Xaw/PannerP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Porthole.h 0644 root bin
+f none openwin/share/include/X11/Xaw/PortholeP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Repeater.h 0644 root bin
+f none openwin/share/include/X11/Xaw/RepeaterP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Reports.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Scrollbar.h 0644 root bin
+f none openwin/share/include/X11/Xaw/ScrollbarP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Simple.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SimpleMenP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SimpleMenu.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SimpleP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Sme.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SmeBSB.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SmeBSBP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SmeLine.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SmeLineP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/SmeP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/StripCharP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/StripChart.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Template.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TemplateP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Text.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TextP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TextSink.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TextSinkP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TextSrc.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TextSrcP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Toggle.h 0644 root bin
+f none openwin/share/include/X11/Xaw/ToggleP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Tree.h 0644 root bin
+f none openwin/share/include/X11/Xaw/TreeP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/Viewport.h 0644 root bin
+f none openwin/share/include/X11/Xaw/ViewportP.h 0644 root bin
+f none openwin/share/include/X11/Xaw/XawInit.h 0644 root bin
+#
+#	R6
+#
+f none openwin/share/include/X11/Xaw/MultiSink.h  0644 root bin
+f none openwin/share/include/X11/Xaw/MultiSinkP.h  0644 root bin
+f none openwin/share/include/X11/Xaw/MultiSrc.h  0644 root bin
+f none openwin/share/include/X11/Xaw/MultiSrcP.h  0644 root bin
+f none openwin/share/include/X11/Xaw/Template.c  0644 root bin
+f none openwin/share/include/X11/Xaw/VendorEP.h  0644 root bin
+f none openwin/share/include/X11/Xaw/XawImP.h  0644 root bin
+
+
+d none openwin/share/include/X11/Xmu 0755 root bin
+!search                $HOME/openwin/include/X11/Xmu
+f none openwin/share/include/X11/Xmu/Atoms.h 0644 root bin
+f none openwin/share/include/X11/Xmu/CharSet.h 0644 root bin
+f none openwin/share/include/X11/Xmu/CloseHook.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Converters.h 0644 root bin
+f none openwin/share/include/X11/Xmu/CurUtil.h 0644 root bin
+f none openwin/share/include/X11/Xmu/CvtCache.h 0644 root bin
+f none openwin/share/include/X11/Xmu/DisplayQue.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Drawing.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Editres.h 0644 root bin
+f none openwin/share/include/X11/Xmu/EditresP.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Error.h 0644 root bin
+f none openwin/share/include/X11/Xmu/ExtAgent.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Initer.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Misc.h 0644 root bin
+f none openwin/share/include/X11/Xmu/StdCmap.h 0644 root bin
+f none openwin/share/include/X11/Xmu/StdSel.h 0644 root bin
+f none openwin/share/include/X11/Xmu/SysUtil.h 0644 root bin
+f none openwin/share/include/X11/Xmu/WhitePoint.h 0644 root bin
+f none openwin/share/include/X11/Xmu/WidgetNode.h 0644 root bin
+f none openwin/share/include/X11/Xmu/WinUtil.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Xct.h 0644 root bin
+f none openwin/share/include/X11/Xmu/Xmu.h 0644 root bin
+f none openwin/share/include/X11/Xmu/XmuSolaris.h 0644 root bin
+
+# extension headers from old source tree
+d none openwin/share/include/X11/extensions 0755 root bin
+!search                $HOME/openwin/include/X11/extensions
+f none openwin/share/include/X11/extensions/Print.h 0644 root bin
+f none openwin/share/include/X11/extensions/XIE.h 0644 root bin
+f none openwin/share/include/X11/extensions/XIElib.h 0644 root bin
+f none openwin/share/include/X11/extensions/XIEproto.h 0644 root bin
+f none openwin/share/include/X11/extensions/XIEprotost.h 0644 root bin
+f none openwin/share/include/X11/extensions/XKBbells.h 0644 root bin
+f none openwin/share/include/X11/extensions/XKBconfig.h 0644 root bin
+f none openwin/share/include/X11/extensions/XKBfile.h 0644 root bin
+f none openwin/share/include/X11/extensions/XKBrules.h 0644 root bin
+f none openwin/share/include/X11/extensions/XKM.h 0644 root bin
+f none openwin/share/include/X11/extensions/XKMformat.h 0644 root bin
+f none openwin/share/include/X11/extensions/Xevie.h 0644 root bin
+f none openwin/share/include/X11/extensions/XRes.h 0444 root bin
+f none openwin/share/include/X11/extensions/allplanes.h 0644 root bin
+f none openwin/share/include/X11/extensions/allplanesstr.h 0644 root bin
+f none openwin/share/include/X11/extensions/transovl.h 0644 root bin
+f none openwin/share/include/X11/extensions/transovlstr.h 0644 root bin
+f none openwin/share/include/X11/extensions/fbpm.h 0644 root bin
+f none openwin/share/include/X11/extensions/fbpmstr.h 0644 root bin
+f none openwin/share/include/X11/extensions/xinerama.h 0644 root bin
+f none openwin/share/include/X11/extensions/Xtsol.h 0644 root bin
+f none openwin/share/include/X11/extensions/Xtsolproto.h 0644 root bin
+
+# symlinks for backwards compatibility with old locations
+s none openwin/share/include/X11/extensions/MITMisc.h=../../../../../X11/include/X11/extensions/MITMisc.h
+s none openwin/share/include/X11/extensions/XEVI.h=../../../../../X11/include/X11/extensions/XEVI.h
+s none openwin/share/include/X11/extensions/XI.h=../../../../../X11/include/X11/extensions/XI.h
+s none openwin/share/include/X11/extensions/XInput.h=../../../../../X11/include/X11/extensions/XInput.h
+s none openwin/share/include/X11/extensions/XIproto.h=../../../../../X11/include/X11/extensions/XIproto.h
+s none openwin/share/include/X11/extensions/XKB.h=../../../../../X11/include/X11/extensions/XKB.h
+s none openwin/share/include/X11/extensions/XKBgeom.h=../../../../../X11/include/X11/extensions/XKBgeom.h
+s none openwin/share/include/X11/extensions/XKBproto.h=../../../../../X11/include/X11/extensions/XKBproto.h
+s none openwin/share/include/X11/extensions/XKBstr.h=../../../../../X11/include/X11/extensions/XKBstr.h
+s none openwin/share/include/X11/extensions/XKBsrv.h=../../../../../X11/include/X11/extensions/XKBsrv.h
+s none openwin/share/include/X11/extensions/XResproto.h=../../../../../X11/include/X11/extensions/XResproto.h
+s none openwin/share/include/X11/extensions/XShm.h=../../../../../X11/include/X11/extensions/XShm.h
+s none openwin/share/include/X11/extensions/XTest.h=../../../../../X11/include/X11/extensions/XTest.h
+s none openwin/share/include/X11/extensions/Xag.h=../../../../../X11/include/X11/extensions/Xag.h
+s none openwin/share/include/X11/extensions/Xagsrv.h=../../../../../X11/include/X11/extensions/Xagsrv.h
+s none openwin/share/include/X11/extensions/Xagstr.h=../../../../../X11/include/X11/extensions/Xagstr.h
+s none openwin/share/include/X11/extensions/Xcup.h=../../../../../X11/include/X11/extensions/Xcup.h
+s none openwin/share/include/X11/extensions/Xcupstr.h=../../../../../X11/include/X11/extensions/Xcupstr.h
+s none openwin/share/include/X11/extensions/Xdbe.h=../../../../../X11/include/X11/extensions/Xdbe.h
+s none openwin/share/include/X11/extensions/Xdbeproto.h=../../../../../X11/include/X11/extensions/Xdbeproto.h
+s none openwin/share/include/X11/extensions/Xeviestr.h=../../../../../X11/include/X11/extensions/Xeviestr.h
+s none openwin/share/include/X11/extensions/Xext.h=../../../../../X11/include/X11/extensions/Xext.h
+s none openwin/share/include/X11/extensions/Xinerama.h=../../../../../X11/include/X11/extensions/Xinerama.h
+s none openwin/share/include/X11/extensions/composite.h=../../../../../X11/include/X11/extensions/composite.h
+s none openwin/share/include/X11/extensions/compositeproto.h=../../../../../X11/include/X11/extensions/compositeproto.h
+s none openwin/share/include/X11/extensions/damageproto.h=../../../../../X11/include/X11/extensions/damageproto.h
+s none openwin/share/include/X11/extensions/damagewire.h=../../../../../X11/include/X11/extensions/damagewire.h
+s none openwin/share/include/X11/extensions/dpms.h=../../../../../X11/include/X11/extensions/dpms.h
+s none openwin/share/include/X11/extensions/dpmsstr.h=../../../../../X11/include/X11/extensions/dpmsstr.h
+s none openwin/share/include/X11/extensions/lbxbuf.h=../../../../../X11/include/X11/extensions/lbxbuf.h
+s none openwin/share/include/X11/extensions/lbxbufstr.h=../../../../../X11/include/X11/extensions/lbxbufstr.h
+s none openwin/share/include/X11/extensions/lbxdeltastr.h=../../../../../X11/include/X11/extensions/lbxdeltastr.h
+s none openwin/share/include/X11/extensions/lbximage.h=../../../../../X11/include/X11/extensions/lbximage.h
+s none openwin/share/include/X11/extensions/lbxopts.h=../../../../../X11/include/X11/extensions/lbxopts.h
+s none openwin/share/include/X11/extensions/lbxstr.h=../../../../../X11/include/X11/extensions/lbxstr.h
+s none openwin/share/include/X11/extensions/lbxzlib.h=../../../../../X11/include/X11/extensions/lbxzlib.h
+s none openwin/share/include/X11/extensions/multibuf.h=../../../../../X11/include/X11/extensions/multibuf.h
+s none openwin/share/include/X11/extensions/multibufst.h=../../../../../X11/include/X11/extensions/multibufst.h
+s none openwin/share/include/X11/extensions/panoramiXext.h=../../../../../X11/include/X11/extensions/panoramiXext.h
+s none openwin/share/include/X11/extensions/record.h=../../../../../X11/include/X11/extensions/record.h
+s none openwin/share/include/X11/extensions/recordstr.h=../../../../../X11/include/X11/extensions/recordstr.h
+s none openwin/share/include/X11/extensions/render.h=../../../../../X11/include/X11/extensions/render.h
+s none openwin/share/include/X11/extensions/renderproto.h=../../../../../X11/include/X11/extensions/renderproto.h
+s none openwin/share/include/X11/extensions/saver.h=../../../../../X11/include/X11/extensions/saver.h
+s none openwin/share/include/X11/extensions/saverproto.h=../../../../../X11/include/X11/extensions/saverproto.h
+s none openwin/share/include/X11/extensions/scrnsaver.h=../../../../../X11/include/X11/extensions/scrnsaver.h
+s none openwin/share/include/X11/extensions/security.h=../../../../../X11/include/X11/extensions/security.h
+s none openwin/share/include/X11/extensions/securstr.h=../../../../../X11/include/X11/extensions/securstr.h
+s none openwin/share/include/X11/extensions/shape.h=../../../../../X11/include/X11/extensions/shape.h
+s none openwin/share/include/X11/extensions/shapestr.h=../../../../../X11/include/X11/extensions/shapestr.h
+s none openwin/share/include/X11/extensions/shmstr.h=../../../../../X11/include/X11/extensions/shmstr.h
+s none openwin/share/include/X11/extensions/sync.h=../../../../../X11/include/X11/extensions/sync.h
+s none openwin/share/include/X11/extensions/syncstr.h=../../../../../X11/include/X11/extensions/syncstr.h
+s none openwin/share/include/X11/extensions/xfixesproto.h=../../../../../X11/include/X11/extensions/xfixesproto.h
+s none openwin/share/include/X11/extensions/xfixeswire.h=../../../../../X11/include/X11/extensions/xfixeswire.h
+s none openwin/share/include/X11/extensions/xtestext1.h=../../../../../X11/include/X11/extensions/xtestext1.h
+
+
+# extension headers from open-src/proto/*
+!search                $HOME/X11/include/X11/extensions
+d none X11/include/X11/extensions 		0755 root bin
+f none X11/include/X11/extensions/MITMisc.h 	0444 root bin
+f none X11/include/X11/extensions/XEVI.h 	0444 root bin
+f none X11/include/X11/extensions/XEVIstr.h 	0444 root bin
+f none X11/include/X11/extensions/XI.h		0444 root bin
+f none X11/include/X11/extensions/XInput.h 	0444 root bin
+f none X11/include/X11/extensions/XIproto.h 	0444 root bin
+f none X11/include/X11/extensions/XKB.h 	0444 root bin
+f none X11/include/X11/extensions/XKBgeom.h 	0444 root bin
+f none X11/include/X11/extensions/XKBproto.h 	0444 root bin
+f none X11/include/X11/extensions/XKBstr.h 	0444 root bin
+f none X11/include/X11/extensions/XResproto.h	0444 root bin
+f none X11/include/X11/extensions/XShm.h 	0444 root bin
+f none X11/include/X11/extensions/XTest.h 	0444 root bin
+f none X11/include/X11/extensions/Xag.h 	0444 root bin
+f none X11/include/X11/extensions/Xagsrv.h 	0444 root bin
+f none X11/include/X11/extensions/Xagstr.h 	0444 root bin
+f none X11/include/X11/extensions/Xcup.h 	0444 root bin
+f none X11/include/X11/extensions/Xcupstr.h 	0444 root bin
+f none X11/include/X11/extensions/Xdbe.h 	0444 root bin
+f none X11/include/X11/extensions/Xdbeproto.h 	0444 root bin
+f none X11/include/X11/extensions/Xeviestr.h 	0444 root bin
+f none X11/include/X11/extensions/Xext.h 	0444 root bin
+f none X11/include/X11/extensions/Xinerama.h 	0444 root bin
+f none X11/include/X11/extensions/composite.h	0444 root bin
+f none X11/include/X11/extensions/compositeproto.h 0444 root bin
+f none X11/include/X11/extensions/damageproto.h 0444 root bin
+f none X11/include/X11/extensions/damagewire.h	0444 root bin
+f none X11/include/X11/extensions/dpms.h 	0444 root bin
+f none X11/include/X11/extensions/dpmsstr.h 	0444 root bin
+f none X11/include/X11/extensions/extutil.h 	0444 root bin
+f none X11/include/X11/extensions/lbxbuf.h 	0444 root bin
+f none X11/include/X11/extensions/lbxbufstr.h 	0444 root bin
+f none X11/include/X11/extensions/lbxdeltastr.h 0444 root bin
+f none X11/include/X11/extensions/lbximage.h 	0444 root bin
+f none X11/include/X11/extensions/lbxopts.h 	0444 root bin
+f none X11/include/X11/extensions/lbxstr.h 	0444 root bin
+f none X11/include/X11/extensions/lbxzlib.h 	0444 root bin
+f none X11/include/X11/extensions/lgewire.h 	0444 root bin
+f none X11/include/X11/extensions/mitmiscstr.h 	0444 root bin
+f none X11/include/X11/extensions/multibuf.h 	0444 root bin
+f none X11/include/X11/extensions/multibufst.h 	0444 root bin
+f none X11/include/X11/extensions/panoramiXext.h 0444 root bin
+f none X11/include/X11/extensions/record.h 	0444 root bin
+f none X11/include/X11/extensions/recordstr.h 	0444 root bin
+f none X11/include/X11/extensions/render.h 	0444 root bin
+f none X11/include/X11/extensions/renderproto.h 0444 root bin
+f none X11/include/X11/extensions/saver.h 	0444 root bin
+f none X11/include/X11/extensions/saverproto.h 	0444 root bin
+f none X11/include/X11/extensions/scrnsaver.h 	0444 root bin
+f none X11/include/X11/extensions/security.h 	0444 root bin
+f none X11/include/X11/extensions/securstr.h 	0444 root bin
+f none X11/include/X11/extensions/shape.h 	0444 root bin
+f none X11/include/X11/extensions/shapestr.h 	0444 root bin
+f none X11/include/X11/extensions/shmstr.h 	0444 root bin
+f none X11/include/X11/extensions/sync.h 	0444 root bin
+f none X11/include/X11/extensions/syncstr.h 	0444 root bin
+f none X11/include/X11/extensions/xcmiscstr.h 	0444 root bin
+f none X11/include/X11/extensions/xfixesproto.h 0444 root bin
+f none X11/include/X11/extensions/xfixeswire.h	0444 root bin
+f none X11/include/X11/extensions/xtestext1.h 	0444 root bin
+f none X11/include/X11/extensions/xteststr.h 	0444 root bin
+
+# open-src/lib/libXcomposite
+s none openwin/share/include/X11/extensions/Xcomposite.h=../../../../../X11/include/X11/extensions/Xcomposite.h
+f none X11/include/X11/extensions/Xcomposite.h 0444 root bin
+
+# open-src/lib/libXdamage
+s none openwin/share/include/X11/extensions/Xdamage.h=../../../../../X11/include/X11/extensions/Xdamage.h
+f none X11/include/X11/extensions/Xdamage.h 0444 root bin
+
+# open-src/lib/libXfixes
+s none openwin/share/include/X11/extensions/Xfixes.h=../../../../../X11/include/X11/extensions/Xfixes.h
+f none X11/include/X11/extensions/Xfixes.h 0444 root bin
+
+# open-src/lib/libXlg3d
+f none X11/include/X11/extensions/Xlge.h 0444 root bin
+
+# open-src/lib/libXrender
+s none openwin/share/include/X11/extensions/Xrender.h=../../../../../X11/include/X11/extensions/Xrender.h
+f none X11/include/X11/extensions/Xrender.h 0444 root bin
+
+d none openwin/share/include/dga 0755 root bin
+!search                $HOME/openwin/include/dga
+f none openwin/share/include/dga/dga.h 0644 root bin
+f none openwin/share/include/dga/dga_externaldefs.h 0644 root bin
+f none openwin/share/include/dga/XineramaInfo.h 0644 root bin
+
+d none openwin/share/include/X11/SM 0755 root bin
+!search                $HOME/openwin/include/X11/SM
+f none openwin/share/include/X11/SM/SM.h 0644 root bin
+f none openwin/share/include/X11/SM/SMlib.h 0644 root bin
+f none openwin/share/include/X11/SM/SMproto.h 0644 root bin
+
+d none openwin/share/include/X11/ICE 0755 root bin
+!search                $HOME/openwin/include/X11/ICE
+f none openwin/share/include/X11/ICE/ICE.h 0644 root bin
+f none openwin/share/include/X11/ICE/ICElib.h 0644 root bin
+f none openwin/share/include/X11/ICE/ICEproto.h 0644 root bin
+f none openwin/share/include/X11/ICE/ICEmsg.h 0644 root bin
+f none openwin/share/include/X11/ICE/ICEconn.h 0644 root bin
+f none openwin/share/include/X11/ICE/ICEutil.h 0644 root bin
+
+# Xsun DDK headers
+!search                $HOME/openwin/server/include
+d none openwin/server					0755 root bin
+d none openwin/server/include				0755 root bin
+f none openwin/server/include/XIstubs.h			0444 root bin
+f none openwin/server/include/bstore.h			0444 root bin
+f none openwin/server/include/bstorestr.h		0444 root bin
+f none openwin/server/include/bufio.h			0444 root bin
+f none openwin/server/include/cfb.h			0444 root bin
+f none openwin/server/include/cfb8bit.h			0444 root bin
+f none openwin/server/include/cfbmap.h			0444 root bin
+f none openwin/server/include/cfbmskbits.h		0444 root bin
+f none openwin/server/include/closestr.h		0444 root bin
+f none openwin/server/include/closure.h			0444 root bin
+f none openwin/server/include/colormap.h		0444 root bin
+f none openwin/server/include/colormapst.h		0444 root bin
+f none openwin/server/include/cursor.h			0444 root bin
+f none openwin/server/include/cursorstr.h		0444 root bin
+f none openwin/server/include/dgacmapstr.h		0444 root bin
+f none openwin/server/include/dgagpi.h			0444 root bin
+f none openwin/server/include/dga_internal.h		0444 root bin
+f none openwin/server/include/dga_internaldefs.h	0444 root bin
+f none openwin/server/include/dga_pixshared.h		0444 root bin
+f none openwin/server/include/dga_rtnshared.h		0444 root bin
+f none openwin/server/include/dga_winshared.h		0444 root bin
+f none openwin/server/include/dix.h			0444 root bin
+f none openwin/server/include/dixevents.h		0444 root bin
+f none openwin/server/include/dixfont.h			0444 root bin
+f none openwin/server/include/dixfontstr.h		0444 root bin
+f none openwin/server/include/dixstruct.h		0444 root bin
+f none openwin/server/include/dlextn.h			0444 root bin
+f none openwin/server/include/exevents.h		0444 root bin
+f none openwin/server/include/extension.h		0444 root bin
+f none openwin/server/include/extnsionst.h		0444 root bin
+f none openwin/server/include/fb.h			0444 root bin
+f none openwin/server/include/fbrop.h			0444 root bin
+f none openwin/server/include/fntfilio.h		0444 root bin
+f none openwin/server/include/font.h			0444 root bin
+f none openwin/server/include/fontproto.h		0444 root bin
+f none openwin/server/include/fontstruct.h		0444 root bin
+f none openwin/server/include/fsmasks.h			0444 root bin
+f none openwin/server/include/gc.h			0444 root bin
+f none openwin/server/include/gcstruct.h		0444 root bin
+f none openwin/server/include/globals.h			0444 root bin
+f none openwin/server/include/glyphstr.h		0444 root bin
+f none openwin/server/include/input.h			0444 root bin
+f none openwin/server/include/inputstr.h		0444 root bin
+f none openwin/server/include/maskbits.h		0444 root bin
+f none openwin/server/include/mfb.h			0444 root bin
+f none openwin/server/include/mipict.h			0444 root bin
+f none openwin/server/include/misc.h			0444 root bin
+f none openwin/server/include/miscstruct.h		0444 root bin
+f none openwin/server/include/mpg.h			0444 root bin
+f none openwin/server/include/opaque.h			0444 root bin
+f none openwin/server/include/os.h			0444 root bin
+f none openwin/server/include/os_interactive.h		0444 root bin
+f none openwin/server/include/osstruct.h		0444 root bin
+f none openwin/server/include/picture.h			0444 root bin
+f none openwin/server/include/picturestr.h		0444 root bin
+f none openwin/server/include/pixmap.h			0444 root bin
+f none openwin/server/include/pixmapstr.h		0444 root bin
+f none openwin/server/include/property.h		0444 root bin
+f none openwin/server/include/propertyst.h		0444 root bin
+f none openwin/server/include/region.h			0444 root bin
+f none openwin/server/include/regionstr.h		0444 root bin
+f none openwin/server/include/resource.h		0444 root bin
+f none openwin/server/include/rgb.h			0444 root bin
+f none openwin/server/include/screenint.h		0444 root bin
+f none openwin/server/include/scrnintstr.h		0444 root bin
+f none openwin/server/include/servermd.h		0444 root bin
+f none openwin/server/include/site.h			0444 root bin
+f none openwin/server/include/validate.h		0444 root bin
+f none openwin/server/include/window.h			0444 root bin
+f none openwin/server/include/windowstr.h		0444 root bin
+f none openwin/server/include/sun.h			0444 root bin
+f none openwin/server/include/sunInit.h			0444 root bin
+f none openwin/server/include/sunIo.h			0444 root bin
+f none openwin/server/include/sunWheel.h		0444 root bin
+f none openwin/server/include/sunddk.h			0444 root bin
+f none openwin/server/include/sunsprite.h		0444 root bin
+
+d none openwin/server/include/mi			0755 root bin
+f none openwin/server/include/mi/mi.h			0444 root bin
+f none openwin/server/include/mi/mibstore.h		0444 root bin
+f none openwin/server/include/mi/migc.h			0444 root bin
+f none openwin/server/include/mi/miline.h		0444 root bin
+f none openwin/server/include/mi/mipointer.h		0444 root bin
+f none openwin/server/include/mi/mispans.h		0444 root bin
+f none openwin/server/include/mi/mistruct.h		0444 root bin
+
+!search                $HOME/openwin/server/include/dpa
+d none openwin/server/include/dpa			0755 root bin
+f none openwin/server/include/dpa/sundpa.h		0444 root bin
+f none openwin/server/include/dpa/sundpascr.h		0444 root bin
+f none openwin/server/include/dpa/sundpatype.h		0444 root bin
+
+!search                $HOME/openwin/include/X11/extensions
+f none openwin/server/include/AccessXlib.h		0444 root bin
+f none openwin/server/include/AccessXlibint.h		0444 root bin
+f none openwin/server/include/AccessXproto.h		0444 root bin
+f none openwin/server/include/AccessXstruct.h		0444 root bin
+
+!search                $HOME/X11/include/X11/Xcursor
+# open-src/lib/libXcursor
+d none X11/include/X11/Xcursor		 		0755 root bin
+s none openwin/share/include/X11/Xcursor=../../../../X11/include/X11/Xcursor
+f none X11/include/X11/Xcursor/Xcursor.h		0444 root bin
+
+# pkgconfig data files for X modular protocols & libraries
+
+## 32-bit versions
+!search $HOME/lib/pkgconfig
+d none lib/pkgconfig				0755 root other
+
+# Protocol headers
+
+f none lib/pkgconfig/bigreqsproto.pc		0444 root bin
+f none lib/pkgconfig/compositeproto.pc		0444 root bin
+f none lib/pkgconfig/damageproto.pc		0444 root bin
+f none lib/pkgconfig/evieproto.pc		0444 root bin
+f none lib/pkgconfig/fixesproto.pc		0444 root bin
+f none lib/pkgconfig/fontcacheproto.pc		0444 root bin
+f none lib/pkgconfig/fontsproto.pc		0444 root bin
+f none lib/pkgconfig/inputproto.pc		0444 root bin
+f none lib/pkgconfig/kbproto.pc			0444 root bin
+f none lib/pkgconfig/lg3dproto.pc		0444 root bin
+f none lib/pkgconfig/recordproto.pc		0444 root bin
+f none lib/pkgconfig/renderproto.pc		0444 root bin
+f none lib/pkgconfig/resourceproto.pc		0444 root bin
+f none lib/pkgconfig/scrnsaverproto.pc		0444 root bin
+f none lib/pkgconfig/xcmiscproto.pc		0444 root bin
+f none lib/pkgconfig/xextproto.pc		0444 root bin
+f none lib/pkgconfig/xf86bigfontproto.pc	0444 root bin
+f none lib/pkgconfig/xineramaproto.pc		0444 root bin
+f none lib/pkgconfig/xproto.pc			0444 root bin
+f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
+
+
+# Libraries
+
+f none lib/pkgconfig/xau.pc			0444 root bin
+f none lib/pkgconfig/xcomposite.pc		0444 root bin
+f none lib/pkgconfig/xcursor.pc			0444 root bin
+f none lib/pkgconfig/xdamage.pc			0444 root bin
+f none lib/pkgconfig/xdmcp.pc			0444 root bin
+f none lib/pkgconfig/xfixes.pc			0444 root bin
+f none lib/pkgconfig/xinerama.pc		0444 root bin
+f none lib/pkgconfig/xlg3d.pc			0444 root bin
+f none lib/pkgconfig/xpm.pc			0444 root bin
+f none lib/pkgconfig/xrender.pc			0444 root bin
+f none lib/pkgconfig/xtst.pc			0444 root bin
+
+# Data files & other miscellany
+
+f none lib/pkgconfig/xbitmaps.pc		0444 root bin
+
+
+## 64-bit versions
+d none lib/$plat_64/pkgconfig				0755 root other
+
+# Protocol headers are the same in 32-bit & 64-bit
+
+s none lib/$plat_64/pkgconfig/bigreqsproto.pc=../../pkgconfig/bigreqsproto.pc
+s none lib/$plat_64/pkgconfig/compositeproto.pc=../../pkgconfig/compositeproto.pc
+s none lib/$plat_64/pkgconfig/damageproto.pc=../../pkgconfig/damageproto.pc
+s none lib/$plat_64/pkgconfig/evieproto.pc=../../pkgconfig/evieproto.pc
+s none lib/$plat_64/pkgconfig/fixesproto.pc=../../pkgconfig/fixesproto.pc
+s none lib/$plat_64/pkgconfig/fontcacheproto.pc=../../pkgconfig/fontcacheproto.pc
+s none lib/$plat_64/pkgconfig/fontsproto.pc=../../pkgconfig/fontsproto.pc
+s none lib/$plat_64/pkgconfig/inputproto.pc=../../pkgconfig/inputproto.pc
+s none lib/$plat_64/pkgconfig/kbproto.pc=../../pkgconfig/kbproto.pc
+s none lib/$plat_64/pkgconfig/lg3dproto.pc=../../pkgconfig/lg3dproto.pc
+s none lib/$plat_64/pkgconfig/recordproto.pc=../../pkgconfig/recordproto.pc
+s none lib/$plat_64/pkgconfig/renderproto.pc=../../pkgconfig/renderproto.pc
+s none lib/$plat_64/pkgconfig/resourceproto.pc=../../pkgconfig/resourceproto.pc
+s none lib/$plat_64/pkgconfig/scrnsaverproto.pc=../../pkgconfig/scrnsaverproto.pc
+s none lib/$plat_64/pkgconfig/xcmiscproto.pc=../../pkgconfig/xcmiscproto.pc
+s none lib/$plat_64/pkgconfig/xextproto.pc=../../pkgconfig/xextproto.pc
+s none lib/$plat_64/pkgconfig/xf86bigfontproto.pc=../../pkgconfig/xf86bigfontproto.pc
+s none lib/$plat_64/pkgconfig/xineramaproto.pc=../../pkgconfig/xineramaproto.pc
+s none lib/$plat_64/pkgconfig/xproto.pc=../../pkgconfig/xproto.pc
+s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.pc
+
+# Libraries need separate ones for 64-bit to get library paths right
+
+!search $HOME/lib/$plat_64/pkgconfig
+f none lib/$plat_64/pkgconfig/xau.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xcomposite.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xcursor.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xdamage.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xdmcp.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xfixes.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xinerama.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xlg3d.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin
+
+# Data files & other miscellany are the same for both
+
+s none lib/$plat_64/pkgconfig/xbitmaps.pc=../../pkgconfig/xbitmaps.pc

@@ -1,0 +1,173 @@
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident "@(#)prototype	35.35	07/08/29 SMI"
+##
+#  nonessential X core clients and server extensions
+
+i pkginfo
+i copyright=../copyright
+i depend
+
+!HOME=../usr
+
+d none openwin			0755 root bin
+
+!search      $HOME/openwin/bin
+d none openwin/bin		0755 root bin
+f none openwin/bin/appres	0755 root bin
+f none openwin/bin/atobm	0755 root bin
+f none openwin/bin/bdftosnf	0755 root bin
+f none openwin/bin/bitmap	0755 root bin
+f none openwin/bin/bmtoa	0755 root bin
+f none openwin/bin/editres	0755 root bin
+f none openwin/bin/imake	0755 root bin
+f none openwin/bin/listres	0755 root bin
+f none openwin/bin/makedepend	0755 root bin
+f none openwin/bin/mkdirhier	0755 root bin
+f none openwin/bin/oclock	0755 root bin
+f none openwin/bin/pswrap	0755 root bin
+f none openwin/bin/resize	0755 root bin
+f none openwin/bin/rgb		0755 root bin
+f none openwin/bin/sessreg	0755 root bin
+f none openwin/bin/showsnf	0755 root bin
+f none openwin/bin/twm		0755 root bin
+f none openwin/bin/viewres	0755 root bin
+f none openwin/bin/xbiff	0755 root bin
+f none openwin/bin/xclipboard	0755 root bin
+f none openwin/bin/xclock	0755 root bin
+f none openwin/bin/xcmsdb	0755 root bin
+f none openwin/bin/xcolor	0755 root bin
+f none openwin/bin/xconsole	0755 root bin
+f none openwin/bin/xcutsel	0755 root bin
+f none openwin/bin/xditview	0755 root bin
+f none openwin/bin/xdm		0755 root bin
+f none openwin/bin/xdmshell	0755 root bin
+f none openwin/bin/xedit	0755 root bin
+f none openwin/bin/xfontsel	0755 root bin
+f none openwin/bin/xkill	0755 root bin
+f none openwin/bin/xload	0755 root sys
+f none openwin/bin/xman		0755 root bin
+f none openwin/bin/xmh		0755 root bin
+f none openwin/bin/xmkmf	0755 root bin
+f none openwin/bin/xterm	0755 root bin
+
+d none openwin/lib 0755 root bin
+d none openwin/lib/X11		0755 root bin
+d none openwin/lib/app-defaults 0755 root bin
+s none openwin/lib/X11/app-defaults/= ../app-defaults
+
+!search  $HOME/openwin/lib/X11/app-defaults
+f none openwin/lib/app-defaults/Viewres 0644 root bin
+f none openwin/lib/app-defaults/XFontSel 0644 root bin
+f none openwin/lib/app-defaults/XLoad 0644 root bin
+f none openwin/lib/app-defaults/Xditview 0644 root bin
+f none openwin/lib/app-defaults/Xedit 0644 root bin
+f none openwin/lib/app-defaults/Xman 0644 root bin
+
+!search $HOME/openwin/lib/X11/twm
+d none openwin/lib/X11 0755 root bin
+d none openwin/lib/X11/twm 0755 root bin
+s none openwin/lib/X11/system.twmrc= ./twm/system.twmrc
+f none openwin/lib/X11/twm/system.twmrc 0644 root bin
+
+#d none openwin/lib/xdm 0755 root bin
+#!search  $HOME/openwin/lib/xdm
+#f none openwin/lib/xdm/StartOW 0755 root bin
+#f none openwin/lib/xdm/Startup 0755 root bin
+#f none openwin/lib/xdm/Reset   0755 root bin
+##f none openwin/lib/xdm/Xreset 0775 root bin
+#f none openwin/lib/xdm/Xresources 0644 root bin
+#f none openwin/lib/xdm/Xservers 0644 root bin
+#f none openwin/lib/xdm/Xsession 0755 root bin
+#f none openwin/lib/xdm/xdm-config 0644 root bin
+##f none openwin/lib/xdm/xrdb.sh 0775 root bin
+#s none openwin/lib/xdm/chooser=../X11/xdm/chooser
+
+# There is a new path to xdm in r6 keep old version around
+# for compatibility
+
+#!search  $HOME/openwin/lib/xdm
+#d none openwin/lib/xdm 0755 root bin
+
+#f none openwin/lib/xdm/GiveConsole 0755 root bin
+#f none openwin/lib/xdm/TakeConsole 0755 root bin
+#f none openwin/lib/xdm/Xaccess 0755 root bin
+#f none openwin/lib/xdm/Xsetup_0 0755 root bin
+
+
+# new place for xdm in r6 
+
+!search  $HOME/openwin/lib/X11/xdm
+d none openwin/lib/X11/xdm 0755 root bin
+
+#s none openwin/lib/X11/xdm/GiveConsole=../../xdm/GiveConsole
+#s none openwin/lib/X11/xdm/TakeConsole=../../xdm/TakeConsole
+#s none openwin/lib/X11/xdm/Xaccess=../../xdm/Xaccess
+#s none openwin/lib/X11/xdm/Xsetup_0=../../xdm/Xsetup_0
+f none openwin/lib/X11/xdm/GiveConsole 0755 root bin
+f none openwin/lib/X11/xdm/TakeConsole 0755 root bin
+f none openwin/lib/X11/xdm/Xaccess 0755 root bin
+f none openwin/lib/X11/xdm/Xsetup_0 0755 root bin
+f none openwin/lib/X11/xdm/chooser 0755 root bin
+f none openwin/lib/X11/xdm/Xresources 0755 root bin
+f none openwin/lib/X11/xdm/Xservers 0755 root bin
+f none openwin/lib/X11/xdm/Xsession 0755 root bin
+f none openwin/lib/X11/xdm/Startup 0755 root bin
+f none openwin/lib/X11/xdm/Reset 0755 root bin
+s none openwin/lib/X11/xdm/libXdmGreet.so=./libXdmGreet.so.1.0
+f none openwin/lib/X11/xdm/libXdmGreet.so.1.0 0755 root bin
+f none openwin/lib/X11/xdm/xdm-config 0755 root bin
+f none openwin/lib/X11/xdm/StartX 0755 root bin
+
+!search  $HOME/openwin/lib/xdm
+s none openwin/lib/xdm=X11/xdm
+
+d none openwin/lib/config 0755 root bin
+s none openwin/lib/X11/config=../config
+!search  $HOME/openwin/lib/X11/config
+f none openwin/lib/config/Imake.rules 0644 root bin
+f none openwin/lib/config/Imake.tmpl 0644 root bin
+f none openwin/lib/config/Library.tmpl 0644 root bin
+f none openwin/lib/config/Project.tmpl 0644 root bin
+f none openwin/lib/config/Server.tmpl 0644 root bin
+f none openwin/lib/config/generic.cf 0644 root bin
+f none openwin/lib/config/site.def 0644 root bin
+f none openwin/lib/config/sun.cf 0644 root bin
+f none openwin/lib/config/sv4Lib.rules 0644 root bin
+f none openwin/lib/config/sv4Lib.tmpl 0644 root bin
+f none openwin/lib/config/Imake.cf 0644 root bin
+f none openwin/lib/config/sunLib.tmpl 0644 root bin
+f none openwin/lib/config/svr4.cf 0644 root bin
+f none openwin/lib/config/noop.rules 0644 root bin
+f none openwin/lib/config/Threads.tmpl 0644 root bin
+
+!search $HOME/X11/bin
+d none X11					0755 root bin
+d none X11/bin					0755 root bin
+f none X11/bin/xcursorgen			0755 root bin

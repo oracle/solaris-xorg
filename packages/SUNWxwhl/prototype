@@ -29,21 +29,27 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
 #
-# SUNWxorg-mesa preremove script.
+#		  "@(#)prototype	1.13    07/11/05 SMI"
+#
+#  X Window System Header Compatability Links Package
+#
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+i pkginfo
+i copyright=../copyright
+i depend
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+d none include 0755 root bin
 
-exit 0
+# X11 APIs
+s none include/X11=../openwin/include/X11
+
+# OpenGL isn't bundled yet. When it is turn this on.
+#s none include/GL=../openwin/include/GL
+
+# CDE APIs
+# Motif
+s none include/Xm=../dt/include/Xm
+s none include/uil=../dt/include/uil
+s none include/Mrm=../dt/include/Mrm
 

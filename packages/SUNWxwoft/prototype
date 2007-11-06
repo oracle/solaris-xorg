@@ -1,0 +1,577 @@
+###########################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)prototype 35.16     07/11/05 SMI"
+#
+#  X Window System optional fonts
+
+i pkginfo
+# postinstall and postremove are obsoleted by fontsdir class
+#i postinstall
+i postremove
+i copyright=../copyright
+i depend=../depend
+i i.fontsdir
+i r.fontsdir
+i i.fontsalias
+i r.fontsalias
+
+!HOME=../openwin/lib/X11/fonts
+
+d none openwin 0755 root bin
+d none openwin/lib 0755 root bin
+d none openwin/lib/X11 0755 root bin
+
+
+!search            $HOME
+d none openwin/lib/X11/fonts 0755 root bin
+
+
+!search            $HOME/Type3
+d none openwin/lib/X11/fonts/Type3 0755 root bin
+f none openwin/lib/X11/fonts/Type3/Dijkstra.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshCyr.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshGoth.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshGrk.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshGrkN.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshGrkp.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshI.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshIN.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshIW.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshRom.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshRomN.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshRomW.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshRomd.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshRomp.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshScr.ps 0644 root bin
+f none openwin/lib/X11/fonts/Type3/HrshScrN.ps 0644 root bin
+
+
+!search ../openwin/lib/X11
+# This directory is created at the start of this file above
+#d none openwin/lib/X11 0775 root bin
+f none openwin/lib/X11/DPSType3Fonts.upr 0644 root bin
+
+
+!search            $HOME/75dpi
+## The file commented out have been moved to SUNWxwcft. This is to help
+## WOS move this package out of EUC.
+d none openwin/lib/X11/fonts/75dpi 0755 root bin
+e fontsdir openwin/lib/X11/fonts/75dpi/fonts.dir 644 root bin
+e fontsalias openwin/lib/X11/fonts/75dpi/fonts.alias.all 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courB10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/courB12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/courB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courBO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courBO10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/courBO12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/courBO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courBO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courBO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courO10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/courO12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/courO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courR10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/courR12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/courR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/courR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvBO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvBO10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/helvBO12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/helvBO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvBO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvBO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvO10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/helvO12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/helvO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvR10.pcf 0644 root bin
+#f none openwin/lib/X11/fonts/75dpi/helvR12.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/helvR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/helvR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/ncenR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/symb08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/symb10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/symb12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/symb14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/symb18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/symb24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/timR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/charR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/tech14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/techB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/term14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/termB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS24.pcf 0644 root bin
+##f none openwin/lib/X11/fonts/75dpi/lutRS08.pcf 0664 root bin
+f none openwin/lib/X11/fonts/75dpi/lutRS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutRS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutRS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutRS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutRS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBIS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luBS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luIS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/luRS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubB19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubBI19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubI19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lubR19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutBS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/75dpi/lutRS19.pcf 0644 root bin
+
+
+!search            $HOME/100dpi
+d none openwin/lib/X11/fonts/100dpi 0755 root bin
+e fontsdir openwin/lib/X11/fonts/100dpi/fonts.dir 0644 root bin
+e fontsalias openwin/lib/X11/fonts/100dpi/fonts.alias.all 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courBO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courBO10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courBO12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courBO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courBO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courBO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courO10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courO12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/courR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvBO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvBO10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvBO12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvBO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvBO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvBO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvO08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvO10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvO12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvO14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvO18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvO24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/helvR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/ncenR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/symb08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/symb10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/symb12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/symb14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/symb18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/symb24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/timR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/charR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/tech14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/techB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/term14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/termB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS08.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS10.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS12.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS14.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS18.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS24.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBIS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luBS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luIS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/luRS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubB19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubBI19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubI19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lubR19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutBS19.pcf 0644 root bin
+f none openwin/lib/X11/fonts/100dpi/lutRS19.pcf 0644 root bin
+
+!search            $HOME/F3
+d none openwin/lib/X11/fonts/F3					0755 root bin
+e fontsdir openwin/lib/X11/fonts/F3/fonts.dir 0644 root bin
+e fontsalias openwin/lib/X11/fonts/F3/fonts.alias.all 0644 root bin
+f none openwin/lib/X11/fonts/F3/AvantGarde-BookOblique.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/AvantGarde-DemiOblique.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bembo-Bold.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bembo-BoldItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bembo-Italic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bembo.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bookman-Demi.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bookman-DemiItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bookman-Light.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Bookman-LightItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/GillSans-Bold.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/GillSans-BoldItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/GillSans-Italic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/GillSans.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-Narrow-Bold.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-Narrow-BoldOblique.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-Narrow-Oblique.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Helvetica-Narrow.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Lucida-Bright.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Lucida-BrightDemiBold.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Lucida-BrightDemiBoldItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Lucida-BrightItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Rockwell-Bold.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Rockwell-BoldItalic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Rockwell-Italic.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/Rockwell.f3b 0644 root bin
+f none openwin/lib/X11/fonts/F3/ZapfChancery-MediumItalic.f3b 0644 root bin
+
+!search            $HOME/F3/afm
+d none openwin/lib/X11/fonts/F3/afm				0755 root bin
+f none openwin/lib/X11/fonts/F3/afm/AvantGarde-BookOblique.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/AvantGarde-DemiOblique.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bembo-Bold.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bembo-BoldItalic.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bembo-Italic.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bembo.afm			0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bookman-Demi.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bookman-DemiItalic.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bookman-Light.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Bookman-LightItalic.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/GillSans-Bold.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/GillSans-BoldItalic.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/GillSans-Italic.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/GillSans.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow-Bold.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow-BoldOblique.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow-Oblique.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Lucida-Bright.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Lucida-BrightDemiBold.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Lucida-BrightDemiBoldItalic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Lucida-BrightItalic.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Rockwell-Bold.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Rockwell-BoldItalic.afm	0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Rockwell-Italic.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/Rockwell.afm		0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/ZapfChancery-MediumItalic.afm 0644 root bin
+f none openwin/lib/X11/fonts/F3/afm/ZapfDingbats.afm		0644 root bin
+
+
+# The Adobe and the MIT Type 1 fonts and their afm's need to be consolidated
+#f none openwin/lib/X11/fonts/afm/UtopiaBold.afm 0664 root bin
+#f none openwin/lib/X11/fonts/afm/UtopiaItalic.afm 0664 root bin
+#f none openwin/lib/X11/fonts/afm/UtopiaBoldItalic.afm 0664 root bin
+#f none openwin/lib/X11/fonts/afm/UtopiaRegular.afm 0664 root bin
+
+
+!search            $HOME/Speedo
+d none openwin/lib/X11/fonts/Speedo 0755 root bin
+e fontsdir openwin/lib/X11/fonts/Speedo/fonts.dir 0644 root bin
+e fontsalias openwin/lib/X11/fonts/Speedo/fonts.alias.all 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/fonts.scale 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0648.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0649.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0709.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0710.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0419.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0582.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0583.spd 0644 root bin
+f none openwin/lib/X11/fonts/Speedo/font0611.spd 0644 root bin

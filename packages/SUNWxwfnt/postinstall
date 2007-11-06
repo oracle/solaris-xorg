@@ -29,21 +29,29 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+# SUNWxwfnt (X Window System platform required fonts) postinstall script.
 #
-# SUNWxorg-mesa preremove script.
+# /usr/openwin/bin/installalias  and mkfontdir was previously packaged
+# in SUNWxwfnt.  Now it is moved to SUNWxwfsw and we need to preserve it
+# due to zones upgrade from S10.
+# Therefore, removef(1M) is used to remove the packaging database entry
+# although the files itself are preserved.
+#
+FILELIST="\
+/usr/openwin/server/lib/libtypesclr.so.0 \
+/usr/openwin/server/lib/libtypesclr.so \
+/usr/openwin/server/lib/libfont.so.1 \
+/usr/openwin/server/lib/libfont.so \
+/usr/openwin/server/lib \
+/usr/openwin/server \
+/usr/openwin/lib/installalias \
+/usr/openwin/bin/mkfontdir \
+/usr/openwin/bin \
+"
+for i in $FILELIST ; do
+/usr/sbin/removef  SUNWxwfnt $i >/dev/null 2>&1
+done
+/usr/sbin/removef -f  SUNWxwfnt >/dev/null 2>&1
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
-
-exit 0
-
+exit 0 

@@ -1,0 +1,626 @@
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+# 
+#	"@(#)prototype_com	35.134	07/09/04   Sun Microsystems" 
+#
+# X Window System required core package
+
+i pkginfo
+i copyright=copyright
+i depend
+
+!HOME=../usr
+
+!search $HOME/bin
+d none bin 			0755 root bin
+f none bin/rstartd              0755 root bin
+
+!search $HOME/X11/bin
+d none X11			0755 root bin
+d none X11/bin			0755 root bin
+s none X11/bin/X=Xserver
+f none X11/bin/Xserver		0755 root bin
+
+d none openwin 			0755 root bin
+
+!search  $HOME/openwin/bin
+d none openwin/bin 		0755 root bin
+f none openwin/bin/kbd_mode     0755 root bin
+f none openwin/bin/cmap_compact	0755 root bin
+f none openwin/bin/cmap_alloc 	0755 root bin
+f none openwin/bin/showrgb 	0755 root bin
+f none openwin/bin/fbconsole 	0755 root bin
+f none openwin/bin/fsinfo 	0755 root bin
+f none openwin/bin/fslsfonts 	0755 root bin
+f none openwin/bin/fstobdf 	0755 root bin
+f none openwin/bin/makebdf 	0755 root bin
+f none openwin/bin/makepsres 	0755 root bin
+f none openwin/bin/pclcomp 	0755 root bin
+f none openwin/bin/redxblue 	0755 root bin
+f none openwin/bin/showfont 	0755 root bin
+f none openwin/bin/winsysck 	0755 root bin
+f none openwin/bin/xauth 	0755 root bin
+f none openwin/bin/xcalc 	0755 root bin
+f none openwin/bin/xdpr 	0755 root bin
+f none openwin/bin/xfd 		0755 root bin
+f none openwin/bin/xhost 	0755 root bin
+f none openwin/bin/xinit 	0755 root bin
+f none openwin/bin/xlock 	4755 root bin
+f none openwin/bin/xlogo 	0755 root bin
+f none openwin/bin/xlsatoms 	0755 root bin
+f none openwin/bin/xlsclients 	0755 root bin
+f none openwin/bin/xlsfonts 	0755 root bin
+f none openwin/bin/xlswins 	0755 root bin
+f none openwin/bin/xmag 	0755 root bin
+f none openwin/bin/xmakemap 	0755 root bin
+f none openwin/bin/xmodmap 	0755 root bin
+f none openwin/bin/xpr 		0755 root bin
+f none openwin/bin/xprop 	0755 root bin
+f none openwin/bin/xrdb 	0755 root bin
+f none openwin/bin/xrefresh 	0755 root bin
+f none openwin/bin/xset 	0755 root bin
+f none openwin/bin/xsetroot 	0755 root bin
+f none openwin/bin/xstdcmap 	0755 root bin
+f none openwin/bin/xwd 		0755 root bin
+f none openwin/bin/xwininfo 	0755 root bin
+f none openwin/bin/xwud 	0755 root bin
+#
+# X11R6.4 upgrade changes
+#
+f none openwin/bin/lbxproxy     2755 root root
+f none openwin/bin/proxymngr    0755 root bin
+f none openwin/bin/xfwp         0755 root bin
+f none openwin/bin/xkbbell      0755 root bin
+f none openwin/bin/xkbprint     0755 root bin
+f none openwin/bin/xkbvleds     0755 root bin
+f none openwin/bin/xkbwatch     0755 root bin
+f none openwin/bin/xrx		0755 root bin
+f none openwin/bin/rstart	0755 root bin
+f none openwin/bin/xfindproxy	0755 root bin
+
+#### applications replaced with new versions from open-src/app
+
+!search  $HOME/X11/bin
+
+# open-src/app/bdftopcf
+f none X11/bin/bdftopcf 		0755 root bin
+s none openwin/bin/bdftopcf=../../X11/bin/bdftopcf
+
+# open-src/app/constype
+f none X11/bin/constype 		0755 root bin
+s none openwin/bin/constype=../../X11/bin/constype
+
+# open-src/app/xdpyinfo
+f none X11/bin/xdpyinfo 		0755 root bin
+s none openwin/bin/xdpyinfo=../../X11/bin/xdpyinfo
+
+# open-src/app/xpm
+f none X11/bin/cxpm 	0755 root bin
+f none X11/bin/sxpm 	0755 root bin
+s none openwin/bin/cxpm=../../X11/bin/cxpm
+s none openwin/bin/sxpm=../../X11/bin/sxpm
+
+d none openwin/lib 			0755 root bin
+!search  $HOME/openwin/lib
+#
+# symlinks for backward compatability
+#
+s none openwin/lib/XErrorDB=X11/XErrorDB
+s none openwin/lib/XKeysymDB=X11/XKeysymDB
+s none openwin/lib/Xcms.txt=X11/Xcms.txt
+s none openwin/lib/rgb.pag=X11/rgb.pag
+s none openwin/lib/rgb.dir=X11/rgb.dir
+s none openwin/lib/rgb.txt=X11/rgb.txt
+
+s none openwin/lib/libX.so.4=./libX11.so.4
+s none openwin/lib/libX.so=./libX11.so.4
+s none openwin/lib/libX11.so=./libX11.so.4
+f none openwin/lib/libX11.so.4 		0755 root bin
+f none openwin/lib/libXext.so.0 	0755 root bin
+s none openwin/lib/libXext.so=./libXext.so.0
+s none openwin/lib/libXaw.so=./libXaw.so.5
+f none openwin/lib/libXaw.so.5 		0755 root bin
+f none openwin/lib/libXaw.so.4 		0755 root bin
+s none openwin/lib/libXmu.so=./libXmu.so.4
+f none openwin/lib/libXmu.so.4 		0755 root bin
+s none openwin/lib/libXt.so=./libXt.so.4
+f none openwin/lib/libXt.so.4 		0755 root bin
+s none openwin/lib/libXi.so=./libXi.so.5
+f none openwin/lib/libXi.so.5 		0755 root bin
+# Symlink removed to prevent compiling new programs - library is left
+# for binary compatibility only
+#s none openwin/lib/libXinput.so=./libXinput.so.0
+f none openwin/lib/libXinput.so.0 	0755 root bin
+s none openwin/lib/libdps.so=./libdps.so.5
+f none openwin/lib/libdps.so.5 		0755 root bin
+s none openwin/lib/libdpstk.so=./libdpstk.so.5
+f none openwin/lib/libdpstk.so.5 	0755 root bin
+s none openwin/lib/libpsres.so=./libpsres.so.5
+f none openwin/lib/libpsres.so.5 	0755 root bin
+s none openwin/lib/libowconfig.so=./libowconfig.so.0
+f none openwin/lib/libowconfig.so.0 	0755 root bin
+f none openwin/lib/libFS.so.5	 	0755 root bin
+s none openwin/lib/libFS.so=./libFS.so.5
+s none openwin/lib/libSM.so=./libSM.so.6
+f none openwin/lib/libSM.so.6 		0755 root bin
+s none openwin/lib/libXIE.so=./libXIE.so.6
+f none openwin/lib/libXIE.so.6			0755 root bin
+
+# Trusted Extensions API support
+s none openwin/lib/libXtsol.so=./libXtsol.so.1
+f none openwin/lib/libXtsol.so.1 		0755 root bin
+# Create links in usr/lib
+s none lib/libXtsol.so.1=../openwin/lib/libXtsol.so.1
+s none lib/libXtsol.so=./libXtsol.so.1
+
+#### libraries replaced with new versions from open-src/lib
+
+## 32-bit versions
+!search $HOME/X11/lib
+d none X11/lib					0755 root bin
+
+# open-src/lib/libXau
+s none openwin/lib/libXau.so=./libXau.so.6
+s none openwin/lib/libXau.so.6=../../X11/lib/libXau.so.6
+s none X11/lib/libXau.so=./libXau.so.6
+f none X11/lib/libXau.so.6			0555 root bin
+
+# open-src/lib/libXcomposite (never delivered into /usr/openwin/lib)
+f none X11/lib/libXcomposite.so.1 		0644 root bin
+s none X11/lib/libXcomposite.so=libXcomposite.so.1
+
+# open-src/lib/libXcursor (never delivered into /usr/openwin/lib)
+f none X11/lib/libXcursor.so.1 			0644 root bin
+s none X11/lib/libXcursor.so=libXcursor.so.1
+
+# open-src/lib/libXdamage (never delivered into /usr/openwin/lib - 
+# only into /usr/openwin/sfw/lib, which is covered by symlink below)
+s none X11/lib/libXdamage.so=./libXdamage.so.1
+f none X11/lib/libXdamage.so.1 			0755 root bin
+
+# open-src/lib/libXdmcp
+s none openwin/lib/libXdmcp.so=./libXdmcp.so.6
+s none openwin/lib/libXdmcp.so.6=../../X11/lib/libXdmcp.so.6
+s none X11/lib/libXdmcp.so=./libXdmcp.so.6
+f none X11/lib/libXdmcp.so.6			0555 root bin
+
+# open-src/lib/libXfixes (never delivered into /usr/openwin/lib)
+s none X11/lib/libXfixes.so=./libXfixes.so.1
+f none X11/lib/libXfixes.so.1 			0555 root bin
+
+# open-src/lib/libXinerama (never delivered into /usr/openwin/lib)
+s none X11/lib/libXinerama.so=./libXinerama.so.1
+f none X11/lib/libXinerama.so.1 		0555 root bin
+
+# open-src/lib/libXlg3d (never delivered into /usr/openwin/lib)
+s none X11/lib/libXlg3d.so=./libXlg3d.so.1
+f none X11/lib/libXlg3d.so.1 			0555 root bin
+
+# opensrc/lib/libXpm
+s none openwin/lib/libXpm.so=./libXpm.so.4
+s none openwin/lib/libXpm.so.4=../../X11/lib/libXpm.so.4
+s none X11/lib/libXpm.so=./libXpm.so.4
+f none X11/lib/libXpm.so.4			0755 root bin
+
+# open-src/lib/libXrender (never delivered into /usr/openwin/lib)
+s none X11/lib/libXrender.so=./libXrender.so.1
+f none X11/lib/libXrender.so.1 			0755 root bin
+
+# opensrc/lib/libXtst
+s none openwin/lib/libXtst.so=./libXtst.so.1
+s none openwin/lib/libXtst.so.1=../../X11/lib/libXtst.so.1
+s none X11/lib/libXtst.so=./libXtst.so.1
+f none X11/lib/libXtst.so.1			0755 root bin
+
+## 64-bit versions
+
+!search $HOME/X11/lib/$plat_64
+d none X11/lib/$plat_64 			0755 root bin
+s none X11/lib/64=$plat_64
+
+# open-src/lib/libXau - never delivered into openwin in 64-bit version
+s none X11/lib/$plat_64/libXau.so=./libXau.so.6
+f none X11/lib/$plat_64/libXau.so.6		0555 root bin
+
+# open-src/lib/libXcomposite (never delivered into /usr/openwin/lib)
+f none X11/lib/$plat_64/libXcomposite.so.1 		0644 root bin
+s none X11/lib/$plat_64/libXcomposite.so=libXcomposite.so.1
+
+# open-src/lib/libXcursor (never delivered into /usr/openwin/lib)
+f none X11/lib/$plat_64/libXcursor.so.1 		0644 root bin
+s none X11/lib/$plat_64/libXcursor.so=libXcursor.so.1
+
+# open-src/lib/libXdamage (never delivered into /usr/openwin/lib - 
+# only into /usr/openwin/sfw/lib, which is covered by symlink below)
+s none X11/lib/$plat_64/libXdamage.so=./libXdamage.so.1
+f none X11/lib/$plat_64/libXdamage.so.1 	0755 root bin
+
+# open-src/lib/libXdmcp - never delivered into openwin in 64-bit version
+s none X11/lib/$plat_64/libXdmcp.so=./libXdmcp.so.6
+f none X11/lib/$plat_64/libXdmcp.so.6		0555 root bin
+
+# open-src/lib/libXfixes (never delivered into /usr/openwin/lib)
+s none X11/lib/$plat_64/libXfixes.so=./libXfixes.so.1
+f none X11/lib/$plat_64/libXfixes.so.1 		0555 root bin
+
+# open-src/lib/libXinerama (never delivered into /usr/openwin/lib)
+s none X11/lib/$plat_64/libXinerama.so=./libXinerama.so.1
+f none X11/lib/$plat_64/libXinerama.so.1	0555 root bin
+
+# open-src/lib/libXlg3d (never delivered into /usr/openwin/lib)
+s none X11/lib/$plat_64/libXlg3d.so=./libXlg3d.so.1
+f none X11/lib/$plat_64/libXlg3d.so.1 		0555 root bin
+
+# opensrc/lib/libXpm
+s none openwin/lib/$plat_64/libXpm.so=./libXpm.so.4
+s none openwin/lib/$plat_64/libXpm.so.4=../../../X11/lib/64/libXpm.so.4
+s none X11/lib/$plat_64/libXpm.so=./libXpm.so.4
+f none X11/lib/$plat_64/libXpm.so.4 	0755 root bin
+
+# open-src/lib/libXrender (never delivered into /usr/openwin/lib)
+s none X11/lib/$plat_64/libXrender.so=./libXrender.so.1
+f none X11/lib/$plat_64/libXrender.so.1 	0755 root bin
+
+# opensrc/lib/libXtst
+s none openwin/lib/$plat_64/libXtst.so=./libXtst.so.1
+s none openwin/lib/$plat_64/libXtst.so.1=../../../X11/lib/64/libXtst.so.1
+s none X11/lib/$plat_64/libXtst.so=./libXtst.so.1
+f none X11/lib/$plat_64/libXtst.so.1 	0755 root bin
+
+
+# Backwards compatibility for original locations [see PSARC/2006/557]
+# Can't get rid of entire sfw hierarchy since XF86 porting kit drivers
+# still install to /usr/openwin/sfw/server on x86 machines
+d none openwin/sfw				0755 root bin
+s none openwin/sfw/lib=../../X11/lib
+
+!search  $HOME/openwin/lib
+s none X11/lib/libXRes.so=./libXRes.so.1
+f none X11/lib/libXRes.so.1 		0755 root bin
+
+
+!search  $HOME/openwin/lib
+s none openwin/lib/libdga.so=./libdga.so.1
+f none openwin/lib/libdga.so.1		 	0755 root bin
+f none openwin/lib/mkcookie 			0755 root bin
+f none openwin/lib/xman.help 			0644 root bin
+
+#
+# X11R6.4 upgrade changes
+#
+f none openwin/lib/libXp.so.1                   0755 root bin
+s none openwin/lib/libXp.so=./libXp.so.1
+f none openwin/lib/libxrx.so.1                  0755 root bin
+s none openwin/lib/libxrx.so=./libxrx.so.1
+f none openwin/lib/libxkbfile.so.4              0755 root bin
+s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
+#
+# end X11R6.4 upgrade change
+#
+
+!search  $HOME/openwin/lib/X11
+d none openwin/lib/X11 				0755 root bin
+f none openwin/lib/X11/XErrorDB 		0644 root bin
+f none openwin/lib/X11/XKeysymDB 		0644 root bin
+f none openwin/lib/X11/Xcms.txt			0644 root bin
+f none openwin/lib/X11/rgb.pag 			0644 root bin
+f none openwin/lib/X11/rgb.dir 			0644 root bin
+f none openwin/lib/X11/rgb.txt 			0644 root bin
+
+!search  $HOME/openwin/lib/X11/rstart
+d none openwin/lib/X11/rstart			0755 root bin
+f none openwin/lib/X11/rstart/rstartd.real	0755 root bin
+
+#
+# X11R6.4 upgrade changes
+#
+
+d none openwin/lib/X11/lbxproxy                 0755 root bin
+d none openwin/lib/X11/proxymngr                0755 root bin
+
+!search $HOME/openwin/lib/X11/lbxproxy
+f none openwin/lib/X11/lbxproxy/AtomControl     0755 root bin
+
+!search $HOME/openwin/lib/X11/proxymngr
+f none openwin/lib/X11/proxymngr/pmconfig       0755 root bin
+
+#
+!search  $HOME/openwin/lib/X11/app-defaults
+d none openwin/lib/app-defaults 		0755 root bin
+s none openwin/lib/X11/app-defaults=../app-defaults
+f none openwin/lib/app-defaults/Bitmap 		0644 root bin
+f none openwin/lib/app-defaults/Bitmap-color 	0644 root bin
+f none openwin/lib/app-defaults/Clock-color 	0644 root bin
+f none openwin/lib/app-defaults/Chooser		0644 root bin
+f none openwin/lib/app-defaults/Editres		0644 root bin
+f none openwin/lib/app-defaults/Editres-color	0644 root bin
+f none openwin/lib/app-defaults/XCalc		0644 root bin
+f none openwin/lib/app-defaults/XCalc-color	0644 root bin
+f none openwin/lib/app-defaults/XClipboard	0644 root bin
+f none openwin/lib/app-defaults/XClock		0644 root bin
+f none openwin/lib/app-defaults/XConsole	0644 root bin
+f none openwin/lib/app-defaults/XLock		0644 root bin
+f none openwin/lib/app-defaults/XLogo		0644 root bin
+f none openwin/lib/app-defaults/XLogo-color	0644 root bin
+f none openwin/lib/app-defaults/XTerm		0644 root bin
+f none openwin/lib/app-defaults/Xfd		0644 root bin
+f none openwin/lib/app-defaults/Xmag		0644 root bin
+f none openwin/lib/app-defaults/Xmh		0644 root bin
+
+
+!search  $HOME/openwin/share
+d none openwin/share 				0755 root bin
+
+!search  $HOME/openwin/share/etc
+s none openwin/etc=./share/etc
+d none openwin/share/etc 			0755 root bin
+
+!search  $HOME/openwin/share/etc/workspace/patterns
+d none openwin/share/etc/workspace 				0755 root bin
+d none openwin/share/etc/workspace/patterns 			0755 root bin
+f none openwin/share/etc/workspace/patterns/attributes 		0644 root bin
+f none openwin/share/etc/workspace/patterns/background.xbm	0644 root bin
+f none openwin/share/etc/workspace/patterns/bricks.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/burl.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/corn.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/dmndpla.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/dolphin.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/dotwave2.xbm	0644 root bin
+f none openwin/share/etc/workspace/patterns/dune.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/flowers.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/flyseye.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/foreground.xbm	0644 root bin
+f none openwin/share/etc/workspace/patterns/fuji.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/geiger2.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/gray25.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/gray50.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/gray75.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/miniweave.xbm	0644 root bin
+f none openwin/share/etc/workspace/patterns/sbump.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/sizmk2.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/southwest.xbm	0644 root bin
+f none openwin/share/etc/workspace/patterns/squares.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/sunmulti.xbm	0644 root bin
+f none openwin/share/etc/workspace/patterns/swirl2.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/wave1.xbm		0644 root bin
+f none openwin/share/etc/workspace/patterns/wrnkle2.xbm		0644 root bin
+
+s none openwin/include=./share/include
+
+!search  $HOME/openwin/share/include
+d none openwin/share/include 0755 root bin
+
+!search  $HOME/openwin/share/include/X11
+d none openwin/share/include/X11 0755 root bin
+
+!search  $HOME/openwin/share/include/X11/bitmaps
+d none openwin/share/include/X11/bitmaps 0755 root bin
+f none openwin/share/include/X11/bitmaps/black6 0644 root bin
+f none openwin/share/include/X11/bitmaps/box6 0644 root bin
+f none openwin/share/include/X11/bitmaps/FlipHoriz 0644 root bin
+f none openwin/share/include/X11/bitmaps/Up 0644 root bin
+f none openwin/share/include/X11/bitmaps/FlipVert 0644 root bin
+f none openwin/share/include/X11/bitmaps/Left 0644 root bin
+f none openwin/share/include/X11/bitmaps/Fold 0644 root bin
+f none openwin/share/include/X11/bitmaps/Right 0644 root bin
+f none openwin/share/include/X11/bitmaps/RotateLeft 0644 root bin
+f none openwin/share/include/X11/bitmaps/Down 0644 root bin
+f none openwin/share/include/X11/bitmaps/RotateRight 0644 root bin
+f none openwin/share/include/X11/bitmaps/Dashes 0644 root bin
+f none openwin/share/include/X11/bitmaps/Stipple 0644 root bin
+f none openwin/share/include/X11/bitmaps/Term 0644 root bin
+f none openwin/share/include/X11/bitmaps/Excl 0644 root bin
+
+!search  $HOME/X11/include/X11/bitmaps
+d none X11/include					0755 root bin
+d none X11/include/X11					0755 root bin
+d none X11/include/X11/bitmaps				0755 root bin
+
+# bitmaps from xbitmaps modular package
+f none X11/include/X11/bitmaps/1x1			0444 root bin
+f none X11/include/X11/bitmaps/2x2			0444 root bin
+f none X11/include/X11/bitmaps/black			0444 root bin
+f none X11/include/X11/bitmaps/boxes			0444 root bin
+f none X11/include/X11/bitmaps/calculator		0444 root bin
+f none X11/include/X11/bitmaps/cntr_ptr			0444 root bin
+f none X11/include/X11/bitmaps/cntr_ptrmsk		0444 root bin
+f none X11/include/X11/bitmaps/cross_weave		0444 root bin
+f none X11/include/X11/bitmaps/dimple1			0444 root bin
+f none X11/include/X11/bitmaps/dimple3			0444 root bin
+f none X11/include/X11/bitmaps/dot			0444 root bin
+f none X11/include/X11/bitmaps/dropbar7			0444 root bin
+f none X11/include/X11/bitmaps/dropbar8			0444 root bin
+f none X11/include/X11/bitmaps/escherknot		0444 root bin
+f none X11/include/X11/bitmaps/flagdown			0444 root bin
+f none X11/include/X11/bitmaps/flagup			0444 root bin
+f none X11/include/X11/bitmaps/flipped_gray		0444 root bin
+f none X11/include/X11/bitmaps/gray			0444 root bin
+f none X11/include/X11/bitmaps/gray1			0444 root bin
+f none X11/include/X11/bitmaps/gray3			0444 root bin
+f none X11/include/X11/bitmaps/grid16			0444 root bin
+f none X11/include/X11/bitmaps/grid2			0444 root bin
+f none X11/include/X11/bitmaps/grid4			0444 root bin
+f none X11/include/X11/bitmaps/grid8			0444 root bin
+f none X11/include/X11/bitmaps/hlines2			0444 root bin
+f none X11/include/X11/bitmaps/hlines3			0444 root bin
+f none X11/include/X11/bitmaps/icon			0444 root bin
+f none X11/include/X11/bitmaps/keyboard16		0444 root bin
+f none X11/include/X11/bitmaps/left_ptr			0444 root bin
+f none X11/include/X11/bitmaps/left_ptrmsk		0444 root bin
+f none X11/include/X11/bitmaps/letters			0444 root bin
+f none X11/include/X11/bitmaps/light_gray		0444 root bin
+f none X11/include/X11/bitmaps/mailempty		0444 root bin
+f none X11/include/X11/bitmaps/mailemptymsk		0444 root bin
+f none X11/include/X11/bitmaps/mailfull			0444 root bin
+f none X11/include/X11/bitmaps/mailfullmsk		0444 root bin
+f none X11/include/X11/bitmaps/mensetmanus		0444 root bin
+f none X11/include/X11/bitmaps/menu10			0444 root bin
+f none X11/include/X11/bitmaps/menu12			0444 root bin
+f none X11/include/X11/bitmaps/menu16			0444 root bin
+f none X11/include/X11/bitmaps/menu6			0444 root bin
+f none X11/include/X11/bitmaps/menu8			0444 root bin
+f none X11/include/X11/bitmaps/noletters		0444 root bin
+f none X11/include/X11/bitmaps/opendot			0444 root bin
+f none X11/include/X11/bitmaps/opendotMask		0444 root bin
+f none X11/include/X11/bitmaps/plaid			0444 root bin
+f none X11/include/X11/bitmaps/right_ptr		0444 root bin
+f none X11/include/X11/bitmaps/right_ptrmsk		0444 root bin
+f none X11/include/X11/bitmaps/root_weave		0444 root bin
+f none X11/include/X11/bitmaps/scales			0444 root bin
+f none X11/include/X11/bitmaps/sipb			0444 root bin
+f none X11/include/X11/bitmaps/star			0444 root bin
+f none X11/include/X11/bitmaps/starMask			0444 root bin
+f none X11/include/X11/bitmaps/stipple			0444 root bin
+f none X11/include/X11/bitmaps/target			0444 root bin
+f none X11/include/X11/bitmaps/terminal			0444 root bin
+f none X11/include/X11/bitmaps/tie_fighter		0444 root bin
+f none X11/include/X11/bitmaps/vlines2			0444 root bin
+f none X11/include/X11/bitmaps/vlines3			0444 root bin
+f none X11/include/X11/bitmaps/weird_size		0444 root bin
+f none X11/include/X11/bitmaps/wide_weave		0444 root bin
+f none X11/include/X11/bitmaps/wingdogs			0444 root bin
+f none X11/include/X11/bitmaps/woman			0444 root bin
+f none X11/include/X11/bitmaps/xfd_icon			0444 root bin
+f none X11/include/X11/bitmaps/xlogo11			0444 root bin
+f none X11/include/X11/bitmaps/xlogo16			0444 root bin
+f none X11/include/X11/bitmaps/xlogo32			0444 root bin
+f none X11/include/X11/bitmaps/xlogo64			0444 root bin
+f none X11/include/X11/bitmaps/xsnow			0444 root bin
+
+# backwards compatibility links for bitmaps from xbitmaps modular package
+s none openwin/share/include/X11/bitmaps/1x1=../../../../../X11/include/X11/bitmaps/1x1
+s none openwin/share/include/X11/bitmaps/2x2=../../../../../X11/include/X11/bitmaps/2x2
+s none openwin/share/include/X11/bitmaps/black=../../../../../X11/include/X11/bitmaps/black
+s none openwin/share/include/X11/bitmaps/boxes=../../../../../X11/include/X11/bitmaps/boxes
+s none openwin/share/include/X11/bitmaps/calculator=../../../../../X11/include/X11/bitmaps/calculator
+s none openwin/share/include/X11/bitmaps/cntr_ptr=../../../../../X11/include/X11/bitmaps/cntr_ptr
+s none openwin/share/include/X11/bitmaps/cntr_ptrmsk=../../../../../X11/include/X11/bitmaps/cntr_ptrmsk
+s none openwin/share/include/X11/bitmaps/cross_weave=../../../../../X11/include/X11/bitmaps/cross_weave
+s none openwin/share/include/X11/bitmaps/dimple1=../../../../../X11/include/X11/bitmaps/dimple1
+s none openwin/share/include/X11/bitmaps/dimple3=../../../../../X11/include/X11/bitmaps/dimple3
+s none openwin/share/include/X11/bitmaps/dot=../../../../../X11/include/X11/bitmaps/dot
+s none openwin/share/include/X11/bitmaps/dropbar7=../../../../../X11/include/X11/bitmaps/dropbar7
+s none openwin/share/include/X11/bitmaps/dropbar8=../../../../../X11/include/X11/bitmaps/dropbar8
+s none openwin/share/include/X11/bitmaps/escherknot=../../../../../X11/include/X11/bitmaps/escherknot
+s none openwin/share/include/X11/bitmaps/flagdown=../../../../../X11/include/X11/bitmaps/flagdown
+s none openwin/share/include/X11/bitmaps/flagup=../../../../../X11/include/X11/bitmaps/flagup
+s none openwin/share/include/X11/bitmaps/flipped_gray=../../../../../X11/include/X11/bitmaps/flipped_gray
+s none openwin/share/include/X11/bitmaps/gray=../../../../../X11/include/X11/bitmaps/gray
+s none openwin/share/include/X11/bitmaps/gray1=../../../../../X11/include/X11/bitmaps/gray1
+s none openwin/share/include/X11/bitmaps/gray3=../../../../../X11/include/X11/bitmaps/gray3
+s none openwin/share/include/X11/bitmaps/hlines2=../../../../../X11/include/X11/bitmaps/hlines2
+s none openwin/share/include/X11/bitmaps/hlines3=../../../../../X11/include/X11/bitmaps/hlines3
+s none openwin/share/include/X11/bitmaps/icon=../../../../../X11/include/X11/bitmaps/icon
+s none openwin/share/include/X11/bitmaps/keyboard16=../../../../../X11/include/X11/bitmaps/keyboard16
+s none openwin/share/include/X11/bitmaps/left_ptr=../../../../../X11/include/X11/bitmaps/left_ptr
+s none openwin/share/include/X11/bitmaps/left_ptrmsk=../../../../../X11/include/X11/bitmaps/left_ptrmsk
+s none openwin/share/include/X11/bitmaps/letters=../../../../../X11/include/X11/bitmaps/letters
+s none openwin/share/include/X11/bitmaps/light_gray=../../../../../X11/include/X11/bitmaps/light_gray
+s none openwin/share/include/X11/bitmaps/mailempty=../../../../../X11/include/X11/bitmaps/mailempty
+s none openwin/share/include/X11/bitmaps/mailemptymsk=../../../../../X11/include/X11/bitmaps/mailemptymsk
+s none openwin/share/include/X11/bitmaps/mailfull=../../../../../X11/include/X11/bitmaps/mailfull
+s none openwin/share/include/X11/bitmaps/mailfullmsk=../../../../../X11/include/X11/bitmaps/mailfullmsk
+s none openwin/share/include/X11/bitmaps/mensetmanus=../../../../../X11/include/X11/bitmaps/mensetmanus
+s none openwin/share/include/X11/bitmaps/menu10=../../../../../X11/include/X11/bitmaps/menu10
+s none openwin/share/include/X11/bitmaps/menu12=../../../../../X11/include/X11/bitmaps/menu12
+s none openwin/share/include/X11/bitmaps/menu16=../../../../../X11/include/X11/bitmaps/menu16
+s none openwin/share/include/X11/bitmaps/menu8=../../../../../X11/include/X11/bitmaps/menu8
+s none openwin/share/include/X11/bitmaps/noletters=../../../../../X11/include/X11/bitmaps/noletters
+s none openwin/share/include/X11/bitmaps/opendot=../../../../../X11/include/X11/bitmaps/opendot
+s none openwin/share/include/X11/bitmaps/opendotMask=../../../../../X11/include/X11/bitmaps/opendotMask
+s none openwin/share/include/X11/bitmaps/plaid=../../../../../X11/include/X11/bitmaps/plaid
+s none openwin/share/include/X11/bitmaps/right_ptr=../../../../../X11/include/X11/bitmaps/right_ptr
+s none openwin/share/include/X11/bitmaps/right_ptrmsk=../../../../../X11/include/X11/bitmaps/right_ptrmsk
+s none openwin/share/include/X11/bitmaps/root_weave=../../../../../X11/include/X11/bitmaps/root_weave
+s none openwin/share/include/X11/bitmaps/scales=../../../../../X11/include/X11/bitmaps/scales
+s none openwin/share/include/X11/bitmaps/sipb=../../../../../X11/include/X11/bitmaps/sipb
+s none openwin/share/include/X11/bitmaps/star=../../../../../X11/include/X11/bitmaps/star
+s none openwin/share/include/X11/bitmaps/starMask=../../../../../X11/include/X11/bitmaps/starMask
+s none openwin/share/include/X11/bitmaps/stipple=../../../../../X11/include/X11/bitmaps/stipple
+s none openwin/share/include/X11/bitmaps/target=../../../../../X11/include/X11/bitmaps/target
+s none openwin/share/include/X11/bitmaps/terminal=../../../../../X11/include/X11/bitmaps/terminal
+s none openwin/share/include/X11/bitmaps/tie_fighter=../../../../../X11/include/X11/bitmaps/tie_fighter
+s none openwin/share/include/X11/bitmaps/vlines2=../../../../../X11/include/X11/bitmaps/vlines2
+s none openwin/share/include/X11/bitmaps/vlines3=../../../../../X11/include/X11/bitmaps/vlines3
+s none openwin/share/include/X11/bitmaps/weird_size=../../../../../X11/include/X11/bitmaps/weird_size
+s none openwin/share/include/X11/bitmaps/wide_weave=../../../../../X11/include/X11/bitmaps/wide_weave
+s none openwin/share/include/X11/bitmaps/wingdogs=../../../../../X11/include/X11/bitmaps/wingdogs
+s none openwin/share/include/X11/bitmaps/woman=../../../../../X11/include/X11/bitmaps/woman
+s none openwin/share/include/X11/bitmaps/xfd_icon=../../../../../X11/include/X11/bitmaps/xfd_icon
+s none openwin/share/include/X11/bitmaps/xlogo11=../../../../../X11/include/X11/bitmaps/xlogo11
+s none openwin/share/include/X11/bitmaps/xlogo16=../../../../../X11/include/X11/bitmaps/xlogo16
+s none openwin/share/include/X11/bitmaps/xlogo32=../../../../../X11/include/X11/bitmaps/xlogo32
+s none openwin/share/include/X11/bitmaps/xlogo64=../../../../../X11/include/X11/bitmaps/xlogo64
+
+#   X Window System 64-bit library software
+
+!search  $HOME/openwin/lib/$plat_64
+d none openwin/lib/$plat_64 			0755 root bin
+s none openwin/lib/64=$plat_64
+s none openwin/lib/$plat_64/libX.so.4=./libX11.so.4
+s none openwin/lib/$plat_64/libX.so=./libX11.so.4
+s none openwin/lib/$plat_64/libX11.so=./libX11.so.4
+f none openwin/lib/$plat_64/libX11.so.4 		0755 root bin
+f none openwin/lib/$plat_64/libXext.so.0 	0755 root bin
+s none openwin/lib/$plat_64/libXext.so=./libXext.so.0
+s none openwin/lib/$plat_64/libXaw.so=./libXaw.so.5
+f none openwin/lib/$plat_64/libXaw.so.5 		0755 root bin
+s none openwin/lib/$plat_64/libXmu.so=./libXmu.so.4
+f none openwin/lib/$plat_64/libXmu.so.4 		0755 root bin
+s none openwin/lib/$plat_64/libXt.so=./libXt.so.4
+f none openwin/lib/$plat_64/libXt.so.4 		0755 root bin
+s none openwin/lib/$plat_64/libXi.so=./libXi.so.5
+f none openwin/lib/$plat_64/libXi.so.5 		0755 root bin
+s none openwin/lib/$plat_64/libSM.so=./libSM.so.6
+f none openwin/lib/$plat_64/libSM.so.6 		0755 root bin
+s none openwin/lib/$plat_64/libXp.so=./libXp.so.1
+f none openwin/lib/$plat_64/libXp.so.1 	0755 root bin
+s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
+f none openwin/lib/$plat_64/libxkbfile.so.4 	0755 root bin
+# Trusted Extensions API support
+s none openwin/lib/$plat_64/libXtsol.so=./libXtsol.so.1
+f none openwin/lib/$plat_64/libXtsol.so.1 	0755 root bin
+
+!search  $HOME/openwin/lib/$plat_64
+s none X11/lib/$plat_64/libXRes.so=./libXRes.so.1
+f none X11/lib/$plat_64/libXRes.so.1 			0755 root bin
+
+# RBAC help files
+d none lib 0755 root bin
+d none lib/help 755 root bin
+d none lib/help/auths 755 root bin
+d none lib/help/auths/locale 755 root bin
+!search ../usr/lib/help/auths/locale/C
+f none lib/help/auths/locale/C/X11States.html 444 root bin
+f none lib/help/auths/locale/C/FontStates.html 444 root bin
+d none lib/help/auths/locale/C 755 root bin
+d none lib/help/profiles 755 root bin
+d none lib/help/profiles/locale 755 root bin
+d none lib/help/profiles/locale/C 755 root bin
+!search ../usr/lib/help/profiles/locale/C
+f none lib/help/profiles/locale/C/RtDesktopConfiguration.html 444 root bin

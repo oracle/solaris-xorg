@@ -1,6 +1,7 @@
+#!/bin/sh
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +30,39 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#ident  "@(#)i.ttmapsdir	1.3	07/11/05 SMI"
 #
-# SUNWxorg-mesa preremove script.
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+PATH="/usr/bin:/usr/sbin:${PATH}"
+export PATH
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+while read src dest
+do
+	if [ ! -f $dest ] ; then
+		cp $src $dest
+	else
+	    # Merge new entries into ttmaps.dir while
+	    # removing corrupted & duplicate entries
+		awk '
+    /FROM-ENCODING/	{ from = $2 ; to = "" } 
+    /TO-ENCODING/ 	{ if (to == "") {to = $2} else { $from = "" } } 
+    /FILENAME/	 	{ if ( (from != "") && (to != "") ) {
+			    tuple = sprintf "%s/%s/%s", from, to , $2 ;
+			    if ( alreadyseen[tuple] != 1 ) {
+			      printf "FROM-ENCODING %s\n", from;
+			      printf "TO-ENCODING %s\n", to;
+			      printf "FILENAME %s\n", $2;
+			      alreadyseen[tuple] = 1;
+			    }
+			  }
+			  from = ""; to = "";
+			} ' $src $dest > /tmp/$$ttmaps.dir
+		count=`grep '^FILENAME' /tmp/$$ttmaps.dir | wc -l`
+		echo $count > $dest
+		cat /tmp/$$ttmaps.dir >> $dest
+		rm /tmp/$$ttmaps.dir 
+	fi
+done
 
 exit 0
 

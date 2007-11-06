@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +29,32 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+# ident "@(#)prototype 1.11     07/11/05 SMI"
 #
-# SUNWxorg-mesa preremove script.
+#    X Window System ICE library
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+i pkginfo
+i copyright=../copyright
+i depend
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+!HOME=../openwin
 
-exit 0
+d none openwin				0755 root bin
+
+!search      $HOME/bin
+d none openwin/bin			0755 root bin
+f none openwin/bin/iceauth		0755 root bin
+
+!search  $HOME/lib
+d none openwin/lib 			0755 root bin
+f none openwin/lib/libICE.so.6          0755 root bin
+s none openwin/lib/libICE.so=./libICE.so.6
+
+
+#    X Window System ICE 64-bit library
+!search  $HOME/lib/$plat_64
+d none openwin/lib/$plat_64 				0755 root bin
+s none openwin/lib/64=$plat_64
+f none openwin/lib/$plat_64/libICE.so.6          	0755 root bin
+s none openwin/lib/$plat_64/libICE.so=./libICE.so.6
 

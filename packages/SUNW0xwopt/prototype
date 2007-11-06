@@ -29,21 +29,39 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#       "@(#)prototype	1.8	07/11/05   Sun Microsystems" 
 #
-# SUNWxorg-mesa preremove script.
+# X Window System optional client localizable files
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+i pkginfo
+i copyright=../copyright
+#i depend
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+!HOME=../openwin
 
-exit 0
+
+!search      $HOME/lib/X11/app-defaults
+
+d none openwin                  0755 root bin
+d none openwin/lib 		0755 root bin
+d none openwin/lib/locale       0755 root bin
+d none openwin/lib/locale/C     0755 root bin
+d none openwin/lib/locale/C/app-defaults 0755 root bin
+f none openwin/lib/locale/C/app-defaults/Viewres 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XFontSel 0644 root bin
+f none openwin/lib/locale/C/app-defaults/XLoad 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Xditview 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Xedit 0644 root bin
+f none openwin/lib/locale/C/app-defaults/Xman 0644 root bin
+
+
+d none openwin/lib/locale/C/help     0755 root bin
+!search  $HOME/lib
+f none openwin/lib/locale/C/help/xman.help 0644 root bin
+
+!search      $HOME/lib/locale/C/LC_MESSAGES
+d none openwin/lib/locale/C/LC_MESSAGES 0755 root bin
+f none openwin/lib/locale/C/LC_MESSAGES/xfontsel.po 0644 root bin
+f none openwin/lib/locale/C/LC_MESSAGES/xload.po 0644 root bin
+f none openwin/lib/locale/C/LC_MESSAGES/xman.po 0644 root bin
 

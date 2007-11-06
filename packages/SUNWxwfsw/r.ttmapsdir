@@ -1,6 +1,7 @@
+#!/bin/sh
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +30,63 @@
 #
 ###########################################################################
 #
-#pragma ident	"@(#)preremove	1.3	07/11/05 SMI"
+#ident  "@(#)r.ttmapsdir	1.4	07/11/05 SMI"
 #
-# SUNWxorg-mesa preremove script.
+# NOTE: Any changes in FROM-ENCODING, TO-ENCODING and FILENAME must be in sync 
+#      with xc/fonts/scaled/TrueType/ttmaps.dir
+ 
+cat > /tmp/$$ttmaps.dir.delete  << EOF
+FROM-ENCODING iso8859-1
+TO-ENCODING unicode
+FILENAME iso8859-1.ttmap
+FROM-ENCODING iso8859-2
+TO-ENCODING unicode
+FILENAME iso8859-2.ttmap
+FROM-ENCODING sun-fontspecific 
+TO-ENCODING ms-symbol 
+FILENAME symbol.ttmap
+FROM-ENCODING dingbats-1
+TO-ENCODING unicode
+FILENAME dingbats-1.ttmap
+EOF
 
-# If the NVIDIA web installation has been run prior to
-# the integration of the OpenGL switcher, it will have
-# created the directory /usr/include/GL which the package
-# programs will refuse to replace with a symlink. 
-(   # Run in a subshell to isolate any directory changes if we later expand this
-    # script.
+awk '	BEGIN 		{ print "BEGIN {"}
+ 	/FROM-ENCODING/ { from = $2 } 
+	/TO-ENCODING/ 	{ to = $2 } 
+	/FILENAME/ 	{ printf "deletes[\"%s/%s/%s\"] = 1;\n", from, to , $2} 
+	END 		{ print "}" }' \
+ /tmp/$$ttmaps.dir.delete > /tmp/$$ttmaps.dir.delete.awk
 
-    if [ -d $BASEDIR/include/GL ]; then
-        rm -rf $BASEDIR/include/GL
-    fi
-)
+cat >> /tmp/$$ttmaps.dir.delete.awk <<EOF
+    /FROM-ENCODING/	{ from = \$2 ; to = "" } 
+    /TO-ENCODING/ 	{ to = \$2 } 
+    /FILENAME/	 	{ if ( (from != "") && (to != "") ) {
+			    tuple = sprintf "%s/%s/%s", from, to , \$2 ;
+			    if ( deletes[tuple] != 1 ) {
+				printf "FROM-ENCODING %s\n", from;
+				printf "TO-ENCODING %s\n", to;
+				printf "FILENAME %s\n", \$2;
+			    }
+			  }
+			} 
+EOF
+
+while read dest
+do
+	if [ -f $dest ] ; then
+		awk -f /tmp/$$ttmaps.dir.delete.awk $dest \
+		    > /tmp/$$ttmaps.dir.new
+		count=`grep '^FILENAME' /tmp/$$ttmaps.dir.new | wc -l`
+		if [ $count -eq 0 ]; then
+			rm  $dest
+		else
+			echo $count > $dest
+			cat /tmp/$$ttmaps.dir.new  >> $dest
+		fi
+		rm /tmp/$$ttmaps.dir.delete.awk /tmp/$$ttmaps.dir.delete \
+			/tmp/$$ttmaps.dir.new
+	fi
+done
 
 exit 0
 
