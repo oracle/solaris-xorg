@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.3     07/07/18 SMI"
+# ident "@(#)prototype_com 1.4     07/11/06 SMI"
 #
 #  X Window System required core font software package
 
@@ -152,3 +152,9 @@ f none X11/lib/X11/fonts/encodings/large/sun.unicode.india-0.enc.gz 0444 root bi
 d none X11/lib/X11/xserver 0755 root bin
 f none X11/lib/X11/xserver/libfontenc.so.1 0444 root bin
 f none X11/lib/X11/xserver/libXfont.so.1 0444 root bin
+
+!search $X11HOME/lib/X11/xserver/$plat_64
+d none X11/lib/X11/xserver/$plat_64 0755 root bin
+s none X11/lib/X11/xserver/64=$plat_64
+f none X11/lib/X11/xserver/$plat_64/libfontenc.so.1 0444 root bin
+f none X11/lib/X11/xserver/$plat_64/libXfont.so.1 0444 root bin

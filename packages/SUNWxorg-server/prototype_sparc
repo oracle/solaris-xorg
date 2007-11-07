@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.7     07/02/16 SMI"
+# ident "@(#)prototype_sparc 1.8     07/11/06 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -48,8 +48,3 @@ d none X11/bin 0755 root bin
 f none X11/bin/Xorg 2555 root root
 f none X11/bin/Xephyr 0555 root bin
 f none X11/bin/Xvfb 0555 root bin
-
-!search $HOME/lib/X11/xserver/sparcv9
-d none X11/lib/X11/xserver/sparcv9 0755 root bin
-f none X11/lib/X11/xserver/sparcv9/libfontenc.so.1 0444 root bin
-f none X11/lib/X11/xserver/sparcv9/libXfont.so.1 0444 root bin
