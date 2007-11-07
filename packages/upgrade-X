@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.33 07/11/05
+# @(#)upgrade-X	1.34 07/11/07
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -194,7 +194,7 @@ else
     PKGS_PLT="SUNWxwplt"
 fi
 
-    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfa SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsrc SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc ${PKGS_XSS}"
+    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfa SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsrc SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc SUNWvncviewer ${PKGS_XSS}"
 
     PKGS_32_sparc="SUNWxwpsr ${PKGS_XSS_sparc}"
 

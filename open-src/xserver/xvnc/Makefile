@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/11/02
+# @(#)Makefile	1.5	07/11/06
 #
 
 # Package name used in tarballs
@@ -83,11 +83,12 @@ SOURCE_PATCHES = \
 XORG_SOURCE_PATCHES:sh=cat ../xorg/patch-list
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES= unix/xc/programs/Xserver/Xvnc.man \
+# Common ones are here - source_gen target below has more with
+# different attributes/path set
+SUNTOUCHED_MANPAGES= \
 	unix/vncconfig/vncconfig.man unix/vncpasswd/vncpasswd.man \
-	unix/vncserver.man unix/vncviewer/vncviewer.man \
-	unix/x0vncserver/x0vncserver.man
-SUNTOUCH_MAN_FLAGS= \
+	unix/vncserver.man unix/x0vncserver/x0vncserver.man
+SUNTOUCH_MAN_FLAGS= -p /usr/bin/ \
  -a '{Availability, SUNWxvnc} {Interface Stability, Volatile}'
 
 # Compiler to use
@@ -141,6 +142,14 @@ source_gen::
 		unix/xorg-x11-server-source/hw/vnc/cfb.h \
 		unix/xorg-x11-server-source/hw/vnc/fb.h \
 		unix/xorg-x11-server-source/hw/vnc/fbrop.h )
+	(cd $(SOURCE_DIR) && \
+		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+		-a '{Availability, SUNWvncviewer} {Interface Stability, Volatile}' \
+		-p /usr/bin/ unix/vncviewer/vncviewer.man )
+	(cd $(SOURCE_DIR) && \
+		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+		-a '{Availability, SUNWxvnc} {Interface Stability, Volatile}' \
+		-p /usr/X11/bin/ unix/xc/programs/Xserver/Xvnc.man )
 
 # Command line options to GNU autoconf configure script for vnc
 VNC_CONFIG_OPTS= --with-installed-zlib --prefix=$(XVNCSERVER_PREFIX) \
@@ -196,7 +205,7 @@ install_gen: $(XVNCSERVER_BIN)
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
 	 &&  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
 	 DESTDIR=$(PROTODIR) CPPROG="cp -p" )
-	mkdir -p $(PROTODIR)/usr/bin \
+	mkdir -p $(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR) \
 		$(PROTODIR)/usr/share/man/man1 \
 		$(PROTODIR)$(X11_MAN_DIR)/man/man1 \
 		$(PROTODIR)/usr/share/vnc \
@@ -204,13 +213,16 @@ install_gen: $(XVNCSERVER_BIN)
 	cp -pf $(SOURCE_DIR)/unix/vncserver \
 		$(SOURCE_DIR)/unix/vncpasswd/vncpasswd \
 		$(SOURCE_DIR)/unix/vncconfig/vncconfig \
-		$(PROTODIR)/usr/bin
+		$(SOURCE_DIR)/unix/vncviewer/vncviewer \
+		$(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR)
 	cp -pf $(SOURCE_DIR)/unix/vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/vncserver.1
 	cp -pf $(SOURCE_DIR)/unix/vncconfig/vncconfig.man \
 		$(PROTODIR)/usr/share/man/man1/vncconfig.1
 	cp -pf $(SOURCE_DIR)/unix/vncpasswd/vncpasswd.man \
 		$(PROTODIR)/usr/share/man/man1/vncpasswd.1
+	cp -pf $(SOURCE_DIR)/unix/vncviewer/vncviewer.man \
+		$(PROTODIR)/usr/share/man/man1/vncviewer.1
 	cp -pf $(SOURCE_DIR)/common/javabin/index.vnc \
 		$(PROTODIR)/usr/share/vnc
 	cp -pf $(XORG_BUILD_DIR)/hw/vnc/Xvnc.man \
