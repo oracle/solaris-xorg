@@ -14,7 +14,8 @@ Individual "hack" modules are covered by additional copyright notices as
 documented in their manual pages included in this package.
 
 The endgame & glsnake programs are distributed under the terms of the
-GNU General Public License Version 2 as published by the Free Software Foundation.
+GNU General Public License Version 2 as published by the Free Software
+Foundation.
 A copy of the license and the source code for these programs is located at
-:pserver:anonymous@host131.cobalt.com:/cvs/sun-gnome.
+http://www.opensolaris.org/os/community/x_win/
 
