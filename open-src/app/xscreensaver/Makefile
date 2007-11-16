@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.78	07/09/25
+# @(#)Makefile	1.79	07/11/15
 #
 
 PWD:sh=pwd
@@ -42,8 +42,10 @@ XSCREENSAVER_VERS=5.01
 # Source tarball
 SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.gz
 
-# Download site for source
-SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
+# Download site for source - master site no longer carries 5.01 so we use
+# a mirror site until we upgrade to a newer version
+#SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=http://ftp.osuosl.org/pub/FreeBSD/distfiles/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
