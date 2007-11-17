@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.19     07/07/31 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.20     07/11/16 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -1078,7 +1078,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 	int ret_stat = PASSED;
 	ClientPtr res_client;
 	int	err_code = BadAccess;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ClientPtr client = subject;
 	TsolInfoPtr res_tsolinfo;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
@@ -1088,6 +1088,15 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 		return (BadValue);
 	}
 	res_tsolinfo = GetClientTsolInfo(res_client);
+
+	/* TrustedPath is needed to get serverClient attributes */
+	if (res_client == serverClient || res_tsolinfo == NULL)
+	{
+		if (client == serverClient || HasTrustedPath(tsolinfo))
+			return (PASSED); 
+		else
+			return (BadValue);
+	}
 
 	/*
 	 * MAC Check
