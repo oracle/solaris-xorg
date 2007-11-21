@@ -27,16 +27,28 @@
  * of the copyright holder.
  *
  */
-
-diff -urp -x '*~' driver/Makefile.in driver~/Makefile.in
---- driver/Makefile.in	2006-11-22 08:12:33.508250000 -0800
-+++ driver~/Makefile.in	2006-11-22 08:42:39.172575000 -0800
-@@ -804,7 +804,7 @@ XScreenSaver_Xm_ad.h: XScreenSaver-Xm.ad
- #
- xscreensaver: $(SAVER_OBJS) $(TRUSTED_OBJS)
- 	$(CC) $(LDFLAGS) -o $@ $(SAVER_OBJS) $(TRUSTED_OBJS) \
--	$(TRUSTED_LIBS) $(SAVER_LIBS)
-+	$(TRUSTED_LIBS) $(SAVER_LIBS) -lgconf-2 -lgobject-2.0
  
- xscreensaver-command: $(CMD_OBJS)
- 	$(CC) $(LDFLAGS) -o $@ $(CMD_OBJS) $(CMD_LIBS)
+diff -urp -x '*~' driver/xscreensaver.c driver~/xscreensaver.c
+--- driver/xscreensaver.c       Tue Aug 21 15:50:42 2007
++++ driver-mod/xscreensaver.c   Tue Aug 21 19:02:21 2007
+@@ -154,6 +154,7 @@
+ #include <X11/Shell.h>
+ #include <X11/Xos.h>
+ #include <gconf/gconf-client.h>
++#include <glib.h>
+ #include <time.h>
+ #include <sys/time.h>
+ #include <netdb.h>     /* for gethostbyname() */
+@@ -1210,6 +1211,12 @@ main_loop (saver_info *si)
+ ** pop-up diaglog
+ */
+ 
++/* BUG #6573182
++** g_type_init should be done so that xscreensaver does not dump core
++** if gconf daemon is not running.
++*/
++  g_type_init ();
++
+ /*
+ ** 2135519 at-spi-registryd starts when screen is locked even
+ ** when accessible device support is off(SR)
