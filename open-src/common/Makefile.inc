@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.80	07/11/02
+# @(#)Makefile.inc	1.81	07/11/20
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -344,8 +344,8 @@ $(DOCBOOK2HTML):
 XPROTO_DEP=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig/xproto.pc
 
 $(XPROTO_DEP):
-	@echo "Installing dependency proto/X11"
-	(cd $(TOP)/proto/X11 ; make install)
+	@echo "Installing dependency proto/x11proto"
+	(cd $(TOP)/proto/x11proto ; make install)
 
 ### Useful rules for maintaining patch sets
 

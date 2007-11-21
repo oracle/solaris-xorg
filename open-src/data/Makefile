@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/09/04
+# @(#)Makefile	1.2	07/11/16
 #
 ###############################################################################
 
@@ -55,6 +55,6 @@ subdirs:
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
 	for i in $(OS_SUBDIRS) ;\
 	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
+	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/data/$$i..."; \
 	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
 	done

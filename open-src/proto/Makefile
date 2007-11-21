@@ -28,13 +28,16 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/05/15
+# @(#)Makefile	1.7	07/11/20
 #
 ###############################################################################
 
-OS_SUBDIRS_common = X11 BigReqs Composite Damage EvIE Fixes Fontcache Fonts \
-	Input KB PM Randr Record Render Resource ScrnSaver Trap Video \
-	XCMisc XExt XF86BigFont XF86DGA XF86Misc XF86VidMode Xinerama \
+OS_SUBDIRS_common = \
+	x11proto bigreqsproto compositeproto damageproto evieproto \
+	fixesproto fontcacheproto fontsproto inputproto kbproto pmproto \
+	randrproto recordproto renderproto resourceproto scrnsaverproto \
+	trapproto videoproto xcmiscproto xextproto xf86bigfontproto \
+	xf86dgaproto xf86miscproto xf86vidmodeproto xineramaproto \
 	lg3dproto
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
