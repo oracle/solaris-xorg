@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.5	07/05/15
+# @(#)Makefile.inc	1.6	07/11/27
 #
 
 PWD:sh=pwd
@@ -52,7 +52,7 @@ CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
 
 # Environment variable options to GNU autoconf configure script
 CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR)" \
+	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) $(APP_ADD_CPPFLAGS)" \
 	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
 	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
 	$(APP_CONFIG_ENV)

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	07/09/06
+# @(#)Makefile	1.11	07/11/27
 #
 
 # Package name used in tarballs
@@ -67,11 +67,17 @@ FIX_PC_FILES=xfont.pc.in
 LIB_ADD_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 
 # Find freetype & fontenc libraries in private subdir
-LIB_ADD_LD_OPTIONS=-L $(PROTODIR)/usr/sfw/lib$(LIBSUBDIR) \
+# /usr/sfw/lib is left in the runpath as a temporary transition aid until
+# all build & test machines have freetype in /usr/lib
+LIB_ADD_LD_OPTIONS=-L $(PROTODIR)/usr/lib$(LIBSUBDIR) \
+	-R /usr/sfw/lib$(LIBSUBDIR) \
 	-L $(PROTODIR)$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)$(LIBSUBDIR)
 
 # Support font modules like libbitstream.so that libXfont doesn't already know
 LIB_ADD_CFLAGS=-DLOADABLEFONTS
+
+# Need to look in $(PROTODIR) for freetype headers
+LIB_ADD_CPPFLAGS=-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 
 include ../Makefile.inc
 

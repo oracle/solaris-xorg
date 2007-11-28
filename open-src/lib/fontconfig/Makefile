@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.68	07/09/17
+# @(#)Makefile	1.69	07/11/27
 #
 
 # Package name used in tarballs
@@ -66,8 +66,7 @@ LIB_PREFIX_SET=yes
 # DOC_PATH= PATH="$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)$(TOOLS_DIR)/bin:$$PATH"
 
 # Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --with-expat-includes=/usr/sfw/include \
-    --with-expat-lib=/usr/sfw/lib$(LIBSUBDIR) \
+LIB_ADD_CONFIG_OPTS = \
     --with-confdir=/etc/fonts --with-default-fonts='--font-dirs-go-here--' \
     --with-freetype-config=../freetype-config
 
@@ -83,7 +82,7 @@ FONTCONFIG_prefix=$(PROTODIR)
 FONTCONFIG_libdir=$(FONTCONFIG_prefix)/usr/lib
 
 # Paths to find libraries
-LIBPATHS = LD_LIBRARY_PATH=$(PROTODIR)/usr/sfw/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/sfw/lib$(LIBSUBDIR) $(DOC_PATH)
+LIBPATHS = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/lib$(LIBSUBDIR) $(DOC_PATH)
 
 include ../Makefile.inc
 
@@ -91,9 +90,9 @@ include ../Makefile.inc
 FONTCONFIG_SMF_MANIFEST_dir=$(PROTODIR)/var/svc/manifest/application/font
 FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
 
-$(FONTCONFIG_FT2CFG): $(PROTODIR)/usr/sfw/bin$(LIBSUBDIR)/freetype-config
+$(FONTCONFIG_FT2CFG): $(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config
 	-if [ -f $@ ] ; then rm $@ ; fi
-	sed -e 's|-L$$libdir|-L$(PROTODIR)$${exec_prefix}/lib$(LIBSUBDIR) -L$$libdir|' -e 's|^includedir=$${prefix}|includedir=$(PROTODIR)$${prefix}|' $(PROTODIR)/usr/sfw/bin$(LIBSUBDIR)/freetype-config > $@
+	sed -e 's|-L$$libdir|-L$(PROTODIR)$${exec_prefix}/lib$(LIBSUBDIR) -L$$libdir|' -e 's|^includedir=$${prefix}|includedir=$(PROTODIR)$${prefix}|' $(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config > $@
 	chmod +x $@
 
 # Run configure script

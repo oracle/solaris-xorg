@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.68	07/08/17
+# @(#)Makefile	1.69	07/11/27
 #
 
 PWD:sh=pwd
@@ -58,19 +58,16 @@ SOURCE_PATCHES= freetype-$(FT_VERS).patch 6425531.patch 6542352.patch \
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
 
+# Where to install freetype files
+FT_prefix=/usr
+
 # Command line options to GNU autoconf configure script
-FT_CFG=--enable-shared=yes --enable-static=no --prefix=/usr/sfw \
-	--libdir=/usr/sfw/lib$(LIBSUBDIR) \
-	--bindir=/usr/sfw/bin$(LIBSUBDIR)
+FT_CFG=--enable-shared=yes --enable-static=no --prefix=$(FT_prefix) \
+	--libdir=$(FT_prefix)/lib$(LIBSUBDIR) \
+	--bindir=$(FT_prefix)/bin$(LIBSUBDIR)
 
 # Library built in tree
-FT_LIB=$(FT_DIR)/objs/.libs/libfreetype.so.6.3.8
-
-# Where to install most files
-FT_prefix=$(PROTODIR)/usr/sfw
-
-# Where to install libraries
-FT_libdir=$(FT_prefix)/lib
+FT_LIB=$(SOURCE_DIR)/objs/.libs/libfreetype.so.6.3.8
 
 # What to build
 BUILD_TARGETS=$(GNUMAKE) $(FT_LIB)
@@ -98,11 +95,11 @@ $(FT_LIB): $(SOURCE_DIR)/config.mk
 	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_LDFLAGS)" $(GNUMAKE) )
 
 install_gen: $(FT_LIB)
-	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(FT_prefix) libdir=$(FT_libdir)$(ARCHLIBSUBDIR) bindir=$(FT_prefix)/bin$(ARCHLIBSUBDIR) install )
-	mkdir -p $(PROTODIR)/usr/sfw/bin$(ARCHLIBSUBDIR)
+	mkdir -p $(PROTODIR)$(FT_prefix)/bin$(ARCHLIBSUBDIR)
+	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(PROTODIR)$(FT_prefix) libdir=$(PROTODIR)$(FT_prefix)/lib$(ARCHLIBSUBDIR) bindir=$(PROTODIR)$(FT_prefix)/bin$(ARCHLIBSUBDIR) install )
 
 install_64::
-	-/bin/rm -f $(FT_libdir)/64 $(PROTODIR)/usr/sfw/bin/64
-	ln -s $(FT_libdir)/$(SUBDIR64) $(FT_libdir)/64
-	ln -s $(PROTODIR)/usr/sfw/bin/$(SUBDIR64) $(PROTODIR)/usr/sfw/bin/64
+	-/bin/rm -f $(PROTODIR)$(FT_prefix)/lib/64 $(PROTODIR)$(FT_prefix)/bin/64
+	ln -s $(SUBDIR64) $(PROTODIR)$(FT_prefix)/lib/64
+	ln -s $(SUBDIR64) $(PROTODIR)$(FT_prefix)/bin/64
 

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/01/31
+# @(#)Makefile	1.3	07/11/27
 #
 
 # Package name used in tarballs
@@ -47,7 +47,14 @@ SUNTOUCHED_MANPAGES=*.man
 SUNTOUCH_MAN_FLAGS= \
  -a '{Availability, SUNWxorg-client-programs} {Interface Stability, Volatile}'
 
+# Need to look in $(PROTODIR) for freetype headers
+APP_ADD_CPPFLAGS=-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
+
 # Need to link with libfontenc in server private directory
-APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+# /usr/sfw/lib is left in the runpath as a temporary transition aid until
+# all build & test machines have freetype in /usr/lib
+APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+	-R /usr/sfw/lib$(ARCHLIBSUBDIR) \
+	-L $(PROTODIR)/usr/lib$(LIBSUBDIR) 
 
 include ../Makefile.inc

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.6	07/05/25
+# @(#)Makefile.inc	1.7	07/11/27
 #
 
 PWD:sh=pwd
@@ -65,7 +65,7 @@ CONFIG_OPTS = --enable-shared=yes --enable-static=no \
 THIS_LIB_CFLAGS=$(LIB_CFLAGS) -I$(PROTODIR)/usr/X11/include $(LIB_ADD_CFLAGS)
 
 CONFIG_ENV = CC=$(CC) CFLAGS="$(THIS_LIB_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR)" \
+	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) $(LIB_ADD_CPPFLAGS)" \
 	LDFLAGS="$(LIB_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)" \
 	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
 	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
