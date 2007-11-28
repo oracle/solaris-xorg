@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.81	07/11/20
+# @(#)Makefile.inc	1.82	07/11/27
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -295,7 +295,7 @@ SOURCE_URL_DEFAULT	= $(SOURCE_URL_SET:yes=$(POUND_SIGN))
 $(SOURCE_URL_DEFAULT)	SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
 download:
-	if [ ! -s $(SOURCE_TARBALL) ] ; then \
+	if [ ! -s $(SOURCE_TARBALL) -a "x$(SOURCE_TARBALL_NAME)" != "xNONE" ] ; then \
 		$(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ;\
 	fi
 
