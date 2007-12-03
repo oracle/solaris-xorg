@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.14     07/08/10 SMI"
+# ident "@(#)prototype_i386 1.15     07/12/03 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -66,6 +66,7 @@ f none X11/lib/modules/drivers/neomagic_drv.so 0755 root bin
 f none X11/lib/modules/drivers/nsc_drv.so 0755 root bin
 f none X11/lib/modules/drivers/nv_drv.so 0755 root bin
 f none X11/lib/modules/drivers/radeon_drv.so 0755 root bin
+f none X11/lib/modules/drivers/radeonhd_drv.so 0755 root bin
 f none X11/lib/modules/drivers/r128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/rendition_drv.so 0755 root bin
 f none X11/lib/modules/drivers/s3_drv.so 0755 root bin
@@ -90,6 +91,7 @@ f none X11/lib/modules/drivers/amd64/cirrus_alpine.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_laguna.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/radeon_drv.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/radeonhd_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/r128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/vesa_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/vga_drv.so 0755 root bin

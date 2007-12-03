@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.7     07/08/23 SMI"
+# ident "@(#)prototype 1.8     07/12/03 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -262,18 +262,24 @@ f none X11/include/xorg/xaarop.h			0444 root bin
 f none X11/include/xorg/xf1bpp.h			0444 root bin
 f none X11/include/xorg/xf4bpp.h			0444 root bin
 f none X11/include/xorg/xf86.h				0444 root bin
+f none X11/include/xorg/xf86Crtc.h			0444 root bin
 f none X11/include/xorg/xf86Cursor.h			0444 root bin
 f none X11/include/xorg/xf86DDC.h			0444 root bin
+f none X11/include/xorg/xf86Modes.h			0444 root bin
 f none X11/include/xorg/xf86Module.h			0444 root bin
+f none X11/include/xorg/xf86Optrec.h			0444 root bin
 f none X11/include/xorg/xf86OSKbd.h			0444 root bin
 f none X11/include/xorg/xf86OSmouse.h			0444 root bin
 f none X11/include/xorg/xf86Opt.h			0444 root bin
+f none X11/include/xorg/xf86Parser.h			0444 root bin
 f none X11/include/xorg/xf86Pci.h			0444 root bin
 f none X11/include/xorg/xf86PciInfo.h			0444 root bin
 f none X11/include/xorg/xf86Priv.h			0444 root bin
 f none X11/include/xorg/xf86Privstr.h			0444 root bin
 f none X11/include/xorg/xf86RAC.h			0444 root bin
 f none X11/include/xorg/xf86RamDac.h			0444 root bin
+f none X11/include/xorg/xf86RandR12.h			0444 root bin
+f none X11/include/xorg/xf86Rename.h			0444 root bin
 f none X11/include/xorg/xf86Resources.h			0444 root bin
 f none X11/include/xorg/xf86Sbus.h			0444 root bin
 f none X11/include/xorg/xf86Version.h			0444 root bin

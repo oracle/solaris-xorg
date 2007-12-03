@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/08/10
+# @(#)Makefile	1.8	07/12/03
 #
 ###############################################################################
 
@@ -76,6 +76,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-neomagic		\
 	xf86-video-nsc			\
 	xf86-video-nv			\
+	xf86-video-radeonhd		\
 	xf86-video-rendition		\
 	xf86-video-s3			\
 	xf86-video-s3virge		\
