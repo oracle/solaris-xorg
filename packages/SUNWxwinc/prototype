@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.73	07/08/29 SMI"
+# ident	"@(#)prototype	35.74	07/12/07 SMI"
 #
 #  X Window System include files
 
@@ -290,12 +290,6 @@ f none openwin/share/include/X11/extensions/XKM.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKMformat.h 0644 root bin
 f none openwin/share/include/X11/extensions/Xevie.h 0644 root bin
 f none openwin/share/include/X11/extensions/XRes.h 0444 root bin
-f none openwin/share/include/X11/extensions/allplanes.h 0644 root bin
-f none openwin/share/include/X11/extensions/allplanesstr.h 0644 root bin
-f none openwin/share/include/X11/extensions/transovl.h 0644 root bin
-f none openwin/share/include/X11/extensions/transovlstr.h 0644 root bin
-f none openwin/share/include/X11/extensions/fbpm.h 0644 root bin
-f none openwin/share/include/X11/extensions/fbpmstr.h 0644 root bin
 f none openwin/share/include/X11/extensions/xinerama.h 0644 root bin
 f none openwin/share/include/X11/extensions/Xtsol.h 0644 root bin
 f none openwin/share/include/X11/extensions/Xtsolproto.h 0644 root bin
@@ -423,6 +417,20 @@ f none X11/include/X11/extensions/xfixesproto.h 0444 root bin
 f none X11/include/X11/extensions/xfixeswire.h	0444 root bin
 f none X11/include/X11/extensions/xtestext1.h 	0444 root bin
 f none X11/include/X11/extensions/xteststr.h 	0444 root bin
+
+# extension headers from open-src/proto/sun-ext-protos
+f none X11/include/X11/extensions/allplanes.h	0444 root bin
+f none X11/include/X11/extensions/allplanesstr.h 0444 root bin
+f none X11/include/X11/extensions/transovl.h 	0444 root bin
+f none X11/include/X11/extensions/transovlstr.h	0444 root bin
+f none X11/include/X11/extensions/fbpm.h	0444 root bin
+f none X11/include/X11/extensions/fbpmstr.h	0444 root bin
+s none openwin/share/include/X11/extensions/allplanes.h=../../../../../X11/include/X11/extensions/allplanes.h
+s none openwin/share/include/X11/extensions/allplanesstr.h=../../../../../X11/include/X11/extensions/allplanesstr.h
+s none openwin/share/include/X11/extensions/transovl.h=../../../../../X11/include/X11/extensions/transovl.h
+s none openwin/share/include/X11/extensions/transovlstr.h=../../../../../X11/include/X11/extensions/transovlstr.h
+s none openwin/share/include/X11/extensions/fbpm.h=../../../../../X11/include/X11/extensions/fbpm.h
+s none openwin/share/include/X11/extensions/fbpmstr.h=../../../../../X11/include/X11/extensions/fbpmstr.h
 
 # open-src/lib/libXcomposite
 s none openwin/share/include/X11/extensions/Xcomposite.h=../../../../../X11/include/X11/extensions/Xcomposite.h

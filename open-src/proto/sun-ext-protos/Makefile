@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source Protocol modules
+###############################################################################
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,45 +28,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	07/12/07
 #
-###############################################################################
+# ident "@(#)Makefile 1.1     07/12/04 SMI"
+#
+# Definitions of Solaris-specific X Server extensions
 
-OS_SUBDIRS_common = \
-	x11proto bigreqsproto compositeproto damageproto evieproto \
-	fixesproto fontcacheproto fontsproto inputproto kbproto pmproto \
-	randrproto recordproto renderproto resourceproto scrnsaverproto \
-	trapproto videoproto xcmiscproto xextproto xf86bigfontproto \
-	xf86dgaproto xf86miscproto xf86vidmodeproto xineramaproto \
-	lg3dproto sun-ext-protos
+# No upstream sources for these files, since they're Solaris-specific
+SOURCE_TARBALL_NAME=NONE
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+### Include common rulesets
+PWD:sh=pwd
+TOP=$(PWD)/../..
+include $(TOP)/common/Makefile.inc
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)       \
-	glproto xf86driproto
+DESTDIR=$(PROTODIR)
+INSTDIR=$(DESTDIR)$(X11_INCLUDES_DIR)/X11/extensions
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
-
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
-
-World: clean install
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+install_gen::
+	mkdir -p $(INSTDIR)
+	cp -pf include/*h $(INSTDIR)/
