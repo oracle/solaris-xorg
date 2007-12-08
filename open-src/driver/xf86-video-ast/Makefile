@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/07/31
+# @(#)Makefile	1.6	07/11/30
 #
 
 # Package name used in tarballs
@@ -40,7 +40,8 @@ DRIVER_NAME=xf86-video-ast
 DRIVER_VERS=0.81.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = \
+	6554541.patch
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man

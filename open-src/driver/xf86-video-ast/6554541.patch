@@ -1,0 +1,15 @@
+--- src/ast_vgatool.c.orig	Fri Nov 30 15:25:07 2007
++++ src/ast_vgatool.c	Fri Nov 30 15:29:28 2007
+@@ -129,6 +129,12 @@
+    *(ULONG *) (pAST->MMIOVirtualAddr + 0xF004) = 0x1e6e0000;
+    *(ULONG *) (pAST->MMIOVirtualAddr + 0xF000) = 0x00000001;
+    
++   *(ULONG *) (pAST->MMIOVirtualAddr + 0x10100) = 0x000000A8;
++
++   do {
++      ;
++   } while (*(volatile ULONG *) (pAST->MMIOVirtualAddr + 0x10100) != 0x000000A8);
++
+    /* Get BusWidth */
+    ulData = *(ULONG * ) (pAST->MMIOVirtualAddr + 0x10004);       
+    if (ulData & 0x40)
