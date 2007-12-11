@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.13	07/12/10 SMI
+#	@(#)prototype	1.14	07/12/14 SMI
 #
 #  FreeType 2 package
 
@@ -161,15 +161,15 @@ d none lib 							0755 root bin
 f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.8	0755 root bin
 s none lib/libfreetype.so=libfreetype.so.6
 
-d none share 							0755 root bin
+d none share 							0755 root sys 
 
 !search $HOME/share/aclocal
-d none share/aclocal						0755 root bin
+d none share/aclocal						0755 root other 
 f none share/aclocal/freetype2.m4				0444 root bin
 
 !search $HOME/lib/pkgconfig
 d none lib/pkgconfig 						0755 root other
-f none lib/pkgconfig/freetype2.pc				0444 root bin
+f none lib/pkgconfig/freetype2.pc				0644 root bin
 
 #  FreeType 2 64-bit libraries 
 
@@ -181,7 +181,7 @@ s none lib/$plat_64/libfreetype.so=libfreetype.so.6
 
 !search $HOME/lib/$plat_64/pkgconfig
 d none lib/$plat_64/pkgconfig					0755 root other
-f none lib/$plat_64/pkgconfig/freetype2.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/freetype2.pc			0644 root bin
 
 
 
