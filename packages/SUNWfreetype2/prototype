@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.12	07/11/27 SMI
+#	@(#)prototype	1.13	07/12/10 SMI
 #
 #  FreeType 2 package
 
@@ -51,7 +51,7 @@ s none sfw/lib/libfreetype.so.6=../../lib/libfreetype.so.6
 s none sfw/lib/libfreetype.so=libfreetype.so.6
 d none sfw/lib/$plat_64						0755 root bin
 s none sfw/lib/64=$plat_64
-s none sfw/lib/$plat_64/libfreetype.so.6=../../lib/64/libfreetype.so.6
+s none sfw/lib/$plat_64/libfreetype.so.6=../../../lib/64/libfreetype.so.6
 s none sfw/lib/$plat_64/libfreetype.so=libfreetype.so.6
 
 !search $HOME/bin
@@ -174,7 +174,7 @@ f none lib/pkgconfig/freetype2.pc				0444 root bin
 #  FreeType 2 64-bit libraries 
 
 !search $HOME/lib/$plat_64
-d none lib/$plat_64						0444 root bin
+d none lib/$plat_64						0755 root bin
 s none lib/64=$plat_64
 f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.8	0755 root bin
 s none lib/$plat_64/libfreetype.so=libfreetype.so.6
