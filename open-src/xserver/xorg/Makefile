@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.60	07/10/11
+# @(#)Makefile	1.61	07/12/13
 #
 
 # Build 32-bit or 64-bit?
@@ -51,7 +51,7 @@ SOURCE_TARBALL_DIR=xserver
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
-SOURCE_PATCHES:sh=cat patch-list
+SOURCE_PATCHES:sh=cat -s patch-list closed-src/patch-list | sed '/^\#/ d' 
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)

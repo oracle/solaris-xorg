@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/11/06
+# @(#)Makefile	1.6	07/12/13
 #
 
 # Package name used in tarballs
@@ -80,7 +80,8 @@ SOURCE_PATCHES = \
 	build-without-Xorg.patch \
 	solaris-port.patch
 
-XORG_SOURCE_PATCHES:sh=cat ../xorg/patch-list
+# Patches shared between Xorg & Xvnc builds
+XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
 
 # Man pages to apply Sun footer to & attributes to list
 # Common ones are here - source_gen target below has more with
