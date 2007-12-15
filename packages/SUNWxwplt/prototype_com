@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.134	07/09/04   Sun Microsystems" 
+#	"@(#)prototype_com	35.135	07/12/14   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -82,7 +82,6 @@ f none openwin/bin/xmodmap 	0755 root bin
 f none openwin/bin/xpr 		0755 root bin
 f none openwin/bin/xprop 	0755 root bin
 f none openwin/bin/xrdb 	0755 root bin
-f none openwin/bin/xrefresh 	0755 root bin
 f none openwin/bin/xset 	0755 root bin
 f none openwin/bin/xsetroot 	0755 root bin
 f none openwin/bin/xstdcmap 	0755 root bin
@@ -124,6 +123,10 @@ f none X11/bin/cxpm 	0755 root bin
 f none X11/bin/sxpm 	0755 root bin
 s none openwin/bin/cxpm=../../X11/bin/cxpm
 s none openwin/bin/sxpm=../../X11/bin/sxpm
+
+# open-src/app/xrefresh
+f none X11/bin/xrefresh 		0755 root bin
+s none openwin/bin/xrefresh=../../X11/bin/xrefresh
 
 d none openwin/lib 			0755 root bin
 !search  $HOME/openwin/lib
