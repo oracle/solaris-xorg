@@ -46,3 +46,4 @@ kbd-driver.patch
 shm-across-zones.patch
 6425775.patch
 KB_EncodingAtXCrash.patch
+6278039.patch
