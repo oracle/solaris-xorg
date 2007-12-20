@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	07/11/27
+# @(#)Makefile	1.12	07/12/19
 #
 
 # Package name used in tarballs
@@ -41,7 +41,8 @@ LIB_VERS=1.2.8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	6206898.patch
+	6206898.patch \
+	6640505.patch
 
 
 # Library name

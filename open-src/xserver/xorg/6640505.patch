@@ -1,0 +1,16 @@
+--- dix/dixfonts.c.orig Thu Nov 16 10:01:22 2006
++++ dix/dixfonts.c      Tue Dec 18 17:16:22 2007
+@@ -329,6 +329,13 @@
+        err = BadFontName;
+        goto bail;
+     }
++    /* check values for firstCol, lastCol, firstRow, and lastRow for CR 6640505 */
++    if (pfont->info.firstCol>pfont->info.lastCol ||
++       pfont->info.firstRow>pfont->info.lastRow ||
++       pfont->info.lastCol-pfont->info.firstCol > 255) {
++       err = AllocError;
++       goto bail;
++    }
+     if (!pfont->fpe)
+        pfont->fpe = fpe;
+     pfont->refcnt++;
