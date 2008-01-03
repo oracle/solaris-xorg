@@ -1,0 +1,47 @@
+--- xorg-server-1.3.0.0/Xext/security.c	2007-12-19 23:00:48.062636000 -0800
++++ xorg-server-1.3.0.0/Xext/security.c	2007-12-21 14:04:40.604373000 -0800
+@@ -1572,7 +1572,7 @@
+ 	return;
+ 
+ #ifndef __UNIXOS2__
+-    f = fopen(SecurityPolicyFile, "r");
++    f = Fopen(SecurityPolicyFile, "r");
+ #else
+     f = fopen((char*)__XOS2RedirRoot(SecurityPolicyFile), "r");
+ #endif    
+@@ -1658,7 +1658,7 @@
+     }
+ #endif /* PROPDEBUG */
+ 
+-    fclose(f);
++    Fclose(f);
+ } /* SecurityLoadPropertyAccessList */
+ 
+ 
+
+--- xorg-server-1.3.0.0/os/utils.c	Mon Sep 10 21:05:28 2007
++++ xorg-server-1.3.0.0/os/utils.c	Fri Dec 21 16:52:08 2007
+@@ -1889,17 +1889,20 @@
+ 
+     return iop;
+ #else
+-    int ruid, euid;
++    uid_t ruid, euid;
++    gid_t rgid, egid;
+ 
+     ruid = getuid();
+     euid = geteuid();
++    rgid = getgid();
++    egid = getegid();
+     
+-    if (seteuid(ruid) == -1) {
++    if ((seteuid(ruid) == -1) || (setegid(rgid) == -1)) {
+ 	    return NULL;
+     }
+     iop = fopen(file, type);
+ 
+-    if (seteuid(euid) == -1) {
++    if ((seteuid(euid) == -1) || (setegid(egid) == -1)) {
+ 	    fclose(iop);
+ 	    return NULL;
+     }
