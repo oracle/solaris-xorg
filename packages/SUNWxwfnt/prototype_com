@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.46	07/11/05	Sun Microsystems
+#	@(#)prototype_com	35.47	08/01/08	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -472,16 +472,6 @@ f none openwin/lib/X11/fonts/misc/8x13.pcf 		0644 root bin
 f none openwin/lib/X11/fonts/misc/cursor.pcf 		0644 root bin
 f none openwin/lib/X11/fonts/misc/Screen6.pcf 	0644 root bin
 f none openwin/lib/X11/fonts/misc/Screen7.pcf 	0644 root bin
-
-d none openwin/lib/X11/fonts/F3 				0755 root bin
-
-!search  $HOME/lib/X11/fonts/F3/map
-d none openwin/lib/X11/fonts/F3/map 				0755 root bin
-f none openwin/lib/X11/fonts/F3/map/dingbats.map 		0644 root bin
-f none openwin/lib/X11/fonts/F3/map/latin-accented.map 		0644 root bin
-f none openwin/lib/X11/fonts/F3/map/symbol.map 			0644 root bin
-f none openwin/lib/X11/fonts/F3/map/latin.map 			0644 root bin
-
 
 !search  $HOME/lib/X11/fonts/F3bitmaps
 d none openwin/lib/X11/fonts/F3bitmaps 0755 root bin

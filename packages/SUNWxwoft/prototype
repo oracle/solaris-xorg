@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 35.16     07/11/05 SMI"
+# ident "@(#)prototype 35.17     08/01/08 SMI"
 #
 #  X Window System optional fonts
 
@@ -490,70 +490,6 @@ f none openwin/lib/X11/fonts/100dpi/lubI19.pcf 0644 root bin
 f none openwin/lib/X11/fonts/100dpi/lubR19.pcf 0644 root bin
 f none openwin/lib/X11/fonts/100dpi/lutBS19.pcf 0644 root bin
 f none openwin/lib/X11/fonts/100dpi/lutRS19.pcf 0644 root bin
-
-!search            $HOME/F3
-d none openwin/lib/X11/fonts/F3					0755 root bin
-e fontsdir openwin/lib/X11/fonts/F3/fonts.dir 0644 root bin
-e fontsalias openwin/lib/X11/fonts/F3/fonts.alias.all 0644 root bin
-f none openwin/lib/X11/fonts/F3/AvantGarde-BookOblique.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/AvantGarde-DemiOblique.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bembo-Bold.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bembo-BoldItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bembo-Italic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bembo.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bookman-Demi.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bookman-DemiItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bookman-Light.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Bookman-LightItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/GillSans-Bold.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/GillSans-BoldItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/GillSans-Italic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/GillSans.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Helvetica-Narrow-Bold.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Helvetica-Narrow-BoldOblique.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Helvetica-Narrow-Oblique.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Helvetica-Narrow.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Lucida-Bright.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Lucida-BrightDemiBold.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Lucida-BrightDemiBoldItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Lucida-BrightItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Rockwell-Bold.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Rockwell-BoldItalic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Rockwell-Italic.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/Rockwell.f3b 0644 root bin
-f none openwin/lib/X11/fonts/F3/ZapfChancery-MediumItalic.f3b 0644 root bin
-
-!search            $HOME/F3/afm
-d none openwin/lib/X11/fonts/F3/afm				0755 root bin
-f none openwin/lib/X11/fonts/F3/afm/AvantGarde-BookOblique.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/AvantGarde-DemiOblique.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bembo-Bold.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bembo-BoldItalic.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bembo-Italic.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bembo.afm			0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bookman-Demi.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bookman-DemiItalic.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bookman-Light.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Bookman-LightItalic.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/GillSans-Bold.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/GillSans-BoldItalic.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/GillSans-Italic.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/GillSans.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow-Bold.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow-BoldOblique.afm 0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow-Oblique.afm 0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Helvetica-Narrow.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Lucida-Bright.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Lucida-BrightDemiBold.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Lucida-BrightDemiBoldItalic.afm 0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Lucida-BrightItalic.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Rockwell-Bold.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Rockwell-BoldItalic.afm	0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Rockwell-Italic.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/Rockwell.afm		0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/ZapfChancery-MediumItalic.afm 0644 root bin
-f none openwin/lib/X11/fonts/F3/afm/ZapfDingbats.afm		0644 root bin
-
 
 # The Adobe and the MIT Type 1 fonts and their afm's need to be consolidated
 #f none openwin/lib/X11/fonts/afm/UtopiaBold.afm 0664 root bin
