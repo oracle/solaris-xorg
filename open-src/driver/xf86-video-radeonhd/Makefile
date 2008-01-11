@@ -37,7 +37,7 @@
 DRIVER_NAME=xf86-video-radeonhd
 
 # Version number (used in path names)
-DRIVER_VERS=1.0.0
+DRIVER_VERS=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 
