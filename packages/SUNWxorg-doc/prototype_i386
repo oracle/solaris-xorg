@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_i386 1.12     07/08/10 SMI"
+# ident "@(#)prototype_i386 1.13     08/01/11 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -76,6 +76,7 @@ f none X11/share/man/man7/palmax.7 0444 root bin
 f none X11/share/man/man7/penmount.7 0444 root bin
 f none X11/share/man/man7/r128.7 0444 root bin
 f none X11/share/man/man7/radeon.7 0444 root bin
+f none X11/share/man/man7/radeonhd.7 0444 root bin
 f none X11/share/man/man7/rendition.7 0444 root bin
 f none X11/share/man/man7/s3virge.7 0444 root bin
 f none X11/share/man/man7/savage.7 0444 root bin
