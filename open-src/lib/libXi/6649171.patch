@@ -1,0 +1,90 @@
+--- src/Makefile.am	Wed Sep  5 09:41:58 2007
++++ src/Makefile.am	Wed Dec 19 16:02:06 2007
+@@ -48,7 +48,7 @@
+ 
+ #INCLUDES = -I$(top_srcdir)/include/X11/extensions
+ 
+-libXi_la_LDFLAGS = -version-number 6:0:0 -no-undefined
++libXi_la_LDFLAGS = -version-number 5:0:0 -no-undefined
+ 
+ #libXiincludedir = $(includedir)/X11/extensions
+ #libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xi.h 
+
+--- src/libXi-1.1.3/src/Makefile.in    Wed Sep  5 09:42:53 2007
++++ src/Makefile.in Wed Dec 19 17:00:21 2007
+@@ -253,7 +253,7 @@
+ AM_CFLAGS = $(XI_CFLAGS) $(MALLOC_ZERO_CFLAGS)
+ 
+ #INCLUDES = -I$(top_srcdir)/include/X11/extensions
+-libXi_la_LDFLAGS = -version-number 6:0:0 -no-undefined
++libXi_la_LDFLAGS = -version-number 5:0:0 -no-undefined
+ 
+ #libXiincludedir = $(includedir)/X11/extensions
+ #libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xi.h 
+
+--- src/XGetVers.c	Wed Sep  5 09:41:58 2007
++++ src/XGetVers.c	Tue Dec 11 16:58:56 2007
+@@ -60,15 +60,24 @@
+ #include <X11/extensions/extutil.h>
+ #include "XIint.h"
+ 
+-XExtensionVersion *
+-XGetExtensionVersion(register Display * dpy, _Xconst char *name)
+-{
++XExtensionVersion
++#if NeedFunctionPrototypes
++*XGetExtensionVersion (
++    register Display *dpy,
++    _Xconst char *name)
++#else
++*XGetExtensionVersion (dpy, name)
++    register Display *dpy;
++    char *name;
++#endif
++{       
+     XExtensionVersion *ext;
+     XExtDisplayInfo *info = XInput_find_display(dpy);
+ 
+     LockDisplay(dpy);
+     ext = _XiGetExtensionVersion(dpy, name, info);
+-    if (ext != (XExtensionVersion *) NoSuchExtension) {
++    /* This is unlocked in _XiCheckExtInit() */
++    if (ext != (XExtensionVersion *) NoSuchExtension) { 
+ 	UnlockDisplay(dpy);
+ 	SyncHandle();
+     }
+@@ -75,8 +84,18 @@
+     return (ext);
+ }
+ 
+-XExtensionVersion *
+-_XiGetExtensionVersion(register Display * dpy, _Xconst char *name, XExtDisplayInfo *info)
++XExtensionVersion
++#if NeedFunctionPrototypes
++*_XiGetExtensionVersion (
++    register Display *dpy,
++    _Xconst char *name,
++    XExtDisplayInfo *info)
++#else
++*_XiGetExtensionVersion (dpy, name, info)
++    register Display *dpy;
++    char *name;
++    XExtDisplayInfo *info;
++#endif
+ {
+     xGetExtensionVersionReq *req;
+     xGetExtensionVersionReply rep;
+@@ -85,7 +104,7 @@
+     if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
+ 	return ((XExtensionVersion *) NoSuchExtension);
+ 
+-    GetReq(GetExtensionVersion, req);
++    GetReq(GetExtensionVersion, req);		
+     req->reqType = info->codes->major_opcode;
+     req->ReqType = X_GetExtensionVersion;
+     req->nbytes = name ? strlen(name) : 0;
+@@ -105,3 +124,4 @@
+     }
+     return (ext);
+ }
++

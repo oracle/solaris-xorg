@@ -1,0 +1,39 @@
+--- XI.h	Fri Aug 31 01:27:29 2007
++++ XI.h	Tue Jan 15 10:51:05 2008
+@@ -214,6 +214,12 @@
+ #define DeviceMode              (1L << 0)
+ #define Relative                0
+ #define Absolute                1
++/* Merged from Metrolink tree for XINPUT stuff	*/
++#define TS_Raw					57
++#define TS_Scaled				58
++#define SendCoreEvents			59
++#define DontSendCoreEvents		60
++/* End of merged section	*/
+ 
+ #define ProximityState          (1L << 1)
+ #define InProximity             (0L << 1)
+--- XIproto.h	Fri Aug 31 01:27:29 2007
++++ XIproto.h	Tue Jan 15 10:51:39 2008
+@@ -1413,6 +1413,21 @@
+     CARD16          pad1 B16;
+ } xDeviceEnableCtl;
+ 
++/* Merged from Metrolink tree for XINPUT stuff	*/
++
++typedef struct {
++     CARD16         control;
++     CARD16         length;
++     CARD32         min_x;
++     CARD32         max_x;
++     CARD32         min_y;
++     CARD32         max_y;
++     CARD32         button_threshold;
++} xDeviceTSCalibrationCtl;
++
++/* End of merged section	*/
++
++
+ /**********************************************************
+  *
+  * Input extension events.

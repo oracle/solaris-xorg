@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	07/08/29
+# @(#)Makefile	1.10	08/01/10
 #
 ###############################################################################
 
@@ -48,6 +48,7 @@ OS_SUBDIRS_common = \
 	libXcursor \
 	libXfont \
 	libXft \
+	libXi \
 	libXinerama \
 	libxkbfile \
 	libxkbui \

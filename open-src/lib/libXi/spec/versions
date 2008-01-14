@@ -1,0 +1,25 @@
+#
+# Copyright (c) 2000 by Sun Microsystems, Inc.
+# All rights reserved.
+#
+#ident  "@(#)versions	1.2	05/05/12 SMI"
+#
+#lib/Xi/spec/versions
+#
+
+amd64 {
+	SUNW_1.1;
+	SUNWprivate;
+}
+i386 {
+	SUNW_1.1;
+	SUNWprivate;
+}
+sparc {
+	SUNW_1.1;
+	SUNWprivate;
+}
+sparcv9 {
+	SUNW_1.1;
+	SUNWprivate;
+}

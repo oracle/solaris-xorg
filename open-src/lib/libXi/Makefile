@@ -1,6 +1,8 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Xi 1.x Makefile
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,17 +30,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/01/15
+# @(#)Makefile	1.1	07/12/11
 #
 
 # Package name used in tarballs
-PROTO_NAME=inputproto
+LIB_MODULE=libXi
 
 # Version number (used in path names)
-VERSION=1.4.2.1
+LIB_VERS=1.1.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=6649171.patch
+SOURCE_PATCHES = 6649171.patch
 
-### Include common rulesets
+# Library name (used for specfiles/mapfiles)
+LIBNAME=Xi
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Committed
+LIB_MAN_SUFFIX=3Xi
+
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXi.so.5.0.0
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xi.pc.in
+
 include ../Makefile.inc
