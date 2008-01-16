@@ -1,0 +1,83 @@
+--- xset.man	Tue Aug 21 16:05:32 2007
++++ filemerge.out	Mon Jan 14 13:59:18 2008
+@@ -1,5 +1,6 @@
+ .\" $Xorg: xset.man,v 1.4 2001/02/09 02:05:59 xorgcvs Exp $
+ .\" Copyright 1988, 1998  The Open Group
++.\" Copyright (c) 1997, 1999  Sun Microsystems, Inc.
+ .\" 
+ .\" Permission to use, copy, modify, distribute, and sell this software and its
+ .\" documentation for any purpose is hereby granted without fee, provided that
+@@ -43,6 +44,10 @@
+ 	[dpms \fIstandby\fP [\fI suspend\fP [\fI off\fP]]] 
+ 	[dpms force {standby|suspend|off|on}]
+ .br
++[+fbpm] [-fbpm]
++.br
++	[fbpm force {standby|suspend|off|on}]
++.br
+ [fp=\fIpathlist\fP] 
+ [-fp=\fIpathlist\fP] 
+ [+fp=\fIpathlist\fP] 
+@@ -124,7 +129,9 @@
+ The \fB\-dpms\fP option disables DPMS (Energy Star) features.
+ .TP 8
+ .B +dpms
+-The \fB+dpms\fP option enables DPMS (Energy Star) features.
++Enable Energy Star mode. Default times are standby = 1440, suspend = 1620, and
++off = 1800 seconds.
++.PP
+ .TP 8
+ .B dpms \fIflags...\fP
+ The \fBdpms\fP option allows the DPMS (Energy Star) parameters to be
+@@ -140,6 +147,51 @@
+ values implicitly enables the DPMS features.  A value of zero disables
+ a particular mode.
+ .TP 8
++.B dpms force standby
++Force server to Energy Star standby mode.
++.PP
++.TP 8
++.B dpms force suspend
++Force server to Energy Star suspend mode.
++.PP
++.TP 8
++.B dpms force off
++Force server to Energy Star off mode.
++.PP
++.TP 8
++.B dpms force on
++Force server to Energy Star on mode.
++.PP
++.TP 8
++.B dpms [standby] [[suspend] [[off]]]
++Set Energy Star timers. The command can take the form, dpms [standby], or dpms [standby] [suspend] or dpms [standby] [suspend] [off]. 
++Note that standby is less than suspend is less than off, if this condition is not met, an error is produced.
++.PP
++.TP 8
++.B +fbpm
++Enable frame buffer power management. NOTE: FBPM timing is linked to DPMS, See DMPS for default timeout values.
++.PP
++.TP 8
++.B -fbpm
++Disable frame buffer power management. NOTE: Does not affect DPMS timeouts.
++.PP
++.TP 8
++.B fbpm force standby
++Force to standby power level.
++.PP
++.TP 8
++.B fbpm force suspend
++Force to suspend power level.
++.PP
++.TP 8
++.B fbpm force off
++Force power to off.
++.PP
++.TP 8
++.B fbpm force on
++Force power to on.
++.PP
++.TP 8
+ .B fp= \fIpath,...\fP
+ The \fBfp=\fP sets the font path to the entries given in the path argument.
+ The entries are interpreted by the server, not by the client.

@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xkill 1.x Makefile
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,52 +30,19 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/01/09
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	constype \
-	mesa-demos \
-	mkfontscale \
-	xcursorgen \
-	xdpyinfo \
-	xgamma \
-	xkbcomp \
-	xkill \
-	xpm \
-	xrandr \
-	xrefresh \
-	xset \
-	xvidtune \
-	xvinfo \
-	xscreensaver
+# Package name used in tarballs
+APP_NAME=xkill
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+APP_VERS=1.0.1
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=
+SUNTOUCH_MAN_FLAGS=
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc
