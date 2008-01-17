@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.137	08/01/16   Sun Microsystems" 
+#	"@(#)prototype_com	35.138	08/01/17   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -83,10 +83,8 @@ f none openwin/bin/xpr 		0755 root bin
 f none openwin/bin/xprop 	0755 root bin
 f none openwin/bin/xrdb 	0755 root bin
 f none openwin/bin/xset 	0755 root bin
-f none openwin/bin/xsetroot 	0755 root bin
 f none openwin/bin/xstdcmap 	0755 root bin
 f none openwin/bin/xwd 		0755 root bin
-f none openwin/bin/xwininfo 	0755 root bin
 f none openwin/bin/xwud 	0755 root bin
 #
 # X11R6.4 upgrade changes
@@ -127,6 +125,14 @@ s none openwin/bin/sxpm=../../X11/bin/sxpm
 # open-src/app/xrefresh
 f none X11/bin/xrefresh 		0755 root bin
 s none openwin/bin/xrefresh=../../X11/bin/xrefresh
+
+# open-src/app/xsetroot
+f none X11/bin/xsetroot 		0755 root bin
+s none openwin/bin/xsetroot=../../X11/bin/xsetroot
+
+# open-src/app/xwininfo
+f none X11/bin/xwininfo 		0755 root bin
+s none openwin/bin/xwininfo=../../X11/bin/xwininfo
 
 d none openwin/lib 			0755 root bin
 !search  $HOME/openwin/lib

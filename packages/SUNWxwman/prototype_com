@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.37     08/01/17 SMI"
+# ident "@(#)prototype_com 35.38     08/01/17 SMI"
 #
 #  X Window System online user man pages
 
@@ -139,11 +139,9 @@ f none openwin/share/man/man1/xmodmap.1 0444 root bin
 f none openwin/share/man/man1/xpr.1 0444 root bin
 f none openwin/share/man/man1/xprop.1 0444 root bin
 f none openwin/share/man/man1/xrdb.1 0444 root bin
-f none openwin/share/man/man1/xsetroot.1 0444 root bin
 f none openwin/share/man/man1/xstdcmap.1 0444 root bin
 f none openwin/share/man/man1/xterm.1 0444 root bin
 f none openwin/share/man/man1/xwd.1 0444 root bin
-f none openwin/share/man/man1/xwininfo.1 0444 root bin
 f none openwin/share/man/man1/xwud.1 0444 root bin
 
 !search            $HOME/man4
@@ -207,5 +205,11 @@ f none X11/share/man/man1/xrefresh.1 	0444 root bin
 # open-src/app/xset
 f none X11/share/man/man1/xset.1 	0444 root bin
 
+# open-src/app/xsetroot
+f none X11/share/man/man1/xsetroot.1 	0444 root bin
+
 # open-src/app/xkill
 f none X11/share/man/man1/xkill.1 	0444 root bin
+
+# open-src/app/xwininfo
+f none X11/share/man/man1/xwininfo.1 	0444 root bin
