@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.42     08/01/10 SMI"
+# ident "@(#)prototype_com 1.43     08/01/16 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -71,8 +71,10 @@ s none lib/libXext.so.0=../openwin/lib/libXext.so.0
 s none lib/libXi.so=libXi.so.5
 s none lib/libXi.so.5=../X11/lib/libXi.so.5
 
-s none lib/libXmu.so=./libXmu.so.4
-s none lib/libXmu.so.4=../openwin/lib/libXmu.so.4
+s none lib/libXmu.so=libXmu.so.4
+s none lib/libXmu.so.4=../X11/lib/libXmu.so.4
+s none lib/libXmuu.so=libXmuu.so.1
+s none lib/libXmuu.so.1=../X11/lib/libXmuu.so.1
 
 s none lib/libICE.so=./libICE.so.6
 s none lib/libICE.so.6=../openwin/lib/libICE.so.6
@@ -196,8 +198,10 @@ s none lib/$plat_64/libXext.so.0=../../openwin/lib/64/libXext.so.0
 s none lib/$plat_64/libXi.so=libXi.so.5
 s none lib/$plat_64/libXi.so.5=../../X11/lib/64/libXi.so.5
 
-s none lib/$plat_64/libXmu.so=./libXmu.so.4
-s none lib/$plat_64/libXmu.so.4=../../openwin/lib/64/libXmu.so.4
+s none lib/$plat_64/libXmu.so=libXmu.so.4
+s none lib/$plat_64/libXmu.so.4=../../X11/lib/64/libXmu.so.4
+s none lib/$plat_64/libXmuu.so=libXmuu.so.1
+s none lib/$plat_64/libXmuu.so.1=../../X11/lib/64/libXmuu.so.1
 
 s none lib/$plat_64/libICE.so=./libICE.so.6
 s none lib/$plat_64/libICE.so.6=../../openwin/lib/64/libICE.so.6

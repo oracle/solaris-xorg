@@ -1,0 +1,106 @@
+.\"
+.\" Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+.\" Use subject to license terms.
+.\"
+.\" Permission is hereby granted, free of charge, to any person obtaining a
+.\" copy of this software and associated documentation files (the
+.\" "Software"), to deal in the Software without restriction, including
+.\" without limitation the rights to use, copy, modify, merge, publish,
+.\" distribute, and/or sell copies of the Software, and to permit persons
+.\" to whom the Software is furnished to do so, provided that the above
+.\" copyright notice(s) and this permission notice appear in all copies of
+.\" the Software and that both the above copyright notice(s) and this
+.\" permission notice appear in supporting documentation.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+.\" OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+.\" MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+.\" OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+.\" INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+.\" FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+.\" NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+.\" WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\" 
+.\" Except as contained in this notice, the name of a copyright holder
+.\" shall not be used in advertising or otherwise to promote the sale, use
+.\" or other dealings in this Software without prior written authorization
+.\" of the copyright holder.
+.\"
+.TH XSolarisCheckColormapEquivalence 3Xmu "11 Jan 2008" "X Version 11" "XLIB FUNCTIONS"
+.SH NAME
+XSolarisCheckColormapEquivalence \- determines if two visuals are colormap
+equivalent
+.SH SYNOPSIS
+.LP
+cc [ flag ... ] file ... -lXmu  [ library ... ]
+.br
+#include <X11/Xmu/XmuSolaris.h>
+.LP
+Bool XSolarisCheckColormapEquivalence\^(
+.br
+      Display *\fIdisplay\f1\^,
+.br
+      int \fIscreen\f1\^,
+.br
+      Visual *\fIvisual1\f1\^,
+.br
+      Visual *\fIvisual2\f1\^);
+.LP
+.SH ARGUMENTS
+.IP \fIdisplay\f1 1i
+Specifies the connection to the X server. 
+.IP \fIscreen\f1 1i
+An integer specifying the screen on which the visuals are to be searched. 
+.IP \fIvisual1\f1 1i
+Specifies the first visual type supported on the screen.
+If the visual type is not one supported by the screen, 
+a
+.B BadMatch
+error results. 
+.IP \fIvisual2\f1 1i
+Specifies the second visual type supported on the screen.
+If the visual type is not one supported by the screen, 
+a
+.B BadMatch
+error results. 
+.SH DESCRIPTION
+This function returns True if the two Visuals are Colormap Equivalent,
+otherwise it returns False.
+.LP
+Colormap Equivalence is a minor relaxation of the X protocol supported by the Solaris X server
+.BR Xsun (1).
+Two Visuals are Colormap Equivalent if it is possible
+to use a Colormap created with one of the Visuals as the Colormap of a Window 
+in the other Visual. This is useful on a system that supports Visuals that
+differ only in their OpenGL (GLX) Attributes.
+.LP
+For example, to avoid colormap flashing, when creating a window with
+a Visual that is in the same depth as the RootWindow, use the Default Colormap.
+In standard X, this is only possible if the Visual is the DefaultVisual. 
+With Colormap Equivalence the requirement is relaxed.
+.LP
+To use this function, an application should link with libXmu.
+.SH EXAMPLES
+.nh
+You may be able to avoid creating a new colormap by using the following code:
+.LP
+.RS
+.ft B
+.nf
+        if (!XSolarisCheckColormapEquivalence(dpy, screen, 
+	                      vi->visual, DefaultVisual(dpy, screen)) {
+            attributes.colormap = XCreateColormap(dpy, root,
+                                vi->visual, AllocNone);
+            valuemask = CWColormap;
+        }
+        window = XCreateWindow(dpy, root, 0, 0, 500, 500, 0,
+                        vi->depth, CopyFromParent, vi->visual,
+                        valuemask, &attributes);
+.fi
+.ft
+.RE
+.SH SEE ALSO
+.BR XCreateWindow (3X11),
+.BR glXGetConfig (3gl).
+

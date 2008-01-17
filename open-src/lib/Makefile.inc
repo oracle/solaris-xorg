@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.7	07/11/27
+# @(#)Makefile.inc	1.8	08/01/16
 #
 
 PWD:sh=pwd
@@ -81,6 +81,9 @@ build_gen: $(LIB_BUILT)
 $(LIB_BUILT): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
 	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) $(LIB_ADD_MAKEFLAGS) )
 
+# Use proto area for building against current library versions
+LIB_LD_OPTIONS = $(LIB_REQUIRED_LDFLAGS) \
+	-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) $(LIB_ADD_LD_OPTIONS)
 
 install_gen:: $(LIB_BUILT)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_PREFIX)/lib$(LIB_ADD_SUBDIR)$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig $(LIB_ADD_MAKEFLAGS))
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_PREFIX)/lib$(LIB_ADD_SUBDIR)$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig $(LIB_ADD_MAKEFLAGS))

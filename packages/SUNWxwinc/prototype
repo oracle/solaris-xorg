@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.74	07/12/07 SMI"
+# ident	"@(#)prototype	35.75	08/01/16 SMI"
 #
 #  X Window System include files
 
@@ -247,32 +247,34 @@ f none openwin/share/include/X11/Xaw/Template.c  0644 root bin
 f none openwin/share/include/X11/Xaw/VendorEP.h  0644 root bin
 f none openwin/share/include/X11/Xaw/XawImP.h  0644 root bin
 
+# open-src/lib/libXmu
+d none X11/include/X11/Xmu 			0755 root bin
+s none openwin/share/include/X11/Xmu=../../../../X11/include/X11/Xmu
 
-d none openwin/share/include/X11/Xmu 0755 root bin
-!search                $HOME/openwin/include/X11/Xmu
-f none openwin/share/include/X11/Xmu/Atoms.h 0644 root bin
-f none openwin/share/include/X11/Xmu/CharSet.h 0644 root bin
-f none openwin/share/include/X11/Xmu/CloseHook.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Converters.h 0644 root bin
-f none openwin/share/include/X11/Xmu/CurUtil.h 0644 root bin
-f none openwin/share/include/X11/Xmu/CvtCache.h 0644 root bin
-f none openwin/share/include/X11/Xmu/DisplayQue.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Drawing.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Editres.h 0644 root bin
-f none openwin/share/include/X11/Xmu/EditresP.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Error.h 0644 root bin
-f none openwin/share/include/X11/Xmu/ExtAgent.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Initer.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Misc.h 0644 root bin
-f none openwin/share/include/X11/Xmu/StdCmap.h 0644 root bin
-f none openwin/share/include/X11/Xmu/StdSel.h 0644 root bin
-f none openwin/share/include/X11/Xmu/SysUtil.h 0644 root bin
-f none openwin/share/include/X11/Xmu/WhitePoint.h 0644 root bin
-f none openwin/share/include/X11/Xmu/WidgetNode.h 0644 root bin
-f none openwin/share/include/X11/Xmu/WinUtil.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Xct.h 0644 root bin
-f none openwin/share/include/X11/Xmu/Xmu.h 0644 root bin
-f none openwin/share/include/X11/Xmu/XmuSolaris.h 0644 root bin
+!search                $HOME/X11/include/X11/Xmu
+f none X11/include/X11/Xmu/Atoms.h		0444 root bin
+f none X11/include/X11/Xmu/CharSet.h		0444 root bin
+f none X11/include/X11/Xmu/CloseHook.h		0444 root bin
+f none X11/include/X11/Xmu/Converters.h		0444 root bin
+f none X11/include/X11/Xmu/CurUtil.h		0444 root bin
+f none X11/include/X11/Xmu/CvtCache.h		0444 root bin
+f none X11/include/X11/Xmu/DisplayQue.h		0444 root bin
+f none X11/include/X11/Xmu/Drawing.h		0444 root bin
+f none X11/include/X11/Xmu/Editres.h		0444 root bin
+f none X11/include/X11/Xmu/EditresP.h		0444 root bin
+f none X11/include/X11/Xmu/Error.h		0444 root bin
+f none X11/include/X11/Xmu/ExtAgent.h		0444 root bin
+f none X11/include/X11/Xmu/Initer.h		0444 root bin
+f none X11/include/X11/Xmu/Misc.h		0444 root bin
+f none X11/include/X11/Xmu/StdCmap.h		0444 root bin
+f none X11/include/X11/Xmu/StdSel.h		0444 root bin
+f none X11/include/X11/Xmu/SysUtil.h		0444 root bin
+f none X11/include/X11/Xmu/WhitePoint.h		0444 root bin
+f none X11/include/X11/Xmu/WidgetNode.h		0444 root bin
+f none X11/include/X11/Xmu/WinUtil.h		0444 root bin
+f none X11/include/X11/Xmu/Xct.h		0444 root bin
+f none X11/include/X11/Xmu/Xmu.h		0444 root bin
+f none X11/include/X11/Xmu/XmuSolaris.h		0444 root bin
 
 # extension headers from old source tree
 d none openwin/share/include/X11/extensions 0755 root bin
@@ -620,6 +622,8 @@ f none lib/pkgconfig/xdmcp.pc			0444 root bin
 f none lib/pkgconfig/xfixes.pc			0444 root bin
 f none lib/pkgconfig/xinerama.pc		0444 root bin
 f none lib/pkgconfig/xlg3d.pc			0444 root bin
+f none lib/pkgconfig/xmu.pc			0444 root bin
+f none lib/pkgconfig/xmuu.pc			0444 root bin
 f none lib/pkgconfig/xpm.pc			0444 root bin
 f none lib/pkgconfig/xrender.pc			0444 root bin
 f none lib/pkgconfig/xtst.pc			0444 root bin
@@ -667,6 +671,8 @@ f none lib/$plat_64/pkgconfig/xfixes.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xinerama.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xmu.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xmuu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin
 

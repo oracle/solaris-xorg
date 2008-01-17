@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/01/10
+# @(#)Makefile	1.11	08/01/16
 #
 ###############################################################################
 
@@ -39,6 +39,7 @@ OS_SUBDIRS_common = \
 	libXau \
 	libXdmcp \
 	libfontenc \
+	libXmu \
 	libXpm \
 	libXaw \
 	libXfixes \

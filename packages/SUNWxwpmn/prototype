@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -1116,10 +1116,11 @@ f none X11/share/man/man3Xi/XUngrabDevice.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XUngrabDeviceButton.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XUngrabDeviceKey.3Xi  0444 root bin
 
-!search            $HOME/openwin/share/man/man3Xmu
-d none openwin/share/man/man3Xmu  0755 root bin
-f none openwin/share/man/man3Xmu/XSolarisCheckColormapEquivalence.3Xmu  0444 root bin
-f none openwin/share/man/man3Xmu/XSolarisGetVisualGamma.3Xmu  0444 root bin
+# open-src/lib/libXmu
+!search            $HOME/X11/share/man/man3Xmu
+d none X11/share/man/man3Xmu  0755 root bin
+f none X11/share/man/man3Xmu/XSolarisCheckColormapEquivalence.3Xmu  0444 root bin
+f none X11/share/man/man3Xmu/XSolarisGetVisualGamma.3Xmu  0444 root bin
 
 !search            $HOME/openwin/share/man/man3Xp
 d none openwin/share/man/man3Xp   0755 root bin
