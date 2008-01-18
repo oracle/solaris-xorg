@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/01/16
+# @(#)Makefile	1.2	08/01/17
 #
 
 # Package name used in tarballs
@@ -84,8 +84,11 @@ CP = cp -pf
 MANDIR = $(PROTODIR)/usr/X11/share/man/man3Xmu
 
 install_gen::
-	mkdir -p $(PROTODIR)/usr/X11/include/X11/Xmu $(MANDIR)
+	mkdir -p $(PROTODIR)/usr/X11/include/X11/Xmu $(MANDIR) \
+		 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)
 	$(CP) $(SOURCE_DIR)/include/X11/Xmu/XmuSolaris.h \
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
 		$(PROTODIR)/usr/X11/include/X11/Xmu
 	$(CP) sun-src/*.3Xmu $(MANDIR)
+	ln -s libXmu.so.4 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmu.so
+	ln -s libXmuu.so.1 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmuu.so
