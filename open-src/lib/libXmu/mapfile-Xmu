@@ -134,6 +134,7 @@ SUNW_1.1 {
 
 # Moved to libXmuu.so.1:
 	XmuClientWindow			= FUNCTION FILTER libXmuu.so.1;
+	XmuCompareISOLatin1		= FUNCTION FILTER libXmuu.so.1;
 	XmuCopyISOLatin1Lowered		= FUNCTION FILTER libXmuu.so.1;
 	XmuCopyISOLatin1Uppered		= FUNCTION FILTER libXmuu.so.1;
 	XmuCursorNameToIndex		= FUNCTION FILTER libXmuu.so.1;
