@@ -44,7 +44,7 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 -libXmuu_la_LIBADD = $(XMUU_LIBS)
 +libXmu_la_DEPENDENCIES = libXmuu.so.1
 +
-+libXmu_la_LIBADD = $(XMU_LIBS) libXmuu.so.1 -lc
++libXmu_la_LIBADD = $(XMU_LIBS) libXmuu.so.1 -lc -lm
 +libXmuu_la_LIBADD = $(XMUU_LIBS) -lc
  
  libXmuu_la_SOURCES = \
