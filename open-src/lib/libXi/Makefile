@@ -54,6 +54,10 @@ LIB_MAN_SUFFIX=3Xi
 # Library built in tree
 LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXi.so.5.0.0
 
+# Use specfile to make mapfile & link with it
+LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
+LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xi.pc.in
 
