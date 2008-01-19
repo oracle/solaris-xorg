@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.138	08/01/17   Sun Microsystems" 
+#	"@(#)prototype_com	35.139	08/01/18   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -78,7 +78,6 @@ f none openwin/bin/xlsfonts 	0755 root bin
 f none openwin/bin/xlswins 	0755 root bin
 f none openwin/bin/xmag 	0755 root bin
 f none openwin/bin/xmakemap 	0755 root bin
-f none openwin/bin/xmodmap 	0755 root bin
 f none openwin/bin/xpr 		0755 root bin
 f none openwin/bin/xprop 	0755 root bin
 f none openwin/bin/xrdb 	0755 root bin
@@ -115,6 +114,10 @@ s none openwin/bin/constype=../../X11/bin/constype
 # open-src/app/xdpyinfo
 f none X11/bin/xdpyinfo 		0755 root bin
 s none openwin/bin/xdpyinfo=../../X11/bin/xdpyinfo
+
+# open-src/app/xmodmap
+f none X11/bin/xmodmap 		0755 root bin
+s none openwin/bin/xmodmap=../../X11/bin/xmodmap
 
 # open-src/app/xpm
 f none X11/bin/cxpm 	0755 root bin

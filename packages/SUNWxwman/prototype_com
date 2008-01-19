@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.38     08/01/17 SMI"
+# ident "@(#)prototype_com 35.39     08/01/18 SMI"
 #
 #  X Window System online user man pages
 
@@ -135,7 +135,6 @@ f none openwin/share/man/man1/xmakemap.1 0444 root bin
 f none openwin/share/man/man1/xman.1 0444 root bin
 f none openwin/share/man/man1/xmh.1 0444 root bin
 f none openwin/share/man/man1/xmkmf.1 0444 root bin
-f none openwin/share/man/man1/xmodmap.1 0444 root bin
 f none openwin/share/man/man1/xpr.1 0444 root bin
 f none openwin/share/man/man1/xprop.1 0444 root bin
 f none openwin/share/man/man1/xrdb.1 0444 root bin
@@ -194,6 +193,9 @@ f none X11/share/man/man1/xcursorgen.1 	0444 root bin
 
 # open-src/app/xdpyinfo
 f none X11/share/man/man1/xdpyinfo.1 	0444 root bin
+
+# open-src/app/xmodmap
+f none X11/share/man/man1/xmodmap.1 	0444 root bin
 
 # open-src/app/xpm
 f none X11/share/man/man1/cxpm.1	0444 root bin
