@@ -1,6 +1,8 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# libXres 1.x Makefile
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,67 +30,37 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	08/01/20
+# @(#)Makefile	1.3	06/10/03
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libfontenc \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# Package name used in tarballs
+LIB_MODULE=libXres
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=1.0.3
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Library name (used for specfiles/mapfiles)
+LIBNAME=XRes
 
-World: clean all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Volatile
+LIB_MAN_SUFFIX=3XRes
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXRes.so.1.0.0
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xres.pc.in
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# Use proto area for building on older machines without /usr/X11/lib/libXfixes
+LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc

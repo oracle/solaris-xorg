@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.139	08/01/18   Sun Microsystems" 
+#	"@(#)prototype_com	35.140	08/01/18   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -81,7 +81,6 @@ f none openwin/bin/xmakemap 	0755 root bin
 f none openwin/bin/xpr 		0755 root bin
 f none openwin/bin/xprop 	0755 root bin
 f none openwin/bin/xrdb 	0755 root bin
-f none openwin/bin/xset 	0755 root bin
 f none openwin/bin/xstdcmap 	0755 root bin
 f none openwin/bin/xwd 		0755 root bin
 f none openwin/bin/xwud 	0755 root bin
@@ -118,6 +117,10 @@ s none openwin/bin/xdpyinfo=../../X11/bin/xdpyinfo
 # open-src/app/xmodmap
 f none X11/bin/xmodmap 		0755 root bin
 s none openwin/bin/xmodmap=../../X11/bin/xmodmap
+
+# open-src/app/xset
+f none X11/bin/xset 		0755 root bin
+s none openwin/bin/xset=../../X11/bin/xset
 
 # open-src/app/xpm
 f none X11/bin/cxpm 	0755 root bin
@@ -335,7 +338,7 @@ f none X11/lib/$plat_64/libXtst.so.1 	0755 root bin
 d none openwin/sfw				0755 root bin
 s none openwin/sfw/lib=../../X11/lib
 
-!search  $HOME/openwin/lib
+!search  $HOME/X11/lib
 s none X11/lib/libXRes.so=./libXRes.so.1
 f none X11/lib/libXRes.so.1 		0755 root bin
 
@@ -638,7 +641,7 @@ f none openwin/lib/$plat_64/libxkbfile.so.4 	0755 root bin
 s none openwin/lib/$plat_64/libXtsol.so=./libXtsol.so.1
 f none openwin/lib/$plat_64/libXtsol.so.1 	0755 root bin
 
-!search  $HOME/openwin/lib/$plat_64
+!search  $HOME/X11/lib/$plat_64
 s none X11/lib/$plat_64/libXRes.so=./libXRes.so.1
 f none X11/lib/$plat_64/libXRes.so.1 			0755 root bin
 

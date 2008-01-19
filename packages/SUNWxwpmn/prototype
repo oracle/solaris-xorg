@@ -1071,13 +1071,15 @@ f none openwin/share/man/man3Xext/XmbufGetScreenInfo.3Xext  0444 root bin
 f none openwin/share/man/man3Xext/XmbufGetVersion.3Xext  0444 root bin
 f none openwin/share/man/man3Xext/XmbufGetWindowAttributes.3Xext  0444 root bin
 f none openwin/share/man/man3Xext/XmbufQueryExtension.3Xext  0444 root bin
-!search            $HOME/openwin/share/man/man3
-f none openwin/share/man/man3Xext/XRes.3 0444 root bin
-s none openwin/share/man/man3Xext/XResQueryExtension.3=XRes.3
-s none openwin/share/man/man3Xext/XResQueryVersion.3=XRes.3
-s none openwin/share/man/man3Xext/XResQueryClients.3=XRes.3
-s none openwin/share/man/man3Xext/XResQueryClientResources.3=XRes.3
-s none openwin/share/man/man3Xext/XResQueryClientPixmapBytes.3=XRes.3
+
+!search            $HOME/X11/share/man/man3XRes
+d none X11/share/man/man3XRes				0755 root bin
+f none X11/share/man/man3XRes/XRes.3XRes		0444 root bin
+s none X11/share/man/man3XRes/XResQueryExtension.3XRes=XRes3.3XRes
+s none X11/share/man/man3XRes/XResQueryVersion.3XRes=XRes3.3XRes
+s none X11/share/man/man3XRes/XResQueryClients.3XRes=XRes3.3XRes
+s none X11/share/man/man3XRes/XResQueryClientResources.3XRes=XRes3.3XRes
+s none X11/share/man/man3XRes/XResQueryClientPixmapBytes.3XRes=XRes3.3XRes
 
 !search            $HOME/X11/share/man/man3Xi
 d none X11/share/man/man3Xi   0755 root bin
