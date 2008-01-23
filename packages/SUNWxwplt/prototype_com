@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.140	08/01/18   Sun Microsystems" 
+#	"@(#)prototype_com	35.141	08/01/22   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -72,7 +72,6 @@ f none openwin/bin/xhost 	0755 root bin
 f none openwin/bin/xinit 	0755 root bin
 f none openwin/bin/xlock 	4755 root bin
 f none openwin/bin/xlogo 	0755 root bin
-f none openwin/bin/xlsatoms 	0755 root bin
 f none openwin/bin/xlsclients 	0755 root bin
 f none openwin/bin/xlsfonts 	0755 root bin
 f none openwin/bin/xlswins 	0755 root bin
@@ -135,6 +134,10 @@ s none openwin/bin/xrefresh=../../X11/bin/xrefresh
 # open-src/app/xsetroot
 f none X11/bin/xsetroot 		0755 root bin
 s none openwin/bin/xsetroot=../../X11/bin/xsetroot
+
+# open-src/app/xlsatoms
+f none X11/bin/xlsatoms 		0755 root bin
+s none openwin/bin/xlsatoms=../../X11/bin/xlsatoms
 
 # open-src/app/xwininfo
 f none X11/bin/xwininfo 		0755 root bin
