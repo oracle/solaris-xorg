@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright 2007 Sun Microsystems, Inc.  All Rights Reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.82	07/11/27
+# @(#)Makefile.inc	1.83	08/01/23
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -280,6 +280,11 @@ ACLOCAL_PATH=aclocal -I $(PROTODIR)/usr/X11/share/aclocal
 autoreconf: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) && \
 	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force )
+
+### Remove libtool from build process when needed
+
+delibtoolize:
+	$(TOP)/common/delibtoolize.pl $(SOURCE_DIR)
 
 ### Source tarballs & downloading if necessary
 

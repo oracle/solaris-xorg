@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/01/17
+# @(#)Makefile	1.3	08/01/23
 #
 
 # Package name used in tarballs
@@ -65,9 +65,6 @@ LIB_ADD_CONFIG_OPTS = --with-lint --enable-lint-library
 # Work around libtool brokenness that adds -R `pwd` to libXmu build
 LIB_ADD_BUILD_DEPS=delibtoolize
 
-delibtoolize:
-	$(TOP)/common/delibtoolize.pl $(SOURCE_DIR)
-
 include ../Makefile.inc
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
@@ -90,5 +87,7 @@ install_gen::
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
 		$(PROTODIR)/usr/X11/include/X11/Xmu
 	$(CP) sun-src/*.3Xmu $(MANDIR)
+	rm -f $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmu.so \
+		$(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmuu.so
 	ln -s libXmu.so.4 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmu.so
 	ln -s libXmuu.so.1 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmuu.so
