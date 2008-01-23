@@ -2,7 +2,7 @@
 #
 # Xft 2.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	07/08/28
+# @(#)Makefile	1.11	08/01/23
 #
 
 PWD:sh=pwd
@@ -61,18 +61,20 @@ LIB_ADD_CONFIG_OPTS = --mandir=$(X11_DIR)/share/man
 
 # Paths to find libraries at build time (LD_LIBRARY_PATH) 
 # and run time (LD_RUN_PATH) and freetype-config binary at build time (PATH)
-LIBPATHS = LD_LIBRARY_PATH=$(PROTODIR)/usr/sfw/lib$(LIBSUBDIR):$(PROTODIR)/usr/openwin/lib$(LIBSUBDIR):/usr/sfw/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/sfw/lib$(LIBSUBDIR) PATH=$(PROTODIR)/usr/sfw/bin$(LIBSUBDIR):$(PATH)
+LIBPATHS = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR):$(PROTODIR)/usr/openwin/lib$(LIBSUBDIR):/usr/sfw/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/sfw/lib$(LIBSUBDIR) PATH=$(PROTODIR)/usr/bin$(LIBSUBDIR):$(PATH)
+LIB_ADD_LD_OPTIONS= -L$(PROTODIR)/usr/lib$(LIBSUBDIR)
+
 LIB_ADD_MAKEFLAGS = bindir=$(XFT_prefix)/bin$(ARCHLIBSUBDIR)
 
 # Include Paths - need headers for fontconfig & freetype from build area
-LIB_ADD_CFLAGS = -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/sfw/include
+LIB_ADD_CFLAGS = -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/X11/include
 
 # Library built in tree
 LIB_BUILT=$(BUILD_DIR)/.libs/libXft.so.2
 
 # Mapfile used to control which symbols are exported
 XFT_MAPFILE=$(PWD)/mapfile.scope
-LIB_ADD_LD_OPTIONS=-M$(XFT_MAPFILE) -lX11
+LIB_ADD_LD_OPTIONS += -M$(XFT_MAPFILE) -lX11
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xft.pc.in
