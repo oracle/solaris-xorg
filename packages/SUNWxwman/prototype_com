@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.40     08/01/22 SMI"
+# ident "@(#)prototype_com 35.41     08/01/23 SMI"
 #
 #  X Window System online user man pages
 
@@ -107,7 +107,6 @@ f none openwin/share/man/man1/viewres.1 0444 root bin
 f none openwin/share/man/man1/winsysck.1 0444 root bin
 f none openwin/share/man/man1/xauth.1 0444 root bin
 f none openwin/share/man/man1/xbiff.1 0444 root bin
-f none openwin/share/man/man1/xcalc.1 0444 root bin
 f none openwin/share/man/man1/xclipboard.1 0444 root bin
 f none openwin/share/man/man1/xclock.1 0444 root bin
 f none openwin/share/man/man1/xcmsdb.1 0444 root bin
@@ -129,7 +128,6 @@ f none openwin/share/man/man1/xlogo.1 0444 root bin
 f none openwin/share/man/man1/xlsclients.1 0444 root bin
 f none openwin/share/man/man1/xlsfonts.1 0444 root bin
 f none openwin/share/man/man1/xlswins.1 0444 root bin
-f none openwin/share/man/man1/xmag.1 0444 root bin
 f none openwin/share/man/man1/xmakemap.1 0444 root bin
 f none openwin/share/man/man1/xman.1 0444 root bin
 f none openwin/share/man/man1/xmh.1 0444 root bin
@@ -187,11 +185,17 @@ f none openwin/share/man/man1/Xserver.1 0444 root bin
 # open-src/app/constype
 f none X11/share/man/man1/constype.1 	0444 root bin
 
+# open-src/app/xcalc
+f none X11/share/man/man1/xcalc.1 	0444 root bin
+
 # open-src/app/xcursorgen
 f none X11/share/man/man1/xcursorgen.1 	0444 root bin
 
 # open-src/app/xdpyinfo
 f none X11/share/man/man1/xdpyinfo.1 	0444 root bin
+
+# open-src/app/xmag
+f none X11/share/man/man1/xmag.1 	0444 root bin
 
 # open-src/app/xmodmap
 f none X11/share/man/man1/xmodmap.1 	0444 root bin

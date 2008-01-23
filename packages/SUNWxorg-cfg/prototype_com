@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.14     07/01/04 SMI"
+# ident "@(#)prototype_com 1.15     08/01/23 SMI"
 #
 # X.Org server configuration tool
 
@@ -49,7 +49,6 @@ f none X11/bin/xorgcfg			0755 root bin
 d none X11/lib 				0755 root bin
 d none X11/lib/xorgcfg 			0755 root bin
 f none X11/lib/xorgcfg/libxkbui.so.1	0444 root bin
-f none X11/lib/xorgcfg/libXaw.so.7	0444 root bin
 
 !search $HOME/lib/X11/app-defaults
 d none X11/lib/X11			0755 root bin
