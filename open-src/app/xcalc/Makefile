@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1   08/01/23
+# @(#)Makefile	1.2   08/01/24
 #
 
 # Package name used in tarballs
@@ -41,6 +41,8 @@ APP_VERS=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.6	07/11/27
+# @(#)Makefile.inc	1.7	08/01/24
 #
 
 PWD:sh=pwd
@@ -50,6 +50,9 @@ APP_prefix=$(X11_DIR)
 CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
 	$(APP_CONFIG_OPTS)
 
+LIB_LD_OPTIONS = $(LIB_REQUIRED_LDFLAGS) \
+	-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) $(LIB_ADD_LD_OPTIONS)
+
 # Environment variable options to GNU autoconf configure script
 CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
 	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) $(APP_ADD_CPPFLAGS)" \
@@ -68,7 +71,7 @@ APP_BIN=$(SOURCE_DIR)/src/$(APP_NAME)
 build_gen: $(APP_BIN)
 
 $(APP_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) )
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) )
 
 install_gen: $(APP_BIN)
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
