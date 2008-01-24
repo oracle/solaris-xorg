@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.142	08/01/23   Sun Microsystems" 
+#	"@(#)prototype_com	35.143	08/01/23   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -67,7 +67,6 @@ f none openwin/bin/winsysck 	0755 root bin
 f none openwin/bin/xauth 	0755 root bin
 f none openwin/bin/xdpr 	0755 root bin
 f none openwin/bin/xfd 		0755 root bin
-f none openwin/bin/xhost 	0755 root bin
 f none openwin/bin/xinit 	0755 root bin
 f none openwin/bin/xlock 	4755 root bin
 f none openwin/bin/xlogo 	0755 root bin
@@ -114,6 +113,10 @@ s none openwin/bin/xcalc=../../X11/bin/xcalc
 # open-src/app/xdpyinfo
 f none X11/bin/xdpyinfo 		0755 root bin
 s none openwin/bin/xdpyinfo=../../X11/bin/xdpyinfo
+
+# open-src/app/xhost
+f none X11/bin/xhost 		0755 root bin
+s none openwin/bin/xhost=../../X11/bin/xhost
 
 # open-src/app/xmag
 f none X11/bin/xmag 		0755 root bin

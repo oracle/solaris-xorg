@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.9     06/12/14 SMI"
+# ident "@(#)prototype 1.10     08/01/23 SMI"
 #
 # X Window System required core package localizable files
 
@@ -67,12 +67,12 @@ f none openwin/lib/locale/C/app-defaults/Xmh 0644 root bin
 !search      $HOME/openwin/lib/locale/C/LC_MESSAGES
 d none openwin/lib/locale/C/LC_MESSAGES 		0755 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xfd.po 		0644 root bin
-f none openwin/lib/locale/C/LC_MESSAGES/xhost.po	0644 root bin
 
 !search      $HOME/X11/share/locale/C/LC_MESSAGES
 d none X11/share/locale/C/LC_MESSAGES 			0755 root bin
 f none X11/share/locale/C/LC_MESSAGES/cxpm.po		0444 root bin
 f none X11/share/locale/C/LC_MESSAGES/sxpm.po 		0444 root bin
+f none X11/share/locale/C/LC_MESSAGES/xhost.po	0644 root bin
 
 
 # RBAC help files
