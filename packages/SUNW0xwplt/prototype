@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.10     08/01/23 SMI"
+# ident "@(#)prototype 1.11     08/01/25 SMI"
 #
 # X Window System required core package localizable files
 
@@ -38,6 +38,10 @@ i copyright=../copyright
 i depend
 
 !HOME=../usr
+
+d none X11                                              0755 root bin
+d none X11/lib                                          0755 root bin
+d none X11/lib/X11                                      0755 root bin
 
 !search      $HOME/openwin/lib/X11/app-defaults
 d none openwin 0755 root bin
@@ -51,8 +55,6 @@ f none openwin/lib/locale/C/app-defaults/Clock-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Editres 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Editres-color 0644 root bin
-f none openwin/lib/locale/C/app-defaults/XCalc 0644 root bin
-f none openwin/lib/locale/C/app-defaults/XCalc-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XClipboard 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XClock 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XConsole 0644 root bin
@@ -61,7 +63,6 @@ f none openwin/lib/locale/C/app-defaults/XLogo 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLogo-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XTerm 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xfd 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Xmag 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xmh 0644 root bin
 
 !search      $HOME/openwin/lib/locale/C/LC_MESSAGES
@@ -69,11 +70,20 @@ d none openwin/lib/locale/C/LC_MESSAGES 		0755 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xfd.po 		0644 root bin
 
 !search      $HOME/X11/share/locale/C/LC_MESSAGES
+d none X11/share					0755 root bin
+d none X11/share/locale					0755 root bin
+d none X11/share/locale/C				0755 root bin
 d none X11/share/locale/C/LC_MESSAGES 			0755 root bin
 f none X11/share/locale/C/LC_MESSAGES/cxpm.po		0444 root bin
 f none X11/share/locale/C/LC_MESSAGES/sxpm.po 		0444 root bin
-f none X11/share/locale/C/LC_MESSAGES/xhost.po	0644 root bin
+f none X11/share/locale/C/LC_MESSAGES/xhost.po		0644 root bin
 
+!search      $HOME/X11/lib/X11/app-defaults
+d none X11/lib/X11/app-defaults                         0755 root bin
+d none X11/lib/X11/app-defaults/C                       0755 root bin
+f none X11/lib/X11/app-defaults/C/XCalc			0444 root bin
+f none X11/lib/X11/app-defaults/C/XCalc-color		0444 root bin
+f none X11/lib/X11/app-defaults/C/Xmag			0444 root bin
 
 # RBAC help files
 d none lib 0755 root bin
