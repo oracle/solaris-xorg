@@ -2,7 +2,7 @@
 #
 # xf86-video-nv Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	07/10/31
+# @(#)Makefile	1.14	08/01/29
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-nv
 
 # Version number (used in path names)
-DRIVER_VERS=2.1.6
+DRIVER_VERS=2.1.7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
