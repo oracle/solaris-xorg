@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.43     08/01/24 SMI"
+# ident "@(#)prototype_com 35.45     08/01/29 SMI"
 #
 #  X Window System online user man pages
 
@@ -210,6 +210,9 @@ f none X11/share/man/man1/xprop.1 	0444 root bin
 
 # open-src/app/xrefresh
 f none X11/share/man/man1/xrefresh.1 	0444 root bin
+
+#open-src/app/xrdb
+f none X11/share/man/man1/xrdb.1 	0444 root bin
 
 # open-src/app/xset
 f none X11/share/man/man1/xset.1 	0444 root bin

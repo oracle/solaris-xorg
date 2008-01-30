@@ -1,0 +1,14 @@
+--- xrdb.c	Mon Jul 10 19:54:07 2006
++++ filemerge.out	Tue Jan 29 13:24:42 2008
+@@ -910,7 +910,11 @@
+ 
+     if (!filename &&
+ #ifdef PATHETICCPP
++/*
++4035378
+ 	need_real_defines
++*/
++	(oper == OPLOAD || oper == OPMERGE || oper == OPOVERRIDE)
+ #else
+ 	(oper == OPLOAD || oper == OPMERGE || oper == OPOVERRIDE) &&
+ 	(whichResources == RALL || whichResources == RSCREENS)
