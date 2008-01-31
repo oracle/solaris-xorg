@@ -2,7 +2,7 @@
 #
 # xrdb 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -45,5 +45,8 @@ SOURCE_PATCHES = xrdb.patch
 SUNTOUCHED_MANPAGES=*.man
 SUNTOUCH_MAN_FLAGS= \
  -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+
+# Specify which cpp to use instead of depending on builder's $PATH
+APP_CONFIG_OPTS = --with-cpp=/usr/lib/cpp
 
 include ../Makefile.inc
