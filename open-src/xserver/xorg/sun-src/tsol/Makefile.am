@@ -1,6 +1,6 @@
 #########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,13 +29,13 @@
 # 
 #########################################################################
 # 
-# ident	"@(#)Makefile.am 1.9	07/05/29 SMI"
+# ident	"@(#)Makefile.am 1.10	08/02/02 SMI"
 #
 
 noinst_LTLIBRARIES = libxtsol.la
 
 libxtsol_la_SOURCES= tsolpolicy.c tsolutils.c tsolextension.c tsolprotocol.c \
-			auditwrite.c au_to_tsol.c
+			auditwrite.c
 
 INCLUDES = -I.. -I$(top_srcdir)/include -I$(top_srcdir)/os
 

@@ -1,12 +1,12 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
 #ifndef	_BSM_AUDITWRITE_H
 #define	_BSM_AUDITWRITE_H
 
-#pragma ident	"@(#)auditwrite.h	1.3	06/03/05 SMI"
+#pragma ident	"@(#)auditwrite.h	1.5	08/02/04 SMI"
 
 #include <bsm/libbsm.h>
 #include <tsol/label.h>
@@ -64,7 +64,6 @@ extern "C" {
 #define	AW_INADDR	(35)
 #define	AW_IN_ADDR	AW_INADDR
 #define	AW_IPC		(36)
-#define	AW_IPC_PERM	(37)
 #define	AW_IPORT	(38)
 #define	AW_OPAQUE	(39)
 #define	AW_PATH		(40)
@@ -95,12 +94,11 @@ extern "C" {
 #define	AW_XWINDOW	(70)
 #define	AW_XCLIENT	(71)
 #define	AW_PROCESS_EX	(72)
-#define	AW_SUBJECT_EX	(73)
 /*
  * The next is the last and highest numbered valid command code; if more
  * are added, remember to update AW_CMD_MAX in auditwrite.c.
  */
-#define	AW_IN_ADDR_EX	(74)
+#define	AW_SUBJECT_EX	(73)
 
 /*
  * describe data specified with AW_DATA
@@ -163,21 +161,6 @@ extern void aw_perror_r();
 extern int aw_geterrno();
 extern char *aw_strerror();
 #endif /* __STDC__ */
-
-
-extern token_t *au_to_upriv(char, char *);
-
-extern token_t *au_to_tsol_xatom(char *);
-extern token_t *au_to_tsol_xclient(uint32_t);
-extern token_t *au_to_tsol_xcolormap(int32_t, uid_t);
-extern token_t *au_to_tsol_xcursor(int32_t, uid_t);
-extern token_t *au_to_tsol_xfont(int32_t, uid_t);
-extern token_t *au_to_tsol_xgc(int32_t, uid_t);
-extern token_t *au_to_tsol_xpixmap(int32_t, uid_t);
-extern token_t *au_to_tsol_xproperty(int32_t, uid_t, char *);
-extern token_t *au_to_tsol_xselect(char *, char *, char *);
-extern token_t *au_to_tsol_xwindow(int32_t, uid_t);
-
 
 #ifdef	__cplusplus
 }

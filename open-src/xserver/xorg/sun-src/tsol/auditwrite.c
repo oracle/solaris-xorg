@@ -1,9 +1,9 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
-#pragma ident	"@(#)auditwrite.c	1.10	07/05/29 SMI"
+#pragma ident	"@(#)auditwrite.c	1.11	08/02/02 SMI"
 
 /*
  * auditwrite() - Construct and write user level records to the audit trail.
@@ -103,7 +103,7 @@
 }
 
 #define	AW_CMD_MIN	AW_END
-#define	AW_CMD_MAX	AW_IN_ADDR_EX
+#define	AW_CMD_MAX	AW_SUBJECT_EX
 
 /*
  * Where control commands end and attribute commands begin.
@@ -229,7 +229,7 @@ static struct {
 		{AW_GROUPS,		2},
 		{AW_IN_ADDR,		1},
 		{AW_IPC,		2},
-		{AW_IPC_PERM,		1},
+		{AW_END,		0},	/* obsolete AW_IPC_PERM */
 		{AW_IPORT,		1},
 		{AW_OPAQUE,		2},
 		{AW_PATH,		1},
@@ -268,8 +268,7 @@ static struct {
 		{AW_XCLIENT,		1},
 
 		{AW_PROCESS_EX,		8},
-		{AW_SUBJECT_EX,		8},
-		{AW_IN_ADDR_EX,		1}
+		{AW_SUBJECT_EX,		8}
 };
 
 /* externally accessible data */
@@ -1356,41 +1355,9 @@ aw_gen_rec(int param, va_list arglist)
 			aw_free_tok(tokp);
 			break;
 
-		case AW_IN_ADDR_EX:
-			if (aw_chk_addr((caddr_t)ad[0]) == AW_ERR_RTN)
-				AW_GEN_ERR(AW_ERR_ADDR_INVALID);
-			if ((tokp = au_to_in_addr_ex((int32_t *)
-					ad[0])) == (token_t *)0)
-				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
-			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
-					&(aw_recs[cur_rd]->len),
-					tokp->tt_data,
-					(int)tokp->tt_size) == AW_ERR_RTN) {
-				aw_free_tok(tokp);
-				return (AW_ERR_RTN);
-			}
-			aw_free_tok(tokp);
-			break;
-
 		case AW_IPC:
 			if ((tokp = au_to_ipc((char)(uintptr_t)ad[0],
 			    (int)(uintptr_t)ad[1])) == (token_t *)0)
-				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
-			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
-					&(aw_recs[cur_rd]->len),
-					tokp->tt_data,
-					(int)tokp->tt_size) == AW_ERR_RTN) {
-				aw_free_tok(tokp);
-				return (AW_ERR_RTN);
-			}
-			aw_free_tok(tokp);
-			break;
-
-		case AW_IPC_PERM:
-			if (aw_chk_addr((caddr_t)ad[0]) == AW_ERR_RTN)
-				AW_GEN_ERR(AW_ERR_ADDR_INVALID);
-			if ((tokp = au_to_ipc_perm((struct ipc_perm *)ad[0]))
-				== (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
 					&(aw_recs[cur_rd]->len),
@@ -1693,7 +1660,7 @@ aw_gen_rec(int param, va_list arglist)
 		case AW_XATOM:
 			if (aw_chk_addr((caddr_t)ad[0]) == AW_ERR_RTN)
 				AW_GEN_ERR(AW_ERR_ADDR_INVALID);
-			if ((tokp = au_to_tsol_xatom((char *)ad[0]))
+			if ((tokp = au_to_xatom((char *)ad[0]))
 			    == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
@@ -1707,7 +1674,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XCLIENT:
-			if ((tokp = au_to_tsol_xclient(
+			if ((tokp = au_to_xclient(
 			    (uint32_t)(uintptr_t)ad[0])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
@@ -1721,7 +1688,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XCURSOR:
-			if ((tokp = au_to_tsol_xcursor(
+			if ((tokp = au_to_xcursor(
 			    (int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
@@ -1736,7 +1703,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XCOLORMAP:
-			if ((tokp = au_to_tsol_xcolormap(
+			if ((tokp = au_to_xcolormap(
 			    (int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
@@ -1751,7 +1718,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XFONT:
-			if ((tokp = au_to_tsol_xfont((int32_t)(uintptr_t)ad[0],
+			if ((tokp = au_to_xfont((int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
@@ -1765,7 +1732,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XGC:
-			if ((tokp = au_to_tsol_xgc((int32_t)(uintptr_t)ad[0],
+			if ((tokp = au_to_xgc((int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
@@ -1779,7 +1746,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XPIXMAP:
-			if ((tokp = au_to_tsol_xpixmap(
+			if ((tokp = au_to_xpixmap(
 			    (int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
@@ -1796,7 +1763,7 @@ aw_gen_rec(int param, va_list arglist)
 		case AW_XPROPERTY:
 			if (aw_chk_addr((caddr_t)ad[2]) == AW_ERR_RTN)
 				AW_GEN_ERR(AW_ERR_ADDR_INVALID);
-			if ((tokp = au_to_tsol_xproperty(
+			if ((tokp = au_to_xproperty(
 			    (int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1], (char *)ad[2])) ==
 			    (token_t *)0)
@@ -1818,7 +1785,7 @@ aw_gen_rec(int param, va_list arglist)
 				AW_GEN_ERR(AW_ERR_ADDR_INVALID);
 			if (aw_chk_addr((caddr_t)ad[2]) == AW_ERR_RTN)
 				AW_GEN_ERR(AW_ERR_ADDR_INVALID);
-			if ((tokp = au_to_tsol_xselect((char *)ad[0],
+			if ((tokp = au_to_xselect((char *)ad[0],
 			    (char *)ad[1], (char *)ad[2])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 			if (aw_buf_append(&(aw_recs[cur_rd]->buf),
@@ -1832,7 +1799,7 @@ aw_gen_rec(int param, va_list arglist)
 			break;
 
 		case AW_XWINDOW:
-			if ((tokp = au_to_tsol_xwindow(
+			if ((tokp = au_to_xwindow(
 			    (int32_t)(uintptr_t)ad[0],
 			    (uid_t)(uintptr_t)ad[1])) == (token_t *)0)
 				AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
