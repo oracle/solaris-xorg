@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.147	08/01/29   Sun Microsystems" 
+#	"@(#)prototype_com	35.148	08/01/31   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -420,9 +420,6 @@ f none openwin/lib/app-defaults/Bitmap 		0644 root bin
 f none openwin/lib/app-defaults/Bitmap-color 	0644 root bin
 f none openwin/lib/app-defaults/Clock-color 	0644 root bin
 f none openwin/lib/app-defaults/Chooser		0644 root bin
-f none openwin/lib/app-defaults/Editres		0644 root bin
-f none openwin/lib/app-defaults/Editres-color	0644 root bin
-f none openwin/lib/app-defaults/XClipboard	0644 root bin
 f none openwin/lib/app-defaults/XClock		0644 root bin
 f none openwin/lib/app-defaults/XConsole	0644 root bin
 f none openwin/lib/app-defaults/XLock		0644 root bin
@@ -683,11 +680,17 @@ f none lib/help/profiles/locale/C/RtDesktopConfiguration.html 444 root bin
 !search      $HOME/X11/lib/X11/app-defaults
 d none X11/lib/X11                              0755 root bin
 d none X11/lib/X11/app-defaults                 0755 root bin
+f none X11/lib/X11/app-defaults/Editres		0644 root bin
+f none X11/lib/X11/app-defaults/Editres-color	0644 root bin
 f none X11/lib/X11/app-defaults/XCalc		0644 root bin
 f none X11/lib/X11/app-defaults/XCalc-color	0644 root bin
+f none X11/lib/X11/app-defaults/XClipboard	0644 root bin
 f none X11/lib/X11/app-defaults/Xmag		0644 root bin
 
 # Create links back to openwin
+s none openwin/lib/app-defaults/Editres=../../../X11/lib/X11/app-defaults/Editres
+s none openwin/lib/app-defaults/Editres-color=../../../X11/lib/X11/app-defaults/Editres-color
 s none openwin/lib/app-defaults/XCalc=../../../X11/lib/X11/app-defaults/XCalc
 s none openwin/lib/app-defaults/XCalc-color=../../../X11/lib/X11/app-defaults/XCalc-color
+s none openwin/lib/app-defaults/XClipboard=../../../X11/lib/X11/app-defaults/XClipboard
 s none openwin/lib/app-defaults/Xmag=../../../X11/lib/X11/app-defaults/Xmag

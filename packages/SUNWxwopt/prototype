@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.36	08/01/09 SMI"
+# ident "@(#)prototype	35.37	08/01/31 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -45,7 +45,6 @@ f none openwin/bin/atobm	0755 root bin
 f none openwin/bin/bdftosnf	0755 root bin
 f none openwin/bin/bitmap	0755 root bin
 f none openwin/bin/bmtoa	0755 root bin
-f none openwin/bin/editres	0755 root bin
 f none openwin/bin/imake	0755 root bin
 f none openwin/bin/listres	0755 root bin
 f none openwin/bin/makedepend	0755 root bin
@@ -59,12 +58,10 @@ f none openwin/bin/showsnf	0755 root bin
 f none openwin/bin/twm		0755 root bin
 f none openwin/bin/viewres	0755 root bin
 f none openwin/bin/xbiff	0755 root bin
-f none openwin/bin/xclipboard	0755 root bin
 f none openwin/bin/xclock	0755 root bin
 f none openwin/bin/xcmsdb	0755 root bin
 f none openwin/bin/xcolor	0755 root bin
 f none openwin/bin/xconsole	0755 root bin
-f none openwin/bin/xcutsel	0755 root bin
 f none openwin/bin/xditview	0755 root bin
 f none openwin/bin/xdm		0755 root bin
 f none openwin/bin/xdmshell	0755 root bin
@@ -169,7 +166,13 @@ f none openwin/lib/config/Threads.tmpl 0644 root bin
 !search $HOME/X11/bin
 d none X11					0755 root bin
 d none X11/bin					0755 root bin
+f none X11/bin/editres				0755 root bin
 f none X11/bin/xcursorgen			0755 root bin
 f none X11/bin/xkill				0755 root bin
+f none X11/bin/xclipboard			0755 root bin
+f none X11/bin/xcutsel				0755 root bin
+s none openwin/bin/editres=../../X11/bin/editres
 s none openwin/bin/xkill=../../X11/bin/xkill
+s none openwin/bin/xclipboard=../../X11/bin/xclipboard
+s none openwin/bin/xcutsel=../../X11/bin/xcutsel
 

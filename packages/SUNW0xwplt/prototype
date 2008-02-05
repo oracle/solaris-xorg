@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.11     08/01/25 SMI"
+# ident "@(#)prototype 1.12     08/01/31 SMI"
 #
 # X Window System required core package localizable files
 
@@ -53,9 +53,6 @@ f none openwin/lib/locale/C/app-defaults/Bitmap 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Bitmap-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Clock-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Editres 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Editres-color 0644 root bin
-f none openwin/lib/locale/C/app-defaults/XClipboard 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XClock 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XConsole 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLock 0644 root bin
@@ -81,8 +78,11 @@ f none X11/share/locale/C/LC_MESSAGES/xhost.po		0644 root bin
 !search      $HOME/X11/lib/X11/app-defaults
 d none X11/lib/X11/app-defaults                         0755 root bin
 d none X11/lib/X11/app-defaults/C                       0755 root bin
+f none X11/lib/X11/app-defaults/C/Editres		0444 root bin
+f none X11/lib/X11/app-defaults/C/Editres-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc			0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc-color		0444 root bin
+f none X11/lib/X11/app-defaults/C/XClipboard		0444 root bin
 f none X11/lib/X11/app-defaults/C/Xmag			0444 root bin
 
 # RBAC help files
