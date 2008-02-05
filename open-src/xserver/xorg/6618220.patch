@@ -1,0 +1,11 @@
+--- hw/xfree86/common/xf86RandR.c	Fri Jan 18 17:29:10 2008
++++ hw/xfree86/common/xf86RandR.c	Fri Feb  1 13:13:42 2008
+@@ -71,7 +71,7 @@
+ 
+     *rotations = RR_Rotate_0;
+ 
+-    for (mode = scrp->modes; ; mode = mode->next)
++    for (mode = scrp->modes; mode!=NULL ; mode = mode->next)
+     {
+ 	int refresh = xf86RandRModeRefresh (mode);
+ 
