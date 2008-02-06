@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source font modules
+###############################################################################
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,40 +28,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/02/05 SMI
+# @(#)Makefile	1.1	08/02/04 SMI
 #
-###############################################################################
 
-OS_SUBDIRS = \
-	encodings \
-	sun-aliases \
-	bitstream-vera \
-	deja-vu \
-	adobe-utopia-type1 \
-	bh-type1 \
-	bitstream-type1 \
-	ibm-type1 \
-	xfree86-type1
+# Package name used in tarballs
+FONT_NAME=font-xfree86-type1
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+# Version number (used in path names)
+VERSION=1.0.0
 
-World: clean install
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES=
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Extra configure flags
+FONT_CONFIG_OPTS=
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+### Include common rulesets
+include ../Makefile.inc
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/font/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done

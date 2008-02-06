@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.34 07/11/07
+# @(#)upgrade-X	1.35 08/02/05
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -233,6 +233,14 @@ fi
 if [ -d SUNWxorg-mesa ] ; then
     FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_MESA}"
     PKGS_32="${PKGS_32} ${PKGS_XORG_MESA}"
+fi
+
+# 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link in SUNWxorg-server
+# to a directory in SUNWxwcft, need to remove old link before installing 
+# directory
+if [ -L /usr/X11/lib/X11/fonts/Type1 ] ; then
+    REM_PKGS="SUNWxorg-server"
+    FORCE_ADD="${FORCE_ADD} SUNWxorg-server"
 fi
 
 if [ "$MACH" = "sparc" ]; then

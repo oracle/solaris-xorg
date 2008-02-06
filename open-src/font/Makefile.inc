@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org font modules
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.3	07/05/15
+# @(#)Makefile.inc	1.4	08/02/05
 #
 
 ### Makefile settings/rules common to all X.Org font modules
@@ -49,11 +49,20 @@ include $(TOP)/common/Makefile.inc
 # Command line options to GNU autoconf configure script
 FONT_CFG=--prefix=$(X11_DIR) $(FONT_CONFIG_OPTS)
 
+# Paths to find mkfontscale, fc-cache & the libraries they need in build area
+FONT_UTILS_PATH=$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)/usr/bin
+FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR):$(PROTODIR)$(X11_DIR)/lib:$(PROTODIR)/usr/lib
+
 # Environment variable options to GNU autoconf configure script
-CONFIG_ENV = PATH="$(PROTODIR)$(X11_DIR)/bin:$$PATH"
+CONFIG_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" \
+	PKG_CONFIG_PATH="$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig" \
+	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p"
 
 # Environment variable options needed when building
-BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_SERVERLIBS_DIR)"
+BUILD_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" \
+	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p"
 
 build_gen: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
@@ -67,7 +76,7 @@ $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 # Install
 install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig CPPROG="cp -p" install )
+	 $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install )
 
 
 

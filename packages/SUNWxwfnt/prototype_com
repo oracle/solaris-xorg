@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.47	08/01/08	Sun Microsystems
+#	@(#)prototype_com	35.48	08/02/05	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -617,7 +617,6 @@ f none openwin/lib/X11/fonts/F3bitmaps/ZapfDingbats18.pcf 0644 root bin
 
 !search  $HOME/lib/X11/fonts/Type1
 d none openwin/lib/X11/fonts/Type1 0755 root bin
-e fontsdir openwin/lib/X11/fonts/Type1/fonts.dir 644 root bin
 
 !search  $HOME/lib/X11/fonts/Type1/afm
 d none openwin/lib/X11/fonts/Type1/afm 0755 root bin

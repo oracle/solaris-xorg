@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source font modules
+###############################################################################
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,40 +28,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/02/05 SMI
-#
-###############################################################################
 
-OS_SUBDIRS = \
-	encodings \
-	sun-aliases \
-	bitstream-vera \
-	deja-vu \
-	adobe-utopia-type1 \
-	bh-type1 \
-	bitstream-type1 \
-	ibm-type1 \
-	xfree86-type1
+# No upstream sources for these files, since they're Solaris-specific
+SOURCE_TARBALL_NAME=NONE
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+### Include common rulesets
+PWD:sh=pwd
+TOP=$(PWD)/../..
+include $(TOP)/common/Makefile.inc
 
-World: clean install
+DESTDIR=$(PROTODIR)
+INSTDIR=$(DESTDIR)/$(X11_DIR)/lib/X11/fonts
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+CP=cp -pf
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/font/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+install_gen::
+	mkdir -p $(INSTDIR)/Type1
+	$(CP) fonts.alias.type1 $(INSTDIR)/Type1/fonts.alias.all

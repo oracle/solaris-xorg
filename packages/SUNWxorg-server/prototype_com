@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.27     07/10/09 SMI"
+# ident "@(#)prototype_com 1.28     08/02/05 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -58,7 +58,6 @@ f none X11/lib/X11/Cards 0444 root bin
 d none X11/lib/X11/fonts 0755 root bin
 s none X11/lib/X11/fonts/F3bitmaps=../../../../openwin/lib/X11/fonts/F3bitmaps
 s none X11/lib/X11/fonts/TrueType=../../../../openwin/lib/X11/fonts/TrueType
-s none X11/lib/X11/fonts/Type1=../../../../openwin/lib/X11/fonts/Type1
 s none X11/lib/X11/fonts/misc=../../../../openwin/lib/X11/fonts/misc
 s none X11/lib/X11/fonts/75dpi=../../../../openwin/lib/X11/fonts/75dpi
 s none X11/lib/X11/fonts/100dpi=../../../../openwin/lib/X11/fonts/100dpi
