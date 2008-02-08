@@ -1,6 +1,8 @@
---- xorg-server-1.1.1/Xext/shm.c.freedesktop-bug-13520	2006-07-06 04:31:36.000000000 +1000
-+++ xorg-server-1.1.1/Xext/shm.c	2007-12-14 13:08:59.000000000 +1000
-@@ -725,6 +725,8 @@
+diff --git a/Xext/shm.c b/Xext/shm.c
+index be79862..ed7dc28 100644
+--- a/Xext/shm.c
++++ b/Xext/shm.c
+@@ -723,6 +723,8 @@ ProcPanoramiXShmCreatePixmap(
      int i, j, result;
      ShmDescPtr shmdesc;
      REQUEST(xShmCreatePixmapReq);
@@ -9,7 +11,7 @@
      PanoramiXRes *newPix;
  
      REQUEST_SIZE_MATCH(xShmCreatePixmapReq);
-@@ -734,11 +736,26 @@
+@@ -732,11 +734,18 @@ ProcPanoramiXShmCreatePixmap(
      LEGAL_NEW_RESOURCE(stuff->pid, client);
      VERIFY_GEOMETRABLE(pDraw, stuff->drawable, client);
      VERIFY_SHMPTR(stuff->shmseg, stuff->offset, TRUE, shmdesc, client);
@@ -25,8 +27,21 @@
      }
 +    if (width > 32767 || height > 32767)
 +        return BadAlloc;
++
+     if (stuff->depth != 1)
+     {
+         pDepth = pDraw->pScreen->allowedDepths;
+@@ -746,10 +755,18 @@ ProcPanoramiXShmCreatePixmap(
+ 	client->errorValue = stuff->depth;
+         return BadValue;
+     }
++
+ CreatePmap:
+-    VERIFY_SHMSIZE(shmdesc, stuff->offset,
+-		   PixmapBytePad(stuff->width, stuff->depth) * stuff->height,
+-		   client);
 +    size = PixmapBytePad(width, depth) * height;
-+    if (sizeof(size) == 4) {
++    if (sizeof(size) == 4 && BitsPerPixel(depth) > 8) {
 +        if (size < width * height)
 +            return BadAlloc;
 +        /* thankfully, offset is unsigned */
@@ -34,21 +49,11 @@
 +            return BadAlloc;
 +    }
 +
-     if (stuff->depth != 1)
-     {
-         pDepth = pDraw->pScreen->allowedDepths;
-@@ -749,9 +766,7 @@
-         return BadValue;
-     }
- CreatePmap:
--    VERIFY_SHMSIZE(shmdesc, stuff->offset,
--		   PixmapBytePad(stuff->width, stuff->depth) * stuff->height,
--		   client);
 +    VERIFY_SHMSIZE(shmdesc, stuff->offset, size, client);
  
      if(!(newPix = (PanoramiXRes *) xalloc(sizeof(PanoramiXRes))))
  	return BadAlloc;
-@@ -1049,6 +1064,8 @@
+@@ -1047,6 +1064,8 @@ ProcShmCreatePixmap(client)
      register int i;
      ShmDescPtr shmdesc;
      REQUEST(xShmCreatePixmapReq);
@@ -57,7 +62,7 @@
  
      REQUEST_SIZE_MATCH(xShmCreatePixmapReq);
      client->errorValue = stuff->pid;
-@@ -1057,11 +1074,26 @@
+@@ -1055,11 +1074,18 @@ ProcShmCreatePixmap(client)
      LEGAL_NEW_RESOURCE(stuff->pid, client);
      VERIFY_GEOMETRABLE(pDraw, stuff->drawable, client);
      VERIFY_SHMPTR(stuff->shmseg, stuff->offset, TRUE, shmdesc, client);
@@ -73,8 +78,21 @@
      }
 +    if (width > 32767 || height > 32767)
 +	return BadAlloc;
++
+     if (stuff->depth != 1)
+     {
+         pDepth = pDraw->pScreen->allowedDepths;
+@@ -1069,10 +1095,18 @@ ProcShmCreatePixmap(client)
+ 	client->errorValue = stuff->depth;
+         return BadValue;
+     }
++
+ CreatePmap:
+-    VERIFY_SHMSIZE(shmdesc, stuff->offset,
+-		   PixmapBytePad(stuff->width, stuff->depth) * stuff->height,
+-		   client);
 +    size = PixmapBytePad(width, depth) * height;
-+    if (sizeof(size) == 4) {
++    if (sizeof(size) == 4 && BitsPerPixel(depth) > 8) {
 +	if (size < width * height)
 +	    return BadAlloc;
 +	/* thankfully, offset is unsigned */
@@ -82,16 +100,6 @@
 +	    return BadAlloc;
 +    }
 +
-     if (stuff->depth != 1)
-     {
-         pDepth = pDraw->pScreen->allowedDepths;
-@@ -1072,9 +1104,7 @@
-         return BadValue;
-     }
- CreatePmap:
--    VERIFY_SHMSIZE(shmdesc, stuff->offset,
--		   PixmapBytePad(stuff->width, stuff->depth) * stuff->height,
--		   client);
 +    VERIFY_SHMSIZE(shmdesc, stuff->offset, size, client);
      pMap = (*shmFuncs[pDraw->pScreen->myNum]->CreatePixmap)(
  			    pDraw->pScreen, stuff->width,
