@@ -2,7 +2,7 @@
 #
 # xtrans 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/05/15
+# @(#)Makefile	1.5	08/02/08
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
@@ -40,7 +40,7 @@
 LIB_MODULE=xtrans
 
 # Version number (used in path names)
-LIB_VERS=1.0.3
+LIB_VERS=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = inetv6.patch socket-perm.patch

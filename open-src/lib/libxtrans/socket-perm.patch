@@ -31,10 +31,10 @@
 Solaris X servers use mode 0775 to restrict creation of sockets/pipes to
 uid or gid 0 processes.
 
-diff -urp -x '*~' Xtranssock.c Xtranssock.c
---- Xtranssock.c	2006-08-24 15:13:33.433126000 -0700
-+++ Xtranssock.c	2006-08-24 15:13:33.748010000 -0700
-@@ -1082,6 +1082,9 @@ TRANS(SocketUNIXCreateListener) (XtransC
+diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
+--- Xtranssock.c	2008-02-08 11:15:46.190622000 -0800
++++ Xtranssock.c	2008-02-08 11:15:46.377257000 -0800
+@@ -1086,6 +1086,9 @@ TRANS(SocketUNIXCreateListener) (XtransC
      oldUmask = umask (0);
  
  #ifdef UNIX_DIR
