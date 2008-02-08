@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.12     08/01/31 SMI"
+# ident "@(#)prototype 1.13     08/02/08 SMI"
 #
 # X Window System required core package localizable files
 
@@ -54,7 +54,6 @@ f none openwin/lib/locale/C/app-defaults/Bitmap-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Clock-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XClock 0644 root bin
-f none openwin/lib/locale/C/app-defaults/XConsole 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLock 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLogo 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLogo-color 0644 root bin
@@ -83,6 +82,7 @@ f none X11/lib/X11/app-defaults/C/Editres-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc			0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XClipboard		0444 root bin
+f none X11/lib/X11/app-defaults/C/XConsole		0444 root bin
 f none X11/lib/X11/app-defaults/C/Xmag			0444 root bin
 
 # RBAC help files

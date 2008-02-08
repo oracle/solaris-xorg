@@ -1,0 +1,87 @@
+--- xstdcmap.c.orig	Thu Feb  7 13:18:40 2008
++++ xstdcmap.c	Thu Feb  7 13:22:03 2008
+@@ -107,6 +107,15 @@
+ };
+ #define NOPTIONS (sizeof optionTable / sizeof optionTable[0])
+ 
++#ifdef __sun
++/* we don't define this on the command line */
++#define SUNSOFT_BUYBACK 1
++#endif
++
++#ifdef SUNSOFT_BUYBACK
++static void maybeDeleteDefaultGrayMap();
++#endif
++
+ static void usage(Status status);
+ 
+ static void 
+@@ -283,6 +292,22 @@
+     for (i=0; i < NPROPERTIES; i++) {
+ 
+ 	if (propertyTable[i].delete) {
++#ifdef SUNSOFT_BUYBACK
++	    if (i == DEFAULT) { 
++                /*
++                 * REMIND: We are deleting the RGB_DEFAULT_MAPs
++                 * these might have been set up by a DPS client.
++		 * If so there may be a DEFAULT_GRAY map with
++		 * the same kilid. So if we kill that client to
++		 * delete the color ramps, we delete the pixels
++		 * of the grayramp but not the property.
++		 * See if this is going to happen and if so,
++		 * delete the DEFAULT_GRAY property. (1195388)
++                 */
++                maybeDeleteDefaultGrayMap();
++            }
++#endif /* SUNSOFT_BUYBACK */
++
+ 	    XmuDeleteStandardColormap(dpy, screen, propertyTable[i].property);
+ 	    if (verbose)
+ 		fprintf(stderr, "%s: %s was deleted or did not exist.\n",
+@@ -373,3 +398,45 @@
+     /* Muffle compiler */
+     return 0;
+ }
++
++#ifdef SUNSOFT_BUYBACK
++static void
++maybeDeleteDefaultGrayMap()
++{
++        Atom    atom = XInternAtom(dpy, "DEFAULT_GRAY", True);
++        int     i, count;
++        XStandardColormap *defaultMaps;
++        XStandardColormap *pGray;
++
++        if (atom == None)
++            return;
++
++        if (!XGetRGBColormaps(dpy, DefaultRootWindow(dpy), &pGray, &count,
++                atom)) {
++            return;
++        }
++	/* We found DEFAULT_GRAY property */
++        if (XGetRGBColormaps(dpy, DefaultRootWindow(dpy), &defaultMaps, &count,
++                XA_RGB_DEFAULT_MAP)) {
++	    /*
++	     * we found some XA_RGB_DEFAULT_MAPs, see if any of them have
++	     * the same killid as the gray ramp we found above
++	     */
++            for (i=0; i<count; i++) {
++                if (pGray->killid == defaultMaps[i].killid) {
++                    /*
++		     * Got one. 
++                     * Delete the property, deleting the rgb map will free
++                     * the pixels (it calls XKillClient())
++                     */
++                    XDeleteProperty(dpy, DefaultRootWindow(dpy), atom);
++                    break;
++                }
++            }
++	    XFree(defaultMaps);
++        }
++
++        XFree(pGray);
++}
++#endif /* SUNSOFT_BUYBACK */
++
