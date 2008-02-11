@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.18	07/04/03 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.23	08/02/08 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -1665,46 +1665,57 @@ ProcTsolSetModifierMapping(client)
     return (status);
 }
 
-void
-RemoveStripeWindow()
-{
-    WindowPtr pParent;
-    WindowPtr pHead;
-
-    if (!tpwin)
-	return;
-
-    pParent = tpwin->parent;
-    pHead = pParent->firstChild;
-    if (tpwin == pHead) {
-	pHead = tpwin->nextSib;
-	tpwin->nextSib->prevSib = tpwin->prevSib;
-    }
-
-    if (tpwin == pParent->lastChild) {
-	pParent->lastChild = tpwin->nextSib;
-    }
-}
-
 static void
 ResetStripeWindow(ClientPtr client)
 {
     WindowPtr pParent;
     WindowPtr pWin = NULL;
 
-    /* Validate trusted stripe window */
-    if (tpwin)
-        pWin = LookupWindow(tpwin->drawable.id, client);
+#if defined(PANORAMIX) && !defined(IN_MODULE)
+    if (!noPanoramiXExtension)
+    {
+	PanoramiXWindow     *pPanoramiXWin = PanoramiXWinRoot;
+	int         j;
 
-    if (tpwin == NullWindow || pWin == NullWindow)
-	return;
+	if (tpwin) {
+            PANORAMIXFIND_ID(pPanoramiXWin, tpwin->drawable.id);
+	    if (pPanoramiXWin == NULL)
+		return;
+	}
 
-    pParent = tpwin->parent;
-    /* stripe is already at head, nothing to do */
-    if (!pParent || pParent->firstChild == tpwin)
-	return;
+	FOR_NSCREENS_OR_ONCE(pPanoramiXWin, j)
+	{
+	    if (pPanoramiXWin == NULL)
+		return;
+	    /* Validate trusted stripe window */
+	    pWin = LookupWindow(pPanoramiXWin->info[j].id, client);
 
-     ReflectStackChange(tpwin, pParent->firstChild, VTStack);
+	    if (tpwin == NullWindow || pWin == NullWindow)
+		return;
+
+	    pParent = pWin->parent;
+    	    if (!pParent || pParent->firstChild == pWin)
+		return;
+
+	    ReflectStackChange(pWin, pParent->firstChild, VTStack);
+    	}
+    } else
+#endif
+    {
+	/* Validate trusted stripe window */
+	if (tpwin)
+	    pWin = LookupWindow(tpwin->drawable.id, client);
+
+	if (tpwin == NullWindow || pWin == NullWindow)
+	    return;
+
+	pParent = tpwin->parent;
+	/* stripe is already at head, nothing to do */
+	if (!pParent || pParent->firstChild == tpwin)
+	    return;
+
+	ReflectStackChange(tpwin, pParent->firstChild, VTStack);
+    }
 }
 
 int

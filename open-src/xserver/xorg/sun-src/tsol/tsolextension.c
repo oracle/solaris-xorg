@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.21     07/04/03 SMI"
+#pragma ident   "@(#)tsolextension.c 1.28     08/02/08 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -62,6 +62,9 @@
 #include "tsol.h"
 #include "inputstr.h"
 #include "extnsionst.h"
+#ifdef PANORAMIX
+#include "../Xext/panoramiXsrv.h"
+#endif
 #ifdef XCSECURITY
 #define _SECURITY_SERVER
 #include "security.h"
@@ -1573,26 +1576,64 @@ ProcMakeTPWindow(ClientPtr client)
 	return (client->noClientException);
     }
 
-    pWin = LookupWindow(stuff->id, client);
-
-    /* window should not be root but child of root */
-    if (!pWin || (!pWin->parent))
+#if defined(PANORAMIX) && !defined(IN_MODULE)
+    if (!noPanoramiXExtension) 
     {
-        client->errorValue = stuff->id;
-        return (BadWindow);
-    }
-    if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
+        PanoramiXWindow     *pPanoramiXWin = PanoramiXWinRoot;
+        int         j;
+
+        PANORAMIXFIND_ID(pPanoramiXWin, stuff->id);
+        IF_RETURN(!pPanoramiXWin, BadWindow);
+
+	FOR_NSCREENS_OR_ONCE(pPanoramiXWin, j)
+	{
+		pWin = LookupWindow(pPanoramiXWin->info[j].id, client);
+
+		/* window should not be root but child of root */
+		if (!pWin || (!pWin->parent))
+		{
+		    client->errorValue = stuff->id;
+		    return (BadWindow);
+		}
+		if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
+					client, TSOL_ALL, (void *)MAJOROP))
+		{
+		    return (err_code);
+		}
+
+		pParent = pWin->parent;
+		if (pParent->firstChild != pWin)
+		{
+		    tpwin = (WindowPtr)NULL;
+		    ReflectStackChange(pWin, pParent->firstChild, VTStack);
+		}
+	}
+
+    } else 
+#endif
+    {
+	pWin = LookupWindow(stuff->id, client);
+
+	/* window should not be root but child of root */
+	if (!pWin || (!pWin->parent))
+	{
+            client->errorValue = stuff->id;
+            return (BadWindow);
+	}
+	if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
                                 client, TSOL_ALL, (void *)MAJOROP))
-    {
-        return (err_code);
+	{
+            return (err_code);
+	}
+
+	pParent = pWin->parent;
+	if (pParent->firstChild != pWin)
+	{
+	    tpwin = (WindowPtr)NULL;
+	    ReflectStackChange(pWin, pParent->firstChild, VTStack);
+	}
     }
 
-    pParent = pWin->parent;
-    if (pParent->firstChild != pWin)
-    {
-        tpwin = (WindowPtr)NULL;
-        ReflectStackChange(pWin, pParent->firstChild, VTStack);
-    }
     tpwin = pWin;
 
     /*
@@ -1788,13 +1829,10 @@ TsolSetClientInfo(ClientPtr client)
 
 	bsllow(&admin_low);
 
-	namelen = sizeof (tsolinfo->saddr);
-	if (getpeername(fd, (struct sockaddr *)&tsolinfo->saddr, &namelen) != 0) {
-		return;
-	}
-
 	/* Set reasonable defaults for remote clients */
-	if (tsolinfo->client_type == CLIENT_REMOTE) {
+	namelen = sizeof (tsolinfo->saddr);
+	if (getpeername(fd, (struct sockaddr *)&tsolinfo->saddr, &namelen) == 0
+	  && (tsolinfo->client_type == CLIENT_REMOTE)) {
 		int errcode;
 		char hostbuf[NI_MAXHOST];
 		tsol_host_type_t host_type; 
