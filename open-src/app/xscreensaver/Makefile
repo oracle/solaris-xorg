@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.81	08/01/03
+# @(#)Makefile	1.82	08/02/11
 #
 
 PWD:sh=pwd
@@ -78,7 +78,8 @@ SOURCE_PATCHES = \
         NULLRootPasswd.patch \
 	RobustKBGrab.patch \
 	bug-6573182.patch \
-	bug-6610282.patch
+	bug-6610282.patch \
+	bug-6475285.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
