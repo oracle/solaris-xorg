@@ -2,7 +2,7 @@
 #
 # Fontconfig 2.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.69	07/11/27
+# @(#)Makefile	1.70	08/02/14
 #
 
 # Package name used in tarballs
@@ -96,11 +96,6 @@ $(FONTCONFIG_FT2CFG): $(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config
 	chmod +x $@
 
 # Run configure script
-$(SOURCE_DIR)/Makefile:= OPT_CFLAGS=$(FC_OPTFLAGS)
-FC_OPTFLAGS_i386 = 
-FC_OPTFLAGS_sparc = $(DEFAULT_OPT_CFLAGS)
-FC_OPTFLAGS=$(FC_OPTFLAGS_$(MACH))
-
 $(SOURCE_DIR)/Makefile: $(FONTCONFIG_FT2CFG)
 
 # Need to regenerate configure with newer autoconf to work with Studio 12
