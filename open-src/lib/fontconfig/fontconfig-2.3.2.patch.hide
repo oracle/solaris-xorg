@@ -315,7 +315,7 @@
 +	    if (!FcCompare (p, hideFont, score, result))
 +		res = 0;
 +
-+            if ( hideFont )
++            if ( (hideFont != NULL) && (hideFont != s->fonts[f]) )
 +            {
 +		FcPatternDestroy ( hideFont );
 +            }
@@ -379,7 +379,7 @@
 +	    if (!FcCompare (p, hideFont, new->score, result))
 +		res = 0;
 +
-+            if ( hideFont )
++            if ( (hideFont != NULL) && (hideFont != s->fonts[f]) )
 +            {
 +		FcPatternDestroy ( hideFont );
 +            }
