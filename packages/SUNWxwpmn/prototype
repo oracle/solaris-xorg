@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype	35.35	07/10/03   Sun Microsystems" 
+#	"@(#)prototype	35.39	08/02/15   Sun Microsystems" 
 #
 #  X Window System programmers man pages
 
@@ -1075,11 +1075,11 @@ f none openwin/share/man/man3Xext/XmbufQueryExtension.3Xext  0444 root bin
 !search            $HOME/X11/share/man/man3XRes
 d none X11/share/man/man3XRes				0755 root bin
 f none X11/share/man/man3XRes/XRes.3XRes		0444 root bin
-s none X11/share/man/man3XRes/XResQueryExtension.3XRes=XRes3.3XRes
-s none X11/share/man/man3XRes/XResQueryVersion.3XRes=XRes3.3XRes
-s none X11/share/man/man3XRes/XResQueryClients.3XRes=XRes3.3XRes
-s none X11/share/man/man3XRes/XResQueryClientResources.3XRes=XRes3.3XRes
-s none X11/share/man/man3XRes/XResQueryClientPixmapBytes.3XRes=XRes3.3XRes
+s none X11/share/man/man3XRes/XResQueryExtension.3XRes=XRes.3XRes
+s none X11/share/man/man3XRes/XResQueryVersion.3XRes=XRes.3XRes
+s none X11/share/man/man3XRes/XResQueryClients.3XRes=XRes.3XRes
+s none X11/share/man/man3XRes/XResQueryClientResources.3XRes=XRes.3XRes
+s none X11/share/man/man3XRes/XResQueryClientPixmapBytes.3XRes=XRes.3XRes
 
 !search            $HOME/X11/share/man/man3Xi
 d none X11/share/man/man3Xi   0755 root bin
