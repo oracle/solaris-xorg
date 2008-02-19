@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.38	08/02/08 SMI"
+# ident "@(#)prototype	35.40	08/02/20 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -46,7 +46,6 @@ f none openwin/bin/bdftosnf	0755 root bin
 f none openwin/bin/bitmap	0755 root bin
 f none openwin/bin/bmtoa	0755 root bin
 f none openwin/bin/imake	0755 root bin
-f none openwin/bin/listres	0755 root bin
 f none openwin/bin/makedepend	0755 root bin
 f none openwin/bin/mkdirhier	0755 root bin
 f none openwin/bin/oclock	0755 root bin
@@ -166,6 +165,11 @@ f none openwin/lib/config/Threads.tmpl 0644 root bin
 d none X11					0755 root bin
 d none X11/bin					0755 root bin
 f none X11/bin/editres				0755 root bin
+
+# open-src/bin/listres
+f none X11/bin/listres		0755 root bin
+s none openwin/bin/listres=../../X11/bin/listres
+
 f none X11/bin/xcursorgen			0755 root bin
 f none X11/bin/xkill				0755 root bin
 f none X11/bin/xclipboard			0755 root bin
