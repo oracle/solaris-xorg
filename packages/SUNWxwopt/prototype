@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.40	08/02/20 SMI"
+# ident "@(#)prototype	35.41	08/02/21 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -40,11 +40,7 @@ d none openwin			0755 root bin
 
 !search      $HOME/openwin/bin
 d none openwin/bin		0755 root bin
-f none openwin/bin/appres	0755 root bin
-f none openwin/bin/atobm	0755 root bin
 f none openwin/bin/bdftosnf	0755 root bin
-f none openwin/bin/bitmap	0755 root bin
-f none openwin/bin/bmtoa	0755 root bin
 f none openwin/bin/imake	0755 root bin
 f none openwin/bin/makedepend	0755 root bin
 f none openwin/bin/mkdirhier	0755 root bin
@@ -58,7 +54,6 @@ f none openwin/bin/twm		0755 root bin
 f none openwin/bin/viewres	0755 root bin
 f none openwin/bin/xbiff	0755 root bin
 f none openwin/bin/xclock	0755 root bin
-f none openwin/bin/xcmsdb	0755 root bin
 f none openwin/bin/xcolor	0755 root bin
 f none openwin/bin/xditview	0755 root bin
 f none openwin/bin/xdm		0755 root bin
@@ -164,6 +159,10 @@ f none openwin/lib/config/Threads.tmpl 0644 root bin
 !search $HOME/X11/bin
 d none X11					0755 root bin
 d none X11/bin					0755 root bin
+f none X11/bin/appres				0755 root bin
+f none X11/bin/atobm				0755 root bin
+f none X11/bin/bitmap				0755 root bin
+f none X11/bin/bmtoa				0755 root bin
 f none X11/bin/editres				0755 root bin
 
 # open-src/bin/listres
@@ -173,11 +172,17 @@ s none openwin/bin/listres=../../X11/bin/listres
 f none X11/bin/xcursorgen			0755 root bin
 f none X11/bin/xkill				0755 root bin
 f none X11/bin/xclipboard			0755 root bin
+f none X11/bin/xcmsdb				0755 root bin
 f none X11/bin/xconsole				0755 root bin
 f none X11/bin/xcutsel				0755 root bin
+s none openwin/bin/appres=../../X11/bin/appres
+s none openwin/bin/atobm=../../X11/bin/atobm
+s none openwin/bin/bitmap=../../X11/bin/bitmap
+s none openwin/bin/bmtoa=../../X11/bin/bmtoa
 s none openwin/bin/editres=../../X11/bin/editres
 s none openwin/bin/xkill=../../X11/bin/xkill
 s none openwin/bin/xclipboard=../../X11/bin/xclipboard
+s none openwin/bin/xcmsdb=../../X11/bin/xcmsdb
 s none openwin/bin/xconsole=../../X11/bin/xconsole
 s none openwin/bin/xcutsel=../../X11/bin/xcutsel
 

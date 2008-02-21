@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.52     08/02/15 SMI"
+# ident "@(#)prototype_com 35.53     08/02/21 SMI"
 #
 #  X Window System online user man pages
 
@@ -69,12 +69,8 @@ f none openwin/share/man/man1/Xprt.1 0444 root bin
 f none openwin/share/man/man1/Xsun.1 0444 root bin 
 f none openwin/share/man/man1/Xnest.1 0444 root bin 
 f none openwin/share/man/man1/Xvfb.1 0444 root bin 
-f none openwin/share/man/man1/appres.1 0444 root bin
-f none openwin/share/man/man1/atobm.1 0444 root bin
 f none openwin/share/man/man1/bdftopcf.1 0444 root bin
 f none openwin/share/man/man1/bdftosnf.1 0444 root bin
-f none openwin/share/man/man1/bitmap.1 0444 root bin
-f none openwin/share/man/man1/bmtoa.1 0444 root bin
 f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
 f none openwin/share/man/man1/cmap_compact.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
@@ -105,7 +101,6 @@ f none openwin/share/man/man1/viewres.1 0444 root bin
 f none openwin/share/man/man1/winsysck.1 0444 root bin
 f none openwin/share/man/man1/xbiff.1 0444 root bin
 f none openwin/share/man/man1/xclock.1 0444 root bin
-f none openwin/share/man/man1/xcmsdb.1 0444 root bin
 f none openwin/share/man/man1/xcolor.1 0444 root bin
 f none openwin/share/man/man1/xditview.1 0444 root bin
 f none openwin/share/man/man1/xdm.1 0444 root bin
@@ -170,6 +165,18 @@ f none openwin/share/man/man1/Xserver.1 0444 root bin
 
 !search $NEWHOME/man1
 
+# open-src/app/appres
+f none X11/share/man/man1/appres.1 	0444 root bin
+
+# open-src/app/atobm
+f none X11/share/man/man1/atobm.1 	0444 root bin
+
+# open-src/app/bitmap
+f none X11/share/man/man1/bitmap.1 	0444 root bin
+
+# open-src/app/bmtoa
+f none X11/share/man/man1/bmtoa.1 	0444 root bin
+
 # open-src/app/constype
 f none X11/share/man/man1/constype.1 	0444 root bin
 
@@ -196,6 +203,9 @@ f none X11/share/man/man1/xcalc.1 	0444 root bin
 
 # open-src/app/xcalc
 f none X11/share/man/man1/xclipboard.1 	0444 root bin
+
+# open-src/app/xcmsdb
+f none X11/share/man/man1/xcmsdb.1 	0444 root bin
 
 # open-src/app/xconsole
 f none X11/share/man/man1/xconsole.1 	0444 root bin

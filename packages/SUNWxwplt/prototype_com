@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype_com	35.152	08/02/15   Sun Microsystems" 
+#	"@(#)prototype_com	35.153	08/02/21   Sun Microsystems" 
 #
 # X Window System required core package
 
@@ -434,8 +434,6 @@ f none openwin/lib/X11/proxymngr/pmconfig       0755 root bin
 !search  $HOME/openwin/lib/X11/app-defaults
 d none openwin/lib/app-defaults 		0755 root bin
 s none openwin/lib/X11/app-defaults=../app-defaults
-f none openwin/lib/app-defaults/Bitmap 		0644 root bin
-f none openwin/lib/app-defaults/Bitmap-color 	0644 root bin
 f none openwin/lib/app-defaults/Clock-color 	0644 root bin
 f none openwin/lib/app-defaults/Chooser		0644 root bin
 f none openwin/lib/app-defaults/XClock		0644 root bin
@@ -495,19 +493,6 @@ d none openwin/share/include/X11 0755 root bin
 d none openwin/share/include/X11/bitmaps 0755 root bin
 f none openwin/share/include/X11/bitmaps/black6 0644 root bin
 f none openwin/share/include/X11/bitmaps/box6 0644 root bin
-f none openwin/share/include/X11/bitmaps/FlipHoriz 0644 root bin
-f none openwin/share/include/X11/bitmaps/Up 0644 root bin
-f none openwin/share/include/X11/bitmaps/FlipVert 0644 root bin
-f none openwin/share/include/X11/bitmaps/Left 0644 root bin
-f none openwin/share/include/X11/bitmaps/Fold 0644 root bin
-f none openwin/share/include/X11/bitmaps/Right 0644 root bin
-f none openwin/share/include/X11/bitmaps/RotateLeft 0644 root bin
-f none openwin/share/include/X11/bitmaps/Down 0644 root bin
-f none openwin/share/include/X11/bitmaps/RotateRight 0644 root bin
-f none openwin/share/include/X11/bitmaps/Dashes 0644 root bin
-f none openwin/share/include/X11/bitmaps/Stipple 0644 root bin
-f none openwin/share/include/X11/bitmaps/Term 0644 root bin
-f none openwin/share/include/X11/bitmaps/Excl 0644 root bin
 
 !search  $HOME/X11/include/X11/bitmaps
 d none X11/include					0755 root bin
@@ -584,6 +569,19 @@ f none X11/include/X11/bitmaps/xlogo16			0444 root bin
 f none X11/include/X11/bitmaps/xlogo32			0444 root bin
 f none X11/include/X11/bitmaps/xlogo64			0444 root bin
 f none X11/include/X11/bitmaps/xsnow			0444 root bin
+f none X11/include/X11/bitmaps/Dashes			0644 root bin
+f none X11/include/X11/bitmaps/Down			0644 root bin
+f none X11/include/X11/bitmaps/Excl			0644 root bin
+f none X11/include/X11/bitmaps/FlipHoriz		0644 root bin
+f none X11/include/X11/bitmaps/FlipVert			0644 root bin
+f none X11/include/X11/bitmaps/Fold			0644 root bin
+f none X11/include/X11/bitmaps/Left			0644 root bin
+f none X11/include/X11/bitmaps/Right			0644 root bin
+f none X11/include/X11/bitmaps/RotateLeft		0644 root bin
+f none X11/include/X11/bitmaps/RotateRight		0644 root bin
+f none X11/include/X11/bitmaps/Stipple			0644 root bin
+f none X11/include/X11/bitmaps/Term			0644 root bin
+f none X11/include/X11/bitmaps/Up			0644 root bin
 
 # backwards compatibility links for bitmaps from xbitmaps modular package
 s none openwin/share/include/X11/bitmaps/1x1=../../../../../X11/include/X11/bitmaps/1x1
@@ -649,6 +647,19 @@ s none openwin/share/include/X11/bitmaps/xlogo11=../../../../../X11/include/X11/
 s none openwin/share/include/X11/bitmaps/xlogo16=../../../../../X11/include/X11/bitmaps/xlogo16
 s none openwin/share/include/X11/bitmaps/xlogo32=../../../../../X11/include/X11/bitmaps/xlogo32
 s none openwin/share/include/X11/bitmaps/xlogo64=../../../../../X11/include/X11/bitmaps/xlogo64
+s none openwin/share/include/X11/bitmaps/Dashes=../../../../../X11/include/X11/bitmaps/Dashes
+s none openwin/share/include/X11/bitmaps/Down=../../../../../X11/include/X11/bitmaps/Down
+s none openwin/share/include/X11/bitmaps/Excl=../../../../../X11/include/X11/bitmaps/Excl
+s none openwin/share/include/X11/bitmaps/FlipHoriz=../../../../../X11/include/X11/bitmaps/FlipHoriz
+s none openwin/share/include/X11/bitmaps/FlipVert=../../../../../X11/include/X11/bitmaps/FlipVert
+s none openwin/share/include/X11/bitmaps/Fold=../../../../../X11/include/X11/bitmaps/Fold
+s none openwin/share/include/X11/bitmaps/Left=../../../../../X11/include/X11/bitmaps/Left
+s none openwin/share/include/X11/bitmaps/Right=../../../../../X11/include/X11/bitmaps/Right
+s none openwin/share/include/X11/bitmaps/RotateLeft=../../../../../X11/include/X11/bitmaps/RotateLeft
+s none openwin/share/include/X11/bitmaps/RotateRight=../../../../../X11/include/X11/bitmaps/RotateRight
+s none openwin/share/include/X11/bitmaps/Stipple=../../../../../X11/include/X11/bitmaps/Stipple
+s none openwin/share/include/X11/bitmaps/Term=../../../../../X11/include/X11/bitmaps/Term
+s none openwin/share/include/X11/bitmaps/Up=../../../../../X11/include/X11/bitmaps/Up
 
 #   X Window System 64-bit library software
 
@@ -697,6 +708,9 @@ f none lib/help/profiles/locale/C/RtDesktopConfiguration.html 444 root bin
 !search      $HOME/X11/lib/X11/app-defaults
 d none X11/lib/X11                              0755 root bin
 d none X11/lib/X11/app-defaults                 0755 root bin
+f none X11/lib/X11/app-defaults/Bitmap		0644 root bin
+f none X11/lib/X11/app-defaults/Bitmap-color	0644 root bin
+f none X11/lib/X11/app-defaults/Bitmap-nocase	0644 root bin
 f none X11/lib/X11/app-defaults/Editres		0644 root bin
 f none X11/lib/X11/app-defaults/Editres-color	0644 root bin
 f none X11/lib/X11/app-defaults/XCalc		0644 root bin
@@ -713,6 +727,9 @@ f none X11/lib/X11/x11perfcomp/perfratio	0755 root bin
 f none X11/lib/X11/x11perfcomp/Xmark		0755 root bin
 
 # Create links back to openwin
+s none openwin/lib/app-defaults/Bitmap=../../../X11/lib/X11/app-defaults/Bitmap
+s none openwin/lib/app-defaults/Bitmap-color=../../../X11/lib/X11/app-defaults/Bitmap-color
+s none openwin/lib/app-defaults/Bitmap-nocase=../../../X11/lib/X11/app-defaults/Bitmap-nocase
 s none openwin/lib/app-defaults/Editres=../../../X11/lib/X11/app-defaults/Editres
 s none openwin/lib/app-defaults/Editres-color=../../../X11/lib/X11/app-defaults/Editres-color
 s none openwin/lib/app-defaults/XCalc=../../../X11/lib/X11/app-defaults/XCalc
