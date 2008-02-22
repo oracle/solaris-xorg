@@ -1,0 +1,162 @@
+From 8afc7e2eb3ebec48d3879bf269143259c8bc18c8 Mon Sep 17 00:00:00 2001
+From: Eric Anholt <eric@anholt.net>
+Date: Mon, 26 Mar 2007 15:55:38 -0700
+Subject: [PATCH] Refuse to initialize Composite if Render is not present.
+
+Composite relies on the presence of Render, in particular for the automatic
+compositing.
+---
+ composite/compext.c |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/composite/compext.c b/composite/compext.c
+index 4c25cc7..3a9f896 100644
+--- a/composite/compext.c
++++ b/composite/compext.c
+@@ -678,6 +678,12 @@ CompositeExtensionInit (void)
+     ExtensionEntry  *extEntry;
+     int		    s;
+ 
++    /* Ensure that Render is initialized on all screens. */
++    for (s = 0; s < screenInfo.numScreens; s++) {
++	if (GetPictureScreenIfSet(screenInfo.screens[s]) == NULL)
++	    return;
++    }
++
+     CompositeClientWindowType = CreateNewResourceType (FreeCompositeClientWindow);
+     if (!CompositeClientWindowType)
+ 	return;
+-- 
+1.4.1
+
+From 5e7936371c9e1ac48e19bf1e9e3f71f037fd9b5d Mon Sep 17 00:00:00 2001
+From: Eric Anholt <eric@anholt.net>
+Date: Mon, 26 Mar 2007 20:18:18 -0700
+Subject: [PATCH] Disable Composite when the screen's visual is pseudocolor.
+
+Rendering fails badly in this case, and I don't care enough to fix it.
+---
+ composite/compext.c |   17 +++++++++++++++--
+ 1 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/composite/compext.c b/composite/compext.c
+index 3a9f896..af05b4a 100644
+--- a/composite/compext.c
++++ b/composite/compext.c
+@@ -678,9 +678,22 @@ CompositeExtensionInit (void)
+     ExtensionEntry  *extEntry;
+     int		    s;
+ 
+-    /* Ensure that Render is initialized on all screens. */
+     for (s = 0; s < screenInfo.numScreens; s++) {
+-	if (GetPictureScreenIfSet(screenInfo.screens[s]) == NULL)
++	ScreenPtr pScreen = screenInfo.screens[s];
++	VisualPtr vis;
++
++	/* Composite on 8bpp pseudocolor root windows appears to fail, so
++	 * just disable it on anything pseudocolor for safety.
++	 */
++	for (vis = pScreen->visuals; vis->vid != pScreen->rootVisual; vis++)
++	    ;
++	if ((vis->class | DynamicClass) == PseudoColor)
++	    return;
++
++	/* Ensure that Render is initialized, which is required for automatic
++	 * compositing.
++	 */
++	if (GetPictureScreenIfSet(pScreen) == NULL)
+ 	    return;
+     }
+ 
+-- 
+1.4.1
+
+From 0bfc3cc22db94ec6867596606fe93228e315c847 Mon Sep 17 00:00:00 2001
+From: Eric Anholt <eric@anholt.net>
+Date: Tue, 27 Mar 2007 13:12:21 -0700
+Subject: [PATCH] Disable composite when Xinerama is active.
+
+It will likely take a decent bit of work to make that work right.
+---
+ composite/compext.c |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+diff --git a/composite/compext.c b/composite/compext.c
+index af05b4a..ba37e7d 100644
+--- a/composite/compext.c
++++ b/composite/compext.c
+@@ -696,6 +696,11 @@ CompositeExtensionInit (void)
+ 	if (GetPictureScreenIfSet(pScreen) == NULL)
+ 	    return;
+     }
++    /* Xinerama's rewriting of window drawing before Composite gets to it
++     * breaks Composite.
++     */
++    if (!noPanoramiXExtension)
++	return;
+ 
+     CompositeClientWindowType = CreateNewResourceType (FreeCompositeClientWindow);
+     if (!CompositeClientWindowType)
+-- 
+1.4.1
+
+From 1af2ef0b25fd8017a3271e624a5f1548f02b09f9 Mon Sep 17 00:00:00 2001
+From: Eric Anholt <eric@anholt.net>
+Date: Tue, 27 Mar 2007 13:13:45 -0700
+Subject: [PATCH] Enable Composite by default now that it disables itself in the known bad cases.
+---
+ os/utils.c |    5 +----
+ 1 files changed, 1 insertions(+), 4 deletions(-)
+
+diff --git a/os/utils.c b/os/utils.c
+index 2fc5cbb..e605a6c 100644
+--- a/os/utils.c
++++ b/os/utils.c
+@@ -136,10 +136,7 @@ #ifdef BIGREQS
+ _X_EXPORT Bool noBigReqExtension = FALSE;
+ #endif
+ #ifdef COMPOSITE
+- /* COMPOSITE is disabled by default for now until the
+-  * interface is stable */
+- #define COMPOSITE_DEFAULT FALSE
+-_X_EXPORT Bool noCompositeExtension = !COMPOSITE_DEFAULT;
++_X_EXPORT Bool noCompositeExtension = FALSE;
+ #endif
+ 
+ #ifdef DAMAGE
+-- 
+1.4.1
+
+From 50fa8722d35c12e5f0322cebe25faf99c39d4f50 Mon Sep 17 00:00:00 2001
+From: Aaron Plattner <aplattner@nvidia.com>
+Date: Thu, 20 Sep 2007 14:00:33 -0700
+Subject: [PATCH] Set noCompositeExtension to TRUE when failing to initialize the extension (e.g. when Xinerama is enabled).
+---
+ composite/compext.c |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/composite/compext.c b/composite/compext.c
+index 944f8d8..ece51d0 100644
+--- a/composite/compext.c
++++ b/composite/compext.c
+@@ -674,6 +674,9 @@ CompositeExtensionInit (void)
+     ExtensionEntry  *extEntry;
+     int		    s;
+ 
++    /* Assume initialization is going to fail */
++    noCompositeExtension = TRUE;
++
+     for (s = 0; s < screenInfo.numScreens; s++) {
+ 	ScreenPtr pScreen = screenInfo.screens[s];
+ 	VisualPtr vis;
+@@ -731,4 +734,7 @@ #endif
+ 	    return;
+     miRegisterRedirectBorderClipProc (compSetRedirectBorderClip,
+ 				      compGetRedirectBorderClip);
++
++    /* Initialization succeeded */
++    noCompositeExtension = FALSE;
+ }
+-- 
+1.4.1
+

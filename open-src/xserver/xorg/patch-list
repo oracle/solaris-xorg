@@ -5,6 +5,9 @@ render-security.patch,-p1
 ramdac-symbols.patch,-p1
 RandR-1.2-man.patch,-p1
 secure-rpc.patch,-p1
+composite-default.patch,-p1
+composite-7447.patch,-p1
+composite-grabs.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-apm.patch
