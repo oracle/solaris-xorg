@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.54     08/02/22 SMI"
+# ident "@(#)prototype_com 35.55     08/02/22 SMI"
 #
 #  X Window System online user man pages
 
@@ -221,8 +221,14 @@ f none X11/share/man/man1/xcutsel.1 	0444 root bin
 # open-src/app/xdpyinfo
 f none X11/share/man/man1/xdpyinfo.1 	0444 root bin
 
+# open-src/app/xev
+f none X11/share/man/man1/xev.1 	0444 root bin
+
 # open-src/app/xhost
 f none X11/share/man/man1/xhost.1 	0444 root bin
+
+# open-src/app/xlsclients
+f none X11/share/man/man1/xlsclients.1 	0444 root bin
 
 # open-src/app/xmag
 f none X11/share/man/man1/xmag.1 	0444 root bin

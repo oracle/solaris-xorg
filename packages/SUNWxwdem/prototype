@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.16	07/11/05
+#	@(#)prototype	35.18	08/02/22
 #
 #  X Window System demo programs
 
@@ -38,11 +38,11 @@ i copyright=../copyright
 i depend
 i postinstall
 
-!HOME=../openwin
+!HOME=../usr
 
 d none openwin				0755 root bin
 
-!search       $HOME/demo
+!search       $HOME/openwin/demo
 d none openwin/demo			0755 root bin
 f none openwin/demo/dpsexec 		0755 root bin
 f none openwin/demo/ico			0755 root bin
@@ -53,7 +53,6 @@ f none openwin/demo/plaid		0755 root bin
 f none openwin/demo/puzzle		0755 root bin
 f none openwin/demo/texteroids		0755 root bin
 f none openwin/demo/worm		0755 root bin
-f none openwin/demo/xev			0755 root bin
 f none openwin/demo/xepsf		0755 root bin
 f none openwin/demo/xeyes		0755 root bin
 f none openwin/demo/xgc			0755 root bin
@@ -61,5 +60,13 @@ f none openwin/demo/xmac		0755 root bin
 f none openwin/demo/xmag_multivis	0755 root bin
 f none openwin/demo/xscope		0755 root bin
 f none openwin/demo/xsol		0755 root bin
-!search       $HOME/bin
+!search       $HOME/openwin/bin
 f none openwin/demo/xieperf		0755 root bin
+
+!search $HOME/X11/bin
+d none X11				0755 root bin
+d none X11/bin				0755 root bin
+
+# open-src/app/xev
+f none X11/bin/xev 			0755 root bin
+s none openwin/demo/xev=../../X11/bin/xev
