@@ -1,6 +1,6 @@
 #!/usr/perl5/bin/perl -w
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,13 +28,13 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)fix-fonts.conf.pl	1.8	07/09/14 SMI"
+# ident	"@(#)fix-fonts.conf.pl	1.9	08/02/21 SMI"
 #
 # This script performs a number of customizations to the fonts.conf shipped
 # with Solaris, including:
 #   - adding all the locale specific dirs listed in fontdirs file to the font path
 #   - append additional settings from fonts.conf.append file just before closing </fontdir>
-#   - Japanese customization requested in bug 5028919 - replace Kochi fonts with Sun fonts
+#   - Japanese customization requested in bugs 5028919 & 6665751
 
 
 require 5.005;                          # minimal Perl version required
@@ -51,6 +51,14 @@ my $kochifontsreplaced = 0;
 my $eudcfontsadded = 0;
 my $appended = 0;
 my $preuserconf = 0;
+
+# Prints a line with text substituted
+# Arguments: input line, text to replace, new text
+sub print_substitute_line {
+  my ($line, $oldtext, $newtext) = @_;
+  $line =~ s|$oldtext|$newtext|;
+  print $line;
+}
 
 while ($line = <>) {
   # keep track of if we're in an <alias>...</alias> block and if so which one
@@ -73,13 +81,11 @@ while ($line = <>) {
 
     open(FONTDIRLIST, "<fontdirs") || die "Cannot open file fontdirs";
     while ($fontdir = <FONTDIRLIST>) {
-      $newline = $line;
       chomp($fontdir);
       # skip if line is blank or commented out
       next if ($fontdir =~ /^\s*$/);
       next if ($fontdir =~ /^\s*\#/);
-      $newline =~ s|--font-dirs-go-here--|$fontdir|;
-      print $newline;
+      print_substitute_line($line, '--font-dirs-go-here--', $fontdir);
     }
     close(FONTDIRLIST);
     $fontdirsreplaced++;
@@ -110,91 +116,68 @@ while ($line = <>) {
   # Replace Kochi Mincho fonts with Sun Mincho fonts
   # Add additional Sun CJK fonts
   if ($line =~ m|<family>Kochi Mincho</family>|) {
-    $newline = $line;
-    $newline =~ s|Kochi Mincho|HG-PMinchoL-Sun|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Mincho|HG-MinchoL-Sun|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Mincho|FZSongTi|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Mincho|FZMingTi|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Mincho|KacstQurn|;
-    print $newline;
-    $line =~ s|Kochi Mincho|SunDotum|;
+    print_substitute_line($line, 'Kochi Mincho', 'HG-PMinchoL-Sun');
+    print_substitute_line($line, 'Kochi Mincho', 'HG-MinchoL-Sun');
+    print_substitute_line($line, 'Kochi Mincho', 'IPAPMincho');
+    print_substitute_line($line, 'Kochi Mincho', 'IPAMincho');
+    print_substitute_line($line, 'Kochi Mincho', 'IPAGothic');
+    print_substitute_line($line, 'Kochi Mincho', 'FZSongTi');
+    print_substitute_line($line, 'Kochi Mincho', 'FZMingTi');
+    print_substitute_line($line, 'Kochi Mincho', 'KacstQurn');
+    print_substitute_line($line, 'Kochi Mincho', 'SunDotum');
     $kochifontsreplaced++;
-    # Fall through to print $line at end
+    next;
   }
   # Replace Kochi Gothic fonts with Sun Gothic fonts
   # Add additional Sun CJK fonts
   if ($line =~ m|<family>Kochi Gothic</family>|) {
-    $newline = $line;
     if ($aliasfamily ne "monospace") {
-        $newline =~ s|Kochi Gothic|HG-PGothicB-Sun|;
+      print_substitute_line($line, 'Kochi Gothic', 'HG-PGothicB-Sun');
+      print_substitute_line($line, 'Kochi Gothic', 'HG-GothicB-Sun');
+      print_substitute_line($line, 'Kochi Gothic', 'IPAPGothic');
+      print_substitute_line($line, 'Kochi Gothic', 'IPAGothic');
     } else {
-        $newline =~ s|Kochi Gothic|HG-GothicB-Sun|;
+      print_substitute_line($line, 'Kochi Gothic', 'HG-GothicB-Sun');
+      print_substitute_line($line, 'Kochi Gothic', 'HG-MinchoL-Sun');
+      print_substitute_line($line, 'Kochi Gothic', 'IPAGothic');
+      print_substitute_line($line, 'Kochi Gothic', 'IPAMincho');
     }
-    print $newline;
-    $newline = $line;
+    print_substitute_line($line, 'Kochi Gothic', 'FZSongTi');
+    print_substitute_line($line, 'Kochi Gothic', 'FZMingTi');
+    print_substitute_line($line, 'Kochi Gothic', 'KacstQurn');
     if ($aliasfamily ne "monospace") {
-        $newline =~ s|Kochi Gothic|HG-GothicB-Sun|;
+      print_substitute_line($line, 'Kochi Gothic', 'SunDotum');
     } else {
-        $newline =~ s|Kochi Gothic|HG-MinchoL-Sun|;
-    }
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Gothic|FZSongTi|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Gothic|FZMingTi|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|Kochi Gothic|KacstQurn|;
-    print $newline;
-    if ($aliasfamily ne "monospace") {
-      $line =~ s|Kochi Gothic|SunDotum|;
-    } else {
-      $line =~ s|Kochi Gothic|SunDotumChe|;
+      print_substitute_line($line, 'Kochi Gothic', 'SunDotumChe');
     }
     $kochifontsreplaced++;
-    # Fall through to print $line at end
+    next;
   }
   # Add additional entries to monospace faces list
   if ($line =~ m|<default><family>monospace</family></default>| ) {
-    $newline = $line;
-    $newline =~ s|<default><family>monospace</family></default>|<family>KacstQurn</family>|;
-    print $newline;
-    $newline = $line;
-    $newline =~ s|<default><family>monospace</family></default>|<family>SunDotumChe</family>|;
-    print $newline;
+    print_substitute_line($line, 
+			  '<default><family>monospace</family></default>',
+			  '<family>KacstQurn</family>');
+    print_substitute_line($line, 
+			  '<default><family>monospace</family></default>',
+			  '<family>SunDotumChe</family>');
   }
   # Add Arial before Bitstream Vera Sans
   if ($line =~ m|<family>Bitstream Vera Sans</family>| ) {
-    $newline = $line;
-    $newline =~ s|Bitstream Vera Sans|Arial|;
-    print $newline;
+    print_substitute_line($line, 'Bitstream Vera Sans', 'Arial');
   }
   # Add Lucida Bright before Bitstream Vera Serif
   if ($line =~ m|<family>Bitstream Vera Serif</family>| ) {
-    $newline = $line;
-    $newline =~ s|Bitstream Vera Serif|Lucida Bright|;
-    print $newline;
+    print_substitute_line($line, 'Bitstream Vera Serif', 'Lucida Bright');
   }
-  # Add Lucida Sans Typewriter before Bitstream Vera Serif
+  # Add Lucida Sans Typewriter before Bitstream Vera Sans Mono
   if ($line =~ m|<family>Bitstream Vera Sans Mono</family>| ) {
-    $newline = $line;
-    $newline =~ s|Bitstream Vera Sans Mono|Lucida Sans Typewriter|;
-    print $newline;
+    print_substitute_line($line, 'Bitstream Vera Sans Mono', 
+			  'Lucida Sans Typewriter');
   }
   # Add DejaVu entries before Bitstream Vera
   if ($line =~ m|<family>Bitstream Vera.*</family>|) {
-    $newline = $line;
-    $newline =~ s|Bitstream Vera|DejaVu|;
-    print $newline;
+    print_substitute_line($line, 'Bitstream Vera', 'DejaVu');
   }
   # Add EUDC fonts to preferred fonts lists (bug 6195182)
   if (($line =~ m|<family>Bitstream Vera|) && 
