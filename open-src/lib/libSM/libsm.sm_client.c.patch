@@ -1,5 +1,3 @@
-# Makefile for X Consolidation Open Source Library modules
-#
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
@@ -12,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,76 +19,48 @@
 # INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+# # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-#
-# @(#)Makefile	1.13	08/02/21
-#
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libICE \
-	libSM \
-	libfontenc \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
-
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
-
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
-
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+--- src/sm_client.c.orig	2007-05-13 04:48:38.000000000 -0400
++++ src/sm_client.c	2008-02-09 01:19:22.757882000 -0500
+@@ -39,7 +39,6 @@
+ #include "globals.h"
+ 
+ extern IcePoAuthStatus _IcePoMagicCookie1Proc ();
+-extern void _SmcProcessMessage ();
+ static void set_callbacks();
+ 
+ 
+@@ -75,16 +74,6 @@
+     _SmcRegisterClientReply	reply;
+     Bool			gotReply, ioErrorOccured;
+ 
+-    const char *auth_names[] = {"MIT-MAGIC-COOKIE-1"};
+-    IcePoAuthProc auth_procs[] = {_IcePoMagicCookie1Proc};
+-    int auth_count = 1;
+-
+-    IcePoVersionRec versions[] = {
+-        {SmProtoMajor, SmProtoMinor, _SmcProcessMessage}
+-    };
+-    int version_count = 1;
+-
+-
+     *clientIdRet = NULL;
+ 
+     if (errorStringRet && errorLength > 0)
+@@ -100,8 +89,8 @@
+ 	 */
+ 
+ 	if ((_SmcOpcode = IceRegisterForProtocolSetup ("XSMP",
+-	    SmVendorString, SmReleaseString, version_count, versions,
+-            auth_count, auth_names, auth_procs, NULL)) < 0)
++	    SmVendorString, SmReleaseString, _SmVersionCount, _SmcVersions,
++            _SmAuthCount, _SmAuthNames, _SmcAuthProcs, NULL)) < 0)
+ 	{
+ 	    if (errorStringRet && errorLength > 0) {
+ 		strncpy (errorStringRet,

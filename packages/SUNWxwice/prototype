@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.11     07/11/05 SMI"
+# ident "@(#)prototype 1.12     08/02/22 SMI"
 #
 #    X Window System ICE library
 
@@ -37,24 +37,34 @@ i pkginfo
 i copyright=../copyright
 i depend
 
-!HOME=../openwin
+!HOME=../X11
 
-d none openwin				0755 root bin
+d none X11				0755 root bin
 
 !search      $HOME/bin
-d none openwin/bin			0755 root bin
-f none openwin/bin/iceauth		0755 root bin
+d none X11/bin			0755 root bin
+f none X11/bin/iceauth		0755 root bin
+
+# Backwards compatible symbolic link
+s none openwin/bin/iceauth=../../X11/bin/iceauth
 
 !search  $HOME/lib
-d none openwin/lib 			0755 root bin
-f none openwin/lib/libICE.so.6          0755 root bin
-s none openwin/lib/libICE.so=./libICE.so.6
+d none X11/lib 			0755 root bin
+f none X11/lib/libICE.so.6=$HOME/X11/lib/libICE.so.6.3.8      0755 root bin
+s none X11/lib/libICE.so=./libICE.so.6
 
+# Backwards compatible symbolic links
+s none openwin/lib/libICE.so.6=../../X11/lib/libICE.so.6
+s none openwin/lib/libICE.so=../../X11/lib/libICE.so.6
 
 #    X Window System ICE 64-bit library
 !search  $HOME/lib/$plat_64
-d none openwin/lib/$plat_64 				0755 root bin
-s none openwin/lib/64=$plat_64
-f none openwin/lib/$plat_64/libICE.so.6          	0755 root bin
-s none openwin/lib/$plat_64/libICE.so=./libICE.so.6
+d none X11/lib/$plat_64 				0755 root bin
+s none X11/lib/64=$plat_64
+f none X11/lib/$plat_64/libICE.so.6=$HOME/X11/lib/$plat_64/libICE.so.6.3.8  0755 root bin
+s none X11/lib/$plat_64/libICE.so=./libICE.so.6
+
+# 64-bit Backwards compatible symbolic links
+s none openwin/lib/$plat_64/libICE.so.6=../../X11/lib/$plat_64/libICE.so.6
+s none openwin/lib/$plat_64/libICE.so=../../X11/lib/$plat_64/libICE.so.6
 

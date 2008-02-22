@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# iceauth 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,69 +30,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/02/21
+# @(#)Makefile	1.2	08/02/21
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libICE \
-	libSM \
-	libfontenc \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# this ./configure wants bash not /bin/sh
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+SHELL = /bin/bash
+MAKESHELL = /bin/bash
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Package name used in tarballs
+APP_NAME=iceauth
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Version number (used in path names)
+APP_VERS=1.0.2
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES =
 
-World: clean all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxplt} {Interface Stability, Committed}'
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Need to link with lib in server private directory
+APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -lX11 -lICE
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+include ../Makefile.inc
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done

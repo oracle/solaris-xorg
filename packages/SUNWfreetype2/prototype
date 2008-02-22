@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.14	07/12/14 SMI
+#	@(#)prototype	1.15	08/02/22 SMI
 #
 #  FreeType 2 package
 
@@ -73,10 +73,13 @@ f none include/freetype2/freetype/ftcache.h			0444 root bin
 f none include/freetype2/freetype/ftchapters.h			0444 root bin
 f none include/freetype2/freetype/fterrdef.h			0444 root bin
 f none include/freetype2/freetype/fterrors.h			0444 root bin
+f none include/freetype2/freetype/ftgasp.h			0444 root bin
 f none include/freetype2/freetype/ftglyph.h			0444 root bin
+f none include/freetype2/freetype/ftgxval.h			0444 root bin
 f none include/freetype2/freetype/ftgzip.h			0444 root bin
 f none include/freetype2/freetype/ftimage.h			0444 root bin
 f none include/freetype2/freetype/ftincrem.h			0444 root bin
+f none include/freetype2/freetype/ftlcdfil.h			0444 root bin
 f none include/freetype2/freetype/ftlist.h			0444 root bin
 f none include/freetype2/freetype/ftlzw.h			0444 root bin
 f none include/freetype2/freetype/ftmac.h			0444 root bin
@@ -91,8 +94,6 @@ f none include/freetype2/freetype/ftsizes.h			0444 root bin
 f none include/freetype2/freetype/ftsnames.h			0444 root bin
 f none include/freetype2/freetype/ftstroke.h			0444 root bin
 f none include/freetype2/freetype/ftsynth.h			0444 root bin
-f none include/freetype2/freetype/ftsysio.h			0444 root bin
-f none include/freetype2/freetype/ftsysmem.h			0444 root bin
 f none include/freetype2/freetype/ftsystem.h			0444 root bin
 f none include/freetype2/freetype/fttrigon.h			0444 root bin
 f none include/freetype2/freetype/fttypes.h			0444 root bin
@@ -104,16 +105,6 @@ f none include/freetype2/freetype/tttables.h			0444 root bin
 f none include/freetype2/freetype/tttags.h			0444 root bin
 f none include/freetype2/freetype/ttunpat.h			0444 root bin
 
-!search $HOME/include/freetype2/freetype/cache
-d none include/freetype2/freetype/cache				0755 root bin
-f none include/freetype2/freetype/cache/ftccache.h		0444 root bin
-f none include/freetype2/freetype/cache/ftccmap.h		0444 root bin
-f none include/freetype2/freetype/cache/ftcglyph.h		0444 root bin
-f none include/freetype2/freetype/cache/ftcimage.h		0444 root bin
-f none include/freetype2/freetype/cache/ftcmanag.h		0444 root bin
-f none include/freetype2/freetype/cache/ftcmru.h		0444 root bin
-f none include/freetype2/freetype/cache/ftcsbits.h		0444 root bin
-
 !search $HOME/include/freetype2/freetype/config
 d none include/freetype2/freetype/config			0755 root bin
 f none include/freetype2/freetype/config/ftconfig.h		0444 root bin
@@ -122,43 +113,9 @@ f none include/freetype2/freetype/config/ftmodule.h		0444 root bin
 f none include/freetype2/freetype/config/ftoption.h		0444 root bin
 f none include/freetype2/freetype/config/ftstdlib.h		0444 root bin
 
-!search $HOME/include/freetype2/freetype/internal
-d none include/freetype2/freetype/internal			0755 root bin
-f none include/freetype2/freetype/internal/autohint.h		0444 root bin
-f none include/freetype2/freetype/internal/ftcalc.h		0444 root bin
-f none include/freetype2/freetype/internal/ftdebug.h		0444 root bin
-f none include/freetype2/freetype/internal/ftdriver.h		0444 root bin
-f none include/freetype2/freetype/internal/ftgloadr.h		0444 root bin
-f none include/freetype2/freetype/internal/ftmemory.h		0444 root bin
-f none include/freetype2/freetype/internal/ftobjs.h		0444 root bin
-f none include/freetype2/freetype/internal/ftrfork.h		0444 root bin
-f none include/freetype2/freetype/internal/ftserv.h		0444 root bin
-f none include/freetype2/freetype/internal/ftstream.h		0444 root bin
-f none include/freetype2/freetype/internal/fttrace.h		0444 root bin
-f none include/freetype2/freetype/internal/ftvalid.h		0444 root bin
-f none include/freetype2/freetype/internal/internal.h		0444 root bin
-f none include/freetype2/freetype/internal/pcftypes.h		0444 root bin
-f none include/freetype2/freetype/internal/psaux.h		0444 root bin
-f none include/freetype2/freetype/internal/pshints.h		0444 root bin
-f none include/freetype2/freetype/internal/sfnt.h		0444 root bin
-f none include/freetype2/freetype/internal/svbdf.h		0444 root bin
-f none include/freetype2/freetype/internal/svgldict.h		0444 root bin
-f none include/freetype2/freetype/internal/svmm.h		0444 root bin
-f none include/freetype2/freetype/internal/svotval.h		0444 root bin
-f none include/freetype2/freetype/internal/svpfr.h		0444 root bin
-f none include/freetype2/freetype/internal/svpostnm.h		0444 root bin
-f none include/freetype2/freetype/internal/svpscmap.h		0444 root bin
-f none include/freetype2/freetype/internal/svpsinfo.h		0444 root bin
-f none include/freetype2/freetype/internal/svsfnt.h		0444 root bin
-f none include/freetype2/freetype/internal/svttcmap.h		0444 root bin
-f none include/freetype2/freetype/internal/svwinfnt.h		0444 root bin
-f none include/freetype2/freetype/internal/svxf86nm.h		0444 root bin
-f none include/freetype2/freetype/internal/t1types.h		0444 root bin
-f none include/freetype2/freetype/internal/tttypes.h		0444 root bin
-
 !search $HOME/lib
 d none lib 							0755 root bin
-f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.8	0755 root bin
+f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.16	0755 root bin
 s none lib/libfreetype.so=libfreetype.so.6
 
 d none share 							0755 root sys 
@@ -176,12 +133,11 @@ f none lib/pkgconfig/freetype2.pc				0644 root bin
 !search $HOME/lib/$plat_64
 d none lib/$plat_64						0755 root bin
 s none lib/64=$plat_64
-f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.8	0755 root bin
+f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.16	0755 root bin
 s none lib/$plat_64/libfreetype.so=libfreetype.so.6
 
 !search $HOME/lib/$plat_64/pkgconfig
 d none lib/$plat_64/pkgconfig					0755 root other
 f none lib/$plat_64/pkgconfig/freetype2.pc			0644 root bin
-
 
 

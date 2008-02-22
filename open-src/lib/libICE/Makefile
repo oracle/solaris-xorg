@@ -1,6 +1,8 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# ICE 1.x Makefile
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,69 +30,50 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/02/21
+# @(#)Makefile	1.1	08/02/21
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libICE \
-	libSM \
-	libfontenc \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# Package name used in tarballs
+LIB_MODULE=libICE
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=1.0.4
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = icetrans.c.patch
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Library name (used for specfiles/mapfiles)
+LIBNAME=ICE
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=
+SUN_PACKAGE=SUNWxwice
+LIB_STABILITY=Committed
+LIB_MAN_SUFFIX=3ICE
+LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
 
-World: clean all
+# Command line options to GNU autoconf configure script
+LIB_ADD_CONFIG_OPTS = --disable-libtool-lock \
+		      --enable-unix-transport \
+		      --enable-tcp-transport \
+		      --enable-IPv6 \
+		      --enable-lint-library \
+		      --with-pic \
+		      --with-lint \
+		      --with-release-version="1.0.4"
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Library built in tree
+LIB_BUILT=$(BUILD_DIR)/.libs/libICE.so.6.3.0
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# libICE specific flags needed for Xtrans
+LIB_ADD_CFLAGS = -DTCPCONN -DUNIXCONN -DICE_t -DTRANS_CLIENT -DTRANS_SERVER -ULOCALCONN
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+# Use specfile to make mapfile & link with it
+LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=ice.pc.in
+
+include ../Makefile.inc

@@ -1,6 +1,8 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# SM 1.x Makefile
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,69 +30,47 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/02/21
+# @(#)Makefile	1.2	08/02/09
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libICE \
-	libSM \
-	libfontenc \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
+# Package name used in tarballs
+LIB_MODULE=libSM
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+LIB_VERS=1.0.3
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = libsm.globals.h.patch libsm.SMlibint.h.patch libsm.sm_client.c.patch libsm.sm_manager.c.patch
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Library name (used for specfiles/mapfiles)
+LIBNAME=SM
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Committed
+LIB_MAN_SUFFIX=3SM
+LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
 
-World: clean all
+# Command line options to GNU autoconf configure script
+LIB_ADD_CONFIG_OPTS = --disable-libtool-lock \
+		      --enable-unix-transport \
+		      --enable-tcp-transport \
+		      --enable-IPv6 \
+		      --with-pic \
+		      --with-release-version="1.0.3"
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Library built in tree
+LIB_BUILT=$(BUILD_DIR)/.libs/libSM.so.6.0.0
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# Use specfile to make mapfile & link with it
+LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
 
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+LIB_ADD_LDFLAGS = -lsocket -lnsl
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=sm.pc.in
+
+include ../Makefile.inc

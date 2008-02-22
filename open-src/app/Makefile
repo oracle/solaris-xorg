@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.28	08/02/22
+# @(#)Makefile	1.29	08/02/22
 #
 ###############################################################################
 
@@ -37,6 +37,7 @@ OS_SUBDIRS_common = \
 	bitmap \
 	constype \
 	editres \
+	iceauth \
 	listres \
 	mesa-demos \
 	mkfontscale \

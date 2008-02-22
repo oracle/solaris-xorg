@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.75	08/01/16 SMI"
+# ident	"@(#)prototype	35.76	08/02/22 SMI"
 #
 #  X Window System include files
 
@@ -453,26 +453,37 @@ f none X11/include/X11/extensions/Xlge.h 0444 root bin
 s none openwin/share/include/X11/extensions/Xrender.h=../../../../../X11/include/X11/extensions/Xrender.h
 f none X11/include/X11/extensions/Xrender.h 0444 root bin
 
+# open-src/lib/libSM
+d none openwin/share/include/X11/SM 0755 root bin
+d none X11/include/X11/SM 0755 root bin
+s none openwin/share/include/X11/SM/SM.h=../../../../../X11/include/X11/SM/SM.h
+s none openwin/share/include/X11/SM/SMlib.h=../../../../../X11/include/X11/SM/SMlib.h
+s none openwin/share/include/X11/SM/SMproto.h=../../../../../X11/include/X11/SM/SMproto.h
+f none X11/include/X11/SM/SM.h  0644 root bin
+f none X11/include/X11/SM/SMlib.h  0644 root bin
+f none X11/include/X11/SM/SMproto.h  0644 root bin
+
+# open-src/lib/libICE
+d none openwin/share/include/X11/ICE 0755 root bin
+d none X11/include/X11/ICE 0755 root bin
+s none openwin/share/include/X11/ICE/ICE.h=../../../../../X11/include/X11/ICE/ICE.h
+s none openwin/share/include/X11/ICE/ICElib.h=../../../../../X11/include/X11/ICE/ICElib.h
+s none openwin/share/include/X11/ICE/ICEproto.h=../../../../../X11/include/X11/ICE/ICEproto.h
+s none openwin/share/include/X11/ICE/ICEmsg.h=../../../../../X11/include/X11/ICE/ICEmsg.h
+s none openwin/share/include/X11/ICE/ICEconn.h=../../../../../X11/include/X11/ICE/ICEconn.h
+s none openwin/share/include/X11/ICE/ICEutil.h=../../../../../X11/include/X11/ICE/ICEutil.h
+f none X11/include/X11/ICE/ICE.h 0644 root bin
+f none X11/include/X11/ICE/ICElib.h 0644 root bin
+f none X11/include/X11/ICE/ICEproto.h 0644 root bin
+f none X11/include/X11/ICE/ICEmsg.h 0644 root bin
+f none X11/include/X11/ICE/ICEconn.h 0644 root bin
+f none X11/include/X11/ICE/ICEutil.h 0644 root bin
+
 d none openwin/share/include/dga 0755 root bin
 !search                $HOME/openwin/include/dga
 f none openwin/share/include/dga/dga.h 0644 root bin
 f none openwin/share/include/dga/dga_externaldefs.h 0644 root bin
 f none openwin/share/include/dga/XineramaInfo.h 0644 root bin
-
-d none openwin/share/include/X11/SM 0755 root bin
-!search                $HOME/openwin/include/X11/SM
-f none openwin/share/include/X11/SM/SM.h 0644 root bin
-f none openwin/share/include/X11/SM/SMlib.h 0644 root bin
-f none openwin/share/include/X11/SM/SMproto.h 0644 root bin
-
-d none openwin/share/include/X11/ICE 0755 root bin
-!search                $HOME/openwin/include/X11/ICE
-f none openwin/share/include/X11/ICE/ICE.h 0644 root bin
-f none openwin/share/include/X11/ICE/ICElib.h 0644 root bin
-f none openwin/share/include/X11/ICE/ICEproto.h 0644 root bin
-f none openwin/share/include/X11/ICE/ICEmsg.h 0644 root bin
-f none openwin/share/include/X11/ICE/ICEconn.h 0644 root bin
-f none openwin/share/include/X11/ICE/ICEutil.h 0644 root bin
 
 # Xsun DDK headers
 !search                $HOME/openwin/server/include
@@ -614,6 +625,8 @@ f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
 
 # Libraries
 
+f none lib/pkgconfig/ice.pc			0444 root bin
+f none lib/pkgconfig/sm.pc			0444 root bin
 f none lib/pkgconfig/xau.pc			0444 root bin
 f none lib/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/pkgconfig/xcursor.pc			0444 root bin
@@ -662,6 +675,8 @@ s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.p
 # Libraries need separate ones for 64-bit to get library paths right
 
 !search $HOME/lib/$plat_64/pkgconfig
+f none lib/$plat_64/pkgconfig/ice.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/sm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xau.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xcursor.pc		0444 root bin
