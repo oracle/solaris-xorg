@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.41	08/02/21 SMI"
+# ident "@(#)prototype	35.42	08/02/22 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -50,7 +50,6 @@ f none openwin/bin/resize	0755 root bin
 f none openwin/bin/rgb		0755 root bin
 f none openwin/bin/sessreg	0755 root bin
 f none openwin/bin/showsnf	0755 root bin
-f none openwin/bin/twm		0755 root bin
 f none openwin/bin/viewres	0755 root bin
 f none openwin/bin/xbiff	0755 root bin
 f none openwin/bin/xclock	0755 root bin
@@ -79,11 +78,12 @@ f none openwin/lib/app-defaults/Xditview 0644 root bin
 f none openwin/lib/app-defaults/Xedit 0644 root bin
 f none openwin/lib/app-defaults/Xman 0644 root bin
 
-!search $HOME/openwin/lib/X11/twm
-d none openwin/lib/X11 0755 root bin
-d none openwin/lib/X11/twm 0755 root bin
-s none openwin/lib/X11/system.twmrc= ./twm/system.twmrc
-f none openwin/lib/X11/twm/system.twmrc 0644 root bin
+# modified from original
+!search $HOME/X11/share/X11/twm
+d none X11/share/X11 0755 root bin
+d none X11/share/X11/twm 0755 root bin
+s none X11/share/X11/system.twmrc= ./twm/system.twmrc
+f none X11/share/X11/twm/system.twmrc 0644 root bin
 
 #d none openwin/lib/xdm 0755 root bin
 #!search  $HOME/openwin/lib/xdm
@@ -168,6 +168,10 @@ f none X11/bin/editres				0755 root bin
 # open-src/bin/listres
 f none X11/bin/listres		0755 root bin
 s none openwin/bin/listres=../../X11/bin/listres
+
+# open-src/bin/twm
+f none X11/bin/twm				0755 root bin
+s none openwin/bin/twm=../../X11/bin/twm
 
 f none X11/bin/xcursorgen			0755 root bin
 f none X11/bin/xkill				0755 root bin

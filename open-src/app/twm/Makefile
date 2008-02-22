@@ -1,6 +1,8 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# twm 1.x Makefile
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,74 +30,24 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.28	08/02/22
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	listres \
-	mesa-demos \
-	mkfontscale \
-	twm \
-	x11perf \
-	xauth \
-	xcalc \
- 	xclipboard \
- 	xcmsdb \
- 	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xgamma \
-	xhost \
-	xkbcomp \
-	xkill \
-	xlsatoms \
-	xmag \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xset \
-        xsetroot \
-        xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver
+# Package name used in tarballs
+APP_NAME=twm
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+APP_VERS=1.0.3
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = configure.patch
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+#LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+	-a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
 
-World: clean all
+include ../Makefile.inc
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
