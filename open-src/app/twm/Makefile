@@ -44,7 +44,7 @@ SOURCE_PATCHES = configure.patch
 #LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 SUNTOUCH_MAN_FLAGS= \
 	-a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
 
