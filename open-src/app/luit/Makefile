@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# luit 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,78 +30,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.32	08/02/24
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	iceauth \
-	listres \
-	luit \
-	mesa-demos \
-	mkfontscale \
-	twm \
-	x11perf \
-	xauth \
-	xcalc \
-	xclipboard \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xev \
-	xgamma \
-	xhost \
-	xkbcomp \
-	xkill \
-	xlsatoms \
-	xlsclients \
-	xmag \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xset \
-	xsetroot \
-	xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver
+# Package name used in tarballs
+APP_NAME=luit
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+APP_VERS=1.0.3
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = solaris-man.patch
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= -p $(APP_prefix)/bin/ \
+ -a '{Availability, SUNWxwopt} {Interface Stability, Uncommitted}'
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Additional flags to pass to configure script
+APP_CONFIG_OPTS = --with-localealiasfile=/usr/openwin/lib/locale/locale.alias
 
-World: clean all
+# Need to link with libfontenc in server private directory
+APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+include ../Makefile.inc
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done

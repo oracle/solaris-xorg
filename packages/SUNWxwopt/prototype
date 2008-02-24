@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.42	08/02/22 SMI"
+# ident "@(#)prototype	35.43	08/02/24 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -164,15 +164,6 @@ f none X11/bin/atobm				0755 root bin
 f none X11/bin/bitmap				0755 root bin
 f none X11/bin/bmtoa				0755 root bin
 f none X11/bin/editres				0755 root bin
-
-# open-src/bin/listres
-f none X11/bin/listres		0755 root bin
-s none openwin/bin/listres=../../X11/bin/listres
-
-# open-src/bin/twm
-f none X11/bin/twm				0755 root bin
-s none openwin/bin/twm=../../X11/bin/twm
-
 f none X11/bin/xcursorgen			0755 root bin
 f none X11/bin/xkill				0755 root bin
 f none X11/bin/xclipboard			0755 root bin
@@ -189,4 +180,16 @@ s none openwin/bin/xclipboard=../../X11/bin/xclipboard
 s none openwin/bin/xcmsdb=../../X11/bin/xcmsdb
 s none openwin/bin/xconsole=../../X11/bin/xconsole
 s none openwin/bin/xcutsel=../../X11/bin/xcutsel
+
+# open-src/app/listres
+f none X11/bin/listres		0755 root bin
+s none openwin/bin/listres=../../X11/bin/listres
+
+# open-src/app/twm
+f none X11/bin/twm				0755 root bin
+s none openwin/bin/twm=../../X11/bin/twm
+
+# open-src/app/luit
+# no openwin link since it was never delivered into /usr/openwin
+f none X11/bin/luit				0755 root bin
 
