@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.76	08/02/22 SMI"
+# ident	"@(#)prototype	35.77	08/02/23 SMI"
 #
 #  X Window System include files
 
@@ -455,23 +455,25 @@ f none X11/include/X11/extensions/Xrender.h 0444 root bin
 
 # open-src/lib/libSM
 d none openwin/share/include/X11/SM 0755 root bin
-d none X11/include/X11/SM 0755 root bin
 s none openwin/share/include/X11/SM/SM.h=../../../../../X11/include/X11/SM/SM.h
 s none openwin/share/include/X11/SM/SMlib.h=../../../../../X11/include/X11/SM/SMlib.h
 s none openwin/share/include/X11/SM/SMproto.h=../../../../../X11/include/X11/SM/SMproto.h
+!search                $HOME/X11/include/X11/SM
+d none X11/include/X11/SM 0755 root bin
 f none X11/include/X11/SM/SM.h  0644 root bin
 f none X11/include/X11/SM/SMlib.h  0644 root bin
 f none X11/include/X11/SM/SMproto.h  0644 root bin
 
 # open-src/lib/libICE
 d none openwin/share/include/X11/ICE 0755 root bin
-d none X11/include/X11/ICE 0755 root bin
 s none openwin/share/include/X11/ICE/ICE.h=../../../../../X11/include/X11/ICE/ICE.h
 s none openwin/share/include/X11/ICE/ICElib.h=../../../../../X11/include/X11/ICE/ICElib.h
 s none openwin/share/include/X11/ICE/ICEproto.h=../../../../../X11/include/X11/ICE/ICEproto.h
 s none openwin/share/include/X11/ICE/ICEmsg.h=../../../../../X11/include/X11/ICE/ICEmsg.h
 s none openwin/share/include/X11/ICE/ICEconn.h=../../../../../X11/include/X11/ICE/ICEconn.h
 s none openwin/share/include/X11/ICE/ICEutil.h=../../../../../X11/include/X11/ICE/ICEutil.h
+!search                $HOME/X11/include/X11/ICE
+d none X11/include/X11/ICE 0755 root bin
 f none X11/include/X11/ICE/ICE.h 0644 root bin
 f none X11/include/X11/ICE/ICElib.h 0644 root bin
 f none X11/include/X11/ICE/ICEproto.h 0644 root bin
