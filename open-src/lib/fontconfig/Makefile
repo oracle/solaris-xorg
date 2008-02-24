@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.70	08/02/14
+# @(#)Makefile	1.71	08/02/23
 #
 
 # Package name used in tarballs
@@ -50,6 +50,7 @@ SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=fontconfig-$(LIB_VERS).patch \
+	       freetype-2.2-compat.patch,-p1 \
 	       fontconfig-$(LIB_VERS).patch.hide
 
 # Library name (used for specfiles/mapfiles)

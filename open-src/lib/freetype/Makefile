@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.70	08/02/21
+# @(#)Makefile	1.71	08/02/23
 #
 
 PWD:sh=pwd
@@ -67,9 +67,9 @@ SOURCE_PATCHES= \
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
 
 # Where to install freetype files
-FT_prefix=$(PROTODIR)/usr
-FT_bindir=$(FT_prefix)/bin$(LIBSUBDIR)
-FT_libdir=$(FT_prefix)/lib$(LIBSUBDIR)
+FT_prefix=/usr
+FT_bindir=$(FT_prefix)/bin$(ARCHLIBSUBDIR)
+FT_libdir=$(FT_prefix)/lib$(ARCHLIBSUBDIR)
 
 # Command line options to GNU autoconf configure script
 FT_CFG= --prefix=$(FT_prefix) \
@@ -141,6 +141,10 @@ $(FT_LIB): $(SOURCE_DIR)/config.mk
 	    $(GNUMAKE) )
 
 install_gen: $(FT_LIB)
-	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(FT_prefix) libdir=$(FT_libdir)$(ARCHLIBSUBDIR) bindir=$(FT_prefix)/bin$(ARCHLIBSUBDIR) install )
 	mkdir -p $(PROTODIR)/usr/bin$(ARCHLIBSUBDIR)
+	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(PROTODIR)$(FT_prefix) libdir=$(PROTODIR)$(FT_libdir) bindir=$(PROTODIR)$(FT_bindir) install )
 
+install_64::
+	-/bin/rm -f $(PROTODIR)$(FT_prefix)/lib/64 $(PROTODIR)$(FT_prefix)/bin/64
+	ln -s $(SUBDIR64) $(PROTODIR)$(FT_prefix)/lib/64
+	ln -s $(SUBDIR64) $(PROTODIR)$(FT_prefix)/bin/64

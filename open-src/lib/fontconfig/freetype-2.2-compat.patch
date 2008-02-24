@@ -1,0 +1,794 @@
+[Modified to apply to fontconfig 2.3.2 sources]
+
+From 8ebf7725a8607b39ff505029b2a41369d67eb736 Mon Sep 17 00:00:00 2001
+From: Patrick Lam <plam@MIT.EDU>
+Date: Sat, 19 Nov 2005 22:32:13 +0000
+Subject: [PATCH] Get rid of the use of freetype internal headers in fcfreetype.c, since
+    those headers will go away with freetype 2.2. Replace with public
+    domain ftglue code from pango. Note that the patch removes some extra
+    error checking in FT_Get_BDF_Property() and comments out the skipping
+    of empty pcf fonts.
+reviewed by: plam
+---
+ ChangeLog        |   13 +++++++++
+ src/Makefile.am  |    4 ++-
+ src/fcfreetype.c |   75 +++++++++++++++++++++++++-----------------------------
+ 3 files changed, 51 insertions(+), 41 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 274a4b6..2ba9945 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -95,7 +95,9 @@ libfontconfig_la_SOURCES = \
+ 	fcname.c \
+ 	fcpat.c \
+ 	fcstr.c \
+-	fcxml.c
++	fcxml.c \
++	ftglue.h \
++	ftglue.c
+ 
+ lib_LTLIBRARIES = libfontconfig.la
+ 
+diff --git a/src/fcfreetype.c b/src/fcfreetype.c
+index 46dc5a4..8cdc647 100644
+--- a/src/fcfreetype.c
++++ b/src/fcfreetype.c
+@@ -51,28 +51,20 @@ #include <libgen.h>
+ #include "fcint.h"
+ #include <ft2build.h>
+ #include FT_FREETYPE_H
+-#include FT_INTERNAL_OBJECTS_H
+ #include FT_TRUETYPE_TABLES_H
+ #include FT_SFNT_NAMES_H
+ #include FT_TRUETYPE_IDS_H
+ #include FT_TYPE1_TABLES_H
+-#include FT_INTERNAL_STREAM_H
+-#include FT_INTERNAL_SFNT_H
+-#include FT_INTERNAL_TRUETYPE_TYPES_H
+ #if HAVE_FT_GET_X11_FONT_FORMAT
+ #include FT_XFREE86_H
+ #endif
+-
+ #if HAVE_FT_GET_BDF_PROPERTY
+ #include FT_BDF_H
+ #include FT_MODULE_H
+-#define HAS_BDF_PROPERTY(f) ((f) && (f)->driver && \
+-			     (f)->driver->root.clazz->get_interface)
+-#define MY_Get_BDF_Property(f,n,p) (HAS_BDF_PROPERTY(f) ? \
+-				    FT_Get_BDF_Property(f,n,p) : \
+-				    FT_Err_Invalid_Argument)
+ #endif
+ 
++#include "ftglue.h"
++
+ #if !HAVE_FT_GET_BDF_PROPERTY
+ #warning "No FT_Get_BDF_Property: Please install freetype 2.1.4 or later"
+ #endif
+@@ -963,7 +955,7 @@ #if HAVE_FT_GET_BDF_PROPERTY
+ 	BDF_PropertyRec	prop;
+ 	int		rc;
+ 
+-	rc = MY_Get_BDF_Property (face, "PIXEL_SIZE", &prop);
++	rc = FT_Get_BDF_Property (face, "PIXEL_SIZE", &prop);
+ 	if (rc == 0 && prop.type == BDF_PROPERTY_TYPE_INTEGER)
+ 	    return (double) prop.u.integer;
+     }
+@@ -1442,14 +1434,14 @@ #if HAVE_FT_GET_BDF_PROPERTY
+     {
+ 	int             rc;
+ 	BDF_PropertyRec prop;
+-	rc = MY_Get_BDF_Property(face, "FOUNDRY", &prop);
++	rc = FT_Get_BDF_Property(face, "FOUNDRY", &prop);
+ 	if(rc == 0 && prop.type == BDF_PROPERTY_TYPE_ATOM)
+-	    foundry = prop.u.atom;
++	    foundry = (FcChar8 *) prop.u.atom;
+     }
+ 
+     if (width == -1)
+     {
+-	if (MY_Get_BDF_Property(face, "RELATIVE_SETWIDTH", &prop) == 0 &&
++	if (FT_Get_BDF_Property(face, "RELATIVE_SETWIDTH", &prop) == 0 &&
+ 	    (prop.type == BDF_PROPERTY_TYPE_INTEGER ||
+ 	     prop.type == BDF_PROPERTY_TYPE_CARDINAL))
+ 	{
+@@ -1472,7 +1464,7 @@ #if HAVE_FT_GET_BDF_PROPERTY
+ 	    }
+ 	}
+ 	if (width == -1 &&
+-	    MY_Get_BDF_Property (face, "SETWIDTH_NAME", &prop) == 0 &&
++	    FT_Get_BDF_Property (face, "SETWIDTH_NAME", &prop) == 0 &&
+ 	    prop.type == BDF_PROPERTY_TYPE_ATOM)
+ 	{
+ 	    width = FcIsWidth ((FcChar8 *) prop.u.atom);
+@@ -1552,7 +1544,7 @@ #endif
+ #if HAVE_FT_GET_BDF_PROPERTY
+     /* For PCF fonts, override the computed spacing with the one from
+        the property */
+-    if(MY_Get_BDF_Property(face, "SPACING", &prop) == 0 &&
++    if(FT_Get_BDF_Property(face, "SPACING", &prop) == 0 &&
+        prop.type == BDF_PROPERTY_TYPE_ATOM) {
+         if(!strcmp(prop.u.atom, "c") || !strcmp(prop.u.atom, "C"))
+             spacing = FC_CHARCELL;
+@@ -1563,6 +1555,7 @@ #if HAVE_FT_GET_BDF_PROPERTY
+     }
+ #endif
+ 
++#if 0
+     /*
+      * Skip over PCF fonts that have no encoded characters; they're
+      * usually just Unicode fonts transcoded to some legacy encoding
+@@ -1572,6 +1565,7 @@ #endif
+ 	if (!strcmp(FT_MODULE_CLASS(&face->driver->root)->module_name, "pcf"))
+ 	    goto bail2;
+     }
++#endif
+ 
+     if (!FcPatternAddCharSet (pat, FC_CHARSET, cs))
+ 	goto bail2;
+@@ -1606,7 +1600,7 @@ #if HAVE_FT_GET_BDF_PROPERTY
+             int value;
+             BDF_PropertyRec prop;
+ 
+-            rc = MY_Get_BDF_Property(face, "POINT_SIZE", &prop);
++            rc = FT_Get_BDF_Property(face, "POINT_SIZE", &prop);
+             if(rc == 0 && prop.type == BDF_PROPERTY_TYPE_INTEGER)
+                 value = prop.u.integer;
+             else if(rc == 0 && prop.type == BDF_PROPERTY_TYPE_CARDINAL)
+@@ -1616,7 +1610,7 @@ #if HAVE_FT_GET_BDF_PROPERTY
+             if(!FcPatternAddDouble(pat, FC_SIZE, value / 10.0))
+                 goto nevermind;
+ 
+-            rc = MY_Get_BDF_Property(face, "RESOLUTION_Y", &prop);
++            rc = FT_Get_BDF_Property(face, "RESOLUTION_Y", &prop);
+             if(rc == 0 && prop.type == BDF_PROPERTY_TYPE_INTEGER)
+                 value = prop.u.integer;
+             else if(rc == 0 && prop.type == BDF_PROPERTY_TYPE_CARDINAL)
+@@ -2734,7 +2728,6 @@ static FT_Error
+ GetScriptTags(FT_Face face, FT_ULong tabletag, FT_ULong **stags, FT_UShort *script_count)
+ {
+     FT_ULong         cur_offset, new_offset, base_offset;
+-    TT_Face          tt_face = (TT_Face)face;
+     FT_Stream  stream = face->stream;
+     FT_Error   error;
+     FT_UShort          n, p;
+@@ -2743,51 +2736,53 @@ GetScriptTags(FT_Face face, FT_ULong tab
+     if ( !stream )
+ 	return TT_Err_Invalid_Face_Handle;
+ 
+-    if (( error = tt_face->goto_table( tt_face, tabletag, stream, 0 ) ))
++    if (( error = ftglue_face_goto_table( face, tabletag, stream ) ))
+ 	return error;
+ 
+-    base_offset = FT_STREAM_POS();
++    base_offset = ftglue_stream_pos ( stream );
+ 
+     /* skip version */
+ 
+-    if ( FT_STREAM_SEEK( base_offset + 4L ) || FT_FRAME_ENTER( 2L ) )
++    if ( ftglue_stream_seek ( stream, base_offset + 4L ) || ftglue_stream_frame_enter( stream, 2L ) )
+ 	return error;
+ 
+-    new_offset = FT_GET_USHORT() + base_offset;
++    new_offset = ((FT_UShort)ftglue_stream_get_short ( stream )) + base_offset;
+ 
+-    FT_FRAME_EXIT();
++    ftglue_stream_frame_exit( stream );
+ 
+-    cur_offset = FT_STREAM_POS();
++    cur_offset = ftglue_stream_pos( stream );
+ 
+-    if ( FT_STREAM_SEEK( new_offset ) != TT_Err_Ok )
++    if ( ftglue_stream_seek( stream, new_offset ) != TT_Err_Ok )
+ 	return error;
+ 
+-    base_offset = FT_STREAM_POS();
++    base_offset = ftglue_stream_pos( stream );
+ 
+-    if ( FT_FRAME_ENTER( 2L ) )
++    if ( ftglue_stream_frame_enter( stream, 2L ) )
+ 	return error;
+ 
+-    *script_count = FT_GET_USHORT();
++    *script_count = ((FT_UShort)ftglue_stream_get_short ( stream ));
++
++    ftglue_stream_frame_exit( stream );
+ 
+-    FT_FRAME_EXIT();
++    *stags = ftglue_alloc(memory, *script_count * sizeof( FT_ULong ), &error);
+ 
+-    if ( FT_SET_ERROR (FT_MEM_ALLOC_ARRAY( *stags, *script_count, FT_ULong )) )
++    if (error)
+ 	return error;
+ 
+     p = 0;
+     for ( n = 0; n < *script_count; n++ )
+     {
+-	if ( FT_FRAME_ENTER( 6L ) )
++        if ( ftglue_stream_frame_enter( stream, 6L ) )
+ 	    goto Fail;
+ 
+-	(*stags)[p] = FT_GET_ULONG();
+-	new_offset = FT_GET_USHORT() + base_offset;
++	(*stags)[p] = ((FT_ULong)ftglue_stream_get_long ( stream ));
++	new_offset = ((FT_UShort)ftglue_stream_get_short ( stream )) + base_offset;
+ 
+-	FT_FRAME_EXIT();
++        ftglue_stream_frame_exit( stream );
+ 
+-	cur_offset = FT_STREAM_POS();
++	cur_offset = ftglue_stream_pos( stream );
+ 
+-	if ( FT_STREAM_SEEK( new_offset ) )
++	if ( ftglue_stream_seek( stream, new_offset ) )
+ 	    goto Fail;
+ 
+ 	if ( error == TT_Err_Ok )
+@@ -2795,7 +2790,7 @@ GetScriptTags(FT_Face face, FT_ULong tab
+ 	else if ( error != TTO_Err_Empty_Script )
+ 	    goto Fail;
+ 
+-	(void)FT_STREAM_SEEK( cur_offset );
++	(void)ftglue_stream_seek( stream, cur_offset );
+     }
+ 
+     if (!p)
+@@ -2811,7 +2806,7 @@ GetScriptTags(FT_Face face, FT_ULong tab
+ 
+ Fail:
+     *script_count = 0;
+-    FT_FREE( *stags );
++    ftglue_free( memory, *stags );
+     return error;
+ }
+ 
+@@ -2868,7 +2863,7 @@ FcFontCapabilities(FT_Face face)
+     if (FcDebug () & FC_DBG_SCANV)
+ 	printf("complex features in this font: %s\n", complex);
+ bail:
+-    FT_FREE(gsubtags);
+-    FT_FREE(gpostags);
++    ftglue_free(memory, gsubtags);
++    ftglue_free(memory, gpostags);
+     return complex;
+ }
+-- 
+1.4.1
+
+From 824c7bf02515cde1cc562eb6a64b9857d03913fc Mon Sep 17 00:00:00 2001
+From: Patrick Lam <plam@MIT.EDU>
+Date: Sat, 19 Nov 2005 22:37:24 +0000
+Subject: [PATCH] Get rid of the use of freetype internal headers in fcfreetype.c, since
+    those headers will go away with freetype 2.2. Replace with public
+    domain ftglue code from pango. Note that the patch removes some extra
+    error checking in FT_Get_BDF_Property() and comments out the skipping
+    of empty pcf fonts.
+reviewed by: plam
+---
+ src/ftglue.c |  349 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/ftglue.h |  159 ++++++++++++++++++++++++++
+ 2 files changed, 508 insertions(+), 0 deletions(-)
+
+diff --git a/src/ftglue.c b/src/ftglue.c
+new file mode 100644
+index 0000000..ebddfa7
+--- /dev/null
++++ b/src/ftglue.c
+@@ -0,0 +1,349 @@
++/* ftglue.c: Glue code for compiling the OpenType code from
++ *           FreeType 1 using only the public API of FreeType 2
++ *
++ * By David Turner, The FreeType Project (www.freetype.org)
++ *
++ * This code is explicitely put in the public domain
++ *
++ * See ftglue.h for more information.
++ */
++
++#include "ftglue.h"
++
++#if 0
++#include <stdio.h>
++#define  LOG(x)  ftglue_log x
++
++static void
++ftglue_log( const char*   format, ... )
++{
++  va_list  ap;
++ 
++  va_start( ap, format );
++  vfprintf( stderr, format, ap );
++  va_end( ap );
++}
++
++#else
++#define  LOG(x)  do {} while (0)
++#endif
++
++/* only used internally */
++static FT_Pointer
++ftglue_qalloc( FT_Memory  memory,
++               FT_ULong   size,
++               FT_Error  *perror )
++{
++  FT_Error    error = 0;
++  FT_Pointer  block = NULL;
++
++  if ( size > 0 )
++  {
++    block = memory->alloc( memory, size );
++    if ( !block )
++      error = FT_Err_Out_Of_Memory;
++  }
++
++  *perror = error;
++  return block;
++}
++
++#undef   QALLOC  /* just in case */
++#define  QALLOC(ptr,size)    ( (ptr) = ftglue_qalloc( memory, (size), &error ), error != 0 )
++
++
++FTGLUE_APIDEF( FT_Pointer )
++ftglue_alloc( FT_Memory  memory,
++              FT_ULong   size,
++              FT_Error  *perror )
++{
++  FT_Error    error = 0;
++  FT_Pointer  block = NULL;
++
++  if ( size > 0 )
++  {
++    block = memory->alloc( memory, size );
++    if ( !block )
++      error = FT_Err_Out_Of_Memory;
++    else
++      memset( (char*)block, 0, (size_t)size );
++  }
++
++  *perror = error;
++  return block;
++}
++
++
++FTGLUE_APIDEF( FT_Pointer )
++ftglue_realloc( FT_Memory   memory,
++                FT_Pointer  block,
++                FT_ULong    old_size,
++                FT_ULong    new_size,
++                FT_Error   *perror )
++{
++  FT_Pointer  block2 = NULL;
++  FT_Error    error  = 0;
++
++  if ( old_size == 0 || block == NULL )
++  {
++    block2 = ftglue_alloc( memory, new_size, &error );
++  }
++  else if ( new_size == 0 )
++  {
++    ftglue_free( memory, block );
++  }
++  else
++  {
++    block2 = memory->realloc( memory, old_size, new_size, block );
++    if ( block2 == NULL )
++      error = FT_Err_Out_Of_Memory;
++    else if ( new_size > old_size )
++      memset( (char*)block2 + old_size, 0, (size_t)(new_size - old_size) );
++  }
++
++  if ( !error )
++    block = block2;
++
++  *perror = error;
++  return block;
++}
++
++
++FTGLUE_APIDEF( void )
++ftglue_free( FT_Memory   memory,
++             FT_Pointer  block )
++{
++  if ( block )
++    memory->free( memory, block );
++}
++
++
++FTGLUE_APIDEF( FT_Long )
++ftglue_stream_pos( FT_Stream   stream )
++{
++  LOG(( "ftglue:stream:pos() -> %ld\n", stream->pos ));
++  return stream->pos;
++}
++
++
++FTGLUE_APIDEF( FT_Error )
++ftglue_stream_seek( FT_Stream   stream,
++                    FT_Long     pos )
++{
++  FT_Error  error = 0;
++
++  stream->pos = pos;
++  if ( stream->read )
++  {
++    if ( stream->read( stream, pos, 0, 0 ) )
++      error = FT_Err_Invalid_Stream_Operation;
++  }
++  else if ( pos > stream->size )
++    error = FT_Err_Invalid_Stream_Operation;
++
++  LOG(( "ftglue:stream:seek(%ld) -> %d\n", pos, error ));
++  return error;
++}
++
++
++FTGLUE_APIDEF( FT_Error )
++ftglue_stream_frame_enter( FT_Stream   stream,
++                           FT_ULong    count )
++{
++  FT_Error  error = FT_Err_Ok;
++  FT_ULong  read_bytes;
++
++  if ( stream->read )
++  {
++    /* allocate the frame in memory */
++    FT_Memory  memory = stream->memory;
++
++
++    if ( QALLOC( stream->base, count ) )
++      goto Exit;
++
++    /* read it */
++    read_bytes = stream->read( stream, stream->pos,
++                               stream->base, count );
++    if ( read_bytes < count )
++    {
++      FREE( stream->base );
++      error = FT_Err_Invalid_Stream_Operation;
++    }
++    stream->cursor = stream->base;
++    stream->limit  = stream->cursor + count;
++    stream->pos   += read_bytes;
++  }
++  else
++  {
++    /* check current and new position */
++    if ( stream->pos >= stream->size        ||
++         stream->pos + count > stream->size )
++    {
++      error = FT_Err_Invalid_Stream_Operation;
++      goto Exit;
++    }
++
++    /* set cursor */
++    stream->cursor = stream->base + stream->pos;
++    stream->limit  = stream->cursor + count;
++    stream->pos   += count;
++  }
++
++Exit:
++  LOG(( "ftglue:stream:frame_enter(%ld) -> %d\n", count, error ));
++  return error;
++}
++
++
++FTGLUE_APIDEF( void )
++ftglue_stream_frame_exit( FT_Stream  stream )
++{
++  if ( stream->read )
++  {
++    FT_Memory  memory = stream->memory;
++
++    FREE( stream->base );
++  }
++  stream->cursor = 0;
++  stream->limit  = 0;
++
++  LOG(( "ftglue:stream:frame_exit()\n" ));
++}
++
++
++FTGLUE_APIDEF( FT_Byte )
++ftglue_stream_get_byte( FT_Stream  stream )
++{
++  FT_Byte  result = 0;
++
++  if ( stream->cursor < stream->limit )
++    result = *stream->cursor++;
++
++  return result;
++}
++
++
++FTGLUE_APIDEF( FT_Short )
++ftglue_stream_get_short( FT_Stream  stream )
++{
++  FT_Byte*  p;
++  FT_Short  result = 0;
++
++  p = stream->cursor;
++  if ( p + 2 <= stream->limit )
++  {
++    result         = (FT_Short)((p[0] << 8) | p[1]);
++    stream->cursor = p+2;
++  }
++  return result;
++}
++
++
++FTGLUE_APIDEF( FT_Long )
++ftglue_stream_get_long( FT_Stream   stream )
++{
++  FT_Byte*  p;
++  FT_Long   result = 0;
++
++  p = stream->cursor;
++  if ( p + 4 <= stream->limit )
++  {
++    result         = (FT_Long)(((FT_Long)p[0] << 24) |
++                               ((FT_Long)p[1] << 16) |
++                               ((FT_Long)p[2] << 8)  |
++                                         p[3]        );
++    stream->cursor = p+4;
++  }
++  return result;
++}
++
++
++FTGLUE_APIDEF( FT_Error )
++ftglue_face_goto_table( FT_Face    face,
++                        FT_ULong   the_tag,
++                        FT_Stream  stream )
++{
++  FT_Error  error;
++
++  LOG(( "ftglue_face_goto_table( %p, %c%c%c%c, %p )\n",
++                face, 
++                (int)((the_tag >> 24) & 0xFF), 
++                (int)((the_tag >> 16) & 0xFF), 
++                (int)((the_tag >> 8) & 0xFF), 
++                (int)(the_tag & 0xFF),
++                stream ));
++
++  if ( !FT_IS_SFNT(face) )
++  {
++    LOG(( "not a SFNT face !!\n" ));
++    error = FT_Err_Invalid_Face_Handle;
++  }
++  else
++  {
++   /* parse the directory table directly, without using
++    * FreeType's built-in data structures
++    */
++    FT_ULong  offset = 0;
++    FT_UInt   count, nn;
++
++    if ( face->num_faces > 1 )
++    {
++      /* deal with TrueType collections */
++      FT_ULong  offset;
++
++      LOG(( ">> This is a TrueType Collection\n" ));
++
++      if ( FILE_Seek( 12 + face->face_index*4 ) ||
++           ACCESS_Frame( 4 )                    )
++        goto Exit;
++
++      offset = GET_ULong();
++
++      FORGET_Frame();
++    }
++
++    LOG(( "TrueType offset = %ld\n", offset ));
++
++    if ( FILE_Seek( offset+4 ) ||
++         ACCESS_Frame( 2 )     )
++      goto Exit;
++
++    count = GET_UShort();
++
++    FORGET_Frame();
++
++    if ( FILE_Seek( offset+12 )   ||
++         ACCESS_Frame( count*16 ) )
++      goto Exit;
++
++    for ( nn = 0; nn < count; nn++ )
++    {
++      FT_ULong  tag      = GET_ULong();
++      FT_ULong  checksum = GET_ULong();
++      FT_ULong  start    = GET_ULong();
++      FT_ULong  size     = GET_ULong();
++
++      FT_UNUSED(checksum);
++      FT_UNUSED(size);
++      
++      if ( tag == the_tag )
++      {
++        LOG(( "TrueType table (start: %ld) (size: %ld)\n", start, size ));
++        error = ftglue_stream_seek( stream, offset+start );
++        goto FoundIt;
++      }
++    }
++    error = TT_Err_Table_Missing;
++
++  FoundIt:
++    FORGET_Frame();
++  }
++
++Exit:
++  LOG(( "TrueType error=%d\n", error ));
++  
++  return error;
++}                        
++
++#undef QALLOC
+diff --git a/src/ftglue.h b/src/ftglue.h
+new file mode 100644
+index 0000000..f526bf0
+--- /dev/null
++++ b/src/ftglue.h
+@@ -0,0 +1,159 @@
++/* ftglue.c: Glue code for compiling the OpenType code from
++ *           FreeType 1 using only the public API of FreeType 2
++ *
++ * By David Turner, The FreeType Project (www.freetype.org)
++ *
++ * This code is explicitely put in the public domain
++ *
++ * ==========================================================================
++ *
++ * the OpenType parser codes was originally written as an extension to
++ * FreeType 1.x. As such, its source code was embedded within the library,
++ * and used many internal FreeType functions to deal with memory and
++ * stream i/o.
++ *
++ * When it was 'salvaged' for Pango and Qt, the code was "ported" to FreeType 2,
++ * which basically means that some macro tricks were performed in order to
++ * directly access FT2 _internal_ functions.
++ *
++ * these functions were never part of FT2 public API, and _did_ change between
++ * various releases. This created chaos for many users: when they upgraded the
++ * FreeType library on their system, they couldn't run Gnome anymore since
++ * Pango refused to link.
++ *
++ * Very fortunately, it's possible to completely avoid this problem because
++ * the FT_StreamRec and FT_MemoryRec structure types, which describe how
++ * memory and stream implementations interface with the rest of the font
++ * library, have always been part of the public API, and never changed.
++ *
++ * What we do thus is re-implement, within the OpenType parser, the few
++ * functions that depend on them. This only adds one or two kilobytes of
++ * code, and ensures that the parser can work with _any_ version
++ * of FreeType installed on your system. How sweet... !
++ *
++ * Note that we assume that Pango doesn't use any other internal functions
++ * from FreeType. It used to in old versions, but this should no longer
++ * be the case. (crossing my fingers).
++ *
++ *  - David Turner
++ *  - The FreeType Project  (www.freetype.org)
++ *
++ * PS: This "glue" code is explicitely put in the public domain
++ */
++#ifndef __OPENTYPE_FTGLUE_H__
++#define __OPENTYPE_FTGLUE_H__
++
++#include <ft2build.h>
++#include FT_FREETYPE_H
++
++FT_BEGIN_HEADER
++
++
++/* utility macros */
++#define  TT_Err_Ok                   FT_Err_Ok
++#define  TT_Err_Invalid_Argument     FT_Err_Invalid_Argument
++#define  TT_Err_Invalid_Face_Handle  FT_Err_Invalid_Face_Handle
++#define  TT_Err_Table_Missing        FT_Err_Table_Missing
++
++#define  SET_ERR(c)   ( (error = (c)) != 0 )
++
++#ifndef FTGLUE_API
++#define FTGLUE_API(x)  extern x
++#endif
++
++#ifndef FTGLUE_APIDEF
++#define FTGLUE_APIDEF(x)  x
++#endif
++
++/* stream macros used by the OpenType parser */
++#define  FILE_Pos()      ftglue_stream_pos( stream )
++#define  FILE_Seek(pos)  SET_ERR( ftglue_stream_seek( stream, pos ) )
++#define  ACCESS_Frame(size)  SET_ERR( ftglue_stream_frame_enter( stream, size ) )
++#define  FORGET_Frame()      ftglue_stream_frame_exit( stream )
++
++#define  GET_Byte()      ftglue_stream_get_byte( stream )
++#define  GET_Short()     ftglue_stream_get_short( stream )
++#define  GET_Long()      ftglue_stream_get_long( stream )
++
++#define  GET_Char()      ((FT_Char)GET_Byte())
++#define  GET_UShort()    ((FT_UShort)GET_Short())
++#define  GET_ULong()     ((FT_ULong)GET_Long())
++#define  GET_Tag4()      GET_ULong()
++
++#define FT_SET_ERROR( expression ) \
++          ( ( error = (expression) ) != 0 )
++
++FTGLUE_API( FT_Long )
++ftglue_stream_pos( FT_Stream   stream );
++
++FTGLUE_API( FT_Error )
++ftglue_stream_seek( FT_Stream   stream,
++                    FT_Long     pos );
++
++FTGLUE_API( FT_Error )
++ftglue_stream_frame_enter( FT_Stream   stream,
++                           FT_ULong    size );
++
++FTGLUE_API( void )
++ftglue_stream_frame_exit( FT_Stream  stream );
++
++FTGLUE_API( FT_Byte )
++ftglue_stream_get_byte( FT_Stream  stream );
++
++FTGLUE_API( FT_Short )
++ftglue_stream_get_short( FT_Stream  stream );
++
++FTGLUE_API( FT_Long )
++ftglue_stream_get_long( FT_Stream   stream );
++
++FTGLUE_API( FT_Error )
++ftglue_face_goto_table( FT_Face    face,
++                        FT_ULong   tag,
++                        FT_Stream  stream );
++
++/* memory macros used by the OpenType parser */
++#define  ALLOC(_ptr,_size)   \
++           ( (_ptr) = ftglue_alloc( memory, _size, &error ), error != 0 )
++
++#define  REALLOC(_ptr,_oldsz,_newsz)  \
++           ( (_ptr) = ftglue_realloc( memory, (_ptr), (_oldsz), (_newsz), &error ), error != 0 )
++
++#define  FREE(_ptr)                    \
++  do {                                 \
++    if ( (_ptr) )                      \
++    {                                  \
++      ftglue_free( memory, _ptr );     \
++      _ptr = NULL;                     \
++    }                                  \
++  } while (0)
++
++#define  ALLOC_ARRAY(_ptr,_count,_type)   \
++           ALLOC(_ptr,(_count)*sizeof(_type))
++
++#define  REALLOC_ARRAY(_ptr,_oldcnt,_newcnt,_type) \
++           REALLOC(_ptr,(_oldcnt)*sizeof(_type),(_newcnt)*sizeof(_type))
++
++#define  MEM_Copy(dest,source,count)   memcpy( (char*)(dest), (const char*)(source), (size_t)(count) )
++
++
++FTGLUE_API( FT_Pointer )
++ftglue_alloc( FT_Memory  memory,
++              FT_ULong   size,
++              FT_Error  *perror_ );
++
++FTGLUE_API( FT_Pointer )
++ftglue_realloc( FT_Memory   memory,
++                FT_Pointer  block,
++                FT_ULong    old_size,
++                FT_ULong    new_size,
++                FT_Error   *perror_ );
++
++FTGLUE_API( void )
++ftglue_free( FT_Memory   memory,
++             FT_Pointer  block );
++
++/* */
++
++FT_END_HEADER
++
++#endif /* __OPENTYPE_FTGLUE_H__ */
+-- 
+1.4.1
+
