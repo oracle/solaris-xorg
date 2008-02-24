@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	07/12/19
+# @(#)Makefile	1.13	08/02/23
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXfont
 
 # Version number (used in path names)
-LIB_VERS=1.2.8
+LIB_VERS=1.3.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
