@@ -1,0 +1,11 @@
+--- src/i830_lvds.c
++++ src/i830_lvds.c
+@@ -985,7 +985,7 @@ i830_lvds_init(ScrnInfoPtr pScrn)
+ 	}  else {
+ 	    dev_priv->panel_fixed_mode = bios_mode;
+ 	}
+-    } else {
++    } else if (!dev_priv->panel_fixed_mode) {
+ 	xf86DrvMsg(pScrn->scrnIndex, X_WARNING,
+ 		   "Couldn't detect panel mode.  Disabling panel\n");
+ 	goto disable_exit;
