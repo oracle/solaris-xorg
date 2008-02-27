@@ -1,0 +1,107 @@
+--- xfd.c.orig	Thu Feb 21 13:55:37 2008
++++ xfd.c	Fri Feb 22 15:03:44 2008
+@@ -40,6 +40,9 @@
+ #include <X11/Xaw/Command.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <stdlib.h>
++#include <libintl.h>
++#include <locale.h>
+ #include "grid.h"
+ #ifdef XRENDER
+ #include <X11/Xft/Xft.h>
+@@ -127,26 +130,31 @@
+ static void
+ usage(void)
+ {
+-    fprintf (stderr, "usage:  %s [-options ...] -fn font\n", ProgramName);
++    fprintf (stderr, gettext("usage:  %s [-options ...] "), ProgramName);
++    fprintf (stderr, "-fn ");
++    fprintf (stderr, gettext("font\n\n"));
+ #ifdef XRENDER
+-    fprintf (stderr, "        %s [-options ...] -fa font\n", ProgramName);
++    fprintf (stderr, gettext("        %s [-options ...] "), ProgramName);
++    fprintf (stderr, "-fa ");
++    fprintf (stderr, gettext("font\n\n"));
+ #endif
+-    fprintf (stderr, "where options include:\n");
+-    fprintf (stderr,
+-	"    -display dpy           X server to contact\n");
+-    fprintf (stderr, 
+-	"    -geometry geom         size and location of window\n");
+-    fprintf (stderr, 
+-	"    -start num             first character to show\n");
+-    fprintf (stderr, 
+-	"    -box                   show a box around each character\n");
+-    fprintf (stderr, 
+-	"    -center                center each character inside its grid\n");
+-    fprintf (stderr, 
+-	"    -rows number           number of rows in grid\n");
+-    fprintf (stderr, 
+-	"    -columns number        number of columns in grid\n");
+-    fprintf (stderr, "\n");
++    fprintf (stderr, gettext("where options include:\n"));
++    fprintf (stderr, "    -display "); 
++    fprintf (stderr, gettext("display       X server to contact\n"));
++    fprintf (stderr, "    -geometry "); 
++    fprintf (stderr, gettext("geometry     size and location of window\n"));
++    fprintf (stderr, "    -bc "); 
++    fprintf (stderr, gettext("color              color for ImageText boxes\n"));
++    fprintf (stderr, "    -start ");
++    fprintf (stderr, gettext("number          first character to show\n"));
++    fprintf (stderr, "    -box                   ");
++    fprintf (stderr, gettext("show a box around each character\n"));
++    fprintf (stderr, "    -center                ");
++    fprintf (stderr, gettext("center each character inside its grid\n"));
++    fprintf (stderr, "    -rows ");
++    fprintf (stderr, gettext("number           number of rows in grid\n"));
++    fprintf (stderr, "    -columns ");
++    fprintf (stderr, gettext("number        number of columns in grid\n"));
+     exit (1);
+ }
+ 
+@@ -170,13 +178,31 @@
+     XftFont *xft;
+ #endif
+     char *fontname;
++    char *domaindir;
+     long minn, maxn;
+ 
++    XtSetLanguageProc(NULL, NULL, NULL);
++
+     ProgramName = argv[0];
+ 
+     toplevel = XtAppInitialize (&xtcontext, "Xfd",
+ 				xfd_options, XtNumber(xfd_options),
+ 				&argc, argv, NULL, NULL, 0);
++
++    textdomain("xfd");
++
++    /* mainly for debugging */
++    if((domaindir = getenv("TEXTDOMAINDIR")) == NULL) {
++        domaindir = "/usr/X11/share/locale";
++    }
++    bindtextdomain("xfd", domaindir);
++
++    Resources[0].default_addr = gettext(DEF_SELECT_FORMAT);
++    Resources[1].default_addr = gettext(DEF_METRICS_FORMAT);
++    Resources[2].default_addr = gettext(DEF_RANGE_FORMAT);
++    Resources[3].default_addr = gettext(DEF_START_FORMAT);
++    Resources[4].default_addr = gettext(DEF_NOCHAR_FORMAT);
++
+     if (argc != 1) usage ();
+     XtAppAddActions (xtcontext, xfd_actions, XtNumber (xfd_actions));
+     XtOverrideTranslations
+@@ -271,10 +297,11 @@
+ 	XtSetArg (av[i], XtNfont, &fs); i++;
+ 	XtGetValues (fontGrid, av, i);
+ 	if (!fs || fontConversionFailed) {
+-	    fprintf (stderr, "%s:  no font to display\n", ProgramName);
++	    fprintf (stderr, gettext("%s:  no font to display\n"), ProgramName);
+ 	    exit (1);
+ 	}
+ 	fontname = get_font_name (XtDisplay(toplevel), fs);
++	if (!fontname) fontname = gettext("unknown font!");
+     }
+     i = 0;
+     XtSetArg (av[i], XtNlabel, fontname); i++;

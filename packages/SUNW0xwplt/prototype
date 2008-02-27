@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.14     08/02/21 SMI"
+# ident "@(#)prototype 1.15     08/02/26 SMI"
 #
 # X Window System required core package localizable files
 
@@ -56,12 +56,10 @@ f none openwin/lib/locale/C/app-defaults/XLock 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLogo 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLogo-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XTerm 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Xfd 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xmh 0644 root bin
 
 !search      $HOME/openwin/lib/locale/C/LC_MESSAGES
 d none openwin/lib/locale/C/LC_MESSAGES 		0755 root bin
-f none openwin/lib/locale/C/LC_MESSAGES/xfd.po 		0644 root bin
 
 !search      $HOME/X11/share/locale/C/LC_MESSAGES
 d none X11/share					0755 root bin
@@ -71,6 +69,7 @@ d none X11/share/locale/C/LC_MESSAGES 			0755 root bin
 f none X11/share/locale/C/LC_MESSAGES/cxpm.po		0444 root bin
 f none X11/share/locale/C/LC_MESSAGES/sxpm.po 		0444 root bin
 f none X11/share/locale/C/LC_MESSAGES/xhost.po		0644 root bin
+f none X11/share/locale/C/LC_MESSAGES/xfd.po		0644 root bin
 
 !search      $HOME/X11/lib/X11/app-defaults
 d none X11/lib/X11/app-defaults                         0755 root bin
@@ -84,6 +83,7 @@ f none X11/lib/X11/app-defaults/C/XCalc			0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XClipboard		0444 root bin
 f none X11/lib/X11/app-defaults/C/XConsole		0444 root bin
+f none X11/lib/X11/app-defaults/C/Xfd			0444 root bin
 f none X11/lib/X11/app-defaults/C/Xmag			0444 root bin
 
 # RBAC help files
