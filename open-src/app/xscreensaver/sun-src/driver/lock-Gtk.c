@@ -74,10 +74,6 @@
 #include <atk/atkobject.h>
 
 #include "remote.h"
-#include XPM_LOGO_FILE
-#ifdef TRUSTED_XPM_LOGO_FILE
-# include TRUSTED_XPM_LOGO_FILE
-#endif
 #include "trusted-utils.h"
 
 /* AT-enabled */
@@ -293,13 +289,10 @@ atk_make_dialog (gboolean center_pos)
   /* image */
 #ifdef TRUSTED_XPM_LOGO_NAME
   if ( tsol_is_multi_label_session() )
-    pb = gdk_pixbuf_new_from_xpm_data ((const char **)TRUSTED_XPM_LOGO_NAME);
+      image = gtk_image_new_from_file (TRUSTED_XPM_LOGO_FILE);
   else
 #endif      
-    pb = gdk_pixbuf_new_from_xpm_data ((const char **)XPM_LOGO_NAME);
-  image = gtk_image_new_from_pixbuf (pb);
-  g_object_unref (pb);
-
+  image = gtk_image_new_from_file (XPM_LOGO_FILE);
 
   gtk_container_add (GTK_CONTAINER (frame2), image);
 
@@ -548,7 +541,6 @@ make_dialog (void)
   char *s;
   gchar *format_string_locale, *format_string_utf8;
 
-
   /* taken from lock.c */
   char buf[256];
   gchar *utf8_format;
@@ -603,12 +595,11 @@ make_dialog (void)
   /* image */
 #ifdef TRUSTED_XPM_LOGO_NAME
   if ( tsol_is_multi_label_session() )
-    pb = gdk_pixbuf_new_from_xpm_data ((const char **)TRUSTED_XPM_LOGO_NAME);
+    image = gtk_image_new_from_file (TRUSTED_XPM_LOGO_FILE);
   else
 #endif      
-    pb = gdk_pixbuf_new_from_xpm_data ((const char **)XPM_LOGO_NAME);
-  image = gtk_image_new_from_pixbuf (pb);
-  g_object_unref (pb);
+  image = gtk_image_new_from_file (XPM_LOGO_FILE);
+
   gtk_container_add (GTK_CONTAINER (frame), image);
 
   /* progress thing */
@@ -871,8 +862,6 @@ handle_input (GIOChannel *source, GIOCondition cond, gpointer data)
   char *label;
   char* hmsg= (char*) NULL;  /* This is the heading of lock dialog..shows status**/
 
-
-
  read_line:
   status = g_io_channel_read_line (source, &str, NULL, NULL, NULL);
   if (status == G_IO_STATUS_AGAIN)
@@ -963,6 +952,7 @@ handle_input (GIOChannel *source, GIOCondition cond, gpointer data)
 ** is located at password label
 */
       gtk_widget_grab_focus(pwd->passwd_entry);
+      XSync (GDK_DISPLAY(), False);
       }
 
       g_free (str);

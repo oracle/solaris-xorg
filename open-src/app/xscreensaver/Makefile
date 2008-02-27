@@ -2,7 +2,7 @@
 #
 # Xscreensaver Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.84	08/02/15
+# @(#)Makefile	1.85	08/02/26
 #
 
 PWD:sh=pwd
@@ -122,6 +122,9 @@ XS_BIN=$(SOURCE_DIR)/xscreensaver
 XS_POT=$(SOURCE_DIR)/po/xscreensaver.pot
 POT_DEST=$(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
 
+# Logo images
+LOGO_DEST=$(PROTODIR)/usr/X11/lib/xscreensaver/config
+
 # Man pages
 XS_MAN=$(SOURCE_DIR)/driver/xscreensaver.man.orig
 
@@ -197,4 +200,6 @@ install_gen: $(XS_BIN) $(XS_MAN) $(XS_POT)
 	 $(MAKE) -e $(XS_MAKE_ENV) install )
 	mkdir -p $(POT_DEST)
 	cp -p $(XS_POT) $(POT_DEST)/xscreensaver.pot
+	mkdir -p $(LOGO_DEST)
+	cp -p driver/*logo.xpm $(LOGO_DEST)
 
