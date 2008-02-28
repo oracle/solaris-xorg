@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,13 +29,14 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.48	08/02/05	Sun Microsystems
+#	@(#)prototype_com	35.49	08/02/26	Sun Microsystems
 #
 #  X Window System required core fonts package
 
 i pkginfo
 i copyright=../copyright
 i depend
+i postremove
 i postinstall
 i i.fontsdir
 i r.fontsdir

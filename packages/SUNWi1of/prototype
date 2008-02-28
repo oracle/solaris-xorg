@@ -30,13 +30,12 @@
 ###########################################################################
 
 #
-# ident "@(#)prototype 1.21     08/01/08 SMI"
+# ident "@(#)prototype 1.22     08/02/26 SMI"
 #
 #  ISO-8859-1 (Latin-1) Optional Fonts
 
 i pkginfo
-# postinstall and postremove are obsoleted by fontsdir class
-#i postinstall
+i postinstall
 i postremove
 i copyright=../copyright
 i depend=../depend

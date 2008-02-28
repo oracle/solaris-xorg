@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.35 08/02/05
+# @(#)upgrade-X	1.36 08/02/27
 #
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -347,6 +347,7 @@ EOF
 			svc_disable network/fs/tcp6 network/fs-tcp6.xml
 			svc_disable application/x11/xfs
 			svc_disable application/opengl/ogl-select
+			svc_disable application/x11/xvnc-inetd
 			;;
 		    SUNWfontconfig-root*)
 			svc_disable application/font/fc-cache

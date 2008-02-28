@@ -29,13 +29,12 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 35.17     08/01/08 SMI"
+# ident "@(#)prototype 35.18     08/02/26 SMI"
 #
 #  X Window System optional fonts
 
 i pkginfo
-# postinstall and postremove are obsoleted by fontsdir class
-#i postinstall
+i postinstall
 i postremove
 i copyright=../copyright
 i depend=../depend

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.71	08/02/23
+# @(#)Makefile	1.72	08/02/26
 #
 
 # Package name used in tarballs
@@ -87,9 +87,11 @@ LIBPATHS = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/lib$
 
 include ../Makefile.inc
 
-# Path to install fc-cache manifest
+# Path to install fc-cache manifest & method script
 FONTCONFIG_SMF_MANIFEST_dir=$(PROTODIR)/var/svc/manifest/application/font
 FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
+FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
+FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 
 $(FONTCONFIG_FT2CFG): $(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config
 	-if [ -f $@ ] ; then rm $@ ; fi
@@ -108,7 +110,7 @@ $(SOURCE_DIR)/fonts.conf-SUNW: $(SOURCE_DIR)/fonts.conf fonts.conf.append fonts.
 
 $(LIB_BUILT): $(SOURCE_DIR)/fonts.conf-SUNW
 
-install_gen:: $(SOURCE_DIR)/fonts.conf-SUNW $(FONTCONFIG_SMF_MANIFEST)
+install_gen:: $(SOURCE_DIR)/fonts.conf-SUNW $(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD)
 	rm $(PROTODIR)/etc/fonts/fonts.conf
 	cp $(SOURCE_DIR)/fonts.conf-SUNW $(PROTODIR)/etc/fonts/fonts.conf
 	$(MAKE) $(MFLAGS) fontconfig-sunman-install
@@ -118,6 +120,12 @@ $(FONTCONFIG_SMF_MANIFEST): fc-cache.xml
 	mkdir -p $(FONTCONFIG_SMF_MANIFEST_dir)
 	if [ -f $@ ] ; then /bin/rm -f $@ ; fi
 	cp fc-cache.xml $@
+
+$(FONTCONFIG_SMF_METHOD): fc-cache.sh
+	mkdir -p $(FONTCONFIG_SMF_METHOD_dir)
+	if [ -f $@ ] ; then /bin/rm -f $@ ; fi
+	cp fc-cache.sh $@
+	chmod 755 $@
 
 # Quick inline perl script to fix up fc-cache & fc-list man pages
 FC_MAN_FIX=perl -n -MPOSIX=strftime -e \
