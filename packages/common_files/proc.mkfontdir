@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,15 +29,11 @@
 #
 ###########################################################################
 #
-# "@(#)postremove	35.7	07/11/05 Sun Microsystems"
-#
-# SUNWxwoft (ISO-8859-1 (Latin-1) Optional Fonts) post install/remove script.
+# "@(#)proc.mkfontdir	1.1	08/02/25 Sun Microsystems"
 #
 # Rebuilds the fonts.dir files if mkfontdir exists otherwise does nothing
 #
 
-FONTINSTDIR=$BASEDIR/openwin/lib/X11/fonts
-export FONTINSTDIR
 EXEC_BASE=/usr
 PKGCOND=/usr/bin/pkgcond
 MKFONTDIR=$EXEC_BASE/openwin/bin/mkfontdir
@@ -86,13 +82,16 @@ test_writable() {
     fi
 }
 
-if [ -x $EXEC_BASE/openwin/bin/mkfontdir ]; then
-    for dir in  100dpi 75dpi F3 Speedo Type3
-    do
-	if [ -d $FONTINSTDIR/$dir ]; then
+##
+## Updates font.dir and fonts.alias files to match those present in
+## the directory now
+##
+update_fontdir_and_alias() {
+    if [ -x $EXEC_BASE/openwin/bin/mkfontdir ]; then
+	if [ -d $1 ]; then
 	  (
-		cd $FONTINSTDIR/$dir
-		if test_writable $FONTINSTDIR/$dir; then
+		cd $1
+		if test_writable $1; then
 		$ENV_MKFONTDIR . || exit 2
 		$ENV_INSTALLALIAS fonts.alias.req . 
 		# Bug 4198211: chgrp to bin to match pkg database
@@ -100,9 +99,6 @@ if [ -x $EXEC_BASE/openwin/bin/mkfontdir ]; then
 		fi
 	  )
 	fi
-    done
-fi
-
-
-exit 0
+    fi
+}
 

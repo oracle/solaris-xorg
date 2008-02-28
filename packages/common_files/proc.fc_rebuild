@@ -1,6 +1,7 @@
-###########################################################################
+#!/bin/ksh
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,29 +30,11 @@
 #
 ###########################################################################
 #
-# SUNWxwfnt (X Window System platform required fonts) postinstall script.
+# ident	"@(#)proc.fc_rebuild	1.2 08/02/26 SMI"
 #
-# /usr/openwin/bin/installalias  and mkfontdir was previously packaged
-# in SUNWxwfnt.  Now it is moved to SUNWxwfsw and we need to preserve it
-# due to zones upgrade from S10.
-# Therefore, removef(1M) is used to remove the packaging database entry
-# although the files itself are preserved.
-#
-FILELIST="\
-/usr/openwin/server/lib/libtypesclr.so.0 \
-/usr/openwin/server/lib/libtypesclr.so \
-/usr/openwin/server/lib/libfont.so.1 \
-/usr/openwin/server/lib/libfont.so \
-/usr/openwin/server/lib \
-/usr/openwin/server \
-/usr/openwin/lib/installalias \
-/usr/openwin/bin/mkfontdir \
-/usr/openwin/bin \
-"
-for i in $FILELIST ; do
-/usr/sbin/removef  SUNWxwfnt $i >/dev/null 2>&1
-done
-/usr/sbin/removef -f  SUNWxwfnt >/dev/null 2>&1
 
+# Force fontconfig cache rebuild on next boot
+cat >> $BASEDIR/../var/svc/profile/upgrade <<\_EOF
+        /usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true
+_EOF
 
-exit 0 
