@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)fix-fonts.conf.pl	1.9	08/02/21 SMI"
+# ident	"@(#)fix-fonts.conf.pl	1.10	08/02/27 SMI"
 #
 # This script performs a number of customizations to the fonts.conf shipped
 # with Solaris, including:
@@ -125,6 +125,7 @@ while ($line = <>) {
     print_substitute_line($line, 'Kochi Mincho', 'FZMingTi');
     print_substitute_line($line, 'Kochi Mincho', 'KacstQurn');
     print_substitute_line($line, 'Kochi Mincho', 'SunDotum');
+    print_substitute_line($line, 'Kochi Mincho', 'AR PL ShanHeiSun Uni');
     $kochifontsreplaced++;
     next;
   }
@@ -147,6 +148,7 @@ while ($line = <>) {
     print_substitute_line($line, 'Kochi Gothic', 'KacstQurn');
     if ($aliasfamily ne "monospace") {
       print_substitute_line($line, 'Kochi Gothic', 'SunDotum');
+      print_substitute_line($line, 'Kochi Gothic', 'AR PL ZenKai Uni');
     } else {
       print_substitute_line($line, 'Kochi Gothic', 'SunDotumChe');
     }

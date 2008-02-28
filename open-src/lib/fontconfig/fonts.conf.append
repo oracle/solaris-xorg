@@ -7,6 +7,23 @@
 		<bool>true</bool>
 	</test>
 	<test name="family">
+		<string>AR PL ShanHeiSun Uni</string>
+	</test>
+	<test name="pixelsize" compare="more_eq">
+		<double>11</double>
+	</test>
+	<test name="pixelsize" compare="less">
+		<double>16</double>
+	</test>
+	<edit name="antialias" mode="assign">
+		<bool>false</bool>
+	</edit>
+</match>
+<match target="font">
+	<test name="prefer_bitmap">
+		<bool>true</bool>
+	</test>
+	<test name="family">
 		<string>FZSongTi</string>
 		<string>FZMingTi</string>
 	</test>
