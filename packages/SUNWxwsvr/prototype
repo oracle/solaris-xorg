@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	1.9	08/02/26 SMI"
+# ident	"@(#)prototype	1.10	08/02/27 SMI"
 #
 # XScreenSaver daemon and utility programs
 
@@ -115,7 +115,7 @@ f none X11/lib/xscreensaver/config/screensaver-locking.png 0444 root bin
 f none X11/lib/xscreensaver/config/screensaver-power.png 0444 root bin
 f none X11/lib/xscreensaver/config/screensaver-snap.png 0444 root bin
 f none X11/lib/xscreensaver/config/xscreensaver-demo.glade2 0444 root bin
-!search	     $HOME/share/pixmaps
-f none X11/lib/xscreensaver/config/xscreensaver.xpm 0444 root bin
 f none X11/lib/xscreensaver/config/sunlogo.xpm 0444 root bin
 f none X11/lib/xscreensaver/config/tsunlogo.xpm 0444 root bin
+!search	     $HOME/share/pixmaps
+f none X11/lib/xscreensaver/config/xscreensaver.xpm 0444 root bin

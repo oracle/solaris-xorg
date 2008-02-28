@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.85	08/02/26
+# @(#)Makefile	1.86	08/02/27
 #
 
 PWD:sh=pwd
@@ -199,7 +199,7 @@ install_gen: $(XS_BIN) $(XS_MAN) $(XS_POT)
 	(cd $(SOURCE_DIR) ; chmod a+x install-sh intltool-*; \
 	 $(MAKE) -e $(XS_MAKE_ENV) install )
 	mkdir -p $(POT_DEST)
-	cp -p $(XS_POT) $(POT_DEST)/xscreensaver.pot
+	cp -pf $(XS_POT) $(POT_DEST)/xscreensaver.pot
 	mkdir -p $(LOGO_DEST)
-	cp -p driver/*logo.xpm $(LOGO_DEST)
+	cp -pf $(SOURCE_DIR)/driver/*logo.xpm $(LOGO_DEST)
 
