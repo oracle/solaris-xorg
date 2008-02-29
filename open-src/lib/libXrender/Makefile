@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/04/03
+# @(#)Makefile	1.4	08/02/27
 #
 
 # Package name used in tarballs
@@ -64,8 +64,3 @@ LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXrender.so.1.3.0
 FIX_PC_FILES=xrender.pc.in
 
 include ../Makefile.inc
-
-# xc/lib/X11/region.h is equivalent to modular <X11/Xregion.h> so use 
-# this hack to get Xregion.h until modular libX11 is integrated.
-source_gen:: 
-	(cd $(SOURCE_DIR)/include/X11 ; ln -s $(TOP)/../xc/lib/X11/region.h Xregion.h)
