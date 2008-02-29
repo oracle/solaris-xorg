@@ -1,4 +1,7 @@
-# Makefile for X Consolidation Open Source Application modules
+
+###############################################################################
+#
+# setxkbmap 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,80 +31,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.34	08/02/29
+# @(#)Makefile  1.1   08/02/20
 #
-###############################################################################
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	iceauth \
-	listres \
-	luit \
-	mesa-demos \
-	mkfontscale \
-        setxkbmap \
-	twm \
-	x11perf \
-	xauth \
-	xcalc \
-	xclipboard \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xev \
-	xfd \
-	xgamma \
-	xhost \
-	xkbcomp \
-	xkill \
-	xlsatoms \
-	xlsclients \
-	xmag \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xset \
-	xsetroot \
-	xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver
+# Package name used in tarballs
+APP_NAME=setxkbmap
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Version number (used in path names)
+APP_VERS=1.0.4
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+include ../Makefile.inc
 
-World: clean all
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done

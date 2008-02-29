@@ -98,6 +98,9 @@ s none openwin/bin/bdftopcf=../../X11/bin/bdftopcf
 f none X11/bin/constype 		0755 root bin
 s none openwin/bin/constype=../../X11/bin/constype
 
+# open-src/app/setxkbmap
+f none X11/bin/setxkbmap                0755 root bin
+
 # open-src/app/x11perf
 f none X11/bin/x11perf 			0755 root bin
 
