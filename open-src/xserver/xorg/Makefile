@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.61	07/12/13
+# @(#)Makefile	1.62	08/02/28
 #
 
 # Build 32-bit or 64-bit?
@@ -86,6 +86,8 @@ include ../Makefile.inc
 
 # Merge in additional sources from sun-src directory
 source_gen:: $(LNDIR)
+	-$(RM) -f $(SOURCE_DIR)/hw/xfree86/scanpci/pci.ids \
+		$(SOURCE_DIR)/hw/xfree86/scanpci/xf86PciIds.h
 	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 
 # Command line options to GNU autoconf configure script
