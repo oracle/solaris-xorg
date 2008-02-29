@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#       "@(#)prototype	1.8	07/11/05   Sun Microsystems" 
+#       "@(#)prototype	1.10	08/02/29   Sun Microsystems" 
 #
 # X Window System optional client localizable files
 
@@ -47,7 +47,6 @@ d none openwin/lib 		0755 root bin
 d none openwin/lib/locale       0755 root bin
 d none openwin/lib/locale/C     0755 root bin
 d none openwin/lib/locale/C/app-defaults 0755 root bin
-f none openwin/lib/locale/C/app-defaults/Viewres 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XFontSel 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLoad 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xditview 0644 root bin
@@ -64,4 +63,11 @@ d none openwin/lib/locale/C/LC_MESSAGES 0755 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xfontsel.po 0644 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xload.po 0644 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xman.po 0644 root bin
+
+!search $HOME/../usr/X11/lib/X11/app-defaults
+d none X11				0755 root bin
+d none X11/lib				0755 root bin
+d none X11/lib/X11			0755 root bin
+d none X11/lib/X11/app-defaults		0755 root bin
+f none X11/lib/X11/app-defaults/Viewres 0644 root bin
 

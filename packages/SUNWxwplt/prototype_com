@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.162    08/02/29   Sun Microsystems"
+#      "@(#)prototype_com	35.163    08/02/29   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -464,7 +464,6 @@ f none openwin/lib/X11/proxymngr/pmconfig       0755 root bin
 !search  $HOME/openwin/lib/X11/app-defaults
 d none openwin/lib/app-defaults 		0755 root bin
 s none openwin/lib/X11/app-defaults=../app-defaults
-f none openwin/lib/app-defaults/Clock-color 	0644 root bin
 f none openwin/lib/app-defaults/Chooser		0644 root bin
 f none openwin/lib/app-defaults/XClock		0644 root bin
 f none openwin/lib/app-defaults/XLock		0644 root bin
@@ -1128,6 +1127,7 @@ d none X11/lib/X11/app-defaults                 0755 root bin
 f none X11/lib/X11/app-defaults/Bitmap		0644 root bin
 f none X11/lib/X11/app-defaults/Bitmap-color	0644 root bin
 f none X11/lib/X11/app-defaults/Bitmap-nocase	0644 root bin
+f none X11/lib/X11/app-defaults/Clock-color	0644 root bin
 f none X11/lib/X11/app-defaults/Editres		0644 root bin
 f none X11/lib/X11/app-defaults/Editres-color	0644 root bin
 f none X11/lib/X11/app-defaults/XCalc		0644 root bin
@@ -1148,6 +1148,7 @@ f none X11/lib/X11/x11perfcomp/Xmark		0755 root bin
 s none openwin/lib/app-defaults/Bitmap=../../../X11/lib/X11/app-defaults/Bitmap
 s none openwin/lib/app-defaults/Bitmap-color=../../../X11/lib/X11/app-defaults/Bitmap-color
 s none openwin/lib/app-defaults/Bitmap-nocase=../../../X11/lib/X11/app-defaults/Bitmap-nocase
+s none openwin/lib/app-defaults/Clock-color=../../../X11/lib/X11/app-defaults/Clock-color
 s none openwin/lib/app-defaults/Editres=../../../X11/lib/X11/app-defaults/Editres
 s none openwin/lib/app-defaults/Editres-color=../../../X11/lib/X11/app-defaults/Editres-color
 s none openwin/lib/app-defaults/XCalc=../../../X11/lib/X11/app-defaults/XCalc

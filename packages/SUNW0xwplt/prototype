@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.15     08/02/26 SMI"
+# ident "@(#)prototype 1.16     08/02/29 SMI"
 #
 # X Window System required core package localizable files
 
@@ -49,7 +49,6 @@ d none openwin/lib                      0755 root bin
 d none openwin/lib/locale               0755 root bin
 d none openwin/lib/locale/C               0755 root bin
 d none openwin/lib/locale/C/app-defaults 0755 root bin
-f none openwin/lib/locale/C/app-defaults/Clock-color 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XClock 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLock 0644 root bin
@@ -77,6 +76,7 @@ d none X11/lib/X11/app-defaults/C                       0755 root bin
 f none X11/lib/X11/app-defaults/C/Bitmap		0444 root bin
 f none X11/lib/X11/app-defaults/C/Bitmap-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/Bitmap-nocase		0444 root bin
+f none X11/lib/X11/app-defaults/C/Clock-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/Editres		0444 root bin
 f none X11/lib/X11/app-defaults/C/Editres-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc			0444 root bin
