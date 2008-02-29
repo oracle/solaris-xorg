@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)delibtoolize.pl	1.8	07/11/02 SMI"
+# ident	"@(#)delibtoolize.pl	1.9	08/02/27 SMI"
 #
 
 #
@@ -76,7 +76,7 @@ sub process_file {
       }
 
       # TODO: handle line continuation
-      if ($l =~ m/^(\S*)_la_LDFLAGS\s=.*-version-number (\d+)[:\d]+/ms) {
+      if ($l =~ m/^(\S*)_la_LDFLAGS\s=.*-version-number (\d+)[:\d]*/ms) {
 	$so_versions{$1} = $2;
       }
       if ($l =~ m/^(\S*)_la_LDFLAGS\s=.*\s*-avoid-version\b/ms) {
@@ -132,7 +132,7 @@ sub process_file {
 	$l =~ s{(\s*$sharedobjflags)+\b}{}msg;
 	$l =~ s{(_la_LDFLAGS\s*=\s*)}{$1 $sharedobjflags }ms;
 	$l =~ s{\s+-module\b}{}ms;
-	$l =~ s{\s+-version-number\s+\d+[:\d]+}{}ms;
+	$l =~ s{\s+-version-number\s+\d+[:\d]*}{}ms;
 	$l =~ s{\s+-no-undefined\b}{ -z defs}ms;
       }
 

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.9	08/01/23
+# @(#)Makefile.inc	1.10	08/02/27
 #
 
 PWD:sh=pwd
@@ -77,6 +77,11 @@ CONFIG_ENV = CC=$(CC) CFLAGS="$(THIS_LIB_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
 
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(XPROTO_DEP)
+	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
+	if [ "x$(AUTORECONF)" = "xtrue" ] ; then \
+	    (cd $(SOURCE_DIR) && \
+	     ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force ) ; \
+	fi
 	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
 	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
 

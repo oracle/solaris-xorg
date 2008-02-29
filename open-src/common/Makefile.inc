@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.83	08/01/23
+# @(#)Makefile.inc	1.85	08/02/28
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -284,7 +284,7 @@ autoreconf: $(UNPACK_TARGET)
 ### Remove libtool from build process when needed
 
 delibtoolize:
-	$(TOP)/common/delibtoolize.pl $(SOURCE_DIR)
+	$(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) $(SOURCE_DIR)
 
 ### Source tarballs & downloading if necessary
 

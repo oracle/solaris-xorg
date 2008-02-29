@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.43     08/01/16 SMI"
+# ident "@(#)prototype_com 1.44     08/02/27 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -44,8 +44,8 @@ d none sfw 0755 root bin
 d none sfw/lib 0755 root bin
 
 s none lib/libX11.so=./libX11.so.4
-s none lib/libX11.so.4=../openwin/lib/libX11.so.4
-s none lib/libX11.so.5=../openwin/lib/libX11.so.4
+s none lib/libX11.so.4=../X11/lib/libX11.so.4
+s none lib/libX11.so.5=../X11/lib/libX11.so.4
 
 #The directories /usr/X, /usr/X/lib, /usr/X/lib/locale, and
 #/usr/X/lib/app-defaults are missing.  
@@ -183,8 +183,8 @@ s none lib/libUil.so.3=../dt/lib/libUil.so.3
 #
 
 s none lib/$plat_64/libX11.so=./libX11.so.4
-s none lib/$plat_64/libX11.so.4=../../openwin/lib/64/libX11.so.4
-s none lib/$plat_64/libX11.so.5=../../openwin/lib/64/libX11.so.4
+s none lib/$plat_64/libX11.so.4=../../X11/lib/64/libX11.so.4
+s none lib/$plat_64/libX11.so.5=../../X11/lib/64/libX11.so.4
 
 s none lib/$plat_64/libXau.so=libXau.so.6
 s none lib/$plat_64/libXau.so.6=../../X11/lib/64/libXau.so.6

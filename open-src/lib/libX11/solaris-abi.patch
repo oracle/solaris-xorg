@@ -1,6 +1,6 @@
-###########################################################################
-#
+###############################################################################
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +11,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,24 +21,39 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
-
-#
-# @(#)prototype_sparc	1.9	08/02/27 SMI
-#
-#  X Window System 64-bit lint libraries
-
-!include prototype_com
-
-!HOME=../openwin
-!search      $HOME/lib/sparcv9
-d none openwin/lib/sparcv9			0755 root bin
-f none openwin/lib/sparcv9/llib-lXaw.ln		0755 root bin
-f none openwin/lib/sparcv9/llib-lXext.ln	0755 root bin
-f none openwin/lib/sparcv9/llib-lXt.ln		0755 root bin
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2008-02-27 21:08:23.251718000 -0800
++++ configure.ac	2008-02-27 21:08:28.279803000 -0800
+@@ -100,7 +100,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
+ 	fi
+ 	AC_DEFINE(USE_DYNAMIC_LC,1,
+ 		  [Split some i18n functions into loadable modules])
+-	AC_SUBST(I18N_MODULE_LIBS,'${top_builddir}/src/libX11.la')
++	AC_SUBST(I18N_MODULE_LIBS,'${top_builddir}/src/libX11.so.4 -lc')
+ fi
+ AC_MSG_RESULT($XLIB_LOADABLE_I18N)
+ 	       
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2008-02-27 21:08:23.252437000 -0800
++++ src/Makefile.am	2008-02-27 21:08:28.280422000 -0800
+@@ -373,9 +373,12 @@ if XKB
+ USE_XKB_LIBS = $(XKB_LIBS)
+ endif
+ 
+-libX11_la_LDFLAGS = -version-number 6:2:0 -no-undefined
++libX11_la_LDFLAGS = -version-number 4 -no-undefined $(ADD_libX11_LDFLAGS) \
++	-M $(top_srcdir)/../../mapfile-vers \
++	-M $(top_srcdir)/../../mapfile-order \
++	-N libXext.so.0
+ 
+-libX11_la_LIBADD = \
++libX11_la_LIBADD = -lc \
+ 	$(USE_I18N_LIBS) \
+ 	$(USE_XCMS_LIBS) \
+ 	$(USE_XKB_LIBS) \

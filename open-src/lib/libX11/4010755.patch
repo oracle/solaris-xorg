@@ -1,0 +1,229 @@
+###############################################################################
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
+4010755: SEGV in XFindContext if XInitThreads has been enabled
+
+XFindContext in Xlib was calling _XLockMutex with an uninitialized
+mutex lock structure. The new version of XInitThreads activates the
+locking functions at any time, even after displays have been created.
+
+In this new case, the context structure was created prior to
+XInitThreads being invoked. As a result, the display contained an
+opaque pointer to this context structure, which still contained an
+uninitialized lock structure.
+
+The solution was to explicitly set the lock structure pointer to NULL
+(as a flag) when creating the context, then check for NULL before
+locking. If NULL is found and threads are now enabled, then the
+structure gets reinitialized to the correct mutex lock structure
+before the lock call.
+
+Another area besides the functions in Context.c are the functions in
+Xrm.c. A similar fix was added to them as well.
+
+
+diff -urp -x '*~' -x '*.orig' src/Context.c src/Context.c
+--- src/Context.c	2007-05-16 08:34:44.000000000 -0700
++++ src/Context.c	2008-02-12 21:00:44.588363000 -0800
+@@ -192,6 +192,7 @@ int XSaveContext(
+ 	    return XCNOMEM;
+ 	}
+ 	db->numentries = 0;
++	db->linfo.lock = (xmutex_t) NULL;
+ 	_XCreateMutex(&db->linfo);
+ #ifdef MOTIFBC
+ 	if (!display) *pdb = db; else
+@@ -203,6 +204,8 @@ int XSaveContext(
+ 	    UnlockDisplay(display);
+ 	}
+     }
++    if (!db->linfo.lock)
++	_XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     head = &Hash(db, rid, context);
+     _XUnlockMutex(&db->linfo);
+@@ -254,6 +257,8 @@ int XFindContext(display, rid, context, 
+     }
+     if (!db)
+ 	return XCNOENT;
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     for (entry = Hash(db, rid, context); entry; entry = entry->next)
+     {
+@@ -292,6 +297,8 @@ int XDeleteContext(display, rid, context
+     }
+     if (!db)
+ 	return XCNOENT;
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     for (prev = &Hash(db, rid, context);
+ 	 (entry = *prev);
+diff -urp -x '*~' -x '*.orig' src/Xrm.c src/Xrm.c
+--- src/Xrm.c	2007-05-16 08:34:44.000000000 -0700
++++ src/Xrm.c	2008-02-12 21:00:44.594920000 -0800
+@@ -500,6 +500,7 @@ static XrmDatabase NewDatabase(void)
+ 
+     db = (XrmDatabase) Xmalloc(sizeof(XrmHashBucketRec));
+     if (db) {
++        db->linfo.lock = (xmutex_t) NULL;
+ 	_XCreateMutex(&db->linfo);
+ 	db->table = (NTable)NULL;
+ 	db->mbstate = (XPointer)NULL;
+@@ -775,7 +776,11 @@ void XrmCombineDatabase(
+     if (!*into) {
+ 	*into = from;
+     } else if (from) {
++	if (!(&from->linfo.lock))
++	    _XCreateMutex(&from->linfo);
+ 	_XLockMutex(&from->linfo);
++	if (!(&(*into)->linfo.lock))
++	    _XCreateMutex(&(*into)->linfo);
+ 	_XLockMutex(&(*into)->linfo);
+ 	if ((ftable = from->table)) {
+ 	    prev = &(*into)->table;
+@@ -1022,6 +1027,8 @@ void XrmQPutResource(
+     XrmValuePtr		value)
+ {
+     if (!*pdb) *pdb = NewDatabase();
++    if (!(*pdb)->linfo.lock)
++        _XCreateMutex(&(*pdb)->linfo);
+     _XLockMutex(&(*pdb)->linfo);
+     PutEntry(*pdb, bindings, quarks, type, value);
+     _XUnlockMutex(&(*pdb)->linfo);
+@@ -1038,6 +1045,8 @@ XrmPutResource(
+     XrmQuark	    quarks[MAXDBDEPTH+1];
+ 
+     if (!*pdb) *pdb = NewDatabase();
++    if (!(*pdb)->linfo.lock)
++        _XCreateMutex(&(*pdb)->linfo);
+     _XLockMutex(&(*pdb)->linfo);
+     XrmStringToBindingQuarkList(specifier, bindings, quarks);
+     PutEntry(*pdb, bindings, quarks, XrmStringToQuark(type), value);
+@@ -1056,6 +1065,8 @@ XrmQPutStringResource(
+     if (!*pdb) *pdb = NewDatabase();
+     value.addr = (XPointer) str;
+     value.size = strlen(str)+1;
++    if (!(*pdb)->linfo.lock)
++        _XCreateMutex(&(*pdb)->linfo);
+     _XLockMutex(&(*pdb)->linfo);
+     PutEntry(*pdb, bindings, quarks, XrmQString, &value);
+     _XUnlockMutex(&(*pdb)->linfo);
+@@ -1538,6 +1549,8 @@ XrmPutStringResource(
+     XrmStringToBindingQuarkList(specifier, bindings, quarks);
+     value.addr = (XPointer) str;
+     value.size = strlen(str)+1;
++    if (!(*pdb)->linfo.lock)
++        _XCreateMutex(&(*pdb)->linfo);
+     _XLockMutex(&(*pdb)->linfo);
+     PutEntry(*pdb, bindings, quarks, XrmQString, &value);
+     _XUnlockMutex(&(*pdb)->linfo);
+@@ -1550,6 +1563,8 @@ XrmPutLineResource(
+     _Xconst char*line)
+ {
+     if (!*pdb) *pdb = NewDatabase();
++    if (!(*pdb)->linfo.lock)
++        _XCreateMutex(&(*pdb)->linfo);
+     _XLockMutex(&(*pdb)->linfo);
+     GetDatabase(*pdb, line, (char *)NULL, False);
+     _XUnlockMutex(&(*pdb)->linfo);
+@@ -1562,6 +1577,8 @@ XrmGetStringDatabase(
+     XrmDatabase     db;
+ 
+     db = NewDatabase();
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     GetDatabase(db, data, (char *)NULL, True);
+     _XUnlockMutex(&db->linfo);
+@@ -1670,6 +1687,8 @@ XrmGetFileDatabase(
+ 	return (XrmDatabase)NULL;
+ 
+     db = NewDatabase();
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     GetDatabase(db, str, filename, True);
+     _XUnlockMutex(&db->linfo);
+@@ -1694,6 +1713,8 @@ XrmCombineFileDatabase(
+ 	    *target = db = NewDatabase();
+     } else
+ 	db = NewDatabase();
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     GetDatabase(db, str, filename, True);
+     _XUnlockMutex(&db->linfo);
+@@ -1966,6 +1987,8 @@ Bool XrmEnumerateDatabase(
+ 
+     if (!db)
+ 	return False;
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     eclosure.db = db;
+     eclosure.proc = proc;
+@@ -2262,6 +2285,8 @@ Bool XrmQGetSearchList(
+     closure.idx = -1;
+     closure.limit = listLength - 2;
+     if (db) {
++	if (!db->linfo.lock)
++	    _XCreateMutex(&db->linfo);
+ 	_XLockMutex(&db->linfo);
+ 	table = db->table;
+ 	if (*names) {
+@@ -2540,6 +2565,8 @@ Bool XrmQGetResource(
+     VClosureRec closure;
+ 
+     if (db && *names) {
++	if (!db->linfo.lock)
++	    _XCreateMutex(&db->linfo);
+ 	_XLockMutex(&db->linfo);
+ 	closure.type = pType;
+ 	closure.value = pValue;
+@@ -2636,6 +2663,8 @@ XrmLocaleOfDatabase(
+     XrmDatabase db)
+ {
+     const char* retval;
++    if (!db->linfo.lock)
++        _XCreateMutex(&db->linfo);
+     _XLockMutex(&db->linfo);
+     retval = (*db->methods->lcname)(db->mbstate);
+     _XUnlockMutex(&db->linfo);
+@@ -2648,6 +2677,8 @@ void XrmDestroyDatabase(
+     register NTable table, next;
+ 
+     if (db) {
++	if (!db->linfo.lock)
++	    _XCreateMutex(&db->linfo);
+ 	_XLockMutex(&db->linfo);
+ 	for (next = db->table; (table = next); ) {
+ 	    next = table->next;

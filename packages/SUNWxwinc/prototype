@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.78	08/02/26 SMI"
+# ident	"@(#)prototype	35.79	08/02/27 SMI"
 #
 #  X Window System include files
 
@@ -109,6 +109,37 @@ f none X11/include/X11/Xdmcp.h		0444 root bin
 s none openwin/share/include/X11/xpm.h=../../../../X11/include/X11/xpm.h
 f none X11/include/X11/xpm.h		0444 root bin
 
+# open-src/lib/libX11
+# XlibConf.h & Xregion.h were never delivered in /usr/openwin
+s none openwin/share/include/X11/XKBlib.h=../../../../X11/include/X11/XKBlib.h
+s none openwin/share/include/X11/Xcms.h=../../../../X11/include/X11/Xcms.h
+s none openwin/share/include/X11/XlcGeneric.h=../../../../X11/include/X11/XlcGeneric.h
+s none openwin/share/include/X11/XlcPubI.h=../../../../X11/include/X11/XlcPubI.h
+s none openwin/share/include/X11/XlcPublic.h=../../../../X11/include/X11/XlcPublic.h
+s none openwin/share/include/X11/Xlcint.h=../../../../X11/include/X11/Xlcint.h
+s none openwin/share/include/X11/Xlib.h=../../../../X11/include/X11/Xlib.h
+s none openwin/share/include/X11/Xlibint.h=../../../../X11/include/X11/Xlibint.h
+s none openwin/share/include/X11/Xlocale.h=../../../../X11/include/X11/Xlocale.h
+s none openwin/share/include/X11/Xresource.h=../../../../X11/include/X11/Xresource.h
+s none openwin/share/include/X11/Xutil.h=../../../../X11/include/X11/Xutil.h
+s none openwin/share/include/X11/cursorfont.h=../../../../X11/include/X11/cursorfont.h
+f none X11/include/X11/ImUtil.h			0444 root bin
+f none X11/include/X11/XKBlib.h			0444 root bin
+f none X11/include/X11/Xcms.h			0444 root bin
+f none X11/include/X11/XlcGeneric.h		0444 root bin
+f none X11/include/X11/XlcPubI.h		0444 root bin
+f none X11/include/X11/XlcPublic.h		0444 root bin
+f none X11/include/X11/Xlcint.h			0444 root bin
+f none X11/include/X11/Xlib.h			0444 root bin
+f none X11/include/X11/XlibConf.h		0444 root bin
+f none X11/include/X11/Xlibint.h		0444 root bin
+f none X11/include/X11/Xlocale.h		0444 root bin
+f none X11/include/X11/Xregion.h		0444 root bin
+f none X11/include/X11/Xresource.h		0444 root bin
+f none X11/include/X11/Xutil.h			0444 root bin
+f none X11/include/X11/cursorfont.h		0444 root bin
+
+
 !search                $HOME/openwin/include/X11
 f none openwin/share/include/X11/Composite.h 0644 root bin
 f none openwin/share/include/X11/CompositeP.h 0644 root bin
@@ -125,27 +156,12 @@ f none openwin/share/include/X11/RectObjP.h 0644 root bin
 f none openwin/share/include/X11/Shell.h 0644 root bin
 f none openwin/share/include/X11/ShellP.h 0644 root bin
 f none openwin/share/include/X11/StringDefs.h 0644 root bin
-f none openwin/share/include/X11/Suncompose.h 0644 root bin
 #f none openwin/share/include/X11/SunExtToken.h 0664 root bin
 f none openwin/share/include/X11/Vendor.h 0644 root bin
 f none openwin/share/include/X11/VendorP.h 0644 root bin
-f none openwin/share/include/X11/XKBlib.h 0644 root bin
 f none openwin/share/include/X11/XSunExt.h 0644 root bin
-f none openwin/share/include/X11/Xcms.h 0644 root bin
-f none openwin/share/include/X11/Xlib.h 0644 root bin
-f none openwin/share/include/X11/Xlibint.h 0644 root bin
-f none openwin/share/include/X11/Xlocale.h 0644 root bin
-f none openwin/share/include/X11/Xresource.h 0644 root bin
 f none openwin/share/include/X11/Xstreams.h 0644 root bin
-f none openwin/share/include/X11/Xutil.h 0644 root bin
-f none openwin/share/include/X11/cursorfont.h 0644 root bin
 f none openwin/share/include/X11/Sunowconfig.h 0644 root bin
-f none openwin/share/include/X11/XlcGeneric.h 0644 root bin
-f none openwin/share/include/X11/XlcPubI.h 0644 root bin
-f none openwin/share/include/X11/XlcPublic.h 0644 root bin
-f none openwin/share/include/X11/Xlcint.h 0644 root bin
-f none openwin/share/include/X11/Xvarargs.h 0644 root bin
-
 
 d none openwin/share/include/X11/DPS 0755 root bin
 !search                $HOME/openwin/include/X11/DPS
@@ -632,6 +648,7 @@ f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
 
 f none lib/pkgconfig/ice.pc			0444 root bin
 f none lib/pkgconfig/sm.pc			0444 root bin
+f none lib/pkgconfig/x11.pc			0444 root bin
 f none lib/pkgconfig/xau.pc			0444 root bin
 f none lib/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/pkgconfig/xcursor.pc			0444 root bin
@@ -682,6 +699,7 @@ s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.p
 !search $HOME/lib/$plat_64/pkgconfig
 f none lib/$plat_64/pkgconfig/ice.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/sm.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/x11.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xau.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xcursor.pc		0444 root bin

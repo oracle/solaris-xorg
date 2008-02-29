@@ -1,6 +1,6 @@
-###########################################################################
-#
+###############################################################################
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +11,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,24 +21,35 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
 
-#
-# @(#)prototype_sparc	1.9	08/02/27 SMI
-#
-#  X Window System 64-bit lint libraries
+5039226 Whitebox animation causes Solaris desktop hang
 
-!include prototype_com
+This problem is caused by a dead lock between java_vm and Xserver:
+Xserver is grabbed by java_vm and waiting for XUngrabServer, java_vm
+thought XUngrabServer was already sent and sends another dga lock
+request to Xserver and blocked on that request. Here is what happened:
+java_vm threads calls XGrabServer and XUngrabServer and then
+Solaris_DGA_GetLock, it seems no problem, but the current
+XUngrabServer requires a XSync call after XUngrabServer in MT
+environment to make sure Xserver is ungrabbed *before* new lock
+requests come in. Without this XSync, a dead lock may formed just like
+this case.
 
-!HOME=../openwin
-!search      $HOME/lib/sparcv9
-d none openwin/lib/sparcv9			0755 root bin
-f none openwin/lib/sparcv9/llib-lXaw.ln		0755 root bin
-f none openwin/lib/sparcv9/llib-lXext.ln	0755 root bin
-f none openwin/lib/sparcv9/llib-lXt.ln		0755 root bin
+--- src/UngrabSvr.c	2007-05-17 06:53:58.000000000 -0700
++++ src/UngrabSvr.c	2008-02-27 18:14:24.227304000 -0800
+@@ -41,6 +41,9 @@
+         GetEmptyReq(UngrabServer, req);
+         UnlockDisplay(dpy);
+ 	SyncHandle();
++	/* fix for bug 5039226: desktop hangs */
++	if (!dpy->synchandler)  
++	    XSync(dpy, 0);
+ 	return 1;
+ }
+ 

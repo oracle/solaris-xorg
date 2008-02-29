@@ -1,6 +1,6 @@
-###########################################################################
-#
+###############################################################################
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +11,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,24 +21,59 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
-
-#
-# @(#)prototype_sparc	1.9	08/02/27 SMI
-#
-#  X Window System 64-bit lint libraries
-
-!include prototype_com
-
-!HOME=../openwin
-!search      $HOME/lib/sparcv9
-d none openwin/lib/sparcv9			0755 root bin
-f none openwin/lib/sparcv9/llib-lXaw.ln		0755 root bin
-f none openwin/lib/sparcv9/llib-lXext.ln	0755 root bin
-f none openwin/lib/sparcv9/llib-lXt.ln		0755 root bin
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2008-02-27 21:08:37.807066000 -0800
++++ src/Makefile.am	2008-02-27 21:08:42.581207000 -0800
+@@ -357,6 +357,9 @@ libX11_la_SOURCES += \
+                   x11_trans.c
+ endif
+ 
++# SolarisIA extension
++libX11_la_SOURCES += XInteractive.c
++
+ #
+ # Figure out which sub-libraries to link into Xlib
+ #
+diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
+--- src/OpenDis.c	2008-02-27 21:08:37.717142000 -0800
++++ src/OpenDis.c	2008-02-27 21:08:42.585211000 -0800
+@@ -47,6 +47,11 @@ in this Software without prior written a
+ #include "XKBlib.h"
+ #endif /* XKB */
+ 
++/* begin SUNSOFT_INTERACTIVE */
++#include <X11/extensions/interactive.h>
++#include <X11/extensions/XInteractive.h>
++/* end SUNSOFT_INTERACTIVE */
++
+ #if !USE_XCB
+ #ifdef X_NOT_POSIX
+ #define Size_t unsigned int
+@@ -758,6 +763,21 @@ XOpenDisplay (
+ #ifdef XKB
+ 	XkbUseExtension(dpy,NULL,NULL);
+ #endif
++/* begin SUNSOFT_INTERACTIVE */
++	{
++
++	   long  pid    = (long) getpid();
++	   int majorop, first_event, first_error;
++	   int majorv, minorv;
++ 
++	   if ( (XQueryExtension(dpy, "SolarisIA",
++		&majorop, &first_event, &first_error)==True)) {
++		  XSolarisIASetProcessInfo(dpy, (unsigned char *)&pid,
++					   INTERACTIVE_INFO, 1); 
++	   }
++	} 
++/* end SUNSOFT_INTERACTIVE */
++
+ /*
+  * and return successfully
+  */

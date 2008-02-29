@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.158    08/02/26   Sun Microsystems"
+#      "@(#)prototype_com	35.162    08/02/29   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -187,17 +187,10 @@ d none openwin/lib 			0755 root bin
 #
 # symlinks for backward compatability
 #
-s none openwin/lib/XErrorDB=X11/XErrorDB
-s none openwin/lib/XKeysymDB=X11/XKeysymDB
-s none openwin/lib/Xcms.txt=X11/Xcms.txt
 s none openwin/lib/rgb.pag=X11/rgb.pag
 s none openwin/lib/rgb.dir=X11/rgb.dir
 s none openwin/lib/rgb.txt=X11/rgb.txt
 
-s none openwin/lib/libX.so.4=./libX11.so.4
-s none openwin/lib/libX.so=./libX11.so.4
-s none openwin/lib/libX11.so=./libX11.so.4
-f none openwin/lib/libX11.so.4 		0755 root bin
 f none openwin/lib/libXext.so.0 	0755 root bin
 s none openwin/lib/libXext.so=./libXext.so.0
 s none openwin/lib/libXaw.so=./libXaw.so.5
@@ -234,6 +227,16 @@ s none lib/libXtsol.so=./libXtsol.so.1
 ## 32-bit versions
 !search $HOME/X11/lib
 d none X11/lib					0755 root bin
+
+# open-src/lib/libX11
+s none openwin/lib/libX.so.4=./libX11.so.4
+s none openwin/lib/libX.so=./libX11.so.4
+s none openwin/lib/libX11.so=./libX11.so.4
+s none openwin/lib/libX11.so.4=../../X11/lib/libX11.so.4
+s none X11/lib/libX.so=./libX11.so.4
+s none X11/lib/libX.so.4=./libX11.so.4
+s none X11/lib/libX11.so=./libX11.so.4
+f none X11/lib/libX11.so.4			0555 root bin
 
 # open-src/lib/libXau
 s none openwin/lib/libXau.so=./libXau.so.6
@@ -319,6 +322,17 @@ f none X11/lib/xorgcfg/libXaw.so.7		0444 root bin
 !search $HOME/X11/lib/$plat_64
 d none X11/lib/$plat_64 			0755 root bin
 s none X11/lib/64=$plat_64
+
+# open-src/lib/libX11
+s none openwin/lib/$plat_64/libX.so.4=./libX11.so.4
+s none openwin/lib/$plat_64/libX.so=./libX11.so.4
+s none openwin/lib/$plat_64/libX11.so=./libX11.so.4
+s none openwin/lib/$plat_64/libX11.so.4=../../../X11/lib/64/libX11.so.4
+s none X11/lib/$plat_64/libX.so=./libX11.so.4
+s none X11/lib/$plat_64/libX.so.4=./libX11.so.4
+s none X11/lib/$plat_64/libX11.so=./libX11.so.4
+f none X11/lib/$plat_64/libX11.so.4		0555 root bin
+
 
 # open-src/lib/libXau - never delivered into openwin in 64-bit version
 s none X11/lib/$plat_64/libXau.so=./libXau.so.6
@@ -422,9 +436,6 @@ s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
 
 !search  $HOME/openwin/lib/X11
 d none openwin/lib/X11 				0755 root bin
-f none openwin/lib/X11/XErrorDB 		0644 root bin
-f none openwin/lib/X11/XKeysymDB 		0644 root bin
-f none openwin/lib/X11/Xcms.txt			0644 root bin
 f none openwin/lib/X11/rgb.pag 			0644 root bin
 f none openwin/lib/X11/rgb.dir 			0644 root bin
 f none openwin/lib/X11/rgb.txt 			0644 root bin
@@ -458,6 +469,371 @@ f none openwin/lib/app-defaults/XLogo		0644 root bin
 f none openwin/lib/app-defaults/XLogo-color	0644 root bin
 f none openwin/lib/app-defaults/XTerm		0644 root bin
 f none openwin/lib/app-defaults/Xmh		0644 root bin
+
+!search  $HOME/X11/share/X11
+# open-src/lib/libX11
+d none X11/share				0755 root bin
+d none X11/share/X11				0755 root bin
+f none X11/share/X11/XErrorDB 			0444 root bin
+f none X11/share/X11/XKeysymDB 			0444 root bin
+s none openwin/lib/XErrorDB=X11/XErrorDB
+s none openwin/lib/XKeysymDB=X11/XKeysymDB
+s none openwin/lib/X11/XErrorDB=../../../X11/share/X11/XErrorDB
+s none openwin/lib/X11/XKeysymDB=../../../X11/share/X11/XKeysymDB
+
+# open-src/lib/libX11
+!search  $HOME/X11/share/X11/locale
+d none X11/share/X11/locale					0755 root bin
+f none X11/share/X11/locale/compose.dir				0444 root bin
+f none X11/share/X11/locale/locale.alias			0444 root bin
+f none X11/share/X11/locale/locale.dir				0444 root bin
+
+!search  $HOME/X11/share/X11/locale/C
+d none X11/share/X11/locale/C					0755 root bin
+f none X11/share/X11/locale/C/Compose				0444 root bin
+f none X11/share/X11/locale/C/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/C/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/armscii-8
+d none X11/share/X11/locale/armscii-8				0755 root bin
+f none X11/share/X11/locale/armscii-8/Compose			0444 root bin
+f none X11/share/X11/locale/armscii-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/armscii-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/el_GR.UTF-8	
+d none X11/share/X11/locale/el_GR.UTF-8				0755 root bin
+f none X11/share/X11/locale/el_GR.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/el_GR.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/el_GR.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/en_US.UTF-8	
+d none X11/share/X11/locale/en_US.UTF-8				0755 root bin
+f none X11/share/X11/locale/en_US.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/en_US.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/en_US.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/georgian-academy
+d none X11/share/X11/locale/georgian-academy			0755 root bin
+f none X11/share/X11/locale/georgian-academy/Compose		0444 root bin
+f none X11/share/X11/locale/georgian-academy/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/georgian-academy/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/georgian-ps
+d none X11/share/X11/locale/georgian-ps				0755 root bin
+f none X11/share/X11/locale/georgian-ps/Compose			0444 root bin
+f none X11/share/X11/locale/georgian-ps/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/georgian-ps/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ibm-cp1133
+d none X11/share/X11/locale/ibm-cp1133				0755 root bin
+f none X11/share/X11/locale/ibm-cp1133/Compose			0444 root bin
+f none X11/share/X11/locale/ibm-cp1133/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/ibm-cp1133/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iscii-dev
+d none X11/share/X11/locale/iscii-dev				0755 root bin
+f none X11/share/X11/locale/iscii-dev/Compose			0444 root bin
+f none X11/share/X11/locale/iscii-dev/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iscii-dev/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/isiri-3342
+d none X11/share/X11/locale/isiri-3342				0755 root bin
+f none X11/share/X11/locale/isiri-3342/Compose			0444 root bin
+f none X11/share/X11/locale/isiri-3342/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/isiri-3342/XLC_LOCALE		0444 root bin
+
+
+!search  $HOME/X11/share/X11/locale/iso8859-1
+d none X11/share/X11/locale/iso8859-1				0755 root bin
+f none X11/share/X11/locale/iso8859-1/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-1/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-1/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-10
+d none X11/share/X11/locale/iso8859-10				0755 root bin
+f none X11/share/X11/locale/iso8859-10/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-10/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-10/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-11
+d none X11/share/X11/locale/iso8859-11				0755 root bin
+f none X11/share/X11/locale/iso8859-11/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-11/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-11/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-13
+d none X11/share/X11/locale/iso8859-13				0755 root bin
+f none X11/share/X11/locale/iso8859-13/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-13/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-13/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-14
+d none X11/share/X11/locale/iso8859-14				0755 root bin
+f none X11/share/X11/locale/iso8859-14/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-14/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-14/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-15
+d none X11/share/X11/locale/iso8859-15				0755 root bin
+f none X11/share/X11/locale/iso8859-15/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-15/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-15/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-2
+d none X11/share/X11/locale/iso8859-2				0755 root bin
+f none X11/share/X11/locale/iso8859-2/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-2/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-2/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-3
+d none X11/share/X11/locale/iso8859-3				0755 root bin
+f none X11/share/X11/locale/iso8859-3/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-3/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-3/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-4
+d none X11/share/X11/locale/iso8859-4				0755 root bin
+f none X11/share/X11/locale/iso8859-4/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-4/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-4/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-5
+d none X11/share/X11/locale/iso8859-5				0755 root bin
+f none X11/share/X11/locale/iso8859-5/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-5/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-5/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-6
+d none X11/share/X11/locale/iso8859-6				0755 root bin
+f none X11/share/X11/locale/iso8859-6/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-6/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-6/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-7
+d none X11/share/X11/locale/iso8859-7				0755 root bin
+f none X11/share/X11/locale/iso8859-7/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-7/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-7/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-8
+d none X11/share/X11/locale/iso8859-8				0755 root bin
+f none X11/share/X11/locale/iso8859-8/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-9
+d none X11/share/X11/locale/iso8859-9				0755 root bin
+f none X11/share/X11/locale/iso8859-9/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-9/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-9/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/iso8859-9e
+d none X11/share/X11/locale/iso8859-9e				0755 root bin
+f none X11/share/X11/locale/iso8859-9e/Compose			0444 root bin
+f none X11/share/X11/locale/iso8859-9e/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/iso8859-9e/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ja
+d none X11/share/X11/locale/ja					0755 root bin
+f none X11/share/X11/locale/ja/Compose				0444 root bin
+f none X11/share/X11/locale/ja/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/ja/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ja.JIS
+d none X11/share/X11/locale/ja.JIS				0755 root bin
+f none X11/share/X11/locale/ja.JIS/Compose			0444 root bin
+f none X11/share/X11/locale/ja.JIS/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/ja.JIS/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ja.S90
+d none X11/share/X11/locale/ja.S90				0755 root bin
+f none X11/share/X11/locale/ja.S90/Compose			0444 root bin
+f none X11/share/X11/locale/ja.S90/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/ja.S90/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ja.SJIS
+d none X11/share/X11/locale/ja.SJIS				0755 root bin
+f none X11/share/X11/locale/ja.SJIS/Compose			0444 root bin
+f none X11/share/X11/locale/ja.SJIS/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/ja.SJIS/XLC_LOCALE			0444 root bin
+
+
+!search  $HOME/X11/share/X11/locale/ja.U90
+d none X11/share/X11/locale/ja.U90				0755 root bin
+f none X11/share/X11/locale/ja.U90/Compose			0444 root bin
+f none X11/share/X11/locale/ja.U90/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/ja.U90/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ja_JP.UTF-8
+d none X11/share/X11/locale/ja_JP.UTF-8				0755 root bin
+f none X11/share/X11/locale/ja_JP.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/ja_JP.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/ja_JP.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ko
+d none X11/share/X11/locale/ko					0755 root bin
+f none X11/share/X11/locale/ko/Compose				0444 root bin
+f none X11/share/X11/locale/ko/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/ko/XLC_LOCALE			0444 root bin
+
+
+!search  $HOME/X11/share/X11/locale/ko_KR.UTF-8
+d none X11/share/X11/locale/ko_KR.UTF-8				0755 root bin
+f none X11/share/X11/locale/ko_KR.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/ko_KR.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/ko_KR.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/koi8-c
+d none X11/share/X11/locale/koi8-c				0755 root bin
+f none X11/share/X11/locale/koi8-c/Compose			0444 root bin
+f none X11/share/X11/locale/koi8-c/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/koi8-c/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/koi8-r
+d none X11/share/X11/locale/koi8-r				0755 root bin
+f none X11/share/X11/locale/koi8-r/Compose			0444 root bin
+f none X11/share/X11/locale/koi8-r/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/koi8-r/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/koi8-u
+d none X11/share/X11/locale/koi8-u				0755 root bin
+f none X11/share/X11/locale/koi8-u/Compose			0444 root bin
+f none X11/share/X11/locale/koi8-u/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/koi8-u/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/microsoft-cp1251
+d none X11/share/X11/locale/microsoft-cp1251			0755 root bin
+f none X11/share/X11/locale/microsoft-cp1251/Compose		0444 root bin
+f none X11/share/X11/locale/microsoft-cp1251/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/microsoft-cp1251/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/microsoft-cp1255
+d none X11/share/X11/locale/microsoft-cp1255			0755 root bin
+f none X11/share/X11/locale/microsoft-cp1255/Compose		0444 root bin
+f none X11/share/X11/locale/microsoft-cp1255/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/microsoft-cp1255/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/microsoft-cp1256
+d none X11/share/X11/locale/microsoft-cp1256			0755 root bin
+f none X11/share/X11/locale/microsoft-cp1256/Compose		0444 root bin
+f none X11/share/X11/locale/microsoft-cp1256/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/microsoft-cp1256/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/mulelao-1
+d none X11/share/X11/locale/mulelao-1				0755 root bin
+f none X11/share/X11/locale/mulelao-1/Compose			0444 root bin
+f none X11/share/X11/locale/mulelao-1/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/mulelao-1/XLC_LOCALE		0444 root bin
+
+
+!search  $HOME/X11/share/X11/locale/nokhchi-1
+d none X11/share/X11/locale/nokhchi-1				0755 root bin
+f none X11/share/X11/locale/nokhchi-1/Compose			0444 root bin
+f none X11/share/X11/locale/nokhchi-1/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/nokhchi-1/XLC_LOCALE		0444 root bin
+
+
+!search  $HOME/X11/share/X11/locale/pt_BR.UTF-8
+d none X11/share/X11/locale/pt_BR.UTF-8				0755 root bin
+f none X11/share/X11/locale/pt_BR.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/pt_BR.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/pt_BR.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/tatar-cyr
+d none X11/share/X11/locale/tatar-cyr				0755 root bin
+f none X11/share/X11/locale/tatar-cyr/Compose			0444 root bin
+f none X11/share/X11/locale/tatar-cyr/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/tatar-cyr/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/th_TH
+d none X11/share/X11/locale/th_TH				0755 root bin
+f none X11/share/X11/locale/th_TH/Compose			0444 root bin
+f none X11/share/X11/locale/th_TH/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/th_TH/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/th_TH.UTF-8
+d none X11/share/X11/locale/th_TH.UTF-8				0755 root bin
+f none X11/share/X11/locale/th_TH.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/th_TH.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/th_TH.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/tscii-0
+d none X11/share/X11/locale/tscii-0				0755 root bin
+f none X11/share/X11/locale/tscii-0/Compose			0444 root bin
+f none X11/share/X11/locale/tscii-0/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/tscii-0/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/vi_VN.tcvn
+d none X11/share/X11/locale/vi_VN.tcvn				0755 root bin
+f none X11/share/X11/locale/vi_VN.tcvn/Compose			0444 root bin
+f none X11/share/X11/locale/vi_VN.tcvn/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/vi_VN.tcvn/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/vi_VN.viscii
+d none X11/share/X11/locale/vi_VN.viscii			0755 root bin
+f none X11/share/X11/locale/vi_VN.viscii/Compose		0444 root bin
+f none X11/share/X11/locale/vi_VN.viscii/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/vi_VN.viscii/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_CN
+d none X11/share/X11/locale/zh_CN				0755 root bin
+f none X11/share/X11/locale/zh_CN/Compose			0444 root bin
+f none X11/share/X11/locale/zh_CN/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/zh_CN/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_CN.UTF-8
+d none X11/share/X11/locale/zh_CN.UTF-8				0755 root bin
+f none X11/share/X11/locale/zh_CN.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/zh_CN.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_CN.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_CN.gb18030
+d none X11/share/X11/locale/zh_CN.gb18030			0755 root bin
+f none X11/share/X11/locale/zh_CN.gb18030/Compose		0444 root bin
+f none X11/share/X11/locale/zh_CN.gb18030/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_CN.gb18030/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_CN.gbk
+d none X11/share/X11/locale/zh_CN.gbk				0755 root bin
+f none X11/share/X11/locale/zh_CN.gbk/Compose			0444 root bin
+f none X11/share/X11/locale/zh_CN.gbk/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_CN.gbk/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_HK.UTF-8
+d none X11/share/X11/locale/zh_HK.UTF-8				0755 root bin
+f none X11/share/X11/locale/zh_HK.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/zh_HK.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_HK.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_HK.big5
+d none X11/share/X11/locale/zh_HK.big5				0755 root bin
+f none X11/share/X11/locale/zh_HK.big5/Compose			0444 root bin
+f none X11/share/X11/locale/zh_HK.big5/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_HK.big5/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_HK.big5hkscs
+d none X11/share/X11/locale/zh_HK.big5hkscs			0755 root bin
+f none X11/share/X11/locale/zh_HK.big5hkscs/Compose		0444 root bin
+f none X11/share/X11/locale/zh_HK.big5hkscs/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_HK.big5hkscs/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_TW
+d none X11/share/X11/locale/zh_TW				0755 root bin
+f none X11/share/X11/locale/zh_TW/Compose			0444 root bin
+f none X11/share/X11/locale/zh_TW/XI18N_OBJS			0444 root bin
+f none X11/share/X11/locale/zh_TW/XLC_LOCALE			0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_TW.UTF-8
+d none X11/share/X11/locale/zh_TW.UTF-8				0755 root bin
+f none X11/share/X11/locale/zh_TW.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/zh_TW.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_TW.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/zh_TW.big5
+d none X11/share/X11/locale/zh_TW.big5				0755 root bin
+f none X11/share/X11/locale/zh_TW.big5/Compose			0444 root bin
+f none X11/share/X11/locale/zh_TW.big5/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/zh_TW.big5/XLC_LOCALE		0444 root bin
 
 !search  $HOME/openwin/share
 d none openwin/share 				0755 root bin
@@ -681,10 +1057,6 @@ s none openwin/share/include/X11/bitmaps/Up=../../../../../X11/include/X11/bitma
 !search  $HOME/openwin/lib/$plat_64
 d none openwin/lib/$plat_64 			0755 root bin
 s none openwin/lib/64=$plat_64
-s none openwin/lib/$plat_64/libX.so.4=./libX11.so.4
-s none openwin/lib/$plat_64/libX.so=./libX11.so.4
-s none openwin/lib/$plat_64/libX11.so=./libX11.so.4
-f none openwin/lib/$plat_64/libX11.so.4 		0755 root bin
 f none openwin/lib/$plat_64/libXext.so.0 	0755 root bin
 s none openwin/lib/$plat_64/libXext.so=./libXext.so.0
 s none openwin/lib/$plat_64/libXaw.so=./libXaw.so.5
@@ -718,8 +1090,37 @@ d none lib/help/profiles/locale/C 755 root bin
 !search ../usr/lib/help/profiles/locale/C
 f none lib/help/profiles/locale/C/RtDesktopConfiguration.html 444 root bin
 
-!search      $HOME/X11/lib/X11/app-defaults
 d none X11/lib/X11                              0755 root bin
+
+# open-src/lib/libX11
+!search      $HOME/X11/lib/X11
+f none X11/lib/X11/Xcms.txt			0444 root bin
+s none openwin/lib/Xcms.txt=X11/Xcms.txt
+s none openwin/lib/X11/Xcms.txt=../../../X11/lib/X11/Xcms.txt
+
+!search      $HOME/X11/lib/X11/locale/common
+d none X11/lib/X11/locale                 		0755 root bin
+d none X11/lib/X11/locale/common			0755 root bin
+f none X11/lib/X11/locale/common/ximcp.so.2		0444 root bin
+f none X11/lib/X11/locale/common/xlcDef.so.2		0444 root bin
+f none X11/lib/X11/locale/common/xlcGB18030.so.2	0444 root bin
+f none X11/lib/X11/locale/common/xlcUTF8Load.so.2	0444 root bin
+f none X11/lib/X11/locale/common/xlibi18n.so.2		0444 root bin
+f none X11/lib/X11/locale/common/xlocale.so.2		0444 root bin
+f none X11/lib/X11/locale/common/xomGeneric.so.2	0444 root bin
+
+!search      $HOME/X11/lib/X11/locale/$plat_64/common
+d none X11/lib/X11/locale/$plat_64/				0755 root bin
+d none X11/lib/X11/locale/$plat_64/common			0755 root bin
+f none X11/lib/X11/locale/$plat_64/common/ximcp.so.2		0444 root bin
+f none X11/lib/X11/locale/$plat_64/common/xlcDef.so.2		0444 root bin
+f none X11/lib/X11/locale/$plat_64/common/xlcGB18030.so.2	0444 root bin
+f none X11/lib/X11/locale/$plat_64/common/xlcUTF8Load.so.2	0444 root bin
+f none X11/lib/X11/locale/$plat_64/common/xlibi18n.so.2		0444 root bin
+f none X11/lib/X11/locale/$plat_64/common/xlocale.so.2		0444 root bin
+f none X11/lib/X11/locale/$plat_64/common/xomGeneric.so.2	0444 root bin
+
+!search      $HOME/X11/lib/X11/app-defaults
 d none X11/lib/X11/app-defaults                 0755 root bin
 f none X11/lib/X11/app-defaults/Bitmap		0644 root bin
 f none X11/lib/X11/app-defaults/Bitmap-color	0644 root bin

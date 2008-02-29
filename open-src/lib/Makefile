@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/02/21
+# @(#)Makefile	1.14	08/02/27
 #
 ###############################################################################
 
@@ -38,6 +38,7 @@ OS_SUBDIRS_common = \
 	libxtrans \
 	libXau \
 	libXdmcp \
+	libX11 \
 	libICE \
 	libSM \
 	libfontenc \
