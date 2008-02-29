@@ -208,11 +208,31 @@
  Mark Lucida Sans Typewriter as poor support for AR locale
  Use KacstQurn instead.
 -->
-<alias>
-	<family>Monospace</family>
-	<poor>
-		<family>Lucida Sans Typewriter</family>
-		<lang>ar</lang>
-		<lang>th</lang>
-	</poor>
-</alias>
+<match target="pattern">
+        <test name="family">
+                <string>monospace</string>
+        </test>
+	<test name="lang" compare="contains">
+		<string>ar</string>
+	</test>
+        <edit name="family" mode="prepend_first">
+                <string>KacstQurn</string>
+        </edit>
+	<edit name="antialias" mode="assign">
+		<bool>true</bool>
+	</edit>
+</match>
+<match target="pattern">
+        <test name="family">
+                <string>monospace</string>
+        </test>
+	<test name="lang" compare="contains">
+		<string>th</string>
+	</test>
+        <edit name="family" mode="prepend_first">
+                <string>SunDotumChe</string>
+        </edit>
+	<edit name="antialias" mode="assign">
+		<bool>false</bool>
+	</edit>
+</match>
