@@ -289,10 +289,10 @@ atk_make_dialog (gboolean center_pos)
   /* image */
 #ifdef TRUSTED_XPM_LOGO_NAME
   if ( tsol_is_multi_label_session() )
-      image = gtk_image_new_from_file (TRUSTED_XPM_LOGO_FILE);
+      image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"TRUSTED_XPM_LOGO_FILE);
   else
 #endif      
-  image = gtk_image_new_from_file (XPM_LOGO_FILE);
+  image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"XPM_LOGO_FILE);
 
   gtk_container_add (GTK_CONTAINER (frame2), image);
 
@@ -595,10 +595,10 @@ make_dialog (void)
   /* image */
 #ifdef TRUSTED_XPM_LOGO_NAME
   if ( tsol_is_multi_label_session() )
-    image = gtk_image_new_from_file (TRUSTED_XPM_LOGO_FILE);
+    image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"TRUSTED_XPM_LOGO_FILE);
   else
 #endif      
-  image = gtk_image_new_from_file (XPM_LOGO_FILE);
+  image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"XPM_LOGO_FILE);
 
   gtk_container_add (GTK_CONTAINER (frame), image);
 
