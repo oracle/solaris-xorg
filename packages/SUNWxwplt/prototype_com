@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.163    08/02/29   Sun Microsystems"
+#      "@(#)prototype_com	35.164    08/03/03   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -342,8 +342,8 @@ s none X11/lib/$plat_64/libXau.so=./libXau.so.6
 f none X11/lib/$plat_64/libXau.so.6		0555 root bin
 
 # open-src/lib/libSM
-s none openwin/lib/$plat_64/libSM.so.6=../../X11/lib/$plat_64/libSM.so.6
-s none openwin/lib/$plat_64/libSM.so=../../X11/lib/$plat_64/libSM.so.6
+s none openwin/lib/$plat_64/libSM.so.6=../../../X11/lib/64/libSM.so.6
+s none openwin/lib/$plat_64/libSM.so=../../../X11/lib/64/libSM.so.6
 s none X11/lib/$plat_64/libSM.so=./libSM.so.6
 f none X11/lib/$plat_64/libSM.so.6=$HOME/X11/lib/$plat_64/libSM.so.6.0.0        0755 root bin
 
