@@ -139,26 +139,60 @@ f none X11/include/X11/Xresource.h		0444 root bin
 f none X11/include/X11/Xutil.h			0444 root bin
 f none X11/include/X11/cursorfont.h		0444 root bin
 
+# open-src/lib/libXt
+s none openwin/share/include/X11/Composite.h=../../../../X11/include/X11/Composite.h
+s none openwin/share/include/X11/CompositeP.h=../../../../X11/include/X11/CompositeP.h
+s none openwin/share/include/X11/ConstrainP.h=../../../../X11/include/X11/ConstrainP.h
+s none openwin/share/include/X11/Constraint.h=../../../../X11/include/X11/Constraint.h
+s none openwin/share/include/X11/Core.h=../../../../X11/include/X11/Core.h
+s none openwin/share/include/X11/CoreP.h=../../../../X11/include/X11/CoreP.h
+s none openwin/share/include/X11/Intrinsic.h=../../../../X11/include/X11/Intrinsic.h
+s none openwin/share/include/X11/IntrinsicP.h=../../../../X11/include/X11/IntrinsicP.h
+s none openwin/share/include/X11/Object.h=../../../../X11/include/X11/Object.h
+s none openwin/share/include/X11/ObjectP.h=../../../../X11/include/X11/ObjectP.h
+s none openwin/share/include/X11/RectObj.h=../../../../X11/include/X11/RectObj.h
+s none openwin/share/include/X11/RectObjP.h=../../../../X11/include/X11/RectObjP.h
+s none openwin/share/include/X11/Shell.h=../../../../X11/include/X11/Shell.h
+s none openwin/share/include/X11/ShellP.h=../../../../X11/include/X11/ShellP.h
+s none openwin/share/include/X11/StringDefs.h=../../../../X11/include/X11/StringDefs.h
+s none openwin/share/include/X11/Vendor.h=../../../../X11/include/X11/Vendor.h
+s none openwin/share/include/X11/VendorP.h=../../../../X11/include/X11/VendorP.h
+f none X11/include/X11/StringDefs.h		0444 root bin
+f none X11/include/X11/Shell.h			0444 root bin
+f none X11/include/X11/Composite.h		0444 root bin
+f none X11/include/X11/CompositeP.h		0444 root bin
+f none X11/include/X11/ConstrainP.h		0444 root bin
+f none X11/include/X11/Constraint.h		0444 root bin
+f none X11/include/X11/Core.h			0444 root bin
+f none X11/include/X11/CoreP.h			0444 root bin
+f none X11/include/X11/Intrinsic.h		0444 root bin
+f none X11/include/X11/IntrinsicP.h		0444 root bin
+f none X11/include/X11/Object.h			0444 root bin
+f none X11/include/X11/ObjectP.h		0444 root bin
+f none X11/include/X11/RectObj.h		0444 root bin
+f none X11/include/X11/RectObjP.h		0444 root bin
+f none X11/include/X11/ResConfigP.h		0444 root bin
+f none X11/include/X11/ShellP.h			0444 root bin
+f none X11/include/X11/Vendor.h			0444 root bin
+f none X11/include/X11/VendorP.h		0444 root bin
+f none X11/include/X11/CallbackI.h		0444 root bin
+f none X11/include/X11/ConvertI.h		0444 root bin
+f none X11/include/X11/CreateI.h		0444 root bin
+f none X11/include/X11/EventI.h			0444 root bin
+f none X11/include/X11/HookObjI.h		0444 root bin
+f none X11/include/X11/InitialI.h		0444 root bin
+f none X11/include/X11/IntrinsicI.h		0444 root bin
+f none X11/include/X11/PassivGraI.h		0444 root bin
+f none X11/include/X11/ResourceI.h		0444 root bin
+f none X11/include/X11/SelectionI.h		0444 root bin
+f none X11/include/X11/ShellI.h			0444 root bin
+f none X11/include/X11/ThreadsI.h		0444 root bin
+f none X11/include/X11/TranslateI.h		0444 root bin
+f none X11/include/X11/VarargsI.h		0444 root bin
+f none X11/include/X11/Xtos.h			0444 root bin
 
 !search                $HOME/openwin/include/X11
-f none openwin/share/include/X11/Composite.h 0644 root bin
-f none openwin/share/include/X11/CompositeP.h 0644 root bin
-f none openwin/share/include/X11/ConstrainP.h 0644 root bin
-f none openwin/share/include/X11/Constraint.h 0644 root bin
-f none openwin/share/include/X11/Core.h 0644 root bin
-f none openwin/share/include/X11/CoreP.h 0644 root bin
-f none openwin/share/include/X11/Intrinsic.h 0644 root bin
-f none openwin/share/include/X11/IntrinsicP.h 0644 root bin
-f none openwin/share/include/X11/Object.h 0644 root bin
-f none openwin/share/include/X11/ObjectP.h 0644 root bin
-f none openwin/share/include/X11/RectObj.h 0644 root bin
-f none openwin/share/include/X11/RectObjP.h 0644 root bin
-f none openwin/share/include/X11/Shell.h 0644 root bin
-f none openwin/share/include/X11/ShellP.h 0644 root bin
-f none openwin/share/include/X11/StringDefs.h 0644 root bin
 #f none openwin/share/include/X11/SunExtToken.h 0664 root bin
-f none openwin/share/include/X11/Vendor.h 0644 root bin
-f none openwin/share/include/X11/VendorP.h 0644 root bin
 f none openwin/share/include/X11/XSunExt.h 0644 root bin
 f none openwin/share/include/X11/Xstreams.h 0644 root bin
 f none openwin/share/include/X11/Sunowconfig.h 0644 root bin
@@ -661,6 +695,7 @@ f none lib/pkgconfig/xmu.pc			0444 root bin
 f none lib/pkgconfig/xmuu.pc			0444 root bin
 f none lib/pkgconfig/xpm.pc			0444 root bin
 f none lib/pkgconfig/xrender.pc			0444 root bin
+f none lib/pkgconfig/xt.pc			0444 root bin
 f none lib/pkgconfig/xtst.pc			0444 root bin
 
 # Data files & other miscellany
@@ -712,6 +747,7 @@ f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmuu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xt.pc 			0444 root bin
 f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin
 
 # Data files & other miscellany are the same for both

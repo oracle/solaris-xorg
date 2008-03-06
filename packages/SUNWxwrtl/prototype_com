@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.44     08/02/27 SMI"
+# ident "@(#)prototype_com 1.45     08/03/05 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -90,8 +90,8 @@ s none lib/libXaw.so.4=../openwin/lib/libXaw.so.4
 s none lib/libXaw.so.5=../openwin/lib/libXaw.so.5
 
 s none lib/libXt.so=./libXt.so.4
-s none lib/libXt.so.4=../openwin/lib/libXt.so.4
-s none lib/libXt.so.5=../openwin/lib/libXt.so.4
+s none lib/libXt.so.4=../X11/lib/libXt.so.4
+s none lib/libXt.so.5=../X11/lib/libXt.so.4
 
 s none lib/libXtst.so=./libXtst.so.1
 s none lib/libXtst.so.1=../openwin/lib/libXtst.so.1
@@ -213,8 +213,8 @@ s none lib/$plat_64/libXaw.so=./libXaw.so.5
 s none lib/$plat_64/libXaw.so.5=../../openwin/lib/64/libXaw.so.5
 
 s none lib/$plat_64/libXt.so=./libXt.so.4
-s none lib/$plat_64/libXt.so.4=../../openwin/lib/64/libXt.so.4
-s none lib/$plat_64/libXt.so.5=../../openwin/lib/64/libXt.so.4
+s none lib/$plat_64/libXt.so.4=../../X11/lib/64/libXt.so.4
+s none lib/$plat_64/libXt.so.5=../../X11/lib/64/libXt.so.4
 
 s none lib/$plat_64/libXtst.so=./libXtst.so.1
 s none lib/$plat_64/libXtst.so.1=../../openwin/lib/64/libXtst.so.1

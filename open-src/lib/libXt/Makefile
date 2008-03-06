@@ -1,5 +1,9 @@
+###############################################################################
+#
+# Xt 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -10,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -20,43 +24,37 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-# 
 #
-# ident	"@(#)prototype_com	35.18	08/03/05 SMI"
+# @(#)Makefile	1.1 08/03/05
 #
-#  X Window System lint libraries
 
-i pkginfo
-i copyright=../copyright
-i depend=../depend
+# Package name used in tarballs
+LIB_MODULE=libXt
 
-!HOME=../usr
+# Version number (used in path names)
+LIB_VERS=1.0.5
 
-d none openwin					0755 root bin
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 6671721.patch
 
-!search      $HOME/openwin/lib
-d none openwin/lib				0755 root bin
-s none openwin/lib/llib-lX11.ln=../../X11/lib/llib-lX11.ln
-s none openwin/lib/llib-lXau.ln=../../X11/lib/llib-lXau.ln
-f none openwin/lib/llib-lXaw.ln			0755 root bin
-f none openwin/lib/llib-lXext.ln		0755 root bin
+# Library name (used for specfiles/mapfiles)
+LIBNAME=Xt
 
-!search $HOME/X11/lib
-d none X11/lib					0755 root bin
-f none X11/lib/llib-lX11.ln			0555 root bin
-f none X11/lib/llib-lXau.ln			0555 root bin
-f none X11/lib/llib-lXmu.ln			0755 root bin
-f none X11/lib/llib-lXmuu.ln			0755 root bin
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Committed
+LIB_MAN_SUFFIX=3Xt
 
-!search $HOME/X11/lib/$plat_64
-d none X11/lib/$plat_64				0755 root bin
-f none X11/lib/$plat_64/llib-lX11.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXau.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmu.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmuu.ln		0555 root bin
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXt.so.4.0.0
 
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xt.pc.in
+
+include ../Makefile.inc
