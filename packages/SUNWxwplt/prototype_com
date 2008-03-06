@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.165    08/03/05   Sun Microsystems"
+#      "@(#)prototype_com	35.166    08/03/06   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -213,7 +213,7 @@ s none openwin/lib/libowconfig.so=./libowconfig.so.0
 f none openwin/lib/libowconfig.so.0 	0755 root bin
 f none openwin/lib/libFS.so.5	 	0755 root bin
 s none openwin/lib/libFS.so=./libFS.so.5
-s none /usr/X11/lib/libXIE.so=./libXIE.so.6.0.0
+s none openwin/lib/libXIE.so=./libXIE.so.6
 f none openwin/lib/libXIE.so.6			0755 root bin
 
 # Trusted Extensions API support
