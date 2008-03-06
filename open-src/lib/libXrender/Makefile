@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/02/27
+# @(#)Makefile	1.5	08/03/05
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXrender
 
 # Version number (used in path names)
-LIB_VERS=0.9.2
+LIB_VERS=0.9.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
