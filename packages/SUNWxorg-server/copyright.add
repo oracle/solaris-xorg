@@ -1,0 +1,97 @@
+------------------------------------------------------------------------------
+Files from the X.Org xserver package are covered by the following notice:
+
+include xserver/xorg/COPYING
+------------------------------------------------------------------------------
+Files from the app/xkbcomp package are covered by the following notice:
+
+include app/xkbcomp/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-acecad package are covered by the following notice:
+
+include driver/xf86-input-acecad/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-calcomp package are covered by the following notice:
+
+include driver/xf86-input-calcomp/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-citron package are covered by the following notice:
+
+include driver/xf86-input-citron/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-digitaledge package are covered by the following notice:
+
+include driver/xf86-input-digitaledge/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-dmc package are covered by the following notice:
+
+include driver/xf86-input-dmc/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-dynapro package are covered by the following notice:
+
+include driver/xf86-input-dynapro/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-elographics package are covered by the following notice:
+
+include driver/xf86-input-elographics/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-fpit package are covered by the following notice:
+
+include driver/xf86-input-fpit/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-hyperpen package are covered by the following notice:
+
+include driver/xf86-input-hyperpen/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-jamstudio package are covered by the following notice:
+
+include driver/xf86-input-jamstudio/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-keyboard package are covered by the following notice:
+
+include driver/xf86-input-keyboard/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-magellan package are covered by the following notice:
+
+include driver/xf86-input-magellan/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-microtouch package are covered by the following notice:
+
+include driver/xf86-input-microtouch/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-mouse package are covered by the following notice:
+
+include driver/xf86-input-mouse/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-mutouch package are covered by the following notice:
+
+include driver/xf86-input-mutouch/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-palmax package are covered by the following notice:
+
+include driver/xf86-input-palmax/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-penmount package are covered by the following notice:
+
+include driver/xf86-input-penmount/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-spaceorb package are covered by the following notice:
+
+include driver/xf86-input-spaceorb/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-summa package are covered by the following notice:
+
+include driver/xf86-input-summa/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-tek4957 package are covered by the following notice:
+
+include driver/xf86-input-tek4957/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-vmmouse package are covered by the following notice:
+
+include driver/xf86-input-vmmouse/COPYING
+------------------------------------------------------------------------------
+Files from the driver/xf86-input-void package are covered by the following notice:
+
+include driver/xf86-input-void/COPYING
+

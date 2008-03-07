@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/09/14
+# @(#)Makefile	1.2	08/03/07
 #
 
 PWD:sh=pwd
@@ -57,6 +57,10 @@ BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
 
 # Directory to install to
 DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
+
+# License file
+LICENSE_FILE=LICENSE
+LICENSE_FILE_SET=yes
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
@@ -93,7 +97,7 @@ $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
 	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
 
-install_gen: $(BUILD_TARGETS)
+install_gen:: $(BUILD_TARGETS)
 	mkdir -p $(DEST_DIR)
 	-( cd $(DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
 	( cd $(SOURCE_DIR) ; cp -p $(DEJAVU_FONT_FILES) $(DEST_DIR) )

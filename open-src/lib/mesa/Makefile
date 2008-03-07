@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	07/07/11
+# @(#)Makefile	1.10	08/03/07
 #
 
 PWD:sh=pwd
@@ -120,7 +120,7 @@ $(MESA_LIB):  $(GNUMAKE) $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
 	(cd $(SOURCE_DIR) && $(MESA_MAKEENV) $(GNUMAKE) $(MFLAGS) -e $(MESA_MAKEVARS) default)
 
-install_gen: $(MESA_LIB)
+install_gen:: $(MESA_LIB)
 	(cd $(SOURCE_DIR) && $(GNUMAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) ARCHLIBSUBDIR=$(ARCHLIBSUBDIR) install )
 
 

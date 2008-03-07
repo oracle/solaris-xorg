@@ -1,0 +1,27 @@
+Fonts in this package are covered under a variety of open source and
+commercial licenses, including, but not limited to the following licenses.
+
+------------------------------------------------------------------------------
+For these font files in /usr/X11/lib/X11/fonts/TrueType:
+
+ Vera.ttf      VeraBd.ttf    VeraMoBI.ttf  VeraMoIt.ttf  VeraSe.ttf 
+ VeraBI.ttf    VeraIt.ttf    VeraMoBd.ttf  VeraMono.ttf  VeraSeBd.ttf 
+
+include font/bitstream-vera/COPYING
+
+------------------------------------------------------------------------------
+For these font files in /usr/X11/lib/X11/fonts/TrueType:
+
+ DejaVuSans-Bold.ttf                  DejaVuSansMono-Oblique.ttf 
+ DejaVuSans-BoldOblique.ttf           DejaVuSansMono.ttf 
+ DejaVuSans-ExtraLight.ttf            DejaVuSerif-Bold.ttf 
+ DejaVuSans-Oblique.ttf               DejaVuSerif-BoldItalic.ttf 
+ DejaVuSans.ttf                       DejaVuSerif-Italic.ttf 
+ DejaVuSansCondensed-Bold.ttf         DejaVuSerif.ttf 
+ DejaVuSansCondensed-BoldOblique.ttf  DejaVuSerifCondensed-Bold.ttf 
+ DejaVuSansCondensed-Oblique.ttf      DejaVuSerifCondensed-BoldItalic.ttf 
+ DejaVuSansCondensed.ttf              DejaVuSerifCondensed-Italic.ttf 
+ DejaVuSansMono-Bold.ttf              DejaVuSerifCondensed.ttf 
+ DejaVuSansMono-BoldOblique.ttf  
+
+include font/deja-vu/COPYING

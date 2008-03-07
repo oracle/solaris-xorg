@@ -31,7 +31,7 @@
 #
 # Hardware Cursor Kernel modules
 
-i copyright=../copyright
+i copyright
 i pkginfo
 i depend
  

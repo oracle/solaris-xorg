@@ -1,0 +1,37 @@
+------------------------------------------------------------------------------
+Files from the app/xrefresh package are covered by the following notice:
+
+include app/xrefresh/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libX11 package are covered by the following notice:
+
+include lib/libX11/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXau package are covered by the following notice:
+
+include lib/libXau/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXcomposite package are covered by the following notice:
+
+include lib/libXcomposite/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXi package are covered by the following notice:
+
+include lib/libXi/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXinerama package are covered by the following notice:
+
+include lib/libXinerama/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXmu package are covered by the following notice:
+
+include lib/libXmu/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXt package are covered by the following notice:
+
+include lib/libXt/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXtst package are covered by the following notice:
+
+include lib/libXtst/COPYING
+

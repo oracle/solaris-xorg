@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/02/04 SMI
+# @(#)Makefile	1.2	08/03/07 SMI
 #
 
 # Package name used in tarballs
 FONT_NAME=font-xfree86-type1
 
 # Version number (used in path names)
-VERSION=1.0.0
+VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

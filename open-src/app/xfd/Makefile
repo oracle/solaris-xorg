@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/02/26
+# @(#)Makefile	1.2 08/03/07
 #
 
 # Package name used in tarballs
@@ -51,7 +51,7 @@ SUNTOUCH_MAN_FLAGS= \
 
 include ../Makefile.inc
 
-install_gen: install_po
+install_gen:: install_po
 install_po:
 	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
-	cp xfd.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
+	cp -f xfd.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES

@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/05/15
+# @(#)Makefile	1.7	08/03/07
 #
 
 PWD:sh=pwd
@@ -110,5 +110,5 @@ $(LIB_BUILT): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
 	(cd $(SOURCE_DIR) ; LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) )
 
 
-install_gen: $(LIB_BUILT)
+install_gen:: $(LIB_BUILT)
 	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS) $(LIB_ADD_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) libdir=$(LIB_prefix)/lib$(LIB_ADD_SUBDIR)$(ARCHLIBSUBDIR) install pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig)

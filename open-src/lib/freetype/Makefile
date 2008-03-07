@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.71	08/02/23
+# @(#)Makefile	1.72	08/03/07
 #
 
 PWD:sh=pwd
@@ -97,6 +97,10 @@ include $(TOP)/common/Makefile.inc
 # GNU make wants bash
 SHELL = /bin/bash
 
+# License file
+LICENSE_FILE=docs/FTL.TXT
+LICENSE_FILE_SET=yes
+
 ### Rules specific to this directory:
 
 # Run configure script (Freetype helpfully does this the first time you call
@@ -140,7 +144,7 @@ $(FT_LIB): $(SOURCE_DIR)/config.mk
 	    INSTALL="$(TOP)/common/install-sh -c" \
 	    $(GNUMAKE) )
 
-install_gen: $(FT_LIB)
+install_gen:: $(FT_LIB)
 	mkdir -p $(PROTODIR)/usr/bin$(ARCHLIBSUBDIR)
 	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(PROTODIR)$(FT_prefix) libdir=$(PROTODIR)$(FT_libdir) bindir=$(PROTODIR)$(FT_bindir) install )
 

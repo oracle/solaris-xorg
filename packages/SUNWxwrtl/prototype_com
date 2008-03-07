@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.45     08/03/05 SMI"
+# ident "@(#)prototype_com 1.46     08/03/07 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -34,7 +34,7 @@
 ! sixty_four=$plat_64
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend 
 
 d none lib 0755 root bin

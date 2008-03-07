@@ -29,12 +29,12 @@
 #
 ###########################################################################
 #
-#       @(#)prototype	35.17     07/11/05 (c) Sun Microsystems, Inc.
+#       @(#)prototype	35.18     08/03/07 (c) Sun Microsystems, Inc.
 #
 #  AccessX and associated files
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend
 
 !HOME=../openwin

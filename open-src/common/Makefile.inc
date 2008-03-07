@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.86	08/03/06
+# @(#)Makefile.inc	1.87	08/03/07
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -205,6 +205,8 @@ build_32::
 build_64::
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) build_gen
 
+install_gen:: install_license
+
 install_32:: build_32
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) install_gen
 
@@ -379,3 +381,22 @@ regen-patches:
 	    CUR_LIST="$${CUR_LIST} new/$$p" ; \
 	done
 	rm -rf tmp-regen
+
+### Licensing files
+
+# Default license file name is COPYING (X.Org & GNU autoconf default)
+# For other license file names, set LICENSE_FILE to the file name
+# and set LICENSE_FILE_SET=yes
+LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
+$(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
+
+LICENSE_DEST = $(PROTODIR)/licenses
+
+install_license:
+	case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
+	if [ -f $(SOURCE_DIR)/$(LICENSE_FILE) ] ; then \
+		THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
+		mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
+		cp -pf $(SOURCE_DIR)/$(LICENSE_FILE) \
+			$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
+	fi

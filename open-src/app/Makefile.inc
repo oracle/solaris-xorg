@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.7	08/01/24
+# @(#)Makefile.inc	1.8	08/03/07
 #
 
 PWD:sh=pwd
@@ -73,5 +73,5 @@ build_gen: $(APP_BIN)
 $(APP_BIN): $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) )
 
-install_gen: $(APP_BIN)
+install_gen:: $(APP_BIN)
 	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)

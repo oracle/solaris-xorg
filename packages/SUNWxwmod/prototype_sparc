@@ -29,11 +29,11 @@
 #
 ###########################################################################
 #
-#       @(#)prototype_sparc	1.5	07/11/05 (c) Sun Microsystems, Inc.
+#       @(#)prototype_sparc	1.6	08/03/07 (c) Sun Microsystems, Inc.
 #
 #  X Window System 64-bit Kernel modules
 
-i copyright=../copyright
+i copyright
 i pkginfo
 i depend
  

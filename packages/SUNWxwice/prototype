@@ -29,12 +29,12 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.14     08/03/03 SMI"
+# ident "@(#)prototype 1.15     08/03/07 SMI"
 #
 #    X Window System ICE library
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend
 
 !HOME=../usr/X11

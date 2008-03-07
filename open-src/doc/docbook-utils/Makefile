@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/06/11
+# @(#)Makefile	1.4	08/03/07
 #
 
 PWD:sh=pwd
@@ -84,7 +84,7 @@ build_gen: $(APP_BIN) $(CATALOG)
 $(APP_BIN): $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(GNUMAKE) $(MFLAGS) )
 
-install_gen: $(APP_BIN) $(CATALOG)
+install_gen:: $(APP_BIN) $(CATALOG)
 	(cd $(SOURCE_DIR) ; $(GNUMAKE) $(MFLAGS) install)
 	cp -p $(CATALOG) $(PROTODIR)$(TOOLS_DIR)/share/sgml
 

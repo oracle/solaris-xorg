@@ -29,14 +29,14 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.1     07/08/28 SMI"
+# ident "@(#)prototype 1.2     08/03/07 SMI"
 #
 # X.Org Foundation X cursor themes for Solaris
 
 !HOME=../usr/share/icons
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend=../depend
 
 d none share						  0755 root sys

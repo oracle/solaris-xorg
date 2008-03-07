@@ -30,13 +30,13 @@
 ###########################################################################
 #
 #
-#		  "@(#)prototype	1.13    07/11/05 SMI"
+#		  "@(#)prototype	1.14    08/03/07 SMI"
 #
 #  X Window System Header Compatability Links Package
 #
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend
 
 d none include 0755 root bin

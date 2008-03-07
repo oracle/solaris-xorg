@@ -48,7 +48,7 @@ SUNTOUCH_MAN_FLAGS= \
 
 include ../Makefile.inc
 
-install_gen: install_po
+install_gen:: install_po
 install_po:
 	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
-	cp xhost.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
+	cp -f xhost.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES

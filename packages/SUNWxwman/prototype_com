@@ -26,12 +26,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.61     08/02/29 SMI"
+# ident "@(#)prototype_com 35.62     08/03/07 SMI"
 #
 #  X Window System online user man pages
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend=../depend
 
 !HOME=../usr/openwin/share/man

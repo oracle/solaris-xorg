@@ -29,14 +29,14 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 35.18     08/02/26 SMI"
+# ident "@(#)prototype 35.19     08/03/07 SMI"
 #
 #  X Window System optional fonts
 
 i pkginfo
 i postinstall
 i postremove
-i copyright=../copyright
+i copyright
 i depend=../depend
 i i.fontsdir
 i r.fontsdir

@@ -29,12 +29,12 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.10	07/11/05 Sun Microsystems, Inc.
+#	@(#)prototype	35.11	08/03/07 Sun Microsystems, Inc.
 #
 #  X Window System sample source
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend=../depend
 
 !HOME=../openwin

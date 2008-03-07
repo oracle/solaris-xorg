@@ -27,12 +27,12 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.18	08/03/05 SMI"
+# ident	"@(#)prototype_com	35.19	08/03/07 SMI"
 #
 #  X Window System lint libraries
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend=../depend
 
 !HOME=../usr

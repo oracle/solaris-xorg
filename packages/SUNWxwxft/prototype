@@ -26,12 +26,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#	"@(#)prototype	1.8	07/09/18   Sun Microsystems" 
+#	"@(#)prototype	1.9	08/03/07   Sun Microsystems" 
 #
 # Xft
 
 i pkginfo
-i copyright=copyright
+i copyright
 i depend
 
 !HOME=../usr

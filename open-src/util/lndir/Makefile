@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/05/15
+# @(#)Makefile	1.4	08/03/07
 #
 
 PWD:sh=pwd
@@ -64,5 +64,5 @@ $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(PROG_CFLAGS) $(LDFLAGS)" LDFLAGS="$(PROG_LDFLAGS)" PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/pkgconfig:$(PROTODIR)/usr/X11/lib/pkgconfig ./configure $(LNDIR_CFG) )
 
 # Install
-install_gen: $(SOURCE_DIR)/Makefile
+install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)

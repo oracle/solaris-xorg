@@ -29,12 +29,12 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.18	08/02/22
+#	@(#)prototype	35.19	08/03/07
 #
 #  X Window System demo programs
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend
 i postinstall
 

@@ -145,3 +145,175 @@ Except as contained in this notice, the name of GROUPE BULL shall not be
 used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from GROUPE BULL.
 
+------------------------------------------------------------------------------
+Files from the app/bdftopcf package are covered by the following notice:
+
+include app/bdftopcf/COPYING
+------------------------------------------------------------------------------
+Files from the app/constype package are covered by the following notice:
+
+include app/constype/COPYING
+------------------------------------------------------------------------------
+Files from the app/editres package are covered by the following notice:
+
+include app/editres/COPYING
+------------------------------------------------------------------------------
+Files from the app/setxkbmap package are covered by the following notice:
+
+include app/setxkbmap/COPYING
+------------------------------------------------------------------------------
+Files from the app/x11perf package are covered by the following notice:
+
+include app/x11perf/COPYING
+------------------------------------------------------------------------------
+Files from the app/xauth package are covered by the following notice:
+
+include app/xauth/COPYING
+------------------------------------------------------------------------------
+Files from the app/xcalc package are covered by the following notice:
+
+include app/xcalc/COPYING
+------------------------------------------------------------------------------
+Files from the app/xclipboard package are covered by the following notice:
+
+include app/xclipboard/COPYING
+------------------------------------------------------------------------------
+Files from the app/xconsole package are covered by the following notice:
+
+include app/xconsole/COPYING
+------------------------------------------------------------------------------
+Files from the app/xdpyinfo package are covered by the following notice:
+
+include app/xdpyinfo/COPYING
+------------------------------------------------------------------------------
+Files from the app/xfd package are covered by the following notice:
+
+include app/xfd/COPYING
+------------------------------------------------------------------------------
+Files from the app/xhost package are covered by the following notice:
+
+include app/xhost/COPYING
+------------------------------------------------------------------------------
+Files from the app/xlsatoms package are covered by the following notice:
+
+include app/xlsatoms/COPYING
+------------------------------------------------------------------------------
+Files from the app/xlsclients package are covered by the following notice:
+
+include app/xlsclients/COPYING
+------------------------------------------------------------------------------
+Files from the app/xmag package are covered by the following notice:
+
+include app/xmag/COPYING
+------------------------------------------------------------------------------
+Files from the app/xmodmap package are covered by the following notice:
+
+include app/xmodmap/COPYING
+------------------------------------------------------------------------------
+Files from the app/xprop package are covered by the following notice:
+
+include app/xprop/COPYING
+------------------------------------------------------------------------------
+Files from the app/xrdb package are covered by the following notice:
+
+include app/xrdb/COPYING
+------------------------------------------------------------------------------
+Files from the app/xrefresh package are covered by the following notice:
+
+include app/xrefresh/COPYING
+------------------------------------------------------------------------------
+Files from the app/xset package are covered by the following notice:
+
+include app/xset/COPYING
+------------------------------------------------------------------------------
+Files from the app/xsetroot package are covered by the following notice:
+
+include app/xsetroot/COPYING
+------------------------------------------------------------------------------
+Files from the app/xstdcmap package are covered by the following notice:
+
+include app/xstdcmap/COPYING
+------------------------------------------------------------------------------
+Files from the app/xwd package are covered by the following notice:
+
+include app/xwd/COPYING
+------------------------------------------------------------------------------
+Files from the app/xwininfo package are covered by the following notice:
+
+include app/xwininfo/COPYING
+------------------------------------------------------------------------------
+Files from the app/xwud package are covered by the following notice:
+
+include app/xwud/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libSM package are covered by the following notice:
+
+include lib/libSM/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libX11 package are covered by the following notice:
+
+include lib/libX11/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXau package are covered by the following notice:
+
+include lib/libXau/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXaw package are covered by the following notice:
+
+include lib/libXaw/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXcomposite package are covered by the following notice:
+
+include lib/libXcomposite/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXcursor package are covered by the following notice:
+
+include lib/libXcursor/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXdamage package are covered by the following notice:
+
+include lib/libXdamage/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXdmcp package are covered by the following notice:
+
+include lib/libXdmcp/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXfixes package are covered by the following notice:
+
+include lib/libXfixes/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXi package are covered by the following notice:
+
+include lib/libXi/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXinerama package are covered by the following notice:
+
+include lib/libXinerama/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXlg3d package are covered by the following notice:
+
+include lib/libXlg3d/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXmu package are covered by the following notice:
+
+include lib/libXmu/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXpm package are covered by the following notice:
+
+include lib/libXpm/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXrender package are covered by the following notice:
+
+include lib/libXrender/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXres package are covered by the following notice:
+
+include lib/libXres/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXt package are covered by the following notice:
+
+include lib/libXt/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXtst package are covered by the following notice:
+
+include lib/libXtst/COPYING

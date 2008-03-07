@@ -26,12 +26,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.44	08/02/29 SMI"
+# ident "@(#)prototype	35.45	08/03/07 SMI"
 ##
 #  nonessential X core clients and server extensions
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend
 
 !HOME=../usr

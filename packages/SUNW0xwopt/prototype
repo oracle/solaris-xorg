@@ -29,12 +29,12 @@
 #
 ###########################################################################
 #
-#       "@(#)prototype	1.10	08/02/29   Sun Microsystems" 
+#       "@(#)prototype	1.11	08/03/07   Sun Microsystems" 
 #
 # X Window System optional client localizable files
 
 i pkginfo
-i copyright=../copyright
+i copyright
 #i depend
 
 !HOME=../openwin

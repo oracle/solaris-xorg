@@ -29,12 +29,12 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.16     08/02/29 SMI"
+# ident "@(#)prototype 1.17     08/03/07 SMI"
 #
 # X Window System required core package localizable files
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend
 
 !HOME=../usr

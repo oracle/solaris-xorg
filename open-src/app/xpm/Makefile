@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/07/20
+# @(#)Makefile	1.7	08/03/07
 #
 
 PWD:sh=pwd
@@ -87,9 +87,9 @@ build_gen: $(APP_BIN)
 $(APP_BIN): $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS))
 
-install_gen: $(APP_BIN)
+install_gen:: $(APP_BIN)
 	(cd $(SOURCE_DIR)/cxpm ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
 	(cd $(SOURCE_DIR)/sxpm ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	(cd $(SOURCE_DIR)/cxpm ; cp -p cxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))
-	(cd $(SOURCE_DIR)/sxpm ; cp -p sxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))
+	(cd $(SOURCE_DIR)/cxpm ; cp -pf cxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))
+	(cd $(SOURCE_DIR)/sxpm ; cp -pf sxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))

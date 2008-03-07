@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/10/08
+# @(#)Makefile	1.8	08/03/07
 #
 
 PWD:sh=pwd
@@ -112,7 +112,7 @@ all-xdemos_gen: $(UNPACK_TARGET)
 all-xdemos:
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) all-xdemos_gen
 
-install_gen: $(INSTALL_TARGETS)
+install_gen:: $(INSTALL_TARGETS)
 
 install_glxgears: $(GLXGEARS_BIN)
 	mkdir -p $(MESA_prefix)/bin

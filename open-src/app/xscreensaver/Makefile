@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.87	08/02/27
+# @(#)Makefile	1.88	08/03/07
 #
 
 PWD:sh=pwd
@@ -192,7 +192,7 @@ $(XS_MAN):
 	    -a '{Availability, SUNWxscreensaver-hacks-gl} {Interface Stability, Private}' \
 		-p /usr/X11/lib/xscreensaver/hacks/ $(SOURCE_DIR)/hacks/glx/*.man
 
-install_gen: $(XS_BIN) $(XS_MAN) $(XS_POT)
+install_gen:: $(XS_BIN) $(XS_MAN) $(XS_POT)
 	chmod +w $(SOURCE_DIR)/hacks/vidwhacker \
 		$(SOURCE_DIR)/hacks/webcollage \
 		$(SOURCE_DIR)/driver/xscreensaver-getimage-file \

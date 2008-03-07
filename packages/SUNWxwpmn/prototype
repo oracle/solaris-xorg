@@ -26,12 +26,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype	35.41	08/03/05   Sun Microsystems" 
+#	"@(#)prototype	35.42	08/03/07   Sun Microsystems" 
 #
 #  X Window System programmers man pages
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend=../depend
 
 !HOME=../usr

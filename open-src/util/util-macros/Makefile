@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/06/13
+# @(#)Makefile	1.2	08/03/07
 #
 
 PWD:sh=pwd
@@ -66,5 +66,5 @@ $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 	 ./configure $(CONFIG_OPTS) )
 
 # Install
-install_gen: $(SOURCE_DIR)/Makefile
+install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)

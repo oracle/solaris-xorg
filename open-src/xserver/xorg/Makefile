@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.62	08/02/28
+# @(#)Makefile	1.63	08/03/07
 #
 
 # Build 32-bit or 64-bit?
@@ -117,7 +117,7 @@ EXTRA_INSTALL_sparc=install_pc
 EXTRA_INSTALL_i386=
 EXTRA_INSTALL=$(EXTRA_INSTALL_$(MACH))
 
-install_gen: $(XORGSERVER_BIN) $(EXTRA_INSTALL)
+install_gen:: $(XORGSERVER_BIN) $(EXTRA_INSTALL)
 	(cd $(SOURCE_DIR) ;  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
 	 DESTDIR=$(PROTODIR) CPPROG="cp -p" \
 	 pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig )

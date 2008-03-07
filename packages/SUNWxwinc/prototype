@@ -27,12 +27,12 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.79	08/02/27 SMI"
+# ident	"@(#)prototype	35.81	08/03/07 SMI"
 #
 #  X Window System include files
 
 i pkginfo
-i copyright=../copyright
+i copyright
 i depend=../depend
 
 !HOME=../usr

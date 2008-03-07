@@ -26,12 +26,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.166    08/03/06   Sun Microsystems"
+#      "@(#)prototype_com	35.167    08/03/07   Sun Microsystems"
 #
 # X Window System required core package
 
 i pkginfo
-i copyright=copyright
+i copyright
 i depend
 
 !HOME=../usr

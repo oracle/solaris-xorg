@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/12/13
+# @(#)Makefile	1.7	08/03/07
 #
 
 # Package name used in tarballs
@@ -99,6 +99,10 @@ COMPILER=cc
 XVNCSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
 BUILD_TARGETS=$(XVNCSERVER_BIN)
+
+# License file
+LICENSE_FILE=LICENCE.txt
+LICENSE_FILE_SET=yes
 
 default: all
 
@@ -202,7 +206,7 @@ $(XVNCSERVER_BIN): $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 	(cd $(SOURCE_DIR)/unix ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
 	(cd $(XORG_BUILD_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
 
-install_gen: $(XVNCSERVER_BIN)
+install_gen:: $(XVNCSERVER_BIN)
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
 	 &&  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
 	 DESTDIR=$(PROTODIR) CPPROG="cp -p" )
