@@ -10,39 +10,17 @@
  
  #
  # The util directory contains a program that builds some of the sources. 
---- src/Makefile.in	Tue Mar  4 16:36:48 2008
-+++ src/Makefile.in	Wed Mar  5 12:44:55 2008
-@@ -284,7 +284,8 @@
- 
- DISTCLEANFILES = StringDefs.c
- libXt_la_LIBADD = @XT_LIBS@
--libXt_la_LDFLAGS = -version-number 6:0:0 -no-undefined
-+libXt_la_LDFLAGS = -version-number 4:0:0 -no-undefined \
-+	-M $(top_srcdir)/../../mapfile-vers
- 
- #
- # The util directory contains a program that builds some of the sources. 
 --- configure.ac	Wed Mar  5 10:10:39 2008
 +++ configure.ac	Wed Mar  5 10:33:20 2008
-@@ -43,7 +43,7 @@
+@@ -43,8 +43,6 @@
  AC_CHECK_HEADER([alloca.h], AC_DEFINE(INCLUDE_ALLOCA_H, 1, [Define to 1 if Xalloca.h should include <alloca.h>]))
  
  # Map function checks to old Imake #defines
 -AC_CHECK_FUNC(poll, AC_DEFINE(USE_POLL,1,
-+AC_CHECK_FUNC(poll, AC_DEFINE(USE_POLL,0,
-         [Define to 1 if you have the `poll' function.]))
+-        [Define to 1 if you have the `poll' function.]))
  AC_CHECK_FUNC(snprintf, AC_DEFINE(USE_SNPRINTF,1,
          [Define to 1 if you have the `snprintf' function.]))
---- configure	Wed Mar  5 10:26:41 2008
-+++ configure	Wed Mar  5 10:39:20 2008
-@@ -20221,7 +20221,6 @@
- if test $ac_cv_func_poll = yes; then
  
- cat >>confdefs.h <<\_ACEOF
--#define USE_POLL 1
- _ACEOF
- 
- fi
 --- src/Create.c	Tue Mar  4 16:36:48 2008
 +++ src/Create.c	Wed Mar  5 09:23:20 2008
 @@ -398,8 +398,7 @@

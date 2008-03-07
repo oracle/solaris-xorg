@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/01/23
+# @(#)Makefile	1.4	08/03/06
 #
 
 # Package name used in tarballs
@@ -65,10 +65,10 @@ LIB_ADD_CONFIG_OPTS = --with-lint --enable-lint-library
 # Work around libtool brokenness that adds -R `pwd` to libXmu build
 LIB_ADD_BUILD_DEPS=delibtoolize
 
-include ../Makefile.inc
-
 # Regenerate Makefile.in's from Makefile.am's after patching them
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
+AUTORECONF=true
+
+include ../Makefile.inc
 
 # Add-in Sun-added source files
 source_gen::

@@ -1,5 +1,3 @@
-# Makefile for X Consolidation Open Source Library modules
-#
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
@@ -28,83 +26,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	08/03/06
+# @(#)abistrings.patch	1.1 08/03/07
 #
-###############################################################################
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
-
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libfontenc \
-	libICE \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d
-
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
-
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
-
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/lib/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2008-03-07 14:36:14.083670000 -0800
++++ configure.ac	2008-03-07 14:36:17.636942000 -0800
+@@ -80,7 +80,7 @@ AC_DEFINE_DIR([appdefaultdir], [appdefau
+ case $host_os in
+ 	solaris*)
+ 		case $host_cpu in
+-		    sparc*) STRINGSABIOPTIONS="-sparcabi -solarisabinames" ;;
++			# Solaris really uses -intelabi on SPARC too
+ 	   		 *) STRINGSABIOPTIONS="-intelabi -solarisabinames" ;;
+ 		esac
+ 		;;

@@ -30,7 +30,7 @@
 ###########################################################################
 
 #
-# @(#)prototype_sparc	1.9	08/02/27 SMI
+# @(#)prototype_sparc	1.10	08/03/07 SMI
 #
 #  X Window System 64-bit lint libraries
 
@@ -41,4 +41,3 @@
 d none openwin/lib/sparcv9			0755 root bin
 f none openwin/lib/sparcv9/llib-lXaw.ln		0755 root bin
 f none openwin/lib/sparcv9/llib-lXext.ln	0755 root bin
-f none openwin/lib/sparcv9/llib-lXt.ln		0755 root bin

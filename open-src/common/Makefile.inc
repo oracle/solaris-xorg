@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.85	08/02/28
+# @(#)Makefile.inc	1.86	08/03/06
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -230,9 +230,9 @@ $(BUILD_DIR_64)/.unpack_done:
 
 FIX_PC_OPS= \
 	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
-	-e 's|(Requires: .*)\bx11\b|$$1|;' \
 	-e 's|Requires.private: .*$$||;'
 
+#	-e 's|(Requires: .*)\bx11\b|$$1|;' \
 #	-e 's|^prefix=@prefix@|prefix=\$$\{top_builddir\}@prefix@|'
 
 source_gen::
