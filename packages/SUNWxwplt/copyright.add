@@ -202,6 +202,10 @@ Files from the app/xlsclients package are covered by the following notice:
 
 include app/xlsclients/COPYING
 ------------------------------------------------------------------------------
+Files from the app/xlogo package are covered by the following notice:
+
+include app/xlogo/COPYING
+------------------------------------------------------------------------------
 Files from the app/xmag package are covered by the following notice:
 
 include app/xmag/COPYING
