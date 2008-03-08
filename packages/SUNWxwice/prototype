@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.15     08/03/07 SMI"
+# ident "@(#)prototype 1.16     08/03/07 SMI"
 #
 #    X Window System ICE library
 
@@ -42,7 +42,12 @@ i depend
 d none X11				0755 root bin
 
 !search      $HOME/bin
+d none X11                      0755 root bin
 d none X11/bin			0755 root bin
+d none openwin                  0755 root bin
+d none openwin/bin              0755 root bin
+
+# iceauth executable
 f none X11/bin/iceauth		0755 root bin
 
 # Backwards compatible symbolic link
@@ -50,6 +55,7 @@ s none openwin/bin/iceauth=../../X11/bin/iceauth
 
 !search  $HOME/lib
 d none X11/lib 			0755 root bin
+d none openwin/lib		0755 root bin
 f none X11/lib/libICE.so.6=$HOME/lib/libICE.so.6.3.0      0755 root bin
 s none X11/lib/libICE.so=./libICE.so.6
 
@@ -65,6 +71,8 @@ f none X11/lib/$plat_64/libICE.so.6=$HOME/lib/$plat_64/libICE.so.6.3.0  0755 roo
 s none X11/lib/$plat_64/libICE.so=./libICE.so.6
 
 # 64-bit Backwards compatible symbolic links
+d none openwin/lib/$plat_64                             0755 root bin
+s none openwin/lib/64=$plat_64
 s none openwin/lib/$plat_64/libICE.so.6=../../../X11/lib/64/libICE.so.6
 s none openwin/lib/$plat_64/libICE.so=../../../X11/lib/64/libICE.so.6
 
