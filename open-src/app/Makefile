@@ -28,9 +28,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.36	08/03/07
+# @(#)Makefile	1.37	08/03/10
 #
 ###############################################################################
+
+# Dependency ordering:
+#  rss-glx needs to come after xscreensaver
 
 OS_SUBDIRS_common = \
 	appres \
@@ -78,7 +81,8 @@ OS_SUBDIRS_common = \
 	xwd \
 	xwininfo \
 	xwud \
-	xscreensaver
+	xscreensaver \
+	rss-glx
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 

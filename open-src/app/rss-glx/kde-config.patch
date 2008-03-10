@@ -1,0 +1,11 @@
+--- reallyslick/cpp_src/Makefile.am~	2006-02-25 12:21:23.000000000 -0800
++++ reallyslick/cpp_src/Makefile.am	2008-03-07 16:20:54.728537000 -0800
+@@ -19,7 +19,7 @@
+ dist_config_DATA = cyclone.xml fieldlines.xml flocks.xml flux.xml helios.xml hyperspace.xml plasma.xml skyrocket.xml solarwinds.xml
+ endif
+ 
+-if INSTALL_XSCREENSAVER_CONFIG_FILES
++if INSTALL_KDE_CONFIG_FILES
+ dist_kdessconfig_DATA = cyclone.desktop fieldlines.desktop flocks.desktop flux.desktop helios.desktop hyperspace.desktop plasma.desktop skyrocket.desktop solarwinds.desktop
+ endif
+ 

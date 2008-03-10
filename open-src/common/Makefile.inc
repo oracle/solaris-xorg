@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.87	08/03/07
+# @(#)Makefile.inc	1.88	08/03/10
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -62,8 +62,9 @@ MACH64= $(MACH64_$(MACH))
 
 ### Default compiler & options
 CC     			= cc
-GCC			= /usr/sfw/bin/gcc
 CXX			= CC
+GCC			= /usr/sfw/bin/gcc
+GXX			= /usr/sfw/bin/g++
 DEFAULT_OPT_FLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch -xdepend
 DEFAULT_OPT_CFLAGS	= $(DEFAULT_OPT_FLAGS) -xstrconst
 DEFAULT_OPT_CXXFLAGS	= $(DEFAULT_OPT_FLAGS)

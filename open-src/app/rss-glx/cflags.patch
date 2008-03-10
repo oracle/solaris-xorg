@@ -1,0 +1,27 @@
+--- configure.in	Sat Feb 25 13:10:54 2006
++++ configure.in	Tue May 16 15:52:18 2006
+@@ -7,18 +7,18 @@
+ AC_PROG_AWK
+ 
+ AC_PROG_CC
+-CFLAGS=-g
++DEBUG_CFLAGS=-g
+ AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
+     [build with debugging information default=yes])],
+-    [test "$enableval" = "no" && CFLAGS="-O2"])
+-CFLAGS="$CFLAGS -Wall"
++    [test "$enableval" = "no" && DEBUG_CFLAGS="-O2"])
++CFLAGS="$DEBUG_CFLAGS -Wall $CFLAGS"
+ 
+ AC_PROG_CXX
+-CXXFLAGS=-g
++DEBUG_CXXFLAGS=-g
+ AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
+     [build with debugging information default=yes])],
+-    [test "$enableval" = "no" && CXXFLAGS="-O2"])
+-CXXFLAGS="$CXXFLAGS -Wall"
++    [test "$enableval" = "no" && DEBUG_CXXFLAGS="-O2"])
++CXXFLAGS="$DEBUG_CXXFLAGS -Wall $CXXFLAGS"
+ 
+ AC_PROG_INSTALL
+ AM_DISABLE_SHARED

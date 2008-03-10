@@ -1,0 +1,11 @@
+--- other_src/busyspheres.c	Sat Apr  9 15:10:50 2005
++++ other_src/busyspheres.c	Tue May 16 13:30:02 2006
+@@ -40,7 +40,7 @@
+ 
+ int OldMode = 0, NewMode;
+ float ConvertTime = 0;
+-float Points[NRPOINTS][3];
++float Points[NRPOINTS][4];
+ 
+ void hack_reshape (xstuff_t * XStuff)
+ {

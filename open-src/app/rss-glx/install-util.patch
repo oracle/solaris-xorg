@@ -1,0 +1,36 @@
+--- utils/rss-glx_install.pl~	Sat Apr  9 19:09:41 2005
++++ utils/rss-glx_install.pl	Fri May 12 00:31:55 2006
+@@ -1,10 +1,10 @@
+ #!/usr/bin/env perl
+ use strict;
+ 
+-if (`ps x | grep ' xscreensaver ' | grep -v grep`) {
+-	print "XScreenSaver seems to be running. Exit it before running this script.\n";
+-	exit;
+-}
++#if (`ps x | grep ' xscreensaver ' | grep -v grep`) {
++#	print "XScreenSaver seems to be running. Exit it before running this script.\n";
++#	exit;
++#}
+ 
+ my $screensavers = { };
+ 
+@@ -28,15 +28,15 @@
+ $screensavers->{'spirographx'} 	= '  GL:            "SpirographX"  spirographx --root                          \\n\\';
+ $screensavers->{'matrixview'} 	= '  GL:             "MatrixView"  matrixview --root                           \\n\\';
+ 
+-open XSCREENSAVER, "$ENV{'HOME'}/.xscreensaver";
++open XSCREENSAVER, "$ARGV[0]";
+ my @xscreensaver_config_file = <XSCREENSAVER>;
+ close XSCREENSAVER;
+ 
+-open XSCREENSAVER, ">$ENV{'HOME'}/.xscreensaver";
++open XSCREENSAVER, ">$ARGV[0]";
+ 
+ my $programs_section_flag = 0;
+ foreach my $line (@xscreensaver_config_file) {
+-	if ($line =~ /^programs:/) {
++	if ($line =~ /^\*programs:/) {
+ 		$programs_section_flag = 1;
+ 	} elsif ($programs_section_flag) {
+ 		if ($line =~ /\\\s+/) {

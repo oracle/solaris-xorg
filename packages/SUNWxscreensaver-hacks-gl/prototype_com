@@ -1,5 +1,5 @@
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	1.6	06/08/09 SMI"
+# ident	"@(#)prototype_com	1.7	08/03/10 SMI"
 #
 
 i pkginfo
@@ -46,6 +46,8 @@ f none X11/lib/xscreensaver/bin/xscreensaver-gl-helper 0555 root bin
 
 !search      $HOME/lib/xscreensaver/hacks
 d none X11/lib/xscreensaver/hacks 0755 root bin
+
+# Hacks from open-src/app/xscreensaver:
 f none X11/lib/xscreensaver/hacks/antinspect 0555 root bin
 f none X11/lib/xscreensaver/hacks/antmaze 0555 root bin
 f none X11/lib/xscreensaver/hacks/antspotlight 0555 root bin
@@ -116,11 +118,34 @@ f none X11/lib/xscreensaver/hacks/tangram 0555 root bin
 f none X11/lib/xscreensaver/hacks/timetunnel 0555 root bin
 f none X11/lib/xscreensaver/hacks/topblock 0555 root bin
 
+# Hacks from open-src/app/rss-glx:
+f none X11/lib/xscreensaver/hacks/biof		0555 root bin
+f none X11/lib/xscreensaver/hacks/busyspheres	0555 root bin
+f none X11/lib/xscreensaver/hacks/colorfire	0555 root bin
+f none X11/lib/xscreensaver/hacks/cyclone	0555 root bin
+f none X11/lib/xscreensaver/hacks/euphoria	0555 root bin
+f none X11/lib/xscreensaver/hacks/fieldlines	0555 root bin
+f none X11/lib/xscreensaver/hacks/flocks	0555 root bin
+f none X11/lib/xscreensaver/hacks/flux		0555 root bin
+f none X11/lib/xscreensaver/hacks/helios	0555 root bin
+f none X11/lib/xscreensaver/hacks/hufo_smoke	0555 root bin
+f none X11/lib/xscreensaver/hacks/hufo_tunnel	0555 root bin
+f none X11/lib/xscreensaver/hacks/hyperspace	0555 root bin
+f none X11/lib/xscreensaver/hacks/lattice	0555 root bin
+f none X11/lib/xscreensaver/hacks/matrixview	0555 root bin
+f none X11/lib/xscreensaver/hacks/plasma	0555 root bin
+f none X11/lib/xscreensaver/hacks/skyrocket	0555 root bin
+f none X11/lib/xscreensaver/hacks/solarwinds	0555 root bin
+f none X11/lib/xscreensaver/hacks/spirographx	0555 root bin
+f none X11/lib/xscreensaver/hacks/sundancer2	0555 root bin
+
 !search $HOME/share/man/man6
-1 s none X11/man=share/man
-1 d none X11/share 0755 root bin
-1 d none X11/share/man 0755 root bin
+s none X11/man=share/man
+d none X11/share 0755 root bin
+d none X11/share/man 0755 root bin
 d none X11/share/man/man6 0755 root bin
+
+# Hacks from open-src/app/xscreensaver:
 f none X11/share/man/man6/xscreensaver-gl-helper.6 0444 root bin
 f none X11/share/man/man6/antinspect.6 0444 root bin
 f none X11/share/man/man6/antmaze.6 0444 root bin
@@ -193,9 +218,32 @@ f none X11/share/man/man6/tangram.6 0444 root bin
 f none X11/share/man/man6/timetunnel.6 0444 root bin
 f none X11/share/man/man6/topblock.6 0444 root bin
 
+# Hacks from open-src/app/rss-glx:
+f none X11/share/man/man6/biof.6		0444 root bin
+f none X11/share/man/man6/busyspheres.6		0444 root bin
+f none X11/share/man/man6/colorfire.6		0444 root bin
+f none X11/share/man/man6/cyclone.6		0444 root bin
+f none X11/share/man/man6/euphoria.6		0444 root bin
+f none X11/share/man/man6/fieldlines.6		0444 root bin
+f none X11/share/man/man6/flocks.6		0444 root bin
+f none X11/share/man/man6/flux.6		0444 root bin
+f none X11/share/man/man6/helios.6		0444 root bin
+f none X11/share/man/man6/hufo_smoke.6		0444 root bin
+f none X11/share/man/man6/hufo_tunnel.6		0444 root bin
+f none X11/share/man/man6/lattice.6		0444 root bin
+f none X11/share/man/man6/matrixview.6		0444 root bin
+f none X11/share/man/man6/plasma.6		0444 root bin
+f none X11/share/man/man6/skyrocket.6		0444 root bin
+f none X11/share/man/man6/solarwinds.6		0444 root bin
+f none X11/share/man/man6/spirographx.6		0444 root bin
+f none X11/share/man/man6/sundancer2.6		0444 root bin
+
+
 !search      $HOME/lib/xscreensaver/config/control-center-2.0/
 d none X11/lib/xscreensaver/config 0755 root bin
 d none X11/lib/xscreensaver/config/control-center-2.0 0755 root other
+
+# Hacks from open-src/app/xscreensaver:
 f none X11/lib/xscreensaver/config/control-center-2.0/antinspect.xml 0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/antmaze.xml 0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/antspotlight.xml 0444 root bin
@@ -268,3 +316,23 @@ f none X11/lib/xscreensaver/config/control-center-2.0/timetunnel.xml 0444 root b
 f none X11/lib/xscreensaver/config/control-center-2.0/topblock.xml 0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/xplanet.xml 0444 root bin
 
+# Hacks from open-src/app/rss-glx:
+f none X11/lib/xscreensaver/config/control-center-2.0/biof.xml		0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/busyspheres.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/colorfire.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/cyclone.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/euphoria.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/fieldlines.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/flocks.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/flux.xml		0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/helios.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/hufo_smoke.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/hufo_tunnel.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/hyperspace.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/lattice.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/matrixview.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/plasma.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/skyrocket.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/solarwinds.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/spirographx.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/sundancer2.xml	0444 root bin
