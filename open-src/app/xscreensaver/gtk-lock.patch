@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -80,7 +80,7 @@ diff -urp -x '*~' configure.in configure.in
      AC_CACHE_CHECK([for Gtk includes], ac_cv_gtk_config_cflags,
                     [ac_cv_gtk_config_cflags=`$pkg_config --cflags $pkgs`])
      AC_CACHE_CHECK([for Gtk libs], ac_cv_gtk_config_libs,
-@@ -3500,6 +3505,28 @@ if test "$have_gtk" = yes; then
+@@ -3500,6 +3505,16 @@ if test "$have_gtk" = yes; then
    ALL_DEMO_PROGRAMS="$PREFERRED_DEMO_PROGRAM $ALL_DEMO_PROGRAMS"
  fi
  
@@ -93,18 +93,6 @@ diff -urp -x '*~' configure.in configure.in
 +  ALL_LOCK_PROGRAMS="$PREFERRED_LOCK_PROGRAM $ALL_LOCK_PROGRAMS"
 +  LOCK_PROGRAM=xscreensaver-lock
 +fi
-+
-+if test -r driver/sunlogo.xpm ; then
-+	XPM_LOGO_FILE=sunlogo.xpm
-+	XPM_LOGO_NAME=sunlogo_xpm
-+else
-+	XPM_LOGO_FILE=../utils/images/logo-180.xpm
-+	XPM_LOGO_NAME=logo_180_xpm
-+fi
-+
-+AC_SUBST([XPM_LOGO_FILE])
-+AC_SUBST([XPM_LOGO_NAME])
-+
 +#--- End SUNW addition
  
  if test "$have_kerberos" = yes; then
@@ -220,7 +208,7 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  
  .m.o:
  	$(OBJCC) -c $(INCLUDES) $(DEFS) $(CFLAGS) $(X_CFLAGS) $<
-@@ -757,6 +770,19 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
+@@ -757,6 +770,16 @@ demo-Gtk-conf.o: demo-Gtk-conf.c
  	$(CC) -c $(INCLUDES) $(CONF_DEFS) $(GTK_DEFS) $(CFLAGS) $(X_CFLAGS) \
  	  $(srcdir)/demo-Gtk-conf.c
  
@@ -230,12 +218,9 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
 +	  $(srcdir)/lock.c
 +
 +# lock-Gtk takes extra -D and -I options.
-+GTK_LOCK_LOGO_DEFS=-DXPM_LOGO_FILE=\"@XPM_LOGO_FILE@\" \
-+		  -DXPM_LOGO_NAME=@XPM_LOGO_NAME@
-+
 +lock-Gtk.o: lock-Gtk.c
 +	$(CC) -c $(INCLUDES) -I$(ICON_SRC) $(GTK_DEFS) \
-+	  $(CFLAGS) $(X_CFLAGS) $(INTL_DEFS) $(GTK_LOCK_LOGO_DEFS) \
++	  $(CFLAGS) $(X_CFLAGS) $(INTL_DEFS) \
 +	  $(srcdir)/lock-Gtk.c
  
  # How we build the default app-defaults file into the program.

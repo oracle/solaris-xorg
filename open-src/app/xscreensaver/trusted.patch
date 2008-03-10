@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -30,28 +30,6 @@
 
 Support needed for Solaris Trusted Extensions / Trusted Java Desktop System.
 
-diff -urp -x '*~' configure.in configure.in
---- configure.in	2006-09-19 17:08:52.782397000 -0700
-+++ configure.in	2006-09-19 17:08:57.994986000 -0700
-@@ -3526,6 +3526,18 @@ fi
- AC_SUBST([XPM_LOGO_FILE])
- AC_SUBST([XPM_LOGO_NAME])
- 
-+if test -r driver/tsunlogo.xpm ; then
-+	TRUSTED_XPM_LOGO_FILE=tsunlogo.xpm
-+	TRUSTED_XPM_LOGO_NAME=tsunlogo_xpm
-+	TRUSTED_XPM_COMMENT=""
-+else
-+	TRUSTED_XPM_COMMENT="#"
-+fi
-+
-+AC_SUBST([TRUSTED_XPM_LOGO_FILE])
-+AC_SUBST([TRUSTED_XPM_LOGO_NAME])
-+AC_SUBST([TRUSTED_XPM_COMMENT])
-+
- #--- End SUNW addition
- 
- if test "$have_kerberos" = yes; then
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
 --- driver/Makefile.in	2006-09-19 17:08:52.909585000 -0700
 +++ driver/Makefile.in	2006-09-19 17:08:58.014661000 -0700
@@ -66,18 +44,6 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  PWENT_SRCS	= passwd-pwent.c
  PWENT_OBJS	= passwd-pwent.o
  
-@@ -776,8 +780,10 @@ lock.o:
- 	  $(srcdir)/lock.c
- 
- # lock-Gtk takes extra -D and -I options.
-+@TRUSTED_XPM_COMMENT@ TRUSTED_LOGO_DEFS=-DTRUSTED_XPM_LOGO_FILE=\"@TRUSTED_XPM_LOGO_FILE@\" \
-+@TRUSTED_XPM_COMMENT@		  -DTRUSTED_XPM_LOGO_NAME=@TRUSTED_XPM_LOGO_NAME@
- GTK_LOCK_LOGO_DEFS=-DXPM_LOGO_FILE=\"@XPM_LOGO_FILE@\" \
--		  -DXPM_LOGO_NAME=@XPM_LOGO_NAME@
-+		  -DXPM_LOGO_NAME=@XPM_LOGO_NAME@ $(TRUSTED_LOGO_DEFS)
- 
- lock-Gtk.o: lock-Gtk.c
- 	$(CC) -c $(INCLUDES) -I$(ICON_SRC) $(GTK_DEFS) \
 @@ -796,8 +802,9 @@ XScreenSaver_Xm_ad.h: XScreenSaver-Xm.ad
  
  # The executables linked in this directory.

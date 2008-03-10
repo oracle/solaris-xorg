@@ -13,7 +13,7 @@
 /* GTK+ locking code written by Jacob Berkman  <jacob@ximian.com> for
  *  Sun Microsystems.
  *
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -55,6 +55,9 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
@@ -173,6 +176,24 @@ else
 
 }
 
+static GtkWidget *
+load_unlock_logo_image(void)
+{
+  const char *logofile;
+  struct stat statbuf;
+
+  if ( tsol_is_multi_label_session() )
+      logofile = DEFAULT_ICONDIR "/trusted-logo.png";
+  else
+      logofile = DEFAULT_ICONDIR "/unlock-logo.png";
+
+  if (stat(logofile, &statbuf) != 0) {
+      logofile = DEFAULT_ICONDIR "/logo-180.gif"; /* fallback */
+  }
+  
+  return gtk_image_new_from_file (logofile);
+}
+
 /*
 ** 6182506: scr dialog is obscurred byg MAG window
 */
@@ -284,15 +305,9 @@ atk_make_dialog (gboolean center_pos)
   /* AT role= filler(default) */
   atk_hbox = gtk_widget_get_accessible(hbox);
 
- 
 
   /* image */
-#ifdef TRUSTED_XPM_LOGO_NAME
-  if ( tsol_is_multi_label_session() )
-      image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"TRUSTED_XPM_LOGO_FILE);
-  else
-#endif      
-  image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"XPM_LOGO_FILE);
+  image = load_unlock_logo_image();
 
   gtk_container_add (GTK_CONTAINER (frame2), image);
 
@@ -593,12 +608,7 @@ make_dialog (void)
 		      TRUE, TRUE, 0);
 
   /* image */
-#ifdef TRUSTED_XPM_LOGO_NAME
-  if ( tsol_is_multi_label_session() )
-    image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"TRUSTED_XPM_LOGO_FILE);
-  else
-#endif      
-  image = gtk_image_new_from_file (DEFAULT_ICONDIR"/"XPM_LOGO_FILE);
+  image = load_unlock_logo_image();
 
   gtk_container_add (GTK_CONTAINER (frame), image);
 

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.88	08/03/07
+# @(#)Makefile	1.89	08/03/07
 #
 
 PWD:sh=pwd
@@ -125,6 +125,8 @@ POT_DEST=$(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
 
 # Logo images
 LOGO_DEST=$(PROTODIR)/usr/X11/lib/xscreensaver/config
+LOGO_FILES=$(SOURCE_DIR)/utils/images/logo-180.gif \
+	$(SOURCE_DIR)/driver/*logo.png
 
 # Man pages
 XS_MAN=$(SOURCE_DIR)/driver/xscreensaver.man.orig
@@ -202,5 +204,12 @@ install_gen:: $(XS_BIN) $(XS_MAN) $(XS_POT)
 	mkdir -p $(POT_DEST)
 	cp -pf $(XS_POT) $(POT_DEST)/xscreensaver.pot
 	mkdir -p $(LOGO_DEST)
-	cp -pf $(SOURCE_DIR)/driver/*logo.xpm $(LOGO_DEST)
+	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; set -x ; \
+	for i in $(LOGO_FILES) ; do \
+	    case $$i in \
+		*\**) ;; \
+		*) cp -pf $$i $(LOGO_DEST) ;; \
+	    esac ; \
+	done
+
 
