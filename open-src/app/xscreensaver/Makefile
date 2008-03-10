@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.89	08/03/07
+# @(#)Makefile	1.90	08/03/10
 #
 
 PWD:sh=pwd
@@ -82,7 +82,8 @@ SOURCE_PATCHES = \
 	bug-6475285.patch \
         XScr.ad.lockTimeout.patch \
 	bug-6583181.patch \
-        notice_events.patch
+        notice_events.patch \
+	bug-6670659.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
