@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/03/07
+# @(#)Makefile	1.3	08/03/10
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
 # Version number (used in path names)
-VERSION=2.19
+VERSION=2.24
 
 # Source tarball
-SOURCE_TARBALL_NAME=dejavu-ttf-$(VERSION).tar.bz2
+SOURCE_TARBALL_NAME=dejavu-fonts-ttf-$(VERSION).tar.bz2
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
@@ -50,7 +50,7 @@ SOURCE_URL_SET=yes
 SOURCE_PATCHES=		# None
 
 # Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/dejavu-ttf-$(VERSION)
+SOURCE_DIR=$(BUILD_DIR)/dejavu-fonts-ttf-$(VERSION)
 
 # What to build
 BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
@@ -93,16 +93,16 @@ DEJAVU_FONT_FILES= \
 build_gen: $(BUILD_TARGETS)
 
 $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && \
+	(cd $(SOURCE_DIR)/ttf && \
 	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
 
 install_gen:: $(BUILD_TARGETS)
 	mkdir -p $(DEST_DIR)
 	-( cd $(DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
-	( cd $(SOURCE_DIR) ; cp -p $(DEJAVU_FONT_FILES) $(DEST_DIR) )
+	( cd $(SOURCE_DIR)/ttf ; cp -p $(DEJAVU_FONT_FILES) $(DEST_DIR) )
 	cp -p $(SOURCE_DIR)/LICENSE $(DEST_DIR)/DejaVuFontsCopyright.txt 
 	touch $(DEST_DIR)/fonts.scale
 	chmod +w $(DEST_DIR)/fonts.scale
 	../merge-fonts.scale.pl -i $(DEST_DIR)/fonts.scale \
-		-i $(SOURCE_DIR)/fonts.scale -o $(DEST_DIR)/fonts.scale
+		-i $(SOURCE_DIR)/ttf/fonts.scale -o $(DEST_DIR)/fonts.scale
