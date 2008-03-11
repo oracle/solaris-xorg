@@ -1,4 +1,4 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#	"@(#)prototype	1.9	08/03/07   Sun Microsystems" 
+#	"@(#)prototype	1.10	08/03/10   Sun Microsystems" 
 #
 # Xft
 
@@ -51,6 +51,7 @@ f none X11/lib/libXft.so.2 				0755 root bin
 s none X11/lib/libXft.so=./libXft.so.2
 
 !search  $HOME/lib/pkgconfig
+d none lib						0755 root bin
 d none lib/pkgconfig                                    0755 root other
 f none lib/pkgconfig/xft.pc	                        0444 root other
 

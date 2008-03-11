@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.8     07/12/03 SMI"
+# ident "@(#)prototype 1.9     08/03/10 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -104,6 +104,7 @@ f none X11/include/X11/fonts/pcf.h  		0444 root bin
 
 ## 32-bit versions
 !search $HOME/lib/pkgconfig
+d none lib					0755 root bin
 d none lib/pkgconfig				0755 root bin
 
 # Protocol headers
@@ -123,6 +124,7 @@ f none lib/pkgconfig/xorg-server.pc		0444 root bin
 
 ## 64-bit versions
 !search $HOME/lib/$plat_64/pkgconfig
+d none lib/$plat_64					0755 root bin
 d none lib/$plat_64/pkgconfig				0755 root bin
 
 # Protocol headers are the same in 32-bit & 64-bit

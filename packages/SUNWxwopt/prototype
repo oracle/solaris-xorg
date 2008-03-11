@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.45	08/03/07 SMI"
+# ident "@(#)prototype	35.46	08/03/10 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -77,6 +77,7 @@ f none openwin/lib/app-defaults/Xman 0644 root bin
 
 # modified from original
 !search $HOME/X11/share/X11/twm
+d none X11/share 0755 root bin
 d none X11/share/X11 0755 root bin
 d none X11/share/X11/twm 0755 root bin
 s none X11/share/X11/system.twmrc= ./twm/system.twmrc

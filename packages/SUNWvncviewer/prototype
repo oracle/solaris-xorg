@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.1     07/11/06 SMI"
+# ident "@(#)prototype 1.2     08/03/10 SMI"
 #
 # vncviewer for Solaris
 
@@ -44,6 +44,7 @@ d none bin				0755 root bin
 f none bin/vncviewer			0555 root bin
 
 !search $HOME/share/man/man1
+d none share				0755 root sys
 d none share/man			0755 root bin
 d none share/man/man1			0755 root bin
 f none share/man/man1/vncviewer.1	0444 root bin

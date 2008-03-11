@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.81	08/03/07 SMI"
+# ident	"@(#)prototype	35.82	08/03/10 SMI"
 #
 #  X Window System include files
 
@@ -652,6 +652,7 @@ f none X11/include/X11/Xcursor/Xcursor.h		0444 root bin
 
 ## 32-bit versions
 !search $HOME/lib/pkgconfig
+d none lib					0755 root bin
 d none lib/pkgconfig				0755 root other
 
 # Protocol headers
@@ -704,6 +705,7 @@ f none lib/pkgconfig/xbitmaps.pc		0444 root bin
 
 
 ## 64-bit versions
+d none lib/$plat_64					0755 root bin
 d none lib/$plat_64/pkgconfig				0755 root other
 
 # Protocol headers are the same in 32-bit & 64-bit

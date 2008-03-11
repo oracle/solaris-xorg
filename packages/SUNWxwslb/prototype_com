@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.19	08/03/07 SMI"
+# ident	"@(#)prototype_com	35.20	08/03/10 SMI"
 #
 #  X Window System lint libraries
 
@@ -38,6 +38,7 @@ i depend=../depend
 !HOME=../usr
 
 d none openwin					0755 root bin
+d none X11					0755 root bin
 
 !search      $HOME/openwin/lib
 d none openwin/lib				0755 root bin
