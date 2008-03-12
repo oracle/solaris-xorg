@@ -28,7 +28,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype	1.7	08/03/11 SMI"
+# ident	"@(#)prototype	1.8	08/03/12 SMI"
 #
 # Fontconfig config files
 
@@ -80,7 +80,6 @@ f none etc/fonts/conf.avail/70-yes-bitmaps.conf		0444 root bin
 f none etc/fonts/conf.avail/80-delicious.conf		0444 root bin
 f none etc/fonts/conf.avail/90-synthetic.conf		0444 root bin
 
-!search      $HOME/fonts/conf.d
 d none etc/fonts/conf.d		0755 root sys
 s none etc/fonts/conf.d/20-fix-globaladvance.conf=../conf.avail/20-fix-globaladvance.conf
 s none etc/fonts/conf.d/20-unhint-small-vera.conf=../conf.avail/20-unhint-small-vera.conf
@@ -98,6 +97,16 @@ s none etc/fonts/conf.d/65-nonlatin.conf=../conf.avail/65-nonlatin.conf
 s none etc/fonts/conf.d/69-unifont.conf=../conf.avail/69-unifont.conf
 s none etc/fonts/conf.d/80-delicious.conf=../conf.avail/80-delicious.conf
 s none etc/fonts/conf.d/90-synthetic.conf=../conf.avail/90-synthetic.conf
+
+# From open-src/font/deja-vu:
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-experimental.conf	0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-dejavu.conf	0444 root bin
+f none etc/fonts/conf.avail/57-dejavu.conf		0444 root bin
+f none etc/fonts/conf.avail/61-dejavu-experimental.conf	0444 root bin
+s none etc/fonts/conf.d/20-unhint-small-dejavu-experimental.conf=../conf.avail/20-unhint-small-dejavu-experimental.conf
+s none etc/fonts/conf.d/20-unhint-small-dejavu.conf=../conf.avail/20-unhint-small-dejavu.conf
+s none etc/fonts/conf.d/57-dejavu.conf=../conf.avail/57-dejavu.conf
+s none etc/fonts/conf.d/61-dejavu-experimental.conf=../conf.avail/61-dejavu-experimental.conf
 
 d none var 755 root sys
 d none var/svc 755 root sys

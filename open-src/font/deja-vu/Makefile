@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/10
+# @(#)Makefile	1.4	08/03/12
 #
 
 PWD:sh=pwd
@@ -56,7 +56,8 @@ SOURCE_DIR=$(BUILD_DIR)/dejavu-fonts-ttf-$(VERSION)
 BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
 
 # Directory to install to
-DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
+FONT_DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
+FONTCONF_DEST_DIR=$(PROTODIR)/etc/fonts
 
 # License file
 LICENSE_FILE=LICENSE
@@ -98,11 +99,19 @@ $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
 	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
 
 install_gen:: $(BUILD_TARGETS)
-	mkdir -p $(DEST_DIR)
-	-( cd $(DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
-	( cd $(SOURCE_DIR)/ttf ; cp -p $(DEJAVU_FONT_FILES) $(DEST_DIR) )
-	cp -p $(SOURCE_DIR)/LICENSE $(DEST_DIR)/DejaVuFontsCopyright.txt 
-	touch $(DEST_DIR)/fonts.scale
-	chmod +w $(DEST_DIR)/fonts.scale
-	../merge-fonts.scale.pl -i $(DEST_DIR)/fonts.scale \
-		-i $(SOURCE_DIR)/ttf/fonts.scale -o $(DEST_DIR)/fonts.scale
+	mkdir -p $(FONT_DEST_DIR) \
+		$(FONTCONF_DEST_DIR)/conf.avail \
+		$(FONTCONF_DEST_DIR)/conf.d
+	-( cd $(FONT_DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
+	( cd $(SOURCE_DIR)/ttf ; cp -p $(DEJAVU_FONT_FILES) $(FONT_DEST_DIR) )
+	cp -p $(SOURCE_DIR)/LICENSE $(FONT_DEST_DIR)/DejaVuFontsCopyright.txt 
+	( cd $(SOURCE_DIR)/fontconfig ; set -x ; for f in *.conf ; do \
+		rm -f $(FONTCONF_DEST_DIR)/conf.avail/$$f \
+			$(FONTCONF_DEST_DIR)/conf.d/$$f ; \
+		cp -p $$f $(FONTCONF_DEST_DIR)/conf.avail/ ; \
+		ln -s ../conf.avail/$$f $(FONTCONF_DEST_DIR)/conf.d/ ; \
+	 done )
+	touch $(FONT_DEST_DIR)/fonts.scale
+	chmod +w $(FONT_DEST_DIR)/fonts.scale
+	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
+		-i $(SOURCE_DIR)/ttf/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
