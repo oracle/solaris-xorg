@@ -143,6 +143,10 @@ Files from the lib/libXdmcp package are covered by the following notice:
 
 include lib/libXdmcp/COPYING
 ------------------------------------------------------------------------------
+Files from the lib/libXevie package are covered by the following notice:
+
+include lib/libXevie/COPYING
+------------------------------------------------------------------------------
 Files from the lib/libXfixes package are covered by the following notice:
 
 include lib/libXfixes/COPYING

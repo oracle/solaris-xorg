@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	08/03/06
+# @(#)Makefile	1.17	08/03/12
 #
 ###############################################################################
 
@@ -51,6 +51,7 @@ OS_SUBDIRS_common = \
 	libXau \
 	libXdmcp \
 	libX11 \
+	libXext \
 	libfontenc \
 	libICE \
 	libSM \
@@ -63,6 +64,7 @@ OS_SUBDIRS_common = \
 	libXrender \
 	libXdamage \
 	libXcursor \
+	libXevie \
 	libXfont \
 	libXft \
 	libXi \
@@ -71,6 +73,7 @@ OS_SUBDIRS_common = \
 	libxkbui \
 	libXrandr \
 	libXres \
+	libXScrnSaver \
 	libXtst \
 	libXv \
 	libXvMC \

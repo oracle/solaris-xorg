@@ -1,0 +1,125 @@
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL EXTS, OR ANY EXTS WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
+diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
+--- src/XShm.c	2006-07-11 11:05:14.000000000 -0700
++++ src/XShm.c	2007-12-04 17:30:36.150780000 -0800
+@@ -43,6 +43,13 @@ in this Software without prior written a
+ #include <X11/extensions/Xext.h>
+ #include <X11/extensions/extutil.h>
+ 
++#ifdef SUNSOFT
++#include <fcntl.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <ucred.h>
++#endif
++
+ static XExtensionInfo _shm_info_data;
+ static XExtensionInfo *shm_info = &_shm_info_data;
+ static /* const */ char *shm_extension_name = SHMNAME;
+@@ -140,6 +144,46 @@ event_to_wire (Display *dpy, XEvent *re,
+     return False;
+ }
+ 
++#ifdef SUNSOFT
++/*
++ * Function to determine if a connection is local or not.
++ * Returns: 0 for remote, 1 for local
++ */
++
++static int
++LocalConnection(Display *dpy)
++{
++    int c = ConnectionNumber(dpy);
++    int rv = 0;
++    struct stat statbuf;
++    ucred_t *ucred = NULL;
++
++    if (c >= 0) {
++	/*
++	 * First stat the connection fd.  If we succeed and the type of file
++	 * is a FIFO, then we must be local.
++	 */
++	if ((fstat(c, &statbuf) >= 0) && S_ISFIFO(statbuf.st_mode)) {
++	    return 1;
++	}
++
++	/*
++	 * Then call getpeerucred - if it succeeds, the other end of the
++	 * connection must be on the same machine (though possibly in a
++	 * different zone).
++	 */
++	if (getpeerucred(c, &ucred) == 0) {
++	    if (ucred_getzoneid(ucred) != -1) {
++		rv = 1;
++	    }
++	    ucred_free(ucred);
++	}
++    }
++
++    return rv;
++}
++#endif /* SUNSOFT */
++
+ /*****************************************************************************
+  *                                                                           *
+  *		    public Shared Memory Extension routines                  *
+@@ -149,6 +192,15 @@ event_to_wire (Display *dpy, XEvent *re,
+ Bool XShmQueryExtension (Display *dpy /*  int *event_basep, *error_basep */)
+ {
+     XExtDisplayInfo *info = find_display (dpy);
++#ifdef SUNSOFT
++    /*
++     * Sun Mod -- if we're dealing with a remote connection, then the 
++     * shared memory extension is not valid. Sigh -- this should really
++     * be in the server somewhere... Required for pipe transport PIPECONN
++     */
++    if(!LocalConnection(dpy))
++	return False;
++#endif /* SUNSOFT */
+ 
+     if (XextHasExtension(info)) {
+ /*	*event_basep = info->codes->first_event;
+@@ -181,6 +233,15 @@ Bool XShmQueryVersion(
+     XExtDisplayInfo *info = find_display (dpy);
+     xShmQueryVersionReply rep;
+     register xShmQueryVersionReq *req;
++#ifdef SUNSOFT
++    /*
++     * Sun Mod -- if we're dealing with a remote connection, then the
++     * shared memory extension is not valid. Sigh -- this should really
++     * be in the server somewhere...
++     */  
++    if(!LocalConnection(dpy))
++        return False;
++#endif /* SUNSOFT */
+ 
+     ShmCheckExtension (dpy, info, False);
+ 

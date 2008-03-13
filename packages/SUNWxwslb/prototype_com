@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.20	08/03/10 SMI"
+# ident	"@(#)prototype_com	35.21	08/03/12 SMI"
 #
 #  X Window System lint libraries
 
@@ -44,20 +44,23 @@ d none X11					0755 root bin
 d none openwin/lib				0755 root bin
 s none openwin/lib/llib-lX11.ln=../../X11/lib/llib-lX11.ln
 s none openwin/lib/llib-lXau.ln=../../X11/lib/llib-lXau.ln
+s none openwin/lib/llib-lXext.ln=../../X11/lib/llib-lXext.ln
 f none openwin/lib/llib-lXaw.ln			0755 root bin
-f none openwin/lib/llib-lXext.ln		0755 root bin
 
 !search $HOME/X11/lib
 d none X11/lib					0755 root bin
 f none X11/lib/llib-lX11.ln			0555 root bin
 f none X11/lib/llib-lXau.ln			0555 root bin
-f none X11/lib/llib-lXmu.ln			0755 root bin
-f none X11/lib/llib-lXmuu.ln			0755 root bin
+f none X11/lib/llib-lXext.ln			0555 root bin
+f none X11/lib/llib-lXmu.ln			0555 root bin
+f none X11/lib/llib-lXmuu.ln			0555 root bin
+
 
 !search $HOME/X11/lib/$plat_64
 d none X11/lib/$plat_64				0755 root bin
 f none X11/lib/$plat_64/llib-lX11.ln		0555 root bin
 f none X11/lib/$plat_64/llib-lXau.ln		0555 root bin
+f none X11/lib/$plat_64/llib-lXext.ln		0555 root bin
 f none X11/lib/$plat_64/llib-lXmu.ln		0555 root bin
 f none X11/lib/$plat_64/llib-lXmuu.ln		0555 root bin
 

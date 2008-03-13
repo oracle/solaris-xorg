@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype	35.42	08/03/07   Sun Microsystems" 
+#	"@(#)prototype	35.43	08/03/12   Sun Microsystems" 
 #
 #  X Window System programmers man pages
 
@@ -862,71 +862,90 @@ f none X11/share/man/man3X11/XwcTextListToTextProperty.3X11	0444 root bin
 f none X11/share/man/man3X11/XwcTextPerCharExtents.3X11		0444 root bin
 f none X11/share/man/man3X11/XwcTextPropertyToTextList.3X11	0444 root bin
 
-!search            $HOME/openwin/share/man/man3Xext
-d none openwin/share/man/man3Xext 0755 root bin
-f none openwin/share/man/man3Xext/DBE.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSCapable.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSDisable.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSEnable.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSForceLevel.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSGetTimeouts.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSGetVersion.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSInfo.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSQueryExtension.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/DPMSSetTimeouts.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XReadScreen.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShape.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeCombineMask.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeCombineRectangles.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeCombineRegion.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeCombineShape.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeGetRectangles.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeInputSelected.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeOffsetShape.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeQueryExtension.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeQueryExtents.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeQueryVersion.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XShapeSelectInput.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlCopyAreaAndPaintType.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlCopyPaintType.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlCreateWindow.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlGetPaintType.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlIsOverlayWindow.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlSelectPair.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlSelectPartner.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlSetPaintType.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XSolarisOvlSetWindowTransparent.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XcupGetReservedColormapEntries.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XcupQueryVersion.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XcupStoreColors.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeAllocateBackBufferName.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeBeginIdiom.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeDeallocateBackBufferName.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeEndIdiom.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeFreeVisualInfo.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeGetBackBufferAttributes.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeGetVisualInfo.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeQueryExtension.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XdbeSwapBuffers.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/Xevi.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/Xevie.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XevieQueryVersion.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XevieStart.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XevieSelectInput.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XevieSendEvent.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XevieEnd.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/Xmbuf.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufChangeBufferAttributes.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufChangeWindowAttributes.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufCreateBuffers.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufCreateStereoWindow.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufDestroyBuffers.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufDisplayBuffers.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufGetBufferAttributes.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufGetScreenInfo.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufGetVersion.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufGetWindowAttributes.3Xext  0444 root bin
-f none openwin/share/man/man3Xext/XmbufQueryExtension.3Xext  0444 root bin
+# open-src/lib/libXevie
+!search            $HOME/X11/share/man/man3Xevie
+d none X11/share/man/man3Xevie  0755 root bin
+f none X11/share/man/man3Xevie/Xevie.3Xevie			0444 root bin
+f none X11/share/man/man3Xevie/XevieEnd.3Xevie			0444 root bin
+f none X11/share/man/man3Xevie/XevieQueryVersion.3Xevie		0444 root bin
+f none X11/share/man/man3Xevie/XevieSelectInput.3Xevie		0444 root bin
+f none X11/share/man/man3Xevie/XevieSendEvent.3Xevie		0444 root bin
+f none X11/share/man/man3Xevie/XevieStart.3Xevie		0444 root bin
+
+# open-src/lib/libXext
+!search            $HOME/X11/share/man/man3Xext
+d none X11/share/man/man3Xext  0755 root bin
+f none X11/share/man/man3Xext/DBE.3Xext				0444 root bin
+f none X11/share/man/man3Xext/DPMSCapable.3Xext			0444 root bin
+f none X11/share/man/man3Xext/DPMSDisable.3Xext			0444 root bin
+f none X11/share/man/man3Xext/DPMSEnable.3Xext			0444 root bin
+f none X11/share/man/man3Xext/DPMSForceLevel.3Xext		0444 root bin
+f none X11/share/man/man3Xext/DPMSGetTimeouts.3Xext		0444 root bin
+f none X11/share/man/man3Xext/DPMSGetVersion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/DPMSInfo.3Xext			0444 root bin
+f none X11/share/man/man3Xext/DPMSQueryExtension.3Xext		0444 root bin
+f none X11/share/man/man3Xext/DPMSSetTimeouts.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XReadScreen.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XShape.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XShapeCombineMask.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeCombineRectangles.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XShapeCombineRegion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeCombineShape.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeGetRectangles.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeInputSelected.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeOffsetShape.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeQueryExtension.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XShapeQueryExtents.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeQueryVersion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShapeSelectInput.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShm.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XShmAttach.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XShmCreateImage.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmCreatePixmap.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmDetach.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XShmGetEventBase.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmGetImage.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmPixmapFormat.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmPutImage.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmQueryExtension.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XShmQueryVersion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlCopyAreaAndPaintType.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlCopyPaintType.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlCreateWindow.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlGetPaintType.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlIsOverlayWindow.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlSelectPair.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlSelectPartner.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlSetPaintType.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XSolarisOvlSetWindowTransparent.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XcupGetReservedColormapEntries.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XcupQueryVersion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XcupStoreColors.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XdbeAllocateBackBufferName.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XdbeBeginIdiom.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XdbeDeallocateBackBufferName.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XdbeEndIdiom.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XdbeFreeVisualInfo.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XdbeGetBackBufferAttributes.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XdbeGetVisualInfo.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XdbeQueryExtension.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XdbeSwapBuffers.3Xext		0444 root bin
+f none X11/share/man/man3Xext/Xevi.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XeviGetVisualInfo.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XeviQueryExtension.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XeviQueryVersion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/Xmbuf.3Xext			0444 root bin
+f none X11/share/man/man3Xext/XmbufChangeBufferAttributes.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XmbufChangeWindowAttributes.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XmbufCreateBuffers.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XmbufCreateStereoWindow.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XmbufDestroyBuffers.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XmbufDisplayBuffers.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XmbufGetBufferAttributes.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XmbufGetScreenInfo.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XmbufGetVersion.3Xext		0444 root bin
+f none X11/share/man/man3Xext/XmbufGetWindowAttributes.3Xext	0444 root bin
+f none X11/share/man/man3Xext/XmbufQueryExtension.3Xext		0444 root bin
 
 !search            $HOME/X11/share/man/man3XRes
 d none X11/share/man/man3XRes				0755 root bin
@@ -1017,6 +1036,23 @@ f none openwin/share/man/man3Xp/XpStartJob.3Xp  0444 root bin
 f none openwin/share/man/man3Xp/XpStartPage.3Xp  0444 root bin
 f none openwin/share/man/man3Xp/libXp.3Xp  0444 root bin
 
+# open-src/lib/libXScrnSaver
+!search            $HOME/X11/share/man/man3Xss
+d none X11/share/man/man3Xss   0755 root bin
+f none X11/share/man/man3Xss/XScreenSaverAllocInfo.3Xss		0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverGetRegistered.3Xss	0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverQueryExtension.3Xss	0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverQueryInfo.3Xss		0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverQueryVersion.3Xss	0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverRegister.3Xss		0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverSelectInput.3Xss	0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverSetAttributes.3Xss	0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverSuspend.3Xss		0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverUnregister.3Xss	0444 root bin
+f none X11/share/man/man3Xss/XScreenSaverUnsetAttributes.3Xss	0444 root bin
+f none X11/share/man/man3Xss/Xss.3Xss				0444 root bin
+
+# open-src/lib/libXt
 !search            $HOME/X11/share/man/man3Xt
 d none X11/share/man/man3Xt   0755 root bin
 f none X11/share/man/man3Xt/MenuPopdown.3Xt  0444 root bin

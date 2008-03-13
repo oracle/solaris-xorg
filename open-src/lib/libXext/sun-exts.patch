@@ -1,0 +1,33 @@
+--- man/Makefile.am	2006-10-24 17:06:07.000000000 -0700
++++ man/Makefile.am	2008-03-12 14:45:59.307182000 -0700
+@@ -3,6 +3,16 @@
+ LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
+ 
+ libman_PRE = \
++	XReadScreen.man \
++	XSolarisOvlCopyAreaAndPaintType.man \
++	XSolarisOvlCopyPaintType.man \
++	XSolarisOvlCreateWindow.man \
++	XSolarisOvlGetPaintType.man \
++	XSolarisOvlIsOverlayWindow.man \
++	XSolarisOvlSelectPair.man \
++	XSolarisOvlSelectPartner.man \
++	XSolarisOvlSetPaintType.man \
++	XSolarisOvlSetWindowTransparent.man \
+ 	DBE.man \
+ 	DPMSCapable.man \
+ 	DPMSDisable.man \
+--- src/Makefile.am	2006-07-11 11:05:14.000000000 -0700
++++ src/Makefile.am	2007-12-04 18:44:47.118475000 -0800
+@@ -20,6 +20,11 @@
+ 	XTestExt1.c \
+ 	Xcup.c \
+ 	Xdbe.c \
++	AllPlanes.c \
++	FBPM.c \
++	TransOvl.c \
++	XGrabWin.c \
++	XPanoramiX.c \
+ 	extutil.c \
+ 	globals.c
+ 

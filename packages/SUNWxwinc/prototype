@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.82	08/03/10 SMI"
+# ident	"@(#)prototype	35.83	08/03/12 SMI"
 #
 #  X Window System include files
 
@@ -340,8 +340,6 @@ f none openwin/share/include/X11/extensions/XKBfile.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKBrules.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKM.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKMformat.h 0644 root bin
-f none openwin/share/include/X11/extensions/Xevie.h 0644 root bin
-f none openwin/share/include/X11/extensions/xinerama.h 0644 root bin
 f none openwin/share/include/X11/extensions/Xtsol.h 0644 root bin
 f none openwin/share/include/X11/extensions/Xtsolproto.h 0644 root bin
 
@@ -490,6 +488,14 @@ f none X11/include/X11/extensions/Xcomposite.h 0444 root bin
 # open-src/lib/libXdamage
 s none openwin/share/include/X11/extensions/Xdamage.h=../../../../../X11/include/X11/extensions/Xdamage.h
 f none X11/include/X11/extensions/Xdamage.h 0444 root bin
+
+# open-src/lib/libXevie
+s none openwin/share/include/X11/extensions/Xevie.h=../../../../../X11/include/X11/extensions/Xevie.h
+f none X11/include/X11/extensions/Xevie.h 0444 root bin
+
+# open-src/lib/libXext
+s none openwin/share/include/X11/extensions/xinerama.h=../../../../../X11/include/X11/extensions/xinerama.h
+f none X11/include/X11/extensions/xinerama.h 0444 root bin
 
 # open-src/lib/libXfixes
 s none openwin/share/include/X11/extensions/Xfixes.h=../../../../../X11/include/X11/extensions/Xfixes.h

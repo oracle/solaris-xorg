@@ -282,6 +282,14 @@ Files from the lib/libXdmcp package are covered by the following notice:
 
 include lib/libXdmcp/COPYING
 ------------------------------------------------------------------------------
+Files from the lib/libXevie package are covered by the following notice:
+
+include lib/libXevie/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXext package are covered by the following notice:
+
+include lib/libXext/COPYING
+------------------------------------------------------------------------------
 Files from the lib/libXfixes package are covered by the following notice:
 
 include lib/libXfixes/COPYING
@@ -313,6 +321,10 @@ include lib/libXrender/COPYING
 Files from the lib/libXres package are covered by the following notice:
 
 include lib/libXres/COPYING
+------------------------------------------------------------------------------
+Files from the lib/libXScrnSaver package are covered by the following notice:
+
+include lib/libXScrnSaver/COPYING
 ------------------------------------------------------------------------------
 Files from the lib/libXt package are covered by the following notice:
 
