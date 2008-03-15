@@ -85,7 +85,7 @@ of the copyright holder.
             name='ogl-select_before_gdm2-login'
             grouping='optional_all'
             restart_on='none'>
-                <service_fmri value='svc:/application/gdm2-login' />
+                <service_fmri value='svc:/application/graphical-login/gdm' />
         </dependent>
 
 	<exec_method
