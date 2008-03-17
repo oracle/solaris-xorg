@@ -27,10 +27,6 @@ Files from the driver/xf86-video-cyrix package are covered by the following noti
 
 include driver/xf86-video-cyrix/COPYING
 ------------------------------------------------------------------------------
-Files from the driver/xf86-video-dummy package are covered by the following notice:
-
-include driver/xf86-video-dummy/COPYING
-------------------------------------------------------------------------------
 Files from the driver/xf86-video-glint package are covered by the following notice:
 
 include driver/xf86-video-glint/COPYING
