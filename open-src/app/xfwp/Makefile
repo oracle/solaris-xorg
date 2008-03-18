@@ -1,4 +1,8 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+###############################################################################
+#
+# xfwp 1.x Makefile
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,27 +29,22 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
+#
+# @(#)Makefile	1.1 08/03/18
+#
 
-In validating CRT, xf86SetDDCproperties() needs to be called to 
-create mode pool to include EDID modes. 
+# Package name used in tarballs
+APP_NAME=xfwp
 
---- src/radeon_driver.c	Tue Dec  5 18:09:30 2006
-+++ src/radeon_driver.c	Wed Dec  6 23:57:08 2006
-@@ -3967,7 +3967,7 @@
-      * 'stretched' from their native mode.
-      */
-     if (info->MergeType == MT_CRT && !info->ddc_mode) {
-- 
-+	xf86SetDDCproperties(pScrn, pScrn->monitor->DDC); 
- 	modesFound =
- 	    xf86ValidateModes(pScrn,
- 			      pScrn->monitor->Modes,
-@@ -4235,7 +4235,7 @@
-      * 'stretched' from their native mode.
-      */
-     if (info->DisplayType == MT_CRT && !info->ddc_mode) {
--
-+	xf86SetDDCproperties(pScrn, pScrn->monitor->DDC);
- 	modesFound =
- 	    xf86ValidateModes(pScrn,
- 			      pScrn->monitor->Modes,
+# Version number (used in path names)
+APP_VERS=1.0.1
+
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+
+include ../Makefile.inc

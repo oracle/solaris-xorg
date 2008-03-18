@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.37	08/03/10
+# @(#)Makefile	1.38	08/03/18
 #
 ###############################################################################
 
@@ -59,6 +59,7 @@ OS_SUBDIRS_common = \
 	xdpyinfo \
 	xev \
 	xfd \
+	xfwp \
 	xgamma \
 	xhost \
 	xkbcomp \

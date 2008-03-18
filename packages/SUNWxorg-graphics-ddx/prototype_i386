@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.15     07/12/03 SMI"
+# ident "@(#)prototype_i386 1.16     08/03/18 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -50,7 +50,6 @@ f none X11/lib/modules/drivers/apm_drv.so 0755 root bin
 f none X11/lib/modules/drivers/ark_drv.so 0755 root bin
 f none X11/lib/modules/drivers/ast_drv.so 0755 root bin
 f none X11/lib/modules/drivers/ati_drv.so 0755 root bin
-f none X11/lib/modules/drivers/atimisc_drv.so 0755 root bin
 f none X11/lib/modules/drivers/chips_drv.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_alpine.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_drv.so 0755 root bin
@@ -61,6 +60,7 @@ f none X11/lib/modules/drivers/i128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/i740_drv.so 0755 root bin
 f none X11/lib/modules/drivers/intel_drv.so 0755 root bin
 s none X11/lib/modules/drivers/i810_drv.so=intel_drv.so
+f none X11/lib/modules/drivers/mach64_drv.so 0755 root bin
 f none X11/lib/modules/drivers/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/neomagic_drv.so 0755 root bin
 f none X11/lib/modules/drivers/nsc_drv.so 0755 root bin
@@ -86,7 +86,6 @@ f none X11/lib/modules/drivers/vmware_drv.so 0755 root bin
 !search $HOME/lib/modules/amd64/drivers
 d none X11/lib/modules/drivers/amd64 0755 root bin
 f none X11/lib/modules/drivers/amd64/ati_drv.so 0755 root bin
-f none X11/lib/modules/drivers/amd64/atimisc_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_alpine.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_laguna.so 0755 root bin
@@ -98,6 +97,7 @@ f none X11/lib/modules/drivers/amd64/vga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/ast_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/intel_drv.so 0755 root bin
 s none X11/lib/modules/drivers/amd64/i810_drv.so=intel_drv.so
+f none X11/lib/modules/drivers/amd64/mach64_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/nv_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/trident_drv.so 0755 root bin

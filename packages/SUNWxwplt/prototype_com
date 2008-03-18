@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.169    08/03/12   Sun Microsystems"
+#      "@(#)prototype_com	35.170    08/03/18   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -76,7 +76,6 @@ f none openwin/bin/xpr 		0755 root bin
 #
 f none openwin/bin/lbxproxy     2755 root root
 f none openwin/bin/proxymngr    0755 root bin
-f none openwin/bin/xfwp         0755 root bin
 f none openwin/bin/xkbbell      0755 root bin
 f none openwin/bin/xkbprint     0755 root bin
 f none openwin/bin/xkbvleds     0755 root bin
@@ -121,6 +120,10 @@ s none openwin/bin/xdpyinfo=../../X11/bin/xdpyinfo
 # open-src/app/xfd
 f none X11/bin/xfd 			0755 root bin
 s none openwin/bin/xfd=../../X11/bin/xfd
+
+# open-src/app/xfwp
+f none X11/bin/xfwp 			0755 root bin
+s none openwin/bin/xfwp=../../X11/bin/xfwp
 
 # open-src/app/xhost
 f none X11/bin/xhost 		0755 root bin

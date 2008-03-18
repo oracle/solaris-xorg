@@ -30,27 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	07/07/30
+# @(#)Makefile	1.14	08/03/18
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-ati
 
 # Version number (used in path names)
-DRIVER_VERS=6.6.3
+DRIVER_VERS=6.8.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	6205248.patch 		\
-	autoconfig.patch	\
-	no-debug.patch		\
-	autoconfig2.patch	\
-	autoconfig3.patch	\
-	mapfiles.patch		\
-	6531742.patch		\
-	6535741.patch		\
-	6568883.patch		\
-	6583707.patch
+SOURCE_PATCHES = 6205248.patch 6675166.patch 6675188.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -66,6 +56,8 @@ DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/linux \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+	-lexa -lint10 -lfb -lshadowfb -lvbe -lxaa -lfbdevhw \
+	-lvgahw -lm -lshadow \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)/linux$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
