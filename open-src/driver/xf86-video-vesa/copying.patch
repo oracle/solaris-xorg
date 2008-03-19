@@ -1,0 +1,51 @@
+From 8e8efd5de2b3f5985b6df814392e6eecff2f97a3 Mon Sep 17 00:00:00 2001
+From: Daniel Drake <ddrake@brontes3d.com>
+Date: Tue, 29 May 2007 12:17:00 -0800
+Subject: [PATCH] Bug #11090: xf86-video-vesa COPYING file
+
+X.Org Bugzilla #11090 <https://bugs.freedesktop.org/show_bug.cgi?id=11090>
+---
+ COPYING |   30 +++++++++++++++++++++---------
+ 1 files changed, 21 insertions(+), 9 deletions(-)
+
+diff --git a/COPYING b/COPYING
+index 7f33cbf..22b4b13 100644
+--- a/COPYING
++++ b/COPYING
+@@ -1,12 +1,24 @@
+-This is a stub file.  This package has not yet had its complete licensing
+-information compiled.  Please see the individual source files for details on
+-your rights to use and modify this software.
++Copyright (c) 2000 by Conectiva S.A. (http://www.conectiva.com)
+ 
+-Please submit updated COPYING files to the Xorg bugzilla:
++Permission is hereby granted, free of charge, to any person obtaining a
++copy of this software and associated documentation files (the "Software"),
++to deal in the Software without restriction, including without limitation
++the rights to use, copy, modify, merge, publish, distribute, sublicense,
++and/or sell copies of the Software, and to permit persons to whom the
++Software is furnished to do so, subject to the following conditions:
+ 
+-https://bugs.freedesktop.org/enter_bug.cgi?product=xorg
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++ 
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++CONECTIVA LINUX BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
++OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
+ 
+-All licensing questions regarding this software should be directed at the
+-Xorg mailing list:
+-
+-http://lists.freedesktop.org/mailman/listinfo/xorg
++Except as contained in this notice, the name of Conectiva Linux shall
++not be used in advertising or otherwise to promote the sale, use or other
++dealings in this Software without prior written authorization from
++Conectiva Linux.
+-- 
+1.4.1
+

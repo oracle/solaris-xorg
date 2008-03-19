@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1   08/01/24
+# @(#)Makefile	1.2   08/03/19
 #
 
 # Package name used in tarballs
 APP_NAME=xprop
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+APP_VERS=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

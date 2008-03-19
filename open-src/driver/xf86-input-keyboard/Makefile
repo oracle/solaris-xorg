@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	08/03/19
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ DRIVER_NAME=xf86-input-keyboard
 DRIVER_VERS=1.1.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = copying.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

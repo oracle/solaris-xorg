@@ -37,7 +37,7 @@
 APP_NAME=xev
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+APP_VERS=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

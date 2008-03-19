@@ -2,7 +2,7 @@
 #
 # twm 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,10 +36,10 @@
 APP_NAME=twm
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+APP_VERS=1.0.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = configure.patch
+SOURCE_PATCHES = 
 
 #LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
 

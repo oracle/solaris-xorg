@@ -2,7 +2,7 @@
 #
 # xf86-video-sis Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	07/07/31
+# @(#)Makefile	1.8	08/03/19
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-sis
 
 # Version number (used in path names)
-DRIVER_VERS=0.9.3
+DRIVER_VERS=0.9.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

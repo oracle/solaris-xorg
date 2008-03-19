@@ -2,7 +2,7 @@
 #
 # Xaw Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/01/04
+# @(#)Makefile	1.2	08/03/19
 #
 
 ## For now, this libXaw is installed to a private directory for the use
@@ -42,10 +42,10 @@
 LIB_MODULE=libXaw
 
 # Version number (used in path names)
-LIB_VERS=1.0.3
+LIB_VERS=1.0.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=no-utf8-string.patch
+SOURCE_PATCHES=
 
 # Library name
 LIBNAME=Xaw

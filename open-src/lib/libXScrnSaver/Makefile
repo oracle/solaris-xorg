@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/03/12
+# @(#)Makefile	1.2	08/03/19
 #
 
 # Package name used in tarballs
 LIB_MODULE=libXScrnSaver
 
 # Version number (used in path names)
-LIB_VERS=1.1.2
+LIB_VERS=1.1.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

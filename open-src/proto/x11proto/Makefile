@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,18 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/11/02
+# @(#)Makefile	1.6	08/03/19
 #
 
 # Package name used in tarballs
 PROTO_NAME=xproto
 
 # Version number (used in path names)
-VERSION=7.0.10
+VERSION=7.0.12
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch \
-	Xalloca.h-patch,-p1
+SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
 
 ### Include common rulesets
 include ../Makefile.inc

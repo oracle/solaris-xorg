@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/01/31
+# @(#)Makefile	1.3	08/03/19
 #
 
 # Package name used in tarballs
 PROTO_NAME=xf86dgaproto
 
 # Version number (used in path names)
-VERSION=2.0.2
+VERSION=2.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

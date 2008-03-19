@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to both Xorg & Xvnc builds
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.2	07/10/11
+# @(#)Makefile.inc	1.3	08/03/19
 #
 
 PWD:sh=pwd
@@ -95,7 +95,9 @@ CONFIG_ENV_common = \
 	PATH=$(PATH):/usr/sbin
 
 LDPATH_ADD = -L$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
+	-R$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
 CONFIG_ENV_cc = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" \
 	CXX=$(CXX) CXXFLAGS="$(PROG_CXXFLAGS)" \

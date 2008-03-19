@@ -36,7 +36,7 @@
 APP_NAME=xrdb
 
 # Version number (used in path names)
-APP_VERS=1.0.4
+APP_VERS=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xrdb.patch

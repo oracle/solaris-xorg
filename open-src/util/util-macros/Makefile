@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/03/07
+# @(#)Makefile	1.3	08/03/19
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
 # Version number (used in path names)
-VERSION=1.1.5
+VERSION=1.1.6
 
 MODULE_NAME=util-macros
 
