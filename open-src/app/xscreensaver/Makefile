@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.90	08/03/10
+# @(#)Makefile	1.91	08/03/20
 #
 
 PWD:sh=pwd
@@ -94,9 +94,15 @@ include $(TOP)/common/Makefile.inc
 source_gen:: $(LNDIR)
 	mkdir -p $(SOURCE_DIR)
 	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
+	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; set -x ; \
 	if [ -d closed-src ] ; then \
 	    (cd $(SOURCE_DIR) && $(LNDIR) ../../closed-src) \
-	fi
+	fi ; \
+	for i in unlock-logo.png trusted-logo.png ; do \
+	    if [ ! -f $(SOURCE_DIR)/driver/$$i ] ; then \
+	        (cd $(SOURCE_DIR)/driver ; ln -s opensolaris-logo.png $$i ) ; \
+	    fi ; \
+	done
 
 # Where to find OpenGL headers/libraries
 OPENGL_DIR_sparc=/usr/openwin
