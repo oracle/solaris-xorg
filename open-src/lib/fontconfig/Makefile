@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.73	08/03/11
+# @(#)Makefile	1.74	08/03/20
 #
 
 PWD:sh=pwd
@@ -58,7 +58,7 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=fontconfig-$(LIB_VERS).patch,-p1 \
 	       fontconfig-$(LIB_VERS).patch.hide,-p1 \
-	       fontconfig-$(LIB_VERS)-fonts.conf.patch,-p1
+	       fontconfig-$(LIB_VERS)-fonts.conf.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(LIB_MODULE)-$(LIB_VERS)
@@ -121,17 +121,13 @@ $(FONTCONFIG_FT2CFG): $(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config
 	chmod +x $@
 
 # Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(FONTCONFIG_FT2CFG)
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf $(FONTCONFIG_FT2CFG)
 	(cd $(SOURCE_DIR) ; \
 	 chmod a+x configure ; \
 	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" $(LIBPATHS) ./configure $(FONTCONFIG_CFG))
 	if [ -f $(SOURCE_DIR)/src/Makefile.bak ] ; then     \
 		rm -f $(SOURCE_DIR)/src/Makefile.bak ;      \
 	fi
-
-# Need to regenerate configure with newer autoconf to work with Studio 12
-source_gen::
-	(cd $(SOURCE_DIR) && autoreconf -v)
 
 $(SOURCE_DIR)/fonts.conf-SUNW: $(SOURCE_DIR)/fonts.conf fonts.conf.append fix-fonts.conf.pl
 	perl fix-fonts.conf.pl < $(SOURCE_DIR)/fonts.conf > $(SOURCE_DIR)/fonts.conf-SUNW

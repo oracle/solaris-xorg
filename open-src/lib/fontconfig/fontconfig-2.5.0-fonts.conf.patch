@@ -1,79 +1,77 @@
---- fontconfig-2.5.0/conf.d/40-nonlatin.conf	2008-03-05 12:51:07.823269000 +0530
-+++ fontconfig-2.5.0-new/conf.d/40-nonlatin.conf	2008-03-05 14:32:19.895564000 +0530
-@@ -10,7 +10,13 @@
+diff -ruN fontconfig-2.5.0/conf.d/40-nonlatin.conf fontconfig-2.5.0.new/conf.d/40-nonlatin.conf
+diff -urpN -x '*~' -x '*.orig' conf.d/40-nonlatin.conf conf.d/40-nonlatin.conf
+--- conf.d/40-nonlatin.conf	2007-11-05 15:38:03.000000000 -0800
++++ conf.d/40-nonlatin.conf	2008-03-19 18:14:16.242510000 -0700
+@@ -10,6 +10,16 @@
    Serif faces
   -->
  	<alias>
--		<family>Kochi Mincho</family>
 +		<family>HG-PMinchoL-Sun</family>
 +		<family>HG-MinchoL-Sun</family>
++		<family>IPAMincho</family>
++		<family>Sazanami Mincho</family>
++		<family>Sazanami Gothic</family>
 +		<family>FZSongTi</family>
 +		<family>FZMingTi</family>
 +		<family>KacstQurn</family>
 +		<family>SunDotum</family>
 +		<family>AR PL ShanHeiSun Uni</family>
+ 		<family>Kochi Mincho</family>
  		<family>AR PL SungtiL GB</family>
  		<family>AR PL Mingti2L Big5</family>
- 		<family>ＭＳ 明朝</family>
-@@ -26,7 +32,12 @@
+@@ -26,6 +36,14 @@
    Sans-serif faces
   -->
  	<alias>
--		<family>Kochi Gothic</family>
 +		<family>HG-PGothicB-Sun</family>
 +		<family>HG-GothicB-Sun</family>
++		<family>IPAGothic</family>
++		<family>Sazanami Gothic</family>
 +		<family>FZSongTi</family>
 +		<family>FZMingTi</family>
 +		<family>KacstQurn</family>
 +		<family>SunDotum</family>
+ 		<family>Kochi Gothic</family>
  		<family>AR PL KaitiM GB</family>
  		<family>AR PL KaitiM Big5</family>
- 		<family>ＭＳ ゴシック</family>
-@@ -44,6 +55,7 @@
-  -->
-  	<alias>
- 		<family>NSimSun</family>
-+		<family>SunDotumChe</family>
- 		<family>ZYSong18030</family>
- 		<family>FreeMono</family>
- 		<default><family>monospace</family></default>
---- fontconfig-2.5.0/conf.d/45-latin.conf	2008-03-05 12:51:07.818306000 +0530
-+++ fontconfig-2.5.0-new/conf.d/45-latin.conf	2008-03-05 12:50:11.610506000 +0530
-@@ -10,8 +10,9 @@
-   Serif faces
-  -->
- 	<alias>
--		<family>Bitstream Vera Serif</family>
-+		<family>Lucida Bright</family>
- 		<family>DejaVu Serif</family>
-+		<family>Bitstream Vera Serif</family>
- 		<family>Liberation Serif</family>
- 		<family>Times New Roman</family>
- 		<family>Times</family>
-@@ -25,8 +26,9 @@
-   Sans-serif faces
-  -->
- 	<alias>
--		<family>Bitstream Vera Sans</family>
-+		<family>Arial</family>
- 		<family>DejaVu Sans</family>
-+		<family>Bitstream Vera Sans</family>
- 		<family>Liberation Sans</family>
- 		<family>Arial</family>
- 		<family>Helvetica</family>
-@@ -41,8 +43,9 @@
+@@ -43,6 +61,7 @@
    Monospace faces
   -->
   	<alias>
--		<family>Bitstream Vera Sans Mono</family>
++		<family>SunDotumChe</family>
+ 		<family>NSimSun</family>
+ 		<family>ZYSong18030</family>
+ 		<family>FreeMono</family>
+diff -urpN -x '*~' -x '*.orig' conf.d/45-latin.conf conf.d/45-latin.conf
+--- conf.d/45-latin.conf	2007-11-05 15:38:03.000000000 -0800
++++ conf.d/45-latin.conf	2008-03-19 18:14:16.242946000 -0700
+@@ -10,6 +10,7 @@
+   Serif faces
+  -->
+ 	<alias>
++		<family>Lucida Bright</family>
+ 		<family>Bitstream Vera Serif</family>
+ 		<family>DejaVu Serif</family>
+ 		<family>Liberation Serif</family>
+@@ -25,6 +26,7 @@
+   Sans-serif faces
+  -->
+ 	<alias>
++		<family>Arial</family>
+ 		<family>Bitstream Vera Sans</family>
+ 		<family>DejaVu Sans</family>
+ 		<family>Liberation Sans</family>
+@@ -41,6 +43,7 @@
+   Monospace faces
+  -->
+  	<alias>
 +		<family>Lucida Sans Typewriter</family>
+ 		<family>Bitstream Vera Sans Mono</family>
  		<family>DejaVu Sans Mono</family>
-+		<family>Bitstream Vera Sans Mono</family>
  		<family>Liberation Mono</family>
- 		<family>Courier New</family>
- 		<family>Courier</family>
---- /dev/null	2008-03-05 14:34:54.000000000 +0530
-+++ fontconfig-2.5.0-new/conf.d/49-sun-preuser.conf	2008-03-05 12:50:11.611211000 +0530
+diff -urpN -x '*~' -x '*.orig' conf.d/49-sun-preuser.conf conf.d/49-sun-preuser.conf
+--- conf.d/49-sun-preuser.conf	1969-12-31 16:00:00.000000000 -0800
++++ conf.d/49-sun-preuser.conf	2008-03-19 18:14:16.243311000 -0700
 @@ -0,0 +1,79 @@
 +<?xml version="1.0"?>
 +<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
@@ -154,8 +152,9 @@
 +		</edit>
 +	</match>
 +</fontconfig>
---- fontconfig-2.5.0/conf.d/60-latin.conf	2008-03-05 12:51:07.818845000 +0530
-+++ fontconfig-2.5.0-new/conf.d/60-latin.conf	2008-03-05 12:50:11.611721000 +0530
+diff -urpN -x '*~' -x '*.orig' conf.d/60-latin.conf conf.d/60-latin.conf
+--- conf.d/60-latin.conf	2006-09-09 20:30:00.000000000 -0700
++++ conf.d/60-latin.conf	2008-03-19 18:14:16.251367000 -0700
 @@ -4,8 +4,9 @@
  	<alias>
  		<family>serif</family>
@@ -179,21 +178,24 @@
  			<family>Verdana</family>
  			<family>Arial</family>
  			<family>Albany AMT</family>
---- fontconfig-2.5.0/conf.d/65-nonlatin.conf	2008-03-05 12:51:07.822871000 +0530
-+++ fontconfig-2.5.0-new/conf.d/65-nonlatin.conf	2008-03-05 14:33:30.217550000 +0530
-@@ -4,12 +4,19 @@
+diff -urpN -x '*~' -x '*.orig' conf.d/65-nonlatin.conf conf.d/65-nonlatin.conf
+--- conf.d/65-nonlatin.conf	2007-11-05 15:38:03.000000000 -0800
++++ conf.d/65-nonlatin.conf	2008-03-19 18:14:16.251790000 -0700
+@@ -4,12 +4,20 @@
  	<alias>
  		<family>serif</family>
  		<prefer>
 +			<family>EUDC</family>
  			<family>Frank Ruehl</family>
  			<family>MgOpen Canonica</family>
- 			<family>Sazanami Mincho</family>
+-			<family>Sazanami Mincho</family>
++			<family>HG-PMinchoL-Sun</family>
++			<family>HG-MinchoL-Sun</family>
  			<family>IPAMonaMincho</family>
  			<family>IPAMincho</family>
 -			<family>Kochi Mincho</family>
-+			<family>HG-PMinchoL-Sun</family>
-+			<family>HG-MinchoL-Sun</family>
++			<family>Sazanami Mincho</family>
++			<family>Sazanami Gothic</family>
 +			<family>FZSongTi</family>
 +			<family>FZMingTi</family>
 +			<family>KacstQurn</family>
@@ -202,7 +204,7 @@
  			<family>AR PL SungtiL GB</family>
  			<family>AR PL Mingti2L Big5</family>
   			<family>AR PL Zenkai Uni</family>
-@@ -33,13 +40,19 @@
+@@ -33,13 +41,19 @@
  	<alias>
  		<family>sans-serif</family>
  		<prefer>
@@ -210,12 +212,12 @@
  			<family>Nachlieli</family>
  			<family>MgOpen Modata</family>
  			<family>VL Gothic</family>
++			<family>HG-PGothicB-Sun</family>
++			<family>HG-GothicB-Sun</family>
  			<family>IPAMonaGothic</family>
  			<family>IPAGothic</family>
  			<family>Sazanami Gothic</family>
 -			<family>Kochi Gothic</family>
-+			<family>HG-PGothicB-Sun</family>
-+			<family>HG-GothicB-Sun</family>
 +			<family>FZSongTi</family>
 +			<family>FZMingTi</family>
 +			<family>KacstQurn</family>
@@ -223,19 +225,19 @@
  			<family>AR PL KaitiM GB</family>
  			<family>AR PL KaitiM Big5</family>
   			<family>AR PL ShanHeiSun Uni</family>
-@@ -66,12 +79,18 @@
+@@ -66,12 +80,18 @@
  	<alias>
  		<family>monospace</family>
  		<prefer>
 +			<family>EUDC</family>
  			<family>Miriam Mono</family>
  			<family>VL Gothic</family>
++			<family>HG-GothicB-Sun</family>
++			<family>HG-MinchoL-Sun</family>
  			<family>IPAMonaGothic</family>
  			<family>IPAGothic</family>
  			<family>Sazanami Gothic</family>
 -			<family>Kochi Gothic</family>
-+			<family>HG-GothicB-Sun</family>
-+			<family>HG-MinchoL-Sun</family>
 +			<family>FZSongTi</family>
 +			<family>FZMingTi</family>
 +			<family>KacstQurn</family>
@@ -243,9 +245,10 @@
  			<family>AR PL KaitiM GB</family>
   			<family>AR PL ShanHeiSun Uni</family>
  			<family>AR PL SungtiL GB</family>
---- fontconfig-2.5.0/conf.d/Makefile.am	2008-03-05 12:51:07.818659000 +0530
-+++ fontconfig-2.5.0-new/conf.d/Makefile.am	2008-03-05 12:50:11.613312000 +0530
-@@ -38,6 +38,7 @@
+diff -urpN -x '*~' -x '*.orig' conf.d/Makefile.am conf.d/Makefile.am
+--- conf.d/Makefile.am	2007-11-05 15:38:03.000000000 -0800
++++ conf.d/Makefile.am	2008-03-19 18:14:16.252419000 -0700
+@@ -38,6 +38,7 @@ CONF_FILES = \
  	40-nonlatin.conf \
  	45-latin.conf \
  	49-sansserif.conf \
@@ -253,7 +256,7 @@
  	50-user.conf \
  	51-local.conf \
  	60-latin.conf \
-@@ -57,6 +58,7 @@
+@@ -57,6 +58,7 @@ CONF_LINKS = \
  	40-nonlatin.conf \
  	45-latin.conf \
  	49-sansserif.conf \
