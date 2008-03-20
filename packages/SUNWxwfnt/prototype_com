@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.50	08/03/07	Sun Microsystems
+#	@(#)prototype_com	35.51	08/03/20	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -786,6 +786,18 @@ f none openwin/lib/X11/fonts/TrueType/GillSans-Bold.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/GillSans-BoldItalic.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/GillSans-Italic.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/GillSans.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationMono-Bold.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationMono-BoldItalic.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationMono-Italic.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationMono-Regular.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSans-Bold.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSans-BoldItalic.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSans-Italic.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSans-Regular.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSerif-Bold.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSerif-BoldItalic.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSerif-Italic.ttf 0644 root bin
+f none openwin/lib/X11/fonts/TrueType/LiberationSerif-Regular.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/LucidaBrightDemiBold.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/LucidaBrightDemiItalic.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/LucidaBrightItalic.ttf 0644 root bin

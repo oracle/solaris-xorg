@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/02/05 SMI
+# @(#)Makefile	1.6	08/03/20 SMI
 #
 ###############################################################################
 
@@ -37,6 +37,7 @@ OS_SUBDIRS = \
 	sun-aliases \
 	bitstream-vera \
 	deja-vu \
+	liberation \
 	adobe-utopia-type1 \
 	bh-type1 \
 	bitstream-type1 \
