@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.170    08/03/18   Sun Microsystems"
+#      "@(#)prototype_com	35.171    08/03/24   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -438,7 +438,7 @@ f none X11/lib/$plat_64/libXss.so.1 		0555 root bin
 
 # open-src/lib/libXt
 s none openwin/lib/$plat_64/libXt.so=./libXt.so.4
-s none openwin/lib/$plat_64/libXt.so.4=../../X11/lib/64/libXt.so.4
+s none openwin/lib/$plat_64/libXt.so.4=../../../X11/lib/64/libXt.so.4
 s none X11/lib/$plat_64/libXt.so=./libXt.so.4
 f none X11/lib/$plat_64/libXt.so.4		0555 root bin
 
