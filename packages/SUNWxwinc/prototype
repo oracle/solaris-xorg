@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.83	08/03/12 SMI"
+# ident	"@(#)prototype	35.84	08/03/24 SMI"
 #
 #  X Window System include files
 
@@ -110,7 +110,6 @@ s none openwin/share/include/X11/xpm.h=../../../../X11/include/X11/xpm.h
 f none X11/include/X11/xpm.h		0444 root bin
 
 # open-src/lib/libX11
-# XlibConf.h & Xregion.h were never delivered in /usr/openwin
 s none openwin/share/include/X11/XKBlib.h=../../../../X11/include/X11/XKBlib.h
 s none openwin/share/include/X11/Xcms.h=../../../../X11/include/X11/Xcms.h
 s none openwin/share/include/X11/XlcGeneric.h=../../../../X11/include/X11/XlcGeneric.h
@@ -119,7 +118,9 @@ s none openwin/share/include/X11/XlcPublic.h=../../../../X11/include/X11/XlcPubl
 s none openwin/share/include/X11/Xlcint.h=../../../../X11/include/X11/Xlcint.h
 s none openwin/share/include/X11/Xlib.h=../../../../X11/include/X11/Xlib.h
 s none openwin/share/include/X11/Xlibint.h=../../../../X11/include/X11/Xlibint.h
+s none openwin/share/include/X11/XlibConf.h=../../../../X11/include/X11/XlibConf.h
 s none openwin/share/include/X11/Xlocale.h=../../../../X11/include/X11/Xlocale.h
+s none openwin/share/include/X11/Xregion.h=../../../../X11/include/X11/Xregion.h
 s none openwin/share/include/X11/Xresource.h=../../../../X11/include/X11/Xresource.h
 s none openwin/share/include/X11/Xutil.h=../../../../X11/include/X11/Xutil.h
 s none openwin/share/include/X11/cursorfont.h=../../../../X11/include/X11/cursorfont.h
