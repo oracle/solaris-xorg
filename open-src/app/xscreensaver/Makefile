@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.91	08/03/20
+# @(#)Makefile	1.93	08/03/24
 #
 
 PWD:sh=pwd
@@ -40,14 +40,14 @@ TOP=$(PWD)/../..
 XSCREENSAVER_VERS=5.01
 
 # Source tarball
-SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.gz
+SOURCE_TARBALL_NAME=xscreensaver-$(XSCREENSAVER_VERS).tar.bz2
 
 # Download site for source - master site no longer carries 5.01 so we use
 # a mirror site until we upgrade to a newer version
 #SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
-SOURCE_URL=http://ftp.osuosl.org/pub/FreeBSD/distfiles/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=http://www.genunix.org/distributions/belenix_site/binfiles/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
-SOURCE_UNCOMPRESS=gzcat
+SOURCE_UNCOMPRESS=bzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -121,7 +121,8 @@ XS_CFG= --prefix=/usr/X11 --enable-maintainer-mode \
  --with-configdir=/usr/X11/lib/xscreensaver/config/control-center-2.0 \
  --with-image-directory=/usr/share/pixmaps/backgrounds \
  --with-text-file=/etc/motd \
- --with-x-app-defaults=/usr/X11/lib/X11/app-defaults
+ --with-x-app-defaults=/usr/X11/lib/X11/app-defaults \
+ LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)/usr/X11/lib -R/usr/X11/lib"
 
 # BINARY built in tree
 XS_BIN=$(SOURCE_DIR)/xscreensaver
@@ -139,7 +140,7 @@ LOGO_FILES=$(SOURCE_DIR)/utils/images/logo-180.gif \
 XS_MAN=$(SOURCE_DIR)/driver/xscreensaver.man.orig
 
 # Include Paths
-INCLUDES=-I/usr/X11/include
+INCLUDES=-I$(PROTODIR)/usr/X11/include -I/usr/X11/include
 
 # Additional optimization flags, to make the hacks show off the hardware
 # better and we can get away with optimizations not allowed in the core X code
@@ -155,10 +156,9 @@ XS_ARCH_FLAGS_i386=
 # since intltool-update doesn't work with Solaris xgettext (see bugs
 # 4812320 & 4826523)
 XS_CNFG_ENV=CC=$(CC) CFLAGS="$(XS_CFLAGS) $(INCLUDES)" CPPFLAGS="$(INCLUDES)" \
-	PATH=/usr/perl5/bin:/usr/sfw/bin:/opt/sfw/bin:$(PATH) \
+	PATH=/usr/perl5/bin:/usr/sfw/bin:/opt/jdsbld/bin:/opt/sfw/bin:$(PATH) \
 	GNOME_DATADIR='$${prefix}/lib/xscreensaver/config' \
 	GLADE_DATADIR='$${prefix}/lib/xscreensaver/config' \
-	LDFLAGS="$(PROG_LDFLAGS) -L/usr/X11/lib -R/usr/X11/lib" \
 	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
 	PERL=/usr/perl5/bin/perl
 XS_MAKE_ENV=install_prefix=$(PROTODIR) 
@@ -177,9 +177,10 @@ $(XS_BIN): $(SOURCE_DIR)/Makefile
 
 $(XS_POT): $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR)/po ; \
-	 PATH=/opt/sfw/bin:$(PATH) $(MAKE) -e $(XS_MAKE_ENV) generate_potfiles_in ; \
-	 PATH=/opt/sfw/bin:$(PATH) $(MAKE) -e $(XS_MAKE_ENV) POTFILES ; \
-	 PATH=/opt/sfw/bin:$(PATH) $(MAKE) -e $(XS_MAKE_ENV) xscreensaver.pot )
+	 PATH=/opt/jdsbld/bin:/opt/sfw/bin:$(PATH) ; export PATH ; \
+	 $(MAKE) -e $(XS_MAKE_ENV) generate_potfiles_in ; \
+	 $(MAKE) -e $(XS_MAKE_ENV) POTFILES ; \
+	 $(MAKE) -e $(XS_MAKE_ENV) xscreensaver.pot )
 
 # Add Sun attributes section to man pages
 $(XS_MAN):

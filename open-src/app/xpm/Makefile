@@ -2,7 +2,7 @@
 #
 # Xpm Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/03/07
+# @(#)Makefile	1.8	08/03/24
 #
 
 PWD:sh=pwd
@@ -40,10 +40,10 @@ TOP=$(PWD)/../..
 MODULE_NAME=libXpm
 
 # Version number (used in path names)
-MODULE_VERS=3.5.6
+MODULE_VERS=3.5.7
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = gettext.patch,-p1
+SOURCE_PATCHES = 
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERS).tar.bz2

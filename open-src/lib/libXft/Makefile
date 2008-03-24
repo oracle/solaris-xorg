@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	08/01/23
+# @(#)Makefile	1.12	08/03/24
 #
 
 PWD:sh=pwd
@@ -67,7 +67,7 @@ LIB_ADD_LD_OPTIONS= -L$(PROTODIR)/usr/lib$(LIBSUBDIR)
 LIB_ADD_MAKEFLAGS = bindir=$(XFT_prefix)/bin$(ARCHLIBSUBDIR)
 
 # Include Paths - need headers for fontconfig & freetype from build area
-LIB_ADD_CFLAGS = -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/X11/include
+LIB_ADD_CFLAGS = -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 
 # Library built in tree
 LIB_BUILT=$(BUILD_DIR)/.libs/libXft.so.2

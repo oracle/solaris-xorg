@@ -37,7 +37,7 @@
 APP_NAME=xgamma
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+APP_VERS=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

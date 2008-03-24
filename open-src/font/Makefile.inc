@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.4	08/02/05
+# @(#)Makefile.inc	1.5	08/03/24
 #
 
 ### Makefile settings/rules common to all X.Org font modules
@@ -70,6 +70,7 @@ build_gen: $(SOURCE_DIR)/Makefile
 # Run configure script
 $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) ; \
+	 [ -n "$(RECONF)" ] && ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force; \
 	 chmod a+x configure ; \
 	 $(CONFIG_ENV) ./configure $(FONT_CFG) )
 

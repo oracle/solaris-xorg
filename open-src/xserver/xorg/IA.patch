@@ -193,3 +193,13 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  }
  
  void
+--- hw/dmx/Makefile.am.orig	2008-01-13 23:02:37.956946569 -0700
++++ hw/dmx/Makefile.am	2008-01-13 23:01:59.409213790 -0700
+@@ -82,6 +82,7 @@
+              $(GLX_LIBS) \
+              input/libdmxinput.a \
+              config/libdmxconfig.a \
++             $(top_builddir)/IA/libIA.la \
+              @DMXMODULES_LIBS@
+ 
+ Xdmx_CFLAGS = \

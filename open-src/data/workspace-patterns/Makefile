@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -38,33 +38,33 @@ TOP=$(PWD)/../..
 include $(TOP)/common/Makefile.inc
 
 DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)/$(OW_DIR)/share/etc/workspace/patterns/
+INSTDIR=$(DESTDIR)/$(X11_DIR)/share/patterns/
 
 install_gen::
 	mkdir -p $(INSTDIR)
-	cp -p attributes $(INSTDIR)
-	cp -p background.xbm $(INSTDIR)
-	cp -p bricks.xbm $(INSTDIR)
-	cp -p burl.xbm $(INSTDIR)
-	cp -p corn.xbm $(INSTDIR)
-	cp -p dmndpla.xbm $(INSTDIR)
-	cp -p dolphin.xbm $(INSTDIR)
-	cp -p dotwave2.xbm $(INSTDIR)
-	cp -p dune.xbm $(INSTDIR)
-	cp -p flowers.xbm $(INSTDIR)
-	cp -p flyseye.xbm $(INSTDIR)
-	cp -p foreground.xbm $(INSTDIR)
-	cp -p fuji.xbm $(INSTDIR)
-	cp -p geiger2.xbm $(INSTDIR)
-	cp -p gray25.xbm $(INSTDIR)
-	cp -p gray50.xbm $(INSTDIR)
-	cp -p gray75.xbm $(INSTDIR)
-	cp -p miniweave.xbm $(INSTDIR)
-	cp -p sbump.xbm $(INSTDIR)
-	cp -p sizmk2.xbm $(INSTDIR)
-	cp -p southwest.xbm $(INSTDIR)
-	cp -p squares.xbm $(INSTDIR)
-	cp -p sunmulti.xbm $(INSTDIR)
-	cp -p swirl2.xbm $(INSTDIR)
-	cp -p wave1.xbm $(INSTDIR)
-	cp -p wrnkle2.xbm $(INSTDIR)
+	cp -pf attributes $(INSTDIR)
+	cp -pf background.xbm $(INSTDIR)
+	cp -pf bricks.xbm $(INSTDIR)
+	cp -pf burl.xbm $(INSTDIR)
+	cp -pf corn.xbm $(INSTDIR)
+	cp -pf dmndpla.xbm $(INSTDIR)
+	cp -pf dolphin.xbm $(INSTDIR)
+	cp -pf dotwave2.xbm $(INSTDIR)
+	cp -pf dune.xbm $(INSTDIR)
+	cp -pf flowers.xbm $(INSTDIR)
+	cp -pf flyseye.xbm $(INSTDIR)
+	cp -pf foreground.xbm $(INSTDIR)
+	cp -pf fuji.xbm $(INSTDIR)
+	cp -pf geiger2.xbm $(INSTDIR)
+	cp -pf gray25.xbm $(INSTDIR)
+	cp -pf gray50.xbm $(INSTDIR)
+	cp -pf gray75.xbm $(INSTDIR)
+	cp -pf miniweave.xbm $(INSTDIR)
+	cp -pf sbump.xbm $(INSTDIR)
+	cp -pf sizmk2.xbm $(INSTDIR)
+	cp -pf southwest.xbm $(INSTDIR)
+	cp -pf squares.xbm $(INSTDIR)
+	cp -pf sunmulti.xbm $(INSTDIR)
+	cp -pf swirl2.xbm $(INSTDIR)
+	cp -pf wave1.xbm $(INSTDIR)
+	cp -pf wrnkle2.xbm $(INSTDIR)

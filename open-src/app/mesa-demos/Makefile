@@ -95,19 +95,23 @@ MESA_CFG_64= $(MESA_CFG_64_$(MACH))
 BUILD_32_FLAGS= MESA_CFG=$(MESA_CFG_32)
 BUILD_64_FLAGS= MESA_CFG=$(MESA_CFG_64)
 
+# Flags passed on make command line when building
+ADD_MAKE_FLAGS = X11_INCLUDES="-I$(PROTODIR)$(X11_INCLUDES_DIR)" \
+	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)"
+
 # Build Mesa demos
 $(GLXGEARS_BIN): $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) LDFLAGS="$(PROG_LDFLAGS)" glxgears )
+	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) $(ADD_MAKE_FLAGS) glxgears )
 
 $(GLXINFO_BIN): $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) LDFLAGS="$(PROG_LDFLAGS)" glxinfo )
+	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) $(ADD_MAKE_FLAGS) glxinfo )
 
 # For testing - we don't ship the rest of these
 all-xdemos_gen: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) LDFLAGS="$(PROG_LDFLAGS)")
+	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) $(ADD_MAKE_FLAGS) )
 
 all-xdemos:
 	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) all-xdemos_gen

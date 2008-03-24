@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org application modules
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -55,8 +55,8 @@ LIB_LD_OPTIONS = $(LIB_REQUIRED_LDFLAGS) \
 
 # Environment variable options to GNU autoconf configure script
 CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) $(APP_ADD_CPPFLAGS)" \
-	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
+	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) -I $(PROTODIR)/usr/include -I $(PROTODIR)/usr/include/freetype2 $(APP_ADD_CPPFLAGS)" \
+	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)/usr/lib -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
 	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
 	$(APP_CONFIG_ENV)
 

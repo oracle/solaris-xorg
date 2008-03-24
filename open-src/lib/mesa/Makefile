@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/03/07
+# @(#)Makefile	1.11	08/03/24
 #
 
 PWD:sh=pwd
@@ -54,6 +54,7 @@ SOURCE_PATCHES= \
 	mklib.patch		\
 	solaris-dri-port.patch	\
 	glext.h.patch		\
+	glxext.h.patch		\
 	6538497.patch		\
 	6559710.patch		\
 	mesa965.patch		\

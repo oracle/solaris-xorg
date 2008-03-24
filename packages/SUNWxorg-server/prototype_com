@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.28     08/02/05 SMI"
+# ident "@(#)prototype_com 1.29     08/03/24 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -51,7 +51,6 @@ d none X11/lib 0755 root bin
 !search $HOME/lib/X11 
 d none X11/lib/X11 0755 root bin
 f none X11/lib/X11/Options 0444 root bin
-s none X11/lib/X11/XKeysymDB=../../../openwin/lib/X11/XKeysymDB
 s none X11/lib/X11/rgb.txt=../../../openwin/lib/X11/rgb.txt
 f none X11/lib/X11/Cards 0444 root bin
 

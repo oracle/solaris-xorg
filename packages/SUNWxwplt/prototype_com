@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.171    08/03/24   Sun Microsystems"
+#      "@(#)prototype_com	35.172    08/03/24   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -522,6 +522,8 @@ s none openwin/lib/XErrorDB=X11/XErrorDB
 s none openwin/lib/XKeysymDB=X11/XKeysymDB
 s none openwin/lib/X11/XErrorDB=../../../X11/share/X11/XErrorDB
 s none openwin/lib/X11/XKeysymDB=../../../X11/share/X11/XKeysymDB
+s none X11/lib/X11/XErrorDB=../../share/X11/XErrorDB
+s none X11/lib/X11/XKeysymDB=../../share/X11/XKeysymDB
 
 # open-src/lib/libX11
 !search  $HOME/X11/share/X11/locale
@@ -877,42 +879,40 @@ f none X11/share/X11/locale/zh_TW.big5/Compose			0444 root bin
 f none X11/share/X11/locale/zh_TW.big5/XI18N_OBJS		0444 root bin
 f none X11/share/X11/locale/zh_TW.big5/XLC_LOCALE		0444 root bin
 
-!search  $HOME/openwin/share
-d none openwin/share 				0755 root bin
-
-!search  $HOME/openwin/share/etc
+d none openwin/share 					0755 root bin
 s none openwin/etc=./share/etc
-d none openwin/share/etc 			0755 root bin
+d none openwin/share/etc 				0755 root bin
+d none openwin/share/etc/workspace 			0755 root bin
+s none openwin/share/etc/workspace/patterns=../../../../X11/share/patterns
 
-!search  $HOME/openwin/share/etc/workspace/patterns
-d none openwin/share/etc/workspace 				0755 root bin
-d none openwin/share/etc/workspace/patterns 			0755 root bin
-f none openwin/share/etc/workspace/patterns/attributes 		0644 root bin
-f none openwin/share/etc/workspace/patterns/background.xbm	0644 root bin
-f none openwin/share/etc/workspace/patterns/bricks.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/burl.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/corn.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/dmndpla.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/dolphin.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/dotwave2.xbm	0644 root bin
-f none openwin/share/etc/workspace/patterns/dune.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/flowers.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/flyseye.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/foreground.xbm	0644 root bin
-f none openwin/share/etc/workspace/patterns/fuji.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/geiger2.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/gray25.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/gray50.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/gray75.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/miniweave.xbm	0644 root bin
-f none openwin/share/etc/workspace/patterns/sbump.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/sizmk2.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/southwest.xbm	0644 root bin
-f none openwin/share/etc/workspace/patterns/squares.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/sunmulti.xbm	0644 root bin
-f none openwin/share/etc/workspace/patterns/swirl2.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/wave1.xbm		0644 root bin
-f none openwin/share/etc/workspace/patterns/wrnkle2.xbm		0644 root bin
+!search  $HOME/X11/share/patterns
+d none X11/share/patterns 				0755 root bin
+f none X11/share/patterns/attributes 			0444 root bin
+f none X11/share/patterns/background.xbm		0444 root bin
+f none X11/share/patterns/bricks.xbm			0444 root bin
+f none X11/share/patterns/burl.xbm			0444 root bin
+f none X11/share/patterns/corn.xbm			0444 root bin
+f none X11/share/patterns/dmndpla.xbm			0444 root bin
+f none X11/share/patterns/dolphin.xbm			0444 root bin
+f none X11/share/patterns/dotwave2.xbm			0444 root bin
+f none X11/share/patterns/dune.xbm			0444 root bin
+f none X11/share/patterns/flowers.xbm			0444 root bin
+f none X11/share/patterns/flyseye.xbm			0444 root bin
+f none X11/share/patterns/foreground.xbm		0444 root bin
+f none X11/share/patterns/fuji.xbm			0444 root bin
+f none X11/share/patterns/geiger2.xbm			0444 root bin
+f none X11/share/patterns/gray25.xbm			0444 root bin
+f none X11/share/patterns/gray50.xbm			0444 root bin
+f none X11/share/patterns/gray75.xbm			0444 root bin
+f none X11/share/patterns/miniweave.xbm			0444 root bin
+f none X11/share/patterns/sbump.xbm			0444 root bin
+f none X11/share/patterns/sizmk2.xbm			0444 root bin
+f none X11/share/patterns/southwest.xbm			0444 root bin
+f none X11/share/patterns/squares.xbm			0444 root bin
+f none X11/share/patterns/sunmulti.xbm			0444 root bin
+f none X11/share/patterns/swirl2.xbm			0444 root bin
+f none X11/share/patterns/wave1.xbm			0444 root bin
+f none X11/share/patterns/wrnkle2.xbm			0444 root bin
 
 s none openwin/include=./share/include
 

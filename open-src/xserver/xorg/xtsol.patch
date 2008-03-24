@@ -825,3 +825,16 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
      auth_id = CheckAuthorization (proto_n, auth_proto,
  				  string_n, auth_string, client, &reason);
  
+--- hw/dmx/Makefile.am.orig	2008-01-13 23:05:52.858949249 -0700
++++ hw/dmx/Makefile.am	2008-01-13 23:07:17.138575807 -0700
+@@ -85,6 +85,10 @@
+              $(top_builddir)/IA/libIA.la \
+              @DMXMODULES_LIBS@
+ 
++if BUILD_TSOL_MODULE
++Xdmx_LDADD += $(top_builddir)/tsol/libxtsol.la
++endif
++
+ Xdmx_CFLAGS = \
+               -DHAVE_DMX_CONFIG_H \
+               $(DIX_CFLAGS) \
