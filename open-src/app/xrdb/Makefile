@@ -40,6 +40,7 @@ APP_VERS=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xrdb.patch
+LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
@@ -48,5 +49,7 @@ SUNTOUCH_MAN_FLAGS= \
 
 # Specify which cpp to use instead of depending on builder's $PATH
 APP_CONFIG_OPTS = --with-cpp=/usr/lib/cpp
+
+APP_ADD_CPPFLAGS=-DPATHETICCPP
 
 include ../Makefile.inc
