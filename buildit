@@ -5,7 +5,7 @@
 #
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -34,7 +34,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.2	07/01/31 SMI"
+# ident "@(#)buildit	1.3	08/03/24 SMI"
 #
 
 
@@ -57,9 +57,9 @@ for i in $* ; do
 done
 
 
-# Add /usr/sfw/bin & /opt/sfw/bin to path for GNU tools for external modules
+# Add /usr/sfw/bin, /opt/sfw/bin, & /opt/jdsbld/bin to path for GNU tools
 
-PATH=$PATH:/usr/sfw/bin:/opt/sfw/bin
+PATH=$PATH:/opt/jdsbld/bin:/usr/sfw/bin:/opt/sfw/bin
 export PATH
 
 [ -d log ] || mkdir log
