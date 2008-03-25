@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18	07/10/10
+# @(#)Makefile	1.19	08/03/25
 #
 ###############################################################################
 #
@@ -90,6 +90,9 @@ beforeX-download:
 
 afterX-download:
 	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download OS_SUBDIRS=AFTERX
+
+source:
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source OS_SUBDIRS=ALL
 
 subdirs:
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \

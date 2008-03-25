@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/11/16
+# @(#)Makefile	1.3	08/03/25
 #
 ###############################################################################
 
@@ -47,6 +47,9 @@ install:
 
 download:
 	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+
+source:
+	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
 
 subdirs:
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
