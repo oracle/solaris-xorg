@@ -1,160 +1,240 @@
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/appres package are covered by the following notice:
 
 include app/appres/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/bdftopcf package are covered by the following notice:
 
 include app/bdftopcf/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/bitmap package are covered by the following notice:
 
 include app/bitmap/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/constype package are covered by the following notice:
 
 include app/constype/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/editres package are covered by the following notice:
 
 include app/editres/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/iceauth package are covered by the following notice:
 
 include app/iceauth/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/listres package are covered by the following notice:
 
 include app/listres/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/luit package are covered by the following notice:
 
 include app/luit/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/oclock package are covered by the following notice:
 
 include app/oclock/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/setxkbmap package are covered by the following notice:
 
 include app/setxkbmap/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/twm package are covered by the following notice:
 
 include app/twm/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/viewres package are covered by the following notice:
 
 include app/viewres/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/x11perf package are covered by the following notice:
 
 include app/x11perf/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xauth package are covered by the following notice:
 
 include app/xauth/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xcalc package are covered by the following notice:
 
 include app/xcalc/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xclipboard package are covered by the following notice:
 
 include app/xclipboard/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xcmsdb package are covered by the following notice:
 
 include app/xcmsdb/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xconsole package are covered by the following notice:
 
 include app/xconsole/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xcursorgen package are covered by the following notice:
 
 include app/xcursorgen/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xdpyinfo package are covered by the following notice:
 
 include app/xdpyinfo/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xev package are covered by the following notice:
 
 include app/xev/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xfd package are covered by the following notice:
 
 include app/xfd/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xfwp package are covered by the following notice:
 
 include app/xfwp/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xhost package are covered by the following notice:
 
 include app/xhost/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xkill package are covered by the following notice:
 
 include app/xkill/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xlsatoms package are covered by the following notice:
 
 include app/xlsatoms/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xlsclients package are covered by the following notice:
 
 include app/xlsclients/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xlogo package are covered by the following notice:
 
 include app/xlogo/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xmag package are covered by the following notice:
 
 include app/xmag/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xmodmap package are covered by the following notice:
 
 include app/xmodmap/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libXpm package are covered by the following notice:
 
 include lib/libXpm/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xprop package are covered by the following notice:
 
 include app/xprop/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xrdb package are covered by the following notice:
 
 include app/xrdb/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xrefresh package are covered by the following notice:
 
 include app/xrefresh/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xset package are covered by the following notice:
 
 include app/xset/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xsetroot package are covered by the following notice:
 
 include app/xsetroot/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xstdcmap package are covered by the following notice:
 
 include app/xstdcmap/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xwd package are covered by the following notice:
 
 include app/xwd/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xwininfo package are covered by the following notice:
 
 include app/xwininfo/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the app/xwud package are covered by the following notice:
 
 include app/xwud/COPYING

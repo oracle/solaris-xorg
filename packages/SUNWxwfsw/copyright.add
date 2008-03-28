@@ -1,19 +1,28 @@
+
+--------------------------------------------------------------------
+
 The files in this package are covered under a variety of open source and
 commercial licenses, including, but not limited to the following licenses.
 
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 
 The files in /usr/X11/lib/X11/fonts/encodings are covered by this license:
 
 include font/encodings/COPYING
 
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 
 libfontenc.so.1 is covered by this license:
 
 include lib/libfontenc/COPYING
 
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 libXfont.so.1 is covered by this license:
 
 include lib/libXfont/COPYING

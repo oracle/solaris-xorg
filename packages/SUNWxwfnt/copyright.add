@@ -1,7 +1,12 @@
+
+--------------------------------------------------------------------
+
 Fonts in this package are covered under a variety of open source and
 commercial licenses, including, but not limited to the following licenses.
 
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 For these font files in /usr/X11/lib/X11/fonts/TrueType:
 
  Vera.ttf      VeraBd.ttf    VeraMoBI.ttf  VeraMoIt.ttf  VeraSe.ttf 
@@ -9,7 +14,9 @@ For these font files in /usr/X11/lib/X11/fonts/TrueType:
 
 include font/bitstream-vera/COPYING
 
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 For these font files in /usr/X11/lib/X11/fonts/TrueType:
 
  DejaVuSans-Bold.ttf                  DejaVuSansMono-Oblique.ttf 
@@ -26,7 +33,9 @@ For these font files in /usr/X11/lib/X11/fonts/TrueType:
 
 include font/deja-vu/COPYING
 
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 For these font files in /usr/X11/lib/X11/fonts/TrueType:
 
  LiberationMono-Bold.ttf              LiberationSans-Italic.ttf

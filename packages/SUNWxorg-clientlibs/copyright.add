@@ -1,24 +1,36 @@
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libXrandr package are covered by the following notice:
 
 include lib/libXrandr/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libXv package are covered by the following notice:
 
 include lib/libXv/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libXvMC package are covered by the following notice:
 
 include lib/libXvMC/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libXxf86misc package are covered by the following notice:
 
 include lib/libXxf86misc/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libXxf86vm package are covered by the following notice:
 
 include lib/libXxf86vm/COPYING
-------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+
 Files from the lib/libxkbfile package are covered by the following notice:
 
 include lib/libxkbfile/COPYING
