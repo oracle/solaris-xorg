@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.17     07/01/31 SMI"
+# ident "@(#)prototype_com 1.18     08/04/01 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -81,6 +81,7 @@ f none X11/share/man/man4/xorg.conf.4 0444 root bin
 
 !search $HOME/share/man/man7
 d none X11/share/man/man7 0755 root bin
+f none X11/share/man/man7/exa.7 0444 root bin
 f none X11/share/man/man7/kbd.7 0444 root bin
 f none X11/share/man/man7/keyboard.7 0444 root bin
 f none X11/share/man/man7/mouse.7=$HOME/share/man/man7/mousedrv.7 0444 root bin

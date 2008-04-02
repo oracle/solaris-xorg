@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_i386 1.14     08/03/18 SMI"
+# ident "@(#)prototype_i386 1.15     08/04/01 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -52,8 +52,10 @@ f none X11/share/doc/README.rendition 0444 root bin
 f none X11/share/doc/README.s3virge 0444 root bin
 
 !search $HOME/share/man/man7
+f none X11/share/man/man7/acecad.7 0444 root bin
 f none X11/share/man/man7/apm.7 0444 root bin
 f none X11/share/man/man7/ati.7 0444 root bin
+f none X11/share/man/man7/calcomp.7 0444 root bin
 f none X11/share/man/man7/chips.7 0444 root bin
 f none X11/share/man/man7/cirrus.7 0444 root bin
 f none X11/share/man/man7/citron.7 0444 root bin
@@ -67,6 +69,7 @@ f none X11/share/man/man7/i128.7 0444 root bin
 f none X11/share/man/man7/i740.7 0444 root bin
 f none X11/share/man/man7/i810.7 0444 root bin
 f none X11/share/man/man7/intel.7 0444 root bin
+f none X11/share/man/man7/js_x.7 0444 root bin
 f none X11/share/man/man7/mga.7 0444 root bin
 f none X11/share/man/man7/microtouch.7 0444 root bin
 f none X11/share/man/man7/mutouch.7 0444 root bin
