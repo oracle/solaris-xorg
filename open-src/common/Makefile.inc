@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.88	08/03/10
+# @(#)Makefile.inc	1.89	08/03/31
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -388,15 +388,22 @@ regen-patches:
 # Default license file name is COPYING (X.Org & GNU autoconf default)
 # For other license file names, set LICENSE_FILE to the file name
 # and set LICENSE_FILE_SET=yes
+# A file in the same directory as the Makefile takes precedence
+# over one that is delivered in the package.
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
 LICENSE_DEST = $(PROTODIR)/licenses
 
 install_license:
-	case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
-	if [ -f $(SOURCE_DIR)/$(LICENSE_FILE) ] ; then \
-		THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
+	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
+	THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
+	set -x ; \
+	if [ -f $(LICENSE_FILE) ] ; then \
+		mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
+		cp -pf $(LICENSE_FILE) \
+			$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
+	elif [ -f $(SOURCE_DIR)/$(LICENSE_FILE) ] ; then \
 		mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
 		cp -pf $(SOURCE_DIR)/$(LICENSE_FILE) \
 			$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \

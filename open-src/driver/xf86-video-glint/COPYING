@@ -1,0 +1,663 @@
+ * Copyright 1998 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *
+ * glintOutIBMRGBIndReg() and glintInIBMRGBIndReg() are used to access 
+ * the indirect IBM RAMDAC registers only.
+ 
+ * Copyright 1998-2001 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *
+ * Modified from IBMramdac.c to support TI RAMDAC routines 
+ *   by Jens Owen, <jens@tungstengraphics.com>.
+ *
+ * glintOutTIIndReg() and glintInTIIndReg() are used to access 
+ * the indirect TI RAMDAC registers only.
+ 
+ * Copyright 1997-2001 by Alan Hourihane <alanh@fairlite.demon.co.uk>
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel, <hohndel@suse.de>
+ *	     Stefan Dirsch, <sndirsch@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ 
+ glint_common.h -- common header definitions for Gamma 2D/3D/DRM suite
+ *
+ * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+ * All Rights Reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice (including the next
+ * paragraph) shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * Converted to common header format:
+ *   Jens Owen <jens@tungstengraphics.com>
+ *
+ * $XFree86: xc/programs/Xserver/hw/xfree86/drivers/glint/glint_common.h,v 1.1 2002/10/30 12:52:15 alanh Exp $
+ *
+ 
+ * Copyright 2000-2001 by Alan Hourihane, Sychdyn, North Wales, UK.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ 
+*************************************************************************
+
+Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sub license, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice (including the
+next paragraph) shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*************************************************************************
+*************************************************************************
+
+Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sub license, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice (including the
+next paragraph) shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*************************************************************************
+*************************************************************************
+
+Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sub license, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice (including the
+next paragraph) shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*************************************************************************
+
+ * Copyright 1997-2001 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel, <hohndel@suse.de>
+ *	     Stefan Dirsch, <sndirsch@suse.de>
+ *	     Michel Dänzer, <michdaen@iiic.ethz.ch>
+ *	     Sven Luther, <luther@dpt-info.u-strasbg.fr>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen, 
+ * Siemens Nixdorf Informationssysteme and Appian Graphics.
+ 
+
+ * glint register file 
+ *
+ * Copyright by Stefan Dirsch, Dirk Hohndel, Alan Hourihane
+ * Authors: Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *          Dirk Hohndel, <hohndel@suse.de>
+ *          Stefan Dirsch, <sndirsch@suse.de>
+ *          Simon P., <sim@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ *
+ 
+
+   Copyright (c) 1999,  The XFree86 Project Inc. 
+   Code adapted from mga/mga_shadow.c (Mark Vojkovich <markv@valinux.com>)
+   by Michel Dänzer <michdaen@iiic.ethz.ch>
+
+
+ * Copyright 1997-2001 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel, <hohndel@suse.de>
+ *           Stefan Dirsch, <sndirsch@suse.de>
+ *           Mark Vojkovich, <mvojkovi@ucsd.edu>
+ *           Michel Dänzer, <michdaen@iiic.ethz.ch>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ * 
+ * Permedia 2 accelerated options.
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane <alanh@fairlite.demon.co.uk>
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel,   <hohndel@suse.de>
+ *	     Stefan Dirsch,  <sndirsch@suse.de>
+ *	     Helmut Fahrion, <hf@suse.de>
+ *	     Michel Dänzer,  <michdaen@iiic.ethz.ch>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ 
+
+ *  Permedia 2 Xv Driver
+ *
+ *  Copyright (C) 1998-2000 Michael H. Schimek <m.schimek@netway.at>
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ 
+
+ * Copyright 1998 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *
+ * Permedia2OutIndReg() and Permedia2InIndReg() are used to access 
+ * the indirect Permedia2 RAMDAC registers only.
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane <alanh@fairlite.demon.co.uk>
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel,   <hohndel@suse.de>
+ *	     Stefan Dirsch,  <sndirsch@suse.de>
+ *	     Helmut Fahrion, <hf@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ 
+
+ * Copyright 1998 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *
+ * Permedia2vOutIndReg() and Permedia2vInIndReg() are used to access 
+ * the indirect Permedia2v RAMDAC registers only.
+ 
+
+ * Copyright 2000-2001 by Sven Luther <luther@dpt-info.u-strasbg.fr>.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Sven Luther not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission. Sven Luther makes no representations
+ * about the suitability of this software for any purpose. It is provided
+ * "as is" without express or implied warranty.
+ *
+ * SVEN LUTHER DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL SVEN LUTHER BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Sven Luther, <luther@dpt-info.u-strasbg.fr>
+ *           Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *
+ * this work is sponsored by Appian Graphics.
+ * 
+ * Permedia 3 accelerated options.
+ 
+
+ * Copyright 2000,2001 by Sven Luther <luther@dpt-info.u-strasbg.fr>.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Sven Luther not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission. Sven Luther makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * SVEN LUTHER DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL SVEN LUTHER BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors: Sven Luther, <luther@dpt-info.u-strasbg.fr>
+ *          Thomas Witzel, <twitzel@nmr.mgh.harvard.edu>
+ *          Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *
+ * this work is sponsored by Appian Graphics.
+ * 
+ 
+
+ * glint register file 
+ *
+ * Copyright by Sven Luther
+ * Authors: Sven Luther, <luther@dpt-info.u-strasbg.fr>
+ *          Thomas Witzel, <twitzel@nmr.mgh.harvard.edu>
+ *
+ * this work is sponsored by Appian Graphics.
+ *
+ 
+
+ * Copyright 2001 by Alan Hourihane, Sychdyn, North Wales.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors: Alan Hourihane, alanh@fairlite.demon.co.uk
+ *          Sven Luther <luther@dpt-info.u-strasbg.fr>
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel, <hohndel@suse.de>
+ *           Stefan Dirsch, <sndirsch@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ * 
+ * Permedia accelerated options.
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane <alanh@fairlite.demon.co.uk>
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel,   <hohndel@suse.de>
+ *	     Stefan Dirsch,  <sndirsch@suse.de>
+ *	     Helmut Fahrion, <hf@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel, <hohndel@suse.de>
+ *           Stefan Dirsch, <sndirsch@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ * 
+ * GLINT 300SX accelerated options.
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane, Wigan, England.
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel, <hohndel@suse.de>
+ *           Stefan Dirsch, <sndirsch@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme
+ * 
+ * GLINT 500TX / MX accelerated options.
+ 
+
+ * Copyright 1997-2001 by Alan Hourihane <alanh@fairlite.demon.co.uk>
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of Alan Hourihane not be used in
+ * advertising or publicity pertaining to distribution of the software without
+ * specific, written prior permission.  Alan Hourihane makes no representations
+ * about the suitability of this software for any purpose.  It is provided
+ * "as is" without express or implied warranty.
+ *
+ * ALAN HOURIHANE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+ * EVENT SHALL ALAN HOURIHANE BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Authors:  Alan Hourihane, <alanh@fairlite.demon.co.uk>
+ *           Dirk Hohndel,   <hohndel@suse.de>
+ *	     Stefan Dirsch,  <sndirsch@suse.de>
+ *	     Helmut Fahrion, <hf@suse.de>
+ *
+ * this work is sponsored by S.u.S.E. GmbH, Fuerth, Elsa GmbH, Aachen and
+ * Siemens Nixdorf Informationssysteme

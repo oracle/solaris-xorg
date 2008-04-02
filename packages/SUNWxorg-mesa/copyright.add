@@ -1,0 +1,12 @@
+
+--------------------------------------------------------------------
+
+Files from the Mesa package are covered by the following notice:
+
+include lib/mesa/COPYING
+
+--------------------------------------------------------------------
+
+Files from the proto/glproto package are covered by the following notice:
+
+include proto/glproto/COPYING

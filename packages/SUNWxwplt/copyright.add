@@ -446,3 +446,9 @@ include lib/libXt/COPYING
 Files from the lib/libXtst package are covered by the following notice:
 
 include lib/libXtst/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libxtrans package are covered by the following notice:
+
+include lib/libxtrans/COPYING

@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/03/07
+# @(#)Makefile	1.8	08/04/01
 #
 
 # Package name used in tarballs
@@ -99,10 +99,6 @@ COMPILER=cc
 XVNCSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
 BUILD_TARGETS=$(XVNCSERVER_BIN)
-
-# License file
-LICENSE_FILE=LICENCE.txt
-LICENSE_FILE_SET=yes
 
 default: all
 

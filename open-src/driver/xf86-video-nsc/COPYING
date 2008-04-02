@@ -1,0 +1,4069 @@
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ *
+ * This file contains routines for the first generation display controller.  
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+ * $Workfile: disp_gu2.c $
+ *
+ * This file contains routines for the second generation display controller.  
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+ * $Workfile: durango.c $
+ *
+ * This is the main file used to add Durango graphics support to a software 
+ * project.  The main reason to have a single file include the other files
+ * is that it centralizes the location of the compiler options.  This file
+ * should be tuned for a specific implementation, and then modified as needed
+ * for new Durango releases.  The releases.txt file indicates any updates to
+ * this main file, such as a new definition for a new hardware platform. 
+ *
+ * In other words, this file should be copied from the Durango source files
+ * once when a software project starts, and then maintained as necessary.  
+ * It should not be recopied with new versions of Durango unless the 
+ * developer is willing to tune the file again for the specific project.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_dcdr.c $
+ *
+ * This file contains routines to control the video decoder.
+ * 
+ *    gfx_set_decoder_defaults
+ *    gfx_set_decoder_analog_input
+ *    gfx_set_decoder_brightness
+ *    gfx_set_decoder_contrast	
+ *    gfx_set_decoder_luminance_filter
+ *    gfx_set_decoder_hue
+ *    gfx_set_decoder_saturation
+ *    gfx_set_decoder_input_offset
+ *    gfx_set_decoder_input_size
+ *    gfx_set_decoder_output_size
+ *    gfx_set_decoder_scale
+ *    gfx_set_decoder_TV_standard
+ *    gfx_set_decoder_vbi_enable
+ *    gfx_set_decoder_vbi_format
+ *    gfx_set_decoder_vbi_upscale
+ *    gfx_decoder_software_reset
+ *    gfx_decoder_detect_macrovision
+ *    gfx_decoder_detect_video
+ *
+ * And the following routines if GFX_READ_ROUTINES is set:
+ *
+ *    gfx_get_decoder_brightness
+ *    gfx_get_decoder_contrast
+ *    gfx_get_decoder_hue
+ *    gfx_get_decoder_saturation
+ *    gfx_get_decoder_input_offset
+ *    gfx_get_decoder_input_size
+ *    gfx_get_decoder_output_size
+ *    gfx_get_decoder_vbi_format
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+ * $Workfile: gfx_defs.h $
+ *
+ * This header file contains the macros used to access the hardware.  These
+ * macros assume that 32-bit access is possible, which is true for most 
+ * applications.  Projects using 16-bit compilers (the Windows98 display
+ * driver) and special purpose applications (such as Darwin) need to define 
+ * their own versions of these macros, which typically call a subroutine.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+ * $Workfile: gfx_disp.c $
+ *
+ * This file contains routines to program the display controller.  
+ *
+ * The "disp_gu1.c" and "disp_gu2.c" files implement the following routines:
+ *
+ *    gfx_get_display_mode_count
+ *    gfx_get_display_mode
+ *    gfx_is_display_mode_supported
+ *    gfx_get_display_details
+ *    gfx_set_display_mode
+ *    gfx_set_display_bpp
+ *	  gfx_set_display_timings
+ *    gfx_set_vtotal
+ *    gfx_get_display_pitch
+ *    gfx_set_display_pitch
+ *    gfx_set_display_offset
+ *    gfx_set_display_palette
+ *    gfx_set_display_palette_entry
+ *    gfx_set_cursor_enable
+ *    gfx_set_cursor_colors
+ *    gfx_set_cursor_position
+ *	  gfx_set_cursor_shape32
+ *	  gfx_set_cursor_shape64
+ *    gfx_set_icon_enable
+ *    gfx_set_icon_colors
+ *    gfx_set_icon_position
+ *    gfx_set_icon_shape64
+ *    gfx_set_compression_enable
+ *    gfx_set_compression_offset
+ *    gfx_set_compression_pitch
+ *    gfx_set_compression_size
+ *    gfx_set_display_priority_high
+ *    gfx_test_timing_active
+ *    gfx_test_vertical_active
+ *    gfx_wait_vertical_blank
+ *    gfx_reset_timing_lock
+ *
+ * And the following routines if GFX_READ_ROUTINES is set:
+ *	
+ *	  gfx_get_hactive
+ *    gfx_get_hblank_start
+ *    gfx_get_hsync_start
+ *    gfx_get_hsync_end
+ *    gfx_get_hblank_end
+ *    gfx_get_htotal
+ *    gfx_get_vactive
+ *    gfx_get_vblank_start
+ *    gfx_get_vsync_start
+ *    gfx_get_vsync_end
+ *    gfx_get_vblank_end
+ *    gfx_get_vtotal
+ *    gfx_get_vline
+ *    gfx_get_display_bpp
+ *    gfx_get_display_offset
+ *    gfx_get_display_palette
+ *    gfx_get_cursor_enable
+ *    gfx_get_cursor_base
+ *    gfx_get_cursor_position
+ *    gfx_get_cursor_offset
+ *    gfx_get_cursor_color
+ *    gfx_get_icon_enable
+ *    gfx_get_icon_color
+ *    gfx_get_icon_offset
+ *    gfx_get_icon_position
+ *    gfx_get_compression_enable
+ *    gfx_get_compression_offset
+ *    gfx_get_compression_pitch
+ *    gfx_get_compression_size
+ *    gfx_get_display_priority_high
+ *    gfx_get_valid_bit
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_i2c.c $
+ *
+ * This file contains routines to write to and read from the I2C bus.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_init.c $
+ *
+ * This file contains routines typically used in driver initialization.
+ *
+ * Routines:
+ * 
+ *       gfx_pci_config_read
+ *       gfx_cpu_config_read
+ *       gfx_detect_cpu
+ *       gfx_detect_video
+ *       gfx_get_cpu_register_base
+ *       gfx_get_frame_buffer_base
+ *       gfx_get_frame_buffer_size
+ *       gfx_get_vid_register_base
+ *       gfx_get_vip_register_base
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_mode.h $
+ *
+ * This header file contains the mode tables.  It is used by the "gfx_disp.c" 
+ * file to set a display mode.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_msr.c $
+ *
+ * This file contains routines to read machine-specific registers (MSRs)
+ *
+ * Routines:
+ * 
+ *       gfx_msr_init
+ *       gfx_id_msr_device
+ *       gfx_get_msr_dev_address
+ *       gfx_get_glink_id_at_address
+ *       gfx_msr_read
+ *       gfx_msr_write
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_regs.h $
+ *
+ * This header file contains the graphics register definitions.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_rndr.c $
+ *
+ * This file contains routines to program the 2D acceleration hardware:
+ * 
+ *    gfx_set_bpp
+ *    gfx_set_solid_pattern
+ *    gfx_set_mono_pattern
+ *    gfx_set_color_pattern
+ *    gfx_load_color_pattern_line
+ *    gfx_set_solid_source  
+ *    gfx_set_mono_source
+ *    gfx_set_raster_operation
+ *    gfx_pattern_fill
+ *    gfx_color_pattern_fill
+ *    gfx_screen_to_screen_blt
+ *    gfx_screen_to_screen_xblt
+ *    gfx_color_bitmap_to_screen_blt
+ *    gfx_color_bitmap_to_screen_xblt
+ *    gfx_mono_bitmap_to_screen_blt
+ *    gfx_bresenham_line 
+ *    gfx_wait_until_idle   
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_rtns.h $
+ *
+ * This header file defines the Durango routines and variables used
+ * to access the memory mapped regions.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_tv.c $
+ *
+ * This file contains routines to program TVOUT and TV encoder. 
+ *
+ * Routines:
+ * 
+ *    gfx_set_tv_format
+ *    gfx_set_tv_output
+ *    gfx_set_tv_enable
+ *    gfx_set_tv_flicker_filter
+ *    gfx_set_tv_sub_carrier_reset
+ *    gfx_set_tv_vphase
+ *    gfx_set_tv_YC_delay
+ *    gfx_set_tvenc_reset_interval
+ *    gfx_set_tv_cc_enable
+ *    gfx_set_tv_cc_data
+ *    gfx_test_tvout_odd_field
+ *    gfx_test_tvenc_odd_field
+ *    gfx_set_tv_field_status_invert
+ *    gfx_get_tv_vphase
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_type.h $
+ *
+ * This header file defines the pneumonics used when calling Durango routines. 
+ * This file is automatically included by gfx_rtns.h
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_vga.c $
+ *
+ * This file contains routines to interface to the VGA registers.  Some
+ * operating systems require mode sets be done through VGA, rather than
+ * directly using the "gfx_set_display_mode" routine.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_vid.c $
+ *
+ * This file contains routines to control the video overlay window.
+ *
+ * Video overlay routines:
+ * 
+ *    gfx_set_clock_frequency
+ *    gfx_set_crt_enable
+ *    gfx_set_video_enable
+ *    gfx_set_video_format
+ *    gfx_set_video_size
+ *    gfx_set_video_offset
+ *    gfx_set_video_yuv_offsets
+ *    gfx_set_video_yuv_pitch
+ *    gfx_set_video_scale
+ *    gfx_set_video_upscale
+ *    gfx_set_video_downscale_config
+ *    gfx_set_video_downscale_coefficients
+ *    gfx_set_video_downscale_enable
+ *    gfx_set_video_vertical_downscale
+ *    gfx_set_video_vertical_downscale_enable
+ *    gfx_set_video_window
+ *    gfx_set_video_left_crop
+ *    gfx_set_video_color_key
+ *    gfx_set_video_filter
+ *    gfx_set_video_palette
+ *    gfx_set_video_request
+ *    gfx_set_video_source
+ *    gfx_set_vbi_source
+ *    gfx_set_vbi_lines
+ *    gfx_set_vbi_total
+ *    gfx_set_video_interlaced
+ *    gfx_set_color_space_YUV
+ *    gfx_set_vertical_scaler_offset
+ *    gfx_set_top_line_in_odd
+ *    gfx_set_genlock_delay
+ *    gfx_set_genlock_enable
+ *    gfx_set_video_cursor
+ *    gfx_set_video_cursor_enable
+ * 
+ * Alpha blending routines (SC1200 ONLY):
+ *
+ *    gfx_select_alpha_region
+ *	  gfx_set_alpha_enable
+ *	  gfx_set_alpha_window
+ *    gfx_set_alpha_value
+ *    gfx_set_alpha_priority
+ *    gfx_set_alpha_color
+ *    gfx_set_alpha_color_enable
+ *    gfx_set_no_ck_outside_alpha
+ *    gfx_test_tvout_odd_field
+ *
+ * And the following routines if GFX_READ_ROUTINES is set:
+ *
+ *    gfx_get_sync_polarities
+ *    gfx_get_video_enable
+ *    gfx_get_video_format
+ *    gfx_get_video_src_size
+ *    gfx_get_video_line_size
+ *    gfx_get_video_xclip
+ *    gfx_get_video_offset
+ *    gfx_get_video_yuv_offsets
+ *    gfx_get_video_yuv_pitch
+ *    gfx_get_video_scale
+ *    gfx_get_video_upscale
+ *    gfx_get_video_downscale_config
+ *    gfx_get_video_downscale_coefficients
+ *    gfx_get_video_downscale_enable
+ *    gfx_get_video_downscale_delta
+ *    gfx_get_video_vertical_downscale_enable
+ *    gfx_get_video_dst_size
+ *    gfx_get_video_position
+ *    gfx_get_video_color_key
+ *    gfx_get_video_color_key_mask
+ *    gfx_get_video_color_key_src
+ *    gfx_get_video_filter
+ *    gfx_get_video_request
+ *    gfx_get_video_source
+ *    gfx_get_vbi_source
+ *    gfx_get_vbi_lines
+ *    gfx_get_vbi_total
+ *    gfx_get_video_interlaced
+ *    gfx_get_color_space_YUV
+ *    gfx_get_vertical_scaler_offset
+ *    gfx_get_genlock_delay
+ *    gfx_get_genlock_enable
+ *    gfx_get_video_cursor
+ *    gfx_get_clock_frequency
+ *    gfx_read_crc
+ *
+ * Alpha blending read routines (SC1200 ONLY):
+ *
+ *    gfx_get_alpha_enable
+ *    gfx_get_alpha_size
+ *    gfx_get_alpha_value
+ *    gfx_get_alpha_priority
+ *    gfx_get_alpha_color
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gfx_vip.c $
+ *
+ * This file contains routines to control the video input port (VIP).
+ * 
+ *    gfx_set_vip_enable
+ *    gfx_set_vip_capture_run_mode
+ *    gfx_set_vip_base
+ *    gfx_set_vip_pitch
+ *    gfx_set_vip_mode
+ *    gfx_set_vbi_enable
+ *    gfx_set_vbi_mode
+ *    gfx_set_vbi_base
+ *    gfx_set_vbi_pitch
+ *    gfx_set_vbi_direct
+ *    gfx_set_vbi_interrupt
+ *    gfx_set_vip_bus_request_threshold_high
+ *    gfx_set_vip_last_line
+ *    gfx_test_vip_odd_field
+ *    gfx_test_vip_bases_updated
+ *    gfx_test_vip_fifo_overflow
+ *    gfx_get_vip_line
+ *    gfx_get_vip_base
+ *    gfx_get_vbi_pitch
+ *
+ * And the following routines if GFX_READ_ROUTINES is set:
+ *
+ *    gfx_get_vip_enable
+ *    gfx_get_vip_pitch
+ *    gfx_get_vip_mode
+ *    gfx_get_vbi_enable
+ *    gfx_get_vbi_mode
+ *    gfx_get_vbi_base
+ *    gfx_get_vbi_direct
+ *    gfx_get_vbi_interrupt
+ *    gfx_get_vip_bus_request_threshold_high
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: history.h $
+ *
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: i2c_acc.c $
+ *
+ * This file contains routines to write to and read from the I2C bus using
+ * the ACCESS.bus hardware in the SC1200. 
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: i2c_gpio.c $
+ *
+ * This file contains routines to write to and read from the I2C bus using
+ * the GPIO pins of the CS5530.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: init_gu1.c $
+ *
+ * This file contains routines used in the initialization of Geode-family 
+ * processors.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: init_gu2.c $
+ *
+ * This file contains routines used in Redcloud initialization.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: msr_rdcl.c $
+ *
+ * This file contains MSR access routines for Redcloud.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: rndr_gu1.c $
+ *
+ * This file contains routines to program the 2D acceleration hardware for
+ * the first generation graphics unit (GXLV, SC1200).
+ * 
+ *    gfx_set_bpp            
+ *    gfx_set_solid_pattern  
+ *    gfx_set_mono_pattern
+ *    gfx_set_color_pattern
+ *    gfx_set_solid_source  
+ *    gfx_set_mono_source
+ *    gfx_set_raster_operation
+ *    gfx_pattern_fill
+ *    gfx_screen_to_screen_blt
+ *    gfx_screen_to_screen_xblt
+ *    gfx_color_bitmap_to_screen_blt
+ *    gfx_color_bitmap_to_screen_xblt
+ *    gfx_mono_bitmap_to_screen_blt
+ *    gfx_bresenham_line 
+ *    gfx_wait_until_idle   
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: rndr_gu2.c $
+ *
+ * This file contains routines to program the 2D acceleration hardware for
+ * the second generation graphics unit.
+ * 
+ * Basic rendering routines (common to all Geode processors):
+ *    gfx_set_bpp           
+ *    gfx_set_solid_pattern  
+ *    gfx_set_mono_pattern
+ *    gfx_set_color_pattern
+ *    gfx_set_solid_source  
+ *    gfx_set_mono_source
+ *    gfx_set_raster_operation
+ *    gfx_pattern_fill
+ *    gfx_color_pattern_fill
+ *    gfx_screen_to_screen_blt
+ *    gfx_screen_to_screen_xblt
+ *    gfx_color_bitmap_to_screen_blt
+ *    gfx_color_bitmap_to_screen_xblt
+ *    gfx_mono_bitmap_to_screen_blt
+ *    gfx_bresenham_line 
+ *    gfx_wait_until_idle   
+ *
+ * Extended rendering routines for second generation functionality:
+ *    gfx2_set_source_stride
+ *    gfx2_set_destination_stride
+ *    gfx2_set_pattern_origins
+ *    gfx2_set_source_transparency
+ *    gfx2_set_alpha_mode
+ *    gfx2_set_alpha_value
+ *    gfx2_pattern_fill
+ *    gfx2_color_pattern_fill
+ *    gfx2_screen_to_screen_blt
+ *    gfx2_mono_expand_blt
+ *    gfx2_color_bitmap_to_screen_blt
+ *    gfx2_mono_bitmap_to_screen_blt
+ *    gfx2_bresenham_line
+ *    gfx2_sync_to_vblank
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: saa7114.c $
+ *
+ * This file contains routines to control the Philips SAA7114 video decoder.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: tv_1200.c $
+ *
+ * This file contains routines to control the SC1200 TVOUT and TV encoder.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: tv_fs450.c $
+ *
+ * This file contains routines to control the FS450 tvout encoder.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: tv_fs450.h $
+ *
+ * This file defines the common FS450 API.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: tv_fs451.c $
+ * $Revision$
+ *
+ * This file contains routines to control the FS451 tvout encoder.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+-----------------------------------------------------------------------------
+ * TV_GEODE.C
+ *
+ * Version 1.20 - February 9, 2000
+ *
+ * This file contains routines to program the TV encoder when it is 
+ * integrated onto a Geode processor.
+ *
+ * History:
+ *    Initial version ported from code by Ilia Stolov.
+ *    Versions 0.1 through 1.20 by Brian Falardeau.
+ *
+ * Copyright (c) 1999-2000 National Semiconductor.
+ *-----------------------------------------------------------------------------
+ 
+
+ * $Workfile: vga_gu1.c $
+ *
+ * This file contains routines to set modes using the VGA registers.  
+ * Since this file is for the first generation graphics unit, it interfaces
+ * to SoftVGA registers.  It works for both VSA1 and VSA2.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: vid_1200.c $
+ *
+ * This file contains routines to control the SC1200 video overlay hardware.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+-----------------------------------------------------------------------------
+ * VID_1400.C
+ *
+ * Version 2.0 - February 21, 2000
+ *
+ * This file contains routines to control the SC1400 video overlay hardware.
+ *
+ * History:
+ *    Versions 0.1 through 2.0 by Brian Falardeau.
+ *
+ * Copyright (c) 1999-2000 National Semiconductor.
+ *-----------------------------------------------------------------------------
+ 
+
+ * $Workfile: vid_5530.c $
+ *
+ * This file contains routines to control the CS5530 video overlay hardware.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: vid_rdcl.c $
+ *
+ * This file contains routines to control the Redcloud display filter video overlay hardware.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: vip_1200.c $
+ *
+ * This file contains routines to control the SC1200 video input port (VIP) hardware.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+-----------------------------------------------------------------------------
+ * VIP_1400.C
+ *
+ * Version 2.0 - February 21, 2000.
+ *
+ * This file routines to control the SC1400 video input port (VIP) hardware.
+ *
+ * History:
+ *    Versions 0.1 through 2.0 by Brian Falardeau.
+ *
+ * Copyright (c) 1999-2000 National Semiconductor.
+ *-----------------------------------------------------------------------------
+ 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Geode Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Geode frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Geode Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+
+ * $Workfile: nsc_gx2_vga.c $
+ * $Revision$
+ * $Author$
+ *
+ * This file contains routines to set modes using the VGA registers.  
+ * Since this file is for the first generation graphics unit, it interfaces
+ * to SoftVGA registers.  It works for both VSA1 and VSA2.
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      nsc XFree86
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * National Xfree frame buffer driver
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Durango
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *     Geode graphics driver for panel support
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *     Geode graphics driver for panel support
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+
+ * $Workfile: gx2_9211.c $
+ *
+ * This header file defines the pneumonics used when calling Durango routines. 
+ * This file is automatically included by gfx_rtns.h
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+
+ * $Workfile: gx2_9211.h $
+ *
+ * This header file defines the pneumonics used when calling Durango routines. 
+ * This file is automatically included by gfx_rtns.h
+ *
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ *      Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ NSC_LIC_BSD
+ *
+ * National Semiconductor Corporation Open Source License for Durango
+ *
+ * (BSD License with Export Notice)
+ *
+ * Copyright (c) 1999-2001
+ * National Semiconductor Corporation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions 
+ * are met: 
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer. 
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials provided 
+ *     with the distribution. 
+ *
+ *   * Neither the name of the National Semiconductor Corporation nor 
+ *     the names of its contributors may be used to endorse or promote 
+ *     products derived from this software without specific prior 
+ *     written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * NATIONAL SEMICONDUCTOR CORPORATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE,
+ * INTELLECTUAL PROPERTY INFRINGEMENT, OR OTHERWISE) ARISING IN ANY WAY 
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * OF SUCH DAMAGE.
+ *
+ * EXPORT LAWS: THIS LICENSE ADDS NO RESTRICTIONS TO THE EXPORT LAWS OF 
+ * YOUR JURISDICTION. It is licensee's responsibility to comply with 
+ * any export regulations applicable in licensee's jurisdiction. Under 
+ * CURRENT (2001) U.S. export regulations this software 
+ * is eligible for export from the U.S. and can be downloaded by or 
+ * otherwise exported or reexported worldwide EXCEPT to U.S. embargoed 
+ * destinations which include Cuba, Iraq, Libya, North Korea, Iran, 
+ * Syria, Sudan, Afghanistan and any other country to which the U.S. 
+ * has embargoed goods and services. 
+ *
+ * END_NSC_LIC_BSD 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
+ 
+ * NSC_LIC_ALTERNATIVE_PREAMBLE
+ *
+ * Revision 1.0
+ *
+ * National Semiconductor Alternative GPL-BSD License
+ *
+ * National Semiconductor Corporation licenses this software 
+ * ("Software"):
+ *
+ * Panel Library
+ *
+ * under one of the two following licenses, depending on how the 
+ * Software is received by the Licensee.
+ * 
+ * If this Software is received as part of the Linux Framebuffer or
+ * other GPL licensed software, then the GPL license designated 
+ * NSC_LIC_GPL applies to this Software; in all other circumstances 
+ * then the BSD-style license designated NSC_LIC_BSD shall apply.
+ *
+ * END_NSC_LIC_ALTERNATIVE_PREAMBLE 
