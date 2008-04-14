@@ -3,7 +3,7 @@
  * Use is subject to license terms.
  */
 
-#pragma ident	"@(#)auditwrite.c	1.11	08/02/02 SMI"
+#pragma ident	"@(#)auditwrite.c	1.12	08/04/11 SMI"
 
 /*
  * auditwrite() - Construct and write user level records to the audit trail.
@@ -358,7 +358,7 @@ static int aw_set_context(int param, va_list arglist);
 static void aw_restore(void);
 static int aw_audit_write(int rd);
 static int aw_auditctl_write(int rd);
-static int auditctl(uint32_t command, uint32_t value, uint32_t data);
+static int auditctl(uint32_t command, uint32_t value, caddr_t data);
 #ifdef DEBUG
 static void aw_debuglog(char *string, int rc, int param, va_list arglist);
 #endif
@@ -2143,7 +2143,7 @@ aw_queue_flush(void)
 
 	if (aw_queue_bytes) {
 		if (auditctl(A_AUDIT, (uint32_t)aw_queue_bytes,
-		    (uint32_t)(uintptr_t)aw_queue) == -1)
+		    aw_queue) == -1)
 			AW_GEN_ERR(AW_ERR_AUDIT_FAIL);
 
 		aw_queue_bytes = 0;
@@ -2168,7 +2168,7 @@ aw_queue_write(int rd)
 		(void) aw_queue_flush();
 
 		if ((auditctl(A_AUDIT, (uint32_t)aw_recs[rd]->len,
-		    (uint32_t)(uintptr_t)aw_recs[rd]->buf)) == -1)
+		    aw_recs[rd]->buf)) == -1)
 			AW_GEN_ERR(AW_ERR_AUDIT_FAIL);
 
 		return (AW_SUCCESS_RTN);
@@ -2582,7 +2582,7 @@ static int
 aw_auditctl_write(int rd)
 {
 	if (auditctl(A_AUDIT, (uint32_t)aw_recs[rd]->len,
-	    (uint32_t)(uintptr_t)aw_recs[rd]->buf) == -1)
+	    aw_recs[rd]->buf) == -1)
 		AW_GEN_ERR(AW_ERR_AUDIT_FAIL);
 
 	return (AW_SUCCESS_RTN);
@@ -2740,10 +2740,10 @@ aw_perror_r(const int rd, const char *s)
  * we can readd the system call.
  */
 static int
-auditctl(uint32_t command, uint32_t value, uint32_t data)
+auditctl(uint32_t command, uint32_t value, caddr_t data)
 {
 	uint32_t bytes_left = value;	/* number of bytes to write */
-	caddr_t mover = (caddr_t)(uintptr_t)data;	/* moving pointer */
+	caddr_t mover = data;		/* moving pointer */
 	adr_t adr;			/* byte independent addressing */
 	char id;			/* check for proper audit record */
 	int32_t bytes;			/* number of bytes for this record */
