@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/02/28
+# %W%	%E%
 #
 
 # Package name used in tarballs
@@ -55,7 +55,8 @@ SOURCE_PATCHES = \
 	SolarisIA.patch \
 	sme.patch \
 	4076297.patch \
-	1261271.patch
+	1261271.patch \
+	6686591.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
