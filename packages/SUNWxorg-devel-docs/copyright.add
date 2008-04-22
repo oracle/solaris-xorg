@@ -1,0 +1,43 @@
+
+--------------------------------------------------------------------
+
+Files from the lib/libXevie package are covered by the following notice:
+
+include lib/libXevie/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXfixes package are covered by the following notice:
+
+include lib/libXfixes/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXft package are covered by the following notice:
+
+include lib/libXft/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXrandr package are covered by the following notice:
+
+include lib/libXrandr/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXv package are covered by the following notice:
+
+include lib/libXv/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXxf86misc package are covered by the following notice:
+
+include lib/libXxf86misc/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXxf86vm package are covered by the following notice:
+
+include lib/libXxf86vm/COPYING
+
