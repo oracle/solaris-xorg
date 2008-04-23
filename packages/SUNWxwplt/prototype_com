@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.172    08/03/24   Sun Microsystems"
+#      "@(#)prototype_com	35.173    08/04/22   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -531,6 +531,9 @@ d none X11/share/X11/locale					0755 root bin
 f none X11/share/X11/locale/compose.dir				0444 root bin
 f none X11/share/X11/locale/locale.alias			0444 root bin
 f none X11/share/X11/locale/locale.dir				0444 root bin
+
+d none openwin/lib/locale 0755 root bin
+s none openwin/lib/locale/locale.alias=../../../X11/share/X11/locale/locale.alias
 
 !search  $HOME/X11/share/X11/locale/C
 d none X11/share/X11/locale/C					0755 root bin
