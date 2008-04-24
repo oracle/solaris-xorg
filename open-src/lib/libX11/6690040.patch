@@ -1,0 +1,156 @@
+--- modules/lc/gb18030/lcGB18030.c	Sun Apr 13 23:15:20 2008
++++ modules/lc/gb18030/lcGB18030.c.new	Tue Apr 22 22:55:54 2008
+@@ -544,6 +544,7 @@
+    
+     return unconv_num;
+ }
++
+ static int
+ gb18030_cstowcs(
+     XlcConv conv,
+@@ -1039,6 +1040,95 @@
+     return unconv_num;
+ }
+ 
++static int
++gb18030_mbstowcs(
++    XlcConv conv,
++    XPointer *from,
++    int *from_left,
++    XPointer *to,
++    int *to_left,
++    XPointer *args,
++    int num_args)
++{
++    char *src = *((char **) from);
++    wchar_t *dst = *((wchar_t **) to);
++    int src_left = *from_left;
++    int dst_left = *to_left;
++    int mblen, unconv_num = 0;
++
++    while (src_left > 0 && dst_left > 0) {
++        mblen = mbtowc(dst, src, src_left);
++
++        if (mblen > 0) {
++            src += mblen;
++            src_left -= mblen;
++            dst++;
++            dst_left--;
++        } else {
++            src++;
++            src_left--;
++	    if (mblen < 0) {
++		unconv_num++;
++	    } else {
++		*dst++ = L'\0';
++            	dst_left--;
++	    }
++        }
++    }
++
++    *from = (XPointer) src;
++    *to = (XPointer) dst;
++    *from_left = src_left;
++    *to_left = dst_left;
++    return unconv_num;
++}
++
++static int
++gb18030_wcstombs(
++    XlcConv conv,
++    XPointer *from,
++    int *from_left,
++    XPointer *to,
++    int *to_left,
++    XPointer *args,
++    int num_args)
++{
++    wchar_t *src = *((wchar_t **)from);
++    char *dst = *((char **) to);
++    char buf[MB_CUR_MAX];
++    int src_left = *from_left;
++    int dst_left = *to_left;
++    int mblen, unconv_num = 0;
++
++    while (src_left > 0) {
++        mblen = wctomb(buf, *src);
++
++	if (dst_left < mblen) {
++	    break;
++	}
++
++        src++;
++        src_left--;
++
++	if (mblen < 0) {
++	    unconv_num++;
++	    continue;
++	}
++
++        dst_left -= mblen;
++	for (int i = 0; i < mblen; i++) {
++	    *dst++ = buf[i];
++	}
++    }
++
++    *from = (XPointer) src;
++    *to = (XPointer) dst;
++    *from_left = src_left;
++    *to_left = dst_left;
++    return unconv_num;
++}
++
++
+ static void
+ close_converter(XlcConv conv)
+ {
+@@ -1074,7 +1164,9 @@
+     {close_converter, gb18030_mbstocts, NULL },
+     {close_converter, gb18030_ctstombs, NULL },
+     {close_converter, gb18030_ctstowcs, NULL },
+-    {close_converter, gb18030_wcstocts, NULL }
++    {close_converter, gb18030_wcstocts, NULL },
++    {close_converter, gb18030_mbstowcs, NULL },
++    {close_converter, gb18030_wcstombs, NULL },
+ 
+ };
+ 
+@@ -1169,6 +1261,26 @@
+     return create_conv(from_lcd, &conv_methods[CTSTOWCS]);
+ }
+ 
++static XlcConv
++open_mbstowcs(
++    XLCd from_lcd,
++    const char *from_type,
++    XLCd to_lcd,
++    const char *to_type)
++{
++    return create_conv(from_lcd, &conv_methods[MBSTOWCS]);
++}
++
++static XlcConv
++open_wcstombs(
++    XLCd from_lcd,
++    const char *from_type,
++    XLCd to_lcd,
++    const char *to_type)
++{
++    return create_conv(from_lcd, &conv_methods[WCSTOMBS]);
++}
++
+ XLCd
+ _XlcGb18030Loader(const char *name)
+ {
+@@ -1197,6 +1309,11 @@
+     _XlcSetConverter(lcd, XlcNCompoundText, lcd, XlcNWideChar, open_ctstowcs);
+     _XlcSetConverter(lcd, XlcNWideChar, lcd, XlcNCompoundText, open_wcstocts);
+ 
++    /* MB <-> WC */
++    _XlcSetConverter(lcd, XlcNMultiByte, lcd, XlcNWideChar,     open_mbstowcs);
++    _XlcSetConverter(lcd, XlcNWideChar,  lcd, XlcNMultiByte,    open_wcstombs);
++
++
+     _XlcAddUtf8Converters(lcd);
+ 
+     return lcd;

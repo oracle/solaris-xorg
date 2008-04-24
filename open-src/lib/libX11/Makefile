@@ -57,7 +57,8 @@ SOURCE_PATCHES = \
 	4076297.patch \
 	1261271.patch \
 	6686591.patch \
-	6690054.patch
+	6690054.patch \
+	6690040.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
