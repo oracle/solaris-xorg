@@ -1,0 +1,22 @@
+--- include/GL/glxext.h.orig	2008-02-21 22:32:25.557861019 +0530
++++ include/GL/glxext.h	2008-02-21 22:34:25.799989188 +0530
+@@ -347,9 +347,9 @@
+ /* (as used in the GLX_OML_sync_control extension). */
+ #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+ #include <inttypes.h>
+-#elif defined(__sun__)
++#elif defined(sun)
+ #include <inttypes.h>
+-#if defined(__STDC__)
++#elif defined(__STDC__)
+ #if defined(__arch64__)
+ typedef long int int64_t;
+ typedef unsigned long int uint64_t;
+@@ -371,7 +371,6 @@
+ #else
+ #include <inttypes.h>     /* Fallback option */
+ #endif
+-#endif
+ 
+ #ifndef GLX_VERSION_1_3
+ #define GLX_VERSION_1_3 1
