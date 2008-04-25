@@ -1,6 +1,9 @@
-###########################################################################
+###############################################################################
+#
+# xgc 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,55 +24,27 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
+# @(#)Makefile	1.1 08/04/11
 #
-#	@(#)prototype	35.20	08/04/11
-#
-#  X Window System demo programs
 
-i pkginfo
-i copyright
-i depend
-i postinstall
+# Package name used in tarballs
+APP_NAME=xgc
 
-!HOME=../usr
+# Version number (used in path names)
+APP_VERS=1.0.1
 
-d none openwin				0755 root bin
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = xgc-man.patch
 
-!search       $HOME/openwin/demo
-d none openwin/demo			0755 root bin
-f none openwin/demo/dpsexec 		0755 root bin
-f none openwin/demo/ico			0755 root bin
-f none openwin/demo/ico2		0755 root bin
-f none openwin/demo/maze		0755 root bin
-f none openwin/demo/muncher		0755 root bin
-f none openwin/demo/plaid		0755 root bin
-f none openwin/demo/puzzle		0755 root bin
-f none openwin/demo/texteroids		0755 root bin
-f none openwin/demo/worm		0755 root bin
-f none openwin/demo/xepsf		0755 root bin
-f none openwin/demo/xeyes		0755 root bin
-f none openwin/demo/xmac		0755 root bin
-f none openwin/demo/xmag_multivis	0755 root bin
-f none openwin/demo/xscope		0755 root bin
-f none openwin/demo/xsol		0755 root bin
-!search       $HOME/openwin/bin
-f none openwin/demo/xieperf		0755 root bin
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxwdem} {Interface Stability, Committed}'
 
-!search $HOME/X11/bin
-d none X11				0755 root bin
-d none X11/bin				0755 root bin
-
-# open-src/app/xev
-f none X11/bin/xev 			0755 root bin
-s none openwin/demo/xev=../../X11/bin/xev
-
-# open-src/app/xgc
-f none X11/bin/xgc 			0755 root bin
-s none openwin/demo/xgc=../../X11/bin/xgc
+include ../Makefile.inc

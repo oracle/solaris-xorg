@@ -139,6 +139,12 @@ include app/xfwp/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xgc package are covered by the following notice:
+
+include app/xgc/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xhost package are covered by the following notice:
 
 include app/xhost/COPYING

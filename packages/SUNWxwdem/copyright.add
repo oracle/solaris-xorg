@@ -7,6 +7,12 @@ include app/xev/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xgc package are covered by the following notice:
+
+include app/xgc/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xmag package are covered by the following notice:
 
 include app/xmag/COPYING

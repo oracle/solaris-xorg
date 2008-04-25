@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.39	08/03/25
+# @(#)Makefile	1.40	08/04/11
 #
 ###############################################################################
 
@@ -61,6 +61,7 @@ OS_SUBDIRS_common = \
 	xfd \
 	xfwp \
 	xgamma \
+	xgc \
 	xhost \
 	xkbcomp \
 	xkill \
