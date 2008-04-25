@@ -37,7 +37,7 @@
 DRIVER_NAME=xf86-video-radeonhd
 
 # Version number (used in path names)
-DRIVER_VERS=1.1.0
+DRIVER_VERS=1.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 
@@ -57,6 +57,6 @@ DRIVER_ADD_LIBS= \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-        -lfb -lshadow
+        -lfb -lshadow -lxaa -lexa
 
 include ../Makefile.inc
