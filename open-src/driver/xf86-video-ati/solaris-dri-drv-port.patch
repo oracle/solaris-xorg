@@ -1,0 +1,29 @@
+--- src/radeon_dri.h	Thu Apr 24 09:24:08 2008
++++ src/radeon_dri.h	Thu Apr 24 09:19:49 2008
+@@ -80,14 +80,17 @@
+     /* MMIO register data */
+     drm_handle_t     registerHandle;
+     drmSize       registerSize;
++	int		padding0;
+ 
+     /* CP in-memory status information */
+     drm_handle_t     statusHandle;
+     drmSize       statusSize;
++	int		padding1;
+ 
+     /* CP GART Texture data */
+     drm_handle_t     gartTexHandle;
+     drmSize       gartTexMapSize;
++	int		padding2;
+     int           log2GARTTexGran;
+     int           gartTexOffset;
+     unsigned int  sarea_priv_offset;
+@@ -94,6 +97,8 @@
+ 
+ #ifdef PER_CONTEXT_SAREA
+     drmSize      perctx_sarea_size;
++#else
++	int		padding3;
+ #endif
+ } RADEONDRIRec, *RADEONDRIPtr;
+ 

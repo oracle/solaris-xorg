@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.18	07/07/11 SMI"
+# ident	"@(#)prototype	1.19	08/04/29 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -152,6 +152,9 @@ d none X11/lib/modules/dri 0755 root bin
 !search $HOME/lib/modules/dri
 f none X11/lib/modules/dri/i915_dri.so 0755 root bin
 f none X11/lib/modules/dri/i965_dri.so 0755 root bin
+f none X11/lib/modules/dri/r200_dri.so 0755 root bin
+f none X11/lib/modules/dri/r300_dri.so 0755 root bin
+f none X11/lib/modules/dri/radeon_dri.so 0755 root bin
 !search $HOME/lib/X11/xserver
 d none X11/lib/X11 0755 root bin
 d none X11/lib/X11/xserver 0755 root bin
@@ -172,6 +175,9 @@ d none X11/lib/modules/dri/amd64 0755 root bin
 !search $HOME/lib/modules/dri/amd64
 f none X11/lib/modules/dri/amd64/i915_dri.so 0755 root bin
 f none X11/lib/modules/dri/amd64/i965_dri.so 0755 root bin
+f none X11/lib/modules/dri/amd64/r200_dri.so 0755 root bin
+f none X11/lib/modules/dri/amd64/r300_dri.so 0755 root bin
+f none X11/lib/modules/dri/amd64/radeon_dri.so 0755 root bin
 !search $HOME/lib/X11/xserver/amd64
 d none X11/lib/X11/xserver/amd64 0755 root bin
 f none X11/lib/X11/xserver/amd64/libdrm.so.2 0755 root bin
