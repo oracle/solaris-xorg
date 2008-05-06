@@ -1,0 +1,10 @@
+--- hw/xfree86/os-support/bus/ix86Pci.c.orig	Thu May  1 16:40:37 2008
++++ hw/xfree86/os-support/bus/ix86Pci.c	Thu May  1 16:41:21 2008
+@@ -245,6 +245,7 @@
+ 	case (PCI_CLASS_PREHISTORIC << 8) | PCI_SUBCLASS_PREHISTORIC_VGA:
+ 	case (PCI_CLASS_DISPLAY << 8) | PCI_SUBCLASS_DISPLAY_VGA:
+ 	case (PCI_CLASS_BRIDGE << 8) | PCI_SUBCLASS_BRIDGE_HOST:
++	case (PCI_CLASS_BRIDGE << 8) | PCI_SUBCLASS_BRIDGE_PCI:
+ 	    return TRUE;
+ 
+ 	default:
