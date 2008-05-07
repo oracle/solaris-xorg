@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.40	08/04/11
+# @(#)Makefile	1.41	08/05/05
 #
 ###############################################################################
 
@@ -88,7 +88,8 @@ OS_SUBDIRS_common = \
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
+		  xdriinfo
 
 MACH:sh=uname -p
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
