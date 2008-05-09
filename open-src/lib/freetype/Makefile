@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.72	08/03/07
+# @(#)Makefile	1.73	08/05/02
 #
 
 PWD:sh=pwd
@@ -53,14 +53,8 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
 	freetype-config.patch \
-	freetype-2.3.5.ttobjs.h.patch \
-	freetype-2.3.5.ttinterp.h.patch \
-	freetype-2.3.5.ttinterp.c.patch \
-	freetype-2.3.5.ttobjs.c.patch \
-	freetype-2.3.5.ttgload.c.patch \
 	CVE-2007-2754.patch \
 	freetype-2.3.5.ftoption.h.patch \
-	freetype-2.3.5.freetype.h.patch \
 	freetype-2.3.5.configure.patch
 
 # Directory created by unpacking source
