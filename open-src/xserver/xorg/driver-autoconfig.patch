@@ -1,0 +1,277 @@
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
+--- hw/xfree86/common/xf86AutoConfig.c	2008-05-07 18:53:54.780461000 -0700
++++ hw/xfree86/common/xf86AutoConfig.c	2008-05-07 18:54:39.872308000 -0700
+@@ -40,6 +40,11 @@
+ #include "xf86Priv.h"
+ #include "xf86_OSlib.h"
+ 
++#ifdef sun
++# include <sys/visual_io.h>
++# include <ctype.h>
++#endif
++
+ /* Sections for the default built-in configuration. */
+ 
+ #define BUILTIN_MODULE_SECTION \
+@@ -99,7 +104,7 @@
+ 
+ static const char **builtinConfig = NULL;
+ static int builtinLines = 0;
+-static const char *deviceList[] = {
++static const char *fallbackDeviceList[] = {
+ #if defined(sun) && defined(__sparc)
+ 	"wsfb",
+ #else	
+@@ -160,70 +165,123 @@ AppendToConfig(const char *s)
+     AppendToList(s, &builtinConfig, &builtinLines);
+ }
+ 
+-static const char *
+-videoPtrToDriverName(pciVideoPtr info)
++static void
++videoPtrToDriverName(pciVideoPtr info, const char *driverList[])
+ {
+     /*
+      * things not handled yet:
+      * amd/cyrix/nsc
+      * xgi
+      */
+-
+     switch (info->vendor)
+     {
+-	case 0x1142:		    return "apm";
+-	case 0xedd8:		    return "ark";
+-	case 0x1a03:		    return "ast";
+-	case 0x1002:		    return "ati";
+-	case 0x102c:		    return "chips";
+-	case 0x1013:		    return "cirrus";
++	case 0x1142:		    driverList[0] = "apm";	break;
++	case 0xedd8:		    driverList[0] = "ark";	break;
++	case 0x1a03:		    driverList[0] = "ast";	break;
++	case 0x1002:
++	    driverList[0] = "ati";
++	    driverList[1] = "radeonhd";
++	    break;
++	case 0x102c:		    driverList[0] = "chips";	break;
++	case 0x1013:		    driverList[0] = "cirrus";	break;
+ 	case 0x8086:
+-	    if ((info->chipType == 0x00d1) || (info->chipType == 0x7800))
+-		return "i740";
+-	    else return "i810";
+-	case 0x102b:		    return "mga";
+-	case 0x10c8:		    return "neomagic";
+-	case 0x105d:		    return "i128";
+-	case 0x10de: case 0x12d2:   return "nv";
+-	case 0x1163:		    return "rendition";
++	    if ((info->chipType == 0x00d1) || (info->chipType == 0x7800)) {
++		driverList[0] = "i740";
++	    } else {
++		driverList[0] = "intel";
++		driverList[1] = "i810";
++	    }
++	    break;
++	case 0x102b:		    driverList[0] = "mga";	break;
++	case 0x10c8:		    driverList[0] = "neomagic";	break;
++	case 0x105d:		    driverList[0] = "i128";	break;
++	case 0x10de: case 0x12d2:   driverList[0] = "nv";	break;
++	case 0x1163:		    driverList[0] = "rendition";break;
+ 	case 0x5333:
+ 	    switch (info->chipType)
+ 	    {
+ 		case 0x88d0: case 0x88d1: case 0x88f0: case 0x8811:
+ 		case 0x8812: case 0x8814: case 0x8901:
+-		    return "s3";
++		    driverList[0] = "s3";
++		    break;
+ 		case 0x5631: case 0x883d: case 0x8a01: case 0x8a10:
+ 		case 0x8c01: case 0x8c03: case 0x8904: case 0x8a13:
+-		    return "s3virge";
++		    driverList[0] = "s3virge";
++		    break;
+ 		default:
+-		    return "savage";
++		    driverList[0] = "savage";
++		    break;
+ 	    }
+-	case 0x1039:		    return "sis";
+-	case 0x126f:		    return "siliconmotion";
++	    break;
++	case 0x1039:		    driverList[0] = "sis";	break;
++	case 0x126f:		    driverList[0] = "siliconmotion"; break;
+ 	case 0x121a:
+ 	    if (info->chipType < 0x0003)
+-	        return "voodoo";
++	        driverList[0] = "voodoo";
+ 	    else
+-	        return "tdfx";
+-	case 0x3d3d:		    return "glint";
+-	case 0x1023:		    return "trident";
+-	case 0x100c:		    return "tseng";
+-	case 0x1106:		    return "via";
+-	case 0x15ad:		    return "vmware";
++	        driverList[0] = "tdfx";
++	    break;
++	case 0x3d3d:		    driverList[0] = "glint";	break;
++	case 0x1023:		    driverList[0] = "trident";	break;
++	case 0x100c:		    driverList[0] = "tseng";	break;
++	case 0x1106:
++	    driverList[0] = "openchrome";
++	    driverList[1] = "via";
++	    break;
++	case 0x15ad:		    driverList[0] = "vmware";	break;
+ 	default: break;
+     }
+-    return NULL;
+ }
+ 
+ Bool
+ xf86AutoConfig(void)
+ {
+-    const char **p;
++    const char *detectedDeviceList[8] = { NULL, NULL, NULL, NULL,
++    					  NULL, NULL, NULL, NULL };
++    const char **deviceLists[3]
++	= { detectedDeviceList, fallbackDeviceList, NULL };
++    const char **p = detectedDeviceList;
++    const char ***d;
+     char buf[1024];
+     pciVideoPtr *pciptr, info = NULL;
+-    char *driver = NULL;
+     ConfigStatus ret;
++#ifdef sun
++    char *vendorName = NULL, *driverName = NULL;
+ 
++    /* Check for driver type based on /dev/fb type and if valid, replace
++       detectedDeviceList */
++    if (xf86Info.consoleFd  >= 0) {
++	struct vis_identifier   visid;
++	const char *cp;
++	int ddi = 0;
++
++	if (ioctl(xf86Info.consoleFd, VIS_GETIDENTIFIER, &visid) >= 0) {
++	    xf86Msg(X_PROBED, "console driver: %s\n", visid.name);
++
++	    /* Special case from before the general case was set */
++	    if (strcmp(visid.name, "NVDAnvda") == 0) {
++		detectedDeviceList[ddi++] = "nvidia";
++	    }
++
++	    /* General case - split into vendor name & driver name */
++	    if (strcmp(visid.name, "SUNWtext") != 0) {
++		for (cp = visid.name; (*cp != '\0') && isupper(*cp); cp++) {
++		    /* find end of all uppercase vendor section */
++		}
++		if ((cp != visid.name) && (*cp != '\0')) {
++		    vendorName = xnfstrdup(visid.name);
++		    vendorName[cp - visid.name] = '\0';
++		    driverName = xnfstrdup(cp);
++
++		    detectedDeviceList[ddi++] = vendorName;
++		    detectedDeviceList[ddi++] = driverName;
++		}
++	    }
++	    p = &detectedDeviceList[ddi];
++	}
++    }
++#endif
++    
+     /* Find the primary device, and get some information about it. */
+     if (xf86PciVideoInfo) {
+ 	for (pciptr = xf86PciVideoInfo; (info = *pciptr); pciptr++) {
+@@ -239,38 +297,29 @@ xf86AutoConfig(void)
+     }
+ 
+     if (info)
+-	driver = videoPtrToDriverName(info);
+-
++	videoPtrToDriverName(info, p);
++    
+     AppendToConfig(BUILTIN_MODULE_SECTION);
+     AppendToConfig(BUILTIN_MONITOR_SECTION);
+-
+-    if (driver) {
+-	snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION_PRE,
+-		 driver, 0, driver);
+-	AppendToConfig(buf);
+-	ErrorF("New driver is \"%s\"\n", driver);
+-	buf[0] = '\t';
+-	AppendToConfig(BUILTIN_DEVICE_SECTION_POST);
+-	snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION,
+-		 driver, 0, driver, 0);
+-	AppendToConfig(buf);
+-    }
+-
+-    for (p = deviceList; *p; p++) {
+-	snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
+-	AppendToConfig(buf);
+-	snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);
+-	AppendToConfig(buf);
++    
++    ErrorF("Drivers to try are:");
++    for (d = deviceLists; *d ; d++) {
++	for (p = *d; *p; p++) {
++	    ErrorF(" \"%s\"", *p);
++	    snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
++	    AppendToConfig(buf);
++	    snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);
++	    AppendToConfig(buf);
++	}
+     }
++    ErrorF("\n");
+ 
+     AppendToConfig(BUILTIN_LAYOUT_SECTION_PRE);
+-    if (driver) {
+-	snprintf(buf, sizeof(buf), BUILTIN_LAYOUT_SCREEN_LINE, driver, 0);
+-	AppendToConfig(buf);
+-    }
+-    for (p = deviceList; *p; p++) {
+-	snprintf(buf, sizeof(buf), BUILTIN_LAYOUT_SCREEN_LINE, *p, 0);
+-	AppendToConfig(buf);
++    for (d = deviceLists; *d ; d++) {
++	for (p = *d; *p; p++) {
++	    snprintf(buf, sizeof(buf), BUILTIN_LAYOUT_SCREEN_LINE, *p, 0);
++	    AppendToConfig(buf);
++	}
+     }
+     AppendToConfig(BUILTIN_LAYOUT_SECTION_POST);
+ 
+@@ -287,6 +336,11 @@ xf86AutoConfig(void)
+     ret = xf86HandleConfigFile(TRUE);
+     FreeConfig();
+ 
++#ifdef sun
++    xfree(driverName);
++    xfree(vendorName);
++#endif
++    
+     if (ret != CONFIG_OK)
+ 	xf86Msg(X_ERROR, "Error parsing the built-in default configuration.\n");
+ 

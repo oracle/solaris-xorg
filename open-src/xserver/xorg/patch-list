@@ -60,3 +60,4 @@ xv-swap.patch
 6642762.patch,-p1
 6618220.patch
 6668806.patch
+driver-autoconfig.patch
