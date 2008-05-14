@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.66     08/05/13 SMI"
+# ident "@(#)prototype_com 35.67     08/05/14 SMI"
 #
 #  X Window System online user man pages
 
@@ -179,6 +179,9 @@ f none X11/share/man/man1/listres.1 	0444 root bin
 
 # open-src/app/luit
 f none X11/share/man/man1/luit.1 	0444 root bin
+
+# open-src/app/mkfontscale
+f none X11/share/man/man1/mkfontscale.1	0444 root bin
 
 # open-src/app/oclock
 f none X11/share/man/man1/oclock.1 	0444 root bin

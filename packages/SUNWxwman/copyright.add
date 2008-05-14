@@ -49,6 +49,12 @@ include app/luit/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/mkfontscale package are covered by the following notice:
+
+include app/mkfontscale/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/oclock package are covered by the following notice:
 
 include app/oclock/COPYING

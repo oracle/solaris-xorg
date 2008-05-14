@@ -27,3 +27,9 @@ libXfont.so.1 is covered by this license:
 
 include lib/libXfont/COPYING
 
+--------------------------------------------------------------------
+
+mkfontscale is covered by this license:
+
+include app/mkfontscale/COPYING
+

@@ -2,7 +2,7 @@
 #
 # mkfontscale 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/11/27
+# @(#)Makefile	1.4	08/05/14
 #
 
 # Package name used in tarballs
 APP_NAME=mkfontscale
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+APP_VERS=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -45,16 +45,14 @@ SOURCE_PATCHES =
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
 SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxorg-client-programs} {Interface Stability, Volatile}'
+ -a '{Availability, SUNWxwfsw} {Interface Stability, Uncommitted}'
 
 # Need to look in $(PROTODIR) for freetype headers
 APP_ADD_CPPFLAGS=-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 
 # Need to link with libfontenc in server private directory
-# /usr/sfw/lib is left in the runpath as a temporary transition aid until
-# all build & test machines have freetype in /usr/lib
+# and libfreetype in proto area copy of /usr/lib
 APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R /usr/sfw/lib$(ARCHLIBSUBDIR) \
 	-L $(PROTODIR)/usr/lib$(LIBSUBDIR) 
 
 include ../Makefile.inc

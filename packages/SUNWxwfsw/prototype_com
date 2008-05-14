@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.5     08/03/07 SMI"
+# ident "@(#)prototype_com 1.6     08/05/14 SMI"
 #
 #  X Window System required core font software package
 
@@ -158,3 +158,8 @@ d none X11/lib/X11/xserver/$plat_64 0755 root bin
 s none X11/lib/X11/xserver/64=$plat_64
 f none X11/lib/X11/xserver/$plat_64/libfontenc.so.1 0444 root bin
 f none X11/lib/X11/xserver/$plat_64/libXfont.so.1 0444 root bin
+
+!search $X11HOME/bin
+d none X11/bin						0755 root bin
+f none X11/bin/mkfontscale				0755 root bin
+
