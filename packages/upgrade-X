@@ -2,9 +2,9 @@
 
 ###
 #
-# @(#)upgrade-X	1.36 08/02/27
+# @(#)upgrade-X	1.37 08/05/14
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -201,7 +201,7 @@ fi
     PKGS_64="SUNWxwicx SUNWxwmox SUNWxwplx SUNWxwrtx SUNWxwslx SUNWfreetype2-64"
 
 # Old packages to remove and not replace
-    REM_PKGS="${REM_PKGS} SUNWftyp2 SUNWftypx ${PKGS_XSS_REM} ${PKGS_FNT_REM} SUNWstsf SUNWstsfr SUNWxwxst"
+    REM_PKGS="${REM_PKGS} SUNWftyp2 SUNWftypx ${PKGS_XSS_REM} ${PKGS_FNT_REM} SUNWstsf SUNWstsfr SUNWxwxst SUNWxwfa"
 
 
 # Packages moved from XORG tree

@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.57 08/03/17
+# @(#)make_release_packages	1.58 08/05/14
 #
 #	Create and fill a package staging area for X
 #
@@ -53,7 +53,7 @@ DATE=`date +0.%Y.%m.%d`
 #   List of official (deliverable) X-window packages
 XW_PACKAGE_LIST="SUNWxwcft SUNWxwdem SUNWxwdim SUNWxwfs SUNWxwinc \
 	SUNWxwice SUNWxwopt SUNWxwpmn SUNWxwsrc SUNWxwacx SUNWxwdxm \
-	SUNWxwhl SUNWi1of SUNWxwfa SUNWxwpft SUNWxwsrv SUNWxwoft \
+	SUNWxwhl SUNWi1of SUNWxwpft SUNWxwsrv SUNWxwoft \
 	SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwsvr \
 	SUNWxscreensaver-hacks SUNWfreetype2 SUNWxwxft \
 	SUNWxorg-clientlibs SUNWxorg-devel-docs SUNWxorg-headers \
@@ -63,7 +63,7 @@ XW_PACKAGE_LIST="SUNWxwcft SUNWxwdem SUNWxwdim SUNWxwfs SUNWxwinc \
 # L10N packages are normally only built on sparc since they only have text
 # files that are the same for both platforms
 if [ "$MACH" = "sparc" -o "x$BUILD_L10N" = "xyes" ]; then
-    XW_L10N_PACKAGES="SUNW0xacx SUNW0xman SUNW0xpmn SUNW0xwfa SUNW0xwplt \
+    XW_L10N_PACKAGES="SUNW0xacx SUNW0xman SUNW0xpmn SUNW0xwplt \
 	    SUNW0xwopt SUNW0xwsvr"
 else
     XW_L10N_PACKAGES=" "
