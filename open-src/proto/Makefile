@@ -28,13 +28,13 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	08/03/25
+# @(#)Makefile	1.10	08/05/13
 #
 ###############################################################################
 
 OS_SUBDIRS_common = \
 	x11proto bigreqsproto compositeproto damageproto evieproto \
-	fixesproto fontcacheproto fontsproto inputproto kbproto pmproto \
+	fixesproto fontcacheproto fontsproto glproto inputproto kbproto pmproto \
 	randrproto recordproto renderproto resourceproto scrnsaverproto \
 	trapproto videoproto xcmiscproto xextproto xf86bigfontproto \
 	xf86dgaproto xf86miscproto xf86vidmodeproto xineramaproto \
@@ -43,7 +43,7 @@ OS_SUBDIRS_common = \
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)       \
-	glproto xf86driproto
+	xf86driproto
 
 MACH:sh=uname -p
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))

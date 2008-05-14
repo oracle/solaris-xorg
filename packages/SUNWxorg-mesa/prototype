@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.19	08/04/29 SMI"
+# ident	"@(#)prototype	1.20	08/05/13 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -230,3 +230,14 @@ d none openwin 0755 root bin
 d none openwin/share 0755 root bin
 d none openwin/share/include 0755 root bin
 s none openwin/share/include/GL=../../../X11/include/GL
+
+!search $HOME/../lib/pkgconfig
+d none lib                                      0755 root bin
+d none lib/pkgconfig                            0755 root other
+f none lib/pkgconfig/glproto.pc                 0444 root bin
+
+d none lib/$plat_64                             0755 root bin
+d none lib/$plat_64/pkgconfig                   0755 root other
+s none lib/$plat_64/pkgconfig/glproto.pc=../../pkgconfig/glproto.pc
+
+

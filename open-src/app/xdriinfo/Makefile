@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/05/05
+# @(#)Makefile	1.2 08/05/13
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ APP_NAME=xdriinfo
 APP_VERS=1.0.2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = compile-on-sparc.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
