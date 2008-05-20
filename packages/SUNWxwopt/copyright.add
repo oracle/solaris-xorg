@@ -37,6 +37,12 @@ include app/oclock/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xterm package are covered by the following notice:
+
+include app/xterm/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/twm package are covered by the following notice:
 
 include app/twm/COPYING

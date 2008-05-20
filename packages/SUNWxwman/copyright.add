@@ -61,6 +61,12 @@ include app/oclock/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/oclock package are covered by the following notice:
+
+include app/xterm/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/setxkbmap package are covered by the following notice:
 
 include app/setxkbmap/COPYING

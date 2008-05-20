@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xterm 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,94 +30,45 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.43	08/05/19
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+# Package name used in tarballs
+APP_NAME=xterm
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	iceauth \
-	listres \
-	luit \
-	mesa-demos \
-	mkfontscale \
-	oclock \
-        setxkbmap \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xcalc \
-	xclipboard \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xdriinfo \
-	xev \
-	xfd \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xkbcomp \
-	xkill \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xmag \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xset \
-	xsetroot \
-	xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx \
-        xterm
+# Version number (used in path names)
+APP_VERS=235
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Source tarball
+SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.gz
+SOURCE_URL=ftp://invisible-island.net/xterm/xterm.tar.gz
+SOURCE_URL_SET=yes
+SOURCE_UNCOMPRESS=gzcat
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = \
+	4251073.patch
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= -p $(APP_prefix)/bin/ \
+ -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Paths to find Xft/fontconfig/freetype headers libraries at build time
+# and run time 
+FT_CFLAGS= -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2 \
+	-I$(PROTODIR)/usr/X11/include
+FT_LIBS= \
+  -L$(PROTODIR)/usr/X11/lib$(LIBSUBDIR) -R/usr/X11/lib$(LIBSUBDIR) -lXft \
+  -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -R/usr/lib$(LIBSUBDIR) -lfontconfig
 
-World: clean all
+# Additional flags to pass to configure script
+APP_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
+  --with-freetype-cflags="$(FT_CFLAGS)" --with-freetype-libs="$(FT_LIBS)" \
+  --disable-setuid --disable-setgid  --enable-luit \
+  --x-includes=$(PROTODIR)/usr/X11/include --x-libraries=/usr/X11/lib \
+  --with-icondir=/usr/share/pixmaps
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Tell configure where to find luit binary
+APP_CONFIG_ENV = LUIT=/usr/X11/bin/luit
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc

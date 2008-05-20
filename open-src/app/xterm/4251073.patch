@@ -1,0 +1,101 @@
+--- screen.c	Wed May 14 15:53:18 2008
++++ screen.c	Wed May 14 15:35:42 2008
+@@ -119,8 +119,9 @@
+ 
+ /*
+  *  This is called when the screen is resized.
+- *  Returns the number of lines the text was moved down (neg for up).
+- *  (Return value only necessary with SouthWestGravity.)
++ *  Puts the number of lines the text was moved down (neg for up) into
++ *  *move_down_by (only necessary with SouthWestGravity)
++ *  Returns 0 on error, non-zero on success.
+  */
+ static int
+ Reallocate(XtermWidget xw,
+@@ -129,7 +130,8 @@
+ 	   int nrow,
+ 	   int ncol,
+ 	   int oldrow,
+-	   int oldcol)
++	   int oldcol,
++           int *move_down_by)
+ {
+     ScrnBuf base;
+     Char *tmp;
+@@ -153,6 +155,8 @@
+      * FIXME: this is a good idea, but doesn't seem to be implemented.
+      * -gildea
+      */
++     if ((tmp = TypeCallocN(Char, length)) == 0)
++        return -1;
+ 
+     /*
+      * realloc sbuf, the pointers to all the lines.
+@@ -179,8 +183,6 @@
+      *  create the new buffer space and copy old buffer contents there
+      *  line by line.
+      */
+-    if ((tmp = TypeCallocN(Char, length)) == 0)
+-	SysError(ERROR_SREALLOC);
+     *sbufaddr = tmp;
+     minrows = (oldrow < nrow) ? oldrow : nrow;
+     mincols = (oldcol < ncol) ? oldcol : ncol;
+@@ -214,7 +216,10 @@
+     /* Now free the old buffer */
+     free(oldbuf);
+ 
+-    return move_down ? move_down : -move_up;	/* convert to rows */
++    if (move_down_by)
++       *move_down_by = move_down ? move_down : -move_up; /* convert to rows */
++
++    return 0;
+ }
+ 
+ #if OPT_WIDE_CHARS
+@@ -1475,23 +1480,28 @@
+ 		&& xw->misc.resizeGravity == SouthWestGravity)
+ 		/* swap buffer pointers back to make this work */
+ 		SwitchBufPtrs(screen);
+-	    if (screen->altbuf)
+-		(void) Reallocate(xw,
++                if (screen->altbuf) {
++                    if (Reallocate(xw,
+ 				  &screen->altbuf,
+ 				  &screen->abuf_address,
+ 				  rows,
+ 				  cols,
+ 				  MaxRows(screen),
+-				  MaxCols(screen));
+-	    move_down_by = Reallocate(xw,
++				  MaxCols(screen),
++                                NULL) < 0) {
++                                            return 0;
++                                           }
++                 }
++	        if (Reallocate(xw,
+ 				      &screen->allbuf,
+ 				      &screen->sbuf_address,
+ 				      rows + savelines, cols,
+ 				      MaxRows(screen) + savelines,
+-				      MaxCols(screen));
+-	    screen->visbuf = &screen->allbuf[MAX_PTRS * savelines];
+-	}
+-
++				      MaxCols(screen),  &move_down_by) < 0) {
++                 return 0;
++                 }
++	   } /* end if screen->is_running */
++	screen->visbuf = &screen->allbuf[MAX_PTRS * savelines];
+ 	AdjustSavedCursor(xw, move_down_by);
+ 	set_max_row(screen, screen->max_row + delta_rows);
+ 	set_max_col(screen, cols - 1);
+@@ -1532,7 +1542,8 @@
+     screen->fullVwin.fullheight = height;
+     screen->fullVwin.fullwidth = width;
+ 
+-    ResizeScrollBar(xw);
++    if (screen->scrollWidget)
++      ResizeScrollBar(xw);
+     ResizeSelection(screen, rows, cols);
+ 
+ #ifndef NO_ACTIVE_ICON

@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.46	08/03/10 SMI"
+# ident "@(#)prototype	35.48	08/05/20 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -45,7 +45,6 @@ f none openwin/bin/imake	0755 root bin
 f none openwin/bin/makedepend	0755 root bin
 f none openwin/bin/mkdirhier	0755 root bin
 f none openwin/bin/pswrap	0755 root bin
-f none openwin/bin/resize	0755 root bin
 f none openwin/bin/rgb		0755 root bin
 f none openwin/bin/sessreg	0755 root bin
 f none openwin/bin/showsnf	0755 root bin
@@ -61,7 +60,6 @@ f none openwin/bin/xload	0755 root sys
 f none openwin/bin/xman		0755 root bin
 f none openwin/bin/xmh		0755 root bin
 f none openwin/bin/xmkmf	0755 root bin
-f none openwin/bin/xterm	0755 root bin
 
 d none openwin/lib 0755 root bin
 d none openwin/lib/X11		0755 root bin
@@ -163,6 +161,8 @@ f none X11/bin/bitmap				0755 root bin
 f none X11/bin/bmtoa				0755 root bin
 f none X11/bin/editres				0755 root bin
 f none X11/bin/oclock				0755 root bin
+f none X11/bin/xterm				0755 root bin
+f none X11/bin/resize				0755 root bin
 f none X11/bin/viewres				0755 root bin
 f none X11/bin/xcursorgen			0755 root bin
 f none X11/bin/xkill				0755 root bin
@@ -176,6 +176,8 @@ s none openwin/bin/bitmap=../../X11/bin/bitmap
 s none openwin/bin/bmtoa=../../X11/bin/bmtoa
 s none openwin/bin/editres=../../X11/bin/editres
 s none openwin/bin/oclock=../../X11/bin/oclock
+s none openwin/bin/xterm=../../X11/bin/xterm
+s none openwin/bin/resize=../../X11/bin/resize
 s none openwin/bin/viewres=../../X11/bin/viewres
 s none openwin/bin/xkill=../../X11/bin/xkill
 s none openwin/bin/xclipboard=../../X11/bin/xclipboard

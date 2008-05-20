@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.18     08/03/07 SMI"
+# ident "@(#)prototype 1.19     08/05/20 SMI"
 #
 # X Window System required core package localizable files
 
@@ -52,7 +52,6 @@ d none openwin/lib/locale/C/app-defaults 0755 root bin
 f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XClock 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLock 0644 root bin
-f none openwin/lib/locale/C/app-defaults/XTerm 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xmh 0644 root bin
 
 !search      $HOME/openwin/lib/locale/C/LC_MESSAGES
@@ -85,6 +84,7 @@ f none X11/lib/X11/app-defaults/C/Xfd			0444 root bin
 f none X11/lib/X11/app-defaults/C/XLogo			0444 root bin
 f none X11/lib/X11/app-defaults/C/XLogo-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/Xmag			0444 root bin
+f none X11/lib/X11/app-defaults/C/XTerm			0444 root bin
 
 # RBAC help files
 d none lib 0755 root bin
