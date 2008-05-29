@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.9     08/03/10 SMI"
+# ident "@(#)prototype 1.10     08/05/29 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -105,7 +105,7 @@ f none X11/include/X11/fonts/pcf.h  		0444 root bin
 ## 32-bit versions
 !search $HOME/lib/pkgconfig
 d none lib					0755 root bin
-d none lib/pkgconfig				0755 root bin
+d none lib/pkgconfig				0755 root other
 
 # Protocol headers
 f none lib/pkgconfig/randrproto.pc		0444 root bin
@@ -125,7 +125,7 @@ f none lib/pkgconfig/xorg-server.pc		0444 root bin
 ## 64-bit versions
 !search $HOME/lib/$plat_64/pkgconfig
 d none lib/$plat_64					0755 root bin
-d none lib/$plat_64/pkgconfig				0755 root bin
+d none lib/$plat_64/pkgconfig				0755 root other
 
 # Protocol headers are the same in 32-bit & 64-bit
 s none lib/$plat_64/pkgconfig/randrproto.pc=../../pkgconfig/randrproto.pc
