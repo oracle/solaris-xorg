@@ -37,6 +37,12 @@ include app/oclock/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xman package are covered by the following notice:
+
+include app/xman/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xterm package are covered by the following notice:
 
 include app/xterm/COPYING

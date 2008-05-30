@@ -193,6 +193,12 @@ include app/xmag/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xman package are covered by the following notice:
+
+include app/xman/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xmodmap package are covered by the following notice:
 
 include app/xmodmap/COPYING

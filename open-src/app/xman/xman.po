@@ -1,0 +1,402 @@
+domain "xman"
+# File:main.c, line:155, textdomain("xman");
+msgid  "\nKnown arguments are:\n"
+msgstr
+msgid  "%s Could not find global data, exiting."
+msgstr
+msgid  "%s Could not locate widget in tree, exiting."
+msgstr
+msgid  "%s Could not remove global data?"
+msgstr
+msgid  "%s Could not save global data, are you out of memory?"
+msgstr
+msgid  "%s Error: %s\n"
+msgstr
+msgid  "%s Failure in fread."
+msgstr
+msgid  "%s Failure in fstat."
+msgstr
+msgid  "%s First parameter unknown."
+msgstr
+msgid  "%s Second parameter unknown."
+msgstr
+msgid  "%s This action routine requires one argument."
+msgstr
+msgid  "%s This action routine requires one or two arguments."
+msgstr
+msgid  "%s Unknown argument must be either %s or %s."
+msgstr
+msgid  "%s Unknown argument must be either '%s' or '%s'."
+msgstr
+msgid  "%s Warning: %s"
+msgstr
+msgid  "%s: nothing appropriate"
+msgstr
+msgid  "(1) User Commands"
+msgstr
+msgid  "(1) User Commands (instant)"
+msgstr
+msgid  "(1B) SunOS/BSD Compatibility Package Commands"
+msgstr
+msgid  "(1C) Communication Commands"
+msgstr
+msgid  "(1F) FMLI Commands"
+msgstr
+msgid  "(1M) Maintenance Commands"
+msgstr
+msgid  "(1S) SunOS Specific Commands"
+msgstr
+msgid  "(1m) System Administration"
+msgstr
+msgid  "(2) System Calls"
+msgstr
+msgid  "(3) Introduction to Library Functions"
+msgstr
+msgid  "(3) Subroutines"
+msgstr
+msgid  "(3) Subroutines (FORTRAN)"
+msgstr
+msgid  "(3) Subroutines (I/O)"
+msgstr
+msgid  "(3) Subroutines (X11)"
+msgstr
+msgid  "(3) Subroutines (Xt)"
+msgstr
+msgid  "(3) Subroutines (misc.)"
+msgstr
+msgid  "(3) Subroutines (networking)"
+msgstr
+msgid  "(3) Subroutines (scientific)"
+msgstr
+msgid  "(3) Subroutines (utilities)"
+msgstr
+msgid  "(3ADM) General Administrative Library Functions"
+msgstr
+msgid  "(3AIO) Asynchronous I/O Library Functions"
+msgstr
+msgid  "(3B) SunOS/BSD Compatibility Library Functions"
+msgstr
+msgid  "(3BSM) Security and Auditing Library Functions"
+msgstr
+msgid  "(3C) Standard C Library Functions"
+msgstr
+msgid  "(3CFGADM) Configuration Administration Library Functions"
+msgstr
+msgid  "(3CRYPT) Encryption and Decryption Library"
+msgstr
+msgid  "(3CURSES) Curses Library Functions"
+msgstr
+msgid  "(3DEVID) Device ID Library Functions"
+msgstr
+msgid  "(3DEVINFO) Device Information Library Functions"
+msgstr
+msgid  "(3DL) Dynamic Linking Library Functions"
+msgstr
+msgid  "(3DMI) DMI Library Functions"
+msgstr
+msgid  "(3DOOR) Door Library Functions"
+msgstr
+msgid  "(3E) C Library Functions"
+msgstr
+msgid  "(3ELF) ELF Library Functions"
+msgstr
+msgid  "(3EXT) Extended Library Functions"
+msgstr
+msgid  "(3G) C Library Functions"
+msgstr
+msgid  "(3GEN) String Pattern-Matching Library Functions"
+msgstr
+msgid  "(3HEAD) Headers"
+msgstr
+msgid  "(3I) Wide Character Functions"
+msgstr
+msgid  "(3K) Kernel VM Library Functions"
+msgstr
+msgid  "(3KRB) Kerberos Library Functions"
+msgstr
+msgid  "(3KSTAT) Kernel Statistics Library Functions"
+msgstr
+msgid  "(3KVM) Kernel VM Library Functions"
+msgstr
+msgid  "(3LAYOUT) Layout Services Library Functions"
+msgstr
+msgid  "(3LDAP) LDAP Library Functions"
+msgstr
+msgid  "(3LIB) Interface Libraries"
+msgstr
+msgid  "(3LIBUCB) SunOS/BSD Compatibility Interface Libraries"
+msgstr
+msgid  "(3M) Mathematical Library Functions"
+msgstr
+msgid  "(3MAIL) User Mailbox Library Functions"
+msgstr
+msgid  "(3MALLOC) Memory Allocation Library Functions"
+msgstr
+msgid  "(3MP) Integer Mathematical Library Functions"
+msgstr
+msgid  "(3N) Network Functions"
+msgstr
+msgid  "(3NSL) Networking Services Library Functions"
+msgstr
+msgid  "(3PAM) PAM Library Functions"
+msgstr
+msgid  "(3PLOT) Graphics Interface Library Functions"
+msgstr
+msgid  "(3PROC) Process Control Library Functions"
+msgstr
+msgid  "(3R) Realtime Library"
+msgstr
+msgid  "(3RAC) Remote Asynchronous Calls Library Functions"
+msgstr
+msgid  "(3RESOLV) Resolver Library Functions"
+msgstr
+msgid  "(3RPC) RPC Library Functions"
+msgstr
+msgid  "(3RT) Realtime Library Functions"
+msgstr
+msgid  "(3S) Standard I/O Functions"
+msgstr
+msgid  "(3SCHED) LWP Scheduling Library Functions"
+msgstr
+msgid  "(3SEC) File Access Control Library Functions"
+msgstr
+msgid  "(3SECDB) Security Attributes Database Library Functions"
+msgstr
+msgid  "(3SNMP) SNMP Library Functions"
+msgstr
+msgid  "(3SOCKET) Sockets Library Functions"
+msgstr
+msgid  "(3T) Threads Library Functions"
+msgstr
+msgid  "(3THR) Threads Library Functions"
+msgstr
+msgid  "(3TNF) TNF Library Functions"
+msgstr
+msgid  "(3UCB) SunOS/BSD Compatibility Library Functions"
+msgstr
+msgid  "(3VOLMGT) Volume Management Library Functions"
+msgstr
+msgid  "(3X) Miscellaneous Library Functions"
+msgstr
+msgid  "(3XC) X/Open Curses Library Functions"
+msgstr
+msgid  "(3XCURSES) X/Open Curses Library Functions"
+msgstr
+msgid  "(3XFN) XFN Interface Library Functions"
+msgstr
+msgid  "(3XN) X/Open Networking Services Library Functions"
+msgstr
+msgid  "(3XNET) X/Open Networking Services Library Functions"
+msgstr
+msgid  "(3X11) X Window System: Xlib Functions"
+msgstr
+msgid  "(3XEXT) X Window System: Protocol Extension Functions"
+msgstr
+msgid  "(3XI) X Window System: Input Extension Functions"
+msgstr
+msgid  "(3XMU) X Window System: Miscellaneous Utility Functions"
+msgstr
+msgid  "(3XP) X Window System: Print Extension Functions"
+msgstr
+msgid  "(3XT) X Window System: Toolkit Intrinsics Functions"
+msgstr
+msgid  "(4) Devices"
+msgstr
+msgid  "(4) File Formats"
+msgstr
+msgid  "(4B) Misc. Reference Manual Pages"
+msgstr
+msgid  "(5) File Formats"
+msgstr
+msgid  "(5) Headers, Tables, and Macros"
+msgstr
+msgid  "(6) Games"
+msgstr
+msgid  "(6) Games and Demos"
+msgstr
+msgid  "(7) Miscellaneous"
+msgstr
+msgid  "(7) Special Files"
+msgstr
+msgid  "(7D) Devices"
+msgstr
+msgid  "(7FS) File Systems"
+msgstr
+msgid  "(7I) Ioctl Requests"
+msgstr
+msgid  "(7M) STREAMS Modules"
+msgstr
+msgid  "(7P) Protocols"
+msgstr
+msgid  "(8) Sys. Administration"
+msgstr
+msgid  "(9) DDI and DKI"
+msgstr
+msgid  "(9E) DDI and DKI Driver Entry Points"
+msgstr
+msgid  "(9F) DDI and DKI Kernel Functions"
+msgstr
+msgid  "(9S) DDI and DKI Data Structures"
+msgstr
+msgid  "(info) Information"
+msgstr
+msgid  "(l) Local"
+msgstr
+msgid  "(n) New"
+msgstr
+msgid  "(o) Old"
+msgstr
+msgid  "(osi) Miscellaneous"
+msgstr
+msgid  "(p) Public Domain"
+msgstr
+msgid  "(s) Sony Specific"
+msgstr
+msgid  "(sl) Miscellaneous"
+msgstr
+msgid  "(ultra) Miscellaneous"
+msgstr
+msgid  "<color>         "
+msgstr
+msgid  "<color>          "
+msgstr
+msgid  "<color>                  "
+msgstr
+msgid  "<display name>      "
+msgstr
+msgid  "<filename>         "
+msgstr
+msgid  "<font>                 "
+msgstr
+msgid  "<font>                   "
+msgstr
+msgid  "<geom>            "
+msgstr
+msgid  "<geom>             "
+msgstr
+msgid  "<geom>                      "
+msgstr
+msgid  "<name>                "
+msgstr
+msgid  "<name>                 "
+msgstr
+msgid  "<pixels>        "
+msgstr
+msgid  "<pixels>                 "
+msgstr
+msgid  "<resource>              "
+msgstr
+msgid  "Background color for the application."
+msgstr
+msgid  "Can't open directory %s"
+msgstr
+msgid  "Change the name used for retrieving resources."
+msgstr
+msgid  "Change the name without affecting resources."
+msgstr
+msgid  "Color of all window borders."
+msgstr
+msgid  "Could not allocate memory for manual sections."
+msgstr
+msgid  "Could not clear the search string."
+msgstr
+msgid  "Could not find longest widget, aborting..."
+msgstr
+msgid  "Could not find manual search widget in MakeSearchWidget."
+msgstr
+msgid  "Could not find text widget in MakeSearchWidget."
+msgstr
+msgid  "Could not find widget named '%s'"
+msgstr
+msgid  "Could not get the search string, no search will be preformed."
+msgstr
+msgid  "Could not open help file, NO HELP WILL BE AVALIABLE."
+msgstr
+msgid  "Could not open manual page, %s"
+msgstr
+msgid  "Couldn't set permissions on formatted man page '%s'.\n"
+msgstr
+msgid  "Directory of: %s"
+msgstr
+msgid  "Error while executing the command '%s'.\n"
+msgstr
+msgid  "Error while stating file %s, errno = %d"
+msgstr
+msgid  "Error while uncompressing, command was: %s"
+msgstr
+msgid  "Failed to get the directory font."
+msgstr
+msgid  "First character cannot be a space."
+msgstr
+msgid  "Font to be used for button and label text."
+msgstr
+msgid  "Foreground color for the application."
+msgstr
+msgid  "Internal error while cataloging manual pages."
+msgstr
+msgid  "Internal error while removing duplicate manual pages."
+msgstr
+msgid  "No manual entry for %s."
+msgstr
+msgid  "No manual sections to read, exiting."
+msgstr
+msgid  "Print this message"
+msgstr
+msgid  "Results of apropos search on: %s"
+msgstr
+msgid  "Search string is empty."
+msgstr
+msgid  "Show both the directory and manpage at once."
+msgstr
+msgid  "Something went wrong in retrieving the %s"
+msgstr
+msgid  "Something went wrong trying to run %s\n"
+msgstr
+msgid  "Something went wrong trying to run the command: %s"
+msgstr
+msgid  "Specifies a resource on the command line."
+msgstr
+msgid  "Specifies the geometry of the manual page."
+msgstr
+msgid  "Specifies the geometry of the top box."
+msgstr
+msgid  "Specifies the helpfile to use."
+msgstr
+msgid  "Specify a display that is not the default"
+msgstr
+msgid  "Starts with manpage rather than topbox."
+msgstr
+msgid  "The current manual page is: %s."
+msgstr
+msgid  "There are no manual sections to display, check your MANPATH."
+msgstr
+msgid  "This argument is unknown to %s: %s\n"
+msgstr
+msgid  "Widget is not realized, no cursor added.\n"
+msgstr
+msgid  "Width of all window borders."
+msgstr
+msgid  "Xman Help"
+msgstr
+msgid  "debugging mode\n"
+msgstr
+msgid  "index failure in BEntrySearch"
+msgstr
+msgid  "index failure in ParseEntry."
+msgstr
+msgid  "label: %s\n"
+msgstr
+msgid  "lost temp file? out of temp space?"
+msgstr
+msgid  "removing from section %d.\n"
+msgstr
+msgid  "section%d"
+msgstr
+msgid  "sorting section %d - %s\n"
+msgstr
+msgid  "temp file, try cleaning up /tmp"
+msgstr
+msgid  "uncompressed manual page try cleaning up /tmp."
+msgstr
+msgid  "xman"
+msgstr

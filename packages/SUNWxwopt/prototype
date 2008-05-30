@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.48	08/05/20 SMI"
+# ident "@(#)prototype	35.51	08/05/30 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -57,7 +57,6 @@ f none openwin/bin/xdmshell	0755 root bin
 f none openwin/bin/xedit	0755 root bin
 f none openwin/bin/xfontsel	0755 root bin
 f none openwin/bin/xload	0755 root sys
-f none openwin/bin/xman		0755 root bin
 f none openwin/bin/xmh		0755 root bin
 f none openwin/bin/xmkmf	0755 root bin
 
@@ -71,7 +70,6 @@ f none openwin/lib/app-defaults/XFontSel 0644 root bin
 f none openwin/lib/app-defaults/XLoad 0644 root bin
 f none openwin/lib/app-defaults/Xditview 0644 root bin
 f none openwin/lib/app-defaults/Xedit 0644 root bin
-f none openwin/lib/app-defaults/Xman 0644 root bin
 
 # modified from original
 !search $HOME/X11/share/X11/twm
@@ -161,6 +159,7 @@ f none X11/bin/bitmap				0755 root bin
 f none X11/bin/bmtoa				0755 root bin
 f none X11/bin/editres				0755 root bin
 f none X11/bin/oclock				0755 root bin
+f none X11/bin/xman				0755 root bin
 f none X11/bin/xterm				0755 root bin
 f none X11/bin/resize				0755 root bin
 f none X11/bin/viewres				0755 root bin
@@ -176,6 +175,7 @@ s none openwin/bin/bitmap=../../X11/bin/bitmap
 s none openwin/bin/bmtoa=../../X11/bin/bmtoa
 s none openwin/bin/editres=../../X11/bin/editres
 s none openwin/bin/oclock=../../X11/bin/oclock
+s none openwin/bin/xman=../../X11/bin/xman
 s none openwin/bin/xterm=../../X11/bin/xterm
 s none openwin/bin/resize=../../X11/bin/resize
 s none openwin/bin/viewres=../../X11/bin/viewres
@@ -201,9 +201,11 @@ f none X11/bin/luit				0755 root bin
 d none X11/lib                                  0755 root bin
 d none X11/lib/X11		                0755 root bin
 d none X11/lib/X11/app-defaults		        0755 root bin
+f none X11/lib/X11/app-defaults/Xman		0644 root bin
 f none X11/lib/X11/app-defaults/Viewres		0644 root bin
 
 # Create links back to openwin
 s none openwin/lib/app-defaults/Viewres=../../../X11/lib/X11/app-defaults/Viewres
+s none openwin/lib/app-defaults/Xman=../../../X11/lib/X11/app-defaults/Xman
 
 

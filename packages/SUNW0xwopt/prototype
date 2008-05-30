@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#       "@(#)prototype	1.11	08/03/07   Sun Microsystems" 
+#       "@(#)prototype	1.12	08/05/30   Sun Microsystems" 
 #
 # X Window System optional client localizable files
 
@@ -38,7 +38,6 @@ i copyright
 #i depend
 
 !HOME=../openwin
-
 
 !search      $HOME/lib/X11/app-defaults
 
@@ -51,18 +50,14 @@ f none openwin/lib/locale/C/app-defaults/XFontSel 0644 root bin
 f none openwin/lib/locale/C/app-defaults/XLoad 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xditview 0644 root bin
 f none openwin/lib/locale/C/app-defaults/Xedit 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Xman 0644 root bin
-
 
 d none openwin/lib/locale/C/help     0755 root bin
 !search  $HOME/lib
-f none openwin/lib/locale/C/help/xman.help 0644 root bin
 
 !search      $HOME/lib/locale/C/LC_MESSAGES
 d none openwin/lib/locale/C/LC_MESSAGES 0755 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xfontsel.po 0644 root bin
 f none openwin/lib/locale/C/LC_MESSAGES/xload.po 0644 root bin
-f none openwin/lib/locale/C/LC_MESSAGES/xman.po 0644 root bin
 
 !search $HOME/../usr/X11/lib/X11/app-defaults
 d none X11				0755 root bin
@@ -70,4 +65,12 @@ d none X11/lib				0755 root bin
 d none X11/lib/X11			0755 root bin
 d none X11/lib/X11/app-defaults		0755 root bin
 f none X11/lib/X11/app-defaults/Viewres 0644 root bin
+f none X11/lib/X11/app-defaults/Xman    0644 root bin
+
+!search $HOME/../usr/X11/share/locale/C/LC_MESSAGES
+d none X11/share                                        0755 root bin
+d none X11/share/locale                                 0755 root bin
+d none X11/share/locale/C                               0755 root bin
+d none X11/share/locale/C/LC_MESSAGES                   0755 root bin
+f none X11/share/locale/C/LC_MESSAGES/xman.po           0644 root bin
 
