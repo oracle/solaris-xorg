@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# fstobdf Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,99 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.48	08/05/30
+# @(#)Makefile	1.1	08/05/28
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+# Package name used in tarballs
+APP_NAME=fstobdf
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	listres \
-	luit \
-	mesa-demos \
-	mkfontscale \
-	oclock \
-        setxkbmap \
-	showfont \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xcalc \
-	xclipboard \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xdriinfo \
-	xev \
-	xfd \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xkbcomp \
-	xkill \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xmag \
-	xman \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xset \
-	xsetroot \
-	xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx \
-        xterm
+# Version number (used in path names)
+APP_VERS=1.0.3
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= -p $(X11_DIR)/bin/ \
+ -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
-
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc

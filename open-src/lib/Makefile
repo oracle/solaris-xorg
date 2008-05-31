@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18	08/03/25
+# @(#)Makefile	1.19	08/05/30
 #
 ###############################################################################
 
@@ -53,6 +53,7 @@ OS_SUBDIRS_common = \
 	libX11 \
 	libXext \
 	libfontenc \
+	libFS \
 	libICE \
 	libSM \
 	libXt \

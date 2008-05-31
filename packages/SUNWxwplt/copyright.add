@@ -179,9 +179,27 @@ include app/editres/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/fstobdf package are covered by the following notice:
+
+include app/fstobdf/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/fslsfonts package are covered by the following notice:
+
+include app/fslsfonts/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/setxkbmap package are covered by the following notice:
 
 include app/setxkbmap/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/showfont package are covered by the following notice:
+
+include app/showfont/COPYING
 
 --------------------------------------------------------------------
 
@@ -224,6 +242,12 @@ include app/xdpyinfo/COPYING
 Files from the app/xfd package are covered by the following notice:
 
 include app/xfd/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xfsinfo package are covered by the following notice:
+
+include app/xfsinfo/COPYING
 
 --------------------------------------------------------------------
 
@@ -320,6 +344,12 @@ include app/xwininfo/COPYING
 Files from the app/xwud package are covered by the following notice:
 
 include app/xwud/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libFS package are covered by the following notice:
+
+include lib/libFS/COPYING
 
 --------------------------------------------------------------------
 

@@ -31,6 +31,18 @@ include app/editres/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/fslsfonts package are covered by the following notice:
+
+include app/fslsfonts/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/fstobdf package are covered by the following notice:
+
+include app/fstobdf/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/iceauth package are covered by the following notice:
 
 include app/iceauth/COPYING
@@ -61,15 +73,15 @@ include app/oclock/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/oclock package are covered by the following notice:
-
-include app/xterm/COPYING
-
---------------------------------------------------------------------
-
 Files from the app/setxkbmap package are covered by the following notice:
 
 include app/setxkbmap/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/showfont package are covered by the following notice:
+
+include app/showfont/COPYING
 
 --------------------------------------------------------------------
 
@@ -145,6 +157,12 @@ include app/xfd/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xfsinfo package are covered by the following notice:
+
+include app/xfsinfo/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xfwp package are covered by the following notice:
 
 include app/xfwp/COPYING
@@ -205,12 +223,6 @@ include app/xmodmap/COPYING
 
 --------------------------------------------------------------------
 
-Files from the lib/libXpm package are covered by the following notice:
-
-include lib/libXpm/COPYING
-
---------------------------------------------------------------------
-
 Files from the app/xprop package are covered by the following notice:
 
 include app/xprop/COPYING
@@ -247,6 +259,12 @@ include app/xstdcmap/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xterm package are covered by the following notice:
+
+include app/xterm/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xwd package are covered by the following notice:
 
 include app/xwd/COPYING
@@ -262,4 +280,10 @@ include app/xwininfo/COPYING
 Files from the app/xwud package are covered by the following notice:
 
 include app/xwud/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXpm package are covered by the following notice:
+
+include lib/libXpm/COPYING
 

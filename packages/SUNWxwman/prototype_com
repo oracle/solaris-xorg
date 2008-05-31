@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.72     08/05/30 SMI"
+# ident "@(#)prototype_com 35.73     08/05/30 SMI"
 #
 #  X Window System online user man pages
 
@@ -74,9 +74,6 @@ f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
 f none openwin/share/man/man1/cmap_compact.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
 f none openwin/share/man/man1/fsadmin.1 0444 root bin
-f none openwin/share/man/man1/fsinfo.1 0444 root bin
-f none openwin/share/man/man1/fslsfonts.1 0444 root bin
-f none openwin/share/man/man1/fstobdf.1 0444 root bin
 f none openwin/share/man/man1/htt.1 0444 root bin
 f none openwin/share/man/man1/iceauth.1 0444 root bin
 f none openwin/share/man/man1/imake.1 0444 root bin
@@ -89,7 +86,6 @@ f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
 f none openwin/share/man/man1/rgb.1 0444 root bin
 f none openwin/share/man/man1/sessreg.1 0444 root bin
-f none openwin/share/man/man1/showfont.1 0444 root bin
 f none openwin/share/man/man1/showrgb.1 0444 root bin
 f none openwin/share/man/man1/showsnf.1 0444 root bin
 f none openwin/share/man/man1/winsysck.1 0444 root bin
@@ -171,6 +167,12 @@ f none X11/share/man/man1/constype.1 	0444 root bin
 # open-src/app/editres
 f none X11/share/man/man1/editres.1 	0444 root bin
 
+# open-src/app/fslsfonts
+f none X11/share/man/man1/fslsfonts.1 	0444 root bin
+
+# open-src/app/fstobdf
+f none X11/share/man/man1/fstobdf.1 	0444 root bin
+
 # open-src/app/listres
 f none X11/share/man/man1/listres.1 	0444 root bin
 
@@ -183,12 +185,11 @@ f none X11/share/man/man1/mkfontscale.1	0444 root bin
 # open-src/app/oclock
 f none X11/share/man/man1/oclock.1 	0444 root bin
 
-# open-src/app/xterm
-f none X11/share/man/man1/xterm.1 	0444 root bin
-f none X11/share/man/man1/resize.1 	0444 root bin
-
 # open-src/app/setxkbmap
 f none X11/share/man/man1/setxkbmap.1   0444 root bin
+
+# open-src/app/showfont
+f none X11/share/man/man1/showfont.1 	0444 root bin
 
 # open-src/app/twm
 f none X11/share/man/man1/twm.1 	0444 root bin
@@ -231,6 +232,10 @@ f none X11/share/man/man1/xev.1 	0444 root bin
 # open-src/app/xfd
 f none X11/share/man/man1/xfd.1 	0444 root bin
 
+# open-src/app/xfsinfo
+f none X11/share/man/man1/xfsinfo.1 	0444 root bin
+s none X11/share/man/man1/fsinfo.1=xfsinfo.1
+
 # open-src/app/xfwp
 f none X11/share/man/man1/xfwp.1 	0444 root bin
 
@@ -240,8 +245,17 @@ f none X11/share/man/man1/xgc.1 	0444 root bin
 # open-src/app/xhost
 f none X11/share/man/man1/xhost.1 	0444 root bin
 
+# open-src/app/xkill
+f none X11/share/man/man1/xkill.1 	0444 root bin
+
+# open-src/app/xlsatoms
+f none X11/share/man/man1/xlsatoms.1 	0444 root bin
+
 # open-src/app/xlsclients
 f none X11/share/man/man1/xlsclients.1 	0444 root bin
+
+# open-src/app/xlogo
+f none X11/share/man/man1/xlogo.1 	0444 root bin
 
 # open-src/app/xmag
 f none X11/share/man/man1/xmag.1 	0444 root bin
@@ -274,14 +288,9 @@ f none X11/share/man/man1/xsetroot.1 	0444 root bin
 # open-src/app/xstdcmap
 f none X11/share/man/man1/xstdcmap.1 	0444 root bin
 
-# open-src/app/xkill
-f none X11/share/man/man1/xkill.1 	0444 root bin
-
-# open-src/app/xlogo
-f none X11/share/man/man1/xlogo.1 	0444 root bin
-
-# open-src/app/xlsatoms
-f none X11/share/man/man1/xlsatoms.1 	0444 root bin
+# open-src/app/xterm
+f none X11/share/man/man1/xterm.1 	0444 root bin
+f none X11/share/man/man1/resize.1 	0444 root bin
 
 # open-src/app/xwd
 f none X11/share/man/man1/xwd.1 	0444 root bin

@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.10     08/05/29 SMI"
+# ident "@(#)prototype 1.11     08/05/30 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -78,6 +78,7 @@ f none X11/include/X11/extensions/panoramiXproto.h   0444 root bin
 d none X11/include/X11/fonts               	0755 root bin
 f none X11/include/X11/fonts/font.h        	0444 root bin
 f none X11/include/X11/fonts/FS.h       	0444 root bin
+f none X11/include/X11/fonts/FSlib.h       	0444 root bin
 f none X11/include/X11/fonts/FSproto.h     	0444 root bin
 f none X11/include/X11/fonts/bdfint.h        	0444 root bin
 f none X11/include/X11/fonts/bitmap.h     	0444 root bin
@@ -115,6 +116,7 @@ f none lib/pkgconfig/xf86vidmodeproto.pc	0444 root bin
 
 # Libraries
 
+f none lib/pkgconfig/libfs.pc			0444 root bin
 f none lib/pkgconfig/xrandr.pc			0444 root bin
 f none lib/pkgconfig/xv.pc			0444 root bin
 f none lib/pkgconfig/xvmc.pc			0444 root bin
@@ -135,6 +137,7 @@ s none lib/$plat_64/pkgconfig/xf86vidmodeproto.pc=../../pkgconfig/xf86vidmodepro
 
 # Libraries need separate ones for 64-bit to get library paths right
 
+f none lib/$plat_64/pkgconfig/libfs.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xrandr.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xv.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xvmc.pc			0444 root bin

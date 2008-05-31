@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# libFS Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,99 +30,37 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.48	08/05/30
+# @(#)Makefile	1.1	08/05/28
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+# Package name used in tarballs
+LIB_MODULE=libFS
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	listres \
-	luit \
-	mesa-demos \
-	mkfontscale \
-	oclock \
-        setxkbmap \
-	showfont \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xcalc \
-	xclipboard \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xdriinfo \
-	xev \
-	xfd \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xkbcomp \
-	xkill \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xmag \
-	xman \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xset \
-	xsetroot \
-	xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx \
-        xterm
+# Version number (used in path names)
+LIB_VERS=1.0.1
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = solaris-abi.patch
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Regenerate Makefile.in's from Makefile.am's after patching them
+AUTORECONF=true
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Library name
+LIBNAME=FS
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Man pages to apply Sun footer to & attributes to list
+#SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+LIB_STABILITY=Uncommitted
+LIB_MAN_SUFFIX=3FS
 
-World: clean all
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/libFS.so.5
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+# Link with version mapfile
+LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+# pkg-config files that need to have -R added
+FIX_PC_FILES=libfs.pc.in
 
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc

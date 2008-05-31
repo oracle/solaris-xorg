@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.176    08/05/30   Sun Microsystems"
+#      "@(#)prototype_com	35.177    08/05/30   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -55,13 +55,9 @@ f none openwin/bin/cmap_compact	0755 root bin
 f none openwin/bin/cmap_alloc 	0755 root bin
 f none openwin/bin/showrgb 	0755 root bin
 f none openwin/bin/fbconsole 	0755 root bin
-f none openwin/bin/fsinfo 	0755 root bin
-f none openwin/bin/fslsfonts 	0755 root bin
-f none openwin/bin/fstobdf 	0755 root bin
 f none openwin/bin/makepsres 	0755 root bin
 f none openwin/bin/pclcomp 	0755 root bin
 f none openwin/bin/redxblue 	0755 root bin
-f none openwin/bin/showfont 	0755 root bin
 f none openwin/bin/winsysck 	0755 root bin
 f none openwin/bin/xdpr 	0755 root bin
 f none openwin/bin/xinit 	0755 root bin
@@ -95,8 +91,20 @@ s none openwin/bin/bdftopcf=../../X11/bin/bdftopcf
 f none X11/bin/constype 		0755 root bin
 s none openwin/bin/constype=../../X11/bin/constype
 
+# open-src/app/fslsfonts
+f none X11/bin/fslsfonts 		0755 root bin
+s none openwin/bin/fslsfonts=../../X11/bin/fslsfonts
+
+# open-src/app/fstobdf
+f none X11/bin/fstobdf 		0755 root bin
+s none openwin/bin/fstobdf=../../X11/bin/fstobdf
+
 # open-src/app/setxkbmap
 f none X11/bin/setxkbmap                0755 root bin
+
+# open-src/app/showfont
+f none X11/bin/showfont 		0755 root bin
+s none openwin/bin/showfont=../../X11/bin/showfont
 
 # open-src/app/x11perf
 f none X11/bin/x11perf 			0755 root bin
@@ -119,6 +127,11 @@ s none openwin/bin/xdpyinfo=../../X11/bin/xdpyinfo
 # open-src/app/xfd
 f none X11/bin/xfd 			0755 root bin
 s none openwin/bin/xfd=../../X11/bin/xfd
+
+# open-src/app/xfsinfo (formerly known as fsinfo)
+f none X11/bin/xfsinfo 			0755 root bin
+s none openwin/bin/fsinfo=../../X11/bin/xfsinfo
+s none X11/bin/fsinfo=xfsinfo
 
 # open-src/app/xfwp
 f none X11/bin/xfwp 			0755 root bin
@@ -214,8 +227,6 @@ s none openwin/lib/libpsres.so=./libpsres.so.5
 f none openwin/lib/libpsres.so.5 	0755 root bin
 s none openwin/lib/libowconfig.so=./libowconfig.so.0
 f none openwin/lib/libowconfig.so.0 	0755 root bin
-f none openwin/lib/libFS.so.5	 	0755 root bin
-s none openwin/lib/libFS.so=./libFS.so.5
 s none openwin/lib/libXIE.so=./libXIE.so.6
 f none openwin/lib/libXIE.so.6			0755 root bin
 
@@ -247,6 +258,12 @@ s none openwin/lib/libXau.so=./libXau.so.6
 s none openwin/lib/libXau.so.6=../../X11/lib/libXau.so.6
 s none X11/lib/libXau.so=./libXau.so.6
 f none X11/lib/libXau.so.6			0555 root bin
+
+# open-src/lib/libFS
+s none openwin/lib/libFS.so.5=../../X11/lib/libFS.so.5
+s none openwin/lib/libFS.so=../../X11/lib/libFS.so.5
+s none X11/lib/libFS.so=./libFS.so.5
+f none X11/lib/libFS.so.5  			0555 root bin
 
 # open-src/lib/libSM
 s none openwin/lib/libSM.so.6=../../X11/lib/libSM.so.6
@@ -361,6 +378,10 @@ f none X11/lib/$plat_64/libX11.so.4		0555 root bin
 # open-src/lib/libXau - never delivered into openwin in 64-bit version
 s none X11/lib/$plat_64/libXau.so=./libXau.so.6
 f none X11/lib/$plat_64/libXau.so.6		0555 root bin
+
+# open-src/lib/libFS - never delivered into openwin in 64-bit version
+s none X11/lib/$plat_64/libFS.so=./libFS.so.5
+f none X11/lib/$plat_64/libFS.so.5		0555 root bin
 
 # open-src/lib/libSM
 s none openwin/lib/$plat_64/libSM.so.6=../../../X11/lib/64/libSM.so.6
