@@ -1,0 +1,12 @@
+--- src/i830_driver.c	Wed May 28 08:34:24 2008
++++ src/i830_driver.c	Wed May 28 08:38:55 2008
+@@ -1510,6 +1510,9 @@
+ 	       pI830->useEXA = FALSE;
+ 	   }
+        }
++       if (DEVICE_ID(pI830->PciInfo) == PCI_CHIP_845_G) {
++	       pI830->useEXA = FALSE;
++       }
+ #endif
+        xf86DrvMsg(pScrn->scrnIndex, from, "Using %s for acceleration\n",
+ 		  pI830->useEXA ? "EXA" : "XAA");

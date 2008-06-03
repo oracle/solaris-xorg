@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	08/03/24
+# @(#)Makefile	1.12	08/06/02
 #
 
 PWD:sh=pwd
@@ -58,6 +58,8 @@ SOURCE_PATCHES= \
 	6538497.patch		\
 	6559710.patch		\
 	mesa965.patch		\
+	6709716.patch		\
+	6709720.patch		\
 	maxtexunit.patch
 
 # Directory created by unpacking source

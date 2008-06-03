@@ -30,18 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14	08/04/21
+# @(#)Makefile	1.15	08/06/02
 #
 
 # Package name used in tarballs
 DRIVER_NAME=xf86-video-intel
 
 # Version number (used in path names)
-DRIVER_VERS=2.1.1
+DRIVER_VERS=2.3.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
-		6538497_6554161.patch lvds_detect.patch
+		6538497_6554161.patch lvds_detect.patch 845_workaround.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -55,6 +55,7 @@ DRIVER_ADD_LIBS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/extensions \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+	-lX11 -lXext -lXvMC -lXv -lextmod \
 	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) 
