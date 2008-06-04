@@ -1,0 +1,291 @@
+--- Xext/security.c-old	Mon Jun  2 01:44:29 2008
++++ Xext/security.c	Mon Jun  2 01:45:54 2008
+@@ -656,6 +656,7 @@
+     register char 	n;
+     CARD32 *values;
+     unsigned long nvalues;
++    int values_offset;
+ 
+     swaps(&stuff->length, n);
+     REQUEST_AT_LEAST_SIZE(xSecurityGenerateAuthorizationReq);
+@@ -662,9 +663,12 @@
+     swaps(&stuff->nbytesAuthProto, n);
+     swaps(&stuff->nbytesAuthData, n);
+     swapl(&stuff->valueMask, n);
+-    values = (CARD32 *)(&stuff[1]) +
+-	((stuff->nbytesAuthProto + (unsigned)3) >> 2) +
+-	((stuff->nbytesAuthData + (unsigned)3) >> 2);
++    values_offset = ((stuff->nbytesAuthProto + (unsigned)3) >> 2) +
++		    ((stuff->nbytesAuthData + (unsigned)3) >> 2);
++    if (values_offset >
++	stuff->length - (sz_xSecurityGenerateAuthorizationReq >> 2))
++	return BadLength;
++    values = (CARD32 *)(&stuff[1]) + values_offset;
+     nvalues = (((CARD32 *)stuff) + stuff->length) - values;
+     SwapLongs(values, nvalues);
+     return ProcSecurityGenerateAuthorization(client);
+--- record/record.c-old	Mon Jun  2 01:52:45 2008
++++ record/record.c	Mon Jun  2 01:56:19 2008
+@@ -2656,7 +2656,7 @@
+ } /* SProcRecordQueryVersion */
+ 
+ 
+-static void
++static int
+ SwapCreateRegister(xRecordRegisterClientsReq *stuff)
+ {
+     register char n;
+@@ -2667,11 +2667,17 @@
+     swapl(&stuff->nClients, n);
+     swapl(&stuff->nRanges, n);
+     pClientID = (XID *)&stuff[1];
++    if (stuff->nClients > stuff->length - (sz_xRecordRegisterClientsReq >> 2))
++	return BadLength;
+     for (i = 0; i < stuff->nClients; i++, pClientID++)
+     {
+ 	swapl(pClientID, n);
+     }
++    if (stuff->nRanges > stuff->length - (sz_xRecordRegisterClientsReq >> 2)
++	- stuff->nClients)
++	return BadLength;
+     RecordSwapRanges((xRecordRange *)pClientID, stuff->nRanges);
++    return Success;
+ } /* SwapCreateRegister */
+ 
+ 
+@@ -2680,10 +2686,12 @@
+ {
+     REQUEST(xRecordCreateContextReq);
+     register char 	n;
++    int			status;
+ 
+     swaps(&stuff->length, n);
+     REQUEST_AT_LEAST_SIZE(xRecordCreateContextReq);
+-    SwapCreateRegister((pointer)stuff);
++    if ((status = SwapCreateRegister((pointer)stuff)) != Success)
++	return status;
+     return ProcRecordCreateContext(client);
+ } /* SProcRecordCreateContext */
+ 
+@@ -2693,10 +2701,12 @@
+ {
+     REQUEST(xRecordRegisterClientsReq);
+     register char 	n;
++    int			status;
+ 
+     swaps(&stuff->length, n);
+     REQUEST_AT_LEAST_SIZE(xRecordRegisterClientsReq);
+-    SwapCreateRegister((pointer)stuff);
++    if ((status = SwapCreateRegister((pointer)stuff)) != Success)
++	return status;
+     return ProcRecordRegisterClients(client);
+ } /* SProcRecordRegisterClients */
+ 
+--- render/glyph.c-old	Mon Jun  2 01:27:50 2008
++++ render/glyph.c	Mon Jun  2 01:34:18 2008
+@@ -626,8 +626,12 @@
+     int		     size;
+     GlyphPtr	     glyph;
+     int		     i;
++    size_t	     padded_width;
+ 
+-    size = gi->height * PixmapBytePad (gi->width, glyphDepths[fdepth]);
++    padded_width = PixmapBytePad (gi->width, glyphDepths[fdepth]);
++    if (gi->height && padded_width > (UINT32_MAX - sizeof(GlyphRec))/gi->height)
++	return 0;
++    size = gi->height * padded_width;
+     glyph = (GlyphPtr) xalloc (size + sizeof (GlyphRec));
+     if (!glyph)
+ 	return 0;
+--- render/render.c-old	Mon Jun  2 01:28:00 2008
++++ render/render.c	Mon Jun  2 02:06:03 2008
+@@ -1502,6 +1502,8 @@
+     pScreen = pSrc->pDrawable->pScreen;
+     width = pSrc->pDrawable->width;
+     height = pSrc->pDrawable->height;
++    if (height && width > UINT32_MAX/(height*sizeof(CARD32)))
++	return BadAlloc;
+     if ( stuff->x > width 
+       || stuff->y > height )
+ 	return (BadMatch);
+@@ -1915,6 +1917,8 @@
+     LEGAL_NEW_RESOURCE(stuff->pid, client);
+ 
+     len = (client->req_len << 2) - sizeof(xRenderCreateLinearGradientReq);
++    if (stuff->nStops > UINT32_MAX/(sizeof(xFixed) + sizeof(xRenderColor)))
++	return BadLength;
+     if (len != stuff->nStops*(sizeof(xFixed) + sizeof(xRenderColor)))
+         return BadLength;
+ 
+@@ -2486,18 +2490,18 @@
+     return (*ProcRenderVector[stuff->renderReqType]) (client);
+ }
+ 
+-static void swapStops(void *stuff, int n)
++static void swapStops(void *stuff, int num)
+ {
+-    int i;
++    int i, n;
+     CARD32 *stops;
+     CARD16 *colors;
+     stops = (CARD32 *)(stuff);
+-    for (i = 0; i < n; ++i) {
++    for (i = 0; i < num; ++i) {
+         swapl(stops, n);
+         ++stops;
+     }
+     colors = (CARD16 *)(stops);
+-    for (i = 0; i < 4*n; ++i) {
++    for (i = 0; i < 4*num; ++i) {
+         swaps(stops, n);
+         ++stops;
+     }
+@@ -2520,6 +2524,8 @@
+     swapl(&stuff->nStops, n);
+ 
+     len = (client->req_len << 2) - sizeof(xRenderCreateLinearGradientReq);
++    if (stuff->nStops > UINT32_MAX/(sizeof(xFixed) + sizeof(xRenderColor)))
++	return BadLength;
+     if (len != stuff->nStops*(sizeof(xFixed) + sizeof(xRenderColor)))
+         return BadLength;
+ 
+@@ -2547,6 +2553,8 @@
+     swapl(&stuff->nStops, n);
+ 
+     len = (client->req_len << 2) - sizeof(xRenderCreateRadialGradientReq);
++    if (stuff->nStops > UINT32_MAX/(sizeof(xFixed) + sizeof(xRenderColor)))
++	return BadLength;
+     if (len != stuff->nStops*(sizeof(xFixed) + sizeof(xRenderColor)))
+         return BadLength;
+ 
+@@ -2571,6 +2579,8 @@
+     swapl(&stuff->nStops, n);
+ 
+     len = (client->req_len << 2) - sizeof(xRenderCreateConicalGradientReq);
++    if (stuff->nStops > UINT32_MAX/(sizeof(xFixed) + sizeof(xRenderColor)))
++	return BadLength;
+     if (len != stuff->nStops*(sizeof(xFixed) + sizeof(xRenderColor)))
+         return BadLength;
+ 
+--- dbe/dbe.c-old	Mon Jun  2 02:08:30 2008
++++ dbe/dbe.c	Mon Jun  2 02:25:43 2008
+@@ -405,6 +405,7 @@
+     xDbeSwapAction		swapAction;
+     VisualID			visual;
+     int				status;
++    int				add_index;
+ 
+ 
+     REQUEST_SIZE_MATCH(xDbeAllocateBackBufferNameReq);
+@@ -478,14 +479,6 @@
+             return(BadAlloc);
+         }
+ 
+-        /* Make the window priv a DBE window priv resource. */
+-        if (!AddResource(stuff->buffer, dbeWindowPrivResType,
+-            (pointer)pDbeWindowPriv))
+-        {
+-            xfree(pDbeWindowPriv);
+-            return(BadAlloc);
+-        }
+-
+         /* Fill out window priv information. */
+         pDbeWindowPriv->pWindow      = pWin;
+         pDbeWindowPriv->width        = pWin->drawable.width;
+@@ -499,8 +492,9 @@
+ 
+         /* Initialize the buffer ID list. */ 
+         pDbeWindowPriv->maxAvailableIDs = DBE_INIT_MAX_IDS;
+-        pDbeWindowPriv->IDs[0] = stuff->buffer;
+-        for (i = 1; i < DBE_INIT_MAX_IDS; i++)
++
++	add_index = 0;
++        for (i = 0; i < DBE_INIT_MAX_IDS; i++)
+         {
+             pDbeWindowPriv->IDs[i] = DBE_FREE_ID_ELEMENT;
+         }
+@@ -569,18 +563,8 @@
+ 
+             pDbeWindowPriv->maxAvailableIDs += DBE_INCR_MAX_IDS;
+         }
++	add_index = i;
+ 
+-        /* Finally, record the buffer ID in the array. */
+-        pDbeWindowPriv->IDs[i] = stuff->buffer;
+-
+-        /* Associate the new ID with an existing window priv. */
+-        if (!AddResource(stuff->buffer, dbeWindowPrivResType,
+-                         (pointer)pDbeWindowPriv))
+-        {
+-            pDbeWindowPriv->IDs[i] = DBE_FREE_ID_ELEMENT;
+-            return(BadAlloc);
+-        }
+-
+     } /* else -- A buffer is already associated with the window. */
+ 
+ 
+@@ -588,13 +572,27 @@
+     status = (*pDbeScreenPriv->AllocBackBufferName)(pWin, stuff->buffer,
+                                                     stuff->swapAction);
+ 
+-    if ((status != Success) && (pDbeWindowPriv->nBufferIDs == 0))
++    if (status == Success)
+     {
++	pDbeWindowPriv->IDs[add_index] = stuff->buffer;
++	if (!AddResource(stuff->buffer, dbeWindowPrivResType,
++			 (pointer)pDbeWindowPriv))
++	{
++	    pDbeWindowPriv->IDs[add_index] = DBE_FREE_ID_ELEMENT;
++
++	    if (pDbeWindowPriv->nBufferIDs == 0) {
++		status = BadAlloc;
++		goto out_free;
++	    }
++	}
++    } else {
+         /* The DDX buffer allocation routine failed for the first buffer of
+          * this window.
+          */
+-        xfree(pDbeWindowPriv);
+-        return(status);
++
++	if (pDbeWindowPriv->nBufferIDs == 0) {
++	    goto out_free;
++	}
+     }
+ 
+     /* Increment the number of buffers (XIDs) associated with this window. */
+@@ -606,6 +604,11 @@
+ 
+     return(status);
+ 
++out_free:
++    pWin->devPrivates[dbeWindowPrivIndex].ptr = (pointer)NULL;
++    xfree(pDbeWindowPriv);
++    return(status);
++
+ } /* ProcDbeAllocateBackBufferName() */
+ 
+ 
+--- Xext/shm.c-old	Tue Jun  3 01:48:14 2008
++++ Xext/shm.c	Tue Jun  3 01:51:24 2008
+@@ -909,8 +909,17 @@
+         return BadValue;
+     }
+ 
+-    VERIFY_SHMSIZE(shmdesc, stuff->offset, length * stuff->totalHeight,
+-		   client);
++    /*
++     * There's a potential integer overflow in this check:
++     * VERIFY_SHMSIZE(shmdesc, stuff->offset, length * stuff->totalHeight,
++     *                client);
++     * the version below ought to avoid it
++     */
++    if (stuff->totalHeight != 0 &&
++	length > (shmdesc->size - stuff->offset)/stuff->totalHeight) {
++	client->errorValue = stuff->totalWidth;
++	return BadValue;
++    }
+     if (stuff->srcX > stuff->totalWidth)
+     {
+ 	client->errorValue = stuff->srcX;
