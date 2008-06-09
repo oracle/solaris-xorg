@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.19	08/03/25
+# @(#)Makefile	1.20	08/06/09
 #
 ###############################################################################
 #
@@ -46,10 +46,13 @@ BEFOREX = \
 	lib \
 	app/bdftopcf
 
+# app/rgb depends on the rgb.h header installed by the xserver, so has to
+# be built after xserver
 AFTERX = \
 	app \
 	xserver \
 	driver \
+	app/rgb \
 	data \
 	font
 

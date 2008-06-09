@@ -37,6 +37,12 @@ include app/oclock/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/rgb package are covered by the following notice:
+
+include app/rgb/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xman package are covered by the following notice:
 
 include app/xman/COPYING
