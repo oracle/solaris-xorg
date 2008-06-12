@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.52	08/06/09 SMI"
+# ident "@(#)prototype	35.54	08/06/12 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -211,4 +211,12 @@ f none X11/lib/X11/app-defaults/Viewres		0644 root bin
 s none openwin/lib/app-defaults/Viewres=../../../X11/lib/X11/app-defaults/Viewres
 s none openwin/lib/app-defaults/Xman=../../../X11/lib/X11/app-defaults/Xman
 
+d none share					0755 root sys
+!search $HOME/share/pixmaps
+d none share/pixmaps				0755 root other
 
+# open-src/app/xterm
+f none share/pixmaps/xterm_32x32.xpm		0444 root bin
+f none share/pixmaps/xterm_48x48.xpm		0444 root bin
+f none share/pixmaps/xterm-color_32x32.xpm	0444 root bin
+f none share/pixmaps/xterm-color_48x48.xpm	0444 root bin
