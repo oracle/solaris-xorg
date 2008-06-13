@@ -269,6 +269,12 @@ include app/xhost/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xkbprint package are covered by the following notice:
+
+include app/xkbprint/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xlsatoms package are covered by the following notice:
 
 include app/xlsatoms/COPYING

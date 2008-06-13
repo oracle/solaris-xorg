@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.74     08/06/09 SMI"
+# ident "@(#)prototype_com 35.75     08/06/13 SMI"
 #
 #  X Window System online user man pages
 
@@ -58,7 +58,6 @@ f none openwin/share/man/man1/rstart.1 0444 root bin
 f none openwin/share/man/man1/rstartd.1 0444 root bin
 f none openwin/share/man/man1/libxrx.1 0444 root bin
 f none openwin/share/man/man1/xkbcomp.1 0444 root bin
-f none openwin/share/man/man1/xkbprint.1 0444 root bin
 
 f none openwin/share/man/man1/xkbbell.1 0444 root bin
 f none openwin/share/man/man1/xkbvleds.1 0444 root bin
@@ -246,6 +245,9 @@ f none X11/share/man/man1/xgc.1 	0444 root bin
 
 # open-src/app/xhost
 f none X11/share/man/man1/xhost.1 	0444 root bin
+
+# open-src/app/xkbprint
+f none X11/share/man/man1/xkbprint.1 	0444 root bin
 
 # open-src/app/xkill
 f none X11/share/man/man1/xkill.1 	0444 root bin
