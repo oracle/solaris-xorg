@@ -1,0 +1,78 @@
+domain "xload"
+msgid  "cannot get name list from"
+msgstr
+msgid  "cannot open"
+msgstr
+msgid  "cannot seek"
+msgstr
+msgid  "cannot read"
+msgstr
+msgid  "cannot allocate space for"
+msgstr
+msgid  "Load Widget"
+msgstr
+msgid  "cannot get access to kernel address space"
+msgstr
+msgid  "cannot get name list"
+msgstr
+msgid  "Cannot find address for avenrun in the kernel\n"
+msgstr
+msgid  "Kernel read error"
+msgstr
+msgid  "kstat_open failed"
+msgstr
+msgid  "kstat_lookup failed"
+msgstr
+msgid  "kstat_read failed"
+msgstr
+msgid  "kstat_data_lookup failed"
+msgstr
+# msgid  "cannot open"
+# msgstr
+# msgid  "cannot get name list from"
+# msgstr
+# msgid  "cannot get name list from"
+# msgstr
+# msgid  "cannot open"
+# msgstr
+msgid  "%s nlist()"
+msgstr
+# msgid  "cannot get name list from"
+# msgstr
+msgid  "%s open()"
+msgstr
+# msgid  "cannot open"
+# msgstr
+msgid  "%s read() SYSINFONL"
+msgstr
+msgid  "read failed from"
+msgstr
+msgid  "usage:  %s [-options ...]\n\n"
+msgstr
+msgid  "where options include:\n"
+msgstr
+msgid  "display        X server on which to display\n"
+msgstr
+msgid  "geometry      size and location of window\n"
+msgstr
+msgid  "font                font to use in label\n"
+msgstr
+msgid  "number           minimum number of scale lines\n"
+msgstr
+msgid  "seconds         interval between updates\n"
+msgstr
+msgid  "string           annotation text\n"
+msgstr
+msgid  "color               background color\n"
+msgstr
+msgid  "color               graph color\n"
+msgstr
+msgid  "color               scale and text color\n"
+msgstr
+msgid  "removes the label from above the chart.\n"
+msgstr
+msgid  "value       number of pixels to scroll on overflow\n"
+msgstr
+msgid  "use keyboard leds to display current load\n"
+msgstr
+# File:xload.c, line:145, textdomain("xload");
