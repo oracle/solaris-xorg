@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)interactive.c 35.17     07/07/11 SMI"
+#pragma ident   "@(#)interactive.c 35.18     08/06/16 SMI"
 
 /************************************************************
 	Basic boilerplate extension.
@@ -535,11 +535,9 @@ SetPriority(int pid, int cmd)
        switch (cmd) {
        case UNSET_PRIORITY:
    		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_INTERACTIVE_OFF;
-   		((iaparms_t*)IAClass.pc_clparms)->ia_nice-=ia_nice;
 		break;
        case SET_PRIORITY:
    		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_SET_INTERACTIVE;
-   		((iaparms_t*)IAClass.pc_clparms)->ia_nice+=ia_nice;
 		break;
        case SET_INTERACTIVE: 
       /* If this returns true, the process is already in the IA class */
@@ -548,7 +546,6 @@ SetPriority(int pid, int cmd)
 			return Success;
 
    		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_INTERACTIVE_OFF;
-   		((iaparms_t*)IAClass.pc_clparms)->ia_nice=-ia_nice;
 		break;
        }
 
