@@ -1,0 +1,150 @@
+--- Makefile.am	Wed Jun 11 13:48:56 2008
++++ Makefile.am	Wed Jun 11 14:21:31 2008
+@@ -42,6 +42,20 @@
+ 
+ appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
+ 
++# Translate XCOMM into pound sign with sed, rather than passing -DXCOMM=XCOMM
++# to cpp, because that trick does not work on all ANSI C preprocessors.
++# Delete line numbers from the cpp output (-P is not portable, I guess).
++# Allow XCOMM to be preceded by whitespace and provide a means of generating
++# output lines with trailing backslashes.
++# Allow XHASH to always be substituted, even in cases where XCOMM isn't.
++
++CPP_SED_MAGIC = $(SED) -e '/^\#  *[0-9][0-9]*  *.*$$/d' \
++                       -e '/^\#line  *[0-9][0-9]*  *.*$$/d' \
++                       -e '/^[ 	]*XCOMM$$/s/XCOMM/\#/' \
++                       -e '/^[ 	]*XCOMM[^a-zA-Z0-9_]/s/XCOMM/\#/' \
++                       -e '/^[ 	]*XHASH/s/XHASH/\#/' \
++                       -e '/\@\@$$/s/\@\@$$/\\/'
++
+ include $(top_srcdir)/cpprules.in
+ 
+ xinitrcdir = $(XINITDIR)
+@@ -71,8 +85,10 @@
+ 
+ DIST_SUBDIRS = privileged_startx
+ 
+-xinitrc: xinitrc.cpp Makefile
+-startx: startx.cpp Makefile
++xinitrc: xinitrc.cpp Makefile 
++	 $(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/xinitrc.cpp | $(CPP_SED_MAGIC)> $@
++startx: startx.cpp Makefile 
++	$(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/startx.cpp | $(CPP_SED_MAGIC)> $@
+ 
+ xinitrc_DATA = xinitrc
+
+--- Makefile.in	Wed Jun 11 13:58:17 2008
++++ Makefile.in	Wed Jun 11 14:21:56 2008
+@@ -918,8 +918,10 @@
+ .man.$(APP_MAN_SUFFIX):
+ 	$(RAWCPP) $(RAWCPPFLAGS) $(MANDEFS) $(EXTRAMANDEFS) < $< | $(CPP_SED_MAGIC) > $@
+ 
+-xinitrc: xinitrc.cpp Makefile
+-startx: startx.cpp Makefile
++xinitrc: xinitrc.cpp Makefile 
++	 $(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/xinitrc.cpp | $(CPP_SED_MAGIC)> $@
++startx: startx.cpp Makefile 
++	$(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/startx.cpp | $(CPP_SED_MAGIC)> $@
+ 
+ .PHONY: ChangeLog
+ 
+--- xinit.c	Wed Jun 11 12:00:20 2008
++++ xinit.c	Wed Jun 11 12:12:23 2008
+@@ -192,6 +192,11 @@
+ static void Fatal(char *msg);
+ static void Error ( char *fmt, ... );
+ 
++/* Bug 4284529, vivekp, this flag is set by the SIGUSR1
++   signal handler in xinit, it tells Xserver is ready to accept connection.
++*/
++volatile static int  received_SIGUSR1_from_xserver   = 0;
++
+ #ifdef RETSIGTYPE /* autoconf AC_TYPE_SIGNAL */
+ # define SIGVAL RETSIGTYPE
+ #endif /* RETSIGTYPE */
+@@ -214,6 +219,14 @@
+ static SIGVAL
+ sigUsr1(int sig)
+ {
++        /* Bug 4284529, vivekp, set this flag if received SIGUSR1 from X server
++           so that we know X server is ready to accept connections.
++
++          SIGUSR1 is not received by xinit if Xsun is executed thru shell that
++           is in case of executing X server thru .xserverrc.
++        */
++       received_SIGUSR1_from_xserver   = 1;
++
+ #if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__UNIXOS2__) || defined(__APPLE__)
+ 	signal (sig, sigUsr1);
+ #endif
+@@ -533,6 +546,12 @@
+ 	sigaddset(&mask, SIGUSR1);
+ 	sigprocmask(SIG_BLOCK, &mask, &old);
+ 
++        /* Bug 4284529, vivekp, reset it, this flag gets set in
++           SIGUSR1 handler, sigUsr1().
++        */
++        received_SIGUSR1_from_xserver  = 0;
++
++
+ 	serverpid = fork(); 
+ 
+ 	switch(serverpid) {
+@@ -620,6 +639,17 @@
+ 		if (!sigismember(&pendings, SIGUSR1))
+ #endif /* __UNIXOS2__ */
+ 		sigsuspend(&old);
++
++               /* Bug 4284529, vivekp, check if SIGUSR1 is already received,
++                  no need to pause. SIGUSR1 is never received only in the case
++                  where Xserver is started thru $HOME/.xserverrc file.
++                  This fix corrects last few fixes from version 1.6, 1.3, 1.4
++                  of xinit.c. That is bug 4284529, 4245301 and 4226277.
++                */
++                if (!received_SIGUSR1_from_xserver)
++                   pause ();
++
++
+ 		alarm (0);
+ 		sigprocmask(SIG_SETMASK, &old, NULL);
+ 
+@@ -786,7 +816,12 @@
+ 	if (serverpid < 0)
+ 		return;
+ 	errno = 0;
++#ifndef i386
+ 	if (killpg(serverpid, SIGTERM) < 0) {
++#else
++        if (kill(serverpid, SIGTERM) < 0) {
++#endif
++
+ 		if (errno == EPERM)
+ 			Fatal("Can't kill X server\r\n");
+ 		if (errno == ESRCH)
+@@ -810,6 +845,13 @@
+ 		fprintf (stderr, "\r\n");
+ 		Fatal("Can't kill server\r\n");
+ 	}
++	else {
++		/* B U G : 4221128 */
++          	/* Restore keyboard mode. */
++       		fprintf (stderr, "\r\nRestoring keyboard mode\r\n");
++       		execlp ("kbd_mode", "kbd_mode", "-a");
++    	}
++
+ 	fprintf (stderr, "\r\n");
+ 	return;
+ }
+
+--- xinitrc.cpp	Thu Jun 12 12:53:43 2008
++++ xinitrc.cpp	Thu Jun 12 13:16:57 2008
+@@ -97,7 +97,7 @@
+ #endif
+ 
+ TWM &
+-XCLOCK -geometry 50x50-1+1 &
++XCOMM XCLOCK -geometry 50x50-1+1 &
+ XTERM -geometry 80x50+494+51 &
+ XTERM -geometry 80x20+494-0 &
+ exec XTERM -geometry 80x66+0+0 -name login

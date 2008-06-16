@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.180    08/06/13   Sun Microsystems"
+#      "@(#)prototype_com	35.181    08/06/16   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -59,7 +59,6 @@ f none openwin/bin/pclcomp 	0755 root bin
 f none openwin/bin/redxblue 	0755 root bin
 f none openwin/bin/winsysck 	0755 root bin
 f none openwin/bin/xdpr 	0755 root bin
-f none openwin/bin/xinit 	0755 root bin
 f none openwin/bin/xlock 	4755 root bin
 f none openwin/bin/xlsfonts 	0755 root bin
 f none openwin/bin/xlswins 	0755 root bin
@@ -142,6 +141,11 @@ s none openwin/bin/xfwp=../../X11/bin/xfwp
 # open-src/app/xhost
 f none X11/bin/xhost 		0755 root bin
 s none openwin/bin/xhost=../../X11/bin/xhost
+
+# open-src/app/xinit
+f none X11/bin/xinit 		0755 root bin
+f none X11/bin/startx 		0755 root bin
+s none openwin/bin/xinit=../../X11/bin/xinit
 
 # open-src/app/xkbprint
 f none X11/bin/xkbprint 	0755 root bin
@@ -1217,6 +1221,10 @@ f none X11/lib/X11/x11perfcomp/fillblnk		0755 root bin
 f none X11/lib/X11/x11perfcomp/perfboth		0755 root bin
 f none X11/lib/X11/x11perfcomp/perfratio	0755 root bin
 f none X11/lib/X11/x11perfcomp/Xmark		0755 root bin
+
+!search      $HOME/X11/lib/X11/xinit
+d none X11/lib/X11/xinit                        0755 root bin
+f none X11/lib/X11/xinit/xinitrc                0755 root bin
 
 # Create links back to openwin
 s none openwin/lib/app-defaults/Bitmap=../../../X11/lib/X11/app-defaults/Bitmap
