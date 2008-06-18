@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.20     07/11/16 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.21     08/06/17 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -1975,11 +1975,11 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	{
 	    extern bslabel_t        PublicObjSL;
 		/* 
-		 * workstation owner can read properties created internally by loadable modules.
+		 * Anyone can read properties created internally by loadable modules.
 		 * roles can read property created by workstation owner at admin_low.
 		 */
 
-		if (!((tsolprop->serverOwned && tsolinfo->uid == OwnerUID) ||
+		if (!((tsolprop->serverOwned) ||
 			(tsolprop->uid == OwnerUID && blequal(tsolprop->sl, &PublicObjSL)) || 
 			tsolprop->uid == tsolinfo->uid))
 		{
