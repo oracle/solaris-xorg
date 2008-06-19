@@ -26,24 +26,27 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- include/freetype/config/ftoption.h	2007-06-26 00:28:12.000000000 -0400
-+++ include/freetype/config/ftoption.h	2008-02-06 19:40:48.436807000 -0500
-@@ -458,7 +458,8 @@
-   /*   Do not #undef this macro here, since the build system might         */
-   /*   define it for certain configurations only.                          */
-   /*                                                                       */
--/* #define TT_CONFIG_OPTION_BYTECODE_INTERPRETER */
-+#define TT_CONFIG_OPTION_BYTECODE_INTERPRETER
-+#define FT_CONFIG_ADD_FULL_HINTING
+--- include/freetype/config/ftconfig.h	2008-05-31 02:14:45.000000000 -0400
++++ include/freetype/config/ftconfig.h	2008-06-10 13:20:10.277594000 -0400
+@@ -66,6 +66,21 @@
+   /* `CHAR_BIT' (defined in limits.h) gives the number of bits in a      */
+   /* `char' type.                                                        */
  
- 
-   /*************************************************************************/
-@@ -505,7 +506,7 @@
-   /*     ...                                                               */
-   /*   }                                                                   */
-   /*                                                                       */
--#define TT_CONFIG_OPTION_UNPATENTED_HINTING
-+/* #define TT_CONFIG_OPTION_UNPATENTED_HINTING */
- 
- 
-   /*************************************************************************/
++
++#ifndef HAVE_UNISTD_H
++#define HAVE_UNISTD_H 1
++#endif
++
++#ifndef HAVE_FCNTL_H
++#define HAVE_FCNTL_H 1
++#endif
++
++#define SIZEOF_INT sizeof(int)
++#define SIZEOF_LONG sizeof(long)
++
++#define FT_SIZEOF_INT   SIZEOF_INT
++#define FT_SIZEOF_LONG  SIZEOF_LONG
++
+ #ifndef FT_CHAR_BIT
+ #define FT_CHAR_BIT  CHAR_BIT
+ #endif

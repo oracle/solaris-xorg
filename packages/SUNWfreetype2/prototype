@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.16	08/03/07 SMI
+#	@(#)prototype	1.17	08/06/10 SMI
 #
 #  FreeType 2 package
 
@@ -115,7 +115,7 @@ f none include/freetype2/freetype/config/ftstdlib.h		0444 root bin
 
 !search $HOME/lib
 d none lib 							0755 root bin
-f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.16	0755 root bin
+f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.17	0755 root bin
 s none lib/libfreetype.so=libfreetype.so.6
 
 d none share 							0755 root sys 
@@ -133,7 +133,7 @@ f none lib/pkgconfig/freetype2.pc				0644 root bin
 !search $HOME/lib/$plat_64
 d none lib/$plat_64						0755 root bin
 s none lib/64=$plat_64
-f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.16	0755 root bin
+f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.17	0755 root bin
 s none lib/$plat_64/libfreetype.so=libfreetype.so.6
 
 !search $HOME/lib/$plat_64/pkgconfig

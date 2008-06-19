@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.73	08/05/02
+# @(#)Makefile	1.74	08/06/17
 #
 
 PWD:sh=pwd
@@ -41,7 +41,7 @@ BUILD_TYPES=32 64
 BUILD_TYPES_SET=yes
 
 # Version number (used in path names)
-FT_VERS=2.3.5
+FT_VERS=2.3.6
 
 # Source tarball
 SOURCE_TARBALL_NAME=freetype-$(FT_VERS).tar.bz2
@@ -53,9 +53,18 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
 	freetype-config.patch \
-	CVE-2007-2754.patch \
-	freetype-2.3.5.ftoption.h.patch \
-	freetype-2.3.5.configure.patch
+	ftoption.h.0.patch \
+	ftconfig.h.1.patch \
+	ttobjs.h.2.patch \
+	ttobjs.c.3.patch \
+	ttinterp.h.4.patch \
+	ttinterp.c.5.patch \
+	ttgload.c.6.patch \
+	configure.7.patch \
+	configure.8.patch \
+	unix-cc.in.9.patch \
+	ftconfig.in.10.patch \
+	freetype.h.11.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
@@ -77,7 +86,9 @@ FT_CFG= --prefix=$(FT_prefix) \
 	--with-pic
 
 # Library built in tree
-FT_LIB=$(FT_DIR)/objs/.libs/libfreetype.so.6.3.16
+LIBNAME=libfreetype.so.6.3.17
+LIBSONAME=libfreetype.so.6
+FT_LIB=$(FT_DIR)/objs/.libs/$(LIBNAME)
 
 # What to build
 BUILD_TARGETS=$(GNUMAKE) $(FT_LIB)
@@ -140,7 +151,14 @@ $(FT_LIB): $(SOURCE_DIR)/config.mk
 
 install_gen:: $(FT_LIB)
 	mkdir -p $(PROTODIR)/usr/bin$(ARCHLIBSUBDIR)
-	(cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(PROTODIR)$(FT_prefix) libdir=$(PROTODIR)$(FT_libdir) bindir=$(PROTODIR)$(FT_bindir) install )
+	( cd $(SOURCE_DIR)/builds/unix ; \
+	    ./config.status --file ftconfig ; \
+	    rm -f ftconfig.h ; \
+	    mv ftconfig ftconfig.h ; \
+	    touch -acm ftconfig.h )
+	( cd $(SOURCE_DIR) ; \
+	    cp -fp ./builds/unix/ftconfig.h ./include/freetype/config/ftconfig.h )
+	( cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(PROTODIR)$(FT_prefix) libdir=$(PROTODIR)$(FT_libdir) bindir=$(PROTODIR)$(FT_bindir) install )
 
 install_64::
 	-/bin/rm -f $(PROTODIR)$(FT_prefix)/lib/64 $(PROTODIR)$(FT_prefix)/bin/64
