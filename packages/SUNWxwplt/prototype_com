@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.181    08/06/16   Sun Microsystems"
+#      "@(#)prototype_com	35.182    08/06/18   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -60,7 +60,6 @@ f none openwin/bin/redxblue 	0755 root bin
 f none openwin/bin/winsysck 	0755 root bin
 f none openwin/bin/xdpr 	0755 root bin
 f none openwin/bin/xlock 	4755 root bin
-f none openwin/bin/xlsfonts 	0755 root bin
 f none openwin/bin/xlswins 	0755 root bin
 f none openwin/bin/xmakemap 	0755 root bin
 f none openwin/bin/xpr 		0755 root bin
@@ -158,6 +157,10 @@ s none openwin/bin/xlogo=../../X11/bin/xlogo
 # open-src/app/xlsclients
 f none X11/bin/xlsclients	0755 root bin
 s none openwin/bin/xlsclients=../../X11/bin/xlsclients
+
+# open-src/app/xlsfonts
+f none X11/bin/xlsfonts	        0755 root bin
+s none openwin/bin/xlsfonts=../../X11/bin/xlsfonts
 
 # open-src/app/xmag
 f none X11/bin/xmag 		0755 root bin

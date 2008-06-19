@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.76     08/06/16 SMI"
+# ident "@(#)prototype_com 35.78     08/06/20 SMI"
 #
 #  X Window System online user man pages
 
@@ -97,7 +97,6 @@ f none openwin/share/man/man1/xfontsel.1 0444 root bin
 f none openwin/share/man/man1/xfs.1 0444 root bin
 f none openwin/share/man/man1/xload.1 0444 root bin
 f none openwin/share/man/man1/xlock.1 0444 root bin
-f none openwin/share/man/man1/xlsfonts.1 0444 root bin
 f none openwin/share/man/man1/xlswins.1 0444 root bin
 f none openwin/share/man/man1/xmakemap.1 0444 root bin
 f none openwin/share/man/man1/xmh.1 0444 root bin
@@ -260,6 +259,9 @@ f none X11/share/man/man1/xlsatoms.1 	0444 root bin
 
 # open-src/app/xlsclients
 f none X11/share/man/man1/xlsclients.1 	0444 root bin
+
+# open-src/app/xlsfonts
+f none X11/share/man/man1/xlsfonts.1 	0444 root bin
 
 # open-src/app/xlogo
 f none X11/share/man/man1/xlogo.1 	0444 root bin

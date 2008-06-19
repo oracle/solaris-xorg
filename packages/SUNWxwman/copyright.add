@@ -217,6 +217,12 @@ include app/xlsclients/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xlsfonts package are covered by the following notice:
+
+include app/xlsfonts/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xlogo package are covered by the following notice:
 
 include app/xlogo/COPYING
