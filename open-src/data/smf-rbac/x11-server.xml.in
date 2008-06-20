@@ -2,7 +2,7 @@
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 <!--
 
-Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
@@ -92,7 +92,7 @@ of the copyright holder.
                	<propval name='default_depth' type='integer' 
 		 value='24' />
                	<propval name='tcp_listen' type='boolean' 
-		 value='true' />
+		 value='false' />
 		<propval name='value_authorization' type='astring'
 			value='solaris.smf.manage.x11' />
 	</property_group> 	
