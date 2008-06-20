@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.182    08/06/18   Sun Microsystems"
+#      "@(#)prototype_com	35.183    08/06/20   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -1168,9 +1168,9 @@ d none X11/lib/X11                              0755 root bin
 f none X11/lib/X11/rgb.pag 			0444 root bin
 f none X11/lib/X11/rgb.dir 			0444 root bin
 f none X11/lib/X11/rgb.txt 			0444 root bin
-s none openwin/lib/X11/rgb.pag=../../X11/lib/X11/rgb.pag
-s none openwin/lib/X11/rgb.dir=../../X11/lib/X11/rgb.dir
-s none openwin/lib/X11/rgb.txt=../../X11/lib/X11/rgb.txt
+s none openwin/lib/X11/rgb.pag=../../../X11/lib/X11/rgb.pag
+s none openwin/lib/X11/rgb.dir=../../../X11/lib/X11/rgb.dir
+s none openwin/lib/X11/rgb.txt=../../../X11/lib/X11/rgb.txt
 
 # open-src/lib/libX11
 f none X11/lib/X11/Xcms.txt			0444 root bin
