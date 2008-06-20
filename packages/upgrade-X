@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.37 08/05/14
+# @(#)upgrade-X	1.38 08/06/20
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -194,7 +194,7 @@ else
     PKGS_PLT="SUNWxwplt"
 fi
 
-    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfa SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsrc SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc SUNWvncviewer ${PKGS_XSS}"
+    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsrc SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc SUNWvncviewer ${PKGS_XSS}"
 
     PKGS_32_sparc="SUNWxwpsr ${PKGS_XSS_sparc}"
 
@@ -228,19 +228,17 @@ fi
 if [ -d SUNWxorg-server ] ; then
     FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_SRVR}"
     PKGS_32="${PKGS_32} ${PKGS_XORG_SRVR}"
+    # Various compatibility links in SUNWxorg-server have been replaced with
+    # files in other packages, so we need to remove SUNWxorg-server first
+    # (for example: 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link
+    # in SUNWxorg-server to a directory in SUNWxwcft, 6684643 changed 
+    # /usr/X11/lib/X11/rgb.txt from a link to a file in SUNWxwplt and so on)
+    REM_PKGS="SUNWxorg-server"
 fi
 
 if [ -d SUNWxorg-mesa ] ; then
     FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_MESA}"
     PKGS_32="${PKGS_32} ${PKGS_XORG_MESA}"
-fi
-
-# 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link in SUNWxorg-server
-# to a directory in SUNWxwcft, need to remove old link before installing 
-# directory
-if [ -L /usr/X11/lib/X11/fonts/Type1 ] ; then
-    REM_PKGS="SUNWxorg-server"
-    FORCE_ADD="${FORCE_ADD} SUNWxorg-server"
 fi
 
 if [ "$MACH" = "sparc" ]; then
@@ -366,7 +364,7 @@ EOF
 
 	if [ $FOUNDPKG -eq 0 -o $INSTALLALL -eq 1 ]; then
 	  if [ -e $pkg ] ; then
-	    /usr/sbin/pkgadd $VERBOSE  -d `pwd` $pkg 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
+	    /usr/sbin/pkgadd -S $VERBOSE  -d `pwd` $pkg 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
 	    echo ""
 	  else
 	    if [ $QUIET -eq 0 ] ; then
