@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3 08/03/07
+# @(#)Makefile	1.4 08/06/20
 #
 
 # Package name used in tarballs
@@ -44,6 +44,9 @@ SOURCE_PATCHES = 6671721.patch abistrings.patch
 
 # Regenerate configure script & Makefile.in's after applying patches
 AUTORECONF=true
+
+# Work around libtool's interference
+LIB_ADD_BUILD_DEPS = delibtoolize
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xt
