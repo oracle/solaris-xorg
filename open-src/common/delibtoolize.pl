@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)delibtoolize.pl	1.9	08/02/27 SMI"
+# ident	"@(#)delibtoolize.pl	1.10	08/06/20 SMI"
 #
 
 #
@@ -132,7 +132,7 @@ sub process_file {
 	$l =~ s{(\s*$sharedobjflags)+\b}{}msg;
 	$l =~ s{(_la_LDFLAGS\s*=\s*)}{$1 $sharedobjflags }ms;
 	$l =~ s{\s+-module\b}{}ms;
-	$l =~ s{\s+-version-number\s+\d+[:\d]*}{}ms;
+	$l =~ s{\s+-version-number\s+\d+[:\d]*}{ -h \$\@}ms;
 	$l =~ s{\s+-no-undefined\b}{ -z defs}ms;
       }
 
