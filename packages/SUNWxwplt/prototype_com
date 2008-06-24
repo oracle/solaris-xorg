@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.183    08/06/20   Sun Microsystems"
+#      "@(#)prototype_com	35.184    08/06/24   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -549,7 +549,7 @@ f none X11/share/X11/XKeysymDB 			0444 root bin
 f none X11/share/X11/xman.help 			0444 root bin
 s none openwin/lib/XErrorDB=X11/XErrorDB
 s none openwin/lib/XKeysymDB=X11/XKeysymDB
-s none openwin/lib/xman.help=../../../X11/share/X11/xman.help
+s none openwin/lib/xman.help=../../X11/share/X11/xman.help
 s none openwin/lib/X11/XErrorDB=../../../X11/share/X11/XErrorDB
 s none openwin/lib/X11/XKeysymDB=../../../X11/share/X11/XKeysymDB
 s none X11/lib/X11/XErrorDB=../../share/X11/XErrorDB
