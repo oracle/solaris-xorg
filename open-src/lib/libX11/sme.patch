@@ -28,8 +28,8 @@
 # of the copyright holder.
 #
 diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
---- include/X11/Xlibint.h	2008-02-27 21:08:42.264566000 -0800
-+++ include/X11/Xlibint.h	2008-02-27 21:08:48.217301000 -0800
+--- include/X11/Xlibint.h	2008-06-19 16:55:51.614719000 -0700
++++ include/X11/Xlibint.h	2008-06-19 16:56:03.700431000 -0700
 @@ -185,6 +185,10 @@ struct _XDisplay
  	struct _XkbInfoRec *xkb_info; /* XKB info */
  	struct _XtransConnInfo *trans_conn; /* transport connection object */
@@ -58,9 +58,9 @@ diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
  
  #ifdef DataRoutineIsProcedure
 diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
---- src/ConnDis.c	2007-07-21 01:45:39.000000000 -0700
-+++ src/ConnDis.c	2008-02-27 21:08:48.189258000 -0800
-@@ -129,7 +129,12 @@ _X11TransConnectDisplay (
+--- src/ConnDis.c	2008-06-19 16:55:51.548035000 -0700
++++ src/ConnDis.c	2008-06-19 16:56:03.747842000 -0700
+@@ -136,7 +136,12 @@ _X11TransConnectDisplay (
      char **auth_namep,			/* RETURN */
      int *auth_namelenp,			/* RETURN */
      char **auth_datap,			/* RETURN */
@@ -73,9 +73,9 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
  {
      int family;
      int saddrlen;
-@@ -162,6 +167,9 @@ _X11TransConnectDisplay (
- #ifdef TCPCONN
-     char *tcphostname = NULL;		/* A place to save hostname pointer */
+@@ -163,6 +168,9 @@ _X11TransConnectDisplay (
+     int local_transport_index = -1;
+     const char *local_transport[] = { LOCAL_TRANSPORT_LIST, NULL };
  #endif
 +#ifdef SUNSOFT
 +    char *xsuntransport = NULL;
@@ -83,20 +83,21 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
  
      p = display_name;
  
-@@ -286,6 +294,12 @@ _X11TransConnectDisplay (
+@@ -272,6 +280,13 @@ _X11TransConnectDisplay (
  	}
      }
  
 +#ifdef SUNSOFT
-+   if ((xsuntransport = getenv("XSUNTRANSPORT")) != NULL)
-+        if ((strncmp("shmem", xsuntransport,  5) == 0) &&  !phostname)
-+                *sme_conn = 1;
++    if ((xsuntransport = getenv("XSUNTRANSPORT")) != NULL) {
++        if (!phostname && (strncmp("shmem", xsuntransport,  5) == 0))
++            *sme_conn = 1;
++    }
 +#endif /* SME */
 +
      /*
       * At this point, we know the following information:
       *
-@@ -518,13 +532,23 @@ int _XConnectDisplay (
+@@ -493,13 +507,23 @@ int _XConnectDisplay (
      char **auth_namep,			/* RETURN */
      int *auth_namelenp,			/* RETURN */
      char **auth_datap,			/* RETURN */
@@ -121,8 +122,8 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
     if (trans_conn)
     {
 diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2008-02-27 21:08:42.585211000 -0800
-+++ src/OpenDis.c	2008-02-27 21:08:48.190600000 -0800
+--- src/OpenDis.c	2008-06-19 16:55:52.015830000 -0700
++++ src/OpenDis.c	2008-06-19 16:56:03.804117000 -0700
 @@ -52,6 +52,11 @@ in this Software without prior written a
  #include <X11/extensions/XInteractive.h>
  /* end SUNSOFT_INTERACTIVE */
@@ -454,7 +455,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +
 diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
 --- src/Xintconn.h	2007-05-16 08:34:44.000000000 -0700
-+++ src/Xintconn.h	2008-02-27 21:08:48.196663000 -0800
++++ src/Xintconn.h	2008-06-19 16:56:03.816230000 -0700
 @@ -18,7 +18,12 @@ int _XConnectDisplay (
      char **auth_namep,          /* RETURN */
      int *auth_namelenp,         /* RETURN */
@@ -482,7 +483,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  /* OpenDis.c */
 diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 --- src/XlibInt.c	2007-07-21 01:45:39.000000000 -0700
-+++ src/XlibInt.c	2008-02-27 21:08:48.204605000 -0800
++++ src/XlibInt.c	2008-06-19 16:56:03.835091000 -0700
 @@ -52,6 +52,13 @@ from The Open Group.
  #include <direct.h>
  #endif

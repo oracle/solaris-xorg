@@ -28,9 +28,9 @@
 # of the copyright holder.
 #
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2008-02-27 21:08:28.279803000 -0800
-+++ configure.ac	2008-02-27 21:08:32.492966000 -0800
-@@ -366,6 +366,9 @@
+--- configure.ac	2008-06-19 16:55:15.294676000 -0700
++++ configure.ac	2008-06-19 16:55:27.120173000 -0700
+@@ -392,7 +392,10 @@ X11_LOCALEDATADIR="${X11_DATADIR}/locale
  AC_DEFINE_DIR(XLOCALEDATADIR, X11_LOCALEDATADIR, [Location of libX11 locale data])
  AC_SUBST(X11_LOCALEDATADIR)
  
@@ -41,7 +41,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +                                [ X11_LOCALELIBDIR="${X11_LIBDIR}/locale" ])
  AC_DEFINE_DIR(XLOCALELIBDIR, X11_LOCALELIBDIR, [Location of libX11 locale libraries])
  AC_SUBST(X11_LOCALELIBDIR)
-@@ -397,6 +397,7 @@ AC_OUTPUT([Makefile
+ 
+@@ -423,6 +426,7 @@ AC_OUTPUT([Makefile
  	   modules/im/ximcp/Makefile
  	   modules/lc/Makefile
  	   modules/lc/def/Makefile

@@ -28,9 +28,9 @@
 # of the copyright holder.
 #
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2008-02-27 21:08:23.251718000 -0800
-+++ configure.ac	2008-02-27 21:08:28.279803000 -0800
-@@ -100,7 +100,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
+--- configure.ac	2008-06-19 16:55:03.206783000 -0700
++++ configure.ac	2008-06-19 16:55:15.294676000 -0700
+@@ -126,7 +126,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
  	fi
  	AC_DEFINE(USE_DYNAMIC_LC,1,
  		  [Split some i18n functions into loadable modules])
@@ -40,8 +40,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_MSG_RESULT($XLIB_LOADABLE_I18N)
  	       
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-02-27 21:08:23.252437000 -0800
-+++ src/Makefile.am	2008-02-27 21:08:28.280422000 -0800
+--- src/Makefile.am	2008-06-19 16:55:03.188702000 -0700
++++ src/Makefile.am	2008-06-19 16:55:15.295042000 -0700
 @@ -373,9 +373,12 @@ if XKB
  USE_XKB_LIBS = $(XKB_LIBS)
  endif

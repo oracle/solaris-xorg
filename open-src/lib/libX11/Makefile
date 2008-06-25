@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	08/06/18
+# @(#)Makefile	1.12	08/06/24
 #
 
 # Package name used in tarballs
@@ -44,6 +44,7 @@ SOURCE_PATCHES = \
 	lintlib.patch,-p1 \
 	manpages.patch,-p1 \
 	XErrorDB.patch,-p1 \
+	local-transport.patch,-p1 \
 	1234757.patch \
 	4010755.patch \
 	4614834.patch \
