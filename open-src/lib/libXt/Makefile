@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4 08/06/20
+# @(#)Makefile	1.5 08/06/30
 #
 
 # Package name used in tarballs
@@ -62,6 +62,8 @@ LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXt.so.4.0.0
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xt.pc.in
+
+LIB_ADD_CFLAGS = -DGETVALUES_BUG
 
 LIB_ADD_CONFIG_OPTS= --with-appdefaultdir=$(X11_DIR)/lib/X11/app-defaults
 
