@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/04/01
+# @(#)Makefile	1.9	08/07/01
 #
 
 # Package name used in tarballs
@@ -179,9 +179,16 @@ DEFAULT_GCC_CFLAGS += -fPIC
 XVNC_CONFIG_ENV = LIBS="-lsocket -lnsl"
 CONFIG_ENV += $(XVNC_CONFIG_ENV)
 
-LDPATH_ADD += -L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
+LDPATH_ADDITIONS_sparc = \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
+        -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
+LDPATH_ADDITIONS_i386 = \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
         -R$(X11_SERVERMODS_DIR)/extensions/mesa/$(ARCHLIBSUBDIR) \
         -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
+LDPATH_ADDITIONS=$(LDPATH_ADDITIONS_$(MACH))
+
+LDPATH_ADD += $(LDPATH_ADDITIONS)
 
 # Run configure scripts for vnc sources
 $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
