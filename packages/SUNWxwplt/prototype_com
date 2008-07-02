@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.184    08/06/24   Sun Microsystems"
+#      "@(#)prototype_com	35.186    08/07/01   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -71,7 +71,6 @@ f none openwin/bin/proxymngr    0755 root bin
 f none openwin/bin/xkbbell      0755 root bin
 f none openwin/bin/xkbvleds     0755 root bin
 f none openwin/bin/xkbwatch     0755 root bin
-f none openwin/bin/xrx		0755 root bin
 f none openwin/bin/rstart	0755 root bin
 f none openwin/bin/xfindproxy	0755 root bin
 
@@ -217,6 +216,11 @@ f none X11/bin/xwud 			0755 root bin
 s none openwin/bin/xwud=../../X11/bin/xwud
 
 d none openwin/lib 			0755 root bin
+
+# open-src/app/xrx
+f none X11/bin/xrx			0755 root bin
+s none openwin/bin/xrx=../../X11/bin/xrx
+
 !search  $HOME/openwin/lib
 #
 # symlinks for backward compatability

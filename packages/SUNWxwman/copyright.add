@@ -311,3 +311,9 @@ Files from the lib/libXpm package are covered by the following notice:
 
 include lib/libXpm/COPYING
 
+--------------------------------------------------------------------
+
+Files from the app/xrx package are covered by the following notice:
+
+include app/xrx/COPYING
+
