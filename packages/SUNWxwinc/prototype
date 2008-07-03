@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.84	08/03/24 SMI"
+# ident	"@(#)prototype	35.85	08/07/03 SMI"
 #
 #  X Window System include files
 
@@ -416,6 +416,7 @@ f none X11/include/X11/extensions/XKB.h 	0444 root bin
 f none X11/include/X11/extensions/XKBgeom.h 	0444 root bin
 f none X11/include/X11/extensions/XKBproto.h 	0444 root bin
 f none X11/include/X11/extensions/XKBstr.h 	0444 root bin
+f none X11/include/X11/extensions/XLbx.h 	0444 root bin
 f none X11/include/X11/extensions/XResproto.h	0444 root bin
 f none X11/include/X11/extensions/XShm.h 	0444 root bin
 f none X11/include/X11/extensions/XTest.h 	0444 root bin
@@ -689,6 +690,7 @@ f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
 # Libraries
 
 f none lib/pkgconfig/ice.pc			0444 root bin
+f none lib/pkgconfig/lbxutil.pc			0444 root bin
 f none lib/pkgconfig/sm.pc			0444 root bin
 f none lib/pkgconfig/x11.pc			0444 root bin
 f none lib/pkgconfig/xau.pc			0444 root bin
@@ -742,6 +744,7 @@ s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.p
 
 !search $HOME/lib/$plat_64/pkgconfig
 f none lib/$plat_64/pkgconfig/ice.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/lbxutil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/sm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/x11.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xau.pc			0444 root bin

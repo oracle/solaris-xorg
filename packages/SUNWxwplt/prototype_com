@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.186    08/07/01   Sun Microsystems"
+#      "@(#)prototype_com	35.187    08/07/03   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -66,7 +66,6 @@ f none openwin/bin/xpr 		0755 root bin
 #
 # X11R6.4 upgrade changes
 #
-f none openwin/bin/lbxproxy     2755 root root
 f none openwin/bin/proxymngr    0755 root bin
 f none openwin/bin/xkbbell      0755 root bin
 f none openwin/bin/xkbvleds     0755 root bin
@@ -93,6 +92,10 @@ s none openwin/bin/fslsfonts=../../X11/bin/fslsfonts
 # open-src/app/fstobdf
 f none X11/bin/fstobdf 		0755 root bin
 s none openwin/bin/fstobdf=../../X11/bin/fstobdf
+
+# open-src/app/lbxproxy
+f none X11/bin/lbxproxy 	2755 root root
+s none openwin/bin/lbxproxy=../../X11/bin/lbxproxy
 
 # open-src/app/rgb
 f none X11/bin/showrgb 				0755 root bin
@@ -526,11 +529,7 @@ f none openwin/lib/X11/rstart/rstartd.real	0755 root bin
 # X11R6.4 upgrade changes
 #
 
-d none openwin/lib/X11/lbxproxy                 0755 root bin
 d none openwin/lib/X11/proxymngr                0755 root bin
-
-!search $HOME/openwin/lib/X11/lbxproxy
-f none openwin/lib/X11/lbxproxy/AtomControl     0755 root bin
 
 !search $HOME/openwin/lib/X11/proxymngr
 f none openwin/lib/X11/proxymngr/pmconfig       0755 root bin
@@ -1233,6 +1232,10 @@ f none X11/lib/X11/x11perfcomp/Xmark		0755 root bin
 d none X11/lib/X11/xinit                        0755 root bin
 f none X11/lib/X11/xinit/xinitrc                0755 root bin
 
+!search      $HOME/X11/lib/X11/lbxproxy
+d none X11/lib/X11/lbxproxy 			0755 root bin
+f none X11/lib/X11/lbxproxy/AtomControl		0755 root bin
+
 # Create links back to openwin
 s none openwin/lib/app-defaults/Bitmap=../../../X11/lib/X11/app-defaults/Bitmap
 s none openwin/lib/app-defaults/Bitmap-color=../../../X11/lib/X11/app-defaults/Bitmap-color
@@ -1240,6 +1243,7 @@ s none openwin/lib/app-defaults/Bitmap-nocase=../../../X11/lib/X11/app-defaults/
 s none openwin/lib/app-defaults/Clock-color=../../../X11/lib/X11/app-defaults/Clock-color
 s none openwin/lib/app-defaults/Editres=../../../X11/lib/X11/app-defaults/Editres
 s none openwin/lib/app-defaults/Editres-color=../../../X11/lib/X11/app-defaults/Editres-color
+s none openwin/lib/X11/lbxproxy=../../../X11/lib/X11/lbxproxy
 s none openwin/lib/app-defaults/XCalc=../../../X11/lib/X11/app-defaults/XCalc
 s none openwin/lib/app-defaults/XCalc-color=../../../X11/lib/X11/app-defaults/XCalc-color
 s none openwin/lib/app-defaults/XClipboard=../../../X11/lib/X11/app-defaults/XClipboard

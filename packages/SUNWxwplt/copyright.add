@@ -191,6 +191,12 @@ include app/fslsfonts/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/lbxproxy package are covered by the following notice:
+
+include app/lbxproxy/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/rgb package are covered by the following notice:
 
 include app/rgb/COPYING

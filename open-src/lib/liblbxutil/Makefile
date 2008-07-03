@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# lbxutil 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,105 +30,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.55	08/07/03
+# @(#)Makefile	1.1 08/07/01
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+# Package name used in tarballs
+LIB_MODULE=liblbxutil
 
-OS_SUBDIRS_common = \
-	appres \
-	bitmap \
-	constype \
-	editres \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	lbxproxy \
-	listres \
-	luit \
-	mesa-demos \
-	mkfontscale \
-	oclock \
-        setxkbmap \
-	showfont \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xcalc \
-	xclipboard \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xdpyinfo \
-	xdriinfo \
-	xev \
-	xfd \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkill \
-	xload \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xmag \
-	xman \
-	xmodmap \
-	xpm \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xset \
-	xsetroot \
-	xstdcmap \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx \
-        xterm
+# Version number (used in path names)
+LIB_VERS=1.0.1
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 6718029.patch
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Library name (used for specfiles/mapfiles)
+LIBNAME=lbxutil
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+# Man pages to apply Sun footer to & attributes to list
+#SUN_PACKAGE=SUNWxwplt
+#LIB_STABILITY=Committed
+#LIB_MAN_SUFFIX=3lbxutil
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+# Library built in tree
+LIB_BUILT=$(SOURCE_DIR)/src/.libs/liblbxutil.so.1
 
-World: clean all
+# pkg-config files that need to have -R added
+FIX_PC_FILES=lbxutil.pc.in
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+include ../Makefile.inc

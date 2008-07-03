@@ -1,0 +1,47 @@
+
+--- di/main.c	Sun Jun 15 15:54:22 2008
++++ di/main.c	Sun Jun 15 15:55:06 2008
+@@ -80,6 +80,11 @@
+     int	    argc;
+     char    **argv;
+ {
++    /* Temporarily give up gid 0 - ConnectToServer restores when needed
++     * to create pipes/sockets in /tmp/.X11-*
++     */
++    setegid(getgid());
++
+     display = "63";
+ 
+     ProcessCommandLine (argc, argv);
+
+--- di/wire.c	Sun Jun 15 16:04:05 2008
++++ di/wire.c	Sun Jun 15 16:06:02 2008
+@@ -1541,7 +1541,13 @@
+      */
+     for (j=0; j < MAXTRANSPORTS; j++)
+ 	server->listen_fds[j] = -1;
++    if(getegid() == getgid()) {
++        setegid(0);
++    }
+     CreateServerSockets(server->listen_fds);
++    if(getegid() != getgid()) {
++        setegid(getgid());
++    }
+ 
+     /*
+      * Generate the proxy address and save the host name part
+
+--- di/dispatch.c	Sun Jun 15 15:52:10 2008
++++ di/dispatch.c	Sun Jun 15 15:52:32 2008
+@@ -449,6 +449,11 @@
+     void (*zeroPadProc)();
+     extern int lbxZeroPad;
+ 
++    if(MAJOROP == 104) { /* XBell */
++       if ((4 >> 2) != client->req_len)
++          return(BadLength);
++    }
++
+     if (lbxZeroPad &&
+ 	(MAJOROP < 128) && (zeroPadProc = ZeroPadReqVector[MAJOROP]))
+ 	(*zeroPadProc) ((void *) stuff);

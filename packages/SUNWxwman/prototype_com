@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.79     08/07/01 SMI"
+# ident "@(#)prototype_com 35.80     08/07/03 SMI"
 #
 #  X Window System online user man pages
 
@@ -50,7 +50,6 @@ s none X11/man=share/man
 
 !search            $HOME/man1
 d none openwin/share/man/man1 0755 root bin
-f none openwin/share/man/man1/lbxproxy.1 0444 root bin
 f none openwin/share/man/man1/proxymngr.1 0444 root bin
 f none openwin/share/man/man1/xfindproxy.1 0444 root bin
 f none openwin/share/man/man1/rstart.1 0444 root bin
@@ -165,6 +164,9 @@ f none X11/share/man/man1/fslsfonts.1 	0444 root bin
 
 # open-src/app/fstobdf
 f none X11/share/man/man1/fstobdf.1 	0444 root bin
+
+# open-src/app/lbxproxy
+f none X11/share/man/man1/lbxproxy.1 	0444 root bin
 
 # open-src/app/listres
 f none X11/share/man/man1/listres.1 	0444 root bin
