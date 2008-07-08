@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.80     08/07/03 SMI"
+# ident "@(#)prototype_com 35.81     08/07/08 SMI"
 #
 #  X Window System online user man pages
 
@@ -64,14 +64,12 @@ f none openwin/share/man/man1/Xprt.1 0444 root bin
 f none openwin/share/man/man1/Xsun.1 0444 root bin 
 f none openwin/share/man/man1/Xnest.1 0444 root bin 
 f none openwin/share/man/man1/Xvfb.1 0444 root bin 
-f none openwin/share/man/man1/bdftopcf.1 0444 root bin
 f none openwin/share/man/man1/bdftosnf.1 0444 root bin
 f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
 f none openwin/share/man/man1/cmap_compact.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
 f none openwin/share/man/man1/fsadmin.1 0444 root bin
 f none openwin/share/man/man1/htt.1 0444 root bin
-f none openwin/share/man/man1/iceauth.1 0444 root bin
 f none openwin/share/man/man1/imake.1 0444 root bin
 f none openwin/share/man/man1/kbd_mode.1 0444 root bin
 f none openwin/share/man/man1/makedepend.1 0444 root bin
@@ -92,7 +90,6 @@ f none openwin/share/man/man1/xdpr.1 0444 root bin
 f none openwin/share/man/man1/xedit.1 0444 root bin
 f none openwin/share/man/man1/xfontsel.1 0444 root bin
 f none openwin/share/man/man1/xfs.1 0444 root bin
-f none openwin/share/man/man1/xload.1 0444 root bin
 f none openwin/share/man/man1/xlock.1 0444 root bin
 f none openwin/share/man/man1/xlswins.1 0444 root bin
 f none openwin/share/man/man1/xmakemap.1 0444 root bin
@@ -147,6 +144,9 @@ f none X11/share/man/man1/appres.1 	0444 root bin
 # open-src/app/atobm
 f none X11/share/man/man1/atobm.1 	0444 root bin
 
+# open-src/app/bdftopcf
+f none X11/share/man/man1/bdftopcf.1 	0444 root bin
+
 # open-src/app/bitmap
 f none X11/share/man/man1/bitmap.1 	0444 root bin
 
@@ -164,6 +164,9 @@ f none X11/share/man/man1/fslsfonts.1 	0444 root bin
 
 # open-src/app/fstobdf
 f none X11/share/man/man1/fstobdf.1 	0444 root bin
+
+# open-src/app/iceauth
+f none X11/share/man/man1/iceauth.1 	0444 root bin
 
 # open-src/app/lbxproxy
 f none X11/share/man/man1/lbxproxy.1 	0444 root bin
@@ -262,6 +265,9 @@ f none X11/share/man/man1/xlsclients.1 	0444 root bin
 
 # open-src/app/xlsfonts
 f none X11/share/man/man1/xlsfonts.1 	0444 root bin
+
+# open-src/app/xload
+f none X11/share/man/man1/xload.1 	0444 root bin
 
 # open-src/app/xlogo
 f none X11/share/man/man1/xlogo.1 	0444 root bin

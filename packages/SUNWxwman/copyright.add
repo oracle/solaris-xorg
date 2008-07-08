@@ -229,6 +229,12 @@ include app/xlsfonts/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xload package are covered by the following notice:
+
+include app/xload/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xlogo package are covered by the following notice:
 
 include app/xlogo/COPYING
