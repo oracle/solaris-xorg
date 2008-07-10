@@ -30,21 +30,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/03/19 SMI
+# @(#)Makefile	1.2	08/07/10 SMI
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
 # Version number (used in path names)
-SOURCE_VERSION=3
-VERSION=0.2
+VERSION=1.03
 
 # Source tarball
-SOURCE_TARBALL_NAME=liberation-fonts-ttf-$(SOURCE_VERSION).tar.gz
+SOURCE_TARBALL_NAME=liberation-fonts-$(VERSION).tar.gz
 
 # Download site for source
-SOURCE_URL=http://www.redhat.com/f/fonts/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=http://fedorahosted.org/releases/l/i/liberation-fonts/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 

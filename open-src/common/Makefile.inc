@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.89	08/03/31
+# @(#)Makefile.inc	1.90	08/07/10
 #
 
 # Borrowed from Solaris OS/Net makefile.master:
@@ -292,7 +292,7 @@ delibtoolize:
 ### Source tarballs & downloading if necessary
 
 TARBALLDIR=$(TOP)/tarballs
-WGET=/usr/sfw/bin/wget
+WGET=/usr/sfw/bin/wget --no-check-certificate
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 
 XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
