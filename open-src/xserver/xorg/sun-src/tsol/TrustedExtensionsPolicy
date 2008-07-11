@@ -3,7 +3,7 @@
 # Use is subject to license terms.
 #
 
-# ident	"@(#)TrustedExtensionsPolicy 1.8	07/07/23 SMI"
+# ident	"@(#)TrustedExtensionsPolicy 1.9	08/07/10 SMI"
 
 # TrustedExtensionsPolicy
 # Syntax: <atom|property|selection|extension|privilege> name
@@ -179,6 +179,11 @@ selection Dtfile
 selection Dtpad
 selection _Frame_RPC
 selection _MOTIF_CLIP_LOCK
+
+#
+# Entries required to polyinstantiate applications 
+#
+selection /^_ADOBE_READER_/
 
 #
 # I18N: Input Method for Ja locale

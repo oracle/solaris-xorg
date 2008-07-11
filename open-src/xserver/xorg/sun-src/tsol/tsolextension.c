@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.28     08/02/08 SMI"
+#pragma ident   "@(#)tsolextension.c 1.29     08/07/10 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -2020,8 +2020,15 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 				auth_token = (XID)(tsolinfo->uid);
 			}
 		} else {
-			if (tsolinfo->uid != 0) {
-				/* Access check based on uid */
+			/* Allow root from global zone */
+			if (tsolinfo->uid == 0 && HasTrustedPath(tsolinfo)) {
+				auth_token = (XID)(tsolinfo->uid);
+			} else {
+				/* 
+				 * Access check based on uid. Check if
+				 * roles or other uids have  been added by
+				 * xhost +role@
+				 */
 				getdomainname(domainname, sizeof(domainname));
 				if (!user2netname(netname, tsolinfo->uid, domainname)) {
 					return ((XID)-1);
@@ -2033,10 +2040,6 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 					return (CheckAuthorization(name_length, name, data_length,
 						data, client, reason));
 				}
-			} else
-				/* Allow all connections from global zones for now */
-				if (HasTrustedPath(tsolinfo)) {
-					auth_token = (XID)(tsolinfo->uid);
 			}
 		}
 	}
