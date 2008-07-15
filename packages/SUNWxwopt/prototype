@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.56	08/06/13 SMI"
+# ident "@(#)prototype	35.57	08/07/15 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -45,7 +45,6 @@ f none openwin/bin/imake	0755 root bin
 f none openwin/bin/makedepend	0755 root bin
 f none openwin/bin/mkdirhier	0755 root bin
 f none openwin/bin/pswrap	0755 root bin
-f none openwin/bin/sessreg	0755 root bin
 f none openwin/bin/showsnf	0755 root bin
 f none openwin/bin/xbiff	0755 root bin
 f none openwin/bin/xclock	0755 root bin
@@ -191,6 +190,10 @@ s none openwin/bin/listres=../../X11/bin/listres
 # open-src/app/rgb
 f none X11/bin/rgb				0755 root bin
 s none openwin/bin/rgb=../../X11/bin/rgb
+
+# open-src/app/sessreg
+f none X11/bin/sessreg				0755 root bin
+s none openwin/bin/sessreg=../../X11/bin/sessreg
 
 # open-src/app/twm
 f none X11/bin/twm				0755 root bin

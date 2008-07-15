@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.84     08/07/15 SMI"
+# ident "@(#)prototype_com 35.85     08/07/15 SMI"
 #
 #  X Window System online user man pages
 
@@ -77,7 +77,6 @@ f none openwin/share/man/man1/mkdirhier.1 0444 root bin
 f none openwin/share/man/man1/mkfontdir.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
-f none openwin/share/man/man1/sessreg.1 0444 root bin
 f none openwin/share/man/man1/showsnf.1 0444 root bin
 f none openwin/share/man/man1/winsysck.1 0444 root bin
 f none openwin/share/man/man1/xbiff.1 0444 root bin
@@ -184,6 +183,9 @@ f none X11/share/man/man1/oclock.1 	0444 root bin
 # open-src/app/rgb
 f none X11/share/man/man1/rgb.1 	0444 root bin
 f none X11/share/man/man1/showrgb.1 	0444 root bin
+
+# open-src/app/sessreg
+f none X11/share/man/man1/sessreg.1	0444 root bin
 
 # open-src/app/setxkbmap
 f none X11/share/man/man1/setxkbmap.1   0444 root bin
