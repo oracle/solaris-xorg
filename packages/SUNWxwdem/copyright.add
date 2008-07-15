@@ -7,6 +7,12 @@ include app/xev/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xeyes package are covered by the following notice:
+
+include app/xeyes/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xgc package are covered by the following notice:
 
 include app/xgc/COPYING

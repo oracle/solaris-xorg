@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.20	08/04/11
+#	@(#)prototype	35.22	08/07/15
 #
 #  X Window System demo programs
 
@@ -54,7 +54,6 @@ f none openwin/demo/puzzle		0755 root bin
 f none openwin/demo/texteroids		0755 root bin
 f none openwin/demo/worm		0755 root bin
 f none openwin/demo/xepsf		0755 root bin
-f none openwin/demo/xeyes		0755 root bin
 f none openwin/demo/xmac		0755 root bin
 f none openwin/demo/xmag_multivis	0755 root bin
 f none openwin/demo/xscope		0755 root bin
@@ -69,6 +68,10 @@ d none X11/bin				0755 root bin
 # open-src/app/xev
 f none X11/bin/xev 			0755 root bin
 s none openwin/demo/xev=../../X11/bin/xev
+
+# open-src/app/xeyes
+f none X11/bin/xeyes                    0755 root bin
+s none openwin/demo/xeyes=../../X11/bin/xeyes
 
 # open-src/app/xgc
 f none X11/bin/xgc 			0755 root bin

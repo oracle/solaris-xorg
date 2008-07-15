@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.81     08/07/08 SMI"
+# ident "@(#)prototype_com 35.84     08/07/15 SMI"
 #
 #  X Window System online user man pages
 
@@ -69,7 +69,6 @@ f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
 f none openwin/share/man/man1/cmap_compact.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
 f none openwin/share/man/man1/fsadmin.1 0444 root bin
-f none openwin/share/man/man1/htt.1 0444 root bin
 f none openwin/share/man/man1/imake.1 0444 root bin
 f none openwin/share/man/man1/kbd_mode.1 0444 root bin
 f none openwin/share/man/man1/makedepend.1 0444 root bin
@@ -115,7 +114,6 @@ f none openwin/share/man/man6/texteroids.6 0444 root bin
 f none openwin/share/man/man6/worm.6 0444 root bin
 f none openwin/share/man/man6/xepsf.6 0444 root bin
 f none openwin/share/man/man6/xev.6 0444 root bin
-f none openwin/share/man/man6/xeyes.6 0444 root bin
 f none openwin/share/man/man6/xmac.6 0444 root bin
 f none openwin/share/man/man6/xmag_multivis.6 0444 root bin
 f none openwin/share/man/man6/xscope.6 0444 root bin
@@ -230,6 +228,9 @@ f none X11/share/man/man1/xdpyinfo.1 	0444 root bin
 
 # open-src/app/xev
 f none X11/share/man/man1/xev.1 	0444 root bin
+
+# open-src/app/xeyes
+f none X11/share/man/man1/xeyes.1 	0444 root bin
 
 # open-src/app/xfd
 f none X11/share/man/man1/xfd.1 	0444 root bin
