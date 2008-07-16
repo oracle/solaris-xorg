@@ -38,12 +38,3 @@
      echo -L$libdir $rpath $libs
    else
 
---- builds/unix/freetype2.in	2006-10-12 00:51:08.000000000 -0400
-+++ builds/unix/freetype2.in	2008-01-28 15:51:38.094177000 -0500
-@@ -7,5 +7,5 @@
- Description: A free, high-quality, and portable font engine.
- Version: @ft_version@
- Requires:
--Libs: -L${libdir} -lfreetype @LIBZ@ @FT2_EXTRA_LIBS@
-+Libs: -L${libdir} -lfreetype @FT2_EXTRA_LIBS@
- Cflags: -I${includedir}/freetype2 -I${includedir}

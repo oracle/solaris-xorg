@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.74	08/06/17
+# @(#)Makefile	1.75	08/07/15
 #
 
 PWD:sh=pwd
@@ -41,7 +41,7 @@ BUILD_TYPES=32 64
 BUILD_TYPES_SET=yes
 
 # Version number (used in path names)
-FT_VERS=2.3.6
+FT_VERS=2.3.7
 
 # Source tarball
 SOURCE_TARBALL_NAME=freetype-$(FT_VERS).tar.bz2
@@ -55,16 +55,17 @@ SOURCE_PATCHES= \
 	freetype-config.patch \
 	ftoption.h.0.patch \
 	ftconfig.h.1.patch \
-	ttobjs.h.2.patch \
-	ttobjs.c.3.patch \
-	ttinterp.h.4.patch \
-	ttinterp.c.5.patch \
-	ttgload.c.6.patch \
-	configure.7.patch \
-	configure.8.patch \
+	freetype.h.2.patch \
+	ttobjs.h.3.patch \
+	ttobjs.c.4.patch \
+	ttinterp.h.5.patch \
+	ttinterp.c.6.patch \
+	ttgload.c.7.patch \
+	ftconfig.in.8.patch \
 	unix-cc.in.9.patch \
-	ftconfig.in.10.patch \
-	freetype.h.11.patch
+	freetype2.in.10.patch \
+	configure.11.patch \
+	configure.12.patch
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)

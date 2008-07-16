@@ -26,14 +26,15 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- src/truetype/ttobjs.h	2007-05-24 15:38:50.000000000 -0400
-+++ src/truetype/ttobjs.h	2007-12-15 08:11:52.000000000 -0500
-@@ -339,7 +339,7 @@
- 
-     TT_CodeRangeTable  codeRangeTable;
- 
--    TT_GraphicsState   GS;
-+    TT_GraphicsState   FT_GS;
- 
-     FT_ULong           cvt_size;      /* the scaled control value table */
-     FT_Long*           cvt;
+--- include/freetype/freetype.h	2008-06-29 03:18:50.000000000 -0400
++++ include/freetype/freetype.h	2008-07-14 01:36:45.000000000 -0400
+@@ -2421,6 +2421,9 @@
+ #define FT_LOAD_FORCE_AUTOHINT               0x20
+ #define FT_LOAD_CROP_BITMAP                  0x40
+ #define FT_LOAD_PEDANTIC                     0x80
++#ifdef FT_CONFIG_ADD_FULL_HINTING
++#define FT_LOAD_USE_FULL_HINTING             0x100
++#endif
+ #define FT_LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH  0x200
+ #define FT_LOAD_NO_RECURSE                   0x400
+ #define FT_LOAD_IGNORE_TRANSFORM             0x800
