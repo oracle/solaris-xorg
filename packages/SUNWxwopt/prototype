@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.57	08/07/15 SMI"
+# ident "@(#)prototype	35.58	08/07/16 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -47,7 +47,6 @@ f none openwin/bin/mkdirhier	0755 root bin
 f none openwin/bin/pswrap	0755 root bin
 f none openwin/bin/showsnf	0755 root bin
 f none openwin/bin/xbiff	0755 root bin
-f none openwin/bin/xclock	0755 root bin
 f none openwin/bin/xcolor	0755 root bin
 f none openwin/bin/xditview	0755 root bin
 f none openwin/bin/xdm		0755 root bin
@@ -202,6 +201,10 @@ s none openwin/bin/twm=../../X11/bin/twm
 # open-src/app/luit
 # no openwin link since it was never delivered into /usr/openwin
 f none X11/bin/luit				0755 root bin
+
+#open-src/app/xclock
+f none X11/bin/xclock				0755 root bin
+s non openwin/bin/xclock=../../X11/bin/xclock
 
 !search $HOME/X11/lib/X11/app-defaults
 d none X11/lib                                  0755 root bin
