@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.94	08/06/03
+# @(#)Makefile	1.95	08/07/18
 #
 
 PWD:sh=pwd
@@ -84,7 +84,8 @@ SOURCE_PATCHES = \
 	bug-6583181.patch \
         notice_events.patch \
 	bug-6670659.patch \
-	bug-6583247.patch
+	bug-6583247.patch \
+	xscreensaver-hush-misc.patch,-p1
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/xscreensaver-$(XSCREENSAVER_VERS)
