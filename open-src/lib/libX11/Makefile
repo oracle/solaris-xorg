@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	08/06/24
+# @(#)Makefile	1.13	08/07/21
 #
 
 # Package name used in tarballs
@@ -82,7 +82,7 @@ LIB_ADD_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
 	--with-locale-lib-dir='$${exec_prefix}/lib/X11/locale$(LIBSUBDIR)'
 
 # -xF is needed for mapfile reordering to work
-LIB_ADD_CFLAGS = -xF -g
+LIB_ADD_CFLAGS = -xF
 
 # -DSUNSOFT enables SUN_SME (Shared Memory transport extension)
 # -DMOTIFBC enables compatibility with bugs in Motif & other apps
