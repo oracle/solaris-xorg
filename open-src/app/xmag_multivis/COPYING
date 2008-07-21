@@ -1,0 +1,52 @@
+/*-
+ * Copyright (c) 1990,91,92 by Sun Microsystems, Inc.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notice appear in all copies and that
+ * both that copyright notice and this permission notice appear in
+ * supporting documentation.
+ *
+ * This file is provided AS IS with no warranties of any kind.  The author
+ * shall have no liability with respect to the infringement of copyrights,
+ * trade secrets or any patents by this file or any part thereof.  In no
+ * event will the author be liable for any lost revenue or profits or
+ * other special, indirect and consequential damages.
+ *
+ * Comments and additions should be sent to the author:
+ *
+ *                     milind@Eng.Sun.COM
+ *
+ *                     Milind M. Pansare
+ *                     MS 21-228
+ *                     Window Systems Group
+ *                     SunSoft, Inc.
+ *                     2550 Garcia Ave
+ *                     Mountain View, CA  94043
+ *
+ * Revision History:
+ * 11-15-90 Written
+ */
+
+/*
+ *
+ * Copyright 1988 Massachusetts Institute of Technology
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted, provided
+ * that the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of M.I.T. not be used in advertising or
+ * publicity pertaining to distribution of the software without specific,
+ * written prior permission.  M.I.T. makes no representations about the
+ * suitability of this software for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+ *
+ * Author:  Jim Fulton, MIT X Consortium
+ *
+ * Revision History:
+ * 11-15-90  MultiVis changes made by: Milind M. Pansare
+ *                                     milind@Eng.Sun.COM
+ *
+ */
+

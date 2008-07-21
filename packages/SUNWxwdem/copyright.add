@@ -19,7 +19,7 @@ include app/xgc/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/xmag package are covered by the following notice:
+Files from the app/xmag_multivis package are covered by the following notice:
 
-include app/xmag/COPYING
+include app/xmag_multivis/COPYING
 

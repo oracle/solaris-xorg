@@ -1,0 +1,45 @@
+--- Makefile.am	Wed Aug 15 17:58:23 2007
++++ /tmp/Makefile.am	Wed Jul 16 14:22:11 2008
+@@ -19,24 +19,18 @@
+ #  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ #  PERFORMANCE OF THIS SOFTWARE.
+ 
+-bin_PROGRAMS = xmag
++bin_PROGRAMS = xmag_multivis
+ 
+ AM_CFLAGS = $(XMAG_CFLAGS)
+-xmag_LDADD = $(XMAG_LIBS) -lm
++xmag_multivis_LDADD = $(XMAG_LIBS) -lm
+ 
+-xmag_SOURCES =	\
+-        CutPaste.c \
+-        CutPaste.h \
+-        RootWin.c \
+-        RootWin.h \
+-        RootWinP.h \
+-        Scale.c \
+-        Scale.h \
+-        ScaleP.h \
+-        xmag.c
++xmag_multivis_SOURCES = \
++        xmag_multivis.c \
++	multivis.c \
++	multivis.h
+ 
+ appman_PRE = \
+-        xmag.man
++        xmag_multivis.man
+ 
+ # App default files  (*.ad)
+
+--- configure.ac	Wed Aug 15 18:03:53 2007
++++ configure.ac	Wed Jul 16 21:37:56 2008
+@@ -34,7 +34,6 @@
+ AC_CHECK_FUNCS([nanosleep poll select])
+ 
+ # Checks for pkg-config packages
+-XAW_CHECK_XPRINT_SUPPORT(XMAG)
+ AC_SUBST(XMAG_CFLAGS)
+ AC_SUBST(XMAG_LIBS)
+ 
+ 

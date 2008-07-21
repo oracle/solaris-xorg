@@ -259,6 +259,12 @@ include app/xmag/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xmag_multivis package are covered by the following notice:
+
+include app/xmag_multivis/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xman package are covered by the following notice:
 
 include app/xman/COPYING

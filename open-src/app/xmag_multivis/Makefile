@@ -1,4 +1,6 @@
-# -*- Makefile -*- rules common to most X.Org application modules
+###############################################################################
+#
+# xmag-multivis 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,54 +30,44 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.8	08/03/07
+# @(#)Makefile	1.1 08/07/17
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+APP_NAME=xmag
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.bz2
-SOURCE_TARBALL_DIR=app
+# Version number (used in path names)
+APP_VERS=1.0.2
+
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 6726838.patch
+
+AUTORECONF=true
+
+include ../Makefile.inc
 
 # Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(APP_NAME)-$(APP_VERS)
+SOURCE_DIR=$(BUILD_DIR)/xmag-$(APP_VERS)
 
-include $(TOP)/common/Makefile.inc
-
-# Where to install files
-APP_prefix=$(X11_DIR)
-
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
-	$(APP_CONFIG_OPTS)
-
-LIB_LD_OPTIONS = $(LIB_REQUIRED_LDFLAGS) \
-	-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) $(LIB_ADD_LD_OPTIONS)
-
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) -I $(PROTODIR)/usr/include -I $(PROTODIR)/usr/include/freetype2 $(APP_ADD_CPPFLAGS)" \
-	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)/usr/lib -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
-	$(APP_CONFIG_ENV)
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	if [ "x$(AUTORECONF)" = "xtrue" ] ; then \
-	    (cd $(SOURCE_DIR) && \
-	     ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force ) ; \
-	fi
-	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
+# Merge in additional sources from sun-src directory
+source_gen:: $(LNDIR)
+	mkdir -p $(SOURCE_DIR)
+	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 
 # Binary built in tree
-APP_BIN=$(SOURCE_DIR)/src/$(APP_NAME)
+APP_BIN=$(SOURCE_DIR)/xmag_multivis
 
 build_gen: $(APP_BIN)
 
-$(APP_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) )
+$(APP_BIN): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
+	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS))
 
 install_gen:: $(APP_BIN)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+	(cd $(SOURCE_DIR); $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+
+LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg -lX11 
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUNTOUCH_MAN_FLAGS= \
+ -a '{Availability, SUNWxwdem} {Interface Stability, Committed}'

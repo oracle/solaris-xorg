@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.87     08/07/18 SMI"
+# ident "@(#)prototype_com 35.88     08/07/21 SMI"
 #
 #  X Window System online user man pages
 
@@ -112,7 +112,6 @@ f none openwin/share/man/man6/texteroids.6 0444 root bin
 f none openwin/share/man/man6/worm.6 0444 root bin
 f none openwin/share/man/man6/xepsf.6 0444 root bin
 f none openwin/share/man/man6/xmac.6 0444 root bin
-f none openwin/share/man/man6/xmag_multivis.6 0444 root bin
 f none openwin/share/man/man6/xscope.6 0444 root bin
 f none openwin/share/man/man6/xsol.6 0444 root bin
 
@@ -278,6 +277,9 @@ f none X11/share/man/man1/xlogo.1 	0444 root bin
 
 # open-src/app/xmag
 f none X11/share/man/man1/xmag.1 	0444 root bin
+
+# open-src/app/xmag_multivis
+f none X11/share/man/man1/xmag_multivis.1 	0444 root bin
 
 # open-src/app/xman
 f none X11/share/man/man1/xman.1 	0444 root bin

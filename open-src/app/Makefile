@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.58	08/07/16
+# @(#)Makefile	1.59	08/07/21
 #
 ###############################################################################
 
@@ -80,6 +80,7 @@ OS_SUBDIRS_common = \
 	xlsatoms \
 	xlsclients \
 	xlsfonts \
+	xmag_multivis \
 	xmag \
 	xman \
 	xmodmap \
