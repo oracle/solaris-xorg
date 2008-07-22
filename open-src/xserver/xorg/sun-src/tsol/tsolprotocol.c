@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolprotocol.c 1.23	08/02/08 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.24	08/07/21 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -1671,9 +1671,36 @@ ResetStripeWindow(ClientPtr client)
     WindowPtr pParent;
     WindowPtr pWin = NULL;
 
-#if defined(PANORAMIX) && !defined(IN_MODULE)
+#if defined(PANORAMIX) 
     if (!noPanoramiXExtension)
     {
+#if defined(IN_MODULE)
+	PanoramiXRes     *panres = NULL;
+	int         j;
+
+	if (tpwin) {
+            if ((panres = (PanoramiXRes *)LookupIDByType(tpwin->drawable.id,
+			XRT_WINDOW)) == NULL)
+		return;
+	}
+
+	FOR_NSCREENS_BACKWARD(j)
+	{
+	    if (panres == NULL)
+		return;
+	    /* Validate trusted stripe window */
+	    pWin = LookupWindow(panres->info[j].id, client);
+
+	    if (tpwin == NullWindow || pWin == NullWindow)
+		return;
+
+	    pParent = pWin->parent;
+    	    if (!pParent || pParent->firstChild == pWin)
+		return;
+
+	    ReflectStackChange(pWin, pParent->firstChild, VTStack);
+    	}
+#else
 	PanoramiXWindow     *pPanoramiXWin = PanoramiXWinRoot;
 	int         j;
 
@@ -1699,6 +1726,7 @@ ResetStripeWindow(ClientPtr client)
 
 	    ReflectStackChange(pWin, pParent->firstChild, VTStack);
     	}
+#endif
     } else
 #endif
     {

@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolpolicy.c 1.21     08/06/17 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.22     08/07/21 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H 
 #include <dix-config.h> 
@@ -59,6 +59,10 @@
 #include "gcstruct.h"
 #include "servermd.h"
 #include <syslog.h>
+#include "extnsionst.h"
+#ifdef PANORAMIX
+#include "../Xext/panoramiXsrv.h"
+#endif
 #include "tsolinfo.h"
 #include "tsolpolicy.h"
 
@@ -699,6 +703,9 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 
 /*
  * modify_pixel
+ *
+ * NOTE: For Panorama, the real resource id is extracted from the
+ * Panorama resource and policy check is done on the real resource.
  */
 int
 modify_pixel(xresource_t res, xmethod_t method, void *resource,
@@ -715,6 +722,9 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = NullWindow;
 	TsolInfoPtr tsolinfo;
 	TsolResPtr tsolres;
+#if defined(PANORAMIX) && defined(IN_MODULE)
+	PanoramiXRes *panres = NULL;
+#endif
 	
 	/*
 	 * Trusted Path Windows required Trusted Path attrib
@@ -723,7 +733,16 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 
 	if (pDraw->type == DRAWABLE_WINDOW)
 	{
-		pWin = (WindowPtr)LookupWindow(pDraw->id, client);
+#if defined(PANORAMIX) && defined(IN_MODULE)
+		if (!noPanoramiXExtension)
+		{
+		    panres = (PanoramiXRes *)LookupIDByType(pDraw->id, XRT_WINDOW);
+		    if (panres)
+			pWin = (WindowPtr)LookupWindow(panres->info[0].id, client);
+		} else 
+#endif 
+		    pWin = (WindowPtr)LookupWindow(pDraw->id, client);
+
 		if (pWin == NULL)
 			return (PASSED);
 		tsolres = (TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
@@ -732,7 +751,16 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 	}
 	else if (pDraw->type == DRAWABLE_PIXMAP)
 	{
+#if defined(PANORAMIX) && defined(IN_MODULE)
+	    if (!noPanoramiXExtension)
+	    {
+		panres = (PanoramiXRes *)LookupIDByType(pDraw->id, XRT_PIXMAP);
+		if (panres)
+			pMap = (PixmapPtr)LookupIDByType(panres->info[0].id, RT_PIXMAP);
+	    } else 
+#endif
 		pMap = (PixmapPtr)LookupIDByType(pDraw->id, RT_PIXMAP);
+
 		if (pMap == NULL)
 			return (PASSED);
 		tsolres = (TsolResPtr) (pMap->devPrivates[tsolPixmapPrivateIndex].ptr);

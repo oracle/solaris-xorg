@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolextension.c 1.29     08/07/10 SMI"
+#pragma ident   "@(#)tsolextension.c 1.30     08/07/21 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -1576,9 +1576,43 @@ ProcMakeTPWindow(ClientPtr client)
 	return (client->noClientException);
     }
 
-#if defined(PANORAMIX) && !defined(IN_MODULE)
+#if defined(PANORAMIX) 
     if (!noPanoramiXExtension) 
     {
+#if defined(IN_MODULE)
+	/* Xorg X server */
+        PanoramiXRes     *panres = NULL;
+        int         j;
+
+	if ((panres = (PanoramiXRes *)LookupIDByType(stuff->id, XRT_WINDOW))
+		== NULL)
+	    return BadWindow;
+
+	FOR_NSCREENS_BACKWARD(j)
+	{
+		pWin = LookupWindow(panres->info[j].id, client);
+
+		/* window should not be root but child of root */
+		if (!pWin || (!pWin->parent))
+		{
+		    client->errorValue = stuff->id;
+		    return (BadWindow);
+		}
+		if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
+					client, TSOL_ALL, (void *)MAJOROP))
+		{
+		    return (err_code);
+		}
+
+		pParent = pWin->parent;
+		if (pParent->firstChild != pWin)
+		{
+		    tpwin = (WindowPtr)NULL;
+		    ReflectStackChange(pWin, pParent->firstChild, VTStack);
+		}
+	}
+#else
+	/* Xsun X server */
         PanoramiXWindow     *pPanoramiXWin = PanoramiXWinRoot;
         int         j;
 
@@ -1608,6 +1642,7 @@ ProcMakeTPWindow(ClientPtr client)
 		    ReflectStackChange(pWin, pParent->firstChild, VTStack);
 		}
 	}
+#endif
 
     } else 
 #endif
