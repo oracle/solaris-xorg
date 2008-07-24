@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.189    08/07/16   Sun Microsystems"
+#      "@(#)prototype_com	35.190    08/07/17   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -57,7 +57,6 @@ f none openwin/bin/fbconsole 	0755 root bin
 f none openwin/bin/makepsres 	0755 root bin
 f none openwin/bin/pclcomp 	0755 root bin
 f none openwin/bin/redxblue 	0755 root bin
-f none openwin/bin/winsysck 	0755 root bin
 f none openwin/bin/xdpr 	0755 root bin
 f none openwin/bin/xlock 	4755 root bin
 f none openwin/bin/xlswins 	0755 root bin
@@ -223,6 +222,10 @@ d none openwin/lib 			0755 root bin
 # open-src/app/xrx
 f none X11/bin/xrx			0755 root bin
 s none openwin/bin/xrx=../../X11/bin/xrx
+
+# open-src/app/winsysck
+f none X11/bin/winsysck 		0755 root bin
+s none openwin/bin/winsysck=../../X11/bin/winsysck
 
 !search  $HOME/openwin/lib
 #

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.59	08/07/21
+# @(#)Makefile	1.60	08/07/22
 #
 ###############################################################################
 
@@ -52,6 +52,7 @@ OS_SUBDIRS_common = \
 	sessreg \
         setxkbmap \
 	showfont \
+	winsysck \
 	twm \
 	viewres \
 	x11perf \

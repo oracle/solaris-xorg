@@ -158,7 +158,6 @@ Except as contained in this notice, the name of GROUPE BULL shall not be
 used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from GROUPE BULL.
 
-
 --------------------------------------------------------------------
 
 Files from the app/bdftopcf package are covered by the following notice:
@@ -212,6 +211,12 @@ include app/setxkbmap/COPYING
 Files from the app/showfont package are covered by the following notice:
 
 include app/showfont/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/winsysck package are covered by the following notice:
+
+include app/winsysck/COPYING
 
 --------------------------------------------------------------------
 
