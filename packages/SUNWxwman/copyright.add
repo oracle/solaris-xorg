@@ -277,6 +277,12 @@ include app/xmodmap/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xpr package are covered by the following notice:
+
+include app/xpr/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xprop package are covered by the following notice:
 
 include app/xprop/COPYING
