@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.60	08/07/22
+# @(#)Makefile	1.61	08/07/30
 #
 ###############################################################################
 
@@ -57,6 +57,7 @@ OS_SUBDIRS_common = \
 	viewres \
 	x11perf \
 	xauth \
+	xbiff \
 	xcalc \
 	xclipboard \
 	xclock \
