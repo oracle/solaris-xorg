@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.74	08/03/20
+# @(#)Makefile	1.76	08/07/24
 #
 
 PWD:sh=pwd
@@ -58,7 +58,8 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=fontconfig-$(LIB_VERS).patch,-p1 \
 	       fontconfig-$(LIB_VERS).patch.hide,-p1 \
-	       fontconfig-$(LIB_VERS)-fonts.conf.patch
+	       fontconfig-$(LIB_VERS)-fonts.conf.patch \
+	       6729284.patch,-p1
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(LIB_MODULE)-$(LIB_VERS)
