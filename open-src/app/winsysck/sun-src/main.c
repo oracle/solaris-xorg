@@ -1,7 +1,7 @@
 /*
  * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  * Use subject to license terms.
-#
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -28,7 +28,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)main.c	35.7	08/07/29 SMI"
+#pragma ident   "@(#)main.c	35.8	08/07/30 SMI"
 
 /*
  * winsysck - determine which window system protocols are available
