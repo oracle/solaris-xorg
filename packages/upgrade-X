@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.38 08/06/20
+# @(#)upgrade-X	1.39 08/07/30
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -194,14 +194,14 @@ else
     PKGS_PLT="SUNWxwplt"
 fi
 
-    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsrc SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc SUNWvncviewer ${PKGS_XSS}"
+    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc SUNWvncviewer ${PKGS_XSS}"
 
     PKGS_32_sparc="SUNWxwpsr ${PKGS_XSS_sparc}"
 
     PKGS_64="SUNWxwicx SUNWxwmox SUNWxwplx SUNWxwrtx SUNWxwslx SUNWfreetype2-64"
 
 # Old packages to remove and not replace
-    REM_PKGS="${REM_PKGS} SUNWftyp2 SUNWftypx ${PKGS_XSS_REM} ${PKGS_FNT_REM} SUNWstsf SUNWstsfr SUNWxwxst SUNWxwfa"
+    REM_PKGS="${REM_PKGS} SUNWftyp2 SUNWftypx ${PKGS_XSS_REM} ${PKGS_FNT_REM} SUNWstsf SUNWstsfr SUNWxwsrc SUNWxwxst SUNWxwfa"
 
 
 # Packages moved from XORG tree

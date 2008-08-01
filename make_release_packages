@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.58 08/05/14
+# @(#)make_release_packages	1.59 08/07/30
 #
 #	Create and fill a package staging area for X
 #
@@ -52,7 +52,7 @@ DATE=`date +0.%Y.%m.%d`
 
 #   List of official (deliverable) X-window packages
 XW_PACKAGE_LIST="SUNWxwcft SUNWxwdem SUNWxwdim SUNWxwfs SUNWxwinc \
-	SUNWxwice SUNWxwopt SUNWxwpmn SUNWxwsrc SUNWxwacx SUNWxwdxm \
+	SUNWxwice SUNWxwopt SUNWxwpmn SUNWxwacx SUNWxwdxm \
 	SUNWxwhl SUNWi1of SUNWxwpft SUNWxwsrv SUNWxwoft \
 	SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwsvr \
 	SUNWxscreensaver-hacks SUNWfreetype2 SUNWxwxft \
