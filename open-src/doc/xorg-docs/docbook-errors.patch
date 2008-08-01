@@ -1,4 +1,4 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,11 +26,16 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-commit 8cade4ba11c7793101a28671c8263a93a1ec307e
-Author: Alan Coopersmith <alan.coopersmith@sun.com>
-Date:   Tue Jan 30 13:25:44 2007 -0800
-
-    Add missing closing tags to clear docbook2txt errors
+From 8cade4ba11c7793101a28671c8263a93a1ec307e Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 30 Jan 2007 13:25:44 -0800
+Subject: [PATCH] Add missing closing tags to clear docbook2txt errors
+---
+ sgml/RELNOTES.sgml            |   34 ++++++++++++++++++++--------------
+ sgml/Versions.sgml            |   12 ++++++++++++
+ sgml/input/XKB-Enhancing.sgml |   17 +++++++++++++++++
+ sgml/platforms/Solaris.sgml   |   34 ++++++++++++++++++++++++++--------
+ 4 files changed, 75 insertions(+), 22 deletions(-)
 
 diff --git a/sgml/RELNOTES.sgml b/sgml/RELNOTES.sgml
 index 836ca07..7d8f610 100644
@@ -534,14 +539,19 @@ index 23c1370..eee02db 100644
  
  </OrderedList>
  
-commit 95fc2f18c07ce12e3a86395a96f70ffee96f2a02
-Author: Alan Coopersmith <alan.coopersmith@sun.com>
-Date:   Tue Jan 30 13:31:24 2007 -0800
+-- 
+1.4.1
 
-    Update video driver table
-    
-    - Add wsfb
-    - Remove vmware man page from listings for voodoo & wfb
+From 95fc2f18c07ce12e3a86395a96f70ffee96f2a02 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 30 Jan 2007 13:31:24 -0800
+Subject: [PATCH] Update video driver table
+
+- Add wsfb
+- Remove vmware man page from listings for voodoo & wfb
+---
+ sgml/RELNOTES.sgml |    9 +++++++--
+ 1 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/sgml/RELNOTES.sgml b/sgml/RELNOTES.sgml
 index 7d8f610..5589a3b 100644
@@ -567,3 +577,72 @@ index 7d8f610..5589a3b 100644
              </row>
          </tbody>
          </tgroup>
+-- 
+1.4.1
+
+From b3c82abd3b1124dd27ab26a62b4135d74a24ed21 Mon Sep 17 00:00:00 2001
+From: Ed Catmur <ed@catmur.co.uk>
+Date: Tue, 6 May 2008 17:49:20 -0700
+Subject: [PATCH] Bug 9842: "65533" is not a character number in the document character set
+
+X.Org Bugzilla #9842 <https://bugs.freedesktop.org/show_bug.cgi?id=9842>
+Patch #9127 <https://bugs.freedesktop.org/attachment.cgi?id=9127>
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+---
+ sgml/fonts/fonts.sgml   |    2 +-
+ sgml/graphics/dps.sgml  |    4 ++--
+ sgml/platforms/SCO.sgml |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/sgml/fonts/fonts.sgml b/sgml/fonts/fonts.sgml
+index 230ff2a..852d6e9 100644
+--- a/sgml/fonts/fonts.sgml
++++ b/sgml/fonts/fonts.sgml
+@@ -1920,7 +1920,7 @@ standard `<Literal remap="tt">fixed</Lit
+ <Para>
+ Unicode (<ULink
+ URL="http://www.unicode.org"
+->&#65533;</ULink
++>http://www.unicode.org</ULink
+ >) is a coded character
+ set with the goal of uniquely identifying all characters for all
+ scripts, current and historical.  While Unicode was explicitly not
+diff --git a/sgml/graphics/dps.sgml b/sgml/graphics/dps.sgml
+index 13d6c89..48745e9 100644
+--- a/sgml/graphics/dps.sgml
++++ b/sgml/graphics/dps.sgml
+@@ -179,7 +179,7 @@ HSV spaces.  The latter three widgets ar
+ summary Scrolling Widget documentation is available in the <Literal remap="tt">doc</Literal>
+ subdirectory of the <Literal remap="tt">DPS.tar.gz</Literal> file, available from <ULink
+ URL="ftp://dps.sourceforge.net/pub/dps/DPS.tar.gz"
+->&#65533;</ULink
++>ftp://dps.sourceforge.net/pub/dps/DPS.tar.gz</ULink
+ >.
+ </Para>
+ 
+@@ -257,7 +257,7 @@ respective manual pages.
+ <Para>
+ A number of sample clients that depend on Motif are available in <ULink
+ URL="ftp://dps.sourceforge.net/pub/ftp/DPS.tar.gz"
+->&#65533;</ULink
++>ftp://dps.sourceforge.net/pub/ftp/DPS.tar.gz</ULink
+ >.  Additional
+ sample clients can be found as part of GtkDPS (see above).
+ </Para>
+diff --git a/sgml/platforms/SCO.sgml b/sgml/platforms/SCO.sgml
+index 4d5f983..0d3a278 100644
+--- a/sgml/platforms/SCO.sgml
++++ b/sgml/platforms/SCO.sgml
+@@ -84,7 +84,7 @@ URL="ftp://ftp.sco.com/pub/openserver5/o
+ If you are not using OSR 5.0.7 or later, you need to get an updated
+ console driver.  See <ULink
+ URL="http://www.sco.com"
+->&#65533;</ULink
++>http://www.sco.com</ULink
+ > for details on
+ OpenServer supplements.  If you can't or don't want to upgrade your
+ console driver, X11R&relvers; will still compile, but you may run into
+-- 
+1.4.1
+

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	08/07/30
 #
 
 # Package name used in tarballs
@@ -38,27 +38,33 @@ DOC_NAME=xorg-docs
 VERSION=1.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	docbook-errors.patch,-p1
+SOURCE_PATCHES=	\
+	docbook-errors.patch,-p1 \
+	X-manpage.patch,-p1 \
+	solaris-manpages.patch
 
 # Makefiles require gmake to build all targets
 build_gen:= MAKE=$(GNUMAKE) -i
 
-DOC_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html
+DOC_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
+	XORG_SGML_PATH=$(PROTODIR)$(X11_DIR)/share/sgml
 
 ### Include common rulesets
 include ../Makefile.inc
 
 SGML_DIR=$(SOURCE_DIR)/sgml
 DOC_DIR=$(PROTODIR)$(X11_DOC_DIR)
-
-source_gen::
-	perl -i~ -p -e 's/&#65533;/&nbsp;/g' \
-		$(SGML_DIR)/*.sgml $(SGML_DIR)/*/*.sgml
+MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
 install_gen::
-	mkdir -p $(DOC_DIR)
+	mkdir -p $(DOC_DIR) $(MAN_DIR)
 	cp -p $(SGML_DIR)/LICENSE.txt		$(DOC_DIR)/LICENSE
 	cp -p $(SGML_DIR)/RELNOTES.txt		$(DOC_DIR)/RELNOTES
 	cp -p $(SGML_DIR)/input/XKB-Config.txt	$(DOC_DIR)/README.XKB-Config
 	cp -p $(SGML_DIR)/input/XKB-Enhancing.txt $(DOC_DIR)/README.XKB-Enhancing
 	cp -p $(SGML_DIR)/fonts/fonts.txt	$(DOC_DIR)/README.fonts
+	cp -p X11.5				$(MAN_DIR)/man5/X11.5
+
+# Need to autoreconf to build with newer util-macros that allows overriding
+# XORG_SGML_PATH until upstream is built with it
+$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf

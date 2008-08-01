@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.3	07/05/15
+# @(#)Makefile.inc	1.4	08/07/30
 #
 
 ### Makefile settings/rules common to all X.Org protocol modules
@@ -47,7 +47,7 @@ SOURCE_DIR=$(BUILD_DIR)/$(DOC_NAME)-$(VERSION)
 include $(TOP)/common/Makefile.inc
 
 # Command line options to GNU autoconf configure script
-DOC_CFG=--prefix=$(PROTODIR)$(X11_DIR) $(DOC_CONFIG_OPTS)
+DOC_CFG=--prefix=$(X11_DIR) $(DOC_CONFIG_OPTS)
 
 # Environment variable options to GNU autoconf configure script
 CONFIG_ENV = PATH="$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)$(TOOLS_DIR)/bin:$$PATH"
@@ -67,7 +67,7 @@ $(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
 # Install
 install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MFLAGS) install )
+	 $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install )
 
 
 

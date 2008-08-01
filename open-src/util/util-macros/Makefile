@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/19
+# @(#)Makefile	1.4	08/07/30
 #
 
 PWD:sh=pwd
@@ -44,7 +44,7 @@ SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(VERSION).tar.bz2
 SOURCE_TARBALL_DIR=util
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES=	XORG_SGML_PATH.patch,-p1
 
 # Directory created by unpacking source
 SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(VERSION)

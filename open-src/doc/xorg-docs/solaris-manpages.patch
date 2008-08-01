@@ -1,0 +1,110 @@
+diff -urp -x '*~' -x '*.orig' man/general/X.man man/general/X.man
+--- man/general/X.man	2008-07-30 19:30:11.355466000 -0700
++++ man/general/X.man	2008-07-30 19:30:15.046399000 -0700
+@@ -117,6 +117,8 @@ web browser plug-ins, \fIlibxrx.so\fP an
+ an RX MIME-type helper program, \fIxrx\fP;
+ and a utility to cause part or all of the screen to be redrawn, \fIxrefresh\fP. 
+ .PP
++Many, but not all, of these programs are included in this release of Solaris.
++.PP
+ Many other utilities, window managers, games, toolkits, etc. are included
+ as user-contributed software in the X.Org Foundation distribution, or are
+ available on the Internet.
+@@ -129,22 +131,16 @@ operating system you are running and whe
+ systems in addition to X.
+ .TP 8
+ .B "Display Manager"
+-If you want to always have X running on your display, your site administrator
+-can set your machine up to use a Display Manager such as \fIxdm\fP, \fIgdm\fP,
+-or \fIkdm\fP.  This program
+-is typically started by the system at boot time and takes care of keeping the
+-server running and getting users logged in.  If you are running
+-\fIxdm\fP, you will see a window on the screen welcoming you to the system and
++The default configuration of Solaris starts X at boot time via a display
++manager.   Solaris includes 3 display managers, \fIgdm\fP(1), 
++\fIdtlogin\fP(1), and \fIxdm\fP(1).  If you are running a display manager,
++you will see a window on the screen welcoming you to the system and
+ asking for your username and password.  Simply type them in as you would at
+ a normal terminal, pressing the Return key after each.  If you make a mistake,
+-\fIxdm\fP will display an error message and ask you to try again.  After you
+-have successfully logged in, \fIxdm\fP will start up your X environment.  By
+-default, if you have an executable file named \fI.xsession\fP in your
+-home directory,
+-\fIxdm\fP will treat it as a program (or shell script) to run to start up 
+-your initial clients (such as terminal emulators, clocks, a window manager,
+-user settings for things like the background, the speed of the pointer, etc.).
+-Your site administrator can provide details.
++the display manager will display an error message and ask you to try again.
++After you have successfully logged in, the display manager will start up your 
++X environment.  The documentation for the display manager you use can provide
++more details.
+ .TP 8
+ .B "\fIxinit\fP (run manually from the shell)"
+ Sites that support more than one window system might choose to use the
+@@ -247,6 +243,7 @@ addresses, and IPv6 addresses are all al
+ The hostname part of the display name should be the server machine's 
+ nodename, followed by two colons instead of one.
+ For example:  \fImyws::0\fP, \fIbig::1\fP, and \fIhydra::0.1\fP.
++Note that DECnet connections are not supported on this release of Solaris.
+ .PP
+ .SH "ACCESS CONTROL"
+ An X server can use several types of access control.  Mechanisms provided
+@@ -377,10 +374,12 @@ to explicitly draw the window's region o
+ example).
+ .PP
+ Since window managers are regular (albeit complex) client programs,
+-a variety of different user interfaces can be built.  The X.Org Foundation distribution
+-comes with a window manager named \fItwm\fP which supports overlapping windows,
+-popup menus, point-and-click or click-to-type input models, title bars, nice
+-icons (and an icon manager for those who don't like separate icon windows).
++a variety of different user interfaces can be built.
++Solaris includes two window managers, the GNOME window manager
++.IR metacity (1),
++and the X.Org Foundation distributed
++.IR twm (1).
++Both support overlapping windows, popup menus, and many other features.
+ .PP
+ See the user-contributed software in the X.Org Foundation distribution for other
+ popular window managers.
+@@ -1115,11 +1114,6 @@ This must point to a color name database
+ \fI __projectroot__/lib/X11/Xcms.txt\fP.
+ .TP
+ .SM
+-.B XFT_CONFIG
+-This must point to a configuration file for the Xft library. The default
+-value is\fI __projectroot__/lib/X11/XftConfig\fP.
+-.TP
+-.SM
+ .B RESOURCE_NAME
+ This serves as main identifier for resources belonging to the program
+ being executed. It defaults to the basename of pathname of the program.
+@@ -1192,7 +1186,6 @@ please refer to that command's manual pa
+     %  bitmap companylogo.bm 32x32
+     %  xcalc -bg blue -fg magenta
+     %  xterm -geometry 80x66-0-0 -name myxterm $*
+-    %  xon filesysmachine xload
+ .fi
+ .SH DIAGNOSTICS
+ A wide variety of error messages are generated from various programs.
+@@ -1301,12 +1294,19 @@ the appropriate instance name can be pla
+ .BR xwud (__appmansuffix__).
+ .\" servers
+ .BR Xserver (__appmansuffix__),
++.BR Xorg (__appmansuffix__),
++.BR Xsun (__appmansuffix__),
+ .BR Xdmx (__appmansuffix__),
+ .BR Xnest (__appmansuffix__),
+ .BR Xvfb (__appmansuffix__),
+-.BR Xorg (__appmansuffix__),
+-.BR XDarwin (__appmansuffix__),
+ .BR Xprt (__appmansuffix__).
++
++.\" related software
++.BR gdm (1),
++.BR dtlogin (1),
++.BR gnome-session (1),
++.BR metacity (1).
++
+ .\" specifications
+ .I "Xlib \- C Language X Interface\fR,\fP"
+ and

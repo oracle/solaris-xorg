@@ -1,0 +1,37 @@
+From 4f20486aa8a5a345323e9b3941addc15dd52524f Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 30 Jul 2008 13:47:04 -0700
+Subject: [PATCH] Allow setting XORG_SGML_PATH to a non-default path when running configure
+---
+ xorg-macros.m4.in |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/xorg-macros.m4.in b/xorg-macros.m4.in
+index 0eda9a8..e569949 100644
+--- a/xorg-macros.m4.in
++++ b/xorg-macros.m4.in
+@@ -191,7 +191,9 @@ # files are found. $(MAKE_TEXT) blah.sgm
+ # Whether or not the necessary tools and files are found can be checked
+ # with the AM_CONDITIONAL "BUILD_LINUXDOC"
+ AC_DEFUN([XORG_CHECK_LINUXDOC],[
+-XORG_SGML_PATH=$prefix/share/sgml
++if test x$XORG_SGML_PATH = x ; then
++    XORG_SGML_PATH=$prefix/share/sgml
++fi
+ HAVE_DEFS_ENT=
+ 
+ if test x"$cross_compiling" = x"yes" ; then
+@@ -247,7 +249,9 @@ # For XXX in {TXT, PDF, PS, HTML}, the A
+ # indicates whether the necessary tools and files are found and, if set,
+ # $(MAKE_XXX) blah.sgml will produce blah.xxx.
+ AC_DEFUN([XORG_CHECK_DOCBOOK],[
+-XORG_SGML_PATH=$prefix/share/sgml
++if test x$XORG_SGML_PATH = x ; then
++    XORG_SGML_PATH=$prefix/share/sgml
++fi
+ HAVE_DEFS_ENT=
+ BUILDTXTDOC=no
+ BUILDPDFDOC=no
+-- 
+1.4.1
+

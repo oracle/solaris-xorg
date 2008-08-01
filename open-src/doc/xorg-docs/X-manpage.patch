@@ -1,0 +1,370 @@
+From 48040b27fdc800498d302c019b2364af0bd327e8 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 6 May 2008 17:35:03 -0700
+Subject: [PATCH] Bug 4727: X(7) manpage is dated
+
+<http://bugs.freedesktop.org/show_bug.cgi?id=4727>
+---
+ man/general/Makefile.am |    2 -
+ man/general/X.man       |  170 ++++++++++++++++++++++++-----------------------
+ 2 files changed, 87 insertions(+), 85 deletions(-)
+
+diff --git a/man/general/Makefile.am b/man/general/Makefile.am
+index 35a65f8..86ddfc3 100644
+--- a/man/general/Makefile.am
++++ b/man/general/Makefile.am
+@@ -46,7 +46,7 @@ MAN_SUBSTS = \
+ 	-e 's|__xorgversion__|"$(XORGRELSTRING)" "$(XORGMANNAME)"|' \
+ 	-e 's|__projectroot__|$(prefix)|g' \
+ 	-e 's|__appmansuffix__|$(APP_MAN_SUFFIX)|g' \
+-	-e 's|__libmansuffix__|$(APP_LIB_SUFFIX)|g' \
++	-e 's|__libmansuffix__|$(LIB_MAN_SUFFIX)|g' \
+ 	-e 's|__miscmansuffix__|$(MISC_MAN_SUFFIX)|g'
+ 
+ SUFFIXES = .$(MISC_MAN_SUFFIX) .man
+diff --git a/man/general/X.man b/man/general/X.man
+index 128506b..73d6e05 100644
+--- a/man/general/X.man
++++ b/man/general/X.man
+@@ -128,9 +128,10 @@ client applications started.  The partic
+ operating system you are running and whether or not you use other window
+ systems in addition to X.
+ .TP 8
+-.B "\fIxdm\fP (the X Display Manager)"
++.B "Display Manager"
+ If you want to always have X running on your display, your site administrator
+-can set your machine up to use the X Display Manager \fIxdm\fP.  This program
++can set your machine up to use a Display Manager such as \fIxdm\fP, \fIgdm\fP,
++or \fIkdm\fP.  This program
+ is typically started by the system at boot time and takes care of keeping the
+ server running and getting users logged in.  If you are running
+ \fIxdm\fP, you will see a window on the screen welcoming you to the system and
+@@ -188,7 +189,10 @@ be given in a display name.
+ .TP 8
+ .I screennumber
+ Some displays share a single keyboard and pointer among two or more monitors.
+-Since each monitor has its own set of windows, each screen is assigned a
++These may be configured as a single logical screen, which allows windows to
++move across screens, or as individual screens, each with their own set of
++windows.  If configured such that each monitor has its own set of windows, 
++each screen is assigned a
+ \fIscreen number\fP (beginning at 0) when the X server for that display is
+ started.  If the screen number is not given, screen 0 will be used.
+ .PP
+@@ -202,7 +206,7 @@ display.  For example,
+     % setenv DISPLAY myws:0
+     $ DISPLAY=myws:0; export DISPLAY
+ .fi
+-The \fIxon\fP script can be used to start an X program on a remote machine;
++The \fIssh\fP program can be used to start an X program on a remote machine;
+ it automatically sets the DISPLAY variable correctly.
+ .PP
+ Finally, most X programs accept a command line option of 
+@@ -233,8 +237,9 @@ local transport will be chosen.
+ .I TCP\/IP
+ .br
+ The hostname part of the display name should be the server machine's
+-IP address name.  Full Internet names, abbreviated names, and IP addresses
+-are all allowed.  For example:  \fIx.org:0\fP, \fIexpo:0\fP,
++hostname or IP address.  Full Internet names, abbreviated names, IPv4
++addresses, and IPv6 addresses are all allowed.  For example:  
++\fIx.org:0\fP, \fIexpo:0\fP, \fI[::1]:0\fP,
+ \fI198.112.45.11:0\fP, \fIbigmachine:1\fP, and \fIhydra:0.1\fP.
+ .TP 8
+ .I DECnet
+@@ -995,8 +1000,8 @@ X server. See section "Display Names" ab
+ This must point to a file that contains authorization data. The default
+ is \fI$HOME/.Xauthority\fP. See
+ .BR Xsecurity (__miscmansuffix__),
+-.BR xauth (1),
+-.BR xdm (1),
++.BR xauth (__appmansuffix__),
++.BR xdm (__appmansuffix__),
+ .BR Xau (3).
+ .TP
+ .SM
+@@ -1122,8 +1127,8 @@ being executed. It defaults to the basen
+ .SM
+ .B SESSION_MANAGER
+ Denotes the session manager the application should connect. See
+-.BR xsm (1),
+-.BR rstart (1).
++.BR xsm (__appmansuffix__),
++.BR rstart (__appmansuffix__).
+ .TP
+ .SM
+ .B XF86BIGFONT_DISABLE
+@@ -1231,80 +1236,77 @@ the appropriate instance name can be pla
+ .BR Xsecurity (__miscmansuffix__),
+ .BR Xprint (__miscmansuffix__),
+ .\" clients, utilities, and demos
+-.BR appres (1),
+-.BR bdftopcf (1),
+-.BR bitmap (1),
+-.BR editres (1),
+-.BR fsinfo (1),
+-.BR fslsfonts (1),
+-.BR fstobdf (1),
+-.BR iceauth (1),
+-.BR imake (1),
+-.BR lbxproxy (1),
+-.BR kbd_mode (1),
+-.BR makedepend (1),
+-.BR mkfontdir (1),
+-.BR oclock (1),
+-.BR proxymngr (1),
+-.BR rgb (1), 
+-.BR resize (1),
+-.BR rstart (1),
+-.BR smproxy (1),
+-.BR twm (1),
+-.BR x11perf (1),
+-.BR x11perfcomp (1), 
+-.BR xauth (1),
+-.BR xclipboard (1),
+-.BR xclock (1),
+-.BR xcmsdb (1),
+-.BR xconsole (1),
+-.BR xdm (1),
+-.BR xdpyinfo (1),
+-.BR xfd (1),
+-.BR xfindproxy (1),
+-.BR xfs (1),
+-.BR xfwp (1),
+-.BR xhost (1),
+-.BR xinit (1),
+-.BR xkbbell (1),
+-.BR xkbcomp (1),
+-.BR xkbevd (1),
+-.BR xkbprint (1),
+-.BR xkbvleds (1),
+-.BR xkbwatch (1),
+-.BR xkill (1),
+-.BR xlogo (1),
+-.BR xlsatoms (1),
+-.BR xlsclients (1),
+-.BR xlsfonts (1),
+-.BR xmag (1),
+-.BR xmh (1),
+-.BR xmodmap (1),
+-.BR xon (1),
+-.BR xplsprinters (1),
+-.BR xprop (1),
+-.BR xrdb (1),
+-.BR xrefresh (1),
+-.BR xrx (1),
+-.BR xset (1),
+-.BR xsetroot (1),
+-.BR xsm (1),
+-.BR xstdcmap (1),
+-.BR xterm (1),
+-.BR xwd (1),
+-.BR xwininfo (1),
+-.BR xwud (1).
++.BR appres (__appmansuffix__),
++.BR bdftopcf (__appmansuffix__),
++.BR bitmap (__appmansuffix__),
++.BR editres (__appmansuffix__),
++.BR fsinfo (__appmansuffix__),
++.BR fslsfonts (__appmansuffix__),
++.BR fstobdf (__appmansuffix__),
++.BR iceauth (__appmansuffix__),
++.BR imake (__appmansuffix__),
++.BR lbxproxy (__appmansuffix__),
++.BR kbd_mode (__appmansuffix__),
++.BR makedepend (__appmansuffix__),
++.BR mkfontdir (__appmansuffix__),
++.BR oclock (__appmansuffix__),
++.BR proxymngr (__appmansuffix__),
++.BR rgb (__appmansuffix__), 
++.BR resize (__appmansuffix__),
++.BR rstart (__appmansuffix__),
++.BR smproxy (__appmansuffix__),
++.BR twm (__appmansuffix__),
++.BR x11perf (__appmansuffix__),
++.BR x11perfcomp (__appmansuffix__), 
++.BR xauth (__appmansuffix__),
++.BR xclipboard (__appmansuffix__),
++.BR xclock (__appmansuffix__),
++.BR xcmsdb (__appmansuffix__),
++.BR xconsole (__appmansuffix__),
++.BR xdm (__appmansuffix__),
++.BR xdpyinfo (__appmansuffix__),
++.BR xfd (__appmansuffix__),
++.BR xfindproxy (__appmansuffix__),
++.BR xfs (__appmansuffix__),
++.BR xfwp (__appmansuffix__),
++.BR xhost (__appmansuffix__),
++.BR xinit (__appmansuffix__),
++.BR xkbbell (__appmansuffix__),
++.BR xkbcomp (__appmansuffix__),
++.BR xkbevd (__appmansuffix__),
++.BR xkbprint (__appmansuffix__),
++.BR xkbvleds (__appmansuffix__),
++.BR xkbwatch (__appmansuffix__),
++.BR xkill (__appmansuffix__),
++.BR xlogo (__appmansuffix__),
++.BR xlsatoms (__appmansuffix__),
++.BR xlsclients (__appmansuffix__),
++.BR xlsfonts (__appmansuffix__),
++.BR xmag (__appmansuffix__),
++.BR xmh (__appmansuffix__),
++.BR xmodmap (__appmansuffix__),
++.BR xon (__appmansuffix__),
++.BR xplsprinters (__appmansuffix__),
++.BR xprop (__appmansuffix__),
++.BR xrdb (__appmansuffix__),
++.BR xrefresh (__appmansuffix__),
++.BR xrx (__appmansuffix__),
++.BR xset (__appmansuffix__),
++.BR xsetroot (__appmansuffix__),
++.BR xsm (__appmansuffix__),
++.BR xstdcmap (__appmansuffix__),
++.BR xterm (__appmansuffix__),
++.BR xwd (__appmansuffix__),
++.BR xwininfo (__appmansuffix__),
++.BR xwud (__appmansuffix__).
+ .\" servers
+-.BR Xserver (1),
+-.BR Xdec (1),
+-.BR Xdmx (1),
+-.BR XmacII (1),
+-.BR Xsun (1),
+-.BR Xnest (1),
+-.BR Xvfb (1),
+-.BR Xorg (1),
+-.BR XDarwin (1),
+-.BR Xprt (1).
++.BR Xserver (__appmansuffix__),
++.BR Xdmx (__appmansuffix__),
++.BR Xnest (__appmansuffix__),
++.BR Xvfb (__appmansuffix__),
++.BR Xorg (__appmansuffix__),
++.BR XDarwin (__appmansuffix__),
++.BR Xprt (__appmansuffix__).
+ .\" specifications
+ .I "Xlib \- C Language X Interface\fR,\fP"
+ and
+@@ -1315,7 +1317,7 @@ X Window System is a trademark of The Op
+ .SH AUTHORS
+ .PP
+ A cast of thousands, literally.  Releases 6.7 and later are 
+-brought to you by the X.Org Foundation, LLC. The names of all people who 
++brought to you by the X.Org Foundation. The names of all people who 
+ made it a reality will be found in the individual documents and 
+ source files.
+ .PP
+-- 
+1.4.1
+
+From 34c863c2ba2838d42ff88e5f008538d2a250dfb7 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 29 Jul 2008 17:56:21 -0700
+Subject: [PATCH] X(7) man page formatting & typo fixes
+---
+ man/general/X.man |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/man/general/X.man b/man/general/X.man
+index 73d6e05..030e5c7 100644
+--- a/man/general/X.man
++++ b/man/general/X.man
+@@ -94,7 +94,7 @@ access control programs, \fIxauth\fP, \f
+ user preference setting programs, \fIxrdb\fP, \fIxcmsdb\fP,
+ \fIxset\fP, \fIxsetroot\fP, \fIxstdcmap\fP, and \fIxmodmap\fP;
+ clocks, \fIxclock\fP and \fIoclock\fP;
+-a font displayer, (\fIxfd\fP;
++a font displayer, \fIxfd\fP;
+ utilities for listing information about fonts, windows, and displays,
+ \fIxlsfonts\fP, \fIxwininfo\fP, \fIxlsclients\fP,
+ \fIxdpyinfo\fP, \fIxlsatoms\fP, and \fIxprop\fP;
+@@ -866,7 +866,7 @@ entries that match using "?".
+ An entry preceded by a tight binding takes precedence over entries
+ preceded by a loose binding.
+ .PP
+-Programs based on the X Tookit Intrinsics
++Programs based on the X Toolkit Intrinsics
+ obtain resources from the following sources
+ (other programs usually support some subset of these sources):
+ .TP 8
+@@ -1034,7 +1034,7 @@ is\fI __projectroot__/lib/X11/locale\fP.
+ .SM
+ .B XENVIRONMENT
+ This must point to a file containing X resources. The default is
+-\fI$HOME/.Xdefaults-<hostname>\fP. Unlike\fI __projectroot__/lib/X11/Xresources\fP,
++\fI$HOME/.Xdefaults-<hostname>\fP. Unlike \fI$HOME/.Xresources\fP,
+ it is consulted each time an X application starts.
+ .TP
+ .SM
+@@ -1112,7 +1112,7 @@ The default value is\fI __projectroot__/
+ .SM
+ .B XCMSDB
+ This must point to a color name database file. The default value is
+-\fI\__projectroot__/lib/X11/Xcms.txt\fP.
++\fI __projectroot__/lib/X11/Xcms.txt\fP.
+ .TP
+ .SM
+ .B XFT_CONFIG
+@@ -1209,7 +1209,7 @@ convenient when it is desirable to have 
+ of displays (e.g. color vs. monochrome, lots of fonts vs. very few, etc.),
+ although it can pose problems for trying to determine why an application might
+ be failing.  This behavior can be overridden by the setting the
+-\fIStringConversionsWarning\fP resource.
++\fIStringConversionWarnings\fP resource.
+ .PP
+ To force the X Toolkit Intrinsics to always print string conversion error
+ messages,
+-- 
+1.4.1
+
+From 409c8df5fe657ef3700d5e475b4d07cb152ac807 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 29 Jul 2008 18:10:24 -0700
+Subject: [PATCH] Update XOrgFoundation man page to point to git, not cvs
+---
+ man/general/XOrgFoundation.man |   11 ++++++-----
+ 1 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/man/general/XOrgFoundation.man b/man/general/XOrgFoundation.man
+index 4d9946d..719f3ac 100644
+--- a/man/general/XOrgFoundation.man
++++ b/man/general/XOrgFoundation.man
+@@ -24,7 +24,8 @@
+ .SH NAME
+ XOrgFoundation \- X.Org Foundation information
+ .SH SYNOPSIS
+-Release 7.0 of X Version 11 is brought to you by the X.Org Foundation, LLC.
++Release 6.7 and later of X Version 11 is brought to you by the 
++X.Org Foundation.
+ .SH DESCRIPTION
+ The X.Org Foundation is an independent, not-for-profit 501(c)(3) charity
+ corporation.  It was formed in 2004 as the successor to the X.Org Group at
+@@ -33,7 +34,7 @@ development, evolution, and maintenance 
+ comprehensive set of vendor-neutral, system-architecture neutral, 
+ network-transparent windowing and user interface standards. Membership
+ in the X.Org Foundation is free and open to anyone. The X.Org Foundation
+-hosts a public CVS repository of the source code on Freedesktop.Org.
++hosts a public git repository of the source code on freedesktop.org.
+ .PP
+ The X Window System was created in the mid-1980s at the Massachusetts
+ Institute of Technology.  In 1988, MIT formed a member-funded consortium to
+@@ -44,13 +45,13 @@ create an independent, stand-alone organ
+ System were assigned by MIT to X Consortium, Inc. on January 1, 1994. On 
+ December 31, 1996 the X Consortium, Inc. closed its doors and all rights 
+ to the X Window System were assigned to The Open Group (then known as the
+-Open Software Foundation.)
++Open Software Foundation).
+ .PP
+ .SH "ADDRESSES"
+ The X.Org Foundation's web site is http://www.x.org/
+ .PP
+ The X.Org Foundation's public ftp site is ftp://ftp.x.org/
+ .PP
+-Information about the X.Org Foundation CVS repository is on the 
+-Freedesktop.Org web site at http://www.freedesktop.org/Software/xorg
++Information about the X.Org Foundation git repository is on the 
++X.Org web site at http://www.x.org/wiki/Development/git
+ .fi
+-- 
+1.4.1
+
