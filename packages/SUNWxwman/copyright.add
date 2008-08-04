@@ -359,3 +359,15 @@ Files from the app/xbiff package are covered by the following notice:
 
 include app/xbiff/COPYING
 
+--------------------------------------------------------------------
+
+Files from the util/imake package are covered by the following notice:
+
+include util/imake/COPYING
+
+--------------------------------------------------------------------
+
+Files from the util/cf_shipped package are covered by the following notice:
+
+include util/xorg-cf-files/COPYING
+

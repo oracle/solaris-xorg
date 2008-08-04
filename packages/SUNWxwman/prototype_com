@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.93     08/07/30 SMI"
+# ident "@(#)prototype_com 35.94     08/08/04 SMI"
 #
 #  X Window System online user man pages
 
@@ -69,11 +69,9 @@ f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
 f none openwin/share/man/man1/cmap_compact.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
 f none openwin/share/man/man1/fsadmin.1 0444 root bin
-f none openwin/share/man/man1/imake.1 0444 root bin
 f none openwin/share/man/man1/kbd_mode.1 0444 root bin
 f none openwin/share/man/man1/makedepend.1 0444 root bin
 f none openwin/share/man/man1/makepsres.1 0444 root bin
-f none openwin/share/man/man1/mkdirhier.1 0444 root bin
 f none openwin/share/man/man1/mkfontdir.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
@@ -88,7 +86,6 @@ f none openwin/share/man/man1/xlock.1 0444 root bin
 f none openwin/share/man/man1/xlswins.1 0444 root bin
 f none openwin/share/man/man1/xmakemap.1 0444 root bin
 f none openwin/share/man/man1/xmh.1 0444 root bin
-f none openwin/share/man/man1/xmkmf.1 0444 root bin
 
 !search            $HOME/man4
 d none openwin/share/man/man4 0755 root bin
@@ -187,9 +184,6 @@ f none X11/share/man/man1/twm.1 	0444 root bin
 # open-src/app/viewres
 f none X11/share/man/man1/viewres.1 	0444 root bin
 
-# open-src/app/winsysck
-f none X11/share/man/man1/winsysck.1 	0444 root bin
-
 # open-src/app/x11perf
 f none X11/share/man/man1/x11perf.1 	0444 root bin
 f none X11/share/man/man1/x11perfcomp.1	0444 root bin
@@ -197,9 +191,6 @@ f none X11/share/man/man1/Xmark.1	0444 root bin
 
 # open-src/app/xauth
 f none X11/share/man/man1/xauth.1 	0444 root bin
-
-# open-src/app/xbiff
-f none X11/share/man/man1/xbiff.1 	0444 root bin
 
 # open-src/app/xcalc
 f none X11/share/man/man1/xcalc.1 	0444 root bin
@@ -336,3 +327,7 @@ f none X11/share/man/man5/XOrgFoundation.5 0444 root bin
 f none X11/share/man/man5/Xprint.5 0444 root bin
 f none X11/share/man/man5/XStandards.5=$NEWHOME/man5/Standards.5 0444 root bin
 f none X11/share/man/man5/Xsecurity.5=$NEWHOME/man5/security.5 0444 root bin
+# open-src/util/imake
+f none X11/share/man/man1/imake.1 	0444 root bin
+f none X11/share/man/man1/mkdirhier.1 	0444 root bin
+f none X11/share/man/man1/xmkmf.1 	0444 root bin

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.20	08/06/09
+# @(#)Makefile	1.21	08/07/30
 #
 ###############################################################################
 #
@@ -38,6 +38,8 @@
 # depend on portions of the monolithic tree).
 
 BEFOREX = \
+	util/imake \
+	util/xorg-cf-files \
 	util/util-macros \
 	proto \
 	data/xbitmaps \

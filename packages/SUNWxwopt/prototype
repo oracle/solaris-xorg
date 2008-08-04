@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.59	08/07/30 SMI"
+# ident "@(#)prototype	35.60	08/07/31 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -41,9 +41,7 @@ d none openwin			0755 root bin
 !search      $HOME/openwin/bin
 d none openwin/bin		0755 root bin
 f none openwin/bin/bdftosnf	0755 root bin
-f none openwin/bin/imake	0755 root bin
 f none openwin/bin/makedepend	0755 root bin
-f none openwin/bin/mkdirhier	0755 root bin
 f none openwin/bin/pswrap	0755 root bin
 f none openwin/bin/showsnf	0755 root bin
 f none openwin/bin/xcolor	0755 root bin
@@ -53,7 +51,6 @@ f none openwin/bin/xdmshell	0755 root bin
 f none openwin/bin/xedit	0755 root bin
 f none openwin/bin/xfontsel	0755 root bin
 f none openwin/bin/xmh		0755 root bin
-f none openwin/bin/xmkmf	0755 root bin
 
 d none openwin/lib 0755 root bin
 d none openwin/lib/X11		0755 root bin
@@ -125,24 +122,42 @@ f none openwin/lib/X11/xdm/StartX 0755 root bin
 !search  $HOME/openwin/lib/xdm
 s none openwin/lib/xdm=X11/xdm
 
-d none openwin/lib/config 0755 root bin
+d none openw/lib/config 0755 root bin
 s none openwin/lib/X11/config=../config
-!search  $HOME/openwin/lib/X11/config
-f none openwin/lib/config/Imake.rules 0644 root bin
-f none openwin/lib/config/Imake.tmpl 0644 root bin
-f none openwin/lib/config/Library.tmpl 0644 root bin
-f none openwin/lib/config/Project.tmpl 0644 root bin
-f none openwin/lib/config/Server.tmpl 0644 root bin
-f none openwin/lib/config/generic.cf 0644 root bin
-f none openwin/lib/config/site.def 0644 root bin
-f none openwin/lib/config/sun.cf 0644 root bin
-f none openwin/lib/config/sv4Lib.rules 0644 root bin
-f none openwin/lib/config/sv4Lib.tmpl 0644 root bin
-f none openwin/lib/config/Imake.cf 0644 root bin
-f none openwin/lib/config/sunLib.tmpl 0644 root bin
-f none openwin/lib/config/svr4.cf 0644 root bin
-f none openwin/lib/config/noop.rules 0644 root bin
-f none openwin/lib/config/Threads.tmpl 0644 root bin
+d none X11/lib/config 0755 root bin
+
+!search  $HOME/X11/lib/config
+f none X11/lib/config/Imake.rules 0644 root bin
+f none X11/lib/config/Imake.tmpl 0644 root bin
+f none X11/lib/config/Library.tmpl 0644 root bin
+#  Note: Project.tmpl is not supplied in xorg-cf-files
+f none X11/lib/config/Server.tmpl 0644 root bin
+f none X11/lib/config/generic.cf 0644 root bin
+f none X11/lib/config/site.def 0644 root bin
+f none X11/lib/config/sun.cf 0644 root bin
+f none X11/lib/config/sv4Lib.rules 0644 root bin
+f none X11/lib/config/sv4Lib.tmpl 0644 root bin
+f none X11/lib/config/Imake.cf 0644 root bin
+f none X11/lib/config/sunLib.tmpl 0644 root bin
+f none X11/lib/config/svr4.cf 0644 root bin
+f none X11/lib/config/noop.rules 0644 root bin
+f none X11/lib/config/Threads.tmpl 0644 root bin
+
+s none openwin/lib/config/Imake.rules=../../X11/lib/config/Imake.rules
+s none openwin/lib/config/Imake.tmpl=../../X11/lib/config/Imake.tmpl
+s none openwin/lib/config/Library.tmpl=../../X11/lib/config/Library.tmpl
+s none openwin/lib/config/Server.tmpl=../../X11/lib/config/Server.tmpl
+s none openwin/lib/config/generic.cf=../../X11/lib/config/generic.cf
+s none openwin/lib/config/site.def=../../X11/lib/config/site.def
+s none openwin/lib/config/sun.cf=../../X11/lib/config/sun.cf
+s none openwin/lib/config/sv4Lib.rules=../../X11/lib/config/sv4Lib.rules
+s none openwin/lib/config/sv4Lib.tmpl=../../X11/lib/config/sv4Lib.tmpl
+s none openwin/lib/config/Imake.cf=../../X11/lib/config/Imake.cf
+s none openwin/lib/config/sunLib.tmpl=../../X11/lib/config/sunLib.tmpl
+s none openwin/lib/config/svr4.cf=../../X11/lib/config/svr4.cf
+s none openwin/lib/config/noop.rules=../../X11/lib/config/noop.rules
+s none openwin/lib/config/Threads.tmpl=../../X11/lib/config/Threads.tmpl
+
 
 !search $HOME/X11/bin
 d none X11					0755 root bin
