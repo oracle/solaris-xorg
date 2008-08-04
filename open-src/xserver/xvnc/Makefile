@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	08/07/01
+# @(#)Makefile	1.10	08/08/04
 #
 
 # Package name used in tarballs
@@ -70,12 +70,12 @@ SOURCE_PATCHES = \
 	vnc-nohttpd.patch,-p1 \
 	vnc-int10.patch,-p1 \
 	vnc-64bit.patch,-p1 \
-	vnc-ipv6.patch,-p1 \
 	vnc-render.patch,-p1 \
 	vnc-autotools.patch,-p1 \
 	vnc-autotools-compile.patch,-p1 \
 	vnc-always_use_fb.patch,-p1 \
 	vnc-24bit.patch,-p1 \
+	vnc-ipv6.patch,-p1 \
 	c++public.patch \
 	build-without-Xorg.patch \
 	solaris-port.patch
