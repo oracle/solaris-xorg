@@ -62,4 +62,15 @@
 +    }
  
      ProgramName = argv[0];
+
+--- xrdb.c.old	Tue Aug  5 09:51:22 2008
++++ xrdb.c	Tue Aug  5 09:52:21 2008
+@@ -489,6 +489,8 @@
+ static int 
+ Resolution(int pixels, int mm)
+ {
++    if (mm == 0) 	/* An occasionally seen ddx bug, but pass it on to others */
++	return (0);
+     return ((pixels * 100000 / mm) + 50) / 100;
+ }
  
