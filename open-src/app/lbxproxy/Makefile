@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/07/01
+# @(#)Makefile	1.2 08/08/05
 #
 
 # Package name used in tarballs
@@ -41,8 +41,6 @@ APP_VERS=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6718029.patch
-
-LIB_ADD_LD_OPTIONS += -R$(PROTODIR)$(X11_DIR)/lib -llbxutil
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
