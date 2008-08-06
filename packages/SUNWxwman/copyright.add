@@ -371,3 +371,9 @@ Files from the util/cf_shipped package are covered by the following notice:
 
 include util/xorg-cf-files/COPYING
 
+--------------------------------------------------------------------
+
+Files from the app/xedit package are covered by the following notice:
+
+include app/xedit/COPYING
+

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.62	08/07/30
+# @(#)Makefile	1.63	08/07/31
 #
 ###############################################################################
 
@@ -66,6 +66,7 @@ OS_SUBDIRS_common = \
 	xcursorgen \
 	xdpyinfo \
 	xdriinfo \
+	xedit \
 	xev \
 	xfd \
 	xfsinfo \

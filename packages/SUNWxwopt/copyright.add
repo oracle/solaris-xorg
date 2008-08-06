@@ -142,3 +142,9 @@ include util/imake/COPYING
 Files from the util/xorg-cf-files package are covered by the following notice:
 
 include util/xorg-cf-files/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xedit package are covered by the following notice:
+
+include app/xedit/COPYING

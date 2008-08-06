@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.60	08/07/31 SMI"
+# ident "@(#)prototype	35.61	08/08/05 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -48,7 +48,6 @@ f none openwin/bin/xcolor	0755 root bin
 f none openwin/bin/xditview	0755 root bin
 f none openwin/bin/xdm		0755 root bin
 f none openwin/bin/xdmshell	0755 root bin
-f none openwin/bin/xedit	0755 root bin
 f none openwin/bin/xfontsel	0755 root bin
 f none openwin/bin/xmh		0755 root bin
 
@@ -60,7 +59,6 @@ s none openwin/lib/X11/app-defaults/= ../app-defaults
 !search  $HOME/openwin/lib/X11/app-defaults
 f none openwin/lib/app-defaults/XFontSel 0644 root bin
 f none openwin/lib/app-defaults/Xditview 0644 root bin
-f none openwin/lib/app-defaults/Xedit 0644 root bin
 
 # modified from original
 !search $HOME/X11/share/X11/twm
@@ -180,6 +178,8 @@ f none X11/bin/xconsole				0755 root bin
 f none X11/bin/xcutsel				0755 root bin
 f none X11/bin/xload				0755 root sys
 f none X11/bin/xbiff				0755 root bin
+f none X11/bin/xedit				0755 root bin
+s none openwin/bin/xedit=../../X11/bin/xedit
 s none openwin/bin/xbiff=../../X11/bin/xbiff
 s none openwin/bin/xload=../../X11/bin/xload
 s none openwin/bin/appres=../../X11/bin/appres
@@ -229,6 +229,7 @@ d none X11/lib/X11/app-defaults		        0755 root bin
 f none X11/lib/X11/app-defaults/XLoad		0644 root bin
 f none X11/lib/X11/app-defaults/Xman		0644 root bin
 f none X11/lib/X11/app-defaults/Viewres		0644 root bin
+f none X11/lib/X11/app-defaults/Xedit 		0644 root bin
 
 # Create links back to openwin
 s none openwin/lib/app-defaults/Viewres=../../../X11/lib/X11/app-defaults/Viewres
@@ -244,3 +245,4 @@ f none share/pixmaps/xterm_32x32.xpm		0444 root bin
 f none share/pixmaps/xterm_48x48.xpm		0444 root bin
 f none share/pixmaps/xterm-color_32x32.xpm	0444 root bin
 f none share/pixmaps/xterm-color_48x48.xpm	0444 root bin
+
