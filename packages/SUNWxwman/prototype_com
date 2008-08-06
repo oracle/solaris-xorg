@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.95     08/08/05 SMI"
+# ident "@(#)prototype_com 35.96     08/08/06 SMI"
 #
 #  X Window System online user man pages
 
@@ -183,6 +183,9 @@ f none X11/share/man/man1/twm.1 	0444 root bin
 # open-src/app/viewres
 f none X11/share/man/man1/viewres.1 	0444 root bin
 
+# open-src/app/winsysck
+f none X11/share/man/man1/winsysck.1   0444 root bin
+
 # open-src/app/x11perf
 f none X11/share/man/man1/x11perf.1 	0444 root bin
 f none X11/share/man/man1/x11perfcomp.1	0444 root bin
@@ -190,6 +193,9 @@ f none X11/share/man/man1/Xmark.1	0444 root bin
 
 # open-src/app/xauth
 f none X11/share/man/man1/xauth.1 	0444 root bin
+
+# open-src/app/xbiff
+f none X11/share/man/man1/xbiff.1      0444 root bin
 
 # open-src/app/xcalc
 f none X11/share/man/man1/xcalc.1 	0444 root bin
