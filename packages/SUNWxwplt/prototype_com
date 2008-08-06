@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.191    08/07/30   Sun Microsystems"
+#      "@(#)prototype_com	35.192    08/08/05   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -68,7 +68,6 @@ f none openwin/bin/xkbbell      0755 root bin
 f none openwin/bin/xkbvleds     0755 root bin
 f none openwin/bin/xkbwatch     0755 root bin
 f none openwin/bin/rstart	0755 root bin
-f none openwin/bin/xfindproxy	0755 root bin
 
 #### applications replaced with new versions from open-src/app
 
@@ -160,6 +159,14 @@ s none openwin/bin/xlsclients=../../X11/bin/xlsclients
 # open-src/app/xlsfonts
 f none X11/bin/xlsfonts	        0755 root bin
 s none openwin/bin/xlsfonts=../../X11/bin/xlsfonts
+
+# open-src/app/xfindproxy
+f none X11/bin/xfindproxy       0755 root bin
+s none openwin/bin/xfindproxy=../../X11/bin/xfindproxy
+
+# open-src/app/smproxy
+f none X11/bin/smproxy  0755 root bin
+s none openwin/bin/smproxy=../../X11/bin/smproxy
 
 # open-src/app/xmag
 f none X11/bin/xmag 		0755 root bin

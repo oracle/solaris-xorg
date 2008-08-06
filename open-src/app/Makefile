@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.63	08/07/31
+# @(#)Makefile	1.64	08/08/06
 #
 ###############################################################################
 
@@ -105,7 +105,12 @@ OS_SUBDIRS_common = \
 	xscreensaver \
 	rss-glx \
 	xeyes \
-        xterm
+        xterm \
+        xfindproxy \
+        smproxy \
+        xditview \
+        xfontsel \
+        ico
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 

@@ -1,4 +1,32 @@
 
+Files from the app/ico package are covered by the following notice:
+
+include app/ico/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xfindproxy package are covered by the following notice:
+
+include app/xfindproxy/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/smproxy package are covered by the following notice:
+
+include app/smproxy/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xditview package are covered by the following notice:
+
+include app/xditview/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xfontsel package are covered by the following notice:
+
+include app/xfontsel/COPYING
+
 --------------------------------------------------------------------
 
 Files from the app/appres package are covered by the following notice:

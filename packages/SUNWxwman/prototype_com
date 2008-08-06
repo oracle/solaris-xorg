@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.96     08/08/06 SMI"
+# ident "@(#)prototype_com 35.97     08/08/06 SMI"
 #
 #  X Window System online user man pages
 
@@ -51,7 +51,6 @@ s none X11/man=share/man
 !search            $HOME/man1
 d none openwin/share/man/man1 0755 root bin
 f none openwin/share/man/man1/proxymngr.1 0444 root bin
-f none openwin/share/man/man1/xfindproxy.1 0444 root bin
 f none openwin/share/man/man1/rstart.1 0444 root bin
 f none openwin/share/man/man1/rstartd.1 0444 root bin
 f none openwin/share/man/man1/xkbcomp.1 0444 root bin
@@ -77,9 +76,7 @@ f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
 f none openwin/share/man/man1/showsnf.1 0444 root bin
 f none openwin/share/man/man1/xcolor.1 0444 root bin
-f none openwin/share/man/man1/xditview.1 0444 root bin
 f none openwin/share/man/man1/xdm.1 0444 root bin
-f none openwin/share/man/man1/xfontsel.1 0444 root bin
 f none openwin/share/man/man1/xfs.1 0444 root bin
 f none openwin/share/man/man1/xlock.1 0444 root bin
 f none openwin/share/man/man1/xlswins.1 0444 root bin
@@ -94,18 +91,9 @@ f none openwin/share/man/man4/rasterfile.4 0444 root bin
 !search            $HOME/man6
 d none openwin/share/man/man6 0755 root bin
 f none openwin/share/man/man6/dpsexec.6 0444 root bin
-f none openwin/share/man/man6/ico.6 0444 root bin
-f none openwin/share/man/man6/ico2.6 0444 root bin
-f none openwin/share/man/man6/maze.6 0444 root bin
-f none openwin/share/man/man6/muncher.6 0444 root bin
-f none openwin/share/man/man6/plaid.6 0444 root bin
-f none openwin/share/man/man6/puzzle.6 0444 root bin
 f none openwin/share/man/man6/texteroids.6 0444 root bin
-f none openwin/share/man/man6/worm.6 0444 root bin
 f none openwin/share/man/man6/xepsf.6 0444 root bin
-f none openwin/share/man/man6/xmac.6 0444 root bin
 f none openwin/share/man/man6/xscope.6 0444 root bin
-f none openwin/share/man/man6/xsol.6 0444 root bin
 
 
 !search            $HOME/man5
@@ -313,6 +301,21 @@ f none X11/share/man/man1/xstdcmap.1 	0444 root bin
 # open-src/app/xterm
 f none X11/share/man/man1/xterm.1 	0444 root bin
 f none X11/share/man/man1/resize.1 	0444 root bin
+
+# open-src/app/xditview
+f none X11/share/man/man1/xditview.1    0444 root bin
+
+# open-src/app/xfontsel
+f none X11/share/man/man1/xfontsel.1    0444 root bin
+
+# open-src/app/xfindproxy
+f none X11/share/man/man1/xfindproxy.1  0444 root bin
+
+# open-src/app/smproxy
+f none X11/share/man/man1/smproxy.1     0444 root bin
+
+# open-src/app/ico
+f none X11/share/man/man1/ico.1     0444 root bin
 
 # open-src/app/xwd
 f none X11/share/man/man1/xwd.1 	0444 root bin

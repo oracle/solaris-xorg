@@ -1,0 +1,40 @@
+domain "xfontsel"
+msgid  "usage:  %s [-options ...] %s font\n\n"
+msgstr
+msgid  "where options include:\n"
+msgstr
+msgid  "display       X server to contact\n"
+msgstr
+msgid  "geometry     size and location of window\n"
+msgstr
+msgid  "fontspec      font name pattern to match against\n"
+msgstr
+msgid  "print selected font name on exit\n"
+msgstr
+msgid  "do not use scaled instances of fonts\n"
+msgstr
+msgid  "string         sample text to use for 1-byte fonts\n"
+msgstr
+msgid  "string       sample text to use for 2-byte fonts\n"
+msgstr
+# File:xfontsel.c, line:258, textdomain("xfontsel");
+msgid  "app-defaults file not properly installed."
+msgstr
+msgid  "%s %s;\\nsee '%s' manual page."
+msgstr
+msgid  "internal error; pattern didn't match first font"
+msgstr
+msgid  "1 name matches"
+msgstr
+msgid  "%d names match"
+msgstr
+msgid  "no names match"
+msgstr
+msgid  "1 name to parse"
+msgstr
+msgid  "%d names to parse"
+msgstr
+msgid  "field %d:\n"
+msgstr
+msgid  " %s: %d fonts\n"
+msgstr
