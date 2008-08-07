@@ -50,6 +50,8 @@ extern char *getusrattrval(userattr_t *, char *);
 extern void XTSOLgetWorkstationOwner(Display *, uid_t *);
 
 typedef void (*xtsol_XTSOLgetWorkstationOwner) (Display *, uid_t *);
+extern void XTSOLMakeTPWindow(Display *, Window);
+typedef void (*xtsol_XTSOLMakeTPWindow) (Display *, Window);
 typedef char *(*gnome_tsol_get_usrattr_val) (userattr_t *, char *);
 
 enum {

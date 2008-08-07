@@ -1,7 +1,7 @@
 /*
  * Trusted xscreensaver
  *
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -35,7 +35,6 @@
  * Used to check if we are in a multilabel session and to load
  * additional functionality within the multilabel session.
  */
-
 #include <dlfcn.h>
 #include <link.h>
 #include <stdlib.h>
@@ -43,7 +42,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <strings.h>
-
+#include <stdio.h>
 #include "trusted-utils.h"
 
 /* 
@@ -113,6 +112,27 @@ XTSOLgetWorkstationOwner(Display *dpy, uid_t *WorkstationOwner)
     *WorkstationOwner = getuid();
   } else
     libxtsol_XTSOLgetWorkstationOwner(dpy, WorkstationOwner);
+}
+
+xtsol_XTSOLMakeTPWindow      libxtsol_XTSOLMakeTPWindow = NULL;
+
+void
+XTSOLMakeTPWindow(Display *dpy, Window w)
+{
+  static gpointer xtsol_handle = NULL;
+  static gboolean _xtsol_initialized = FALSE;
+
+  if ( ! _xtsol_initialized ) {
+    _xtsol_initialized = TRUE;
+    xtsol_handle = dlopen_xtsol ();
+    if (xtsol_handle != NULL)
+      libxtsol_XTSOLMakeTPWindow = (xtsol_XTSOLMakeTPWindow) dlsym(xtsol_handle,
+					     "XTSOLMakeTPWindow");
+  }
+
+  if (libxtsol_XTSOLMakeTPWindow) {
+	libxtsol_XTSOLMakeTPWindow(dpy, w);
+  }
 }
 
 gnome_tsol_get_usrattr_val		libgnome_tsol_get_usrattr_val = NULL;
