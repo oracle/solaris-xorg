@@ -1,7 +1,6 @@
-#!/bin/ksh
+###########################################################################
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,19 +29,18 @@
 #
 ###########################################################################
 #
-# ident	"@(#)proc.fc_rebuild	1.3 08/08/07 SMI"
+#       @(#)postinstall.tmpl    1.1     08/02/25 SMI
 #
+# SUNWfontconfig-root (Fontconfig library configuration files) postinstall script.
+
 
 # Force fontconfig cache rebuild on next boot
-DISKLESS_SRVC=`echo $BASEDIR | /usr/bin/grep export/Solaris_[1-9][0-9]/usr_${ARCH}.all`
-if [  "$DISKLESS_SRVC" ]; then
-	exit 0
-else
-	grep force_rebuild  $BASEDIR/../var/svc/profile/upgrade
+DISKLESS_CLI=`echo $BASEDIR | /usr/bin/grep clone/Solaris_`
+if [  "$DISKLESS_CLI" ]; then
+	grep force_rebuild  $BASEDIR/var/svc/profile/upgrade
 	if [ $? -ne 0 ]; then
-		cat >> $BASEDIR/../var/svc/profile/upgrade <<\_EOF
+		cat >> $BASEDIR/var/svc/profile/upgrade <<\_EOF
         	/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true
 		_EOF
 	fi
 fi
-
