@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.5	08/03/24
+# @(#)Makefile.inc	1.6	08/08/08
 #
 
 ### Makefile settings/rules common to all X.Org font modules
@@ -36,48 +36,34 @@
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(FONT_NAME)-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=font
+MODTYPE=font
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(FONT_NAME)-$(VERSION)
+### Include common definitions
+include $(TOP)/common/Makefile.init
 
-### Include common rulesets
-include $(TOP)/common/Makefile.inc
+# Most font modules have no man pages
+MODTYPE_SUNTOUCH_MAN_FLAGS= 
 
-# Command line options to GNU autoconf configure script
-FONT_CFG=--prefix=$(X11_DIR) $(FONT_CONFIG_OPTS)
+# No common dependencies
+MODTYPE_CONFIGURE_DEPS=
+
+# Most font modules have nothing to build, for those that do, use lib flags
+MODTYPE_CFLAGS=$(LIB_CFLAGS)
+MODTYPE_LDFLAGS=$(LIB_LDFLAGS)
+MODTYPE_LD_OPTIONS=
 
 # Paths to find mkfontscale, fc-cache & the libraries they need in build area
 FONT_UTILS_PATH=$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)/usr/bin
 FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR):$(PROTODIR)$(X11_DIR)/lib:$(PROTODIR)/usr/lib
 
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
-	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" \
-	PKG_CONFIG_PATH="$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig" \
-	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p"
+# Additional environment variable options to GNU autoconf configure script
+MODTYPE_CONFIG_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)"
 
 # Environment variable options needed when building
-BUILD_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
-	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" \
-	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p"
+MODTYPE_BUILD_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)"
 
-build_gen: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 [ -n "$(RECONF)" ] && ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force; \
-	 chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(FONT_CFG) )
-
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install )
-
-
+### Include common rulesets
+include $(TOP)/common/Makefile.inc
 

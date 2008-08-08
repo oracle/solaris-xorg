@@ -2,7 +2,7 @@
 #
 # xf86-video-dummy 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,27 +30,27 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	07/07/31
+# @(#)Makefile	1.7	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-dummy
+MODULE_NAME=xf86-video-dummy
 
 # Version number (used in path names)
-DRIVER_VERS=0.2.0
+MODULE_VERSION=0.2.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-#SUNTOUCH_MAN_FLAGS= \
-# -a '{Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(MODULE_subdir) \
-	-R$(X11_SERVERMODS_DIR)$(MODULE_subdir) \
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-lfb
 
 include ../Makefile.inc

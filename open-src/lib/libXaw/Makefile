@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/03/19
+# @(#)Makefile	1.3	08/08/08
 #
 
 ## For now, this libXaw is installed to a private directory for the use
@@ -39,10 +39,10 @@
 ## default/public libXaw.
 
 # Package name used in tarballs
-LIB_MODULE=libXaw
+MODULE_NAME=libXaw
 
 # Version number (used in path names)
-LIB_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=
@@ -53,23 +53,22 @@ LIBNAME=Xaw
 # Library man pages to apply Sun footer to & attributes to list
 # SUNTOUCHED_MANPAGES=
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Uncommitted
+MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXaw.so.8.0.0
+
 
 # Link with version mapfile
-# LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+# MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xaw*.pc.in
 
 # Additional arguments to pass to configure
-LIB_ADD_CONFIG_OPTS= --disable-xaw6 --disable-xaw8
+MODULE_CONFIG_OPTS= --disable-xaw6 --disable-xaw8
 
 # Install in private subdir for xorgcfg
-LIB_ADD_SUBDIR=/xorgcfg
+MODULE_ADD_LIB_SUBDIR=/xorgcfg
 
 include ../Makefile.inc
 

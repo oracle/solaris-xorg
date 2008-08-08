@@ -2,7 +2,7 @@
 #
 # fontenc 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	07/02/21
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libfontenc
+MODULE_NAME=libfontenc
 
 # Version number (used in path names)
-LIB_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,17 +48,16 @@ LIBNAME=fontenc
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server
-LIB_STABILITY=Project Private
+MODULE_STABILITY=Project Private
 LIB_MAN_SUFFIX=3fontenc
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libfontenc.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=fontenc.pc.in
 
 # Install in private subdir, but don't look there for encodings
-LIB_ADD_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
-LIB_ADD_CONFIG_OPTS=--with-encodingsdir=$(X11_DIR)/lib/X11/fonts/encodings
+MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
+MODULE_CONFIG_OPTS=--with-encodingsdir=$(X11_DIR)/lib/X11/fonts/encodings
 
 include ../Makefile.inc

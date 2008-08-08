@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/03/24
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXpm
+MODULE_NAME=libXpm
 
 # Version number (used in path names)
-LIB_VERS=3.5.7
+MODULE_VERSION=3.5.7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = setuid.patch
@@ -48,20 +48,19 @@ LIBNAME=Xpm
 # Library man pages to apply Sun footer to & attributes to list
 # SUNTOUCHED_MANPAGES=
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Uncommitted
+MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXpm.so.1.0.0
+
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xpm.pc.in
 
 # Additional arguments to pass to make
-LIB_ADD_MAKEFLAGS= -e SUBDIRS=src
+MODULE_MAKEFLAGS= -e SUBDIRS=src
 
 include ../Makefile.inc
 

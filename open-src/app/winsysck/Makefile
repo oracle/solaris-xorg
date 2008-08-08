@@ -30,42 +30,26 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/04/11
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=winsysck
+MODULE_NAME=winsysck
 
-# Version number (used in path names)
-APP_VERS=1.0.1
+# No upstream sources for these files, since they're Solaris-specific
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-#AUTORECONF=true
+# No configure script, so pass usual environment to build/install instead
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
-# Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=*.man
-#SUNTOUCH_MAN_FLAGS= \
-# -a '{Availability, SUNWxwdem} {Interface Stability, Committed}'
+MODULE_BUILD_ENV=$(CONFIG_ENV)
 
 include ../Makefile.inc
-
-LIB_ADD_LD_OPTIONS += -lX11
-
-SOURCE_DIR=$(BUILD_DIR)/winsysck-$(APP_VERS)
-
-source_gen:: $(LNDIR)
-	mkdir -p $(SOURCE_DIR)
-	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
-
-APP_BIN=$(SOURCE_DIR)
-
-build_gen: $(APP_BIN)
-
-$(APP_BIN): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) )
-
-install_gen:: $(APP_BIN)
-	(cd $(SOURCE_DIR); $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
 

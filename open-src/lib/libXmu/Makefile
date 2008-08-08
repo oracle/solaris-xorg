@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/06
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXmu
+MODULE_NAME=libXmu
 
 # Version number (used in path names)
-LIB_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -50,23 +50,22 @@ LIBNAME=Xmu
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES= no man pages in upstream package
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xmu
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/libXmu.so.4
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xmu.pc.in xmuu.pc.in
 
 # Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --with-lint --enable-lint-library
+MODULE_CONFIG_OPTS = --with-lint --enable-lint-library
 
 # Work around libtool brokenness that adds -R `pwd` to libXmu build
-LIB_ADD_BUILD_DEPS=delibtoolize
+MODULE_BUILD_DEPS=delibtoolize
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
-AUTORECONF=true
+AUTORECONF=yes
 
 include ../Makefile.inc
 

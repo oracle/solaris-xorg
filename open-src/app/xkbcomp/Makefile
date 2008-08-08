@@ -30,24 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/19
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xkbcomp
+MODULE_NAME=xkbcomp
 
 # Version number (used in path names)
-APP_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= -p /usr/X11/lib/X11/xkb \
- -a '{Availability, SUNWxorg-server} {Interface Stability, Volatile}'
-
-# Need to link with lib in server private directory
-#APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

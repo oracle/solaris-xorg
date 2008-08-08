@@ -33,21 +33,18 @@
 #
 
 # Package name used in tarballs
-APP_NAME=twm
+MODULE_NAME=twm
 
 # Version number (used in path names)
-APP_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-#LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
-	-a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc
 
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf

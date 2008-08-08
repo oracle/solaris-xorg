@@ -2,7 +2,7 @@
 #
 # Xcursor 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/08/29
+# @(#)Makefile	1.2	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXcursor
+MODULE_NAME=libXcursor
 
 # Version number (used in path names)
-LIB_VERS=1.1.9
+MODULE_VERSION=1.1.9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,20 +48,16 @@ LIBNAME=Xcursor
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Uncommitted
+MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3Xcursor
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXcursor.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xcursor.pc.in
 
-# Use proto area for building on older machines without /usr/X11/lib/libXfixes
-LIB_ADD_LD_OPTIONS=-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
-
 # Use /usr/share/icons only, not /usr/X11/share, for consistency with GNOME
-LIB_ADD_CONFIG_OPTS=--with-icondir=/usr/share/icons \
+MODULE_CONFIG_OPTS=--with-icondir=/usr/share/icons \
 	--with-cursorpath='~/.icons:/usr/share/icons:/usr/share/pixmaps'
 
 include ../Makefile.inc

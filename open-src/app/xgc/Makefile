@@ -30,21 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/04/11
+# @(#)Makefile	1.2 08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xgc
+MODULE_NAME=xgc
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xgc-man.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwdem} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwdem
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/05/13
+# @(#)Makefile	1.11	08/08/08
 #
 ###############################################################################
 
@@ -45,31 +45,13 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)       \
 	xf86driproto
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
-
 # Need to install to proto area by default for inter-package dependencies to
 # work right.
-all: install
+default_target: install
 
-World: clean install
+PWD:sh=pwd
+TOP=$(PWD)/..
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/proto/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+### Include common definitions
+DIRNAME="proto/"
+include $(TOP)/common/Makefile.subdirs

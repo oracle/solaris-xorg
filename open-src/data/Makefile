@@ -28,36 +28,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/25
+# @(#)Makefile	1.4	08/08/08
 #
 ###############################################################################
 
-OS_SUBDIRS = \
-	smf-rbac \
-	workspace-patterns \
+OS_SUBDIRS_common = \
+	smf-rbac		\
+	workspace-patterns 	\
 	xcursor-themes
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)
 
-World: clean all
+PWD:sh=pwd
+TOP=$(PWD)/..
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/data/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+### Include common definitions
+DIRNAME="data/"
+include $(TOP)/common/Makefile.subdirs

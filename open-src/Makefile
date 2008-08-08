@@ -28,29 +28,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.21	08/07/30
+# @(#)Makefile	1.22	08/08/08
 #
 ###############################################################################
 #
-# Modules in this makefile are divided into 2 sections - those that need to
-# be built before the X11 monolithic tree (because it depends on them) and 
-# those that need to be build after the X11 monolithic tree (because they 
-# depend on portions of the monolithic tree).
 
-BEFOREX = \
-	util/imake \
-	util/xorg-cf-files \
+# Modules have to be built in a specific order for dependencies to be
+# handled properly
+
+# Some specific notes:
+# - app/rgb depends on the rgb.h header installed by the xserver, so has to
+#   be built after xserver
+# - util/util-macros must be first, since any module that does autoreconf
+#   requires it
+# - data/xbitmaps must be before app, as some applications depend on the
+#   bitmaps installed, but the rest of data depends on applications like
+#   xcursorgen for processing, so must come later
+
+OS_SUBDIRS_common = \
 	util/util-macros \
 	proto \
 	data/xbitmaps \
-	util/lndir \
+	util \
 	doc \
 	lib \
-	app/bdftopcf
-
-# app/rgb depends on the rgb.h header installed by the xserver, so has to
-# be built after xserver
-AFTERX = \
 	app \
 	xserver \
 	driver \
@@ -58,51 +59,17 @@ AFTERX = \
 	data \
 	font
 
-ALL = $(BEFOREX) $(AFTERX)
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.
-all: install
+default_target: install
 
-World: clean install
+PWD:sh=pwd
+TOP=$(PWD)
 
-beforeX-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all OS_SUBDIRS=BEFOREX
+### Include common definitions
+DIRNAME=""
+include $(TOP)/common/Makefile.subdirs
 
-afterX-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all OS_SUBDIRS=AFTERX
-
-clean: beforeX-clean afterX-clean
-
-beforeX-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=BEFOREX
-
-afterX-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=AFTERX
-
-install: beforeX-install afterX-install
-
-beforeX-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install OS_SUBDIRS=BEFOREX
-
-afterX-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install OS_SUBDIRS=AFTERX
-
-download: beforeX-download afterX-download
-
-beforeX-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download OS_SUBDIRS=BEFOREX
-
-afterX-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download OS_SUBDIRS=AFTERX
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source OS_SUBDIRS=ALL
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $($(OS_SUBDIRS)) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done

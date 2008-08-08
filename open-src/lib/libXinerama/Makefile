@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/19
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXinerama
+MODULE_NAME=libXinerama
 
 # Version number (used in path names)
-LIB_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = sun-abi.patch
@@ -48,17 +48,16 @@ LIBNAME=Xinerama
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Uncommitted
+MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3Xinerama
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXinerama.so.1.0.0
+
 
 # Needed for sun-abi.patch
-LIB_ADD_CFLAGS= -D SUNSOFT
+MODULE_CPPFLAGS= -D SUNSOFT
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xinerama.pc.in

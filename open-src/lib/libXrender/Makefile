@@ -2,7 +2,7 @@
 #
 # Xrender 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/03/05
+# @(#)Makefile	1.6	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXrender
+MODULE_NAME=libXrender
 
 # Version number (used in path names)
-LIB_VERS=0.9.4
+MODULE_VERSION=0.9.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,17 +48,16 @@ LIBNAME=Xrender
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
-LIB_STABILITY=Volatile
+MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xrender
 
 # Environment variable options to GNU autoconf configure script
-LIB_ADD_CFLAGS=-I../include
+MODULE_CFLAGS=-I../include
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXrender.so.1.3.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xrender.pc.in

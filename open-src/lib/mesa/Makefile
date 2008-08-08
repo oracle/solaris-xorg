@@ -28,25 +28,29 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	08/06/02
+# @(#)Makefile	1.13	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-
-# Build 32-bit, 64-bit, or both?
-BUILD_TYPES=32 64
-BUILD_TYPES_SET=yes
+# Package name used in tarballs
+MODULE_NAME=mesa
 
 # Version number (used in path names)
-MESA_VERS=6.5.2
+MODULE_VERSION=6.5.2
 
 # Source tarball
-SOURCE_TARBALL_NAME=MesaLib-$(MESA_VERS).tar.bz2
+SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
+SOURCE_TARBALL_NAME_SET=yes
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/mesa3d/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
+GIT_URL=$(FDO_GIT_URL)/mesa/mesa
+GIT_URL_SET=yes
+
+# Directory created by unpacking source
+SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)
+SOURCE_DIRNAME_SET=yes
+SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
@@ -62,68 +66,68 @@ SOURCE_PATCHES= \
 	6709720.patch		\
 	maxtexunit.patch
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/Mesa-$(MESA_VERS)
+# Need to use GNU Make to build
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
 
-# Library built in tree
-MESA_LIB=$(SOURCE_DIR)/lib/libGL.so.1
-
-# Where to install most files
-MESA_prefix=$(PROTODIR)$(X11_DIR)
-
-# Where to install libraries
-MESA_libdir=$(MESA_prefix)/lib
-
-# What to build
-BUILD_TARGETS=$(GNUMAKE) $(MESA_LIB)
-
-### Include common rulesets
-include $(TOP)/common/Makefile.inc
-
-### Rules specific to this directory:
-
-# Merge in additional sources from sun-src directory
-source_gen:: $(LNDIR)
-	mkdir -p $(SOURCE_DIR)
-	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
+# Mesa doesn't use GNU autoconf until Mesa 7.1, but has it's own configuration
+CONFIGURE_TARGETS=$(SOURCE_DIR)/configs/current
+CONFIGURE_TARGETS_SET=yes
 
 MESA_CFG_32_sparc=sunos5-v8
 MESA_CFG_64_sparc=sunos5-v9
 
 # Build with gcc on x86:
-MESA_CFLAGS=$(DEFAULT_GCC_CFLAGS) $(ARCH_GCC_FLAGS) -D_REENTRANT
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 MESA_CFG_32_i386=solaris-x86-gcc-dri
 MESA_CFG_64_i386=solaris-x64-gcc-dri
 
 # Build with Sun Studio cc on x86:
-#MESA_CFLAGS=$(LIB_CFLAGS)
+#MODULE_COMPILER=suncc
+#MODULE_COMPILER_SET=yes
 #MESA_CFG_32_i386=solaris-x86-cc-dri
 #MESA_CFG_64_i386=solaris-x64-cc-dri
 
 MESA_CFG_32 = $(MESA_CFG_32_$(MACH))
 MESA_CFG_64 = $(MESA_CFG_64_$(MACH))
 
-BUILD_32_FLAGS=ARCH_GCC_FLAGS="$(ARCH32_GCC_FLAGS)" MESA_CFG=$(MESA_CFG_32)
-BUILD_64_FLAGS=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" MESA_CFG=$(MESA_CFG_64)
+MODULE_BUILD_32_FLAGS= MESA_CFG=$(MESA_CFG_32)
+MODULE_BUILD_64_FLAGS= MESA_CFG=$(MESA_CFG_64)
 
 # pkg-config --cflags libdrm
 LIBDRM_CFLAGS = -I$(PROTODIR)$(X11_INCLUDES_DIR) -I$(PROTODIR)$(X11_INCLUDES_DIR)/drm
 # pkg-config --libs libdrm
 LIBDRM_LIB = -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -ldrm
 
-MESA_INCLUDES= -I$(PROTODIR)$(X11_INCLUDES_DIR)
+# Additional flags to pass to make
+MODULE_BUILD_MAKEFLAGS= \
+	SHELL=/usr/bin/ksh93 \
+	PASSED_CFLAGS="$(MODTYPE_CFLAGS)" \
+	PASSED_INCLUDES="$(DEFAULT_CONFIG_CPPFLAGS) $(MODTYPE_CPPFLAGS)" \
+	ARCH_FLAGS="" \
+	LIBDRM_CFLAGS="$(LIBDRM_CFLAGS)" LIBDRM_LIB="$(LIBDRM_LIB)" \
+	default
 
-MESA_MAKEVARS= SHELL=/bin/ksh PASSED_CFLAGS="$(MESA_CFLAGS)" PASSED_INCLUDES="$(MESA_INCLUDES)" ARCH_FLAGS="" LIBDRM_CFLAGS="$(LIBDRM_CFLAGS)" LIBDRM_LIB="$(LIBDRM_LIB)"
+# Additional environment variables to pass to make
+MODULE_BUILD_ENV= PKG_CONFIG_PATH=$(DEFAULT_PKG_CONFIG_PATH)
 
-MESA_MAKEENV= PKG_CONFIG_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig
-# LD_OPTIONS="$(LIB_REQUIRED_LDFLAGS)"
+# Merge in additional sources from sun-src directory
+ADDITIONAL_SOURCE_DIR=sun-src
 
-# Build Mesa
-$(MESA_LIB):  $(GNUMAKE) $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(SOURCE_DIR) && $(MESA_MAKEENV) $(GNUMAKE) $(MFLAGS) -e $(MESA_MAKEVARS) default)
+### Include common rulesets
+include ../Makefile.inc
 
-install_gen:: $(MESA_LIB)
-	(cd $(SOURCE_DIR) && $(GNUMAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) ARCHLIBSUBDIR=$(ARCHLIBSUBDIR) install )
+### Rules specific to this directory:
 
+# Configure Mesa
+$(SOURCE_DIR)/configs/current: $(UNPACK_TARGET)
+	(cd $(SOURCE_DIR)/configs && \
+	 rm -f current && \
+	 ln -s $(MESA_CFG) current )
 
+# Additional headers to install that X server builds use
+install_gen::
+	mkdir -p $(PROTODIR)/$(X11_INCLUDES_DIR)/GL/internal/
+	$(INSTALL_SCRIPT) -m 644 $(SOURCE_DIR)/include/GL/internal/*h \
+		$(PROTODIR)/$(X11_INCLUDES_DIR)/GL/internal/

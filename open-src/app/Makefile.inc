@@ -28,54 +28,32 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.8	08/03/07
+# @(#)Makefile.inc	1.11	08/08/08
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.bz2
-SOURCE_TARBALL_DIR=app
+MODTYPE=app
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(APP_NAME)-$(APP_VERS)
+### Include common definitions
+include $(TOP)/common/Makefile.init
 
+# Changes to apply to man pages
+MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
+
+# All modules depend on Xproto
+MODTYPE_CONFIGURE_DEPS=$(XPROTO_DEP)
+
+# Flags to build & link applications with
+MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
+
+# Since so many app modules build against the currently private Xorg libXaw,
+# just set the flag here, so it's one place to maintain until we get the
+# libXaw mess straightened out
+MODTYPE_LD_OPTIONS = $(XAW_LD_OPTIONS)
+
+### Include common rulesets
 include $(TOP)/common/Makefile.inc
 
-# Where to install files
-APP_prefix=$(X11_DIR)
-
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
-	$(APP_CONFIG_OPTS)
-
-LIB_LD_OPTIONS = $(LIB_REQUIRED_LDFLAGS) \
-	-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) $(LIB_ADD_LD_OPTIONS)
-
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR) -I $(PROTODIR)/usr/include -I $(PROTODIR)/usr/include/freetype2 $(APP_ADD_CPPFLAGS)" \
-	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)/usr/lib -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
-	$(APP_CONFIG_ENV)
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	if [ "x$(AUTORECONF)" = "xtrue" ] ; then \
-	    (cd $(SOURCE_DIR) && \
-	     ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force ) ; \
-	fi
-	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
-
-# Binary built in tree
-APP_BIN=$(SOURCE_DIR)/src/$(APP_NAME)
-
-build_gen: $(APP_BIN)
-
-$(APP_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) )
-
-install_gen:: $(APP_BIN)
-	(cd $(SOURCE_DIR) ; $(LIBPATHS) LD_OPTIONS="$(LIB_LD_OPTIONS)" $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)

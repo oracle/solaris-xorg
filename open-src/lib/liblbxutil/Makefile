@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/07/01
+# @(#)Makefile	1.2 08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=liblbxutil
+MODULE_NAME=liblbxutil
 
 # Version number (used in path names)
-LIB_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6718029.patch
@@ -49,9 +49,6 @@ LIBNAME=lbxutil
 #SUN_PACKAGE=SUNWxwplt
 #LIB_STABILITY=Committed
 #LIB_MAN_SUFFIX=3lbxutil
-
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/liblbxutil.so.1
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=lbxutil.pc.in

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xpr-1.0.1 Makefile
+# xpr Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,21 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile  1.1     07/12/14
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xpr
+MODULE_NAME=xpr
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6724753.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

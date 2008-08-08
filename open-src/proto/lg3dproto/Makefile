@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -32,10 +32,10 @@
 #
 
 # Package name used in tarballs
-PROTO_NAME=lg3dproto
+MODULE_NAME=lg3dproto
 
 # Version number (used in path names)
-VERSION=5.0
+MODULE_VERSION=5.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

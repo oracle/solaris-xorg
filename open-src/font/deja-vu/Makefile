@@ -30,17 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/12
+# @(#)Makefile	1.5	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+MODULE_NAME=dejavu-fonts-ttf
 
 # Version number (used in path names)
-VERSION=2.24
-
-# Source tarball
-SOURCE_TARBALL_NAME=dejavu-fonts-ttf-$(VERSION).tar.bz2
+MODULE_VERSION=2.24
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
@@ -49,11 +46,13 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/dejavu-fonts-ttf-$(VERSION)
-
 # What to build
-BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
+BUILD_TARGETS=$(SOURCE_DIR)/ttf/fonts.scale
+BUILD_TARGETS_SET=yes
+
+# What to install
+INSTALL_TARGETS=install_dejavu
+INSTALL_TARGETS_SET=yes
 
 # Directory to install to
 FONT_DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
@@ -64,7 +63,7 @@ LICENSE_FILE=LICENSE
 LICENSE_FILE_SET=yes
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
 ### Rules specific to this directory:
 
@@ -91,14 +90,12 @@ DEJAVU_FONT_FILES= \
 	DejaVuSerifCondensed-Italic.ttf \
 	DejaVuSerifCondensed.ttf
 
-build_gen: $(BUILD_TARGETS)
-
-$(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
+$(SOURCE_DIR)/ttf/fonts.scale: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR)/ttf && \
 	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
 
-install_gen:: $(BUILD_TARGETS)
+install_dejavu: $(BUILD_TARGETS)
 	mkdir -p $(FONT_DEST_DIR) \
 		$(FONTCONF_DEST_DIR)/conf.avail \
 		$(FONTCONF_DEST_DIR)/conf.d

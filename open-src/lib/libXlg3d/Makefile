@@ -2,7 +2,7 @@
 #
 # Xlg3d 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	07/01/30
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXlg3d
+MODULE_NAME=libXlg3d
 
 # Version number (used in path names)
-LIB_VERS=5.0
+MODULE_VERSION=5.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,23 +48,16 @@ LIBNAME=Xlg3d
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
-LIB_STABILITY=Volatile
+MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xlg3d
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXlg3d.so.5.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xlg3d.pc.in
 
-# Use proto area for building on older machines without /usr/X11/lib/libXfixes
-LIB_ADD_LD_OPTIONS=-L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
-
 # Work around libtool brokenness that loses ".so" in shared library names
-LIB_ADD_BUILD_DEPS=delibtoolize
-
-delibtoolize:
-	$(TOP)/common/delibtoolize.pl $(SOURCE_DIR)
+MODULE_BUILD_DEPS=delibtoolize
 
 include ../Makefile.inc
 

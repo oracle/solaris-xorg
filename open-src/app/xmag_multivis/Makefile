@@ -30,44 +30,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/07/17
+# @(#)Makefile	1.2 08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xmag
+MODULE_NAME=xmag_multivis
 
 # Version number (used in path names)
-APP_VERS=1.0.2
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6726838.patch
 
-AUTORECONF=true
+AUTORECONF=yes
 
 include ../Makefile.inc
 
 # Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/xmag-$(APP_VERS)
+SOURCE_DIRNAME=xmag-$(MODULE_VERSION)
+SOURCE_DIRNAME_SET=yes
 
 # Merge in additional sources from sun-src directory
-source_gen:: $(LNDIR)
-	mkdir -p $(SOURCE_DIR)
-	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
-
-# Binary built in tree
-APP_BIN=$(SOURCE_DIR)/xmag_multivis
-
-build_gen: $(APP_BIN)
-
-$(APP_BIN): $(SOURCE_DIR)/Makefile $(LIB_ADD_BUILD_DEPS)
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS))
-
-install_gen:: $(APP_BIN)
-	(cd $(SOURCE_DIR); $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
-
-LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg -lX11 
+ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwdem} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwdem
+MODULE_STABILITY=Committed

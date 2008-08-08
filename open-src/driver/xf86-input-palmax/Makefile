@@ -2,7 +2,7 @@
 #
 # xf86-input-palmax 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,21 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-input-palmax
+MODULE_NAME=xf86-input-palmax
 
 # Version number (used in path names)
-DRIVER_VERS=1.1.0
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

@@ -2,7 +2,7 @@
 #
 # bdftopcf Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,22 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/07/18
+# @(#)Makefile	1.2	08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=bdftopcf
+MODULE_NAME=bdftopcf
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= -p $(X11_DIR)/bin/ \
- -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
 # Need to build 64-bit on SPARC since we only ship 64-bit libXfont there
 BUILD_TYPES_SET		= yes
@@ -54,6 +54,6 @@ BUILD_TYPES_i386	= 32
 BUILD_TYPES		= $(BUILD_TYPES_$(MACH))
 
 # Need to link with libXfont in server private directory
-APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+MODULE_LDFLAGS		= $(X11_SERVERLIBS_LDFLAGS)
 
 include ../Makefile.inc

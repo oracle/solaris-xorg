@@ -30,32 +30,32 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/03/19
+# @(#)Makefile	1.8	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-trident
+MODULE_NAME=xf86-video-trident
 
 # Version number (used in path names)
-DRIVER_VERS=1.2.4
+MODULE_VERSION=1.2.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-graphics-ddx
+MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lexa -lfb -lint10 -lshadow -lvbe -lvgahw -lxaa -lm
 
-include ../Makefile.inc
+AUTORECONF=yes
 
-source_gen:: $(UNPACK_TARGET) autoreconf
+include ../Makefile.inc
 

@@ -30,23 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2   08/03/19
+# @(#)Makefile	1.3   08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=editres
+MODULE_NAME=editres
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

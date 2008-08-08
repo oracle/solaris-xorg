@@ -2,7 +2,7 @@
 #
 # xkill 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,16 +33,17 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xkill
+MODULE_NAME=xkill
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=
-SUNTOUCH_MAN_FLAGS=
+SUNTOUCHED_MANPAGES=*.man
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

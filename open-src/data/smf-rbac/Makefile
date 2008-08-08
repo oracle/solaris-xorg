@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,22 +29,30 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile 1.6     07/10/09 SMI"
+# ident "@(#)Makefile 1.7     08/08/08 SMI"
 #
 # Files for integration with Solaris Service Management Framework (SMF) and
 # Role Based Access Control (RBAC)
 
+MODULE_NAME=smf-rbac
+
 # No upstream sources for these files, since they're Solaris-specific
+MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
 
 # Build per-arch, not per-bitsize
 BUILD_TYPES_SET=yes
 BUILD_TYPES=$(MACH)
 
+BUILD_TARGETS = x11-server.xml check
+BUILD_TARGETS_SET=yes
+
+INSTALL_TARGETS =
+INSTALL_TARGETS_SET=yes
+
 ### Include common rulesets
-PWD:sh=pwd
-TOP=$(PWD)/../..
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
 source_i386:
 
@@ -53,8 +61,6 @@ source_sparc:
 SUN_SMF_MANIFEST_DIR=/var/svc/manifest/application
 SUN_SMF_METHOD_DIR=/lib/svc/method
 DESTDIR=$(PROTODIR)
-
-BUILD_TARGETS = x11-server.xml check
 
 build_common: $(BUILD_TARGETS)
 build_sparc: build_common

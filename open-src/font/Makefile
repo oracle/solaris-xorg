@@ -28,11 +28,11 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/03/25 SMI
+# @(#)Makefile	1.8	08/08/08 SMI
 #
 ###############################################################################
 
-OS_SUBDIRS = \
+OS_SUBDIRS_common = \
 	encodings \
 	sun-aliases \
 	bitstream-vera \
@@ -44,28 +44,13 @@ OS_SUBDIRS = \
 	ibm-type1 \
 	xfree86-type1
 
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-all: install
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
-World: clean install
+PWD:sh=pwd
+TOP=$(PWD)/..
 
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+### Include common definitions
+DIRNAME="font/"
+include $(TOP)/common/Makefile.subdirs
 
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/font/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done

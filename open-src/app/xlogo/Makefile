@@ -30,23 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/03/07
+# @(#)Makefile	1.2 08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xlogo
+MODULE_NAME=xlogo
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

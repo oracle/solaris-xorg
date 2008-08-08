@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/03/19
+# @(#)Makefile	1.6	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXrandr
+MODULE_NAME=libXrandr
 
 # Version number (used in path names)
-LIB_VERS=1.2.2
+MODULE_VERSION=1.2.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,16 +48,15 @@ LIBNAME=Xrandr
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
-LIB_STABILITY=Volatile
+MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xrandr
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXrandr.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xrandr.pc.in
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc

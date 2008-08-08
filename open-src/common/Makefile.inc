@@ -28,157 +28,52 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.90	08/07/10
+# @(#)Makefile.inc	1.91	08/08/08
 #
-
-# Borrowed from Solaris OS/Net makefile.master:
-# The declaration POUND_SIGN is always '#'. This is needed to get around the
-# make feature that '#' is always a comment delimiter, even when escaped or
-# quoted.  The only way of generating this is the :sh macro mechanism.  Note
-# however that in general :sh macros should be avoided in makefiles that are
-# widely included into other makefiles, as the resulting shell executions can
-# cause a noticable slowdown in build times.
-#
-POUND_SIGN:sh= echo \\043
-
-# BUILD_DATE:sh=date +'%e-%B-%Y'
-# BUILD_ID = X11 for Solaris Nevada, built $(BUILD_DATE)
-
-###  Machine architecture macros
-
-# MACH will be either "sparc" or "i386"
-MACH:sh=uname -p
-
-# ARCH will be either "sun4" or "i386" - mainly used in $(PROTODIR)
-ARCH=$(MACH:sparc=sun4)
-
-MACH32_sparc	= sparc
-MACH64_sparc 	= sparcv9
-MACH32_i386	= i386
-MACH64_i386 	= amd64
-
-MACH32= $(MACH32_$(MACH))
-MACH64= $(MACH64_$(MACH))
-
-### Default compiler & options
-CC     			= cc
-CXX			= CC
-GCC			= /usr/sfw/bin/gcc
-GXX			= /usr/sfw/bin/g++
-DEFAULT_OPT_FLAGS 	= -xO4 -xbuiltin -xlibmil -xprefetch -xdepend
-DEFAULT_OPT_CFLAGS	= $(DEFAULT_OPT_FLAGS) -xstrconst
-DEFAULT_OPT_CXXFLAGS	= $(DEFAULT_OPT_FLAGS)
-OPT_CFLAGS 		= $(DEFAULT_OPT_CFLAGS)
-OPT_CXXFLAGS 		= $(DEFAULT_OPT_CXXFLAGS)
-CFLAGS 			= -v -mc $(OPT_CFLAGS) $(ARCH_FLAGS)
-CXXFLAGS		= -mc $(OPT_CXXFLAGS) $(ARCH_FLAGS) -norunpath
-LDFLAGS 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
-
-### Flags for libraries to meet various Solaris requirements
-#
-# REQUIRED_LDFLAGS are forced on via LD_OPTIONS to override libtool when
-# building libraries.
-#
-LIB_CFLAGS 		= $(CFLAGS) -D_REENTRANT $(ARCH_LIB_FLAGS)
-LIB_REQUIRED_LDFLAGS	= -z text -z defs
-LIB_LDFLAGS 		= $(LDFLAGS) $(LIB_REQUIRED_LDFLAGS)
-
-# Flags for programs
-PROG_CFLAGS		= $(CFLAGS)
-PROG_CXXFLAGS		= $(CXXFLAGS)
-PROG_LDFLAGS		= $(LDFLAGS) $(MAPFILES_FOR_PROGS) -B direct
-
-# Linker mapfiles to link with for better performance & security
-# SPARC archicteture requires PLT section in .data be executable, so
-# we can only make .bss, not all of .data no-exec on SPARC
-MAPFILE_DIR 		= $(TOP)/common/mapfiles/
-MAPFILE_NOEXBSS		= $(MAPFILE_DIR)/map.noexbss
-MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
-MAPFILE_NOEXDATA_i386	= /usr/lib/ld/map.noexdata
-MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
-
-MAPFILES_FOR_ALL   = -M /usr/lib/ld/map.pagealign -M $(MAPFILE_NOEXDATA)
-MAPFILES_FOR_PROGS = -M /usr/lib/ld/map.bssalign -M /usr/lib/ld/map.noexstk \
-			-M $(MAPFILE_NOEXBSS)
-
-### Architecture specific flags
-DEFAULT_ARCH32_FLAGS_sparc 	= -xarch=v8plus
-DEFAULT_ARCH64_FLAGS_sparc	= -xarch=v9
-DEFAULT_ARCH_LIB_FLAGS_sparc 	= -xregs=no%appl
-
-# -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
-# avoid losing stack frame pointers so you can't get stack traces or debug
-DEFAULT_ARCH32_FLAGS_i386 	= -xtarget=pentium -xregs=no%frameptr
-DEFAULT_ARCH64_FLAGS_i386 	= -xarch=generic64 -xregs=no%frameptr
-DEFAULT_ARCH_LIB_FLAGS_i386 	=  
-
-ARCH32_FLAGS = $(DEFAULT_ARCH32_FLAGS_$(MACH))
-ARCH64_FLAGS = $(DEFAULT_ARCH64_FLAGS_$(MACH))
-ARCH_LIB_FLAGS = $(DEFAULT_ARCH_LIB_FLAGS_$(MACH))
-
-### Flags for gcc
-DEFAULT_GCC_CFLAGS		= -O3 -fno-omit-frame-pointer -Wall
-DEFAULT_ARCH32_GCC_FLAGS_sparc 	= -mcpu=ultrasparc -m32
-DEFAULT_ARCH64_GCC_FLAGS_sparc 	= -mcpu=ultrasparc -m64
-DEFAULT_ARCH32_GCC_FLAGS_i386 	= -march=i686 -m32
-DEFAULT_ARCH64_GCC_FLAGS_i386 	= -march=opteron -m64
-ARCH32_GCC_FLAGS=$(DEFAULT_ARCH32_GCC_FLAGS_$(MACH))
-ARCH64_GCC_FLAGS=$(DEFAULT_ARCH64_GCC_FLAGS_$(MACH))
-
-# Need to use -Wl,.. to pass linker flags through gcc
-GCC_LDFLAGS_CMD=echo $(LDFLAGS) | \
-	sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
-GCC_LDFLAGS=$(GCC_LDFLAGS_CMD:sh)
-GCC_LIB_LDFLAGS_CMD=echo $(LIB_LDFLAGS) | \
-	sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
-GCC_LIB_LDFLAGS=$(GCC_LIB_LDFLAGS_CMD:sh)
-GCC_PROG_LDFLAGS_CMD=echo $(PROG_LDFLAGS) | \
-	sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
-GCC_PROG_LDFLAGS=$(GCC_PROG_LDFLAGS_CMD:sh)
-
-
-SUBDIR32_sparc	= sparcv8
-SUBDIR32_i386	= i386
-SUBDIR64_sparc 	= sparcv9
-SUBDIR64_i386 	= amd64
-SUBDIR32 = $(SUBDIR32_$(MACH))
-SUBDIR64 = $(SUBDIR64_$(MACH))
-
-
-### Proto directory to install into for packaging
-PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
-
-# Common subdirs
-OW_DIR=/usr/openwin
-OW_X11LIB_DIR=$(OW_DIR)/lib/X11
-
-FONT_DIR=$(OW_X11LIB_DIR)/fonts
-TRUETYPE_DIR=$(FONT_DIR)/TrueType
-
-X11_DIR=/usr/X11
-X11_INCLUDES_DIR=$(X11_DIR)/include
-X11_DOC_DIR=$(X11_DIR)/share/doc
-X11_LOCALE_DIR=$(X11_DIR)/share/locale
-X11_MAN_DIR=$(X11_DIR)/share/man
-X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal
-X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
-# Subdirectory of /usr/X11/lib for X server private libraries
-X11_SERVERLIBS_SUBDIR=/X11/xserver
-X11_SERVERLIBS_DIR=$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)
-
-# Subdirectory of /usr/X11/lib for X server loadable modules
-X11_SERVERMODS_SUBDIR=/modules
-X11_SERVERMODS_DIR=$(X11_DIR)/lib$(X11_SERVERMODS_SUBDIR)
-
-MODULE_subdir_sparc=
-MODULE_subdir_i386=$(ARCHLIBSUBDIR)
-MODULE_subdir=$(MODULE_subdir_$(MACH))
-
-# Directory used for installing tools used during build but not
-# delivered in packages
-TOOLS_DIR=/tools
 
 ### Default rules
+
+# Which compiler to use to build module
+MODTYPE_COMPILER_DEFAULT	= $(MODTYPE_COMPILER_SET:yes=$(POUND_SIGN))
+$(MODTYPE_COMPILER_DEFAULT)	MODTYPE_COMPILER = $(DEFAULT_COMPILER)
+MODULE_COMPILER_DEFAULT		= $(MODULE_COMPILER_SET:yes=$(POUND_SIGN))
+$(MODULE_COMPILER_DEFAULT)	MODULE_COMPILER = $(MODTYPE_COMPILER)
+
+# Which make to use to build module
+MODTYPE_MAKE_DEFAULT		= $(MODTYPE_MAKE_SET:yes=$(POUND_SIGN))
+$(MODTYPE_MAKE_DEFAULT)		MODTYPE_MAKE = $(MAKE)
+MODULE_MAKE_DEFAULT		= $(MODULE_MAKE_SET:yes=$(POUND_SIGN))
+$(MODULE_MAKE_DEFAULT)		MODULE_MAKE = $(MODTYPE_MAKE)
+
+# Where to install files
+MODTYPE_PREFIX_DEFAULT		= $(MODTYPE_PREFIX_SET:yes=$(POUND_SIGN))
+$(MODULE_PREFIX_DEFAULT)	MODTYPE_PREFIX=$(X11_DIR)
+MODULE_PREFIX_DEFAULT		= $(MODULE_PREFIX_SET:yes=$(POUND_SIGN))
+$(MODULE_PREFIX_DEFAULT)	MODULE_PREFIX=$(MODTYPE_PREFIX)
+
+# Directory created by unpacking source, if not set in module makefile
+SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
+$(SOURCE_DIRNAME_DEFAULT)	SOURCE_DIRNAME=$(MODULE_NAME)-$(MODULE_VERSION)
+
+SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
+
+# Set default tarball if not set in module makefile
+SOURCE_TARBALL_NAME_DEFAULT	= $(SOURCE_TARBALL_NAME_SET:yes=$(POUND_SIGN))
+$(SOURCE_TARBALL_NAME_DEFAULT)	SOURCE_TARBALL_NAME=$(SOURCE_DIRNAME).tar.bz2
+
+# Tarballs for most modules built here are found in the X.Org archives/repos
+# in a directory with the same name as what we use in our tree
+SOURCE_TARBALL_DIR_DEFAULT	= $(SOURCE_TARBALL_DIR_SET:yes=$(POUND_SIGN))
+$(SOURCE_TARBALL_DIR_DEFAULT)	SOURCE_TARBALL_DIR=$(MODTYPE)
+
+# Set default download location if not set in module makefile
+SOURCE_URL_DEFAULT		= $(SOURCE_URL_SET:yes=$(POUND_SIGN))
+$(SOURCE_URL_DEFAULT)		SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
+
+# Set default git repo location if not set in module makefile
+GIT_URL_DEFAULT		= $(GIT_URL_SET:yes=$(POUND_SIGN))
+$(GIT_URL_DEFAULT)	GIT_URL=$(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME).git
+
 
 BUILD_DIR_32 = build_32
 BUILD_DIR_64 = build_64
@@ -187,10 +82,31 @@ BUILD_DIR_64 = build_64
 BUILD_TYPES_DEFAULT	= $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
 $(BUILD_TYPES_DEFAULT)	BUILD_TYPES=32
 
-all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
-install: $(BUILD_TYPES:%=install_%)
+# Set default rules if not set in module/modtype Makefile
+SOURCE_TARGETS_DEFAULT		= $(SOURCE_TARGETS_SET:yes=$(POUND_SIGN))
+$(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=default_source
 
-clean: $(BUILD_TYPES:%=clean_%)
+CONFIGURE_TARGETS_DEFAULT	= $(CONFIGURE_TARGETS_SET:yes=$(POUND_SIGN))
+$(CONFIGURE_TARGETS_DEFAULT)	CONFIGURE_TARGETS=default_configure
+
+BUILD_TARGETS_DEFAULT		= $(BUILD_TARGETS_SET:yes=$(POUND_SIGN))
+$(BUILD_TARGETS_DEFAULT)	BUILD_TARGETS=default_build
+
+INSTALL_TARGETS_DEFAULT		= $(INSTALL_TARGETS_SET:yes=$(POUND_SIGN))
+$(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install
+
+# Additional flags to pass to make in 32-bit & 64-bit builds
+BUILD_32_FLAGS= BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" \
+	$(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
+
+BUILD_64_FLAGS= BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" \
+	$(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
+
+all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
+all_32: source_32 configure_32 build_32
+all_64: source_64 configure_64 build_64
+
+clean:: $(BUILD_TYPES:%=clean_%)
 
 clean_32::
 	-rm -rf $(BUILD_DIR_32)
@@ -198,38 +114,113 @@ clean_32::
 clean_64::
 	-rm -rf $(BUILD_DIR_64)
 
+source: $(BUILD_TYPES:%=source_%)
+
+source_gen:: $(SOURCE_TARGETS)
+
+source_32: $(BUILD_DIR_32)/.unpack_done
+$(BUILD_DIR_32)/.unpack_done:
+	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_32) source_gen
+
+source_64: $(BUILD_DIR_64)/.unpack_done
+$(BUILD_DIR_64)/.unpack_done:
+	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_64) source_gen
+
+configure: $(BUILD_TYPES:%=configure_%)
+
+configure_gen: $(CONFIGURE_TARGETS)
+
+configure_32:: 
+	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) configure_gen
+
+configure_64::
+	$(MAKE) $(MAKEFLAGS) LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) configure_gen
+
+build: $(BUILD_TYPES:%=build_%)
+
 build_gen: $(BUILD_TARGETS)
 
 build_32::
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) build_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) build_gen
 
 build_64::
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) build_gen
+	$(MAKE) $(MAKEFLAGS) LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) build_gen
 
-install_gen:: install_license
+install: $(BUILD_TYPES:%=install_%)
+
+install_gen:: $(INSTALL_TARGETS) install_license
 
 install_32:: build_32
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) install_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) install_gen
 
 install_64:: build_64
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" LIBSUBDIR=/64 ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) install_gen
+	$(MAKE) $(MAKEFLAGS) LIBSUBDIR=/64 ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) install_gen
+
+DEBUG_BUILD_FLAGS = BUILD_DEBUG=yes
 
 debug:
-	$(MAKE) $(MFLAGS) all OPT_FLAGS="-g"
+	$(MAKE) $(MAKEFLAGS) all $(DEBUG_BUILD_FLAGS)
+
+debug_32:
+	$(MAKE) $(MAKEFLAGS) all_32 $(DEBUG_BUILD_FLAGS) 
+
+debug_64:
+	$(MAKE) $(MAKEFLAGS) all_64 $(DEBUG_BUILD_FLAGS)
+
+debug-install:
+	$(MAKE) $(MAKEFLAGS) install $(DEBUG_BUILD_FLAGS)
+
+debug-install_32:
+	$(MAKE) $(MAKEFLAGS) install_32 $(DEBUG_BUILD_FLAGS)
+
+debug-install_64:
+	$(MAKE) $(MAKEFLAGS) install $(DEBUG_BUILD_FLAGS)
+
+
+### Source tarballs & downloading if necessary
+
+SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
+
+GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
+
+# Download if SOURCE_TARBALL_NAME is not set to NONE and the file either
+# doesn't exist or is empty
+# If MODULE_VERSION is xgit, checkout source from git repo instead of
+# a tarball
+download:
+	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; set -x ; \
+	if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
+	    if [[ ! -d $(GIT_CLONE_DIR) ]] ; then \
+		$(GIT) clone $(GIT_URL) $(GIT_CLONE_DIR) ; \
+		if [[ ! -z "$(GIT_BRANCH)" ]] ; then \
+		    cd $(GIT_CLONE_DIR) && $(GIT) checkout $(GIT_BRANCH) ; \
+		fi ; \
+	    fi ; \
+	else \
+	    if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+		if [[ ! -s $(SOURCE_TARBALL) ]] ; then \
+		    $(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ; \
+		fi ; \
+	    fi ; \
+	fi
+
+# Update a git cloned repo
+git-update:
+	if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
+	    if [[ -d $(GIT_CLONE_DIR) ]] ; then \
+		cd $(GIT_CLONE_DIR) ; \
+		if [[ ! -z "$(GIT_BRANCH)" ]] ; then \
+		    $(GIT) checkout master && \
+		    $(GIT) fetch && \
+		    $(GIT) checkout $(GIT_BRANCH) ; \
+		else \
+		    $(GIT) fetch ; \
+		fi ; \
+	    fi ; \
+	fi
+
 
 ### Unpack source and apply patches
-
-source: $(BUILD_TYPES:%=source_%)
-source_32: $(BUILD_DIR_32)/.unpack_done
-source_64: $(BUILD_DIR_64)/.unpack_done
-
-UNPACK_TARGET = $(BUILD_DIR)/.unpack_done
-
-$(BUILD_DIR_32)/.unpack_done:
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) source_gen
-
-$(BUILD_DIR_64)/.unpack_done:
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) source_gen
 
 FIX_PC_OPS= \
 	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
@@ -238,74 +229,124 @@ FIX_PC_OPS= \
 #	-e 's|(Requires: .*)\bx11\b|$$1|;' \
 #	-e 's|^prefix=@prefix@|prefix=\$$\{top_builddir\}@prefix@|'
 
-source_gen::
+SUNTOUCH_MAN_FLAGS = \
+	-a '{Availability, $(SUN_PACKAGE)}' \
+	-a '{Interface Stability, $(MODULE_STABILITY)}' \
+	$(MODTYPE_SUNTOUCH_MAN_FLAGS) \
+	$(MODULE_SUNTOUCH_MAN_FLAGS)
+
+default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
 	mkdir -p $(BUILD_DIR)
-	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
-	if [ "x$(SOURCE_TARBALL_NAME)" != "xNONE" ] ; then \
-	    if [ "x$(SOURCE_UNCOMPRESS)" = "x" ] ; then \
-	        echo "bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
-	        ( bzcat $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
-	    else \
-	        echo "$(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )" ; \
-	        ( $(SOURCE_UNCOMPRESS) $(SOURCE_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )) ; \
-	    fi ; \
+	@ if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+	  if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
+	    SOURCE_CMD='gtar --exclude=.git* -cf - $(GIT_CLONE_DIR)' ; \
+	  else \
+	    UNCOMP_CMD="$(SOURCE_UNCOMPRESS)" ; \
+	    SOURCE_CMD="$${UNCOMP_CMD:-bzcat} $(SOURCE_TARBALL)" ; \
+	  fi ; \
+	  print "$${SOURCE_CMD} | (cd $(BUILD_DIR) ; gtar -xf - )" ; \
+	  $${SOURCE_CMD} | (cd $(BUILD_DIR) ; gtar -xf - ) ; \
+	else \
+	  print "mkdir -p $(SOURCE_DIR)" ; \
+	  mkdir -p $(SOURCE_DIR) ; \
 	fi ; \
-	if [ "x$(SOURCE_PATCHES)" != "x" ] ; then \
+	if [[ "$(ADDITIONAL_SOURCE_DIR)" != "" ]] ; then \
+	  if [[ ! -x $(LNDIR) ]] ; then \
+	    (cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
+	  fi ; \
+	  print "cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR)" ; \
+	  (cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ) ; \
+	fi ; \
+	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
-	        if [ "$$p" != "x" ] ; then \
-		    PATCH_CMD=`echo $$p | awk -F, '{if (NF > 1) FLAGS = $$2; else FLAGS="-p0" ; printf "gpatch -d $(SOURCE_DIR) %s < %s\n", FLAGS, $$1}'` ; \
-		    echo "$${PATCH_CMD}" ; \
+	        if [[ "$$p" != "x" ]] ; then \
+		    PATCH_CMD="$$(print $$p | awk -F, '{if (NF > 1) FLAGS = $$2; else FLAGS="-p0" ; printf "gpatch -d $(SOURCE_DIR) %s < %s\n", FLAGS, $$1}')" ; \
+		    print "$${PATCH_CMD}" ; \
 		    eval $${PATCH_CMD} ; \
 		fi ; \
 	    done ; \
 	fi ; \
-	if [ "x$(SUNTOUCHED_MANPAGES)" != "x" ] ; then \
-	    echo "/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+	if [[ "$(SUNTOUCHED_MANPAGES)" != "" ]] ; then \
+	    print "/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES)" ; \
 	    (cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
 	fi ; \
-	if [ "x$(FIX_PC_FILES)"  != "x" ] ; then \
-	    echo "/usr/perl5/bin/perl -i.orig -p \
+	if [[ "$(FIX_PC_FILES)" != "" ]] ; then \
+	    print "/usr/perl5/bin/perl -i.orig -p \
 			$(FIX_PC_OPS) $(FIX_PC_FILES)" ; \
 	    (cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl -i.orig -p \
 			$(FIX_PC_OPS) $(FIX_PC_FILES) ); \
 	fi
-	touch $(BUILD_DIR)/.unpack_done
+	touch $(BUILD_DIR)/$(UNPACK_FILE)
 
-### Regenerate autoconf/automake/libtools files after patching when needed
+### Run configure scripts
 
 # Include Xorg autoconf macros when rebuilding configure scripts
-ACLOCAL_PATH=aclocal -I $(PROTODIR)/usr/X11/share/aclocal
+ACLOCAL_PATH=aclocal -I $(PROTODIR)$(X11_ACLOCAL_DIR)
 
-autoreconf: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && \
-	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force )
+# Dependencies for running configure to make a Makefile
+CONFIGURE_DEPS = $(UNPACK_TARGET) \
+	$(MODTYPE_CONFIGURE_DEPS) $(MODULE_CONFIGURE_DEPS)
+
+# Command line options to GNU autoconf configure script
+DEFAULT_CONFIG_OPTS = --prefix=$(MODULE_PREFIX) \
+	--mandir='$${prefix}/share/man' --localstatedir=/var \
+	--disable-libtool-lock
+
+CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \
+	$(MODTYPE_CONFIG_OPTS) $(MODULE_CONFIG_OPTS)
+
+# Environment variable options to GNU autoconf configure script
+$(USE_DEFAULT_CONFIG_CPPFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_CPPFLAGS= \
+	-I $(PROTODIR)$(X11_INCLUDES_DIR) \
+	-I $(PROTODIR)/usr/include -I $(PROTODIR)/usr/include/freetype2
+$(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
+	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
+	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
+DEFAULT_PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig
+
+# Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
+# autoconfig environment
+$(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN))	DEFAULT_CONFIG_ENV = \
+    CC="$(CC)" CXX="$(CXX)" \
+    LD="$(CC) $(LDFLAGS)" \
+    CFLAGS="$(MODTYPE_CFLAGS) $(MODULE_CFLAGS)" \
+    CXXFLAGS="$(MODTYPE_CXXFLAGS) $(MODULE_CXXFLAGS)" \
+    CPPFLAGS="$(DEFAULT_CONFIG_CPPFLAGS) $(MODTYPE_CPPFLAGS) $(MODULE_CPPFLAGS)" \
+    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_CFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)" \
+    PKG_CONFIG_PATH="$(DEFAULT_PKG_CONFIG_PATH)" \
+    INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p" \
+    MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(SHELL)"
+
+CONFIG_ENV = $(DEFAULT_CONFIG_ENV) $(MODTYPE_CONFIG_ENV) $(MODULE_CONFIG_ENV)
+
+# File created by running configure - defaults to the top-level Makefile
+# in a source directory unless AUTOCONF_TARGET_SET=yes is set
+AUTOCONF_TARGET_DEFAULT = $(AUTOCONF_TARGET_SET:yes=$(POUND_SIGN))
+$(AUTOCONF_TARGET_DEFAULT)	AUTOCONF_TARGET=$(SOURCE_DIR)/Makefile
+
+$(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
+	cd $(SOURCE_DIR) ; \
+	if [[ "$(AUTORECONF)" = "yes" ]] ; then \
+	     ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force ; \
+	fi ; \
+	chmod a+x configure ; \
+	$(CONFIG_ENV) $(SHELL) ./configure $(CONFIG_OPTS) ; \
+	if [[ "$(DELIBTOOLIZE)" = "yes" ]] ; then \
+	    $(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
+	fi
+
+default_configure:: $(AUTOCONF_TARGET)
+
 
 ### Remove libtool from build process when needed
 
 delibtoolize:
 	$(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) $(SOURCE_DIR)
 
-### Source tarballs & downloading if necessary
-
-TARBALLDIR=$(TOP)/tarballs
-WGET=/usr/sfw/bin/wget --no-check-certificate
-SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
-
-XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
-SF_DOWNLOADS_URL=http://easynews.dl.sourceforge.net/sourceforge
-
-# Set default download location if not set in module makefile
-SOURCE_URL_DEFAULT	= $(SOURCE_URL_SET:yes=$(POUND_SIGN))
-$(SOURCE_URL_DEFAULT)	SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
-
-download:
-	if [ ! -s $(SOURCE_TARBALL) -a "x$(SOURCE_TARBALL_NAME)" != "xNONE" ] ; then \
-		$(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ;\
-	fi
 
 ### Generate mapfiles to limit/version exported symbols in libraries
 
@@ -316,43 +357,86 @@ SPECFILE=	spec/$(LIBNAME).spec
 VERSFILE=	spec/versions
 
 $(BUILD_DIR_32)/$(SPECMAP): $(SPECFILE) $(VERSFILE)
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) MACH=$(MACH32) spec_gen
+	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_32) MACH=$(MACH32) spec_gen
 
 $(BUILD_DIR_64)/$(SPECMAP): $(SPECFILE) $(VERSFILE)
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_64) MACH=$(MACH64) spec_gen
+	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_64) MACH=$(MACH64) spec_gen
 
 spec_gen:
 	$(SPEC2MAP) -a $(MACH) -v $(VERSFILE) -p -l $(LIBNAME) \
 	 -o $(BUILD_DIR)/$(SPECMAP) $(SPECFILE)
 
-### Other tools needed to build
+### Default rules for common build pattern
+
+LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
+	$(MODTYPE_LD_OPTIONS) $(MODULE_LD_OPTIONS)
+
+BUILD_ENV = LD_OPTIONS="$(LD_OPTIONS)" \
+	$(MODTYPE_BUILD_ENV) $(MODULE_BUILD_ENV)
+
+DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
+	$(MODTYPE_BUILD_MAKEFLAGS) $(MODULE_BUILD_MAKEFLAGS)
+
+default_build:: $(UNPACK_TARGET) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
+	(cd $(SOURCE_DIR) ; \
+	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+
+print_default_build_flags:
+	@print "BUILD_ENV='$(BUILD_ENV)'" ; \
+	print "MAKE='$(MODULE_MAKE)'" ; \
+	print "MAKE_FLAGS='$(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)'"
+
+build-in-subdir:
+	(cd $(subdir) ; \
+	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) \
+	 $(subdir_cmd) )
+
+DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
+	pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
+	$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
+	$(MODTYPE_INSTALL_MAKEFLAGS) $(MODULE_INSTALL_MAKEFLAGS) \
+
+default_install:: $(BUILD_TARGETS)
+	(cd $(SOURCE_DIR) ; \
+	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
+	 install)
+
+print_default_install_flags:
+	@print "BUILD_ENV='$(BUILD_ENV)'" ; \
+	print "MAKE='$(MODULE_MAKE)'" ; \
+	print "MAKE_FLAGS='$(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS)'"
+
+install-in-subdir: 
+	(cd $(subdir) ; \
+	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
+	 $(subdir_cmd))
+
+
+### Other tools/dependencies needed to build
 
 # Some modules (such as FreeType 2) require GNU make
-GNUMAKE = gmake
-
 $(GNUMAKE):
-	@echo "Checking for GNU make:"
-	$(GNUMAKE) --version
+	@print -n "Building with GNU make from $$(whence gmake): "
+	@$(GNUMAKE) --version
+
+$(MAKE):
+	@print "Building with make from $$(whence $(MAKE))"
 
 # Some modules use lndir to merge in sources from Sun specific directories
-LNDIR=$(PROTODIR)/usr/X11/bin/lndir
-
 $(LNDIR):
-	(cd $(TOP)/util/lndir && $(MAKE) $(MFLAGS) install)
+	(cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install)
 
-DOCBOOKUTIL_BINDIR=$(PROTODIR)$(TOOLS_DIR)/bin
-DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/dockbook2html
+# Some modules use these tools to convert DocBook docs to text or html
+$(DOCBOOK2HTML) $(DOCBOOK2TEXT):
+	cd $(TOP)/doc/docbook-utils && $(MAKE) $(MAKEFLAGS) install
 
-$(DOCBOOK2HTML):
-	(cd $(TOP)/doc/docbook-utils && $(MAKE) $(MFLAGS) install)
-
-### Dependencies
+$(XORG_DEFS_ENT):
+	cd $(TOP)/doc/xorg-sgml-doctools && $(MAKE) $(MAKEFLAGS) install
 
 # Almost everything depends on the headers in xproto
-XPROTO_DEP=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig/xproto.pc
-
 $(XPROTO_DEP):
-	@echo "Installing dependency proto/x11proto"
+	@print "$(XPROTO_DEP) not found..."
+	@print "Installing dependency proto/x11proto"
 	(cd $(TOP)/proto/x11proto ; make install)
 
 ### Useful rules for maintaining patch sets
@@ -366,8 +450,8 @@ regen-patches:
 	make SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen source_gen
 	mkdir -p new
 	for f in $(SOURCE_PATCHES) ; do \
-	    p=`echo $$f | sed 's/,.*$$//'` ; \
-	    echo '=================' $$p ; \
+	    p=$$(print $$f | sed 's/,.*$$//') ; \
+	    print '=================' $$p ; \
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
 	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen source_gen ; \
@@ -393,18 +477,16 @@ regen-patches:
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
-LICENSE_DEST = $(PROTODIR)/licenses
-
 install_license:
-	@case '$(MFLAGS)' in *[ik]*) set +e;; esac; \
-	THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
-	set -x ; \
-	if [ -f $(LICENSE_FILE) ] ; then \
-		mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
-		cp -pf $(LICENSE_FILE) \
-			$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
-	elif [ -f $(SOURCE_DIR)/$(LICENSE_FILE) ] ; then \
-		mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
-		cp -pf $(SOURCE_DIR)/$(LICENSE_FILE) \
-			$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
+	@THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
+	if [[ -f $(LICENSE_FILE) ]] ; then \
+	    LICENSE_TO_COPY="$(LICENSE_FILE)" ; \
+	elif [[ -f $(SOURCE_DIR)/$(LICENSE_FILE) ]] ; then \
+	    LICENSE_TO_COPY="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
+	fi ; \
+	if [[ "$${LICENSE_TO_COPY}" != "" ]] ; then \
+	    set -x ; \
+	    mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
+	    cp -pf $${LICENSE_TO_COPY} \
+		$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
 	fi

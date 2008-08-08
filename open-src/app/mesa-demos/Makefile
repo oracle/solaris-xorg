@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,17 +28,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/03/07
+# @(#)Makefile	1.10	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+MODULE_NAME=MesaDemos
 
 # Version number (used in path names)
-MESA_VERS=6.5.2
+MODULE_VERSION=6.5.2
+
+# Directory created by unpacking source
+SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)
+SOURCE_DIRNAME_SET=yes
+SOURCE_DIR=$(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Source tarball
-SOURCE_TARBALL_NAME=MesaDemos-$(MESA_VERS).tar.bz2
+SOURCE_TARBALL_NAME=MesaDemos-$(MODULE_VERSION).tar.bz2
+SOURCE_TARBALL_NAME_SET=yes
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/mesa3d/$(SOURCE_TARBALL_NAME)
@@ -49,28 +55,31 @@ SOURCE_PATCHES= \
 	null-display.patch 		\
 	Xorg-6.9-changes.patch 
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/Mesa-$(MESA_VERS)
-
 # Binaries built in tree
 GLXGEARS_BIN=$(SOURCE_DIR)/progs/xdemos/glxgears
 GLXINFO_BIN=$(SOURCE_DIR)/progs/xdemos/glxinfo
 
 # Where to install files
-MESA_prefix=$(PROTODIR)/usr/X11
+MESA_prefix=$(PROTODIR)$(X11_DIR)
+
+# 6.5.2 doesn't use autoconf, just links configuration files
+CONFIGURE_TARGETS=$(SOURCE_DIR)/configs/current
+CONFIGURE_TARGETS_SET=yes
 
 # What to build
 BUILD_TARGETS_sparc=$(GLXGEARS_BIN)
 BUILD_TARGETS_i386=$(GLXGEARS_BIN) $(GLXINFO_BIN)
 BUILD_TARGETS= $(BUILD_TARGETS_$(MACH))
+BUILD_TARGETS_SET=yes
 
 # What to install
 INSTALL_TARGETS_sparc=install_glxgears install_man
 INSTALL_TARGETS_i386=install_glxgears install_glxinfo install_man
 INSTALL_TARGETS= $(INSTALL_TARGETS_$(MACH))
+INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
 ### Rules specific to this directory:
 
@@ -85,36 +94,39 @@ DEMOS_DIR=$(SOURCE_DIR)/progs/xdemos
 
 # Mesa config file names
 MESA_CFG_32_sparc=solaris-sparcv8-cc
-MESA_CFG_64_sparc=sunos5-v9
+MESA_CFG_64_sparc=solaris-sparcv9-cc
 MESA_CFG_32_i386=solaris-x86-cc-dri
 MESA_CFG_64_i386=solaris-x64-cc-dri
 
 MESA_CFG_32= $(MESA_CFG_32_$(MACH))
 MESA_CFG_64= $(MESA_CFG_64_$(MACH))
 
-BUILD_32_FLAGS= MESA_CFG=$(MESA_CFG_32)
-BUILD_64_FLAGS= MESA_CFG=$(MESA_CFG_64)
+MODULE_BUILD_32_FLAGS= MESA_CFG=$(MESA_CFG_32)
+MODULE_BUILD_64_FLAGS= MESA_CFG=$(MESA_CFG_64)
 
 # Flags passed on make command line when building
 ADD_MAKE_FLAGS = X11_INCLUDES="-I$(PROTODIR)$(X11_INCLUDES_DIR)" \
 	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)"
 
-# Build Mesa demos
-$(GLXGEARS_BIN): $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) $(ADD_MAKE_FLAGS) glxgears )
+# 6.5.2 doesn't use autoconf, just links configuration files
+$(SOURCE_DIR)/configs/current: $(UNPACK_TARGET)
+	(cd $(SOURCE_DIR)/configs && \
+	 rm -f current && \
+	 ln -s $(MESA_CFG) current )
 
-$(GLXINFO_BIN): $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) $(ADD_MAKE_FLAGS) glxinfo )
+# Build Mesa demos
+$(GLXGEARS_BIN): $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
+	(cd $(DEMOS_DIR) && $(MAKE) $(MAKEFLAGS) $(ADD_MAKE_FLAGS) glxgears )
+
+$(GLXINFO_BIN): $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
+	(cd $(DEMOS_DIR) && $(MAKE) $(MAKEFLAGS) $(ADD_MAKE_FLAGS) glxinfo )
 
 # For testing - we don't ship the rest of these
-all-xdemos_gen: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/configs && rm -f current && ln -s $(MESA_CFG) current)
-	(cd $(DEMOS_DIR) && $(MAKE) $(MFLAGS) $(ADD_MAKE_FLAGS) )
+all-xdemos_gen: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
+	(cd $(DEMOS_DIR) && $(MAKE) $(MAKEFLAGS) $(ADD_MAKE_FLAGS) )
 
 all-xdemos:
-	$(MAKE) $(MFLAGS) BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" $(BUILD_32_FLAGS) all-xdemos_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) all-xdemos_gen
 
 install_gen:: $(INSTALL_TARGETS)
 

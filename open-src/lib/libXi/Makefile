@@ -2,7 +2,7 @@
 #
 # Xi 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,10 +34,10 @@
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXi
+MODULE_NAME=libXi
 
 # Version number (used in path names)
-LIB_VERS=1.1.3
+MODULE_VERSION=1.1.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6649171.patch
@@ -48,15 +48,14 @@ LIBNAME=Xi
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xi
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXi.so.5.0.0
+
 
 # Use specfile to make mapfile & link with it
-LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
+MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xi.pc.in

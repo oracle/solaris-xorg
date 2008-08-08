@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,23 +33,20 @@
 MODULE_NAME=xcursor-themes
 
 # Version number (used in path names)
-VERSION=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
-# What gets built
-MODULE_BUILT=$(SOURCE_DIR)/redglas/X_cursor
-
 # Additional environment variable options to GNU autoconf configure script
-ADD_CONFIG_ENV= PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
+MODULE_CONFIG_ENV= PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
+
+# Additional environment variable options needed when building
+MODULE_BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_DIR)/lib" \
+	PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
 
 ### Include common rulesets
 include ../Makefile.inc
 
-# Environment variable options needed when building
-BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_DIR)/lib" \
-	PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
 
-$(MODULE_BUILT): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
+

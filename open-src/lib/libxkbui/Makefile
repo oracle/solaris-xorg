@@ -2,7 +2,7 @@
 #
 # xkbui Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libxkbui
+MODULE_NAME=libxkbui
 
 # Version number (used in path names)
-LIB_VERS=1.0.2
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,16 +48,15 @@ LIBNAME=xkbui
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
-LIB_STABILITY=Project Private
+MODULE_STABILITY=Project Private
 LIB_MAN_SUFFIX=3xkbui
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libxkbui.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xkbui.pc.in
 
 # Install in private subdir for xorgcfg
-LIB_ADD_SUBDIR=/xorgcfg
+MODULE_ADD_LIB_SUBDIR=/xorgcfg
 
 include ../Makefile.inc

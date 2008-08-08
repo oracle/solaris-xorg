@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,21 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/19
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-input-keyboard
+MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-DRIVER_VERS=1.1.1
+MODULE_VERSION=1.1.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = copying.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

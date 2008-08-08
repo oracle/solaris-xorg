@@ -30,23 +30,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5 08/06/30
+# @(#)Makefile	1.6 08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXt
+MODULE_NAME=libXt
 
 # Version number (used in path names)
-LIB_VERS=1.0.5
+MODULE_VERSION=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch abistrings.patch
 
 # Regenerate configure script & Makefile.in's after applying patches
-AUTORECONF=true
+AUTORECONF=yes
 
 # Work around libtool's interference
-LIB_ADD_BUILD_DEPS = delibtoolize
+MODULE_BUILD_DEPS = delibtoolize
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xt
@@ -54,17 +54,16 @@ LIBNAME=Xt
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xt
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXt.so.4.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xt.pc.in
 
-LIB_ADD_CFLAGS = -DGETVALUES_BUG
+MODULE_CFLAGS = -DGETVALUES_BUG
 
-LIB_ADD_CONFIG_OPTS= --with-appdefaultdir=$(X11_DIR)/lib/X11/app-defaults
+MODULE_CONFIG_OPTS= --with-appdefaultdir=$(X11_DIR)/lib/X11/app-defaults
 
 include ../Makefile.inc

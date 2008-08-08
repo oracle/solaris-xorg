@@ -28,29 +28,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.3	08/03/19
+# @(#)Makefile.inc	1.4	08/08/08
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
+MODTYPE=xserver
+
+### Include common definitions
+include $(TOP)/common/Makefile.init
+
 # Xorg server source tarball to use sources from
 XORGSERVER_VERS=1.3.0.0
 
-include $(TOP)/common/Makefile.inc
+# Patches shared between Xorg & Xvnc builds
+XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
 
-# Prefix for installation
-XSERVER_PREFIX=$(X11_DIR)
-
-FONTDIR=$(X11_DIR)/lib/X11/fonts
+XSERVER_FONTDIR=$(X11_DIR)/lib/X11/fonts
 MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-6.5.2
 
-MODULES_DIR='$${libdir}/modules$(MODULE_subdir)'
-DRI_MODULES_DIR='$${libdir}/modules/dri$(MODULE_subdir)'
+SERVER_MODULES_DIR='$${libdir}/modules$(SERVERMOD_subdir)'
+DRI_MODULES_DIR='$${libdir}/modules/dri$(SERVERMOD_subdir)'
 
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
-	--prefix=$(XSERVER_PREFIX) --mandir='$${prefix}/share/man' \
 	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
         --disable-xdm-auth-1 --enable-xcsecurity \
 	--enable-shared --disable-static \
@@ -60,7 +62,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-vendor-web="http://sunsolve.sun.com/" \
 	--with-os-name="`uname -srmv`" \
 	--with-log-dir=/var/log --with-xkb-output=/var/run/xkb \
-	--with-module-dir=$(MODULES_DIR) \
+	--with-module-dir=$(SERVER_MODULES_DIR) \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
 	--with-rgb-path='$${libdir}/X11/rgb' \
@@ -79,44 +81,45 @@ DPMS_DEFINES=   -DDEFAULT_STANDBY_TIME=1440000 \
 		-DDEFAULT_SUSPEND_TIME=1620000 \
                 -DDEFAULT_OFF_TIME=1800000
 
-XSERVER_CPPFLAGS= \
+MODTYPE_CPPFLAGS_suncc= # No extra flags needed
+MODTYPE_CPPFLAGS_gcc= $(GCC_HEADERS)
+
+MODTYPE_CPPFLAGS=  \
 	-I$(MESA_SRC_DIR)/include \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR) \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions \
-	$(DPMS_DEFINES) -DSUNSOFT -DTSOL
+	$(DPMS_DEFINES) -DSUNSOFT -DTSOL \
+	$(MODTYPE_CPPFLAGS_$(MODULE_COMPILER))
+
+XSERVER_LDFLAGS_suncc= # No extra flags needed
+XSERVER_LDFLAGS_gcc= -L/usr/sfw/lib$(ARCHLIBSUBDIR) \
+		     -R/usr/sfw/lib$(ARCHLIBSUBDIR)
 
 # Environment variable options to GNU autoconf configure script
 #  - XSERVERCFLAGS_CFLAGS - force CFLAGS to avoid -I /usr/X11/include breaking
 #    use of headers from proto area
-CONFIG_ENV_common = \
-        PKG_CONFIG_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
-	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
+MODTYPE_CONFIG_ENV = \
 	XSERVERCFLAGS_CFLAGS="-DHAS_FCHOWN -DHAS_STICKY_DIR_BIT -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DXTHREADS -DXUSE_MTSAFE_API" \
 	PATH=$(PATH):/usr/sbin
 
-LDPATH_ADD = -L$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
+MODTYPE_LDFLAGS=$(PROG_LDFLAGS) $(XSERVER_LDFLAGS_$(MODULE_COMPILER)) \
+	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 	-R$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
-CONFIG_ENV_cc = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" \
-	CXX=$(CXX) CXXFLAGS="$(PROG_CXXFLAGS)" \
-	LDFLAGS="$(PROG_LDFLAGS) $(LDPATH_ADD)" \
-	CPPFLAGS="$($(XSERVER)_CPPFLAGS)"
+MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
 
-CONFIG_ENV_gcc = CC=$(GCC) CFLAGS="$(DEFAULT_GCC_CFLAGS) $(ARCH_GCC_FLAGS)" \
-	CXX=$(GCC:gcc=g++) CXXFLAGS="$(DEFAULT_GCC_CFLAGS) $(ARCH_GCC_FLAGS)" \
-	LDFLAGS="$(GCC_PROG_LDFLAGS) -L/usr/sfw/lib$(ARCHLIBSUBDIR) -R/usr/sfw/lib$(ARCHLIBSUBDIR) $(LDPATH_ADD)" \
-	CPPFLAGS="$(GCC_HEADERS) $($(XSERVER)_CPPFLAGS)"
-
-CONFIG_ENV= $(CONFIG_ENV_$(COMPILER)) $(CONFIG_ENV_common)
-
-BUILD_32_FLAGS=ARCH_GCC_FLAGS="$(ARCH32_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR32)"
-
-BUILD_64_FLAGS_sparc=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)"
-BUILD_64_FLAGS_i386=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR64)"
-BUILD_64_FLAGS=$(BUILD_64_FLAGS_$(MACH))
+MODTYPE_BUILD_64_FLAGS_sparc=ARCHBINSUBDIR=""
+MODTYPE_BUILD_64_FLAGS_i386=ARCHBINSUBDIR="$(SUBDIR64)"
+MODTYPE_BUILD_64_FLAGS=$(MODTYPE_BUILD_64_FLAGS_$(MACH))
 
 # Environment variable options to use when building
-BUILD_ENV= PATH=$(PATH):/usr/sbin \
+MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
 	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib/xorgcfg$(ARCHLIBSUBDIR)
+
+### Include common rulesets
+include $(TOP)/common/Makefile.inc
+

@@ -2,7 +2,7 @@
 #
 # xf86-video-radeonhd Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,28 +34,28 @@
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-radeonhd
+MODULE_NAME=xf86-video-radeonhd
 
 # Version number (used in path names)
-DRIVER_VERS=1.2.1
+MODULE_VERSION=1.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-graphics-ddx
+MODULE_STABILITY=Volatile
 
-DRIVER_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
+MODULE_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/extensions \
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/extensions \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
         -lfb -lshadow -lxaa -lexa
 

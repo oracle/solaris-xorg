@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/07/21
+# @(#)Makefile	1.14	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libX11
+MODULE_NAME=libX11
 
 # Version number (used in path names)
-LIB_VERS=1.1.3
+MODULE_VERSION=1.1.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -71,26 +71,25 @@ LIBNAME=X11
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man man/xkb/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3X11
 
 # Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
+MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
 	--with-xcb=no --enable-loadable-xcursor --enable-xcms \
 	--enable-xlocaledir --enable-xkb --enable-man-pages=$(LIB_MAN_SUFFIX) \
-	--with-lint --enable-lint-library \
 	--with-locale-lib-dir='$${exec_prefix}/lib/X11/locale$(LIBSUBDIR)'
 
 # -xF is needed for mapfile reordering to work
-LIB_ADD_CFLAGS = -xF
+MODULE_CFLAGS = -xF
 
 # -DSUNSOFT enables SUN_SME (Shared Memory transport extension)
 # -DMOTIFBC enables compatibility with bugs in Motif & other apps
 # -DSUNSOFT_KBD enables Solaris traditional keyboard handling
-LIB_ADD_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD
+MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD
 
 # Work around libtool's interference
-LIB_ADD_BUILD_DEPS = delibtoolize
+DELIBTOOLIZE=yes
 
 # Use -KPIC instead of -Kpic because we have too many symbols on SPARC
 DELIBTOOLIZE_FLAGS_sparc = -P
@@ -98,23 +97,18 @@ DELIBTOOLIZE_FLAGS_i386 =
 DELIBTOOLIZE_FLAGS = $(DELIBTOOLIZE_FLAGS_$(MACH))
 
 # Need additional mapfile for additional symbols in 64-bit versions
-BUILD_64_FLAGS = ADD_libX11_LDFLAGS="-M $(PWD)/mapfile-vers-64"
-
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libX11.so.4
+MODULE_BUILD_64_FLAGS = ADD_libX11_LDFLAGS="-M $(PWD)/mapfile-vers-64"
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=x11.pc.in
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
-AUTORECONF=true
-
-include ../Makefile.inc
+AUTORECONF=yes
 
 # Merge in additional sources from sun-src directory
-source_gen:: $(LNDIR)
-	mkdir -p $(SOURCE_DIR)
-	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
+ADDITIONAL_SOURCE_DIR=sun-src
+
+include ../Makefile.inc
 
 install_gen::
 	mkdir -p $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)
@@ -126,8 +120,6 @@ install_gen::
 install_32::
 	mkdir -p $(PROTODIR)/usr/X11/include/X11/extensions
 	cp -pf sun-src/include/X11/Xvarargs.h $(PROTODIR)/usr/X11/include/X11/
-	cp -pf sun-src/include/X11/extensions/XInteractive.h \
-		$(PROTODIR)/usr/X11/include/X11/extensions/
 	cp -pf sun-src/include/X11/extensions/XInteractive.h \
 		$(PROTODIR)/usr/X11/include/X11/extensions/
 	cp -pf $(BUILD_DIR_32)$(SOURCE_DIR)/src/ks_tables.h \

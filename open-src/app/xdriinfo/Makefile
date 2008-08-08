@@ -30,21 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 08/05/13
+# @(#)Makefile	1.3 08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xdriinfo
+MODULE_NAME=xdriinfo
 
 # Version number (used in path names)
-APP_VERS=1.0.2
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = compile-on-sparc.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

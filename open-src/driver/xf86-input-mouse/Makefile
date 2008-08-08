@@ -30,25 +30,25 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/03/19
+# @(#)Makefile	1.7	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-input-mouse
+MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-DRIVER_VERS=1.2.3
+MODULE_VERSION=1.2.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS= -lm
+MODULE_LD_OPTIONS= -lm
 
 include ../Makefile.inc
 

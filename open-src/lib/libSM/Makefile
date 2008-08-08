@@ -2,7 +2,7 @@
 #
 # SM 1.x Makefile
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/02/09
+# @(#)Makefile	1.2	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libSM
+MODULE_NAME=libSM
 
 # Version number (used in path names)
-LIB_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = libsm.globals.h.patch libsm.SMlibint.h.patch libsm.sm_client.c.patch libsm.sm_manager.c.patch
@@ -48,27 +48,21 @@ LIBNAME=SM
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
+MODULE_MTLEVEL=Unsafe
 LIB_MAN_SUFFIX=3SM
-LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
 
 # Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --disable-libtool-lock \
-		      --enable-unix-transport \
+MODULE_CONFIG_OPTS =  --enable-unix-transport \
 		      --enable-tcp-transport \
-		      --enable-IPv6 \
-		      --with-pic \
-		      --with-release-version="1.0.3"
+		      --enable-IPv6
 
-# Library built in tree
-LIB_BUILT=$(BUILD_DIR)/.libs/libSM.so.6.0.0
+
 
 # Use specfile to make mapfile & link with it
-LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
+MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
 
-LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
-
-LIB_ADD_LDFLAGS = -lsocket -lnsl
+MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=sm.pc.in

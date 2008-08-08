@@ -33,13 +33,10 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xfontsel
+MODULE_NAME=xfontsel
 
 # Version number (used in path names)
-APP_VERS=1.0.2
-
-# Source tarball
-SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.gz
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -47,12 +44,15 @@ SOURCE_PATCHES = \
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= -p $(APP_prefix)/bin/ \
- -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
+
+MODULE_CPPFLAGS= -DXLOCALEDIR=\"$(XLOCALEDIR)\"
 
 include ../Makefile.inc
 
 install_gen:: install_po
+
 install_po:
 	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
 	cp -f xfontsel.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES

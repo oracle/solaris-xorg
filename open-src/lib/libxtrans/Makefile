@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/04/18
+# @(#)Makefile	1.7	08/08/08
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
 # compiled into other modules at build time.
 
 # Package name used in tarballs
-LIB_MODULE=xtrans
+MODULE_NAME=xtrans
 
 # Version number (used in path names)
-LIB_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = inetv6.patch socket-perm.patch bug-6688467.patch,-p1
@@ -51,7 +51,7 @@ LIBNAME=xtrans
 # Man pages to apply Sun footer to & attributes to list
 # - Xtrans has none
 
-# Library built in tree
+
 # - Xtrans doesn't build a library, so we use the pkgconfig file it builds instead
 LIB_BUILT = xtrans.pc
 

@@ -30,21 +30,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.75	08/07/15
+# @(#)Makefile	1.76	08/08/08
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Build 32-bit, 64-bit, or both?
-BUILD_TYPES=32 64
-BUILD_TYPES_SET=yes
+# Package name used in tarballs
+MODULE_NAME=freetype
+
+# Library name used in man pages & spec files
+LIBNAME=freetype
 
 # Version number (used in path names)
-FT_VERS=2.3.7
-
-# Source tarball
-SOURCE_TARBALL_NAME=freetype-$(FT_VERS).tar.bz2
+MODULE_VERSION=2.3.7
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -67,29 +66,17 @@ SOURCE_PATCHES= \
 	configure.11.patch \
 	configure.12.patch
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/freetype-$(FT_VERS)
-
 # Where to install freetype files
-FT_prefix=/usr
-FT_bindir=$(FT_prefix)/bin$(ARCHLIBSUBDIR)
-FT_libdir=$(FT_prefix)/lib$(ARCHLIBSUBDIR)
+MODULE_PREFIX=/usr
+MODULE_PREFIX_SET=yes
 
-# Command line options to GNU autoconf configure script
-FT_CFG= --prefix=$(FT_prefix) \
-	--libdir=$(FT_libdir) \
-	--bindir=$(FT_bindir) \
-	--localstatedir=/var \
-	--enable-shared \
-	--disable-static \
-	--disable-libtool-lock \
+# Additional command line options to GNU autoconf configure script
+MODULE_CONFIG_OPTS= \
 	--with-zlib \
 	--with-pic
 
-# Library built in tree
-LIBNAME=libfreetype.so.6.3.17
-LIBSONAME=libfreetype.so.6
-FT_LIB=$(FT_DIR)/objs/.libs/$(LIBNAME)
+
+FT_LIB=$(FT_DIR)/objs/.libs/libfreetype.so.6.3.17
 
 # What to build
 BUILD_TARGETS=$(GNUMAKE) $(FT_LIB)
@@ -97,15 +84,24 @@ BUILD_TARGETS=$(GNUMAKE) $(FT_LIB)
 # pkg-config files that need to have -R added
 FIX_PC_FILES=builds/unix/freetype2.in
 
-### Include common rulesets
-include $(TOP)/common/Makefile.inc
-
-# GNU make wants bash
-SHELL = /bin/bash
-
 # License file
 LICENSE_FILE=docs/FTL.TXT
 LICENSE_FILE_SET=yes
+
+# Need to use GNU Make to build
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
+
+# Don't run normal configure/build/install rules - freetype is different
+CONFIGURE_TARGETS=$(SOURCE_DIR)/config.mk
+CONFIGURE_TARGETS_SET=yes
+BUILD_TARGETS=$(FT_LIB)
+BUILD_TARGETS_SET=yes
+INSTALL_TARGETS=
+INSTALL_TARGETS_SET=yes
+
+### Include common rulesets
+include ../Makefile.inc
 
 ### Rules specific to this directory:
 
@@ -126,12 +122,12 @@ $(SOURCE_DIR)/config.mk: $(UNPACK_TARGET)
 	    LDFLAGS="$(LIB_LDFLAGS)" \
 	    CFG="$(FT_CFG)" \
 	    LD="$(CC) $(LIB_CFLAGS) $(LIB_LDFLAGS)" \
-	    MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(FT_CFG)" \
+	    MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(CONFIG_OPTS)" \
 	    INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
 	    $(GNUMAKE) )
 
 # Build Freetype
-$(FT_LIB): $(SOURCE_DIR)/config.mk
+$(FT_LIB): $(CONFIGURE_TARGETS)
 	(cd $(SOURCE_DIR) ; \
 	    SHELL="/bin/bash" \
 	    MAKESHELL="/bin/bash" \
@@ -150,6 +146,9 @@ $(FT_LIB): $(SOURCE_DIR)/config.mk
 	    INSTALL="$(TOP)/common/install-sh -c" \
 	    $(GNUMAKE) )
 
+FT_bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
+FT_libdir=$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)
+
 install_gen:: $(FT_LIB)
 	mkdir -p $(PROTODIR)/usr/bin$(ARCHLIBSUBDIR)
 	( cd $(SOURCE_DIR)/builds/unix ; \
@@ -159,9 +158,16 @@ install_gen:: $(FT_LIB)
 	    touch -acm ftconfig.h )
 	( cd $(SOURCE_DIR) ; \
 	    cp -fp ./builds/unix/ftconfig.h ./include/freetype/config/ftconfig.h )
-	( cd $(SOURCE_DIR) ; $(GNUMAKE) prefix=$(PROTODIR)$(FT_prefix) libdir=$(PROTODIR)$(FT_libdir) bindir=$(PROTODIR)$(FT_bindir) install )
+	( cd $(SOURCE_DIR) ; \
+	  $(GNUMAKE) DESTDIR=$(PROTODIR) prefix=$(MODULE_PREFIX) libdir=$(FT_libdir) bindir=$(FT_bindir) install )
+
+
+# Make 64-bit link when installing 64-bit binaries
+
+BIN_INST_DIR=$(PROTODIR)$(MODULE_PREFIX)/bin
 
 install_64::
-	-/bin/rm -f $(PROTODIR)$(FT_prefix)/lib/64 $(PROTODIR)$(FT_prefix)/bin/64
-	ln -s $(SUBDIR64) $(PROTODIR)$(FT_prefix)/lib/64
-	ln -s $(SUBDIR64) $(PROTODIR)$(FT_prefix)/bin/64
+	-/bin/rm -f $(BIN_INST_DIR)/64
+	ln -s $(SUBDIR64) $(BIN_INST_DIR)/64
+
+

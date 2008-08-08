@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org protocol modules
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,37 +28,34 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.5	07/05/15
+# @(#)Makefile.inc	1.6	08/08/08
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(PROTO_NAME)-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=proto
+MODTYPE=proto
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(PROTO_NAME)-$(VERSION)
+### Include common definitions
+include $(TOP)/common/Makefile.init
+
+# Most proto modules have no man pages
+MODTYPE_SUNTOUCH_MAN_FLAGS= 
+
+# No common dependencies
+MODTYPE_CONFIGURE_DEPS=
+
+# Most proto modules have nothing to build, for those that do, use lib flags
+MODTYPE_CFLAGS=$(LIB_CFLAGS)
+MODTYPE_LDFLAGS=$(LIB_LDFLAGS)
+MODTYPE_LD_OPTIONS=
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
 
-# Command line options to GNU autoconf configure script
-PROTO_CFG=--prefix=$(X11_DIR)
-
-build_gen: $(SOURCE_DIR)/Makefile
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" /usr/bin/bash ./configure $(PROTO_CFG) )
-
 # Install
-install_gen:: $(SOURCE_DIR)/Makefile
+default_install::
 	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install ; \
 	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
 
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,41 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/07
+# @(#)Makefile	1.5	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+MODULE_NAME=lndir
 
 # Version number (used in path names)
-VERSION=1.0.1
-
-# Source tarball
-SOURCE_TARBALL_NAME=lndir-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=util
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/lndir-$(VERSION)
-
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
-
-### Rules specific to this directory:
-
-# Command line options to GNU autoconf configure script
-LNDIR_CFG=--prefix=$(X11_DIR)
-
-build_gen: $(SOURCE_DIR)/Makefile
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 CC=$(CC) CFLAGS="$(LIB_CFLAGS)" LD="$(CC) $(PROG_CFLAGS) $(LDFLAGS)" LDFLAGS="$(PROG_LDFLAGS)" PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/pkgconfig:$(PROTODIR)/usr/X11/lib/pkgconfig ./configure $(LNDIR_CFG) )
-
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+include ../Makefile.inc

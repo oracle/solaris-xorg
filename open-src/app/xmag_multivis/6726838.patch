@@ -32,14 +32,5 @@
  
  # App default files  (*.ad)
 
---- configure.ac	Wed Aug 15 18:03:53 2007
-+++ configure.ac	Wed Jul 16 21:37:56 2008
-@@ -34,7 +34,6 @@
- AC_CHECK_FUNCS([nanosleep poll select])
- 
- # Checks for pkg-config packages
--XAW_CHECK_XPRINT_SUPPORT(XMAG)
- AC_SUBST(XMAG_CFLAGS)
- AC_SUBST(XMAG_LIBS)
  
  

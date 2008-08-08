@@ -30,29 +30,24 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/05/14
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=mkfontscale
+MODULE_NAME=mkfontscale
 
 # Version number (used in path names)
-APP_VERS=1.0.5
+MODULE_VERSION=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwfsw} {Interface Stability, Uncommitted}'
-
-# Need to look in $(PROTODIR) for freetype headers
-APP_ADD_CPPFLAGS=-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
+SUN_PACKAGE=SUNWxwfsw
+MODULE_STABILITY=Uncommitted
 
 # Need to link with libfontenc in server private directory
-# and libfreetype in proto area copy of /usr/lib
-APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-L $(PROTODIR)/usr/lib$(LIBSUBDIR) 
+MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)
 
 include ../Makefile.inc

@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/19
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libxkbfile
+MODULE_NAME=libxkbfile
 
 # Version number (used in path names)
-LIB_VERS=1.0.5
+MODULE_VERSION=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch
@@ -48,11 +48,10 @@ LIBNAME=xkbfile
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
-LIB_STABILITY=Volatile
+MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xkbfile
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libxkbfile.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xkbfile.pc.in

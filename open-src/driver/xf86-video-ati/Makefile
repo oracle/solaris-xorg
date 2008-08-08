@@ -2,7 +2,7 @@
 #
 # xf86-video-ati 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.15	08/04/29
+# @(#)Makefile	1.16	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-ati
+MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-DRIVER_VERS=6.8.0
+MODULE_VERSION=6.8.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6205248.patch 6675166.patch 6675188.patch \
@@ -45,29 +45,29 @@ SOURCE_PATCHES = 6205248.patch 6675166.patch 6675188.patch \
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-graphics-ddx
+MODULE_STABILITY=Volatile
 
 # Extra flags to pass to configure script
-DRIVER_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
+MODULE_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
 
 # Paths to find libraries/modules to link with - libraries themselves listed
 # in src/Makefile.am since ATI has so many submodules with different needs
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/extensions \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/linux \
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/extensions \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/linux \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lexa -lint10 -lfb -lshadowfb -lvbe -lxaa -lfbdevhw \
 	-lvgahw -lm -lshadow  -ldrm -ldri -lglx \
-	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)/linux$(ARCHLIBSUBDIR) \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-include ../Makefile.inc
+AUTORECONF=yes
 
-source_gen:: autoreconf
+include ../Makefile.inc
 
 install_gen::
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)

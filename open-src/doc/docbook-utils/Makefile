@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,17 +28,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/07
+# @(#)Makefile	1.5	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+MODULE_NAME=docbook-utils
 
 # Version number (used in path names)
-DOCBOOK_TOOLS_VERS=0.6.14
+MODULE_VERSION=0.6.14
 
 # Source tarball
-SOURCE_TARBALL_NAME=docbook-utils-$(DOCBOOK_TOOLS_VERS).tar.gz
+SOURCE_TARBALL_NAME=docbook-utils-$(MODULE_VERSION).tar.gz
+SOURCE_TARBALL_NAME_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Download site for source
@@ -48,50 +49,34 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= solaris-port.patch
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/docbook-utils-$(DOCBOOK_TOOLS_VERS)
+# Only used during build, so install in tools directory in proto area
+MODULE_PREFIX=$(PROTODIR)$(TOOLS_DIR)
+MODULE_PREFIX_SET=yes
+MODULE_MAKEFLAGS= DESTDIR=""
+
+# Need to use GNU Make to build
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
 
 # What to build
-BUILD_TARGETS=$(APP_BIN)
+BUILD_TARGETS = $(GNUMAKE) default_build catalog_build
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
-
-### Rules specific to this directory:
-
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --prefix=$(PROTODIR)$(TOOLS_DIR)
-
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR)" \
-	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) $(APP_ADD_LDFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR)
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; autoreconf && \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
-
-# Binary built in tree
-APP_BIN=$(SOURCE_DIR)/src/$(APP_NAME)
+include ../Makefile.inc
 
 # Catalog generated to find SGML files
 CATALOG=$(BUILD_DIR)/catalog
 
-build_gen: $(APP_BIN) $(CATALOG)
-
-$(APP_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(GNUMAKE) $(MFLAGS) )
-
-install_gen:: $(APP_BIN) $(CATALOG)
-	(cd $(SOURCE_DIR) ; $(GNUMAKE) $(MFLAGS) install)
-	cp -p $(CATALOG) $(PROTODIR)$(TOOLS_DIR)/share/sgml
+catalog_build: $(CATALOG)
 
 $(CATALOG):
-	echo "OVERRIDE YES" > $@
-	echo "" >> $@
-	echo 'SYSTEM "X11/defs.ent" "$(PROTODIR)$(X11_DIR)/share/sgml/X11/defs.ent"' >> $@
-	echo "CATALOG /etc/sgml/catalog" >> $@
-	echo "CATALOG /usr/share/sgml/docbook/dsssl-stylesheets/catalog" >> $@
-	echo "CATALOG /usr/share/sgml/openjade/catalog" >> $@
+	print 'OVERRIDE YES' > $@
+	print '' >> $@
+	print 'SYSTEM "X11/defs.ent" "$(PROTODIR)$(X11_DIR)/share/sgml/X11/defs.ent"' >> $@
+	print 'CATALOG /etc/sgml/catalog' >> $@
+	print 'CATALOG /usr/share/sgml/docbook/dsssl-stylesheets/catalog' >> $@
+	print 'CATALOG /usr/share/sgml/openjade/catalog' >> $@
+
+install_gen:: $(CATALOG)
+	mkdir -p $(MODULE_PREFIX)/share/sgml
+	cp -p $(CATALOG) $(MODULE_PREFIX)/share/sgml

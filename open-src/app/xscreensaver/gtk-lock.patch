@@ -75,7 +75,7 @@ diff -urp -x '*~' configure.in configure.in
  
    if test "$have_gtk" = yes; then
 +#--- Begin SUNW addition
-+    AC_DEFINE(HAVE_XSCREENSAVER_LOCK)
++    AC_DEFINE(HAVE_XSCREENSAVER_LOCK,[],[Define this to build the external lock dialog])
 +#--- End SUNW addition
      AC_CACHE_CHECK([for Gtk includes], ac_cv_gtk_config_cflags,
                     [ac_cv_gtk_config_cflags=`$pkg_config --cflags $pkgs`])

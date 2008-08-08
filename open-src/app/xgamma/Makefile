@@ -2,7 +2,7 @@
 #
 # xgamma 1.x Makefile
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,17 +34,17 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xgamma
+MODULE_NAME=xgamma
 
 # Version number (used in path names)
-APP_VERS=1.0.2
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxorg-client-programs} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-client-programs
+MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

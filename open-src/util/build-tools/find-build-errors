@@ -1,0 +1,247 @@
+#! /usr/perl5/bin/perl -w
+
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident "@(#)find-build-errors 1.1     08/08/07 SMI"
+#
+
+require 5.005;				# minimal Perl version required
+use strict;				#
+use diagnostics;			#
+use File::Spec;				# pathname manipulation routines
+use File::stat;				# Named results from stat() function
+use English qw( -nomatchvars );
+
+my $default_logfile = 'buildit-XW';
+my $default_logpath = 'log/' . $default_logfile;
+my $default_pkglogpath = 'proto-packages/logs/package_build';
+my $logfile;
+my $pkglog;
+my $pkgfailed;
+
+if (defined $ARGV[0]) {
+  if (-d $ARGV[0]) {
+    $logfile = $ARGV[0] . '/' . $default_logpath;
+  } elsif ($ARGV[0] =~ m{/package_build$}ms) {
+    $pkglog = $ARGV[0];
+  } else {
+    $logfile = $ARGV[0];
+  }
+} elsif ( -f $default_logfile ) {
+  $logfile = $default_logfile;
+} elsif ( -f $default_logpath ) {
+  $logfile = $default_logpath;
+} else {
+  my @dirtree = File::Spec->splitdir(
+		  File::Spec->rel2abs(File::Spec->curdir()));
+
+  # climb the tree, removing one parent at a time to find the logfile
+  while (scalar(@dirtree) > 0) {
+    $logfile = File::Spec->catfile( @dirtree, $default_logpath);
+    last if ( -f $logfile);
+#   print "$logfile not found\n";
+    pop @dirtree;
+  }
+
+  if (scalar(@dirtree) == 0) {
+    die "$default_logfile not found, please specify path to log\n";
+  }
+}
+
+if (defined $logfile) {
+  open my $LOGFILE, '<', $logfile
+    or die "Can't open '$logfile': $OS_ERROR";
+
+  print "Scanning $logfile for error messages...\n\n";
+
+  my @steplines;
+  my $found_error = 0;
+
+  while (my $l = <$LOGFILE>) {
+    # Finished if we see the end line
+    last if $l =~ m{Finished building the X Window System Consolidation}ms;
+
+    # Clear saved lines for each new module/subdir
+    if (($l =~ m{^\#\# making \S+ in \S+\.\.\.$}ms) ||	# open-src pattern
+	($l =~ m{^\S+ing( \S+)* in \S+\.\.\.$}ms)) {	# xc pattern
+      @steplines = ();
+      $found_error = 0;
+    }
+
+    # If we already hit an error, skip the rest of this module
+    next if ($found_error != 0);
+
+    # Add this line to the saved output, combine with previous if previous
+    # ended with an \
+    if (($#steplines >= 0) && ($steplines[$#steplines] =~ m{\\\Z}ms)) {
+      $steplines[$#steplines] .= $l;
+    } else {
+      push @steplines, $l;
+    }
+
+    # Skip ahead to next line if this line ends with \
+    next if ($l =~ m{\\\Z}ms);
+
+    # Found a new error?
+    if ($l =~ m{\*\*\* }ms) {
+      $found_error = 1;
+
+      # Print section header
+      print $steplines[0], "\n";
+
+      my $lastmake;
+      my $lastcommand = 1;
+      my $lastplus = 0;
+
+      # scan back to figure out how far back to print
+      for my $ln (1..($#steplines - 1)) {
+	my $sl = $steplines[$ln];
+
+	#      print "lastmake: $lastmake, lastcom: $lastcommand, lastplus: $lastplus, line #$ln: $sl\n";
+	if ($sl =~ m{\b(make|gmake)\b}ms) {
+	  $lastmake = $ln;
+	}
+
+	if ($sl =~ m{\breturned\b}ms) {
+	  # don't treat this as a command
+	} elsif ($sl =~ m{\b(cc|gcc|CC|g\+\+|ld|gpatch|libtool)\s+}ms) {
+	  if ($sl !~ m{usage:}) {
+	    $lastcommand = $ln;
+	  }
+	} elsif ($sl =~ m{^\+ }ms) {
+	  # print from start of shell's set -x output, not end
+	  if ($lastplus != ($ln - 1)) {
+	    $lastcommand = $ln;
+	  }
+	  $lastplus = $ln;
+	} elsif ($lastplus == ($ln - 1)) {
+	  $lastcommand = $ln;
+	}
+      }
+
+      #    print "lastmake: $lastmake, lastcommand: $lastcommand\n";
+      if ($lastmake && ($lastmake < $lastcommand)) {
+	print $steplines[$lastmake];
+      }
+
+      for my $ln ($lastcommand..$#steplines) {
+	print $steplines[$ln];
+      }
+      print "\n", '-'x78, "\n";
+    }
+  }
+
+  my $printme = 0;
+
+  # end of file stuff
+  while (my $l = <$LOGFILE>) {
+    if ($l =~ m{^Runtime: }) {
+      print $l;
+      next;
+    }
+
+    # Look for package build results
+    if ($l =~ m{^result log is in (.*/package_build)$}ms) {
+      $pkglog = $1;
+    } elsif ($l =~ m{^Packages built:}ms) {
+      print $l;
+    } elsif ($l =~ m{^Packages failed:\s+(\d+)}ms) {
+      $pkgfailed = $1;
+      print $l;
+    }
+    # print lines where messages about COPYING file errors appear
+    # between "Copying package descriptions" & "Building packages"
+    elsif ($l =~ m{Copying package descriptions}) {
+      $printme = 1;
+    } elsif ($l =~ m{Building packages}) {
+      $printme = 0;
+    }
+    elsif ($printme == 1) {
+      print $l;
+    }
+  }
+
+  close($LOGFILE);
+}
+
+sub check_pkglog {
+  my ($pl) = @_;
+
+  if ( -f $pl ) {
+    my $logfile_sb = stat($logfile);
+    my $pkglog_sb = stat($pl);
+
+    if ($logfile_sb > $pkglog_sb) {
+      # Haven't rebuilt packages since last build, so no point reporting errors
+      undef $pl;
+    }
+  } else {
+    undef $pl;
+  }
+
+  return $pl;
+}
+
+# No packaging log found in build log, try to guess where it is
+if (!defined($pkglog)) {
+  my $path_to_check = $logfile;
+  $path_to_check =~ s{$default_logpath}{$default_pkglogpath}ms;
+
+  $pkglog = check_pkglog($path_to_check);
+
+  if (!defined($pkglog)) {
+    $path_to_check = $logfile;
+    $path_to_check =~ s{($default_logpath).*$}{$default_pkglogpath}ms;
+
+    $pkglog = check_pkglog($path_to_check);
+  }
+}
+
+if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
+  open my $PKGLOG, '<', $pkglog
+    or die "Can't open '$pkglog': $OS_ERROR";
+
+  my @pkglines;
+
+  while (my $l = <$PKGLOG>) {
+    # Clear saved lines for each new package
+    if ($l =~ m{^[*]+ Making the \S+ package [*]+$}ms) {
+      @pkglines = ();
+    }
+
+    if ($l =~ m{Packaging was not successful.}ms) {
+      print join('', @pkglines);
+    } else {
+      push @pkglines, $l;
+    }
+  }
+
+  close($PKGLOG);
+}

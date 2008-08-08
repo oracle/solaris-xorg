@@ -30,28 +30,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/03/19
+# @(#)Makefile	1.9	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-vmware
+MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-DRIVER_VERS=10.15.2
+MODULE_VERSION=10.15.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6370961.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-graphics-ddx
+MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lfb -lshadowfb -lvgahw
 

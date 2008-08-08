@@ -30,29 +30,29 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	08/05/16
+# @(#)Makefile	1.17	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-nv
+MODULE_NAME=xf86-video-nv
 
 # Version number (used in path names)
-DRIVER_VERS=2.1.9
+MODULE_VERSION=2.1.9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-graphics-ddx
+MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)/linux \
-	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)/linux$(ARCHLIBSUBDIR) \
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/linux \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-lexa -lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa -lfbdevhw -lm
 
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source xserver modules
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,33 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/25
+# @(#)Makefile	1.4	08/08/08
 #
 ###############################################################################
 
-OS_SUBDIRS = xorg xvnc
+OS_SUBDIRS_common = xorg xvnc
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+PWD:sh=pwd
+TOP=$(PWD)/..
 
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/xserver/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+### Include common definitions
+DIRNAME="xserver/"
+include $(TOP)/common/Makefile.subdirs

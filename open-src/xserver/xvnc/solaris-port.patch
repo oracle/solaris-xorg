@@ -1,3 +1,32 @@
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
 --- common/rfb/Makefile.am	2007-06-27 19:05:47.368239000 -0700
 +++ common/rfb/Makefile.am	2007-06-27 19:47:41.890789000 -0700
 @@ -130,8 +130,8 @@
@@ -113,10 +142,26 @@
  
  Xvnc_CFLAGS =  -DHAVE_DIX_CONFIG_H \
  		-DNO_HW_ONLY_EXTS \
+@@ -59,6 +79,7 @@
+ 		-I../../render \
+ 		-I/usr/include/X11
+ 
++if XORG
+ libvnc_la_LTLIBRARIES = libvnc.la
+ libvnc_la_LDFLAGS = -module -avoid-version
+ libvnc_ladir = $(moduledir)/extensions
+@@ -72,6 +93,7 @@
+ 		-I$(top_srcdir)/hw/xfree86/os-support \
+ 		-I$(top_srcdir)/hw/xfree86/os-support/bus \
+ 		-DXFree86Module -DXFree86LOADER -DIN_MODULE
++endif
+ 
+ AM_CXXFLAGS =	$(CFLAGS) \
+ 		-DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
 
 --- unix/xc/programs/Xserver/Xvnc.man	2007-10-08 21:26:03.141427000 -0700
 +++ unix/xc/programs/Xserver/Xvnc.man	2007-10-09 11:37:23.168899000 -0700
-@@ -68,8 +68,7 @@
+@@ -67,8 +68,7 @@
  
  .SH PARAMETERS
  VNC parameters can be set both via the command-line and through the
@@ -126,7 +171,7 @@
  
  Parameters can be turned on with -\fIparam\fP or off with
  -\fIparam\fP=0.  Parameters which take a value can be specified as
-@@ -222,12 +221,12 @@
+@@ -221,12 +221,12 @@
  RemapKeys=0x22<>0x40
  
  .SH USAGE WITH INETD
@@ -141,7 +186,7 @@
  In the nowait mode, Xvnc uses its standard input and output directly as the
  connection to a viewer.  It never has a listening socket, so cannot accept
  further connections from viewers (it can however connect out to listening
-@@ -235,17 +234,28 @@
+@@ -234,17 +234,28 @@
  same TCP port result in inetd spawning off a new Xvnc to deal with each
  connection.  When the connection to the viewer dies, the Xvnc and any
  associated X clients die.  This behaviour is most useful when combined with the
@@ -181,7 +226,7 @@
  In the wait mode, when the first connection comes in, inetd gives the listening
  socket to Xvnc.  This means that for a given TCP port, there is only ever one
  Xvnc at a time.  Further viewer connections to the same port are accepted by
-@@ -253,14 +263,14 @@
+@@ -252,14 +263,14 @@
  the Xvnc will continue to run.  If this is used with the XDMCP options -query
  and -once, the Xvnc and associated X clients will die when the user logs out of
  the X session in the normal way.  It is important to use a VNC password in this
@@ -190,7 +235,7 @@
 -5951   stream   tcp wait   james     /usr/local/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd
 +case.  A typical command line to include in the service exec property might be:
  
-+.B "/usr/local/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd"
++.B "/usr/X11/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd"
 +.PP
  In fact typically, you would have one entry for each user who uses VNC
  regularly, each of whom has their own dedicated TCP port which they use.  In

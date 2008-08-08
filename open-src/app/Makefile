@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.64	08/08/06
+# @(#)Makefile	1.65	08/08/08
 #
 ###############################################################################
 
@@ -37,12 +37,14 @@
 
 OS_SUBDIRS_common = \
 	appres \
+	bdftopcf \
 	bitmap \
 	constype \
 	editres \
 	fslsfonts \
 	fstobdf \
 	iceauth \
+	ico \
 	lbxproxy \
 	listres \
 	luit \
@@ -50,8 +52,9 @@ OS_SUBDIRS_common = \
 	mkfontscale \
 	oclock \
 	sessreg \
-        setxkbmap \
+	setxkbmap \
 	showfont \
+	smproxy \
 	winsysck \
 	twm \
 	viewres \
@@ -64,11 +67,15 @@ OS_SUBDIRS_common = \
 	xcmsdb \
 	xconsole \
 	xcursorgen \
+	xditview \
 	xdpyinfo \
 	xdriinfo \
 	xedit \
 	xev \
+	xeyes \
 	xfd \
+	xfindproxy \
+	xfontsel \
 	xfsinfo \
 	xfwp \
 	xgamma \
@@ -97,49 +104,22 @@ OS_SUBDIRS_common = \
 	xset \
 	xsetroot \
 	xstdcmap \
+        xterm \
 	xvidtune \
 	xvinfo \
 	xwd \
 	xwininfo \
 	xwud \
 	xscreensaver \
-	rss-glx \
-	xeyes \
-        xterm \
-        xfindproxy \
-        smproxy \
-        xditview \
-        xfontsel \
-        ico
+	rss-glx
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
-MACH:sh=uname -p
-OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
+PWD:sh=pwd
+TOP=$(PWD)/..
 
-all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
-
-World: clean all
-
-clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
-
-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
-
-subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ;\
-	do \
-	(cd $$i ; echo "## making" $(OS_TARGET) "in open-src/app/$$i..."; \
-	$(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+### Include common definitions
+DIRNAME="app/"
+include $(TOP)/common/Makefile.subdirs

@@ -2,7 +2,7 @@
 #
 # xf86-video-cirrus 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,30 +30,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	07/07/25
+# @(#)Makefile	1.6	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-video-cirrus
+MODULE_NAME=xf86-video-cirrus
 
 # Version number (used in path names)
-DRIVER_VERS=1.1.0
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = mapfiles.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-graphics-ddx} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-graphics-ddx
+MODULE_STABILITY=Volatile
 
 # Paths to find libraries/modules to link with - libraries themselves listed
 # in src/Makefile.am since cirrus has submodules with different needs
-DRIVER_ADD_LIBS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(ARCHLIBSUBDIR)
+MODULE_LD_OPTIONS= \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)
+
+AUTORECONF=yes
 
 include ../Makefile.inc
 
-source_gen:: $(UNPACK_TARGET) autoreconf
 

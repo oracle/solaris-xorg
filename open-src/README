@@ -1,0 +1,517 @@
+This is documentation of the Makefile system used in this tree.
+
+General Overview:
+-----------------
+This tree builds dozens of open source modules that are each released 
+separately and delivered as source in seperate tarballs.   These modules
+are organized in subdirectories based on the X.Org module list, though
+modules from other sources are included as appropriate.   For instance,
+the application xterm is built in open-src/app/xterm, while the fontconfig
+library is in open-src/lib/fontconfig.
+
+In this tree, the term "module" is used for a specific set of source built
+generally from a single tarball from upstream, such as xterm or fontconfig.
+The directories grouping these together are referred to as "module type"
+directories - app, lib, font, etc.   Each module is thus found in a 
+subdirectory of the form open-src/<module type>/<module> .   Various flags
+can be set at either the individual module level or for all modules of a
+module type.
+
+For each module, at build time the tarball is unpacked, patches applied for
+post-release bug fixes or customizations, and then the build is run.
+
+To allow building both 32-bit and 64-bit versions in the same build,
+this all happens in subdirectories named build_32 & build_64 in each
+modules' directory.   Since those subdirectories are competely recreatable
+from the source tarball and patches, rebuilding the tree or running make clean
+simply removes them entirely and recreates them.
+
+You should be able to run make commands in any module directory or
+module-type directory, though since most of the intermodule dependencies 
+are not declared, many modules will break unless you've done a full-tree
+build at some point to populate the proto area with the bits needed.
+
+
+=============================================================================
+
+Make targets you can build in each module:
+------------------------------------------
+
+For most of these you can append _32 or _64 to do just the 32-bit or 64-bit
+versions of the targets, while the version listed here repeats for all build
+types set in the BUILD_TYPES variable.    These are defined in the 
+open-src/common/Makefile.inc file, though open-src/<module type>/Makefile.inc
+may add additional rules needed for modules of that type.
+
+make clean
+	Completely removes build_* directories.
+
+make source
+	Creates build_* directories by unpacking sources from tarball
+	and applying patches.
+
+make configure
+	Runs GNU autoconf script or similar configuration steps if
+	needed, including autoreconf or delibtoolize if variables are set.
+	(Runs make source first if needed.)
+
+make build
+	Compile the software into the binaries that get installed.
+	(Runs make configure first if needed.)
+
+make install
+	Install files into the proto area where make_release_packages
+	will pull them from to make packages and where other parts of
+	the build will use them.   (Runs make build first if needed.)
+
+make all (or just "make" with no arguments)
+	equivalent to make build for most modules
+
+make debug
+	same as make all, but with compiler optimization flags changed 
+	to "-g".  (Note that if you haven't done a make clean first, 
+	doesn't force a recompile, so running make debug in a directory 
+	you already built non-debug may not actually build debug versions.)
+
+make debug-install
+	same as make install, but with compiler optimization flags changed 
+	to "-g".  (See warning on make debug about doing a make clean first.)
+
+make download
+	If open-src/tarballs does not contain the tarball needed for this
+	module, download it from $(SOURCE_URL).   (See "Building from git"
+	section below if MODULE_VERSION=git.)
+
+make regen-patches
+	Create a directory new/ containing patches generated against the
+	current tarball.   Useful when updating to a new version and patches
+	still apply, but you want to get rid of warnings about patch fuzz
+	and line offsets.
+
+make git-update
+	See "Building from git" section below. 
+
+=============================================================================
+
+Make targets you can build in parent directories:
+-------------------------------------------------
+
+In the top-level open-src directory, or any of the module type directories,
+you can run these make commands to run the appropriate targets for all modules
+in that directory.   The Makefiles at each level all include the same rules
+from open-src/common/Makefile.subdirs to define these.
+
+make all
+	Run make all in all subdirectories.
+
+make clean
+	Run make clean in all subdirectories.
+
+make World
+	Run make clean in all subdirectories, then make all in all subdirs.
+
+make clean
+	Run make install in all subdirectories.
+
+make download
+	Run make download in all subdirectories.
+
+make source
+	Run make source in all subdirectories.
+
+make git-update
+	Run make git-update in all subdirectories.
+
+make debug-build
+	Run make debug-build in all subdirectories.
+
+make debug-install
+	Run make debug-install in all subdirectories.
+
+=============================================================================
+
+Variables that can be set in the Makefile for each module:
+----------------------------------------------------------
+
+Required for all modules:
+
+MODULE_NAME
+ - Name of the module being built - usually the same as the name of the
+   directory it's being built in and the tarball used for the sources.
+
+MODULE_VERSION
+ - Version of the source to use, used by default in the tarball name and
+   source directory unpacked from it.
+   - Special values:  
+	"git" - see "Building from git" below
+        "src" - used when there is no upstream tarball, only local sources
+	"NONE" - used when no build_* directories are created
+
+Required for some modules:
+
+SUN_PACKAGE
+ - Package name that this module is shipped in, to list in attributes section
+   of man page
+ * Required if SUNTOUCHED_MANPAGES is not empty
+
+MODULE_STABILITY
+ - Interface Stability to list in attributes section of man page
+ * Required if SUNTOUCHED_MANPAGES is not empty
+
+LIBNAME
+ - Name of library built in this module
+ * Required for lib modules if SUNTOUCHED_MANPAGES is not empty
+   or if *.spec files are being used to set library versioning information.
+
+Optional, default is empty:
+
+SOURCE_UNCOMPRESS
+ - Command to use to uncompress tarball, if not bzcat
+
+SOURCE_PATCHES
+ - Patches to apply to the sources after unpacking the tarball
+   Entries can be either a simple file name or filename,flags
+   to specify flags to be passed to gpatch.   The flags argument
+   is most commonly used to specify -p1 to ignore the a/ & b/ path
+   prefixes in git-generated patch files - if no flags are specified,
+   -p0 is passed to treat paths as relative to the top of $(BUILD_DIR).
+
+ADDITIONAL_SOURCE_DIR
+ - Directory containing additional source files to be linked into the
+   build directory by the default_source rule.
+
+SUNTOUCHED_MANPAGES
+ - Man pages to add Solaris attributes section and other common Solaris
+   man page conventions to, via the open-src/common/suntouch-manpages.pl
+   script.
+
+MODULE_SUNTOUCH_MAN_FLAGS
+ - Additional flags to pass to open-src/common/suntouch-manpages.pl, such as
+   -p /usr/X11/bin to add a path of /usr/X11/bin to the command in the 
+   synopsis.   Available flags are:
+      -a '{attribute, value}, ...' - entries for Attributes section table
+      -l libname                   - add library line to synopsis
+      -p path                      - add path to command in synopsis
+
+FIX_PC_FILES
+ - Names of pkgconfig .pc or .pc.in files in the module, which will be
+   "fixed" to add required -R flags for linking libraries with and remove
+   unnecessary Requires.privates lines from.
+
+MODULE_SOURCE_DEPS, MODULE_CONFIGURE_DEPS, 
+MODULE_BUILD_DEPS, MODULE_INSTALL_DEPS
+ - Makefile targets/rules that the default_* rules list as dependencies
+
+MODULE_CONFIG_OPTS
+ - Additional arguments passed to configure script by default_config rule
+
+MODULE_CONFIG_ENV
+ - Additional environment variables passed to configure script 
+   by default_config rule
+
+MODULE_CFLAGS
+ - C Compiler flags passed to configure via CFLAGS variable by
+   default_config rule.
+
+MODULE_CXXFLAGS
+ - C++ Compiler flags passed to configure via CXXFLAGS variable by
+   default_config rule.
+
+MODULE_CPPFLAGS
+ - C preprocessor flags (-I & -D) passed to configure via CPPFLAGS 
+   variable by default_config rule.
+
+MODULE_LDFLAGS
+ - Linker flags passed to configure via LDFLAGS variable by default_config
+   rule.
+
+USE_DEFAULT_CONFIG_CPPFLAGS
+ - If set to "no", don't pass the normal set of -I flags in CPPFLAGS
+   to configure script in default_config rule.   MODULE_CPPFLAGS and
+   MODTYPE_CPPFLAGS will still be passed.
+
+USE_DEFAULT_CONFIG_LDFLAGS
+ - If set to "no", don't pass the normal set of linker flags in LDFLAGS
+   to configure script in default_config rule.   MODULE_LDFLAGS and
+   MODTYPE_LDFLAGS will still be passed.
+
+USE_DEFAULT_CONFIG_ENV
+ - If set to "no", don't pass the normal set of default environment variables
+   to configure script in default_config rule.  MODULE_CONFIG_ENV and
+   MODTYPE_CONFIG_ENG will still be passed.
+
+AUTORECONF
+ - If set to "yes", the default_config rule will run autoreconf before
+   running configure, to regenerate autoconf/automake/libtool created
+   files after patches have been applied to the *.ac/*.am/*.in source files.
+
+DELIBTOOLIZE
+ - If set to "yes", the default_config rule will run the script
+   open-src/common/delibtoolize.pl to remove libtool calls from Makefiles
+   after running configure.
+
+MODULE_LD_OPTIONS
+ - Additional options passed via LD_OPTIONS environment variable to
+   force options to be used by ld, regardless of options passed by
+   libtool/compiler etc.   Used by default_build & default_install rules.
+
+MODULE_BUILD_ENV
+ - Additional environment variables passed when calling make
+   by default_build & default_install rules
+
+MODULE_MAKEFLAGS
+ - Additional command line arguments passed when calling make
+   by default_build & default_install
+
+MODULE_BUILD_MAKEFLAGS
+ - Additional command line arguments passed when calling make
+   by default_build
+
+MODULE_INSTALL_MAKEFLAGS
+ - Additional command line arguments passed when calling make
+   by default_install
+
+Optional, with non-empty default:
+
+* Important, for these, to override the default values, you must not only
+  set the variable, but set another variable <variable>_SET=yes before the
+  Makefile.inc is included to prevent the default from being set.   For
+  example:
+	SOURCE_URL=http://fontconfig.org/release/$(SOURCE_TARBALL_NAME)
+	SOURCE_URL_SET=yes
+
+MODULE_COMPILER
+ - Compiler to use, either "suncc" or "gcc".   
+   Default: $(DEFAULT_COMPILER) setting in common/Makefile.init, 
+   which is set to suncc in the master sources.
+
+MODULE_MAKE
+ - make command to use, either "$(MAKE)" or "$(GNUMAKE)".   
+   Default: "$(MAKE)" (which is assumed to be Solaris make, not GNU).
+
+MODULE_PREFIX
+ - Prefix to install files under, passed to configure scripts via --prefix.
+   Default: $(X11_DIR) (aka /usr/X11).
+
+SOURCE_DIRNAME
+ - Directory that will be created when the source tarball is unpacked.
+   Default: $(MODULE_NAME)-$(MODULE_VERSION)
+
+SOURCE_TARBALL_NAME
+ - Name of tarball file under open-src/tarballs directory for this module.
+   Set to "NONE" if there is no upstream tarball.
+   Default: $(SOURCE_DIRNAME).tar.bz2
+
+SOURCE_TARBALL_DIR
+ - For X.Org sources, what directory the source tarball & git repo is in
+   on freedesktop.org - usually the same as the module type directory in
+   this tree.
+   Default: $(MODTYPE)
+
+SOURCE_URL
+ - URL to download the SOURCE_TARBALL from when running "make download"
+   Default: $(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
+
+GIT_URL
+ - URL to check out the current sources via the git code manager if 
+   MODULE_VERSION is set to "git" - see "Building from git" below
+   Default: $(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME).git
+
+BUILD_TYPES
+ - What type of output to build for this module - usually the word-size of
+   the binaries built (32 and/or 64), but may be set to any string if other
+   distinctions are useful.   For most modules that don't build binaries, 
+   (fonts, proto headers, docs, etc.) it's set to 32 for simplicity.
+   For each value xx in this list, a build_xx directory will be made and
+   the source_xx, configure_xx, build_xx and install_xx rules run.
+   Default: 32
+
+SOURCE_TARGETS, CONFIGURE_TARGETS, BUILD_TARGETS, INSTALL_TARGETS
+ - Makefile targets/rules to run for "make source", "make configure",
+   "make build", and "make install"
+   Defaults: default_source, default_configure, default_build, default_install
+
+AUTOCONF_TARGET
+ - File created by running the default_configure rule.   If this file exists,
+   make will not run the default_configure rule - if it does not exist, it
+   will be run.
+   Default: $(SOURCE_DIR)/Makefile
+
+LICENSE_FILE
+ - File containing copyright & license information for this module.
+   Will be copied to $(PROTODIR)/licenses/<path>/COPYING
+   for use by include statements in package copyright.add files, where
+   path is the same as the directory & subdirectory the module source is in.
+   File is looked for first in module directory, if not found there,
+   in top-level source directory (SOURCE_DIR).
+   Default: COPYING
+
+MODULE_MTLEVEL
+ - For modules in the lib directory, Multi-thread safety level to list in
+   attributes section of SUNTOUCHED_MANPAGES
+   Default: See XInitThreads(3X11)
+
+=============================================================================
+
+Variables that can be set in the Makefile.inc for each module type:
+-------------------------------------------------------------------
+
+Some settings are common to most, if not all of the modules of a given
+type.   For those, these variables can be set in 
+open-src/<module_type>/Makefile.inc - they have the same meanings and uses
+as the MODULE_* versions documented above, and appear in commands before
+the MODULE_* versions - the general pattern is
+	foo=<tree-wide-defaults> $(MODTYPE_foo) $(MODULE_foo)
+
+Required for all module types:
+
+MODTYPE
+ - Name of the directory for this module type, usually the same as the 
+   directory for the module type in X.Org's source trees.
+
+Optional, default is empty:
+
+	- MODTYPE_SUNTOUCH_MAN_FLAGS
+	- MODTYPE_SOURCE_DEPS
+	- MODTYPE_CONFIGURE_DEPS
+	- MODTYPE_BUILD_DEPS
+	- MODTYPE_INSTALL_DEPS
+	- MODTYPE_CONFIG_OPTS
+	- MODTYPE_CONFIG_ENV
+	- MODTYPE_CFLAGS
+	- MODTYPE_CXXFLAGS
+	- MODTYPE_CPPFLAGS
+	- MODTYPE_LDFLAGS
+	- MODTYPE_LD_OPTIONS
+	- MODTYPE_BUILD_ENV
+	- MODTYPE_MAKEFLAGS
+	- MODTYPE_BUILD_MAKEFLAGS
+	- MODTYPE_INSTALL_MAKEFLAGS
+
+Optional, with non-empty default:
+
+[See note in module variable section about setting _SET variables to override]
+
+	- MODTYPE_COMPILER
+	- MODTYPE_MAKE
+	- MODTYPE_PREFIX
+
+=============================================================================
+
+Setting per-platform variables:
+-------------------------------
+
+open-src/common/Makefile.init defines $MACH to be either sparc or i386
+for the platform being built.   You can reference this variable in the
+names of other variables to set different values for each platform.
+For instance, to build only 64-bit on SPARC, but both 32-bit and 64-bit 
+on x86/x64, you can do:
+
+	BUILD_TYPES_sparc=64
+	BUILD_TYPES_i386=32 64
+	BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+	BUILD_TYPES_SET=yes
+
+
+=============================================================================
+
+Variables you may want to customize for your site/tree:
+
+XORG_RELEASES_URL & SF_DOWNLOADS_URL (set in open-src/common/Makefile.init)
+- urls for X.Org & sourceforge mirrors to download tarballs from
+
+FDO_GIT_URL (set in open-src/common/Makefile.init)
+- url for git repositories hosted on freedesktop.org, including
+  X.Org, Mesa, pixman, etc.  - defaults to anonymous git over http, can 
+  change to use another protocol if needed
+
+=============================================================================
+
+Tools for developers to use:
+
+Some tools to ease development are available in the util/build-tools
+directory of the tree.
+
+find-build-errors - looks for a log/buildit-XW file (or another file you
+	specify on the command line) and tries to isolate out just the
+	build errors for easier reading than the raw build logs.   
+	If you did buildit -p, also shows packaging errors.
+
+xmake - when you change one file in a large module like xserver and just
+	want to rebuild in that subdirectory of the build_32 or build_64
+	tree, running xmake will attempt to run make or gmake in that
+	directory with the same flags and environment variables that would
+	be passed from running make in the module make directory
+
+=============================================================================
+
+Building from git:
+
+For debugging and development purposes, such as working on the merge of
+a X.org release still in development, you can choose to  to check out a 
+the upstream sources from a the git repository instead of a tarball.
+
+You must *NOT* check in to the master gate a module using this feature,
+since this would produce a build that's not reproducible and changing
+unexpectedly.
+
+To use this, set MODULE_VERSION to "git" in a module's Makefile.
+To check out a branch other than master, add GIT_BRANCH="branch-name".
+
+Once you've done this "make download" will clone the git repo initially, and
+"make git-update" will update an existing repo.   The clone will be located
+in the $(MODULE_NAME)-git subdirectory in the module directory, and the
+"make source" command will copy it instead of unpacking a tarball.
+
+=============================================================================
+
+Known deficiencies (aka TODO):
+
+Things we should fix someday, but haven't had time to do yet, include:
+
+- Builds are slow.   Painfully slow.   Things we might be able to do to
+  speed them up include:
+	- Using a cache of configure script results shared among all the
+	  components in the tree
+	- Setting up proper parallel make rules so that multi-core/cpu
+	  machines can build more than one bit at a time.
+	- Profiling the builds to see where bottlenecks are
+
+- There aren't dependency relationships listed in most of the module
+  makefiles - you can't bringover the tree and just cd open-src/xserver/xorg
+  and make, because it won't find many of the dependencies - pretty much you
+  have to run ./buildit at the toplevel first to build the entire tree and then
+  go to work on the module you care about.   It would be cool if it would do
+  this for you (like I believe the ON tree does), though tracking down all the
+  dependencies will probably take a while - getting them done for xserver/xorg
+  first would be most useful.
+
+=============================================================================
+
+Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+Use subject to license terms.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, and/or sell copies of the Software, and to permit persons
+to whom the Software is furnished to do so, provided that the above
+copyright notice(s) and this permission notice appear in all copies of
+the Software and that both the above copyright notice(s) and this
+permission notice appear in supporting documentation.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder
+shall not be used in advertising or otherwise to promote the sale, use
+or other dealings in this Software without prior written authorization
+of the copyright holder.

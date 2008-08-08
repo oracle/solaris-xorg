@@ -30,17 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/03/07
+# @(#)Makefile	1.2	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+MODULE_NAME=rss-glx
 
 # Version number (used in path names)
-RSS_GLX_VERS=0.8.1
+MODULE_VERSION=0.8.1
 
-# Source tarball
-SOURCE_TARBALL_NAME=rss-glx_$(RSS_GLX_VERS).tar.bz2
+# Source tarball/directory name - uses _ instead of default -
+SOURCE_DIRNAME=$(MODULE_NAME)_$(MODULE_VERSION)
+SOURCE_DIRNAME_SET=yes
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/rss-glx/$(SOURCE_TARBALL_NAME)
@@ -51,20 +52,16 @@ SOURCE_PATCHES = busyspheres.patch matrixview.patch \
 	install-util.patch cflags.patch kde-config.patch \
 	rss-glx-0.8.1-gcc43-buildfix.patch,-p1
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/rss-glx_$(RSS_GLX_VERS)
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*src/*.1 reallyslick/*src/*.1
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxscreensaver-hacks-gl} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxscreensaver-hacks-gl
+MODULE_STABILITY=Volatile
+MODULE_SUNTOUCH_MAN_FLAGS= -p $(XSS_DIR)/hacks/
 
 # The COPYING file in the release only contains the GPL license, not the
 # Copyright notices, so use the manually gathered one instead
 LICENSE_FILE=../../Copyright-notices
 LICENSE_FILE_SET=yes
-
-include $(TOP)/common/Makefile.inc
 
 # Where to find OpenGL headers/libraries
 OPENGL_DIR_sparc=/usr/openwin
@@ -73,53 +70,46 @@ OPENGL_DIR=$(OPENGL_DIR_$(MACH))
 
 # Where to find/install Xscreensaver files
 XSS_DIR=$(X11_DIR)/lib/xscreensaver
+MODULE_PREFIX=$(XSS_DIR)
+MODULE_PREFIX_SET=yes
 
 # We don't use normal $(PROG_CFLAGS) since this is built with gcc/g++
-RSS_GLX_CFLAGS=-O3 $(ARCH32_GCC_FLAGS)
-RSS_GLX_LDFLAGS=$(GCC_PROG_LDFLAGS)
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
-# Comment out or override to enable building with -g instead of -O2
-RSS_GLX_DEBUGFLAGS= --disable-debug 
+include ../Makefile.inc
 
-# Binary built in tree
-RSS_GLX_BIN=$(SOURCE_DIR)/reallyslick/cpp_src/solarwinds
-
-build_gen:   $(RSS_GLX_BIN)
+# Configure flag to enable building with -O2 instead of -g
+# Disabled by running "make debug" target
+$(BUILD_DEBUG:yes=$(POUND_SIGN)) RSS_GLX_DEBUGFLAGS= --disable-debug 
 
 # Regen configure script
-$(SOURCE_DIR)/configure: $(UNPACK_TARGET) $(SOURCE_DIR)/configure.in
-	(cd $(SOURCE_DIR) ; \
-	 rm -f config.guess config.sub ; \
-	 ./autogen.sh )
+AUTORECONF=yes
 
-RSS_GLX_CONFIG_FLAGS= --prefix=$(XSS_DIR) --disable-sound \
+MODULE_CONFIG_OPTS= --disable-sound \
 	--bindir='$$(prefix)/hacks' --mandir=$(X11_DIR)/share/man \
-	 --with-configdir=$(XSS_DIR)/config/control-center-2.0 \
-	 $(RSS_GLX_DEBUGFLAGS) CC=$(GCC) CXX=$(GXX) \
-	 CFLAGS="$(RSS_GLX_CFLAGS)" CXXFLAGS="$(RSS_GLX_CFLAGS)" \
-	 LDFLAGS="$(RSS_GLX_LDFLAGS)" 
+	--with-configdir=$(XSS_DIR)/config/control-center-2.0 \
+	$(RSS_GLX_DEBUGFLAGS)
 
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/configure
+# Clear pictures we don't want in build
+source_gen::
 	rm $(SOURCE_DIR)/other_src/matrixview_textures/cpics
 	touch $(SOURCE_DIR)/other_src/matrixview_textures/cpics
-	(cd $(SOURCE_DIR) ; ./configure $(RSS_GLX_CONFIG_FLAGS))
-
-$(RSS_GLX_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) )
 
 # XScreenSaver app-defaults file
 XSS_AD=$(PROTODIR)$(X11_DIR)/lib/X11/app-defaults/XScreenSaver
+$(XSS_AD):
+	(cd ../xscreensaver ; $(MAKE) $(MAKEFLAGS) install)
 
 install_gen:: $(RSS_GLX_BIN) $(XSS_AD)
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) install DESTDIR=$(PROTODIR) )
 	$(PROTODIR)$(XSS_DIR)/hacks/rss-glx_install.pl $(XSS_AD)
-	-case '$(MFLAGS)' in *[ik]*) set +e;; esac;
+	-case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac;
 	(cd $(SOURCE_DIR) ; \
 	 for m in $(SUNTOUCHED_MANPAGES) ; do \
 	    mv $(PROTODIR)$(X11_DIR)/share/man/man1/`basename $$m` \
 	       $(PROTODIR)$(X11_DIR)/share/man/man6/`basename $$m .1`.6 ; \
 	 done )
 
-$(XSS_AD):
-	(cd ../xscreensaver ; $(MAKE) $(MFLAGS) install)
+
+
+

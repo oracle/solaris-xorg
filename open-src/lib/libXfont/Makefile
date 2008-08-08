@@ -2,7 +2,7 @@
 #
 # Xfont Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,20 +30,19 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/02/23
+# @(#)Makefile	1.14	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXfont
+MODULE_NAME=libXfont
 
 # Version number (used in path names)
-LIB_VERS=1.3.1
+MODULE_VERSION=1.3.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
 	6206898.patch \
 	6640505.patch
-
 
 # Library name
 LIBNAME=Xfont
@@ -51,34 +50,24 @@ LIBNAME=Xfont
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server
-LIB_STABILITY=Project Private
+MODULE_STABILITY=Project Private
 LIB_MAN_SUFFIX=3Xfont
 
 # Additional configure script options to select the modules we use
-LIB_ADD_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
+MODULE_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
 	--disable-speedo --enable-fontcache --enable-fc --disable-builtins
-
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXfont.so.1.0.0
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xfont.pc.in
 
 # Install in private subdir
-LIB_ADD_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
+MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 
-# Find freetype & fontenc libraries in private subdir
-# /usr/sfw/lib is left in the runpath as a temporary transition aid until
-# all build & test machines have freetype in /usr/lib
-LIB_ADD_LD_OPTIONS=-L $(PROTODIR)/usr/lib$(LIBSUBDIR) \
-	-R /usr/sfw/lib$(LIBSUBDIR) \
-	-L $(PROTODIR)$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)$(LIBSUBDIR)
+# Find fontenc library in private subdir
+MODULE_LDFLAGS= $(X11_SERVERLIBS_LDFLAGS)
 
 # Support font modules like libbitstream.so that libXfont doesn't already know
-LIB_ADD_CFLAGS=-DLOADABLEFONTS
-
-# Need to look in $(PROTODIR) for freetype headers
-LIB_ADD_CPPFLAGS=-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
+MODULE_CFLAGS=-DLOADABLEFONTS
 
 include ../Makefile.inc
 

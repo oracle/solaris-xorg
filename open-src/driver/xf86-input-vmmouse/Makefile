@@ -2,7 +2,7 @@
 #
 # xf86-input-vmmouse 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,25 +30,25 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/05/18
+# @(#)Makefile	1.2	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-input-vmmouse
+MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-DRIVER_VERS=12.4.1
+MODULE_VERSION=12.4.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
-DRIVER_ADD_LIBS=
+MODULE_LD_OPTIONS=
 
 include ../Makefile.inc
 

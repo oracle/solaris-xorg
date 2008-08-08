@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/19
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXau
+MODULE_NAME=libXau
 
 # Version number (used in path names)
-LIB_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,19 +48,18 @@ LIBNAME=Xau
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=Xau.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xau
-LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(LIB_STABILITY)} {MT-Level, Unsafe}'
+LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(MODULE_STABILITY)} {MT-Level, Unsafe}'
 
 # Command line options to GNU autoconf configure script
-LIB_ADD_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library
+MODULE_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library
 
-# Library built in tree
-LIB_BUILT=$(BUILD_DIR)/.libs/libXau.so.6.0.0
+
 
 # Use specfile to make mapfile & link with it
-LIB_ADD_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-LIB_ADD_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
+MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xau.pc.in

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,17 +29,22 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile 1.1     07/12/04 SMI"
+# ident "@(#)Makefile 1.2     08/08/08 SMI"
 #
 # Definitions of Solaris-specific X Server extensions
 
 # No upstream sources for these files, since they're Solaris-specific
 SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+
+# Don't need to configure or build these
+BUILD_TARGETS=
+BUILD_TARGETS_SET=yes
+INSTALL_TARGETS=
+INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
-PWD:sh=pwd
-TOP=$(PWD)/../..
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
 INSTDIR=$(DESTDIR)$(X11_INCLUDES_DIR)/X11/extensions

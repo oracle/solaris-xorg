@@ -29,13 +29,21 @@
 # of the copyright holder.
 #
 
+MODULE_NAME=workspace-patterns
+
 # No upstream sources for these files, since they're Solaris-specific
+MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+
+BUILD_TARGETS =
+BUILD_TARGETS_SET=yes
+
+INSTALL_TARGETS =
+INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
-PWD:sh=pwd
-TOP=$(PWD)/../..
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
 INSTDIR=$(DESTDIR)/$(X11_DIR)/share/patterns/

@@ -1,4 +1,4 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-Pass -R flags through to linker
+Pass -R flags through to linker, add -lc when building .so files
 
 --- bin/mklib	2006-04-20 18:03:51.000000000 -0700
 +++ bin/mklib	2006-11-08 15:51:57.924308000 -0800
@@ -49,3 +49,14 @@ Pass -R flags through to linker
  	'-cplusplus')
  	    CPLUSPLUS=1
  	    ;;
+@@ -288,6 +293,10 @@
+ 	    fi
+ 	    echo "mklib: Making SunOS shared library: " ${LIBNAME}
+ 
++	    # Solaris linker requires expliciting listing libc in shared
++	    # object dependencies
++	    DEPS="${DEPS} -lc"
++
+ 	    if [ "x$LINK" = "x" ] ; then
+ 		# -linker was not specified, choose default linker now
+ 		if [ $CPLUSPLUS = 1 ] ; then

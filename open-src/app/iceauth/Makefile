@@ -30,30 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/02/21
+# @(#)Makefile	1.3	08/08/08
 #
 
-# this ./configure wants bash not /bin/sh
-
-SHELL = /bin/bash
-MAKESHELL = /bin/bash
-
 # Package name used in tarballs
-APP_NAME=iceauth
+MODULE_NAME=iceauth
 
 # Version number (used in path names)
-APP_VERS=1.0.2
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxplt} {Interface Stability, Committed}'
-
-# Need to link with lib in server private directory
-APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -lX11 -lICE
+SUN_PACKAGE=SUNWxplt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc
 

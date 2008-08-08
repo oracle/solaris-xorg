@@ -30,17 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/07/10 SMI
+# @(#)Makefile	1.3	08/08/08 SMI
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
+# Package name used in tarballs
+MODULE_NAME=liberation-fonts
 
 # Version number (used in path names)
-VERSION=1.03
+MODULE_VERSION=1.03
 
 # Source tarball
-SOURCE_TARBALL_NAME=liberation-fonts-$(VERSION).tar.gz
+SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
+SOURCE_TARBALL_NAME_SET=yes
 
 # Download site for source
 SOURCE_URL=http://fedorahosted.org/releases/l/i/liberation-fonts/$(SOURCE_TARBALL_NAME)
@@ -50,11 +51,13 @@ SOURCE_UNCOMPRESS=gzcat
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/liberation-fonts-$(VERSION)
-
 # What to build
 BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
+BUILD_TARGETS_SET=yes
+
+# What to install
+INSTALL_TARGETS=install_liberation
+INSTALL_TARGETS_SET=yes
 
 # Directory to install to
 FONT_DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
@@ -65,7 +68,7 @@ LICENSE_FILE=License.txt
 LICENSE_FILE_SET=yes
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
 ### Rules specific to this directory:
 
@@ -83,14 +86,12 @@ LIBERATION_FONT_FILES= \
 	LiberationSerif-Italic.ttf \
 	LiberationSerif-Regular.ttf
 
-build_gen: $(BUILD_TARGETS)
-
 $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) && \
 	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
 
-install_gen:: $(BUILD_TARGETS)
+install_liberation:: $(BUILD_TARGETS)
 	mkdir -p $(FONT_DEST_DIR)
 	-( cd $(FONT_DEST_DIR) ; rm -f $(LIBERATION_FONT_FILES) )
 	( cd $(SOURCE_DIR)/ ; cp -p $(LIBERATION_FONT_FILES) $(FONT_DEST_DIR) )

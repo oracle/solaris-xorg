@@ -30,22 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/05/30
+# @(#)Makefile	1.2 08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xman
+MODULE_NAME=xman
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6708109.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc
 

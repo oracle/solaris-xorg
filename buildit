@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/ksh93
 #
 # buildit
 # Script for building OpenSolaris X Consolidation
@@ -34,37 +34,35 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.3	08/03/24 SMI"
+# ident "@(#)buildit	1.4	08/08/08 SMI"
 #
 
-
-CLOBBER=0
 MAKE_PKGS=0
-XORG_BUILD_ARGS="$*"
 
-set -- `getopt cp $*`
+set -- `getopt p $*`
 if [ $? != 0 ]
 then
-    echo USAGE: $0 [-c] [-p]
+    echo USAGE: $0 [-p]
     exit 2
 fi
 
 for i in $* ; do 
     case $i in
-	-c)     CLOBBER=1; shift;;
 	-p)     MAKE_PKGS=1; shift;;
     esac
 done
 
 
-# Add /usr/sfw/bin, /opt/sfw/bin, & /opt/jdsbld/bin to path for GNU tools
+# Add /usr/ccs/bin to path for compiler tools
+# Add /usr/openwin/bin to path for makedepend
+# Add JDS CBE, /usr/sfw/bin & /opt/sfw/bin to path for GNU tools
 
-PATH=$PATH:/opt/jdsbld/bin:/usr/sfw/bin:/opt/sfw/bin
+PATH=/usr/ccs/bin:$PATH:/usr/openwin/bin:/opt/jdsbld/bin:/usr/sfw/bin:/opt/sfw/bin
 export PATH
 
 [ -d log ] || mkdir log
 
-# Append all further output & errors to the log file
+# Send all further output & errors to the log file
 exec > log/buildit-XW 2>&1
 
 echo "------------------------------------------------------------------------------"
@@ -73,9 +71,17 @@ date
 START=`perl -e 'print time'`
 echo "Building on: "
 uname -a
-echo "Using this compiler: "
-which cc
-cc -V
+echo "Using these compilers: "
+which cc gcc
+# Make sure Sun C compiler is at least version 5.8 (Studio 11)
+cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d)+.(\d)+|)) { \
+    print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 8) ) }'
+gcc -v
+
+echo "Using these environment variables: "
+env
+echo "------------------------------------------------------------------------------"
+
 
 MACH=`uname -p`
 if [ "$MACH" = "i386" ]; then
@@ -88,6 +94,14 @@ cd open-src
 make -k clean install
 cd ..
 
+echo ""
+date
+echo "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
+echo ""
+echo "Finish time: "
+date
+perl -e '$runtime=time-$ARGV[0];printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' $START
+
 if [ $MAKE_PKGS = 1 ] ; then
     PACKAGE_LIST=`cd packages && echo SUNW*`
     export PACKAGE_LIST
@@ -96,11 +110,3 @@ if [ $MAKE_PKGS = 1 ] ; then
     ./make_release_packages
 fi
 
-
-echo ""
-date
-echo "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
-echo ""
-echo "Finish time: "
-date
-perl -e '$runtime=time-$ARGV[0];printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' $START

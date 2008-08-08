@@ -33,24 +33,18 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xbiff
+MODULE_NAME=xbiff
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
-
-# Specify which cpp to use instead of depending on builder's $PATH
-APP_CONFIG_OPTS = 
-
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc
 

@@ -28,43 +28,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/07/30
+# @(#)Makefile	1.5	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-
-# Version number (used in path names)
-VERSION=1.1.6
-
+# Package name used in tarballs
 MODULE_NAME=util-macros
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=util
+# Version number (used in path names)
+MODULE_VERSION=1.1.6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	XORG_SGML_PATH.patch,-p1
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(VERSION)
-
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
-### Rules specific to this directory:
-
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --prefix=$(X11_DIR)
-
-build_gen: $(SOURCE_DIR)/Makefile
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 ./configure $(CONFIG_OPTS) )
-
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+# Libtool versions before 2.2.2 fail to work with LD=cc in 64 bit builds, 
+# so install fixed libtool m4 macros here as well, so that modules that
+# run autoreconf get the fixed sources
+install_gen::
+	mkdir -p $(PROTODIR)$(X11_ACLOCAL_DIR)/
+	-rm -f $(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
+	SYSTEM_ACLOCAL_DIR=$$(aclocal --print-ac-dir) ; \
+	cp $${SYSTEM_ACLOCAL_DIR}/libtool.m4 \
+		$(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
+	gpatch -d $(PROTODIR)$(X11_ACLOCAL_DIR) < libtool-64.patch

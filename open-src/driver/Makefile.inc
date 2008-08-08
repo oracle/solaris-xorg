@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,81 +28,52 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.10	07/05/15
+# @(#)Makefile.inc	1.11	08/08/08
 #
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
+MODTYPE=driver
+
+### Include common definitions
+include $(TOP)/common/Makefile.init
+
+# Build 64-bit on SPARC, 32-bit & 64-bit on x86, to match Xorg server builds
 BUILD_TYPES_SET=yes
 BUILD_TYPES_sparc=64
 BUILD_TYPES_i386=32 64
 BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(DRIVER_NAME)-$(DRIVER_VERS).tar.bz2
-SOURCE_TARBALL_DIR=driver
+# Additional command line options to GNU autoconf configure script
+MODTYPE_CONFIG_OPTS = \
+	--with-xorg-module-dir='$${libdir}/modules$(SERVERMOD_subdir)'
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(DRIVER_NAME)-$(DRIVER_VERS)
+MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
+MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
 
-include $(TOP)/common/Makefile.inc
-
-# Where to install files
-DRIVER_prefix=$(X11_DIR)
-
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = \
-	--prefix=$(DRIVER_prefix) --mandir='$${prefix}/share/man' \
-	--with-xorg-module-dir='$${libdir}/modules$(MODULE_subdir)' \
-	$(DRIVER_CONFIG_OPTS)
-
-BUILD_32_FLAGS=ARCH_GCC_FLAGS="$(ARCH32_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR32)"
-BUILD_64_FLAGS=ARCH_GCC_FLAGS="$(ARCH64_GCC_FLAGS)" ARCHBINSUBDIR="$(SUBDIR64)"
-
-CONFIG_CPPFLAGS= \
+MODTYPE_CPPFLAGS= \
 	-I $(PROTODIR)/usr/X11/include/xorg	\
-	-I $(PROTODIR)/usr/X11/include 		\
 	-I $(PROTODIR)/usr/X11/include/drm	\
-	-I $(PROTODIR)/usr/X11/include/X11/dri	\
-	$(DRIVER_CPPFLAGS)
+	-I $(PROTODIR)/usr/X11/include/X11/dri
 
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV_common = \
-	CPPFLAGS="$(CONFIG_CPPFLAGS)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
-	INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
-	$(DRIVER_CONFIG_ENV)
+# Inline assembly in i386 requires gcc until we move to Studio 12 or later
+MODTYPE_COMPILER_sparc=suncc
+MODTYPE_COMPILER_i386=gcc
+MODTYPE_COMPILER=$(MODTYPE_COMPILER_$(MACH))
+MODTYPE_COMPILER_SET=yes
 
-DRIVER_LDFLAGS_cc=$(LDFLAGS) -B direct
-DRIVER_LDFLAGS_gcc=$(GCC_LDFLAGS) -Wl,-B,direct -R/usr/sfw/lib$(ARCHLIBSUBDIR)
+MODTYPE_CFLAGS=$(PROG_CFLAGS)
 
-CONFIG_ENV_cc = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" \
-	LD="$(CC) $(DRIVER_LDFLAGS_cc)" LDFLAGS="$(DRIVER_LDFLAGS_cc)"
-CONFIG_ENV_gcc = CC=$(GCC) CFLAGS="$(DEFAULT_GCC_CFLAGS) $(ARCH_GCC_FLAGS)" \
-	LD="$(GCC) $(DRIVER_LDFLAGS_gcc)" LDFLAGS="$(DRIVER_LDFLAGS_gcc)"
+MODTYPE_LDFLAGS_cc=
+MODTYPE_LDFLAGS_gcc=-R/usr/sfw/lib$(ARCHLIBSUBDIR)
+MODTYPE_LDFLAGS=$(LDFLAGS) -Wl,-B,direct $(MODTYPE_LDFLAGS_$(MODULE_COMPILER))
 
-CONFIG_ENV_sparc= $(CONFIG_ENV_cc)
-CONFIG_ENV_i386= $(CONFIG_ENV_gcc)
-CONFIG_ENV=$(CONFIG_ENV_$(MACH)) $(CONFIG_ENV_common)
+MODTYPE_LD_OPTIONS=-z defs $(X11_SERVERLIBS_LDFLAGS) \
+	-M $(TOP)/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs -lc
 
+# Need to fix libtool interference with our linker flags
+DELIBTOOLIZE=yes
 
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
-	$(TOP)/common/delibtoolize.pl $(SOURCE_DIR)
-
-# Binary built in tree
-DRIVER_BIN=$(SOURCE_DIR)/src/$(DRIVER_NAME)
-
-BUILD_ENV=LD_OPTIONS="-z defs $(DRIVER_ADD_LIBS) -M $(TOP)/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs -lc" \
-	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
-
-build_gen: $(DRIVER_BIN)
-
-$(DRIVER_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS) )
-
-install_gen:: $(DRIVER_BIN)
-	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+### Include common rules
+include $(TOP)/common/Makefile.inc

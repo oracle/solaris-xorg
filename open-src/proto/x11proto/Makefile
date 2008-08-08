@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/03/19
+# @(#)Makefile	1.7	08/08/08
 #
 
 # Package name used in tarballs
-PROTO_NAME=xproto
+MODULE_NAME=xproto
 
 # Version number (used in path names)
-VERSION=7.0.12
+MODULE_VERSION=7.0.12
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
@@ -46,5 +46,5 @@ include ../Makefile.inc
 # Extra install for bootstrapping the old monolith
 install_gen:: $(SOURCE_DIR)/Makefile
 	@if [ -d $(PROTODIR)/../xc/include ] ; then \
-		(set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) xprotodir=/../xc/include install) ;\
+		(set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) xprotodir=/../xc/include install) ;\
 	fi

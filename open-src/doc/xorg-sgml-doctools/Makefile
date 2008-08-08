@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/03/08
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-DOC_NAME=xorg-sgml-doctools
+MODULE_NAME=xorg-sgml-doctools
 
 # Version number (used in path names)
-VERSION=1.2
+MODULE_VERSION=1.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

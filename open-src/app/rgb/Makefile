@@ -33,17 +33,17 @@
 #
 
 # Package name used in tarballs
-APP_NAME=rgb
+MODULE_NAME=rgb
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
-APP_CONFIG_OPTS = --with-rgb-db-dir=$(X11_DIR)/lib/X11/rgb \
+MODULE_CONFIG_OPTS = --with-rgb-db-dir=$(X11_DIR)/lib/X11/rgb \
 	--with-rgb-db-type=ndbm
 
 include ../Makefile.inc

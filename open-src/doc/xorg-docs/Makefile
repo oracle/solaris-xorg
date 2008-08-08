@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/07/30
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-DOC_NAME=xorg-docs
+MODULE_NAME=xorg-docs
 
 # Version number (used in path names)
-VERSION=1.4
+MODULE_VERSION=1.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
@@ -43,11 +43,21 @@ SOURCE_PATCHES=	\
 	X-manpage.patch,-p1 \
 	solaris-manpages.patch
 
-# Makefiles require gmake to build all targets
-build_gen:= MAKE=$(GNUMAKE) -i
+# Makefiles require gmake -i to build all targets
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
+MODULE_MAKEFLAGS= MAKEFLAGS="-i"
 
-DOC_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
+# Additional arguments to configure script
+MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
 	XORG_SGML_PATH=$(PROTODIR)$(X11_DIR)/share/sgml
+
+# Module dependencies
+MODULE_CONFIGURE_DEPS=$(DOCBOOK2TEXT) $(XORG_DEFS_ENT)
+
+# Need to autoreconf to build with newer util-macros that allows overriding
+# XORG_SGML_PATH until upstream is built with it
+AUTORECONF=yes
 
 ### Include common rulesets
 include ../Makefile.inc
@@ -63,8 +73,4 @@ install_gen::
 	cp -p $(SGML_DIR)/input/XKB-Config.txt	$(DOC_DIR)/README.XKB-Config
 	cp -p $(SGML_DIR)/input/XKB-Enhancing.txt $(DOC_DIR)/README.XKB-Enhancing
 	cp -p $(SGML_DIR)/fonts/fonts.txt	$(DOC_DIR)/README.fonts
-	cp -p X11.5				$(MAN_DIR)/man5/X11.5
-
-# Need to autoreconf to build with newer util-macros that allows overriding
-# XORG_SGML_PATH until upstream is built with it
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
+	cp -p X11.5                             $(MAN_DIR)/man5/X11.5

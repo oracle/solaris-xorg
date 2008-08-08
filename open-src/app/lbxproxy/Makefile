@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 08/08/05
+# @(#)Makefile	1.3 08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=lbxproxy
+MODULE_NAME=lbxproxy
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6718029.patch

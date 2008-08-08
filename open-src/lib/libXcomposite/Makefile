@@ -2,7 +2,7 @@
 #
 # Xcomposite 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/05/03
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXcomposite
+MODULE_NAME=libXcomposite
 
 # Version number (used in path names)
-LIB_VERS=0.3.2
+MODULE_VERSION=0.3.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,19 +48,15 @@ LIBNAME=Xcomposite
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
-LIB_STABILITY=Volatile
+MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xcomposite
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXcomposite.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xcomposite.pc.in
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
-
-# Use proto area for building on older machines without /usr/X11/lib/libXfixes
-LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc

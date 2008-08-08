@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org doc modules
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,46 +28,40 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.4	08/07/30
+# @(#)Makefile.inc	1.5	08/08/08
 #
-
-### Makefile settings/rules common to all X.Org protocol modules
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(DOC_NAME)-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=doc
+MODTYPE=doc
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(DOC_NAME)-$(VERSION)
+### Include common definitions
+include $(TOP)/common/Makefile.init
+
+# No common man flags to add
+MODTYPE_SUNTOUCH_MAN_FLAGS= 
+
+# No common dependencies
+MODTYPE_CONFIGURE_DEPS=
+
+# Use prog flags for building doc tools
+MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
+MODTYPE_LD_OPTIONS=
+
+DOCTOOLS_PATH = \
+    PATH="$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)$(TOOLS_DIR)/bin:$$PATH"
+
+# Additional environment variable options to GNU autoconf configure script
+MODTYPE_CONFIG_ENV = $(DOCTOOLS_PATH)
+
+# Additional environment variable options needed when building
+MODTYPE_BUILD_ENV = $(DOCTOOLS_PATH) \
+	LD_LIBRARY_PATH="$(PROTODIR)$(X11_SERVERLIBS_DIR)"
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
-
-# Command line options to GNU autoconf configure script
-DOC_CFG=--prefix=$(X11_DIR) $(DOC_CONFIG_OPTS)
-
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = PATH="$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)$(TOOLS_DIR)/bin:$$PATH"
-
-# Environment variable options needed when building
-BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_SERVERLIBS_DIR)" PATH="$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)$(TOOLS_DIR)/bin:$$PATH"
-
-build_gen: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(DOC_CFG) )
-
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install )
 
 
 

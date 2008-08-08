@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/19
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-PROTO_NAME=xf86dgaproto
+MODULE_NAME=xf86dgaproto
 
 # Version number (used in path names)
-VERSION=2.0.3
+MODULE_VERSION=2.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

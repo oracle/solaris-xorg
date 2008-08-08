@@ -33,17 +33,17 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xditview
+MODULE_NAME=xditview
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Uncommitted
 
 include ../Makefile.inc

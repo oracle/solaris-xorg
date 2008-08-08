@@ -3,7 +3,7 @@
 # Xvnc server Makefile
 # Based on Fedora's vnc-4.1.2-21.fc8/vnc.spec
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -31,21 +31,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/08/04
+# @(#)Makefile	1.11	08/08/08
 #
 
 # Package name used in tarballs
 MODULE_NAME=vnc
 
-# Name used in server-specific rules in ../Makefile.inc
-XSERVER=XVNC
-
 # Version number (used in path names)
-VNC_VERS=4.1.2
-VNC_TARBALL_VERS=4_1_2-unixsrc
+MODULE_VERSION=4_1_2-unixsrc
 
 # Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(VNC_TARBALL_VERS).tar.gz
+SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
+SOURCE_TARBALL_NAME_SET=yes
 
 # Xorg server source tarball to use sources from
 XORG_TARBALL=$(TARBALLDIR)/xorg-server-$(XORGSERVER_VERS).tar.bz2
@@ -58,9 +55,6 @@ XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xorg-x11-server-source
 SOURCE_URL=http://ltsp.mirrors.tds.net/pub/ltsp/tarballs/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
-
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(VNC_TARBALL_VERS)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -80,9 +74,6 @@ SOURCE_PATCHES = \
 	build-without-Xorg.patch \
 	solaris-port.patch
 
-# Patches shared between Xorg & Xvnc builds
-XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
-
 # Man pages to apply Sun footer to & attributes to list
 # Common ones are here - source_gen target below has more with
 # different attributes/path set
@@ -93,14 +84,21 @@ SUNTOUCH_MAN_FLAGS= -p /usr/bin/ \
  -a '{Availability, SUNWxvnc} {Interface Stability, Volatile}'
 
 # Compiler to use
-COMPILER=cc
+MODULE_COMPILER=suncc
+MODULE_COMPILER_SET=yes
 
-# Binary built in tree
-XVNCSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
+# Xvnc has to configure, build, and install in different directories due to 
+# the mixed codebases and unusual directory layout
+CONFIGURE_TARGETS=$(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
+CONFIGURE_TARGETS_SET=yes
+BUILD_TARGETS=Xvnc_build
+BUILD_TARGETS_SET=yes
+INSTALL_TARGETS=Xvnc_install
+INSTALL_TARGETS_SET=yes
 
-BUILD_TARGETS=$(XVNCSERVER_BIN)
-
-default: all
+# Default rule to make, so that the source_gen rule below doesn't become
+# default by virtue of being first
+Xvnc_default: all
 
 # Merge in additional sources from Xorg tarball & sun-src directory
 # Use layout from Fedora RPM so their patches apply
@@ -152,32 +150,29 @@ source_gen::
 		-a '{Availability, SUNWxvnc} {Interface Stability, Volatile}' \
 		-p /usr/X11/bin/ unix/xc/programs/Xserver/Xvnc.man )
 
-# Command line options to GNU autoconf configure script for vnc
-VNC_CONFIG_OPTS= --with-installed-zlib --prefix=$(XVNCSERVER_PREFIX) \
-	--mandir='$${prefix}/share/man' --libdir='$${exec_prefix}/lib/vnc'
+# Command line options to GNU autoconf configure script for vnc clients
+VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \
+	--mandir='$${prefix}/share/man' --libdir='$${exec_prefix}/lib/vnc' \
+	--localstatedir=/var
 
-# Command line options to GNU autoconf configure script for Xorg
-XVNC_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
+# Command line options to GNU autoconf configure script for Xvnc
+XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS) \
         --disable-builddocs --with-int10=stub \
 	--disable-dga --disable-xfree86-utils --disable-dri \
 	--disable-xorg --disable-dmx --disable-xvfb --disable-xnest \
 	--disable-xprint --disable-kdrive
 
-XVNC_CPPFLAGS = \
+MODULE_CPPFLAGS = \
 	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
-	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig \
-	$(XSERVER_CPPFLAGS)
+	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig
 
-# Uncomment to build debug
-# OPT_CFLAGS = -g
-# DEFAULT_GCC_CFLAGS = -g -O3 -fno-omit-frame-pointer -Wall
-
-DEFAULT_GCC_CFLAGS += -fPIC
+CFLAGS_gcc += -fPIC
 
 # Environment variable options to GNU autoconf configure script
-XVNC_CONFIG_ENV = LIBS="-lsocket -lnsl"
-CONFIG_ENV += $(XVNC_CONFIG_ENV)
+XVNC_CONFIG_ENV = LIBS="-lsocket -lnsl" \
+	LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_LDFLAGS)"
+CONFIG_ENV += $(XVNC_CONFIG_ENV) 
 
 LDPATH_ADDITIONS_sparc = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
@@ -188,30 +183,33 @@ LDPATH_ADDITIONS_i386 = \
         -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
 LDPATH_ADDITIONS=$(LDPATH_ADDITIONS_$(MACH))
 
-LDPATH_ADD += $(LDPATH_ADDITIONS)
+MODULE_LDFLAGS = $(LDPATH_ADDITIONS)
 
 # Run configure scripts for vnc sources
 $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR)/common && autoreconf --install --force && \
-		$(CONFIG_ENV) ./configure $(VNC_CONFIG_OPTS) )
+		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
 	(cd $(SOURCE_DIR)/unix && autoreconf --install --force && \
-		$(CONFIG_ENV) ./configure $(VNC_CONFIG_OPTS) )
+		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
 
 # Run configure script for Xvnc
-$(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET)
+# Need to run delibtoolize to fix libtool interference with our linker 
+# flags, but need to make sure we use large pic flags (-KPIC/-fPIC)
+$(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/unix/Makefile
 	(cd $(XORG_BUILD_DIR) &&  \
 	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf --install --force && \
-	 $(CONFIG_ENV) ./configure $(XVNC_CONFIG_OPTS) )
-	$(TOP)/common/delibtoolize.pl -P $(SOURCE_DIR)
+	 $(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
 
-$(XVNCSERVER_BIN): $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
-	(cd $(SOURCE_DIR)/common ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
-	(cd $(SOURCE_DIR)/unix ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
-	(cd $(XORG_BUILD_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
+#	$(TOP)/common/delibtoolize.pl -P $(SOURCE_DIR)
 
-install_gen:: $(XVNCSERVER_BIN)
+Xvnc_build: $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
+	(cd $(SOURCE_DIR)/common ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
+	(cd $(SOURCE_DIR)/unix ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
+	(cd $(XORG_BUILD_DIR) ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
+
+Xvnc_install::
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
-	 &&  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
+	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) -e install \
 	 DESTDIR=$(PROTODIR) CPPROG="cp -p" )
 	mkdir -p $(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR) \
 		$(PROTODIR)/usr/share/man/man1 \

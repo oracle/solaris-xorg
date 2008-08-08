@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/03/19
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXScrnSaver
+MODULE_NAME=libXScrnSaver
 
 # Version number (used in path names)
-LIB_VERS=1.1.3
+MODULE_VERSION=1.1.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,11 +48,10 @@ LIBNAME=Xss
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Committed
+MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xss
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXss.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xscrnsaver.pc.in

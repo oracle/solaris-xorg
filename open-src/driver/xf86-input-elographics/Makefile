@@ -30,21 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/03/19
+# @(#)Makefile	1.5	08/08/08
 #
 
 # Package name used in tarballs
-DRIVER_NAME=xf86-input-elographics
+MODULE_NAME=xf86-input-elographics
 
 # Version number (used in path names)
-DRIVER_VERS=1.1.0
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = copying.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Architecture, x86} {Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

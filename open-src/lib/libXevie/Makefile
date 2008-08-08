@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/03/12
+# @(#)Makefile	1.2	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libXevie
+MODULE_NAME=libXevie
 
 # Version number (used in path names)
-LIB_VERS=1.0.2
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,16 +48,15 @@ LIBNAME=Xevie
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Volatile
+MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xevie
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libXevie.so.1.0.0
+
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xevie.pc.in
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc

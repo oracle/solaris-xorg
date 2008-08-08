@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	06/11/20
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
-PROTO_NAME=kbproto
+MODULE_NAME=kbproto
 
 # Version number (used in path names)
-VERSION=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	5077065.patch

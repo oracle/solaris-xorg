@@ -30,20 +30,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/05/28
+# @(#)Makefile	1.2	08/08/08
 #
 
 # Package name used in tarballs
-LIB_MODULE=libFS
+MODULE_NAME=libFS
 
 # Version number (used in path names)
-LIB_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
-AUTORECONF=true
+AUTORECONF=yes
 
 # Library name
 LIBNAME=FS
@@ -51,14 +51,13 @@ LIBNAME=FS
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
-LIB_STABILITY=Uncommitted
+MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3FS
 
-# Library built in tree
-LIB_BUILT=$(SOURCE_DIR)/src/.libs/libFS.so.5
+
 
 # Link with version mapfile
-LIB_ADD_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=libfs.pc.in

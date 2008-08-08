@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.63	08/03/07
+# @(#)Makefile	1.64	08/08/08
 #
 
 # Build 32-bit or 64-bit?
@@ -42,19 +42,12 @@ BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 # Package name used in tarballs
 MODULE_NAME=xorg-server
 
-# Name used in server-specific rules in ../Makefile.inc
-XSERVER=XORG
-
-# Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(XORGSERVER_VERS).tar.bz2
-SOURCE_TARBALL_DIR=xserver
+# Version number (used in path names)
+MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
-SOURCE_PATCHES:sh=cat -s patch-list closed-src/patch-list | sed '/^\#/ d' 
-
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(XORGSERVER_VERS)
+SOURCE_PATCHES=$(XORG_SOURCE_PATCHES)
 
 # Man pages to apply Sun footer to & attributes to list
 # XXX: Need to adjust some of these to correct packages/stability
@@ -68,19 +61,39 @@ SUNTOUCHED_MANPAGES= \
 	hw/xfree86/doc/man/Xorg.man.pre \
 	hw/xfree86/doc/man/xorg.conf.man.pre 
 
-SUNTOUCH_MAN_FLAGS= -p $(XSERVER_PREFIX)/bin/ \
- -a '{Availability, SUNWxorg-server} {Interface Stability, Volatile}'
+SUN_PACKAGE=SUNWxorg-server
+MODULE_STABILITY=Volatile
+MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
 
 # Compiler to use - x86 MMX code only builds with gcc, not Sun Studio, so use
 # gcc on x86 for now, but keep Sun Studio on SPARC
-COMPILER_sparc=cc
-COMPILER_i386=gcc
-COMPILER=$(COMPILER_$(MACH))
+MODULE_COMPILER_sparc=suncc
+MODULE_COMPILER_i386=gcc
+MODULE_COMPILER=$(MODULE_COMPILER_$(MACH))
+MODULE_COMPILER_SET=yes
 
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
-BUILD_TARGETS=$(XORGSERVER_BIN) $(BUILD_DIR)/mapfile-Xorg-externs
+BUILD_TARGETS=fix-xf1bpp $(XORGSERVER_BIN) $(BUILD_DIR)/mapfile-Xorg-externs
+BUILD_TARGETS_SET=yes
+
+# Need to regenerate autoconf/automake files after patching
+AUTORECONF=yes
+
+# Command line options to GNU autoconf configure script
+#  Need to override LD setting to add -xarch flags that libtool strips
+# XXX: --disable-dga
+MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
+        --enable-builddocs --enable-xorgcfg \
+	--enable-kdrive --enable-xephyr --disable-xsdl \
+	LD="$(CC) $(ARCH_FLAGS)"
+
+# Need specific ordering of CPPFLAGS for Mesa headers for now
+USE_DEFAULT_CONFIG_CPPFLAGS=no
+MODULE_CPPFLAGS= \
+	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm \
+	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri
 
 include ../Makefile.inc
 
@@ -90,45 +103,26 @@ source_gen:: $(LNDIR)
 		$(SOURCE_DIR)/hw/xfree86/scanpci/xf86PciIds.h
 	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 
-# Command line options to GNU autoconf configure script
-# XXX: --disable-dga
-CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
-        --enable-builddocs --enable-xorgcfg \
-	--enable-kdrive --enable-xephyr --disable-xsdl
-
-XORG_CPPFLAGS= $(XSERVER_CPPFLAGS) \
-	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm \
-	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/configure
-	(cd $(SOURCE_DIR) && \
-	 $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
+# Force broken xf1bpp sources in 1.3 to be regenerated
+fix-xf1bpp: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR)/hw/xfree86/xf1bpp && \
-	 $(MAKE) $(MFLAGS) maintainer-clean-generic)
+	 $(MAKE) $(MAKEFLAGS) maintainer-clean-generic)
 
-$(SOURCE_DIR)/configure: $(UNPACK_TARGET) $(SOURCE_DIR)/configure.ac
-	$(MAKE) $(MFLAGS) autoreconf
-
-$(XORGSERVER_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(BUILD_ENV) $(MAKE) $(MFLAGS))
+$(XORGSERVER_BIN): default_build
 
 EXTRA_INSTALL_sparc=install_pc
 EXTRA_INSTALL_i386=
 EXTRA_INSTALL=$(EXTRA_INSTALL_$(MACH))
 
-install_gen:: $(XORGSERVER_BIN) $(EXTRA_INSTALL)
-	(cd $(SOURCE_DIR) ;  $(BUILD_ENV) $(MAKE) $(MFLAGS) -e install \
-	 DESTDIR=$(PROTODIR) CPPROG="cp -p" \
-	 pkgconfigdir=/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig )
+install_gen:: default_install $(EXTRA_INSTALL)
 	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
 	    -e 's%^.* _XSERVER64 .*$$%#include <sys/isa_defs.h>\
 #ifdef _LP64\
 #define _XSERVER64 1\
 #endif%' \
 	    $(SOURCE_DIR)/include/xorg-server.h > $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xorg-server.h
-	    cp -p $(SOURCE_DIR)/mi/mioverlay.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/mioverlay.h
-	    cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
+	cp -p $(SOURCE_DIR)/mi/mioverlay.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/mioverlay.h
+	cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
 

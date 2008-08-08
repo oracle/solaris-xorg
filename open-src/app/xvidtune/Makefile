@@ -2,7 +2,7 @@
 #
 # xvidtune 1.x Makefile
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,25 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	07/01/31
+# @(#)Makefile	1.4	08/08/08
 #
 
 # Package name used in tarballs
-APP_NAME=xvidtune
+MODULE_NAME=xvidtune
 
 # Version number (used in path names)
-APP_VERS=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxorg-client-programs} {Interface Stability, Volatile}'
-
-# Needed to find normal version of libXaw instead of xorgcfg's version
-APP_CONFIG_ENV=	TMP_XAW_CFLAGS=-I/usr/openwin/include \
-	TMP_XAW_LIBS="-lXaw -lXt -lXmu -lX11"
+SUN_PACKAGE=SUNWxorg-client-programs
+MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

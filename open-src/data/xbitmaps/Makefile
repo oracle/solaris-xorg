@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,20 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	06/09/15
+# @(#)Makefile	1.3	08/08/08
 #
 
 # Package name used in tarballs
 MODULE_NAME=xbitmaps
 
 # Version number (used in path names)
-VERSION=1.0.1
+MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
-
-# What gets built - none needed for bitmaps
-MODULE_BUILT=$(SOURCE_DIR)/Makefile
 
 ### Include common rulesets
 include ../Makefile.inc
@@ -49,12 +46,10 @@ include ../Makefile.inc
 # Install copy of xbitmaps.pc in 64-bit pkgconfig files as well
 install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
-
-
+	 $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
 
 # Extra install for bootstrapping the old monolith
 install_gen:: $(SOURCE_DIR)/Makefile
 	@if [ -d $(PROTODIR)/../xc/include ] ; then \
-	    (set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) bitmapdir=/../xc/include/bitmaps install) ;\
+	    (set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) bitmapdir=/../xc/include/bitmaps install) ;\
 	fi

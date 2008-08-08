@@ -1,6 +1,6 @@
-###############################################################################
+# -*- Makefile -*- rules common to most X.Org data modules
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,44 +28,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.3	07/08/29
+# @(#)Makefile.inc	1.4	08/08/08
 #
-
-### Makefile settings/rules common to all X.Org protocol modules
 
 PWD:sh=pwd
 TOP=$(PWD)/../..
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=data
+MODTYPE=data
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(VERSION)
+### Include common definitions
+include $(TOP)/common/Makefile.init
+
+# Most data modules have no man pages
+MODTYPE_SUNTOUCH_MAN_FLAGS= 
+
+# No common dependencies
+MODTYPE_CONFIGURE_DEPS=
+
+# Most data modules have nothing to build, for those that do, use lib flags
+MODTYPE_CFLAGS=$(LIB_CFLAGS)
+MODTYPE_LDFLAGS=$(LIB_LDFLAGS)
+MODTYPE_LD_OPTIONS=
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
-
-# Command line options to GNU autoconf configure script
-DATA_CFG=--prefix=$(X11_DIR)
-
-build_gen: $(MODULE_BUILT)
-
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(LIB_CFLAGS)" \
-    LD="$(CC) $(LIB_CFLAGS) $(LDFLAGS)" LDFLAGS="$(LIB_LDFLAGS)" \
-    PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) \
-    $(ADD_CONFIG_ENV)
-    
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 $(CONFIG_ENV) ./configure $(DATA_CFG) )
-
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/pkgconfig install ) 
-
 

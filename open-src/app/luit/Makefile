@@ -33,25 +33,21 @@
 #
 
 # Package name used in tarballs
-APP_NAME=luit
+MODULE_NAME=luit
 
 # Version number (used in path names)
-APP_VERS=1.0.3
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-man.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= -p $(APP_prefix)/bin/ \
- -a '{Availability, SUNWxwopt} {Interface Stability, Uncommitted}'
-
-# Additional flags to pass to configure script
-APP_CONFIG_OPTS = --with-localealiasfile=/usr/openwin/lib/locale/locale.alias
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Uncommitted
 
 # Need to link with libfontenc in server private directory
-APP_ADD_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)
 
 include ../Makefile.inc
 

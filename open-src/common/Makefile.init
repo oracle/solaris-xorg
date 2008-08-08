@@ -1,0 +1,288 @@
+# -*- Makefile -*- rules commonly shared among X consolidation open source dirs
+# Makefile.init has definitions that are needed before the module/modtype rules
+#
+# Copyright 2008 Sun Microsystems, Inc.  All Rights Reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# @(#)Makefile.init	1.1	08/08/07
+#
+
+# Use ksh93 for shell commands in Makefiles so that builds are the same
+# on Nevada (where /bin/sh is still ancient Bourne shell) and Indiana
+# (where /bin/sh is ksh93)
+SHELL=/usr/bin/ksh93
+
+# Borrowed from Solaris OS/Net makefile.master:
+# The declaration POUND_SIGN is always '#'. This is needed to get around the
+# make feature that '#' is always a comment delimiter, even when escaped or
+# quoted.  The only way of generating this is the :sh macro mechanism.  Note
+# however that in general :sh macros should be avoided in makefiles that are
+# widely included into other makefiles, as the resulting shell executions can
+# cause a noticable slowdown in build times.
+#
+POUND_SIGN:sh= echo \\043
+
+# Set default build target to all
+default:: all
+
+# The infrastructure in the main tree requires Solaris make
+$(error You must use Solaris make, not GNU make in this build - make sure /usr/ccs/bin or /usr/bin is ahead of /usr/gnu/bin in $$PATH)
+
+###  Machine architecture macros
+
+# MACH will be either "sparc" or "i386"
+MACH:sh=uname -p
+
+# ARCH will be either "sun4" or "i386" - mainly used in $(PROTODIR)
+ARCH=$(MACH:sparc=sun4)
+
+MACH32_sparc	= sparc
+MACH64_sparc 	= sparcv9
+MACH32_i386	= i386
+MACH64_i386 	= amd64
+
+MACH32= $(MACH32_$(MACH))
+MACH64= $(MACH64_$(MACH))
+
+# Architecture subdirectories
+
+SUBDIR32_sparc	= sparcv8
+SUBDIR64_sparc 	= sparcv9
+SUBDIR32_i386	= i386
+SUBDIR64_i386 	= amd64
+
+SUBDIR32 = $(SUBDIR32_$(MACH))
+SUBDIR64 = $(SUBDIR64_$(MACH))
+
+
+### Default compiler & options
+
+# Our default compiler is Sun Studio, but if you want to default to GNU 
+# compilers, you can change this here - some modules with specific 
+# requirements override this in their makefiles with MODULE_COMPILER.
+DEFAULT_COMPILER		= suncc
+
+## Sun Studio
+CC_suncc		= cc
+CXX_suncc		= CC
+OPT_FLAGS_suncc		= -xO4 -xbuiltin -xlibmil -xprefetch -xdepend
+DEBUG_FLAGS_suncc	= -g
+$(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_suncc = $(DEBUG_FLAGS_suncc)
+$(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
+
+CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst
+CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w -mc -norunpath
+
+ARCH32_FLAGS_sparc_suncc 	= -xarch=v8plus
+ARCH64_FLAGS_sparc_suncc	= -xarch=v9
+
+# -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
+# avoid losing stack frame pointers so you can't get stack traces or debug
+ARCH32_FLAGS_i386_suncc 	= -xtarget=pentium -xregs=no%frameptr
+ARCH64_FLAGS_i386_suncc 	= -xarch=generic64 -xregs=no%frameptr
+
+# SPARC ABI requires system libraries not use application registers
+ARCH_LIB_FLAGS_sparc_suncc 	= -xregs=no%appl
+ARCH_LIB_FLAGS_i386_suncc 	=  
+
+## GNU Compilers
+GCC				= /usr/sfw/bin/gcc
+GXX				= /usr/sfw/bin/g++
+CC_gcc				= $(GCC)
+CXX_gcc				= $(GXX)
+OPT_FLAGS_gcc			= -O3
+DEBUG_FLAGS_gcc			= -g
+$(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_gcc = $(DEBUG_FLAGS_gcc)
+$(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_gcc = $(OPT_FLAGS_gcc)
+CFLAGS_gcc			= $(DEBUG_OR_OPT_FLAGS_gcc) \
+					-fno-omit-frame-pointer -Wall
+CXXFLAGS_gcc			= $(DEBUG_OR_OPT_FLAGS_gcc) \
+					-fno-omit-frame-pointer -Wall
+
+ARCH32_FLAGS_sparc_gcc	 	= -mcpu=ultrasparc -m32
+ARCH64_FLAGS_sparc_gcc 		= -mcpu=ultrasparc -m64
+ARCH32_FLAGS_i386_gcc 		= -march=i686 -m32
+ARCH64_FLAGS_i386_gcc 		= -march=opteron -m64
+
+# SPARC ABI requires system libraries not use application registers
+ARCH_LIB_FLAGS_sparc_gcc 	= -mno-app-regs
+ARCH_LIB_FLAGS_i386_gcc 	= 
+
+## Set common variables based on above rules
+CC			= $(CC_$(MODULE_COMPILER))
+CXX			= $(CXX_$(MODULE_COMPILER))
+CFLAGS			= $(CFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
+CXXFLAGS		= $(CXXFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
+ARCH32_FLAGS		= $(ARCH32_FLAGS_$(MACH)_$(MODULE_COMPILER))
+ARCH64_FLAGS		= $(ARCH64_FLAGS_$(MACH)_$(MODULE_COMPILER))
+ARCH_LIB_FLAGS		= $(ARCH_LIB_FLAGS_$(MACH)_$(MODULE_COMPILER))
+
+# Flags for specific binary types
+LIB_CPPFLAGS 		= -D_REENTRANT
+LIB_CFLAGS 		= $(CFLAGS) $(ARCH_LIB_FLAGS)
+PROG_CFLAGS		= $(CFLAGS)
+PROG_CXXFLAGS		= $(CXXFLAGS)
+
+### Linker flags
+
+# Linker mapfiles to link with for better performance & security
+# SPARC architecture requires PLT section in .data be executable, so
+# we can only make .bss, not all of .data no-exec on SPARC
+MAPFILE_DIR 		= $(TOP)/common/mapfiles
+MAPFILE_NOEXBSS		= $(MAPFILE_DIR)/map.noexbss
+MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
+MAPFILE_NOEXDATA_i386	= /usr/lib/ld/map.noexdata
+MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
+MAPFILE_NOEXSTACK	= /usr/lib/ld/map.noexstk
+MAPFILE_PAGEALIGN	= /usr/lib/ld/map.pagealign
+MAPFILE_HEAPALIGN	= /usr/lib/ld/map.bssalign
+
+MAPFILES_FOR_ALL   = -M $(MAPFILE_PAGEALIGN) -M $(MAPFILE_NOEXDATA)
+MAPFILES_FOR_PROGS = -M $(MAPFILE_HEAPALIGN) -M $(MAPFILE_NOEXSTACK) \
+			-M $(MAPFILE_NOEXBSS)
+
+# Common flags for all binaries
+LDFLAGS_common 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
+
+# LIB_REQUIRED_LDFLAGS are forced on via LD_OPTIONS to override libtool when
+# building libraries.
+LIB_REQUIRED_LDFLAGS	= -z text -z defs
+LIB_LDFLAGS_common	= $(LDFLAGS_common) $(LIB_REQUIRED_LDFLAGS)
+
+# Flags for programs
+PROG_LDFLAGS_common	= $(LDFLAGS_common) $(MAPFILES_FOR_PROGS) -B direct
+
+# Sun Studio recognizes the common linker flags without -Wl, and 
+# Sun Studio CC can't handle -Wl,-flag,option format, so just pass directly
+LDFLAGS_suncc		= $(LDFLAGS_common)
+LIB_LDFLAGS_suncc	= $(LIB_LDFLAGS_common)
+PROG_LDFLAGS_suncc	= $(PROG_LDFLAGS_common)
+
+# Need to use -Wl,.. to pass linker flags through gcc
+GCC_CONVERT_LDFLAGS_CMD=sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
+GCC_LDFLAGS_CMD=echo $(LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
+LDFLAGS_gcc=$(GCC_LDFLAGS_CMD:sh)
+GCC_LIB_LDFLAGS_CMD=echo $(LIB_LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
+LIB_LDFLAGS_gcc=$(GCC_LIB_LDFLAGS_CMD:sh)
+GCC_PROG_LDFLAGS_CMD=echo $(PROG_LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
+PROG_LDFLAGS_gcc=$(GCC_PROG_LDFLAGS_CMD:sh)
+
+LDFLAGS=$(LDFLAGS_$(MODULE_COMPILER))
+LIB_LDFLAGS=$(LIB_LDFLAGS_$(MODULE_COMPILER))
+PROG_LDFLAGS=$(PROG_LDFLAGS_$(MODULE_COMPILER))
+
+## Commonly added options
+
+# Link with X.Org current libXaw, even though it's not the default libXaw
+XAW_LDFLAGS = -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg$(ARCHLIBSUBDIR)
+
+# Link with X server private libraries like libXfont & libfontenc
+X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+			-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+
+
+### Directory paths
+
+# Proto directory to install into for packaging
+PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
+
+# Common subdirs
+OW_DIR=/usr/openwin
+OW_X11LIB_DIR=$(OW_DIR)/lib/X11
+
+FONT_DIR=$(OW_X11LIB_DIR)/fonts
+TRUETYPE_DIR=$(FONT_DIR)/TrueType
+
+X11_DIR=/usr/X11
+X11_INCLUDES_DIR=$(X11_DIR)/include
+X11_DOC_DIR=$(X11_DIR)/share/doc
+X11_LOCALE_DIR=$(X11_DIR)/share/locale
+X11_MAN_DIR=$(X11_DIR)/share/man
+X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal
+X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
+
+# Subdirectory of /usr/X11/lib for X server private libraries
+X11_SERVERLIBS_SUBDIR=/X11/xserver
+X11_SERVERLIBS_DIR=$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)
+
+# Subdirectory of /usr/X11/lib for X server loadable modules
+X11_SERVERMODS_SUBDIR=/modules
+X11_SERVERMODS_DIR=$(X11_DIR)/lib$(X11_SERVERMODS_SUBDIR)
+
+SERVERMOD_subdir_sparc=
+SERVERMOD_subdir_i386=$(ARCHLIBSUBDIR)
+SERVERMOD_subdir=$(SERVERMOD_subdir_$(MACH))
+
+# Directory used for installing tools used during build but not
+# delivered in packages
+TOOLS_DIR=/tools
+
+# Directory that license files are copied to for use in building package
+# license files
+LICENSE_DEST = $(PROTODIR)/licenses
+
+### Other tools needed to build
+
+# Script used to install files in proto area
+INSTALL_SCRIPT=$(TOP)/common/install-sh -c
+
+# Some modules (such as FreeType 2) require GNU make
+GNUMAKE = gmake
+
+# Some modules use lndir to merge in sources from Sun specific directories
+LNDIR=$(PROTODIR)/usr/X11/bin/lndir
+
+# Tools needed to build docbook documentation
+DOCBOOKUTIL_BINDIR=$(PROTODIR)$(TOOLS_DIR)/bin
+DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/docbook2html
+DOCBOOK2TXT=$(DOCBOOKUTIL_BINDIR)/docbook2txt
+XORG_DEFS_ENT=$(PROTODIR)/$(X11_DIR)/share/sgml/X11/defs.ent
+
+### Sources, in-tree and upstream
+
+TARBALLDIR=$(TOP)/tarballs
+WGET=/usr/sfw/bin/wget --no-check-certificate
+GIT=git
+
+# If you need to use a closer mirror for X.Org or SourceForge, change these
+XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
+SF_DOWNLOADS_URL=http://easynews.dl.sourceforge.net/sourceforge
+
+# Git repositories hosted on freedesktop.org (X.Org, Mesa, pixman, etc.)
+FDO_GIT_URL=http://anongit.freedesktop.org/git
+XORG_GIT_URL=$(FDO_GIT_URL)/xorg
+
+# Target created when sources are unpacked
+UNPACK_FILE = .unpack_done
+UNPACK_TARGET = $(BUILD_DIR)/$(UNPACK_FILE)
+
+### Dependencies
+# Need to define more dependencies to enable simpler builds of subtree portions
+
+# Almost everything depends on the headers in xproto
+XPROTO_DEP=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig/xproto.pc

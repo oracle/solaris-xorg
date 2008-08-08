@@ -1,7 +1,7 @@
 #!/usr/perl5/bin/perl -w
 
 #
-# Copyright 2006 Sun Microsystems, Inc.  All Rights Reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)suntouch-manpages.pl	1.4	06/12/14
+# @(#)suntouch-manpages.pl	1.5	08/08/08
 #
 
 # Updates manual pages to include standard Sun man page sections
@@ -39,35 +39,34 @@
 #	-l libname		     - add library line to synopsis
 #	-p path			     - add path to command in synopsis
 
-use Getopt::Std;
+use Getopt::Long;
 use integer;
 use strict;
 
-my %opts;
-getopts('a:l:p:', \%opts);
+my @attributes;
+my $library;
+my $synpath;
+
+my $result = GetOptions('a|attribute=s' => \@attributes,
+			'l|library=s'	=> \$library,
+			'p|path=s'	=> \$synpath);
 
 my $add_attributes = 0;
-my $attributes;
 
-if (exists($opts{"a"})) {
+if (scalar(@attributes) > 0) {
   $add_attributes = 1;
-  $attributes = $opts{"a"};
 }
 
 my $add_library_to_synopsis = 0;
-my $library;
 
-if (exists($opts{"l"})) {
+if (defined($library)) {
   $add_library_to_synopsis = 1;
-  $library = $opts{"l"};
 }
 
 my $add_path_to_synopsis = 0;
-my $synpath;
 
-if (exists($opts{"p"})) {
+if (defined($synpath)) {
   $add_path_to_synopsis = 1;
-  $synpath = $opts{"p"};
 }
 
 my $filename;
@@ -82,7 +81,7 @@ while ($filename = shift) {
 
   my $firstline = <IN>;
 
-  if ($add_attributes) {
+  if ($add_attributes > 0) {
     # Check for man page preprocessor list - if found, make sure t is in it for
     # table processing, if not found, add one;
 
@@ -122,7 +121,7 @@ while ($filename = shift) {
   }
 
   if ($add_attributes) {
-    print OUT &get_attributes_table($attributes);
+    print OUT &get_attributes_table(join(" ", @attributes));
   }
 
   close(IN);
@@ -159,10 +158,10 @@ ATTRIBUTE TYPE	ATTRIBUTE VALUE
 
   foreach $a (@attribs) {
     my ($name, $value) = split /,\s*/, $a, 2;
-    
+
     $attribute_entries .= $name . "\t" . $value . "\n";
   }
-  
+
   $attributes_table =~ s/<attributes>\n/$attribute_entries/;
 
   return $attributes_table;

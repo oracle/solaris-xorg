@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Xpm Makefile
+# Xpm apps Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,66 +30,46 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/03/24
+# @(#)Makefile	1.9	08/08/08
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-
 # Package name used in tarballs
+# Source is really in X.Org's libXpm module
 MODULE_NAME=libXpm
+SOURCE_TARBALL_DIR=lib
+SOURCE_TARBALL_DIR_SET=yes
 
 # Version number (used in path names)
-MODULE_VERS=3.5.7
+MODULE_VERSION=3.5.7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERS).tar.bz2
-
-# Download site for source
-SOURCE_URL=$(XORG_RELEASES_URL)/lib/$(SOURCE_TARBALL_NAME)
-SOURCE_URL_SET=yes
-
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(MODULE_VERS)
-
-# Where to install files
-APP_prefix=$(X11_DIR)
-
 # man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=cxpm/cxpm.man sxpm/sxpm.man
-SUNTOUCH_MAN_FLAGS= -p $(APP_prefix)/bin/ \
-	-a '{Availability, SUNWxwplt} {Interface Stability, Uncommitted}'
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Uncommitted
 
-include $(TOP)/common/Makefile.inc
+# Binaries built in tree
+BUILD_TARGETS=SOURCE_DIR/cxpm/cxpm SOURCE_DIR/sxpm/sxpm 
+BUILD_TARGETS_SET=yes
 
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --prefix=$(APP_prefix) --mandir='$${prefix}/share/man' \
-	$(APP_CONFIG_OPTS)
+INSTALL_TARGETS=install_xpm_apps
+INSTALL_TARGETS_SET=yes
 
-# Environment variable options to GNU autoconf configure script
-CONFIG_ENV = CC=$(CC) CFLAGS="$(PROG_CFLAGS)" LD="$(LD) $(LDFLAGS)" \
-	CPPFLAGS="-I $(PROTODIR)$(X11_INCLUDES_DIR)" \
-	LDFLAGS="$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)" \
-	PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR) 
+# Additional arguments to pass to make
+#MODULE_MAKEFLAGS= -e SUBDIRS="cxpm sxpm"
 
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET) autoreconf
-	(cd $(SOURCE_DIR) && $(CONFIG_ENV) ./configure $(CONFIG_OPTS) )
+# Undo libtool use of libXpm.la to link with
+#MODULE_BUILD_DEPS=delibtoolize
 
-# Binary built in tree
-APP_BIN=$(SOURCE_DIR)/cxpm/cxpm $(SOURCE_DIR)/sxpm/sxpm 
+include ../Makefile.inc
 
-build_gen: $(APP_BIN)
+$(BUILD_TARGETS): default_build
 
-$(APP_BIN): $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS))
-
-install_gen:: $(APP_BIN)
-	(cd $(SOURCE_DIR)/cxpm ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
-	(cd $(SOURCE_DIR)/sxpm ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
+install_xpm_apps:: $(BUILD_TARGETS)
+	(cd $(SOURCE_DIR)/cxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)
+	(cd $(SOURCE_DIR)/sxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
 	(cd $(SOURCE_DIR)/cxpm ; cp -pf cxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))
 	(cd $(SOURCE_DIR)/sxpm ; cp -pf sxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))

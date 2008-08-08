@@ -33,16 +33,17 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xset
+MODULE_NAME=xset
 
 # Version number (used in path names)
-APP_VERS=1.0.4
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xsetfbpm.patch xsetman.patch
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=
-SUNTOUCH_MAN_FLAGS=
+SUNTOUCHED_MANPAGES=*.man
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Uncommitted
 
 include ../Makefile.inc

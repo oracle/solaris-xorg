@@ -33,13 +33,12 @@
 #
 
 # Package name used in tarballs
-APP_NAME=xterm
+MODULE_NAME=xterm
 
 # Version number (used in path names)
-APP_VERS=235
+MODULE_VERSION=235
 
 # Source tarball
-SOURCE_TARBALL_NAME=$(APP_NAME)-$(APP_VERS).tar.gz
 SOURCE_URL=ftp://invisible-island.net/xterm/xterm.tar.gz
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
@@ -50,8 +49,8 @@ SOURCE_PATCHES = \
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= -p $(APP_prefix)/bin/ \
- -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
 
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
 # and run time 
@@ -62,14 +61,14 @@ FT_LIBS= \
   -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -R/usr/lib$(LIBSUBDIR) -lfontconfig
 
 # Additional flags to pass to configure script
-APP_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
+MODULE_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
   --with-freetype-cflags="$(FT_CFLAGS)" --with-freetype-libs="$(FT_LIBS)" \
   --disable-setuid --disable-setgid  --enable-luit \
   --x-includes=$(PROTODIR)/usr/X11/include --x-libraries=/usr/X11/lib \
   --with-icondir=/usr/share/pixmaps
 
 # Tell configure where to find luit binary
-APP_CONFIG_ENV = LUIT=/usr/X11/bin/luit
+MODULE_CONFIG_ENV = LUIT=/usr/X11/bin/luit
 
 # Use new libXaw
 LIB_ADD_LD_OPTIONS += -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg \

@@ -28,43 +28,19 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/03/19
+# @(#)Makefile	1.2	08/08/08 SMI
 #
 
-PWD:sh=pwd
-TOP=$(PWD)/../..
-
-# Version number (used in path names)
-VERSION=1.0.2
-
+# Package name used in tarballs
 MODULE_NAME=xorg-cf-files
 
-# Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(VERSION).tar.bz2
-SOURCE_TARBALL_DIR=util
+# Version number (used in path names)
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(VERSION)
-
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include ../Makefile.inc
 
-### Rules specific to this directory:
 
-# Command line options to GNU autoconf configure script
-CONFIG_OPTS = --prefix=$(X11_DIR)
-
-build_gen: $(SOURCE_DIR)/Makefile
-
-# Run configure script
-$(SOURCE_DIR)/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	 chmod a+x configure ; \
-	 ./configure $(CONFIG_OPTS) )
-
-# Install
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) install)
