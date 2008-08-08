@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#       "@(#)prototype	1.13	08/06/18   Sun Microsystems" 
+#       "@(#)prototype	1.14	08/08/07   Sun Microsystems" 
 #
 # X Window System optional client localizable files
 
@@ -37,40 +37,26 @@ i pkginfo
 i copyright
 #i depend
 
-!HOME=../openwin
+!HOME=../usr
 
-!search      $HOME/lib/X11/app-defaults
+!search $HOME/X11/lib/X11/app-defaults
+d none X11						0755 root bin
+d none X11/lib						0755 root bin
+d none X11/lib/X11					0755 root bin
+d none X11/lib/X11/app-defaults				0755 root bin
+f none X11/lib/X11/app-defaults/Viewres 		0444 root bin
+f none X11/lib/X11/app-defaults/Xditview   		0444 root bin
+f none X11/lib/X11/app-defaults/Xedit   		0444 root bin
+f none X11/lib/X11/app-defaults/XFontSel   		0444 root bin
+f none X11/lib/X11/app-defaults/XLoad 			0444 root bin
+f none X11/lib/X11/app-defaults/Xman    		0444 root bin
 
-d none openwin                  0755 root bin
-d none openwin/lib 		0755 root bin
-d none openwin/lib/locale       0755 root bin
-d none openwin/lib/locale/C     0755 root bin
-d none openwin/lib/locale/C/app-defaults 0755 root bin
-f none openwin/lib/locale/C/app-defaults/XFontSel 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Xditview 0644 root bin
-f none openwin/lib/locale/C/app-defaults/Xedit 0644 root bin
-
-d none openwin/lib/locale/C/help     0755 root bin
-!search  $HOME/lib
-
-!search      $HOME/lib/locale/C/LC_MESSAGES
-d none openwin/lib/locale/C/LC_MESSAGES 0755 root bin
-f none openwin/lib/locale/C/LC_MESSAGES/xfontsel.po 0644 root bin
-
-!search $HOME/../usr/X11/lib/X11/app-defaults
-d none X11				0755 root bin
-d none X11/lib				0755 root bin
-d none X11/lib/X11			0755 root bin
-d none X11/lib/X11/app-defaults		0755 root bin
-f none X11/lib/X11/app-defaults/Viewres 0644 root bin
-f none X11/lib/X11/app-defaults/Xman    0644 root bin
-f none X11/lib/X11/app-defaults/XLoad 	0644 root bin
-
-!search $HOME/../usr/X11/share/locale/C/LC_MESSAGES
+!search $HOME/X11/share/locale/C/LC_MESSAGES
 d none X11/share                                        0755 root bin
 d none X11/share/locale                                 0755 root bin
 d none X11/share/locale/C                               0755 root bin
 d none X11/share/locale/C/LC_MESSAGES                   0755 root bin
-f none X11/share/locale/C/LC_MESSAGES/xman.po           0644 root bin
-# xload to open source version
-f none X11/share/locale/C/LC_MESSAGES/xload.po 		0644 root bin
+f none X11/share/locale/C/LC_MESSAGES/xfontsel.po	0444 root bin
+f none X11/share/locale/C/LC_MESSAGES/xload.po 		0444 root bin
+f none X11/share/locale/C/LC_MESSAGES/xman.po           0444 root bin
+
