@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.97     08/08/06 SMI"
+# ident "@(#)prototype_com 35.98     08/08/08 SMI"
 #
 #  X Window System online user man pages
 
@@ -329,6 +329,11 @@ f none X11/share/man/man1/xwud.1 	0444 root bin
 # open-src/app/xedit
 f none X11/share/man/man1/xedit.1 	0444 root bin
 
+# open-src/util/imake
+f none X11/share/man/man1/imake.1 	0444 root bin
+f none X11/share/man/man1/mkdirhier.1 	0444 root bin
+f none X11/share/man/man1/xmkmf.1 	0444 root bin
+
 # open-src/doc/xorg-docs
 !search $NEWHOME/man5
 d none X11/share/man/man5 0755 root bin
@@ -338,7 +343,3 @@ f none X11/share/man/man5/XOrgFoundation.5 0444 root bin
 f none X11/share/man/man5/Xprint.5 0444 root bin
 f none X11/share/man/man5/XStandards.5=$NEWHOME/man5/Standards.5 0444 root bin
 f none X11/share/man/man5/Xsecurity.5=$NEWHOME/man5/security.5 0444 root bin
-# open-src/util/imake
-f none X11/share/man/man1/imake.1 	0444 root bin
-f none X11/share/man/man1/mkdirhier.1 	0444 root bin
-f none X11/share/man/man1/xmkmf.1 	0444 root bin
