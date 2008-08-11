@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.91	08/08/08
+# @(#)Makefile.inc	1.92	08/08/10
 #
 
 ### Default rules
@@ -301,8 +301,8 @@ CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \
 
 # Environment variable options to GNU autoconf configure script
 $(USE_DEFAULT_CONFIG_CPPFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_CPPFLAGS= \
-	-I $(PROTODIR)$(X11_INCLUDES_DIR) \
-	-I $(PROTODIR)/usr/include -I $(PROTODIR)/usr/include/freetype2
+	-I$(PROTODIR)$(X11_INCLUDES_DIR) \
+	-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)

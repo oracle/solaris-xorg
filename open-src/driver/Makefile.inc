@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.11	08/08/08
+# @(#)Makefile.inc	1.12	08/08/10
 #
 
 PWD:sh=pwd
@@ -53,9 +53,9 @@ MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
 MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
 
 MODTYPE_CPPFLAGS= \
-	-I $(PROTODIR)/usr/X11/include/xorg	\
-	-I $(PROTODIR)/usr/X11/include/drm	\
-	-I $(PROTODIR)/usr/X11/include/X11/dri
+	-I$(PROTODIR)/usr/X11/include/xorg	\
+	-I$(PROTODIR)/usr/X11/include/drm	\
+	-I$(PROTODIR)/usr/X11/include/X11/dri
 
 # Inline assembly in i386 requires gcc until we move to Studio 12 or later
 MODTYPE_COMPILER_sparc=suncc
