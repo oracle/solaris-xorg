@@ -1,5 +1,3 @@
-# Makefile for X Consolidation Open Source Library modules
-#
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
@@ -28,72 +26,32 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.23	08/08/12
-#
-###############################################################################
+# @(#)Makefile	1.1	08/08/12
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+HEADERSPublic = Xtsol.h Xtsolproto.h
+HEADERSPublic_dir = $(PREFIX)/include/X11/extensions
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	hwc
+SRCS = Xtsol.c auditwrite.c
+OBJS = $(SRCS:.c=.o)
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+REQUIREDLIBS = -lX11 -lbsm -ltsol -lc
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+XLIB_CFLAGS:sh = pkg-config --cflags x11
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+libXtsol.so.1: $(OBJS) mapfile-vers
+	$(CC) -G -o $@ -h $@ $(CFLAGS) $(LDFLAGS) -M mapfile-vers \
+	  $(OBJS) $(REQUIREDLIBS)
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+.c.o:
+	$(CC) -Kpic $(XLIB_CFLAGS) $(CFLAGS) $(CPPFLAGS) -c $<
+
+install: libXtsol.so.1
+	mkdir -p $(DESTDIR)$(HEADERSPublic_dir)
+	for i in $(HEADERSPublic) ; do \
+		$(INSTALL) $$i $(DESTDIR)$(HEADERSPublic_dir) ; \
+	done
+	mkdir -p $(DESTDIR)$(libdir)
+	-rm -f $(DESTDIR)$(libdir)/libXtsol.so \
+	       $(DESTDIR)$(libdir)/libXtsol.so.1
+	$(INSTALL) libXtsol.so.1 $(DESTDIR)$(libdir)/libXtsol.so.1
+	ln -s libXtsol.so.1 $(DESTDIR)$(libdir)/libXtsol.so

@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 1.48     08/04/01 SMI"
+# ident "@(#)prototype_com 1.49     08/08/12 SMI"
 #
 #  X Window System Runtime Compatability Package
 #
@@ -168,6 +168,11 @@ s none lib/libMrm.so.3=../dt/lib/libMrm.so.3
 s none lib/libUil.so=./libUil.so.3
 s none lib/libUil.so.3=../dt/lib/libUil.so.3
 
+#
+# Trusted Extensions
+#
+s none lib/libXtsol.so=./libXtsol.so.1
+s none lib/libXtsol.so.1=../X11/lib/libXtsol.so.1
 
 ###
 #
@@ -276,5 +281,5 @@ s none lib/$plat_64/libXm.so.4=../../dt/lib/64/libXm.so.4
 # Trusted Extensions
 #
 s none lib/$plat_64/libXtsol.so=./libXtsol.so.1
-s none lib/$plat_64/libXtsol.so.1=../../openwin/lib/64/libXtsol.so.1
+s none lib/$plat_64/libXtsol.so.1=../../X11/lib/64/libXtsol.so.1
 

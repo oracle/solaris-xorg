@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.85	08/07/03 SMI"
+# ident	"@(#)prototype	35.86	08/08/12 SMI"
 #
 #  X Window System include files
 
@@ -341,8 +341,6 @@ f none openwin/share/include/X11/extensions/XKBfile.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKBrules.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKM.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKMformat.h 0644 root bin
-f none openwin/share/include/X11/extensions/Xtsol.h 0644 root bin
-f none openwin/share/include/X11/extensions/Xtsolproto.h 0644 root bin
 
 # symlinks for backwards compatibility with old locations
 s none openwin/share/include/X11/extensions/MITMisc.h=../../../../../X11/include/X11/extensions/MITMisc.h
@@ -513,6 +511,12 @@ f none X11/include/X11/extensions/Xrender.h 0444 root bin
 # open-src/lib/libXres
 s none openwin/share/include/X11/extensions/XRes.h=../../../../../X11/include/X11/extensions/XRes.h
 f none X11/include/X11/extensions/XRes.h 0444 root bin
+
+# open-src/lib/libXtsol
+s none openwin/share/include/X11/extensions/Xtsol.h=../../../../../X11/include/X11/extensions/Xtsol.h
+s none openwin/share/include/X11/extensions/Xtsolproto.h=../../../../../X11/include/X11/extensions/Xtsolproto.h
+f none X11/include/X11/extensions/Xtsol.h 0444 root bin
+f none X11/include/X11/extensions/Xtsolproto.h 0444 root bin
 
 # open-src/lib/libSM
 d none openwin/share/include/X11/SM 0755 root bin

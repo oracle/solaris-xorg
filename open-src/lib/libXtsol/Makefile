@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# Xtsol 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,72 +30,38 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.23	08/08/12
+# @(#)Makefile	1.1	08/08/12
 #
-###############################################################################
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+# Package name used in tarballs
+MODULE_NAME=libXtsol
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	hwc
+# No upstream sources, only local sources
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Library name (used for specfiles/mapfiles)
+LIBNAME=Xtsol
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES= # None
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
+LIB_MAN_SUFFIX=3Xtsol
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+# Since we don't have a configure script, pass configure flags to make
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
+include ../Makefile.inc
+
+source_gen:: $(LNDIR)
+	mkdir -p $(SOURCE_DIR)
+	(cd $(SOURCE_DIR) ; \
+	 ln -s ../../../../xserver/xorg/sun-src/tsol/auditwrite.[ch] . )
