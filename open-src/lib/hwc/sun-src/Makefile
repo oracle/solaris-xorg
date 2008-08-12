@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# hwc 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -12,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,77 +24,33 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.22	08/08/12
+# @(#)Makefile	1.1 08/08/12
 #
-###############################################################################
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	hwc
+MACH:sh=uname -p
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+CPPFLAGS = -I. -D_KERNEL -D_SUNDDI -D_SYSCALL32
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+BUILD_i386_FLAGS = -Xt
+BUILD_sparc_FLAGS = -D_SYSCALL32_IMPL -Xa -xarch=v9 \
+		    -xchip=ultra -Wc,-xcode=abs32
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+CFLAGS = $(CPPFLAGS) $(BUILD_$(MACH)_FLAGS) $(ARCH_FLAGS) \
+	-xO3 -xspace -W0,-Lt -v -c
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+LD_OPTIONS=
+
+hwc: hwc.c hwcio.h
+	${CC} $(CFLAGS) hwc.c
+	/usr/ccs/bin/ld -r -o hwc hwc.o
+
+install:
+	mkdir -p $(DESTDIR)/usr/openwin/modules$(ARCHLIBSUBDIR)
+	$(INSTALL) -m 755 hwc $(DESTDIR)/usr/openwin/modules$(ARCHLIBSUBDIR)
