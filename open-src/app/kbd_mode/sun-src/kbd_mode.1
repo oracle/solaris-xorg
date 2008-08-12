@@ -1,0 +1,89 @@
+'\" t
+.\" Copyright 2008, Sun Microsystems, Inc.  All rights reserved.
+.\" 
+.\" Permission is hereby granted, free of charge, to any person obtaining a
+.\" copy of this software and associated documentation files (the
+.\" "Software"), to deal in the Software without restriction, including
+.\" without limitation the rights to use, copy, modify, merge, publish,
+.\" distribute, and/or sell copies of the Software, and to permit persons
+.\" to whom the Software is furnished to do so, provided that the above
+.\" copyright notice(s) and this permission notice appear in all copies of
+.\" the Software and that both the above copyright notice(s) and this
+.\" permission notice appear in supporting documentation.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+.\" OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+.\" MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+.\" OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+.\" INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+.\" FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+.\" NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+.\" WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\" 
+.\" Except as contained in this notice, the name of a copyright holder
+.\" shall not be used in advertising or otherwise to promote the sale, use
+.\" or other dealings in this Software without prior written authorization
+.\" of the copyright holder.
+.\"
+.TH kbd_mode 1 "12 August 2008"
+.IX "kbd_mode" "" "\f3kbd_mode\f1(1) \(em keyboard translation utility" ""
+.IX "keyboard" "trans" "keyboard" "translation utility \(em \f3kbd_mode\f1(1)"
+.SH NAME
+/usr/X11/bin/kbd_mode \- change the keyboard translation mode
+.SH SYNOPSIS
+.B kbd_mode -a | -n |
+.B -e | -u
+.SH DESCRIPTION
+.IX "keyboard" "reset" "keyboard" "resetting input \(em \f3kbd_mode\f1(1)" ""
+.B kbd_mode
+sets the translation mode of the console's keyboard (\f3/dev/kbd\f1)
+to one of the four values defined for 
+.SB KIOCTRANS 
+in
+.BR kb (7M) .
+This is useful when a program that resets the translation mode
+terminates abnormally and fails to restore the original translation mode.
+.LP
+Note that the text console desires ASCII characters (\f3kbd_mode -a\f1), while
+.BR Xorg (1)
+and
+.BR Xsun (1)
+desire untranslated events (\f3kbd_mode -u\f1).
+.SH OPTIONS
+.TP
+.B -a
+ASCII: the keyboard will generate simple ASCII characters.
+.TP 
+.B -n
+None: the keyboard will generate unencoded bytes
+\- a distinct value for up and down on each switch on the keyboard.
+.TP
+.B -e
+Events: the keyboard will generate firm_events
+with ASCII characters in the \fIvalue\fP field.
+.TP 
+.B -u
+Unencoded: the keyboard will generate input events
+with unencoded bytes in the \fIvalue\fP field
+such as those desired by the X server.
+.SH FILES
+.nf
+/dev/kbd
+.fi
+.SH ATTRIBUTES
+See
+.BR attributes (5)
+for descriptions of the following attributes:
+.sp
+.TS
+box;
+cbp-1 | cbp-1
+l | l .
+ATTRIBUTE TYPE  ATTRIBUTE VALUE
+=
+Availability    SUNWxwplt
+Interface Stability     Committed
+.TE 
+.SH "SEE ALSO"
+.BR kb (7M)

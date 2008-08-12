@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.4	08/08/08
+# @(#)Makefile.inc	1.5	08/08/12
 #
 
 PWD:sh=pwd
@@ -57,6 +57,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
         --disable-xdm-auth-1 --enable-xcsecurity \
 	--enable-shared --disable-static \
 	--disable-xsdl --disable-xwin --disable-xgl \
+	--disable-kbd_mode \
 	--disable-install-setuid \
 	--with-vendor-name="Sun Microsystems, Inc." \
 	--with-vendor-web="http://sunsolve.sun.com/" \

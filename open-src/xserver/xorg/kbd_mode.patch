@@ -1,0 +1,24 @@
+From 50382652afc13021f041c42ae6e8893643ea2bfa Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 12 Aug 2008 14:53:14 -0700
+Subject: [PATCH] Fix --disable/--enable-kbd_mode configure flag
+---
+ configure.ac |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 6b3b1ee..efef454 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2056,7 +2056,7 @@ AM_CONDITIONAL(USE_CURSES, [test x$CURSE
+ 
+ AC_ARG_ENABLE(kbd_mode, AS_HELP_STRING([--enable-kbd_mode],
+ 	[Build kbd_mode utility (default: auto)]),
+-	[BUILD_KBD_MODE=$enable_val], [BUILD_KBD_MODE="auto"])
++	[BUILD_KBD_MODE=$enableval], [BUILD_KBD_MODE="auto"])
+ if test x$BUILD_KBD_MODE != xno ; then
+ 	case $host_os in
+ 	  *bsd*)
+-- 
+1.4.1
+
