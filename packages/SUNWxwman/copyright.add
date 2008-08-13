@@ -269,6 +269,12 @@ include app/xlsfonts/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xlswins package are covered by the following notice:
+
+include app/xlswins/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xload package are covered by the following notice:
 
 include app/xload/COPYING
