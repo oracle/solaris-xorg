@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.197    08/08/13   Sun Microsystems"
+#      "@(#)prototype_com	35.198    08/08/14   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -62,9 +62,6 @@ f none openwin/bin/xmakemap 	0755 root bin
 # X11R6.4 upgrade changes
 #
 f none openwin/bin/proxymngr    0755 root bin
-f none openwin/bin/xkbbell      0755 root bin
-f none openwin/bin/xkbvleds     0755 root bin
-f none openwin/bin/xkbwatch     0755 root bin
 f none openwin/bin/rstart	0755 root bin
 
 #### applications replaced with new versions from open-src/app
@@ -149,6 +146,14 @@ s none openwin/bin/xinit=../../X11/bin/xinit
 # open-src/app/xkbprint
 f none X11/bin/xkbprint 	0755 root bin
 s none openwin/bin/xkbprint=../../X11/bin/xkbprint
+
+# open-src/app/xkbutils
+f none X11/bin/xkbbell 		0755 root bin
+f none X11/bin/xkbvleds 	0755 root bin
+f none X11/bin/xkbwatch 	0755 root bin
+s none openwin/bin/xkbbell=../../X11/bin/xkbbell
+s none openwin/bin/xkbvleds=../../X11/bin/xkbvleds
+s none openwin/bin/xkbwatch=../../X11/bin/xkbwatch
 
 # open-src/app/xlogo
 f none X11/bin/xlogo 		0755 root bin

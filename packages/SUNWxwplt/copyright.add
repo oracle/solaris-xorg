@@ -303,6 +303,12 @@ include app/xkbprint/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xkbutils package are covered by the following notice:
+
+include app/xkbutils/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xlsatoms package are covered by the following notice:
 
 include app/xlsatoms/COPYING

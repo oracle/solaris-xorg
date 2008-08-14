@@ -245,6 +245,12 @@ include app/xkbprint/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xkbutils package are covered by the following notice:
+
+include app/xkbutils/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xkill package are covered by the following notice:
 
 include app/xkill/COPYING

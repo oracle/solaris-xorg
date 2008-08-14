@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xkbutils 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,101 +30,27 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.68	08/08/14
+# @(#)Makefile	1.1 08/08/14
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+# Package name used in tarballs
+MODULE_NAME=xkbutils
 
-OS_SUBDIRS_common = \
-	appres \
-	bdftopcf \
-	bitmap \
-	constype \
-	editres \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkfontscale \
-	oclock \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xman \
-	xmodmap \
-	xpm \
-	xpr \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx
+# Version number (used in path names)
+MODULE_VERSION=1.0.1
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=# None
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+include ../Makefile.inc
 
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs
+install_gen::install_man
+install_man:
+	cp -f sun-src/xkbwatch.1 $(PROTODIR)/usr/X11/share/man/man1/xkbwatch.1
+	cp -f sun-src/xkbbell.1 $(PROTODIR)/usr/X11/share/man/man1/xkbbell.1
+	cp -f sun-src/xkbvleds.1 $(PROTODIR)/usr/X11/share/man/man1/xkbvleds.1
