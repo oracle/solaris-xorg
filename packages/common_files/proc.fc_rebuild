@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)proc.fc_rebuild	1.3 08/08/07 SMI"
+# ident	"@(#)proc.fc_rebuild	1.4 08/08/13 SMI"
 #
 
 # Force fontconfig cache rebuild on next boot
@@ -42,7 +42,7 @@ else
 	if [ $? -ne 0 ]; then
 		cat >> $BASEDIR/../var/svc/profile/upgrade <<\_EOF
         	/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true
-		_EOF
+_EOF
 	fi
 fi
 
