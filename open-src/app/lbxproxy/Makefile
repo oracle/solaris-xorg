@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3 08/08/08
+# @(#)Makefile	1.4 08/08/13
 #
 
 # Package name used in tarballs
@@ -46,5 +46,8 @@ SOURCE_PATCHES = 6718029.patch
 SUNTOUCHED_MANPAGES=*.man
 SUNTOUCH_MAN_FLAGS= \
  -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+
+# Find liblbxutil in private subdir
+MODULE_LDFLAGS= $(X11_SERVERLIBS_LDFLAGS)
 
 include ../Makefile.inc

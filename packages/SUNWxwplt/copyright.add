@@ -411,6 +411,12 @@ include lib/libFS/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/liblbxutil package are covered by the following notice:
+
+include lib/liblbxutil/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libSM package are covered by the following notice:
 
 include lib/libSM/COPYING

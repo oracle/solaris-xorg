@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 08/08/08
+# @(#)Makefile	1.3 08/08/13
 #
 
 # Package name used in tarballs
@@ -52,5 +52,8 @@ LIBNAME=lbxutil
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=lbxutil.pc.in
+
+# Install in private subdir for use by Xservers & lbxproxy
+MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 
 include ../Makefile.inc

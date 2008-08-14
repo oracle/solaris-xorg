@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.196    08/08/13   Sun Microsystems"
+#      "@(#)prototype_com	35.197    08/08/13   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -1258,6 +1258,16 @@ f none X11/lib/libxrx.so                  	0755 root bin
 !search      $HOME/X11/lib/X11/lbxproxy
 d none X11/lib/X11/lbxproxy 			0755 root bin
 f none X11/lib/X11/lbxproxy/AtomControl		0755 root bin
+
+# open-src/lib/liblbxutil
+!search $HOME/X11/lib/X11/xserver
+d none X11/lib/X11/xserver			0755 root bin
+f none X11/lib/X11/xserver/liblbxutil.so.1	0444 root bin
+
+!search $HOME/X11/lib/X11/xserver/$plat_64
+d none X11/lib/X11/xserver/$plat_64		0755 root bin
+s none X11/lib/X11/xserver/64=$plat_64
+f none X11/lib/X11/xserver/$plat_64/liblbxutil.so.1 0444 root bin
 
 # Create links back to openwin
 s none openwin/lib/app-defaults/XClock=../../../X11/lib/X11/app-defaults/XClock
