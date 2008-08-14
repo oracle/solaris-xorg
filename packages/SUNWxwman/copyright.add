@@ -411,3 +411,9 @@ Files from the app/xedit package are covered by the following notice:
 
 include app/xedit/COPYING
 
+--------------------------------------------------------------------
+
+Files from the util/makedepend package are covered by the following notice:
+
+include util/makedepend/COPYING
+

@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source utility modules
+###############################################################################
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,29 +28,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/11
+# @(#)Makefile	1.2	08/08/08 SMI
 #
-###############################################################################
 
-# These module directories are not listed here on purpose:
-#  util-macros - has to be the very first, built in top-level Makefile
-#  build-tools - nothing to build
-#  mdb-tools - must be built after X servers, not built/shipped by default,
-#		here for developers to build as needed
+# Package name used in tarballs
+MODULE_NAME=makedepend
 
-OS_SUBDIRS_common = \
-	lndir \
-	imake \
-	makedepend \
-	xorg-cf-files
+# Version number (used in path names)
+MODULE_VERSION=1.0.1
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES=	
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Uncommitted
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+### Include common rulesets
+include ../Makefile.inc
 
-### Include common definitions
-DIRNAME="util/"
-include $(TOP)/common/Makefile.subdirs

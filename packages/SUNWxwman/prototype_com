@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.100     08/08/13 SMI"
+# ident "@(#)prototype_com 35.101     08/08/14 SMI"
 #
 #  X Window System online user man pages
 
@@ -68,7 +68,6 @@ f none openwin/share/man/man1/cmap_alloc.1 0444 root bin
 f none openwin/share/man/man1/cmap_compact.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
 f none openwin/share/man/man1/fsadmin.1 0444 root bin
-f none openwin/share/man/man1/makedepend.1 0444 root bin
 f none openwin/share/man/man1/makepsres.1 0444 root bin
 f none openwin/share/man/man1/mkfontdir.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
@@ -337,6 +336,9 @@ f none X11/share/man/man1/xedit.1 	0444 root bin
 f none X11/share/man/man1/imake.1 	0444 root bin
 f none X11/share/man/man1/mkdirhier.1 	0444 root bin
 f none X11/share/man/man1/xmkmf.1 	0444 root bin
+
+# open-src/util/makedepend
+f none X11/share/man/man1/makedepend.1 	0444 root bin
 
 # open-src/doc/xorg-docs
 !search $NEWHOME/man5
