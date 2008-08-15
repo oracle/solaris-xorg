@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.5	08/08/12
+# @(#)Makefile.inc	1.6	08/08/15
 #
 
 PWD:sh=pwd
@@ -67,7 +67,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
 	--with-rgb-path='$${libdir}/X11/rgb' \
-	--with-default-font-path="$(FONTDIR)/TrueType/,$(FONTDIR)/Type1/,$(FONTDIR)/Type1/sun/,$(FONTDIR)/F3bitmaps/,$(FONTDIR)/misc/,$(FONTDIR)/100dpi/,$(FONTDIR)/75dpi/" 
+	--with-default-font-path="$(XSERVER_FONTDIR)/TrueType/,$(XSERVER_FONTDIR)/Type1/,$(XSERVER_FONTDIR)/Type1/sun/,$(XSERVER_FONTDIR)/F3bitmaps/,$(XSERVER_FONTDIR)/misc/,$(XSERVER_FONTDIR)/100dpi/,$(XSERVER_FONTDIR)/75dpi/" 
 
 XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON)
 XSERVER_CONFIG_OPTS_i386=$(XSERVER_CONFIG_OPTS_COMMON) \
