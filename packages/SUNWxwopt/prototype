@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.66	08/08/11 SMI"
+# ident "@(#)prototype	35.67	08/08/19 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -43,7 +43,6 @@ d none openwin/bin		0755 root bin
 f none openwin/bin/bdftosnf	0755 root bin
 f none openwin/bin/pswrap	0755 root bin
 f none openwin/bin/showsnf	0755 root bin
-f none openwin/bin/xcolor	0755 root bin
 f none openwin/bin/xdm		0755 root bin
 f none openwin/bin/xdmshell	0755 root bin
 f none openwin/bin/xmh		0755 root bin
@@ -160,6 +159,7 @@ f none X11/bin/bmtoa				0755 root bin
 f none X11/bin/editres				0755 root bin
 f none X11/bin/oclock				0755 root bin
 f none X11/bin/xman				0755 root bin
+f none X11/bin/xcolor				0755 root bin
 f none X11/bin/xterm				0755 root bin
 f none X11/bin/resize				0755 root bin
 f none X11/bin/xditview                         0755 root bin
@@ -192,6 +192,7 @@ s none openwin/bin/bmtoa=../../X11/bin/bmtoa
 s none openwin/bin/editres=../../X11/bin/editres
 s none openwin/bin/oclock=../../X11/bin/oclock
 s none openwin/bin/xman=../../X11/bin/xman
+s none openwin/bin/xcolor=../../X11/bin/xcolor
 s none openwin/bin/xterm=../../X11/bin/xterm
 s none openwin/bin/resize=../../X11/bin/resize
 s none openwin/bin/xfontsel=../../X11/bin/xfontsel

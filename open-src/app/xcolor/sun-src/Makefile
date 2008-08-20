@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xcolor 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,102 +30,13 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.70	08/08/21
+# @(#)Makefile	1.1	08/08/07
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+OBJS = HSBmap.o XCrDynCmap.o XCrHsbCmap.o xcolor.o
 
-OS_SUBDIRS_common = \
-	appres \
-	bdftopcf \
-	bitmap \
-	constype \
-	editres \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkfontscale \
-	oclock \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-        xcolor \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xman \
-	xmodmap \
-	xpm \
-	xpr \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx
+xcolor: $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) -lX11
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
-
-PWD:sh=pwd
-TOP=$(PWD)/..
-
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs
+install:
+	$(INSTALL) -m 755 xcolor $(DESTDIR)/usr/X11/bin/xcolor

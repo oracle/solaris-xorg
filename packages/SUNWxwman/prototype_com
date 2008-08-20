@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.102     08/08/14 SMI"
+# ident "@(#)prototype_com 35.103     08/08/19 SMI"
 #
 #  X Window System online user man pages
 
@@ -69,7 +69,6 @@ f none openwin/share/man/man1/mkfontdir.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
 f none openwin/share/man/man1/showsnf.1 0444 root bin
-f none openwin/share/man/man1/xcolor.1 0444 root bin
 f none openwin/share/man/man1/xdm.1 0444 root bin
 f none openwin/share/man/man1/xfs.1 0444 root bin
 f none openwin/share/man/man1/xlock.1 0444 root bin
@@ -301,6 +300,9 @@ f none X11/share/man/man1/xsetroot.1 	0444 root bin
 
 # open-src/app/xstdcmap
 f none X11/share/man/man1/xstdcmap.1 	0444 root bin
+
+# open-src/app/xcolor
+f none X11/share/man/man1/xcolor.1 	0444 root bin
 
 # open-src/app/xterm
 f none X11/share/man/man1/xterm.1 	0444 root bin
