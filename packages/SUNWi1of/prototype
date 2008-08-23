@@ -30,7 +30,7 @@
 ###########################################################################
 
 #
-# ident "@(#)prototype 1.25     08/04/29 SMI"
+# ident "@(#)prototype 1.26     08/07/10 SMI"
 #
 #  ISO-8859-1 (Latin-1) Optional Fonts
 
@@ -55,89 +55,9 @@ d none openwin/lib/X11 0755 root bin
 !search            $HOME
 d none openwin/lib/X11/fonts 0755 root bin
 
+# Empty fonts.dir left to keep X configurations with this path in the
+# font dir from dying
 !search            $HOME/TTbitmaps
 d none openwin/lib/X11/fonts/TTbitmaps 0755 root bin
-e fontsalias openwin/lib/X11/fonts/TTbitmaps/fonts.alias.all 0644 root bin
 e fontsdir openwin/lib/X11/fonts/TTbitmaps/fonts.dir 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/fonts.upr 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Bold18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-BoldItalic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Italic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Italic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-Italic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial-italic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Arial18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Bold18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-BoldItalic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo-Italic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Bembo18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Bold18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-BoldItalic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic-Italic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/CenturyGothic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Bold18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-BoldItalic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Italic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Italic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-Italic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans-italic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/GillSans18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Bold18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-BoldItalic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell-Italic18.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell10.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell14.pcf 0644 root bin
-f none openwin/lib/X11/fonts/TTbitmaps/Rockwell18.pcf 0644 root bin
 
