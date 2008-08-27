@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.40 08/08/27
+# @(#)upgrade-X	1.41 08/08/27
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -141,7 +141,6 @@ pkg_list="
 	SUNWfontconfig-root
 	SUNWfontconfig-docs 
 	SUNWfreetype2
-	SUNWi1of
 	SUNWvncviewer
 	SUNWxcursor-themes
 	SUNWxorg-cfg
@@ -231,6 +230,9 @@ REM_PKGS+=" SUNWxwfa"
 
 # snv_97: 6731942 Remove SUNWxwsrc package
 REM_PKGS+=" SUNWxwsrc"
+
+# snv_98: 6741034 Merge SUNWi1of into SUNWxwfnt
+REM_PKGS+=" SUNWi1of"
 
 # Various compatibility links in SUNWxorg-server have been replaced with
 # files in other packages, so we need to remove SUNWxorg-server first
