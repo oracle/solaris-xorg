@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	08/08/27
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXcomposite
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.2
+MODULE_VERSION=0.4.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -50,8 +50,6 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xcomposite
-
-
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xcomposite.pc.in

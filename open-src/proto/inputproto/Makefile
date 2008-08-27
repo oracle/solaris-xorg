@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	08/08/27
 #
 
 # Package name used in tarballs
 MODULE_NAME=inputproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.2.1
+MODULE_VERSION=1.4.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=6649171.patch

@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/08
+# @(#)Makefile	1.4	08/08/27
 #
 
 # Package name used in tarballs
 MODULE_NAME=xpr
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6724753.patch

@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 08/08/08
+# @(#)Makefile	1.3 08/08/27
 #
 
 # Package name used in tarballs
 MODULE_NAME=x11perf
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.1
+MODULE_VERSION=1.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

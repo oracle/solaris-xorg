@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# @(#)Makefile	1.3	08/08/27
 #
 
 # Package name used in tarballs
 MODULE_NAME=compositeproto
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.1
+MODULE_VERSION=0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

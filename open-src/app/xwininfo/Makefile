@@ -36,7 +36,7 @@
 MODULE_NAME=xwininfo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

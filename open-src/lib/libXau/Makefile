@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# @(#)Makefile	1.6	08/08/27
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXau
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
