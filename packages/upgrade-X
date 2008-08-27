@@ -1,8 +1,8 @@
-#!/bin/ksh
+#!/bin/ksh93
 
 ###
 #
-# @(#)upgrade-X	1.39 08/07/30
+# @(#)upgrade-X	1.40 08/08/27
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -33,17 +33,27 @@
 #
 ###########################################################################
 #
-# Description: This script upgrades X software on a Solaris 10 or Nevada
-#	       system. It should be run as root from a X 6.6.3 package area.
+# Description: This script upgrades X software on a Solaris Nevada
+#	       system. It should be run as root from a X package area.
 #
-# Arguments:	-a 	Install ALL packages.  Now is the default behaviour.
+# Arguments:	-a 	Ignored (was: install ALL packages, which is now the
+#			default behaviour.)
 #		-q	Be quiet and don't report packages that aren't 
 #			installed.
 #
 ###
 
-    # Update this when X package version number changes
-    XVERS="6.9.0.5.11"
+# Update this when X package version number changes
+XVERS="6.9.0.5.11"
+
+# Set up error reporting function
+progname="$0"
+
+function fatal_error
+{
+    print -u2 "${progname}: ERROR: $*"
+    exit 1
+}
 
 ###
 #  
@@ -51,69 +61,55 @@
 #
 ###
 
-    MACH=`uname -p`
+MACH="$(uname -p)"
 
-    DATE=`LANG=C date '+%d%b%y-%H:%M:%S'`
+DATE="$(LANG=C date '+%d%b%y-%H:%M:%S')"
 
-    USER=`/bin/id | grep root | wc -l`
-    if [ $USER -eq 0 ]
-    then
-	echo ""
-        echo "You must be root to run this script"
-        echo ""
-        exit 1
+USER="$(/bin/id | grep root | wc -l)"
+if [[ $USER -eq 0 ]] ; then
+    fatal_error "You must be root to run this script"
+fi
+
+X_BASE_PKG=SUNWxwplt/pkginfo
+
+if [[ -f ${X_BASE_PKG} ]]; then
+    X_ARCH="$(awk -F= '$1 == "ARCH" {print $2}' ${X_BASE_PKG})"
+    X_VERSION="$(awk -F= '$1 == "SUNW_PRODVERS" {print $2}' ${X_BASE_PKG})"
+    X_BUILD="$(nawk '/^VERSION=/ {FS="[,.]+" ; print $(NF-4)/100}' ${X_BASE_PKG})"
+else
+    fatal_error "Cannot find base X package -- SUNWxwplt\n" \ 
+	"You need to run this script from the X ${XVERS} package area"
+fi
+
+if [[ "${X_ARCH}" != "${MACH}" ]]; then
+    fatal_error "SUNWxwplt package has wrong architecture (${X_ARCH}).\n" \
+	"It should have a ${MACH} architecture string."
+fi
+
+if [[ -z "${X_VERSION}" ]]; then
+    fatal_error "Cannot find SUNWxwplt package version.\n" \
+	"It should have a X ${XVERS} version string."
+else
+    if [[ "${X_VERSION}" != "${XVERS}" ]]; then
+	fatal_error "SUNWxwplt package has wrong version (${X_VERSION}).\n" \
+	    "It should have a X ${XVERS} version string."
     fi
+fi
 
+OS_REV="$(uname -r)"
 
-    X_BASE_PKG=SUNWxwplt/pkginfo
+if [[ "$OS_REV" != "5.11" ]] ; then
+    fatal_error "Incorrect Solaris version number.\n" \
+	"X ${XVERS} is only supported on Solaris Nevada or later"
+fi
 
-    if [ -f ${X_BASE_PKG} ]; then
-        X_VERSION=`grep PRODVERS ${X_BASE_PKG} | /bin/cut -f2 -d=`
-	X_BUILD=`nawk '/^VERSION=/ {FS="[,.]+" ; print $(NF-4)/100}' ${X_BASE_PKG} `
-    else
-	echo ""
-        echo "Cannot find base X package -- SUNWxwplt" 
-	echo "You need to run this script from the X ${XVERS} package area"
-        echo ""
-        exit 1
+if [[ -f /usr/bin/pkg ]] ; then
+    if /usr/bin/pkg list SUNWxwplt > /dev/null 2>&1 ; then
+	fatal_error "Cannot run on system with IPS installed X packages."
     fi
+fi
 
-    if [ -z "${X_VERSION}" ]; then
-	echo ""
-        echo "Cannot find SUNWxwplt package version." 
-	echo "It should have a X ${XVERS} version string"
-        echo ""
-        exit 1
-    else
-      if [ "${X_VERSION}" != "${XVERS}" ]; then
-	echo ""
-        echo "SUNWxwplt package has wrong version (${X_VERSION})." 
-	echo "It should have a X ${XVERS} version string"
-        echo ""
-        #exit 1
-      fi
-    fi
-
-    case "X$(uname -r)" in
-
-	X5.10)
-	PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
-	;;
-
-	X5.10.1)
-	PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
-	;;
-
-	X5.11)
-	PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
-	;;
-
-	*)
-	echo "Incorrect Solaris version number"
-	echo "X ${XVERS} is only supported on Solaris 10 or later"
-	exit 1
-	;;
-    esac
+PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
 
 ####
 #
@@ -121,14 +117,13 @@
 #
 ####
 
-INSTALLALL=1
 QUIET=0
 
 while getopts aq flag ; do
     case $flag in
-      a)	INSTALLALL=1 ;;
+      a)	;;
       q)	QUIET=1 ;;
-      ?)	printf "Usage: %s: [-a] [-q]\n"  $0
+      ?)	printf "Usage: %s: [-q]\n"  $0
 		exit 1 ;;
     esac
 done
@@ -137,150 +132,135 @@ done
 #
 #   List of packages to upgrade
 #
+####
+
+# List of official (deliverable) X Consolidation packages for all platforms
+# and all supported builds/releases
+pkg_list="
+	SUNWfontconfig 
+	SUNWfontconfig-root
+	SUNWfontconfig-docs 
+	SUNWfreetype2
+	SUNWi1of
+	SUNWvncviewer
+	SUNWxcursor-themes
+	SUNWxorg-cfg
+	SUNWxorg-client-docs
+	SUNWxorg-client-programs
+	SUNWxorg-clientlibs
+	SUNWxorg-compatlinks
+	SUNWxorg-devel-docs
+	SUNWxorg-doc
+	SUNWxorg-graphics-ddx
+	SUNWxorg-headers
+	SUNWxorg-server
+	SUNWxorg-tsol-module
+	SUNWxprint-server
+	SUNWxscreensaver-hacks
+	SUNWxscreensaver-hacks-gl
+	SUNWxsun-server
+	SUNWxvnc
+	SUNWxwacx
+	SUNWxwcft
+	SUNWxwdem
+	SUNWxwdim
+	SUNWxwdxm
+	SUNWxwfnt
+	SUNWxwfs
+	SUNWxwfsw
+	SUNWxwhl
+	SUNWxwice
+	SUNWxwinc
+	SUNWxwman
+	SUNWxwmod
+	SUNWxwoft
+	SUNWxwopt
+	SUNWxwpft
+	SUNWxwplr
+	SUNWxwplt
+	SUNWxwpmn
+	SUNWxwrtl
+	SUNWxwslb
+	SUNWxwsrv
+	SUNWxwsvr
+	SUNWxwts
+	SUNWxwxft
+"
+
+# Some packages are only built for certain platforms currently
+case "${MACH}" in
+    sparc)      
+        pkg_list+=" SUNWxwpsr" 
+        ;;
+    i386)       
+        pkg_list+=" SUNWxorg-mesa" 
+        ;;
+esac
+
+####
+#
+#   Deal with changes since various older Nevada builds
+#
 ####        
 
-# Packages to add even if not installed and -a not specified
-FORCE_ADD=""
+# Packages to remove first, either because they are obsolete and not
+# being replaced, or because they have been modified to conflict with
+# other packages, and need to be removed before those other packages
+# are added
+REM_PKGS=""
 
-# SUNWxwsvr split into SUNWxwsvr & SUNWxscreensaver-hacks* packages
-if [ -d SUNWxscreensaver ] ; then
-    PKGS_XSS="SUNWxscreensaver SUNWxscreensaver-hacks"
-    PKGS_XSS_sparc="SUNWxscreensaver-hacks-gl"
-    PKGS_XSS_REM="SUNWxwsvr"
-else
-    if [ -d SUNWxscreensaver-hacks ] ; then
-	if [ -d SUNWxscreensaver-hacks-gl ] ; then
-	    PKGS_XSS="SUNWxwsvr SUNWxscreensaver-hacks SUNWxscreensaver-hacks-gl"
-	    PKGS_XSS_REM="SUNWxscreensaver"
-	else
-	    PKGS_XSS="SUNWxwsvr SUNWxscreensaver-hacks"
-	    PKGS_XSS_REM="SUNWxscreensaver SUNWxscreensaver-hacks-gl"
-	fi
-    else
-	PKGS_XSS="SUNWxwsvr"
-	PKGS_XSS_sparc=""
-	PKGS_XSS_REM="SUNWxscreensaver SUNWxscreensaver-hacks SUNWxscreensaver-hacks-gl"
-    fi
+# snv_19: SUNWxwfnt split into SUNWxwfnt & SUNWxwfsw packages [6276301]
+# Need to remove SUNWxwfnt before installing SUNWxwfsw if 
+# SUNWxwfsw is not currently installed
+if ! /bin/pkginfo -q SUNWxwfsw ; then
+    REM_PKGS+=" SUNWxwfnt"
 fi
 
-# SUNWxwfnt split into SUNWxwfnt & SUNWxwfsw packages
-if [ -d SUNWxwfsw ] ; then
-    PKGS_FSW="SUNWxwfsw SUNWxwfnt"
-
-    /bin/pkginfo -q SUNWxwfsw
-    FOUNDPKG=$?
-    # Need to remove SUNWxwfnt before installing SUNWxwfsw if it's never
-    # been installed before and then make sure both packages are added
-    if [ $FOUNDPKG -ne 0 ]; then
-	PKGS_FNT_REM="SUNWxwfnt"
-	FORCE_ADD="${FORCE_ADD} ${PKGS_FSW}"
-    fi
-else
-    PKGS_FNT_REM="SUNWxwfsw"
-    PKGS_FSW="SUNWxwfnt"
+# snv_42: 6424854 Xsun & Xprt servers split out of SUNWxwplt
+# Need to remove SUNWxwplt before installing SUNWxsun-server if 
+# SUNWxsun-server isn't currently installed
+if ! /bin/pkginfo -q SUNWxsun-server ; then
+    REM_PKGS+=" SUNWxwplt"
 fi
 
-# Xsun & Xprt servers split out of SUNWxwplt
-PKGS_SRV="SUNWxsun-server SUNWxprint-server"
+# snv_46: 6261914 Removal of STSF & Xst [PSARC 2006/087]
+REM_PKGS+=" SUNWstsf SUNWstsfr SUNWxwxst"
 
-if [ -d SUNWxsun-server ] ; then
-    if [ -d SUNWxsun-keytables ] ; then
-	PKGS_SRV="SUNWxsun-keytables ${PKGS_SRV}"
-    fi
-    FORCE_ADD="${FORCE_ADD} ${PKGS_SRV}"
-    PKGS_PLT="SUNWxwplt ${PKGS_SRV}"
-else
-    REM_PKGS="${REM_PKGS} ${PKGS_SRV}"
-    PKGS_PLT="SUNWxwplt"
+# snv_91: 6699573 CDE Font Administration Tools removal [LSARC 2008/010]
+REM_PKGS+=" SUNWxwfa"
+
+# snv_97: 6731942 Remove SUNWxwsrc package
+REM_PKGS+=" SUNWxwsrc"
+
+# Various compatibility links in SUNWxorg-server have been replaced with
+# files in other packages, so we need to remove SUNWxorg-server first
+# (for example: 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link
+# in SUNWxorg-server to a directory in SUNWxwcft, 6684643 changed 
+# /usr/X11/lib/X11/rgb.txt from a link to a file in SUNWxwplt and so on)
+if /bin/pkginfo -q SUNWxorg-server ; then
+    REM_PKGS+=" SUNWxorg-server"
 fi
 
-    PKGS_32="${PKGS_FSW} SUNWxwice ${PKGS_PLT} SUNWi1of SUNWxwacx SUNWxwcft SUNWxwdim SUNWxwdxm SUNWxwdem SUNWxwfs SUNWxwhl SUNWxwinc SUNWxwman SUNWxwmod SUNWxwoft SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwpft SUNWxwsrv SUNWfreetype2 SUNWxwplr SUNWfontconfig SUNWfontconfig-root SUNWfontconfig-docs SUNWxwopt SUNWxwxft SUNWxcursor-themes SUNWxvnc SUNWvncviewer ${PKGS_XSS}"
-
-    PKGS_32_sparc="SUNWxwpsr ${PKGS_XSS_sparc}"
-
-    PKGS_64="SUNWxwicx SUNWxwmox SUNWxwplx SUNWxwrtx SUNWxwslx SUNWfreetype2-64"
-
-# Old packages to remove and not replace
-    REM_PKGS="${REM_PKGS} SUNWftyp2 SUNWftypx ${PKGS_XSS_REM} ${PKGS_FNT_REM} SUNWstsf SUNWstsfr SUNWxwsrc SUNWxwxst SUNWxwfa"
-
-
-# Packages moved from XORG tree
-PKGS_XORG_LIBS="SUNWxorg-clientlibs SUNWxorg-devel-docs SUNWxorg-headers \
-    SUNWxorg-compatlinks"
-
-PKGS_XORG_APPS="SUNWxorg-client-docs SUNWxorg-client-programs"
-
-PKGS_XORG_SRVR="SUNWxorg-server SUNWxorg-graphics-ddx SUNWxorg-cfg \
-    SUNWxorg-doc"
-
-PKGS_XORG_MESA="SUNWxorg-mesa"
-
-if [ -d SUNWxorg-clientlibs ] ; then
-    FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_LIBS}"
-    PKGS_32="${PKGS_32} ${PKGS_XORG_LIBS}"
-fi
-
-if [ -d SUNWxorg-client-programs ] ; then
-    FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_APPS}"
-    PKGS_32="${PKGS_32} ${PKGS_XORG_APPS}"
-fi
-
-if [ -d SUNWxorg-server ] ; then
-    FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_SRVR}"
-    PKGS_32="${PKGS_32} ${PKGS_XORG_SRVR}"
-    # Various compatibility links in SUNWxorg-server have been replaced with
-    # files in other packages, so we need to remove SUNWxorg-server first
-    # (for example: 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link
-    # in SUNWxorg-server to a directory in SUNWxwcft, 6684643 changed 
-    # /usr/X11/lib/X11/rgb.txt from a link to a file in SUNWxwplt and so on)
-    REM_PKGS="SUNWxorg-server"
-fi
-
-if [ -d SUNWxorg-mesa ] ; then
-    FORCE_ADD="${FORCE_ADD} ${PKGS_XORG_MESA}"
-    PKGS_32="${PKGS_32} ${PKGS_XORG_MESA}"
-fi
-
-if [ "$MACH" = "sparc" ]; then
-    # special for S10 - builds before 34 had separate 64-bit packages
-    # they were merged into core packages at build 34.
-    pkg_list="${PKGS_32} ${PKGS_32_sparc}"
-    REM_PKGS="${REM_PKGS} ${PKGS_64}"
-else
-    pkg_list="${PKGS_32}"
-fi
-
-# Check for new package required by SUNWfontconfig in s10_64 & later
-/usr/xpg4/bin/grep -q SUNWlexpt SUNWfontconfig/install/depend 
-if [ $? -eq 0 ] ; then
-    pkginfo -q SUNWlexpt
-    if [ $? -eq 1 ] ; then
-	echo "This build of X requires SUNWlexpt be installed."
-	echo "Please install it from an s10_63 or later install image or"
-	echo "from /ws/sfw10-gate/packages/`uname -p`/"
-	exit 1
-    fi
-fi
 
 # Check for shared SMF manifest scripts now required by our packages
-if [ ! -f /usr/sadm/install/scripts/i.manifest ] ; then
-    echo "This build of X requires a system with the shared SMF manifest class"
-    echo "action scripts installed in /usr/sadm/install/scripts/i.manifest"
-    echo "(See Solaris bug id 6209178)"
-    exit 1
+if [[ ! -f /usr/sadm/install/scripts/i.manifest ]] ; then
+    fatal_error "Cannot install on a Nevada build older than nv_17.\n" \ 
+     "This build of X requires a system with the shared SMF manifest class\n" \
+     "action scripts installed in /usr/sadm/install/scripts/i.manifest\n" \
+     "(See Solaris bug id 6209178)\n"
 fi
 
 # S10/greenline upgrade support
-svc_disable() 
+function svc_disable 
 {
     svcname="svc:$1:default";
-    if [ "$2" = "" ] ; then
+    if [[ "$2" = "" ]] ; then
 	manifest="/var/svc/manifest/$1.xml"
     else
 	manifest="/var/svc/manifest/$2"
     fi
 
-    if [ -f $manifest ] ; then
+    if [[ -f $manifest ]] ; then
 	/usr/sbin/svcadm -v disable -s $svcname 2>&1 | tee -a $PKG_UPGRADE_LOG
     fi
 }
@@ -292,15 +272,15 @@ svc_disable()
 #
 ###
 
-    echo ""
-    echo "Starting X ${XVERS} Build ${X_BUILD} upgrade."
-    echo "  An upgrade log file can be found at:"
-    echo "    $PKG_UPGRADE_LOG"
-    echo ""
+print ""
+print "Starting X ${XVERS} Build ${X_BUILD} upgrade."
+print "  An upgrade log file can be found at:"
+print "    $PKG_UPGRADE_LOG"
+print ""
 
-    VERBOSE="-n -a /tmp/admin.$$"
+VERBOSE="-n -a /tmp/admin.$$"
 
-    cat >/tmp/admin.$$ <<EOF
+cat >/tmp/admin.$$ <<EOF
 basedir=default
 mail=
 runlevel=quit
@@ -315,86 +295,61 @@ space=quit
 EOF
 
 # Back up OWconfig before adding/removing packages to 
-# workaround pkg bug 4946663
+# workaround pkg bug 4946663/4992643
+cp /usr/openwin/server/etc/OWconfig /var/tmp/OWconfig.${DATE}
 
-    cp /usr/openwin/server/etc/OWconfig /var/tmp/OWconfig.${DATE}
-
-    for pkg in $REM_PKGS
-    do
-	/bin/pkginfo -q ${pkg}
-	FOUNDPKG=$?
-	if [ $FOUNDPKG -eq 0 ]; then
+# Remove all instances of the specified package
+function remove_package 
+{
+    pkg=$1
+    if /bin/pkginfo -q ${pkg}.\* ; then
+	for p in $(pkginfo ${pkg}.\* | awk '{print $2}') ; do
 	    case "$pkg" in
+		SUNWxwplr*)
+		    svc_disable network/fs/tcp6 network/fs-tcp6.xml
+		    svc_disable application/opengl/ogl-select
+		    svc_disable application/x11/xfs
+		    svc_disable application/x11/xvnc-inetd
+		    ;;
+		SUNWfontconfig-root*)
+		    svc_disable application/font/fc-cache
+		    ;;
 		SUNWstsfr*)
 		    svc_disable application/font/stfsloader
 		    ;;
 	    esac
-	    /usr/sbin/pkgrm $VERBOSE ${pkg}.* 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
+	    /usr/sbin/pkgrm ${VERBOSE} ${p} 2>&1 \
+		| tee -a ${PKG_UPGRADE_LOG} | grep $pkg
+	done
+    fi
+}
+
+for pkg in ${REM_PKGS} ; do
+    remove_package $pkg
+done
+
+for pkg in ${pkg_list} ; do
+    remove_package $pkg
+
+    if [[ -e $pkg ]] ; then
+	/usr/sbin/pkgadd -S ${VERBOSE}  -d . $pkg 2>&1 \
+	    | tee -a ${PKG_UPGRADE_LOG} | grep $pkg
+	print ""
+    else
+	if [[ $QUIET -eq 0 ]] ; then
+	    print "No replacement found for $pkg"
 	fi
-    done
+    fi
+done
 
-    for pkg in $pkg_list
-    do
-	/bin/pkginfo -q ${pkg}.\*
-	FOUNDPKG=$?
-	if [ $FOUNDPKG -eq 0 ]; then
+# Start the rebuild of fontconfig caches now, instead of at next reboot
+/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild="true"
+/usr/sbin/svcadm restart application/font/fc-cache
 
-	    for p in $(pkginfo ${pkg}.\* | awk '{print $2}') ; do
-		case "$pkg" in
-		    SUNWxwplr*) 
-			svc_disable network/fs/tcp6 network/fs-tcp6.xml
-			svc_disable application/x11/xfs
-			svc_disable application/opengl/ogl-select
-			svc_disable application/x11/xvnc-inetd
-			;;
-		    SUNWfontconfig-root*)
-			svc_disable application/font/fc-cache
-			;;
-		    SUNWstsfr*)
-			svc_disable application/font/stfsloader
-			;;
-		esac
 
-		/usr/sbin/pkgrm $VERBOSE ${p} 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
-	    done
-	else
-	    echo $FORCE_ADD | /usr/xpg4/bin/grep -q ${pkg}
-	    FOUNDPKG=$?
-	fi
+print "X ${XVERS} upgrade is complete"
+print " "
+print "  An upgrade log file can be found at:"
+print "    $PKG_UPGRADE_LOG"
 
-	if [ $FOUNDPKG -eq 0 -o $INSTALLALL -eq 1 ]; then
-	  if [ -e $pkg ] ; then
-	    /usr/sbin/pkgadd -S $VERBOSE  -d `pwd` $pkg 2>&1 | tee -a $PKG_UPGRADE_LOG | grep $pkg
-	    echo ""
-	  else
-	    if [ $QUIET -eq 0 ] ; then
-	        echo "No replacement found for $pkg"
-	    fi
-	  fi
-	else
-	    if [ $QUIET -eq 0 ] ; then
-	      if [ -d $pkg ] ; then
-	    	echo "Warning:  ${pkg} not currently installed - not installing new ${pkg}."
-  	    	echo "  Run upgrade-X -a to install all new packages."
-		echo ""
-	      fi
-	    fi
-	fi
-    done
-
-# S10/greenline upgrade support
-if [ -x /usr/sbin/inetconv ] ; then
-    echo "Updating legacy Greenline/inetd manifests"
-
-    /usr/sbin/inetconv -i /etc/inet/inetd.conf
-fi
-
-    echo "X ${XVERS} upgrade is complete"
-    echo " "
-    echo "  An upgrade log file can be found at:"
-    echo "    $PKG_UPGRADE_LOG"
-
-#echo ""
-#echo "WARNING: You should compare /usr/openwin/server/etc/OWconfig to the copy"
-#echo "saved in /var/tmp/OWconfig.${DATE} to see if you"
-#echo "lost important bits from other packages.  (See bug id 4946663 for info.)"
+exit 0
