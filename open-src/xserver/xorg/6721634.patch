@@ -1,0 +1,97 @@
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
+--- hw/xfree86/common/xf86AutoConfig.c	2008-08-27 10:35:08.374335000 -0400
++++ hw/xfree86/common/xf86AutoConfig.c	2008-08-27 10:28:59.856790000 -0400
+@@ -67,6 +67,18 @@
+ 	"\tIdentifier\t" BUILTIN_DEVICE_NAME "\n" \
+ 	"\tDriver\t\"%s\"\n"
+ 
++#ifdef sun
++/* 
++ * Allow setting an arbitrary number of options.
++ * Each option should be indented with a tab and newline terminated.
++ */ 
++#define BUILTIN_DEVICE_SECTION_PRE_OPT \
++	"Section \"Device\"\n" \
++	"\tIdentifier\t" BUILTIN_DEVICE_NAME "\n" \
++	"\tDriver\t\"%s\"\n" \
++	"%s"
++#endif
++
+ #define BUILTIN_DEVICE_SECTION_POST \
+ 	"EndSection\n\n"
+ 
+@@ -74,6 +86,13 @@
+ 	BUILTIN_DEVICE_SECTION_PRE \
+ 	BUILTIN_DEVICE_SECTION_POST
+ 
++#ifdef sun
++/* Device section with options */
++#define BUILTIN_DEVICE_SECTION_OPT \
++	BUILTIN_DEVICE_SECTION_PRE_OPT \
++	BUILTIN_DEVICE_SECTION_POST
++#endif
++
+ #define BUILTIN_MONITOR_NAME \
+ 	"\"Builtin Default Monitor\""
+ 
+@@ -242,6 +261,10 @@
+ 	= { detectedDeviceList, fallbackDeviceList, NULL };
+     const char **p = detectedDeviceList;
+     const char ***d;
++#ifdef sun
++    const char *nvidia_string = "nvidia";
++    const char *nvidia_opt_no_logo = "\tOption \"NoLogo\" \"True\"\n";
++#endif
+     char buf[1024];
+     pciVideoPtr *pciptr, info = NULL;
+     ConfigStatus ret;
+@@ -260,7 +283,7 @@
+ 
+ 	    /* Special case from before the general case was set */
+ 	    if (strcmp(visid.name, "NVDAnvda") == 0) {
+-		detectedDeviceList[ddi++] = "nvidia";
++		detectedDeviceList[ddi++] = nvidia_string;
+ 	    }
+ 
+ 	    /* General case - split into vendor name & driver name */
+@@ -306,6 +329,12 @@
+     for (d = deviceLists; *d ; d++) {
+ 	for (p = *d; *p; p++) {
+ 	    ErrorF(" \"%s\"", *p);
++#ifdef sun
++	    if (!strncmp(*p, nvidia_string, sizeof(nvidia_string)))
++	        snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION_OPT,
++	            *p, 0, *p, nvidia_opt_no_logo);
++	    else
++#endif
+ 	    snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
+ 	    AppendToConfig(buf);
+ 	    snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);
