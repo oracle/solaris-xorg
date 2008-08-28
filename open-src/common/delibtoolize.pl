@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)delibtoolize.pl	1.11	08/08/08 SMI"
+# ident	"@(#)delibtoolize.pl	1.12	08/08/28 SMI"
 #
 
 #
@@ -36,6 +36,8 @@
 #
 # Usage: delibtoolize.pl [-P] <path>
 # -P - Use large pic flags (-KPIC/-fPIC) instead of default/small (-Kpic/-fpic)
+# -s - Only track libraries from a single file at a time, instead of across all
+#	files in a project
 
 use strict;
 use warnings;
@@ -45,11 +47,16 @@ use Getopt::Std;
 use File::Find;
 
 my %opts;
-getopts('P', \%opts);
+getopts('Ps', \%opts);
 
 my $pic_size = "pic";
 if (exists($opts{'P'})) {
   $pic_size = "PIC";
+}
+
+my $single_file;
+if (exists($opts{'s'})) {
+  $single_file = 1;
 }
 
 my %compiler_pic_flags = ( 'cc' => "-K$pic_size -DPIC",
@@ -77,21 +84,30 @@ sub scan_file {
       if ($l =~ m/^([^\#\s]*)_la_LDFLAGS\s*=(.*)/ms) {
 	my $libname = $1;
 	my $flags = $2;
+	my $vers;
 	
 	if ($flags =~ m/[\b\s]-version-(number|info)\s+(\S+)/ms) {
 	  my $vtype = $1;
 	  my $v = $2;
 	  if (($vtype eq "info") && ($v =~ m/^(\d+):\d+:(\d+)$/ms)) {
-	    $so_versions{$libname} = $1 - $2;
+	    $vers = $1 - $2;
 	  } elsif ($v =~ m/^(\d+)[:\d]*$/ms) {
-	    $so_versions{$libname} = $1;
+	    $vers = $1;
 	  } else {
-	    $so_versions{$libname} = $v;
+	    $vers = $v;
 	  }
 	}
 	elsif ($flags =~ m/-avoid-version\b/ms) {
-	  $so_versions{$libname} = 'none';
-	  $l =~ s{[\b\s]-avoid-version\b}{}ms;
+	  $vers = 'none';
+	}
+
+	my $ln = $libname;
+	if ($single_file) {
+	  $ln = $File::Find::name . "::" . $libname;
+	}
+	if (defined($vers) && !defined($so_versions{$ln})) {
+	  $so_versions{$ln} = $vers;
+	  print "Set version to $so_versions{$ln} for $ln.\n";
 	}
       }
       $l = "";
@@ -182,7 +198,12 @@ sub modify_file {
     }
 
     # Change file names
-    foreach my $so (keys %so_versions) {
+    my @so_list = keys %so_versions;
+    if ($single_file) {
+      my $pat = $filename . "::";
+      @so_list = grep(/^$pat/, @so_list);
+    }
+    foreach my $so (@so_list) {
       if ($so_versions{$so} eq 'none') {
 	$l =~ s{$so\.la\b}{$so.so}msg;
       } else {

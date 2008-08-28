@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	08/08/08
+# @(#)Makefile	1.12	08/08/28
 #
 
 # Package name used in tarballs
@@ -199,8 +199,7 @@ $(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/unix/Makefile
 	(cd $(XORG_BUILD_DIR) &&  \
 	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf --install --force && \
 	 $(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
-
-#	$(TOP)/common/delibtoolize.pl -P $(SOURCE_DIR)
+	$(TOP)/common/delibtoolize.pl -P -s $(SOURCE_DIR)
 
 Xvnc_build: $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 	(cd $(SOURCE_DIR)/common ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
