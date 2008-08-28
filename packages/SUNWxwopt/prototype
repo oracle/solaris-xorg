@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.68	08/08/25 SMI"
+# ident "@(#)prototype	35.69	08/08/27 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -113,7 +113,7 @@ f none openwin/lib/X11/xdm/StartX 0755 root bin
 s none openwin/lib/xdm=X11/xdm
 
 s none openwin/lib/X11/config=../config
-s none openwin/lib/config=../../../X11/lib/X11/config
+s none openwin/lib/config=../../X11/lib/X11/config
 d none X11/lib/X11/config 0755 root bin
 
 !search  $HOME/X11/lib/X11/config
@@ -210,7 +210,7 @@ f none X11/bin/luit				0755 root bin
 
 #open-src/app/xclock
 f none X11/bin/xclock				0755 root bin
-s non openwin/bin/xclock=../../X11/bin/xclock
+s none openwin/bin/xclock=../../X11/bin/xclock
 
 !search $HOME/X11/lib/X11/app-defaults
 d none X11/lib                                  0755 root bin
