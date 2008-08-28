@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18	08/08/27
+# @(#)Makefile	1.19	08/08/28
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-nv
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.11
+MODULE_VERSION=2.1.12
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
