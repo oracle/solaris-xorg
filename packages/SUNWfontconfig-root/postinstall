@@ -40,7 +40,7 @@ if [  "$DISKLESS_CLI" ]; then
 	grep force_rebuild  $BASEDIR/var/svc/profile/upgrade
 	if [ $? -ne 0 ]; then
 		cat >> $BASEDIR/var/svc/profile/upgrade <<\_EOF
-        	/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true
-		_EOF
+                /usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true
+_EOF
 	fi
 fi
