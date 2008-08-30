@@ -30,19 +30,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14	08/08/08
+# @(#)Makefile	1.15	08/08/29
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXfont
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.3.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	6206898.patch \
-	6640505.patch
+	4510977.patch,-p1 \
+	bzip2.patch,-p1 \
+	6206898.patch
+
+# bzip2 patch changes configure.ac, requires autoreconf
+AUTORECONF=yes
 
 # Library name
 LIBNAME=Xfont
@@ -55,7 +59,8 @@ LIB_MAN_SUFFIX=3Xfont
 
 # Additional configure script options to select the modules we use
 MODULE_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
-	--disable-speedo --enable-fontcache --enable-fc --disable-builtins
+	--disable-speedo --enable-fontcache --enable-fc --disable-builtins \
+	--with-bzip2
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xfont.pc.in
@@ -65,9 +70,6 @@ MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 
 # Find fontenc library in private subdir
 MODULE_LDFLAGS= $(X11_SERVERLIBS_LDFLAGS)
-
-# Support font modules like libbitstream.so that libXfont doesn't already know
-MODULE_CFLAGS=-DLOADABLEFONTS
 
 include ../Makefile.inc
 

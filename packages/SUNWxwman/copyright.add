@@ -101,6 +101,12 @@ include app/luit/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/mkfontdir package are covered by the following notice:
+
+include app/mkfontdir/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/mkfontscale package are covered by the following notice:
 
 include app/mkfontscale/COPYING

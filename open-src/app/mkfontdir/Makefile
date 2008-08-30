@@ -1,7 +1,9 @@
-#!/bin/sh
-###########################################################################
+###############################################################################
 #
-# Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
+# mkfontdir 1.x Makefile
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -12,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,47 +24,27 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
-#
-#ident  "@(#)i.ttmapsdir	1.3	07/11/05 SMI"
+# @(#)Makefile	1.1	08/08/29
 #
 
-PATH="/usr/bin:/usr/sbin:${PATH}"
-export PATH
+# Package name used in tarballs
+MODULE_NAME=mkfontdir
 
-while read src dest
-do
-	if [ ! -f $dest ] ; then
-		cp $src $dest
-	else
-	    # Merge new entries into ttmaps.dir while
-	    # removing corrupted & duplicate entries
-		awk '
-    /FROM-ENCODING/	{ from = $2 ; to = "" } 
-    /TO-ENCODING/ 	{ if (to == "") {to = $2} else { $from = "" } } 
-    /FILENAME/	 	{ if ( (from != "") && (to != "") ) {
-			    tuple = sprintf "%s/%s/%s", from, to , $2 ;
-			    if ( alreadyseen[tuple] != 1 ) {
-			      printf "FROM-ENCODING %s\n", from;
-			      printf "TO-ENCODING %s\n", to;
-			      printf "FILENAME %s\n", $2;
-			      alreadyseen[tuple] = 1;
-			    }
-			  }
-			  from = ""; to = "";
-			} ' $src $dest > /tmp/$$ttmaps.dir
-		count=`grep '^FILENAME' /tmp/$$ttmaps.dir | wc -l`
-		echo $count > $dest
-		cat /tmp/$$ttmaps.dir >> $dest
-		rm /tmp/$$ttmaps.dir 
-	fi
-done
+# Version number (used in path names)
+MODULE_VERSION=1.0.4
 
-exit 0
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUN_PACKAGE=SUNWxwfsw
+MODULE_STABILITY=Committed
+
+include ../Makefile.inc

@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.41 08/08/27
+# @(#)upgrade-X	1.42 08/08/29
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -135,12 +135,16 @@ done
 ####
 
 # List of official (deliverable) X Consolidation packages for all platforms
-# and all supported builds/releases
+# and all supported builds/releases 
+# Packages needed to be able to run mkfontdir come first, since later packages
+# will need them - those are SUNWfreetype2 & SUNWxwfsw.   The rest are listed
+# in alphabetical order.
 pkg_list="
+	SUNWfreetype2
+	SUNWxwfsw
 	SUNWfontconfig 
 	SUNWfontconfig-root
 	SUNWfontconfig-docs 
-	SUNWfreetype2
 	SUNWvncviewer
 	SUNWxcursor-themes
 	SUNWxorg-cfg
@@ -166,7 +170,6 @@ pkg_list="
 	SUNWxwdxm
 	SUNWxwfnt
 	SUNWxwfs
-	SUNWxwfsw
 	SUNWxwhl
 	SUNWxwice
 	SUNWxwinc

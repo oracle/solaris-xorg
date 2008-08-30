@@ -29,66 +29,24 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.6     08/05/14 SMI"
+# ident "@(#)prototype_com 1.7     08/08/29 SMI"
 #
 #  X Window System required core font software package
 
 i pkginfo
 i copyright
 i depend
-i i.encodingsdir
-i r.encodingsdir
-i i.ttmapsdir
-i r.ttmapsdir
 
-!HOME=../openwin
-!X11HOME=../usr/X11
+!HOME=../usr
 
 d none openwin 0755 root bin
 
-!search  $HOME/bin
 d none openwin/bin              0755 root bin
-f none openwin/bin/mkfontdir   0755 root bin
+s none openwin/bin/mkfontdir=../../X11/bin/mkfontdir
 
-!search  $HOME/server/lib
-d none openwin/server 0755 root bin
-d none openwin/server/lib 0755 root bin
-s none openwin/server/lib/libfont.so=./libfont.so.1
-f none openwin/server/lib/libfont.so.1 0755 root bin
-s none openwin/server/lib/libtypesclr.so=./libtypesclr.so.0
-f none openwin/server/lib/libtypesclr.so.0 0755 root bin
- 
-
-!search	 $HOME/lib
+!search	 $HOME/openwin/lib
 d none openwin/lib				0755 root bin
 f none openwin/lib/installalias         0755 root bin
-
-!search  $HOME/lib/X11
-d none openwin/lib/X11 				0755 root bin
-
-f none openwin/lib/X11/XatmEncodingMap	0755 root bin
-
-!search  $HOME/lib/X11/fonts
-d none openwin/lib/X11/fonts 0755 root bin
-
-!search  $HOME/lib/X11/fonts/encodings
-d none openwin/lib/X11/fonts/encodings 			0755 root bin
-e encodingsdir openwin/lib/X11/fonts/encodings/encodings.dir 	0644 root bin
-f none openwin/lib/X11/fonts/encodings/iso8859-1.enc 	0644 root bin
-f none openwin/lib/X11/fonts/encodings/iso8859-2.enc 	0644 root bin
-f none openwin/lib/X11/fonts/encodings/symbol.enc 	0644 root bin
-f none openwin/lib/X11/fonts/encodings/dingbats.enc 	0644 root bin
-f none openwin/lib/X11/fonts/encodings/dingbats-1.enc 	0644 root bin
-f none openwin/lib/X11/fonts/encodings/ISOLatin2.enc 0644 root bin
-
-!search            $HOME/lib/X11/fonts/TrueType/ttmap
-d none openwin/lib/X11/fonts/TrueType 0755 root bin
-d none openwin/lib/X11/fonts/TrueType/ttmap 0755 root bin
-e ttmapsdir openwin/lib/X11/fonts/TrueType/ttmap/ttmaps.dir 0644 root bin
-f none openwin/lib/X11/fonts/TrueType/ttmap/iso8859-1.ttmap 0644 root bin
-f none openwin/lib/X11/fonts/TrueType/ttmap/symbol.ttmap 0644 root bin
-f none openwin/lib/X11/fonts/TrueType/ttmap/dingbats.ttmap 0644 root bin
-f none openwin/lib/X11/fonts/TrueType/ttmap/dingbats-1.ttmap 0644 root bin
 
 # Font libraries used by Xorg and X11R7-based font programs
 d none X11 			0755 root bin
@@ -96,7 +54,7 @@ d none X11/lib 			0755 root bin
 d none X11/lib/X11 		0755 root bin
 d none X11/lib/X11/fonts 	0755 root bin
 
-!search $X11HOME/lib/X11/fonts/encodings
+!search $HOME/X11/lib/X11/fonts/encodings
 d none X11/lib/X11/fonts/encodings 0755 root bin
 f none X11/lib/X11/fonts/encodings/adobe-dingbats.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/adobe-standard.enc 0444 root bin
@@ -132,7 +90,7 @@ f none X11/lib/X11/fonts/encodings/tcvn-0.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/tis620-2.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/viscii1.1-1.enc 0444 root bin
 
-!search $X11HOME/lib/X11/fonts/encodings/large
+!search $HOME/X11/lib/X11/fonts/encodings/large
 d none X11/lib/X11/fonts/encodings/large 0755 root bin
 f none X11/lib/X11/fonts/encodings/large/big5.eten-0.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/big5hkscs-0.enc.gz 0444 root bin
@@ -148,18 +106,19 @@ f none X11/lib/X11/fonts/encodings/large/ksc5601.1987-0.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/ksc5601.1992-3.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/sun.unicode.india-0.enc.gz 0444 root bin
 
-!search $X11HOME/lib/X11/xserver
+!search $HOME/X11/lib/X11/xserver
 d none X11/lib/X11/xserver 0755 root bin
 f none X11/lib/X11/xserver/libfontenc.so.1 0444 root bin
 f none X11/lib/X11/xserver/libXfont.so.1 0444 root bin
 
-!search $X11HOME/lib/X11/xserver/$plat_64
+!search $HOME/X11/lib/X11/xserver/$plat_64
 d none X11/lib/X11/xserver/$plat_64 0755 root bin
 s none X11/lib/X11/xserver/64=$plat_64
 f none X11/lib/X11/xserver/$plat_64/libfontenc.so.1 0444 root bin
 f none X11/lib/X11/xserver/$plat_64/libXfont.so.1 0444 root bin
 
-!search $X11HOME/bin
+!search $HOME/X11/bin
 d none X11/bin						0755 root bin
+f none X11/bin/mkfontdir				0755 root bin
 f none X11/bin/mkfontscale				0755 root bin
 

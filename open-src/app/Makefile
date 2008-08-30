@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.70	08/08/21
+# @(#)Makefile	1.71	08/08/29
 #
 ###############################################################################
 
@@ -50,6 +50,7 @@ OS_SUBDIRS_common = \
 	luit \
 	kbd_mode \
 	mesa-demos \
+	mkfontdir \
 	mkfontscale \
 	oclock \
 	sessreg \
