@@ -125,6 +125,12 @@ include app/rgb/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/rstart package are covered by the following notice:
+
+include app/rstart/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/sessreg package are covered by the following notice:
 
 include app/sessreg/COPYING

@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.198    08/08/14   Sun Microsystems"
+#      "@(#)prototype_com	35.199    08/09/02   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -38,13 +38,14 @@ i depend
 
 !search $HOME/bin
 d none bin 			0755 root bin
-f none bin/rstartd              0755 root bin
 
 !search $HOME/X11/bin
 d none X11			0755 root bin
 d none X11/bin			0755 root bin
 s none X11/bin/X=Xserver
 f none X11/bin/Xserver		0755 root bin
+f none X11/bin/rstartd		0755 root bin
+s none bin/rstartd=../X11/bin/rstartd
 
 d none openwin 			0755 root bin
 
@@ -62,7 +63,6 @@ f none openwin/bin/xmakemap 	0755 root bin
 # X11R6.4 upgrade changes
 #
 f none openwin/bin/proxymngr    0755 root bin
-f none openwin/bin/rstart	0755 root bin
 
 #### applications replaced with new versions from open-src/app
 
@@ -95,6 +95,10 @@ s none openwin/bin/kbd_mode=../../X11/bin/kbd_mode
 # open-src/app/rgb
 f none X11/bin/showrgb 				0755 root bin
 s none openwin/bin/showrgb=../../X11/bin/showrgb
+
+# open-src/app/rstart
+f none X11/bin/rstart 			0755 root bin
+s none openwin/bin/rstart=../../X11/bin/rstart
 
 # open-src/app/setxkbmap
 f none X11/bin/setxkbmap                0755 root bin
@@ -548,10 +552,6 @@ s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
 
 !search  $HOME/openwin/lib/X11
 d none openwin/lib/X11 				0755 root bin
-
-!search  $HOME/openwin/lib/X11/rstart
-d none openwin/lib/X11/rstart			0755 root bin
-f none openwin/lib/X11/rstart/rstartd.real	0755 root bin
 
 #
 # X11R6.4 upgrade changes
@@ -1274,6 +1274,10 @@ d none X11/lib/X11/xserver/$plat_64		0755 root bin
 s none X11/lib/X11/xserver/64=$plat_64
 f none X11/lib/X11/xserver/$plat_64/liblbxutil.so.1 0444 root bin
 
+!search $HOME/X11/lib/X11/rstart
+d none X11/lib/X11/rstart			0755 root bin
+f none X11/lib/X11/rstart/rstartd.real		0755 root bin
+
 # Create links back to openwin
 s none openwin/lib/app-defaults/XClock=../../../X11/lib/X11/app-defaults/XClock
 s none openwin/lib/app-defaults/Bitmap=../../../X11/lib/X11/app-defaults/Bitmap
@@ -1283,6 +1287,7 @@ s none openwin/lib/app-defaults/Clock-color=../../../X11/lib/X11/app-defaults/Cl
 s none openwin/lib/app-defaults/Editres=../../../X11/lib/X11/app-defaults/Editres
 s none openwin/lib/app-defaults/Editres-color=../../../X11/lib/X11/app-defaults/Editres-color
 s none openwin/lib/X11/lbxproxy=../../../X11/lib/X11/lbxproxy
+s none openwin/lib/X11/rstart=../../../X11/lib/X11/rstart
 s none openwin/lib/app-defaults/XCalc=../../../X11/lib/X11/app-defaults/XCalc
 s none openwin/lib/app-defaults/XCalc-color=../../../X11/lib/X11/app-defaults/XCalc-color
 s none openwin/lib/app-defaults/XClipboard=../../../X11/lib/X11/app-defaults/XClipboard
