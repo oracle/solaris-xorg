@@ -31,7 +31,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	08/08/28
+# @(#)Makefile	1.13 08/09/05
 #
 
 # Package name used in tarballs
@@ -118,6 +118,8 @@ source_gen:: $(LNDIR)
 	fi
 	mv $(XORG_SOURCE_DIR) $(XORG_BUILD_DIR)
 	(cd $(XORG_BUILD_DIR) && $(LNDIR) ../../../../../xorg/sun-src)
+	(mkdir -p $(XORG_BUILD_DIR)/GL/mesa/vbo)
+	(cp ../xorg/sun-src/mesa/Makefile.am $(XORG_BUILD_DIR)/GL/mesa/vbo)
 
 
 include ../Makefile.inc

@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	08/08/08
+# @(#)Makefile	1.14	08/09/05
 #
 
 # Package name used in tarballs
 MODULE_NAME=mesa
 
 # Version number (used in path names)
-MODULE_VERSION=6.5.2
+MODULE_VERSION=7.0.3
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -57,14 +57,10 @@ SOURCE_PATCHES= \
 	solaris-paths.patch	\
 	mklib.patch		\
 	solaris-dri-port.patch	\
-	glext.h.patch		\
-	glxext.h.patch		\
-	6538497.patch		\
-	6559710.patch		\
+	6742579.patch		\
 	mesa965.patch		\
-	6709716.patch		\
-	6709720.patch		\
-	maxtexunit.patch
+	6538497.patch		\
+	6559710.patch
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)

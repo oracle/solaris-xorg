@@ -5,7 +5,7 @@ include $(TOP)/configs/solaris-x86-gcc-dri
 
 CONFIG_NAME = solaris-x64-gcc-dri
 
-EXTRA_LIB_PATH = -L/usr/X11/lib/64 -R/usr/X11/lib/64
+EXTRA_LIB_PATH = -L/usr/X11/lib/64 -R/usr/X11/lib/64 -lXdamage -lXfixes
 
 EXPAT_LIB= -L/usr/sfw/lib/64 -R/usr/sfw/lib/64 -lexpat
 

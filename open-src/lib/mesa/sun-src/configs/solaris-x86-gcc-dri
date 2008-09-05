@@ -45,9 +45,9 @@ DRI_DIRS = i915 i965 r200 r300 radeon
 
 EXPAT_LIB= -L/usr/sfw/lib -R/usr/sfw/lib -lexpat
 
-GL_LIB_DEPS += -lXxf86vm $(LIBDRM_LIB) -lc -Wl,-M,mapfile.scope
+GL_LIB_DEPS += -L/usr/X11/lib -lXdamage -lXfixes -R/usr/X11/lib -lXdamage -lXfixes -lXxf86vm $(LIBDRM_LIB) -lc -Wl,-M,mapfile.scope
 DRI_LIB_DEPS = $(LIBDRM_LIB) $(EXPAT_LIB) -l$(GL_LIB) -lm -lc 
-APP_LIB_DEPS = $(LDFLAGS) $(EXTRA_LIB_PATH) -l$(GLU_LIB) -l$(GL_LIB) -lX11 -lm
+APP_LIB_DEPS = $(LDFLAGS) $(EXTRA_LIB_PATH) -l$(GLU_LIB) -l$(GL_LIB) -lX11 -lm -lXdamage
 
 INSTALL = /usr/ucb/install
 COPY_LIBS = cp -f

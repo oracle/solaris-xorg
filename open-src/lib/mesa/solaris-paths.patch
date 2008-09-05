@@ -6,8 +6,8 @@
  # Installation directories (for make install)
 -INSTALL_DIR = /usr/local
 -DRI_DRIVER_INSTALL_DIR = /usr/X11R6/lib/modules/dri
-+INSTALL_DIR = $(DESTDIR)/usr/X11$(ARCHLIBSUBDIR)
-+DRI_DRIVER_INSTALL_DIR = $(DESTDIR)/usr/X11/lib/modules/dri$(ARCHLIBSUBDIR)
++INSTALL_DIR = /usr/X11$(ARCHLIBSUBDIR)
++DRI_DRIVER_INSTALL_DIR = /usr/X11/lib/modules/dri$(ARCHLIBSUBDIR)
  
  # Where libGL will look for DRI hardware drivers
  DRI_DRIVER_SEARCH_DIR = $(DRI_DRIVER_INSTALL_DIR)

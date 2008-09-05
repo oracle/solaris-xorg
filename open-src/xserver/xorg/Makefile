@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.64	08/08/08
+# @(#)Makefile	1.65	08/09/05
 #
 
 # Build 32-bit or 64-bit?
@@ -101,6 +101,8 @@ include ../Makefile.inc
 source_gen:: $(LNDIR)
 	-$(RM) -f $(SOURCE_DIR)/hw/xfree86/scanpci/pci.ids \
 		$(SOURCE_DIR)/hw/xfree86/scanpci/xf86PciIds.h
+	(mkdir -p $(SOURCE_DIR)/GL/mesa/vbo)
+	(cp ./sun-src/mesa/Makefile.am $(SOURCE_DIR)/GL/mesa/vbo)
 	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 
 # Force broken xf1bpp sources in 1.3 to be regenerated
