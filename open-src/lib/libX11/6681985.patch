@@ -3363,10 +3363,10 @@ diff -ru nls/iso8859-9/Compose.pre nls.new/iso8859-9/Compose.pre
 -<Multi_key> <minus> <d>			: "\360"	eth
 -<Multi_key> <d> <minus>			: "\360"	eth
 +<ccedilla>				: "\347"	ccedilla
-+<Multi_Key> <G> <u>			: "\320"	Gbreve
-+<Multi_Key> <u> <G>                     : "\320"        Gbreve
-+<Multi_Key> <g> <u>                     : "\360"        gbreve
-+<Multi_Key> <u> <g>                     : "\360"        gbreve
++<Multi_key> <G> <u>			: "\320"	Gbreve
++<Multi_key> <u> <G>                     : "\320"        Gbreve
++<Multi_key> <g> <u>                     : "\360"        gbreve
++<Multi_key> <u> <g>                     : "\360"        gbreve
 +<gbreve>				: "\360"	gbreve
 +<Gbreve>				: "\320"	Gbreve
  <Multi_key> <E> <grave>			: "\310"	Egrave
