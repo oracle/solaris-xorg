@@ -37,7 +37,7 @@
 # Force fontconfig cache rebuild on next boot
 DISKLESS_CLI=`echo $BASEDIR | /usr/bin/grep clone/Solaris_`
 if [  "$DISKLESS_CLI" ]; then
-	grep force_rebuild  $BASEDIR/var/svc/profile/upgrade
+	grep force_rebuild  $BASEDIR/var/svc/profile/upgrade > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		cat >> $BASEDIR/var/svc/profile/upgrade <<\_EOF
                 /usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true

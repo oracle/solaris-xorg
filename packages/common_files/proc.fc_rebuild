@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)proc.fc_rebuild	1.4 08/08/13 SMI"
+# ident	"@(#)proc.fc_rebuild	1.5 08/09/08 SMI"
 #
 
 # Force fontconfig cache rebuild on next boot
@@ -38,7 +38,7 @@ DISKLESS_SRVC=`echo $BASEDIR | /usr/bin/grep export/Solaris_[1-9][0-9]/usr_${ARC
 if [  "$DISKLESS_SRVC" ]; then
 	exit 0
 else
-	grep force_rebuild  $BASEDIR/../var/svc/profile/upgrade
+	grep force_rebuild  $BASEDIR/../var/svc/profile/upgrade > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		cat >> $BASEDIR/../var/svc/profile/upgrade <<\_EOF
         	/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild=true
