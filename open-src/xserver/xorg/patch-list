@@ -66,3 +66,4 @@ driver-autoconfig.patch
 kbd_mode.patch,-p1
 6721634.patch
 6742579.patch
+6740339.patch
