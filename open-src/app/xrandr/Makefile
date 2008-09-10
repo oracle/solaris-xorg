@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	08/09/05
 #
 
 # Package name used in tarballs
@@ -40,7 +40,10 @@ MODULE_NAME=xrandr
 MODULE_VERSION=1.2.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = dispswitch.patch
+
+# Need to regenerate autoconf/automake files after patching
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

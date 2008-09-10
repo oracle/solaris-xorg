@@ -28,14 +28,15 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	08/09/05
 #
 ###############################################################################
 
 OS_SUBDIRS_common = \
 	smf-rbac		\
 	workspace-patterns 	\
-	xcursor-themes
+	xcursor-themes		\
+	gnome-launch
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)
