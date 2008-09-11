@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.200    08/09/09   Sun Microsystems"
+#      "@(#)prototype_com	35.202    08/09/11   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -58,10 +58,6 @@ f none openwin/bin/pclcomp 	0755 root bin
 f none openwin/bin/redxblue 	0755 root bin
 f none openwin/bin/xlock 	4755 root bin
 f none openwin/bin/xmakemap 	0755 root bin
-#
-# X11R6.4 upgrade changes
-#
-f none openwin/bin/proxymngr    0755 root bin
 
 #### applications replaced with new versions from open-src/app
 
@@ -94,6 +90,10 @@ s none openwin/bin/lbxproxy=../../X11/bin/lbxproxy
 # open-src/app/kbd_mode
 f none X11/bin/kbd_mode		 	0755 root bin
 s none openwin/bin/kbd_mode=../../X11/bin/kbd_mode
+
+# open-src/app/proxymngr
+f none X11/bin/proxymngr    	0755 root bin
+s none openwin/bin/proxymngr=../../X11/bin/proxymngr
 
 # open-src/app/rgb
 f none X11/bin/showrgb 				0755 root bin
@@ -555,15 +555,6 @@ s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
 
 !search  $HOME/openwin/lib/X11
 d none openwin/lib/X11 				0755 root bin
-
-#
-# X11R6.4 upgrade changes
-#
-
-d none openwin/lib/X11/proxymngr                0755 root bin
-
-!search $HOME/openwin/lib/X11/proxymngr
-f none openwin/lib/X11/proxymngr/pmconfig       0755 root bin
 
 #
 !search  $HOME/openwin/lib/X11/app-defaults
@@ -1262,6 +1253,12 @@ f none X11/lib/X11/xinit/xinitrc                0755 root bin
 
 !search		$HOME/X11/lib
 f none X11/lib/libxrx.so                  	0755 root bin
+
+# open-src/app/proxymngr (libs)
+!search		$HOME/X11/lib/X11/proxymngr
+d none X11/lib/X11/proxymngr                0755 root bin
+!search $HOME/X11/lib/X11/proxymngr
+f none X11/lib/X11/proxymngr/pmconfig       0755 root bin
 
 !search      $HOME/X11/lib/X11/lbxproxy
 d none X11/lib/X11/lbxproxy 			0755 root bin

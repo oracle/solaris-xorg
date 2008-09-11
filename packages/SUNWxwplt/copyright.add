@@ -558,3 +558,9 @@ include lib/libXtst/COPYING
 Files from the lib/libxtrans package are covered by the following notice:
 
 include lib/libxtrans/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/proxymngr package are covered by the following notice:
+
+include app/proxymngr/COPYING

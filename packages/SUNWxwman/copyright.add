@@ -1,4 +1,10 @@
 
+Files from the app/proxymngr package are covered by the following notice:
+
+include app/proxymngr/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xcolor package are covered by the following notice:
 
 include app/xcolor/COPYING
