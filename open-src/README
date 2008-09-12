@@ -110,7 +110,7 @@ make clean
 make World
 	Run make clean in all subdirectories, then make all in all subdirs.
 
-make clean
+make install
 	Run make install in all subdirectories.
 
 make download
