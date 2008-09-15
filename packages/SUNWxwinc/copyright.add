@@ -67,6 +67,12 @@ include proto/pmproto/COPYING
 
 --------------------------------------------------------------------
 
+Files from the proto/printproto package are covered by the following notice:
+
+include proto/printproto/COPYING
+
+--------------------------------------------------------------------
+
 Files from the proto/randrproto package are covered by the following notice:
 
 include proto/randrproto/COPYING
@@ -232,6 +238,24 @@ include lib/libXlg3d/COPYING
 Files from the lib/libXmu package are covered by the following notice:
 
 include lib/libXmu/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXp package are covered by the following notice:
+
+include lib/libXp/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXprintAppUtil package are covered by the following notice:
+
+include lib/libXprintAppUtil/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXprintUtil package are covered by the following notice:
+
+include lib/libXprintUtil/COPYING
 
 --------------------------------------------------------------------
 

@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.86	08/08/12 SMI"
+# ident	"@(#)prototype	35.88	08/09/16 SMI"
 #
 #  X Window System include files
 
@@ -330,7 +330,6 @@ f none X11/include/X11/Xmu/XmuSolaris.h		0444 root bin
 # extension headers from old source tree
 d none openwin/share/include/X11/extensions 0755 root bin
 !search                $HOME/openwin/include/X11/extensions
-f none openwin/share/include/X11/extensions/Print.h 0644 root bin
 f none openwin/share/include/X11/extensions/XIE.h 0644 root bin
 f none openwin/share/include/X11/extensions/XIElib.h 0644 root bin
 f none openwin/share/include/X11/extensions/XIEproto.h 0644 root bin
@@ -404,6 +403,8 @@ s none openwin/share/include/X11/extensions/xtestext1.h=../../../../../X11/inclu
 # extension headers from open-src/proto/*
 !search                $HOME/X11/include/X11/extensions
 d none X11/include/X11/extensions 		0755 root bin
+f none X11/include/X11/extensions/Print.h 	0444 root bin
+f none X11/include/X11/extensions/Printstr.h 	0444 root bin
 f none X11/include/X11/extensions/MITMisc.h 	0444 root bin
 f none X11/include/X11/extensions/XEVI.h 	0444 root bin
 f none X11/include/X11/extensions/XEVIstr.h 	0444 root bin
@@ -480,6 +481,7 @@ s none openwin/share/include/X11/extensions/transovl.h=../../../../../X11/includ
 s none openwin/share/include/X11/extensions/transovlstr.h=../../../../../X11/include/X11/extensions/transovlstr.h
 s none openwin/share/include/X11/extensions/fbpm.h=../../../../../X11/include/X11/extensions/fbpm.h
 s none openwin/share/include/X11/extensions/fbpmstr.h=../../../../../X11/include/X11/extensions/fbpmstr.h
+s none openwin/share/include/X11/extensions/Print.h=../../../../../X11/include/X11/extensions/Print.h
 
 # open-src/lib/libXcomposite
 s none openwin/share/include/X11/extensions/Xcomposite.h=../../../../../X11/include/X11/extensions/Xcomposite.h
@@ -517,6 +519,14 @@ s none openwin/share/include/X11/extensions/Xtsol.h=../../../../../X11/include/X
 s none openwin/share/include/X11/extensions/Xtsolproto.h=../../../../../X11/include/X11/extensions/Xtsolproto.h
 f none X11/include/X11/extensions/Xtsol.h 0444 root bin
 f none X11/include/X11/extensions/Xtsolproto.h 0444 root bin
+
+!search                $HOME/X11/include/X11/XprintAppUtil
+d none X11/include/X11/XprintAppUtil		0755 root bin
+f none X11/include/X11/XprintAppUtil/xpapputil.h	0444 root bin
+
+!search                $HOME/X11/include/X11/XprintUtil
+d none X11/include/X11/XprintUtil		0755 root bin
+f none X11/include/X11/XprintUtil/xprintutil.h	0444 root bin
 
 # open-src/lib/libSM
 d none openwin/share/include/X11/SM 0755 root bin
@@ -679,6 +689,7 @@ f none lib/pkgconfig/fontsproto.pc		0444 root bin
 f none lib/pkgconfig/inputproto.pc		0444 root bin
 f none lib/pkgconfig/kbproto.pc			0444 root bin
 f none lib/pkgconfig/lg3dproto.pc		0444 root bin
+f none lib/pkgconfig/printproto.pc		0444 root bin
 f none lib/pkgconfig/recordproto.pc		0444 root bin
 f none lib/pkgconfig/renderproto.pc		0444 root bin
 f none lib/pkgconfig/resourceproto.pc		0444 root bin
@@ -708,6 +719,9 @@ f none lib/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/pkgconfig/xmu.pc			0444 root bin
 f none lib/pkgconfig/xmuu.pc			0444 root bin
 f none lib/pkgconfig/xpm.pc			0444 root bin
+f none lib/pkgconfig/xp.pc                      0444 root bin
+f none lib/pkgconfig/xprintapputil.pc           0444 root bin
+f none lib/pkgconfig/xprintutil.pc              0444 root bin
 f none lib/pkgconfig/xrender.pc			0444 root bin
 f none lib/pkgconfig/xt.pc			0444 root bin
 f none lib/pkgconfig/xtst.pc			0444 root bin
@@ -733,6 +747,7 @@ s none lib/$plat_64/pkgconfig/fontsproto.pc=../../pkgconfig/fontsproto.pc
 s none lib/$plat_64/pkgconfig/inputproto.pc=../../pkgconfig/inputproto.pc
 s none lib/$plat_64/pkgconfig/kbproto.pc=../../pkgconfig/kbproto.pc
 s none lib/$plat_64/pkgconfig/lg3dproto.pc=../../pkgconfig/lg3dproto.pc
+s none lib/$plat_64/pkgconfig/printproto.pc=../../pkgconfig/printproto.pc
 s none lib/$plat_64/pkgconfig/recordproto.pc=../../pkgconfig/recordproto.pc
 s none lib/$plat_64/pkgconfig/renderproto.pc=../../pkgconfig/renderproto.pc
 s none lib/$plat_64/pkgconfig/resourceproto.pc=../../pkgconfig/resourceproto.pc
@@ -762,6 +777,9 @@ f none lib/$plat_64/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmuu.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xp.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xprintapputil.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xprintutil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xt.pc 			0444 root bin
 f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin

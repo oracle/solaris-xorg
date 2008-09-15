@@ -49,6 +49,12 @@ include lib/libXmu/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libXp package are covered by the following notice:
+
+include lib/libXp/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXScrnSaver package are covered by the following notice:
 
 include lib/libXScrnSaver/COPYING

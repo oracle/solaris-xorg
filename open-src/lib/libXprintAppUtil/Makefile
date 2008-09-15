@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# XprintAppUtil 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,75 +30,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.24	08/09/15
+# @(#)Makefile	1.1	08/09/15
 #
-###############################################################################
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+# Package name used in tarballs
+MODULE_NAME=libXprintAppUtil
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	libXp \
-        libXprintUtil \
-        libXprintAppUtil \
-	hwc
+# Version number (used in path names)
+MODULE_VERSION=1.0.1
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES =
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Library name
+LIBNAME=XprintAppUtil
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+# Man pages to apply Sun footer to & attributes to list
+#SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
+#LIB_MAN_SUFFIX=
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xprintapputil.pc.in
+
+include ../Makefile.inc

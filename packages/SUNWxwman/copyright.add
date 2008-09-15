@@ -347,6 +347,18 @@ include app/xpr/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xplsprinters package are covered by the following notice:
+
+include app/xplsprinters/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xprehashprinterlist package are covered by the following notice:
+
+include app/xprehashprinterlist/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xprop package are covered by the following notice:
 
 include app/xprop/COPYING
