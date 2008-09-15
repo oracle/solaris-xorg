@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# mkfontscale 1.x Makefile
+# installalias module Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -30,29 +30,40 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/09/15
+# @(#)Makefile	1.1	08/09/15
 #
 
 # Package name used in tarballs
-MODULE_NAME=mkfontscale
+MODULE_NAME=installalias
 
-# Version number (used in path names)
-MODULE_VERSION=1.0.5
-
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+# No upstream sources, only local sources
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES= # None
 SUN_PACKAGE=SUNWxwfsw
-MODULE_STABILITY=Uncommitted
+MODULE_STABILITY="Consolidation Private"
 
-# Need to link with libfontenc in server private directory
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
+
+# Since we don't have a configure script, pass configure flags to make
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
+# Need to link with libXfont in server private directory
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-# Need to find libfontenc & libfreetype in matching directory when used
+# Need to find libXfont in matching directory when used
 # in alternate root environments, like during OS install
-MODULE_LD_OPTIONS= -R $$ORIGIN/../../sfw/lib$(ARCHLIBSUBDIR) \
-	-R $$ORIGIN/../lib/X11/xserver$(ARCHLIBSUBDIR)
+# $ORIGIN paths are relative to /usr/X11/lib, since that's where 
+# installalias is installed
+MODULE_LD_OPTIONS= -R $$ORIGIN/X11/xserver$(ARCHLIBSUBDIR)
 
 include ../Makefile.inc
+
+source_gen:: $(LNDIR)

@@ -1,7 +1,3 @@
-###############################################################################
-#
-# mkfontscale 1.x Makefile
-#
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
@@ -30,29 +26,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/09/15
-#
+# @(#)Makefile	1.1	08/09/15
 
-# Package name used in tarballs
-MODULE_NAME=mkfontscale
+SRCS = installalias.c
+OBJS = $(SRCS:.c=.o)
+LIBS = -lXfont
 
-# Version number (used in path names)
-MODULE_VERSION=1.0.5
+installalias: $(OBJS)
+	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBS)
 
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+install: installalias
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	$(INSTALL) installalias $(DESTDIR)$(PREFIX)/lib
 
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwfsw
-MODULE_STABILITY=Uncommitted
-
-# Need to link with libfontenc in server private directory
-MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
-
-# Need to find libfontenc & libfreetype in matching directory when used
-# in alternate root environments, like during OS install
-MODULE_LD_OPTIONS= -R $$ORIGIN/../../sfw/lib$(ARCHLIBSUBDIR) \
-	-R $$ORIGIN/../lib/X11/xserver$(ARCHLIBSUBDIR)
-
-include ../Makefile.inc
+lint:
+	$(LINT) -b -h $(LINTFLAGS) $(CPPFLAGS) $(SRCS) $(LIBS)

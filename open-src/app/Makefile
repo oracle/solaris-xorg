@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.75	08/09/15
+# @(#)Makefile	1.77	08/09/16
 #
 ###############################################################################
 
@@ -46,6 +46,7 @@ OS_SUBDIRS_common = \
 	fstobdf \
 	iceauth \
 	ico \
+	installalias \
 	lbxproxy \
 	listres \
 	luit \

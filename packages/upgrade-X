@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.42 08/08/29
+# @(#)upgrade-X	1.43 08/09/15
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -40,6 +40,7 @@
 #			default behaviour.)
 #		-q	Be quiet and don't report packages that aren't 
 #			installed.
+#		-R path	Install under alternate root path (passed to pkgadd)
 #
 ###
 
@@ -54,6 +55,45 @@ function fatal_error
     print -u2 "${progname}: ERROR: $*"
     exit 1
 }
+
+####
+#
+#   Process command line options
+#
+####
+
+QUIET=0
+ALTROOT=""
+
+while getopts aqR: flag ; do
+    case $flag in
+      a)	;;
+      q)	QUIET=1 ;;
+      R)	ALTROOT="${OPTARG}" ;;
+      ?)	printf "Usage: %s: [-q]\n"  $0
+		exit 1 ;;
+    esac
+done
+
+ADDITIONAL_PKG_FLAGS=""
+if [[ ! -z "${ALTROOT}" ]] ; then
+    ADDITIONAL_PKG_FLAGS+="-R ${ALTROOT}"
+fi
+
+# Make sure directories that are needed, but not included in pkgmaps
+# are created in alternate roots.
+# Arguments: directory_path permissions owner:group
+function altroot_dir_check
+{
+    if [[ ( ! -z "${ALTROOT}" ) && ( ! -d "${ALTROOT}$1" ) ]] ; then
+	print "Creating ${ALTROOT}$1"
+	mkdir -p "${ALTROOT}$1"
+	chown $3 "${ALTROOT}$1"
+	chmod $2 "${ALTROOT}$1"
+    fi
+}
+
+altroot_dir_check / root:root 0755
 
 ###
 #  
@@ -96,11 +136,9 @@ else
     fi
 fi
 
-OS_REV="$(uname -r)"
-
-if [[ "$OS_REV" != "5.11" ]] ; then
+if [[ ( -z "${ALTROOT}" ) && ( "$(uname -r)" != "5.11" ) ]] ; then
     fatal_error "Incorrect Solaris version number.\n" \
-	"X ${XVERS} is only supported on Solaris Nevada or later"
+	"X ${XVERS} is only supported on Solaris Nevada"
 fi
 
 if [[ -f /usr/bin/pkg ]] ; then
@@ -109,24 +147,9 @@ if [[ -f /usr/bin/pkg ]] ; then
     fi
 fi
 
-PKG_UPGRADE_LOG=/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}
-
-####
-#
-#   Process command line options
-#
-####
-
-QUIET=0
-
-while getopts aq flag ; do
-    case $flag in
-      a)	;;
-      q)	QUIET=1 ;;
-      ?)	printf "Usage: %s: [-q]\n"  $0
-		exit 1 ;;
-    esac
-done
+PKG_UPGRADE_LOG="${ALTROOT}/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}"
+altroot_dir_check /var 0755 root:sys
+altroot_dir_check /var/tmp 1777 root:sys
 
 ####
 #
@@ -214,14 +237,14 @@ REM_PKGS=""
 # snv_19: SUNWxwfnt split into SUNWxwfnt & SUNWxwfsw packages [6276301]
 # Need to remove SUNWxwfnt before installing SUNWxwfsw if 
 # SUNWxwfsw is not currently installed
-if ! /bin/pkginfo -q SUNWxwfsw ; then
+if ! /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q SUNWxwfsw ; then
     REM_PKGS+=" SUNWxwfnt"
 fi
 
 # snv_42: 6424854 Xsun & Xprt servers split out of SUNWxwplt
 # Need to remove SUNWxwplt before installing SUNWxsun-server if 
 # SUNWxsun-server isn't currently installed
-if ! /bin/pkginfo -q SUNWxsun-server ; then
+if ! /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q SUNWxsun-server ; then
     REM_PKGS+=" SUNWxwplt"
 fi
 
@@ -242,7 +265,7 @@ REM_PKGS+=" SUNWi1of"
 # (for example: 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link
 # in SUNWxorg-server to a directory in SUNWxwcft, 6684643 changed 
 # /usr/X11/lib/X11/rgb.txt from a link to a file in SUNWxwplt and so on)
-if /bin/pkginfo -q SUNWxorg-server ; then
+if /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q SUNWxorg-server ; then
     REM_PKGS+=" SUNWxorg-server"
 fi
 
@@ -253,6 +276,19 @@ if [[ ! -f /usr/sadm/install/scripts/i.manifest ]] ; then
      "This build of X requires a system with the shared SMF manifest class\n" \
      "action scripts installed in /usr/sadm/install/scripts/i.manifest\n" \
      "(See Solaris bug id 6209178)\n"
+fi
+
+# /etc/svc & /var/svc/profile directories needed by manifest packaging scripts
+altroot_dir_check /etc 0755 root:sys
+altroot_dir_check /etc/svc 0755 root:sys
+altroot_dir_check /var/svc 0755 root:sys
+altroot_dir_check /var/svc/profile 0755 root:sys
+
+# Need to be able to install symlinks to /usr/lib/isaexec in SUNWxorg-server
+if [[ (! -z "${ALTROOT}") && (! -f "${ALTROOT}/usr/lib/isaexec") ]] ; then
+    altroot_dir_check /usr 0755 root:sys
+    altroot_dir_check /usr/lib 0755 root:sys
+    touch ${ALTROOT}/usr/lib/isaexec
 fi
 
 # S10/greenline upgrade support
@@ -278,7 +314,10 @@ function svc_disable
 ###
 
 print ""
-print "Starting X ${XVERS} Build ${X_BUILD} upgrade."
+print "Starting X ${XVERS} Build ${X_BUILD} upgrade"
+if [[ ! -z ${ALTROOT} ]] ; then
+    print " in alternate root ${ALTROOT}"
+fi
 print "  An upgrade log file can be found at:"
 print "    $PKG_UPGRADE_LOG"
 print ""
@@ -301,29 +340,33 @@ EOF
 
 # Back up OWconfig before adding/removing packages to 
 # workaround pkg bug 4946663/4992643
-cp /usr/openwin/server/etc/OWconfig /var/tmp/OWconfig.${DATE}
+if [[ -f ${ALTROOT}/usr/openwin/server/etc/OWconfig ]]; then
+    cp ${ALTROOT}/usr/openwin/server/etc/OWconfig ${ALTROOT}/var/tmp/OWconfig.${DATE}
+fi
 
 # Remove all instances of the specified package
 function remove_package 
 {
     pkg=$1
-    if /bin/pkginfo -q ${pkg}.\* ; then
-	for p in $(pkginfo ${pkg}.\* | awk '{print $2}') ; do
-	    case "$pkg" in
-		SUNWxwplr*)
-		    svc_disable network/fs/tcp6 network/fs-tcp6.xml
-		    svc_disable application/opengl/ogl-select
-		    svc_disable application/x11/xfs
-		    svc_disable application/x11/xvnc-inetd
-		    ;;
-		SUNWfontconfig-root*)
-		    svc_disable application/font/fc-cache
-		    ;;
-		SUNWstsfr*)
-		    svc_disable application/font/stfsloader
-		    ;;
-	    esac
-	    /usr/sbin/pkgrm ${VERBOSE} ${p} 2>&1 \
+    if /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q ${pkg}.\* ; then
+	for p in $(pkginfo ${ADDITIONAL_PKG_FLAGS} ${pkg}.\* | awk '{print $2}') ; do
+	    if [[ -z ${ALTROOT} ]] ; then
+		case "$pkg" in
+		    SUNWxwplr*)
+			svc_disable network/fs/tcp6 network/fs-tcp6.xml
+			svc_disable application/opengl/ogl-select
+			svc_disable application/x11/xfs
+			svc_disable application/x11/xvnc-inetd
+			;;
+		    SUNWfontconfig-root*)
+			svc_disable application/font/fc-cache
+			;;
+		    SUNWstsfr*)
+			svc_disable application/font/stfsloader
+			;;
+		esac
+	    fi
+	    /usr/sbin/pkgrm ${ADDITIONAL_PKG_FLAGS} ${VERBOSE} ${p} 2>&1 \
 		| tee -a ${PKG_UPGRADE_LOG} | grep $pkg
 	done
     fi
@@ -337,7 +380,7 @@ for pkg in ${pkg_list} ; do
     remove_package $pkg
 
     if [[ -e $pkg ]] ; then
-	/usr/sbin/pkgadd -S ${VERBOSE}  -d . $pkg 2>&1 \
+	/usr/sbin/pkgadd ${ADDITIONAL_PKG_FLAGS} -S ${VERBOSE}  -d . $pkg 2>&1 \
 	    | tee -a ${PKG_UPGRADE_LOG} | grep $pkg
 	print ""
     else
@@ -348,8 +391,10 @@ for pkg in ${pkg_list} ; do
 done
 
 # Start the rebuild of fontconfig caches now, instead of at next reboot
-/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild="true"
-/usr/sbin/svcadm restart application/font/fc-cache
+if [[ -z "${ALTROOT}" ]] ; then
+    /usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild="true"
+    /usr/sbin/svcadm restart application/font/fc-cache
+fi
 
 
 print "X ${XVERS} upgrade is complete"

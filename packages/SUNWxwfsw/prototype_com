@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.7     08/08/29 SMI"
+# ident "@(#)prototype_com 1.8     08/09/15 SMI"
 #
 #  X Window System required core font software package
 
@@ -44,13 +44,15 @@ d none openwin 0755 root bin
 d none openwin/bin              0755 root bin
 s none openwin/bin/mkfontdir=../../X11/bin/mkfontdir
 
-!search	 $HOME/openwin/lib
 d none openwin/lib				0755 root bin
-f none openwin/lib/installalias         0755 root bin
+s none openwin/lib/installalias=../../X11/lib/installalias
 
-# Font libraries used by Xorg and X11R7-based font programs
 d none X11 			0755 root bin
+
+!search	 $HOME/X11/lib
 d none X11/lib 			0755 root bin
+f none X11/lib/installalias	0755 root bin
+
 d none X11/lib/X11 		0755 root bin
 d none X11/lib/X11/fonts 	0755 root bin
 
@@ -106,6 +108,7 @@ f none X11/lib/X11/fonts/encodings/large/ksc5601.1987-0.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/ksc5601.1992-3.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/sun.unicode.india-0.enc.gz 0444 root bin
 
+# Font libraries used by Xorg and X11R7-based font programs
 !search $HOME/X11/lib/X11/xserver
 d none X11/lib/X11/xserver 0755 root bin
 f none X11/lib/X11/xserver/libfontenc.so.1 0444 root bin

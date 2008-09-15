@@ -18,6 +18,12 @@ include lib/libXfont/COPYING
 
 --------------------------------------------------------------------
 
+installalias is covered by this license:
+
+include app/installalias/COPYING
+
+--------------------------------------------------------------------
+
 mkfontdir is covered by this license:
 
 include app/mkfontdir/COPYING

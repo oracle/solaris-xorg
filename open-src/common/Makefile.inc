@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.92	08/08/10
+# @(#)Makefile.inc	1.93	08/09/15
 #
 
 ### Default rules
@@ -371,7 +371,7 @@ spec_gen:
 LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
 	$(MODTYPE_LD_OPTIONS) $(MODULE_LD_OPTIONS)
 
-BUILD_ENV = LD_OPTIONS="$(LD_OPTIONS)" \
+BUILD_ENV = LD_OPTIONS='$(LD_OPTIONS)' \
 	$(MODTYPE_BUILD_ENV) $(MODULE_BUILD_ENV)
 
 DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \

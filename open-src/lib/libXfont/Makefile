@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.15	08/08/29
+# @(#)Makefile	1.16	08/09/15
 #
 
 # Package name used in tarballs
@@ -43,7 +43,9 @@ MODULE_VERSION=1.3.3
 SOURCE_PATCHES=	\
 	4510977.patch,-p1 \
 	bzip2.patch,-p1 \
-	6206898.patch
+	6206898.patch \
+	ps-fonts.patch \
+	htons-inline.patch
 
 # bzip2 patch changes configure.ac, requires autoreconf
 AUTORECONF=yes
@@ -68,8 +70,16 @@ FIX_PC_FILES=xfont.pc.in
 # Install in private subdir
 MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 
-# Find fontenc library in private subdir
-MODULE_LDFLAGS= $(X11_SERVERLIBS_LDFLAGS)
+# Need to link with libfontenc in server private directory
+MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+
+# Need to find libfontenc & libfreetype in matching directory when used
+# in alternate root environments, like during OS install
+# We use sfw/lib to find libfreetype (via the compatibility link) and not
+# libc, which may be incompatible with the running system during Live Upgrade
+MODULE_LD_OPTIONS= -R $$ORIGIN -R $$ORIGIN/$(FREETYPE_RELATIVE_PATH)
+MODULE_BUILD_32_FLAGS= FREETYPE_RELATIVE_PATH=../../../../sfw/lib
+MODULE_BUILD_64_FLAGS= FREETYPE_RELATIVE_PATH=../../../../../sfw/lib$(ARCHLIBSUBDIR)
 
 include ../Makefile.inc
 
