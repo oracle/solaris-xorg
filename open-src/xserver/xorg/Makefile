@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.65	08/09/05
+# @(#)Makefile	1.66	08/09/17
 #
 
 # Build 32-bit or 64-bit?
@@ -85,7 +85,7 @@ AUTORECONF=yes
 #  Need to override LD setting to add -xarch flags that libtool strips
 # XXX: --disable-dga
 MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
-        --enable-builddocs --enable-xorgcfg \
+        --enable-builddocs --enable-xorgcfg --disable-xprint \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
 	LD="$(CC) $(ARCH_FLAGS)"
 
