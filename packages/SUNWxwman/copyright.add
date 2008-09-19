@@ -459,3 +459,9 @@ Files from the util/makedepend package are covered by the following notice:
 
 include util/makedepend/COPYING
 
+--------------------------------------------------------------------
+
+Files from the app/xscope package are covered by the following notice:
+
+include app/xscope/COPYING
+

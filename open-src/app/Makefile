@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.77	08/09/16
+# @(#)Makefile	1.78	08/09/18
 #
 ###############################################################################
 
@@ -112,6 +112,7 @@ OS_SUBDIRS_common = \
 	xrdb \
 	xrefresh \
 	xrx \
+	xscope \
 	xset \
 	xsetroot \
 	xstdcmap \
