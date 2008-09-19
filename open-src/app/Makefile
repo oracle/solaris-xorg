@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.79	08/09/18
+# @(#)Makefile	1.80	08/09/18
 #
 ###############################################################################
 
@@ -104,10 +104,10 @@ OS_SUBDIRS_common = \
 	xmakemap \
 	xman \
 	xmodmap \
+	xplsprinters \
 	xpm \
 	xpr \
 	xprehashprinterlist \
-        xplsprinters \
 	xprop \
 	xrandr \
 	xrdb \

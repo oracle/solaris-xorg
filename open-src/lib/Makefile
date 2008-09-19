@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.24	08/09/15
+# @(#)Makefile	1.25	08/09/18
 #
 ###############################################################################
 
@@ -60,6 +60,7 @@ OS_SUBDIRS_common = \
 	libXt \
 	libXmu \
 	libXpm \
+	libXp \
 	libXaw \
 	libXfixes \
 	libXcomposite \
@@ -73,6 +74,8 @@ OS_SUBDIRS_common = \
 	libXinerama \
 	libxkbfile \
 	libxkbui \
+	libXprintUtil \
+	libXprintAppUtil \
 	libXrandr \
 	libXres \
 	libXScrnSaver \
@@ -83,9 +86,6 @@ OS_SUBDIRS_common = \
 	libXxf86misc \
 	libXxf86vm \
 	libXlg3d \
-	libXp \
-        libXprintUtil \
-        libXprintAppUtil \
 	hwc
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
