@@ -1,0 +1,138 @@
+#! /bin/sh
+#
+# Copyright 1992 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# ident "@(#)xmakemap 1.2     08/09/11 SMI"
+#
+
+# xmakemap -- make a keyboard mapping to be used as input to xmodmap
+#
+# Usage: xmakemap > $HOME/.xmodmaprc
+#
+# Notes:
+#    OpenWindows (i.e., an X server) must be running to use xmakemap.
+#    Run xmakemap and edit $HOME/.xmodmaprc to customize it as desired
+#    (read "Notes" in $HOME/.xmodmaprc).
+#
+
+echo '! File:
+!    .xmodmaprc
+!
+! Goal:
+!    Customize keyboard mappings
+!
+! Location (where to put this file):
+!    $HOME/.xmodmaprc
+!
+! Usage:
+!    xmodmap $HOME/.xmodmaprc
+!
+! Notes:
+!  - If you would like your keytable to be customized each time OW
+!    is run, you should place the appropriate command in $HOME/.xinitrc.
+!    For example:
+!
+!    if [ -f $HOME/.xmodmaprc ]; then
+!        xmodmap $HOME/.xmodmaprc
+!    fi
+!
+!  - This file should be customized as desired, commenting out each
+!    unneeded entry with '!'.  Note that all clients will be notified
+!    when the keytable changes and the keytable will be distributed to
+!    all clients upon their request.  Since distribution takes time for
+!    each client, users should place the command *first* in .xinitrc
+!    (before most clients are running) and should *not* place the
+!    command in the background.
+!
+!  - Refer to man page for xmodmap(1) for more information.
+!
+
+!
+! clear modifier groups
+!
+
+clear shift
+clear lock
+clear control
+clear mod1
+clear mod2
+clear mod3
+clear mod4
+clear mod5
+
+!
+! set up keys
+!
+!       Key   Unshifted       Shifted         AltGraph        AltGraph-Shifted
+!       ---   --------------- --------------- --------------- ----------------
+'
+xmodmap -pk | awk ' { \
+    { \
+	x = $1; \
+        if (x >= 7 && x <= 132 && NF > 1) { \
+	    $3 = substr($3, 2, length($3)-2); \
+	    $5 = substr($5, 2, length($5)-2); \
+	    $7 = substr($7, 2, length($7)-2); \
+	    $9 = substr($9, 2, length($9)-2); \
+	    printf("keycode %3s = %-15s %-15s %-15s %-15s\n",$1,$3,$5,$7,$9); \
+	} \
+    } \
+} '
+
+echo '
+!
+! set modifier groups
+!
+'
+xmodmap | awk ' { \
+    if ($1 == "shift") { \
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "lock") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "control") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "mod1") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "mod2") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "mod3") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "mod4") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+    if ($1 == "mod5") {
+	printf "add %-7s = %s %s %s %s\n", $1, $2, $4, $6, $8 \
+    } \
+} ' 

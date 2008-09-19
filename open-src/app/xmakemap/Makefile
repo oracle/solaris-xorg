@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,111 +28,38 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.79	08/09/18
-#
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+MODULE_NAME=xmakemap
 
-OS_SUBDIRS_common = \
-	appres \
-	bdftopcf \
-	bitmap \
-	constype \
-	editres \
-	fbconsole \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	installalias \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkfontdir \
-	mkfontscale \
-	oclock \
-	proxymngr \
-	rstart \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-        xcolor \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xmakemap \
-	xman \
-	xmodmap \
-	xpm \
-	xpr \
-	xprehashprinterlist \
-        xplsprinters \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xscope \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx
+# No upstream sources for these files, since they're Sun created
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Don't need default targets for make build or make install, since there's
+# nothing to build, and the install rule follows here
+BUILD_TARGETS = $(SOURCE_TARGETS)
+BUILD_TARGETS_SET=yes
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+INSTALL_TARGETS =
+INSTALL_TARGETS_SET=yes
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUN_PACKAGE=SUNWxwman
+MODULE_STABILITY=Committed
 
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs
+### Include common rulesets
+include ../Makefile.inc
+
+DESTDIR=$(PROTODIR)
+INSTDIR=$(DESTDIR)/$(X11_DIR)
+
+install_gen::
+	mkdir -p $(INSTDIR)/bin $(INSTDIR)/share/man/man1
+	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/xmakemap \
+		$(PROTODIR)$(X11_DIR)/bin
+	$(INSTALL_SCRIPT) $(SOURCE_DIR)/xmakemap.man \
+		$(PROTODIR)$(X11_DIR)/share/man/man1/xmakemap.1
+
