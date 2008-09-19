@@ -57,7 +57,7 @@ diff -urp -x '*~' driver/screensaver-properties.desktop.in driver/screensaver-pr
 +Name[zh_HK]=螢幕保護程式
 +Name[zh_TW]=螢幕保護程式
 +
-+Comment=Configure the settings of the screensaver.
++Comment=Choose screensaver delay and appearance.
 +Comment[cs]=Konfigurace nastavení spořiče obrazovky.
 +Comment[de]=Bildschirmschonereinstellungen konfigurieren
 +Comment[es]=Configura los valores del salvapantallas.
