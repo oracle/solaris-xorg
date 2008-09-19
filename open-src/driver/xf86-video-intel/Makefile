@@ -30,18 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	08/08/08
+# @(#)Makefile	1.17	08/09/17
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.0
+MODULE_VERSION=2.4.2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES= build-dri.patch libraries.patch \
-		6538497_6554161.patch lvds_detect.patch 845_workaround.patch
+SOURCE_PATCHES= build-dri-new.patch libraries.patch \
+		6538497_6554161.patch 845_workaround.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

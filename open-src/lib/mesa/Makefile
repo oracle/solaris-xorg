@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14	08/09/05
+# @(#)Makefile	1.15	08/09/17
 #
 
 # Package name used in tarballs
@@ -60,7 +60,8 @@ SOURCE_PATCHES= \
 	6742579.patch		\
 	mesa965.patch		\
 	6538497.patch		\
-	6559710.patch
+	6559710.patch		\
+	eaglelake.patch
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
