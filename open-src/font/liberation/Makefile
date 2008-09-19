@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/08 SMI
+# @(#)Makefile	1.4	08/09/18 SMI
 #
 
 # Package name used in tarballs
 MODULE_NAME=liberation-fonts
 
 # Version number (used in path names)
-MODULE_VERSION=1.03
+MODULE_VERSION=1.04
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
