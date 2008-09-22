@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	08/09/12
+# @(#)Makefile	1.10	08/09/18
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
@@ -43,7 +43,8 @@ MODULE_NAME=xtrans
 MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = inetv6.patch socket-perm.patch bug-6688467.patch,-p1
+SOURCE_PATCHES = inetv6.patch socket-perm.patch bug-6688467.patch,-p1 \
+	tsol-unix-domain.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=xtrans
