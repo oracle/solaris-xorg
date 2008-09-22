@@ -3,7 +3,7 @@
 # Use is subject to license terms.
 #
 
-# ident	"@(#)TrustedExtensionsPolicy 1.9	08/07/10 SMI"
+# ident	"@(#)TrustedExtensionsPolicy 1.10	08/09/18 SMI"
 
 # TrustedExtensionsPolicy
 # Syntax: <atom|property|selection|extension|privilege> name
@@ -175,10 +175,13 @@ property _SCREENSAVER_STATUS
 property NAUTILUS_ACTIVE_DESKTOP_ID
 property _NET_WORKAREA
 
+selection /^_DBUS_SESSION_BUS_SELECTION_/
+
 selection Dtfile
 selection Dtpad
 selection _Frame_RPC
 selection _MOTIF_CLIP_LOCK
+
 
 #
 # Entries required to polyinstantiate applications 
