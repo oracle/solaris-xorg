@@ -1,4 +1,10 @@
 
+Files from the app/xlock package are covered by the following notice:
+
+include app/xlock/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/proxymngr package are covered by the following notice:
 
 include app/proxymngr/COPYING

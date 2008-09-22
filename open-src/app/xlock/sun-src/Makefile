@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xlock 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -12,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,118 +24,32 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.81	08/09/19
-#
-###############################################################################
+# @(#)Makefile.plain	35.1 94/09/01 XLOCK
+# Makefile for xlock. 
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+CFLAGS=${DEFINES} -DSYSV -DUSE_PAM
+C_SRCS=xlock.c hsbramp.c usleep.c resource.c \
+	hopalong.c qix.c life.c image.c blank.c swarm.c rotor.c pyro.c flame.c
+HDRS=xlock.h
+IMAGES=lifeicon.bit sunlogo.bit
+SRCS=${C_SRCS} ${HDRS} ${IMAGES} xlock.man XLock.ad
+OBJS=${C_SRCS:.c=.o}
+LIBDIR=/usr/X11/lib
 
-OS_SUBDIRS_common = \
-	appres \
-	bdftopcf \
-	bitmap \
-	constype \
-	editres \
-	fbconsole \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	installalias \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkfontdir \
-	mkfontscale \
-	oclock \
-	proxymngr \
-	rstart \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-        xcolor \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-        xlock \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xmakemap \
-	xman \
-	xmodmap \
-	xplsprinters \
-	xpm \
-	xpr \
-	xprehashprinterlist \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xscope \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx
+xlock: ${OBJS}
+	cc -o $@ ${OBJS} $(CFLAGS) $(LDFLAGS) -lX11 -lm -lpam -lbsm -lsocket -lnsl
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+resource.o:=DEFINES=-DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"
+pyro.o:=DEFINES=-DSTARSIZE=2
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
-
-PWD:sh=pwd
-TOP=$(PWD)/..
-
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs
+install:
+	$(INSTALL) -m 4755 xlock $(DESTDIR)/usr/X11/bin/xlock
+	$(INSTALL) -m 644 xlock.1 \
+		$(DESTDIR)/usr/X11/share/man/man1/xlock.1
+	$(INSTALL) -m 644 XLock.ad $(DESTDIR)/usr/X11/lib/X11/app-defaults/XLock

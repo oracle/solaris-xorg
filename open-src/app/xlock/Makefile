@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
+#
+# xlock 1.x Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,112 +30,25 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.81	08/09/19
+# @(#)Makefile	1.3	08/08/08
 #
-###############################################################################
 
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
+# Package name used in tarballs
+MODULE_NAME=xlock
 
-OS_SUBDIRS_common = \
-	appres \
-	bdftopcf \
-	bitmap \
-	constype \
-	editres \
-	fbconsole \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	installalias \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkfontdir \
-	mkfontscale \
-	oclock \
-	proxymngr \
-	rstart \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-        xcolor \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-        xlock \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xmakemap \
-	xman \
-	xmodmap \
-	xplsprinters \
-	xpm \
-	xpr \
-	xprehashprinterlist \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xscope \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-	xscreensaver \
-	rss-glx
+# No upstream sources for these files, since they're Solaris-specific
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+# No configure script, so pass usual environment to build/install instead
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+MODULE_BUILD_ENV=$(CONFIG_ENV)
 
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs
+include ../Makefile.inc

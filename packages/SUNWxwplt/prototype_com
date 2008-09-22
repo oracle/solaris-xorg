@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.204    08/09/18   Sun Microsystems"
+#      "@(#)prototype_com	35.205    08/09/19   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -56,7 +56,6 @@ f none openwin/bin/cmap_alloc 	0755 root bin
 f none openwin/bin/makepsres 	0755 root bin
 f none openwin/bin/pclcomp 	0755 root bin
 f none openwin/bin/redxblue 	0755 root bin
-f none openwin/bin/xlock 	4755 root bin
 
 #### applications replaced with new versions from open-src/app
 
@@ -176,6 +175,10 @@ s none openwin/bin/xlsfonts=../../X11/bin/xlsfonts
 # open-src/app/xlswins
 f none X11/bin/xlswins	        0755 root bin
 s none openwin/bin/xlswins=../../X11/bin/xlswins
+
+# open-src/app/xlock
+f none X11/bin/xlock       	4755 root bin
+s none openwin/bin/xlock=../../X11/bin/xlock
 
 # open-src/app/xfindproxy
 f none X11/bin/xfindproxy       0755 root bin
@@ -597,7 +600,6 @@ d none openwin/lib/X11 				0755 root bin
 d none openwin/lib/app-defaults 		0755 root bin
 s none openwin/lib/X11/app-defaults=../app-defaults
 f none openwin/lib/app-defaults/Chooser		0644 root bin
-f none openwin/lib/app-defaults/XLock		0644 root bin
 f none openwin/lib/app-defaults/Xmh		0644 root bin
 
 !search  $HOME/X11/share/X11
@@ -1273,6 +1275,7 @@ f none X11/lib/X11/app-defaults/XLogo-color	0644 root bin
 f none X11/lib/X11/app-defaults/Xmag		0644 root bin
 f none X11/lib/X11/app-defaults/XTerm		0644 root bin
 f none X11/lib/X11/app-defaults/XTerm-color	0644 root bin
+f none X11/lib/X11/app-defaults/XLock		0644 root bin
 
 !search      $HOME/X11/lib/X11/x11perfcomp
 d none X11/lib/X11/x11perfcomp			0755 root bin

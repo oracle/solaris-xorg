@@ -159,6 +159,11 @@ used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from GROUPE BULL.
 
 --------------------------------------------------------------------
+Files from the app/xlock package are covered by the following notice:
+
+include app/xlock/COPYING
+
+--------------------------------------------------------------------
 Files from the app/xfindproxy package are covered by the following notice:
 
 include app/xfindproxy/COPYING
