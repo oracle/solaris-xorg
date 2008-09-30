@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.82	08/09/30
+# @(#)Makefile	1.83	08/09/30
 #
 ###############################################################################
 
@@ -36,6 +36,7 @@
 #  rss-glx needs to come after xscreensaver
 
 OS_SUBDIRS_common = \
+	accessx \
 	appres \
 	bdftopcf \
 	bitmap \

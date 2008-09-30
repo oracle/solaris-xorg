@@ -1,0 +1,108 @@
+.\" Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
+.\" Use subject to license terms.
+.\"
+.\" Permission is hereby granted, free of charge, to any person obtaining a
+.\" copy of this software and associated documentation files (the
+.\" "Software"), to deal in the Software without restriction, including
+.\" without limitation the rights to use, copy, modify, merge, publish,
+.\" distribute, and/or sell copies of the Software, and to permit persons
+.\" to whom the Software is furnished to do so, provided that the above
+.\" copyright notice(s) and this permission notice appear in all copies of
+.\" the Software and that both the above copyright notice(s) and this
+.\" permission notice appear in supporting documentation.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+.\" OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+.\" MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+.\" OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+.\" INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+.\" FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+.\" NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+.\" WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" Except as contained in this notice, the name of a copyright holder
+.\" shall not be used in advertising or otherwise to promote the sale, use
+.\" or other dealings in this Software without prior written authorization
+.\" of the copyright holder.
+.TH accessx 1 "19 November 2001"
+.IX "accessx" "" "\f3accessx\f1(1) \(em interface to keyboard enhancements" ""
+.SH NAME
+accessx \- a graphical interface to the accessx keyboard enhancements.
+.SH SYNOPSIS
+.B accessx
+[
+.B -o
+] [
+.B -i
+] [
+.B -a
+] 
+.SH AVAILABILITY
+The keyboard enhancements and corresponding graphical interface are
+available on any X server with the "AccessX" or "XKEYBOARD" extensions, 
+including Xsun on Solaris 2.4 and later.
+.SH DESCRIPTION
+.B accessx
+is a graphical user interface to available enhancements.  These enhancements provide the keyboard with additional capabilities which are primarily designed to aid users with disabilities who are unable to use a keyboard or mouse in the usual fashion.
+.SH OPTIONS
+.TP
+.B -o
+Each user may load and save personal default settings
+for the various keyboard enhancement features. By default,
+the
+.B accessx
+utility will read in the user's default settings and configure
+the system to those settings. However, in certain instances
+the user might wish to use the systems current settings instead
+of his/her own default settings. Specifying the -o option will
+instruct the
+.B accessx
+utility to ignore a user's default settings and use the systems
+current settings instead.
+.TP
+.B -i
+When this option is specified, the
+.B accessx
+user interface initially appears in an iconified state.
+.TP
+.B -a
+Users may pop up dialog boxes indicating the state of Sticky Keys
+and Mouse Keys via the main menu of the
+.B accessx
+utility's graphical interface. Some users, however, want these
+status dialog windows to appear and disappear automatically whenever
+they turn on and off Sticky Keys or Mouse Keys.  Specifying the -a
+option instructs the
+.B accessx
+utility to automatically pop up and down the Sticky Keys status
+window whenever Sticky Keys is turned on or off, respectively,
+and to automatically pop up and down the Mouse Keys status
+window whenever Mouse Keys is turned on or off, respectively.
+.SH ENVIRONMENT
+The HOME environment variable is used to identify the directory in which
+to load and save a user's default settings. The settings are stored in
+X resource file format in the file $HOME/.AccessX. The user may modify 
+or add resources to this file directly, however all comments
+will be deleted when the user performs a save settings action.
+.SH FILES
+    accessx.uid - Motif GUI description file
+    AccessX     - Application Resource File
+.SH SEE ALSO
+.BR X11 (7)
+.SH AUTHORS
+    Earl Johnson 
+    Jordan M. Slott
+    Enabling Technologies
+    Sun Microsystems Laboratories, Inc
+    Mountain View, CA
+
+    Mark Novak
+    Trace Research & Development Center
+    University of Wisconsin-Madison
+    Madison, WI
+
+    Will Walker
+    Digital Equipment Corportation
+    Maynard, MA
+

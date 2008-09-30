@@ -1,6 +1,5 @@
-###########################################################################
-#
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,51 +20,39 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
-#
-#	@(#)prototype	35.25	08/09/30
-#
-#  AccessX and associated files
+# @(#)Makefile	1.1	08/09/30
 
-i pkginfo
-i copyright
-i depend
+UIL = /usr/dt/bin/uil
+UIL_INCLUDES = -I/usr/dt/include/uil
 
-!HOME=../usr/X11
+SRCS = \
+	AccessX.c \
+        AccessXcomm.c
 
-d none openwin                  0755 root bin
-d none X11                      0755 root bin
+OBJS = $(SRCS:.c=.o)
 
-!search $HOME/bin
-d none openwin/bin              0755 root bin
-d none X11/bin              0755 root bin
-f none X11/bin/accessx  0755 root bin
-s none openwin/bin/accessx=../../X11/bin/accessx
+all:: accessx.uid accessx
 
-!search  $HOME/lib
-d none X11/lib 0755 root bin
-d none X11/lib/app-defaults 0755 root bin
+accessx.uid: accessx.uil
+	$(UIL) -o $@ accessx.uil $(UIL_INCLUDES)
 
-!search  $HOME/lib/app-defaults
-f none X11/lib/app-defaults/accessx.uid 0644 root bin
+accessx: $(OBJS)
+	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) -lMrm -lXm -lXt -lX11 -lXext
 
-!search  $HOME/lib/locale/C/help
-s none X11/lib/help=./locale/C/help
-d none X11/lib/locale 0755 root bin
-d none X11/lib/locale/C 0755 root bin
-d none X11/lib/locale/C/help 0755 root bin
-f none X11/lib/locale/C/help/accessx.hlp 0644 root bin
-
-!search  $HOME/share/man/man1
-s none X11/man=./share/man
-d none X11/share 0755 root bin
-d none X11/share/man 0755 root bin
-d none X11/share/man/man1 0755 root bin
-f none X11/share/man/man1/accessx.1 0444 root bin
-
+install: accessx
+	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/app-defaults
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/locale/C/help
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/locale/C/app-defaults
+	$(INSTALL) accessx $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) accessx.uid $(DESTDIR)$(PREFIX)/lib/app-defaults
+	$(INSTALL) accessx.1 $(DESTDIR)$(PREFIX)/share/man/man1
+	$(INSTALL) accessx.hlp $(DESTDIR)$(PREFIX)/lib/locale/C/help
+	$(INSTALL) accessx.uil $(DESTDIR)$(PREFIX)/lib/locale/C/app-defaults
+	$(INSTALL) accessxstrings.uil $(DESTDIR)$(PREFIX)/lib/locale/C/app-defaults

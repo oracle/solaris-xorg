@@ -1,6 +1,9 @@
-###########################################################################
+###############################################################################
+#
+# accessx 1.x module Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,51 +24,37 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
+# @(#)Makefile	1.1	08/09/30
 #
-#	@(#)prototype	35.25	08/09/30
-#
-#  AccessX and associated files
 
-i pkginfo
-i copyright
-i depend
+# Package name used in tarballs
+MODULE_NAME=accessx
 
-!HOME=../usr/X11
+# No upstream sources, only local sources
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
-d none openwin                  0755 root bin
-d none X11                      0755 root bin
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES= # None
+SUN_PACKAGE=SUNWxwacx
+MODULE_STABILITY=Committed
 
-!search $HOME/bin
-d none openwin/bin              0755 root bin
-d none X11/bin              0755 root bin
-f none X11/bin/accessx  0755 root bin
-s none openwin/bin/accessx=../../X11/bin/accessx
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
-!search  $HOME/lib
-d none X11/lib 0755 root bin
-d none X11/lib/app-defaults 0755 root bin
+# Since we don't have a configure script, pass configure flags to make
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
-!search  $HOME/lib/app-defaults
-f none X11/lib/app-defaults/accessx.uid 0644 root bin
+include ../Makefile.inc
 
-!search  $HOME/lib/locale/C/help
-s none X11/lib/help=./locale/C/help
-d none X11/lib/locale 0755 root bin
-d none X11/lib/locale/C 0755 root bin
-d none X11/lib/locale/C/help 0755 root bin
-f none X11/lib/locale/C/help/accessx.hlp 0644 root bin
-
-!search  $HOME/share/man/man1
-s none X11/man=./share/man
-d none X11/share 0755 root bin
-d none X11/share/man 0755 root bin
-d none X11/share/man/man1 0755 root bin
-f none X11/share/man/man1/accessx.1 0444 root bin
-
+source_gen:: $(LNDIR)
