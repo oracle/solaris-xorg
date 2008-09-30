@@ -1,0 +1,149 @@
+.\" Copyright 1995 Sun Microsystems, Inc.  All rights reserved.
+.\" Use subject to license terms.
+.\"
+.\" Permission is hereby granted, free of charge, to any person obtaining a
+.\" copy of this software and associated documentation files (the
+.\" "Software"), to deal in the Software without restriction, including
+.\" without limitation the rights to use, copy, modify, merge, publish,
+.\" distribute, and/or sell copies of the Software, and to permit persons
+.\" to whom the Software is furnished to do so, provided that the above
+.\" copyright notice(s) and this permission notice appear in all copies of
+.\" the Software and that both the above copyright notice(s) and this
+.\" permission notice appear in supporting documentation.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+.\" OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+.\" MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+.\" OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+.\" INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+.\" FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+.\" NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+.\" WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" Except as contained in this notice, the name of a copyright holder
+.\" shall not be used in advertising or otherwise to promote the sale, use
+.\" or other dealings in this Software without prior written authorization
+.\" of the copyright holder.
+.TH cmap_compact 1 "11 July 1995"
+.IX "cmap_comapct" "" "\f3cmap_compact\f1(1) \(em utility to reduce colormap flashing" ""
+.IX "color" "prev" "color" "preventing flashing \(em \f3cmap_compact\f1(1)" ""
+.SH NAME
+cmap_compact \- colormap configuration utility to reduce colormap flashing.
+.SH SYNOPSIS
+.B cmap_compact
+[
+.B \\fIop\f1 
+] [
+.B \-display
+.I dpyname
+]
+.SH DESCRIPTION
+.LP
+.B cmap_compact
+is a utility which allows certain colors to be designated as special
+and to be promoted to the high end of the default colormap (toward pixel 255).
+This reduces colormap flashing in many situations.
+.PP
+This technique has no effect for monochrome screens; it applies only to
+color screens.
+.SH OPTIONS
+.TP
+\f3-display\f1 \fIdpyname\f1
+Indicates the X11 display to use.  ':0' is the default.
+.LP
+\fIop\f1 can be one of the following operations:
+.TP
+.B save
+Records the RGB color values of all shareable (read-only) colors in the
+default colormap for each active screen and saves these values on
+the file \f3~/.owcolors\f1.
+.PP
+The black and white pixels (typically at pixels 254 and 255) are ignored
+during the save.  
+.PP
+Note that all colors are ignored for screens with a StaticColor default colormap.
+Note also that the server is grabbed during the save.
+.TP
+.B init
+Reads the colors which have been saved in \f3~/.owcolors\f1 and allocates
+them as read-only colors at the high-end of the default colormap.
+The color allocations for those applications which use these colors 
+will be derived from these high colors.
+If there is no \f3~/.owcolors\f1 file, nothing happens and no message
+is printed out.
+.PP
+The colors are allocated in reverse order of the order in which they
+were saved.  Thus, the lowest pixel in the colormap at save time
+becomes the highest pixel at initialization time.  
+.PP
+This operation is typically invoked from \f3~/.xinitrc\f1 prior to
+starting the color applications.
+.PP
+This operation creates on the root window of each screen a property named 
+\fIXA_COMPACTED_COLORS_COUNT\f1 of type XA_INTEGER.
+The value of this property specifies the number of initialized colors for that screen.
+Note: this value also includes the black and white pixels.
+.PP
+An X11 \fIclose down mode\f1 of \f3RetainPermanent\f1 is set so that
+the colors this program allocates will stay around after \f3cmap_compact\f1
+exits.  These colors may be freed by calling \f3cmap_compact\ dealloc\f1 .
+Before this program allocates its colors, it frees any colors left
+over from a previous invocation.
+.PP
+If there are more saved colors than can fit in the default colormap,
+as many colors as will fit are allocated and a warning message
+is printed out.   This situation, for example, might occur if the
+the default visual were switched from an 8-bit to a 4-bit visual 
+without discarding saved colors.
+.PP
+Note: no allocations occur for screens with a StaticColor default colormap.
+.br
+Note: The server is grabbed during the initialization.
+.TP
+.B discard
+This operation removes the file \f3~/.owcolors\f1.
+.TP
+.B dealloc
+This operation frees colors allocated by a previous invocation of 
+.BR cmap_compact\ init .
+.TP
+.B show
+This operation prints out the RGB values of the saved colors for each screen.
+.\" .SH EFFECT ON THE X11 SERVER 
+.\" .LP
+.\" The
+.\" .BR Xsun (1)
+.\" server also reads the file \f3~/.owcolors\f1 to
+.\" determine the amount that it should shift down the color cube
+.\" in the StaticColor colormap (this is called the \fIcube offset\f1).
+.\" .PP
+.\" Because there is only a single StaticColor colormap in the server,
+.\" a decision must be made about how to handle different numbers of
+.\" saved workspace colors on different screens.  The server currently
+.\" takes the simplest approach: the cube offset is the number of
+.\" saved colors for the screen with the largest number of colors.
+.\" .PP
+.\" The cube offset does not include the black and white pixels because
+.\" these pixels are not shifted down with the rest of the cube; these
+.\" pixels stay at the high end of the StaticColor colormap.
+.\" .PP
+.\" No matter what the value of the cube offset, the base pixel of the cube 
+.\" is always greater or equal to 0.
+.\" .PP
+.\" In addition to shifting the StaticColor color cube downward (toward 0)
+.\" to avoid flashing with the saved colors, the black and white pixels
+.\" which are allocated in the default colormap are moved to the high
+.\" end of the default colormap (toward 255).
+.SH FILES
+.TP
+\f3~/.owcolors\f1
+The file which is generated by
+.BR cmap_compact\ save .
+Contains a list of saved, read-only workspace colors for all screens.  
+.SH SEE ALSO
+.BR Xsun (1)
+.br
+.SH BUGS
+Currently does not support using the same \f3~/.owcolors\f1 file
+for different machine architectures.

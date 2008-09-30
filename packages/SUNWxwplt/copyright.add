@@ -182,6 +182,18 @@ include app/bdftopcf/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/cmap_alloc package are covered by the following notice:
+
+include app/cmap_alloc/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/cmap_compact package are covered by the following notice:
+
+include app/cmap_compact/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/constype package are covered by the following notice:
 
 include app/constype/COPYING
@@ -209,6 +221,12 @@ include app/fslsfonts/COPYING
 Files from the app/lbxproxy package are covered by the following notice:
 
 include app/lbxproxy/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/mkcookie package are covered by the following notice:
+
+include app/mkcookie/COPYING
 
 --------------------------------------------------------------------
 
