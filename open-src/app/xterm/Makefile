@@ -36,11 +36,15 @@
 MODULE_NAME=xterm
 
 # Version number (used in path names)
-MODULE_VERSION=235
+MODULE_VERSION=236
 
 # Source tarball
-SOURCE_URL=ftp://invisible-island.net/xterm/xterm.tar.gz
+SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
 SOURCE_URL_SET=yes
+
+# Source tarball
+SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
+SOURCE_TARBALL_NAME_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
