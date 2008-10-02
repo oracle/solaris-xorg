@@ -1,7 +1,7 @@
 diff -urN old/dispswitch.c new/dispswitch.c
 --- dispswitch.c	1969-12-31 16:00:00.000000000 -0800
-+++ dispswitch.c	2008-09-07 21:45:43.578226000 -0700
-@@ -0,0 +1,1847 @@
++++ dispswitch.c	2008-09-30 17:45:34.186383000 -0700
+@@ -0,0 +1,1857 @@
 +/* 
 + * Copyright © 2001 Keith Packard, member of The XFree86 Project, Inc.
 + * Copyright © 2002 Hewlett Packard Company, Inc.
@@ -1459,10 +1459,10 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +    if ((ncon != 2) || (start < 3))
 +	start = i;
 +
-+    if ((ncon < 2) || (ncon > 3)) {
-+	if (ncon < 2)
++    if (((ncon < 2) || (ncon > 3)) && (i != 0)) {
++	if ((ncon < 2) && verbose)
 +	    fprintf (stderr, "warn: too few (less than 2) connections: %d: can't switch\n", ncon);
-+	else
++	else if ((ncon > 3) && verbose)
 +	    fprintf (stderr, "warn: too many (more than 3) connections: %d: can't switch\n", ncon);
 +	do_not_switch = True;
 +    } else
@@ -1573,6 +1573,16 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +		new_mode[j] = get_largest_mode (&con_outputs[j],
 +		    con_outputs[j].smodes[0]);
 +	    }
++	}
++    }
++
++    if ((ncon == 1) && (start == 0)) {
++	if (start_mode[0])
++	    new_mode[0] = start_mode[0]; 
++	else {
++	    if (con_outputs[0].smodes[0])
++		new_mode[0] = get_largest_mode (&con_outputs[0],
++		    con_outputs[0].smodes[0]);
 +	}
 +    }
 +
