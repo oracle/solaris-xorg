@@ -1,0 +1,94 @@
+###########################################################################
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+###########################################################################
+#
+# ident "@(#)prototype_com 1.1     08/10/01 SMI"
+#
+# Xprint printing server
+
+i pkginfo
+i copyright
+
+!HOME=../usr/X11
+
+d none X11 0755 root bin
+
+!search $HOME/bin
+d none X11/bin 0755 root bin
+
+
+d none X11/lib 0755 root bin
+d none X11/lib/X11 0755 root bin
+
+#
+# Xprint configuration files
+#
+d none X11/lib/X11/xserver 0755 root bin
+d none X11/lib/X11/xserver/C 0755 root bin
+d none X11/lib/X11/xserver/C/print 0755 root bin
+
+!search $HOME/lib/X11/xserver/C/print
+f none X11/lib/X11/xserver/C/print/Xprinters 0755 root bin
+d none X11/lib/X11/xserver/C/print/attributes 0755 root bin
+
+
+!search $HOME/lib/X11/xserver/C/print/attributes
+f none X11/lib/X11/xserver/C/print/attributes/document 0755 root bin
+f none X11/lib/X11/xserver/C/print/attributes/job 0755 root bin
+f none X11/lib/X11/xserver/C/print/attributes/printer 0755 root bin
+
+d none X11/lib/X11/xserver/C/print/ddx-config 0755 root bin
+d none X11/lib/X11/xserver/C/print/ddx-config/raster 0755 root bin
+
+!search $HOME/lib/X11/xserver/C/print/ddx-config/raster
+f none X11/lib/X11/xserver/C/print/ddx-config/raster/pcl 0755 root bin
+f none X11/lib/X11/xserver/C/print/ddx-config/raster/postscript 0755 root bin
+
+d none X11/lib/X11/xserver/C/print/models 0755 root bin
+d none X11/lib/X11/xserver/C/print/models/HPDJ1600C 0755 root bin
+d none X11/lib/X11/xserver/C/print/models/HPDJ1600C/fonts 0755 root bin
+
+!search $HOME/lib/X11/xserver/C/print/models/HPDJ1600C
+f none X11/lib/X11/xserver/C/print/models/HPDJ1600C/model-config 0755 root bin
+
+d none X11/lib/X11/xserver/C/print/models/HPLJ4family 0755 root bin
+d none X11/lib/X11/xserver/C/print/models/HPLJ4family/fonts 0755 root bin
+
+!search $HOME/lib/X11/xserver/C/print/models/HPLJ4family
+f none X11/lib/X11/xserver/C/print/models/HPLJ4family/model-config 0755 root bin
+
+d none X11/lib/X11/xserver/C/print/models/SPSPARC2 0755 root bin
+d none X11/lib/X11/xserver/C/print/models/SPSPARC2/fonts 0755 root bin
+
+!search $HOME/lib/X11/xserver/C/print/models/SPSPARC2
+f none X11/lib/X11/xserver/C/print/models/SPSPARC2/model-config 0755 root bin
+
+!search $HOME/lib/X11/xserver
+f none X11/lib/X11/xserver/README 0755 root bin

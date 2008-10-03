@@ -1,5 +1,6 @@
+##########################################################################
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,17 +27,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)depend	1.1	06/06/05 SMI"
+##########################################################################
 #
+# ident "@(#)depend_sparc 1.2     08/10/03 SMI"
+#
+# Xprint printing server
+
 P SUNWcsr	Core Solaris, (Root)
 P SUNWcsu	Core Solaris, (Usr)
 P SUNWcsl	Core Solaris, (Shared Libs)
-P SUNWcsd	Core Solaris Devices
-P SUNWcar	Core Architecture, (Root)
-P SUNWkvm	Core Architecture, (Kvm)
+P SUNWcslr	Core Solaris Libraries (Root)
+P SUNWesu	Extended System Utilities
 P SUNWxwfnt	X Window System Fonts
-P SUNWlibmsr	Math & Microtasking Libraries (Root)
+P SUNWxwfsw	X Window System platform required font software
+P SUNWlibms	Sun Compilers Bundled shared libm
 P SUNWzlib	The Zip compression library
 P SUNWxwplt	X Window System platform software
-P SUNWxwfsw	X Window System platform required font software
-P SUNWxsun-server	X Window System: Xsun server
+P SUNWxorg-clientlibs	X.Org Foundation X Client Libraries
+P SUNWxorg-server       X.Org Foundation Xserver

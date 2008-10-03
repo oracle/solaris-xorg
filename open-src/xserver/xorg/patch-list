@@ -67,3 +67,6 @@ kbd_mode.patch,-p1
 6721634.patch
 6742579.patch
 6740339.patch
+xprint.patch
+xprint01.patch
+xprint02.patch
