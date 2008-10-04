@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.67	08/10/03
+# @(#)Makefile	1.68	08/10/04
 #
 
 # Build 32-bit or 64-bit?
@@ -87,6 +87,8 @@ AUTORECONF=yes
 MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
         --enable-builddocs --enable-xorgcfg --enable-xprint \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
+	MKFONTDIR="$(MKFONTDIR)" \
+	MKFONTSCALE="$(MKFONTSCALE)" \
 	LD="$(CC) $(ARCH_FLAGS)"
 
 # Need specific ordering of CPPFLAGS for Mesa headers for now

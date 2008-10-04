@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.2	08/08/19
+# @(#)Makefile.init	1.3	08/10/04
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -262,6 +262,11 @@ DOCBOOKUTIL_BINDIR=$(PROTODIR)$(TOOLS_DIR)/bin
 DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/docbook2html
 DOCBOOK2TXT=$(DOCBOOKUTIL_BINDIR)/docbook2txt
 XORG_DEFS_ENT=$(PROTODIR)/$(X11_DIR)/share/sgml/X11/defs.ent
+
+# Commands to run font utilities from proto area
+MKFONTDIR=$(PROTODIR)$(X11_DIR)/bin/mkfontdir
+MKFONTSCALE=$(PROTODIR)$(X11_DIR)/bin/mkfontscale
+INSTALLALIAS=$(PROTODIR)$(X11_DIR)/lib/installalias
 
 ### Sources, in-tree and upstream
 
