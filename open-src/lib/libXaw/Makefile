@@ -30,13 +30,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/08
+# @(#)Makefile	1.4	08/10/05
 #
-
-## For now, this libXaw is installed to a private directory for the use
-## of xorgcfg only.   Further evaluation is needed of the differences 
-## between the current Solaris libXaw & this one before it can become the
-## default/public libXaw.
 
 # Package name used in tarballs
 MODULE_NAME=libXaw
@@ -51,12 +46,10 @@ SOURCE_PATCHES=
 LIBNAME=Xaw
 
 # Library man pages to apply Sun footer to & attributes to list
-# SUNTOUCHED_MANPAGES=
+SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
-LIB_MAN_SUFFIX=3
-
-
+LIB_MAN_SUFFIX=3Xaw
 
 # Link with version mapfile
 # MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
@@ -65,10 +58,10 @@ LIB_MAN_SUFFIX=3
 FIX_PC_FILES=xaw*.pc.in
 
 # Additional arguments to pass to configure
+# We only ship libXaw.so.7 right now, since we don't need to maintain binary
+# compatibility with the libXaw.so.6 version we never shipped, and never
+# started shipping the now-dropped-by-X.Org libXaw.so.8 (Xaw + Xprint)
 MODULE_CONFIG_OPTS= --disable-xaw6 --disable-xaw8
-
-# Install in private subdir for xorgcfg
-MODULE_ADD_LIB_SUBDIR=/xorgcfg
 
 include ../Makefile.inc
 

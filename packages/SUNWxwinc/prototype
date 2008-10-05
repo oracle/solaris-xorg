@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.88	08/09/16 SMI"
+# ident	"@(#)prototype	35.89	08/10/05 SMI"
 #
 #  X Window System include files
 
@@ -216,87 +216,82 @@ f none openwin/share/include/X11/DPS/dpsfriends.h 0644 root bin
 f none openwin/share/include/X11/DPS/dpsops.h 0644 root bin
 f none openwin/share/include/X11/DPS/psops.h 0644 root bin
 
+# open-src/lib/libXaw
+!search                $HOME/X11/include/X11/Xaw
+d none X11/include/X11/Xaw 			0755 root bin
+s none openwin/share/include/X11/Xaw=../../../../X11/include/X11/Xaw
+f none X11/include/X11/Xaw/AllWidgets.h		0444 root bin
+f none X11/include/X11/Xaw/AsciiSink.h		0444 root bin
+f none X11/include/X11/Xaw/AsciiSinkP.h		0444 root bin
+f none X11/include/X11/Xaw/AsciiSrc.h		0444 root bin
+f none X11/include/X11/Xaw/AsciiSrcP.h		0444 root bin
+f none X11/include/X11/Xaw/AsciiText.h		0444 root bin
+f none X11/include/X11/Xaw/AsciiTextP.h		0444 root bin
+f none X11/include/X11/Xaw/Box.h		0444 root bin
+f none X11/include/X11/Xaw/BoxP.h		0444 root bin
+f none X11/include/X11/Xaw/Cardinals.h		0444 root bin
+f none X11/include/X11/Xaw/Command.h		0444 root bin
+f none X11/include/X11/Xaw/CommandP.h		0444 root bin
+f none X11/include/X11/Xaw/Dialog.h		0444 root bin
+f none X11/include/X11/Xaw/DialogP.h		0444 root bin
+f none X11/include/X11/Xaw/Form.h		0444 root bin
+f none X11/include/X11/Xaw/FormP.h		0444 root bin
+f none X11/include/X11/Xaw/Grip.h		0444 root bin
+f none X11/include/X11/Xaw/GripP.h		0444 root bin
+f none X11/include/X11/Xaw/Label.h		0444 root bin
+f none X11/include/X11/Xaw/LabelP.h		0444 root bin
+f none X11/include/X11/Xaw/List.h		0444 root bin
+f none X11/include/X11/Xaw/ListP.h		0444 root bin
+f none X11/include/X11/Xaw/MenuButtoP.h		0444 root bin
+f none X11/include/X11/Xaw/MenuButton.h		0444 root bin
+f none X11/include/X11/Xaw/MultiSink.h		0444 root bin
+f none X11/include/X11/Xaw/MultiSinkP.h		0444 root bin
+f none X11/include/X11/Xaw/MultiSrc.h		0444 root bin
+f none X11/include/X11/Xaw/MultiSrcP.h		0444 root bin
+f none X11/include/X11/Xaw/Paned.h		0444 root bin
+f none X11/include/X11/Xaw/PanedP.h		0444 root bin
+f none X11/include/X11/Xaw/Panner.h		0444 root bin
+f none X11/include/X11/Xaw/PannerP.h		0444 root bin
+f none X11/include/X11/Xaw/Porthole.h		0444 root bin
+f none X11/include/X11/Xaw/PortholeP.h		0444 root bin
+f none X11/include/X11/Xaw/Repeater.h		0444 root bin
+f none X11/include/X11/Xaw/RepeaterP.h		0444 root bin
+f none X11/include/X11/Xaw/Reports.h		0444 root bin
+f none X11/include/X11/Xaw/Scrollbar.h		0444 root bin
+f none X11/include/X11/Xaw/ScrollbarP.h		0444 root bin
+f none X11/include/X11/Xaw/Simple.h		0444 root bin
+f none X11/include/X11/Xaw/SimpleMenP.h		0444 root bin
+f none X11/include/X11/Xaw/SimpleMenu.h		0444 root bin
+f none X11/include/X11/Xaw/SimpleP.h		0444 root bin
+f none X11/include/X11/Xaw/Sme.h		0444 root bin
+f none X11/include/X11/Xaw/SmeBSB.h		0444 root bin
+f none X11/include/X11/Xaw/SmeBSBP.h		0444 root bin
+f none X11/include/X11/Xaw/SmeLine.h		0444 root bin
+f none X11/include/X11/Xaw/SmeLineP.h		0444 root bin
+f none X11/include/X11/Xaw/SmeP.h		0444 root bin
+f none X11/include/X11/Xaw/StripCharP.h		0444 root bin
+f none X11/include/X11/Xaw/StripChart.h		0444 root bin
+f none X11/include/X11/Xaw/Template.c		0444 root bin
+f none X11/include/X11/Xaw/Template.h		0444 root bin
+f none X11/include/X11/Xaw/TemplateP.h		0444 root bin
+f none X11/include/X11/Xaw/Text.h		0444 root bin
+f none X11/include/X11/Xaw/TextP.h		0444 root bin
+f none X11/include/X11/Xaw/TextSink.h		0444 root bin
+f none X11/include/X11/Xaw/TextSinkP.h		0444 root bin
+f none X11/include/X11/Xaw/TextSrc.h		0444 root bin
+f none X11/include/X11/Xaw/TextSrcP.h		0444 root bin
+f none X11/include/X11/Xaw/Tip.h		0444 root bin
+f none X11/include/X11/Xaw/TipP.h		0444 root bin
+f none X11/include/X11/Xaw/Toggle.h		0444 root bin
+f none X11/include/X11/Xaw/ToggleP.h		0444 root bin
+f none X11/include/X11/Xaw/Tree.h		0444 root bin
+f none X11/include/X11/Xaw/TreeP.h		0444 root bin
+f none X11/include/X11/Xaw/VendorEP.h		0444 root bin
+f none X11/include/X11/Xaw/Viewport.h		0444 root bin
+f none X11/include/X11/Xaw/ViewportP.h		0444 root bin
+f none X11/include/X11/Xaw/XawImP.h		0444 root bin
+f none X11/include/X11/Xaw/XawInit.h		0444 root bin
 
-d none openwin/share/include/X11/Xaw 0755 root bin
-!search                $HOME/openwin/include/X11/Xaw
-f none openwin/share/include/X11/Xaw/AllWidgets.h 0644 root bin
-f none openwin/share/include/X11/Xaw/AsciiSink.h 0644 root bin
-f none openwin/share/include/X11/Xaw/AsciiSinkP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/AsciiSrc.h 0644 root bin
-f none openwin/share/include/X11/Xaw/AsciiSrcP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/AsciiText.h 0644 root bin
-f none openwin/share/include/X11/Xaw/AsciiTextP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Box.h 0644 root bin
-f none openwin/share/include/X11/Xaw/BoxP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Cardinals.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Clock.h 0644 root bin
-f none openwin/share/include/X11/Xaw/ClockP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Command.h 0644 root bin
-f none openwin/share/include/X11/Xaw/CommandP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Dialog.h 0644 root bin
-f none openwin/share/include/X11/Xaw/DialogP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Form.h 0644 root bin
-f none openwin/share/include/X11/Xaw/FormP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Grip.h 0644 root bin
-f none openwin/share/include/X11/Xaw/GripP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Label.h 0644 root bin
-f none openwin/share/include/X11/Xaw/LabelP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/List.h 0644 root bin
-f none openwin/share/include/X11/Xaw/ListP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Logo.h 0644 root bin
-f none openwin/share/include/X11/Xaw/LogoP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Mailbox.h 0644 root bin
-f none openwin/share/include/X11/Xaw/MailboxP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/MenuButtoP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/MenuButton.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Paned.h 0644 root bin
-f none openwin/share/include/X11/Xaw/PanedP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Panner.h 0644 root bin
-f none openwin/share/include/X11/Xaw/PannerP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Porthole.h 0644 root bin
-f none openwin/share/include/X11/Xaw/PortholeP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Repeater.h 0644 root bin
-f none openwin/share/include/X11/Xaw/RepeaterP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Reports.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Scrollbar.h 0644 root bin
-f none openwin/share/include/X11/Xaw/ScrollbarP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Simple.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SimpleMenP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SimpleMenu.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SimpleP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Sme.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SmeBSB.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SmeBSBP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SmeLine.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SmeLineP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/SmeP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/StripCharP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/StripChart.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Template.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TemplateP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Text.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TextP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TextSink.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TextSinkP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TextSrc.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TextSrcP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Toggle.h 0644 root bin
-f none openwin/share/include/X11/Xaw/ToggleP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Tree.h 0644 root bin
-f none openwin/share/include/X11/Xaw/TreeP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/Viewport.h 0644 root bin
-f none openwin/share/include/X11/Xaw/ViewportP.h 0644 root bin
-f none openwin/share/include/X11/Xaw/XawInit.h 0644 root bin
-#
-#	R6
-#
-f none openwin/share/include/X11/Xaw/MultiSink.h  0644 root bin
-f none openwin/share/include/X11/Xaw/MultiSinkP.h  0644 root bin
-f none openwin/share/include/X11/Xaw/MultiSrc.h  0644 root bin
-f none openwin/share/include/X11/Xaw/MultiSrcP.h  0644 root bin
-f none openwin/share/include/X11/Xaw/Template.c  0644 root bin
-f none openwin/share/include/X11/Xaw/VendorEP.h  0644 root bin
-f none openwin/share/include/X11/Xaw/XawImP.h  0644 root bin
 
 # open-src/lib/libXmu
 d none X11/include/X11/Xmu 			0755 root bin
@@ -709,6 +704,7 @@ f none lib/pkgconfig/lbxutil.pc			0444 root bin
 f none lib/pkgconfig/sm.pc			0444 root bin
 f none lib/pkgconfig/x11.pc			0444 root bin
 f none lib/pkgconfig/xau.pc			0444 root bin
+f none lib/pkgconfig/xaw7.pc			0444 root bin
 f none lib/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/pkgconfig/xcursor.pc			0444 root bin
 f none lib/pkgconfig/xdamage.pc			0444 root bin
@@ -767,6 +763,7 @@ f none lib/$plat_64/pkgconfig/lbxutil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/sm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/x11.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xau.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xaw7.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xcursor.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xdamage.pc		0444 root bin

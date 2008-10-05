@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.3	08/10/04
+# @(#)Makefile.init	1.4	08/10/05
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -198,8 +198,8 @@ PROG_LDFLAGS=$(PROG_LDFLAGS_$(MODULE_COMPILER))
 
 ## Commonly added options
 
-# Link with X.Org current libXaw, even though it's not the default libXaw
-XAW_LDFLAGS = -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg$(ARCHLIBSUBDIR)
+# No longer needed, since X.Org libXaw is now default
+XAW_LDFLAGS = 
 
 # Link with X server private libraries like libXfont & libfontenc
 X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \

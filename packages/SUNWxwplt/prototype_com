@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.207    08/10/03   Sun Microsystems"
+#      "@(#)prototype_com	35.208    08/10/05   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -283,7 +283,6 @@ s none openwin/lib/rgb.pag=X11/rgb.pag
 s none openwin/lib/rgb.dir=X11/rgb.dir
 s none openwin/lib/rgb.txt=X11/rgb.txt
 
-s none openwin/lib/libXaw.so=./libXaw.so.5
 f none openwin/lib/libXaw.so.5 		0755 root bin
 f none openwin/lib/libXaw.so.4 		0755 root bin
 # Symlink removed to prevent compiling new programs - library is left
@@ -322,6 +321,15 @@ s none openwin/lib/libXau.so=./libXau.so.6
 s none openwin/lib/libXau.so.6=../../X11/lib/libXau.so.6
 s none X11/lib/libXau.so=./libXau.so.6
 f none X11/lib/libXau.so.6			0555 root bin
+
+# open-src/lib/libXaw
+# The libXaw.so link from /usr/openwin/lib is redirected,
+# but libXaw.so.7 was never delivered there, so it is not linked
+s none openwin/lib/libXaw.so=../../X11/lib/libXaw.so
+s none X11/lib/libXaw.so=./libXaw7.so.7
+s none X11/lib/libXaw.so.7=./libXaw7.so.7
+s none X11/lib/libXaw7.so=./libXaw7.so.7
+f none X11/lib/libXaw7.so.7			0555 root bin
 
 # open-src/lib/libFS
 s none openwin/lib/libFS.so.5=../../X11/lib/libFS.so.5
@@ -436,12 +444,6 @@ s none openwin/lib/libXtst.so.1=../../X11/lib/libXtst.so.1
 s none X11/lib/libXtst.so=./libXtst.so.1
 f none X11/lib/libXtst.so.1			0755 root bin
 
-!search $HOME/X11/lib/xorgcfg
-d none X11/lib/xorgcfg                  0755 root bin
-s none X11/lib/xorgcfg/libXaw7.so=./libXaw7.so.7
-s none X11/lib/xorgcfg/libXaw7.so.7=./libXaw.so.7
-f none X11/lib/xorgcfg/libXaw.so.7		0444 root bin
-
 ## 64-bit versions
 
 !search $HOME/X11/lib/$plat_64
@@ -462,6 +464,15 @@ f none X11/lib/$plat_64/libX11.so.4		0555 root bin
 # open-src/lib/libXau - never delivered into openwin in 64-bit version
 s none X11/lib/$plat_64/libXau.so=./libXau.so.6
 f none X11/lib/$plat_64/libXau.so.6		0555 root bin
+
+# open-src/lib/libXaw
+# The libXaw.so link from /usr/openwin/lib is redirected,
+# but libXaw.so.7 was never delivered there, so it is not linked
+s none openwin/lib/$plat_64/libXaw.so=../../../X11/lib/64/libXaw.so
+s none X11/lib/$plat_64/libXaw.so=./libXaw7.so.7
+s none X11/lib/$plat_64/libXaw.so.7=./libXaw7.so.7
+s none X11/lib/$plat_64/libXaw7.so=./libXaw7.so.7
+f none X11/lib/$plat_64/libXaw7.so.7			0555 root bin
 
 # open-src/lib/libFS - never delivered into openwin in 64-bit version
 s none X11/lib/$plat_64/libFS.so=./libFS.so.5
@@ -1200,7 +1211,6 @@ s none openwin/share/include/X11/bitmaps/Up=../../../../../X11/include/X11/bitma
 !search  $HOME/openwin/lib/$plat_64
 d none openwin/lib/$plat_64 			0755 root bin
 s none openwin/lib/64=$plat_64
-s none openwin/lib/$plat_64/libXaw.so=./libXaw.so.5
 f none openwin/lib/$plat_64/libXaw.so.5 		0755 root bin
 s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
 f none openwin/lib/$plat_64/libxkbfile.so.4 	0755 root bin

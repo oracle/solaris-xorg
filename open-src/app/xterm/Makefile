@@ -74,8 +74,4 @@ MODULE_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
 # Tell configure where to find luit binary
 MODULE_CONFIG_ENV = LUIT=/usr/X11/bin/luit
 
-# Use new libXaw
-MODULE_LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib/xorgcfg \
-			-R$(X11_DIR)/lib/xorgcfg
-
 include ../Makefile.inc
