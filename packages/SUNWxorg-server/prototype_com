@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.30     08/06/09 SMI"
+# ident "@(#)prototype_com 1.31     08/10/06 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -52,20 +52,6 @@ d none X11/lib 0755 root bin
 d none X11/lib/X11 0755 root bin
 f none X11/lib/X11/Options 0444 root bin
 f none X11/lib/X11/Cards 0444 root bin
-
-d none X11/lib/X11/fonts 0755 root bin
-s none X11/lib/X11/fonts/F3bitmaps=../../../../openwin/lib/X11/fonts/F3bitmaps
-s none X11/lib/X11/fonts/TrueType=../../../../openwin/lib/X11/fonts/TrueType
-s none X11/lib/X11/fonts/misc=../../../../openwin/lib/X11/fonts/misc
-s none X11/lib/X11/fonts/75dpi=../../../../openwin/lib/X11/fonts/75dpi
-s none X11/lib/X11/fonts/100dpi=../../../../openwin/lib/X11/fonts/100dpi
-
-
-#!search $HOME/lib/X11/getconfig
-#d none X11/lib/X11/getconfig 0755 root bin
-#f none X11/lib/X11/getconfig/getconfig=$HOME/bin/getconfig-sun 0555 root bin
-#f none X11/lib/X11/getconfig/cfg.sample 0444 root bin
-#f none X11/lib/X11/getconfig/xorg.cfg 0444 root bin
 
 !search $HOME/lib/X11/xserver
 d none X11/lib/X11/xserver 0755 root bin

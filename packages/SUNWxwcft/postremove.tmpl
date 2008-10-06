@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# 	@(#)postremove.tmpl	35.8	08/02/26 SMI
+# 	@(#)postremove.tmpl	35.9	08/10/06 SMI
 #
 # SUNWxwcft (X Window System common (not required) fonts) postremove script.
 
@@ -42,6 +42,10 @@ update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Type1
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/misc
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/F3bitmaps
 update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/Type1
+
+# These symlinks cannot be put into packages directly, or even with installf,
+# since pkgadd/pkgmk/pkgrm can't handle files with = in their pathname.
+rm -f $BASEDIR/../etc/X11/fontpath.d/Type1:pri=50
 
 exit 0
 

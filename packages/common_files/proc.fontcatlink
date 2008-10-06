@@ -29,42 +29,65 @@
 #
 ###########################################################################
 #
-# SUNWxwfnt (X Window System platform required fonts) postinstall script.
+# "@(#)proc.fontcatlink	1.1	08/10/06 Sun Microsystems"
 #
-# /usr/openwin/bin/installalias  and mkfontdir was previously packaged
-# in SUNWxwfnt.  Now it is moved to SUNWxwfsw and we need to preserve it
-# due to zones upgrade from S10.
-# Therefore, removef(1M) is used to remove the packaging database entry
-# although the files itself are preserved.
+# Adds symlinks to /etc/X11/fontpath.d for directories to add to X font path.
+# These symlinks cannot be put into packages directly, or even with installf,
+# since pkgadd/pkgmk/pkgrm can't handle files with = in their pathname, and
+# these links contain "pri=XX" in their names to set ordering.
 #
-FILELIST="\
-/usr/openwin/server/lib/libtypesclr.so.0 \
-/usr/openwin/server/lib/libtypesclr.so \
-/usr/openwin/server/lib/libfont.so.1 \
-/usr/openwin/server/lib/libfont.so \
-/usr/openwin/server/lib \
-/usr/openwin/server \
-/usr/openwin/lib/installalias \
-/usr/openwin/bin/mkfontdir \
-/usr/openwin/bin \
-"
-for i in $FILELIST ; do
-/usr/sbin/removef  SUNWxwfnt $i >/dev/null 2>&1
-done
-/usr/sbin/removef -f  SUNWxwfnt >/dev/null 2>&1
 
-include fc_rebuild
+EXEC_BASE=/usr
+PKGCOND=/usr/bin/pkgcond
+DISKLESS_SRVC=`echo $BASEDIR | /usr/bin/grep export/Solaris_[1-9][0-9]/usr_${ARCH}.all`
 
-include fontcatlink
+is_srngz=99
+is_ngz=99
 
-make_font_catalogue_link F3bitmaps	F3bitmaps:unscaled:pri=10
-make_font_catalogue_link misc		misc:unscaled:pri=15
-make_font_catalogue_link 100dpi		100dpi:unscaled:pri=20
-make_font_catalogue_link 75dpi		75dpi:unscaled:pri=25
-make_font_catalogue_link TTF		TTF:pri=40
-make_font_catalogue_link F3bitmaps	F3bitmaps:pri=80
-make_font_catalogue_link misc		misc:pri=85
-make_font_catalogue_link 100dpi		100dpi:pri=90
-make_font_catalogue_link 75dpi		75dpi:pri=95
+if [ -x $PKGCOND ]; then
+    $PKGCOND  is_sparse_root_nonglobal_zone
+    is_srngz=$?
+    $PKGCOND -v is_nonglobal_zone > /dev/null 2>&1
+    is_ngz=$?
+fi
 
-exit 0 
+##
+## 'pkgcond' does not exist when you do live upgrade from S8/S9
+## so in that case, use 'touch' instead for the testing
+##
+test_writable() {
+    if [ $is_srngz -ne 99 ]; then
+        $PKGCOND is_path_writable $1 && return $?
+    else
+        /usr/bin/touch $1/.test.$$ > /dev/null 2>&1
+        if [ $? !=  0 ]; then
+            return 1
+        else
+            rm -f  $1/.test.$$ > /dev/null 2>&1
+            return 0
+        fi
+    fi
+}
+
+mkdir_if_needed() {
+    if [ ! -d $1/$2 ] ; then
+    	if test_writable $1 ; then
+	    mkdir $1/$2
+	    chown root:sys $1/$2
+	    chmod 0755 $1/$2
+	fi
+    fi
+}
+
+mkdir_if_needed ${BASEDIR}/../etc X11
+mkdir_if_needed ${BASEDIR}/../etc/X11 fontpath.d
+
+make_font_catalogue_link() {
+    FONTDIR=../../../usr/X11/lib/X11/fonts
+    FONTPATHDIR=${BASEDIR}/../etc/X11/fontpath.d
+
+    if test_writable ${FONTPATHDIR} ; then
+    	rm -f ${FONTPATHDIR}/$2
+	ln -s ${FONTDIR}/$1 ${FONTPATHDIR}/$2
+    fi
+}

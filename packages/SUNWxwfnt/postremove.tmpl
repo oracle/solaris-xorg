@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# 	@(#)postremove.tmpl	1.2	08/08/27 SMI
+# 	@(#)postremove.tmpl	1.3	08/10/06 SMI
 #
 # SUNWxwfnt (X Window System platform required fonts) postremove script.
 
@@ -47,6 +47,18 @@ update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Type1/outline
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Type1/sun
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/TrueType
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/TTbitmaps
+
+# These symlinks cannot be put into packages directly, or even with installf,
+# since pkgadd/pkgmk/pkgrm can't handle files with = in their pathname.
+rm -f $BASEDIR/../etc/X11/fontpath.d/misc:unscaled:pri=10
+rm -f $BASEDIR/../etc/X11/fontpath.d/misc:unscaled:pri=15
+rm -f $BASEDIR/../etc/X11/fontpath.d/100dpi:unscaled:pri=20
+rm -f $BASEDIR/../etc/X11/fontpath.d/75dpi:unscaled:pri=25
+rm -f $BASEDIR/../etc/X11/fontpath.d/TTF:pri=40
+rm -f $BASEDIR/../etc/X11/fontpath.d/misc:pri=80
+rm -f $BASEDIR/../etc/X11/fontpath.d/misc:pri=85
+rm -f $BASEDIR/../etc/X11/fontpath.d/100dpi:pri=90
+rm -f $BASEDIR/../etc/X11/fontpath.d/75dpi:pri=95
 
 exit 0
 

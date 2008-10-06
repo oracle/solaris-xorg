@@ -29,11 +29,15 @@
 #
 ###########################################################################
 #
-# 	@(#)postinstall.tmpl	1.1	08/02/25 SMI
+# 	@(#)postinstall.tmpl	1.2	08/10/06 SMI
 #
 # SUNWxwcft (X Window System common (not required) fonts) postinstall script.
 
 include fc_rebuild
+
+include fontcatlink
+
+make_font_catalogue_link Type1	Type1:pri=45
 
 exit 0
 
