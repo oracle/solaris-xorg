@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/09/18 SMI
+# @(#)Makefile	1.5	08/10/06 SMI
 #
 
 # Package name used in tarballs
@@ -56,12 +56,8 @@ BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS=install_liberation
+INSTALL_TARGETS=install_x11dir install_owdir
 INSTALL_TARGETS_SET=yes
-
-# Directory to install to
-FONT_DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
-FONTCONF_DEST_DIR=$(PROTODIR)/etc/fonts
 
 # License file
 LICENSE_FILE=License.txt
@@ -87,9 +83,7 @@ LIBERATION_FONT_FILES= \
 	LiberationSerif-Regular.ttf
 
 $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && \
-	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
+	(cd $(SOURCE_DIR) && $(MKFONTSCALE) . )
 
 install_liberation:: $(BUILD_TARGETS)
 	mkdir -p $(FONT_DEST_DIR)
@@ -99,3 +93,15 @@ install_liberation:: $(BUILD_TARGETS)
 	chmod +w $(FONT_DEST_DIR)/fonts.scale
 	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
 		-i $(SOURCE_DIR)/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
+
+# Install under both /usr/X11 & /usr/openwin for building both SUNW* & FSW*
+# font packages for now
+
+install_x11dir::$(BUILD_TARGETS)
+	$(MAKE) $(MAKEFLAGS) \
+		FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR) install_liberation
+
+install_owdir::$(BUILD_TARGETS)
+	$(MAKE) $(MAKEFLAGS) \
+		FONT_DEST_DIR=$(PROTODIR)$(OW_TRUETYPE_DIR) install_liberation
+

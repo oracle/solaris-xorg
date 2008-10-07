@@ -46,7 +46,7 @@ INSTALL_TARGETS_SET=yes
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)/$(X11_DIR)/lib/X11/fonts
+INSTDIR=$(DESTDIR)$(X11_FONT_DIR)
 
 CP=cp -pf
 

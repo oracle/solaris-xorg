@@ -28,9 +28,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/08/08 SMI
+# @(#)Makefile	1.9	08/10/06
 #
 ###############################################################################
+
+# encodings must be first, since it installs files used to build the rest
+# catalogue-dirs must be last, since it remixes the results of the rest
 
 OS_SUBDIRS_common = \
 	encodings \
@@ -38,11 +41,43 @@ OS_SUBDIRS_common = \
 	bitstream-vera \
 	deja-vu \
 	liberation \
+	util \
+	adobe-75dpi \
+	adobe-100dpi \
+	adobe-utopia-75dpi \
+	adobe-utopia-100dpi \
 	adobe-utopia-type1 \
+	alias \
+	arabic-misc \
+	bh-75dpi \
+	bh-100dpi \
+	bh-lucidatypewriter-75dpi \
+	bh-lucidatypewriter-100dpi \
+	bh-ttf \
 	bh-type1 \
+	bitstream-75dpi \
+	bitstream-100dpi \
 	bitstream-type1 \
+	cronyx-cyrillic \
+	cursor-misc \
+	daewoo-misc \
+	dec-misc \
 	ibm-type1 \
-	xfree86-type1
+	isas-misc \
+	jis-misc \
+	micro-misc \
+	misc-cyrillic \
+	misc-ethiopic \
+	misc-meltho \
+	misc-misc \
+	mutt-misc \
+	schumacher-misc \
+	screen-cyrillic \
+	sony-misc \
+	sun-misc \
+	winitzki-cyrillic \
+	xfree86-type1 \
+	catalogue-dirs
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)

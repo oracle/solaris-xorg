@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.93	08/09/15
+# @(#)Makefile.inc	1.94	08/10/06
 #
 
 ### Default rules
@@ -306,7 +306,8 @@ $(USE_DEFAULT_CONFIG_CPPFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_CPPFLAGS= \
 $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
-DEFAULT_PKG_CONFIG_PATH=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:$(TOP)/common/pc-files/$(BUILD_DIR):/usr/lib$(ARCHLIBSUBDIR)/pkgconfig
+
+DEFAULT_PKG_CONFIG_PATH=$(TOP)/common/pc-files/$(BUILD_DIR):$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:/usr/lib$(ARCHLIBSUBDIR)/pkgconfig
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment

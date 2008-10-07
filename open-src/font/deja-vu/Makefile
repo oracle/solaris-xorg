@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/09/18
+# @(#)Makefile	1.7	08/10/06
 #
 
 # Package name used in tarballs
@@ -51,11 +51,11 @@ BUILD_TARGETS=$(SOURCE_DIR)/ttf/fonts.scale
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS=install_dejavu
+INSTALL_TARGETS=install_fonts_conf install_x11dir install_owdir
 INSTALL_TARGETS_SET=yes
 
 # Directory to install to
-FONT_DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
+FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR)
 FONTCONF_DEST_DIR=$(PROTODIR)/etc/fonts
 
 # License file
@@ -91,24 +91,36 @@ DEJAVU_FONT_FILES= \
 	DejaVuSerifCondensed.ttf
 
 $(SOURCE_DIR)/ttf/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/ttf && \
-	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
+	(cd $(SOURCE_DIR)/ttf && $(MKFONTSCALE) . )
 
-install_dejavu: $(BUILD_TARGETS)
-	mkdir -p $(FONT_DEST_DIR) \
-		$(FONTCONF_DEST_DIR)/conf.avail \
+install_fonts_conf: $(BUILD_TARGETS)
+	mkdir -p $(FONTCONF_DEST_DIR)/conf.avail \
 		$(FONTCONF_DEST_DIR)/conf.d
-	-( cd $(FONT_DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
-	( cd $(SOURCE_DIR)/ttf ; cp -p $(DEJAVU_FONT_FILES) $(FONT_DEST_DIR) )
-	cp -p $(SOURCE_DIR)/LICENSE $(FONT_DEST_DIR)/DejaVuFontsCopyright.txt 
 	( cd $(SOURCE_DIR)/fontconfig ; set -x ; for f in *.conf ; do \
 		rm -f $(FONTCONF_DEST_DIR)/conf.avail/$$f \
 			$(FONTCONF_DEST_DIR)/conf.d/$$f ; \
 		cp -p $$f $(FONTCONF_DEST_DIR)/conf.avail/ ; \
 		ln -s ../conf.avail/$$f $(FONTCONF_DEST_DIR)/conf.d/ ; \
 	 done )
+
+
+install_dejavu: $(BUILD_TARGETS)
+	mkdir -p $(FONT_DEST_DIR)
+	-( cd $(FONT_DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
+	( cd $(SOURCE_DIR)/ttf ; cp -p $(DEJAVU_FONT_FILES) $(FONT_DEST_DIR) )
+	cp -p $(SOURCE_DIR)/LICENSE $(FONT_DEST_DIR)/DejaVuFontsCopyright.txt 
 	touch $(FONT_DEST_DIR)/fonts.scale
 	chmod +w $(FONT_DEST_DIR)/fonts.scale
 	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
-		-i $(SOURCE_DIR)/ttf/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
+	    -i $(SOURCE_DIR)/ttf/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
+
+# Install under both /usr/X11 & /usr/openwin for building both SUNW* & FSW*
+# font packages for now
+
+install_x11dir::$(BUILD_TARGETS)
+	$(MAKE) $(MAKEFLAGS) \
+		FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR) install_dejavu
+
+install_owdir::$(BUILD_TARGETS)
+	$(MAKE) $(MAKEFLAGS) \
+		FONT_DEST_DIR=$(PROTODIR)$(OW_TRUETYPE_DIR) install_dejavu

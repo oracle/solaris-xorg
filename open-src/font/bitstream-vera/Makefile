@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# @(#)Makefile	1.6	08/10/06
 #
 
 # Package name used in tarballs
@@ -51,11 +51,11 @@ BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS=install_vera
+INSTALL_TARGETS=install_x11dir install_owdir
 INSTALL_TARGETS_SET=yes
 
 # Directory to install to
-DEST_DIR=$(PROTODIR)$(TRUETYPE_DIR)
+FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR)
 
 # License file
 LICENSE_FILE=COPYRIGHT.TXT
@@ -79,17 +79,26 @@ VERA_FONT_FILES= \
 	VeraSeBd.ttf
 
 $(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && \
-	 LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	 $(PROTODIR)$(X11_DIR)/bin/mkfontscale . )
+	(cd $(SOURCE_DIR) && $(MKFONTSCALE) .)
 
 install_vera: $(BUILD_TARGETS)
-	mkdir -p $(DEST_DIR)
-	-( cd $(DEST_DIR) ; rm -f $(VERA_FONT_FILES) VeraFontsCopyright.txt )
-	( cd $(SOURCE_DIR) ; cp -p $(VERA_FONT_FILES) $(DEST_DIR) )
-	cp -p $(SOURCE_DIR)/COPYRIGHT.TXT $(DEST_DIR)/VeraFontsCopyright.txt 
-	touch $(DEST_DIR)/fonts.scale
-	chmod +w $(DEST_DIR)/fonts.scale
-	../merge-fonts.scale.pl -i $(DEST_DIR)/fonts.scale \
-		-i $(SOURCE_DIR)/fonts.scale -o $(DEST_DIR)/fonts.scale
+	mkdir -p $(FONT_DEST_DIR)
+	-( cd $(FONT_DEST_DIR) ; rm -f $(VERA_FONT_FILES) VeraFontsCopyright.txt )
+	( cd $(SOURCE_DIR) ; cp -p $(VERA_FONT_FILES) $(FONT_DEST_DIR) )
+	cp -p $(SOURCE_DIR)/COPYRIGHT.TXT $(FONT_DEST_DIR)/VeraFontsCopyright.txt 
+	touch $(FONT_DEST_DIR)/fonts.scale
+	chmod +w $(FONT_DEST_DIR)/fonts.scale
+	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
+		-i $(SOURCE_DIR)/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
+	(cd $(FONT_DEST_DIR) && $(MKFONTDIR) . )
 
+# Install under both /usr/X11 & /usr/openwin for building both SUNW* & FSW*
+# font packages for now
+
+install_x11dir::$(BUILD_TARGETS)
+	$(MAKE) $(MAKEFLAGS) \
+		FONT_DEST_DIR=$(PROTODIR)$(X11_FONT_DIR)/vera install_vera
+
+install_owdir::$(BUILD_TARGETS)
+	$(MAKE) $(MAKEFLAGS) \
+		FONT_DEST_DIR=$(PROTODIR)$(OW_TRUETYPE_DIR) install_vera

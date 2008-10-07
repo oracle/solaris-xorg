@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.4	08/10/05
+# @(#)Makefile.init	1.5	08/10/06
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -214,12 +214,14 @@ PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
 # Common subdirs
 OW_DIR=/usr/openwin
 OW_X11LIB_DIR=$(OW_DIR)/lib/X11
-
-FONT_DIR=$(OW_X11LIB_DIR)/fonts
-TRUETYPE_DIR=$(FONT_DIR)/TrueType
+OW_FONT_DIR=$(OW_X11LIB_DIR)/fonts
+OW_TRUETYPE_DIR=$(OW_FONT_DIR)/TrueType
 
 X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
+X11_X11LIB_DIR=$(X11_DIR)/lib/X11
+X11_FONT_DIR=$(X11_X11LIB_DIR)/fonts
+X11_TRUETYPE_DIR=$(X11_FONT_DIR)/TTF
 X11_DOC_DIR=$(X11_DIR)/share/doc
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
 X11_MAN_DIR=$(X11_DIR)/share/man
