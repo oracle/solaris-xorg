@@ -353,53 +353,6 @@
 +
  #endif /* __gl_core_h_ */
 
---- include/GL/glext.h	Thu Jun 19 16:09:43 2008
-+++ include/GL/glext.h	Thu Jun 19 16:11:18 2008
-@@ -3422,9 +3422,9 @@
- /* (as used in the GL_EXT_timer_query extension). */
- #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
- #include <inttypes.h>
--#elif defined(__sun__)
-+#elif defined(sun)
- #include <inttypes.h>
--#if defined(__STDC__)
-+#elif defined(__STDC__)
- #if defined(__arch64__)
- typedef long int int64_t;
- typedef unsigned long int uint64_t;
-@@ -3450,7 +3450,6 @@
- #else
- #include <inttypes.h>     /* Fallback option */
- #endif
--#endif
- 
- #ifndef GL_EXT_timer_query
- typedef int64_t GLint64EXT;
-
-
---- include/GL/glxext.h	Thu Jun 19 16:13:43 2008
-+++ include/GL/glxext.h	Thu Jun 19 16:14:31 2008
-@@ -386,9 +386,9 @@
- /* (as used in the GLX_OML_sync_control extension). */
- #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
- #include <inttypes.h>
--#elif defined(__sun__) || defined(__digital__)
-+#elif defined(sun) || defined(__digital__)
- #include <inttypes.h>
--#if defined(__STDC__)
-+#elif defined(__STDC__)
- #if defined(__arch64__)
- typedef long int int64_t;
- typedef unsigned long int uint64_t;
-@@ -414,7 +414,6 @@
- #else
- #include <inttypes.h>     /* Fallback option */
- #endif
--#endif
- 
- #ifndef GLX_VERSION_1_3
- #define GLX_VERSION_1_3 1
-
 --- src/mesa/drivers/dri/i965/intel_buffers.c     Thu Nov  1 08:30:52 2007
 +++ src/mesa/drivers/dri/i965/intel_buffers.c        Thu Sep  4 21:35:02 2008
 @@ -192,6 +192,7 @@
@@ -420,3 +373,51 @@
                             (GLframebuffer*)dPriv->driverPrivate,
                             dPriv->w, dPriv->h);
 
+--- include/GL/glxext.h	Mon Oct  6 10:51:23 2008
++++ include/GL/glxext.h	Mon Oct  6 10:54:36 2008
+@@ -406,10 +406,10 @@
+ /* (as used in the GLX_OML_sync_control extension). */
+ #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+ #include <inttypes.h>
+-#elif defined(__sun__) || defined(__digital__)
++#elif defined(sun) || defined(__digital__)
+ #include <inttypes.h>
+-#if defined(__STDC__)
+-#if defined(__arch64__) || defined(_LP64)
++#elif defined(__STDC__)
++#if defined(__arch64__)
+ typedef long int int64_t;
+ typedef unsigned long int uint64_t;
+ #else
+@@ -434,7 +434,6 @@
+ #else
+ #include <inttypes.h>     /* Fallback option */
+ #endif
+-#endif
+ 
+ #ifndef GLX_VERSION_1_3
+ #define GLX_VERSION_1_3 1
+--- include/GL/glext.h	Mon Oct  6 10:55:51 2008
++++ include/GL/glext.h	Mon Oct  6 10:56:47 2008
+@@ -3739,10 +3739,10 @@
+ /* (as used in the GL_EXT_timer_query extension). */
+ #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+ #include <inttypes.h>
+-#elif defined(__sun__) || defined(__digital__)
++#elif defined(sun)
+ #include <inttypes.h>
+-#if defined(__STDC__)
+-#if defined(__arch64__) || defined(_LP64)
++#elif defined(__STDC__)
++#if defined(__arch64__)
+ typedef long int int64_t;
+ typedef unsigned long int uint64_t;
+ #else
+@@ -3767,7 +3767,6 @@
+ #else
+ #include <inttypes.h>     /* Fallback option */
+ #endif
+-#endif
+ 
+ #ifndef GL_EXT_timer_query
+ typedef int64_t GLint64EXT;

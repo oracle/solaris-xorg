@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.8	08/10/06
+# @(#)Makefile.inc	1.9	08/10/07
 #
 
 PWD:sh=pwd
@@ -46,7 +46,7 @@ XORGSERVER_VERS=1.3.0.0
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
 
 XSERVER_FONTDIR=$(X11_DIR)/lib/X11/fonts
-MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-7.0.3
+MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-7.0.4
 
 SERVER_MODULES_DIR='$${libdir}/modules$(SERVERMOD_subdir)'
 DRI_MODULES_DIR='$${libdir}/modules/dri$(SERVERMOD_subdir)'
