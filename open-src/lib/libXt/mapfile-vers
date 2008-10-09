@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)mapfile-vers	1.2 08/10/05
+# @(#)mapfile-vers	1.4 08/10/08
 #
 
 SUNW_1.1 {
@@ -43,7 +43,7 @@ SUNW_1.1 {
 	XtReleaseGC;
 	XtCallbackExclusive;
 	XtGrabButton;
-	XtAppProcessEvent;
+	XtAppProcessEvent = NODIRECT;
 	XtAppPeekEvent;
 	XtConvertCase;
 	XtIsRectObj;
@@ -283,7 +283,7 @@ SUNW_1.1 {
 	XtAddCallbacks;
 	XtAppSetWarningMsgHandler;
 	XtStringConversionWarning;
-	XtAppNextEvent;
+	XtAppNextEvent = NODIRECT;
 	XtGetValues;
 	XtRealloc;
 	objectClassRec;
@@ -314,6 +314,8 @@ SUNW_1.1 {
 # These vendorShell objects have to be tagged NODIRECT so linking -B direct
 # doesn't break Motif or Xaw apps who need to find the libXm/libXaw versions
 # of them instead.   (See Solaris bugs 4881065 & 6755532.)
+# Added _XtAppCreateShell,XtAppNextEvent,XtAppProcessEvent for
+# 6748586
 	vendorShellClassRec = NODIRECT;
 	vendorShellWidgetClass = NODIRECT;
     local:
@@ -409,7 +411,7 @@ SUNWprivate {
 	_XtSetDefaultSelectionTimeout;
 	XtRegisterExtensionSelector;
 	_XtAllocTMContext;
-	_XtAppCreateShell;
+	_XtAppCreateShell = NODIRECT;
 	_XtCreateHookObj;
 	_XtDefaultErrorMsg;
 	_XtDisplayTranslations;

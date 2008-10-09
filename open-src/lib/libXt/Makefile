@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6 08/08/08
+# @(#)Makefile	1.7 08/10/08
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ MODULE_NAME=libXt
 MODULE_VERSION=1.0.5
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6671721.patch abistrings.patch
+SOURCE_PATCHES = abistrings.patch 6671721.patch
 
 # Regenerate configure script & Makefile.in's after applying patches
 AUTORECONF=yes
@@ -62,7 +62,10 @@ LIB_MAN_SUFFIX=3Xt
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xt.pc.in
 
-MODULE_CFLAGS = -DGETVALUES_BUG
+# the xinline option is here to fix bug 6748586, No Hands lib
+# needs to interpose on these functions, and if they are inline
+# then the loader can't find them.  It complains silently.
+MODULE_CFLAGS = -DGETVALUES_BUG -xinline=no%_XtAppCreateShell,no%XtAppNextEvent,no%XtAppProcessEvent
 
 MODULE_CONFIG_OPTS= --with-appdefaultdir=$(X11_DIR)/lib/X11/app-defaults
 
