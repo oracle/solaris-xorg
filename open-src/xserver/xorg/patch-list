@@ -70,3 +70,4 @@ kbd_mode.patch,-p1
 xprint.patch
 xprint01.patch
 xprint02.patch
+pciids-version.patch
