@@ -29,7 +29,7 @@
     or other dealings in this Software without prior written authorization
     of the copyright holder.
 
-    ident	"@(#)fc-cache.xml	1.4	08/02/26 SMI"
+    ident	"@(#)fc-cache.xml	1.5	08/10/21 SMI"
 
     Service manifest for ensuring fontconfig caches are up to date.
 -->
@@ -78,6 +78,12 @@
                         <method_credential user='root' group='root' />
                 </method_context>
         </exec_method>
+
+	<exec_method
+		type='method'
+		name='stop'
+		exec=':true'
+		timeout_seconds='60' />
 
 	<property_group name='startd' type='framework'>
 		<propval name='duration' type='astring'
