@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# 	@(#)postremove.tmpl	1.3	08/10/06 SMI
+# 	@(#)postremove.tmpl	1.4	08/10/22 SMI
 #
 # SUNWxwfnt (X Window System platform required fonts) postremove script.
 
@@ -55,6 +55,7 @@ rm -f $BASEDIR/../etc/X11/fontpath.d/misc:unscaled:pri=15
 rm -f $BASEDIR/../etc/X11/fontpath.d/100dpi:unscaled:pri=20
 rm -f $BASEDIR/../etc/X11/fontpath.d/75dpi:unscaled:pri=25
 rm -f $BASEDIR/../etc/X11/fontpath.d/TTF:pri=40
+rm -f $BASEDIR/../etc/X11/fontpath.d/TrueType:pri=41
 rm -f $BASEDIR/../etc/X11/fontpath.d/misc:pri=80
 rm -f $BASEDIR/../etc/X11/fontpath.d/misc:pri=85
 rm -f $BASEDIR/../etc/X11/fontpath.d/100dpi:pri=90
