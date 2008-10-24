@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.89	08/10/05 SMI"
+# ident	"@(#)prototype	35.90	08/10/24 SMI"
 #
 #  X Window System include files
 
@@ -701,6 +701,7 @@ f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
 
 f none lib/pkgconfig/ice.pc			0444 root bin
 f none lib/pkgconfig/lbxutil.pc			0444 root bin
+f none lib/pkgconfig/pthread-stubs.pc		0444 root bin
 f none lib/pkgconfig/sm.pc			0444 root bin
 f none lib/pkgconfig/x11.pc			0444 root bin
 f none lib/pkgconfig/xau.pc			0444 root bin
@@ -760,6 +761,7 @@ s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.p
 !search $HOME/lib/$plat_64/pkgconfig
 f none lib/$plat_64/pkgconfig/ice.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/lbxutil.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/pthread-stubs.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/sm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/x11.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xau.pc			0444 root bin

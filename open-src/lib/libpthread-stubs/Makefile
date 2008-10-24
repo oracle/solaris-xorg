@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# libpthread-stubs Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,76 +30,34 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.26	08/10/24
-#
-###############################################################################
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+# Package name used in tarballs
+MODULE_NAME=libpthread-stubs
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libpthread-stubs \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXp \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXprintUtil \
-	libXprintAppUtil \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	hwc
+# Version number (used in path names)
+MODULE_VERSION=0.1
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Download site for source
+SOURCE_URL=http://xcb.freedesktop.org/dist/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = 
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+# Library name
+LIBNAME=pthread-stubs
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+# Where to install libpthread-stubs files
+MODULE_PREFIX=/usr
+MODULE_PREFIX_SET=yes
+
+# Man pages to apply Sun footer to & attributes to list
+#SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWlibpthread-stubs
+MODULE_STABILITY=Volatile
+LIB_MAN_SUFFIX=3libpthread-stubs
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=pthread-stubs.pc.in
+
+include ../Makefile.inc
