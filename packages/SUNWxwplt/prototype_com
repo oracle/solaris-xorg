@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.209    08/10/22   Sun Microsystems"
+#      "@(#)prototype_com	35.210    08/10/24   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -1029,29 +1029,17 @@ f none X11/share/patterns/swirl2.xbm			0444 root bin
 f none X11/share/patterns/wave1.xbm			0444 root bin
 f none X11/share/patterns/wrnkle2.xbm			0444 root bin
 
-s none openwin/include=./share/include
-
-!search  $HOME/openwin/share/include
-d none openwin/share/include 0755 root bin
-
-!search  $HOME/openwin/share/include/X11
-d none openwin/share/include/X11 0755 root bin
-
-!search  $HOME/openwin/share/include/X11/bitmaps
-d none openwin/share/include/X11/bitmaps 0755 root bin
-f none openwin/share/include/X11/bitmaps/black6 0644 root bin
-f none openwin/share/include/X11/bitmaps/box6 0644 root bin
-
+# open-src/data/xbitmaps
 !search  $HOME/X11/include/X11/bitmaps
 d none X11/include					0755 root bin
 d none X11/include/X11					0755 root bin
 d none X11/include/X11/bitmaps				0755 root bin
-
-# bitmaps from xbitmaps modular package
 f none X11/include/X11/bitmaps/1x1			0444 root bin
 f none X11/include/X11/bitmaps/2x2			0444 root bin
 f none X11/include/X11/bitmaps/black			0444 root bin
+f none X11/include/X11/bitmaps/black6			0444 root bin
 f none X11/include/X11/bitmaps/boxes			0444 root bin
+f none X11/include/X11/bitmaps/box6			0444 root bin
 f none X11/include/X11/bitmaps/calculator		0444 root bin
 f none X11/include/X11/bitmaps/cntr_ptr			0444 root bin
 f none X11/include/X11/bitmaps/cntr_ptrmsk		0444 root bin
@@ -1131,11 +1119,17 @@ f none X11/include/X11/bitmaps/Stipple			0644 root bin
 f none X11/include/X11/bitmaps/Term			0644 root bin
 f none X11/include/X11/bitmaps/Up			0644 root bin
 
-# backwards compatibility links for bitmaps from xbitmaps modular package
+# backwards compatibility links for bitmaps from open-src/app/xbitmaps 
+s none openwin/include=./share/include
+d none openwin/share/include 0755 root bin
+d none openwin/share/include/X11 0755 root bin
+d none openwin/share/include/X11/bitmaps 0755 root bin
 s none openwin/share/include/X11/bitmaps/1x1=../../../../../X11/include/X11/bitmaps/1x1
 s none openwin/share/include/X11/bitmaps/2x2=../../../../../X11/include/X11/bitmaps/2x2
 s none openwin/share/include/X11/bitmaps/black=../../../../../X11/include/X11/bitmaps/black
+s none openwin/share/include/X11/bitmaps/black6=../../../../../X11/include/X11/bitmaps/black6
 s none openwin/share/include/X11/bitmaps/boxes=../../../../../X11/include/X11/bitmaps/boxes
+s none openwin/share/include/X11/bitmaps/box6=../../../../../X11/include/X11/bitmaps/box6
 s none openwin/share/include/X11/bitmaps/calculator=../../../../../X11/include/X11/bitmaps/calculator
 s none openwin/share/include/X11/bitmaps/cntr_ptr=../../../../../X11/include/X11/bitmaps/cntr_ptr
 s none openwin/share/include/X11/bitmaps/cntr_ptrmsk=../../../../../X11/include/X11/bitmaps/cntr_ptrmsk
@@ -1216,7 +1210,7 @@ d none openwin/lib/$plat_64 			0755 root bin
 s none openwin/lib/64=$plat_64
 f none openwin/lib/$plat_64/libXaw.so.5 		0755 root bin
 s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
-f none openwin/lib/$plat_64/libxkbfile.so.4 	0755 root bin
+f none openwin/lib/$plat_64/libxkbfile.so.4	0755 root bin
 
 !search  $HOME/X11/lib/$plat_64
 s none X11/lib/$plat_64/libXRes.so=./libXRes.so.1
