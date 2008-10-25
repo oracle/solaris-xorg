@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.69	08/08/27 SMI"
+# ident "@(#)prototype	35.70	08/10/24 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -117,21 +117,38 @@ s none openwin/lib/config=../../X11/lib/X11/config
 d none X11/lib/X11/config 0755 root bin
 
 !search  $HOME/X11/lib/X11/config
-f none X11/lib/X11/config/Imake.rules 0644 root bin
-f none X11/lib/X11/config/Imake.tmpl 0644 root bin
-f none X11/lib/X11/config/Library.tmpl 0644 root bin
-#  Note: Project.tmpl is not supplied in xorg-cf-files
-f none X11/lib/X11/config/Server.tmpl 0644 root bin
-f none X11/lib/X11/config/generic.cf 0644 root bin
-f none X11/lib/X11/config/site.def 0644 root bin
-f none X11/lib/X11/config/sun.cf 0644 root bin
-f none X11/lib/X11/config/sv4Lib.rules 0644 root bin
-f none X11/lib/X11/config/sv4Lib.tmpl 0644 root bin
-f none X11/lib/X11/config/Imake.cf 0644 root bin
-f none X11/lib/X11/config/sunLib.tmpl 0644 root bin
-f none X11/lib/X11/config/svr4.cf 0644 root bin
-f none X11/lib/X11/config/noop.rules 0644 root bin
-f none X11/lib/X11/config/Threads.tmpl 0644 root bin
+f none X11/lib/X11/config/Imake.cf		0444 root bin
+f none X11/lib/X11/config/Imake.rules 		0444 root bin
+f none X11/lib/X11/config/Imake.tmpl 		0444 root bin
+f none X11/lib/X11/config/Library.tmpl 		0444 root bin
+f none X11/lib/X11/config/Motif.rules 		0444 root bin
+f none X11/lib/X11/config/Motif.tmpl 		0444 root bin
+f none X11/lib/X11/config/Server.tmpl 		0444 root bin
+f none X11/lib/X11/config/ServerLib.tmpl	0444 root bin
+f none X11/lib/X11/config/Threads.tmpl 		0444 root bin
+f none X11/lib/X11/config/X11.rules 		0444 root bin
+f none X11/lib/X11/config/X11.tmpl 		0444 root bin
+f none X11/lib/X11/config/date.def 		0444 root bin
+f none X11/lib/X11/config/generic.cf 		0444 root bin
+f none X11/lib/X11/config/host.def 		0444 root bin
+f none X11/lib/X11/config/noop.rules 		0444 root bin
+f none X11/lib/X11/config/oldlib.rules 		0444 root bin
+f none X11/lib/X11/config/site.def 		0444 root bin
+f none X11/lib/X11/config/sun.cf 		0444 root bin
+f none X11/lib/X11/config/sunLib.rules 		0444 root bin
+f none X11/lib/X11/config/sunLib.tmpl 		0444 root bin
+f none X11/lib/X11/config/sv4Lib.rules 		0444 root bin
+f none X11/lib/X11/config/sv4Lib.tmpl 		0444 root bin
+f none X11/lib/X11/config/svr4.cf 		0444 root bin
+f none X11/lib/X11/config/version.def 		0444 root bin
+f none X11/lib/X11/config/xf86.rules 		0444 root bin
+f none X11/lib/X11/config/xf86.tmpl 		0444 root bin
+f none X11/lib/X11/config/xf86site.def 		0444 root bin
+f none X11/lib/X11/config/xfree86.cf 		0444 root bin
+f none X11/lib/X11/config/xorg.cf 		0444 root bin
+f none X11/lib/X11/config/xorg.tmpl 		0444 root bin
+f none X11/lib/X11/config/xorgsite.def 		0444 root bin
+f none X11/lib/X11/config/xorgversion.def	0444 root bin
 
 !search $HOME/X11/bin
 d none X11					0755 root bin
