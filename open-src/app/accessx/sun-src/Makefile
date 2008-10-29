@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/09/30
+# @(#)Makefile	1.2	08/10/28
 
 UIL = /usr/dt/bin/uil
 UIL_INCLUDES = -I/usr/dt/include/uil
@@ -40,7 +40,8 @@ OBJS = $(SRCS:.c=.o)
 all:: accessx.uid accessx
 
 accessx.uid: accessx.uil
-	$(UIL) -o $@ accessx.uil $(UIL_INCLUDES)
+	env LC_ALL='C' LANG='C' \
+	 $(UIL) -o $@ accessx.uil $(UIL_INCLUDES)
 
 accessx: $(OBJS)
 	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) -lMrm -lXm -lXt -lX11 -lXext
