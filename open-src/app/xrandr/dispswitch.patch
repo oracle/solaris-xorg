@@ -1,7 +1,7 @@
-diff -urN old/dispswitch.c new/dispswitch.c
+diff -Nru old/dispswitch.c new/dispswitch.c
 --- dispswitch.c	1969-12-31 16:00:00.000000000 -0800
-+++ dispswitch.c	2008-09-30 17:45:34.186383000 -0700
-@@ -0,0 +1,1857 @@
++++ dispswitch.c	2008-10-28 15:25:06.702227000 -0800
+@@ -0,0 +1,1888 @@
 +/* 
 + * Copyright © 2001 Keith Packard, member of The XFree86 Project, Inc.
 + * Copyright © 2002 Hewlett Packard Company, Inc.
@@ -50,7 +50,9 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +static Bool	nosideview = False;
 +static Bool	verbose = False;
 +static Bool	testrun = False;
-+static int	haderror = 0;
++static int	had_error = 0;
++static XErrorHandler	prev_handler;
++static int	cur_keycode;
 +static struct timeval	time_val;
 +static Rotation	init_rotation;
 +static int 	init_x;
@@ -87,11 +89,11 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +}
 +
 +static int
-+curhandler (
-+    Display *const errdisplay,
-+    XErrorEvent *const errevent)
++cur_handler (
++    Display *const err_display,
++    XErrorEvent *const err_event)
 +{
-+    haderror = errevent -> error_code;
++    had_error = err_event -> error_code;
 +    return (0);
 +}
 +
@@ -1473,6 +1475,39 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +    return;
 +}
 +
++static int 
++grab_key (Display *dpy, int keysym, unsigned int modifier, 
++    Window grab_window)
++{
++    char    msg[256];
++    int keycode = XKeysymToKeycode(dpy, keysym);
++
++    if (keycode ==  NoSymbol)
++	fatal ("grab_key: keycode not defined for keysym %x\n", keysym);
++
++    had_error = 0;
++    prev_handler = XSetErrorHandler (cur_handler);
++
++    if (!testrun) {
++    	XGrabKey(dpy, 
++	    keycode,
++	    modifier,
++	    root, True, GrabModeAsync, GrabModeAsync);
++    	XSync (dpy, False);
++    }
++
++    XSetErrorHandler (prev_handler);
++    if (had_error) {
++	XGetErrorText (dpy, had_error, msg, sizeof (msg));
++	fatal ("XGrabKey: %s\n", msg);
++    }
++
++    if (verbose)
++	fprintf(stderr, "keycode to grab: %d\n", keycode);
++
++    return keycode;
++}
++
 +static Bool
 +do_switch (void)
 +{
@@ -1662,10 +1697,9 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +    char    msg[256];
 +    XEvent  ev;
 +    unsigned int    modifier = 0;
-+    Bool    keygiven = False;
-+    Bool    modgiven = False;
++    Bool    key_given = False;
++    Bool    mod_given = False;
 +    int	    keysym = 0;
-+    XErrorHandler   prevhandler;
 +
 +    program_name = argv[0];
 +
@@ -1681,7 +1715,7 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +		fprintf(stderr, "invalid keysym: -key %s\n", argv[i]);
 +		usage();
 +	    }
-+	    keygiven = True;
++	    key_given = True;
 +	    continue;
 +	}
 +	if (!strcmp ("-mod", argv[i]) || !strcmp ("-m", argv[i])) {
@@ -1725,7 +1759,7 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +		    while (*s == ' ') s++;
 +		}
 +	    }
-+	    modgiven = True;
++	    mod_given = True;
 +	    free (q);
 +	    continue;
 +        }
@@ -1759,28 +1793,13 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +    if ((major <= 1) &&  (major != 1 || minor < 2))
 +	fatal ("wrong randr version: %d.%d\n", major, minor);
 +
-+    haderror = 0;
-+    prevhandler = XSetErrorHandler (curhandler);
-+
 +    /* set default key and modifier if not given in command */
-+    if (!keygiven)
++    if (!key_given)
 +	keysym  = XStringToKeysym ("F5");
-+    if (!modgiven)
++    if (!mod_given)
 +	modifier = ShiftMask;
 +
-+    if (!testrun) {
-+    	XGrabKey(dpy, 
-+	    XKeysymToKeycode(dpy, keysym),
-+	    modifier,
-+	    root, True, GrabModeAsync, GrabModeAsync);
-+    	XSync (dpy, False);
-+    }
-+
-+    XSetErrorHandler (prevhandler);
-+    if (haderror) {
-+	XGetErrorText (dpy, haderror, msg, sizeof (msg));
-+	fatal ("XGrabKey: %s\n", msg);
-+    }
++    cur_keycode = grab_key (dpy, keysym, modifier, root);
 +
 +    XRRGetScreenSizeRange (dpy, root, &minWidth, &minHeight,
 +                           &maxWidth, &maxHeight);
@@ -1806,6 +1825,18 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +	    fprintf(stderr, "\n");
 +	} else
 +	    XNextEvent(dpy, &ev);
++
++	if (!testrun && (ev.type == MappingNotify) && 
++	    ((ev.xmapping.request == MappingKeyboard) || 
++	    (ev.xmapping.request == MappingModifier))) {
++	    /* keyboard/modifier mapping changed */
++	    if (verbose)
++		fprintf(stderr, "\nkeyboard/modifier mapping changed ...\n");
++
++	    XUngrabKey(dpy, cur_keycode, modifier, root);
++    
++	    cur_keycode = grab_key (dpy, keysym, modifier, root);
++	}
 +
 +	if (testrun || (ev.type == KeyPress)) {
 +	    if (verbose)
@@ -1859,7 +1890,7 @@ diff -urN old/dispswitch.c new/dispswitch.c
 +    }
 +}
 +
-diff -urN old/dispswitch.man new/dispswitch.man
+diff -Nru old/dispswitch.man new/dispswitch.man
 --- dispswitch.man	1969-12-31 16:00:00.000000000 -0800
 +++ dispswitch.man	2008-09-03 12:14:03.013107000 -0700
 @@ -0,0 +1,66 @@
@@ -1929,7 +1960,7 @@ diff -urN old/dispswitch.man new/dispswitch.man
 +.sp
 +dispswitch -key F2 -mod "shift+control" 	defines hotkey to be 'shift + control + F2'
 +
-diff -urN old/Makefile.am new/Makefile.am
+diff -Nru old/Makefile.am new/Makefile.am
 --- Makefile.am	2008-03-07 13:35:37.000000000 -0800
 +++ Makefile.am	2008-08-07 18:31:32.391601000 -0700
 @@ -19,16 +19,21 @@
