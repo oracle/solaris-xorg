@@ -1,7 +1,5 @@
-# Makefile for X Consolidation Open Source Library modules
-#
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -12,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,84 +20,57 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.27	08/10/30
-#
-###############################################################################
+# pciaccess library & development files
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+i pkginfo
+i copyright
+i depend
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libpthread-stubs \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libpciaccess \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXp \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXprintUtil \
-	libXprintAppUtil \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	pixman \
-	hwc
+!HOME=../usr
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+!search      $HOME/include
+d none include 						0755 root bin
+f none include/pciaccess.h				0444 root bin
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+!search      $HOME/bin
+d none bin 						0755 root bin
+f none bin/scanpci					0755 root bin
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+!search      $HOME/lib
+d none lib 						0755 root bin
+f none lib/libpciaccess.so.0				0755 root bin
+s none lib/libpciaccess.so=libpciaccess.so.0
+
+!search      $HOME/lib/pkgconfig
+d none lib/pkgconfig					0755 root other
+f none lib/pkgconfig/pciaccess.pc			0444 root bin
+
+# 64-bit versions
+
+!search      $HOME/lib/$plat_64
+d none lib/$plat_64					0755 root bin
+s none lib/64=$plat_64
+f none lib/$plat_64/libpciaccess.so.0			0755 root bin
+s none lib/$plat_64/libpciaccess.so=libpciaccess.so.0
+
+!search      $HOME/lib/$plat_64/pkgconfig
+d none lib/$plat_64/pkgconfig				0755 root other
+f none lib/$plat_64/pkgconfig/pciaccess.pc		0444 root bin
+
+!search      $HOME/share/man/man1
+d none share						0755 root sys
+d none share/man					0755 root bin
+d none share/man/man1					0755 root bin
+f none share/man/man1/scanpci.1				0444 root bin
+
+# Backwards compatibility link
+d none X11						0755 root bin
+d none X11/bin 						0755 root bin
+s none X11/bin/scanpci=../../bin/scanpci

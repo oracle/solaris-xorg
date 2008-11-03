@@ -1,4 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###############################################################################
+#
+# libpciaccess Makefile
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -28,78 +30,51 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.27	08/10/30
-#
-###############################################################################
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+# Package name used in tarballs
+MODULE_NAME=libpciaccess
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libpthread-stubs \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libpciaccess \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXp \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXprintUtil \
-	libXprintAppUtil \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	pixman \
-	hwc
+# Version number (used in path names)
+MODULE_VERSION=0.10.5
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = scanpci.man.patch
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+# Library name
+LIBNAME=libpciaccess
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+# Where to install libpciaccess files
+MODULE_PREFIX=/usr
+MODULE_PREFIX_SET=yes
 
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs
+# Man pages to apply Sun footer to & attributes to list
+#SUNTOUCHED_MANPAGES=man/*.man
+SUN_PACKAGE=SUNWpciaccess
+MODULE_STABILITY=Volatile
+LIB_MAN_SUFFIX=3pciaccess
+
+# pkg-config files that need to have -R added
+FIX_PC_FILES=pciaccess.pc.in
+
+include ../Makefile.inc
+
+# Update scanpci.man with program man page flags instead of library ones
+source_gen::
+	(cd $(SOURCE_DIR) && \
+	 /usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
+	        -a '{Availability, $(SUN_PACKAGE)}' \
+		-a '{Interface Stability, $(MODULE_STABILITY)}' \
+		-p $(MODULE_PREFIX)/bin/ \
+		src/scanpci.man && \
+	 sed -e 's/__xorgversion__/"$(MODULE_NAME) $(MODULE_VERSION)"/' \
+		src/scanpci.man > src/scanpci.1 )
+
+# We want to install scanpci, even though the upstream Makefile doesn't
+install_gen::
+	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR) \
+		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
+	$(INSTALL_SCRIPT) -m 755 $(SOURCE_DIR)/src/scanpci \
+		$(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)/scanpci
+	$(INSTALL_SCRIPT) -m 444 $(SOURCE_DIR)/src/scanpci.1 \
+		$(PROTODIR)$(MODULE_PREFIX)/share/man/man1/scanpci.1
+

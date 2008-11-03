@@ -1,3 +1,4 @@
+Desktop Configuration:solaris:cmd:::/usr/bin/scanpci:euid=0;privs=sys_config
 Desktop Configuration:solaris:cmd:::/usr/X11/bin/scanpci:euid=0;privs=sys_config
 Desktop Configuration:solaris:cmd:::/usr/X11/bin/xorgconfig:euid=0
 Desktop Configuration:solaris:cmd:::/usr/X11/bin/xorgcfg:euid=0

@@ -1,7 +1,6 @@
-# Makefile for X Consolidation Open Source Library modules
+###########################################################################
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -12,7 +11,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,84 +21,40 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.27	08/10/30
+###########################################################################
 #
-###############################################################################
+# This package information file defines software dependencies associated
+# with the pkg.  You can define three types of pkg dependencies with this file:
+#	 P indicates a prerequisite for installation
+#	 I indicates an incompatible package
+#	 R indicates a reverse dependency
+# <pkg.abbr> see pkginfo(4), PKG parameter
+# <name> see pkginfo(4), NAME parameter
+# <version> see pkginfo(4), VERSION parameter
+# <arch> see pkginfo(4), ARCH parameter
+# <type> <pkg.abbr> <name>
+# 	(<arch>)<version>
+# 	(<arch>)<version>
+# 	...
+# <type> <pkg.abbr> <name>
+# ...
+#
 
-# Order copied from X.Org's util/modular/build.sh:
-# the libraries have a dependency order:
-# xtrans, Xau, Xdmcp before anything else
-# fontenc before Xfont
-# ICE before SM
-# X11 before Xext
-# (X11 and SM) before Xt
-# Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+P SUNWcar	Core Architecture, (Root)
+P SUNWcakr	Core Solaris Kernel Architecture (Root)
+P SUNWkvm	Core Architecture, (Kvm)
+P SUNWcsr	Core Solaris, (Root)
+P SUNWckr	Core Solaris Kernel (Root)
+P SUNWcnetr	Core Solaris Network Infrastructure (Root)
+P SUNWcsu	Core Solaris, (Usr)
+P SUNWcsd	Core Solaris Devices
+P SUNWcsl	Core Solaris Libraries
+P SUNWlibmsr	Math & Microtasking Libraries (Root)
+P SUNWhwdata	Hardware data files
 
-OS_SUBDIRS_common = \
-	freetype \
-	fontconfig \
-	libpthread-stubs \
-	libxtrans \
-	libXau \
-	libXdmcp \
-	libX11 \
-	libXext \
-	libfontenc \
-	libFS \
-	libICE \
-	liblbxutil \
-	libpciaccess \
-	libSM \
-	libXt \
-	libXmu \
-	libXpm \
-	libXp \
-	libXaw \
-	libXfixes \
-	libXcomposite \
-	libXrender \
-	libXdamage \
-	libXcursor \
-	libXevie \
-	libXfont \
-	libXft \
-	libXi \
-	libXinerama \
-	libxkbfile \
-	libxkbui \
-	libXprintUtil \
-	libXprintAppUtil \
-	libXrandr \
-	libXres \
-	libXScrnSaver \
-	libXtsol \
-	libXtst \
-	libXv \
-	libXvMC \
-	libXxf86misc \
-	libXxf86vm \
-	libXlg3d \
-	pixman \
-	hwc
-
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
-
-PWD:sh=pwd
-TOP=$(PWD)/..
-
-### Include common definitions
-DIRNAME="lib/"
-include $(TOP)/common/Makefile.subdirs

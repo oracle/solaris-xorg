@@ -65,7 +65,17 @@ my %compiler_sharedobj_flags = ( 'cc' => '-G -z allextract',
 				 'gcc' => '-shared  -Wl,-z,allextract' );
 
 my %so_versions = ();
+my %ltlib_names = ();
 my @Makefiles;
+
+sub rulename_to_filename {
+  my $rulename = $_[0];
+  if (exists($ltlib_names{$rulename})) {
+    return $ltlib_names{$rulename};
+  } else {
+    return $rulename;
+  }
+}
 
 sub scan_file {
   if ($_ eq 'Makefile' && -f $_) {
@@ -76,43 +86,69 @@ sub scan_file {
 
     # Read in original file and preprocess for data we'll need later
     my $l = "";
+    my %makefile_macros = ();
+    my %makefile_ldflags = ();
+
     while (my $n = <$OLD>) {
       $l .= $n;
       # handle line continuation
       next if ($n =~ m/\\$/);
 
+      # Save macros for later expansion if needed
+      if ($l =~ m/^([^\#\s]*)\s*=\s*(.*)\s*/ms) {
+	$makefile_macros{$1} = $2;
+      }
+
       if ($l =~ m/^([^\#\s]*)_la_LDFLAGS\s*=(.*)/ms) {
 	my $libname = $1;
 	my $flags = $2;
-	my $vers;
-	
-	if ($flags =~ m/[\b\s]-version-(number|info)\s+(\S+)/ms) {
-	  my $vtype = $1;
-	  my $v = $2;
-	  if (($vtype eq "info") && ($v =~ m/^(\d+):\d+:(\d+)$/ms)) {
-	    $vers = $1 - $2;
-	  } elsif ($v =~ m/^(\d+)[:\d]*$/ms) {
-	    $vers = $1;
-	  } else {
-	    $vers = $v;
-	  }
-	}
-	elsif ($flags =~ m/-avoid-version\b/ms) {
-	  $vers = 'none';
-	}
 
-	my $ln = $libname;
-	if ($single_file) {
-	  $ln = $File::Find::name . "::" . $libname;
-	}
-	if (defined($vers) && !defined($so_versions{$ln})) {
-	  $so_versions{$ln} = $vers;
-	  print "Set version to $so_versions{$ln} for $ln.\n";
+	$makefile_ldflags{$libname} = $flags;
+      }
+      elsif ($l =~ m/^[^\#\s]*_LTLIBRARIES\s*=(.*)$/ms) {
+	foreach my $ltl (split /\s+/, $1) {
+	  $ltl =~ s{\.la$}{}ms;
+	  my $transformed = $ltl;
+	  $transformed =~ s{[^\w\@]}{_}msg;
+	  $ltlib_names{$transformed} = $ltl;
 	}
       }
       $l = "";
     }
     close($OLD) or die;
+
+    foreach my $librulename (keys %makefile_ldflags) {
+      my $libname = rulename_to_filename($librulename);
+      my $flags = $makefile_ldflags{$librulename};
+      my $vers;
+
+      $flags =~ s{\$\(([^\)]+)\)}{$makefile_macros{$1}}msg;
+
+      if ($flags =~ m/[\b\s]-version-(number|info)\s+(\S+)/ms) {
+	my $vtype = $1;
+	my $v = $2;
+	
+	if (($vtype eq "info") && ($v =~ m/^(\d+):\d+:(\d+)$/ms)) {
+	  $vers = $1 - $2;
+	} elsif ($v =~ m/^(\d+)[:\d]*$/ms) {
+	  $vers = $1;
+	} else {
+	  $vers = $v;
+	}
+      }
+      elsif ($flags =~ m/-avoid-version\b/ms) {
+	$vers = 'none';
+      }
+
+      my $ln = $libname;
+      if ($single_file) {
+	$ln = $File::Find::name . "::" . $libname;
+      }
+      if (defined($vers) && !defined($so_versions{$ln})) {
+	$so_versions{$ln} = $vers;
+#	print "Set version to $so_versions{$ln} for $ln.\n";
+      }
+    }
 
     push @Makefiles, $File::Find::name;
   }
@@ -204,14 +240,15 @@ sub modify_file {
       @so_list = grep(/^$pat/, @so_list);
     }
     foreach my $so (@so_list) {
-      if ($so_versions{$so} eq 'none') {
+      my $v = $so_versions{$so};
+      if ($v eq 'none') {
 	$l =~ s{$so\.la\b}{$so.so}msg;
       } else {
-	$l =~ s{$so\.la\b}{$so.so.$so_versions{$so}}msg;
+	$l =~ s{$so\.la\b}{$so.so.$v}msg;
       }
     }
     $l =~ s{\.la\b}{.a}msg;
-    $l =~ s{\.libs/\*\.o\b}{*.lo}msg;
+    $l =~ s{\.libs/([\*%])\.o\b}{$1.lo}msg;
     $l =~ s{\.lo\b}{.o}msg;
 
     my $newtarget = $curtarget;
@@ -238,14 +275,6 @@ sub modify_file {
 END_RULE
 	$installrule =~ s/\<DIRNAME\>/$dirname/msg;
 	$l .= $installrule;
-
-#	my $installdir = '$(DESTDIR)$(' . $dirname . 'dir)';
-#	foreach my $so (keys %so_versions) {
-#	  if ($so_versions{$so} ne 'none') {
-#	    $l .= "\t-rm -f $installdir/$so.so\n";
-#	    $l .= "\tln -s $so.so.$so_versions{$so} $installdir/$so.so\n";
-#	  }
-#	}
       }
 
       $curtarget = $newtarget;

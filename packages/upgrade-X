@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.43 08/09/15
+# @(#)upgrade-X	1.44 08/10/30
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -168,6 +168,8 @@ pkg_list="
 	SUNWfontconfig 
 	SUNWfontconfig-root
 	SUNWfontconfig-docs 
+	SUNWpciaccess
+	SUNWpixman
 	SUNWvncviewer
 	SUNWxcursor-themes
 	SUNWxorg-cfg
