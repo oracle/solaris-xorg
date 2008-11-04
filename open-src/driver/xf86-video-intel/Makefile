@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18	08/10/14
+# @(#)Makefile	1.19	08/11/04
 #
 
 # Package name used in tarballs
@@ -41,7 +41,8 @@ MODULE_VERSION=2.3.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
-		6538497_6554161.patch 845_workaround.patch eaglelake-support.patch
+		6538497_6554161.patch 845_workaround.patch \
+		eaglelake-support.patch 6767351.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
