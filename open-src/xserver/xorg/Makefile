@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.68	08/10/04
+# @(#)Makefile	1.69	08/11/04
 #
 
 # Build 32-bit or 64-bit?
@@ -129,6 +129,9 @@ install_gen:: default_install $(EXTRA_INSTALL)
 	cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
+	@THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
+	 mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
+	 cp -pf COPYING.Xprint-fonts $(LICENSE_DEST)/$${THIS_MODULE}/
 
 # Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
 install_pc:
