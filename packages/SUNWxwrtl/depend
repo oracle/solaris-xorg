@@ -1,5 +1,6 @@
+###########################################################################
 #
-# Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,11 +27,34 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)depend 1.3     06/08/25 SMI"
+###########################################################################
+#
+# ident	"@(#)depend	1.4	08/11/04 SMI"
+#
+# This package information file defines software dependencies associated
+# with the pkg.  You can define three types of pkg dependencies with this file:
+#	 P indicates a prerequisite for installation
+#	 I indicates an incompatible package
+#	 R indicates a reverse dependency
+# <pkg.abbr> see pkginfo(4), PKG parameter
+# <name> see pkginfo(4), NAME parameter
+# <version> see pkginfo(4), VERSION parameter
+# <arch> see pkginfo(4), ARCH parameter
+# <type> <pkg.abbr> <name>
+# 	(<arch>)<version>
+# 	(<arch>)<version>
+# 	...
+# <type> <pkg.abbr> <name>
+# ...
 #
 
-P SUNWcar       Core Architecture,  (Root)
-P SUNWkvm       Core Architecture,  (Kvm)
-P SUNWcsr       Core Solaris,  (Root)
-P SUNWcsu       Core Solaris,  (Usr)
-P SUNWcsd       Core Solaris Devices
+P SUNWcar	Core Architecture, (Root)
+P SUNWcakr	Core Solaris Kernel Architecture (Root)
+P SUNWkvm	Core Architecture, (Kvm)
+P SUNWcsr	Core Solaris, (Root)
+P SUNWckr	Core Solaris Kernel (Root)
+P SUNWcnetr	Core Solaris Network Infrastructure (Root)
+P SUNWcsu	Core Solaris, (Usr)
+P SUNWcsd	Core Solaris Devices
+P SUNWcsl	Core Solaris Libraries
+

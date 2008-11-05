@@ -54,7 +54,6 @@ f none lib/pkgconfig/pixman-1.pc			0444 root bin
 
 !search      $HOME/lib/$plat_64
 d none lib/$plat_64					0755 root bin
-s none lib/64=$plat_64
 f none lib/$plat_64/libpixman-1.so.0			0755 root bin
 s none lib/$plat_64/libpixman-1.so=libpixman-1.so.0
 

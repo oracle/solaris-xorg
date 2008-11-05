@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.18	08/07/15 SMI
+#	@(#)prototype	1.19	08/11/04 SMI
 #
 #  FreeType 2 package
 
@@ -132,7 +132,6 @@ f none lib/pkgconfig/freetype2.pc				0644 root bin
 
 !search $HOME/lib/$plat_64
 d none lib/$plat_64						0755 root bin
-s none lib/64=$plat_64
 f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.18	0755 root bin
 s none lib/$plat_64/libfreetype.so=libfreetype.so.6
 
