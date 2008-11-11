@@ -34,7 +34,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.4	08/08/08 SMI"
+# ident "@(#)buildit	1.5	08/11/10 SMI"
 #
 
 MAKE_PKGS=0
@@ -103,7 +103,7 @@ date
 perl -e '$runtime=time-$ARGV[0];printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' $START
 
 if [ $MAKE_PKGS = 1 ] ; then
-    PACKAGE_LIST=`cd packages && echo SUNW*`
+    PACKAGE_LIST=`cd packages && echo SUNW* FSW*`
     export PACKAGE_LIST
     chmod +x make_release_packages
     mkdir packages/common_files
