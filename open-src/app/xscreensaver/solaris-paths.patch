@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -35,6 +35,8 @@ Various fixes to deal with where we install things on Solaris:
 - Find helper programs even though they are not in $PATH
 
 - Show author names when reading RSS feeds from sites like blogs.sun.com
+
+- Show Solaris package names in demo app when hacks are not installed
 
 diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
 --- driver/Makefile.in	2006-09-18 19:36:40.000000000 -0700
@@ -95,9 +97,9 @@ diff -urp -x '*~' driver/demo-Gtk.c driver/demo-Gtk.c
  	  return 0;
  	}
  
-diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
+diff -urp -x '*~' -x '*.orig' driver/subprocs.c driver/subprocs.c
 --- driver/subprocs.c	2006-09-14 00:03:53.000000000 -0700
-+++ driver/subprocs.c	2006-09-19 17:08:05.712131000 -0700
++++ driver/subprocs.c	2008-11-12 13:52:43.912046000 -0800
 @@ -14,6 +14,7 @@
  # include "config.h"
  #endif
@@ -123,7 +125,38 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
  }
  
  
-@@ -867,6 +871,8 @@ spawn_screenhack_1 (saver_screen_info *s
+@@ -861,12 +865,39 @@ fork_and_exec (saver_screen_info *ssi, c
+   return forked;
+ }
+ 
++static Bool
++check_if_hacks_dir_exists(Bool verbose_p)
++{
++  const char hackdir[] = HACK_PATH;
++
++  int status;
++  struct stat st;
++
++  status = stat (hackdir, &st);
++  
++  if (status == 0 && S_ISDIR(st.st_mode))
++    {
++      return True;
++    }
++   else
++    {
++      if (verbose_p)
++	{
++	  fprintf(stderr,
++		  "%s: Warning: dir: %s missing. Will not run hacks\n",
++		  blurb(), hackdir);
++	}
++      return False;
++    }
++}
+ 
+ static void
+ spawn_screenhack_1 (saver_screen_info *ssi, Bool first_time_p)
  {
    saver_info *si = ssi->global;
    saver_preferences *p = &si->prefs;
@@ -132,7 +165,21 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    raise_window (si, first_time_p, True, False);
    XFlush (si->dpy);
  
-@@ -985,7 +991,17 @@ spawn_screenhack_1 (saver_screen_info *s
+@@ -938,6 +969,13 @@ spawn_screenhack_1 (saver_screen_info *s
+ 	    ;
+ 	}
+ 
++      if ((new_hack >= 0) &&
++	  (check_if_hacks_dir_exists(p->verbose_p) == False))
++      {
++	  new_hack = -1;
++      }
++
++
+       if (new_hack < 0)   /* don't run a hack */
+         {
+           ssi->current_hack = -1;
+@@ -985,7 +1023,17 @@ spawn_screenhack_1 (saver_screen_info *s
        if (si->selection_mode < 0)
  	si->selection_mode = 0;
  
@@ -151,49 +198,17 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
        switch ((int) forked)
  	{
  	case -1: /* fork failed */
-@@ -1003,10 +1019,41 @@ spawn_screenhack_1 (saver_screen_info *s
-     }
- }
- 
-+Bool
-+check_if_hacks_dir_exists(void)
-+{
-+  const char hackdir[] = HACK_PATH;
-+
-+  int status;
-+  struct stat st;
-+
-+  status = stat (hackdir, &st);
-+  
-+  if (status == 0 && S_ISDIR(st.st_mode))
-+    {
-+     return True;
-+    }
-+   else
-+    {
-+     fprintf(stderr, "\t*** Warning: dir: %s missing. Will not run hacks\n",
-+			hackdir);
-+     return False;
-+    }
-+}
-+
- 
+@@ -1007,6 +1055,9 @@ spawn_screenhack_1 (saver_screen_info *s
  void
  spawn_screenhack (saver_info *si, Bool first_time_p)
  {
 +  if (si->prefs.verbose_p)
 +   fprintf(stderr, "--> spawn_screenhack()\n");
 +
-+  if (check_if_hacks_dir_exists() == False)
-+   {
-+    store_saver_status (si);  /* store current hack numbers */
-+    return;
-+   }
-+
    if (monitor_powered_on_p (si))
      {
        int i;
-@@ -1189,7 +1236,7 @@ get_best_gl_visual (saver_screen_info *s
+@@ -1189,7 +1240,7 @@ get_best_gl_visual (saver_screen_info *s
    char *av[10];
    int ac = 0;
  
@@ -202,6 +217,20 @@ diff -urp -x '*~' driver/subprocs.c driver/subprocs.c
    av[ac] = 0;
  
    if (pipe (fds))
+diff -urp -x '*~' -x '*.orig' driver/xscreensaver-demo.glade2 driver/xscreensaver-demo.glade2
+--- driver/xscreensaver-demo.glade2	2005-08-09 01:37:05.000000000 -0700
++++ driver/xscreensaver-demo.glade2	2008-11-12 13:52:43.914329000 -0800
+@@ -820,8 +820,8 @@ Installed</property>
+ 			      <property name="visible">True</property>
+ 			      <property name="label" translatable="yes">Very few (or no) screen savers appear to be available.
+ 
+-This probably means that the &quot;xscreensaver-extras&quot; and
+-&quot;xscreensaver-gl-extras&quot; packages are not installed.</property>
++This probably means that the &quot;SUNWxscreensaver-hacks&quot; and
++&quot;SUNWxscreensaver-hacks-gl&quot; packages are not installed.</property>
+ 			      <property name="use_underline">False</property>
+ 			      <property name="use_markup">False</property>
+ 			      <property name="justify">GTK_JUSTIFY_CENTER</property>
 diff -urp -x '*~' driver/xscreensaver-text driver/xscreensaver-text
 --- driver/xscreensaver-text	2006-09-14 00:35:46.000000000 -0700
 +++ driver/xscreensaver-text	2006-09-19 17:08:05.712858000 -0700
