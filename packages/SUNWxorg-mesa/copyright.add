@@ -1,9 +1,15 @@
 
 --------------------------------------------------------------------
 
-Files from the Mesa package are covered by the following notice:
+Files from the MesaLib package are covered by the following notice:
 
 include lib/mesa/COPYING
+
+--------------------------------------------------------------------
+
+Files from the MesaDemos package are covered by the following notice:
+
+include app/mesa-demos/COPYING
 
 --------------------------------------------------------------------
 

@@ -1,4 +1,3 @@
-
 --------------------------------------------------------------------
 
 Files from the app/xgamma package are covered by the following notice:
@@ -22,4 +21,10 @@ include app/xvidtune/COPYING
 Files from the app/xvinfo package are covered by the following notice:
 
 include app/xvinfo/COPYING
+
+--------------------------------------------------------------------
+
+Files from the MesaDemos package are covered by the following notice:
+
+include app/mesa-demos/COPYING
 
