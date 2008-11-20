@@ -271,6 +271,15 @@ MODULE_INSTALL_MAKEFLAGS
  - Additional command line arguments passed when calling make
    by default_install
 
+EXTRA_LICENSES
+ - Additional files containing copyright & license information for this module,
+   beyond what's in LICENSE_FILE, such as subsets for specific packages.
+   Will be copied under their own names to $(PROTODIR)/licenses/<path>/
+   for use by include statements in package copyright.add files, where
+   path is the same as the directory & subdirectory the module source is in.
+   Files are looked for relative to module directory, include $(SOURCE_DIR)/
+   in the filename to look relative to the top-level source directory.
+
 Optional, with non-empty default:
 
 * Important, for these, to override the default values, you must not only

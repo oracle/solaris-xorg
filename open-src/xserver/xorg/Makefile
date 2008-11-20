@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.69	08/11/04
+# @(#)Makefile	1.70	08/11/18
 #
 
 # Build 32-bit or 64-bit?
@@ -77,6 +77,11 @@ XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
 BUILD_TARGETS=fix-xf1bpp $(XORGSERVER_BIN) $(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
+
+# Additional license files to install
+EXTRA_LICENSES = \
+	COPYING.Xprint-fonts \
+	COPYING.xorg-docs
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -129,9 +134,6 @@ install_gen:: default_install $(EXTRA_INSTALL)
 	cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
-	@THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
-	 mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
-	 cp -pf COPYING.Xprint-fonts $(LICENSE_DEST)/$${THIS_MODULE}/
 
 # Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
 install_pc:

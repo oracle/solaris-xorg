@@ -3,7 +3,7 @@
 
 Files from the X.Org xserver package are covered by the following notice:
 
-include xserver/xorg/COPYING
+include xserver/xorg/COPYING.xorg-docs
 
 --------------------------------------------------------------------
 

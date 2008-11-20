@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.94	08/10/06
+# @(#)Makefile.inc	1.95	08/11/18
 #
 
 ### Default rules
@@ -475,19 +475,25 @@ regen-patches:
 # and set LICENSE_FILE_SET=yes
 # A file in the same directory as the Makefile takes precedence
 # over one that is delivered in the package.
+# For additional license files, set EXTRA_LICENSE_FILES to a list of
+# licenses to copy
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
 install_license:
-	@THIS_MODULE=`echo $(PWD) | sed 's|.*/open-src/||'` ; \
+	@ THIS_MODULE="$$(echo $(PWD) | sed 's|.*/open-src/||')" ; \
+	PS4="" ; set -x ; \
 	if [[ -f $(LICENSE_FILE) ]] ; then \
 	    LICENSE_TO_COPY="$(LICENSE_FILE)" ; \
 	elif [[ -f $(SOURCE_DIR)/$(LICENSE_FILE) ]] ; then \
 	    LICENSE_TO_COPY="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
 	fi ; \
 	if [[ "$${LICENSE_TO_COPY}" != "" ]] ; then \
-	    set -x ; \
 	    mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
 	    cp -pf $${LICENSE_TO_COPY} \
 		$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
+	fi ; \
+	if [[ "$(EXTRA_LICENSES)" != "" ]] ; then \
+	    mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
+	    cp -pf $(EXTRA_LICENSES) $(LICENSE_DEST)/$${THIS_MODULE} ; \
 	fi
