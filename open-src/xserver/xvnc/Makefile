@@ -1,7 +1,8 @@
 ###############################################################################
 #
 # Xvnc server Makefile
-# Based on Fedora's vnc-4.1.2-21.fc8/vnc.spec
+# Based on Fedora's vnc.spec from
+#  http://cvs.fedoraproject.org/viewcvs/rpms/vnc/
 #
 # Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
@@ -31,14 +32,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13 08/09/05
+# @(#)Makefile	1.14 08/11/26
 #
 
 # Package name used in tarballs
 MODULE_NAME=vnc
 
 # Version number (used in path names)
-MODULE_VERSION=4_1_2-unixsrc
+MODULE_VERSION=4_1_3-unixsrc
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -52,7 +53,7 @@ XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xorg-x11-server-source
 # Download site for source
 # - Master source site doesn't allow wget downloads, so we use a mirror
 #SOURCE_URL=http://www.realvnc.com/dist/$(SOURCE_TARBALL_NAME)
-SOURCE_URL=http://ltsp.mirrors.tds.net/pub/ltsp/tarballs/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
