@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.97	08/08/08
+# @(#)Makefile	1.98	08/11/26
 #
 
 # Package name used in tarballs
@@ -109,9 +109,6 @@ MODULE_CONFIG_OPTS= --enable-maintainer-mode \
 
 MODULE_LDFLAGS="-R/usr/X11/lib"
 
-# BINARY built in tree
-XS_BIN=$(SOURCE_DIR)/xscreensaver
-
 # Messages for translation
 XS_POT=$(SOURCE_DIR)/po/xscreensaver.pot
 POT_DEST=$(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
@@ -145,10 +142,9 @@ MODULE_CONFIG_ENV= \
 
 MODULE_MAKEFLAGS=-e install_prefix=$(PROTODIR) 
 
-BUILD_TARGETS=$(XS_BIN) $(XS_MAN) $(XS_POT)
-BUILD_TARGETS_SET=yes
+MODULE_ADD_BUILD_TARGETS=$(XS_MAN) $(XS_POT) set-install-perms
 
-INSTALL_TARGETS=install_xs
+INSTALL_TARGETS=set-install-perms default_install install_xs
 INSTALL_TARGETS_SET=yes
 
 include ../Makefile.inc
@@ -168,8 +164,6 @@ source_gen:: $(LNDIR)
 	        ln -s opensolaris-logo.png $$i ; \
 	    fi ; \
 	done
-
-$(XS_BIN): default_build
 
 $(XS_POT): $(CONFIGURE_TARGET)
 	(cd $(SOURCE_DIR)/po ; \
@@ -198,13 +192,14 @@ $(XS_MAN):
 	    -a '{Availability, SUNWxscreensaver-hacks-gl} {Interface Stability, Private}' \
 		-p /usr/X11/lib/xscreensaver/hacks/ $(SOURCE_DIR)/hacks/glx/*.man
 
-install_xs:: $(XS_BIN) $(XS_MAN) $(XS_POT)
-	chmod +w $(SOURCE_DIR)/hacks/vidwhacker \
-		$(SOURCE_DIR)/hacks/webcollage \
-		$(SOURCE_DIR)/driver/xscreensaver-getimage-file \
-		$(SOURCE_DIR)/driver/xscreensaver-getimage-video
-	(cd $(SOURCE_DIR) ; chmod a+x install-sh intltool-*; \
-	 $(MAKE) $(MODULE_MAKEFLAGS) install )
+set-install-perms:
+	(cd $(SOURCE_DIR) ; \
+	 chmod a+x install-sh intltool-*; \
+	 chmod +w hacks/vidwhacker hacks/webcollage \
+		driver/xscreensaver-getimage-file \
+		driver/xscreensaver-getimage-video )
+
+install_xs:: $(BUILD_TARGETS)
 	mkdir -p $(POT_DEST)
 	cp -pf $(XS_POT) $(POT_DEST)/xscreensaver.pot
 	mkdir -p $(LOGO_DEST)

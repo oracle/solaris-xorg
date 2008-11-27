@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# @(#)Makefile	1.6	08/11/26
 #
 
 # Package name used in tarballs
@@ -59,7 +59,7 @@ MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
 # What to build
-BUILD_TARGETS = $(GNUMAKE) default_build catalog_build
+MODULE_ADD_BUILD_TARGETS = catalog_build
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.70	08/11/18
+# @(#)Makefile	1.71	08/11/26
 #
 
 # Build 32-bit or 64-bit?
@@ -75,7 +75,8 @@ MODULE_COMPILER_SET=yes
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
-BUILD_TARGETS=fix-xf1bpp $(XORGSERVER_BIN) $(BUILD_DIR)/mapfile-Xorg-externs
+BUILD_TARGETS=fix-xf1bpp $(XORGSERVER_BIN) set-elf-comments \
+	$(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
 
 # Additional license files to install
@@ -102,6 +103,11 @@ MODULE_CPPFLAGS= \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri
 
+# Additional install targets beyond the defaults
+EXTRA_INSTALL_sparc=install_pc
+EXTRA_INSTALL_i386=
+MODULE_ADD_INSTALL_TARGETS=install_extras $(EXTRA_INSTALL_$(MACH))
+
 include ../Makefile.inc
 
 # Merge in additional sources from sun-src directory
@@ -119,11 +125,7 @@ fix-xf1bpp: $(SOURCE_DIR)/Makefile
 
 $(XORGSERVER_BIN): default_build
 
-EXTRA_INSTALL_sparc=install_pc
-EXTRA_INSTALL_i386=
-EXTRA_INSTALL=$(EXTRA_INSTALL_$(MACH))
-
-install_gen:: default_install $(EXTRA_INSTALL)
+install_extras: default_install
 	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
 	    -e 's%^.* _XSERVER64 .*$$%#include <sys/isa_defs.h>\
 #ifdef _LP64\

@@ -202,6 +202,11 @@ MODULE_SOURCE_DEPS, MODULE_CONFIGURE_DEPS,
 MODULE_BUILD_DEPS, MODULE_INSTALL_DEPS
  - Makefile targets/rules that the default_* rules list as dependencies
 
+MODULE_ADD_SOURCE_TARGETS, MODULE_ADD_CONFIGURE_TARGETS, 
+MODULE_ADD_BUILD_TARGETS, MODULE_ADD_INSTALL_TARGETS
+ - Additional targets/rules run by "make source", "make configure", etc.
+   in addition to default_* if *_TARGETS is not overridden.
+
 MODULE_CONFIG_OPTS
  - Additional arguments passed to configure script by default_config rule
 
@@ -339,6 +344,8 @@ SOURCE_TARGETS, CONFIGURE_TARGETS, BUILD_TARGETS, INSTALL_TARGETS
  - Makefile targets/rules to run for "make source", "make configure",
    "make build", and "make install"
    Defaults: default_source, default_configure, default_build, default_install
+   The *_TARGETS may be appended to by setting the MODTYPE_ADD_*_TARGETS 
+   and/or MODULE_ADD_*_TARGETS variables.
 
 AUTOCONF_TARGET
  - File created by running the default_configure rule.   If this file exists,
@@ -385,6 +392,10 @@ Optional, default is empty:
 	- MODTYPE_CONFIGURE_DEPS
 	- MODTYPE_BUILD_DEPS
 	- MODTYPE_INSTALL_DEPS
+	- MODTYPE_ADD_SOURCE_TARGETS
+	- MODTYPE_ADD_CONFIGURE_TARGETS
+	- MODTYPE_ADD_BUILD_TARGETS
+	- MODTYPE_ADD_INSTALL_TARGETS
 	- MODTYPE_CONFIG_OPTS
 	- MODTYPE_CONFIG_ENV
 	- MODTYPE_CFLAGS

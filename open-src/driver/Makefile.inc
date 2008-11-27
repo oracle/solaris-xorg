@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.12	08/08/10
+# @(#)Makefile.inc	1.13	08/11/26
 #
 
 PWD:sh=pwd
@@ -51,6 +51,9 @@ MODTYPE_CONFIG_OPTS = \
 
 MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
 MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
+
+# Set comments in ELF binaries to help identify versions/builds
+MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
 MODTYPE_CPPFLAGS= \
 	-I$(PROTODIR)/usr/X11/include/xorg	\

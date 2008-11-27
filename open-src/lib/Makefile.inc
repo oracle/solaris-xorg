@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.11	08/08/08
+# @(#)Makefile.inc	1.12	08/11/26
 #
 
 PWD:sh=pwd
@@ -63,6 +63,9 @@ MODTYPE_CONFIG_OPTS = --enable-shared=yes --enable-static=no \
 
 # Additional environment variables to GNU autoconf configure script
 MODTYPE_CONFIG_ENV = LIB_MAN_SUFFIX=$(LIB_MAN_SUFFIX)
+
+# Set comments in ELF binaries to help identify versions/builds
+MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
 # Additional arguments to pass to make when running make install
 MODTYPE_INSTALL_MAKEFLAGS = \

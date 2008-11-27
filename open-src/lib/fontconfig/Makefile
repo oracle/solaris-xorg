@@ -30,11 +30,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.77	08/08/08
+# @(#)Makefile	1.78	08/11/26
 #
-
-PWD:sh=pwd
-TOP=$(PWD)/../..
 
 # Package name used in tarballs
 MODULE_NAME=fontconfig
@@ -60,8 +57,13 @@ SOURCE_PATCHES=fontconfig-$(MODULE_VERSION).patch,-p1 \
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig
 
-# Directory created by unpacking source
-SOURCE_DIR=$(BUILD_DIR)/$(MODULE_NAME)-$(MODULE_VERSION)
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*/*.1 doc/*.3 doc/*.5
+SUN_PACKAGE=SUNWfontconfig
+MODULE_STABILITY=Volatile
+LIB_MAN_SUFFIX=3fontconfig
+MODULE_MTLEVEL=Unknown
+MODULE_MTLEVEL_set=yes
 
 # Install to /usr, not /usr/X11
 MODULE_PREFIX=/usr
@@ -78,8 +80,7 @@ MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
 # What to build
-BUILD_TARGETS=$(GNUMAKE) default_build $(SOURCE_DIR)/fonts.conf-SUNW
-BUILD_TARGETS_SET=yes
+MODULE_ADD_BUILD_TARGETS = $(SOURCE_DIR)/fonts.conf-SUNW
 
 # Paths to find libraries
 MODULE_BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR) \
@@ -94,6 +95,10 @@ FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
 FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 
+# Additional targets to install beyond the default_install
+MODULE_ADD_INSTALL_TARGETS = fontconfig-sunman-install \
+	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD)
+
 # Include common rulesets
 include ../Makefile.inc
 
@@ -102,64 +107,32 @@ $(SOURCE_DIR)/fonts.conf-SUNW: $(SOURCE_DIR)/fonts.conf fonts.conf.append fix-fo
 
 $(SOURCE_DIR)/fonts.conf: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
 
-install_gen:: $(LIB_BUILT) $(SOURCE_DIR)/fonts.conf-SUNW $(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD)
+install_gen:: $(SOURCE_DIR)/fonts.conf-SUNW
 	rm $(PROTODIR)/etc/fonts/fonts.conf
 	cp $(SOURCE_DIR)/fonts.conf-SUNW $(PROTODIR)/etc/fonts/fonts.conf
-	$(MAKE) $(MAKEFLAGS) fontconfig-sunman-install
 
 $(FONTCONFIG_SMF_MANIFEST): fc-cache.xml
 	/usr/sbin/svccfg validate fc-cache.xml
 	mkdir -p $(FONTCONFIG_SMF_MANIFEST_dir)
-	if [ -f $@ ] ; then /bin/rm -f $@ ; fi
-	cp fc-cache.xml $@
+	$(INSTALL_SCRIPT) -c -m 0444 fc-cache.xml $@
 
 $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 	mkdir -p $(FONTCONFIG_SMF_METHOD_dir)
-	if [ -f $@ ] ; then /bin/rm -f $@ ; fi
-	cp fc-cache.sh $@
-	chmod 755 $@
-
-# Quick inline perl script to fix up fc-cache & fc-list man pages
-FC_MAN_FIX=perl -n -MPOSIX=strftime -e \
-  'BEGIN { \
-	$$date=strftime("%e %b %Y",localtime((stat($$ARGV[0]))[9])); \
-	print "\047\\\" t\n"; \
-   } \
-   { \
-	s|__vendorversion__|"$$date"| ; \
-	s|__package__|SUNWfontconfig| ; \
-	s|fontconfig\(3\)|libfontconfig\(3lib\)|; \
-	s%^\\\|\.%.IR \\|.%; \
-	print \
-   }'
+	$(INSTALL_SCRIPT) -c -m 0755 fc-cache.sh $@
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
 fontconfig-sunman-install:
-	mkdir -p $(FC_MAN_DIR)/man1 $(FC_MAN_DIR)/man4 $(FC_MAN_DIR)/man3lib
-	$(FC_MAN_FIX) $(FC_MAN_DIR)/man5/fonts-conf.5 sunman-notes-fonts.conf $(TOP)/common/sunman-stability | sed -e 's/.TH "FONTS-CONF" "5"/.TH "fonts.conf" "4"/' -e 's/SUNWfontconfig/SUNWfontconfig-root/' > $(FC_MAN_DIR)/man4/fonts.conf.4
-	-if [ -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib ] ; then \
-		rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib ; \
-	fi
-	perl -p -e 's/^$$/.LP/;' -e 's/\251/\\(co/;' libfontconfig.3lib $(SOURCE_DIR)/COPYING >> $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
-	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; set -x ;	\
-	for i in fc-cache fc-list fc-match fc-cat ; do 		\
-	    if [ -f $(FC_MAN_DIR)/man1/$$i.1 ] ; then 	\
-		rm -f $(FC_MAN_DIR)/man1/$$i.1 ; 		\
-	    fi ;						\
-	    if [ -f sunman-notes-$$i ] ; then			\
-		APPEND="sunman-notes-$$i $(TOP)/common/sunman-stability" ; \
-		else						\
-		APPEND=$(TOP)/common/sunman-stability ;		\
-	    fi ;						\
-	    if [ -f $(SOURCE_DIR)/$$i/$$i.1 ] ; then \
-	    $(FC_MAN_FIX) $(SOURCE_DIR)/$$i/$$i.1 $$APPEND > \
-		$(FC_MAN_DIR)/man1/$$i.1 ;		\
-	    else						\
-		$(FC_MAN_FIX) $$i.man $$APPEND > \
-		$(FC_MAN_DIR)/man1/$$i.1 ;		\
-		fi ;						\
-	done
-
+	mkdir -p $(FC_MAN_DIR)/man4 $(FC_MAN_DIR)/man3lib
+	sed -e 's/.TH "FONTS-CONF" "5"/.TH "fonts.conf" "4"/' 	\
+	    -e 's/SUNWfontconfig/SUNWfontconfig-root/' 		\
+	  $(FC_MAN_DIR)/man5/fonts-conf.5 > $(FC_MAN_DIR)/man4/fonts.conf.4
+	-rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
+	perl -p -e 's/^$$/.LP/;' -e 's/\251/\\(co/;' 		\
+		libfontconfig.3lib $(SOURCE_DIR)/COPYING >> 	\
+		$(FC_MAN_DIR)/man3lib/libfontconfig.3lib
+	-rm -f $(FC_MAN_DIR)/man1/fc-cache.1
+	cat $(SOURCE_DIR)/fc-cache/fc-cache.1 sunman-notes-fc-cache >> \
+		$(FC_MAN_DIR)/man1/fc-cache.1
 
 

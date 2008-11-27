@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	08/08/08
+# @(#)Makefile	1.10	08/11/26
 #
 
 # Package name used in tarballs
@@ -50,10 +50,6 @@ SUNTOUCHED_MANPAGES=cxpm/cxpm.man sxpm/sxpm.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 
-# Binaries built in tree
-BUILD_TARGETS=SOURCE_DIR/cxpm/cxpm SOURCE_DIR/sxpm/sxpm 
-BUILD_TARGETS_SET=yes
-
 INSTALL_TARGETS=install_xpm_apps
 INSTALL_TARGETS_SET=yes
 
@@ -64,8 +60,6 @@ INSTALL_TARGETS_SET=yes
 #MODULE_BUILD_DEPS=delibtoolize
 
 include ../Makefile.inc
-
-$(BUILD_TARGETS): default_build
 
 install_xpm_apps:: $(BUILD_TARGETS)
 	(cd $(SOURCE_DIR)/cxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)

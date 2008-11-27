@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.77	08/10/06
+# @(#)Makefile	1.78	08/11/26
 #
 
 PWD:sh=pwd
@@ -75,12 +75,6 @@ MODULE_CONFIG_OPTS= \
 	--with-zlib \
 	--with-pic
 
-
-FT_LIB=$(FT_DIR)/objs/.libs/libfreetype.so.6.3.17
-
-# What to build
-BUILD_TARGETS=$(GNUMAKE) $(FT_LIB)
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=builds/unix/freetype2.in
 
@@ -92,13 +86,25 @@ LICENSE_FILE_SET=yes
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# Don't run normal configure/build/install rules - freetype is different
+# Don't run normal configure/install rules - freetype is different
 CONFIGURE_TARGETS=$(SOURCE_DIR)/config.mk
 CONFIGURE_TARGETS_SET=yes
-BUILD_TARGETS=$(FT_LIB)
-BUILD_TARGETS_SET=yes
-INSTALL_TARGETS=
+INSTALL_TARGETS=install_freetype
 INSTALL_TARGETS_SET=yes
+
+# Environment variables to pass to configure & build steps
+MODULE_ENV = \
+    SHELL="/bin/bash" \
+    MAKESHELL="/bin/bash" \
+    CONFIG_SHELL="/bin/bash" \
+    CPP="$(CC) -E $(LIB_CFLAGS)" \
+    CXXCPP="$(CXX) -E $(CXXFLAGS)" \
+    MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(CONFIG_OPTS)"
+
+MODULE_CONFIG_ENV = $(MODULE_ENV)
+MODULE_BUILD_ENV = $(CONFIG_ENV)
+
+MODULE_INSTALL_MAKEFLAGS=bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 
 ### Include common rulesets
 include ../Makefile.inc
@@ -110,46 +116,14 @@ include ../Makefile.inc
 $(SOURCE_DIR)/config.mk: $(UNPACK_TARGET)
 	(cd $(SOURCE_DIR) ; \
 	chmod a+x builds/unix/configure builds/unix/mkinstalldirs builds/unix/install-sh ; \
-	    SHELL="/bin/bash" \
-	    MAKESHELL="/bin/bash" \
-	    CONFIG_SHELL="/bin/bash" \
-	    CC="$(CC)" \
-	    CXX="$(CXX)" \
-	    CPP="$(CC) -E $(LIB_CFLAGS)" \
-	    CXXCPP="$(CXX) -E $(CXXFLAGS)" \
-	    CFLAGS="$(LIB_CFLAGS)" \
-	    CXXFLAGS="$(LIB_CXXFLAGS)" \
-	    LDFLAGS="$(LIB_LDFLAGS)" \
-	    CFG="$(FT_CFG)" \
-	    LD="$(CC) $(LIB_CFLAGS) $(LIB_LDFLAGS)" \
-	    MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(CONFIG_OPTS)" \
-	    INSTALL="$(TOP)/common/install-sh -c" CPPROG="cp -p" \
-	    $(GNUMAKE) )
-
-# Build Freetype
-$(FT_LIB): $(CONFIGURE_TARGETS)
-	(cd $(SOURCE_DIR) ; \
-	    SHELL="/bin/bash" \
-	    MAKESHELL="/bin/bash" \
-	    CONFIG_SHELL="/bin/bash" \
-	    CC="$(CC)" \
-	    CXX="$(CXX)" \
-	    CPP="$(CC) -E $(LIB_CFLAGS)" \
-	    CXXCPP="$(CXX) -E $(CXXFLAGS)" \
-	    CFLAGS="$(LIB_CFLAGS)" \
-	    CXXFLAGS="$(LIB_CXXFLAGS)" \
-	    LDFLAGS="$(LIB_LDFLAGS)" \
-	    MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) \
-	    LDFLAGS="$(LIB_LDFLAGS)" \
-	    CFG="$(FT_CFG)" \
-	    LD="$(CC) $(LIB_CFLAGS) $(LIB_LDFLAGS)" \
-	    INSTALL="$(TOP)/common/install-sh -c" \
-	    $(GNUMAKE) )
+	$(CONFIG_ENV) $(GNUMAKE) )
 
 FT_bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 FT_libdir=$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)
 
-install_gen:: $(FT_LIB)
+# Have to override default_install since the -e causes our BUILD_DIR to
+# clash with the one in freetype's Makefiles
+install_freetype:: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)/usr/bin$(ARCHLIBSUBDIR)
 	( cd $(SOURCE_DIR)/builds/unix ; \
 	    ./config.status --file ftconfig ; \

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# @(#)Makefile	1.3	08/11/26
 #
 
 # Package name used in tarballs
@@ -103,6 +103,7 @@ $(XSS_AD):
 
 install_gen:: $(RSS_GLX_BIN) $(XSS_AD)
 	$(PROTODIR)$(XSS_DIR)/hacks/rss-glx_install.pl $(XSS_AD)
+	mkdir -p $(PROTODIR)$(X11_DIR)/share/man/man6
 	-case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac;
 	(cd $(SOURCE_DIR) ; \
 	 for m in $(SUNTOUCHED_MANPAGES) ; do \

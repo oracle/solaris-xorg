@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.1	08/08/08
+# @(#)Makefile.inc	1.2	08/11/26
 #
 
 PWD:sh=pwd
@@ -49,6 +49,9 @@ MODTYPE_CONFIGURE_DEPS=
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 MODTYPE_LD_OPTIONS=
+
+# Set comments in ELF binaries to help identify versions/builds
+MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc

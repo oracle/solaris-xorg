@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.95	08/11/18
+# @(#)Makefile.inc	1.96	08/11/26
 #
 
 ### Default rules
@@ -84,16 +84,24 @@ $(BUILD_TYPES_DEFAULT)	BUILD_TYPES=32
 
 # Set default rules if not set in module/modtype Makefile
 SOURCE_TARGETS_DEFAULT		= $(SOURCE_TARGETS_SET:yes=$(POUND_SIGN))
-$(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=default_source
+$(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=default_source \
+					$(MODTYPE_ADD_SOURCE_TARGETS) \
+					$(MODULE_ADD_SOURCE_TARGETS)
 
 CONFIGURE_TARGETS_DEFAULT	= $(CONFIGURE_TARGETS_SET:yes=$(POUND_SIGN))
-$(CONFIGURE_TARGETS_DEFAULT)	CONFIGURE_TARGETS=default_configure
+$(CONFIGURE_TARGETS_DEFAULT)	CONFIGURE_TARGETS=default_configure \
+					$(MODTYPE_ADD_CONFIGURE_TARGETS) \
+					$(MODULE_ADD_CONFIGURE_TARGETS)
 
 BUILD_TARGETS_DEFAULT		= $(BUILD_TARGETS_SET:yes=$(POUND_SIGN))
-$(BUILD_TARGETS_DEFAULT)	BUILD_TARGETS=default_build
+$(BUILD_TARGETS_DEFAULT)	BUILD_TARGETS=default_build \
+					$(MODTYPE_ADD_BUILD_TARGETS) \
+					$(MODULE_ADD_BUILD_TARGETS)
 
 INSTALL_TARGETS_DEFAULT		= $(INSTALL_TARGETS_SET:yes=$(POUND_SIGN))
-$(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install
+$(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install \
+					$(MODTYPE_ADD_INSTALL_TARGETS) \
+					$(MODULE_ADD_INSTALL_TARGETS)
 
 # Additional flags to pass to make in 32-bit & 64-bit builds
 BUILD_32_FLAGS= BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" \
@@ -397,7 +405,10 @@ DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
 	$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 	$(MODTYPE_INSTALL_MAKEFLAGS) $(MODULE_INSTALL_MAKEFLAGS) \
 
-default_install:: $(BUILD_TARGETS)
+# Dependencies for make install step
+INSTALL_DEPS = $(BUILD_TARGETS) $(MODTYPE_INSTALL_DEPS) $(MODULE_INSTALL_DEPS)
+
+default_install:: $(INSTALL_DEPS)
 	(cd $(SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 install)
@@ -411,6 +422,14 @@ install-in-subdir:
 	(cd $(subdir) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 $(subdir_cmd))
+
+# Set comments in ELF binaries to help identify versions/builds
+ELF_COMMENTS = $(MODULE_NAME) $(MODULE_VERSION)
+ELF_COMMENTS += $(MODTYPE_ELF_COMMENTS)$(MODULE_ELF_COMMENTS)
+
+set-elf-comments:
+	$(TOP)/common/set-elf-comments.pl -B $(TOP)/../packages/pkgversion \
+	 -M '$(ELF_COMMENTS)' $(SOURCE_DIR)
 
 
 ### Other tools/dependencies needed to build

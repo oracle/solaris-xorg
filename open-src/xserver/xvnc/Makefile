@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14 08/11/26
+# @(#)Makefile	1.15 08/11/26
 #
 
 # Package name used in tarballs
@@ -92,7 +92,7 @@ MODULE_COMPILER_SET=yes
 # the mixed codebases and unusual directory layout
 CONFIGURE_TARGETS=$(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 CONFIGURE_TARGETS_SET=yes
-BUILD_TARGETS=Xvnc_build
+BUILD_TARGETS=Xvnc_build set-elf-comments
 BUILD_TARGETS_SET=yes
 INSTALL_TARGETS=Xvnc_install
 INSTALL_TARGETS_SET=yes
