@@ -1,7 +1,7 @@
-diff -Nru old/dispswitch.c new/dispswitch.c
+diff -Nur old/dispswitch.c new/dispswitch.c
 --- dispswitch.c	1969-12-31 16:00:00.000000000 -0800
-+++ dispswitch.c	2008-10-28 15:25:06.702227000 -0800
-@@ -0,0 +1,1888 @@
++++ dispswitch.c	2008-11-21 18:30:33.551746000 -0800
+@@ -0,0 +1,1903 @@
 +/* 
 + * Copyright © 2001 Keith Packard, member of The XFree86 Project, Inc.
 + * Copyright © 2002 Hewlett Packard Company, Inc.
@@ -1347,6 +1347,17 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +
 +}
 +
++static Bool
++valid_mode(con_output_t *con, XRRModeInfo *mode) {
++    int i;
++
++    for (i = 0; i < con->nsmodes; i++)
++	if (con->smodes[i] == mode)
++	    return True;
++
++    return False;
++}
++
 +static void
 +do_init (void) 
 +{
@@ -1461,14 +1472,13 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +    if ((ncon != 2) || (start < 3))
 +	start = i;
 +
-+    if (((ncon < 2) || (ncon > 3)) && (i != 0)) {
-+	if ((ncon < 2) && verbose)
-+	    fprintf (stderr, "warn: too few (less than 2) connections: %d: can't switch\n", ncon);
++    if ((ncon < 1) || (ncon > 3)) {
++	if ((ncon < 1) && verbose)
++	    fprintf (stderr, "warn: no connection\n", ncon);
 +	else if ((ncon > 3) && verbose)
 +	    fprintf (stderr, "warn: too many (more than 3) connections: %d: can't switch\n", ncon);
 +	do_not_switch = True;
-+    } else
-+	do_not_switch = False;
++    }
 +
 +    did_init = True;
 +
@@ -1555,7 +1565,8 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +			con_outputs[1].smodes[0]);
 +	    }
 +	} else {
-+	    if (start_mode[start -1])
++	    if (start_mode[start -1] && valid_mode(&con_outputs[start -1], 
++		start_mode[start -1]))
 +		    new_mode[start -1] = start_mode[start -1]; 
 +	    else {
 +	        if (con_outputs[start -1].smodes[0])
@@ -1588,7 +1599,7 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +	}
 +
 +	if (single) {
-+	    if (start_mode[i])
++	    if (start_mode[i] && valid_mode(&con_outputs[i], start_mode[i]))
 +		new_mode[i] = start_mode[i];
 +	    else {
 +	        if (con_outputs[i].smodes[0])
@@ -1611,8 +1622,8 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +	}
 +    }
 +
-+    if ((ncon == 1) && (start == 0)) {
-+	if (start_mode[0])
++    if (ncon == 1) {
++	if (start_mode[0] && valid_mode(&con_outputs[0], start_mode[0]))
 +	    new_mode[0] = start_mode[0]; 
 +	else {
 +	    if (con_outputs[0].smodes[0])
@@ -1842,6 +1853,8 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +	    if (verbose)
 +		fprintf(stderr, "\na key press event was grabbed ...\n");
 +
++	    do_not_switch = False;
++
 +	    if (testrun || need_probe()) {
 +	    /* Too long since last switch, need to check output changes */
 +		if (probe_and_check_output_changes ()) {
@@ -1872,8 +1885,10 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +		    }
 +
 +		    do_init();
-+		}
-+	    }
++		} else if (ncon == 1)
++		    do_not_switch = True;
++	    } else if (ncon == 1)
++		do_not_switch = True;
 +
 +    	    if (!do_not_switch)
 +	    	if (!do_switch()) {
@@ -1890,7 +1905,7 @@ diff -Nru old/dispswitch.c new/dispswitch.c
 +    }
 +}
 +
-diff -Nru old/dispswitch.man new/dispswitch.man
+diff -Nur old/dispswitch.man new/dispswitch.man
 --- dispswitch.man	1969-12-31 16:00:00.000000000 -0800
 +++ dispswitch.man	2008-09-03 12:14:03.013107000 -0700
 @@ -0,0 +1,66 @@
@@ -1960,7 +1975,7 @@ diff -Nru old/dispswitch.man new/dispswitch.man
 +.sp
 +dispswitch -key F2 -mod "shift+control" 	defines hotkey to be 'shift + control + F2'
 +
-diff -Nru old/Makefile.am new/Makefile.am
+diff -Nur old/Makefile.am new/Makefile.am
 --- Makefile.am	2008-03-07 13:35:37.000000000 -0800
 +++ Makefile.am	2008-08-07 18:31:32.391601000 -0700
 @@ -19,16 +19,21 @@
