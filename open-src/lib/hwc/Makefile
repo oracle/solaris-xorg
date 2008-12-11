@@ -30,8 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/08/12
+# @(#)Makefile	1.2	08/12/10
 #
+
+# Match kernel build types
+BUILD_TYPES_SET=yes
+BUILD_TYPES_sparc=64
+BUILD_TYPES_i386=32 64
+BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 MODULE_NAME=hwc
 

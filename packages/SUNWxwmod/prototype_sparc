@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#       @(#)prototype_sparc	1.6	08/03/07 (c) Sun Microsystems, Inc.
+#       @(#)prototype_sparc	1.7	08/12/10 (c) Sun Microsystems, Inc.
 #
 #  X Window System 64-bit Kernel modules
 
@@ -37,7 +37,7 @@ i copyright
 i pkginfo
 i depend
  
-!HOME=../openwin/modules/sparcv9
+!HOME=../kernel/strmod/sparcv9
 
 !search  $HOME
 d none kernel						0755 root sys

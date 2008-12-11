@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 08/08/12
+# @(#)Makefile	1.2	08/12/10
 #
 
 
@@ -38,8 +38,8 @@ MACH:sh=uname -p
 
 CPPFLAGS = -I. -D_KERNEL -D_SUNDDI -D_SYSCALL32
 
-BUILD_i386_FLAGS = -Xt
-BUILD_sparc_FLAGS = -D_SYSCALL32_IMPL -Xa -xarch=v9 \
+BUILD_i386_FLAGS =
+BUILD_sparc_FLAGS = -D_SYSCALL32_IMPL \
 		    -xchip=ultra -Wc,-xcode=abs32
 
 CFLAGS = $(CPPFLAGS) $(BUILD_$(MACH)_FLAGS) $(ARCH_FLAGS) \
@@ -47,10 +47,16 @@ CFLAGS = $(CPPFLAGS) $(BUILD_$(MACH)_FLAGS) $(ARCH_FLAGS) \
 
 LD_OPTIONS=
 
-hwc: hwc.c hwcio.h
-	${CC} $(CFLAGS) hwc.c
-	/usr/ccs/bin/ld -r -o hwc hwc.o
+OBJECTS = hwc.o
+
+# "env -" is used to strip LD_* variables from the environment, since our
+# normal flags like -z text & -z defs are incompatible with building the
+# kernel module with -r.
+hwc: $(OBJECTS)
+	env - /usr/ccs/bin/ld -r -o $@ $(OBJECTS)
+
+hwc.o: hwc.c hwcio.h
 
 install:
-	mkdir -p $(DESTDIR)/usr/openwin/modules$(ARCHLIBSUBDIR)
-	$(INSTALL) -m 755 hwc $(DESTDIR)/usr/openwin/modules$(ARCHLIBSUBDIR)
+	mkdir -p $(DESTDIR)/kernel/strmod$(ARCHLIBSUBDIR)
+	$(INSTALL) -m 755 hwc $(DESTDIR)/kernel/strmod$(ARCHLIBSUBDIR)

@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.63 08/10/30
+# @(#)make_release_packages	1.64 08/12/10
 #
 #	Create and fill a package staging area for X
 #
@@ -214,12 +214,12 @@ done
 #   Now move into the package staging area and build the packages.
 cd ${PACKAGE_DIR}
 
-for D in etc usr var lib licenses ; do
+for D in etc usr var lib licenses kernel ; do
     /bin/rm -f $D
     /bin/ln -s ${PROTODIR}/$D $D
 done
 
-for D in openwin dt sfw bin ; do
+for D in openwin ; do
     /bin/rm -f $D
     /bin/ln -s ${PROTODIR}/usr/$D $D
 done
