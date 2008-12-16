@@ -38,7 +38,7 @@ MODULE_NAME=libpciaccess
 MODULE_VERSION=0.10.5
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = scanpci.man.patch
+SOURCE_PATCHES = scanpci.man.patch 6785726.patch
 
 # Library name
 LIBNAME=libpciaccess
