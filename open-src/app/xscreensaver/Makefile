@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.98	08/11/26
+# @(#)Makefile	1.99	08/12/15
 #
 
 # Package name used in tarballs
@@ -48,6 +48,7 @@ SOURCE_UNCOMPRESS=bzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	datarootdir.patch,-p1 \
 	Sun.app-defaults.patch \
 	GNOME-desktop.patch \
 	solaris-paths.patch \
@@ -83,7 +84,8 @@ SOURCE_PATCHES = \
 	bug-6670659.patch \
 	bug-6583247.patch \
 	xscreensaver-hush-misc.patch,-p1 \
-	bug-6698996.patch
+	bug-6698996.patch \
+	intltool.patch
 
 # We patch configure.ac & Makefile.am's so need to autoreconf
 AUTORECONF=yes
