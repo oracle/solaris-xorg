@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.90	08/10/24 SMI"
+# ident	"@(#)prototype	35.91	08/12/19 SMI"
 #
 #  X Window System include files
 
@@ -786,3 +786,8 @@ f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin
 # Data files & other miscellany are the same for both
 
 s none lib/$plat_64/pkgconfig/xbitmaps.pc=../../pkgconfig/xbitmaps.pc
+
+!search $HOME/X11/share/aclocal
+# Autoconf macro files
+d none share/aclocal					0755 root other 
+f none share/aclocal/xorg-macros.m4			0444 root bin

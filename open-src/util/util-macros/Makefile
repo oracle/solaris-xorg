@@ -28,17 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# @(#)Makefile	1.6	08/12/19
 #
 
 # Package name used in tarballs
 MODULE_NAME=util-macros
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.6
+MODULE_VERSION=1.2.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	XORG_SGML_PATH.patch,-p1
+SOURCE_PATCHES=	
 
 ### Include common rulesets
 include ../Makefile.inc
