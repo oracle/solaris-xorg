@@ -34,7 +34,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.5	08/11/10 SMI"
+# ident "@(#)buildit	1.6	08/12/19 SMI"
 #
 
 MAKE_PKGS=0
@@ -53,11 +53,12 @@ for i in $* ; do
 done
 
 
-# Add /usr/ccs/bin to path for compiler tools
-# Add /usr/openwin/bin to path for makedepend
-# Add JDS CBE, /usr/sfw/bin & /opt/sfw/bin to path for GNU tools
+# Add /usr/bin to front of path in case user has /usr/gnu/bin default
+# Add /usr/sbin to path for dtrace
+# Add /usr/X11/bin to path for makedepend
+# Add /opt/sfw/bin to path for lynx
 
-PATH=/usr/ccs/bin:$PATH:/usr/openwin/bin:/opt/jdsbld/bin:/usr/sfw/bin:/opt/sfw/bin
+PATH=/usr/bin:$PATH:/usr/sbin:/usr/X11/bin:/opt/sfw/bin
 export PATH
 
 [ -d log ] || mkdir log
@@ -73,9 +74,9 @@ echo "Building on: "
 uname -a
 echo "Using these compilers: "
 which cc gcc
-# Make sure Sun C compiler is at least version 5.8 (Studio 11)
+# Make sure Sun C compiler is at least version 5.9 (Studio 12)
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d)+.(\d)+|)) { \
-    print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 8) ) }'
+    print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 9) ) }'
 gcc -v
 
 echo "Using these environment variables: "

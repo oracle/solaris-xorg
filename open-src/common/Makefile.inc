@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.96	08/11/26
+# @(#)Makefile.inc	1.97	08/12/19
 #
 
 ### Default rules
@@ -293,7 +293,16 @@ default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
 ### Run configure scripts
 
 # Include Xorg autoconf macros when rebuilding configure scripts
-ACLOCAL_PATH=aclocal -I $(PROTODIR)$(X11_ACLOCAL_DIR)
+# and use automake 1.10 instead of the older 1.9.
+# /opt/jdsbld/share/aclocal is needed to get the nls.m4 from CBEgettext
+# due to: 6785384 SUNWgnu-gettext does not include autoconf m4 files
+ACLOCAL_PATH=/usr/bin/aclocal-1.10 
+ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
+	-I /usr/share/aclocal -I /usr/share/aclocal-1.10 \
+	-I /opt/jdsbld/share/aclocal
+AUTOMAKE_PATH=/usr/bin/automake-1.10
+AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
+	AUTOMAKE="$(AUTOMAKE_PATH)"
 
 # Dependencies for running configure to make a Makefile
 CONFIGURE_DEPS = $(UNPACK_TARGET) \
@@ -340,7 +349,7 @@ $(AUTOCONF_TARGET_DEFAULT)	AUTOCONF_TARGET=$(SOURCE_DIR)/Makefile
 $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	cd $(SOURCE_DIR) ; \
 	if [[ "$(AUTORECONF)" = "yes" ]] ; then \
-	     ACLOCAL="$(ACLOCAL_PATH)" autoreconf -v --install --force ; \
+	     $(AUTORECONF_ENV) autoreconf -v --install --force ; \
 	fi ; \
 	chmod a+x configure ; \
 	$(CONFIG_ENV) $(SHELL) ./configure $(CONFIG_OPTS) ; \

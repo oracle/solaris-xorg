@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	08/12/19
 #
 
 # Package name used in tarballs
@@ -42,6 +42,9 @@ MODULE_VERSION=4.0.3
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch
 
+# Need to autoreconf since soversion.patch changes Makefile.am's
+AUTORECONF=yes
+
 # Library name
 LIBNAME=Xfixes
 
@@ -50,8 +53,6 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
-
-
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

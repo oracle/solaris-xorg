@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/12/19
+# @(#)Makefile	1.7	08/12/19
 #
 
 # Package name used in tarballs
@@ -49,7 +49,7 @@ include ../Makefile.inc
 install_gen::
 	mkdir -p $(PROTODIR)$(X11_ACLOCAL_DIR)/
 	-rm -f $(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
-	SYSTEM_ACLOCAL_DIR=$$(aclocal --print-ac-dir) ; \
+	SYSTEM_ACLOCAL_DIR=$$($(ACLOCAL_PATH) --print-ac-dir) ; \
 	cp $${SYSTEM_ACLOCAL_DIR}/libtool.m4 \
 		$(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
 	gpatch -d $(PROTODIR)$(X11_ACLOCAL_DIR) < libtool-64.patch

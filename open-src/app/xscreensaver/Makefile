@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.99	08/12/15
+# @(#)Makefile	1.100	08/12/19
 #
 
 # Package name used in tarballs
@@ -133,14 +133,18 @@ MODULE_CFLAGS=-fsimple=2 -nofstore $(XS_ARCH_FLAGS)
 # Configure/Make variables to override
 # Set PERL to /usr/perl5/bin so it uses that path to perl for scripts
 # as required by Sun rules for using the bundled version of perl
-# /opt/sfw/bin must be ahead of /usr/bin to make sure we get GNU xgettext
+# XGETTEXT must be set to make sure we get GNU xgettext
 # since intltool-update doesn't work with Solaris xgettext (see bugs
 # 4812320 & 4826523)
 MODULE_CONFIG_ENV= \
-	PATH=/usr/perl5/bin:/usr/sfw/bin:/opt/jdsbld/bin:/opt/sfw/bin:$(PATH) \
+	PATH=/usr/perl5/bin:$(PATH) \
+	XGETTEXT=/usr/gnu/bin/xgettext \
 	GNOME_DATADIR='$${prefix}/lib/xscreensaver/config' \
 	GLADE_DATADIR='$${prefix}/lib/xscreensaver/config' \
 	PERL=/usr/perl5/bin/perl
+
+MODULE_BUILD_ENV= \
+	XGETTEXT=/usr/gnu/bin/xgettext
 
 MODULE_MAKEFLAGS=-e install_prefix=$(PROTODIR) 
 
@@ -169,10 +173,8 @@ source_gen:: $(LNDIR)
 
 $(XS_POT): $(CONFIGURE_TARGET)
 	(cd $(SOURCE_DIR)/po ; \
-	 PATH=/opt/jdsbld/bin:/opt/sfw/bin:$(PATH) ; export PATH ; \
-	 $(MAKE) $(MAKEFLAGS) $(MODULE_MAKEFLAGS) generate_potfiles_in ; \
-	 $(MAKE) $(MAKEFLAGS) $(MODULE_MAKEFLAGS) POTFILES ; \
-	 $(MAKE) $(MAKEFLAGS) $(MODULE_MAKEFLAGS) xscreensaver.pot )
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(MODULE_MAKEFLAGS) \
+		generate_potfiles_in POTFILES xscreensaver.pot )
 
 # Add Sun attributes section to man pages
 $(XS_MAN):

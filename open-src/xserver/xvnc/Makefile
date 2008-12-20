@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.15 08/11/26
+# @(#)Makefile	1.16 08/12/19
 #
 
 # Package name used in tarballs
@@ -190,9 +190,11 @@ MODULE_LDFLAGS = $(LDPATH_ADDITIONS)
 
 # Run configure scripts for vnc sources
 $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/common && autoreconf --install --force && \
+	(cd $(SOURCE_DIR)/common && \
+		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
-	(cd $(SOURCE_DIR)/unix && autoreconf --install --force && \
+	(cd $(SOURCE_DIR)/unix && \
+		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
 
 # Run configure script for Xvnc
@@ -200,8 +202,8 @@ $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
 # flags, but need to make sure we use large pic flags (-KPIC/-fPIC)
 $(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/unix/Makefile
 	(cd $(XORG_BUILD_DIR) &&  \
-	 ACLOCAL="$(ACLOCAL_PATH)" autoreconf --install --force && \
-	 $(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
+		$(AUTORECONF_ENV) autoreconf --install --force && \
+		$(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
 	$(TOP)/common/delibtoolize.pl -P -s $(SOURCE_DIR)
 
 Xvnc_build: $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
