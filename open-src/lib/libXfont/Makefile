@@ -30,25 +30,20 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	08/09/15
+# @(#)Makefile	1.17	08/12/22
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXfont
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.3
+MODULE_VERSION=1.3.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	4510977.patch,-p1 \
-	bzip2.patch,-p1 \
 	6206898.patch \
 	ps-fonts.patch \
 	htons-inline.patch
-
-# bzip2 patch changes configure.ac, requires autoreconf
-AUTORECONF=yes
 
 # Library name
 LIBNAME=Xfont
