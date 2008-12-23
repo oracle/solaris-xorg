@@ -30,18 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/08/08
+# @(#)Makefile	1.8	08/12/22
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.81.0
+MODULE_VERSION=0.87.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	6554541.patch
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
