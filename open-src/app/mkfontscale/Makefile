@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/09/15
+# @(#)Makefile	1.7	08/12/19
 #
 
 # Package name used in tarballs
 MODULE_NAME=mkfontscale
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -46,6 +46,9 @@ SOURCE_PATCHES =
 SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwfsw
 MODULE_STABILITY=Uncommitted
+
+# Additional configure script options
+MODULE_CONFIG_OPTS= --with-bzip2
 
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
