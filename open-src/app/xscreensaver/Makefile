@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.100	08/12/19
+# @(#)Makefile	1.101	08/12/23
 #
 
 # Package name used in tarballs
@@ -42,7 +42,7 @@ MODULE_VERSION=5.01
 # Download site for source - master site no longer carries 5.01 so we use
 # a mirror site until we upgrade to a newer version
 #SOURCE_URL=http://www.jwz.org/xscreensaver/$(SOURCE_TARBALL_NAME)
-SOURCE_URL=http://www.genunix.org/distributions/belenix_site/binfiles/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=bzcat
 
