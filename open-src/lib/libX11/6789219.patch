@@ -1,0 +1,20 @@
+--- modules/om/generic/omGeneric.c	Tue Dec 23 22:27:59 2008
++++ modules/om/generic/omGeneric.c	Fri Dec 26 06:58:18 2008
+@@ -864,7 +864,7 @@
+ 	return True;
+ 
+     /* This may mot be needed anymore as XListFonts() takes care of this */
+-    while (num_fields < 12) {
++/*    while (num_fields < 12) {
+ 	if ((last - buf) > (XLFD_MAX_LEN - 2))
+ 	    return -1;
+ 	*last = '*';
+@@ -875,7 +875,7 @@
+ 	if ((font_data->xlfd_name = get_font_name(oc, buf)) != NULL)
+ 	    return True;	    
+     }
+-    
++ */   
+ 
+     return False;
+ }
