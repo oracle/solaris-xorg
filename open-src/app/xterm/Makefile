@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xterm 1.x Makefile
+# xterm Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,7 +36,7 @@
 MODULE_NAME=xterm
 
 # Version number (used in path names)
-MODULE_VERSION=236
+MODULE_VERSION=239
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
