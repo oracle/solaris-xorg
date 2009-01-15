@@ -41,6 +41,7 @@ MODULE_VERSION=0.10.5
 SOURCE_PATCHES = \
 	sparc-byteswap.patch,-p1 \
 	6785726.patch \
+	6789879.patch \
 	scanpci.man.patch 
 
 # Library name
