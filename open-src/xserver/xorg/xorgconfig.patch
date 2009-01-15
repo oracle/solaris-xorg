@@ -1,5 +1,6 @@
---- hw/xfree86/utils/xorgconfig/xorgconfig.c	2006-10-11 15:42:19.000000000 -0700
-+++ hw/xfree86/xf86config/xorgconfig.c	2006-03-28 14:31:38.614507000 -0800
+diff -urp -x '*~' -x '*.orig' hw/xfree86/utils/xorgconfig/xorgconfig.c hw/xfree86/utils/xorgconfig/xorgconfig.c
+--- hw/xfree86/utils/xorgconfig/xorgconfig.c	2008-09-23 11:24:59.000000000 -0700
++++ hw/xfree86/utils/xorgconfig/xorgconfig.c	2008-09-23 16:32:21.769251000 -0700
 @@ -1,3 +1,30 @@
 +/* Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
 + *
@@ -28,12 +29,12 @@
 + * or other dealings in this Software without prior written authorization
 + * of the copyright holder.
 + */
- 
  /*
   * This is a configuration program that will create a base XF86Config
-@@ -113,6 +144,15 @@
- static int getuid() { return 0; }
- #endif
+  * file based on menu choices. Its main feature is that clueless users
+@@ -112,6 +139,15 @@
+ 
+ #include "cards.h"
  
 +#ifdef SUNSOFT  /* setuid support for running under RBAC */
 +#include <fcntl.h>
@@ -45,9 +46,9 @@
 +static void configdir_check(void);
 +#endif
  
- #include <X11/Xlib.h>
- #include <X11/extensions/XKBstr.h>
-@@ -262,7 +302,11 @@
+ /*
+  * Define the following to 310 to remove references to XFree86 features that
+@@ -249,7 +285,11 @@ static char *intro_text =
  "This program will create a basic " CONFIGNAME " file, based on menu selections\n"
  "you make.  It will ask for a pathname when it is ready to write the file.\n"
  "\n"
@@ -59,7 +60,7 @@
  "no " CONFIGNAME " file is present there, " __XSERVERNAME__" will probe the system to\n"
  "autoconfigure itself.  You can run " __XSERVERNAME__ " -configure to generate a " CONFIGNAME "\n"
  "file based on the results of autoconfiguration, or let this program\n"
-@@ -1765,6 +1807,7 @@
+@@ -1702,6 +1742,7 @@ skipclockprobing:
  	config_virtual = 0;
  	for (;;) {
  	 	char modes[128];
@@ -67,7 +68,7 @@
  
  		emptylines();
  
-@@ -1798,24 +1841,29 @@
+@@ -1735,24 +1776,29 @@ skipclockprobing:
  		printf("\n");
  
  		modes[0] = '\0';
@@ -111,7 +112,7 @@
  		}
  		switch (c) {
  		case 0 :
-@@ -1946,10 +1994,21 @@
+@@ -1883,10 +1929,21 @@ static char *XF86Config_firstchunk_text 
  "#    Load        \"type1\"\n"
  #endif
  "    Load        \"freetype\"\n"
@@ -133,7 +134,7 @@
  "# This loads the DRI module\n"
  "#    Load       \"dri\"\n"
  "\n"
-@@ -2558,14 +2615,42 @@
+@@ -2463,20 +2520,71 @@ write_fontpath_section(FILE *f)
  static int 
  write_XF86Config(char *filename)
  {
@@ -177,9 +178,8 @@
 +
 +	if ((fd < 0) || (f == NULL)) {
  		printf("Failed to open filename for writing.\n");
- #ifndef __EMX__
  		if (getuid() != 0)
-@@ -2574,6 +2659,29 @@
+ 			printf("Maybe you need to be root to write to the specified directory?\n");
  		return(1);
  	}
  
@@ -209,10 +209,10 @@
  	fprintf(f, "%s", XF86Config_firstchunk_text);
  	write_fontpath_section(f);
  	fprintf(f, "%s", XF86Config_fontpathchunk_text);
-@@ -2800,7 +2908,11 @@
+@@ -2702,7 +2810,11 @@ ask_XF86Config_location(void) {
+ "I am going to write the " CONFIGNAME " file now. Make sure you don't accidently\n"
  "overwrite a previously configured one.\n\n");
  
- #ifndef __EMX__
 +#ifdef SUNSOFT
 +	if ((geteuid() == 0) || euid_changed) {
 +#else
@@ -221,7 +221,7 @@
  #ifdef PREFER_XF86CONFIG_IN_ETC
  		filename = Strdup("/etc/X11/" XCONFIGFILE);
  		filename = append_version(filename);
-@@ -2811,6 +2923,7 @@
+@@ -2713,6 +2825,7 @@ ask_XF86Config_location(void) {
  			return filename;
  #endif
  
@@ -229,7 +229,7 @@
  		if (filename)
  			free(filename);
  		filename = Strdup(TREEROOTCFG "/" XCONFIGFILE);
-@@ -2821,6 +2934,7 @@
+@@ -2723,6 +2836,7 @@ ask_XF86Config_location(void) {
  		printf("\n");
  		if (answerisyes(s))
  			return filename;
@@ -237,7 +237,7 @@
  
  #ifndef PREFER_XF86CONFIG_IN_ETC
  		if (filename)
-@@ -2936,12 +3050,18 @@
+@@ -2824,12 +2938,18 @@ static void
  configdir_check(void)
  {
  	/* /etc/X11 may not exist on some systems */
@@ -256,7 +256,7 @@
  	}
  }
  
-@@ -2952,6 +3072,19 @@
+@@ -2840,6 +2960,19 @@ configdir_check(void)
  
  int 
  main(int argc, char *argv[]) {
@@ -276,7 +276,7 @@
      
  	createtmpdir();
  
-@@ -2966,9 +3099,11 @@
+@@ -2854,9 +2987,11 @@ main(int argc, char *argv[]) {
  
  	emptylines();
  

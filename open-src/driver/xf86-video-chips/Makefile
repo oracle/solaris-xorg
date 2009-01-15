@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/08/08
+# @(#)Makefile	1.8	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-chips
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -53,7 +53,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa \
+	-lfb -lint10 -lpciaccess  -lshadowfb -lvbe -lvgahw -lxaa \
 	-lxf1bpp -lxf4bpp -lxf8_16bpp
 
 include ../Makefile.inc

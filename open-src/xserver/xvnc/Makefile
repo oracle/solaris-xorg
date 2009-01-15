@@ -1,10 +1,10 @@
 ###############################################################################
 #
 # Xvnc server Makefile
-# Based on Fedora's vnc.spec from
-#  http://cvs.fedoraproject.org/viewcvs/rpms/vnc/
+# Based on Fedora's vnc.spec revision 1.202 from
+# http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc.spec
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16 08/12/19
+# @(#)Makefile	1.17 09/01/14
 #
 
 # Package name used in tarballs
@@ -59,20 +59,31 @@ SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	vnc-Makefile.am.patch,-p1 \
 	vnc-use-fb.patch,-p1 \
 	vnc-restart.patch,-p1 \
+	vnc-vncpasswd.patch,-p1 \
 	vnc-modular-xorg.patch,-p1 \
+	vnc-xorg.patch,-p1 \
 	vnc-nohttpd.patch,-p1 \
-	vnc-int10.patch,-p1 \
 	vnc-64bit.patch,-p1 \
 	vnc-render.patch,-p1 \
 	vnc-autotools.patch,-p1 \
 	vnc-autotools-compile.patch,-p1 \
 	vnc-always_use_fb.patch,-p1 \
 	vnc-24bit.patch,-p1 \
-	vnc-ipv6.patch,-p1 \
+	vnc-gcc43.patch,-p1 \
+	vnc-privates.patch,-p1 \
+	vnc-mieq.patch,-p1 \
+	vnc-allocate.patch,-p1 \
+	vnc-paint.patch,-p1 \
+	vnc-selections.patch,-p1 \
+	vnc-scrollbars.patch,-p1 \
+	vnc-bounds.patch,-p1 \
+	vnc-includes.patch,-p1 \
+	vnc-viewerIPv6.patch,-p1 \
+	vnc-fasterPrivates.patch \
 	c++public.patch \
-	build-without-Xorg.patch \
 	solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
@@ -119,8 +130,6 @@ source_gen:: $(LNDIR)
 	fi
 	mv $(XORG_SOURCE_DIR) $(XORG_BUILD_DIR)
 	(cd $(XORG_BUILD_DIR) && $(LNDIR) ../../../../../xorg/sun-src)
-	(mkdir -p $(XORG_BUILD_DIR)/GL/mesa/vbo)
-	(cp ../xorg/sun-src/mesa/Makefile.am $(XORG_BUILD_DIR)/GL/mesa/vbo)
 
 
 include ../Makefile.inc
@@ -135,15 +144,7 @@ source_gen::
 		unix/xc/programs/Xserver/Xvnc.man \
 		unix/xc/programs/Xserver/vnc/*.h \
 		unix/xc/programs/Xserver/vnc/*.cc \
-		unix/xorg-x11-server-source/hw/vnc/ ; \
-	cp -p unix/xorg-x11-server-source/cfb/cfb.h \
-		unix/xorg-x11-server-source/fb/fb.h \
-		unix/xorg-x11-server-source/fb/fbrop.h \
-		unix/xorg-x11-server-source/hw/vnc/ ; \
-	perl -i -p -e 's,\b(xor|and)\b,c_$$1,g' \
-		unix/xorg-x11-server-source/hw/vnc/cfb.h \
-		unix/xorg-x11-server-source/hw/vnc/fb.h \
-		unix/xorg-x11-server-source/hw/vnc/fbrop.h )
+		unix/xorg-x11-server-source/hw/vnc/ )
 	(cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		-a '{Availability, SUNWvncviewer} {Interface Stability, Volatile}' \
@@ -160,8 +161,8 @@ VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \
 
 # Command line options to GNU autoconf configure script for Xvnc
 XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS) \
-        --disable-builddocs --with-int10=stub \
-	--disable-dga --disable-xfree86-utils --disable-dri \
+	--disable-builddocs --with-int10=stub \
+	--disable-dga --disable-xfree86-utils --disable-config-hal \
 	--disable-xorg --disable-dmx --disable-xvfb --disable-xnest \
 	--disable-xprint --disable-kdrive
 
@@ -182,11 +183,14 @@ LDPATH_ADDITIONS_sparc = \
         -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
 LDPATH_ADDITIONS_i386 = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
-        -R$(X11_SERVERMODS_DIR)/extensions/mesa/$(ARCHLIBSUBDIR) \
         -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
 LDPATH_ADDITIONS=$(LDPATH_ADDITIONS_$(MACH))
 
 MODULE_LDFLAGS = $(LDPATH_ADDITIONS)
+
+# Needed by unix/xorg-x11-server-source/hw/vnc/Makefile.am to find libpixman
+# headers in proto area after solaris-port.patch is applied
+MODULE_MAKEFLAGS = PROTODIR=$(PROTODIR)
 
 # Run configure scripts for vnc sources
 $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
@@ -207,14 +211,17 @@ $(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/unix/Makefile
 	$(TOP)/common/delibtoolize.pl -P -s $(SOURCE_DIR)
 
 Xvnc_build: $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
-	(cd $(SOURCE_DIR)/common ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
-	(cd $(SOURCE_DIR)/unix ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
-	(cd $(XORG_BUILD_DIR) ; $(BUILD_ENV) $(MAKE) $(MAKEFLAGS))
+	(cd $(SOURCE_DIR)/common ; \
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+	(cd $(SOURCE_DIR)/unix ; \
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+	(cd $(XORG_BUILD_DIR) ; \
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
 Xvnc_install::
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
-	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) -e install \
-	 DESTDIR=$(PROTODIR) CPPROG="cp -p" )
+	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
+	 CPPROG="cp -p" install)
 	mkdir -p $(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR) \
 		$(PROTODIR)/usr/share/man/man1 \
 		$(PROTODIR)$(X11_MAN_DIR)/man/man1 \

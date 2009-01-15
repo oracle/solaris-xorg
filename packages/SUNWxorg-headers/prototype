@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.11     08/05/30 SMI"
+# ident "@(#)prototype 1.12     09/01/14 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -158,14 +158,6 @@ f none X11/include/xorg/atKeynames.h			0444 root bin
 f none X11/include/xorg/bstore.h			0444 root bin
 f none X11/include/xorg/bstorestr.h			0444 root bin
 f none X11/include/xorg/bt829.h				0444 root bin
-f none X11/include/xorg/cfb.h				0444 root bin
-f none X11/include/xorg/cfb16.h				0444 root bin
-f none X11/include/xorg/cfb32.h				0444 root bin
-f none X11/include/xorg/cfb8_16.h			0444 root bin
-f none X11/include/xorg/cfb8_32.h			0444 root bin
-f none X11/include/xorg/cfbmap.h			0444 root bin
-f none X11/include/xorg/cfbmskbits.h			0444 root bin
-f none X11/include/xorg/cfbunmap.h			0444 root bin
 f none X11/include/xorg/closestr.h			0444 root bin
 f none X11/include/xorg/closure.h			0444 root bin
 f none X11/include/xorg/colormap.h			0444 root bin
@@ -178,11 +170,14 @@ f none X11/include/xorg/damagestr.h			0444 root bin
 f none X11/include/xorg/dbestruct.h			0444 root bin
 f none X11/include/xorg/dgaproc.h			0444 root bin
 f none X11/include/xorg/dix.h				0444 root bin
+f none X11/include/xorg/dixaccess.h			0444 root bin
 f none X11/include/xorg/dixevents.h			0444 root bin
 f none X11/include/xorg/dixfont.h			0444 root bin
 f none X11/include/xorg/dixfontstr.h			0444 root bin
 f none X11/include/xorg/dixgrabs.h			0444 root bin
 f none X11/include/xorg/dixstruct.h			0444 root bin
+f none X11/include/xorg/dri.h				0444 root bin
+f none X11/include/xorg/dristruct.h			0444 root bin
 f none X11/include/xorg/edid.h				0444 root bin
 f none X11/include/xorg/exa.h				0444 root bin
 f none X11/include/xorg/exevents.h			0444 root bin
@@ -200,6 +195,7 @@ f none X11/include/xorg/gc.h				0444 root bin
 f none X11/include/xorg/gcstruct.h			0444 root bin
 f none X11/include/xorg/globals.h			0444 root bin
 f none X11/include/xorg/glyphstr.h			0444 root bin
+f none X11/include/xorg/hotplug.h			0444 root bin
 f none X11/include/xorg/i2c_def.h			0444 root bin
 f none X11/include/xorg/input.h				0444 root bin
 f none X11/include/xorg/inputstr.h			0444 root bin
@@ -232,14 +228,17 @@ f none X11/include/xorg/picture.h			0444 root bin
 f none X11/include/xorg/picturestr.h			0444 root bin
 f none X11/include/xorg/pixmap.h			0444 root bin
 f none X11/include/xorg/pixmapstr.h			0444 root bin
+f none X11/include/xorg/privates.h			0444 root bin
 f none X11/include/xorg/property.h			0444 root bin
 f none X11/include/xorg/propertyst.h			0444 root bin
 f none X11/include/xorg/randrstr.h			0444 root bin
 f none X11/include/xorg/region.h			0444 root bin
 f none X11/include/xorg/regionstr.h			0444 root bin
+f none X11/include/xorg/registry.h			0444 root bin
 f none X11/include/xorg/renderedge.h			0444 root bin
 f none X11/include/xorg/resource.h			0444 root bin
 f none X11/include/xorg/rgb.h				0444 root bin
+f none X11/include/xorg/sarea.h				0444 root bin
 f none X11/include/xorg/screenint.h			0444 root bin
 f none X11/include/xorg/scrnintstr.h			0444 root bin
 f none X11/include/xorg/selection.h			0444 root bin
@@ -256,26 +255,23 @@ f none X11/include/xorg/uda1380.h			0444 root bin
 f none X11/include/xorg/validate.h			0444 root bin
 f none X11/include/xorg/vbe.h				0444 root bin
 f none X11/include/xorg/vbeModes.h			0444 root bin
-f none X11/include/xorg/vdif.h				0444 root bin
 f none X11/include/xorg/vgaHW.h				0444 root bin
+f none X11/include/xorg/wfbrename.h			0444 root bin
 f none X11/include/xorg/window.h			0444 root bin
 f none X11/include/xorg/windowstr.h			0444 root bin
 f none X11/include/xorg/xaa.h				0444 root bin
 f none X11/include/xorg/xaaWrapper.h			0444 root bin
 f none X11/include/xorg/xaalocal.h			0444 root bin
 f none X11/include/xorg/xaarop.h			0444 root bin
-f none X11/include/xorg/xf1bpp.h			0444 root bin
-f none X11/include/xorg/xf4bpp.h			0444 root bin
 f none X11/include/xorg/xf86.h				0444 root bin
 f none X11/include/xorg/xf86Crtc.h			0444 root bin
 f none X11/include/xorg/xf86Cursor.h			0444 root bin
 f none X11/include/xorg/xf86DDC.h			0444 root bin
 f none X11/include/xorg/xf86Modes.h			0444 root bin
 f none X11/include/xorg/xf86Module.h			0444 root bin
-f none X11/include/xorg/xf86Optrec.h			0444 root bin
-f none X11/include/xorg/xf86OSKbd.h			0444 root bin
-f none X11/include/xorg/xf86OSmouse.h			0444 root bin
 f none X11/include/xorg/xf86Opt.h			0444 root bin
+f none X11/include/xorg/xf86Optrec.h			0444 root bin
+f none X11/include/xorg/xf86OSmouse.h			0444 root bin
 f none X11/include/xorg/xf86Parser.h			0444 root bin
 f none X11/include/xorg/xf86Pci.h			0444 root bin
 f none X11/include/xorg/xf86PciInfo.h			0444 root bin
@@ -291,8 +287,6 @@ f none X11/include/xorg/xf86Version.h			0444 root bin
 f none X11/include/xorg/xf86Xinput.h			0444 root bin
 f none X11/include/xorg/xf86_OSlib.h			0444 root bin
 f none X11/include/xorg/xf86_OSproc.h			0444 root bin
-f none X11/include/xorg/xf86_ansic.h			0444 root bin
-f none X11/include/xorg/xf86_libc.h			0444 root bin
 f none X11/include/xorg/xf86cmap.h			0444 root bin
 f none X11/include/xorg/xf86fbman.h			0444 root bin
 f none X11/include/xorg/xf86i2c.h			0444 root bin
@@ -303,6 +297,9 @@ f none X11/include/xorg/xf86xv.h			0444 root bin
 f none X11/include/xorg/xf86xvmc.h			0444 root bin
 f none X11/include/xorg/xf86xvpriv.h			0444 root bin
 f none X11/include/xorg/xisb.h				0444 root bin
+f none X11/include/xorg/xkbfile.h			0444 root bin
+f none X11/include/xorg/xkbsrv.h			0444 root bin
+f none X11/include/xorg/xkbstr.h			0444 root bin
 f none X11/include/xorg/xorg-server.h			0444 root bin
 f none X11/include/xorg/xorgVersion.h			0444 root bin
 f none X11/include/xorg/xvdix.h				0444 root bin

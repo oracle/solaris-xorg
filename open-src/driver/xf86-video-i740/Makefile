@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/08/08
+# @(#)Makefile	1.8	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-i740
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -51,7 +51,7 @@ MODULE_STABILITY=Volatile
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lvbe -lvgahw -lxaa -lm
+	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa -lm
 
 include ../Makefile.inc
 

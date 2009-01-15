@@ -1,8 +1,0 @@
---- GL/glx/Makefile.am	2006-10-11 15:42:19.000000000 -0700
-+++ GL/glx/Makefile.am	2006-11-13 13:23:38.013703000 -0800
-@@ -80,3 +80,5 @@
-         swap_interval.c \
-         unpack.h \
-         xfont.c
-+
-+libglx_la_LDFLAGS = -z textwarn

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.7	08/10/06
+# @(#)Makefile.inc	1.8	09/01/14
 #
 
 ### Makefile settings/rules common to all X.Org font modules
@@ -62,8 +62,7 @@ MODTYPE_CONFIG_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
 
 # Environment variable options needed when building
 MODTYPE_BUILD_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
-	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" \
-	PROTODIR="$(PROTODIR)"
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)"
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc

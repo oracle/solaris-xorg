@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.16     08/03/18 SMI"
+# ident "@(#)prototype_i386 1.17     09/01/14 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -54,7 +54,6 @@ f none X11/lib/modules/drivers/chips_drv.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_alpine.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_drv.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_laguna.so 0755 root bin
-f none X11/lib/modules/drivers/cyrix_drv.so 0755 root bin
 f none X11/lib/modules/drivers/glint_drv.so 0755 root bin
 f none X11/lib/modules/drivers/i128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/i740_drv.so 0755 root bin
@@ -63,8 +62,8 @@ s none X11/lib/modules/drivers/i810_drv.so=intel_drv.so
 f none X11/lib/modules/drivers/mach64_drv.so 0755 root bin
 f none X11/lib/modules/drivers/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/neomagic_drv.so 0755 root bin
-f none X11/lib/modules/drivers/nsc_drv.so 0755 root bin
 f none X11/lib/modules/drivers/nv_drv.so 0755 root bin
+f none X11/lib/modules/drivers/openchrome_drv.so 0755 root bin
 f none X11/lib/modules/drivers/radeon_drv.so 0755 root bin
 f none X11/lib/modules/drivers/radeonhd_drv.so 0755 root bin
 f none X11/lib/modules/drivers/r128_drv.so 0755 root bin
@@ -79,8 +78,7 @@ f none X11/lib/modules/drivers/tga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/trident_drv.so 0755 root bin
 f none X11/lib/modules/drivers/tseng_drv.so 0755 root bin
 f none X11/lib/modules/drivers/vesa_drv.so 0755 root bin
-f none X11/lib/modules/drivers/vga_drv.so 0755 root bin
-f none X11/lib/modules/drivers/via_drv.so 0755 root bin
+s none X11/lib/modules/drivers/via_drv.so=openchrome_drv.so
 f none X11/lib/modules/drivers/vmware_drv.so 0755 root bin
 
 !search $HOME/lib/modules/amd64/drivers
@@ -93,15 +91,15 @@ f none X11/lib/modules/drivers/amd64/radeon_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/radeonhd_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/r128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/vesa_drv.so 0755 root bin
-f none X11/lib/modules/drivers/amd64/vga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/ast_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/intel_drv.so 0755 root bin
 s none X11/lib/modules/drivers/amd64/i810_drv.so=intel_drv.so
 f none X11/lib/modules/drivers/amd64/mach64_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/nv_drv.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/openchrome_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/trident_drv.so 0755 root bin
-f none X11/lib/modules/drivers/amd64/via_drv.so 0755 root bin
+s none X11/lib/modules/drivers/amd64/via_drv.so=openchrome_drv.so
 f none X11/lib/modules/drivers/amd64/vmware_drv.so 0755 root bin
 
 !search $HOME/lib/modules/multimedia
@@ -131,3 +129,42 @@ f none X11/lib/modules/multimedia/amd64/theatre_drv.so 0755 root bin
 f none X11/lib/modules/multimedia/amd64/uda1380_drv.so 0755 root bin
 
 
+!search $HOME/share/doc
+f none X11/share/doc/README.I128 0444 root bin
+f none X11/share/doc/README.SiS 0444 root bin
+f none X11/share/doc/README.apm 0444 root bin
+f none X11/share/doc/README.ati 0444 root bin
+f none X11/share/doc/README.chips 0444 root bin
+f none X11/share/doc/README.i740 0444 root bin
+f none X11/share/doc/README.intel 0444 root bin
+f none X11/share/doc/README.r128 0444 root bin
+f none X11/share/doc/README.rendition 0444 root bin
+f none X11/share/doc/README.s3virge 0444 root bin
+
+!search $HOME/share/man/man7
+f none X11/share/man/man7/apm.7 0444 root bin
+f none X11/share/man/man7/ati.7 0444 root bin
+f none X11/share/man/man7/chips.7 0444 root bin
+f none X11/share/man/man7/cirrus.7 0444 root bin
+f none X11/share/man/man7/glint.7 0444 root bin
+f none X11/share/man/man7/i128.7 0444 root bin
+f none X11/share/man/man7/i740.7 0444 root bin
+f none X11/share/man/man7/i810.7 0444 root bin
+f none X11/share/man/man7/intel.7 0444 root bin
+f none X11/share/man/man7/mga.7 0444 root bin
+f none X11/share/man/man7/neomagic.7 0444 root bin
+f none X11/share/man/man7/nv.7 0444 root bin
+f none X11/share/man/man7/openchrome.7=$HOME/share/man/man4/openchrome.4 0444 root bin
+f none X11/share/man/man7/r128.7 0444 root bin
+f none X11/share/man/man7/radeon.7 0444 root bin
+f none X11/share/man/man7/radeonhd.7 0444 root bin
+f none X11/share/man/man7/rendition.7 0444 root bin
+f none X11/share/man/man7/s3virge.7 0444 root bin
+f none X11/share/man/man7/savage.7 0444 root bin
+f none X11/share/man/man7/siliconmotion.7 0444 root bin
+f none X11/share/man/man7/sis.7 0444 root bin
+f none X11/share/man/man7/tdfx.7 0444 root bin
+f none X11/share/man/man7/trident.7 0444 root bin
+f none X11/share/man/man7/tseng.7 0444 root bin
+f none X11/share/man/man7/vesa.7 0444 root bin
+f none X11/share/man/man7/vmware.7 0444 root bin

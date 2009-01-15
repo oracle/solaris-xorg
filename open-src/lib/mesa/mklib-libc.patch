@@ -1,0 +1,100 @@
+From 3ff63b8a12e2d266b59a22e380cb4f40c00cc895 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 16 Jul 2008 12:56:29 -0700
+Subject: [PATCH] Move Solaris -lc linking flag for shared objects from configure.ac to mklib
+---
+ bin/mklib    |    5 +++++
+ configure.ac |   23 ++++++-----------------
+ 2 files changed, 11 insertions(+), 17 deletions(-)
+
+diff --git a/bin/mklib b/bin/mklib
+index a25d5bf..aaae3a8 100755
+--- a/bin/mklib
++++ b/bin/mklib
+@@ -384,6 +384,11 @@ #	    rm -f exptmp
+             if [ "${ALTOPTS}" ] ; then
+                 OPTS=${ALTOPTS}
+             fi
++
++	    # Solaris linker requires explicitly listing the Standard C & C++
++	    # libraries in the link path when building shared objects
++	    DEPS="${DEPS} -lc"
++
+ 	    # for debug:
+ 	    #echo "mklib: linker is" ${LINK} ${OPTS}
+ 	    if [ $NOPREFIX = 1 ] ; then
+diff --git a/configure.ac b/configure.ac
+index 463821b..5d89bfa 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -345,17 +345,6 @@ if test "x$enable_selinux" = "xyes"; the
+     DEFINES="$DEFINES -DMESA_SELINUX"
+ fi
+ 
+-dnl OS-specific libraries
+-OS_LIBS=""
+-case "$host_os" in
+-solaris*)
+-    OS_LIBS="-lc"
+-    if test "x$GXX" != xyes; then
+-        OS_CPLUSPLUS_LIBS="-lCrun $OS_LIBS"
+-    fi
+-    ;;
+-esac
+-
+ dnl
+ dnl Driver configuration. Options are xlib, dri and osmesa right now.
+ dnl More later: directfb, fbdev, ...
+@@ -514,7 +503,7 @@ xlib)
+         X11_INCLUDES="$X11_INCLUDES $X_CFLAGS"
+         GL_LIB_DEPS="$X_LIBS -lX11 -lXext"
+     fi
+-    GL_LIB_DEPS="$GL_LIB_DEPS $SELINUX_LIBS -lm -lpthread $OS_LIBS"
++    GL_LIB_DEPS="$GL_LIB_DEPS $SELINUX_LIBS -lm -lpthread"
+ 
+     # if static, move the external libraries to the programs
+     # and empty the libraries for libGL
+@@ -558,11 +547,11 @@ dri)
+     fi
+ 
+     # need DRM libs, -lpthread, etc.
+-    GL_LIB_DEPS="$GL_LIB_DEPS $LIBDRM_LIBS -lm -lpthread $DLOPEN_LIBS $OS_LIBS"
++    GL_LIB_DEPS="$GL_LIB_DEPS $LIBDRM_LIBS -lm -lpthread $DLOPEN_LIBS"
+     ;;
+ osmesa)
+     # No libGL for osmesa
+-    GL_LIB_DEPS="$OS_LIBS"
++    GL_LIB_DEPS=""
+     ;;
+ esac
+ AC_SUBST([GL_LIB_DEPS])
+@@ -799,7 +788,7 @@ osmesa)
+     ;;
+ esac
+ if test "$enable_static" = no; then
+-    OSMESA_LIB_DEPS="$OSMESA_LIB_DEPS $OS_LIBS"
++    OSMESA_LIB_DEPS="$OSMESA_LIB_DEPS"
+ fi
+ AC_SUBST([OSMESA_LIB_DEPS])
+ AC_SUBST([OSMESA_MESA_DEPS])
+@@ -900,7 +889,7 @@ if test "x$enable_glw" = xyes; then
+     # If static, empty GLW_LIB_DEPS and add libs for programs to link
+     if test "$enable_static" = no; then
+         GLW_MESA_DEPS='-l$(GL_LIB)'
+-        GLW_LIB_DEPS="$GLW_LIB_DEPS $OS_LIBS"
++        GLW_LIB_DEPS="$GLW_LIB_DEPS"
+     else
+         APP_LIB_DEPS="$APP_LIB_DEPS $GLW_LIB_DEPS"
+         GLW_LIB_DEPS=""
+@@ -950,7 +939,7 @@ if test "x$enable_glut" = xyes; then
+         # should check these...
+         GLUT_LIB_DEPS="$X_LIBS -lX11 -lXmu -lXi"
+     fi
+-    GLUT_LIB_DEPS="$GLUT_LIB_DEPS -lm $OS_LIBS"
++    GLUT_LIB_DEPS="$GLUT_LIB_DEPS -lm"
+ 
+     # If glut is available, we can build most programs
+     if test "$with_demos" = yes; then
+-- 
+1.4.1
+

@@ -29,7 +29,7 @@
 
 --- common/rfb/Makefile.am	2007-06-27 19:05:47.368239000 -0700
 +++ common/rfb/Makefile.am	2007-06-27 19:47:41.890789000 -0700
-@@ -130,8 +130,8 @@
+@@ -130,7 +130,7 @@
  	ZRLEEncoder.cxx \
  	ZRLEEncoder.h
  
@@ -81,84 +81,51 @@
  	-lXtst
 
 
---- unix/xorg-x11-server-source/hw/Makefile.am~	2007-09-19 13:17:07.009236000 -0700
-+++ unix/xorg-x11-server-source/hw/Makefile.am	2007-09-19 13:57:41.224962000 -0700
-@@ -6,6 +6,15 @@
- XORG_SUBDIRS = xfree86
- else
- XORG_SUBDIRS = xfree86/os-support xfree86/common
-+
-+# Needs to be built before any files are compiled when using Sun compilers
-+# so in*/out* inline definitions are properly processed.
-+
-+BUILT_SOURCES = xfree86/os-support/solaris/solaris-@SOLARIS_INOUT_ARCH@.il
-+
-+xfree86/os-support/solaris/solaris-@SOLARIS_INOUT_ARCH@.il:
-+	cd xfree86/os-support/solaris ; make solaris-@SOLARIS_INOUT_ARCH@.il
-+
- endif
- 
- if XVFB
-
 --- unix/xorg-x11-server-source/hw/vnc/Makefile.am~	2007-09-19 16:36:35.755205000 -0700
 +++ unix/xorg-x11-server-source/hw/vnc/Makefile.am	2007-09-19 16:40:43.150927000 -0700
-@@ -26,10 +26,25 @@
- 		$(top_srcdir)/mi/miinitext.c \
- 		$(top_srcdir)/fb/fbcmap.c
+@@ -25,11 +25,22 @@
+ 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
+ 	-I$(top_srcdir)/include -I$(includedir)/pixman-1
  
-+if MMX_CAPABLE
-+FBMMX_LIBS = ../../fb/libfbmmx.la
-+endif
-+
 +if BUILD_TSOL_MODULE
 +TSOL_LIBS = 	../../tsol/libxtsol.la -ltsol -ltsnet -lsecdb -lbsm
 +endif
 +
-+if GLX
-+GLX_LIBS = 	-lGLcore
-+endif
-+
- Xvnc_LDADD =	$(XORG_CORE_LIBS) \
- 		$(XORG_LIBS) \
- 		$(XSERVER_LIBS) \
- 		../../fb/libfb.la \
-+		$(FBMMX_LIBS) \
-+		../../IA/libIA.la \
-+		$(TSOL_LIBS) \
- 		../../mi/libminimi.la \
- 		../../render/librender.la \
- 		../../xkb/libxkbstubs.la \
-@@ -42,7 +46,12 @@
- 		../xfree86/common/libcommon.la \
- 		-lX11 \
- 		libvnccommon.la \
--		../../../../common/rfb/librfb.la
-+		../../../../common/rfb/librfb.la \
-+		../../../../common/network/libnetwork.la \
-+		../../../../common/rdr/librdr.la \
-+		../../../../common/Xregion/libXregion.la \
-+		-lz \
-+		$(GLX_LIBS)
+ Xvnc_LDADD = $(XVNC_LIBS) libvnccommon.la $(RFB_LIBS) \
+-	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
++	../../IA/libIA.la \
++	$(TSOL_LIBS) \
++ 	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11 \
++	../../../../common/network/libnetwork.la \
++	../../../../common/rdr/librdr.la \
++	../../../../common/Xregion/libXregion.la \
++	-lz
  
- Xvnc_CFLAGS =  -DHAVE_DIX_CONFIG_H \
- 		-DNO_HW_ONLY_EXTS \
-@@ -59,6 +79,7 @@
- 		-I../../render \
- 		-I/usr/include/X11
+ Xvnc_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
  
 +if XORG
  libvnc_la_LTLIBRARIES = libvnc.la
- libvnc_la_LDFLAGS = -module -avoid-version
  libvnc_ladir = $(moduledir)/extensions
-@@ -72,6 +93,7 @@
- 		-I$(top_srcdir)/hw/xfree86/os-support \
- 		-I$(top_srcdir)/hw/xfree86/os-support/bus \
- 		-DXFree86Module -DXFree86LOADER -DIN_MODULE
+ 
+@@ -45,15 +59,16 @@
+ libvnc_la_LDFLAGS = -module -avoid-version
+ 
+ libvnc_la_LIBADD = libvnccommon.la $(RFB_LIBS)
 +endif
  
- AM_CXXFLAGS =	$(CFLAGS) \
- 		-DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
-
+ # C++ hacks
+ BUILT_SOURCES = $(nodist_Xvnc_SOURCES)
+ 
+ fb.h: $(top_srcdir)/fb/fb.h
+ 	cat $(top_srcdir)/fb/fb.h | sed -e 's,and,c_and,' -e 's,xor,c_xor,' > $(srcdir)/fb.h
+ 
+-pixman.h: $(includedir)/pixman-1/pixman.h
+-	cat $(includedir)/pixman-1/pixman.h | sed 's/xor/c_xor/' > $(srcdir)/pixman.h
++pixman.h: $(PROTODIR)/usr/include/pixman-1/pixman.h
++	cat $(PROTODIR)/usr/include/pixman-1/pixman.h | sed 's/xor/c_xor/' > $(srcdir)/pixman.h
+ 
+ fbrop.h: $(top_srcdir)/fb/fbrop.h
+ 	cat $(top_srcdir)/fb/fbrop.h | sed -e 's,and,c_and,' -e 's,xor,c_xor,' > $(srcdir)/fbrop.h
 --- unix/xc/programs/Xserver/Xvnc.man	2007-10-08 21:26:03.141427000 -0700
 +++ unix/xc/programs/Xserver/Xvnc.man	2007-10-09 11:37:23.168899000 -0700
 @@ -67,8 +68,7 @@

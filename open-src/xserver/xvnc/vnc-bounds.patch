@@ -1,0 +1,59 @@
+## Patch originally from Fedora - Revision 1.1 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-bounds.patch
+with paths adjusted to match sources in tarball before files are moved
+
+diff -up vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc.bounds vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc
+--- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc.bounds	2008-03-17 16:46:27.000000000 +0100
++++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc	2008-03-17 16:59:11.000000000 +0100
+@@ -486,32 +486,36 @@ void XserverDesktop::add_changed(RegionP
+ {
+   if (ignoreHooks_) return;
+   if (grabbing) return;
++
++  BoxRec screenbox;
++  RegionPtr newreg = REGION_CREATE(pScreen, 0, 0);
++
++  screenbox.x1 = screenbox.y1 = 0;
++  screenbox.x2 = pScreen->width;
++  screenbox.y2 = pScreen->height;
++
++  RegionPtr screenreg = REGION_CREATE(pScreen, &screenbox, 0);
++  REGION_INTERSECT(pScreen, newreg, reg, screenreg);
++  REGION_DESTROY (pScreen, screenreg);
++
+   try {
+     rfb::Region rfbReg;
+-    rfbReg.setExtentsAndOrderedRects((ShortRect*)REGION_EXTENTS(pScreen, reg),
+-                                     REGION_NUM_RECTS(reg),
+-                                     (ShortRect*)REGION_RECTS(reg));
++    rfbReg.setExtentsAndOrderedRects((ShortRect*)REGION_EXTENTS(pScreen, newreg),
++                                     REGION_NUM_RECTS(newreg),
++                                     (ShortRect*)REGION_RECTS(newreg));
+     server->add_changed(rfbReg);
+     deferUpdate();
+   } catch (rdr::Exception& e) {
+     vlog.error("XserverDesktop::add_changed: %s",e.str());
+   }
++  REGION_DESTROY (pScreen, newreg);
+ }
+ 
+ void XserverDesktop::add_copied(RegionPtr dst, int dx, int dy)
+ {
+-  if (ignoreHooks_) return;
+-  if (grabbing) return;
+-  try {
+-    rfb::Region rfbReg;
+-    rfbReg.setExtentsAndOrderedRects((ShortRect*)REGION_EXTENTS(pScreen, dst),
+-                                     REGION_NUM_RECTS(dst),
+-                                     (ShortRect*)REGION_RECTS(dst));
+-    server->add_copied(rfbReg, rfb::Point(dx, dy));
+-    deferUpdate();
+-  } catch (rdr::Exception& e) {
+-    vlog.error("XserverDesktop::add_copied: %s",e.str());
+-  }
++  add_changed (dst);
++  REGION_TRANSLATE (pScreen, dst, -dx, -dy);
++  add_changed (dst);
+ }
+ 
+ void XserverDesktop::positionCursor()

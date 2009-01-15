@@ -27,17 +27,17 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
---- hw/xfree86/common/xf86Init.c	2006-11-30 17:40:10.000000000 -0800
-+++ hw/xfree86/common/xf86Init.c	2007-07-30 18:34:21.833819000 -0700
-@@ -103,6 +103,7 @@ static void xf86PrintMarkers(void);
+--- hw/xfree86/common/xf86Init.c	2008-09-23 11:24:58.000000000 -0700
++++ hw/xfree86/common/xf86Init.c	2008-09-23 16:32:10.752446000 -0700
+@@ -102,6 +102,7 @@ static void xf86PrintBanner(void);
+ static void xf86PrintMarkers(void);
  static void xf86PrintDefaultModulePath(void);
  static void xf86PrintDefaultLibraryPath(void);
- static void xf86RunVtInit(void);
 +static void sunLogInfo(void);
  
- #ifdef __UNIXOS2__
- extern void os2ServerVideoAccess();
-@@ -1770,7 +1771,7 @@ ddxUseMsg()
+ static Bool probe_devices_from_device_sections(DriverPtr drvp);
+ static Bool add_matching_devices_to_configure_list(DriverPtr drvp);
+@@ -1778,7 +1779,7 @@ ddxUseMsg()
  static void
  xf86PrintBanner()
  {
@@ -46,7 +46,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf8
    ErrorF("\n"
      "This is a pre-release version of the X server from " XVENDORNAME ".\n"
      "It is not supported in any way.\n"
-@@ -1862,6 +1863,7 @@ xf86PrintBanner()
+@@ -1878,6 +1879,7 @@ xf86PrintBanner()
  #if defined(BUILDERSTRING)
    ErrorF("%s \n",BUILDERSTRING);
  #endif
@@ -54,7 +54,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf8
    ErrorF("\tBefore reporting problems, check "__VENDORDWEBSUPPORT__"\n"
  	 "\tto make sure that you have the latest version.\n");
    ErrorF("Module Loader present\n");
-@@ -2025,3 +2027,73 @@ xf86GetBppFromDepth(ScrnInfoPtr pScrn, i
+@@ -2004,3 +2006,73 @@ xf86GetBppFromDepth(ScrnInfoPtr pScrn, i
  	return 0;
  }
  
@@ -129,18 +129,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf8
 +    }
 +}
 diff -urp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loadmod.c
---- hw/xfree86/loader/loadmod.c	2007-04-16 09:37:51.000000000 -0700
-+++ hw/xfree86/loader/loadmod.c	2007-07-30 18:34:21.915061000 -0700
-@@ -869,7 +869,7 @@ doLoadModule(const char *module, const c
-     for (cim = compiled_in_modules; *cim; cim++)
- 	if (!strcmp (module, *cim))
- 	{
--	    xf86MsgVerb(X_INFO, 0, "Module already built-in\n");
-+	    xf86MsgVerb(X_INFO, 0, "Module \"%s\" already built-in\n", module);
- 	    return (ModuleDescPtr) 1;
- 	}
- 
-@@ -1310,6 +1310,15 @@ LoaderErrorMsg(const char *name, const c
+--- hw/xfree86/loader/loadmod.c	2008-09-23 11:24:59.000000000 -0700
++++ hw/xfree86/loader/loadmod.c	2008-09-23 16:32:10.776094000 -0700
+@@ -1239,6 +1239,15 @@ LoaderErrorMsg(const char *name, const c
      default:
  	msg = "unknown error";
      }

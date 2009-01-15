@@ -1,6 +1,6 @@
 #! /bin/ksh93
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.64 08/12/10
+# @(#)make_release_packages	1.65	09/01/14
 #
 #	Create and fill a package staging area for X
 #
@@ -58,7 +58,7 @@ XW_PACKAGE_LIST="SUNWfontconfig SUNWfontconfig-docs SUNWfontconfig-root
     SUNWpciaccess SUNWpixman SUNWfreetype2 SUNWvncviewer SUNWxcursor-themes
     SUNWxorg-cfg SUNWxorg-client-docs SUNWxorg-client-programs
     SUNWxorg-clientlibs SUNWxorg-compatlinks SUNWxorg-devel-docs
-    SUNWxorg-doc SUNWxorg-graphics-ddx SUNWxorg-headers
+    SUNWxorg-graphics-ddx SUNWxorg-headers
     SUNWxorg-server SUNWxorg-tsol-module SUNWxprint-server
     SUNWxscreensaver-hacks SUNWxscreensaver-hacks-gl SUNWxsun-server
     SUNWxvnc SUNWxwacx SUNWxwcft SUNWxwdem SUNWxwdim SUNWxwdxm
@@ -134,6 +134,15 @@ function fatal_error
     exit 1
 }
 
+function process_includes
+{
+    nawk \
+	"/^include / 	{
+			  system(\"cat $1/\" \$2)
+			  next
+			}
+	{ print }" $2
+}
 
 # Which platform name do we use for 64-bit?
 case "${MACH}" in
@@ -184,6 +193,11 @@ print 'Copying package descriptions'
 /bin/cp copyright depend i.* r.* ${PACKAGE_DIR} >/dev/null 2>&1
 
 for package in ${PACKAGE_LIST} common_files ; do
+    if [[ ! -d ${package} ]] ; then
+	print "packages/${package} not found ; skipping"
+	continue
+    fi
+
     cd ${package}
 
     /bin/mkdir ${PACKAGE_DIR}/${package}
@@ -197,14 +211,8 @@ for package in ${PACKAGE_LIST} common_files ; do
     for F in copyright.add copyright.add.${MACH} ; do
 	if [[ -f $F ]] ; then
 	    chmod +w ${PACKAGE_DIR}/${package}/copyright
-	    PROTODIR=${PROTODIR} nawk \
-		'BEGIN   	{ PROTODIR = ENVIRON [ "PROTODIR" ]; }
-		 /^include / 	{
-				        system("cat " PROTODIR "/licenses/" $2)
-				        next
-				}
-				{ print }' \
-		    $F >> ${PACKAGE_DIR}/${package}/copyright
+	    process_includes "${PROTODIR}/licenses" $F \
+		>> ${PACKAGE_DIR}/${package}/copyright
 	fi
     done
     cd ..
@@ -233,9 +241,14 @@ print -- '---Building packages'
 PKGMK_VARS="plat_64=${PLAT_64} plat=${MACH}"
 
 for package in ${PACKAGE_LIST} ; do
+    print "******** Making the ${package} package ********"
+    if [[ ! -d ${package} ]] ; then
+	print "${PACKAGE_DIR}/${package} was not found ; skipping"
+	continue
+    fi
+
     cd ${package}
     date
-    print "******** Making the ${package} package ********"
 
     sed -e '/ARCH/s/ISA/'${MACH}'/' -e 's/SUNW_PRODVERS=.*$/SUNW_PRODVERS='${VERSION}/ -e 's/VERSION=.*$/VERSION='${VERSION}.${BUILD},REV=${DATE}/ pkginfo.tmpl > pkginfo
     if [[ -f Makefile ]] ; then
@@ -251,6 +264,14 @@ for package in ${PACKAGE_LIST} ; do
 	    fi
 	done
     fi
+
+    for df in depend depend_${MACH} ; do
+	# If filename.tmpl exists, but filename does not, 
+	# build filename from the .tmpl
+	if [[ -f "${df}.tmpl" && ! -f "${df}" ]] ; then
+	    process_includes "${PKG_SOURCE_DIR}/${package}" ${df}.tmpl > ${df}
+	fi
+    done
 
     if [[ -f prototype ]] ; then
 	# Simple package with the same prototype on all platforms

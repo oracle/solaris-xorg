@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.91	08/12/19 SMI"
+# ident	"@(#)prototype	35.92	09/01/14 SMI"
 #
 #  X Window System include files
 
@@ -351,7 +351,6 @@ s none openwin/share/include/X11/extensions/XResproto.h=../../../../../X11/inclu
 s none openwin/share/include/X11/extensions/XShm.h=../../../../../X11/include/X11/extensions/XShm.h
 s none openwin/share/include/X11/extensions/XTest.h=../../../../../X11/include/X11/extensions/XTest.h
 s none openwin/share/include/X11/extensions/Xag.h=../../../../../X11/include/X11/extensions/Xag.h
-s none openwin/share/include/X11/extensions/Xagsrv.h=../../../../../X11/include/X11/extensions/Xagsrv.h
 s none openwin/share/include/X11/extensions/Xagstr.h=../../../../../X11/include/X11/extensions/Xagstr.h
 s none openwin/share/include/X11/extensions/Xcup.h=../../../../../X11/include/X11/extensions/Xcup.h
 s none openwin/share/include/X11/extensions/Xcupstr.h=../../../../../X11/include/X11/extensions/Xcupstr.h
@@ -415,7 +414,6 @@ f none X11/include/X11/extensions/XResproto.h	0444 root bin
 f none X11/include/X11/extensions/XShm.h 	0444 root bin
 f none X11/include/X11/extensions/XTest.h 	0444 root bin
 f none X11/include/X11/extensions/Xag.h 	0444 root bin
-f none X11/include/X11/extensions/Xagsrv.h 	0444 root bin
 f none X11/include/X11/extensions/Xagstr.h 	0444 root bin
 f none X11/include/X11/extensions/Xcup.h 	0444 root bin
 f none X11/include/X11/extensions/Xcupstr.h 	0444 root bin
@@ -789,5 +787,6 @@ s none lib/$plat_64/pkgconfig/xbitmaps.pc=../../pkgconfig/xbitmaps.pc
 
 !search $HOME/X11/share/aclocal
 # Autoconf macro files
-d none share/aclocal					0755 root other 
+d none share						0755 root sys
+d none share/aclocal					0755 root other
 f none share/aclocal/xorg-macros.m4			0444 root bin

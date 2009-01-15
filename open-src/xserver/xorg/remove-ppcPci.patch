@@ -1,0 +1,174 @@
+From e1ae8db625b5e8c298a557592ef23656b3da4886 Mon Sep 17 00:00:00 2001
+From: Adam Jackson <ajax@redhat.com>
+Date: Mon, 18 Aug 2008 09:53:48 -0400
+Subject: [PATCH] Drop dead PowerPC PCI code.
+
+Also add a warning for anyone still using legacy PCI code.
+---
+ configure.ac                          |   11 ----
+ hw/xfree86/os-support/bus/Makefile.am |    4 --
+ hw/xfree86/os-support/bus/Pci.h       |    3 -
+ hw/xfree86/os-support/bus/ppcPci.c    |   82 ---------------------------------
+ 4 files changed, 1 insertions(+), 99 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index d42d7fd..95a084f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1217,7 +1217,6 @@ AC_MSG_RESULT([$XORG])
+ xorg_bus_linuxpci=no
+ xorg_bus_bsdpci=no
+ xorg_bus_ix86pci=no
+-xorg_bus_ppcpci=no
+ xorg_bus_sparcpci=no
+ xorg_bus_sparc=no
+ 
+@@ -1344,15 +1343,6 @@ if test "x$XORG" = xyes; then
+ 	esac
+ 
+ 	case $host_cpu in
+-	  powerpc*)
+-		case $host_os in
+-		  linux*|freebsd*|netbsd*|openbsd*|kfreebsd*-gnu)
+-			;;
+-		  *)
+-			xorg_bus_ppcpci="yes"
+-			;;
+-		esac
+-		;;
+ 	  sparc*)
+ 		xorg_bus_sparcpci="yes"
+ 		xorg_bus_sparc="yes"
+@@ -1460,7 +1450,6 @@ AM_CONDITIONAL([XORG], [test "x$XORG" = 
+ AM_CONDITIONAL([XORG_BUS_LINUXPCI], [test "x$xorg_bus_linuxpci" = xyes])
+ AM_CONDITIONAL([XORG_BUS_BSDPCI], [test "x$xorg_bus_bsdpci" = xyes])
+ AM_CONDITIONAL([XORG_BUS_IX86PCI], [test "x$xorg_bus_ix86pci" = xyes])
+-AM_CONDITIONAL([XORG_BUS_PPCPCI], [test "x$xorg_bus_ppcpci" = xyes])
+ AM_CONDITIONAL([XORG_BUS_SPARCPCI], [test "x$xorg_bus_sparcpci" = xyes])
+ AM_CONDITIONAL([XORG_BUS_SPARC], [test "x$xorg_bus_sparc" = xyes])
+ AM_CONDITIONAL([LINUX_IA64], [test "x$linux_ia64" = xyes])
+diff --git a/hw/xfree86/os-support/bus/Makefile.am b/hw/xfree86/os-support/bus/Makefile.am
+index d48fcb6..94c3750 100644
+--- a/hw/xfree86/os-support/bus/Makefile.am
++++ b/hw/xfree86/os-support/bus/Makefile.am
+@@ -15,10 +15,6 @@ if XORG_BUS_IX86PCI
+ PCI_SOURCES += ix86Pci.c
+ endif
+ 
+-if XORG_BUS_PPCPCI
+-PCI_SOURCES += ppcPci.c
+-endif
+-
+ if XORG_BUS_SPARCPCI
+ PCI_SOURCES += sparcPci.c
+ endif
+diff --git a/hw/xfree86/os-support/bus/Pci.h b/hw/xfree86/os-support/bus/Pci.h
+index a1390c0..488e1e3 100644
+--- a/hw/xfree86/os-support/bus/Pci.h
++++ b/hw/xfree86/os-support/bus/Pci.h
+@@ -199,13 +199,12 @@ #endif /* defined(linux) */
+ 
+ 
+ #if !defined(ARCH_PCI_INIT)
++#warning You really need to port to libpciaccess.
+ /*
+  * Select architecture specific PCI init function
+  */
+ #if defined(__i386__) || defined(__i386) ||  defined(__amd64__) || defined(__amd64)
+ # define ARCH_PCI_INIT ix86PciInit
+-#elif defined(__powerpc__) || defined(__powerpc64__)
+-# define ARCH_PCI_INIT ppcPciInit
+ #elif defined(__sparc__) || defined(sparc)
+ # define ARCH_PCI_INIT sparcPciInit
+ # define ARCH_PCI_PCI_BRIDGE sparcPciPciBridge
+diff --git a/hw/xfree86/os-support/bus/ppcPci.c b/hw/xfree86/os-support/bus/ppcPci.c
+deleted file mode 100644
+index 49c1a2a..0000000
+--- a/hw/xfree86/os-support/bus/ppcPci.c
++++ /dev/null
+@@ -1,82 +0,0 @@
+-/*
+- * ppcPci.c - PowerPC PCI access functions
+- *
+- * PCI driver functions supporting Motorola PowerPC platforms
+- * including Powerstack(RiscPC/RiscPC+), PowerStackII, MTX, and
+- * MVME 160x/260x/360x/460x VME boards
+- *
+- * Gary Barton
+- * Concurrent Computer Corporation
+- * garyb@gate.net
+- *
+- */
+-
+-/*
+- * Copyright 1998 by Concurrent Computer Corporation
+- *
+- * Permission to use, copy, modify, distribute, and sell this software
+- * and its documentation for any purpose is hereby granted without fee,
+- * provided that the above copyright notice appear in all copies and that
+- * both that copyright notice and this permission notice appear in
+- * supporting documentation, and that the name of Concurrent Computer
+- * Corporation not be used in advertising or publicity pertaining to
+- * distribution of the software without specific, written prior
+- * permission.  Concurrent Computer Corporation makes no representations
+- * about the suitability of this software for any purpose.  It is
+- * provided "as is" without express or implied warranty.
+- *
+- * CONCURRENT COMPUTER CORPORATION DISCLAIMS ALL WARRANTIES WITH REGARD
+- * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+- * AND FITNESS, IN NO EVENT SHALL CONCURRENT COMPUTER CORPORATION BE
+- * LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
+- * DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+- * WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+- * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+- * SOFTWARE.
+- *
+- * Copyright 1998 by Metro Link Incorporated
+- *
+- * Permission to use, copy, modify, distribute, and sell this software
+- * and its documentation for any purpose is hereby granted without fee,
+- * provided that the above copyright notice appear in all copies and that
+- * both that copyright notice and this permission notice appear in
+- * supporting documentation, and that the name of Metro Link
+- * Incorporated not be used in advertising or publicity pertaining to
+- * distribution of the software without specific, written prior
+- * permission.  Metro Link Incorporated makes no representations
+- * about the suitability of this software for any purpose.  It is
+- * provided "as is" without express or implied warranty.
+- *
+- * METRO LINK INCORPORATED DISCLAIMS ALL WARRANTIES WITH REGARD
+- * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+- * AND FITNESS, IN NO EVENT SHALL METRO LINK INCORPORATED BE
+- * LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
+- * DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+- * WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+- * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+- * SOFTWARE.
+- */
+-
+-#ifdef HAVE_XORG_CONFIG_H
+-#include <xorg-config.h>
+-#endif
+-
+-#include <stdio.h>
+-#include "compiler.h"
+-#include "xf86.h"
+-#include "xf86Priv.h"
+-#include "xf86_OSlib.h"
+-#include "Pci.h"
+-
+-#ifndef MAP_FAILED
+-#define MAP_FAILED (pointer)(-1)
+-#endif
+-
+-void
+-ppcPciInit()
+-{
+-  
+-  static void motoppcPciInit(void);
+-  motoppcPciInit();
+-
+-}
+-- 
+1.4.1
+

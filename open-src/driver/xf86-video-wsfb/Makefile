@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/08/08
+# @(#)Makefile	1.9	09/01/14
 #
 
 # Package name used in tarballs
@@ -42,6 +42,7 @@ MODULE_VERSION=0.2.1
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	shadow-crash.patch,-p1 \
+	xfbpp-removal.patch,-p1 \
 	solaris-port.patch
 
 
@@ -56,6 +57,6 @@ MODULE_LD_OPTIONS= \
         -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
         -R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lshadow -lxf4bpp -lxf1bpp
+	-lfb -lshadow
 
 include ../Makefile.inc

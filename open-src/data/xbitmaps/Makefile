@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/10/24
+# @(#)Makefile	1.5	09/01/14
 #
 
 # Package name used in tarballs
@@ -46,7 +46,7 @@ include ../Makefile.inc
 # Install copy of xbitmaps.pc in 64-bit pkgconfig files as well
 install_gen:: $(SOURCE_DIR)/Makefile
 	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
+	 $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=$(PKGCONFIGDIR_64) install-pkgconfigDATA )
 
 # Install bitmaps that we've shipped in Solaris, but which come from xmh
 # (which we're dropping)

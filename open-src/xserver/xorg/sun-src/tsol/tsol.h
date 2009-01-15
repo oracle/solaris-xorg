@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsol.h 1.6     07/01/24 SMI"
+#pragma ident   "@(#)tsol.h 1.7     09/01/14 SMI"
 
 /*
  * tsol.h server side extension
@@ -58,14 +58,12 @@
 
 #include "tsolinfo.h"
 
-extern int tsolWindowPrivateIndex;  /* declared in tsol.c */
-extern int tsolPixmapPrivateIndex; 
 extern int SpecialName(char *string, int len);
-extern TsolInfoPtr GetClientTsolInfo();
-extern bslabel_t *lookupSL_low();
+extern TsolInfoPtr GetClientTsolInfo(ClientPtr client);
+extern bslabel_t *lookupSL_low(void);
 extern int PolyPropReadable(PropertyPtr pProp, ClientPtr client);
 extern void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
-extern WindowPtr TsolPointerWindow();
+extern WindowPtr TsolPointerWindow(void);
 
 #ifdef PANORAMIX
 extern int PanoramiXGetInputFocus(ClientPtr client);

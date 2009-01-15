@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/08/08
+# @(#)Makefile	1.7	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-cirrus
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = mapfiles.patch

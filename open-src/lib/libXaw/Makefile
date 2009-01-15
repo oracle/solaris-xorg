@@ -2,7 +2,7 @@
 #
 # Xaw Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/10/05
+# @(#)Makefile	1.5	09/01/14
 #
 
 # Package name used in tarballs
@@ -55,7 +55,7 @@ LIB_MAN_SUFFIX=3Xaw
 # MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
-FIX_PC_FILES=xaw*.pc.in
+FIX_PC_FILES=xaw7.pc.in
 
 # Additional arguments to pass to configure
 # We only ship libXaw.so.7 right now, since we don't need to maintain binary

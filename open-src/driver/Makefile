@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Xorg driver modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/08/08
+# @(#)Makefile	1.11	09/01/14
 #
 ###############################################################################
 
@@ -67,17 +67,18 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-ati			\
 	xf86-video-chips		\
 	xf86-video-cirrus		\
-	xf86-video-cyrix		\
 	xf86-video-glint		\
 	xf86-video-i128			\
 	xf86-video-i740			\
 	xf86-video-intel		\
+	xf86-video-mach64		\
 	xf86-video-mga			\
 	xf86-video-neomagic		\
-	xf86-video-nsc			\
 	xf86-video-nv			\
+	xf86-video-openchrome		\
 	xf86-video-radeonhd		\
 	xf86-video-rendition		\
+	xf86-video-r128			\
 	xf86-video-s3			\
 	xf86-video-s3virge		\
 	xf86-video-savage		\
@@ -88,9 +89,15 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-trident		\
 	xf86-video-tseng		\
 	xf86-video-vesa			\
-	xf86-video-vga			\
-	xf86-video-via			\
 	xf86-video-vmware
+
+# Subdirs we used to build, but now just need to clean up
+OBSOLETE_SUBDIRS = \
+	xf86-video-cyrix		\
+	xf86-video-i810			\
+	xf86-video-nsc			\
+	xf86-video-vga			\
+	xf86-video-via
 
 PWD:sh=pwd
 TOP=$(PWD)/..

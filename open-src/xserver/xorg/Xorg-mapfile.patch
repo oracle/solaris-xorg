@@ -1,12 +1,12 @@
 diff -urp -x '*~' -x '*.orig' hw/xfree86/Makefile.am hw/xfree86/Makefile.am
---- hw/xfree86/Makefile.am	2007-07-30 18:35:09.238323000 -0700
-+++ hw/xfree86/Makefile.am	2007-07-30 18:35:26.620143000 -0700
-@@ -60,7 +60,7 @@ Xorg_LDADD = $(XORG_LIBS) \
-              @XSERVER_LIBS@ \
- 	     dixmods/libxorgxkb.la
+--- hw/xfree86/Makefile.am	2008-09-23 11:24:58.000000000 -0700
++++ hw/xfree86/Makefile.am	2008-09-23 16:32:54.777197000 -0700
+@@ -72,7 +72,7 @@ XORG_LIBS = \
+ Xorg_DEPENDENCIES = $(XORG_LIBS)
+ Xorg_LDADD = $(XORG_LIBS) $(XORG_SYS_LIBS) $(XSERVER_SYS_LIBS)
  
 -Xorg_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
 +Xorg_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG) -Wl,-M,mapfile.scope
  
  BUILT_SOURCES = xorg.conf.example
- EXTRA_DIST = xorgconf.cpp
+ DISTCLEANFILES += xorg.conf.example xorg.conf.example.pre

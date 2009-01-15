@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.13	08/11/26
+# @(#)Makefile.inc	1.14	09/01/10
 #
 
 PWD:sh=pwd
@@ -56,6 +56,8 @@ MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
 MODTYPE_CPPFLAGS= \
+	-I$(PROTODIR)/usr/include		\
+	-I$(PROTODIR)/usr/include/pixman-1	\
 	-I$(PROTODIR)/usr/X11/include/xorg	\
 	-I$(PROTODIR)/usr/X11/include/drm	\
 	-I$(PROTODIR)/usr/X11/include/X11/dri

@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/08/08
+# @(#)Makefile	1.9	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-trident
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.4
+MODULE_VERSION=1.3.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -53,9 +53,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lshadow -lvbe -lvgahw -lxaa -lm
-
-AUTORECONF=yes
+	-lexa -lfb -lint10 -lpciaccess -lshadow -lvbe -lvgahw -lxaa -lm
 
 include ../Makefile.inc
 

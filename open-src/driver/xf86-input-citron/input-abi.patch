@@ -1,0 +1,66 @@
+From a59ffb3cdc9d68a0ad21f04831e4255ad0e985d8 Mon Sep 17 00:00:00 2001
+From: Paulo Cesar Pereira de Andrade <pcpa@mandriva.com>
+Date: Mon, 4 Feb 2008 01:10:27 -0200
+Subject: [PATCH] Don't call xf86SoundKbdBell and xf86XInputSetSendCoreEvents
+
+Only call those functions if GET_ABI_MAJOR(ABI_XINPUT_VERSION) == 0.
+
+Signed-off-by: Peter Hutterer <peter@cs.unisa.edu.au>
+---
+ src/citron.c |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/src/citron.c b/src/citron.c
+index 42152b5..38e5067 100644
+--- a/src/citron.c
++++ b/src/citron.c
+@@ -2058,12 +2058,14 @@ SwitchMode (ClientPtr client, DeviceIntP
+ 		DBG(6, ErrorF("%s\treporting mode = %s\n", CI_INFO, mode==TS_Raw?"raw":"scaled"));
+ 		return (Success);
+ 	}
++#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) == 0
+ 	else if ((mode == SendCoreEvents) || (mode == DontSendCoreEvents))
+ 	{
+ 		xf86XInputSetSendCoreEvents (local, (mode == SendCoreEvents));
+ 		DBG(6, ErrorF("%s\tmode = %sSend Core Events\n", CI_INFO, mode==DontSendCoreEvents?"Don\'t ":""));
+ 		return (Success);
+ 	}
++#endif
+ #ifdef CIT_MODE_EXT
+ 	else if (mode == ClickMode_Enter)
+ 	{
+@@ -2466,6 +2468,7 @@ #ifdef CIT_BEEP
+ 	if(priv->beep == 0)
+ 		return;
+ 
++#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) == 0
+ 	/* ring release bell */
+ 	if(press == 0)
+ 
+@@ -2492,6 +2495,7 @@ #ifdef CIT_BEEP
+ 	else
+ 	/* ring press bell */
+ 		xf86SoundKbdBell(priv->press_vol,priv->press_pitch, priv->press_dur);
++#endif
+ 
+ 	DBG(7, ErrorF("%scit_Beep called - %s\n", CI_INFO, (press == 0) ? "release" : "press"));
+ #endif
+@@ -2508,6 +2512,7 @@ #ifdef CIT_BEEP
+ 	if(priv->beepkey == 0)
+ 		return;
+ 
++#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) == 0
+ 	/* ring release bell */
+ 	if(press <= 0)
+ 
+@@ -2532,6 +2537,7 @@ #ifdef CIT_BEEP
+ 	else
+ 	/* ring press bell */
+ 		xf86SoundKbdBell(priv->presskey_vol,priv->presskey_pitch, priv->presskey_dur);
++#endif
+ 
+ 	DBG(7, ErrorF("%scit_BeepKey called - %s\n", CI_INFO, (press == 0) ? "release" : "press"));
+ #endif
+-- 
+1.4.1
+

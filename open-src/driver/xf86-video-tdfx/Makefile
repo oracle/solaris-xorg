@@ -2,7 +2,7 @@
 #
 # xf86-video-tdfx 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/08/08
+# @(#)Makefile	1.8	09/01/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-tdfx
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.4.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,10 +47,14 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
+# Extra flags to pass to configure script
+# - Disable DRI since the kernel module isn't ported
+MODULE_CONFIG_OPTS=--disable-dri
+
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lvbe -lvgahw -lxaa
+	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa
 
 include ../Makefile.inc

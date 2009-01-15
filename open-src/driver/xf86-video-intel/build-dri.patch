@@ -1,4 +1,4 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -27,18 +27,27 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2007-04-19 20:00:18.000000000 -0700
-+++ configure.ac	2007-06-15 17:45:43.059034000 -0700
-@@ -85,7 +85,11 @@ XORG_DRIVER_CHECK_EXT(DPMSExtension, xex
+--- configure.ac	2008-08-25 18:28:31.000000000 -0700
++++ configure.ac	2009-01-10 20:01:38.516058000 -0800
+@@ -37,7 +37,7 @@ AM_MAINTAINER_MODE
+ # Checks for programs.
+ AC_DISABLE_STATIC
+ AC_PROG_LIBTOOL
+-DOLT
++#DOLT
+ AC_PROG_CC
+ AM_PROG_CC_C_O
+ 
+@@ -84,7 +84,11 @@ XORG_DRIVER_CHECK_EXT(DPMSExtension, xex
  
  # Checks for pkg-config packages
- PKG_CHECK_MODULES(XORG, [xorg-server xproto xvmc fontsproto $REQUIRED_MODULES])
+ PKG_CHECK_MODULES(XORG, [xorg-server xproto fontsproto $REQUIRED_MODULES])
 -sdkdir=$(pkg-config --variable=sdkdir xorg-server)
 +AC_ARG_WITH(xorg-sdk-dir,
-+            AC_HELP_STRING([--with-xorg-sdk-dir=DIR],
-+                           [Default xorg sdk include directory [[default is taken from pkgconfig]]]),
-+            [sdkdir="$withval"],
-+            [sdkdir=$(pkg-config --variable=sdkdir xorg-server)])
++	    AC_HELP_STRING([--with-xorg-sdk-dir=DIR],
++		           [Default xorg sdk include directory [[default is taken from pkgconfig]]]),
++	    [sdkdir="$withval"],
++	    [sdkdir=$(pkg-config --variable=sdkdir xorg-server)])
  
- PKG_CHECK_MODULES([PCIACCESS], [pciaccess >= 0.5.0], have_pciaccess=yes, have_pciaccess=no)
- AM_CONDITIONAL(HAVE_PCIACCESS, test "x$have_pciaccess" = xyes)
+ # Checks for libraries.
+ 

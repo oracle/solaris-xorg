@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,17 +30,26 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# @(#)Makefile	1.6	09/01/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.3.2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = copying.patch,-p1
+SOURCE_PATCHES = \
+	hal-man-page.patch,-p1 \
+	sun-keymappings.patch \
+	sun-kb-autodetect.patch
+
+# Regenerate files after patching Makefile.am in sun-kb-autodetect.patch
+AUTORECONF=yes
+
+# Link in additional source files from sun-src directory
+ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

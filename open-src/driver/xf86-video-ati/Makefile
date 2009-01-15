@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xf86-video-ati 1.x Makefile
+# xf86-video-ati Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,18 +30,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	08/08/08
+# @(#)Makefile	1.17	09/01/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=6.8.0
+MODULE_VERSION=6.10.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6205248.patch 6675166.patch 6675188.patch \
-	build-dri.patch solaris-dri-drv-port.patch
+SOURCE_PATCHES = \
+	mapfiles.patch \
+	solaris-dri-drv-port.patch
+
+# Need to regenerate configure after patching configure.ac in build-dri.patch
+# and regenerate Makefile.in after patching Makefile.am in mapfiles.patch
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -49,27 +54,22 @@ SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # Extra flags to pass to configure script
-MODULE_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
+MODULE_CONFIG_OPTS=--enable-dri
+
+# Need to override setting of CONFIG_SHELL from Makefile.init to work around
+# ksh93 bug that causes config.status/config.h to be incorrectly generated
+MODULE_CONFIG_ENV= CONFIG_SHELL=/usr/bin/bash
 
 # Paths to find libraries/modules to link with - libraries themselves listed
-# in src/Makefile.am since ATI has so many submodules with different needs
+# in src/Makefile.am since ATI has multiple submodules with different needs
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/extensions \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/linux \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lint10 -lfb -lshadowfb -lvbe -lxaa -lfbdevhw \
-	-lvgahw -lm -lshadow  -ldrm -ldri -lglx \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-AUTORECONF=yes
-
 include ../Makefile.inc
-
-install_gen::
-	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README.ati $(SOURCE_DIR)/README.r128 \
-	 $(PROTODIR)$(X11_DOC_DIR)/

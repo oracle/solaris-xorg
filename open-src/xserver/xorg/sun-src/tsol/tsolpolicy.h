@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -24,15 +24,12 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- */ 
-
-#pragma ident	"@(#)tsolpolicy.h	1.6	07/01/31 SMI"
-
+ */
 
 #ifndef	_TSOL_POLICY_H
 #define	_TSOL_POLICY_H
 
-#pragma ident	"@(#)xpolicy.h	5.10	97/03/04 SMI; TSOL 2.x"
+#pragma ident	"@(#)tsolpolicy.h	1.7	09/01/14 SMI"
 
 #ifdef	__cplusplus
 extern "C" {
@@ -149,13 +146,13 @@ int xtsol_policy(xresource_t res_type, xmethod_t method,
     void *resource, void *subject, xpolicy_t policy_flags, void *misc);
 
 #ifdef DEBUG	/* define this in tsolinfo.h if you want debug */
-/* 
+/*
  * For priv debugging messages.
  * XTSOL_FAIL : logs all failures that cause a err code to be returned
  * 		in protocol
  * XTSOL_ALLOW:	logs all privs that the client is lacking, but is allowed
  * XTSOL_IGNORE	logs all failures whose err code is not returned in protocol
- * 
+ *
  * The higher no. always includes the lower no. log
  */
 extern int xtsol_debug; 	/* defined xres_policy.c */
@@ -281,6 +278,9 @@ int access_dbe(xresource_t res, xmethod_t method,
     void *resource, void *subject, xpolicy_t policy_flags, void *misc);
 int swap_dbe(xresource_t res, xmethod_t method,
     void *resource, void *subject, xpolicy_t policy_flags, void *misc);
+
+void init_win_privsets(void);
+void free_win_privsets(void);
 
 #ifdef	__cplusplus
 }

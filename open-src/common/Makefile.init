@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All Rights Reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.5	08/10/06
+# @(#)Makefile.init	1.6	09/01/14
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -87,24 +87,28 @@ SUBDIR64 = $(SUBDIR64_$(MACH))
 # requirements override this in their makefiles with MODULE_COMPILER.
 DEFAULT_COMPILER		= suncc
 
+# Flags used by either compiler in debug builds
+DEBUG_FLAGS_common	= -g $(MODTYPE_DEBUG_FLAGS) $(MODULE_DEBUG_FLAGS)
+
 ## Sun Studio
 CC_suncc		= cc
 CXX_suncc		= CC
 OPT_FLAGS_suncc		= -xO4 -xbuiltin=%none -xlibmil -xprefetch -xdepend
-DEBUG_FLAGS_suncc	= -g
+DEBUG_FLAGS_suncc	= $(DEBUG_FLAGS_common)
 $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_suncc = $(DEBUG_FLAGS_suncc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
 
-CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst
+CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst \
+			  -features=extensions
 CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w -mc -norunpath
 
-ARCH32_FLAGS_sparc_suncc 	= -xarch=v8plus
-ARCH64_FLAGS_sparc_suncc	= -xarch=v9
+ARCH32_FLAGS_sparc_suncc 	= -m32 -xarch=sparc
+ARCH64_FLAGS_sparc_suncc	= -m64 -xarch=sparc
 
 # -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
 # avoid losing stack frame pointers so you can't get stack traces or debug
-ARCH32_FLAGS_i386_suncc 	= -xtarget=pentium -xregs=no%frameptr
-ARCH64_FLAGS_i386_suncc 	= -xarch=generic64 -xregs=no%frameptr
+ARCH32_FLAGS_i386_suncc 	= -m32 -xtarget=pentium -xregs=no%frameptr
+ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -xregs=no%frameptr
 
 # SPARC ABI requires system libraries not use application registers
 ARCH_LIB_FLAGS_sparc_suncc 	= -xregs=no%appl
@@ -116,7 +120,7 @@ GXX				= /usr/sfw/bin/g++
 CC_gcc				= $(GCC)
 CXX_gcc				= $(GXX)
 OPT_FLAGS_gcc			= -O3
-DEBUG_FLAGS_gcc			= -g
+DEBUG_FLAGS_gcc			= $(DEBUG_FLAGS_common)
 $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_gcc = $(DEBUG_FLAGS_gcc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_gcc = $(OPT_FLAGS_gcc)
 CFLAGS_gcc			= $(DEBUG_OR_OPT_FLAGS_gcc) \
@@ -240,6 +244,13 @@ SERVERMOD_subdir_sparc=
 SERVERMOD_subdir_i386=$(ARCHLIBSUBDIR)
 SERVERMOD_subdir=$(SERVERMOD_subdir_$(MACH))
 
+# PKGCONFIG_DIR is constructed of _prefix + ARCHLIBSUBDIR + _suffix
+PKGCONFIG_DIR_prefix=/usr/lib
+PKGCONFIG_DIR_suffix=/pkgconfig
+PKGCONFIG_DIR=$(PKGCONFIG_DIR_prefix)$(ARCHLIBSUBDIR)$(PKGCONFIG_DIR_suffix)
+PKGCONFIG_DIR_32=$(PKGCONFIG_DIR_prefix)$(PKGCONFIG_DIR_suffix)
+PKGCONFIG_DIR_64=$(PKGCONFIG_DIR_prefix)/$(SUBDIR64)$(PKGCONFIG_DIR_suffix)
+
 # Directory used for installing tools used during build but not
 # delivered in packages
 TOOLS_DIR=/tools
@@ -286,10 +297,10 @@ XORG_GIT_URL=$(FDO_GIT_URL)/xorg
 
 # Target created when sources are unpacked
 UNPACK_FILE = .unpack_done
-UNPACK_TARGET = $(BUILD_DIR)/$(UNPACK_FILE)
+UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE) 
 
 ### Dependencies
 # Need to define more dependencies to enable simpler builds of subtree portions
 
 # Almost everything depends on the headers in xproto
-XPROTO_DEP=$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig/xproto.pc
+XPROTO_DEP=$(PROTODIR)$(PKGCONFIG_DIR)/xproto.pc

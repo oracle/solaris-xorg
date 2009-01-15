@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to both Xorg & Xvnc builds
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.9	08/10/07
+# @(#)Makefile.inc	1.10	09/01/14
 #
 
 PWD:sh=pwd
@@ -40,16 +40,16 @@ MODTYPE=xserver
 include $(TOP)/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.3.0.0
+XORGSERVER_VERS=1.5.3
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
 
 XSERVER_FONTDIR=$(X11_DIR)/lib/X11/fonts
-MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-7.0.4
+MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-7.2
 
-SERVER_MODULES_DIR='$${libdir}/modules$(SERVERMOD_subdir)'
-DRI_MODULES_DIR='$${libdir}/modules/dri$(SERVERMOD_subdir)'
+SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)'
+DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(SERVERMOD_subdir)'
 
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
@@ -67,9 +67,14 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
 	--with-rgb-path='$${libdir}/X11/rgb' \
-	--with-default-font-path="catalogue:/etc/X11/fontpath.d,$(FONT_DIR)/TrueType/,$(FONT_DIR)/Type1/,$(FONT_DIR)/Type1/sun/,$(FONT_DIR)/F3bitmaps/,$(FONT_DIR)/misc/,$(FONT_DIR)/100dpi/,$(FONT_DIR)/75dpi/" 
+	--with-serverconfig-path='$${libdir}/X11/xserver' \
+	--with-default-font-path="catalogue:/etc/X11/fontpath.d" \
+	--with-default-xkb-rules=xorg \
+	--with-default-xkb-model=pc105 \
+	$(ADDITIONAL_CONFIG_OPTS)
 
-XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON)
+XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON) \
+	--disable-glx
 XSERVER_CONFIG_OPTS_i386=$(XSERVER_CONFIG_OPTS_COMMON) \
 	--with-mesa-source=$(MESA_SRC_DIR)
 XSERVER_CONFIG_OPTS=$(XSERVER_CONFIG_OPTS_$(MACH))
@@ -86,8 +91,11 @@ MODTYPE_CPPFLAGS_suncc= # No extra flags needed
 MODTYPE_CPPFLAGS_gcc= $(GCC_HEADERS)
 
 MODTYPE_CPPFLAGS=  \
-	-I$(MESA_SRC_DIR)/include \
+	-I$(PROTODIR)/usr/include \
+	-I$(PROTODIR)/usr/include/pixman-1 \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR) \
+	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm \
+	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions \
 	$(DPMS_DEFINES) -DSUNSOFT -DTSOL \
 	$(MODTYPE_CPPFLAGS_$(MODULE_COMPILER))
@@ -102,6 +110,11 @@ XSERVER_LDFLAGS_gcc= -L/usr/sfw/lib$(ARCHLIBSUBDIR) \
 MODTYPE_CONFIG_ENV = \
 	XSERVERCFLAGS_CFLAGS="-DHAS_FCHOWN -DHAS_STICKY_DIR_BIT -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DXTHREADS -DXUSE_MTSAFE_API" \
 	PATH=$(PATH):/usr/sbin
+
+# 64-bit X servers on SPARC crash on startup when built with Sun Studio 
+# with -g unless -xmemalign=8i is also used (Sun bug #6545113)
+MODTYPE_DEBUG_FLAGS_sparc_suncc = -xmemalign=8i
+MODTYPE_DEBUG_FLAGS=$(MODTYPE_DEBUG_FLAGS_$(MACH)_$(MODULE_COMPILER)) -DDEBUG
 
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
 MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)

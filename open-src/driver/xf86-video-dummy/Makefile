@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/08/08
+# @(#)Makefile	1.8	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-dummy
 
 # Version number (used in path names)
-MODULE_VERSION=0.2.0
+MODULE_VERSION=0.3.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

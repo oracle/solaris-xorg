@@ -29,64 +29,17 @@
 Replace "type1" and "bitstream" font modules in xorg.conf files with
 "freetype"
 
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2007-10-09 14:55:31.434564000 -0700
-+++ hw/xfree86/common/xf86AutoConfig.c	2007-10-09 15:09:48.232453000 -0700
-@@ -52,7 +52,6 @@
- 	"\tLoad\t\"dbe\"\n" \
- 	"\tLoad\t\"glx\"\n" \
- 	"\tLoad\t\"freetype\"\n" \
--	"\tLoad\t\"type1\"\n" \
- 	"\tLoad\t\"record\"\n" \
- 	"\tLoad\t\"dri\"\n" \
- 	"\tLoad\t\"IA\"\n" \
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2007-10-09 14:36:57.925355000 -0700
-+++ hw/xfree86/common/xf86Config.c	2007-10-09 14:37:20.862848000 -0700
-@@ -290,10 +290,9 @@ xf86ModulelistFromConfig(pointer **optli
- 	ptr = xf86addNewLoadDirective(ptr, "dbe", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "glx", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "freetype", XF86_LOAD_MODULE, NULL);
--	ptr = xf86addNewLoadDirective(ptr, "type1", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "record", XF86_LOAD_MODULE, NULL);
- 	ptr = xf86addNewLoadDirective(ptr, "dri", XF86_LOAD_MODULE, NULL);
--	count = 7;
-+	count = 6;
- 
- 	/* Sun addition - IA extension */
- 	ptr = xf86addNewLoadDirective(ptr, "IA", XF86_LOAD_MODULE, NULL);
-@@ -304,6 +303,34 @@ xf86ModulelistFromConfig(pointer **optli
- 	count++;
-     }
- 
-+    /* Map bitstream and type1 modules to freetype */
-+    if (xf86configptr->conf_modules) {
-+	int freetype_found = 0;
-+	int freetype_needed = 0;
-+	
-+	modp = xf86configptr->conf_modules->mod_load_lst;
-+	while (modp) {
-+	    if ((strcasecmp(modp->load_name, "bitstream") == 0) ||
-+		(strcasecmp(modp->load_name, "type1") == 0)) {
-+		modp->ignore = 1;
-+		count--;
-+		freetype_needed = 1;
-+		xf86MsgVerb(X_INFO, 0,
-+			    "Module \"%s\" is no longer provided "
-+			    " - using \"freetype\" instead\n",
-+			    modp->load_name);
-+	    } else if (strcasecmp(modp->load_name, "freetype") == 0) {
-+		freetype_found = 1;
-+            }
-+	    modp = (XF86LoadPtr) modp->list.next;
-+	}
-+	if ((freetype_found == 0) && (freetype_needed == 1)) {
-+	    xf86addNewLoadDirective(xf86configptr->conf_modules,
-+				    "freetype", XF86_LOAD_MODULE, NULL);
-+	    count++;
-+	}
-+    }
-+
-     /*
-      * allocate the memory and walk the list again to fill in the pointers
-      */
+--- hw/xfree86/common/xf86Config.c	2008-09-24 20:21:42.861097000 -0700
++++ hw/xfree86/common/xf86Config.c	2008-09-24 20:21:55.754653000 -0700
+@@ -254,7 +254,9 @@
+ {
+     int count = 0, i = 0;
+     char **modulearray;
+-    char *ignore[] = { "GLcore", "speedo", "bitmap", "drm", NULL };
++    char *ignore[] = { "GLcore", "speedo", "bitmap", "drm",
++		       "type1", "bitstream",
++		       NULL };
+     pointer *optarray;
+     XF86LoadPtr modp;
+     Bool found;

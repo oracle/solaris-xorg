@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/27
+# @(#)Makefile	1.6	09/01/11
 #
 
 # Package name used in tarballs
@@ -38,7 +38,7 @@ MODULE_NAME=inputproto
 MODULE_VERSION=1.4.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=6649171.patch
+SOURCE_PATCHES= c++.patch,-p1
 
 ### Include common rulesets
 include ../Makefile.inc

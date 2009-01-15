@@ -1,0 +1,1498 @@
+[Adjusted to apply to xserver-1.5.2]
+
+From ebea78cdba0ff14a397239ee1936bd254c181e1b Mon Sep 17 00:00:00 2001
+From: Tomas Carnecky <tom@dbservice.com>
+Date: Thu, 28 Aug 2008 18:05:40 -0400
+Subject: [PATCH] Prepare for array-index based devPrivates.
+
+TODO: static indices can be made just an int; some indices
+can be combined.
+---
+ Xext/geext.c                          |    3 ++-
+ Xext/mbuf.c                           |    6 ++++--
+ Xext/panoramiX.c                      |    6 ++++--
+ Xext/saver.c                          |    3 ++-
+ Xext/security.c                       |    3 ++-
+ Xext/shm.c                            |    3 ++-
+ Xext/xevie.c                          |    4 +++-
+ Xext/xselinux.c                       |    9 ++++++---
+ Xext/xvmain.c                         |    3 ++-
+ Xext/xvmc.c                           |    5 +++--
+ Xi/extinit.c                          |    3 ++-
+ composite/compext.c                   |    3 ++-
+ composite/compinit.c                  |    9 ++++++---
+ damageext/damageext.c                 |    4 +++-
+ dbe/dbe.c                             |    6 ++++--
+ dbe/midbe.c                           |    9 ++++++---
+ dix/devices.c                         |    6 ++++--
+ dix/events.c                          |    3 ++-
+ dix/window.c                          |    3 ++-
+ exa/exa.c                             |    6 ++++--
+ fb/fballpriv.c                        |   11 ++++++++---
+ fb/fboverlay.c                        |    3 ++-
+ glx/glxext.c                          |    3 ++-
+ glx/glxscreens.c                      |    3 ++-
+ hw/dmx/dmxscrinit.c                   |   19 +++++++++++++------
+ hw/kdrive/ephyr/ephyrdriext.c         |    6 ++++--
+ hw/kdrive/src/kdrive.c                |    3 ++-
+ hw/kdrive/src/kxv.c                   |    7 ++++---
+ hw/xfree86/common/xf86DGA.c           |    5 +++--
+ hw/xfree86/common/xf86DPMS.c          |    5 +++--
+ hw/xfree86/common/xf86Globals.c       |    9 ++++++---
+ hw/xfree86/common/xf86RAC.c           |    6 ++++--
+ hw/xfree86/common/xf86RandR.c         |    5 +++--
+ hw/xfree86/common/xf86VidMode.c       |    5 +++--
+ hw/xfree86/common/xf86cmap.c          |    8 +++++---
+ hw/xfree86/common/xf86fbman.c         |    8 +++++---
+ hw/xfree86/common/xf86sbusBus.c       |    3 ++-
+ hw/xfree86/common/xf86xv.c            |    6 ++++--
+ hw/xfree86/common/xf86xvmc.c          |    3 ++-
+ hw/xfree86/dixmods/extmod/xf86dga2.c  |    3 ++-
+ hw/xfree86/dixmods/extmod/xf86vmode.c |    8 +++++---
+ hw/xfree86/dri/dri.c                  |    7 ++++---
+ hw/xfree86/dri2/dri2.c                |    9 ++++++---
+ hw/xfree86/exa/examodule.c            |    3 ++-
+ hw/xfree86/modes/xf86RandR12.c        |    3 ++-
+ hw/xfree86/ramdac/xf86Cursor.c        |    3 ++-
+ hw/xfree86/shadowfb/shadow.c          |    6 ++++--
+ hw/xfree86/xaa/xaaInit.c              |    9 ++++++---
+ hw/xfree86/xaa/xaaOverlayDF.c         |    3 ++-
+ hw/xfree86/xaa/xaaStateChange.c       |    3 ++-
+ hw/xfree86/xaa/xaaWrapper.c           |    6 ++++--
+ hw/xnest/GC.c                         |    3 ++-
+ hw/xnest/Pixmap.c                     |    3 ++-
+ hw/xnest/Screen.c                     |    3 ++-
+ hw/xnest/Window.c                     |    3 ++-
+ hw/xquartz/darwin.c                   |    3 ++-
+ hw/xquartz/quartz.c                   |    3 ++-
+ hw/xquartz/xpr/dri.c                  |    9 ++++++---
+ hw/xquartz/xpr/xprCursor.c            |    3 ++-
+ hw/xwin/winglobals.c                  |   15 ++++++++++-----
+ mi/mibank.c                           |    7 +++++--
+ mi/midispcur.c                        |    7 ++++---
+ mi/mioverlay.c                        |    6 ++++--
+ mi/mipointer.c                        |    6 ++++--
+ mi/miscrinit.c                        |    6 ++++--
+ mi/misprite.c                         |    6 ++++--
+ miext/cw/cw.c                         |   12 ++++++++----
+ miext/damage/damage.c                 |   12 ++++++++----
+ miext/rootless/rootlessScreen.c       |   12 ++++++++----
+ miext/shadow/shadow.c                 |    3 ++-
+ randr/randr.c                         |    6 ++++--
+ record/record.c                       |    3 ++-
+ render/animcur.c                      |    4 +++-
+ render/picture.c                      |    6 ++++--
+ render/render.c                       |    3 ++-
+ xfixes/cursor.c                       |    4 +++-
+ xfixes/xfixes.c                       |    4 +++-
+ xkb/xkbActions.c                      |    3 ++-
+ 78 files changed, 287 insertions(+), 146 deletions(-)
+
+#diff --git a/Xext/geext.c b/Xext/geext.c
+#index 171fda1..8de4e7c 100644
+#--- a/Xext/geext.c
+#+++ b/Xext/geext.c
+#@@ -40,7 +40,8 @@ #define rClient(obj) (clients[CLIENT_ID(
+# 
+# int GEEventBase;
+# int GEErrorBase;
+#-DevPrivateKey GEClientPrivateKey = &GEClientPrivateKey;
+#+static int GEClientPrivateKeyIndex;
+#+DevPrivateKey GEClientPrivateKey = &GEClientPrivateKeyIndex;
+# int GEEventType; /* The opcode for all GenericEvents will have. */
+# 
+# int RT_GECLIENT  = 0;
+diff --git a/Xext/mbuf.c b/Xext/mbuf.c
+index 08b9334..a23a4fa 100644
+--- a/Xext/mbuf.c
++++ b/Xext/mbuf.c
+@@ -61,8 +61,10 @@ #define ValidEventMasks (ExposureMask|Mu
+ 
+ static int		MultibufferEventBase;
+ static int		MultibufferErrorBase;
+-static DevPrivateKey MultibufferScreenPrivKey = &MultibufferScreenPrivKey;
+-static DevPrivateKey MultibufferWindowPrivKey = &MultibufferWindowPrivKey;
++static int MultibufferScreenPrivKeyIndex;
++static DevPrivateKey MultibufferScreenPrivKey = &MultibufferScreenPrivKeyIndex;
++static int MultibufferWindowPrivKeyIndex;
++static DevPrivateKey MultibufferWindowPrivKey = &MultibufferWindowPrivKeyIndex;
+ 
+ static void		PerformDisplayRequest (
+ 				MultibuffersPtr * /* ppMultibuffers */,
+diff --git a/Xext/panoramiX.c b/Xext/panoramiX.c
+index 17f587b..22b51aa 100644
+--- a/Xext/panoramiX.c
++++ b/Xext/panoramiX.c
+@@ -107,8 +107,10 @@ #include "panoramiXh.h"
+ 
+ int (* SavedProcVector[256]) (ClientPtr client) = { NULL, };
+ 
+-static DevPrivateKey PanoramiXGCKey = &PanoramiXGCKey;
+-static DevPrivateKey PanoramiXScreenKey = &PanoramiXScreenKey;
++static int PanoramiXGCKeyIndex;
++static DevPrivateKey PanoramiXGCKey = &PanoramiXGCKeyIndex;
++static int PanoramiXScreenKeyIndex;
++static DevPrivateKey PanoramiXScreenKey = &PanoramiXScreenKeyIndex;
+ 
+ typedef struct {
+   DDXPointRec clipOrg;
+diff --git a/Xext/saver.c b/Xext/saver.c
+index d74495b..0bdcb8b 100644
+--- a/Xext/saver.c
++++ b/Xext/saver.c
+@@ -228,7 +228,8 @@ MakeScreenPrivate (
+ 	ScreenPtr /* pScreen */
+ 	);
+ 
+-static DevPrivateKey ScreenPrivateKey = &ScreenPrivateKey;
++static int ScreenPrivateKeyIndex;
++static DevPrivateKey ScreenPrivateKey = &ScreenPrivateKeyIndex;
+ 
+ #define GetScreenPrivate(s) ((ScreenSaverScreenPrivatePtr) \
+     dixLookupPrivate(&(s)->devPrivates, ScreenPrivateKey))
+diff --git a/Xext/security.c b/Xext/security.c
+index bd92600..e379063 100644
+--- a/Xext/security.c
++++ b/Xext/security.c
+@@ -50,7 +50,8 @@ static RESTYPE RTEventClient;
+ static CallbackListPtr SecurityValidateGroupCallback = NULL;
+ 
+ /* Private state record */
+-static DevPrivateKey stateKey = &stateKey;
++static int stateKeyIndex;
++static DevPrivateKey stateKey = &stateKeyIndex;
+ 
+ /* This is what we store as client security state */
+ typedef struct {
+diff --git a/Xext/shm.c b/Xext/shm.c
+index 312b9d1..a48d2bd 100644
+--- a/Xext/shm.c
++++ b/Xext/shm.c
+@@ -139,7 +139,8 @@ static ShmDescPtr Shmsegs;
+ static Bool sharedPixmaps;
+ static ShmFuncsPtr shmFuncs[MAXSCREENS];
+ static DestroyPixmapProcPtr destroyPixmap[MAXSCREENS];
+-static DevPrivateKey shmPixmapPrivate = &shmPixmapPrivate;
++static int shmPixmapPrivateIndex;
++static DevPrivateKey shmPixmapPrivate = &shmPixmapPrivateIndex;
+ static ShmFuncs miFuncs = {NULL, NULL};
+ static ShmFuncs fbFuncs = {fbShmCreatePixmap, NULL};
+ 
+diff --git a/Xext/xevie.c b/Xext/xevie.c
+index bbbf045..292f207 100644
+--- a/Xext/xevie.c
++++ b/Xext/xevie.c
+@@ -77,9 +77,11 @@ DeviceIntPtr		xeviemouse = NULL;
+ Mask			xevieMask = 0;
+ int       		xevieEventSent = 0;
+ int			xevieKBEventSent = 0;
+-static DevPrivateKey    xevieDevicePrivateKey = &xevieDevicePrivateKey;
+ static Bool             xevieModifiersOn = FALSE;
+ 
++static int xevieDevicePrivateKeyIndex;
++static DevPrivateKey xevieDevicePrivateKey = &xevieDevicePrivateKeyIndex;
++
+ #define XEVIEINFO(dev)  ((xevieDeviceInfoPtr) \
+     dixLookupPrivate(&(dev)->devPrivates, xevieDevicePrivateKey))
+ 
+diff --git a/Xext/xselinux.c b/Xext/xselinux.c
+index a47df03..2a8be0b 100644
+--- a/Xext/xselinux.c
++++ b/Xext/xselinux.c
+@@ -62,9 +62,12 @@ #include "modinit.h"
+  */
+ 
+ /* private state keys */
+-static DevPrivateKey subjectKey = &subjectKey;
+-static DevPrivateKey objectKey = &objectKey;
+-static DevPrivateKey dataKey = &dataKey;
++static int subjectKeyIndex;
++static DevPrivateKey subjectKey = &subjectKeyIndex;
++static int objectKeyIndex;
++static DevPrivateKey objectKey = &objectKeyIndex;
++static int dataKeyIndex;
++static DevPrivateKey dataKey = &dataKeyIndex;
+ 
+ /* subject state (clients and devices only) */
+ typedef struct {
+diff --git a/Xext/xvmain.c b/Xext/xvmain.c
+index e92a248..fcca724 100644
+--- a/Xext/xvmain.c
++++ b/Xext/xvmain.c
+@@ -105,7 +105,8 @@ #include "panoramiXsrv.h"
+ #endif
+ #include "xvdisp.h"
+ 
+-static DevPrivateKey XvScreenKey = &XvScreenKey;
++static int XvScreenKeyIndex;
++static DevPrivateKey XvScreenKey = &XvScreenKeyIndex;
+ unsigned long XvExtensionGeneration = 0;
+ unsigned long XvScreenGeneration = 0;
+ unsigned long XvResourceGeneration = 0;
+diff --git a/Xext/xvmc.c b/Xext/xvmc.c
+index dc1e7dd..ad1b8ab 100644
+--- a/Xext/xvmc.c
++++ b/Xext/xvmc.c
+@@ -34,7 +34,8 @@ #endif /* HAS_XVMCSHM */
+ #define DR_CLIENT_DRIVER_NAME_SIZE 48
+ #define DR_BUSID_SIZE 48
+ 
+-static DevPrivateKey XvMCScreenKey = NULL;
++static int XvMCScreenKeyIndex;
++static DevPrivateKey XvMCScreenKey;
+ 
+ unsigned long XvMCGeneration = 0;
+ 
+@@ -709,7 +710,7 @@ XvMCScreenInit(ScreenPtr pScreen, int nu
+ {
+    XvMCScreenPtr pScreenPriv;
+ 
+-   XvMCScreenKey = &XvMCScreenKey;
++   XvMCScreenKey = &XvMCScreenKeyIndex;
+ 
+    if(!(pScreenPriv = (XvMCScreenPtr)xalloc(sizeof(XvMCScreenRec))))
+ 	return BadAlloc;
+#diff --git a/Xi/extinit.c b/Xi/extinit.c
+#index cb1f3a4..d8714ba 100644
+#--- a/Xi/extinit.c
+#+++ b/Xi/extinit.c
+#@@ -352,7 +352,8 @@ Mask PropagateMask[MAX_DEVICES];
+#  *
+#  */
+# 
+#-DevPrivateKey XIClientPrivateKey = &XIClientPrivateKey;
+#+static int XIClientPrivateKeyIndex;
+#+DevPrivateKey XIClientPrivateKey = &XIClientPrivateKeyIndex;
+# 
+# static XExtensionVersion thisversion = { XI_Present,
+#     XI_2_Major,
+diff --git a/composite/compext.c b/composite/compext.c
+index 154f719..c154402 100644
+--- a/composite/compext.c
++++ b/composite/compext.c
+@@ -51,7 +51,8 @@ #define SERVER_COMPOSITE_MAJOR	0
+ #define SERVER_COMPOSITE_MINOR	4
+ 
+ static CARD8	CompositeReqCode;
+-static DevPrivateKey CompositeClientPrivateKey = &CompositeClientPrivateKey;
++static int CompositeClientPrivateKeyIndex;
++static DevPrivateKey CompositeClientPrivateKey = &CompositeClientPrivateKeyIndex;
+ RESTYPE		CompositeClientWindowType;
+ RESTYPE		CompositeClientSubwindowsType;
+ RESTYPE		CompositeClientOverlayType;
+diff --git a/composite/compinit.c b/composite/compinit.c
+index 7914a8d..495188e 100644
+--- a/composite/compinit.c
++++ b/composite/compinit.c
+@@ -46,9 +46,12 @@ #endif
+ 
+ #include "compint.h"
+ 
+-DevPrivateKey CompScreenPrivateKey = &CompScreenPrivateKey;
+-DevPrivateKey CompWindowPrivateKey = &CompWindowPrivateKey;
+-DevPrivateKey CompSubwindowsPrivateKey = &CompSubwindowsPrivateKey;
++static int CompScreenPrivateKeyIndex;
++DevPrivateKey CompScreenPrivateKey = &CompScreenPrivateKeyIndex;
++static int CompWindowPrivateKeyIndex;
++DevPrivateKey CompWindowPrivateKey = &CompWindowPrivateKeyIndex;
++static int CompSubwindowsPrivateKeyIndex;
++DevPrivateKey CompSubwindowsPrivateKey = &CompSubwindowsPrivateKeyIndex;
+ 
+ 
+ static Bool
+diff --git a/damageext/damageext.c b/damageext/damageext.c
+index 7dd328a..4d91580 100755
+--- a/damageext/damageext.c
++++ b/damageext/damageext.c
+@@ -29,10 +29,12 @@ #include "damageextint.h"
+ static unsigned char	DamageReqCode;
+ static int		DamageEventBase;
+ static int		DamageErrorBase;
+-static DevPrivateKey	DamageClientPrivateKey = &DamageClientPrivateKey;
+ static RESTYPE		DamageExtType;
+ static RESTYPE		DamageExtWinType;
+ 
++static int DamageClientPrivateKeyIndex;
++static DevPrivateKey DamageClientPrivateKey = &DamageClientPrivateKeyIndex;
++
+ /* Version of the damage extension supported by the server, as opposed to the
+  * DAMAGE_* defines from damageproto for what version the proto header
+  * supports.
+diff --git a/dbe/dbe.c b/dbe/dbe.c
+index d34708d..1a08bda 100644
+--- a/dbe/dbe.c
++++ b/dbe/dbe.c
+@@ -62,8 +62,10 @@ #include "xace.h"
+ static Bool (* DbeInitFunct[MAXSCREENS])();	/* pScreen, pDbeScreenPriv */
+ 
+ /* These are static globals copied to DBE's screen private for use by DDX */
+-static DevPrivateKey dbeScreenPrivKey = &dbeScreenPrivKey;
+-static DevPrivateKey dbeWindowPrivKey = &dbeWindowPrivKey;
++static int dbeScreenPrivKeyIndex;
++static DevPrivateKey dbeScreenPrivKey = &dbeScreenPrivKeyIndex;
++static int dbeWindowPrivKeyIndex;
++static DevPrivateKey dbeWindowPrivKey = &dbeWindowPrivKeyIndex;
+ 
+ /* These are static globals copied to DBE's screen private for use by DDX */
+ static RESTYPE	dbeDrawableResType;
+diff --git a/dbe/midbe.c b/dbe/midbe.c
+index c02e591..f8a3acc 100644
+--- a/dbe/midbe.c
++++ b/dbe/midbe.c
+@@ -60,11 +60,14 @@ #include "xace.h"
+ 
+ #include <stdio.h>
+ 
+-static DevPrivateKey miDbeWindowPrivPrivKey = &miDbeWindowPrivPrivKey;
++static int miDbeWindowPrivPrivKeyIndex;
++static DevPrivateKey miDbeWindowPrivPrivKey = &miDbeWindowPrivPrivKeyIndex;
+ static RESTYPE	dbeDrawableResType;
+ static RESTYPE	dbeWindowPrivResType;
+-static DevPrivateKey dbeScreenPrivKey = &dbeScreenPrivKey;
+-static DevPrivateKey dbeWindowPrivKey = &dbeWindowPrivKey;
++static int dbeScreenPrivKeyIndex;
++static DevPrivateKey dbeScreenPrivKey = &dbeScreenPrivKeyIndex;
++static int dbeWindowPrivKeyIndex;
++static DevPrivateKey dbeWindowPrivKey = &dbeWindowPrivKeyIndex;
+ 
+ 
+ /******************************************************************************
+diff --git a/dix/devices.c b/dix/devices.c
+index 2225e08..7e1ce35 100644
+--- a/dix/devices.c
++++ b/dix/devices.c
+@@ -91,7 +91,8 @@ #include "xiproperty.h"
+  * This file handles input device-related stuff.
+  */
+ 
+-DevPrivateKey CoreDevicePrivateKey = &CoreDevicePrivateKey;
++static int CoreDevicePrivateKeyIndex;
++DevPrivateKey CoreDevicePrivateKey = &CoreDevicePrivateKeyIndex;
+ 
+ /**
+  * Create a new input device and init it to sane values. The device is added
+diff --git a/dix/events.c b/dix/events.c
+index 7a79d29..2947ff1 100644
+#--- a/dix/events.c
+#+++ b/dix/events.c
+#@@ -1504,7 +1504,8 @@ CheckGrabForSyncs(DeviceIntPtr thisDev, 
+# }
+# 
+# /* Only ever used if a grab is called on an attached slave device. */
+#-static DevPrivateKey GrabPrivateKey = &GrabPrivateKey;
+#+static int GrabPrivateKeyIndex;
+#+static DevPrivateKey GrabPrivateKey = &GrabPrivateKeyIndex;
+# typedef struct _GrabMemoryRec {
+#     DeviceIntPtr oldmaster;
+# } GrabMemoryRec, *GrabMemoryPtr;
+#diff --git a/dix/window.c b/dix/window.c
+#index 9bcf546..b588f44 100644
+#--- a/dix/window.c
+#+++ b/dix/window.c
+#@@ -154,7 +154,8 @@ _X_EXPORT int screenIsSaved = SCREEN_SAV
+# 
+# _X_EXPORT ScreenSaverStuffRec savedScreenInfo[MAXSCREENS];
+# 
+#-_X_EXPORT DevPrivateKey FocusPrivatesKey = &FocusPrivatesKey;
+#+static int FocusPrivatesKeyIndex;
+#+_X_EXPORT DevPrivateKey FocusPrivatesKey = &FocusPrivatesKeyIndex;
+# 
+# static Bool TileScreenSaver(int i, int kind);
+ 
+diff --git a/exa/exa.c b/exa/exa.c
+index 12c1549..677e2d5 100644
+--- a/exa/exa.c
++++ b/exa/exa.c
+@@ -38,8 +38,10 @@ #include "exa_priv.h"
+ #include "exa.h"
+ #include "cw.h"
+ 
+-DevPrivateKey exaScreenPrivateKey = &exaScreenPrivateKey;
+-DevPrivateKey exaPixmapPrivateKey = &exaPixmapPrivateKey;
++static int exaScreenPrivateKeyIndex;
++DevPrivateKey exaScreenPrivateKey = &exaScreenPrivateKeyIndex;
++static int exaPixmapPrivateKeyIndex;
++DevPrivateKey exaPixmapPrivateKey = &exaPixmapPrivateKeyIndex;
+ 
+ static _X_INLINE void*
+ ExaGetPixmapAddress(PixmapPtr p)
+diff --git a/fb/fballpriv.c b/fb/fballpriv.c
+index 2e77289..c40796c 100644
+--- a/fb/fballpriv.c
++++ b/fb/fballpriv.c
+@@ -27,19 +27,24 @@ #endif
+ #include "fb.h"
+ 
+ #ifdef FB_SCREEN_PRIVATE
+-static DevPrivateKey fbScreenPrivateKey = &fbScreenPrivateKey;
++static int fbScreenPrivateKeyIndex;
++static DevPrivateKey fbScreenPrivateKey = &fbScreenPrivateKeyIndex;
+ DevPrivateKey fbGetScreenPrivateKey(void)
+ {
+     return fbScreenPrivateKey;
+ }
+ #endif
+-static DevPrivateKey fbGCPrivateKey = &fbGCPrivateKey;
++
++static int fbGCPrivateKeyIndex;
++static DevPrivateKey fbGCPrivateKey = &fbGCPrivateKeyIndex;
+ DevPrivateKey fbGetGCPrivateKey(void)
+ {
+     return fbGCPrivateKey;
+ }
++
+ #ifndef FB_NO_WINDOW_PIXMAPS
+-static DevPrivateKey fbWinPrivateKey = &fbWinPrivateKey;
++static int fbWinPrivateKeyIndex;
++static DevPrivateKey fbWinPrivateKey = &fbWinPrivateKeyIndex;
+ DevPrivateKey fbGetWinPrivateKey(void)
+ {
+     return fbWinPrivateKey;
+diff --git a/fb/fboverlay.c b/fb/fboverlay.c
+index f9f7c52..1432cb6 100644
+--- a/fb/fboverlay.c
++++ b/fb/fboverlay.c
+@@ -33,7 +33,8 @@ #include "fb.h"
+ #include "fboverlay.h"
+ #include "shmint.h"
+ 
+-static DevPrivateKey fbOverlayScreenPrivateKey = &fbOverlayScreenPrivateKey;
++static int fbOverlayScreenPrivateKeyIndex;
++static DevPrivateKey fbOverlayScreenPrivateKey = &fbOverlayScreenPrivateKeyIndex;
+ 
+ DevPrivateKey fbOverlayGetScreenPrivateKey(void)
+ {
+diff --git a/glx/glxext.c b/glx/glxext.c
+index 6ba404f..c2171a8 100644
+--- a/glx/glxext.c
++++ b/glx/glxext.c
+@@ -54,7 +54,8 @@ RESTYPE __glXSwapBarrierRes;
+ */
+ xGLXSingleReply __glXReply;
+ 
+-static DevPrivateKey glxClientPrivateKey = &glxClientPrivateKey;
++static int glxClientPrivateKeyIndex;
++static DevPrivateKey glxClientPrivateKey = &glxClientPrivateKeyIndex;
+ 
+ /*
+ ** Client that called into GLX dispatch.
+diff --git a/glx/glxscreens.c b/glx/glxscreens.c
+index 505f797..d928bdf 100644
+--- a/glx/glxscreens.c
++++ b/glx/glxscreens.c
+@@ -48,7 +48,8 @@ #include "glxserver.h"
+ #include "glxutil.h"
+ #include "glxext.h"
+ 
+-static DevPrivateKey glxScreenPrivateKey = &glxScreenPrivateKey;
++static int glxScreenPrivateKeyIndex;
++static DevPrivateKey glxScreenPrivateKey = &glxScreenPrivateKeyIndex;
+ 
+ const char GLServerVersion[] = "1.4";
+ static const char GLServerExtensions[] = 
+diff --git a/hw/dmx/dmxscrinit.c b/hw/dmx/dmxscrinit.c
+index 0e49e96..7360750 100644
+--- a/hw/dmx/dmxscrinit.c
++++ b/hw/dmx/dmxscrinit.c
+@@ -67,15 +67,22 @@ static Bool dmxSaveScreen(ScreenPtr pScr
+ static unsigned long dmxGeneration;
+ static unsigned long *dmxCursorGeneration;
+ 
++static int dmxGCPrivateKeyIndex;
+ DevPrivateKey dmxGCPrivateKey = &dmxGCPrivateKey; /**< Private index for GCs       */
+-DevPrivateKey dmxWinPrivateKey = &dmxWinPrivateKey; /**< Private index for Windows   */
+-DevPrivateKey dmxPixPrivateKey = &dmxPixPrivateKey; /**< Private index for Pixmaps   */
++static int dmxWinPrivateKeyIndex;
++DevPrivateKey dmxWinPrivateKey = &dmxWinPrivateKeyIndex; /**< Private index for Windows   */
++static int dmxPixPrivateKeyIndex;
++DevPrivateKey dmxPixPrivateKey = &dmxPixPrivateKeyIndex; /**< Private index for Pixmaps   */
+ int dmxFontPrivateIndex;        /**< Private index for Fonts     */
+-DevPrivateKey dmxScreenPrivateKey = &dmxScreenPrivateKey; /**< Private index for Screens   */
+-DevPrivateKey dmxColormapPrivateKey = &dmxColormapPrivateKey; /**< Private index for Colormaps */
++static int dmxScreenPrivateKeyIndex;
++DevPrivateKey dmxScreenPrivateKey = &dmxScreenPrivateKeyIndex; /**< Private index for Screens   */
++static int dmxColormapPrivateKeyIndex;
++DevPrivateKey dmxColormapPrivateKey = &dmxColormapPrivateKeyIndex; /**< Private index for Colormaps */
+ #ifdef RENDER
+-DevPrivateKey dmxPictPrivateKey = &dmxPictPrivateKey; /**< Private index for Picts     */
+-DevPrivateKey dmxGlyphSetPrivateKey = &dmxGlyphSetPrivateKey; /**< Private index for GlyphSets */
++static int dmxPictPrivateKeyIndex;
++DevPrivateKey dmxPictPrivateKey = &dmxPictPrivateKeyIndex; /**< Private index for Picts     */
++static int dmxGlyphSetPrivateKeyIndex;
++DevPrivateKey dmxGlyphSetPrivateKey = &dmxGlyphSetPrivateKeyIndex; /**< Private index for GlyphSets */
+ #endif
+ 
+ /** Initialize the parts of screen \a idx that require access to the
+diff --git a/hw/kdrive/ephyr/ephyrdriext.c b/hw/kdrive/ephyr/ephyrdriext.c
+index 05cecf4..a906ad1 100644
+--- a/hw/kdrive/ephyr/ephyrdriext.c
++++ b/hw/kdrive/ephyr/ephyrdriext.c
+@@ -111,8 +111,10 @@ static Bool findWindowPairFromLocal (Win
+ 
+ static unsigned char DRIReqCode = 0;
+ 
+-static DevPrivateKey ephyrDRIWindowKey = &ephyrDRIWindowKey;
+-static DevPrivateKey ephyrDRIScreenKey = &ephyrDRIScreenKey;
++static int ephyrDRIWindowKeyIndex;
++static DevPrivateKey ephyrDRIWindowKey = &ephyrDRIWindowKeyIndex;
++static int ephyrDRIScreenKeyIndex;
++static DevPrivateKey ephyrDRIScreenKey = &ephyrDRIScreenKeyIndex;
+ 
+ #define GET_EPHYR_DRI_WINDOW_PRIV(win) ((EphyrDRIWindowPrivPtr) \
+     dixLookupPrivate(&(win)->devPrivates, ephyrDRIWindowKey))
+diff --git a/hw/kdrive/src/kdrive.c b/hw/kdrive/src/kdrive.c
+index 9e27840..1478a94 100644
+--- a/hw/kdrive/src/kdrive.c
++++ b/hw/kdrive/src/kdrive.c
+@@ -67,7 +67,8 @@ #define NUM_KD_DEPTHS (sizeof (kdDepths)
+ 
+ #define KD_DEFAULT_BUTTONS 5
+ 
+-DevPrivateKey       kdScreenPrivateKey = &kdScreenPrivateKey;
++static int          kdScreenPrivateKeyIndex;
++DevPrivateKey       kdScreenPrivateKey = &kdScreenPrivateKeyIndex;
+ unsigned long	    kdGeneration;
+ 
+ Bool                kdVideoTest;
+diff --git a/hw/kdrive/src/kxv.c b/hw/kdrive/src/kxv.c
+index 83ca393..9a74654 100644
+--- a/hw/kdrive/src/kxv.c
++++ b/hw/kdrive/src/kxv.c
+@@ -103,9 +103,10 @@ static void KdXVClipNotify(WindowPtr pWi
+ /* misc */
+ static Bool KdXVInitAdaptors(ScreenPtr, KdVideoAdaptorPtr*, int);
+ 
+-
+-DevPrivateKey KdXVWindowKey = &KdXVWindowKey;
+-DevPrivateKey KdXvScreenKey = &KdXvScreenKey;
++static int KdXVWindowKeyIndex;
++DevPrivateKey KdXVWindowKey = &KdXVWindowKeyIndex;
++static int KdXvScreenKeyIndex;
++DevPrivateKey KdXvScreenKey = &KdXvScreenKeyIndex;
+ static unsigned long KdXVGeneration = 0;
+ static unsigned long PortResource = 0;
+ 
+diff --git a/hw/xfree86/common/xf86DGA.c b/hw/xfree86/common/xf86DGA.c
+index a7e24a6..4dd31d8 100644
+--- a/hw/xfree86/common/xf86DGA.c
++++ b/hw/xfree86/common/xf86DGA.c
+@@ -50,7 +50,8 @@ #include "exglobals.h"
+ 
+ #include "mi.h"
+ 
+-static DevPrivateKey DGAScreenKey = NULL;
++static int DGAScreenKeyIndex;
++static DevPrivateKey DGAScreenKey;
+ static int mieq_installed = 0;
+ 
+ static Bool DGACloseScreen(int i, ScreenPtr pScreen);
+@@ -116,7 +117,7 @@ DGAInit(
+     if(!modes || num <= 0)
+ 	return FALSE;
+ 
+-    DGAScreenKey = &DGAScreenKey;
++    DGAScreenKey = &DGAScreenKeyIndex;
+ 
+     if(!(pScreenPriv = (DGAScreenPtr)xalloc(sizeof(DGAScreenRec))))
+ 	return FALSE;
+diff --git a/hw/xfree86/common/xf86DPMS.c b/hw/xfree86/common/xf86DPMS.c
+index 4fb901a..5ee5e24 100644
+--- a/hw/xfree86/common/xf86DPMS.c
++++ b/hw/xfree86/common/xf86DPMS.c
+@@ -47,7 +47,8 @@ #endif
+ 
+ 
+ #ifdef DPMSExtension
+-static DevPrivateKey DPMSKey = NULL;
++static int DPMSKeyIndex;
++static DevPrivateKey DPMSKey;
+ static Bool DPMSClose(int i, ScreenPtr pScreen);
+ static int DPMSCount = 0;
+ #endif
+@@ -62,7 +63,7 @@ #ifdef DPMSExtension
+     pointer DPMSOpt;
+     MessageType enabled_from = X_INFO;
+ 
+-    DPMSKey = &DPMSKey;
++    DPMSKey = &DPMSKeyIndex;
+ 
+     if (DPMSDisabledSwitch)
+ 	DPMSEnabled = FALSE;
+diff --git a/hw/xfree86/common/xf86Globals.c b/hw/xfree86/common/xf86Globals.c
+index 2362629..dffe988 100644
+--- a/hw/xfree86/common/xf86Globals.c
++++ b/hw/xfree86/common/xf86Globals.c
+@@ -47,10 +47,13 @@ #include "xf86InPriv.h"
+ /* Globals that video drivers may access */
+ 
+ /* Index into pScreen.devPrivates */
+-DevPrivateKey xf86CreateRootWindowKey = &xf86CreateRootWindowKey;
++static int xf86CreateRootWindowKeyIndex;
++DevPrivateKey xf86CreateRootWindowKey = &xf86CreateRootWindowKeyIndex;
+ /* Index of ScrnInfo in pScreen.devPrivates */
+-_X_EXPORT DevPrivateKey xf86ScreenKey = &xf86ScreenKey;
+-_X_EXPORT DevPrivateKey xf86PixmapKey = &xf86PixmapKey;
++static int xf86ScreenKeyIndex;
++_X_EXPORT DevPrivateKey xf86ScreenKey = &xf86ScreenKeyIndex;
++static int xf86PixmapKeyIndex;
++_X_EXPORT DevPrivateKey xf86PixmapKey = &xf86PixmapKeyIndex;
+ _X_EXPORT ScrnInfoPtr *xf86Screens = NULL;	/* List of ScrnInfos */
+ _X_EXPORT const unsigned char byte_reversed[256] =
+ {
+diff --git a/hw/xfree86/common/xf86RAC.c b/hw/xfree86/common/xf86RAC.c
+index 8215f98..24d29e4 100644
+--- a/hw/xfree86/rac/xf86RAC.c
++++ b/hw/xfree86/rac/xf86RAC.c
+@@ -256,8 +256,10 @@ static miPointerSpriteFuncRec RACSpriteF
+     RACSpriteMoveCursor
+ };
+ 
+-static DevPrivateKey RACScreenKey = &RACScreenKey;
+-static DevPrivateKey RACGCKey = &RACGCKey;
++static int RACScreenKeyIndex;
++static DevPrivateKey RACScreenKey = &RACScreenKeyIndex;
++static int RACGCKeyIndex;
++static DevPrivateKey RACGCKey = &RACGCKeyIndex;
+ 
+ 
+ Bool 
+diff --git a/hw/xfree86/common/xf86RandR.c b/hw/xfree86/common/xf86RandR.c
+index 10ec370..8471914 100644
+--- a/hw/xfree86/common/xf86RandR.c
++++ b/hw/xfree86/common/xf86RandR.c
+@@ -46,7 +46,8 @@ typedef struct _xf86RandRInfo {
+     Rotation			    rotation;
+ } XF86RandRInfoRec, *XF86RandRInfoPtr;
+ 
+-static DevPrivateKey xf86RandRKey = NULL;
++static int xf86RandRKeyIndex;
++static DevPrivateKey xf86RandRKey;
+ 
+ #define XF86RANDRINFO(p) ((XF86RandRInfoPtr)dixLookupPrivate(&(p)->devPrivates, xf86RandRKey))
+ 
+@@ -423,7 +424,7 @@ #ifdef PANORAMIX
+ 	return TRUE;
+ #endif
+ 
+-    xf86RandRKey = &xf86RandRKey;
++    xf86RandRKey = &xf86RandRKeyIndex;
+ 
+     randrp = xalloc (sizeof (XF86RandRInfoRec));
+     if (!randrp)
+diff --git a/hw/xfree86/common/xf86VidMode.c b/hw/xfree86/common/xf86VidMode.c
+index 9260bb5..24fccd3 100644
+--- a/hw/xfree86/common/xf86VidMode.c
++++ b/hw/xfree86/common/xf86VidMode.c
+@@ -47,7 +47,8 @@ #ifdef XF86VIDMODE
+ #include "vidmodeproc.h"
+ #include "xf86cmap.h"
+ 
+-static DevPrivateKey VidModeKey = NULL;
++static int VidModeKeyIndex;
++static DevPrivateKey VidModeKey;
+ static int VidModeCount = 0;
+ static Bool VidModeClose(int i, ScreenPtr pScreen);
+ 
+@@ -72,7 +73,7 @@ #ifdef XF86VIDMODE
+ 	return FALSE;
+     }
+ 
+-    VidModeKey = &VidModeKey;
++    VidModeKey = &VidModeKeyIndex;
+ 
+     if (!dixSetPrivate(&pScreen->devPrivates, VidModeKey,
+ 		       xcalloc(sizeof(VidModeRec), 1))) {
+diff --git a/hw/xfree86/common/xf86cmap.c b/hw/xfree86/common/xf86cmap.c
+index 8ae193a..e578447 100644
+--- a/hw/xfree86/common/xf86cmap.c
++++ b/hw/xfree86/common/xf86cmap.c
+@@ -101,8 +101,10 @@ typedef struct {
+   int		overscan;
+ } CMapColormapRec, *CMapColormapPtr;
+ 
+-static DevPrivateKey CMapScreenKey = NULL;
+-static DevPrivateKey CMapColormapKey = &CMapColormapKey;
++static int CMapScreenKeyIndex;
++static DevPrivateKey CMapScreenKey;
++static int CMapColormapKeyIndex;
++static DevPrivateKey CMapColormapKey = &CMapColormapKeyIndex;
+ 
+ static void CMapInstallColormap(ColormapPtr);
+ static void CMapStoreColors(ColormapPtr, int, xColorItem *);
+@@ -142,7 +144,7 @@ _X_EXPORT Bool xf86HandleColormaps(
+     if(!maxColors || !sigRGBbits || !loadPalette)
+ 	return FALSE;
+ 
+-    CMapScreenKey = &CMapScreenKey;
++    CMapScreenKey = &CMapScreenKeyIndex;
+ 
+     elements = 1 << sigRGBbits;
+ 
+diff --git a/hw/xfree86/common/xf86fbman.c b/hw/xfree86/common/xf86fbman.c
+index 9fd2e6c..5471c58 100644
+--- a/hw/xfree86/common/xf86fbman.c
++++ b/hw/xfree86/common/xf86fbman.c
+@@ -42,14 +42,15 @@ #include "xf86fbman.h"
+ #define DEBUG
+ */
+ 
+-static DevPrivateKey xf86FBManagerKey = NULL;
++static int xf86FBManagerKeyIndex;
++static DevPrivateKey xf86FBManagerKey;
+ 
+ _X_EXPORT Bool xf86RegisterOffscreenManager(
+     ScreenPtr pScreen, 
+     FBManagerFuncsPtr funcs
+ ){
+ 
+-   xf86FBManagerKey = &xf86FBManagerKey;
++   xf86FBManagerKey = &xf86FBManagerKeyIndex;
+    dixSetPrivate(&pScreen->devPrivates, xf86FBManagerKey, funcs);
+ 
+    return TRUE;
+@@ -269,7 +270,8 @@ xf86PurgeUnlockedOffscreenAreas(ScreenPt
+ 
+ \************************************************************/ 
+ 
+-static DevPrivateKey xf86FBScreenKey = &xf86FBScreenKey;
++static int xf86FBScreenKeyIndex;
++static DevPrivateKey xf86FBScreenKey = &xf86FBScreenKeyIndex;
+ 
+ typedef struct _FBLink {
+   FBArea area;
+diff --git a/hw/xfree86/common/xf86sbusBus.c b/hw/xfree86/common/xf86sbusBus.c
+index 63d1cb3..af2b145 100644
+--- a/hw/xfree86/common/xf86sbusBus.c
++++ b/hw/xfree86/common/xf86sbusBus.c
+@@ -602,7 +602,8 @@ xf86SbusUseBuiltinMode(ScrnInfoPtr pScrn
+     pScrn->virtualY = psdp->height;
+ }
+ 
+-static DevPrivateKey sbusPaletteKey = &sbusPaletteKey;
++static sbusPaletteKeyIndex;
++static DevPrivateKey sbusPaletteKey = &sbusPaletteKeyIndex;
+ typedef struct _sbusCmap {
+     sbusDevicePtr psdp;
+     CloseScreenProcPtr CloseScreen;
+diff --git a/hw/xfree86/common/xf86xv.c b/hw/xfree86/common/xf86xv.c
+index 7483e20..b263f9b 100644
+--- a/hw/xfree86/common/xf86xv.c
++++ b/hw/xfree86/common/xf86xv.c
+@@ -110,8 +110,10 @@ static void xf86XVAdjustFrame(int index,
+ static Bool xf86XVInitAdaptors(ScreenPtr, XF86VideoAdaptorPtr*, int);
+ 
+ 
+-static DevPrivateKey XF86XVWindowKey = &XF86XVWindowKey;
+-DevPrivateKey XF86XvScreenKey;
++static int XF86XVWindowKeyIndex;
++static DevPrivateKey XF86XVWindowKey = &XF86XVWindowKeyIndex;
++static int XF86XvScreenKeyIndex;
++DevPrivateKey XF86XvScreenKey = &XF86XvScreenKeyIndex;
+ static unsigned long PortResource = 0;
+ 
+ DevPrivateKey (*XvGetScreenKeyProc)(void) = NULL;
+diff --git a/hw/xfree86/common/xf86xvmc.c b/hw/xfree86/common/xf86xvmc.c
+index 05267a2..41ef0a0 100644
+--- a/hw/xfree86/common/xf86xvmc.c
++++ b/hw/xfree86/common/xf86xvmc.c
+@@ -56,7 +56,8 @@ typedef struct {
+   XvMCAdaptorPtr dixinfo;
+ } xf86XvMCScreenRec, *xf86XvMCScreenPtr;
+ 
+-static DevPrivateKey XF86XvMCScreenKey = &XF86XvMCScreenKey;
++static int XF86XvMCScreenKeyIndex;
++static DevPrivateKey XF86XvMCScreenKey = &XF86XvMCScreenKeyIndex;
+ 
+ #define XF86XVMC_GET_PRIVATE(pScreen) (xf86XvMCScreenPtr) \
+     dixLookupPrivate(&(pScreen)->devPrivates, XF86XvMCScreenKey)
+diff --git a/hw/xfree86/dixmods/extmod/xf86dga2.c b/hw/xfree86/dixmods/extmod/xf86dga2.c
+index 295e05e..c12178f 100644
+--- a/hw/xfree86/dixmods/extmod/xf86dga2.c
++++ b/hw/xfree86/dixmods/extmod/xf86dga2.c
+@@ -62,7 +62,8 @@ unsigned char DGAReqCode = 0;
+ int DGAErrorBase;
+ int DGAEventBase;
+ 
+-static DevPrivateKey DGAClientPrivateKey = &DGAClientPrivateKey;
++static int DGAClientPrivateKeyIndex;
++static DevPrivateKey DGAClientPrivateKey = &DGAClientPrivateKeyIndex;
+ static int DGACallbackRefCount = 0;
+ 
+ /* This holds the client's version information */
+diff --git a/hw/xfree86/dixmods/extmod/xf86vmode.c b/hw/xfree86/dixmods/extmod/xf86vmode.c
+index 559f18b..6485a04 100644
+--- a/hw/xfree86/dixmods/extmod/xf86vmode.c
++++ b/hw/xfree86/dixmods/extmod/xf86vmode.c
+@@ -53,7 +53,8 @@ #include "globals.h"
+ #define DEFAULT_XF86VIDMODE_VERBOSITY	3
+ 
+ static int VidModeErrorBase;
+-static DevPrivateKey VidModeClientPrivateKey = &VidModeClientPrivateKey;
++static int VidModeClientPrivateKeyIndex;
++static DevPrivateKey VidModeClientPrivateKey = &VidModeClientPrivateKeyIndex;
+ 
+ /* This holds the client's version information */
+ typedef struct {
+@@ -141,8 +142,9 @@ typedef struct _XF86VidModeScreenPrivate
+     XF86VidModeEventPtr	events;
+     Bool		hasWindow;
+ } XF86VidModeScreenPrivateRec, *XF86VidModeScreenPrivatePtr;
+-   
+-static DevPrivateKey ScreenPrivateKey = &ScreenPrivateKey;
++
++static int ScreenPrivateKeyIndex;
++static DevPrivateKey ScreenPrivateKey = &ScreenPrivateKeyIndex;
+ 
+ #define GetScreenPrivate(s) ((ScreenSaverScreenPrivatePtr) \
+     dixLookupPrivate(&(s)->devPrivates, ScreenPrivateKey))
+diff --git a/hw/xfree86/dri/dri.c b/hw/xfree86/dri/dri.c
+index ac40e0f..d2599a9 100644
+--- a/hw/xfree86/dri/dri.c
++++ b/hw/xfree86/dri/dri.c
+@@ -79,8 +79,10 @@ extern Bool noPanoramiXExtension;
+ #endif
+ 
+ static int DRIEntPrivIndex = -1;
+-static DevPrivateKey DRIScreenPrivKey = &DRIScreenPrivKey;
+-static DevPrivateKey DRIWindowPrivKey = &DRIWindowPrivKey;
++static int DRIScreenPrivKeyIndex;
++static DevPrivateKey DRIScreenPrivKey = &DRIScreenPrivKeyIndex;
++static int DRIWindowPrivKeyIndex;
++static DevPrivateKey DRIWindowPrivKey = &DRIWindowPrivKeyIndex;
+ static unsigned long DRIGeneration = 0;
+ static unsigned int DRIDrawableValidationStamp = 0;
+ 
+@@ -343,7 +345,6 @@ DRIScreenInit(ScreenPtr pScreen, DRIInfo
+ 
+     pDRIEntPriv = DRI_ENT_PRIV(pScrn);
+ 
+-    DRIScreenPrivKey = &DRIScreenPrivKey;
+     if (DRIGeneration != serverGeneration)
+ 	DRIGeneration = serverGeneration;
+ 
+diff --git a/hw/xfree86/dri2/dri2.c b/hw/xfree86/dri2/dri2.c
+index 74aef71..a5aef91 100644
+--- a/hw/xfree86/dri2/dri2.c
++++ b/hw/xfree86/dri2/dri2.c
+@@ -45,9 +45,12 @@ #include <GL/internal/dri_sarea.h>
+ 
+ #include "xf86.h"
+ 
+-static DevPrivateKey dri2ScreenPrivateKey = &dri2ScreenPrivateKey;
+-static DevPrivateKey dri2WindowPrivateKey = &dri2WindowPrivateKey;
+-static DevPrivateKey dri2PixmapPrivateKey = &dri2PixmapPrivateKey;
++static int dri2ScreenPrivateKeyIndex;
++static DevPrivateKey dri2ScreenPrivateKey = &dri2ScreenPrivateKeyIndex;
++static int dri2WindowPrivateKeyIndex;
++static DevPrivateKey dri2WindowPrivateKey = &dri2WindowPrivateKeyIndex;
++static int dri2PixmapPrivateKeyIndex;
++static DevPrivateKey dri2PixmapPrivateKey = &dri2PixmapPrivateKeyIndex;
+ 
+ typedef struct _DRI2DrawablePriv {
+     unsigned int		 refCount;
+diff --git a/hw/xfree86/exa/examodule.c b/hw/xfree86/exa/examodule.c
+index 4a8d8f2..601288c 100644
+--- a/hw/xfree86/exa/examodule.c
++++ b/hw/xfree86/exa/examodule.c
+@@ -42,7 +42,8 @@ typedef struct _ExaXorgScreenPrivRec {
+     OptionInfoPtr		 options;
+ } ExaXorgScreenPrivRec, *ExaXorgScreenPrivPtr;
+ 
+-static DevPrivateKey exaXorgScreenPrivateKey = &exaXorgScreenPrivateKey;
++static int exaXorgScreenPrivateKeyIndex;
++static DevPrivateKey exaXorgScreenPrivateKey = &exaXorgScreenPrivateKeyIndex;
+ 
+ typedef enum {
+     EXAOPT_MIGRATION_HEURISTIC,
+diff --git a/hw/xfree86/modes/xf86RandR12.c b/hw/xfree86/modes/xf86RandR12.c
+index ac0b438..2ae8ea7 100644
+--- a/hw/xfree86/modes/xf86RandR12.c
++++ b/hw/xfree86/modes/xf86RandR12.c
+@@ -63,7 +63,9 @@ #endif
+ #endif
+ 
+ static int xf86RandR12Generation;
++ 
++static int xf86RandR12KeyIndex;
+ static DevPrivateKey xf86RandR12Key;
+ 
+ #define XF86RANDRINFO(p) ((XF86RandRInfoPtr) \
+     dixLookupPrivate(&(p)->devPrivates, xf86RandR12Key))
+@@ -499,6 +500,6 @@ #endif
+ 	xf86RandR12Generation = serverGeneration;
+ 
+-    xf86RandR12Key = &xf86RandR12Key;
++    xf86RandR12Key = &xf86RandR12KeyIndex;
+ 
+     randrp = xalloc (sizeof (XF86RandRInfoRec));
+     if (!randrp)
+diff --git a/hw/xfree86/ramdac/xf86Cursor.c b/hw/xfree86/ramdac/xf86Cursor.c
+index be4fb90..592eaad 100644
+--- a/hw/xfree86/ramdac/xf86Cursor.c
++++ b/hw/xfree86/ramdac/xf86Cursor.c
+@@ -18,7 +18,8 @@ #include "cursorstr.h"
+ #include "inputstr.h"
+ extern InputInfo inputInfo;
+ 
+-DevPrivateKey xf86CursorScreenKey = &xf86CursorScreenKey;
++static int xf86CursorScreenKeyIndex;
++DevPrivateKey xf86CursorScreenKey = &xf86CursorScreenKeyIndex;
+ 
+ /* sprite functions */
+ 
+diff --git a/hw/xfree86/shadowfb/shadow.c b/hw/xfree86/shadowfb/shadow.c
+index 74beefb..ff775ef 100644
+--- a/hw/xfree86/shadowfb/shadow.c
++++ b/hw/xfree86/shadowfb/shadow.c
+@@ -94,8 +94,10 @@ typedef struct {
+ } ShadowGCRec, *ShadowGCPtr;
+ 
+ 
+-static DevPrivateKey ShadowScreenKey = &ShadowScreenKey;
+-static DevPrivateKey ShadowGCKey = &ShadowGCKey;
++static int ShadowScreenKeyIndex;
++static DevPrivateKey ShadowScreenKey = &ShadowScreenKeyIndex;
++static int ShadowGCKeyIndex;
++static DevPrivateKey ShadowGCKey = &ShadowGCKeyIndex;
+ 
+ #define GET_SCREEN_PRIVATE(pScreen) \
+     (ShadowScreenPtr)dixLookupPrivate(&(pScreen)->devPrivates, ShadowScreenKey)
+diff --git a/hw/xfree86/xaa/xaaInit.c b/hw/xfree86/xaa/xaaInit.c
+index 22a35a0..deb1989 100644
+--- a/hw/xfree86/xaa/xaaInit.c
++++ b/hw/xfree86/xaa/xaaInit.c
+@@ -39,9 +39,12 @@ static int  XAASetDGAMode(int index, int
+ static void XAAEnableDisableFBAccess (int index, Bool enable);
+ static Bool XAAChangeWindowAttributes (WindowPtr pWin, unsigned long mask);
+ 
+-static DevPrivateKey XAAScreenKey = &XAAScreenKey;
+-static DevPrivateKey XAAGCKey = &XAAGCKey;
+-static DevPrivateKey XAAPixmapKey = &XAAPixmapKey;
++static int XAAScreenKeyIndex;
++static DevPrivateKey XAAScreenKey = &XAAScreenKeyIndex;
++static int XAAGCKeyIndex;
++static DevPrivateKey XAAGCKey = &XAAGCKeyIndex;
++static int XAAPixmapKeyIndex;
++static DevPrivateKey XAAPixmapKey = &XAAPixmapKeyIndex;
+ 
+ DevPrivateKey XAAGetScreenKey(void) {
+     return XAAScreenKey;
+diff --git a/hw/xfree86/xaa/xaaOverlayDF.c b/hw/xfree86/xaa/xaaOverlayDF.c
+index 64ca998..8db816e 100644
+--- a/hw/xfree86/xaa/xaaOverlayDF.c
++++ b/hw/xfree86/xaa/xaaOverlayDF.c
+@@ -151,7 +151,8 @@ typedef struct {
+    int (*TiledFillChooser)(GCPtr);
+ } XAAOverlayRec, *XAAOverlayPtr;
+ 
+-static DevPrivateKey XAAOverlayKey = &XAAOverlayKey;
++static int XAAOverlayKeyIndex;
++static DevPrivateKey XAAOverlayKey = &XAAOverlayKeyIndex;
+ 
+ #define GET_OVERLAY_PRIV(pScreen) \
+     (XAAOverlayPtr)dixLookupPrivate(&(pScreen)->devPrivates, XAAOverlayKey)
+diff --git a/hw/xfree86/xaa/xaaStateChange.c b/hw/xfree86/xaa/xaaStateChange.c
+index 443bda6..57d8aa3 100644
+--- a/hw/xfree86/xaa/xaaStateChange.c
++++ b/hw/xfree86/xaa/xaaStateChange.c
+@@ -274,7 +274,8 @@ #ifdef RENDER
+ #endif
+ } XAAStateWrapRec, *XAAStateWrapPtr;
+ 
+-static DevPrivateKey XAAStateKey = &XAAStateKey;
++static int XAAStateKeyIndex;
++static DevPrivateKey XAAStateKey = &XAAStateKeyIndex;
+ 
+ /* Wrap functions start here */
+ #define GET_STATEPRIV_GC(pGC)   XAAStateWrapPtr pStatePriv =\
+diff --git a/hw/xfree86/xaa/xaaWrapper.c b/hw/xfree86/xaa/xaaWrapper.c
+index 5d6ea05..8841894 100644
+--- a/hw/xfree86/xaa/xaaWrapper.c
++++ b/hw/xfree86/xaa/xaaWrapper.c
+@@ -129,8 +129,10 @@ #define xaaWrapperGetGCPriv(pGC) ((xaaWr
+ #define xaaWrapperGCPriv(pGC)   xaaWrapperGCPrivPtr  pGCPriv = xaaWrapperGetGCPriv(pGC)
+ 
+ 
+-static DevPrivateKey xaaWrapperScrPrivateKey = &xaaWrapperScrPrivateKey;
+-static DevPrivateKey xaaWrapperGCPrivateKey = &xaaWrapperGCPrivateKey;
++static int xaaWrapperScrPrivateKeyIndex;
++static DevPrivateKey xaaWrapperScrPrivateKey = &xaaWrapperScrPrivateKeyIndex;
++static int xaaWrapperGCPrivateKeyIndex;
++static DevPrivateKey xaaWrapperGCPrivateKey = &xaaWrapperGCPrivateKeyIndex;
+ 
+ static Bool
+ xaaWrapperCreateScreenResources(ScreenPtr pScreen)
+diff --git a/hw/xnest/GC.c b/hw/xnest/GC.c
+index 06e6e02..65425e9 100644
+--- a/hw/xnest/GC.c
++++ b/hw/xnest/GC.c
+@@ -35,7 +35,8 @@ #include "Drawable.h"
+ #include "XNFont.h"
+ #include "Color.h"
+ 
+-DevPrivateKey xnestGCPrivateKey = &xnestGCPrivateKey;
++static int xnestGCPrivateKeyIndex;
++DevPrivateKey xnestGCPrivateKey = &xnestGCPrivateKeyIndex;
+ 
+ static GCFuncs xnestFuncs = {
+   xnestValidateGC,
+diff --git a/hw/xnest/Pixmap.c b/hw/xnest/Pixmap.c
+index 0431196..08305b1 100644
+--- a/hw/xnest/Pixmap.c
++++ b/hw/xnest/Pixmap.c
+@@ -33,7 +33,8 @@ #include "Display.h"
+ #include "Screen.h"
+ #include "XNPixmap.h"
+ 
+-DevPrivateKey xnestPixmapPrivateKey = &xnestPixmapPrivateKey;
++static int xnestPixmapPrivateKeyIndex;
++DevPrivateKey xnestPixmapPrivateKey = &xnestPixmapPrivateKeyIndex;
+ 
+ PixmapPtr
+ xnestCreatePixmap(ScreenPtr pScreen, int width, int height, int depth,
+#diff --git a/hw/xnest/Screen.c b/hw/xnest/Screen.c
+#index 4e8616d..ca903d7 100644
+#--- a/hw/xnest/Screen.c
+#+++ b/hw/xnest/Screen.c
+#@@ -45,7 +45,8 @@ #include "mipointrst.h"
+# 
+# Window xnestDefaultWindows[MAXSCREENS];
+# Window xnestScreenSaverWindows[MAXSCREENS];
+#-DevPrivateKey xnestCursorScreenKey = &xnestCursorScreenKey;
+#+static int xnestCursorScreenKeyIndex;
+#+DevPrivateKey xnestCursorScreenKey = &xnestCursorScreenKeyIndex;
+# 
+# ScreenPtr
+# xnestScreen(Window window)
+diff --git a/hw/xnest/Window.c b/hw/xnest/Window.c
+index 23383e1..ae3487f 100644
+--- a/hw/xnest/Window.c
++++ b/hw/xnest/Window.c
+@@ -39,7 +39,8 @@ #include "Visual.h"
+ #include "Events.h"
+ #include "Args.h"
+ 
+-DevPrivateKey xnestWindowPrivateKey = &xnestWindowPrivateKey;
++static int xnestWindowPrivateKeyIndex;
++DevPrivateKey xnestWindowPrivateKey = &xnestWindowPrivateKeyIndex;
+ 
+ static int
+ xnestFindWindowMatch(WindowPtr pWin, pointer ptr)
+diff --git a/hw/xquartz/darwin.c b/hw/xquartz/darwin.c
+index 8107beb..559bc89 100644
+--- a/hw/xquartz/darwin.c
++++ b/hw/xquartz/darwin.c
+@@ -85,7 +85,8 @@ #endif
+  * X server shared global variables
+  */
+ int                     darwinScreensFound = 0;
+-DevPrivateKey           darwinScreenKey = &darwinScreenKey;
++static int              darwinScreenKeyIndex;
++DevPrivateKey           darwinScreenKey = &darwinScreenKeyIndex;
+ io_connect_t            darwinParamConnect = 0;
+ int                     darwinEventReadFD = -1;
+ int                     darwinEventWriteFD = -1;
+diff --git a/hw/xquartz/quartz.c b/hw/xquartz/quartz.c
+index c4b889e..b17e561 100644
+--- a/hw/xquartz/quartz.c
++++ b/hw/xquartz/quartz.c
+@@ -71,7 +71,8 @@ int                     quartzUseAGL = 1
+ int                     quartzEnableKeyEquivalents = 1;
+ int                     quartzServerVisible = TRUE;
+ int                     quartzServerQuitting = FALSE;
+-DevPrivateKey           quartzScreenKey = &quartzScreenKey;
++static int              quartzScreenKeyIndex;
++DevPrivateKey           quartzScreenKey = &quartzScreenKeyIndex;
+ int                     aquaMenuBarHeight = 0;
+ QuartzModeProcsPtr      quartzProcs = NULL;
+ const char             *quartzOpenGLBundle = NULL;
+diff --git a/hw/xquartz/xpr/dri.c b/hw/xquartz/xpr/dri.c
+index 3aacb19..5b79419 100644
+--- a/hw/xquartz/xpr/dri.c
++++ b/hw/xquartz/xpr/dri.c
+@@ -71,9 +71,12 @@ #include "x-hook.h"
+ 
+ #include <AvailabilityMacros.h>
+ 
+-static DevPrivateKey DRIScreenPrivKey = &DRIScreenPrivKey;
+-static DevPrivateKey DRIWindowPrivKey = &DRIWindowPrivKey;
+-static DevPrivateKey DRIPixmapPrivKey = &DRIPixmapPrivKey;
++static int DRIScreenPrivKeyIndex;
++static DevPrivateKey DRIScreenPrivKey = &DRIScreenPrivKeyIndex;
++static int DRIWindowPrivKeyIndex;
++static DevPrivateKey DRIWindowPrivKey = &DRIWindowPrivKeyIndex;
++static int DRIPixmapPrivKeyIndex;
++static DevPrivateKey DRIPixmapPrivKey = &DRIPixmapPrivKeyIndex;
+ 
+ static RESTYPE DRIDrawablePrivResType;
+ 
+diff --git a/hw/xquartz/xpr/xprCursor.c b/hw/xquartz/xpr/xprCursor.c
+index 76ab75c..c1890a2 100644
+--- a/hw/xquartz/xpr/xprCursor.c
++++ b/hw/xquartz/xpr/xprCursor.c
+@@ -56,7 +56,8 @@ typedef struct {
+     miPointerSpriteFuncPtr  spriteFuncs;
+ } QuartzCursorScreenRec, *QuartzCursorScreenPtr;
+ 
+-static DevPrivateKey darwinCursorScreenKey = &darwinCursorScreenKey;
++static int darwinCursorScreenKeyIndex;
++static DevPrivateKey darwinCursorScreenKey = &darwinCursorScreenKeyIndex;
+ 
+ #define CURSOR_PRIV(pScreen) ((QuartzCursorScreenPtr) \
+     dixLookupPrivate(&pScreen->devPrivates, darwinCursorScreenKey))
+diff --git a/hw/xwin/winglobals.c b/hw/xwin/winglobals.c
+index fddada3..3eb6091 100644
+--- a/hw/xwin/winglobals.c
++++ b/hw/xwin/winglobals.c
+@@ -44,11 +44,16 @@ int		g_iLastScreen = -1;
+ #ifdef HAS_DEVWINDOWS
+ int		g_fdMessageQueue = WIN_FD_INVALID;
+ #endif
+-DevPrivateKey	g_iScreenPrivateKey = &g_iScreenPrivateKey;
+-DevPrivateKey	g_iCmapPrivateKey = &g_iCmapPrivateKey;
+-DevPrivateKey	g_iGCPrivateKey = &g_iGCPrivateKey;
+-DevPrivateKey	g_iPixmapPrivateKey = &g_iPixmapPrivateKey;
+-DevPrivateKey	g_iWindowPrivateKey = &g_iWindowPrivateKey;
++static int	g_iScreenPrivateKeyIndex;
++DevPrivateKey	g_iScreenPrivateKey = &g_iScreenPrivateKeyIndex;
++static int	g_iCmapPrivateKeyIndex;
++DevPrivateKey	g_iCmapPrivateKey = &g_iCmapPrivateKeyIndex;
++static int	g_iGCPrivateKeyIndex;
++DevPrivateKey	g_iGCPrivateKey = &g_iGCPrivateKeyIndex;
++static int	g_iPixmapPrivateKeyIndex;
++DevPrivateKey	g_iPixmapPrivateKey = &g_iPixmapPrivateKeyIndex;
++static int	g_iWindowPrivateKeyIndex;
++DevPrivateKey	g_iWindowPrivateKey = &g_iWindowPrivateKeyIndex;
+ unsigned long	g_ulServerGeneration = 0;
+ Bool		g_fInitializedDefaultScreens = FALSE;
+ DWORD		g_dwEnginesSupported = 0;
+diff --git a/mi/mibank.c b/mi/mibank.c
+index ea79e9d..92288ab 100644
+--- a/mi/mibank.c
++++ b/mi/mibank.c
+@@ -175,8 +175,11 @@ #define SET_DESTINATION_BANK(_pPix, _wid
+ #define xalloc_ARRAY(atype, ntype) \
+     (atype *)xalloc((ntype) * sizeof(atype))
+ 
+-static DevPrivateKey miBankScreenKey = &miBankScreenKey;
+-static DevPrivateKey miBankGCKey = &miBankGCKey;
++static int miBankScreenKeyIndex;
++static DevPrivateKey miBankScreenKey = &miBankScreenKeyIndex;
++static int miBankGCKeyIndex;
++static DevPrivateKey miBankGCKey = &miBankGCKeyIndex;
++
+ static unsigned long miBankGeneration = 0;
+ 
+ #define BANK_SCRPRIVLVAL dixLookupPrivate(&pScreen->devPrivates, miBankScreenKey)
+diff --git a/mi/midispcur.c b/mi/midispcur.c
+index 1f2d8cf..05352fc 100644
+--- a/mi/midispcur.c
++++ b/mi/midispcur.c
+@@ -55,8 +55,8 @@ #endif
+ # include "inputstr.h" /* for MAX_DEVICES */
+ 
+ /* per-screen private data */
+-
+-static DevPrivateKey miDCScreenKey = &miDCScreenKey;
++static int miDCScreenKeyIndex;
++static DevPrivateKey miDCScreenKey = &miDCScreenKeyIndex;
+ 
+ static Bool	miDCCloseScreen(int index, ScreenPtr pScreen);
+ 
+#-static DevPrivateKey miPointerPrivKey = &miPointerPrivKey;
+#+static int miPointerPrivKeyIndex;
+#+static DevPrivateKey miPointerPrivKey = &miPointerPrivKeyIndex;
+# 
+# #define MIPOINTER(dev) \
+#     ((DevHasCursor((dev)) || (!dev->isMaster && !dev->u.master)) ? \
+
+diff --git a/mi/mioverlay.c b/mi/mioverlay.c
+index 2fc583e..395b1aa 100644
+--- a/mi/mioverlay.c
++++ b/mi/mioverlay.c
+@@ -54,8 +54,10 @@ typedef struct {
+    Bool				copyUnderlay;
+ } miOverlayScreenRec, *miOverlayScreenPtr;
+ 
+-static DevPrivateKey miOverlayWindowKey = &miOverlayWindowKey;
+-static DevPrivateKey miOverlayScreenKey = &miOverlayScreenKey;
++static int miOverlayWindowKeyKeyIndex;
++static DevPrivateKey miOverlayWindowKey = &miOverlayWindowKeyKeyIndex;
++static int miOverlayScreenKeyIndex;
++static DevPrivateKey miOverlayScreenKey = &miOverlayScreenKeyIndex;
+ 
+ static void RebuildTree(WindowPtr);
+ static Bool HasUnderlayChildren(WindowPtr);
+diff --git a/mi/mipointer.c b/mi/mipointer.c
+index 809ce5e..8293e9b 100644
+--- a/mi/mipointer.c
++++ b/mi/mipointer.c
+@@ -41,9 +41,10 @@ # include   "cursorstr.h"
+ # include   "dixstruct.h"
+ # include   "inputstr.h"
+ 
+-_X_EXPORT DevPrivateKey miPointerScreenKey = &miPointerScreenKey;
++static int miPointerScreenKeyIndex;
++_X_EXPORT DevPrivateKey miPointerScreenKey = &miPointerScreenKeyIndex;
+ 
+ #define GetScreenPrivate(s) ((miPointerScreenPtr) \
+     dixLookupPrivate(&(s)->devPrivates, miPointerScreenKey))
+ #define SetupScreen(s)	miPointerScreenPtr  pScreenPriv = GetScreenPrivate(s)
+ 
+#-static DevPrivateKey miPointerPrivKey = &miPointerPrivKey;
+#+static int miPointerPrivKeyIndex;
+#+static DevPrivateKey miPointerPrivKey = &miPointerPrivKeyIndex;
+# 
+# #define MIPOINTER(dev) \
+#     ((DevHasCursor((dev)) || (!dev->isMaster && !dev->u.master)) ? \
+#
+diff --git a/mi/miscrinit.c b/mi/miscrinit.c
+index 6cd4df3..df96993 100644
+--- a/mi/miscrinit.c
++++ b/mi/miscrinit.c
+@@ -280,7 +280,8 @@ #endif
+     return miScreenDevPrivateInit(pScreen, width, pbits);
+ }
+ 
+-static DevPrivateKey privateKey = &privateKey;
++static int privateKeyIndex;
++static DevPrivateKey privateKey = &privateKeyIndex;
+ 
+ _X_EXPORT DevPrivateKey
+ miAllocateGCPrivateIndex()
+@@ -288,7 +289,8 @@ miAllocateGCPrivateIndex()
+     return privateKey;
+ }
+ 
+-_X_EXPORT DevPrivateKey miZeroLineScreenKey = &miZeroLineScreenKey;
++static int miZeroLineScreenKeyIndex;
++_X_EXPORT DevPrivateKey miZeroLineScreenKey = &miZeroLineScreenKeyIndex;
+ 
+ _X_EXPORT void
+ miSetZeroLineBias(ScreenPtr pScreen, unsigned int bias)
+diff --git a/mi/misprite.c b/mi/misprite.c
+index 85755b7..692e6c9 100644
+--- a/mi/misprite.c
++++ b/mi/misprite.c
+@@ -109,7 +109,8 @@ miSpriteIsDown(miCursorInfoPtr pDevCurso
+  * screen wrappers
+  */
+ 
+-static DevPrivateKey miSpriteScreenKey = &miSpriteScreenKey;
++static int miSpriteScreenKeyIndex;
++static DevPrivateKey miSpriteScreenKey = &miSpriteScreenKeyIndex;
+ 
+ static Bool	    miSpriteCloseScreen(int i, ScreenPtr pScreen);
+ static void	    miSpriteGetImage(DrawablePtr pDrawable, int sx, int sy,
+diff --git a/miext/cw/cw.c b/miext/cw/cw.c
+index efb0469..56066fe 100644
+--- a/miext/cw/cw.c
++++ b/miext/cw/cw.c
+@@ -43,11 +43,15 @@ #else
+ #define CW_ASSERT(x) do {} while (0)
+ #endif
+ 
+-DevPrivateKey cwGCKey = &cwGCKey;
+-DevPrivateKey cwScreenKey = &cwScreenKey;
+-DevPrivateKey cwWindowKey = &cwWindowKey;
++static int cwGCKeyIndex;
++DevPrivateKey cwGCKey = &cwGCKeyIndex;
++static int cwScreenKeyIndex;
++DevPrivateKey cwScreenKey = &cwScreenKeyIndex;
++static int cwWindowKeyIndex;
++DevPrivateKey cwWindowKey = &cwWindowKeyIndex;
+ #ifdef RENDER
+-DevPrivateKey cwPictureKey = &cwPictureKey;
++static int cwPictureKeyIndex;
++DevPrivateKey cwPictureKey = &cwPictureKeyIndex;
+ #endif
+ extern GCOps cwGCOps;
+ 
+diff --git a/miext/damage/damage.c b/miext/damage/damage.c
+index 56864c5..5000a82 100755
+--- a/miext/damage/damage.c
++++ b/miext/damage/damage.c
+@@ -70,10 +70,14 @@ #define getPixmapDamageRef(pPixmap) ((Da
+ 
+ #define pixmapDamage(pPixmap)		damagePixPriv(pPixmap)
+ 
+-static DevPrivateKey damageScrPrivateKey = &damageScrPrivateKey;
+-static DevPrivateKey damagePixPrivateKey = &damagePixPrivateKey;
+-static DevPrivateKey damageGCPrivateKey = &damageGCPrivateKey;
+-static DevPrivateKey damageWinPrivateKey = &damageWinPrivateKey;
++static int damageScrPrivateKeyIndex;
++static DevPrivateKey damageScrPrivateKey = &damageScrPrivateKeyIndex;
++static int damagePixPrivateKeyIndex;
++static DevPrivateKey damagePixPrivateKey = &damagePixPrivateKeyIndex;
++static int damageGCPrivateKeyIndex;
++static DevPrivateKey damageGCPrivateKey = &damageGCPrivateKeyIndex;
++static int damageWinPrivateKeyIndex;
++static DevPrivateKey damageWinPrivateKey = &damageWinPrivateKeyIndex;
+ 
+ static DamagePtr *
+ getDrawableDamageRef (DrawablePtr pDrawable)
+diff --git a/miext/rootless/rootlessScreen.c b/miext/rootless/rootlessScreen.c
+index 8eaacca..421c03c 100644
+--- a/miext/rootless/rootlessScreen.c
++++ b/miext/rootless/rootlessScreen.c
+@@ -62,10 +62,14 @@ extern int RootlessMiValidateTree(Window
+ extern Bool RootlessCreateGC(GCPtr pGC);
+ 
+ // Initialize globals
+-DevPrivateKey rootlessGCPrivateKey = &rootlessGCPrivateKey;
+-DevPrivateKey rootlessScreenPrivateKey = &rootlessScreenPrivateKey;
+-DevPrivateKey rootlessWindowPrivateKey = &rootlessWindowPrivateKey;
+-DevPrivateKey rootlessWindowOldPixmapPrivateKey = &rootlessWindowOldPixmapPrivateKey;
++static int rootlessGCPrivateKeyIndex;
++DevPrivateKey rootlessGCPrivateKey = &rootlessGCPrivateKeyIndex;
++static int rootlessScreenPrivateKeyIndex;
++DevPrivateKey rootlessScreenPrivateKey = &rootlessScreenPrivateKeyIndex;
++static int rootlessWindowPrivateKeyIndex;
++DevPrivateKey rootlessWindowPrivateKey = &rootlessWindowPrivateKeyIndex;
++static int rootlessWindowOldPixmapPrivateKeyIndex;
++DevPrivateKey rootlessWindowOldPixmapPrivateKey = &rootlessWindowOldPixmapPrivateKeyIndex;
+ 
+ 
+ /*
+diff --git a/miext/shadow/shadow.c b/miext/shadow/shadow.c
+index ef0df40..21f1de2 100644
+--- a/miext/shadow/shadow.c
++++ b/miext/shadow/shadow.c
+@@ -36,7 +36,8 @@ #include    "globals.h"
+ #include    "gcstruct.h"
+ #include    "shadow.h"
+ 
+-DevPrivateKey shadowScrPrivateKey = &shadowScrPrivateKey;
++static int shadowScrPrivateKeyIndex;
++DevPrivateKey shadowScrPrivateKey = &shadowScrPrivateKeyIndex;
+ 
+ #define wrap(priv, real, mem) {\
+     priv->mem = real->mem; \
+diff --git a/randr/randr.c b/randr/randr.c
+index 9bfed05..230d816 100644
+--- a/randr/randr.c
++++ b/randr/randr.c
+@@ -56,9 +56,11 @@ static int SProcRRDispatch (ClientPtr pC
+ int	RREventBase;
+ int	RRErrorBase;
+ RESTYPE RRClientType, RREventType; /* resource types for event masks */
+-DevPrivateKey RRClientPrivateKey = &RRClientPrivateKey;
++static int RRClientPrivateKeyIndex;
++DevPrivateKey RRClientPrivateKey = &RRClientPrivateKeyIndex;
+ 
+-DevPrivateKey rrPrivKey = &rrPrivKey;
++static int rrPrivKeyIndex;
++DevPrivateKey rrPrivKey = &rrPrivKeyIndex;
+ 
+ static void
+ RRClientCallback (CallbackListPtr	*list,
+diff --git a/record/record.c b/record/record.c
+index d7314b1..d6a1c98 100644
+--- a/record/record.c
++++ b/record/record.c
+@@ -165,7 +165,8 @@ typedef struct {
+     ProcFunctionPtr recordVector[256]; 
+ } RecordClientPrivateRec, *RecordClientPrivatePtr;
+ 
+-static DevPrivateKey RecordClientPrivateKey = &RecordClientPrivateKey;
++static int RecordClientPrivateKeyIndex;
++static DevPrivateKey RecordClientPrivateKey = &RecordClientPrivateKeyIndex;
+ 
+ /*  RecordClientPrivatePtr RecordClientPrivate(ClientPtr)
+  *  gets the client private of the given client.  Syntactic sugar.
+diff --git a/render/animcur.c b/render/animcur.c
+index 362607f..5723442 100644
+--- a/render/animcur.c
++++ b/render/animcur.c
+@@ -91,7 +91,9 @@ static CursorBits   animCursorBits = {
+ };
+ 
+ static int AnimCurGeneration;
+-static DevPrivateKey AnimCurScreenPrivateKey = &AnimCurScreenPrivateKey;
++
++static int AnimCurScreenPrivateKeyIndex;
++static DevPrivateKey AnimCurScreenPrivateKey = &AnimCurScreenPrivateKeyIndex;
+ 
+ #define IsAnimCur(c)	    ((c) && ((c)->bits == &animCursorBits))
+ #define GetAnimCur(c)	    ((AnimCurPtr) ((c) + 1))
+diff --git a/render/picture.c b/render/picture.c
+index b7874bb..9def47b 100644
+--- a/render/picture.c
++++ b/render/picture.c
+@@ -43,8 +43,10 @@ #include "picturestr.h"
+ #include "xace.h"
+ #include "registry.h"
+ 
+-_X_EXPORT DevPrivateKey PictureScreenPrivateKey = &PictureScreenPrivateKey;
+-DevPrivateKey	PictureWindowPrivateKey = &PictureWindowPrivateKey;
++static int PictureScreenPrivateKeyIndex;
++_X_EXPORT DevPrivateKey PictureScreenPrivateKey = &PictureScreenPrivateKeyIndex;
++static int PictureWindowPrivateKeyIndex;
++DevPrivateKey	PictureWindowPrivateKey = &PictureWindowPrivateKeyIndex;
+ static int	PictureGeneration;
+ RESTYPE		PictureType;
+ RESTYPE		PictFormatType;
+diff --git a/render/render.c b/render/render.c
+index b1d6d58..1b7d78b 100644
+--- a/render/render.c
++++ b/render/render.c
+@@ -211,7 +211,8 @@ int	(*SProcRenderVector[RenderNumberRequ
+ };
+ 
+ int	RenderErrBase;
+-DevPrivateKey RenderClientPrivateKey;
++static int RenderClientPrivateKeyIndex;
++DevPrivateKey RenderClientPrivateKey = &RenderClientPrivateKeyIndex;
+ 
+ typedef struct _RenderClient {
+     int	    major_version;
+diff --git a/xfixes/cursor.c b/xfixes/cursor.c
+index ca17397..c4069d9 100755
+--- a/xfixes/cursor.c
++++ b/xfixes/cursor.c
+@@ -56,10 +56,12 @@ #include "xace.h"
+ static RESTYPE		CursorClientType;
+ static RESTYPE		CursorHideCountType;
+ static RESTYPE		CursorWindowType;
+-static DevPrivateKey	CursorScreenPrivateKey = &CursorScreenPrivateKey;
+ static CursorPtr	CursorCurrent;
+ static CursorPtr        pInvisibleCursor = NULL;
+ 
++static int CursorScreenPrivateKeyIndex;
++static DevPrivateKey CursorScreenPrivateKey = &CursorScreenPrivateKeyIndex;
++
+ static void deleteCursorHideCountsForScreen (ScreenPtr pScreen);
+ 
+ #define VERIFY_CURSOR(pCursor, cursor, client, access) { \
+diff --git a/xfixes/xfixes.c b/xfixes/xfixes.c
+index 0db4989..d1225c6 100755
+--- a/xfixes/xfixes.c
++++ b/xfixes/xfixes.c
+@@ -56,7 +56,9 @@ #define SERVER_XFIXES_MINOR 0
+ static unsigned char	XFixesReqCode;
+ int		XFixesEventBase;
+ int		XFixesErrorBase;
+-static DevPrivateKey XFixesClientPrivateKey = &XFixesClientPrivateKey;
++
++static int XFixesClientPrivateKeyIndex;
++static DevPrivateKey XFixesClientPrivateKey = &XFixesClientPrivateKeyIndex;
+ 
+ static int
+ ProcXFixesQueryVersion(ClientPtr client)
+diff --git a/xkb/xkbActions.c b/xkb/xkbActions.c
+index 8a26825..35938a9 100644
+--- a/xkb/xkbActions.c
++++ b/xkb/xkbActions.c
+@@ -42,7 +42,8 @@ #include "xkb.h"
+ #include <ctype.h>
+ #define EXTENSION_EVENT_BASE 64
+ 
+-DevPrivateKey xkbDevicePrivateKey = &xkbDevicePrivateKey;
++static int xkbDevicePrivateKeyIndex;
++DevPrivateKey xkbDevicePrivateKey = &xkbDevicePrivateKeyIndex;
+ 
+ void
+ xkbUnwrapProc(DeviceIntPtr device, DeviceHandleProc proc,
+-- 
+1.4.1
+

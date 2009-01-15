@@ -1,4 +1,4 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -10,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -20,66 +20,34 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-Merge the fix for bug 6398094 in 6.9 tree: Screen off center with left
-margin on 24.1" monitor with analog input
+Redo the patch for Xorg 1.5. The patch is helpful only for nv driver.
 
-Merge the fix for bug 6553135: libddc.so doesn't handle null mode
-
-diff -urp -x '*~' -x '*.orig' hw/xfree86/ddc/ddcProperty.c hw/xfree86/ddc/ddcProperty.c
---- hw/xfree86/ddc/ddcProperty.c	2007-02-16 08:03:12.000000000 -0800
-+++ hw/xfree86/ddc/ddcProperty.c	2007-07-30 18:38:26.379355000 -0700
-@@ -296,6 +296,25 @@ DDCGuessRangesFromModes(int scrnIndex, M
-     }
- }
- 
-+static double
-+ModeVRefresh(DisplayModePtr mode)
-+{
-+    double refresh = 0.0;
+--- hw/xfree86/modes/xf86EdidModes.c.orig	Fri Dec  5 15:42:03 2008
++++ hw/xfree86/modes/xf86EdidModes.c		Fri Dec 12 15:40:54 2008
+@@ -622,6 +622,20 @@
+                                              &det_mon->section.d_timings,
+ 					     preferred,
+ 					     quirks);
 +
-+    if (mode->VRefresh > 0.0)
-+	refresh = mode->VRefresh;
-+    else if (mode->HTotal > 0 && mode->VTotal > 0) {
-+	refresh = mode->Clock * 1000.0 / mode->HTotal / mode->VTotal;
-+	if (mode->Flags & V_INTERLACE)
-+	    refresh *= 2.0;
-+	if (mode->Flags & V_DBLSCAN)
-+	    refresh /= 2.0;
-+	if (mode->VScan > 1)
-+	    refresh /= (float)(mode->VScan);
-+    }
-+    return refresh;
-+}
-+
- /*
-  * Fill out MonPtr with xf86MonPtr information.
-  */
-@@ -375,6 +394,22 @@ xf86DDCMonitorSet(int scrnIndex, MonPtr 
-             Mode = DDCModeFromDetailedTiming(scrnIndex, 
-                                              &DDC->det_mon[i].section.d_timings,
- 					     preferred);
-+
-+	    if (Mode == NULL)
-+		break;
-+	    if ((DDC->features.input_type == 0) &&
++	    if (Mode && (DDC->features.input_type == 0) &&
 +            	(((Mode->HDisplay * 5 / 4) & ~0x07) > Mode->HTotal)) {
 +		struct detailed_timings *dt = &DDC->det_mon[i].section.d_timings;
 +		DisplayModeRec *cvtmode;
 +
 +		cvtmode = xf86CVTMode(dt->h_active, dt->v_active,
-+                                (double) ModeVRefresh(Mode), TRUE, FALSE);
++                                (double) xf86ModeVRefresh(Mode), TRUE, FALSE);
 +		memcpy(Mode, cvtmode, sizeof(DisplayModeRec));
 +		Mode->type       = M_T_DRIVER;
 +    		if (preferred)
 +		    Mode->type |= M_T_PREFERRED;
 +	    }
 +		
- 	    preferred = 0;
+ 	    preferred = FALSE;
              Modes = xf86ModesAdd(Modes, Mode);
              break;

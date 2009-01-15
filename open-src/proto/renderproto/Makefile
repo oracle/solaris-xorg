@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# @(#)Makefile	1.3	09/01/11
 #
 
 # Package name used in tarballs
 MODULE_NAME=renderproto
 
 # Version number (used in path names)
-MODULE_VERSION=0.9.2
+MODULE_VERSION=0.9.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

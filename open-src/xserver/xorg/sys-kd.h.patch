@@ -1,0 +1,55 @@
+From cc78d977cac74fcfb7c9b27e7109a1e369018dd8 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Fri, 22 Aug 2008 10:14:11 -0700
+Subject: [PATCH] Convert Solaris #ifdef's for <sys/kd.h> to AC_CHECK_HEADERS check
+
+Upcoming virtual terminal support changes in Solaris kernel will provide
+<sys/kd.h> on SPARC too, so this gets us ready for them.
+---
+ configure.ac                             |    1 +
+ hw/xfree86/os-support/solaris/sun_init.c |    2 +-
+ include/xorg-config.h.in                 |    3 +++
+ 3 files changed, 5 insertions(+), 1 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 52d35c3..4250f80 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1280,6 +1280,7 @@ if test "x$XORG" = xyes; then
+ 	  solaris*)
+ 	  	XORG_OS="solaris"
+ 		XORG_OS_SUBDIR="solaris"
++		AC_CHECK_HEADERS([sys/kd.h])
+ 		# This really should be tests for specific features, but the #ifdef's
+ 		# were done as a simple version check in XFree86 4.x and haven't been 
+ 		# fixed yet
+diff --git a/hw/xfree86/os-support/solaris/sun_init.c b/hw/xfree86/os-support/solaris/sun_init.c
+index 1f389cb..b2237d9 100644
+--- a/hw/xfree86/os-support/solaris/sun_init.c
++++ b/hw/xfree86/os-support/solaris/sun_init.c
+@@ -29,7 +29,7 @@
+ #include "xf86.h"
+ #include "xf86Priv.h"
+ #include "xf86_OSlib.h"
+-#if defined(__i386__) || defined(__i386) || defined(__x86)
++#ifdef HAVE_SYS_KD_H
+ # include <sys/kd.h>
+ #endif
+ 
+diff --git a/include/xorg-config.h.in b/include/xorg-config.h.in
+index 6137406..f9b77d0 100644
+--- a/include/xorg-config.h.in
++++ b/include/xorg-config.h.in
+@@ -54,6 +54,9 @@
+ /* Solaris 8 or later? */
+ #undef __SOL8__
+ 
++/* Define to 1 if you have the <sys/kd.h> header file. */
++#undef HAVE_SYS_KD_H
++
+ /* Define to 1 if you have the `walkcontext' function (used on Solaris for
+    xorg_backtrace in hw/xfree86/common/xf86Events.c */
+ #undef HAVE_WALKCONTEXT
+-- 
+1.5.6.5
+

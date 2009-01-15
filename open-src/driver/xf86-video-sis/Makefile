@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	08/08/08
+# @(#)Makefile	1.10	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-sis
 
 # Version number (used in path names)
-MODULE_VERSION=0.9.4
+MODULE_VERSION=0.10.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -56,7 +56,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa -lm
+	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe -lvgahw -lxaa -lm 
 
 include ../Makefile.inc
 

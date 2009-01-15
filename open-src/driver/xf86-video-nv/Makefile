@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.19	08/08/28
+# @(#)Makefile	1.20	09/01/10
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ MODULE_NAME=xf86-video-nv
 MODULE_VERSION=2.1.12
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = pci-match.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -53,7 +53,8 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/linux \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
-	-lexa -lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa -lfbdevhw -lm
+	-lexa -lfb -lint10 -lshadowfb -lvbe -lvgahw -lxaa -lfbdevhw -lm \
+	-L$(PROTODIR)/usr/lib -lpciaccess
 
 include ../Makefile.inc
 

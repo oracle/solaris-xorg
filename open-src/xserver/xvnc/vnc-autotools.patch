@@ -1,4 +1,5 @@
-## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-autotools.patch
+## Patch originally from Fedora - Revision 1.3 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-autotools.patch
 
 --- /dev/null	2007-02-16 09:39:42.585819347 +0100
 +++ vnc-4_1_2-unixsrc/common/Makefile.am	2007-02-16 09:51:11.000000000 +0100
@@ -368,32 +369,6 @@
 +                 vncviewer/Makefile
 +                 x0vncserver/Makefile])
 +AC_OUTPUT
---- vnc-4_1_2-unixsrc/unix/xorg-x11-server-source/hw/vnc/Makefile.am.autotools	2007-02-16 09:52:43.000000000 +0100
-+++ vnc-4_1_2-unixsrc/unix/xorg-x11-server-source/hw/vnc/Makefile.am	2007-02-16 09:53:24.000000000 +0100
-@@ -42,10 +42,7 @@
- 		../xfree86/common/libcommon.la \
- 		-lX11 \
- 		libvnccommon.la \
--		../../../../common/rfb/librfb.a \
--		../../../../common/rdr/librdr.a \
--		../../../../common/network/libnetwork.a \
--		../../../../common/Xregion/libXregion.a
-+		../../../../common/rfb/librfb.la
- 
- Xvnc_CFLAGS =  -DHAVE_DIX_CONFIG_H \
- 		-DNO_HW_ONLY_EXTS \
-@@ -68,10 +65,7 @@
- libvnc_la_SOURCES = xf86vncModule.cc
- libvnc_la_LIBADD = \
- 		libvnccommon.la \
--		../../../../common/rfb/librfb.a \
--		../../../../common/rdr/librdr.a \
--		../../../../common/network/libnetwork.a \
--		../../../../common/Xregion/libXregion.a
-+		../../../../common/rfb/librfb.la
- libvnc_la_CXXFLAGS = \
- 		-I../../../../common \
- 		-I$(top_srcdir)/hw/xfree86/common \
 --- /dev/null	2007-02-16 09:39:42.585819347 +0100
 +++ vnc-4_1_2-unixsrc/unix/vncviewer/Makefile.am	2007-02-16 09:51:11.000000000 +0100
 @@ -0,0 +1,24 @@

@@ -28,9 +28,9 @@
 
 
 diff -urp -x '*~' -x '*.orig' os/utils.c os/utils.c
---- os/utils.c	2007-04-19 19:13:13.000000000 -0700
-+++ os/utils.c	2007-07-30 18:32:29.905008000 -0700
-@@ -614,9 +614,11 @@ void UseMsg(void)
+--- os/utils.c	2008-09-23 11:25:01.000000000 -0700
++++ os/utils.c	2008-09-24 20:18:58.790366000 -0700
+@@ -606,9 +606,11 @@ void UseMsg(void)
  #ifdef RLIMIT_STACK
      ErrorF("-ls int                limit stack space to N Kb\n");
  #endif
@@ -42,7 +42,7 @@ diff -urp -x '*~' -x '*.orig' os/utils.c os/utils.c
  #ifndef NOLOGOHACK
      ErrorF("-logo                  enable logo in screen saver\n");
      ErrorF("nologo                 disable logo in screen saver\n");
-@@ -898,6 +900,7 @@ ProcessCommandLine(int argc, char *argv[
+@@ -888,6 +890,7 @@ ProcessCommandLine(int argc, char *argv[
  		UseMsg();
  	}
  #endif
@@ -50,7 +50,7 @@ diff -urp -x '*~' -x '*.orig' os/utils.c os/utils.c
  #ifdef SERVER_LOCK
  	else if ( strcmp ( argv[i], "-nolock") == 0)
  	{
-@@ -909,6 +912,7 @@ ProcessCommandLine(int argc, char *argv[
+@@ -899,6 +902,7 @@ ProcessCommandLine(int argc, char *argv[
  	    nolock = TRUE;
  	}
  #endif

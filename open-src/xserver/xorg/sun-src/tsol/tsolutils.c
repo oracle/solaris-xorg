@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -24,12 +24,12 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- */ 
+ */
 
-#pragma ident   "@(#)tsolutils.c 1.15     07/04/03 SMI"
+#pragma ident   "@(#)tsolutils.c	1.19	09/01/14 SMI"
 
-#ifdef HAVE_DIX_CONFIG_H 
-#include <dix-config.h> 
+#ifdef HAVE_DIX_CONFIG_H
+#include <dix-config.h>
 #endif
 
 #define NEED_EVENTS
@@ -44,6 +44,7 @@
 #include <X11/Xproto.h>
 #include "windowstr.h"
 #include "scrnintstr.h"
+#include  "tsol.h"
 #include  "tsolinfo.h"
 #include  <X11/keysym.h>
 #include  "misc.h"
@@ -93,11 +94,10 @@ TsolPolyAtomRec tsolpolyseln = {TRUE, 0, 0, NULL};
 
 
 /*
- * Private indices
+ * Key to lookup devPrivate data in various structures
  */
-int tsolClientPrivateIndex = -1;
-int tsolWindowPrivateIndex = -1;
-int tsolPixmapPrivateIndex = -1;
+static int tsolPrivKeyIndex;
+DevPrivateKey tsolPrivKey = &tsolPrivKeyIndex;
 
 bclear_t SessionHI;	   /* HI Clearance */
 bclear_t SessionLO;	   /* LO Clearance */
@@ -157,7 +157,7 @@ TsolConfigRec tsolconfig[KEYWORDCOUNT] = {
 };
 
 #define TSOL_ATOMCOUNT 4
-static char *tsolatomnames[TSOL_ATOMCOUNT] = {
+static const char *tsolatomnames[TSOL_ATOMCOUNT] = {
 	"_TSOL_CMWLABEL_CHANGE",
 	"_TSOL_GRABNOTIFY",
 	"_TSOL_CLIENT_TERM",
@@ -173,8 +173,8 @@ static char *tsolatomnames[TSOL_ATOMCOUNT] = {
 unsigned long tsoldebug = 0; /* TSOLD_SELECTION; */
 #endif /* DEBUG */
 
-void
-init_TSOL_cached_SL()
+static void
+init_TSOL_cached_SL(void)
 {
 	sltable[0].allocated = ALLOCATED;
 	bsllow (&(sltable[0].senlabel));
@@ -185,16 +185,17 @@ init_TSOL_cached_SL()
 }
 
 /* Initialize UID table, this table should at least contains owner UID */
-void
-init_TSOL_uid_table()
+static void
+init_TSOL_uid_table(void)
 {
 	uidtable[0].allocated = ALLOCATED;
 	uidtable[0].userid    = 0;
 }
 
+#if UNUSED
 /*  Count how many valid entried in the uid table */
 int
-count_uid_table()
+count_uid_table(void)
 {
 	int i, count = 0;
 
@@ -209,8 +210,7 @@ count_uid_table()
 
 /* return (1); if userid is in the table */
 int
-lookupUID(userid)
-	int userid;
+lookupUID(int userid)
 {
 	int i;
 	for (i = 0; i < MAX_UID_ENTRY; i++)
@@ -227,9 +227,9 @@ lookupUID(userid)
 /* Passed into a pointer to a storage which is used to store UID */
 /* and nUid represents how many UID in the table(returned by count_uid_table) */
 int
-ListUID(uidaddr, nUid)
-	struct xUIDreply 	* uidaddr;
-	int			nUid;
+ListUID(
+    struct xUIDreply 	* uidaddr,
+    int			nUid)
 {
 	int i, j = 0;
 
@@ -251,11 +251,11 @@ ListUID(uidaddr, nUid)
 
 	return (1);
 }
+#endif /* UNUSED */
 
 /* add userid into UIDtable  */
 int
-AddUID(userid)
-	int *userid;
+AddUID(int *userid)
 {
 
 	int i = 0;
@@ -296,11 +296,10 @@ AddUID(userid)
 	return (0);
 }
 
-
+#if UNUSED
 /* remove userid from UIDtable */
 int
-RemoveUID(userid)
-	int *userid;
+RemoveUID(int *userid)
 {
 	int i = 0;
 
@@ -326,20 +325,20 @@ RemoveUID(userid)
 	/* no such entry in the table, why delete it? no-op */
 	return (0);
 }
+#endif
 
 
 
 
 bslabel_t *
-lookupSL_low()
+lookupSL_low(void)
 {
 	return (&(sltable[0].senlabel));
 }
 
 
 bslabel_t *
-lookupSL(slptr)
-bslabel_t *slptr;
+lookupSL(bslabel_t *slptr)
 {
 	int i = 0;
 
@@ -379,8 +378,7 @@ bslabel_t *slptr;
 }
 
 int
-DoScreenStripeHeight(screen_num)
-	int screen_num;
+DoScreenStripeHeight(int screen_num)
 {
 	extern char 	*ConnectionInfo;
 	extern int	connBlockScreenStart;
@@ -420,8 +418,9 @@ DoScreenStripeHeight(screen_num)
 
 	return (0);
 }
+
 void
-init_xtsol()
+init_xtsol(void)
 {
 	extern Bool system_audit_on;
 	extern bslabel_t	PublicObjSL;
@@ -456,7 +455,7 @@ KeycodetoKeysym(KeyCode keycode, int col)
     KeySym lsym, usym;
 
     if ((col < 0) || ((col >= per) && (col > 3)) ||
-	((int)keycode < curKeySyms->minKeyCode) || 
+	((int)keycode < curKeySyms->minKeyCode) ||
         ((int)keycode > curKeySyms->maxKeyCode))
       return NoSymbol;
 
@@ -555,7 +554,8 @@ InitHotKey(HotKeyPtr hk)
 
 	hk->initialized = TRUE;
 }
-void
+
+static void
 UpdateTsolConfig(char *keyword, char *value)
 {
 	int i;
@@ -590,8 +590,8 @@ UpdateTsolConfig(char *keyword, char *value)
 	tsolconfig[i].count++;
 }
 
-void
-InitPrivileges()
+static void
+InitPrivileges(void)
 {
 	int i;
 	int count;
@@ -619,7 +619,7 @@ InitPrivileges()
  * TBD: Process extension keywords
  */
 void
-LoadTsolConfig()
+LoadTsolConfig(void)
 {
 	FILE *fp;
 	char buf[BUFSIZ];
@@ -662,11 +662,10 @@ SpecialName(char *string, int len)
 
 
 void
-MakeTSOLAtoms()
+MakeTSOLAtoms(void)
 {
 	int i;
 	char *atomname;
-	Atom a;
 
 	/* Create new TSOL atoms */
 	for (i = 0; i < TSOL_ATOMCOUNT; i++) {
@@ -685,10 +684,10 @@ MakeTSOLAtoms()
 
 /*
  *	Names starting with a slash in selection.atoms and property.atoms
- *	are treated as regular expressions to be matched against the 
+ *	are treated as regular expressions to be matched against the
  *	selection and property names.  They may optionally end with a slash.
  */
-int
+static int
 regexcompare(char *string, int len, char *regexp)
 {
 	int	status;
@@ -757,18 +756,17 @@ MatchTsolConfig(char *name, int len)
 }
 
 TsolInfoPtr
-GetClientTsolInfo(client)
-    ClientPtr client;
+GetClientTsolInfo(ClientPtr client)
 {
-	return	(TsolInfoPtr)(client->devPrivates[tsolClientPrivateIndex].ptr);
+    return TsolClientPriv(client);
 }
 
 /* Property is polyinstantiated only on root window */
 int
 PolyProperty(Atom atom, WindowPtr pWin)
 {
-	if (WindowIsRoot(pWin) && 
-		((!tsolpolyprop.polyinst && !(tsol_node[atom].IsSpecial & TSOLM_PROPERTY)) || 
+	if (WindowIsRoot(pWin) &&
+		((!tsolpolyprop.polyinst && !(tsol_node[atom].IsSpecial & TSOLM_PROPERTY)) ||
 		(tsolpolyprop.polyinst && (tsol_node[atom].IsSpecial & TSOLM_PROPERTY))))
 		return TRUE;
 	return FALSE;
@@ -777,7 +775,7 @@ PolyProperty(Atom atom, WindowPtr pWin)
 int
 PolySelection(Atom atom)
 {
-	if ((tsolpolyseln.polyinst && (tsol_node[atom].IsSpecial & TSOLM_SELECTION)) || 
+	if ((tsolpolyseln.polyinst && (tsol_node[atom].IsSpecial & TSOLM_SELECTION)) ||
 		(!tsolpolyseln.polyinst && !(tsol_node[atom].IsSpecial & TSOLM_SELECTION)))
 		return TRUE;
 	return FALSE;
@@ -790,7 +788,7 @@ PolySelection(Atom atom)
 int
 PolyPropReadable(PropertyPtr pProp, ClientPtr client)
 {
-    TsolPropPtr tsolprop = (TsolPropPtr)(pProp->secPrivate);
+    TsolPropPtr tsolprop = *(TsolPropertyPriv(pProp));
     TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
     while (tsolprop)
@@ -816,7 +814,7 @@ PolyPropReadable(PropertyPtr pProp, ClientPtr client)
  * client_private returns true if xid is owned/created by
  * client or is a default server xid
  */
-int  
+int
 client_private (ClientPtr client, XID xid)
 {
 	if (same_client(client, xid) || (xid & SERVER_BIT))
@@ -862,13 +860,13 @@ RootOf(WindowPtr pWin)
     }
     return (NULL);
 }
-	
+
 
 /*
  * same_client returns true if xid is owned/created by
  * client
  */
-int  
+int
 same_client (ClientPtr client, XID xid)
 {
 	TsolInfoPtr tsolinfo_client;
@@ -893,21 +891,22 @@ same_client (ClientPtr client, XID xid)
 	}
         return FALSE;
 }
+
 WindowPtr
-AnyWindowOverlapsJustMe(pWin, pHead, box)
-    WindowPtr pWin, pHead;
-    register BoxPtr box;
+AnyWindowOverlapsJustMe(
+    WindowPtr pWin,
+    WindowPtr pHead,
+    register BoxPtr box)
 {
     register WindowPtr pSib;
     BoxRec sboxrec;
     register BoxPtr sbox;
-    TsolResPtr win_res =
-        (TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+    TsolResPtr win_res = TsolWindowPriv(pWin);
 
     for (pSib = pWin->prevSib; (pSib != NULL && pSib != pHead); pSib = pSib->prevSib)
     {
-        TsolResPtr sib_res =
-            (TsolResPtr)(pSib->devPrivates[tsolWindowPrivateIndex].ptr);
+        TsolResPtr sib_res = TsolWindowPriv(pSib);
+
         if (pSib->mapped && !bldominates(win_res->sl, sib_res->sl))
         {
             sbox = WindowExtents(pSib, &sboxrec);
@@ -946,27 +945,27 @@ TopClientWin(WindowPtr pWin)
  * sprite is static & TsolPointerWindow is called in policy functions.
  */
 WindowPtr
-TsolPointerWindow()
+TsolPointerWindow(void)
 {
 	return (GetSpriteWindow());	/* Window currently under mouse */
 }
 
 /*
- * Matches in the list of disabled extensions via 
+ * Matches in the list of disabled extensions via
  * the policy file (TrustedExtensionsPolicy)
  * Returns
  *  TRUE  - if a match is found
  *  FALSE - otherwise
  */
 int
-TsolDisabledExtension(char *extname, int extlen)
+TsolDisabledExtension(const char *extname)
 {
 	int i;
 
 	for (i = 0; i < tsolconfig[TSOL_EXTENSION].count; i++) {
-		if (strncmp(extname, tsolconfig[TSOL_EXTENSION].list[i], extlen) == 0) {
-			return TRUE;
-		}
+	    if (strcmp(extname, tsolconfig[TSOL_EXTENSION].list[i]) == 0) {
+		return TRUE;
+	    }
 	}
 
 	return FALSE;

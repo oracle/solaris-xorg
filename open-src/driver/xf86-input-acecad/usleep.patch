@@ -1,0 +1,46 @@
+From 33e64334db17ed3d2307e3ac465450c5c9b39ad9 Mon Sep 17 00:00:00 2001
+From: Paulo Cesar Pereira de Andrade <pcpa@mandriva.com.br>
+Date: Sun, 16 Mar 2008 03:01:23 -0300
+Subject: [PATCH] Compile warning fixes.
+
+Don't call xf86usleep, just call usleep directly.
+Remove unused variables.
+
+Signed-off-by: Peter Hutterer <peter@cs.unisa.edu.au>
+---
+ src/acecad.c |    3 +--
+ src/acecad.h |    2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/acecad.c b/src/acecad.c
+index 41caa8c..71d2578 100644
+--- a/src/acecad.c
++++ b/src/acecad.c
+@@ -245,10 +245,9 @@ #ifdef LINUX_SYSFS
+     char *link = NULL;
+     struct dlist *devs = NULL;
+     struct dlist *links = NULL;
+-    unsigned int major = 0, minor = 0;
+     void *libsysfs = NULL;
+ 
+-    if (libsysfs = dlopen("libsysfs.so", RTLD_NOW | RTLD_GLOBAL)) {
++    if ((libsysfs = dlopen("libsysfs.so", RTLD_NOW | RTLD_GLOBAL))) {
+         xf86MsgVerb(X_INFO, verb, "%s: querying sysfs for Acecad tablets\n", local->name);
+         usb_bus = sysfs_open_bus(usb_bus_name);
+         if (usb_bus) {
+diff --git a/src/acecad.h b/src/acecad.h
+index 2f910ea..9acfca2 100644
+--- a/src/acecad.h
++++ b/src/acecad.h
+@@ -63,7 +63,7 @@ #define AVAIL_FLAG		8
+ 
+ #define NOTAVAIL ((errno == ENODEV) || (errno == ENXIO) || (errno == ENOENT))
+ 
+-#define milisleep(ms) xf86usleep (ms * 1000)
++#define milisleep(ms) usleep (ms * 1000)
+ 
+ #define SYSCALL(call) while(((call) == -1) && (errno == EINTR))
+ 
+-- 
+1.4.1
+

@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.subdirs has rules for recursively iterating through module subdirs
 #
-# Copyright 2008 Sun Microsystems, Inc.  All Rights Reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.subdirs	1.1	08/08/07
+# @(#)Makefile.subdirs	1.2	09/01/14
 #
 
 # Need to set $MACH
@@ -38,37 +38,58 @@ include $(TOP)/common/Makefile.init
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
 all: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=all
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=all
 
 World: clean all
 
 clean: 
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=clean
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean
+	$(MAKE) $(MAKEFLAGS) clean-obsolete-subdirs
 
 install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=install
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=install
 
 download:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=download
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=download
 
 source:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=source
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=source
 
 git-update:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=git-update
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=git-update
 
 # Build debuggable versions
 debug-build:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=debug
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=debug
 
 # Build & install debuggable versions
 debug-install:
-	$(MAKE) $(MFLAGS) subdirs OS_TARGET=debug-install
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=debug-install
+
+list-patches:
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=list-patches
 
 subdirs:
-	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \
 	for i in $(OS_SUBDIRS) ; do \
 	    (cd $$i ; \
 	     print "## making" $(OS_TARGET) "in open-src/$(DIRNAME)$$i..."; \
-	     $(MAKE) $(MFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
+	     $(MAKE) $(MAKEFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
 	done
+
+clean-obsolete-subdirs:
+	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \
+	if [[ ! -z "$(OBSOLETE_SUBDIRS)" ]] ; then \
+	    for i in $(OBSOLETE_SUBDIRS) ; do \
+	    	if [[ -d $$i ]] ; then \
+		    if [[ -f $$i/Makefile ]] ; then \
+		    	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=$$i ; \
+		    else ; \
+		    	print "## removing obsolete build directories in open-src/$(DIRNAME)$$i..."; \
+			(set -x ; cd $$i && rm -rf build_32 build_64 ) ; \
+			(set -x ; rmdir $$i ) ; \
+		    fi ; \
+		fi ; \
+	    done ; \
+	fi ; \
+	return 0

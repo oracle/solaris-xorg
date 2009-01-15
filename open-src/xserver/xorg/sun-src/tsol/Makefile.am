@@ -1,6 +1,6 @@
 #########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 # 
 #########################################################################
 # 
-# ident	"@(#)Makefile.am 1.10	08/02/02 SMI"
+# ident	"@(#)Makefile.am 1.11	09/01/14 SMI"
 #
 
 noinst_LTLIBRARIES = libxtsol.la
@@ -39,11 +39,11 @@ libxtsol_la_SOURCES= tsolpolicy.c tsolutils.c tsolextension.c tsolprotocol.c \
 
 INCLUDES = -I.. -I$(top_srcdir)/include -I$(top_srcdir)/os
 
-SERVERCONFIGdir = $(libdir)/X11/xserver
+SERVERCONFIGdir = @SERVER_MISC_CONFIG_PATH@
 SERVERCONFIG_DATA = TrustedExtensionsPolicy
 
 TSOLPOLICYFILEDEF = -DTSOLPOLICYFILE=\"$(SERVERCONFIGdir)/TrustedExtensionsPolicy\"
 
-AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF) -DIN_MODULE
+AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF)
 
 libxtsol_la_LIBADD = -ltsol -ltsnet -lsecdb -lbsm

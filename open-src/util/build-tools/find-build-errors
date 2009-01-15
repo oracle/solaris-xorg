@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)find-build-errors 1.1     08/08/07 SMI"
+# ident "@(#)find-build-errors 1.2     09/01/11 SMI"
 #
 
 require 5.005;				# minimal Perl version required
@@ -236,7 +236,7 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
       @pkglines = ();
     }
 
-    if ($l =~ m{Packaging was not successful.}ms) {
+    if ($l =~ m{(Packaging was not successful.|was not found ; skipping)}ms) {
       print join('', @pkglines);
     } else {
       push @pkglines, $l;

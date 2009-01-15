@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Protocol modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,22 +28,45 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	08/09/15
+# @(#)Makefile	1.13	09/01/14
 #
 ###############################################################################
 
-OS_SUBDIRS_common = \
-	x11proto bigreqsproto compositeproto damageproto evieproto \
-	fixesproto fontcacheproto fontsproto glproto inputproto kbproto pmproto \
-	randrproto recordproto renderproto resourceproto scrnsaverproto \
-	trapproto videoproto xcmiscproto xextproto xf86bigfontproto \
-	xf86dgaproto xf86miscproto xf86vidmodeproto xineramaproto \
-	lg3dproto sun-ext-protos printproto
+OS_SUBDIRS_common = 		\
+	x11proto 		\
+	bigreqsproto 		\
+	compositeproto 		\
+	damageproto 		\
+	evieproto 		\
+	fixesproto 		\
+	fontcacheproto 		\
+	fontsproto 		\
+	glproto 		\
+	inputproto 		\
+	kbproto 		\
+	pmproto 		\
+	printproto 		\
+	randrproto 		\
+	recordproto 		\
+	renderproto 		\
+	resourceproto 		\
+	scrnsaverproto 		\
+	trapproto 		\
+	videoproto 		\
+	xcmiscproto 		\
+	xextproto 		\
+	xf86bigfontproto 	\
+	xf86dgaproto 		\
+	xf86driproto 		\
+	xf86miscproto 		\
+	xf86vidmodeproto 	\
+	xineramaproto 		\
+	lg3dproto 		\
+	sun-ext-protos
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)       \
-	xf86driproto
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.

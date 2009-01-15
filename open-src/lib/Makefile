@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Library modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.27	08/10/30
+# @(#)Makefile	1.28	09/01/14
 #
 ###############################################################################
 
@@ -40,9 +40,11 @@
 # X11 before Xext
 # (X11 and SM) before Xt
 # Xt before Xmu and Xpm and Xtst
-# Xext before any other extension library
+# Xext before any other extension library, including mesa
 # Xfixes before Xcomposite
 # Xp before XprintUtil before XprintAppUtil
+# libpthread-stubs before libdrm (and in the future, before xcb)
+# libdrm before mesa
 
 OS_SUBDIRS_common = \
 	freetype \

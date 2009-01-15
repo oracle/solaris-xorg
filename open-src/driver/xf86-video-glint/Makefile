@@ -2,7 +2,7 @@
 #
 # xf86-video-glint 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/08/08
+# @(#)Makefile	1.7	09/01/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-glint
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.2.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -55,7 +55,11 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lshadowfb -lvbe \
+	-lfb -lint10 -lpciaccess -lshadowfb -lvbe \
 	-lvgahw -lxaa -lxf8_32bpp -lcfb -lmfb -lfbdevhw
+
+# Extra flags to pass to configure script
+# - Disable DRI since the kernel module isn't ported
+MODULE_CONFIG_OPTS=--disable-dri
 
 include ../Makefile.inc

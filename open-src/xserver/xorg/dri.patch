@@ -26,25 +26,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2007-07-30 18:37:03.938884000 -0700
-+++ configure.ac	2007-07-30 18:37:20.626554000 -0700
-@@ -300,6 +300,12 @@ case $host_os in
- 	DRI=yes
- 	KDRIVE_HW=yes
- 	;;
-+  *solaris*)
-+	case $host_cpu in
-+		i*86)	DRI=yes ;;
-+		*)	DRI=no	;;
-+	esac
-+	;;
- esac
- AM_CONDITIONAL(KDRIVE_HW, test "x$KDRIVE_HW" = xyes)
- 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/agpgart.h hw/xfree86/os-support/solaris/agpgart.h
---- hw/xfree86/os-support/solaris/agpgart.h	2006-09-17 23:04:18.000000000 -0700
-+++ hw/xfree86/os-support/solaris/agpgart.h	2007-07-30 18:37:20.681168000 -0700
+--- hw/xfree86/os-support/solaris/agpgart.h	2007-10-23 14:26:51.000000000 -0700
++++ hw/xfree86/os-support/solaris/agpgart.h	2008-09-24 20:22:57.390291000 -0700
 @@ -23,7 +23,7 @@
   * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   */

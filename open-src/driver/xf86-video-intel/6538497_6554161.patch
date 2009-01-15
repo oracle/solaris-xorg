@@ -1,6 +1,18 @@
---- src/i830_dri.h	Tue May 22 10:57:01 2007
-+++ src/i830_dri.h	Tue May 22 10:57:57 2007
-@@ -22,16 +22,20 @@
+diff -urp -x '*~' -x '*.orig' src/i830_common.h src/i830_common.h
+--- src/i830_common.h	2008-07-22 23:14:09.000000000 -0700
++++ src/i830_common.h	2009-01-10 20:01:43.664950000 -0800
+@@ -94,6 +94,7 @@ typedef struct {
+         int pf_current_page;	/* which buffer is being displayed? */
+         int perf_boxes;	        /* performance boxes to be displayed */   
+ 	int width, height;      /* screen size in pixels */
++	int pad0;
+ 
+ 	drm_handle_t front_handle;
+ 	int front_offset;
+diff -urp -x '*~' -x '*.orig' src/i830_dri.h src/i830_dri.h
+--- src/i830_dri.h	2008-08-25 18:25:53.000000000 -0700
++++ src/i830_dri.h	2009-01-10 20:01:43.652983000 -0800
+@@ -22,16 +22,20 @@ typedef struct _I830DRIRec {
     drm_handle_t unused2; /* backbuffer */
  
     drmSize unused3; /* depthbufferSize */
@@ -22,19 +34,10 @@
  
     int deviceID;
     int width;
---- src/i830_common.h	Tue May 22 10:58:16 2007
-+++ src/i830_common.h	Tue May 22 10:58:40 2007
-@@ -92,6 +92,7 @@
-         int pf_current_page;	/* which buffer is being displayed? */
-         int perf_boxes;	        /* performance boxes to be displayed */   
- 	int width, height;      /* screen size in pixels */
-+	int pad0;
- 
- 	drm_handle_t front_handle;
- 	int front_offset;
---- src/modes/xf86RandR12.c	Tue May 22 10:59:52 2007
-+++ src/modes/xf86RandR12.c	Tue May 22 11:00:45 2007
-@@ -207,6 +207,11 @@
+diff -urp -x '*~' -x '*.orig' src/modes/xf86RandR12.c src/modes/xf86RandR12.c
+--- src/modes/xf86RandR12.c	2008-04-13 18:57:30.000000000 -0700
++++ src/modes/xf86RandR12.c	2009-01-10 20:01:43.666024000 -0800
+@@ -207,6 +207,11 @@ xf86RandR12SetMode (ScreenPtr	    pScree
          /* Reset, just so we ensure the drivers SwitchMode is called */
          scrp->currentMode = NULL;
      }

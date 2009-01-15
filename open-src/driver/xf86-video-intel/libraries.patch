@@ -1,31 +1,22 @@
---- src/Makefile.am	Fri May 18 16:11:28 2007
-+++ src/Makefile.am	Mon May 21 10:53:07 2007
-@@ -34,7 +34,9 @@
- 	-DI830_XV -DI830_USE_XAA -DI830_USE_EXA
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2008-08-25 18:25:53.000000000 -0700
++++ src/Makefile.am	2009-01-10 20:01:41.033942000 -0800
+@@ -34,7 +34,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ 
+ 	@XMODES_CFLAGS@ -DI830_XV -DI830_USE_XAA -DI830_USE_EXA
  
  intel_drv_la_LTLIBRARIES = intel_drv.la
 -intel_drv_la_LDFLAGS = -module -avoid-version
 +intel_drv_la_LDFLAGS = -module -avoid-version \
-+	-ldrm -lfb -lint10 -lshadow -lshadowfb \
++	-ldrm -lfb -lint10 -lpciaccess -lshadow -lshadowfb \
 +	-lvbe -lvgahw -lxaa -lexa -ldri -lglx -lm
  intel_drv_ladir = @moduledir@/drivers
- 
- XMODE_SRCS=\
---- src/xvmc/Makefile.am	2007-05-18 16:24:27.389284000 +0800
-+++ src/xvmc/Makefile.am	2007-05-18 16:35:43.860267000 +0800
-@@ -5,6 +5,7 @@
- 
- libI810XvMC_la_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ @DRI_CFLAGS@ \
- 	-I$(top_srcdir)/src -DTRUE=1 -DFALSE=0
--libI810XvMC_la_LDFLAGS = -version-number 1:0:0
-+libI810XvMC_la_LDFLAGS = -version-number 1:0:0 \
-+	-lXvMC -lXv -lX11 -ldrm
- libI810XvMC_la_LIBADD = @DRI_LIBS@ 
- endif
---- src/ch7017/Makefile.am	Mon May 21 11:06:12 2007
-+++ src/ch7017/Makefile.am	Mon May 21 11:06:27 2007
-@@ -6,7 +6,9 @@
- AM_CFLAGS = @WARN_CFLAGS@ @XMODES_CFLAGS@ @XORG_CFLAGS@ @DRI_CFLAGS@
+ intel_drv_la_LIBADD =
+ if XSERVER_LIBPCIACCESS
+diff -urp -x '*~' -x '*.orig' src/ch7017/Makefile.am src/ch7017/Makefile.am
+--- src/ch7017/Makefile.am	2008-07-22 23:14:09.000000000 -0700
++++ src/ch7017/Makefile.am	2009-01-10 20:01:41.042690000 -0800
+@@ -7,7 +7,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XMODES_CFLAGS
+ 	@PCIACCESS_CFLAGS@
  
  ch7017_la_LTLIBRARIES = ch7017.la
 -ch7017_la_LDFLAGS = -module -avoid-version
@@ -35,3 +26,16 @@
  ch7017_ladir = @moduledir@/drivers
  
  ch7017_la_SOURCES = \
+diff -urp -x '*~' -x '*.orig' src/xvmc/Makefile.am src/xvmc/Makefile.am
+--- src/xvmc/Makefile.am	2008-08-25 18:25:53.000000000 -0700
++++ src/xvmc/Makefile.am	2009-01-10 20:01:41.036760000 -0800
+@@ -6,7 +6,8 @@ libI810XvMC_la_SOURCES = I810XvMC.c \
+ 
+ libI810XvMC_la_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ @DRI_CFLAGS@ \
+ 	-I$(top_srcdir)/src -DTRUE=1 -DFALSE=0
+-libI810XvMC_la_LDFLAGS = -version-number 1:0:0
++libI810XvMC_la_LDFLAGS = -version-number 1:0:0 \
++	-lXvMC -lXv -lX11 -ldrm
+ libI810XvMC_la_LIBADD = @DRI_LIBS@ 
+ 
+ libIntelXvMC_la_SOURCES = intel_xvmc.c \

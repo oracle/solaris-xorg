@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -27,14 +27,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/08/08
+# @(#)Makefile	1.9	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=libdrm
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.0
+MODULE_VERSION=2.3.1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -48,13 +48,14 @@ GIT_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-drm-port.patch
 
+# Need to regenerate files after patching Makefile.am in solaris-drm-port.patch
+AUTORECONF=yes
+
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man
 #SUN_PACKAGE=SUNWxorg-server
 #MODULE_STABILITY=Volatile
 #LIB_MAN_SUFFIX=3drm
-
-
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=libdrm.pc.in

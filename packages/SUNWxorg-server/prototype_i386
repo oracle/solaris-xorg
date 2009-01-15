@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.15     08/10/30 SMI"
+# ident "@(#)prototype_i386 1.16     09/01/15 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -51,13 +51,21 @@ d none X11/bin/i386 0755 root bin
 f none X11/bin/i386/Xorg 4555 root bin
 f none X11/bin/i386/Xephyr 0555 root bin
 f none X11/bin/i386/Xvfb 0555 root bin
-f none X11/bin/pcitweak 0555 root bin
 
 !search $HOME/bin/amd64
 d none X11/bin/amd64 0755 root bin
 f none X11/bin/amd64/Xorg 4555 root bin
 f none X11/bin/amd64/Xephyr 0555 root bin
 f none X11/bin/amd64/Xvfb 0555 root bin
+
+!search $HOME/lib/X11/xserver
+d none X11/lib/X11 0755 root bin
+d none X11/lib/X11/xserver 0755 root bin
+f none X11/lib/X11/xserver/libdrm.so.2 0755 root bin
+
+!search $HOME/lib/X11/xserver/$plat_64
+d none X11/lib/X11/xserver/$plat_64 0755 root bin
+f none X11/lib/X11/xserver/$plat_64/libdrm.so.2 0755 root bin
 
 !search $HOME/lib/modules/amd64
 d none X11/lib/modules/amd64 0755 root bin
@@ -66,11 +74,11 @@ f none X11/lib/modules/amd64/libexa.so 0755 root bin
 f none X11/lib/modules/amd64/libfb.so 0755 root bin
 f none X11/lib/modules/amd64/libint10.so 0755 root bin
 f none X11/lib/modules/amd64/libmfb.so 0755 root bin
-f none X11/lib/modules/amd64/libpcidata.so 0755 root bin
 f none X11/lib/modules/amd64/libshadow.so 0755 root bin
 f none X11/lib/modules/amd64/libshadowfb.so 0755 root bin
 f none X11/lib/modules/amd64/libvbe.so 0755 root bin
 f none X11/lib/modules/amd64/libvgahw.so 0755 root bin
+f none X11/lib/modules/amd64/libwfb.so 0755 root bin
 f none X11/lib/modules/amd64/libxaa.so 0755 root bin
 f none X11/lib/modules/amd64/libxf1bpp.so 0755 root bin
 f none X11/lib/modules/amd64/libxf4bpp.so 0755 root bin
@@ -83,11 +91,9 @@ f none X11/lib/modules/drivers/amd64/dummy_drv.so 0755 root bin
 
 !search $HOME/lib/modules/amd64/extensions
 d none X11/lib/modules/extensions/amd64 0755 root bin
-f none X11/lib/modules/extensions/amd64/libIA.so 0755 root bin
+f none X11/lib/modules/extensions/amd64/libia.so 0755 root bin
 f none X11/lib/modules/extensions/amd64/libdbe.so 0755 root bin
 f none X11/lib/modules/extensions/amd64/libextmod.so 0755 root bin
-f none X11/lib/modules/extensions/amd64/librecord.so 0755 root bin
-f none X11/lib/modules/extensions/amd64/libxtrap.so 0755 root bin
 
 !search $HOME/lib/modules/amd64/fonts
 d none X11/lib/modules/fonts/amd64 0755 root bin
@@ -105,7 +111,6 @@ f none X11/lib/modules/input/elographics_drv.so 0755 root bin
 f none X11/lib/modules/input/fpit_drv.so 0755 root bin
 f none X11/lib/modules/input/hyperpen_drv.so 0755 root bin
 f none X11/lib/modules/input/js_x_drv.so 0755 root bin
-f none X11/lib/modules/input/keyboard_drv.so 0755 root bin
 f none X11/lib/modules/input/magellan_drv.so 0755 root bin
 f none X11/lib/modules/input/microtouch_drv.so 0755 root bin
 f none X11/lib/modules/input/mutouch_drv.so 0755 root bin
@@ -131,7 +136,6 @@ f none X11/lib/modules/input/amd64/fpit_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/hyperpen_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/js_x_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/kbd_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/keyboard_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/magellan_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/microtouch_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/mouse_drv.so 0755 root bin
@@ -144,3 +148,28 @@ f none X11/lib/modules/input/amd64/tek4957_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/void_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/vmmouse_drv.so 0755 root bin
 #f none X11/lib/modules/input/amd64/wacom_drv.so 0755 root bin
+
+!search $HOME/share/man/man7
+f none X11/share/man/man7/acecad.7 0444 root bin
+f none X11/share/man/man7/calcomp.7 0444 root bin
+f none X11/share/man/man7/citron.7 0444 root bin
+f none X11/share/man/man7/dmc.7 0444 root bin
+f none X11/share/man/man7/dynapro.7 0444 root bin
+f none X11/share/man/man7/elographics.7 0444 root bin
+f none X11/share/man/man7/fpit.7 0444 root bin
+f none X11/share/man/man7/js_x.7 0444 root bin
+f none X11/share/man/man7/microtouch.7 0444 root bin
+f none X11/share/man/man7/mutouch.7 0444 root bin
+f none X11/share/man/man7/palmax.7 0444 root bin
+f none X11/share/man/man7/penmount.7 0444 root bin
+f none X11/share/man/man7/tek4957.7 0444 root bin
+f none X11/share/man/man7/vmmouse.7 0444 root bin
+
+# HAL probe support for vmmouse driver
+!search ../usr/lib/hal
+d none lib 					0755 root bin
+d none lib/hal 					0755 root bin
+f none lib/hal/hal-probe-vmmouse 		0555 root bin
+
+!search $HOME/lib/X11/xserver
+f none X11/lib/X11/xserver/vmmouse_detect	0555 root bin

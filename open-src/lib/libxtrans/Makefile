@@ -2,7 +2,7 @@
 #
 # xtrans 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/09/18
+# @(#)Makefile	1.11	09/01/11
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
@@ -40,10 +40,10 @@
 MODULE_NAME=xtrans
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.2.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = inetv6.patch socket-perm.patch bug-6688467.patch,-p1 \
+SOURCE_PATCHES = inetv6.patch socket-perm.patch \
 	tsol-unix-domain.patch
 
 # Library name (used for specfiles/mapfiles)
@@ -52,8 +52,7 @@ LIBNAME=xtrans
 # Man pages to apply Sun footer to & attributes to list
 # - Xtrans has none
 
-
-# - Xtrans doesn't build a library, so we use the pkgconfig file it builds instead
+# Xtrans doesn't build a library, so use the pkgconfig file it builds instead
 LIB_BUILT = xtrans.pc
 
 include ../Makefile.inc

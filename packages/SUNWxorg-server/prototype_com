@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,9 +29,9 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.31     08/10/06 SMI"
+# ident "@(#)prototype_com 1.32     09/01/14 SMI"
 #
-# X.Org Foundation X server for Solaris
+# X.Org Foundation X server for Solaris & OpenSolaris
 
 !HOME=../usr/X11
 
@@ -46,6 +46,9 @@ f none X11/bin/gtf 0555 root bin
 f none X11/bin/cvt 0555 root bin
 f none X11/bin/xorgconfig 0555 root bin
 
+!search $HOME/bin
+f none X11/bin/xkbcomp 0755 root bin
+
 d none X11/lib 0755 root bin
 
 !search $HOME/lib/X11 
@@ -55,11 +58,7 @@ f none X11/lib/X11/Cards 0444 root bin
 
 !search $HOME/lib/X11/xserver
 d none X11/lib/X11/xserver 0755 root bin
-f none X11/lib/X11/xserver/SecurityPolicy 0444 root bin
-
-!search $HOME/bin
-d none X11/lib/X11/xkb 0755 root bin
-f none X11/lib/X11/xkb/xkbcomp 0755 root bin
+f none X11/lib/X11/xserver/protocol.txt 0444 root bin
 
 !search $HOME/$XSERVERMODDIR
 d none X11/lib/modules 0755 root bin
@@ -68,52 +67,16 @@ f none X11/lib/modules/libexa.so 0755 root bin
 f none X11/lib/modules/libfb.so 0755 root bin
 f none X11/lib/modules/libint10.so 0755 root bin
 f none X11/lib/modules/libmfb.so 0755 root bin
-f none X11/lib/modules/libpcidata.so 0755 root bin
-f none X11/lib/modules/libscanpci.so 0755 root bin
 f none X11/lib/modules/libshadow.so 0755 root bin
 f none X11/lib/modules/libshadowfb.so 0755 root bin
 f none X11/lib/modules/libvbe.so 0755 root bin
 f none X11/lib/modules/libvgahw.so 0755 root bin
+f none X11/lib/modules/libwfb.so 0755 root bin
 f none X11/lib/modules/libxaa.so 0755 root bin
 f none X11/lib/modules/libxf1bpp.so 0755 root bin
 f none X11/lib/modules/libxf4bpp.so 0755 root bin
 f none X11/lib/modules/libxf8_16bpp.so 0755 root bin
 f none X11/lib/modules/libxf8_32bpp.so 0755 root bin
-
-# !search $HOME/$XSERVERMODDIR/codeconv
-# d none X11/lib/modules/codeconv 0755 root bin
-# f none X11/lib/modules/codeconv/libARABIC.so 0755 root bin
-# f none X11/lib/modules/codeconv/libARMSCII8.so 0755 root bin
-# f none X11/lib/modules/codeconv/libBIG5.so 0755 root bin
-# f none X11/lib/modules/codeconv/libBIG5HKSCS.so 0755 root bin
-# f none X11/lib/modules/codeconv/libDOSENCODING.so 0755 root bin
-# f none X11/lib/modules/codeconv/libGB18030.so 0755 root bin
-# f none X11/lib/modules/codeconv/libGB2312.so 0755 root bin
-# f none X11/lib/modules/codeconv/libGBK.so 0755 root bin
-# f none X11/lib/modules/codeconv/libGEORGIAN.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_1.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_10.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_11.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_13.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_14.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_15.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_2.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_3.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_4.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_5.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_6.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_7.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_8.so 0755 root bin
-# f none X11/lib/modules/codeconv/libISO8859_9.so 0755 root bin
-# f none X11/lib/modules/codeconv/libJISX0201.so 0755 root bin
-# f none X11/lib/modules/codeconv/libJISX0208.so 0755 root bin
-# f none X11/lib/modules/codeconv/libJISX0212.so 0755 root bin
-# f none X11/lib/modules/codeconv/libKOI8.so 0755 root bin
-# f none X11/lib/modules/codeconv/libKSC5601.so 0755 root bin
-# f none X11/lib/modules/codeconv/libKSCJOHAB.so 0755 root bin
-# f none X11/lib/modules/codeconv/libMULEENCODING.so 0755 root bin
-# f none X11/lib/modules/codeconv/libTCVN.so 0755 root bin
-# f none X11/lib/modules/codeconv/libVISCII.so 0755 root bin
 
 !search $HOME/$XSERVERMODDIR/drivers
 d none X11/lib/modules/drivers 0755 root bin
@@ -121,11 +84,9 @@ f none X11/lib/modules/drivers/dummy_drv.so 0755 root bin
 
 !search $HOME/$XSERVERMODDIR/extensions
 d none X11/lib/modules/extensions 0755 root bin
-f none X11/lib/modules/extensions/libIA.so 0755 root bin
+f none X11/lib/modules/extensions/libia.so 0755 root bin
 f none X11/lib/modules/extensions/libdbe.so 0755 root bin
 f none X11/lib/modules/extensions/libextmod.so 0755 root bin
-f none X11/lib/modules/extensions/librecord.so 0755 root bin
-f none X11/lib/modules/extensions/libxtrap.so 0755 root bin
 
 !search $HOME/$XSERVERMODDIR/fonts
 d none X11/lib/modules/fonts 0755 root bin
@@ -136,3 +97,47 @@ d none X11/lib/modules/input 0755 root bin
 f none X11/lib/modules/input/kbd_drv.so 0755 root bin
 f none X11/lib/modules/input/mouse_drv.so 0755 root bin
 f none X11/lib/modules/input/void_drv.so 0755 root bin
+
+d none X11/share 0755 root bin
+
+!search $HOME/share/doc
+d none X11/share/doc 0755 root bin
+f none X11/share/doc/LICENSE 0444 root bin
+f none X11/share/doc/README.DRI 0444 root bin
+f none X11/share/doc/README.XKB-Config 0444 root bin
+f none X11/share/doc/README.XKB-Enhancing 0444 root bin
+f none X11/share/doc/README.fonts 0444 root bin
+f none X11/share/doc/README.mouse 0444 root bin
+f none X11/share/doc/RELNOTES 0444 root bin
+
+d none X11/lib 0755 root bin
+d none X11/lib/X11 0755 root bin
+s none X11/lib/X11/doc=../../share/doc
+d none X11/lib/X11/xkb 0755 root bin
+s none X11/lib/X11/xkb/xkbcomp=../../../bin/xkbcomp
+s none X11/lib/X11/xkb/README.config=../../../share/doc/README.XKB-Config
+s none X11/lib/X11/xkb/README.enhancing=../../../share/doc/README.XKB-Enhancing
+
+d none X11/share/man 0755 root bin
+s none X11/man=share/man
+
+!search $HOME/share/man/man1
+d none X11/share/man/man1 0755 root bin
+f none X11/share/man/man1/Xephyr.1 0444 root bin
+f none X11/share/man/man1/Xorg.1 0444 root bin
+f none X11/share/man/man1/gtf.1 0444 root bin
+f none X11/share/man/man1/xkbcomp.1 0444 root bin
+f none X11/share/man/man1/xorgconfig.1 0444 root bin
+
+!search $HOME/share/man/man4
+d none X11/share/man/man4 0755 root bin
+f none X11/share/man/man4/xorg.conf.4 0444 root bin
+
+!search $HOME/share/man/man7
+d none X11/share/man/man7 0755 root bin
+f none X11/share/man/man7/exa.7 0444 root bin
+f none X11/share/man/man7/kbd.7 0444 root bin
+s none X11/share/man/man7/keyboard.7=kbd.7
+f none X11/share/man/man7/mousedrv.7 0444 root bin
+s none X11/share/man/man7/mouse.7=mousedrv.7
+f none X11/share/man/man7/void.7 0444 root bin

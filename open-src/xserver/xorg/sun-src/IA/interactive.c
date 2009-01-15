@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)interactive.c 35.18     08/06/16 SMI"
+#pragma ident   "@(#)interactive.c 35.19     09/01/14 SMI"
 
 /************************************************************
 	Basic boilerplate extension.
@@ -75,14 +75,16 @@
 #define SET_PRIORITY		1
 #define SET_INTERACTIVE 	2
 
-#define SERVER			0x1
-#define WMGR			0x2
-#define BOTH			0x3
-
 typedef struct _ClientProcessInfo {
-	int count;
-	ConnectionPidPtr pids;
-} ClientProcessRec, * ClientProcessPtr;
+    int 		count;
+    ConnectionPidPtr	pids;
+    Bool		boosted;
+} ClientProcessRec, *ClientProcessPtr;
+
+typedef struct {
+    ClientProcessPtr    process; /* Process id information */    
+    Bool		wmgr;
+} IAClientPrivateRec, *IAClientPrivatePtr;
 
 static int ProcIADispatch(ClientPtr client), SProcIADispatch(ClientPtr client);
 static int ProcIASetProcessInfo(ClientPtr client), SProcIASetProcessInfo(ClientPtr client);
@@ -94,12 +96,11 @@ static void IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer
 static int InitializeClass(void );
 static void SetIAPrivate(int*);
 static void ChangeInteractive(ClientPtr);
-static int SetPriority(int, int);
-static void UnsetLastPriority(ClientProcessPtr LastPid); 
+static int SetPriority(const ClientProcessPtr, int);
 static void ChangePriority(register ClientPtr client);
 
 static int SetClientPrivate(ClientPtr client, ConnectionPidPtr stuff, int length);
-static void FreeProcessList(ClientPtr client);
+static void FreeProcessList(IAClientPrivatePtr priv);
 /* static int LocalConnection(OsCommPtr); */
 static int PidSetEqual(ClientProcessPtr, ClientProcessPtr);
 
@@ -111,23 +112,29 @@ static CARD32 IAInitTimerCall(OsTimerPtr timer,CARD32 now,pointer arg);
 static iaclass_t 	IAClass;
 static id_t		TScid;
 static ClientProcessPtr	LastPids = NULL;
-static int 		specialIAset = 0;
 static int 		ia_nice = IA_BOOST;
-static Bool 		InteractiveOS = xTrue;
-static ClientPtr 	wmClientptr = NULL;
+static Bool 		InteractiveOS = TRUE;
 static unsigned long 	IAExtensionGeneration = 0;
 static OsTimerPtr 	IAInitTimer = NULL;
 static int (* IASavedProcVector[256]) (ClientPtr client);
 
-typedef struct {
-    ClientProcessPtr    process; /* Process id information */    
-    Bool		wmgr;
-} IAClientPrivateRec, *IAClientPrivatePtr;
+static int IAPrivKeyIndex;
+static DevPrivateKey IAPrivKey = &IAPrivKeyIndex;
 
-static int	IAClientPrivateIndex;
+#define GetIAClient(pClient)	\
+    ((IAClientPrivatePtr) dixLookupPrivate(&(pClient)->devPrivates, IAPrivKey))
 
-#define GetIAClient(pClient)    ((IAClientPrivatePtr) (pClient)->devPrivates[IAClientPrivateIndex].ptr)
-#define GetConnectionPids(pClient)	(GetIAClient(pClient)->process)
+static inline ClientProcessPtr
+GetConnectionPids(ClientPtr pClient)
+{
+    IAClientPrivatePtr priv = GetIAClient(pClient);
+
+    if (priv == NULL) {
+	return NULL;
+    } else {
+	return priv->process;
+    }
+}
 
 /* Set via xorg.conf option in loadable module */
 int IADebugLevel = 0;
@@ -141,30 +148,26 @@ int IADebugLevel = 0;
 void
 IAExtensionInit(void)
 {
+    ConnectionPidRec	myPid = P_MYID;
+    ClientProcessRec	myProc = { 1, &myPid, FALSE };
+    
     IA_DEBUG(IA_DEBUG_BASIC, 
-      LogMessage(X_INFO, "SolarisIA: Initializing (generation %ld)\n",
-	IAExtensionGeneration));
+	     LogMessage(X_INFO, "SolarisIA: Initializing (generation %ld)\n",
+			IAExtensionGeneration));
 
     if (IAExtensionGeneration == serverGeneration)
 	return;
 
-    InteractiveOS=xFalse;
+    InteractiveOS = FALSE;
 
     if (InitializeClass() != Success)
 	return;
 
-    if (SetPriority(P_MYID, SET_INTERACTIVE) != Success)
+    if (SetPriority(&myProc, SET_INTERACTIVE) != Success)
 	return;
 
-    if (SetPriority(P_MYID, SET_PRIORITY) != Success)
+    if (SetPriority(&myProc, SET_PRIORITY) != Success)
 	return;
-
-    IAClientPrivateIndex = AllocateClientPrivateIndex();
-    if (IAClientPrivateIndex < 0)
-	return;
-    if (!AllocateClientPrivate (IAClientPrivateIndex,
-				      sizeof (IAClientPrivateRec)))
-        return;
 
     if (!AddCallback(&ClientStateCallback, IAClientStateChange, NULL))
         return;
@@ -173,8 +176,8 @@ IAExtensionInit(void)
 	return;
 
     if (!AddExtension(IANAME, IANumberEvents, IANumberErrors,
-				 ProcIADispatch, SProcIADispatch,
-				 IACloseDown, StandardMinorOpcode))
+		      ProcIADispatch, SProcIADispatch,
+		      IACloseDown, StandardMinorOpcode))
 	return;
 
     /* InitExtensions is called before InitClientPrivates(serverClient)
@@ -182,13 +185,37 @@ IAExtensionInit(void)
        to initialize the serverClient */
     IAInitTimer = TimerSet(IAInitTimer, 0, 1, IAInitTimerCall, NULL);
 
-    specialIAset = 0;
-    InteractiveOS = xTrue;
+    InteractiveOS = TRUE;
     IAExtensionGeneration = serverGeneration;
 
     IA_DEBUG(IA_DEBUG_BASIC, 
-      LogMessage(X_INFO, "SolarisIA: Finished initializing (generation %ld)\n",
-	IAExtensionGeneration));
+	     LogMessage(X_INFO,
+			"SolarisIA: Finished initializing (generation %ld)\n",
+			IAExtensionGeneration));
+}
+
+/* Allocate client private structure for this client */
+static int
+IAInitClientPrivate(ClientPtr pClient)
+{
+    IAClientPrivatePtr priv;
+
+    priv = GetIAClient(pClient);
+    if (priv != NULL) {
+	return Success;
+    }
+	
+    priv = xalloc(sizeof(IAClientPrivateRec));
+    if (priv == NULL) {
+	return BadAlloc;
+    }
+
+    priv->process = NULL;
+    priv->wmgr = FALSE;
+    
+    dixSetPrivate(&(pClient)->devPrivates, IAPrivKey, priv);
+
+    return Success;
 }
 
 /* Called when we first hit WaitForSomething to initialize serverClient */
@@ -197,11 +224,10 @@ IAInitTimerCall(OsTimerPtr timer,CARD32 now,pointer arg)
 {
     ConnectionPidRec serverPid;
 
-    if (InteractiveOS != xTrue)
+    if (InteractiveOS != TRUE)
 	return 0;
 
-    GetConnectionPids(serverClient) = NULL;
-    GetIAClient(serverClient)->wmgr = FALSE;
+    IAInitClientPrivate(serverClient);
 
     serverPid = getpid();
     SetClientPrivate(serverClient, &serverPid, 1);
@@ -217,29 +243,40 @@ IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
     NewClientInfoRec *pci = (NewClientInfoRec *)calldata;
     ClientPtr pClient = pci->client;
     ClientProcessPtr CurrentPids;
+    IAClientPrivatePtr priv;
 
     switch (pClient->clientState) {
-    case ClientStateGone:
-    case ClientStateRetained:
-	CurrentPids = GetConnectionPids(pClient);
+      case ClientStateGone:
+      case ClientStateRetained:
+	priv = GetIAClient(pClient);
+	if (priv == NULL) {
+	    return;
+	}
+	CurrentPids = priv->process;
 
-	if (pClient==wmClientptr) {
+	if (priv->wmgr) {
 	    IA_DEBUG(IA_DEBUG_BASIC,
-	      LogMessage(X_INFO, "SolarisIA: WindowManager closed (pid %d)\n",
-	      (CurrentPids && CurrentPids->pids) ? CurrentPids->pids[0] : -1));
-	    wmClientptr=NULL;
+		     LogMessage(X_INFO,
+				"SolarisIA: WindowManager closed (pid %d)\n",
+				(CurrentPids && CurrentPids->pids) ?
+				 CurrentPids->pids[0] : -1));
 	}
 
-	if (CurrentPids && LastPids && PidSetEqual(CurrentPids, LastPids))
-	    LastPids=NULL;
-
-	FreeProcessList(pClient);
-	GetIAClient(pClient)->wmgr = FALSE;
-	break;
+	if (CurrentPids && CurrentPids->boosted) {
+	    SetPriority(CurrentPids, UNSET_PRIORITY);
+	}
 	
+	if (CurrentPids && LastPids && PidSetEqual(CurrentPids, LastPids)) {
+	    LastPids = NULL;
+	}
+
+	FreeProcessList(priv);
+	xfree(priv);
+	dixSetPrivate(&(pClient)->devPrivates, IAPrivKey, NULL);
+	break;
+
     case ClientStateInitial:
-	GetConnectionPids(pClient) = NULL;
-	GetIAClient(pClient)->wmgr = FALSE;
+	IAInitClientPrivate(pClient);
 	break;
 
     default:
@@ -297,7 +334,7 @@ ProcIASetProcessInfo(ClientPtr client)
     if ((stuff->flags & INTERACTIVE_INFO) && 
 	(stuff->uid==ServerUid || ServerUid==0 || stuff->uid==0) &&
 	LocalClient(client)) {
-	length=stuff->length-(sizeof(xIASetProcessInfoReq)>>2);
+	length = stuff->length - (sizeof(xIASetProcessInfoReq)>>2);
 	SetClientPrivate(client, (ConnectionPidPtr)&stuff[1], length);
 	ChangeInteractive(client);
     }
@@ -314,24 +351,27 @@ ProcIASetProcessInfo(ClientPtr client)
 static int
 ProcIAGetProcessInfo(ClientPtr client)
 {
-    ClientProcessPtr CurrentPids=GetConnectionPids(client);
+    IAClientPrivatePtr	priv;
+    ClientProcessPtr CurrentPids;
     REQUEST(xIAGetProcessInfoReq);
     xIAGetProcessInfoReply rep;
-    register int length=0;
-    caddr_t write_back=NULL;
+    register int length = 0;
+    caddr_t write_back = NULL;
 
     REQUEST_SIZE_MATCH(xIAGetProcessInfoReq);
     rep.type = X_Reply;
     rep.length = 0;
     rep.sequenceNumber = client->sequence;
     if (stuff->flags & INTERACTIVE_INFO) {
-	    if (!CurrentPids) 
-    		rep.count = 0;
-	    else {
-    		rep.count = CurrentPids->count;
-       		length = rep.count << 2;
-	        write_back=(caddr_t)CurrentPids->pids;
-	    }
+	priv = GetIAClient(client);
+	if ( (priv == NULL) || (priv->process == NULL) ) {
+	    rep.count = 0;
+	} else {
+    	    CurrentPids = priv->process;
+	    rep.count = CurrentPids->count;
+	    length = rep.count << 2;
+	    write_back=(caddr_t)CurrentPids->pids;
+	}
     }
     if (stuff->flags & INTERACTIVE_SETTING) {
 	rep.count=1;
@@ -347,7 +387,7 @@ ProcIAGetProcessInfo(ClientPtr client)
 static void
 IACloseDown(ExtensionEntry *ext)
 {
-    InteractiveOS=xFalse;
+    InteractiveOS = FALSE;
 
     IAUnwrapProcVectors();
 
@@ -409,184 +449,169 @@ SProcIAGetProcessInfo(ClientPtr client)
 static void
 ChangeInteractive(ClientPtr client)
 {
-   ClientProcessPtr CurrentPids=GetConnectionPids(client);
-   register int count;
+    ClientProcessPtr CurrentPids = GetConnectionPids(client);
 
-   if (InteractiveOS==xFalse)
+    if (InteractiveOS==FALSE)
         return;
 
-   if (!CurrentPids || !CurrentPids->pids)
+    if (!CurrentPids || !CurrentPids->pids)
 	return;
 
-   count=CurrentPids->count;
-
-   while(count--)
-      SetPriority(CurrentPids->pids[count], SET_INTERACTIVE);
+    SetPriority(CurrentPids, SET_INTERACTIVE);
 }
 
 /*
-Loop through pids associated with client. Magically make last focus
-group go non-interactive -IA_BOOST.
-*/
+ * Loop through pids associated with client. Magically make last focus
+ * group go non-interactive -IA_BOOST.
+ */
 static void
 ChangePriority(register ClientPtr client)
 {
-   ClientProcessPtr CurrentPids=GetConnectionPids(client);
-   register int count;
+    IAClientPrivatePtr priv = GetIAClient(client);
+    ClientProcessPtr CurrentPids = (priv == NULL ? NULL : priv->process);
 
-   /* If no pid info for current client make sure to unset last focus group. */
-   /* This can happen if we have a remote client with focus or if the client */
-   /* is statically linked or if it is using a down rev version of libX11.   */
-   if (!CurrentPids || !CurrentPids->pids) {
-	if (LastPids && LastPids->pids) {
-	    UnsetLastPriority(LastPids);
-	    LastPids=NULL;
-	}
+    if (CurrentPids && LastPids && PidSetEqual(CurrentPids, LastPids)) {
+	/* Shortcut. Focus changed between two windows with same pid */
 	return;
-   }
+    }
 
-   /* Make sure server or wmgr isn't unset by testing for them */
-   /* this way LastPids is never set to point to the server or */
-   /* wmgr pid.						       */
-   if ((client->index==serverClient->index || 
-     GetIAClient(client)->wmgr==xTrue)) {
+    /* Remove priority boost for last focus group */
+    if (LastPids) {
+	SetPriority(LastPids, UNSET_PRIORITY);
+	LastPids = NULL;
+    }
+    
+    /* If no pid info for current client, then we're done here.
+     * This can happen if we have a remote client with focus or if the client
+     * is statically linked or if it is using a down rev version of libX11.
+     */
+    if ( (CurrentPids == NULL) || (CurrentPids->count == 0) ||
+	 (CurrentPids->pids == NULL) ) {
+	return;
+    }
 
-       if ((specialIAset < BOTH) && CurrentPids->pids) {
-
-	   if (client->index == serverClient->index) {
-	       specialIAset |= SERVER;	
-	   }
-	   else {
-	       specialIAset |= WMGR; 
-	   }
-	   SetPriority(CurrentPids->pids[0], SET_PRIORITY);
-       }
-       return;
-   }
-
-   if (LastPids && LastPids->pids) {
-	if (CurrentPids && LastPids && PidSetEqual(CurrentPids, LastPids))
-		return;				/*Shortcut. Focus changed
-						  between two windows with
-						  same pid */
-	UnsetLastPriority(LastPids);
-   }
-  
-   count=CurrentPids->count;
-   while(count--)
-      SetPriority(CurrentPids->pids[count], SET_PRIORITY);
-   LastPids=CurrentPids;
-}
-
-static void
-UnsetLastPriority(ClientProcessPtr LastPids)
-{
-    register int LastPidcount=LastPids->count;
-
-    while(LastPidcount--)
-      	SetPriority(LastPids->pids[LastPidcount], UNSET_PRIORITY);
+    /* Set the priority boost if it isn't already active */
+    if (!CurrentPids->boosted) {
+	SetPriority(CurrentPids, SET_PRIORITY);
+    }
+    
+    /* Make sure server or wmgr isn't unset by testing for them, so
+     * that LastPids is never set to point to the server or wmgr pid.
+     */
+    if ((client->index != serverClient->index) && (priv->wmgr != TRUE)) {
+	LastPids = CurrentPids;
+    }
 }
 
 static int
 InitializeClass(void)
 {
-   pcinfo_t  pcinfo;
+    pcinfo_t  pcinfo;
 
-   /* Get TS class information 					*/ 
+    /* Get TS class information */
+    strcpy (pcinfo.pc_clname, "TS");
+    priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo); 
+    TScid = pcinfo.pc_cid;
 
-   strcpy (pcinfo.pc_clname, "TS");
-   priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo); 
-   TScid=pcinfo.pc_cid;
-
-   /* Get IA class information */
-   strcpy (pcinfo.pc_clname, "IA");
-   if ((priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo)) == -1)
+    /* Get IA class information */
+    strcpy (pcinfo.pc_clname, "IA");
+    if ((priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo)) == -1)
         return ~Success;
  
-   IAClass.pc_cid=pcinfo.pc_cid;
-   ((iaparms_t*)IAClass.pc_clparms)->ia_uprilim=IA_NOCHANGE;
-   ((iaparms_t*)IAClass.pc_clparms)->ia_upri=IA_NOCHANGE;
+    IAClass.pc_cid = pcinfo.pc_cid;
+    ((iaparms_t*)IAClass.pc_clparms)->ia_uprilim = IA_NOCHANGE;
+    ((iaparms_t*)IAClass.pc_clparms)->ia_upri = IA_NOCHANGE;
 
-   return Success;
+    return Success;
 }
 
 static int
-SetPriority(int pid, int cmd)
+SetPriority(const ClientProcessPtr cpp, int cmd)
 {
-    pcparms_t pcinfo;
-    long	ret;
+    pcparms_t 	pcinfo;
+    long	ret = Success;
     gid_t	usr_egid = getegid();
+    int		i;
 
-    if ( setegid(0) < 0 )
+    if ( (cpp == NULL) || (cpp->pids == NULL) || (cpp->count == 0) ) {
+	return Success;
+    }
+    
+    if ( setegid(0) < 0 ) {
 	Error("Error in setting egid to 0");
-
-
-    pcinfo.pc_cid=PC_CLNULL;
-    if ((priocntl(P_PID, pid, PC_GETPARMS, (caddr_t)&pcinfo)) < 0) {
-	if ( setegid(usr_egid) < 0 )
-	    Error("Error in resetting egid");
-
-	return ~Success; /* Scary time; punt */
     }
 
-    /* If process is in TS or IA class we can safely set parameters */
-    if ((pcinfo.pc_cid == IAClass.pc_cid) || (pcinfo.pc_cid == TScid)) {
+    for (i = 0; i < cpp->count ; i++) {
+	id_t	pid = cpp->pids[i];
 
-       switch (cmd) {
-       case UNSET_PRIORITY:
-   		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_INTERACTIVE_OFF;
-		break;
-       case SET_PRIORITY:
-   		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_SET_INTERACTIVE;
-		break;
-       case SET_INTERACTIVE: 
-      /* If this returns true, the process is already in the IA class */
-      /* So just return.						   */
-		 if ( pcinfo.pc_cid == IAClass.pc_cid)
-			return Success;
-
-   		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_INTERACTIVE_OFF;
-		break;
-       }
-
-	if ( priocntl(P_PID, pid, PC_SETPARMS, (caddr_t)&IAClass) == -1 )
-	    {
-	    ret = ~Success;
+	pcinfo.pc_cid=PC_CLNULL;
+	if ((priocntl(P_PID, pid, PC_GETPARMS, (caddr_t)&pcinfo)) < 0) {
+	    if ( setegid(usr_egid) < 0 ) {
+		Error("Error in resetting egid");
 	    }
-	else
-	    {
-	    ret = Success;
-	    }
+	    return ~Success; /* Scary time; punt */
+	}
 
-
-	IA_DEBUG(IA_DEBUG_PRIOCNTL,
-	{
-	    const char *cmdmsg;
+	/* If process is in TS or IA class we can safely set parameters */
+	if ((pcinfo.pc_cid == IAClass.pc_cid) || (pcinfo.pc_cid == TScid)) {
 
 	    switch (cmd) {
-	    case UNSET_PRIORITY:   cmdmsg = "UNSET_PRIORITY"; break;
-	    case SET_PRIORITY:     cmdmsg = "SET_PRIORITY"; break;
-	    case SET_INTERACTIVE:  cmdmsg = "SET_INTERACTIVE"; break;
-	    default:		   cmdmsg = "UNKNOWN_CMD!!!"; break;
+	      case UNSET_PRIORITY:
+   		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_INTERACTIVE_OFF;
+		break;
+	      case SET_PRIORITY:
+   		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_SET_INTERACTIVE;
+		break;
+	      case SET_INTERACTIVE: 
+		/* If this returns true, the process is already in the 	*/
+		/* IA class, so we don't need to update it.		*/
+		if ( pcinfo.pc_cid == IAClass.pc_cid)
+		    continue;
+
+   		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_INTERACTIVE_OFF;
+		break;
 	    }
-	    LogMessage(X_INFO, "SolarisIA: SetPriority(%d, %s): %s\n", 
-	      pid, cmdmsg, (ret == Success) ? "succeeeded" : "failed");
-	});
 
+	    if (priocntl(P_PID, pid, PC_SETPARMS, (caddr_t)&IAClass) == -1)
+	    {
+		ret = ~Success;
+	    }
 
-	if ( setegid(usr_egid) < 0 )
-	    Error("Error in resetting egid");
+	    IA_DEBUG(IA_DEBUG_PRIOCNTL,
+	    {
+		const char *cmdmsg;
 
-	return ret;
+		switch (cmd) {
+		  case UNSET_PRIORITY:	cmdmsg = "UNSET_PRIORITY";	break;
+		  case SET_PRIORITY:	cmdmsg = "SET_PRIORITY"; 	break;
+		  case SET_INTERACTIVE:	cmdmsg = "SET_INTERACTIVE"; 	break;
+		  default:		cmdmsg = "UNKNOWN_CMD!!!"; 	break;
+		}
+		LogMessage(X_INFO, "SolarisIA: SetPriority(%ld, %s): %s\n", 
+			   pid, cmdmsg,
+			   (ret == Success) ? "succeeeded" : "failed");
+	    });
+	}
     }
 
-    return ~Success;
+    if (setegid(usr_egid) < 0)
+	Error("Error in resetting egid");
+
+    if (ret == Success) {
+	if (cmd == SET_PRIORITY) {
+	    cpp->boosted = TRUE;
+	} else if (cmd == UNSET_PRIORITY) {
+	    cpp->boosted = FALSE;
+	}
+    }
+    
+    return ret;
 }
 
 static void
 SetIAPrivate(int * value)
 {
-	ia_nice=*value;
+    ia_nice = *value;
 }
 
 /*****************************************************************************
@@ -596,11 +621,17 @@ SetIAPrivate(int * value)
 /* In Xsun we used the osPrivate in OsCommPtr, so this was SetOsPrivate. */
 static int
 SetClientPrivate(ClientPtr client, ConnectionPidPtr stuff, int length)
-{	
+{
     ClientProcessPtr	cpp;
+    IAClientPrivatePtr priv;
 
-    FreeProcessList(client);
-	
+    priv = GetIAClient(client);
+    if (priv == NULL) {
+	IAInitClientPrivate(client);
+    } else {
+	FreeProcessList(priv);
+    }
+
     cpp = (ClientProcessPtr)xalloc(sizeof(ClientProcessRec));
 
     if (cpp == NULL)
@@ -613,20 +644,22 @@ SetClientPrivate(ClientPtr client, ConnectionPidPtr stuff, int length)
 	return BadAlloc;
     }
 
-    GetConnectionPids(client) = cpp;
     cpp->count = length;
     memcpy(cpp->pids, stuff, sizeof(ConnectionPidRec)*length);
-    
+    cpp->boosted = FALSE;
+
+    priv->process = cpp;
     return Success;
 }
 
 static void
-FreeProcessList(ClientPtr client)
+FreeProcessList(IAClientPrivatePtr priv)
 {
-    ClientProcessPtr	cpp = GetConnectionPids(client);
-    
+    ClientProcessPtr	cpp = priv->process;
+
     if (cpp == NULL)
 	return;
+    priv->process = NULL;
 
     if ( LastPids == cpp )
 	LastPids = NULL;
@@ -635,38 +668,36 @@ FreeProcessList(ClientPtr client)
 	xfree(cpp->pids);
 
     xfree(cpp);
-
-    GetConnectionPids(client) = NULL;
 }
 
 /*
-        Check to see that all in current (a) are in
-        last (b). And that a and b have the same number
-        of members in the set.
+  Check to see that all in current (a) are in last (b).
+  And that a and b have the same number of members in the set.
 */
-int
+static int
 PidSetEqual(ClientProcessPtr a, ClientProcessPtr b)
 {
-        register int currentcount=a->count;
-        register int lastcount=b->count;
-        int retval;
+    int aN, bN;
+    int count = a->count;
+    int retval = 1;
 
-        if (currentcount != lastcount)  
-                return 0; /* definately NOT the same set */
+    if (a->count != b->count) {
+	return 0; /* definately NOT the same set */
+    }
 
-        while(currentcount--) {
-            retval=0;
-            while(lastcount--)
-                if (a->pids[currentcount]==b->pids[lastcount]) {
-                        retval=1;
-                        break;
-                }
-            if (retval==0)
-                return retval;
-            lastcount=b->count;
-        }
+    for (aN = 0; aN < count; aN++) {
+	retval = 0;
+	for (bN = 0; bN < count ; bN++) {
+	    if (a->pids[aN] == b->pids[bN]) {
+		retval = 1;
+		break;
+	    }
+	}
+	if (retval == 0)
+	    return retval;
+    }
 
-        return retval;
+    return retval;
 }
 
 
@@ -681,11 +712,11 @@ IAProcSetInputFocus(ClientPtr client)
 {
     int res;
     Window focusID;
-    register WindowPtr focusWin;
+    WindowPtr focusWin;
     REQUEST(xSetInputFocusReq);
 
     res = (*IASavedProcVector[X_SetInputFocus])(client);
-    if ((res != Success) || (InteractiveOS != xTrue))
+    if ((res != Success) || (InteractiveOS != TRUE))
 	return res;
 
     focusID = stuff->focus;
@@ -698,38 +729,14 @@ IAProcSetInputFocus(ClientPtr client)
 	focusWin = PointerRootWin;
 	break;
       default:
-	if (!(focusWin = SecurityLookupWindow(focusID, client,
-                                               SecurityReadAccess)))
-	    return BadWindow;
+	res = dixLookupWindow(&focusWin, focusID, client, DixReadAccess);
+	if (res != Success)
+	    return res;
     }
 
     if ((focusWin != NullWindow) && (focusWin != PointerRootWin)) {
-	register ClientPtr requestee;
-        ClientProcessPtr wmPid=NULL;
-        ClientProcessPtr RequesteePids=NULL;
- 
-        if (wmClientptr)
-                wmPid=GetConnectionPids(wmClientptr);
- 
-        requestee=wClient(focusWin);
-        RequesteePids=GetConnectionPids(requestee);
- 
-        /* if wm is not setting focus to himself */
- 
-        if (wmPid && RequesteePids && !PidSetEqual(wmPid, RequesteePids))
-            ChangePriority(requestee);
-        else  {
- 
-            /* If wm is setting focus to himself and Lastpids exists and
-               LastPids pids are valid Unset the priority for the LastPids
-               focus group */
- 
-            if (wmPid && RequesteePids && PidSetEqual(wmPid, RequesteePids))
-                if (LastPids && LastPids->pids) {
-                    UnsetLastPriority(LastPids);
-                    LastPids=NULL;
-                }
-        }
+	register ClientPtr requestee = wClient(focusWin);
+	ChangePriority(requestee);
     }
 
     return res;
@@ -742,18 +749,16 @@ IAProcSendEvent(ClientPtr client)
     REQUEST(xSendEventReq);
 
     res = (*IASavedProcVector[X_SendEvent])(client);
-    if ((res != Success) || (InteractiveOS != xTrue))
+    if ((res != Success) || (InteractiveOS != TRUE))
 	return res;
 
-    if ((InteractiveOS==xTrue) &&
-        (client == wmClientptr) &&
+    if ((InteractiveOS==TRUE) &&
+        (GetIAClient(client)->wmgr == TRUE) &&
         (stuff->event.u.u.type == ClientMessage) &&
         (stuff->event.u.u.detail == 32) ) {
  
         register ClientPtr requestee;
-        ClientProcessPtr wmPid=NULL;
-        ClientProcessPtr RequesteePids=NULL;
-	WindowPtr pWin;
+	WindowPtr pWin = NULL;
 
 	if (stuff->destination == PointerWindow)
 	    pWin = GetSpriteWindow();
@@ -775,31 +780,19 @@ IAProcSendEvent(ClientPtr client)
 		pWin = inputFocus;
 	}
 	else
-	    pWin = SecurityLookupWindow(stuff->destination, client,
-	    				SecurityReadAccess);
+	{
+	    res = dixLookupWindow(&pWin, stuff->destination, client,
+				  DixReadAccess);
+	    if (res != Success)
+		return res;
+	}
+
+	    
 	if (!pWin)
 	    return BadWindow;
  
-        if (wmClientptr)
-	    wmPid=GetConnectionPids(wmClientptr);
-        requestee=wClient(pWin);
-        RequesteePids=GetConnectionPids(requestee);
- 
-        /* if wm is not setting focus to himself */
-        if (wmPid && RequesteePids && !PidSetEqual(wmPid, RequesteePids)) {
-            ChangePriority(requestee);
-	}
-	else {
- 
-            /* If wm is setting focus to himself and Lastpids exists and
-               LastPids pids are valid Unset the priority for the LastPids
-               focus group */
- 
-                if (LastPids && LastPids->pids) {
-                    UnsetLastPriority(LastPids);
-                    LastPids=NULL;
-                }
-        }
+        requestee = wClient(pWin);
+	ChangePriority(requestee);
     }
     return res;
 }
@@ -809,8 +802,8 @@ IAProcChangeWindowAttributes(ClientPtr client)
 {
     REQUEST(xChangeWindowAttributesReq);
 
-    if ((InteractiveOS==xTrue) && (stuff->valueMask & CWEventMask) &&
-	(GetIAClient(client)->wmgr == xFalse) ) {
+    if ((InteractiveOS==TRUE) && (stuff->valueMask & CWEventMask) &&
+	(GetIAClient(client)->wmgr == FALSE) ) {
 
 	register XID *pVlist = (XID *) &stuff[1];
 	register Mask tmask = stuff->valueMask;
@@ -827,15 +820,16 @@ IAProcChangeWindowAttributes(ClientPtr client)
 
 	if ((index2 == CWEventMask) && (*pVlist & SubstructureRedirectMask)) {
 	    IA_DEBUG(IA_DEBUG_BASIC,
-	    ClientProcessPtr CurrentPids=GetConnectionPids(client);
+		     ClientProcessPtr CurrentPids=GetConnectionPids(client);
 
-	    LogMessage(X_INFO, "SolarisIA: WindowManager detected (pid %d)\n",
-	      (CurrentPids && CurrentPids->pids) ? CurrentPids->pids[0] : -1));
+		     LogMessage(X_INFO,
+				"SolarisIA: WindowManager detected (pid %d)\n",
+				(CurrentPids && CurrentPids->pids) ?
+				 CurrentPids->pids[0] : -1));
 
-
-	    GetIAClient(client)->wmgr=xTrue;
-	    wmClientptr = client;
+	    GetIAClient(client)->wmgr = TRUE;
 	    ChangePriority(client);
+	    LastPids = NULL;
 	}
     }
 

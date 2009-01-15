@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	08/12/22
+# @(#)Makefile	1.9	09/01/13
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.87.0
+MODULE_VERSION=0.88.7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -51,6 +51,6 @@ MODULE_STABILITY=Volatile
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lvbe -lvgahw -lxaa
+	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa
 
 include ../Makefile.inc

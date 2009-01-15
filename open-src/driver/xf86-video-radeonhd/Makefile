@@ -2,7 +2,7 @@
 #
 # xf86-video-radeonhd Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/12/03
+# @(#)Makefile	1.5	09/01/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-radeonhd
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 
@@ -46,8 +46,6 @@ SOURCE_PATCHES=
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
-
-MODULE_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \

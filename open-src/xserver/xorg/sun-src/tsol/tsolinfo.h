@@ -1,4 +1,4 @@
-/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -24,9 +24,9 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- */ 
+ */
 
-#pragma ident   "@(#)tsolinfo.h 1.18     07/06/08 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.19     09/01/14 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -156,8 +156,8 @@ typedef enum tsolconfig_types tsolconfig_t;
 	(tsolinfo->trusted_path ||\
 	(tsolinfo->forced_trust == 1))
 
-#define XTSOLTrusted(pWin)\
-	(((TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr))->flags & TRUSTED_MASK)
+#define XTSOLTrusted(pWin) \
+    ((TsolWindowPriv(pWin))->flags & TRUSTED_MASK)
 
 
 /*********************************
@@ -236,8 +236,36 @@ typedef struct _TsolSeln {
     pid_t       pid;                    /* who created it */
 } TsolSelnRec, *TsolSelnPtr;
 
+/*
+ * information stored in devPrivates
+ */
+typedef union {
+    TsolInfoRec		clientPriv;
+    TsolResRec		windowPriv;
+    TsolResRec		pixmapPriv;
+    TsolPropPtr		propertyPriv;
+    TsolSelnPtr		selectionPriv;
+} TsolPrivRec, *TsolPrivPtr;
+
+extern DevPrivateKey tsolPrivKey;
+
+#define TsolClientPriv(pClient) \
+    ((TsolInfoPtr) dixLookupPrivate(&(pClient)->devPrivates, tsolPrivKey))
+
+#define TsolWindowPriv(pWin)	\
+    ((TsolResPtr) dixLookupPrivate(&(pWin)->devPrivates, tsolPrivKey))
+
+#define TsolPixmapPriv(pPix)	\
+    ((TsolResPtr) dixLookupPrivate(&(pPix)->devPrivates, tsolPrivKey))
+
+#define TsolPropertyPriv(pProp)	\
+    ((TsolPropPtr *) dixLookupPrivate(&(pProp)->devPrivates, tsolPrivKey))
+
+#define TsolSelectionPriv(pSel) \
+    ((TsolSelnPtr *) dixLookupPrivate(&(pSel)->devPrivates, tsolPrivKey))
+
 #if 0
-/* 
+/*
  * NodeRec struct defined here is used instead of the
  * one defined in atom.c. This is used in policy functions
  */
@@ -295,14 +323,14 @@ typedef struct _TsolPolyInstInfo {
  *  Disable flags for extensions
  */
 typedef struct _extensionFlag {
-    Bool disableACCESSX;          
+    Bool disableACCESSX;
     Bool disableDPS;
     Bool disableDBE;
     Bool disableDPMS;
     Bool disableEVI;
     Bool disableFBPM;
     Bool disableLBX;
-    Bool disableSCREENSAVER;  
+    Bool disableSCREENSAVER;
     Bool disableMITSHM;
     Bool disableMITMISC;
     Bool disableMULTIBUFFER;
@@ -317,7 +345,7 @@ typedef struct _extensionFlag {
     Bool disableCUP;
     Bool disableAPPGROUP;
     Bool disableXCMISC;
-    Bool disableXIE;               
+    Bool disableXIE;
     Bool disableXINPUT;
     Bool disableXINERAMA;
     Bool disableXTEST;
@@ -351,8 +379,6 @@ extern  TsolPolyAtomRec tsolpolyseln;
 extern  int PolyProperty(Atom atom, WindowPtr pWin);
 extern  int PolySelection(Atom atom);
 extern  TsolPolyInstInfoRec tsolpolyinstinfo;
-extern  int tsolWindowPrivateIndex;
-extern  int tsolPixmapPrivateIndex;
 extern  uid_t OwnerUID;                 /* Workstation owner uid */
 extern Bool system_audit_on;
 
@@ -369,14 +395,14 @@ extern WindowPtr RootWin(WindowPtr pWin);
 extern WindowPtr XYToWin(int x, int y); /* Defined in events.c */
 extern Window RootOf(WindowPtr pWin);
 extern Window RootOfClient(WindowPtr pWin);
-extern int TsolDisabledExtension(char *extname, int extlen);
+extern int TsolDisabledExtension(const char *extname);
 extern int MatchTsolConfig(char *name, int len);
 extern int HasWinSelection(TsolInfoPtr tsolinfo);
 extern int same_client (ClientPtr client, XID xid);
 extern int client_private (ClientPtr client, XID xid);
-extern TsolPropPtr AllocTsolProp();
-extern TsolPropPtr AllocServerTsolProp();
-extern bslabel_t *lookupSL_low();
+extern TsolPropPtr AllocTsolProp(void);
+extern TsolPropPtr AllocServerTsolProp(void);
+extern bslabel_t *lookupSL_low(void);
 extern bslabel_t *lookupSL(bslabel_t *slptr);
 extern BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox);
 extern Bool ShapeOverlap(WindowPtr pWin, BoxPtr pWinBox,

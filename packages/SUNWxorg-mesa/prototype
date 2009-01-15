@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.20	08/05/13 SMI"
+# ident	"@(#)prototype	1.21	09/01/15 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -52,20 +52,16 @@ f none X11/lib/mesa/libGLU.so.1 0755 root bin
 s none X11/lib/mesa/libGLU.so=libGLU.so.1 0755 root bin
 f none X11/lib/mesa/libGLw.so.1 0755 root bin
 s none X11/lib/mesa/libGLw.so=libGLw.so.1 0755 root bin
-#f none X11/lib/mesa/libOSMesa.so.4.0 0755 root bin
-#s none X11/lib/mesa/libOSMesa.so=libOSMesa.so.4.0 0755 root bin
 
-!search $HOME/amd64/lib
-d none X11/lib/mesa/amd64 0755 root bin
-s none X11/lib/mesa/64=amd64
-f none X11/lib/mesa/amd64/libGL.so.1 0755 root bin
-s none X11/lib/mesa/amd64/libGL.so=libGL.so.1 0755 root bin
-f none X11/lib/mesa/amd64/libGLU.so.1 0755 root bin
-s none X11/lib/mesa/amd64/libGLU.so=libGLU.so.1 0755 root bin
-f none X11/lib/mesa/amd64/libGLw.so.1 0755 root bin
-s none X11/lib/mesa/amd64/libGLw.so=libGLw.so.1 0755 root bin
-#f none X11/lib/mesa/amd64/libOSMesa.so.4.0 0755 root bin
-#s none X11/lib/mesa/amd64/libOSMesa.so=libOSMesa.so.4.0 0755 root bin
+!search $HOME/lib/$plat_64
+d none X11/lib/mesa/$plat_64 0755 root bin
+s none X11/lib/mesa/64=$plat_64
+f none X11/lib/mesa/$plat_64/libGL.so.1 0755 root bin
+s none X11/lib/mesa/$plat_64/libGL.so=libGL.so.1 0755 root bin
+f none X11/lib/mesa/$plat_64/libGLU.so.1 0755 root bin
+s none X11/lib/mesa/$plat_64/libGLU.so=libGLU.so.1 0755 root bin
+f none X11/lib/mesa/$plat_64/libGLw.so.1 0755 root bin
+s none X11/lib/mesa/$plat_64/libGLw.so=libGLw.so.1 0755 root bin
 
 s none X11/lib/libGL.so=GL/libGL.so 0755 root bin
 s none X11/lib/libGL.so.1=GL/libGL.so.1 0755 root bin
@@ -80,26 +76,23 @@ s none X11/lib/GL/libGLU.so=../mesa/libGLU.so 0755 root bin
 s none X11/lib/GL/libGLU.so.1=../mesa/libGLU.so.1 0755 root bin
 s none X11/lib/GL/libGLw.so=../mesa/libGLw.so 0755 root bin
 s none X11/lib/GL/libGLw.so.1=../mesa/libGLw.so.1 0755 root bin
-#s none X11/lib/GL/libOSMesa.so.4.0=../mesa/libOSMesa.so.4.0 0755 root bin
-#s none X11/lib/GL/libOSMesa.so=libOSMesa.so.4.0 0755 root bin
 
-d none X11/lib/amd64 0755 root bin
-s none X11/lib/64=amd64
-s none X11/lib/amd64/libGL.so=../GL/amd64/libGL.so 0755 root bin
-s none X11/lib/amd64/libGL.so.1=../GL/amd64/libGL.so.1 0755 root bin
-s none X11/lib/amd64/libGLU.so=../GL/amd64/libGLU.so 0755 root bin
-s none X11/lib/amd64/libGLU.so.1=../GL/amd64/libGLU.so.1 0755 root bin
-s none X11/lib/amd64/libGLw.so=../GL/amd64/libGLw.so 0755 root bin
-s none X11/lib/amd64/libGLw.so.1=../GL/amd64/libGLw.so.1 0755 root bin
-d none X11/lib/GL/amd64 0755 root bin
-s none X11/lib/GL/amd64/libGL.so=libGL.so.1 0755 root bin
-s none X11/lib/GL/amd64/libGL.so.1=../../../../../var/run/opengl/lib/amd64/libGL.so.1 0755 root bin
-s none X11/lib/GL/amd64/libGLU.so=../../mesa/amd64/libGLU.so 0755 root bin
-s none X11/lib/GL/amd64/libGLU.so.1=../../mesa/amd64/libGLU.so.1 0755 root bin
-s none X11/lib/GL/amd64/libGLw.so=../../mesa/amd64/libGLw.so 0755 root bin
-s none X11/lib/GL/amd64/libGLw.so.1=../../mesa/amd64/libGLw.so.1 0755 root bin
-#s none X11/lib/GL/amd64/libOSMesa.so.4.0=../../mesa/amd64/libOSMesa.so.4.0 0755 root bin
-#s none X11/lib/GL/amd64/libOSMesa.so=libOSMesa.so.4.0 0755 root bin
+d none X11/lib/$plat_64 0755 root bin
+s none X11/lib/64=$plat_64
+s none X11/lib/$plat_64/libGL.so=../GL/64/libGL.so 0755 root bin
+s none X11/lib/$plat_64/libGL.so.1=../GL/64/libGL.so.1 0755 root bin
+s none X11/lib/$plat_64/libGLU.so=../GL/64/libGLU.so 0755 root bin
+s none X11/lib/$plat_64/libGLU.so.1=../GL/64/libGLU.so.1 0755 root bin
+s none X11/lib/$plat_64/libGLw.so=../GL/64/libGLw.so 0755 root bin
+s none X11/lib/$plat_64/libGLw.so.1=../GL/64/libGLw.so.1 0755 root bin
+d none X11/lib/GL/$plat_64 0755 root bin
+s none X11/lib/GL/64=$plat_64
+s none X11/lib/GL/$plat_64/libGL.so=libGL.so.1 0755 root bin
+s none X11/lib/GL/$plat_64/libGL.so.1=../../../../../var/run/opengl/lib/amd64/libGL.so.1 0755 root bin
+s none X11/lib/GL/$plat_64/libGLU.so=../../mesa/64/libGLU.so 0755 root bin
+s none X11/lib/GL/$plat_64/libGLU.so.1=../../mesa/64/libGLU.so.1 0755 root bin
+s none X11/lib/GL/$plat_64/libGLw.so=../../mesa/64/libGLw.so 0755 root bin
+s none X11/lib/GL/$plat_64/libGLw.so.1=../../mesa/64/libGLw.so.1 0755 root bin
 
 
 !search $HOME/include/GL
@@ -155,40 +148,33 @@ f none X11/lib/modules/dri/i965_dri.so 0755 root bin
 f none X11/lib/modules/dri/r200_dri.so 0755 root bin
 f none X11/lib/modules/dri/r300_dri.so 0755 root bin
 f none X11/lib/modules/dri/radeon_dri.so 0755 root bin
-!search $HOME/lib/X11/xserver
-d none X11/lib/X11 0755 root bin
-d none X11/lib/X11/xserver 0755 root bin
-f none X11/lib/X11/xserver/libdrm.so.2 0755 root bin
+f none X11/lib/modules/dri/swrast_dri.so 0755 root bin
+
 !search $HOME/lib/modules/extensions
 d none X11/lib/modules/extensions 0755 root bin
 f none X11/lib/modules/extensions/libdri.so 0755 root bin
 d none X11/lib/modules/extensions/mesa 0755 root bin
-f none X11/lib/modules/extensions/mesa/libGLcore.so 0755 root bin
 f none X11/lib/modules/extensions/mesa/libglx.so 0755 root bin
 s none X11/lib/modules/extensions/GL=mesa 0755 root bin
-s none X11/lib/modules/extensions/libGLcore.so=GL/libGLcore.so 0755 root bin
 s none X11/lib/modules/extensions/libglx.so=../../../../../var/run/opengl/server/libglx.so 0755 root bin
 
 
 # 64-bit X server-side components
-d none X11/lib/modules/dri/amd64 0755 root bin
-!search $HOME/lib/modules/dri/amd64
-f none X11/lib/modules/dri/amd64/i915_dri.so 0755 root bin
-f none X11/lib/modules/dri/amd64/i965_dri.so 0755 root bin
-f none X11/lib/modules/dri/amd64/r200_dri.so 0755 root bin
-f none X11/lib/modules/dri/amd64/r300_dri.so 0755 root bin
-f none X11/lib/modules/dri/amd64/radeon_dri.so 0755 root bin
-!search $HOME/lib/X11/xserver/amd64
-d none X11/lib/X11/xserver/amd64 0755 root bin
-f none X11/lib/X11/xserver/amd64/libdrm.so.2 0755 root bin
-!search $HOME/lib/modules/amd64/extensions
-d none X11/lib/modules/extensions/amd64 0755 root bin
-f none X11/lib/modules/extensions/amd64/libdri.so 0755 root bin
-d none X11/lib/modules/extensions/mesa/amd64 0755 root bin
-f none X11/lib/modules/extensions/mesa/amd64/libGLcore.so 0755 root bin
-f none X11/lib/modules/extensions/mesa/amd64/libglx.so 0755 root bin
-s none X11/lib/modules/extensions/amd64/libGLcore.so=../GL/amd64/libGLcore.so 0755 root bin
-s none X11/lib/modules/extensions/amd64/libglx.so=../../../../../../var/run/opengl/server/amd64/libglx.so 0755 root bin
+d none X11/lib/modules/dri/$plat_64 0755 root bin
+!search $HOME/lib/modules/dri/$plat_64
+f none X11/lib/modules/dri/$plat_64/i915_dri.so 0755 root bin
+f none X11/lib/modules/dri/$plat_64/i965_dri.so 0755 root bin
+f none X11/lib/modules/dri/$plat_64/r200_dri.so 0755 root bin
+f none X11/lib/modules/dri/$plat_64/r300_dri.so 0755 root bin
+f none X11/lib/modules/dri/$plat_64/radeon_dri.so 0755 root bin
+f none X11/lib/modules/dri/$plat_64/swrast_dri.so 0755 root bin
+
+!search $HOME/lib/modules/$plat_64/extensions
+d none X11/lib/modules/extensions/$plat_64 0755 root bin
+f none X11/lib/modules/extensions/$plat_64/libdri.so 0755 root bin
+d none X11/lib/modules/extensions/mesa/$plat_64 0755 root bin
+f none X11/lib/modules/extensions/mesa/$plat_64/libglx.so 0755 root bin
+s none X11/lib/modules/extensions/$plat_64/libglx.so=../../../../../../var/run/opengl/server/amd64/libglx.so 0755 root bin
 
 # "legacy" SPARC links for GLU/GLw headers and libraries
 
@@ -200,13 +186,13 @@ s none lib/libGLU.so=../X11/lib/libGLU.so 0755 root bin
 s none lib/libGLU.so.1=../X11/lib/libGLU.so.1 0755 root bin
 s none lib/libGLw.so=../X11/lib/libGLw.so 0755 root bin
 s none lib/libGLw.so.1=../X11/lib/libGLw.so.1 0755 root bin
-d none lib/amd64 0755 root bin
-s none lib/amd64/libGL.so=../../X11/lib/amd64/libGL.so 0755 root bin
-s none lib/amd64/libGL.so.1=../../X11/lib/amd64/libGL.so.1 0755 root bin
-s none lib/amd64/libGLU.so=../../X11/lib/amd64/libGLU.so 0755 root bin
-s none lib/amd64/libGLU.so.1=../../X11/lib/amd64/libGLU.so.1 0755 root bin
-s none lib/amd64/libGLw.so=../../X11/lib/amd64/libGLw.so 0755 root bin
-s none lib/amd64/libGLw.so.1=../../X11/lib/amd64/libGLw.so.1 0755 root bin
+d none lib/$plat_64 0755 root bin
+s none lib/$plat_64/libGL.so=../../X11/lib/64/libGL.so 0755 root bin
+s none lib/$plat_64/libGL.so.1=../../X11/lib/64/libGL.so.1 0755 root bin
+s none lib/$plat_64/libGLU.so=../../X11/lib/64/libGLU.so 0755 root bin
+s none lib/$plat_64/libGLU.so.1=../../X11/lib/64/libGLU.so.1 0755 root bin
+s none lib/$plat_64/libGLw.so=../../X11/lib/64/libGLw.so 0755 root bin
+s none lib/$plat_64/libGLw.so.1=../../X11/lib/64/libGLw.so.1 0755 root bin
 
 d none openwin 0755 root bin
 d none openwin/lib 0755 root bin
@@ -216,13 +202,13 @@ s none openwin/lib/libGLU.so=../../X11/lib/libGLU.so 0755 root bin
 s none openwin/lib/libGLU.so.1=../../X11/lib/libGLU.so.1 0755 root bin
 s none openwin/lib/libGLw.so=../../X11/lib/libGLw.so 0755 root bin
 s none openwin/lib/libGLw.so.1=../../X11/lib/libGLw.so.1 0755 root bin
-d none openwin/lib/amd64 0755 root bin
-s none openwin/lib/amd64/libGL.so=../../../X11/lib/amd64/libGL.so 0755 root bin
-s none openwin/lib/amd64/libGL.so.1=../../../X11/lib/amd64/libGL.so.1 0755 root bin
-s none openwin/lib/amd64/libGLU.so=../../../X11/lib/amd64/libGLU.so 0755 root bin
-s none openwin/lib/amd64/libGLU.so.1=../../../X11/lib/amd64/libGLU.so.1 0755 root bin
-s none openwin/lib/amd64/libGLw.so=../../../X11/lib/amd64/libGLw.so 0755 root bin
-s none openwin/lib/amd64/libGLw.so.1=../../../X11/lib/amd64/libGLw.so.1 0755 root bin
+d none openwin/lib/$plat_64 0755 root bin
+s none openwin/lib/$plat_64/libGL.so=../../../X11/lib/64/libGL.so 0755 root bin
+s none openwin/lib/$plat_64/libGL.so.1=../../../X11/lib/64/libGL.so.1 0755 root bin
+s none openwin/lib/$plat_64/libGLU.so=../../../X11/lib/64/libGLU.so 0755 root bin
+s none openwin/lib/$plat_64/libGLU.so.1=../../../X11/lib/64/libGLU.so.1 0755 root bin
+s none openwin/lib/$plat_64/libGLw.so=../../../X11/lib/64/libGLw.so 0755 root bin
+s none openwin/lib/$plat_64/libGLw.so.1=../../../X11/lib/64/libGLw.so.1 0755 root bin
 
 d none include 0755 root bin
 s none include/GL=../X11/include/GL
@@ -234,10 +220,13 @@ s none openwin/share/include/GL=../../../X11/include/GL
 !search $HOME/../lib/pkgconfig
 d none lib                                      0755 root bin
 d none lib/pkgconfig                            0755 root other
+f none lib/pkgconfig/gl.pc		        0444 root bin
 f none lib/pkgconfig/glproto.pc                 0444 root bin
 
+!search $HOME/../lib/$plat_64/pkgconfig
 d none lib/$plat_64                             0755 root bin
 d none lib/$plat_64/pkgconfig                   0755 root other
+f none lib/$plat_64/pkgconfig/gl.pc		0444 root bin
 s none lib/$plat_64/pkgconfig/glproto.pc=../../pkgconfig/glproto.pc
 
 

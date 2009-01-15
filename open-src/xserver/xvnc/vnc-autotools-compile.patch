@@ -1,4 +1,5 @@
-## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-autotools-compile.patch
+## Patch originally from Fedora - Revision 1.1 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-autotools-compile.patch
 
 --- vnc-4_1_2-unixsrc/common/network/TcpSocket.cxx.autotools-compile	2007-02-15 18:56:52.000000000 +0100
 +++ vnc-4_1_2-unixsrc/common/network/TcpSocket.cxx	2007-02-15 18:57:21.000000000 +0100

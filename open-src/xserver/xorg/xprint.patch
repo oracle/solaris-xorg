@@ -1,29 +1,6 @@
---- dix/xpstubs.c	2008-09-04 11:36:37.719156000 -0700
-+++ dix/xpstubs.c.1	2008-09-04 11:38:51.427569000 -0700
-@@ -35,9 +35,9 @@ from The Open Group.
- #ifdef XPRINT
- #include "DiPrint.h"
- #else
-+#if 0
- extern Bool XpClientIsBitmapClient(ClientPtr client);
- extern Bool XpClientIsPrintClient(ClientPtr client, FontPathElementPtr fpe);
--#endif
- 
- Bool
- XpClientIsBitmapClient(
-@@ -53,6 +53,9 @@ XpClientIsPrintClient(
- {
-     return FALSE;
- }
-+#endif
-+#endif
-+
- #ifdef XPRINT
- int
- PrinterOptions(
 --- include/dpi.h	1969-12-31 16:00:00.000000000 -0800
 +++ include/dpi.h.new	2008-09-24 09:56:39.448121000 -0700
-@@ -0,0 +1,123 @@
+@@ -0,0 +1,95 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
 + * Use is subject to license terms.
@@ -104,51 +81,25 @@
 +#ifndef DPI_H
 +#define DPI_H
 +
-+extern Bool XpClientDPIAdd(
-+#if NeedFunctionPrototypes
-+XpContextPtr, int, int
-+#endif
-+);
++extern Bool XpClientDPIAdd(XpContextPtr, int, int);
 +
-+extern Bool XpClientDPIGetData(
-+#if NeedFunctionPrototypes
-+XpContextPtr, int *, int *
-+#endif
-+);
++extern Bool XpClientDPIGetData(XpContextPtr, int *, float *);
 +
-+extern Bool XpClientDPIFindData(
-+#if NeedFunctionPrototypes
-+int, int *, int *
-+#endif
-+);
++extern Bool XpClientDPIFindData(int, int *, float *);
 +
-+extern XpClientDPIPtr XpClientDPIGetRec(
-+#if NeedFunctionPrototypes
-+XpContextPtr
-+#endif
-+);
++extern XpClientDPIPtr XpClientDPIGetRec(XpContextPtr);
 +
-+extern XpClientDPIPtr XpClientDPIFindRec(
-+#if NeedFunctionPrototypes
-+int
-+#endif
-+);
++extern XpClientDPIPtr XpClientDPIFindRec(int);
 +
-+extern Bool XpClientDPISet(
-+#if NeedFunctionPrototypes
-+XpContextPtr, int
-+#endif
-+);
++extern Bool XpClientDPISet(XpContextPtr, int);
 +
-+extern FontPtr XpClientDPIGrabFont(
-+#if NeedFunctionPrototypes
-+XpClientDPIPtr, FontPtr
-+#endif
-+);
++extern FontPtr XpClientDPIGrabFont(XpClientDPIPtr, FontPtr);
 +
 +#endif
---- dix/dispatch.c	2008-09-23 20:00:53.010137000 -0700
-+++ dix/dispatch.c.new	2008-09-24 10:10:13.109578000 -0700
+
+diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
+--- dix/dispatch.c	2008-10-17 15:51:32.379041000 -0700
++++ dix/dispatch.c	2008-10-17 15:51:50.036961000 -0700
 @@ -1,3 +1,33 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -183,7 +134,7 @@
  /************************************************************
  
  Copyright 1987, 1989, 1998  The Open Group
-@@ -3545,6 +3575,21 @@ InitProcVectors(void)
+@@ -3391,6 +3421,21 @@ InitProcVectors(void)
      
  }
  
@@ -192,7 +143,7 @@
 + * change the X_OpenFont to ProcXpOpenFont and SProcOpenFont. This allows
 + * apps using scaling to load two fonts.
 + */
-+void
++_X_HIDDEN void
 +ChangeProcVector(int vector, int (* proc)(), int (* sproc)())
 +{
 +    if (vector >= 0 && vector < 256 && proc && sproc)
@@ -205,8 +156,9 @@
  /**********************
   * CloseDownClient
   *
---- dix/dixfonts.c	2008-09-23 20:00:58.340424000 -0700
-+++ dix/dixfonts.c.new	2008-09-24 10:21:40.683384000 -0700
+diff -urp -x '*~' -x '*.orig' dix/dixfonts.c dix/dixfonts.c
+--- dix/dixfonts.c	2008-10-10 11:12:48.000000000 -0700
++++ dix/dixfonts.c	2008-10-17 15:51:50.038909000 -0700
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -240,16 +192,17 @@
  /************************************************************************
  Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
  
-@@ -95,6 +124,8 @@ static int  size_slept_fpes = 0;
+@@ -97,6 +126,9 @@ static int  size_slept_fpes = 0;
  static FontPathElementPtr *slept_fpes = (FontPathElementPtr *) 0;
  static FontPatternCachePtr patternCache;
  
-+static void (*XpSetFont)();     /* BUG 4402782: clientDPI */
++static void (*XpSetFont)(register ClientPtr client,
++    FontPtr pFont);     /* BUG 4402782: clientDPI */
 +
  _X_EXPORT int
  FontToXError(err)
      int         err;
-@@ -226,6 +257,20 @@ FreeFPE (FontPathElementPtr fpe)
+@@ -223,6 +255,20 @@ FreeFPE (FontPathElementPtr fpe)
      }
  }
  
@@ -260,7 +213,7 @@
 + * call, so no other job could inadvertently get the wrong value. We do not need
 + * to have this information dependent on the clientID
 + */
-+void
++_X_HIDDEN void
 +SetXpFontFunc(void (*func)())
 +{
 +    XpSetFont = func;
@@ -270,7 +223,7 @@
  static Bool
  doOpenFont(ClientPtr client, OFclosurePtr c)
  {
-@@ -361,6 +406,15 @@ doOpenFont(ClientPtr client, OFclosurePt
+@@ -358,6 +404,15 @@ doOpenFont(ClientPtr client, OFclosurePt
      if (patternCache && pfont != c->non_cachable_font)
  	CacheFontPattern(patternCache, c->origFontName, c->origFontNameLen,
  			 pfont);
@@ -286,8 +239,9 @@
  bail:
      if (err != Successful && c->client != serverClient) {
  	SendErrorToClient(c->client, X_OpenFont, 0,
---- Xext/xprint.c	2008-09-27 08:56:13.159552000 -0700
-+++ Xext/xprint.c.new	2008-09-27 08:56:13.183691000 -0700
+diff -urp -x '*~' -x '*.orig' Xext/xprint.c Xext/xprint.c
+--- Xext/xprint.c	2008-10-10 11:12:48.000000000 -0700
++++ Xext/xprint.c	2008-10-17 15:51:50.089810000 -0700
 @@ -1,4 +1,33 @@
  /*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -322,59 +276,53 @@
  (c) Copyright 1996 Hewlett-Packard Company
  (c) Copyright 1996 International Business Machines Corp.
  (c) Copyright 1996 Sun Microsystems, Inc.
-@@ -68,7 +97,7 @@ copyright holders.
- #ifdef HAVE_DIX_CONFIG_H
+@@ -69,6 +98,7 @@ copyright holders.
  #include <dix-config.h>
  #endif
--
+ 
 +#include <stdio.h>
  #include <X11/X.h>
  #include <X11/Xos.h>
  #define NEED_EVENTS
-@@ -86,6 +115,7 @@ copyright holders.
+@@ -86,6 +116,10 @@ copyright holders.
  #include "../hw/xprint/DiPrint.h"
  #include "../hw/xprint/attributes.h"
  #include "modinit.h"
 +#include "resource.h"
++#include "dixfont.h"
++#include "swapreq.h"
++#include "dpi.h"
  
  static void XpResetProc(ExtensionEntry *);
  
-@@ -117,6 +147,8 @@ static int ProcXpQueryScreens(ClientPtr)
+@@ -117,6 +151,8 @@ static int ProcXpQueryScreens(ClientPtr)
  static int ProcXpGetPageDimensions(ClientPtr);
  static int ProcXpSetImageResolution(ClientPtr);
  static int ProcXpGetImageResolution(ClientPtr);
-+static int ProcXpClientDpi();           /* BUG: 4402782 */
-+int ProcXpOpenFont();           /* BUG: 4402782 */
++static int ProcXpClientDpi(ClientPtr);           /* BUG: 4402782 */
++static int ProcXpOpenFont(ClientPtr);           /* BUG: 4402782 */
  
  static void SwapXpNotifyEvent(xPrintPrintEvent *, xPrintPrintEvent *);
  static void SwapXpAttributeEvent(xPrintAttributeEvent *, xPrintAttributeEvent *);
-@@ -144,6 +176,7 @@ static int SProcXpRehashPrinterList(Clie
+@@ -144,6 +180,7 @@ static int SProcXpRehashPrinterList(Clie
  static int SProcXpGetPageDimensions(ClientPtr);
  static int SProcXpSetImageResolution(ClientPtr);
  static int SProcXpGetImageResolution(ClientPtr);
-+static int SProcXpClientDpi();
++static int SProcXpClientDpi(ClientPtr);
  
  static void SendXpNotify(XpContextPtr, int, int);
  static void SendAttributeNotify(XpContextPtr, int);
-@@ -169,6 +202,8 @@ typedef struct  _xpScreen {
+@@ -167,6 +204,9 @@ typedef struct  _xpScreen {
      struct _driver *drivers;
  } XpScreenRec, *XpScreenPtr;
  
 +static XpClientDPIPtr client_dpi_head;          /* BUG: 4402782 */
++static int client_server_font;          /* BUG: 4402782 */
 +
  /*
   * Each context has a list of XpClients indicating which clients have
   * associated this context with their connection.
-@@ -236,6 +271,8 @@ static int XpErrorBase;
- static unsigned long XpGeneration = 0;
- static int XpClientPrivateIndex;
- 
-+static int client_server_font;          /* BUG: 4402782 */
-+
- /* Variables for the context private machinery. 
-  * These must be initialized at compile time because
-  * main() calls InitOutput before InitExtensions, and the
-@@ -270,6 +307,287 @@ static RESTYPE RTclient, RTcontext, RTpa
+@@ -259,6 +299,285 @@ static RESTYPE RTclient, RTcontext, RTpa
   */
  static CARD32 allEvents = XPPrintMask | XPAttributeMask;
  
@@ -388,11 +336,11 @@
 + * Create an entry for the clientDPI to be stored. This entry will hold lookup
 + * information (context and clientAsMask), and the font and scaling information.
 + */
-+Bool
-+XpClientDPIAdd(context, clientAsMask, client_dpi)       /* Bug: 4402782 */
-+XpContextPtr context;
-+int clientAsMask;
-+int client_dpi;
++_X_HIDDEN Bool
++XpClientDPIAdd(				/* Bug: 4402782 */
++XpContextPtr context,
++int clientAsMask,
++int client_dpi)
 +{
 +    XpClientDPIPtr new;
 +    XpClientDPIPtr temp = client_dpi_head;
@@ -440,12 +388,12 @@
 +/*
 + * This function is currently not called. This is not a good state, but we cannot
 + * call the function at the end of the document since the client is still connected
-+ * and believe that fonts that were opened are still open for it. (They are, but this * list contains the links to go between the fonts). Need to check if there is a way
++ * and believe that fonts that were opened are still open for it. (They are, but this 
++ * list contains the links to go between the fonts). Need to check if there is a way
 + * to remove the client when the client terminates its connection with Xprt?
 + */
 +static Bool
-+XpClientDPIRemove(context)      /* Bug: 4402782 */
-+XpContextPtr context;
++XpClientDPIRemove(XpContextPtr context)      /* Bug: 4402782 */
 +{
 +    XpClientDPIPtr temp = client_dpi_head;
 +    Bool found = FALSE;
@@ -501,11 +449,11 @@
 +/*
 + * Return the DPI and scale factor the the caller
 + */
-+Bool
-+XpClientDPIGetData(context, pDPI, pSF)  /* Bug: 4402782 */
-+XpContextPtr context;
-+int *pDPI;
-+float *pSF;
++_X_HIDDEN Bool
++XpClientDPIGetData(		 /* Bug: 4402782 */
++XpContextPtr context,
++int *pDPI,
++float *pSF)
 +{
 +    XpClientDPIPtr temp = client_dpi_head;
 +    Bool found = FALSE;
@@ -526,13 +474,13 @@
 +}       /* Bug: 4402782 */
 +
 +/*
-+ * Return the DPI and scale factor the the caller
++ * Return the DPI and scale factor the caller
 + */
-+Bool
-+XpClientDPIFindData(clientAsMask, pDPI, pSF)    /* Bug: 4402782 */
-+int clientAsMask;
-+int *pDPI;
-+float *pSF;
++_X_HIDDEN Bool
++XpClientDPIFindData(		    /* Bug: 4402782 */
++int clientAsMask,
++int *pDPI,
++float *pSF)
 +{
 +    XpClientDPIPtr temp = client_dpi_head;
 +    Bool found = FALSE;
@@ -554,9 +502,8 @@
 +/*
 + * Return the DPI and scale factor the the caller
 + */
-+XpClientDPIPtr
-+XpClientDPIGetRec(context)      /* Bug: 4402782 */
-+XpContextPtr context;
++_X_HIDDEN XpClientDPIPtr
++XpClientDPIGetRec(XpContextPtr context)      /* Bug: 4402782 */
 +{
 +    XpClientDPIPtr temp = client_dpi_head;
 +    Bool found = FALSE;
@@ -575,9 +522,8 @@
 +    return temp;
 +}       /* Bug: 4402782 */
 +
-+XpClientDPIPtr
-+XpClientDPIFindRec(clientAsMask)        /* Bug: 4402782 */
-+int clientAsMask;
++_X_HIDDEN XpClientDPIPtr
++XpClientDPIFindRec(int clientAsMask)        /* Bug: 4402782 */
 +{
 +    XpClientDPIPtr temp = client_dpi_head;
 +    Bool found = FALSE;
@@ -596,10 +542,10 @@
 +    return temp;
 +}       /* Bug: 4402782 */
 +
-+Bool
-+XpClientDPISet(context, serverDPI)      /* Bug: 4402782 */
-+XpContextPtr context;
-+int serverDPI;
++_X_HIDDEN Bool
++XpClientDPISet(      /* Bug: 4402782 */
++XpContextPtr context,
++int serverDPI)
 +{
 +    XpClientDPIPtr temp = client_dpi_head;
 +    Bool found = FALSE;
@@ -618,10 +564,10 @@
 +    return found;
 +}       /* Bug: 4402782 */
 +
-+FontPtr
-+XpClientDPIGrabFont(pClientDPI, pFont)  /* Bug: 4402782 */
-+XpClientDPIPtr pClientDPI;
-+FontPtr pFont;
++_X_HIDDEN FontPtr
++XpClientDPIGrabFont(	/* Bug: 4402782 */
++XpClientDPIPtr pClientDPI,
++FontPtr pFont)
 +{
 +    FontPtr tempFont = pFont;
 +    Bool found = FALSE;
@@ -639,21 +585,21 @@
 +    return tempFont;
 +}       /* Bug: 4402782 */
 +
-+void
-+XpClientDPIGetPos(pClientDPI, pCx, pSx) /* Bug: 4402782 */
-+XpClientDPIPtr pClientDPI;
-+int *pCx;
-+int *pSx;
++_X_HIDDEN void
++XpClientDPIGetPos(	 /* Bug: 4402782 */
++XpClientDPIPtr pClientDPI,
++int *pCx,
++int *pSx)
 +{
 +    *pCx = pClientDPI->client_x;
 +    *pSx = pClientDPI->server_x;
 +}
 +
-+void
-+XpClientDPISetPos(pClientDPI, Cx, Sx)   /* Bug 4402782 */
-+XpClientDPIPtr pClientDPI;
-+int Cx;
-+int Sx;
++_X_HIDDEN void
++XpClientDPISetPos(	/* Bug 4402782 */
++XpClientDPIPtr pClientDPI,
++int Cx,
++int Sx)
 +{
 +    pClientDPI->client_x = Cx;
 +    pClientDPI->server_x = Sx;
@@ -662,23 +608,19 @@
  
  /*******************************************************************************
   *
-@@ -336,6 +654,15 @@ XpExtensionInit(INITARGS)
+@@ -310,6 +629,11 @@ XpExtensionInit(INITARGS)
+ 	    screenInfo.screens[i]->CloseScreen = XpCloseScreen;
  	}
      }
-     DeclareExtensionSecurity(XP_PRINTNAME, TRUE);
 +    /*
 +     * BUG: 4402782: Client DPI. Set the font open function to new Xprt functions
 +     *               that will do font renaming/ double opening if necessary.
 +     */
-+    {
-+        extern int SProcOpenFont();
-+
-+        ChangeProcVector(X_OpenFont, ProcXpOpenFont, SProcOpenFont);
-+    } /* BUG: 4402782 */
++    ChangeProcVector(X_OpenFont, ProcXpOpenFont, SProcOpenFont);
  }
  
  static void
-@@ -495,6 +822,8 @@ ProcXpDispatch(ClientPtr client)
+@@ -442,6 +766,8 @@ ProcXpDispatch(ClientPtr client)
              return ProcXpSetImageResolution(client);
  	case X_PrintGetImageResolution:
              return ProcXpGetImageResolution(client);
@@ -687,7 +629,7 @@
  	default:
  	    return BadRequest;
      }
-@@ -560,8 +889,10 @@ ProcXpSwappedDispatch(ClientPtr client)
+@@ -507,8 +833,10 @@ ProcXpSwappedDispatch(ClientPtr client)
              return SProcXpSetImageResolution(client);
  	case X_PrintGetImageResolution:
              return SProcXpGetImageResolution(client);
@@ -700,7 +642,7 @@
      }
  }
  
-@@ -742,7 +1073,9 @@ ProcXpGetPageDimensions(ClientPtr client
+@@ -689,7 +1017,9 @@ ProcXpGetPageDimensions(ClientPtr client
      xRectangle rect;
      xPrintGetPageDimensionsReply rep;
      XpContextPtr pContext;
@@ -710,7 +652,7 @@
  
      REQUEST_SIZE_MATCH(xPrintGetPageDimensionsReq);
  
-@@ -760,6 +1093,13 @@ ProcXpGetPageDimensions(ClientPtr client
+@@ -707,6 +1037,13 @@ ProcXpGetPageDimensions(ClientPtr client
         (pContext->funcs.GetReproducibleArea == 0))
          return BadImplementation;
  
@@ -724,7 +666,7 @@
      result = pContext->funcs.GetMediumDimensions(pContext, &width, &height);
      if(result != Success)
          return result;
-@@ -771,12 +1111,12 @@ ProcXpGetPageDimensions(ClientPtr client
+@@ -718,12 +1055,12 @@ ProcXpGetPageDimensions(ClientPtr client
      rep.type = X_Reply;
      rep.sequenceNumber = client->sequence;
      rep.length = 0;
@@ -741,13 +683,13 @@
  
      if(client->swapped)
      {
-@@ -885,6 +1225,220 @@ ProcXpGetImageResolution(ClientPtr clien
+@@ -832,6 +1169,218 @@ ProcXpGetImageResolution(ClientPtr clien
      return client->noClientException;
  }
  
++/* BUG: 4402782: Accept the client DPI request */
 +static int
-+ProcXpClientDpi(client) /* BUG: 4402782: Accept the client DPI request */
-+    ClientPtr client;
++ProcXpClientDpi(ClientPtr client)
 +{
 +    REQUEST(xPrintClientDpiReq);
 +    xPrintClientDpiReply rep;
@@ -756,8 +698,7 @@
 +
 +    REQUEST_SIZE_MATCH(xPrintClientDpiReq);
 +
-+    if((pContext = (XpContextPtr)client->devPrivates[XpClientPrivateIndex].ptr)
-+       == (XpContextPtr)NULL)
++    if((pContext = XP_GETPRIV(client)) == (XpContextPtr)NULL)
 +    {
 +        client->errorValue = stuff->printContext;
 +        return XpErrorBase+XPBadContext;
@@ -780,10 +721,10 @@
 +    return client->noClientException;
 +}       /* BUG: 4402782 */
 +
-+void
-+ProcXpSetFont(client, pFont)    /* BUG: 4402782: Store the client or server font */
-+    register ClientPtr client;
-+    FontPtr pFont;
++static void
++ProcXpSetFont(    /* BUG: 4402782: Store the client or server font */
++    register ClientPtr client,
++    FontPtr pFont)
 +{
 +    XpClientDPIPtr clientDPI;
 +
@@ -799,13 +740,13 @@
 +        clientDPI->head->server_font = pFont;
 +}       /* BUG: 4402782 */
 +
-+void
-+ProcXpMakeFontName(font_name, font_len, base_name, base_len, client_dpi)/* BUG: 4402782 */
-+    char *font_name;
-+    int  *font_len;
-+    char *base_name;
-+    int   base_len;
-+    int   client_dpi;
++static void
++ProcXpMakeFontName( /* BUG: 4402782 */
++    char *font_name,
++    int  *font_len,
++    char *base_name,
++    int   base_len,
++    int   client_dpi)
 +{
 +    int x, num = 0;
 +
@@ -813,7 +754,7 @@
 +     * Create a new font name (xlfd) using the clients DPI values.
 +     */
 +    for(x=0;x<base_len;x++)
-+        if(base_name[x] == '-')
++        if(base_name[x] == '-') {
 +            if(++num == 7)
 +            {
 +                strncpy(font_name, base_name, x+1);
@@ -848,14 +789,14 @@
 +            else
 +	    {
 +	    }
++	}
 +}       /* BUG: 4402782 */
 +
 +
-+int
-+ProcXpOpenFont(client)  /* BUG: 4402782 */
-+    register ClientPtr client;
++static int
++ProcXpOpenFont(ClientPtr client)  /* BUG: 4402782 */
 +{
-+    int err;
++    int err = Success;
 +    int client_dpi;
 +    float scl_fact = 1;
 +    int open_two = 0;
@@ -910,7 +851,6 @@
 +        XpClientFontsPtr new;
 +        char *font_name;
 +        int   font_len = 0;
-+        int   x, num = 0;
 +
 +        font_name = (char *)malloc(sizeof(char)*stuff->nbytes+4);
 +        memset(font_name, 0, stuff->nbytes+4);
@@ -962,16 +902,15 @@
  /*******************************************************************************
   *
   * RehashPrinterList : Cause the server's list of printers to be rebuilt.
-@@ -1497,7 +2051,7 @@ ProcXpStartJob(ClientPtr client)
- {
+@@ -1360,6 +1909,7 @@ ProcXpStartJob(ClientPtr client)
      REQUEST(xPrintStartJobReq);
      XpContextPtr pContext;
--    int result = Success;
-+    int ires, result = Success;         /* BUG: 4402782 */
+     int result = Success;
++    int ires;         /* BUG: 4402782 */
  
      REQUEST_SIZE_MATCH(xPrintStartJobReq);
  
-@@ -1528,6 +2082,13 @@ ProcXpStartJob(ClientPtr client)
+@@ -1389,6 +1939,13 @@ ProcXpStartJob(ClientPtr client)
  
      SendXpNotify(pContext, XPStartJobNotify, FALSE);
  
@@ -985,13 +924,12 @@
      if (client->noClientException != Success)
          return client->noClientException;
      else
-@@ -2724,6 +3285,20 @@ SProcXpGetImageResolution(ClientPtr clie
+@@ -2583,6 +3140,19 @@ SProcXpGetImageResolution(ClientPtr clie
      return ProcXpGetImageResolution(client);
  }
  
 +static int
-+SProcXpClientDpi(client)        /* BUG: 4402782 */
-+    ClientPtr client;
++SProcXpClientDpi(ClientPtr client)        /* BUG: 4402782 */
 +{
 +    long n;
 +    int i;

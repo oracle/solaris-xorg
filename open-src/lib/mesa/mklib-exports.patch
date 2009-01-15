@@ -1,0 +1,33 @@
+From 29f082e4d47699c09f909532cc0eae725e31851b Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 16 Jul 2008 13:16:19 -0700
+Subject: [PATCH] Convert mklib -exports list into a linker mapfile on Solaris
+---
+ bin/mklib |   11 +++++++++++
+ 1 files changed, 11 insertions(+), 0 deletions(-)
+
+diff --git a/bin/mklib b/bin/mklib
+index aaae3a8..3eddb74 100755
+--- a/bin/mklib
++++ b/bin/mklib
+@@ -389,6 +389,17 @@ #	    rm -f exptmp
+ 	    # libraries in the link path when building shared objects
+ 	    DEPS="${DEPS} -lc"
+ 
++	    if [ $EXPORTS ] ; then
++		# Make the 'mapfile.scope' linker mapfile
++		echo "{" > mapfile.scope
++		echo "global:" >> mapfile.scope
++		sed 's/$/;/' ${EXPORTS} >> mapfile.scope
++		echo "local:" >> mapfile.scope
++		echo "    *;" >> mapfile.scope
++		echo "};" >> mapfile.scope
++		OPTS="${OPTS} -M mapfile.scope"
++	    fi
++
+ 	    # for debug:
+ 	    #echo "mklib: linker is" ${LINK} ${OPTS}
+ 	    if [ $NOPREFIX = 1 ] ; then
+-- 
+1.4.1
+

@@ -1,4 +1,5 @@
-## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-restart.patch
+## Patch originally from Fedora - Revision 1.2 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-restart.patch
 
 --- vnc-4_1-unixsrc/common/network/TcpSocket.cxx.restart	2005-03-04 09:02:21.000000000 +0000
 +++ vnc-4_1-unixsrc/common/network/TcpSocket.cxx	2005-03-04 09:03:05.000000000 +0000

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org protocol modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.6	08/08/08
+# @(#)Makefile.inc	1.7	09/01/14
 #
 
 PWD:sh=pwd
@@ -56,7 +56,7 @@ include $(TOP)/common/Makefile.inc
 # Install
 default_install::
 	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=/usr/lib/$(SUBDIR64)/pkgconfig install-pkgconfigDATA )
+	 $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=$(PKGCONFIG_DIR_64) install-pkgconfigDATA )
 
 
 

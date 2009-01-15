@@ -1,42 +1,7 @@
-diff -urp -x '*~' Xext/Makefile.am Xext/Makefile.am
---- Xext/Makefile.am	2006-11-13 16:59:38.000000000 -0800
-+++ Xext/Makefile.am	2006-12-21 14:19:20.440059000 -0800
-@@ -34,7 +34,7 @@ MODULE_SRCS =			\
- 	xcmisc.c
- 
- # Extra configuration files ship with some extensions
--SERVERCONFIGdir = $(libdir)/xserver
-+SERVERCONFIGdir = $(libdir)/X11/xserver
- SERVERCONFIG_DATA =
- 
- # Optional sources included if extension enabled by configure.ac rules
-diff -urp -x '*~' xkb/Makefile.am xkb/Makefile.am
---- xkb/Makefile.am	2006-11-13 16:59:41.000000000 -0800
-+++ xkb/Makefile.am	2006-12-21 14:19:20.503671000 -0800
-@@ -1,6 +1,7 @@
- noinst_LTLIBRARIES = libxkb.la libxkbstubs.la
- 
- AM_CFLAGS = $(DIX_CFLAGS) \
-+	-DMAKE_XKM_OUTPUT_DIR \
- 	-DHAVE_XKB_CONFIG_H
- 
- DDX_SRCS = \
-diff -urp -x '*~' xkb/xkbInit.c xkb/xkbInit.c
---- xkb/xkbInit.c	2006-11-13 16:59:41.000000000 -0800
-+++ xkb/xkbInit.c	2006-12-21 14:19:20.503312000 -0800
-@@ -123,7 +123,7 @@ typedef struct	_SrvXkmInfo {
- #endif
- 
- char	*		XkbBaseDirectory=	XKB_BASE_DIRECTORY;
--char	*		XkbBinDirectory=	XKB_BIN_DIRECTORY;
-+char	*		XkbBinDirectory=	XKB_BASE_DIRECTORY;
- int	 		XkbWantAccessX=		0;	
- static XkbFileInfo *	_XkbInitFileInfo=	NULL;
- 
-
---- hw/xfree86/common/xf86Configure.c	2007-04-17 10:43:56.616816000 -0700
-+++ hw/xfree86/common/xf86Configure.c	2007-04-17 10:57:03.148386000 -0700
-@@ -642,7 +642,8 @@
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
+--- hw/xfree86/common/xf86Configure.c	2008-09-23 11:24:58.000000000 -0700
++++ hw/xfree86/common/xf86Configure.c	2008-09-24 20:18:22.067988000 -0700
+@@ -555,7 +555,8 @@ configureModuleSection (void)
              /* 'strstr(dFP,"/dir")' is meant as 'dFP =~ m(/dir\W)' */
      	    if (defaultFontPath && (
  		(strcmp(*el, "freetype")  == 0 &&
@@ -46,15 +11,15 @@ diff -urp -x '*~' xkb/xkbInit.c xkb/xkbInit.c
      	        (strcmp(*el, "type1")  == 0 &&
  		 strstr(defaultFontPath, "/Type1")))) 
  	    	ptr->mod_load_lst = (XF86LoadPtr)xf86addListItem(
-
---- configure.ac	2007-07-31 09:47:31.997346000 -0700
-+++ configure.ac	2007-08-06 18:05:43.360363000 -0700
-@@ -84,7 +84,7 @@
-       [Define to 1 if the DTrace Xserver provider probes should be built in.])
- fi
- AM_CONDITIONAL(XSERVER_DTRACE, [test "x$DTRACE" != "xnot_found"])
--AC_DEFINE_DIR(XERRORDB_PATH, libdir/XErrorDB, [Path to XErrorDB file])
-+AC_DEFINE([XERRORDB_PATH], ["/usr/openwin/lib/X11/XErrorDB"], [Path to XErrorDB file])
+diff -urp -x '*~' -x '*.orig' xkb/xkbInit.c xkb/xkbInit.c
+--- xkb/xkbInit.c	2008-09-23 11:25:01.000000000 -0700
++++ xkb/xkbInit.c	2008-09-24 20:18:22.068856000 -0700
+@@ -123,7 +123,7 @@ typedef struct	_SrvXkmInfo {
+ #endif
  
- AC_HEADER_DIRENT
- AC_HEADER_STDC
+ char	*		XkbBaseDirectory=	XKB_BASE_DIRECTORY;
+-char	*		XkbBinDirectory=	XKB_BIN_DIRECTORY;
++char	*		XkbBinDirectory=	XKB_BASE_DIRECTORY;
+ static int	 	XkbWantAccessX=		0;	
+ 
+ static Bool		rulesDefined=		False;

@@ -1,4 +1,4 @@
-/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -24,15 +24,15 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- */ 
+ */
 
-#pragma ident   "@(#)tsolpolicy.c 1.22     08/07/21 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.23     09/01/14 SMI"
 
-#ifdef HAVE_DIX_CONFIG_H 
-#include <dix-config.h> 
-#endif 
+#ifdef HAVE_DIX_CONFIG_H
+#include <dix-config.h>
+#endif
 
-#include <X11/X.h> 
+#include <X11/X.h>
 #define		NEED_REPLIES
 #define		NEED_EVENTS
 #include <stdio.h>
@@ -42,6 +42,7 @@
 #include <bsm/audit_kevents.h>
 #include <bsm/audit_uevents.h>
 #include <X11/Xproto.h>
+#include "dix.h"
 #include "misc.h"
 #include "scrnintstr.h"
 #include "os.h"
@@ -60,9 +61,11 @@
 #include "servermd.h"
 #include <syslog.h>
 #include "extnsionst.h"
+#include "registry.h"
 #ifdef PANORAMIX
 #include "../Xext/panoramiXsrv.h"
 #endif
+#include "tsol.h"
 #include "tsolinfo.h"
 #include "tsolpolicy.h"
 
@@ -78,13 +81,7 @@ static priv_set_t *pset_win_upgrade_sl = NULL;
 static priv_set_t *pset_win_downgrade_sl = NULL;
 static priv_set_t *pset_win_selection = NULL;
 
-extern TsolInfoPtr GetClientTsolInfo();
-extern int tsolWindowPrivateIndex;
-extern int tsolPixmapPrivateIndex;
-extern WindowPtr TsolPointerWindow();
-extern char *NameForAtom(Atom atom);
 extern char *xsltos(bslabel_t *sl);
-extern char *ProtoNames[];
 extern InputInfo inputInfo;
 
 extern unsigned long tsoldebug;  /* from tsolutils.c */
@@ -97,37 +94,37 @@ extern int tsolMultiLevel;
 
 #define SAMECLIENT(client, xid) ((client)->index == CLIENT_ID(xid))
 
-int access_xid(xresource_t res, xmethod_t method, void *resource,
-		   void *subject, xpolicy_t policy_flags, void *misc, 
-		   RESTYPE res_type, priv_set_t *which_priv);
+static int access_xid(xresource_t res, xmethod_t method, void *resource,
+		      void *subject, xpolicy_t policy_flags, void *misc,
+		      RESTYPE res_type, priv_set_t *which_priv);
 
-int check_priv(xresource_t res, xmethod_t method, void *resource,
-	void *subject, xpolicy_t policy_flags, void *misc, priv_set_t *priv);
+static int check_priv(xresource_t res, xmethod_t method, void *resource,
+		      void *subject, xpolicy_t policy_flags, void *misc,
+		      priv_set_t *priv);
 
 #ifdef DEBUG
 
-int	xtsol_debug = XTSOL_FAIL;	/* set it to 0 if no logging is required */
-void XTsolErr(char *err_type, int protocol, bslabel_t *osl,
-              uid_t ouid, pid_t opid, char *opname,
-              bslabel_t *ssl, uid_t suid, pid_t spid,
-              char *spname, char *method, int isstring, void *xid);
+static int xtsol_debug = XTSOL_FAIL;	/* set it to 0 if no logging is required */
+static void XTsolErr(const char *err_type, uintptr_t protocol,
+	     bslabel_t *osl, uid_t ouid, pid_t opid, const char *opname,
+	     bslabel_t *ssl, uid_t suid, pid_t spid, const char *spname,
+	     const char *method, int isstring, void *xid);
 
-#define XTSOLERR(err_type, protocol, osl, ouid, opid, opname,\
-                 ssl, suid, spid, spname, method, xid)\
-                 (void) XTsolErr(err_type, protocol, osl, ouid, opid,\
-                                 opname, ssl, suid, spid, spname, method,\
-                                 0, (void *) xid)
-#define SXTSOLERR(err_type, protocol, osl, ouid, opid, opname,\
-                  ssl, suid, spid, spname, method, xid)\
-                  (void) XTsolErr(err_type, protocol, osl, ouid, opid,\
-                                  opname, ssl, suid, spid, spname,\
-                                  method, 1, (void *) xid)
+#define XTSOLERR_GEN(err_type, protocol, o, s, method, xid, isstring) \
+                 (void) XTsolErr(err_type, (uintptr_t) (protocol), \
+				 (o)->sl, (o)->uid, (o)->pid, NULL, \
+				 (s)->sl, (s)->uid, (s)->pid, NULL, \
+				 method, isstring, (void *) (xid))
 #else  /* !DEBUG */
-#define XTSOLERR(err_type, protocol, osl, ouid, opid, opname,\
-                 ssl, suid, spid, spname, method, xid)
-#define SXTSOLERR(err_type, protocol, osl, ouid, opid, opname,\
-                  ssl, suid, spid, spname, method, xid)
+#define XTSOLERR_GEN(err_type, protocol, o, s, method, xid, isstring)  /**/
 #endif /* DEBUG */
+
+#define XTSOLERR(err_type, protocol, o, s, method, xid) \
+	XTSOLERR_GEN(err_type, protocol, o, s, method, (uintptr_t) xid, 0);
+
+#define SXTSOLERR(err_type, protocol, o, s, method, xid) \
+	XTSOLERR_GEN(err_type, protocol, o, s, method, xid, 1);
+
 
 int object_float(TsolInfoPtr, WindowPtr);
 
@@ -138,7 +135,7 @@ set_audit_flags(TsolInfoPtr tsolinfo)
         tsolinfo->flags &= ~TSOL_AUDITEVENT;
     if (!(tsolinfo->flags & TSOL_DOXAUDIT))
         tsolinfo->flags |= TSOL_DOXAUDIT;
-    
+
 }
 
 static void
@@ -148,7 +145,7 @@ unset_audit_flags(TsolInfoPtr tsolinfo)
         tsolinfo->flags &= ~TSOL_AUDITEVENT;
     if (tsolinfo->flags & TSOL_DOXAUDIT)
         tsolinfo->flags &= ~TSOL_DOXAUDIT;
-    
+
 }
 
 /*
@@ -158,11 +155,10 @@ unset_audit_flags(TsolInfoPtr tsolinfo)
  * Priv debugging will be done later TBD
  */
 
-int
+static int
 xpriv_policy(priv_set_t *set, priv_set_t *priv, xresource_t res,
 			 xmethod_t method, void *subject, Bool do_audit)
 {
-	int	i;
 	static int logopened = FALSE;
 	int	status = 0;
 	int audit_status = 0;
@@ -176,7 +172,7 @@ xpriv_policy(priv_set_t *set, priv_set_t *priv, xresource_t res,
 	}
 	else
 	{
-		audit_status = 0;        
+		audit_status = 0;
 		if (!logopened)
 		{
 			/* LOG_USER doesn't work */
@@ -187,9 +183,10 @@ xpriv_policy(priv_set_t *set, priv_set_t *priv, xresource_t res,
 		if (tsolinfo->priv_debug)
 		{
 #ifdef DEBUG
-			ErrorF("%s:Allowed priv %ld\n", tsolinfo->pname, priv);
+			ErrorF("pid %ld: Allowed priv %ld\n",
+			       (long) tsolinfo->pid, (long) priv);
 #endif /* DEBUG */
-			syslog(LOG_DEBUG|LOG_LOCAL0, 
+			syslog(LOG_DEBUG|LOG_LOCAL0,
                    "DEBUG: %s pid %ld lacking privilege %d to %d %d",
                    "xclient", tsolinfo->pid, priv, method, res);
 			status = 1;
@@ -221,8 +218,7 @@ read_window(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr ownerclient;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolInfoPtr tsolownerinfo;	/*client who owns the window */
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 
 	ownerclient = clients[CLIENT_ID(pWin->drawable.id)];
 	tsolownerinfo = GetClientTsolInfo(ownerclient);
@@ -249,16 +245,14 @@ read_window(xresource_t res, xmethod_t method, void *resource,
                 do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit) ||
-				(tsolownerinfo && HasWinSelection(tsolownerinfo))) 
+				(tsolownerinfo && HasWinSelection(tsolownerinfo)))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-			    XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read window", pWin->drawable.id);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "read window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -282,10 +276,8 @@ read_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read window", pWin->drawable.id);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "read window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -312,8 +304,7 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 
 	/* optimization based on client id */
 	if (SAMECLIENT(client, pWin->drawable.id))
@@ -324,13 +315,11 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 	 * Trusted Path Windows require Trusted Path attrib
 	 */
 	if (XTSOLTrusted(pWin) && !HasTrustedPath(tsolinfo))
-    {
-        XTSOLERR("tp", (int) misc, tsolres->sl,
-                 tsolres->uid, tsolres->pid, tsolres->pname,
-                 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-                 tsolinfo->pname, "modify window", pWin->drawable.id);
-        ret_stat = err_code;
-	}    
+	{
+		XTSOLERR("tp",  misc, tsolres, tsolinfo,
+			 "modify window", pWin->drawable.id);
+		ret_stat = err_code;
+	}
 	/*
 	 * MAC Check
 	 */
@@ -347,10 +336,8 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify window", pWin->drawable.id);
+				XTSOLERR("mac",  misc, tsolres, tsolinfo,
+					 "modify window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -371,10 +358,8 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify window", pWin->drawable.id);
+				XTSOLERR("dac",  misc, tsolres, tsolinfo,
+					 "modify window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -402,8 +387,7 @@ create_window(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;	/* parent window */
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr  tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr  tsolres = TsolWindowPriv(pWin);
 
 	/*
 	 * Anyone can create a child of root window
@@ -419,11 +403,8 @@ create_window(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			/*
-			XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "create window", pWin->drawable.id); */
+		/*	XTSOLERR("tp",  misc, tsolres, tsolinfo,
+				"create window", pWin->drawable.id); */
 			return (err_code);
 		}
 	}
@@ -446,10 +427,8 @@ create_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "create window", pWin->drawable.id); 
+				XTSOLERR("mac",  misc, tsolres, tsolinfo,
+					 "create window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -473,10 +452,8 @@ create_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "create window", pWin->drawable.id); 
+				XTSOLERR("dac",  misc, tsolres, tsolinfo,
+					 "create window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -505,8 +482,7 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr  tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr  tsolres = TsolWindowPriv(pWin);
 
 	/*
 	 * Trusted Path Windows required Trusted Path attrib
@@ -515,10 +491,8 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "destroy window", pWin->drawable.id);
+			XTSOLERR("tp",  misc, tsolres, tsolinfo,
+				 "destroy window", pWin->drawable.id);
 			return (err_code);
 		}
 	}
@@ -538,10 +512,8 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "destroy window", pWin->drawable.id);
+				XTSOLERR("mac",  misc, tsolres, tsolinfo,
+					 "destroy window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -563,10 +535,8 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "destroy window", pWin->drawable.id);
+				XTSOLERR("dac",  misc, tsolres, tsolinfo,
+					 "destroy window", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -608,7 +578,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 		pWin = (WindowPtr)LookupWindow(pDraw->id, client);
 		if (pWin == NULL)
 			return (PASSED); /* server will handle bad params */
-		tsolres = (TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+		tsolres = TsolWindowPriv(pWin);
 		obj_code = AW_XWINDOW;
 		obj_id = pWin->drawable.id;
 	}
@@ -617,7 +587,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 		pMap = (PixmapPtr)LookupIDByType(pDraw->id, RT_PIXMAP);
 		if (pMap == NULL)
 			return (PASSED); /* server will handle bad params */
-		tsolres = (TsolResPtr)(pMap->devPrivates[tsolPixmapPrivateIndex].ptr);
+		tsolres = TsolPixmapPriv(pMap);
 		obj_code = AW_XPIXMAP;
 		obj_id = pMap->drawable.id;
 	}
@@ -631,7 +601,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 	     * Client must have Trusted Path to access root window
 	     * in multilevel desktop.
 	     */
-	    if (tsolMultiLevel && DrawableIsRoot(pDraw) && 
+	    if (tsolMultiLevel && DrawableIsRoot(pDraw) &&
 			!HasTrustedPath(tsolinfo))
 		return (err_code);
 		/*
@@ -641,12 +611,12 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 		{
 			if (!bldominates(tsolinfo->sl, tsolres->sl))
 			{
-                if (!(tsolinfo->flags & MAC_READ_AUDITED) &&
-                    (tsolinfo->flags & TSOL_AUDITEVENT))
-                {
-                    do_audit = TRUE;
-                    tsolinfo->flags |= MAC_READ_AUDITED;
-                }
+				if (!(tsolinfo->flags & MAC_READ_AUDITED) &&
+				    (tsolinfo->flags & TSOL_AUDITEVENT))
+				{
+					do_audit = TRUE;
+					tsolinfo->flags |= MAC_READ_AUDITED;
+				}
 				/* PRIV override? */
 				if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 								 res, method, client, do_audit))
@@ -655,10 +625,9 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 				}
 				else
 				{
-					XTSOLERR("mac", (int) misc, tsolres->sl,
-							 tsolres->uid, tsolres->pid, tsolres->pname,
-							 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-							 tsolinfo->pname, "read pixel", pDraw->id);
+					XTSOLERR("mac",  misc,
+						 tsolres, tsolinfo,
+						 "read pixel", pDraw->id);
 					ret_stat = err_code;
 				}
 			}
@@ -670,23 +639,22 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 		{
 			if (tsolinfo->uid != tsolres->uid)
 			{
-                if (!(tsolinfo->flags & DAC_READ_AUDITED) &&
-                    (tsolinfo->flags & TSOL_AUDITEVENT))
-                {
-                    do_audit = TRUE;
-                    tsolinfo->flags |= DAC_READ_AUDITED;
-                }
+				if (!(tsolinfo->flags & DAC_READ_AUDITED) &&
+				    (tsolinfo->flags & TSOL_AUDITEVENT))
+				{
+					do_audit = TRUE;
+					tsolinfo->flags |= DAC_READ_AUDITED;
+				}
 				if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
-								 res, method, client, do_audit))
+						 res, method, client, do_audit))
 				{
 					ret_stat = PASSED;
 				}
 				else
 				{
-					XTSOLERR("mac", (int) misc, tsolres->sl,
-							 tsolres->uid, tsolres->pid, tsolres->pname,
-							 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-							 tsolinfo->pname, "read pixel", pDraw->id);
+					XTSOLERR("mac",  misc,
+						 tsolres, tsolinfo,
+						 "read pixel", pDraw->id);
 					ret_stat = err_code;
 				}
 			}
@@ -722,10 +690,10 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = NullWindow;
 	TsolInfoPtr tsolinfo;
 	TsolResPtr tsolres;
-#if defined(PANORAMIX) && defined(IN_MODULE)
+#if defined(PANORAMIX)
 	PanoramiXRes *panres = NULL;
 #endif
-	
+
 	/*
 	 * Trusted Path Windows required Trusted Path attrib
 	 */
@@ -733,37 +701,37 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 
 	if (pDraw->type == DRAWABLE_WINDOW)
 	{
-#if defined(PANORAMIX) && defined(IN_MODULE)
+#if defined(PANORAMIX)
 		if (!noPanoramiXExtension)
 		{
 		    panres = (PanoramiXRes *)LookupIDByType(pDraw->id, XRT_WINDOW);
 		    if (panres)
 			pWin = (WindowPtr)LookupWindow(panres->info[0].id, client);
-		} else 
-#endif 
+		} else
+#endif
 		    pWin = (WindowPtr)LookupWindow(pDraw->id, client);
 
 		if (pWin == NULL)
 			return (PASSED);
-		tsolres = (TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+		tsolres = TsolWindowPriv(pWin);
 		obj_code = AW_XWINDOW;
 		obj_id = pWin->drawable.id;
 	}
 	else if (pDraw->type == DRAWABLE_PIXMAP)
 	{
-#if defined(PANORAMIX) && defined(IN_MODULE)
+#if defined(PANORAMIX)
 	    if (!noPanoramiXExtension)
 	    {
 		panres = (PanoramiXRes *)LookupIDByType(pDraw->id, XRT_PIXMAP);
 		if (panres)
 			pMap = (PixmapPtr)LookupIDByType(panres->info[0].id, RT_PIXMAP);
-	    } else 
+	    } else
 #endif
 		pMap = (PixmapPtr)LookupIDByType(pDraw->id, RT_PIXMAP);
 
 		if (pMap == NULL)
 			return (PASSED);
-		tsolres = (TsolResPtr) (pMap->devPrivates[tsolPixmapPrivateIndex].ptr);
+		tsolres = TsolPixmapPriv(pMap);
 		obj_code = AW_XPIXMAP;
 		obj_id = pMap->drawable.id;
 	}
@@ -777,96 +745,93 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 	     * Trusted Path Windows require Trusted Path attrib
 	     */
 	    if ((pDraw->type == DRAWABLE_WINDOW) &&
-            XTSOLTrusted(pWin) &&
-            !HasTrustedPath(tsolinfo))
-		{
-		    XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "modify pixel", pWin->drawable.id);
-			return (err_code);
+		XTSOLTrusted(pWin) &&
+		!HasTrustedPath(tsolinfo))
+	    {
+		    XTSOLERR("tp",  misc, tsolres, tsolinfo,
+			     "modify pixel", pWin->drawable.id);
+		    return (err_code);
 	    }
-		/*
-	 	 * You need  win_config priv to write to root window
-	 	 */
-		if (!priv_win_config && (pWin && WindowIsRoot(pWin)))
-		{
-            if (!(tsolinfo->flags & CONFIG_AUDITED) &&
-                (tsolinfo->flags & TSOL_AUDITEVENT))
-            {
-                do_audit = TRUE;
-                tsolinfo->flags |= CONFIG_AUDITED;
-            }
-			if (xpriv_policy(tsolinfo->privs, pset_win_config,
-							 res, method, client, do_audit))
-			{
-				ret_stat = PASSED;
-			}
-			else
-			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify pixel", pDraw->id);
-				ret_stat = err_code;
-			}
-		}
-		/*
-		 * MAC Check
-		 */
-		if ((ret_stat == PASSED) && policy_flags & TSOL_MAC)
-		{
-			if (!blequal(tsolinfo->sl, tsolres->sl))
-			{
-                if (!(tsolinfo->flags & MAC_WRITE_AUDITED) &&
-                    (tsolinfo->flags & TSOL_AUDITEVENT))
-                {
-                    do_audit = TRUE;
-                    tsolinfo->flags |= MAC_WRITE_AUDITED;
-                }
-				if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
-								 res, method, client, do_audit))
-				{
-					ret_stat = PASSED;
-				}
-				else
-				{
-					XTSOLERR("mac", (int) misc, tsolres->sl,
-							 tsolres->uid, tsolres->pid, tsolres->pname,
-							 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-							 tsolinfo->pname, "modify pixel", pDraw->id);
-					ret_stat = err_code;
-				}
-			}
-		}
-		/*
-	 	 * DAC Check
-	 	 */
-		if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
-		{
-			if (tsolinfo->uid != tsolres->uid)
-			{
-                if (!(tsolinfo->flags & DAC_WRITE_AUDITED) &&
-                    (tsolinfo->flags & TSOL_AUDITEVENT))
-                {
-                    do_audit = TRUE;
-                    tsolinfo->flags |= DAC_WRITE_AUDITED;
-                }
-				if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
-								 res, method, client, do_audit))
-				{
-					ret_stat = PASSED;
-				}
-				else
-				{
-					XTSOLERR("dac", (int) misc, tsolres->sl,
-							 tsolres->uid, tsolres->pid, tsolres->pname,
-							 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-							 tsolinfo->pname, "modify pixel", pDraw->id);
-					ret_stat = err_code;
-				}
-			}
-		}
+	    /*
+	     * You need  win_config priv to write to root window
+	     */
+	    if (!priv_win_config && (pWin && WindowIsRoot(pWin)))
+	    {
+		    if (!(tsolinfo->flags & CONFIG_AUDITED) &&
+			(tsolinfo->flags & TSOL_AUDITEVENT))
+		    {
+			    do_audit = TRUE;
+			    tsolinfo->flags |= CONFIG_AUDITED;
+		    }
+		    if (xpriv_policy(tsolinfo->privs, pset_win_config,
+				     res, method, client, do_audit))
+		    {
+			    ret_stat = PASSED;
+		    }
+		    else
+		    {
+			    XTSOLERR("mac",  misc, tsolres, tsolinfo,
+				     "modify pixel", pDraw->id);
+			    ret_stat = err_code;
+		    }
+	    }
+	    /*
+	     * MAC Check
+	     */
+	    if ((ret_stat == PASSED) && policy_flags & TSOL_MAC)
+	    {
+		    if (!blequal(tsolinfo->sl, tsolres->sl))
+		    {
+			    if (!(tsolinfo->flags & MAC_WRITE_AUDITED) &&
+				(tsolinfo->flags & TSOL_AUDITEVENT))
+			    {
+				    do_audit = TRUE;
+				    tsolinfo->flags |= MAC_WRITE_AUDITED;
+			    }
+			    if (xpriv_policy(tsolinfo->privs,
+					     pset_win_mac_write,
+					     res, method, client, do_audit))
+			    {
+				    ret_stat = PASSED;
+			    }
+			    else
+			    {
+				    XTSOLERR("mac",  misc,
+					     tsolres, tsolinfo,
+					     "modify pixel", pDraw->id);
+				    ret_stat = err_code;
+			    }
+		    }
+	    }
+	    /*
+	     * DAC Check
+	     */
+	    if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
+	    {
+		    if (tsolinfo->uid != tsolres->uid)
+		    {
+			    if (!(tsolinfo->flags & DAC_WRITE_AUDITED) &&
+				(tsolinfo->flags & TSOL_AUDITEVENT))
+			    {
+				    do_audit = TRUE;
+				    tsolinfo->flags |= DAC_WRITE_AUDITED;
+			    }
+
+			    if (xpriv_policy(tsolinfo->privs,
+					     pset_win_dac_write,
+					     res, method, client, do_audit))
+			    {
+				     ret_stat = PASSED;
+			    }
+			    else
+			    {
+				    XTSOLERR("dac",  misc,
+					     tsolres, tsolinfo,
+					     "modify pixel", pDraw->id);
+				    ret_stat = err_code;
+			    }
+		    }
+	    }
 	}  /* end if SAMECLIENT */
 
 	if (do_audit)
@@ -890,8 +855,7 @@ read_pixmap(xresource_t res, xmethod_t method, void *resource,
 	PixmapPtr pMap = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr  tsolres =
-		(TsolResPtr)(pMap->devPrivates[tsolPixmapPrivateIndex].ptr);
+	TsolResPtr  tsolres = TsolPixmapPriv(pMap);
 
 	/*
 	 * MAC Check
@@ -909,10 +873,8 @@ read_pixmap(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read pixmap", pMap->drawable.id);
+				XTSOLERR("mac",  misc, tsolres, tsolinfo,
+					 "read pixmap", pMap->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -933,10 +895,8 @@ read_pixmap(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read pixmap", pMap->drawable.id);
+				XTSOLERR("dac",  misc, tsolres, tsolinfo,
+					 "read pixmap", pMap->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -963,8 +923,7 @@ modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 	PixmapPtr pMap = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr  tsolres =
-		(TsolResPtr)(pMap->devPrivates[tsolPixmapPrivateIndex].ptr);
+	TsolResPtr  tsolres = TsolPixmapPriv(pMap);
 
 	/*
 	 * MAC Check
@@ -982,10 +941,8 @@ modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify pixmap", pMap->drawable.id);
+				XTSOLERR("mac",  misc, tsolres, tsolinfo,
+					 "modify pixmap", pMap->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -1006,10 +963,8 @@ modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify pixmap", pMap->drawable.id);
+				XTSOLERR("dac",  misc, tsolres, tsolinfo,
+					 "modify pixmap", pMap->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -1036,8 +991,7 @@ destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 	PixmapPtr pMap = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr  tsolres =
-		(TsolResPtr)(pMap->devPrivates[tsolPixmapPrivateIndex].ptr);
+	TsolResPtr  tsolres = TsolPixmapPriv(pMap);
 
 	/*
 	 * MAC Check
@@ -1055,10 +1009,8 @@ destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "destroy pixmap", pMap->drawable.id);
+				XTSOLERR("mac",  misc, tsolres, tsolinfo,
+					 "destroy pixmap", pMap->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -1079,10 +1031,8 @@ destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "destroy pixmap", pMap->drawable.id);
+				XTSOLERR("dac",  misc, tsolres, tsolinfo,
+					 "destroy pixmap", pMap->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -1121,7 +1071,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 	if (res_client == serverClient || res_tsolinfo == NULL)
 	{
 		if (client == serverClient || HasTrustedPath(tsolinfo))
-			return (PASSED); 
+			return (PASSED);
 		else
 			return (BadValue);
 	}
@@ -1133,8 +1083,8 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!blequal(tsolinfo->sl, res_tsolinfo->sl))
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
 							 res, method, client, do_audit))
 			{
@@ -1142,11 +1092,8 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, res_tsolinfo->sl,
-						 res_tsolinfo->uid, res_tsolinfo->pid,
-						 res_tsolinfo->pname, tsolinfo->sl,
-						 tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read client", resource);
+				XTSOLERR("mac",  misc, res_tsolinfo,
+					 tsolinfo, "read client", resource);
 				ret_stat = err_code;
 			}
 		}
@@ -1167,11 +1114,8 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, res_tsolinfo->sl,
-						 res_tsolinfo->uid, res_tsolinfo->pid,
-						 res_tsolinfo->pname, tsolinfo->sl,
-						 tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read client", resource);
+				XTSOLERR("dac",  misc, res_tsolinfo,
+					 tsolinfo, "read client", resource);
 				ret_stat = ret_stat;
 			}
 		}
@@ -1183,11 +1127,8 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			XTSOLERR("tp", (int) misc, res_tsolinfo->sl,
-					 res_tsolinfo->uid, res_tsolinfo->pid,
-					 res_tsolinfo->pname, tsolinfo->sl,
-					 tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "read client", resource);
+			XTSOLERR("tp", misc, res_tsolinfo,
+				 tsolinfo, "read client", resource);
 			ret_stat = err_code;
 		}
 	}
@@ -1230,11 +1171,11 @@ modify_client(xresource_t res, xmethod_t method, void *resource,
 	{
 		ret_stat = err_code;
 	}
-    if (do_audit)
-    {
-        set_audit_flags(tsolinfo);
-        auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
-    }
+	if (do_audit)
+	{
+		set_audit_flags(tsolinfo);
+		auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
+	}
 	return (ret_stat);
 }	/* modify_client */
 
@@ -1286,11 +1227,8 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, res_tsolinfo->sl,
-						 res_tsolinfo->uid, res_tsolinfo->pid,
-						 res_tsolinfo->pname, tsolinfo->sl,
-						 tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "destroy client", resource);
+				XTSOLERR("mac", misc, res_tsolinfo,
+					 tsolinfo, "destroy client", resource);
 				ret_stat = ret_stat;
 			}
 		}
@@ -1311,11 +1249,8 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, res_tsolinfo->sl,
-						 res_tsolinfo->uid, res_tsolinfo->pid,
-						 res_tsolinfo->pname, tsolinfo->sl,
-						 tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "destroy client", resource);
+				XTSOLERR("dac", misc, res_tsolinfo,
+					 tsolinfo, "destroy client", resource);
 				ret_stat = err_code;
 			}
 		}
@@ -1327,11 +1262,8 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			XTSOLERR("tp", (int) misc, res_tsolinfo->sl,
-					 res_tsolinfo->uid, res_tsolinfo->pid,
-					 res_tsolinfo->pname, tsolinfo->sl,
-					 tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "destroy client", resource);
+			XTSOLERR("tp", misc, res_tsolinfo,
+				 tsolinfo, "destroy client", resource);
 			ret_stat = err_code;
 		}
 	}
@@ -1361,10 +1293,8 @@ int
 modify_gc(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
-    unsigned int protocol = (unsigned int)misc;
-
     return (access_xid(res, method, resource, subject, policy_flags,
-                       misc, RT_GC, pset_win_dac_write));    
+                       misc, RT_GC, pset_win_dac_write));
 }
 
 /*
@@ -1401,9 +1331,9 @@ modify_cursor(xresource_t res, xmethod_t method, void *resource,
 }
 
 /*
- * access_ccell: access policy for color cells. 
+ * access_ccell: access policy for color cells.
  */
-int
+static int
 access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
              xpolicy_t policy_flags, void *misc)
 {
@@ -1439,11 +1369,9 @@ access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
             }
             else
             {
-                XTSOLERR("clientid mac", (int)NULL, tsolinfo->sl,
-                         tsolinfo->uid, tsolinfo->pid, tsolinfo->pname,
-                         tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-                         tsolinfo->pname, "access ccell", cmap_id);
-                ret_stat = BadAccess;
+		XTSOLERR("clientid mac", (int)NULL, tsolinfo, tsolinfo,
+			 "access ccell", cmap_id);
+		ret_stat = BadAccess;
             }
         }
     }
@@ -1470,11 +1398,9 @@ access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
             }
             else
             {
-                XTSOLERR("clientid dac", (int)NULL, tsolinfo->sl,
-                         tsolinfo->uid, tsolinfo->pid, tsolinfo->pname,
-                         tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-                         tsolinfo->pname, "access ccell", cmap_id);
-                ret_stat = BadAccess;                
+		XTSOLERR("clientid dac", (int)NULL, tsolinfo,
+                         tsolinfo, "access ccell", cmap_id);
+                ret_stat = BadAccess;
             }
         }
     }
@@ -1527,7 +1453,7 @@ destroy_ccell(xresource_t res, xmethod_t method, void *resource,
 {
 #ifdef TBD
     EntrySecAttrPtr  pentp = (EntrySecAttrPtr)resource;
-    
+
     if (priv_win_colormap)
         return (PASSED);
     else if ( pentp->sl == NULL) /* The cell is allocated by server */
@@ -1535,7 +1461,7 @@ destroy_ccell(xresource_t res, xmethod_t method, void *resource,
     else
         return (access_ccell(res, method, resource, subject,
                              policy_flags, misc));
-#endif 
+#endif
    return (PASSED);
 }
 
@@ -1552,8 +1478,9 @@ read_cmap(xresource_t res, xmethod_t method, void *resource,
 	if (pcmp->flags & IsDefault)
 		return (PASSED);
 
-	return (access_xid(res, method, (void *)(pcmp->mid), subject, policy_flags,
-					   misc, RT_COLORMAP, pset_win_dac_read));
+	return (access_xid(res, method, (void *)(pcmp->mid),
+			   subject, policy_flags, misc,
+			   RT_COLORMAP, pset_win_dac_read));
 }
 
 /*
@@ -1569,8 +1496,9 @@ modify_cmap(xresource_t res, xmethod_t method, void *resource,
 	if (pcmp->flags & IsDefault)
 		return (PASSED);
 
-	return (access_xid(res, method,(void *)(pcmp->mid) , subject, policy_flags,
-			misc, RT_COLORMAP, pset_win_dac_write));
+	return (access_xid(res, method, (void *)(pcmp->mid),
+			   subject, policy_flags, misc,
+			   RT_COLORMAP, pset_win_dac_write));
 }
 
 /*
@@ -1607,10 +1535,8 @@ install_cmap(xresource_t res, xmethod_t method, void *resource,
 	}
 	else
 	{
-		XTSOLERR("install_cmap", (int) misc, tsolinfo->sl,
-				 tsolinfo->uid, tsolinfo->pid, tsolinfo->pname,
-				 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-				 tsolinfo->pname, "install_cmap", pcmp->mid);
+		XTSOLERR("install_cmap", misc, tsolinfo,
+			 tsolinfo, "install_cmap", pcmp->mid);
 		ret_stat = err_code;
 	}
     if (tsolinfo->flags & TSOL_AUDITEVENT)
@@ -1622,17 +1548,17 @@ install_cmap(xresource_t res, xmethod_t method, void *resource,
 }
 
 /*
- * access_xid: access policy for XIDs 
+ * access_xid: access policy for XIDs
  */
-int
+static int
 access_xid(xresource_t res, xmethod_t method, void *resource,
-		   void *subject, xpolicy_t policy_flags, void *misc, 
+		   void *subject, xpolicy_t policy_flags, void *misc,
 		   RESTYPE res_type, priv_set_t *which_priv)
 {
 	int ret_stat = PASSED;
 	int object_code = 0;
 	int	err_code; /* depends on type of XID */
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	XID object = (XID) resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = (TsolInfoPtr)NULL;
@@ -1687,10 +1613,8 @@ access_xid(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("clientid", (int) misc, tsolinfo->sl,
-						 tsolinfo->uid, tsolinfo->pid, tsolinfo->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "access xid", object);
+				XTSOLERR("clientid", misc, tsolinfo,
+					 tsolinfo, "access xid", object);
 				ret_stat = err_code;
 			}
             if (do_audit)
@@ -1709,21 +1633,21 @@ access_xid(xresource_t res, xmethod_t method, void *resource,
  */
 int
 modify_fontpath(xresource_t res, xmethod_t method, void *resource,
-				void *subject, xpolicy_t policy_flags, void *misc)
+		void *subject, xpolicy_t policy_flags, void *misc)
 {
 	int ret_stat = PASSED;
 	int	err_code = BadFont;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	XID object = (XID)resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
-    if (priv_win_fontpath)
-        return (PASSED);
+	if (priv_win_fontpath)
+		return (PASSED);
 
-    if (tsolinfo->flags & TSOL_AUDITEVENT)
-        do_audit = TRUE;
-    
+	if (tsolinfo->flags & TSOL_AUDITEVENT)
+		do_audit = TRUE;
+
 	/*
 	 * No MAC & DAC. Check win_fontpath priv only
 	 */
@@ -1756,16 +1680,16 @@ read_devices(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	int	err_code = BadValue;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
-    if (priv_win_devices)
-        return (PASSED);
+	if (priv_win_devices)
+		return (PASSED);
 
-    if (tsolinfo->flags & TSOL_AUDITEVENT)
-        do_audit = TRUE;
-    
+	if (tsolinfo->flags & TSOL_AUDITEVENT)
+		do_audit = TRUE;
+
 	/*
 	 * No MAC/DAC check. Needs win_devices priv
 	 */
@@ -1778,11 +1702,11 @@ read_devices(xresource_t res, xmethod_t method, void *resource,
 	{
 		ret_stat = err_code;
 	}
-    if (do_audit)
-    {
-        set_audit_flags(tsolinfo);
-        auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
-    }
+	if (do_audit)
+	{
+		set_audit_flags(tsolinfo);
+		auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
+	}
 	return (ret_stat);
 }
 
@@ -1796,16 +1720,16 @@ modify_devices(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	int	err_code = BadAccess;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
-    if (priv_win_devices)
-        return (PASSED);
+	if (priv_win_devices)
+		return (PASSED);
 
-    if (tsolinfo->flags & TSOL_AUDITEVENT)
-        do_audit = TRUE;
-    
+	if (tsolinfo->flags & TSOL_AUDITEVENT)
+		do_audit = TRUE;
+
 	/*
 	 * No MAC/DAC check. Needs win_devices priv
 	 */
@@ -1818,11 +1742,11 @@ modify_devices(xresource_t res, xmethod_t method, void *resource,
 	{
 		ret_stat = err_code;
 	}
-    if (do_audit)
-    {
-        set_audit_flags(tsolinfo);
-        auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
-    }
+	if (do_audit)
+	{
+		set_audit_flags(tsolinfo);
+		auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
+	}
 	return (ret_stat);
 }
 
@@ -1835,21 +1759,21 @@ modify_acl(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	int	err_code = BadValue;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
 	if (priv_win_config)
 		return (PASSED);
 
-    if (tsolinfo->flags & TSOL_AUDITEVENT)
-        do_audit = TRUE;
-    
+	if (tsolinfo->flags & TSOL_AUDITEVENT)
+		do_audit = TRUE;
+
 	/*
 	 * Needs win_config priv
 	 */
-    if (tsolinfo->uid != OwnerUID)
-    {
+	if (tsolinfo->uid != OwnerUID)
+	{
 	    if (xpriv_policy(tsolinfo->privs, pset_win_config, res,
                          method, client, do_audit))
 	    {
@@ -1859,12 +1783,12 @@ modify_acl(xresource_t res, xmethod_t method, void *resource,
 	    {
 		    ret_stat = err_code;
 	    }
-    }
-    if (do_audit)
-    {
-        set_audit_flags(tsolinfo);
-        auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
-    }
+	}
+	if (do_audit)
+	{
+		set_audit_flags(tsolinfo);
+		auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
+	}
 	return (ret_stat);
 }
 
@@ -1906,19 +1830,20 @@ read_atom(xresource_t res, xmethod_t method, void *resource,
 		if (status == FAILED)
 		{
 #ifdef DEBUG
-            if (xtsol_debug >= XTSOL_FAIL)
-		    {
-				ErrorF("\nmac failed:%s,subj(%s,%d,%d,%s),",
-					   ProtoNames[protocol], xsltos(tsolinfo->sl),
-					   tsolinfo->uid, tsolinfo->pid, tsolinfo->pname);
-				ErrorF("read atom, xid %s\n", NameForAtom(node->a));
-		    }
+			if (xtsol_debug >= XTSOL_FAIL)
+			{
+			    ErrorF("\nmac failed:%s,subj(%s,%d,%d),",
+				   LookupMajorName(protocol),
+				   xsltos(tsolinfo->sl),
+				   tsolinfo->uid, tsolinfo->pid);
+			    ErrorF("read atom, xid %s\n", NameForAtom(node->a));
+			}
 #endif /* DEBUG */
 			/* PRIV override? */
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+			    do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				status = PASSED;
 				ret_stat = PASSED;
@@ -1960,16 +1885,17 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolPropPtr tsolprop;
+	TsolPropPtr *tsolpropP;
 
 	/* Initialize property created internally by server */
-	if (pProp->secPrivate == NULL)
+	tsolpropP = TsolPropertyPriv(pProp);
+	if (*tsolpropP == NULL)
 	{
-            pProp->secPrivate = (pointer)AllocServerTsolProp();
-	    if (pProp->secPrivate == NULL)
+	    *tsolpropP = (pointer)AllocServerTsolProp();
+	    if (*tsolpropP == NULL)
 		return(BadAlloc);
 	}
-
-	tsolprop = (TsolPropPtr)(pProp->secPrivate);
+	tsolprop = *tsolpropP;
 
 	/*
 	 * MAC Check
@@ -1987,11 +1913,9 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("mac", (int) misc, tsolprop->sl,
-						  tsolprop->uid, tsolprop->pid, tsolprop->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "read property",
-						  NameForAtom(pProp->propertyName));
+				SXTSOLERR("mac", misc, tsolprop,
+					  tsolinfo, "read property",
+					  NameForAtom(pProp->propertyName));
 				ret_stat = err_code;
 			}
 		}
@@ -2002,13 +1926,13 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
 	{
 	    extern bslabel_t        PublicObjSL;
-		/* 
+		/*
 		 * Anyone can read properties created internally by loadable modules.
 		 * roles can read property created by workstation owner at admin_low.
 		 */
 
 		if (!((tsolprop->serverOwned) ||
-			(tsolprop->uid == OwnerUID && blequal(tsolprop->sl, &PublicObjSL)) || 
+			(tsolprop->uid == OwnerUID && blequal(tsolprop->sl, &PublicObjSL)) ||
 			tsolprop->uid == tsolinfo->uid))
 		{
             if (tsolinfo->flags & TSOL_AUDITEVENT)
@@ -2049,16 +1973,17 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolPropPtr tsolprop;
+	TsolPropPtr *tsolpropP;
 
 	/* Initialize property created internally by server */
-	if (pProp->secPrivate == NULL)
+	tsolpropP = TsolPropertyPriv(pProp);
+	if (*tsolpropP == NULL)
 	{
-            pProp->secPrivate = (pointer)AllocServerTsolProp();
-	    if (pProp->secPrivate == NULL)
+	    *tsolpropP = (pointer)AllocServerTsolProp();
+	    if (*tsolpropP == NULL)
 		return(BadAlloc);
 	}
-
-	tsolprop = (TsolPropPtr)(pProp->secPrivate);
+	tsolprop = *tsolpropP;
 
 	/*
 	 * MAC Check
@@ -2076,11 +2001,9 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("mac", (int) misc, tsolprop->sl,
-						  tsolprop->uid, tsolprop->pid, tsolprop->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "modify property",
-						  NameForAtom(pProp->propertyName));
+				SXTSOLERR("mac", misc, tsolprop,
+					  tsolinfo, "modify property",
+					  NameForAtom(pProp->propertyName));
 				ret_stat = err_code;
 			}
 		}
@@ -2090,7 +2013,7 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 	 */
 	if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
 	{
-		/* 
+		/*
 		 * workstation owner can write properties created internally by loadable modules.
 		 */
 
@@ -2134,16 +2057,17 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolPropPtr tsolprop;
+	TsolPropPtr *tsolpropP;
 
 	/* Initialize property created internally by server */
-	if (pProp->secPrivate == NULL)
+	tsolpropP = TsolPropertyPriv(pProp);
+	if (*tsolpropP == NULL)
 	{
-            pProp->secPrivate = (pointer)AllocServerTsolProp();
-	    if (pProp->secPrivate == NULL)
+	    *tsolpropP = (pointer)AllocServerTsolProp();
+	    if (*tsolpropP == NULL)
 		return(BadAlloc);
 	}
-
-	tsolprop = (TsolPropPtr)(pProp->secPrivate);
+	tsolprop = *tsolpropP;
 
 	/*
 	 * MAC Check
@@ -2161,11 +2085,9 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("mac", (int) misc, tsolprop->sl,
-						  tsolprop->uid, tsolprop->pid, tsolprop->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "destroy property",
-						  NameForAtom(pProp->propertyName));
+				SXTSOLERR("mac", misc, tsolprop,
+					  tsolinfo, "destroy property",
+					  NameForAtom(pProp->propertyName));
 				ret_stat = err_code;
 			}
 		}
@@ -2186,11 +2108,9 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("dac", (int) misc, tsolprop->sl,
-						  tsolprop->uid, tsolprop->pid, tsolprop->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "destroy property",
-						  NameForAtom(pProp->propertyName));
+				SXTSOLERR("dac", misc, tsolprop,
+					  tsolinfo, "destroy property",
+					  NameForAtom(pProp->propertyName));
 				ret_stat = err_code;
 			}
 		}
@@ -2231,7 +2151,8 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 		if (WindowIsRoot(pWin))
 			return (PASSED);
 	}
-	tsolres = (TsolResPtr) (pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	tsolres = TsolWindowPriv(pWin);
+
 	/*
 	 * MAC Check
 	*/
@@ -2239,21 +2160,19 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!blequal(tsolinfo->sl, tsolres->sl))
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read grabwin", pWin->drawable.id);
-                do_audit = FALSE;  /* don't audit this */
-                unset_audit_flags(tsolinfo);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "read grabwin", pWin->drawable.id);
+				do_audit = FALSE;  /* don't audit this */
+				unset_audit_flags(tsolinfo);
 				ret_stat = err_code;
 			}
 		}
@@ -2265,21 +2184,19 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (tsolinfo->uid != tsolres->uid /* && tsolres->uid != 0 */)
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read grabwin", pWin->drawable.id);
-                do_audit = FALSE;  /* don't audit this */
-                unset_audit_flags(tsolinfo);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "read grabwin", pWin->drawable.id);
+				do_audit = FALSE;  /* don't audit this */
+				unset_audit_flags(tsolinfo);
 				ret_stat = err_code;
 			}
 		}
@@ -2312,8 +2229,7 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 
         /*if (priv_win_devices)
         return (PASSED);*/
@@ -2333,8 +2249,8 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!blequal(tsolinfo->sl, tsolres->sl))
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
@@ -2342,10 +2258,8 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read grabwin", pWin->drawable.id);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "read grabwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -2366,10 +2280,8 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read grabwin", pWin->drawable.id);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "read grabwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -2402,7 +2314,7 @@ create_srvgrab(xresource_t res, xmethod_t method, void *resource,
 	}
     else
 	{
-		return (check_priv(res, method, resource, subject, policy_flags, 
+		return (check_priv(res, method, resource, subject, policy_flags,
 						   misc, pset_win_config));
 	}
 }
@@ -2420,37 +2332,37 @@ destroy_srvgrab(xresource_t res, xmethod_t method, void *resource,
     }
     else
     {
-		return (check_priv(res, method, resource, subject, policy_flags, 
+		return (check_priv(res, method, resource, subject, policy_flags,
 						   misc, pset_win_config));
 	}
 }
 
 /*
- * check_priv: Use this for all policies that require 
+ * check_priv: Use this for all policies that require
  * no MAC/DAC, but a priv
  */
-int
+static int
 check_priv(xresource_t res, xmethod_t method, void *resource,
-		   void *subject, xpolicy_t policy_flags, void *misc, priv_set_t *priv)
+	   void *subject, xpolicy_t policy_flags, void *misc, priv_set_t *priv)
 {
 	int ret_stat = PASSED;
 	int	err_code = BadValue;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
 	/*
 	 * No MAC/DAC check.
 	 */
-    if (tsolinfo->flags & CONFIG_AUDITED)
-    {
-        do_audit = FALSE;
-    }
-    else if (tsolinfo->flags & TSOL_AUDITEVENT)
-    {
-        do_audit = TRUE;
-        tsolinfo->flags |= CONFIG_AUDITED;
-    }    
+	if (tsolinfo->flags & CONFIG_AUDITED)
+	{
+		do_audit = FALSE;
+	}
+	else if (tsolinfo->flags & TSOL_AUDITEVENT)
+	{
+		do_audit = TRUE;
+		tsolinfo->flags |= CONFIG_AUDITED;
+	}
 	if (xpriv_policy(tsolinfo->privs, priv, res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
@@ -2459,11 +2371,11 @@ check_priv(xresource_t res, xmethod_t method, void *resource,
 	{
 		ret_stat = err_code;
 	}
-    if (do_audit)
-    {
-        set_audit_flags(tsolinfo);
-        auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
-    }
+	if (do_audit)
+	{
+		set_audit_flags(tsolinfo);
+		auditwrite(AW_XCLIENT, client->index, AW_APPEND, AW_END);
+	}
 	return (ret_stat);
 }
 
@@ -2475,7 +2387,7 @@ xsltos(bslabel_t *sl)
 {
 	char *slstring = NULL;
 
-	if (bsltos(sl, &slstring, 0, 
+	if (bsltos(sl, &slstring, 0,
 		VIEW_INTERNAL|SHORT_CLASSIFICATION | LONG_WORDS | ALL_ENTRIES) <= 0)
 		return (NULL);
 	else
@@ -2495,7 +2407,7 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 	Selection *selection = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolSelnPtr tsolseln = (TsolSelnPtr)(selection->secPrivate);
+	TsolSelnPtr tsolseln = *(TsolSelectionPriv(selection));
 
 	/*
 	 * MAC Check
@@ -2504,20 +2416,18 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!bldominates(tsolinfo->sl, tsolseln->sl))
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-				SXTSOLERR("mac", (int) misc, tsolseln->sl,
-						  tsolseln->uid, tsolseln->pid, tsolseln->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "read selection",
-						  NameForAtom(selection->selection));
+				SXTSOLERR("mac", misc, tsolseln,
+					  tsolinfo, "read selection",
+					  NameForAtom(selection->selection));
 				ret_stat = err_code;
 			}
 		}
@@ -2530,8 +2440,8 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 		/* uid == DEF_UID means public window, shared read */
 		if (!(tsolseln->uid == DEF_UID || tsolinfo->uid == tsolseln->uid))
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
 							 res, method, client, do_audit))
 			{
@@ -2539,11 +2449,9 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				SXTSOLERR("dac", (int) misc, tsolseln->sl,
-						  tsolseln->uid, tsolseln->pid, tsolseln->pname,
-						  tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						  tsolinfo->pname, "read selection",
-						  NameForAtom(selection->selection));
+				SXTSOLERR("dac", misc, tsolseln,
+					  tsolinfo, "read selection",
+					  NameForAtom(selection->selection));
 				ret_stat = err_code;
 			}
 		}
@@ -2568,12 +2476,11 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	Bool do_audit = FALSE;
-	int	err_code = BadWindow; 
+	int	err_code = BadWindow;
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 
 	/*
 	 * Anyone can modify properties on  RootWindow  subjected to
@@ -2588,10 +2495,8 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "modify propwin", pWin->drawable.id);
+			XTSOLERR("tp", misc, tsolres, tsolinfo,
+				 "modify propwin", pWin->drawable.id);
 			return (err_code);
 		}
 	}
@@ -2603,8 +2508,8 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!blequal(tsolinfo->sl, tsolres->sl))
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_write,
 							 res, method, client, do_audit))
 			{
@@ -2612,10 +2517,8 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify propwin", pWin->drawable.id);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "modify propwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -2627,8 +2530,8 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (tsolinfo->uid != tsolres->uid)
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
 							 res, method, client, do_audit))
 			{
@@ -2636,10 +2539,8 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify propwin", pWin->drawable.id);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "modify propwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -2667,9 +2568,10 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
+#if 0
 	GrabPtr grab;
+#endif
 
 	/*
 	 * MAC Check
@@ -2687,12 +2589,10 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify focuswin", pWin->drawable.id);
-                do_audit = FALSE;  /* don't audit this */
-                unset_audit_flags(tsolinfo);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "modify focuswin", pWin->drawable.id);
+				do_audit = FALSE;  /* don't audit this */
+				unset_audit_flags(tsolinfo);
 				ret_stat = err_code;
 			}
 		}
@@ -2704,21 +2604,19 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (tsolinfo->uid != tsolres->uid)
 		{
-            if (tsolinfo->flags & TSOL_AUDITEVENT)
-                do_audit = TRUE;
+			if (tsolinfo->flags & TSOL_AUDITEVENT)
+				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify focuswin", pWin->drawable.id);
-                do_audit = FALSE;  /* don't audit this */
-                unset_audit_flags(tsolinfo);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "modify focuswin", pWin->drawable.id);
+				do_audit = FALSE;  /* don't audit this */
+				unset_audit_flags(tsolinfo);
 				ret_stat = err_code;
 			}
 		}
@@ -2730,10 +2628,8 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "modify focuswin", pWin->drawable.id);
+			XTSOLERR("tp", misc, tsolres, tsolinfo,
+				 "modify focuswin", pWin->drawable.id);
 			ret_stat = err_code;
 		}
 	}
@@ -2741,7 +2637,7 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	/*
 	 * This causes problems when dragging cmdtool
 	 * TBD later
-	 * If ptr/kbd is grabbed, then this client must be 
+	 * If ptr/kbd is grabbed, then this client must be
 	 * the grabbing client
 	 */
 	grab = inputInfo.pointer->grab;
@@ -2758,15 +2654,13 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("tp", (int) misc, 
-			    tsolres->sl, tsolres->uid, tsolres->pid, tsolres->pname, \
-			    tsolinfo->sl, tsolinfo->uid, tsolinfo->pid, tsolinfo->pname, \
-			    "modify focuswin", pWin->drawable.id);
+				XTSOLERR("tp", misc, tsolres, tsolinfo,
+					 "modify focuswin", pWin->drawable.id);
 				return (err_code);
 			}
 		}
 	}
-#endif	
+#endif
 	if (do_audit)
 	{
         set_audit_flags(tsolinfo);
@@ -2789,8 +2683,7 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 
 	/*
 	 * Anyone can read RootWindow attributes
@@ -2806,25 +2699,23 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!(bldominates(tsolinfo->sl, tsolres->sl)))
 		{
-            if (!(tsolinfo->flags & MAC_READ_AUDITED) &&
-                (tsolinfo->flags & TSOL_AUDITEVENT))
-            {
-                do_audit = TRUE;
-                tsolinfo->flags |= MAC_READ_AUDITED;
-            }
+			if (!(tsolinfo->flags & MAC_READ_AUDITED) &&
+			    (tsolinfo->flags & TSOL_AUDITEVENT))
+			{
+				do_audit = TRUE;
+				tsolinfo->flags |= MAC_READ_AUDITED;
+			}
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-			    XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read focuswin", pWin->drawable.id);
-                do_audit = FALSE;  /* don't audit this */
-                unset_audit_flags(tsolinfo);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "read focuswin", pWin->drawable.id);
+				do_audit = FALSE;  /* don't audit this */
+				unset_audit_flags(tsolinfo);
 				ret_stat = err_code;
 			}
 		}
@@ -2836,25 +2727,23 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if ((tsolinfo->uid != tsolres->uid) && (tsolres->uid != 0))
 		{
-            if (!(tsolinfo->flags & DAC_READ_AUDITED) &&
-                (tsolinfo->flags & TSOL_AUDITEVENT))
-            {
-                do_audit = TRUE;
-                tsolinfo->flags |= DAC_READ_AUDITED;
-            }
+			if (!(tsolinfo->flags & DAC_READ_AUDITED) &&
+			    (tsolinfo->flags & TSOL_AUDITEVENT))
+			{
+				do_audit = TRUE;
+				tsolinfo->flags |= DAC_READ_AUDITED;
+			}
 			if (xpriv_policy(tsolinfo->privs, pset_win_dac_read,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "read focuswin", pWin->drawable.id);
-                do_audit = FALSE;  /* don't audit */
-                unset_audit_flags(tsolinfo);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "read focuswin", pWin->drawable.id);
+				do_audit = FALSE;  /* don't audit */
+				unset_audit_flags(tsolinfo);
 				ret_stat = err_code;
 			}
 		}
@@ -2870,13 +2759,13 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
 
 #ifdef DEBUG
 /*
- * XTsolErr : used for debugging. 
- * WARNING: ErrorF can take upto 10 args & no more
+ * XTsolErr : used for debugging.
  */
-void
-XTsolErr(char *err_type, int protocol, bslabel_t *osl, uid_t ouid, pid_t opid,
-		 char *opname, bslabel_t *ssl, uid_t suid, pid_t spid, char *spname,
-		 char *method, int isstring, void *xid)
+static void
+XTsolErr(const char *err_type, uintptr_t protocol,
+	 bslabel_t *osl, uid_t ouid, pid_t opid, const char *opname,
+	 bslabel_t *ssl, uid_t suid, pid_t spid, const char *spname,
+	 const char *method, int isstring, void *xid)
 {
 	if (xtsol_debug < XTSOL_FAIL)
 		return;
@@ -2885,16 +2774,18 @@ XTsolErr(char *err_type, int protocol, bslabel_t *osl, uid_t ouid, pid_t opid,
 	/* range check of protocol */
 	if (protocol > X_NoOperation)
 		protocol = 0; /* unknown or extension */
-	ErrorF("\n%s failed:%s,obj(%s,%d,%d,%s), subj(%s,%d,%d,%s),", 
-		   err_type, ProtoNames[protocol], xsltos(osl), ouid,
-		   opid, opname, xsltos(ssl), suid, spid, spname);
+	ErrorF("\n%s failed:%s,obj(%s,%d,%d,%s), subj(%s,%d,%d,%s), %s, ",
+	       err_type, LookupMajorName(protocol),
+	       xsltos(osl), ouid, opid, opname ? opname : "",
+	       xsltos(ssl), suid, spid, spname ? spname : "",
+	       method);
 	if (isstring)
 	{
-		ErrorF("%s, xid=%s\n", method, (char *) xid); /* for atom/prop names */
+		ErrorF("xid=%s\n", (char *) xid); /* for atom/prop names */
 	}
 	else
 	{
-		ErrorF("%s, xid=%X\n", method, (long) xid); /* for window/pixmaps */
+		ErrorF("xid=%lX\n", (long) xid); /* for window/pixmaps */
 	}
 }
 #endif /* DEBUG */
@@ -2906,11 +2797,11 @@ int
 read_extn(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
-	int	err_code = BadAccess;
+/*	int err_code = BadAccess;
 	char *extn_name = (char *)resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-
+*/
 	/*
 	 * No policy for this
 	 */
@@ -2935,8 +2826,7 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 
 	/*
 	 * MAC Check
@@ -2954,10 +2844,8 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify tpwin", pWin->drawable.id);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "modify tpwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -2978,10 +2866,8 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify tpwin", pWin->drawable.id);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "modify tpwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -2993,10 +2879,8 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 	{
 		if (!HasTrustedPath(tsolinfo))
 		{
-			XTSOLERR("tp", (int) misc, tsolres->sl,
-					 tsolres->uid, tsolres->pid, tsolres->pname,
-					 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-					 tsolinfo->pname, "modify tpwin", pWin->drawable.id);
+			XTSOLERR("tp", misc, tsolres, tsolinfo,
+				 "modify tpwin", pWin->drawable.id);
 			ret_stat = err_code;
 		}
 	}
@@ -3034,7 +2918,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 	{
         if (priv_win_config)
             return (ret_stat);
-        
+
         if (tsolinfo->flags & TSOL_AUDITEVENT)
             do_audit = TRUE;
 		if (xpriv_policy(tsolinfo->privs, pset_win_config,
@@ -3045,7 +2929,8 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 		else
 		{
 #ifdef DEBUG
-			ErrorF("modify_sl: failed for %s\n", tsolinfo->pname);
+			ErrorF("modify_sl: failed for %ld\n",
+			       (long) tsolinfo->pid);
 #endif /* DEBUG */
 			ret_stat = err_code;
 		}
@@ -3071,7 +2956,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 		else
 		{
 #ifdef DEBUG
-			ErrorF("modify_sl: failed for %s\n", tsolinfo->pname);
+			ErrorF("modify_sl: failed for %d\n", tsolinfo->pid);
 #endif /* DEBUG */
 			ret_stat = err_code;
 		}
@@ -3088,7 +2973,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 		else
 		{
 #ifdef DEBUG
-			ErrorF("modify_sl: failed for %s\n", tsolinfo->pname);
+			ErrorF("modify_sl: failed for %d\n", tsolinfo->pid);
 #endif /* DEBUG */
 			ret_stat = err_code;
 		}
@@ -3115,8 +3000,7 @@ modify_eventwin(xresource_t res, xmethod_t method, void *resource,
 	WindowPtr pWin = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr tsolres =
-		(TsolResPtr)(pWin->devPrivates[tsolWindowPrivateIndex].ptr);
+	TsolResPtr tsolres = TsolWindowPriv(pWin);
 	TsolInfoPtr tsolownerinfo;	/*client who owns the window */
 	ClientPtr	ownerclient;
 
@@ -3152,10 +3036,8 @@ modify_eventwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("mac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify eventwin", pWin->drawable.id);
+				XTSOLERR("mac", misc, tsolres, tsolinfo,
+					 "modify eventwin", pWin->drawable.id);
 				ret_stat = ret_stat;
 			}
 		}
@@ -3179,10 +3061,8 @@ modify_eventwin(xresource_t res, xmethod_t method, void *resource,
 			}
 			else
 			{
-				XTSOLERR("dac", (int) misc, tsolres->sl,
-						 tsolres->uid, tsolres->pid, tsolres->pname,
-						 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-						 tsolinfo->pname, "modify eventwin", pWin->drawable.id);
+				XTSOLERR("dac", misc, tsolres, tsolinfo,
+					 "modify eventwin", pWin->drawable.id);
 				ret_stat = err_code;
 			}
 		}
@@ -3210,10 +3090,8 @@ modify_stripe(xresource_t res, xmethod_t method, void *resource,
 
 	if (!HasTrustedPath(tsolinfo))
 	{
-		XTSOLERR("tp", (int) misc, tsolinfo->sl,
-				 tsolinfo->uid, tsolinfo->pid, tsolinfo->pname,
-				 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-				 tsolinfo->pname, "modify stripe", 0);
+		XTSOLERR("tp", misc, tsolinfo, tsolinfo,
+			 "modify stripe", 0);
 		return (err_code);
 	}
 	return (PASSED);
@@ -3233,10 +3111,8 @@ modify_wowner(xresource_t res, xmethod_t method, void *resource,
 
 	if (!HasTrustedPath(tsolinfo))
 	{
-		XTSOLERR("tp", (int) misc, tsolinfo->sl,
-				 tsolinfo->uid, tsolinfo->pid, tsolinfo->pname,
-				 tsolinfo->sl, tsolinfo->uid, tsolinfo->pid,
-				 tsolinfo->pname, "modify tpwin", 0);
+		XTSOLERR("tp", misc, tsolinfo, tsolinfo,
+			 "modify tpwin", 0);
 		return (err_code);
 	}
 	return (PASSED);
@@ -3252,32 +3128,32 @@ modify_uid(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	int	err_code = BadAccess;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
-    if (tsolinfo->flags & TSOL_AUDITEVENT)
-        do_audit = TRUE;
+	if (tsolinfo->flags & TSOL_AUDITEVENT)
+		do_audit = TRUE;
 	if (xpriv_policy(tsolinfo->privs, pset_win_dac_write,
-                     res, method, client, do_audit))
+			 res, method, client, do_audit))
 	{
 		ret_stat = PASSED;
 	}
 	else
 	{
 #ifdef DEBUG
-		ErrorF("modify_uid: failed for %s\n", tsolinfo->pname);
+		ErrorF("modify_uid: failed for %d\n", tsolinfo->pid);
 #endif /* DEBUG */
 		ret_stat = err_code;
 	}
-    if (do_audit)
-        set_audit_flags(tsolinfo);
+	if (do_audit)
+		set_audit_flags(tsolinfo);
 	return (ret_stat);
 }
 
 /*
  * modify_polyinfo
- * Modify polyinstantiation info(sl, uid) 
+ * Modify polyinstantiation info(sl, uid)
  */
 int
 modify_polyinfo(xresource_t res, xmethod_t method, void *resource,
@@ -3306,14 +3182,14 @@ modify_polyinfo(xresource_t res, xmethod_t method, void *resource,
 	else
 		ret_stat = err_code;
 #ifdef DEBUG
-	ErrorF("modify_polyinfo: failed for %s\n", tsolinfo->pname);
+	ErrorF("modify_polyinfo: failed for %d\n", tsolinfo->pid);
 #endif /* DEBUG */
     if (do_audit)
         set_audit_flags(tsolinfo);
 	return (ret_stat);
 }
 
-/* 
+/*
  * access_dbe - check whether the buffer is client-private
  */
 int
@@ -3325,11 +3201,11 @@ access_dbe(xresource_t res, xmethod_t method, void *resource,
 
     if (client_private(client, object))
        return (PASSED);
-    else 
+    else
        return BadAccess;
 }
 
-/* 
+/*
  * swap_dbe - check if the window is created by the client
  */
 int
@@ -3341,8 +3217,8 @@ swap_dbe(xresource_t res, xmethod_t method, void *resource,
 
 	if (SAMECLIENT(client, pWin->drawable.id))
             return PASSED;
-        else 
-            return BadAccess;   
+        else
+            return BadAccess;
 }
 
 /*
@@ -3367,124 +3243,131 @@ no_policy(xresource_t res, xmethod_t method, void *resource,
  * TSOL_RES_NAME            READ                MODIFY              CREATE\
  *                          DESTROY             SPECIAL
  */
-static int (*XTSOL_policy_table[TSOL_MAX_XRES_TYPES][TSOL_MAX_XMETHODS])() = {
-/* TSOL_RES_ACL */          no_policy,          modify_acl,         no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_ATOM */         read_atom,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_BELL */         no_policy,          modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_BTNGRAB */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_CCELL */        read_ccell,         modify_ccell,       no_policy,\
-                            destroy_ccell,      no_policy,
-/* TSOL_RES_CLIENT */       read_client,        modify_client,      no_policy,\
-                            destroy_client,     no_policy,
-/* TSOL_RES_CMAP */         read_cmap,          modify_cmap,        no_policy,\
-                            modify_cmap,        install_cmap,
-/* TSOL_RES_CONFWIN */      no_policy,          modify_confwin,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_CURSOR */       no_policy,          modify_cursor,      no_policy,\
-                            modify_cursor,      no_policy,
-/* TSOL_RES_EVENTWIN */     no_policy,          modify_eventwin,    no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_EXTN */         read_extn,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_FOCUSWIN */     read_focuswin,      modify_focuswin,    no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_FONT */         read_font,          modify_font,        no_policy,\
-                            modify_font,        no_policy,
-/* TSOL_RES_FONTLIST */     no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_FONTPATH */     no_policy,          modify_fontpath,    no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_GC */           read_gc,            modify_gc,          no_policy,\
-                            modify_gc,          no_policy,
-/* TSOL_RES_GRABWIN */      no_policy,          modify_grabwin,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_HOSTLIST */     no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_IL */           no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_KBDCTL */       no_policy,          modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_KBDGRAB */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_KEYGRAB */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_KEYMAP */       read_devices,       modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_MODMAP */       no_policy,          modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PIXEL */        read_pixel,         modify_pixel,       no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PIXMAP */       read_pixmap,        modify_pixmap,      no_policy,\
-                            destroy_pixmap,     no_policy,
-/* TSOL_RES_POLYINFO */     no_policy,          modify_polyinfo,    no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PROPERTY */     read_property,      modify_property,    no_policy,\
-                            destroy_property,   no_policy,
-/* TSOL_RES_PROPWIN */      read_window,        modify_propwin,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_IIL */          no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PROP_SL */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PROP_UID */     no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PTRCTL */       no_policy,          modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PTRGRAB */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PTRLOC */       no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PTRMAP */       no_policy,          modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_PTRMOTION */    no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_SCRSAVER */     no_policy,          modify_devices,     no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_SELECTION */    read_selection,     no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_SELNWIN */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_SENDEVENT */    no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_SL */           no_policy,          modify_sl,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_SRVGRAB */      no_policy,          no_policy,      create_srvgrab,\
-                            destroy_srvgrab,    no_policy,
-/* TSOL_RES_STRIPE */       no_policy,          modify_stripe,      no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_TPWIN */        no_policy,          modify_tpwin,       no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_UID */          no_policy,          modify_uid,         no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_VISUAL */       no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_WINATTR */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_WINDOW */       read_window,        modify_window,   create_window,\
-                            destroy_window,     no_policy,
-/* TSOL_RES_WINLOC */       no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_WINMAP */       no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_WINSIZE */      no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_WINSTACK */     no_policy,          no_policy,          no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_WOWNER */       no_policy,          modify_wowner,      no_policy,\
-                            no_policy,          no_policy,
-/* TSOL_RES_DBE */          no_policy,          no_policy,         access_dbe,
-                            access_dbe,         swap_dbe
+typedef int (*XTSOL_policy_func)
+	(xresource_t res, xmethod_t method, void *resource,
+	 void *subject, xpolicy_t policy_flags, void *misc);
+
+static const XTSOL_policy_func
+XTSOL_policy_table[TSOL_MAX_XRES_TYPES - TSOL_START_XRES][TSOL_MAX_XMETHODS] =
+{
+
+/* TSOL_RES_ACL */        { no_policy,          modify_acl,         no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_ATOM */       { read_atom,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_BELL */       { no_policy,          modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_BTNGRAB */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_CCELL */      { read_ccell,         modify_ccell,       no_policy,\
+                            destroy_ccell,      no_policy },
+/* TSOL_RES_CLIENT */     { read_client,        modify_client,      no_policy,\
+                            destroy_client,     no_policy },
+/* TSOL_RES_CMAP */       { read_cmap,          modify_cmap,        no_policy,\
+                            modify_cmap,        install_cmap },
+/* TSOL_RES_CONFWIN */    { no_policy,          modify_confwin,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_CURSOR */     { no_policy,          modify_cursor,      no_policy,\
+                            modify_cursor,      no_policy },
+/* TSOL_RES_EVENTWIN */   { no_policy,          modify_eventwin,    no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_EXTN */       { read_extn,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_FOCUSWIN */   { read_focuswin,      modify_focuswin,    no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_FONT */       { read_font,          modify_font,        no_policy,\
+                            modify_font,        no_policy },
+/* TSOL_RES_FONTLIST */   { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_FONTPATH */   { no_policy,          modify_fontpath,    no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_GC */         { read_gc,            modify_gc,          no_policy,\
+                            modify_gc,          no_policy },
+/* TSOL_RES_GRABWIN */    { no_policy,          modify_grabwin,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_HOSTLIST */   { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_IL */         { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_KBDCTL */     { no_policy,          modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_KBDGRAB */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_KEYGRAB */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_KEYMAP */     { read_devices,       modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_MODMAP */     { no_policy,          modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PIXEL */      { read_pixel,         modify_pixel,       no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PIXMAP */     { read_pixmap,        modify_pixmap,      no_policy,\
+                            destroy_pixmap,     no_policy },
+/* TSOL_RES_POLYINFO */   { no_policy,          modify_polyinfo,    no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PROPERTY */   { read_property,      modify_property,    no_policy,\
+                            destroy_property,   no_policy },
+/* TSOL_RES_PROPWIN */    { read_window,        modify_propwin,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_IIL */        { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PROP_SL */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PROP_UID */   { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PTRCTL */     { no_policy,          modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PTRGRAB */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PTRLOC */     { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PTRMAP */     { no_policy,          modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_PTRMOTION */  { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_SCRSAVER */   { no_policy,          modify_devices,     no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_SELECTION */  { read_selection,     no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_SELNWIN */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_SENDEVENT */  { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_SL */         { no_policy,          modify_sl,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_SRVGRAB */    { no_policy,          no_policy,      create_srvgrab,\
+                            destroy_srvgrab,    no_policy },
+/* TSOL_RES_STRIPE */     { no_policy,          modify_stripe,      no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_TPWIN */      { no_policy,          modify_tpwin,       no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_UID */        { no_policy,          modify_uid,         no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_VISUAL */     { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_WINATTR */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_WINDOW */     { read_window,        modify_window,   create_window,\
+                            destroy_window,     no_policy },
+/* TSOL_RES_WINLOC */     { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_WINMAP */     { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_WINSIZE */    { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_WINSTACK */   { no_policy,          no_policy,          no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_WOWNER */     { no_policy,          modify_wowner,      no_policy,\
+                            no_policy,          no_policy },
+/* TSOL_RES_DBE */        { no_policy,          no_policy,         access_dbe,
+                            access_dbe,         swap_dbe }
 };
 
 struct xpolicy_cache {
 	xresource_t res;
 	xmethod_t method;
 	void *resource;
-	void *subject;      
+	void *subject;
 	xpolicy_t policy_flags;
 	int	ret_value;
 	int	count;
@@ -3507,10 +3390,10 @@ xtsol_policy(xresource_t res,	xmethod_t method,	void *resource,
 	res_type = (int)(res - TSOL_START_XRES);
 
 	if (policy_cache.subject == subject &&
-		policy_cache.res == res  && 
+		policy_cache.res == res  &&
 		policy_cache.method == method &&
-		policy_cache.resource == resource  && 
-		policy_cache.policy_flags == policy_flags) 
+		policy_cache.resource == resource  &&
+		policy_cache.policy_flags == policy_flags)
 	{
 
 		policy_cache.count++;
@@ -3522,7 +3405,7 @@ xtsol_policy(xresource_t res,	xmethod_t method,	void *resource,
 		policy_cache.subject = subject;
 		policy_cache.policy_flags = policy_flags;
 
-		ret_value = ((XTSOL_policy_table[res_type][method]) (res,	
+		ret_value = ((XTSOL_policy_table[res_type][method]) (res,
 			method,	resource, subject,	policy_flags,	misc));
 		policy_cache.ret_value = ret_value;
 
@@ -3553,7 +3436,7 @@ alloc_win_priv(const char *priv)
  * Binary privilege testing is much faster than the string testing
  */
 void
-init_win_privsets()
+init_win_privsets(void)
 {
 
 	pset_win_mac_read = alloc_win_priv(PRIV_WIN_MAC_READ);
@@ -3570,7 +3453,7 @@ init_win_privsets()
 }
 
 void
-free_win_privsets()
+free_win_privsets(void)
 {
 	priv_freeset(pset_win_mac_read);
 	priv_freeset(pset_win_mac_write);

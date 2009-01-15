@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.15     08/01/23 SMI"
+# ident "@(#)prototype_com 1.16     09/01/14 SMI"
 #
 # X.Org server configuration tool
 
@@ -82,3 +82,8 @@ f none X11/include/X11/bitmaps/mouse.xbm	0444 root bin
 f none X11/include/X11/bitmaps/keyboard.xbm	0444 root bin
 f none X11/include/X11/bitmaps/monitor.xbm	0444 root bin
 
+!search $HOME/share/man/man1
+d none X11/share 0755 root bin
+d none X11/share/man 0755 root bin
+d none X11/share/man/man1 0755 root bin
+f none X11/share/man/man1/xorgcfg.1 0444 root bin

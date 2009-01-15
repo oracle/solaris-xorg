@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xf86-input-vmmouse 1.x Makefile
+# xf86-input-vmmouse Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,22 +30,33 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# ident "@(#)Makefile	1.3	09/01/15 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-MODULE_VERSION=12.4.1
+MODULE_VERSION=12.6.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = hal-configure-options.patch,-p1
+
+# Rebuild configure after patching configure.ac in hal-configure-options.patch
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
+
+# Extra flags to pass to configure script
+# - need to set install locations for HAL config file & probe util/script
+MODULE_CONFIG_OPTS= \
+	--with-hal-bin-dir=/usr/sbin \
+	--with-hal-callouts-dir=/usr/lib/hal \
+	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor \
+	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS=

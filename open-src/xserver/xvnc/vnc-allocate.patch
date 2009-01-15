@@ -1,0 +1,34 @@
+## Patch originally from Fedora - Revision 1.1 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-allocate.patch
+with paths adjusted to match sources in tarball before files are moved
+
+Remove use of ALLOCATE_LOCAL & DEALLOCATE_LOCAL macros removed from X headers
+
+diff -up vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc.allocate vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc
+--- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc.allocate	2008-02-25 16:38:37.000000000 +0100
++++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc	2008-02-25 16:54:48.000000000 +0100
+@@ -536,9 +536,9 @@ static void vfbInstallColormap(ColormapP
+     swapcopy32(pXWDHeader->bits_per_rgb, pVisual->bitsPerRGBValue);
+     swapcopy32(pXWDHeader->colormap_entries, pVisual->ColormapEntries);
+ 
+-    ppix = (Pixel *)ALLOCATE_LOCAL(entries * sizeof(Pixel));
+-    prgb = (xrgb *)ALLOCATE_LOCAL(entries * sizeof(xrgb));
+-    defs = (xColorItem *)ALLOCATE_LOCAL(entries * sizeof(xColorItem));
++    ppix = (Pixel *)xalloc(entries * sizeof(Pixel));
++    prgb = (xrgb *)xalloc(entries * sizeof(xrgb));
++    defs = (xColorItem *)xalloc(entries * sizeof(xColorItem));
+ 
+     for (i = 0; i < entries; i++)  ppix[i] = i;
+     /* XXX truecolor */
+@@ -553,9 +553,9 @@ static void vfbInstallColormap(ColormapP
+     }
+     (*pmap->pScreen->StoreColors)(pmap, entries, defs);
+ 
+-    DEALLOCATE_LOCAL(ppix);
+-    DEALLOCATE_LOCAL(prgb);
+-    DEALLOCATE_LOCAL(defs);
++    xfree(ppix);
++    xfree(prgb);
++    xfree(defs);
+   }
+ }

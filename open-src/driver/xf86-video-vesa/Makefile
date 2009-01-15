@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/08/08
+# @(#)Makefile	1.11	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-vesa
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=2.1.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = vesa_xorg72.patch copying.patch,-p1 randr-crash.patch,-p1
+SOURCE_PATCHES = vesa_xorg72.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -53,6 +53,6 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lshadow -lvbe -lxf1bpp -lxf4bpp
+	-lfb -lint10 -lpciaccess -lshadow -lvbe
 
 include ../Makefile.inc

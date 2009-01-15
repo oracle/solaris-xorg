@@ -562,10 +562,6 @@
 	__indirect_glGetVertexAttribivNV;
 	__indirect_glIsProgramNV;
 	__indirect_glLoadProgramNV;
-	__indirect_glProgramParameter4dNV;
-	__indirect_glProgramParameter4dvNV;
-	__indirect_glProgramParameter4fNV;
-	__indirect_glProgramParameter4fvNV;
 	__indirect_glProgramParameters4dvNV;
 	__indirect_glProgramParameters4fvNV;
 	__indirect_glRequestResidentProgramsNV;

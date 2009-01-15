@@ -1,4 +1,5 @@
-## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-nohttpd.patch
+## Patch originally from Fedora - Revision 1.1 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-nohttpd.patch
 ## Modified to make httpd service off by default and only offered via -httpd
 
 --- vnc-4_1_1-unixsrc/unix/vncserver.nohttpd	2005-08-08 15:51:09.000000000 +0100

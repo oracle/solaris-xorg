@@ -26,9 +26,10 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- src/Makefile.am	2007-01-10 19:12:16.281143000 -0800
-+++ src/Makefile.am	2007-01-10 19:24:44.193611000 -0800
-@@ -56,3 +56,42 @@
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2008-03-19 07:29:23.000000000 -0700
++++ src/Makefile.am	2009-01-10 19:15:45.025364000 -0800
+@@ -57,3 +57,42 @@ cirrus_laguna_la_SOURCES = \
           lg_i2c.c \
           lg_xaa.c \
           lg_xaa.h
@@ -47,16 +48,16 @@
 +cirrus_drv_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_alpine-external \
 +	-Wl,-M,mapfile-cirrus_laguna-external \
-+	-lint10 -lvgahw -lvbe
++	-lint10 -lpciaccess -lvgahw -lvbe
 +
 +cirrus_alpine_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lfb -lint10 -lshadowfb -lvgahw -lxaa \
++	-lfb -lint10 -lpciaccess -lshadowfb -lvgahw -lxaa \
 +	-lxf1bpp -lxf4bpp 
 +
 +cirrus_laguna_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lfb -lint10 -lvgahw -lxaa
++	-lfb -lint10 -lpciaccess -lvgahw -lxaa
 +
 +mapfiles: $(MAPFILES)
 +

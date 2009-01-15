@@ -1,0 +1,53 @@
+From f094c8bae6188f8d6ba0913dcf6a657363948813 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Mon, 24 Nov 2008 14:58:43 -0800
+Subject: [PATCH] Solaris: Make KDSETMODE failure non fatal, and retry it on interrupts
+
+---
+ hw/xfree86/os-support/solaris/sun_init.c |   14 ++++++++++----
+ 1 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/hw/xfree86/os-support/solaris/sun_init.c b/hw/xfree86/os-support/solaris/sun_init.c
+index b79814d..795b0c1 100644
+--- a/hw/xfree86/os-support/solaris/sun_init.c
++++ b/hw/xfree86/os-support/solaris/sun_init.c
+@@ -49,8 +49,9 @@ static char fb_dev[PATH_MAX] = "/dev/console";
+ void
+ xf86OpenConsole(void)
+ {
++    int i;
+ #ifdef HAS_USL_VTS
+-    int fd, i;
++    int fd;
+     struct vt_mode VT;
+     struct vt_stat vtinfo;
+     int FreeVTslot;
+@@ -173,9 +174,14 @@ xf86OpenConsole(void)
+ 	if (ioctl(xf86Info.consoleFd, VT_SETMODE, &VT) < 0)
+ 	    FatalError("xf86OpenConsole: VT_SETMODE VT_PROCESS failed\n");
+ #endif
++
+ #ifdef KDSETMODE
+-	if (ioctl(xf86Info.consoleFd, KDSETMODE, KD_GRAPHICS) < 0)
+-	    FatalError("xf86OpenConsole: KDSETMODE KD_GRAPHICS failed\n");
++	SYSCALL(i = ioctl(xf86Info.consoleFd, KDSETMODE, KD_GRAPHICS));
++	if (i < 0) {
++	    xf86Msg(X_WARNING,
++		    "xf86OpenConsole: KDSETMODE KD_GRAPHICS failed on %s (%s)\n",
++		    fb_dev, strerror(errno));
++	}
+ #endif
+     }
+     else /* serverGeneration != 1 */
+@@ -257,7 +263,7 @@ xf86CloseConsole(void)
+ 
+ #ifdef KDSETMODE
+     /* Reset the display back to text mode */
+-    ioctl(xf86Info.consoleFd, KDSETMODE, KD_TEXT);
++    SYSCALL(ioctl(xf86Info.consoleFd, KDSETMODE, KD_TEXT));
+ #endif
+ 
+ #ifdef HAS_USL_VTS
+-- 
+1.5.6.5
+

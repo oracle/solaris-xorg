@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.71	08/11/26
+# @(#)Makefile	1.72	09/01/14
 #
 
 # Build 32-bit or 64-bit?
@@ -52,14 +52,14 @@ SOURCE_PATCHES=$(XORG_SOURCE_PATCHES)
 # Man pages to apply Sun footer to & attributes to list
 # XXX: Need to adjust some of these to correct packages/stability
 SUNTOUCHED_MANPAGES= \
+	hw/kdrive/ephyr/Xephyr.man.pre \
 	hw/xfree86/utils/gtf/gtf.man.pre \
 	hw/xfree86/utils/cvt/cvt.man.pre \
-	hw/xfree86/utils/pcitweak/pcitweak.man.pre \
-	hw/xfree86/utils/scanpci/scanpci.man.pre \
 	hw/xfree86/utils/xorgcfg/xorgcfg.man.pre \
 	hw/xfree86/utils/xorgconfig/xorgconfig.man.pre \
 	hw/xfree86/doc/man/Xorg.man.pre \
-	hw/xfree86/doc/man/xorg.conf.man.pre 
+	hw/xfree86/doc/man/xorg.conf.man.pre \
+	hw/vfb/Xvfb.man.pre
 
 SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
@@ -75,14 +75,13 @@ MODULE_COMPILER_SET=yes
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
-BUILD_TARGETS=fix-xf1bpp $(XORGSERVER_BIN) set-elf-comments \
+BUILD_TARGETS=$(XORGSERVER_BIN) set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
 
 # Additional license files to install
 EXTRA_LICENSES = \
-	COPYING.Xprint-fonts \
-	COPYING.xorg-docs
+	COPYING.Xprint-fonts 
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -91,17 +90,14 @@ AUTORECONF=yes
 #  Need to override LD setting to add -xarch flags that libtool strips
 # XXX: --disable-dga
 MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
-        --enable-builddocs --enable-xorgcfg --enable-xprint \
+        --enable-builddocs --enable-xorgcfg --disable-xprint \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
 	MKFONTDIR="$(MKFONTDIR)" \
 	MKFONTSCALE="$(MKFONTSCALE)" \
 	LD="$(CC) $(ARCH_FLAGS)"
 
-# Need specific ordering of CPPFLAGS for Mesa headers for now
-USE_DEFAULT_CONFIG_CPPFLAGS=no
-MODULE_CPPFLAGS= \
-	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm \
-	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri
+# pkg-config files that need to have -R added
+FIX_PC_FILES=xorg-server.pc.in
 
 # Additional install targets beyond the defaults
 EXTRA_INSTALL_sparc=install_pc
@@ -112,18 +108,11 @@ include ../Makefile.inc
 
 # Merge in additional sources from sun-src directory
 source_gen:: $(LNDIR)
-	-$(RM) -f $(SOURCE_DIR)/hw/xfree86/scanpci/pci.ids \
-		$(SOURCE_DIR)/hw/xfree86/scanpci/xf86PciIds.h
-	(mkdir -p $(SOURCE_DIR)/GL/mesa/vbo)
-	(cp ./sun-src/mesa/Makefile.am $(SOURCE_DIR)/GL/mesa/vbo)
 	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 
-# Force broken xf1bpp sources in 1.3 to be regenerated
-fix-xf1bpp: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR)/hw/xfree86/xf1bpp && \
-	 $(MAKE) $(MAKEFLAGS) maintainer-clean-generic)
-
 $(XORGSERVER_BIN): default_build
+
+SDK_INCLUDES_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/xorg/
 
 install_extras: default_install
 	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
@@ -131,15 +120,23 @@ install_extras: default_install
 #ifdef _LP64\
 #define _XSERVER64 1\
 #endif%' \
-	    $(SOURCE_DIR)/include/xorg-server.h > $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xorg-server.h
-	cp -p $(SOURCE_DIR)/mi/mioverlay.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/mioverlay.h
-	cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(PROTODIR)$(X11_INCLUDES_DIR)/xorg/xf86Sbus.h
+	    $(SOURCE_DIR)/include/xorg-server.h > $(SDK_INCLUDES_DIR)/xorg-server.h
+	cp -p $(SOURCE_DIR)/mi/mioverlay.h $(SDK_INCLUDES_DIR)/mioverlay.h
+	cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(SDK_INCLUDES_DIR)/xf86Sbus.h
+	cp -p $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
+	-rm -f $(SDK_INCLUDES_DIR)/xf1bpp.h $(SDK_INCLUDES_DIR)/xf4bpp.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
+	mkdir -p $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor
+	cp -p $(SOURCE_DIR)/config/x11-input.fdi \
+	 $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor/10-x11-input.fdi
 
 # Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
-install_pc:
-	cp -p $(SOURCE_DIR)/xorg-server.pc $(PROTODIR)/usr/lib/pkgconfig/
+install_pc: install_pkgconfig_uninstalled
+	cp -pf $(PROTODIR)$(PKGCONFIG_DIR_64)/xorg-server.pc \
+		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server.pc
+	cp -pf $(PROTODIR)$(PKGCONFIG_DIR_64)/xorg-server-uninstalled.pc \
+		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server-uninstalled.pc
 
 $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@

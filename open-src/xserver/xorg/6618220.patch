@@ -1,6 +1,7 @@
---- hw/xfree86/common/xf86RandR.c	Fri Jan 18 17:29:10 2008
-+++ hw/xfree86/common/xf86RandR.c	Fri Feb  1 13:13:42 2008
-@@ -71,7 +71,7 @@
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86RandR.c hw/xfree86/common/xf86RandR.c
+--- hw/xfree86/common/xf86RandR.c	2008-09-24 20:24:55.563464000 -0700
++++ hw/xfree86/common/xf86RandR.c	2008-09-24 20:25:14.259832000 -0700
+@@ -72,7 +72,7 @@ xf86RandRGetInfo (ScreenPtr pScreen, Rot
  
      *rotations = RR_Rotate_0;
  

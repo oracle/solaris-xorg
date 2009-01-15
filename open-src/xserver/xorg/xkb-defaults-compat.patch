@@ -1,0 +1,24 @@
+Provide old #define for code not yet converted to the new ones set in
+xkb-defaults.patch (like the xorgcfg & xorgconfig code that isn't in 1.6).
+
+--- include/xkb-config.h.in	Sun Jan 11 20:09:47 2009
++++ include/xkb-config.h.in	Mon Jan 12 08:48:16 2009
+@@ -7,6 +7,7 @@
+ 
+ /* Default set of XKB rules. */
+ #undef XKB_DFLT_RULES
++#define __XKBDEFRULES__ XKB_DFLT_RULES
+ 
+ /* Default XKB model. */
+ #undef XKB_DFLT_MODEL
+
+--- include/xorg-server.h.in	Wed Nov  5 08:52:17 2008
++++ include/xorg-server.h.in	Mon Jan 12 20:37:24 2009
+@@ -135,6 +135,7 @@
+ 
+ /* XKB default rules */
+ #undef XKB_DFLT_RULES
++#define __XKBDEFRULES__ XKB_DFLT_RULES
+ 
+ /* Build XKB support in server */
+ #undef XKB_IN_SERVER

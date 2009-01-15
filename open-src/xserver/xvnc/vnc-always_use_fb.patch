@@ -1,4 +1,5 @@
-## Patch originally from Fedora vnc-4.1.2-21.fc8 RPM - vnc-always_use_fb.patch
+## Patch originally from Fedora - Revision 1.2 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-always_use_fb.patch
 
 --- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc.always_use_fb	2007-03-05 14:03:21.000000000 +0100
 +++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc	2007-03-05 14:10:57.000000000 +0100

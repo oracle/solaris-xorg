@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)iamodule.c	1.3	07/01/18"
+#pragma ident "@(#)iamodule.c	1.4	09/01/14"
 
 #ifdef HAVE_XORG_CONFIG_H
 #include <xorg-config.h>
@@ -41,8 +41,9 @@
 static MODULESETUPPROTO(IASetup);
 
 extern void IAExtensionInit(void);
+extern int IADebugLevel;
 
-ExtensionModule IAExt =
+static ExtensionModule IAExt =
 {
     IAExtensionInit,
     IANAME,
@@ -65,7 +66,7 @@ static XF86ModuleVersionInfo VersRec =
         {0,0,0,0}
 };
 
-XF86ModuleData IAModuleData = { &VersRec, IASetup, NULL };
+_X_EXPORT XF86ModuleData iaModuleData = { &VersRec, IASetup, NULL };
 
 static pointer
 IASetup(pointer module, pointer opts, int *errmaj, int *errmin)
@@ -73,7 +74,6 @@ IASetup(pointer module, pointer opts, int *errmaj, int *errmin)
     if (opts) {
 	pointer o = xf86FindOption(opts, "IADebugLevel");
 	if (o) {
-	    extern int IADebugLevel;
 	    IADebugLevel = xf86SetIntOption(opts, "IADebugLevel", 0);
 	}
     }

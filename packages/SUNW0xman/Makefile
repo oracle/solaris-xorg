@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile	1.3    07/01/31 SMI"
+# ident "@(#)Makefile	1.4    09/01/14 SMI"
 #
 
 SOURCEDIR=../../packages
@@ -36,15 +36,21 @@ PROTO_SOURCES = \
 	$(SOURCEDIR)/SUNWxwman/prototype_com			\
 	$(SOURCEDIR)/SUNWxwman/prototype_i386			\
 	$(SOURCEDIR)/SUNWfontconfig-docs/prototype 		\
+	$(SOURCEDIR)/SUNWpciaccess/prototype	 		\
+	$(SOURCEDIR)/SUNWvncviewer/prototype	 		\
+	$(SOURCEDIR)/SUNWxvnc/prototype_com	 		\
 	$(SOURCEDIR)/SUNWxwsvr/prototype			\
-	$(SOURCEDIR)/SUNWxorg-doc/prototype_com			\
+	$(SOURCEDIR)/SUNWxorg-graphics-ddx/prototype_com	\
+	$(SOURCEDIR)/SUNWxorg-server/prototype_com		\
 	$(SOURCEDIR)/SUNWxorg-client-docs/prototype		\
 	$(SOURCEDIR)/SUNWxscreensaver-hacks/prototype		\
 	$(SOURCEDIR)/SUNWxscreensaver-hacks-gl/prototype_com
 
-#	$(SOURCEDIR)/SUNWxorg-doc/prototype_i386		\
-#	$(SOURCEDIR)/SUNWxorg-doc/prototype_sparc		\
-
+# Don't include platform-specific man pages for now, since it will
+# break builds on the other platform:
+#	$(SOURCEDIR)/SUNWxorg-graphics-ddx/prototype_sparc	\
+#	$(SOURCEDIR)/SUNWxorg-graphics-ddx/prototype_i386	\
+#	$(SOURCEDIR)/SUNWxorg-server/prototype_i386		\
 
 all: prototype
 

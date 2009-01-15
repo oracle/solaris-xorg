@@ -1,0 +1,41 @@
+From 2525d8703f6948f3fa4879fd8483a964cb06faf8 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 18 Nov 2008 19:54:42 -0800
+Subject: [PATCH] Fill in byte swapping routines for big-endian Solaris machines
+
+---
+ src/common_interface.c |   18 ++++++++++++++----
+ 1 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/src/common_interface.c b/src/common_interface.c
+index 0cdf25d..8808fdf 100644
+--- a/src/common_interface.c
++++ b/src/common_interface.c
+@@ -52,10 +52,20 @@
+ #endif /* linux */
+ 
+ #elif defined(__sun)
+-#define	LETOH_16(x)	(x)
+-#define	HTOLE_16(x)	(x)
+-#define	LETOH_32(x)	(x)
+-#define	HTOLE_32(x)	(x)
++
++#include <sys/byteorder.h>
++
++#ifdef _BIG_ENDIAN
++# define LETOH_16(x)   BSWAP_16(x)
++# define HTOLE_16(x)   BSWAP_16(x)
++# define LETOH_32(x)   BSWAP_32(x)
++# define HTOLE_32(x)   BSWAP_32(x)
++#else
++# define LETOH_16(x)   (x)
++# define HTOLE_16(x)   (x)
++# define LETOH_32(x)   (x)
++# define HTOLE_32(x)   (x)
++#endif /* Solaris */
+ 
+ #else
+ 
+-- 
+1.5.6.5
+

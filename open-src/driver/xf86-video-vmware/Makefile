@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	08/08/08
+# @(#)Makefile	1.10	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=10.15.2
+MODULE_VERSION=10.16.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6370961.patch
@@ -53,6 +53,6 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lshadowfb -lvgahw
+	-lfb -lshadowfb -lvgahw -lpciaccess
 
 include ../Makefile.inc

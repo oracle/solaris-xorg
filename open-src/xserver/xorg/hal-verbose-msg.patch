@@ -1,0 +1,27 @@
+From b4ca9dc2393ace2415163094b916f0d17ecba9ee Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 5 Nov 2008 21:58:04 -0800
+Subject: [PATCH] When HAL returns a NULL property, print "(null)" instead of a NULL pointer
+
+They've promised to fix Solaris printf soon to check for NULL pointers
+instead of segfaulting, but that won't help people on existing releases.
+---
+ config/hal.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/config/hal.c b/config/hal.c
+index c29a573..8dfbb07 100644
+--- a/config/hal.c
++++ b/config/hal.c
+@@ -120,7 +120,7 @@ get_prop_string(LibHalContext *hal_ctx, 
+     char *prop, *ret;
+ 
+     prop = libhal_device_get_property_string(hal_ctx, udi, name, NULL);
+-    LogMessageVerb(X_INFO, 10, "config/hal: getting %s on %s returned %s\n", name, udi, prop);
++    LogMessageVerb(X_INFO, 10, "config/hal: getting %s on %s returned %s\n", name, udi, prop ? prop : "(null)");
+     if (prop) {
+         ret = xstrdup(prop);
+         libhal_free_string(prop);
+-- 
+1.4.1
+

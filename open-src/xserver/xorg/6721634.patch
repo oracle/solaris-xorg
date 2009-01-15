@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2008-08-27 10:35:08.374335000 -0400
-+++ hw/xfree86/common/xf86AutoConfig.c	2008-08-27 10:28:59.856790000 -0400
-@@ -67,6 +67,18 @@
+--- hw/xfree86/common/xf86AutoConfig.c	2008-09-24 20:25:58.727068000 -0700
++++ hw/xfree86/common/xf86AutoConfig.c	2008-09-24 20:26:14.062161000 -0700
+@@ -56,6 +56,18 @@
  	"\tIdentifier\t" BUILTIN_DEVICE_NAME "\n" \
  	"\tDriver\t\"%s\"\n"
  
@@ -48,7 +48,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/comm
  #define BUILTIN_DEVICE_SECTION_POST \
  	"EndSection\n\n"
  
-@@ -74,6 +86,13 @@
+@@ -63,6 +75,13 @@
  	BUILTIN_DEVICE_SECTION_PRE \
  	BUILTIN_DEVICE_SECTION_POST
  
@@ -59,39 +59,21 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/comm
 +	BUILTIN_DEVICE_SECTION_POST
 +#endif
 +
- #define BUILTIN_MONITOR_NAME \
- 	"\"Builtin Default Monitor\""
+ #define BUILTIN_SCREEN_NAME \
+ 	"\"Builtin Default %s Screen %d\""
  
-@@ -242,6 +261,10 @@
- 	= { detectedDeviceList, fallbackDeviceList, NULL };
-     const char **p = detectedDeviceList;
-     const char ***d;
+@@ -224,6 +243,14 @@ xf86AutoConfig(void)
+     listPossibleVideoDrivers(deviceList, 20);
+ 
+     for (p = deviceList; *p; p++) {
 +#ifdef sun
-+    const char *nvidia_string = "nvidia";
-+    const char *nvidia_opt_no_logo = "\tOption \"NoLogo\" \"True\"\n";
++	const char *nvidia_string = "nvidia";
++	const char *nvidia_opt_no_logo = "\tOption \"NoLogo\" \"True\"\n";
++	if (!strncmp(*p, nvidia_string, sizeof(nvidia_string)))
++	    snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION_OPT,
++		     *p, 0, *p, nvidia_opt_no_logo);
++	else
 +#endif
-     char buf[1024];
-     pciVideoPtr *pciptr, info = NULL;
-     ConfigStatus ret;
-@@ -260,7 +283,7 @@
- 
- 	    /* Special case from before the general case was set */
- 	    if (strcmp(visid.name, "NVDAnvda") == 0) {
--		detectedDeviceList[ddi++] = "nvidia";
-+		detectedDeviceList[ddi++] = nvidia_string;
- 	    }
- 
- 	    /* General case - split into vendor name & driver name */
-@@ -306,6 +329,12 @@
-     for (d = deviceLists; *d ; d++) {
- 	for (p = *d; *p; p++) {
- 	    ErrorF(" \"%s\"", *p);
-+#ifdef sun
-+	    if (!strncmp(*p, nvidia_string, sizeof(nvidia_string)))
-+	        snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION_OPT,
-+	            *p, 0, *p, nvidia_opt_no_logo);
-+	    else
-+#endif
- 	    snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
- 	    AppendToConfig(buf);
- 	    snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);
+ 	snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
+ 	AppendToConfig(buf);
+ 	snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);

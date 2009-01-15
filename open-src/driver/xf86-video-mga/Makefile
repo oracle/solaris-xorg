@@ -2,7 +2,7 @@
 #
 # xf86-video-mga Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	08/08/08
+# @(#)Makefile	1.12	09/01/14
 #
 
 # Package name used in tarballs
@@ -47,6 +47,10 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
+# Extra flags to pass to configure script
+# - Disable DRI since the kernel module isn't ported
+MODULE_CONFIG_OPTS=--disable-dri
+
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
@@ -55,7 +59,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lshadowfb -lvbe \
+	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe \
 	-lvgahw -lxaa -lxf8_32bpp -lcfb -lmfb -lfbdevhw
 
 AUTORECONF=yes

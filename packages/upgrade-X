@@ -2,9 +2,9 @@
 
 ###
 #
-# @(#)upgrade-X	1.44 08/10/30
+# @(#)upgrade-X	1.45 09/01/14
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -178,7 +178,6 @@ pkg_list="
 	SUNWxorg-clientlibs
 	SUNWxorg-compatlinks
 	SUNWxorg-devel-docs
-	SUNWxorg-doc
 	SUNWxorg-graphics-ddx
 	SUNWxorg-headers
 	SUNWxorg-server
@@ -261,6 +260,10 @@ REM_PKGS+=" SUNWxwsrc"
 
 # snv_98: 6741034 Merge SUNWi1of into SUNWxwfnt
 REM_PKGS+=" SUNWi1of"
+
+# snv_107: 
+# Merged SUNWxorg-doc into SUNWxorg-server & SUNWxorg-graphics-ddx
+REM_PKGS+=" SUNWxorg-doc"
 
 # Various compatibility links in SUNWxorg-server have been replaced with
 # files in other packages, so we need to remove SUNWxorg-server first

@@ -34,21 +34,20 @@ zones from the global zone. A link is created from /tmp/.X11-unix
 to the above loopback mounted dir.
 (See LSARC/2008/506)
 
-diff -urp -x '*~' Xtranssock.c Xtranssock.c
---- Xtranssock.c	2008-09-18 14:32:55
-+++ Xtransock.c		2008-09-18 14:35:26
-@@ -83,6 +83,10 @@
+diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
+--- Xtranssock.c	2008-10-07 09:15:45.707795000 -0700
++++ Xtranssock.c	2008-10-07 09:15:46.001995000 -0700
+@@ -74,6 +74,9 @@ from the copyright holders.
  #include <sys/stat.h>
  #endif
  
 +#if defined(X11_t)
 +#include <tsol/label.h>
 +#endif /* X11_t */
-+
- #if defined(hpux) || (defined(MOTOROLA) && defined(SYSV))
- #define NO_TCP_H
- #endif 
-@@ -252,6 +256,7 @@
+ 
+ #ifndef NO_TCP_H
+ #if defined(linux) || defined(__GLIBC__) 
+@@ -192,6 +195,7 @@ static int TRANS(SocketINETClose) (Xtran
  #if defined(X11_t)
  #define UNIX_PATH "/tmp/.X11-unix/X"
  #define UNIX_DIR "/tmp/.X11-unix"
@@ -56,7 +55,7 @@ diff -urp -x '*~' Xtranssock.c Xtranssock.c
  #endif /* X11_t */
  #if defined(XIM_t)
  #define UNIX_PATH "/tmp/.XIM-unix/XIM"
-@@ -1094,6 +1099,29 @@
+@@ -1093,6 +1097,29 @@ TRANS(SocketUNIXCreateListener) (XtransC
  #else
      mode = 0777;
  #endif
@@ -65,7 +64,7 @@ diff -urp -x '*~' Xtranssock.c Xtranssock.c
 +    if (is_system_labeled()) {
 +	struct stat sbuf;
 +
-+        if (trans_mkdir(TSOL_UNIX_DIR, mode) == -1) {
++        if (!abstract && trans_mkdir(TSOL_UNIX_DIR, mode) == -1) {
 +	    PRMSG (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
 +	       TSOL_UNIX_DIR, errno, 0);
 +	    (void) umask (oldUmask);
@@ -83,10 +82,10 @@ diff -urp -x '*~' Xtranssock.c Xtranssock.c
 +
 +    } else 
 +#endif /* X11_t */
-     if (trans_mkdir(UNIX_DIR, mode) == -1) {
+     if (!abstract && trans_mkdir(UNIX_DIR, mode) == -1) {
  	PRMSG (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
  	       UNIX_DIR, errno, 0);
-@@ -1992,10 +2020,28 @@
+@@ -1996,10 +2023,28 @@ TRANS(SocketUNIXConnect) (XtransConnInfo
  	return TRANS_CONNECT_FAILED;
      }
  
@@ -115,4 +114,4 @@ diff -urp -x '*~' Xtranssock.c Xtranssock.c
 +
      sockname.sun_family = AF_UNIX;
  
-     if (set_sun_path(port, UNIX_PATH, sockname.sun_path) != 0) {
+     if (set_sun_path(port, UNIX_PATH, sockname.sun_path, abstract) != 0) {

@@ -226,6 +226,10 @@ MODULE_CPPFLAGS
  - C preprocessor flags (-I & -D) passed to configure via CPPFLAGS 
    variable by default_config rule.
 
+MODULE_DEBUG_FLAGS
+ - C Compiler flags passed to configure via CFLAGS variable by
+   default_config rule when building debug versions (such as via "make debug")
+
 MODULE_LDFLAGS
  - Linker flags passed to configure via LDFLAGS variable by default_config
    rule.
@@ -401,6 +405,7 @@ Optional, default is empty:
 	- MODTYPE_CFLAGS
 	- MODTYPE_CXXFLAGS
 	- MODTYPE_CPPFLAGS
+	- MODTYPE_DEBUG_FLAGS
 	- MODTYPE_LDFLAGS
 	- MODTYPE_LD_OPTIONS
 	- MODTYPE_BUILD_ENV
@@ -508,7 +513,7 @@ Things we should fix someday, but haven't had time to do yet, include:
 
 =============================================================================
 
-Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 Use subject to license terms.
 
 Permission is hereby granted, free of charge, to any person obtaining a

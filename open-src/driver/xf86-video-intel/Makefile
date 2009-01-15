@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,26 +30,30 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.19	08/11/04
+# @(#)Makefile	1.20	09/01/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.0
+MODULE_VERSION=2.4.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
 		6538497_6554161.patch 845_workaround.patch \
-		eaglelake-support.patch 6767351.patch
+		Add-support-for-G41-chipset.patch,-p1 \
+		Fix-broken-stolen-memory-counting-on-G4X.patch,-p1 \
+		Render-register-clock-gating-disable-fix-on-4-series.patch,-p1 \
+		Do-force-CRT-detect-sequence-twice-on-4-series-chips.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
-MODULE_CONFIG_OPTS=--with-xorg-sdk-dir=$(PROTODIR)/usr/X11/include/xorg
+# Extra flags to pass to configure script
+MODULE_CONFIG_OPTS=--enable-dri
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \

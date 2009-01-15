@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.4     07/07/20 SMI"
+# ident "@(#)prototype_sparc 1.5     09/01/14 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -41,3 +41,6 @@ i depend=depend_sparc
 
 !search $HOME/lib/modules/drivers
 f none X11/lib/modules/drivers/wsfb_drv.so 0755 root bin
+
+!search $HOME/share/man/man7
+f none X11/share/man/man7/wsfb.7 0444 root bin

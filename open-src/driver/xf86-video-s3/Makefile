@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/08/08
+# @(#)Makefile	1.8	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-s3
 
 # Version number (used in path names)
-MODULE_VERSION=0.5.0
+MODULE_VERSION=0.6.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = newmmio.patch,-p1
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
@@ -51,6 +51,6 @@ MODULE_STABILITY=Volatile
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lvbe -lvgahw -lxaa
+	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa
 
 include ../Makefile.inc

@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# @(#)Makefile	1.6	09/01/10
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-ark
 
 # Version number (used in path names)
-MODULE_VERSION=0.6.0
+MODULE_VERSION=0.7.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -51,6 +51,7 @@ MODULE_STABILITY=Volatile
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lvgahw -lxaa
+	-lfb -lvgahw -lxaa \
+	-L$(PROTODIR)/usr/lib -lpciaccess
 
 include ../Makefile.inc

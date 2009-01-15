@@ -1,0 +1,694 @@
+## Patch originally from Fedora - Revision 1.1 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-mieq.patch
+with paths adjusted to match sources in tarball before files are moved
+
+diff -up vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc.mieq vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc
+--- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc.mieq	2006-05-15 18:56:20.000000000 +0200
++++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/XserverDesktop.cc	2008-03-05 12:25:06.000000000 +0100
+@@ -50,12 +50,20 @@ extern char *display;
+ #include "resource.h"
+ #include "cursorstr.h"
+ #include "windowstr.h"
++#include "mi/mi.h"
+ #define XK_CYRILLIC
+ #include "keysym.h"
+ #undef public
+ #undef class
+ }
+ 
++static xEvent *eventq = NULL;
++static DeviceIntPtr vncKeyboard = NULL;
++static DeviceIntPtr vncMouse = NULL;
++
++static int vfbKeybdProc (DeviceIntPtr pDev, int onoff);
++static int vfbMouseProc (DeviceIntPtr pDev, int onoff);
++
+ using namespace rfb;
+ using namespace network;
+ 
+@@ -202,6 +210,21 @@ XserverDesktop::XserverDesktop(ScreenPtr
+ 
+   if (httpListener)
+     httpServer = new FileHTTPServer(this);
++
++// XXX Memory leak here, eventq is not free()-d because it has to exist till server exits
++  if (!eventq)
++    eventq = (xEvent *) xcalloc(sizeof(xEvent), GetMaximumEventsNum());
++  if (!eventq)
++    FatalError("couldn't allocate room for events\n");
++
++  if (vncMouse == NULL) {
++    vncMouse = AddInputDevice(vfbMouseProc, TRUE);
++    RegisterPointerDevice (vncMouse);
++  }
++  if (vncKeyboard == NULL) {
++    vncKeyboard = AddInputDevice(vfbKeybdProc, TRUE);
++    RegisterKeyboardDevice (vncKeyboard);
++  }
+ }
+ 
+ XserverDesktop::~XserverDesktop()
+@@ -495,7 +518,7 @@ void XserverDesktop::positionCursor()
+ {
+   if (!cursorPos.equals(oldCursorPos)) {
+     oldCursorPos = cursorPos;
+-    (*pScreen->SetCursorPosition) (pScreen, cursorPos.x, cursorPos.y, FALSE);
++//    (*pScreen->SetCursorPosition) (pScreen, cursorPos.x, cursorPos.y, FALSE);
+     server->setCursorPos(cursorPos);
+     server->tryUpdate();
+   }
+@@ -660,8 +683,8 @@ void XserverDesktop::approveConnection(v
+ 
+ void XserverDesktop::pointerEvent(const Point& pos, int buttonMask)
+ {
+-  xEvent ev;
+-  DevicePtr dev = LookupPointerDevice();
++  BYTE detail;
++  int i, j, n, valuators[2];
+ 
+   // SetCursorPosition seems to be very expensive (at least on XFree86 3.3.6
+   // for S3), so we delay calling it until positionCursor() is called at the
+@@ -670,14 +693,14 @@ void XserverDesktop::pointerEvent(const 
+ 
+   NewCurrentScreen(pScreen, pos.x, pos.y);
+ 
+-  ev.u.u.type = MotionNotify;
+-  ev.u.u.detail = 0;
+-  ev.u.keyButtonPointer.rootX = pos.x;
+-  ev.u.keyButtonPointer.rootY = pos.y;
+-  ev.u.keyButtonPointer.time = GetTimeInMillis();
+-
+-  if (!pos.equals(cursorPos))
+-    (*dev->processInputProc)(&ev, (DeviceIntPtr)dev, 1);
++  if (!pos.equals(cursorPos)) {
++    valuators[0] = pos.x;
++    valuators[1] = pos.y;
++    n = GetPointerEvents (eventq, vncMouse, MotionNotify, 0,
++                          POINTER_ABSOLUTE, 0, 2, valuators);
++    for (i = 0; i < n; i++)
++      mieqEnqueue (vncMouse, eventq + i);
++  }
+ 
+   for (int i = 0; i < 5; i++) {
+     if ((buttonMask ^ oldButtonMask) & (1<<i)) {
+@@ -685,12 +708,15 @@ void XserverDesktop::pointerEvent(const 
+       // God knows why but some idiot decided to conditionally move the pointer
+       // mapping out of DIX, so we guess here that if XINPUT is defined we have
+       // to do it ourselves...
+-      ev.u.u.detail = ((DeviceIntPtr)dev)->button->map[i + 1];
++      detail = vncMouse->button->map[i + 1];
+ #else
+-      ev.u.u.detail = i + 1;
++      detail = i + 1;
+ #endif
+-      ev.u.u.type = (buttonMask & (1<<i)) ? ButtonPress : ButtonRelease;
+-      (*dev->processInputProc)(&ev, (DeviceIntPtr)dev, 1);
++      n = GetPointerEvents (eventq, vncMouse, (buttonMask & (1<<i)) ?
++                                      ButtonPress : ButtonRelease,
++                            detail, POINTER_RELATIVE, 0, 0, NULL);
++      for (j = 0; j < n; j++)
++        mieqEnqueue (vncMouse, eventq + j);
+     }
+   }
+ 
+@@ -771,8 +797,8 @@ void XserverDesktop::lookup(int index, i
+ 
+ class ModifierState {
+ public:
+-  ModifierState(DeviceIntPtr dev_, int modIndex_)
+-    : dev(dev_), modIndex(modIndex_), nKeys(0), keys(0), pressed(false)
++  ModifierState(int modIndex_)
++    : modIndex(modIndex_), nKeys(0), keys(0), pressed(false)
+   {
+   }
+   ~ModifierState() {
+@@ -781,7 +807,7 @@ public:
+     delete [] keys;
+   }
+   void press() {
+-    KeyClassPtr keyc = dev->key;
++    KeyClassPtr keyc = vncKeyboard->key;
+     if (!(keyc->state & (1<<modIndex))) {
+       tempKeyEvent(keyc->modifierKeyMap[modIndex * keyc->maxKeysPerModifier],
+                    true);
+@@ -789,7 +815,7 @@ public:
+     }
+   }
+   void release() {
+-    KeyClassPtr keyc = dev->key;
++    KeyClassPtr keyc = vncKeyboard->key;
+     if (keyc->state & (1<<modIndex)) {
+       for (int k = 0; k < keyc->maxKeysPerModifier; k++) {
+         int keycode
+@@ -802,20 +828,19 @@ public:
+ private:
+   void tempKeyEvent(int keycode, bool down) {
+     if (keycode) {
+-      if (!keys) keys = new int[dev->key->maxKeysPerModifier];
++      if (!keys) keys = new int[vncKeyboard->key->maxKeysPerModifier];
+       keys[nKeys++] = keycode;
+       generateXKeyEvent(keycode, down);
+     }
+   }
+   void generateXKeyEvent(int keycode, bool down) {
+-    xEvent ev;
+-    ev.u.u.type = down ? KeyPress : KeyRelease;
+-    ev.u.u.detail = keycode;
+-    ev.u.keyButtonPointer.time = GetTimeInMillis();
+-    (*dev->c_public.processInputProc)(&ev, dev, 1);
++    int i, n;
++    n = GetKeyboardEvents (eventq, vncKeyboard,
++                           down ? KeyPress : KeyRelease, keycode);
++    for (i = 0; i < n; i++)
++      mieqEnqueue (vncKeyboard, eventq + i);
+     vlog.debug("fake keycode %d %s", keycode, down ? "down" : "up");
+   }
+-  DeviceIntPtr dev;
+   int modIndex;
+   int nKeys;
+   int* keys;
+@@ -888,16 +913,16 @@ void XserverDesktop::keyEvent(rdr::U32 k
+     vlog.debug("Ignoring caps lock");
+     return;
+   }
+-  DeviceIntPtr dev = (DeviceIntPtr)LookupKeyboardDevice();
+-  KeyClassPtr keyc = dev->key;
++  KeyClassPtr keyc = vncKeyboard->key;
+   KeySymsPtr keymap = &keyc->curKeySyms;
++  int i, j, k, n;
+ 
+   // find which modifier Mode_switch is on.
+   int modeSwitchMapIndex = 0;
+-  for (int i = 3; i < 8; i++) {
+-    for (int k = 0; k < keyc->maxKeysPerModifier; k++) {
++  for (i = 3; i < 8; i++) {
++    for (k = 0; k < keyc->maxKeysPerModifier; k++) {
+       int keycode = keyc->modifierKeyMap[i * keyc->maxKeysPerModifier + k];
+-      for (int j = 0; j < keymap->mapWidth; j++) {
++      for (j = 0; j < keymap->mapWidth; j++) {
+         if (keycode != 0 &&
+             keymap->map[(keycode - keymap->minKeyCode)
+                         * keymap->mapWidth + j] == XK_Mode_switch)
+@@ -926,7 +951,7 @@ void XserverDesktop::keyEvent(rdr::U32 k
+   if (kc == 0) {
+     // Not a direct match in the local keyboard mapping.  Check for alternative
+     // keysyms with the same meaning.
+-    for (int i = 0; i < sizeof(altKeysym) / sizeof(altKeysym_t); i++) {
++    for (i = 0; i < sizeof(altKeysym) / sizeof(altKeysym_t); i++) {
+       if (keysym == altKeysym[i].a)
+         kc = KeysymToKeycode(keymap, altKeysym[i].b, &col);
+       else if (keysym == altKeysym[i].b)
+@@ -954,16 +979,16 @@ void XserverDesktop::keyEvent(rdr::U32 k
+ 
+   // See if it's a modifier key.  If so, then don't do any auto-repeat, because
+   // the X server will translate each press into a release followed by a press.
+-  for (int i = 0; i < 8; i++) {
+-    for (int k = 0; k < keyc->maxKeysPerModifier; k++) {
++  for (i = 0; i < 8; i++) {
++    for (k = 0; k < keyc->maxKeysPerModifier; k++) {
+       if (kc == keyc->modifierKeyMap[i * keyc->maxKeysPerModifier + k] &&
+           IS_PRESSED(keyc,kc) && down)
+         return;
+     }
+   }
+ 
+-  ModifierState shift(dev, ShiftMapIndex);
+-  ModifierState modeSwitch(dev, modeSwitchMapIndex);
++  ModifierState shift(ShiftMapIndex);
++  ModifierState modeSwitch(modeSwitchMapIndex);
+   if (down) {
+     if (col & 1)
+       shift.press();
+@@ -977,11 +1002,10 @@ void XserverDesktop::keyEvent(rdr::U32 k
+     }
+   }
+   vlog.debug("keycode %d %s", kc, down ? "down" : "up");
+-  xEvent ev;
+-  ev.u.u.type = down ? KeyPress : KeyRelease;
+-  ev.u.u.detail = kc;
+-  ev.u.keyButtonPointer.time = GetTimeInMillis();
+-  (*dev->c_public.processInputProc)(&ev, dev, 1);
++  n = GetKeyboardEvents (eventq, vncKeyboard, down ? KeyPress : KeyRelease,
++                         kc);
++  for (i = 0; i < n; i++)
++    mieqEnqueue (vncKeyboard, eventq + i);
+ }
+ 
+ 
+@@ -1150,3 +1174,208 @@ static KeyCode KeysymToKeycode(KeySymsPt
+   }
+   return 0;
+ }
++
++void vncRingBell(int percent, int pitch, int duration)
++{
++  if (percent > 0)
++    vncBell();
++}
++
++/* Fairly standard US PC Keyboard */
++
++#define VFB_MIN_KEY 8
++#define VFB_MAX_KEY 255
++#define VFB_MAP_LEN (VFB_MAX_KEY - VFB_MIN_KEY + 1)
++#define KEYSYMS_PER_KEY 2
++KeySym keyboardMap[VFB_MAP_LEN * KEYSYMS_PER_KEY] = {
++  NoSymbol, NoSymbol,
++  XK_Escape, NoSymbol,
++  XK_1, XK_exclam,
++  XK_2, XK_at,
++  XK_3, XK_numbersign,
++  XK_4, XK_dollar,
++  XK_5, XK_percent,
++  XK_6, XK_asciicircum,
++  XK_7, XK_ampersand,
++  XK_8, XK_asterisk,
++  XK_9, XK_parenleft,
++  XK_0, XK_parenright,
++  XK_minus, XK_underscore,
++  XK_equal, XK_plus,
++  XK_BackSpace, NoSymbol,
++  XK_Tab, NoSymbol,
++  XK_q, XK_Q,
++  XK_w, XK_W,
++  XK_e, XK_E,
++  XK_r, XK_R,
++  XK_t, XK_T,
++  XK_y, XK_Y,
++  XK_u, XK_U,
++  XK_i, XK_I,
++  XK_o, XK_O,
++  XK_p, XK_P,
++  XK_bracketleft, XK_braceleft,
++  XK_bracketright, XK_braceright,
++  XK_Return, NoSymbol,
++  XK_Control_L, NoSymbol,
++  XK_a, XK_A,
++  XK_s, XK_S,
++  XK_d, XK_D,
++  XK_f, XK_F,
++  XK_g, XK_G,
++  XK_h, XK_H,
++  XK_j, XK_J,
++  XK_k, XK_K,
++  XK_l, XK_L,
++  XK_semicolon, XK_colon,
++  XK_apostrophe, XK_quotedbl,
++  XK_grave, XK_asciitilde,
++  XK_Shift_L, NoSymbol,
++  XK_backslash, XK_bar,
++  XK_z, XK_Z,
++  XK_x, XK_X,
++  XK_c, XK_C,
++  XK_v, XK_V,
++  XK_b, XK_B,
++  XK_n, XK_N,
++  XK_m, XK_M,
++  XK_comma, XK_less,
++  XK_period, XK_greater,
++  XK_slash, XK_question,
++  XK_Shift_R, NoSymbol,
++  XK_KP_Multiply, NoSymbol,
++  XK_Alt_L, XK_Meta_L,
++  XK_space, NoSymbol,
++  /*XK_Caps_Lock*/ NoSymbol, NoSymbol,
++  XK_F1, NoSymbol,
++  XK_F2, NoSymbol,
++  XK_F3, NoSymbol,
++  XK_F4, NoSymbol,
++  XK_F5, NoSymbol,
++  XK_F6, NoSymbol,
++  XK_F7, NoSymbol,
++  XK_F8, NoSymbol,
++  XK_F9, NoSymbol,
++  XK_F10, NoSymbol,
++  XK_Num_Lock, XK_Pointer_EnableKeys,
++  XK_Scroll_Lock, NoSymbol,
++  XK_KP_Home, XK_KP_7,
++  XK_KP_Up, XK_KP_8,
++  XK_KP_Prior, XK_KP_9,
++  XK_KP_Subtract, NoSymbol,
++  XK_KP_Left, XK_KP_4,
++  XK_KP_Begin, XK_KP_5,
++  XK_KP_Right, XK_KP_6,
++  XK_KP_Add, NoSymbol,
++  XK_KP_End, XK_KP_1,
++  XK_KP_Down, XK_KP_2,
++  XK_KP_Next, XK_KP_3,
++  XK_KP_Insert, XK_KP_0,
++  XK_KP_Delete, XK_KP_Decimal,
++  NoSymbol, NoSymbol,
++  NoSymbol, NoSymbol,
++  NoSymbol, NoSymbol,
++  XK_F11, NoSymbol,
++  XK_F12, NoSymbol,
++  XK_Home, NoSymbol,
++  XK_Up, NoSymbol,
++  XK_Prior, NoSymbol,
++  XK_Left, NoSymbol,
++  NoSymbol, NoSymbol,
++  XK_Right, NoSymbol,
++  XK_End, NoSymbol,
++  XK_Down, NoSymbol,
++  XK_Next, NoSymbol,
++  XK_Insert, NoSymbol,
++  XK_Delete, NoSymbol,
++  XK_KP_Enter, NoSymbol,
++  XK_Control_R, NoSymbol,
++  XK_Pause, XK_Break,
++  XK_Print, XK_Execute,
++  XK_KP_Divide, NoSymbol,
++  XK_Alt_R, XK_Meta_R,
++};
++
++static Bool GetMappings(KeySymsPtr pKeySyms, CARD8 *pModMap)
++{
++  int i;
++
++  for (i = 0; i < MAP_LENGTH; i++)
++    pModMap[i] = NoSymbol;
++
++  for (i = 0; i < VFB_MAP_LEN; i++) {
++    if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Caps_Lock)
++      pModMap[i + VFB_MIN_KEY] = LockMask;
++    else if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Shift_L ||
++             keyboardMap[i * KEYSYMS_PER_KEY] == XK_Shift_R)
++      pModMap[i + VFB_MIN_KEY] = ShiftMask;
++    else if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Control_L ||
++             keyboardMap[i * KEYSYMS_PER_KEY] == XK_Control_R) {
++      pModMap[i + VFB_MIN_KEY] = ControlMask;
++    }
++    else if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Alt_L ||
++             keyboardMap[i * KEYSYMS_PER_KEY] == XK_Alt_R)
++      pModMap[i + VFB_MIN_KEY] = Mod1Mask;
++  }
++
++  pKeySyms->minKeyCode = VFB_MIN_KEY;
++  pKeySyms->maxKeyCode = VFB_MAX_KEY;
++  pKeySyms->mapWidth = KEYSYMS_PER_KEY;
++  pKeySyms->map = keyboardMap;
++
++  return TRUE;
++}
++
++static int vfbKeybdProc(DeviceIntPtr pDev, int onoff)
++{
++  KeySymsRec            keySyms;
++  CARD8                 modMap[MAP_LENGTH];
++
++  switch (onoff)
++  {
++  case DEVICE_INIT: 
++    GetMappings(&keySyms, modMap);
++    InitKeyboardDeviceStruct(&pDev->c_public, &keySyms, modMap,
++                             (BellProcPtr)vncRingBell, (KbdCtrlProcPtr)NoopDDA);
++    break;
++  case DEVICE_ON: 
++    pDev->c_public.on = TRUE;
++    break;
++  case DEVICE_OFF: 
++    pDev->c_public.on = FALSE;
++    break;
++  case DEVICE_CLOSE:
++    break;
++  }
++  return Success;
++}
++
++static int vfbMouseProc(DeviceIntPtr pDev, int onoff)
++{
++  BYTE map[6];
++
++  switch (onoff)
++  {
++  case DEVICE_INIT:
++    map[1] = 1;
++    map[2] = 2;
++    map[3] = 3;
++    map[4] = 4;
++    map[5] = 5;
++    InitPointerDeviceStruct(&pDev->c_public, map, 5, GetMotionHistory,
++                            (PtrCtrlProcPtr)NoopDDA, GetMotionHistorySize(), 2);
++    break;
++
++  case DEVICE_ON:
++    pDev->c_public.on = TRUE;
++    break;
++
++  case DEVICE_OFF:
++    pDev->c_public.on = FALSE;
++    break;
++
++  case DEVICE_CLOSE:
++    break;
++  }
++  return Success;
++}
+diff -up vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/xvnc.cc.mieq vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/xvnc.cc
+--- vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc	2008-03-04 12:08:05.000000000 +0100
++++ vnc-4_1_2-unixsrc/unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc	2008-03-05 11:52:34.000000000 +0100
+@@ -125,6 +125,8 @@ static bool displaySpecified = false;
+ static bool wellKnownSocketsCreated = false;
+ static char displayNumStr[16];
+ 
++extern void vncRingBell (int percent, int pitch, int duration);
++
+ #define swapcopy16(_dst, _src) \
+     if (needswap) { CARD16 _s = _src; cpswaps(_s, _dst); } \
+     else _dst = _src;
+@@ -925,7 +927,7 @@ void InitOutput(ScreenInfo *screenInfo, 
+ int SelectWaitTime = 10000; /* usec */
+ #endif
+ 
+-Bool LegalModifier(unsigned int key, DevicePtr pDev)
++Bool LegalModifier(unsigned int key, DeviceIntPtr pDev)
+ {
+   return TRUE;
+ }
+@@ -936,223 +938,14 @@ void ProcessInputEvents()
+   miPointerUpdate();
+ }
+ 
+-/* Fairly standard US PC Keyboard */
+-
+-#define VFB_MIN_KEY 8
+-#define VFB_MAX_KEY 255
+-#define VFB_MAP_LEN (VFB_MAX_KEY - VFB_MIN_KEY + 1)
+-#define KEYSYMS_PER_KEY 2
+-KeySym keyboardMap[VFB_MAP_LEN * KEYSYMS_PER_KEY] = {
+-  NoSymbol, NoSymbol,
+-  XK_Escape, NoSymbol,
+-  XK_1, XK_exclam,
+-  XK_2, XK_at,
+-  XK_3, XK_numbersign,
+-  XK_4, XK_dollar,
+-  XK_5, XK_percent,
+-  XK_6, XK_asciicircum,
+-  XK_7, XK_ampersand,
+-  XK_8, XK_asterisk,
+-  XK_9, XK_parenleft,
+-  XK_0, XK_parenright,
+-  XK_minus, XK_underscore,
+-  XK_equal, XK_plus,
+-  XK_BackSpace, NoSymbol,
+-  XK_Tab, NoSymbol,
+-  XK_q, XK_Q,
+-  XK_w, XK_W,
+-  XK_e, XK_E,
+-  XK_r, XK_R,
+-  XK_t, XK_T,
+-  XK_y, XK_Y,
+-  XK_u, XK_U,
+-  XK_i, XK_I,
+-  XK_o, XK_O,
+-  XK_p, XK_P,
+-  XK_bracketleft, XK_braceleft,
+-  XK_bracketright, XK_braceright,
+-  XK_Return, NoSymbol,
+-  XK_Control_L, NoSymbol,
+-  XK_a, XK_A,
+-  XK_s, XK_S,
+-  XK_d, XK_D,
+-  XK_f, XK_F,
+-  XK_g, XK_G,
+-  XK_h, XK_H,
+-  XK_j, XK_J,
+-  XK_k, XK_K,
+-  XK_l, XK_L,
+-  XK_semicolon, XK_colon,
+-  XK_apostrophe, XK_quotedbl,
+-  XK_grave, XK_asciitilde,
+-  XK_Shift_L, NoSymbol,
+-  XK_backslash, XK_bar,
+-  XK_z, XK_Z,
+-  XK_x, XK_X,
+-  XK_c, XK_C,
+-  XK_v, XK_V,
+-  XK_b, XK_B,
+-  XK_n, XK_N,
+-  XK_m, XK_M,
+-  XK_comma, XK_less,
+-  XK_period, XK_greater,
+-  XK_slash, XK_question,
+-  XK_Shift_R, NoSymbol,
+-  XK_KP_Multiply, NoSymbol,
+-  XK_Alt_L, XK_Meta_L,
+-  XK_space, NoSymbol,
+-  /*XK_Caps_Lock*/ NoSymbol, NoSymbol,
+-  XK_F1, NoSymbol,
+-  XK_F2, NoSymbol,
+-  XK_F3, NoSymbol,
+-  XK_F4, NoSymbol,
+-  XK_F5, NoSymbol,
+-  XK_F6, NoSymbol,
+-  XK_F7, NoSymbol,
+-  XK_F8, NoSymbol,
+-  XK_F9, NoSymbol,
+-  XK_F10, NoSymbol,
+-  XK_Num_Lock, XK_Pointer_EnableKeys,
+-  XK_Scroll_Lock, NoSymbol,
+-  XK_KP_Home, XK_KP_7,
+-  XK_KP_Up, XK_KP_8,
+-  XK_KP_Prior, XK_KP_9,
+-  XK_KP_Subtract, NoSymbol,
+-  XK_KP_Left, XK_KP_4,
+-  XK_KP_Begin, XK_KP_5,
+-  XK_KP_Right, XK_KP_6,
+-  XK_KP_Add, NoSymbol,
+-  XK_KP_End, XK_KP_1,
+-  XK_KP_Down, XK_KP_2,
+-  XK_KP_Next, XK_KP_3,
+-  XK_KP_Insert, XK_KP_0,
+-  XK_KP_Delete, XK_KP_Decimal,
+-  NoSymbol, NoSymbol,
+-  NoSymbol, NoSymbol,
+-  NoSymbol, NoSymbol,
+-  XK_F11, NoSymbol,
+-  XK_F12, NoSymbol,
+-  XK_Home, NoSymbol,
+-  XK_Up, NoSymbol,
+-  XK_Prior, NoSymbol,
+-  XK_Left, NoSymbol,
+-  NoSymbol, NoSymbol,
+-  XK_Right, NoSymbol,
+-  XK_End, NoSymbol,
+-  XK_Down, NoSymbol,
+-  XK_Next, NoSymbol,
+-  XK_Insert, NoSymbol,
+-  XK_Delete, NoSymbol,
+-  XK_KP_Enter, NoSymbol,
+-  XK_Control_R, NoSymbol,
+-  XK_Pause, XK_Break,
+-  XK_Print, XK_Execute,
+-  XK_KP_Divide, NoSymbol,
+-  XK_Alt_R, XK_Meta_R,
+-};
+-
+-static Bool GetMappings(KeySymsPtr pKeySyms, CARD8 *pModMap)
+-{
+-  int i;
+-
+-  for (i = 0; i < MAP_LENGTH; i++)
+-    pModMap[i] = NoSymbol;
+-
+-  for (i = 0; i < VFB_MAP_LEN; i++) {
+-    if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Caps_Lock)
+-      pModMap[i + VFB_MIN_KEY] = LockMask;
+-    else if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Shift_L ||
+-             keyboardMap[i * KEYSYMS_PER_KEY] == XK_Shift_R)
+-      pModMap[i + VFB_MIN_KEY] = ShiftMask;
+-    else if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Control_L ||
+-             keyboardMap[i * KEYSYMS_PER_KEY] == XK_Control_R) {
+-      pModMap[i + VFB_MIN_KEY] = ControlMask;
+-    }
+-    else if (keyboardMap[i * KEYSYMS_PER_KEY] == XK_Alt_L ||
+-             keyboardMap[i * KEYSYMS_PER_KEY] == XK_Alt_R)
+-      pModMap[i + VFB_MIN_KEY] = Mod1Mask;
+-  }
+-
+-  pKeySyms->minKeyCode = VFB_MIN_KEY;
+-  pKeySyms->maxKeyCode = VFB_MAX_KEY;
+-  pKeySyms->mapWidth = KEYSYMS_PER_KEY;
+-  pKeySyms->map = keyboardMap;
+-
+-  return TRUE;
+-}
+-
+-static void vfbBell(int percent, DeviceIntPtr device, pointer ctrl, int class_)
+-{
+-  if (percent > 0)
+-    vncBell();
+-}
+-
+-static int vfbKeybdProc(DeviceIntPtr pDevice, int onoff)
+-{
+-  KeySymsRec		keySyms;
+-  CARD8 		modMap[MAP_LENGTH];
+-  DevicePtr pDev = (DevicePtr)pDevice;
+-
+-  switch (onoff)
+-  {
+-  case DEVICE_INIT: 
+-    GetMappings(&keySyms, modMap);
+-    InitKeyboardDeviceStruct(pDev, &keySyms, modMap,
+-                             (BellProcPtr)vfbBell, (KbdCtrlProcPtr)NoopDDA);
+-    break;
+-  case DEVICE_ON: 
+-    pDev->on = TRUE;
+-    break;
+-  case DEVICE_OFF: 
+-    pDev->on = FALSE;
+-    break;
+-  case DEVICE_CLOSE:
+-    break;
+-  }
+-  return Success;
+-}
+-
+-static int vfbMouseProc(DeviceIntPtr pDevice, int onoff)
++void DDXRingBell(int percent, int pitch, int duration)
+ {
+-  BYTE map[6];
+-  DevicePtr pDev = (DevicePtr)pDevice;
+-
+-  switch (onoff)
+-  {
+-  case DEVICE_INIT:
+-    map[1] = 1;
+-    map[2] = 2;
+-    map[3] = 3;
+-    map[4] = 4;
+-    map[5] = 5;
+-    InitPointerDeviceStruct(pDev, map, 5, miPointerGetMotionEvents,
+-                            (PtrCtrlProcPtr)NoopDDA, miPointerGetMotionBufferSize());
+-    break;
+-
+-  case DEVICE_ON:
+-    pDev->on = TRUE;
+-    break;
+-
+-  case DEVICE_OFF:
+-    pDev->on = FALSE;
+-    break;
+-
+-  case DEVICE_CLOSE:
+-    break;
+-  }
+-  return Success;
++  vncRingBell (percent, pitch, duration);
+ }
+-
+ // InitInput is called after InitExtensions, so we're guaranteed that
+ // vncExtensionInit() has already been called.
+ 
+ void InitInput(int argc, char *argv[])
+ {
+-  DeviceIntPtr p, k;
+-  p = AddInputDevice(vfbMouseProc, TRUE);
+-  k = AddInputDevice(vfbKeybdProc, TRUE);
+-  RegisterPointerDevice(p);
+-  RegisterKeyboardDevice(k);
+-  miRegisterPointerDevice(screenInfo.screens[0], p);
+-  (void)mieqInit ((DevicePtr)k, (DevicePtr)p);
++  mieqInit ();
+ }

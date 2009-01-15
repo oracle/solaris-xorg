@@ -1,70 +1,134 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a
-# copy of this software and associated documentation files (the
-# "Software"), to deal in the Software without restriction, including
-# without limitation the rights to use, copy, modify, merge, publish,
-# distribute, and/or sell copies of the Software, and to permit persons
-# to whom the Software is furnished to do so, provided that the above
-# copyright notice(s) and this permission notice appear in all copies of
-# the Software and that both the above copyright notice(s) and this
-# permission notice appear in supporting documentation.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
-# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
-# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
-# Except as contained in this notice, the name of a copyright holder
-# shall not be used in advertising or otherwise to promote the sale, use
-# or other dealings in this Software without prior written authorization
-# of the copyright holder.
-diff -urp -x '*~'  hw/kdrive/ephyr/hostx.c hw/kdrive/ephyr/hostx.c
---- hw/kdrive/ephyr/hostx.c	2008-06-05 14:53:51.603935000 -0700
-+++ hw/kdrive/ephyr/hostx.c	2008-06-10 11:26:28.531089800 -0700
-@@ -430,14 +430,37 @@
+From c8216aede6c4ac41976947521d884fa010913204 Mon Sep 17 00:00:00 2001
+From: Jeremy Uejio <jeremy.uejio@sun.com>
+Date: Tue, 1 Jul 2008 13:37:12 -0700
+Subject: [PATCH] Sun bug #6685465: Xephyr uses wrong or bad colortable in 8-bit mode
+
+<http://bugs.opensolaris.org/view_bug.do?bug_id=6685465>
+
+This bug is caused by Xephyr not handling the RGB byte order correctly
+of the server where Xephyr is displaying on. The previous code just
+assumed that the order was RGB and did not take into account that
+Xservers may use different order (such as BGR).
+
+The fix is to add a function to calculate the byte order and bits
+to shift based on the visual mask and the visual bits_per_rgb (which
+is usually 8, but could be server dependent).  Since the shifts won't
+change once the display connection has been made, I can cache these
+values so that Xephyr doesn't have to keep recalculating them everytime
+it tries to translate the Xephyr colormap entries for Xephyr clients to
+the actual server colormap entries (i.e. calling the function
+hostx_set_cmap_entry() repeatedly for every colormap entry).
+---
+ hw/kdrive/ephyr/hostx.c |   30 ++++++++++++++++++++++++++++--
+ 1 files changed, 28 insertions(+), 2 deletions(-)
+
+diff --git a/hw/kdrive/ephyr/hostx.c b/hw/kdrive/ephyr/hostx.c
+index 74f9f16..171d78c 100644
+--- a/hw/kdrive/ephyr/hostx.c
++++ b/hw/kdrive/ephyr/hostx.c
+@@ -565,14 +565,40 @@ hostx_get_visual_masks (EphyrScreenInfo screen,
      }
  }
  
 +static int 
-+hostx_calculate_color_shift(unsigned long mask)
++hostx_calculate_color_shift(unsigned long mask,
++			    int bits_per_rgb)
 +{
-+  int shift=1;
-+  /* count # of bits in mask */
-+  while(mask=(mask>>1)) shift++;
-+  /* cmap entry is an unsigned char so adjust it by size of that */
-+  shift = shift - sizeof(unsigned char) * 8;
-+  if (shift < 0) shift=0;
-+  return shift;
++    int shift = 0;
++    while(mask) {
++	mask = mask >> bits_per_rgb;
++	if (mask) shift += bits_per_rgb;
++    }
++    return shift;
 +}
 +
  void
- hostx_set_cmap_entry(unsigned char idx, 
- 		     unsigned char r, 
- 		     unsigned char g, 
+ hostx_set_cmap_entry(unsigned char idx,
+ 		     unsigned char r,
+ 		     unsigned char g,
  		     unsigned char b)
  {
 -  /* XXX Will likely break for 8 on 16, not sure if this is correct */
 -  HostX.cmap[idx] = (r << 16) | (g << 8) | (b);
-+  /* need to calculate the shifts for RGB because server could be BGR. */
-+  /* XXX Not sure if this is correct for 8 on 16, but this works for 8 on 24.*/
-+  static int rshift, bshift, gshift = 0;
-+  static int first_time=1;
-+  if (first_time) {
-+    first_time=0;
-+    rshift = hostx_calculate_color_shift(HostX.visual->red_mask);
-+    gshift = hostx_calculate_color_shift(HostX.visual->green_mask);
-+    bshift = hostx_calculate_color_shift(HostX.visual->blue_mask);
-+  }
-+  HostX.cmap[idx] = ((r << rshift) & HostX.visual->red_mask) | 
-+		    ((g << gshift) & HostX.visual->green_mask) |
-+		    ((b << bshift) & HostX.visual->blue_mask);
++/* need to calculate the shifts for RGB because server could be BGR. */
++/* XXX Not sure if this is correct for 8 on 16, but this works for 8 on 24.*/
++    static int rshift, bshift, gshift = 0;
++    static int first_time = 1;
++    if (first_time) {
++	first_time = 0;
++	rshift = hostx_calculate_color_shift(HostX.visual->red_mask,
++					     HostX.visual->bits_per_rgb);
++	gshift = hostx_calculate_color_shift(HostX.visual->green_mask,
++					     HostX.visual->bits_per_rgb);
++	bshift = hostx_calculate_color_shift(HostX.visual->blue_mask,
++					     HostX.visual->bits_per_rgb);
++    }
++    HostX.cmap[idx] = ((r << rshift) & HostX.visual->red_mask) |
++		      ((g << gshift) & HostX.visual->green_mask) |
++		      ((b << bshift) & HostX.visual->blue_mask);
  }
  
  /**
+-- 
+1.5.6.5
+
+From 416685c295353b5816689994c7c58ae7db3e878d Mon Sep 17 00:00:00 2001
+From: Jeremy Uejio <jeremy.uejio@sun.com>
+Date: Tue, 25 Nov 2008 16:26:44 -0800
+Subject: [PATCH] Refix Sun bug #6685465: Xephyr uses wrong or bad colortable in 8-bit mode
+
+<http://bugs.opensolaris.org/view_bug.do?bug_id=6685465>
+
+This is a refix of the previous fix for CR 6685465.  In the first fix
+I was shifting the colors to match the mask by the bits_per_rgb amount
+in the visual structure.  That field has nothing to do with the # of
+bits to shift by.  I should just instead shift the bits to match the mask.
+---
+ hw/kdrive/ephyr/hostx.c |   23 ++++++++++-------------
+ 1 files changed, 10 insertions(+), 13 deletions(-)
+
+diff --git a/hw/kdrive/ephyr/hostx.c b/hw/kdrive/ephyr/hostx.c
+index 1bc95a8..d289d73 100644
+--- a/hw/kdrive/ephyr/hostx.c
++++ b/hw/kdrive/ephyr/hostx.c
+@@ -578,14 +578,14 @@ hostx_get_visual_masks (EphyrScreenInfo screen,
+ }
+ 
+ static int 
+-hostx_calculate_color_shift(unsigned long mask,
+-			    int bits_per_rgb)
++hostx_calculate_color_shift(unsigned long mask)
+ {
+-    int shift = 0;
+-    while(mask) {
+-	mask = mask >> bits_per_rgb;
+-	if (mask) shift += bits_per_rgb;
+-    }
++    int shift = 1;
++    /* count # of bits in mask */
++    while (mask=(mask>>1)) shift++;
++    /* cmap entry is an unsigned char so adjust it by size of that */
++    shift = shift - sizeof(unsigned char) * 8;
++    if (shift < 0) shift = 0;
+     return shift;
+ }
+ 
+@@ -601,12 +601,9 @@ hostx_set_cmap_entry(unsigned char idx,
+     static int first_time = 1;
+     if (first_time) {
+ 	first_time = 0;
+-	rshift = hostx_calculate_color_shift(HostX.visual->red_mask,
+-					     HostX.visual->bits_per_rgb);
+-	gshift = hostx_calculate_color_shift(HostX.visual->green_mask,
+-					     HostX.visual->bits_per_rgb);
+-	bshift = hostx_calculate_color_shift(HostX.visual->blue_mask,
+-					     HostX.visual->bits_per_rgb);
++	rshift = hostx_calculate_color_shift(HostX.visual->red_mask);
++	gshift = hostx_calculate_color_shift(HostX.visual->green_mask);
++	bshift = hostx_calculate_color_shift(HostX.visual->blue_mask);
+     }
+     HostX.cmap[idx] = ((r << rshift) & HostX.visual->red_mask) |
+ 		      ((g << gshift) & HostX.visual->green_mask) |
+-- 
+1.5.6.5
+

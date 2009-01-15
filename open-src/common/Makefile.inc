@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright 2008 Sun Microsystems, Inc.  All Rights Reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All Rights Reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.97	08/12/19
+# @(#)Makefile.inc	1.98	09/01/14
 #
 
 ### Default rules
@@ -56,6 +56,8 @@ SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
 $(SOURCE_DIRNAME_DEFAULT)	SOURCE_DIRNAME=$(MODULE_NAME)-$(MODULE_VERSION)
 
 SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
+SOURCE_DIR_32 = $(BUILD_DIR_32)/$(SOURCE_DIRNAME)
+SOURCE_DIR_64 = $(BUILD_DIR_64)/$(SOURCE_DIRNAME)
 
 # Set default tarball if not set in module makefile
 SOURCE_TARBALL_NAME_DEFAULT	= $(SOURCE_TARBALL_NAME_SET:yes=$(POUND_SIGN))
@@ -126,12 +128,12 @@ source: $(BUILD_TYPES:%=source_%)
 
 source_gen:: $(SOURCE_TARGETS)
 
-source_32: $(BUILD_DIR_32)/.unpack_done
-$(BUILD_DIR_32)/.unpack_done:
+source_32: $(SOURCE_DIR_32)/$(UNPACK_FILE)
+$(SOURCE_DIR_32)/$(UNPACK_FILE):
 	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_32) source_gen
 
-source_64: $(BUILD_DIR_64)/.unpack_done
-$(BUILD_DIR_64)/.unpack_done:
+source_64: $(SOURCE_DIR_64)/$(UNPACK_FILE)
+$(SOURCE_DIR_64)/$(UNPACK_FILE):
 	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_64) source_gen
 
 configure: $(BUILD_TYPES:%=configure_%)
@@ -156,7 +158,7 @@ build_64::
 
 install: $(BUILD_TYPES:%=install_%)
 
-install_gen:: $(INSTALL_TARGETS) install_license
+install_gen:: $(INSTALL_TARGETS) install_license install_pkgconfig_uninstalled
 
 install_32:: build_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) install_gen
@@ -235,7 +237,6 @@ FIX_PC_OPS= \
 	-e 's|Requires.private: .*$$||;'
 
 #	-e 's|(Requires: .*)\bx11\b|$$1|;' \
-#	-e 's|^prefix=@prefix@|prefix=\$$\{top_builddir\}@prefix@|'
 
 SUNTOUCH_MAN_FLAGS = \
 	-a '{Availability, $(SUN_PACKAGE)}' \
@@ -262,8 +263,8 @@ default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
 	  if [[ ! -x $(LNDIR) ]] ; then \
 	    (cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
 	  fi ; \
-	  print "cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR)" ; \
-	  (cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ) ; \
+	  (PS4="" ; set -x ; \
+	   cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ) ; \
 	fi ; \
 	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
@@ -275,20 +276,18 @@ default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
 	    done ; \
 	fi ; \
 	if [[ "$(SUNTOUCHED_MANPAGES)" != "" ]] ; then \
-	    print "/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
-		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES)" ; \
-	    (cd $(SOURCE_DIR) && \
+	    (PS4="" ; set -x ; \
+		cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
 	fi ; \
 	if [[ "$(FIX_PC_FILES)" != "" ]] ; then \
-	    print "/usr/perl5/bin/perl -i.orig -p \
-			$(FIX_PC_OPS) $(FIX_PC_FILES)" ; \
-	    (cd $(SOURCE_DIR) && \
+	    (PS4="" ; set -x ; \
+		cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl -i.orig -p \
 			$(FIX_PC_OPS) $(FIX_PC_FILES) ); \
 	fi
-	touch $(BUILD_DIR)/$(UNPACK_FILE)
+	touch $(UNPACK_TARGET)
 
 ### Run configure scripts
 
@@ -324,7 +323,7 @@ $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
-DEFAULT_PKG_CONFIG_PATH=$(TOP)/common/pc-files/$(BUILD_DIR):$(PROTODIR)/usr/lib/$(ARCHLIBSUBDIR)/pkgconfig:/usr/lib$(ARCHLIBSUBDIR)/pkgconfig
+DEFAULT_PKG_CONFIG_PATH=$(TOP)/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PKGCONFIG_DIR)
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
@@ -390,6 +389,7 @@ LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
 	$(MODTYPE_LD_OPTIONS) $(MODULE_LD_OPTIONS)
 
 BUILD_ENV = LD_OPTIONS='$(LD_OPTIONS)' \
+	PROTODIR='$(PROTODIR)' \
 	$(MODTYPE_BUILD_ENV) $(MODULE_BUILD_ENV)
 
 DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
@@ -410,7 +410,7 @@ build-in-subdir:
 	 $(subdir_cmd) )
 
 DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
-	pkgconfigdir=/usr/lib$(ARCHLIBSUBDIR)/pkgconfig \
+	pkgconfigdir=$(PKGCONFIG_DIR) \
 	$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 	$(MODTYPE_INSTALL_MAKEFLAGS) $(MODULE_INSTALL_MAKEFLAGS) \
 
@@ -431,6 +431,23 @@ install-in-subdir:
 	(cd $(subdir) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 $(subdir_cmd))
+
+# Adjust paths in pkg-config files for -uninstalled variants used during build
+UNINSTALLED_PC_OPS= \
+	-e 's|(-[LI]\s*)\$$|$$1$(PROTODIR)\$$|g;' \
+	-e 's|^sdkdir=|sdkdir=$(PROTODIR)|g;' \
+	-e 's|$(PROTODIR)\$${sdkdir}|\$${sdkdir}|g;'
+
+install_pkgconfig_uninstalled:
+	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \
+	    cd $(SOURCE_DIR) ; \
+	    for pcin in $(FIX_PC_FILES:.in=) ; do \
+		pc=$${pcin%%+(.pc|.in)} ; \
+		(PS4="" ; set -x ; \
+		 /usr/perl5/bin/perl -p $(UNINSTALLED_PC_OPS) $$pc.pc > \
+		    $(PROTODIR)$(PKGCONFIG_DIR)/$$(basename $${pc})-uninstalled.pc ) ; \
+	    done ; \
+	fi
 
 # Set comments in ELF binaries to help identify versions/builds
 ELF_COMMENTS = $(MODULE_NAME) $(MODULE_VERSION)
@@ -476,14 +493,14 @@ $(XPROTO_DEP):
 regen-patches: 
 	CUR_LIST=""
 	rm -rf tmp-regen
-	make SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen source_gen
+	make SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source_gen
 	mkdir -p new
 	for f in $(SOURCE_PATCHES) ; do \
 	    p=$$(print $$f | sed 's/,.*$$//') ; \
 	    print '=================' $$p ; \
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
-	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen source_gen ; \
+	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source_gen ; \
 	    awk '/^--- /	{exit} \
 		 /^diff -u/	{exit} \
 			 	{print}' $$p > new/$$p ; \
@@ -495,6 +512,18 @@ regen-patches:
 	    CUR_LIST="$${CUR_LIST} new/$$p" ; \
 	done
 	rm -rf tmp-regen
+
+# Allows running "make list-patches" to get a list of all patches we 
+# currently apply in our builds
+list-patches:
+	@THIS_MODULE=$$(print $(PWD) | sed 's|.*/open-src/||') ; \
+	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
+	    for p in $(SOURCE_PATCHES) x ; do \
+		if [[ "$$p" != "x" ]] ; then \
+	            print "$${THIS_MODULE}/$$p" | sed 's/,-p[0-9]$$//' ;  \
+		fi ; \
+	    done ; \
+	fi
 
 ### Licensing files
 

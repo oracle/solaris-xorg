@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -25,7 +25,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_i386	1.4	08/10/24 SMI"
+# ident	"@(#)prototype_i386	1.5	09/01/14 SMI"
 #
 #
 # Include ISA independent files (prototype_com)
@@ -43,3 +43,8 @@ f none lib/svc/method/ogl-select 755 root bin
 !search ../var/svc/manifest/application/opengl
 d none var/svc/manifest/application/opengl 755 root sys
 f manifest var/svc/manifest/application/opengl/ogl-select.xml 0444 root sys
+
+!search ../etc/hal/fdi/policy/10osvendor
+d none etc/hal/fdi/policy 0755 root bin
+d none etc/hal/fdi/policy/10osvendor 0755 root bin
+f none etc/hal/fdi/policy/10osvendor/11-x11-vmmouse.fdi 0444 root bin

@@ -1,6 +1,6 @@
-diff -urp -x '*~' cpprules.in cpprules.in
---- cpprules.in	2006-12-21 10:50:45.000000000 -0800
-+++ cpprules.in	2006-12-21 14:20:39.105037000 -0800
+diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
+--- cpprules.in	2007-05-29 12:36:50.000000000 -0700
++++ cpprules.in	2008-09-24 20:18:46.328453000 -0700
 @@ -25,7 +25,7 @@ XORGRELSTRING = @PACKAGE_STRING@
    XORGMANNAME = X Version 11
    XSERVERNAME = Xorg
@@ -10,11 +10,11 @@ diff -urp -x '*~' cpprules.in cpprules.in
          -D__vendorversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
          -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
  	-D__appmansuffix__=$(APP_MAN_SUFFIX) \
-diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
---- doc/Xserver.man.pre	2006-12-21 10:50:46.000000000 -0800
-+++ doc/Xserver.man.pre	2007-01-19 16:24:28.082214000 -0800
+diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
+--- doc/Xserver.man.pre	2008-09-23 11:24:56.000000000 -0700
++++ doc/Xserver.man.pre	2008-09-24 20:18:46.329753000 -0700
 @@ -1,3 +1,32 @@
-+.\" ident	"@(#)sun-manpage.patch	1.5	07/10/10 SMI"
++.\" ident	"@(#)sun-manpage.patch	1.6	09/01/14 SMI"
 +.\" 
 +.\" Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 +.\" 
@@ -281,10 +281,10 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-xkbmap \fIfilename\fP
  loads keyboard description in \fIfilename\fP on server startup.
-@@ -732,6 +873,91 @@ __default_font_path__ .
- .LP
- The font path can be set with the \fB\-fp\fP option or by \fIxset\fP(1)
- after the server has started.
+@@ -546,6 +687,91 @@ the following font path:
+     /usr/share/fonts/default/ghostscript
+ .fi
+ 
 +#ifdef __SUNSOFT__
 +.SH SMF PROPERTIES
 +.PP
@@ -373,7 +373,7 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH FILES
  .TP 30
  .I /etc/X\fBn\fP.hosts
-@@ -739,15 +954,26 @@ Initial access control list for display 
+@@ -553,15 +779,26 @@ Initial access control list for display 
  .TP 30
  .IR __projectroot__/lib/X11/fonts/misc , __projectroot__/lib/X11/fonts/75dpi , __projectroot__/lib/X11/fonts/100dpi
  Bitmap font directories
@@ -402,7 +402,7 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 30
  .IR /tmp/rcX\fBn\fP
  Kerberos 5 replay cache for display number \fBn\fP
-@@ -757,6 +983,11 @@ Error log file for display number \fBn\f
+@@ -571,6 +808,11 @@ Error log file for display number \fBn\f
  .TP 30
  .I __projectroot__/lib/X11/xdm/xdm-errors
  Default error log file if the server is run from \fIxdm\fP(1)
@@ -414,7 +414,7 @@ diff -urp -x '*~' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH "SEE ALSO"
  General information: \fIX\fP(__miscmansuffix__)
  .PP
-@@ -773,14 +1004,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
+@@ -587,14 +829,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP
