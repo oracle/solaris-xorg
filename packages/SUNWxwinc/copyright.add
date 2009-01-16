@@ -145,6 +145,12 @@ include proto/xf86dgaproto/COPYING
 
 --------------------------------------------------------------------
 
+Files from the proto/xf86driproto package are covered by the following notice:
+
+include proto/xf86driproto/COPYING
+
+--------------------------------------------------------------------
+
 Files from the proto/xf86miscproto package are covered by the following notice:
 
 include proto/xf86miscproto/COPYING

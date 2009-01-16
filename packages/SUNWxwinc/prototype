@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.92	09/01/14 SMI"
+# ident	"@(#)prototype	35.93	09/01/15 SMI"
 #
 #  X Window System include files
 
@@ -393,6 +393,12 @@ s none openwin/share/include/X11/extensions/xfixesproto.h=../../../../../X11/inc
 s none openwin/share/include/X11/extensions/xfixeswire.h=../../../../../X11/include/X11/extensions/xfixeswire.h
 s none openwin/share/include/X11/extensions/xtestext1.h=../../../../../X11/include/X11/extensions/xtestext1.h
 
+# open-src/proto/xf86driproto
+!search                $HOME/X11/include/X11/dri
+d none X11/include/X11/dri 			0755 root bin
+f none X11/include/X11/dri/xf86dri.h		0444 root bin
+f none X11/include/X11/dri/xf86dristr.h		0444 root bin
+
 
 # extension headers from open-src/proto/*
 !search                $HOME/X11/include/X11/extensions
@@ -690,6 +696,7 @@ f none lib/pkgconfig/scrnsaverproto.pc		0444 root bin
 f none lib/pkgconfig/xcmiscproto.pc		0444 root bin
 f none lib/pkgconfig/xextproto.pc		0444 root bin
 f none lib/pkgconfig/xf86bigfontproto.pc	0444 root bin
+f none lib/pkgconfig/xf86driproto.pc		0444 root bin
 f none lib/pkgconfig/xineramaproto.pc		0444 root bin
 f none lib/pkgconfig/xproto.pc			0444 root bin
 f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
@@ -708,7 +715,10 @@ f none lib/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/pkgconfig/xcursor.pc			0444 root bin
 f none lib/pkgconfig/xdamage.pc			0444 root bin
 f none lib/pkgconfig/xdmcp.pc			0444 root bin
+f none lib/pkgconfig/xevie.pc			0444 root bin
+f none lib/pkgconfig/xext.pc			0444 root bin
 f none lib/pkgconfig/xfixes.pc			0444 root bin
+f none lib/pkgconfig/xi.pc			0444 root bin
 f none lib/pkgconfig/xinerama.pc		0444 root bin
 f none lib/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/pkgconfig/xmu.pc			0444 root bin
@@ -718,6 +728,8 @@ f none lib/pkgconfig/xp.pc                      0444 root bin
 f none lib/pkgconfig/xprintapputil.pc           0444 root bin
 f none lib/pkgconfig/xprintutil.pc              0444 root bin
 f none lib/pkgconfig/xrender.pc			0444 root bin
+f none lib/pkgconfig/xres.pc			0444 root bin
+f none lib/pkgconfig/xscrnsaver.pc		0444 root bin
 f none lib/pkgconfig/xt.pc			0444 root bin
 f none lib/pkgconfig/xtst.pc			0444 root bin
 
@@ -750,6 +762,7 @@ s none lib/$plat_64/pkgconfig/scrnsaverproto.pc=../../pkgconfig/scrnsaverproto.p
 s none lib/$plat_64/pkgconfig/xcmiscproto.pc=../../pkgconfig/xcmiscproto.pc
 s none lib/$plat_64/pkgconfig/xextproto.pc=../../pkgconfig/xextproto.pc
 s none lib/$plat_64/pkgconfig/xf86bigfontproto.pc=../../pkgconfig/xf86bigfontproto.pc
+s none lib/$plat_64/pkgconfig/xf86driproto.pc=../../pkgconfig/xf86driproto.pc
 s none lib/$plat_64/pkgconfig/xineramaproto.pc=../../pkgconfig/xineramaproto.pc
 s none lib/$plat_64/pkgconfig/xproto.pc=../../pkgconfig/xproto.pc
 s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.pc
@@ -768,7 +781,10 @@ f none lib/$plat_64/pkgconfig/xcomposite.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xcursor.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xdamage.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xdmcp.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xevie.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xext.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xfixes.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xi.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xinerama.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
@@ -778,6 +794,8 @@ f none lib/$plat_64/pkgconfig/xp.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xprintapputil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xprintutil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xres.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xscrnsaver.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xt.pc 			0444 root bin
 f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin
 
