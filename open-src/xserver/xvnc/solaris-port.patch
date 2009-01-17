@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -213,3 +213,14 @@
  unlike the previous example, if he disconnects, the session remains persistent,
  and when he reconnects he will get the same session back again.  When he logs
  out of the X session, the Xvnc will die, but of course a new one will be
+
+--- unix/vncserver	2009-01-15 08:53:39.786723000 -0800
++++ unix/vncserver	2009-01-15 19:14:50.411737000 -0800
+@@ -27,6 +27,7 @@
+ # First make sure we're operating in a sane environment.
+ #
+ 
++$ENV{PATH} = "/usr/X11/bin:" . $ENV{PATH};
+ &SanityCheck();
+ 
+ #
