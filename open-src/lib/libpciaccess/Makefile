@@ -2,7 +2,7 @@
 #
 # libpciaccess Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -40,6 +40,7 @@ MODULE_VERSION=0.10.5
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	sparc-byteswap.patch,-p1 \
+	bus-range.patch,-p1 \
 	6785726.patch \
 	6789879.patch \
 	scanpci.man.patch 
@@ -59,6 +60,9 @@ LIB_MAN_SUFFIX=3pciaccess
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=pciaccess.pc.in
+
+# Activate additional debugging code in debug builds
+MODULE_DEBUG_FLAGS=-DDEBUG
 
 include ../Makefile.inc
 
