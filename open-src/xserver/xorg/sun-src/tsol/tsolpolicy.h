@@ -29,7 +29,7 @@
 #ifndef	_TSOL_POLICY_H
 #define	_TSOL_POLICY_H
 
-#pragma ident	"@(#)tsolpolicy.h	1.7	09/01/14 SMI"
+#pragma ident	"@(#)tsolpolicy.h	1.8	09/01/22 SMI"
 
 #ifdef	__cplusplus
 extern "C" {
@@ -156,10 +156,12 @@ int xtsol_policy(xresource_t res_type, xmethod_t method,
  * The higher no. always includes the lower no. log
  */
 extern int xtsol_debug; 	/* defined xres_policy.c */
-#define	XTSOL_FAIL	1
-#define	XTSOL_ALLOW	2
-#define	XTSOL_IGNORE	3
 #endif /* DEBUG */
+
+#define	XTSOL_FAIL	1	/* Replaces SecurityErrorOperation */
+#define	XTSOL_ALLOW	2	/* Replaces SecurityAllowOperation */
+#define	XTSOL_IGNORE	3	/* Replaces SecurityIgnoreOperation */
+
 
 #ifndef	MAJOROP
 #define	MAJOROP ((xReq *)client->requestBuffer)->reqType

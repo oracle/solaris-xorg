@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.31     09/01/14 SMI"
+#pragma ident   "@(#)tsolextension.c 1.32     09/01/22 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -162,7 +162,7 @@ static void TsolSetClientInfo(ClientPtr client);
 
 /* XACE hook callbacks */
 static CALLBACK(TsolCheckExtensionAccess);
-static CALLBACK(TsolCheckPropertyAccess);
+static CALLBACK(TsolAceCheckPropertyAccess);
 static CALLBACK(TsolCheckResourceIDAccess);
 static CALLBACK(TsolProcessKeyboard);
 extern CALLBACK(TsolAuditStart);
@@ -279,7 +279,7 @@ TsolExtensionInit(void)
 
 	XaceRegisterCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess,
 			     NULL);
-	XaceRegisterCallback(XACE_PROPERTY_ACCESS, TsolCheckPropertyAccess,
+	XaceRegisterCallback(XACE_PROPERTY_ACCESS, TsolAceCheckPropertyAccess,
 			     NULL);
 	XaceRegisterCallback(XACE_EXT_ACCESS, TsolCheckExtensionAccess, NULL);
 	XaceRegisterCallback(XACE_KEY_AVAIL, TsolProcessKeyboard, NULL);
@@ -503,7 +503,7 @@ TsolReset(ExtensionEntry *extension)
 {
     free_win_privsets();
     XaceDeleteCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess, NULL);
-    XaceDeleteCallback(XACE_PROPERTY_ACCESS, TsolCheckPropertyAccess, NULL);
+    XaceDeleteCallback(XACE_PROPERTY_ACCESS, TsolAceCheckPropertyAccess, NULL);
     XaceDeleteCallback(XACE_EXT_ACCESS, TsolCheckExtensionAccess, NULL);
     XaceDeleteCallback(XACE_KEY_AVAIL, TsolProcessKeyboard, NULL);
     XaceDeleteCallback(XACE_AUDIT_BEGIN, TsolAuditStart, NULL);
@@ -2086,8 +2086,53 @@ TsolProcessKeyboard)
     }
 }
 
+_X_HIDDEN int
+TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
+			Atom propertyName, Mask access_mode)
+{
+    if (pProp == NULL) {
+	return XTSOL_ALLOW;
+    }
+
+    if (access_mode & DixCreateAccess) {
+	if (!PolyProperty(propertyName, pWin) &&
+	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_CREATE,
+			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+	    return XTSOL_IGNORE;
+	else
+	    return XTSOL_ALLOW;
+    }
+
+    if (access_mode & DixReadAccess) {
+	if (!PolyProperty(propertyName, pWin) &&
+	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_READ,
+			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+	    return XTSOL_IGNORE;
+	else
+	    return XTSOL_ALLOW;
+    }
+
+    if (access_mode & DixWriteAccess) {
+	if (!PolyProperty(propertyName, pWin) &&
+	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_MODIFY,
+			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+	    return XTSOL_IGNORE;
+	else
+	    return XTSOL_ALLOW;
+    }
+
+    if (access_mode & DixDestroyAccess) {
+	if (!PolyProperty(propertyName, pWin) &&
+	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_DESTROY,
+			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+	    return XTSOL_IGNORE;
+	else
+            return XTSOL_ALLOW;
+    }
+}
+
 static CALLBACK(
-TsolCheckPropertyAccess)
+TsolAceCheckPropertyAccess)
 {
     XacePropertyAccessRec *rec = (XacePropertyAccessRec *) calldata;
     ClientPtr client = rec->client;
@@ -2096,44 +2141,9 @@ TsolCheckPropertyAccess)
     Atom propertyName = pProp->propertyName;
     Mask access_mode = rec->access_mode;
 
-    if (pProp == NULL) {
-	return;
-    }
-
-    if (access_mode & DixReadAccess) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_READ,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
-	    rec->status = BadAccess;
-/* this used to be:
-                   return SecurityIgnoreOperation;
-                else
-                   return SecurityAllowOperation;
-*/
-    }
-
-    if (access_mode & DixWriteAccess) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_MODIFY,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
-	    rec->status = BadAccess;
-/* this used to be:
-                   return SecurityIgnoreOperation;
-                else
-                   return SecurityAllowOperation;
-*/
-    }
-
-    if (access_mode & DixDestroyAccess) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_DESTROY,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
-	    rec->status = BadAccess;
-/* this used to be:
-                   return SecurityIgnoreOperation;
-                else
-                   return SecurityAllowOperation;
-*/
+    if (TsolCheckPropertyAccess(client, pWin, pProp,
+				propertyName, access_mode) != XTSOL_ALLOW) {
+	rec->status = BadAccess;
     }
 }
 

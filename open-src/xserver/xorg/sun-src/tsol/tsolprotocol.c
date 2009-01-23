@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolprotocol.c 1.25	09/01/14 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.26	09/01/22 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -892,9 +892,25 @@ TsolChangeWindowProperty(
     TsolInfoPtr tsolinfo;
     TsolResPtr tsolres;
     int result;
-    int polyprop = PolyProperty(property, pWin);
+    int polyprop;
 
+    /* first see if property already exists */
 
+    pProp = wUserProps (pWin);
+    while (pProp)
+    {
+        if (pProp->propertyName == property)
+            break;
+        pProp = pProp->next;
+    }
+
+    result = TsolCheckPropertyAccess(client, pWin, pProp,
+				     property, DixWriteAccess);
+    if (result == XTSOL_IGNORE) {
+	return Success;
+    }
+
+    polyprop = PolyProperty(property, pWin);
     if (!polyprop)
     {
         result = dixChangeWindowProperty(client, pWin, property, type,
@@ -905,16 +921,6 @@ TsolChangeWindowProperty(
 
     sizeInBytes = format>>3;
     totalSize = len * sizeInBytes;
-
-    /* first see if property already exists */
-
-    pProp = wUserProps (pWin);
-    while (pProp )
-    {
-        if (pProp->propertyName == property)
-            break;
-        pProp = pProp->next;
-    }
 
     tsolinfo = GetClientTsolInfo(client);
     tsolres = TsolWindowPriv(pWin);
@@ -956,6 +962,7 @@ TsolChangeWindowProperty(
         pProp = (PropertyPtr)xalloc(sizeof(PropertyRec));
         if (!pProp)
             return(BadAlloc);
+	pProp->devPrivates = NULL;
 	tsolpropP = TsolPropertyPriv(pProp);
         *tsolpropP = (pointer)Xcalloc(sizeof(TsolPropRec));
         if (!(*tsolpropP))

@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsol.h 1.7     09/01/14 SMI"
+#pragma ident   "@(#)tsol.h 1.8     09/01/22 SMI"
 
 /*
  * tsol.h server side extension
@@ -64,6 +64,10 @@ extern bslabel_t *lookupSL_low(void);
 extern int PolyPropReadable(PropertyPtr pProp, ClientPtr client);
 extern void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
 extern WindowPtr TsolPointerWindow(void);
+
+extern int TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin,
+				   PropertyPtr pProp, Atom propertyName,
+				   Mask access_mode);
 
 #ifdef PANORAMIX
 extern int PanoramiXGetInputFocus(ClientPtr client);
