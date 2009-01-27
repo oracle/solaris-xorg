@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.45 09/01/14
+# @(#)upgrade-X	1.46 09/01/27
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -190,7 +190,6 @@ pkg_list="
 	SUNWxwacx
 	SUNWxwcft
 	SUNWxwdem
-	SUNWxwdim
 	SUNWxwdxm
 	SUNWxwfnt
 	SUNWxwfs
@@ -261,9 +260,13 @@ REM_PKGS+=" SUNWxwsrc"
 # snv_98: 6741034 Merge SUNWi1of into SUNWxwfnt
 REM_PKGS+=" SUNWi1of"
 
-# snv_107: 
+# snv_107: 6582489 X11R7.4: Xorg server 1.5.3 and associated driver updates
 # Merged SUNWxorg-doc into SUNWxorg-server & SUNWxorg-graphics-ddx
 REM_PKGS+=" SUNWxorg-doc"
+
+# snv_108: 6798225 stop building/delivering SUNWxwdim
+REM_PKGS+=" SUNWxwdim"
+
 
 # Various compatibility links in SUNWxorg-server have been replaced with
 # files in other packages, so we need to remove SUNWxorg-server first

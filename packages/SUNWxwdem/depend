@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)depend	35.4	07/11/05 SMI"
+# ident	"@(#)depend	35.5	09/01/27 SMI"
 #
 # This package information file defines software dependencies associated
 # with the pkg.  You can define three types of pkg dependencies with this file:
@@ -58,7 +58,6 @@ P SUNWcsu	Core Solaris, (Usr)
 P SUNWcsd	Core Solaris Devices
 P SUNWcsl	Core Solaris Libraries
 P SUNWxwplt	X Window System platform software
-P SUNWxwdim	X Window System demo images
 P SUNWtltk      ToolTalk runtime
 P SUNWlibms     Sun WorkShop Bundled shared libm 
 P SUNWxwice	ICE components 
