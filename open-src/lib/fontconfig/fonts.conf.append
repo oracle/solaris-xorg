@@ -261,3 +261,14 @@
 		<bool>false</bool>
 	</edit>
 </match>
+<match target="pattern">
+	<test name="family">
+		<string>monospace</string>
+	</test>
+	<test name="lang" compare="contains">
+		<string>he</string>
+	</test>
+	<edit name="style" mode="assign">
+		<string>Regular</string>
+	</edit>
+</match>
