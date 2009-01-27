@@ -96,7 +96,17 @@
 +extern FontPtr XpClientDPIGrabFont(XpClientDPIPtr, FontPtr);
 +
 +#endif
-
+--- hw/xprint/Makefile.am	2008-11-05 08:52:17.000000000 -0800
++++ hw/xprint/Makefile.am.new	2008-12-17 15:41:36.283630000 -0800
+@@ -5,7 +5,7 @@ bin_PROGRAMS = Xprt
+ Xprt_CFLAGS = @DIX_CFLAGS@ @XPRINT_CFLAGS@ \
+ 	-DPRINT_ONLY_SERVER -D_XP_PRINT_SERVER_  \
+ 	-DXPRINTDIR=\"$(libdir)/X11/xserver\"    \
+-	-DXPRASTERDDX -DXPPCLDDX -DXPMONOPCLDDX -DXPPSDDX \
++	-DXPRASTERDDX -DXPPCLDDX -DXPPSDDX \
+ 	-DXFree86Server
+ 
+ Xprt_LDFLAGS = -L$(top_srcdir)
 diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
 --- dix/dispatch.c	2008-10-17 15:51:32.379041000 -0700
 +++ dix/dispatch.c	2008-10-17 15:51:50.036961000 -0700
@@ -944,3 +954,179 @@ diff -urp -x '*~' -x '*.orig' Xext/xprint.c Xext/xprint.c
  static void
  SwapXpNotifyEvent(xPrintPrintEvent *src, xPrintPrintEvent *dst)
  {
+--- dix/Makefile.am	2008-12-16 14:38:49.000000000 -0800
++++ dix/Makefile.am.new	2009-01-16 15:05:39.474170000 -0800
+@@ -66,6 +66,17 @@ Xserver-dtrace.h: $(srcdir)/Xserver.d
+ 	$(DTRACE) -C -h -o $@ -s $(srcdir)/Xserver.d \
+ 		|| cp Xserver-dtrace.h.in $@
+ 
++if XPRINT
++
++# Generate dtrace object code for probes in libdix
++dtrace-dix.o: $(top_srcdir)/dix/Xserver.d $(am_libXpdix_la_OBJECTS)
++	$(DTRACE) -G -C -o $@ -s $(top_srcdir)/dix/Xserver.d $(am_libXpdix_la_OBJECTS:%.lo=.libs/%.o)
++
++noinst_PROGRAMS = dix.O
++
++dix.O: dtrace-dix.o $(am_libXpdix_la_OBJECTS)
++	ld -r -o $@ $(am_libXpdix_la_OBJECTS:%.lo=.libs/%.o)
++else
+ # Generate dtrace object code for probes in libdix
+ dtrace-dix.o: $(top_srcdir)/dix/Xserver.d $(am_libdix_la_OBJECTS)
+ 	$(DTRACE) -G -C -o $@ -s $(top_srcdir)/dix/Xserver.d $(am_libdix_la_OBJECTS:%.lo=.libs/%.o)
+@@ -74,6 +85,8 @@ noinst_PROGRAMS = dix.O
+ 
+ dix.O: dtrace-dix.o $(am_libdix_la_OBJECTS)
+ 	ld -r -o $@ $(am_libdix_la_OBJECTS:%.lo=.libs/%.o)
++
++endif
+ endif
+ 
+ dix.c:
+--- dix/main.c	2008-11-05 08:52:17.000000000 -0800
++++ dix/main.c.new	2009-01-22 14:28:24.682130000 -0800
+@@ -1,3 +1,32 @@
++/*
++ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
++ * Use is subject to license terms.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
+ /***********************************************************
+ 
+ Copyright 1987, 1998  The Open Group
+@@ -103,9 +132,11 @@ Equipment Corporation.
+ #include "extnsionst.h"
+ #include "privates.h"
+ #include "registry.h"
++#if 0
+ #ifdef XPRINT
+ #include "DiPrint.h"
+ #endif
++#endif
+ #ifdef PANORAMIX
+ #include "panoramiXsrv.h"
+ #else
+@@ -252,9 +283,11 @@ main(int argc, char *argv[], char *envp[
+ 
+     InitGlobals();
+     InitRegions();
++#if 0
+ #ifdef XPRINT
+     PrinterInitGlobals();
+ #endif
++#endif
+ 
+ #ifdef XQUARTZ
+     /* Quartz support on Mac OS X requires that the Cocoa event loop be in
+@@ -356,9 +389,11 @@ main(int argc, char *argv[], char *envp[
+ 	InitCallbackManager();
+ 	InitVisualWrap();
+ 	InitOutput(&screenInfo, argc, argv);
++#if 0
+ #ifdef XPRINT
+ 	PrinterInitOutput(&screenInfo, argc, argv);
+ #endif
++#endif
+ 
+ 	if (screenInfo.numScreens < 1)
+ 	    FatalError("no screens found");
+--- dix/xpstubs.c	2008-11-05 08:52:17.000000000 -0800
++++ dix/xpstubs.c.new	2009-01-22 14:47:23.197162000 -0800
+@@ -1,4 +1,33 @@
+ /*
++ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
++ * Use is subject to license terms.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
++/*
+ Copyright 1996, 1998  The Open Group
+ 
+ Permission to use, copy, modify, distribute, and sell this software and its
+@@ -34,9 +63,9 @@ from The Open Group.
+ #ifdef XPRINT
+ #include "DiPrint.h"
+ #else
++#if 0
+ extern Bool XpClientIsBitmapClient(ClientPtr client);
+ extern Bool XpClientIsPrintClient(ClientPtr client, FontPathElementPtr fpe);
+-#endif
+ 
+ Bool
+ XpClientIsBitmapClient(
+@@ -52,6 +81,9 @@ XpClientIsPrintClient(
+ {
+     return FALSE;
+ }
++#endif
++#endif
++
+ #ifdef XPRINT
+ int
+ PrinterOptions(
+@@ -61,18 +93,8 @@ PrinterOptions(
+ {
+     return i;
+ }
+-void
+-PrinterInitOutput(
+-     ScreenInfo *pScreenInfo,
+-     int argc,
+-     char **argv)
+-{
+-}
+ void PrinterUseMsg(void)
+ {
+ }
+-void PrinterInitGlobals(void)
+-{
+-}
+ #endif /* XPRINT */
+ 

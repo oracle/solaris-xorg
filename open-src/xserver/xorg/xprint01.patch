@@ -1,31 +1,5 @@
-diff -urp -x '*~' -x '*.orig' hw/xprint/Makefile.am hw/xprint/Makefile.am
---- hw/xprint/Makefile.am	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/Makefile.am	2008-10-17 15:52:06.580191000 -0700
-@@ -1,11 +1,11 @@
--SUBDIRS = doc pcl pcl-mono raster ps etc config
-+SUBDIRS = doc pcl raster ps etc config
- 
- bin_PROGRAMS = Xprt
- 
- Xprt_CFLAGS = @DIX_CFLAGS@ @XPRINT_CFLAGS@ \
- 	-DPRINT_ONLY_SERVER -D_XP_PRINT_SERVER_  \
- 	-DXPRINTDIR=\"$(libdir)/X11/xserver\"    \
--	-DXPRASTERDDX -DXPPCLDDX -DXPMONOPCLDDX -DXPPSDDX \
-+	-DXPRASTERDDX -DXPPCLDDX -DXPPSDDX \
- 	-DXFree86Server
- 
- Xprt_LDFLAGS = -L$(top_srcdir)
-@@ -14,7 +14,6 @@ XPRINT_LIBS = \
- 	ps/libps.la \
- 	raster/libraster.la \
- 	pcl/libpcl.la \
--	pcl-mono/libpcl.la \
- 	$(top_builddir)/fb/libfb.la \
- 	$(top_builddir)/render/librender.la \
- 	$(top_builddir)/dix/libXpdix.la \
-diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclArc.c hw/xprint/pcl/PclArc.c
---- hw/xprint/pcl/PclArc.c	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/pcl/PclArc.c	2008-10-17 15:52:06.580966000 -0700
+--- hw/xprint/pcl/PclArc.c	2009-01-09 14:17:56.330059000 -0800
++++ hw/xprint/pcl/PclArc.c.new	2009-01-09 14:17:56.344134000 -0800
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -108,9 +82,8 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclArc.c hw/xprint/pcl/PclArc.c
  	  
  	  /*
  	   * Clean up the temporary regions
-diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclArea.c hw/xprint/pcl/PclArea.c
---- hw/xprint/pcl/PclArea.c	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/pcl/PclArea.c	2008-10-17 15:52:06.582540000 -0700
+--- hw/xprint/pcl/PclArea.c	2009-01-09 14:17:56.366749000 -0800
++++ hw/xprint/pcl/PclArea.c.new	2009-01-09 14:17:56.380165000 -0800
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -312,9 +285,8 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclArea.c hw/xprint/pcl/PclArea.c
  
      /*
       * Update the destination's GC to the source's GC.
-diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclColor.c hw/xprint/pcl/PclColor.c
---- hw/xprint/pcl/PclColor.c	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/pcl/PclColor.c	2008-10-17 15:52:06.602989000 -0700
+--- hw/xprint/pcl/PclColor.c	2009-01-09 14:17:56.415136000 -0800
++++ hw/xprint/pcl/PclColor.c.new	2009-01-09 14:17:56.428389000 -0800
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -359,6 +331,15 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclColor.c hw/xprint/pcl/PclColor.c
  
  
  /*
+@@ -196,7 +229,7 @@ PclDestroyColormap(ColormapPtr pColor)
+ 	  while( con )
+ 	    {
+ 		cPriv = dixLookupPrivate(&con->context->devPrivates,
+-					 PclContextPrivateKey);
++                                         PclContextPrivateKey);
+ 		pPal = cPriv->palettes;
+ 		while( pPal )
+ 		  {
 @@ -246,6 +279,27 @@ PclListInstalledColormaps(ScreenPtr pScr
      return 0;
  }
@@ -387,6 +368,15 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclColor.c hw/xprint/pcl/PclColor.c
  void
  PclStoreColors(ColormapPtr pColor,
  	       int ndef,
+@@ -279,7 +333,7 @@ PclStoreColors(ColormapPtr pColor,
+ 		 * appropriate palette.
+ 		 */
+ 		cPriv = dixLookupPrivate(&con->context->devPrivates,
+-					 PclContextPrivateKey);
++                                         PclContextPrivateKey);
+ 		pMap = PclFindPaletteMap( cPriv, pColor, NULL );
+ 
+ 		/*
 @@ -295,19 +349,7 @@ PclStoreColors(ColormapPtr pColor,
  		      for( i = 0; i < ndef; i++ )
  			{
@@ -408,6 +398,17 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclColor.c hw/xprint/pcl/PclColor.c
  			    if( pdefs[i].flags & DoRed )
  				  r = pdefs[i].red;
  			    if( pdefs[i].flags & DoGreen )
+@@ -438,8 +480,8 @@ PclUpdateColormap(DrawablePtr pDrawable,
+ 	   * Add the colormap to the screen-level colormap<->context mapping.
+ 	   */
+ 	  sPriv = (PclScreenPrivPtr)
+-	      dixLookupPrivate(&cmap->pScreen->devPrivates,
+-			       PclScreenPrivateKey);
++		dixLookupPrivate(&cmap->pScreen->devPrivates,
++                               PclScreenPrivateKey);
+ 	  pCmap = sPriv->colormaps;
+ 	  while( pCmap && ( pCmap->colormapId != cmap->mid ) )
+ 		pCmap = pCmap->next;
 @@ -498,19 +540,28 @@ PclUpdateColormap(DrawablePtr pDrawable,
  		
  		for(i = 0; i < cmap->pVisual->ColormapEntries; i++ )
@@ -449,9 +450,8 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclColor.c hw/xprint/pcl/PclColor.c
  		      sprintf( t, "\033*v%ua%ub%uc%dI", r, g, b, i );
  		      SEND_PCL( outFile, t );
  		  }
-diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclGC.c hw/xprint/pcl/PclGC.c
---- hw/xprint/pcl/PclGC.c	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/pcl/PclGC.c	2008-10-17 15:52:06.604340000 -0700
+--- hw/xprint/pcl/PclGC.c	2009-01-09 14:17:56.454870000 -0800
++++ hw/xprint/pcl/PclGC.c.new	2009-01-09 14:17:56.468472000 -0800
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -485,6 +485,42 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclGC.c hw/xprint/pcl/PclGC.c
  /*******************************************************************
  **
  **    *********************************************************
+@@ -145,7 +174,7 @@ PclGetDrawablePrivateStuff(
+ 	  else
+ 	    {
+ 		cPriv = (PclContextPrivPtr)
+-		    dixLookupPrivate(&pCon->devPrivates, PclContextPrivateKey);
++                    dixLookupPrivate(&pCon->devPrivates, PclContextPrivateKey);
+ 		*gc = cPriv->lastGC;
+ 		*valid = cPriv->validGC;
+ 		*file = cPriv->pPageFile;
+@@ -173,7 +202,7 @@ PclSetDrawablePrivateGC(
+ 	case DRAWABLE_PIXMAP:
+ 	  pix = (PixmapPtr)pDrawable;
+ 	  pixPriv = (PclPixmapPrivPtr)
+-	      dixLookupPrivate(&pix->devPrivates, PclPixmapPrivateKey);
++		dixLookupPrivate(&pix->devPrivates, PclPixmapPrivateKey);
+ 	  
+ 	  pixPriv->lastGC = gc;
+ 	  pixPriv->validGC = 1;
+@@ -182,7 +211,7 @@ PclSetDrawablePrivateGC(
+ 	case DRAWABLE_WINDOW:
+ 	  pCon = PclGetContextFromWindow( (WindowPtr)pDrawable );
+ 	  pPriv = (PclContextPrivPtr)
+-	      dixLookupPrivate(&pCon->devPrivates, PclContextPrivateKey);
++		dixLookupPrivate(&pCon->devPrivates, PclContextPrivateKey);
+ 	  
+ 	  pPriv->validGC = 1;
+ 	  pPriv->lastGC = gc;
+@@ -318,7 +347,7 @@ PclUpdateDrawableGC(
+     XpContextPtr pCon;
+     PclContextPrivPtr cPriv;
+     PclGCPrivPtr gcPriv = (PclGCPrivPtr)
+-	dixLookupPrivate(&pGC->devPrivates, PclGCPrivateKey);
++      dixLookupPrivate(&pGC->devPrivates, PclGCPrivateKey);
+     
+     if( !PclGetDrawablePrivateStuff( pDrawable, &dGC, &valid, outFile ) )
+       return FALSE;
 @@ -804,6 +833,12 @@ PclComputeCompositeClip(
  {
      if (pDrawable->type == DRAWABLE_WINDOW)
@@ -518,9 +554,8 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclGC.c hw/xprint/pcl/PclGC.c
  
  	/*
  	 * if there is no client clip, we can get by with just keeping the
-diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclPrint.c hw/xprint/pcl/PclPrint.c
---- hw/xprint/pcl/PclPrint.c	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/pcl/PclPrint.c	2008-10-17 15:52:06.605144000 -0700
+--- hw/xprint/pcl/PclPrint.c	2008-11-05 08:52:17.000000000 -0800
++++ hw/xprint/pcl/PclPrint.c.new	2009-01-11 12:25:12.534336000 -0800
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -588,9 +623,8 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclPrint.c hw/xprint/pcl/PclPrint.c
      SEND_PCL( pConPriv->pPageFile, t );
  
      return Success;
-diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclText.c hw/xprint/pcl/PclText.c
---- hw/xprint/pcl/PclText.c	2008-10-10 11:12:48.000000000 -0700
-+++ hw/xprint/pcl/PclText.c	2008-10-17 15:52:06.606327000 -0700
+--- hw/xprint/pcl/PclText.c	2008-11-05 08:52:17.000000000 -0800
++++ hw/xprint/pcl/PclText.c.new	2009-01-13 13:03:58.238696000 -0800
 @@ -1,3 +1,32 @@
 +/*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -648,7 +682,7 @@ diff -urp -x '*~' -x '*.orig' hw/xprint/pcl/PclText.c hw/xprint/pcl/PclText.c
  
      if( PclUpdateDrawableGC( pGC, pDrawable, &outFile ) == FALSE )
  	return x;
-+        pCon = PclGetContextFromWindow( (WindowPtr)pDrawable );
++    pCon = PclGetContextFromWindow( (WindowPtr)pDrawable );
 +    pConPriv = (PclContextPrivPtr)
 +	dixLookupPrivate(&pCon->devPrivates, PclContextPrivateKey);
  

@@ -286,8 +286,409 @@
    Atom        value  = (Atom)0;
  
    for( i=0 ; i<nprops ; i++ )
---- hw/xprint/ps/PsText.c	2006-09-17 23:04:18.000000000 -0700
-+++ hw/xprint/ps/PsText.c.new	2008-09-24 10:53:56.035282000 -0700
+--- hw/xprint/ps/psout.c	2006-09-17 23:04:18.000000000 -0700
++++ hw/xprint/ps/psout.c.new	2008-09-24 11:19:44.573129000 -0700
+@@ -1,4 +1,33 @@
+ /*
++ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
++ * Use is subject to license terms.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
++/*
+ 
+ Copyright 1996, 1998  The Open Group
+ 
+@@ -89,6 +118,18 @@ in this Software without prior written a
+ #endif /* XP_USE_FREETYPE */
+ /* For VENDOR_STRING and VENDOR_RELEASE */
+ #include "site.h"
++/* 
++** CRT 00308: Bug 4402782: Scale xprt outpu
++*/
++#include <X11/X.h>
++#include <X11/Xproto.h>
++#include "misc.h"
++#include "windowstr.h"
++#include "scrnintstr.h"
++#include "pixmapstr.h"
++#include "extnsionst.h"
++#include "dixstruct.h"
++#include <X11/Xatom.h>
+ 
+ /*
+  *  Standard definitions
+@@ -584,6 +625,13 @@ S_SetPageDevice(PsOutPtr self, int orien
+  *                        PUBLIC FUNCTIONS                         *
+  *******************************************************************/
+ 
++void
++PsOut_SetClientDPI(PsOutPtr self, XpClientDPIPtr client_dpi)
++{
++  self->ClientDpi = client_dpi;
++}
++
++
+ FILE *
+ PsOut_ChangeFile(PsOutPtr self, FILE *fp)
+ {
+@@ -695,6 +743,7 @@ PsOut_EndFile(PsOutPtr self, int closeFi
+   if( self->Patterns ) xfree(self->Patterns);
+   if( self->Clip.rects ) xfree(self->Clip.rects);
+   if( closeFile ) fclose(self->Fp);
++  self->pagenum = 0;
+   xfree(self);
+ }
+ 
+@@ -779,6 +828,10 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
+   int  changed = 0;
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
+ 
+   if( self->InTile ) return;
+   if( self->InFrame ) xo = yo = 0;
+@@ -869,10 +922,10 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
+   {
+     for( i=0 ; i<self->Clip.nOutterClips ; i++ )
+     {
+-      S_OutNum(self, (float)(self->Clip.outterClips[i].x));
+-      S_OutNum(self, (float)(self->Clip.outterClips[i].y));
+-      S_OutNum(self, (float)self->Clip.outterClips[i].w);
+-      S_OutNum(self, (float)self->Clip.outterClips[i].h);
++      S_OutNum(self, (float)(self->Clip.outterClips[i].x)* scl_fact);
++      S_OutNum(self, (float)(self->Clip.outterClips[i].y)* scl_fact);
++      S_OutNum(self, (float)self->Clip.outterClips[i].w * scl_fact);
++      S_OutNum(self, (float)self->Clip.outterClips[i].h * scl_fact);
+       S_OutTok(self, "R", 1);
+     }
+     S_OutTok(self, "cl n", 1);
+@@ -881,10 +934,10 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
+   {
+     for( i=0 ; i<self->Clip.nRects ; i++ )
+     {
+-      S_OutNum(self, (float)(self->Clip.rects[i].x+xo));
+-      S_OutNum(self, (float)(self->Clip.rects[i].y+yo));
+-      S_OutNum(self, (float)self->Clip.rects[i].w);
+-      S_OutNum(self, (float)self->Clip.rects[i].h);
++      S_OutNum(self, (float)(self->Clip.rects[i].x * scl_fact + xo));
++      S_OutNum(self, (float)(self->Clip.rects[i].y * scl_fact + yo));
++      S_OutNum(self, (float)self->Clip.rects[i].w * scl_fact);
++      S_OutNum(self, (float)self->Clip.rects[i].h * scl_fact);
+       S_OutTok(self, "R", 1);
+     }
+     S_OutTok(self, "cl n", 1);
+@@ -899,31 +952,35 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
+         case PSOUT_POINTS:
+           for( k=0 ; k<elm->nPoints ; k++ )
+           {
+-            S_OutNum(self, (float)elm->c.points[k].x+xo);
+-            S_OutNum(self, (float)elm->c.points[k].y+yo);
++            S_OutNum(self, ((float)elm->c.points[k].x * scl_fact + xo));
++            S_OutNum(self, ((float)elm->c.points[k].y * scl_fact + yo));
+             if( k==0 ) S_OutTok(self, "m", 0);
+             else       S_OutTok(self, "l", 0);
+           }
+           S_OutTok(self, "cp", 1);
+           break;
+         case PSOUT_RECT:
+-          S_OutNum(self, (float)elm->c.rect.x+xo);
+-          S_OutNum(self, (float)elm->c.rect.y+yo);
+-          S_OutNum(self, (float)elm->c.rect.w);
+-          S_OutNum(self, (float)elm->c.rect.h);
++	  S_OutNum(self, ((float)elm->c.rect.x * scl_fact + xo));
++          S_OutNum(self, ((float)elm->c.rect.y * scl_fact + yo));
++          S_OutNum(self, (float)elm->c.rect.w * scl_fact);
++          S_OutNum(self, (float)elm->c.rect.h * scl_fact);
+           S_OutTok(self, "R", 1);
+           break;
+         case PSOUT_ARC:
+           if( elm->c.arc.style==PsPieSlice )
+           {
+-            S_OutNum(self, (float)elm->c.arc.x+xo+(float)elm->c.arc.w/2.);
+-            S_OutNum(self, (float)elm->c.arc.y+yo+(float)elm->c.arc.h/2.);
++            S_OutNum(self, ((float)elm->c.arc.x+(float)elm->c.arc.w/2.) *
++                     scl_fact + xo);
++            S_OutNum(self, ((float)elm->c.arc.y+(float)elm->c.arc.h/2.) *
++                     scl_fact + yo);
+             S_OutTok(self, "m", 0);
+           }
+-          S_OutNum(self, (float)elm->c.arc.x+xo+(float)elm->c.arc.w/2.);
+-          S_OutNum(self, (float)elm->c.arc.y+yo+(float)elm->c.arc.h/2.);
+-          S_OutNum(self, (float)elm->c.arc.w);
+-          S_OutNum(self, (float)elm->c.arc.h);
++          S_OutNum(self, ((float)elm->c.arc.x+(float)elm->c.arc.w/2.) *
++                   scl_fact + xo);
++          S_OutNum(self, ((float)elm->c.arc.y+(float)elm->c.arc.h/2.) *
++                   scl_fact + yo);
++          S_OutNum(self, (float)elm->c.arc.w * scl_fact);
++          S_OutNum(self, (float)elm->c.arc.h * scl_fact);
+           S_OutNum(self, (float)elm->c.arc.a1/64.);
+           S_OutNum(self, (float)elm->c.arc.a1/64.+(float)elm->c.arc.a2/64.);
+           if( elm->c.arc.a2<0 ) S_OutTok(self, "An cp", 1);
+@@ -1052,13 +1109,18 @@ PsOut_Polygon(PsOutPtr self, int nPts, P
+   int  i;
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
++
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+   if( nPts<=2 ) return;
+   for( i=0 ; i<nPts ; i++ )
+   {
+-    S_OutNum(self, (float)(pts[i].x+xo));
+-    S_OutNum(self, (float)(pts[i].y+yo));
++    S_OutNum(self, (float)(pts[i].x * scl_fact +xo) );
++    S_OutNum(self, (float)(pts[i].y * scl_fact +yo) );
+     if( i==0 ) S_OutTok(self, "m", 0);
+     else       S_OutTok(self, "l", 0);
+   }
+@@ -1071,13 +1133,18 @@ PsOut_FillRect(PsOutPtr self, int x, int
+ {
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
++
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+-  x += xo; y += yo;
++  x = x * scl_fact + xo; y = y * scl_fact + yo;
+   S_OutNum(self, (float)x);
+   S_OutNum(self, (float)y);
+-  S_OutNum(self, (float)w);
+-  S_OutNum(self, (float)h);
++  S_OutNum(self, (float)w * scl_fact);
++  S_OutNum(self, (float)h * scl_fact);
+   S_OutTok(self, "R fl", 1);
+ }
+ 
+@@ -1087,19 +1154,23 @@ PsOut_FillArc(PsOutPtr self, int x, int 
+ {
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+   x += xo; y += yo;
+   if( style==PsPieSlice )
+   {
+-    S_OutNum(self, (float)x+(float)w/2.);
+-    S_OutNum(self, (float)y+(float)h/2.);
++    S_OutNum(self, ((float)x+(float)w/2.) * scl_fact + xo);
++    S_OutNum(self, ((float)y+(float)h/2.) * scl_fact + yo);
+     S_OutTok(self, "m", 0);
+   }
+-  S_OutNum(self, (float)x+(float)w/2.);
+-  S_OutNum(self, (float)y+(float)h/2.);
+-  S_OutNum(self, (float)w);
+-  S_OutNum(self, (float)h);
++  S_OutNum(self, ((float)x+(float)w/2.) * scl_fact + xo);
++  S_OutNum(self, ((float)y+(float)h/2.) * scl_fact + yo);
++  S_OutNum(self, ((float)w) * scl_fact);
++  S_OutNum(self, ((float)h) * scl_fact);
+   S_OutNum(self, ang1);
+   S_OutNum(self, ang1+ang2);
+   if( ang2<0 ) S_OutTok(self, "An cp fl", 1);
+@@ -1112,13 +1183,18 @@ PsOut_Lines(PsOutPtr self, int nPts, PsP
+   int  i;
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
++
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+   if( nPts<1 ) return;
+   for( i=0 ; i<nPts ; i++ )
+   {
+-    S_OutNum(self, (float)(pts[i].x+xo));
+-    S_OutNum(self, (float)(pts[i].y+yo));
++    S_OutNum(self, (float)(pts[i].x * scl_fact + xo) );
++    S_OutNum(self, (float)(pts[i].y * scl_fact + yo) );
+     if( i==0 ) S_OutTok(self, "m", 0);
+     else       S_OutTok(self, "l", 0);
+   }
+@@ -1137,13 +1213,17 @@ PsOut_Points(PsOutPtr self, int nPts, Ps
+   int  i;
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+   if( nPts<1 ) return;
+   for( i=0 ; i<nPts ; i++ )
+   {
+-    S_OutNum(self, (float)(pts[i].x+xo));
+-    S_OutNum(self, (float)(pts[i].y+yo));
++    S_OutNum(self, (float)(pts[i].x * scl_fact + xo) );
++    S_OutNum(self, (float)(pts[i].y * scl_fact + yo) );
+     S_OutTok(self, "P", 1);
+   }
+ }
+@@ -1153,13 +1233,17 @@ PsOut_DrawRect(PsOutPtr self, int x, int
+ {
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+-  x += xo; y += yo;
++  x = x * scl_fact + xo; y = y * scl_fact + yo;
+   S_OutNum(self, (float)x);
+   S_OutNum(self, (float)y);
+-  S_OutNum(self, (float)w);
+-  S_OutNum(self, (float)h);
++  S_OutNum(self, (float)w * scl_fact);
++  S_OutNum(self, (float)h * scl_fact);
+   S_OutTok(self, "R", 0);
+   if( self->LineBClr != PSOUTCOLOR_NOCOLOR )
+   {
+@@ -1176,13 +1260,17 @@ PsOut_DrawArc(PsOutPtr self, int x, int 
+ {
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
+-  x += xo; y += yo;
+-  S_OutNum(self, (float)x+(float)w/2.);
+-  S_OutNum(self, (float)y+(float)h/2.);
+-  S_OutNum(self, (float)w);
+-  S_OutNum(self, (float)h);
++  x = x * scl_fact + xo; y = y * scl_fact + yo;
++  S_OutNum(self, ((float)x+(float)w/2.) );
++  S_OutNum(self, ((float)y+(float)h/2.) );
++  S_OutNum(self, (float)w * scl_fact);
++  S_OutNum(self, (float)h * scl_fact);
+   S_OutNum(self, ang1);
+   S_OutNum(self, ang1+ang2);
+   if( ang2<0 ) S_OutTok(self, "An", 0);
+@@ -1269,7 +1357,7 @@ PsOut_ImageCache(PsOutPtr self, int x, i
+     int ib = PSOUTCOLOR_TO_BLUEBITS(bclr);
+ 
+     if( ir==ig && ig==ib )
+-      S_OutNum(self, PSOUTCOLOR_BITS_TO_PSFLOAT(ir));
++      S_OutNum(self, (float)ir/255.);
+     else
+       S_OutNum(self, (float)0);
+       self->RevImage = 1;
+@@ -1281,7 +1369,7 @@ PsOut_ImageCache(PsOutPtr self, int x, i
+     int ib = PSOUTCOLOR_TO_BLUEBITS(fclr);
+ 
+     if( ir==ig && ig==ib )
+-      S_OutNum(self, PSOUTCOLOR_BITS_TO_PSFLOAT(ir));
++      S_OutNum(self, (float)ir/255.);
+     else
+       S_OutNum(self, (float)0);
+   }
+@@ -1313,14 +1401,20 @@ PsOut_BeginImage(PsOutPtr self, PsOutCol
+   PsOutColor savClr = self->CurColor;
+   int xo = self->XOff;
+   int yo = self->YOff;
++  int x1, y1;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
+ 
+   if( self->InFrame || self->InTile ) xo = yo = 0;
++  x1 = x * scl_fact + xo; y1 = y * scl_fact + yo;
+   x += xo; y += yo;
+   if( self->InTile )
+   {
+     if( self->InTile>=PsStip && format!=1 ) { self->ImgSkip = 1; return; }
+     self->ImgBClr = bclr; self->ImgFClr = fclr;
+-    self->ImgX    = x;    self->ImgY    = y;
++    self->ImgX    = x1;    self->ImgY    = y1;
+     self->ImgW    = w;    self->ImgH    = h;
+     self->SclW    = sw;   self->SclH    = sh;
+     S_OutTok(self, "<", 0);
+@@ -1349,8 +1443,8 @@ PsOut_BeginImage(PsOutPtr self, PsOutCol
+       PsOut_Color(self, fclr);
+     }
+   }
+-  S_OutNum(self, (float)x);
+-  S_OutNum(self, (float)y);
++  S_OutNum(self, (float)x1);
++  S_OutNum(self, (float)y1);
+   S_OutNum(self, (float)w);
+   S_OutNum(self, (float)h);
+   S_OutNum(self, (float)sw);
+@@ -1530,15 +1624,20 @@ PsOut_BeginFrame(PsOutPtr self, int xoff
+ {
+   int  xo = self->XOff;
+   int  yo = self->YOff;
++  float scl_fact = 1;
++
++  if(self->ClientDpi)
++    scl_fact = self->ClientDpi->scale_factor;
++
+ 
+   if( self->InFrame ) xo = yo = 0;
+   S_OutTok(self, "gs", 0);
+-  S_OutNum(self, (float)(x+xo));
+-  S_OutNum(self, (float)(y+yo));
+-  S_OutNum(self, (float)w);
+-  S_OutNum(self, (float)h);
++  S_OutNum(self, (float)(x * scl_fact + xo));
++  S_OutNum(self, (float)(y * scl_fact + yo));
++  S_OutNum(self, (float)w * scl_fact);
++  S_OutNum(self, (float)h * scl_fact);
+   S_OutTok(self, "R cl n", 0);
+-  xoff += xo; yoff += yo;
++  xoff = xoff * scl_fact + xo; yoff = yoff * scl_fact + yo;
+   if( xoff || yoff )
+   {
+     S_OutNum(self, (float)xoff);
+--- hw/xprint/ps/PsText.c	2009-01-09 13:37:05.607251000 -0800
++++ hw/xprint/ps/PsText.c.new	2009-01-09 13:37:05.621873000 -0800
 @@ -1,4 +1,33 @@
  /*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -722,8 +1123,77 @@
          
          x  += pci->metrics.characterWidth;
      }
---- hw/xprint/ps/psout.h	2006-09-17 23:04:18.000000000 -0700
-+++ hw/xprint/ps/psout.h.new	2008-09-24 11:00:54.446307000 -0700
+--- hw/xprint/ps/PsInit.c	2009-01-09 13:37:05.552435000 -0800
++++ hw/xprint/ps/PsInit.c.new	2009-01-09 13:37:05.570436000 -0800
+@@ -1,4 +1,33 @@
+ /*
++ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
++ * Use is subject to license terms.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, and/or sell copies of the Software, and to permit persons
++ * to whom the Software is furnished to do so, provided that the above
++ * copyright notice(s) and this permission notice appear in all copies of
++ * the Software and that both the above copyright notice(s) and this
++ * permission notice appear in supporting documentation.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ *
++ * Except as contained in this notice, the name of a copyright holder
++ * shall not be used in advertising or otherwise to promote the sale, use
++ * or other dealings in this Software without prior written authorization
++ * of the copyright holder.
++ */
++/*
+ 
+ Copyright 1996, 1998  The Open Group
+ 
+@@ -102,9 +131,15 @@ DevPrivateKey PsContextPrivateKey = &PsC
+ DevPrivateKey PsPixmapPrivateKey = &PsPixmapPrivateKey;
+ DevPrivateKey PsWindowPrivateKey = &PsWindowPrivateKey;
+ 
++/* 
++** since Xorg 1.5.3, GlxWrapInitVisuals(procPtr)
++** had been removed from mi/miinitext.c
++*/
++#if 0
+ #ifdef GLXEXT
+ extern void GlxWrapInitVisuals(miInitVisualsProcPtr *);
+ #endif /* GLXEXT */
++#endif
+ 
+ Bool
+ InitializePsDriver(ndx, pScreen, argc, argv)
+@@ -446,7 +481,7 @@ InitializePsDriver(ndx, pScreen, argc, a
+   /* Defaul visual is 12bit PseudoColor */
+   defaultVisual = visuals[defaultVisualIndex].vid;
+   rootDepth = visuals[defaultVisualIndex].nplanes;
+-
++#if 0
+ #ifdef GLXEXT
+   {
+     miInitVisualsProcPtr proc = NULL;
+@@ -457,6 +492,7 @@ InitializePsDriver(ndx, pScreen, argc, a
+          &rootDepth, &defaultVisual, 0, 0, 0);
+   }
+ #endif /* GLXEXT */
++#endif
+ 
+   miScreenInit(pScreen, (pointer)0,
+                pScreen->width, pScreen->height,
+--- hw/xprint/ps/psout.h	2009-01-10 14:41:21.939445000 -0800
++++ hw/xprint/ps/psout.h.new	2009-01-10 14:41:21.962349000 -0800
 @@ -1,4 +1,33 @@
  /*
 + * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
@@ -766,417 +1236,12 @@
  
  typedef enum PsCapEnum_  { PsCButt=0,   PsCRound, PsCSquare    } PsCapEnum;
  typedef enum PsJoinEnum_ { PsJMiter=0,  PsJRound, PsJBevel     } PsJoinEnum;
-@@ -249,11 +279,9 @@ typedef struct PsOutRec_
-   int         ImgH;
-   int         SclW;
-   int         SclH;
--
+@@ -253,7 +283,7 @@ typedef struct PsOutRec_
    Bool        isRaw;
--  
+   
    int         pagenum;
 -
 +  XpClientDPIPtr ClientDpi;
    int         start_image;
  } PsOutRec;
  
---- hw/xprint/ps/psout.c	2006-09-17 23:04:18.000000000 -0700
-+++ hw/xprint/ps/psout.c.new	2008-09-24 11:19:44.573129000 -0700
-@@ -1,4 +1,33 @@
- /*
-+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
-+ * Use is subject to license terms.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, and/or sell copies of the Software, and to permit persons
-+ * to whom the Software is furnished to do so, provided that the above
-+ * copyright notice(s) and this permission notice appear in all copies of
-+ * the Software and that both the above copyright notice(s) and this
-+ * permission notice appear in supporting documentation.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
-+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
-+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-+ *
-+ * Except as contained in this notice, the name of a copyright holder
-+ * shall not be used in advertising or otherwise to promote the sale, use
-+ * or other dealings in this Software without prior written authorization
-+ * of the copyright holder.
-+ */
-+/*
- 
- Copyright 1996, 1998  The Open Group
- 
-@@ -89,6 +118,18 @@ in this Software without prior written a
- #endif /* XP_USE_FREETYPE */
- /* For VENDOR_STRING and VENDOR_RELEASE */
- #include "site.h"
-+/* 
-+** CRT 00308: Bug 4402782: Scale xprt outpu
-+*/
-+#include <X11/X.h>
-+#include <X11/Xproto.h>
-+#include "misc.h"
-+#include "windowstr.h"
-+#include "scrnintstr.h"
-+#include "pixmapstr.h"
-+#include "extnsionst.h"
-+#include "dixstruct.h"
-+#include <X11/Xatom.h>
- 
- /*
-  *  Standard definitions
-@@ -584,6 +625,13 @@ S_SetPageDevice(PsOutPtr self, int orien
-  *                        PUBLIC FUNCTIONS                         *
-  *******************************************************************/
- 
-+void
-+PsOut_SetClientDPI(PsOutPtr self, XpClientDPIPtr client_dpi)
-+{
-+  self->ClientDpi = client_dpi;
-+}
-+
-+
- FILE *
- PsOut_ChangeFile(PsOutPtr self, FILE *fp)
- {
-@@ -695,6 +743,7 @@ PsOut_EndFile(PsOutPtr self, int closeFi
-   if( self->Patterns ) xfree(self->Patterns);
-   if( self->Clip.rects ) xfree(self->Clip.rects);
-   if( closeFile ) fclose(self->Fp);
-+  self->pagenum = 0;
-   xfree(self);
- }
- 
-@@ -779,6 +828,10 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
-   int  changed = 0;
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
- 
-   if( self->InTile ) return;
-   if( self->InFrame ) xo = yo = 0;
-@@ -869,10 +922,10 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
-   {
-     for( i=0 ; i<self->Clip.nOutterClips ; i++ )
-     {
--      S_OutNum(self, (float)(self->Clip.outterClips[i].x));
--      S_OutNum(self, (float)(self->Clip.outterClips[i].y));
--      S_OutNum(self, (float)self->Clip.outterClips[i].w);
--      S_OutNum(self, (float)self->Clip.outterClips[i].h);
-+      S_OutNum(self, (float)(self->Clip.outterClips[i].x)* scl_fact);
-+      S_OutNum(self, (float)(self->Clip.outterClips[i].y)* scl_fact);
-+      S_OutNum(self, (float)self->Clip.outterClips[i].w * scl_fact);
-+      S_OutNum(self, (float)self->Clip.outterClips[i].h * scl_fact);
-       S_OutTok(self, "R", 1);
-     }
-     S_OutTok(self, "cl n", 1);
-@@ -881,10 +934,10 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
-   {
-     for( i=0 ; i<self->Clip.nRects ; i++ )
-     {
--      S_OutNum(self, (float)(self->Clip.rects[i].x+xo));
--      S_OutNum(self, (float)(self->Clip.rects[i].y+yo));
--      S_OutNum(self, (float)self->Clip.rects[i].w);
--      S_OutNum(self, (float)self->Clip.rects[i].h);
-+      S_OutNum(self, (float)(self->Clip.rects[i].x * scl_fact + xo));
-+      S_OutNum(self, (float)(self->Clip.rects[i].y * scl_fact + yo));
-+      S_OutNum(self, (float)self->Clip.rects[i].w * scl_fact);
-+      S_OutNum(self, (float)self->Clip.rects[i].h * scl_fact);
-       S_OutTok(self, "R", 1);
-     }
-     S_OutTok(self, "cl n", 1);
-@@ -899,31 +952,35 @@ PsOut_Clip(PsOutPtr self, int clpTyp, Ps
-         case PSOUT_POINTS:
-           for( k=0 ; k<elm->nPoints ; k++ )
-           {
--            S_OutNum(self, (float)elm->c.points[k].x+xo);
--            S_OutNum(self, (float)elm->c.points[k].y+yo);
-+            S_OutNum(self, ((float)elm->c.points[k].x * scl_fact + xo));
-+            S_OutNum(self, ((float)elm->c.points[k].y * scl_fact + yo));
-             if( k==0 ) S_OutTok(self, "m", 0);
-             else       S_OutTok(self, "l", 0);
-           }
-           S_OutTok(self, "cp", 1);
-           break;
-         case PSOUT_RECT:
--          S_OutNum(self, (float)elm->c.rect.x+xo);
--          S_OutNum(self, (float)elm->c.rect.y+yo);
--          S_OutNum(self, (float)elm->c.rect.w);
--          S_OutNum(self, (float)elm->c.rect.h);
-+	  S_OutNum(self, ((float)elm->c.rect.x * scl_fact + xo));
-+          S_OutNum(self, ((float)elm->c.rect.y * scl_fact + yo));
-+          S_OutNum(self, (float)elm->c.rect.w * scl_fact);
-+          S_OutNum(self, (float)elm->c.rect.h * scl_fact);
-           S_OutTok(self, "R", 1);
-           break;
-         case PSOUT_ARC:
-           if( elm->c.arc.style==PsPieSlice )
-           {
--            S_OutNum(self, (float)elm->c.arc.x+xo+(float)elm->c.arc.w/2.);
--            S_OutNum(self, (float)elm->c.arc.y+yo+(float)elm->c.arc.h/2.);
-+            S_OutNum(self, ((float)elm->c.arc.x+(float)elm->c.arc.w/2.) *
-+                     scl_fact + xo);
-+            S_OutNum(self, ((float)elm->c.arc.y+(float)elm->c.arc.h/2.) *
-+                     scl_fact + yo);
-             S_OutTok(self, "m", 0);
-           }
--          S_OutNum(self, (float)elm->c.arc.x+xo+(float)elm->c.arc.w/2.);
--          S_OutNum(self, (float)elm->c.arc.y+yo+(float)elm->c.arc.h/2.);
--          S_OutNum(self, (float)elm->c.arc.w);
--          S_OutNum(self, (float)elm->c.arc.h);
-+          S_OutNum(self, ((float)elm->c.arc.x+(float)elm->c.arc.w/2.) *
-+                   scl_fact + xo);
-+          S_OutNum(self, ((float)elm->c.arc.y+(float)elm->c.arc.h/2.) *
-+                   scl_fact + yo);
-+          S_OutNum(self, (float)elm->c.arc.w * scl_fact);
-+          S_OutNum(self, (float)elm->c.arc.h * scl_fact);
-           S_OutNum(self, (float)elm->c.arc.a1/64.);
-           S_OutNum(self, (float)elm->c.arc.a1/64.+(float)elm->c.arc.a2/64.);
-           if( elm->c.arc.a2<0 ) S_OutTok(self, "An cp", 1);
-@@ -1052,13 +1109,18 @@ PsOut_Polygon(PsOutPtr self, int nPts, P
-   int  i;
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
-+
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
-   if( nPts<=2 ) return;
-   for( i=0 ; i<nPts ; i++ )
-   {
--    S_OutNum(self, (float)(pts[i].x+xo));
--    S_OutNum(self, (float)(pts[i].y+yo));
-+    S_OutNum(self, (float)(pts[i].x * scl_fact +xo) );
-+    S_OutNum(self, (float)(pts[i].y * scl_fact +yo) );
-     if( i==0 ) S_OutTok(self, "m", 0);
-     else       S_OutTok(self, "l", 0);
-   }
-@@ -1071,13 +1133,18 @@ PsOut_FillRect(PsOutPtr self, int x, int
- {
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
-+
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
--  x += xo; y += yo;
-+  x = x * scl_fact + xo; y = y * scl_fact + yo;
-   S_OutNum(self, (float)x);
-   S_OutNum(self, (float)y);
--  S_OutNum(self, (float)w);
--  S_OutNum(self, (float)h);
-+  S_OutNum(self, (float)w * scl_fact);
-+  S_OutNum(self, (float)h * scl_fact);
-   S_OutTok(self, "R fl", 1);
- }
- 
-@@ -1087,19 +1154,23 @@ PsOut_FillArc(PsOutPtr self, int x, int 
- {
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
-   x += xo; y += yo;
-   if( style==PsPieSlice )
-   {
--    S_OutNum(self, (float)x+(float)w/2.);
--    S_OutNum(self, (float)y+(float)h/2.);
-+    S_OutNum(self, ((float)x+(float)w/2.) * scl_fact + xo);
-+    S_OutNum(self, ((float)y+(float)h/2.) * scl_fact + yo);
-     S_OutTok(self, "m", 0);
-   }
--  S_OutNum(self, (float)x+(float)w/2.);
--  S_OutNum(self, (float)y+(float)h/2.);
--  S_OutNum(self, (float)w);
--  S_OutNum(self, (float)h);
-+  S_OutNum(self, ((float)x+(float)w/2.) * scl_fact + xo);
-+  S_OutNum(self, ((float)y+(float)h/2.) * scl_fact + yo);
-+  S_OutNum(self, ((float)w) * scl_fact);
-+  S_OutNum(self, ((float)h) * scl_fact);
-   S_OutNum(self, ang1);
-   S_OutNum(self, ang1+ang2);
-   if( ang2<0 ) S_OutTok(self, "An cp fl", 1);
-@@ -1112,13 +1183,18 @@ PsOut_Lines(PsOutPtr self, int nPts, PsP
-   int  i;
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
-+
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
-   if( nPts<1 ) return;
-   for( i=0 ; i<nPts ; i++ )
-   {
--    S_OutNum(self, (float)(pts[i].x+xo));
--    S_OutNum(self, (float)(pts[i].y+yo));
-+    S_OutNum(self, (float)(pts[i].x * scl_fact + xo) );
-+    S_OutNum(self, (float)(pts[i].y * scl_fact + yo) );
-     if( i==0 ) S_OutTok(self, "m", 0);
-     else       S_OutTok(self, "l", 0);
-   }
-@@ -1137,13 +1213,17 @@ PsOut_Points(PsOutPtr self, int nPts, Ps
-   int  i;
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
-   if( nPts<1 ) return;
-   for( i=0 ; i<nPts ; i++ )
-   {
--    S_OutNum(self, (float)(pts[i].x+xo));
--    S_OutNum(self, (float)(pts[i].y+yo));
-+    S_OutNum(self, (float)(pts[i].x * scl_fact + xo) );
-+    S_OutNum(self, (float)(pts[i].y * scl_fact + yo) );
-     S_OutTok(self, "P", 1);
-   }
- }
-@@ -1153,13 +1233,17 @@ PsOut_DrawRect(PsOutPtr self, int x, int
- {
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
--  x += xo; y += yo;
-+  x = x * scl_fact + xo; y = y * scl_fact + yo;
-   S_OutNum(self, (float)x);
-   S_OutNum(self, (float)y);
--  S_OutNum(self, (float)w);
--  S_OutNum(self, (float)h);
-+  S_OutNum(self, (float)w * scl_fact);
-+  S_OutNum(self, (float)h * scl_fact);
-   S_OutTok(self, "R", 0);
-   if( self->LineBClr != PSOUTCOLOR_NOCOLOR )
-   {
-@@ -1176,13 +1260,17 @@ PsOut_DrawArc(PsOutPtr self, int x, int 
- {
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
--  x += xo; y += yo;
--  S_OutNum(self, (float)x+(float)w/2.);
--  S_OutNum(self, (float)y+(float)h/2.);
--  S_OutNum(self, (float)w);
--  S_OutNum(self, (float)h);
-+  x = x * scl_fact + xo; y = y * scl_fact + yo;
-+  S_OutNum(self, ((float)x+(float)w/2.) );
-+  S_OutNum(self, ((float)y+(float)h/2.) );
-+  S_OutNum(self, (float)w * scl_fact);
-+  S_OutNum(self, (float)h * scl_fact);
-   S_OutNum(self, ang1);
-   S_OutNum(self, ang1+ang2);
-   if( ang2<0 ) S_OutTok(self, "An", 0);
-@@ -1269,7 +1357,7 @@ PsOut_ImageCache(PsOutPtr self, int x, i
-     int ib = PSOUTCOLOR_TO_BLUEBITS(bclr);
- 
-     if( ir==ig && ig==ib )
--      S_OutNum(self, PSOUTCOLOR_BITS_TO_PSFLOAT(ir));
-+      S_OutNum(self, (float)ir/255.);
-     else
-       S_OutNum(self, (float)0);
-       self->RevImage = 1;
-@@ -1281,7 +1369,7 @@ PsOut_ImageCache(PsOutPtr self, int x, i
-     int ib = PSOUTCOLOR_TO_BLUEBITS(fclr);
- 
-     if( ir==ig && ig==ib )
--      S_OutNum(self, PSOUTCOLOR_BITS_TO_PSFLOAT(ir));
-+      S_OutNum(self, (float)ir/255.);
-     else
-       S_OutNum(self, (float)0);
-   }
-@@ -1313,14 +1401,20 @@ PsOut_BeginImage(PsOutPtr self, PsOutCol
-   PsOutColor savClr = self->CurColor;
-   int xo = self->XOff;
-   int yo = self->YOff;
-+  int x1, y1;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
- 
-   if( self->InFrame || self->InTile ) xo = yo = 0;
-+  x1 = x * scl_fact + xo; y1 = y * scl_fact + yo;
-   x += xo; y += yo;
-   if( self->InTile )
-   {
-     if( self->InTile>=PsStip && format!=1 ) { self->ImgSkip = 1; return; }
-     self->ImgBClr = bclr; self->ImgFClr = fclr;
--    self->ImgX    = x;    self->ImgY    = y;
-+    self->ImgX    = x1;    self->ImgY    = y1;
-     self->ImgW    = w;    self->ImgH    = h;
-     self->SclW    = sw;   self->SclH    = sh;
-     S_OutTok(self, "<", 0);
-@@ -1349,8 +1443,8 @@ PsOut_BeginImage(PsOutPtr self, PsOutCol
-       PsOut_Color(self, fclr);
-     }
-   }
--  S_OutNum(self, (float)x);
--  S_OutNum(self, (float)y);
-+  S_OutNum(self, (float)x1);
-+  S_OutNum(self, (float)y1);
-   S_OutNum(self, (float)w);
-   S_OutNum(self, (float)h);
-   S_OutNum(self, (float)sw);
-@@ -1530,15 +1624,20 @@ PsOut_BeginFrame(PsOutPtr self, int xoff
- {
-   int  xo = self->XOff;
-   int  yo = self->YOff;
-+  float scl_fact = 1;
-+
-+  if(self->ClientDpi)
-+    scl_fact = self->ClientDpi->scale_factor;
-+
- 
-   if( self->InFrame ) xo = yo = 0;
-   S_OutTok(self, "gs", 0);
--  S_OutNum(self, (float)(x+xo));
--  S_OutNum(self, (float)(y+yo));
--  S_OutNum(self, (float)w);
--  S_OutNum(self, (float)h);
-+  S_OutNum(self, (float)(x * scl_fact + xo));
-+  S_OutNum(self, (float)(y * scl_fact + yo));
-+  S_OutNum(self, (float)w * scl_fact);
-+  S_OutNum(self, (float)h * scl_fact);
-   S_OutTok(self, "R cl n", 0);
--  xoff += xo; yoff += yo;
-+  xoff = xoff * scl_fact + xo; yoff = yoff * scl_fact + yo;
-   if( xoff || yoff )
-   {
-     S_OutNum(self, (float)xoff);
