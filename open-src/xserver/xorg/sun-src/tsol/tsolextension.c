@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.32     09/01/22 SMI"
+#pragma ident   "@(#)tsolextension.c 1.33     09/01/30 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -2112,7 +2112,7 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
 	    return XTSOL_ALLOW;
     }
 
-    if (access_mode & DixWriteAccess) {
+    if (access_mode & (DixWriteAccess | DixBlendAccess)) {
 	if (!PolyProperty(propertyName, pWin) &&
 	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_MODIFY,
 			 pProp, client, TSOL_ALL, (void *)MAJOROP))
@@ -2129,6 +2129,13 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
 	else
             return XTSOL_ALLOW;
     }
+
+#ifdef DEBUG
+    ErrorF("policy not implemented for CheckPropertyAccess, mode=%d\n",
+	   access_mode);
+#endif /* DEBUG */
+
+    return XTSOL_FAIL;
 }
 
 static CALLBACK(
