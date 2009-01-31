@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.58	08/10/06	Sun Microsystems
+#	@(#)prototype_com	35.62	09/02/02	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -59,16 +59,18 @@ d none openwin/lib/X11/fonts 0755 root bin
 !search  $HOME/lib/X11/fonts/Xt+
 d none openwin/lib/X11/fonts/Xt+ 			0755 root bin
 
-!search  $HOME/lib/X11/fonts/75dpi
-d none openwin/lib/X11/fonts/75dpi 			0755 root bin
-e fontsdir openwin/lib/X11/fonts/75dpi/fonts.dir 	0644 root bin
-f none openwin/lib/X11/fonts/75dpi/helvB10.pcf 	0644 root bin
-f none openwin/lib/X11/fonts/75dpi/helvB12.pcf 	0644 root bin
-f none openwin/lib/X11/fonts/75dpi/helvB14.pcf 	0644 root bin
+#!search  $HOME/lib/X11/fonts/75dpi
+!search  ../usr/X11/lib/X11/fonts/75dpi
+d none X11/lib/X11/fonts/75dpi 			0755 root bin
+e fontsdir X11/lib/X11/fonts/75dpi/fonts.dir 	0644 root bin
+f none X11/lib/X11/fonts/75dpi/helvB10.pcf.gz 	0644 root bin
+f none X11/lib/X11/fonts/75dpi/helvB12.pcf.gz	0644 root bin
+f none X11/lib/X11/fonts/75dpi/helvB14.pcf.gz	0644 root bin
 
-!search  $HOME/lib/X11/fonts/100dpi
-d none openwin/lib/X11/fonts/100dpi 			0755 root bin
-e fontsdir openwin/lib/X11/fonts/100dpi/fonts.dir 	644 root bin
+#!search  $HOME/lib/X11/fonts/100dpi
+!search  ../usr/X11/lib/X11/fonts/100dpi
+d none X11/lib/X11/fonts/100dpi 			0755 root bin
+e fontsdir X11/lib/X11/fonts/100dpi/fonts.dir 	644 root bin
 
 !search  $HOME/lib/X11/fonts/pcf
 d none openwin/lib/X11/fonts/pcf 			0755 root bin
@@ -609,5 +611,5 @@ d none X11/lib/X11/fonts 0755 root bin
 s none X11/lib/X11/fonts/F3bitmaps=../../../../openwin/lib/X11/fonts/F3bitmaps
 s none X11/lib/X11/fonts/TrueType=../../../../openwin/lib/X11/fonts/TrueType
 s none X11/lib/X11/fonts/misc=../../../../openwin/lib/X11/fonts/misc
-s none X11/lib/X11/fonts/75dpi=../../../../openwin/lib/X11/fonts/75dpi
-s none X11/lib/X11/fonts/100dpi=../../../../openwin/lib/X11/fonts/100dpi
+#s none X11/lib/X11/fonts/75dpi=../../../../openwin/lib/X11/fonts/75dpi
+#s none X11/lib/X11/fonts/100dpi=../../../../X11/lib/X11/fonts/100dpi
