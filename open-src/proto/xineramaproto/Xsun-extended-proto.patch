@@ -5,22 +5,32 @@ but Sun maintains backwards compatibility with old versions of Solaris, so
 we still have this here for now.
 
 For more info, see:
- http://blogs.sun.com/roller/page/alanc?entry=xinerama_protocol_clashes_on_solaris
+ http://blogs.sun.com/alanc/entry/xinerama_protocol_clashes_on_solaris
 
-diff -uwb build_32/xineramaproto-1.1.2/panoramiXext.h ../../../xc/include/extensions//panoramiXext.h
---- panoramiXext.h	Fri Apr 23 11:43:06 2004
-+++ panoramiXext.h	Tue Apr 18 17:41:37 2006
-@@ -46,3 +46,76 @@
+diff -urp -x '*~' -x '*.orig' panoramiXext.h panoramiXext.h
+--- panoramiXext.h	2004-04-23 11:43:06.000000000 -0700
++++ panoramiXext.h	2009-02-02 18:17:16.814431000 -0800
+@@ -30,6 +30,9 @@ Equipment Corporation.
+ 
+ /* THIS IS NOT AN X PROJECT TEAM SPECIFICATION */
+ 
++#ifndef _panoramiXext_h
++#define _panoramiXext_h
++
+ #define PANORAMIX_MAJOR_VERSION         1       /* current version number */
+ #define PANORAMIX_MINOR_VERSION         1
+ 
+@@ -46,3 +49,68 @@ typedef struct {
  extern XPanoramiXInfo *XPanoramiXAllocInfo (
      void
  );        
 +
-+#ifdef SUNSOFT
++#if defined(SUNSOFT) && !defined(XORGSERVER)
 +/************************************************************************
 + * Xsun addition to Xinerama 1.0 protocol, now deprecated in favor of 1.1
 + * protocol.
 + *
-+ * Copyright 2001 Sun Microsystems, Inc.  All rights reserved.
++ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the
@@ -67,39 +77,31 @@ diff -uwb build_32/xineramaproto-1.1.2/panoramiXext.h ../../../xc/include/extens
 +	DELTA	dx,dy;	/* delta in screen co-ord from virtual zero */
 +	POINT	x,y;	/* location of window in screen co-ord */
 +	DELTA 	wdx,wdy;/* size of window in screen co-ord */
-+}SubWID, *pSubWID;
++} SubWID, *pSubWID;
 +
 +typedef struct xineramainfo
 +{
 +	XinID 	wid;	/* Window ID of requested virtual window */
 +	SubWID	subs[MAXSCREEN];	/* there will be 16 slots */
-+}XineramaInfo, *pXineramaInfo;
-+#endif
++} XineramaInfo, *pXineramaInfo;
++#endif /* _XINERAMAINFO_ */
 +
-+#ifndef NO_PROTO_HERE
-+Bool XDgaGetXineramaInfo(
-+#if NeedFunctionPrototypes
-+/* this brakes the server
-+Display *, int, XID, XineramaInfo *
-+*/
-+#endif
-+);
-+#endif /* SUNSOFT */
++#endif /* SUNSOFT & !XORGSERVER */
 +
-+#endif
-diff -uwb build_32/xineramaproto-1.1.2/panoramiXproto.h ../../../xc/include/extensions//panoramiXproto.h
---- panoramiXproto.h	Fri Apr 23 11:43:06 2004
-+++ panoramiXproto.h	Tue Apr 18 17:42:17 2006
-@@ -189,4 +189,85 @@
++#endif /* _panoramiXext_h */
+diff -urp -x '*~' -x '*.orig' panoramiXproto.h panoramiXproto.h
+--- panoramiXproto.h	2004-04-23 11:43:06.000000000 -0700
++++ panoramiXproto.h	2009-02-02 18:17:16.824809000 -0800
+@@ -189,4 +189,64 @@ typedef struct {
  } xXineramaScreenInfo;
  #define sz_XineramaScreenInfo 8
  
-+#ifdef SUNSOFT
++#if defined(SUNSOFT) && !defined(XORGSERVER)
 +/************************************************************************
 + * Xsun addition to Xinerama 1.0 protocol, now deprecated in favor of 1.1
 + * protocol.
 + *
-+ * Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
++ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the
@@ -126,33 +128,12 @@ diff -uwb build_32/xineramaproto-1.1.2/panoramiXproto.h ../../../xc/include/exte
 + * or other dealings in this Software without prior written authorization
 + * of the copyright holder.
 + */
-+#pragma ident   "@(#)Xsun-extended-proto.patch	1.1	06/06/12 SMI"
++#pragma ident   "@(#)Xsun-extended-proto.patch	1.2	09/02/03 SMI"
++
++#include <X11/extensions/panoramiXext.h>
 +
 +#define X_PanoramiXGetInfo	4
 +#define X_XineramaInfo		4
-+
-+#ifndef _XINERAMAINFO_
-+#define _XINERAMAINFO_
-+#define XinID	int
-+#define MAXSCREEN 16
-+#define DELTA	int
-+#define POINT	int
-+
-+typedef struct subwid
-+{
-+	XinID	wid;	/* sub window id */
-+	DELTA	dx,dy;	/* delta in screen co-ord from virtual zero */
-+	POINT	x,y;	/* location of window in screen co-ord */
-+	DELTA 	wdx,wdy;/* size of window in screen co-ord */
-+}SubWID, *pSubWID;
-+
-+typedef struct xineramainfo
-+{
-+	XinID 	wid;	/* Window ID of requested virtual window */
-+	SubWID	subs[MAXSCREEN];	/* there will be 16 slots */
-+}XineramaInfo, *pXineramaInfo;
-+
-+#endif
 +
 +typedef struct _XXineramaInfoReply
 +{
@@ -173,6 +154,6 @@ diff -uwb build_32/xineramaproto-1.1.2/panoramiXproto.h ../../../xc/include/exte
 +}xXineramaInfoReq;
 +
 +#define sz_xXineramaInfoReq 8
-+#endif /* SUNSOFT */
++#endif /* SUNSOFT & !XORGSERVER */
 +
  #endif 

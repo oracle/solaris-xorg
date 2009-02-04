@@ -1,4 +1,4 @@
-/* Copyright 2000 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,19 +26,25 @@
  * of the copyright holder.
  */ 
 
-/* Xinerama header file */
+/* Header file for Sun-created Xinerama APIs in libXext & libdga
+   Mostly deprecated in favor of X.Org standard libXinerama API. */
 
 #ifndef _XINERAMA_H_
 #define _XINERAMA_H_
 
-#define MAXFRAMEBUFFERS       16
-#define XINERAMA_PLACE_TOP    1
-#define XINERAMA_PLACE_BOTTOM 2
-#define XINERAMA_PLACE_RIGHT  4
-#define XINERAMA_PLACE_LEFT   8
+#include <X11/Xfuncproto.h>
+#include <X11/extensions/panoramiXext.h>
 
+#define MAXFRAMEBUFFERS       MAXSCREEN
+
+/* in libXext.so */
+_X_DEPRECATED
 Bool XineramaGetState(Display*, int);
+_X_DEPRECATED
 Status XineramaGetInfo(Display*, int, XRectangle*, unsigned char*, int*);
 Status XineramaGetCenterHint(Display*, int, int*, int*);
+
+/* in libdga.so */
+Bool XDgaGetXineramaInfo(Display *, int, XID, XineramaInfo *);
 
 #endif /* _XINERAMA_H_ */

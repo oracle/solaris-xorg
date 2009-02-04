@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.6	09/01/14
+# @(#)Makefile.init	1.7	09/02/03
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -123,10 +123,11 @@ OPT_FLAGS_gcc			= -O3
 DEBUG_FLAGS_gcc			= $(DEBUG_FLAGS_common)
 $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_gcc = $(DEBUG_FLAGS_gcc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_gcc = $(OPT_FLAGS_gcc)
+WARNFLAGS_gcc			= -Wall -Wno-unknown-pragmas
 CFLAGS_gcc			= $(DEBUG_OR_OPT_FLAGS_gcc) \
-					-fno-omit-frame-pointer -Wall
+				  -fno-omit-frame-pointer $(WARNFLAGS_gcc)
 CXXFLAGS_gcc			= $(DEBUG_OR_OPT_FLAGS_gcc) \
-					-fno-omit-frame-pointer -Wall
+				  -fno-omit-frame-pointer $(WARNFLAGS_gcc)
 
 ARCH32_FLAGS_sparc_gcc	 	= -mcpu=ultrasparc -m32
 ARCH64_FLAGS_sparc_gcc 		= -mcpu=ultrasparc -m64
