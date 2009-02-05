@@ -49,6 +49,7 @@ KB_EncodingAtXCrash.patch
 6618220.patch
 6668806.patch
 6721634.patch
+6801386.patch
 xpstubs.patch
 dixmods-deps.patch
 xprint.patch

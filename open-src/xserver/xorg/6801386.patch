@@ -1,0 +1,62 @@
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+6801386 Xorg core dumps on startup if hald not running in snv_107
+
+Make sure we don't crash trying to printf NULL pointers on HAL connection
+errors.
+
+--- config/hal.c	2009-02-03 20:49:37.597450000 -0800
++++ config/hal.c	2009-02-04 15:01:59.325432000 -0800
+@@ -491,12 +491,14 @@ connect_hook(DBusConnection *connection,
+     }
+     if (!libhal_ctx_init(info->hal_ctx, &error)) {
+         LogMessage(X_ERROR, "config/hal: couldn't initialise context: %s (%s)\n",
+-               error.name, error.message);
++		   error.name ? error.name : "unknown error",
++		   error.message ? error.message : "null");
+         goto out_ctx;
+     }
+     if (!libhal_device_property_watch_all(info->hal_ctx, &error)) {
+         LogMessage(X_ERROR, "config/hal: couldn't watch all properties: %s (%s)\n",
+-               error.name, error.message);
++		   error.name ? error.name : "unknown error",
++		   error.message ? error.message : "null");
+         goto out_ctx2;
+     }
+     libhal_ctx_set_device_added(info->hal_ctx, device_added);
+@@ -516,7 +518,8 @@ connect_hook(DBusConnection *connection,
+ out_ctx2:
+     if (!libhal_ctx_shutdown(info->hal_ctx, &error))
+         LogMessage(X_WARNING, "config/hal: couldn't shut down context: %s (%s)\n",
+-               error.name, error.message);
++		   error.name ? error.name : "unknown error",
++		   error.message ? error.message : "null");
+ out_ctx:
+     libhal_ctx_free(info->hal_ctx);
+ out_err:
