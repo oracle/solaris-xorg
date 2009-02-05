@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.70	08/10/24 SMI"
+# ident "@(#)prototype	35.71	09/02/04 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -257,3 +257,31 @@ f none share/pixmaps/xterm_48x48.xpm		0444 root bin
 f none share/pixmaps/xterm-color_32x32.xpm	0444 root bin
 f none share/pixmaps/xterm-color_48x48.xpm	0444 root bin
 
+!search $HOME/X11/lib/X11/xedit/lisp
+d none X11/lib/X11/xedit			0755 root bin
+d none X11/lib/X11/xedit/lisp			0755 root bin
+
+f none X11/lib/X11/xedit/lisp/lisp.lsp 		0644 root bin
+f none X11/lib/X11/xedit/lisp/indent.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/xedit.lsp		0644 root bin
+f none X11/lib/X11/xedit/lisp/syntax.lsp	0644 root bin
+
+!search $HOME/X11/lib/X11/xedit/lisp/progmodes
+d none X11/lib/X11/xedit/lisp/progmodes		0755 root bin
+
+f none X11/lib/X11/xedit/lisp/progmodes/auto.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/imake.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/man.lsp		0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/python.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/sh.lsp		0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/xrdb.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/c.lsp		0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/lisp.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/patch.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/rpm.lsp		0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/xconf.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/html.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/make.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/perl.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/sgml.lsp	0644 root bin
+f none X11/lib/X11/xedit/lisp/progmodes/xlog.lsp	0644 root bin
