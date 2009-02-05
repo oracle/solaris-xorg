@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype 35.18     08/02/26 SMI"
+# ident "@(#)prototype 35.20     09/02/05 SMI"
 #
 #  X Window System common (but not required) fonts
 
@@ -52,22 +52,22 @@ d none openwin 0755 root bin
 d none openwin/lib 0755 root bin
 d none openwin/lib/X11 0755 root bin
 
-!search            $HOME
-d none openwin/lib/X11/fonts 0755 root bin
+!search           ../X11/lib/X11/fonts 
+d none X11/lib/X11/fonts 0755 root bin
 
 
-!search            $HOME/75dpi
-d none openwin/lib/X11/fonts/75dpi 0755 root bin
-e fontsdir openwin/lib/X11/fonts/75dpi/fonts.dir 644 root bin
-e fontsalias openwin/lib/X11/fonts/75dpi/fonts.alias.all 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/courB12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/courBO12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/courO12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/courR12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/helvBO12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/helvO12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/helvR12.pcf 0644 root bin
-f none openwin/lib/X11/fonts/75dpi/lutRS08.pcf 0644 root bin
+!search            ../usr/X11/lib/X11/fonts/75dpi
+d none X11/lib/X11/fonts/75dpi 0755 root bin
+e fontsdir X11/lib/X11/fonts/75dpi/fonts.dir 644 root bin
+#e fontsalias X11/lib/X11/fonts/75dpi/fonts.alias.all 0644 root bin
+f none X11/lib/X11/fonts/75dpi/courB12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/courBO12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/courO12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/courR12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/helvBO12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/helvO12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/helvR12.pcf.gz 0644 root bin
+f none X11/lib/X11/fonts/75dpi/lutRS08.pcf.gz 0644 root bin
 
 !search            $HOME/Type1
 d none openwin/lib/X11/fonts/Type1 0755 root bin
@@ -249,10 +249,10 @@ f none openwin/lib/X11/fonts/misc/Screen16.pcf 0644 root bin
 d none openwin/lib/X11/fonts/F3bitmaps 0755 root bin
 e fontsdir openwin/lib/X11/fonts/F3bitmaps/fonts.dir 0644 root bin
 e fontsalias openwin/lib/X11/fonts/F3bitmaps/fonts.alias.all 0644 root bin
-s none openwin/lib/X11/fonts/F3bitmaps/courB12.pcf=../75dpi/courB12.pcf
-s none openwin/lib/X11/fonts/F3bitmaps/courBO12.pcf=../75dpi/courBO12.pcf
-s none openwin/lib/X11/fonts/F3bitmaps/courO12.pcf=../75dpi/courO12.pcf
-s none openwin/lib/X11/fonts/F3bitmaps/courR12.pcf=../75dpi/courR12.pcf
+s none openwin/lib/X11/fonts/F3bitmaps/courB12.pcf.gz=../75dpi/courB12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courBO12.pcf.gz=../75dpi/courBO12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courO12.pcf.gz=../75dpi/courO12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courR12.pcf.gz=../75dpi/courR12.pcf.gz
 f none openwin/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique8.pcf 0644 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique10.pcf 0644 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique12.pcf 0644 root bin
