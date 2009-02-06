@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/01/10
+# @(#)Makefile	1.10	09/02/05
 #
 
 # Package name used in tarballs
@@ -46,7 +46,7 @@ GIT_URL=$(FDO_GIT_URL)/mesa/drm
 GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-drm-port.patch
+SOURCE_PATCHES = solaris-drm-port.patch 6802045.patch
 
 # Need to regenerate files after patching Makefile.am in solaris-drm-port.patch
 AUTORECONF=yes
