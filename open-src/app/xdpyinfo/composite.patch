@@ -1,0 +1,113 @@
+From bb7e3c9ac00d5b3933b69470e03fadfe1800f7ae Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 4 Feb 2009 13:43:34 -0800
+Subject: [PATCH] Print Composite extension version for "-ext Composite"
+
+The only other information I could see to query in the Composite 0.4
+protocol spec is the Composite Overlay Window XID, but the request to
+get that ID has the side effect of mapping the overlay window, and
+xdpyinfo shouldn't have side effects like that.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+---
+ Makefile.am  |    2 ++
+ configure.ac |    6 ++++++
+ xdpyinfo.c   |   24 ++++++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 0 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index ee33b76..5f3bb9b 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -30,6 +30,7 @@ AM_CFLAGS = \
+ 	$(DPY_XF86MISC_CFLAGS) \
+ 	$(DPY_XINPUT_CFLAGS) \
+ 	$(DPY_XRENDER_CFLAGS) \
++	$(DPY_XCOMPOSITE_CFLAGS) \
+ 	$(DPY_XINERAMA_CFLAGS) \
+ 	$(DPY_DMX_CFLAGS) \
+ 	$(DPY_XPRINT_CFLAGS) \
+@@ -44,6 +45,7 @@ xdpyinfo_LDADD = \
+ 	$(DPY_XF86MISC_LIBS) \
+ 	$(DPY_XINPUT_LIBS) \
+ 	$(DPY_XRENDER_LIBS) \
++	$(DPY_XCOMPOSITE_LIBS) \
+ 	$(DPY_XINERAMA_LIBS) \
+ 	$(DPY_DMX_LIBS) \
+ 	$(DPY_XPRINT_LIBS) \
+diff --git a/configure.ac b/configure.ac
+index c787a02..2b8bb5c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -99,6 +99,12 @@ PKG_CHECK_MODULES(DPY_XRENDER, xrender,
+ 	AC_CHECK_HEADERS([X11/extensions/Xrender.h],,,[#include <X11/Xlib.h>])
+ 	CPPFLAGS="$SAVE_CPPFLAGS"],[echo "not found"])
+ 
++PKG_CHECK_MODULES(DPY_XCOMPOSITE, xcomposite,
++	[SAVE_CPPFLAGS="$CPPFLAGS"
++	CPPFLAGS="$CPPFLAGS $DPY_XCOMPOSITE_CFLAGS $DPY_X11_CFLAGS"
++	AC_CHECK_HEADERS([X11/extensions/Xcomposite.h],,,[#include <X11/Xlib.h>])
++	CPPFLAGS="$SAVE_CPPFLAGS"],[echo "not found"])
++
+ AC_ARG_WITH(xinerama, AC_HELP_STRING([--without-xinerama],[Disable xinerama support.]),
+ 		[USE_XINERAMA="$withval"], [USE_XINERAMA="yes"])
+ if test "x$USE_XINERAMA" != "xno" ; then
+diff --git a/xdpyinfo.c b/xdpyinfo.c
+index 014e2bb..ede6465 100644
+--- a/xdpyinfo.c
++++ b/xdpyinfo.c
+@@ -66,6 +66,10 @@ in this Software without prior written authorization from The Open Group.
+ #  define XRENDER
+ # endif
+ 
++# if HAVE_X11_EXTENSIONS_XCOMPOSITE_H
++#  define COMPOSITE
++# endif
++
+ # if HAVE_X11_EXTENSIONS_XINERAMA_H
+ #  define PANORAMIX
+ # endif
+@@ -116,6 +120,9 @@ in this Software without prior written authorization from The Open Group.
+ #ifdef XRENDER
+ #include <X11/extensions/Xrender.h>
+ #endif
++#ifdef COMPOSITE
++#include <X11/extensions/Xcomposite.h>
++#endif
+ #ifdef PANORAMIX
+ #include <X11/extensions/Xinerama.h>
+ #endif
+@@ -1166,6 +1173,20 @@ print_xrender_info(Display *dpy, char *extname)
+ }
+ #endif /* XRENDER */
+ 
++#ifdef COMPOSITE
++static int
++print_composite_info(Display *dpy, char *extname)
++{
++    int majorrev, minorrev, foo;
++
++    if (!XCompositeQueryExtension(dpy, &foo, &foo))
++	return 0;
++    if (!XCompositeQueryVersion(dpy, &majorrev, &minorrev))
++	return 0;
++    print_standard_extension_info(dpy, extname, majorrev, minorrev);
++    return 1;
++}
++#endif
+ 
+ #ifdef PANORAMIX
+ 
+@@ -1443,6 +1464,9 @@ static ExtensionPrintInfo known_extensions[] =
+ #ifdef XRENDER
+     {RENDER_NAME, print_xrender_info, False},
+ #endif
++#ifdef COMPOSITE
++    {COMPOSITE_NAME, print_composite_info, False},
++#endif
+ #ifdef PANORAMIX
+     {"XINERAMA", print_xinerama_info, False},
+ #endif
+-- 
+1.5.6.5
+

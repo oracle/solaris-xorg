@@ -2,7 +2,7 @@
 #
 # xdpyinfo Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/27
+# @(#)Makefile	1.4	09/02/06
 #
 
 # Package name used in tarballs
@@ -40,7 +40,10 @@ MODULE_NAME=xdpyinfo
 MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = composite.patch,-p1
+
+# Need to regenerate configure & Makefile.in after applying composite.patch
+AUTORECONF = yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
