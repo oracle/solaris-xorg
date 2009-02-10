@@ -1,4 +1,4 @@
-/* Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,7 +26,11 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)sun_xkbtable.c	1.5	06/11/20 SMI"
+#pragma ident   "@(#)sun_xkbtable.c	1.6	09/02/09 SMI"
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #ifdef HAVE_XORG_CONFIG_H
 #include <xorg-config.h>
@@ -41,7 +45,7 @@
 #include "sun_xkbtable.h"
 
 #ifndef DFLT_XKB_CONFIG_ROOT
-#define DFLT_XKB_CONFIG_ROOT XKB_BASE_DIRECTORY
+# define DFLT_XKB_CONFIG_ROOT "/usr/X11/lib/X11/xkb"
 #endif
 
 #define MAXLINELEN              256
@@ -52,7 +56,6 @@ static char    *skipwhite(char *);
 static int		global_linenumber = 0;
 #define	commentchar '#'/* Comment char */
 static char		line[MAXLINELEN + 1];
-static char	       *whitespace = " \t\n";
 
 static char *
 getaline(
@@ -61,9 +64,6 @@ getaline(
 {
     char    *ptr;
     char    *tmp;
-    int      index;
-    int      c;
-
 
     while(1) {
 	ptr = fgets(line, MAXLINELEN, fp);
@@ -136,9 +136,9 @@ sun_find_xkbnames(
 )
 {
     const char  *type, *layout;
-    char	*keymap, *defkeymap = NULL;	/* XKB Keymap name */
-    char	*model , *defmodel = NULL;	/* XKB model name */
-    char	*xkblay, *defxkblay = NULL;	/* XKB layout name */
+    char	*keymap = NULL, *defkeymap = NULL;	/* XKB Keymap name */
+    char	*model = NULL, *defmodel = NULL;	/* XKB model name */
+    char	*xkblay = NULL, *defxkblay = NULL;	/* XKB layout name */
     FILE        *fp;
     int          found_error,
                  found_keytable;
