@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -34,8 +34,20 @@ the list.
 
 diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
 --- hacks/barcode.c	2006-04-05 23:40:32.000000000 -0700
-+++ hacks/barcode.c	2006-08-09 14:27:45.688577000 -0700
-@@ -111,16 +111,24 @@ static const char *words[] = 
++++ hacks/barcode.c	2009-02-05 18:58:22.542671000 -0800
+@@ -102,44 +102,65 @@ static const char *words[] = 
+   "addiction",
+   "alertness",
+   "Algeria",
++  "Amber Road",
+   "anxiety",
+   "aorta",
+   "argyle socks",
+   "attrition",
++  "automagic",
+   "axis of evil",
+   "bamboo",
++  "banana slug",
    "bangle",
    "bankruptcy",
    "baptism",
@@ -61,8 +73,9 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
 +  "browncoat",
    "bubba",
    "burrito",
++  "caiman",
    "California",
-@@ -128,18 +136,25 @@ static const char *words[] = 
+   "capybara",
    "cardinality",
    "caribou",
    "carnage",
@@ -72,8 +85,10 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "chocolate",
 +  "chupacabra",
 +  "cinnabar",
++  "Clear View",
    "CLONE",
 -  "cock",
++  "Colorado",
    "constriction",
    "contrition",
    "cop",
@@ -89,7 +104,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "Death",
    "decepticon",
    "deception",
-@@ -148,20 +163,25 @@ static const char *words[] = 
+@@ -148,20 +169,28 @@ static const char *words[] = 
    "decoy",
    "defenestration",
    "democracy",
@@ -107,23 +122,33 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "dreams",
    "drugs",
 +  "Duckwater",
++  "duraflame",
    "easy",
    "ebony",
++  "ecoresponsibility",
    "election",
    "eloquence",
 +  "Elko",
 +  "Ely",
++  "embiggen",
    "emergency",
    "eureka",
    "excommunication",
-@@ -174,15 +194,21 @@ static const char *words[] = 
+@@ -171,18 +200,27 @@ static const char *words[] = 
+   "fear",
+   "fever",
+   "filth",
++  "fishworks",
++  "flask",
    "flatulence",
    "fluff",
    "fnord",
++  "FOX",
 +  "frak",
    "freedom",
    "fruit",
-   "fruit",
+-  "fruit",
++  "fugu",
    "futility",
 +  "galaxy",
 +  "genunix",
@@ -139,7 +164,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "halibut",
    "handmaid",
    "happiness",
-@@ -193,7 +219,9 @@ static const char *words[] = 
+@@ -193,23 +231,30 @@ static const char *words[] = 
    "heroin",
    "heroine",
    "hope",
@@ -149,8 +174,15 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "icepick",
    "identity",
    "ignorance",
-@@ -206,10 +234,13 @@ static const char *words[] = 
+   "importance",
++  "Indiana",
+   "individuality",
+   "inkling",
+   "insurrection",
+   "intoxicant",
+   "ire",
    "irritant",
++  "iwashi",
    "jade",
    "jaundice",
 +  "Jet",
@@ -163,7 +195,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "lathe",
    "lattice",
    "lawyer",
-@@ -218,22 +249,35 @@ static const char *words[] = 
+@@ -218,22 +263,35 @@ static const char *words[] = 
    "lobbyist",
    "love",
    "lozenge",
@@ -199,7 +231,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "neuron",
    "noise",
    "nomenclature",
-@@ -242,8 +286,11 @@ static const char *words[] = 
+@@ -242,8 +300,11 @@ static const char *words[] = 
    "ocelot",
    "offspring",
    "overseer",
@@ -211,7 +243,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "passenger",
    "passion",
    "Passover",
-@@ -253,6 +300,8 @@ static const char *words[] = 
+@@ -253,6 +314,8 @@ static const char *words[] = 
    "petticoat",
    "pharmacist",
    "PhD",
@@ -220,7 +252,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "pitchfork",
    "plague",
    "Poindexter",
-@@ -261,11 +310,10 @@ static const char *words[] = 
+@@ -261,11 +324,10 @@ static const char *words[] = 
    "presidency",
    "prison",
    "prophecy",
@@ -233,7 +265,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "quagmire",
    "quarantine",
    "quartz",
-@@ -274,13 +322,14 @@ static const char *words[] = 
+@@ -274,13 +336,15 @@ static const char *words[] = 
    "rage",
    "readout",
    "reality",
@@ -246,10 +278,11 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "roadrunner",
    "rule",
 +  "sagebrush",
++  "Santa Cruz",
    "savor",
    "scab",
    "scalar",
-@@ -289,16 +338,20 @@ static const char *words[] = 
+@@ -289,16 +353,21 @@ static const char *words[] = 
    "security",
    "sediment",
    "self worth",
@@ -265,13 +298,14 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
 -  "smegma",
    "smelly socks",
 +  "soda",
++  "songbird",
    "sorrow",
    "space program",
 +  "Sparks",
    "stamen",
    "standardization",
    "stench",
-@@ -308,6 +361,7 @@ static const char *words[] = 
+@@ -308,24 +377,34 @@ static const char *words[] = 
    "surrender",
    "surveillance",
    "synthesis",
@@ -279,9 +313,12 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "television",
    "tenant",
    "tendril",
-@@ -316,16 +370,23 @@ static const char *words[] = 
+   "terror",
+   "terrorism",
    "terrorist",
++  "Tesla",
    "the impossible",
++  "the possimpible",
    "the unknown",
 +  "thumper",
 +  "tiger",
@@ -303,7 +340,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "valor",
    "variance",
    "vaudeville",
-@@ -333,8 +394,7 @@ static const char *words[] = 
+@@ -333,8 +412,7 @@ static const char *words[] = 
    "vegetarian",
    "venom",
    "verifiability",
@@ -313,7 +350,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "victim",
    "vignette",
    "villainy",
-@@ -344,25 +404,29 @@ static const char *words[] = 
+@@ -344,25 +422,30 @@ static const char *words[] = 
    "warehouse",
    "waste",
    "waveform",
@@ -340,6 +377,7 @@ diff -urp -x '*~' hacks/barcode.c hacks/barcode.c
    "zebra",
    "zest",
 -  "zinc"
++  "zettabyte",
 +  "zinc",
 +  "Zulu"
  };

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.101	08/12/23
+# @(#)Makefile	1.102	09/02/09
 #
 
 # Package name used in tarballs
@@ -85,6 +85,8 @@ SOURCE_PATCHES = \
 	bug-6583247.patch \
 	xscreensaver-hush-misc.patch,-p1 \
 	bug-6698996.patch \
+	bug-4802301.patch \
+	interference-hack.patch \
 	intltool.patch
 
 # We patch configure.ac & Makefile.am's so need to autoreconf
