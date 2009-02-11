@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.33     09/01/30 SMI"
+#pragma ident   "@(#)tsolextension.c 1.34     09/02/10 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -83,9 +83,6 @@
 #define SECURE_RPC_AUTH	"SUN-DES-1"
 #define SECURE_RPC_LEN	9
 
-#define CALLBACK(name) void \
-name(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
-
 static int ProcTsolDispatch(ClientPtr);
 static int ProcSetPolyInstInfo(ClientPtr);
 static int ProcSetPropLabel(ClientPtr);
@@ -117,47 +114,25 @@ static int SProcMakeUntrustedWindow(ClientPtr);
 static void TsolReset(ExtensionEntry *extension);
 static void BreakAllGrabs(ClientPtr client);
 
-extern void init_xtsol(void);
-extern int DoScreenStripeHeight(int screen_num);
-extern int AddUID(int *userid);
-
 static unsigned char TsolReqCode = 0;
 static int tsolEventBase = -1;
-extern unsigned int StripeHeight;
-int ScreenStripeHeight[MAX_SCREENS - 1] = {0, 0};
+static int ScreenStripeHeight[MAX_SCREENS] = {0, 0};
 
 static HotKeyRec hotkey = {FALSE, 0, 0, 0, 0};
 
 int tsolMultiLevel = TRUE;
 
-int OwnerUIDint;
-extern uid_t OwnerUID;
-uid_t PublicObjUID = 0;
-extern WindowPtr tpwin;
-extern bclear_t SessionHI;        /* HI Clearance */
-extern bclear_t SessionLO;        /* LO Clearance */
-extern TsolPolyInstInfoRec tsolpolyinstinfo;
-
-extern void LoadTsolConfig(void);
-extern void MakeTSOLAtoms(void);
-extern void UpdateTsolNode(void);
+static int OwnerUIDint;
 
 int (*TsolSavedProcVector[PROCVECTORSIZE])(ClientPtr client);
 int (*TsolSavedSwappedProcVector[PROCVECTORSIZE])(ClientPtr client);
 
-extern SecurityHookPtr pSecHook;
-SecurityHook tsolSecHook;
+static SecurityHook tsolSecHook;
 
-XID TsolCheckAuthorization (unsigned int name_length,
+static XID TsolCheckAuthorization (unsigned int name_length,
 	char *name, unsigned int data_length,
 	char *data, ClientPtr client, char **reason);
-void TsolDeleteClientFromAnySelections(ClientPtr);
-void TsolDeleteWindowFromAnySelections(WindowPtr);
 
-extern int TsolChangeWindowProperty(ClientPtr, WindowPtr, Atom, Atom, int, int,
-	unsigned long, pointer, Bool);
-extern int TsolDeleteProperty(ClientPtr, WindowPtr, Atom);
-extern int TsolInitWindow(ClientPtr, WindowPtr);
 static void TsolSetClientInfo(ClientPtr client);
 
 /* XACE hook callbacks */
@@ -165,66 +140,17 @@ static CALLBACK(TsolCheckExtensionAccess);
 static CALLBACK(TsolAceCheckPropertyAccess);
 static CALLBACK(TsolCheckResourceIDAccess);
 static CALLBACK(TsolProcessKeyboard);
-extern CALLBACK(TsolAuditStart);
-extern CALLBACK(TsolAuditEnd);
 
 /* other callbacks */
 static CALLBACK(TsolClientStateCallback);
 
-extern int ProcTsolInternAtom(ClientPtr client);
-extern int ProcTsolSetSelectionOwner(ClientPtr client);
-extern int ProcTsolGetSelectionOwner(ClientPtr client);
-extern int ProcTsolConvertSelection(ClientPtr client);
-extern int ProcTsolGetProperty(ClientPtr client);
-extern int ProcTsolListProperties(ClientPtr client);
-extern int ProcTsolChangeKeyboardMapping(ClientPtr client);
-extern int ProcTsolSetPointerMapping(ClientPtr client);
-extern int ProcTsolChangeKeyboardControl(ClientPtr client);
-extern int ProcTsolBell(ClientPtr client);
-extern int ProcTsolChangePointerControl(ClientPtr client);
-extern int ProcTsolSetModifierMapping(ClientPtr client);
-
-extern int ProcTsolCreateWindow(ClientPtr client);
-extern int ProcTsolChangeWindowAttributes(ClientPtr client);
-extern int ProcTsolConfigureWindow(ClientPtr client);
-extern int ProcTsolCirculateWindow(ClientPtr client);
-extern int ProcTsolReparentWindow(ClientPtr client);
-extern int ProcTsolSetInputFocus(ClientPtr client);
-extern int ProcTsolGetInputFocus(ClientPtr client);
-extern int ProcTsolSendEvent(ClientPtr client);
-extern int ProcTsolSetInputFocus(ClientPtr client);
-extern int ProcTsolGetInputFocus(ClientPtr client);
-extern int ProcTsolGetGeometry(ClientPtr client);
-extern int ProcTsolGrabServer(ClientPtr client);
-extern int ProcTsolUngrabServer(ClientPtr client);
-extern int ProcTsolCreatePixmap(ClientPtr client);
-extern int ProcTsolSetScreenSaver(ClientPtr client);
-extern int ProcTsolChangeHosts(ClientPtr client);
-extern int ProcTsolChangeAccessControl(ClientPtr client);
-extern int ProcTsolKillClient(ClientPtr client);
-extern int ProcTsolSetFontPath(ClientPtr client);
-extern int ProcTsolChangeCloseDownMode(ClientPtr client);
-extern int ProcTsolListInstalledColormaps(ClientPtr client);
-extern int ProcTsolGetImage(ClientPtr client);
-extern int ProcTsolQueryTree(ClientPtr client);
-extern int ProcTsolQueryPointer(ClientPtr client);
-extern int ProcTsolQueryExtension(ClientPtr client);
-extern int ProcTsolListExtensions(ClientPtr client);
-extern int ProcTsolMapWindow(ClientPtr client);
-extern int ProcTsolMapSubwindows(ClientPtr client);
-extern int ProcTsolCopyArea(ClientPtr client);
-extern int ProcTsolCopyPlane(ClientPtr client);
-extern int ProcTsolPolySegment(ClientPtr client);
-extern int ProcTsolPolyRectangle(ClientPtr client);
-
-extern int TsolPanoramiXGetGeometry(ClientPtr client);
 
 /*
  * Initialize the extension. Main entry point for this loadable
  * module.
  */
 
-void
+_X_EXPORT void
 TsolExtensionInit(void)
 {
 	ExtensionEntry *extEntry;
@@ -363,20 +289,20 @@ static CALLBACK(
     switch (rtype) {
         case RT_GC:
 	    if (access_mode & DixReadAccess) {
-		if (xtsol_policy(TSOL_RES_GC, TSOL_READ, (void *)id,
-				 client, TSOL_ALL, (void *)MAJOROP))
+		if (xtsol_policy(TSOL_RES_GC, TSOL_READ, NULL, id,
+				 client, TSOL_ALL, &reqtype))
 		    rec->status = BadAccess;
 	    }
 
 	    if (access_mode & DixWriteAccess) {
-		if (xtsol_policy(TSOL_RES_GC, TSOL_MODIFY, (void *)id,
-				 client, TSOL_ALL, (void *)MAJOROP))
+		if (xtsol_policy(TSOL_RES_GC, TSOL_MODIFY, NULL, id,
+				 client, TSOL_ALL, &reqtype))
 		    rec->status = BadAccess;
 	    }
 
 	    if (access_mode & DixDestroyAccess) {
-		if (xtsol_policy(TSOL_RES_GC, TSOL_DESTROY, (void *)id,
-				 client, TSOL_ALL, (void *)MAJOROP))
+		if (xtsol_policy(TSOL_RES_GC, TSOL_DESTROY, NULL, id,
+				 client, TSOL_ALL, &reqtype))
 		    rec->status = BadAccess;
 	    }
 	    break;
@@ -402,16 +328,14 @@ static CALLBACK(
 		case X_ImageText8:
 		case X_ImageText16:
 		    if (access_mode & DixReadAccess) {
-			if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ,
-					 (void *)rval, client, TSOL_ALL,
-					 (void *)MAJOROP))
+			if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, rval,
+					 0, client, TSOL_ALL, &(MAJOROP)))
 			    rec->status = BadAccess;
 		    }
 
 		    if (access_mode & DixWriteAccess) {
-			if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY,
-					 (void *)rval, client, TSOL_ALL,
-					 (void *)MAJOROP))
+			if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, rval,
+					 0, client, TSOL_ALL, &(MAJOROP)))
 			    rec->status = BadAccess;
 		    }
 		break;
@@ -423,16 +347,14 @@ static CALLBACK(
 		case X_ListProperties:
 		case X_RotateProperties:
 		    if (access_mode & DixReadAccess) {
-			if (xtsol_policy(TSOL_RES_PROPWIN, TSOL_READ,
-					 (void *)rval, client, TSOL_ALL,
-					 (void *)MAJOROP))
+			if (xtsol_policy(TSOL_RES_PROPWIN, TSOL_READ, rval,
+					 0, client, TSOL_ALL, &(MAJOROP)))
 			    rec->status = BadAccess;
 		    }
 
 		    if (access_mode & DixWriteAccess) {
-			if (xtsol_policy(TSOL_RES_PROPWIN, TSOL_MODIFY,
-					 (void *)rval, client, TSOL_ALL,
-					 (void *)MAJOROP))
+			if (xtsol_policy(TSOL_RES_PROPWIN, TSOL_MODIFY, rval,
+					 0, client, TSOL_ALL, &(MAJOROP)))
 			    rec->status = BadAccess;
 		    }
 		    break;
@@ -797,8 +719,8 @@ ProcSetPolyInstInfo(ClientPtr client)
     /*
      * Check for policy here
      */
-    if (err_code = xtsol_policy(TSOL_RES_POLYINFO, TSOL_MODIFY, NULL,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_POLYINFO, TSOL_MODIFY, NULL, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -832,8 +754,8 @@ ProcSetPropLabel(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -874,8 +796,8 @@ ProcSetPropLabel(ClientPtr client)
 
     if (!blequal(tsolprop->sl, sl))
     {
-	if (err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl,
-				    client, TSOL_ALL, tsolprop->sl))
+	if ((err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl, 0,
+				     client, TSOL_ALL, tsolprop->sl)))
 	{
 	    return (err_code);
 	}
@@ -904,8 +826,8 @@ ProcSetPropUID(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -930,8 +852,8 @@ ProcSetPropUID(ClientPtr client)
         client->errorValue = stuff->atom;
         return (BadAtom);
     }
-    if (err_code = xtsol_policy(TSOL_RES_UID, TSOL_MODIFY, NULL,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_UID, TSOL_MODIFY, NULL, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -968,16 +890,16 @@ ProcSetResLabel(ClientPtr client)
     switch (stuff->resourceType)
     {
         case SESSIONHI: /* set server session HI */
-            if (err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl,
-                                        client, TSOL_ALL, (void *)NULL))
+            if ((err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl, 0,
+					 client, TSOL_ALL, NULL)))
             {
                 return (err_code);
             }
             memcpy(&SessionHI, sl, SL_SIZE);
             return (client->noClientException);
         case SESSIONLO: /* set server session LO */
-            if (err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl,
-                                        client, TSOL_ALL, (void *)NULL))
+            if ((err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl, 0,
+					 client, TSOL_ALL, NULL)))
             {
                 return (err_code);
             }
@@ -994,8 +916,8 @@ ProcSetResLabel(ClientPtr client)
                 client->errorValue = stuff->id;
                 return (BadWindow);
             }
-            if (err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin,
-                                        client, TSOL_ALL, (void *)MAJOROP))
+            if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin,
+					 0, client, TSOL_ALL, &(MAJOROP))))
             {
                 return (err_code);
             }
@@ -1011,18 +933,21 @@ ProcSetResLabel(ClientPtr client)
                 client->errorValue = stuff->id;
                 return (BadPixmap);
             }
-            if (err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_MODIFY, pMap,
-                                        client, TSOL_ALL, (void *)MAJOROP))
+            if ((err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_MODIFY, pMap,
+					 0, client, TSOL_ALL, &(MAJOROP))))
             {
                 return (err_code);
             }
             break;
+	default:
+	    client->errorValue = stuff->resourceType;
+	    return (BadValue);
     }
 
     if (!blequal(tsolres->sl, sl))
     {
-	if (err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl,
-				    client, TSOL_ALL, tsolres->sl))
+	if ((err_code = xtsol_policy(TSOL_RES_SL, TSOL_MODIFY, sl, 0,
+				     client, TSOL_ALL, tsolres->sl)))
 	{
 	    return (err_code);
 	}
@@ -1064,8 +989,8 @@ ProcSetResUID(ClientPtr client)
     switch (stuff->resourceType)
     {
         case STRIPEHEIGHT:
-            if (err_code = xtsol_policy(TSOL_RES_STRIPE, TSOL_MODIFY, NULL,
-                                        client, TSOL_ALL, (void *)MAJOROP))
+            if ((err_code = xtsol_policy(TSOL_RES_STRIPE, TSOL_MODIFY, NULL, 0,
+					 client, TSOL_ALL, &(MAJOROP))))
             {
                 return (err_code);
             }
@@ -1078,8 +1003,8 @@ ProcSetResUID(ClientPtr client)
 
         return (client->noClientException);
         case RES_OUID:
-            if (err_code = xtsol_policy(TSOL_RES_WOWNER, TSOL_MODIFY, NULL,
-                                        client, TSOL_ALL, (void *)MAJOROP))
+            if ((err_code = xtsol_policy(TSOL_RES_WOWNER, TSOL_MODIFY, NULL, 0,
+					 client, TSOL_ALL, &(MAJOROP))))
             {
                 return (err_code);
             }
@@ -1098,8 +1023,8 @@ ProcSetResUID(ClientPtr client)
                 client->errorValue = stuff->id;
                 return (BadWindow);
             }
-            if (err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin,
-                                        client, TSOL_ALL, (void *)MAJOROP))
+            if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin, 0,
+					 client, TSOL_ALL, &(MAJOROP))))
             {
                 return (err_code);
             }
@@ -1115,8 +1040,8 @@ ProcSetResUID(ClientPtr client)
                 client->errorValue = stuff->id;
                 return (BadPixmap);
             }
-            if (err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_MODIFY, pMap,
-                                        client, TSOL_ALL, (void *)MAJOROP))
+            if ((err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_MODIFY, pMap, 0,
+					 client, TSOL_ALL, &(MAJOROP))))
             {
                 return (err_code);
             }
@@ -1125,8 +1050,8 @@ ProcSetResUID(ClientPtr client)
             return (BadValue);
     }
 
-    if (err_code = xtsol_policy(TSOL_RES_UID, TSOL_MODIFY, NULL,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_UID, TSOL_MODIFY, NULL, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -1150,7 +1075,6 @@ ProcGetClientAttributes(ClientPtr client)
     REQUEST_SIZE_MATCH(xGetClientAttributesReq);
 
     /* Valid window check */
-    /* Valid window check */
     if ((pWin = LookupWindow(stuff->id, client)) == NULL)
     {
         client->errorValue = stuff->id;
@@ -1162,8 +1086,8 @@ ProcGetClientAttributes(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_CLIENT, TSOL_READ, (void *)stuff->id,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_CLIENT, TSOL_READ, NULL, stuff->id,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -1204,7 +1128,7 @@ static int
 ProcGetClientLabel(ClientPtr client)
 {
     int         n;
-    int         reply_length;
+    int         reply_length = 0;
     int         err_code;
     Bool        write_to_client = 0;
     bslabel_t   *sl;
@@ -1229,8 +1153,8 @@ ProcGetClientLabel(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_CLIENT, TSOL_READ, (void *)stuff->id,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_CLIENT, TSOL_READ, NULL, stuff->id,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -1284,13 +1208,14 @@ static int
 ProcGetPropAttributes(ClientPtr client)
 {
     int          n;
-    int          reply_length;
+    int          reply_length = 0;
     int          err_code;
     Bool         write_to_client = 0;
     PropertyPtr  pProp;
     bslabel_t   *sl;
     WindowPtr    pWin;
     TsolPropPtr  tsolprop, tmp_prop;
+    TsolPropPtr *tsolpropP;
     TsolInfoPtr  tsolinfo = GetClientTsolInfo(client);
 
     xGetPropAttributesReply rep;
@@ -1305,8 +1230,8 @@ ProcGetPropAttributes(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -1331,7 +1256,8 @@ ProcGetPropAttributes(ClientPtr client)
         client->errorValue = stuff->atom;
         return (BadAtom);
     }
-    tsolprop = TsolPropertyPriv(pProp);
+    tsolpropP = TsolPropertyPriv(pProp);
+    tsolprop = *tsolpropP;
     tmp_prop = tsolprop;
     while (tmp_prop)
     {
@@ -1410,13 +1336,13 @@ static int
 ProcGetResAttributes(ClientPtr client)
 {
     int         n;
-    int         reply_length;
+    int         reply_length = 0;
     int         err_code;
     Bool        write_to_client = 0;
     bslabel_t  *sl;
     PixmapPtr   pMap;
     WindowPtr   pWin;
-    TsolResPtr  tsolres;
+    TsolResPtr  tsolres = NULL;
 
     xGetResAttributesReply rep;
 
@@ -1445,8 +1371,8 @@ ProcGetResAttributes(ClientPtr client)
             client->errorValue = stuff->id;
             return (BadWindow);
         }
-        if (err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin,
-                                    client, TSOL_ALL, (void *)MAJOROP))
+        if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin, 0,
+				     client, TSOL_ALL, &(MAJOROP))))
         {
             return (err_code);
         }
@@ -1464,8 +1390,8 @@ ProcGetResAttributes(ClientPtr client)
             client->errorValue = stuff->id;
             return (BadPixmap);
         }
-        if (err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_READ, pMap,
-                                    client, TSOL_ALL, (void *)MAJOROP))
+        if ((err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_READ, pMap, 0,
+				     client, TSOL_ALL, &(MAJOROP))))
         {
             return (err_code);
         }
@@ -1523,11 +1449,9 @@ ProcGetResAttributes(ClientPtr client)
 int
 ProcMakeTPWindow(ClientPtr client)
 {
-    WindowPtr pWin, pParent;
+    WindowPtr pWin = NULL, pParent;
     int       err_code;
     TsolInfoPtr  tsolinfo;
-    extern void ReflectStackChange(WindowPtr, WindowPtr, VTKind);
-
 
     REQUEST(xMakeTPWindowReq);
     REQUEST_SIZE_MATCH(xMakeTPWindowReq);
@@ -1563,8 +1487,8 @@ ProcMakeTPWindow(ClientPtr client)
 		    client->errorValue = stuff->id;
 		    return (BadWindow);
 		}
-		if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
-					client, TSOL_ALL, (void *)MAJOROP))
+		if ((err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
+					     0, client, TSOL_ALL, &(MAJOROP))))
 		{
 		    return (err_code);
 		}
@@ -1587,8 +1511,8 @@ ProcMakeTPWindow(ClientPtr client)
             client->errorValue = stuff->id;
             return (BadWindow);
 	}
-	if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
-                                client, TSOL_ALL, (void *)MAJOROP))
+	if ((err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin, 0,
+				     client, TSOL_ALL, &(MAJOROP))))
 	{
             return (err_code);
 	}
@@ -1633,8 +1557,8 @@ ProcMakeTrustedWindow(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -1665,8 +1589,8 @@ ProcMakeUntrustedWindow(ClientPtr client)
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if (err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin,
-                                client, TSOL_ALL, (void *)MAJOROP))
+    if ((err_code = xtsol_policy(TSOL_RES_TPWIN, TSOL_MODIFY, pWin, 0,
+				 client, TSOL_ALL, &(MAJOROP))))
     {
         return (err_code);
     }
@@ -1707,6 +1631,10 @@ BreakAllGrabs(ClientPtr client)
 /*
  * Trusted Network interface module. Uses tsix API
  */
+extern au_id_t ucred_getauid(const ucred_t *uc);
+extern au_asid_t ucred_getasid(const ucred_t *uc);
+extern const au_mask_t *ucred_getamask(const ucred_t *uc);
+extern tsol_host_type_t tsol_getrhtype(char *);
 
 static void
 TsolSetClientInfo(ClientPtr client)
@@ -1721,9 +1649,6 @@ TsolSetClientInfo(ClientPtr client)
 	OsCommPtr oc = (OsCommPtr)client->osPrivate;
 	int fd = oc->fd;
 	ucred_t *uc = NULL;
-	extern  au_id_t ucred_getauid(const ucred_t *uc);
-	extern  au_asid_t ucred_getasid(const ucred_t *uc);
-	extern  const au_mask_t *ucred_getamask(const ucred_t *uc);
 
 	TsolInfoPtr tsolinfo = TsolClientPriv(client);
 
@@ -1798,7 +1723,6 @@ TsolSetClientInfo(ClientPtr client)
 		int errcode;
 		char hostbuf[NI_MAXHOST];
 		tsol_host_type_t host_type;
-		extern tsol_host_type_t tsol_getrhtype(char *);
 
 		/* Use NI_NUMERICHOST to avoid DNS lookup */
 		errcode = getnameinfo((struct sockaddr *)&(tsolinfo->saddr), namelen,
@@ -1852,6 +1776,7 @@ TsolSetClientInfo(ClientPtr client)
 }
 
 static enum auth_stat tsol_why;
+extern bool_t xdr_opaque_auth(XDR *, struct opaque_auth *);
 
 static char *
 tsol_authdes_decode(char *inmsg, int len)
@@ -1864,7 +1789,6 @@ tsol_authdes_decode(char *inmsg, int len)
     bool_t          res0, res1;
     XDR             xdr;
     SVCXPRT         xprt;
-    extern bool_t xdr_opaque_auth(XDR *, struct opaque_auth *);
 
     temp_inmsg = (char *) xalloc(len);
     memmove(temp_inmsg, inmsg, len);
@@ -1918,10 +1842,12 @@ TsolCheckNetName (unsigned char *addr, short len, pointer closure)
             strncmp ((char *) addr, (char *) closure, len) == 0);
 }
 
+extern	int getdomainname(char *, int);
 
-XID
-TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_length,
-	char *data, ClientPtr client, char **reason)
+static XID
+TsolCheckAuthorization(unsigned int name_length, char *name,
+		       unsigned int data_length, char *data,
+		       ClientPtr client, char **reason)
 {
 	char	domainname[128];
 	char	netname[128];
@@ -1934,9 +1860,8 @@ TsolCheckAuthorization(unsigned int name_length, char *name, unsigned int data_l
 	gid_t	client_gidlist;
 	XID	auth_token = (XID)(-1);
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	extern	int getdomainname(char *, int);
 
-	if (tsolinfo->uid == -1) {
+	if (tsolinfo->uid == (uid_t) -1) {
 		/* Retrieve uid from SecureRPC */
 		if (strncmp(name, SECURE_RPC_AUTH, (size_t)name_length) == 0) {
 			fullname = tsol_authdes_decode(data, data_length);
@@ -2070,9 +1995,6 @@ TsolProcessKeyboard)
 /*  int count = rec->count; */
     KeyClassPtr keyc = keybd->key;
 
-    extern void InitHotKey(HotKeyPtr hk);
-    extern void HandleHotKey(void);
-
     if (xE->u.u.type == KeyPress)
     {
 	if (!hotkey.initialized)
@@ -2097,7 +2019,7 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
     if (access_mode & DixCreateAccess) {
 	if (!PolyProperty(propertyName, pWin) &&
 	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_CREATE,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
 	    return XTSOL_IGNORE;
 	else
 	    return XTSOL_ALLOW;
@@ -2106,7 +2028,7 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
     if (access_mode & DixReadAccess) {
 	if (!PolyProperty(propertyName, pWin) &&
 	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_READ,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
 	    return XTSOL_IGNORE;
 	else
 	    return XTSOL_ALLOW;
@@ -2115,7 +2037,7 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
     if (access_mode & (DixWriteAccess | DixBlendAccess)) {
 	if (!PolyProperty(propertyName, pWin) &&
 	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_MODIFY,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
 	    return XTSOL_IGNORE;
 	else
 	    return XTSOL_ALLOW;
@@ -2124,7 +2046,7 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
     if (access_mode & DixDestroyAccess) {
 	if (!PolyProperty(propertyName, pWin) &&
 	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_DESTROY,
-			 pProp, client, TSOL_ALL, (void *)MAJOROP))
+			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
 	    return XTSOL_IGNORE;
 	else
             return XTSOL_ALLOW;

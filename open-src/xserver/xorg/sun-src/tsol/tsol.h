@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsol.h 1.8     09/01/22 SMI"
+#pragma ident   "@(#)tsol.h 1.9     09/02/10 SMI"
 
 /*
  * tsol.h server side extension
@@ -58,17 +58,109 @@
 
 #include "tsolinfo.h"
 
-extern int SpecialName(char *string, int len);
+#ifndef CALLBACK
+# define CALLBACK(name) void \
+name(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+#endif
+
+/* tsolutils.c */
+extern void init_xtsol(void);
+extern void InitHotKey(HotKeyPtr hk);
+extern void HandleHotKey(void);
+extern void LoadTsolConfig(void);
+extern void MakeTSOLAtoms(void);
+extern int SpecialName(const char *string, int len);
 extern TsolInfoPtr GetClientTsolInfo(ClientPtr client);
 extern bslabel_t *lookupSL_low(void);
 extern int PolyPropReadable(PropertyPtr pProp, ClientPtr client);
-extern void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
 extern WindowPtr TsolPointerWindow(void);
+extern int DoScreenStripeHeight(int screen_num);
+extern int AddUID(int *userid);
+extern WindowPtr AnyWindowOverlapsJustMe(WindowPtr pWin,
+	WindowPtr pHead, BoxPtr box);
 
+extern Bool priv_win_colormap;
+extern Bool priv_win_config;
+extern Bool priv_win_devices;
+extern Bool priv_win_dga;
+extern Bool priv_win_fontpath;
+
+extern WindowPtr tpwin;
+extern bclear_t SessionHI;        /* HI Clearance */
+extern bclear_t SessionLO;        /* LO Clearance */
+extern unsigned int StripeHeight;
+extern bslabel_t        PublicObjSL;
+
+extern Atom tsol_lastAtom;
+extern int tsol_nodelength;
+extern TsolNodePtr tsol_node;
+
+
+/* tsolextension.c */
+extern void TsolExtensionInit(void);
 extern int TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin,
 				   PropertyPtr pProp, Atom propertyName,
 				   Mask access_mode);
+extern int tsolMultiLevel;
+extern int (*TsolSavedProcVector[PROCVECTORSIZE])(ClientPtr /*client*/);
+extern int (*TsolSavedSwappedProcVector[PROCVECTORSIZE])(ClientPtr /*client*/);
 
-#ifdef PANORAMIX
-extern int PanoramiXGetInputFocus(ClientPtr client);
-#endif
+/* tsolprotocol.c */
+extern void UpdateTsolNode(void);
+extern int TsolChangeWindowProperty(ClientPtr, WindowPtr, Atom, Atom, int, int,
+	unsigned long, pointer, Bool);
+extern int TsolDeleteProperty(ClientPtr, WindowPtr, Atom);
+extern int TsolInitWindow(ClientPtr, WindowPtr);
+extern void TsolDeleteClientFromAnySelections(ClientPtr);
+extern void TsolDeleteWindowFromAnySelections(WindowPtr);
+
+extern int ProcTsolInternAtom(ClientPtr client);
+extern int ProcTsolSetSelectionOwner(ClientPtr client);
+extern int ProcTsolGetSelectionOwner(ClientPtr client);
+extern int ProcTsolConvertSelection(ClientPtr client);
+extern int ProcTsolGetProperty(ClientPtr client);
+extern int ProcTsolListProperties(ClientPtr client);
+extern int ProcTsolChangeKeyboardMapping(ClientPtr client);
+extern int ProcTsolSetPointerMapping(ClientPtr client);
+extern int ProcTsolChangeKeyboardControl(ClientPtr client);
+extern int ProcTsolBell(ClientPtr client);
+extern int ProcTsolChangePointerControl(ClientPtr client);
+extern int ProcTsolSetModifierMapping(ClientPtr client);
+
+extern int ProcTsolCreateWindow(ClientPtr client);
+extern int ProcTsolChangeWindowAttributes(ClientPtr client);
+extern int ProcTsolConfigureWindow(ClientPtr client);
+extern int ProcTsolCirculateWindow(ClientPtr client);
+extern int ProcTsolReparentWindow(ClientPtr client);
+extern int ProcTsolSetInputFocus(ClientPtr client);
+extern int ProcTsolGetInputFocus(ClientPtr client);
+extern int ProcTsolSendEvent(ClientPtr client);
+extern int ProcTsolSetInputFocus(ClientPtr client);
+extern int ProcTsolGetInputFocus(ClientPtr client);
+extern int ProcTsolGetGeometry(ClientPtr client);
+extern int ProcTsolGrabServer(ClientPtr client);
+extern int ProcTsolUngrabServer(ClientPtr client);
+extern int ProcTsolCreatePixmap(ClientPtr client);
+extern int ProcTsolSetScreenSaver(ClientPtr client);
+extern int ProcTsolChangeHosts(ClientPtr client);
+extern int ProcTsolChangeAccessControl(ClientPtr client);
+extern int ProcTsolKillClient(ClientPtr client);
+extern int ProcTsolSetFontPath(ClientPtr client);
+extern int ProcTsolChangeCloseDownMode(ClientPtr client);
+extern int ProcTsolListInstalledColormaps(ClientPtr client);
+extern int ProcTsolGetImage(ClientPtr client);
+extern int ProcTsolQueryTree(ClientPtr client);
+extern int ProcTsolQueryPointer(ClientPtr client);
+extern int ProcTsolQueryExtension(ClientPtr client);
+extern int ProcTsolListExtensions(ClientPtr client);
+extern int ProcTsolMapWindow(ClientPtr client);
+extern int ProcTsolMapSubwindows(ClientPtr client);
+extern int ProcTsolCopyArea(ClientPtr client);
+extern int ProcTsolCopyPlane(ClientPtr client);
+extern int ProcTsolPolySegment(ClientPtr client);
+extern int ProcTsolPolyRectangle(ClientPtr client);
+
+extern int TsolPanoramiXGetGeometry(ClientPtr client);
+
+extern CALLBACK(TsolAuditStart);
+extern CALLBACK(TsolAuditEnd);

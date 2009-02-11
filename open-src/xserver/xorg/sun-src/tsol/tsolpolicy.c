@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolpolicy.c 1.23     09/01/14 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.24     09/02/10 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -81,17 +81,6 @@ static priv_set_t *pset_win_upgrade_sl = NULL;
 static priv_set_t *pset_win_downgrade_sl = NULL;
 static priv_set_t *pset_win_selection = NULL;
 
-extern char *xsltos(bslabel_t *sl);
-extern InputInfo inputInfo;
-
-extern unsigned long tsoldebug;  /* from tsolutils.c */
-extern Bool priv_win_colormap;
-extern Bool priv_win_config;
-extern Bool priv_win_devices;
-extern Bool priv_win_dga;
-extern Bool priv_win_fontpath;
-extern int tsolMultiLevel;
-
 #define SAMECLIENT(client, xid) ((client)->index == CLIENT_ID(xid))
 
 static int access_xid(xresource_t res, xmethod_t method, void *resource,
@@ -105,22 +94,24 @@ static int check_priv(xresource_t res, xmethod_t method, void *resource,
 #ifdef DEBUG
 
 static int xtsol_debug = XTSOL_FAIL;	/* set it to 0 if no logging is required */
-static void XTsolErr(const char *err_type, uintptr_t protocol,
+static char *xsltos(bslabel_t *sl);
+
+static void XTsolErr(const char *err_type, CARD8 *protocol,
 	     bslabel_t *osl, uid_t ouid, pid_t opid, const char *opname,
 	     bslabel_t *ssl, uid_t suid, pid_t spid, const char *spname,
-	     const char *method, int isstring, void *xid);
+	     const char *method, int isstring, const void *xid);
 
 #define XTSOLERR_GEN(err_type, protocol, o, s, method, xid, isstring) \
-                 (void) XTsolErr(err_type, (uintptr_t) (protocol), \
+                 (void) XTsolErr(err_type, (CARD8 *) (protocol), \
 				 (o)->sl, (o)->uid, (o)->pid, NULL, \
 				 (s)->sl, (s)->uid, (s)->pid, NULL, \
-				 method, isstring, (void *) (xid))
+				 method, isstring, (const void *) (xid))
 #else  /* !DEBUG */
 #define XTSOLERR_GEN(err_type, protocol, o, s, method, xid, isstring)  /**/
 #endif /* DEBUG */
 
 #define XTSOLERR(err_type, protocol, o, s, method, xid) \
-	XTSOLERR_GEN(err_type, protocol, o, s, method, (uintptr_t) xid, 0);
+	XTSOLERR_GEN(err_type, protocol, o, s, method, xid, 0);
 
 #define SXTSOLERR(err_type, protocol, o, s, method, xid) \
 	XTSOLERR_GEN(err_type, protocol, o, s, method, xid, 1);
@@ -206,7 +197,7 @@ xpriv_policy(priv_set_t *set, priv_set_t *priv, xresource_t res,
 /*
  * read_window
  */
-int
+static int
 read_window(xresource_t res, xmethod_t method, void *resource,
 			void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -294,7 +285,7 @@ read_window(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_window
  */
-int
+static int
 modify_window(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -377,7 +368,7 @@ modify_window(xresource_t res, xmethod_t method, void *resource,
 /*
  * create_window
  */
-int
+static int
 create_window(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -472,7 +463,7 @@ create_window(xresource_t res, xmethod_t method, void *resource,
 /*
  * destroy_window
  */
-int
+static int
 destroy_window(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -553,7 +544,7 @@ destroy_window(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_pixel: used for reading contents of drawable like GetImage
  */
-int
+static int
 read_pixel(xresource_t res, xmethod_t method, void *resource,
 		   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -675,7 +666,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
  * NOTE: For Panorama, the real resource id is extracted from the
  * Panorama resource and policy check is done on the real resource.
  */
-int
+static int
 modify_pixel(xresource_t res, xmethod_t method, void *resource,
 			 void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -845,7 +836,7 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_pixmap
  */
-int
+static int
 read_pixmap(xresource_t res, xmethod_t method, void *resource,
 			void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -913,7 +904,7 @@ read_pixmap(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_pixmap
  */
-int
+static int
 modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -981,7 +972,7 @@ modify_pixmap(xresource_t res, xmethod_t method, void *resource,
 /*
  * destroy_pixmap
  */
-int
+static int
 destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1049,7 +1040,7 @@ destroy_pixmap(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_client
  */
-int
+static int
 read_client(xresource_t res, xmethod_t method, void *resource,
 			void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1060,8 +1051,10 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr res_tsolinfo;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-
-	if (!(res_client = clients[CLIENT_ID((XID)resource)]))
+	XID	targetid = * (XID *) resource;
+	
+	res_client = clients[CLIENT_ID(targetid)];
+	if (res_client == NULL)
 	{
 		return (BadValue);
 	}
@@ -1086,7 +1079,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 			if (tsolinfo->flags & TSOL_AUDITEVENT)
 				do_audit = TRUE;
 			if (xpriv_policy(tsolinfo->privs, pset_win_mac_read,
-							 res, method, client, do_audit))
+					 res, method, client, do_audit))
 			{
 				ret_stat = PASSED;
 			}
@@ -1144,7 +1137,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
  * modify_client
  * Special win_config priv used for ChangeSaveSet, SetCloseDownMode
  */
-int
+static int
 modify_client(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1182,7 +1175,7 @@ modify_client(xresource_t res, xmethod_t method, void *resource,
 /*
  * destroy_client
  */
-int
+static int
 destroy_client(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1193,8 +1186,10 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr res_tsolinfo;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-
-	if (!(res_client = clients[CLIENT_ID((XID)resource)]))
+	XID	targetid = * (XID *) resource;
+	
+	res_client = clients[CLIENT_ID(targetid)];
+	if (res_client == NULL)
 	{
 		return (BadValue);
 	}
@@ -1278,7 +1273,7 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_gc
  */
-int
+static int
 read_gc(xresource_t res, xmethod_t method, void *resource,
 		void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1289,7 +1284,7 @@ read_gc(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_gc
  */
-int
+static int
 modify_gc(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1300,7 +1295,7 @@ modify_gc(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_font
  */
-int
+static int
 read_font(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1311,23 +1306,23 @@ read_font(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_font
  */
-int
+static int
 modify_font(xresource_t res, xmethod_t method, void *resource,
 			void *subject, xpolicy_t policy_flags, void *misc)
 {
 	return (access_xid(res, method, resource, subject, policy_flags,
-					   misc,RT_FONT, pset_win_dac_write));
+			   misc, RT_FONT, pset_win_dac_write));
 }
 
 /*
  * modify_cursor
  */
-int
+static int
 modify_cursor(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
 	return (access_xid(res, method, resource, subject, policy_flags,
-					   misc, RT_CURSOR, pset_win_dac_write));
+			   misc, RT_CURSOR, pset_win_dac_write));
 }
 
 /*
@@ -1341,7 +1336,7 @@ access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
     int ret_stat = PASSED;
     Bool do_audit = FALSE;
     priv_t priv;
-    XID cmap_id = (XID)misc;
+    XID cmap_id = * (XID *) misc;
     EntrySecAttrPtr  pentp = (EntrySecAttrPtr)resource;
     ClientPtr client = (ClientPtr)subject;
     TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
@@ -1419,7 +1414,7 @@ access_ccell(xresource_t res, xmethod_t method, void *resource, void *subject,
 /*
  * read_ccell
  */
-int
+static int
 read_ccell(xresource_t res, xmethod_t method, void *resource,
            void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1433,7 +1428,7 @@ read_ccell(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_ccell
  */
-int
+static int
 modify_ccell(xresource_t res, xmethod_t method, void *resource,
              void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1447,7 +1442,7 @@ modify_ccell(xresource_t res, xmethod_t method, void *resource,
 /*
  * destroy_ccell
  */
-int
+static int
 destroy_ccell(xresource_t res, xmethod_t method, void *resource,
              void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1468,7 +1463,7 @@ destroy_ccell(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_cmap
  */
-int
+static int
 read_cmap(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1478,7 +1473,7 @@ read_cmap(xresource_t res, xmethod_t method, void *resource,
 	if (pcmp->flags & IsDefault)
 		return (PASSED);
 
-	return (access_xid(res, method, (void *)(pcmp->mid),
+	return (access_xid(res, method, &(pcmp->mid),
 			   subject, policy_flags, misc,
 			   RT_COLORMAP, pset_win_dac_read));
 }
@@ -1486,7 +1481,7 @@ read_cmap(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_cmap: resource passed is ColormapPtr & not an XID
  */
-int
+static int
 modify_cmap(xresource_t res, xmethod_t method, void *resource,
 			void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1496,7 +1491,7 @@ modify_cmap(xresource_t res, xmethod_t method, void *resource,
 	if (pcmp->flags & IsDefault)
 		return (PASSED);
 
-	return (access_xid(res, method, (void *)(pcmp->mid),
+	return (access_xid(res, method, &(pcmp->mid),
 			   subject, policy_flags, misc,
 			   RT_COLORMAP, pset_win_dac_write));
 }
@@ -1504,12 +1499,12 @@ modify_cmap(xresource_t res, xmethod_t method, void *resource,
 /*
  * install_cmap: both install/uninstall
  */
-int
+static int
 install_cmap(xresource_t res, xmethod_t method, void *resource,
 			 void *subject, xpolicy_t policy_flags, void *misc)
 {
 	int ret_stat = PASSED;
-    Bool do_audit = FALSE;
+	Bool do_audit = FALSE;
 	ColormapPtr	pcmp = (ColormapPtr ) resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
@@ -1519,11 +1514,11 @@ install_cmap(xresource_t res, xmethod_t method, void *resource,
 	if (pcmp->flags & IsDefault)
 		return (PASSED);
 
-    if (priv_win_colormap)
-        return (PASSED);
+	if (priv_win_colormap)
+		return (PASSED);
 
-    if (tsolinfo->flags & TSOL_AUDITEVENT)
-        do_audit = TRUE;
+	if (tsolinfo->flags & TSOL_AUDITEVENT)
+		do_audit = TRUE;
 
 	/*
 	 * check only win_colormap priv
@@ -1559,7 +1554,7 @@ access_xid(xresource_t res, xmethod_t method, void *resource,
 	int object_code = 0;
 	int	err_code; /* depends on type of XID */
 	Bool do_audit = FALSE;
-	XID object = (XID) resource;
+	XID object = * (XID *) resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = (TsolInfoPtr)NULL;
 
@@ -1631,14 +1626,14 @@ access_xid(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_fontpath: requires win_fontpath priv
  */
-int
+static int
 modify_fontpath(xresource_t res, xmethod_t method, void *resource,
 		void *subject, xpolicy_t policy_flags, void *misc)
 {
 	int ret_stat = PASSED;
 	int	err_code = BadFont;
 	Bool do_audit = FALSE;
-	XID object = (XID)resource;
+	XID object = * (XID *) resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
@@ -1674,7 +1669,7 @@ modify_fontpath(xresource_t res, xmethod_t method, void *resource,
  * BadAccess is not a valid error code for many protocols
  * and does not work especially for SetPointerModifierMapping etc
  */
-int
+static int
 read_devices(xresource_t res, xmethod_t method, void *resource,
 			 void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1714,7 +1709,7 @@ read_devices(xresource_t res, xmethod_t method, void *resource,
  * modify_devices: All kbd/ptr ctrl/mapping related access.
  * requires win_devices priv
  */
-int
+static int
 modify_devices(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1753,7 +1748,7 @@ modify_devices(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_acl
  */
-int
+static int
 modify_acl(xresource_t res, xmethod_t method, void *resource,
 		   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1795,7 +1790,7 @@ modify_acl(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_atom
  */
-int
+static int
 read_atom(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1809,7 +1804,7 @@ read_atom(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	int	i, status;
-	int	protocol = (int)(misc);
+	int	protocol = (int) *((CARD8 *) misc));
 
 	/*
 	 * MAC Check is slightly different. We do a series of
@@ -1874,7 +1869,7 @@ read_atom(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_property
  */
-int
+static int
 read_property(xresource_t res, xmethod_t method, void *resource,
 	void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -1925,8 +1920,7 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 	 */
 	if ((ret_stat == PASSED) && policy_flags & TSOL_DAC)
 	{
-	    extern bslabel_t        PublicObjSL;
-		/*
+	        /*
 		 * Anyone can read properties created internally by loadable modules.
 		 * roles can read property created by workstation owner at admin_low.
 		 */
@@ -1962,7 +1956,7 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_property
  */
-int
+static int
 modify_property(xresource_t res, xmethod_t method, void *resource,
 				void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2046,7 +2040,7 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 /*
  * destroy_property
  */
-int
+static int
 destroy_property(xresource_t res, xmethod_t method, void *resource,
 				 void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2127,7 +2121,7 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_grabwin
  */
-int
+static int
 modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2219,7 +2213,7 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_confwin - ConfineTo window access
  */
-int
+static int
 modify_confwin(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2304,36 +2298,36 @@ modify_confwin(xresource_t res, xmethod_t method, void *resource,
 /*
  * create_srvgrab: GrabServer requires a priv
  */
-int
+static int
 create_srvgrab(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
-    if (priv_win_config)
+	if (priv_win_config)
 	{
-        return (PASSED);
+		return (PASSED);
 	}
-    else
+	else
 	{
-		return (check_priv(res, method, resource, subject, policy_flags,
-						   misc, pset_win_config));
+		return (check_priv(res, method, resource, subject,
+				   policy_flags, misc, pset_win_config));
 	}
 }
 
 /*
  * destroy_srvgrab: GrabServer requires a priv
  */
-int
+static int
 destroy_srvgrab(xresource_t res, xmethod_t method, void *resource,
 				void *subject, xpolicy_t policy_flags, void *misc)
 {
-    if (priv_win_config)
-    {
-        return (PASSED);
-    }
-    else
-    {
-		return (check_priv(res, method, resource, subject, policy_flags,
-						   misc, pset_win_config));
+	if (priv_win_config)
+	{
+		return (PASSED);
+	}
+	else
+	{
+		return (check_priv(res, method, resource, subject,
+				   policy_flags, misc, pset_win_config));
 	}
 }
 
@@ -2379,10 +2373,11 @@ check_priv(xresource_t res, xmethod_t method, void *resource,
 	return (ret_stat);
 }
 
+#ifdef DEBUG
 /*
  * Converts SL to string
  */
-char *
+static char *
 xsltos(bslabel_t *sl)
 {
 	char *slstring = NULL;
@@ -2393,11 +2388,12 @@ xsltos(bslabel_t *sl)
 	else
 		return slstring;
 }
+#endif
 
 /*
  * read_selection
  */
-int
+static int
 read_selection(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2470,7 +2466,7 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
  * modify_propwin. This is slightly different from modify_window in that
  * Anyone can create/change properties on root.
  */
-int
+static int
 modify_propwin(xresource_t res, xmethod_t method, void *resource,
 			   void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2558,7 +2554,7 @@ modify_propwin(xresource_t res, xmethod_t method, void *resource,
  * modify_focuswin - Focus Window policy
  * Focus window can be None is checked outside of this func
  */
-int
+static int
 modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 				void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2673,7 +2669,7 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 /*
  * read_focuswin
  */
-int
+static int
 read_focuswin(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2762,30 +2758,30 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
  * XTsolErr : used for debugging.
  */
 static void
-XTsolErr(const char *err_type, uintptr_t protocol,
+XTsolErr(const char *err_type, CARD8 *protocol,
 	 bslabel_t *osl, uid_t ouid, pid_t opid, const char *opname,
 	 bslabel_t *ssl, uid_t suid, pid_t spid, const char *spname,
-	 const char *method, int isstring, void *xid)
+	 const char *method, int isstring, const void *xid)
 {
 	if (xtsol_debug < XTSOL_FAIL)
 		return;
-	if (protocol == X_QueryTree || protocol == X_GetInputFocus)
+	if (*protocol == X_QueryTree || *protocol == X_GetInputFocus)
 		return;
 	/* range check of protocol */
 	if (protocol > X_NoOperation)
 		protocol = 0; /* unknown or extension */
 	ErrorF("\n%s failed:%s,obj(%s,%d,%d,%s), subj(%s,%d,%d,%s), %s, ",
-	       err_type, LookupMajorName(protocol),
+	       err_type, LookupMajorName(*protocol),
 	       xsltos(osl), ouid, opid, opname ? opname : "",
 	       xsltos(ssl), suid, spid, spname ? spname : "",
 	       method);
 	if (isstring)
 	{
-		ErrorF("xid=%s\n", (char *) xid); /* for atom/prop names */
+		ErrorF("xid=%s\n", (const char *) xid); /* for atom/prop names */
 	}
 	else
 	{
-		ErrorF("xid=%lX\n", (long) xid); /* for window/pixmaps */
+		ErrorF("xid=%lX\n", (long) (*(XID *) xid)); /* for window/pixmaps */
 	}
 }
 #endif /* DEBUG */
@@ -2793,7 +2789,7 @@ XTsolErr(const char *err_type, uintptr_t protocol,
 /*
  * read_extn
  */
-int
+static int
 read_extn(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2816,7 +2812,7 @@ read_extn(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_window
  */
-int
+static int
 modify_tpwin(xresource_t res, xmethod_t method, void *resource,
 			 void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2899,7 +2895,7 @@ modify_tpwin(xresource_t res, xmethod_t method, void *resource,
  * misc parameter is actually sl of resource & not the protocol no.
  * misc == NULL means we are trying to set session hi/lo clearance
  */
-int
+static int
 modify_sl(xresource_t res, xmethod_t method, void *resource,
 		  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -2990,7 +2986,7 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 /*
  * modify_eventwin
  */
-int
+static int
 modify_eventwin(xresource_t res, xmethod_t method, void *resource,
 				void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -3080,7 +3076,7 @@ modify_eventwin(xresource_t res, xmethod_t method, void *resource,
  * modify_stripe
  * Trusted stripe requires only trusted path attrib
  */
-int
+static int
 modify_stripe(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -3101,7 +3097,7 @@ modify_stripe(xresource_t res, xmethod_t method, void *resource,
  * modify_wowner
  * set workstation owner
  */
-int
+static int
 modify_wowner(xresource_t res, xmethod_t method, void *resource,
 			  void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -3122,7 +3118,7 @@ modify_wowner(xresource_t res, xmethod_t method, void *resource,
  * modify_uid
  * Set UID for resource
  */
-int
+static int
 modify_uid(xresource_t res, xmethod_t method, void *resource,
 	void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -3155,7 +3151,7 @@ modify_uid(xresource_t res, xmethod_t method, void *resource,
  * modify_polyinfo
  * Modify polyinstantiation info(sl, uid)
  */
-int
+static int
 modify_polyinfo(xresource_t res, xmethod_t method, void *resource,
 				void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -3192,12 +3188,12 @@ modify_polyinfo(xresource_t res, xmethod_t method, void *resource,
 /*
  * access_dbe - check whether the buffer is client-private
  */
-int
+static int
 access_dbe(xresource_t res, xmethod_t method, void *resource,
 	   void *subject, xpolicy_t policy_flags, void *misc)
 {
     ClientPtr client = subject;
-    XID object = (XID) resource;
+    XID object = * (XID *) resource;
 
     if (client_private(client, object))
        return (PASSED);
@@ -3208,7 +3204,7 @@ access_dbe(xresource_t res, xmethod_t method, void *resource,
 /*
  * swap_dbe - check if the window is created by the client
  */
-int
+static int
 swap_dbe(xresource_t res, xmethod_t method, void *resource,
 	 void *subject, xpolicy_t policy_flags, void *misc)
 {
@@ -3366,7 +3362,8 @@ XTSOL_policy_table[TSOL_MAX_XRES_TYPES - TSOL_START_XRES][TSOL_MAX_XMETHODS] =
 struct xpolicy_cache {
 	xresource_t res;
 	xmethod_t method;
-	void *resource;
+	void *resource_ptr;
+	XID resource_id;
 	void *subject;
 	xpolicy_t policy_flags;
 	int	ret_value;
@@ -3378,11 +3375,13 @@ static struct xpolicy_cache policy_cache;
  * main xtsol_policy. External interface to dix layer of X server
  */
 int
-xtsol_policy(xresource_t res,	xmethod_t method,	void *resource,
-    void *subject,	xpolicy_t policy_flags,	void *misc)
+xtsol_policy(xresource_t res, xmethod_t method,	void *resource_ptr,
+	     XID resource_id, void *subject, xpolicy_t policy_flags,
+	     void *misc)
 {
 	int	res_type;
 	int	ret_value;
+	void *	resource;
 
 	assert(res >= TSOL_START_XRES && res < TSOL_MAX_XRES_TYPES);
 	assert(method >= 0 && method < TSOL_MAX_XMETHODS);
@@ -3392,7 +3391,8 @@ xtsol_policy(xresource_t res,	xmethod_t method,	void *resource,
 	if (policy_cache.subject == subject &&
 		policy_cache.res == res  &&
 		policy_cache.method == method &&
-		policy_cache.resource == resource  &&
+		policy_cache.resource_ptr == resource_ptr  &&
+		policy_cache.resource_id == resource_id  &&
 		policy_cache.policy_flags == policy_flags)
 	{
 
@@ -3401,12 +3401,19 @@ xtsol_policy(xresource_t res,	xmethod_t method,	void *resource,
 	} else {
 		policy_cache.res = res;
 		policy_cache.method = method;
-		policy_cache.resource = resource;
+		policy_cache.resource_ptr = resource_ptr;
+		policy_cache.resource_id = resource_id;
 		policy_cache.subject = subject;
 		policy_cache.policy_flags = policy_flags;
 
+		if (resource_ptr != NULL) {
+			resource = resource_ptr;
+		} else {
+			resource = &resource_id;
+		}
+
 		ret_value = ((XTSOL_policy_table[res_type][method]) (res,
-			method,	resource, subject,	policy_flags,	misc));
+			    method, resource, subject, policy_flags, misc));
 		policy_cache.ret_value = ret_value;
 
 		return ret_value;

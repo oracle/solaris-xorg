@@ -1,0 +1,297 @@
+[Adjusted to apply to xserver-1.5.3 sources]
+
+From 5623c27700b7b23a8dbbd8c8f45e5d4fa0c667e3 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Mon, 2 Feb 2009 19:25:14 -0800
+Subject: [PATCH] Constify atom name strings
+
+Changes MakeAtom to take a const char * and NameForAtom to return them,
+since many callers pass pointers to constant strings stored in read-only
+ELF sections.   Updates in-tree callers as necessary to clear const
+mismatch warnings introduced by this change.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ dix/atom.c                   |   15 ++++++++-------
+ dix/dispatch.c               |    2 +-
+ hw/dmx/dmxfont.c             |    4 ++--
+ hw/kdrive/ephyr/ephyrvideo.c |    2 +-
+ hw/xnest/Font.c              |    4 ++--
+ include/dix.h                |    4 ++--
+ include/xkbsrv.h             |    2 +-
+ xfixes/cursor.c              |    4 ++--
+ xkb/xkb.c                    |    2 +-
+ xkb/xkbfmisc.c               |    2 +-
+ xkb/xkbtext.c                |   18 +++++++++++-------
+ xkb/xkmread.c                |    2 +-
+ 12 files changed, 33 insertions(+), 28 deletions(-)
+
+diff --git a/dix/atom.c b/dix/atom.c
+index ab9ee80..f5bf8ad 100644
+--- a/dix/atom.c
++++ b/dix/atom.c
+@@ -64,7 +64,7 @@ typedef struct _Node {
+     struct _Node   *left,   *right;
+     Atom a;
+     unsigned int fingerPrint;
+-    char   *string;
++    const char   *string;
+ } NodeRec, *NodePtr;
+ 
+ static Atom lastAtom = None;
+@@ -75,7 +75,7 @@ static NodePtr *nodeTable;
+ void FreeAtom(NodePtr patom);
+ 
+ _X_EXPORT Atom 
+-MakeAtom(char *string, unsigned len, Bool makeit)
++MakeAtom(const char *string, unsigned len, Bool makeit)
+ {
+     NodePtr * np;
+     unsigned i;
+@@ -118,13 +118,14 @@ MakeAtom(char *string, unsigned len, Bool makeit)
+ 	}
+ 	else
+ 	{
+-	    nd->string = (char *) xalloc(len + 1);
+-	    if (!nd->string) {
++	    char *newstring = xalloc(len + 1);
++	    if (!newstring) {
+ 		xfree(nd);
+ 		return BAD_RESOURCE;
+ 	    }
+-	    strncpy(nd->string, string, (int)len);
+-	    nd->string[len] = 0;
++	    strncpy(newstring, string, (int)len);
++	    newstring[len] = 0;
++	    nd->string = newstring;
+ 	}
+ 	if ((lastAtom + 1) >= tableLength) {
+ 	    NodePtr *table;
+@@ -157,7 +158,7 @@ ValidAtom(Atom atom)
+     return (atom != None) && (atom <= lastAtom);
+ }
+ 
+-_X_EXPORT char *
++_X_EXPORT const char *
+ NameForAtom(Atom atom)
+ {
+     NodePtr node;
+diff --git a/dix/dispatch.c b/dix/dispatch.c
+index 5cde80b..b06f4aa 100644
+--- a/dix/dispatch.c
++++ b/dix/dispatch.c
+@@ -901,7 +901,7 @@ ProcInternAtom(ClientPtr client)
+ int
+ ProcGetAtomName(ClientPtr client)
+ {
+-    char *str;
++    const char *str;
+     xGetAtomNameReply reply;
+     int len;
+     REQUEST(xResourceReq);
+diff --git a/hw/dmx/dmxfont.c b/hw/dmx/dmxfont.c
+index b70f7d2..c33aee7 100644
+--- a/hw/dmx/dmxfont.c
++++ b/hw/dmx/dmxfont.c
+@@ -253,7 +253,7 @@ Bool dmxBELoadFont(ScreenPtr pScreen, FontPtr pFont)
+ {
+     DMXScreenInfo  *dmxScreen = &dmxScreens[pScreen->myNum];
+     dmxFontPrivPtr  pFontPriv = FontGetPrivate(pFont, dmxFontPrivateIndex);
+-    char           *name;
++    const char     *name;
+     char          **oldFontPath = NULL;
+     int             nOldPaths;
+     Atom            name_atom, value_atom;
+@@ -415,7 +415,7 @@ Bool dmxBELoadFont(ScreenPtr pScreen, FontPtr pFont)
+     }
+     if (!value_atom) return FALSE;
+ 
+-    name = (char *)NameForAtom(value_atom);
++    name = NameForAtom(value_atom);
+     if (!name) return FALSE;
+ 
+     pFontPriv->font[pScreen->myNum] = 
+diff --git a/hw/kdrive/ephyr/ephyrvideo.c b/hw/kdrive/ephyr/ephyrvideo.c
+index c4eb066..5058ebe 100644
+--- a/hw/kdrive/ephyr/ephyrvideo.c
++++ b/hw/kdrive/ephyr/ephyrvideo.c
+@@ -236,7 +236,7 @@ DoSimpleClip (BoxPtr a_dst_box,
+ static Bool
+ ephyrLocalAtomToHost (int a_local_atom, int *a_host_atom)
+ {
+-    char *atom_name=NULL;
++    const char *atom_name=NULL;
+     int host_atom=None ;
+ 
+     EPHYR_RETURN_VAL_IF_FAIL (a_host_atom, FALSE) ;
+diff --git a/hw/xnest/Font.c b/hw/xnest/Font.c
+index 26faf16..7b388f0 100644
+--- a/hw/xnest/Font.c
++++ b/hw/xnest/Font.c
+@@ -40,7 +40,7 @@ xnestRealizeFont(ScreenPtr pScreen, FontPtr pFont)
+   int nprops;
+   FontPropPtr props;
+   int i;
+-  char *name;
++  const char *name;
+ 
+   FontSetPrivate(pFont, xnestFontPrivateIndex, NULL);
+ 
+@@ -58,7 +58,7 @@ xnestRealizeFont(ScreenPtr pScreen, FontPtr pFont)
+ 
+   if (!value_atom) return False;
+ 
+-  name = (char *)NameForAtom(value_atom);
++  name = NameForAtom(value_atom);
+ 
+   if (!name) return False;
+ 
+diff --git a/include/dix.h b/include/dix.h
+index b210846..658dd29 100644
+--- a/include/dix.h
++++ b/include/dix.h
+@@ -280,14 +280,14 @@ extern _X_EXPORT Bool ClientIsAsleep(
+ /* atom.c */
+ 
+ extern Atom MakeAtom(
+-    char * /*string*/,
++    const char * /*string*/,
+     unsigned /*len*/,
+     Bool /*makeit*/);
+ 
+ extern Bool ValidAtom(
+     Atom /*atom*/);
+ 
+-extern char *NameForAtom(
++extern const char *NameForAtom(
+     Atom /*atom*/);
+ 
+ extern void AtomError(void);
+diff --git a/include/xkbsrv.h b/include/xkbsrv.h
+index 8f6a767..4497220 100644
+--- a/include/xkbsrv.h
++++ b/include/xkbsrv.h
+@@ -880,7 +880,7 @@ extern _X_EXPORT XkbGeometryPtr XkbLookupNamedGeometry(
+ );
+ 
+ extern char *	_XkbDupString(
+-	char *			/* str */
++	const char *		/* str */
+ );
+ 
+ extern _X_EXPORT void	XkbConvertCase(
+diff --git a/xfixes/cursor.c b/xfixes/cursor.c
+index 2c584f9..cd3df12 100644
+--- a/xfixes/cursor.c
++++ b/xfixes/cursor.c
+@@ -457,7 +457,7 @@ ProcXFixesGetCursorName (ClientPtr client)
+     CursorPtr			pCursor;
+     xXFixesGetCursorNameReply	reply;
+     REQUEST(xXFixesGetCursorNameReq);
+-    char *str;
++    const char *str;
+     int len;
+ 
+     REQUEST_SIZE_MATCH(xXFixesGetCursorNameReq);
+@@ -507,7 +507,7 @@ ProcXFixesGetCursorImageAndName (ClientPtr client)
+     CursorPtr			pCursor;
+     CARD32			*image;
+     int				npixels;
+-    char			*name;
++    const char			*name;
+     int				nbytes, nbytesRound;
+     int				width, height;
+     int				rc, x, y;
+diff --git a/xkb/xkb.c b/xkb/xkb.c
+index d889680..30d58bf 100644
+--- a/xkb/xkb.c
++++ b/xkb/xkb.c
+@@ -3853,7 +3853,7 @@ register int i,bit;
+ static Bool
+ _XkbCheckTypeName(Atom name,int typeNdx)
+ {
+-char *	str;
++const char *	str;
+ 
+     str= NameForAtom(name);
+     if ((strcmp(str,"ONE_LEVEL")==0)||(strcmp(str,"TWO_LEVEL")==0)||
+diff --git a/xkb/xkbfmisc.c b/xkb/xkbfmisc.c
+index be8accb..aa660df 100644
+--- a/xkb/xkbfmisc.c
++++ b/xkb/xkbfmisc.c
+@@ -163,7 +163,8 @@ XkbWriteXKBKeymapForNames(	FILE *			file,
+ 				unsigned		want,
+ 				unsigned		need)
+ {
+-char *		name,*tmp;
++const char *	name;
++const char *	tmp;
+ unsigned	complete;
+ XkbNamesPtr	old_names;
+ int		multi_section;
+diff --git a/xkb/xkbtext.c b/xkb/xkbtext.c
+index b9f16a8..836d47e 100644
+--- a/xkb/xkbtext.c
++++ b/xkb/xkbtext.c
+@@ -70,16 +70,17 @@ char *rtrn;
+ char *
+ XkbAtomText(Atom atm,unsigned format)
+ {
++const char	*atmstr;
+ char	*rtrn,*tmp;
+ 
+-    tmp= XkbAtomGetString(atm);
+-    if (tmp!=NULL) {
++    atmstr = XkbAtomGetString(atm);
++    if (atmstr != NULL) {
+ 	int	len;
+-	len= strlen(tmp)+1;
++	len= strlen(atmstr)+1;
+ 	if (len>BUFFER_SIZE)
+ 	    len= BUFFER_SIZE-2;
+ 	rtrn= tbGetBuffer(len);
+-	strncpy(rtrn,tmp,len);
++	strncpy(rtrn,atmstr,len);
+ 	rtrn[len]= '\0';
+     }
+     else {
+@@ -104,7 +105,8 @@ XkbVModIndexText(XkbDescPtr xkb,unsigned ndx,unsigned format)
+ {
+ register int len;
+ register Atom *vmodNames;
+-char *rtrn,*tmp;
++char *rtrn;
++const char *tmp;
+ char  numBuf[20];
+ 
+     if (xkb && xkb->names)
+@@ -116,8 +118,10 @@ char  numBuf[20];
+ 	 tmp= "illegal";
+     else if (vmodNames&&(vmodNames[ndx]!=None))
+ 	 tmp= XkbAtomGetString(vmodNames[ndx]);
+-    if (tmp==NULL)
+-	sprintf(tmp=numBuf,"%d",ndx);
++    if (tmp==NULL) {
++	sprintf(numBuf,"%d",ndx);
++	tmp = numBuf;
++    }
+ 
+     len= strlen(tmp)+1;
+     if (format==XkbCFile)
+diff --git a/xkb/xkmread.c b/xkb/xkmread.c
+index a6fdc6f..dc8ab61 100644
+--- a/xkb/xkmread.c
++++ b/xkb/xkmread.c
+@@ -51,7 +51,7 @@ XkbInternAtom(char *str,Bool only_if_exists)
+ }
+ 
+ char *
+-_XkbDupString(char *str)
++_XkbDupString(const char *str)
+ {
+ char *new;
+    
+-- 
+1.5.6.5
+

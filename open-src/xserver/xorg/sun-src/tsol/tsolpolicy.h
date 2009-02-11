@@ -29,7 +29,7 @@
 #ifndef	_TSOL_POLICY_H
 #define	_TSOL_POLICY_H
 
-#pragma ident	"@(#)tsolpolicy.h	1.8	09/01/22 SMI"
+#pragma ident	"@(#)tsolpolicy.h	1.9	09/02/10 SMI"
 
 #ifdef	__cplusplus
 extern "C" {
@@ -141,9 +141,15 @@ typedef enum xresource_types xresource_t;
  * XTSOL_policy_table in xpolicy_tables.c!!!
  */
 
-
-int xtsol_policy(xresource_t res_type, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
+/*
+ * resource_ptr: Pointer to resource, or NULL to only use resource_id
+ * resource_id: XID of resource, or 0 to only use resource_ptr
+ * misc: pointer to request major op for most policy types,
+ *	but has other additional information for some
+ */
+int xtsol_policy(xresource_t res_type, xmethod_t method, void *resource_ptr,
+		 XID resource_id, void *subject, xpolicy_t policy_flags,
+		 void *misc);
 
 #ifdef DEBUG	/* define this in tsolinfo.h if you want debug */
 /*
@@ -172,114 +178,6 @@ extern int xtsol_debug; 	/* defined xres_policy.c */
 /*
  * Function prototypes
  */
-int modify_acl(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_devices(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_devices(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_client(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_client(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_client(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_atom(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_font(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_font(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_fontpath(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_gc(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_gc(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_font(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_font(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_cursor(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_ccell(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_ccell(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_ccell(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_cmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_cmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int install_cmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_window(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_window(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int create_window(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_window(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_pixmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_pixmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int create_pixmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_pixmap(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_property(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_property(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_property(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int create_srvgrab(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int destroy_srvgrab(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_confwin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_grabwin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_focuswin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_focuswin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_selection(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_propwin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_pixel(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_pixel(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_extn(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_sl(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_il(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_tpwin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_eventwin(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_stripe(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_wowner(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_uid(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int modify_polyinfo(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int read_iil(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int access_dbe(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
-int swap_dbe(xresource_t res, xmethod_t method,
-    void *resource, void *subject, xpolicy_t policy_flags, void *misc);
 
 void init_win_privsets(void);
 void free_win_privsets(void);

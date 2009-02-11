@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.19     09/01/14 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.20     09/02/10 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -91,7 +91,7 @@ extern char *pidtopname(pid_t pid);       /* converts pid to process name */
 #define XAUDIT_Q_SIZE     1024          /* audit queue size for x server */
 #define XAUDIT_OFFSET     9102
 #define XAUDIT_EXTENSION  128
-#define XTSOL_HOME        "/usr/openwin/server/tsol"
+
 #define MAX_CLIENT        16
 #define MAX_SLS           16            /* used in atom */
 #define MAX_POLYPROPS     128           /* used in property */
@@ -374,8 +374,6 @@ typedef struct _HotKeyRec {
 
 
 extern  WindowPtr *WindowTable;
-extern  TsolPolyAtomRec tsolpolyprop;
-extern  TsolPolyAtomRec tsolpolyseln;
 extern  int PolyProperty(Atom atom, WindowPtr pWin);
 extern  int PolySelection(Atom atom);
 extern  TsolPolyInstInfoRec tsolpolyinstinfo;
@@ -392,11 +390,10 @@ extern Bool system_audit_on;
 void  TsolReadPolyAtoms(char *filename, TsolPolyAtomPtr polyatomptr);
 extern WindowPtr TopClientWin(WindowPtr pWin);
 extern WindowPtr RootWin(WindowPtr pWin);
-extern WindowPtr XYToWin(int x, int y); /* Defined in events.c */
 extern Window RootOf(WindowPtr pWin);
 extern Window RootOfClient(WindowPtr pWin);
 extern int TsolDisabledExtension(const char *extname);
-extern int MatchTsolConfig(char *name, int len);
+extern int MatchTsolConfig(const char *name, int len);
 extern int HasWinSelection(TsolInfoPtr tsolinfo);
 extern int same_client (ClientPtr client, XID xid);
 extern int client_private (ClientPtr client, XID xid);

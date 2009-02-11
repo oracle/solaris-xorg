@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2008-10-17 15:44:58.744720000 -0700
-+++ configure.ac	2008-10-17 15:45:15.246237000 -0700
-@@ -215,6 +215,14 @@ dnl Find the math libary
+--- configure.ac	2009-02-03 09:47:56.420266000 -0800
++++ configure.ac	2009-02-03 09:48:35.183214000 -0800
+@@ -216,6 +216,14 @@ dnl Find the math libary
  AC_CHECK_LIB(m, sqrt)
  AC_CHECK_LIB(m, cbrt, AC_DEFINE(HAVE_CBRT, 1, [Have the 'cbrt' function]))
  
@@ -44,7 +44,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])
  
  dnl AGPGART headers
-@@ -1227,8 +1235,8 @@ AC_MSG_RESULT([$XVFB])
+@@ -1286,8 +1294,8 @@ AC_MSG_RESULT([$XVFB])
  AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
  
  if test "x$XVFB" = xyes; then
@@ -55,7 +55,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  	AC_SUBST([XVFB_LIBS])
  	AC_SUBST([XVFB_SYS_LIBS])
  fi
-@@ -1245,8 +1253,8 @@ AC_MSG_RESULT([$XNEST])
+@@ -1304,8 +1312,8 @@ AC_MSG_RESULT([$XNEST])
  AM_CONDITIONAL(XNEST, [test "x$XNEST" = xyes])
  
  if test "x$XNEST" = xyes; then
@@ -66,7 +66,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  	AC_SUBST([XNEST_LIBS])
  	AC_SUBST([XNEST_SYS_LIBS])
  fi
-@@ -1609,8 +1617,8 @@ AC_MSG_RESULT([$XPRINT])
+@@ -1658,8 +1666,8 @@ AC_MSG_RESULT([$XPRINT])
  if test "x$XPRINT" = xyes; then
  	PKG_CHECK_MODULES([XPRINTMODULES], [printproto x11 xfont $XDMCP_MODULES xau])
  	XPRINT_CFLAGS="$XPRINTMODULES_CFLAGS -DXPRINT"
@@ -77,7 +77,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  
  	xpconfigdir=$libdir/X11/xserver
  	AC_SUBST([xpconfigdir])
-@@ -1965,7 +1973,7 @@ if test "$KDRIVE" = yes; then
+@@ -2014,7 +2022,7 @@ if test "$KDRIVE" = yes; then
      
      KDRIVE_CFLAGS="$XSERVER_CFLAGS -DHAVE_KDRIVE_CONFIG_H $TSLIB_CFLAGS"
  
@@ -86,7 +86,7 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
      KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.a'
      case $host_os in
  	*linux*)
-@@ -2272,3 +2280,6 @@ xorg-server.pc
+@@ -2299,3 +2307,6 @@ xorg-server.pc
  
  # Add Sun IA extension
  AC_OUTPUT([IA/Makefile])
@@ -94,8 +94,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +# Add Sun Trusted Extensions extension
 +AC_OUTPUT([tsol/Makefile])
 diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
---- dix/dispatch.c	2008-10-10 11:12:48.000000000 -0700
-+++ dix/dispatch.c	2008-10-17 15:45:15.263147000 -0700
+--- dix/dispatch.c	2008-11-05 08:52:17.000000000 -0800
++++ dix/dispatch.c	2009-02-03 09:48:35.185378000 -0800
 @@ -74,8 +74,8 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -159,8 +159,8 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
  	ReleaseActiveGrabs(client);
  	DeleteClientFontStuff(client);
 diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
---- dix/events.c	2008-10-10 11:12:48.000000000 -0700
-+++ dix/events.c	2008-10-17 15:45:15.265785000 -0700
+--- dix/events.c	2008-11-05 08:52:17.000000000 -0800
++++ dix/events.c	2009-02-03 09:48:35.187905000 -0800
 @@ -76,7 +76,7 @@ Equipment Corporation.
  
  /*****************************************************************
@@ -199,8 +199,8 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
  {
      WindowPtr  pWin;
 diff -urp -x '*~' -x '*.orig' dix/property.c dix/property.c
---- dix/property.c	2008-10-10 11:12:48.000000000 -0700
-+++ dix/property.c	2008-10-17 15:45:15.358024000 -0700
+--- dix/property.c	2008-11-05 08:52:17.000000000 -0800
++++ dix/property.c	2009-02-03 09:48:35.189032000 -0800
 @@ -45,6 +45,34 @@ SOFTWARE.
  
  ******************************************************************/
@@ -274,8 +274,8 @@ diff -urp -x '*~' -x '*.orig' dix/property.c dix/property.c
      if (client->noClientException != Success)
  	return(client->noClientException);
 diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
---- dix/window.c	2008-10-10 11:12:48.000000000 -0700
-+++ dix/window.c	2008-10-17 15:45:15.360112000 -0700
+--- dix/window.c	2008-11-05 08:52:17.000000000 -0800
++++ dix/window.c	2009-02-03 09:48:35.190851000 -0800
 @@ -98,6 +98,33 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -377,8 +377,8 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
      WindowPtr pWin,
      WindowPtr pSib,
 diff -urp -x '*~' -x '*.orig' hw/dmx/Makefile.am hw/dmx/Makefile.am
---- hw/dmx/Makefile.am	2008-10-17 15:44:58.745221000 -0700
-+++ hw/dmx/Makefile.am	2008-10-17 15:45:15.360748000 -0700
+--- hw/dmx/Makefile.am	2009-02-03 09:47:56.420979000 -0800
++++ hw/dmx/Makefile.am	2009-02-03 09:48:35.191483000 -0800
 @@ -87,6 +87,7 @@ XDMX_LIBS = \
          input/libdmxinput.a \
          config/libdmxconfig.a \
@@ -388,8 +388,8 @@ diff -urp -x '*~' -x '*.orig' hw/dmx/Makefile.am hw/dmx/Makefile.am
  
  Xdmx_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2008-10-17 15:44:58.746569000 -0700
-+++ hw/xfree86/common/xf86Config.c	2008-10-17 15:45:15.381539000 -0700
+--- hw/xfree86/common/xf86Config.c	2009-02-03 09:47:56.422154000 -0800
++++ hw/xfree86/common/xf86Config.c	2009-02-03 09:48:35.192765000 -0800
 @@ -127,6 +127,7 @@ static ModuleDefault ModuleDefaults[] = 
      {.name = "dri2",     .toLoad = TRUE,    .load_opt=NULL},
  #endif
@@ -399,11 +399,11 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  };
  
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2008-10-17 15:44:58.747030000 -0700
-+++ hw/xfree86/dixmods/Makefile.am	2008-10-17 15:45:15.382121000 -0700
+--- hw/xfree86/dixmods/Makefile.am	2009-02-03 09:47:56.422734000 -0800
++++ hw/xfree86/dixmods/Makefile.am	2009-02-03 09:48:35.250342000 -0800
 @@ -119,3 +119,11 @@ extsmodule_LTLIBRARIES += libia.la
  libia_la_LDFLAGS = -avoid-version
- libia_la_LIBADD = $(top_builddir)/IA/libia.la
+ libia_la_LIBADD = $(top_builddir)/IA/libIA.la
  libia_la_SOURCES = iamodule.c
 +
 +if BUILD_TSOL_MODULE
@@ -413,9 +413,39 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/
 +libxtsol_la_LIBADD = $(top_builddir)/tsol/libxtsol.la
 +libxtsol_la_SOURCES = tsolmodule.c
 +endif
+diff -urp -x '*~' -x '*.orig' include/dix.h include/dix.h
+--- include/dix.h	2008-11-05 08:52:17.000000000 -0800
++++ include/dix.h	2009-02-03 09:48:35.468585000 -0800
+@@ -173,6 +173,14 @@ extern void MarkClientException(
+ extern void ddxBeforeReset (void);
+ #endif
+ 
++#ifdef TSOL
++extern int DoGetImage(ClientPtr client, int format, Drawable drawable, 
++		      int x, int y, int width, int height, 
++		      Mask planemask, xGetImageReply **im_return);
++
++extern int GetGeometry(ClientPtr client, xGetGeometryReply *rep);
++#endif
++
+ /* dixutils.c */
+ 
+ extern void CopyISOLatin1Lowered(
+diff -urp -x '*~' -x '*.orig' include/dixevents.h include/dixevents.h
+--- include/dixevents.h	2008-11-05 08:52:17.000000000 -0800
++++ include/dixevents.h	2009-02-03 09:48:35.470450000 -0800
+@@ -84,4 +84,8 @@ extern int ProcRecolorCursor(ClientPtr /
+ extern void PostSyntheticMotion(int x, int y, int screen, unsigned long time);
+ #endif
+ 
++#ifdef TSOL
++extern WindowPtr XYToWindow(int x, int y);
++#endif
++
+ #endif /* DIXEVENTS_H */
 diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
 --- include/extnsionst.h	2008-10-02 14:01:26.000000000 -0700
-+++ include/extnsionst.h	2008-10-17 15:45:15.383877000 -0700
++++ include/extnsionst.h	2009-02-03 09:48:35.268955000 -0800
 @@ -45,6 +45,34 @@ SOFTWARE.
  
  ******************************************************************/
@@ -484,9 +514,22 @@ diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
 +
  #endif /* EXTENSIONSTRUCT_H */
  
+diff -urp -x '*~' -x '*.orig' include/window.h include/window.h
+--- include/window.h	2008-11-05 08:52:17.000000000 -0800
++++ include/window.h	2009-02-03 09:48:35.510644000 -0800
+@@ -256,4 +256,9 @@ extern void DisableMapUnmapEvents(
+ extern void EnableMapUnmapEvents(
+     WindowPtr /* pWin */ );
+ 
++#ifdef TSOL
++# include "validate.h" /* needed for VTKind enum definition */
++extern void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
++#endif
++
+ #endif /* WINDOW_H */
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2008-10-17 15:44:58.741284000 -0700
-+++ Makefile.am	2008-10-17 15:45:15.039639000 -0700
+--- Makefile.am	2009-02-03 09:47:56.423083000 -0800
++++ Makefile.am	2009-02-03 09:48:35.311648000 -0800
 @@ -34,6 +34,10 @@ if RECORD
  RECORD_DIR=record
  endif
@@ -507,8 +550,8 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	config \
  	hw
 diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
---- mi/miinitext.c	2008-10-17 15:44:58.747720000 -0700
-+++ mi/miinitext.c	2008-10-17 15:45:15.384710000 -0700
+--- mi/miinitext.c	2009-02-03 09:47:56.423822000 -0800
++++ mi/miinitext.c	2009-02-03 09:48:35.324055000 -0800
 @@ -86,6 +86,10 @@ SOFTWARE.
  
  #define SolarisIAExtension
@@ -574,8 +617,8 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  void
 diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
---- os/connection.c	2008-10-17 15:44:58.728705000 -0700
-+++ os/connection.c	2008-10-17 15:45:15.387013000 -0700
+--- os/connection.c	2009-02-03 09:47:56.372418000 -0800
++++ os/connection.c	2009-02-03 09:48:35.325140000 -0800
 @@ -44,6 +44,33 @@ ARISING OUT OF OR IN CONNECTION WITH THE
  SOFTWARE.
  
@@ -636,8 +679,8 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
  				  string_n, auth_string, client, &reason);
  
 diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
---- Xext/security.c	2008-10-17 15:44:58.336824000 -0700
-+++ Xext/security.c	2008-10-17 15:45:15.081938000 -0700
+--- Xext/security.c	2009-02-03 09:47:54.475192000 -0800
++++ Xext/security.c	2009-02-03 09:48:35.326019000 -0800
 @@ -1148,3 +1148,27 @@ SecurityExtensionInit(INITARGS)
      /* Label objects that were created before we could register ourself */
      SecurityLabelInitial();
@@ -668,7 +711,7 @@ diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
 +}
 diff -urp -x '*~' -x '*.orig' Xext/securitysrv.h Xext/securitysrv.h
 --- Xext/securitysrv.h	2008-01-04 14:42:34.000000000 -0800
-+++ Xext/securitysrv.h	2008-10-17 15:45:15.082414000 -0700
++++ Xext/securitysrv.h	2009-02-03 09:48:35.410279000 -0800
 @@ -80,4 +80,8 @@ typedef struct {
  /* Give this value or higher to the -audit option to get security messages */
  #define SECURITY_AUDIT_LEVEL 4

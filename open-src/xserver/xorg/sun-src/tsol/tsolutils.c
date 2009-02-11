@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolutils.c	1.19	09/01/14 SMI"
+#pragma ident   "@(#)tsolutils.c	1.20	09/02/10 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -50,6 +50,7 @@
 #include  "misc.h"
 #include  "inputstr.h"
 #include  "propertyst.h"
+#include  "panoramiXsrv.h"
 
 #define	MAX_SL_ENTRY	256
 #define	MAX_UID_ENTRY	64
@@ -70,13 +71,7 @@ Bool priv_win_config = FALSE;
 Bool priv_win_devices = FALSE;
 Bool priv_win_dga = FALSE;
 Bool priv_win_fontpath = FALSE;
-TsolInfoPtr dying_tsolinfo = (TsolInfoPtr)NULL;
-ExtensionFlag  extflag = { FALSE, FALSE, FALSE, FALSE, FALSE,
-                           FALSE, FALSE, FALSE, FALSE, FALSE,
-                           FALSE, FALSE, FALSE, FALSE, FALSE,
-                           FALSE, FALSE, FALSE, FALSE, FALSE,
-                           FALSE, FALSE, FALSE, FALSE, FALSE,
-                           FALSE };
+
 
 /*
  * The following need to be moved to tsolextension.c
@@ -89,8 +84,8 @@ TsolPolyInstInfoRec tsolpolyinstinfo;
  * Use the NodeRec struct in tsolinfo.h. This is referenced
  * in policy routines. So we had to move it there
  */
-TsolPolyAtomRec tsolpolyprop = {FALSE, 0, 0, NULL};
-TsolPolyAtomRec tsolpolyseln = {TRUE, 0, 0, NULL};
+static TsolPolyAtomRec tsolpolyprop = {FALSE, 0, 0, NULL};
+static TsolPolyAtomRec tsolpolyseln = {TRUE, 0, 0, NULL};
 
 
 /*
@@ -108,7 +103,6 @@ bslabel_t PublicObjSL;
 Atom tsol_lastAtom = None;
 int tsol_nodelength  = 0;
 TsolNodePtr tsol_node = NULL;
-extern int PanoramiXPixHeight;
 
 /* This structure is used for protocol request ListHosts */
 struct xUIDreply
@@ -148,7 +142,7 @@ typedef struct _TsolConfig
 	char **list;
 } TsolConfigRec;
 
-TsolConfigRec tsolconfig[KEYWORDCOUNT] = {
+static TsolConfigRec tsolconfig[KEYWORDCOUNT] = {
 	{0, NULL},
 	{0, NULL},
 	{0, NULL},
@@ -163,15 +157,6 @@ static const char *tsolatomnames[TSOL_ATOMCOUNT] = {
 	"_TSOL_CLIENT_TERM",
 	"_TSOL_SEL_AGNT"
 };
-
-#ifdef DEBUG
-/*
- * selectively enable debugging. upto 32 levels of debugging supported
- * flags are defined in tsolinfo.h
- */
-#define	TSOL_ERR_FILE "/tmp/Xsun.err"	/* error log file */
-unsigned long tsoldebug = 0; /* TSOLD_SELECTION; */
-#endif /* DEBUG */
 
 static void
 init_TSOL_cached_SL(void)
@@ -374,14 +359,16 @@ lookupSL(bslabel_t *slptr)
 	 */
 
 	ErrorF("Server problem: Please enlarge the table size of sltable \n");
-	return (0);
+	return (NULL);
 }
+
+/* from dix/main.c */
+extern char 	*ConnectionInfo;
+extern int	connBlockScreenStart;
 
 int
 DoScreenStripeHeight(int screen_num)
 {
-	extern char 	*ConnectionInfo;
-	extern int	connBlockScreenStart;
 	int 		i, j;
 	xWindowRoot 	*root;
 	register xDepth *pDepth;
@@ -419,15 +406,11 @@ DoScreenStripeHeight(int screen_num)
 	return (0);
 }
 
+extern int cannot_audit(int);	/* bsm function */
+
 void
 init_xtsol(void)
 {
-	extern Bool system_audit_on;
-	extern bslabel_t	PublicObjSL;
-	extern bclear_t SessionHI;	/* HI Clearance */
-	extern bclear_t SessionLO;	/* LO Clearance */
-	extern int cannot_audit(int);	/* bsm function */
-
 	bclearhigh(&SessionHI);
 	bclearlow(&SessionLO);
 	bsllow(&PublicObjSL);
@@ -452,7 +435,7 @@ KeycodetoKeysym(KeyCode keycode, int col)
     KeySymsPtr curKeySyms = &inputInfo.keyboard->key->curKeySyms;
     int per = curKeySyms->mapWidth;
     KeySym *syms = curKeySyms->map;
-    KeySym lsym, usym;
+    KeySym lsym = 0, usym = 0;
 
     if ((col < 0) || ((col >= per) && (col > 3)) ||
 	((int)keycode < curKeySyms->minKeyCode) ||
@@ -654,7 +637,7 @@ LoadTsolConfig(void)
  *	or not. Further check should be done to determine this.
  */
 int
-SpecialName(char *string, int len)
+SpecialName(const char *string, int len)
 {
 
 	return (MatchTsolConfig(string, len));
@@ -727,7 +710,7 @@ regexcompare(char *string, int len, char *regexp)
 }
 
 int
-MatchTsolConfig(char *name, int len)
+MatchTsolConfig(const char *name, int len)
 {
 	int i;
 	int count;
@@ -836,6 +819,8 @@ RootOfClient(WindowPtr pWin)
     }
     return (NULL);
 }
+
+#ifdef UNUSED
 /*
  * Return root window of pWin
  */
@@ -849,6 +834,8 @@ RootWin(WindowPtr pWin)
     }
     return (pWin);
 }
+#endif
+
 Window
 RootOf(WindowPtr pWin)
 {
