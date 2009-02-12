@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.46 09/01/27
+# @(#)upgrade-X	1.47 09/02/12
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -182,7 +182,6 @@ pkg_list="
 	SUNWxorg-headers
 	SUNWxorg-server
 	SUNWxorg-tsol-module
-	SUNWxprint-server
 	SUNWxscreensaver-hacks
 	SUNWxscreensaver-hacks-gl
 	SUNWxsun-server
@@ -200,7 +199,6 @@ pkg_list="
 	SUNWxwmod
 	SUNWxwoft
 	SUNWxwopt
-	SUNWxwpft
 	SUNWxwplr
 	SUNWxwplt
 	SUNWxwpmn
