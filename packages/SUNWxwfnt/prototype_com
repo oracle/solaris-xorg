@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.63	09/02/10	Sun Microsystems
+#	@(#)prototype_com	35.65	09/02/11	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -275,11 +275,15 @@ e fontsdir openwin/lib/X11/fonts/Speedo/fonts.dir 	644 root bin
 !search  ../usr/X11/lib/X11/fonts/misc
 d none X11/lib/X11/fonts/misc 			0755 root bin
 e fontsdir X11/lib/X11/fonts/misc/fonts.dir 	644 root bin
-#e fontsalias openwin/lib/X11/fonts/misc/fonts.alias.all 0644 root bin
+e fontsalias X11/lib/X11/fonts/misc/fonts.alias.all 0644 root bin
 f none X11/lib/X11/fonts/misc/6x10.pcf.gz 		0644 root bin
+f none X11/lib/X11/fonts/misc/6x10-ISO8859-1.pcf.gz 		0644 root bin
 f none X11/lib/X11/fonts/misc/6x13.pcf.gz 		0644 root bin
+f none X11/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz 		0644 root bin
 f none X11/lib/X11/fonts/misc/6x13B.pcf.gz 		0644 root bin
+f none X11/lib/X11/fonts/misc/6x13B-ISO8859-1.pcf.gz 		0644 root bin
 f none X11/lib/X11/fonts/misc/8x13.pcf.gz 		0644 root bin
+f none X11/lib/X11/fonts/misc/8x13-ISO8859-1.pcf.gz 		0644 root bin
 f none X11/lib/X11/fonts/misc/cursor.pcf.gz 		0644 root bin
 #f none X11/lib/X11/fonts/misc/Screen6.pcf.gz 	0644 root bin
 #f none X11/lib/X11/fonts/misc/Screen7.pcf.gz 	0644 root bin
@@ -610,6 +614,6 @@ d none X11/lib 0755 root bin
 d none X11/lib/X11/fonts 0755 root bin
 s none X11/lib/X11/fonts/F3bitmaps=../../../../openwin/lib/X11/fonts/F3bitmaps
 s none X11/lib/X11/fonts/TrueType=../../../../openwin/lib/X11/fonts/TrueType
-#s none X11/lib/X11/fonts/misc=../../../../openwin/lib/X11/fonts/misc
-#s none X11/lib/X11/fonts/75dpi=../../../../openwin/lib/X11/fonts/75dpi
-#s none X11/lib/X11/fonts/100dpi=../../../../X11/lib/X11/fonts/100dpi
+#s none openwin/lib/X11/fonts/misc=../../../../X11/lib/X11/fonts/misc
+#s none openwin/lib/X11/fonts/75dpi=../../../../X11/lib/X11/fonts/75dpi
+#s none openwin/lib/X11/fonts/100dpi=../../../../X11/lib/X11/fonts/100dpi

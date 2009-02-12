@@ -53,3 +53,9 @@ CP=cp -pf
 install_gen::
 	mkdir -p $(INSTDIR)/Type1
 	$(CP) fonts.alias.type1 $(INSTDIR)/Type1/fonts.alias.all
+	mkdir -p $(INSTDIR)/misc
+	$(CP) fonts.alias.misc $(INSTDIR)/misc/fonts.alias.all
+	mkdir -p $(INSTDIR)/75dpi
+	$(CP) fonts.alias.75dpi $(INSTDIR)/75dpi/fonts.alias.all
+	mkdir -p $(INSTDIR)/100dpi
+	$(CP) fonts.alias.100dpi $(INSTDIR)/100dpi/fonts.alias.all
