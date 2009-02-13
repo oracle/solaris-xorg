@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.25	08/09/30
+#	@(#)prototype	35.26	09/02/12
 #
 #  AccessX and associated files
 
@@ -63,7 +63,7 @@ d none X11/lib/locale/C/help 0755 root bin
 f none X11/lib/locale/C/help/accessx.hlp 0644 root bin
 
 !search  $HOME/share/man/man1
-s none X11/man=./share/man
+s none X11/man=share/man
 d none X11/share 0755 root bin
 d none X11/share/man 0755 root bin
 d none X11/share/man/man1 0755 root bin
