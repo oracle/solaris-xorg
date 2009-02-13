@@ -1,8 +1,8 @@
-#!/bin/ksh
+#!/bin/ksh93
 #
-# ident	"@(#)Xserver	1.5	07/10/10 SMI"
+# ident	"@(#)Xserver	1.6	09/02/12 SMI"
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -32,7 +32,17 @@
 
 USAGE="Usage: $0 [-c <class>] :<display> [<X server arguments>]"
 
-PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+PATH=/usr/bin:/usr/sbin:/usr/X11/bin:/usr/openwin/bin
+
+# Ensure we get ksh93 pwd builtin for -P option support
+builtin pwd
+
+progname=$0
+function fatal_error
+{
+    print -u2 "${progname}: $*"
+    exit 1
+}
 
 #########
 #
@@ -47,7 +57,7 @@ CLASSES=""
 TCP_LISTEN=""
 SERVERARGS=""
 
-if [ `arch` = "sun4" ] ; then
+if [[ "$(uname -p)" == "sparc" && -x /usr/openwin/bin/Xsun ]] ; then
     XSERVER="/usr/openwin/bin/Xsun"
 else
     XSERVER="/usr/X11/bin/Xorg"
@@ -55,28 +65,25 @@ fi
 
 while getopts :c: opt; do
     case $opt in
-	c)	CLASSES="$CLASSES :$OPTARG" ;;
-	?)	echo $USAGE ; exit 2;;
+	c)	CLASSES+=" :${OPTARG}" ;;
+	?)	print -u2 $USAGE ; exit 2;;
     esac
 done
 
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
-if [ $# -gt 1 ] ; then
+if (( $# > 1 )) ; then
     case $1 in
 	:*)
-	    DISPLAY=$1
-	    DISPLAY=$(echo $DISPLAY | sed 's/^://')
+	    # Strip leading ":" from $1 to get display number
+	    DISPLAY="${1#:}"
 	    shift
-	    ;;
-	*)
-	    # Do nothing
 	    ;;
     esac
 fi
 
 REMOTE="false"
-for a in $SERVERARGS $* ; do
+for a in $SERVERARGS "$*" ; do
     case $a in 
 	-query|-broadcast|-multicast|-indirect)
 	    REMOTE="true"
@@ -87,52 +94,72 @@ for a in $SERVERARGS $* ; do
     esac
 done
 
-if [ "$REMOTE" = "true" ] ; then
-    CLASSES="$CLASSES remote"
+if [[ "${REMOTE}" == "true" ]] ; then
+    CLASSES+=" :remote"
 else
-    CLASSES="$CLASSES local"
+    CLASSES+=" :local"
 fi
 
-getprop() {
-    PROPVAL=""
+# Arguments:
+#	1) name of SMF property to find in one of the service instances
+#	2) name of variable to store the value of the property in, if found
+# Also sets variable with name of $2_INSTANCE to the service instance the 
+# property was found in, for use in later messages.
+function getprop {
+    # Make ${propval} be a reference to the variable named as the second arg
+    nameref propval=$2
+    nameref propinst="${2}_INSTANCE"
+
     # The "" instance is to get the properties from the base service without
     # any instance specifier
-    for INSTANCE in ":display$DISPLAY" $CLASSES "" ; do
-	svcprop -q -p $1 application/x11/x11-server$INSTANCE
-	if [ $? -eq 0 ] ; then
-	    PROPVAL=$(svcprop -p $1 application/x11/x11-server$INSTANCE)
-	    if [ "$PROPVAL" == "\"\"" ] ; then
-		PROPVAL=""
+    for instance in ":display${DISPLAY}" ${CLASSES} "" ; do
+	propinst="svc:/application/x11/x11-server${instance}"
+	if svcprop -q -p $1 "${propinst}" ; then
+	    propval="$(svcprop -p $1 "${propinst}")"
+	    if [[ "${propval}" == "\"\"" ]] ; then
+		propval=""
 	    fi
-	    return
+	    return 0
 	fi
     done
-    return
+    return 1
 }
 
-getprop options/default_depth
-if [ "$PROPVAL" != "" ] ; then
-    DEFDEPTH=$PROPVAL
+getprop options/default_depth DEFDEPTH
+getprop options/server XSERVER
+getprop options/server_args SERVERARGS
+getprop options/tcp_listen TCP_LISTEN
+
+if [[ -f ${XSERVER} ]] ; then
+    # Canonicalize path, so that we don't break people who specified path
+    # via the /usr/X -> openwin or X11 link
+    builtin -f libcmd.so.1 readlink && \
+    XSERVER=$(readlink -f ${XSERVER})
+else
+    # Automatically select replacements for removed X servers
+    case ${XSERVER} in
+	*/Xsun)	
+	    newserver="/usr/X11/bin/Xorg" 
+	    ;;
+	*/Xvfb)	
+	    newserver="/usr/X11/bin/Xvfb" 
+	    ;;
+	*)
+	    fatal_error "${XSERVER} is not an executable"
+	    ;;
+    esac
+    cat 1>&2 <<#EOF 
+	Specified server ${XSERVER} not found, using ${newserver} instead.
+	To correct this warning, change the server property with
+	  /usr/sbin/svccfg -s ${XSERVER_INSTANCE} \\
+		setprop options/server == ${newserver}
+	EOF
+    XSERVER="${newserver}"
 fi
 
-getprop options/server
-if [ "$PROPVAL" != "" ] ; then
-    XSERVER=$PROPVAL
-fi
 
-getprop options/server_args
-if [ "$PROPVAL" != "" ] ; then
-    SERVERARGS=$PROPVAL
-fi
-
-getprop options/tcp_listen
-if [ "$PROPVAL" != "" ] ; then
-    TCP_LISTEN=$PROPVAL
-fi
-
-# Make sure $XSERVER is a known X server binary
-
-case $XSERVER in
+# Make sure ${XSERVER} is a known X server binary
+case ${XSERVER} in
     /usr/openwin/bin/Xsun)	;;
     /usr/openwin/bin/Xvfb)	;;
     /usr/X11/bin/Xorg)		;;
@@ -142,43 +169,38 @@ case $XSERVER in
     /usr/X11/bin/amd64/Xvfb)	;;
     /usr/X11/bin/i386/Xvfb)	;;
     /usr/X11/bin/Xvnc)		;;
+    /opt/SUNWut/lib/Xnewt)	;;
     *)
-	echo "$0: $XSERVER is not a valid X server"
-	exit 1
+	fatal_error "${XSERVER} is not a valid X server"
 	;;
 esac
 
-
-case $XSERVER in
+case ${XSERVER} in
     # Xsun based
     /usr/openwin/bin/*)
-	DEPTHARG="-defdepth $DEFDEPTH"
+	DEPTHARG="-defdepth ${DEFDEPTH}"
 	;;
     # Xorg based
     /usr/X11/bin/*)
-	DEPTHARG="-depth $DEFDEPTH"
-	;;
-    *)
-	DEPTHARG=""
+	DEPTHARG="-depth ${DEFDEPTH}"
 	;;
 esac
 
 # Should not happen, but just in case
-if [ "$TCP_LISTEN" = "" ] ; then
-    if [ "$REMOTE" = "true" ] ; then
+if [[ "${TCP_LISTEN}" == "" ]] ; then
+    if [[ "${REMOTE}" == "true" ]] ; then
 	TCP_LISTEN="true"
     else
 	TCP_LISTEN="false"
     fi
 fi
 
-if [ "$TCP_LISTEN" = "false" ] ; then
+if [[ "${TCP_LISTEN}" == "false" ]] ; then
     LISTENARG="-nolisten tcp"
 else
     LISTENARG=""
 fi
 
-ALLARGS="$DEPTHARG $LISTENARG $SERVERARGS $*"
+ALLARGS="${DEPTHARG} ${LISTENARG} ${SERVERARGS} $*"
 
-exec $XSERVER :$DISPLAY $ALLARGS
-
+exec ${XSERVER} :${DISPLAY} ${ALLARGS}
