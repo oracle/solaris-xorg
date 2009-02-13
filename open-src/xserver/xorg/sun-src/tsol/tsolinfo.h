@@ -26,15 +26,11 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.20     09/02/10 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.21     09/02/12 SMI"
 
 
 #ifndef    _TSOL_INFO_H
 #define    _TSOL_INFO_H
-
-#ifdef    __cplusplus
-extern "C" {
-#endif
 
 #include <sys/types.h>
 
@@ -53,22 +49,28 @@ extern "C" {
  *
  *********************************/
 
-
-#ifdef DEBUG
-extern unsigned long tsoldebug;           /* in tsolutils.c */
-extern char *pidtopname(pid_t pid);       /* converts pid to process name */
-/*
- * Various debug flags, set to tsoldebug
+/* Message verbosity levels passed to os/log.c functions 
+ * Level 0 messages are printed by all servers to stderr.
+ * Xorg defaults to logging messages in 0-3 to /var/log/Xorg.<display>.log
+ * Ranges of messages to print to stderr can be changed with Xorg -verbose N
+ *   and Xephyr -verbosity N
+ * Ranges of messages to print to log can be changed with Xorg -logverbose N
+ * Other servers don't support runtime configuration of log messages yet.
  */
-#define TSOLD_SELECTION    0x00000001
-#define TSOLD_POLICY       0x00000002
-#define TSOLD_EVENT        0x00000004
-#define TSOLD_PROTO        0x00000008
-#define TSOLD_ILFLOAT      0x00000010
-#define TSOLD_XAUDIT       0x00000020
-#define MAXNAME            16             /* 15 chars of process name stored */
-#endif /* DEBUG */
+ 
+#define TSOL_MSG_ERROR		0		/* Always printed */
+#define TSOL_MSG_UNIMPLEMENTED	5
+#define TSOL_MSG_POLICY_DENIED	6
+#define TSOL_MSG_ACCESS_TRACE	7
 
+#define TSOL_LOG_PREFIX		TSOLNAME ": "
+extern const char *TsolDixAccessModeNameString(Mask access_mode);
+extern const char *TsolErrorNameString(int req);
+extern const char *TsolPolicyReturnString(int pr);
+extern const char *TsolRequestNameString(int req);
+extern const char *TsolResourceTypeString(RESTYPE resource);
+
+#define MAXNAME            64             /* 63 chars of process name stored */
 
 /*********************************
  *
@@ -196,6 +198,7 @@ typedef struct _TsolInfo {
     client_type_t    	client_type;    /* Local or Remote client */
     int			asaverd;
     struct sockaddr_storage saddr;	/* socket information */
+    char		pname[MAXNAME];	/* process name for debug messages */
 } TsolInfoRec, *TsolInfoPtr;
 
 /*
@@ -404,10 +407,5 @@ extern bslabel_t *lookupSL(bslabel_t *slptr);
 extern BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox);
 extern Bool ShapeOverlap(WindowPtr pWin, BoxPtr pWinBox,
 	WindowPtr pSib, BoxPtr pSibBox);
-
-
-#ifdef    __cplusplus
-}
-#endif
 
 #endif    /* _TSOL_INFO_H */

@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.34     09/02/10 SMI"
+#pragma ident   "@(#)tsolextension.c 1.35     09/02/12 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -277,7 +277,10 @@ static CALLBACK(
     pointer rval = rec->res;
     Mask access_mode = rec->access_mode;
 
-    int cid = CLIENT_ID(id);
+    Mask check_mode = access_mode;
+    TsolInfoPtr tsolinfo;
+    int msgType;
+    int msgVerb;
     int reqtype;
 
     if (client->requestBuffer) {
@@ -286,32 +289,34 @@ static CALLBACK(
 	reqtype = -1;
     }
 
+#define CHECK_RESOURCE_POLICY(DIX_MODE, TSOL_TYPE, TSOL_MODE, VAL, ID)	\
+	    if (check_mode & (DIX_MODE)) {				\
+	        if (xtsol_policy((TSOL_TYPE), (TSOL_MODE), (VAL),	\
+				 (ID), client, TSOL_ALL, &reqtype))	\
+			rec->status = BadAccess;			\
+		check_mode &= ~(DIX_MODE);				\
+	    }
+
     switch (rtype) {
         case RT_GC:
-	    if (access_mode & DixReadAccess) {
-		if (xtsol_policy(TSOL_RES_GC, TSOL_READ, NULL, id,
-				 client, TSOL_ALL, &reqtype))
-		    rec->status = BadAccess;
-	    }
+	    CHECK_RESOURCE_POLICY(DixReadAccess, TSOL_RES_GC, TSOL_READ,
+				  NULL, id);
+	    CHECK_RESOURCE_POLICY(DixWriteAccess, TSOL_RES_GC, TSOL_MODIFY,
+				  NULL, id);
+	    CHECK_RESOURCE_POLICY(DixCreateAccess, TSOL_RES_GC, TSOL_CREATE,
+				  NULL, id);
+	    CHECK_RESOURCE_POLICY(DixDestroyAccess, TSOL_RES_GC, TSOL_DESTROY,
+				  NULL, id);
 
-	    if (access_mode & DixWriteAccess) {
-		if (xtsol_policy(TSOL_RES_GC, TSOL_MODIFY, NULL, id,
-				 client, TSOL_ALL, &reqtype))
-		    rec->status = BadAccess;
-	    }
-
-	    if (access_mode & DixDestroyAccess) {
-		if (xtsol_policy(TSOL_RES_GC, TSOL_DESTROY, NULL, id,
-				 client, TSOL_ALL, &reqtype))
-		    rec->status = BadAccess;
-	    }
 	    break;
 
 	case RT_WINDOW:		/* Drawables */
-	    if (access_mode & DixCreateAccess) {
+	    if (check_mode & DixCreateAccess) {
 		/* Replaces InitWindow hook */
 		TsolInitWindow(client, (WindowPtr) rval);
+		check_mode &= ~(DixCreateAccess);
 	    }
+
 	    /* The rest falls through to code shared with RT_PIXMAP */
 	case RT_PIXMAP:
 	    /* Drawing operations use pixel access policy */
@@ -327,48 +332,65 @@ static CALLBACK(
 		case X_PolyText16:
 		case X_ImageText8:
 		case X_ImageText16:
-		    if (access_mode & DixReadAccess) {
-			if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, rval,
-					 0, client, TSOL_ALL, &(MAJOROP)))
-			    rec->status = BadAccess;
-		    }
-
-		    if (access_mode & DixWriteAccess) {
-			if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, rval,
-					 0, client, TSOL_ALL, &(MAJOROP)))
-			    rec->status = BadAccess;
-		    }
+		    CHECK_RESOURCE_POLICY((DixReadAccess | DixBlendAccess),
+					  TSOL_RES_PIXEL, TSOL_READ,
+					  rval, 0);
+		    CHECK_RESOURCE_POLICY(DixWriteAccess,
+					  TSOL_RES_PIXEL, TSOL_MODIFY,
+					  rval, 0);
 		break;
 
-		/* Property protocols */
+	    /* Property protocols */
 		case X_ChangeProperty:
 		case X_DeleteProperty:
 		case X_GetProperty:
 		case X_ListProperties:
 		case X_RotateProperties:
-		    if (access_mode & DixReadAccess) {
-			if (xtsol_policy(TSOL_RES_PROPWIN, TSOL_READ, rval,
-					 0, client, TSOL_ALL, &(MAJOROP)))
-			    rec->status = BadAccess;
-		    }
-
-		    if (access_mode & DixWriteAccess) {
-			if (xtsol_policy(TSOL_RES_PROPWIN, TSOL_MODIFY, rval,
-					 0, client, TSOL_ALL, &(MAJOROP)))
-			    rec->status = BadAccess;
-		    }
+		    CHECK_RESOURCE_POLICY((DixGetPropAccess|DixListPropAccess),
+					  TSOL_RES_PROPWIN, TSOL_READ,
+					  rval, 0);
+		    CHECK_RESOURCE_POLICY(DixSetPropAccess,
+					  TSOL_RES_PROPWIN, TSOL_MODIFY,
+					  rval, 0);
 		    break;
 	    }
 	    break;
     }
 
-    if (rec->status == BadAccess) {
-    	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-
-	ErrorF("Access failed: cid = %d, rtype=%X, access=%d,"
-	       " xid=%X, proto = %d, pid = %d\n",
-	       cid, (uint_t) rtype, access_mode, id, reqtype, tsolinfo->pid);
+#ifndef NO_TSOL_DEBUG_MESSAGES
+    if (check_mode) { /* Any access mode bits not yet handled ? */
+	LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
+		       TSOL_LOG_PREFIX
+		       "policy not implemented for CheckResourceAccess, "
+		       "rtype=0x%x (%s), mode=0x%x (%s)\n",
+		       (int) rtype, TsolResourceTypeString(rtype),
+		       check_mode, TsolDixAccessModeNameString(check_mode));
     }
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
+
+    if (rec->status == BadAccess) {
+	msgType = X_ERROR;
+	msgVerb = TSOL_MSG_ERROR;
+    } else {
+#ifdef NO_TSOL_DEBUG_MESSAGES
+	/* rest of the function is just printing error or debug messages */
+	return;
+#else
+	/* Trace messages for debugging */
+	msgType = X_INFO;
+	msgVerb = TSOL_MSG_ACCESS_TRACE;
+#endif /* NO_TSOL_DEBUG_MESSAGES */
+    }
+
+    tsolinfo = GetClientTsolInfo(client);
+    LogMessageVerb(msgType, msgVerb,
+		   TSOL_LOG_PREFIX
+		   "CheckResourceAccess(%s, %s, 0x%x, %s, %s) = %s\n",
+		   tsolinfo->pname,
+		   TsolResourceTypeString(rtype), id,
+		   TsolDixAccessModeNameString(access_mode),
+		   TsolRequestNameString(reqtype),
+		   TsolErrorNameString(rec->status));
 }
 
 static
@@ -1654,10 +1676,16 @@ TsolSetClientInfo(ClientPtr client)
 
 	/* Get client attributes from the socket */
 	if (getpeerucred(fd, &uc) == -1) {
+		const char *errmsg = strerror(errno);
+
 		tsolinfo->uid = (uid_t)(-1);
 		tsolinfo->sl = NULL;
-		perror("getpeerucred failed\n");
-		ErrorF("SUN_TSOL: Cannot get client attributes\n");
+		snprintf(tsolinfo->pname, MAXNAME,
+			 "client id %d (pid unknown)", client->index);
+		LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+			       TSOL_LOG_PREFIX "Cannot get client attributes"
+			       " for %s, getpeerucred failed: %s\n",
+			       tsolinfo->pname, errmsg);
 		return;
 	}
 
@@ -1670,6 +1698,12 @@ TsolSetClientInfo(ClientPtr client)
 	tsolinfo->pid = ucred_getpid(uc);
 	sl = ucred_getlabel(uc);
 	tsolinfo->sl = (bslabel_t *)lookupSL(sl);
+
+	/* store a string for debug/error messages - would be nice to
+	   get the real process name out of /proc in the future
+	 */
+	snprintf(tsolinfo->pname, MAXNAME, "client id %d (pid %d)",
+		 client->index, tsolinfo->pid);
 
 	/* Set privileges */
 	if ((tsolinfo->privs = priv_allocset()) != NULL) {
@@ -2012,52 +2046,63 @@ _X_HIDDEN int
 TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
 			Atom propertyName, Mask access_mode)
 {
-    if (pProp == NULL) {
-	return XTSOL_ALLOW;
+    int returnVal = XTSOL_ALLOW;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+    Mask check_mode = access_mode;
+    int reqtype;
+
+    if (client->requestBuffer) {
+	reqtype = MAJOROP;  /* protocol */
+    } else {
+	reqtype = -1;
     }
 
-    if (access_mode & DixCreateAccess) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_CREATE,
-			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
-	    return XTSOL_IGNORE;
-	else
-	    return XTSOL_ALLOW;
+    if (pProp != NULL) {
+	int isPolyProp = PolyProperty(propertyName, pWin);
+
+#define CHECK_PROPERTY_POLICY(DIX_MODE, TSOL_MODE)			\
+	if (check_mode & (DIX_MODE)) {					\
+	    if (!isPolyProp &&						\
+		xtsol_policy(TSOL_RES_PROPERTY, (TSOL_MODE), pProp,	\
+			     0, client, TSOL_ALL, &reqtype))		\
+		returnVal = XTSOL_IGNORE;				\
+	    check_mode &= ~(DIX_MODE);					\
+	}
+
+	/* Don't need to check for write access on property creation */
+	if (check_mode & DixCreateAccess) {
+	    check_mode &= ~(DixWriteAccess | DixBlendAccess);
+	}
+
+	CHECK_PROPERTY_POLICY(DixCreateAccess, TSOL_CREATE);	    
+	CHECK_PROPERTY_POLICY(DixDestroyAccess, TSOL_DESTROY);
+	CHECK_PROPERTY_POLICY((DixReadAccess | DixGetAttrAccess), TSOL_READ);
+	CHECK_PROPERTY_POLICY((DixWriteAccess | DixBlendAccess), TSOL_MODIFY);
+
+	if (check_mode) { /* Any access mode bits not yet handled ? */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+	    LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
+			   TSOL_LOG_PREFIX
+			   "policy not implemented for CheckPropertyAccess, "
+			   "mode=0x%x (%s)\n", check_mode,
+			   TsolDixAccessModeNameString(check_mode));
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
+	    returnVal = XTSOL_IGNORE;
+	}
     }
 
-    if (access_mode & DixReadAccess) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_READ,
-			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
-	    return XTSOL_IGNORE;
-	else
-	    return XTSOL_ALLOW;
-    }
+#ifndef NO_TSOL_DEBUG_MESSAGES
+    LogMessageVerb(X_INFO, TSOL_MSG_ACCESS_TRACE,
+		   TSOL_LOG_PREFIX
+		   "CheckPropertyAccess(%s, 0x%x, %s, %s) = %s\n",
+		   tsolinfo->pname, pWin->drawable.id,
+		   NameForAtom(propertyName),
+		   TsolDixAccessModeNameString(access_mode),
+		   TsolPolicyReturnString(returnVal));
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
 
-    if (access_mode & (DixWriteAccess | DixBlendAccess)) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_MODIFY,
-			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
-	    return XTSOL_IGNORE;
-	else
-	    return XTSOL_ALLOW;
-    }
-
-    if (access_mode & DixDestroyAccess) {
-	if (!PolyProperty(propertyName, pWin) &&
-	    xtsol_policy(TSOL_RES_PROPERTY, TSOL_DESTROY,
-			 pProp, 0, client, TSOL_ALL, &(MAJOROP)))
-	    return XTSOL_IGNORE;
-	else
-            return XTSOL_ALLOW;
-    }
-
-#ifdef DEBUG
-    ErrorF("policy not implemented for CheckPropertyAccess, mode=%d\n",
-	   access_mode);
-#endif /* DEBUG */
-
-    return XTSOL_FAIL;
+    /* Only returns allow if all checks succeeded */        
+    return returnVal;
 }
 
 static CALLBACK(

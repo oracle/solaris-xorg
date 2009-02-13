@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolpolicy.c 1.24     09/02/10 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.25     09/02/12 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -91,9 +91,9 @@ static int check_priv(xresource_t res, xmethod_t method, void *resource,
 		      void *subject, xpolicy_t policy_flags, void *misc,
 		      priv_set_t *priv);
 
-#ifdef DEBUG
-
-static int xtsol_debug = XTSOL_FAIL;	/* set it to 0 if no logging is required */
+/* Unless NO_TSOL_DEBUG_MESSAGES is defined, admins will be able to enable
+   debugging messages at runtime via Xorg -logverbose */
+#ifndef NO_TSOL_DEBUG_MESSAGES
 static char *xsltos(bslabel_t *sl);
 
 static void XTsolErr(const char *err_type, CARD8 *protocol,
@@ -104,14 +104,14 @@ static void XTsolErr(const char *err_type, CARD8 *protocol,
 #define XTSOLERR_GEN(err_type, protocol, o, s, method, xid, isstring) \
                  (void) XTsolErr(err_type, (CARD8 *) (protocol), \
 				 (o)->sl, (o)->uid, (o)->pid, NULL, \
-				 (s)->sl, (s)->uid, (s)->pid, NULL, \
-				 method, isstring, (const void *) (xid))
-#else  /* !DEBUG */
+				 (s)->sl, (s)->uid, (s)->pid, (s)->pname, \
+				 method, isstring, xid)
+#else  /* NO_TSOL_DEBUG_MESSAGES */
 #define XTSOLERR_GEN(err_type, protocol, o, s, method, xid, isstring)  /**/
-#endif /* DEBUG */
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 
 #define XTSOLERR(err_type, protocol, o, s, method, xid) \
-	XTSOLERR_GEN(err_type, protocol, o, s, method, xid, 0);
+	XTSOLERR_GEN(err_type, protocol, o, s, method, &(xid), 0);
 
 #define SXTSOLERR(err_type, protocol, o, s, method, xid) \
 	XTSOLERR_GEN(err_type, protocol, o, s, method, xid, 1);
@@ -173,10 +173,11 @@ xpriv_policy(priv_set_t *set, priv_set_t *priv, xresource_t res,
 		/* if priv debugging is on, allow this priv to succeed */
 		if (tsolinfo->priv_debug)
 		{
-#ifdef DEBUG
-			ErrorF("pid %ld: Allowed priv %ld\n",
-			       (long) tsolinfo->pid, (long) priv);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+		    LogMessageVerb(X_INFO, TSOL_MSG_ACCESS_TRACE,
+				   TSOL_LOG_PREFIX"%s: Allowed priv %ld\n",
+				   tsolinfo->pname, (long) priv);
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
 			syslog(LOG_DEBUG|LOG_LOCAL0,
                    "DEBUG: %s pid %ld lacking privilege %d to %d %d",
                    "xclient", tsolinfo->pid, priv, method, res);
@@ -1086,7 +1087,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 			else
 			{
 				XTSOLERR("mac",  misc, res_tsolinfo,
-					 tsolinfo, "read client", resource);
+					 tsolinfo, "read client", targetid);
 				ret_stat = err_code;
 			}
 		}
@@ -1108,7 +1109,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 			else
 			{
 				XTSOLERR("dac",  misc, res_tsolinfo,
-					 tsolinfo, "read client", resource);
+					 tsolinfo, "read client", targetid);
 				ret_stat = ret_stat;
 			}
 		}
@@ -1121,7 +1122,7 @@ read_client(xresource_t res, xmethod_t method, void *resource,
 		if (!HasTrustedPath(tsolinfo))
 		{
 			XTSOLERR("tp", misc, res_tsolinfo,
-				 tsolinfo, "read client", resource);
+				 tsolinfo, "read client", targetid);
 			ret_stat = err_code;
 		}
 	}
@@ -1223,7 +1224,7 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 			else
 			{
 				XTSOLERR("mac", misc, res_tsolinfo,
-					 tsolinfo, "destroy client", resource);
+					 tsolinfo, "destroy client", targetid);
 				ret_stat = ret_stat;
 			}
 		}
@@ -1245,7 +1246,7 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 			else
 			{
 				XTSOLERR("dac", misc, res_tsolinfo,
-					 tsolinfo, "destroy client", resource);
+					 tsolinfo, "destroy client", targetid);
 				ret_stat = err_code;
 			}
 		}
@@ -1258,7 +1259,7 @@ destroy_client(xresource_t res, xmethod_t method, void *resource,
 		if (!HasTrustedPath(tsolinfo))
 		{
 			XTSOLERR("tp", misc, res_tsolinfo,
-				 tsolinfo, "destroy client", resource);
+				 tsolinfo, "destroy client", targetid);
 			ret_stat = err_code;
 		}
 	}
@@ -1824,16 +1825,16 @@ read_atom(xresource_t res, xmethod_t method, void *resource,
 		}
 		if (status == FAILED)
 		{
-#ifdef DEBUG
-			if (xtsol_debug >= XTSOL_FAIL)
-			{
-			    ErrorF("\nmac failed:%s,subj(%s,%d,%d),",
-				   LookupMajorName(protocol),
-				   xsltos(tsolinfo->sl),
-				   tsolinfo->uid, tsolinfo->pid);
-			    ErrorF("read atom, xid %s\n", NameForAtom(node->a));
-			}
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+			LogMessageVerb(X_INFO, TSOL_MSG_POLICY_DENIED,
+				       TSOL_LOG_PREFIX
+				       "mac failed:%s,subj(%s,%d,%d),"
+				       " read atom, %s\n",
+				       LookupMajorName(protocol),
+				       xsltos(tsolinfo->sl),
+				       tsolinfo->uid, tsolinfo->pid,
+				       NameForAtom(node->a));
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 			/* PRIV override? */
 			if (tsolinfo->flags & TSOL_AUDITEVENT)
 			    do_audit = TRUE;
@@ -2373,7 +2374,7 @@ check_priv(xresource_t res, xmethod_t method, void *resource,
 	return (ret_stat);
 }
 
-#ifdef DEBUG
+#ifndef NO_TSOL_DEBUG_MESSAGES
 /*
  * Converts SL to string
  */
@@ -2388,7 +2389,7 @@ xsltos(bslabel_t *sl)
 	else
 		return slstring;
 }
-#endif
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
 
 /*
  * read_selection
@@ -2753,7 +2754,7 @@ read_focuswin(xresource_t res, xmethod_t method, void *resource,
 	return (ret_stat);
 }	/* read_focuswin */
 
-#ifdef DEBUG
+#ifndef NO_TSOL_DEBUG_MESSAGES
 /*
  * XTsolErr : used for debugging.
  */
@@ -2763,28 +2764,33 @@ XTsolErr(const char *err_type, CARD8 *protocol,
 	 bslabel_t *ssl, uid_t suid, pid_t spid, const char *spname,
 	 const char *method, int isstring, const void *xid)
 {
-	if (xtsol_debug < XTSOL_FAIL)
-		return;
+	char xidbuf[16];
+	const char *xidstring;
+
 	if (*protocol == X_QueryTree || *protocol == X_GetInputFocus)
 		return;
-	/* range check of protocol */
-	if (protocol > X_NoOperation)
-		protocol = 0; /* unknown or extension */
-	ErrorF("\n%s failed:%s,obj(%s,%d,%d,%s), subj(%s,%d,%d,%s), %s, ",
-	       err_type, LookupMajorName(*protocol),
-	       xsltos(osl), ouid, opid, opname ? opname : "",
-	       xsltos(ssl), suid, spid, spname ? spname : "",
-	       method);
+
 	if (isstring)
 	{
-		ErrorF("xid=%s\n", (const char *) xid); /* for atom/prop names */
+		/* for atom/prop names */
+		xidstring = (const char *) xid;
 	}
 	else
 	{
-		ErrorF("xid=%lX\n", (long) (*(XID *) xid)); /* for window/pixmaps */
+		/* for window/pixmaps */
+		snprintf(xidbuf, sizeof(xidbuf), "%lX", (long) xid);
+		xidstring = xidbuf;
 	}
+
+	LogMessageVerb(X_NOTICE, TSOL_MSG_POLICY_DENIED,
+		       TSOL_LOG_PREFIX "%s failed: %s,"
+		       " obj(%s,%d,%d,%s), subj(%s,%d,%d,%s), %s, xid=%s\n",
+		       err_type, TsolRequestNameString(*protocol),
+		       xsltos(osl), ouid, opid, opname ? opname : "",
+		       xsltos(ssl), suid, spid, spname ? spname : "",
+		       method, xidstring);
 }
-#endif /* DEBUG */
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
 
 /*
  * read_extn
@@ -2924,10 +2930,12 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 		}
 		else
 		{
-#ifdef DEBUG
-			ErrorF("modify_sl: failed for %ld\n",
-			       (long) tsolinfo->pid);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+			LogMessageVerb(X_INFO, TSOL_MSG_POLICY_DENIED,
+				       TSOL_LOG_PREFIX
+				       "modify_sl: failed for %s\n",
+				       tsolinfo->pname);
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 			ret_stat = err_code;
 		}
         if (do_audit)
@@ -2951,9 +2959,12 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 		}
 		else
 		{
-#ifdef DEBUG
-			ErrorF("modify_sl: failed for %d\n", tsolinfo->pid);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+			LogMessageVerb(X_INFO, TSOL_MSG_POLICY_DENIED,
+				       TSOL_LOG_PREFIX
+				       "modify_sl: failed for %s\n",
+				       tsolinfo->pname);
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 			ret_stat = err_code;
 		}
 	}
@@ -2968,9 +2979,12 @@ modify_sl(xresource_t res, xmethod_t method, void *resource,
 		}
 		else
 		{
-#ifdef DEBUG
-			ErrorF("modify_sl: failed for %d\n", tsolinfo->pid);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+			LogMessageVerb(X_INFO, TSOL_MSG_POLICY_DENIED,
+				       TSOL_LOG_PREFIX
+				       "modify_sl: failed for %s\n",
+				       tsolinfo->pname);
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 			ret_stat = err_code;
 		}
 	}
@@ -3086,8 +3100,8 @@ modify_stripe(xresource_t res, xmethod_t method, void *resource,
 
 	if (!HasTrustedPath(tsolinfo))
 	{
-		XTSOLERR("tp", misc, tsolinfo, tsolinfo,
-			 "modify stripe", 0);
+		SXTSOLERR("tp", misc, tsolinfo, tsolinfo,
+			  "modify stripe", "<none>");
 		return (err_code);
 	}
 	return (PASSED);
@@ -3107,8 +3121,8 @@ modify_wowner(xresource_t res, xmethod_t method, void *resource,
 
 	if (!HasTrustedPath(tsolinfo))
 	{
-		XTSOLERR("tp", misc, tsolinfo, tsolinfo,
-			 "modify tpwin", 0);
+		SXTSOLERR("tp", misc, tsolinfo, tsolinfo,
+			  "modify tpwin", "<none>");
 		return (err_code);
 	}
 	return (PASSED);
@@ -3137,9 +3151,12 @@ modify_uid(xresource_t res, xmethod_t method, void *resource,
 	}
 	else
 	{
-#ifdef DEBUG
-		ErrorF("modify_uid: failed for %d\n", tsolinfo->pid);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+		LogMessageVerb(X_INFO, TSOL_MSG_POLICY_DENIED,
+			       TSOL_LOG_PREFIX
+			       "modify_uid: failed for %s\n",
+			       tsolinfo->pname);
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 		ret_stat = err_code;
 	}
 	if (do_audit)
@@ -3177,9 +3194,12 @@ modify_polyinfo(xresource_t res, xmethod_t method, void *resource,
 	}
 	else
 		ret_stat = err_code;
-#ifdef DEBUG
-	ErrorF("modify_polyinfo: failed for %d\n", tsolinfo->pid);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+	LogMessageVerb(X_INFO, TSOL_MSG_POLICY_DENIED,
+		       TSOL_LOG_PREFIX
+		       "modify_polyinfo: failed for %s\n",
+		       tsolinfo->pname);
+#endif /* NO_TSOL_DEBUG_MESSAGES */
     if (do_audit)
         set_audit_flags(tsolinfo);
 	return (ret_stat);
@@ -3226,10 +3246,12 @@ static int
 no_policy(xresource_t res, xmethod_t method, void *resource,
 	void *subject, xpolicy_t policy_flags, void *misc)
 {
-#ifdef DEBUG
-	ErrorF("policy not implemented for res=%d, method=%d\n",
-		res, method);
-#endif /* DEBUG */
+#ifndef NO_TSOL_DEBUG_MESSAGES
+	LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
+		       TSOL_LOG_PREFIX
+		       "policy not implemented for res=%d, method=%d\n",
+		       res, method);
+#endif /* NO_TSOL_DEBUG_MESSAGES */
 	return (PASSED);
 }
 

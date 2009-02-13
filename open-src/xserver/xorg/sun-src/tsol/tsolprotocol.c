@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolprotocol.c 1.27	09/02/10 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.28	09/02/12 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -50,6 +50,7 @@
 
 #define NEED_REPLIES
 
+#include "dixevents.h"
 #include "selection.h"
 #include "osdep.h"
 #include "tsolpolicy.h"

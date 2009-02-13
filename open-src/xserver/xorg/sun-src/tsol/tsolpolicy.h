@@ -29,7 +29,7 @@
 #ifndef	_TSOL_POLICY_H
 #define	_TSOL_POLICY_H
 
-#pragma ident	"@(#)tsolpolicy.h	1.9	09/02/10 SMI"
+#pragma ident	"@(#)tsolpolicy.h	1.10	09/02/12 SMI"
 
 #ifdef	__cplusplus
 extern "C" {
@@ -150,19 +150,6 @@ typedef enum xresource_types xresource_t;
 int xtsol_policy(xresource_t res_type, xmethod_t method, void *resource_ptr,
 		 XID resource_id, void *subject, xpolicy_t policy_flags,
 		 void *misc);
-
-#ifdef DEBUG	/* define this in tsolinfo.h if you want debug */
-/*
- * For priv debugging messages.
- * XTSOL_FAIL : logs all failures that cause a err code to be returned
- * 		in protocol
- * XTSOL_ALLOW:	logs all privs that the client is lacking, but is allowed
- * XTSOL_IGNORE	logs all failures whose err code is not returned in protocol
- *
- * The higher no. always includes the lower no. log
- */
-extern int xtsol_debug; 	/* defined xres_policy.c */
-#endif /* DEBUG */
 
 #define	XTSOL_FAIL	1	/* Replaces SecurityErrorOperation */
 #define	XTSOL_ALLOW	2	/* Replaces SecurityAllowOperation */

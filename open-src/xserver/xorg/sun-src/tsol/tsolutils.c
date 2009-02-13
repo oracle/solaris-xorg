@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolutils.c	1.20	09/02/10 SMI"
+#pragma ident   "@(#)tsolutils.c	1.21	09/02/12 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -46,11 +46,13 @@
 #include "scrnintstr.h"
 #include  "tsol.h"
 #include  "tsolinfo.h"
+#include  "tsolpolicy.h"
 #include  <X11/keysym.h>
 #include  "misc.h"
 #include  "inputstr.h"
 #include  "propertyst.h"
 #include  "panoramiXsrv.h"
+#include  "registry.h"
 
 #define	MAX_SL_ENTRY	256
 #define	MAX_UID_ENTRY	64
@@ -671,7 +673,7 @@ MakeTSOLAtoms(void)
  *	selection and property names.  They may optionally end with a slash.
  */
 static int
-regexcompare(char *string, int len, char *regexp)
+regexcompare(const char *string, int len, char *regexp)
 {
 	int	status;
 	regex_t	compiledregexp;
@@ -956,4 +958,131 @@ TsolDisabledExtension(const char *extname)
 	}
 
 	return FALSE;
+}
+
+/*****************************************************************************/
+/* Debug/error message utility functions */
+
+/* Returns a string representation of the access mode for debugging messages */
+_X_HIDDEN const char *
+TsolDixAccessModeNameString(Mask access_mode) {
+    static char access_mode_str[1024];
+    int l = 0;
+
+    access_mode_str[0] = '\0';
+
+#define APPEND_MODENAME_IF_SET(mode) \
+    if (access_mode & (mode)) \
+	l = strlcat(access_mode_str, #mode " | ", sizeof(access_mode_str))
+	
+    APPEND_MODENAME_IF_SET(DixUnknownAccess);
+    APPEND_MODENAME_IF_SET(DixReadAccess);
+    APPEND_MODENAME_IF_SET(DixWriteAccess);
+    APPEND_MODENAME_IF_SET(DixDestroyAccess);
+    APPEND_MODENAME_IF_SET(DixCreateAccess);
+    APPEND_MODENAME_IF_SET(DixGetAttrAccess);
+    APPEND_MODENAME_IF_SET(DixSetAttrAccess);
+    APPEND_MODENAME_IF_SET(DixListPropAccess);
+    APPEND_MODENAME_IF_SET(DixGetPropAccess);
+    APPEND_MODENAME_IF_SET(DixSetPropAccess);
+    APPEND_MODENAME_IF_SET(DixGetFocusAccess);
+    APPEND_MODENAME_IF_SET(DixSetFocusAccess);
+    APPEND_MODENAME_IF_SET(DixListAccess);
+    APPEND_MODENAME_IF_SET(DixAddAccess);
+    APPEND_MODENAME_IF_SET(DixRemoveAccess);
+    APPEND_MODENAME_IF_SET(DixHideAccess);
+    APPEND_MODENAME_IF_SET(DixShowAccess);
+    APPEND_MODENAME_IF_SET(DixBlendAccess);
+    APPEND_MODENAME_IF_SET(DixGrabAccess);
+    APPEND_MODENAME_IF_SET(DixFreezeAccess);
+    APPEND_MODENAME_IF_SET(DixForceAccess);
+    APPEND_MODENAME_IF_SET(DixInstallAccess);
+    APPEND_MODENAME_IF_SET(DixUninstallAccess);
+    APPEND_MODENAME_IF_SET(DixSendAccess);
+    APPEND_MODENAME_IF_SET(DixReceiveAccess);
+    APPEND_MODENAME_IF_SET(DixUseAccess);
+    APPEND_MODENAME_IF_SET(DixManageAccess);
+    APPEND_MODENAME_IF_SET(DixDebugAccess);
+    APPEND_MODENAME_IF_SET(DixBellAccess);
+  
+    if ( (l > 3) && (l < sizeof(access_mode_str)) ) {
+	/* strip off trailing " | " */
+	access_mode_str[l - 3] = '\0';
+    }
+
+    return access_mode_str;
+}
+
+/* Returns a string representation of the tsol policy for debugging messages */
+_X_HIDDEN const char *
+TsolPolicyReturnString(int pr)
+{
+    if (pr == XTSOL_FAIL) {
+	return "FAIL";
+    } else if (pr == XTSOL_ALLOW) {
+	return "ALLOW";
+    } else if (pr == XTSOL_IGNORE) {
+	return "IGNORE";
+    } else {
+	static char str[32];
+	snprintf(str, sizeof(str), "<unknown value %d>", pr);
+	return str;
+    }
+}
+
+_X_HIDDEN const char *
+TsolErrorNameString(int errcode)
+{
+    const char *regentry = LookupErrorName(errcode);
+
+    if (strcmp(regentry, XREGISTRY_UNKNOWN) == 0) {
+	static char unknown_string[32];
+
+	snprintf(unknown_string, sizeof(unknown_string),
+		 "error code #%d", errcode);
+
+	return unknown_string;
+    }
+
+    return regentry;
+}
+
+_X_HIDDEN const char *
+TsolResourceTypeString(RESTYPE resource)
+{
+    const char *regentry = LookupResourceName(resource);
+
+    if (strcmp(regentry, XREGISTRY_UNKNOWN) == 0) {
+	static char unknown_string[32];
+
+	snprintf(unknown_string, sizeof(unknown_string),
+		 "resource type #%d", (uint_t) resource);
+
+	return unknown_string;
+    }
+
+    return regentry;
+}
+
+_X_HIDDEN const char *
+TsolRequestNameString(int req)
+{
+    const char *regentry;
+
+    if (req < 0) {
+	return "<no request>";
+    }
+
+    regentry = LookupMajorName(req);
+
+    if (strcmp(regentry, XREGISTRY_UNKNOWN) == 0) {
+	static char unknown_string[32];
+
+	snprintf(unknown_string, sizeof(unknown_string),
+		 "request type #%d", req);
+
+	return unknown_string;
+    }
+
+    return regentry;
 }
