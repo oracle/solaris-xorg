@@ -56,4 +56,5 @@ P SUNWcsu	Core Solaris, (Usr)
 P SUNWcsd	Core Solaris Devices
 P SUNWcsl	Core Solaris Libraries
 P SUNWlibmsr	Math & Microtasking Libraries (Root)
+P SUNWlibms	Math & Microtasking Libraries (Usr)
 
