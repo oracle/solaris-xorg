@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.65	09/02/11	Sun Microsystems
+#	@(#)prototype_com	35.67	09/02/17	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -602,11 +602,12 @@ f none openwin/lib/X11/fonts/TrueType/VeraSe.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/VeraSeBd.ttf 0644 root bin
 f none openwin/lib/X11/fonts/TrueType/VeraFontsCopyright.txt 0644 root bin
 
-# Empty fonts.dir left to keep X configurations with this path in the
+# Empty fonts.dir left to keep X configurations with these paths in the
 # font dir from dying
-!search            $HOME/lib/X11/fonts/TTbitmaps
 d none openwin/lib/X11/fonts/TTbitmaps 0755 root bin
 e fontsdir openwin/lib/X11/fonts/TTbitmaps/fonts.dir 0644 root bin
+d none openwin/lib/X11/fonts/misc 0755 root bin
+e fontsdir openwin/lib/X11/fonts/misc/fonts.dir 0644 root bin
 
 # Font links used by Xorg server & catalogue dirs - future home of most fonts
 d none X11 0755 root bin
@@ -614,6 +615,5 @@ d none X11/lib 0755 root bin
 d none X11/lib/X11/fonts 0755 root bin
 s none X11/lib/X11/fonts/F3bitmaps=../../../../openwin/lib/X11/fonts/F3bitmaps
 s none X11/lib/X11/fonts/TrueType=../../../../openwin/lib/X11/fonts/TrueType
-#s none openwin/lib/X11/fonts/misc=../../../../X11/lib/X11/fonts/misc
-#s none openwin/lib/X11/fonts/75dpi=../../../../X11/lib/X11/fonts/75dpi
-#s none openwin/lib/X11/fonts/100dpi=../../../../X11/lib/X11/fonts/100dpi
+s none openwin/lib/X11/fonts/75dpi=../../../../X11/lib/X11/fonts/75dpi
+s none openwin/lib/X11/fonts/100dpi=../../../../X11/lib/X11/fonts/100dpi
