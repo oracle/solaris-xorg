@@ -1,0 +1,53 @@
+From 7c6e0368e315b5e2f51d3b8d2f1d10c8143abeff Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Tue, 17 Feb 2009 18:48:52 -0800
+Subject: [PATCH] Make RGBPath keyword in xorg.conf a non-fatal error
+
+Xorg shouldn't refuse to run just because the user has an xorg.conf that
+had the previously-used RGBPath keyword in it.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+---
+ hw/xfree86/parser/Files.c      |    6 ++++++
+ hw/xfree86/parser/xf86tokens.h |    1 +
+ 2 files changed, 7 insertions(+), 0 deletions(-)
+
+diff --git a/hw/xfree86/parser/Files.c b/hw/xfree86/parser/Files.c
+index 3777432..11c635b 100644
+--- a/hw/xfree86/parser/Files.c
++++ b/hw/xfree86/parser/Files.c
+@@ -72,6 +72,8 @@ static xf86ConfigSymTabRec FilesTab[] =
+ 	{MODULEPATH, "modulepath"},
+ 	{INPUTDEVICES, "inputdevices"},
+ 	{LOGFILEPATH, "logfile"},
++	/* Obsolete keywords that aren't used but shouldn't cause errors: */
++	{OBSOLETE_TOKEN, "rgbpath"},
+ 	{-1, ""},
+ };
+ 
+@@ -183,6 +185,10 @@ xf86parseFilesSection (void)
+ 		case EOF_TOKEN:
+ 			Error (UNEXPECTED_EOF_MSG, NULL);
+ 			break;
++		case OBSOLETE_TOKEN:
++			xf86parseError (OBSOLETE_MSG, xf86tokenString ());
++			xf86getSubToken (&(ptr->file_comment));
++			break;
+ 		default:
+ 			Error (INVALID_KEYWORD_MSG, xf86tokenString ());
+ 			break;
+diff --git a/hw/xfree86/parser/xf86tokens.h b/hw/xfree86/parser/xf86tokens.h
+index 6e4fdea..dd67f72 100644
+--- a/hw/xfree86/parser/xf86tokens.h
++++ b/hw/xfree86/parser/xf86tokens.h
+@@ -70,6 +70,7 @@
+ 
+ typedef enum {
+     /* errno-style tokens */
++    OBSOLETE_TOKEN	= -5,
+     EOF_TOKEN		= -4,
+     LOCK_TOKEN		= -3,
+     ERROR_TOKEN		= -2,
+-- 
+1.5.6.5
+
