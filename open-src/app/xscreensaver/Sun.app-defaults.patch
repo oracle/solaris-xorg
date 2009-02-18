@@ -62,9 +62,9 @@ diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
 +*lockTimeout:		0:30:00
 +*passwdTimeout:		0:02:00
 +*dpmsEnabled:		True
-+*dpmsStandby:		0:24:00
-+*dpmsSuspend:		0:27:00
-+*dpmsOff:		0:30:00
++*dpmsStandby:		0:15:00
++*dpmsSuspend:		0:18:00
++*dpmsOff:		0:21:00
 +*grabDesktopImages:	False
  *grabVideoFrames:	False
  *chooseRandomImages:	@DEFAULT_IMAGES_P@

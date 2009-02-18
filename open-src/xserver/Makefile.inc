@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.10	09/01/14
+# @(#)Makefile.inc	1.11	09/02/18
 #
 
 PWD:sh=pwd
@@ -83,9 +83,9 @@ XSERVER_CONFIG_OPTS=$(XSERVER_CONFIG_OPTS_$(MACH))
 GCC_HEADERS:sh=gcc -print-search-dirs | awk -F: '$1 == "install" {printf "-idirafter %s/install-tools/include", $2}'
 
 # Default DPMS settings for Solaris
-DPMS_DEFINES=   -DDEFAULT_STANDBY_TIME=1440000 \
-		-DDEFAULT_SUSPEND_TIME=1620000 \
-                -DDEFAULT_OFF_TIME=1800000
+DPMS_DEFINES=   -DDEFAULT_STANDBY_TIME=900000 \
+		-DDEFAULT_SUSPEND_TIME=1080000 \
+                -DDEFAULT_OFF_TIME=1260000
 
 MODTYPE_CPPFLAGS_suncc= # No extra flags needed
 MODTYPE_CPPFLAGS_gcc= $(GCC_HEADERS)
