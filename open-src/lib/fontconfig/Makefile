@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.78	08/11/26
+# @(#)Makefile	1.79	09/02/18
 #
 
 # Package name used in tarballs
@@ -52,7 +52,7 @@ SOURCE_URL_SET=yes
 SOURCE_PATCHES=fontconfig-$(MODULE_VERSION).patch,-p1 \
 	       fontconfig-$(MODULE_VERSION).patch.hide,-p1 \
 	       fontconfig-$(MODULE_VERSION)-fonts.conf.patch \
-	       6729284.patch,-p1
+	       6729284.patch,-p1 6770058.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig
