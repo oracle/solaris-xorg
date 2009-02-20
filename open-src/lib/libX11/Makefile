@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17	08/12/30
+# @(#)Makefile	1.18	09/02/17
 #
 
 # Package name used in tarballs
@@ -66,7 +66,8 @@ SOURCE_PATCHES = \
 	6657999.patch \
 	6715568.patch \
 	6714036.patch \
-	6789219.patch
+	6789219.patch \
+	6737254.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
