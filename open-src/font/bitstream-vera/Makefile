@@ -2,7 +2,7 @@
 #
 # Bitstream Vera Fonts Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/10/06
+# @(#)Makefile	1.7	09/02/26
 #
 
 # Package name used in tarballs
@@ -51,7 +51,7 @@ BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS=install_x11dir install_owdir
+INSTALL_TARGETS=install_veradir install_ttfdir
 INSTALL_TARGETS_SET=yes
 
 # Directory to install to
@@ -92,13 +92,13 @@ install_vera: $(BUILD_TARGETS)
 		-i $(SOURCE_DIR)/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
 	(cd $(FONT_DEST_DIR) && $(MKFONTDIR) . )
 
-# Install under both /usr/X11 & /usr/openwin for building both SUNW* & FSW*
+# Install under both .../TTF & .../vera for building both SUNW* & FSW*
 # font packages for now
 
-install_x11dir::$(BUILD_TARGETS)
+install_veradir::$(BUILD_TARGETS)
 	$(MAKE) $(MAKEFLAGS) \
 		FONT_DEST_DIR=$(PROTODIR)$(X11_FONT_DIR)/vera install_vera
 
-install_owdir::$(BUILD_TARGETS)
+install_ttfdir::$(BUILD_TARGETS)
 	$(MAKE) $(MAKEFLAGS) \
-		FONT_DEST_DIR=$(PROTODIR)$(OW_TRUETYPE_DIR) install_vera
+		FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR) install_vera

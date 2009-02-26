@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	08/10/06
+# @(#)Makefile	1.9	09/02/26
 #
 
 # Package name used in tarballs
 MODULE_NAME=dejavu-fonts-ttf
 
 # Version number (used in path names)
-MODULE_VERSION=2.26
+MODULE_VERSION=2.28
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
@@ -51,7 +51,7 @@ BUILD_TARGETS=$(SOURCE_DIR)/ttf/fonts.scale
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS=install_fonts_conf install_x11dir install_owdir
+INSTALL_TARGETS=install_fonts_conf install_dejavu
 INSTALL_TARGETS_SET=yes
 
 # Directory to install to
@@ -113,14 +113,4 @@ install_dejavu: $(BUILD_TARGETS)
 	chmod +w $(FONT_DEST_DIR)/fonts.scale
 	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
 	    -i $(SOURCE_DIR)/ttf/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
-
-# Install under both /usr/X11 & /usr/openwin for building both SUNW* & FSW*
-# font packages for now
-
-install_x11dir::$(BUILD_TARGETS)
-	$(MAKE) $(MAKEFLAGS) \
-		FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR) install_dejavu
-
-install_owdir::$(BUILD_TARGETS)
-	$(MAKE) $(MAKEFLAGS) \
-		FONT_DEST_DIR=$(PROTODIR)$(OW_TRUETYPE_DIR) install_dejavu
+	(cd $(FONT_DEST_DIR) && $(MKFONTDIR) . )

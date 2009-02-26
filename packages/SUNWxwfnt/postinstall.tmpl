@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -57,16 +57,11 @@ include fc_rebuild
 
 include fontcatlink
 
-# A link to the TTF directory was accidentally delivered in nv_101,
-# before the TTF directory has been integrated.   Remove it for now
-# until we deliver the TTF directory.
-rm -f $BASEDIR/../etc/X11/fontpath.d/TTF:pri=40
-
 make_font_catalogue_link F3bitmaps	F3bitmaps:unscaled:pri=10
 make_font_catalogue_link misc		misc:unscaled:pri=15
 make_font_catalogue_link 100dpi		100dpi:unscaled:pri=20
 make_font_catalogue_link 75dpi		75dpi:unscaled:pri=25
-# make_font_catalogue_link TTF		TTF:pri=40
+make_font_catalogue_link TTF		TTF:pri=40
 make_font_catalogue_link TrueType	TrueType:pri=41
 make_font_catalogue_link F3bitmaps	F3bitmaps:pri=80
 make_font_catalogue_link misc		misc:pri=85

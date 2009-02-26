@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.47 09/02/12
+# @(#)upgrade-X	1.48 09/02/26
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -265,6 +265,10 @@ REM_PKGS+=" SUNWxorg-doc"
 # snv_108: 6798225 stop building/delivering SUNWxwdim
 REM_PKGS+=" SUNWxwdim"
 
+# snv_109: 6803684/6804527/6806167 updates to open-src font packages
+# Replaces directories found in multiple packages with symlinks, so need
+# to remove them all first
+REM_PKGS+=" SUNWxwfnt SUNWxwcft SUNWxwoft"
 
 # Various compatibility links in SUNWxorg-server have been replaced with
 # files in other packages, so we need to remove SUNWxorg-server first
