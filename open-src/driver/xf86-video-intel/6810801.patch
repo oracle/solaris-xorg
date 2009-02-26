@@ -1,0 +1,31 @@
+--- src/i830_bios.c	Thu Feb 26 08:49:38 2009
++++ src/i830_bios.c	Thu Feb 26 08:54:07 2009
+@@ -88,8 +88,8 @@
+ parse_panel_data(I830Ptr pI830, struct bdb_header *bdb)
+ {
+     struct bdb_lvds_options *lvds_options;
+-    struct bdb_lvds_lfp_data *lvds_lfp_data;
+-    struct bdb_lvds_lfp_data_entry *entry;
++    struct bdb_lvds_lfp_data_ptrs *lvds_lfp_data_ptrs;
++    int timing_offset;
+     DisplayModePtr fixed_mode;
+     unsigned char *timing_ptr;
+ 
+@@ -104,12 +104,13 @@
+     if (lvds_options->panel_type == 0xff)
+ 	return;
+ 
+-    lvds_lfp_data = find_section(bdb, BDB_LVDS_LFP_DATA);
+-    if (!lvds_lfp_data)
++    lvds_lfp_data_ptrs = find_section(bdb, BDB_LVDS_LFP_DATA_PTRS);
++    if (!lvds_lfp_data_ptrs)
+ 	return;
+ 
+-    entry = &lvds_lfp_data->data[lvds_options->panel_type];
+-    timing_ptr = (unsigned char *)&entry->dvo_timing;
++    timing_offset =
++	lvds_lfp_data_ptrs->ptr[lvds_options->panel_type].dvo_timing_offset;
++    timing_ptr = (unsigned char *)bdb + timing_offset;
+ 
+     fixed_mode = xnfalloc(sizeof(DisplayModeRec));
+     memset(fixed_mode, 0, sizeof(*fixed_mode));
