@@ -1,6 +1,8 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# dispswitch module Makefile
+#
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,30 +30,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#pragma  ident  "@(#)Makefile 1.1     08/09/05 SMI"
+# @(#)Makefile	1.1	09/02/24
 #
 
-MODULE_NAME=workspace-patterns
+# Package name used in tarballs
+MODULE_NAME=dispswitch
 
-# No upstream sources for these files, since they're Solaris-specific
-MODULE_VERSION=NONE
+# No upstream sources, only local sources
+MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
-BUILD_TARGETS =
-BUILD_TARGETS_SET=yes
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES= # None
+SUN_PACKAGE=SUNWxorg-client-programs
+MODULE_STABILITY=Volatile
 
-INSTALL_TARGETS =
-INSTALL_TARGETS_SET=yes
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
-### Include common rulesets
+# Since we don't have a configure script, pass configure flags to make
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
 include ../Makefile.inc
 
-INSTALL_PATH=etc/xdg/autostart
-DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)/$(INSTALL_PATH)
-
-
-install_gen::
-	mkdir -p $(INSTDIR)
-	cp -pf gnome-dispswitch.desktop $(INSTDIR)
+source_gen:: $(LNDIR)

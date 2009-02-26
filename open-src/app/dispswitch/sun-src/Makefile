@@ -1,8 +1,4 @@
-###############################################################################
-#
-# xrandr 1.x Makefile
-#
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,18 +26,24 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	09/02/24
-#
+# @(#)Makefile	1.1	09/02/24
 
-# Package name used in tarballs
-MODULE_NAME=xrandr
+SRCS = dispswitch.c
+OBJS = $(SRCS:.c=.o)
 
-# Version number (used in path names)
-MODULE_VERSION=1.2.3
+PKGS = 'xrandr >= 1.2.0' x11
+PKG_CFLAGS = pkg-config --cflags $(PKGS)
+PKG_LIBS = pkg-config --libs $(PKGS)
+CFLAGS += $(PKG_CFLAGS:sh)
+LIBS = $(PKG_LIBS:sh)
 
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxorg-client-programs
-MODULE_STABILITY=Volatile
+dispswitch: $(OBJS)
+	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBS)
 
-include ../Makefile.inc
+install: dispswitch
+	mkdir -p $(DESTDIR)$(PREFIX)/bin \
+		 $(DESTDIR)$(PREFIX)/share/man/man1 \
+		 $(DESTDIR)/etc/xdg/autostart
+	$(INSTALL) dispswitch $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) dispswitch.man $(DESTDIR)$(PREFIX)/share/man/man1/dispswitch.1
+	$(INSTALL) gnome-dispswitch.desktop $(DESTDIR)/etc/xdg/autostart

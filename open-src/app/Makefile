@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.83	08/09/30
+# @(#)Makefile	1.84	09/02/24
 #
 ###############################################################################
 
@@ -43,6 +43,7 @@ OS_SUBDIRS_common = \
 	cmap_alloc \
         cmap_compact \
 	constype \
+	dispswitch \
 	editres \
 	fbconsole \
 	fslsfonts \
