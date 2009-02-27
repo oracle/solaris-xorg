@@ -28,7 +28,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype	1.9	08/08/28 SMI"
+# ident	"@(#)prototype	1.10	09/02/27 SMI"
 #
 # Fontconfig config files
 
@@ -100,14 +100,18 @@ s none etc/fonts/conf.d/80-delicious.conf=../conf.avail/80-delicious.conf
 s none etc/fonts/conf.d/90-synthetic.conf=../conf.avail/90-synthetic.conf
 
 # From open-src/font/deja-vu:
-f none etc/fonts/conf.avail/20-unhint-small-dejavu-experimental.conf	0444 root bin
-f none etc/fonts/conf.avail/20-unhint-small-dejavu.conf	0444 root bin
-f none etc/fonts/conf.avail/57-dejavu.conf		0444 root bin
-f none etc/fonts/conf.avail/61-dejavu-experimental.conf	0444 root bin
-s none etc/fonts/conf.d/20-unhint-small-dejavu-experimental.conf=../conf.avail/20-unhint-small-dejavu-experimental.conf
-s none etc/fonts/conf.d/20-unhint-small-dejavu.conf=../conf.avail/20-unhint-small-dejavu.conf
-s none etc/fonts/conf.d/57-dejavu.conf=../conf.avail/57-dejavu.conf
-s none etc/fonts/conf.d/61-dejavu-experimental.conf=../conf.avail/61-dejavu-experimental.conf
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-sans.conf	  0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-sans-mono.conf 0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-serif.conf	  0444 root bin
+f none etc/fonts/conf.avail/57-dejavu-sans.conf			  0444 root bin
+f none etc/fonts/conf.avail/57-dejavu-sans-mono.conf		  0444 root bin
+f none etc/fonts/conf.avail/57-dejavu-serif.conf		  0444 root bin
+s none etc/fonts/conf.d/20-unhint-small-dejavu-sans.conf=../conf.avail/20-unhint-small-dejavu-sans.conf
+s none etc/fonts/conf.d/20-unhint-small-dejavu-sans-mono.conf=../conf.avail/20-unhint-small-dejavu-sans-mono.conf
+s none etc/fonts/conf.d/20-unhint-small-dejavu-serif.conf=../conf.avail/20-unhint-small-dejavu-serif.conf
+s none etc/fonts/conf.d/57-dejavu-sans.conf=../conf.avail/57-dejavu-sans.conf
+s none etc/fonts/conf.d/57-dejavu-sans-mono.conf=../conf.avail/57-dejavu-sans-mono.conf
+s none etc/fonts/conf.d/57-dejavu-serif.conf=../conf.avail/57-dejavu-serif.conf
 
 d none var 755 root sys
 d none var/svc 755 root sys
