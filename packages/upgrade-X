@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.48 09/02/26
+# @(#)upgrade-X	1.49 09/02/26
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -170,6 +170,7 @@ pkg_list="
 	SUNWfontconfig-docs 
 	SUNWpciaccess
 	SUNWpixman
+	SUNWttf-google-droid
 	SUNWvncviewer
 	SUNWxcursor-themes
 	SUNWxorg-cfg
