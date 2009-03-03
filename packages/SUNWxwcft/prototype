@@ -59,13 +59,21 @@ d none X11/lib/X11/fonts/75dpi 				0755 root bin
 e fontsdir X11/lib/X11/fonts/75dpi/fonts.dir 		0444 root bin
 e fontsalias X11/lib/X11/fonts/75dpi/fonts.alias.all	0644 root bin
 f none X11/lib/X11/fonts/75dpi/courB12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/courB12-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/courBO12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/courBO12-ISO8859-1.pcf.gz 0444 root bin
 f none X11/lib/X11/fonts/75dpi/courO12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/courO12-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/courR12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/courR12-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/helvBO12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/helvBO12-ISO8859-1.pcf.gz 0444 root bin
 f none X11/lib/X11/fonts/75dpi/helvO12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/helvO12-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/helvR12.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/helvR12-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/lutRS08.pcf.gz		0444 root bin
+f none X11/lib/X11/fonts/75dpi/lutRS08-ISO8859-1.pcf.gz	0444 root bin
 
 !search            $OW_FONTS/Type1
 d none openwin/lib/X11/fonts/Type1 			0755 root bin
