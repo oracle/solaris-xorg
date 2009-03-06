@@ -28,6 +28,7 @@ sun-extramodes.patch
 sun-manpage.patch
 cli-nolock.patch
 cli-nobanner.patch
+catch-dlerrors.patch
 make_xkm_output_dir.patch
 dtlogin-userinfo.patch
 IA.patch
