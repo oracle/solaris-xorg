@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/08
+# @(#)Makefile	1.4	09/03/06
 #
 
 # Package name used in tarballs
@@ -40,7 +40,11 @@ MODULE_NAME=xrx
 MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=
+SOURCE_PATCHES= firefox-3.1-headers.patch,-p1
+
+# Need to regenerate configure after firefox-3.1-headers.patch modifies
+# the configure.ac file
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*/*.man
