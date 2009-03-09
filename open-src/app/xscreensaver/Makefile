@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.104	09/03/08
+# @(#)Makefile	1.105	09/03/09
 #
 
 # Package name used in tarballs
@@ -89,7 +89,8 @@ SOURCE_PATCHES = \
 	interference-hack.patch \
 	intltool.patch \
 	bug-6769901.patch \
-        bug-6736157.patch
+        bug-6736157.patch \
+	bug-6757448.patch
 
 # We patch configure.ac & Makefile.am's so need to autoreconf
 AUTORECONF=yes
