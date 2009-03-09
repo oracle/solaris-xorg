@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.93	09/01/15 SMI"
+# ident	"@(#)prototype	35.94	09/03/09 SMI"
 #
 #  X Window System include files
 
@@ -36,6 +36,9 @@ i copyright
 i depend=../depend
 
 !HOME=../usr
+
+d none include 0755 root bin
+s none include/X11=../X11/include/X11
 
 d none openwin 0755 root bin
 d none openwin/share 0755 root bin

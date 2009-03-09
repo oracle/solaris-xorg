@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.49 09/02/26
+# @(#)upgrade-X	1.50 09/03/09
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -193,7 +193,6 @@ pkg_list="
 	SUNWxwdxm
 	SUNWxwfnt
 	SUNWxwfs
-	SUNWxwhl
 	SUNWxwice
 	SUNWxwinc
 	SUNWxwman
@@ -270,6 +269,10 @@ REM_PKGS+=" SUNWxwdim"
 # Replaces directories found in multiple packages with symlinks, so need
 # to remove them all first
 REM_PKGS+=" SUNWxwfnt SUNWxwcft SUNWxwoft"
+
+# snv_111: 6815064 Merge SUNWxwhl into SUNWxwinc
+REM_PKGS+=" SUNWxwhl"
+
 
 # Various compatibility links in SUNWxorg-server have been replaced with
 # files in other packages, so we need to remove SUNWxorg-server first

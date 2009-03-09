@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.68	09/02/26
+# @(#)make_release_packages	1.69	09/03/09
 #
 #	Create and fill a package staging area for X
 #
@@ -63,7 +63,7 @@ XW_PACKAGE_LIST="SUNWfontconfig SUNWfontconfig-docs SUNWfontconfig-root
     SUNWxorg-server SUNWxorg-tsol-module 
     SUNWxscreensaver-hacks SUNWxscreensaver-hacks-gl SUNWxsun-server
     SUNWxvnc SUNWxwacx SUNWxwcft SUNWxwdem SUNWxwdxm
-    SUNWxwfnt SUNWxwfs SUNWxwfsw SUNWxwhl SUNWxwice SUNWxwinc
+    SUNWxwfnt SUNWxwfs SUNWxwfsw SUNWxwice SUNWxwinc
     SUNWxwman SUNWxwmod SUNWxwoft SUNWxwopt SUNWxwplr
     SUNWxwplt SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsrv SUNWxwsvr
     SUNWxwts SUNWxwxft"
