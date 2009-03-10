@@ -1,0 +1,26 @@
+From 6544490700051b3b5e88ac1890d71b35634c9100 Mon Sep 17 00:00:00 2001
+From: Eamon Walsh <ewalsh@tycho.nsa.gov>
+Date: Mon, 9 Mar 2009 17:28:40 -0400
+Subject: [PATCH] Correct access mode in call to dixLookupWindow() within RRSelectInput.
+
+Reported by Alan Coopersmith.
+---
+ randr/rrdispatch.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/randr/rrdispatch.c b/randr/rrdispatch.c
+index 5a2ea71..0925875 100644
+--- a/randr/rrdispatch.c
++++ b/randr/rrdispatch.c
+@@ -76,7 +76,7 @@ ProcRRSelectInput (ClientPtr client)
+     int		rc;
+ 
+     REQUEST_SIZE_MATCH(xRRSelectInputReq);
+-    rc = dixLookupWindow(&pWin, stuff->window, client, DixWriteAccess);
++    rc = dixLookupWindow(&pWin, stuff->window, client, DixReceiveAccess);
+     if (rc != Success)
+ 	return rc;
+     pHead = (RREventPtr *)SecurityLookupIDByType(client,
+-- 
+1.5.6.5
+
