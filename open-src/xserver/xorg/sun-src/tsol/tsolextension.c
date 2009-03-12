@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.35     09/02/12 SMI"
+#pragma ident   "@(#)tsolextension.c 1.36     09/03/12 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -233,7 +233,7 @@ TsolExtensionInit(void)
 	ProcVector[X_SetModifierMapping] = ProcTsolSetModifierMapping;
 
 	ProcVector[X_CreateWindow] = ProcTsolCreateWindow;
-	ProcVector[X_ChangeWindowAttributes] = ProcTsolChangeWindowAttributes;
+	/* ProcVector[X_ChangeWindowAttributes] = ProcTsolChangeWindowAttributes; */
 	ProcVector[X_ConfigureWindow] = ProcTsolConfigureWindow;
 	ProcVector[X_CirculateWindow] = ProcTsolCirculateWindow;
 	ProcVector[X_ReparentWindow] = ProcTsolReparentWindow;
@@ -294,6 +294,8 @@ static CALLBACK(
 	        if (xtsol_policy((TSOL_TYPE), (TSOL_MODE), (VAL),	\
 				 (ID), client, TSOL_ALL, &reqtype))	\
 			rec->status = BadAccess;			\
+		else 							\
+			rec->status = Success;				\
 		check_mode &= ~(DIX_MODE);				\
 	    }
 
@@ -316,7 +318,16 @@ static CALLBACK(
 		TsolInitWindow(client, (WindowPtr) rval);
 		check_mode &= ~(DixCreateAccess);
 	    }
-
+	    if (check_mode & DixReceiveAccess) {
+	        CHECK_RESOURCE_POLICY(DixReceiveAccess, TSOL_RES_WINDOW, 
+		    TSOL_SPECIAL, rval, 0);
+		break;
+	    }
+	    if (check_mode & DixSetAttrAccess) {
+	        CHECK_RESOURCE_POLICY(DixSetAttrAccess, TSOL_RES_WINDOW, 
+		    TSOL_SPECIAL, rval, 0);
+		break;
+	    }
 	    /* The rest falls through to code shared with RT_PIXMAP */
 	case RT_PIXMAP:
 	    /* Drawing operations use pixel access policy */
@@ -353,8 +364,15 @@ static CALLBACK(
 					  TSOL_RES_PROPWIN, TSOL_MODIFY,
 					  rval, 0);
 		    break;
+		case X_ClearArea:
+		    rec->status = Success;
+		    break;
 	    }
 	    break;
+
+	  default:
+		rec->status = Success;
+		break;
     }
 
 #ifndef NO_TSOL_DEBUG_MESSAGES

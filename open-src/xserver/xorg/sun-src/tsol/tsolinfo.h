@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.21     09/02/12 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.22     09/03/12 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -59,8 +59,8 @@
  */
  
 #define TSOL_MSG_ERROR		0		/* Always printed */
-#define TSOL_MSG_UNIMPLEMENTED	5
-#define TSOL_MSG_POLICY_DENIED	6
+#define TSOL_MSG_POLICY_DENIED	5
+#define TSOL_MSG_UNIMPLEMENTED	6
 #define TSOL_MSG_ACCESS_TRACE	7
 
 #define TSOL_LOG_PREFIX		TSOLNAME ": "
