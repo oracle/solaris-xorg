@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
 --- cpprules.in	2007-05-29 12:36:50.000000000 -0700
-+++ cpprules.in	2008-09-24 20:18:46.328453000 -0700
++++ cpprules.in	2009-03-10 22:46:35.671590000 -0700
 @@ -25,7 +25,7 @@ XORGRELSTRING = @PACKAGE_STRING@
    XORGMANNAME = X Version 11
    XSERVERNAME = Xorg
@@ -11,12 +11,12 @@ diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
          -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
  	-D__appmansuffix__=$(APP_MAN_SUFFIX) \
 diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
---- doc/Xserver.man.pre	2008-09-23 11:24:56.000000000 -0700
-+++ doc/Xserver.man.pre	2008-09-24 20:18:46.329753000 -0700
+--- doc/Xserver.man.pre	2009-03-10 22:45:58.609756000 -0700
++++ doc/Xserver.man.pre	2009-03-10 22:46:35.714098000 -0700
 @@ -1,3 +1,32 @@
-+.\" ident	"@(#)sun-manpage.patch	1.6	09/01/14 SMI"
++.\" ident	"@(#)sun-manpage.patch	1.7	09/03/11 SMI"
 +.\" 
-+.\" Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
++.\" Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 +.\" 
 +.\" Permission is hereby granted, free of charge, to any person obtaining a
 +.\" copy of this software and associated documentation files (the
@@ -68,10 +68,10 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +#endif
  .SH "STARTING THE SERVER"
 +#ifdef __SUNSOFT__
-+On Solaris, the X server is usually started from the CDE Display Manager 
-+program \fIdtlogin\fP(1).  This role may also be performed by the X Display 
-+Manager program \fIxdm\fP(1), the GNOME Display Manager program \fIgdm\fP(1),
-+or another display manager. 
++On OpenSolaris, the X server is usually started from the GNOME Display 
++Manager program \fIgdm\fP(1).  On Solaris, the CDE Display Manager program 
++\fIdtlogin\fP(1) is used by default instead.  This role may also be performed
++by the X Display Manager program \fIxdm\fP(1), or another display manager. 
 +#else
  The X server is usually started from the X Display Manager program 
  \fIxdm\fP(1) or a similar display manager program.
@@ -94,16 +94,21 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .B \-bs
  disables backing store support on all screens.
  .TP 8
-@@ -120,7 +175,7 @@ Not obeyed by all servers.
- .TP 8
- .B \-co \fIfilename\fP
- sets name of RGB color database.  The default is
--.IR __projectroot__/share/X11/rgb .
+@@ -117,6 +172,13 @@ sets key-click volume (allowable range: 
+ sets the visual class for the root window of color screens.
+ The class numbers are as specified in the X protocol.
+ Not obeyed by all servers.
++#ifdef __SUNSOFT__
++.TP 8
++.B \-co \fIfilename\fP
++sets name of RGB color database.  The default is
 +.IR __projectroot__/lib/X11/rgb .
++[Only available in Xsun, not in Xorg.]
++#endif
  .ig
  .TP 8
  .B \-config \fIfilename\fP
-@@ -157,10 +212,16 @@ is platform and configuration specific.
+@@ -153,10 +215,16 @@ is platform and configuration specific.
  .BI \-extension extensionName
  disables named extension.   If an unknown extension name is specified,
  a list of accepted extension names is printed.
@@ -120,7 +125,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-f \fIvolume\fP
  sets feep (bell) volume (allowable range: 0-100).
-@@ -187,6 +248,38 @@ causes all remaining command line argume
+@@ -183,6 +251,38 @@ causes all remaining command line argume
  sets the maximum big request to
  .I size
  MB.
@@ -159,7 +164,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-nolisten \fItrans-type\fP
  disables a transport type.  For example, TCP/IP connections can be disabled
-@@ -194,6 +287,7 @@ with
+@@ -190,6 +290,7 @@ with
  .BR "\-nolisten tcp" .
  This option may be issued multiple times to disable listening to different
  transport types.
@@ -167,7 +172,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-noreset
  prevents a server reset when the last client connection is closed.  This
-@@ -207,11 +301,19 @@ sets screen-saver pattern cycle time in 
+@@ -203,11 +304,19 @@ sets screen-saver pattern cycle time in 
  .B \-pn
  permits the server to continue running if it fails to establish all of
  its well-known sockets (connection points for clients), but
@@ -188,7 +193,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-r
  turns off auto-repeat.
-@@ -272,6 +374,10 @@ This is a no-op for most implementations
+@@ -268,6 +377,10 @@ This is a no-op for most implementations
  .B [+-]xinerama
  enables(+) or disables(-) the XINERAMA extension.  The default state is
  platform and configuration specific.
@@ -199,7 +204,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH SERVER DEPENDENT OPTIONS
  Some X servers accept the following options:
  .TP 8
-@@ -315,15 +421,24 @@ use a gray map of 13 color cells for the
+@@ -311,15 +424,24 @@ use a gray map of 13 color cells for the
  .TP 8
  .I color
  use a color cube of at most 4*4*4 colors (that is 64 color cells).
@@ -224,7 +229,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH XDMCP OPTIONS
  X servers that support XDMCP have the following options.
  See the \fIX Display Manager Control Protocol\fP specification for more
-@@ -361,6 +476,9 @@ specifies the local address to connect f
+@@ -357,6 +479,9 @@ specifies the local address to connect f
  has multiple network interfaces).  The \fIlocal-address\fP may be expressed
  in any form acceptable to the host platform's \fIgethostbyname\fP(3)
  implementation.
@@ -234,7 +239,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-once
  causes the server to terminate (rather than reset) when the XDMCP session
-@@ -388,22 +506,45 @@ relative path from the XKB base director
+@@ -384,22 +509,45 @@ relative path from the XKB base director
  .TP 8
  .B [+-]kb
  enables(+) or disables(-) the XKEYBOARD extension.
@@ -281,11 +286,13 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-xkbmap \fIfilename\fP
  loads keyboard description in \fIfilename\fP on server startup.
-@@ -546,6 +687,91 @@ the following font path:
+@@ -541,6 +689,96 @@ the following font path:
+     /usr/share/fonts/default/Type1,
      /usr/share/fonts/default/ghostscript
  .fi
- 
 +#ifdef __SUNSOFT__
++[Font path catalogues are only available in Xorg, not in Xsun.]
++ 
 +.SH SMF PROPERTIES
 +.PP
 +Configuration properties for the \fB/usr/X11/bin/Xserver\fP program are
@@ -362,6 +369,9 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +svccfg -s svc:/application/x11/x11-server setprop options/tcp_listen = true
 +.fi
 +.sp
++Restart the Xserver by either logging out and logging back in, or manually 
++if the Xserver was started from the command line.
++.sp
 +.SS "Example: Enables the XKEYBOARD extension"
 +.PP
 +The following command enables the XKEYBOARD extension.
@@ -370,27 +380,21 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +svccfg -s svc:/application/x11/x11-server setprop options/server_args=+kb
 +.fi
 +#endif
+ 
  .SH FILES
  .TP 30
- .I /etc/X\fBn\fP.hosts
-@@ -553,15 +779,26 @@ Initial access control list for display 
+@@ -549,12 +787,22 @@ Initial access control list for display 
  .TP 30
  .IR __projectroot__/lib/X11/fonts/misc , __projectroot__/lib/X11/fonts/75dpi , __projectroot__/lib/X11/fonts/100dpi
  Bitmap font directories
 +#ifdef __SUNSOFT__
- .TP 30
--.IR __projectroot__/lib/X11/fonts/TTF , __projectroot__/lib/X11/fonts/Type1
-+.IR __projectroot__/lib/X11/fonts/TrueType , __projectroot__/lib/X11/fonts/Speedo , __projectroot__/lib/X11/fonts/Type1
- Outline font directories
++.IR __projectroot__/lib/X11/fonts/TrueType , __projectroot__/lib/X11/fonts/Type1
++Outline font directories
 +#else
  .TP 30
--.I __projectroot__/share/X11/rgb.txt
-+.IR __projectroot__/lib/X11/fonts/TTF , __projectroot__/lib/X11/fonts/Speedo , __projectroot__/lib/X11/fonts/Type1
-+Outline font directories
+ .IR __projectroot__/lib/X11/fonts/TTF , __projectroot__/lib/X11/fonts/Type1
+ Outline font directories
 +#endif
-+.TP 30
-+.I __projectroot__/lib/X11/rgb.txt
- Color database
  .TP 30
  .I /tmp/.X11-unix/X\fBn\fP
  Unix domain socket for display number \fBn\fP
@@ -402,11 +406,15 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 30
  .IR /tmp/rcX\fBn\fP
  Kerberos 5 replay cache for display number \fBn\fP
-@@ -571,6 +808,11 @@ Error log file for display number \fBn\f
+@@ -564,6 +812,15 @@ Error log file for display number \fBn\f
  .TP 30
  .I __projectroot__/lib/X11/xdm/xdm-errors
  Default error log file if the server is run from \fIxdm\fP(1)
 +#ifdef __SUNSOFT__
++.TP 30
++.I /var/log/gdm/:\fBn\fP.log
++Default error log file for display number \fBn\fP if the server is run 
++from \fIgdm\fP(1)
 +.TP 30
 +.I /var/dt/Xerrors
 +Default error log file if the server is run from \fIdtlogin\fP(1)
@@ -414,12 +422,12 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH "SEE ALSO"
  General information: \fIX\fP(__miscmansuffix__)
  .PP
-@@ -587,14 +829,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
+@@ -580,14 +837,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP
 +#ifdef __SUNSOFT__
-+Starting the server: \fIdtlogin\fP(1), \fIgdm\fP(1), \fIxdm\fP(1), \fIxinit\fP(1)
++Starting the server: \fIgdm\fP(1), \fIdtlogin\fP(1), \fIxdm\fP(1), \fIxinit\fP(1)
 +#else
  Starting the server: \fIxdm\fP(1), \fIxinit\fP(1)
 +#endif

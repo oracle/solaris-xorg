@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.112     08/10/03 SMI"
+# ident "@(#)prototype_com 35.113     09/03/11 SMI"
 #
 #  X Window System online user man pages
 
@@ -81,9 +81,6 @@ f none openwin/share/man/man6/xepsf.6 0444 root bin
 !search            $HOME/man5
 d none openwin/share/man/man5 0755 root bin
 f none openwin/share/man/man5/dps.5 0444 root bin
-
-!search $NEWHOME/man1
-f none openwin/share/man/man1/Xserver.1 0444 root bin 
 
 #### applications replaced with new versions from open-src/app
 
@@ -363,6 +360,9 @@ f none X11/share/man/man1/xmkmf.1 	0444 root bin
 
 # open-src/util/makedepend
 f none X11/share/man/man1/makedepend.1 	0444 root bin
+
+# open-src/xserver/xorg
+f none X11/share/man/man1/Xserver.1	0444 root bin 
 
 # open-src/xserver/xorg/hw/xprint/doc/Xprt
 f none X11/share/man/man1/Xprt.1        0444 root bin

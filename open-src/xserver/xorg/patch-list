@@ -21,6 +21,8 @@ constify-atom-strings.patch,-p1
 resource-names.patch,-p1
 rgbpath.patch,-p1
 xsync-idletime-counter.patch,-p1
+upstream-man-in-1.6.patch,-p1
+upstream-man-post-1.6.patch,-p1
 rrselectinput-access.patch,-p1
 restore-kbd-mouse.patch,-p1
 hal-input-fdi.patch
