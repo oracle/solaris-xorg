@@ -29,13 +29,14 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.68	09/02/26	Sun Microsystems
+#	@(#)prototype_com	35.71	09/03/12	Sun Microsystems
 #
 #  X Window System required core fonts package
 
 i pkginfo
 i copyright
 i depend
+i preinstall
 i postremove
 i postinstall
 i i.fontsdir
