@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.74	09/01/30
+# @(#)Makefile	1.75	09/03/12
 #
 
 # Build 32-bit or 64-bit?
@@ -55,8 +55,6 @@ SUNTOUCHED_MANPAGES= \
 	hw/kdrive/ephyr/Xephyr.man.pre \
 	hw/xfree86/utils/gtf/gtf.man.pre \
 	hw/xfree86/utils/cvt/cvt.man.pre \
-	hw/xfree86/utils/xorgcfg/xorgcfg.man.pre \
-	hw/xfree86/utils/xorgconfig/xorgconfig.man.pre \
 	hw/xfree86/doc/man/Xorg.man.pre \
 	hw/xfree86/doc/man/xorg.conf.man.pre \
 	hw/vfb/Xvfb.man.pre

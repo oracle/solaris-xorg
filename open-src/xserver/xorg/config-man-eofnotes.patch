@@ -1,0 +1,178 @@
+###############################################################################
+#
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# @(#)config-man-eofnotes.patch	1.1	09/03/12
+#
+
+Add notes to xorgcfg & xorgconfig man pages about their EOF state, 
+and directly add attributes section with Obsolete stability instead
+of letting suntouch-manpages.pl add one with just Volatile stability.
+
+--- hw/xfree86/utils/xorgcfg/xorgcfg.man.pre	Wed Nov  5 08:52:17 2008
++++ hw/xfree86/utils/xorgcfg/xorgcfg.man.pre	Wed Mar 11 18:10:42 2009
+@@ -1,3 +1,4 @@
++'\" t
+ .\"
+ .\" $XdotOrg: $
+ .\" Copyright (c) 2000 by Conectiva S.A. (http://www.conectiva.com)
+@@ -33,7 +34,7 @@
+ .SH NAME
+ xorgcfg - Graphical configuration tool for __xservername__
+ .SH SYNOPSIS
+-.B xorgcfg
++.B /usr/X11/bin/xorgcfg
+ [-config \fIconfigfile\fP] [-modulepath \fImoduledir\fP] 
+ [-fontpath \fIfontsdir\fP] [-toolkitoption ...]
+ .SH DESCRIPTION
+@@ -146,3 +147,53 @@
+ 
+ .SH BUGS
+ Probably.
++.\" Begin Sun update
++.SH "ATTRIBUTES"
++See \fBattributes\fR(5) for descriptions of the following attributes:
++.sp
++.TS
++allbox;
++cw(2.750000i)| cw(2.750000i)
++lw(2.750000i)| lw(2.750000i).
++ATTRIBUTE TYPE	ATTRIBUTE VALUE
++Availability	SUNWxorg-cfg
++Interface Stability	Obsolete Volatile
++.TE 
++.sp
++.SH NOTES
++.PP
++The 
++.BR xorgcfg (1) 
++and 
++.BR xorgconfig (1)
++utilities for generating 
++.BR xorg.conf (4)
++files may no longer be included in an upcoming release.  
++.PP
++The 
++.BR Xorg (1) 
++server does not require a configuration file in many cases,
++and will autoconfigure itself if one is not present.  If the
++default configuration does not meet your needs, you may use one of
++these alternative methods to generate an xorg.conf file for
++customization:
++.IP
++When Xorg is started without a configuration file, the xorg.conf
++data it generates automatically is logged in /var/log/Xorg.0.log
++and may be copied to an xorg.conf file for customization.
++.IP
++/usr/X11/bin/Xorg -configure, when the server is not already running
++will provide a sample configuration file for the currently detected
++hardware in the system.
++.IP
++Users of Nvidia graphics devices may use the provided 
++.BR nvidia-settings (1)
++and
++.BR nvidia-xconfig (1) 
++utilities to generate or update device-specific configurations.
++.IP
++Users of Sun graphics devices for the SPARC platform may use the
++.BR fbconfig (1)
++utility to generate or update device-specific 
++configurations.
++.\" End Sun update
+
+--- hw/xfree86/utils/xorgconfig/xorgconfig.man.pre	Wed Nov  5 08:52:17 2008
++++ hw/xfree86/utils/xorgconfig/xorgconfig.man.pre	Wed Mar 11 18:10:14 2009
+@@ -1,3 +1,4 @@
++'\" t
+ .\" $XdotOrg: $
+ .\" $XFree86: xc/programs/Xserver/hw/xfree86/xf86config/xorgconfig.man,v 1.5 2001/11/01 23:35:34 dawes Exp $
+ .TH xorgconfig 1 __vendorversion__
+@@ -4,7 +5,7 @@
+ .SH NAME
+ xorgconfig \- generate an __XCONFIGFILE__ file
+ .SH SYNOPSIS
+-.B xorgconfig
++.B /usr/X11/bin/xorgconfig
+ .SH DESCRIPTION
+ \fIxorgconfig\fP is an interactive program for generating an __XCONFIGFILE__ file
+ for use with __XSERVERNAME__ X servers.
+@@ -20,3 +21,53 @@
+ .SH AUTHOR
+ Harm Hanemaayer.
+ .\" $TOG: xf86conf.man /main/9 1997/07/19 10:53:08 kaleb $
++.\" Begin Sun update
++.SH "ATTRIBUTES"
++See \fBattributes\fR(5) for descriptions of the following attributes:
++.sp
++.TS
++allbox;
++cw(2.750000i)| cw(2.750000i)
++lw(2.750000i)| lw(2.750000i).
++ATTRIBUTE TYPE	ATTRIBUTE VALUE
++Availability	SUNWxorg-server
++Interface Stability	Obsolete Volatile
++.TE 
++.sp
++.SH NOTES
++.PP
++The 
++.BR xorgcfg (1) 
++and 
++.BR xorgconfig (1)
++utilities for generating 
++.BR xorg.conf (4)
++files may no longer be included in an upcoming release.  
++.PP
++The 
++.BR Xorg (1) 
++server does not require a configuration file in many cases,
++and will autoconfigure itself if one is not present.  If the
++default configuration does not meet your needs, you may use one of
++these alternative methods to generate an xorg.conf file for
++customization:
++.IP
++When Xorg is started without a configuration file, the xorg.conf
++data it generates automatically is logged in /var/log/Xorg.0.log
++and may be copied to an xorg.conf file for customization.
++.IP
++/usr/X11/bin/Xorg -configure, when the server is not already running
++will provide a sample configuration file for the currently detected
++hardware in the system.
++.IP
++Users of Nvidia graphics devices may use the provided 
++.BR nvidia-settings (1)
++and
++.BR nvidia-xconfig (1) 
++utilities to generate or update device-specific configurations.
++.IP
++Users of Sun graphics devices for the SPARC platform may use the
++.BR fbconfig (1)
++utility to generate or update device-specific 
++configurations.
++.\" End Sun update

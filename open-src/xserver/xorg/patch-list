@@ -29,6 +29,7 @@ hal-input-fdi.patch
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch
+config-man-eofnotes.patch
 cli-nolock.patch
 cli-nobanner.patch
 catch-dlerrors.patch
