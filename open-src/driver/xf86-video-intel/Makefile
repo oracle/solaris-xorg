@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.21	09/02/26
+# @(#)Makefile	1.22	09/03/18
 #
 
 # Package name used in tarballs
@@ -46,7 +46,7 @@ SOURCE_PATCHES= build-dri.patch libraries.patch \
 		Fix-broken-stolen-memory-counting-on-G4X.patch,-p1 \
 		Render-register-clock-gating-disable-fix-on-4-series.patch,-p1 \
 		Do-force-CRT-detect-sequence-twice-on-4-series-chips.patch,-p1 \
-		6810801.patch
+		6810801.patch 6819154.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

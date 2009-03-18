@@ -1,0 +1,12 @@
+--- src/i830_driver.c	Tue Mar 17 12:19:57 2009
++++ src/i830_driver.c	Tue Mar 17 13:32:09 2009
+@@ -2869,7 +2869,8 @@
+    }
+ 
+    /* Enable FB compression if possible */
+-   if (i830_fb_compression_supported(pI830))
++   if (i830_fb_compression_supported(pI830) && !IS_GM45(pI830)
++		&& !IS_G4X(pI830))
+        pI830->fb_compression = TRUE;
+    else
+        pI830->fb_compression = FALSE;
