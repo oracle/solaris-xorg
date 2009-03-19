@@ -69,7 +69,7 @@ MODULE_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
   --with-freetype-cflags="$(FT_CFLAGS)" --with-freetype-libs="$(FT_LIBS)" \
   --disable-setuid --disable-setgid  --enable-luit \
   --x-includes=$(PROTODIR)/usr/X11/include --x-libraries=/usr/X11/lib \
-  --with-icondir=/usr/share/pixmaps
+  --with-icondir=/usr/share/pixmaps --enable-logging
 
 # Tell configure where to find luit binary
 MODULE_CONFIG_ENV = LUIT=/usr/X11/bin/luit
