@@ -31,12 +31,12 @@
 
 EXEC_BASE=/usr
 PKGCOND=/usr/bin/pkgcond
-DISKLESS_SRVC=`echo $BASEDIR | /usr/bin/grep export/Solaris_[1-9][0-9]/usr_${AR
-CH}.all`
+DISKLESS_SRVC=`echo $BASEDIR | /usr/bin/grep export/Solaris_[1-9][0-9]/usr_${ARCH}.all`
 
 is_srngz=99
 is_ngz=99
- if [ -x $PKGCOND ]; then
+
+if [ -x $PKGCOND ]; then
     $PKGCOND  is_sparse_root_nonglobal_zone
     is_srngz=$?
     $PKGCOND -v is_nonglobal_zone > /dev/null 2>&1
@@ -62,27 +62,23 @@ test_writable() {
 }
 
 ##
-##  If there is a hard directory in openwin/lib/X11/fonts/<font>
-##   then, make a hard direcory in /usr/X11/lib/X11/font/<font>
-##   then, move the contents from /usr/openwin/lib/X11/fonts/<font>
-##   to /usr/X11/lib/X11/font/<font>, then rm /usr/openwin/lib/X11/fonts/<font>
-##   then make a link to /usr/X11/lib/X11/font/<font> 
-##   in /usr/openwin/lib/X11/fonts
+##  If there is a hard directory in /usr/openwin/lib/X11/fonts/<font>
+##  then, make a hard directory in /usr/X11/lib/X11/fonts/
+##	  and move the contents from /usr/openwin/lib/X11/fonts/<font>
+##				  to /usr/X11/lib/X11/fonts/<font>
 ##  else if /usr/openwin/lib/X11/fonts/<font> is a link, do nothing.
 ##
 
-make_font_link () {
-XWFNT_DIROLD=${PKG_INSTALL_ROOT}/openwin/lib/X11/fonts/$1
-XWFNT_DIRNEW=${PKG_INSTALL_ROOT}/X11/lib/X11/fonts/$1
-XWFNT_DIR=${PKG_INSTALL_ROOT}/openwin/lib/X11/fonts
-XWFNT_DESDIR=${PKG_INSTALL_ROOT}/X11/lib/X11/fonts
-if ! [ -d $XWFNT_DESDIR ] && /usr/bin/mkdir $XWFNT_DESDIR
-if [ -d $XWFNT_DIROLD -a ! -h $XWFNT_DIROLD ]; then
-    cd ${XWFNT_DIR}
-    if test_writable ${XWFNT_DESDIR} ; then
-        mv $XWFNT_DIROLD $XWFNT_DIRNEW
+make_font_link() {
+    XWFNT_DIROLD=${PKG_INSTALL_ROOT}/usr/openwin/lib/X11/fonts
+    XWFNT_DIRNEW=${PKG_INSTALL_ROOT}/usr/X11/lib/X11/fonts
+
+    if [ -d ${XWFNT_DIROLD}/$1 -a ! -h ${XWFNT_DIROLD}/$1 ]; then
+	/usr/bin/mkdir -p ${XWFNT_DIRNEW}
+	if test_writable ${XWFNT_DIRNEW} ; then
+	    mv ${XWFNT_DIROLD}/$1 ${XWFNT_DIRNEW}/$1
+	fi
     fi
-fi
 }
 
 make_font_link 100dpi
