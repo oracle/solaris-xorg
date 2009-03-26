@@ -270,10 +270,10 @@ f none X11/lib/X11/fonts/misc/hanglm24.pcf.gz		0444 root bin
 d none openwin/lib/X11/fonts/F3bitmaps			0755 root bin
 e fontsdir openwin/lib/X11/fonts/F3bitmaps/fonts.dir	0644 root bin
 e fontsalias openwin/lib/X11/fonts/F3bitmaps/fonts.alias.all	0444 root bin
-s none openwin/lib/X11/fonts/F3bitmaps/courB12.pcf.gz=../75dpi/courB12.pcf.gz
-s none openwin/lib/X11/fonts/F3bitmaps/courBO12.pcf.gz=../75dpi/courBO12.pcf.gz
-s none openwin/lib/X11/fonts/F3bitmaps/courO12.pcf.gz=../75dpi/courO12.pcf.gz
-s none openwin/lib/X11/fonts/F3bitmaps/courR12.pcf.gz=../75dpi/courR12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courB12.pcf.gz=../../../../../X11/lib/X11/fonts/75dpi/courB12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courBO12.pcf.gz=../../../../../X11/lib/X11/fonts/75dpi/courBO12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courO12.pcf.gz=../../../../../X11/lib/X11/fonts/75dpi/courO12.pcf.gz
+s none openwin/lib/X11/fonts/F3bitmaps/courR12.pcf.gz=../../../../../X11/lib/X11/fonts/75dpi/courR12.pcf.gz
 f none openwin/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique8.pcf	0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique10.pcf	0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique12.pcf	0444 root bin
