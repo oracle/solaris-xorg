@@ -2,7 +2,7 @@
 #
 # constype 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# @(#)Makefile	1.3	09/03/26
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ MODULE_NAME=constype
 MODULE_VERSION=1.0.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = 6822628.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

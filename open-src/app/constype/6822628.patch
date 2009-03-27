@@ -1,0 +1,31 @@
+From 9f47f2b67f0f105c1c396da171ca46b06905301f Mon Sep 17 00:00:00 2001
+From: John Martin <John.M.Martin@Sun.COM>
+Date: Thu, 26 Mar 2009 13:31:09 -0700
+Subject: [PATCH] Sun bug 6822628: constype returns unexpected value
+
+<http://bugs.opensolaris.org/bugdatabase/view_bug.do?bug_id=6822628>
+
+Declare fbid as static to ensure the string returned from it is still
+present when the function returns.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+---
+ constype.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/constype.c b/constype.c
+index 11f3948..9d68a43 100644
+--- a/constype.c
++++ b/constype.c
+@@ -149,7 +149,7 @@ wu_fbid(const char* devname, char** fbname, int* fbtype)
+ 	int fd, ioctl_ret;
+ #ifdef VIS_GETIDENTIFIER
+ 	int vistype;
+-	struct vis_identifier fbid;
++	static struct vis_identifier fbid;
+ #endif
+ 
+ 
+-- 
+1.5.6.5
+
