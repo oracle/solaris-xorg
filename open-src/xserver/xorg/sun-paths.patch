@@ -1,3 +1,14 @@
+--- hw/xfree86/common/xf86Config.c	2009-03-31 11:15:39.134549000 -0700
++++ hw/xfree86/common/xf86Config.c	2009-03-31 11:14:16.834280000 -0700
+@@ -908,7 +908,7 @@ configServerFlags(XF86ConfFlagsPtr flags
+     MessageType from;
+     const char *s;
+ #ifdef XKB
+-    char *rules = "base";
++    char *rules = XKB_DFLT_RULES;
+ #endif
+ 
+     /*
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
 --- hw/xfree86/common/xf86Configure.c	2008-09-23 11:24:58.000000000 -0700
 +++ hw/xfree86/common/xf86Configure.c	2008-09-24 20:18:22.067988000 -0700

@@ -16,6 +16,7 @@ kdsetmode.patch,-p1
 6685465.patch,-p1
 XkbSetRulesDflts.patch,-p1
 xkb-defaults.patch,-p1
+xkb-ddx-defaults.patch,-p1
 xkb-defaults-compat.patch
 constify-atom-strings.patch,-p1
 resource-names.patch,-p1
