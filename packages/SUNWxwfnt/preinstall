@@ -73,12 +73,30 @@ make_font_link() {
     XWFNT_DIROLD=${PKG_INSTALL_ROOT}/usr/openwin/lib/X11/fonts
     XWFNT_DIRNEW=${PKG_INSTALL_ROOT}/usr/X11/lib/X11/fonts
 
-    if [ -d ${XWFNT_DIROLD}/$1 -a ! -h ${XWFNT_DIROLD}/$1 ]; then
-	/usr/bin/mkdir -p ${XWFNT_DIRNEW}
-	if test_writable ${XWFNT_DIRNEW} ; then
-	    mv ${XWFNT_DIROLD}/$1 ${XWFNT_DIRNEW}/$1
-	fi
-    fi
+## case 0 and 1 test.
+   if[ -d ${XWFNT_DIROLD}/$1 -a ! -h ${XWFNT_DIROLD}/$1 ]; then
+## case 3 test olddir is a hard file.   now is new dir a hard file
+      if[ -d ${XWFNT_DIRNEW}/$1 -a ! -h ${XWFNT_DIRNEW}/$1 ]; then
+## copy contents and remove the old directory
+         if test_writeable ${XWFNT_DIRNEW} ; then
+             /usr/bin/cp -rpP ${XWFNT_DIROLD}/$1/* ${XWFNT_DIRNEW}/$1
+             /usr/bin/rm -rf ${XWFNT_DIROLD}/$1
+         fi
+## case 4 test
+      elif[ -h ${XWFNT_DIRNEW}/$1 ]; then
+## remove the link and move the directory
+         if test_writeable ${XWFNT_DIRNEW} ; then
+               /usr/bin/rm -f ${XWFNT_DIRNEW}/$1
+               /usr/bin/mv ${XWFNT_DIROLD}/$1 ${XWFNT_DIRNEW}/$1
+         fi
+## case 2 test
+      else
+## move the old directory to new location
+         if test_writeable ${XWFNT_DIRNEW} ; then
+               /usr/bin/mv ${XWFNT_DIROLD}/$1 ${XWFNT_DIRNEW}/$1
+         fi
+      fi
+   fi 
 }
 
 make_font_link 100dpi
