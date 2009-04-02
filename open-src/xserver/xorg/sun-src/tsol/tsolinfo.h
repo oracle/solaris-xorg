@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.22     09/03/12 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.23     09/04/02 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -246,8 +246,8 @@ typedef union {
     TsolInfoRec		clientPriv;
     TsolResRec		windowPriv;
     TsolResRec		pixmapPriv;
-    TsolPropPtr		propertyPriv;
-    TsolSelnPtr		selectionPriv;
+    TsolPropRec		propertyPriv;
+    TsolSelnRec		selectionPriv;
 } TsolPrivRec, *TsolPrivPtr;
 
 extern DevPrivateKey tsolPrivKey;
@@ -262,30 +262,10 @@ extern DevPrivateKey tsolPrivKey;
     ((TsolResPtr) dixLookupPrivate(&(pPix)->devPrivates, tsolPrivKey))
 
 #define TsolPropertyPriv(pProp)	\
-    ((TsolPropPtr *) dixLookupPrivate(&(pProp)->devPrivates, tsolPrivKey))
+    ((TsolPropPtr ) dixLookupPrivate(&(pProp)->devPrivates, tsolPrivKey))
 
 #define TsolSelectionPriv(pSel) \
-    ((TsolSelnPtr *) dixLookupPrivate(&(pSel)->devPrivates, tsolPrivKey))
-
-#if 0
-/*
- * NodeRec struct defined here is used instead of the
- * one defined in atom.c. This is used in policy functions
- */
-typedef struct _Node {
-    struct _Node  *left,   *right;
-    Atom           a;
-    unsigned int   fingerPrint;
-    char          *string;
-#ifdef TSOL
-    int            slsize;              /* size of the sl array below */
-    int            clientCount;         /* actual no. of clients */
-    int            IsSpecial;           /* special atoms for polyprops */
-    bslabel_t    **sl;                  /* an array of sl's. */
-#endif /* TSOL */
-} NodeRec, *NodePtr;
-
-#endif
+    ((TsolSelnPtr ) dixLookupPrivate(&(pSel)->devPrivates, tsolPrivKey))
 
 #define NODE_SLSIZE	16	/* increase sl array by this amount */
 typedef struct _TsolNodeRec {

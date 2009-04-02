@@ -146,18 +146,6 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
  DoGetImage(ClientPtr client, int format, Drawable drawable, 
             int x, int y, int width, int height, 
             Mask planemask, xGetImageReply **im_return)
-@@ -3400,6 +3414,11 @@ CloseDownClient(ClientPtr client)
- 	    UngrabServer(client);
- 	}
- 	BITCLEAR(grabWaiters, client->index);
-+#ifdef TSOL
-+        if (pSecHook)
-+            (*pSecHook->DeleteClientFromAnySelections)(client);
-+        else
-+#endif
- 	DeleteClientFromAnySelections(client);
- 	ReleaseActiveGrabs(client);
- 	DeleteClientFontStuff(client);
 diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
 --- dix/events.c	2008-11-05 08:52:17.000000000 -0800
 +++ dix/events.c	2009-02-03 09:48:35.187905000 -0800
@@ -198,81 +186,6 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
  XYToWindow(int x, int y)
  {
      WindowPtr  pWin;
-diff -urp -x '*~' -x '*.orig' dix/property.c dix/property.c
---- dix/property.c	2008-11-05 08:52:17.000000000 -0800
-+++ dix/property.c	2009-02-03 09:48:35.189032000 -0800
-@@ -45,6 +45,34 @@ SOFTWARE.
- 
- ******************************************************************/
- 
-+/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, and/or sell copies of the Software, and to permit persons
-+ * to whom the Software is furnished to do so, provided that the above
-+ * copyright notice(s) and this permission notice appear in all copies of
-+ * the Software and that both the above copyright notice(s) and this
-+ * permission notice appear in supporting documentation.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
-+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
-+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-+ *
-+ * Except as contained in this notice, the name of a copyright holder
-+ * shall not be used in advertising or otherwise to promote the sale, use
-+ * or other dealings in this Software without prior written authorization
-+ * of the copyright holder.
-+ */ 
-+
- #ifdef HAVE_DIX_CONFIG_H
- #include <dix-config.h>
- #endif
-@@ -60,6 +88,11 @@ SOFTWARE.
- #include "swaprep.h"
- #include "xace.h"
- 
-+#ifdef TSOL
-+#include "extnsionst.h"
-+extern SecurityHookPtr pSecHook;
-+#endif /* TSOL */
-+
- /*****************************************************************
-  * Property Stuff
-  *
-@@ -239,6 +272,12 @@ ProcChangeProperty(ClientPtr client)
- 	return(BadAtom);
-     }
- 
-+#ifdef TSOL
-+    if (pSecHook)
-+	err = (*pSecHook->ChangeWindowProperty)(client, pWin, stuff->property,
-+	   stuff->type, (int)format, (int)mode, len, (pointer)&stuff[1], TRUE);
-+    else
-+#endif /* TSOL */
-     err = dixChangeWindowProperty(client, pWin, stuff->property, stuff->type,
- 				  (int)format, (int)mode, len, &stuff[1],
- 				  TRUE);
-@@ -629,6 +668,11 @@ ProcDeleteProperty(ClientPtr client)
- 	return (BadAtom);
-     }
- 
-+#ifdef TSOL
-+    if (pSecHook)
-+	result = (*pSecHook->DeleteProperty)(client, pWin, stuff->property);
-+    else
-+#endif /* TSOL */
-     result = DeleteProperty(client, pWin, stuff->property);
-     if (client->noClientException != Success)
- 	return(client->noClientException);
 diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
 --- dix/window.c	2008-11-05 08:52:17.000000000 -0800
 +++ dix/window.c	2009-02-03 09:48:35.190851000 -0800
@@ -322,18 +235,6 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
  #ifdef DEBUG
  /******
   * PrintWindowTree
-@@ -820,6 +852,11 @@ FreeWindowResources(WindowPtr pWin)
-     ScreenPtr pScreen = pWin->drawable.pScreen;
- 
-     DeleteWindowFromAnySaveSet(pWin);
-+#ifdef TSOL
-+    if (pSecHook)
-+	(*pSecHook->DeleteWindowFromAnySelections)(pWin);
-+    else
-+#endif
-     DeleteWindowFromAnySelections(pWin);
-     DeleteWindowFromAnyEvents(pWin, TRUE);
-     REGION_UNINIT(pScreen, &pWin->clipList);
 @@ -1915,7 +1952,12 @@ IsSiblingAboveMe(
      return(Below);
  }

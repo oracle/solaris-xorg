@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolpolicy.c 1.25     09/02/12 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.26     09/04/02 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -551,6 +551,7 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	Bool do_audit = FALSE;
+	int	rc;
 	int	err_code = BadDrawable;
 	int obj_code = 0;
 	XID obj_id = (XID)NULL;
@@ -567,7 +568,10 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 
 	if (pDraw->type == DRAWABLE_WINDOW)
 	{
-		pWin = (WindowPtr)LookupWindow(pDraw->id, client);
+		rc = dixLookupWindow(&pWin, pDraw->id, client, DixReadAccess);
+		if (rc != Success)
+		    return rc;
+
 		if (pWin == NULL)
 			return (PASSED); /* server will handle bad params */
 		tsolres = TsolWindowPriv(pWin);
@@ -576,7 +580,11 @@ read_pixel(xresource_t res, xmethod_t method, void *resource,
 	}
 	else if (pDraw->type == DRAWABLE_PIXMAP)
 	{
-		pMap = (PixmapPtr)LookupIDByType(pDraw->id, RT_PIXMAP);
+		rc = dixLookupResource((pointer *)&pMap, pDraw->id, RT_PIXMAP,
+				client, DixReadAccess);
+		if (rc != Success)
+		    return rc;
+
 		if (pMap == NULL)
 			return (PASSED); /* server will handle bad params */
 		tsolres = TsolPixmapPriv(pMap);
@@ -673,6 +681,7 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	Bool do_audit = FALSE;
+	int	rc;
 	int	err_code = BadDrawable;
 	int obj_code = 0;
 	XID obj_id = (XID)NULL;
@@ -697,12 +706,20 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 		if (!noPanoramiXExtension)
 		{
 		    panres = (PanoramiXRes *)LookupIDByType(pDraw->id, XRT_WINDOW);
-		    if (panres)
-			pWin = (WindowPtr)LookupWindow(panres->info[0].id, client);
-		} else
-#endif
-		    pWin = (WindowPtr)LookupWindow(pDraw->id, client);
+		    if (panres) {
+		        rc = dixLookupWindow(&pWin, panres->info[0].id, 
+				client, DixWriteAccess);
 
+		        if (rc != Success)
+			    return rc;
+		    }
+		} else
+		    rc = dixLookupWindow(&pWin, pDraw->id, 
+			client, DixWriteAccess);
+
+		    if (rc != Success)
+			return rc;
+#endif
 		if (pWin == NULL)
 			return (PASSED);
 		tsolres = TsolWindowPriv(pWin);
@@ -719,7 +736,10 @@ modify_pixel(xresource_t res, xmethod_t method, void *resource,
 			pMap = (PixmapPtr)LookupIDByType(panres->info[0].id, RT_PIXMAP);
 	    } else
 #endif
-		pMap = (PixmapPtr)LookupIDByType(pDraw->id, RT_PIXMAP);
+		rc = dixLookupResource((pointer *)&pMap, pDraw->id, RT_PIXMAP,
+				client, DixWriteAccess);
+		if (rc != Success)
+		    return rc;
 
 		if (pMap == NULL)
 			return (PASSED);
@@ -1876,22 +1896,14 @@ read_property(xresource_t res, xmethod_t method, void *resource,
 {
 	int ret_stat = PASSED;
 	Bool do_audit = FALSE;
-	int	err_code = BadAtom;
+	int	err_code = BadMatch;
 	PropertyPtr pProp = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolPropPtr tsolprop;
-	TsolPropPtr *tsolpropP;
 
 	/* Initialize property created internally by server */
-	tsolpropP = TsolPropertyPriv(pProp);
-	if (*tsolpropP == NULL)
-	{
-	    *tsolpropP = (pointer)AllocServerTsolProp();
-	    if (*tsolpropP == NULL)
-		return(BadAlloc);
-	}
-	tsolprop = *tsolpropP;
+	tsolprop = TsolPropertyPriv(pProp);
 
 	/*
 	 * MAC Check
@@ -1968,17 +1980,9 @@ modify_property(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolPropPtr tsolprop;
-	TsolPropPtr *tsolpropP;
 
 	/* Initialize property created internally by server */
-	tsolpropP = TsolPropertyPriv(pProp);
-	if (*tsolpropP == NULL)
-	{
-	    *tsolpropP = (pointer)AllocServerTsolProp();
-	    if (*tsolpropP == NULL)
-		return(BadAlloc);
-	}
-	tsolprop = *tsolpropP;
+	tsolprop = TsolPropertyPriv(pProp);
 
 	/*
 	 * MAC Check
@@ -2052,17 +2056,9 @@ destroy_property(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolPropPtr tsolprop;
-	TsolPropPtr *tsolpropP;
 
 	/* Initialize property created internally by server */
-	tsolpropP = TsolPropertyPriv(pProp);
-	if (*tsolpropP == NULL)
-	{
-	    *tsolpropP = (pointer)AllocServerTsolProp();
-	    if (*tsolpropP == NULL)
-		return(BadAlloc);
-	}
-	tsolprop = *tsolpropP;
+	tsolprop = TsolPropertyPriv(pProp);
 
 	/*
 	 * MAC Check
@@ -2404,7 +2400,7 @@ read_selection(xresource_t res, xmethod_t method, void *resource,
 	Selection *selection = resource;
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolSelnPtr tsolseln = *(TsolSelectionPriv(selection));
+	TsolSelnPtr tsolseln = (TsolSelectionPriv(selection));
 
 	/*
 	 * MAC Check
@@ -3240,18 +3236,12 @@ swap_dbe(xresource_t res, xmethod_t method, void *resource,
 /*
  * Return value of 0 success,	errcode for failure
  *
- * Dummy function.
+ * Dummy function means no policy is needed for this access.
  */
 static int
 no_policy(xresource_t res, xmethod_t method, void *resource,
 	void *subject, xpolicy_t policy_flags, void *misc)
 {
-#ifndef NO_TSOL_DEBUG_MESSAGES
-	LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
-		       TSOL_LOG_PREFIX
-		       "policy not implemented for res=%d, method=%d\n",
-		       res, method);
-#endif /* NO_TSOL_DEBUG_MESSAGES */
 	return (PASSED);
 }
 

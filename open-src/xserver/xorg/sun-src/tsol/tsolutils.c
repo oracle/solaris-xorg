@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolutils.c	1.21	09/02/12 SMI"
+#pragma ident   "@(#)tsolutils.c	1.22	09/04/02 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -773,7 +773,7 @@ PolySelection(Atom atom)
 int
 PolyPropReadable(PropertyPtr pProp, ClientPtr client)
 {
-    TsolPropPtr tsolprop = *(TsolPropertyPriv(pProp));
+    TsolPropPtr tsolprop = (TsolPropertyPriv(pProp));
     TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
     while (tsolprop)

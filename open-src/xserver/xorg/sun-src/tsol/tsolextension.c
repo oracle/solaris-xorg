@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.36     09/03/12 SMI"
+#pragma ident   "@(#)tsolextension.c 1.37     09/04/02 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -123,6 +123,8 @@ static HotKeyRec hotkey = {FALSE, 0, 0, 0, 0};
 int tsolMultiLevel = TRUE;
 
 static int OwnerUIDint;
+static Selection *tsol_sel_agnt = NULL; /* entry in CurrentSelection to get seln */
+static Atom tsol_atom_sel_agnt = 0; /* selection agent atom created during init */
 
 int (*TsolSavedProcVector[PROCVECTORSIZE])(ClientPtr client);
 int (*TsolSavedSwappedProcVector[PROCVECTORSIZE])(ClientPtr client);
@@ -137,12 +139,17 @@ static void TsolSetClientInfo(ClientPtr client);
 
 /* XACE hook callbacks */
 static CALLBACK(TsolCheckExtensionAccess);
-static CALLBACK(TsolAceCheckPropertyAccess);
+static CALLBACK(TsolCheckPropertyAccess);
 static CALLBACK(TsolCheckResourceIDAccess);
+static CALLBACK(TsolCheckSendAccess);
+static CALLBACK(TsolCheckReceiveAccess);
+static CALLBACK(TsolCheckDeviceAccess);
+static CALLBACK(TsolCheckSelectionAccess);
 static CALLBACK(TsolProcessKeyboard);
 
 /* other callbacks */
 static CALLBACK(TsolClientStateCallback);
+static CALLBACK(TsolSelectionCallback);
 
 
 /*
@@ -184,10 +191,25 @@ TsolExtensionInit(void)
 	if (!AddCallback(&ClientStateCallback, TsolClientStateCallback, NULL))
 		return;
 
+	if (!AddCallback(&SelectionCallback, TsolSelectionCallback, NULL))
+		return;
+
 	/* Allocate storage in devPrivates */
 	if (!dixRequestPrivate(tsolPrivKey, sizeof (TsolPrivRec))) {
 		ErrorF("TsolExtensionInit: Cannot allocate devPrivate.\n");
 		return;
+	}
+
+	/* Initialize the client info for server itself */
+    	if (serverClient) {
+        	TsolInfoPtr tsolinfo = GetClientTsolInfo(serverClient);
+		if (tsolinfo->sl == NULL) {
+			tsolinfo->sl = (bslabel_t *)lookupSL_low();
+			tsolinfo->uid = 0;
+			tsolinfo->pid = getpid();
+			snprintf(tsolinfo->pname, MAXNAME, "client id %d (pid %d)",
+  				serverClient->index, tsolinfo->pid);
+		}
 	}
 
 	LoadTsolConfig();
@@ -195,19 +217,23 @@ TsolExtensionInit(void)
 	MakeTSOLAtoms();
 	UpdateTsolNode();
 
+	tsol_atom_sel_agnt = MakeAtom("_TSOL_SEL_AGNT", 14, 1);
+
 	/* Initialize security hooks */
 	tsolSecHook.CheckAuthorization = TsolCheckAuthorization;
-	tsolSecHook.ChangeWindowProperty = TsolChangeWindowProperty;
-	tsolSecHook.DeleteProperty = TsolDeleteProperty;
+/*
 	tsolSecHook.DeleteClientFromAnySelections = TsolDeleteClientFromAnySelections;
 	tsolSecHook.DeleteWindowFromAnySelections = TsolDeleteWindowFromAnySelections;
+*/
 	pSecHook = &tsolSecHook;
 
-	XaceRegisterCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess,
-			     NULL);
-	XaceRegisterCallback(XACE_PROPERTY_ACCESS, TsolAceCheckPropertyAccess,
-			     NULL);
+	XaceRegisterCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess, NULL);
+	XaceRegisterCallback(XACE_PROPERTY_ACCESS, TsolCheckPropertyAccess, NULL);
+	XaceRegisterCallback(XACE_SEND_ACCESS, TsolCheckSendAccess, NULL);
+	XaceRegisterCallback(XACE_RECEIVE_ACCESS, TsolCheckReceiveAccess, NULL);
 	XaceRegisterCallback(XACE_EXT_ACCESS, TsolCheckExtensionAccess, NULL);
+	XaceRegisterCallback(XACE_DEVICE_ACCESS, TsolCheckDeviceAccess, NULL);
+	XaceRegisterCallback(XACE_SELECTION_ACCESS, TsolCheckSelectionAccess, NULL);
 	XaceRegisterCallback(XACE_KEY_AVAIL, TsolProcessKeyboard, NULL);
 	XaceRegisterCallback(XACE_AUDIT_BEGIN, TsolAuditStart, NULL);
 	XaceRegisterCallback(XACE_AUDIT_END, TsolAuditEnd, NULL);
@@ -220,32 +246,15 @@ TsolExtensionInit(void)
 
 	/* Replace some of the original Proc vectors with our own TBD */
 	ProcVector[X_InternAtom] = ProcTsolInternAtom;
-	ProcVector[X_SetSelectionOwner] = ProcTsolSetSelectionOwner;
-	ProcVector[X_GetSelectionOwner] = ProcTsolGetSelectionOwner;
-	ProcVector[X_ConvertSelection] = ProcTsolConvertSelection;
-	ProcVector[X_GetProperty] = ProcTsolGetProperty;
-	ProcVector[X_ListProperties] = ProcTsolListProperties;
-	ProcVector[X_ChangeKeyboardMapping] = ProcTsolChangeKeyboardMapping;
-	ProcVector[X_SetPointerMapping] = ProcTsolSetPointerMapping;
-	ProcVector[X_ChangeKeyboardControl] = ProcTsolChangeKeyboardControl;
-	ProcVector[X_Bell] = ProcTsolBell;
-	ProcVector[X_ChangePointerControl] = ProcTsolChangePointerControl;
-	ProcVector[X_SetModifierMapping] = ProcTsolSetModifierMapping;
 
 	ProcVector[X_CreateWindow] = ProcTsolCreateWindow;
-	/* ProcVector[X_ChangeWindowAttributes] = ProcTsolChangeWindowAttributes; */
+	ProcVector[X_ChangeWindowAttributes] = ProcTsolChangeWindowAttributes;
 	ProcVector[X_ConfigureWindow] = ProcTsolConfigureWindow;
 	ProcVector[X_CirculateWindow] = ProcTsolCirculateWindow;
 	ProcVector[X_ReparentWindow] = ProcTsolReparentWindow;
-	ProcVector[X_SetInputFocus] = ProcTsolSetInputFocus;
-	ProcVector[X_GetInputFocus] = ProcTsolGetInputFocus;
-	ProcVector[X_SendEvent] = ProcTsolSendEvent;
-	ProcVector[X_SetInputFocus] = ProcTsolSetInputFocus;
-	ProcVector[X_GetInputFocus] = ProcTsolGetInputFocus;
 	ProcVector[X_GetGeometry] = ProcTsolGetGeometry;
 	ProcVector[X_GrabServer] = ProcTsolGrabServer;
 	ProcVector[X_UngrabServer] = ProcTsolUngrabServer;
-	ProcVector[X_CreatePixmap] = ProcTsolCreatePixmap;
 	ProcVector[X_SetScreenSaver] = ProcTsolSetScreenSaver;
 	ProcVector[X_ChangeHosts] = ProcTsolChangeHosts;
 	ProcVector[X_SetAccessControl] = ProcTsolChangeAccessControl;
@@ -253,7 +262,7 @@ TsolExtensionInit(void)
 	ProcVector[X_SetFontPath] = ProcTsolSetFontPath;
 	ProcVector[X_SetCloseDownMode] = ProcTsolChangeCloseDownMode;
 	ProcVector[X_ListInstalledColormaps] = ProcTsolListInstalledColormaps;
-	ProcVector[X_GetImage] = ProcTsolGetImage;
+	/* ProcVector[X_GetImage] = ProcTsolGetImage; */
 	ProcVector[X_QueryTree] = ProcTsolQueryTree;
 	ProcVector[X_QueryPointer] = ProcTsolQueryPointer;
 	ProcVector[X_QueryExtension] = ProcTsolQueryExtension;
@@ -291,20 +300,17 @@ static CALLBACK(
 
 #define CHECK_RESOURCE_POLICY(DIX_MODE, TSOL_TYPE, TSOL_MODE, VAL, ID)	\
 	    if (check_mode & (DIX_MODE)) {				\
-	        if (xtsol_policy((TSOL_TYPE), (TSOL_MODE), (VAL),	\
-				 (ID), client, TSOL_ALL, &reqtype))	\
-			rec->status = BadAccess;			\
-		else 							\
-			rec->status = Success;				\
+	        rec->status = xtsol_policy((TSOL_TYPE), (TSOL_MODE), 	\
+			(VAL), (ID), client, TSOL_ALL, &reqtype);	\
 		check_mode &= ~(DIX_MODE);				\
 	    }
 
     switch (rtype) {
         case RT_GC:
-	    CHECK_RESOURCE_POLICY(DixReadAccess, TSOL_RES_GC, TSOL_READ,
-				  NULL, id);
-	    CHECK_RESOURCE_POLICY(DixWriteAccess, TSOL_RES_GC, TSOL_MODIFY,
-				  NULL, id);
+	    CHECK_RESOURCE_POLICY((DixReadAccess|DixGetAttrAccess|DixUseAccess),
+			TSOL_RES_GC, TSOL_READ, NULL, id);
+	    CHECK_RESOURCE_POLICY((DixWriteAccess|DixSetAttrAccess),
+			TSOL_RES_GC, TSOL_MODIFY, NULL, id);
 	    CHECK_RESOURCE_POLICY(DixCreateAccess, TSOL_RES_GC, TSOL_CREATE,
 				  NULL, id);
 	    CHECK_RESOURCE_POLICY(DixDestroyAccess, TSOL_RES_GC, TSOL_DESTROY,
@@ -313,25 +319,80 @@ static CALLBACK(
 	    break;
 
 	case RT_WINDOW:		/* Drawables */
-	    if (check_mode & DixCreateAccess) {
-		/* Replaces InitWindow hook */
-		TsolInitWindow(client, (WindowPtr) rval);
-		check_mode &= ~(DixCreateAccess);
-	    }
-	    if (check_mode & DixReceiveAccess) {
-	        CHECK_RESOURCE_POLICY(DixReceiveAccess, TSOL_RES_WINDOW, 
-		    TSOL_SPECIAL, rval, 0);
-		break;
-	    }
-	    if (check_mode & DixSetAttrAccess) {
-	        CHECK_RESOURCE_POLICY(DixSetAttrAccess, TSOL_RES_WINDOW, 
-		    TSOL_SPECIAL, rval, 0);
-		break;
+	    switch (reqtype) {
+		case X_SetInputFocus:
+	    	    CHECK_RESOURCE_POLICY(DixSetAttrAccess,
+				TSOL_RES_FOCUSWIN, TSOL_MODIFY, rval, 0); 
+		    break;
+		case X_GetInputFocus:
+	    	    CHECK_RESOURCE_POLICY(DixGetAttrAccess,
+				TSOL_RES_FOCUSWIN, TSOL_READ, rval, 0); 
+		    break;
+		case X_ChangeWindowAttributes:
+		    CHECK_RESOURCE_POLICY((DixSetAttrAccess|DixReceiveAccess),
+					TSOL_RES_WINDOW, TSOL_SPECIAL, rval, 0); 
+		    if (rec->status != Success) {
+			WindowPtr pWin = (WindowPtr)rval;
+			if (WindowIsRoot(pWin))
+		    	    rec->status = Success;
+		    }
+		    break;
+		case X_GrabPointer:
+		case X_UngrabPointer:
+		case X_GrabKeyboard:
+		case X_UngrabKeyboard:
+		case X_GrabKey:
+		case X_UngrabKey:
+		case X_GrabButton:
+		case X_UngrabButton:
+	    	    CHECK_RESOURCE_POLICY(DixSetAttrAccess,
+				TSOL_RES_GRABWIN, TSOL_MODIFY, rval, 0); 
+		    break;
+
+		default:
+		    /* CreateWindow, policy check on the parent */
+		    CHECK_RESOURCE_POLICY((DixAddAccess|DixRemoveAccess), 
+					TSOL_RES_WINDOW, TSOL_CREATE, rval, 0);
+
+		    /* Newly created window. Just initialize it. */
+		    if (check_mode & DixCreateAccess) {
+			TsolInitWindow(client, (WindowPtr) rval);
+			check_mode &= ~(DixCreateAccess);
+		    }
+
+		    CHECK_RESOURCE_POLICY((DixReadAccess|DixGetAttrAccess|DixListAccess),
+					TSOL_RES_WINDOW, TSOL_READ, rval, 0);
+		    CHECK_RESOURCE_POLICY((DixWriteAccess|DixSetAttrAccess|DixShowAccess|
+						DixHideAccess|DixManageAccess),
+					TSOL_RES_WINDOW, TSOL_MODIFY, rval, 0); 
+		    CHECK_RESOURCE_POLICY(DixDestroyAccess, TSOL_RES_WINDOW, 
+					TSOL_DESTROY, rval, 0);
+
+		    /* Event access, actual policy is implemented in the hook */
+		    CHECK_RESOURCE_POLICY(DixSendAccess, TSOL_RES_WINDOW,
+					TSOL_SPECIAL, rval, 0);
+		    CHECK_RESOURCE_POLICY(DixReceiveAccess, TSOL_RES_WINDOW,
+					TSOL_SPECIAL, rval, 0);
+
+		    /* Property related access */
+		    CHECK_RESOURCE_POLICY((DixGetPropAccess|DixListPropAccess),
+					TSOL_RES_PROPWIN, TSOL_READ, rval, 0);
+		    CHECK_RESOURCE_POLICY(DixSetPropAccess,
+					TSOL_RES_PROPWIN, TSOL_MODIFY, rval, 0);
+
+		    break;
 	    }
 	    /* The rest falls through to code shared with RT_PIXMAP */
 	case RT_PIXMAP:
 	    /* Drawing operations use pixel access policy */
 	    switch (reqtype) {
+		case X_CreatePixmap:
+		    /* Newly created window. Just initialize it. */
+		    if (check_mode & DixCreateAccess) {
+			TsolInitPixmap(client, (PixmapPtr) rval);
+			check_mode &= ~(DixCreateAccess);
+		    }
+		    break;
 		case X_PolyPoint:
 		case X_PolyLine:
 		case X_PolyArc:
@@ -344,33 +405,41 @@ static CALLBACK(
 		case X_ImageText8:
 		case X_ImageText16:
 		    CHECK_RESOURCE_POLICY((DixReadAccess | DixBlendAccess),
-					  TSOL_RES_PIXEL, TSOL_READ,
-					  rval, 0);
+					  TSOL_RES_PIXEL, TSOL_READ, rval, 0);
 		    CHECK_RESOURCE_POLICY(DixWriteAccess,
-					  TSOL_RES_PIXEL, TSOL_MODIFY,
-					  rval, 0);
+					  TSOL_RES_PIXEL, TSOL_MODIFY, rval, 0);
 		break;
-
-	    /* Property protocols */
-		case X_ChangeProperty:
-		case X_DeleteProperty:
-		case X_GetProperty:
-		case X_ListProperties:
-		case X_RotateProperties:
-		    CHECK_RESOURCE_POLICY((DixGetPropAccess|DixListPropAccess),
-					  TSOL_RES_PROPWIN, TSOL_READ,
-					  rval, 0);
-		    CHECK_RESOURCE_POLICY(DixSetPropAccess,
-					  TSOL_RES_PROPWIN, TSOL_MODIFY,
-					  rval, 0);
-		    break;
+		case X_GetImage:
 		case X_ClearArea:
 		    rec->status = Success;
+		    break;
+		default:
+		    if (check_mode & (DixReadAccess|DixWriteAccess)) {
+			check_mode &= ~(DixReadAccess|DixWriteAccess);
+			rec->status = Success;
+		    }
+/*
+		    CHECK_RESOURCE_POLICY(DixReadAccess,
+					  TSOL_RES_PIXMAP, TSOL_READ, rval, 0);
+		    CHECK_RESOURCE_POLICY(DixWriteAccess,
+					  TSOL_RES_PIXMAP, TSOL_MODIFY, rval, 0);
+*/
 		    break;
 	    }
 	    break;
 
-	  default:
+        case RT_CURSOR:
+	    CHECK_RESOURCE_POLICY((DixUseAccess|DixWriteAccess),
+			TSOL_RES_CURSOR, TSOL_MODIFY, NULL, id);
+	    CHECK_RESOURCE_POLICY(DixCreateAccess,
+			TSOL_RES_CURSOR, TSOL_CREATE, NULL, id);
+	    break;
+        case RT_FONT:
+	    CHECK_RESOURCE_POLICY(DixUseAccess,
+			TSOL_RES_CURSOR, TSOL_READ, NULL, id);
+	    break;
+
+	default:
 		rec->status = Success;
 		break;
     }
@@ -386,7 +455,7 @@ static CALLBACK(
     }
 #endif /* !NO_TSOL_DEBUG_MESSAGES */
 
-    if (rec->status == BadAccess) {
+    if (rec->status != Success) {
 	msgType = X_ERROR;
 	msgVerb = TSOL_MSG_ERROR;
     } else {
@@ -409,6 +478,30 @@ static CALLBACK(
 		   TsolDixAccessModeNameString(access_mode),
 		   TsolRequestNameString(reqtype),
 		   TsolErrorNameString(rec->status));
+}
+
+static
+CALLBACK(TsolSelectionCallback)
+{
+	SelectionInfoRec *pselinfo = (SelectionInfoRec *)calldata;
+	Selection *pSel = pselinfo->selection;
+	TsolSelnPtr tsolseln = TsolSelectionPriv(pSel);
+
+	switch (pselinfo->kind) {
+	case SelectionClientClose:
+	    if (tsol_sel_agnt && pSel->selection ==  tsol_sel_agnt->selection) {
+		tsol_sel_agnt = NULL; /* selection manager died. */
+	    }
+	/* fall through to reset the SL */
+
+	case SelectionWindowDestroy:
+	    tsolseln->sl = NULL; 
+	    break;
+
+	default:
+	    /* All others handled in SelectionAccess handler */
+	    break;
+	}
 }
 
 static
@@ -465,8 +558,12 @@ TsolReset(ExtensionEntry *extension)
 {
     free_win_privsets();
     XaceDeleteCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess, NULL);
-    XaceDeleteCallback(XACE_PROPERTY_ACCESS, TsolAceCheckPropertyAccess, NULL);
+    XaceDeleteCallback(XACE_PROPERTY_ACCESS, TsolCheckPropertyAccess, NULL);
+    XaceDeleteCallback(XACE_SEND_ACCESS, TsolCheckSendAccess, NULL);
+    XaceDeleteCallback(XACE_RECEIVE_ACCESS, TsolCheckReceiveAccess, NULL);
     XaceDeleteCallback(XACE_EXT_ACCESS, TsolCheckExtensionAccess, NULL);
+    XaceDeleteCallback(XACE_DEVICE_ACCESS, TsolCheckDeviceAccess, NULL);
+    XaceDeleteCallback(XACE_SELECTION_ACCESS, TsolCheckSelectionAccess, NULL);
     XaceDeleteCallback(XACE_KEY_AVAIL, TsolProcessKeyboard, NULL);
     XaceDeleteCallback(XACE_AUDIT_BEGIN, TsolAuditStart, NULL);
     XaceDeleteCallback(XACE_AUDIT_END, TsolAuditEnd, NULL);
@@ -779,16 +876,19 @@ ProcSetPropLabel(ClientPtr client)
     bslabel_t   *sl;
     WindowPtr    pWin;
     TsolPropPtr  tsolprop;
-    TsolPropPtr *tsolpropP;
     PropertyPtr  pProp;
     int          err_code;
+    int rc;
 
     REQUEST(xSetPropLabelReq);
 
     REQUEST_AT_LEAST_SIZE(xSetPropLabelReq);
 
 
-    pWin = LookupWindow(stuff->id, client);
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+    if (rc != Success)
+        return rc;
+
     if (!pWin)
     {
         client->errorValue = stuff->id;
@@ -822,15 +922,7 @@ ProcSetPropLabel(ClientPtr client)
     }
 
     /* Initialize property created internally by server */
-    tsolpropP = TsolPropertyPriv(pProp);
-    if (*tsolpropP == NULL)
-    {
-        *tsolpropP = (pointer)AllocServerTsolProp();
-        if (*tsolpropP == NULL)
-	    return(BadAlloc);
-    }
-
-    tsolprop = *tsolpropP;
+    tsolprop = TsolPropertyPriv(pProp);
 
     sl = (bslabel_t *)(stuff + 1);
 
@@ -852,25 +944,24 @@ ProcSetPropUID(ClientPtr client)
 {
     WindowPtr   pWin;
     TsolPropPtr tsolprop;
-    TsolPropPtr *tsolpropP;
     PropertyPtr pProp;
     int         err_code;
+    int 	rc;
 
     REQUEST(xSetPropUIDReq);
 
     REQUEST_SIZE_MATCH(xSetPropUIDReq);
 
-    pWin = LookupWindow(stuff->id, client);
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+    if (rc != Success)
+        return rc;
+
     if (!pWin)
     {
         client->errorValue = stuff->id;
         return (BadWindow);
     }
-    if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin, 0,
-				 client, TSOL_ALL, &(MAJOROP))))
-    {
-        return (err_code);
-    }
+
     if (!ValidAtom(stuff->atom))
     {
         client->errorValue = stuff->atom;
@@ -898,15 +989,8 @@ ProcSetPropUID(ClientPtr client)
         return (err_code);
     }
     /* Initialize property created internally by server */
-    tsolpropP = TsolPropertyPriv(pProp);
-    if (*tsolpropP == NULL)
-    {
-        *tsolpropP = AllocServerTsolProp();
-        if (*tsolpropP == NULL)
-	    return (BadAlloc);
-    }
+    tsolprop = TsolPropertyPriv(pProp);
 
-    tsolprop = *tsolpropP;
     tsolprop->uid = stuff->uid;
 
     return (client->noClientException);
@@ -921,6 +1005,7 @@ ProcSetResLabel(ClientPtr client)
     xEvent      message;
     TsolResPtr  tsolres;
     int         err_code;
+    int		rc;
 
     REQUEST(xSetResLabelReq);
 
@@ -946,7 +1031,10 @@ ProcSetResLabel(ClientPtr client)
             memcpy(&SessionLO, sl, SL_SIZE);
             return (client->noClientException);
         case IsWindow:
-            pWin = LookupWindow(stuff->id, client);
+	    rc = dixLookupWindow(&pWin, stuff->id, client, DixWriteAccess);
+    	    if (rc != Success)
+		return rc;
+
             if (pWin)
             {
                 tsolres = TsolWindowPriv(pWin);
@@ -956,14 +1044,12 @@ ProcSetResLabel(ClientPtr client)
                 client->errorValue = stuff->id;
                 return (BadWindow);
             }
-            if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin,
-					 0, client, TSOL_ALL, &(MAJOROP))))
-            {
-                return (err_code);
-            }
             break;
         case IsPixmap:
-            pMap = (PixmapPtr)LookupIDByType(stuff->id, RT_PIXMAP);
+	    rc = dixLookupResource((pointer *)&pMap, stuff->id, RT_PIXMAP,
+			client, DixWriteAccess);
+    	    if (rc != Success)
+		return rc;
             if (pMap)
             {
                 tsolres = TsolPixmapPriv(pMap);
@@ -972,11 +1058,6 @@ ProcSetResLabel(ClientPtr client)
             {
                 client->errorValue = stuff->id;
                 return (BadPixmap);
-            }
-            if ((err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_MODIFY, pMap,
-					 0, client, TSOL_ALL, &(MAJOROP))))
-            {
-                return (err_code);
             }
             break;
 	default:
@@ -998,7 +1079,10 @@ ProcSetResLabel(ClientPtr client)
 
     if (stuff->resourceType == IsWindow)
     {
-        pWin = LookupWindow(stuff->id, client);
+	rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+    	if (rc != Success)
+	    return rc;
+
         message.u.u.type = ClientMessage; /* 33 */
         message.u.u.detail = 32;
         message.u.clientMessage.window = RootOf(pWin);
@@ -1021,6 +1105,7 @@ ProcSetResUID(ClientPtr client)
     WindowPtr pWin;
     TsolResPtr tsolres;
     int        err_code;
+    int        rc;
 
     REQUEST(xSetResUIDReq);
 
@@ -1053,7 +1138,10 @@ ProcSetResUID(ClientPtr client)
             AddUID(&OwnerUIDint);
             return (client->noClientException);
         case IsWindow:
-            pWin = LookupWindow(stuff->id, client);
+	    rc = dixLookupWindow(&pWin, stuff->id, client, DixWriteAccess);
+    	    if (rc != Success)
+		return rc;
+
             if (pWin)
             {
                 tsolres = TsolWindowPriv(pWin);
@@ -1063,14 +1151,13 @@ ProcSetResUID(ClientPtr client)
                 client->errorValue = stuff->id;
                 return (BadWindow);
             }
-            if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_MODIFY, pWin, 0,
-					 client, TSOL_ALL, &(MAJOROP))))
-            {
-                return (err_code);
-            }
             break;
         case IsPixmap:
-            pMap = (PixmapPtr)LookupIDByType(stuff->id, RT_PIXMAP);
+	    rc = dixLookupResource((pointer *)&pMap, stuff->id, RT_PIXMAP,
+			client, DixWriteAccess);
+    	    if (rc != Success)
+		return rc;
+
             if (pMap)
             {
                 tsolres = TsolPixmapPriv(pMap);
@@ -1079,11 +1166,6 @@ ProcSetResUID(ClientPtr client)
             {
                 client->errorValue = stuff->id;
                 return (BadPixmap);
-            }
-            if ((err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_MODIFY, pMap, 0,
-					 client, TSOL_ALL, &(MAJOROP))))
-            {
-                return (err_code);
             }
             break;
         default:
@@ -1105,6 +1187,7 @@ ProcGetClientAttributes(ClientPtr client)
 {
     int         n;
     int         err_code;
+    int         rc;
     ClientPtr   res_client; /* resource owner client */
     TsolInfoPtr tsolinfo, res_tsolinfo;
     WindowPtr	pWin;
@@ -1115,11 +1198,9 @@ ProcGetClientAttributes(ClientPtr client)
     REQUEST_SIZE_MATCH(xGetClientAttributesReq);
 
     /* Valid window check */
-    if ((pWin = LookupWindow(stuff->id, client)) == NULL)
-    {
-        client->errorValue = stuff->id;
-        return (BadWindow);
-    }
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+    if (rc != Success)
+	return rc;
 
     if (!(res_client = clients[CLIENT_ID(stuff->id)]))
     {
@@ -1169,6 +1250,7 @@ ProcGetClientLabel(ClientPtr client)
 {
     int         n;
     int         reply_length = 0;
+    int         rc;
     int         err_code;
     Bool        write_to_client = 0;
     bslabel_t   *sl;
@@ -1182,11 +1264,9 @@ ProcGetClientLabel(ClientPtr client)
     REQUEST_SIZE_MATCH(xGetClientLabelReq);
 
     /* Valid window check */
-    if ((pWin = LookupWindow(stuff->id, client)) == NULL)
-    {
-        client->errorValue = stuff->id;
-        return (BadWindow);
-    }
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+    if (rc != Success)
+	return rc;
 
     if (!(res_client = clients[CLIENT_ID(stuff->id)]))
     {
@@ -1249,13 +1329,13 @@ ProcGetPropAttributes(ClientPtr client)
 {
     int          n;
     int          reply_length = 0;
-    int          err_code;
+    int          rc;
     Bool         write_to_client = 0;
     PropertyPtr  pProp;
     bslabel_t   *sl;
     WindowPtr    pWin;
-    TsolPropPtr  tsolprop, tmp_prop;
-    TsolPropPtr *tsolpropP;
+    TsolPropPtr  tsolprop;
+    TsolResPtr	tsolres;
     TsolInfoPtr  tsolinfo = GetClientTsolInfo(client);
 
     xGetPropAttributesReply rep;
@@ -1264,17 +1344,10 @@ ProcGetPropAttributes(ClientPtr client)
 
     REQUEST_SIZE_MATCH(xGetPropAttributesReq);
 
-    pWin = LookupWindow(stuff->id, client);
-    if (!pWin)
-    {
-        client->errorValue = stuff->id;
-        return (BadWindow);
-    }
-    if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin, 0,
-				 client, TSOL_ALL, &(MAJOROP))))
-    {
-        return (err_code);
-    }
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+    if (rc != Success)
+	return rc;
+
     if (!ValidAtom(stuff->atom))
     {
         client->errorValue = stuff->atom;
@@ -1285,49 +1358,34 @@ ProcGetPropAttributes(ClientPtr client)
     pProp = wUserProps (pWin);
     while (pProp)
     {
-        if (pProp->propertyName == stuff->atom)
-            break;
+        tsolprop = TsolPropertyPriv(pProp);
+
+        if (pProp->propertyName == stuff->atom) {
+
+            if (tsolpolyinstinfo.enabled) {
+                if (tsolprop->uid == tsolpolyinstinfo.uid &&
+                        tsolprop->sl == tsolpolyinstinfo.sl)
+                    break; /* match found */
+            } else {
+                if (tsolprop->uid == tsolinfo->uid &&
+                        tsolprop->sl == tsolinfo->sl) {
+                    break; /* match found */
+                }
+            }
+        }
         pProp = pProp->next;
     }
 
     if (!pProp)
     {
-        /* property does not exist */
-        client->errorValue = stuff->atom;
-        return (BadAtom);
+        /* property does not exist, use window's attributes */
+	tsolres = TsolWindowPriv(pWin);
+	tsolprop = NULL;
     }
-    tsolpropP = TsolPropertyPriv(pProp);
-    tsolprop = *tsolpropP;
-    tmp_prop = tsolprop;
-    while (tmp_prop)
-    {
-        if (tsolpolyinstinfo.enabled)
-        {
-            if (tmp_prop->uid == tsolpolyinstinfo.uid &&
-                tmp_prop->sl == tsolpolyinstinfo.sl)
-            {
-                tsolprop = tmp_prop;
-                break;
-            }
-        }
-        else
-        {
-            if (tmp_prop->uid == tsolinfo->uid &&
-                tmp_prop->sl == tsolinfo->sl)
-            {
-                tsolprop = tmp_prop;
-                break;
-            }
-        }
-        tmp_prop = tmp_prop->next;
-    }
-    if (!tsolprop)
-    {
-        return (client->noClientException);
-    }
+
     if (stuff->mask & RES_UID)
     {
-        rep.uid = tsolprop->uid;
+        rep.uid = tsolprop ? tsolprop->uid : tsolres->uid;
     }
 
     /* allocate temp storage for labels */
@@ -1339,7 +1397,7 @@ ProcGetPropAttributes(ClientPtr client)
     /* fill the fields as per request mask */
     if (stuff->mask & RES_SL)
     {
-        memcpy(sl, tsolprop->sl, SL_SIZE);
+        memcpy(sl, tsolprop ? tsolprop->sl : tsolres->sl, SL_SIZE);
         rep.sllength = SL_SIZE;
     }
 
@@ -1377,7 +1435,7 @@ ProcGetResAttributes(ClientPtr client)
 {
     int         n;
     int         reply_length = 0;
-    int         err_code;
+    int         rc;
     Bool        write_to_client = 0;
     bslabel_t  *sl;
     PixmapPtr   pMap;
@@ -1401,40 +1459,22 @@ ProcGetResAttributes(ClientPtr client)
     if (stuff->resourceType == IsWindow &&
         (stuff->mask & (RES_UID | RES_SL )))
     {
-        pWin = LookupWindow(stuff->id, client);
-        if (pWin)
-        {
-            tsolres = TsolWindowPriv(pWin);
-        }
-        else
-        {
-            client->errorValue = stuff->id;
-            return (BadWindow);
-        }
-        if ((err_code = xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin, 0,
-				     client, TSOL_ALL, &(MAJOROP))))
-        {
-            return (err_code);
-        }
+	rc = dixLookupWindow(&pWin, stuff->id, client, DixReadAccess);
+	if (rc != Success)
+	    return rc;
+
+	tsolres = TsolWindowPriv(pWin);
     }
+
     if (stuff->resourceType == IsPixmap &&
         (stuff->mask & (RES_UID | RES_SL )))
     {
-        pMap = (PixmapPtr)LookupIDByType(stuff->id, RT_PIXMAP);
-        if (pMap)
-        {
-            tsolres = TsolPixmapPriv(pMap);
-        }
-        else
-        {
-            client->errorValue = stuff->id;
-            return (BadPixmap);
-        }
-        if ((err_code = xtsol_policy(TSOL_RES_PIXMAP, TSOL_READ, pMap, 0,
-				     client, TSOL_ALL, &(MAJOROP))))
-        {
-            return (err_code);
-        }
+	rc = dixLookupResource((pointer *)&pMap, stuff->id, RT_PIXMAP,
+		client, DixWriteAccess);
+	if (rc != Success)
+	    return rc;
+
+	tsolres = TsolPixmapPriv(pMap);
     }
 
     if (stuff->mask & RES_UID)
@@ -1490,6 +1530,7 @@ int
 ProcMakeTPWindow(ClientPtr client)
 {
     WindowPtr pWin = NULL, pParent;
+    int       rc;
     int       err_code;
     TsolInfoPtr  tsolinfo;
 
@@ -1519,7 +1560,10 @@ ProcMakeTPWindow(ClientPtr client)
 
 	FOR_NSCREENS_BACKWARD(j)
 	{
-		pWin = LookupWindow(panres->info[j].id, client);
+		rc = dixLookupWindow(&pWin, panres->info[j].id, 
+			client, DixWriteAccess);
+		if (rc != Success)
+		    return rc;
 
 		/* window should not be root but child of root */
 		if (!pWin || (!pWin->parent))
@@ -1543,7 +1587,10 @@ ProcMakeTPWindow(ClientPtr client)
     } else
 #endif
     {
-	pWin = LookupWindow(stuff->id, client);
+	rc = dixLookupWindow(&pWin, stuff->id, client, DixWriteAccess);
+	if (rc != Success)
+	    return rc;
+
 
 	/* window should not be root but child of root */
 	if (!pWin || (!pWin->parent))
@@ -1583,13 +1630,16 @@ static int
 ProcMakeTrustedWindow(ClientPtr client)
 {
     WindowPtr    pWin;
+    int          rc;
     int          err_code;
     TsolInfoPtr  tsolinfo;
 
     REQUEST(xMakeTrustedWindowReq);
     REQUEST_SIZE_MATCH(xMakeTrustedWindowReq);
 
-    pWin = LookupWindow(stuff->id, client);
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixWriteAccess);
+    if (rc != Success)
+	return rc;
 
     /* window should not be root but child of root */
     if (!pWin || (!pWin->parent))
@@ -1615,13 +1665,16 @@ static int
 ProcMakeUntrustedWindow(ClientPtr client)
 {
     WindowPtr    pWin;
+    int          rc;
     int          err_code;
     TsolInfoPtr  tsolinfo;
 
     REQUEST(xMakeUntrustedWindowReq);
     REQUEST_SIZE_MATCH(xMakeUntrustedWindowReq);
 
-    pWin = LookupWindow(stuff->id, client);
+    rc = dixLookupWindow(&pWin, stuff->id, client, DixWriteAccess);
+    if (rc != Success)
+	return rc;
 
     /* window should not be root but child of root */
     if (!pWin || (!pWin->parent))
@@ -2060,14 +2113,38 @@ TsolProcessKeyboard)
     }
 }
 
-_X_HIDDEN int
-TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
-			Atom propertyName, Mask access_mode)
+static CALLBACK(
+TsolCheckSendAccess)
 {
-    int returnVal = XTSOL_ALLOW;
-    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-    Mask check_mode = access_mode;
+    XaceSendAccessRec *rec = (XaceSendAccessRec *) calldata;
+    ClientPtr client = rec->client;
+    WindowPtr pWin = rec->pWin;
+
+    if (client == NULL) {
+	rec->status = Success;
+	return;
+    }
+
+    rec->status = xtsol_policy(TSOL_RES_EVENTWIN, TSOL_MODIFY,
+            pWin, 0, client, TSOL_ALL, (&(MAJOROP)));
+}
+
+static CALLBACK(
+TsolCheckReceiveAccess)
+{
+    XaceReceiveAccessRec *rec = (XaceReceiveAccessRec *) calldata;
+
+	rec->status = Success;
+}
+
+static CALLBACK(
+TsolCheckDeviceAccess)
+{
+    XaceDeviceAccessRec *rec = (XaceDeviceAccessRec *) calldata;
+    ClientPtr client = rec->client;
+    Mask access_mode = rec->access_mode;
     int reqtype;
+    TsolInfoPtr tsolinfo;
 
     if (client->requestBuffer) {
 	reqtype = MAJOROP;  /* protocol */
@@ -2075,56 +2152,234 @@ TsolCheckPropertyAccess(ClientPtr client, WindowPtr pWin, PropertyPtr pProp,
 	reqtype = -1;
     }
 
-    if (pProp != NULL) {
-	int isPolyProp = PolyProperty(propertyName, pWin);
-
-#define CHECK_PROPERTY_POLICY(DIX_MODE, TSOL_MODE)			\
-	if (check_mode & (DIX_MODE)) {					\
-	    if (!isPolyProp &&						\
-		xtsol_policy(TSOL_RES_PROPERTY, (TSOL_MODE), pProp,	\
-			     0, client, TSOL_ALL, &reqtype))		\
-		returnVal = XTSOL_IGNORE;				\
-	    check_mode &= ~(DIX_MODE);					\
-	}
-
-	/* Don't need to check for write access on property creation */
-	if (check_mode & DixCreateAccess) {
-	    check_mode &= ~(DixWriteAccess | DixBlendAccess);
-	}
-
-	CHECK_PROPERTY_POLICY(DixCreateAccess, TSOL_CREATE);	    
-	CHECK_PROPERTY_POLICY(DixDestroyAccess, TSOL_DESTROY);
-	CHECK_PROPERTY_POLICY((DixReadAccess | DixGetAttrAccess), TSOL_READ);
-	CHECK_PROPERTY_POLICY((DixWriteAccess | DixBlendAccess), TSOL_MODIFY);
-
-	if (check_mode) { /* Any access mode bits not yet handled ? */
-#ifndef NO_TSOL_DEBUG_MESSAGES
-	    LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
-			   TSOL_LOG_PREFIX
-			   "policy not implemented for CheckPropertyAccess, "
-			   "mode=0x%x (%s)\n", check_mode,
-			   TsolDixAccessModeNameString(check_mode));
-#endif /* !NO_TSOL_DEBUG_MESSAGES */
-	    returnVal = XTSOL_IGNORE;
-	}
+   /*
+    * The Create case seems to be for initialization, so we don't 
+    * want it to fail and there isn't a corresponding protocol request type.
+    */
+    if (access_mode & DixCreateAccess) {
+	rec->status = Success;
+	return;
     }
 
-#ifndef NO_TSOL_DEBUG_MESSAGES
-    LogMessageVerb(X_INFO, TSOL_MSG_ACCESS_TRACE,
-		   TSOL_LOG_PREFIX
-		   "CheckPropertyAccess(%s, 0x%x, %s, %s) = %s\n",
-		   tsolinfo->pname, pWin->drawable.id,
-		   NameForAtom(propertyName),
-		   TsolDixAccessModeNameString(access_mode),
-		   TsolPolicyReturnString(returnVal));
-#endif /* !NO_TSOL_DEBUG_MESSAGES */
+    switch (reqtype) {
+	case X_Bell:
+	    rec->status = xtsol_policy(TSOL_RES_BELL, TSOL_MODIFY, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
 
-    /* Only returns allow if all checks succeeded */        
-    return returnVal;
+	case X_GetPointerControl:
+	    rec->status = xtsol_policy(TSOL_RES_PTRCTL, TSOL_READ,
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+              break;
+
+	case X_ChangePointerControl:
+	    rec->status = xtsol_policy(TSOL_RES_PTRCTL, TSOL_MODIFY, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	case X_GetKeyboardControl:
+	    rec->status = xtsol_policy(TSOL_RES_KBDCTL, TSOL_READ,
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+            break;
+	case X_ChangeKeyboardControl:
+	    rec->status = xtsol_policy(TSOL_RES_KBDCTL, TSOL_MODIFY, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	case X_GetKeyboardMapping:
+	    rec->status = xtsol_policy(TSOL_RES_KEYMAP, TSOL_READ, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	case X_ChangeKeyboardMapping:
+	    rec->status = xtsol_policy(TSOL_RES_KEYMAP, TSOL_MODIFY, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	case X_GetMotionEvents:
+	    rec->status = xtsol_policy(TSOL_RES_PTRMOTION, TSOL_READ, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	case X_QueryKeymap:
+	    rec->status = xtsol_policy(TSOL_RES_KEYMAP, TSOL_READ, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	case X_SetModifierMapping:
+	    rec->status = xtsol_policy(TSOL_RES_MODMAP, TSOL_MODIFY, 
+		NULL, 0, client, TSOL_ALL, &(MAJOROP));
+	    break;
+
+	default:
+#ifndef NO_TSOL_DEBUG_MESSAGES
+               tsolinfo = GetClientTsolInfo(client);
+               LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
+                      TSOL_LOG_PREFIX
+                      "policy not implemented for CheckDeviceAccess(%s, %s, %s) = %s\n",
+                       tsolinfo->pname,
+                      TsolDixAccessModeNameString(access_mode),
+                      TsolRequestNameString(reqtype),
+                      TsolErrorNameString(rec->status));
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
+              rec->status = Success;
+              break;
+    }
+} 
+
+
+static CALLBACK(
+TsolCheckSelectionAccess)
+{
+    XaceSelectionAccessRec *rec = (XaceSelectionAccessRec *) calldata;
+    ClientPtr client = rec->client;
+    Selection *pSel = *rec->ppSel;
+    Atom selAtom = pSel->selection;
+    Mask access_mode = rec->access_mode;
+    int reqtype;
+    TsolSelnPtr tsolseln;
+    TsolInfoPtr tsolinfo; /* tsol client info */
+    tsolinfo = GetClientTsolInfo(client);
+    int polySelection = PolySelection(selAtom);
+
+    rec->status = Success;
+
+    if (client->requestBuffer) {
+        reqtype = MAJOROP;  /* protocol */
+    } else {
+        reqtype = -1;
+    }
+
+    switch (reqtype) {
+      case X_SetSelectionOwner:
+	/*
+	 * Special processing for selection agent. This is how
+	 * we know who to redirect privileged ConvertSelection requests.
+	 * This is also used to fake the onwership of GetSelectionOwner requests.
+	 */
+	if (selAtom == tsol_atom_sel_agnt) {
+	    if (HasWinSelection(tsolinfo)) {
+	        if (tsolinfo->flags & TSOL_AUDITEVENT)
+		   auditwrite(AW_USEOFPRIV, 1, PRIV_WIN_SELECTION,
+			      AW_APPEND, AW_END);
+	        tsol_sel_agnt = pSel; /* owner of this seln */
+	    } else {
+	        if (tsolinfo->flags & TSOL_AUDITEVENT)
+		    auditwrite(AW_USEOFPRIV, 0, PRIV_WIN_SELECTION,
+			      AW_APPEND, AW_END);
+		client->errorValue = selAtom;
+		rec->status = BadAtom;
+		return;
+	   }
+	}
+
+        /*
+         * The callback function is only called if at least one matching selection exists.
+         * If it has no tsol attributes then we know it is the only match so we don't need to
+         * check for polyinstantiation. Just initialize it and return.
+         */
+
+	tsolseln = TsolSelectionPriv(pSel);
+
+	if (tsolseln->sl == NULL) {
+            tsolseln->sl = tsolinfo->sl;
+            tsolseln->uid = tsolinfo->uid;
+	    break;
+	}
+
+	if (polySelection) {
+
+	    /* for poly-selections, search from the beginning to see if sl,uid match */
+	    for (pSel = CurrentSelections; pSel; pSel = pSel->next) {
+
+		if (pSel->selection == selAtom) {
+		    tsolseln = TsolSelectionPriv(pSel);
+		    if (tsolseln->uid == tsolinfo->uid &&
+			 tsolseln->sl == tsolinfo->sl)
+		        break;
+		}
+	    }               
+
+	    if (pSel) {
+		/* found a match */
+	        *rec->ppSel = pSel; 
+	    } else {
+		/*
+		* Doesn't match yet; we'll get called again
+		* After it gets created.
+		*/
+		rec->status = BadMatch;
+	    }
+	} else {
+	    /* Assign the sl & uid */
+	    tsolseln->sl = tsolinfo->sl;
+            tsolseln->uid = tsolinfo->uid;
+	}
+	break;
+
+      case X_GetSelectionOwner:
+      case X_ConvertSelection:
+	    if (polySelection) {
+
+		/* for poly-selections, search from the beginning to see if sl,uid match */
+		for (pSel = CurrentSelections; pSel; pSel = pSel->next) {
+
+		    if (pSel->selection == selAtom) {
+		        tsolseln = TsolSelectionPriv(pSel);
+		        if (tsolseln->uid == tsolinfo->uid &&
+			     tsolseln->sl == tsolinfo->sl)
+		            break;
+		    }
+		}               
+
+	        if (pSel) {
+	            *rec->ppSel = pSel; /* found match */
+	        } else {
+		    /*
+		    * Doesn't match yet; we'll get called again
+		    * After it gets created.
+		    */
+		    rec->status = BadMatch;
+		    return;
+	        }
+	    }
+
+	    /*
+	     * Selection Agent processing. Override the owner
+	     */
+	    tsolseln = TsolSelectionPriv(pSel);
+	    if (!HasWinSelection(tsolinfo) &&
+			(tsolseln->uid != tsolinfo->uid ||
+			tsolseln->sl != tsolinfo->sl) && 
+			pSel->window != None && tsol_sel_agnt != NULL) {
+                pSel = tsol_sel_agnt;
+           } else {
+		if (HasWinSelection(tsolinfo) && 
+			(tsolinfo->flags & TSOL_AUDITEVENT)) {
+		    auditwrite(AW_USEOFPRIV, 1, PRIV_WIN_SELECTION, AW_APPEND, AW_END);
+		}
+	    }
+	    *rec->ppSel = pSel;
+	    break;
+
+       default:
+#ifndef NO_TSOL_DEBUG_MESSAGES
+              tsolinfo = GetClientTsolInfo(client);
+              LogMessageVerb(X_NOT_IMPLEMENTED, TSOL_MSG_UNIMPLEMENTED,
+                     TSOL_LOG_PREFIX
+                     "policy not implemented for CheckSelectionAccess(%s, %s, %s, %s) = %s\n",
+                      tsolinfo->pname,
+                     TsolDixAccessModeNameString(access_mode),
+                     TsolRequestNameString(reqtype),
+                     NameForAtom(selAtom),
+                     TsolErrorNameString(rec->status));
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
+             break;
+    }
 }
 
 static CALLBACK(
-TsolAceCheckPropertyAccess)
+TsolCheckPropertyAccess)
 {
     XacePropertyAccessRec *rec = (XacePropertyAccessRec *) calldata;
     ClientPtr client = rec->client;
@@ -2132,10 +2387,96 @@ TsolAceCheckPropertyAccess)
     PropertyPtr pProp = *rec->ppProp;
     Atom propertyName = pProp->propertyName;
     Mask access_mode = rec->access_mode;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+    int reqtype;
+    TsolPropPtr tsolprop;
+    TsolResPtr tsolres;
+    int tsol_method;
+    Status retcode;
 
-    if (TsolCheckPropertyAccess(client, pWin, pProp,
-				propertyName, access_mode) != XTSOL_ALLOW) {
-	rec->status = BadAccess;
+
+    if (client->requestBuffer) {
+        reqtype = MAJOROP;  /* protocol */
+    } else {
+        reqtype = -1;
+    }
+
+    if (pProp != NULL) {
+	int polyprop = PolyProperty(propertyName, pWin);
+
+	tsolprop = TsolPropertyPriv(pProp);
+
+	if (!polyprop) {
+
+	    tsolres = TsolWindowPriv(pWin);
+	    if (tsolprop->sl == NULL) {
+		/* Initialize with label/uid etc */
+		if (WindowIsRoot(pWin)) {
+		    tsolprop->sl = tsolinfo->sl;        /* use client's sl/uid */
+		    tsolprop->uid = tsolinfo->uid;
+		    tsolprop->pid = tsolinfo->pid;
+		} else {
+		    tsolprop->sl = tsolres->sl;         /* use window's sl/uid */
+		    tsolprop->uid = tsolres->uid;
+		    tsolprop->pid = tsolres->pid;
+                }
+	    }
+
+	    if (access_mode & (DixReadAccess | DixGetAttrAccess))
+		tsol_method = TSOL_READ;
+	    else
+		tsol_method = TSOL_MODIFY;
+
+	    retcode = xtsol_policy(TSOL_RES_PROPERTY, tsol_method, pProp, 0, 
+		client, TSOL_ALL, &reqtype);
+	    if (retcode != Success && (access_mode & DixGetAttrAccess)) {
+		/* If current property is not accessible, move on to 
+		 *  next one for ListProperty
+		 */
+		retcode = Success;
+		*rec->ppProp = pProp->next; /* ignore failurefor List Prop */
+	    }
+	    rec->status = retcode;
+	} else {
+	    /* Handle polyinstantiated property */
+	    if (tsolprop->sl == NULL) { /* New PolyProp */
+		if (!(access_mode & DixCreateAccess)) {
+		    rec->status = BadImplementation;
+		    return;
+	        }
+		/* Initialize with label/uid */
+		tsolprop->sl = tsolinfo->sl;
+		tsolprop->uid = tsolinfo->uid;
+		tsolprop->next = (TsolPropPtr)NULL;
+		rec->status = Success;
+	    } else {
+		/* search for a matching (sl, uid) pair */
+		while (pProp) {
+	    	    tsolprop = TsolPropertyPriv(pProp);
+		    if (pProp->propertyName == propertyName &&
+			    tsolprop->sl == tsolinfo->sl &&
+			    tsolprop->uid == tsolinfo->uid)
+			break; /* match found */
+		    pProp = pProp->next;
+		} 
+
+		if (pProp) {
+		    *rec->ppProp = pProp; /* found */
+		    rec->status = Success;
+		} else {
+		    rec->status = BadMatch;
+	        }
+	    }
+	}
+#ifndef NO_TSOL_DEBUG_MESSAGES
+    LogMessageVerb(X_INFO, TSOL_MSG_ACCESS_TRACE,
+		   TSOL_LOG_PREFIX
+		   "TsolCheckPropertyAccess(%s, 0x%x, %s, %s) = %s\n",
+		   tsolinfo->pname, pWin->drawable.id,
+		   NameForAtom(propertyName),
+		   TsolDixAccessModeNameString(access_mode),
+		   TsolPolicyReturnString(rec->status));
+#endif /* !NO_TSOL_DEBUG_MESSAGES */
     }
 }
 
