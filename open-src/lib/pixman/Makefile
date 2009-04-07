@@ -35,7 +35,7 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.12.0
+MODULE_VERSION=0.14.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
