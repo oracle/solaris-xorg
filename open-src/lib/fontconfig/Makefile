@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.79	09/02/18
+# @(#)Makefile	1.80	09/04/06
 #
 
 # Package name used in tarballs
@@ -72,6 +72,7 @@ MODULE_PREFIX_SET=yes
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = \
     --with-confdir=/etc/fonts --with-default-fonts='--font-dirs-go-here--' \
+    --with-add-fonts=no \
     --with-freetype-config=$(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config \
     --with-cache-dir=/var/cache/fontconfig
 
