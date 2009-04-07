@@ -39,7 +39,8 @@ MODULE_NAME=luit
 MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-man.patch
+SOURCE_PATCHES = solaris-man.patch \
+	6824625.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
