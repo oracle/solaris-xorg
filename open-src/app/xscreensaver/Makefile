@@ -2,7 +2,7 @@
 #
 # Xscreensaver Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.105	09/03/09
+# @(#)Makefile	1.106	09/04/16
 #
 
 # Package name used in tarballs
@@ -90,7 +90,8 @@ SOURCE_PATCHES = \
 	intltool.patch \
 	bug-6769901.patch \
         bug-6736157.patch \
-	bug-6757448.patch
+	bug-6757448.patch \
+	bug-6825374.patch 
 
 # We patch configure.ac & Makefile.am's so need to autoreconf
 AUTORECONF=yes
