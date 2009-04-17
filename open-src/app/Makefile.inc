@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.12	08/11/26
+# @(#)Makefile.inc	1.13	09/04/17
 #
 
 PWD:sh=pwd
@@ -47,6 +47,7 @@ MODTYPE_CONFIGURE_DEPS=$(XPROTO_DEP)
 
 # Flags to build & link applications with
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 
 # Since so many app modules build against the currently private Xorg libXaw,
