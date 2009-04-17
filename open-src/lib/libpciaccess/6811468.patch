@@ -1,0 +1,71 @@
+From be748a7b512bf5597e162694a3b1769132938fe1 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 15 Apr 2009 10:06:49 -0700
+Subject: [PATCH] Sun bug 6811468: pci_device_solx_devfs_probe accesses freed memory
+
+di_fini() is being called in pci_device_solx_devfs_probe()
+The di_fini (3DEVINFO) man page says "All  handles associated with this
+snapshot become invalid after the  call to di_fini()".  But after that,
+eight lines down, the subroutine was calling di_prop_lookup_ints with
+a handle args.node which was stored from walking the device tree, and
+then using the pointers that returned even further down.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+---
+ src/solx_devfs.c |   12 +++++++-----
+ 1 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/src/solx_devfs.c b/src/solx_devfs.c
+index 7d582ad..b56819c 100644
+--- a/src/solx_devfs.c
++++ b/src/solx_devfs.c
+@@ -726,8 +726,8 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+ {
+     uint8_t  config[256];
+     int err;
+-    di_node_t rnode;
+-    i_devnode_t args;
++    di_node_t rnode = DI_NODE_NIL;
++    i_devnode_t args = { 0, 0, 0, DI_NODE_NIL };
+     int *regbuf;
+     pci_regspec_t *reg;
+     int i;
+@@ -736,7 +736,6 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+     uint ent = 0;
+ 
+     err = pci_device_solx_devfs_read( dev, config, 0, 256, & bytes );
+-    args.node = DI_NODE_NIL;
+ 
+     if ( bytes >= 64 ) {
+ 	struct pci_device_private *priv =
+@@ -771,7 +770,6 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+ 	    args.func = dev->func;
+ 	    (void) di_walk_node(rnode, DI_WALK_CLDFIRST,
+ 				(void *)&args, find_target_node);
+-	    di_fini(rnode);
+ 	}
+     }
+     if (args.node != DI_NODE_NIL) {
+@@ -786,7 +784,7 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+     }
+ 
+     if (len <= 0)
+-	return (err);
++	goto cleanup;
+ 
+ 
+     /*
+@@ -868,6 +866,10 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+ 	}
+     }
+ 
++  cleanup:
++    if (rnode != DI_NODE_NIL) {
++	di_fini(rnode);
++    }
+     return (err);
+ }
+ 
+-- 
+1.5.6.5
+
