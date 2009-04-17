@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -208,7 +208,7 @@ sub modify_file {
 	    (?:[\\\s]+ --tag=(?:CC|CXX))?
 	    (?:[\\\s]+ \$\(AM_LIBTOOLFLAGS\) [\\\s]+ \$\(LIBTOOLFLAGS\))?
 	    [\\\s]+ --mode=compile
-	    [\\\s]+ (\$\(CC\)|\$\(CCAS\)|\$\(CXX\))
+	    [\\\s]+ (\$\(CC\)|\$\(CCAS\)|\$\(CXX\)|\$\(COMPILE\))
 	  }{$1 $picflags}xs;
 
     # Remove libtool script from link step
@@ -264,8 +264,8 @@ sub modify_file {
 	my $dirname = $1;
 	my $installrule = <<'END_RULE';
 	list='$(<DIRNAME>_LTLIBRARIES)'; for p in $$list; do \
-	  so=$$(expr $$p : '\(.*\.so\)') ; \
-	  if [ $$p != $$so ] ; then \
+	  so=$${p%+(.+(\d))} ; \
+	  if [[ "$$p" != "$$so" ]] ; then \
 		echo "rm -f $(DESTDIR)$(<DIRNAME>dir)/$$so" ; \
 		rm -f $(DESTDIR)$(<DIRNAME>dir)/$$so ; \
 		echo "ln -s $$p $(DESTDIR)$(<DIRNAME>dir)/$$so" ; \

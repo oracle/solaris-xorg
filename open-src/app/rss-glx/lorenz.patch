@@ -1,0 +1,75 @@
+Make lorenz build on Solaris by renaming time variable to avoid conflict
+with time() function defined in system headers.
+
+Fixes compiler errors:
+"lorenz.cpp", line 68: Error: Multiple declaration for time.
+"lorenz.cpp", line 245: Error: Formal argument t of type float in call to coords_
+at_time(float*, float, float*, float*, float*) is being passed extern "C" long(*)
+(long*).
+"lorenz.cpp", line 246: Error: The operation "extern "C" long(*)(long*) + int" is
+ illegal.
+"lorenz.cpp", line 247: Error: The operation "extern "C" long(*)(long*) + int" is
+ illegal.
+"lorenz.cpp", line 304: Error: The operation "extern "C" long(*)(long*) + int" is
+ illegal.
+"lorenz.cpp", line 305: Error: The operation "extern "C" long(*)(long*) + int" is
+ illegal.
+"lorenz.cpp", line 488: Error: The operand "time" cannot be assigned to.
+"lorenz.cpp", line 546: Error: The operand "*time" cannot be assigned to.
+
+Submitted upstream at:
+https://sourceforge.net/tracker/?func=detail&aid=2767289&group_id=67131&atid=517001
+
+--- rss-glx_0.8.3/other_src/lorenz.cpp	2009-04-12 18:15:01.000000000 -0700
++++ rss-glx_0.8.3/other_src/lorenz.cpp	2009-04-15 18:04:25.480328000 -0700
+@@ -65,7 +65,7 @@
+ static float camera_angle_anim[2] = {5, 179};
+ static float camera_angle_anim_speed=0.1;
+ static float mean[3] = { 0, 0, 0 };
+-static float time;
++static float time_n;
+ static float lastn0 = 0;
+ static float flipn0 = 1;
+ static float deltaflipn0 = 0;
+@@ -242,9 +242,9 @@
+ 	glMatrixMode (GL_MODELVIEW);
+ 	glLoadIdentity ();          
+ 
+-	coords_at_time(lorenz_coords, time,   &p1[0], &p1[1], &p1[2]);
+-	coords_at_time(lorenz_coords, time+10,&p2[0], &p2[1], &p2[2]);
+-	coords_at_time(lorenz_coords, time+15,&p3[0], &p3[1], &p3[2]);
++	coords_at_time(lorenz_coords, time_n,   &p1[0], &p1[1], &p1[2]);
++	coords_at_time(lorenz_coords, time_n+10,&p2[0], &p2[1], &p2[2]);
++	coords_at_time(lorenz_coords, time_n+15,&p3[0], &p3[1], &p3[2]);
+ 
+ 	calc_normal(p1[0], p1[1], p1[2],
+ 			p2[0], p2[1], p2[2],
+@@ -301,8 +301,8 @@
+ 			p2[0], p2[1], p2[2],
+ 			n[0],n[1],n[2]);
+ 
+-	coords_at_time(lorenz_coords, time+10,&p2[0], &p2[1], &p2[2]);
+-	coords_at_time(lorenz_coords, time+2, &p3[0], &p3[1], &p3[2]);
++	coords_at_time(lorenz_coords, time_n+10,&p2[0], &p2[1], &p2[2]);
++	coords_at_time(lorenz_coords, time_n+2, &p3[0], &p3[1], &p3[2]);
+ 
+ 	//set light	
+ 	GLfloat light_position0[] = { p2[0]+n[0], p2[1]+n[1], p2[2]+n[2], 1.0 };
+@@ -485,7 +485,7 @@
+ 	set_camera();
+ 	display();
+ 
+-	time+=37*elapsedTime*camera_speed*num_points/num_precomputed_points;
++	time_n+=37*elapsedTime*camera_speed*num_points/num_precomputed_points;
+ 
+ 	camera_angle+=37*elapsedTime*camera_angle_anim_speed;
+ 	if (camera_angle<camera_angle_anim[0] || camera_angle>camera_angle_anim[1])
+@@ -543,7 +543,7 @@
+ #ifdef DEBUG
+ 	printf("hack_init\n");
+ #endif
+-	time=num_points/3;
++	time_n=num_points/3;
+ 	precompute_lorenz_array();
+ 	reduce_points(num_points_max);
+ 	init_satellites();

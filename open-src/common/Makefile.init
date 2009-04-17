@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.8	09/03/11
+# @(#)Makefile.init	1.9	09/04/16
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -101,7 +101,8 @@ $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
 
 CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst \
 			  -features=extensions
-CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w -mc -norunpath
+CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w -mc -norunpath \
+			  -features=extensions
 
 ARCH32_FLAGS_sparc_suncc 	= -m32 -xarch=sparc
 ARCH64_FLAGS_sparc_suncc	= -m64 -xarch=sparc

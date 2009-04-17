@@ -2,7 +2,7 @@
 #
 # Really Slick Screensavers for GLX Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/11/26
+# @(#)Makefile	1.4	09/04/16
 #
 
 # Package name used in tarballs
 MODULE_NAME=rss-glx
 
 # Version number (used in path names)
-MODULE_VERSION=0.8.1
+MODULE_VERSION=0.8.3
 
 # Source tarball/directory name - uses _ instead of default -
 SOURCE_DIRNAME=$(MODULE_NAME)_$(MODULE_VERSION)
@@ -48,9 +48,15 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/rss-glx/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = busyspheres.patch matrixview.patch \
-	install-util.patch cflags.patch kde-config.patch \
-	rss-glx-0.8.1-gcc43-buildfix.patch,-p1
+SOURCE_PATCHES = \
+	pkg-config.patch \
+	matrixview.patch \
+	install-util.patch \
+	cflags.patch \
+	kde-config.patch \
+	lorenz.patch,-p1 \
+	sincosf.patch \
+	sun-cxx.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*src/*.1 reallyslick/*src/*.1
@@ -73,23 +79,20 @@ XSS_DIR=$(X11_DIR)/lib/xscreensaver
 MODULE_PREFIX=$(XSS_DIR)
 MODULE_PREFIX_SET=yes
 
-# We don't use normal $(PROG_CFLAGS) since this is built with gcc/g++
-MODULE_COMPILER=gcc
-MODULE_COMPILER_SET=yes
-
 include ../Makefile.inc
 
-# Configure flag to enable building with -O2 instead of -g
-# Disabled by running "make debug" target
-$(BUILD_DEBUG:yes=$(POUND_SIGN)) RSS_GLX_DEBUGFLAGS= --disable-debug 
-
-# Regen configure script
+# Regen configure script after changing configure.in in several patches
 AUTORECONF=yes
 
-MODULE_CONFIG_OPTS= --disable-sound \
+# Need to fix libtool interference with our linker flags
+DELIBTOOLIZE=yes
+
+MODULE_CONFIG_OPTS=  --disable-sound \
 	--bindir='$$(prefix)/hacks' --mandir=$(X11_DIR)/share/man \
-	--with-configdir=$(XSS_DIR)/config/control-center-2.0 \
-	$(RSS_GLX_DEBUGFLAGS)
+	--with-configdir=$(XSS_DIR)/config/control-center-2.0
+
+# Override LDFLAGS to not include CFLAGS that confuse CC
+MODULE_CONFIG_ENV= LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS)"
 
 # Clear pictures we don't want in build
 source_gen::
@@ -107,8 +110,8 @@ install_gen:: $(RSS_GLX_BIN) $(XSS_AD)
 	-case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac;
 	(cd $(SOURCE_DIR) ; \
 	 for m in $(SUNTOUCHED_MANPAGES) ; do \
-	    mv $(PROTODIR)$(X11_DIR)/share/man/man1/`basename $$m` \
-	       $(PROTODIR)$(X11_DIR)/share/man/man6/`basename $$m .1`.6 ; \
+	    mv $(PROTODIR)$(X11_DIR)/share/man/man1/$$(basename $$m) \
+	       $(PROTODIR)$(X11_DIR)/share/man/man6/$$(basename $$m .1).6 ; \
 	 done )
 
 

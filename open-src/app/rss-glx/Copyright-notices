@@ -1,3 +1,21 @@
+Utility code included in multiple "Really Slick Screensavers" (rss-glx) 
+hack modules is covered by the following notice:
+
+Copyright (C) 1999-2005  Terence M. Welsh
+
+Copyright (C) 2002 Tugrul Galatali <tugrul@galatali.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as 
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
 The colorfire hack is covered by the following notice:
 
 Copyright (c) 1999 by Andreas Gustafsson and Tugrul Galatali.  
@@ -16,6 +34,7 @@ GNU General Public License for more details.
 The hufo_smoke hack is covered by the following notice:
 
 Copyright (c) 2000 by Jeremie Allard and Tugrul Galatali.  
+Copyright (C) 2002  Jeremie Allard (Hufo / N.A.A.)
 
 hufo_smoke is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License version 2 as
@@ -31,6 +50,8 @@ GNU General Public License for more details.
 The hufo_tunnel hack is covered by the following notice:
 
 Copyright (c) 2000 by Jeremie Allard and Tugrul Galatali.  
+Copyright (C) 2002 Andreas Gustafsson
+Copyright (C) 2002 Jeremie Allard (Hufo / N.A.A.)
 
 hufo_tunnel is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License version 2 as
@@ -223,6 +244,21 @@ GNU General Public License for more details.
 
 ------------------------------------------------------------------------------
 
+The hyperspace hack is covered by the following notice:
+
+Copyright (c) 2005 by Terry Walsh and Tugrul Galatali.  
+
+Hyperspace is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+Hyperspace is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
 The plasma hack is covered by the following notice:
 
 Copyright (c) 2002 by Terry Walsh and Tugrul Galatali.  
@@ -262,6 +298,22 @@ it under the terms of the GNU General Public License version 2 as
 published by the Free Software Foundation.
 
 Solarwinds is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The lorenz hack is covered by the following notice:
+
+Copyright (C) 2002, 2009  S?ren Sonnenburg <sonne@debian.org>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.

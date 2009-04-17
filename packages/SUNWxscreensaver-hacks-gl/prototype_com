@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	1.7	08/03/10 SMI"
+# ident	"@(#)prototype_com	1.8	09/04/16 SMI"
 #
 
 i pkginfo
@@ -132,6 +132,7 @@ f none X11/lib/xscreensaver/hacks/hufo_smoke	0555 root bin
 f none X11/lib/xscreensaver/hacks/hufo_tunnel	0555 root bin
 f none X11/lib/xscreensaver/hacks/hyperspace	0555 root bin
 f none X11/lib/xscreensaver/hacks/lattice	0555 root bin
+f none X11/lib/xscreensaver/hacks/lorenz	0555 root bin
 f none X11/lib/xscreensaver/hacks/matrixview	0555 root bin
 f none X11/lib/xscreensaver/hacks/plasma	0555 root bin
 f none X11/lib/xscreensaver/hacks/skyrocket	0555 root bin
@@ -231,6 +232,7 @@ f none X11/share/man/man6/helios.6		0444 root bin
 f none X11/share/man/man6/hufo_smoke.6		0444 root bin
 f none X11/share/man/man6/hufo_tunnel.6		0444 root bin
 f none X11/share/man/man6/lattice.6		0444 root bin
+f none X11/share/man/man6/lorenz.6		0444 root bin
 f none X11/share/man/man6/matrixview.6		0444 root bin
 f none X11/share/man/man6/plasma.6		0444 root bin
 f none X11/share/man/man6/skyrocket.6		0444 root bin
@@ -330,6 +332,7 @@ f none X11/lib/xscreensaver/config/control-center-2.0/hufo_smoke.xml	0444 root b
 f none X11/lib/xscreensaver/config/control-center-2.0/hufo_tunnel.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/hyperspace.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/lattice.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/lorenz.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/matrixview.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/plasma.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/skyrocket.xml	0444 root bin
