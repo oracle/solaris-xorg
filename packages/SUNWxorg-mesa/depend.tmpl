@@ -1,5 +1,6 @@
+##########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -25,23 +26,17 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-# 
 #
-# ident	"@(#)depend.sparc	1.6	08/03/10 SMI"
+##########################################################################
 #
-# XScreenSaver OpenGL display modules
+# ident "@(#)depend.tmpl 1.6     09/04/17 SMI"
+#
+# Mesa OpenGL workalike for Xorg on Solaris
 
-P SUNWcsr	Core Solaris, (Root)
-P SUNWcsu	Core Solaris, (Usr)
-P SUNWcsl	Core Solaris, (Shared Libs)
-P SUNWcar	Core Architecture, (Root)
-P SUNWkvm	Core Architecture, (Usr)
 P SUNWlibmsr	Math & Microtasking Libraries (Root)
-P SUNWglrt	Sun OpenGL for Solaris Runtime Libraries
-P SUNWgnome-base-libs  GNOME base GUI libraries
-P SUNWxwplt	X Window System platform software
-P SUNWxwrtl	X Window System & Graphics Runtime Library Links in /usr/lib
-P SUNWxwsvr	XScreenSaver
-P SUNWxwice	X Window System Inter-Client Exchange (ICE) Components
-P SUNWimagick	ImageMagick - Image Manipulation Utilities and Libraries
-P SUNWgccruntime  GCC Runtime libraries
+P SUNWxorg-server X.Org Foundation Xserver
+P SUNWlexpt	libexpat - XML parser library
+
+# common dependencies
+include ../depend
+

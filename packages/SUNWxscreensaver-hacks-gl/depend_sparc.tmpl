@@ -27,14 +27,14 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_i386	1.3	09/04/17 SMI"
+# ident	"@(#)depend_sparc.tmpl	1.7	09/04/17 SMI"
 #
 # XScreenSaver OpenGL display modules
 
-i depend=depend_i386
+# Platform specific OpenGL dependency
+P SUNWglrt	Sun OpenGL for Solaris Runtime Libraries
 
-#
-# Include ISA independent files (prototype_com)
-#
-!include prototype_com
+# Common dependencies
+include depend_com
+include ../depend
 

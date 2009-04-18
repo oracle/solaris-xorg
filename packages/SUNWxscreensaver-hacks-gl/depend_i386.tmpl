@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,21 +27,13 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)depend.i386	1.3	08/03/10 SMI"
+# ident	"@(#)depend_i386.tmpl	1.4	09/04/17 SMI"
 #
 # XScreenSaver OpenGL display modules
 
-P SUNWcsr	Core Solaris, (Root)
-P SUNWcsu	Core Solaris, (Usr)
-P SUNWcsl	Core Solaris, (Shared Libs)
-P SUNWcar	Core Architecture, (Root)
-P SUNWkvm	Core Architecture, (Usr)
-P SUNWlibmsr	Math & Microtasking Libraries (Root)
+# Platform specific OpenGL dependency
 P SUNWxorg-mesa	Mesa OpenGL for Solaris Runtime Libraries
-P SUNWgnome-base-libs  GNOME base GUI libraries
-P SUNWxwplt	X Window System platform software
-P SUNWxwrtl	X Window System & Graphics Runtime Library Links in /usr/lib
-P SUNWxwsvr	XScreenSaver
-P SUNWxwice	X Window System Inter-Client Exchange (ICE) Components
-P SUNWimagick	ImageMagick - Image Manipulation Utilities and Libraries
-P SUNWgccruntime  GCC Runtime libraries
+
+# Common dependencies
+include depend_com
+include ../depend
