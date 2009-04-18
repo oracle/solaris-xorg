@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	09/01/11
+# @(#)Makefile	1.9	09/04/17
 #
 
 # Package name used in tarballs
 MODULE_NAME=xproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.0.14
+MODULE_VERSION=7.0.15
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
