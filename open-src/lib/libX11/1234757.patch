@@ -41,9 +41,10 @@ For Example, in order for XIL 1.3 to be MT HOT, it must be able to
 make the call to XInitThreads, even if the client has already made
 other Xlib calls.
 
---- include/X11/Xlibint.h	2007-05-16 08:34:44.000000000 -0700
-+++ include/X11/Xlibint.h	2008-02-13 16:25:37.412776000 -0800
-@@ -187,6 +187,29 @@
+diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
+--- include/X11/Xlibint.h	2009-02-20 15:17:13.000000000 -0800
++++ include/X11/Xlibint.h	2009-04-08 00:17:31.818676000 -0700
+@@ -187,6 +187,29 @@ struct _XDisplay
  	struct _X11XCBPrivate *xcb; /* XCB glue private data */
  };
  
@@ -52,9 +53,9 @@ other Xlib calls.
 +    Display *dpy;
 +    struct _DisplayPtrLink *next;
 +};
-+ 
++
 +typedef struct _DisplayPtrLink DisplayPtrLink;
-+ 
++
 +int InitDisplayArrayLock();
 +
 +void RemoveFromDisplayLink(
@@ -73,10 +74,9 @@ other Xlib calls.
  #define XAllocIDs(dpy,ids,n) (*(dpy)->idlist_alloc)(dpy,ids,n)
  
  /*
-
 diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2007-05-17 06:53:58.000000000 -0700
-+++ src/OpenDis.c	2008-02-12 21:00:38.937312000 -0800
+--- src/OpenDis.c	2009-04-06 16:48:55.000000000 -0700
++++ src/OpenDis.c	2009-04-08 00:17:31.819345000 -0700
 @@ -62,6 +62,11 @@ typedef struct {
  } _XBigReqState;
  #endif /* !USE_XCB */
@@ -89,9 +89,9 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  #ifdef XTHREADS
  #include "locking.h"
  int  (*_XInitDisplayLock_fn)(Display *dpy) = NULL;
-@@ -267,6 +272,13 @@ XOpenDisplay (
+@@ -261,6 +266,13 @@ XOpenDisplay (
+ 		return(NULL);
  	}
- #endif
  
 +#ifdef XTHREADS
 +        if (AddToDisplayLink(dpy) == 0) {
@@ -103,9 +103,9 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  	if (!_XPollfdCacheInit(dpy)) {
  	        OutOfMemory (dpy, setup);
  		return(NULL);
-@@ -793,6 +805,10 @@ _XBigReqHandler(
- void _XFreeDisplayStructure(dpy)
- 	register Display *dpy;
+@@ -790,6 +802,10 @@ _XBigReqHandler(
+ 
+ void _XFreeDisplayStructure(Display *dpy)
  {
 +#ifdef XTHREADS
 +        RemoveFromDisplayLink(dpy);
@@ -114,7 +114,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  	while (dpy->ext_procs) {
  	    _XExtension *ext = dpy->ext_procs;
  	    dpy->ext_procs = ext->next;
-@@ -917,6 +933,107 @@ void _XFreeDisplayStructure(dpy)
+@@ -910,6 +926,107 @@ void _XFreeDisplayStructure(Display *dpy
  	Xfree ((char *)dpy);
  }
  
@@ -125,7 +125,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +{
 +    if ( dpy->lock )
 +        return 1;
-+ 
++
 +/*
 + * Attempt to allocate a display array. Return NULL if allocation fails.
 + */
@@ -134,18 +134,18 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +                   (1, sizeof(struct _DisplayPtrLink))) == NULL ) {
 +            return 0;
 +        }
-+ 
++
 +        HeadDisplay->dpy = dpy;
 +        HeadDisplay->next = NULL;
 +        LastDisplay = HeadDisplay;
 +        return 1;
 +    }
-+ 
++
 +    if ((LastDisplay->next = (DisplayPtrLink *) Xcalloc
 +                       (1, sizeof(struct _DisplayPtrLink))) == NULL ) {
 +        return 0;
 +    }
-+ 
++
 +    LastDisplay = LastDisplay->next;
 +    LastDisplay->dpy = dpy;
 +    LastDisplay->next = NULL;
@@ -158,15 +158,15 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +{
 +    DisplayPtrLink *tmp_display  = HeadDisplay;
 +    DisplayPtrLink *prev_display = HeadDisplay;
-+ 
++
 +    if ( dpy->lock )
 +        return;
-+ 
++
 +    while ( tmp_display ) {
 +        if ((tmp_display->dpy == dpy) && (tmp_display->dpy->fd == dpy->fd)){
 +            break;
 +        }
-+ 
++
 +        prev_display = tmp_display;
 +        tmp_display = tmp_display->next;
 +    }
@@ -183,7 +183,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +            HeadDisplay = NULL;
 +            LastDisplay = NULL;
 +        }
-+    } 
++    }
 +    /* If tmp_display is the last node */
 +    else if ( tmp_display == LastDisplay )  {
 +        LastDisplay = prev_display;
@@ -202,7 +202,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +{
 +    DisplayPtrLink *tmp_display  = HeadDisplay;
 +    DisplayPtrLink *prev_display = HeadDisplay;
-+ 
++
 +    while ( tmp_display ) {
 +        if ((tmp_display->dpy) && (!tmp_display->dpy->lock)) {
 +            /* Initialize the display lock */
@@ -213,7 +213,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +        }
 +        tmp_display = tmp_display->next;
 +    }
-+ 
++
 +    return 1;
 +}
 +
@@ -223,9 +223,9 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
     after this returns. */
  
 diff -urp -x '*~' -x '*.orig' src/locking.c src/locking.c
---- src/locking.c	2007-05-16 08:34:44.000000000 -0700
-+++ src/locking.c	2008-02-12 21:00:38.939222000 -0800
-@@ -642,6 +642,11 @@ Status XInitThreads()
+--- src/locking.c	2009-04-06 16:29:10.000000000 -0700
++++ src/locking.c	2009-04-08 00:17:31.819992000 -0700
+@@ -611,6 +611,11 @@ Status XInitThreads(void)
  #endif
  #endif
  

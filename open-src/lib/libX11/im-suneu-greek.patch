@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,29 +28,14 @@
 # of the copyright holder.
 #
 
-5039226 Whitebox animation causes Solaris desktop hang
-
-This problem is caused by a dead lock between java_vm and Xserver:
-Xserver is grabbed by java_vm and waiting for XUngrabServer, java_vm
-thought XUngrabServer was already sent and sends another dga lock
-request to Xserver and blocked on that request. Here is what happened:
-java_vm threads calls XGrabServer and XUngrabServer and then
-Solaris_DGA_GetLock, it seems no problem, but the current
-XUngrabServer requires a XSync call after XUngrabServer in MT
-environment to make sure Xserver is ungrabbed *before* new lock
-requests come in. Without this XSync, a dead lock may formed just like
-this case.
-
-diff -urp -x '*~' -x '*.orig' src/UngrabSvr.c src/UngrabSvr.c
---- src/UngrabSvr.c	2008-10-07 10:18:18.000000000 -0700
-+++ src/UngrabSvr.c	2009-04-08 00:18:04.825622000 -0700
-@@ -41,6 +41,9 @@ XUngrabServer (
-         GetEmptyReq(UngrabServer, req);
-         UnlockDisplay(dpy);
- 	SyncHandle();
-+	/* fix for bug 5039226: desktop hangs */
-+	if (!dpy->synchandler)
-+	    XSync(dpy, 0);
- 	return 1;
- }
+diff -urp -x '*~' -x '*.orig' src/imConv.c src/imConv.c
+--- src/imConv.c	2008-10-07 10:18:19.000000000 -0700
++++ src/imConv.c	2009-04-08 00:19:39.715079000 -0700
+@@ -72,6 +72,7 @@ struct SubstRec {
+ };
  
+ static const struct SubstRec SubstTable[] = {
++    {"suneu-greek", "ISO8859-7"},
+     {"STRING", "ISO8859-1"},
+     {"TIS620", "TIS620-0"},
+     {"UTF-8",  "ISO10646-1"}

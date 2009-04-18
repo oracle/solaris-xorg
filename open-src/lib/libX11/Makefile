@@ -2,7 +2,7 @@
 #
 # X11 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,45 +30,74 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.21	09/04/03
+# @(#)Makefile	1.22	09/04/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.3
+MODULE_VERSION=1.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	lintlib.patch,-p1 \
-	manpages.patch,-p1 \
-	XErrorDB.patch,-p1 \
-	local-transport.patch,-p1 \
-	6739431.patch,-p1 \
+	compose-masculine.patch,-p1 \
+	locale-fi_FI.UTF-8.patch,-p1 \
 	1234757.patch \
 	4010755.patch \
 	4614834.patch \
 	5039226.patch \
-	6409332.patch \
 	solaris-abi.patch \
-	solaris-i18n.patch \
 	solaris-kbd.patch \
 	SolarisIA.patch \
 	sme.patch \
 	4076297.patch \
 	1261271.patch \
-	6686591.patch \
-	6690054.patch \
-	6681985.patch \
-	6691236.patch \
-	6691219.patch \
-	6657999.patch \
-	6715568.patch \
 	6714036.patch \
 	6789219.patch \
-	6737254.patch \
-	6809309.patch
+	im-suneu-greek.patch \
+	im-ximcp.patch \
+	lc-jisx0212.patch \
+	lc-jisx0208.patch \
+	lc-ksc5601.1992-3.patch \
+	lc-gb18030.patch \
+	om-generic.patch \
+	compose.dir.patch \
+	compose-iso8859-1.patch \
+	compose-iso8859-2.patch \
+	compose-iso8859-5.patch \
+	compose-iso8859-6.patch \
+	compose-iso8859-7.patch \
+	compose-iso8859-8.patch \
+	compose-iso8859-9.patch \
+	compose-iso8859-13.patch \
+	compose-iso8859-15.patch \
+	compose-el_GR.UTF-8.patch \
+	compose-en_US.UTF-8.patch \
+	compose-ja_JP.UTF-8.patch \
+	compose-ko_KR.UTF-8.patch \
+	compose-pt_BR.UTF-8.patch \
+	compose-th_TH.UTF-8.patch \
+	compose-zh_CN.UTF-8.patch \
+	compose-zh_HK.UTF-8.patch \
+	compose-zh_TW.UTF-8.patch \
+	locale.aliases.patch \
+	locale-C.patch \
+	locale-iso8859-1.patch \
+	locale-iso8859-6.patch \
+	locale-iso8859-8.patch \
+	locale-en_US.UTF-8.patch \
+	locale-ja.SJIS.patch \
+	locale-ja.patch \
+	locale-ja_JP.UTF-8.patch \
+	locale-ko.patch \
+	locale-ko_KR.UTF-8.patch \
+	locale-th_TH.UTF-8.patch \
+	locale-zh_CN.UTF-8.patch \
+	locale-zh_CN.gb18030.patch \
+	locale-zh_HK.UTF-8.patch \
+	locale-zh_TW.UTF-8.patch \
+	locale-zh_TW.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11

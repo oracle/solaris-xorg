@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,29 +28,45 @@
 # of the copyright holder.
 #
 
-5039226 Whitebox animation causes Solaris desktop hang
-
-This problem is caused by a dead lock between java_vm and Xserver:
-Xserver is grabbed by java_vm and waiting for XUngrabServer, java_vm
-thought XUngrabServer was already sent and sends another dga lock
-request to Xserver and blocked on that request. Here is what happened:
-java_vm threads calls XGrabServer and XUngrabServer and then
-Solaris_DGA_GetLock, it seems no problem, but the current
-XUngrabServer requires a XSync call after XUngrabServer in MT
-environment to make sure Xserver is ungrabbed *before* new lock
-requests come in. Without this XSync, a dead lock may formed just like
-this case.
-
-diff -urp -x '*~' -x '*.orig' src/UngrabSvr.c src/UngrabSvr.c
---- src/UngrabSvr.c	2008-10-07 10:18:18.000000000 -0700
-+++ src/UngrabSvr.c	2009-04-08 00:18:04.825622000 -0700
-@@ -41,6 +41,9 @@ XUngrabServer (
-         GetEmptyReq(UngrabServer, req);
-         UnlockDisplay(dpy);
- 	SyncHandle();
-+	/* fix for bug 5039226: desktop hangs */
-+	if (!dpy->synchandler)
-+	    XSync(dpy, 0);
- 	return 1;
- }
- 
+diff -urp -x '*~' -x '*.orig' nls/locale.alias.pre nls/locale.alias.pre
+--- nls/locale.alias.pre	2009-03-16 17:40:04.000000000 -0700
++++ nls/locale.alias.pre	2009-04-08 00:24:50.438411000 -0700
+@@ -121,7 +121,7 @@ be_BY.MICROSOFT-CP1251:				be_BY.CP1251
+ be_BY.utf8:					be_BY.UTF-8
+ be_BY.utf8@latin:				be_BY.UTF-8@latin
+ bg:						bg_BG.CP1251
+-bg_BG:						bg_BG.CP1251
++bg_BG:						bg_BG.ISO8859-5
+ bg_BG.cp1251:					bg_BG.CP1251
+ bg_BG.microsoftcp1251:				bg_BG.CP1251
+ bg_BG.microsoft-cp1251:				bg_BG.CP1251
+@@ -1138,16 +1138,19 @@ yi_US.cp1255:					yi_US.CP1255
+ yi_US.microsoftcp1255:				yi_US.CP1255
+ yi_US.microsoft-cp1255:				yi_US.CP1255
+ yi_US.MICROSOFT-CP1255:				yi_US.CP1255
+-zh_CN:						zh_CN.gb2312
++zh:							zh_CN.eucCN
++zh_CN:						zh_CN.eucCN
+ zh_CN.Big5:					zh_TW.big5
+ zh_CN.EUC:					zh_CN.eucCN
+ zh_CN.GB2312:					zh_CN.gb2312
+ zh_CN.GBK:					zh_CN.gbk
++zh.GBK:						zh_CN.gbk
+ zh_CN.GB18030:					zh_CN.gb18030
+ zh_CN.big5:					zh_TW.big5
+ zh_CN.euc:					zh_CN.eucCN
+ zh_CN.utf8:					zh_CN.UTF-8
+ ZH_CN.UTF-8:					zh_CN.UTF-8
++zh.UTF-8:					zh_CN.UTF-8
+ zh_HK:						zh_HK.big5hkscs
+ zh_HK.BIG5HK:					zh_HK.big5hkscs
+ zh_HK.Big5hkscs:				zh_HK.big5hkscs
+@@ -1160,7 +1163,7 @@ zh_HK.Big5:					zh_HK.big5
+ zh_HK.utf8:					zh_HK.UTF-8
+ ZH_HK.UTF-8:					zh_HK.UTF-8
+ ZH_SG.UTF-8:					zh_SG.UTF-8
+-zh_TW:						zh_TW.big5
++zh_TW:						zh_TW.eucTW
+ zh_TW.Big5:					zh_TW.big5
+ zh_TW.BIG5:					zh_TW.big5
+ Zh_TW.big5:					zh_TW.big5

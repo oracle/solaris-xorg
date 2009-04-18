@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,29 +28,38 @@
 # of the copyright holder.
 #
 
-5039226 Whitebox animation causes Solaris desktop hang
-
-This problem is caused by a dead lock between java_vm and Xserver:
-Xserver is grabbed by java_vm and waiting for XUngrabServer, java_vm
-thought XUngrabServer was already sent and sends another dga lock
-request to Xserver and blocked on that request. Here is what happened:
-java_vm threads calls XGrabServer and XUngrabServer and then
-Solaris_DGA_GetLock, it seems no problem, but the current
-XUngrabServer requires a XSync call after XUngrabServer in MT
-environment to make sure Xserver is ungrabbed *before* new lock
-requests come in. Without this XSync, a dead lock may formed just like
-this case.
-
-diff -urp -x '*~' -x '*.orig' src/UngrabSvr.c src/UngrabSvr.c
---- src/UngrabSvr.c	2008-10-07 10:18:18.000000000 -0700
-+++ src/UngrabSvr.c	2009-04-08 00:18:04.825622000 -0700
-@@ -41,6 +41,9 @@ XUngrabServer (
-         GetEmptyReq(UngrabServer, req);
-         UnlockDisplay(dpy);
- 	SyncHandle();
-+	/* fix for bug 5039226: desktop hangs */
-+	if (!dpy->synchandler)
-+	    XSync(dpy, 0);
- 	return 1;
+diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XI18N_OBJS nls/iso8859-6/XI18N_OBJS
+--- nls/iso8859-6/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
++++ nls/iso8859-6/XI18N_OBJS	2009-04-08 00:25:28.810325000 -0700
+@@ -3,5 +3,6 @@
+ #	XI18N objects table for iso8859-6 locale
+ #
+ XLC	common/xlcDef	_XlcDefaultLoader	# XLC_open
+-XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
++XIM     common/ximlocal _XimpLocalOpenIM        # XIM_open
++#XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
+ XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
+diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XLC_LOCALE.pre nls/iso8859-6/XLC_LOCALE.pre
+--- nls/iso8859-6/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
++++ nls/iso8859-6/XLC_LOCALE.pre	2009-04-08 00:25:28.812654000 -0700
+@@ -12,8 +12,7 @@ fs0	{
+ 		name		ISO8859-1:GL
+ 	}
+ 	font	{
+-		primary		ISO8859-6:GL
+-		substitute	ISO8859-1:GL
++		primary		ISO8859-1:GL
+ 		vertical_rotate	all
+ 	}
  }
- 
+@@ -22,8 +21,9 @@ fs1	{
+ 	charset	{
+ 		name		ISO8859-6:GR
+ 	}
++	char_len        1
+ 	font	{
+-		primary		ISO8859-6:GR
++		primary		ISO8859-6:GRGL
+ 	}
+ }
+ END XLC_FONTSET

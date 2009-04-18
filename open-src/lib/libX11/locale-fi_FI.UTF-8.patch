@@ -1,0 +1,28 @@
+From 84b7a91ef84f345384e4b0e13907385ca3ca3255 Mon Sep 17 00:00:00 2001
+From: Julien Cristau <jcristau@debian.org>
+Date: Tue, 14 Apr 2009 15:59:57 +0100
+Subject: [PATCH] Fix fi_FI.UTF-8, again
+
+Commit 97fc6babd4ccaf300e25708868aa2a738893dc30 "NLS: Add UTF-8 compose
+file for Finnish" made fi_FI.UTF-8 use a broken empty XLC_LOCALE file.
+This reverts it back to using the en_US.UTF-8 one.
+---
+ nls/locale.dir.pre |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/nls/locale.dir.pre b/nls/locale.dir.pre
+index 4465568..dff0581 100644
+--- a/nls/locale.dir.pre
++++ b/nls/locale.dir.pre
+@@ -336,7 +336,7 @@ en_US.UTF-8/XLC_LOCALE:			es_VE.UTF-8
+ en_US.UTF-8/XLC_LOCALE:			et_EE.UTF-8
+ en_US.UTF-8/XLC_LOCALE:			eu_ES.UTF-8
+ en_US.UTF-8/XLC_LOCALE:			fa_IR.UTF-8
+-fi_FI.UTF-8/XLC_LOCALE:			fi_FI.UTF-8
++en_US.UTF-8/XLC_LOCALE:			fi_FI.UTF-8
+ en_US.UTF-8/XLC_LOCALE:			fo_FO.UTF-8
+ en_US.UTF-8/XLC_LOCALE:			fr_BE.UTF-8
+ en_US.UTF-8/XLC_LOCALE:			fr_CA.UTF-8
+-- 
+1.5.6.5
+

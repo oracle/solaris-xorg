@@ -31,9 +31,9 @@
 1261271 /usr/dist/exe/gnuemacs doesn't work on s297.
 
 diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
---- src/XlibInt.c	2008-02-27 21:08:53.377329000 -0800
-+++ src/XlibInt.c	2008-02-27 21:08:58.411340000 -0800
-@@ -59,6 +59,12 @@ from The Open Group.
+--- src/XlibInt.c	2009-03-24 23:25:37.548747000 -0700
++++ src/XlibInt.c	2009-03-24 23:25:49.514829000 -0700
+@@ -61,6 +61,12 @@ from The Open Group.
  #include <X11/extensions/sme.h>
  #endif /* SME */
  
@@ -46,7 +46,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  #ifdef XTHREADS
  #include "locking.h"
  
-@@ -800,6 +806,17 @@ static void _XFlushInt(
+@@ -819,6 +825,17 @@ static void _XFlushInt(
  	register char *bufindex;
  	_XExtension *ext;
  

@@ -30,8 +30,8 @@
 
 
 diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
---- src/KeyBind.c	2007-05-17 06:53:58.000000000 -0700
-+++ src/KeyBind.c	2008-02-27 21:08:38.067112000 -0800
+--- src/KeyBind.c	2008-10-07 10:18:18.000000000 -0700
++++ src/KeyBind.c	2009-04-08 00:18:26.151824000 -0700
 @@ -47,6 +47,7 @@ in this Software without prior written a
  #define XK_CAUCASUS
  #define XK_VIETNAMESE
@@ -45,11 +45,11 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  #include "Key.h"
  
 +#ifdef SUNSOFT_KBD
-+/* Sun: compose sequence support 
-+ * (state = chars_matched in XComposeStatus) 
++/* Sun: compose sequence support
++ * (state = chars_matched in XComposeStatus)
 + */
-+#include "Suncompose.h" 
-+#include <X11/Sunkeysym.h> 
++#include "Suncompose.h"
++#include <X11/Sunkeysym.h>
 +#define REJECTED        -1
 +#define START           0
 +#define ACCEPTED1       1
@@ -77,8 +77,8 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  	((int)keycode < dpy->min_keycode) || ((int)keycode > dpy->max_keycode))
        return NoSymbol;
  
-+/* Sun comment: We need not protect dpy->keysyms[], because, 
-+ * this is * changed only in the initialize routine and 
++/* Sun comment: We need not protect dpy->keysyms[], because,
++ * this is * changed only in the initialize routine and
 + * XOpenDisplay().
 + */
      syms = &dpy->keysyms[(keycode - dpy->min_keycode) * per];
@@ -102,14 +102,14 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +#ifdef SUNSOFT_KBD
 +    /* Sun: Japanese keypad support */
 +    KeypadKey = 0;
-+    if (per < 5) 
++    if (per < 5)
 +    {
-+        /* in case of Hobo keyboards, the keypad would be 
-+         * superimposed on the other (qwerty) keys. So by doing 
-+         * this * check, we would not get the Japanese keysyms 
++        /* in case of Hobo keyboards, the keypad would be
++         * superimposed on the other (qwerty) keys. So by doing
++         * this * check, we would not get the Japanese keysyms
 +         * on the * Hobo keypad superimposed keys.
 +         */
-+            for (i=0; i < per; i++) 
++            for (i=0; i < per; i++)
 +            {
 +                if (IsKeypadKey(syms[i]))
 +                    KeypadKey = 1;
@@ -118,7 +118,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +#endif /* SUNSOFT_KBD */
 +
      if ((per > 2) && (modifiers & dpy->mode_switch)) {
-+#ifdef SUNSOFT_KBD 
++#ifdef SUNSOFT_KBD
 +/* Sun: ModeSwitch does not apply to function keys (Japanese kbd) */
 +       if (!KeypadKey)
 +       {
@@ -130,7 +130,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +#endif /* SUNSOFT_KBD */
      }
 +
-+#ifdef SUNSOFT_KBD 
++#ifdef SUNSOFT_KBD
 +    if ((modifiers & dpy->num_lock) &&
 +	(per > 1 && (IsKeypadKey(syms[2]) ))) {
 +#else
@@ -141,11 +141,11 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  	    ((modifiers & LockMask) && (dpy->lock_meaning == XK_Shift_Lock)))
  	    *keysym_return = syms[0];
  	else
-+#ifdef SUNSOFT_KBD 
++#ifdef SUNSOFT_KBD
 +	    *keysym_return = syms[2];
 +#else
  	    *keysym_return = syms[1];
-+#endif /* SUNSOFT_KBD */ 
++#endif /* SUNSOFT_KBD */
      } else if (!(modifiers & ShiftMask) &&
  	(!(modifiers & LockMask) || (dpy->lock_meaning == NoSymbol))) {
  	if ((per == 1) || (syms[1] == NoSymbol))
@@ -174,7 +174,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +#endif
 +    )
  {
-     register struct _XKeytrans *p; 
+     register struct _XKeytrans *p;
      int length;
      unsigned long hiBytes;
      register unsigned char c;
@@ -184,7 +184,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +    int      return_val;
 +#endif /* SUNSOFT_KBD */
 +
-+#ifdef SUNSOFT_KBD 
++#ifdef SUNSOFT_KBD
 +    if (!keysym)
 +        return 0;
 +    else
@@ -203,10 +203,10 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  	  ((hiBytes == 0) ||
 +#ifdef SUNSOFT_KBD
 +/* The check for 0x100500 <= hiBytes < 0x100600 is Sun-specific.
-+ * This represents Sun's registered range of vendor-specific 
-+ * keysyms. We need the check so that Sun specific keysyms will 
-+ * pass through this check and onto to be handled by 
-+ * HandleComposeSequence.  
++ * This represents Sun's registered range of vendor-specific
++ * keysyms. We need the check so that Sun specific keysyms will
++ * pass through this check and onto to be handled by
++ * HandleComposeSequence.
 + */
 +          ((0x100500 <= hiBytes) && (hiBytes < 0x100600)) ||
 +/*
@@ -232,7 +232,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  	return 0;
  
 +#ifdef SUNSOFT_KBD
-+    /* if this is a compose sequence, then HandleComposeSequence 
++    /* if this is a compose sequence, then HandleComposeSequence
 +     * already deals w/ this. This is Sun-specific.
 +     */
 +    if (HandleComposeSequence(symbol, buffer, keysym, status, &return_val, event)) {
@@ -276,7 +276,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +        return _XTranslateKeySym(event->display, &symbol, event->state,
 +                         buffer, nbytes, event, status);
 +    }
-+#else 
++#else
      if (keysym)
  	*keysym = symbol;
      /* arguable whether to use (event->state & ~modifiers) here */
@@ -297,9 +297,9 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 + */
 +
 +/* Called from XTranslateKeySym & XkbTranslateKeySymExt
-+ * Look at compose sequence and dead key sequence and try to get 
-+ * a Latin-1 character out of it.  Return 1 if it is able to 
-+ * resolve the lookup based on the info it has, return 0 if it 
++ * Look at compose sequence and dead key sequence and try to get
++ * a Latin-1 character out of it.  Return 1 if it is able to
++ * resolve the lookup based on the info it has, return 0 if it
 + * can't, then XTranslateKeySym needs to do further processing.
 + */
 +
@@ -326,7 +326,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +     * Even if the caller doesn't pass us a compose structure, we'll still
 +     * support compose sequence processing. Note that the client won't be able
 +     * to support multiple compose sequence clients within a single application.
-+     */  
++     */
 +
 +    /* must come first */
 +    if (status != (XComposeStatus *) NULL) {
@@ -349,7 +349,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +            if (compose_state < START || compose_state > ACCEPTED3)                compose_state = START;
 +        }
 +    }
-+ 
++
 +    /* must come second */
 +    if (event->type == KeyPress) {
 +        /* if we've ever seen a KeyPress, we're watching KeyPresses */
@@ -386,10 +386,10 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +    if (IsModifierKey(*keysym)) {
 +      return (0);
 +    }
-+ 
++
 +    if (compose_state == ACCEPTED3)
 +        compose_state = START;
-+ 
++
 +    /* now we're ready */
 +    switch (compose_state) {
 +        case START:
@@ -426,8 +426,8 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +            }
 +            /* else don't change state */
 +            break;
-+ 
-+        case ACCEPTED1:                 /* Got Compose last time */            
++
++        case ACCEPTED1:                 /* Got Compose last time */
 +	    if (*keysym < ASCII_SET_SIZE) {
 +                if (compose_map[*keysym] >= 0) {
 +                    compose_sequence[0] = *keysym;
@@ -439,12 +439,12 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +            else
 +                compose_state = REJECTED;
 +            break;
-+ 
++
 +        case ACCEPTED2:                 /* Got Compose + composable char */
 +
 +            /* bug 4247009, vivekp, set the compose LED off after
 +               compose+composable char is pressed.  */
-+	    SetLed (event->display,COMPOSE_LED, LedModeOff); 
++	    SetLed (event->display,COMPOSE_LED, LedModeOff);
 +            compose_led_is_on = False;
 +            if (*keysym < ASCII_SET_SIZE) {
 +                if (compose_map[*keysym] >= 0) {
@@ -478,12 +478,12 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +            else
 +                compose_state = REJECTED;
 +            break;
-+ 
++
 +        default:
 +            compose_state = START;
 +            break;
 +    }
-+ 
++
 +    if (compose_state == REJECTED)
 +    {
 +        /* bug 4247009, vivekp, set the compose LED off after the
@@ -492,7 +492,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +        SetLed (event->display,COMPOSE_LED, LedModeOff);
 +        compose_led_is_on = False;
 +        compose_state = START;
-+    } 
++    }
 +    if (status != (XComposeStatus *) NULL) {
 +        /*
 +         * Ok, since the caller provided a compose structure,
@@ -502,7 +502,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +        status->compose_ptr = compose_sequence;
 +        status->chars_matched = compose_state;
 +    }
-+ 
++
 +    if (compose_state == START) {
 +        compose_sequence[0] = '\0';
 +        last_composed_keycode = 0;
@@ -519,11 +519,11 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +        }
 +        return(0);
 +    }
-+ 
++
 +    compose_sequence[compose_state-1] = '\0';
 +    last_composed_keycode = event->keycode;
 +    last_composed_keysym = *keysym;
-+ 
++
 +    if (compose_state == ACCEPTED3) {
 +        buffer[0] = *keysym;
 +        *return_val = 1;
@@ -531,10 +531,10 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +    else {
 +        *return_val = 0;
 +    }
-+ 
++
 +    return(1);
 +}
-+ 
++
 +/*
 + * DoCompose - put result in keysym
 + */
@@ -565,7 +565,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +#ifdef XKB
 +    if ((dpy->xkb_info == NULL) || (num != COMPOSE_LED) ||
 +	XkbSetNamedIndicator(dpy,dpy->xkb_info->composeLED,
-+                                True,state,False,NULL) == False) 
++                                True,state,False,NULL) == False)
 +#endif
 +    {
 +	led_control.led_mode = state;
@@ -575,9 +575,9 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +}
 +#endif /* SUNSOFT_KBD */
 diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
---- src/xkb/XKBBind.c	2007-05-16 08:34:44.000000000 -0700
-+++ src/xkb/XKBBind.c	2008-02-27 21:08:38.142812000 -0800
-@@ -582,6 +582,20 @@ XkbTranslateKeySym(	register Display *	d
+--- src/xkb/XKBBind.c	2009-04-06 16:51:07.000000000 -0700
++++ src/xkb/XKBBind.c	2009-04-08 00:18:26.181848000 -0700
+@@ -580,6 +580,20 @@ XkbTranslateKeySym(	register Display *	d
  			int 			nbytes,
  			int *			extra_rtrn)
  {
@@ -598,17 +598,17 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
      register XkbInfoPtr	xkb;
      XkbKSToMBFunc cvtr;
      XPointer priv;
-@@ -623,6 +637,17 @@ XkbTranslateKeySym(	register Display *	d
+@@ -621,6 +635,17 @@ XkbTranslateKeySym(	register Display *	d
  
      n = (*cvtr)(priv,*sym_rtrn,buffer,nbytes,extra_rtrn);
  
-+    /* Add Suns specific compose key handler here. Be sure the special 
-+     * globals are set before calling this function. 
++    /* Add Suns specific compose key handler here. Be sure the special
++     * globals are set before calling this function.
 +     */
 +    {
 +	int return_val;
 +
-+	if (event && HandleComposeSequence(*sym_rtrn, buffer, sym_rtrn, 
++	if (event && HandleComposeSequence(*sym_rtrn, buffer, sym_rtrn,
 +					  status, &return_val, event))
 +	    return return_val;
 +    }
@@ -616,7 +616,7 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
      if ((!xkb->cvt.KSToUpper)&&( mods&LockMask )) {
  	register int i;
  	int change;
-@@ -749,9 +770,9 @@ XLookupString (	register XKeyEvent *	eve
+@@ -747,9 +772,9 @@ XLookupString (	register XKeyEvent *	eve
  #endif
  		    for (n=len=0;rtrn.sym[n]!=XK_VoidSymbol;n++) {
  			if ( nbytes-len > 0 ) {
@@ -628,7 +628,7 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
  			}
  		    }
  		    if ( keysym!=NULL ) {
-@@ -777,16 +798,16 @@ XLookupString (	register XKeyEvent *	eve
+@@ -775,16 +800,16 @@ XLookupString (	register XKeyEvent *	eve
  			len = (int)strlen(buffer);
  		    }
  		    else {
@@ -649,7 +649,7 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
  			}
  		    }
  		    return len;
-@@ -807,7 +828,8 @@ XLookupString (	register XKeyEvent *	eve
+@@ -805,7 +830,8 @@ XLookupString (	register XKeyEvent *	eve
      if (rtrnLen>0)
  	return rtrnLen;
  
@@ -660,9 +660,9 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
  
  
 diff -urp -x '*~' -x '*.orig' src/xkb/XKBlibint.h src/xkb/XKBlibint.h
---- src/xkb/XKBlibint.h	2007-05-17 06:53:58.000000000 -0700
-+++ src/xkb/XKBlibint.h	2008-02-27 21:08:38.143302000 -0800
-@@ -177,10 +177,19 @@ extern int _XTranslateKey(	
+--- src/xkb/XKBlibint.h	2008-10-07 10:18:19.000000000 -0700
++++ src/xkb/XKBlibint.h	2009-04-08 00:18:26.182186000 -0700
+@@ -177,10 +177,19 @@ extern int _XTranslateKey(
  
  extern int	_XTranslateKeySym(
      Display *		/* dpy */,
@@ -670,7 +670,7 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBlibint.h src/xkb/XKBlibint.h
 +    register KeySym *	/* symbol */,
 +#else
      register KeySym 	/* symbol */,
-+#endif    
++#endif
      unsigned int 	/* modifiers */,
      char *		/* buffer */,
      int 		/* nbytes */
@@ -701,8 +701,8 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBlibint.h src/xkb/XKBlibint.h
  
  #endif /* _XKBLIBINT_H_ */
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
---- src/xlibi18n/ICWrap.c	2007-05-16 08:34:44.000000000 -0700
-+++ src/xlibi18n/ICWrap.c	2008-02-27 21:08:38.112005000 -0800
+--- src/xlibi18n/ICWrap.c	2009-01-28 21:09:42.000000000 -0800
++++ src/xlibi18n/ICWrap.c	2009-04-08 00:18:26.182607000 -0700
 @@ -73,6 +73,12 @@ from The Open Group.
  #include "Xlibint.h"
  #include "Xlcint.h"
@@ -716,9 +716,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
  static int
  _XIMNestedListToNestedList(
      XIMArg *nlist,   /* This is the new list */
-@@ -415,9 +421,23 @@ XmbLookupString(ic, ev, buffer, nbytes, 
-     KeySym *keysym;
-     Status *status;
+@@ -403,9 +409,23 @@ int
+ XmbLookupString(XIC ic, XKeyEvent *ev, char *buffer, int nbytes,
+ 		KeySym *keysym, Status *status)
  {
 -    if (ic->core.im)
 -	return (*ic->methods->mb_lookup_string) (ic, ev, buffer, nbytes,
@@ -743,9 +743,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
      return XLookupNone;
  }
  
-@@ -430,9 +450,23 @@ XwcLookupString(ic, ev, buffer, nchars, 
-     KeySym *keysym;
-     Status *status;
+@@ -413,9 +433,23 @@ int
+ XwcLookupString(XIC ic, XKeyEvent *ev, wchar_t *buffer, int nchars,
+ 		KeySym *keysym, Status *status)
  {
 -    if (ic->core.im)
 -	return (*ic->methods->wc_lookup_string) (ic, ev, buffer, nchars,
@@ -766,12 +766,12 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
 +        if (keysym)
 +          *keysym = keysym_temp;
 +	return ret;
-+    }	
++    }
      return XLookupNone;
  }
  
-@@ -446,12 +480,25 @@ Xutf8LookupString(ic, ev, buffer, nbytes
-     Status *status;
+@@ -424,12 +458,25 @@ Xutf8LookupString(XIC ic, XKeyEvent *ev,
+ 		  KeySym *keysym, Status *status)
  {
      if (ic->core.im) {
 +	int ret;
@@ -796,7 +796,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
 +#endif
 +        if (keysym)
 +          *keysym = keysym_temp;
-+	return ret;	
++	return ret;
      }
      return XLookupNone;
  }

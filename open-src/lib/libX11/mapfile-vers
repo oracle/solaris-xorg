@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)mapfile-vers	1.2   08/04/11
+# @(#)mapfile-vers	1.3   09/04/15
 #
 
 # library versioning was first added to libX11 after the X11R6.4 merge, so
@@ -990,6 +990,7 @@ SUNWprivate {
 	_XlcAddCT;
 	_XlcAddCharSet;
 	_XlcAddLoader;
+	_XlcAddGB18030LocaleConverters;
 	_XlcAddUtf8Converters;
 	_XlcAddUtf8LocaleConverters;
 	_XlcCloseConverter;

@@ -28,9 +28,9 @@
 # of the copyright holder.
 #
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2008-06-19 16:55:03.206783000 -0700
-+++ configure.ac	2008-06-19 16:55:15.294676000 -0700
-@@ -126,7 +126,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
+--- configure.ac	2009-04-07 15:18:30.000000000 -0700
++++ configure.ac	2009-04-08 00:18:15.093686000 -0700
+@@ -138,7 +138,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
  	fi
  	AC_DEFINE(USE_DYNAMIC_LC,1,
  		  [Split some i18n functions into loadable modules])
@@ -38,11 +38,11 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +	AC_SUBST(I18N_MODULE_LIBS,'${top_builddir}/src/libX11.so.4 -lc')
  fi
  AC_MSG_RESULT($XLIB_LOADABLE_I18N)
- 	       
+ 
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-06-19 16:55:03.188702000 -0700
-+++ src/Makefile.am	2008-06-19 16:55:15.295042000 -0700
-@@ -373,9 +373,12 @@ if XKB
+--- src/Makefile.am	2008-11-18 22:42:01.000000000 -0800
++++ src/Makefile.am	2009-04-08 00:18:15.094065000 -0700
+@@ -373,9 +373,13 @@ if XKB
  USE_XKB_LIBS = $(XKB_LIBS)
  endif
  
@@ -52,8 +52,8 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +	-M $(top_srcdir)/../../mapfile-order \
 +	-N libXext.so.0
  
--libX11_la_LIBADD = \
-+libX11_la_LIBADD = -lc \
+ libX11_la_LIBADD = \
++	-lc \
  	$(USE_I18N_LIBS) \
  	$(USE_XCMS_LIBS) \
  	$(USE_XKB_LIBS) \

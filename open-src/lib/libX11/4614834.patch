@@ -42,9 +42,9 @@ sure only one thread can access the data at one time fixed the
 problem.
 
 diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
---- src/GetColor.c	2007-05-16 08:34:44.000000000 -0700
-+++ src/GetColor.c	2008-02-12 21:00:49.846700000 -0800
-@@ -57,12 +57,14 @@ XColor *exact_def) /* RETURN */
+--- src/GetColor.c	2008-10-07 10:18:18.000000000 -0700
++++ src/GetColor.c	2009-04-08 00:17:54.349336000 -0700
+@@ -58,12 +58,14 @@ XColor *exact_def) /* RETURN */
      if ((ccc = XcmsCCCOfColormap(dpy, cmap)) != (XcmsCCC)NULL) {
  	const char *tmpName = colorname;
  
@@ -59,18 +59,18 @@ diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
  	    ret = XAllocColor(dpy, cmap, hard_def);
  	    exact_def->pixel = hard_def->pixel;
  	    return(ret);
-@@ -75,6 +77,7 @@ XColor *exact_def) /* RETURN */
+@@ -76,6 +78,7 @@ XColor *exact_def) /* RETURN */
  	     */
  	    break;
  	}
 +	UnlockDisplay(dpy);
      }
+ #endif
  
-     /*
 diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
---- src/LookupCol.c	2007-05-16 08:34:44.000000000 -0700
-+++ src/LookupCol.c	2008-02-12 21:00:49.847158000 -0800
-@@ -55,6 +55,7 @@ XLookupColor (
+--- src/LookupCol.c	2008-10-07 10:18:18.000000000 -0700
++++ src/LookupCol.c	2009-04-08 00:17:54.349566000 -0700
+@@ -56,6 +56,7 @@ XLookupColor (
  	if ((ccc = XcmsCCCOfColormap(dpy, cmap)) != (XcmsCCC)NULL) {
  	    const char *tmpName = spec;
  
@@ -78,7 +78,7 @@ diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
  	    switch (_XcmsResolveColorString(ccc, &tmpName, &cmsColor_exact,
  					    XcmsRGBFormat)) {
  	    case XcmsSuccess:
-@@ -62,6 +63,7 @@ XLookupColor (
+@@ -63,6 +64,7 @@ XLookupColor (
  		_XcmsRGB_to_XColor(&cmsColor_exact, def, 1);
  		memcpy((char *)scr, (char *)def, sizeof(XColor));
  		_XUnresolveColor(ccc, scr);
@@ -86,11 +86,11 @@ diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
  		return(1);
  	    case XcmsFailure:
  	    case _XCMS_NEWNAME:
-@@ -72,6 +74,7 @@ XLookupColor (
+@@ -73,6 +75,7 @@ XLookupColor (
  		 */
  		break;
  	    }
 +	    UnlockDisplay(dpy);
  	}
+ #endif
  
- 	/*

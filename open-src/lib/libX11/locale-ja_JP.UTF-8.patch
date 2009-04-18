@@ -1,0 +1,172 @@
+###############################################################################
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+
+diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XI18N_OBJS nls/ja_JP.UTF-8/XI18N_OBJS
+--- nls/ja_JP.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
++++ nls/ja_JP.UTF-8/XI18N_OBJS	2009-04-08 00:26:30.954518000 -0700
+@@ -5,5 +5,8 @@
+ # $XFree86$
+ #
+ XLC	common/xlcUTF8Load	_XlcUtf8Loader	# XLC_open
+-XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
++XIM	common/xiiimp	_SwitchOpenIM		# XIM_open
++XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_regiser XIM_unregister
++XIM	common/ximlocal	_XimpLocalOpenIM	# XIM_open
++XIM	common/ximp40	_Ximp_OpenIM		# XIM_open
+ XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
+diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC_LOCALE.pre
+--- nls/ja_JP.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
++++ nls/ja_JP.UTF-8/XLC_LOCALE.pre	2009-04-08 00:26:30.954835000 -0700
+@@ -18,7 +18,7 @@ fs0 {
+     name  ISO8859-1:GL
+   }
+   font  {
+-    primary   ISO8859-1:GL
++    primary  JISX0201.1976-0:GL;ISO8859-1:GL
+     vertical_rotate all
+   }
+ }
+@@ -42,18 +42,29 @@ fs2	{
+ 	}
+ }
+ 
+-XCOMM   fs3 class (Korean Character)
++XCOMM	fs3 class (Supplementary Kanji)
+ fs3	{
++        charset {
++                name            JISX0212.1990-0:GL
++                udc_area        \x7521,\x7e7e
++        }
++        font    {
++                primary         JISX0212.1990-0:GL
++        }
++}
++
++XCOMM   fs4 class (Korean Character)
++fs4	{
+ 	charset	{
+-		name	KSC5601.1987-0:GL
++		name	KSC5601.1992-3:GLGR
+ 	}
+ 	font	{
+-		primary	KSC5601.1987-0:GL
++		primary	KSC5601.1992-3:GLGR
+ 	}
+ }
+ 
+-XCOMM   fs4 class (Chinese Han Character)
+-fs4	{
++XCOMM   fs5 class (Chinese Han Character)
++fs5	{
+ 	charset	{
+ 		name	GB2312.1980-0:GL
+ 	}
+@@ -61,8 +72,8 @@ fs4	{
+ 		primary	GB2312.1980-0:GL
+ 	}
+ }
+-XCOMM	fs5 class (Half Kana)
+-fs5	{
++XCOMM	fs6 class (Half Kana)
++fs6	{
+ 	charset	{
+ 		name	JISX0201.1976-0:GR
+ 	}
+@@ -76,12 +87,13 @@ XCOMM other fonts are picked up before i
+ XCOMM Moreover, some iso10646-1 fonts don't have any glyph at all
+ XCOMM in ISO8859-X ranges.
+ 
+-XCOMM fs6 class
+-fs6 {
++XCOMM fs7 class
++fs7 {
+   charset {
+     name  ISO10646-1
+   }
+   font  {
++    load_option     delay_nocheck
+     primary ISO10646-1
+   }
+ }
+@@ -101,7 +113,7 @@ XCOMM	cs0 class
+ cs0	{
+ 	side		GL:Default
+ 	length		1
+-	ct_encoding	ISO8859-1:GL
++	ct_encoding	ISO8859-1:GL;JISX0201.1976-0:GL
+ }
+ 
+ XCOMM	cs1 class
+@@ -120,29 +132,36 @@ cs2	{
+ }
+ 
+ XCOMM	cs3 class
+-cs3     {
+-        side            GL
++cs3	{
++	side		GL
++	length		2
++	ct_encoding	JISX0212.1990-0:GL; JISX0212.1990-0:GR
++}
++
++XCOMM	cs4 class
++cs4     {
++        side            GR:Default
+         length          2
+-        ct_encoding     KSC5601.1987-0:GL; KSC5601.1987-0:GR;                        KSC5601.1987-1:GL; KSC5601.1987-1:GR
++        ct_encoding     KSC5601.1992-3:GLGR
+ 
+ }
+  
+-XCOMM	cs4 class
+-cs4     {
++XCOMM	cs5 class
++cs5     {
+         side            GR
+         length          2
+         ct_encoding     GB2312.1980-0:GL; GB2312.1980-0:GR
+ }
+  
+-XCOMM	cs5 class
+-cs5	{
++XCOMM	cs6 class
++cs6	{
+ 	side		GR
+ 	length		1
+ 	ct_encoding	JISX0201.1976-0:GR
+ }
+ 
+-XCOMM	cs6 class
+-cs6	{
++XCOMM	cs7 class
++cs7	{
+ 	side		none
+ 	ct_encoding	ISO10646-1
+ }

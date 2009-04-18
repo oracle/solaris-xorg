@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.210    08/10/24   Sun Microsystems"
+#      "@(#)prototype_com	35.211    09/04/15   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -653,6 +653,12 @@ f none X11/share/X11/locale/C/Compose				0444 root bin
 f none X11/share/X11/locale/C/XI18N_OBJS			0444 root bin
 f none X11/share/X11/locale/C/XLC_LOCALE			0444 root bin
 
+!search  $HOME/X11/share/X11/locale/am_ET.UTF-8
+d none X11/share/X11/locale/am_ET.UTF-8				0755 root bin
+f none X11/share/X11/locale/am_ET.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/am_ET.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/am_ET.UTF-8/XLC_LOCALE		0444 root bin
+
 !search  $HOME/X11/share/X11/locale/armscii-8
 d none X11/share/X11/locale/armscii-8				0755 root bin
 f none X11/share/X11/locale/armscii-8/Compose			0444 root bin
@@ -670,6 +676,12 @@ d none X11/share/X11/locale/en_US.UTF-8				0755 root bin
 f none X11/share/X11/locale/en_US.UTF-8/Compose			0444 root bin
 f none X11/share/X11/locale/en_US.UTF-8/XI18N_OBJS		0444 root bin
 f none X11/share/X11/locale/en_US.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/fi_FI.UTF-8	
+d none X11/share/X11/locale/fi_FI.UTF-8				0755 root bin
+f none X11/share/X11/locale/fi_FI.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/fi_FI.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/fi_FI.UTF-8/XLC_LOCALE		0444 root bin
 
 !search  $HOME/X11/share/X11/locale/georgian-academy
 d none X11/share/X11/locale/georgian-academy			0755 root bin
@@ -700,7 +712,6 @@ d none X11/share/X11/locale/isiri-3342				0755 root bin
 f none X11/share/X11/locale/isiri-3342/Compose			0444 root bin
 f none X11/share/X11/locale/isiri-3342/XI18N_OBJS		0444 root bin
 f none X11/share/X11/locale/isiri-3342/XLC_LOCALE		0444 root bin
-
 
 !search  $HOME/X11/share/X11/locale/iso8859-1
 d none X11/share/X11/locale/iso8859-1				0755 root bin
@@ -897,6 +908,12 @@ d none X11/share/X11/locale/pt_BR.UTF-8				0755 root bin
 f none X11/share/X11/locale/pt_BR.UTF-8/Compose			0444 root bin
 f none X11/share/X11/locale/pt_BR.UTF-8/XI18N_OBJS		0444 root bin
 f none X11/share/X11/locale/pt_BR.UTF-8/XLC_LOCALE		0444 root bin
+
+!search  $HOME/X11/share/X11/locale/ru_RU.UTF-8
+d none X11/share/X11/locale/ru_RU.UTF-8				0755 root bin
+f none X11/share/X11/locale/ru_RU.UTF-8/Compose			0444 root bin
+f none X11/share/X11/locale/ru_RU.UTF-8/XI18N_OBJS		0444 root bin
+f none X11/share/X11/locale/ru_RU.UTF-8/XLC_LOCALE		0444 root bin
 
 !search  $HOME/X11/share/X11/locale/tatar-cyr
 d none X11/share/X11/locale/tatar-cyr				0755 root bin

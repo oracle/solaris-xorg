@@ -1,0 +1,193 @@
+From fd62d3318c846cd43d66a505946e94704d7d83dc Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Wed, 8 Apr 2009 19:42:25 -0700
+Subject: [PATCH] Revert "Change masculine to ordmasculine in Compose file comments"
+
+This reverts commit 892b401d5acc055803a20e349ede0d64490f2230.
+
+As Julien Cristau correctly points out, I misread the Compose file grammar
+in modules/im/ximcp/imLcPrs.c, and those are keysyms, not comments, and
+the keysym is named XK_masculine in keysymdef.h.   This change is thus a
+bug in the Solaris compose tables to be fixed, not an improvement to bring
+upstream.
+---
+ nls/el_GR.UTF-8/Compose.pre |    8 ++++----
+ nls/en_US.UTF-8/Compose.pre |    8 ++++----
+ nls/fi_FI.UTF-8/Compose.pre |    8 ++++----
+ nls/iso8859-1/Compose.pre   |   16 ++++++++--------
+ nls/iso8859-15/Compose.pre  |    8 ++++----
+ nls/iso8859-9/Compose.pre   |    8 ++++----
+ nls/iso8859-9e/Compose.pre  |    8 ++++----
+ nls/pt_BR.UTF-8/Compose.pre |    8 ++++----
+ 8 files changed, 36 insertions(+), 36 deletions(-)
+
+diff --git a/nls/el_GR.UTF-8/Compose.pre b/nls/el_GR.UTF-8/Compose.pre
+index d96b00d..8d29684 100644
+--- a/nls/el_GR.UTF-8/Compose.pre
++++ b/nls/el_GR.UTF-8/Compose.pre
+@@ -127,10 +127,10 @@ XCOMM Special Character
+ <Multi_key> <underscore> <a>		: "ª"	ordfeminine
+ <Multi_key> <A> <underscore>		: "ª"	ordfeminine
+ <Multi_key> <underscore> <A>		: "ª"	ordfeminine
+-<Multi_key> <o> <underscore>		: "º"	ordmasculine
+-<Multi_key> <underscore> <o>		: "º"	ordmasculine
+-<Multi_key> <O> <underscore>		: "º"	ordmasculine
+-<Multi_key> <underscore> <O>		: "º"	ordmasculine
++<Multi_key> <o> <underscore>		: "º"	masculine
++<Multi_key> <underscore> <o>		: "º"	masculine
++<Multi_key> <O> <underscore>		: "º"	masculine
++<Multi_key> <underscore> <O>		: "º"	masculine
+ <Multi_key> <less> <less>		: "«"	guillemotleft
+ <Multi_key> <greater> <greater>		: "»"	guillemotright
+ <Multi_key> <0> <asciicircum>		: "°"	degree
+diff --git a/nls/en_US.UTF-8/Compose.pre b/nls/en_US.UTF-8/Compose.pre
+index 04eccf4..7c46ddb 100644
+--- a/nls/en_US.UTF-8/Compose.pre
++++ b/nls/en_US.UTF-8/Compose.pre
+@@ -483,10 +483,10 @@ XCOMM Part 3
+ <Multi_key> <asciicircum> <1>    	: "¹"   onesuperior # SUPERSCRIPT ONE
+ <dead_circumflex> <KP_1>         	: "¹"   onesuperior # SUPERSCRIPT ONE
+ <Multi_key> <asciicircum> <KP_1> 	: "¹"   onesuperior # SUPERSCRIPT ONE
+-<dead_circumflex> <Multi_key> <underscore> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
+-<Multi_key> <asciicircum> <underscore> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
+-<dead_circumflex> <Multi_key> <underbar> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
+-<Multi_key> <asciicircum> <underbar> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
++<dead_circumflex> <Multi_key> <underscore> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
++<Multi_key> <asciicircum> <underscore> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
++<dead_circumflex> <Multi_key> <underbar> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
++<Multi_key> <asciicircum> <underbar> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
+ <Multi_key> <1> <4>              	: "¼"   onequarter # VULGAR FRACTION ONE QUARTER
+ <Multi_key> <1> <2>              	: "½"   onehalf # VULGAR FRACTION ONE HALF
+ <Multi_key> <3> <4>              	: "¾"   threequarters # VULGAR FRACTION THREE QUARTERS
+diff --git a/nls/fi_FI.UTF-8/Compose.pre b/nls/fi_FI.UTF-8/Compose.pre
+index 5c5ba0b..9185896 100644
+--- a/nls/fi_FI.UTF-8/Compose.pre
++++ b/nls/fi_FI.UTF-8/Compose.pre
+@@ -479,10 +479,10 @@ XCOMM Part 3
+ <Multi_key> <asciicircum> <1>    	: "¹"   onesuperior # SUPERSCRIPT ONE
+ <dead_circumflex> <KP_1>         	: "¹"   onesuperior # SUPERSCRIPT ONE
+ <Multi_key> <asciicircum> <KP_1> 	: "¹"   onesuperior # SUPERSCRIPT ONE
+-<dead_circumflex> <Multi_key> <underscore> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
+-<Multi_key> <asciicircum> <underscore> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
+-<dead_circumflex> <Multi_key> <underbar> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
+-<Multi_key> <asciicircum> <underbar> <o> 	: "º"   ordmasculine # MASCULINE ORDINAL INDICATOR
++<dead_circumflex> <Multi_key> <underscore> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
++<Multi_key> <asciicircum> <underscore> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
++<dead_circumflex> <Multi_key> <underbar> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
++<Multi_key> <asciicircum> <underbar> <o> 	: "º"   masculine # MASCULINE ORDINAL INDICATOR
+ <Multi_key> <1> <4>              	: "¼"   onequarter # VULGAR FRACTION ONE QUARTER
+ <Multi_key> <1> <2>              	: "½"   onehalf # VULGAR FRACTION ONE HALF
+ <Multi_key> <3> <4>              	: "¾"   threequarters # VULGAR FRACTION THREE QUARTERS
+diff --git a/nls/iso8859-1/Compose.pre b/nls/iso8859-1/Compose.pre
+index 3b25956..cbdf9cc 100644
+--- a/nls/iso8859-1/Compose.pre
++++ b/nls/iso8859-1/Compose.pre
+@@ -104,10 +104,10 @@ XCOMM Special Character
+ <Multi_key> <underscore> <a>		: "\252"	ordfeminine
+ <Multi_key> <A> <underscore>		: "\252"	ordfeminine
+ <Multi_key> <underscore> <A>		: "\252"	ordfeminine
+-<Multi_key> <o> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <o>		: "\272"	ordmasculine
+-<Multi_key> <O> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <O>		: "\272"	ordmasculine
++<Multi_key> <o> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <o>		: "\272"	masculine
++<Multi_key> <O> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <O>		: "\272"	masculine
+ <Multi_key> <less> <less>		: "\253"	guillemotleft
+ <Multi_key> <greater> <greater>		: "\273"	guillemotright
+ <Multi_key> <0> <asciicircum>		: "\260"	degree
+@@ -570,10 +570,10 @@ Ctrl<T> <a> <underscore>		: "\252"	ordfeminine
+ Ctrl<T> <underscore> <a>		: "\252"	ordfeminine
+ Ctrl<T> <A> <underscore>		: "\252"	ordfeminine
+ Ctrl<T> <underscore> <A>		: "\252"	ordfeminine
+-Ctrl<T> <o> <underscore>		: "\272"	ordmasculine
+-Ctrl<T> <underscore> <o>		: "\272"	ordmasculine
+-Ctrl<T> <O> <underscore>		: "\272"	ordmasculine
+-Ctrl<T> <underscore> <O>		: "\272"	ordmasculine
++Ctrl<T> <o> <underscore>		: "\272"	masculine
++Ctrl<T> <underscore> <o>		: "\272"	masculine
++Ctrl<T> <O> <underscore>		: "\272"	masculine
++Ctrl<T> <underscore> <O>		: "\272"	masculine
+ Ctrl<T> <less> <less>			: "\253"	guillemotleft
+ Ctrl<T> <greater> <greater>		: "\273"	guillemotright
+ Ctrl<T> <0> <asciicircum>		: "\260"	degree
+diff --git a/nls/iso8859-15/Compose.pre b/nls/iso8859-15/Compose.pre
+index 9aaeab8..9f80d88 100644
+--- a/nls/iso8859-15/Compose.pre
++++ b/nls/iso8859-15/Compose.pre
+@@ -100,10 +100,10 @@ XCOMM Special Character
+ <Multi_key> <underscore> <a>		: "\252"	ordfeminine
+ <Multi_key> <A> <underscore>		: "\252"	ordfeminine
+ <Multi_key> <underscore> <A>		: "\252"	ordfeminine
+-<Multi_key> <o> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <o>		: "\272"	ordmasculine
+-<Multi_key> <O> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <O>		: "\272"	ordmasculine
++<Multi_key> <o> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <o>		: "\272"	masculine
++<Multi_key> <O> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <O>		: "\272"	masculine
+ <Multi_key> <less> <less>		: "\253"	guillemotleft
+ <Multi_key> <greater> <greater>		: "\273"	guillemotright
+ <Multi_key> <0> <asciicircum>		: "\260"	degree
+diff --git a/nls/iso8859-9/Compose.pre b/nls/iso8859-9/Compose.pre
+index 76cc967..f5d67d0 100644
+--- a/nls/iso8859-9/Compose.pre
++++ b/nls/iso8859-9/Compose.pre
+@@ -98,10 +98,10 @@ XCOMM Special Character
+ <Multi_key> <underscore> <a>		: "\252"	ordfeminine
+ <Multi_key> <A> <underscore>		: "\252"	ordfeminine
+ <Multi_key> <underscore> <A>		: "\252"	ordfeminine
+-<Multi_key> <o> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <o>		: "\272"	ordmasculine
+-<Multi_key> <O> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <O>		: "\272"	ordmasculine
++<Multi_key> <o> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <o>		: "\272"	masculine
++<Multi_key> <O> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <O>		: "\272"	masculine
+ <Multi_key> <less> <less>		: "\253"	guillemotleft
+ <Multi_key> <greater> <greater>		: "\273"	guillemotright
+ <Multi_key> <0> <asciicircum>		: "\260"	degree
+diff --git a/nls/iso8859-9e/Compose.pre b/nls/iso8859-9e/Compose.pre
+index 523583a..2bbb2bd 100644
+--- a/nls/iso8859-9e/Compose.pre
++++ b/nls/iso8859-9e/Compose.pre
+@@ -97,10 +97,10 @@ XCOMM Special Character
+ <Multi_key> <underscore> <a>		: "\252"	ordfeminine
+ <Multi_key> <A> <underscore>		: "\252"	ordfeminine
+ <Multi_key> <underscore> <A>		: "\252"	ordfeminine
+-<Multi_key> <o> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <o>		: "\272"	ordmasculine
+-<Multi_key> <O> <underscore>		: "\272"	ordmasculine
+-<Multi_key> <underscore> <O>		: "\272"	ordmasculine
++<Multi_key> <o> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <o>		: "\272"	masculine
++<Multi_key> <O> <underscore>		: "\272"	masculine
++<Multi_key> <underscore> <O>		: "\272"	masculine
+ <Multi_key> <less> <less>		: "\253"	guillemotleft
+ <Multi_key> <greater> <greater>		: "\273"	guillemotright
+ <Multi_key> <0> <asciicircum>		: "\260"	degree
+diff --git a/nls/pt_BR.UTF-8/Compose.pre b/nls/pt_BR.UTF-8/Compose.pre
+index 7003644..7961893 100644
+--- a/nls/pt_BR.UTF-8/Compose.pre
++++ b/nls/pt_BR.UTF-8/Compose.pre
+@@ -447,10 +447,10 @@ XCOMM group 1: cluster jamos made of three basic jamos
+ <Multi_key> <asciicircum> <1>	: "¹" onesuperior # SUPERSCRIPT ONE
+ <dead_circumflex> <KP_1>	: "¹" onesuperior # SUPERSCRIPT ONE
+ <Multi_key> <asciicircum> <KP_1>	: "¹" onesuperior # SUPERSCRIPT ONE
+-<dead_circumflex> <Multi_key> <underscore> <o>	: "º" ordmasculine # MASCULINE ORDINAL INDICATOR
+-<Multi_key> <asciicircum> <underscore> <o>	: "º" ordmasculine # MASCULINE ORDINAL INDICATOR
+-<dead_circumflex> <Multi_key> <underbar> <o>	: "º" ordmasculine # MASCULINE ORDINAL INDICATOR
+-<Multi_key> <asciicircum> <underbar> <o>	: "º" ordmasculine # MASCULINE ORDINAL INDICATOR
++<dead_circumflex> <Multi_key> <underscore> <o>	: "º" masculine # MASCULINE ORDINAL INDICATOR
++<Multi_key> <asciicircum> <underscore> <o>	: "º" masculine # MASCULINE ORDINAL INDICATOR
++<dead_circumflex> <Multi_key> <underbar> <o>	: "º" masculine # MASCULINE ORDINAL INDICATOR
++<Multi_key> <asciicircum> <underbar> <o>	: "º" masculine # MASCULINE ORDINAL INDICATOR
+ <Multi_key> <1> <4>              	: "¼"   onequarter # VULGAR FRACTION ONE QUARTER
+ <Multi_key> <1> <2>              	: "½"   onehalf # VULGAR FRACTION ONE HALF
+ <Multi_key> <3> <4>              	: "¾"   threequarters # VULGAR FRACTION THREE QUARTERS
+-- 
+1.5.6.5
+

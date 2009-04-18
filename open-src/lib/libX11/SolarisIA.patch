@@ -28,8 +28,8 @@
 # of the copyright holder.
 #
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-02-27 21:08:37.807066000 -0800
-+++ src/Makefile.am	2008-02-27 21:08:42.581207000 -0800
+--- src/Makefile.am	2009-03-24 23:25:04.606874000 -0700
++++ src/Makefile.am	2009-03-24 23:25:15.736876000 -0700
 @@ -357,6 +357,9 @@ libX11_la_SOURCES += \
                    x11_trans.c
  endif
@@ -41,8 +41,8 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  # Figure out which sub-libraries to link into Xlib
  #
 diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2008-02-27 21:08:37.717142000 -0800
-+++ src/OpenDis.c	2008-02-27 21:08:42.585211000 -0800
+--- src/OpenDis.c	2009-03-24 23:25:04.479607000 -0700
++++ src/OpenDis.c	2009-03-24 23:25:15.742861000 -0700
 @@ -47,6 +47,11 @@ in this Software without prior written a
  #include "XKBlib.h"
  #endif /* XKB */
@@ -55,7 +55,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  #if !USE_XCB
  #ifdef X_NOT_POSIX
  #define Size_t unsigned int
-@@ -758,6 +763,21 @@ XOpenDisplay (
+@@ -756,6 +761,21 @@ XOpenDisplay (
  #ifdef XKB
  	XkbUseExtension(dpy,NULL,NULL);
  #endif
@@ -65,13 +65,13 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +	   long  pid    = (long) getpid();
 +	   int majorop, first_event, first_error;
 +	   int majorv, minorv;
-+ 
++
 +	   if ( (XQueryExtension(dpy, "SolarisIA",
 +		&majorop, &first_event, &first_error)==True)) {
 +		  XSolarisIASetProcessInfo(dpy, (unsigned char *)&pid,
-+					   INTERACTIVE_INFO, 1); 
++					   INTERACTIVE_INFO, 1);
 +	   }
-+	} 
++	}
 +/* end SUNSOFT_INTERACTIVE */
 +
  /*

@@ -28,8 +28,8 @@
 # of the copyright holder.
 #
 diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
---- include/X11/Xlibint.h	2008-06-19 16:55:51.614719000 -0700
-+++ include/X11/Xlibint.h	2008-06-19 16:56:03.700431000 -0700
+--- include/X11/Xlibint.h	2009-04-08 00:18:36.242153000 -0700
++++ include/X11/Xlibint.h	2009-04-08 00:18:46.488588000 -0700
 @@ -185,6 +185,10 @@ struct _XDisplay
  	struct _XkbInfoRec *xkb_info; /* XKB info */
  	struct _XtransConnInfo *trans_conn; /* transport connection object */
@@ -58,9 +58,9 @@ diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
  
  #ifdef DataRoutineIsProcedure
 diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
---- src/ConnDis.c	2008-06-19 16:55:51.548035000 -0700
-+++ src/ConnDis.c	2008-06-19 16:56:03.747842000 -0700
-@@ -136,7 +136,12 @@ _X11TransConnectDisplay (
+--- src/ConnDis.c	2008-11-18 22:42:01.000000000 -0800
++++ src/ConnDis.c	2009-04-08 00:18:46.494720000 -0700
+@@ -137,7 +137,12 @@ _X11TransConnectDisplay (
      char **auth_namep,			/* RETURN */
      int *auth_namelenp,			/* RETURN */
      char **auth_datap,			/* RETURN */
@@ -69,11 +69,11 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
 +    int *sme_conn)                      /* RETURN */
 +#else
      int *auth_datalenp)			/* RETURN */
-+#endif /* SME */ 
++#endif /* SME */
  {
      int family;
      int saddrlen;
-@@ -163,6 +168,9 @@ _X11TransConnectDisplay (
+@@ -164,6 +169,9 @@ _X11TransConnectDisplay (
      int local_transport_index = -1;
      const char *local_transport[] = { LOCAL_TRANSPORT_LIST, NULL };
  #endif
@@ -83,7 +83,7 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
  
      p = display_name;
  
-@@ -272,6 +280,13 @@ _X11TransConnectDisplay (
+@@ -273,6 +281,13 @@ _X11TransConnectDisplay (
  	}
      }
  
@@ -97,7 +97,7 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
      /*
       * At this point, we know the following information:
       *
-@@ -493,13 +507,23 @@ int _XConnectDisplay (
+@@ -505,13 +520,23 @@ int _XConnectDisplay (
      char **auth_namep,			/* RETURN */
      int *auth_namelenp,			/* RETURN */
      char **auth_datap,			/* RETURN */
@@ -122,8 +122,8 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
     if (trans_conn)
     {
 diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2008-06-19 16:55:52.015830000 -0700
-+++ src/OpenDis.c	2008-06-19 16:56:03.804117000 -0700
+--- src/OpenDis.c	2009-04-08 00:18:36.386967000 -0700
++++ src/OpenDis.c	2009-04-08 00:18:46.495581000 -0700
 @@ -52,6 +52,11 @@ in this Software without prior written a
  #include <X11/extensions/XInteractive.h>
  /* end SUNSOFT_INTERACTIVE */
@@ -171,7 +171,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +static void InitializeSmeConn(Display *dpy, int dpynum);
 +#endif /* SME */
 +
- /* 
+ /*
   * Connects to a server, creates a Display object and returns a pointer to
   * the newly created Display back to the caller.
 @@ -131,8 +153,13 @@ XOpenDisplay (
@@ -188,7 +188,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  
  #if !USE_XCB
  	bzero((char *) &client, sizeof(client));
-@@ -184,7 +211,11 @@ XOpenDisplay (
+@@ -185,7 +212,11 @@ XOpenDisplay (
  					 display_name, &fullname, &idisplay,
  					 &iscreen, &conn_auth_name,
  					 &conn_auth_namelen, &conn_auth_data,
@@ -201,26 +201,26 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  		Xfree ((char *) dpy);
  		return(NULL);
  	}
-@@ -290,6 +321,28 @@ XOpenDisplay (
- 	}	
+@@ -284,6 +315,28 @@ XOpenDisplay (
+ 	}
  
  	/* Set up the output buffers. */
 +#ifdef SUNSOFT /* XSUNBUFFERSIZE */
 +#define DEFAULTBUFSIZE 16384
 +	if (!_conn_buf_size) {
 +	    char *xsunbuffersize;
-+ 
-+	    if ((xsunbuffersize = getenv("XSUNBUFFERSIZE")) == NULL) 
++
++	    if ((xsunbuffersize = getenv("XSUNBUFFERSIZE")) == NULL)
 +		_conn_buf_size = DEFAULTBUFSIZE;
 +	    else
 +		_conn_buf_size = 1024 * atoi(xsunbuffersize);
 +	    if (_conn_buf_size < DEFAULTBUFSIZE)
 +		_conn_buf_size = DEFAULTBUFSIZE;
-+ 
++
 +	    _conn_aligned_buf.buf = Xmalloc(_conn_buf_size);
 +	}
 +	_conn_ref_cnt++;
-+ 
++
 +	if ((dpy->bufptr = dpy->buffer = Xmalloc(_conn_buf_size)) == NULL) {
 +		OutOfMemory (dpy, setup);
 +		return(NULL);
@@ -230,16 +230,16 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  #ifndef XLIBDEFAULTBUFSIZE
  #define XLIBDEFAULTBUFSIZE 16384 /* 16k */
  #endif
-@@ -308,6 +361,7 @@ XOpenDisplay (
+@@ -302,6 +355,7 @@ XOpenDisplay (
           return(NULL);
      }
      dpy->bufmax = dpy->buffer + conn_buf_size;
-+#endif /* SUNSOFT BUFFERSIZE */ 
-  
- 	/* Set up the input event queue and input event queue parameters. */
- 	dpy->head = dpy->tail = NULL;
-@@ -778,6 +832,24 @@ XOpenDisplay (
- 	} 
++#endif /* SUNSOFT BUFFERSIZE */
+ #if USE_XCB
+     dpy->xcb->real_bufmax = dpy->bufmax;
+     dpy->bufmax = dpy->buffer;
+@@ -776,6 +830,24 @@ XOpenDisplay (
+ 	}
  /* end SUNSOFT_INTERACTIVE */
  
 +#ifdef SUNSOFT
@@ -263,21 +263,21 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  /*
   * and return successfully
   */
-@@ -902,8 +974,28 @@ void _XFreeDisplayStructure(dpy)
+@@ -899,8 +971,28 @@ void _XFreeDisplayStructure(Display *dpy
  	if (dpy->vendor)
  	   Xfree (dpy->vendor);
  
 +#ifdef SUNSOFT /* XSUNBUFFERSIZE */
 +	_conn_ref_cnt--;
 +	if (!_conn_ref_cnt && _conn_aligned_buf.buf) {
-+	   Xfree (_conn_aligned_buf.buf); 
++	   Xfree (_conn_aligned_buf.buf);
 +	   _conn_buf_size = 0;
 +	}
 +#endif /* SUNSOFT */
 +
 +    /*
 +       B U G : 4188179
-+      
++
 +       Do not free communication buffer if using shared
 +       memory extension.
 +
@@ -292,7 +292,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  	if (dpy->keysyms)
  	   Xfree ((char *) dpy->keysyms);
  	if (dpy->xdefaults)
-@@ -1072,3 +1164,160 @@ static void OutOfMemory (dpy, setup)
+@@ -1063,3 +1155,160 @@ static void OutOfMemory(Display *dpy, ch
      if (setup) Xfree (setup);
  #endif /* !USE_XCB */
  }
@@ -380,8 +380,8 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +    		UnlockDisplay(dpy);
 +    		return;
 +    	}
-+        
-+	snprintf(buf, sizeof(buf), "%s:%i.%i", SMEFILE, dpynum, 
++
++	snprintf(buf, sizeof(buf), "%s:%i.%i", SMEFILE, dpynum,
 +	  reply->client_index);
 +	fd = open(buf, O_RDWR, 0666) ;
 +
@@ -454,8 +454,8 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +#endif /* SME */
 +
 diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
---- src/Xintconn.h	2007-05-16 08:34:44.000000000 -0700
-+++ src/Xintconn.h	2008-06-19 16:56:03.816230000 -0700
+--- src/Xintconn.h	2008-10-07 10:18:19.000000000 -0700
++++ src/Xintconn.h	2009-04-08 00:18:46.530793000 -0700
 @@ -18,7 +18,12 @@ int _XConnectDisplay (
      char **auth_namep,          /* RETURN */
      int *auth_namelenp,         /* RETURN */
@@ -482,9 +482,9 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  
  /* OpenDis.c */
 diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
---- src/XlibInt.c	2007-07-21 01:45:39.000000000 -0700
-+++ src/XlibInt.c	2008-06-19 16:56:03.835091000 -0700
-@@ -52,6 +52,13 @@ from The Open Group.
+--- src/XlibInt.c	2009-04-06 16:49:19.000000000 -0700
++++ src/XlibInt.c	2009-04-08 00:18:46.532476000 -0700
+@@ -54,6 +54,13 @@ from The Open Group.
  #include <direct.h>
  #endif
  
@@ -498,7 +498,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  #ifdef XTHREADS
  #include "locking.h"
  
-@@ -188,10 +195,27 @@ xthread_t (*_Xthread_self_fn)(void) = NU
+@@ -186,10 +193,27 @@ xthread_t (*_Xthread_self_fn)(void) = NU
  
  #endif /* MUSTCOPY */
  
@@ -526,7 +526,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  
  static char *_XAsyncReply(
      Display *dpy,
-@@ -226,6 +250,140 @@ static xReq _dummy_request = {
+@@ -222,6 +246,140 @@ static xReq _dummy_request = {
  	0, 0, 0
  };
  
@@ -539,7 +539,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +	smeBp->smeHeadptr =
 +            (smeBp->smeHeadptr+smeBp->smeBufferSize)%smeBp->smeHeapSize;
 +}
-+ 
++
 +#define smePokeServer(dpy, c) { \
 +        char byte = (char)c ; \
 +        for (;;) { \
@@ -564,10 +564,10 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 + * Wait for the server to open up enough buffer space for us to
 + * continue writing. Since the inbound connection is shared with client
 + * traffic a condition variable is used to block until the Xserver
-+ * has freeed some buffer space. 
++ * has freed some buffer space.
 + */
 +static void
-+SmeWaitForServer(Display *dpy, smeRegion *smeBp) 
++SmeWaitForServer(Display *dpy, smeRegion *smeBp)
 +{
 +        char *save_bufptr = dpy->bufptr;
 +
@@ -641,7 +641,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +
 +	dpy->bufptr = save_bufptr;
 +}
-+ 
++
 +/*
 + * smeConnQueueIn() adds the current buffer to the FIFO queue of
 + * sme buffers.
@@ -654,7 +654,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +    int         bufsize;
 +{
 +    int index;
-+ 
++
 +    index = (uint)(smeBp->smeIn+1) % SMECONNQSIZE;
 +    smeBp->smeQueue[index].bufp = bufptr - (char *)(smeBp+1);
 +    smeBp->smeQueue[index].msgSize = msgsize;
@@ -667,7 +667,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  /*
   * This is an OS dependent routine which:
   * 1) returns as soon as the connection can be written on....
-@@ -311,9 +469,11 @@ _XWaitForWritable(
+@@ -307,9 +465,11 @@ _XWaitForWritable(
  #endif
  	    )
  	{
@@ -680,7 +680,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  	    register xReply *rep;
  
  	    /* find out how much data can be read */
-@@ -336,9 +496,15 @@ _XWaitForWritable(
+@@ -332,9 +492,15 @@ _XWaitForWritable(
  	    /* round down to an integral number of XReps */
  	    len = (len / SIZEOF(xReply)) * SIZEOF(xReply);
  
@@ -696,14 +696,14 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  		if (rep->generic.type == X_Reply) {
                      int tmp = len;
  		    RESETITERPTR(rep,xReply,
-@@ -634,6 +800,25 @@ static void _XFlushInt(
+@@ -653,6 +819,25 @@ static void _XFlushInt(
  	register char *bufindex;
  	_XExtension *ext;
  
 +#ifdef SUNSOFT
 +        if (dpy->smeBuffer) {
 +                smeRegion *smeBp = (smeRegion *) dpy->smeBuffer;
-+ 
++
 +                size = (long)(dpy->bufptr - dpy->buffer);
 +                if (!size) return;
 +                smeConnQueueIn (dpy,smeBp,dpy->buffer,size,_conn_buf_size);
@@ -721,8 +721,8 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +
  	/* This fix resets the bufptr to the front of the buffer so
  	 * additional appends to the bufptr will not corrupt memory. Since
- 	 * the server is down, these appends are no-op's anyway but 
-@@ -655,7 +840,7 @@ static void _XFlushInt(
+ 	 * the server is down, these appends are no-op's anyway but
+@@ -674,7 +859,7 @@ static void _XFlushInt(
  	    }
  	}
  #endif
@@ -731,7 +731,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  	if (!size) return;
  #ifdef XTHREADS
  	dpy->flags |= XlibDisplayWriting;
-@@ -716,6 +901,11 @@ static void _XFlushInt(
+@@ -735,6 +920,11 @@ static void _XFlushInt(
  #ifdef XTHREADS
  	dpy->flags &= ~XlibDisplayWriting;
  #endif
@@ -743,7 +743,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  }
  
  int
-@@ -723,9 +913,11 @@ _XEventsQueued(
+@@ -742,9 +932,11 @@ _XEventsQueued(
      register Display *dpy,
      int mode)
  {
@@ -756,7 +756,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  	register xReply *rep;
  	char *read_buf;
  #ifdef XTHREADS
-@@ -846,8 +1038,11 @@ _XEventsQueued(
+@@ -865,8 +1057,11 @@ _XEventsQueued(
  	} else
  #endif /* XTHREADS*/
  	{
@@ -764,12 +764,12 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +	    read_buf = _conn_aligned_buf.buf;
 +#else
  	    read_buf = buf.buf;
--	    
+-
 +#endif	/* SUNSOFT */
  	    if (len < SIZEOF(xReply)
  #ifdef XTHREADS
  		|| dpy->async_handlers
-@@ -879,12 +1074,21 @@ _XEventsQueued(
+@@ -898,12 +1093,21 @@ _XEventsQueued(
  		    UnlockNextEventReader(dpy);
  		}
  		return(dpy->qlen); /* we read, so we can return */
@@ -791,7 +791,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  	    if (rep->generic.type == X_Reply) {
                  int tmp = len;
  		RESETITERPTR(rep,xReply,
-@@ -917,9 +1121,11 @@ _XEventsQueued(
+@@ -936,9 +1140,11 @@ _XEventsQueued(
  void _XReadEvents(
  	register Display *dpy)
  {
@@ -804,7 +804,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  	register xReply *rep;
  	Bool not_yet_flushed = True;
  	char *read_buf;
-@@ -994,7 +1200,11 @@ void _XReadEvents(
+@@ -1013,7 +1219,11 @@ void _XReadEvents(
  	    } else
  #endif /* XTHREADS*/
  	    {
@@ -816,7 +816,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  
  		/* but we won't read more than the max buffer size */
  		if (len > BUFSIZE)
-@@ -1044,12 +1254,21 @@ void _XReadEvents(
+@@ -1063,12 +1273,21 @@ void _XReadEvents(
  			       read_buf, len);
  		    ConditionSignal(dpy, dpy->lock->reply_awaiters->cv);
  		    continue;
@@ -826,7 +826,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +#else
  		} else if (read_buf != buf.buf)
  		    memcpy(buf.buf, read_buf, len);
-+#endif 
++#endif
  	    }
  #endif /* XTHREADS */
  
@@ -838,7 +838,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  		if (rep->generic.type == X_Reply) {
  		    RESETITERPTR(rep,xReply,
  				 _XAsyncReply (dpy, rep,
-@@ -1371,8 +1590,84 @@ _XSend (
+@@ -1400,8 +1619,84 @@ _XSend (
  	long skip, dbufsize, padsize, total, todo;
  	_XExtension *ext;
  
@@ -861,7 +861,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +                        long bytesCopied = 0 ;
 +                        long numToCopy = 0 ;
 +                        long chunk = _conn_buf_size & 0xffffffc ;
-+ 
++
 +                        while (bytesCopied < size)
 +                        {
 +                                /*
@@ -883,7 +883,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +                        return;
 +                }
 +                else {
-+ 
++
 +                /*
 +                 * Copy data into sme buffer.
 +                 */
@@ -900,11 +900,11 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +                   for (i = 0; i < padsize; i++)
 +                      *p++ = '\0';
 +                }
-+ 
++
 +                smeConnQueueIn (dpy,smeBp,dpy->buffer,total,_conn_buf_size);
 +                dpy->last_req = (char *)&_dummy_request;
 +                smePokeServer (dpy, 'D');
-+ 
++
 +                /* Allocate a new buffer */
 +                dpy->buffer = dpy->bufmax;
 +
@@ -924,7 +924,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  #ifdef XTHREADS
  	dpy->flags |= XlibDisplayWriting;
  	/* make sure no one else can put in data */
-@@ -1476,9 +1771,66 @@ _XSend (
+@@ -1505,9 +1800,66 @@ _XSend (
  #ifdef XTHREADS
  	dpy->flags &= ~XlibDisplayWriting;
  #endif

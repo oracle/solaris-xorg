@@ -1,6 +1,7 @@
---- modules/lc/gen/lcGenConv.c	Thu May 17 06:53:58 2007
-+++ modules/lc/gen/lcGenConv.c	Tue Dec 23 19:40:33 2008
-@@ -1786,9 +1786,6 @@
+diff -urp -x '*~' -x '*.orig' modules/lc/gen/lcGenConv.c modules/lc/gen/lcGenConv.c
+--- modules/lc/gen/lcGenConv.c	2009-03-17 14:58:15.000000000 -0700
++++ modules/lc/gen/lcGenConv.c	2009-04-08 00:19:18.692831000 -0700
+@@ -1786,9 +1786,6 @@ mbtocs(
          return( 0 );
      }
  
