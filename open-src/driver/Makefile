@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	09/01/14
+# @(#)Makefile	1.12	09/04/17
 #
 ###############################################################################
 
@@ -36,6 +36,7 @@ OS_SUBDIRS_common = \
 	xf86-input-keyboard		\
 	xf86-input-mouse		\
 	xf86-input-void			\
+	xf86-video-ast			\
 	xf86-video-dummy		
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)	\
@@ -63,7 +64,6 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-vmmouse		\
 	xf86-video-apm			\
 	xf86-video-ark			\
-	xf86-video-ast			\
 	xf86-video-ati			\
 	xf86-video-chips		\
 	xf86-video-cirrus		\

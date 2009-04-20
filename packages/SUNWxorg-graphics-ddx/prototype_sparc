@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.5     09/01/14 SMI"
+# ident "@(#)prototype_sparc 1.6     09/04/20 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -41,6 +41,7 @@ i depend=depend_sparc
 
 !search $HOME/lib/modules/drivers
 f none X11/lib/modules/drivers/wsfb_drv.so 0755 root bin
+f none X11/lib/modules/drivers/ast_drv.so 0755 root bin
 
 !search $HOME/share/man/man7
 f none X11/share/man/man7/wsfb.7 0444 root bin
