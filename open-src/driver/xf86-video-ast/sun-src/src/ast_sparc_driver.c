@@ -27,7 +27,7 @@
  */
 
 
-#pragma	ident	"@(#)ast_sparc_driver.c 1.1 09/04/20 SMI"
+#pragma	ident	"@(#)ast_sparc_driver.c 1.2 09/04/23 SMI"
 
 #if defined(__sparc)
 
@@ -304,6 +304,8 @@ ASTRestoreHW(ScrnInfoPtr pScrn)
    ASTRegPtr astReg;
    int i, icount=0;
    UCHAR jReg;
+
+   astReg = &pAST->SavedReg;
 
    /* Restore Misc */
    SetReg(MISC_PORT_WRITE, astReg->MISC);
