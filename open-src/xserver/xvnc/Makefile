@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17 09/01/14
+# @(#)Makefile	1.18 09/04/26
 #
 
 # Package name used in tarballs
@@ -71,6 +71,7 @@ SOURCE_PATCHES = \
 	vnc-autotools.patch,-p1 \
 	vnc-autotools-compile.patch,-p1 \
 	vnc-always_use_fb.patch,-p1 \
+	vnc-vsnprintf.patch,-p1 \
 	vnc-24bit.patch,-p1 \
 	vnc-gcc43.patch,-p1 \
 	vnc-privates.patch,-p1 \

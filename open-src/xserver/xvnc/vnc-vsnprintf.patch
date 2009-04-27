@@ -1,0 +1,26 @@
+## Patch originally from Fedora - Revision 1.1 of:
+http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc-vsnprintf.patch
+
+Needed to prevent crash when Xprintf calls vsnprintf with NULL string/0 length
+to measure length of text (Sun bug 6833541).
+
+--- vnc-4_1_2-unixsrc/common/rfb/Logger.cxx.vsnprintf	2007-02-26 12:29:25.000000000 +0100
++++ vnc-4_1_2-unixsrc/common/rfb/Logger.cxx	2007-02-26 12:30:03.000000000 +0100
+@@ -34,7 +34,7 @@
+ 
+ using namespace rfb;
+ 
+-#ifndef HAVE_VSNPRINTF
++/*#ifndef HAVE_VSNPRINTF
+ #ifdef __RFB_THREADING_IMPL
+ static Mutex fpLock;
+ #endif
+@@ -63,7 +63,7 @@
+   return len;
+ }
+ #endif
+-
++*/
+ 
+ Logger* Logger::loggers = 0;
+ 
