@@ -2,7 +2,7 @@
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 <!--
 
-Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
@@ -89,8 +89,7 @@ of the copyright holder.
 		 value='@DEFAULT_XSERVER@' />
                	<propval name='server_args' type='astring'	
 		 value='' />
-               	<propval name='default_depth' type='integer' 
-		 value='24' />
+               	<property name='default_depth' type='integer' />
                	<propval name='tcp_listen' type='boolean' 
 		 value='false' />
 		<propval name='value_authorization' type='astring'

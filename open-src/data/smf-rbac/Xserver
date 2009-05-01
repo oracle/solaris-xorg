@@ -1,6 +1,6 @@
 #!/bin/ksh93
 #
-# ident	"@(#)Xserver	1.7	09/02/26 SMI"
+# ident	"@(#)Xserver	1.8	09/05/01 SMI"
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -49,7 +49,7 @@ function fatal_error
 #
 
 DISPLAY="0"
-DEFDEPTH="24"
+DEFDEPTH=""
 CLASSES=""
 TCP_LISTEN=""
 SERVERARGS=""
@@ -183,11 +183,13 @@ fi
 case ${XSERVER} in
     # Xsun based
     /usr/openwin/bin/*)
-	DEPTHARG="-defdepth ${DEFDEPTH}"
+	DEPTHARG="-defdepth ${DEFDEPTH:-24}"
 	;;
     # Xorg based
     /usr/X11/bin/*)
-	DEPTHARG="-depth ${DEFDEPTH}"
+	if [[ "${DEFDEPTH}" != "" ]] ; then
+	    DEPTHARG="-depth ${DEFDEPTH}"
+	fi
 	;;
 esac
 
