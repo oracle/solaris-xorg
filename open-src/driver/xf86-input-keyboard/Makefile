@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	09/01/14
+# @(#)Makefile	1.7	09/05/01
 #
 
 # Package name used in tarballs
@@ -42,6 +42,7 @@ MODULE_VERSION=1.3.2
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	hal-man-page.patch,-p1 \
+	hal-hotplug.patch,-p1 \
 	sun-keymappings.patch \
 	sun-kb-autodetect.patch
 
