@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.37     09/04/02 SMI"
+#pragma ident   "@(#)tsolextension.c 1.38     09/05/04 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -307,15 +307,19 @@ static CALLBACK(
 
     switch (rtype) {
         case RT_GC:
-	    CHECK_RESOURCE_POLICY((DixReadAccess|DixGetAttrAccess|DixUseAccess),
-			TSOL_RES_GC, TSOL_READ, NULL, id);
-	    CHECK_RESOURCE_POLICY((DixWriteAccess|DixSetAttrAccess),
-			TSOL_RES_GC, TSOL_MODIFY, NULL, id);
 	    CHECK_RESOURCE_POLICY(DixCreateAccess, TSOL_RES_GC, TSOL_CREATE,
 				  NULL, id);
-	    CHECK_RESOURCE_POLICY(DixDestroyAccess, TSOL_RES_GC, TSOL_DESTROY,
+
+	    /* id must be non-zero for read/modify/destroy access */
+	    if (id != 0) {
+	        CHECK_RESOURCE_POLICY((DixReadAccess|DixGetAttrAccess|DixUseAccess),
+			TSOL_RES_GC, TSOL_READ, NULL, id);
+	        CHECK_RESOURCE_POLICY((DixWriteAccess|DixSetAttrAccess),
+			TSOL_RES_GC, TSOL_MODIFY, NULL, id);
+	        CHECK_RESOURCE_POLICY(DixDestroyAccess, TSOL_RES_GC, TSOL_DESTROY,
 				  NULL, id);
 
+	    }
 	    break;
 
 	case RT_WINDOW:		/* Drawables */
