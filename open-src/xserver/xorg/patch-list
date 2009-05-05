@@ -26,6 +26,7 @@ upstream-man-in-1.6.patch,-p1
 upstream-man-post-1.6.patch,-p1
 rrselectinput-access.patch,-p1
 restore-kbd-mouse.patch,-p1
+6835232.patch
 hal-input-fdi.patch
 sun-paths.patch
 sun-extramodes.patch
