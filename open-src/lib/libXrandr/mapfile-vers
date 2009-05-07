@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)mapfile-vers	1.1	07/07/27 SMI"
+# ident	"@(#)mapfile-vers	1.2	09/05/07 SMI"
 #
 
 libXrandr_1.0 {
@@ -89,4 +89,17 @@ libXrandr_1.2 {
 	XRRFreeGamma;
 	XRRUpdateConfiguration;
 } libXrandr_1.1;
+
+libXrandr_1.3 {
+    global:
+        XRRGetScreenResourcesCurrent;
+        XRRSetCrtcTransform;
+        XRRGetCrtcTransform;
+        XRRGetPanning;
+        XRRFreePanning;
+        XRRSetPanning;
+        XRRSetOutputPrimary;
+        XRRGetOutputPrimary;
+} libXrandr_1.2;
+
 

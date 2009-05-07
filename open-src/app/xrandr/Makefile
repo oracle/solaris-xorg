@@ -2,7 +2,7 @@
 #
 # xrandr 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	09/02/24
+# @(#)Makefile	1.7	09/05/07
 #
 
 # Package name used in tarballs
 MODULE_NAME=xrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.3
+MODULE_VERSION=1.3.0
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

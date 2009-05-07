@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	09/01/11
+# @(#)Makefile	1.5	09/05/07
 #
 
 # Package name used in tarballs
 MODULE_NAME=randrproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.2
+MODULE_VERSION=1.3.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
