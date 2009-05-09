@@ -2,7 +2,7 @@
 #
 # pixman Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -38,7 +38,21 @@ MODULE_NAME=pixman
 MODULE_VERSION=0.14.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = sun-cc-intrinsics.patch,-p1
+
+# Regenerate Makefile.in & configure after applying sun-cc-intrinsics.patch
+AUTORECONF=yes
+
+# Override default CFLAGS for x86 builds to avoid clashes between
+# -xtarget=pentium and the MMX/SSE flags added by configure for specific
+# files in pixman and to work around assertions in Studio 12 when the 
+# -xspace flag is used (Studio bug #6825222)
+include ../../common/Makefile.init
+NO_TARGET_CFLAGS = $(LIB_CFLAGS:-xtarget%=-xchip%)
+NO_XSPACE_CFLAGS = $(NO_TARGET_CFLAGS:-xspace=)
+MODULE_CONFIG_ENV_i386 = CFLAGS="$(NO_XSPACE_CFLAGS)"
+MODULE_CONFIG_ENV_sparc = # not needed
+MODULE_CONFIG_ENV = $(MODULE_CONFIG_ENV_$(MACH))
 
 # Library name
 LIBNAME=pixman
