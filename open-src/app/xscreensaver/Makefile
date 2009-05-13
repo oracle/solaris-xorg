@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.106	09/04/16
+# @(#)Makefile	1.107	09/05/13
 #
 
 # Package name used in tarballs
@@ -186,13 +186,13 @@ $(XS_POT): $(CONFIGURE_TARGET)
 $(XS_MAN):
 	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 	    -a '{Availability, SUNWxscreensaver} {Interface Stability, Volatile}' \
-		-p /usr/X11/bin \
+		-p /usr/X11/bin/ \
 		$(SOURCE_DIR)/driver/xscreensaver.man \
 		$(SOURCE_DIR)/driver/xscreensaver-command.man \
 		$(SOURCE_DIR)/driver/xscreensaver-demo.man
 	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 	    -a '{Availability, SUNWxscreensaver} {Interface Stability, Private}' \
-		-p /usr/X11/lib/xscreensaver/bin \
+		-p /usr/X11/lib/xscreensaver/bin/ \
 		$(SOURCE_DIR)/driver/xscreensaver-get*.man \
 		$(SOURCE_DIR)/driver/xscreensaver-text.man
 	/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
