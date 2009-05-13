@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype_com 1.8     08/09/15 SMI"
+# ident "@(#)prototype_com 1.9     09/05/13 SMI"
 #
 #  X Window System required core font software package
 
@@ -88,6 +88,7 @@ f none X11/lib/X11/fonts/encodings/mulearabic-0.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/mulearabic-1.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/mulearabic-2.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/mulelao-1.enc 0444 root bin
+f none X11/lib/X11/fonts/encodings/suneu-greek.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/tcvn-0.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/tis620-2.enc 0444 root bin
 f none X11/lib/X11/fonts/encodings/viscii1.1-1.enc 0444 root bin
@@ -96,7 +97,11 @@ f none X11/lib/X11/fonts/encodings/viscii1.1-1.enc 0444 root bin
 d none X11/lib/X11/fonts/encodings/large 0755 root bin
 f none X11/lib/X11/fonts/encodings/large/big5.eten-0.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/big5hkscs-0.enc.gz 0444 root bin
+f none X11/lib/X11/fonts/encodings/large/cns11643-1.enc.gz 0444 root bin
+f none X11/lib/X11/fonts/encodings/large/cns11643-2.enc.gz 0444 root bin
+f none X11/lib/X11/fonts/encodings/large/cns11643-3.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/encodings.dir 0444 root bin
+f none X11/lib/X11/fonts/encodings/large/gb18030-0.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/gb18030.2000-0.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/gb18030.2000-1.enc.gz 0444 root bin
 f none X11/lib/X11/fonts/encodings/large/gb2312.1980-0.enc.gz 0444 root bin

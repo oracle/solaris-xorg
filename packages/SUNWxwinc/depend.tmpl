@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,21 +29,12 @@
 #
 ##########################################################################
 #
-# ident "@(#)pkginfo.tmpl 1.2     05/11/07 SMI"
+# ident "@(#)depend.tmpl 1.1     09/05/13 SMI"
 #
+# Header files for Xorg Server SDK
 
-PKG="SUNWxorg-devel-docs"
-NAME="X.Org Foundation client API documentation"
-ARCH="ISA"
-VERSION=0.1,REV=0.2000.02.02
-CATEGORY="system"
-DESC="Documentation for programming clients using X Window System libraries based on X.Org Foundation open source release"
-BASEDIR="/usr"
-VENDOR="Sun Microsystems, Inc."
-HOTLINE="Please contact your local service provider"
-EMAIL=""
-MAXINST="1000"
-SUNW_PKGVERS=1.0
-SUNW_PRODNAME="X.Org Foundation X11 for Solaris"
-SUNW_PRODVERS=1.0
-SUNW_PKGTYPE=usr
+P SUNWhea	SunOS Header Files
+P SUNWlibm	Math & Microtasking Library Headers & Lint Files (Usr)
+
+# common dependencies
+include ../depend

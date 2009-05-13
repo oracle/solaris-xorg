@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.19	08/11/04 SMI
+#	@(#)prototype	1.20	09/05/13 SMI
 #
 #  FreeType 2 package
 
@@ -71,6 +71,7 @@ f none include/freetype2/freetype/ftbdf.h			0444 root bin
 f none include/freetype2/freetype/ftbitmap.h			0444 root bin
 f none include/freetype2/freetype/ftcache.h			0444 root bin
 f none include/freetype2/freetype/ftchapters.h			0444 root bin
+f none include/freetype2/freetype/ftcid.h			0444 root bin
 f none include/freetype2/freetype/fterrdef.h			0444 root bin
 f none include/freetype2/freetype/fterrors.h			0444 root bin
 f none include/freetype2/freetype/ftgasp.h			0444 root bin

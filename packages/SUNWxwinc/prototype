@@ -27,13 +27,13 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.94	09/03/09 SMI"
+# ident	"@(#)prototype	35.95	09/05/13 SMI"
 #
 #  X Window System include files
 
 i pkginfo
 i copyright
-i depend=../depend
+i depend
 
 !HOME=../usr
 
@@ -73,6 +73,7 @@ f none X11/include/X11/Xpoll.h		0444 root bin
 f none X11/include/X11/Xproto.h		0444 root bin
 f none X11/include/X11/Xprotostr.h	0444 root bin
 f none X11/include/X11/Xthreads.h	0444 root bin
+f none X11/include/X11/Xvarargs.h	0444 root bin
 f none X11/include/X11/ap_keysym.h	0444 root bin
 f none X11/include/X11/keysym.h		0444 root bin
 f none X11/include/X11/keysymdef.h	0444 root bin
@@ -314,6 +315,7 @@ f none X11/include/X11/Xmu/EditresP.h		0444 root bin
 f none X11/include/X11/Xmu/Error.h		0444 root bin
 f none X11/include/X11/Xmu/ExtAgent.h		0444 root bin
 f none X11/include/X11/Xmu/Initer.h		0444 root bin
+f none X11/include/X11/Xmu/Lookup.h		0444 root bin
 f none X11/include/X11/Xmu/Misc.h		0444 root bin
 f none X11/include/X11/Xmu/StdCmap.h		0444 root bin
 f none X11/include/X11/Xmu/StdSel.h		0444 root bin
@@ -431,6 +433,7 @@ f none X11/include/X11/extensions/Xdbeproto.h 	0444 root bin
 f none X11/include/X11/extensions/Xeviestr.h 	0444 root bin
 f none X11/include/X11/extensions/Xext.h 	0444 root bin
 f none X11/include/X11/extensions/Xinerama.h 	0444 root bin
+f none X11/include/X11/extensions/bigreqstr.h	0444 root bin
 f none X11/include/X11/extensions/composite.h	0444 root bin
 f none X11/include/X11/extensions/compositeproto.h 0444 root bin
 f none X11/include/X11/extensions/damageproto.h 0444 root bin
@@ -450,6 +453,7 @@ f none X11/include/X11/extensions/mitmiscstr.h 	0444 root bin
 f none X11/include/X11/extensions/multibuf.h 	0444 root bin
 f none X11/include/X11/extensions/multibufst.h 	0444 root bin
 f none X11/include/X11/extensions/panoramiXext.h 0444 root bin
+f none X11/include/X11/extensions/panoramiXproto.h   0444 root bin
 f none X11/include/X11/extensions/record.h 	0444 root bin
 f none X11/include/X11/extensions/recordstr.h 	0444 root bin
 f none X11/include/X11/extensions/render.h 	0444 root bin
@@ -471,8 +475,12 @@ f none X11/include/X11/extensions/xtestext1.h 	0444 root bin
 f none X11/include/X11/extensions/xteststr.h 	0444 root bin
 
 # extension headers from open-src/proto/sun-ext-protos
+f none X11/include/X11/extensions/XInteractive.h	0444 root bin
+f none X11/include/X11/extensions/interactive.h		0444 root bin
+f none X11/include/X11/extensions/interactiveCommon.h	0444 root bin
 f none X11/include/X11/extensions/allplanes.h	0444 root bin
 f none X11/include/X11/extensions/allplanesstr.h 0444 root bin
+f none X11/include/X11/extensions/sme.h		0444 root bin
 f none X11/include/X11/extensions/transovl.h 	0444 root bin
 f none X11/include/X11/extensions/transovlstr.h	0444 root bin
 f none X11/include/X11/extensions/fbpm.h	0444 root bin
@@ -508,6 +516,20 @@ f none X11/include/X11/extensions/Xfixes.h 0444 root bin
 # open-src/lib/libXlg3d
 f none X11/include/X11/extensions/Xlge.h 0444 root bin
 
+# open-src/lib/libxkbfile
+f none X11/include/X11/extensions/XKBbells.h    0444 root bin
+f none X11/include/X11/extensions/XKBconfig.h   0444 root bin
+f none X11/include/X11/extensions/XKBfile.h     0444 root bin
+f none X11/include/X11/extensions/XKBrules.h    0444 root bin
+f none X11/include/X11/extensions/XKBsrv.h      0444 root bin
+
+# open-src/proto/randrproto
+f none X11/include/X11/extensions/randr.h	0444 root bin
+f none X11/include/X11/extensions/randrproto.h	0444 root bin
+
+# open-src/lib/libXrandr
+f none X11/include/X11/extensions/Xrandr.h	0444 root bin
+
 # open-src/lib/libXrender
 s none openwin/share/include/X11/extensions/Xrender.h=../../../../../X11/include/X11/extensions/Xrender.h
 f none X11/include/X11/extensions/Xrender.h 0444 root bin
@@ -522,6 +544,70 @@ s none openwin/share/include/X11/extensions/Xtsolproto.h=../../../../../X11/incl
 f none X11/include/X11/extensions/Xtsol.h 0444 root bin
 f none X11/include/X11/extensions/Xtsolproto.h 0444 root bin
 
+# open-src/proto/videoproto
+f none X11/include/X11/extensions/Xv.h		0444 root bin
+f none X11/include/X11/extensions/Xvproto.h	0444 root bin
+f none X11/include/X11/extensions/XvMC.h	0444 root bin
+f none X11/include/X11/extensions/XvMCproto.h	0444 root bin
+
+# open-src/lib/libXv
+f none X11/include/X11/extensions/Xvlib.h	0444 root bin
+
+# open-src/lib/libXvMC
+f none X11/include/X11/extensions/XvMClib.h	0444 root bin
+
+# open-src/driver/xf86-video-openchrome
+f none X11/include/X11/extensions/vldXvMC.h	0444 root bin
+
+
+# open-src/proto/xf86dgaproto
+f none X11/include/X11/extensions/xf86dgastr.h  0444 root bin
+f none X11/include/X11/extensions/xf86dga1str.h 0444 root bin
+
+# open-src/proto/xf86miscproto
+f none X11/include/X11/extensions/xf86misc.h    0444 root bin
+f none X11/include/X11/extensions/xf86mscstr.h  0444 root bin
+
+# open-src/proto/xf86vidmodeproto
+f none X11/include/X11/extensions/xf86vmode.h   0444 root bin
+f none X11/include/X11/extensions/xf86vmstr.h   0444 root bin
+
+
+!search $HOME/X11/include/X11/fonts
+d none X11/include/X11/fonts               	0755 root bin
+
+# open-src/proto/fontsproto
+f none X11/include/X11/fonts/FS.h       	0444 root bin
+f none X11/include/X11/fonts/FSproto.h     	0444 root bin
+f none X11/include/X11/fonts/font.h        	0444 root bin
+f none X11/include/X11/fonts/fontproto.h  	0444 root bin
+f none X11/include/X11/fonts/fontstruct.h  	0444 root bin
+f none X11/include/X11/fonts/fsmasks.h  	0444 root bin
+
+# open-src/lib/libXfont
+f none X11/include/X11/fonts/bdfint.h        	0444 root bin
+f none X11/include/X11/fonts/bitmap.h     	0444 root bin
+f none X11/include/X11/fonts/bufio.h   		0444 root bin
+f none X11/include/X11/fonts/fntfil.h      	0444 root bin
+f none X11/include/X11/fonts/fntfilio.h       	0444 root bin
+f none X11/include/X11/fonts/fntfilst.h  	0444 root bin
+f none X11/include/X11/fonts/fontconf.h  	0444 root bin
+f none X11/include/X11/fonts/fontencc.h  	0444 root bin
+f none X11/include/X11/fonts/fontmisc.h  	0444 root bin
+f none X11/include/X11/fonts/fontmod.h  	0444 root bin
+f none X11/include/X11/fonts/fontshow.h  	0444 root bin
+f none X11/include/X11/fonts/fontutil.h  	0444 root bin
+f none X11/include/X11/fonts/fontxlfd.h  	0444 root bin
+f none X11/include/X11/fonts/ft.h  		0444 root bin
+f none X11/include/X11/fonts/ftfuncs.h  	0444 root bin
+f none X11/include/X11/fonts/pcf.h  		0444 root bin
+
+# open-src/lib/libfontenc
+f none X11/include/X11/fonts/fontenc.h  	0444 root bin
+
+# open-src/lib/libFS
+f none X11/include/X11/fonts/FSlib.h       	0444 root bin
+
 !search                $HOME/X11/include/X11/XprintAppUtil
 d none X11/include/X11/XprintAppUtil		0755 root bin
 f none X11/include/X11/XprintAppUtil/xpapputil.h	0444 root bin
@@ -529,6 +615,12 @@ f none X11/include/X11/XprintAppUtil/xpapputil.h	0444 root bin
 !search                $HOME/X11/include/X11/XprintUtil
 d none X11/include/X11/XprintUtil		0755 root bin
 f none X11/include/X11/XprintUtil/xprintutil.h	0444 root bin
+
+# open-src/proto/pmproto
+!search                $HOME/X11/include/X11/PM
+d none X11/include/X11/PM			0755 root bin
+f none X11/include/X11/PM/PM.h			0444 root bin
+f none X11/include/X11/PM/PMproto.h		0444 root bin
 
 # open-src/lib/libSM
 d none openwin/share/include/X11/SM 0755 root bin
@@ -557,6 +649,18 @@ f none X11/include/X11/ICE/ICEproto.h 0644 root bin
 f none X11/include/X11/ICE/ICEmsg.h 0644 root bin
 f none X11/include/X11/ICE/ICEconn.h 0644 root bin
 f none X11/include/X11/ICE/ICEutil.h 0644 root bin
+
+# open-src/lib/libxtrans
+!search                $HOME/X11/include/X11/Xtrans
+d none X11/include/X11/Xtrans			0755 root bin
+f none X11/include/X11/Xtrans/Xtrans.c		0444 root bin
+f none X11/include/X11/Xtrans/Xtrans.h		0444 root bin
+f none X11/include/X11/Xtrans/Xtransint.h	0444 root bin
+f none X11/include/X11/Xtrans/Xtranslcl.c	0444 root bin
+f none X11/include/X11/Xtrans/Xtranssock.c	0444 root bin
+f none X11/include/X11/Xtrans/Xtranstli.c	0444 root bin
+f none X11/include/X11/Xtrans/Xtransutil.c	0444 root bin
+f none X11/include/X11/Xtrans/transport.c	0444 root bin
 
 d none openwin/share/include/dga 0755 root bin
 !search                $HOME/openwin/include/dga
@@ -692,14 +796,19 @@ f none lib/pkgconfig/inputproto.pc		0444 root bin
 f none lib/pkgconfig/kbproto.pc			0444 root bin
 f none lib/pkgconfig/lg3dproto.pc		0444 root bin
 f none lib/pkgconfig/printproto.pc		0444 root bin
+f none lib/pkgconfig/randrproto.pc		0444 root bin
 f none lib/pkgconfig/recordproto.pc		0444 root bin
 f none lib/pkgconfig/renderproto.pc		0444 root bin
 f none lib/pkgconfig/resourceproto.pc		0444 root bin
 f none lib/pkgconfig/scrnsaverproto.pc		0444 root bin
+f none lib/pkgconfig/videoproto.pc		0444 root bin
 f none lib/pkgconfig/xcmiscproto.pc		0444 root bin
 f none lib/pkgconfig/xextproto.pc		0444 root bin
 f none lib/pkgconfig/xf86bigfontproto.pc	0444 root bin
+f none lib/pkgconfig/xf86dgaproto.pc		0444 root bin
 f none lib/pkgconfig/xf86driproto.pc		0444 root bin
+f none lib/pkgconfig/xf86miscproto.pc		0444 root bin
+f none lib/pkgconfig/xf86vidmodeproto.pc	0444 root bin
 f none lib/pkgconfig/xineramaproto.pc		0444 root bin
 f none lib/pkgconfig/xproto.pc			0444 root bin
 f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
@@ -707,6 +816,8 @@ f none lib/pkgconfig/xproxymngproto.pc		0444 root bin
 
 # Libraries
 
+f none lib/pkgconfig/fontenc.pc			0444 root bin
+f none lib/pkgconfig/libfs.pc			0444 root bin
 f none lib/pkgconfig/ice.pc			0444 root bin
 f none lib/pkgconfig/lbxutil.pc			0444 root bin
 f none lib/pkgconfig/pthread-stubs.pc		0444 root bin
@@ -721,20 +832,28 @@ f none lib/pkgconfig/xdmcp.pc			0444 root bin
 f none lib/pkgconfig/xevie.pc			0444 root bin
 f none lib/pkgconfig/xext.pc			0444 root bin
 f none lib/pkgconfig/xfixes.pc			0444 root bin
+f none lib/pkgconfig/xfont.pc			0444 root bin
 f none lib/pkgconfig/xi.pc			0444 root bin
 f none lib/pkgconfig/xinerama.pc		0444 root bin
 f none lib/pkgconfig/xlg3d.pc			0444 root bin
+f none lib/pkgconfig/xkbfile.pc			0444 root bin
 f none lib/pkgconfig/xmu.pc			0444 root bin
 f none lib/pkgconfig/xmuu.pc			0444 root bin
 f none lib/pkgconfig/xpm.pc			0444 root bin
 f none lib/pkgconfig/xp.pc                      0444 root bin
 f none lib/pkgconfig/xprintapputil.pc           0444 root bin
 f none lib/pkgconfig/xprintutil.pc              0444 root bin
+f none lib/pkgconfig/xrandr.pc			0444 root bin
 f none lib/pkgconfig/xrender.pc			0444 root bin
 f none lib/pkgconfig/xres.pc			0444 root bin
 f none lib/pkgconfig/xscrnsaver.pc		0444 root bin
 f none lib/pkgconfig/xt.pc			0444 root bin
+f none lib/pkgconfig/xtrans.pc			0444 root bin
 f none lib/pkgconfig/xtst.pc			0444 root bin
+f none lib/pkgconfig/xv.pc			0444 root bin
+f none lib/pkgconfig/xvmc.pc			0444 root bin
+f none lib/pkgconfig/xxf86misc.pc		0444 root bin
+f none lib/pkgconfig/xxf86vm.pc			0444 root bin
 
 # Data files & other miscellany
 
@@ -758,14 +877,19 @@ s none lib/$plat_64/pkgconfig/inputproto.pc=../../pkgconfig/inputproto.pc
 s none lib/$plat_64/pkgconfig/kbproto.pc=../../pkgconfig/kbproto.pc
 s none lib/$plat_64/pkgconfig/lg3dproto.pc=../../pkgconfig/lg3dproto.pc
 s none lib/$plat_64/pkgconfig/printproto.pc=../../pkgconfig/printproto.pc
+s none lib/$plat_64/pkgconfig/randrproto.pc=../../pkgconfig/randrproto.pc
 s none lib/$plat_64/pkgconfig/recordproto.pc=../../pkgconfig/recordproto.pc
 s none lib/$plat_64/pkgconfig/renderproto.pc=../../pkgconfig/renderproto.pc
 s none lib/$plat_64/pkgconfig/resourceproto.pc=../../pkgconfig/resourceproto.pc
 s none lib/$plat_64/pkgconfig/scrnsaverproto.pc=../../pkgconfig/scrnsaverproto.pc
+s none lib/$plat_64/pkgconfig/videoproto.pc=../../pkgconfig/videoproto.pc
 s none lib/$plat_64/pkgconfig/xcmiscproto.pc=../../pkgconfig/xcmiscproto.pc
 s none lib/$plat_64/pkgconfig/xextproto.pc=../../pkgconfig/xextproto.pc
 s none lib/$plat_64/pkgconfig/xf86bigfontproto.pc=../../pkgconfig/xf86bigfontproto.pc
 s none lib/$plat_64/pkgconfig/xf86driproto.pc=../../pkgconfig/xf86driproto.pc
+s none lib/$plat_64/pkgconfig/xf86dgaproto.pc=../../pkgconfig/xf86driproto.pc
+s none lib/$plat_64/pkgconfig/xf86miscproto.pc=../../pkgconfig/xf86miscproto.pc
+s none lib/$plat_64/pkgconfig/xf86vidmodeproto.pc=../../pkgconfig/xf86vidmodeproto.pc
 s none lib/$plat_64/pkgconfig/xineramaproto.pc=../../pkgconfig/xineramaproto.pc
 s none lib/$plat_64/pkgconfig/xproto.pc=../../pkgconfig/xproto.pc
 s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.pc
@@ -773,6 +897,8 @@ s none lib/$plat_64/pkgconfig/xproxymngproto.pc=../../pkgconfig/xproxymngproto.p
 # Libraries need separate ones for 64-bit to get library paths right
 
 !search $HOME/lib/$plat_64/pkgconfig
+f none lib/$plat_64/pkgconfig/fontenc.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/libfs.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/ice.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/lbxutil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/pthread-stubs.pc		0444 root bin
@@ -787,20 +913,28 @@ f none lib/$plat_64/pkgconfig/xdmcp.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xevie.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xext.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xfixes.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xfont.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xi.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xinerama.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xlg3d.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xkbfile.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmuu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xp.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xprintapputil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xprintutil.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xrandr.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xres.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xscrnsaver.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xt.pc 			0444 root bin
+f none lib/$plat_64/pkgconfig/xtrans.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xtst.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xv.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xvmc.pc			0444 root bin
+f none lib/$plat_64/pkgconfig/xxf86misc.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/xxf86vm.pc		0444 root bin
 
 # Data files & other miscellany are the same for both
 
@@ -811,3 +945,4 @@ s none lib/$plat_64/pkgconfig/xbitmaps.pc=../../pkgconfig/xbitmaps.pc
 d none share						0755 root sys
 d none share/aclocal					0755 root other
 f none share/aclocal/xorg-macros.m4			0444 root bin
+f none share/aclocal/xtrans.m4				0444 root bin

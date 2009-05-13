@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.50 09/03/09
+# @(#)upgrade-X	1.51 09/05/13
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -178,7 +178,6 @@ pkg_list="
 	SUNWxorg-client-programs
 	SUNWxorg-clientlibs
 	SUNWxorg-compatlinks
-	SUNWxorg-devel-docs
 	SUNWxorg-graphics-ddx
 	SUNWxorg-headers
 	SUNWxorg-server
@@ -273,6 +272,9 @@ REM_PKGS+=" SUNWxwfnt SUNWxwcft SUNWxwoft"
 # snv_111: 6815064 Merge SUNWxwhl into SUNWxwinc
 REM_PKGS+=" SUNWxwhl"
 
+# snv_116: 6840423 Move headers from SUNWxorg-headers to SUNWxwinc,
+#		   merge SUNWxorg-devel-docs into SUNWxwpmn
+REM_PKGS+=" SUNWxorg-headers SUNWxorg-devel-docs"
 
 # Various compatibility links in SUNWxorg-server have been replaced with
 # files in other packages, so we need to remove SUNWxorg-server first

@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.211    09/04/15   Sun Microsystems"
+#      "@(#)prototype_com	35.212    09/05/13   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -1084,6 +1084,7 @@ f none X11/include/X11/bitmaps/keyboard16		0444 root bin
 f none X11/include/X11/bitmaps/left_ptr			0444 root bin
 f none X11/include/X11/bitmaps/left_ptrmsk		0444 root bin
 f none X11/include/X11/bitmaps/letters			0444 root bin
+f none X11/include/X11/bitmaps/ldblarrow		0444 root bin
 f none X11/include/X11/bitmaps/light_gray		0444 root bin
 f none X11/include/X11/bitmaps/mailempty		0444 root bin
 f none X11/include/X11/bitmaps/mailemptymsk		0444 root bin
@@ -1099,6 +1100,7 @@ f none X11/include/X11/bitmaps/noletters		0444 root bin
 f none X11/include/X11/bitmaps/opendot			0444 root bin
 f none X11/include/X11/bitmaps/opendotMask		0444 root bin
 f none X11/include/X11/bitmaps/plaid			0444 root bin
+f none X11/include/X11/bitmaps/rdblarrow		0444 root bin
 f none X11/include/X11/bitmaps/right_ptr		0444 root bin
 f none X11/include/X11/bitmaps/right_ptrmsk		0444 root bin
 f none X11/include/X11/bitmaps/root_weave		0444 root bin
@@ -1298,6 +1300,7 @@ f none X11/lib/X11/app-defaults/XCalc		0644 root bin
 f none X11/lib/X11/app-defaults/XCalc-color	0644 root bin
 f none X11/lib/X11/app-defaults/XClipboard	0644 root bin
 f none X11/lib/X11/app-defaults/XClock		0644 root bin
+f none X11/lib/X11/app-defaults/XClock-color	0644 root bin
 f none X11/lib/X11/app-defaults/XConsole	0644 root bin
 f none X11/lib/X11/app-defaults/Xfd		0644 root bin
 f none X11/lib/X11/app-defaults/XLogo		0644 root bin

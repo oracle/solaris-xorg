@@ -175,6 +175,18 @@ include data/xbitmaps/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libfontenc package are covered by the following notice:
+
+include lib/libfontenc/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libFS package are covered by the following notice:
+
+include lib/libFS/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libICE package are covered by the following notice:
 
 include lib/libICE/COPYING
@@ -235,9 +247,21 @@ include lib/libXfixes/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libXfont package are covered by the following notice:
+
+include lib/libXfont/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXlg3d package are covered by the following notice:
 
 include lib/libXlg3d/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libxkbfile package are covered by the following notice:
+
+include lib/libxkbfile/COPYING
 
 --------------------------------------------------------------------
 
@@ -271,6 +295,12 @@ include lib/libXpm/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libXrandr package are covered by the following notice:
+
+include lib/libXrandr/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXrender package are covered by the following notice:
 
 include lib/libXrender/COPYING
@@ -292,6 +322,24 @@ include lib/libXt/COPYING
 Files from the lib/libXtst package are covered by the following notice:
 
 include lib/libXtst/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libxtrans package are covered by the following notice:
+
+include lib/libxtrans/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXv package are covered by the following notice:
+
+include lib/libXv/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXvMC package are covered by the following notice:
+
+include lib/libXvMC/COPYING
 
 --------------------------------------------------------------------
 

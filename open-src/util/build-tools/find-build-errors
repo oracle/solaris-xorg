@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)find-build-errors 1.2     09/01/11 SMI"
+# ident "@(#)find-build-errors 1.3     09/05/13 SMI"
 #
 
 require 5.005;				# minimal Perl version required
@@ -236,10 +236,16 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
       @pkglines = ();
     }
 
-    if ($l =~ m{(Packaging was not successful.|was not found ; skipping)}ms) {
+    # Warnings we can ignore
+    next if $l =~ m{^WARNING: parameter \<PSTAMP\> set}ms;
+    next if $l =~ m{^WARNING: parameter \<CLASSES\> set to "none"}ms;
+
+    push @pkglines, $l;
+
+    if (($l =~ m{(Packaging was not successful.|was not found ; skipping)}ms)
+	|| ($l =~ m{^WARNING: }ms)) {
       print join('', @pkglines);
-    } else {
-      push @pkglines, $l;
+      @pkglines = ();
     }
   }
 

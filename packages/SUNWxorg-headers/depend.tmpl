@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,12 +29,15 @@
 #
 ##########################################################################
 #
-# ident "@(#)depend 1.2     05/11/07 SMI"
+# ident "@(#)depend.tmpl 1.4     09/05/13 SMI"
 #
-# X.Org Foundation client libraries developer documentation
+# Header files for Xorg Server SDK
 
-P SUNWcsr       Core Solaris, (Root)
-P SUNWcsu       Core Solaris, (Usr)
-P SUNWcsl       Core Solaris, (Shared Libs)
+P SUNWhea	SunOS Header Files
+P SUNWlibm	Math & Microtasking Library Headers & Lint Files (Usr)
+P SUNWxwinc	X Window System include files
+P SUNWpciaccess	PCI bus access library and tools
+P SUNWpixman	Pixman library
 
-
+# common dependencies
+include ../depend

@@ -1,5 +1,5 @@
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,14 +27,13 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile	1.3    07/01/31 SMI"
+# ident "@(#)Makefile	1.4    09/05/13 SMI"
 #
 
 SOURCEDIR=../../packages
 
 PROTO_SOURCES = \
 	$(SOURCEDIR)/SUNWxwpmn/prototype			\
-	$(SOURCEDIR)/SUNWxorg-devel-docs/prototype		\
 	$(SOURCEDIR)/SUNWfontconfig-docs/prototype
 
 all: prototype

@@ -31,6 +31,18 @@ include lib/libXext/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libXfixes package are covered by the following notice:
+
+include lib/libXfixes/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXft package are covered by the following notice:
+
+include lib/libXft/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXi package are covered by the following notice:
 
 include lib/libXi/COPYING
@@ -55,6 +67,12 @@ include lib/libXp/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libXrandr package are covered by the following notice:
+
+include lib/libXrandr/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXScrnSaver package are covered by the following notice:
 
 include lib/libXScrnSaver/COPYING
@@ -71,3 +89,8 @@ Files from the lib/libXtst package are covered by the following notice:
 
 include lib/libXtst/COPYING
 
+--------------------------------------------------------------------
+
+Files from the lib/libXv package are covered by the following notice:
+
+include lib/libXv/COPYING

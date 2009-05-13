@@ -1,5 +1,5 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype	35.46	08/10/05   Sun Microsystems" 
+#	"@(#)prototype	35.47	09/05/13   Sun Microsystems" 
 #
 #  X Window System programmers man pages
 
@@ -34,15 +34,24 @@ i pkginfo
 i copyright
 i depend=../depend
 
-!HOME=../usr
+!HOME=../usr/X11/share/man
 
 d none X11 0755 root bin
 d none X11/share 0755 root bin
 d none X11/share/man 0755 root bin
 s none X11/man=share/man
 
+!search $HOME/man3
+d none X11/share/man/man3 0755 root bin
+
+# open-src/lib/libXfixes
+f none X11/share/man/man3/Xfixes.3 0444 root bin
+
+# open-src/lib/libXft
+f none X11/share/man/man3/Xft.3 0444 root bin
+
 # open-src/lib/libX11
-!search            $HOME/X11/share/man/man3X11
+!search            $HOME/man3X11
 d none X11/share/man/man3X11  0755 root bin
 f none X11/share/man/man3X11/AllPlanes.3X11			0444 root bin
 f none X11/share/man/man3X11/BitmapBitOrder.3X11		0444 root bin
@@ -859,7 +868,7 @@ f none X11/share/man/man3X11/XwcTextPerCharExtents.3X11		0444 root bin
 f none X11/share/man/man3X11/XwcTextPropertyToTextList.3X11	0444 root bin
 
 # open-src/lib/libXevie
-!search            $HOME/X11/share/man/man3Xevie
+!search $HOME/man3Xevie
 d none X11/share/man/man3Xevie  0755 root bin
 f none X11/share/man/man3Xevie/Xevie.3Xevie			0444 root bin
 f none X11/share/man/man3Xevie/XevieEnd.3Xevie			0444 root bin
@@ -869,7 +878,7 @@ f none X11/share/man/man3Xevie/XevieSendEvent.3Xevie		0444 root bin
 f none X11/share/man/man3Xevie/XevieStart.3Xevie		0444 root bin
 
 # open-src/lib/libXext
-!search            $HOME/X11/share/man/man3Xext
+!search            $HOME/man3Xext
 d none X11/share/man/man3Xext  0755 root bin
 f none X11/share/man/man3Xext/DBE.3Xext				0444 root bin
 f none X11/share/man/man3Xext/DPMSCapable.3Xext			0444 root bin
@@ -943,7 +952,7 @@ f none X11/share/man/man3Xext/XmbufGetVersion.3Xext		0444 root bin
 f none X11/share/man/man3Xext/XmbufGetWindowAttributes.3Xext	0444 root bin
 f none X11/share/man/man3Xext/XmbufQueryExtension.3Xext		0444 root bin
 
-!search            $HOME/X11/share/man/man3XRes
+!search            $HOME/man3XRes
 d none X11/share/man/man3XRes					0755 root bin
 f none X11/share/man/man3XRes/XRes.3XRes			0444 root bin
 f none X11/share/man/man3XRes/XResQueryExtension.3XRes		0444 root bin
@@ -952,9 +961,10 @@ f none X11/share/man/man3XRes/XResQueryClients.3XRes		0444 root bin
 f none X11/share/man/man3XRes/XResQueryClientResources.3XRes	0444 root bin
 f none X11/share/man/man3XRes/XResQueryClientPixmapBytes.3XRes	0444 root bin
 
-!search            $HOME/X11/share/man/man3Xi
+!search            $HOME/man3Xi
 d none X11/share/man/man3Xi   0755 root bin
 f none X11/share/man/man3Xi/XAllowDeviceEvents.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XChangeDeviceControl.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeDeviceDontPropagateList.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeDeviceKeyMapping.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeFeedbackControl.3Xi  0444 root bin
@@ -965,11 +975,13 @@ f none X11/share/man/man3Xi/XDeviceBell.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XDeviceTimeCoord.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XFreeDeviceList.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceButtonMapping.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XGetDeviceControl.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceDontPropagateList.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceFocus.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceKeyMapping.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceModifierMapping.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceMotionEvents.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XGetExtensionVersion.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetFeedbackControl.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetSelectedExtensionEvents.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGrabDevice.3Xi  0444 root bin
@@ -990,13 +1002,13 @@ f none X11/share/man/man3Xi/XUngrabDeviceButton.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XUngrabDeviceKey.3Xi  0444 root bin
 
 # open-src/lib/libXmu
-!search            $HOME/X11/share/man/man3Xmu
+!search            $HOME/man3Xmu
 d none X11/share/man/man3Xmu  0755 root bin
 f none X11/share/man/man3Xmu/XSolarisCheckColormapEquivalence.3Xmu  0444 root bin
 f none X11/share/man/man3Xmu/XSolarisGetVisualGamma.3Xmu  0444 root bin
 
 # open-src/lib/libXp
-!search            $HOME/X11/share/man/man3Xp
+!search            $HOME/man3Xp
 d none X11/share/man/man3Xp   0755 root bin
 f none X11/share/man/man3Xp/XpCancelDoc.3Xp  0444 root bin
 f none X11/share/man/man3Xp/XpCancelJob.3Xp  0444 root bin
@@ -1033,8 +1045,27 @@ f none X11/share/man/man3Xp/XpStartJob.3Xp  0444 root bin
 f none X11/share/man/man3Xp/XpStartPage.3Xp  0444 root bin
 f none X11/share/man/man3Xp/libXp.3Xp  0444 root bin
 
+# open-src/lib/libXrandr
+!search $HOME/man3Xrandr
+d none X11/share/man/man3Xrandr 0755 root bin
+f none X11/share/man/man3Xrandr/Xrandr.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigCurrentConfiguration.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigCurrentRate.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigRates.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigRotations.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigSizes.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRConfigTimes.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRFreeScreenConfigInfo.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRGetScreenInfo.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRQueryExtension.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRQueryVersion.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRRootToScreen.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRSelectInput.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRSetScreenConfig.3Xrandr 0444 root bin
+f none X11/share/man/man3Xrandr/XRRSetScreenConfigAndRate.3Xrandr 0444 root bin
+
 # open-src/lib/libXScrnSaver
-!search            $HOME/X11/share/man/man3Xss
+!search            $HOME/man3Xss
 d none X11/share/man/man3Xss   0755 root bin
 f none X11/share/man/man3Xss/XScreenSaverAllocInfo.3Xss		0444 root bin
 f none X11/share/man/man3Xss/XScreenSaverGetRegistered.3Xss	0444 root bin
@@ -1050,7 +1081,7 @@ f none X11/share/man/man3Xss/XScreenSaverUnsetAttributes.3Xss	0444 root bin
 f none X11/share/man/man3Xss/Xss.3Xss				0444 root bin
 
 # open-src/lib/libXt
-!search            $HOME/X11/share/man/man3Xt
+!search            $HOME/man3Xt
 d none X11/share/man/man3Xt   0755 root bin
 f none X11/share/man/man3Xt/MenuPopdown.3Xt  0444 root bin
 f none X11/share/man/man3Xt/MenuPopup.3Xt  0444 root bin
@@ -1190,6 +1221,7 @@ f none X11/share/man/man3Xt/XtIsOverrideShell.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtIsRealized.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtIsRectObj.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtIsSensitive.3Xt  0444 root bin
+f none X11/share/man/man3Xt/XtIsSessionShell.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtIsShell.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtIsSubclass.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtIsTopLevelShell.3Xt  0444 root bin
@@ -1307,8 +1339,10 @@ f none X11/share/man/man3Xt/XtVaCreatePopupShell.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtVaCreateWidget.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtVaGetApplicationResources.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtVaGetSubresources.3Xt  0444 root bin
+f none X11/share/man/man3Xt/XtVaGetSubvalues.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtVaGetValues.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtVaOpenApplication.3Xt  0444 root bin
+f none X11/share/man/man3Xt/XtVaSetSubvalues.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtVaSetValues.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtWarning.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtWarningMsg.3Xt  0444 root bin
@@ -1318,24 +1352,25 @@ f none X11/share/man/man3Xt/XtWindowOfObject.3Xt  0444 root bin
 f none X11/share/man/man3Xt/XtWindowToWidget.3Xt  0444 root bin
 
 # open-src/lib/libXau
-!search            $HOME/X11/share/man/man3Xau
+!search            $HOME/man3Xau
 d none X11/share/man/man3Xau				0755 root bin
 f none X11/share/man/man3Xau/Xau.3Xau  			0444 root bin
 f none X11/share/man/man3Xau/XauDisposeAuth.3Xau	0444 root bin
 f none X11/share/man/man3Xau/XauFileName.3Xau		0444 root bin
 f none X11/share/man/man3Xau/XauGetAuthByAddr.3Xau	0444 root bin
+f none X11/share/man/man3Xau/XauGetBestAuthByAddr.3Xau	0444 root bin
 f none X11/share/man/man3Xau/XauLockAuth.3Xau		0444 root bin
 f none X11/share/man/man3Xau/XauReadAuth.3Xau		0444 root bin
 f none X11/share/man/man3Xau/XauUnlockAuth.3Xau		0444 root bin
 f none X11/share/man/man3Xau/XauWriteAuth.3Xau		0444 root bin
 
 # open-src/lib/libXaw
-!search            $HOME/X11/share/man/man3Xaw
+!search            $HOME/man3Xaw
 d none X11/share/man/man3Xaw				0755 root bin
 f none X11/share/man/man3Xaw/Xaw.3Xaw  			0444 root bin
 
 # open-src/lib/libXcomposite
-!search $HOME/X11/share/man/man3Xcomposite
+!search $HOME/man3Xcomposite
 d none X11/share/man/man3Xcomposite 0755 root bin
 f none X11/share/man/man3Xcomposite/Xcomposite.3Xcomposite 0444 root bin
 f none X11/share/man/man3Xcomposite/XCompositeCreateRegionFromBorderClip.3Xcomposite 0444 root bin
@@ -1350,7 +1385,8 @@ f none X11/share/man/man3Xcomposite/XCompositeUnredirectSubwindows.3Xcomposite 0
 f none X11/share/man/man3Xcomposite/XCompositeUnredirectWindow.3Xcomposite 0444 root bin
 f none X11/share/man/man3Xcomposite/XCompositeVersion.3Xcomposite 0444 root bin
 
-!search $HOME/X11/share/man/man3Xcursor
+# open-src/lib/libXcursor
+!search $HOME/man3Xcursor
 d none X11/share/man/man3Xcursor 0755 root bin
 f none X11/share/man/man3Xcursor/Xcursor.3Xcursor 0444 root bin
 f none X11/share/man/man3Xcursor/XcursorCursorsCreate.3Xcursor 0444 root bin
@@ -1386,7 +1422,7 @@ f none X11/share/man/man3Xcursor/XcursorXcFileLoadImages.3Xcursor 0444 root bin
 f none X11/share/man/man3Xcursor/XcursorXcFileSave.3Xcursor 0444 root bin
 
 # open-src/lib/libXinerama
-!search            $HOME/X11/share/man/man3Xinerama
+!search            $HOME/man3Xinerama
 d none X11/share/man/man3Xinerama			0755 root bin
 f none X11/share/man/man3Xinerama/Xinerama.3Xinerama	0444 root bin
 f none X11/share/man/man3Xinerama/XineramaIsActive.3Xinerama		0444 root bin
@@ -1395,7 +1431,7 @@ f none X11/share/man/man3Xinerama/XineramaQueryScreens.3Xinerama	0444 root bin
 f none X11/share/man/man3Xinerama/XineramaQueryVersion.3Xinerama	0444 root bin
 
 # open-src/lib/libXtst
-!search            $HOME/X11/share/man/man3Xtst
+!search            $HOME/man3Xtst
 d none X11/share/man/man3Xtst				0755 root bin
 f none X11/share/man/man3Xtst/XTestCompareCurrentCursorWithWindow.3Xtst 0444 root bin
 f none X11/share/man/man3Xtst/XTestCompareCursorWithWindow.3Xtst 0444 root bin
@@ -1408,3 +1444,66 @@ f none X11/share/man/man3Xtst/XTestGrabControl.3Xtst 0444 root bin
 f none X11/share/man/man3Xtst/XTestQueryExtension.3Xtst 0444 root bin
 f none X11/share/man/man3Xtst/XTestSetGContextOfGC.3Xtst 0444 root bin
 f none X11/share/man/man3Xtst/XTestSetVisualIDOfVisual.3Xtst 0444 root bin
+
+# open-src/lib/libXv
+!search $HOME/man3Xv
+d none X11/share/man/man3Xv 0755 root bin
+f none X11/share/man/man3Xv/Xv.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvFreeAdaptorInfo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvFreeEncodingInfo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGetPortAttribute.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGetStill.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGetVideo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvGrabPort.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvPortNotify.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvPutStill.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvPutVideo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryAdaptors.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryBestSize.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryEncodings.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvQueryExtension.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvSelectPortNotify.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvSelectVideoNotify.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvSetPortAttribute.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvStopVideo.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvUngrabPort.3Xv 0444 root bin
+f none X11/share/man/man3Xv/XvVideoNotify.3Xv 0444 root bin
+
+# open-src/lib/libXxf86misc
+!search $HOME/man3Xxf86misc
+d none X11/share/man/man3Xxf86misc 0755 root bin
+f none X11/share/man/man3Xxf86misc/XF86Misc.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscGetKbdSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscGetMouseSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscGetSaver.3Xxf86misc	0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscQueryExtension.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscQueryVersion.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscSetKbdSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscSetMouseSettings.3Xxf86misc 0444 root bin
+f none X11/share/man/man3Xxf86misc/XF86MiscSetSaver.3Xxf86misc	0444 root bin
+
+# open-src/lib/libXxf86vm
+!search $HOME/man3Xxf86vm
+d none X11/share/man/man3Xxf86vm 0755 root bin
+f none X11/share/man/man3Xxf86vm/XF86VM.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeDeleteModeLine.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetAllModeLines.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetDotClocks.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetGamma.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetGammaRamp.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetGammaRampSize.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetModeLine.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetMonitor.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetPermissions.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeGetViewPort.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeLockModeSwitch.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeModModeLine.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeQueryExtension.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeQueryVersion.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetClientVersion.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetGamma.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetGammaRamp.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSetViewPort.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSwitchMode.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeSwitchToMode.3Xxf86vm 0444 root bin
+f none X11/share/man/man3Xxf86vm/XF86VidModeValidateModeLine.3Xxf86vm 0444 root bin
