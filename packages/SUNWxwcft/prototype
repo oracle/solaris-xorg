@@ -266,6 +266,31 @@ f none X11/lib/X11/fonts/misc/hanglg16.pcf.gz		0444 root bin
 f none X11/lib/X11/fonts/misc/hanglm16.pcf.gz		0444 root bin
 f none X11/lib/X11/fonts/misc/hanglm24.pcf.gz		0444 root bin
 
+!search           $X11_FONTS/F3bitmaps
+d none X11/lib/X11/fonts/F3bitmaps 0755 root bin
+#e fontsdir X11/lib/X11/fonts/F3bitmaps/fonts.dir		0444 root bin
+#e fontsalias X11/lib/X11/fonts/F3bitmaps/fonts.alias.all	0644 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright6.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright8.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright10.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright12.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright14.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Demi6.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Demi8.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Demi10.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Demi12.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Demi14.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic6.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic8.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic10.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic12.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic14.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Italic6.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Italic8.pcf		0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Italic10.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Italic12.pcf	0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaBright-Italic14.pcf	0444 root bin
+
 !search            $OW_FONTS/F3bitmaps
 d none openwin/lib/X11/fonts/F3bitmaps			0755 root bin
 e fontsdir openwin/lib/X11/fonts/F3bitmaps/fonts.dir	0644 root bin
@@ -363,26 +388,6 @@ f none openwin/lib/X11/fonts/F3bitmaps/Helvetica-Narrow-Oblique8.pcf	0444 root b
 f none openwin/lib/X11/fonts/F3bitmaps/Helvetica-Narrow-Oblique10.pcf	0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/Helvetica-Narrow-Oblique12.pcf	0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/Helvetica-Narrow-Oblique14.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright6.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright8.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright10.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright12.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright14.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Demi6.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Demi8.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Demi10.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Demi12.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Demi14.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic6.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic8.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic10.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic12.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-DemiItalic14.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Italic6.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Italic8.pcf		0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Italic10.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Italic12.pcf	0444 root bin
-f none openwin/lib/X11/fonts/F3bitmaps/LucidaBright-Italic14.pcf	0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/Rkw6.pcf			0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/Rkw8.pcf			0444 root bin
 f none openwin/lib/X11/fonts/F3bitmaps/Rkw10.pcf		0444 root bin
