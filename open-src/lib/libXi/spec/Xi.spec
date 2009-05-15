@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident  "@(#)Xi.spec	1.2	08/12/02 SMI"
+#ident  "@(#)Xi.spec	1.3	09/05/14 SMI"
 #
 
 Function	XInput_find_display
@@ -71,6 +71,11 @@ Version		SUNW_1.1
 Arch		all
 End
 
+Function	XChangeDeviceProperty
+Version		SUNW_1.3
+Arch		all
+End
+
 Function	XChangeFeedbackControl
 Version		SUNW_1.1
 Arch		all
@@ -88,6 +93,11 @@ End
 
 Function	XCloseDevice
 Version		SUNW_1.1
+Arch		all
+End
+
+Function	XDeleteDeviceProperty
+Version		SUNW_1.3
 Arch		all
 End
 
@@ -156,6 +166,11 @@ Version		SUNW_1.1
 Arch		all
 End
 
+Function	XGetDeviceProperty
+Version		SUNW_1.3
+Arch		all
+End
+
 Function	XGetExtensionVersion
 Version		SUNW_1.1
 Arch		all
@@ -183,6 +198,11 @@ End
 
 Function	XGrabDeviceKey
 Version		SUNW_1.1
+Arch		all
+End
+
+Function	XListDeviceProperties
+Version		SUNW_1.3
 Arch		all
 End
 

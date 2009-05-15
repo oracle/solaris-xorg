@@ -2,7 +2,7 @@
 #
 # Xi 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,7 +37,7 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.3
+MODULE_VERSION=1.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6649171.patch

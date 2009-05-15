@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#	"@(#)prototype	35.47	09/05/13   Sun Microsystems" 
+#	"@(#)prototype	35.48	09/05/14   Sun Microsystems" 
 #
 #  X Window System programmers man pages
 
@@ -967,12 +967,14 @@ f none X11/share/man/man3Xi/XAllowDeviceEvents.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeDeviceControl.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeDeviceDontPropagateList.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeDeviceKeyMapping.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XChangeDeviceProperty.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeFeedbackControl.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangeKeyboardDevice.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XChangePointerDevice.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XCloseDevice.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XDeviceBell.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XDeviceTimeCoord.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XDeleteDeviceProperty.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XFreeDeviceList.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceButtonMapping.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceControl.3Xi  0444 root bin
@@ -981,12 +983,14 @@ f none X11/share/man/man3Xi/XGetDeviceFocus.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceKeyMapping.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceModifierMapping.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetDeviceMotionEvents.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XGetDeviceProperty.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetExtensionVersion.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetFeedbackControl.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGetSelectedExtensionEvents.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGrabDevice.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGrabDeviceButton.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XGrabDeviceKey.3Xi  0444 root bin
+f none X11/share/man/man3Xi/XListDeviceProperties.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XListInputDevices.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XOpenDevice.3Xi  0444 root bin
 f none X11/share/man/man3Xi/XQueryDeviceState.3Xi  0444 root bin
