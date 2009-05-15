@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.21	09/01/15 SMI"
+# ident	"@(#)prototype	1.22	09/05/15 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -153,11 +153,15 @@ f none X11/lib/modules/dri/swrast_dri.so 0755 root bin
 !search $HOME/lib/modules/extensions
 d none X11/lib/modules/extensions 0755 root bin
 f none X11/lib/modules/extensions/libdri.so 0755 root bin
+f none X11/lib/modules/extensions/libdri2.so 0755 root bin
 d none X11/lib/modules/extensions/mesa 0755 root bin
 f none X11/lib/modules/extensions/mesa/libglx.so 0755 root bin
 s none X11/lib/modules/extensions/GL=mesa 0755 root bin
 s none X11/lib/modules/extensions/libglx.so=../../../../../var/run/opengl/server/libglx.so 0755 root bin
 
+!search $HOME/include/xorg
+d none X11/include/xorg			0755 root bin
+f none X11/include/xorg/dri2.h		0444 root bin
 
 # 64-bit X server-side components
 d none X11/lib/modules/dri/$plat_64 0755 root bin
@@ -172,6 +176,7 @@ f none X11/lib/modules/dri/$plat_64/swrast_dri.so 0755 root bin
 !search $HOME/lib/modules/$plat_64/extensions
 d none X11/lib/modules/extensions/$plat_64 0755 root bin
 f none X11/lib/modules/extensions/$plat_64/libdri.so 0755 root bin
+f none X11/lib/modules/extensions/$plat_64/libdri2.so 0755 root bin
 d none X11/lib/modules/extensions/mesa/$plat_64 0755 root bin
 f none X11/lib/modules/extensions/mesa/$plat_64/libglx.so 0755 root bin
 s none X11/lib/modules/extensions/$plat_64/libglx.so=../../../../../../var/run/opengl/server/amd64/libglx.so 0755 root bin
@@ -220,13 +225,19 @@ s none openwin/share/include/GL=../../../X11/include/GL
 !search $HOME/../lib/pkgconfig
 d none lib                                      0755 root bin
 d none lib/pkgconfig                            0755 root other
+f none lib/pkgconfig/dri.pc		        0444 root bin
 f none lib/pkgconfig/gl.pc		        0444 root bin
+f none lib/pkgconfig/glu.pc		        0444 root bin
+f none lib/pkgconfig/glw.pc		        0444 root bin
 f none lib/pkgconfig/glproto.pc                 0444 root bin
 
 !search $HOME/../lib/$plat_64/pkgconfig
 d none lib/$plat_64                             0755 root bin
 d none lib/$plat_64/pkgconfig                   0755 root other
+f none lib/$plat_64/pkgconfig/dri.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/gl.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/glu.pc		0444 root bin
+f none lib/$plat_64/pkgconfig/glw.pc		0444 root bin
 s none lib/$plat_64/pkgconfig/glproto.pc=../../pkgconfig/glproto.pc
 
 

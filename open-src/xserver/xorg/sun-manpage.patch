@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
 --- cpprules.in	2007-05-29 12:36:50.000000000 -0700
-+++ cpprules.in	2009-03-10 22:46:35.671590000 -0700
++++ cpprules.in	2009-05-08 17:42:34.541312000 -0700
 @@ -25,7 +25,7 @@ XORGRELSTRING = @PACKAGE_STRING@
    XORGMANNAME = X Version 11
    XSERVERNAME = Xorg
@@ -11,10 +11,10 @@ diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
          -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
  	-D__appmansuffix__=$(APP_MAN_SUFFIX) \
 diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
---- doc/Xserver.man.pre	2009-03-10 22:45:58.609756000 -0700
-+++ doc/Xserver.man.pre	2009-03-10 22:46:35.714098000 -0700
+--- doc/Xserver.man.pre	2009-05-08 17:42:26.287194000 -0700
++++ doc/Xserver.man.pre	2009-05-08 17:42:34.544517000 -0700
 @@ -1,3 +1,32 @@
-+.\" ident	"@(#)sun-manpage.patch	1.7	09/03/11 SMI"
++.\" ident	"@(#)sun-manpage.patch	1.8	09/05/15 SMI"
 +.\" 
 +.\" Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 +.\" 
@@ -193,7 +193,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-r
  turns off auto-repeat.
-@@ -268,6 +377,10 @@ This is a no-op for most implementations
+@@ -275,6 +384,10 @@ This is a no-op for most implementations
  .B [+-]xinerama
  enables(+) or disables(-) the XINERAMA extension.  The default state is
  platform and configuration specific.
@@ -204,7 +204,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH SERVER DEPENDENT OPTIONS
  Some X servers accept the following options:
  .TP 8
-@@ -311,15 +424,24 @@ use a gray map of 13 color cells for the
+@@ -318,15 +431,24 @@ use a gray map of 13 color cells for the
  .TP 8
  .I color
  use a color cube of at most 4*4*4 colors (that is 64 color cells).
@@ -229,7 +229,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH XDMCP OPTIONS
  X servers that support XDMCP have the following options.
  See the \fIX Display Manager Control Protocol\fP specification for more
-@@ -357,6 +479,9 @@ specifies the local address to connect f
+@@ -364,6 +486,9 @@ specifies the local address to connect f
  has multiple network interfaces).  The \fIlocal-address\fP may be expressed
  in any form acceptable to the host platform's \fIgethostbyname\fP(3)
  implementation.
@@ -239,7 +239,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-once
  causes the server to terminate (rather than reset) when the XDMCP session
-@@ -384,22 +509,45 @@ relative path from the XKB base director
+@@ -391,22 +516,45 @@ relative path from the XKB base director
  .TP 8
  .B [+-]kb
  enables(+) or disables(-) the XKEYBOARD extension.
@@ -286,7 +286,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-xkbmap \fIfilename\fP
  loads keyboard description in \fIfilename\fP on server startup.
-@@ -541,6 +689,96 @@ the following font path:
+@@ -548,6 +696,96 @@ the following font path:
      /usr/share/fonts/default/Type1,
      /usr/share/fonts/default/ghostscript
  .fi
@@ -383,7 +383,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  
  .SH FILES
  .TP 30
-@@ -549,12 +787,22 @@ Initial access control list for display 
+@@ -556,12 +794,22 @@ Initial access control list for display 
  .TP 30
  .IR __projectroot__/lib/X11/fonts/misc , __projectroot__/lib/X11/fonts/75dpi , __projectroot__/lib/X11/fonts/100dpi
  Bitmap font directories
@@ -406,7 +406,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 30
  .IR /tmp/rcX\fBn\fP
  Kerberos 5 replay cache for display number \fBn\fP
-@@ -564,6 +812,15 @@ Error log file for display number \fBn\f
+@@ -571,6 +819,15 @@ Error log file for display number \fBn\f
  .TP 30
  .I __projectroot__/lib/X11/xdm/xdm-errors
  Default error log file if the server is run from \fIxdm\fP(1)
@@ -422,7 +422,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH "SEE ALSO"
  General information: \fIX\fP(__miscmansuffix__)
  .PP
-@@ -580,14 +837,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
+@@ -587,14 +844,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.98	09/01/14
+# @(#)Makefile.inc	1.99	09/05/15
 #
 
 ### Default rules
@@ -107,10 +107,10 @@ $(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install \
 
 # Additional flags to pass to make in 32-bit & 64-bit builds
 BUILD_32_FLAGS= BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" \
-	$(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
+	BUILD_TYPE=32 $(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
 
 BUILD_64_FLAGS= BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" \
-	$(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
+	BUILD_TYPE=64 $(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
 
 all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
 all_32: source_32 configure_32 build_32
@@ -168,6 +168,10 @@ install_64:: build_64
 
 DEBUG_BUILD_FLAGS = BUILD_DEBUG=yes
 
+debug-build:	debug
+debug-build_32:	debug_32
+debug-build_64:	debug_64
+
 debug:
 	$(MAKE) $(MAKEFLAGS) all $(DEBUG_BUILD_FLAGS)
 
@@ -195,7 +199,7 @@ GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
 
 # Download if SOURCE_TARBALL_NAME is not set to NONE and the file either
 # doesn't exist or is empty
-# If MODULE_VERSION is xgit, checkout source from git repo instead of
+# If MODULE_VERSION is git, checkout source from git repo instead of
 # a tarball
 download:
 	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; set -x ; \
@@ -347,7 +351,7 @@ $(AUTOCONF_TARGET_DEFAULT)	AUTOCONF_TARGET=$(SOURCE_DIR)/Makefile
 
 $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	cd $(SOURCE_DIR) ; \
-	if [[ "$(AUTORECONF)" = "yes" ]] ; then \
+	if [[ "$(AUTORECONF)" = "yes" || "$(MODULE_VERSION)" = "git" ]] ; then \
 	     $(AUTORECONF_ENV) autoreconf -v --install --force ; \
 	fi ; \
 	chmod a+x configure ; \
@@ -434,9 +438,10 @@ install-in-subdir:
 
 # Adjust paths in pkg-config files for -uninstalled variants used during build
 UNINSTALLED_PC_OPS= \
-	-e 's|(-[LI]\s*)\$$|$$1$(PROTODIR)\$$|g;' \
-	-e 's|^sdkdir=|sdkdir=$(PROTODIR)|g;' \
-	-e 's|$(PROTODIR)\$${sdkdir}|\$${sdkdir}|g;'
+	-e 'BEGIN {use Cwd; $$protodir=Cwd::realpath("$(PROTODIR)");}' \
+	-e 's|(-[LI]\s*)\$$|$$1$$protodir\$$|g;' \
+	-e 's|^sdkdir=|sdkdir=$$protodir|g;' \
+	-e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;'
 
 install_pkgconfig_uninstalled:
 	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \
@@ -452,6 +457,10 @@ install_pkgconfig_uninstalled:
 # Set comments in ELF binaries to help identify versions/builds
 ELF_COMMENTS = $(MODULE_NAME) $(MODULE_VERSION)
 ELF_COMMENTS += $(MODTYPE_ELF_COMMENTS)$(MODULE_ELF_COMMENTS)
+
+$(BUILD_DEBUG:yes=)			DEBUG_ELF_COMMENTS=(DEBUG)
+$(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_ELF_COMMENTS=
+ELF_COMMENTS += $(DEBUG_ELF_COMMENTS)
 
 set-elf-comments:
 	$(TOP)/common/set-elf-comments.pl -B $(TOP)/../packages/pkgversion \

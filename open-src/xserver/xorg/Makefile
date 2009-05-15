@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.75	09/03/12
+# @(#)Makefile	1.76	09/05/15
 #
 
 # Build 32-bit or 64-bit?
@@ -63,23 +63,12 @@ SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
 MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
 
-# Compiler to use - x86 MMX code only builds with gcc, not Sun Studio, so use
-# gcc on x86 for now, but keep Sun Studio on SPARC
-MODULE_COMPILER_sparc=suncc
-MODULE_COMPILER_i386=gcc
-MODULE_COMPILER=$(MODULE_COMPILER_$(MACH))
-MODULE_COMPILER_SET=yes
-
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
 BUILD_TARGETS=$(XORGSERVER_BIN) set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
-
-# Additional license files to install
-EXTRA_LICENSES = \
-	COPYING.Xprint-fonts 
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -88,7 +77,7 @@ AUTORECONF=yes
 #  Need to override LD setting to add -xarch flags that libtool strips
 # XXX: --disable-dga
 MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
-        --enable-builddocs --enable-xorgcfg --disable-xprint \
+        --enable-builddocs \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
 	MKFONTDIR="$(MKFONTDIR)" \
 	MKFONTSCALE="$(MKFONTSCALE)" \
@@ -128,9 +117,6 @@ install_extras: default_install
 	mkdir -p $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor
 	cp -p $(SOURCE_DIR)/config/x11-input.fdi \
 	 $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor/10-x11-input.fdi
-	(cd $(SOURCE_DIR)/hw/xprint/doc && \
-	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) \
-	 $(DEFAULT_INSTALL_MAKEFLAGS) install)
 
 # Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
 install_pc: install_pkgconfig_uninstalled

@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-12-26 16:48:57.000000000 -0800
-+++ src/Makefile.am	2009-01-10 19:09:03.425329000 -0800
-@@ -159,3 +159,32 @@ EXTRA_DIST = \
+--- src/Makefile.am	2009-03-31 12:11:10.000000000 -0700
++++ src/Makefile.am	2009-04-08 13:19:15.269540000 -0700
+@@ -165,3 +165,30 @@ EXTRA_DIST = \
  	pcidb/ati_pciids.csv \
  	pcidb/parse_pci_ids.pl \
  	radeon_atombios.h
@@ -42,10 +42,8 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +	mapfile-theatre_detect_drv-external \
 +	mapfile-theatre_drv-external
 +
-+ati_drv_la_LDFLAGS += -lpciaccess
-+
 +radeon_drv_la_LDFLAGS += $(radeon_MAPFILES:%=-Wl,-M,%) \
-+	-lexa -lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa -lshadow \
++	-lexa -lfb -lint10 -lvbe -lvgahw -lxaa -lshadow \
 +	-ldrm -ldri -lglx -lm
 +
 +radeon_drv_la_DEPENDENCIES = $(radeon_MAPFILES)

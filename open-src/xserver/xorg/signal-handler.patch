@@ -1,7 +1,7 @@
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dri/dri.c hw/xfree86/dri/dri.c
---- hw/xfree86/dri/dri.c	2008-10-17 15:49:03.916893000 -0700
-+++ hw/xfree86/dri/dri.c	2008-10-17 15:49:21.389521000 -0700
-@@ -2466,7 +2466,11 @@ int drmInstallSIGIOHandler(int fd, void 
+--- hw/xfree86/dri/dri.c	2009-05-08 17:45:21.396957000 -0700
++++ hw/xfree86/dri/dri.c	2009-05-08 17:45:31.288131000 -0700
+@@ -2491,7 +2491,11 @@ int drmInstallSIGIOHandler(int fd, void 
      entry     = drmGetEntry(fd);
      entry->f  = f;
  
@@ -13,7 +13,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dri/dri.c hw/xfree86/dri/dri.c
  }
  
  int drmRemoveSIGIOHandler(int fd)
-@@ -2475,5 +2479,9 @@ int drmRemoveSIGIOHandler(int fd)
+@@ -2500,5 +2504,9 @@ int drmRemoveSIGIOHandler(int fd)
  
      entry->f = NULL;
  

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	09/01/14
+# @(#)Makefile	1.8	09/05/15
 #
 
 # Package name used in tarballs
@@ -56,7 +56,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lfb -lint10 -lpciaccess -lshadowfb -lvbe \
-	-lvgahw -lxaa -lxf8_32bpp -lcfb -lmfb -lfbdevhw
+	-lvgahw -lxaa -lfbdevhw
 
 # Extra flags to pass to configure script
 # - Disable DRI since the kernel module isn't ported

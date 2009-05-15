@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.14	09/01/10
+# @(#)Makefile.inc	1.15	09/05/15
 #
 
 PWD:sh=pwd
@@ -58,19 +58,20 @@ MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 MODTYPE_CPPFLAGS= \
 	-I$(PROTODIR)/usr/include		\
 	-I$(PROTODIR)/usr/include/pixman-1	\
-	-I$(PROTODIR)/usr/X11/include/xorg	\
-	-I$(PROTODIR)/usr/X11/include/drm	\
-	-I$(PROTODIR)/usr/X11/include/X11/dri
-
-# Inline assembly in i386 requires gcc until we move to Studio 12 or later
-MODTYPE_COMPILER_sparc=suncc
-MODTYPE_COMPILER_i386=gcc
-MODTYPE_COMPILER=$(MODTYPE_COMPILER_$(MACH))
-MODTYPE_COMPILER_SET=yes
+	-I$(PROTODIR)$(XORG_SDK_INCLUDES_DIR)	\
+	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm	\
+	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri
 
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
 
-MODTYPE_LDFLAGS_cc=
+ASM_IL_DIR = $(PROTODIR)$(XORG_SDK_INCLUDES_DIR)
+MODTYPE_CFLAGS_suncc_i386_32 = $(ASM_IL_DIR)/solaris-ia32.il
+MODTYPE_CFLAGS_suncc_i386_64 = $(ASM_IL_DIR)/solaris-amd64.il
+MODTYPE_CFLAGS_suncc_sparc_32 = $(ASM_IL_DIR)/solaris-sparcv8plus.il
+MODTYPE_CFLAGS_suncc_sparc_64 = $(ASM_IL_DIR)/solaris-sparcv8plus.il
+MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_$(MACH)_$(BUILD_TYPE))
+
+MODTYPE_LDFLAGS_suncc=
 MODTYPE_LDFLAGS_gcc=-R/usr/sfw/lib$(ARCHLIBSUBDIR)
 MODTYPE_LDFLAGS=$(LDFLAGS) -Wl,-B,direct $(MODTYPE_LDFLAGS_$(MODULE_COMPILER))
 

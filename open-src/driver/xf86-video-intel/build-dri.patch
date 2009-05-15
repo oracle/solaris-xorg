@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2008-08-25 18:28:31.000000000 -0700
-+++ configure.ac	2009-01-10 20:01:38.516058000 -0800
+--- configure.ac	2009-01-21 11:55:53.000000000 -0800
++++ configure.ac	2009-05-08 20:47:52.030497000 -0700
 @@ -37,7 +37,7 @@ AM_MAINTAINER_MODE
  # Checks for programs.
  AC_DISABLE_STATIC
@@ -38,16 +38,29 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_PROG_CC
  AM_PROG_CC_C_O
  
-@@ -84,7 +84,11 @@ XORG_DRIVER_CHECK_EXT(DPMSExtension, xex
+@@ -84,9 +84,14 @@ XORG_DRIVER_CHECK_EXT(DPMSExtension, xex
  
  # Checks for pkg-config packages
  PKG_CHECK_MODULES(XORG, [xorg-server xproto fontsproto $REQUIRED_MODULES])
--sdkdir=$(pkg-config --variable=sdkdir xorg-server)
+-PKG_CHECK_MODULES(UXA, [xorg-server >= 1.5], [BUILD_UXA=yes], [BUILD_UXA=no])
++PKG_CHECK_MODULES(UXA, [xorg-server >= 1.5], [BUILD_UXA=no], [BUILD_UXA=no])
++
 +AC_ARG_WITH(xorg-sdk-dir,
-+	    AC_HELP_STRING([--with-xorg-sdk-dir=DIR],
-+		           [Default xorg sdk include directory [[default is taken from pkgconfig]]]),
-+	    [sdkdir="$withval"],
-+	    [sdkdir=$(pkg-config --variable=sdkdir xorg-server)])
++	AC_HELP_STRING([--with-xorg-sdk-dir=DIR],
++		[Default xorg sdk include directory [[default is taken from pkgconfig]]]),
++	[sdkdir="$withval"],
++	[sdkdir=$(pkg-config --variable=sdkdir xorg-server)])
+ 
+-sdkdir=$(pkg-config --variable=sdkdir xorg-server)
+ drm_cflags=$(pkg-config --cflags libdrm)
  
  # Checks for libraries.
+@@ -222,7 +227,7 @@ fi
  
+ dnl exaGetPixmapDriverPrivate required for DRM_MODE.
+ PKG_CHECK_MODULES(DRM_MODE, [xorg-server >= 1.5],
+-		  [DRM_MODE=yes], [DRM_MODE=no])
++		  [DRM_MODE=no], [DRM_MODE=no])
+ if test "x$DRM_MODE" = xyes; then
+ 	AC_DEFINE(XF86DRM_MODE,1,[DRM kernel modesetting])
+ fi

@@ -29,9 +29,9 @@
 6385111: Xorg auto-configuration Improvement
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2008-09-24 20:23:15.204372000 -0700
-+++ hw/xfree86/common/xf86Config.c	2008-09-24 20:23:31.397650000 -0700
-@@ -2180,7 +2180,7 @@ configMonitor(MonPtr monitorp, XF86ConfM
+--- hw/xfree86/common/xf86Config.c	2009-05-08 17:44:47.430402000 -0700
++++ hw/xfree86/common/xf86Config.c	2009-05-08 17:44:56.031564000 -0700
+@@ -2105,7 +2105,7 @@ configMonitor(MonPtr monitorp, XF86ConfM
      cmodep = conf_monitor->mon_modeline_lst;
      while( cmodep ) {
          mode = xnfcalloc(1, sizeof(DisplayModeRec));

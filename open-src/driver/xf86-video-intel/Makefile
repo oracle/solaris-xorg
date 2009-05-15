@@ -30,28 +30,27 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.22	09/03/18
+# @(#)Makefile	1.23	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.2
+MODULE_VERSION=2.6.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
-		6538497_6554161.patch 845_workaround.patch \
-		Add-support-for-G41-chipset.patch,-p1 \
-		Fix-broken-stolen-memory-counting-on-G4X.patch,-p1 \
-		Render-register-clock-gating-disable-fix-on-4-series.patch,-p1 \
-		Do-force-CRT-detect-sequence-twice-on-4-series-chips.patch,-p1 \
-		6810801.patch 6819154.patch
+		6538497_6554161.patch bugs.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
+
+# Intel driver doesn't work on some chipsets if built with Sun compiler
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS=--enable-dri

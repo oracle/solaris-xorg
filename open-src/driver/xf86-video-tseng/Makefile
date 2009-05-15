@@ -2,7 +2,7 @@
 #
 # xf86-video-tseng 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7	09/01/10
+# @(#)Makefile	1.8	09/05/15
 #
 
 # Package name used in tarballs
@@ -53,7 +53,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lpciaccess -lvgahw -lxaa -lxf1bpp -lxf4bpp
+	-lfb -lint10 -lpciaccess -lvgahw -lxaa
 
 
 include ../Makefile.inc

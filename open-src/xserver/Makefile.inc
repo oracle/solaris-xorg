@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.11	09/02/18
+# @(#)Makefile.inc	1.12	09/05/15
 #
 
 PWD:sh=pwd
@@ -40,7 +40,7 @@ MODTYPE=xserver
 include $(TOP)/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.5.3
+XORGSERVER_VERS=1.6.1.901
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
@@ -56,8 +56,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
         --disable-xdm-auth-1 --enable-xcsecurity \
 	--enable-shared --disable-static \
-	--disable-xsdl --disable-xwin --disable-xgl \
-	--disable-kbd_mode \
+	--disable-xsdl --disable-xwin --disable-xnest \
 	--disable-install-setuid \
 	--with-vendor-name="Sun Microsystems, Inc." \
 	--with-vendor-web="http://sunsolve.sun.com/" \
@@ -66,7 +65,6 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-module-dir=$(SERVER_MODULES_DIR) \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
-	--with-rgb-path='$${libdir}/X11/rgb' \
 	--with-serverconfig-path='$${libdir}/X11/xserver' \
 	--with-default-font-path="catalogue:/etc/X11/fontpath.d" \
 	--with-default-xkb-rules=xorg \
@@ -74,13 +72,10 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	$(ADDITIONAL_CONFIG_OPTS)
 
 XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON) \
-	--disable-glx
+	--disable-glx --disable-dri2
 XSERVER_CONFIG_OPTS_i386=$(XSERVER_CONFIG_OPTS_COMMON) \
-	--with-mesa-source=$(MESA_SRC_DIR)
+	--with-mesa-source=$(MESA_SRC_DIR) --enable-dri2
 XSERVER_CONFIG_OPTS=$(XSERVER_CONFIG_OPTS_$(MACH))
-
-# Need to append header path with gcc headers for MMX/SSE intrinsics
-GCC_HEADERS:sh=gcc -print-search-dirs | awk -F: '$1 == "install" {printf "-idirafter %s/install-tools/include", $2}'
 
 # Default DPMS settings for Solaris
 DPMS_DEFINES=   -DDEFAULT_STANDBY_TIME=900000 \
@@ -88,7 +83,7 @@ DPMS_DEFINES=   -DDEFAULT_STANDBY_TIME=900000 \
                 -DDEFAULT_OFF_TIME=1260000
 
 MODTYPE_CPPFLAGS_suncc= # No extra flags needed
-MODTYPE_CPPFLAGS_gcc= $(GCC_HEADERS)
+MODTYPE_CPPFLAGS_gcc= # No extra flags needed
 
 MODTYPE_CPPFLAGS=  \
 	-I$(PROTODIR)/usr/include \
@@ -107,6 +102,7 @@ XSERVER_LDFLAGS_gcc= -L/usr/sfw/lib$(ARCHLIBSUBDIR) \
 # Environment variable options to GNU autoconf configure script
 #  - XSERVERCFLAGS_CFLAGS - force CFLAGS to avoid -I /usr/X11/include breaking
 #    use of headers from proto area
+#  - PATH - include /usr/sbin for dtrace command (needed for building probes)
 MODTYPE_CONFIG_ENV = \
 	XSERVERCFLAGS_CFLAGS="-DHAS_FCHOWN -DHAS_STICKY_DIR_BIT -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DXTHREADS -DXUSE_MTSAFE_API" \
 	PATH=$(PATH):/usr/sbin
@@ -131,6 +127,7 @@ MODTYPE_BUILD_64_FLAGS_i386=ARCHBINSUBDIR="$(SUBDIR64)"
 MODTYPE_BUILD_64_FLAGS=$(MODTYPE_BUILD_64_FLAGS_$(MACH))
 
 # Environment variable options to use when building
+#  - PATH - include /usr/sbin for dtrace command (needed for building probes)
 MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
 	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib/xorgcfg$(ARCHLIBSUBDIR)
 

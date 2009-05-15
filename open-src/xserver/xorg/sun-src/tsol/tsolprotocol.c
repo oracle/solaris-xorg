@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolprotocol.c 1.29	09/04/02 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.30	09/05/15 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -576,21 +576,20 @@ ProcTsolReparentWindow(ClientPtr client)
 /*
  * HandleHotKey -
  * HotKey is Meta(Diamond)+ Stop Key
- * Breaks untusted Ptr and Kbd grabs.
+ * Breaks untrusted Ptr and Kbd grabs.
  * Trusted Grabs are NOT broken
  * Warps pointer to the Trusted Stripe if not Trusted grabs in force.
  */
 void
-HandleHotKey(void)
+HandleHotKey(DeviceIntPtr keybd)
 {
     int	            x, y;
     Bool            trusted_grab = FALSE;
     ClientPtr       client;
-    DeviceIntPtr    mouse = inputInfo.pointer;
-    DeviceIntPtr    keybd = inputInfo.keyboard;
+    DeviceIntPtr    mouse = GetPairedDevice(keybd);
     TsolInfoPtr	    tsolinfo;
-    GrabPtr         ptrgrab = mouse->grab;
-    GrabPtr         kbdgrab = keybd->grab;
+    GrabPtr         ptrgrab = mouse->deviceGrab.grab;
+    GrabPtr         kbdgrab = keybd->deviceGrab.grab;
     ScreenPtr       pScreen;
 
     if (kbdgrab)
@@ -603,7 +602,7 @@ HandleHotKey(void)
             if (HasTrustedPath(tsolinfo))
                 trusted_grab = TRUE;
             else
-	        (*keybd->DeactivateGrab)(keybd);
+	        (*keybd->deviceGrab.DeactivateGrab)(keybd);
 	}
 
 	if (ptrgrab)
@@ -616,7 +615,7 @@ HandleHotKey(void)
                 if (HasTrustedPath(tsolinfo))
                     trusted_grab = TRUE;
                 else
-	            (*mouse->DeactivateGrab)(mouse);
+	            (*mouse->deviceGrab.DeactivateGrab)(mouse);
 	    }
         }
     }
@@ -629,7 +628,7 @@ HandleHotKey(void)
 	    pScreen = screenInfo.screens[0];
 	    x = pScreen->width/2;
 	    y = pScreen->height - StripeHeight/2;
-        (*pScreen->SetCursorPosition)(pScreen, x, y, TRUE);
+	    (*pScreen->SetCursorPosition)(mouse, pScreen, x, y, TRUE);
     }
 }
 
@@ -638,13 +637,13 @@ ProcTsolGetInputFocus(ClientPtr client)
 {
     xGetInputFocusReply rep;
     /* REQUEST(xReq); */
-    FocusClassPtr focus = inputInfo.keyboard->focus;
+    DeviceIntPtr kbd = PickKeyboard(client);
+    FocusClassPtr focus = kbd->focus;
     int rc;
 
     REQUEST_SIZE_MATCH(xReq);
 
-    rc = XaceHook(XACE_DEVICE_ACCESS, client, inputInfo.keyboard,
-                  DixGetFocusAccess);
+    rc = XaceHook(XACE_DEVICE_ACCESS, client, kbd, DixGetFocusAccess);
     if (rc != Success)
         return rc;
 
@@ -1102,7 +1101,8 @@ ProcTsolQueryPointer(ClientPtr client)
 {
     xQueryPointerReply rep;
     WindowPtr pWin, ptrWin;
-    DeviceIntPtr mouse = inputInfo.pointer;
+    DeviceIntPtr mouse = PickPointer(client);
+    DeviceIntPtr kbd = PickKeyboard(client);
     int rc;
     REQUEST(xResourceReq);
     REQUEST_SIZE_MATCH(xResourceReq);
@@ -1111,7 +1111,7 @@ ProcTsolQueryPointer(ClientPtr client)
     if (rc != Success)
 	return rc;
 
-    ptrWin = TsolPointerWindow();
+    ptrWin = GetSpriteWindow(mouse);
     if (!xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, ptrWin, 0,
 		      client, TSOL_ALL, &(MAJOROP)))
     	return (*TsolSavedProcVector[X_QueryPointer])(client);
@@ -1120,7 +1120,7 @@ ProcTsolQueryPointer(ClientPtr client)
 	MaybeStopHint(mouse, client);
     rep.type = X_Reply;
     rep.sequenceNumber = client->sequence;
-    rep.mask = mouse->button->state | inputInfo.keyboard->key->state;
+    rep.mask = mouse->button->state | kbd->key->state;
     rep.length = 0;
     rep.root = RootOf(pWin);
     rep.rootX = 0;
@@ -1213,7 +1213,7 @@ TsolDoGetImage(
     {
         if (DrawableIsRoot(pDraw))
         {
-            pWin = XYToWindow(x, y);
+            pWin = XYToWindow(PickPointer(client), x, y);
             if (!WindowIsRoot(pWin))
             {
                 pDrawtmp = &(pWin->parent->drawable);

@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.17     09/01/14 SMI"
+# ident "@(#)prototype_i386 1.18     09/05/15 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -50,6 +50,8 @@ f none X11/lib/modules/drivers/apm_drv.so 0755 root bin
 f none X11/lib/modules/drivers/ark_drv.so 0755 root bin
 f none X11/lib/modules/drivers/ast_drv.so 0755 root bin
 f none X11/lib/modules/drivers/ati_drv.so 0755 root bin
+f none X11/lib/modules/drivers/ch7017.so 0755 root bin
+f none X11/lib/modules/drivers/ch7xxx.so 0755 root bin
 f none X11/lib/modules/drivers/chips_drv.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_alpine.so 0755 root bin
 f none X11/lib/modules/drivers/cirrus_drv.so 0755 root bin
@@ -59,6 +61,7 @@ f none X11/lib/modules/drivers/i128_drv.so 0755 root bin
 f none X11/lib/modules/drivers/i740_drv.so 0755 root bin
 f none X11/lib/modules/drivers/intel_drv.so 0755 root bin
 s none X11/lib/modules/drivers/i810_drv.so=intel_drv.so
+f none X11/lib/modules/drivers/ivch.so 0755 root bin
 f none X11/lib/modules/drivers/mach64_drv.so 0755 root bin
 f none X11/lib/modules/drivers/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/neomagic_drv.so 0755 root bin
@@ -71,9 +74,11 @@ f none X11/lib/modules/drivers/rendition_drv.so 0755 root bin
 f none X11/lib/modules/drivers/s3_drv.so 0755 root bin
 f none X11/lib/modules/drivers/s3virge_drv.so 0755 root bin
 f none X11/lib/modules/drivers/savage_drv.so 0755 root bin
+f none X11/lib/modules/drivers/sil164.so 0755 root bin
 f none X11/lib/modules/drivers/siliconmotion_drv.so 0755 root bin
 f none X11/lib/modules/drivers/sis_drv.so 0755 root bin
 f none X11/lib/modules/drivers/tdfx_drv.so 0755 root bin
+f none X11/lib/modules/drivers/tfp410.so 0755 root bin
 f none X11/lib/modules/drivers/tga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/trident_drv.so 0755 root bin
 f none X11/lib/modules/drivers/tseng_drv.so 0755 root bin
@@ -84,6 +89,8 @@ f none X11/lib/modules/drivers/vmware_drv.so 0755 root bin
 !search $HOME/lib/modules/amd64/drivers
 d none X11/lib/modules/drivers/amd64 0755 root bin
 f none X11/lib/modules/drivers/amd64/ati_drv.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/ch7017.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/ch7xxx.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_alpine.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/cirrus_laguna.so 0755 root bin
@@ -94,10 +101,13 @@ f none X11/lib/modules/drivers/amd64/vesa_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/ast_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/intel_drv.so 0755 root bin
 s none X11/lib/modules/drivers/amd64/i810_drv.so=intel_drv.so
+f none X11/lib/modules/drivers/amd64/ivch.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/mach64_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/mga_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/nv_drv.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/openchrome_drv.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/sil164.so 0755 root bin
+f none X11/lib/modules/drivers/amd64/tfp410.so 0755 root bin
 f none X11/lib/modules/drivers/amd64/trident_drv.so 0755 root bin
 s none X11/lib/modules/drivers/amd64/via_drv.so=openchrome_drv.so
 f none X11/lib/modules/drivers/amd64/vmware_drv.so 0755 root bin

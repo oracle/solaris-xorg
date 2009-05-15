@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2008-07-01 00:50:43.000000000 -0700
-+++ Makefile.am	2009-01-10 22:17:00.792398000 -0800
+--- Makefile.am	2009-02-23 13:29:52.000000000 -0800
++++ Makefile.am	2009-05-09 17:29:00.787462000 -0700
 @@ -22,7 +22,7 @@
  # here too, but let's just do libdrm for now
  
@@ -37,23 +37,23 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
 +SUBDIRS = libdrm shared-core
  
  pkgconfigdir = @pkgconfigdir@
- pkgconfig_DATA = libdrm.pc
+ pkgconfig_DATA = libdrm.pc libdrm_intel.pc
 diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.c libdrm/xf86drm.c
---- libdrm/xf86drm.c	2008-07-01 00:51:40.000000000 -0700
-+++ libdrm/xf86drm.c	2009-01-10 22:17:00.782591000 -0800
-@@ -894,7 +894,7 @@ int drmRmMap(int fd, drm_handle_t handle
+--- libdrm/xf86drm.c	2009-01-09 17:08:29.000000000 -0800
++++ libdrm/xf86drm.c	2009-05-09 17:29:00.797394000 -0700
+@@ -940,7 +940,7 @@ int drmRmMap(int fd, drm_handle_t handle
  {
      drm_map_t map;
  
 -    map.handle = (void *)handle;
 +    map.handle = (drm_handle_t)handle;
  
-     if(ioctl(fd, DRM_IOCTL_RM_MAP, &map))
+     if(drmIoctl(fd, DRM_IOCTL_RM_MAP, &map))
  	return -errno;
 diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.h libdrm/xf86drm.h
---- libdrm/xf86drm.h	2008-07-01 00:51:40.000000000 -0700
-+++ libdrm/xf86drm.h	2009-01-10 22:17:00.783241000 -0800
-@@ -423,6 +423,19 @@ do {	register unsigned int __old __asm("
+--- libdrm/xf86drm.h	2009-02-23 13:26:49.000000000 -0800
++++ libdrm/xf86drm.h	2009-05-09 17:29:00.802707000 -0700
+@@ -425,6 +425,19 @@ do {	register unsigned int __old __asm("
  #endif /* architecture */
  #endif /* __GNUC__ >= 2 */
  
@@ -74,8 +74,8 @@ diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.h libdrm/xf86drm.h
  #define DRM_CAS(lock,old,new,ret) do { ret=1; } while (0) /* FAST LOCK FAILS */
  #endif
 diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
---- shared-core/drm.h	2008-07-01 00:55:17.000000000 -0700
-+++ shared-core/drm.h	2009-01-10 22:17:00.781413000 -0800
+--- shared-core/drm.h	2008-12-17 10:28:24.000000000 -0800
++++ shared-core/drm.h	2009-05-09 17:29:00.817832000 -0700
 @@ -58,6 +58,8 @@
  #ifndef _DRM_H_
  #define _DRM_H_
@@ -180,7 +180,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  # define DRM_SIZE_T unsigned long
  #endif
  
-@@ -264,12 +330,13 @@ struct drm_ctx_priv_map {
+@@ -266,12 +332,13 @@ struct drm_ctx_priv_map {
   * \sa drmAddMap().
   */
  struct drm_map {
@@ -197,7 +197,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  	int mtrr;		 /**< MTRR slot used */
  	/*   Private data */
  };
-@@ -376,18 +443,20 @@ enum drm_dma_flags {
+@@ -378,18 +445,20 @@ enum drm_dma_flags {
   *
   * \sa drmAddBufs().
   */
@@ -225,7 +225,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  	unsigned long agp_start; /**<
  				  * Start address of where the AGP buffers are
  				  * in the AGP aperture
-@@ -433,6 +502,7 @@ struct drm_buf_map {
+@@ -435,6 +504,7 @@ struct drm_buf_map {
  	void __user *virtual;		/**< Mmap'd area in user-virtual */
  #endif
  	struct drm_buf_pub __user *list;	/**< Buffer information */

@@ -1,17 +1,27 @@
---- hw/xfree86/dixmods/Makefile.am	2008-09-26 21:45:31.528930000 -0700
-+++ hw/xfree86/dixmods/Makefile.am	2008-09-27 09:30:57.338529000 -0700
-@@ -70,7 +70,7 @@
- libdbe_la_SOURCES = dbemodule.c
+diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
+--- hw/xfree86/dixmods/Makefile.am	2009-05-08 17:45:57.848078000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2009-05-08 17:46:07.162324000 -0700
+@@ -36,6 +36,7 @@ libdbe_la_SOURCES = dbemodule.c
  
  libfb_la_LDFLAGS = -avoid-version
--libfb_la_LIBADD = $(top_builddir)/fb/libfb.la
-+libfb_la_LIBADD = $(top_builddir)/fb/libfb.la -lpixman-1
+ libfb_la_LIBADD = $(top_builddir)/fb/libfb.la
++libfb_la_LIBADD += -lpixman-1
  libfb_la_SOURCES = $(top_builddir)/fb/fbcmap_mi.c fbmodule.c
  libfb_la_CFLAGS = $(AM_CFLAGS)
  
+@@ -47,6 +48,8 @@ libwfb_la_CFLAGS = $(AM_CFLAGS) -DFB_ACC
+ libglx_la_LDFLAGS = -avoid-version -mimpure-text
+ if AIGLX
+ GLXDRI_LIBRARY = $(top_builddir)/glx/libglxdri.la
++libglx_la_LDFLAGS += -R$(extsmoduledir:amd64/extensions=extensions/amd64)
++libglx_la_LDFLAGS += -Wl,-N,libdri.so -Wl,-N,libdri2.so
+ endif
+ libglx_la_LIBADD = \
+ 	$(top_builddir)/glx/libglx.la \
+diff -urp -x '*~' -x '*.orig' hw/xfree86/int10/Makefile.am hw/xfree86/int10/Makefile.am
 --- hw/xfree86/int10/Makefile.am	2007-10-17 07:01:23.000000000 -0700
-+++ hw/xfree86/int10/Makefile.am	2008-09-30 14:20:57.961539000 -0700
-@@ -42,3 +42,5 @@
++++ hw/xfree86/int10/Makefile.am	2009-05-08 17:46:07.162854000 -0700
+@@ -42,3 +42,5 @@ libint10_la_SOURCES = stub.c xf86int10mo
  endif
  
  EXTRA_DIST = xf86x86emu.h INT10.HOWTO

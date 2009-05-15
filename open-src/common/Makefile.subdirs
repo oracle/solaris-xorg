@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.subdirs	1.2	09/01/14
+# @(#)Makefile.subdirs	1.3	09/05/15
 #
 
 # Need to set $MACH
@@ -37,37 +37,14 @@ include $(TOP)/common/Makefile.init
 
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
-all: 
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=all
+.DEFAULT:
+	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=$@
 
 World: clean all
 
 clean: 
 	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean
 	$(MAKE) $(MAKEFLAGS) clean-obsolete-subdirs
-
-install:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=install
-
-download:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=download
-
-source:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=source
-
-git-update:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=git-update
-
-# Build debuggable versions
-debug-build:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=debug
-
-# Build & install debuggable versions
-debug-install:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=debug-install
-
-list-patches:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=list-patches
 
 subdirs:
 	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \

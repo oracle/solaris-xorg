@@ -30,9 +30,9 @@ Replace "type1" and "bitstream" font modules in xorg.conf files with
 "freetype"
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2008-09-24 20:21:42.861097000 -0700
-+++ hw/xfree86/common/xf86Config.c	2008-09-24 20:21:55.754653000 -0700
-@@ -254,7 +254,9 @@
+--- hw/xfree86/common/xf86Config.c	2009-05-08 17:44:04.908276000 -0700
++++ hw/xfree86/common/xf86Config.c	2009-05-08 17:44:13.136269000 -0700
+@@ -249,7 +249,9 @@ xf86ModulelistFromConfig(pointer **optli
  {
      int count = 0, i = 0;
      char **modulearray;

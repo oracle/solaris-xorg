@@ -28,9 +28,9 @@
 
 Raise hsync and default to "1024x768" when DDC data not available.
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf86Mode.c
---- hw/xfree86/common/xf86Mode.c	2008-09-23 11:24:58.000000000 -0700
-+++ hw/xfree86/common/xf86Mode.c	2008-09-24 20:23:48.393454000 -0700
-@@ -1215,6 +1215,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+--- hw/xfree86/common/xf86Mode.c	2009-01-09 09:47:04.000000000 -0800
++++ hw/xfree86/common/xf86Mode.c	2009-01-22 20:35:36.195292000 -0800
+@@ -1209,6 +1209,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
      range hsync[MAX_HSYNC];
      range vrefresh[MAX_VREFRESH];
      Bool inferred_virtual = FALSE;
@@ -38,7 +38,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf8
  
  #ifdef DEBUG
      ErrorF("xf86ValidateModes(%p, %p, %p, %p,\n\t\t  %p, %d, %d, %d, %d, %d, %d, %d, %d, 0x%x)\n",
-@@ -1262,8 +1263,9 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+@@ -1256,8 +1257,9 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
  		}
  	    } else {
  		scrp->monitor->hsync[0].lo = 31.5;
@@ -49,7 +49,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf8
  	    }
  	    type = "default ";
  	}
-@@ -1498,6 +1500,11 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+@@ -1492,6 +1494,11 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
  	xf86DeleteMode(&scrp->modes, scrp->modes);
      endp = &scrp->modes;
      last = NULL;

@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18 09/04/26
+# @(#)Makefile	1.19 09/05/15
 #
 
 # Package name used in tarballs
@@ -84,6 +84,7 @@ SOURCE_PATCHES = \
 	vnc-includes.patch,-p1 \
 	vnc-viewerIPv6.patch,-p1 \
 	vnc-fasterPrivates.patch \
+	vnc-input-1.6.patch \
 	c++public.patch \
 	solaris-port.patch
 

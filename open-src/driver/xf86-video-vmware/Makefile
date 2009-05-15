@@ -2,7 +2,7 @@
 #
 # xf86-video-vmware Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	09/01/10
+# @(#)Makefile	1.11	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=10.16.5
+MODULE_VERSION=10.16.6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6370961.patch
@@ -46,6 +46,10 @@ SOURCE_PATCHES = 6370961.patch
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
+
+# vmwarevideo code won't build with Sun compiler
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \

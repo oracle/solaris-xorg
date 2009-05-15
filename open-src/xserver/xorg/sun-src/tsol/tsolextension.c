@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.38     09/05/04 SMI"
+#pragma ident   "@(#)tsolextension.c 1.39     09/05/15 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -1094,7 +1094,7 @@ ProcSetResLabel(ClientPtr client)
             MakeAtom("_TSOL_CMWLABEL_CHANGE", 21, 1);
         message.u.clientMessage.u.l.longs0 = RootOfClient(pWin);
         message.u.clientMessage.u.l.longs1 = stuff->id;
-        DeliverEventsToWindow(pWin, &message, 1,
+        DeliverEventsToWindow(PickPointer(client), pWin, &message, 1,
                               SubstructureRedirectMask, NullGrab, 0);
 
     }
@@ -1707,21 +1707,21 @@ static void
 BreakAllGrabs(ClientPtr client)
 {
     ClientPtr	    grabclient;
-    DeviceIntPtr    keybd = inputInfo.keyboard;
-    GrabPtr         kbdgrab = keybd->grab;
-    DeviceIntPtr    mouse = inputInfo.pointer;
-    GrabPtr         ptrgrab = mouse->grab;
+    DeviceIntPtr    keybd = PickKeyboard(client);
+    GrabPtr         kbdgrab = keybd->deviceGrab.grab;
+    DeviceIntPtr    mouse = PickPointer(client);
+    GrabPtr         ptrgrab = mouse->deviceGrab.grab;
 
 	if (kbdgrab) {
 	    	grabclient = clients[CLIENT_ID(kbdgrab->resource)];
 		if (client->index != grabclient->index)
-			(*keybd->DeactivateGrab)(keybd);
+			(*keybd->deviceGrab.DeactivateGrab)(keybd);
 	}
 
 	if (ptrgrab) {
 	    	grabclient = clients[CLIENT_ID(ptrgrab->resource)];
 		if (client->index != grabclient->index)
-			(*mouse->DeactivateGrab)(mouse);
+			(*mouse->deviceGrab.DeactivateGrab)(mouse);
         }
 }
 
@@ -2113,7 +2113,7 @@ TsolProcessKeyboard)
 		(keyc->state != 0 && keyc->state == hotkey.shift)) ||
             ((xE->u.u.detail == hotkey.altkey) &&
 		(keyc->state != 0 && keyc->state == hotkey.altshift)))
-            		HandleHotKey();
+            		HandleHotKey(keybd);
     }
 }
 

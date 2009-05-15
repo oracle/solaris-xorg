@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.12	08/11/26
+# @(#)Makefile.inc	1.13	09/05/15
 #
 
 PWD:sh=pwd
@@ -52,6 +52,7 @@ MODTYPE_SUNTOUCH_MAN_FLAGS= -l $(LIBNAME) -a '{MT-Level, $(MODULE_MTLEVEL)}'
 # Flags to build & link libraries with
 MODTYPE_CPPFLAGS=$(LIB_CPPFLAGS)
 MODTYPE_CFLAGS=$(LIB_CFLAGS)
+MODTYPE_CXXFLAGS=$(LIB_CXXFLAGS)
 MODTYPE_LDFLAGS=$(LIB_LDFLAGS) -lc
 MODTYPE_LD_OPTIONS=$(LIB_REQUIRED_LDFLAGS)
 

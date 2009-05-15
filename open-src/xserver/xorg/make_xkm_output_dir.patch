@@ -9,8 +9,8 @@ it doesn't already exist. (ported from Solaris Xsun bug #5039004)
 [Xorg has since dropped upstream, but we still use.]
 
 diff -urp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
---- xkb/Makefile.am	2008-03-07 05:31:29.000000000 -0800
-+++ xkb/Makefile.am	2008-09-22 21:39:13.086729000 -0700
+--- xkb/Makefile.am	2008-11-14 13:27:05.000000000 -0800
++++ xkb/Makefile.am	2009-01-22 20:33:49.220235000 -0800
 @@ -1,6 +1,7 @@
  noinst_LTLIBRARIES = libxkb.la libxkbstubs.la
  
@@ -20,8 +20,8 @@ diff -urp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
  
  DDX_SRCS = \
 diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
---- xkb/ddxLoad.c	2008-09-03 10:03:39.000000000 -0700
-+++ xkb/ddxLoad.c	2008-09-22 21:39:13.086234000 -0700
+--- xkb/ddxLoad.c	2009-01-09 09:47:04.000000000 -0800
++++ xkb/ddxLoad.c	2009-01-22 20:33:49.230965000 -0800
 @@ -153,13 +153,29 @@ Win32System(const char *cmdline)
  #define System(x) Win32System(x)
  #endif

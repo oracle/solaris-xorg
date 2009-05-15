@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.95	09/05/13 SMI"
+# ident	"@(#)prototype	35.96	09/05/15 SMI"
 #
 #  X Window System include files
 
@@ -432,6 +432,7 @@ f none X11/include/X11/extensions/Xdbe.h 	0444 root bin
 f none X11/include/X11/extensions/Xdbeproto.h 	0444 root bin
 f none X11/include/X11/extensions/Xeviestr.h 	0444 root bin
 f none X11/include/X11/extensions/Xext.h 	0444 root bin
+f none X11/include/X11/extensions/Xge.h 	0444 root bin
 f none X11/include/X11/extensions/Xinerama.h 	0444 root bin
 f none X11/include/X11/extensions/bigreqstr.h	0444 root bin
 f none X11/include/X11/extensions/composite.h	0444 root bin
@@ -440,7 +441,11 @@ f none X11/include/X11/extensions/damageproto.h 0444 root bin
 f none X11/include/X11/extensions/damagewire.h	0444 root bin
 f none X11/include/X11/extensions/dpms.h 	0444 root bin
 f none X11/include/X11/extensions/dpmsstr.h 	0444 root bin
+f none X11/include/X11/extensions/dri2proto.h 	0444 root bin
+f none X11/include/X11/extensions/dri2tokens.h 	0444 root bin
 f none X11/include/X11/extensions/extutil.h 	0444 root bin
+f none X11/include/X11/extensions/ge.h	 	0444 root bin
+f none X11/include/X11/extensions/geproto.h 	0444 root bin
 f none X11/include/X11/extensions/lbxbuf.h 	0444 root bin
 f none X11/include/X11/extensions/lbxbufstr.h 	0444 root bin
 f none X11/include/X11/extensions/lbxdeltastr.h 0444 root bin
@@ -594,7 +599,6 @@ f none X11/include/X11/fonts/fntfilst.h  	0444 root bin
 f none X11/include/X11/fonts/fontconf.h  	0444 root bin
 f none X11/include/X11/fonts/fontencc.h  	0444 root bin
 f none X11/include/X11/fonts/fontmisc.h  	0444 root bin
-f none X11/include/X11/fonts/fontmod.h  	0444 root bin
 f none X11/include/X11/fonts/fontshow.h  	0444 root bin
 f none X11/include/X11/fonts/fontutil.h  	0444 root bin
 f none X11/include/X11/fonts/fontxlfd.h  	0444 root bin
@@ -788,6 +792,7 @@ d none lib/pkgconfig				0755 root other
 f none lib/pkgconfig/bigreqsproto.pc		0444 root bin
 f none lib/pkgconfig/compositeproto.pc		0444 root bin
 f none lib/pkgconfig/damageproto.pc		0444 root bin
+f none lib/pkgconfig/dri2proto.pc		0444 root bin
 f none lib/pkgconfig/evieproto.pc		0444 root bin
 f none lib/pkgconfig/fixesproto.pc		0444 root bin
 f none lib/pkgconfig/fontcacheproto.pc		0444 root bin
@@ -869,6 +874,7 @@ d none lib/$plat_64/pkgconfig				0755 root other
 s none lib/$plat_64/pkgconfig/bigreqsproto.pc=../../pkgconfig/bigreqsproto.pc
 s none lib/$plat_64/pkgconfig/compositeproto.pc=../../pkgconfig/compositeproto.pc
 s none lib/$plat_64/pkgconfig/damageproto.pc=../../pkgconfig/damageproto.pc
+s none lib/$plat_64/pkgconfig/dri2proto.pc=../../pkgconfig/dri2proto.pc
 s none lib/$plat_64/pkgconfig/evieproto.pc=../../pkgconfig/evieproto.pc
 s none lib/$plat_64/pkgconfig/fixesproto.pc=../../pkgconfig/fixesproto.pc
 s none lib/$plat_64/pkgconfig/fontcacheproto.pc=../../pkgconfig/fontcacheproto.pc

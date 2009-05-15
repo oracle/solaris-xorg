@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolutils.c	1.22	09/04/02 SMI"
+#pragma ident   "@(#)tsolutils.c	1.23	09/05/15 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -928,15 +928,6 @@ TopClientWin(WindowPtr pWin)
         }
     }
     return (pWin);
-}
-/*
- * returns the window under pointer. This is function because
- * sprite is static & TsolPointerWindow is called in policy functions.
- */
-WindowPtr
-TsolPointerWindow(void)
-{
-	return (GetSpriteWindow());	/* Window currently under mouse */
 }
 
 /*

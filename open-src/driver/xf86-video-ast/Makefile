@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	09/04/17
+# @(#)Makefile	1.12	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.88.8
+MODULE_VERSION=0.89.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = sparc-ast.patch

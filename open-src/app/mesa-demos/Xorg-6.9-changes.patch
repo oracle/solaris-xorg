@@ -682,7 +682,7 @@ diff -urp -x '*~' progs/xdemos/glxgears.c progs/xdemos/glxgears.c
 +      usage();
     }
  
--   make_window(dpy, "glxgears", 0, 0, winWidth, winHeight, &win, &ctx);
+-   make_window(dpy, "glxgears", x, y, winWidth, winHeight, &win, &ctx);
 -   XMapWindow(dpy, win);
 -   glXMakeCurrent(dpy, win, ctx);
 +   if (doPrint) {

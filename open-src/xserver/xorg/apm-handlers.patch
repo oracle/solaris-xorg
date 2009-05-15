@@ -1,0 +1,106 @@
+From c74220b853cd99d03e33cc62d32431ca3a879483 Mon Sep 17 00:00:00 2001
+From: Adam Jackson <ajax@redhat.com>
+Date: Mon, 30 Mar 2009 14:56:15 -0400
+Subject: [PATCH] APM: Use general handlers, not input handlers.
+
+Otherwise APM events get treated as input events, which messes up idle
+time accounting and screensavers and such.  Not, we hope, that anyone
+is using APM anymore.
+---
+ hw/xfree86/os-support/bsd/bsd_apm.c        |    4 ++--
+ hw/xfree86/os-support/bsd/bsd_kqueue_apm.c |    4 ++--
+ hw/xfree86/os-support/linux/lnx_apm.c      |    4 ++--
+ hw/xfree86/os-support/solaris/sun_apm.c    |    4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/hw/xfree86/os-support/bsd/bsd_apm.c b/hw/xfree86/os-support/bsd/bsd_apm.c
+index 43eda74..73c88dc 100644
+--- a/hw/xfree86/os-support/bsd/bsd_apm.c
++++ b/hw/xfree86/os-support/bsd/bsd_apm.c
+@@ -122,7 +122,7 @@ xf86OSPMOpen(void)
+     }
+     xf86PMGetEventFromOs = bsdPMGetEventFromOS;
+     xf86PMConfirmEventToOs = bsdPMConfirmEventToOs;
+-    APMihPtr = xf86AddInputHandler(fd, xf86HandlePMEvents, NULL);
++    APMihPtr = xf86AddGeneralHandler(fd, xf86HandlePMEvents, NULL);
+     return bsdCloseAPM;
+ }
+ 
+@@ -132,7 +132,7 @@ bsdCloseAPM(void)
+     int fd;
+ 
+     if (APMihPtr) {
+-	fd = xf86RemoveInputHandler(APMihPtr);
++	fd = xf86RemoveGeneralHandler(APMihPtr);
+ 	close(fd);
+ 	APMihPtr = NULL;
+     }
+diff --git a/hw/xfree86/os-support/bsd/bsd_kqueue_apm.c b/hw/xfree86/os-support/bsd/bsd_kqueue_apm.c
+index b37070c..053619e 100644
+--- a/hw/xfree86/os-support/bsd/bsd_kqueue_apm.c
++++ b/hw/xfree86/os-support/bsd/bsd_kqueue_apm.c
+@@ -178,7 +178,7 @@ xf86OSPMOpen(void)
+ 
+     xf86PMGetEventFromOs = bsdPMGetEventFromOS;
+     xf86PMConfirmEventToOs = bsdPMConfirmEventToOs;
+-    APMihPtr = xf86AddInputHandler(kq, xf86HandlePMEvents, NULL);
++    APMihPtr = xf86AddGeneralHandler(kq, xf86HandlePMEvents, NULL);
+     return bsdCloseAPM;
+ }
+ 
+@@ -188,7 +188,7 @@ bsdCloseAPM(void)
+     int kq;
+ 
+     if (APMihPtr) {
+-	kq = xf86RemoveInputHandler(APMihPtr);
++	kq = xf86RemoveGeneralHandler(APMihPtr);
+ 	close(devFd);
+ 	devFd = -1;
+ 	close(kq);
+diff --git a/hw/xfree86/os-support/linux/lnx_apm.c b/hw/xfree86/os-support/linux/lnx_apm.c
+index 16ac80d..8cf318f 100644
+--- a/hw/xfree86/os-support/linux/lnx_apm.c
++++ b/hw/xfree86/os-support/linux/lnx_apm.c
+@@ -180,7 +180,7 @@ lnxAPMOpen(void)
+ 	    close(pfd);
+ 	xf86PMGetEventFromOs = lnxPMGetEventFromOs;
+ 	xf86PMConfirmEventToOs = lnxPMConfirmEventToOs;
+-	APMihPtr = xf86AddInputHandler(fd,xf86HandlePMEvents,NULL);
++	APMihPtr = xf86AddGeneralHandler(fd, xf86HandlePMEvents, NULL);
+ 	xf86MsgVerb(X_INFO,3,"Open APM successful\n");
+ 	return lnxCloseAPM;
+     }
+@@ -197,7 +197,7 @@ lnxCloseAPM(void)
+    ErrorF("APM: Closing device\n");
+ #endif
+     if (APMihPtr) {
+-	fd = xf86RemoveInputHandler(APMihPtr);
++	fd = xf86RemoveGeneralHandler(APMihPtr);
+ 	close(fd);
+ 	APMihPtr = NULL;
+     }
+diff --git a/hw/xfree86/os-support/solaris/sun_apm.c b/hw/xfree86/os-support/solaris/sun_apm.c
+index 7decc90..e128c13 100644
+--- a/hw/xfree86/os-support/solaris/sun_apm.c
++++ b/hw/xfree86/os-support/solaris/sun_apm.c
+@@ -215,7 +215,7 @@ xf86OSPMOpen(void)
+     }
+     xf86PMGetEventFromOs = sunPMGetEventFromOS;
+     xf86PMConfirmEventToOs = sunPMConfirmEventToOs;
+-    APMihPtr = xf86AddInputHandler(fd, xf86HandlePMEvents, NULL);
++    APMihPtr = xf86AddGeneralHandler(fd, xf86HandlePMEvents, NULL);
+     return sunCloseAPM;
+ }
+ 
+@@ -225,7 +225,7 @@ sunCloseAPM(void)
+     int fd;
+ 
+     if (APMihPtr) {
+-	fd = xf86RemoveInputHandler(APMihPtr);
++	fd = xf86RemoveGeneralHandler(APMihPtr);
+ 	close(fd);
+ 	APMihPtr = NULL;
+     }
+-- 
+1.5.6.5
+

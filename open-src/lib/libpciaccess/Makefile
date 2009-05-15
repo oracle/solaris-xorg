@@ -35,15 +35,10 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.10.5
+MODULE_VERSION=0.10.6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	sparc-byteswap.patch,-p1 \
-	bus-range.patch,-p1 \
-	6811468.patch,-p1 \
-	6785726.patch \
-	6789879.patch \
 	scanpci.man.patch 
 
 # Library name

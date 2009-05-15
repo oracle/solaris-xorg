@@ -30,20 +30,21 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)Makefile	1.3	09/01/15 SMI"
+# ident "@(#)Makefile	1.4	09/05/15 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-MODULE_VERSION=12.6.3
+MODULE_VERSION=12.6.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = hal-configure-options.patch,-p1
+SOURCE_PATCHES =
 
-# Rebuild configure after patching configure.ac in hal-configure-options.patch
-AUTORECONF=yes
+# vmmouse_client code won't build with Sun compiler
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -59,7 +60,11 @@ MODULE_CONFIG_OPTS= \
 	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Libraries/modules to link with
-MODULE_LD_OPTIONS=
+MODULE_LD_OPTIONS= mouse_drv.so
 
 include ../Makefile.inc
+
+source_gen::
+	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $(SOURCE_DIR)/src/mouse_drv.so
+	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $(SOURCE_DIR)/tools/mouse_drv.so
 

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.7	09/01/14
+# @(#)Makefile.inc	1.8	09/05/15
 #
 
 PWD:sh=pwd
@@ -49,6 +49,10 @@ MODTYPE_CONFIGURE_DEPS=
 MODTYPE_CFLAGS=$(LIB_CFLAGS)
 MODTYPE_LDFLAGS=$(LIB_LDFLAGS)
 MODTYPE_LD_OPTIONS=
+
+# pkg-config files that need to have -I paths added to -uninstalled versions
+FIX_PC_FILES_DEFAULT		= $(FIX_PC_FILES_SET:yes=$(POUND_SIGN))
+$(FIX_PC_FILES_DEFAULT)		FIX_PC_FILES=*.pc.in
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc

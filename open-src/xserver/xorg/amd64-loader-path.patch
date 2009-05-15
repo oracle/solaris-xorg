@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loadmod.c
---- hw/xfree86/loader/loadmod.c	2008-09-23 16:32:33.084154000 -0700
-+++ hw/xfree86/loader/loadmod.c	2008-09-23 16:32:43.661970000 -0700
-@@ -171,6 +171,12 @@ InitPathList(const char *path)
+--- hw/xfree86/loader/loadmod.c	2009-01-22 20:34:18.719862000 -0800
++++ hw/xfree86/loader/loadmod.c	2009-01-22 20:34:27.009905000 -0800
+@@ -169,6 +169,12 @@ InitPathList(const char *path)
  		list[n][len - 1] = '/';
  		list[n][len] = '\0';
  	    }
@@ -42,7 +42,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/load
  	    n++;
  	}
  	elem = strtok(NULL, ",");
-@@ -349,6 +355,9 @@ InitSubdirs(const char **subdirlist)
+@@ -346,6 +352,9 @@ InitSubdirs(const char **subdirlist)
  	    } else
  		slash = "";
  	    len += oslen + 2;
@@ -52,7 +52,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/load
  	    if (!(subdirs[i] = xalloc(len))) {
  		while (--i >= 0)
  		    xfree(subdirs[i]);
-@@ -358,10 +367,26 @@ InitSubdirs(const char **subdirlist)
+@@ -355,10 +364,26 @@ InitSubdirs(const char **subdirlist)
  		return NULL;
  	    }
  	    /* tack on the OS name */

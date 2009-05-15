@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	09/01/14
+# @(#)Makefile	1.13	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-mga
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.9
+MODULE_VERSION=1.4.10
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = no-hal.patch 
@@ -60,7 +60,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe \
-	-lvgahw -lxaa -lxf8_32bpp -lcfb -lmfb -lfbdevhw
+	-lvgahw -lxaa -lfbdevhw
 
 AUTORECONF=yes
 

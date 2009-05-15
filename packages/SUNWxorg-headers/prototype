@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.13     09/05/13 SMI"
+# ident "@(#)prototype 1.14     09/05/15 SMI"
 #
 # Xorg server DDK headers
 
@@ -49,10 +49,6 @@ f none X11/include/xorg/BT.h				0444 root bin
 f none X11/include/xorg/IBM.h				0444 root bin
 f none X11/include/xorg/TI.h				0444 root bin
 f none X11/include/xorg/XIstubs.h			0444 root bin
-f none X11/include/xorg/afb.h				0444 root bin
-f none X11/include/xorg/agpgart.h			0444 root bin
-f none X11/include/xorg/assyntax.h			0444 root bin
-f none X11/include/xorg/atKeynames.h			0444 root bin
 f none X11/include/xorg/bstore.h			0444 root bin
 f none X11/include/xorg/bstorestr.h			0444 root bin
 f none X11/include/xorg/bt829.h				0444 root bin
@@ -85,21 +81,19 @@ f none X11/include/xorg/extnsionst.h			0444 root bin
 f none X11/include/xorg/fb.h				0444 root bin
 f none X11/include/xorg/fbdevhw.h			0444 root bin
 f none X11/include/xorg/fboverlay.h			0444 root bin
-f none X11/include/xorg/fbpseudocolor.h			0444 root bin
 f none X11/include/xorg/fbrop.h				0444 root bin
 f none X11/include/xorg/fi1236.h			0444 root bin
 f none X11/include/xorg/fourcc.h			0444 root bin
 f none X11/include/xorg/gc.h				0444 root bin
 f none X11/include/xorg/gcstruct.h			0444 root bin
+f none X11/include/xorg/geext.h				0444 root bin
+f none X11/include/xorg/geint.h				0444 root bin
 f none X11/include/xorg/globals.h			0444 root bin
 f none X11/include/xorg/glyphstr.h			0444 root bin
 f none X11/include/xorg/hotplug.h			0444 root bin
 f none X11/include/xorg/i2c_def.h			0444 root bin
 f none X11/include/xorg/input.h				0444 root bin
 f none X11/include/xorg/inputstr.h			0444 root bin
-f none X11/include/xorg/mfb.h				0444 root bin
-f none X11/include/xorg/mfbmap.h			0444 root bin
-f none X11/include/xorg/mfbunmap.h			0444 root bin
 f none X11/include/xorg/mi.h				0444 root bin
 f none X11/include/xorg/mibank.h			0444 root bin
 f none X11/include/xorg/mibstore.h			0444 root bin
@@ -129,6 +123,7 @@ f none X11/include/xorg/pixmapstr.h			0444 root bin
 f none X11/include/xorg/privates.h			0444 root bin
 f none X11/include/xorg/property.h			0444 root bin
 f none X11/include/xorg/propertyst.h			0444 root bin
+f none X11/include/xorg/ptrveloc.h			0444 root bin
 f none X11/include/xorg/randrstr.h			0444 root bin
 f none X11/include/xorg/region.h			0444 root bin
 f none X11/include/xorg/regionstr.h			0444 root bin
@@ -136,6 +131,7 @@ f none X11/include/xorg/registry.h			0444 root bin
 f none X11/include/xorg/renderedge.h			0444 root bin
 f none X11/include/xorg/resource.h			0444 root bin
 f none X11/include/xorg/rgb.h				0444 root bin
+f none X11/include/xorg/rrtransform.h			0444 root bin
 f none X11/include/xorg/sarea.h				0444 root bin
 f none X11/include/xorg/screenint.h			0444 root bin
 f none X11/include/xorg/scrnintstr.h			0444 root bin
@@ -143,6 +139,7 @@ f none X11/include/xorg/selection.h			0444 root bin
 f none X11/include/xorg/servermd.h			0444 root bin
 f none X11/include/xorg/shadow.h			0444 root bin
 f none X11/include/xorg/shadowfb.h			0444 root bin
+f none X11/include/xorg/shmint.h			0444 root bin
 f none X11/include/xorg/site.h				0444 root bin
 f none X11/include/xorg/swaprep.h			0444 root bin
 f none X11/include/xorg/swapreq.h			0444 root bin
@@ -169,7 +166,6 @@ f none X11/include/xorg/xf86Modes.h			0444 root bin
 f none X11/include/xorg/xf86Module.h			0444 root bin
 f none X11/include/xorg/xf86Opt.h			0444 root bin
 f none X11/include/xorg/xf86Optrec.h			0444 root bin
-f none X11/include/xorg/xf86OSmouse.h			0444 root bin
 f none X11/include/xorg/xf86Parser.h			0444 root bin
 f none X11/include/xorg/xf86Pci.h			0444 root bin
 f none X11/include/xorg/xf86PciInfo.h			0444 root bin
@@ -181,7 +177,6 @@ f none X11/include/xorg/xf86RandR12.h			0444 root bin
 f none X11/include/xorg/xf86Rename.h			0444 root bin
 f none X11/include/xorg/xf86Resources.h			0444 root bin
 f none X11/include/xorg/xf86Sbus.h			0444 root bin
-f none X11/include/xorg/xf86Version.h			0444 root bin
 f none X11/include/xorg/xf86Xinput.h			0444 root bin
 f none X11/include/xorg/xf86_OSlib.h			0444 root bin
 f none X11/include/xorg/xf86_OSproc.h			0444 root bin
@@ -196,10 +191,12 @@ f none X11/include/xorg/xf86xvmc.h			0444 root bin
 f none X11/include/xorg/xf86xvpriv.h			0444 root bin
 f none X11/include/xorg/xisb.h				0444 root bin
 f none X11/include/xorg/xkbfile.h			0444 root bin
+f none X11/include/xorg/xkbrules.h			0444 root bin
 f none X11/include/xorg/xkbsrv.h			0444 root bin
 f none X11/include/xorg/xkbstr.h			0444 root bin
 f none X11/include/xorg/xorg-server.h			0444 root bin
 f none X11/include/xorg/xorgVersion.h			0444 root bin
+f none X11/include/xorg/xserver-properties.h		0444 root bin
 f none X11/include/xorg/xvdix.h				0444 root bin
 f none X11/include/xorg/xvmcext.h			0444 root bin
 

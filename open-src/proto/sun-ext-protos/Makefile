@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,7 +29,7 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile 1.2     08/08/08 SMI"
+# ident "@(#)Makefile 1.3     09/05/15 SMI"
 #
 # Definitions of Solaris-specific X Server extensions
 
@@ -37,11 +37,13 @@
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 
-# Don't need to configure or build these
+# Don't need to configure or build these or install pkg-config files for them
 BUILD_TARGETS=
 BUILD_TARGETS_SET=yes
 INSTALL_TARGETS=
 INSTALL_TARGETS_SET=yes
+FIX_PC_FILES=
+FIX_PC_FILES_SET=yes
 
 ### Include common rulesets
 include ../Makefile.inc

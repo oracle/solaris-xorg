@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	09/01/14
+# @(#)Makefile	1.6	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-radeonhd
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.4
+MODULE_VERSION=1.2.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 
@@ -47,6 +47,8 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
+MODULE_CPPFLAGS= -DXF86DRI
+
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
@@ -55,6 +57,17 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-        -lfb -lshadow -lxaa -lexa
+        -lfb -lshadow -lxaa -lexa -ldri -lglx
+
+# AtomBios code won't build with Sun compiler
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
+
+MODULE_ADD_SOURCE_TARGETS=clean_linefeeds
 
 include ../Makefile.inc
+
+# ATI's atombios code has ^M's at linefeeds which break Sun compilers
+clean_linefeeds: default_source
+	find $(BUILD_DIR) -type f -name '*.[ch]' | \
+		xargs perl -i -p -e 's{\r\n}{\n}g'

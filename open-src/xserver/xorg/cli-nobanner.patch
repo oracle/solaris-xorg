@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' os/utils.c os/utils.c
---- os/utils.c	2008-09-24 20:18:58.790366000 -0700
-+++ os/utils.c	2008-09-24 20:19:13.278843000 -0700
-@@ -903,6 +903,12 @@ ProcessCommandLine(int argc, char *argv[
+--- os/utils.c	2009-01-22 20:33:34.957491000 -0800
++++ os/utils.c	2009-01-22 20:33:41.392540000 -0800
+@@ -776,6 +776,12 @@ ProcessCommandLine(int argc, char *argv[
  	}
  #endif
  #endif

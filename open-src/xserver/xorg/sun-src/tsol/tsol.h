@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsol.h 1.10     09/04/02 SMI"
+#pragma ident   "@(#)tsol.h 1.11     09/05/15 SMI"
 
 /*
  * tsol.h server side extension
@@ -66,7 +66,7 @@ name(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 /* tsolutils.c */
 extern void init_xtsol(void);
 extern void InitHotKey(HotKeyPtr hk);
-extern void HandleHotKey(void);
+extern void HandleHotKey(DeviceIntPtr keybd);
 extern void LoadTsolConfig(void);
 extern void MakeTSOLAtoms(void);
 extern int SpecialName(const char *string, int len);

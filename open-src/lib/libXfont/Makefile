@@ -2,7 +2,7 @@
 #
 # Xfont Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,18 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17	08/12/22
+# @(#)Makefile	1.18	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXfont
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.4
+MODULE_VERSION=1.4.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	6206898.patch \
 	ps-fonts.patch \
 	htons-inline.patch
 
@@ -56,7 +55,7 @@ LIB_MAN_SUFFIX=3Xfont
 
 # Additional configure script options to select the modules we use
 MODULE_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
-	--disable-speedo --enable-fontcache --enable-fc --disable-builtins \
+	--disable-speedo --enable-fontcache --enable-fc --enable-builtins \
 	--with-bzip2
 
 # pkg-config files that need to have -R added

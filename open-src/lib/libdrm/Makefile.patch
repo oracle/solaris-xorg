@@ -1,0 +1,25 @@
+From 1bae8844cafd70f6196116f6e84b0f36c069e976 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Sat, 9 May 2009 17:21:29 -0700
+Subject: [PATCH] Delete extra libdrm_lists.h line after libdrm_la_SOURCES in libdrm/Makefile.am
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@sun.com>
+---
+ libdrm/Makefile.am |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+diff --git a/libdrm/Makefile.am b/libdrm/Makefile.am
+index 4c066e0..458420a 100644
+--- a/libdrm/Makefile.am
++++ b/libdrm/Makefile.am
+@@ -32,7 +32,6 @@ libdrm_la_LIBADD = @CLOCK_LIB@
+ AM_CFLAGS = -I$(top_srcdir)/shared-core
+ libdrm_la_SOURCES = xf86drm.c xf86drmHash.c xf86drmRandom.c xf86drmSL.c \
+ 	xf86drmMode.c libdrm_lists.h
+-	libdrm_lists.h
+ 
+ libdrmincludedir = ${includedir}
+ libdrminclude_HEADERS = xf86drm.h xf86drmMode.h
+-- 
+1.5.6.5
+

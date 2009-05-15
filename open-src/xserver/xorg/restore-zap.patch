@@ -1,0 +1,84 @@
+From 737b49199a05299486064e6e762cf2a2f6f95be6 Mon Sep 17 00:00:00 2001
+From: Peter Hutterer <peter.hutterer@who-t.net>
+Date: Thu, 9 Apr 2009 15:40:24 +1000
+Subject: [PATCH] xfree86: restore default off for DontZap
+
+Zapping is triggered by xkb these days, so note in the man page that it's the
+Terminate_Server action. Since it's XKB, personal preferences towards or
+against zapping should be achieved through xkb rulesets.
+If Terminate_Server is not in the xkb actions, then we can't zap anyway and we
+don't need a default of DontZap "on".
+
+This patch restores the old meaning of DontZap - disallow zapping altogether,
+regardless of XKB's current keymap.
+Ideally, this patch should be accompanied by b0f64bdab00db652e in
+xkeyboard-config.
+
+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ doc/Xserver.man.pre                  |    2 +-
+ hw/xfree86/common/xf86Config.c       |    5 ++---
+ hw/xfree86/doc/man/xorg.conf.man.pre |   11 +++++------
+ 3 files changed, 8 insertions(+), 10 deletions(-)
+
+diff --git a/doc/Xserver.man.pre b/doc/Xserver.man.pre
+index e9a3b9c..e2673f7 100644
+--- a/doc/Xserver.man.pre
++++ b/doc/Xserver.man.pre
+@@ -219,7 +219,7 @@ turns on auto-repeat.
+ starts the stipple with the classic stipple and cursor visible.  The default
+ is to start with a black root window, and to suppress display of the cursor
+ until the first time an application calls XDefineCursor().  For the Xorg
+-server, this also changes the default for the DontZap option to FALSE.  For
++server, this also sets the default for the DontZap option to FALSE.  For
+ kdrive servers, this implies -zap.
+ .TP 8
+ .B \-s \fIminutes\fP
+diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
+index 7ea6197..8b07566 100644
+--- a/hw/xfree86/common/xf86Config.c
++++ b/hw/xfree86/common/xf86Config.c
+@@ -726,7 +726,7 @@ static OptionInfoRec FlagOptions[] = {
+   { FLAG_DONTVTSWITCH,		"DontVTSwitch",			OPTV_BOOLEAN,
+ 	{0}, FALSE },
+   { FLAG_DONTZAP,		"DontZap",			OPTV_BOOLEAN,
+-	{0}, TRUE },
++	{0}, FALSE },
+   { FLAG_DONTZOOM,		"DontZoom",			OPTV_BOOLEAN,
+ 	{0}, FALSE },
+   { FLAG_DISABLEVIDMODE,	"DisableVidModeExtension",	OPTV_BOOLEAN,
+@@ -834,8 +834,7 @@ configServerFlags(XF86ConfFlagsPtr flagsconf, XF86OptionPtr layoutopts)
+ 
+     xf86GetOptValBool(FlagOptions, FLAG_NOTRAPSIGNALS, &xf86Info.notrapSignals);
+     xf86GetOptValBool(FlagOptions, FLAG_DONTVTSWITCH, &xf86Info.dontVTSwitch);
+-    if (!xf86GetOptValBool(FlagOptions, FLAG_DONTZAP, &xf86Info.dontZap))
+-        xf86Info.dontZap = !party_like_its_1989;
++    xf86GetOptValBool(FlagOptions, FLAG_DONTZAP, &xf86Info.dontZap);
+     xf86GetOptValBool(FlagOptions, FLAG_DONTZOOM, &xf86Info.dontZoom);
+ 
+     xf86GetOptValBool(FlagOptions, FLAG_IGNORE_ABI, &xf86Info.ignoreABI);
+diff --git a/hw/xfree86/doc/man/xorg.conf.man.pre b/hw/xfree86/doc/man/xorg.conf.man.pre
+index 7349def..fbb2c6b 100644
+--- a/hw/xfree86/doc/man/xorg.conf.man.pre
++++ b/hw/xfree86/doc/man/xorg.conf.man.pre
+@@ -464,12 +464,11 @@ Default: off.
+ .TP 7
+ .BI "Option \*qDontZap\*q  \*q" boolean \*q
+ This disallows the use of the
+-.B Ctrl+Alt+Backspace
+-sequence.
+-That sequence is normally used to terminate the __xservername__ server.
+-When this option is enabled (as per default), that key sequence has no
+-special meaning.
+-Default: on.
++.B Terminate_Server
++XKB action (usually on Ctrl+Alt+Backspace, depending on XKB options).
++This action is normally used to terminate the __xservername__ server.
++When this option is enabled, the action has no effect.
++Default: off.
+ .TP 7
+ .BI "Option \*qDontZoom\*q  \*q" boolean \*q
+ This disallows the use of the
+-- 
+1.5.6.5
+

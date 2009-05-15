@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.70	09/05/13
+# @(#)make_release_packages	1.71	09/05/15
 #
 #	Create and fill a package staging area for X
 #
@@ -57,7 +57,7 @@ DATE="$(date +0.%Y.%m.%d)"
 XW_PACKAGE_LIST="SUNWfontconfig SUNWfontconfig-docs SUNWfontconfig-root 
     SUNWttf-google-droid
     SUNWpciaccess SUNWpixman SUNWfreetype2 SUNWvncviewer SUNWxcursor-themes
-    SUNWxorg-cfg SUNWxorg-client-docs SUNWxorg-client-programs
+    SUNWxorg-client-docs SUNWxorg-client-programs
     SUNWxorg-clientlibs SUNWxorg-compatlinks
     SUNWxorg-graphics-ddx SUNWxorg-headers
     SUNWxorg-server SUNWxorg-tsol-module 

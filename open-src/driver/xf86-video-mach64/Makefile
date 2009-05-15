@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	09/01/14
+# @(#)Makefile	1.2	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-mach64
 
 # Version number (used in path names)
-MODULE_VERSION=6.8.0
+MODULE_VERSION=6.8.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6205248.patch  

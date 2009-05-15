@@ -29,7 +29,7 @@
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 --- src/Makefile.am	2008-03-19 07:29:23.000000000 -0700
 +++ src/Makefile.am	2009-01-10 19:15:45.025364000 -0800
-@@ -57,3 +57,42 @@ cirrus_laguna_la_SOURCES = \
+@@ -57,3 +57,41 @@ cirrus_laguna_la_SOURCES = \
           lg_i2c.c \
           lg_xaa.c \
           lg_xaa.h
@@ -52,8 +52,7 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +
 +cirrus_alpine_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lfb -lint10 -lpciaccess -lshadowfb -lvgahw -lxaa \
-+	-lxf1bpp -lxf4bpp 
++	-lfb -lint10 -lpciaccess -lshadowfb -lvgahw -lxaa
 +
 +cirrus_laguna_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \

@@ -2,7 +2,7 @@
 #
 # xkbui Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	09/05/15
 #
 
 # Package name used in tarballs
@@ -55,8 +55,5 @@ LIB_MAN_SUFFIX=3xkbui
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xkbui.pc.in
-
-# Install in private subdir for xorgcfg
-MODULE_ADD_LIB_SUBDIR=/xorgcfg
 
 include ../Makefile.inc

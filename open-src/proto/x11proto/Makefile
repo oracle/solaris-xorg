@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/04/17
+# @(#)Makefile	1.10	09/05/15
 #
 
 # Package name used in tarballs
@@ -42,9 +42,3 @@ SOURCE_PATCHES=	Xos.h-patch Xpoll.h-patch X.h-patch
 
 ### Include common rulesets
 include ../Makefile.inc
-
-# Extra install for bootstrapping the old monolith
-install_gen:: $(SOURCE_DIR)/Makefile
-	@if [ -d $(PROTODIR)/../xc/include ] ; then \
-		(set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) xprotodir=/../xc/include install) ;\
-	fi

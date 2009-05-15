@@ -1,19 +1,68 @@
-From aeb01b73c94b5c2154406695970494a408ba1fba Mon Sep 17 00:00:00 2001
+From f4111b898ea33d8d5015347f6192fc704dd1381a Mon Sep 17 00:00:00 2001
 From: Alan Coopersmith <alan.coopersmith@sun.com>
-Date: Wed, 14 Jan 2009 18:53:15 -0800
+Date: Thu, 22 Jan 2009 19:46:25 -0800
+Subject: [PATCH] Revert "If AEI is on, disable 'vmmouse' in addition to 'kbd' and 'mouse'."
+
+This reverts commit d6129ebf8dad9cfbc13dc8db7c780b023bf9a60b.
+---
+ hw/xfree86/common/xf86Config.c       |    5 ++---
+ hw/xfree86/doc/man/xorg.conf.man.pre |    2 +-
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
+index 6c6fac3..241c19d 100644
+--- a/hw/xfree86/common/xf86Config.c
++++ b/hw/xfree86/common/xf86Config.c
+@@ -2472,14 +2472,13 @@ checkInput(serverLayoutPtr layout, Bool implicit_layout) {
+         while(*dev)
+         {
+             if (strcmp((*dev)->driver, "kbd") == 0 ||
+-                strcmp((*dev)->driver, "mouse") == 0 ||
+-                strcmp((*dev)->driver, "vmmouse") == 0)
++                strcmp((*dev)->driver, "mouse") == 0)
+             {
+                 IDevPtr *current;
+                 if (!warned)
+                 {
+                     xf86Msg(X_WARNING, "AllowEmptyInput is on, devices using "
+-                            "drivers 'kbd', 'mouse' or 'vmmouse' will be disabled.\n");
++                            "drivers 'kbd' or 'mouse' will be disabled.\n");
+                     warned = TRUE;
+                 }
+ 
+diff --git a/hw/xfree86/doc/man/xorg.conf.man.pre b/hw/xfree86/doc/man/xorg.conf.man.pre
+index d9a4b35..4f1ba00 100644
+--- a/hw/xfree86/doc/man/xorg.conf.man.pre
++++ b/hw/xfree86/doc/man/xorg.conf.man.pre
+@@ -662,7 +662,7 @@ the X server to load. Disabled by default.
+ If enabled, don't add the standard keyboard and mouse drivers, if there are no
+ input devices in the config file.  Enabled by default if AutoAddDevices and
+ AutoEnableDevices is enabled, otherwise disabled.
+-If AllowEmptyInput is on, devices using the kbd, mouse or vmmouse driver are ignored.
++If AllowEmptyInput is on, devices using the kbd or mouse driver are ignored.
+ .TP 7
+ .BI "Option \*qAutoAddDevices\*q \*q" boolean \*q
+ If this option is disabled, then no devices will be added from HAL events.
+
+-- 
+1.5.6.5
+
+From e4d881a4a8ef743361ff62bcb766dd0e8d15c02e Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@sun.com>
+Date: Thu, 22 Jan 2009 19:47:11 -0800
 Subject: [PATCH] Revert "xfree86: If AEI is on, disable "kbd" and "mouse" devices."
 
-This reverts commit 3245bf113619500b7b6cae3a3f31ddd2984cbc05.
+This reverts commit c264826da96ad1859dd112b17eb8aa9e5278478f.
 ---
  hw/xfree86/common/xf86Config.c       |   39 +--------------------------------
  hw/xfree86/doc/man/xorg.conf.man.pre |    1 -
  2 files changed, 2 insertions(+), 38 deletions(-)
 
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index e91eadd..a1c2e34 100644
+index 241c19d..5b981e5 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
-@@ -1340,7 +1340,7 @@ checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLayout)
+@@ -1292,7 +1292,7 @@ checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLayout)
      }
  
      /* 4. First pointer with 'mouse' as the driver. */
@@ -22,7 +71,7 @@ index e91eadd..a1c2e34 100644
  	confInput = xf86findInput(CONF_IMPLICIT_POINTER,
  				  xf86configptr->conf_input_lst);
  	if (!confInput) {
-@@ -1480,7 +1480,7 @@ checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLayout)
+@@ -1432,7 +1432,7 @@ checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLayout)
      }
  
      /* 4. First keyboard with 'keyboard' or 'kbd' as the driver. */
@@ -31,7 +80,7 @@ index e91eadd..a1c2e34 100644
  	confInput = xf86findInput(CONF_IMPLICIT_KEYBOARD,
  				  xf86configptr->conf_input_lst);
  	if (!confInput) {
-@@ -2481,41 +2481,6 @@ addDefaultModes(MonPtr monitorp)
+@@ -2460,41 +2460,6 @@ addDefaultModes(MonPtr monitorp)
  static void
  checkInput(serverLayoutPtr layout, Bool implicit_layout) {
      checkCoreInputDevices(layout, implicit_layout);
@@ -74,10 +123,10 @@ index e91eadd..a1c2e34 100644
  
  /*
 diff --git a/hw/xfree86/doc/man/xorg.conf.man.pre b/hw/xfree86/doc/man/xorg.conf.man.pre
-index de93aaf..74f8cef 100644
+index 4f1ba00..34339a9 100644
 --- a/hw/xfree86/doc/man/xorg.conf.man.pre
 +++ b/hw/xfree86/doc/man/xorg.conf.man.pre
-@@ -698,7 +698,6 @@ the X server to load. Disabled by default.
+@@ -662,7 +662,6 @@ the X server to load. Disabled by default.
  If enabled, don't add the standard keyboard and mouse drivers, if there are no
  input devices in the config file.  Enabled by default if AutoAddDevices and
  AutoEnableDevices is enabled, otherwise disabled.
@@ -85,61 +134,6 @@ index de93aaf..74f8cef 100644
  .TP 7
  .BI "Option \*qAutoAddDevices\*q \*q" boolean \*q
  If this option is disabled, then no devices will be added from HAL events.
--- 
-1.5.6.5
-
-From 93d5891e83cc264c31f4da269434fec43a1900eb Mon Sep 17 00:00:00 2001
-From: Alan Coopersmith <alan.coopersmith@sun.com>
-Date: Wed, 14 Jan 2009 23:17:23 -0800
-Subject: [PATCH] Revert "xfree86: AllowEmptyInput is now enabled by default if hotplugging is enabled."
-
-This reverts commit c30f36c8c1dfd85deaf1c109823a1f15dd218ac7.
----
- hw/xfree86/common/xf86Config.c       |    8 +++++---
- hw/xfree86/doc/man/xorg.conf.man.pre |    3 +--
- 2 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index a1c2e34..3812fe0 100644
---- a/hw/xfree86/common/xf86Config.c
-+++ b/hw/xfree86/common/xf86Config.c
-@@ -1088,9 +1088,9 @@ configServerFlags(XF86ConfFlagsPtr flagsconf, XF86OptionPtr layoutopts)
-     }
- #endif
- 
--    /* AllowEmptyInput is automatically true if we're hotplugging */
--    xf86Info.allowEmptyInput = (xf86Info.autoAddDevices && xf86Info.autoEnableDevices);
--    xf86GetOptValBool(FlagOptions, FLAG_ALLOW_EMPTY_INPUT, &xf86Info.allowEmptyInput);
-+    xf86Info.allowEmptyInput = FALSE;
-+    if (xf86GetOptValBool(FlagOptions, FLAG_ALLOW_EMPTY_INPUT, &value))
-+        xf86Info.allowEmptyInput = TRUE;
- 
-     xf86Info.useDefaultFontPath = TRUE;
-     xf86Info.useDefaultFontPathFrom = X_DEFAULT;
-@@ -1879,6 +1879,8 @@ configImpliedLayout(serverLayoutPtr servlayoutp, XF86ConfScreenPtr conf_screen)
-     indp = xnfalloc(sizeof(IDevPtr));
-     *indp = NULL;
-     servlayoutp->inputs = indp;
-+    if (!xf86Info.allowEmptyInput && !checkCoreInputDevices(servlayoutp, TRUE))
-+	return FALSE;
-     
-     return TRUE;
- }
-diff --git a/hw/xfree86/doc/man/xorg.conf.man.pre b/hw/xfree86/doc/man/xorg.conf.man.pre
-index 74f8cef..9f39808 100644
---- a/hw/xfree86/doc/man/xorg.conf.man.pre
-+++ b/hw/xfree86/doc/man/xorg.conf.man.pre
-@@ -696,8 +696,7 @@ the X server to load. Disabled by default.
- .TP 7
- .BI "Option \*qAllowEmptyInput\*q \*q" boolean \*q
- If enabled, don't add the standard keyboard and mouse drivers, if there are no
--input devices in the config file.  Enabled by default if AutoAddDevices and
--AutoEnableDevices is enabled, otherwise disabled.
-+input devices in the config file.  Disabled by default.
- .TP 7
- .BI "Option \*qAutoAddDevices\*q \*q" boolean \*q
- If this option is disabled, then no devices will be added from HAL events.
 
 -- 
 1.5.6.5
-

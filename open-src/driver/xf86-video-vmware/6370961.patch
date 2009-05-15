@@ -28,12 +28,12 @@
 
 6370961  - needs sane vert, horiz ranges
 
-diff -urp -x '*~' src/vmware.c src/vmware.c
---- src/vmware.c	2006-10-31 19:12:05.000000000 -0800
-+++ src/vmware.c	2006-11-01 11:10:40.076805000 -0800
-@@ -924,6 +924,20 @@ VMWAREPreInit(ScrnInfoPtr pScrn, int fla
-     clockRanges->ClockMulFactor = 1;
-     clockRanges->ClockDivFactor = 1;
+diff -urp -x '*~' -x '*.orig' src/vmware.c src/vmware.c
+--- src/vmware.c	2009-05-12 16:47:50.000000000 -0700
++++ src/vmware.c	2009-05-12 21:01:29.909838000 -0700
+@@ -927,6 +927,20 @@ VMWAREPreInit(ScrnInfoPtr pScrn, int fla
+      */
+     vmwareGetSupportedModelines(&pScrn->monitor->Modes);
  
 +    /* Set reasonable default Hsync range, if needed. */
 +    if (pScrn->monitor->nHsync == 0) {

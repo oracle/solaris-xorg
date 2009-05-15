@@ -2,7 +2,7 @@
 #
 # Xv 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# @(#)Makefile	1.5	09/05/15
 #
 
 # Package name used in tarballs
@@ -40,7 +40,10 @@ MODULE_NAME=libXv
 MODULE_VERSION=1.0.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = lint-flags.patch
+
+# Regenerate Makefile.in's from Makefile.am's after lint-flags.patch
+AUTORECONF=yes
 
 # Library name
 LIBNAME=Xv

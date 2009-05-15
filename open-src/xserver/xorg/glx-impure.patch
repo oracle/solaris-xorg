@@ -1,7 +1,7 @@
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2008-09-24 20:22:24.347811000 -0700
-+++ hw/xfree86/dixmods/Makefile.am	2008-09-24 20:22:41.701679000 -0700
-@@ -79,7 +79,7 @@ libwfb_la_LIBADD = $(top_builddir)/fb/li
+--- hw/xfree86/dixmods/Makefile.am	2009-01-22 20:34:57.149681000 -0800
++++ hw/xfree86/dixmods/Makefile.am	2009-01-22 20:35:04.779066000 -0800
+@@ -44,7 +44,7 @@ libwfb_la_LIBADD = $(top_builddir)/fb/li
  libwfb_la_SOURCES = $(top_builddir)/fb/fbcmap_mi.c fbmodule.c
  libwfb_la_CFLAGS = $(AM_CFLAGS) -DFB_ACCESS_WRAPPER
  

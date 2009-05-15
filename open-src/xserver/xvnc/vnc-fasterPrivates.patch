@@ -1,16 +1,18 @@
-Make Xvnc build after applying ../xorg/faster-devPrivates.patch
-which changes the type of DevPrivateKey.
+Make Xvnc work with new Xorg 1.6 faster rework of devPrivates, which stores
+an index in the address pointed to by the key.
 
 --- unix/xc/programs/Xserver/vnc/vncHooks.cc	2008-10-08 08:21:12.289265000 -0700
 +++ unix/xc/programs/Xserver/vnc/vncHooks.cc	2008-10-08 08:20:15.523901000 -0700
-@@ -90,8 +90,8 @@
+@@ -90,8 +90,10 @@
      GCOps *wrappedOps;
  } vncHooksGCRec, *vncHooksGCPtr;
  
 -static DevPrivateKey vncHooksScrPrivateKey = &vncHooksScrPrivateKey;
 -static DevPrivateKey vncHooksGCPrivateKey = &vncHooksGCPrivateKey;
-+static DevPrivateKey vncHooksScrPrivateKey = (DevPrivateKey) &vncHooksScrPrivateKey;
-+static DevPrivateKey vncHooksGCPrivateKey = (DevPrivateKey) &vncHooksGCPrivateKey;
++static int vncHooksScrPrivateKeyIndex;
++static int vncHooksGCPrivateKeyIndex;
++static DevPrivateKey vncHooksScrPrivateKey = &vncHooksScrPrivateKeyIndex;
++static DevPrivateKey vncHooksGCPrivateKey = &vncHooksGCPrivateKeyIndex;
  
  #define vncHooksScreenPrivate(scrn) \
  	(vncHooksScreenPtr) dixLookupPrivate (&(scrn)->devPrivates, \

@@ -34,7 +34,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.7	09/02/26 SMI"
+# ident "@(#)buildit	1.8	09/05/15 SMI"
 #
 
 MAKE_PKGS=0
@@ -77,6 +77,9 @@ which cc gcc
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d)+.(\d)+|)) { \
     print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 9) ) }'
 gcc -v
+
+# Exported to reduce number of times it's evaluated in makefiles
+export POUND_SIGN='#'
 
 echo "Using these environment variables: "
 env

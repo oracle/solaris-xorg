@@ -28,14 +28,12 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	09/03/04
-#
 
 # Package name used in tarballs
 MODULE_NAME=MesaDemos
 
 # Version number (used in path names)
-MODULE_VERSION=7.2
+MODULE_VERSION=7.4.1
 
 # Directory created by unpacking source
 SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)

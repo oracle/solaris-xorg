@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -67,6 +67,8 @@ in this Software without prior written authorization from The Open Group.
 #include    <ctype.h>
 #include    <limits.h>
 #include    <stdarg.h>
+#include    <stdlib.h>
+#include    <X11/keysym.h>
 
 #define EBadFontPath 0
 #define EBadFontName 0
@@ -89,7 +91,7 @@ ErrorF (const char * f, ...)
     va_end(args);
 }
 
-/* Provide psuedo renderers for font file formats we may find in fonts.dir
+/* Provide pseudo renderers for font file formats we may find in fonts.dir
    files during installation, but which libXfont does not support */
 /* ARGSUSED */
 static int
@@ -138,8 +140,8 @@ ProcessFontsDirectory (
 
     FontDirectoryPtr	dir = NullFontDirectory;
 
-    strlcpy(dir_file, directory, sizeof(dir_file));
-    if (directory[strlen(directory) - 1] != '/')
+    i = strlcpy(dir_file, directory, sizeof(dir_file));
+    if (directory[i - 1] != '/')
 	strlcat(dir_file, "/", sizeof(dir_file));
     strlcat(dir_file, FontDirFile, sizeof(dir_file));
     file = fopen(dir_file, "r");
@@ -220,7 +222,7 @@ lexAlias(
 	    char       *nbuf;
 
 	    nsize = tokenSize ? (tokenSize << 1) : 64;
-	    nbuf = (char *) xrealloc(tokenBuf, nsize);
+	    nbuf = realloc(tokenBuf, nsize);
 	    if (!nbuf)
 		return EALLOC;
 	    tokenBuf = nbuf;
@@ -310,6 +312,27 @@ lexc(FILE *file)
     return c;
 }
 
+static inline unsigned char
+ISOLatin1ToLower(unsigned char source)
+{
+    if (source >= XK_A && source <= XK_Z)
+        return source + (XK_a - XK_A);
+    if (source >= XK_Agrave && source <= XK_Odiaeresis)
+        return source + (XK_agrave - XK_Agrave);
+    if (source >= XK_Ooblique && source <= XK_Thorn)
+        return source + (XK_oslash - XK_Ooblique);
+    return source;
+}
+
+static void
+copyISOLatin1Lowered(char *dest, char *source, int length)
+{
+    int i;
+    for (i = 0; i < length; i++, source++, dest++)
+        *dest = ISOLatin1ToLower(*source);
+    *dest = '\0';
+}
+
 static int
 ReadAliases(
     FILE *file,
@@ -344,8 +367,8 @@ ReadAliases(
 	status = EAllocError;
 	break;
       case NAME:
-	CopyISOLatin1Lowered(alias, alias, strlen(alias));
-	CopyISOLatin1Lowered(font_name, lexToken, strlen(lexToken));
+	copyISOLatin1Lowered(alias, alias, strlen(alias));
+	copyISOLatin1Lowered(font_name, lexToken, strlen(lexToken));
 	return status;
       }
     }
@@ -375,7 +398,7 @@ OpenAndVerifyFont (
     
   if (namelen >= MAXFONTNAMELEN)
     return EAllocError;
-  CopyISOLatin1Lowered (lowerName, name, namelen);
+  copyISOLatin1Lowered (lowerName, name, namelen);
   lowerName[namelen] = '\0';
   tmpName.name = lowerName;
   tmpName.length = namelen;

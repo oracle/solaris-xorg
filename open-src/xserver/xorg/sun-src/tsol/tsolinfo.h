@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.23     09/04/02 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.24     09/05/15 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -41,6 +41,7 @@
 #include <ucred.h>
 #include "misc.h"
 #include "dixstruct.h"
+#include "globals.h"
 #include <X11/keysym.h>
 
 /*********************************
@@ -356,7 +357,6 @@ typedef struct _HotKeyRec {
  *********************************/
 
 
-extern  WindowPtr *WindowTable;
 extern  int PolyProperty(Atom atom, WindowPtr pWin);
 extern  int PolySelection(Atom atom);
 extern  TsolPolyInstInfoRec tsolpolyinstinfo;

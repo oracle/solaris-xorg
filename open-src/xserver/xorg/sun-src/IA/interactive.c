@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)interactive.c 35.19     09/01/14 SMI"
+#pragma ident   "@(#)interactive.c 35.20     09/05/15 SMI"
 
 /************************************************************
 	Basic boilerplate extension.
@@ -759,9 +759,10 @@ IAProcSendEvent(ClientPtr client)
  
         register ClientPtr requestee;
 	WindowPtr pWin = NULL;
+	DeviceIntPtr pPtr = PickPointer(client);
 
 	if (stuff->destination == PointerWindow)
-	    pWin = GetSpriteWindow();
+	    pWin = GetSpriteWindow(pPtr);
 	else if (stuff->destination == InputFocus)
 	{
 	    WindowPtr inputFocus = inputInfo.keyboard->focus->win;
@@ -772,10 +773,10 @@ IAProcSendEvent(ClientPtr client)
 	 /* If the input focus is PointerRootWin, send the event to where
 	    the pointer is if possible, then perhaps propogate up to root. */
 	    if (inputFocus == PointerRootWin)
-		inputFocus = GetCurrentRootWindow();
+		inputFocus = GetCurrentRootWindow(pPtr);
 	    
-	    if (IsParent(inputFocus, GetSpriteWindow()))
-		pWin = GetSpriteWindow();
+	    if (IsParent(inputFocus, GetSpriteWindow(pPtr)))
+		pWin = GetSpriteWindow(pPtr);
 	    else
 		pWin = inputFocus;
 	}

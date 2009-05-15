@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17	09/01/14
+# @(#)Makefile	1.18	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=6.10.0
+MODULE_VERSION=6.12.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -52,6 +52,10 @@ AUTORECONF=yes
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
+
+# AtomBios code won't build with Sun compiler
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS=--enable-dri

@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2008-09-23 11:27:01.000000000 -0700
-+++ configure.ac	2008-09-24 20:20:03.627438000 -0700
-@@ -1157,6 +1157,7 @@ LIBCRYPTO="$OPENSSL_LIB_FLAGS -lcrypto"
+--- configure.ac	2009-05-08 17:43:15.381265000 -0700
++++ configure.ac	2009-05-08 17:43:23.621871000 -0700
+@@ -1198,6 +1198,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUI
  XSERVER_CFLAGS="${XSERVERCFLAGS_CFLAGS} ${SHA1_CFLAGS}"
  XSERVER_LIBS="$DIX_LIB $CONFIG_LIB $MI_LIB $OS_LIB"
  XSERVER_SYS_LIBS="${XSERVERLIBS_LIBS} ${SYS_LIBS} ${LIBS} ${SHA1_LIB}"
@@ -38,9 +38,9 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_SUBST([XSERVER_SYS_LIBS])
  
 diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
---- os/Makefile.am	2008-09-23 11:25:01.000000000 -0700
-+++ os/Makefile.am	2008-09-24 20:20:03.627940000 -0700
-@@ -22,6 +22,7 @@ libos_la_SOURCES = 	\
+--- os/Makefile.am	2009-02-13 14:24:04.000000000 -0800
++++ os/Makefile.am	2009-05-08 17:43:23.622460000 -0700
+@@ -24,6 +24,7 @@ libos_la_SOURCES = 	\
  	xdmauth.c	\
  	xstrans.c	\
  	xprintf.c	\
@@ -48,7 +48,7 @@ diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
  	$(XORG_SRCS)
  
  if SECURE_RPC
-@@ -36,6 +37,8 @@ if NEED_STRLCAT
+@@ -38,6 +39,8 @@ if NEED_STRLCAT
  libos_la_SOURCES += $(STRLCAT_SRCS)
  endif
  
@@ -58,8 +58,8 @@ diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
       $(XDMCP_SRCS) $(STRLCAT_SRCS)
  
 diff -urp -x '*~' -x '*.orig' os/auth.c os/auth.c
---- os/auth.c	2008-09-23 11:25:01.000000000 -0700
-+++ os/auth.c	2008-09-24 20:20:03.629219000 -0700
+--- os/auth.c	2009-03-13 10:34:03.000000000 -0700
++++ os/auth.c	2009-05-08 17:43:23.622937000 -0700
 @@ -289,6 +289,19 @@ AddAuthorization (unsigned name_length, 
      return 0;
  }
@@ -81,9 +81,9 @@ diff -urp -x '*~' -x '*.orig' os/auth.c os/auth.c
  
  XID
 diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
---- os/connection.c	2008-09-23 11:25:01.000000000 -0700
-+++ os/connection.c	2008-09-24 20:20:03.630157000 -0700
-@@ -168,6 +168,10 @@ typedef const char *string;
+--- os/connection.c	2009-04-14 10:14:57.000000000 -0700
++++ os/connection.c	2009-05-08 17:43:23.623731000 -0700
+@@ -131,6 +131,10 @@ typedef const char *string;
  # include "../dix/Xserver-dtrace.h"
  #endif
  
@@ -94,7 +94,7 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
  static int lastfdesc;		/* maximum file descriptor */
  
  fd_set WellKnownConnections;	/* Listener mask */
-@@ -472,6 +476,12 @@ CreateWellKnownSockets(void)
+@@ -435,6 +439,12 @@ CreateWellKnownSockets(void)
      XFD_COPYSET (&WellKnownConnections, &AllSockets);
      ResetHosts(display);
  

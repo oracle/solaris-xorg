@@ -407,10 +407,10 @@ diff --git a/Xi/extinit.c b/Xi/extinit.c
 index a7a21ec..ffc4299 100644
 --- a/Xi/extinit.c
 +++ b/Xi/extinit.c
-@@ -1143,8 +1143,10 @@ XInputExtensionInit(void)
- 	IEventBase = extEntry->eventBase;
+@@ -988,8 +988,10 @@ XInputExtensionInit(void)
  	AllExtensionVersions[IReqCode - 128] = thisversion;
  	MakeDeviceTypeAtoms();
+ 	XIInitKnownProperties();
 -	RT_INPUTCLIENT = CreateNewResourceType((DeleteType) InputClientGone);
 -	RegisterResourceName(RT_INPUTCLIENT, "INPUTCLIENT");
 +	RT_INPUTCLIENT = CreateNewResourceTypeNamed(

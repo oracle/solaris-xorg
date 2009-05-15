@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	09/01/10
+# @(#)Makefile	1.9	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-siliconmotion
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.0
+MODULE_VERSION=1.7.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

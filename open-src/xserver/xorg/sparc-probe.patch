@@ -28,9 +28,9 @@
 
 Allow probing for /dev/fb cards other than the traditional sbus devices.
 
-diff -urp -x '*~' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/xf86sbusBus.c
---- hw/xfree86/common/xf86sbusBus.c	2006-11-13 16:59:40.000000000 -0800
-+++ hw/xfree86/common/xf86sbusBus.c	2006-12-21 14:24:29.543917000 -0800
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/xf86sbusBus.c
+--- hw/xfree86/common/xf86sbusBus.c	2009-01-09 09:47:04.000000000 -0800
++++ hw/xfree86/common/xf86sbusBus.c	2009-01-22 20:34:49.343790000 -0800
 @@ -41,6 +41,10 @@
  #include "xf86sbusBus.h"
  #include "xf86Sbus.h"
@@ -69,9 +69,9 @@ diff -urp -x '*~' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/xf86sbusBus.
  	xf86ErrorF("\n");
      }
      if (useProm)
-diff -urp -x '*~' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/xf86sbusBus.h
---- hw/xfree86/common/xf86sbusBus.h	2006-11-13 16:59:40.000000000 -0800
-+++ hw/xfree86/common/xf86sbusBus.h	2006-12-21 14:24:29.546593000 -0800
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/xf86sbusBus.h
+--- hw/xfree86/common/xf86sbusBus.h	2009-01-09 09:47:04.000000000 -0800
++++ hw/xfree86/common/xf86sbusBus.h	2009-01-22 20:34:49.344526000 -0800
 @@ -39,6 +39,7 @@
  #define SBUS_DEVICE_FFB		0x000b
  #define SBUS_DEVICE_GT		0x000c
@@ -80,14 +80,14 @@ diff -urp -x '*~' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/xf86sbusBus.
  
  typedef struct sbus_prom_node {
      int			node;
-diff -urp -x '*~' hw/xfree86/os-support/bus/Sbus.c hw/xfree86/os-support/bus/Sbus.c
---- hw/xfree86/os-support/bus/Sbus.c	2006-11-13 16:59:40.000000000 -0800
-+++ hw/xfree86/os-support/bus/Sbus.c	2006-12-21 14:24:29.547071000 -0800
+diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bus/Sbus.c hw/xfree86/os-support/bus/Sbus.c
+--- hw/xfree86/os-support/bus/Sbus.c	2009-01-09 09:47:04.000000000 -0800
++++ hw/xfree86/os-support/bus/Sbus.c	2009-01-22 20:34:49.345181000 -0800
 @@ -68,6 +68,7 @@ struct sbus_devtable sbusDeviceTable[] =
-     { SBUS_DEVICE_TCX, FBTYPE_TCXCOLOR, "tcx", "Sun TCX" },
-     { SBUS_DEVICE_FFB, FBTYPE_CREATOR, "ffb", "Sun FFB" },
-     { SBUS_DEVICE_FFB, FBTYPE_CREATOR, "afb", "Sun Elite3D" },
-+    { SBUS_DEVICE_UNK, FBTYPE_LASTPLUSONE + 1, "unknown", "Unknown FB" },
+     { SBUS_DEVICE_TCX, FBTYPE_TCXCOLOR, "tcx", "suntcx", "Sun TCX" },
+     { SBUS_DEVICE_FFB, FBTYPE_CREATOR, "ffb", "sunffb", "Sun FFB" },
+     { SBUS_DEVICE_FFB, FBTYPE_CREATOR, "afb", "sunffb", "Sun Elite3D" },
++    { SBUS_DEVICE_UNK, FBTYPE_LASTPLUSONE + 1, "unknown", "unknown", "Unknown FB" },
      { 0, 0, NULL }
  };
  

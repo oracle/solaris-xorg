@@ -1,18 +1,7 @@
---- hw/xfree86/common/xf86Config.c	2009-03-31 11:15:39.134549000 -0700
-+++ hw/xfree86/common/xf86Config.c	2009-03-31 11:14:16.834280000 -0700
-@@ -908,7 +908,7 @@ configServerFlags(XF86ConfFlagsPtr flags
-     MessageType from;
-     const char *s;
- #ifdef XKB
--    char *rules = "base";
-+    char *rules = XKB_DFLT_RULES;
- #endif
- 
-     /*
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
---- hw/xfree86/common/xf86Configure.c	2008-09-23 11:24:58.000000000 -0700
-+++ hw/xfree86/common/xf86Configure.c	2008-09-24 20:18:22.067988000 -0700
-@@ -555,7 +555,8 @@ configureModuleSection (void)
+--- hw/xfree86/common/xf86Configure.c	2009-01-09 09:47:03.000000000 -0800
++++ hw/xfree86/common/xf86Configure.c	2009-01-22 20:33:12.636229000 -0800
+@@ -518,7 +518,8 @@ configureModuleSection (void)
              /* 'strstr(dFP,"/dir")' is meant as 'dFP =~ m(/dir\W)' */
      	    if (defaultFontPath && (
  		(strcmp(*el, "freetype")  == 0 &&
@@ -23,9 +12,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Configure.c hw/xfree86/commo
  		 strstr(defaultFontPath, "/Type1")))) 
  	    	ptr->mod_load_lst = (XF86LoadPtr)xf86addListItem(
 diff -urp -x '*~' -x '*.orig' xkb/xkbInit.c xkb/xkbInit.c
---- xkb/xkbInit.c	2008-09-23 11:25:01.000000000 -0700
-+++ xkb/xkbInit.c	2008-09-24 20:18:22.068856000 -0700
-@@ -123,7 +123,7 @@ typedef struct	_SrvXkmInfo {
+--- xkb/xkbInit.c	2009-01-22 20:33:05.826163000 -0800
++++ xkb/xkbInit.c	2009-01-22 20:33:12.637635000 -0800
+@@ -94,7 +94,7 @@ typedef struct	_SrvXkmInfo {
  #endif
  
  char	*		XkbBaseDirectory=	XKB_BASE_DIRECTORY;

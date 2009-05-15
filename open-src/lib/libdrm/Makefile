@@ -27,14 +27,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	09/02/05
+# @(#)Makefile	1.11	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=libdrm
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.1
+MODULE_VERSION=2.4.5
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -46,7 +46,10 @@ GIT_URL=$(FDO_GIT_URL)/mesa/drm
 GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-drm-port.patch 6802045.patch
+SOURCE_PATCHES = \
+	Makefile.patch,-p1 \
+	solaris-drm-port.patch \
+	6802045.patch
 
 # Need to regenerate files after patching Makefile.am in solaris-drm-port.patch
 AUTORECONF=yes
@@ -58,7 +61,7 @@ AUTORECONF=yes
 #LIB_MAN_SUFFIX=3drm
 
 # pkg-config files that need to have -R added
-FIX_PC_FILES=libdrm.pc.in
+FIX_PC_FILES=libdrm.pc.in libdrm_intel.pc.in
 
 # Where to install files
 MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)

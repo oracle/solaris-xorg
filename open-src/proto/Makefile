@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	09/01/14
+# @(#)Makefile	1.14	09/05/15
 #
 ###############################################################################
 
@@ -37,6 +37,7 @@ OS_SUBDIRS_common = 		\
 	bigreqsproto 		\
 	compositeproto 		\
 	damageproto 		\
+	dri2proto		\
 	evieproto 		\
 	fixesproto 		\
 	fontcacheproto 		\

@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.9	09/04/16
+# @(#)Makefile.init	1.10	09/05/15
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -45,7 +45,11 @@ SHELL=/usr/bin/ksh93
 # widely included into other makefiles, as the resulting shell executions can
 # cause a noticable slowdown in build times.
 #
-POUND_SIGN:sh= echo \\043
+# The extra $(POUND_SIGN) in front keeps us from spending time doing 
+# additional shell executions once it's already defined. (See CR 6589104,
+# credit to Casper Dik for the idea.)
+#
+$(POUND_SIGN)POUND_SIGN:sh= echo \\043
 
 # Set default build target to all
 default:: all
@@ -101,7 +105,7 @@ $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
 
 CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst \
 			  -features=extensions
-CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w -mc -norunpath \
+CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w2 -mc -norunpath \
 			  -features=extensions
 
 ARCH32_FLAGS_sparc_suncc 	= -m32 -xarch=sparc
@@ -152,6 +156,7 @@ ARCH_LIB_FLAGS		= $(ARCH_LIB_FLAGS_$(MACH)_$(MODULE_COMPILER))
 # Flags for specific binary types
 LIB_CPPFLAGS 		= -D_REENTRANT
 LIB_CFLAGS 		= $(CFLAGS) $(ARCH_LIB_FLAGS)
+LIB_CXXFLAGS 		= $(CXXFLAGS) $(ARCH_LIB_FLAGS)
 PROG_CFLAGS		= $(CFLAGS)
 PROG_CXXFLAGS		= $(CXXFLAGS)
 
@@ -226,6 +231,7 @@ OW_TRUETYPE_DIR=$(OW_FONT_DIR)/TrueType
 
 X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
+XORG_SDK_INCLUDES_DIR=$(X11_INCLUDES_DIR)/xorg
 X11_X11LIB_DIR=$(X11_DIR)/lib/X11
 X11_FONT_DIR=$(X11_X11LIB_DIR)/fonts
 X11_TRUETYPE_DIR=$(X11_FONT_DIR)/TTF

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	09/01/14
+# @(#)Makefile	1.6	09/05/15
 #
 
 # Package name used in tarballs
@@ -56,9 +56,3 @@ ADDITIONAL_BITMAPS=black6 box6
 install_gen:: $(ADDITIONAL_BITMAPS)
 	mkdir -p $(BITMAP_INST_DIR)
 	$(INSTALL_SCRIPT) -m 0444 $(ADDITIONAL_BITMAPS) $(BITMAP_INST_DIR)
-
-# Extra install for bootstrapping the old monolith
-install_gen:: $(SOURCE_DIR)/Makefile
-	@if [ -d $(PROTODIR)/../xc/include ] ; then \
-	    (set -x ; cd $(SOURCE_DIR) ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) bitmapdir=/../xc/include/bitmaps install) ;\
-	fi

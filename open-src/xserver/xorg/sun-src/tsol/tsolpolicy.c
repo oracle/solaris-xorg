@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolpolicy.c 1.26     09/04/02 SMI"
+#pragma ident   "@(#)tsolpolicy.c 1.27     09/05/15 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -2129,6 +2129,7 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 	ClientPtr client = subject;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 	TsolResPtr tsolres;
+	DeviceIntPtr device = PickPointer(client);
 
 	/*
 	 * Allow pointer grab on root window, as long as
@@ -2138,7 +2139,7 @@ modify_grabwin(xresource_t res, xmethod_t method, void *resource,
 
 	if (WindowIsRoot(pWin))
 	{
-		pWin = TsolPointerWindow();
+		pWin = GetSpriteWindow(device);
 		if (WindowIsRoot(pWin))
 			return (PASSED);
 	}
@@ -2564,6 +2565,8 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	TsolResPtr tsolres = TsolWindowPriv(pWin);
 #if 0
 	GrabPtr grab;
+	DeviceIntPtr    keybd = inputInfo.keyboard;
+	DeviceIntPtr    mouse = inputInfo.pointer;
 #endif
 
 	/*
@@ -2633,9 +2636,9 @@ modify_focuswin(xresource_t res, xmethod_t method, void *resource,
 	 * If ptr/kbd is grabbed, then this client must be
 	 * the grabbing client
 	 */
-	grab = inputInfo.pointer->grab;
+	grab = mouse->grab;
 	if (grab == NULL)
-		grab = inputInfo.keyboard->grab;
+		grab = keybd->grab;
 	if (grab)
 	{
 		if (!SameClient(grab, client))

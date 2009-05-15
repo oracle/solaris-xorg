@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18	09/02/23
+# @(#)Makefile	1.19	09/05/15
 #
 
 # Package name used in tarballs
 MODULE_NAME=mesa
 
 # Version number (used in path names)
-MODULE_VERSION=7.2
+MODULE_VERSION=7.4.1
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -54,18 +54,14 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	execmem.patch,-p1 \
-	mklib-libc.patch,-p1 \
-	mklib-exports.patch,-p1 \
-	mklib-SunCC.patch \
+	install-pc-dir.patch,-p1 \
+	glu-no-mangled-exports.patch \
 	solaris-port.patch
-
-# Regenerate configure after patching configure.ac with mklib-libc.patch
-AUTORECONF=yes
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
 AUTOCONF_TARGET_SET=yes
+MODULE_ADD_CONFIGURE_TARGETS=set_pc_dir
 
 DRI_DRIVER_LIST_sparc=
 DRI_DRIVER_LIST_i386=i915 i965 r200 r300 radeon
@@ -101,15 +97,13 @@ MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
 
+# pkg-config files that need to have -R added
+FIX_PC_FILES=src/*/*.pc.in src/mesa/drivers/dri/dri.pc.in
+
+
 ### Include common rulesets
 include ../Makefile.inc
 
-### Rules specific to this directory:
-
-# Mesa installs its gl.pc files under /usr/X11/lib/pkgconfig, gives no
-# option for alternate paths, so we just copy them here to the protodir
-# path everyone else uses
-install_gen::
-	mkdir -p $(PROTODIR)$(PKGCONFIG_DIR)
-	$(INSTALL_SCRIPT) -m 644 $(SOURCE_DIR)/src/mesa/gl.pc \
-		$(PROTODIR)$(PKGCONFIG_DIR)
+# Mesa makefiles use a different variable name/method for pkgconfig path
+set_pc_dir: $(AUTOCONF_TARGET)
+	echo 'INSTALL_PC_DIR=$(PKGCONFIG_DIR)' >> $(AUTOCONF_TARGET)

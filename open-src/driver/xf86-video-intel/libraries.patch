@@ -1,20 +1,20 @@
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-08-25 18:25:53.000000000 -0700
-+++ src/Makefile.am	2009-01-10 20:01:41.033942000 -0800
-@@ -34,7 +34,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ 
+--- src/Makefile.am	2009-01-21 14:02:00.000000000 -0800
++++ src/Makefile.am	2009-05-08 20:47:55.817701000 -0700
+@@ -35,7 +35,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ 
  	@XMODES_CFLAGS@ -DI830_XV -DI830_USE_XAA -DI830_USE_EXA
  
  intel_drv_la_LTLIBRARIES = intel_drv.la
 -intel_drv_la_LDFLAGS = -module -avoid-version
 +intel_drv_la_LDFLAGS = -module -avoid-version \
-+	-ldrm -lfb -lint10 -lpciaccess -lshadow -lshadowfb \
-+	-lvbe -lvgahw -lxaa -lexa -ldri -lglx -lm
++	-ldrm -lfb -lint10 -lshadow -lshadowfb \
++	-lvbe -lvgahw -lxaa -lexa -ldri -ldri2 -lglx -lm
  intel_drv_ladir = @moduledir@/drivers
- intel_drv_la_LIBADD =
- if XSERVER_LIBPCIACCESS
+ intel_drv_la_LIBADD = -lm @DRM_LIBS@ -ldrm_intel
+ if BUILD_UXA
 diff -urp -x '*~' -x '*.orig' src/ch7017/Makefile.am src/ch7017/Makefile.am
---- src/ch7017/Makefile.am	2008-07-22 23:14:09.000000000 -0700
-+++ src/ch7017/Makefile.am	2009-01-10 20:01:41.042690000 -0800
+--- src/ch7017/Makefile.am	2009-01-21 14:02:00.000000000 -0800
++++ src/ch7017/Makefile.am	2009-05-08 20:47:55.811627000 -0700
 @@ -7,7 +7,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XMODES_CFLAGS
  	@PCIACCESS_CFLAGS@
  
@@ -27,15 +27,15 @@ diff -urp -x '*~' -x '*.orig' src/ch7017/Makefile.am src/ch7017/Makefile.am
  
  ch7017_la_SOURCES = \
 diff -urp -x '*~' -x '*.orig' src/xvmc/Makefile.am src/xvmc/Makefile.am
---- src/xvmc/Makefile.am	2008-08-25 18:25:53.000000000 -0700
-+++ src/xvmc/Makefile.am	2009-01-10 20:01:41.036760000 -0800
+--- src/xvmc/Makefile.am	2009-01-21 14:02:00.000000000 -0800
++++ src/xvmc/Makefile.am	2009-05-08 20:47:55.806902000 -0700
 @@ -6,7 +6,8 @@ libI810XvMC_la_SOURCES = I810XvMC.c \
  
- libI810XvMC_la_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ @DRI_CFLAGS@ \
+ libI810XvMC_la_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ @DRM_CFLAGS@ @DRI_CFLAGS@ \
  	-I$(top_srcdir)/src -DTRUE=1 -DFALSE=0
 -libI810XvMC_la_LDFLAGS = -version-number 1:0:0
 +libI810XvMC_la_LDFLAGS = -version-number 1:0:0 \
 +	-lXvMC -lXv -lX11 -ldrm
- libI810XvMC_la_LIBADD = @DRI_LIBS@ 
+ libI810XvMC_la_LIBADD = @DRI_LIBS@ @DRM_LIBS@ @XVMCLIB_LIBS@
  
  libIntelXvMC_la_SOURCES = intel_xvmc.c \

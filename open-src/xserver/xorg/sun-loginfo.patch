@@ -27,37 +27,37 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
---- hw/xfree86/common/xf86Init.c	2008-09-23 11:24:58.000000000 -0700
-+++ hw/xfree86/common/xf86Init.c	2008-09-23 16:32:10.752446000 -0700
-@@ -102,6 +102,7 @@ static void xf86PrintBanner(void);
- static void xf86PrintMarkers(void);
- static void xf86PrintDefaultModulePath(void);
- static void xf86PrintDefaultLibraryPath(void);
-+static void sunLogInfo(void);
- 
+--- hw/xfree86/common/xf86Init.c	2009-04-14 10:14:57.000000000 -0700
++++ hw/xfree86/common/xf86Init.c	2009-05-08 17:43:47.964208000 -0700
+@@ -96,6 +96,7 @@
  static Bool probe_devices_from_device_sections(DriverPtr drvp);
  static Bool add_matching_devices_to_configure_list(DriverPtr drvp);
-@@ -1778,7 +1779,7 @@ ddxUseMsg()
+ static Bool check_for_matching_devices(DriverPtr drvp);
++static void sunLogInfo(void);
+ 
+ #ifdef XF86PM
+ void (*xf86OSPMClose)(void) = NULL;
+@@ -134,7 +135,7 @@ static Bool formatsDone = FALSE;
  static void
- xf86PrintBanner()
+ xf86PrintBanner(void)
  {
 -#if PRE_RELEASE
 +#if 0
    ErrorF("\n"
      "This is a pre-release version of the X server from " XVENDORNAME ".\n"
      "It is not supported in any way.\n"
-@@ -1878,6 +1879,7 @@ xf86PrintBanner()
+@@ -234,6 +235,7 @@ xf86PrintBanner(void)
  #if defined(BUILDERSTRING)
    ErrorF("%s \n",BUILDERSTRING);
  #endif
 +  sunLogInfo();
    ErrorF("\tBefore reporting problems, check "__VENDORDWEBSUPPORT__"\n"
  	 "\tto make sure that you have the latest version.\n");
-   ErrorF("Module Loader present\n");
-@@ -2004,3 +2006,73 @@ xf86GetBppFromDepth(ScrnInfoPtr pScrn, i
+ }
+@@ -2014,3 +2016,73 @@ xf86GetBppFromDepth(ScrnInfoPtr pScrn, i
+     else
  	return 0;
  }
- 
 +/* Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
@@ -129,9 +129,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf8
 +    }
 +}
 diff -urp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loadmod.c
---- hw/xfree86/loader/loadmod.c	2008-09-23 11:24:59.000000000 -0700
-+++ hw/xfree86/loader/loadmod.c	2008-09-23 16:32:10.776094000 -0700
-@@ -1239,6 +1239,15 @@ LoaderErrorMsg(const char *name, const c
+--- hw/xfree86/loader/loadmod.c	2009-05-08 17:43:39.413495000 -0700
++++ hw/xfree86/loader/loadmod.c	2009-05-08 17:43:47.987132000 -0700
+@@ -1220,6 +1220,15 @@ LoaderErrorMsg(const char *name, const c
      default:
  	msg = "unknown error";
      }

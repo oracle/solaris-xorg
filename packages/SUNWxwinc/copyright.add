@@ -19,6 +19,12 @@ include proto/damageproto/COPYING
 
 --------------------------------------------------------------------
 
+Files from the proto/dri2proto package are covered by the following notice:
+
+include proto/dri2proto/COPYING
+
+--------------------------------------------------------------------
+
 Files from the proto/evieproto package are covered by the following notice:
 
 include proto/evieproto/COPYING
