@@ -29,24 +29,18 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.24	08/08/04
+#	@(#)prototype	35.29	09/05/19
 #
 #  X Window System demo programs
 
 i pkginfo
 i copyright
 i depend
-i postinstall
 
 !HOME=../usr
 
 d none openwin				0755 root bin
-
-!search       $HOME/openwin/demo
 d none openwin/demo			0755 root bin
-f none openwin/demo/dpsexec 		0755 root bin
-f none openwin/demo/texteroids		0755 root bin
-f none openwin/demo/xepsf		0755 root bin
 
 !search $HOME/X11/bin
 d none X11				0755 root bin
