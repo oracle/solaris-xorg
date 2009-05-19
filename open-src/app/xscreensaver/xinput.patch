@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -33,10 +33,10 @@ to support users of the GNOME On-screen Keyboard (GOK) and similar
 accessibility helpers  (Sun bugid 5077966)
 
 
-diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
---- driver/Makefile.in	2006-08-08 15:24:49.603877000 -0700
-+++ driver/Makefile.in	2006-08-08 15:24:55.050626000 -0700
-@@ -210,7 +210,7 @@ PDF2JPEG_LIBS	= -framework Cocoa
+diff -urp -x '*~' -x '*.orig' driver/Makefile.in driver/Makefile.in
+--- driver/Makefile.in	2009-05-18 08:43:35.411265000 -0700
++++ driver/Makefile.in	2009-05-18 08:43:52.459461000 -0700
+@@ -211,7 +211,7 @@ PDF2JPEG_LIBS	= -framework Cocoa
  
  SAVER_LIBS	= $(LIBS) $(X_LIBS) $(XMU_LIBS) @SAVER_LIBS@ \
  		  $(XDPMS_LIBS) $(XINERAMA_LIBS) $(GL_LIBS) $(X_PRE_LIBS) \
@@ -45,9 +45,9 @@ diff -urp -x '*~' driver/Makefile.in driver/Makefile.in
  		  $(PASSWD_LIBS)
  
  CMD_LIBS	= $(LIBS) $(X_LIBS) \
-diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
---- driver/XScreenSaver.ad.in	2006-08-08 15:24:49.627321000 -0700
-+++ driver/XScreenSaver.ad.in	2006-08-08 15:24:55.051108000 -0700
+diff -urp -x '*~' -x '*.orig' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
+--- driver/XScreenSaver.ad.in	2009-05-18 08:43:35.463071000 -0700
++++ driver/XScreenSaver.ad.in	2009-05-18 08:43:52.460068000 -0700
 @@ -73,6 +73,7 @@
  *sgiSaverExtension:	True
  *xidleExtension:	True
@@ -56,9 +56,9 @@ diff -urp -x '*~' driver/XScreenSaver.ad.in driver/XScreenSaver.ad.in
  
  ! Set this to True if you are experiencing longstanding XFree86 bug #421
  ! (xscreensaver not covering the whole screen)
-diff -urp -x '*~' driver/prefs.c driver/prefs.c
---- driver/prefs.c	2006-08-08 15:24:49.631015000 -0700
-+++ driver/prefs.c	2006-08-08 15:24:55.052054000 -0700
+diff -urp -x '*~' -x '*.orig' driver/prefs.c driver/prefs.c
+--- driver/prefs.c	2009-05-18 08:43:35.466557000 -0700
++++ driver/prefs.c	2009-05-18 08:43:52.461057000 -0700
 @@ -303,6 +303,7 @@ static const char * const prefs[] = {
    "xidleExtension",
    "GetViewPortIsFullOfLies",
@@ -92,9 +92,9 @@ diff -urp -x '*~' driver/prefs.c driver/prefs.c
    p->use_proc_interrupts = get_boolean_resource (dpy,
                                                   "procInterrupts", "Boolean");
  
-diff -urp -x '*~' driver/prefs.h driver/prefs.h
---- driver/prefs.h	2006-08-08 15:24:49.631360000 -0700
-+++ driver/prefs.h	2006-08-08 15:24:55.052341000 -0700
+diff -urp -x '*~' -x '*.orig' driver/prefs.h driver/prefs.h
+--- driver/prefs.h	2009-05-18 08:43:35.466897000 -0700
++++ driver/prefs.h	2009-05-18 08:43:52.461426000 -0700
 @@ -109,6 +109,10 @@ struct saver_preferences {
    Bool use_mit_saver_extension;
    Bool use_sgi_saver_extension;
@@ -106,9 +106,9 @@ diff -urp -x '*~' driver/prefs.h driver/prefs.h
  
    Bool getviewport_full_of_lies_p; /* XFree86 bug #421 */
  
-diff -urp -x '*~' driver/timers.c driver/timers.c
---- driver/timers.c	2006-08-08 15:24:49.622337000 -0700
-+++ driver/timers.c	2006-08-08 15:24:55.053314000 -0700
+diff -urp -x '*~' -x '*.orig' driver/timers.c driver/timers.c
+--- driver/timers.c	2009-05-18 08:43:35.447486000 -0700
++++ driver/timers.c	2009-05-18 08:43:52.462422000 -0700
 @@ -68,6 +68,12 @@ extern Bool blank_screen (saver_info *si
  extern void unblank_screen (saver_info *si);
  
@@ -188,9 +188,9 @@ diff -urp -x '*~' driver/timers.c driver/timers.c
  
  #ifdef HAVE_RANDR
          if (event.type == (si->randr_event_number + RRScreenChangeNotify))
-diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
---- driver/xscreensaver.c	2006-08-08 15:24:49.623491000 -0700
-+++ driver/xscreensaver.c	2006-08-08 15:24:55.054560000 -0700
+diff -urp -x '*~' -x '*.orig' driver/xscreensaver.c driver/xscreensaver.c
+--- driver/xscreensaver.c	2009-05-18 08:43:35.448549000 -0700
++++ driver/xscreensaver.c	2009-05-18 08:43:52.463795000 -0700
 @@ -953,12 +953,18 @@ initialize_server_extensions (saver_info
    Bool server_has_mit_saver_extension_p = False;
    Bool system_has_proc_interrupts_p = False;
@@ -253,9 +253,9 @@ diff -urp -x '*~' driver/xscreensaver.c driver/xscreensaver.c
     },
    };
  
-diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
---- driver/xscreensaver.h	2006-08-08 15:24:49.613614000 -0700
-+++ driver/xscreensaver.h	2006-08-08 15:24:55.055086000 -0700
+diff -urp -x '*~' -x '*.orig' driver/xscreensaver.h driver/xscreensaver.h
+--- driver/xscreensaver.h	2009-05-18 08:43:35.428666000 -0700
++++ driver/xscreensaver.h	2009-05-18 08:43:52.464394000 -0700
 @@ -84,6 +84,12 @@ struct saver_info {
    int randr_event_number;
    int randr_error_number;
@@ -280,9 +280,9 @@ diff -urp -x '*~' driver/xscreensaver.h driver/xscreensaver.h
  
  /* Display Power Management System (DPMS) interface. */
  extern Bool monitor_powered_on_p (saver_info *si);
-diff -urp -x '*~' driver/xset.c driver/xset.c
---- driver/xset.c	2006-08-08 15:24:49.613951000 -0700
-+++ driver/xset.c	2006-08-08 15:24:55.055931000 -0700
+diff -urp -x '*~' -x '*.orig' driver/xset.c driver/xset.c
+--- driver/xset.c	2009-05-18 08:43:35.429033000 -0700
++++ driver/xset.c	2009-05-18 08:43:52.483673000 -0700
 @@ -34,6 +34,22 @@
  #ifdef _VROOT_H_
  ERROR!  You must not include vroot.h in this file.
@@ -355,7 +355,7 @@ diff -urp -x '*~' driver/xset.c driver/xset.c
 +
 +  list = XListInputDevices (si->dpy, &ndevices);
 +
-+  bzero(xdevice, MAX_XI_DEVICES * sizeof(XDevice));
++  bzero(xdevice, MAX_XI_DEVICES * sizeof(XDevice *));
 +  bzero(event_list, MAX_XI_EVENTS * sizeof(XEventClass));
 +  extdev_count = 0;
 +  
@@ -448,19 +448,25 @@ diff -urp -x '*~' driver/xset.c driver/xset.c
  
  /* SGI SCREEN_SAVER server extension hackery.
   */
-@@ -296,6 +447,15 @@ disable_builtin_screensaver (saver_info 
+@@ -284,7 +435,6 @@ disable_builtin_screensaver (saver_info 
+     }
+ 
+ 
+-#if defined(HAVE_MIT_SAVER_EXTENSION) || defined(HAVE_SGI_SAVER_EXTENSION)
+   {
+     static Bool extension_initted = False;
+     if (!extension_initted)
+@@ -296,9 +446,12 @@ disable_builtin_screensaver (saver_info 
  # ifdef HAVE_SGI_SAVER_EXTENSION
  	if (si->using_sgi_saver_extension) init_sgi_saver_extension(si);
  # endif
-+/* since HAVE_MIT_SAVER_EXTENSION is configured on all 3 Sun platforms
-+   it is safe to add the XInputExtension dev suppport here
-+*/
 +                                /* Adding XInputExtension Dev support
 +#5077966 P1 "password prompt cant be directly activated by GOK device"
 +                                */
 +	if (si->using_xinputdev_extension) init_xinputdev_extension(si);
-+
-+
        }
    }
- #endif /* HAVE_MIT_SAVER_EXTENSION || HAVE_SGI_SAVER_EXTENSION */
+-#endif /* HAVE_MIT_SAVER_EXTENSION || HAVE_SGI_SAVER_EXTENSION */
+ 
+   if (unblank_screen_p)
+     /* Turn off the server builtin saver if it is now running. */
