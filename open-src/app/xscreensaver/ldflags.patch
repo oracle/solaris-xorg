@@ -1,0 +1,17 @@
+6842304 LDFLAGS set incorrectly for xscreensaver
+
+Restore LDFLAGS correctly to saved value after pam_fail_delay test.
+(Same as the fix that was already upstream in xscreensaver 5.02 & later.)
+
+diff -urp -x '*~' -x '*.orig' configure.in configure.in
+--- configure.in	2006-09-18 13:56:10.000000000 -0700
++++ configure.in	2009-05-18 08:41:47.827341000 -0700
+@@ -1909,7 +1909,7 @@ if test "$enable_locking" = yes -a "$wit
+                   [ac_pam_fail_delay=yes],
+                   [ac_pam_fail_delay=no])
+       ac_cv_pam_fail_delay=$ac_pam_fail_delay,
+-      LD_FLAGS=$ac_save_LDFLAGS])
++      LDFLAGS=$ac_save_LDFLAGS])
+ 
+       if test "$ac_pam_fail_delay" = yes ; then
+         AC_MSG_RESULT(yes)

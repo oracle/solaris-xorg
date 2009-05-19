@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.107	09/05/13
+# @(#)Makefile	1.108	09/05/19
 #
 
 # Package name used in tarballs
@@ -49,6 +49,7 @@ SOURCE_UNCOMPRESS=bzcat
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	datarootdir.patch,-p1 \
+	ldflags.patch \
 	Sun.app-defaults.patch \
 	GNOME-desktop.patch \
 	solaris-paths.patch \
