@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 35.24     09/03/03 SMI"
+# ident "@(#)prototype 35.25     09/05/20 SMI"
 #
 #  X Window System optional fonts
 
@@ -88,7 +88,7 @@ f none openwin/lib/X11/DPSType3Fonts.upr	0444 root bin
 ## WOS move this package out of EUC.
 d none X11/lib/X11/fonts/75dpi 0755 root bin
 e fontsdir X11/lib/X11/fonts/75dpi/fonts.dir 	0444 root bin
-#e fontsalias X11/lib/X11/fonts/75dpi/fonts.alias.all	0444 root bin
+e fontsalias X11/lib/X11/fonts/75dpi/fonts.alias.all	0444 root bin
 f none X11/lib/X11/fonts/75dpi/courB08.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/courB08-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/75dpi/courB10.pcf.gz	0444 root bin
@@ -438,7 +438,7 @@ f none X11/lib/X11/fonts/75dpi/lutRS19-ISO8859-1.pcf.gz	0444 root bin
 !search $X11_FONTS/100dpi
 d none X11/lib/X11/fonts/100dpi 		0755 root bin
 e fontsdir X11/lib/X11/fonts/100dpi/fonts.dir	0444 root bin
-#e fontsalias X11/lib/X11/fonts/100dpi/fonts.alias.all	0444 root bin
+e fontsalias X11/lib/X11/fonts/100dpi/fonts.alias.all	0444 root bin
 f none X11/lib/X11/fonts/100dpi/courB08.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/100dpi/courB08-ISO8859-1.pcf.gz	0444 root bin
 f none X11/lib/X11/fonts/100dpi/courB10.pcf.gz	0444 root bin
