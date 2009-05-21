@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.39     09/05/15 SMI"
+#pragma ident   "@(#)tsolextension.c 1.40     09/05/21 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -227,6 +227,7 @@ TsolExtensionInit(void)
 */
 	pSecHook = &tsolSecHook;
 
+	XaceRegisterCallback(XACE_EXT_DISPATCH, TsolCheckExtensionAccess, NULL);
 	XaceRegisterCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess, NULL);
 	XaceRegisterCallback(XACE_PROPERTY_ACCESS, TsolCheckPropertyAccess, NULL);
 	XaceRegisterCallback(XACE_SEND_ACCESS, TsolCheckSendAccess, NULL);
@@ -561,6 +562,7 @@ static void
 TsolReset(ExtensionEntry *extension)
 {
     free_win_privsets();
+    XaceDeleteCallback(XACE_EXT_DISPATCH, TsolCheckExtensionAccess, NULL);
     XaceDeleteCallback(XACE_RESOURCE_ACCESS, TsolCheckResourceIDAccess, NULL);
     XaceDeleteCallback(XACE_PROPERTY_ACCESS, TsolCheckPropertyAccess, NULL);
     XaceDeleteCallback(XACE_SEND_ACCESS, TsolCheckSendAccess, NULL);
@@ -2491,6 +2493,8 @@ TsolCheckExtensionAccess)
 
     if (TsolDisabledExtension(rec->ext->name)) {
 	rec->status = BadAccess;
+    } else {
+	rec->status = Success;
     }
 }
 
