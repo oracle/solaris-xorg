@@ -37,4 +37,4 @@ signal-handler.patch
 6721634.patch
 xpstubs.patch
 dixmods-deps.patch
-
+sparc-initvisuals.patch
