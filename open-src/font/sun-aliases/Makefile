@@ -59,3 +59,5 @@ install_gen::
 	$(CP) fonts.alias.75dpi $(INSTDIR)/75dpi/fonts.alias.all
 	mkdir -p $(INSTDIR)/100dpi
 	$(CP) fonts.alias.100dpi $(INSTDIR)/100dpi/fonts.alias.all
+	mkdir -p $(INSTDIR)/F3bitmaps
+	$(CP) fonts.alias.F3 $(INSTDIR)/F3bitmaps/fonts.alias.all
