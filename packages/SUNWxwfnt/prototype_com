@@ -70,8 +70,8 @@ d none X11/lib/X11/fonts/100dpi 		0755 root bin
 e fontsdir X11/lib/X11/fonts/100dpi/fonts.dir 	0644 root bin
 
 !search  $OW_FONTS/pcf
-d none openwin/lib/X11/fonts/pcf 				0755 root bin
-e fontsdir openwin/lib/X11/fonts/pcf/fonts.dir 			0444 root bin
+#d none openwin/lib/X11/fonts/pcf 		0755 root bin
+#e fontsdir openwin/lib/X11/fonts/pcf/fonts.dir 	0444 root bin
 
 !search  $OW_FONTS/Speedo
 d none openwin/lib/X11/fonts/Speedo 			0755 root bin
