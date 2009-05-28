@@ -13,7 +13,7 @@
 /* GTK+ locking code written by Jacob Berkman  <jacob@ximian.com> for
  *  Sun Microsystems.
  *
- * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -516,15 +516,9 @@ if (s)
 
   atk_button = gtk_widget_get_accessible(button);
 
-
-
-  
-  if (version);
-  	free (user);
-  if (host);
-  	free (version);
-  if (user);
-  	free (host);
+  free (user);
+  free (version);
+  free (host);
 
  /* POP */
  gtk_widget_pop_colormap ();
@@ -871,6 +865,9 @@ handle_input (GIOChannel *source, GIOCondition cond, gpointer data)
   char *str;
   char *label;
   char* hmsg= (char*) NULL;  /* This is the heading of lock dialog..shows status**/
+
+  if (cond & G_IO_HUP) /* daemon crashed/exited/was killed */
+      gtk_main_quit();
 
  read_line:
   status = g_io_channel_read_line (source, &str, NULL, NULL, NULL);
@@ -1310,9 +1307,6 @@ if there is any running GOK or MAG, using GTK_WIN_POS_MOUSE
     if (wid_count == 1)
 	write_null(1);
 
-  ioc = g_io_channel_unix_new (0);
-  g_io_add_watch (ioc, G_IO_IN, handle_input, pwd);
-		
 
   } /* at-enable mode */
 
@@ -1342,14 +1336,12 @@ if there is any running GOK or MAG, using GTK_WIN_POS_MOUSE
   g_free (s);
 
  
-/* put the dummy for compactible with at-enable mode , change later */
   /* put the dummy for compactible with at-enable mode , change later */
   write_null(MAXRAISEDWINS);
-                                                                                
-  ioc = g_io_channel_unix_new (0);
-  g_io_add_watch (ioc, G_IO_IN, handle_input, pwd);
-                                                                                
   }
+
+  ioc = g_io_channel_unix_new (0);
+  g_io_add_watch (ioc, G_IO_IN | G_IO_HUP, handle_input, pwd);
 
   gtk_main ();
   
