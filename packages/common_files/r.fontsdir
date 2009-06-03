@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 1994 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,12 +29,12 @@
 #
 ###########################################################################
 #
-#	@(#)r.fontsdir	35.2	07/11/05	Sun Microsystems
+#	@(#)r.fontsdir	35.3	09/06/02	Sun Microsystems
 #
-# SUNWowoft class action remove script for the fontsdir class
+# X Consolidation class action remove script for the fontsdir class
 
-# Remove the fonts.dir files. (If mkfondir exists they'll be updated by the
-# postremove script
+# Remove the fonts.dir files. (If mkfontdir exists they'll be updated by the
+# postremove script.)
 
 while   read dst
 do

@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype 35.24     09/02/26 SMI"
+# ident "@(#)prototype	35.31	09/06/02 SMI"
 #
 #  X Window System common (but not required) fonts
 
@@ -35,6 +35,7 @@ i postinstall
 i postremove
 i copyright
 i depend
+!search ../common_files
 i i.fontsdir
 i r.fontsdir
 i i.fontsalias

@@ -1,8 +1,7 @@
 #!/bin/sh -x
-#
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -31,10 +30,9 @@
 #
 ###########################################################################
 #
-#	@(#)i.fontsdir	35.10	07/11/05 SMI
+#	@(#)i.fontsdir	35.11	09/06/02 SMI
 #
-# SUNWxwcft (X Window System common fonts package) class action script for
-# fontsdir class. 
+# X Consolidation class action script for fontsdir class
 
 EXEC_BASE=/usr
 PKGCOND=/usr/bin/pkgcond
@@ -44,9 +42,9 @@ is_wrngz=99
 is_ngz=99
 
 if [ -x $PKGCOND ]; then
-    $PKGCOND  is_sparse_root_nonglobal_zone
+    $PKGCOND is_sparse_root_nonglobal_zone
     is_srngz=$?
-    $PKGCOND  is_whole_root_nonglobal_zone
+    $PKGCOND is_whole_root_nonglobal_zone
     is_wrngz=$?
     $PKGCOND -v is_nonglobal_zone > /dev/null 2>&1
     is_ngz=$?
@@ -85,5 +83,3 @@ do
 done
 
 exit 0
-
-

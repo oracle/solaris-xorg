@@ -1,7 +1,6 @@
-#!/bin/sh -x
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,9 +29,9 @@
 #
 ###########################################################################
 #
-#	@(#)i.fontsalias	35.8	07/11/05 SMI
+#	@(#)i.fontsalias	35.9	09/06/02 SMI
 #
-# SUNWxwfnt class action script for fontsalias class
+# X Consolidation class action script for fontsalias class.
 
 
 EXEC_BASE=/usr

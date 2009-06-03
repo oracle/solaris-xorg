@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.71	09/03/12	Sun Microsystems
+#	@(#)prototype_com	35.77	09/06/02	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -39,6 +39,7 @@ i depend
 i preinstall
 i postremove
 i postinstall
+!search ../common_files
 i i.fontsdir
 i r.fontsdir
 i i.fontsalias
@@ -233,39 +234,6 @@ f none openwin/lib/X11/fonts/F3bitmaps/ZapfDingbats18.pcf 0444 root bin
 
 d none openwin/lib/X11/fonts/Type1 			0755 root bin
 
-!search  $OW_FONTS/Type1/afm
-d none openwin/lib/X11/fonts/Type1/afm			0755 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Courier.afm	0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Courier-Bold.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Courier-BoldOblique.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Courier-Oblique.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Helvetica.afm 	0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Helvetica-Bold.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Helvetica-BoldOblique.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Helvetica-Oblique.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Symbol.afm 	0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Times-Bold.afm 	0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Times-BoldItalic.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Times-Italic.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/afm/Times-Roman.afm 	0444 root bin
-
-!search  $OW_FONTS/Type1/outline
-d none openwin/lib/X11/fonts/Type1/outline		0755 root bin
-e fontsdir openwin/lib/X11/fonts/Type1/outline/fonts.dir 0644 root bin
-f none openwin/lib/X11/fonts/Type1/outline/fonts.scale 	0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Courier-Bold.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Courier-BoldOblique.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Courier-Oblique.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Courier.pfa 	0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Helvetica-Bold.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Helvetica-BoldOblique.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Helvetica-Oblique.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Helvetica.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Symbol.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Times-Bold.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Times-BoldItalic.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Times-Italic.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/outline/Times-Roman.pfa 0444 root bin
 
 !search            $OW_FONTS/Type1/sun
 d none openwin/lib/X11/fonts/Type1/sun 				0755 root bin

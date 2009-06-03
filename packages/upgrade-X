@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.52 09/05/15
+# @(#)upgrade-X	1.53 09/06/02
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
@@ -183,6 +183,7 @@ pkg_list="
 	SUNWxorg-tsol-module
 	SUNWxscreensaver-hacks
 	SUNWxscreensaver-hacks-gl
+	SUNWxsun-headers
 	SUNWxsun-server
 	SUNWxvnc
 	SUNWxwacx
@@ -224,25 +225,8 @@ esac
 #
 ####        
 
-# Packages to remove first, either because they are obsolete and not
-# being replaced, or because they have been modified to conflict with
-# other packages, and need to be removed before those other packages
-# are added
+# Packages to remove because they are obsolete and not being replaced
 REM_PKGS=""
-
-# snv_19: SUNWxwfnt split into SUNWxwfnt & SUNWxwfsw packages [6276301]
-# Need to remove SUNWxwfnt before installing SUNWxwfsw if 
-# SUNWxwfsw is not currently installed
-if ! /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q SUNWxwfsw ; then
-    REM_PKGS+=" SUNWxwfnt"
-fi
-
-# snv_42: 6424854 Xsun & Xprt servers split out of SUNWxwplt
-# Need to remove SUNWxwplt before installing SUNWxsun-server if 
-# SUNWxsun-server isn't currently installed
-if ! /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q SUNWxsun-server ; then
-    REM_PKGS+=" SUNWxwplt"
-fi
 
 # snv_46: 6261914 Removal of STSF & Xst [PSARC 2006/087]
 REM_PKGS+=" SUNWstsf SUNWstsfr SUNWxwxst"
@@ -263,28 +247,12 @@ REM_PKGS+=" SUNWxorg-doc"
 # snv_108: 6798225 stop building/delivering SUNWxwdim
 REM_PKGS+=" SUNWxwdim"
 
-# snv_109: 6803684/6804527/6806167 updates to open-src font packages
-# Replaces directories found in multiple packages with symlinks, so need
-# to remove them all first
-REM_PKGS+=" SUNWxwfnt SUNWxwcft SUNWxwoft"
-
 # snv_111: 6815064 Merge SUNWxwhl into SUNWxwinc
 REM_PKGS+=" SUNWxwhl"
 
-# snv_116: 6840423/6826940 Move headers from SUNWxorg-headers to SUNWxwinc,
-#	   merge SUNWxorg-devel-docs into SUNWxwpmn, remove SUNWxorg-cfg
-#
-REM_PKGS+=" SUNWxorg-headers SUNWxorg-devel-docs SUNWxorg-cfg"
-
-# Various compatibility links in SUNWxorg-server have been replaced with
-# files in other packages, so we need to remove SUNWxorg-server first
-# (for example: 6658871 changed /usr/X11/lib/X11/fonts/Type1 from a link
-# in SUNWxorg-server to a directory in SUNWxwcft, 6684643 changed 
-# /usr/X11/lib/X11/rgb.txt from a link to a file in SUNWxwplt and so on)
-if /bin/pkginfo ${ADDITIONAL_PKG_FLAGS} -q SUNWxorg-server ; then
-    REM_PKGS+=" SUNWxorg-server"
-fi
-
+# snv_116: 6840423 merge SUNWxorg-devel-docs into SUNWxwpmn, 
+#	   6826940 remove SUNWxorg-cfg (Xorg 1.6 upgrade)
+REM_PKGS+=" SUNWxorg-devel-docs SUNWxorg-cfg"
 
 # Check for shared SMF manifest scripts now required by our packages
 if [[ ! -f /usr/sadm/install/scripts/i.manifest ]] ; then
@@ -388,13 +356,14 @@ function remove_package
     fi
 }
 
-for pkg in ${REM_PKGS} ; do
+# Remove packages in reverse order, so mkfontdir/etc. are removed last
+reverse_pkg_list="$(print -f '%s\n' ${pkg_list} | tail -r)"
+
+for pkg in ${REM_PKGS} ${reverse_pkg_list}; do
     remove_package $pkg
 done
 
 for pkg in ${pkg_list} ; do
-    remove_package $pkg
-
     if [[ -e $pkg ]] ; then
 	/usr/sbin/pkgadd ${ADDITIONAL_PKG_FLAGS} -S ${VERBOSE}  -d . $pkg 2>&1 \
 	    | tee -a ${PKG_UPGRADE_LOG} | grep $pkg

@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.115     09/05/19 SMI"
+# ident "@(#)prototype_com 35.116     09/06/02 SMI"
 #
 #  X Window System online user man pages
 
@@ -50,11 +50,6 @@ s none X11/man=share/man
 
 !search            $HOME/man1
 d none openwin/share/man/man1 0755 root bin
-f none openwin/share/man/man1/xkbcomp.1 0444 root bin
-
-f none openwin/share/man/man1/Xsun.1 0444 root bin 
-f none openwin/share/man/man1/Xnest.1 0444 root bin 
-f none openwin/share/man/man1/Xvfb.1 0444 root bin 
 f none openwin/share/man/man1/bdftosnf.1 0444 root bin
 f none openwin/share/man/man1/fs.1 0444 root bin
 f none openwin/share/man/man1/fsadmin.1 0444 root bin
@@ -68,12 +63,7 @@ f none openwin/share/man/man1/xmh.1 0444 root bin
 
 !search            $HOME/man4
 d none openwin/share/man/man4 0755 root bin
-f none openwin/share/man/man4/keytable.map.4 0444 root bin
 f none openwin/share/man/man4/rasterfile.4 0444 root bin
-
-!search            $HOME/man5
-d none openwin/share/man/man5 0755 root bin
-f none openwin/share/man/man5/dps.5 0444 root bin
 
 #### applications replaced with new versions from open-src/app
 

@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 35.26     09/05/28 SMI"
+# ident "@(#)prototype 35.27     09/06/02 SMI"
 #
 #  X Window System optional fonts
 
@@ -38,6 +38,8 @@ i postinstall
 i postremove
 i copyright
 i depend=../depend
+
+!search ../common_files
 i i.fontsdir
 i r.fontsdir
 i i.fontsalias

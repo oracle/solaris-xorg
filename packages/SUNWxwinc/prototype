@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.96	09/05/15 SMI"
+# ident	"@(#)prototype	35.97	09/06/02 SMI"
 #
 #  X Window System include files
 
@@ -627,10 +627,7 @@ f none X11/include/X11/PM/PM.h			0444 root bin
 f none X11/include/X11/PM/PMproto.h		0444 root bin
 
 # open-src/lib/libSM
-d none openwin/share/include/X11/SM 0755 root bin
-s none openwin/share/include/X11/SM/SM.h=../../../../../X11/include/X11/SM/SM.h
-s none openwin/share/include/X11/SM/SMlib.h=../../../../../X11/include/X11/SM/SMlib.h
-s none openwin/share/include/X11/SM/SMproto.h=../../../../../X11/include/X11/SM/SMproto.h
+s none openwin/share/include/X11/SM=../../../../X11/include/X11/SM
 !search                $HOME/X11/include/X11/SM
 d none X11/include/X11/SM 0755 root bin
 f none X11/include/X11/SM/SM.h  0644 root bin
@@ -638,13 +635,7 @@ f none X11/include/X11/SM/SMlib.h  0644 root bin
 f none X11/include/X11/SM/SMproto.h  0644 root bin
 
 # open-src/lib/libICE
-d none openwin/share/include/X11/ICE 0755 root bin
-s none openwin/share/include/X11/ICE/ICE.h=../../../../../X11/include/X11/ICE/ICE.h
-s none openwin/share/include/X11/ICE/ICElib.h=../../../../../X11/include/X11/ICE/ICElib.h
-s none openwin/share/include/X11/ICE/ICEproto.h=../../../../../X11/include/X11/ICE/ICEproto.h
-s none openwin/share/include/X11/ICE/ICEmsg.h=../../../../../X11/include/X11/ICE/ICEmsg.h
-s none openwin/share/include/X11/ICE/ICEconn.h=../../../../../X11/include/X11/ICE/ICEconn.h
-s none openwin/share/include/X11/ICE/ICEutil.h=../../../../../X11/include/X11/ICE/ICEutil.h
+s none openwin/share/include/X11/ICE=../../../../X11/include/X11/ICE
 !search                $HOME/X11/include/X11/ICE
 d none X11/include/X11/ICE 0755 root bin
 f none X11/include/X11/ICE/ICE.h 0644 root bin
@@ -672,107 +663,6 @@ f none openwin/share/include/dga/dga.h 0644 root bin
 f none openwin/share/include/dga/dga_externaldefs.h 0644 root bin
 f none openwin/share/include/dga/XineramaInfo.h 0644 root bin
 
-# Xsun DDK headers
-!search                $HOME/openwin/server/include
-d none openwin/server					0755 root bin
-d none openwin/server/include				0755 root bin
-f none openwin/server/include/XIstubs.h			0444 root bin
-f none openwin/server/include/bstore.h			0444 root bin
-f none openwin/server/include/bstorestr.h		0444 root bin
-f none openwin/server/include/bufio.h			0444 root bin
-f none openwin/server/include/cfb.h			0444 root bin
-f none openwin/server/include/cfb8bit.h			0444 root bin
-f none openwin/server/include/cfbmap.h			0444 root bin
-f none openwin/server/include/cfbmskbits.h		0444 root bin
-f none openwin/server/include/closestr.h		0444 root bin
-f none openwin/server/include/closure.h			0444 root bin
-f none openwin/server/include/colormap.h		0444 root bin
-f none openwin/server/include/colormapst.h		0444 root bin
-f none openwin/server/include/cursor.h			0444 root bin
-f none openwin/server/include/cursorstr.h		0444 root bin
-f none openwin/server/include/dgacmapstr.h		0444 root bin
-f none openwin/server/include/dgagpi.h			0444 root bin
-f none openwin/server/include/dga_internal.h		0444 root bin
-f none openwin/server/include/dga_internaldefs.h	0444 root bin
-f none openwin/server/include/dga_pixshared.h		0444 root bin
-f none openwin/server/include/dga_rtnshared.h		0444 root bin
-f none openwin/server/include/dga_winshared.h		0444 root bin
-f none openwin/server/include/dix.h			0444 root bin
-f none openwin/server/include/dixevents.h		0444 root bin
-f none openwin/server/include/dixfont.h			0444 root bin
-f none openwin/server/include/dixfontstr.h		0444 root bin
-f none openwin/server/include/dixstruct.h		0444 root bin
-f none openwin/server/include/dlextn.h			0444 root bin
-f none openwin/server/include/exevents.h		0444 root bin
-f none openwin/server/include/extension.h		0444 root bin
-f none openwin/server/include/extnsionst.h		0444 root bin
-f none openwin/server/include/fb.h			0444 root bin
-f none openwin/server/include/fbrop.h			0444 root bin
-f none openwin/server/include/fntfilio.h		0444 root bin
-f none openwin/server/include/font.h			0444 root bin
-f none openwin/server/include/fontproto.h		0444 root bin
-f none openwin/server/include/fontstruct.h		0444 root bin
-f none openwin/server/include/fsmasks.h			0444 root bin
-f none openwin/server/include/gc.h			0444 root bin
-f none openwin/server/include/gcstruct.h		0444 root bin
-f none openwin/server/include/globals.h			0444 root bin
-f none openwin/server/include/glyphstr.h		0444 root bin
-f none openwin/server/include/input.h			0444 root bin
-f none openwin/server/include/inputstr.h		0444 root bin
-f none openwin/server/include/maskbits.h		0444 root bin
-f none openwin/server/include/mfb.h			0444 root bin
-f none openwin/server/include/mipict.h			0444 root bin
-f none openwin/server/include/misc.h			0444 root bin
-f none openwin/server/include/miscstruct.h		0444 root bin
-f none openwin/server/include/mpg.h			0444 root bin
-f none openwin/server/include/opaque.h			0444 root bin
-f none openwin/server/include/os.h			0444 root bin
-f none openwin/server/include/os_interactive.h		0444 root bin
-f none openwin/server/include/osstruct.h		0444 root bin
-f none openwin/server/include/picture.h			0444 root bin
-f none openwin/server/include/picturestr.h		0444 root bin
-f none openwin/server/include/pixmap.h			0444 root bin
-f none openwin/server/include/pixmapstr.h		0444 root bin
-f none openwin/server/include/property.h		0444 root bin
-f none openwin/server/include/propertyst.h		0444 root bin
-f none openwin/server/include/region.h			0444 root bin
-f none openwin/server/include/regionstr.h		0444 root bin
-f none openwin/server/include/resource.h		0444 root bin
-f none openwin/server/include/rgb.h			0444 root bin
-f none openwin/server/include/screenint.h		0444 root bin
-f none openwin/server/include/scrnintstr.h		0444 root bin
-f none openwin/server/include/servermd.h		0444 root bin
-f none openwin/server/include/site.h			0444 root bin
-f none openwin/server/include/validate.h		0444 root bin
-f none openwin/server/include/window.h			0444 root bin
-f none openwin/server/include/windowstr.h		0444 root bin
-f none openwin/server/include/sun.h			0444 root bin
-f none openwin/server/include/sunInit.h			0444 root bin
-f none openwin/server/include/sunIo.h			0444 root bin
-f none openwin/server/include/sunWheel.h		0444 root bin
-f none openwin/server/include/sunddk.h			0444 root bin
-f none openwin/server/include/sunsprite.h		0444 root bin
-
-d none openwin/server/include/mi			0755 root bin
-f none openwin/server/include/mi/mi.h			0444 root bin
-f none openwin/server/include/mi/mibstore.h		0444 root bin
-f none openwin/server/include/mi/migc.h			0444 root bin
-f none openwin/server/include/mi/miline.h		0444 root bin
-f none openwin/server/include/mi/mipointer.h		0444 root bin
-f none openwin/server/include/mi/mispans.h		0444 root bin
-f none openwin/server/include/mi/mistruct.h		0444 root bin
-
-!search                $HOME/openwin/server/include/dpa
-d none openwin/server/include/dpa			0755 root bin
-f none openwin/server/include/dpa/sundpa.h		0444 root bin
-f none openwin/server/include/dpa/sundpascr.h		0444 root bin
-f none openwin/server/include/dpa/sundpatype.h		0444 root bin
-
-!search                $HOME/openwin/include/X11/extensions
-f none openwin/server/include/AccessXlib.h		0444 root bin
-f none openwin/server/include/AccessXlibint.h		0444 root bin
-f none openwin/server/include/AccessXproto.h		0444 root bin
-f none openwin/server/include/AccessXstruct.h		0444 root bin
 
 !search                $HOME/X11/include/X11/Xcursor
 # open-src/lib/libXcursor

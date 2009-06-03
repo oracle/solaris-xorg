@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,15 +29,18 @@
 #
 ###########################################################################
 #
-#"@(#)r.fontsalias	35.2 07/11/05   Sun Microsystems" 
+#	@(#)r.fontsalias	35.3	09/06/02	Sun Microsystems.
 #
-# SUNWxwoft class action remove script for the fontsalias class
-
-# Remove the fonts.alias.opt files. 
+# X Consolidation class action script for fontsalias class.
 
 while   read dst
 do
-    rm -f $dst
+    if [ -f $dst ]
+    then
+	cd `dirname $dst`
+	rm -f fonts.alias
+	rm -f $dst
+    fi
 done
 
 exit 0
