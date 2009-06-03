@@ -33,7 +33,7 @@
 MODULE_NAME=MesaDemos
 
 # Version number (used in path names)
-MODULE_VERSION=7.4.1
+MODULE_VERSION=7.4.2
 
 # Directory created by unpacking source
 SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)

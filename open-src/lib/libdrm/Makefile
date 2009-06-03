@@ -27,14 +27,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	09/05/15
+# @(#)Makefile	1.12	09/06/02
 #
 
 # Package name used in tarballs
 MODULE_NAME=libdrm
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.5
+MODULE_VERSION=2.4.11
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -47,9 +47,9 @@ GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	Makefile.patch,-p1 \
 	solaris-drm-port.patch \
-	6802045.patch
+	6802045.patch \
+	gem.patch
 
 # Need to regenerate files after patching Makefile.am in solaris-drm-port.patch
 AUTORECONF=yes

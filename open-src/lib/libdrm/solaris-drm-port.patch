@@ -73,9 +73,8 @@ diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.h libdrm/xf86drm.h
  #ifndef DRM_CAS
  #define DRM_CAS(lock,old,new,ret) do { ret=1; } while (0) /* FAST LOCK FAILS */
  #endif
-diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
---- shared-core/drm.h	2008-12-17 10:28:24.000000000 -0800
-+++ shared-core/drm.h	2009-05-09 17:29:00.817832000 -0700
+--- shared-core/drm.h	Fri May 15 16:13:57 2009
++++ shared-core/drm.h	Mon Jun  1 12:10:27 2009
 @@ -58,6 +58,8 @@
  #ifndef _DRM_H_
  #define _DRM_H_
@@ -85,20 +84,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  #ifndef __user
  #define __user
  #endif
-@@ -69,6 +71,12 @@
- # define DEPRECATED  __attribute__ ((deprecated))
- #else
- # define DEPRECATED
-+# ifndef __FUNCTION__
-+#  define __FUNCTION__ __func__ /* C99 */
-+# endif
-+# ifndef __volatile__
-+#  define __volatile__ volatile
-+# endif
- #endif
- 
- #if defined(__linux__)
-@@ -89,6 +97,62 @@
+@@ -95,6 +97,62 @@
  #define DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
  #endif
  
@@ -161,7 +147,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  #ifdef __OpenBSD__
  #define DRM_MAJOR       81
  #endif
-@@ -112,7 +176,7 @@
+@@ -118,7 +176,7 @@
  typedef unsigned int drm_handle_t;
  #else
  #include <sys/types.h>
@@ -170,7 +156,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  #endif
  typedef unsigned int drm_context_t;	/**< GLXContext handle */
  typedef unsigned int drm_drawable_t;
-@@ -169,7 +233,9 @@ struct drm_hw_lock {
+@@ -175,7 +233,9 @@
  #ifdef __SIZE_TYPE__
  # define DRM_SIZE_T __SIZE_TYPE__
  #else
@@ -180,7 +166,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  # define DRM_SIZE_T unsigned long
  #endif
  
-@@ -266,12 +332,13 @@ struct drm_ctx_priv_map {
+@@ -272,12 +332,13 @@
   * \sa drmAddMap().
   */
  struct drm_map {
@@ -197,7 +183,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  	int mtrr;		 /**< MTRR slot used */
  	/*   Private data */
  };
-@@ -378,18 +445,20 @@ enum drm_dma_flags {
+@@ -384,18 +445,20 @@
   *
   * \sa drmAddBufs().
   */
@@ -225,7 +211,7 @@ diff -urp -x '*~' -x '*.orig' shared-core/drm.h shared-core/drm.h
  	unsigned long agp_start; /**<
  				  * Start address of where the AGP buffers are
  				  * in the AGP aperture
-@@ -435,6 +504,7 @@ struct drm_buf_map {
+@@ -441,6 +504,7 @@
  	void __user *virtual;		/**< Mmap'd area in user-virtual */
  #endif
  	struct drm_buf_pub __user *list;	/**< Buffer information */

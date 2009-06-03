@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.19	09/05/15
+# @(#)Makefile	1.20	09/06/02
 #
 
 # Package name used in tarballs
 MODULE_NAME=mesa
 
 # Version number (used in path names)
-MODULE_VERSION=7.4.1
+MODULE_VERSION=7.4.2
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
