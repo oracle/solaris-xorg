@@ -54,9 +54,87 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  		primary	ISO8859-4:GR
  	}
  }
-@@ -132,10 +133,10 @@ fs12	{
+@@ -67,17 +68,17 @@
+ 	}
+ }
+ XCOMM	fs6 class (koi8-r)
++XCOMM fs6	{
++XCOMM	charset	{
++XCOMM		name	KOI8-R:GR
++XCOMM	}
++XCOMM	font	{
++XCOMM		primary	KOI8-R:GR
++XCOMM	}
++XCOMM}
++XCOMM	fs7 class (ISO8859 families)
+ fs6	{
+ 	charset	{
+-		name	KOI8-R:GR
+-	}
+-	font	{
+-		primary	KOI8-R:GR
+-	}
+-}
+-XCOMM	fs7 class (ISO8859 families)
+-fs7	{
+-	charset	{
+ 		name	ISO8859-7:GR
+ 	}
+ 	font	{
+@@ -85,7 +86,7 @@
+ 	}
+ }
+ XCOMM	fs9 class (ISO8859 families)
+-fs8	{
++fs7	{
+ 	charset	{
+ 		name	ISO8859-9:GR
+ 	}
+@@ -94,7 +95,7 @@
+ 	}
+ }
+ XCOMM	fs13 class (ISO8859 families)
+-fs9	{
++fs8		{
+ 	charset	{
+ 		name	ISO8859-13:GR
+ 	}
+@@ -103,7 +104,7 @@
+ 	}
+ }
+ XCOMM	fs14 class (ISO8859 families)
+-fs10	{
++fs9	{
+ 	charset	{
+ 		name	ISO8859-14:GR
+ 	}
+@@ -112,16 +113,17 @@
+ 	}
+ }
+ XCOMM	fs15 class (ISO8859 families)
+-fs11	{
++fs10	{
+ 	charset	{
+ 		name	ISO8859-15:GR
+ 	}
+-	font	{
++	font		{
++		load_option delay_nocheck
+ 		primary	ISO8859-15:GR
+ 	}
+ }
+ XCOMM 	fs16 class (Kanji)
+-fs12	{
++fs11	{
+ 	charset	{
+ 		name	JISX0208.1983-0:GL
+ 	}
+@@ -130,16 +132,16 @@
+ 	}
+ }
  XCOMM   fs17 class (Korean Character)
- fs13	{
+-fs13	{
++fs12	{
  	charset	{
 -		name	KSC5601.1987-0:GL
 +		name	KSC5601.1992-3:GLGR
@@ -67,12 +145,26 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	}
  }
  XCOMM   fs18 class (Chinese Han Character)
-@@ -157,9 +158,69 @@ fs15	{
+-fs14	{
++fs13	{
+ 	charset	{
+ 		name	GB2312.1980-0:GL
+ 	}
+@@ -148,7 +150,7 @@
+ 	}
+ }
+ XCOMM	fs20 class (Half Kana)
+-fs15	{
++fs14	{
+ 	charset	{
+ 		name	JISX0201.1976-0:GR
+ 	}
+@@ -157,9 +159,70 @@
  		vertical_rotate	all
  	}
  }
 +XCOMM
-+fs16	{
++fs15	{
 +	charset	{
 +		name	BIG5-0:GLGR
 +	}
@@ -82,7 +174,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +	}
 +}
 +XCOMM CTL language
-+fs17	{
++fs16	{
 +	charset {
 +		name	TIS620-0:GR
 +	}
@@ -92,7 +184,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +	}
 +}
 +XCOMM fs18 class (ISO8859-6) (Arabic)
-+fs18	{
++fs17	{
 +	charset {
 +		name	ISO8859-6:GLGR
 +	}
@@ -102,7 +194,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +	}
 +}
 +XCOMM fs19 class (ISO8859-8) (Hebrew)
-+fs19	{
++fs18	{
 +	charset {
 +		name	ISO8859-8:GR
 +	}
@@ -112,7 +204,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +	}
 +}
 +XCOMM fs20 class (SUN.UNICODE.INDIA-0) (Indian Script)
-+fs20	{
++fs19	{
 +	charset {
 +		name	SUN.UNICODE.INDIA-0:GLGR
 +	}
@@ -121,10 +213,11 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +		primary		SUN.UNICODE.INDIA-0:GLGR
 +	}
 +}
-+XCOMM fs21 (Last, fallback) class (unicode-fontspecific)
-+fs21	{
++XCOMM fs20 (Last, fallback) class (unicode-fontspecific)
++fs20	{
 +	charset {
 +		name	UNICODE-FONTSPECIFIC:GLGR
++	}
 +	font	{
 +		load_option 	delay_nocheck
 +		primary		UNICODE-FONTSPECIFIC:GLGR
@@ -134,12 +227,84 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  XCOMM	ISO10646 should come last so the fonts above will actually be used
  XCOMM	fs24 class
 -fs16	{
-+fs22	{
++fs21	{
  	charset	{
  		name	ISO10646-1
  	}
-@@ -274,8 +335,7 @@ XCOMM	cs17 class
- cs13     {
+@@ -221,21 +284,21 @@
+ }
+  
+ XCOMM	cs6 class
+-cs6     {
+-        side            GR
+-        length          1
+-        ct_encoding     KOI8-R:GR
+-}
++XCOMM cs6     {
++XCOMM        side            GR
++XCOMM       length          1
++XCOMM        ct_encoding     KOI8-R:GR
++XCOMM}
+  
+ XCOMM	cs7 class
+-cs7     {
+-        side            GR
++cs6     {
++        side            GR:Default
+         length          1
+         ct_encoding     ISO8859-7:GR
+ }
+  
+ XCOMM	cs9 class
+-cs8     {
++cs7     {
+         side            GR
+         length          1
+         ct_encoding     ISO8859-9:GR
+@@ -242,7 +305,7 @@
+ }
+  
+ XCOMM	cs13 class
+-cs9     {
++cs8     {
+         side            GR
+         length          1
+         ct_encoding     ISO8859-13:GR
+@@ -249,7 +312,7 @@
+ }
+  
+ XCOMM	cs14 class
+-cs10     {
++cs9     {
+         side            GR
+         length          1
+         ct_encoding     ISO8859-14:GR
+@@ -256,7 +319,7 @@
+ }
+  
+ XCOMM	cs15 class
+-cs11     {
++cs10     {
+         side            GR
+         length          1
+         ct_encoding     ISO8859-15:GR
+@@ -263,23 +326,22 @@
+ }
+  
+ XCOMM	cs16 class
+-cs12	{
++cs11	{
+ 	side		GR
+ 	length		2
+-	ct_encoding	JISX0208.1983-0:GL; JISX0208.1983-0:GR;\
+-			JISX0208.1983-1:GL; JISX0208.1983-1:GR
++	ct_encoding	JISX0208.1983-0:GL; JISX0208.1983-0:GR;			JISX0208.1983-1:GL; JISX0208.1983-1:GR
++
+ }
+ 
+ XCOMM	cs17 class
+-cs13     {
++cs12     {
          side            GL
          length          2
 -        ct_encoding     KSC5601.1987-0:GL; KSC5601.1987-0:GR;\
@@ -148,11 +313,23 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  }
   
  XCOMM	cs18 class
-@@ -292,8 +352,50 @@ cs15	{
+-cs14     {
++cs13     {
+         side            GR
+         length          2
+         ct_encoding     GB2312.1980-0:GL; GB2312.1980-0:GR
+@@ -286,14 +348,56 @@
+ }
+  
+ XCOMM	cs20 class
+-cs15	{
++cs14	{
+ 	side		GR
+ 	length		1
  	ct_encoding	JISX0201.1976-0:GR
  }
   
-+cs16     {
++cs15     {
 +	side		GR:Default
 +	length		2
 +	ct_encoding	BIG5-0:GLGR
@@ -160,35 +337,35 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +}
 +
 +XCOMM Thai
-+cs17     {
++cs16     {
 +	side		GR:Default
 +	length		1
 +	ct_encoding	TIS620-0:GR
 +}
 +
 +XCOMM Ar
-+cs18 {
++cs17 {
 +	side		GR:Default
 +	length		2
 +	ct_encoding	ISO8859-6:GLGR
 +}
 +
 +XCOMM 	cs15 class  He
-+cs19	{
++cs18	{
 +	side		GR:Default
 +	length		1
 +	ct_encoding	ISO8859-8:GR
 +}
 +
 +XCOMM   cs16 class
-+cs20    {
++cs19    {
 +	side		GR:Default
 +	length		2
 +	ct_encoding	SUN.UNICODE.INDIA-0:GLGR
 +}
 +
 +XCOMM 	Last, fallback class
-+cs21	{
++cs20	{
 +	side		GR:Default
 +	length		1
 +	ct_encoding	UNICODE-FONTSPECIFIC:GLGR
@@ -196,7 +373,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +
  XCOMM	cs24 class
 -cs16	{
-+cs22	{
++cs21	{
  	side		none
  	ct_encoding	ISO10646-1
  }
