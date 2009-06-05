@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' utils/rss-glx_install.pl utils/rss-glx_install.pl
---- utils/rss-glx_install.pl	2009-04-15 17:30:13.075036000 -0700
-+++ utils/rss-glx_install.pl	2009-04-15 17:30:15.087953000 -0700
+--- utils/rss-glx_install.pl	2009-05-20 20:16:33.348436000 -0700
++++ utils/rss-glx_install.pl	2009-05-20 20:16:36.684360000 -0700
 @@ -1,10 +1,10 @@
  #!/usr/bin/env perl
  use strict;
@@ -16,9 +16,9 @@ diff -urp -x '*~' -x '*.orig' utils/rss-glx_install.pl utils/rss-glx_install.pl
  
  my $screensavers = { };
  
-@@ -29,15 +29,15 @@ $screensavers->{'spirographx'} 	= '  GL:
- $screensavers->{'matrixview'} 	= '  GL:             "MatrixView"  matrixview --root -i /usr/share/pixmaps/faces \\n\\';
- $screensavers->{'lorenz'}	= '  GL:                 "Lorenz"  lorenz --root                               \\n\\';
+@@ -31,15 +31,15 @@ $screensavers->{'lorenz'}	= '  GL:      
+ $screensavers->{'drempels'}	= '  GL:               "Drempels"  drempels --root                             \\n\\';
+ $screensavers->{'feedback'}	= '  GL:               "Feedback"  feedback --root                             \\n\\';
  
 -open XSCREENSAVER, "$ENV{'HOME'}/.xscreensaver";
 +open XSCREENSAVER, "$ARGV[0]";

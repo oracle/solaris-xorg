@@ -16,54 +16,6 @@ GNU General Public License for more details.
 
 ------------------------------------------------------------------------------
 
-The colorfire hack is covered by the following notice:
-
-Copyright (c) 1999 by Andreas Gustafsson and Tugrul Galatali.  
-
-Colorfire is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-Colorfire is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
-The hufo_smoke hack is covered by the following notice:
-
-Copyright (c) 2000 by Jeremie Allard and Tugrul Galatali.  
-Copyright (C) 2002  Jeremie Allard (Hufo / N.A.A.)
-
-hufo_smoke is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-hufo_smoke is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
-The hufo_tunnel hack is covered by the following notice:
-
-Copyright (c) 2000 by Jeremie Allard and Tugrul Galatali.  
-Copyright (C) 2002 Andreas Gustafsson
-Copyright (C) 2002 Jeremie Allard (Hufo / N.A.A.)
-
-hufo_tunnel is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-hufo_tunnel is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
 The biof hack is covered by the following notice:
 
 Copyright (c) 2002 by <hk@dgmr.nl> and Tugrul Galatali.  
@@ -94,75 +46,15 @@ GNU General Public License for more details.
 
 ------------------------------------------------------------------------------
 
-The matrixview hack is covered by the following notice:
+The colorfire hack is covered by the following notice:
 
-Copyright (c) 2003 by Alex Zolotov and Tugrul Galatali.  
+Copyright (c) 1999 by Andreas Gustafsson and Tugrul Galatali.  
 
-MatrixView is free software; you can redistribute it and/or modify
+Colorfire is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License version 2 as
 published by the Free Software Foundation.
 
-MatrixView is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
-The spirographx hack is covered by the following notice:
-
-Copyright (c) 2003 by Holmes Futrell and Tugrul Galatali.  
-
-SpirographX is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-SpirographX is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
-The sundancer2 hack is covered by the following notice:
-
-Copyright (c) 2002 by Dirk Songuer and Tugrul Galatali.  
-
-Sundancer2 is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-Sundancer2 is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
-The euphoria hack is covered by the following notice:
-
-Copyright (c) 2002 by Terry Walsh and Tugrul Galatali.  
-
-Euphoria is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-Euphoria is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-------------------------------------------------------------------------------
-
-The lattice hack is covered by the following notice:
-
-Copyright (c) 2002 by Terry Walsh and Tugrul Galatali.
-
-Lattice is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License version 2 as
-published by the Free Software Foundation.
-
-Lattice is distributed in the hope that it will be useful,
+Colorfire is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -181,6 +73,65 @@ Cyclone is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The drempels hack is covered by the following notice:
+
+Copyright (C) 2001 Ryan M. Geiss <guava at geissworks dot com>
+Ported to Linux by Tugrul Galatali <tugrul@galatali.com>
+Copyright (C) 2009 Tugrul Galatali <tugrul@galatali.com>
+Copyright © 2003-2005, Stefan Gustavson <stegu@itn.liu.se>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+------------------------------------------------------------------------------
+
+The euphoria hack is covered by the following notice:
+
+Copyright (c) 2002 by Terry Walsh and Tugrul Galatali.  
+
+Euphoria is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+Euphoria is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The feedback hack is covered by the following notice:
+
+Copyright (C) 2009 Tugrul Galatali <tugrul@galatali.com
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 ------------------------------------------------------------------------------
 
@@ -244,6 +195,39 @@ GNU General Public License for more details.
 
 ------------------------------------------------------------------------------
 
+The hufo_smoke hack is covered by the following notice:
+
+Copyright (c) 2000 by Jeremie Allard and Tugrul Galatali.  
+Copyright (C) 2002  Jeremie Allard (Hufo / N.A.A.)
+
+hufo_smoke is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+hufo_smoke is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The hufo_tunnel hack is covered by the following notice:
+
+Copyright (c) 2000 by Jeremie Allard and Tugrul Galatali.  
+Copyright (C) 2002 Andreas Gustafsson
+Copyright (C) 2002 Jeremie Allard (Hufo / N.A.A.)
+
+hufo_tunnel is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+hufo_tunnel is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
 The hyperspace hack is covered by the following notice:
 
 Copyright (c) 2005 by Terry Walsh and Tugrul Galatali.  
@@ -253,6 +237,52 @@ it under the terms of the GNU General Public License version 2 as
 published by the Free Software Foundation.
 
 Hyperspace is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The lattice hack is covered by the following notice:
+
+Copyright (c) 2002 by Terry Walsh and Tugrul Galatali.
+
+Lattice is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+Lattice is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The lorenz hack is covered by the following notice:
+
+Copyright (C) 2002, 2009  S?ren Sonnenburg <sonne@debian.org>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The matrixview hack is covered by the following notice:
+
+Copyright (c) 2003 by Alex Zolotov and Tugrul Galatali.  
+
+MatrixView is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+MatrixView is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -304,16 +334,30 @@ GNU General Public License for more details.
 
 ------------------------------------------------------------------------------
 
-The lorenz hack is covered by the following notice:
+The spirographx hack is covered by the following notice:
 
-Copyright (C) 2002, 2009  S?ren Sonnenburg <sonne@debian.org>
+Copyright (c) 2003 by Holmes Futrell and Tugrul Galatali.  
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+SpirographX is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
 
-This program is distributed in the hope that it will be useful,
+SpirographX is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+------------------------------------------------------------------------------
+
+The sundancer2 hack is covered by the following notice:
+
+Copyright (c) 2002 by Dirk Songuer and Tugrul Galatali.  
+
+Sundancer2 is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+Sundancer2 is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.

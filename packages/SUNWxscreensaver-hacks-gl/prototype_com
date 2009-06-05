@@ -27,7 +27,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	1.8	09/04/16 SMI"
+# ident	"@(#)prototype_com	1.9	09/06/04 SMI"
 #
 
 i pkginfo
@@ -123,7 +123,9 @@ f none X11/lib/xscreensaver/hacks/biof		0555 root bin
 f none X11/lib/xscreensaver/hacks/busyspheres	0555 root bin
 f none X11/lib/xscreensaver/hacks/colorfire	0555 root bin
 f none X11/lib/xscreensaver/hacks/cyclone	0555 root bin
+f none X11/lib/xscreensaver/hacks/drempels	0555 root bin
 f none X11/lib/xscreensaver/hacks/euphoria	0555 root bin
+f none X11/lib/xscreensaver/hacks/feedback	0555 root bin
 f none X11/lib/xscreensaver/hacks/fieldlines	0555 root bin
 f none X11/lib/xscreensaver/hacks/flocks	0555 root bin
 f none X11/lib/xscreensaver/hacks/flux		0555 root bin
@@ -224,13 +226,16 @@ f none X11/share/man/man6/biof.6		0444 root bin
 f none X11/share/man/man6/busyspheres.6		0444 root bin
 f none X11/share/man/man6/colorfire.6		0444 root bin
 f none X11/share/man/man6/cyclone.6		0444 root bin
+f none X11/share/man/man6/drempels.6		0444 root bin
 f none X11/share/man/man6/euphoria.6		0444 root bin
+f none X11/share/man/man6/feedback.6		0444 root bin
 f none X11/share/man/man6/fieldlines.6		0444 root bin
 f none X11/share/man/man6/flocks.6		0444 root bin
 f none X11/share/man/man6/flux.6		0444 root bin
 f none X11/share/man/man6/helios.6		0444 root bin
 f none X11/share/man/man6/hufo_smoke.6		0444 root bin
 f none X11/share/man/man6/hufo_tunnel.6		0444 root bin
+f none X11/share/man/man6/hyperspace.6		0444 root bin
 f none X11/share/man/man6/lattice.6		0444 root bin
 f none X11/share/man/man6/lorenz.6		0444 root bin
 f none X11/share/man/man6/matrixview.6		0444 root bin
@@ -323,7 +328,9 @@ f none X11/lib/xscreensaver/config/control-center-2.0/biof.xml		0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/busyspheres.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/colorfire.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/cyclone.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/drempels.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/euphoria.xml	0444 root bin
+f none X11/lib/xscreensaver/config/control-center-2.0/feedback.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/fieldlines.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/flocks.xml	0444 root bin
 f none X11/lib/xscreensaver/config/control-center-2.0/flux.xml		0444 root bin

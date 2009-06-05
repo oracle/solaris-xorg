@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	09/04/16
+# @(#)Makefile	1.5	09/06/04
 #
 
 # Package name used in tarballs
 MODULE_NAME=rss-glx
 
 # Version number (used in path names)
-MODULE_VERSION=0.8.3
+MODULE_VERSION=0.9.0
 
 # Source tarball/directory name - uses _ instead of default -
 SOURCE_DIRNAME=$(MODULE_NAME)_$(MODULE_VERSION)
@@ -49,17 +49,11 @@ SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	pkg-config.patch \
 	matrixview.patch \
-	install-util.patch \
-	cflags.patch \
-	kde-config.patch \
-	lorenz.patch,-p1 \
-	sincosf.patch \
-	sun-cxx.patch
+	install-util.patch
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*src/*.1 reallyslick/*src/*.1
+SUNTOUCHED_MANPAGES=*src/*.1
 SUN_PACKAGE=SUNWxscreensaver-hacks-gl
 MODULE_STABILITY=Volatile
 MODULE_SUNTOUCH_MAN_FLAGS= -p $(XSS_DIR)/hacks/
@@ -81,11 +75,10 @@ MODULE_PREFIX_SET=yes
 
 include ../Makefile.inc
 
-# Regen configure script after changing configure.in in several patches
-AUTORECONF=yes
-
 # Need to fix libtool interference with our linker flags
 DELIBTOOLIZE=yes
+
+MODULE_CPPFLAGS=-D_FILE_OFFSET_BITS=64
 
 MODULE_CONFIG_OPTS=  --disable-sound \
 	--bindir='$$(prefix)/hacks' --mandir=$(X11_DIR)/share/man \
@@ -96,15 +89,15 @@ MODULE_CONFIG_ENV= LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS)"
 
 # Clear pictures we don't want in build
 source_gen::
-	rm $(SOURCE_DIR)/other_src/matrixview_textures/cpics
-	touch $(SOURCE_DIR)/other_src/matrixview_textures/cpics
+	rm $(SOURCE_DIR)/src/matrixview_textures/cpics
+	touch $(SOURCE_DIR)/src/matrixview_textures/cpics
 
 # XScreenSaver app-defaults file
 XSS_AD=$(PROTODIR)$(X11_DIR)/lib/X11/app-defaults/XScreenSaver
 $(XSS_AD):
 	(cd ../xscreensaver ; $(MAKE) $(MAKEFLAGS) install)
 
-install_gen:: $(RSS_GLX_BIN) $(XSS_AD)
+install_gen:: $(XSS_AD)
 	$(PROTODIR)$(XSS_DIR)/hacks/rss-glx_install.pl $(XSS_AD)
 	mkdir -p $(PROTODIR)$(X11_DIR)/share/man/man6
 	-case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac;
