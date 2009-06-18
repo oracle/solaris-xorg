@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.77	09/06/02	Sun Microsystems
+#	@(#)prototype_com	35.78	09/06/18	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -122,18 +122,27 @@ f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter10.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter12.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter14.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter18.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter17.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter20.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter24.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold6.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold8.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold10.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold12.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold14.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold18.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold17.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold20.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold24.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans6.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans8.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans10.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans12.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans14.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans18.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans17.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans20.pcf 0444 root bin
+f none X11/lib/X11/fonts/F3bitmaps/LucidaSans24.pcf 0444 root bin
 
 !search  $OW_FONTS/F3bitmaps
 d none openwin/lib/X11/fonts/F3bitmaps 0755 root bin
