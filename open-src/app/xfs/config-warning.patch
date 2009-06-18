@@ -1,6 +1,7 @@
-###########################################################################
+###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +12,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,40 +22,27 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
-#
-#       @(#)prototype	35.14	09/06/18  (c) Sun Microsystems, Inc.
-#
-#  font server and associated files.
 
-i pkginfo
-i copyright
-i depend
-
-!HOME=../usr
-
-d none X11			0755 root bin
-
-!search      $HOME/X11/bin
-d none X11/bin			0755 root bin
-f none X11/bin/xfs		0755 root bin
-f none X11/bin/fsadmin		0755 root bin
-
-!search  $HOME/X11/lib/X11/fs
-d none X11/lib/X11		0755 root bin
-d none X11/lib/X11/fs		0755 root bin
-f none X11/lib/X11/fs/config	0444 root bin
-
-# Symlinks for backwards compatibility
-d none openwin			0755 root bin
-d none openwin/bin		0755 root bin
-s none openwin/bin/fs=../bin/xfs
-s none openwin/bin/xfs=../../X11/bin/xfs
-s none openwin/bin/fsadmin=../../X11/bin/fsadmin
-
+diff -urp -x '*~' -x '*.orig' config.cpp config.cpp
+--- config.cpp	2008-12-03 19:43:27.000000000 -0800
++++ config.cpp	2009-06-18 14:33:55.670348000 -0700
+@@ -1,6 +1,13 @@
+ XCOMM X font server configuration file
+ XCOMM See xfs(__appmansuffix__) man page for more information.
+ 
++XCOMM   DO NOT EDIT /usr/X11/lib/X11/fs/config directly.
++XCOMM
++XCOMM   /usr/X11/lib/X11/fs/config is a factory-default file and will
++XCOMM   be unconditionally overwritten upon subsequent installation.
++XCOMM   Before making changes to the file, copy it to the system configuration 
++XCOMM   location, /etc/X11/fs/config and edit it there.
++    
+ clone-self = on
+ use-syslog = off
+ catalogue = DEFAULTFONTPATH

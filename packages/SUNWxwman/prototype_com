@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.116     09/06/02 SMI"
+# ident "@(#)prototype_com 35.117     09/06/18 SMI"
 #
 #  X Window System online user man pages
 
@@ -51,14 +51,11 @@ s none X11/man=share/man
 !search            $HOME/man1
 d none openwin/share/man/man1 0755 root bin
 f none openwin/share/man/man1/bdftosnf.1 0444 root bin
-f none openwin/share/man/man1/fs.1 0444 root bin
-f none openwin/share/man/man1/fsadmin.1 0444 root bin
 f none openwin/share/man/man1/makepsres.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
 f none openwin/share/man/man1/showsnf.1 0444 root bin
 f none openwin/share/man/man1/xdm.1 0444 root bin
-f none openwin/share/man/man1/xfs.1 0444 root bin
 f none openwin/share/man/man1/xmh.1 0444 root bin
 
 !search            $HOME/man4
@@ -198,6 +195,11 @@ f none X11/share/man/man1/xeyes.1 	0444 root bin
 
 # open-src/app/xfd
 f none X11/share/man/man1/xfd.1 	0444 root bin
+
+# open-src/app/xfs
+f none X11/share/man/man1/xfs.1 	0444 root bin
+s none X11/share/man/man1/fs.1=xfs.1
+f none X11/share/man/man1/fsadmin.1 	0444 root bin
 
 # open-src/app/xfsinfo
 f none X11/share/man/man1/xfsinfo.1 	0444 root bin

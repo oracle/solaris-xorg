@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.18	09/05/15
+# @(#)Makefile	1.19	09/06/18
 #
 
 # Package name used in tarballs
@@ -74,6 +74,9 @@ MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 MODULE_LD_OPTIONS= -R $$ORIGIN -R $$ORIGIN/$(FREETYPE_RELATIVE_PATH)
 MODULE_BUILD_32_FLAGS= FREETYPE_RELATIVE_PATH=../../../../sfw/lib
 MODULE_BUILD_64_FLAGS= FREETYPE_RELATIVE_PATH=../../../../../sfw/lib$(ARCHLIBSUBDIR)
+
+# Link with version mapfile
+MODULE_LD_OPTIONS += -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc
 

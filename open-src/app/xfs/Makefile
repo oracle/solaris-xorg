@@ -1,6 +1,9 @@
-###########################################################################
+###############################################################################
+#
+# xfs Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -11,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,40 +24,54 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
+# @(#)Makefile	1.2	09/06/18
 #
-#       @(#)prototype	35.14	09/06/18  (c) Sun Microsystems, Inc.
-#
-#  font server and associated files.
 
-i pkginfo
-i copyright
-i depend
+# Package name used in tarballs
+MODULE_NAME=xfs
 
-!HOME=../usr
+# Version number (used in path names)
+MODULE_VERSION=1.1.0
 
-d none X11			0755 root bin
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES = \
+	smf-manpage.patch \
+	config-warning.patch
 
-!search      $HOME/X11/bin
-d none X11/bin			0755 root bin
-f none X11/bin/xfs		0755 root bin
-f none X11/bin/fsadmin		0755 root bin
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+SUN_PACKAGE=SUNWxwfs
+MODULE_STABILITY=Committed
 
-!search  $HOME/X11/lib/X11/fs
-d none X11/lib/X11		0755 root bin
-d none X11/lib/X11/fs		0755 root bin
-f none X11/lib/X11/fs/config	0444 root bin
+# Additional command line options to GNU autoconf configure script
+MODULE_CONFIG_OPTS= --sysconfdir=$(X11_DIR)/lib \
+	--enable-syslog --enable-inetd --disable-devel-docs \
+	--with-default-font-path='catalogue:/etc/X11/fontpath.d' \
+	--with-default-config-file='/etc/X11/fs/config,$(X11_DIR)/lib/X11/fs/config,/etc/openwin/fs/fontserver.cfg,/usr/openwin/lib/X11/fontserver.cfg'
 
-# Symlinks for backwards compatibility
-d none openwin			0755 root bin
-d none openwin/bin		0755 root bin
-s none openwin/bin/fs=../bin/xfs
-s none openwin/bin/xfs=../../X11/bin/xfs
-s none openwin/bin/fsadmin=../../X11/bin/fsadmin
+# Need to link with libfontenc in server private directory
+MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)
 
+# Make sure SMF manifest is valid before installing it
+MODULE_INSTALL_DEPS = check_smf
+
+include ../Makefile.inc
+
+check_smf: xfs.xml
+	/usr/sbin/svccfg validate xfs.xml
+
+SMF_MANIFEST_DIR=/var/svc/manifest/application/x11
+
+install_gen::
+	mkdir -p $(PROTODIR)$(SMF_MANIFEST_DIR) \
+		$(PROTODIR)$(X11_DIR)/bin \
+		$(PROTODIR)$(X11_DIR)/share/man/man1
+	$(INSTALL_SCRIPT) xfs.xml $(PROTODIR)$(SMF_MANIFEST_DIR)
+	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/bin
+	$(INSTALL_SCRIPT) fsadmin.1 $(PROTODIR)$(X11_DIR)/share/man/man1

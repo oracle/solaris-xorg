@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source Application modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.84	09/02/24
+# @(#)Makefile	1.85	09/06/18
 #
 ###############################################################################
 
@@ -88,6 +88,7 @@ OS_SUBDIRS_common = \
 	xfd \
 	xfindproxy \
 	xfontsel \
+	xfs \
 	xfsinfo \
 	xfwp \
 	xgamma \
