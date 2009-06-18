@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#       @(#)prototype	35.14	09/06/18  (c) Sun Microsystems, Inc.
+#       @(#)prototype	35.15	09/06/18  (c) Sun Microsystems, Inc.
 #
 #  font server and associated files.
 
@@ -47,6 +47,7 @@ f none X11/bin/xfs		0755 root bin
 f none X11/bin/fsadmin		0755 root bin
 
 !search  $HOME/X11/lib/X11/fs
+d none X11/lib			0755 root bin
 d none X11/lib/X11		0755 root bin
 d none X11/lib/X11/fs		0755 root bin
 f none X11/lib/X11/fs/config	0444 root bin
