@@ -2,9 +2,10 @@
 
 ###
 #
-# @(#)upgrade-X	1.54 09/06/11
+# @(#)upgrade-X	1.55 09/06/18
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -183,8 +184,6 @@ pkg_list="
 	SUNWxorg-tsol-module
 	SUNWxscreensaver-hacks
 	SUNWxscreensaver-hacks-gl
-	SUNWxsun-headers
-	SUNWxsun-server
 	SUNWxvnc
 	SUNWxwacx
 	SUNWxwcft
@@ -204,14 +203,19 @@ pkg_list="
 	SUNWxwrtl
 	SUNWxwslb
 	SUNWxwsvr
-	SUNWxwts
 	SUNWxwxft
+"
+
+xsun_pkg_list="
+	SUNWxsun-headers
+	SUNWxsun-server
+	SUNWxwts
 "
 
 # Some packages are only built for certain platforms currently
 case "${MACH}" in
     sparc)      
-        pkg_list+=" SUNWxwpsr" 
+        pkg_list+=" SUNWxwpsr ${xsun_pkg_list}" 
         ;;
     i386)       
         pkg_list+=" SUNWxorg-mesa" 
@@ -254,7 +258,9 @@ REM_PKGS+=" SUNWxwhl"
 REM_PKGS+=" SUNWxorg-devel-docs SUNWxorg-cfg"
 
 # snv_118: 6850136 Removal of Xsun-based Xvfb & Xnest servers [PSARC 2008/033]
-REM_PKGS+=" SUNWxwsrv"
+#	   6781710 Removal of Xsun on x86/x64 [PSARC 2008/033]
+REM_PKGS+=" SUNWxwsrv ${xsun_pkg_list}"
+
 
 # Check for shared SMF manifest scripts now required by our packages
 if [[ ! -f /usr/sadm/install/scripts/i.manifest ]] ; then

@@ -1,6 +1,7 @@
 #! /bin/ksh93
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.73	09/06/11
+# @(#)make_release_packages	1.74	09/06/18
 #
 #	Create and fill a package staging area for X
 #
@@ -62,17 +63,18 @@ XW_PACKAGE_LIST="SUNWfontconfig SUNWfontconfig-docs SUNWfontconfig-root
     SUNWxorg-graphics-ddx SUNWxorg-headers
     SUNWxorg-server SUNWxorg-tsol-module 
     SUNWxscreensaver-hacks SUNWxscreensaver-hacks-gl
-    SUNWxsun-headers SUNWxsun-server
     SUNWxvnc SUNWxwacx SUNWxwcft SUNWxwdem SUNWxwdxm
     SUNWxwfnt SUNWxwfs SUNWxwfsw SUNWxwice SUNWxwinc
     SUNWxwman SUNWxwmod SUNWxwoft SUNWxwopt SUNWxwplr
     SUNWxwplt SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsvr
-    SUNWxwts SUNWxwxft"
+    SUNWxwxft"
+
+XSUN_PACKAGE_LIST="SUNWxsun-headers SUNWxsun-server SUNWxwts"
 
 # Some packages are only built for certain platforms currently
 case "${MACH}" in
     sparc)	
-    	XW_PACKAGE_LIST="$XW_PACKAGE_LIST SUNWxwpsr" 
+    	XW_PACKAGE_LIST="$XW_PACKAGE_LIST $XSUN_PACKAGE_LIST SUNWxwpsr" 
 	;;
     i386)	
     	XW_PACKAGE_LIST="$XW_PACKAGE_LIST SUNWxorg-mesa" 
