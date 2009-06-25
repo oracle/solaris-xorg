@@ -3,7 +3,7 @@
 # Xorg server Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.76	09/05/15
+# @(#)Makefile	1.77	09/06/24
 #
 
 # Build 32-bit or 64-bit?
@@ -114,6 +114,11 @@ install_extras: default_install
 	-rm -f $(SDK_INCLUDES_DIR)/xf1bpp.h $(SDK_INCLUDES_DIR)/xf4bpp.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
+	mkdir -p $(PROTODIR)$(X11_MAN_DIR)/man1
+	cp -pf $(SOURCE_DIR)/doc/Xnest.1 \
+	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgcfg.1 \
+	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgconfig.1 \
+	       $(PROTODIR)$(X11_MAN_DIR)/man1
 	mkdir -p $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor
 	cp -p $(SOURCE_DIR)/config/x11-input.fdi \
 	 $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor/10-x11-input.fdi
