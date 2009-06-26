@@ -1,4 +1,5 @@
 upstream-1.6.2.patch,-p1
+xinerama-cursors.patch,-p1
 xkb-defaults.patch,-p1
 xkb-defaults-compat.patch
 constify-atom-strings.patch,-p1
