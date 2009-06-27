@@ -1,8 +1,8 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright 2009 Sun Microsystems, Inc.  All Rights Reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.10	09/05/15
+# @(#)Makefile.init	1.11	09/06/24
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -108,13 +108,17 @@ CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst \
 CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w2 -mc -norunpath \
 			  -features=extensions
 
-ARCH32_FLAGS_sparc_suncc 	= -m32 -xarch=sparc
-ARCH64_FLAGS_sparc_suncc	= -m64 -xarch=sparc
+# -D__<arch>__ flags are to match gcc definitions that are used in much
+# of the upstream open source code base
+ARCH_FLAGS_sparc_suncc		= -xarch=sparc -D__sparc__
+ARCH32_FLAGS_sparc_suncc 	= -m32
+ARCH64_FLAGS_sparc_suncc	= -m64
 
 # -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
 # avoid losing stack frame pointers so you can't get stack traces or debug
-ARCH32_FLAGS_i386_suncc 	= -m32 -xtarget=pentium -xregs=no%frameptr
-ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -xregs=no%frameptr
+ARCH_FLAGS_i386_suncc		= -xregs=no%frameptr
+ARCH32_FLAGS_i386_suncc 	= -m32 -xtarget=pentium -D__i386__
+ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -D__amd64__
 
 # SPARC ABI requires system libraries not use application registers
 ARCH_LIB_FLAGS_sparc_suncc 	= -xregs=no%appl
@@ -150,7 +154,9 @@ CXX			= $(CXX_$(MODULE_COMPILER))
 CFLAGS			= $(CFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
 CXXFLAGS		= $(CXXFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
 ARCH32_FLAGS		= $(ARCH32_FLAGS_$(MACH)_$(MODULE_COMPILER))
+ARCH32_FLAGS	       += $(ARCH_FLAGS_$(MACH)_$(MODULE_COMPILER))
 ARCH64_FLAGS		= $(ARCH64_FLAGS_$(MACH)_$(MODULE_COMPILER))
+ARCH64_FLAGS	       += $(ARCH_FLAGS_$(MACH)_$(MODULE_COMPILER))
 ARCH_LIB_FLAGS		= $(ARCH_LIB_FLAGS_$(MACH)_$(MODULE_COMPILER))
 
 # Flags for specific binary types
