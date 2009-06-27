@@ -7,8 +7,6 @@ resource-names.patch,-p1
 apm-handlers.patch,-p1
 agpgart.patch,-p1
 6801386.patch,-p1
-restore-kbd-mouse.patch,-p1
-aei-default.false.patch
 restore-zap.patch,-p1
 solaris-asm.patch,-p1
 sun-paths.patch
