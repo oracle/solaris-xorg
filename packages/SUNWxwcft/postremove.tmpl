@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# 	@(#)postremove.tmpl	35.9	08/10/06 SMI
+# 	@(#)postremove.tmpl	35.10	09/07/07 SMI
 #
 # SUNWxwcft (X Window System common (not required) fonts) postremove script.
 
@@ -37,10 +38,10 @@ include fc_rebuild
 
 include mkfontdir
 
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/75dpi
+update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/75dpi
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Type1
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/misc
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/F3bitmaps
+update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/misc
+update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/F3bitmaps
 update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/Type1
 
 # These symlinks cannot be put into packages directly, or even with installf,

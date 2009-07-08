@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# 	@(#)postremove.tmpl	1.5	09/03/12 SMI
+# 	@(#)postremove.tmpl	1.6	09/07/07 SMI
 #
 # SUNWxwfnt (X Window System platform required fonts) postremove script.
 
@@ -42,10 +43,10 @@ update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/100dpi
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/pcf
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Speedo
 update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/misc
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/F3bitmaps
+update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/F3bitmaps
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Type1/outline
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/Type1/sun
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/TrueType
+update_fontdir_and_alias $BASEDIR/X11/lib/X11/fonts/TrueType
 update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/TTbitmaps
 
 # These symlinks cannot be put into packages directly, or even with installf,
