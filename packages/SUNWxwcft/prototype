@@ -1,5 +1,6 @@
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.33	09/06/25 SMI"
+# ident "@(#)prototype	35.34	09/07/07 SMI"
 #
 #  X Window System common (but not required) fonts
 
@@ -77,26 +78,14 @@ f none X11/lib/X11/fonts/75dpi/lutRS08.pcf.gz		0444 root bin
 f none X11/lib/X11/fonts/75dpi/lutRS08-ISO8859-1.pcf.gz	0444 root bin
 
 !search            $OW_FONTS/Type1
+# SUNWxsun-server also delivers DPS fonts here, so we can't replace this
+# directory with a link to X11/lib/fonts/Type1 until Xsun is finally removed
 d none openwin/lib/X11/fonts/Type1 			0755 root bin
 e fontsdir openwin/lib/X11/fonts/Type1/fonts.dir 	0644 root bin
 s none openwin/lib/X11/fonts/Type1/UTRG____.pfa=../../../../../X11/lib/X11/fonts/Type1/UTRG____.pfa
 s none openwin/lib/X11/fonts/Type1/UTB_____.pfa=../../../../../X11/lib/X11/fonts/Type1/UTB_____.pfa
 s none openwin/lib/X11/fonts/Type1/UTBI____.pfa=../../../../../X11/lib/X11/fonts/Type1/UTBI____.pfa
 s none openwin/lib/X11/fonts/Type1/UTI_____.pfa=../../../../../X11/lib/X11/fonts/Type1/UTI_____.pfa
-s none openwin/lib/X11/fonts/Type1/cour.pfa=./outline/Courier.pfa
-s none openwin/lib/X11/fonts/Type1/courb.pfa=./outline/Courier-Bold.pfa
-s none openwin/lib/X11/fonts/Type1/courbi.pfa=./outline/Courier-BoldOblique.pfa
-s none openwin/lib/X11/fonts/Type1/couri.pfa=./outline/Courier-Oblique.pfa
-s none openwin/lib/X11/fonts/Type1/Helvetica-Bold.pfa=./outline/Helvetica-Bold.pfa
-s none openwin/lib/X11/fonts/Type1/Helvetica-BoldOblique.pfa=./outline/Helvetica-BoldOblique.pfa
-s none openwin/lib/X11/fonts/Type1/Helvetica-Oblique.pfa=./outline/Helvetica-Oblique.pfa
-s none openwin/lib/X11/fonts/Type1/Helvetica.pfa=./outline/Helvetica.pfa
-s none openwin/lib/X11/fonts/Type1/Times-Bold.pfa=./outline/Times-Bold.pfa
-s none openwin/lib/X11/fonts/Type1/Times-BoldItalic.pfa=./outline/Times-BoldItalic.pfa
-s none openwin/lib/X11/fonts/Type1/Times-Italic.pfa=./outline/Times-Italic.pfa
-s none openwin/lib/X11/fonts/Type1/Times-Roman.pfa=./outline/Times-Roman.pfa
-s none openwin/lib/X11/fonts/Type1/Symbol.pfa=./outline/Symbol.pfa
-e fontsalias openwin/lib/X11/fonts/Type1/fonts.alias.all	0644 root bin
 f none openwin/lib/X11/fonts/Type1/fonts.scale	0444 root bin
 
 !search            $X11_FONTS/Type1
