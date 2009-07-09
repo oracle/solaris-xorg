@@ -1,5 +1,4 @@
-upstream-1.6.2.patch,-p1
-xinerama-cursors.patch,-p1
+install-xf86Parser.h.patch,-p1
 xkb-defaults.patch,-p1
 xkb-defaults-compat.patch
 constify-atom-strings.patch,-p1
@@ -7,8 +6,9 @@ resource-names.patch,-p1
 apm-handlers.patch,-p1
 agpgart.patch,-p1
 6801386.patch,-p1
-restore-zap.patch,-p1
 solaris-asm.patch,-p1
+XaceHook-initializers.patch,-p1
+Xephyr-Xserver-man.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch

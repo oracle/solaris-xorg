@@ -1,6 +1,6 @@
-diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
---- cpprules.in	2007-05-29 12:36:50.000000000 -0700
-+++ cpprules.in	2009-05-08 17:42:34.541312000 -0700
+diff -Nurp -x '*~' -x '*.orig' cpprules.in cpprules.in
+--- cpprules.in	2008-10-12 16:18:40.000000000 -0700
++++ cpprules.in	2009-07-07 17:51:45.311656000 -0700
 @@ -25,7 +25,7 @@ XORGRELSTRING = @PACKAGE_STRING@
    XORGMANNAME = X Version 11
    XSERVERNAME = Xorg
@@ -10,13 +10,14 @@ diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
          -D__vendorversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
          -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
  	-D__appmansuffix__=$(APP_MAN_SUFFIX) \
-diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
---- doc/Xserver.man.pre	2009-05-08 17:42:26.287194000 -0700
-+++ doc/Xserver.man.pre	2009-05-08 17:42:34.544517000 -0700
-@@ -1,3 +1,32 @@
-+.\" ident	"@(#)sun-manpage.patch	1.8	09/05/15 SMI"
+diff -Nurp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
+--- doc/Xserver.man.pre	2009-07-07 17:51:21.496985000 -0700
++++ doc/Xserver.man.pre	2009-07-07 17:51:45.335983000 -0700
+@@ -1,3 +1,33 @@
++.\" ident	"@(#)sun-manpage.patch	1.9	09/07/07 SMI"
 +.\" 
 +.\" Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
++.\" Use is subject to license terms.
 +.\" 
 +.\" Permission is hereby granted, free of charge, to any person obtaining a
 +.\" copy of this software and associated documentation files (the
@@ -60,9 +61,9 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  frequently a link or a copy of the appropriate server binary for
  driving the most frequently used server on a given machine.
 +#ifdef __SUNSOFT__
-+In this release of Solaris, /usr/X11/bin/X is a link to the Xserver program
-+which starts the appropriate X server based on properties set for the service
-+management facility, under the service identifier
++In this release of Solaris and OpenSolaris, /usr/X11/bin/X is a link to the 
++Xserver program which starts the appropriate X server based on properties
++set for the service management facility, under the service identifier
 +\fIsvc:/application/x11/x11-server\fP.  The properties are described in the
 +SMF PROPERTIES section below.
 +#endif
@@ -383,18 +384,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  
  .SH FILES
  .TP 30
-@@ -556,12 +794,22 @@ Initial access control list for display 
- .TP 30
- .IR __projectroot__/lib/X11/fonts/misc , __projectroot__/lib/X11/fonts/75dpi , __projectroot__/lib/X11/fonts/100dpi
- Bitmap font directories
-+#ifdef __SUNSOFT__
-+.IR __projectroot__/lib/X11/fonts/TrueType , __projectroot__/lib/X11/fonts/Type1
-+Outline font directories
-+#else
- .TP 30
- .IR __projectroot__/lib/X11/fonts/TTF , __projectroot__/lib/X11/fonts/Type1
- Outline font directories
-+#endif
+@@ -562,6 +800,11 @@ Outline font directories
  .TP 30
  .I /tmp/.X11-unix/X\fBn\fP
  Unix domain socket for display number \fBn\fP
@@ -406,7 +396,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 30
  .IR /tmp/rcX\fBn\fP
  Kerberos 5 replay cache for display number \fBn\fP
-@@ -571,6 +819,15 @@ Error log file for display number \fBn\f
+@@ -571,6 +814,15 @@ Error log file for display number \fBn\f
  .TP 30
  .I __projectroot__/lib/X11/xdm/xdm-errors
  Default error log file if the server is run from \fIxdm\fP(1)
@@ -422,14 +412,14 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH "SEE ALSO"
  General information: \fIX\fP(__miscmansuffix__)
  .PP
-@@ -587,14 +844,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
+@@ -587,14 +839,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP
 +#ifdef __SUNSOFT__
-+Starting the server: \fIgdm\fP(1), \fIdtlogin\fP(1), \fIxdm\fP(1), \fIxinit\fP(1)
++Starting the server: \fIgdm\fP(1), \fIdtlogin\fP(1), \fIstartx\fP(1), \fIxdm\fP(1), \fIxinit\fP(1)
 +#else
- Starting the server: \fIxdm\fP(1), \fIxinit\fP(1)
+ Starting the server: \fIstartx\fP(1), \fIxdm\fP(1), \fIxinit\fP(1)
 +#endif
  .PP
  Controlling the server once started: \fIxset\fP(1), \fIxsetroot\fP(1),
@@ -438,14 +428,14 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +.\" Only list the servers shipped on Solaris
 +.PP
 +Server-specific man pages:
-+\fIXsun\fP(1), \fIXorg\fP(1), \fIXephyr\fP(1), \fIXnest\fP(1), \fIXvfb\fP(1), \fIXprt\fP(1)
++\fIXsun\fP(1), \fIXorg\fP(1), \fIXephyr\fP(1), \fIXvfb\fP(1)
 +.PP
 +Service management framework:
 +\fIsmf\fP(5), \fIsvcadm\fP(1M), \fIsvccfg\fP(1M)
 +#else
  .PP
  Server-specific man pages:
- \fIXorg\fP(1), \fIXdmx\fP(1), \fIXnest\fP(1),
+ \fIXorg\fP(1), \fIXdmx\fP(1), \fIXephyr\fP(1), \fIXnest\fP(1),
  \fIXvfb\fP(1), \fIXDarwin\fP(1), \fIXWin\fP(1).
 +#endif
  .PP
