@@ -380,18 +380,6 @@ include app/xmodmap/COPYING
 
 --------------------------------------------------------------------
 
-File from the app/xplsprinters package are covered by the following notice:
-
-include app/xplsprinters/COPYING
-
---------------------------------------------------------------------
-
-File from the app/xprehashprinterlist  package are covered by the following notice:
-
-include app/xprehashprinterlist/COPYING
-
---------------------------------------------------------------------
-
 File from the app/xpr package are covered by the following notice:
 
 include app/xpr/COPYING
@@ -557,18 +545,6 @@ include lib/libXmu/COPYING
 Files from the lib/libXp package are covered by the following notice:
 
 include lib/libXp/COPYING
-
---------------------------------------------------------------------
-
-Files from the lib/libXprintAppUtil package are covered by the following notice:
-
-include lib/libXprintAppUtil/COPYING
-
---------------------------------------------------------------------
-
-Files from the lib/libXprintUtil package are covered by the following notice:
-
-include lib/libXprintUtil/COPYING
 
 --------------------------------------------------------------------
 

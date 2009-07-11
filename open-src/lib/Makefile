@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source Library modules
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.28	09/01/14
+# @(#)Makefile	1.29	09/07/10
 #
 ###############################################################################
 
@@ -78,8 +78,6 @@ OS_SUBDIRS_common = \
 	libXinerama \
 	libxkbfile \
 	libxkbui \
-	libXprintUtil \
-	libXprintAppUtil \
 	libXrandr \
 	libXres \
 	libXScrnSaver \
@@ -98,6 +96,10 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
 	libdrm \
 	mesa
+
+OBSOLETE_SUBDIRS = \
+	libXprintUtil \
+	libXprintAppUtil
 
 PWD:sh=pwd
 TOP=$(PWD)/..

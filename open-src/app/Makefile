@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.85	09/06/18
+# @(#)Makefile	1.86	09/07/10
 #
 ###############################################################################
 
@@ -111,10 +111,8 @@ OS_SUBDIRS_common = \
 	xmakemap \
 	xman \
 	xmodmap \
-	xplsprinters \
 	xpm \
 	xpr \
-	xprehashprinterlist \
 	xprop \
 	xrandr \
 	xrdb \
@@ -136,6 +134,10 @@ OS_SUBDIRS_common = \
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+
+OBSOLETE_SUBDIRS = \
+	xplsprinters \
+	xprehashprinterlist
 
 PWD:sh=pwd
 TOP=$(PWD)/..

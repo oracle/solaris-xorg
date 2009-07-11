@@ -283,18 +283,6 @@ include lib/libXp/COPYING
 
 --------------------------------------------------------------------
 
-Files from the lib/libXprintAppUtil package are covered by the following notice:
-
-include lib/libXprintAppUtil/COPYING
-
---------------------------------------------------------------------
-
-Files from the lib/libXprintUtil package are covered by the following notice:
-
-include lib/libXprintUtil/COPYING
-
---------------------------------------------------------------------
-
 Files from the lib/libXpm package are covered by the following notice:
 
 include lib/libXpm/COPYING

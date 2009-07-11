@@ -2,7 +2,7 @@
 
 ###
 #
-# @(#)upgrade-X	1.55 09/06/18
+# @(#)upgrade-X	1.56 09/07/10
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -261,6 +261,8 @@ REM_PKGS+=" SUNWxorg-devel-docs SUNWxorg-cfg"
 #	   6781710 Removal of Xsun on x86/x64 [PSARC 2008/033]
 REM_PKGS+=" SUNWxwsrv ${xsun_pkg_list}"
 
+# snv_120: 6859233 Removal of Xprint [PSARC 2009/294]
+REM_PKGS+=" SUNWxprint-server SUNWxwpft"
 
 # Check for shared SMF manifest scripts now required by our packages
 if [[ ! -f /usr/sadm/install/scripts/i.manifest ]] ; then

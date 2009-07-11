@@ -1,5 +1,6 @@
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.97	09/06/02 SMI"
+# ident	"@(#)prototype	35.98	09/07/10 SMI"
 #
 #  X Window System include files
 
@@ -612,14 +613,6 @@ f none X11/include/X11/fonts/fontenc.h  	0444 root bin
 # open-src/lib/libFS
 f none X11/include/X11/fonts/FSlib.h       	0444 root bin
 
-!search                $HOME/X11/include/X11/XprintAppUtil
-d none X11/include/X11/XprintAppUtil		0755 root bin
-f none X11/include/X11/XprintAppUtil/xpapputil.h	0444 root bin
-
-!search                $HOME/X11/include/X11/XprintUtil
-d none X11/include/X11/XprintUtil		0755 root bin
-f none X11/include/X11/XprintUtil/xprintutil.h	0444 root bin
-
 # open-src/proto/pmproto
 !search                $HOME/X11/include/X11/PM
 d none X11/include/X11/PM			0755 root bin
@@ -736,8 +729,6 @@ f none lib/pkgconfig/xmu.pc			0444 root bin
 f none lib/pkgconfig/xmuu.pc			0444 root bin
 f none lib/pkgconfig/xpm.pc			0444 root bin
 f none lib/pkgconfig/xp.pc                      0444 root bin
-f none lib/pkgconfig/xprintapputil.pc           0444 root bin
-f none lib/pkgconfig/xprintutil.pc              0444 root bin
 f none lib/pkgconfig/xrandr.pc			0444 root bin
 f none lib/pkgconfig/xrender.pc			0444 root bin
 f none lib/pkgconfig/xres.pc			0444 root bin
@@ -818,8 +809,6 @@ f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmuu.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xp.pc			0444 root bin
-f none lib/$plat_64/pkgconfig/xprintapputil.pc		0444 root bin
-f none lib/$plat_64/pkgconfig/xprintutil.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xrandr.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xrender.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xres.pc			0444 root bin
