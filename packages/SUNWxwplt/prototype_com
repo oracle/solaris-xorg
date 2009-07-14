@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.213    09/07/10   Sun Microsystems"
+#      "@(#)prototype_com	35.214    09/07/13   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -37,8 +37,12 @@ i depend
 
 !HOME=../usr
 
-!search $HOME/bin
 d none bin 			0755 root bin
+d none lib			0755 root bin
+d none lib/$plat_64		0755 root bin
+d none sfw			0755 root bin
+d none sfw/lib			0755 root bin
+d none sfw/lib/$plat_64 	0755 root bin
 
 !search $HOME/X11/bin
 d none X11			0755 root bin
@@ -269,19 +273,20 @@ f none X11/bin/winsysck 		0755 root bin
 s none openwin/bin/winsysck=../../X11/bin/winsysck
 
 !search  $HOME/openwin/lib
-#
-# symlinks for backward compatability
-#
-s none openwin/lib/rgb.pag=X11/rgb.pag
-s none openwin/lib/rgb.dir=X11/rgb.dir
-s none openwin/lib/rgb.txt=X11/rgb.txt
 
+s none lib/libXaw.so.4=../openwin/lib/libXaw.so.4
+s none lib/libXaw.so.5=../openwin/lib/libXaw.so.5
 f none openwin/lib/libXaw.so.5 		0755 root bin
 f none openwin/lib/libXaw.so.4 		0755 root bin
+
+s none openwin/lib/libdga.so=./libdga.so.1
+f none openwin/lib/libdga.so.1		 	0755 root bin
+
 # Symlink removed to prevent compiling new programs - library is left
 # for binary compatibility only
 #s none openwin/lib/libXinput.so=./libXinput.so.0
 f none openwin/lib/libXinput.so.0 	0755 root bin
+
 s none openwin/lib/libdps.so=./libdps.so.5
 f none openwin/lib/libdps.so.5 		0755 root bin
 s none openwin/lib/libdpstk.so=./libdpstk.so.5
@@ -290,8 +295,15 @@ s none openwin/lib/libpsres.so=./libpsres.so.5
 f none openwin/lib/libpsres.so.5 	0755 root bin
 s none openwin/lib/libowconfig.so=./libowconfig.so.0
 f none openwin/lib/libowconfig.so.0 	0755 root bin
+
+s none lib/libXIE.so=./libXIE.so.6
+s none lib/libXIE.so.6=../openwin/lib/libXIE.so.6
 s none openwin/lib/libXIE.so=./libXIE.so.6
 f none openwin/lib/libXIE.so.6			0755 root bin
+
+s none lib/libxkbfile.so.4=../openwin/lib/libxkbfile.so.4
+f none openwin/lib/libxkbfile.so.4              0755 root bin
+s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
 
 #### libraries replaced with new versions from open-src/lib
 
@@ -300,6 +312,10 @@ f none openwin/lib/libXIE.so.6			0755 root bin
 d none X11/lib					0755 root bin
 
 # open-src/lib/libX11
+# The libX11.so.5 -> libX11.so.4 symlink is required by SVID3 ABI.
+s none lib/libX11.so=./libX11.so.4
+s none lib/libX11.so.4=../X11/lib/libX11.so.4
+s none lib/libX11.so.5=../X11/lib/libX11.so.4
 s none openwin/lib/libX.so.4=./libX11.so.4
 s none openwin/lib/libX.so=./libX11.so.4
 s none openwin/lib/libX11.so=./libX11.so.4
@@ -310,6 +326,8 @@ s none X11/lib/libX11.so=./libX11.so.4
 f none X11/lib/libX11.so.4			0555 root bin
 
 # open-src/lib/libXau
+s none lib/libXau.so=libXau.so.6
+s none lib/libXau.so.6=../X11/lib/libXau.so.6
 s none openwin/lib/libXau.so=./libXau.so.6
 s none openwin/lib/libXau.so.6=../../X11/lib/libXau.so.6
 s none X11/lib/libXau.so=./libXau.so.6
@@ -318,6 +336,10 @@ f none X11/lib/libXau.so.6			0555 root bin
 # open-src/lib/libXaw
 # The libXaw.so link from /usr/openwin/lib is redirected,
 # but libXaw.so.7 was never delivered there, so it is not linked
+s none lib/libXaw.so=../X11/lib/libXaw.so
+s none lib/libXaw.so.7=../X11/lib/libXaw.so.7
+s none lib/libXaw7.so=./libXaw7.so.7
+s none lib/libXaw7.so.7=../X11/lib/libXaw7.so.7
 s none openwin/lib/libXaw.so=../../X11/lib/libXaw.so
 s none X11/lib/libXaw.so=./libXaw7.so.7
 s none X11/lib/libXaw.so.7=./libXaw7.so.7
@@ -325,57 +347,85 @@ s none X11/lib/libXaw7.so=./libXaw7.so.7
 f none X11/lib/libXaw7.so.7			0555 root bin
 
 # open-src/lib/libFS
+s none lib/libFS.so=./libFS.so.5
+s none lib/libFS.so.5=../X11/lib/libFS.so.5
 s none openwin/lib/libFS.so.5=../../X11/lib/libFS.so.5
 s none openwin/lib/libFS.so=../../X11/lib/libFS.so.5
 s none X11/lib/libFS.so=./libFS.so.5
 f none X11/lib/libFS.so.5  			0555 root bin
 
 # open-src/lib/libSM
+s none lib/libSM.so=./libSM.so.6
+s none lib/libSM.so.6=../X11/lib/libSM.so.6
 s none openwin/lib/libSM.so.6=../../X11/lib/libSM.so.6
 s none openwin/lib/libSM.so=../../X11/lib/libSM.so.6
 s none X11/lib/libSM.so=./libSM.so.6
 f none X11/lib/libSM.so.6			0555 root bin
 
 # open-src/lib/libXcomposite (never delivered into /usr/openwin/lib)
+s none lib/libXcomposite.so=libXcomposite.so.1
+s none lib/libXcomposite.so.1=../X11/lib/libXcomposite.so.1
 f none X11/lib/libXcomposite.so.1 		0644 root bin
 s none X11/lib/libXcomposite.so=libXcomposite.so.1
 
 # open-src/lib/libXcursor (never delivered into /usr/openwin/lib)
+s none lib/libXcursor.so=libXcursor.so.1
+s none lib/libXcursor.so.1=../X11/lib/libXcursor.so.1
 f none X11/lib/libXcursor.so.1 			0644 root bin
 s none X11/lib/libXcursor.so=libXcursor.so.1
 
 # open-src/lib/libXdamage (never delivered into /usr/openwin/lib - 
 # only into /usr/openwin/sfw/lib, which is covered by symlink below)
+s none lib/libXdamage.so=../X11/lib/libXdamage.so
+s none lib/libXdamage.so.1=../X11/lib/libXdamage.so.1
 s none X11/lib/libXdamage.so=./libXdamage.so.1
 f none X11/lib/libXdamage.so.1 			0755 root bin
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/libXdamage.so=../../X11/lib/libXdamage.so
+s none sfw/lib/libXdamage.so.1=../../X11/lib/libXdamage.so.1
 
 # open-src/lib/libXdmcp
+s none lib/libXdmcp.so=libXdmcp.so.6
+s none lib/libXdmcp.so.6=../X11/lib/libXdmcp.so.6
 s none openwin/lib/libXdmcp.so=./libXdmcp.so.6
 s none openwin/lib/libXdmcp.so.6=../../X11/lib/libXdmcp.so.6
 s none X11/lib/libXdmcp.so=./libXdmcp.so.6
 f none X11/lib/libXdmcp.so.6			0555 root bin
 
 # open-src/lib/libXevie (never delivered into /usr/openwin/lib)
+s none lib/libXevie.so=./libXevie.so.1
+s none lib/libXevie.so.1=../X11/lib/libXevie.so.1
 s none X11/lib/libXevie.so=./libXevie.so.1
 f none X11/lib/libXevie.so.1 			0555 root bin
 
 # open-src/lib/libXext
+s none lib/libXext.so=./libXext.so.0
+s none lib/libXext.so.0=../X11/lib/libXext.so.0
 s none openwin/lib/libXext.so=./libXext.so.0
 s none openwin/lib/libXext.so.0=../../X11/lib/libXext.so.0
 s none X11/lib/libXext.so=./libXext.so.0
 f none X11/lib/libXext.so.0			0555 root bin
 
 # open-src/lib/libXfixes (never delivered into /usr/openwin/lib)
+s none lib/libXfixes.so=../X11/lib/libXfixes.so
+s none lib/libXfixes.so.1=../X11/lib/libXfixes.so.1
 s none X11/lib/libXfixes.so=./libXfixes.so.1
 f none X11/lib/libXfixes.so.1 			0555 root bin
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/libXfixes.so=../../X11/lib/libXfixes.so
+s none sfw/lib/libXfixes.so.1=../../X11/lib/libXfixes.so.1
 
 # open-src/lib/libXi
+s none lib/libXi.so=libXi.so.5
+s none lib/libXi.so.5=../X11/lib/libXi.so.5
 s none openwin/lib/libXi.so=./libXi.so.5
 s none openwin/lib/libXi.so.5=../../X11/lib/libXi.so.5
 s none X11/lib/libXi.so=./libXi.so.5
 f none X11/lib/libXi.so.5			0555 root bin
 
 # open-src/lib/libXinerama (never delivered into /usr/openwin/lib)
+s none lib/libXinerama.so=libXinerama.so.1
+s none lib/libXinerama.so.1=../X11/lib/libXinerama.so.1
 s none X11/lib/libXinerama.so=./libXinerama.so.1
 f none X11/lib/libXinerama.so.1 		0555 root bin
 
@@ -384,6 +434,10 @@ s none X11/lib/libXlg3d.so=./libXlg3d.so.1
 f none X11/lib/libXlg3d.so.1 			0555 root bin
 
 # opensrc/lib/libXmu (only libXmu, not libXmuu was delivered into /usr/openwin/lib)
+s none lib/libXmu.so=libXmu.so.4
+s none lib/libXmu.so.4=../X11/lib/libXmu.so.4
+s none lib/libXmuu.so=libXmuu.so.1
+s none lib/libXmuu.so.1=../X11/lib/libXmuu.so.1
 s none openwin/lib/libXmu.so=./libXmu.so.4
 s none openwin/lib/libXmu.so.4=../../X11/lib/libXmu.so.4
 s none X11/lib/libXmu.so=./libXmu.so.4
@@ -392,50 +446,93 @@ s none X11/lib/libXmuu.so=./libXmuu.so.1
 f none X11/lib/libXmuu.so.1			0755 root bin
 
 # opensrc/lib/libXpm
+s none lib/libXpm.so=./libXpm.so.4
+s none lib/libXpm.so.4=../X11/lib/libXpm.so.4
 s none openwin/lib/libXpm.so=./libXpm.so.4
 s none openwin/lib/libXpm.so.4=../../X11/lib/libXpm.so.4
 s none X11/lib/libXpm.so=./libXpm.so.4
 f none X11/lib/libXpm.so.4			0755 root bin
 
 # open-src/lib/libXp
+s none lib/libXp.so=./libXp.so.1
+s none lib/libXp.so.1=../X11/lib/libXp.so.1
 s none openwin/lib/libXp.so=./libXp.so.1
 s none openwin/lib/libXp.so.1=../../X11/lib/libXp.so.1
 s none X11/lib/libXp.so=./libXp.so.1
 f none X11/lib/libXp.so.1               0755 root bin
 
 # open-src/lib/libXrender (never delivered into /usr/openwin/lib)
+s none lib/libXrender.so=../X11/lib/libXrender.so
+s none lib/libXrender.so.1=../X11/lib/libXrender.so.1
 s none X11/lib/libXrender.so=./libXrender.so.1
 f none X11/lib/libXrender.so.1 			0755 root bin
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/libXrender.so=../../X11/lib/libXrender.so
+s none sfw/lib/libXrender.so.1=../../X11/lib/libXrender.so.1
+
+# open-src/lib/libXRes (never delivered into /usr/openwin/lib)
+s none lib/libXRes.so=../X11/lib/libXRes.so
+s none lib/libXRes.so.1=../X11/lib/libXRes.so.1
+s none X11/lib/libXRes.so=./libXRes.so.1
+f none X11/lib/libXRes.so.1 		0755 root bin
 
 # open-src/lib/libXss (never delivered into /usr/openwin/lib)
+s none lib/libXss.so=../X11/lib/libXss.so
+s none lib/libXss.so.1=../X11/lib/libXss.so.1
 s none X11/lib/libXss.so=./libXss.so.1
 f none X11/lib/libXss.so.1 			0555 root bin
 
 # open-src/lib/libXt
+# The libXt.so.5 link is required by SVID3 ABI
+s none lib/libXt.so=./libXt.so.4
+s none lib/libXt.so.4=../X11/lib/libXt.so.4
+s none lib/libXt.so.5=../X11/lib/libXt.so.4
 s none openwin/lib/libXt.so=./libXt.so.4
 s none openwin/lib/libXt.so.4=../../X11/lib/libXt.so.4
 s none X11/lib/libXt.so=./libXt.so.4
 f none X11/lib/libXt.so.4			0555 root bin
 
 # open-src/lib/libXtsol - Trusted Extensions API support
+s none lib/libXtsol.so=./libXtsol.so.1
+s none lib/libXtsol.so.1=../X11/lib/libXtsol.so.1
 s none openwin/lib/libXtsol.so=./libXtsol.so.1
 s none openwin/lib/libXtsol.so.1=../../X11/lib/libXtsol.so.1
 s none X11/lib/libXtsol.so=./libXtsol.so.1
 f none X11/lib/libXtsol.so.1			0555 root bin
 
 # open-src/lib/libXtst
+s none lib/libXtst.so=./libXtst.so.1
+s none lib/libXtst.so.1=../X11/lib/libXtst.so.1
 s none openwin/lib/libXtst.so=./libXtst.so.1
 s none openwin/lib/libXtst.so.1=../../X11/lib/libXtst.so.1
 s none X11/lib/libXtst.so=./libXtst.so.1
 f none X11/lib/libXtst.so.1			0755 root bin
 
+# open-src/app/mkcookie
+s none openwin/lib/mkcookie=../../X11/lib/mkcookie
+f none X11/lib/mkcookie				0755 root bin
+
 ## 64-bit versions
+
+!search  $HOME/openwin/lib/$plat_64
+d none openwin/lib/$plat_64 			0755 root bin
+s none openwin/lib/64=$plat_64
+
+s none lib/$plat_64/libXaw.so.5=../../openwin/lib/64/libXaw.so.5
+f none openwin/lib/$plat_64/libXaw.so.5 	0755 root bin
+
+s none lib/$plat_64/libxkbfile.so.4=../../openwin/lib/64/libxkbfile.so.4
+s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
+f none openwin/lib/$plat_64/libxkbfile.so.4	0755 root bin
 
 !search $HOME/X11/lib/$plat_64
 d none X11/lib/$plat_64 			0755 root bin
 s none X11/lib/64=$plat_64
 
 # open-src/lib/libX11
+s none lib/$plat_64/libX11.so=./libX11.so.4
+s none lib/$plat_64/libX11.so.4=../../X11/lib/64/libX11.so.4
+s none lib/$plat_64/libX11.so.5=../../X11/lib/64/libX11.so.4
 s none openwin/lib/$plat_64/libX.so.4=./libX11.so.4
 s none openwin/lib/$plat_64/libX.so=./libX11.so.4
 s none openwin/lib/$plat_64/libX11.so=./libX11.so.4
@@ -446,6 +543,8 @@ s none X11/lib/$plat_64/libX11.so=./libX11.so.4
 f none X11/lib/$plat_64/libX11.so.4		0555 root bin
 
 # open-src/lib/libXau
+s none lib/$plat_64/libXau.so=libXau.so.6
+s none lib/$plat_64/libXau.so.6=../../X11/lib/64/libXau.so.6
 s none openwin/lib/$plat_64/libXau.so=../../../X11/lib/64/libXau.so
 s none openwin/lib/$plat_64/libXau.so.6=../../../X11/lib/64/libXau.so.6
 s none X11/lib/$plat_64/libXau.so=./libXau.so.6
@@ -454,6 +553,10 @@ f none X11/lib/$plat_64/libXau.so.6		0555 root bin
 # open-src/lib/libXaw
 # The libXaw.so link from /usr/openwin/lib is redirected,
 # but libXaw.so.7 was never delivered there, so it is not linked
+s none lib/$plat_64/libXaw.so=../../X11/lib/64/libXaw.so
+s none lib/$plat_64/libXaw.so.7=../../X11/lib/64/libXaw.so.7
+s none lib/$plat_64/libXaw7.so=./libXaw7.so.7
+s none lib/$plat_64/libXaw7.so.7=../../X11/lib/64/libXaw7.so.7
 s none openwin/lib/$plat_64/libXaw.so=../../../X11/lib/64/libXaw.so
 s none X11/lib/$plat_64/libXaw.so=./libXaw7.so.7
 s none X11/lib/$plat_64/libXaw.so.7=./libXaw7.so.7
@@ -461,55 +564,83 @@ s none X11/lib/$plat_64/libXaw7.so=./libXaw7.so.7
 f none X11/lib/$plat_64/libXaw7.so.7			0555 root bin
 
 # open-src/lib/libFS - never delivered into openwin in 64-bit version
+s none lib/$plat_64/libFS.so=./libFS.so.5
+s none lib/$plat_64/libFS.so.5=../../X11/lib/64/libFS.so.5
 s none X11/lib/$plat_64/libFS.so=./libFS.so.5
 f none X11/lib/$plat_64/libFS.so.5		0555 root bin
 
 # open-src/lib/libSM
+s none lib/$plat_64/libSM.so=./libSM.so.6
+s none lib/$plat_64/libSM.so.6=../../X11/lib/64/libSM.so.6
 s none openwin/lib/$plat_64/libSM.so.6=../../../X11/lib/64/libSM.so.6
 s none openwin/lib/$plat_64/libSM.so=../../../X11/lib/64/libSM.so.6
 s none X11/lib/$plat_64/libSM.so=./libSM.so.6
 f none X11/lib/$plat_64/libSM.so.6		0555 root bin
 
 # open-src/lib/libXcomposite (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXcomposite.so=libXcomposite.so.1
+s none lib/$plat_64/libXcomposite.so.1=../../X11/lib/64/libXcomposite.so.1
 f none X11/lib/$plat_64/libXcomposite.so.1 		0644 root bin
 s none X11/lib/$plat_64/libXcomposite.so=libXcomposite.so.1
 
 # open-src/lib/libXcursor (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXcursor.so=libXcursor.so.1
+s none lib/$plat_64/libXcursor.so.1=../../X11/lib/64/libXcursor.so.1
 f none X11/lib/$plat_64/libXcursor.so.1 		0644 root bin
 s none X11/lib/$plat_64/libXcursor.so=libXcursor.so.1
 
 # open-src/lib/libXdamage (never delivered into /usr/openwin/lib - 
 # only into /usr/openwin/sfw/lib, which is covered by symlink below)
+s none lib/$plat_64/libXdamage.so=../../X11/lib/64/libXdamage.so
+s none lib/$plat_64/libXdamage.so.1=../../X11/lib/64/libXdamage.so.1
 s none X11/lib/$plat_64/libXdamage.so=./libXdamage.so.1
 f none X11/lib/$plat_64/libXdamage.so.1 	0755 root bin
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/$plat_64/libXdamage.so=../../../X11/lib/64/libXdamage.so
+s none sfw/lib/$plat_64/libXdamage.so.1=../../../X11/lib/64/libXdamage.so.1
 
 # open-src/lib/libXdmcp
+s none lib/$plat_64/libXdmcp.so=libXdmcp.so.6
+s none lib/$plat_64/libXdmcp.so.6=../../X11/lib/64/libXdmcp.so.6
 s none openwin/lib/$plat_64/libXdmcp.so=../../../X11/lib/64/libXdmcp.so
 s none openwin/lib/$plat_64/libXdmcp.so.6=../../../X11/lib/64/libXdmcp.so.6
 s none X11/lib/$plat_64/libXdmcp.so=./libXdmcp.so.6
 f none X11/lib/$plat_64/libXdmcp.so.6		0555 root bin
 
 # open-src/lib/libXevie (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXevie.so=./libXevie.so.1
+s none lib/$plat_64/libXevie.so.1=../../X11/lib/64/libXevie.so.1
 s none X11/lib/$plat_64/libXevie.so=./libXevie.so.1
 f none X11/lib/$plat_64/libXevie.so.1 		0555 root bin
 
 # open-src/lib/libXext
+s none lib/$plat_64/libXext.so=./libXext.so.0
+s none lib/$plat_64/libXext.so.0=../../X11/lib/64/libXext.so.0
 s none openwin/lib/$plat_64/libXext.so=./libXext.so.0
 s none openwin/lib/$plat_64/libXext.so.0=../../../X11/lib/64/libXext.so.0
 s none X11/lib/$plat_64/libXext.so=./libXext.so.0
 f none X11/lib/$plat_64/libXext.so.0			0555 root bin
 
 # open-src/lib/libXfixes (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXfixes.so=../../X11/lib/64/libXfixes.so
+s none lib/$plat_64/libXfixes.so.1=../../X11/lib/64/libXfixes.so.1
 s none X11/lib/$plat_64/libXfixes.so=./libXfixes.so.1
 f none X11/lib/$plat_64/libXfixes.so.1 		0555 root bin
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/$plat_64/libXfixes.so=../../../X11/lib/64/libXfixes.so
+s none sfw/lib/$plat_64/libXfixes.so.1=../../../X11/lib/64/libXfixes.so.1
 
 # open-src/lib/libXi
+s none lib/$plat_64/libXi.so=libXi.so.5
+s none lib/$plat_64/libXi.so.5=../../X11/lib/64/libXi.so.5
 s none openwin/lib/$plat_64/libXi.so=./libXi.so.5
 s none openwin/lib/$plat_64/libXi.so.5=../../../X11/lib/64/libXi.so.5
 s none X11/lib/$plat_64/libXi.so=./libXi.so.5
 f none X11/lib/$plat_64/libXi.so.5		0555 root bin
 
 # open-src/lib/libXinerama (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXinerama.so=libXinerama.so.1
+s none lib/$plat_64/libXinerama.so.1=../../X11/lib/64/libXinerama.so.1
 s none X11/lib/$plat_64/libXinerama.so=./libXinerama.so.1
 f none X11/lib/$plat_64/libXinerama.so.1	0555 root bin
 
@@ -518,6 +649,10 @@ s none X11/lib/$plat_64/libXlg3d.so=./libXlg3d.so.1
 f none X11/lib/$plat_64/libXlg3d.so.1 		0555 root bin
 
 # opensrc/lib/libXmu (only libXmu, not libXmuu was delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXmu.so=libXmu.so.4
+s none lib/$plat_64/libXmu.so.4=../../X11/lib/64/libXmu.so.4
+s none lib/$plat_64/libXmuu.so=libXmuu.so.1
+s none lib/$plat_64/libXmuu.so.1=../../X11/lib/64/libXmuu.so.1
 s none openwin/lib/$plat_64/libXmu.so=./libXmu.so.4
 s none openwin/lib/$plat_64/libXmu.so.4=../../../X11/lib/64/libXmu.so.4
 s none X11/lib/$plat_64/libXmu.so=./libXmu.so.4
@@ -526,38 +661,62 @@ s none X11/lib/$plat_64/libXmuu.so=./libXmuu.so.1
 f none X11/lib/$plat_64/libXmuu.so.1		0755 root bin
 
 # opensrc/lib/libXpm
+s none lib/$plat_64/libXpm.so=./libXpm.so.4
+s none lib/$plat_64/libXpm.so.4=../../X11/lib/64/libXpm.so.4
 s none openwin/lib/$plat_64/libXpm.so=./libXpm.so.4
 s none openwin/lib/$plat_64/libXpm.so.4=../../../X11/lib/64/libXpm.so.4
 s none X11/lib/$plat_64/libXpm.so=./libXpm.so.4
 f none X11/lib/$plat_64/libXpm.so.4 	0755 root bin
 
 # open-src/lib/libXp
+s none lib/$plat_64/libXp.so=./libXp.so.1
+s none lib/$plat_64/libXp.so.1=../../X11/lib/64/libXp.so.1
 s none openwin/lib/$plat_64/libXp.so=./libXp.so.1
 s none openwin/lib/$plat_64/libXp.so.1=../../../X11/lib/64/libXp.so.1
 s none X11/lib/$plat_64/libXp.so=./libXp.so.1
 f none X11/lib/$plat_64/libXp.so.1               0755 root bin
 
 # open-src/lib/libXrender (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXrender.so=../../X11/lib/64/libXrender.so
+s none lib/$plat_64/libXrender.so.1=../../X11/lib/64/libXrender.so.1
 s none X11/lib/$plat_64/libXrender.so=./libXrender.so.1
 f none X11/lib/$plat_64/libXrender.so.1 	0755 root bin
+# Backwards compatibility for original locations [see PSARC/2006/557]
+s none sfw/lib/$plat_64/libXrender.so=../../../X11/lib/64/libXrender.so
+s none sfw/lib/$plat_64/libXrender.so.1=../../../X11/lib/64/libXrender.so.1
+
+# open-src/lib/libXRes (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXRes.so=../../X11/lib/64/libXRes.so
+s none lib/$plat_64/libXRes.so.1=../../X11/lib/64/libXRes.so.1
+s none X11/lib/$plat_64/libXRes.so=./libXRes.so.1
+f none X11/lib/$plat_64/libXRes.so.1 			0755 root bin
 
 # open-src/lib/libXss (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libXss.so=../../X11/lib/64/libXss.so
+s none lib/$plat_64/libXss.so.1=../../X11/lib/64/libXss.so.1
 s none X11/lib/$plat_64/libXss.so=./libXss.so.1
 f none X11/lib/$plat_64/libXss.so.1 		0555 root bin
 
 # open-src/lib/libXt
+s none lib/$plat_64/libXt.so=./libXt.so.4
+s none lib/$plat_64/libXt.so.4=../../X11/lib/64/libXt.so.4
+s none lib/$plat_64/libXt.so.5=../../X11/lib/64/libXt.so.4
 s none openwin/lib/$plat_64/libXt.so=./libXt.so.4
 s none openwin/lib/$plat_64/libXt.so.4=../../../X11/lib/64/libXt.so.4
 s none X11/lib/$plat_64/libXt.so=./libXt.so.4
 f none X11/lib/$plat_64/libXt.so.4		0555 root bin
 
 # open-src/lib/libXtsol - Trusted Extensions API support
+s none lib/$plat_64/libXtsol.so=./libXtsol.so.1
+s none lib/$plat_64/libXtsol.so.1=../../X11/lib/64/libXtsol.so.1
 s none openwin/lib/$plat_64/libXtsol.so=./libXtsol.so.1
 s none openwin/lib/$plat_64/libXtsol.so.1=../../../X11/lib/64/libXtsol.so.1
 s none X11/lib/$plat_64/libXtsol.so=./libXtsol.so.1
 f none X11/lib/$plat_64/libXtsol.so.1		0555 root bin
 
 # open-src/lib/libXtst
+s none lib/$plat_64/libXtst.so=./libXtst.so.1
+s none lib/$plat_64/libXtst.so.1=../../X11/lib/64/libXtst.so.1
 s none openwin/lib/$plat_64/libXtst.so=./libXtst.so.1
 s none openwin/lib/$plat_64/libXtst.so.1=../../../X11/lib/64/libXtst.so.1
 s none X11/lib/$plat_64/libXtst.so=./libXtst.so.1
@@ -569,25 +728,6 @@ f none X11/lib/$plat_64/libXtst.so.1 	0755 root bin
 # still install to /usr/openwin/sfw/server on x86 machines
 d none openwin/sfw				0755 root bin
 s none openwin/sfw/lib=../../X11/lib
-
-!search  $HOME/X11/lib
-s none X11/lib/libXRes.so=./libXRes.so.1
-f none X11/lib/libXRes.so.1 		0755 root bin
-s none openwin/lib/mkcookie=../../X11/lib/mkcookie
-f none X11/lib/mkcookie                 0755 root bin
-
-!search  $HOME/openwin/lib
-s none openwin/lib/libdga.so=./libdga.so.1
-f none openwin/lib/libdga.so.1		 	0755 root bin
-
-#
-# X11R6.4 upgrade changes
-#
-f none openwin/lib/libxkbfile.so.4              0755 root bin
-s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
-#
-# end X11R6.4 upgrade change
-#
 
 !search  $HOME/openwin/lib/X11
 d none openwin/lib/X11 				0755 root bin
@@ -1199,21 +1339,7 @@ s none openwin/share/include/X11/bitmaps/Stipple=../../../../../X11/include/X11/
 s none openwin/share/include/X11/bitmaps/Term=../../../../../X11/include/X11/bitmaps/Term
 s none openwin/share/include/X11/bitmaps/Up=../../../../../X11/include/X11/bitmaps/Up
 
-#   X Window System 64-bit library software
-
-!search  $HOME/openwin/lib/$plat_64
-d none openwin/lib/$plat_64 			0755 root bin
-s none openwin/lib/64=$plat_64
-f none openwin/lib/$plat_64/libXaw.so.5 		0755 root bin
-s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
-f none openwin/lib/$plat_64/libxkbfile.so.4	0755 root bin
-
-!search  $HOME/X11/lib/$plat_64
-s none X11/lib/$plat_64/libXRes.so=./libXRes.so.1
-f none X11/lib/$plat_64/libXRes.so.1 			0755 root bin
-
 # RBAC help files
-d none lib 0755 root bin
 d none lib/help 755 root bin
 d none lib/help/auths 755 root bin
 d none lib/help/auths/locale 755 root bin
@@ -1234,6 +1360,10 @@ d none X11/lib/X11                              0755 root bin
 f none X11/lib/X11/rgb.pag 			0444 root bin
 f none X11/lib/X11/rgb.dir 			0444 root bin
 f none X11/lib/X11/rgb.txt 			0444 root bin
+# symlinks for backward compatability
+s none openwin/lib/rgb.pag=X11/rgb.pag
+s none openwin/lib/rgb.dir=X11/rgb.dir
+s none openwin/lib/rgb.txt=X11/rgb.txt
 s none openwin/lib/X11/rgb.pag=../../../X11/lib/X11/rgb.pag
 s none openwin/lib/X11/rgb.dir=../../../X11/lib/X11/rgb.dir
 s none openwin/lib/X11/rgb.txt=../../../X11/lib/X11/rgb.txt

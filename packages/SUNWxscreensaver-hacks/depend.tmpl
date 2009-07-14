@@ -1,5 +1,6 @@
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,21 +28,14 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)depend	1.4	06/08/09 SMI"
+# ident	"@(#)depend.tmpl	1.5	09/07/13 SMI"
 #
+# XScreenSaver non-OpenGL display modules
 
-P SUNWcsr	Core Sparc, (Root)
-P SUNWcsu	Core Sparc, (Usr)
-P SUNWcsl	Core Solaris, (Shared Libs)
 P SUNWgnome-base-libs  GNOME base GUI libraries
-P SUNWlibms	Math & Microtasking Libraries (Usr)
-P SUNWlxml	The XML library
-P SUNWxwplt	X Window System platform software
-P SUNWxwrtl	X Window System & Graphics Runtime Library Links in /usr/lib
-P SUNWzlib	The Zip compression library
-P SUNWgnome-config	GNOME configuration framework
-P SUNWgnome-component	GNOME CORBA ORB and component framework
-P SUNWgnome-a11y-libs	Accessibility Implementation for GNOME
+P SUNWlibmsr	Math & Microtasking Libraries (Root)
+P SUNWxwsvr	XScreenSaver
 P SUNWxwice	X Window System Inter-Client Exchange (ICE) Components
-P SUNWxorg-clientlibs X.Org Foundation X Client Libraries
 
+# common dependencies
+include ../depend

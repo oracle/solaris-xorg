@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.17     08/08/08 SMI"
+# ident "@(#)prototype 1.18     09/07/13 SMI"
 #
 #    X Window System ICE library
 
@@ -75,4 +76,13 @@ d none openwin/lib/$plat_64                             0755 root bin
 s none openwin/lib/64=$plat_64
 s none openwin/lib/$plat_64/libICE.so.6=../../../X11/lib/64/libICE.so.6
 s none openwin/lib/$plat_64/libICE.so=../../../X11/lib/64/libICE.so.6
+
+# links from default library path for easier compiling
+d none lib			0755 root bin
+s none lib/libICE.so=./libICE.so.6
+s none lib/libICE.so.6=../X11/lib/libICE.so.6
+d none lib/$plat_64		0755 root bin
+s none lib/$plat_64/libICE.so=./libICE.so.6
+s none lib/$plat_64/libICE.so.6=../../X11/lib/64/libICE.so.6
+
 

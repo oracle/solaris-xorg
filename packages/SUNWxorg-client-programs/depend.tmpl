@@ -1,6 +1,7 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,15 +30,12 @@
 #
 ##########################################################################
 #
-# ident "@(#)depend 1.2     05/11/07 SMI"
+# ident "@(#)depend.tmpl 1.3     09/07/13 SMI"
 #
 # X.Org Foundation X client programs for Solaris
 
-P SUNWcsr		Core Solaris, (Root)
-P SUNWcsu		Core Solaris, (Usr)
-P SUNWcsl		Core Solaris, (Shared Libs)
-P SUNWlibms		Sun Compilers Bundled shared libm
-P SUNWxwplt		X Window System platform software
+P SUNWlibmsr		Math & Microtasking Libraries (Root)
 P SUNWxorg-clientlibs	X.Org Foundation X Client Libraries
-P SUNWxwrtl		X Window System & Graphics Runtime Library Links in /usr/lib
 
+# common dependencies
+include ../depend
