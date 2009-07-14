@@ -28,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype	35.98	09/07/10 SMI"
+# ident	"@(#)prototype	35.99	09/07/14 SMI"
 #
 #  X Window System include files
 
@@ -454,7 +454,6 @@ f none X11/include/X11/extensions/lbximage.h 	0444 root bin
 f none X11/include/X11/extensions/lbxopts.h 	0444 root bin
 f none X11/include/X11/extensions/lbxstr.h 	0444 root bin
 f none X11/include/X11/extensions/lbxzlib.h 	0444 root bin
-f none X11/include/X11/extensions/lgewire.h 	0444 root bin
 f none X11/include/X11/extensions/mitmiscstr.h 	0444 root bin
 f none X11/include/X11/extensions/multibuf.h 	0444 root bin
 f none X11/include/X11/extensions/multibufst.h 	0444 root bin
@@ -518,9 +517,6 @@ f none X11/include/X11/extensions/xinerama.h 0444 root bin
 # open-src/lib/libXfixes
 s none openwin/share/include/X11/extensions/Xfixes.h=../../../../../X11/include/X11/extensions/Xfixes.h
 f none X11/include/X11/extensions/Xfixes.h 0444 root bin
-
-# open-src/lib/libXlg3d
-f none X11/include/X11/extensions/Xlge.h 0444 root bin
 
 # open-src/lib/libxkbfile
 f none X11/include/X11/extensions/XKBbells.h    0444 root bin
@@ -682,7 +678,6 @@ f none lib/pkgconfig/fontcacheproto.pc		0444 root bin
 f none lib/pkgconfig/fontsproto.pc		0444 root bin
 f none lib/pkgconfig/inputproto.pc		0444 root bin
 f none lib/pkgconfig/kbproto.pc			0444 root bin
-f none lib/pkgconfig/lg3dproto.pc		0444 root bin
 f none lib/pkgconfig/printproto.pc		0444 root bin
 f none lib/pkgconfig/randrproto.pc		0444 root bin
 f none lib/pkgconfig/recordproto.pc		0444 root bin
@@ -723,7 +718,6 @@ f none lib/pkgconfig/xfixes.pc			0444 root bin
 f none lib/pkgconfig/xfont.pc			0444 root bin
 f none lib/pkgconfig/xi.pc			0444 root bin
 f none lib/pkgconfig/xinerama.pc		0444 root bin
-f none lib/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/pkgconfig/xkbfile.pc			0444 root bin
 f none lib/pkgconfig/xmu.pc			0444 root bin
 f none lib/pkgconfig/xmuu.pc			0444 root bin
@@ -762,7 +756,6 @@ s none lib/$plat_64/pkgconfig/fontcacheproto.pc=../../pkgconfig/fontcacheproto.p
 s none lib/$plat_64/pkgconfig/fontsproto.pc=../../pkgconfig/fontsproto.pc
 s none lib/$plat_64/pkgconfig/inputproto.pc=../../pkgconfig/inputproto.pc
 s none lib/$plat_64/pkgconfig/kbproto.pc=../../pkgconfig/kbproto.pc
-s none lib/$plat_64/pkgconfig/lg3dproto.pc=../../pkgconfig/lg3dproto.pc
 s none lib/$plat_64/pkgconfig/printproto.pc=../../pkgconfig/printproto.pc
 s none lib/$plat_64/pkgconfig/randrproto.pc=../../pkgconfig/randrproto.pc
 s none lib/$plat_64/pkgconfig/recordproto.pc=../../pkgconfig/recordproto.pc
@@ -803,7 +796,6 @@ f none lib/$plat_64/pkgconfig/xfixes.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xfont.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xi.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xinerama.pc		0444 root bin
-f none lib/$plat_64/pkgconfig/xlg3d.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xkbfile.pc		0444 root bin
 f none lib/$plat_64/pkgconfig/xpm.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xmu.pc			0444 root bin

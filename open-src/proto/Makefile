@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source Protocol modules
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14	09/05/15
+# @(#)Makefile	1.15	09/07/14
 #
 ###############################################################################
 
@@ -62,12 +62,14 @@ OS_SUBDIRS_common = 		\
 	xf86miscproto 		\
 	xf86vidmodeproto 	\
 	xineramaproto 		\
-	lg3dproto 		\
 	sun-ext-protos
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+
+OBSOLETE_SUBDIRS = \
+	lg3dproto
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.

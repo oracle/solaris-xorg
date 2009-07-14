@@ -61,12 +61,6 @@ include proto/kbproto/COPYING
 
 --------------------------------------------------------------------
 
-Files from the proto/lg3dproto package are covered by the following notice:
-
-include proto/lg3dproto/COPYING
-
---------------------------------------------------------------------
-
 Files from the proto/pmproto package are covered by the following notice:
 
 include proto/pmproto/COPYING
@@ -256,12 +250,6 @@ include lib/libXfixes/COPYING
 Files from the lib/libXfont package are covered by the following notice:
 
 include lib/libXfont/COPYING
-
---------------------------------------------------------------------
-
-Files from the lib/libXlg3d package are covered by the following notice:
-
-include lib/libXlg3d/COPYING
 
 --------------------------------------------------------------------
 

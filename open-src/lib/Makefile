@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.29	09/07/10
+# @(#)Makefile	1.30	09/07/14
 #
 ###############################################################################
 
@@ -87,7 +87,6 @@ OS_SUBDIRS_common = \
 	libXvMC \
 	libXxf86misc \
 	libXxf86vm \
-	libXlg3d \
 	pixman \
 	hwc
 
@@ -98,6 +97,7 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
 	mesa
 
 OBSOLETE_SUBDIRS = \
+	libXlg3d \
 	libXprintUtil \
 	libXprintAppUtil
 

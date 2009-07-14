@@ -530,12 +530,6 @@ include lib/libXinerama/COPYING
 
 --------------------------------------------------------------------
 
-Files from the lib/libXlg3d package are covered by the following notice:
-
-include lib/libXlg3d/COPYING
-
---------------------------------------------------------------------
-
 Files from the lib/libXmu package are covered by the following notice:
 
 include lib/libXmu/COPYING
