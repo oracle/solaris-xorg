@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.108	09/05/19
+# @(#)Makefile	1.110	09/07/14
 #
 
 # Package name used in tarballs
@@ -92,7 +92,8 @@ SOURCE_PATCHES = \
 	bug-6769901.patch \
         bug-6736157.patch \
 	bug-6757448.patch \
-	bug-6825374.patch 
+	bug-6825374.patch \
+	bug-6857559.patch
 
 # We patch configure.ac & Makefile.am's so need to autoreconf
 AUTORECONF=yes
