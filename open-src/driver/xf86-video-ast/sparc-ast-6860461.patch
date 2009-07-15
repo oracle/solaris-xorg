@@ -1,0 +1,23 @@
+diff -ur orig/ast_driver.c src/ast_driver.c
+--- orig/ast_driver.c	Mon Jul 13 18:56:25 2009
++++ src/ast_driver.c	Mon Jul 13 18:56:47 2009
+@@ -1311,11 +1311,6 @@
+    else
+        vgaHWRestore(pScrn, vgaReg, VGA_SR_MODE);     
+    vgaHWProtect(pScrn, FALSE);   
+-#else
+-
+-   astReg = &pAST->SavedReg;
+-   ASTRestoreHW(pScrn);
+-#endif
+    
+    /* Ext. restore */
+    vASTOpenKey(pScrn);
+@@ -1326,6 +1321,7 @@
+    for (i=0xBC; i<=0xC1; i++)
+        SetIndexReg(CRTC_PORT, (UCHAR) (i), astReg->ExtCRTC[icount++]);
+    SetIndexReg(CRTC_PORT, (UCHAR) (0xBB), astReg->ExtCRTC[icount]);
++#endif
+ 
+ }
+ 

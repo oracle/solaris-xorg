@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	09/05/15
+# @(#)Makefile	1.13	09/07/14
 #
 
 # Package name used in tarballs
@@ -40,7 +40,8 @@ MODULE_NAME=xf86-video-ast
 MODULE_VERSION=0.89.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = sparc-ast.patch
+SOURCE_PATCHES = sparc-ast.patch \
+		 sparc-ast-6860461.patch
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
