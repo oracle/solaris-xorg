@@ -1,5 +1,5 @@
-#
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -25,41 +25,29 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-# 
 #
-# ident	"@(#)prototype_com	35.22	09/07/14 SMI"
-#
-#  X Window System lint libraries
+# @(#)Makefile	1.1 09/07/14
 
-i pkginfo
-i copyright
-i depend=../depend
+SRCS = 	AllWidgets.c AsciiSink.c AsciiText.c Box.c \
+	Command.c Dialog.c Form.c Grip.c Label.c List.c MenuButton.c \
+	MultiSink.c Paned.c Panner.c Porthole.c \
+	Repeater.c Scrollbar.c Simple.c SimpleMenu.c Sme.c SmeBSB.c \
+	SmeLine.c StripChart.c TextSrc.c \
+	TextAction.c TextPop.c TextTr.c Toggle.c Tree.c Vendor.c \
+	XawIm.c XawInit.c XawI18n.c sharedlib.c \
+	Text.c TextSink.c Viewport.c AsciiSrc.c MultiSrc.c
+OBJS = $(SRCS:.c=.o)
 
-!HOME=../usr
+REQUIREDLIBS = -lX11 -lc -lXext -lXmu -lXt -lXaw
 
-d none openwin					0755 root bin
-d none X11					0755 root bin
+XLIB_CFLAGS:sh = pkg-config --cflags x11
 
-!search      $HOME/openwin/lib
-d none openwin/lib				0755 root bin
-s none openwin/lib/llib-lX11.ln=../../X11/lib/llib-lX11.ln
-s none openwin/lib/llib-lXau.ln=../../X11/lib/llib-lXau.ln
-s none openwin/lib/llib-lXext.ln=../../X11/lib/llib-lXext.ln
+libXaw.so.5: $(OBJS) 
+	$(CC) -G -o $@ -h $@ $(CFLAGS) $(LDFLAGS) \
+	$(OBJS) $(REQUIREDLIBS)
 
-!search $HOME/X11/lib
-d none X11/lib					0755 root bin
-f none X11/lib/llib-lX11.ln			0555 root bin
-f none X11/lib/llib-lXau.ln			0555 root bin
-f none X11/lib/llib-lXext.ln			0555 root bin
-f none X11/lib/llib-lXmu.ln			0555 root bin
-f none X11/lib/llib-lXmuu.ln			0555 root bin
+.c.o:
+	$(CC) -Kpic $(CFLAGS) $(XLIB_CFLAGS) $(CPPFLAGS) -c $<
 
-
-!search $HOME/X11/lib/$plat_64
-d none X11/lib/$plat_64				0755 root bin
-f none X11/lib/$plat_64/llib-lX11.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXau.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXext.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmu.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmuu.ln		0555 root bin
-
+install: libXaw.so.5
+	$(INSTALL) libXaw.so.5 $(DESTDIR)$(libdir)/libXaw.so.5

@@ -1,5 +1,9 @@
+###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Xaw4 1.x Makefile
+#
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -10,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -20,46 +24,44 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-# 
 #
-# ident	"@(#)prototype_com	35.22	09/07/14 SMI"
+# @(#)Makefile	1.1 09/07/14
 #
-#  X Window System lint libraries
 
-i pkginfo
-i copyright
-i depend=../depend
+BUILD_TYPES_SET=yes
+BUILD_TYPES_sparc=32
+BUILD_TYPES_i386=32
+BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
-!HOME=../usr
+MODULE_NAME=libXaw4
 
-d none openwin					0755 root bin
-d none X11					0755 root bin
+# No upstream sources, only local sources
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
 
-!search      $HOME/openwin/lib
-d none openwin/lib				0755 root bin
-s none openwin/lib/llib-lX11.ln=../../X11/lib/llib-lX11.ln
-s none openwin/lib/llib-lXau.ln=../../X11/lib/llib-lXau.ln
-s none openwin/lib/llib-lXext.ln=../../X11/lib/llib-lXext.ln
+# Library name (used for specfiles/mapfiles)
+LIBNAME=Xaw4
 
-!search $HOME/X11/lib
-d none X11/lib					0755 root bin
-f none X11/lib/llib-lX11.ln			0555 root bin
-f none X11/lib/llib-lXau.ln			0555 root bin
-f none X11/lib/llib-lXext.ln			0555 root bin
-f none X11/lib/llib-lXmu.ln			0555 root bin
-f none X11/lib/llib-lXmuu.ln			0555 root bin
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES= # None
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Committed
 
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
-!search $HOME/X11/lib/$plat_64
-d none X11/lib/$plat_64				0755 root bin
-f none X11/lib/$plat_64/llib-lX11.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXau.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXext.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmu.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmuu.ln		0555 root bin
+# Since we don't have a configure script, pass configure flags to make
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
+MODULE_CFLAGS += -I.
+
+include ../Makefile.inc

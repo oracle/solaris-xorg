@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.215    09/07/14   Sun Microsystems"
+#      "@(#)prototype_com	35.216    09/07/14   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -274,11 +274,6 @@ s none openwin/bin/winsysck=../../X11/bin/winsysck
 
 !search  $HOME/openwin/lib
 
-s none lib/libXaw.so.4=../openwin/lib/libXaw.so.4
-s none lib/libXaw.so.5=../openwin/lib/libXaw.so.5
-f none openwin/lib/libXaw.so.5 		0755 root bin
-f none openwin/lib/libXaw.so.4 		0755 root bin
-
 s none openwin/lib/libdga.so=./libdga.so.1
 f none openwin/lib/libdga.so.1		 	0755 root bin
 
@@ -345,6 +340,16 @@ s none X11/lib/libXaw.so=./libXaw7.so.7
 s none X11/lib/libXaw.so.7=./libXaw7.so.7
 s none X11/lib/libXaw7.so=./libXaw7.so.7
 f none X11/lib/libXaw7.so.7			0555 root bin
+
+# open-src/lib/libXaw4
+s none openwin/lib/libXaw.so.4=../../X11/lib/libXaw.so.4
+s none lib/libXaw.so.4=../X11/lib/libXaw.so.4
+f none X11/lib/libXaw.so.4          0755 root bin
+
+# open-src/lib/libXaw5
+s none openwin/lib/libXaw.so.5=../../X11/lib/libXaw.so.5
+s none lib/libXaw.so.5=../X11/lib/libXaw.so.5
+f none X11/lib/libXaw.so.5          0755 root bin
 
 # open-src/lib/libFS
 s none lib/libFS.so=./libFS.so.5
@@ -514,9 +519,6 @@ f none X11/lib/mkcookie				0755 root bin
 d none openwin/lib/$plat_64 			0755 root bin
 s none openwin/lib/64=$plat_64
 
-s none lib/$plat_64/libXaw.so.5=../../openwin/lib/64/libXaw.so.5
-f none openwin/lib/$plat_64/libXaw.so.5 	0755 root bin
-
 s none lib/$plat_64/libxkbfile.so.4=../../openwin/lib/64/libxkbfile.so.4
 s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
 f none openwin/lib/$plat_64/libxkbfile.so.4	0755 root bin
@@ -558,6 +560,11 @@ s none X11/lib/$plat_64/libXaw.so=./libXaw7.so.7
 s none X11/lib/$plat_64/libXaw.so.7=./libXaw7.so.7
 s none X11/lib/$plat_64/libXaw7.so=./libXaw7.so.7
 f none X11/lib/$plat_64/libXaw7.so.7			0555 root bin
+
+# open-src/lib/libXaw5
+s none openwin/lib/$plat_64/libXaw.so.5=../../../X11/lib/64/libXaw.so.5
+s none lib/$plat_64/libXaw.so.5=../../X11/lib/64/libXaw.so.5
+f none X11/lib/$plat_64/libXaw.so.5         0755 root bin
 
 # open-src/lib/libFS - never delivered into openwin in 64-bit version
 s none lib/$plat_64/libFS.so=./libFS.so.5

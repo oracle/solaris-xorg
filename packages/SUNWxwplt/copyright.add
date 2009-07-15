@@ -476,6 +476,18 @@ include lib/libXaw/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libXaw4 package are covered by the following notice:
+
+include lib/libXaw4/COPYING
+
+--------------------------------------------------------------------
+
+Files from the lib/libXaw5 package are covered by the following notice:
+
+include lib/libXaw5/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXcomposite package are covered by the following notice:
 
 include lib/libXcomposite/COPYING

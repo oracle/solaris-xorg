@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.30	09/07/14
+# @(#)Makefile	1.31	09/07/14
 #
 ###############################################################################
 
@@ -66,6 +66,8 @@ OS_SUBDIRS_common = \
 	libXpm \
 	libXp \
 	libXaw \
+	libXaw4 \
+	libXaw5 \
 	libXfixes \
 	libXcomposite \
 	libXrender \

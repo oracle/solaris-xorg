@@ -1,6 +1,5 @@
-###########################################################################
-#
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,17 +26,28 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
+# @(#)Makefile	1.1 09/07/14
 
-#
-# @(#)prototype_sparc	1.11	08/03/12 SMI
-#
-#  X Window System 64-bit lint libraries
+SRCS = 	Xaw3_1AsciiSink.c Xaw3_1AsciiSrc.c Xaw3_1AsciiText.c Xaw3_1Box.c\
+	Xaw3_1Clock.c Xaw3_1Command.c Xaw3_1Dialog.c Xaw3_1Form.c \
+	Xaw3_1Grip.c Xaw3_1Label.c Xaw3_1List.c Xaw3_1Logo.c \
+	Xaw3_1Mailbox.c Xaw3_1MenuButton.c Xaw3_1Paned.c Xaw3_1Scrollbar.c \
+	Xaw3_1Simple.c Xaw3_1SimpleMenu.c Xaw3_1Sme.c Xaw3_1SmeBSB.c \
+	Xaw3_1SmeLine.c Xaw3_1StripChart.c Xaw3_1Template.c Xaw3_1Text.c \
+	Xaw3_1TextAction.c Xaw3_1TextPop.c Xaw3_1TextSink.c Xaw3_1TextSrc.c \
+	Xaw3_1TextTr.c Xaw3_1Toggle.c Xaw3_1Vendor.c Xaw3_1Viewport.c \
+	Xaw3_1XawInit.c
+OBJS = $(SRCS:.c=.o)
 
-!include prototype_com
+REQUIREDLIBS = -lX11 -lc -lXext -lXmu -lm -lXt
 
-!HOME=../openwin
-!search      $HOME/lib/sparcv9
-d none openwin/lib/sparcv9			0755 root bin
-f none openwin/lib/sparcv9/llib-lXaw.ln		0755 root bin
+XLIB_CFLAGS:sh = pkg-config --cflags x11
 
+libXaw.so.4: $(OBJS) 
+	$(CC) -G -o $@ -h $@ $(CFLAGS) $(LDFLAGS) $(OBJS) $(REQUIREDLIBS)
+
+.c.o:
+	$(CC) -Kpic $(CFLAGS) $(XLIB_CFLAGS) $(CPPFLAGS) -c $<
+
+install: libXaw.so.4
+	$(INSTALL) libXaw.so.4 $(DESTDIR)$(libdir)/libXaw.so.4
