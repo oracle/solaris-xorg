@@ -1,25 +1,29 @@
 #
-# Copyright (c) 2000 by Sun Microsystems, Inc.
-# All rights reserved.
+# Copyright 2009 by Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
-#ident  "@(#)versions	1.2	05/05/12 SMI"
+# ident	"@(#)versions	1.3	09/07/15 SMI"
 #
 #lib/Xdmcp/spec/versions
 #
 
 amd64 {
 	SUNW_1.1;
+	SUNW_1.2;
 	SUNWprivate;
 }
 i386 {
 	SUNW_1.1;
+	SUNW_1.2;
 	SUNWprivate;
 }
 sparc {
 	SUNW_1.1;
+	SUNW_1.2;
 	SUNWprivate;
 }
 sparcv9 {
 	SUNW_1.1;
+	SUNW_1.2;
 	SUNWprivate;
 }

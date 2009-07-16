@@ -2,8 +2,8 @@
 #
 # Xdmcp 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/08
+# ident	"@(#)Makefile	1.4	09/07/15 SMI"
 #
 
 # Package name used in tarballs
@@ -63,6 +63,3 @@ FIX_PC_FILES=xdmcp.pc.in
 
 include ../Makefile.inc
 
-# Remove encryption source before building
-source_gen::
-	-rm $(SOURCE_DIR)/Wraphelp.*

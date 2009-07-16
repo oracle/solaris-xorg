@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.13	09/07/07
+# @(#)Makefile.inc	1.14	09/07/14
 #
 
 PWD:sh=pwd
@@ -54,7 +54,7 @@ DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(SERVERMOD_subdir)'
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
 	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
-        --disable-xdm-auth-1 --enable-xcsecurity \
+        --enable-xdm-auth-1 --enable-xdmcp --enable-xcsecurity \
 	--enable-shared --disable-static \
 	--disable-xsdl --disable-xwin --disable-xnest \
 	--disable-install-setuid \

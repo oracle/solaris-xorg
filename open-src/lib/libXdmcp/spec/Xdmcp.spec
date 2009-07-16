@@ -1,8 +1,8 @@
 #
-# Copyright 2003 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# ident "@(#)Xdmcp.spec	1.1	03/04/14 SMI"
+# ident	"@(#)Xdmcp.spec	1.2	09/07/15 SMI"
 #
 
 Function	XdmcpARRAY8Equal
@@ -290,4 +290,21 @@ Exception	$return == FALSE
 Version		SUNW_1.1
 Arch		all
 End
+
+Function        XdmcpWrap
+Include         <X11/Xdmcp.h>
+Declaration     void XdmcpWrap (unsigned char* input, unsigned char* wrapper, unsigned char* output, int bytes)
+Exception       $return == FALSE
+Version         SUNW_1.2
+Arch            all
+End
+
+Function        XdmcpUnwrap
+Includde        <X11/Xdmcp.h>
+Declaration     void XdmcpUnwrap (unsigned char* input, unsigned char* wrapper, unsigned char* output, int bytes)
+Exception       $return == FALSE
+Version         SUNW_1.2
+Arch            all
+End
+
 
