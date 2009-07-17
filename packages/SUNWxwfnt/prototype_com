@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.81	09/06/29	Sun Microsystems
+#	@(#)prototype_com	35.83	09/07/17	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -92,8 +92,8 @@ f none X11/lib/X11/fonts/misc/cursor.pcf.gz 		0444 root bin
 
 !search  $X11_FONTS/F3bitmaps
 d none X11/lib/X11/fonts/F3bitmaps 			0755 root bin
-#e fontsdir X11/lib/X11/fonts/F3bitmaps/fonts.dir 	0644 root bin
-#e fontsalias X11/lib/X11/fonts/F3bitmaps/fonts.alias.all	0644 root bin
+e fontsdir X11/lib/X11/fonts/F3bitmaps/fonts.dir 	0644 root bin
+e fontsalias X11/lib/X11/fonts/F3bitmaps/fonts.alias.all	0644 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold6.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold8.pcf 0444 root bin
 f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold10.pcf 0444 root bin
