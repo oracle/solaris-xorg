@@ -1,6 +1,7 @@
 ##########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.14     09/05/15 SMI"
+# ident "@(#)prototype_com 1.17     09/07/18 SMI"
 #
 # Xorg server DDK headers
 

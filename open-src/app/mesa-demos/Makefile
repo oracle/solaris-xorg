@@ -1,7 +1,7 @@
 ###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -33,7 +33,7 @@
 MODULE_NAME=MesaDemos
 
 # Version number (used in path names)
-MODULE_VERSION=7.4.2
+MODULE_VERSION=7.4.4
 
 # Directory created by unpacking source
 SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)

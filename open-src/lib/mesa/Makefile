@@ -1,7 +1,7 @@
 ###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.21	09/06/18
+# @(#)Makefile	1.23	09/07/17
 #
 
 # Package name used in tarballs
 MODULE_NAME=mesa
 
 # Version number (used in path names)
-MODULE_VERSION=7.4.2
+MODULE_VERSION=7.4.4
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -56,7 +56,7 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 SOURCE_PATCHES= \
 	install-pc-dir.patch,-p1 \
 	glu-no-mangled-exports.patch \
-	solaris-port.patch 6852512.patch
+	solaris-port.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
