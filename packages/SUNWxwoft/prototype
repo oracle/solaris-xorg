@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 35.29     09/06/25 SMI"
+# ident "@(#)prototype 35.30     09/07/20 SMI"
 #
 #  X Window System optional fonts
 
@@ -814,21 +814,6 @@ f none X11/lib/X11/fonts/100dpi/lutRS19-ISO8859-1.pcf.gz	0444 root bin
 #f none openwin/lib/X11/fonts/afm/UtopiaItalic.afm 0444 root bin
 #f none openwin/lib/X11/fonts/afm/UtopiaBoldItalic.afm 0444 root bin
 #f none openwin/lib/X11/fonts/afm/UtopiaRegular.afm 0444 root bin
-
-
-!search            $OW_FONTS/Speedo
-d none openwin/lib/X11/fonts/Speedo 0755 root bin
-e fontsdir openwin/lib/X11/fonts/Speedo/fonts.dir	0644 root bin
-e fontsalias openwin/lib/X11/fonts/Speedo/fonts.alias.all	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/fonts.scale		0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0648.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0649.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0709.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0710.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0419.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0582.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0583.spd	0444 root bin
-f none openwin/lib/X11/fonts/Speedo/font0611.spd	0444 root bin
 
 !search  $X11_FONTS/HTbdf
 d none X11/lib/X11/fonts/HTbdf 				0755 root bin

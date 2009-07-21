@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.83	09/07/17	Sun Microsystems
+#	@(#)prototype_com	35.84	09/07/20	Sun Microsystems
 #
 #  X Window System required core fonts package
 
@@ -69,10 +69,6 @@ f none X11/lib/X11/fonts/75dpi/helvB14.pcf.gz	0444 root bin
 !search  $X11_FONTS/100dpi
 d none X11/lib/X11/fonts/100dpi 		0755 root bin
 e fontsdir X11/lib/X11/fonts/100dpi/fonts.dir 	0644 root bin
-
-!search  $OW_FONTS/Speedo
-d none openwin/lib/X11/fonts/Speedo 			0755 root bin
-e fontsdir openwin/lib/X11/fonts/Speedo/fonts.dir 	0644 root bin
 
 !search  $X11_FONTS/misc
 d none X11/lib/X11/fonts/misc 				0755 root bin
