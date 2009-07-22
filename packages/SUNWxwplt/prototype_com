@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.216    09/07/14   Sun Microsystems"
+#      "@(#)prototype_com	35.217    09/07/22   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -736,7 +736,6 @@ d none openwin/lib/X11 				0755 root bin
 d none openwin/lib/app-defaults 		0755 root bin
 s none openwin/lib/X11/app-defaults=../app-defaults
 f none openwin/lib/app-defaults/Chooser		0644 root bin
-f none openwin/lib/app-defaults/Xmh		0644 root bin
 
 !search  $HOME/X11/share/X11
 # open-src/lib/libX11
