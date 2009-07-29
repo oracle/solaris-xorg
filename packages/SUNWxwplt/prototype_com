@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.217    09/07/22   Sun Microsystems"
+#      "@(#)prototype_com	35.218    09/07/28   Sun Microsystems"
 #
 # X Window System required core package
 
@@ -290,11 +290,6 @@ s none openwin/lib/libpsres.so=./libpsres.so.5
 f none openwin/lib/libpsres.so.5 	0755 root bin
 s none openwin/lib/libowconfig.so=./libowconfig.so.0
 f none openwin/lib/libowconfig.so.0 	0755 root bin
-
-s none lib/libXIE.so=./libXIE.so.6
-s none lib/libXIE.so.6=../openwin/lib/libXIE.so.6
-s none openwin/lib/libXIE.so=./libXIE.so.6
-f none openwin/lib/libXIE.so.6			0755 root bin
 
 s none lib/libxkbfile.so.4=../openwin/lib/libxkbfile.so.4
 f none openwin/lib/libxkbfile.so.4              0755 root bin

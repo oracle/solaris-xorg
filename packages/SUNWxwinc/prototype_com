@@ -28,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.101	09/07/18 SMI"
+# ident	"@(#)prototype_com	35.102	09/07/28 SMI"
 #
 #  X Window System include files
 
@@ -331,10 +331,6 @@ f none X11/include/X11/Xmu/XmuSolaris.h		0444 root bin
 # extension headers from old source tree
 d none openwin/share/include/X11/extensions 0755 root bin
 !search                $HOME/openwin/include/X11/extensions
-f none openwin/share/include/X11/extensions/XIE.h 0644 root bin
-f none openwin/share/include/X11/extensions/XIElib.h 0644 root bin
-f none openwin/share/include/X11/extensions/XIEproto.h 0644 root bin
-f none openwin/share/include/X11/extensions/XIEprotost.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKBbells.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKBconfig.h 0644 root bin
 f none openwin/share/include/X11/extensions/XKBfile.h 0644 root bin
