@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.119     09/07/21 SMI"
+# ident "@(#)prototype_com 35.120     09/07/29 SMI"
 #
 #  X Window System online user man pages
 
@@ -51,11 +51,9 @@ s none X11/man=share/man
 
 !search            $HOME/man1
 d none openwin/share/man/man1 0755 root bin
-f none openwin/share/man/man1/bdftosnf.1 0444 root bin
 f none openwin/share/man/man1/makepsres.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
 f none openwin/share/man/man1/redxblue.1 0444 root bin
-f none openwin/share/man/man1/showsnf.1 0444 root bin
 f none openwin/share/man/man1/xdm.1 0444 root bin
 
 !search            $HOME/man4

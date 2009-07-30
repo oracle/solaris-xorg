@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.73	09/07/21 SMI"
+# ident "@(#)prototype	35.74	09/07/29 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -40,9 +40,7 @@ d none openwin			0755 root bin
 
 !search      $HOME/openwin/bin
 d none openwin/bin		0755 root bin
-f none openwin/bin/bdftosnf	0755 root bin
 f none openwin/bin/pswrap	0755 root bin
-f none openwin/bin/showsnf	0755 root bin
 f none openwin/bin/xdm		0755 root bin
 f none openwin/bin/xdmshell	0755 root bin
 
