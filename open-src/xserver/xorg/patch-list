@@ -37,3 +37,4 @@ signal-handler.patch
 xpstubs.patch
 dixmods-deps.patch
 sparc-initvisuals.patch
+6866668.patch
