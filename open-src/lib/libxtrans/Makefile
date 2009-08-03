@@ -3,7 +3,7 @@
 # xtrans 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	09/01/11
+# @(#)Makefile	1.12	09/07/31
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
@@ -40,10 +40,10 @@
 MODULE_NAME=xtrans
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.3
+MODULE_VERSION=1.2.4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = inetv6.patch socket-perm.patch \
+SOURCE_PATCHES = inetv6.patch \
 	tsol-unix-domain.patch
 
 # Library name (used for specfiles/mapfiles)

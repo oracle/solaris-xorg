@@ -1,9 +1,9 @@
 ###############################################################################
 #
-# libXt version mapfile
+# libFS version mapfile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)mapfile-vers	1.1 08/05/28
+# @(#)mapfile-vers	1.2 09/07/31
 #
 SUNWprivate {
     global:
@@ -48,11 +48,9 @@ SUNWprivate {
 	FSGetErrorDatabaseText;
 	FSQueryXBitmaps16;
 	FSSync;
-	FSErrorList;
 	FSSetCatalogues;
 	FSListCatalogues;
 	FSQueryXExtents16;
-	FSErrorListSize;
 	FSSynchronize;
 	FSFreeFontNames;
 	FSListFontsWithXInfo;

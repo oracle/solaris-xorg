@@ -2,8 +2,8 @@
 #
 # libFS Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# @(#)Makefile	1.3	09/07/31
 #
 
 # Package name used in tarballs
 MODULE_NAME=libFS
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch
@@ -53,8 +53,6 @@ LIBNAME=FS
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3FS
-
-
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

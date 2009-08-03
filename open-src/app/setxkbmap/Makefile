@@ -3,8 +3,8 @@
 #
 # setxkbmap 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -38,7 +38,7 @@
 MODULE_NAME=setxkbmap
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

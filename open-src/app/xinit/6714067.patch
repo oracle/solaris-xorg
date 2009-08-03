@@ -1,57 +1,29 @@
---- Makefile.am	Wed Jun 11 13:48:56 2008
-+++ Makefile.am	Wed Jun 11 14:21:31 2008
-@@ -42,6 +42,20 @@
+diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
+--- Makefile.am	2008-08-05 14:58:52.000000000 -0700
++++ Makefile.am	2009-07-30 18:11:28.517520000 -0700
+@@ -53,6 +53,7 @@ PROGCPPDEFS = \
+ 	-DXINIT=@XINIT@
  
- appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
+ CPP_FILES_FLAGS = \
++	-Dsun \
+ 	-DXINITDIR=$(XINITDIR) $(PROGCPPDEFS) -DLIBDIR=$(libdir) \
+ 	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
+ 	-D__libexecdir__="$(libexecdir)" \
+diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
+--- Makefile.in	2008-12-17 15:24:32.000000000 -0800
++++ Makefile.in	2009-07-30 18:11:28.518046000 -0700
+@@ -307,6 +307,7 @@ PROGCPPDEFS = \
+ 	-DXINIT=@XINIT@
  
-+# Translate XCOMM into pound sign with sed, rather than passing -DXCOMM=XCOMM
-+# to cpp, because that trick does not work on all ANSI C preprocessors.
-+# Delete line numbers from the cpp output (-P is not portable, I guess).
-+# Allow XCOMM to be preceded by whitespace and provide a means of generating
-+# output lines with trailing backslashes.
-+# Allow XHASH to always be substituted, even in cases where XCOMM isn't.
-+
-+CPP_SED_MAGIC = $(SED) -e '/^\#  *[0-9][0-9]*  *.*$$/d' \
-+                       -e '/^\#line  *[0-9][0-9]*  *.*$$/d' \
-+                       -e '/^[ 	]*XCOMM$$/s/XCOMM/\#/' \
-+                       -e '/^[ 	]*XCOMM[^a-zA-Z0-9_]/s/XCOMM/\#/' \
-+                       -e '/^[ 	]*XHASH/s/XHASH/\#/' \
-+                       -e '/\@\@$$/s/\@\@$$/\\/'
-+
- include $(top_srcdir)/cpprules.in
- 
- xinitrcdir = $(XINITDIR)
-@@ -71,8 +85,10 @@
- 
- DIST_SUBDIRS = privileged_startx
- 
--xinitrc: xinitrc.cpp Makefile
--startx: startx.cpp Makefile
-+xinitrc: xinitrc.cpp Makefile 
-+	 $(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/xinitrc.cpp | $(CPP_SED_MAGIC)> $@
-+startx: startx.cpp Makefile 
-+	$(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/startx.cpp | $(CPP_SED_MAGIC)> $@
- 
- xinitrc_DATA = xinitrc
-
---- Makefile.in	Wed Jun 11 13:58:17 2008
-+++ Makefile.in	Wed Jun 11 14:21:56 2008
-@@ -918,8 +918,10 @@
- .man.$(APP_MAN_SUFFIX):
- 	$(RAWCPP) $(RAWCPPFLAGS) $(MANDEFS) $(EXTRAMANDEFS) < $< | $(CPP_SED_MAGIC) > $@
- 
--xinitrc: xinitrc.cpp Makefile
--startx: startx.cpp Makefile
-+xinitrc: xinitrc.cpp Makefile 
-+	 $(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/xinitrc.cpp | $(CPP_SED_MAGIC)> $@
-+startx: startx.cpp Makefile 
-+	$(RAWCPP) $(CPP_FILES_FLAGS) < $(srcdir)/startx.cpp | $(CPP_SED_MAGIC)> $@
- 
- .PHONY: ChangeLog
- 
---- xinit.c	Wed Jun 11 12:00:20 2008
-+++ xinit.c	Wed Jun 11 12:12:23 2008
-@@ -192,6 +192,11 @@
+ CPP_FILES_FLAGS = \
++	-Dsun \
+ 	-DXINITDIR=$(XINITDIR) $(PROGCPPDEFS) -DLIBDIR=$(libdir) \
+ 	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
+ 	-D__libexecdir__="$(libexecdir)" \
+diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
+--- xinit.c	2008-11-22 10:52:00.000000000 -0800
++++ xinit.c	2009-07-30 18:11:28.522338000 -0700
+@@ -199,6 +199,11 @@ static void set_environment ( void );
  static void Fatal(char *msg);
  static void Error ( char *fmt, ... );
  
@@ -63,7 +35,7 @@
  #ifdef RETSIGTYPE /* autoconf AC_TYPE_SIGNAL */
  # define SIGVAL RETSIGTYPE
  #endif /* RETSIGTYPE */
-@@ -214,6 +219,14 @@
+@@ -221,6 +226,14 @@ sigAlarm(int sig)
  static SIGVAL
  sigUsr1(int sig)
  {
@@ -78,7 +50,7 @@
  #if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__UNIXOS2__) || defined(__APPLE__)
  	signal (sig, sigUsr1);
  #endif
-@@ -533,6 +546,12 @@
+@@ -567,6 +580,12 @@ startServer(char *server[])
  	sigaddset(&mask, SIGUSR1);
  	sigprocmask(SIG_BLOCK, &mask, &old);
  
@@ -91,7 +63,7 @@
  	serverpid = fork(); 
  
  	switch(serverpid) {
-@@ -620,6 +639,17 @@
+@@ -654,6 +673,17 @@ startServer(char *server[])
  		if (!sigismember(&pendings, SIGUSR1))
  #endif /* __UNIXOS2__ */
  		sigsuspend(&old);
@@ -109,7 +81,7 @@
  		alarm (0);
  		sigprocmask(SIG_SETMASK, &old, NULL);
  
-@@ -786,7 +816,12 @@
+@@ -820,7 +850,12 @@ shutdown(void)
  	if (serverpid < 0)
  		return;
  	errno = 0;
@@ -122,7 +94,7 @@
  		if (errno == EPERM)
  			Fatal("Can't kill X server\r\n");
  		if (errno == ESRCH)
-@@ -810,6 +845,13 @@
+@@ -844,6 +879,13 @@ shutdown(void)
  		fprintf (stderr, "\r\n");
  		Fatal("Can't kill server\r\n");
  	}
@@ -136,10 +108,10 @@
  	fprintf (stderr, "\r\n");
  	return;
  }
-
---- xinitrc.cpp	Thu Jun 12 12:53:43 2008
-+++ xinitrc.cpp	Thu Jun 12 13:16:57 2008
-@@ -97,7 +97,7 @@
+diff -urp -x '*~' -x '*.orig' xinitrc.cpp xinitrc.cpp
+--- xinitrc.cpp	2008-04-08 17:25:11.000000000 -0700
++++ xinitrc.cpp	2009-07-30 18:11:28.522525000 -0700
+@@ -97,7 +97,7 @@ fi
  #endif
  
  TWM &

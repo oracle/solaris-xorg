@@ -2,8 +2,8 @@
 #
 # Xt 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.7 08/10/08
+# @(#)Makefile	1.8 09/07/31
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXt
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = abistrings.patch 6671721.patch
+SOURCE_PATCHES = 6671721.patch
 
 # Regenerate configure script & Makefile.in's after applying patches
 AUTORECONF=yes
