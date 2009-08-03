@@ -1,11 +1,9 @@
-install-xf86Parser.h.patch,-p1
 xkb-defaults.patch,-p1
 xkb-defaults-compat.patch
 constify-atom-strings.patch,-p1
 resource-names.patch,-p1
 apm-handlers.patch,-p1
 agpgart.patch,-p1
-6801386.patch,-p1
 solaris-asm.patch,-p1
 XaceHook-initializers.patch,-p1
 Xephyr-Xserver-man.patch,-p1
@@ -37,4 +35,3 @@ signal-handler.patch
 xpstubs.patch
 dixmods-deps.patch
 sparc-initvisuals.patch
-6866668.patch

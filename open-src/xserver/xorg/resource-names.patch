@@ -1,4 +1,4 @@
-[Adjusted to apply to Xorg 1.5.3]
+[Adjusted to apply to Xorg 1.6.3]
 
 From 72978d1904966b4ae415ff0f45f565a3c9fe9898 Mon Sep 17 00:00:00 2001
 From: Alan Coopersmith <alan.coopersmith@sun.com>
@@ -19,7 +19,7 @@ diff --git a/dix/resource.c b/dix/resource.c
 index ec1d8cf..e3b0024 100644
 --- a/dix/resource.c
 +++ b/dix/resource.c
-@@ -147,10 +147,10 @@ Equipment Corporation.
+@@ -148,10 +148,10 @@ Equipment Corporation.
  #endif
  #include "xace.h"
  #include <assert.h>
@@ -32,7 +32,7 @@ index ec1d8cf..e3b0024 100644
  #include "Xserver-dtrace.h"
  
 @@ -224,6 +224,17 @@ CreateNewResourceType(DeleteType deleteFunc)
-     }
+     return next;
  }
  
 +RESTYPE
@@ -274,7 +274,7 @@ diff --git a/Xext/sync.c b/Xext/sync.c
 index 9236fab..5d2d77c 100644
 --- a/Xext/sync.c
 +++ b/Xext/sync.c
-@@ -876,7 +876,7 @@ SyncCreateSystemCounter(
+@@ -1076,7 +1076,7 @@ SyncCreateSystemCounter(
       */
      if (RTCounter == 0)
      {
@@ -282,8 +282,8 @@ index 9236fab..5d2d77c 100644
 +	RTCounter = CreateNewResourceTypeNamed(FreeCounter, "SyncCounter");
  	if (RTCounter == 0)
  	{
- 	    return NULL;
-@@ -2127,11 +2127,12 @@ SyncExtensionInit(void)
+ 	    return (pointer)NULL;
+@@ -2374,11 +2374,12 @@ SyncExtensionInit(void)
  
      if (RTCounter == 0)
      {
@@ -300,7 +300,7 @@ index 9236fab..5d2d77c 100644
  
      if (RTCounter == 0 || RTAwait == 0 || RTAlarm == 0 ||
  	RTAlarmClient == 0 ||
-@@ -2146,6 +2147,8 @@ SyncExtensionInit(void)
+@@ -2393,6 +2394,8 @@ SyncExtensionInit(void)
  	return;
      }
  
@@ -794,7 +794,7 @@ index f99c53f..4984535 100644
 -#include "registry.h"
  
  static int PictureScreenPrivateKeyIndex;
- DevPrivateKey PictureScreenPrivateKey = &PictureScreenPrivateKeyIndex;
+ _X_EXPORT DevPrivateKey PictureScreenPrivateKey = &PictureScreenPrivateKeyIndex;
 @@ -577,19 +576,17 @@ PictureInit (ScreenPtr pScreen, PictFormatPtr formats, int nformats)
      
      if (PictureGeneration != serverGeneration)

@@ -1,4 +1,4 @@
-[Adjusted to apply to xserver-1.5.3 sources]
+[Adjusted to apply to xserver-1.6.3 sources]
 
 From 5623c27700b7b23a8dbbd8c8f45e5d4fa0c667e3 Mon Sep 17 00:00:00 2001
 From: Alan Coopersmith <alan.coopersmith@sun.com>
@@ -172,7 +172,7 @@ diff --git a/include/xkbsrv.h b/include/xkbsrv.h
 index 8f6a767..4497220 100644
 --- a/include/xkbsrv.h
 +++ b/include/xkbsrv.h
-@@ -880,7 +880,7 @@ extern _X_EXPORT XkbGeometryPtr XkbLookupNamedGeometry(
+@@ -927,7 +927,7 @@ extern _X_EXPORT XkbGeometryPtr XkbLookupNamedGeometry(
  );
  
  extern char *	_XkbDupString(
@@ -180,7 +180,7 @@ index 8f6a767..4497220 100644
 +	const char *		/* str */
  );
  
- extern _X_EXPORT void	XkbConvertCase(
+ extern void	XkbConvertCase(
 diff --git a/xfixes/cursor.c b/xfixes/cursor.c
 index 2c584f9..cd3df12 100644
 --- a/xfixes/cursor.c
