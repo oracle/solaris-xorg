@@ -1,9 +1,6 @@
 #!/bin/ksh93
 
 ###
-#
-# @(#)upgrade-X	1.56 09/07/10
-#
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
@@ -33,6 +30,8 @@
 # of the copyright holder.
 #
 ###########################################################################
+#
+# ident	"@(#)upgrade-X	1.57	09/08/05 SMI"
 #
 # Description: This script upgrades X software on a Solaris Nevada
 #	       system. It should be run as root from a X package area.
@@ -182,8 +181,6 @@ pkg_list="
 	SUNWxorg-headers
 	SUNWxorg-server
 	SUNWxorg-tsol-module
-	SUNWxscreensaver-hacks
-	SUNWxscreensaver-hacks-gl
 	SUNWxvnc
 	SUNWxwacx
 	SUNWxwcft
@@ -202,7 +199,6 @@ pkg_list="
 	SUNWxwpmn
 	SUNWxwrtl
 	SUNWxwslb
-	SUNWxwsvr
 	SUNWxwxft
 "
 
@@ -263,6 +259,10 @@ REM_PKGS+=" SUNWxwsrv ${xsun_pkg_list}"
 
 # snv_120: 6859233 Removal of Xprint [PSARC 2009/294]
 REM_PKGS+=" SUNWxprint-server SUNWxwpft"
+
+# snv_122: 6868816 move xscreensaver from X consolidation to Desktop cons.
+# Packages intentionally not added to REM_PKGS since they were moved
+# to Desktop, and upgrade-X should no longer touch them.
 
 # Check for shared SMF manifest scripts now required by our packages
 if [[ ! -f /usr/sadm/install/scripts/i.manifest ]] ; then

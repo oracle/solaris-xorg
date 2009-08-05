@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)make_release_packages	1.74	09/06/18
+# ident	"@(#)make_release_packages	1.75	09/08/05 SMI"
 #
 #	Create and fill a package staging area for X
 #
@@ -62,11 +62,10 @@ XW_PACKAGE_LIST="SUNWfontconfig SUNWfontconfig-docs SUNWfontconfig-root
     SUNWxorg-clientlibs SUNWxorg-compatlinks
     SUNWxorg-graphics-ddx SUNWxorg-headers
     SUNWxorg-server SUNWxorg-tsol-module 
-    SUNWxscreensaver-hacks SUNWxscreensaver-hacks-gl
     SUNWxvnc SUNWxwacx SUNWxwcft SUNWxwdem SUNWxwdxm
     SUNWxwfnt SUNWxwfs SUNWxwfsw SUNWxwice SUNWxwinc
     SUNWxwman SUNWxwmod SUNWxwoft SUNWxwopt SUNWxwplr
-    SUNWxwplt SUNWxwpmn SUNWxwrtl SUNWxwslb SUNWxwsvr
+    SUNWxwplt SUNWxwpmn SUNWxwrtl SUNWxwslb
     SUNWxwxft"
 
 XSUN_PACKAGE_LIST="SUNWxsun-headers SUNWxsun-server SUNWxwts"
@@ -84,7 +83,7 @@ esac
 # Localization template packages for delivery to translation teams
 if [[ "$BUILD_L10N" != "no" ]]; then
     XW_L10N_PACKAGES="SUNW0xacx SUNW0xman SUNW0xpmn 
-		      SUNW0xwplt SUNW0xwopt SUNW0xwsvr"
+		      SUNW0xwplt SUNW0xwopt"
 else
     XW_L10N_PACKAGES=" "
 fi

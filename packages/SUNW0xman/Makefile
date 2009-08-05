@@ -1,5 +1,6 @@
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +28,7 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile	1.4    09/01/14 SMI"
+# ident	"@(#)Makefile	1.5	09/08/05 SMI"
 #
 
 SOURCEDIR=../../packages
@@ -39,12 +40,9 @@ PROTO_SOURCES = \
 	$(SOURCEDIR)/SUNWpciaccess/prototype	 		\
 	$(SOURCEDIR)/SUNWvncviewer/prototype	 		\
 	$(SOURCEDIR)/SUNWxvnc/prototype_com	 		\
-	$(SOURCEDIR)/SUNWxwsvr/prototype			\
 	$(SOURCEDIR)/SUNWxorg-graphics-ddx/prototype_com	\
 	$(SOURCEDIR)/SUNWxorg-server/prototype_com		\
-	$(SOURCEDIR)/SUNWxorg-client-docs/prototype		\
-	$(SOURCEDIR)/SUNWxscreensaver-hacks/prototype		\
-	$(SOURCEDIR)/SUNWxscreensaver-hacks-gl/prototype_com
+	$(SOURCEDIR)/SUNWxorg-client-docs/prototype		
 
 # Don't include platform-specific man pages for now, since it will
 # break builds on the other platform:

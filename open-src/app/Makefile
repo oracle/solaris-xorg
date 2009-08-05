@@ -28,12 +28,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.86	09/07/10
+# ident	"@(#)Makefile	1.87	09/08/05 SMI"
 #
 ###############################################################################
-
-# Dependency ordering:
-#  rss-glx needs to come after xscreensaver
 
 OS_SUBDIRS_common = \
 	accessx \
@@ -128,8 +125,6 @@ OS_SUBDIRS_common = \
 	xwd \
 	xwininfo \
 	xwud \
-	xscreensaver \
-	rss-glx
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
@@ -137,7 +132,9 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
 	xplsprinters \
-	xprehashprinterlist
+	xprehashprinterlist \
+	xscreensaver \
+	rss-glx
 
 PWD:sh=pwd
 TOP=$(PWD)/..
