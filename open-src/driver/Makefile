@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	09/05/15
+# @(#)Makefile	1.14	09/07/17
 #
 ###############################################################################
 
@@ -51,6 +51,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-mutouch		\
 	xf86-input-penmount		\
 	xf86-input-vmmouse		\
+	xf86-input-hotkey		\
 	xf86-video-apm			\
 	xf86-video-ark			\
 	xf86-video-ati			\

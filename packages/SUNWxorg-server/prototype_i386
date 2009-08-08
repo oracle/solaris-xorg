@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.17     09/05/15 SMI"
+# ident "@(#)prototype_i386 1.18     09/07/22 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -102,6 +102,7 @@ f none X11/lib/modules/input/hyperpen_drv.so 0755 root bin
 f none X11/lib/modules/input/mutouch_drv.so 0755 root bin
 f none X11/lib/modules/input/penmount_drv.so 0755 root bin
 f none X11/lib/modules/input/vmmouse_drv.so 0755 root bin
+f none X11/lib/modules/input/hotkey_drv.so 0755 root bin
 
 !search $HOME/lib/modules/amd64/input
 d none X11/lib/modules/input/amd64 0755 root bin
@@ -116,6 +117,7 @@ f none X11/lib/modules/input/amd64/mutouch_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/penmount_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/void_drv.so 0755 root bin
 f none X11/lib/modules/input/amd64/vmmouse_drv.so 0755 root bin
+f none X11/lib/modules/input/amd64/hotkey_drv.so 0755 root bin
 
 !search $HOME/share/man/man7
 f none X11/share/man/man7/acecad.7 0444 root bin

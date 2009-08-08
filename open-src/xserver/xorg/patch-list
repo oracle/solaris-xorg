@@ -35,3 +35,4 @@ signal-handler.patch
 xpstubs.patch
 dixmods-deps.patch
 sparc-initvisuals.patch
+hotkey.patch

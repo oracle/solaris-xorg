@@ -1,0 +1,163 @@
+diff -ur old/Xi/exevents.c new/Xi/exevents.c
+--- Xi/exevents.c	Wed May 27 13:40:54 2009
++++ Xi/exevents.c	Thu May 28 16:56:37 2009
+@@ -193,6 +193,10 @@
+     KeyClassPtr mk, dk; /* master, device */
+     BOOL sendNotify = FALSE;
+     int i;
++#ifdef SUNSOFT
++    DeviceIntPtr mdev = dixLookupPrivate(&master->devPrivates,
++	HotkeyMapDevicePrivateKey);
++#endif
+ 
+     if (device == master)
+         return;
+@@ -201,7 +205,11 @@
+     mk = master->key;
+ 
+     if (device != dixLookupPrivate(&master->devPrivates,
++#ifdef SUNSOFT
++                                   CoreDevicePrivateKey) && (device != mdev)) {
++#else
+                                    CoreDevicePrivateKey)) {
++#endif
+         memcpy(mk->modifierMap, dk->modifierMap, MAP_LENGTH);
+ 
+         if (dk->maxKeysPerModifier)
+diff -ur old/config/hal.c new/config/hal.c
+--- config/hal.c	Wed May 27 17:32:59 2009
++++ config/hal.c	Thu Jul 16 18:24:46 2009
+@@ -186,7 +186,63 @@
+     return FALSE;
+ }
+ 
++#ifdef SUNSOFT
+ static void
++add_extra_device(char *driver)
++{
++    DeviceIntPtr	dev;
++    char		*config_info = NULL;
++    InputOption 	*options = NULL, *tmpo = NULL;
++
++    options = xcalloc(sizeof(*options), 1);
++    if (!options){
++	LogMessage(X_ERROR, "config/hal: couldn't allocate space for input options!\n");
++        goto unwind;
++    }
++
++    options->key = xstrdup("_source");
++    options->value = xstrdup("server/hal");
++    if (!options->key || !options->value) {
++	LogMessage(X_ERROR, "config/hal: couldn't allocate first key/value pair\n");
++	goto unwind;
++    }
++
++    add_option(&options, "driver", driver);
++    add_option(&options, "name", driver);
++
++    config_info = xalloc(strlen(driver) + 5); /* "hal:" and NULL */
++    if (!config_info) {
++	LogMessage(X_ERROR, "config/hal: couldn't allocate name\n");
++	goto unwind;
++    }
++    sprintf(config_info, "hal:%s", driver);
++
++    /* Check for duplicate devices */
++    if (device_is_duplicate(config_info))
++	goto unwind;
++
++    LogMessage(X_INFO, "config/hal: Adding input device %s\n", driver);
++    if (NewInputDeviceRequest(options, &dev) != Success) {
++	LogMessage(X_ERROR, "config/hal: NewInputDeviceRequest failed\n");
++	dev = NULL;
++	goto unwind;
++    }
++
++    dev->config_info = xstrdup(config_info);
++
++unwind:
++    if (config_info)
++	xfree(config_info);
++    while (!dev && (tmpo = options)) {
++	options = tmpo->next;
++	xfree(tmpo->key);
++	xfree(tmpo->value);
++	xfree(tmpo);
++    }
++}
++#endif
++
++static void
+ device_added(LibHalContext *hal_ctx, const char *udi)
+ {
+     char *path = NULL, *driver = NULL, *name = NULL, *config_info = NULL;
+@@ -195,6 +251,9 @@
+     DBusError error;
+     struct xkb_options xkb_opts = {0};
+     int rc;
++#ifdef SUNSOFT
++    char *mdriver = NULL;
++#endif
+ 
+     LibHalPropertySet *set = NULL;
+ 	LibHalPropertySetIterator set_iter;
+@@ -398,6 +457,16 @@
+     if (xkb_opts.options)
+         add_option(&options, "xkb_options", xkb_opts.options);
+ 
++#ifdef SUNSOFT
++    for (tmpo = options; tmpo; tmpo = tmpo->next) {
++	if (!strcmp(tmpo->key, "mdriver") && (tmpo->value))
++	    mdriver = tmpo->value;
++    }
++ 
++    if (mdriver)
++	add_extra_device (mdriver);
++#endif
++   
+     /* this isn't an error, but how else do you output something that the user can see? */
+     LogMessage(X_INFO, "config/hal: Adding input device %s\n", name);
+     if ((rc = NewInputDeviceRequest(options, &dev)) != Success) {
+diff -ur old/config/x11-input.fdi new/config/x11-input.fdi
+--- config/x11-input.fdi	Wed May 27 16:03:27 2009
++++ config/x11-input.fdi	Thu Jul 16 18:01:18 2009
+@@ -76,6 +76,12 @@
+       <!-- If we're using Linux, we use evdev by default (falling back to
+            kbd otherwise). -->
+       <merge key="input.x11_driver" type="string">kbd</merge>
++        <match key="/org/freedesktop/Hal/devices/computer:system.formfactor" string="laptop">
++          <match key="/org/freedesktop/Hal/devices/computer:system.kernel.name"
++                string="SunOS">
++            <merge key="input.x11_options.mdriver" type="string">hotkey</merge>
++          </match>
++        </match>
+       <merge key="input.x11_options.XkbModel" type="string">pc105</merge>
+       <match key="/org/freedesktop/Hal/devices/computer:system.kernel.name"
+              string="Linux">
+diff -ur old/dix/devices.c new/dix/devices.c
+--- dix/devices.c	Thu Jul 16 18:26:35 2009
++++ dix/devices.c	Thu Jul 16 18:30:12 2009
+@@ -95,6 +95,10 @@
+ 
+ static int CoreDevicePrivateKeyIndex;
+ DevPrivateKey CoreDevicePrivateKey = &CoreDevicePrivateKeyIndex;
++#ifdef SUNSOFT
++static int HotkeyMapDevicePrivateKeyIndex;
++DevPrivateKey HotkeyMapDevicePrivateKey = &HotkeyMapDevicePrivateKeyIndex;
++#endif
+ /* Used to sture classes currently not in use by an MD */
+ static int UnusedClassesPrivateKeyIndex;
+ DevPrivateKey UnusedClassesPrivateKey = &UnusedClassesPrivateKeyIndex;
+diff -ur old/include/inputstr.h new/include/inputstr.h
+--- include/inputstr.h	Wed May 27 13:18:36 2009
++++ include/inputstr.h	Wed May 27 13:18:15 2009
+@@ -64,6 +64,9 @@
+ #define EMASKSIZE	MAXDEVICES + 1
+ 
+ extern DevPrivateKey CoreDevicePrivateKey;
++#ifdef SUNSOFT
++extern DevPrivateKey HotkeyMapDevicePrivateKey;
++#endif
+ 
+ /* Kludge: OtherClients and InputClients must be compatible, see code */
+ 
