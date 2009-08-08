@@ -41,7 +41,7 @@
 
 static char	*program_name;
 static Display	*dpy = NULL;
-static Window	root;
+static Window	root, win;
 static int	screen;
 static Bool	nosideview = False;
 static Bool	verbose = False;
@@ -60,6 +60,8 @@ usage(void)
 {
     fprintf(stderr, "usage: %s [options]\n", program_name);
     fprintf(stderr, "  where options are:\n");
+    fprintf(stderr, "  -toggle or -t\n");
+    fprintf(stderr, "  -listen or -l\n");
     fprintf(stderr, "  -display <display> or -d <display>\n");
     fprintf(stderr, "  -key <key> or -k <key>\n");
     fprintf(stderr, "  -mod <modifier> or -m <modifier>\n");
@@ -1695,6 +1697,46 @@ do_switch (void)
 
 }
 
+static Bool 
+do_toggle ()
+{
+    Atom		atom;
+    XEvent		xev;
+    int			ret;
+
+    atom = XInternAtom (dpy, "DISPLAYSWITCH_DAEMON", True);
+    if (!atom) {
+	fprintf(stderr, "dispswitch daemon not running\n");
+	return False;
+    }
+	
+    win = XGetSelectionOwner (dpy, atom);
+    if (!win) {
+	fprintf(stderr, "dispswitch: No owner of dispswitch daemon is found\n");
+	return False;
+    }
+
+    bzero (&xev, sizeof (XEvent));
+    xev.xkey.type = KeyPress;
+    xev.xkey.send_event = True;
+    xev.xkey.display = dpy;
+    /* Any keycode */
+    xev.xkey.keycode = 71;
+
+
+    /* 
+     * Send another instance of dispswitch (a daemon) an event to
+     * request a switch
+     */
+    ret = XSendEvent(dpy, win, False, KeyPressMask, &xev);
+    XFlush(dpy);
+
+    if (!ret)
+	fprintf(stderr, "dispswitch: XSendEvent error\n");
+
+    return (!ret);
+}
+
 int
 main (int argc, char **argv) 
 {
@@ -1706,7 +1748,9 @@ main (int argc, char **argv)
     unsigned int    modifier = 0;
     Bool    key_given = False;
     Bool    mod_given = False;
-    int	    keysym = 0;
+    int	    keysym = 0, toggle = False, listen = False;
+
+    Atom    atom;
 
     program_name = argv[0];
 
@@ -1783,6 +1827,14 @@ main (int argc, char **argv)
 	    verbose = True;
 	    continue;
         }
+	if (!strcmp ("-toggle", argv[i]) || !strcmp ("-t", argv[i])) {
+	    toggle = True;
+	    continue;
+        }
+	if (!strcmp ("-listen", argv[i]) || !strcmp ("-l", argv[i])) {
+	    listen = True;
+	    continue;
+        }
 	usage();
     }
 
@@ -1800,13 +1852,48 @@ main (int argc, char **argv)
     if ((major <= 1) &&  (major != 1 || minor < 2))
 	fatal ("wrong randr version: %d.%d\n", major, minor);
 
+
+    if (toggle)
+	exit (do_toggle());
+
+    /* 
+     * Create an atom, a trivial window, and make it selection owner. 
+     * Ready to accept a client event request for switch
+     */
+    atom = XInternAtom(dpy, "DISPLAYSWITCH_DAEMON", False);
+    if (!atom) {
+	if (verbose)
+	    fprintf(stderr, "cannot create Atom\n");
+    }
+    else {
+	if (XGetSelectionOwner (dpy, atom)) {
+	    if (verbose)
+		fprintf(stderr, "dispswitch daemon is already running, quit\n");
+	    exit (1);
+	}
+	win = XCreateSimpleWindow(dpy, root, 0, 0, 10, 10, 0, 10, 0);
+	if (!win) {
+	    if (verbose)
+		fprintf(stderr, "cannot create window\n");
+	}
+	else {
+	    XSetSelectionOwner(dpy, atom, win, CurrentTime);
+	    if (XGetSelectionOwner(dpy, atom) != win) {
+		if (verbose)
+		    fprintf(stderr, "set selection owner failed\n");
+	    } else
+		XSelectInput(dpy, win, KeyPressMask);
+	}
+    }
+
     /* set default key and modifier if not given in command */
     if (!key_given)
 	keysym  = XStringToKeysym ("F5");
     if (!mod_given)
 	modifier = ShiftMask;
 
-    cur_keycode = grab_key (dpy, keysym, modifier, root);
+    if (!listen)
+	cur_keycode = grab_key (dpy, keysym, modifier, root);
 
     XRRGetScreenSizeRange (dpy, root, &minWidth, &minHeight,
                            &maxWidth, &maxHeight);
@@ -1833,7 +1920,7 @@ main (int argc, char **argv)
 	} else
 	    XNextEvent(dpy, &ev);
 
-	if (!testrun && (ev.type == MappingNotify) && 
+	if (!listen && !testrun && (ev.type == MappingNotify) && 
 	    ((ev.xmapping.request == MappingKeyboard) || 
 	    (ev.xmapping.request == MappingModifier))) {
 	    /* keyboard/modifier mapping changed */
@@ -1841,7 +1928,6 @@ main (int argc, char **argv)
 		fprintf(stderr, "\nkeyboard/modifier mapping changed ...\n");
 
 	    XUngrabKey(dpy, cur_keycode, modifier, root);
-    
 	    cur_keycode = grab_key (dpy, keysym, modifier, root);
 	}
 
