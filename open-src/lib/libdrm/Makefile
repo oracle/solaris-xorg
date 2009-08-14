@@ -1,6 +1,6 @@
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,14 +27,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	09/06/02
+# @(#)Makefile	1.13	09/08/14
 #
 
 # Package name used in tarballs
 MODULE_NAME=libdrm
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.11
+MODULE_VERSION=2.4.12
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
