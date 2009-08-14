@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)dtlogin.c	1.18	08/05/20   SMI" 
+#pragma ident "@(#)dtlogin.c	1.19	09/08/14   SMI" 
 
 /* Implementation of Display Manager (dtlogin/gdm/xdm/etc.) to X server
  * communication pipe. The Display Manager process will start 
@@ -67,6 +67,7 @@
 #include <sys/task.h>
 #include <ctype.h>
 #include "scrnintstr.h"
+#include <sys/vt.h>
 #ifdef XSUN
 #include "sunIo.h"
 #endif
@@ -76,6 +77,7 @@
 #define BUFLEN 1024
 
 uid_t	root_euid;
+int xf86ConsoleFd = -1;
 
 /* in Xserver/os/auth.c */
 extern const char *GetAuthFilename(void);
@@ -497,4 +499,8 @@ dtlogin_process(struct dmdata *dmd)
 	if (chdir(dmd->homedir) < 0)
 	    DtloginError("Error in changing working directory");
     }
+
+    /* Inform the kernel that a user has logged in on this VT device */
+    if (xf86ConsoleFd != -1)
+	ioctl(xf86ConsoleFd, VT_SETDISPLOGIN, 1);
 }

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	09/05/15
+# @(#)Makefile	1.9	09/08/14
 #
 
 # Package name used in tarballs
@@ -44,7 +44,8 @@ SOURCE_PATCHES = \
 	hal-man-page.patch,-p1 \
 	hal-hotplug.patch,-p1 \
 	sun-keymappings.patch,-p1 \
-	sun-kb-autodetect.patch
+	sun-kb-autodetect.patch \
+	sun-kbd-vt.patch
 
 # Regenerate files after patching Makefile.am in sun-kb-autodetect.patch
 AUTORECONF=yes
