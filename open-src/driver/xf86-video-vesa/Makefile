@@ -3,7 +3,7 @@
 # xf86-video-vesa Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	09/05/15
+# @(#)Makefile	1.13	09/08/17
 #
 
 # Package name used in tarballs
@@ -46,6 +46,9 @@ SOURCE_PATCHES = vesa_xorg72.patch
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
+
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
