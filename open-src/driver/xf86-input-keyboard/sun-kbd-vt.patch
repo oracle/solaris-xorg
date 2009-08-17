@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' src/sun_kbd.c src/sun_kbd.c
---- src/sun_kbd.c	2009-08-13 13:19:37.444951000 +0800
-+++ src/sun_kbd.c	2009-08-13 13:19:37.668124000 +0800
+--- src/sun_kbd.c	2009-08-15 18:12:35.579394000 -0700
++++ src/sun_kbd.c	2009-08-15 18:12:36.475454000 -0700
 @@ -63,6 +63,7 @@
  #include <sys/stropts.h>
  #include <sys/vuid_event.h>
@@ -8,8 +8,8 @@ diff -urp -x '*~' -x '*.orig' src/sun_kbd.c src/sun_kbd.c
 +#include <sys/usb/clients/hid/hid.h>
  
  static int KbdOn(InputInfoPtr pInfo, int what);
- 
-@@ -178,6 +179,8 @@ KbdOn(InputInfoPtr pInfo, int what)
+ static Bool OpenKeyboard(InputInfoPtr pInfo);
+@@ -180,6 +181,8 @@ KbdOn(InputInfoPtr pInfo, int what)
      sunKbdPrivPtr priv = (sunKbdPrivPtr) pKbd->private;
  
      int	ktrans, kdirect, i;
@@ -18,7 +18,7 @@ diff -urp -x '*~' -x '*.orig' src/sun_kbd.c src/sun_kbd.c
  
      if (priv->kbdActive) {
  	return Success;
-@@ -190,9 +193,15 @@ KbdOn(InputInfoPtr pInfo, int what)
+@@ -198,9 +201,15 @@ KbdOn(InputInfoPtr pInfo, int what)
  		    "%s: cannot push module '%s' onto keyboard device: %s\n",
  		    pInfo->name, priv->strmod, strerror(errno));
  	}
@@ -35,7 +35,7 @@ diff -urp -x '*~' -x '*.orig' src/sun_kbd.c src/sun_kbd.c
      if (i < 0) {
  	xf86Msg(X_ERROR, 
  		"%s: Unable to determine keyboard direct setting: %s\n", 
-@@ -203,7 +212,7 @@ KbdOn(InputInfoPtr pInfo, int what)
+@@ -211,7 +220,7 @@ KbdOn(InputInfoPtr pInfo, int what)
      priv->odirect = kdirect;
      kdirect = 1;
  
@@ -44,15 +44,15 @@ diff -urp -x '*~' -x '*.orig' src/sun_kbd.c src/sun_kbd.c
      if (i < 0) {
  	xf86Msg(X_ERROR, "%s: Failed turning keyboard direct mode on: %s\n",
  			pInfo->name, strerror(errno));
-@@ -247,6 +256,7 @@ KbdOff(InputInfoPtr pInfo, int what)
+@@ -255,6 +264,7 @@ KbdOff(InputInfoPtr pInfo, int what)
      sunKbdPrivPtr priv = (sunKbdPrivPtr) pKbd->private;
  
      int i;
 +    int io_set_direct, kdirect;
  
-     if (!priv->kbdActive) {
- 	return Success;
-@@ -280,8 +290,16 @@ KbdOff(InputInfoPtr pInfo, int what)
+     if (priv->remove_timer) {
+ 	TimerFree(priv->remove_timer);
+@@ -288,8 +298,16 @@ KbdOff(InputInfoPtr pInfo, int what)
  	priv->otranslation = -1;
      }
  

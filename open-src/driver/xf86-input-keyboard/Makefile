@@ -3,7 +3,7 @@
 # xf86-input-keyboard 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/08/14
+# ident	"@(#)Makefile	1.10	09/08/17 SMI"
 #
 
 # Package name used in tarballs
@@ -44,6 +44,7 @@ SOURCE_PATCHES = \
 	hal-man-page.patch,-p1 \
 	hal-hotplug.patch,-p1 \
 	sun-keymappings.patch,-p1 \
+	6852921.patch,-p1 \
 	sun-kb-autodetect.patch \
 	sun-kbd-vt.patch
 

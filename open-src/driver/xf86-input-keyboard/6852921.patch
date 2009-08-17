@@ -1,0 +1,120 @@
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff --git a/src/sun_kbd.c b/src/sun_kbd.c
+index b4ebc57..bb831c1 100644
+--- a/src/sun_kbd.c
++++ b/src/sun_kbd.c
+@@ -65,6 +65,8 @@
+ #include <sys/kbd.h>
+ 
+ static int KbdOn(InputInfoPtr pInfo, int what);
++static Bool OpenKeyboard(InputInfoPtr pInfo);
++static void CloseKeyboard(InputInfoPtr pInfo);
+ 
+ static void
+ sunKbdSetLeds(InputInfoPtr pInfo, int leds)
+@@ -171,6 +173,12 @@ KbdOn(InputInfoPtr pInfo, int what)
+ 	return Success;
+     }
+ 
++    if (pInfo->fd == -1) {
++	if (!OpenKeyboard(pInfo)) {
++	    return BadImplementation;
++	}
++    }
++
+     if (priv->strmod) {
+ 	SYSCALL(i = ioctl(pInfo->fd, I_PUSH, priv->strmod));
+ 	if (i < 0) {
+@@ -236,6 +244,11 @@ KbdOff(InputInfoPtr pInfo, int what)
+ 
+     int i;
+ 
++    if (priv->remove_timer) {
++	TimerFree(priv->remove_timer);
++	priv->remove_timer = NULL;
++    }
++
+     if (!priv->kbdActive) {
+ 	return Success;
+     }
+@@ -245,11 +258,6 @@ KbdOff(InputInfoPtr pInfo, int what)
+ 	return Success;
+     }
+ 
+-    if (priv->remove_timer) {
+-	TimerFree(priv->remove_timer);
+-	priv->remove_timer = NULL;
+-    }
+-
+     /* restore original state */
+ 
+     if (priv->oleds != -1) {
+@@ -288,7 +296,7 @@ KbdOff(InputInfoPtr pInfo, int what)
+ 	}
+     }
+ 
+-    priv->kbdActive = FALSE;
++    CloseKeyboard(pInfo);
+     return Success;
+ }
+ 
+@@ -385,20 +393,26 @@ SetKbdRepeat(InputInfoPtr pInfo, char rad)
+     /* Nothing to do */
+ }
+ 
+-/* Called from OsTimer callback, since removing a device from the device
+-   list or changing pInfo->fd while xf86Wakeup is looping through the list
+-   causes server crashes */
+-static CARD32
+-RemoveKeyboard(OsTimerPtr timer, CARD32 time, pointer arg)
++static void
++CloseKeyboard(InputInfoPtr pInfo)
+ {
+-    InputInfoPtr pInfo = (InputInfoPtr) arg;
+     KbdDevPtr pKbd = (KbdDevPtr) pInfo->private;
+     sunKbdPrivPtr priv = (sunKbdPrivPtr) pKbd->private;
+ 
+     close(pInfo->fd);
+     pInfo->fd = -1;
+     priv->kbdActive = FALSE;
++}
++
++/* Called from OsTimer callback, since removing a device from the device
++   list or changing pInfo->fd while xf86Wakeup is looping through the list
++   causes server crashes */
++static CARD32
++RemoveKeyboard(OsTimerPtr timer, CARD32 time, pointer arg)
++{
++    InputInfoPtr pInfo = (InputInfoPtr) arg;
+ 
++    CloseKeyboard(pInfo);
+     xf86DisableDevice(pInfo->dev, TRUE);
+ 
+     return 0;  /* All done, don't set to run again */
