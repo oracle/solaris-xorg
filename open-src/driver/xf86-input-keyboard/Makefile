@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.10	09/08/17 SMI"
+# ident	"@(#)Makefile	1.11	09/08/19 SMI"
 #
 
 # Package name used in tarballs
@@ -45,14 +45,7 @@ SOURCE_PATCHES = \
 	hal-hotplug.patch,-p1 \
 	sun-keymappings.patch,-p1 \
 	6852921.patch,-p1 \
-	sun-kb-autodetect.patch \
 	sun-kbd-vt.patch
-
-# Regenerate files after patching Makefile.am in sun-kb-autodetect.patch
-AUTORECONF=yes
-
-# Link in additional source files from sun-src directory
-ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
