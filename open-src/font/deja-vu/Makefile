@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/02/26
+# @(#)Makefile	1.10	09/08/17
 #
 
 # Package name used in tarballs
 MODULE_NAME=dejavu-fonts-ttf
 
 # Version number (used in path names)
-MODULE_VERSION=2.28
+MODULE_VERSION=2.29
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
