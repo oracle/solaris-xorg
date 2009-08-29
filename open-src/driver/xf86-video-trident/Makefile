@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/01/10
+# @(#)Makefile	1.10	09/08/27
 #
 
 # Package name used in tarballs
@@ -46,6 +46,10 @@ SOURCE_PATCHES =
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
+
+# Temporarily revert to gcc until the complier problem is fixed
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
