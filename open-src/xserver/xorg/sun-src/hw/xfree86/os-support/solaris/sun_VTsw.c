@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)sun_VTsw.c 1.1     09/08/14 SMI"
+#pragma ident   "@(#)sun_VTsw.c 1.2     09/09/08 SMI"
 
 #ifdef HAVE_XORG_CONFIG_H
 #include <xorg-config.h>
@@ -46,20 +46,30 @@
  * Handle the VT-switching interface for Solaris 
  */
 
-void
-xf86VTRequest(int sig)
-{
-	if (xf86Info.vtPendingNum != -1)
-	{
-		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
-		xf86Info.vtPendingNum = -1;
+static int xf86VTPruneDoor = 0;
 
+void
+xf86VTRelease(int sig)
+{
+	if (xf86Info.vtPendingNum == -1) {
+		xf86VTPruneDoor = 1;
+		xf86Info.vtRequestsPending = TRUE;
 		return;
 	}
 
+	ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
+	xf86Info.vtPendingNum = -1;
+
+	return;
+}
+
+void
+xf86VTAcquire(int sig)
+{
 	xf86Info.vtRequestsPending = TRUE;
 	return;
 }
+
 
 Bool
 xf86VTSwitchPending(void)
@@ -75,6 +85,12 @@ xf86VTSwitchAway(void)
 	door_arg_t door_arg;
 
 	xf86Info.vtRequestsPending = FALSE;
+
+	if (xf86VTPruneDoor) {
+		xf86VTPruneDoor = 0;
+		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
+		return (TRUE);
+	}
 
 	vt_door_arg.vt_ev = VT_EV_HOTKEYS;
 	vt_door_arg.vt_num = xf86Info.vtPendingNum; 
