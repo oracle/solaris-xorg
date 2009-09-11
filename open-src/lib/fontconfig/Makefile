@@ -2,7 +2,7 @@
 #
 # Fontconfig 2.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.80	09/04/06
+# @(#)Makefile	1.81	09/09/09
 #
 
 # Package name used in tarballs
 MODULE_NAME=fontconfig
 
 # Version number (used in path names)
-MODULE_VERSION=2.5.0
+MODULE_VERSION=2.7.1
 
 # Source tarball
 SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz
@@ -51,8 +51,8 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=fontconfig-$(MODULE_VERSION).patch,-p1 \
 	       fontconfig-$(MODULE_VERSION).patch.hide,-p1 \
-	       fontconfig-$(MODULE_VERSION)-fonts.conf.patch \
-	       6729284.patch,-p1 6770058.patch,-p1
+	       fontconfig-$(MODULE_VERSION)-fonts.conf.patch,-p1 \
+	       6770058.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig
@@ -96,9 +96,13 @@ FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
 FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 
+# README file to be installed in /etc/fonts/conf.avail/README
+FONTCONFIG_ETC_README=$(PROTODIR)/etc/fonts/conf.avail/README
+
 # Additional targets to install beyond the default_install
 MODULE_ADD_INSTALL_TARGETS = fontconfig-sunman-install \
-	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD)
+	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
+	$(FONTCONFIG_ETC_README)
 
 # Include common rulesets
 include ../Makefile.inc
@@ -107,6 +111,8 @@ $(SOURCE_DIR)/fonts.conf-SUNW: $(SOURCE_DIR)/fonts.conf fonts.conf.append fix-fo
 	perl fix-fonts.conf.pl < $(SOURCE_DIR)/fonts.conf > $(SOURCE_DIR)/fonts.conf-SUNW
 
 $(SOURCE_DIR)/fonts.conf: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
+	( cd $(SOURCE_DIR) ; \
+	    ./config.status --file fonts.conf )
 
 install_gen:: $(SOURCE_DIR)/fonts.conf-SUNW
 	rm $(PROTODIR)/etc/fonts/fonts.conf
@@ -120,6 +126,10 @@ $(FONTCONFIG_SMF_MANIFEST): fc-cache.xml
 $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 	mkdir -p $(FONTCONFIG_SMF_METHOD_dir)
 	$(INSTALL_SCRIPT) -c -m 0755 fc-cache.sh $@
+
+$(FONTCONFIG_ETC_README): $(SOURCE_DIR)/conf.d/README
+	mkdir -p $(PROTODIR)/etc/fonts/conf.avail
+	cp -fp $(SOURCE_DIR)/conf.d/README $@
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 

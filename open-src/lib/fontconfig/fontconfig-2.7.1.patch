@@ -1,25 +1,25 @@
---- fontconfig-2.5.0/src/fccfg.c	2008-02-22 11:53:10.135493000 +0530
-+++ fontconfig-2.5.0-new/src/fccfg.c	2008-02-22 11:52:45.385985000 +0530
-@@ -722,12 +722,12 @@
+--- fontconfig-2.7.1/src/fccfg.c	2009-06-24 13:52:13.000000000 -0400
++++ fontconfig-2.7.1/src/fccfg.c	2009-08-26 13:20:46.489868000 -0400
+@@ -785,12 +785,12 @@
  	    switch (op) {
  	    case FcOpContains:
  	    case FcOpListing:
 -		/* left contains right if right is a subset of left */
 -		ret = FcCharSetIsSubset (right.u.c, left.u.c);
-+		/* right contains left if left is a subset of right */
-+		ret = FcCharSetIsSubset (left.u.c, right.u.c);
++                /* right contains left if left is a subset of right */
++                ret = FcCharSetIsSubset (left.u.c, right.u.c);
  		break;
  	    case FcOpNotContains:
 -		/* left contains right if right is a subset of left */
 -		ret = !FcCharSetIsSubset (right.u.c, left.u.c);
-+		/* right contains left if left is a subset of right */
-+		ret = !FcCharSetIsSubset (left.u.c, right.u.c);
++                /* right contains left if left is a subset of right */
++                ret = !FcCharSetIsSubset (left.u.c, right.u.c);
  		break;
  	    case FcOpEqual:
  		ret = FcCharSetEqual (left.u.c, right.u.c);
---- fontconfig-2.5.0/src/fcmatch.c	2008-02-22 11:53:10.136397000 +0530
-+++ fontconfig-2.5.0-new/src/fcmatch.c	2008-02-22 11:56:05.308354000 +0530
-@@ -167,6 +167,15 @@
+--- fontconfig-2.7.1/src/fcmatch.c	2009-07-22 19:00:51.000000000 -0400
++++ fontconfig-2.7.1/src/fcmatch.c	2009-08-26 14:25:44.707291000 -0400
+@@ -168,6 +168,15 @@
      if (v2 == 0)
  	return 0;
      v = v2 - v1;
@@ -35,7 +35,7 @@
      if (v < 0)
  	v = -v;
      return v;
-@@ -459,6 +468,47 @@
+@@ -430,6 +439,47 @@
      return new;
  }
  
@@ -51,39 +51,39 @@
 +     */
 +    for ( i = 0; i < p->num; i++ )
 +    {
-+	if ( !strcmp(&pe[i].object, "antialias" ))
-+	{
-+	    int aa = (int) &pe[i].values->value.u.b;
-+	    int j;
-+	    int done = 0;
-+	    FcValue v;
++        if ( !strcmp(&pe[i].object, "antialias" ))
++        {
++            int aa = (int) &pe[i].values->value.u.b;
++            int j;
++            int done = 0;
++            FcValue v;
 +
-+	    v.type = FcTypeBool;
-+	    v.u.b  = aa;
++            v.type = FcTypeBool;
++            v.u.b  = aa;
 +
-+	    for ( j = 0; j < p->num; j++ )
-+	    {
-+		if ( !strcmp(&pe[j].object, "outline" ))
-+		{
-+		    done = 1;
-+		    break;
-+		}
-+	    }
-+	    if ( !done )
-+	    {
-+		FcPatternObjectAddWithBinding (p, "outline", v,
-+			    FcValueBindingStrong, 1);
-+	    }
-+	    break;
-+	}
++            for ( j = 0; j < p->num; j++ )
++            {
++                if ( !strcmp(&pe[j].object, "outline" ))
++                {
++                    done = 1;
++                    break;
++                }
++            }
++            if ( !done )
++            {
++                FcPatternObjectAddWithBinding (p, "outline", v,
++                        FcValueBindingStrong, 1);
++            }
++            break;
++        }
 +    }
 +}
 +
 +
- FcPattern *
- FcFontSetMatch (FcConfig    *config,
- 		FcFontSet   **sets,
-@@ -473,6 +523,8 @@
+ static FcPattern *
+ FcFontSetMatchInternal (FcConfig    *config,
+ 			FcFontSet   **sets,
+@@ -444,6 +494,8 @@
      int		    i;
      int		    set;
  
@@ -92,7 +92,7 @@
      for (i = 0; i < NUM_MATCH_VALUES; i++)
  	bestscore[i] = 0;
      best = 0;
-@@ -657,9 +709,11 @@
+@@ -669,9 +721,11 @@
      int		    f;
      int		    i;
      int		    nPatternLang;
@@ -105,7 +105,7 @@
      if (FcDebug () & FC_DBG_MATCH)
      {
  	printf ("Sort ");
-@@ -688,7 +742,7 @@
+@@ -700,7 +754,7 @@
      if (!nodes)
  	goto bail0;
      nodeps = (FcSortNode **) (nodes + nnodes);
@@ -114,7 +114,7 @@
      
      new = nodes;
      nodep = nodeps;
-@@ -728,7 +782,13 @@
+@@ -740,7 +794,13 @@
  	   FcSortCompare);
      
      for (i = 0; i < nPatternLang; i++)
@@ -129,12 +129,12 @@
      
      for (f = 0; f < nnodes; f++)
      {
-@@ -737,18 +797,19 @@
+@@ -749,18 +809,19 @@
  	 * If this node matches any language, go check
  	 * which ones and satisfy those entries
  	 */
 -	if (nodeps[f]->score[MATCH_LANG_INDEX] < 200)
-+	if (nodeps[f]->score[MATCH_LANG_INDEX] <= 100)
++	if (nodeps[f]->score[MATCH_LANG_INDEX] < 100)
  	{
  	    for (i = 0; i < nPatternLang; i++)
  	    {
@@ -147,34 +147,34 @@
  		{
  		    double  compare = FcCompareLang (&patternLang, &nodeLang);
 -		    if (compare >= 0 && compare < 2)
-+		    if (compare >= 0 && compare < 2 && 
-+			(patternLangSat[i] == 0 || compare + 1 < patternLangSat[i]))
++		    if (compare >= 0 && compare < 2 &&
++                            (patternLangSat[i] == 0 || compare + 1 < patternLangSat[i]))
  		    {
  			if (FcDebug () & FC_DBG_MATCHV)
  			{
-@@ -759,7 +820,7 @@
+@@ -771,7 +832,7 @@
  				FcPatternGetString (nodeps[f]->pattern, FC_STYLE, 0, &style) == FcResultMatch)
  				printf ("Font %s:%s matches language %d\n", family, style, i);
  			}
 -			patternLangSat[i] = FcTrue;
-+			patternLangSat[i] = (int)compare + 1;
++			patternLangSat[i] = (int) compare + 1;
  			satisfies = FcTrue;
  			break;
  		    }
---- fontconfig-2.5.0/src/fcxml.c	2008-02-22 11:53:10.139480000 +0530
-+++ fontconfig-2.5.0-new/src/fcxml.c	2008-02-22 11:52:45.389879000 +0530
-@@ -2439,6 +2439,10 @@
- #else
+--- fontconfig-2.7.1/src/fcxml.c	2009-07-21 15:41:43.000000000 -0400
++++ fontconfig-2.7.1/src/fcxml.c	2009-08-26 14:14:15.692622000 -0400
+@@ -2477,6 +2477,10 @@
      void	    *buf;
  #endif
-+
-+    char	    *cur_locale = setlocale (LC_NUMERIC, NULL);
+     
++    char           *cur_locale = setlocale (LC_NUMERIC, NULL);
 +
 +    setlocale (LC_NUMERIC, "C");
-     
++
      filename = FcConfigFilename (name);
      if (!filename)
-@@ -2539,6 +2543,7 @@
+ 	goto bail0;
+@@ -2576,6 +2580,7 @@
      close (fd);
      fd = -1;
  bail0:
@@ -182,26 +182,26 @@
      if (error && complain)
      {
  	if (name)
---- fontconfig-2.5.0/src/fcfreetype.c	2008-02-22 11:53:10.138662000 +0530
-+++ fontconfig-2.5.0-new/src/fcfreetype.c	2008-02-22 11:52:45.392572000 +0530
-@@ -123,7 +123,7 @@
+--- fontconfig-2.7.1/src/fcfreetype.c	2009-07-25 16:38:20.000000000 -0400
++++ fontconfig-2.7.1/src/fcfreetype.c	2009-08-26 14:16:17.358575000 -0400
+@@ -124,7 +124,7 @@
   {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_BIG_5,		"BIG-5" },
   {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_WANSUNG,	"Wansung" },
   {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_JOHAB,		"Johab" },
-- {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UCS4" },
+- {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UCS-2BE" },
 + {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UTF-16BE" },
   {  TT_PLATFORM_ISO,		TT_ISO_ID_7BIT_ASCII,	"ASCII" },
   {  TT_PLATFORM_ISO,		TT_ISO_ID_10646,	"UCS-2BE" },
   {  TT_PLATFORM_ISO,		TT_ISO_ID_8859_1,	"ISO-8859-1" },
---- fontconfig-2.5.0/Makefile.am	2008-02-22 11:53:09.946496000 +0530
-+++ fontconfig-2.5.0-new/Makefile.am	2008-02-22 11:52:45.393980000 +0530
-@@ -94,16 +94,6 @@
+--- fontconfig-2.7.1/Makefile.am	2009-06-24 14:43:43.000000000 -0400
++++ fontconfig-2.7.1/Makefile.am	2009-08-26 14:29:39.076444000 -0400
+@@ -104,16 +104,6 @@
  	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf"; \
  	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
  	fi; fi
 -	@(if $(RUN_FC_CACHE_TEST); then \
--	    echo " fc-cache/fc-cache -s -f -v"; \
--	    fc-cache/fc-cache -s -f -v; \
+-	    echo " $(bindir)/fc-cache -s -f -v"; \
+-	    $(bindir)/fc-cache -s -f -v; \
 -	else \
 -	    echo "***"; \
 -	    echo "*** Warning: fonts.cache not built"; \
