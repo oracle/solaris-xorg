@@ -222,6 +222,7 @@ HkeyProc(DeviceIntPtr device, int what)
     InputInfoPtr pInfo = device->public.devicePrivate;
     char	 *s;
     DeviceIntPtr mdev;
+    int		blocked;
 
     switch (what) {
      	case DEVICE_INIT:
@@ -230,11 +231,18 @@ HkeyProc(DeviceIntPtr device, int what)
 		return (!Success);
 	    }
 
+	    /* 
+	     * Block SIGIO so the new libsysevent/door threads created will
+	     * mask SIGIO. See 6875743.
+	     */
+	    blocked = xf86BlockSIGIO();
+
 	    if (hotkey_events_init(device)) {
 		if (pipe (hotkey_event_fd) == -1) {
 		    xf86Msg(X_WARNING,
 		    "hotkey_events_init: pipe open failed with errno %d\n", errno);
 		    hotkey_events_fini();
+	    	    xf86UnblockSIGIO(blocked);
 		    return (!Success);
 		} else {
 		    pInfo->fd = hotkey_event_fd[0];
@@ -242,8 +250,11 @@ HkeyProc(DeviceIntPtr device, int what)
                 }
             } else {
 		xf86Msg(X_WARNING, "hotkey_events_init failed\n");
+	    	xf86UnblockSIGIO(blocked);
 		return (!Success);
 	    }
+
+	    xf86UnblockSIGIO(blocked);
 
     	    device->public.on = FALSE;
 	    break;
