@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-05-08 17:43:15.381265000 -0700
-+++ configure.ac	2009-05-08 17:43:23.621871000 -0700
+--- configure.ac	2009-09-08 19:58:25.846643000 -0700
++++ configure.ac	2009-09-08 19:58:48.472951000 -0700
 @@ -1198,6 +1198,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUI
  XSERVER_CFLAGS="${XSERVERCFLAGS_CFLAGS} ${SHA1_CFLAGS}"
  XSERVER_LIBS="$DIX_LIB $CONFIG_LIB $MI_LIB $OS_LIB"
@@ -37,9 +37,50 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_SUBST([XSERVER_LIBS])
  AC_SUBST([XSERVER_SYS_LIBS])
  
+diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
+--- dix/main.c	2009-07-07 10:48:57.000000000 -0700
++++ dix/main.c	2009-09-08 19:58:48.473917000 -0700
+@@ -116,6 +116,11 @@ Equipment Corporation.
+ #include "dpmsproc.h"
+ #endif
+ 
++#ifdef SUNSOFT
++extern void DtloginInit(void);
++extern void DtloginCloseDown(void);
++#endif /* SUNSOFT */
++
+ extern void Dispatch(void);
+ 
+ xConnSetupPrefix connSetupPrefix;
+@@ -280,6 +285,13 @@ int main(int argc, char *argv[], char *e
+ 	/* Perform any operating system dependent initializations you'd like */
+ 	OsInit();
+         config_init();
++
++#ifdef SUNSOFT
++	/* Create pipe for dtlogin authentication info before we tell dtlogin 
++	   we're done and ready for it to run. */
++	DtloginInit ();
++#endif
++
+ 	if(serverGeneration == 1)
+ 	{
+ 	    CreateWellKnownSockets();
+@@ -396,6 +408,11 @@ int main(int argc, char *argv[], char *e
+ 
+ 	Dispatch();
+ 
++#ifdef SUNSOFT
++	/* Return to root privs before calling the rest of close down */
++	DtloginCloseDown ();
++#endif
++
+         UndisplayDevices();
+ 
+ 	/* Now free up whatever must be freed */
 diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
---- os/Makefile.am	2009-02-13 14:24:04.000000000 -0800
-+++ os/Makefile.am	2009-05-08 17:43:23.622460000 -0700
+--- os/Makefile.am	2008-11-14 13:27:05.000000000 -0800
++++ os/Makefile.am	2009-09-08 19:58:48.474154000 -0700
 @@ -24,6 +24,7 @@ libos_la_SOURCES = 	\
  	xdmauth.c	\
  	xstrans.c	\
@@ -58,8 +99,8 @@ diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
       $(XDMCP_SRCS) $(STRLCAT_SRCS)
  
 diff -urp -x '*~' -x '*.orig' os/auth.c os/auth.c
---- os/auth.c	2009-03-13 10:34:03.000000000 -0700
-+++ os/auth.c	2009-05-08 17:43:23.622937000 -0700
+--- os/auth.c	2008-12-15 11:45:41.000000000 -0800
++++ os/auth.c	2009-09-08 19:58:48.474408000 -0700
 @@ -289,6 +289,19 @@ AddAuthorization (unsigned name_length, 
      return 0;
  }
@@ -80,30 +121,3 @@ diff -urp -x '*~' -x '*.orig' os/auth.c os/auth.c
  #ifdef XCSECURITY
  
  XID
-diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
---- os/connection.c	2009-04-14 10:14:57.000000000 -0700
-+++ os/connection.c	2009-05-08 17:43:23.623731000 -0700
-@@ -131,6 +131,10 @@ typedef const char *string;
- # include "../dix/Xserver-dtrace.h"
- #endif
- 
-+#ifdef SUNSOFT
-+extern void DtloginInit(void);
-+#endif /* SUNSOFT */
-+
- static int lastfdesc;		/* maximum file descriptor */
- 
- fd_set WellKnownConnections;	/* Listener mask */
-@@ -435,6 +439,12 @@ CreateWellKnownSockets(void)
-     XFD_COPYSET (&WellKnownConnections, &AllSockets);
-     ResetHosts(display);
- 
-+#ifdef SUNSOFT
-+    /* Create pipe for dtlogin authentication info before we tell dtlogin 
-+       we're done and ready for it to run. */
-+    DtloginInit ();
-+#endif
-+
-     InitParentProcess();
- 
- #ifdef XDMCP

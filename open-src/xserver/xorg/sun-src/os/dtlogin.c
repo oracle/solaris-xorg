@@ -1,4 +1,4 @@
-/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,21 +26,25 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)dtlogin.c	1.19	09/08/14   SMI" 
+#pragma ident "@(#)dtlogin.c	1.20	09/09/11   SMI"
 
 /* Implementation of Display Manager (dtlogin/gdm/xdm/etc.) to X server
- * communication pipe. The Display Manager process will start 
- * the X window server at system boot time before any user 
- * has logged into the system.  The X server is by default 
+ * communication pipe. The Display Manager process will start
+ * the X window server at system boot time before any user
+ * has logged into the system.  The X server is by default
  * started as the root UID "0".
  *
- * At login time the Xserver local communication pipe is provided 
- * by the Xserver for user specific configuration data supplied 
- * by the display manager.  It notifies the Xserver it needs to change 
+ * At login time the Xserver local communication pipe is provided
+ * by the Xserver for user specific configuration data supplied
+ * by the display manager.  It notifies the Xserver it needs to change
  * over to the user's credentials (UID, GID, GID_LIST) and
- * also switch CWD (current working directory) of to match 
+ * also switch CWD (current working directory) of to match
  * the user's CWD home.
- * ASARC case 1995/390
+ *
+ * When shutting down, the Xserver restores it's original uid/gid as
+ * needed by the cleanup/teardown actions in several drivers.
+ *
+ * For the original definition, see Sun ASARC case 1995/390
  */
 
 #include <X11/Xos.h>
@@ -68,19 +72,25 @@
 #include <ctype.h>
 #include "scrnintstr.h"
 #include <sys/vt.h>
-#ifdef XSUN
-#include "sunIo.h"
-#endif
 
 #define DTLOGIN_PATH "/var/dt/sdtlogin"
 
 #define BUFLEN 1024
 
-uid_t	root_euid;
 int xf86ConsoleFd = -1;
 
 /* in Xserver/os/auth.c */
 extern const char *GetAuthFilename(void);
+
+/* Data about the user we need to switch to */
+struct dmuser {
+    uid_t	uid;
+    gid_t	gid;			/* Primary group */
+    gid_t	groupids[NGROUPS_UMAX];	/* Supplementary groups */
+    int		groupid_cnt;
+    char *	homedir;
+    projid_t	projid;
+};
 
 /* Data passed to block/wakeup handlers */
 struct dmdata {
@@ -88,36 +98,35 @@ struct dmdata {
     char *	pipename;	/* path to pipe */
     char *	buf;		/* contains characters to be processed */
     int		bufsize;	/* size allocated for buf */
-    /* Data about the user we need to switch to */
-    uid_t	uid;
-    gid_t	gid;			/* Primary group */
-    gid_t	groupids[NGROUPS_UMAX];	/* Supplementary groups */
-    int		groupid_cnt;
-    char *	homedir;
+    struct dmuser user;		/* target user, to switch to on login */
 };
 
+
+/* Data stored in screen privates */
+struct dmScreenPriv {
+    CloseScreenProcPtr	CloseScreen;
+};
+static int dmScreenKeyIndex;
+static DevPrivateKey dmScreenKey = &dmScreenKeyIndex;
+static struct dmdata *dmHandlerData;
+static struct dmuser originalUser; /* user to switch back to in CloseDown */
+
+static Bool DtloginCloseScreen(int i, ScreenPtr pScreen);
 static void DtloginBlockHandler(pointer, struct timeval **, pointer);
 static void DtloginWakeupHandler(pointer, int, pointer);
 static int  dtlogin_create_pipe(int, struct dmdata *);
 static void dtlogin_receive_packet(struct dmdata *);
 static int  dtlogin_parse_packet(struct dmdata *, char *);
-static void dtlogin_process(struct dmdata *dmd);
+static void dtlogin_process(struct dmuser *user, int user_logged_in);
 static void dtlogin_close_pipe(struct dmdata *);
 
-#define DtloginError(str)	Error(str)
-#define DtloginFatal(str)	FatalError("%s\n", str)
-
-#ifndef XSUN
-# define DtloginInfo(fmt, arg)	LogMessageVerb(X_INFO, 5, fmt, arg)
-#elif defined(DEBUG)
-# define DtloginInfo(fmt, arg)	fprintf(stderr, fmt, arg)
-#else
-# define DtloginInfo(fmt, arg)	/* Do nothing */
-#endif
+#define DtloginError(fmt, arg)	LogMessageVerb(X_ERROR, 1, fmt ": %s\n", \
+						arg, strerror(errno))
+#define DtloginInfo(fmt, arg)	LogMessageVerb(X_INFO, 5, fmt, arg)
 
 /*
  * initialize DTLOGIN: create pipe; set handlers.
- * Called from CreateWellKnownSockets in os/connection.c
+ * Called from main loop in os/main.c
  */
 
 _X_HIDDEN void
@@ -127,20 +136,26 @@ DtloginInit(void)
     struct dmdata *dmd;
 
     if (serverGeneration != 1) return;
-    
-    root_euid = geteuid();
+
+    originalUser.uid = geteuid();
+    originalUser.gid = getegid();
+    getgroups(NGROUPS_UMAX, originalUser.groupids);
+    originalUser.homedir = getcwd(NULL, 0);
+    originalUser.projid = getprojid();
 
     if (getuid() != 0)  return;
 
     dmd = Xcalloc(sizeof(struct dmdata));
-    if (dmd == NULL) {	
-	DtloginError("Not enough memory to create display manager pipe");
+    if (dmd == NULL) {
+	DtloginError("Failed to allocate %d bytes for display manager pipe",
+		     sizeof(struct dmdata));
 	return;
     }
-    
-    dmd->uid = (uid_t) -1;
-    dmd->gid = (gid_t) -1;
-    
+
+    dmd->user.uid = (uid_t) -1;
+    dmd->user.gid = (gid_t) -1;
+    dmd->user.projid = (projid_t) -1;
+
     displayNumber = atoi(display); /* Assigned in dix/main.c */
 
     dmd->pipeFD = dtlogin_create_pipe(displayNumber, dmd);
@@ -150,9 +165,48 @@ DtloginInit(void)
 	return;
     }
 
+    dmHandlerData = dmd;
+
     RegisterBlockAndWakeupHandlers (DtloginBlockHandler,
 				    DtloginWakeupHandler,
 				    (pointer) dmd);
+}
+
+/*
+ * cleanup dtlogin pipe at exit if still running, reset privs back to
+ * root as needed for various cleanup tasks.
+ * Called from main loop in os/main.c & CloseScreen wrappers
+ */
+_X_HIDDEN void
+DtloginCloseDown(void)
+{
+    if (geteuid() != 0) {		/* reset privs back to root */
+	if (seteuid(0) < 0) {
+	    DtloginError("Error in resetting euid to %d", 0);
+	}
+	dtlogin_process(&originalUser, 0);
+    }
+
+    if (dmHandlerData != NULL) {
+	dtlogin_close_pipe(dmHandlerData);
+    }
+}
+
+static Bool
+DtloginCloseScreen (int i, ScreenPtr pScreen)
+{
+    struct dmScreenPriv *pScreenPriv;
+
+    DtloginCloseDown();
+
+    /* Unwrap CloseScreen and call down to further levels */
+    pScreenPriv = (struct dmScreenPriv *)
+	dixLookupPrivate(&pScreen->devPrivates, dmScreenKey);
+
+    pScreen->CloseScreen = pScreenPriv->CloseScreen;
+    xfree ((pointer) pScreenPriv);
+
+    return (*pScreen->CloseScreen) (i, pScreen);
 }
 
 static void
@@ -163,7 +217,7 @@ DtloginBlockHandler(
 {
     struct dmdata *dmd = (struct dmdata *) data;
     fd_set *LastSelectMask = (fd_set*)pReadmask;
- 
+
     FD_SET(dmd->pipeFD, LastSelectMask);
 }
 
@@ -178,13 +232,13 @@ DtloginWakeupHandler(
 
     if (i > 0)
     {
-        if (FD_ISSET(dmd->pipeFD, LastSelectMask))
-        {
-            FD_CLR(dmd->pipeFD, LastSelectMask);
-            dtlogin_receive_packet(dmd);
+	if (FD_ISSET(dmd->pipeFD, LastSelectMask))
+	{
+	    FD_CLR(dmd->pipeFD, LastSelectMask);
+	    dtlogin_receive_packet(dmd);
 	    /* dmd may have been freed in dtlogin_receive_packet, do
 	       not use after this point */
-        }
+	}
     }
 }
 
@@ -197,24 +251,24 @@ dtlogin_create_pipe(int port, struct dmdata *dmd)
 
     if (stat(DTLOGIN_PATH, &statbuf) == -1) {
 	if (mkdir(DTLOGIN_PATH, 0700) == -1) {
-	    DtloginError("Cannot create " DTLOGIN_PATH
-			 " directory for display manager pipe");
+	    DtloginError("Cannot create %s directory for display "
+			 "manager pipe", DTLOGIN_PATH);
 	    return -1;
 	}
     } else if (!S_ISDIR(statbuf.st_mode)) {
 	DtloginError("Cannot create display manager pipe: "
-		     DTLOGIN_PATH " is not a directory");
-        return -1;
+		     "%s is not a directory", DTLOGIN_PATH);
+	return -1;
     }
-    
+
     snprintf(pipename, sizeof(pipename), "%s/%d", DTLOGIN_PATH, port);
 
-    if (mkfifo(pipename, S_IRUSR | S_IWUSR) < 0) 
-        return -1;
- 
+    if (mkfifo(pipename, S_IRUSR | S_IWUSR) < 0)
+	return -1;
+
     if ((pipeFD = open(pipename, O_RDONLY | O_NONBLOCK)) < 0) {
 	remove(pipename);
-        return -1;
+	return -1;
     }
 
     dmd->pipename = xstrdup(pipename);
@@ -222,25 +276,24 @@ dtlogin_create_pipe(int port, struct dmdata *dmd)
     /* To make sure root has rw permissions. */
     (void) fchmod(pipeFD, 0600);
 
-#ifdef XSUN    
-    if (pipeFD >= cur_max_socks)
-	cur_max_socks = pipeFD + 1;
-#endif
-
     return pipeFD;
 }
 
 static void dtlogin_close_pipe(struct dmdata *dmd)
 {
-    RemoveBlockAndWakeupHandlers (DtloginBlockHandler, 
+    RemoveBlockAndWakeupHandlers (DtloginBlockHandler,
 				  DtloginWakeupHandler, dmd);
 
     close(dmd->pipeFD);
     remove(dmd->pipename);
     xfree(dmd->pipename);
     xfree(dmd->buf);
-    xfree(dmd->homedir);
+    xfree(dmd->user.homedir);
     xfree(dmd);
+
+    if (dmHandlerData == dmd) {
+	dmHandlerData = NULL;
+    }
 }
 
 static void
@@ -249,13 +302,13 @@ dtlogin_receive_packet(struct dmdata *dmd)
     int bufLen, nbRead;
     char *p, *n;
     int done = 0;
-	
+
     if (dmd->buf == NULL) {
 	dmd->bufsize = BUFLEN;
 	dmd->buf = xalloc(dmd->bufsize);
 	dmd->buf[0] = '\0';
     }
-    
+
     /* Read data from pipe and split into tokens, buffering the rest */
     while (!done) {
 	bufLen = strlen(dmd->buf);
@@ -287,7 +340,7 @@ dtlogin_receive_packet(struct dmdata *dmd)
 	    dtlogin_close_pipe(dmd);
 	    return;
 	}
-	
+
 	bufLen += nbRead;
 	dmd->buf[bufLen] = '\0';
 
@@ -314,7 +367,7 @@ dtlogin_receive_packet(struct dmdata *dmd)
 }
 
 /* Parse data from packet
- * 
+ *
  * Example Record:
  *      UID="xxx" GID="yyy";
  *      G_LIST_ID="aaa" G_LIST_ID="bbb" G_LIST_ID="ccc";
@@ -350,7 +403,7 @@ dtlogin_parse_packet(struct dmdata *dmd, char *s)
 	    DtloginInfo("Bad delimiter at \'%s\'\n", p);
 	    return 0;
 	}
-     
+
 	v = p + 1; /* start of value string */
 
 	p = strchr(v, '\"');
@@ -366,15 +419,15 @@ dtlogin_parse_packet(struct dmdata *dmd, char *s)
 
 	DtloginInfo("Received key \"%s\" =>", k);
 	DtloginInfo(" value \"%s\"\n", v);
-    
+
 	/* Found key & value, now process & put into dmd */
 	if (strcmp(k, "EOF") == 0) {
 	    /* End of transmission, process & close */
-	    dtlogin_process(dmd);
+	    dtlogin_process(&(dmd->user), 1);
 	    return 1;
 	}
 	else if (strcmp(k, "HOME") == 0) {
-	    dmd->homedir = xstrdup(v);
+	    dmd->user.homedir = xstrdup(v);
 	}
 	else if ( (strcmp(k, "UID") == 0) || (strcmp(k, "GID") == 0)
 		  || (strcmp(k, "G_LIST_ID") == 0) ) {
@@ -389,23 +442,23 @@ dtlogin_parse_packet(struct dmdata *dmd, char *s)
 		DtloginInfo("Invalid number \"%s\"\n", v);
 		continue;
 	    }
-	
+
 	    if ( ((val == LONG_MAX) || (val == LONG_MIN))
 		 && (errno == ERANGE) ) {
 		/* Value out of range */
 		DtloginInfo("Out of range number \"%s\"\n", v);
 		continue;
 	    }
-    
+
 	    if (strcmp(k, "UID") == 0) {
-		dmd->uid = val;
-	    } 
+		dmd->user.uid = val;
+	    }
 	    else if (strcmp(k, "GID") == 0) {
-		dmd->gid = val;
+		dmd->user.gid = val;
 	    }
 	    else if (strcmp(k, "G_LIST_ID") == 0) {
-		if (dmd->groupid_cnt < NGROUPS_UMAX) {
-		    dmd->groupids[dmd->groupid_cnt++] = val;
+		if (dmd->user.groupid_cnt < NGROUPS_UMAX) {
+		    dmd->user.groupids[dmd->user.groupid_cnt++] = val;
 		}
 	    }
 	}
@@ -419,88 +472,124 @@ dtlogin_parse_packet(struct dmdata *dmd, char *s)
 
 
 static void
-dtlogin_process(struct dmdata *dmd)
+dtlogin_process(struct dmuser *user, int user_logged_in)
 {
     struct project proj;
     char proj_buf[PROJECT_BUFSZ];
     struct passwd *ppasswd;
     const char *auth_file = NULL;
- 
+
     auth_file = GetAuthFilename();
 
     if (auth_file) {
-	if (chown((const char*)auth_file, dmd->uid, dmd->gid) < 0)
-	    DtloginError("Error in changing owner");
+	if (chown(auth_file, user->uid, user->gid) < 0)
+	    DtloginError("Error in changing owner to %d", user->uid);
     }
 
     /* This gid dance is necessary in order to make sure
        our "saved-set-gid" is 0 so that we can regain gid
        0 when necessary for priocntl & power management.
-       The first step sets rgid to the user's gid and 
+       The first step sets rgid to the user's gid and
        makes the egid & saved-gid be 0.  The second then
        sets the egid to the users gid, but leaves the
        saved-gid as 0.  */
 
-    if (dmd->gid != (gid_t) -1) {
-	DtloginInfo("Setting gid to %d\n", dmd->gid);
-	
-	if (setregid(dmd->gid, 0) < 0)
-	    DtloginError("Error in setting regid");
+    if (user->gid != (gid_t) -1) {
+	DtloginInfo("Setting gid to %d\n", user->gid);
 
-	if (setegid(dmd->gid) < 0)
-	    DtloginError("Error in setting egid");
+	if (setregid(user->gid, 0) < 0)
+	    DtloginError("Error in setting regid to %d\n", user->gid);
+
+	if (setegid(user->gid) < 0)
+	    DtloginError("Error in setting egid to %d\n", user->gid);
     }
-    
-    if (dmd->groupid_cnt > 0) {
-	if (setgroups(dmd->groupid_cnt, dmd->groupids) < 0)
-	    DtloginError("Error in setting groups");
+
+    if (user->groupid_cnt >= 0) {
+	if (setgroups(user->groupid_cnt, user->groupids) < 0)
+	    DtloginError("Error in setting supplemental (%d) groups",
+			 user->groupid_cnt);
     }
-    
+
 
     /*
      * BUG: 4462531: Set project ID for Xserver
-     *               Get user name and default project.
-     *               Set before the uid value is set.
+     *	             Get user name and default project.
+     *		     Set before the uid value is set.
      */
-    if (dmd->uid != (uid_t) -1) {
-	ppasswd = getpwuid(dmd->uid);
+    if (user->projid != (uid_t) -1) {
+	if (settaskid(user->projid, TASK_NORMAL) == (taskid_t) -1) {
+	    DtloginError("Error in setting project id to %d", user->projid);
+	}
+    } else if (user->uid != (uid_t) -1) {
+	ppasswd = getpwuid(user->uid);
 
-	if (ppasswd == NULL)
-	    DtloginError("Error in getting user name");
+	if (ppasswd == NULL) {
+	    DtloginError("Error in getting user name for %d", user->uid);
+	} else {
+	    if (getdefaultproj(ppasswd->pw_name, &proj,
+			       (void *)&proj_buf, PROJECT_BUFSZ) == NULL) {
+		DtloginError("Error in getting project id for %s",
+			     ppasswd->pw_name);
+	    } else {
+		DtloginInfo("Setting project to %s\n", proj.pj_name);
 
-	if (getdefaultproj(ppasswd->pw_name, &proj,
-			   (void *)&proj_buf, PROJECT_BUFSZ) == NULL)
-	    DtloginError("Error in getting project id");
-    
-	DtloginInfo("Setting project to %s\n", proj.pj_name);
-	
-	if (setproject(proj.pj_name, ppasswd->pw_name, TASK_NORMAL) == -1)
-	    DtloginError("Error in setting project");
-
-	DtloginInfo("Setting uid to %d\n", dmd->uid);
-	if (setreuid(dmd->uid,dmd->uid) < 0)
-	    DtloginError("Error in setting uid");
+		if (setproject(proj.pj_name, ppasswd->pw_name,
+			       TASK_NORMAL) == -1) {
+		    DtloginError("Error in setting project to %s",
+				 proj.pj_name);
+		}
+	    }
+	}
     }
 
-    if (dmd->homedir != NULL) {
-	/* Allocate enough for "HOME=" + homedir + '\0' */
-	char *env_str = (char *) xalloc (strlen(dmd->homedir) + 6);
+    if (user->uid != (uid_t) -1) {
+	DtloginInfo("Setting uid to %d\n", user->uid);
 
-	if ( env_str == NULL ) {
-	    DtloginError("Not enough memory to set HOME");
+	if (setreuid(user->uid, -1) < 0)
+	    DtloginError("Error in setting ruid to %d", user->uid);
+
+	if (setreuid(-1, user->uid) < 0)
+	    DtloginError("Error in setting euid to %d", user->uid);
+
+	/* Wrap closeScreen to allow resetting uid on closedown */
+	if ((user->uid != 0) && (user != &originalUser)) {
+	    int i;
+
+	    for (i = 0; i < screenInfo.numScreens; i++)
+	    {
+		ScreenPtr pScreen = screenInfo.screens[i];
+		struct dmScreenPriv *pScreenPriv;
+
+		pScreenPriv = (struct dmScreenPriv *)
+		    Xcalloc(sizeof(struct dmScreenPriv));
+		dixSetPrivate(&pScreen->devPrivates, dmScreenKey, pScreenPriv);
+
+		if (pScreenPriv != NULL) {
+		    pScreenPriv->CloseScreen = pScreen->CloseScreen;
+		    pScreen->CloseScreen = DtloginCloseScreen;
+		}
+	    }
+	}
+    }
+
+    if (user->homedir != NULL) {
+	char *env_str = Xprintf("HOME=%s", user->homedir);
+
+	if (env_str == NULL) {
+	    DtloginError("Not enough memory to setenv HOME=%s", user->homedir);
 	} else {
-	    sprintf(env_str, "HOME=%s", dmd->homedir);
 	    DtloginInfo("Setting %s\n",env_str);
-    
+
 	    if (putenv(env_str) < 0)
-		DtloginError("Error in setting HOME");
+		DtloginError("Failed to setenv %s", env_str);
 	}
 
-	if (chdir(dmd->homedir) < 0)
-	    DtloginError("Error in changing working directory");
+	if (chdir(user->homedir) < 0)
+	    DtloginError("Error in changing working directory to %s",
+			 user->homedir);
     }
 
-    /* Inform the kernel that a user has logged in on this VT device */
+    /* Inform the kernel whether a user has logged in on this VT device */
     if (xf86ConsoleFd != -1)
-	ioctl(xf86ConsoleFd, VT_SETDISPLOGIN, 1);
+	ioctl(xf86ConsoleFd, VT_SETDISPLOGIN, user_logged_in);
 }
