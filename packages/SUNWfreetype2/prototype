@@ -29,7 +29,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	1.20	09/05/13 SMI
+#	@(#)prototype	1.21	09/08/30 SMI
 #
 #  FreeType 2 package
 
@@ -66,6 +66,7 @@ d none include/freetype2					0755 root bin
 !search $HOME/include/freetype2/freetype
 d none include/freetype2/freetype				0755 root bin
 f none include/freetype2/freetype/freetype.h			0444 root bin
+f none include/freetype2/freetype/ftadvanc.h			0444 root bin
 f none include/freetype2/freetype/ftbbox.h			0444 root bin
 f none include/freetype2/freetype/ftbdf.h			0444 root bin
 f none include/freetype2/freetype/ftbitmap.h			0444 root bin
@@ -116,7 +117,7 @@ f none include/freetype2/freetype/config/ftstdlib.h		0444 root bin
 
 !search $HOME/lib
 d none lib 							0755 root bin
-f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.18	0755 root bin
+f none lib/libfreetype.so.6=$HOME/lib/libfreetype.so.6.3.20	0755 root bin
 s none lib/libfreetype.so=libfreetype.so.6
 
 d none share 							0755 root sys 
@@ -133,7 +134,7 @@ f none lib/pkgconfig/freetype2.pc				0644 root bin
 
 !search $HOME/lib/$plat_64
 d none lib/$plat_64						0755 root bin
-f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.18	0755 root bin
+f none lib/$plat_64/libfreetype.so.6=$HOME/lib/$plat_64/libfreetype.so.6.3.20	0755 root bin
 s none lib/$plat_64/libfreetype.so=libfreetype.so.6
 
 !search $HOME/lib/$plat_64/pkgconfig

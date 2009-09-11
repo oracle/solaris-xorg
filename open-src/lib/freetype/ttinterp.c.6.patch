@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,8 +26,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- src/truetype/ttinterp.c	2008-06-24 02:50:58.000000000 -0400
-+++ src/truetype/ttinterp.c	2008-07-14 01:26:31.000000000 -0400
+--- freetype-2.3.9/src/truetype/ttinterp.c	2009-01-25 10:00:11.000000000 -0500
++++ freetype-2.3.9/src/truetype/ttinterp.c	2009-08-27 12:51:02.963900000 -0400
 @@ -237,8 +237,8 @@
  #define GUESS_VECTOR( V )                                         \
    if ( CUR.face->unpatented_hinting )                             \
@@ -81,7 +81,7 @@
  
      /* some glyphs leave something on the stack. so we clean it */
      /* before a new execution.                                  */
-@@ -1350,7 +1350,7 @@
+@@ -1357,7 +1357,7 @@
  #ifdef TT_CONFIG_OPTION_UNPATENTED_HINTING
        if ( CUR.face->unpatented_hinting )
        {
@@ -90,7 +90,7 @@
            CUR.tt_metrics.ratio = CUR.tt_metrics.x_ratio;
          else
            CUR.tt_metrics.ratio = CUR.tt_metrics.y_ratio;
-@@ -1358,10 +1358,10 @@
+@@ -1365,10 +1365,10 @@
        else
  #endif
        {
@@ -103,7 +103,7 @@
            CUR.tt_metrics.ratio = CUR.tt_metrics.y_ratio;
  
          else
-@@ -1369,9 +1369,9 @@
+@@ -1376,9 +1376,9 @@
            FT_Long  x, y;
  
  
@@ -115,7 +115,7 @@
                           CUR.tt_metrics.y_ratio, 0x4000 );
            CUR.tt_metrics.ratio = TT_VecLen( x, y );
          }
-@@ -1551,7 +1551,7 @@
+@@ -1558,7 +1558,7 @@
      FT_ASSERT( !CUR.face->unpatented_hinting );
  #endif
  
@@ -124,7 +124,7 @@
  
      if ( v != 0 )
      {
-@@ -1562,7 +1562,7 @@
+@@ -1569,7 +1569,7 @@
        zone->tags[point] |= FT_CURVE_TAG_TOUCH_X;
      }
  
@@ -133,7 +133,7 @@
  
      if ( v != 0 )
      {
-@@ -1604,14 +1604,14 @@
+@@ -1611,14 +1611,14 @@
      FT_ASSERT( !CUR.face->unpatented_hinting );
  #endif
  
@@ -150,7 +150,7 @@
  
      if ( v != 0 )
        zone->org[point].y += TT_MULDIV( distance,
-@@ -2191,8 +2191,8 @@
+@@ -2198,8 +2198,8 @@
  #endif
  
      return TT_DotFix14( dx, dy,
@@ -161,7 +161,7 @@
    }
  
  
-@@ -2217,8 +2217,8 @@
+@@ -2224,8 +2224,8 @@
                           FT_Pos  dy )
    {
      return TT_DotFix14( dx, dy,
@@ -172,7 +172,7 @@
    }
  
  
-@@ -2295,18 +2295,18 @@
+@@ -2302,18 +2302,18 @@
        /* `both-x-axis' true, otherwise set it false.  The x values only     */
        /* need be tested because the vector has been normalised to a unit    */
        /* vector of length 0x4000 = unity.                                   */
@@ -198,7 +198,7 @@
        {
          CUR.func_project   = Project_x;
          CUR.func_move      = Direct_Move_X;
-@@ -2319,11 +2319,11 @@
+@@ -2326,11 +2326,11 @@
          CUR.func_move_orig = Direct_Move_Orig_Y;
        }
  
@@ -212,7 +212,7 @@
            CUR.func_dualproj = Project_y;
          else
            CUR.func_dualproj = Dual_Project;
-@@ -2336,32 +2336,32 @@
+@@ -2343,32 +2343,32 @@
      }
  #endif /* TT_CONFIG_OPTION_UNPATENTED_HINTING */
  
@@ -255,7 +255,7 @@
          CUR.func_dualproj = (TT_Project_Func)Project_y;
        else
          CUR.func_dualproj = (TT_Project_Func)Dual_Project;
-@@ -2372,14 +2372,14 @@
+@@ -2379,14 +2379,14 @@
  
      if ( CUR.F_dot_P == 0x40000000L )
      {
@@ -272,7 +272,7 @@
          {
            CUR.func_move      = (TT_Move_Func)Direct_Move_Y;
            CUR.func_move_orig = (TT_Move_Func)Direct_Move_Orig_Y;
-@@ -2576,13 +2576,13 @@
+@@ -2583,13 +2583,13 @@
      A = (FT_Short)( CUR.opcode & 1 ) << 14; \
      B = A ^ (FT_Short)0x4000;               \
                                              \
@@ -292,7 +292,7 @@
                                              \
      COMPUTE_Funcs();                        \
    }
-@@ -2596,11 +2596,11 @@
+@@ -2603,11 +2603,11 @@
      A = (FT_Short)( CUR.opcode & 1 ) << 14; \
      B = A ^ (FT_Short)0x4000;               \
                                              \
@@ -308,7 +308,7 @@
                                              \
      GUESS_VECTOR( freeVector );             \
                                              \
-@@ -2616,8 +2616,8 @@
+@@ -2623,8 +2623,8 @@
      A = (FT_Short)( CUR.opcode & 1 ) << 14; \
      B = A ^ (FT_Short)0x4000;               \
                                              \
@@ -319,7 +319,7 @@
                                              \
      GUESS_VECTOR( projVector );             \
                                              \
-@@ -2629,9 +2629,9 @@
+@@ -2636,9 +2636,9 @@
      if ( INS_SxVTL( (FT_UShort)args[1],               \
                      (FT_UShort)args[0],               \
                      CUR.opcode,                       \
@@ -331,7 +331,7 @@
        GUESS_VECTOR( freeVector );                     \
        COMPUTE_Funcs();                                \
      }
-@@ -2641,7 +2641,7 @@
+@@ -2648,7 +2648,7 @@
      if ( INS_SxVTL( (FT_UShort)args[1],               \
                      (FT_UShort)args[0],               \
                      CUR.opcode,                       \
@@ -340,7 +340,7 @@
      {                                                 \
        GUESS_VECTOR( projVector );                     \
        COMPUTE_Funcs();                                \
-@@ -2650,7 +2650,7 @@
+@@ -2657,7 +2657,7 @@
  
  #define DO_SFVTPV                          \
      GUESS_VECTOR( projVector );            \
@@ -349,7 +349,7 @@
      COMPUTE_Funcs();
  
  
-@@ -2666,9 +2666,9 @@
+@@ -2673,9 +2673,9 @@
      S = (FT_Short)args[0];                      \
      X = (FT_Long)S;                             \
                                                  \
@@ -361,7 +361,7 @@
      GUESS_VECTOR( freeVector );                 \
      COMPUTE_Funcs();                            \
    }
-@@ -2686,7 +2686,7 @@
+@@ -2693,7 +2693,7 @@
      S = (FT_Short)args[0];                      \
      X = S;                                      \
                                                  \
@@ -370,7 +370,7 @@
      GUESS_VECTOR( projVector );                 \
      COMPUTE_Funcs();                            \
    }
-@@ -2696,18 +2696,18 @@
+@@ -2703,18 +2703,18 @@
  #define DO_GPV                                   \
      if ( CUR.face->unpatented_hinting )          \
      {                                            \
@@ -395,7 +395,7 @@
  #endif
  
  
-@@ -2715,72 +2715,72 @@
+@@ -2722,72 +2722,72 @@
  #define DO_GFV                                   \
      if ( CUR.face->unpatented_hinting )          \
      {                                            \
@@ -485,7 +485,7 @@
      CUR.func_round = (TT_Round_Func)Round_Super_45;
  
  
-@@ -2788,19 +2788,19 @@
+@@ -2795,19 +2795,19 @@
      if ( args[0] < 0 )                 \
        CUR.error = TT_Err_Bad_Argument; \
      else                               \
@@ -509,7 +509,7 @@
  
  
      /* XXX: UNDOCUMENTED! or bug in the Windows engine?   */
-@@ -2810,23 +2810,23 @@
+@@ -2817,23 +2817,23 @@
      /*      units.                                        */
      /*                                                    */
  #define DO_SSW                                                 \
@@ -538,7 +538,7 @@
  
  
  #define DO_MD  /* nothing */
-@@ -4776,7 +4776,7 @@
+@@ -4783,7 +4783,7 @@
  
      /* not part of the specs, but here for safety */
  
@@ -547,7 +547,7 @@
        CUR.zp2.org[L] = CUR.zp2.cur[L];
    }
  
-@@ -4889,7 +4889,7 @@
+@@ -4896,7 +4896,7 @@
        A = -C;
      }
  
@@ -556,7 +556,7 @@
  
      {
        FT_Vector*  v1 = CUR.zp1.cur + p2;
-@@ -4907,7 +4907,7 @@
+@@ -4914,7 +4914,7 @@
        A = -C;
      }
  
@@ -565,7 +565,7 @@
  
      GUESS_VECTOR( freeVector );
  
-@@ -4940,7 +4940,7 @@
+@@ -4947,7 +4947,7 @@
        return;
      }
  
@@ -574,7 +574,7 @@
    }
  
  
-@@ -4969,7 +4969,7 @@
+@@ -4976,7 +4976,7 @@
        return;
      }
  
@@ -583,7 +583,7 @@
    }
  
  
-@@ -4998,7 +4998,7 @@
+@@ -5005,7 +5005,7 @@
        return;
      }
  
@@ -592,7 +592,7 @@
    }
  
  
-@@ -5030,9 +5030,9 @@
+@@ -5037,9 +5037,9 @@
      CUR.zp1 = CUR.zp0;
      CUR.zp2 = CUR.zp0;
  
@@ -605,7 +605,7 @@
    }
  
  
-@@ -5061,8 +5061,8 @@
+@@ -5068,8 +5068,8 @@
      if ( L != 0 )
          L = K;
  
@@ -616,7 +616,7 @@
    }
  
  
-@@ -5083,32 +5083,32 @@
+@@ -5090,32 +5090,32 @@
  
      if ( A == 0xFF )
      {
@@ -631,7 +631,7 @@
        return;
      }
  
-     if ( ( args[0] & 0x100 ) != 0 && CUR.tt_metrics.ppem < A )
+     if ( ( args[0] & 0x100 ) != 0 && CUR.tt_metrics.ppem <= A )
 -      CUR.GS.scan_control = TRUE;
 +      CUR.FT_GS.scan_control = TRUE;
  
@@ -643,7 +643,7 @@
 -      CUR.GS.scan_control = TRUE;
 +      CUR.FT_GS.scan_control = TRUE;
  
-     if ( ( args[0] & 0x800 ) != 0 && CUR.tt_metrics.ppem >= A )
+     if ( ( args[0] & 0x800 ) != 0 && CUR.tt_metrics.ppem > A )
 -      CUR.GS.scan_control = FALSE;
 +      CUR.FT_GS.scan_control = FALSE;
  
@@ -657,7 +657,7 @@
    }
  
  
-@@ -5122,7 +5122,7 @@
+@@ -5129,7 +5129,7 @@
    Ins_SCANTYPE( INS_ARG )
    {
      if ( args[0] >= 0 )
@@ -666,7 +666,7 @@
    }
  
  
-@@ -5149,13 +5149,13 @@
+@@ -5156,13 +5156,13 @@
      FT_UNUSED_ARG;
  
  
@@ -682,7 +682,7 @@
      {
        CUR.args--;
  
-@@ -5172,10 +5172,10 @@
+@@ -5179,10 +5179,10 @@
        else
          CUR.pts.tags[point] ^= FT_CURVE_TAG_ON;
  
@@ -695,7 +695,7 @@
      CUR.new_top = CUR.args;
    }
  
-@@ -5250,12 +5250,12 @@
+@@ -5257,12 +5257,12 @@
      if ( CUR.opcode & 1 )
      {
        zp = CUR.zp0;
@@ -710,7 +710,7 @@
      }
  
      if ( BOUNDS( p, zp.n_points ) )
-@@ -5274,7 +5274,7 @@
+@@ -5281,7 +5281,7 @@
  #ifdef TT_CONFIG_OPTION_UNPATENTED_HINTING
      if ( CUR.face->unpatented_hinting )
      {
@@ -719,7 +719,7 @@
        {
          *x = d;
          *y = 0;
-@@ -5289,10 +5289,10 @@
+@@ -5296,10 +5296,10 @@
  #endif
      {
        *x = TT_MULDIV( d,
@@ -732,7 +732,7 @@
                        CUR.F_dot_P );
      }
  
-@@ -5309,7 +5309,7 @@
+@@ -5316,7 +5316,7 @@
  #ifdef TT_CONFIG_OPTION_UNPATENTED_HINTING
      if ( CUR.face->unpatented_hinting )
      {
@@ -741,7 +741,7 @@
        {
          CUR.zp2.cur[point].x += dx;
          if ( touch )
-@@ -5325,14 +5325,14 @@
+@@ -5332,14 +5332,14 @@
      }
  #endif
  
@@ -758,7 +758,7 @@
      {
        CUR.zp2.cur[point].y += dy;
        if ( touch )
-@@ -5360,7 +5360,7 @@
+@@ -5367,7 +5367,7 @@
      FT_UNUSED_ARG;
  
  
@@ -767,7 +767,7 @@
      {
        CUR.error = TT_Err_Invalid_Reference;
        return;
-@@ -5369,7 +5369,7 @@
+@@ -5376,7 +5376,7 @@
      if ( COMPUTE_Point_Displacement( &dx, &dy, &zp, &refp ) )
        return;
  
@@ -776,7 +776,7 @@
      {
        CUR.args--;
        point = (FT_UShort)CUR.stack[CUR.args];
-@@ -5386,10 +5386,10 @@
+@@ -5393,10 +5393,10 @@
          /* XXX: UNDOCUMENTED! SHP touches the points */
          MOVE_Zp2_Point( point, dx, dy, TRUE );
  
@@ -789,7 +789,7 @@
      CUR.new_top = CUR.args;
    }
  
-@@ -5483,9 +5483,9 @@
+@@ -5490,9 +5490,9 @@
      /*      Twilight zone has no contours, so use `n_points'.   */
      /*      Normal zone's `n_points' includes phantoms, so must */
      /*      use end of last contour.                            */
@@ -801,7 +801,7 @@
        last_point = (FT_UShort)( CUR.zp2.contours[CUR.zp2.n_contours - 1] );
      else
        last_point = 0;
-@@ -5512,7 +5512,7 @@
+@@ -5519,7 +5519,7 @@
      FT_UShort   point;
  
  
@@ -810,7 +810,7 @@
      {
        CUR.error = TT_Err_Invalid_Reference;
        return;
-@@ -5521,7 +5521,7 @@
+@@ -5528,7 +5528,7 @@
  #ifdef TT_CONFIG_OPTION_UNPATENTED_HINTING
      if ( CUR.face->unpatented_hinting )
      {
@@ -819,7 +819,7 @@
        {
          dx = TT_MulFix14( args[0], 0x4000 );
          dy = 0;
-@@ -5535,11 +5535,11 @@
+@@ -5542,11 +5542,11 @@
      else
  #endif
      {
@@ -834,7 +834,7 @@
      {
        CUR.args--;
  
-@@ -5556,10 +5556,10 @@
+@@ -5563,10 +5563,10 @@
        else
          MOVE_Zp2_Point( point, dx, dy, TRUE );
  
@@ -847,7 +847,7 @@
      CUR.new_top = CUR.args;
    }
  
-@@ -5580,7 +5580,7 @@
+@@ -5587,7 +5587,7 @@
      point = (FT_UShort)args[0];
  
      if ( BOUNDS( point,      CUR.zp1.n_points ) ||
@@ -856,7 +856,7 @@
      {
        if ( CUR.pedantic_hinting )
          CUR.error = TT_Err_Invalid_Reference;
-@@ -5588,24 +5588,24 @@
+@@ -5595,24 +5595,24 @@
      }
  
      /* XXX: UNDOCUMENTED! behaviour */
@@ -887,7 +887,7 @@
    }
  
  
-@@ -5645,8 +5645,8 @@
+@@ -5652,8 +5652,8 @@
  
      CUR_Func_move( &CUR.zp0, point, distance );
  
@@ -898,7 +898,7 @@
    }
  
  
-@@ -5700,10 +5700,10 @@
+@@ -5707,10 +5707,10 @@
  
      distance = CUR_Func_read_cvt( cvtEntry );
  
@@ -912,7 +912,7 @@
        CUR.zp0.cur[point]   = CUR.zp0.org[point];
      }
  
-@@ -5711,7 +5711,7 @@
+@@ -5718,7 +5718,7 @@
  
      if ( ( CUR.opcode & 1 ) != 0 )   /* rounding and control cutin flag */
      {
@@ -921,7 +921,7 @@
          distance = org_dist;
  
        distance = CUR_Func_round( distance, CUR.tt_metrics.compensations[0] );
-@@ -5719,8 +5719,8 @@
+@@ -5726,8 +5726,8 @@
  
      CUR_Func_move( &CUR.zp0, point, distance - org_dist );
  
@@ -932,7 +932,7 @@
    }
  
  
-@@ -5740,7 +5740,7 @@
+@@ -5747,7 +5747,7 @@
      point = (FT_UShort)args[0];
  
      if ( BOUNDS( point,      CUR.zp1.n_points ) ||
@@ -941,7 +941,7 @@
      {
        if ( CUR.pedantic_hinting )
          CUR.error = TT_Err_Invalid_Reference;
-@@ -5752,10 +5752,10 @@
+@@ -5759,10 +5759,10 @@
  
      /* XXX: UNDOCUMENTED: twilight zone special case */
  
@@ -954,7 +954,7 @@
  
  
        org_dist = CUR_Func_dualproj( vec1, vec2 );
-@@ -5763,7 +5763,7 @@
+@@ -5770,7 +5770,7 @@
      else
      {
        FT_Vector*  vec1 = &CUR.zp1.orus[point];
@@ -963,7 +963,7 @@
  
  
        if ( CUR.metrics.x_scale == CUR.metrics.y_scale )
-@@ -5786,13 +5786,13 @@
+@@ -5793,13 +5793,13 @@
  
      /* single width cut-in test */
  
@@ -981,7 +981,7 @@
      }
  
      /* round flag */
-@@ -5812,28 +5812,28 @@
+@@ -5819,28 +5819,28 @@
      {
        if ( org_dist >= 0 )
        {
@@ -1018,7 +1018,7 @@
    }
  
  
-@@ -5862,7 +5862,7 @@
+@@ -5869,7 +5869,7 @@
  
      if ( BOUNDS( point,      CUR.zp1.n_points ) ||
           BOUNDS( cvtEntry,   CUR.cvtSize + 1 )  ||
@@ -1027,7 +1027,7 @@
      {
        if ( CUR.pedantic_hinting )
          CUR.error = TT_Err_Invalid_Reference;
-@@ -5876,36 +5876,36 @@
+@@ -5883,36 +5883,36 @@
  
      /* single width test */
  
@@ -1076,7 +1076,7 @@
      {
        if ( ( org_dist ^ cvt_dist ) < 0 )
          cvt_dist = -cvt_dist;
-@@ -5918,8 +5918,8 @@
+@@ -5925,8 +5925,8 @@
        /* XXX: UNDOCUMENTED!  Only perform cut-in test when both points */
        /*      refer to the same zone.                                  */
  
@@ -1087,7 +1087,7 @@
            cvt_dist = org_dist;
  
        distance = CUR_Func_round(
-@@ -5937,25 +5937,25 @@
+@@ -5944,25 +5944,25 @@
      {
        if ( org_dist >= 0 )
        {
@@ -1120,7 +1120,7 @@
    }
  
  
-@@ -5974,15 +5974,15 @@
+@@ -5981,15 +5981,15 @@
      FT_UNUSED_ARG;
  
  
@@ -1139,7 +1139,7 @@
      {
        CUR.args--;
  
-@@ -5999,15 +5999,15 @@
+@@ -6006,15 +6006,15 @@
        else
        {
          distance = CUR_Func_project( CUR.zp1.cur + point,
@@ -1158,7 +1158,7 @@
      CUR.new_top = CUR.args;
    }
  
-@@ -6146,7 +6146,7 @@
+@@ -6153,7 +6153,7 @@
      FT_UNUSED_ARG;
  
  
@@ -1167,7 +1167,7 @@
      {
        CUR.error = TT_Err_Invalid_Reference;
        return;
-@@ -6157,9 +6157,9 @@
+@@ -6164,9 +6164,9 @@
       * Otherwise, by definition, the value of CUR.twilight.orus[n] is (0,0),
       * for every n.
       */
@@ -1179,7 +1179,7 @@
      {
        if ( CUR.pedantic_hinting )
          CUR.error = TT_Err_Invalid_Reference;
-@@ -6167,18 +6167,18 @@
+@@ -6174,18 +6174,18 @@
      }
  
      if ( twilight )
@@ -1203,7 +1203,7 @@
      {
        old_range = 0;
        cur_range = 0;
-@@ -6186,16 +6186,16 @@
+@@ -6193,16 +6193,16 @@
      else
      {
        if ( twilight )
@@ -1224,7 +1224,7 @@
      {
        FT_UInt     point = (FT_UInt)CUR.stack[--CUR.args];
        FT_F26Dot6  org_dist, cur_dist, new_dist;
-@@ -6228,7 +6228,7 @@
+@@ -6235,7 +6235,7 @@
  
        CUR_Func_move( &CUR.zp2, (FT_UShort)point, new_dist - cur_dist );
      }
@@ -1233,7 +1233,7 @@
      CUR.new_top = CUR.args;
    }
  
-@@ -6257,10 +6257,10 @@
+@@ -6264,10 +6264,10 @@
  
      mask = 0xFF;
  
@@ -1246,7 +1246,7 @@
        mask &= ~FT_CURVE_TAG_TOUCH_Y;
  
      CUR.zp0.tags[point] &= mask;
-@@ -6571,14 +6571,14 @@
+@@ -6578,14 +6578,14 @@
            break;
          }
  
@@ -1263,7 +1263,7 @@
  
            CUR_Func_move( &CUR.zp0, A, B );
          }
-@@ -6666,14 +6666,14 @@
+@@ -6673,14 +6673,14 @@
            break;
          }
  
@@ -1280,7 +1280,7 @@
  
            CUR_Func_move_cvt( A, B );
          }
-@@ -7113,7 +7113,7 @@
+@@ -7120,7 +7120,7 @@
      }
  
      COMPUTE_Funcs();
@@ -1289,7 +1289,7 @@
  
      do
      {
-@@ -7183,11 +7183,11 @@
+@@ -7190,11 +7190,11 @@
  
              if ( opcode < 4 )
              {
@@ -1305,7 +1305,7 @@
              }
              else
              {
-@@ -7196,8 +7196,8 @@
+@@ -7203,8 +7203,8 @@
  
              if ( ( opcode & 2 ) == 0 )
              {

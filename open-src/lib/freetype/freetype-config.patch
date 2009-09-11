@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,9 +26,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- builds/unix/freetype-config.in	2006-10-12 00:51:08.000000000 -0400
-+++ builds/unix/freetype-config.in	2008-01-28 15:51:01.825647000 -0500
-@@ -141,7 +141,7 @@
+--- freetype-2.3.9/builds/unix/freetype-config.in	2009-02-03 18:09:49.000000000 -0500
++++ freetype-2.3.9/builds/unix/freetype-config.in	2009-08-27 13:53:14.803454000 -0400
+@@ -144,7 +144,7 @@
    if test "$enable_shared" = "yes" ; then
      eval "rpath=\"$hardcode_libdir_flag_spec\""
    fi
@@ -37,4 +37,3 @@
    if test "$libdir" != "/usr/lib" && test "$libdir" != "/usr/lib64"; then
      echo -L$libdir $rpath $libs
    else
-

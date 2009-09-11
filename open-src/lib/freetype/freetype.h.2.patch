@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,9 +26,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- include/freetype/freetype.h	2008-06-29 03:18:50.000000000 -0400
-+++ include/freetype/freetype.h	2008-07-14 01:36:45.000000000 -0400
-@@ -2421,6 +2421,9 @@
+--- freetype-2.3.9/include/freetype/freetype.h	2009-03-03 16:29:45.000000000 -0500
++++ freetype-2.3.9/include/freetype/freetype.h	2009-08-27 12:39:18.277820000 -0400
+@@ -2459,6 +2459,9 @@
  #define FT_LOAD_FORCE_AUTOHINT               0x20
  #define FT_LOAD_CROP_BITMAP                  0x40
  #define FT_LOAD_PEDANTIC                     0x80

@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,9 +26,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- src/truetype/ttobjs.c	2008-05-17 02:29:30.000000000 -0400
-+++ src/truetype/ttobjs.c	2008-07-14 01:23:03.000000000 -0400
-@@ -515,7 +515,7 @@
+--- freetype-2.3.9/src/truetype/ttobjs.c	2009-02-11 17:55:26.000000000 -0500
++++ freetype-2.3.9/src/truetype/ttobjs.c	2009-08-27 12:12:00.191763000 -0400
+@@ -527,7 +527,7 @@
        error = TT_Err_Ok;
  
      /* save as default graphics state */
@@ -37,7 +37,7 @@
  
      TT_Save_Context( exec, size );
  
-@@ -633,7 +633,7 @@
+@@ -645,7 +645,7 @@
  
      size->twilight.n_points = n_twilight;
  
@@ -46,7 +46,7 @@
  
      /* set `face->interpreter' according to the debug hook present */
      {
-@@ -695,7 +695,7 @@
+@@ -707,7 +707,7 @@
        for ( i = 0; i < (FT_UInt)size->storage_size; i++ )
          size->storage[i] = 0;
  

@@ -2,7 +2,7 @@
 #
 # Freetype 2.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.78	08/11/26
+# @(#)Makefile	1.79	09/08/30
 #
 
 PWD:sh=pwd
@@ -43,7 +43,7 @@ MODULE_NAME=freetype
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.7
+MODULE_VERSION=2.3.9
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -51,20 +51,22 @@ SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	freetype-config.patch \
-	ftoption.h.0.patch \
-	ftconfig.h.1.patch \
-	freetype.h.2.patch \
-	ttobjs.h.3.patch \
-	ttobjs.c.4.patch \
-	ttinterp.h.5.patch \
-	ttinterp.c.6.patch \
-	ttgload.c.7.patch \
-	ftconfig.in.8.patch \
-	unix-cc.in.9.patch \
-	freetype2.in.10.patch \
-	configure.11.patch \
-	configure.12.patch
+	freetype-2.3.9-CVE-2009-0946.patch,-p1 \
+	fedora_aliasing_patch90.patch,-p1 \
+	freetype-config.patch,-p1 \
+	ftoption.h.0.patch,-p1 \
+	ftconfig.h.1.patch,-p1 \
+	freetype.h.2.patch,-p1 \
+	ttobjs.h.3.patch,-p1 \
+	ttobjs.c.4.patch,-p1 \
+	ttinterp.h.5.patch,-p1 \
+	ttinterp.c.6.patch,-p1 \
+	ttgload.c.7.patch,-p1 \
+	ftconfig.in.8.patch,-p1 \
+	unix-cc.in.9.patch,-p1 \
+	freetype2.in.10.patch,-p1 \
+	configure.11.patch,-p1 \
+	configure.12.patch,-p1
 
 # Where to install freetype files
 MODULE_PREFIX=/usr
@@ -99,6 +101,7 @@ MODULE_ENV = \
     CONFIG_SHELL="/bin/bash" \
     CPP="$(CC) -E $(LIB_CFLAGS)" \
     CXXCPP="$(CXX) -E $(CXXFLAGS)" \
+    MAKEFLAGS= \
     MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(CONFIG_OPTS)"
 
 MODULE_CONFIG_ENV = $(MODULE_ENV)

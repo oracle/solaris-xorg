@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,29 +26,35 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
---- builds/unix/ftconfig.in	2007-03-28 08:26:37.000000000 -0400
-+++ builds/unix/ftconfig.in	2008-07-14 01:34:43.000000000 -0400
-@@ -60,9 +60,19 @@
- #undef HAVE_UNISTD_H
+--- freetype-2.3.9/builds/unix/ftconfig.in	2009-02-15 02:51:47.000000000 -0500
++++ freetype-2.3.9/builds/unix/ftconfig.in	2009-08-27 12:34:49.508239000 -0400
+@@ -61,6 +61,9 @@
  #undef HAVE_FCNTL_H
+ #undef HAVE_STDINT_H
  
 +#define HAVE_UNISTD_H 1
 +#define HAVE_FCNTL_H 1
 +
+ 
+   /* There are systems (like the Texas Instruments 'C54x) where a `char' */
+   /* has 16 bits.  ANSI C says that sizeof(char) is always 1.  Since an  */
+@@ -80,6 +83,15 @@
+ 
  #undef SIZEOF_INT
  #undef SIZEOF_LONG
- 
++
 +#define SIZEOF_INT 4
 +
-+#if defined(_LP64)
++#if defined(__sparcv9) || defined(__amd64) || defined(_LP64)
 +#define SIZEOF_LONG 8
 +#else
 +#define SIZEOF_LONG 4
 +#endif
++
+ #define FT_SIZEOF_INT  SIZEOF_INT
+ #define FT_SIZEOF_LONG SIZEOF_LONG
  
- #define FT_SIZEOF_INT   SIZEOF_INT
- #define FT_SIZEOF_LONG  SIZEOF_LONG
-@@ -218,8 +228,8 @@
+@@ -269,8 +281,8 @@
    /* Since `#undef' doesn't survive in configuration header files */
    /* we use the postprocessing facility of AC_CONFIG_HEADERS to   */
    /* replace the leading `/' with `#'.                            */
