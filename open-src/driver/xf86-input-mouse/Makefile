@@ -3,7 +3,7 @@
 # xf86-input-mouse 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	09/01/10
+# @(#)Makefile	1.9	09/09/16
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ MODULE_NAME=xf86-input-mouse
 MODULE_VERSION=1.4.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = 6846735.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
