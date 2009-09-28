@@ -1,0 +1,45 @@
+--- lib/server/CConfig.h	2006-02-20 13:00:04.000000000 -0800
++++ lib/server/CConfig.h	2009-07-14 12:08:52.516465086 -0700
+@@ -25,11 +25,24 @@
+ #include "stdset.h"
+ #include "IPlatformScreen.h"
+ #include <iosfwd>
++#include <iterator>
+ 
+ class CConfig;
+ class CConfigReadContext;
+ 
+ namespace std {
++// and thusly we must hack the absent iterator_traits<T>
++// from our own implementation of the Standard C++ Library
++template <class T>
++struct iterator_traits
++{
++    typedef T::value_type value_type;
++    typedef T::difference_type difference_type;
++    typedef T::pointer pointer;
++    typedef T::reference reference;
++    typedef T::iterator_category iterator_category;
++};
++
+ template <>
+ struct iterator_traits<CConfig> {
+ 	typedef CString						value_type;
+@@ -38,7 +51,7 @@
+ 	typedef CString*					pointer;
+ 	typedef CString&					reference;
+ };
+-};
++}
+ 
+ //! Server configuration
+ /*!
+@@ -142,7 +155,7 @@
+ 	typedef CCell::const_iterator link_const_iterator;
+ 	typedef CCellMap::const_iterator internal_const_iterator;
+ 	typedef CNameMap::const_iterator all_const_iterator;
+-	class const_iterator : std::iterator_traits<CConfig> {
++	class const_iterator : public std::iterator_traits<CConfig> {
+ 	public:
+ 		explicit const_iterator() : m_i() { }
+ 		explicit const_iterator(const internal_const_iterator& i) : m_i(i) { }

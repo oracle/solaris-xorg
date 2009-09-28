@@ -31,7 +31,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)upgrade-X	1.57	09/08/05 SMI"
+# ident	"@(#)upgrade-X	1.58	09/09/22 SMI"
 #
 # Description: This script upgrades X software on a Solaris Nevada
 #	       system. It should be run as root from a X package area.
@@ -172,6 +172,7 @@ pkg_list="
 	SUNWpixman
 	SUNWttf-google-droid
 	SUNWvncviewer
+	SUNWsynergy
 	SUNWxcursor-themes
 	SUNWxorg-client-docs
 	SUNWxorg-client-programs

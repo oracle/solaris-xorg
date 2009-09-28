@@ -1,0 +1,26 @@
+--- lib/synergy/CKeyState.cpp	2006-04-01 12:53:08.000000000 -0800
++++ lib/synergy/CKeyState.cpp	2009-07-14 11:21:09.694094713 -0700
+@@ -15,8 +15,9 @@
+ #include "CKeyState.h"
+ #include "IEventQueue.h"
+ #include "CLog.h"
+-#include <string.h>
++#include <cstring>
+ #include <algorithm>
++#include <map>
+ 
+ static const KeyButton kButtonMask = (KeyButton)(IKeyState::kNumButtons - 1);
+ 
+@@ -500,8 +501,10 @@
+ 		reinterpret_cast<CAddActiveModifierContext*>(vcontext);
+ 	if (group == context->m_activeGroup &&
+ 		(keyItem.m_generates & context->m_mask) != 0) {
+-		context->m_activeModifiers.insert(std::make_pair(
+-								keyItem.m_generates, keyItem));
++
++	    std::pair<const unsigned, CKeyMap::KeyItem> elem =
++		std::make_pair<const unsigned, CKeyMap::KeyItem>(keyItem.m_generates, keyItem);
++	    context->m_activeModifiers.insert(std::multimap<const unsigned, CKeyMap::KeyItem>::value_type(elem));
+ 	}	
+ }
+ 
