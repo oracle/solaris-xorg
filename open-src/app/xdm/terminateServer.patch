@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source Application modules
+###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -28,119 +28,15 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.89	09/09/28 SMI"
-#
 ###############################################################################
 
-OS_SUBDIRS_common = \
-	accessx \
-	appres \
-	bdftopcf \
-	bitmap \
-	cmap_alloc \
-        cmap_compact \
-	constype \
-	dispswitch \
-	editres \
-	fbconsole \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	installalias \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkcookie \
-	mkfontdir \
-	mkfontscale \
-	oclock \
-	proxymngr \
-	rstart \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	synergy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-        xcolor \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdm \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfs \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-        xlock \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xmakemap \
-	xman \
-	xmodmap \
-	xpm \
-	xpr \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xscope \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
-
-OBSOLETE_SUBDIRS = \
-	xplsprinters \
-	xprehashprinterlist \
-	xscreensaver \
-	rss-glx
-
-PWD:sh=pwd
-TOP=$(PWD)/..
-
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs
+diff -urp -x '*~' -x '*.orig' config/xdm-config.cpp config/xdm-config.cpp
+--- config/xdm-config.cpp	2009-09-17 19:24:37.000000000 -0700
++++ config/xdm-config.cpp	2009-09-21 22:46:43.151325000 -0700
+@@ -37,3 +37,6 @@ DisplayManager*loginmoveInterval:	10
+ ! SECURITY: do not listen for XDMCP or Chooser requests
+ ! Comment out this line if you want to manage X terminals with xdm
+ DisplayManager.requestPort:	0
++
++! Restart X server for each session
++DisplayManager*terminateServer:	true

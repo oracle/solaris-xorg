@@ -1,5 +1,6 @@
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.74	09/07/29 SMI"
+# ident "@(#)prototype	35.75	09/09/28 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -41,74 +42,17 @@ d none openwin			0755 root bin
 !search      $HOME/openwin/bin
 d none openwin/bin		0755 root bin
 f none openwin/bin/pswrap	0755 root bin
-f none openwin/bin/xdm		0755 root bin
-f none openwin/bin/xdmshell	0755 root bin
-
-d none openwin/lib 0755 root bin
-d none openwin/lib/X11		0755 root bin
-d none openwin/lib/app-defaults 0755 root bin
-s none openwin/lib/X11/app-defaults/= ../app-defaults
 
 # modified from original
 !search $HOME/X11/share/X11/twm
 d none X11/share 0755 root bin
 d none X11/share/X11 0755 root bin
 d none X11/share/X11/twm 0755 root bin
-s none X11/share/X11/system.twmrc= ./twm/system.twmrc
+s none X11/share/X11/system.twmrc=./twm/system.twmrc
 f none X11/share/X11/twm/system.twmrc 0644 root bin
 
-#d none openwin/lib/xdm 0755 root bin
-#!search  $HOME/openwin/lib/xdm
-#f none openwin/lib/xdm/StartOW 0755 root bin
-#f none openwin/lib/xdm/Startup 0755 root bin
-#f none openwin/lib/xdm/Reset   0755 root bin
-##f none openwin/lib/xdm/Xreset 0775 root bin
-#f none openwin/lib/xdm/Xresources 0644 root bin
-#f none openwin/lib/xdm/Xservers 0644 root bin
-#f none openwin/lib/xdm/Xsession 0755 root bin
-#f none openwin/lib/xdm/xdm-config 0644 root bin
-##f none openwin/lib/xdm/xrdb.sh 0775 root bin
-#s none openwin/lib/xdm/chooser=../X11/xdm/chooser
-
-# There is a new path to xdm in r6 keep old version around
-# for compatibility
-
-#!search  $HOME/openwin/lib/xdm
-#d none openwin/lib/xdm 0755 root bin
-
-#f none openwin/lib/xdm/GiveConsole 0755 root bin
-#f none openwin/lib/xdm/TakeConsole 0755 root bin
-#f none openwin/lib/xdm/Xaccess 0755 root bin
-#f none openwin/lib/xdm/Xsetup_0 0755 root bin
-
-
-# new place for xdm in r6 
-
-!search  $HOME/openwin/lib/X11/xdm
-d none openwin/lib/X11/xdm 0755 root bin
-
-#s none openwin/lib/X11/xdm/GiveConsole=../../xdm/GiveConsole
-#s none openwin/lib/X11/xdm/TakeConsole=../../xdm/TakeConsole
-#s none openwin/lib/X11/xdm/Xaccess=../../xdm/Xaccess
-#s none openwin/lib/X11/xdm/Xsetup_0=../../xdm/Xsetup_0
-f none openwin/lib/X11/xdm/GiveConsole 0755 root bin
-f none openwin/lib/X11/xdm/TakeConsole 0755 root bin
-f none openwin/lib/X11/xdm/Xaccess 0755 root bin
-f none openwin/lib/X11/xdm/Xsetup_0 0755 root bin
-f none openwin/lib/X11/xdm/chooser 0755 root bin
-f none openwin/lib/X11/xdm/Xresources 0755 root bin
-f none openwin/lib/X11/xdm/Xservers 0755 root bin
-f none openwin/lib/X11/xdm/Xsession 0755 root bin
-f none openwin/lib/X11/xdm/Startup 0755 root bin
-f none openwin/lib/X11/xdm/Reset 0755 root bin
-s none openwin/lib/X11/xdm/libXdmGreet.so=./libXdmGreet.so.1.0
-f none openwin/lib/X11/xdm/libXdmGreet.so.1.0 0755 root bin
-f none openwin/lib/X11/xdm/xdm-config 0755 root bin
-f none openwin/lib/X11/xdm/StartX 0755 root bin
-
-!search  $HOME/openwin/lib/xdm
-s none openwin/lib/xdm=X11/xdm
-
+d none openwin/lib		0755 root bin
+d none openwin/lib/X11		0755 root bin
 s none openwin/lib/X11/config=../config
 s none openwin/lib/config=../../X11/lib/X11/config
 d none X11/lib/X11/config 0755 root bin
@@ -222,7 +166,7 @@ s none openwin/bin/twm=../../X11/bin/twm
 # no openwin link since it was never delivered into /usr/openwin
 f none X11/bin/luit				0755 root bin
 
-#open-src/app/xclock
+# open-src/app/xclock
 f none X11/bin/xclock				0755 root bin
 s none openwin/bin/xclock=../../X11/bin/xclock
 

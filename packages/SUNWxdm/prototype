@@ -1,0 +1,91 @@
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+# xdm display manager
+
+i pkginfo
+i copyright
+i depend
+
+!HOME=../usr
+
+
+!search      $HOME/sbin
+d none sbin 						0755 root bin
+f none sbin/xdm						0555 root bin
+
+d none lib 						0755 root bin
+d none lib/X11 						0755 root bin
+
+!search  $HOME/lib/X11/xdm
+d none lib/X11/xdm					0755 root bin
+# scripts & binaries run by xdm
+f none lib/X11/xdm/GiveConsole				0555 root bin
+f none lib/X11/xdm/TakeConsole				0555 root bin
+f none lib/X11/xdm/Xreset				0555 root bin
+f none lib/X11/xdm/Xsession				0555 root bin
+f none lib/X11/xdm/Xsetup_0				0555 root bin
+f none lib/X11/xdm/Xstartup				0555 root bin
+f none lib/X11/xdm/Xwilling				0555 root bin
+f none lib/X11/xdm/chooser				0555 root bin
+f none lib/X11/xdm/libXdmGreet.so			0555 root bin
+f none lib/X11/xdm/xdmshell				0555 root bin
+
+# prototype files for users who have edited the versions in etc
+f none lib/X11/xdm/Xaccess				0444 root bin
+f none lib/X11/xdm/Xresources				0444 root bin
+f none lib/X11/xdm/Xservers				0444 root bin
+f none lib/X11/xdm/xdm-config				0444 root bin
+f none lib/X11/xdm/README				0444 root bin
+
+!search  $HOME/lib/X11/xdm/pixmaps
+d none lib/X11/xdm/pixmaps				0755 root bin
+f none lib/X11/xdm/pixmaps/xorg-bw.xpm			0444 root bin
+f none lib/X11/xdm/pixmaps/xorg.xpm			0444 root bin
+
+!search $HOME/X11/lib/X11/app-defaults
+d none X11/lib						0755 root bin
+d none X11/lib/X11					0755 root bin
+d none X11/lib/X11/app-defaults				0755 root bin
+f none X11/lib/X11/app-defaults/Chooser			0444 root bin
+
+
+!search      $HOME/share/man/man1
+d none share						0755 root sys
+d none share/man					0755 root bin
+d none share/man/man1					0755 root bin
+f none share/man/man1/xdm.1				0444 root bin
+
+# Backwards compatibility links
+d none openwin						0755 root bin
+d none openwin/bin					0755 root bin
+s none openwin/bin/xdm=../../sbin/xdm
+s none openwin/bin/xdmshell=../../lib/X11/xdm/xdmshell
+d none openwin/lib					0755 root bin
+s none openwin/lib/xdm=X11/xdm
+s none openwin/lib/X11/xdm=../../../lib/X11/xdm

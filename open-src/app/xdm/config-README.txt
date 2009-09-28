@@ -1,4 +1,30 @@
-# Makefile for X Consolidation Open Source Application modules
+Xdm Default Configuration
+-------------------------
+
+The /usr/lib/X11/xdm directory contains a collection of scripts run by 
+the default configuration of xdm, and a collection of sample configuration
+files.
+
+All of these files will be overwritten by upgrades and should not be
+edited in place in /usr/lib/X11/xdm.
+
+The xdm-config file (/etc/X11/xdm/xdm-config unless overridden by the -config
+command line option to xdm) specifies the path in which to find the other
+configuration files and scripts.
+
+To change a setting in the configuration files (xdm-config, Xaccess, 
+Xresources, Xservers), edit the copies in /etc/X11/xdm or create a new
+directory for your configuration and copy the appropriate files there.
+
+To change the actions performed by one of the scripts, copy it to your
+configuration directory, edit the copy, and then edit the path to it in
+the xdm-config file for your configuration.
+
+For more information about the contents of these files, see the xdm(1) 
+manual page.
+
+
+###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -28,119 +54,4 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.89	09/09/28 SMI"
-#
 ###############################################################################
-
-OS_SUBDIRS_common = \
-	accessx \
-	appres \
-	bdftopcf \
-	bitmap \
-	cmap_alloc \
-        cmap_compact \
-	constype \
-	dispswitch \
-	editres \
-	fbconsole \
-	fslsfonts \
-	fstobdf \
-	iceauth \
-	ico \
-	installalias \
-	lbxproxy \
-	listres \
-	luit \
-	kbd_mode \
-	mesa-demos \
-	mkcookie \
-	mkfontdir \
-	mkfontscale \
-	oclock \
-	proxymngr \
-	rstart \
-	sessreg \
-	setxkbmap \
-	showfont \
-	smproxy \
-	synergy \
-	winsysck \
-	twm \
-	viewres \
-	x11perf \
-	xauth \
-	xbiff \
-	xcalc \
-	xclipboard \
-	xclock \
-	xcmsdb \
-        xcolor \
-	xconsole \
-	xcursorgen \
-	xditview \
-	xdm \
-	xdpyinfo \
-	xdriinfo \
-	xedit \
-	xev \
-	xeyes \
-	xfd \
-	xfindproxy \
-	xfontsel \
-	xfs \
-	xfsinfo \
-	xfwp \
-	xgamma \
-	xgc \
-	xhost \
-	xinit \
-	xkbcomp \
-	xkbprint \
-	xkbutils \
-	xkill \
-	xload \
-        xlock \
-	xlogo \
-	xlsatoms \
-	xlsclients \
-	xlsfonts \
-	xlswins \
-	xmag_multivis \
-	xmag \
-	xmakemap \
-	xman \
-	xmodmap \
-	xpm \
-	xpr \
-	xprop \
-	xrandr \
-	xrdb \
-	xrefresh \
-	xrx \
-	xscope \
-	xset \
-	xsetroot \
-	xstdcmap \
-        xterm \
-	xvidtune \
-	xvinfo \
-	xwd \
-	xwininfo \
-	xwud \
-
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
-
-OBSOLETE_SUBDIRS = \
-	xplsprinters \
-	xprehashprinterlist \
-	xscreensaver \
-	rss-glx
-
-PWD:sh=pwd
-TOP=$(PWD)/..
-
-### Include common definitions
-DIRNAME="app/"
-include $(TOP)/common/Makefile.subdirs

@@ -2,7 +2,7 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# ident	"@(#)Xdmcp.spec	1.2	09/07/15 SMI"
+# ident	"@(#)Xdmcp.spec	1.3	09/09/28 SMI"
 #
 
 Function	XdmcpARRAY8Equal
@@ -300,11 +300,29 @@ Arch            all
 End
 
 Function        XdmcpUnwrap
-Includde        <X11/Xdmcp.h>
+Include		<X11/Xdmcp.h>
 Declaration     void XdmcpUnwrap (unsigned char* input, unsigned char* wrapper, unsigned char* output, int bytes)
 Exception       $return == FALSE
 Version         SUNW_1.2
 Arch            all
 End
 
+# Private functions from Wrap.h needed by xdm
 
+Function	_XdmcpAuthSetup
+Declaration	void _XdmcpAuthSetup (auth_cblock key, auth_wrapper_schedule schedule)
+Version		SUNWprivate
+Arch		all
+End
+
+Function	_XdmcpAuthDoIt
+Declaration	void _XdmcpAuthDoIt (auth_cblock input, auth_cblock output, auth_wrapper_schedule schedule, int edflag)
+Version		SUNWprivate
+Arch		all
+End
+
+Function	_XdmcpWrapperToOddParity
+Declaration	void _XdmcpWrapperToOddParity (unsigned char *in, unsigned char *out)
+Version		SUNWprivate
+Arch		all
+End

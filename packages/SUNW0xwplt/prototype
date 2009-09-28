@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.22     09/07/22 SMI"
+# ident "@(#)prototype 1.23     09/09/28 SMI"
 #
 # X Window System required core package localizable files
 
@@ -43,17 +43,6 @@ i depend
 d none X11                                              0755 root bin
 d none X11/lib                                          0755 root bin
 d none X11/lib/X11                                      0755 root bin
-
-!search      $HOME/openwin/lib/X11/app-defaults
-d none openwin 0755 root bin
-d none openwin/lib                      0755 root bin
-d none openwin/lib/locale               0755 root bin
-d none openwin/lib/locale/C               0755 root bin
-d none openwin/lib/locale/C/app-defaults 0755 root bin
-f none openwin/lib/locale/C/app-defaults/Chooser 0644 root bin
-
-!search      $HOME/openwin/lib/locale/C/LC_MESSAGES
-d none openwin/lib/locale/C/LC_MESSAGES 		0755 root bin
 
 !search      $HOME/X11/share/locale/C/LC_MESSAGES
 d none X11/share					0755 root bin
@@ -69,15 +58,17 @@ f none X11/share/locale/C/LC_MESSAGES/xfd.po		0644 root bin
 d none X11/lib/X11/app-defaults                         0755 root bin
 d none X11/lib/X11/app-defaults/C                       0755 root bin
 f none X11/lib/X11/app-defaults/C/Bitmap		0444 root bin
-f none X11/lib/X11/app-defaults/XClock 			0444 root bin
 f none X11/lib/X11/app-defaults/C/Bitmap-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/Bitmap-nocase		0444 root bin
+f none X11/lib/X11/app-defaults/C/Chooser		0444 root bin
 f none X11/lib/X11/app-defaults/C/Clock-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/Editres		0444 root bin
 f none X11/lib/X11/app-defaults/C/Editres-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc			0444 root bin
 f none X11/lib/X11/app-defaults/C/XCalc-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XClipboard		0444 root bin
+f none X11/lib/X11/app-defaults/C/XClock		0444 root bin
+f none X11/lib/X11/app-defaults/C/XClock-color		0444 root bin
 f none X11/lib/X11/app-defaults/C/XConsole		0444 root bin
 f none X11/lib/X11/app-defaults/C/Xfd			0444 root bin
 f none X11/lib/X11/app-defaults/C/XLogo			0444 root bin
