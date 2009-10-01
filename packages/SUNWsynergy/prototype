@@ -45,8 +45,8 @@ f none bin/synergys			0755 root bin
 f none bin/synergyc			0755 root bin
 
 !search      $HOME/share/doc/synergy
-d none share					0755 root bin
-d none share/doc				0755 root bin
+d none share					0755 root sys
+d none share/doc				0755 root other
 d none share/doc/synergy			0755 root bin
 f none share/doc/synergy/about.html		0444 root bin
 f none share/doc/synergy/authors.html		0444 root bin
