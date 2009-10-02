@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.15	09/07/31
+# @(#)Makefile	1.16	09/10/02
 #
 
 # Package name used in tarballs
@@ -42,6 +42,7 @@ MODULE_VERSION=2.1.13
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	xftcore-6261221.patch \
+	6872780.patch \
 	xft.hint.patch
 
 # Library name (used for specfiles/mapfiles)

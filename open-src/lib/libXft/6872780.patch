@@ -1,0 +1,28 @@
+--- src/xftdraw.c.orig	Mon May 12 14:31:03 2008
++++ src/xftdraw.c	Fri Oct  2 10:50:34 2009
+@@ -303,8 +303,16 @@
+ 
+     if (!info)
+ 	return 0;
+-    
++
+     /*
++     * Sometimes DDX'en don't play fair.
++     *
++     */
++   
++    if (!info->solidFormat)
++	return 0; 
++
++    /*
+      * Monochrome targets require special handling; the PictOp controls
+      * the color, and the color must be opaque
+      */
+@@ -348,7 +356,6 @@
+     {
+ 	Pixmap			    pix;
+         XRenderPictureAttributes    pa;
+-	
+ 	pix = XCreatePixmap (dpy, RootWindow (dpy, draw->screen), 1, 1,
+ 			     info->solidFormat->depth);
+ 	pa.repeat = True;
