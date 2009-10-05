@@ -3,7 +3,7 @@
 # Use is subject to license terms.
 #
 
-# ident	"@(#)TrustedExtensionsPolicy 1.10	08/09/18 SMI"
+# ident	"@(#)TrustedExtensionsPolicy 1.11	09/08/23 SMI"
 
 # TrustedExtensionsPolicy
 # Syntax: <atom|property|selection|extension|privilege> name
@@ -207,6 +207,7 @@ selection /^wnn/
 selection /^com.sun.iiim/
 
 extension SYNC
+extension XTEST
 
 privilege win_colormap
 privilege win_config
