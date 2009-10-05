@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolutils.c	1.23	09/05/15 SMI"
+#pragma ident   "@(#)tsolutils.c	1.24	09/08/23 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -93,8 +93,8 @@ static TsolPolyAtomRec tsolpolyseln = {TRUE, 0, 0, NULL};
 /*
  * Key to lookup devPrivate data in various structures
  */
-static int tsolPrivKeyIndex;
-DevPrivateKey tsolPrivKey = &tsolPrivKeyIndex;
+static int tsolPrivateKeyIndex;
+DevPrivateKey tsolPrivateKey = &tsolPrivateKeyIndex;
 
 bclear_t SessionHI;	   /* HI Clearance */
 bclear_t SessionLO;	   /* LO Clearance */
@@ -601,7 +601,6 @@ InitPrivileges(void)
 
 /*
  * Load Trusted Solaris configuration file
- * TBD: Process extension keywords
  */
 void
 LoadTsolConfig(void)
@@ -743,7 +742,7 @@ MatchTsolConfig(const char *name, int len)
 TsolInfoPtr
 GetClientTsolInfo(ClientPtr client)
 {
-    return TsolClientPriv(client);
+    return TsolClientPrivate(client);
 }
 
 /* Property is polyinstantiated only on root window */
@@ -764,35 +763,6 @@ PolySelection(Atom atom)
 		(!tsolpolyseln.polyinst && !(tsol_node[atom].IsSpecial & TSOLM_SELECTION)))
 		return TRUE;
 	return FALSE;
-}
-
-/*
- * Returns true if  a matching sl.uid pair found. Must be applied
- * only to polyprops.
- */
-int
-PolyPropReadable(PropertyPtr pProp, ClientPtr client)
-{
-    TsolPropPtr tsolprop = (TsolPropertyPriv(pProp));
-    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-
-    while (tsolprop)
-    {
-        if (tsolpolyinstinfo.enabled)
-        {
-           if (tsolprop->uid == tsolpolyinstinfo.uid &&
-               tsolprop->sl == tsolpolyinstinfo.sl)
-               return TRUE;
-        }
-        else
-        {
-            if (tsolprop->uid == tsolinfo->uid &&
-                tsolprop->sl == tsolinfo->sl)
-                return TRUE;
-        }
-        tsolprop = tsolprop->next;
-    }
-    return FALSE;
 }
 
 /*
@@ -890,11 +860,11 @@ AnyWindowOverlapsJustMe(
     register WindowPtr pSib;
     BoxRec sboxrec;
     register BoxPtr sbox;
-    TsolResPtr win_res = TsolWindowPriv(pWin);
+    TsolResPtr win_res = TsolResourcePrivate(pWin);
 
     for (pSib = pWin->prevSib; (pSib != NULL && pSib != pHead); pSib = pSib->prevSib)
     {
-        TsolResPtr sib_res = TsolWindowPriv(pSib);
+        TsolResPtr sib_res = TsolResourcePrivate(pSib);
 
         if (pSib->mapped && !bldominates(win_res->sl, sib_res->sl))
         {

@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsol.h 1.11     09/05/15 SMI"
+#pragma ident   "@(#)tsol.h 1.12     09/08/23 SMI"
 
 /*
  * tsol.h server side extension
@@ -103,7 +103,7 @@ extern int (*TsolSavedProcVector[PROCVECTORSIZE])(ClientPtr /*client*/);
 extern int (*TsolSavedSwappedProcVector[PROCVECTORSIZE])(ClientPtr /*client*/);
 
 /* tsolprotocol.c */
-extern void UpdateTsolNode(void);
+extern void UpdateTsolNode(Atom thisAtom, ClientPtr client);
 extern int TsolChangeWindowProperty(ClientPtr, WindowPtr, Atom, Atom, int, int,
 	unsigned long, pointer, Bool);
 extern int TsolDeleteProperty(ClientPtr, WindowPtr, Atom);
@@ -113,6 +113,7 @@ extern void TsolDeleteClientFromAnySelections(ClientPtr);
 extern void TsolDeleteWindowFromAnySelections(WindowPtr);
 
 extern int ProcTsolInternAtom(ClientPtr client);
+extern int ProcTsolGetAtomName(ClientPtr client);
 extern int ProcTsolSetSelectionOwner(ClientPtr client);
 extern int ProcTsolGetSelectionOwner(ClientPtr client);
 extern int ProcTsolConvertSelection(ClientPtr client);

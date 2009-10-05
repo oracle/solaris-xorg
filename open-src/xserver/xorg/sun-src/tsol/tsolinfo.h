@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.24     09/05/15 SMI"
+#pragma ident   "@(#)tsolinfo.h 1.25     09/08/23 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -130,6 +130,8 @@ enum tsolconfig_types {
 	TSOL_PRIVILEGE
 };
 
+#define MAJOROP_CODE (client->requestBuffer != 0 ? MAJOROP : (-1))
+
 typedef enum tsolconfig_types tsolconfig_t;
 
 /*
@@ -160,7 +162,7 @@ typedef enum tsolconfig_types tsolconfig_t;
 	(tsolinfo->forced_trust == 1))
 
 #define XTSOLTrusted(pWin) \
-    ((TsolWindowPriv(pWin))->flags & TRUSTED_MASK)
+    ((TsolResourcePrivate(pWin))->flags & TRUSTED_MASK)
 
 
 /*********************************
@@ -210,63 +212,27 @@ typedef struct _TsolRes {
     uid_t       uid;                    /* user id */
     u_long      flags;                  /* various flags */
     pid_t       pid;                    /* who created it */
+    Bool	internal;		/* Created internally by the server */
+    Bool	poly;			/* Polyinstantiated or not. Applicable to
+					 * selection or properties */
 } TsolResRec, *TsolResPtr;
-
-/*
- * per property info. useful for polyprops
- */
-typedef struct _TsolProp {
-    bslabel_t         *sl;              /* sensitivity label */
-    uid_t              uid;             /* user id */
-    long               size;            /* size of data in (format/8) bytes */
-    unsigned char     *data;            /* value */
-    struct _TsolProp  *next;            /* points to next struct */
-    struct _TsolProp  *head;            /* head of poly'd prop list */
-    pid_t              pid;             /* who created it */
-    int                serverOwned;	/* internally created by the Server */
-} TsolPropRec, *TsolPropPtr;
-
-/*
- * per selection info. useful for polyinstantiated selns
- */
-typedef struct _TsolSeln {
-    bslabel_t  *sl;                     /* sensitivity label */
-    uid_t       uid;                    /* user id */
-    TimeStamp   lastTimeChanged;
-    Window      window;                 /* owner of seln */
-    WindowPtr   pWin;                   /* corresponds to the owner win */
-    ClientPtr   client;                 /* client that owns the window */
-    struct _TsolSeln *next;             /* points to next struct */
-    pid_t       pid;                    /* who created it */
-} TsolSelnRec, *TsolSelnPtr;
 
 /*
  * information stored in devPrivates
  */
 typedef union {
-    TsolInfoRec		clientPriv;
-    TsolResRec		windowPriv;
-    TsolResRec		pixmapPriv;
-    TsolPropRec		propertyPriv;
-    TsolSelnRec		selectionPriv;
-} TsolPrivRec, *TsolPrivPtr;
+    TsolInfoRec		clientPrivate;
+    TsolResRec		resourcePrivate;
+} TsolPrivateRec, *TsolPrivatePtr;
 
-extern DevPrivateKey tsolPrivKey;
+extern DevPrivateKey tsolPrivateKey;
 
-#define TsolClientPriv(pClient) \
-    ((TsolInfoPtr) dixLookupPrivate(&(pClient)->devPrivates, tsolPrivKey))
+#define TsolClientPrivate(pClient) \
+    ((TsolInfoPtr) dixLookupPrivate(&(pClient)->devPrivates, tsolPrivateKey))
 
-#define TsolWindowPriv(pWin)	\
-    ((TsolResPtr) dixLookupPrivate(&(pWin)->devPrivates, tsolPrivKey))
+#define TsolResourcePrivate(pRes)	\
+    ((TsolResPtr) dixLookupPrivate(&(pRes)->devPrivates, tsolPrivateKey))
 
-#define TsolPixmapPriv(pPix)	\
-    ((TsolResPtr) dixLookupPrivate(&(pPix)->devPrivates, tsolPrivKey))
-
-#define TsolPropertyPriv(pProp)	\
-    ((TsolPropPtr ) dixLookupPrivate(&(pProp)->devPrivates, tsolPrivKey))
-
-#define TsolSelectionPriv(pSel) \
-    ((TsolSelnPtr ) dixLookupPrivate(&(pSel)->devPrivates, tsolPrivKey))
 
 #define NODE_SLSIZE	16	/* increase sl array by this amount */
 typedef struct _TsolNodeRec {
@@ -380,12 +346,11 @@ extern int MatchTsolConfig(const char *name, int len);
 extern int HasWinSelection(TsolInfoPtr tsolinfo);
 extern int same_client (ClientPtr client, XID xid);
 extern int client_private (ClientPtr client, XID xid);
-extern TsolPropPtr AllocTsolProp(void);
-extern TsolPropPtr AllocServerTsolProp(void);
 extern bslabel_t *lookupSL_low(void);
 extern bslabel_t *lookupSL(bslabel_t *slptr);
 extern BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox);
 extern Bool ShapeOverlap(WindowPtr pWin, BoxPtr pWinBox,
 	WindowPtr pSib, BoxPtr pSibBox);
+extern TsolResPtr TsolDrawablePrivate(DrawablePtr pDraw, ClientPtr client);
 
 #endif    /* _TSOL_INFO_H */

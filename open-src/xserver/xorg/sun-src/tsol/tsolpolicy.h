@@ -29,7 +29,7 @@
 #ifndef	_TSOL_POLICY_H
 #define	_TSOL_POLICY_H
 
-#pragma ident	"@(#)tsolpolicy.h	1.10	09/02/12 SMI"
+#pragma ident	"@(#)tsolpolicy.h	1.11	09/08/23 SMI"
 
 #ifdef	__cplusplus
 extern "C" {
@@ -42,6 +42,9 @@ extern "C" {
 #define	FAILED		1	/* failed is non-zero (could be error no) */
 #endif /* FAILED */
 
+#define AUDIT_SUCCESS 	1
+#define AUDIT_FAILURE 	0
+
 /*
  * Policy checking flags
  */
@@ -52,104 +55,15 @@ enum xpolicy_flags {
 	TSOL_FLOAT = 0x00000004,	/* float ILs */
 	TSOL_AUDIT = 0x00000008,	/* perform auditing */
 	TSOL_PRIV  = 0x00000010,	/* privilege check */
+	TSOL_TP    = 0x00000020,	/* Trusted Path check */
+	TSOL_READOP  = 0x00000040,	/* read operation */
+	TSOL_WRITEOP = 0x00000080,	/* write operation */
+	TSOL_OWNER = 0x00000100,	/* Check for workstation owner */
+	TSOL_DOMINATE    = 0x00000200,	/* Check for default uid */
 	TSOL_ALL   = 0x0fffffff		/* do them all */
 };
 
 typedef enum xpolicy_flags xpolicy_t;
-/*
- * Access Methods. Special access methods include:
- *	Not known yet.
- */
-
-enum xaccess_methods {
-	TSOL_READ = 0,
-	TSOL_MODIFY,
-	TSOL_CREATE,
-	TSOL_DESTROY,
-	TSOL_SPECIAL,
-	TSOL_MAX_XMETHODS	/* Keep this as the last item */
-};
-
-typedef enum xaccess_methods xmethod_t;
-
-/*
- * Resource Objects
- */
-#define TSOL_START_XRES		1000	/* start with large no. */
-enum xresource_types {
-	TSOL_RES_ACL	=	TSOL_START_XRES,
-	TSOL_RES_ATOM,
-	TSOL_RES_BELL,
-	TSOL_RES_BTNGRAB,
-	TSOL_RES_CCELL,
-	TSOL_RES_CLIENT,
-	TSOL_RES_CMAP,
-	TSOL_RES_CONFWIN,
-	TSOL_RES_CURSOR,
-	TSOL_RES_EVENTWIN,
-	TSOL_RES_EXTN,
-	TSOL_RES_FOCUSWIN,
-	TSOL_RES_FONT,
-	TSOL_RES_FONTLIST,
-	TSOL_RES_FONTPATH,
-	TSOL_RES_GC,
-	TSOL_RES_GRABWIN,
-	TSOL_RES_HOSTLIST,
-	TSOL_RES_IL,
-	TSOL_RES_KBDCTL,
-	TSOL_RES_KBDGRAB,
-	TSOL_RES_KEYGRAB,
-	TSOL_RES_KEYMAP,
-	TSOL_RES_MODMAP,
-	TSOL_RES_PIXEL,
-	TSOL_RES_PIXMAP,
-	TSOL_RES_POLYINFO,
-	TSOL_RES_PROPERTY,
-	TSOL_RES_PROPWIN,
-	TSOL_RES_IIL,
-	TSOL_RES_PROP_SL,
-	TSOL_RES_PROP_UID,
-	TSOL_RES_PTRCTL,
-	TSOL_RES_PTRGRAB,
-	TSOL_RES_PTRLOC,
-	TSOL_RES_PTRMAP,
-	TSOL_RES_PTRMOTION,
-	TSOL_RES_SCRSAVER,
-	TSOL_RES_SELECTION,
-	TSOL_RES_SELNWIN,
-	TSOL_RES_SENDEVENT,
-	TSOL_RES_SL,
-	TSOL_RES_SRVGRAB,
-	TSOL_RES_STRIPE,
-	TSOL_RES_TPWIN,
-	TSOL_RES_UID,
-	TSOL_RES_VISUAL,
-	TSOL_RES_WINATTR,
-	TSOL_RES_WINDOW,
-	TSOL_RES_WINLOC,
-	TSOL_RES_WINMAP,
-	TSOL_RES_WINSIZE,
-	TSOL_RES_WINSTACK,
-	TSOL_RES_WOWNER,
-        TSOL_RES_DBE,
-	TSOL_MAX_XRES_TYPES
-};
-
-typedef enum xresource_types xresource_t;
-/*
- * NOTE: IF YOU ADD ANY NEW RESOURCE TYPES YOU MUST ADD A NEW ROW IN THE
- * XTSOL_policy_table in xpolicy_tables.c!!!
- */
-
-/*
- * resource_ptr: Pointer to resource, or NULL to only use resource_id
- * resource_id: XID of resource, or 0 to only use resource_ptr
- * misc: pointer to request major op for most policy types,
- *	but has other additional information for some
- */
-int xtsol_policy(xresource_t res_type, xmethod_t method, void *resource_ptr,
-		 XID resource_id, void *subject, xpolicy_t policy_flags,
-		 void *misc);
 
 #define	XTSOL_FAIL	1	/* Replaces SecurityErrorOperation */
 #define	XTSOL_ALLOW	2	/* Replaces SecurityAllowOperation */

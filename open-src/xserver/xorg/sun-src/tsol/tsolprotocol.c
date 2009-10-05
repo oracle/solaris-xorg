@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolprotocol.c 1.30	09/05/15 SMI"
+#pragma ident	"@(#)tsolprotocol.c 1.31	09/08/23 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -176,8 +176,13 @@ int audit_eventsid[100][2] = {
 	{ X_NoOperation, AUE_XExtensions }
 };
 
-static Atom MakeTSOLAtom(ClientPtr client, char *string,
-			 unsigned int len, Bool makeit);
+
+extern priv_set_t *pset_win_config;
+extern TsolResPtr TsolDrawablePrivateate(DrawablePtr pDraw, ClientPtr client);
+extern int
+tsol_check_policy(TsolInfoPtr tsolinfo, TsolResPtr tsolres, xpolicy_t flags, int reqcode);
+extern Bool client_has_privilege(TsolInfoPtr tsolinfo, priv_set_t *priv);
+
 
 #define INITIAL_TSOL_NODELENGTH 1500
 
@@ -202,57 +207,109 @@ GetLastAtom(void)
  * called if some atoms are created internally by server.
  */
 void
-UpdateTsolNode(void)
+UpdateTsolNode(Atom thisAtom, ClientPtr client)
 {
 	Atom lastAtom = GetLastAtom();
 	Atom ia;
+	int newsize;
 
-	/* Update may not be needed */
-	if (lastAtom == None || lastAtom == tsol_lastAtom)
-		return;
-
+	/* Allocate & Initialize the node for the first time */
 	if (tsol_node == NULL) {
-		int newsize = (lastAtom > INITIAL_TSOL_NODELENGTH ? lastAtom : INITIAL_TSOL_NODELENGTH);
+		newsize = (lastAtom > INITIAL_TSOL_NODELENGTH ? 
+			lastAtom : INITIAL_TSOL_NODELENGTH);
 
-		/* Initialize */
 		tsol_node = (TsolNodePtr )xalloc((newsize + 1) * sizeof(TsolNodeRec));
+		if (tsol_node == NULL) {
+			ErrorF("Cannot allocate memory for Tsol node\n");
+			return;
+		}
+
 		tsol_nodelength = newsize;
 
-		if (tsol_node != NULL) {
-			/* Atom id 0 is invalid */
-			tsol_lastAtom = 0;
-			tsol_node[0].flags = 0;
-			tsol_node[0].slcount = 0;
-			tsol_node[0].sl = NULL;
-			tsol_node[0].slsize = 0;
-			tsol_node[0].IsSpecial = 0;
+		/* Atom id 0 is invalid */
+		tsol_lastAtom = 0;
+		tsol_node[0].flags = 0;
+		tsol_node[0].slcount = 0;
+		tsol_node[0].sl = NULL;
+		tsol_node[0].slsize = 0;
+		tsol_node[0].IsSpecial = 0;
+	}
+
+	/* If the node is already allocated, see if it needs to be extended */
+	if (lastAtom > tsol_lastAtom) {
+		tsol_node = (TsolNodePtr )xrealloc(tsol_node, 
+			(lastAtom + 1) * sizeof(TsolNodeRec));
+
+		if (tsol_node == NULL) {
+			ErrorF("Cannot allocate memory for Tsol node\n");
+			return;
 		}
-	}
 
-	if (tsol_nodelength <= lastAtom) {
-		tsol_node = (TsolNodePtr )xrealloc(tsol_node, (lastAtom + 1) * sizeof(TsolNodeRec));
 		tsol_nodelength = lastAtom + 1;
+
+		/*
+		 * Initialize all the newly created atoms
+		 */
+		for (ia = tsol_lastAtom + 1; ia <= lastAtom; ia++) {
+			const char *atomname = NameForAtom(ia);
+
+			tsol_node[ia].slcount = 0;
+			tsol_node[ia].sl = NULL;
+			tsol_node[ia].slsize= 0;
+			tsol_node[ia].flags = MatchTsolConfig(atomname, strlen(atomname));
+			tsol_node[ia].IsSpecial = SpecialName(atomname, strlen(atomname));
+			if (client == NULL) {
+				/* Mark as internal atom for GetAtomName to succeed */
+				tsol_node[ia].flags |= TSOLM_ATOM;
+			}
+				
+
+		}
+		tsol_lastAtom = lastAtom;
 	}
 
-	if (tsol_node == NULL) {
-		ErrorF("Cannot allocate memory for Tsol node\n");
-		return;
+	/* Store the label info for non-global atoms */
+	if (thisAtom != 0 && client != NULL && 
+			(tsol_node[thisAtom].flags & TSOLM_ATOM) == 0) {
+		TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+		TsolNodePtr tndp =  &(tsol_node[thisAtom]);
+		int k;
+
+		/* private atoms must have a matching sl */
+		for (k = 0; k < tndp->slcount; k++) {
+			if (tsolinfo->sl == tndp->sl[k]) {
+				return; /* found */
+			}
+		}
+
+		/* Allocate storage for sl if needed */
+		if (tndp->sl == NULL) {
+			tndp->sl = (bslabel_t **)xalloc(NODE_SLSIZE * (sizeof(bslabel_t *)));
+
+			if (tndp->sl == NULL) {
+				ErrorF("Not enough memory for atoms\n");
+			}
+
+			tndp->slcount = 0;
+			tndp->slsize = NODE_SLSIZE;
+		}
+
+		/* Expand storage space for sl if needed */
+		if (tndp->slsize < tndp->slcount) {
+			newsize = tndp->slsize + NODE_SLSIZE;
+			tndp->sl = (bslabel_t **)xrealloc(tndp->sl, 
+				newsize * (sizeof(bslabel_t *)));
+			if (tndp->sl == NULL) {
+				ErrorF("Not enough memory for atoms\n");
+			}
+			tndp->slsize = newsize;
+		}
+
+
+		/* Store client's sl */
+		tndp->sl[tndp->slcount] = tsolinfo->sl;
+		tndp->slcount++;
 	}
-
-	/*
-	 * Initialize the tsol node for each atom
-	 */
-	for (ia = tsol_lastAtom + 1; ia <= lastAtom; ia++) {
-		const char *atomname = NameForAtom(ia);
-
-		tsol_node[ia].slcount = 0;
-		tsol_node[ia].sl = NULL;
-		tsol_node[ia].slsize= 0;
-		tsol_node[ia].flags = MatchTsolConfig(atomname, strlen(atomname));
-		tsol_node[ia].IsSpecial = SpecialName(atomname, strlen(atomname));
-
-	}
-	tsol_lastAtom = lastAtom;
 }
 
 int
@@ -269,9 +326,13 @@ ProcTsolInternAtom(ClientPtr client)
         return(BadValue);
     }
     tchar = (char *) &stuff[1];
-    atom = MakeTSOLAtom(client, tchar, stuff->nbytes, !stuff->onlyIfExists);
+    atom = MakeAtom(tchar, stuff->nbytes, !stuff->onlyIfExists);
+
     if (atom != BAD_RESOURCE)
     {
+        /* Assign tsol attributes to this atom */
+        UpdateTsolNode(atom, client);
+
 	xInternAtomReply reply;
 	reply.type = X_Reply;
 	reply.length = 0;
@@ -284,19 +345,38 @@ ProcTsolInternAtom(ClientPtr client)
 	return (BadAlloc);
 }
 
-#ifdef UNUSED
 int
 ProcTsolGetAtomName(ClientPtr client)
 {
-    char *str;
+    const char *str;
     xGetAtomNameReply reply;
     int len;
     REQUEST(xResourceReq);
 
     REQUEST_SIZE_MATCH(xResourceReq);
-    /* TBD: NameForTSOLAtom */
-    if ( (str = NameForAtom(stuff->id)) )
+
+    if ((str = NameForAtom(stuff->id)))
     {
+        char *blank_str = " ";
+        char *atomname;
+	TsolNodePtr tndp;
+
+	tndp = &(tsol_node[stuff->id]);
+	/* non-global atoms must have matching SL */
+	if ((tndp->flags & TSOLM_ATOM) == 0) {
+	    int k;
+	    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+
+	    for (k = 0; k < tndp->slcount; k++) {
+		if (tsolinfo->sl == tndp->sl[k]) 
+		    break;
+	    }
+
+	    /* SL can't be found, so return a blank string */
+	    if (k == tndp->slcount)
+		str = blank_str;
+	}
+
 	len = strlen(str);
 	reply.type = X_Reply;
 	reply.length = (len + 3) >> 2;
@@ -306,79 +386,11 @@ ProcTsolGetAtomName(ClientPtr client)
 	(void)WriteToClient(client, len, str);
 	return(client->noClientException);
     }
-    else
-    {
+    else 
+    { 
 	client->errorValue = stuff->id;
 	return (BadAtom);
     }
-}
-#endif /* UNUSED */
-
-static Atom
-MakeTSOLAtom(ClientPtr client, char *string, unsigned int len, Bool makeit)
-{
-	TsolNodePtr tndp;
-	int k;
-	int newsize;
-	Atom newAtom;
-
-	TsolInfoPtr tsolinfo;
-
-	/* Make the atom as usual */
-	newAtom = MakeAtom(string, len, makeit);
-	if (newAtom == None || newAtom == BAD_RESOURCE) {
-		return (newAtom);
-	}
-
-	tsolinfo = GetClientTsolInfo(client);
-
-
-	/* tsol node info already present? */
-	if (newAtom <= tsol_lastAtom) {
-		tndp = &(tsol_node[newAtom]);
-
-		/* public atoms have null sl */
-		if (tndp->sl == NULL) {
-			return newAtom;
-		}
-
-		/* private atoms must have a matching sl */
-		for (k = 0; k < tndp->slcount; k++) {
-			if (tsolinfo->sl == tndp->sl[k]) {
-				return newAtom; /* found one */
-			}
-		}
-
-	} else {
-		/* tsol node table not big enough, expand it */
-		UpdateTsolNode();
-		tndp = &(tsol_node[newAtom]);
-	}
-
-	/* Allocate storage for sl if needed */
-	if (tndp->sl == NULL) {
-		tndp->sl = (bslabel_t **)xalloc(NODE_SLSIZE * (sizeof(bslabel_t *)));
-		tndp->slcount = 0;
-		tndp->slsize = NODE_SLSIZE;
-	}
-
-	/* Expand storage space for sl if needed */
-	if (tndp->slsize < tndp->slcount) {
-		newsize = tndp->slsize + NODE_SLSIZE;
-		tndp->sl = (bslabel_t **)xrealloc(tndp->sl, newsize * (sizeof(bslabel_t *)));
-		tndp->slsize = newsize;
-	}
-
-	if (tndp->sl == NULL) {
-		ErrorF("Not enough memory for atoms\n");
-		return (Atom)None;
-	}
-
-	/* Store client's sl */
-	tndp->sl[tndp->slcount] = tsolinfo->sl;
-	tndp->slcount++;
-
-	return newAtom;
 }
 
 int
@@ -386,10 +398,16 @@ TsolInitWindow(ClientPtr client, WindowPtr pWin)
 {
     bslabel_t admin_low;
     TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-    TsolResPtr  tsolres = TsolWindowPriv(pWin);
+    TsolResPtr  tsolres = TsolResourcePrivate(pWin);
 
     tsolres->uid = tsolinfo->uid;
     tsolres->sl = tsolinfo->sl;
+    tsolres->pid = tsolinfo->pid;
+
+    if (client == serverClient)
+	tsolres->internal = TRUE;
+    else
+	tsolres->internal = FALSE;
 
     bsllow(&admin_low);
     if (blequal(tsolres->sl, &admin_low))
@@ -404,7 +422,7 @@ int
 TsolInitPixmap(ClientPtr client, PixmapPtr pMap)
 {
     TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-    TsolResPtr  tsolres = TsolPixmapPriv(pMap);
+    TsolResPtr  tsolres = TsolResourcePrivate(pMap);
 
     tsolres->uid = tsolinfo->uid;
     tsolres->sl = tsolinfo->sl;
@@ -427,46 +445,6 @@ ProcTsolUnwrapWithTrust(ClientPtr client, int majorop)
     return result;
 }
 
-/* Generic ProcVector wrapper for functions which need to check
-   a policy before executing.   If policy check fails, and reportErrors
-   is False, ignores error and returns success to client even though it's
-   not actually doing anything.  If policy check succeeds, and makeTrusted
-   is True, set the clients TrustLevel before calling the wrapped function.
-*/
-#define IGNORE_ERRORS FALSE
-#define REPORT_ERRORS TRUE
-#define KEEP_TRUSTLEVEL FALSE
-#define RAISE_TRUSTLEVEL TRUE
-
-static inline int
-ProcTsolUnwrapResourceAccess(ClientPtr client, xresource_t res_type,
-			     xmethod_t method, XID resource,
-			     Bool reportErrors, Bool makeTrusted)
-{
-    int status;
-
-    status = xtsol_policy(res_type, method, NULL, resource, client,
-			  TSOL_ALL, &(MAJOROP));
-
-    if (status != PASSED)
-    {
-	if (!reportErrors) {
-	    status = client->noClientException; /* ignore error */
-	} else if (resource != NULL) {
-	    client->errorValue = resource;
-        }
-    }
-    else if (makeTrusted)
-    {
-	status = ProcTsolUnwrapWithTrust(client, MAJOROP);
-    }
-    else
-    {
-	status = (*TsolSavedProcVector[MAJOROP])(client);
-    }
-
-    return (status);
-}
 
 static void
 ResetStripeWindow(ClientPtr client)
@@ -632,37 +610,6 @@ HandleHotKey(DeviceIntPtr keybd)
     }
 }
 
-int
-ProcTsolGetInputFocus(ClientPtr client)
-{
-    xGetInputFocusReply rep;
-    /* REQUEST(xReq); */
-    DeviceIntPtr kbd = PickKeyboard(client);
-    FocusClassPtr focus = kbd->focus;
-    int rc;
-
-    REQUEST_SIZE_MATCH(xReq);
-
-    rc = XaceHook(XACE_DEVICE_ACCESS, client, kbd, DixGetFocusAccess);
-    if (rc != Success)
-        return rc;
-
-    rep.type = X_Reply;
-    rep.length = 0;
-    rep.sequenceNumber = client->sequence;
-    if (focus->win == NoneWin)
-	rep.focus = None;
-    else if (focus->win == PointerRootWin)
-	rep.focus = PointerRoot;
-    else if (xtsol_policy(TSOL_RES_FOCUSWIN, TSOL_READ,
-			  focus->win, 0, client, TSOL_ALL, &(MAJOROP)))
-	rep.focus = RootOf(focus->win); /* root window on access failure */
-    else rep.focus = focus->win->drawable.id;
-    rep.revertTo = focus->revert;
-    WriteReplyToClient(client, sizeof(xGetInputFocusReply), &rep);
-    return Success;
-}
-
 #ifdef UNUSED
 void
 PrintSiblings(WindowPtr p1)
@@ -742,17 +689,16 @@ ProcTsolGrabServer(ClientPtr client)
     /* REQUEST(xResourceReq); */
     REQUEST_SIZE_MATCH(xReq);
 
-    if (xtsol_policy(TSOL_RES_SRVGRAB, TSOL_CREATE, NULL, 0,
-		     client, TSOL_ALL, &(MAJOROP)))
-    {
+    if (priv_win_config ||
+		client_has_privilege(tsolinfo, pset_win_config)) {
+    	return (*TsolSavedProcVector[X_GrabServer])(client);
+    } else {
 	/* turn off auditing because operation ignored */
         tsolinfo->flags &= ~TSOL_DOXAUDIT;
         tsolinfo->flags &= ~TSOL_AUDITEVENT;
 
         return(client->noClientException);
     }
-
-    return (*TsolSavedProcVector[X_GrabServer])(client);
 }
 
 int
@@ -763,153 +709,17 @@ ProcTsolUngrabServer(ClientPtr client)
     /* REQUEST(xResourceReq); */
     REQUEST_SIZE_MATCH(xReq);
 
-    if (xtsol_policy(TSOL_RES_SRVGRAB, TSOL_DESTROY, NULL, 0,
-		     client, TSOL_ALL, &(MAJOROP)))
-    {
+    if (priv_win_config ||
+		client_has_privilege(tsolinfo, pset_win_config)) {
+        return (*TsolSavedProcVector[X_UngrabServer])(client);
+    } else {
 	/* turn off auditing because operation ignored */
         tsolinfo->flags &= ~TSOL_DOXAUDIT;
         tsolinfo->flags &= ~TSOL_AUDITEVENT;
 
         return(client->noClientException);
     }
-
-    return (*TsolSavedProcVector[X_UngrabServer])(client);
 }
-
-int
-ProcTsolSetScreenSaver(ClientPtr client)
-{
-    /* REQUEST(xSetScreenSaverReq); */
-    REQUEST_SIZE_MATCH(xSetScreenSaverReq);
-
-    return ProcTsolUnwrapResourceAccess(client, TSOL_RES_SCRSAVER, TSOL_MODIFY,
-					NULL, REPORT_ERRORS, KEEP_TRUSTLEVEL);
-}
-
-int
-ProcTsolChangeHosts(ClientPtr client)
-{
-    return ProcTsolUnwrapResourceAccess(client, TSOL_RES_ACL, TSOL_MODIFY,
-					NULL, REPORT_ERRORS, RAISE_TRUSTLEVEL);
-}
-
-int
-ProcTsolChangeAccessControl(ClientPtr client)
-{
-    REQUEST(xSetAccessControlReq);
-    REQUEST_SIZE_MATCH(xSetAccessControlReq);
-
-    return ProcTsolUnwrapResourceAccess(client, TSOL_RES_ACL, TSOL_MODIFY,
-				stuff->mode, REPORT_ERRORS, RAISE_TRUSTLEVEL);
-}
-
-int
-ProcTsolKillClient(ClientPtr client)
-{
-    REQUEST(xResourceReq);
-    REQUEST_SIZE_MATCH(xResourceReq);
-
-    return ProcTsolUnwrapResourceAccess(client, TSOL_RES_CLIENT, TSOL_DESTROY,
-				stuff->id, REPORT_ERRORS, KEEP_TRUSTLEVEL);
-}
-
-int
-ProcTsolSetFontPath(ClientPtr client)
-{
-    /* REQUEST(xSetFontPathReq); */
-
-    REQUEST_AT_LEAST_SIZE(xSetFontPathReq);
-
-    if (xtsol_policy(TSOL_RES_FONTPATH, TSOL_MODIFY, NULL, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-        return (BadValue);
-    }
-
-    return (*TsolSavedProcVector[X_SetFontPath])(client);
-}
-
-int
-ProcTsolChangeCloseDownMode(ClientPtr client)
-{
-    /* REQUEST(xSetCloseDownModeReq); */
-    REQUEST_SIZE_MATCH(xSetCloseDownModeReq);
-
-    return ProcTsolUnwrapResourceAccess(client, TSOL_RES_CLIENT, TSOL_MODIFY,
-					NULL, IGNORE_ERRORS, KEEP_TRUSTLEVEL);
-}
-
-#ifdef UNUSED
-int
-ProcTsolForceScreenSaver(ClientPtr client)
-{
-    /* REQUEST(xForceScreenSaverReq); */
-    REQUEST_SIZE_MATCH(xForceScreenSaverReq);
-
-    return ProcTsolUnwrapResourceAccess(client, TSOL_RES_SCRSAVER, TSOL_MODIFY,
-					NULL, REPORT_ERRORS, KEEP_TRUSTLEVEL);
-}
-#endif /* UNUSED */
-
-int
-ProcTsolListInstalledColormaps(ClientPtr client)
-{
-    xListInstalledColormapsReply *preply;
-    int nummaps, rc;
-    WindowPtr pWin;
-    REQUEST(xResourceReq);
-    REQUEST_SIZE_MATCH(xResourceReq);
-
-    rc = dixLookupWindow(&pWin, stuff->id, client, DixGetAttrAccess);
-    if (rc != Success)
-        return rc;
-
-    rc = XaceHook(XACE_SCREEN_ACCESS, client, pWin->drawable.pScreen,
-                  DixGetAttrAccess);
-    if (rc != Success)
-        return rc;
-
-    preply = (xListInstalledColormapsReply *)
-		xalloc(sizeof(xListInstalledColormapsReply) +
-		     pWin->drawable.pScreen->maxInstalledCmaps *
-		     sizeof(Colormap));
-    if(!preply)
-        return(BadAlloc);
-
-    preply->type = X_Reply;
-    preply->sequenceNumber = client->sequence;
-    nummaps = (*pWin->drawable.pScreen->ListInstalledColormaps)
-        (pWin->drawable.pScreen, (Colormap *)&preply[1]);
-    preply->nColormaps = nummaps;
-    preply->length = nummaps;
-#ifdef TSOL
-    {
-        int err_code, i;
-        Colormap *pcmap = (Colormap *)&preply[1];
-        ColormapPtr pcmp;
-
-	    /*
-	     * check every colormap id for access. return default colormap
-	     * id in case of failure
-	     */
-        for (i = 0; i < nummaps; i++, pcmap++)
-        {
-            pcmp = (ColormapPtr )LookupIDByType(*pcmap, RT_COLORMAP);
-            if ((err_code = xtsol_policy(TSOL_RES_CMAP, TSOL_READ, pcmp, 0,
-					 client, TSOL_ALL, &(MAJOROP))))
-            {
-                *pcmap = pWin->drawable.pScreen->defColormap;
-            }
-        }
-    }
-#endif /* TSOL */
-    WriteReplyToClient(client, sizeof (xListInstalledColormapsReply), preply);
-    client->pSwapReplyFunc = (ReplySwapPtr) Swap32Write;
-    WriteSwappedDataToClient(client, nummaps * sizeof(Colormap), &preply[1]);
-    xfree(preply);
-    return(client->noClientException);
-}
-
 
 int
 ProcTsolQueryTree(ClientPtr client)
@@ -921,6 +731,8 @@ ProcTsolQueryTree(ClientPtr client)
 
 #ifdef TSOL
     TsolInfoPtr  tsolinfo = GetClientTsolInfo(client);
+    TsolResPtr tsolres;
+    xpolicy_t flags;
 #endif  /* TSOL */
 
     REQUEST(xResourceReq);
@@ -931,11 +743,7 @@ ProcTsolQueryTree(ClientPtr client)
         return rc;
 
 #ifdef TSOL
-    if (xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pWin, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-	    return(BadWindow);
-    }
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_READOP);
     /*
      * Because of its recursive nature, QuerryTree can leave a huge trail
      * of audit records which could make deciphering the audit log for
@@ -957,12 +765,10 @@ ProcTsolQueryTree(ClientPtr client)
     for (pChild = pWin->lastChild; pChild != pHead; pChild = pChild->prevSib)
 #ifdef TSOL
     {
-		/* error ignored */
-		if (!xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pChild, 0,
-				  client, TSOL_ALL, &(MAJOROP)))
-		{
-			numChildren++;
-		}
+	tsolres = TsolResourcePrivate(pChild);
+	if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) == Success) {
+		numChildren++;
+    	}
     }
 #else /* !TSOL */
 	numChildren++;
@@ -978,13 +784,11 @@ ProcTsolQueryTree(ClientPtr client)
 #ifdef TSOL
 	{
 
-	    /* error ignored */
-	    if (!xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, pChild, 0,
-			      client, TSOL_ALL, &(MAJOROP)))
-	    {
+	    tsolres = TsolResourcePrivate(pChild);
+	    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) == Success) {
 	        childIDs[curChild++] = pChild->drawable.id;
-	    }
-	}
+    	    }
+    	}
 #else /* !TSOL */
 	    childIDs[curChild++] = pChild->drawable.id;
 #endif /* TSOL */
@@ -1037,7 +841,7 @@ TsolAuditStart)
          * protocols. We set the extension protocol opcode to be 128, one
          * more than the last standard opcode.
          */
-        protocol = (unsigned int)MAJOROP;
+        protocol = (unsigned int)MAJOROP_CODE;
 	if (protocol > X_NoOperation) {
              xevent_num = audit_eventsid[MAX_AUDIT_EVENTS - 1][1];
              audit_event = TRUE;
@@ -1104,6 +908,10 @@ ProcTsolQueryPointer(ClientPtr client)
     DeviceIntPtr mouse = PickPointer(client);
     DeviceIntPtr kbd = PickKeyboard(client);
     int rc;
+    TsolResPtr tsolres;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+    xpolicy_t flags;
+
     REQUEST(xResourceReq);
     REQUEST_SIZE_MATCH(xResourceReq);
 
@@ -1112,9 +920,12 @@ ProcTsolQueryPointer(ClientPtr client)
 	return rc;
 
     ptrWin = GetSpriteWindow(mouse);
-    if (!xtsol_policy(TSOL_RES_WINDOW, TSOL_READ, ptrWin, 0,
-		      client, TSOL_ALL, &(MAJOROP)))
+    tsolres = TsolResourcePrivate(ptrWin);
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_READOP);
+
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) == Success) {
     	return (*TsolSavedProcVector[X_QueryPointer])(client);
+    }
 
     if (mouse->valuator->motionHintWindow)
 	MaybeStopHint(mouse, client);
@@ -1164,9 +975,9 @@ ProcTsolMapSubwindows(ClientPtr client)
 
 static int
 TsolDoGetImage(
-    register ClientPtr	client,
-    Drawable drawable,
+    ClientPtr	client,
     int format,
+    Drawable drawable,
     int x, int y, int width, int height,
     Mask planemask,
     xGetImageReply **im_return)
@@ -1188,6 +999,9 @@ TsolDoGetImage(
     BoxRec      winbox, box;
     BoxPtr      pwinbox;
     DrawablePtr pDrawtmp;
+    TsolResPtr tsolres;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+    xpolicy_t flags;
 #endif /* TSOL */
 
     if ((format != XYPixmap) && (format != ZPixmap))
@@ -1201,9 +1015,9 @@ TsolDoGetImage(
 
 
 #ifdef TSOL
-    if (!xtsol_policy(TSOL_RES_PIXEL, TSOL_READ,
-		      pDraw, 0, client, TSOL_ALL, &(MAJOROP)) &&
-	(DrawableIsRoot(pDraw) || !tsolMultiLevel))
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_READOP);
+    tsolres = TsolDrawablePrivate(pDraw, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) == Success)
     {
 	return DoGetImage(client, format, drawable, x, y,
 		width, height, planemask, im_return);
@@ -1267,7 +1081,7 @@ TsolDoGetImage(
             box.y1 = pwinbox->y1;
             box.x2 = pwinbox->x2;
             box.y2 = box.y1;
-            tsolres_win = TsolWindowPriv(pWin);
+            tsolres_win = TsolResourcePrivate(pWin);
             root = WindowTable[pWin->drawable.pScreen->myNum]->drawable.id;
             rc = dixLookupWindow(&pRoot, root, client, DixReadAccess);
             if (rc != Success)
@@ -1275,11 +1089,11 @@ TsolDoGetImage(
             pHead = pRoot->firstChild;
         }
 
-        if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pDraw, 0,
-                         client, TSOL_ALL, &(MAJOROP)))
-            getimage_ok = FALSE;
-	else
+    	tsolres = TsolDrawablePrivate(pDraw, client);
+    	if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) == Success)
             getimage_ok = TRUE;
+	else
+            getimage_ok = FALSE;
     }
 #endif /* TSOL */
 
@@ -1404,11 +1218,11 @@ TsolDoGetImage(
             box.y1 = y + linesDone + pDraw->y;
             box.y2 = box.y1 + nlines;
             over_win = AnyWindowOverlapsJustMe(pWin, pHead, &box);
-            if (over_win &&
-                xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, over_win, 0,
-                             client, TSOL_ALL, &(MAJOROP)))
-            {
-                overlap = TRUE;
+            if (over_win)
+	    {
+		tsolres = TsolResourcePrivate(over_win);
+    		if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) 
+                	overlap = TRUE;
             }
         }
 
@@ -1462,12 +1276,12 @@ TsolDoGetImage(
                     box.y1 = y + linesDone + pDraw->y;
                     box.y2 = box.y1 + nlines;
                     over_win = AnyWindowOverlapsJustMe(pWin, pHead, &box);
-                    if (over_win &&
-                        xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, over_win, 0,
-                                     client, TSOL_ALL, &(MAJOROP)))
-                    {
-                        overlap = TRUE;
-                    }
+		    if (over_win)
+		    {
+			tsolres = TsolResourcePrivate(over_win);
+			if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) 
+				overlap = TRUE;
+		    }
                 }
                 /*
                  * fill the buffer with zeros in case of security failure
@@ -1505,52 +1319,39 @@ TsolDoGetImage(
 int
 ProcTsolGetImage(ClientPtr client)
 {
-    int status;
-    int savedtrust = setClientTrustLevel(client, XSecurityClientTrusted);
-
     REQUEST(xGetImageReq);
 
     REQUEST_SIZE_MATCH(xGetImageReq);
 
-    status = TsolDoGetImage(client, stuff->format, stuff->drawable,
+    return TsolDoGetImage(client, stuff->format, stuff->drawable,
 		      stuff->x, stuff->y,
 		      (int)stuff->width, (int)stuff->height,
 		      stuff->planeMask, (xGetImageReply **)NULL);
-
-    setClientTrustLevel(client, savedtrust);
-    return (status);
 }
 
 int
 ProcTsolPolySegment(ClientPtr client)
 {
-    int savedtrust;
     int status;
     GC *pGC;
     DrawablePtr pDraw;
+    TsolResPtr tsolres;
+    xpolicy_t flags;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+
     REQUEST(xPolySegmentReq);
-
     REQUEST_AT_LEAST_SIZE(xPolySegmentReq);
-
-    savedtrust = setClientTrustLevel(client, XSecurityClientTrusted);
 
     VALIDATE_DRAWABLE_AND_GC(stuff->drawable, pDraw, DixWriteAccess);
 
-    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pDraw, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-        /* ignore the error message for DnD zap effect */
-        return (client->noClientException);
-    }
-    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, NULL, stuff->gc,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-        client->errorValue = stuff->gc;
-        return (BadGC);
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_WRITEOP);
+    tsolres = TsolDrawablePrivate(pDraw, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) {
+        /* ignore the error message */
+        return(client->noClientException);
     }
 
     status = (*TsolSavedProcVector[X_PolySegment])(client);
-    setClientTrustLevel(client, savedtrust);
 
     return (status);
 }
@@ -1562,29 +1363,23 @@ ProcTsolPolyRectangle (ClientPtr client)
     int status;
     GC *pGC;
     DrawablePtr pDraw;
+    TsolResPtr tsolres;
+    xpolicy_t flags;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
     REQUEST(xPolyRectangleReq);
     REQUEST_AT_LEAST_SIZE(xPolyRectangleReq);
 
-    savedtrust = setClientTrustLevel(client, XSecurityClientTrusted);
-
     VALIDATE_DRAWABLE_AND_GC(stuff->drawable, pDraw, DixWriteAccess);
 
-    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pDraw, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_WRITEOP);
+    tsolres = TsolDrawablePrivate(pDraw, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) {
         /* ignore the error message */
-        return (client->noClientException);
-    }
-    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, NULL, stuff->gc,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-        client->errorValue = stuff->gc;
-        return (BadGC);
+        return(client->noClientException);
     }
 
     status = (*TsolSavedProcVector[X_PolyRectangle])(client);
-    setClientTrustLevel(client, savedtrust);
 
     return (status);
 }
@@ -1598,12 +1393,13 @@ ProcTsolCopyArea (ClientPtr client)
     DrawablePtr pSrc;
     GC *pGC;
     int rc;
+    TsolResPtr tsolres;
+    xpolicy_t flags;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
 
     REQUEST(xCopyAreaReq);
 
     REQUEST_SIZE_MATCH(xCopyAreaReq);
-
-    savedtrust = setClientTrustLevel(client, XSecurityClientTrusted);
 
     VALIDATE_DRAWABLE_AND_GC(stuff->dstDrawable, pDst, DixWriteAccess);
 
@@ -1622,27 +1418,21 @@ ProcTsolCopyArea (ClientPtr client)
     else
         pSrc = pDst;
 
-    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, pSrc, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_READOP);
+    tsolres = TsolDrawablePrivate(pSrc, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) {
         /* ignore the error message for DnD zap effect */
         return(client->noClientException);
     }
-    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pDst, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
+
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_WRITEOP);
+    tsolres = TsolDrawablePrivate(pDst, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) {
         /* ignore the error message for DnD zap effect */
         return(client->noClientException);
-    }
-    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, NULL, stuff->gc,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-        client->errorValue = stuff->gc;
-        return (BadGC);
     }
 
     status = (*TsolSavedProcVector[X_CopyArea])(client);
-    setClientTrustLevel(client, savedtrust);
 
     return (status);
 }
@@ -1654,8 +1444,12 @@ ProcTsolCopyPlane(ClientPtr client)
     int status;
     DrawablePtr psrcDraw, pdstDraw;
     GC *pGC;
-    REQUEST(xCopyPlaneReq);
+    TsolResPtr tsolres;
+    TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
+    xpolicy_t flags;
     int rc;
+
+    REQUEST(xCopyPlaneReq);
 
     REQUEST_SIZE_MATCH(xCopyPlaneReq);
 
@@ -1679,27 +1473,21 @@ ProcTsolCopyPlane(ClientPtr client)
     else
         psrcDraw = pdstDraw;
 
-    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_READ, psrcDraw, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_READOP);
+    tsolres = TsolDrawablePrivate(psrcDraw, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) {
         /* ignore the error message for DnD zap effect */
         return(client->noClientException);
     }
-    if (xtsol_policy(TSOL_RES_PIXEL, TSOL_MODIFY, pdstDraw, 0,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
+
+    flags = (TSOL_MAC|TSOL_DAC|TSOL_WRITEOP);
+    tsolres = TsolDrawablePrivate(pdstDraw, client);
+    if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) != Success) {
         /* ignore the error message for DnD zap effect */
         return(client->noClientException);
-    }
-    if (xtsol_policy(TSOL_RES_GC, TSOL_READ, NULL, stuff->gc,
-                     client, TSOL_ALL, &(MAJOROP)))
-    {
-        client->errorValue = stuff->gc;
-        return (BadGC);
     }
 
     status = (*TsolSavedProcVector[X_CopyPlane])(client);
-    setClientTrustLevel(client, savedtrust);
 
     return (status);
 }
