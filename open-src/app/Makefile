@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.89	09/09/28 SMI"
+# ident	"@(#)Makefile	1.90	09/10/05 SMI"
 #
 ###############################################################################
 
@@ -94,6 +94,7 @@ OS_SUBDIRS_common = \
 	xgc \
 	xhost \
 	xinit \
+	xinput \
 	xkbcomp \
 	xkbprint \
 	xkbutils \

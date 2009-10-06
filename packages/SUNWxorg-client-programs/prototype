@@ -29,7 +29,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.4     08/09/03 SMI"
+# ident "@(#)prototype 1.5     09/10/06 SMI"
 #
 # X.Org Foundation X client programs for Solaris
 
@@ -48,6 +48,7 @@ f none X11/bin/xrandr	 		0755 root bin
 f none X11/bin/dispswitch		0755 root bin
 f none X11/bin/xvidtune	 		0755 root bin
 f none X11/bin/xvinfo	 		0755 root bin
+f none X11/bin/xinput	 		0755 root bin
 
 d none X11/lib 				0755 root bin
 d none X11/lib/X11			0755 root bin

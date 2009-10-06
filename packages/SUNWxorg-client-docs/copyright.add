@@ -28,3 +28,9 @@ Files from the MesaDemos package are covered by the following notice:
 
 include app/mesa-demos/COPYING
 
+--------------------------------------------------------------------
+
+Files from the xinput package are covered by the following notice:
+
+include app/xinput/COPYING
+
