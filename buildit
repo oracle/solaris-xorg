@@ -74,7 +74,7 @@ uname -a
 echo "Using these compilers: "
 which cc gcc
 # Make sure Sun C compiler is at least version 5.9 (Studio 12)
-cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d)+.(\d)+|)) { \
+cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
     print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 9) ) }'
 gcc -v
 

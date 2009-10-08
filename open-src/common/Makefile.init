@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.init	1.11	09/06/24
+# @(#)Makefile.init	1.12	09/10/08
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -103,9 +103,9 @@ DEBUG_FLAGS_suncc	= $(DEBUG_FLAGS_common)
 $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_suncc = $(DEBUG_FLAGS_suncc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
 
-CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -mc -xstrconst \
+CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -xstrconst \
 			  -features=extensions
-CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w2 -mc -norunpath \
+CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w2 -norunpath \
 			  -features=extensions
 
 # -D__<arch>__ flags are to match gcc definitions that are used in much
