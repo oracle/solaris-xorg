@@ -1,4 +1,4 @@
-# Makefile for X Consolidation Open Source data modules
+###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -28,22 +28,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.7	09/10/09 SMI"
-#
-###############################################################################
 
-OS_SUBDIRS_common = \
-	rasterfile		\
-	smf-rbac		\
-	workspace-patterns 	\
-	xcursor-themes
+MODULE_NAME=rasterfile
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
-OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)
+# No upstream sources for these files, since they're Solaris-specific
+MODULE_VERSION=NONE
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
 
-PWD:sh=pwd
-TOP=$(PWD)/..
+CONFIGURE_TARGETS =
+CONFIGURE_TARGETS_SET=yes
 
-### Include common definitions
-DIRNAME="data/"
-include $(TOP)/common/Makefile.subdirs
+BUILD_TARGETS =
+BUILD_TARGETS_SET=yes
+
+INSTALL_TARGETS =
+INSTALL_TARGETS_SET=yes
+
+### Include common rulesets
+include ../Makefile.inc
+
+DESTDIR=$(PROTODIR)
+INCDIR=$(DESTDIR)/usr/include/pixrect
+MANDIR=$(DESTDIR)/usr/share/man/man4
+
+install_gen::
+	mkdir -p $(INCDIR) $(MANDIR)
+	cp -pf rasterfile.h $(INCDIR)
+	cp -pf rasterfile.4 $(MANDIR)

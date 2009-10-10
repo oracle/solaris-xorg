@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.122     09/09/28 SMI"
+# ident "@(#)prototype_com 35.123     09/10/08 SMI"
 #
 #  X Window System online user man pages
 
@@ -35,8 +35,16 @@ i pkginfo
 i copyright
 i depend=../depend
 
-!HOME=../usr/openwin/share/man
-!NEWHOME=../usr/X11/share/man
+!USR=../usr
+!HOME=$USR/openwin/share/man
+!NEWHOME=$USR/X11/share/man
+
+d none share				0755 root sys
+d none share/man			0755 root bin
+
+!search $USR/share/man/man4
+d none share/man/man4			0755 root bin
+f none share/man/man4/rasterfile.4	0444 root bin
 
 d none openwin 0755 root bin
 s none openwin/man=./share/man
@@ -53,10 +61,6 @@ s none X11/man=share/man
 d none openwin/share/man/man1 0755 root bin
 f none openwin/share/man/man1/makepsres.1 0444 root bin
 f none openwin/share/man/man1/pswrap.1 0444 root bin
-
-!search            $HOME/man4
-d none openwin/share/man/man4 0755 root bin
-f none openwin/share/man/man4/rasterfile.4 0444 root bin
 
 #### applications replaced with new versions from open-src/app
 

@@ -28,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.102	09/07/28 SMI"
+# ident	"@(#)prototype_com	35.103	09/10/08 SMI"
 #
 #  X Window System include files
 
@@ -40,6 +40,10 @@ i depend
 
 d none include 0755 root bin
 s none include/X11=../X11/include/X11
+
+!search $HOME/include/pixrect
+d none include/pixrect			0755 root bin
+f none include/pixrect/rasterfile.h	0444 root bin
 
 d none openwin 0755 root bin
 d none openwin/share 0755 root bin
