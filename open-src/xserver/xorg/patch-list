@@ -14,6 +14,7 @@ cli-nolock.patch
 cli-nobanner.patch
 catch-dlerrors.patch
 sigio.patch,-p1
+sigio-disable.patch,-p1
 make_xkm_output_dir.patch
 dtlogin-userinfo.patch
 IA.patch
