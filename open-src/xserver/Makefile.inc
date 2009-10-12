@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.16	09/08/03 SMI"
+# ident	"@(#)Makefile.inc	1.17	09/10/12 SMI"
 #
 
 PWD:sh=pwd
@@ -40,7 +40,7 @@ MODTYPE=xserver
 include $(TOP)/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.6.3
+XORGSERVER_VERS=1.6.5
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
