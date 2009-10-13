@@ -38,5 +38,4 @@ dixmods-deps.patch
 sparc-initvisuals.patch
 hotkey.patch
 vt.patch
-6839874.patch
 6885229.patch
