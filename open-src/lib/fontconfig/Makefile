@@ -3,7 +3,7 @@
 # Fontconfig 2.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.81	09/09/09
+# ident	"@(#)Makefile	1.82	09/10/13 SMI"
 #
 
 # Package name used in tarballs
@@ -114,7 +114,7 @@ $(SOURCE_DIR)/fonts.conf: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
 	( cd $(SOURCE_DIR) ; \
 	    ./config.status --file fonts.conf )
 
-install_gen:: $(SOURCE_DIR)/fonts.conf-SUNW
+install_gen:: default_install $(SOURCE_DIR)/fonts.conf-SUNW
 	rm $(PROTODIR)/etc/fonts/fonts.conf
 	cp $(SOURCE_DIR)/fonts.conf-SUNW $(PROTODIR)/etc/fonts/fonts.conf
 
@@ -133,7 +133,7 @@ $(FONTCONFIG_ETC_README): $(SOURCE_DIR)/conf.d/README
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
-fontconfig-sunman-install:
+fontconfig-sunman-install: default_install
 	mkdir -p $(FC_MAN_DIR)/man4 $(FC_MAN_DIR)/man3lib
 	sed -e 's/.TH "FONTS-CONF" "5"/.TH "fonts.conf" "4"/' 	\
 	    -e 's/SUNWfontconfig/SUNWfontconfig-root/' 		\

@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source font modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,21 +28,23 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	09/02/26
+# ident	"@(#)Makefile	1.11	09/10/13 SMI"
 #
 ###############################################################################
 
-# encodings must be first, since it installs files used to build the rest
+# Need to install to proto area by default for inter-package dependencies to
+# work right.
+default_target: install
+
+# encodings & util must be first, since they install files used by the rest
 # catalogue-dirs must be last, since it remixes the results of the rest
 
-OS_SUBDIRS_common = \
-	encodings \
+FONT_SUBDIRS= \
 	sun-aliases \
 	bitstream-vera \
 	deja-vu \
 	google-droid \
 	liberation \
-	util \
 	adobe-75dpi \
 	adobe-100dpi \
 	adobe-utopia-75dpi \
@@ -78,7 +80,15 @@ OS_SUBDIRS_common = \
 	sun-misc \
 	winitzki-cyrillic \
 	xfree86-type1 \
+
+OS_SUBDIRS_common = \
+	encodings \
+	util \
+	$(FONT_SUBDIRS) \
 	catalogue-dirs
+
+$(FONT_SUBDIRS): encodings util
+catalogue-dirs: $(FONT_SUBDIRS)
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)

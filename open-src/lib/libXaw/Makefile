@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	09/07/31
+# ident	"@(#)Makefile	1.7	09/10/15 SMI"
 #
 
 # Package name used in tarballs
@@ -63,10 +63,8 @@ FIX_PC_FILES=xaw7.pc.in
 # started shipping the now-dropped-by-X.Org libXaw.so.8 (Xaw + Xprint)
 MODULE_CONFIG_OPTS= --disable-xaw6
 
-# Remove existing Xaw headers from proto area before build to avoid conflicts
-MODULE_BUILD_DEPS = remove-old-headers
-
 include ../Makefile.inc
 
-remove-old-headers:
+# Remove existing Xaw headers from proto area before build to avoid conflicts
+clean::
 	rm -rf $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xaw

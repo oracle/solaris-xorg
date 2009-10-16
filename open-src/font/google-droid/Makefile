@@ -3,7 +3,7 @@
 # Droid Fonts Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	09/02/26 SMI
+# ident	"@(#)Makefile	1.2	09/10/13 SMI"
 #
 
 # Package name used in tarballs
@@ -54,6 +54,10 @@ SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
+
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
 # What to build
 BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale

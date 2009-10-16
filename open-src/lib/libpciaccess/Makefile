@@ -3,7 +3,7 @@
 # libpciaccess Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -60,10 +60,14 @@ FIX_PC_FILES=pciaccess.pc.in
 # Activate additional debugging code in debug builds
 MODULE_DEBUG_FLAGS=-DDEBUG
 
+# Additional targets for scanpci
+MODULE_ADD_SOURCE_TARGETS = source_scanpci_man
+MODULE_ADD_INSTALL_TARGETS = install_scanpci
+
 include ../Makefile.inc
 
 # Update scanpci.man with program man page flags instead of library ones
-source_gen::
+source_scanpci_man:: default_source
 	(cd $(SOURCE_DIR) && \
 	 /usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 	        -a '{Availability, $(SUN_PACKAGE)}' \
@@ -74,7 +78,7 @@ source_gen::
 		src/scanpci.man > src/scanpci.1 )
 
 # We want to install scanpci, even though the upstream Makefile doesn't
-install_gen::
+install_scanpci:: default_install
 	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR) \
 		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
 	$(INSTALL_SCRIPT) -m 755 $(SOURCE_DIR)/src/scanpci \

@@ -28,9 +28,13 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.31	09/07/14
+# ident	"@(#)Makefile	1.32	09/10/13 SMI"
 #
 ###############################################################################
+
+# Need to install to proto area by default for inter-package dependencies to
+# work right.
+default_target: install
 
 # Order copied from X.Org's util/modular/build.sh:
 # the libraries have a dependency order:
@@ -41,10 +45,42 @@
 # (X11 and SM) before Xt
 # Xt before Xmu and Xpm and Xtst
 # Xext before any other extension library, including mesa
-# Xfixes before Xcomposite
-# Xp before XprintUtil before XprintAppUtil
+# Xfixes before Xcomposite, Xcursor or Xdamage
 # libpthread-stubs before libdrm (and in the future, before xcb)
 # libdrm before mesa
+
+# Dependencies needed for parallel make:
+fontconfig: freetype
+libdrm: libpthread-stubs
+libFS: libxtrans
+libICE: libxtrans
+libSM: libxtrans libICE
+libX11: libxtrans libXau libXdmcp
+libXaw: libX11 libXt libXmu libXpm
+libXcomposite: libX11 libXext libXfixes
+libXcursor: libX11 libXfixes libXrender
+libXdamage: libXfixes
+libXevie: libX11 libXext
+libXext: libX11 libXau
+libXfont: libxtrans freetype libfontenc
+libXft: freetype fontconfig libXrender
+libXi: libX11 libXext
+libXinerama: libX11 libXext
+libXlg3d: libX11 libXfixes libXext
+libXmu: libX11 libXt libXext
+libXp: libX11 libXext
+libXpm: libX11 libXt
+libXrandr: libX11 libXext libXrender
+libXres: libX11 libXext
+libXt: libX11 libSM
+libXtst: libX11 libXext
+libXv: libX11 libXext
+libXvMC: libX11 libXext
+libXxf86misc: libX11 libXext
+libXxf86vm: libX11 libXext
+libxkbfile: libX11
+libxkbui: libX11 libXt libxkbfile
+mesa: libdrm libX11 libXext
 
 OS_SUBDIRS_common = \
 	freetype \
@@ -109,3 +145,4 @@ TOP=$(PWD)/..
 ### Include common definitions
 DIRNAME="lib/"
 include $(TOP)/common/Makefile.subdirs
+

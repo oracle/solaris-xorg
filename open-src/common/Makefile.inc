@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright 2009 Sun Microsystems, Inc.  All Rights Reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.99	09/05/15
+# ident	"@(#)Makefile.inc	1.100	09/10/13 SMI"
 #
 
 ### Default rules
@@ -44,6 +44,9 @@ MODTYPE_MAKE_DEFAULT		= $(MODTYPE_MAKE_SET:yes=$(POUND_SIGN))
 $(MODTYPE_MAKE_DEFAULT)		MODTYPE_MAKE = $(MAKE)
 MODULE_MAKE_DEFAULT		= $(MODULE_MAKE_SET:yes=$(POUND_SIGN))
 $(MODULE_MAKE_DEFAULT)		MODULE_MAKE = $(MODTYPE_MAKE)
+
+# Enable parallel make for gmake built modules too
+#MAKEFLAGS			+= -j $(DMAKE_MAX_JOBS)
 
 # Where to install files
 MODTYPE_PREFIX_DEFAULT		= $(MODTYPE_PREFIX_SET:yes=$(POUND_SIGN))
@@ -106,11 +109,16 @@ $(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install \
 					$(MODULE_ADD_INSTALL_TARGETS)
 
 # Additional flags to pass to make in 32-bit & 64-bit builds
-BUILD_32_FLAGS= BUILD_DIR=$(BUILD_DIR_32) ARCH_FLAGS="$(ARCH32_FLAGS)" \
-	BUILD_TYPE=32 $(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
+BUILD_DIR_32_FLAGS= BUILD_DIR=$(BUILD_DIR_32) BUILD_TYPE=32
 
-BUILD_64_FLAGS= BUILD_DIR=$(BUILD_DIR_64) ARCH_FLAGS="$(ARCH64_FLAGS)" \
-	BUILD_TYPE=64 $(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
+BUILD_DIR_64_FLAGS= BUILD_DIR=$(BUILD_DIR_64) BUILD_TYPE=64 \
+	LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64)
+
+BUILD_32_FLAGS= $(BUILD_DIR_32_FLAGS) ARCH_FLAGS="$(ARCH32_FLAGS)" \
+	$(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
+
+BUILD_64_FLAGS= $(BUILD_DIR_64_FLAGS) ARCH_FLAGS="$(ARCH64_FLAGS)" \
+	$(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
 
 all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
 all_32: source_32 configure_32 build_32
@@ -130,31 +138,31 @@ source_gen:: $(SOURCE_TARGETS)
 
 source_32: $(SOURCE_DIR_32)/$(UNPACK_FILE)
 $(SOURCE_DIR_32)/$(UNPACK_FILE):
-	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_32) source_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_DIR_32_FLAGS) source_gen
 
 source_64: $(SOURCE_DIR_64)/$(UNPACK_FILE)
 $(SOURCE_DIR_64)/$(UNPACK_FILE):
-	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_64) source_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_DIR_64_FLAGS) source_gen
 
 configure: $(BUILD_TYPES:%=configure_%)
 
 configure_gen: $(CONFIGURE_TARGETS)
 
-configure_32:: 
+configure_32:: source_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) configure_gen
 
-configure_64::
-	$(MAKE) $(MAKEFLAGS) LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) configure_gen
+configure_64:: source_64
+	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) configure_gen
 
 build: $(BUILD_TYPES:%=build_%)
 
 build_gen: $(BUILD_TARGETS)
 
-build_32::
+build_32:: configure_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) build_gen
 
-build_64::
-	$(MAKE) $(MAKEFLAGS) LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) build_gen
+build_64:: configure_64
+	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) build_gen
 
 install: $(BUILD_TYPES:%=install_%)
 
@@ -164,7 +172,7 @@ install_32:: build_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) install_gen
 
 install_64:: build_64
-	$(MAKE) $(MAKEFLAGS) LIBSUBDIR=/64 ARCHLIBSUBDIR=/$(SUBDIR64) $(BUILD_64_FLAGS) install_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) install_gen
 
 DEBUG_BUILD_FLAGS = BUILD_DEBUG=yes
 
@@ -313,8 +321,7 @@ CONFIGURE_DEPS = $(UNPACK_TARGET) \
 
 # Command line options to GNU autoconf configure script
 DEFAULT_CONFIG_OPTS = --prefix=$(MODULE_PREFIX) \
-	--mandir='$${prefix}/share/man' --localstatedir=/var \
-	--disable-libtool-lock
+	--mandir='$${prefix}/share/man' --localstatedir=/var
 
 CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \
 	$(MODTYPE_CONFIG_OPTS) $(MODULE_CONFIG_OPTS)
@@ -392,8 +399,13 @@ spec_gen:
 LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
 	$(MODTYPE_LD_OPTIONS) $(MODULE_LD_OPTIONS)
 
+# MKDIRPROG - Workaround parallel build race condition
+#		in older upstream packaged install-sh
+
 BUILD_ENV = LD_OPTIONS='$(LD_OPTIONS)' \
 	PROTODIR='$(PROTODIR)' \
+	MAKE='$(MODULE_MAKE)' \
+	MKDIRPROG='mkdir -p' \
 	$(MODTYPE_BUILD_ENV) $(MODULE_BUILD_ENV)
 
 DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
@@ -406,7 +418,7 @@ default_build:: $(UNPACK_TARGET) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MO
 print_default_build_flags:
 	@print "BUILD_ENV='$(BUILD_ENV)'" ; \
 	print "MAKE='$(MODULE_MAKE)'" ; \
-	print "MAKE_FLAGS='$(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)'"
+	print "MAKEFLAGS='$(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)'"
 
 build-in-subdir:
 	(cd $(subdir) ; \
@@ -443,7 +455,7 @@ UNINSTALLED_PC_OPS= \
 	-e 's|^sdkdir=|sdkdir=$$protodir|g;' \
 	-e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;'
 
-install_pkgconfig_uninstalled:
+install_pkgconfig_uninstalled: $(INSTALL_TARGETS)
 	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \
 	    cd $(SOURCE_DIR) ; \
 	    for pcin in $(FIX_PC_FILES:.in=) ; do \
@@ -462,7 +474,7 @@ $(BUILD_DEBUG:yes=)			DEBUG_ELF_COMMENTS=(DEBUG)
 $(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_ELF_COMMENTS=
 ELF_COMMENTS += $(DEBUG_ELF_COMMENTS)
 
-set-elf-comments:
+set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
 	$(TOP)/common/set-elf-comments.pl -B $(TOP)/../packages/pkgversion \
 	 -M '$(ELF_COMMENTS)' $(SOURCE_DIR)
 

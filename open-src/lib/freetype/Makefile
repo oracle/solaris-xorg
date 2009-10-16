@@ -3,7 +3,7 @@
 # Freetype 2.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.79	09/08/30
+# ident	"@(#)Makefile	1.80	09/10/13 SMI"
 #
 
 PWD:sh=pwd
@@ -150,6 +150,7 @@ BIN_INST_DIR=$(PROTODIR)$(MODULE_PREFIX)/bin
 
 install_64::
 	-/bin/rm -f $(BIN_INST_DIR)/64
+	mkdir -p $(BIN_INST_DIR)
 	ln -s $(SUBDIR64) $(BIN_INST_DIR)/64
 
 

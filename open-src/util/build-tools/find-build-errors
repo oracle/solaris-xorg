@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)find-build-errors 1.3     09/05/13 SMI"
+# ident	"@(#)find-build-errors	1.4	09/10/13 SMI"
 #
 
 require 5.005;				# minimal Perl version required
@@ -90,6 +90,7 @@ if (defined $logfile) {
 
     # Clear saved lines for each new module/subdir
     if (($l =~ m{^\#\# making \S+ in \S+\.\.\.$}ms) ||	# open-src pattern
+	($l =~ m{^dmake: Warning: Target `subdirs' not remade because of errors}ms) ||
 	($l =~ m{^\S+ing( \S+)* in \S+\.\.\.$}ms)) {	# xc pattern
       @steplines = ();
       $found_error = 0;
@@ -110,7 +111,7 @@ if (defined $logfile) {
     next if ($l =~ m{\\\Z}ms);
 
     # Found a new error?
-    if ($l =~ m{\*\*\* }ms) {
+    if (($l =~ m{\*\*\* }ms) || ($l =~ m{^make: Fatal error}ms)) {
       $found_error = 1;
 
       # Print section header
@@ -125,13 +126,13 @@ if (defined $logfile) {
 	my $sl = $steplines[$ln];
 
 	#      print "lastmake: $lastmake, lastcom: $lastcommand, lastplus: $lastplus, line #$ln: $sl\n";
-	if ($sl =~ m{\b(make|gmake)\b}ms) {
+	if ($sl =~ m{\b(make|dmake|gmake)\b}ms) {
 	  $lastmake = $ln;
 	}
 
 	if ($sl =~ m{\breturned\b}ms) {
 	  # don't treat this as a command
-	} elsif ($sl =~ m{\b(cc|gcc|CC|g\+\+|ld|gpatch|libtool)\s+}ms) {
+	} elsif ($sl =~ m{\b(cc|gcc|CC|g\+\+|ld|gpatch|libtool|GEN|CCLD)\s+}ms) {
 	  if ($sl !~ m{usage:}) {
 	    $lastcommand = $ln;
 	  }

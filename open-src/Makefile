@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,10 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.22	08/08/08
+# ident	"@(#)Makefile	1.23	09/10/13 SMI"
 #
 ###############################################################################
 #
+
+# Need to install to proto area by default for inter-package dependencies to
+# work right.
+default_target: install
 
 # Modules have to be built in a specific order for dependencies to be
 # handled properly
@@ -44,6 +48,17 @@
 # - data/xbitmaps must be before app, as some applications depend on the
 #   bitmaps installed, but the rest of data depends on applications like
 #   xcursorgen for processing, so must come later
+# - font depends on utils like mkfontdir from app
+
+# High level dependencies
+proto: util/util-macros
+lib: proto
+app: lib data/xbitmaps
+xserver: proto doc lib
+driver: xserver
+app/rgb: xserver
+data: app
+font: app
 
 OS_SUBDIRS_common = \
 	util/util-macros \
@@ -61,10 +76,6 @@ OS_SUBDIRS_common = \
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
-
-# Need to install to proto area by default for inter-package dependencies to
-# work right.
-default_target: install
 
 PWD:sh=pwd
 TOP=$(PWD)

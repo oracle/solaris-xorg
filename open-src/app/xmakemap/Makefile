@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -37,11 +37,12 @@ SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
-# Don't need default targets for make build or make install, since there's
+# Don't need default targets for configure, build, or install, since there's
 # nothing to build, and the install rule follows here
-BUILD_TARGETS = $(SOURCE_TARGETS)
+CONFIGURE_TARGETS = 
+CONFIGURE_TARGETS_SET=yes
+BUILD_TARGETS = 
 BUILD_TARGETS_SET=yes
-
 INSTALL_TARGETS =
 INSTALL_TARGETS_SET=yes
 

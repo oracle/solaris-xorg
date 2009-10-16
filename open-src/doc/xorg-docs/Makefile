@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# ident	"@(#)Makefile	1.6	09/10/13 SMI"
 #
 
 # Package name used in tarballs
@@ -67,7 +67,7 @@ DOC_DIR=$(PROTODIR)$(X11_DOC_DIR)
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
 install_gen::
-	mkdir -p $(DOC_DIR) $(MAN_DIR)
+	mkdir -p $(DOC_DIR) $(MAN_DIR)/man5
 	cp -p $(SGML_DIR)/LICENSE.txt		$(DOC_DIR)/LICENSE
 	cp -p $(SGML_DIR)/RELNOTES.txt		$(DOC_DIR)/RELNOTES
 	cp -p $(SGML_DIR)/input/XKB-Config.txt	$(DOC_DIR)/README.XKB-Config

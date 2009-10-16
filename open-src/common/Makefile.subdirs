@@ -1,8 +1,8 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.subdirs has rules for recursively iterating through module subdirs
 #
-# Copyright 2009 Sun Microsystems, Inc.  All Rights Reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.subdirs	1.3	09/05/15
+# ident	"@(#)Makefile.subdirs	1.4	09/10/13 SMI"
 #
 
 # Need to set $MACH
@@ -46,13 +46,13 @@ clean:
 	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean
 	$(MAKE) $(MAKEFLAGS) clean-obsolete-subdirs
 
-subdirs:
+subdirs: $(OS_SUBDIRS)
+
+$(OS_SUBDIRS): ALWAYS_RUN
 	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in $(OS_SUBDIRS) ; do \
-	    (cd $$i ; \
-	     print "## making" $(OS_TARGET) "in open-src/$(DIRNAME)$$i..."; \
-	     $(MAKE) $(MAKEFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)); \
-	done
+	cd $@ ; \
+	print "## making" $(OS_TARGET) "in open-src/$(DIRNAME)$@..."; \
+        $(MAKE) $(MAKEFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)
 
 clean-obsolete-subdirs:
 	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \
@@ -64,9 +64,16 @@ clean-obsolete-subdirs:
 		    else ; \
 		    	print "## removing obsolete build directories in open-src/$(DIRNAME)$$i..."; \
 			(set -x ; cd $$i && rm -rf build_32 build_64 ) ; \
-			(set -x ; rmdir $$i ) ; \
+			(set -x ; rmdir $$i/SCCS $$i ) ; \
 		    fi ; \
 		fi ; \
 	    done ; \
 	fi ; \
 	return 0
+
+# Dummy target to force another target to always be run, even if a file
+# or directory with the same name already exists (as it will for subdirs)
+ALWAYS_RUN:
+
+# Tell dmake it can build subdirs in parallel
+.PARALLEL: $(OS_SUBDIRS)

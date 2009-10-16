@@ -58,7 +58,9 @@ GLXGEARS_BIN=$(SOURCE_DIR)/progs/xdemos/glxgears
 GLXINFO_BIN=$(SOURCE_DIR)/progs/xdemos/glxinfo
 
 # configure script is run in ../lib/mesa build, just link to results here
-CONFIGURE_TARGETS=$(SOURCE_DIR)/configs/current
+CONFIGURE_TARGETS_sparc=
+CONFIGURE_TARGETS_i386=$(SOURCE_DIR)/configs/current
+CONFIGURE_TARGETS= $(CONFIGURE_TARGETS_$(MACH))
 CONFIGURE_TARGETS_SET=yes
 
 # What to build

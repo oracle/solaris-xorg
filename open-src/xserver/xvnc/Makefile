@@ -5,7 +5,7 @@
 # http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc.spec
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.19 09/05/15
+# ident	"@(#)Makefile	1.20	09/10/13 SMI"
 #
 
 # Package name used in tarballs
@@ -140,7 +140,7 @@ include ../Makefile.inc
 # Use layout from Fedora RPM so their patches apply
 # This step has to be done after including common/Makefile.inc since
 # it depends on files created in that stage
-source_gen:: 
+source_gen:: default_source
 	(cd $(SOURCE_DIR) ; \
 	cp -p unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc \
 		unix/xc/programs/Xserver/Xvnc.man \

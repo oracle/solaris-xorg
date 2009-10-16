@@ -3,7 +3,7 @@
 # X11 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.22	09/04/15
+# ident	"@(#)Makefile	1.23	09/10/13 SMI"
 #
 
 # Package name used in tarballs
@@ -144,14 +144,9 @@ ADDITIONAL_SOURCE_DIR=sun-src
 
 include ../Makefile.inc
 
-install_gen::
-	mkdir -p $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)
-	-rm -f $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libX11.so
-	ln -s libX11.so.4 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libX11.so
-
 # Install additional headers we need in other parts of the build or ship in
 # packages, but which X.Org doesn't
-install_32::
+install_32:: build_32
 	mkdir -p $(PROTODIR)/usr/X11/include/X11/extensions
 	cp -pf sun-src/include/X11/Xvarargs.h $(PROTODIR)/usr/X11/include/X11/
 	cp -pf sun-src/include/X11/extensions/XInteractive.h \

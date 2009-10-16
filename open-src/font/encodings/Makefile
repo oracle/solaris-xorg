@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3	08/08/08
+# ident	"@(#)Makefile	1.4	09/10/13 SMI"
 #
 
 # Package name used in tarballs
@@ -45,6 +45,3 @@ MODULE_CONFIG_OPTS=--disable-gzip-small-encodings
 
 ### Include common rulesets
 include ../Makefile.inc
-
-install_gen::
-	(cd $(PROTODIR)/$(X11_DIR)/lib/X11/fonts/encodings && LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) $(PROTODIR)$(X11_DIR)/bin/mkfontscale -b -s -l -n -r -p $(X11_DIR)/lib/X11/fonts/encodings -e . -e large .)

@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -13,7 +13,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -23,23 +23,44 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)xmake 1.1     08/08/07 SMI"
+# ident	"@(#)xmake	1.2	09/10/13 SMI"
 #
 
 require 5.005;				# minimal Perl version required
 use strict;				#
 use diagnostics;			#
+use File::Path;
 use File::Spec;
 use English qw( -nomatchvars );
+use POSIX qw(uname);
 
-# Path to make sure we're running Solaris make instead of GNU make
-my $solaris_make = '/usr/ccs/bin/make';
+my $verbose = 0;
+if ((scalar(@ARGV) > 0) && ($ARGV[0] eq '-v')) {
+  shift @ARGV;
+  $verbose = 1;
+}
+
+# Arguments: (envvar, defval)
+# If environment variable 'envvar' is not set, set it to 'defval'
+sub setenv_default {
+  my ($envvar, $defval) = @_;
+
+  if (!exists $ENV{$envvar}) {
+    $ENV{$envvar} = $defval;
+  }
+
+  if ($verbose > 0) {
+    print $envvar, '=', $ENV{$envvar}, "\n";
+  }
+
+  return $ENV{$envvar};
+}
 
 # save full path to current directory
 my $startdir = File::Spec->rel2abs(File::Spec->curdir());
@@ -55,17 +76,79 @@ for my $n (1..$#dirtree) {
       last;
     }
   }
+  if ($dirtree[$n] eq 'closed-src') {
+    if (-f File::Spec->catfile( @dirtree[0..($n-1)],
+				'open-src/common/Makefile.inc')) {
+      $osdepth = $n;
+      last;
+    }
+  }
 }
 
 if (!defined($osdepth)) {
   die "$0: Cannot find path to open-src/common/Makefile.inc from here";
 }
 
+
+# Use dmake unless user environment overrides
+my $make_cmd = setenv_default('MAKE', 'dmake');
+
+if ($make_cmd =~ m/dmake/) {
+  # Set dmake environment for parallel builds by default
+  setenv_default('DMAKE_MODE', 'parallel');
+  setenv_default('DMAKE_OUTPUT_MODE', 'TXT2');
+
+  if (!exists $ENV{'DMAKE_MAX_JOBS'}) {
+    my $max_jobs;
+    my $machlist = join('/', $ENV{'HOME'}, '.make.machines');
+    if ( -f $machlist ) {
+      my $nodename = (POSIX::uname())[1];
+      if (open my $MACHLIST, '<', $machlist) {
+	while (my $m = <$MACHLIST>) {
+	  my ($hostname, $vars) = split ' ', $m, 2;
+
+	  next if (!defined($hostname) || !defined($vars));
+	  if ($hostname eq $nodename) {
+	    my @varlist = split /\s+/, $vars;
+	    foreach my $v (@varlist) {
+	      my ($var, $val) = split /=/, $v;
+	      if ($var eq 'max') {
+		$max_jobs = $val;
+		last;
+	      }
+	    }
+	    last;
+	  }
+	}
+	close $MACHLIST;
+      }
+    }
+    if (!defined($max_jobs)) {
+      $max_jobs = 0;
+
+      if (open my $PSRINFO, '-|', '/usr/sbin/psrinfo') {
+	while (my $p = <$PSRINFO>) {
+	  if ($p =~ m/on-line/) {
+	    $max_jobs++;
+	  }
+	}
+	close $PSRINFO;
+      }
+    }
+    setenv_default('DMAKE_MAX_JOBS', $max_jobs);
+  }
+
+  my $dmake_odir =
+    setenv_default('DMAKE_ODIR', File::Spec->catfile(@dirtree[0..($osdepth-1)],
+						     'log', '.dmake'));
+  mkpath($dmake_odir);
+}
+
 # if in top two levels, just run make
 if ($osdepth >= ($#dirtree - 2)) {
-  print join(' ', $solaris_make, @ARGV), "\n";
-  exec($solaris_make, @ARGV)
-    or die "$0: exec of $solaris_make failed: $OS_ERROR";
+  print join(' ', $make_cmd, @ARGV), "\n";
+  exec($make_cmd, @ARGV)
+    or die "$0: exec of $make_cmd failed: $OS_ERROR";
 }
 
 my $subdir_target = 'build-in-subdir';
@@ -80,14 +163,14 @@ my $moduledir = File::Spec->catdir( @dirtree[0..($osdepth+2)] );
 
 my @makeargs = ($subdir_target, qq{subdir='$startdir'});
 if (scalar(@ARGV) > 0) {
-  push @makeargs, join(q{}, q{subdir_cmd='}, @ARGV, q{'});
+  push @makeargs, join(q{ }, q{subdir_cmd=}, @ARGV);
 }
 
-print join(' ', "(cd $moduledir ;\\\n", $solaris_make, @makeargs), ")\n";
+print join(' ', "(cd $moduledir ;\\\n", $make_cmd, @makeargs), ")\n";
 chdir $moduledir
   or die "$0: Can't chdir $moduledir: $OS_ERROR";
-exec($solaris_make, @makeargs)
-    or die "$0: exec of $solaris_make failed: $OS_ERROR";
+exec($make_cmd, @makeargs)
+    or die "$0: exec of $make_cmd failed: $OS_ERROR";
 
 __END__
 

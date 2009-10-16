@@ -6,6 +6,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -34,12 +35,12 @@
 #
 ###########################################################################
 #
-# ident "@(#)buildit	1.8	09/05/15 SMI"
+# ident	"@(#)buildit	1.10	09/10/27 SMI"
 #
 
 MAKE_PKGS=0
 
-set -- `getopt p $*`
+set -- $(getopt p $*)
 if [ $? != 0 ]
 then
     echo USAGE: $0 [-p]
@@ -52,12 +53,11 @@ for i in $* ; do
     esac
 done
 
-
 # Add /usr/bin to front of path in case user has /usr/gnu/bin default
 # Add /usr/sbin to path for dtrace
 # Add /usr/X11/bin to path for makedepend
 
-PATH=/usr/bin:$PATH:/usr/sbin:/usr/X11/bin
+PATH=/usr/bin:${PATH}:/usr/sbin:/usr/X11/bin
 export PATH
 
 [ -d log ] || mkdir log
@@ -68,7 +68,7 @@ exec > log/buildit-XW 2>&1
 echo "------------------------------------------------------------------------------"
 echo "Start time: "
 date
-START=`perl -e 'print time'`
+START="$(perl -e 'print time')"
 echo "Building on: "
 uname -a
 echo "Using these compilers: "
@@ -78,23 +78,29 @@ cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
     print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 9) ) }'
 gcc -v
 
-# Exported to reduce number of times it's evaluated in makefiles
-export POUND_SIGN='#'
+# Exported to stop Sun compilers from reporting home on each usage
+export SUNW_NO_UPDATE_NOTIFY='true'
+export UT_NO_USAGE_TRACKING='1'
 
 echo "Using these environment variables: "
 env
 echo "------------------------------------------------------------------------------"
 
 
-MACH=`uname -p`
-if [ "$MACH" = "i386" ]; then
+
+XMAKE="$(pwd)/open-src/util/build-tools/xmake"
+chmod +x ${XMAKE}
+
+MACH="$(uname -p)"
+if [ "${MACH}" = "i386" ]; then
     /bin/rm -rf proto-i386-svr4
 else
     /bin/rm -rf proto-sun4-svr4
 fi
 
+chmod +x open-src/common/install-sh open-src/common/delibtoolize.pl
 cd open-src
-make -k clean install
+${XMAKE} -v -k clean install
 cd ..
 
 echo ""
@@ -103,13 +109,11 @@ echo "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
 echo ""
 echo "Finish time: "
 date
-perl -e '$runtime=time-$ARGV[0];printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' $START
+perl -e '$runtime=time-$ARGV[0]; printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' "${START}"
 
-if [ $MAKE_PKGS = 1 ] ; then
-    PACKAGE_LIST=`cd packages && echo SUNW* FSW*`
-    export PACKAGE_LIST
+if [ "${MAKE_PKGS}" = 1 ] ; then
+    export PACKAGE_LIST="$(cd packages && echo SUNW* FSW*)"
     chmod +x make_release_packages
     mkdir packages/common_files
     ./make_release_packages
 fi
-

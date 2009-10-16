@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source Xorg driver modules
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.14	09/07/17
+# ident	"@(#)Makefile	1.15	09/10/13 SMI"
 #
 ###############################################################################
 
@@ -106,3 +106,7 @@ TOP=$(PWD)/..
 ### Include common definitions
 DIRNAME="driver/"
 include $(TOP)/common/Makefile.subdirs
+
+# Dependencies between modules
+xf86-input-vmmouse: xf86-input-mouse
+

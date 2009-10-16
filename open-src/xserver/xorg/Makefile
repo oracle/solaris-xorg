@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.77	09/06/24
+# ident	"@(#)Makefile	1.78	09/10/13 SMI"
 #
 
 # Build 32-bit or 64-bit?
@@ -86,12 +86,14 @@ MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xorg-server.pc.in
 
+include ../Makefile.inc
+
 # Additional install targets beyond the defaults
+# - install_pc can't be in INSTALL_TARGETS or MODULE_ADD_INSTALL_TARGETS
+#   without causing a dependency loop that breaks dmake
 EXTRA_INSTALL_sparc=install_pc
 EXTRA_INSTALL_i386=
-MODULE_ADD_INSTALL_TARGETS=install_extras $(EXTRA_INSTALL_$(MACH))
-
-include ../Makefile.inc
+install_gen:: install_extras $(EXTRA_INSTALL_$(MACH))
 
 # Merge in additional sources from sun-src directory
 source_gen:: $(LNDIR)

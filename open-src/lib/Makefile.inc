@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.13	09/05/15
+# ident	"@(#)Makefile.inc	1.14	09/10/13 SMI"
 #
 
 PWD:sh=pwd
@@ -81,7 +81,9 @@ include $(TOP)/common/Makefile.inc
 
 LIB_INST_DIR=$(PROTODIR)$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)
 
-install_64::
-	-/bin/rm -f $(LIB_INST_DIR)/64
-	ln -s $(SUBDIR64) $(LIB_INST_DIR)/64
+install_64:: $(LIB_INST_DIR)/64
+
+$(LIB_INST_DIR)/64:
+	mkdir -p $(LIB_INST_DIR)
+	/bin/ln -s $(SUBDIR64) $(LIB_INST_DIR)/64 || true
 

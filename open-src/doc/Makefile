@@ -1,7 +1,7 @@
 # Makefile for X Consolidation Open Source Documentation tools & modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# ident	"@(#)Makefile	1.5	09/10/13 SMI"
 #
 ###############################################################################
 
@@ -43,6 +43,10 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)
 # Need to install to proto area by default for inter-package dependencies to
 # work right.
 default_target: install
+
+# Dependencies for parallel make
+xorg-docs: docbook-utils xorg-sgml-doctools
+docbook-utils: xorg-sgml-doctools
 
 PWD:sh=pwd
 TOP=$(PWD)/..
