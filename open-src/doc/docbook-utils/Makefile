@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	08/11/26
+# ident	"@(#)Makefile	1.7	09/10/15 SMI"
 #
 
 # Package name used in tarballs
@@ -49,6 +49,9 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= solaris-port.patch
 
+# Regenerate Makefile.in's from Makefile.am's after solaris-port.patch
+AUTORECONF=yes
+
 # Only used during build, so install in tools directory in proto area
 MODULE_PREFIX=$(PROTODIR)$(TOOLS_DIR)
 MODULE_PREFIX_SET=yes
@@ -58,25 +61,20 @@ MODULE_MAKEFLAGS= DESTDIR=""
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# What to build
-MODULE_ADD_BUILD_TARGETS = catalog_build
+# Catalog generated to find SGML files
+CATALOG=$(SOURCE_DIR)/catalog
+
+# Need to use local catalog during build due to empty /etc/sgml/catalog
+# on OpenSolaris systems
+MODULE_BUILD_DEPS = $(CATALOG)
+MODULE_ADD_INSTALL_TARGETS = install_catalog
 
 ### Include common rulesets
 include ../Makefile.inc
 
-# Catalog generated to find SGML files
-CATALOG=$(BUILD_DIR)/catalog
+$(CATALOG): catalog.in
+	sed 's%__sgmldir__%$(PROTODIR)$(X11_DIR)/share/sgml%' < catalog.in > $@
 
-catalog_build: $(CATALOG)
-
-$(CATALOG):
-	print 'OVERRIDE YES' > $@
-	print '' >> $@
-	print 'SYSTEM "X11/defs.ent" "$(PROTODIR)$(X11_DIR)/share/sgml/X11/defs.ent"' >> $@
-	print 'CATALOG /etc/sgml/catalog' >> $@
-	print 'CATALOG /usr/share/sgml/docbook/dsssl-stylesheets/catalog' >> $@
-	print 'CATALOG /usr/share/sgml/openjade/catalog' >> $@
-
-install_gen:: $(CATALOG)
+install_catalog: $(CATALOG)
 	mkdir -p $(MODULE_PREFIX)/share/sgml
 	cp -p $(CATALOG) $(MODULE_PREFIX)/share/sgml

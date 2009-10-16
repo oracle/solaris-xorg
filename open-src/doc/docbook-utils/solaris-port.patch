@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@ Make docbook2txt work on Solaris for Xorg doc builds
 
 diff -urp -x '*~' -x '*.orig' backends/man.in backends/man.in
 --- backends/man.in	2003-02-11 04:56:23.000000000 -0800
-+++ backends/man.in	2007-06-07 11:08:04.434079000 -0700
++++ backends/man.in	2009-07-12 10:22:31.006361770 -0700
 @@ -3,7 +3,7 @@
  # This program is under GPL license. See LICENSE file for details.
  
@@ -42,7 +42,7 @@ diff -urp -x '*~' -x '*.orig' backends/man.in backends/man.in
  trap 'rm -rf "${TMPDIR}"' EXIT
 diff -urp -x '*~' -x '*.orig' backends/txt backends/txt
 --- backends/txt	2004-02-11 05:58:03.000000000 -0800
-+++ backends/txt	2007-06-07 11:08:04.434363000 -0700
++++ backends/txt	2009-07-12 10:22:31.006528202 -0700
 @@ -1,3 +1,4 @@
 +#! /usr/bin/bash
  # Backend to convert something into ASCII text
@@ -61,7 +61,7 @@ diff -urp -x '*~' -x '*.orig' backends/txt backends/txt
    CONVERT=/usr/bin/links
 diff -urp -x '*~' -x '*.orig' bin/jw.in bin/jw.in
 --- bin/jw.in	2003-04-30 09:21:49.000000000 -0700
-+++ bin/jw.in	2007-06-07 11:08:04.435367000 -0700
++++ bin/jw.in	2009-07-12 10:22:31.006831201 -0700
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#! /bin/bash
@@ -145,9 +145,33 @@ diff -urp -x '*~' -x '*.orig' bin/jw.in bin/jw.in
  fi
  SGML_RETURN=$?
  cd $SGML_CURRENT_DIRECTORY
+diff -urp -x '*~' -x '*.orig' doc/HTML/Makefile.am doc/HTML/Makefile.am
+--- doc/HTML/Makefile.am	2002-04-22 04:48:20.000000000 -0700
++++ doc/HTML/Makefile.am	2009-07-12 10:22:31.007235908 -0700
+@@ -23,7 +23,7 @@ $(html_DATA): $(top_srcdir)/doc/docbook-
+ 		$(top_srcdir)/doc/refentry/docbook2texi-spec.pl.sgml \
+ 		$(top_srcdir)/doc/refentry/frontend-spec.sgml \
+ 		$(top_srcdir)/doc/refentry/sgmldiff.sgml
+-	SGML_CATALOG_FILES=/etc/sgml/catalog \
++	SGML_CATALOG_FILES=/etc/sgml/catalog:$(top_srcdir)/catalog \
+ 	SGML_SEARCH_PATH=$(top_srcdir):$(top_srcdir)/doc:.. \
+ 		jade -t sgml -i html -d $(top_srcdir)/docbook-utils.dsl\#html \
+ 			-V '%use-id-as-filename%' $<
+diff -urp -x '*~' -x '*.orig' doc/man/Makefile.am doc/man/Makefile.am
+--- doc/man/Makefile.am	2002-06-27 04:37:07.000000000 -0700
++++ doc/man/Makefile.am	2009-07-12 10:22:31.007461556 -0700
+@@ -10,7 +10,7 @@ CLEANFILES=$(man1_MANS) $(man7_MANS) man
+ 
+ $(man1_MANS) $(man7_MANS): $(top_srcdir)/doc/docbook-utils.sgml \
+ 		$(top_srcdir)/helpers/docbook2man-spec.pl
+-	SGML_CATALOG_FILES=/etc/sgml/catalog \
++	SGML_CATALOG_FILES=/etc/sgml/catalog:$(top_srcdir)/catalog \
+ 	SGML_SEARCH_PATH=$(top_srcdir)/doc:.. \
+ 		nsgmls $< | \
+ 		sgmlspl $(top_srcdir)/helpers/docbook2man-spec.pl
 diff -urp -x '*~' -x '*.orig' frontends/docbook.in frontends/docbook.in
 --- frontends/docbook.in	2002-11-02 09:45:10.000000000 -0800
-+++ frontends/docbook.in	2007-06-07 11:08:04.456155000 -0700
++++ frontends/docbook.in	2009-07-12 10:22:31.006995792 -0700
 @@ -15,7 +15,7 @@ case "$1" in
  	SGML_VERSION=`"$SGML_NORM" $SGML_NORM_OPTS -- "$SGML_FILE" 2>/dev/null |
  			grep -i '<!DOCTYPE' |
