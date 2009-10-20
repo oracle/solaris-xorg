@@ -33,23 +33,23 @@
 diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 --- src/XlibInt.c	2009-03-24 23:25:37.548747000 -0700
 +++ src/XlibInt.c	2009-03-24 23:25:49.514829000 -0700
-@@ -61,6 +61,12 @@ from The Open Group.
- #include <X11/extensions/sme.h>
- #endif /* SME */
- 
+@@ -54,6 +54,12 @@
+ #include <direct.h>
+ #endif
+
 +/* Xtransint.h is needed for access to an xtrans internal structure.
-+ * See the comments in _XFlush for information.  This is required for
++ * See the comments in _XFlush for information. This is required for
 + * compatibility between X11R6-xtrans and gnuemacs v18.58.
 + */
 +#include <X11/Xtrans/Xtransint.h>
 +
  #ifdef XTHREADS
  #include "locking.h"
- 
-@@ -819,6 +825,17 @@ static void _XFlushInt(
- 	register char *bufindex;
- 	_XExtension *ext;
- 
+
+@@ -653,6 +659,18 @@
+	register char *bufindex;
+	_XExtension *ext;
+
 +	/* Begin gnuemacs v18.58 compatability fix.
 +	 * In x11trans.c, line 2207, in gnuemacs source, the dpy->fd is
 +	 * modified.  This was of no consequence in X11R5, but in X11R6,
@@ -61,6 +61,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +		dpy->trans_conn->fd = dpy->fd;
 +	}
 +	/* End gnuemacs v18.58 compatability fix. */
- #ifdef SUNSOFT
-         if (dpy->smeBuffer) {
-                 smeRegion *smeBp = (smeRegion *) dpy->smeBuffer;
++
+ 	/* This fix resets the bufptr to the front of the buffer so
+	 * additional appends to the bufptr will not corrupt memory. Since
+	 * the server is down, these appends are no-op's anyway but

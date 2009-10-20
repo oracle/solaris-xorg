@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.23	09/10/13 SMI"
+# ident	"@(#)Makefile	1.24	09/10/19 SMI"
 #
 
 # Package name used in tarballs
@@ -50,11 +50,11 @@ SOURCE_PATCHES = \
 	solaris-abi.patch \
 	solaris-kbd.patch \
 	SolarisIA.patch \
-	sme.patch \
 	4076297.patch \
 	1261271.patch \
 	6714036.patch \
 	6789219.patch \
+	sme.patch \
 	im-suneu-greek.patch \
 	im-ximcp.patch \
 	lc-jisx0212.patch \

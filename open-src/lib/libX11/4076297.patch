@@ -33,7 +33,7 @@
 diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 --- src/XlibInt.c	2009-04-08 00:18:46.532476000 -0700
 +++ src/XlibInt.c	2009-04-08 00:18:57.973714000 -0700
-@@ -1368,7 +1368,8 @@ int _XRead(
+@@ -1149,7 +1149,8 @@ int _XRead(
         if (dpy->lock && dpy->lock->reply_bytes_left > 0)
         {
             dpy->lock->reply_bytes_left -= original_size;
@@ -43,7 +43,7 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
  	       dpy->flags &= ~XlibDisplayReply;
                 UnlockNextReplyReader(dpy);
  	   }
-@@ -1593,7 +1594,8 @@ void _XReadPad(
+@@ -1374,7 +1375,8 @@ void _XReadPad(
         if (dpy->lock && dpy->lock->reply_bytes_left > 0)
         {
             dpy->lock->reply_bytes_left -= original_size;
