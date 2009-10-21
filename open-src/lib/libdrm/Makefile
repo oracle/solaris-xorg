@@ -27,14 +27,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	09/08/14
+# @(#)Makefile	1.14	09/10/19
 #
 
 # Package name used in tarballs
 MODULE_NAME=libdrm
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.12
+MODULE_VERSION=2.4.14
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm

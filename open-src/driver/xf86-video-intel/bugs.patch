@@ -1,17 +1,3 @@
-diff -urp -x '*~' -x '*.orig' src/i830_display.c src/i830_display.c
---- src/i830_display.c	2009-01-21 14:02:00.000000000 -0800
-+++ src/i830_display.c	2009-05-08 20:48:03.095075000 -0700
-@@ -801,10 +801,6 @@ i830_disable_vga_plane (xf86CrtcPtr crtc
- 
-     vgacntrl |= VGA_DISP_DISABLE;
- 
--    /* disable center mode */
--    if (IS_I9XX(pI830))
--	vgacntrl &= ~(3 << 24);
--
-     OUTREG(VGACNTRL, vgacntrl);
-     i830WaitForVblank(pScrn);
- 
 diff -urp -x '*~' -x '*.orig' src/i830_driver.c src/i830_driver.c
 --- src/i830_driver.c	2009-01-21 14:02:00.000000000 -0800
 +++ src/i830_driver.c	2009-05-08 20:48:03.093998000 -0700

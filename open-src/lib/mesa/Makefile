@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.24	09/07/30
+# @(#)Makefile	1.25	09/10/19
 #
 
 # Package name used in tarballs
@@ -56,7 +56,8 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 SOURCE_PATCHES= \
 	install-pc-dir.patch,-p1 \
 	glu-no-mangled-exports.patch \
-	solaris-port.patch 6866668.patch
+	solaris-port.patch \
+	6872597.patch 6866668.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf

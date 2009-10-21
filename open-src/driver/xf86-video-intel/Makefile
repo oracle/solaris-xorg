@@ -30,19 +30,19 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.25	09/06/19
+# @(#)Makefile	1.26	09/10/19
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.6.1
+MODULE_VERSION=2.6.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
 		6538497_6554161.patch bugs.patch \
-		gem.patch
+                gem.patch 6872597.patch 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
