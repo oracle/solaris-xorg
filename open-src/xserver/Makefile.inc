@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.17	09/10/12 SMI"
+# ident	"@(#)Makefile.inc	1.18	09/10/22 SMI"
 #
 
 PWD:sh=pwd
@@ -65,6 +65,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-module-dir=$(SERVER_MODULES_DIR) \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
 	--with-xkb-path='$${libdir}/X11/xkb' \
+	--with-xkb-bindir='$${exec_prefix}/bin' \
 	--with-serverconfig-path='$${libdir}/X11/xserver' \
 	--with-default-font-path="catalogue:/etc/X11/fontpath.d" \
 	--with-default-xkb-rules=xorg \

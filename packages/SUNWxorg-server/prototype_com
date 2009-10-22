@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_com 1.34     09/06/24 SMI"
+# ident	"@(#)prototype_com	1.35	09/10/22 SMI"
 #
 # X.Org Foundation X server for Solaris & OpenSolaris
 
@@ -103,10 +103,6 @@ f none X11/share/doc/RELNOTES 0444 root bin
 d none X11/lib 0755 root bin
 d none X11/lib/X11 0755 root bin
 s none X11/lib/X11/doc=../../share/doc
-d none X11/lib/X11/xkb 0755 root bin
-s none X11/lib/X11/xkb/xkbcomp=../../../bin/xkbcomp
-s none X11/lib/X11/xkb/README.config=../../../share/doc/README.XKB-Config
-s none X11/lib/X11/xkb/README.enhancing=../../../share/doc/README.XKB-Enhancing
 
 d none X11/share/man 0755 root bin
 s none X11/man=share/man
