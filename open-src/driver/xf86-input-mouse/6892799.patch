@@ -1,7 +1,3 @@
-###############################################################################
-#
-# xf86-input-mouse 1.x Makefile
-#
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
@@ -29,32 +25,49 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-#
-# @(#)Makefile	1.10	09/10/26
-#
 
-# Package name used in tarballs
-MODULE_NAME=xf86-input-mouse
-
-# Version number (used in path names)
-MODULE_VERSION=1.4.0
-
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	6846735.patch,-p1 \
-	6892799.patch
-
-
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-server
-MODULE_STABILITY=Volatile
-
-# Libraries/modules to link with
-MODULE_LD_OPTIONS= -lm
-
-include ../Makefile.inc
-
-install_gen::
-	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.mouse
+diff -urp -x '*~' -x '*.orig' src/mouse.c src/mouse.c
+--- src/mouse.c	2009-10-21 15:54:31.146864000 +0800
++++ src/mouse.c	2009-10-21 15:54:31.343475000 +0800
+@@ -1744,13 +1744,14 @@ MouseProc(DeviceIntPtr device, int what)
+ 	ErrorF("assigning %p atom=%d name=%s\n", device, pInfo->atom,
+ 		pInfo->name);
+ #endif
+-	break;
+-
+-    case DEVICE_ON:
+ 	pInfo->fd = xf86OpenSerial(pInfo->options);
+ 	if (pInfo->fd == -1)
+ 	    xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
+-	else {
++
++	break;
++
++    case DEVICE_ON:
++	if (pInfo->fd != -1) {
+ 	    if (pMse->xisbscale)
+ 		pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
+ 	    else
+@@ -1800,6 +1801,22 @@ MouseProc(DeviceIntPtr device, int what)
+ 	break;
+ 	    
+     case DEVICE_OFF:
++	if (pInfo->fd != -1) {
++	    xf86RemoveEnabledDevice(pInfo);
++	    if (pMse->buffer) {
++		XisbFree(pMse->buffer);
++		pMse->buffer = NULL;
++	    }
++	    if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
++	    {
++		RemoveBlockAndWakeupHandlers (MouseBlockHandler,
++					      MouseWakeupHandler,
++					      (pointer) pInfo);
++	    }
++	}
++	device->public.on = FALSE;
++	break;
++
+     case DEVICE_CLOSE:
+ 	if (pInfo->fd != -1) {
+ 	    xf86RemoveEnabledDevice(pInfo);
