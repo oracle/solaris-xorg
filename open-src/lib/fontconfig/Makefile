@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.82	09/10/13 SMI"
+# @(#)Makefile	1.84	09/10/26
 #
 
 # Package name used in tarballs
 MODULE_NAME=fontconfig
 
 # Version number (used in path names)
-MODULE_VERSION=2.7.1
+MODULE_VERSION=2.7.3
 
 # Source tarball
 SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz
@@ -49,9 +49,8 @@ SOURCE_URL=http://fontconfig.org/release/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=fontconfig-$(MODULE_VERSION).patch,-p1 \
-	       fontconfig-$(MODULE_VERSION).patch.hide,-p1 \
-	       fontconfig-$(MODULE_VERSION)-fonts.conf.patch,-p1 \
+SOURCE_PATCHES=fontconfig-$(MODULE_VERSION)-fonts.conf.patch,-p1 \
+	       Makefile.am.0.patch,-p1 \
 	       6770058.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
@@ -99,10 +98,13 @@ FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 # README file to be installed in /etc/fonts/conf.avail/README
 FONTCONFIG_ETC_README=$(PROTODIR)/etc/fonts/conf.avail/README
 
+# local.conf file to be installed in /etc/fonts/local.conf
+FONTCONFIG_LOCAL_CONF = $(PROTODIR)/etc/fonts/local.conf
+
 # Additional targets to install beyond the default_install
 MODULE_ADD_INSTALL_TARGETS = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
-	$(FONTCONFIG_ETC_README)
+	$(FONTCONFIG_ETC_README) $(FONTCONFIG_LOCAL_CONF)
 
 # Include common rulesets
 include ../Makefile.inc
@@ -130,6 +132,11 @@ $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 $(FONTCONFIG_ETC_README): $(SOURCE_DIR)/conf.d/README
 	mkdir -p $(PROTODIR)/etc/fonts/conf.avail
 	cp -fp $(SOURCE_DIR)/conf.d/README $@
+
+$(FONTCONFIG_LOCAL_CONF): local.conf
+	mkdir -p $(PROTODIR)/etc/fonts
+	cp -fp local.conf $@
+	touch -acm $@
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 

@@ -1,0 +1,19 @@
+--- fontconfig-2.7.3/Makefile.am	2009-06-24 11:43:43.000000000 -0700
++++ fontconfig-2.7.3/Makefile.am	2009-10-26 13:37:54.735090942 -0700
+@@ -104,16 +104,6 @@
+ 	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf"; \
+ 	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
+ 	fi; fi
+-	@(if $(RUN_FC_CACHE_TEST); then \
+-	    echo " $(bindir)/fc-cache -s -f -v"; \
+-	    $(bindir)/fc-cache -s -f -v; \
+-	else \
+-	    echo "***"; \
+-	    echo "*** Warning: fonts.cache not built"; \
+-	    echo "***"; \
+-	    echo "*** Generate this file manually on host system using fc-cache"; \
+-	    echo "***"; \
+-	fi)
+ 
+ uninstall-local:
+ 	if [ -f $(srcdir)/fonts.conf ]; then \

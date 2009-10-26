@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.16	09/10/02
+# @(#)Makefile	1.17	09/10/26
 #
 
 # Package name used in tarballs
@@ -60,8 +60,6 @@ BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR):$(PROTODIR)/usr/open
 MODULE_LD_OPTIONS= -L$(PROTODIR)/usr/lib$(LIBSUBDIR)
 
 MODULE_MAKEFLAGS = bindir=$(XFT_prefix)/bin$(ARCHLIBSUBDIR)
-
-MODULE_CPPFLAGS = -DFT_CONFIG_ADD_FULL_HINTING
 
 # Mapfile used to control which symbols are exported
 XFT_MAPFILE=$(PWD)/mapfile.scope

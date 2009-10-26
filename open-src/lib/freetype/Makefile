@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.80	09/10/13 SMI"
+# @(#)Makefile	1.81	09/10/26
 #
 
 PWD:sh=pwd
@@ -56,7 +56,6 @@ SOURCE_PATCHES= \
 	freetype-config.patch,-p1 \
 	ftoption.h.0.patch,-p1 \
 	ftconfig.h.1.patch,-p1 \
-	freetype.h.2.patch,-p1 \
 	ttobjs.h.3.patch,-p1 \
 	ttobjs.c.4.patch,-p1 \
 	ttinterp.h.5.patch,-p1 \
