@@ -1,0 +1,17 @@
+# Use perl/python regular expression syntax
+syntax: regexp
+# Skip build directories
+/build_32/
+/build_64/
+# Skip downloaded tarballs
+open-src/tarballs/.*\.tar
+# Skip proto area and packages
+proto-.*
+# Skip build logs
+log/buildit-XW
+# Skip other files built during the build
+open-src/data/smf-rbac/x11-server.xml
+# Skip emacs/patch backup files
+.*\~$
+# Skip Solaris make state files
+/\.make\.state
