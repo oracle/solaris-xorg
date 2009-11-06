@@ -3,7 +3,8 @@
 <!--
     Service manifest for the Xvnc service, when run from inetd(1M)
 
-    Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+    Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+    Use is subject to license terms.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the
@@ -55,7 +56,7 @@
 	<exec_method
 		type='method'
 		name='inetd_start'
-		exec='/usr/X11/bin/Xvnc -inetd -query localhost -once securitytypes=none'
+		exec='/usr/bin/Xvnc -inetd -query localhost -once securitytypes=none'
 		timeout_seconds='0'>
 		<method_context>
 			<method_credential user='noaccess' group='noaccess' />
@@ -94,7 +95,7 @@
 		</common_name>
 		<documentation>
 			<manpage title='Xvnc' section='1' 
-				manpath='/usr/X11/share/man' />
+				manpath='/usr/share/man' />
 		</documentation>
 	</template>
 </service>

@@ -27,95 +27,86 @@
 # of the copyright holder.
 #
 
---- common/rfb/Makefile.am	2007-06-27 19:05:47.368239000 -0700
-+++ common/rfb/Makefile.am	2007-06-27 19:47:41.890789000 -0700
-@@ -130,7 +130,7 @@
- 	ZRLEEncoder.cxx \
- 	ZRLEEncoder.h
+diff -urp -x '*~' -x '*.orig' common/rfb/Makefile.am common/rfb/Makefile.am
+--- common/rfb/Makefile.am	2009-08-20 02:46:42.000000000 -0700
++++ common/rfb/Makefile.am	2009-10-20 18:58:01.733395720 -0700
+@@ -42,7 +42,7 @@ librfb_la_SOURCES = $(HDRS) Blacklist.cx
+ 	secTypes.cxx util.cxx
  
--librfb_la_LIBADD = \
-+librfb_la_LIBADD = -lsocket -lnsl \
- 	$(top_srcdir)/network/libnetwork.la \
- 	$(top_srcdir)/rdr/librdr.la \
- 	$(top_srcdir)/Xregion/libXregion.la
-
---- unix/vncviewer/Makefile.am	2007-06-29 10:08:32.097924000 -0700
-+++ unix/vncviewer/Makefile.am	2007-06-29 10:43:37.891451000 -0700
-@@ -19,6 +19,8 @@
- 	-I$(top_srcdir)/tx
+ librfb_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/../win
+-librfb_la_LIBADD =
++librfb_la_LIBADD = $(LIBS)
  
- vncviewer_LDADD = \
--	$(top_srcdir)/../common/rfb/librfb.la \
- 	$(top_srcdir)/tx/libtx.la \
--	-lXext
-+	$(top_srcdir)/../common/rfb/librfb.la \
-+	$(top_srcdir)/../common/network/libnetwork.la \
-+	$(top_srcdir)/../common/rdr/librdr.la \
-+	-lXext -lX11 -lsocket -lnsl -lz
-
---- unix/vncconfig/Makefile.am	2007-06-29 10:08:32.073422000 -0700
-+++ unix/vncconfig/Makefile.am	2007-06-29 10:46:21.399874000 -0700
-@@ -13,5 +13,7 @@
- 	-I$(top_srcdir)/tx
+ if INCLUDED_JPEG
+ librfb_la_CPPFLAGS += -I$(top_srcdir)/jpeg
+diff -urp -x '*~' -x '*.orig' unix/vncserver unix/vncserver
+--- unix/vncserver	2009-10-20 18:57:59.422472953 -0700
++++ unix/vncserver	2009-10-20 18:58:01.733670786 -0700
+@@ -39,6 +39,7 @@ $vncClasses = "";
  
- vncconfig_LDADD = \
-+	$(top_srcdir)/tx/libtx.la \
- 	$(top_srcdir)/../common/rfb/librfb.la \
--	$(top_srcdir)/tx/libtx.la
-+	$(top_srcdir)/../common/rdr/librdr.la \
-+	-lX11
-
---- unix/x0vncserver/Makefile.am~	2007-06-29 14:25:14.848138000 -0700
-+++ unix/x0vncserver/Makefile.am	2007-06-29 16:29:44.949322000 -0700
-@@ -14,7 +14,10 @@
- 	-I$(top_srcdir)/tx
+ $xauth = "xauth";
  
- x0vncserver_LDADD = \
--	$(top_srcdir)/../common/rfb/librfb.la \
- 	$(top_srcdir)/tx/libtx.la \
-+	$(top_srcdir)/../common/rfb/librfb.la \
-+	$(top_srcdir)/../common/network/libnetwork.la \
-+	$(top_srcdir)/../common/rdr/librdr.la \
-+	-lX11 -lsocket -lnsl -lz \
- 	-lXext \
- 	-lXtst
-
-
---- unix/xorg-x11-server-source/hw/vnc/Makefile.am~	2007-09-19 16:36:35.755205000 -0700
-+++ unix/xorg-x11-server-source/hw/vnc/Makefile.am	2007-09-19 16:40:43.150927000 -0700
-@@ -25,11 +25,22 @@
++$ENV{PATH} = "/usr/X11/bin:" . $ENV{PATH};
+ &SanityCheck();
+ 
+ #
+@@ -75,6 +76,15 @@ $defaultXStartup
+        "if [ -f /etc/X11/xinit/xinitrc ]; then\n".
+        "  exec sh /etc/X11/xinit/xinitrc\n".
+        "fi\n".
++       "if [ -x /etc/gdm/Xsession ] && [ -x /usr/bin/dtstart ] ; then\n".
++       "  exec /etc/gdm/Xsession /usr/bin/dtstart jds\n".
++       "fi\n".
++       "if [ -x /etc/X11/gdm/Xsession ] && [ -x /usr/bin/dtstart ] ; then\n".
++       "  exec /etc/X11/gdm/Xsession /usr/bin/dtstart jds\n".
++       "fi\n".
++       "if [ -x /usr/dt/config/Xsession.jds ]; then\n".
++       "  exec /usr/dt/config/Xsession.jds\n".
++       "fi\n".
+        "[ -r \$HOME/.Xresources ] && xrdb \$HOME/.Xresources\n".
+        "xsetroot -solid grey\n".
+        "xterm -geometry 80x24+10+10 -ls -title \"\$VNCDESKTOP Desktop\" &\n".
+diff -urp -x '*~' -x '*.orig' unix/vncviewer/Makefile.am unix/vncviewer/Makefile.am
+--- unix/vncviewer/Makefile.am	2009-08-20 02:46:42.000000000 -0700
++++ unix/vncviewer/Makefile.am	2009-10-20 18:58:01.733812117 -0700
+@@ -13,6 +13,7 @@ vncviewer_CPPFLAGS = -I$(COMMON_DIR) -I$
+ 
+ vncviewer_LDADD = $(top_srcdir)/tx/libtx.la $(COMMON_DIR)/rfb/librfb.la \
+ 	$(COMMON_DIR)/network/libnetwork.la $(COMMON_DIR)/rdr/librdr.la \
++	-ljpeg -lz \
+ 	@X_PRE_LIBS@ @X_LIBS@ -lXext -lX11 @X_EXTRA_LIBS@ # @LIBINTL@
+ 
+ EXTRA_DIST = vncviewer.man
+diff -urp -x '*~' -x '*.orig' unix/x0vncserver/Makefile.am unix/x0vncserver/Makefile.am
+--- unix/x0vncserver/Makefile.am	2009-08-20 02:46:42.000000000 -0700
++++ unix/x0vncserver/Makefile.am	2009-10-20 18:58:01.733948483 -0700
+@@ -15,6 +15,7 @@ x0vncserver_CPPFLAGS = -I$(COMMON_DIR) -
+ 	@MITSHM_DEFINE@ @X_CFLAGS@
+ 
+ x0vncserver_LDADD = $(COMMON_DIR)/rfb/librfb.la \
++	-ljpeg -lz \
+ 	$(COMMON_DIR)/network/libnetwork.la $(COMMON_DIR)/rdr/librdr.la \
+ 	$(top_srcdir)/tx/libtx.la @INET_LIB@ @X_PRE_LIBS@ @X_LIBS@ \
+ 	@XTEST_LIB@ -lXext -lX11 @X_EXTRA_LIBS@
+diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vnc/Makefile.am
+--- unix/xserver/hw/vnc/Makefile.am	2009-08-20 02:46:42.000000000 -0700
++++ unix/xserver/hw/vnc/Makefile.am	2009-10-20 18:58:01.734107661 -0700
+@@ -32,7 +32,14 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW
  	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
- 	-I$(top_srcdir)/include -I$(includedir)/pixman-1
+ 	-I$(top_srcdir)/include -I$(includedir)/pixman-1 -I$(includedir)
  
 +if BUILD_TSOL_MODULE
 +TSOL_LIBS = 	../../tsol/libxtsol.la -ltsol -ltsnet -lsecdb -lbsm
 +endif
 +
- Xvnc_LDADD = $(XVNC_LIBS) libvnccommon.la $(RFB_LIBS) \
--	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
+ Xvnc_LDADD = $(XVNC_LIBS) libvnccommon.la $(COMMON_LIBS) \
++	-ljpeg -lz \
 +	../../IA/libIA.la \
 +	$(TSOL_LIBS) \
-+ 	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11 \
-+	../../../../common/network/libnetwork.la \
-+	../../../../common/rdr/librdr.la \
-+	../../../../common/Xregion/libXregion.la \
-+	-lz
+ 	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
  
  Xvnc_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
- 
-+if XORG
- libvnc_la_LTLIBRARIES = libvnc.la
- libvnc_ladir = $(moduledir)/extensions
- 
-@@ -45,15 +59,16 @@
- libvnc_la_LDFLAGS = -module -avoid-version
- 
- libvnc_la_LIBADD = libvnccommon.la $(RFB_LIBS)
-+endif
- 
- # C++ hacks
- BUILT_SOURCES = $(nodist_Xvnc_SOURCES)
- 
+@@ -60,8 +67,8 @@ BUILT_SOURCES = $(nodist_Xvnc_SOURCES)
  fb.h: $(top_srcdir)/fb/fb.h
  	cat $(top_srcdir)/fb/fb.h | sed -e 's,and,c_and,' -e 's,xor,c_xor,' > $(srcdir)/fb.h
  
@@ -126,19 +117,21 @@
  
  fbrop.h: $(top_srcdir)/fb/fbrop.h
  	cat $(top_srcdir)/fb/fbrop.h | sed -e 's,and,c_and,' -e 's,xor,c_xor,' > $(srcdir)/fbrop.h
---- unix/xc/programs/Xserver/Xvnc.man	2007-10-08 21:26:03.141427000 -0700
-+++ unix/xc/programs/Xserver/Xvnc.man	2007-10-09 11:37:23.168899000 -0700
-@@ -67,8 +68,7 @@
+diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Xvnc.man unix/xserver/hw/vnc/Xvnc.man
+--- unix/xserver/hw/vnc/Xvnc.man	2009-10-20 18:57:59.463630437 -0700
++++ unix/xserver/hw/vnc/Xvnc.man	2009-10-20 18:58:01.782738186 -0700
+@@ -67,8 +67,8 @@ List all the options and parameters
  
  .SH PARAMETERS
  VNC parameters can be set both via the command-line and through the
 -\fBvncconfig\fP(1) program, and with a VNC-enabled XFree86 server via Options
 -entries in the XF86Config file.
-+\fBvncconfig\fP(1) program.
++\fBvncconfig\fP(1) program, and with a VNC-enabled Xorg server via Options
++entries in the xorg.conf(4) file.
  
  Parameters can be turned on with -\fIparam\fP or off with
  -\fIparam\fP=0.  Parameters which take a value can be specified as
-@@ -221,12 +221,12 @@
+@@ -221,12 +221,12 @@ is a hexadecimal keysym. For example, to
  RemapKeys=0x22<>0x40
  
  .SH USAGE WITH INETD
@@ -153,7 +146,7 @@
  In the nowait mode, Xvnc uses its standard input and output directly as the
  connection to a viewer.  It never has a listening socket, so cannot accept
  further connections from viewers (it can however connect out to listening
-@@ -234,17 +234,28 @@
+@@ -234,17 +234,26 @@ viewers by use of the vncconfig program)
  same TCP port result in inetd spawning off a new Xvnc to deal with each
  connection.  When the connection to the viewer dies, the Xvnc and any
  associated X clients die.  This behaviour is most useful when combined with the
@@ -183,8 +176,6 @@
 +connection which should display the standard graphical login screen on that 
 +machine.   (To enable this, you will also have to enable XDMCP network 
 +connections on the login screen.   See 
-+.BR dtlogin (1)
-+or 
 +.BR gdm (1)
 +for details.)
 +Because the user needs to login via this screen, it is usually OK to accept 
@@ -193,7 +184,7 @@
  In the wait mode, when the first connection comes in, inetd gives the listening
  socket to Xvnc.  This means that for a given TCP port, there is only ever one
  Xvnc at a time.  Further viewer connections to the same port are accepted by
-@@ -252,14 +263,14 @@
+@@ -252,14 +261,14 @@ the same Xvnc in the normal way.  Even w
  the Xvnc will continue to run.  If this is used with the XDMCP options -query
  and -once, the Xvnc and associated X clients will die when the user logs out of
  the X session in the normal way.  It is important to use a VNC password in this
@@ -213,14 +204,19 @@
  unlike the previous example, if he disconnects, the session remains persistent,
  and when he reconnects he will get the same session back again.  When he logs
  out of the X session, the Xvnc will die, but of course a new one will be
-
---- unix/vncserver	2009-01-15 08:53:39.786723000 -0800
-+++ unix/vncserver	2009-01-15 19:14:50.411737000 -0800
-@@ -27,6 +27,7 @@
- # First make sure we're operating in a sane environment.
- #
+diff -urp -x '*~' -x '*.orig' unix/xserver/hw/xfree86/x86emu/Makefile.am unix/xserver/hw/xfree86/x86emu/Makefile.am
+--- unix/xserver/hw/xfree86/x86emu/Makefile.am	2009-10-11 19:52:40.000000000 -0700
++++ unix/xserver/hw/xfree86/x86emu/Makefile.am	2009-10-20 18:58:01.734528099 -0700
+@@ -1,3 +1,4 @@
++if INT10_X86EMU
+ noinst_LIBRARIES = libx86emu.a
  
-+$ENV{PATH} = "/usr/X11/bin:" . $ENV{PATH};
- &SanityCheck();
+ libx86emu_a_SOURCES = debug.c \
+@@ -8,6 +9,7 @@ libx86emu_a_SOURCES = debug.c \
+                       prim_ops.c \
+                       sys.c \
+                       x86emu.h
++endif
  
- #
+ INCLUDES = 
+ 

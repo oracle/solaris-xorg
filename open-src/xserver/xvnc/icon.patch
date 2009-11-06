@@ -1,0 +1,61 @@
+--- java/src/Makefile	2009-10-30 00:10:31.496797111 -0700
++++ java/src/Makefile.icon	2009-10-30 00:10:14.375398782 -0700
+@@ -45,14 +45,19 @@
+ 
+ CLASSES = $(SOURCES:.java=.class)
+ 
++ICON = tigervnc_16.gif
++
+ all: $(ARCHIVE)
+ 
+ $(ARCHIVE): $(SOURCES) $(MANIFEST)
+ 	$(JC) $(JCFLAGS) -O $(SOURCES)
+ 	$(JAR) cfm $(ARCHIVE) $(MANIFEST) $(CLASSES)
+ 
+-install: $(ARCHIVE)
+-	$(CP) $(ARCHIVE) $(PAGES) $(INSTALL_DIR)
++$(ICON):
++	convert -background transparent ../../media/tigervnc_16.svg $@
++
++install: $(ARCHIVE) $(ICON)
++	$(CP) $(ARCHIVE) $(ICON) $(PAGES) $(INSTALL_DIR)
+ 
+ export:: $(CLASSES) $(ARCHIVE) $(PAGES)
+ 	@$(ExportJavaClasses)
+
+--- java/src/com/tigervnc/vncviewer/index.html	2009-10-30 00:12:27.490801957 -0700
++++ java/src/com/tigervnc/vncviewer/index.html.icon	2009-10-30 00:26:29.413918281 -0700
+@@ -19,12 +19,13 @@
+ <TITLE>
+ TigerVNC desktop
+ </TITLE>
++<link rel="icon" type="image/gif" href="tigervnc_16.gif">
+ </HEAD><BODY>
+ <APPLET CODE="com.tigervnc.vncviewer.VncViewer.class" ARCHIVE="VncViewer.jar"
+         WIDTH="800" HEIGHT="632">
+ <PARAM NAME="PORT" VALUE="5901">
+ </APPLET>
+ <BR>
+-<A href="http://www.tigervnc.org/">TigerVNC site</A>
++<A href="http://www.tigervnc.org/"><IMG border="0" hspace="4" src="tigervnc_16.gif">TigerVNC site</A>
+ </BODY>
+ </HTML>
+
+--- java/src/com/tigervnc/vncviewer/index.vnc	2009-10-30 00:12:40.622099898 -0700
++++ java/src/com/tigervnc/vncviewer/index.vnc.icon	2009-10-30 00:28:45.392640755 -0700
+@@ -14,6 +14,7 @@
+ <TITLE>
+ $USER's $DESKTOP desktop ($DISPLAY)
+ </TITLE>
++<link rel="icon" type="image/gif" href="tigervnc_16.gif">
+ </HEAD><BODY>
+ <APPLET CODE="com.tigervnc.vncviewer.VncViewer.class" ARCHIVE="VncViewer.jar"
+         WIDTH="$APPLETWIDTH" HEIGHT="$APPLETHEIGHT">
+@@ -21,6 +22,6 @@
+ $PARAMS
+ </APPLET>
+ <BR>
+-<A href="http://www.tigervnc.org/">TigerVNC site</A>
++<A href="http://www.tigervnc.org/"><IMG border="0" hspace="4" src="tigervnc_16.gif">TigerVNC site</A>
+ </BODY>
+ </HTML>

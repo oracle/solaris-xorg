@@ -1,0 +1,19 @@
+Use salen for socket length argument to connect()
+
+Needed on Solaris to stop connect() from returning EINVAL for invalid
+socket length when starting vncviewer.
+
+[Submitted to tigervnc-devel@lists.sourceforge.net on Oct 29 2009,
+ applied to svn by atkac on Oct 30 in rev 3917]
+
+--- tigervnc-1.0.0/common/network/TcpSocket.cxx	Thu Aug 20 02:46:42 2009
++++ tigervnc-1.0.0/common/network/TcpSocket.cxx	Thu Oct 29 20:12:25 2009
+@@ -188,7 +188,7 @@
+     }
+ 
+   /* Attempt to connect to the remote host */
+-    while ((result = connect(sock, &sa.u.sa, sizeof(sa))) == -1) {
++    while ((result = connect(sock, &sa.u.sa, salen)) == -1) {
+       err = errorNumber;
+ #ifndef WIN32
+       if (err == EINTR)

@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -33,14 +33,10 @@
 
 Architecture and Implementation
 
-   The open source RealVNC release is built using the Xorg server sources
+   The open source TigerVNC release is built using the Xorg server sources
    to provide the X server portion of the sources for Xvnc.   This provides
    an Xvnc that includes the same features as Sun's Xorg, including Sun
    enhancements like Trusted Extensions support & Xserver DTrace probes.
-
-   Since the original RealVNC code from realvnc.com is designed to use an
-   older X server release, we have based our code on the Xorg port done by
-   the Fedora Linux project.
 
 Source code access
 
@@ -48,7 +44,7 @@ Source code access
 	In X gates: open-src/xserver/xvnc
 
    Upstream:
-	Original: http://www.realvnc.com/products/free/4.1/download.html
+	Original: http://www.tigervnc.com/
 	Fedora patches: http://cvs.fedoraproject.org/viewcvs/rpms/vnc/
 
    1. Please provide a brief description of the feature and how it is used.
@@ -62,7 +58,7 @@ Source code access
       This project delivers Xvnc, an X server that displays to a Remote Frame
       Buffer (RFB) protocol client over the network, without requiring an 
       existing X server session displayed on local video hardware.   It also 
-      delivers the RealVNC vncviewer to connect to remote VNC servers, and 
+      delivers the TigerVNC vncviewer to connect to remote VNC servers, and 
       several associated programs for managing these.
 
    2. Does this feature EOL any other feature or does it offer an alternative
@@ -137,10 +133,13 @@ Source code access
 
   14. Please provide a pointer to the following:
 
-          o ARC case:	        PSARC 2007/545 & LSARC 2007/625
+          o ARC case:	        
+		PSARC 2007/545: Xvnc (RealVNC 4.1.x)
+		LSARC 2007/625: vncviewer (RealVNC 4.1.x)
+		PSARC/2009/592: TigerVNC 1.0
           o Project Plan:	N/A
           o Documentation Plan:	Man pages from open source release
-          o Project Web Site:	http://www.realvnc.com/
+          o Project Web Site:	http://www.tigervnc.com/
 
   15.  Please provide the Bugster Product/Category/Subcategory.
 

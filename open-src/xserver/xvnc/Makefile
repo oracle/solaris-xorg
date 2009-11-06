@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xvnc server Makefile
-# Based on Fedora's vnc.spec revision 1.202 from
-# http://cvs.fedoraproject.org/viewvc/rpms/vnc/devel/vnc.spec
+# TigerVNC (Xvnc server & vncviewer) Makefile
+# Based on Fedora's tigervnc.spec revision 1.20 from
+# http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -32,14 +32,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.20	09/10/13 SMI"
+# ident	"@(#)Makefile	1.21	09/11/06 SMI"
 #
 
 # Package name used in tarballs
-MODULE_NAME=vnc
+MODULE_NAME=tigervnc
 
 # Version number (used in path names)
-MODULE_VERSION=4_1_3-unixsrc
+MODULE_VERSION=1.0.0
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -48,44 +48,23 @@ SOURCE_TARBALL_NAME_SET=yes
 # Xorg server source tarball to use sources from
 XORG_TARBALL=$(TARBALLDIR)/xorg-server-$(XORGSERVER_VERS).tar.bz2
 XORG_SOURCE_DIR=$(BUILD_DIR)/xorg-server-$(XORGSERVER_VERS)
-XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xorg-x11-server-source
+XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xserver
 
 # Download site for source
-# - Master source site doesn't allow wget downloads, so we use a mirror
-#SOURCE_URL=http://www.realvnc.com/dist/$(SOURCE_TARBALL_NAME)
-SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(SF_DOWNLOADS_URL)/project/tigervnc/tigervnc/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	vnc-Makefile.am.patch,-p1 \
-	vnc-use-fb.patch,-p1 \
-	vnc-restart.patch,-p1 \
-	vnc-vncpasswd.patch,-p1 \
-	vnc-modular-xorg.patch,-p1 \
-	vnc-xorg.patch,-p1 \
-	vnc-nohttpd.patch,-p1 \
-	vnc-64bit.patch,-p1 \
-	vnc-render.patch,-p1 \
-	vnc-autotools.patch,-p1 \
-	vnc-autotools-compile.patch,-p1 \
-	vnc-always_use_fb.patch,-p1 \
-	vnc-vsnprintf.patch,-p1 \
-	vnc-24bit.patch,-p1 \
-	vnc-gcc43.patch,-p1 \
-	vnc-privates.patch,-p1 \
-	vnc-mieq.patch,-p1 \
-	vnc-allocate.patch,-p1 \
-	vnc-paint.patch,-p1 \
-	vnc-selections.patch,-p1 \
-	vnc-scrollbars.patch,-p1 \
-	vnc-bounds.patch,-p1 \
-	vnc-includes.patch,-p1 \
-	vnc-viewerIPv6.patch,-p1 \
-	vnc-fasterPrivates.patch \
-	vnc-input-1.6.patch \
+	tigervnc-xserver16.patch \
+	vnc-config-subdirs.patch,-p1 \
+	vnc-samemachine-ipv6.patch,-p1 \
 	c++public.patch \
+	vnc-nobuildtime.patch \
+	vnc-nohttpd.patch \
+	vncviewer-connect.patch,-p1 \
+	vncserver-urandom.patch \
 	solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
@@ -103,22 +82,25 @@ MODULE_COMPILER_SET=yes
 
 # Xvnc has to configure, build, and install in different directories due to 
 # the mixed codebases and unusual directory layout
+MODULE_ADD_SOURCE_TARGETS=Xvnc_source_init Xvnc_source_fini
+MODULE_SOURCE_DEPS=Xvnc_source_init
 CONFIGURE_TARGETS=$(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 CONFIGURE_TARGETS_SET=yes
-BUILD_TARGETS=Xvnc_build set-elf-comments
+BUILD_TARGETS_common=Xvnc_build set-elf-comments
+BUILD_TARGETS_32=java_build
+BUILD_TARGETS=$(BUILD_TARGETS_common) $(BUILD_TARGETS_$(BUILD_TYPE))
 BUILD_TARGETS_SET=yes
-INSTALL_TARGETS=Xvnc_install
+INSTALL_TARGETS_common=Xvnc_install_module
+INSTALL_TARGETS_32=Xvnc_install_programs java_install
+INSTALL_TARGETS=$(INSTALL_TARGETS_common) $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
 
-# Default rule to make, so that the source_gen rule below doesn't become
-# default by virtue of being first
-Xvnc_default: all
+include ../Makefile.inc
 
 # Merge in additional sources from Xorg tarball & sun-src directory
-# Use layout from Fedora RPM so their patches apply
-# This step has to be done before including common/Makefile.inc so
-# that patches applied in that step work correctly.
-source_gen:: $(LNDIR)
+# This step has to be done before default_source, so that patches applied
+# in that step work correctly.
+Xvnc_source_init: $(LNDIR)
 	mkdir -p $(SOURCE_DIR)/unix
 	bzcat $(XORG_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )
 	@if [ "x$(XORG_SOURCE_PATCHES)" != "x" ] ; then \
@@ -133,20 +115,10 @@ source_gen:: $(LNDIR)
 	mv $(XORG_SOURCE_DIR) $(XORG_BUILD_DIR)
 	(cd $(XORG_BUILD_DIR) && $(LNDIR) ../../../../../xorg/sun-src)
 
-
-include ../Makefile.inc
-
-# Merge in additional sources from Xorg tarball & sun-src directory
-# Use layout from Fedora RPM so their patches apply
-# This step has to be done after including common/Makefile.inc since
-# it depends on files created in that stage
-source_gen:: default_source
-	(cd $(SOURCE_DIR) ; \
-	cp -p unix/xc/programs/Xserver/vnc/Xvnc/xvnc.cc \
-		unix/xc/programs/Xserver/Xvnc.man \
-		unix/xc/programs/Xserver/vnc/*.h \
-		unix/xc/programs/Xserver/vnc/*.cc \
-		unix/xorg-x11-server-source/hw/vnc/ )
+# Apply specific sets of Solaris attributes to various man pages
+# This step has to be done after default_source, since it depends
+# on files created in that stage
+Xvnc_source_fini: default_source
 	(cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		-a '{Availability, SUNWvncviewer} {Interface Stability, Volatile}' \
@@ -154,21 +126,23 @@ source_gen:: default_source
 	(cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		-a '{Availability, SUNWxvnc} {Interface Stability, Volatile}' \
-		-p /usr/X11/bin/ unix/xc/programs/Xserver/Xvnc.man )
+		-p $(X11_DIR)/bin/ unix/xserver/hw/vnc/Xvnc.man )
 
 # Command line options to GNU autoconf configure script for vnc clients
 VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \
 	--mandir='$${prefix}/share/man' --libdir='$${exec_prefix}/lib/vnc' \
-	--localstatedir=/var
+	--localstatedir=/var --with-system-jpeg
 
 # Command line options to GNU autoconf configure script for Xvnc
 XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS) \
-	--disable-builddocs --with-int10=stub \
+	--disable-builddocs --without-int10 \
 	--disable-dga --disable-xfree86-utils --disable-config-hal \
-	--disable-xorg --disable-dmx --disable-xvfb --disable-xnest \
-	--disable-xprint --disable-kdrive
+	--disable-xorg --disable-xnest --disable-xvfb --disable-dmx \
+	--disable-xwin --disable-xephyr --disable-kdrive
+
 
 MODULE_CPPFLAGS = \
+	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
 	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
 	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig
@@ -203,36 +177,33 @@ $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
 		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
 
+
 # Run configure script for Xvnc
-# Need to run delibtoolize to fix libtool interference with our linker 
-# flags, but need to make sure we use large pic flags (-KPIC/-fPIC)
-$(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET) $(SOURCE_DIR)/unix/Makefile
+$(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET)
 	(cd $(XORG_BUILD_DIR) &&  \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
-	$(TOP)/common/delibtoolize.pl -P -s $(SOURCE_DIR)
 
-Xvnc_build: $(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
-	(cd $(SOURCE_DIR)/common ; \
-	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+Xvnc_build: $(CONFIGURE_TARGETS)
 	(cd $(SOURCE_DIR)/unix ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 	(cd $(XORG_BUILD_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
-Xvnc_install::
+Xvnc_install_module: $(BUILD_TARGETS)
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
 	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 CPPROG="cp -p" install)
+
+Xvnc_install_programs: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR) \
 		$(PROTODIR)/usr/share/man/man1 \
-		$(PROTODIR)$(X11_MAN_DIR)/man/man1 \
-		$(PROTODIR)/usr/share/vnc \
 		$(PROTODIR)/var/svc/manifest/application/x11 
 	cp -pf $(SOURCE_DIR)/unix/vncserver \
 		$(SOURCE_DIR)/unix/vncpasswd/vncpasswd \
 		$(SOURCE_DIR)/unix/vncconfig/vncconfig \
 		$(SOURCE_DIR)/unix/vncviewer/vncviewer \
+		$(SOURCE_DIR)/unix/x0vncserver/x0vncserver \
 		$(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR)
 	cp -pf $(SOURCE_DIR)/unix/vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/vncserver.1
@@ -242,8 +213,37 @@ Xvnc_install::
 		$(PROTODIR)/usr/share/man/man1/vncpasswd.1
 	cp -pf $(SOURCE_DIR)/unix/vncviewer/vncviewer.man \
 		$(PROTODIR)/usr/share/man/man1/vncviewer.1
-	cp -pf $(SOURCE_DIR)/common/javabin/index.vnc \
-		$(PROTODIR)/usr/share/vnc
-	cp -pf $(XORG_BUILD_DIR)/hw/vnc/Xvnc.man \
-		$(PROTODIR)$(X11_MAN_DIR)/man1/Xvnc.1
+	cp -pf $(SOURCE_DIR)/unix/x0vncserver/x0vncserver.man \
+		$(PROTODIR)/usr/share/man/man1/x0vncserver.1
 	cp -pf xvnc-inetd.xml $(PROTODIR)/var/svc/manifest/application/x11/
+
+# Java VNCviewer applet for connecting from a web browser
+JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src
+JAVA_INSTALL_DIR = $(PROTODIR)/usr/share/vnc/classes
+JAVA_JAR_FILE = $(JAVA_SOURCE_DIR)/VncViewer.jar
+
+# Temporary special handling of Java build fix submitted upstream
+JAVA_MAKEFILE = $(JAVA_SOURCE_DIR)/Makefile
+BUILD_TARGETS += $(JAVA_MAKEFILE)
+
+$(JAVA_MAKEFILE): $(UNPACK_TARGETS)
+	cp $(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/Makefile $@
+	gpatch -d $(SOURCE_DIR) -p0 < applet-build.patch
+	gpatch -d $(SOURCE_DIR) -p0 < icon.patch
+	cp tigervnc_16.gif $(JAVA_SOURCE_DIR)
+
+java_build: $(JAVA_JAR_FILE)
+
+$(JAVA_JAR_FILE): $(UNPACK_TARGETS) $(JAVA_MAKEFILE)
+	(cd $(JAVA_SOURCE_DIR) ; \
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+
+java_install: $(JAVA_JAR_FILE)
+	-rm -rf $(JAVA_INSTALL_DIR)
+	mkdir -p $(JAVA_INSTALL_DIR)
+	(cd $(JAVA_SOURCE_DIR) ; \
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) \
+		install INSTALL_DIR=$(JAVA_INSTALL_DIR))
+	cp -pf  $(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/README \
+		$(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/LICENCE.TXT \
+		$(JAVA_INSTALL_DIR)

@@ -1,14 +1,23 @@
---- unix/xc/programs/Xserver/vnc/vncExtInit.cc	2006-05-15 09:56:20.000000000 -0700
-+++ unix/xc/programs/Xserver/vnc/vncExtInit.cc	2007-06-26 18:11:37.123722000 -0700
-@@ -20,6 +20,7 @@
+Needed to prevent errors when compiling with Sun C++ compiler:
+
+"../../include/inputstr.h", line 427: Warning: declarator required in declaration.
+"../../include/inputstr.h", line 427: Error: Use ";" to terminate declarations.
+"../../include/inputstr.h", line 427: Error: No ":" found following "public".
+"../../include/inputstr.h", line 427: Error: "}" expected instead of ";".
+"../../include/inputstr.h", line 427: Warning: declarator required in declaration.
+
+diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/vncExtInit.cc unix/xserver/hw/vnc/vncExtInit.cc
+--- unix/xserver/hw/vnc/vncExtInit.cc	2009-08-20 02:46:42.000000000 -0700
++++ unix/xserver/hw/vnc/vncExtInit.cc	2009-09-01 00:43:26.434020000 -0700
+@@ -24,6 +24,7 @@
  
  extern "C" {
  #define class c_class
 +#define public c_public    
  #define NEED_EVENTS
- #include "X.h"
- #include "Xproto.h"
-@@ -34,6 +35,7 @@
+ #include <X11/X.h>
+ #include <X11/Xproto.h>
+@@ -38,6 +39,7 @@ extern "C" {
  #include "vncExt.h"
  #undef class
  #undef xalloc

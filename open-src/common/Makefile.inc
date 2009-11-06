@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.100	09/10/13 SMI"
+# ident	"@(#)Makefile.inc	1.101	09/11/06 SMI"
 #
 
 ### Default rules
@@ -131,6 +131,10 @@ clean_32::
 
 clean_64::
 	-rm -rf $(BUILD_DIR_64)
+
+# Tell dmake not to remove and create source in parallel
+.NOPARALLEL: clean source
+.NOPARALLEL: clean_$(BUILD_TYPE) source_$(BUILD_TYPE)
 
 source: $(BUILD_TYPES:%=source_%)
 
@@ -494,7 +498,7 @@ $(LNDIR):
 	(cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install)
 
 # Some modules use these tools to convert DocBook docs to text or html
-$(DOCBOOK2HTML) $(DOCBOOK2TEXT):
+$(DOCBOOK2HTML) + $(DOCBOOK2TEXT):
 	cd $(TOP)/doc/docbook-utils && $(MAKE) $(MAKEFLAGS) install
 
 $(XORG_DEFS_ENT):

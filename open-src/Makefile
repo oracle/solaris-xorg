@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.23	09/10/13 SMI"
+# ident	"@(#)Makefile	1.24	09/11/06 SMI"
 #
 ###############################################################################
 #
@@ -41,8 +41,8 @@ default_target: install
 # handled properly
 
 # Some specific notes:
-# - app/rgb depends on the rgb.h header installed by the xserver, so has to
-#   be built after xserver
+# - app/rgb depends on the rgb.h header installed by the Xorg xserver, 
+#   so has to be built after xserver/xorg
 # - util/util-macros must be first, since any module that does autoreconf
 #   requires it
 # - data/xbitmaps must be before app, as some applications depend on the
@@ -54,9 +54,9 @@ default_target: install
 proto: util/util-macros
 lib: proto
 app: lib data/xbitmaps
-xserver: proto doc lib
-driver: xserver
-app/rgb: xserver
+xserver/xorg xserver/xvnc: proto doc lib
+driver: xserver/xorg
+app/rgb: xserver/xorg
 data: app
 font: app
 
@@ -68,7 +68,8 @@ OS_SUBDIRS_common = \
 	doc \
 	lib \
 	app \
-	xserver \
+	xserver/xorg \
+	xserver/xvnc \
 	driver \
 	app/rgb \
 	data \

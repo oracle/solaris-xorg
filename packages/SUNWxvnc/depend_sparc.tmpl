@@ -1,4 +1,4 @@
-###########################################################################
+##########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -28,51 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-###########################################################################
+##########################################################################
 #
-# ident	"@(#)prototype_com	1.3	09/11/06 SMI"
+# ident	"@(#)depend_sparc.tmpl	1.1	09/11/06 SMI"
 #
-# Xvnc server for Solaris
+# Xvnc server for Solaris & OpenSolaris
 
-!HOME=../usr
+# SPARC-specific platform specific dependencies:  none
 
-i pkginfo
-i copyright
+include ../depend
 
-d none X11 0755 root bin
-d none X11/bin				0755 root bin
-s none X11/bin/Xvnc=../../bin/Xvnc
-
-!search $HOME/bin
-d none bin				0755 root bin
-f none bin/vncconfig			0555 root bin
-f none bin/vncpasswd			0555 root bin
-f none bin/vncserver			0555 root bin
-f none bin/x0vncserver			0555 root bin
-
-!search $HOME/X11/$XSERVERBINDIR
-f none bin/Xvnc				2555 root root
-
-!search $HOME/share/vnc/classes
-d none share				0755 root sys
-d none share/vnc			0755 root bin
-d none share/vnc/classes		0755 root bin
-f none share/vnc/classes/index.html	0444 root bin
-f none share/vnc/classes/index.vnc	0444 root bin
-f none share/vnc/classes/LICENCE.TXT	0444 root bin
-f none share/vnc/classes/README		0444 root bin
-f none share/vnc/classes/tigervnc_16.gif 0444 root bin
-f none share/vnc/classes/VncViewer.jar	0555 root bin
-
-!search $HOME/share/man/man1
-d none share/man			0755 root bin
-d none share/man/man1			0755 root bin
-f none share/man/man1/vncconfig.1	0444 root bin
-f none share/man/man1/vncpasswd.1	0444 root bin
-f none share/man/man1/vncserver.1	0444 root bin
-f none share/man/man1/x0vncserver.1	0444 root bin
-
-!search $HOME/X11/share/man/man1
-f none share/man/man1/Xvnc.1		0444 root bin
-
-
+include depend_com

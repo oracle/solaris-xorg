@@ -1,0 +1,145 @@
+Remove buildtime from binaries to avoid unnecessary change in ELF data.
+
+diff -urp -x '*~' -x '*.orig' unix/vncconfig/buildtime.c unix/vncconfig/buildtime.c
+--- unix/vncconfig/buildtime.c	2009-08-20 02:46:42.000000000 -0700
++++ unix/vncconfig/buildtime.c	2009-11-05 09:51:42.545225775 -0800
+@@ -15,4 +15,3 @@
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
+  * USA.
+  */
+-char buildtime[] = __DATE__ " " __TIME__;
+diff -urp -x '*~' -x '*.orig' unix/vncviewer/AboutDialog.h unix/vncviewer/AboutDialog.h
+--- unix/vncviewer/AboutDialog.h	2009-08-20 02:46:42.000000000 -0700
++++ unix/vncviewer/AboutDialog.h	2009-11-05 09:51:42.545775723 -0800
+@@ -30,7 +30,6 @@
+ #define gettext_noop(String) String
+ #define N_(String) gettext_noop (String)
+ 
+-extern char buildtime[];
+ 
+ class AboutDialog : public TXMsgBox {
+ public:
+diff -urp -x '*~' -x '*.orig' unix/vncviewer/buildtime.c unix/vncviewer/buildtime.c
+--- unix/vncviewer/buildtime.c	2009-08-20 02:46:42.000000000 -0700
++++ unix/vncviewer/buildtime.c	2009-11-05 09:51:42.545497578 -0800
+@@ -15,4 +15,3 @@
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
+  * USA.
+  */
+-char buildtime[] = __DATE__ " " __TIME__;
+diff -urp -x '*~' -x '*.orig' unix/vncviewer/InfoDialog.h unix/vncviewer/InfoDialog.h
+--- unix/vncviewer/InfoDialog.h	2009-08-20 02:46:42.000000000 -0700
++++ unix/vncviewer/InfoDialog.h	2009-11-05 09:51:42.545637493 -0800
+@@ -26,7 +26,6 @@
+ #include "TXLabel.h"
+ #include "TXButton.h"
+ 
+-extern char buildtime[];
+ 
+ class InfoDialog : public TXDialog, public TXButtonCallback {
+ public:
+diff -urp -x '*~' -x '*.orig' unix/vncviewer/vncviewer.cxx unix/vncviewer/vncviewer.cxx
+--- unix/vncviewer/vncviewer.cxx	2009-08-20 02:46:42.000000000 -0700
++++ unix/vncviewer/vncviewer.cxx	2009-11-05 20:24:22.966736321 -0800
+@@ -129,7 +129,6 @@
+ 
+ char aboutText[1024];
+ char* programName;
+-extern char buildtime[];
+ 
+ static void CleanupSignalHandler(int sig)
+ {
+@@ -271,7 +270,7 @@
+   bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+   textdomain(PACKAGE_NAME);
+ 
+-  const char englishAbout[] = N_("TigerVNC Viewer for X version %s - built %s\n"
++  const char englishAbout[] = N_("TigerVNC Viewer for X version %s\n"
+ 				 "Copyright (C) 2002-2005 RealVNC Ltd.\n"
+ 				 "Copyright (C) 2000-2006 TightVNC Group\n"
+ 				 "Copyright (C) 2004-2009 Peter Astrand for Cendio AB\n"
+@@ -279,7 +278,7 @@
+ 
+   // Write about text to console, still using normal locale codeset
+   snprintf(aboutText, sizeof(aboutText),
+-	   gettext(englishAbout), PACKAGE_VERSION, buildtime);
++	   gettext(englishAbout), PACKAGE_VERSION);
+   fprintf(stderr,"\n%s\n", aboutText);
+ 
+   // Set gettext codeset to what our GUI toolkit uses. Since we are
+@@ -290,7 +289,7 @@
+ 
+   // Re-create the aboutText for the GUI, now using GUI codeset
+   snprintf(aboutText, sizeof(aboutText),
+-	   gettext(englishAbout), PACKAGE_VERSION, buildtime);
++	   gettext(englishAbout), PACKAGE_VERSION);
+ 
+   rfb::initStdIOLoggers();
+   rfb::LogWriter::setLogParams("*:stderr:30");
+diff -urp -x '*~' -x '*.orig' unix/x0vncserver/buildtime.c unix/x0vncserver/buildtime.c
+--- unix/x0vncserver/buildtime.c	2009-08-20 02:46:42.000000000 -0700
++++ unix/x0vncserver/buildtime.c	2009-11-05 09:51:42.545912551 -0800
+@@ -15,4 +15,3 @@
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
+  * USA.
+  */
+-char buildtime[] = __DATE__ " " __TIME__;
+diff -urp -x '*~' -x '*.orig' unix/x0vncserver/x0vncserver.cxx unix/x0vncserver/x0vncserver.cxx
+--- unix/x0vncserver/x0vncserver.cxx	2009-08-20 02:46:42.000000000 -0700
++++ unix/x0vncserver/x0vncserver.cxx	2009-11-05 20:19:59.935847191 -0800
+@@ -54,8 +54,6 @@
+ #include <sys/proto.h>
+ #endif
+ 
+-extern char buildtime[];
+-
+ using namespace rfb;
+ using namespace network;
+ 
+@@ -370,8 +368,7 @@
+ 
+ static void printVersion(FILE *fp)
+ {
+-  fprintf(fp, "TigerVNC Server version %s, built %s\n",
+-          PACKAGE_VERSION, buildtime);
++  fprintf(fp, "TigerVNC Server version %s\n", PACKAGE_VERSION);
+ }
+ 
+ static void usage()
+diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/buildtime.c unix/xserver/hw/vnc/buildtime.c
+--- unix/xserver/hw/vnc/buildtime.c	2009-08-20 02:46:42.000000000 -0700
++++ unix/xserver/hw/vnc/buildtime.c	2009-11-05 09:51:42.545361930 -0800
+@@ -15,4 +15,3 @@
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
+  * USA.
+  */
+-char buildtime[] = __DATE__ " " __TIME__;
+diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/xvnc.cc unix/xserver/hw/vnc/xvnc.cc
+--- unix/xserver/hw/vnc/xvnc.cc	2009-08-20 02:46:42.000000000 -0700
++++ unix/xserver/hw/vnc/xvnc.cc	2009-11-05 09:51:42.545083912 -0800
+@@ -79,7 +79,6 @@ extern "C" {
+ #include "randrstr.h"
+ #endif /* RANDR */
+ #include <X11/keysym.h>
+-  extern char buildtime[];
+ #undef class
+ #undef public
+ }
+@@ -256,7 +255,7 @@ void ddxBeforeReset(void)
+ void 
+ ddxUseMsg()
+ {
+-    ErrorF("\nXvnc %s - built %s\n%s", XVNCVERSION, buildtime, XVNCCOPYRIGHT);
++    ErrorF("\nXvnc %s\n%s", XVNCVERSION, XVNCCOPYRIGHT);
+     ErrorF("Underlying X server release %d, %s\n\n", VENDOR_RELEASE,
+            VENDOR_STRING);
+     ErrorF("-screen scrn WxHxD     set screen's width, height, depth\n");
+@@ -1225,7 +1224,7 @@ static void vfbClientStateChange(Callbac
+ void
+ InitOutput(ScreenInfo *screenInfo, int argc, char **argv)
+ {
+-  ErrorF("\nXvnc %s - built %s\n%s", XVNCVERSION, buildtime, XVNCCOPYRIGHT);
++  ErrorF("\nXvnc %s\n%s", XVNCVERSION, XVNCCOPYRIGHT);
+   ErrorF("Underlying X server release %d, %s\n\n", VENDOR_RELEASE,
+          VENDOR_STRING);
+     int i;
