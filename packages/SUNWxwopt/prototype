@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype	35.75	09/09/28 SMI"
+# ident	"@(#)prototype	35.76	09/11/09 SMI"
 ##
 #  nonessential X core clients and server extensions
 
@@ -38,10 +38,7 @@ i depend
 !HOME=../usr
 
 d none openwin			0755 root bin
-
-!search      $HOME/openwin/bin
 d none openwin/bin		0755 root bin
-f none openwin/bin/pswrap	0755 root bin
 
 # modified from original
 !search $HOME/X11/share/X11/twm
@@ -184,6 +181,7 @@ f none X11/lib/X11/app-defaults/Xditview 	0644 root bin
 f none X11/lib/X11/app-defaults/Xditview-chrtr 	0644 root bin
 
 # Create links back to openwin
+d none openwin/lib/app-defaults			0755 root bin
 s none openwin/lib/app-defaults/Viewres=../../../X11/lib/X11/app-defaults/Viewres
 s none openwin/lib/app-defaults/XLoad=../../../X11/lib/X11/app-defaults/XLoad
 s none openwin/lib/app-defaults/Xman=../../../X11/lib/X11/app-defaults/Xman

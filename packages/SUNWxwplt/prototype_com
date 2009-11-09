@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# ident	"@(#)prototype_com	35.222	09/11/09 SMI"
+# ident	"@(#)prototype_com	35.223	09/11/09 SMI"
 #
 # X Window System required core package
 
@@ -53,10 +53,7 @@ f none X11/bin/rstartd		0755 root bin
 s none bin/rstartd=../X11/bin/rstartd
 
 d none openwin 			0755 root bin
-
-!search  $HOME/openwin/bin
 d none openwin/bin 		0755 root bin
-f none openwin/bin/makepsres 	0755 root bin
 
 #### applications replaced with new versions from open-src/app
 
@@ -276,20 +273,26 @@ s none openwin/bin/winsysck=../../X11/bin/winsysck
 s none openwin/lib/libdga.so=./libdga.so.1
 f none openwin/lib/libdga.so.1		 	0755 root bin
 
-s none openwin/lib/libdps.so=./libdps.so.5
-f none openwin/lib/libdps.so.5 		0755 root bin
-s none openwin/lib/libdpstk.so=./libdpstk.so.5
-f none openwin/lib/libdpstk.so.5 	0755 root bin
-s none openwin/lib/libpsres.so=./libpsres.so.5
-f none openwin/lib/libpsres.so.5 	0755 root bin
-s none openwin/lib/libowconfig.so=./libowconfig.so.0
-f none openwin/lib/libowconfig.so.0 	0755 root bin
-
 #### libraries replaced with new versions from open-src/lib
 
 ## 32-bit versions
 !search $HOME/X11/lib
 d none X11/lib					0755 root bin
+
+# open-src/lib/libowconfig (32-bit only - binary compatibility for fbconfig)
+s none openwin/lib/libowconfig.so=./libowconfig.so.0
+s none openwin/lib/libowconfig.so.0=../../X11/lib/libowconfig.so.0
+s none X11/lib/libowconfig.so=./libowconfig.so.0
+f none X11/lib/libowconfig.so.0			0555 root bin
+
+# open-src/lib/DPS (32-bit only, runtime only - no compile links,
+# needed for binary compatibility for old Java runtimes)
+s none openwin/lib/libdps.so.5=../../X11/lib/libdps.so.5
+s none openwin/lib/libdpstk.so.5=../../X11/lib/libdpstk.so.5
+s none openwin/lib/libpsres.so.5=../../X11/lib/libpsres.so.5
+f none X11/lib/libdps.so.5 		0555 root bin
+f none X11/lib/libdpstk.so.5		0555 root bin
+f none X11/lib/libpsres.so.5		0555 root bin
 
 # open-src/lib/libX11
 # The libX11.so.5 -> libX11.so.4 symlink is required by SVID3 ABI.
@@ -423,7 +426,7 @@ f none X11/lib/libXinerama.so.1 		0555 root bin
 s none lib/libxkbfile.so=libxkbfile.so.5
 s none lib/libxkbfile.so.5=../X11/lib/libxkbfile.so.5
 s none X11/lib/libxkbfile.so=libxkbfile.so.5
-f none X11/lib/libxkbfile.so.5			0555 root bin
+f none X11/lib/libxkbfile.so.5	 		0555 root bin
 
 # opensrc/lib/libXmu (only libXmu, not libXmuu was delivered into /usr/openwin/lib)
 s none lib/libXmu.so=libXmu.so.4

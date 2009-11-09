@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.32	09/10/13 SMI"
+# ident	"@(#)Makefile	1.33	09/11/09 SMI"
 #
 ###############################################################################
 
@@ -50,6 +50,7 @@ default_target: install
 # libdrm before mesa
 
 # Dependencies needed for parallel make:
+DPS: libX11 libXt
 fontconfig: freetype
 libdrm: libpthread-stubs
 libFS: libxtrans
@@ -83,8 +84,10 @@ libxkbui: libX11 libXt libxkbfile
 mesa: libdrm libX11 libXext
 
 OS_SUBDIRS_common = \
+	DPS \
 	freetype \
 	fontconfig \
+	libowconfig \
 	libpthread-stubs \
 	libxtrans \
 	libXau \

@@ -1,0 +1,153 @@
+###############################################################################
+#
+# libdpstkXm version/scope mapfile
+#
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+#
+#ident	"@(#)mapfile-vers.dpstkXm	1.1	09/11/09 SMI"
+#
+
+SUNWprivate {
+    global:
+	FSBFindAFM;
+	colorSelectionBoxWidgetClass;
+	filters;
+	_DPSFDrawMM;
+	_DPSCDoCMYKPalette;
+	_DPSCQueryHSBPalette;
+	_DPSFFreeFontInfo;
+	_DPSSWGetTransform;
+	_FSBSetUpFaceList;
+	DSWSetFeedbackDirtyArea;
+	FSBGetFamilyList;
+	fontCreatorWidgetClass;
+	_FSBUnnormalize;
+	FSBFontFamilyFaceBlendToName;
+	FSBFindFontFile;
+	_DPSFEnumFonts;
+	_DPSCQueryRGBColorPalette;
+	dpsScrolledWindowClassRec;
+	_DPSCDoGrayColorPalette;
+	_DPSCQueryGrayPalette;
+	_DPSFGetBlendedFontInfo;
+	_DPSSWColormapMatch;
+	DSWAbortPendingDrawing;
+	FSBFontFamilyFaceToName;
+	FSBFontNameToFamilyFace;
+	fontSamplerClassRec;
+	CSBGetColor;
+	FSBGetBlendInfo;
+	_DPSFGetCTM;
+	CSBSetColor;
+	FSBGetBlendList;
+	_DPSFDefineFontEnumFunctions;
+	_DPSCDoGrayPalette;
+	_DPSCQueryRGBPalette;
+	_DPSFUndefineFont;
+	_DPSSWSetRectViewClip;
+	DSWAddToDirtyArea;
+	DSWTakeFeedbackPixmap;
+	FSBGetTextDimensions;
+	fontSamplerWidgetClass;
+	_DPSFReclip;
+	dpsScrolledWindowWidgetClass;
+	DSWConvertPSToX;
+	_DPSCCMYKBlend;
+	FSBGetFaceList;
+	_DPSFSetUpMM;
+	_DPSCDoHSBColorPalette;
+	_DPSFClearWindow;
+	_DPSFIsFontResident;
+	DSWSetScaleAndScroll;
+	DSWEndFeedbackDrawing;
+	DSWStartFeedbackDrawing;
+	FSBMatchFontFace;
+	DSWConvertXToPS;
+	_DPSFShowTextAndGetDimensions;
+	_DPSCGetInvCTM;
+	FSBSetFontName;
+	fontSelectionBoxClassRec;
+	_DPSFShowText;
+	DSWScrollBy;
+	FSBFontNameToFamilyFaceBlend;
+	_DPSCDoHSBPalette;
+	_DPSFGetFontInfo;
+	_DPSFGetTextDimensions;
+	DSWFinishPendingDrawing;
+	DSWUpdateDrawing;
+	FSBRefreshFontList;
+	_DPSCGrayBlend;
+	FSBSetFontSize;
+	_DPSSWSetMatrix;
+	DSWScrollPoint;
+	_DPSCHSBBlend;
+	_DPSCQueryGrayColorPalette;
+	_DPSCQueryCMYKPalette;
+	_DPSCDoRGBColorPalette;
+	_DPSFFinishDownload;
+	_DPSFPrepareToDownload;
+	DSWGetDrawingInfo;
+	FSBCancelSampler;
+	FSBSetFontFamilyFace;
+	_FSBBogusFont;
+	FSBSetFontFamilyFaceBlend;
+	DSWScrollTo;
+	_DPSCRGBBlend;
+	_DPSSWSetMatrixAndGetTransform;
+	_FSBFlushFont;
+	_DPSCColormapMatch;
+	_DPSCDoRGBPalette;
+	_DPSFPreviewString;
+	_FSBSetCreatorFamily;
+	DSWGetScrollInfo;
+	FSBDownloadFontName;
+	FSBUndefineUnusedFonts;
+	DSWSetScale;
+	_DPSCQueryCMYKColorPalette;
+	_DPSCShowFillMe;
+	colorSelectionBoxClassRec;
+	_FSBGenFontName;
+	FSBChangeBlends;
+	_FSBDownloadFontIfNecessary;
+	_DPSCDoCMYKColorPalette;
+	_DPSCShowMessage;
+	_DPSFGetAllFontNames;
+	_FSBCreateSharedCS;
+	_FSBSetCurrentFont;
+	DSWGiveFeedbackPixmap;
+	fontCreatorClassRec;
+	_DPSCTriangle;
+	_end;
+	_FSBNormalize;
+	_DPSCQueryHSBColorPalette;
+	fontSelectionBoxWidgetClass;
+    local:
+	*;
+};
+

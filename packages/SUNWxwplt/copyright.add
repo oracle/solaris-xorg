@@ -440,6 +440,12 @@ include app/xwud/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/DPS package are covered by the following notice:
+
+include lib/DPS/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libFS package are covered by the following notice:
 
 include lib/libFS/COPYING

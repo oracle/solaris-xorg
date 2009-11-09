@@ -28,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.104	09/11/07 SMI"
+# ident	"@(#)prototype_com	35.105	09/11/09 SMI"
 #
 #  X Window System include files
 
@@ -207,26 +207,8 @@ f none X11/include/X11/TranslateI.h		0444 root bin
 f none X11/include/X11/VarargsI.h		0444 root bin
 f none X11/include/X11/Xtos.h			0444 root bin
 
-!search                $HOME/openwin/include/X11
-f none openwin/share/include/X11/Sunowconfig.h 0644 root bin
-
-d none openwin/share/include/X11/DPS 0755 root bin
-!search                $HOME/openwin/include/X11/DPS
-f none openwin/share/include/X11/DPS/PSres.h 0644 root bin
-f none openwin/share/include/X11/DPS/XDPS.h 0644 root bin
-f none openwin/share/include/X11/DPS/XDPSlib.h 0644 root bin
-f none openwin/share/include/X11/DPS/XDPSproto.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsXclient.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsXcommon.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsXpreview.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsXshare.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsXuserpath.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsclient.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsconfig.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsexcept.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsfriends.h 0644 root bin
-f none openwin/share/include/X11/DPS/dpsops.h 0644 root bin
-f none openwin/share/include/X11/DPS/psops.h 0644 root bin
+# open-src/lib/libowconfig
+f none X11/include/X11/Sunowconfig.h		0444 root bin
 
 # open-src/lib/libXaw
 !search                $HOME/X11/include/X11/Xaw
