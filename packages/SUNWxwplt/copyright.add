@@ -542,6 +542,12 @@ include lib/libXinerama/COPYING
 
 --------------------------------------------------------------------
 
+Files from the lib/libxkbfile package are covered by the following notice:
+
+include lib/libxkbfile/COPYING
+
+--------------------------------------------------------------------
+
 Files from the lib/libXmu package are covered by the following notice:
 
 include lib/libXmu/COPYING

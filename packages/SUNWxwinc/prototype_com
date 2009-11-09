@@ -28,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.103	09/10/08 SMI"
+# ident	"@(#)prototype_com	35.104	09/11/07 SMI"
 #
 #  X Window System include files
 
@@ -50,6 +50,12 @@ d none openwin/share 0755 root bin
 d none openwin/share/include 0755 root bin
 d none openwin/share/include/X11 0755 root bin
 s none openwin/share/include/Xau=./X11
+
+d none openwin/share/include/dga 0755 root bin
+!search                $HOME/openwin/include/dga
+f none openwin/share/include/dga/dga.h 0644 root bin
+f none openwin/share/include/dga/dga_externaldefs.h 0644 root bin
+f none openwin/share/include/dga/XineramaInfo.h 0644 root bin
 
 d none X11 				0755 root bin
 d none X11/include			0755 root bin
@@ -202,9 +208,6 @@ f none X11/include/X11/VarargsI.h		0444 root bin
 f none X11/include/X11/Xtos.h			0444 root bin
 
 !search                $HOME/openwin/include/X11
-#f none openwin/share/include/X11/SunExtToken.h 0664 root bin
-f none openwin/share/include/X11/XSunExt.h 0644 root bin
-f none openwin/share/include/X11/Xstreams.h 0644 root bin
 f none openwin/share/include/X11/Sunowconfig.h 0644 root bin
 
 d none openwin/share/include/X11/DPS 0755 root bin
@@ -332,79 +335,14 @@ f none X11/include/X11/Xmu/Xct.h		0444 root bin
 f none X11/include/X11/Xmu/Xmu.h		0444 root bin
 f none X11/include/X11/Xmu/XmuSolaris.h		0444 root bin
 
-# extension headers from old source tree
-d none openwin/share/include/X11/extensions 0755 root bin
-!search                $HOME/openwin/include/X11/extensions
-f none openwin/share/include/X11/extensions/XKBbells.h 0644 root bin
-f none openwin/share/include/X11/extensions/XKBconfig.h 0644 root bin
-f none openwin/share/include/X11/extensions/XKBfile.h 0644 root bin
-f none openwin/share/include/X11/extensions/XKBrules.h 0644 root bin
-f none openwin/share/include/X11/extensions/XKM.h 0644 root bin
-f none openwin/share/include/X11/extensions/XKMformat.h 0644 root bin
-
-# symlinks for backwards compatibility with old locations
-s none openwin/share/include/X11/extensions/MITMisc.h=../../../../../X11/include/X11/extensions/MITMisc.h
-s none openwin/share/include/X11/extensions/XEVI.h=../../../../../X11/include/X11/extensions/XEVI.h
-s none openwin/share/include/X11/extensions/XI.h=../../../../../X11/include/X11/extensions/XI.h
-s none openwin/share/include/X11/extensions/XInput.h=../../../../../X11/include/X11/extensions/XInput.h
-s none openwin/share/include/X11/extensions/XIproto.h=../../../../../X11/include/X11/extensions/XIproto.h
-s none openwin/share/include/X11/extensions/XKB.h=../../../../../X11/include/X11/extensions/XKB.h
-s none openwin/share/include/X11/extensions/XKBgeom.h=../../../../../X11/include/X11/extensions/XKBgeom.h
-s none openwin/share/include/X11/extensions/XKBproto.h=../../../../../X11/include/X11/extensions/XKBproto.h
-s none openwin/share/include/X11/extensions/XKBstr.h=../../../../../X11/include/X11/extensions/XKBstr.h
-s none openwin/share/include/X11/extensions/XKBsrv.h=../../../../../X11/include/X11/extensions/XKBsrv.h
-s none openwin/share/include/X11/extensions/XResproto.h=../../../../../X11/include/X11/extensions/XResproto.h
-s none openwin/share/include/X11/extensions/XShm.h=../../../../../X11/include/X11/extensions/XShm.h
-s none openwin/share/include/X11/extensions/XTest.h=../../../../../X11/include/X11/extensions/XTest.h
-s none openwin/share/include/X11/extensions/Xag.h=../../../../../X11/include/X11/extensions/Xag.h
-s none openwin/share/include/X11/extensions/Xagstr.h=../../../../../X11/include/X11/extensions/Xagstr.h
-s none openwin/share/include/X11/extensions/Xcup.h=../../../../../X11/include/X11/extensions/Xcup.h
-s none openwin/share/include/X11/extensions/Xcupstr.h=../../../../../X11/include/X11/extensions/Xcupstr.h
-s none openwin/share/include/X11/extensions/Xdbe.h=../../../../../X11/include/X11/extensions/Xdbe.h
-s none openwin/share/include/X11/extensions/Xdbeproto.h=../../../../../X11/include/X11/extensions/Xdbeproto.h
-s none openwin/share/include/X11/extensions/Xeviestr.h=../../../../../X11/include/X11/extensions/Xeviestr.h
-s none openwin/share/include/X11/extensions/Xext.h=../../../../../X11/include/X11/extensions/Xext.h
-s none openwin/share/include/X11/extensions/Xinerama.h=../../../../../X11/include/X11/extensions/Xinerama.h
-s none openwin/share/include/X11/extensions/composite.h=../../../../../X11/include/X11/extensions/composite.h
-s none openwin/share/include/X11/extensions/compositeproto.h=../../../../../X11/include/X11/extensions/compositeproto.h
-s none openwin/share/include/X11/extensions/damageproto.h=../../../../../X11/include/X11/extensions/damageproto.h
-s none openwin/share/include/X11/extensions/damagewire.h=../../../../../X11/include/X11/extensions/damagewire.h
-s none openwin/share/include/X11/extensions/dpms.h=../../../../../X11/include/X11/extensions/dpms.h
-s none openwin/share/include/X11/extensions/dpmsstr.h=../../../../../X11/include/X11/extensions/dpmsstr.h
-s none openwin/share/include/X11/extensions/lbxbuf.h=../../../../../X11/include/X11/extensions/lbxbuf.h
-s none openwin/share/include/X11/extensions/lbxbufstr.h=../../../../../X11/include/X11/extensions/lbxbufstr.h
-s none openwin/share/include/X11/extensions/lbxdeltastr.h=../../../../../X11/include/X11/extensions/lbxdeltastr.h
-s none openwin/share/include/X11/extensions/lbximage.h=../../../../../X11/include/X11/extensions/lbximage.h
-s none openwin/share/include/X11/extensions/lbxopts.h=../../../../../X11/include/X11/extensions/lbxopts.h
-s none openwin/share/include/X11/extensions/lbxstr.h=../../../../../X11/include/X11/extensions/lbxstr.h
-s none openwin/share/include/X11/extensions/lbxzlib.h=../../../../../X11/include/X11/extensions/lbxzlib.h
-s none openwin/share/include/X11/extensions/multibuf.h=../../../../../X11/include/X11/extensions/multibuf.h
-s none openwin/share/include/X11/extensions/multibufst.h=../../../../../X11/include/X11/extensions/multibufst.h
-s none openwin/share/include/X11/extensions/panoramiXext.h=../../../../../X11/include/X11/extensions/panoramiXext.h
-s none openwin/share/include/X11/extensions/record.h=../../../../../X11/include/X11/extensions/record.h
-s none openwin/share/include/X11/extensions/recordstr.h=../../../../../X11/include/X11/extensions/recordstr.h
-s none openwin/share/include/X11/extensions/render.h=../../../../../X11/include/X11/extensions/render.h
-s none openwin/share/include/X11/extensions/renderproto.h=../../../../../X11/include/X11/extensions/renderproto.h
-s none openwin/share/include/X11/extensions/saver.h=../../../../../X11/include/X11/extensions/saver.h
-s none openwin/share/include/X11/extensions/saverproto.h=../../../../../X11/include/X11/extensions/saverproto.h
-s none openwin/share/include/X11/extensions/scrnsaver.h=../../../../../X11/include/X11/extensions/scrnsaver.h
-s none openwin/share/include/X11/extensions/security.h=../../../../../X11/include/X11/extensions/security.h
-s none openwin/share/include/X11/extensions/securstr.h=../../../../../X11/include/X11/extensions/securstr.h
-s none openwin/share/include/X11/extensions/shape.h=../../../../../X11/include/X11/extensions/shape.h
-s none openwin/share/include/X11/extensions/shapestr.h=../../../../../X11/include/X11/extensions/shapestr.h
-s none openwin/share/include/X11/extensions/shmstr.h=../../../../../X11/include/X11/extensions/shmstr.h
-s none openwin/share/include/X11/extensions/sync.h=../../../../../X11/include/X11/extensions/sync.h
-s none openwin/share/include/X11/extensions/syncstr.h=../../../../../X11/include/X11/extensions/syncstr.h
-s none openwin/share/include/X11/extensions/xfixesproto.h=../../../../../X11/include/X11/extensions/xfixesproto.h
-s none openwin/share/include/X11/extensions/xfixeswire.h=../../../../../X11/include/X11/extensions/xfixeswire.h
-s none openwin/share/include/X11/extensions/xtestext1.h=../../../../../X11/include/X11/extensions/xtestext1.h
-
 # open-src/proto/xf86driproto
 !search                $HOME/X11/include/X11/dri
 d none X11/include/X11/dri 			0755 root bin
 f none X11/include/X11/dri/xf86dri.h		0444 root bin
 f none X11/include/X11/dri/xf86dristr.h		0444 root bin
 
+# symlink for backwards compatibility with old locations
+s none openwin/share/include/X11/extensions=../../../../include/X11/extensions
 
 # extension headers from open-src/proto/*
 !search                $HOME/X11/include/X11/extensions
@@ -490,32 +428,20 @@ f none X11/include/X11/extensions/transovl.h 	0444 root bin
 f none X11/include/X11/extensions/transovlstr.h	0444 root bin
 f none X11/include/X11/extensions/fbpm.h	0444 root bin
 f none X11/include/X11/extensions/fbpmstr.h	0444 root bin
-s none openwin/share/include/X11/extensions/allplanes.h=../../../../../X11/include/X11/extensions/allplanes.h
-s none openwin/share/include/X11/extensions/allplanesstr.h=../../../../../X11/include/X11/extensions/allplanesstr.h
-s none openwin/share/include/X11/extensions/transovl.h=../../../../../X11/include/X11/extensions/transovl.h
-s none openwin/share/include/X11/extensions/transovlstr.h=../../../../../X11/include/X11/extensions/transovlstr.h
-s none openwin/share/include/X11/extensions/fbpm.h=../../../../../X11/include/X11/extensions/fbpm.h
-s none openwin/share/include/X11/extensions/fbpmstr.h=../../../../../X11/include/X11/extensions/fbpmstr.h
-s none openwin/share/include/X11/extensions/Print.h=../../../../../X11/include/X11/extensions/Print.h
 
 # open-src/lib/libXcomposite
-s none openwin/share/include/X11/extensions/Xcomposite.h=../../../../../X11/include/X11/extensions/Xcomposite.h
 f none X11/include/X11/extensions/Xcomposite.h 0444 root bin
 
 # open-src/lib/libXdamage
-s none openwin/share/include/X11/extensions/Xdamage.h=../../../../../X11/include/X11/extensions/Xdamage.h
 f none X11/include/X11/extensions/Xdamage.h 0444 root bin
 
 # open-src/lib/libXevie
-s none openwin/share/include/X11/extensions/Xevie.h=../../../../../X11/include/X11/extensions/Xevie.h
 f none X11/include/X11/extensions/Xevie.h 0444 root bin
 
 # open-src/lib/libXext
-s none openwin/share/include/X11/extensions/xinerama.h=../../../../../X11/include/X11/extensions/xinerama.h
 f none X11/include/X11/extensions/xinerama.h 0444 root bin
 
 # open-src/lib/libXfixes
-s none openwin/share/include/X11/extensions/Xfixes.h=../../../../../X11/include/X11/extensions/Xfixes.h
 f none X11/include/X11/extensions/Xfixes.h 0444 root bin
 
 # open-src/lib/libxkbfile
@@ -533,16 +459,12 @@ f none X11/include/X11/extensions/randrproto.h	0444 root bin
 f none X11/include/X11/extensions/Xrandr.h	0444 root bin
 
 # open-src/lib/libXrender
-s none openwin/share/include/X11/extensions/Xrender.h=../../../../../X11/include/X11/extensions/Xrender.h
 f none X11/include/X11/extensions/Xrender.h 0444 root bin
 
 # open-src/lib/libXres
-s none openwin/share/include/X11/extensions/XRes.h=../../../../../X11/include/X11/extensions/XRes.h
 f none X11/include/X11/extensions/XRes.h 0444 root bin
 
 # open-src/lib/libXtsol
-s none openwin/share/include/X11/extensions/Xtsol.h=../../../../../X11/include/X11/extensions/Xtsol.h
-s none openwin/share/include/X11/extensions/Xtsolproto.h=../../../../../X11/include/X11/extensions/Xtsolproto.h
 f none X11/include/X11/extensions/Xtsol.h 0444 root bin
 f none X11/include/X11/extensions/Xtsolproto.h 0444 root bin
 
@@ -645,13 +567,6 @@ f none X11/include/X11/Xtrans/Xtranssock.c	0444 root bin
 f none X11/include/X11/Xtrans/Xtranstli.c	0444 root bin
 f none X11/include/X11/Xtrans/Xtransutil.c	0444 root bin
 f none X11/include/X11/Xtrans/transport.c	0444 root bin
-
-d none openwin/share/include/dga 0755 root bin
-!search                $HOME/openwin/include/dga
-f none openwin/share/include/dga/dga.h 0644 root bin
-f none openwin/share/include/dga/dga_externaldefs.h 0644 root bin
-f none openwin/share/include/dga/XineramaInfo.h 0644 root bin
-
 
 !search                $HOME/X11/include/X11/Xcursor
 # open-src/lib/libXcursor

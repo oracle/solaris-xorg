@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.10     09/07/13 SMI"
+# ident	"@(#)prototype	1.11	09/11/07 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
@@ -63,12 +63,6 @@ f none X11/lib/libXvMC.so.1	 		0644 root bin
 s none X11/lib/libXvMC.so=libXvMC.so.1
 s none lib/libXvMC.so=libXvMC.so.1
 s none lib/libXvMC.so.1=../X11/lib/libXvMC.so.1
-
-# open-src/lib/libxkbfile
-f none X11/lib/libxkbfile.so.5          0644 root bin
-s none X11/lib/libxkbfile.so=libxkbfile.so.5
-s none lib/libxkbfile.so=libxkbfile.so.5
-s none lib/libxkbfile.so.5=../X11/lib/libxkbfile.so.5
 
 # open-src/lib/libXxf86misc
 f none X11/lib/libXxf86misc.so.1		0644 root bin
@@ -105,12 +99,6 @@ f none X11/lib/$plat_64/libXvMC.so.1	 		0644 root bin
 s none X11/lib/$plat_64/libXvMC.so=libXvMC.so.1
 s none lib/$plat_64/libXvMC.so=libXvMC.so.1
 s none lib/$plat_64/libXvMC.so.1=../../X11/lib/64/libXvMC.so.1
-
-# open-src/lib/libxkbfile
-f none X11/lib/$plat_64/libxkbfile.so.5  	        0644 root bin
-s none X11/lib/$plat_64/libxkbfile.so=libxkbfile.so.5
-s none lib/$plat_64/libxkbfile.so=libxkbfile.so.5
-s none lib/$plat_64/libxkbfile.so.5=../../X11/lib/64/libxkbfile.so.5
 
 # open-src/lib/libXxf86misc
 f none X11/lib/$plat_64/libXxf86misc.so.1		0644 root bin

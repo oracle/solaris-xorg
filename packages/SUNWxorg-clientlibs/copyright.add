@@ -29,9 +29,4 @@ Files from the lib/libXxf86vm package are covered by the following notice:
 
 include lib/libXxf86vm/COPYING
 
---------------------------------------------------------------------
-
-Files from the lib/libxkbfile package are covered by the following notice:
-
-include lib/libxkbfile/COPYING
 

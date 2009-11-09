@@ -1,5 +1,6 @@
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_sparc	1.51	06/06/05 SMI"
+# ident	"@(#)prototype_sparc	1.52	09/11/07 SMI"
 #
 #
 # Include ISA independent files (prototype_com)
@@ -38,10 +39,6 @@
 #   X Window System 64-bit library software
 
 !search  $HOME/lib/sparcv9
-# Symlink removed to prevent compiling new programs - library is left
-# for binary compatibility only, and 64-bit should only be delivered on sparc
-#s none openwin/lib/sparcv9libXinput.so=./libXinput.so.0
-f none openwin/lib/sparcv9/libXinput.so.0       0755 root bin
 s none openwin/lib/sparcv9/libdps.so=./libdps.so.5
 f none openwin/lib/sparcv9/libdps.so.5 		0755 root bin
 s none openwin/lib/sparcv9/libdga.so=./libdga.so.1

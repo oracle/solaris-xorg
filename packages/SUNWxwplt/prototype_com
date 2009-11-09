@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-#      "@(#)prototype_com	35.220    09/09/28   Sun Microsystems"
+# ident	"@(#)prototype_com	35.222	09/11/09 SMI"
 #
 # X Window System required core package
 
@@ -276,11 +276,6 @@ s none openwin/bin/winsysck=../../X11/bin/winsysck
 s none openwin/lib/libdga.so=./libdga.so.1
 f none openwin/lib/libdga.so.1		 	0755 root bin
 
-# Symlink removed to prevent compiling new programs - library is left
-# for binary compatibility only
-#s none openwin/lib/libXinput.so=./libXinput.so.0
-f none openwin/lib/libXinput.so.0 	0755 root bin
-
 s none openwin/lib/libdps.so=./libdps.so.5
 f none openwin/lib/libdps.so.5 		0755 root bin
 s none openwin/lib/libdpstk.so=./libdpstk.so.5
@@ -289,10 +284,6 @@ s none openwin/lib/libpsres.so=./libpsres.so.5
 f none openwin/lib/libpsres.so.5 	0755 root bin
 s none openwin/lib/libowconfig.so=./libowconfig.so.0
 f none openwin/lib/libowconfig.so.0 	0755 root bin
-
-s none lib/libxkbfile.so.4=../openwin/lib/libxkbfile.so.4
-f none openwin/lib/libxkbfile.so.4              0755 root bin
-s none openwin/lib/libxkbfile.so=./libxkbfile.so.4
 
 #### libraries replaced with new versions from open-src/lib
 
@@ -428,6 +419,12 @@ s none lib/libXinerama.so.1=../X11/lib/libXinerama.so.1
 s none X11/lib/libXinerama.so=./libXinerama.so.1
 f none X11/lib/libXinerama.so.1 		0555 root bin
 
+# open-src/lib/libxkbfile (never delivered into /usr/openwin/lib)
+s none lib/libxkbfile.so=libxkbfile.so.5
+s none lib/libxkbfile.so.5=../X11/lib/libxkbfile.so.5
+s none X11/lib/libxkbfile.so=libxkbfile.so.5
+f none X11/lib/libxkbfile.so.5			0555 root bin
+
 # opensrc/lib/libXmu (only libXmu, not libXmuu was delivered into /usr/openwin/lib)
 s none lib/libXmu.so=libXmu.so.4
 s none lib/libXmu.so.4=../X11/lib/libXmu.so.4
@@ -512,10 +509,6 @@ f none X11/lib/mkcookie				0755 root bin
 !search  $HOME/openwin/lib/$plat_64
 d none openwin/lib/$plat_64 			0755 root bin
 s none openwin/lib/64=$plat_64
-
-s none lib/$plat_64/libxkbfile.so.4=../../openwin/lib/64/libxkbfile.so.4
-s none openwin/lib/$plat_64/libxkbfile.so=./libxkbfile.so.4
-f none openwin/lib/$plat_64/libxkbfile.so.4	0755 root bin
 
 !search $HOME/X11/lib/$plat_64
 d none X11/lib/$plat_64 			0755 root bin
@@ -640,6 +633,12 @@ s none lib/$plat_64/libXinerama.so=libXinerama.so.1
 s none lib/$plat_64/libXinerama.so.1=../../X11/lib/64/libXinerama.so.1
 s none X11/lib/$plat_64/libXinerama.so=./libXinerama.so.1
 f none X11/lib/$plat_64/libXinerama.so.1	0555 root bin
+
+# open-src/lib/libxkbfile  (never delivered into /usr/openwin/lib)
+s none lib/$plat_64/libxkbfile.so=libxkbfile.so.5
+s none lib/$plat_64/libxkbfile.so.5=../../X11/lib/64/libxkbfile.so.5
+s none X11/lib/$plat_64/libxkbfile.so=libxkbfile.so.5
+f none X11/lib/$plat_64/libxkbfile.so.5		0555 root bin
 
 # opensrc/lib/libXmu (only libXmu, not libXmuu was delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXmu.so=libXmu.so.4
