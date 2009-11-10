@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.1	09/11/09 SMI"
+#ident	"@(#)Makefile	1.2	09/11/10 SMI"
 #
 
     REQUIREDLIBS = -lX11 -lsocket -lnsl -lc
@@ -289,6 +289,7 @@ dpsops.h : psops.h $(DPSOPSHEADERFILES)
 	${RM} .sort .ttt .attt
 
 all:: ../include/DPS/psops.h ../include/DPS/dpsops.h
+$(OBJS): $(HEADERS) ../include/DPS/psops.h ../include/DPS/dpsops.h
 
 ../include/DPS/psops.h: psops.h
 	-${RM} $@

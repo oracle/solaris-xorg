@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.1	09/11/09 SMI"
+#ident	"@(#)Makefile	1.2	09/11/10 SMI"
 #
 
 # Manual conversion of X11R6.9 xc/config/pswrap/Imakefile
@@ -68,7 +68,7 @@ pswfile.o:
 .c.o:
 	$(V_CC)$(CC) $(CFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
 
-pswparse.h + pswparser.c : pswparser.y
+pswparser.h + pswparser.c : pswparser.y
 	$(V_YACC)$(YACC) $(YFLAGS) pswparser.y ; \
 	mv y.tab.c pswparser.c ; \
 	mv y.tab.h pswparser.h
@@ -79,3 +79,4 @@ install: pswrap
 clean:
 	${RM} lexer.c y.tab.h pswparser.c *.o pswrap
 
+lexer.o: pswparser.h
