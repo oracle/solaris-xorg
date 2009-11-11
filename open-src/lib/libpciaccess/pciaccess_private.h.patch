@@ -1,0 +1,10 @@
+--- src/pciaccess_private.h	2009-10-28 17:14:59.710022000 +0800
++++ src/pciaccess_private.h	2009-10-28 17:13:33.071366000 +0800
+@@ -105,6 +105,7 @@ struct pci_device_private {
+     struct pci_device_mapping *mappings;
+     unsigned num_mappings;
+     /*@}*/
++    int is_primary;
+ };
+ 
+ 

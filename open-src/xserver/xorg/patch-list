@@ -39,3 +39,4 @@ sparc-initvisuals.patch
 hotkey.patch
 vt.patch
 6885229.patch
+xf86pciBus.c.patch

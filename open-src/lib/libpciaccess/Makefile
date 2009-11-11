@@ -35,11 +35,13 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.10.6
+MODULE_VERSION=0.10.8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	scanpci.man.patch 
+	pciaccess_private.h.patch \
+	scanpci.man.patch \
+	solx_devfs.c.patch
 
 # Library name
 LIBNAME=libpciaccess
