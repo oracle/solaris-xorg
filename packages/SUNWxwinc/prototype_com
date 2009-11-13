@@ -28,7 +28,7 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)prototype_com	35.105	09/11/09 SMI"
+# ident	"@(#)prototype_com	35.106	09/11/09 SMI"
 #
 #  X Window System include files
 
@@ -50,12 +50,6 @@ d none openwin/share 0755 root bin
 d none openwin/share/include 0755 root bin
 d none openwin/share/include/X11 0755 root bin
 s none openwin/share/include/Xau=./X11
-
-d none openwin/share/include/dga 0755 root bin
-!search                $HOME/openwin/include/dga
-f none openwin/share/include/dga/dga.h 0644 root bin
-f none openwin/share/include/dga/dga_externaldefs.h 0644 root bin
-f none openwin/share/include/dga/XineramaInfo.h 0644 root bin
 
 d none X11 				0755 root bin
 d none X11/include			0755 root bin

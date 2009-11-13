@@ -1,3 +1,6 @@
+###############################################################################
+#
+# libdga Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -11,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,24 +24,42 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_sparc	1.55	09/11/13 SMI"
+# ident	"@(#)Makefile	1.1	09/11/09 SMI"
 #
-#
-# Include ISA independent files (prototype_com)
-#
-!include prototype_com
 
-#   X Window System SPARC-specific 64-bit library software
+SHLIBLDFLAGS = -G -z defs $(LDFLAGS)
+REQUIREDLIBS = -lX11 -lsocket -lc
+DEFINES = -D_TS_ERRNO -DMT -DXTHREADS -DPANORAMIX -DIPv6 -DSVR4
 
-!search  $HOME/X11/lib/sparcv9
-# open-src/lib/libdga (runtime only - no compile links,
-# needed for binary compatibility for old Java runtimes,
-# sparc only since Xsun/DGA was already obsolete before amd64)
-s none openwin/lib/sparcv9/libdga.so.1=../../../X11/lib/sparcv9/libdga.so.1
-f none X11/lib/sparcv9/libdga.so.1	 	0555 root bin
+HEADERS = dga_Xrequests.h win_grab.h rtn_grab.h cmap_grab.h pix_grab.h \
+	  mbufsetstr.h vmbuf_grab.h dga_incls.h
+SRCS =  dga_Xrequests.c win_grab.c dga_db.c rtn_grab.c cmap_grab.c pix_grab.c \
+	mbsmemb_update.c mbsmemb_inquiry.c win_update.c mbuf_update.c \
+	mbufset.c draw_inquiry.c draw_db.c pix_update.c pix_inquiry.c dga_ab.c
+OBJS = $(SRCS:.c=.o)
+
+# Inspired by automake 1.11 silent rules - hides details by default
+# Run make V=1 to show details
+DEFAULT_V  = 0
+V_CC       = $(V_CC_$(V))
+V_CC_      = $(V_CC_$(DEFAULT_V))
+V_CC_0     = @echo "  CC    " $@;
+
+all: libdga.so.1
+
+libdga.so.1: $(OBJS)
+	$(V_CC)$(LD) $(CFLAGS) -o $@ $(SHLIBLDFLAGS) -h libdga.so.1 \
+		$(OBJS) $(REQUIREDLIBS)
+
+.c.o:
+	$(V_CC)$(CC) -Kpic $(CFLAGS) $(CPPFLAGS) $(DEFINES) -c $<
+
+install: libdga.so.1
+	mkdir -p $(DESTDIR)$(libdir) $(DESTDIR)$(INCDIR)
+	$(INSTALL) libdga.so.1 $(DESTDIR)$(libdir)/libdga.so.1

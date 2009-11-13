@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.33	09/11/09 SMI"
+# ident	"@(#)Makefile	1.34	09/11/09 SMI"
 #
 ###############################################################################
 
@@ -52,6 +52,7 @@ default_target: install
 # Dependencies needed for parallel make:
 DPS: libX11 libXt
 fontconfig: freetype
+libdga: libX11
 libdrm: libpthread-stubs
 libFS: libxtrans
 libICE: libxtrans
@@ -87,6 +88,7 @@ OS_SUBDIRS_common = \
 	DPS \
 	freetype \
 	fontconfig \
+	libdga \
 	libowconfig \
 	libpthread-stubs \
 	libxtrans \

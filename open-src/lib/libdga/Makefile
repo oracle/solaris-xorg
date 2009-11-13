@@ -1,3 +1,6 @@
+###############################################################################
+#
+# libdga Makefile (for Xsun SUN_DGA extension)
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -11,7 +14,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,24 +24,38 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_sparc	1.55	09/11/13 SMI"
+#ident	"@(#)Makefile	1.1	09/11/09 SMI"
 #
-#
-# Include ISA independent files (prototype_com)
-#
-!include prototype_com
 
-#   X Window System SPARC-specific 64-bit library software
+MODULE_NAME=libdga
 
-!search  $HOME/X11/lib/sparcv9
-# open-src/lib/libdga (runtime only - no compile links,
-# needed for binary compatibility for old Java runtimes,
-# sparc only since Xsun/DGA was already obsolete before amd64)
-s none openwin/lib/sparcv9/libdga.so.1=../../../X11/lib/sparcv9/libdga.so.1
-f none X11/lib/sparcv9/libdga.so.1	 	0555 root bin
+# No upstream sources, only local sources
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
+
+# Library name (used for specfiles/mapfiles)
+LIBNAME=dga
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES= # None
+SUN_PACKAGE=SUNWxwplt
+MODULE_STABILITY=Obsolete
+
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
+
+# Since we don't have a configure script, pass configure flags to make
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
+	X11_INCLUDES_DIR=$(X11_INCLUDES_DIR)
+MODULE_INSTALL_MAKEFLAGS=$(MODULE_BUILD_MAKEFLAGS)
+
+include ../Makefile.inc

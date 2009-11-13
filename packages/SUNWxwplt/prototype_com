@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# ident	"@(#)prototype_com	35.223	09/11/09 SMI"
+# ident	"@(#)prototype_com	35.224	09/11/09 SMI"
 #
 # X Window System required core package
 
@@ -54,6 +54,7 @@ s none bin/rstartd=../X11/bin/rstartd
 
 d none openwin 			0755 root bin
 d none openwin/bin 		0755 root bin
+d none openwin/lib 		0755 root bin
 
 #### applications replaced with new versions from open-src/app
 
@@ -258,8 +259,6 @@ s none openwin/bin/xwininfo=../../X11/bin/xwininfo
 f none X11/bin/xwud 			0755 root bin
 s none openwin/bin/xwud=../../X11/bin/xwud
 
-d none openwin/lib 			0755 root bin
-
 # open-src/app/xrx
 f none X11/bin/xrx			0755 root bin
 s none openwin/bin/xrx=../../X11/bin/xrx
@@ -267,11 +266,6 @@ s none openwin/bin/xrx=../../X11/bin/xrx
 # open-src/app/winsysck
 f none X11/bin/winsysck 		0755 root bin
 s none openwin/bin/winsysck=../../X11/bin/winsysck
-
-!search  $HOME/openwin/lib
-
-s none openwin/lib/libdga.so=./libdga.so.1
-f none openwin/lib/libdga.so.1		 	0755 root bin
 
 #### libraries replaced with new versions from open-src/lib
 
@@ -293,6 +287,11 @@ s none openwin/lib/libpsres.so.5=../../X11/lib/libpsres.so.5
 f none X11/lib/libdps.so.5 		0555 root bin
 f none X11/lib/libdpstk.so.5		0555 root bin
 f none X11/lib/libpsres.so.5		0555 root bin
+
+# open-src/lib/libdga (runtime only - no compile links,
+# needed for binary compatibility for old Java runtimes)
+s none openwin/lib/libdga.so.1=../../X11/lib/libdga.so.1
+f none X11/lib/libdga.so.1	 	0555 root bin
 
 # open-src/lib/libX11
 # The libX11.so.5 -> libX11.so.4 symlink is required by SVID3 ABI.
