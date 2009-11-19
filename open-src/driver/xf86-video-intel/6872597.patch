@@ -7189,3 +7189,163 @@
      case PCI_CHIP_IGDNG_D_G:
  	chipname = "IGDNG_D";
  	break;
+
+--- src/cpu_display.c	2009-11-13 16:54:33.344177561 +0800
++++ src/cpu_display.c	2009-11-13 17:02:30.492253107 +0800
+@@ -400,6 +400,11 @@ cpu_crtc_enable(xf86CrtcPtr crtc)
+     I830Ptr pI830 = I830PTR(pScrn);
+     I830CrtcPrivatePtr intel_crtc = crtc->driver_private;
+     int pipe = intel_crtc->pipe;
++    int plane = intel_crtc->plane;
++    int pch_dpll_reg = (pipe == 0) ? PCH_DPLL_A : PCH_DPLL_B;
++    int pipeconf_reg = (pipe == 0) ? PIPEACONF : PIPEBCONF;
++    int dspcntr_reg = (plane == 0) ? DSPACNTR : DSPBCNTR;
++    int dspbase_reg = (plane == 0) ? DSPABASE : DSPBBASE;
+     int fdi_tx_reg = (pipe == 0) ? FDI_TXA_CTL : FDI_TXB_CTL;
+     int fdi_rx_reg = (pipe == 0) ? FDI_RXA_CTL : FDI_RXB_CTL;
+     int fdi_rx_chicken_reg = (pipe == 0) ? FDI_RXA_CHICKEN : FDI_RXB_CHICKEN;
+@@ -423,10 +428,58 @@ cpu_crtc_enable(xf86CrtcPtr crtc)
+     _debug("cpu crtc %d enable", pipe);
+ 
+     /* enable PCH SSC modulator, looks not needed for CRT */
++    /* enable PCH clock reference source */
++    temp = INREG(PCH_DREF_CONTROL);
++    temp &= ~DREF_CONTROL_MASK;
++    /* XXX match bios dump, need to change for more outputs */
++    temp |= DREF_NONSPREAD_SOURCE_ENABLE;
++    OUTREG(PCH_DREF_CONTROL, temp);
++
++     /* enable PCH SSC modulator, looks not needed for CRT */
++    /* enable PCH DPLL */
++    temp = INREG(pch_dpll_reg);
++    if ((temp & DPLL_VCO_ENABLE) == 0) {
++        OUTREG(pch_dpll_reg, temp | DPLL_VCO_ENABLE);
++        POSTING_READ(pch_dpll_reg);
++    }
++
++    /* enable PCH FDI RX PLL, wait warmup plus DMI latency */
++    temp = INREG(fdi_rx_reg);
++    if ((temp & FDI_RX_PLL_ENABLE) == 0) {
++        OUTREG(fdi_rx_reg, temp | FDI_RX_PLL_ENABLE | FDI_SEL_PCDCLK | FDI_DP_PORT_WIDTH_X4);
++        POSTING_READ(fdi_rx_reg);
++        intel_wait_warmup(WARMUP_PCH_FDI_RECEIVER_PLL);
++        intel_wait_warmup(WARMUP_DMI_LATENCY);
++    }
++
++    /* Enable CPU FDI TX PLL, always on for IGDNG */
++    temp = INREG(fdi_tx_reg);
++    if ((temp & FDI_TX_PLL_ENABLE) == 0) {
++        OUTREG(fdi_tx_reg, temp | FDI_TX_PLL_ENABLE);
++        POSTING_READ(fdi_tx_reg);
++        intel_wait_warmup(WARMUP_CPU_FDI_TRANSMITTER_PLL);
++    }
++
+ 
+     /* ignore eDP now */
+ 
+     /* configure CPU pipe timing, M/N/TU, etc. XXX ->mode_set*/
++    /* Enable CPU pipe */
++    temp = INREG(pipeconf_reg);
++    if ((temp & PIPEACONF_ENABLE) == 0) {
++        OUTREG(pipeconf_reg, temp | PIPEACONF_ENABLE);
++        POSTING_READ(pipeconf_reg);
++    }
++
++    /* configure and enable CPU plane */
++    temp = INREG(dspcntr_reg);
++    if ((temp & DISPLAY_PLANE_ENABLE) == 0)
++    {
++        OUTREG(dspcntr_reg, temp | DISPLAY_PLANE_ENABLE);
++        /* Flush the plane changes */
++        OUTREG(dspbase_reg, INREG(dspbase_reg));
++    }
++
+ 
+     /* enable CPU FDI TX and PCH FDI RX */
+ 
+@@ -439,6 +492,25 @@ cpu_crtc_enable(xf86CrtcPtr crtc)
+     OUTREG(fdi_rx_reg, temp | FDI_RX_ENABLE);
+     POSTING_READ(fdi_rx_reg);
+ 
++    temp = INREG(fdi_tx_reg);
++    temp |= FDI_TX_ENABLE;
++    temp |= FDI_DP_PORT_WIDTH_X4; /* default */
++    temp &= ~FDI_LINK_TRAIN_NONE;
++    temp |= FDI_LINK_TRAIN_PATTERN_1;
++    OUTREG(fdi_tx_reg, temp);
++    POSTING_READ(fdi_tx_reg);
++    _debug("enable sec CPU FDI TX DPLL 0x%x", temp);
++
++    temp = INREG(fdi_rx_reg);
++    temp &= ~FDI_LINK_TRAIN_NONE;
++    temp |= FDI_LINK_TRAIN_PATTERN_1;
++    OUTREG(fdi_rx_reg, temp | FDI_RX_ENABLE);
++    POSTING_READ(fdi_rx_reg);
++    _debug("enable sec CPU FDI RX DPLL 0x%x", temp);
++
++     usleep(150);
++
++
+     if (ilk_a_stepping()) {
+ 	temp = INREG(fdi_rx_chicken_reg);
+ 	OUTREG(fdi_rx_chicken_reg, temp | FDI_RX_PHASE_SYNC_POINTER_ENABLE);
+@@ -1095,6 +1167,7 @@ cpu_crtc_mode_set(xf86CrtcPtr crtc, Disp
+     /* Wait for the clocks to stabilize. */
+     usleep(150);
+     OUTREG(pch_dpll_reg, dpll);
++    POSTING_READ(pch_dpll_reg);
+     i830WaitForVblank(pScrn);
+ 
+     _debug("set timing");
+@@ -1122,23 +1195,26 @@ cpu_crtc_mode_set(xf86CrtcPtr crtc, Disp
+     _debug("enable FDI RX PLL");
+     temp = INREG(fdi_rx_reg);
+     OUTREG(fdi_rx_reg, temp | FDI_RX_PLL_ENABLE);
++    POSTING_READ(fdi_rx_reg);
+     intel_wait_warmup(WARMUP_PCH_FDI_RECEIVER_PLL);
+     intel_wait_warmup(WARMUP_DMI_LATENCY);
+ 
+     /* enable pipe before any plane enable, and after timing set */
+     _debug("enable pipe 0x%x", pipeconf);
+     OUTREG(pipeconf_reg, pipeconf);
++    POSTING_READ(pipeconf_reg);
+     i830WaitForVblank(pScrn);
+ 
+     _debug("set plane");
+     /* Flush the plane changes */
+     OUTREG(dspcntr_reg, dspcntr);
++    POSTING_READ(dspcntr_reg);
+     IlkPipeSetBase(crtc, x, y);
+     i830WaitForVblank(pScrn);
+ 
+     temp = INREG(fdi_rx_reg);
+     OUTREG(fdi_rx_reg, temp | FDI_SEL_PCDCLK);
+-
++    POSTING_READ(fdi_rx_reg);
+     /* pipesrc and dspsize control the size that is scaled from, which should
+      * always be the user's requested size.
+      */
+--- src/i830_bios.c	2009-11-13 16:54:33.391521146 +0800
++++ src/i830_bios.c	2009-11-13 16:54:47.521281035 +0800
+@@ -163,6 +163,8 @@ parse_general_features(I830Ptr pI830, st
+     if (pI830->lvds_use_ssc) {
+ 	if (IS_I855(pI830))
+ 	    pI830->lvds_ssc_freq = general->ssc_freq ? 66 : 48;
++        else if (IS_IGDNG(pI830))
++            pI830->lvds_ssc_freq = general->ssc_freq ? 100 : 120;
+ 	else
+ 	    pI830->lvds_ssc_freq = general->ssc_freq ? 100 : 96;
+     }
+--- src/i830_driver.c	2009-11-13 16:54:33.396297602 +0800
++++ src/i830_driver.c	2009-11-13 16:54:47.523608788 +0800
+@@ -1032,7 +1032,9 @@ i830_init_clock_gating(ScrnInfoPtr pScrn
+ 
+     /* Disable clock gating reported to work incorrectly according to the specs.
+      */
+-    if (IS_G4X(pI830)) {
++    if (IS_IGDNG(pI830)) {
++	return;
++    } else if (IS_G4X(pI830)) {
+ 	uint32_t dspclk_gate;
+ 	OUTREG(RENCLK_GATE_D1, 0);
+ 	OUTREG(RENCLK_GATE_D2, VF_UNIT_CLOCK_GATE_DISABLE |
