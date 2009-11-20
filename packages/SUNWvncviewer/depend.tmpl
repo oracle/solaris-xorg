@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)depend	1.1	07/11/06 SMI"
+# ident	"@(#)depend.tmpl	1.2	09/11/19 SMI"
 #
 # This package information file defines software dependencies associated
 # with the pkg.  You can define three types of pkg dependencies with this file:
@@ -48,17 +49,9 @@
 # ...
 #
 
-P SUNWcar	Core Architecture, (Root)
-P SUNWcakr	Core Solaris Kernel Architecture (Root)
-P SUNWkvm	Core Architecture, (Kvm)
-P SUNWcsr	Core Solaris, (Root)
-P SUNWckr	Core Solaris Kernel (Root)
-P SUNWcnetr	Core Solaris Network Infrastructure (Root)
-P SUNWcsu	Core Solaris, (Usr)
-P SUNWcsd	Core Solaris Devices
-P SUNWcsl	Core Solaris Libraries
-P SUNWcslr	Core Solaris Libraries (Root)
-P SUNWxwplt	X Window System platform software
 P SUNWlibms	Sun Compilers Bundled shared libm
-P SUNWzlib	The Zip compression library
+P SUNWzlibr	The Zip compression library
 P SUNWlibC 	Sun Compilers Bundled libC
+P SUNWjpg	jpeg - The Independent JPEG Groups JPEG software
+
+include ../depend

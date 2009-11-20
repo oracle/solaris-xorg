@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)depend_com	1.3	09/11/06 SMI"
+# ident	"@(#)depend_com	1.4	09/11/19 SMI"
 #
 # Xvnc server for Solaris
 
@@ -38,7 +38,10 @@ P SUNWesu	Extended System Utilities
 P SUNWxwfnt	X Window System Fonts
 P SUNWxwfsw	X Window System platform required font software
 P SUNWlibms	Sun Compilers Bundled shared libm
-P SUNWzlib	The Zip compression library
+P SUNWzlibr	The Zip compression library
 P SUNWxorg-xkb	X.org Foundation Xserver keyboard layouts
 P SUNWxorg-clientlibs	X.Org Foundation X Client Libraries
 P SUNWlibC 	Sun Compilers Bundled libC
+P SUNWjpg	jpeg - The Independent JPEG Groups JPEG software
+P SUNWpixman	Pixman library
+P SUNWperl584core	Perl 5.8.4 (core)
