@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.1	09/11/09 SMI"
+#ident	"@(#)Makefile	1.2	09/11/19 SMI"
 #
 
 BUILD_TYPES_SET=yes
@@ -59,7 +59,8 @@ CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
+	libdir=$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
 MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 	bindir=$(X11_DIR)/bin
 

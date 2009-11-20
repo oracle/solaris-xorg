@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.2	09/11/10 SMI"
+#ident	"@(#)Makefile	1.3	09/11/19 SMI"
 #
 
     REQUIREDLIBS = -lX11 -lsocket -lnsl -lc
@@ -47,7 +47,7 @@
         DEFINES = -DXDPS -DCSDPS -DTCPCONN -DUNIXCONN -DSVR4
     DPSCPPFLAGS = $(DEFINES) -I ../include
       DPSCFLAGS = -Kpic
-   SHLIBLDFLAGS = -G -z defs $(LDFLAGS)
+   SHLIBLDFLAGS = -G -z defs $(LDFLAGS) -R $(libdir)
             CAT = cat
             SED = sed
             AWK = awk
@@ -304,7 +304,7 @@ all:: $(OBJS) libdps.so.5 libdps.so
 MAPFILE = mapfile
 
 libdps.so.5: $(OBJS) $(EXTRASHAREDOBJS) $(MAPFILE)
-	$(V_CC)$(CC) $(CDEBUGFLAGS) -o $@ $(SHLIBLDFLAGS) -M $(MAPFILE) $(OBJS) $(EXTRASHAREDOBJS) $(REQUIREDLIBS)
+	$(V_CC)$(CC) $(CDEBUGFLAGS) -o $@ -h $@ $(SHLIBLDFLAGS) -M $(MAPFILE) $(OBJS) $(EXTRASHAREDOBJS) $(REQUIREDLIBS)
 
 libdps.so: libdps.so.5
 	-${RM} libdps.so

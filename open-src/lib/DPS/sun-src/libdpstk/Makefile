@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.1	09/11/09 SMI"
+#ident	"@(#)Makefile	1.2	09/11/19 SMI"
 #
 
 # Manual conversion of the X11R6.9 xc/lib/dpstk/Imakefile
@@ -64,7 +64,7 @@ OBJS = 	XDPSpwraps.o XDPSswraps.o XDPSshare.o XDPSpreview.o \
              CC = cc
       CPPFLAGS += $(DEFINES) -I ../include $(INCLUDES)
         CFLAGS += -Kpic
-   SHLIBLDFLAGS = -G -z defs $(LDFLAGS)
+   SHLIBLDFLAGS = -G -z defs $(LDFLAGS) -R $(libdir)
 
 # Inspired by automake 1.11 silent rules - hides details by default
 # Run make V=1 to show details
@@ -89,7 +89,7 @@ all:: $(SRCS) $(MOTIFSRCS)
 all:: libdpstk.so.5 libdpstk.so
 
 libdpstk.so.5: $(SRCS) $(OBJS) mapfile-vers.dpstk
-	$(V_CC)$(CC) $(CDEBUGFLAGS) -o $@ $(SHLIBLDFLAGS) -M mapfile-vers.dpstk $(OBJS) $(DPSTKLIBS)
+	$(V_CC)$(CC) $(CDEBUGFLAGS) -o $@ -h $@ $(SHLIBLDFLAGS) -M mapfile-vers.dpstk $(OBJS) $(DPSTKLIBS)
 
 libdpstk.so: libdpstk.so.5
 	-${RM} libdpstk.so
@@ -98,7 +98,7 @@ libdpstk.so: libdpstk.so.5
 all:: libdpstkXm.so.5 libdpstkXm.so
 
 libdpstkXm.so.5: libdpstk.so $(MOTIFSRCS) $(MOTIFOBJS) mapfile-vers.dpstkXm
-	$(V_CC)$(CC) $(CDEBUGFLAGS) -o $@ $(SHLIBLDFLAGS) -M mapfile-vers.dpstkXm $(MOTIFOBJS) $(DPSTKXMLIBS)
+	$(V_CC)$(CC) $(CDEBUGFLAGS) -o $@ -h $@ $(SHLIBLDFLAGS) -M mapfile-vers.dpstkXm $(MOTIFOBJS) $(DPSTKXMLIBS)
 
 libdpstkXm.so: libdpstkXm.so.5
 	-${RM} libdpstkXm.so

@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.1	09/11/09 SMI"
+#ident	"@(#)Makefile	1.2	09/11/19 SMI"
 #
 
 # Manual conversion of the X11R6.9 xc/lib/psres/Imakefile
@@ -48,7 +48,7 @@ OBJS = PSres.o
       CPPFLAGS += $(DEFINES) -I ../include $(INCLUDES)
         CFLAGS += -Kpic
         MAPFILE = mapfile
-   SHLIBLDFLAGS = -G -z defs $(LDFLAGS) -M $(MAPFILE)
+   SHLIBLDFLAGS = -G -z defs $(LDFLAGS) -M $(MAPFILE) -R $(libdir)
 
 # Inspired by automake 1.11 silent rules - hides details by default
 # Run make V=1 to show details
@@ -60,7 +60,7 @@ V_CC_0     = @echo "  CC    " $@;
 all:: libpsres.so.5 libpsres.so
 
 libpsres.so.5: $(OBJS) $(MAPFILE)
-	 $(V_CC)$(CC)$(CDEBUGFLAGS) -o $@ $(SHLIBLDFLAGS) $(OBJS) $(REQUIREDLIBS)
+	 $(V_CC)$(CC)$(CDEBUGFLAGS) -o $@ -h $@ $(SHLIBLDFLAGS) $(OBJS) $(REQUIREDLIBS)
 
 libpsres.so: libpsres.so.5
 	-${RM} libpsres.so
