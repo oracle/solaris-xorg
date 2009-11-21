@@ -1,0 +1,59 @@
+Fix contributed by Jürgen Keil for
+http://defect.opensolaris.org/bz/show_bug.cgi?id=11374
+aka
+6884183 GNOME is really slow in OpenSolaris build 122+ running in VirtualBox
+
+--- hw/xfree86/vbe/vbe.h.orig	So. Nov 15 14:08:29 2009
++++ hw/xfree86/vbe/vbe.h	So. Nov 15 14:11:15 2009
+@@ -59,16 +59,6 @@
+     CARD8  OemData[256];
+ } vbeControllerInfoRec, *vbeControllerInfoPtr;
+ 
+-#if defined(__GNUC__) || defined(__USLC__) || defined(__SUNPRO_C)
+-#pragma pack()	/* All GCC versions recognise this syntax */
+-#else
+-#pragma pack(0)
+-#endif
+-
+-#ifndef __GNUC__
+-#define __attribute__(a)
+-#endif
+-
+ typedef struct _VbeInfoBlock VbeInfoBlock;
+ typedef struct _VbeModeInfoBlock VbeModeInfoBlock;
+ typedef struct _VbeCRTCInfoBlock VbeCRTCInfoBlock;
+@@ -96,7 +86,7 @@
+     /*CARD32*/char *OemProductRevPtr;	/* Pointer to Product Revision String */
+     CARD8 Reserved[222];		/* Reserved for VBE implementation */
+     CARD8 OemData[256];			/* Data Area for OEM Strings */
+-} __attribute__((packed));
++};
+ 
+ /* Return Super VGA Information */
+ VbeInfoBlock *VBEGetVBEInfo(vbeInfoPtr pVbe);
+@@ -160,7 +150,7 @@
+     CARD8 LinRsvdFieldPosition;		/* bit position of lsb of reserved mask (linear modes) */
+     CARD32 MaxPixelClock;		/* maximum pixel clock (in Hz) for graphics mode */
+     CARD8 Reserved2[189];		/* remainder of VbeModeInfoBlock */
+-} __attribute__((packed));
++};
+ 
+ /* Return VBE Mode Information */
+ VbeModeInfoBlock *VBEGetModeInfo(vbeInfoPtr pVbe, int mode);
+@@ -186,9 +176,15 @@
+     CARD32 PixelClock;			/* Pixel clock in units of Hz */
+     CARD16 RefreshRate;			/* Refresh rate in units of 0.01 Hz */
+     CARD8 Reserved[40];			/* remainder of ModeInfoBlock */
+-} __attribute__((packed));
++};
+ /* VbeCRTCInfoBlock is in the VESA 3.0 specs */
+ 
++#if defined(__GNUC__) || defined(__USLC__) || defined(__SUNPRO_C)
++#pragma pack()	/* All GCC versions recognise this syntax */
++#else
++#pragma pack(0)
++#endif
++
+ Bool VBESetVBEMode(vbeInfoPtr pVbe, int mode, VbeCRTCInfoBlock *crtc);
+ 
+ /*
