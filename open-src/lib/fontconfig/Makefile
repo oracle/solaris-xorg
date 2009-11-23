@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.84	09/10/26
+# ident	"@(#)Makefile	1.85	09/11/23 SMI"
 #
 
 # Package name used in tarballs
@@ -70,17 +70,15 @@ MODULE_PREFIX_SET=yes
 
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = \
-    --with-confdir=/etc/fonts --with-default-fonts='--font-dirs-go-here--' \
-    --with-add-fonts=no \
+    --with-confdir=/etc/fonts \
+    --with-default-fonts='/usr/share/fonts' \
+    --with-add-fonts='/etc/X11/fontpath.d,/usr/share/ghostscript/fonts' \
     --with-freetype-config=$(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config \
     --with-cache-dir=/var/cache/fontconfig
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
-
-# What to build
-MODULE_ADD_BUILD_TARGETS = $(SOURCE_DIR)/fonts.conf-SUNW
 
 # Paths to find libraries
 MODULE_BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR) \
@@ -95,30 +93,21 @@ FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
 FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 
-# README file to be installed in /etc/fonts/conf.avail/README
-FONTCONFIG_ETC_README=$(PROTODIR)/etc/fonts/conf.avail/README
-
 # local.conf file to be installed in /etc/fonts/local.conf
 FONTCONFIG_LOCAL_CONF = $(PROTODIR)/etc/fonts/local.conf
+
+# Sun specification configuration files to be installed in /etc/fonts/conf.d
+FONTCONFIG_CONFDIR = $(PROTODIR)/etc/fonts/conf.avail
+SUN_CONFFILES = 49-sun-preuser.conf 90-sun-prefer-bitmap.conf
+FONTCONFIG_SUN_CONFFILES = $(SUN_CONFFILES:%=$(FONTCONFIG_CONFDIR)/%)
 
 # Additional targets to install beyond the default_install
 MODULE_ADD_INSTALL_TARGETS = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
-	$(FONTCONFIG_ETC_README) $(FONTCONFIG_LOCAL_CONF)
+	$(FONTCONFIG_LOCAL_CONF) $(FONTCONFIG_SUN_CONFFILES)
 
 # Include common rulesets
 include ../Makefile.inc
-
-$(SOURCE_DIR)/fonts.conf-SUNW: $(SOURCE_DIR)/fonts.conf fonts.conf.append fix-fonts.conf.pl
-	perl fix-fonts.conf.pl < $(SOURCE_DIR)/fonts.conf > $(SOURCE_DIR)/fonts.conf-SUNW
-
-$(SOURCE_DIR)/fonts.conf: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
-	( cd $(SOURCE_DIR) ; \
-	    ./config.status --file fonts.conf )
-
-install_gen:: default_install $(SOURCE_DIR)/fonts.conf-SUNW
-	rm $(PROTODIR)/etc/fonts/fonts.conf
-	cp $(SOURCE_DIR)/fonts.conf-SUNW $(PROTODIR)/etc/fonts/fonts.conf
 
 $(FONTCONFIG_SMF_MANIFEST): fc-cache.xml
 	/usr/sbin/svccfg validate fc-cache.xml
@@ -129,9 +118,12 @@ $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 	mkdir -p $(FONTCONFIG_SMF_METHOD_dir)
 	$(INSTALL_SCRIPT) -c -m 0755 fc-cache.sh $@
 
-$(FONTCONFIG_ETC_README): $(SOURCE_DIR)/conf.d/README
-	mkdir -p $(PROTODIR)/etc/fonts/conf.avail
-	cp -fp $(SOURCE_DIR)/conf.d/README $@
+$(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
+	mkdir -p $(PROTODIR)/etc/fonts/conf.d $(PROTODIR)/etc/fonts/conf.avail
+	@f=`basename $@` ; $(START_CMD_ECHO) ; \
+	cp -fp $$f $@ ; \
+	rm -f $(PROTODIR)/etc/fonts/conf.d/$$f ; \
+	ln -s ../conf.avail/$$f $(PROTODIR)/etc/fonts/conf.d/$$f
 
 $(FONTCONFIG_LOCAL_CONF): local.conf
 	mkdir -p $(PROTODIR)/etc/fonts

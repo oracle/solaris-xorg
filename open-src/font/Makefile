@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.11	09/10/13 SMI"
+# ident	"@(#)Makefile	1.12	09/11/23 SMI"
 #
 ###############################################################################
 
@@ -37,10 +37,9 @@
 default_target: install
 
 # encodings & util must be first, since they install files used by the rest
-# catalogue-dirs must be last, since it remixes the results of the rest
+# sun-aliases must be last, since it builds on the results of the rest
 
 FONT_SUBDIRS= \
-	sun-aliases \
 	bitstream-vera \
 	deja-vu \
 	google-droid \
@@ -85,10 +84,10 @@ OS_SUBDIRS_common = \
 	encodings \
 	util \
 	$(FONT_SUBDIRS) \
-	catalogue-dirs
+	sun-aliases
 
 $(FONT_SUBDIRS): encodings util
-catalogue-dirs: $(FONT_SUBDIRS)
+sun-aliases: $(FONT_SUBDIRS)
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)

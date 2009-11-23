@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,14 +28,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/10/06
+# ident	"@(#)Makefile	1.2	09/11/23 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=font-util
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.1.1
+
+# Set encoding directory path used during build in fontutil.pc
+FIX_PC_FILES = fontutil.pc.in
+MODULE_ADD_UNINSTALLED_PC_OPS = -e 's|mapdir=|mapdir=$$protodir|g;'
 
 ### Include common rulesets
 include ../Makefile.inc

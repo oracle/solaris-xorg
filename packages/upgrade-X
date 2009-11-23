@@ -31,7 +31,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)upgrade-X	1.60	09/11/19 SMI"
+# ident	"@(#)upgrade-X	1.61	09/11/23 SMI"
 #
 # Description: This script upgrades X software on a Solaris Nevada
 #	       system. It should be run as root from a X package area.
@@ -40,6 +40,9 @@
 #			default behaviour.)
 #		-q	Be quiet and don't report packages that aren't 
 #			installed.
+#		-r	Remove packages only, and don't add new ones.
+#			(Useful for removing newer build before going back to
+#			 an older one with fewer/different packages)
 #		-R path	Install under alternate root path (passed to pkgadd)
 #
 ###
@@ -64,11 +67,14 @@ function fatal_error
 
 QUIET=0
 ALTROOT=""
+REMOVE_ONLY=0
+ACTION='upgrade'
 
-while getopts aqR: flag ; do
+while getopts aqrR: flag ; do
     case $flag in
       a)	;;
       q)	QUIET=1 ;;
+      r)	REMOVE_ONLY=1 ; ACTION='removal' ;;
       R)	ALTROOT="${OPTARG}" ;;
       ?)	printf "Usage: %s: [-q]\n"  $0
 		exit 1 ;;
@@ -117,7 +123,7 @@ if [[ -f ${X_BASE_PKG} ]]; then
     X_VERSION="$(awk -F= '$1 == "SUNW_PRODVERS" {print $2}' ${X_BASE_PKG})"
     X_BUILD="$(nawk '/^VERSION=/ {FS="[,.]+" ; print $(NF-4)/100}' ${X_BASE_PKG})"
 else
-    fatal_error "Cannot find base X package -- SUNWxwplt\n" \ 
+v    fatal_error "Cannot find base X package -- SUNWxwplt\n" \ 
 	"You need to run this script from the X ${XVERS} package area"
 fi
 
@@ -165,14 +171,40 @@ altroot_dir_check /var/tmp 1777 root:sys
 pkg_list="
 	SUNWfreetype2
 	SUNWxwfsw
+	SUNWxwfnt
 	SUNWfontconfig 
 	SUNWfontconfig-root
 	SUNWfontconfig-docs 
+	SUNWfont-daewoo-misc
+	SUNWfont-isas-misc
+	SUNWfont-jis-misc
+	SUNWfont-misc-ethiopic
+	SUNWfont-misc-meltho
+	SUNWfont-xorg-cyrillic
+	SUNWfont-xorg-core
+	SUNWfont-xorg-iso8859-1
+	SUNWfont-xorg-iso8859-2
+	SUNWfont-xorg-iso8859-3
+	SUNWfont-xorg-iso8859-4
+	SUNWfont-xorg-iso8859-5
+	SUNWfont-xorg-iso8859-7
+	SUNWfont-xorg-iso8859-8
+	SUNWfont-xorg-iso8859-9
+	SUNWfont-xorg-iso8859-10
+	SUNWfont-xorg-iso8859-11
+	SUNWfont-xorg-iso8859-13
+	SUNWfont-xorg-iso8859-14
+	SUNWfont-xorg-iso8859-15
+	SUNWfont-xorg-iso8859-16
 	SUNWpciaccess
 	SUNWpixman
-	SUNWttf-google-droid
-	SUNWvncviewer
 	SUNWsynergy
+	SUNWttf-bh-luxi
+	SUNWttf-bitstream-vera
+	SUNWttf-dejavu
+	SUNWttf-google-droid
+	SUNWttf-liberation
+	SUNWvncviewer
 	SUNWxcompmgr
 	SUNWxcursor-themes
 	SUNWxdm-root
@@ -190,7 +222,6 @@ pkg_list="
 	SUNWxwcft
 	SUNWxwdem
 	SUNWxwdxm
-	SUNWxwfnt
 	SUNWxwfs
 	SUNWxwice
 	SUNWxwinc
@@ -312,11 +343,11 @@ function svc_disable
 ###
 
 print ""
-print "Starting X ${XVERS} Build ${X_BUILD} upgrade"
+print "Starting X ${XVERS} Build ${X_BUILD} ${ACTION}"
 if [[ ! -z ${ALTROOT} ]] ; then
     print " in alternate root ${ALTROOT}"
 fi
-print "  An upgrade log file can be found at:"
+print "  The ${ACTION} log file can be found at:"
 print "    $PKG_UPGRADE_LOG"
 print ""
 
@@ -377,28 +408,29 @@ for pkg in ${REM_PKGS} ${reverse_pkg_list}; do
     remove_package $pkg
 done
 
-for pkg in ${pkg_list} ; do
-    if [[ -e $pkg ]] ; then
-	/usr/sbin/pkgadd ${ADDITIONAL_PKG_FLAGS} -S ${VERBOSE}  -d . $pkg 2>&1 \
-	    | tee -a ${PKG_UPGRADE_LOG} | grep $pkg
-	print ""
-    else
-	if [[ $QUIET -eq 0 ]] ; then
-	    print "No replacement found for $pkg"
+if [[ $REMOVE_ONLY -eq 0 ]] ; then
+    for pkg in ${pkg_list} ; do
+	if [[ -e $pkg ]] ; then
+	    /usr/sbin/pkgadd ${ADDITIONAL_PKG_FLAGS} -S ${VERBOSE} \
+		-d . $pkg 2>&1 | tee -a ${PKG_UPGRADE_LOG} | grep $pkg
+	    print ""
+	else
+	    if [[ $QUIET -eq 0 ]] ; then
+		print "No replacement found for $pkg"
+	    fi
 	fi
-    fi
-done
+    done
 
-# Start the rebuild of fontconfig caches now, instead of at next reboot
-if [[ -z "${ALTROOT}" ]] ; then
-    /usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild="true"
-    /usr/sbin/svcadm restart application/font/fc-cache
+    # Start the rebuild of fontconfig caches now, instead of at next reboot
+    if [[ -z "${ALTROOT}" ]] ; then
+	/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild="true"
+	/usr/sbin/svcadm restart application/font/fc-cache
+    fi
 fi
 
-
-print "X ${XVERS} upgrade is complete"
+print "X ${XVERS} ${action} is complete"
 print " "
-print "  An upgrade log file can be found at:"
+print "  The ${action} log file can be found at:"
 print "    $PKG_UPGRADE_LOG"
 
 exit 0

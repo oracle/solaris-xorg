@@ -1,6 +1,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,13 +30,13 @@
 #
 ###########################################################################
 #
-#	@(#)prototype_com	35.84	09/07/20	Sun Microsystems
+# ident	"@(#)prototype_com	35.85	09/11/23 SMI"
 #
 #  X Window System required core fonts package
 
 i pkginfo
 i copyright
-i depend
+i depend=../common_files/depend.font
 i preinstall
 i postremove
 i postinstall
@@ -47,365 +48,397 @@ i r.fontsalias
 
 !HOME=../usr
 !OW_FONTS=$HOME/openwin/lib/X11/fonts
-!X11_FONTS=$HOME/X11/lib/X11/fonts
 
-d none openwin 					0755 root bin
-d none openwin/lib				0755 root bin
-d none openwin/lib/X11 				0755 root bin
-d none openwin/lib/X11/fonts 			0755 root bin
+d none share							0755 root sys
+d none share/fonts						0755 root bin
+d none share/fonts/sun						0755 root bin
 
-d none X11 					0755 root bin
-d none X11/lib					0755 root bin
-d none X11/lib/X11				0755 root bin
-d none X11/lib/X11/fonts			0755 root bin
+!search  $HOME/share/fonts/sun/F3bitmaps
+d none share/fonts/sun/F3bitmaps				0755 root bin
+f none share/fonts/sun/F3bitmaps/fonts.dir			0444 root bin
+f none share/fonts/sun/F3bitmaps/fonts.alias			0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Book6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Book8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Book10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Book12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Book14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-BookOblique6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-BookOblique8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-BookOblique10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-BookOblique12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-BookOblique14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Demi6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Demi8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Demi10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Demi12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-Demi14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-DemiOblique6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-DemiOblique8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-DemiOblique10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-DemiOblique12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/AvantGarde-DemiOblique14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bmb6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Bmb8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Bmb10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Bmb12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Bmb14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbB6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbB8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbB10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbB12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbB14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbBI6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbBI8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbBI10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbBI12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbBI14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbI6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbI8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbI10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbI12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/BmbI14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Demi6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Demi8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Demi10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Demi12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Demi14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-DemiItalic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-DemiItalic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-DemiItalic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-DemiItalic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-DemiItalic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Light6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Light8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Light10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Light12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-Light14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-LightItalic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-LightItalic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-LightItalic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-LightItalic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Bookman-LightItalic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/GilS6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilS8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilS10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilS12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilS14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSB6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSB8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSB10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSB12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSB14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSBI6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSBI8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSBI10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSBI12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSBI14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSI6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSI8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSI10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSI12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/GilSI14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Bold6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Bold8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Bold10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Bold12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Bold14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-BoldOblique6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-BoldOblique8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-BoldOblique10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-BoldOblique12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-BoldOblique14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Bold6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Bold8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Bold10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Bold12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Bold14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-BoldOblique6.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-BoldOblique8.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-BoldOblique10.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-BoldOblique12.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-BoldOblique14.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Oblique6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Oblique8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Oblique10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Oblique12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Narrow-Oblique14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Oblique6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Oblique8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Oblique10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Oblique12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Helvetica-Oblique14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Demi6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Demi8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Demi10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Demi12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Demi14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-DemiItalic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-DemiItalic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-DemiItalic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-DemiItalic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-DemiItalic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Italic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Italic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Italic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Italic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaBright-Italic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Bold6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Bold8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Bold10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Bold12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Bold14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Bold18.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-BoldItalic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-BoldItalic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-BoldItalic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-BoldItalic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-BoldItalic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-BoldItalic18.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Italic6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Italic8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Italic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Italic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Italic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Italic18.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter18.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter17.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter20.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-Typewriter24.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold10.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold12.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold14.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold18.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold17.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold20.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans-TypewriterBold24.pcf 0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans18.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans17.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans20.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/LucidaSans24.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Bold6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Bold8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Bold10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Bold12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Bold14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Italic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Italic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Italic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Italic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Italic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Roman6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Roman8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Roman10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Roman12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/NewCenturySchlbk-Roman14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Bold6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Bold8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Bold10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Bold12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Bold14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-BoldItalic6.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-BoldItalic8.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-BoldItalic10.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-BoldItalic12.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-BoldItalic14.pcf	0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Italic6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Italic8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Italic10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Italic12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Italic14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Roman6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Roman8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Roman10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Roman12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Palatino-Roman14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Rkw6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Rkw8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Rkw10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Rkw12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Rkw14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwB6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwB8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwB10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwB12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwB14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwBI6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwBI8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwBI10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwBI12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwBI14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwI6.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwI8.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwI10.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwI12.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/RkwI14.pcf			0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Bold6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Bold8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Bold10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Bold12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Bold14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-BoldItalic6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-BoldItalic8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-BoldItalic10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-BoldItalic12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-BoldItalic14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Italic6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Italic8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Italic10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Italic12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Italic14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Roman6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Roman8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Roman10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Roman12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/Times-Roman14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats6.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats8.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats10.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats12.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats14.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats16.pcf		0444 root bin
+f none share/fonts/sun/F3bitmaps/ZapfDingbats18.pcf		0444 root bin
 
-!search  $X11_FONTS/75dpi
-d none X11/lib/X11/fonts/75dpi 			0755 root bin
-e fontsdir X11/lib/X11/fonts/75dpi/fonts.dir 	0444 root bin
-f none X11/lib/X11/fonts/75dpi/helvB10.pcf.gz 	0444 root bin
-f none X11/lib/X11/fonts/75dpi/helvB12.pcf.gz	0444 root bin
-f none X11/lib/X11/fonts/75dpi/helvB14.pcf.gz	0444 root bin
+!search $OW_FONTS/Type1/sun
+d none share/fonts/sun/Type1					0755 root bin
+f none share/fonts/sun/Type1/fonts.dir				0444 root bin
+f none share/fonts/sun/Type1/fonts.scale			0444 root bin
+f none share/fonts/sun/Type1/fonts.upr				0444 root bin
+f none share/fonts/sun/Type1/LucidaBright-Demi.pfa		0444 root bin
+f none share/fonts/sun/Type1/LucidaBright-DemiItalic.pfa	0444 root bin
+f none share/fonts/sun/Type1/LucidaBright-Italic.pfa		0444 root bin
+f none share/fonts/sun/Type1/LucidaBright.pfa			0444 root bin
+f none share/fonts/sun/Type1/LucidaSans-Bold.pfa		0444 root bin
+f none share/fonts/sun/Type1/LucidaSans-BoldItalic.pfa		0444 root bin
+f none share/fonts/sun/Type1/LucidaSans-Italic.pfa		0444 root bin
+f none share/fonts/sun/Type1/LucidaSans.pfa			0444 root bin
+f none share/fonts/sun/Type1/LucidaSansTypewriter-Bold.pfa	0444 root bin
+f none share/fonts/sun/Type1/LucidaSansTypewriter.pfa		0444 root bin
+f none share/fonts/sun/Type1/AvantGarde-Book.ps			0444 root bin
+f none share/fonts/sun/Type1/AvantGarde-BookOblique.ps		0444 root bin
+f none share/fonts/sun/Type1/AvantGarde-Demi.ps			0444 root bin
+f none share/fonts/sun/Type1/AvantGarde-DemiOblique.ps		0444 root bin
+f none share/fonts/sun/Type1/Bookman-Demi.ps			0444 root bin
+f none share/fonts/sun/Type1/Bookman-DemiItalic.ps		0444 root bin
+f none share/fonts/sun/Type1/Bookman-Light.ps			0444 root bin
+f none share/fonts/sun/Type1/Bookman-LightItalic.ps		0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Bold.ps			0444 root bin
+f none share/fonts/sun/Type1/Helvetica-BoldOblique.ps		0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Narrow-BolOblique.ps	0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Narrow-Bold.ps		0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Narrow-BoldOblique.ps	0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Narrow-Oblique.ps	0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Narrow.ps		0444 root bin
+f none share/fonts/sun/Type1/Helvetica-Oblique.ps		0444 root bin
+f none share/fonts/sun/Type1/Helvetica.ps			0444 root bin
+f none share/fonts/sun/Type1/Lucida-Bright.ps			0444 root bin
+f none share/fonts/sun/Type1/Lucida-BrightDemiBold.ps		0444 root bin
+f none share/fonts/sun/Type1/Lucida-BrightDemiBoldItalic.ps	0444 root bin
+f none share/fonts/sun/Type1/Lucida-BrightItalic.ps		0444 root bin
+f none share/fonts/sun/Type1/LucidaSans-Typewriter.ps		0444 root bin
+f none share/fonts/sun/Type1/LucidaSans-TypewriterBold.ps	0444 root bin
+f none share/fonts/sun/Type1/NewCenturySchlbk-Bold.ps		0444 root bin
+f none share/fonts/sun/Type1/NewCenturySchlbk-BoldItalic.ps	0444 root bin
+f none share/fonts/sun/Type1/NewCenturySchlbk-Italic.ps		0444 root bin
+f none share/fonts/sun/Type1/NewCenturySchlbk-Roman.ps		0444 root bin
+f none share/fonts/sun/Type1/Palatino-Bold.ps			0444 root bin
+f none share/fonts/sun/Type1/Palatino-BoldItalic.ps		0444 root bin
+f none share/fonts/sun/Type1/Palatino-Italic.ps			0444 root bin
+f none share/fonts/sun/Type1/Palatino-Roman.ps			0444 root bin
+f none share/fonts/sun/Type1/Times-Bold.ps			0444 root bin
+f none share/fonts/sun/Type1/Times-BoldItalic.ps		0444 root bin
+f none share/fonts/sun/Type1/Times-Italic.ps			0444 root bin
+f none share/fonts/sun/Type1/Times-Roman.ps			0444 root bin
+f none share/fonts/sun/Type1/ZapfChancery-MediumItalic.ps	0444 root bin
+f none share/fonts/sun/Type1/MonotypeSorts.pfb			0444 root bin
+f none share/fonts/sun/Type1/ZapfDingbats.ps			0444 root bin
 
-!search  $X11_FONTS/100dpi
-d none X11/lib/X11/fonts/100dpi 		0755 root bin
-e fontsdir X11/lib/X11/fonts/100dpi/fonts.dir 	0644 root bin
+!search $OW_FONTS/Type1/sun/afm
+d none share/fonts/sun/Type1					0755 root bin
+d none share/fonts/sun/Type1/afm				0755 root bin
+f none share/fonts/sun/Type1/afm/LucidaBright-Demi.afm		0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaBright-DemiItalic.afm	0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaBright-Italic.afm	0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaBright.afm		0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaSans-Bold.afm		0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaSans-BoldItalic.afm	0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaSans-Italic.afm		0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaSans.afm			0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaSansTypewriter-Bold.afm	0444 root bin
+f none share/fonts/sun/Type1/afm/LucidaSansTypewriter.afm	0444 root bin
+f none share/fonts/sun/Type1/afm/MonotypeSorts.afm		0444 root bin
 
-!search  $X11_FONTS/misc
-d none X11/lib/X11/fonts/misc 				0755 root bin
-e fontsdir X11/lib/X11/fonts/misc/fonts.dir 		0644 root bin
-e fontsalias X11/lib/X11/fonts/misc/fonts.alias.all 	0644 root bin
-f none X11/lib/X11/fonts/misc/6x10.pcf.gz 		0444 root bin
-f none X11/lib/X11/fonts/misc/6x10-ISO8859-1.pcf.gz 	0444 root bin
-f none X11/lib/X11/fonts/misc/6x13.pcf.gz 		0444 root bin
-f none X11/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz 	0444 root bin
-f none X11/lib/X11/fonts/misc/6x13B.pcf.gz 		0444 root bin
-f none X11/lib/X11/fonts/misc/6x13B-ISO8859-1.pcf.gz 	0444 root bin
-f none X11/lib/X11/fonts/misc/8x13.pcf.gz 		0444 root bin
-f none X11/lib/X11/fonts/misc/8x13-ISO8859-1.pcf.gz 	0444 root bin
-f none X11/lib/X11/fonts/misc/cursor.pcf.gz 		0444 root bin
-#f none X11/lib/X11/fonts/misc/Screen6.pcf.gz 		0444 root bin
-#f none X11/lib/X11/fonts/misc/Screen7.pcf.gz 		0444 root bin
-
-!search  $X11_FONTS/F3bitmaps
-d none X11/lib/X11/fonts/F3bitmaps 			0755 root bin
-e fontsdir X11/lib/X11/fonts/F3bitmaps/fonts.dir 	0644 root bin
-e fontsalias X11/lib/X11/fonts/F3bitmaps/fonts.alias.all	0644 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Bold18.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-BoldItalic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-BoldItalic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-BoldItalic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-BoldItalic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-BoldItalic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-BoldItalic18.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Italic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Italic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Italic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Italic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Italic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Italic18.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter18.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter17.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter20.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-Typewriter24.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold18.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold17.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold20.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans-TypewriterBold24.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans18.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans17.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans20.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/LucidaSans24.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Book6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Book8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Book10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Book12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Book14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-BookOblique6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Demi6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Demi8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Demi10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Demi12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/AvantGarde-Demi14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Bold6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Bold8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Bold10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Bold12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Bold14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-BoldOblique6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-BoldOblique8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-BoldOblique10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-BoldOblique12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-BoldOblique14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Oblique6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Oblique8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Oblique10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Oblique12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Helvetica-Oblique14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Bold6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Bold8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Bold10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Bold12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Bold14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Italic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Italic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Italic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Italic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Italic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Roman6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Roman8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Roman10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Roman12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/NewCenturySchlbk-Roman14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Bold6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Bold8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Bold10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Bold12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Bold14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-BoldItalic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-BoldItalic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-BoldItalic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-BoldItalic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-BoldItalic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Italic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Italic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Italic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Italic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Italic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Roman6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Roman8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Roman10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Roman12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Palatino-Roman14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Bold6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Bold8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Bold10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Bold12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Bold14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-BoldItalic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-BoldItalic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-BoldItalic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-BoldItalic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-BoldItalic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Italic6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Italic8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Italic10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Italic12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Italic14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Roman6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Roman8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Roman10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Roman12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/Times-Roman14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats6.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats8.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats10.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats12.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats14.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats16.pcf 0444 root bin
-f none X11/lib/X11/fonts/F3bitmaps/ZapfDingbats18.pcf 0444 root bin
-
-d none openwin/lib/X11/fonts/Type1 			0755 root bin
+!search $OW_FONTS/TrueType
+d none share/fonts/sun/TrueType					0755 root bin
+f none share/fonts/sun/TrueType/fonts.dir			0444 root bin
+f none share/fonts/sun/TrueType/fonts.scale			0444 root bin
+f none share/fonts/sun/TrueType/fonts.upr			0444 root bin
+f none share/fonts/sun/TrueType/LucidaBrightDemiBold.ttf	0444 root bin
+f none share/fonts/sun/TrueType/LucidaBrightDemiItalic.ttf	0444 root bin
+f none share/fonts/sun/TrueType/LucidaBrightItalic.ttf		0444 root bin
+f none share/fonts/sun/TrueType/LucidaBrightRegular.ttf		0444 root bin
+f none share/fonts/sun/TrueType/LucidaSansDemiBold.ttf		0444 root bin
+f none share/fonts/sun/TrueType/LucidaSansDemiOblique.ttf	0444 root bin
+f none share/fonts/sun/TrueType/LucidaSansOblique.ttf		0444 root bin
+f none share/fonts/sun/TrueType/LucidaSansRegular.ttf		0444 root bin
+f none share/fonts/sun/TrueType/LucidaTypewriterBold.ttf	0444 root bin
+f none share/fonts/sun/TrueType/LucidaTypewriterBoldOblique.ttf	0444 root bin
+f none share/fonts/sun/TrueType/LucidaTypewriterOblique.ttf	0444 root bin
+f none share/fonts/sun/TrueType/LucidaTypewriterRegular.ttf	0444 root bin
 
 
-!search            $OW_FONTS/Type1/sun
-d none openwin/lib/X11/fonts/Type1/sun 				0755 root bin
-e fontsdir openwin/lib/X11/fonts/Type1/sun/fonts.dir 		0444 root bin
-e fontsalias openwin/lib/X11/fonts/Type1/sun/fonts.alias.all	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/fonts.scale		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/fonts.upr 		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaBright-Demi.pfa 	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaBright-DemiItalic.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaBright-Italic.pfa	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaBright.pfa		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSans-Bold.pfa	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSans-BoldItalic.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSans-Italic.pfa	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSans.pfa		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSansTypewriter-Bold.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSansTypewriter.pfa 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/AvantGarde-Book.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/AvantGarde-BookOblique.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/AvantGarde-Demi.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/AvantGarde-DemiOblique.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Bookman-Demi.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Bookman-DemiItalic.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Bookman-Light.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Bookman-LightItalic.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Bold.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-BoldOblique.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Narrow-BolOblique.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Narrow-Bold.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Narrow-BoldOblique.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Narrow-Oblique.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Narrow.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica-Oblique.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Helvetica.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Lucida-Bright.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Lucida-BrightDemiBold.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Lucida-BrightDemiBoldItalic.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Lucida-BrightItalic.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSans-Typewriter.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/LucidaSans-TypewriterBold.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/NewCenturySchlbk-Bold.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/NewCenturySchlbk-BoldItalic.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/NewCenturySchlbk-Italic.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/NewCenturySchlbk-Roman.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Palatino-Bold.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Palatino-BoldItalic.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Palatino-Italic.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Palatino-Roman.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Times-Bold.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Times-BoldItalic.ps	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Times-Italic.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/Times-Roman.ps		0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/ZapfChancery-MediumItalic.ps 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/MonotypeSorts.pfb	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/ZapfDingbats.ps		0444 root bin
+d none openwin							0755 root bin
+d none openwin/lib						0755 root bin
+d none openwin/lib/X11						0755 root bin
+d none openwin/lib/X11/fonts					0755 root bin
+s none openwin/lib/X11/fonts/75dpi=../../../../share/fonts/X11/75dpi
+s none openwin/lib/X11/fonts/100dpi=../../../../share/fonts/X11/100dpi
+s none openwin/lib/X11/fonts/F3bitmaps=../../../../share/fonts/sun/F3bitmaps
+d none openwin/lib/X11/fonts/Type1				0755 root bin
+s none openwin/lib/X11/fonts/Type1/sun=../../../../share/fonts/sun/Type1
 
-!search            $OW_FONTS/Type1/sun/afm
-d none openwin/lib/X11/fonts/Type1/sun				0755 root bin
-d none openwin/lib/X11/fonts/Type1/sun/afm			0755 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaBright-Demi.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaBright-DemiItalic.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaBright-Italic.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaBright.afm	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaSans-Bold.afm	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaSans-BoldItalic.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaSans-Italic.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaSans.afm	0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaSansTypewriter-Bold.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/LucidaSansTypewriter.afm 0444 root bin
-f none openwin/lib/X11/fonts/Type1/sun/afm/MonotypeSorts.afm	0444 root bin
+d none X11							0755 root bin
+d none X11/lib							0755 root bin
+d none X11/lib/X11						0755 root bin
+d none X11/lib/X11/fonts					0755 root bin
+s none X11/lib/X11/fonts/75dpi=../../../../share/fonts/X11/75dpi
+s none X11/lib/X11/fonts/100dpi=../../../../share/fonts/X11/100dpi
+s none X11/lib/X11/fonts/misc=../../../../share/fonts/X11/misc
+s none X11/lib/X11/fonts/F3bitmaps=../../../../share/fonts/sun/F3bitmaps
 
-!search            $OW_FONTS/TrueType
+# These need to be a directory, not a symlink, since other packages install
+# subdirectories here - empty fonts.dir left to keep X configurations with
+# these paths in the font dir from dying
+d none openwin/lib/X11/fonts/misc				0755 root bin
+e fontsdir openwin/lib/X11/fonts/misc/fonts.dir			0644 root bin
 d none openwin/lib/X11/fonts/TrueType				0755 root bin
-e fontsdir openwin/lib/X11/fonts/TrueType/fonts.dir		0444 root bin
-f none openwin/lib/X11/fonts/TrueType/fonts.scale		0444 root bin
-f none openwin/lib/X11/fonts/TrueType/fonts.upr			0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaBrightDemiBold.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaBrightDemiItalic.ttf 0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaBrightItalic.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaBrightRegular.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaSansDemiBold.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaSansDemiOblique.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaSansOblique.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaSansRegular.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaTypewriterBold.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaTypewriterBoldOblique.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaTypewriterOblique.ttf	0444 root bin
-f none openwin/lib/X11/fonts/TrueType/LucidaTypewriterRegular.ttf	0444 root bin
+e fontsdir openwin/lib/X11/fonts/TrueType/fonts.dir		0644 root bin
+d none X11/lib/X11/fonts/TrueType				0755 root bin
+e fontsdir X11/lib/X11/fonts/TrueType/fonts.dir			0644 root bin
 
-!search $X11_FONTS/TTF
-d none X11/lib/X11/fonts/TTF				0755 root bin
-e fontsdir X11/lib/X11/fonts/TTF/fonts.dir		0444 root bin
-f none X11/lib/X11/fonts/TTF/fonts.scale		0444 root bin
-
-# open-src/font/dejavu
-f none X11/lib/X11/fonts/TTF/DejaVuFontsCopyright.txt	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSans-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSans-BoldOblique.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSans-ExtraLight.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSans-Oblique.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSans.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansCondensed-Bold.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansCondensed-BoldOblique.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansCondensed-Oblique.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansCondensed.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansMono-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansMono-BoldOblique.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansMono-Oblique.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSansMono.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerif-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerif-BoldItalic.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerif-Italic.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerif.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerifCondensed-Bold.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerifCondensed-BoldItalic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerifCondensed-Italic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/DejaVuSerifCondensed.ttf	0444 root bin
-
-# open-src/font/liberation
-f none X11/lib/X11/fonts/TTF/LiberationMono-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationMono-BoldItalic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationMono-Italic.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationMono-Regular.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSans-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSans-BoldItalic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSans-Italic.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSans-Regular.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSerif-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSerif-BoldItalic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSerif-Italic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TTF/LiberationSerif-Regular.ttf 0444 root bin
-
-# open-src/font/bh-ttf
-f none X11/lib/X11/fonts/TTF/luximb.ttf 		0444 root bin
-f none X11/lib/X11/fonts/TTF/luximbi.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/luximr.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/luximri.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/luxirb.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/luxirbi.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/luxirr.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/luxirri.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/luxisb.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/luxisbi.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/luxisr.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/luxisri.ttf		0444 root bin
-
-# open-src/font/bitstream-vera
-f none X11/lib/X11/fonts/TTF/Vera.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraBI.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraBd.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraIt.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraMoBI.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraMoBd.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraMoIt.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraMono.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraSe.ttf			0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraSeBd.ttf		0444 root bin
-f none X11/lib/X11/fonts/TTF/VeraFontsCopyright.txt	0444 root bin
-
-# Empty fonts.dir left to keep X configurations with these paths in the
-# font dir from dying
-#!search  $OW_FONTS/TTbitmaps
-#d none openwin/lib/X11/fonts/TTbitmaps 			0755 root bin
-#e fontsdir openwin/lib/X11/fonts/TTbitmaps/fonts.dir 	0644 root bin
-#d none openwin/lib/X11/fonts/misc 			0755 root bin
-#e fontsdir openwin/lib/X11/fonts/misc/fonts.dir 	0644 root bin
-
-# This needs to be a directory, not a symlink, since other packages install
-# subdirectories here.
-d none X11/lib/X11/fonts/TrueType			0755 root bin
-e fontsdir X11/lib/X11/fonts/TrueType/fonts.dir		0644 root bin
-
-# Compatibility links for X configurations with the old font paths
-s none openwin/lib/X11/fonts/75dpi=../../../../X11/lib/X11/fonts/75dpi
-s none openwin/lib/X11/fonts/100dpi=../../../../X11/lib/X11/fonts/100dpi
-
-# Font links used by Xorg server & catalogue dirs for fonts still in openwin
-# s none X11/lib/X11/fonts/F3bitmaps=../../../../openwin/lib/X11/fonts/F3bitmaps

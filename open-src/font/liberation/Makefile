@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.7	09/10/13 SMI"
+# ident	"@(#)Makefile	1.8	09/11/23 SMI"
 #
 
 # Package name used in tarballs
@@ -51,28 +51,12 @@ SOURCE_UNCOMPRESS=gzcat
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
 
-# No configure script to run
-CONFIGURE_TARGETS=
-CONFIGURE_TARGETS_SET=yes
-
-# What to build
-BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
-BUILD_TARGETS_SET=yes
-
-# What to install
-INSTALL_TARGETS=install_liberation
-INSTALL_TARGETS_SET=yes
-
 # License file
 LICENSE_FILE=License.txt
 LICENSE_FILE_SET=yes
 
-### Include common rulesets
-include ../Makefile.inc
-
-### Rules specific to this directory:
-
-LIBERATION_FONT_FILES= \
+TTF_FONT_FILES= \
+	$(LICENSE_FILE) \
 	LiberationMono-Bold.ttf \
 	LiberationMono-BoldItalic.ttf \
 	LiberationMono-Italic.ttf \
@@ -86,17 +70,10 @@ LIBERATION_FONT_FILES= \
 	LiberationSerif-Italic.ttf \
 	LiberationSerif-Regular.ttf
 
-$(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && $(MKFONTSCALE) . )
+# Directory to install to
+TTF_SUBDIR=liberation
+TTF_SUBDIR_SET=yes
 
-FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR)
+### Include common rulesets
+include ../Makefile.ttf
 
-install_liberation:: $(BUILD_TARGETS)
-	mkdir -p $(FONT_DEST_DIR)
-	-( cd $(FONT_DEST_DIR) ; rm -f $(LIBERATION_FONT_FILES) )
-	( cd $(SOURCE_DIR)/ ; cp -p $(LIBERATION_FONT_FILES) $(FONT_DEST_DIR) )
-	touch $(FONT_DEST_DIR)/fonts.scale
-	chmod +w $(FONT_DEST_DIR)/fonts.scale
-	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
-		-i $(SOURCE_DIR)/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
-	(cd $(FONT_DEST_DIR) && $(MKFONTDIR) . )

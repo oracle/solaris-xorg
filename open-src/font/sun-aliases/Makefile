@@ -42,7 +42,7 @@ CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS = 
 BUILD_TARGETS_SET=yes
 
-INSTALL_TARGETS =
+INSTALL_TARGETS = install_aliases
 INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
@@ -51,16 +51,23 @@ include ../Makefile.inc
 DESTDIR=$(PROTODIR)
 INSTDIR=$(DESTDIR)$(X11_FONT_DIR)
 
-CP=cp -pf
+ALIAS_DIRS = Type1 misc 75dpi 100dpi \
+	misc-ISO8859-1 75dpi-ISO8859-1 100dpi-ISO8859-1
+ALIAS_FILES = $(ALIAS_DIRS:%=$(INSTDIR)/%/fonts.alias)
 
-install_gen::
-	mkdir -p $(INSTDIR)/Type1
-	$(CP) fonts.alias.type1 $(INSTDIR)/Type1/fonts.alias.all
-	mkdir -p $(INSTDIR)/misc
-	$(CP) fonts.alias.misc $(INSTDIR)/misc/fonts.alias.all
-	mkdir -p $(INSTDIR)/75dpi
-	$(CP) fonts.alias.75dpi $(INSTDIR)/75dpi/fonts.alias.all
-	mkdir -p $(INSTDIR)/100dpi
-	$(CP) fonts.alias.100dpi $(INSTDIR)/100dpi/fonts.alias.all
-	mkdir -p $(INSTDIR)/F3bitmaps
-	$(CP) fonts.alias.F3 $(INSTDIR)/F3bitmaps/fonts.alias.all
+install_aliases: $(ALIAS_FILES)
+
+$(INSTDIR)/%-ISO8859-1/fonts.alias.all: $(INSTDIR)/%/fonts.alias.all
+	-rm -f $@
+	cp -pf $< $@
+
+$(INSTDIR)/%/fonts.alias.all: fonts.alias.%
+	-rm -f $@
+	@if [[ -f $(@:.all=) ]] ; then \
+		$(START_CMD_ECHO) ; \
+		cat $(@:.all=) > $@ ; \
+	fi
+	cat $< >> $@
+
+$(INSTDIR)/%/fonts.alias: $(INSTDIR)/%/fonts.alias.all
+	(cd $(@:fonts.alias=) ; $(INSTALLALIAS) fonts.alias.all .)

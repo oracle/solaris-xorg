@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules common to most X.Org font modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.8	09/01/14
+# ident	"@(#)Makefile.inc	1.9	09/11/23 SMI"
 #
 
 ### Makefile settings/rules common to all X.Org font modules
@@ -46,6 +46,12 @@ MODTYPE_SUNTOUCH_MAN_FLAGS=
 
 # No common dependencies
 MODTYPE_CONFIGURE_DEPS=
+
+# Set default installation path for fonts
+MODTYPE_CONFIG_OPTS = --with-fontrootdir="$(X11_FONT_DIR)"
+
+# Disable compression of pcf fonts
+MODTYPE_CONFIG_OPTS += --without-compression
 
 # Most font modules have nothing to build, for those that do, use lib flags
 MODTYPE_CFLAGS=$(LIB_CFLAGS)

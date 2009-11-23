@@ -71,8 +71,13 @@ test_writable() {
 ##
 
 make_font_link() {
-    XWFNT_DIROLD=${PKG_INSTALL_ROOT}/usr/openwin/lib/X11/fonts
-    XWFNT_DIRNEW=${PKG_INSTALL_ROOT}/usr/X11/lib/X11/fonts
+   XWFNT_DIROLD=${PKG_INSTALL_ROOT}$2
+   XWFNT_DIRNEW=${PKG_INSTALL_ROOT}$3
+
+## Just delete old fontconfig cache files, they live in /var/cache now
+   if [ -f ${XWFNT_DIROLD}/$1/fonts.cache-1 ] ; then
+      /usr/bin/rm -f ${XWFNT_DIROLD}/$1/fonts.cache*
+   fi
 
 ## case 0 and 1 test.
    if [ -d ${XWFNT_DIROLD}/$1 -a ! -h ${XWFNT_DIROLD}/$1 ]; then
@@ -92,6 +97,10 @@ make_font_link() {
          fi
 ## case 2 test
       else
+	 if [ ! -d ${XWFNT_DIRNEW} ]; then
+	    mkdir -p ${XWFNT_DIRNEW}/$1
+	    rmdir ${XWFNT_DIRNEW}/$1
+	 fi
 ## move the old directory to new location
          if test_writable ${XWFNT_DIRNEW} ; then
                /usr/bin/mv ${XWFNT_DIROLD}/$1 ${XWFNT_DIRNEW}/$1
@@ -100,9 +109,19 @@ make_font_link() {
    fi 
 }
 
-make_font_link 100dpi
-make_font_link 75dpi
-make_font_link F3bitmaps
+OWFNT_DIR=/usr/openwin/lib/X11/fonts 
+X11FNT_DIR=/usr/X11/lib/X11/fonts
+SHFNT_DIR=/usr/share/fonts
 
+make_font_link 100dpi ${OWFNT_DIR} ${SHFNT_DIR}/X11
+make_font_link 100dpi ${X11FNT_DIR} ${SHFNT_DIR}/X11
+make_font_link 75dpi ${OWFNT_DIR} ${SHFNT_DIR}/X11
+make_font_link 75dpi ${X11FNT_DIR} ${SHFNT_DIR}/X11
+make_font_link Type1 ${X11FNT_DIR} ${SHFNT_DIR}/X11
+make_font_link F3bitmaps ${OWFNT_DIR} ${SHFNT_DIR}/sun
+make_font_link F3bitmaps ${X11FNT_DIR} ${SHFNT_DIR}/sun
+make_font_link Type1/sun ${OWFNT_DIR} ${SHFNT_DIR}/sun
+make_font_link Type3 ${OWFNT_DIR} ${SHFNT_DIR}/sun
+make_font_link HTbdf ${X11FNT_DIR} ${SHFNT_DIR}/sun
 exit 0 
 

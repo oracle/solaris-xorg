@@ -28,7 +28,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype	1.12	09/10/26 SMI"
+# ident	"@(#)prototype	1.13	09/11/23 SMI"
 #
 # Fontconfig config files
 
@@ -40,50 +40,52 @@ i postinstall
 !HOME=../etc
 
 !search      $HOME/fonts
-d none etc			0755 root sys
-d none etc/fonts		0755 root sys
-f none etc/fonts/fonts.conf	0444 root bin
-f none etc/fonts/fonts.dtd	0444 root bin
-f none etc/fonts/local.conf	0444 root bin
+d none etc							0755 root sys
+d none etc/fonts						0755 root sys
+f none etc/fonts/fonts.conf					0444 root bin
+f none etc/fonts/fonts.dtd					0444 root bin
+f none etc/fonts/local.conf					0444 root bin
 
 !search ../lib/svc/method
-d none lib 			0755 root bin
-d none lib/svc 			0755 root bin
-d none lib/svc/method		0755 root bin
-f none lib/svc/method/fc-cache	0755 root bin
+d none lib							0755 root bin
+d none lib/svc							0755 root bin
+d none lib/svc/method						0755 root bin
+f none lib/svc/method/fc-cache					0755 root bin
 
 !search      $HOME/fonts/conf.avail
-d none etc/fonts/conf.avail				0755 root sys
-f none etc/fonts/conf.avail/README			0444 root bin
-f none etc/fonts/conf.avail/10-autohint.conf		0444 root bin
-f none etc/fonts/conf.avail/10-no-sub-pixel.conf	0444 root bin
-f none etc/fonts/conf.avail/10-sub-pixel-bgr.conf	0444 root bin
-f none etc/fonts/conf.avail/10-sub-pixel-rgb.conf	0444 root bin
-f none etc/fonts/conf.avail/10-sub-pixel-vbgr.conf	0444 root bin
-f none etc/fonts/conf.avail/10-sub-pixel-vrgb.conf	0444 root bin
-f none etc/fonts/conf.avail/10-unhinted.conf		0444 root bin
-f none etc/fonts/conf.avail/20-fix-globaladvance.conf	0444 root bin
-f none etc/fonts/conf.avail/20-unhint-small-vera.conf	0444 root bin
-f none etc/fonts/conf.avail/25-unhint-nonlatin.conf	0444 root bin
-f none etc/fonts/conf.avail/30-urw-aliases.conf		0444 root bin
-f none etc/fonts/conf.avail/30-metric-aliases.conf	0444 root bin
-f none etc/fonts/conf.avail/40-nonlatin.conf		0444 root bin
-f none etc/fonts/conf.avail/45-latin.conf		0444 root bin
-f none etc/fonts/conf.avail/49-sansserif.conf		0444 root bin
-f none etc/fonts/conf.avail/49-sun-preuser.conf		0444 root bin
-f none etc/fonts/conf.avail/50-user.conf		0444 root bin
-f none etc/fonts/conf.avail/51-local.conf		0444 root bin
-f none etc/fonts/conf.avail/60-latin.conf		0444 root bin
-f none etc/fonts/conf.avail/65-fonts-persian.conf	0444 root bin
-f none etc/fonts/conf.avail/65-khmer.conf		0444 root bin
-f none etc/fonts/conf.avail/65-nonlatin.conf		0444 root bin
-f none etc/fonts/conf.avail/69-unifont.conf		0444 root bin
-f none etc/fonts/conf.avail/70-no-bitmaps.conf		0444 root bin
-f none etc/fonts/conf.avail/70-yes-bitmaps.conf		0444 root bin
-f none etc/fonts/conf.avail/80-delicious.conf		0444 root bin
-f none etc/fonts/conf.avail/90-synthetic.conf		0444 root bin
+d none etc/fonts/conf.avail					0755 root sys
+f none etc/fonts/conf.avail/10-autohint.conf			0444 root bin
+f none etc/fonts/conf.avail/10-no-sub-pixel.conf		0444 root bin
+f none etc/fonts/conf.avail/10-sub-pixel-bgr.conf		0444 root bin
+f none etc/fonts/conf.avail/10-sub-pixel-rgb.conf		0444 root bin
+f none etc/fonts/conf.avail/10-sub-pixel-vbgr.conf		0444 root bin
+f none etc/fonts/conf.avail/10-sub-pixel-vrgb.conf		0444 root bin
+f none etc/fonts/conf.avail/10-unhinted.conf			0444 root bin
+f none etc/fonts/conf.avail/20-fix-globaladvance.conf		0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-vera.conf		0444 root bin
+f none etc/fonts/conf.avail/25-unhint-nonlatin.conf		0444 root bin
+f none etc/fonts/conf.avail/30-urw-aliases.conf			0444 root bin
+f none etc/fonts/conf.avail/30-metric-aliases.conf		0444 root bin
+f none etc/fonts/conf.avail/40-nonlatin.conf			0444 root bin
+f none etc/fonts/conf.avail/45-latin.conf			0444 root bin
+f none etc/fonts/conf.avail/49-sansserif.conf			0444 root bin
+f none etc/fonts/conf.avail/49-sun-preuser.conf			0444 root bin
+f none etc/fonts/conf.avail/50-user.conf			0444 root bin
+f none etc/fonts/conf.avail/51-local.conf			0444 root bin
+f none etc/fonts/conf.avail/60-latin.conf			0444 root bin
+f none etc/fonts/conf.avail/65-fonts-persian.conf		0444 root bin
+f none etc/fonts/conf.avail/65-khmer.conf			0444 root bin
+f none etc/fonts/conf.avail/65-nonlatin.conf			0444 root bin
+f none etc/fonts/conf.avail/69-unifont.conf			0444 root bin
+f none etc/fonts/conf.avail/70-no-bitmaps.conf			0444 root bin
+f none etc/fonts/conf.avail/70-yes-bitmaps.conf			0444 root bin
+f none etc/fonts/conf.avail/80-delicious.conf			0444 root bin
+f none etc/fonts/conf.avail/90-sun-prefer-bitmap.conf		0444 root bin
+f none etc/fonts/conf.avail/90-synthetic.conf			0444 root bin
 
-d none etc/fonts/conf.d		0755 root sys
+!search      $HOME/fonts/conf.d
+d none etc/fonts/conf.d						0755 root sys
+f none etc/fonts/conf.d/README					0444 root bin
 s none etc/fonts/conf.d/10-autohint.conf=../conf.avail/10-autohint.conf
 s none etc/fonts/conf.d/10-no-sub-pixel.conf=../conf.avail/10-no-sub-pixel.conf
 s none etc/fonts/conf.d/10-sub-pixel-bgr.conf=../conf.avail/10-sub-pixel-bgr.conf
@@ -107,15 +109,16 @@ s none etc/fonts/conf.d/65-khmer.conf=../conf.avail/65-khmer.conf
 s none etc/fonts/conf.d/65-nonlatin.conf=../conf.avail/65-nonlatin.conf
 s none etc/fonts/conf.d/69-unifont.conf=../conf.avail/69-unifont.conf
 s none etc/fonts/conf.d/80-delicious.conf=../conf.avail/80-delicious.conf
+s none etc/fonts/conf.d/90-sun-prefer-bitmap.conf=../conf.avail/90-sun-prefer-bitmap.conf
 s none etc/fonts/conf.d/90-synthetic.conf=../conf.avail/90-synthetic.conf
 
 # From open-src/font/deja-vu:
-f none etc/fonts/conf.avail/20-unhint-small-dejavu-sans.conf	  0444 root bin
-f none etc/fonts/conf.avail/20-unhint-small-dejavu-sans-mono.conf 0444 root bin
-f none etc/fonts/conf.avail/20-unhint-small-dejavu-serif.conf	  0444 root bin
-f none etc/fonts/conf.avail/57-dejavu-sans.conf			  0444 root bin
-f none etc/fonts/conf.avail/57-dejavu-sans-mono.conf		  0444 root bin
-f none etc/fonts/conf.avail/57-dejavu-serif.conf		  0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-sans.conf	0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-sans-mono.conf	0444 root bin
+f none etc/fonts/conf.avail/20-unhint-small-dejavu-serif.conf	0444 root bin
+f none etc/fonts/conf.avail/57-dejavu-sans.conf			0444 root bin
+f none etc/fonts/conf.avail/57-dejavu-sans-mono.conf		0444 root bin
+f none etc/fonts/conf.avail/57-dejavu-serif.conf		0444 root bin
 s none etc/fonts/conf.d/20-unhint-small-dejavu-sans.conf=../conf.avail/20-unhint-small-dejavu-sans.conf
 s none etc/fonts/conf.d/20-unhint-small-dejavu-sans-mono.conf=../conf.avail/20-unhint-small-dejavu-sans-mono.conf
 s none etc/fonts/conf.d/20-unhint-small-dejavu-serif.conf=../conf.avail/20-unhint-small-dejavu-serif.conf
@@ -123,10 +126,10 @@ s none etc/fonts/conf.d/57-dejavu-sans.conf=../conf.avail/57-dejavu-sans.conf
 s none etc/fonts/conf.d/57-dejavu-sans-mono.conf=../conf.avail/57-dejavu-sans-mono.conf
 s none etc/fonts/conf.d/57-dejavu-serif.conf=../conf.avail/57-dejavu-serif.conf
 
-d none var 755 root sys
-d none var/svc 755 root sys
-d none var/svc/manifest 755 root sys
-d none var/svc/manifest/application 755 root sys
-d none var/svc/manifest/application/font 755 root sys
+d none var							0755 root sys
+d none var/svc							0755 root sys
+d none var/svc/manifest						0755 root sys
+d none var/svc/manifest/application				0755 root sys
+d none var/svc/manifest/application/font			0755 root sys
 !search ../var/svc/manifest/application/font
-f manifest var/svc/manifest/application/font/fc-cache.xml 0444 root sys
+f manifest var/svc/manifest/application/font/fc-cache.xml	0444 root sys

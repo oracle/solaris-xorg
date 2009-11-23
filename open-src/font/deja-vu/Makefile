@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.11	09/10/13 SMI"
+# ident	"@(#)Makefile	1.12	09/11/23 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=dejavu-fonts-ttf
 
 # Version number (used in path names)
-MODULE_VERSION=2.29
+MODULE_VERSION=2.30
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
@@ -46,75 +46,37 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
 
-# No configure script to run
-CONFIGURE_TARGETS=
-CONFIGURE_TARGETS_SET=yes
-
-# What to build
-BUILD_TARGETS=$(SOURCE_DIR)/ttf/fonts.scale
-BUILD_TARGETS_SET=yes
-
 # What to install
-INSTALL_TARGETS=install_fonts_conf install_dejavu
-INSTALL_TARGETS_SET=yes
+MODULE_ADD_INSTALL_TARGETS=install_fonts_conf 
 
 # Directory to install to
-FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR)
+TTF_SUBDIR=dejavu
+TTF_SUBDIR_SET=yes
 FONTCONF_DEST_DIR=$(PROTODIR)/etc/fonts
 
 # License file
 LICENSE_FILE=LICENSE
 LICENSE_FILE_SET=yes
 
+TTF_FONT_FILES= \
+	README \
+	$(LICENSE_FILE) \
+	ttf/*.ttf
+
 ### Include common rulesets
-include ../Makefile.inc
+include ../Makefile.ttf
 
 ### Rules specific to this directory:
 
-DEJAVU_FONT_FILES= \
-	DejaVuSans-Bold.ttf \
-	DejaVuSans-BoldOblique.ttf \
-	DejaVuSans-ExtraLight.ttf \
-	DejaVuSans-Oblique.ttf \
-	DejaVuSans.ttf \
-	DejaVuSansCondensed-Bold.ttf \
-	DejaVuSansCondensed-BoldOblique.ttf \
-	DejaVuSansCondensed-Oblique.ttf \
-	DejaVuSansCondensed.ttf \
-	DejaVuSansMono-Bold.ttf \
-	DejaVuSansMono-BoldOblique.ttf \
-	DejaVuSansMono-Oblique.ttf \
-	DejaVuSansMono.ttf \
-	DejaVuSerif-Bold.ttf \
-	DejaVuSerif-BoldItalic.ttf \
-	DejaVuSerif-Italic.ttf \
-	DejaVuSerif.ttf \
-	DejaVuSerifCondensed-Bold.ttf \
-	DejaVuSerifCondensed-BoldItalic.ttf \
-	DejaVuSerifCondensed-Italic.ttf \
-	DejaVuSerifCondensed.ttf
-
-$(SOURCE_DIR)/ttf/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR)/ttf && $(MKFONTSCALE) . )
-
-install_fonts_conf: $(BUILD_TARGETS)
+install_fonts_conf: $(SOURCE_TARGETS)
 	mkdir -p $(FONTCONF_DEST_DIR)/conf.avail \
 		$(FONTCONF_DEST_DIR)/conf.d
-	( cd $(SOURCE_DIR)/fontconfig ; set -x ; for f in *.conf ; do \
+	( cd $(SOURCE_DIR)/fontconfig ; PS4="" ; set -x ; \
+	  for f in *.conf ; do \
 		rm -f $(FONTCONF_DEST_DIR)/conf.avail/$$f \
 			$(FONTCONF_DEST_DIR)/conf.d/$$f ; \
 		cp -p $$f $(FONTCONF_DEST_DIR)/conf.avail/ ; \
 		ln -s ../conf.avail/$$f $(FONTCONF_DEST_DIR)/conf.d/ ; \
-	 done )
+	  done )
 
 
-install_dejavu: $(BUILD_TARGETS)
-	mkdir -p $(FONT_DEST_DIR)
-	-( cd $(FONT_DEST_DIR) ; rm -f $(DEJAVU_FONT_FILES) DejaVuFontsCopyright.txt )
-	( cd $(SOURCE_DIR)/ttf ; cp -p $(DEJAVU_FONT_FILES) $(FONT_DEST_DIR) )
-	cp -p $(SOURCE_DIR)/LICENSE $(FONT_DEST_DIR)/DejaVuFontsCopyright.txt 
-	touch $(FONT_DEST_DIR)/fonts.scale
-	chmod +w $(FONT_DEST_DIR)/fonts.scale
-	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
-	    -i $(SOURCE_DIR)/ttf/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
-	(cd $(FONT_DEST_DIR) && $(MKFONTDIR) . )

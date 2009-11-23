@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.8	09/10/13 SMI"
+# ident	"@(#)Makefile	1.9	09/11/23 SMI"
 #
 
 # Package name used in tarballs
@@ -46,31 +46,16 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None
 
-# No configure script to run
-CONFIGURE_TARGETS=
-CONFIGURE_TARGETS_SET=yes
-
-# What to build
-BUILD_TARGETS=$(SOURCE_DIR)/fonts.scale
-BUILD_TARGETS_SET=yes
-
-# What to install
-INSTALL_TARGETS=install_veradir install_ttfdir
-INSTALL_TARGETS_SET=yes
-
 # Directory to install to
-FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR)
+TTF_SUBDIR=bitstream-vera
+TTF_SUBDIR_SET=yes
 
 # License file
 LICENSE_FILE=COPYRIGHT.TXT
 LICENSE_FILE_SET=yes
 
-### Include common rulesets
-include ../Makefile.inc
-
-### Rules specific to this directory:
-
-VERA_FONT_FILES= \
+TTF_FONT_FILES= \
+	COPYRIGHT.TXT	\
 	Vera.ttf	\
 	VeraBI.ttf	\
 	VeraBd.ttf	\
@@ -82,27 +67,6 @@ VERA_FONT_FILES= \
 	VeraSe.ttf	\
 	VeraSeBd.ttf
 
-$(SOURCE_DIR)/fonts.scale: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) && $(MKFONTSCALE) .)
+### Include common rulesets
+include ../Makefile.ttf
 
-install_vera: $(BUILD_TARGETS)
-	mkdir -p $(FONT_DEST_DIR)
-	-( cd $(FONT_DEST_DIR) ; rm -f $(VERA_FONT_FILES) VeraFontsCopyright.txt )
-	( cd $(SOURCE_DIR) ; cp -p $(VERA_FONT_FILES) $(FONT_DEST_DIR) )
-	cp -p $(SOURCE_DIR)/COPYRIGHT.TXT $(FONT_DEST_DIR)/VeraFontsCopyright.txt 
-	touch $(FONT_DEST_DIR)/fonts.scale
-	chmod +w $(FONT_DEST_DIR)/fonts.scale
-	../merge-fonts.scale.pl -i $(FONT_DEST_DIR)/fonts.scale \
-		-i $(SOURCE_DIR)/fonts.scale -o $(FONT_DEST_DIR)/fonts.scale
-	(cd $(FONT_DEST_DIR) && $(MKFONTDIR) . )
-
-# Install under both .../TTF & .../vera for building both SUNW* & FSW*
-# font packages for now
-
-install_veradir::$(BUILD_TARGETS)
-	$(MAKE) $(MAKEFLAGS) \
-		FONT_DEST_DIR=$(PROTODIR)$(X11_FONT_DIR)/vera install_vera
-
-install_ttfdir::$(BUILD_TARGETS)
-	$(MAKE) $(MAKEFLAGS) \
-		FONT_DEST_DIR=$(PROTODIR)$(X11_TRUETYPE_DIR) install_vera

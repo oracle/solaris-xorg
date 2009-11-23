@@ -1,6 +1,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -38,23 +39,21 @@ i postinstall
 i postremove
 
 !HOME=../usr
-!DROID_FONT_DIR=X11/lib/X11/fonts/TrueType/google-droid
 
-d none X11 0755 root bin
-d none X11/lib 0755 root bin
-d none X11/lib/X11 0755 root bin
-d none X11/lib/X11/fonts 0755 root bin
-d none X11/lib/X11/fonts/TrueType 0755 root bin
+d none share							0755 root sys
+d none share/fonts						0755 root bin
+d none share/fonts/TrueType					0755 root bin
 
-!search $HOME/X11/lib/X11/fonts/TrueType/google-droid
-d none X11/lib/X11/fonts/TrueType/google-droid 0755 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/fonts.dir		0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/fonts.scale		0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSans-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSans.ttf		0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSansFallback.ttf	0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSansMono.ttf	0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSerif-Bold.ttf	0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSerif-BoldItalic.ttf 0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSerif-Italic.ttf	0444 root bin
-f none X11/lib/X11/fonts/TrueType/google-droid/DroidSerif-Regular.ttf	0444 root bin
+!search $HOME/share/fonts/TrueType/google-droid
+d none share/fonts/TrueType/google-droid			0755 root bin
+f none share/fonts/TrueType/google-droid/fonts.dir		0444 root bin
+f none share/fonts/TrueType/google-droid/fonts.scale		0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSans.ttf		0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSans-Bold.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSansFallback.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSansMono.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSerif-Bold.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSerif-BoldItalic.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSerif-Italic.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/DroidSerif-Regular.ttf	0444 root bin
+f none share/fonts/TrueType/google-droid/NOTICE			0444 root bin

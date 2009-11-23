@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.101	09/11/06 SMI"
+# ident	"@(#)Makefile.inc	1.102	09/11/23 SMI"
 #
 
 ### Default rules
@@ -457,7 +457,8 @@ UNINSTALLED_PC_OPS= \
 	-e 'BEGIN {use Cwd; $$protodir=Cwd::realpath("$(PROTODIR)");}' \
 	-e 's|(-[LI]\s*)\$$|$$1$$protodir\$$|g;' \
 	-e 's|^sdkdir=|sdkdir=$$protodir|g;' \
-	-e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;'
+	-e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;' \
+	$(MODTYPE_ADD_UNINSTALLED_PC_OPS) $(MODULE_ADD_UNINSTALLED_PC_OPS)
 
 install_pkgconfig_uninstalled: $(INSTALL_TARGETS)
 	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \

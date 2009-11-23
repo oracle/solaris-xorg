@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# ident	"@(#)make_release_packages	1.78	09/11/19 SMI"
+# ident	"@(#)make_release_packages	1.79	09/11/23 SMI"
 #
 #	Create and fill a package staging area for X
 #
@@ -55,21 +55,74 @@ MACH="$(uname -p)"
 DATE="$(date +0.%Y.%m.%d)"
 
 # List of official (deliverable) X-window packages for all platforms
-XW_PACKAGE_LIST="SUNWfontconfig SUNWfontconfig-docs SUNWfontconfig-root 
-    SUNWxcompmgr
+XW_PACKAGE_LIST="
+    SUNWfontconfig
+    SUNWfontconfig-docs
+    SUNWfontconfig-root 
+    SUNWfont-daewoo-misc
+    SUNWfont-isas-misc
+    SUNWfont-jis-misc
+    SUNWfont-misc-ethiopic
+    SUNWfont-misc-meltho
+    SUNWfont-xorg-cyrillic
+    SUNWfont-xorg-core
+    SUNWfont-xorg-iso8859-1
+    SUNWfont-xorg-iso8859-2
+    SUNWfont-xorg-iso8859-3
+    SUNWfont-xorg-iso8859-4
+    SUNWfont-xorg-iso8859-5
+    SUNWfont-xorg-iso8859-7
+    SUNWfont-xorg-iso8859-8
+    SUNWfont-xorg-iso8859-9
+    SUNWfont-xorg-iso8859-10
+    SUNWfont-xorg-iso8859-11
+    SUNWfont-xorg-iso8859-13
+    SUNWfont-xorg-iso8859-14
+    SUNWfont-xorg-iso8859-15
+    SUNWfont-xorg-iso8859-16
+    SUNWfreetype2
+    SUNWpciaccess
+    SUNWpixman
     SUNWsynergy
+    SUNWttf-bh-luxi
+    SUNWttf-bitstream-vera
+    SUNWttf-dejavu
     SUNWttf-google-droid
-    SUNWpciaccess SUNWpixman SUNWfreetype2 SUNWvncviewer SUNWxcursor-themes
-    SUNWxdm SUNWxdm-root
-    SUNWxorg-client-docs SUNWxorg-client-programs
-    SUNWxorg-clientlibs SUNWxorg-compatlinks
-    SUNWxorg-graphics-ddx SUNWxorg-headers
-    SUNWxorg-server SUNWxorg-tsol-module 
-    SUNWxvnc SUNWxwacx SUNWxwcft SUNWxwdem SUNWxwdxm
-    SUNWxwfnt SUNWxwfs SUNWxwfsw SUNWxwice SUNWxwinc
-    SUNWxwman SUNWxwmod SUNWxwoft SUNWxwopt SUNWxwplr
-    SUNWxwplt SUNWxwpmn SUNWxwrtl SUNWxwslb
-    SUNWxwxft"
+    SUNWttf-liberation
+    SUNWvncviewer
+    SUNWxcompmgr
+    SUNWxcursor-themes
+    SUNWxdm
+    SUNWxdm-root
+    SUNWxorg-client-docs
+    SUNWxorg-client-programs
+    SUNWxorg-clientlibs
+    SUNWxorg-compatlinks
+    SUNWxorg-graphics-ddx
+    SUNWxorg-headers
+    SUNWxorg-server
+    SUNWxorg-tsol-module 
+    SUNWxvnc
+    SUNWxwacx
+    SUNWxwcft
+    SUNWxwdem
+    SUNWxwdxm
+    SUNWxwfnt
+    SUNWxwfs
+    SUNWxwfsw
+    SUNWxwice
+    SUNWxwinc
+    SUNWxwman
+    SUNWxwmod
+    SUNWxwoft
+    SUNWxwopt
+    SUNWxwplr
+    SUNWxwplt
+    SUNWxwpmn
+    SUNWxwrtl
+    SUNWxwslb
+    SUNWxwxft
+"
 
 XSUN_PACKAGE_LIST="SUNWxsun-headers SUNWxsun-server SUNWxwts"
 
@@ -89,29 +142,6 @@ if [[ "$BUILD_L10N" != "no" ]]; then
 		      SUNW0xwplt SUNW0xwopt"
 else
     XW_L10N_PACKAGES=" "
-fi
-
-# FSW* packages are built for the OpenSolaris (Project Indiana) deliveries
-FSW_PACKAGE_LIST="
-	FSWxorg-fonts-core
-	FSWxorg-fonts-cyrillic
-	FSWxorg-fonts-daewoo
-	FSWxorg-fonts-ethiopic
-	FSWxorg-fonts-iso8859-2
-	FSWxorg-fonts-iso8859-3
-	FSWxorg-fonts-iso8859-4
-	FSWxorg-fonts-iso8859-9
-	FSWxorg-fonts-iso8859-10
-	FSWxorg-fonts-iso8859-13
-	FSWxorg-fonts-iso8859-14
-	FSWxorg-fonts-iso8859-16
-	FSWxorg-fonts-jiskan
-	FSWxorg-fonts-syriac
-	FSWxorg-fonts-vera
-"
-
-if [[ "$BUILD_FSW" != "no" ]]; then
-    EXTRA_PACKAGES+="${FSW_PACKAGE_LIST}"
 fi
 
 #   To build a subset of packages:

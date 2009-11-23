@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,16 +30,11 @@
 #
 ###########################################################################
 #
-# 	@(#)postremove.tmpl	35.9	09/07/20 SMI
+# ident	"@(#)postremove.tmpl	35.10	09/11/23 SMI"
 #
 # SUNWxwoft (X Window System optional fonts) postremove script.
 
 include fc_rebuild
-
-include mkfontdir
-
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/75dpi
-update_fontdir_and_alias $BASEDIR/openwin/lib/X11/fonts/100dpi
 
 exit 0
 

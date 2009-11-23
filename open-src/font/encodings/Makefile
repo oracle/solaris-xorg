@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.4	09/10/13 SMI"
+# ident	"@(#)Makefile	1.5	09/11/23 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=encodings
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

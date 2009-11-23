@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.init	1.13	09/10/13 SMI"
+# ident	"@(#)Makefile.init	1.14	09/11/23 SMI"
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -235,8 +235,9 @@ X11_DIR=/usr/X11
 X11_INCLUDES_DIR=$(X11_DIR)/include
 XORG_SDK_INCLUDES_DIR=$(X11_INCLUDES_DIR)/xorg
 X11_X11LIB_DIR=$(X11_DIR)/lib/X11
-X11_FONT_DIR=$(X11_X11LIB_DIR)/fonts
-X11_TRUETYPE_DIR=$(X11_FONT_DIR)/TTF
+SHARE_FONT_DIR=/usr/share/fonts
+X11_FONT_DIR=$(SHARE_FONT_DIR)/X11
+TRUETYPE_FONT_DIR=$(SHARE_FONT_DIR)/TrueType
 X11_DOC_DIR=$(X11_DIR)/share/doc
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
 X11_MAN_DIR=$(X11_DIR)/share/man
@@ -291,6 +292,11 @@ XORG_DEFS_ENT=$(PROTODIR)/$(X11_DIR)/share/sgml/X11/defs.ent
 MKFONTDIR=$(PROTODIR)$(X11_DIR)/bin/mkfontdir
 MKFONTSCALE=$(PROTODIR)$(X11_DIR)/bin/mkfontscale
 INSTALLALIAS=$(PROTODIR)$(X11_DIR)/lib/installalias
+
+# Script fragment to start echoing commands in shell sequences in make rules
+# Sets PS4 to "" so output isn't prepended with "+ " and looks like normal
+# make output
+START_CMD_ECHO = PS4="" ; set -x
 
 ### Sources, in-tree and upstream
 

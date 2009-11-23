@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,14 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/10/06
+# ident	"@(#)Makefile	1.2	09/11/23 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=font-bh-100dpi
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.0
+MODULE_VERSION=1.0.1
+
+# Subdirectory of $(FONTDIR) to install fonts in
+FONTSUBDIR=100dpi
 
 ### Include common rulesets
-include ../Makefile.inc
+include ../Makefile.bdf
