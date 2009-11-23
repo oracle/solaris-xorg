@@ -1,0 +1,194 @@
+--- fontconfig-2.7.3/src/fccfg.c	2009-09-08 11:45:26.000000000 -0400
++++ fontconfig-2.7.3/src/fccfg.c	2009-11-18 09:14:12.717017000 -0500
+@@ -785,12 +785,12 @@
+ 	    switch (op) {
+ 	    case FcOpContains:
+ 	    case FcOpListing:
+-		/* left contains right if right is a subset of left */
+-		ret = FcCharSetIsSubset (right.u.c, left.u.c);
++                /* right contains left if left is a subset of right */
++                ret = FcCharSetIsSubset (left.u.c, right.u.c);
+ 		break;
+ 	    case FcOpNotContains:
+-		/* left contains right if right is a subset of left */
+-		ret = !FcCharSetIsSubset (right.u.c, left.u.c);
++                /* right contains left if left is a subset of right */
++                ret = !FcCharSetIsSubset (left.u.c, right.u.c);
+ 		break;
+ 	    case FcOpEqual:
+ 		ret = FcCharSetEqual (left.u.c, right.u.c);
+--- fontconfig-2.7.3/src/fcmatch.c	2009-11-18 09:45:10.860938000 -0500
++++ fontconfig-2.7.3/src/fcmatch.c	2009-11-18 09:24:44.473899000 -0500
+@@ -168,6 +168,15 @@
+     if (v2 == 0)
+ 	return 0;
+     v = v2 - v1;
++
++    /*
++     * Hack to allow bitmap fonts to equal requested font if it is close
++     */
++    if ( v > -.5 && v <= .5 )
++    {
++        v = 0;
++    }
++
+     if (v < 0)
+ 	v = -v;
+     return v;
+@@ -430,6 +439,47 @@
+     return new;
+ }
+ 
++static void
++FcChangeFormat ( FcPattern *p )
++{
++    int i;
++    FcPatternElt    *pe = FcPatternElts(p);
++
++    /*
++     * Hack. If user want monochrome mode, then try to pick bitmaps over
++     * outlines.
++     */
++    for ( i = 0; i < p->num; i++ )
++    {
++        if ( !strcmp(&pe[i].object, "antialias" ))
++        {
++            int aa = (int) &pe[i].values->value.u.b;
++            int j;
++            int done = 0;
++            FcValue v;
++
++            v.type = FcTypeBool;
++            v.u.b  = aa;
++
++            for ( j = 0; j < p->num; j++ )
++            {
++                if ( !strcmp(&pe[j].object, "outline" ))
++                {
++                    done = 1;
++                    break;
++                }
++            }
++            if ( !done )
++            {
++                FcPatternObjectAddWithBinding (p, "outline", v,
++                        FcValueBindingStrong, 1);
++            }
++            break;
++        }
++    }
++}
++
++
+ static FcPattern *
+ FcFontSetMatchInternal (FcConfig    *config,
+ 			FcFontSet   **sets,
+@@ -444,6 +494,8 @@
+     int		    i;
+     int		    set;
+ 
++    FcChangeFormat ( p );
++
+     for (i = 0; i < NUM_MATCH_VALUES; i++)
+ 	bestscore[i] = 0;
+     best = 0;
+@@ -669,9 +721,11 @@
+     int		    f;
+     int		    i;
+     int		    nPatternLang;
+-    FcBool    	    *patternLangSat;
++    int		    *patternLangSat;
+     FcValue	    patternLang;
+ 
++    FcChangeFormat ( p );
++
+     if (FcDebug () & FC_DBG_MATCH)
+     {
+ 	printf ("Sort ");
+@@ -706,7 +760,7 @@
+     if (!nodes)
+ 	goto bail0;
+     nodeps = (FcSortNode **) (nodes + nnodes);
+-    patternLangSat = (FcBool *) (nodeps + nnodes);
++    patternLangSat = (int *) (nodeps + nnodes);
+     
+     new = nodes;
+     nodep = nodeps;
+@@ -746,7 +800,13 @@
+ 	   FcSortCompare);
+     
+     for (i = 0; i < nPatternLang; i++)
+-	patternLangSat[i] = FcFalse;
++	patternLangSat[i] = 0;
++
++    /*
++     * For Solaris, because of ja_JP, en_US, and such locales, exact matches
++     * with font language support is sporatic. To resolve this, allow close
++     * matches to succeed, but be able to accept exact matches above them.
++     */
+     
+     for (f = 0; f < nnodes; f++)
+     {
+@@ -755,18 +815,19 @@
+ 	 * If this node matches any language, go check
+ 	 * which ones and satisfy those entries
+ 	 */
+-	if (nodeps[f]->score[MATCH_LANG_INDEX] < 200)
++	if (nodeps[f]->score[MATCH_LANG_INDEX] < 100)
+ 	{
+ 	    for (i = 0; i < nPatternLang; i++)
+ 	    {
+ 		FcValue	    nodeLang;
+ 		
+-		if (!patternLangSat[i] &&
++		if (patternLangSat[i] != 1 &&
+ 		    FcPatternGet (p, FC_LANG, i, &patternLang) == FcResultMatch &&
+ 		    FcPatternGet (nodeps[f]->pattern, FC_LANG, 0, &nodeLang) == FcResultMatch)
+ 		{
+ 		    double  compare = FcCompareLang (&patternLang, &nodeLang);
+-		    if (compare >= 0 && compare < 2)
++		    if (compare >= 0 && compare < 2 &&
++                        (patternLangSat[i] == 0 || compare + 1 < patternLangSat[i]))
+ 		    {
+ 			if (FcDebug () & FC_DBG_MATCHV)
+ 			{
+@@ -777,7 +838,7 @@
+ 				FcPatternGetString (nodeps[f]->pattern, FC_STYLE, 0, &style) == FcResultMatch)
+ 				printf ("Font %s:%s matches language %d\n", family, style, i);
+ 			}
+-			patternLangSat[i] = FcTrue;
++			patternLangSat[i] = (int) compare + 1;
+ 			satisfies = FcTrue;
+ 			break;
+ 		    }
+--- fontconfig-2.7.3/src/fcxml.c	2009-09-08 11:45:26.000000000 -0400
++++ fontconfig-2.7.3/src/fcxml.c	2009-11-18 09:33:34.446452000 -0500
+@@ -2468,6 +2468,9 @@
+     void	    *buf;
+ #endif
+     
++    char	    *cur_locale = setlocale (LC_NUMERIC, NULL);
++    setlocale (LC_NUMERIC, "C");
++
+     filename = FcConfigFilename (name);
+     if (!filename)
+ 	goto bail0;
+@@ -2567,6 +2570,7 @@
+     close (fd);
+     fd = -1;
+ bail0:
++    setlocale (LC_NUMERIC, cur_locale);
+     if (error && complain)
+     {
+ 	if (name)
+--- fontconfig-2.7.3/src/fcfreetype.c	2009-09-08 11:45:26.000000000 -0400
++++ fontconfig-2.7.3/src/fcfreetype.c	2009-11-18 09:35:14.151900000 -0500
+@@ -124,7 +124,7 @@
+  {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_BIG_5,		"BIG-5" },
+  {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_WANSUNG,	"Wansung" },
+  {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_JOHAB,		"Johab" },
+- {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UCS-2BE" },
++ {  TT_PLATFORM_MICROSOFT,	TT_MS_ID_UCS_4,		"UTF-16BE" },
+  {  TT_PLATFORM_ISO,		TT_ISO_ID_7BIT_ASCII,	"ASCII" },
+  {  TT_PLATFORM_ISO,		TT_ISO_ID_10646,	"UCS-2BE" },
+  {  TT_PLATFORM_ISO,		TT_ISO_ID_8859_1,	"ISO-8859-1" },

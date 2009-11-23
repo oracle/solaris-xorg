@@ -28,7 +28,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype	1.13	09/11/23 SMI"
+# ident	"@(#)prototype	1.14	09/11/23 SMI"
 #
 # Fontconfig config files
 
@@ -44,7 +44,6 @@ d none etc							0755 root sys
 d none etc/fonts						0755 root sys
 f none etc/fonts/fonts.conf					0444 root bin
 f none etc/fonts/fonts.dtd					0444 root bin
-f none etc/fonts/local.conf					0444 root bin
 
 !search ../lib/svc/method
 d none lib							0755 root bin
@@ -62,6 +61,7 @@ f none etc/fonts/conf.avail/10-sub-pixel-vbgr.conf		0444 root bin
 f none etc/fonts/conf.avail/10-sub-pixel-vrgb.conf		0444 root bin
 f none etc/fonts/conf.avail/10-unhinted.conf			0444 root bin
 f none etc/fonts/conf.avail/20-fix-globaladvance.conf		0444 root bin
+f none etc/fonts/conf.avail/20-indic.conf			0444 root bin
 f none etc/fonts/conf.avail/20-unhint-small-vera.conf		0444 root bin
 f none etc/fonts/conf.avail/25-unhint-nonlatin.conf		0444 root bin
 f none etc/fonts/conf.avail/30-urw-aliases.conf			0444 root bin
@@ -86,13 +86,6 @@ f none etc/fonts/conf.avail/90-synthetic.conf			0444 root bin
 !search      $HOME/fonts/conf.d
 d none etc/fonts/conf.d						0755 root sys
 f none etc/fonts/conf.d/README					0444 root bin
-s none etc/fonts/conf.d/10-autohint.conf=../conf.avail/10-autohint.conf
-s none etc/fonts/conf.d/10-no-sub-pixel.conf=../conf.avail/10-no-sub-pixel.conf
-s none etc/fonts/conf.d/10-sub-pixel-bgr.conf=../conf.avail/10-sub-pixel-bgr.conf
-s none etc/fonts/conf.d/10-sub-pixel-rgb.conf=../conf.avail/10-sub-pixel-rgb.conf
-s none etc/fonts/conf.d/10-sub-pixel-vbgr.conf=../conf.avail/10-sub-pixel-vbgr.conf
-s none etc/fonts/conf.d/10-sub-pixel-vrgb.conf=../conf.avail/10-sub-pixel-vrgb.conf
-s none etc/fonts/conf.d/10-unhinted.conf=../conf.avail/10-unhinted.conf
 s none etc/fonts/conf.d/20-fix-globaladvance.conf=../conf.avail/20-fix-globaladvance.conf
 s none etc/fonts/conf.d/20-unhint-small-vera.conf=../conf.avail/20-unhint-small-vera.conf
 s none etc/fonts/conf.d/30-urw-aliases.conf=../conf.avail/30-urw-aliases.conf

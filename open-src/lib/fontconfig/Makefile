@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.85	09/11/23 SMI"
+# ident	"@(#)Makefile	1.86	09/11/23 SMI"
 #
 
 # Package name used in tarballs
@@ -93,18 +93,15 @@ FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
 FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 
-# local.conf file to be installed in /etc/fonts/local.conf
-FONTCONFIG_LOCAL_CONF = $(PROTODIR)/etc/fonts/local.conf
-
 # Sun specification configuration files to be installed in /etc/fonts/conf.d
 FONTCONFIG_CONFDIR = $(PROTODIR)/etc/fonts/conf.avail
-SUN_CONFFILES = 49-sun-preuser.conf 90-sun-prefer-bitmap.conf
+SUN_CONFFILES = 20-indic.conf 49-sun-preuser.conf 90-sun-prefer-bitmap.conf
 FONTCONFIG_SUN_CONFFILES = $(SUN_CONFFILES:%=$(FONTCONFIG_CONFDIR)/%)
 
 # Additional targets to install beyond the default_install
 MODULE_ADD_INSTALL_TARGETS = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
-	$(FONTCONFIG_LOCAL_CONF) $(FONTCONFIG_SUN_CONFFILES)
+	$(FONTCONFIG_SUN_CONFFILES)
 
 # Include common rulesets
 include ../Makefile.inc
@@ -124,11 +121,6 @@ $(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
 	cp -fp $$f $@ ; \
 	rm -f $(PROTODIR)/etc/fonts/conf.d/$$f ; \
 	ln -s ../conf.avail/$$f $(PROTODIR)/etc/fonts/conf.d/$$f
-
-$(FONTCONFIG_LOCAL_CONF): local.conf
-	mkdir -p $(PROTODIR)/etc/fonts
-	cp -fp local.conf $@
-	touch -acm $@
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
