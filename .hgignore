@@ -3,6 +3,8 @@ syntax: regexp
 # Skip build directories
 /build_32/
 /build_64/
+/build_core/
+/build_iso8859-\d*/
 # Skip downloaded tarballs
 open-src/tarballs/.*\.tar
 # Skip proto area and packages
