@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.81	09/10/26
+# @(#)Makefile	1.82	09/11/23
 #
 
 PWD:sh=pwd
@@ -139,7 +139,7 @@ install_freetype:: $(BUILD_TARGETS)
 
 # $(PROTODIR)/usr/sfw is made so that the RUNPATH in mkfontscale picks up
 # libfreetype from the $(PROTODIR) when running in the build
-install_gen::
+install_32::
 	-/bin/rm -f $(PROTODIR)/usr/sfw
 	ln -s . $(PROTODIR)/usr/sfw
 
@@ -151,5 +151,3 @@ install_64::
 	-/bin/rm -f $(BIN_INST_DIR)/64
 	mkdir -p $(BIN_INST_DIR)
 	ln -s $(SUBDIR64) $(BIN_INST_DIR)/64
-
-
