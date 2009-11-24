@@ -37,13 +37,11 @@
 MODULE_NAME=transset
 
 # Version number (used in path names)
-MODULE_VERSION=0.9
+MODULE_VERSION=0.9.1
 
 # Source tarball
-#SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
-#SOURCE_TARBALL_NAME_SET=yes
-#SOURCE_UNCOMPRESS=gzcat
-#SOURCE_UNCOMPRESS_SET=yes
+SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
