@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.27	09/11/17
+# @(#)Makefile	1.28	09/11/25
 #
 
 # Package name used in tarballs
@@ -43,7 +43,7 @@ MODULE_VERSION=2.6.3
 SOURCE_PATCHES= build-dri.patch libraries.patch \
 		6538497_6554161.patch bugs.patch \
                 gem.patch 6872597.patch \
-		gem-hang.patch
+		gem-hang.patch 6898754.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
