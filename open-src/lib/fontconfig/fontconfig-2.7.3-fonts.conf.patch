@@ -98,28 +98,44 @@ diff -urp -x '*~' -x '*.orig' fontconfig-2.7.3/conf.d/65-nonlatin.conf fontconfi
  			<family>Artsounk</family> <!-- armenian -->
  			<family>BPG UTF8 M</family> <!-- georgian -->
  			<family>Kinnari</family> <!-- thai -->
-@@ -34,10 +35,18 @@
- 			<family>ZYSong18030</family> <!-- han (zh-cn,zh-tw) -->
- 			<family>HanyiSong</family> <!-- han (zh-cn,zh-tw) -->
- 			<family>MgOpen Canonica</family>
--			<family>Sazanami Mincho</family>
+@@ -27,17 +28,23 @@
+ 			<family>UmePlus P Gothic</family> <!-- han (ja) -->
+ 			<family>SimSun</family> <!-- han (zh-cn,zh-tw) -->
+ 			<family>PMingLiu</family> <!-- han (zh-tw) -->
++			<family>ZYSong18030</family> <!-- han (zh-cn,zh-tw) -->
++			<family>HanyiSong</family> <!-- han (zh-cn,zh-tw) -->
++			<family>MgOpen Canonica</family>
 +                        <family>HG-PMinchoL-Sun</family>
 +                        <family>HG-MinchoL-Sun</family>
- 			<family>IPAMonaMincho</family>
++			<family>IPAMonaMincho</family>
 +                        <family>IPAPMincho</family>
- 			<family>IPAMincho</family>
--			<family>Kochi Mincho</family>
++			<family>IPAMincho</family>
 +                        <family>Sazanami Mincho</family>
 +                        <family>Sazanami Gothic</family>
 +                        <family>FZSongTi</family>
 +                        <family>FZMingTi</family>
 +                        <family>KacstQurn</family>
-+                        <family>SunDotum</family>
-+                        <family>AR PL ShanHeiSun Uni</family>
+ 			<family>WenQuanYi Zen Hei</family> <!-- han (zh-cn,zh-tw) -->
+ 			<family>WenQuanYi Bitmap Song</family> <!-- han (zh-cn,zh-tw) -->
+ 			<family>AR PL ShanHeiSun Uni</family> <!-- han (ja,zh-cn,zh-tw) -->
+ 			<family>AR PL New Sung</family> <!-- han (zh-cn,zh-tw) -->
+-			<family>ZYSong18030</family> <!-- han (zh-cn,zh-tw) -->
+-			<family>HanyiSong</family> <!-- han (zh-cn,zh-tw) -->
+-			<family>MgOpen Canonica</family>
+-			<family>Sazanami Mincho</family>
+-			<family>IPAMonaMincho</family>
+-			<family>IPAMincho</family>
+-			<family>Kochi Mincho</family>
  			<family>AR PL SungtiL GB</family>
  			<family>AR PL Mingti2L Big5</family>
   			<family>AR PL Zenkai Uni</family>
-@@ -69,6 +78,7 @@
+@@ -64,11 +71,13 @@
+  			<family>Lohit Telugu</family>
+  			<family>Lohit Oriya</family>
+  			<family>LKLUG</family>
++                        <family>SunDotum</family>
+ 		</prefer>
+ 	</alias>
  	<alias>
  		<family>sans-serif</family>
  		<prefer>
@@ -127,25 +143,46 @@ diff -urp -x '*~' -x '*.orig' fontconfig-2.7.3/conf.d/65-nonlatin.conf fontconfi
  			<family>Nachlieli</family> <!-- hebrew -->
  			<family>Lucida Sans Unicode</family>
  			<family>Yudit Unicode</family>
-@@ -105,10 +115,16 @@
- 			<family>AR PL New Sung</family> <!-- han (zh-cn,zh-tw) -->
- 			<family>MgOpen Modata</family>
- 			<family>VL Gothic</family>
+@@ -99,19 +108,23 @@
+ 			<!-- chinese fonts are actually serifed -->
+ 			<family>SimSun</family> <!-- han (zh-cn,zh-tw) -->
+ 			<family>PMingLiu</family> <!-- han (zh-tw) -->
++			<family>MgOpen Modata</family>
++			<family>VL Gothic</family>
 +                        <family>HG-PGothicB-Sun</family>
 +                        <family>HG-GothicB-Sun</family>
- 			<family>IPAMonaGothic</family>
++			<family>IPAMonaGothic</family>
 +                        <family>IPAPGothic</family>
- 			<family>IPAGothic</family>
- 			<family>Sazanami Gothic</family>
--			<family>Kochi Gothic</family>
++			<family>IPAGothic</family>
++			<family>Sazanami Gothic</family>
 +                        <family>FZSongTi</family>
 +                        <family>FZMingTi</family>
 +                        <family>KacstQurn</family>
++			<family>AR PL KaitiM GB</family>
++			<family>AR PL KaitiM Big5</family>
+ 			<family>WenQuanYi Zen Hei</family> <!-- han (zh-cn,zh-tw) -->
+ 			<family>WenQuanYi Bitmap Song</family> <!-- han (zh-cn,zh-tw) -->
+ 			<family>AR PL ShanHeiSun Uni</family> <!--han (ja,zh-cn,zh-tw) -->
+ 			<family>AR PL New Sung</family> <!-- han (zh-cn,zh-tw) -->
+-			<family>MgOpen Modata</family>
+-			<family>VL Gothic</family>
+-			<family>IPAMonaGothic</family>
+-			<family>IPAGothic</family>
+-			<family>Sazanami Gothic</family>
+-			<family>Kochi Gothic</family>
+-			<family>AR PL KaitiM GB</family>
+-			<family>AR PL KaitiM Big5</family>
+- 			<family>AR PL ShanHeiSun Uni</family>
+  			<family>AR PL SungtiL GB</family>
+  			<family>AR PL Mingti2L Big5</family>
+ 			<family>ＭＳ ゴシック</family>
+@@ -138,17 +151,23 @@
+  			<family>Lohit Telugu</family>
+  			<family>Lohit Oriya</family>
+  			<family>LKLUG</family>
 +                        <family>SunDotum</family>
- 			<family>AR PL KaitiM GB</family>
- 			<family>AR PL KaitiM Big5</family>
-  			<family>AR PL ShanHeiSun Uni</family>
-@@ -143,12 +159,18 @@
+ 		</prefer>
+ 	</alias>
  	<alias>
  		<family>monospace</family>
  		<prefer>
@@ -161,7 +198,25 @@ diff -urp -x '*~' -x '*.orig' fontconfig-2.7.3/conf.d/65-nonlatin.conf fontconfi
 +                        <family>FZSongTi</family>
 +                        <family>FZMingTi</family>
 +                        <family>KacstQurn</family>
-+                        <family>SunDotumChe</family>
  			<family>AR PL KaitiM GB</family>
  			<family>MS Gothic</family> <!-- han (ja) -->
  			<family>UmePlus Gothic</family> <!-- han (ja) -->
+@@ -160,8 +179,6 @@
+ 			<family>AR PL SungtiL GB</family>
+ 			<family>AR PL Mingti2L Big5</family>
+ 			<family>ZYSong18030</family> <!-- han (zh-cn,zh-tw) -->
+-			<family>UnBatang</family>
+-			<family>UnDotum</family>
+ 			<family>Baekmuk Batang</family> <!-- hangul -->
+ 			<family>Baekmuk Dotum</family>
+ 			<family>Baekmuk Gulim</family>
+@@ -190,6 +207,9 @@
+ 			<family>Lohit Telugu</family>
+ 			<family>Lohit Oriya</family>
+ 			<family>LKLUG</family>
++                        <family>SunDotumChe</family>
++			<family>UnBatang</family>
++			<family>UnDotum</family>
+ 		</prefer>
+ 	</alias>
+ </fontconfig>
