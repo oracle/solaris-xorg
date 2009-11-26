@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.86	09/11/23 SMI"
+# ident	"@(#)Makefile	1.87	09/11/26 SMI"
 #
 
 # Package name used in tarballs
@@ -72,7 +72,7 @@ MODULE_PREFIX_SET=yes
 MODULE_CONFIG_OPTS = \
     --with-confdir=/etc/fonts \
     --with-default-fonts='/usr/share/fonts' \
-    --with-add-fonts='/etc/X11/fontpath.d,/usr/share/ghostscript/fonts' \
+    --with-add-fonts='/etc/X11/fontpath.d,/usr/share/ghostscript/fonts,/usr/X11/lib/X11/fonts' \
     --with-freetype-config=$(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config \
     --with-cache-dir=/var/cache/fontconfig
 
