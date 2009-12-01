@@ -1,16 +1,41 @@
 '\" t
-.\" Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
-.\" Use subject to license terms.
+.\" Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+.\" Use is subject to license terms.
 .\"
-.\" ident	"@(#)libfontconfig.3lib	1.3	04/11/17 SMI"
+.\" Permission is hereby granted, free of charge, to any person obtaining a
+.\" copy of this software and associated documentation files (the
+.\" "Software"), to deal in the Software without restriction, including
+.\" without limitation the rights to use, copy, modify, merge, publish,
+.\" distribute, and/or sell copies of the Software, and to permit persons
+.\" to whom the Software is furnished to do so, provided that the above
+.\" copyright notice(s) and this permission notice appear in all copies of
+.\" the Software and that both the above copyright notice(s) and this
+.\" permission notice appear in supporting documentation.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+.\" OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+.\" MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+.\" OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+.\" INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+.\" FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+.\" NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+.\" WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" Except as contained in this notice, the name of a copyright holder
+.\" shall not be used in advertising or otherwise to promote the sale, use
+.\" or other dealings in this Software without prior written authorization
+.\" of the copyright holder.
+.\"
+.\" ident	"@(#)libfontconfig.3lib	1.4	09/12/01 SMI"
 .\"
 .\" This man page created by Sun to document stability level & license
 .\"
-.TH libfontconfig 3lib "4 Nov 2004"
+.TH libfontconfig 3lib "30 Nov 2009"
 .SH NAME
 libfontconfig \- font configuration API
 .SH SYNOPSIS
-Use 
+Use
 .B pkg-config fontconfig
 to determine compiler and linker flags.
 .SH DESCRIPTION
@@ -19,73 +44,100 @@ Information about fontconfig and open source releases may be found at
 .B http://www.fontconfig.org/
 .SH INTERFACES
 The shared object libfontconfig.so.1 provides the  public  interfaces
-defined  below.  See the man page for each function for additional 
+defined  below.  See the man page for each function for additional
 information.
 
 .TS
 lw(2.750000i) lw(2.750000i).
-FcAtomicCreate               FcFreeTypeQuery 
-FcAtomicDeleteNew            FcGetVersion 
-FcAtomicDestroy              FcInit 
-FcAtomicLock                 FcInitBringUptoDate 
-FcAtomicNewFile              FcInitLoadConfig 
-FcAtomicOrigFile             FcInitLoadConfigAndFonts 
-FcAtomicReplaceOrig          FcInitReinitialize 
-FcAtomicUnlock               FcMatrixCopy 
-FcBlanksAdd                  FcMatrixEqual 
-FcBlanksCreate               FcMatrixInit 
-FcBlanksDestroy              FcMatrixMultiply 
-FcBlanksIsMember             FcMatrixRotate 
-FcCharSetAddChar             FcMatrixScale 
-FcCharSetCopy                FcMatrixShear 
-FcCharSetCount               FcNameConstant 
-FcCharSetCreate              FcNameGetConstant 
-FcCharSetDestroy             FcNameGetObjectType 
-FcCharSetEqual               FcNameParse 
-FcCharSetFirstPage           FcNameRegisterConstants 
-FcCharSetHasChar             FcNameRegisterObjectTypes 
-FcCharSetIntersect           FcNameUnparse 
-FcCharSetIntersectCount      FcNameUnregisterConstants 
-FcCharSetIsSubset            FcNameUnregisterObjectTypes 
-FcCharSetNextPage            FcObjectSetAdd 
-FcCharSetSubtract            FcObjectSetBuild 
-FcCharSetSubtractCount       FcObjectSetCreate 
-FcCharSetUnion               FcObjectSetDestroy 
-FcConfigAppFontAddDir        FcPatternAdd-Type 
-FcConfigAppFontAddFile       FcPatternAdd 
-FcConfigAppFontClear         FcPatternAddWeak 
-FcConfigBuildFonts           FcPatternBuild 
-FcConfigCreate               FcPatternCreate 
-FcConfigDestroy              FcPatternDel 
-FcConfigFilename             FcPatternDestroy 
-FcConfigGetBlanks            FcPatternEqual 
-FcConfigGetCache             FcPatternEqualSubset 
-FcConfigGetConfigDirs        FcPatternGet-Type 
-FcConfigGetConfigFiles       FcPatternGet 
-FcConfigGetCurrent           FcPatternHash 
-FcConfigGetFontDirs          FcPatternPrint 
-FcConfigGetFonts             FcStrBasename 
-FcConfigGetRescanInverval    FcStrCmpIgnoreCase 
-FcConfigParseAndLoad         FcStrCopy 
-FcConfigSetCurrent           FcStrCopyFilename 
-FcConfigSetRescanInverval    FcStrDirname 
-FcConfigSubstitute           FcStrListCreate 
-FcConfigSubstituteWithPat    FcStrListDone 
-FcConfigUptoDate             FcStrListNext 
-FcDefaultSubstitute          FcStrSetAdd 
-FcDirCacheValid              FcStrSetAddFilename 
-FcDirSave                    FcStrSetCreate 
-FcDirScan                    FcStrSetDel 
-FcFileScan                   FcStrSetDestroy 
-FcFontList                   FcStrSetMember 
-FcFontMatch                  FcUcs4ToUtf8 
-FcFontRenderPrepare          FcUtf16Len 
-FcFontSetAdd                 FcUtf16ToUcs4 
-FcFontSetCreate              FcUtf8Len 
-FcFontSetDestroy             FcUtf8ToUcs4 
-FcFontSort                   FcValueDestroy 
-FcFreeTypeCharIndex          FcValueSave 
-FcFreeTypeCharSet
+FcAtomicCreate               FcGetLangs
+FcAtomicDeleteNew            FcGetVersion
+FcAtomicDestroy              FcInit
+FcAtomicLock                 FcInitBringUptoDate
+FcAtomicNewFile              FcInitLoadConfig
+FcAtomicOrigFile             FcInitLoadConfigAndFonts
+FcAtomicReplaceOrig          FcInitReinitialize
+FcAtomicUnlock               FcIsLower
+FcBlanksAdd                  FcIsUpper
+FcBlanksCreate               FcLangGetCharSet
+FcBlanksDestroy              FcLangSetAdd
+FcBlanksIsMember             FcLangSetCompare
+FcCacheCopySet               FcLangSetContains
+FcCacheDir                   FcLangSetCopy
+FcCacheNumFont               FcLangSetCreate
+FcCacheNumSubdir             FcLangSetDestroy
+FcCacheSubdir                FcLangSetEqual
+FcCharSetAddChar             FcLangSetGetLangs
+FcCharSetCopy                FcLangSetHash
+FcCharSetCount               FcLangSetHasLang
+FcCharSetCoverage            FcMatrixCopy
+FcCharSetCreate              FcMatrixEqual
+FcCharSetDestroy             FcMatrixInit
+FcCharSetEqual               FcMatrixMultiply
+FcCharSetFirstPage           FcMatrixRotate
+FcCharSetHasChar             FcMatrixScale
+FcCharSetIntersect           FcMatrixShear
+FcCharSetIntersectCount      FcNameConstant
+FcCharSetIsSubset            FcNameGetConstant
+FcCharSetMerge               FcNameGetObjectType
+FcCharSetNew                 FcNameParse
+FcCharSetNextPage            FcNameRegisterConstants
+FcCharSetSubtract            FcNameRegisterObjectTypes
+FcCharSetSubtractCount       FcNameUnparse
+FcCharSetUnion               FcNameUnregisterConstants
+FcConfigAppFontAddDir        FcNameUnregisterObjectTypes
+FcConfigAppFontAddFile       FcObjectSetAdd
+FcConfigAppFontClear         FcObjectSetBuild
+FcConfigBuildFonts           FcObjectSetCreate
+FcConfigCreate               FcObjectSetDestroy
+FcConfigDestroy              FcPatternAdd-Type
+FcConfigEnableHome           FcPatternAdd
+FcConfigFilename             FcPatternAddWeak
+FcConfigGetBlanks            FcPatternBuild
+FcConfigGetCache             FcPatternCreate
+FcConfigGetCacheDirs         FcPatternDel
+FcConfigGetConfigDirs        FcPatternDestroy
+FcConfigGetConfigFiles       FcPatternDuplicate
+FcConfigGetCurrent           FcPatternEqual
+FcConfigGetFontDirs          FcPatternEqualSubset
+FcConfigGetFonts             FcPatternFilter
+FcConfigGetRescanInterval    FcPatternFormat
+FcConfigHome                 FcPatternGet-Type
+FcConfigParseAndLoad         FcPatternGet
+FcConfigReference            FcPatternHash
+FcConfigSetCurrent           FcPatternPrint
+FcConfigSetRescanInterval    FcPatternReference
+FcConfigSubstitute           FcPatternRemove
+FcConfigSubstituteWithPat    FcStrBasename
+FcConfigUptoDate             FcStrCmp
+FcDefaultSubstitute          FcStrCmpIgnoreCase
+FcDirCacheLoad               FcStrCopy
+FcDirCacheLoadFile           FcStrCopyFilename
+FcDirCacheRead               FcStrDirname
+FcDirCacheUnlink             FcStrDowncase
+FcDirCacheUnload             FcStrFree
+FcDirCacheValid              FcStrListCreate
+FcDirSave                    FcStrListDone
+FcDirScan                    FcStrListNext
+FcFileIsDir                  FcStrPlus
+FcFileScan                   FcStrSetAdd
+FcFini                       FcStrSetAddFilename
+FcFontList                   FcStrSetCreate
+FcFontMatch                  FcStrSetDel
+FcFontRenderPrepare          FcStrSetDestroy
+FcFontSetAdd                 FcStrSetEqual
+FcFontSetCreate              FcStrSetMember
+FcFontSetDestroy             FcStrStr
+FcFontSetList                FcStrStrIgnoreCase
+FcFontSetMatch               FcToLower
+FcFontSetPrint               FcUcs4ToUtf8
+FcFontSetSort                FcUtf16Len
+FcFontSetSortDestroy         FcUtf16ToUcs4
+FcFontSort                   FcUtf8Len
+FcFreeTypeCharIndex          FcUtf8ToUcs4
+FcFreeTypeCharSet            FcValueDestroy
+FcFreeTypeCharSetAndSpacing  FcValueEqual
+FcFreeTypeQuery              FcValuePrint
+FcFreeTypeQueryFace          FcValueSave
 .TE
 .SH FILES
 .PD 0
@@ -95,6 +147,9 @@ shared object
 .TP
 /usr/lib/64/libfontconfig.so.1
 64-bit shared object
+.TP
+/usr/share/doc/fontconfig
+Developer and user documentation in other formats
 .PD
 .SH ATTRIBUTES
 See
@@ -109,12 +164,16 @@ ATTRIBUTE TYPE	ATTRIBUTE VALUE
 =
 Availability	SUNWfontconfig
 =
-Interface Stability	External
+Interface Stability	Volatile
 .TE
 .SH "SEE ALSO"
-.BR pkg-config (1), 
-.BR fc-cache (1), 
-.BR fc-list (1), 
+.BR pkg-config (1),
+.BR fc-cache (1),
+.BR fc-cat (1),
+.BR fc-list (1),
+.BR fc-match (1),
+.BR fc-query (1),
+.BR fc-scan (1),
 .BR fonts.conf (4)
 .SH LICENSE
 .\" Makefile will append license from COPYING file in fontconfig src here

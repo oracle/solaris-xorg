@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.87	09/11/26 SMI"
+# ident	"@(#)Makefile	1.88	09/12/01 SMI"
 #
 
 # Package name used in tarballs
@@ -120,7 +120,7 @@ $(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
 	@f=`basename $@` ; $(START_CMD_ECHO) ; \
 	cp -fp $$f $@ ; \
 	rm -f $(PROTODIR)/etc/fonts/conf.d/$$f ; \
-	ln -s ../conf.avail/$$f $(PROTODIR)/etc/fonts/conf.d/$$f
+	ln -sf ../conf.avail/$$f $(PROTODIR)/etc/fonts/conf.d/$$f
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
@@ -130,7 +130,7 @@ fontconfig-sunman-install: default_install
 	    -e 's/SUNWfontconfig/SUNWfontconfig-root/' 		\
 	  $(FC_MAN_DIR)/man5/fonts-conf.5 > $(FC_MAN_DIR)/man4/fonts.conf.4
 	-rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
-	perl -p -e 's/^$$/.LP/;' -e 's/\251/\\(co/;' 		\
+	perl -p -e 's/^$$/.LP/;' -e 's/.?\251/\\(co/;' 		\
 		libfontconfig.3lib $(SOURCE_DIR)/COPYING >> 	\
 		$(FC_MAN_DIR)/man3lib/libfontconfig.3lib
 	-rm -f $(FC_MAN_DIR)/man1/fc-cache.1
