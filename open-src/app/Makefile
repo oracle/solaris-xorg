@@ -28,14 +28,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.91	09/11/19 SMI"
+# ident	"@(#)Makefile	1.92	09/12/05 SMI"
 #
 ###############################################################################
+
+# Several utilities are not listed here because they are called out in
+# the makefile in the higher level directory due to dependencies between
+# them and modules in other directories.   These include:
+#	rgb, mkfontdir, mkfontscale, bdftopcf
 
 OS_SUBDIRS_common = \
 	accessx \
 	appres \
-	bdftopcf \
 	bitmap \
 	cmap_alloc \
         cmap_compact \
@@ -54,8 +58,6 @@ OS_SUBDIRS_common = \
 	kbd_mode \
 	mesa-demos \
 	mkcookie \
-	mkfontdir \
-	mkfontscale \
 	oclock \
 	proxymngr \
 	rstart \

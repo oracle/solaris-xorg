@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,9 +27,9 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-05-08 17:44:39.416143000 -0700
-+++ hw/xfree86/common/xf86Config.c	2009-05-08 17:44:47.430402000 -0700
-@@ -532,11 +532,30 @@ fixup_video_driver_list(char **drivers)
+--- hw/xfree86/common/xf86Config.c	2009-11-03 22:29:03.988992847 -0800
++++ hw/xfree86/common/xf86Config.c	2009-11-03 22:29:05.439748324 -0800
+@@ -534,11 +534,30 @@ fixup_video_driver_list(char **drivers)
                  if (!strcmp(*drv, "ati")) {
                      ati = drv;
                      x = *ati; *ati = *atimisc; *atimisc = x;

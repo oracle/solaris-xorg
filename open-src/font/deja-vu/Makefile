@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.12	09/11/23 SMI"
+# ident	"@(#)Makefile	1.13	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -71,7 +71,7 @@ include ../Makefile.ttf
 install_fonts_conf: $(SOURCE_TARGETS)
 	mkdir -p $(FONTCONF_DEST_DIR)/conf.avail \
 		$(FONTCONF_DEST_DIR)/conf.d
-	( cd $(SOURCE_DIR)/fontconfig ; PS4="" ; set -x ; \
+	@( cd $(SOURCE_DIR)/fontconfig ; $(START_CMD_ECHO) ; \
 	  for f in *.conf ; do \
 		rm -f $(FONTCONF_DEST_DIR)/conf.avail/$$f \
 			$(FONTCONF_DEST_DIR)/conf.d/$$f ; \

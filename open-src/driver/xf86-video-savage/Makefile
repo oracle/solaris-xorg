@@ -3,7 +3,7 @@
 # xf86-video-savage 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8	09/01/14
+# ident	"@(#)Makefile	1.9	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ MODULE_NAME=xf86-video-savage
 MODULE_VERSION=2.2.1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = port.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -58,6 +58,8 @@ MODULE_LD_OPTIONS= -M $(PWD)/mapfile-vbemodeinit-external \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe -lvgahw -lxaa -lm
+
+AUTORECONF=yes
 
 include ../Makefile.inc
 

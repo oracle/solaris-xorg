@@ -1,6 +1,6 @@
 /*
- * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
- * Use subject to license terms.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,11 +26,9 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- *
- * @(#)Xserver_device_grabs.c	1.2	08/08/08
  */
 
-#pragma ident	"@(#)Xserver_device_grabs.c	1.2	08/08/08 SMI"
+#pragma ident	"@(#)Xserver_device_grabs.c	1.3	09/12/05 SMI"
 
 #include <sys/mdb_modapi.h>
 #include "Xserver_headers.h"
@@ -114,6 +112,7 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
     const char *type;
     char devName[32];
     InputInfo 		inputInfo;
+    GrabPtr	grabP;
     
     if (argc != 0)
 	return (DCMD_USAGE);
@@ -160,14 +159,19 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
     
     mdb_printf("Device \"%s\" id %d: %s\n", devName, dev->id, type);
 
-
-    if (dev->grab == NULL) {
+#ifdef XSUN
+    grabP = dev->grab;
+#else
+    grabP = dev->deviceGrab.grab;
+#endif    
+    
+    if (grabP == NULL) {
 	mdb_printf("  -- no active grab on device\n\n");
     } else {
 	GrabRec grab;
 
-	if (mdb_vread(&grab, sizeof (GrabRec), (uintptr_t) dev->grab) == -1) {
-	    mdb_warn("failed to read GrabRec at %p", dev->grab);
+	if (mdb_vread(&grab, sizeof (GrabRec), (uintptr_t) grabP) == -1) {
+	    mdb_warn("failed to read GrabRec at %p", grabP);
 	} else {
 	    int clientid;
 #ifdef XSUN

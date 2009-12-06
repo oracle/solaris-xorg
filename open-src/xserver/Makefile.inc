@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.19	09/11/23 SMI"
+# ident	"@(#)Makefile.inc	1.21	09/12/06 SMI"
 #
 
 PWD:sh=pwd
@@ -40,13 +40,10 @@ MODTYPE=xserver
 include $(TOP)/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.6.5
+XORGSERVER_VERS=1.7.3
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
-
-XSERVER_FONTDIR=$(X11_DIR)/lib/X11/fonts
-MESA_SRC_DIR=$(TOP)/lib/mesa/$(BUILD_DIR)/Mesa-7.4.4
 
 SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)'
 DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(SERVERMOD_subdir)'
@@ -54,34 +51,27 @@ DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(SERVERMOD_subdir)'
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
 	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
+	--docdir='$(X11_DOC_DIR)' \
         --enable-xdm-auth-1 --enable-xdmcp --enable-xcsecurity \
 	--enable-shared --disable-static \
+	--enable-glx --enable-dri2 \
 	--disable-xsdl --disable-xwin --disable-xnest \
 	--disable-install-setuid \
-	--with-vendor-name="Sun Microsystems, Inc." \
-	--with-vendor-web="http://sunsolve.sun.com/" \
+	--with-vendor-name='Sun Microsystems, Inc., based on X.Org Foundation sources' \
+	--with-vendor-web='http://sunsolve.sun.com/' \
+	--with-builderstring='Solaris ABI: $(BUILD_TYPE)-bit' \
 	--with-os-name="`uname -srm`" \
 	--with-log-dir=/var/log --with-xkb-output=/var/run/xkb \
 	--with-module-dir=$(SERVER_MODULES_DIR) \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
-	--with-xkb-path='$${libdir}/X11/xkb' \
-	--with-xkb-bindir='$${exec_prefix}/bin' \
-	--with-serverconfig-path='$${libdir}/X11/xserver' \
-	--with-default-font-path="catalogue:/etc/X11/fontpath.d" \
-	--with-default-xkb-rules=xorg \
+	--with-default-font-path='catalogue:/etc/X11/fontpath.d' \
+	--with-xkb-bin-directory='$${exec_prefix}/bin' \
 	--with-default-xkb-model=pc105 \
 	$(ADDITIONAL_CONFIG_OPTS)
 
-XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON) \
-	--disable-glx --disable-dri2
-XSERVER_CONFIG_OPTS_i386=$(XSERVER_CONFIG_OPTS_COMMON) \
-	--with-mesa-source=$(MESA_SRC_DIR) --enable-dri2
+XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON)
+XSERVER_CONFIG_OPTS_i386=$(XSERVER_CONFIG_OPTS_COMMON)
 XSERVER_CONFIG_OPTS=$(XSERVER_CONFIG_OPTS_$(MACH))
-
-# Default DPMS settings for Solaris
-DPMS_DEFINES=   -DDEFAULT_STANDBY_TIME=900000 \
-		-DDEFAULT_SUSPEND_TIME=1080000 \
-                -DDEFAULT_OFF_TIME=1260000
 
 MODTYPE_CPPFLAGS_suncc= # No extra flags needed
 MODTYPE_CPPFLAGS_gcc= # No extra flags needed
@@ -111,7 +101,7 @@ MODTYPE_CONFIG_ENV = \
 # 64-bit X servers on SPARC crash on startup when built with Sun Studio 
 # with -g unless -xmemalign=8i is also used (Sun bug #6545113)
 MODTYPE_DEBUG_FLAGS_sparc_suncc = -xmemalign=8i
-MODTYPE_DEBUG_FLAGS=$(MODTYPE_DEBUG_FLAGS_$(MACH)_$(MODULE_COMPILER)) -DDEBUG
+MODTYPE_DEBUG_FLAGS=$(MODTYPE_DEBUG_FLAGS_$(MACH)_$(MODULE_COMPILER))
 
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
 MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
@@ -130,7 +120,7 @@ MODTYPE_BUILD_64_FLAGS=$(MODTYPE_BUILD_64_FLAGS_$(MACH))
 # Environment variable options to use when building
 #  - PATH - include /usr/sbin for dtrace command (needed for building probes)
 MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
-	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib/xorgcfg$(ARCHLIBSUBDIR)
+	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc

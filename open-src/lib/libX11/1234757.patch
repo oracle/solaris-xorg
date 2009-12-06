@@ -1,6 +1,6 @@
 ###############################################################################
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -103,7 +103,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  	if (!_XPollfdCacheInit(dpy)) {
  	        OutOfMemory (dpy, setup);
  		return(NULL);
-@@ -790,6 +802,10 @@ _XBigReqHandler(
+@@ -790,5 +802,9 @@ _XBigReqHandler(
  
  void _XFreeDisplayStructure(Display *dpy)
  {
@@ -111,9 +111,8 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +        RemoveFromDisplayLink(dpy);
 +#endif XTHREADS
 +
- 	while (dpy->ext_procs) {
- 	    _XExtension *ext = dpy->ext_procs;
- 	    dpy->ext_procs = ext->next;
+	/* move all cookies in the EQ to the jar, then free them. */
+	if (dpy->qfree) {
 @@ -910,6 +926,107 @@ void _XFreeDisplayStructure(Display *dpy
  	Xfree ((char *)dpy);
  }

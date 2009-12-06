@@ -91,7 +91,7 @@
 +    textdomain("xload");
 +    
 +    if ((domaindir = getenv ( "TEXTDOMAINDIR" )) == NULL) {
-+	domaindir = "/usr/X11/share/locale"; /*XLOCALEDIR;*/
++	domaindir = "/usr/share/locale"; /*XLOCALEDIR;*/
 +    }
 +    bindtextdomain("xload", domaindir);
 +

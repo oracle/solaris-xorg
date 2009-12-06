@@ -71,8 +71,8 @@ MODULE_CONFIG_OPTS= \
 # Special handling while xdm is moved to /usr but other apps are still in
 # /usr/X11
 MODULE_CONFIG_OPTS += \
-	--with-xrdb='/usr/X11/bin/xrdb' \
-	--with-default-session=command='/usr/X11/bin/xterm -ls' \
+	--with-xrdb='$(X11_BIN_DIR)/xrdb' \
+	--with-default-session=command='$(X11_BIN_DIR)/xterm -ls' \
 
 # Additional build & install targets
 MODULE_ADD_BUILD_TARGETS=build_xdm_configs
@@ -114,7 +114,7 @@ $(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_SRCDIR):
 $(XCF_USR_FILES): $(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_SRCFILES)
 	-rm -f $@
 	mkdir -p $(PROTODIR)/$(XDM_USR_CONFIGDIR)
-	@ set -x ; cp -p $(XCF_USR_SRCDIR)/$$(basename $@) $@
+	@ $(START_CMD_ECHO) ; cp -p $(XCF_USR_SRCDIR)/$$(basename $@) $@
 
 $(XCF_USR_SRCFILES): $(XCF_USR_SRCDIR) $(XCF_ETC_SRCFILES)
 	-rm -f $@

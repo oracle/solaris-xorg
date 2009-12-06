@@ -35,7 +35,7 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.10.8
+MODULE_VERSION=0.10.9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

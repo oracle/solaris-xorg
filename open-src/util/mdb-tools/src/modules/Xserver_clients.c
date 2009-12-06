@@ -1,6 +1,6 @@
 /*
- * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
- * Use subject to license terms.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -26,11 +26,9 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- *
- * @(#)Xserver_clients.c	1.2	08/08/08
  */
 
-#pragma ident	"@(#)Xserver_clients.c	1.2	08/08/08 SMI"
+#pragma ident	"@(#)Xserver_clients.c	1.3	09/12/05 SMI"
 
 #include <sys/mdb_modapi.h>
 #include "Xserver_headers.h"
@@ -54,6 +52,12 @@ typedef struct {
     ClientProcessPtr    process; /* Process id information */    
     Bool                wmgr;
 } IAClientPrivateRec, *IAClientPrivatePtr;
+
+/* Copied from dix/privates.c in Xorg 1.6 */
+struct _Private {
+    int state;
+    pointer value;
+};
 #endif
 
 /*
@@ -73,10 +77,19 @@ client_walk_init(mdb_walk_state_t *wsp)
 #endif
     
     if (wsp->walk_addr == NULL) {
+#ifdef XSUN /* clients is a pointer to an array */	
        if (mdb_readvar(&wsp->walk_addr, "clients") == -1) {
 	   mdb_warn("failed to read 'clients'");
 	   return (WALK_ERR);
        }
+#else /* Xorg 1.6 - clients is the array itself */
+       GElf_Sym clients_sym;
+       if (mdb_lookup_by_name("clients", &clients_sym) == -1) {
+	   mdb_warn("failed to lookup 'clients'");
+	   return (WALK_ERR);
+       }
+       wsp->walk_addr = clients_sym.st_value;
+#endif
        if (mdb_readvar(&max_clients, MAX_CLIENTS) == -1) {
 	   mdb_warn("failed to read '%s'", MAX_CLIENTS);
 	   return (WALK_ERR);
@@ -193,26 +206,41 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 
 		    if (mdb_vread(&oscomm, sizeof (oscomm),
 		      (uintptr_t)client_data.osPrivate) == sizeof (oscomm)) {
-			ClientProcessPtr cpp;
-#ifdef XORG
-			int IAClientPrivateIndex;
-#endif
-			
+			ClientProcessPtr cpp = NULL;
+
 			mdb_printf("%4d ", oscomm.fd);
 
 #ifdef XSUN
 			cpp = oscomm.process;
-#else /* XORG */
-			if (mdb_readvar(&IAClientPrivateIndex,
-					"libIA.so`IAClientPrivateIndex") == -1) {
-			    mdb_warn("failed to read 'IAClientPrivateIndex'");
-			} else {
-			    DevUnion *cppaddr =	&(client_data.devPrivates[IAClientPrivateIndex]);
-			    if (mdb_vread(&cpp, sizeof (cpp), (uintptr_t) cppaddr) != sizeof (cpp)) {
-				cpp = NULL;
-				mdb_warn("failed to read client_data.devPrivates[IAClientPrivateIndex]");
-			    }
+#else /* XORG 1.6 or later */
+			{
+			    int IAPrivKeyIndex;
+			    GElf_Sym privkey_sym;
+			    if (mdb_lookup_by_obj("libia.so", "IAPrivKeyIndex",
+						   &privkey_sym) == -1) {
+				mdb_warn("failed to lookup 'libia.so`IAPrivKeyIndex'");
+			    } else {
+				if (mdb_vread(&IAPrivKeyIndex, sizeof(int),
+					      privkey_sym.st_value) != sizeof(int)) {
+				    mdb_warn("failed to read 'IAPrivKeyIndex'");
+				} else {
+				    void *dpaddr = &(client_data.devPrivates[IAPrivKeyIndex]);
+				    struct _Private devPriv;
 
+				    if (mdb_vread(&devPriv, sizeof (devPriv),
+						  (uintptr_t) dpaddr) != sizeof (devPriv)) {
+					mdb_warn("failed to read client_data.devPrivates[IAPrivKeyIndex]");
+				    } else {
+				    
+					void *cppaddr = devPriv.value;
+				    
+					if (mdb_vread(&cpp, sizeof (cpp), (uintptr_t) cppaddr) != sizeof (cpp)) {
+					    cpp = NULL;
+					    mdb_warn("failed to read client_data.devPrivates[IAPrivKeyIndex].value");
+					}
+				    }
+				}
+			    }
 			}
 #endif			
 			
@@ -270,8 +298,8 @@ static const mdb_dcmd_t dcmds[] = {
 };
 
 static const mdb_walker_t walkers[] = {
-	{ "client_walk", "walk list of clients connected to Xsun",
-		client_walk_init, client_walk_step, client_walk_fini },
+	{ "client_walk", "walk list of clients connected to Xorg",
+		client_walk_init, client_walk_step, client_walk_fini, NULL },
 	{ NULL }
 };
 

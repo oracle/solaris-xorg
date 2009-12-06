@@ -46,6 +46,7 @@ d none share/fonts/X11						0755 root bin
 
 !search $HOME/share/fonts/X11/cyrillic
 d none share/fonts/X11/cyrillic					0755 root bin
+f none share/fonts/X11/cyrillic/fonts.alias			0444 root bin
 f none share/fonts/X11/cyrillic/fonts.dir			0444 root bin
 f none share/fonts/X11/cyrillic/crox1c.pcf			0444 root bin
 f none share/fonts/X11/cyrillic/crox1cb.pcf			0444 root bin

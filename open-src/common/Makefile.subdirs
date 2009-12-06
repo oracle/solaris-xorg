@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.subdirs	1.4	09/10/13 SMI"
+# ident	"@(#)Makefile.subdirs	1.5	09/12/05 SMI"
 #
 
 # Need to set $MACH
@@ -42,9 +42,10 @@ OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
 World: clean all
 
-clean: 
+clean: clean-subdirs clean-obsolete-subdirs
+
+clean-subdirs:
 	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean
-	$(MAKE) $(MAKEFLAGS) clean-obsolete-subdirs
 
 subdirs: $(OS_SUBDIRS)
 
@@ -55,7 +56,7 @@ $(OS_SUBDIRS): ALWAYS_RUN
         $(MAKE) $(MAKEFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)
 
 clean-obsolete-subdirs:
-	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \
+	@ set +e; \
 	if [[ ! -z "$(OBSOLETE_SUBDIRS)" ]] ; then \
 	    for i in $(OBSOLETE_SUBDIRS) ; do \
 	    	if [[ -d $$i ]] ; then \
@@ -63,8 +64,12 @@ clean-obsolete-subdirs:
 		    	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=$$i ; \
 		    else ; \
 		    	print "## removing obsolete build directories in open-src/$(DIRNAME)$$i..."; \
-			(set -x ; cd $$i && rm -rf build_32 build_64 ) ; \
-			(set -x ; rmdir $$i/SCCS $$i ) ; \
+			($(START_CMD_ECHO) ; \
+			 cd $$i && rm -rf build_32 build_64 ) ; \
+			if [[ -d $$i/SCCS ]] ; then \
+				($(START_CMD_ECHO) ; rmdir $$i/SCCS) ; \
+			fi ; \
+			($(START_CMD_ECHO) ; rmdir $$i ) ; \
 		    fi ; \
 		fi ; \
 	    done ; \

@@ -30,20 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	09/10/26
+# ident	"@(#)Makefile	1.11	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.5.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	6846735.patch,-p1 \
 	6892799.patch
-
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

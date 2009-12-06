@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma  ident  "@(#)hotkey.c 1.2     09/04/14 SMI"
+#pragma ident	"@(#)hotkey.c	1.3	09/12/05 SMI"
 
 #include "config.h"
 #include "xf86.h"
@@ -39,9 +39,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <libsysevent.h>
-#ifdef XKB
 #include <xkbsrv.h>
-#endif
 
 static InputInfoPtr HkeyPreInit(InputDriverPtr drv, IDevPtr dev, int flags);
 static void HkeyUnInit(InputDriverPtr drv, InputInfoPtr pInfo, int flags);
@@ -193,10 +191,14 @@ hotkey_read_input(InputInfoPtr pInfo)
     if (read (pInfo->fd, &buf, 1 ) == 1)
 	keysym = buf + HOTKEY_KEYSYM_ROOT;
 
+#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 5
+    curKeySyms = XkbGetCoreMap(dev);
+#else
     if (dev->u.master)
 	curKeySyms = &dev->u.master->key->curKeySyms;
     else
 	curKeySyms = &inputInfo.keyboard->key->curKeySyms;
+#endif
 
     for (i = curKeySyms->minKeyCode; i <= curKeySyms->maxKeyCode; i++) {
 	if (curKeySyms->map[(i - curKeySyms->minKeyCode) * curKeySyms->mapWidth] 

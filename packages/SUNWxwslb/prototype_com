@@ -1,5 +1,6 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -25,9 +26,9 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-# 
 #
-# ident	"@(#)prototype_com	35.22	09/07/14 SMI"
+#
+# ident	"@(#)prototype_com	35.23	09/12/05 SMI"
 #
 #  X Window System lint libraries
 
@@ -37,29 +38,28 @@ i depend=../depend
 
 !HOME=../usr
 
-d none openwin					0755 root bin
-d none X11					0755 root bin
+!search $HOME/lib
+d none lib							0755 root bin
+f none lib/llib-lFS.ln						0444 root bin
+f none lib/llib-lX11.ln						0444 root bin
+f none lib/llib-lXau.ln						0444 root bin
+f none lib/llib-lXdmcp.ln					0444 root bin
+f none lib/llib-lXext.ln					0444 root bin
+f none lib/llib-lXmu.ln						0444 root bin
+f none lib/llib-lXmuu.ln					0444 root bin
+f none lib/llib-lXss.ln						0444 root bin
+f none lib/llib-lXv.ln						0444 root bin
 
-!search      $HOME/openwin/lib
-d none openwin/lib				0755 root bin
-s none openwin/lib/llib-lX11.ln=../../X11/lib/llib-lX11.ln
-s none openwin/lib/llib-lXau.ln=../../X11/lib/llib-lXau.ln
-s none openwin/lib/llib-lXext.ln=../../X11/lib/llib-lXext.ln
+!search $HOME/lib/$plat_64
+d none lib/$plat_64						0755 root bin
+f none lib/$plat_64/llib-lFS.ln					0444 root bin
+f none lib/$plat_64/llib-lX11.ln				0444 root bin
+f none lib/$plat_64/llib-lXau.ln				0444 root bin
+f none lib/$plat_64/llib-lXdmcp.ln				0444 root bin
+f none lib/$plat_64/llib-lXext.ln				0444 root bin
+f none lib/$plat_64/llib-lXmu.ln				0444 root bin
+f none lib/$plat_64/llib-lXmuu.ln				0444 root bin
+f none lib/$plat_64/llib-lXss.ln				0444 root bin
+f none lib/$plat_64/llib-lXv.ln					0444 root bin
 
-!search $HOME/X11/lib
-d none X11/lib					0755 root bin
-f none X11/lib/llib-lX11.ln			0555 root bin
-f none X11/lib/llib-lXau.ln			0555 root bin
-f none X11/lib/llib-lXext.ln			0555 root bin
-f none X11/lib/llib-lXmu.ln			0555 root bin
-f none X11/lib/llib-lXmuu.ln			0555 root bin
-
-
-!search $HOME/X11/lib/$plat_64
-d none X11/lib/$plat_64				0755 root bin
-f none X11/lib/$plat_64/llib-lX11.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXau.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXext.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmu.ln		0555 root bin
-f none X11/lib/$plat_64/llib-lXmuu.ln		0555 root bin
 

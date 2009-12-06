@@ -23,7 +23,7 @@
 +    
 +    /* mainly for debugging */
 +    if((domaindir=getenv("TEXTDOMAINDIR")) == NULL) {
-+	domaindir = "/usr/X11/share/locale"; /*XLOCALEDIR;*/
++	domaindir = "/usr/share/locale"; /*XLOCALEDIR;*/
 +    }
 +    bindtextdomain("xhost",domaindir);
 +

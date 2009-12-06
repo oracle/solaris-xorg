@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_sparc 1.8     07/11/06 SMI"
+# ident	"@(#)prototype_sparc	1.9	09/12/05 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -38,13 +39,12 @@ i depend=depend_sparc
 # Include ISA independent files (prototype_com)
 #
 !XSERVERBINDIR=bin
-!XSERVERMODDIR=lib/modules
+!XSERVERMODDIR=lib/xorg/modules
 !include prototype_com
 
 # On sparc we ship one set of modules and server - 64-bit only
 
 !search $HOME/bin
-d none X11/bin 0755 root bin
-f none X11/bin/Xorg 2555 root root
-f none X11/bin/Xephyr 0555 root bin
-f none X11/bin/Xvfb 0555 root bin
+f none bin/Xorg							2555 root root
+f none bin/Xephyr						0555 root bin
+f none bin/Xvfb							0555 root bin

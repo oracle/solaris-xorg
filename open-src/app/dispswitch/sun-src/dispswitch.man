@@ -27,7 +27,7 @@
 .SH NAME
 dispswitch \- Display Device Switch
 .SH SYNOPSIS
-.B "/usr/X11/bin/dispswitch"
+.B "/usr/bin/dispswitch"
 [\-display \fIdisplay\fP]
 [\-key \fIkeysym\fP]
 [\-mod \fImodifier\fP]
@@ -54,9 +54,11 @@ Skip side-by-side views in two devices rotating.
 Switch/rotate display device states repeatedly without hotkey strokes.
 .IP "\-key <keysym> or -k <keysym>"
 Define the keysym of hotkey to be <keysym>, which can be any entry defined in
-defined in /usr/X11/include/X11/keysymdef.h, with prefix XK_ removed, such as F5, F8, Escape.
+defined in /usr/include/X11/keysymdef.h, with prefix XK_ removed, such as F5, F8, Escape.
 .IP "\-mod <modifier> or -m <modifier>"
-Define the modifier of hotkey to be <modifier>. <modifier> is any or combination of modifiers on your system. Run /usr/X11/bin/xmodmap to find all available modifiers on your system. They can be none, shift, control, mod1, mod3, mod4, mod5, any.
+Define the modifier of hotkey to be <modifier>. <modifier> is any or combination of modifiers on your system. Run 
+.BR xmodmap (1)
+to find all available modifiers on your system. They can be none, shift, control, mod1, mod3, mod4, mod5, any.
 .SH
 Examples:
 

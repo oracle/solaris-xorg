@@ -2,8 +2,8 @@
 #
 # bdftopcf Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=bdftopcf
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,13 +47,11 @@ SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
-# Need to build 64-bit on SPARC since we only ship 64-bit libXfont there
-BUILD_TYPES_SET		= yes
-BUILD_TYPES_sparc	= 64
-BUILD_TYPES_i386	= 32
-BUILD_TYPES		= $(BUILD_TYPES_$(MACH))
-
 # Need to link with libXfont in server private directory
 MODULE_LDFLAGS		= $(X11_SERVERLIBS_LDFLAGS)
+MODULE_LD_OPTIONS	= -R $$ORIGIN/../lib/xorg$(ARCHLIBSUBDIR)
 
 include ../Makefile.inc
+
+# Clean up old 64-bit builds from before we stopped building them
+clean:: clean_64

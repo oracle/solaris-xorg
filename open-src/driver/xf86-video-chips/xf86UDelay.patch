@@ -1,0 +1,47 @@
+From ccbc6669cd1b00b4f50fdf9d63e5b38f6dacfa7a Mon Sep 17 00:00:00 2001
+From: Matt Turner <mattst88@gmail.com>
+Date: Sat, 7 Nov 2009 00:29:33 -0500
+Subject: [PATCH] Use usleep instead of xf86UDelay
+
+Signed-off-by: Matt Turner <mattst88@gmail.com>
+---
+ src/ct_BltHiQV.h |    2 +-
+ src/ct_driver.c  |    6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/ct_BltHiQV.h b/src/ct_BltHiQV.h
+index 8099d65..ada946e 100644
+--- a/src/ct_BltHiQV.h
++++ b/src/ct_BltHiQV.h
+@@ -82,7 +82,7 @@
+                             ErrorF("timeout\n"); \
+ 			    tmp = cPtr->readXR(cPtr, 0x20); \
+ 			    cPtr->writeXR(cPtr, 0x20, ((tmp & 0xFD) | 0x2)); \
+-                            xf86UDelay(10000); \
++                            usleep(10000); \
+                             cPtr->writeXR(cPtr, 0x20, (tmp & 0xFD)); \
+ 			    break; \
+                          } \
+diff --git a/src/ct_driver.c b/src/ct_driver.c
+index eda2f63..65fa03e 100644
+--- a/src/ct_driver.c
++++ b/src/ct_driver.c
+@@ -3725,12 +3725,12 @@ CHIPSEnterVT(int scrnIndex, int flags)
+ 	&& (cPtr->Flags & ChipsLinearSupport)) 
+         CHIPSResetVideo(pScrn); 
+ 
+-    /*xf86UDelay(50000);*/
++    /*usleep(50000);*/
+     chipsHWCursorOn(cPtr, pScrn);
+     /* cursor settle delay */
+-    xf86UDelay(50000);
++    usleep(50000);
+     CHIPSAdjustFrame(pScrn->scrnIndex, pScrn->frameX0, pScrn->frameY0, 0);    
+-    xf86UDelay(50000);
++    usleep(50000);
+     return TRUE;
+ }
+ 
+-- 
+1.5.6.5
+

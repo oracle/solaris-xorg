@@ -2,8 +2,8 @@
 #
 # Xpm apps Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.10	08/11/26
+# ident	"@(#)Makefile	1.11	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -40,7 +40,7 @@ SOURCE_TARBALL_DIR=lib
 SOURCE_TARBALL_DIR_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=3.5.7
+MODULE_VERSION=3.5.8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -65,5 +65,5 @@ install_xpm_apps:: $(BUILD_TARGETS)
 	(cd $(SOURCE_DIR)/cxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)
 	(cd $(SOURCE_DIR)/sxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	(cd $(SOURCE_DIR)/cxpm ; cp -pf cxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))
-	(cd $(SOURCE_DIR)/sxpm ; cp -pf sxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR))
+	cp -pf $(SOURCE_DIR)/cxpm/cxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -pf $(SOURCE_DIR)/sxpm/sxpm.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

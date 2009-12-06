@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.102	09/11/23 SMI"
+# ident	"@(#)Makefile.inc	1.103	09/12/05 SMI"
 #
 
 ### Default rules
@@ -45,14 +45,17 @@ $(MODTYPE_MAKE_DEFAULT)		MODTYPE_MAKE = $(MAKE)
 MODULE_MAKE_DEFAULT		= $(MODULE_MAKE_SET:yes=$(POUND_SIGN))
 $(MODULE_MAKE_DEFAULT)		MODULE_MAKE = $(MODTYPE_MAKE)
 
-# Enable parallel make for gmake built modules too
-#MAKEFLAGS			+= -j $(DMAKE_MAX_JOBS)
-
 # Where to install files
 MODTYPE_PREFIX_DEFAULT		= $(MODTYPE_PREFIX_SET:yes=$(POUND_SIGN))
-$(MODULE_PREFIX_DEFAULT)	MODTYPE_PREFIX=$(X11_DIR)
+$(MODTYPE_PREFIX_DEFAULT)	MODTYPE_PREFIX=$(X11_DIR)
 MODULE_PREFIX_DEFAULT		= $(MODULE_PREFIX_SET:yes=$(POUND_SIGN))
 $(MODULE_PREFIX_DEFAULT)	MODULE_PREFIX=$(MODTYPE_PREFIX)
+
+# Where to install pkgconfig files
+MODTYPE_PKGCONFIG_DIR_DEFAULT	= $(MODTYPE_PKGCONFIG_DIR_SET:yes=$(POUND_SIGN))
+$(MODTYPE_PKGCONFIG_DIR_DEFAULT) MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR)
+MODULE_PKGCONFIG_DIR_DEFAULT	= $(MODULE_PKGCONFIG_DIR_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCONFIG_DIR_DEFAULT)	MODULE_PKGCONFIG_DIR=$(MODTYPE_PKGCONFIG_DIR)
 
 # Directory created by unpacking source, if not set in module makefile
 SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
@@ -213,8 +216,8 @@ GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
 # doesn't exist or is empty
 # If MODULE_VERSION is git, checkout source from git repo instead of
 # a tarball
-download:
-	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; set -x ; \
+download: $(TARBALLDIR)
+	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; $(START_CMD_ECHO) ; \
 	if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
 	    if [[ ! -d $(GIT_CLONE_DIR) ]] ; then \
 		$(GIT) clone $(GIT_URL) $(GIT_CLONE_DIR) ; \
@@ -229,6 +232,9 @@ download:
 		fi ; \
 	    fi ; \
 	fi
+
+$(TARBALLDIR):
+	mkdir -p $(TARBALLDIR)
 
 # Update a git cloned repo
 git-update:
@@ -250,7 +256,9 @@ git-update:
 
 FIX_PC_OPS= \
 	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
-	-e 's|Requires.private: .*$$||;'
+	-e 's|Requires.private: .*$$||;' \
+	$(MODTYPE_FIX_PC_FLAGS) \
+	$(MODULE_FIX_PC_FLAGS)
 
 #	-e 's|(Requires: .*)\bx11\b|$$1|;' \
 
@@ -279,7 +287,7 @@ default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
 	  if [[ ! -x $(LNDIR) ]] ; then \
 	    (cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
 	  fi ; \
-	  (PS4="" ; set -x ; \
+	  ($(START_CMD_ECHO) ; \
 	   cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ) ; \
 	fi ; \
 	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
@@ -292,13 +300,13 @@ default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
 	    done ; \
 	fi ; \
 	if [[ "$(SUNTOUCHED_MANPAGES)" != "" ]] ; then \
-	    (PS4="" ; set -x ; \
+	    ($(START_CMD_ECHO) ; \
 		cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
 	fi ; \
 	if [[ "$(FIX_PC_FILES)" != "" ]] ; then \
-	    (PS4="" ; set -x ; \
+	    ($(START_CMD_ECHO) ; \
 		cd $(SOURCE_DIR) && \
 		/usr/perl5/bin/perl -i.orig -p \
 			$(FIX_PC_OPS) $(FIX_PC_FILES) ); \
@@ -338,7 +346,7 @@ $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
-DEFAULT_PKG_CONFIG_PATH=$(TOP)/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PKGCONFIG_DIR)
+DEFAULT_PKG_CONFIG_PATH=$(TOP)/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
@@ -430,7 +438,7 @@ build-in-subdir:
 	 $(subdir_cmd) )
 
 DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
-	pkgconfigdir=$(PKGCONFIG_DIR) \
+	pkgconfigdir=$(MODULE_PKGCONFIG_DIR) \
 	$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 	$(MODTYPE_INSTALL_MAKEFLAGS) $(MODULE_INSTALL_MAKEFLAGS) \
 
@@ -465,9 +473,9 @@ install_pkgconfig_uninstalled: $(INSTALL_TARGETS)
 	    cd $(SOURCE_DIR) ; \
 	    for pcin in $(FIX_PC_FILES:.in=) ; do \
 		pc=$${pcin%%+(.pc|.in)} ; \
-		(PS4="" ; set -x ; \
+		($(START_CMD_ECHO) ; \
 		 /usr/perl5/bin/perl -p $(UNINSTALLED_PC_OPS) $$pc.pc > \
-		    $(PROTODIR)$(PKGCONFIG_DIR)/$$(basename $${pc})-uninstalled.pc ) ; \
+		    $(PROTODIR)$(MODULE_PKGCONFIG_DIR)/$$(basename $${pc})-uninstalled.pc ) ; \
 	    done ; \
 	fi
 
@@ -565,7 +573,7 @@ $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
 install_license:
 	@ THIS_MODULE="$$(echo $(PWD) | sed 's|.*/open-src/||')" ; \
-	PS4="" ; set -x ; \
+	$(START_CMD_ECHO) ; \
 	if [[ -f $(LICENSE_FILE) ]] ; then \
 	    LICENSE_TO_COPY="$(LICENSE_FILE)" ; \
 	elif [[ -f $(SOURCE_DIR)/$(LICENSE_FILE) ]] ; then \

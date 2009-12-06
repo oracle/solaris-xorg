@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.18     09/07/13 SMI"
+# ident	"@(#)prototype	1.19	09/12/05 SMI"
 #
 #    X Window System ICE library
 
@@ -38,51 +38,42 @@ i pkginfo
 i copyright
 i depend
 
-!HOME=../usr/X11
+!HOME=../usr
 
-d none X11				0755 root bin
-
-!search      $HOME/bin
-d none X11                      0755 root bin
-d none X11/bin			0755 root bin
-d none openwin                  0755 root bin
-d none openwin/bin              0755 root bin
-
+!search  $HOME/bin
 # iceauth executable
-f none X11/bin/iceauth		0755 root bin
-
-# Backwards compatible symbolic link
-s none openwin/bin/iceauth=../../X11/bin/iceauth
+d none bin							0755 root bin
+f none bin/iceauth						0755 root bin
 
 !search  $HOME/lib
-d none X11/lib 			0755 root bin
-d none openwin/lib		0755 root bin
-f none X11/lib/libICE.so.6      0755 root bin
-s none X11/lib/libICE.so=./libICE.so.6
-
-# Backwards compatible symbolic links
-s none openwin/lib/libICE.so.6=../../X11/lib/libICE.so.6
-s none openwin/lib/libICE.so=../../X11/lib/libICE.so.6
+d none lib							0755 root bin
+f none lib/libICE.so.6						0755 root bin
+s none lib/libICE.so=libICE.so.6
 
 #    X Window System ICE 64-bit library
 !search  $HOME/lib/$plat_64
-d none X11/lib/$plat_64 				0755 root bin
-s none X11/lib/64=$plat_64
-f none X11/lib/$plat_64/libICE.so.6			0755 root bin
-s none X11/lib/$plat_64/libICE.so=./libICE.so.6
+d none lib/$plat_64						0755 root bin
+f none lib/$plat_64/libICE.so.6					0755 root bin
+s none lib/$plat_64/libICE.so=libICE.so.6
 
-# 64-bit Backwards compatible symbolic links
-d none openwin/lib/$plat_64                             0755 root bin
-s none openwin/lib/64=$plat_64
-s none openwin/lib/$plat_64/libICE.so.6=../../../X11/lib/64/libICE.so.6
-s none openwin/lib/$plat_64/libICE.so=../../../X11/lib/64/libICE.so.6
+# Backwards compatible symbolic links
+d none openwin							0755 root bin
+d none openwin/bin						0755 root bin
+s none openwin/bin/iceauth=../../X11/bin/iceauth
+d none openwin/lib						0755 root bin
+s none openwin/lib/libICE.so.6=../../lib/libICE.so.6
+d none openwin/lib/$plat_64					0755 root bin
+s none openwin/lib/$plat_64/libICE.so=../../../lib/64/libICE.so.6
+s none openwin/lib/$plat_64/libICE.so.6=../../../lib/64/libICE.so.6
 
-# links from default library path for easier compiling
-d none lib			0755 root bin
-s none lib/libICE.so=./libICE.so.6
-s none lib/libICE.so.6=../X11/lib/libICE.so.6
-d none lib/$plat_64		0755 root bin
-s none lib/$plat_64/libICE.so=./libICE.so.6
-s none lib/$plat_64/libICE.so.6=../../X11/lib/64/libICE.so.6
+d none X11							0755 root bin
+d none X11/bin							0755 root bin
+s none X11/bin/iceauth=../../X11/bin/iceauth
+d none X11/lib							0755 root bin
+s none X11/lib/libICE.so=../../lib/libICE.so.6
+s none X11/lib/libICE.so.6=../../lib/libICE.so.6
+d none X11/lib/$plat_64						0755 root bin
+s none X11/lib/$plat_64/libICE.so=../../../lib/64/libICE.so.6
+s none X11/lib/$plat_64/libICE.so.6=../../../lib/64/libICE.so.6
 
 

@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,9 +30,9 @@ Replace "type1" and "bitstream" font modules in xorg.conf files with
 "freetype"
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-05-08 17:44:04.908276000 -0700
-+++ hw/xfree86/common/xf86Config.c	2009-05-08 17:44:13.136269000 -0700
-@@ -249,7 +249,9 @@ xf86ModulelistFromConfig(pointer **optli
+--- hw/xfree86/common/xf86Config.c	2009-11-03 22:28:58.358427130 -0800
++++ hw/xfree86/common/xf86Config.c	2009-11-03 22:28:59.768980995 -0800
+@@ -251,7 +251,9 @@ xf86ModulelistFromConfig(pointer **optli
  {
      int count = 0, i = 0;
      char **modulearray;

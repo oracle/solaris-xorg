@@ -1,6 +1,6 @@
 #!/usr/bin/ksh93
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -48,7 +48,7 @@ fi
 MDBOUT=$(mktemp -t list___Xserver___clients.mdb.XXXXXX)
 PIDOUT=$(mktemp -t list___Xserver___clients.pid.XXXXXX)
 
-if [[ -z "$MDBOUT" -o -z "$PIDOUT" ]] ; then
+if [[ -z "$MDBOUT" || -z "$PIDOUT" ]] ; then
     print "Failed to create temporary files, cannot continue"
     exit 1
 fi

@@ -1,4 +1,5 @@
 /* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -27,7 +28,7 @@
  */
 
 
-#pragma	ident	"@(#)ast_sparc_driver.c 1.2 09/04/23 SMI"
+#pragma ident	"@(#)ast_sparc_driver.c	1.3	09/12/05 SMI"
 
 #if defined(__sparc)
 
@@ -36,8 +37,6 @@
 #endif
 #include "xf86.h"
 #include "xf86_OSproc.h"
-#include "xf86Resources.h"
-#include "xf86RAC.h"
 #include "xf86cmap.h"
 #include "compiler.h"
 #include "mibstore.h"
@@ -70,6 +69,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
+extern Bool ASTGetRec(ScrnInfoPtr pScrn);
 
 #define AST_REG_SIZE       		(256*1024)
 #define AST_REG_SIZE_LOG2  		18

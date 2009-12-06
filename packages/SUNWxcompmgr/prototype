@@ -1,6 +1,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,25 +30,24 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype 1.0     09/09/16 SMI"
+# ident	"@(#)prototype	1.2	09/12/05 SMI"
 #
 # Xcompmgr and transset for Solaris
 
-!HOME=../usr/X11
+!HOME=../usr
 
 i pkginfo
 i copyright
 i depend
 
 !search $HOME/bin
-d none X11 				0755 root bin
-d none X11/bin 				0755 root bin
-f none X11/bin/xcompmgr			0755 root bin
-f none X11/bin/transset			0755 root bin
+d none bin							0755 root bin
+f none bin/xcompmgr						0755 root bin
+f none bin/transset						0755 root bin
 
-!search      $HOME/share/man/man1
-d none share					0755 root sys
-d none share/man				0755 root bin
-d none share/man/man1				0755 root bin
-f none share/man/man1/xcompmgr.1		0444 root bin
-f none share/man/man1/transset.1		0444 root bin
+!search $HOME/share/man/man1
+d none share							0755 root sys
+d none share/man						0755 root bin
+d none share/man/man1						0755 root bin
+f none share/man/man1/xcompmgr.1				0444 root bin
+f none share/man/man1/transset.1				0444 root bin

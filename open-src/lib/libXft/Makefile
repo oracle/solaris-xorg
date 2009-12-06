@@ -30,20 +30,19 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.17	09/10/26
+# ident	"@(#)Makefile	1.18	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXft
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.13
+MODULE_VERSION=2.1.14
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	xftcore-6261221.patch \
-	6872780.patch \
-	xft.hint.patch
+	6872780.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xft
@@ -58,8 +57,6 @@ LIB_MAN_SUFFIX=3
 # and run time (LD_RUN_PATH) and freetype-config binary at build time (PATH)
 BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR):$(PROTODIR)/usr/openwin/lib$(LIBSUBDIR):/usr/sfw/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/sfw/lib$(LIBSUBDIR) PATH=$(PROTODIR)/usr/bin$(LIBSUBDIR):$(PATH)
 MODULE_LD_OPTIONS= -L$(PROTODIR)/usr/lib$(LIBSUBDIR)
-
-MODULE_MAKEFLAGS = bindir=$(XFT_prefix)/bin$(ARCHLIBSUBDIR)
 
 # Mapfile used to control which symbols are exported
 XFT_MAPFILE=$(PWD)/mapfile.scope

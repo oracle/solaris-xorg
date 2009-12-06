@@ -30,84 +30,83 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.11	09/11/07 SMI"
+# ident	"@(#)prototype	1.12	09/12/05 SMI"
 #
 # X.Org Foundation X client libraries for Solaris
 
-!HOME=../usr/X11
+!HOME=../usr
 
 i pkginfo
 i depend
 i copyright
 
-d none X11 0755 root bin
+d none X11							0755 root bin
 
 !search $HOME/lib
-d none lib				0755 root bin
-d none X11/lib 				0755 root bin
+d none lib							0755 root bin
+d none X11/lib							0755 root bin
 
 # open-src/lib/libXrandr
-f none X11/lib/libXrandr.so.2 		0644 root bin
+s none X11/lib/libXrandr.so.2=../../lib/libXrandr.so.2
 s none X11/lib/libXrandr.so=libXrandr.so.2
 s none lib/libXrandr.so=libXrandr.so.2
-s none lib/libXrandr.so.2=../X11/lib/libXrandr.so.2
+f none lib/libXrandr.so.2					0755 root bin
 
 # open-src/lib/libXv
-f none X11/lib/libXv.so.1	 		0644 root bin
+s none X11/lib/libXv.so.1=../../lib/libXv.so.1
 s none X11/lib/libXv.so=libXv.so.1
 s none lib/libXv.so=libXv.so.1
-s none lib/libXv.so.1=../X11/lib/libXv.so.1
+f none lib/libXv.so.1						0755 root bin
 
 # open-src/lib/libXvMC
-f none X11/lib/libXvMC.so.1	 		0644 root bin
+s none X11/lib/libXvMC.so.1=../../lib/libXvMC.so.1
 s none X11/lib/libXvMC.so=libXvMC.so.1
 s none lib/libXvMC.so=libXvMC.so.1
-s none lib/libXvMC.so.1=../X11/lib/libXvMC.so.1
+f none lib/libXvMC.so.1						0755 root bin
 
 # open-src/lib/libXxf86misc
-f none X11/lib/libXxf86misc.so.1		0644 root bin
+s none X11/lib/libXxf86misc.so.1=../../lib/libXxf86misc.so.1
 s none X11/lib/libXxf86misc.so=libXxf86misc.so.1
 s none lib/libXxf86misc.so=libXxf86misc.so.1
-s none lib/libXxf86misc.so.1=../X11/lib/libXxf86misc.so.1
+f none lib/libXxf86misc.so.1					0755 root bin
 
 # open-src/lib/libXxf86vm
-f none X11/lib/libXxf86vm.so.1			0644 root bin
+s none X11/lib/libXxf86vm.so.1=../../lib/libXxf86vm.so.1
 s none X11/lib/libXxf86vm.so=libXxf86vm.so.1
 s none lib/libXxf86vm.so=libXxf86vm.so.1
-s none lib/libXxf86vm.so.1=../X11/lib/libXxf86vm.so.1
-
+f none lib/libXxf86vm.so.1					0755 root bin
 
 !search $HOME/lib/$plat_64
-d none lib/$plat_64				0755 root bin
-d none X11/lib/$plat_64				0755 root bin
-s none X11/lib/64=$plat_64
+d none lib/$plat_64						0755 root bin
+d none X11/lib/$plat_64						0755 root bin
 
 # open-src/lib/libXrandr
-f none X11/lib/$plat_64/libXrandr.so.2	 		0644 root bin
+s none X11/lib/$plat_64/libXrandr.so.2=../../../lib/64/libXrandr.so.2
 s none X11/lib/$plat_64/libXrandr.so=libXrandr.so.2
 s none lib/$plat_64/libXrandr.so=libXrandr.so.2
-s none lib/$plat_64/libXrandr.so.2=../../X11/lib/64/libXrandr.so.2
+f none lib/$plat_64/libXrandr.so.2				0755 root bin
 
 # open-src/lib/libXv
-f none X11/lib/$plat_64/libXv.so.1	 		0644 root bin
+s none X11/lib/$plat_64/libXv.so.1=../../../lib/64/libXv.so.1
 s none X11/lib/$plat_64/libXv.so=libXv.so.1
 s none lib/$plat_64/libXv.so=libXv.so.1
-s none lib/$plat_64/libXv.so.1=../../X11/lib/64/libXv.so.1
+f none lib/$plat_64/libXv.so.1					0755 root bin
 
 # open-src/lib/libXvMC
-f none X11/lib/$plat_64/libXvMC.so.1	 		0644 root bin
+s none X11/lib/$plat_64/libXvMC.so.1=../../../lib/64/libXvMC.so.1
 s none X11/lib/$plat_64/libXvMC.so=libXvMC.so.1
 s none lib/$plat_64/libXvMC.so=libXvMC.so.1
-s none lib/$plat_64/libXvMC.so.1=../../X11/lib/64/libXvMC.so.1
+f none lib/$plat_64/libXvMC.so.1				0755 root bin
 
 # open-src/lib/libXxf86misc
-f none X11/lib/$plat_64/libXxf86misc.so.1		0644 root bin
+s none X11/lib/$plat_64/libXxf86misc.so.1=../../../lib/64/libXxf86misc.so.1
 s none X11/lib/$plat_64/libXxf86misc.so=libXxf86misc.so.1
 s none lib/$plat_64/libXxf86misc.so=libXxf86misc.so.1
-s none lib/$plat_64/libXxf86misc.so.1=../../X11/lib/64/libXxf86misc.so.1
+f none lib/$plat_64/libXxf86misc.so.1				0755 root bin
 
 # open-src/lib/libXxf86vm
-f none X11/lib/$plat_64/libXxf86vm.so.1			0644 root bin
+s none X11/lib/$plat_64/libXxf86vm.so.1=../../../lib/64/libXxf86vm.so.1
 s none X11/lib/$plat_64/libXxf86vm.so=libXxf86vm.so.1
 s none lib/$plat_64/libXxf86vm.so=libXxf86vm.so.1
-s none lib/$plat_64/libXxf86vm.so.1=../../X11/lib/64/libXxf86vm.so.1
+f none lib/$plat_64/libXxf86vm.so.1				0755 root bin
+

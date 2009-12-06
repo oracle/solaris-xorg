@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +29,7 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)Makefile 1.7     08/08/08 SMI"
+# ident	"@(#)Makefile	1.8	09/12/05 SMI"
 #
 # Files for integration with Solaris Service Management Framework (SMF) and
 # Role Based Access Control (RBAC)
@@ -67,7 +67,7 @@ build_sparc: build_common
 build_i386: build_common
 
 DEFAULT_XSERVER_sparc=/usr/openwin/bin/Xsun
-DEFAULT_XSERVER_i386=/usr/X11/bin/Xorg
+DEFAULT_XSERVER_i386=$(X11_BIN_DIR)/Xorg
 DEFAULT_XSERVER=$(DEFAULT_XSERVER_$(MACH))
 
 x11-server.xml: x11-server.xml.in
@@ -77,7 +77,7 @@ check:: x11-server.xml ogl-select.xml
 	/usr/sbin/svccfg validate x11-server.xml
 	/usr/sbin/svccfg validate ogl-select.xml
 
-clean_common: 
+clean_common:
 	$(RM) x11-server.xml
 
 clean_sparc: clean_common
@@ -103,11 +103,14 @@ install_common: $(BUILD_TARGETS)
 	cp -pf $(RBAC_PROFILE_HELP) $(DESTDIR)/usr/lib/help/profiles/locale/C
 	cp -pf ogl-select.man $(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
 
-install_sparc: install_common
+install_sparc: install_common install_ogl-select
+install_i386: install_common install_ogl-select
 
-OGL_VENDOR_SCRIPTS=nvidia_vendor_select mesa_vendor_select
+OGL_VENDOR_SCRIPTS_sparc=sun_vendor_select
+OGL_VENDOR_SCRIPTS_i386=nvidia_vendor_select
+OGL_VENDOR_SCRIPTS=mesa_vendor_select $(OGL_VENDOR_SCRIPTS_$(MACH))
 
-install_i386: install_common
+install_ogl-select: install_common
 	mkdir -p $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl \
 		$(DESTDIR)$(SUN_SMF_METHOD_DIR) \
 		$(DESTDIR)/lib/opengl/ogl_select/

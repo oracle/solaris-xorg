@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.21	09/11/06 SMI"
+# ident	"@(#)Makefile	1.22	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -57,14 +57,16 @@ SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	tigervnc-xserver16.patch \
-	vnc-config-subdirs.patch,-p1 \
+	upstream-xorg-version.patch,-p1 \
+	upstream-input-refactor.patch,-p1 \
+	tigervnc-port-to-1.7.patch \
+	tigervnc-xserver17.patch \
 	vnc-samemachine-ipv6.patch,-p1 \
-	c++public.patch \
+	c++public.patch,-p1 \
+	vncserver-urandom.patch,-p1 \
 	vnc-nobuildtime.patch \
 	vnc-nohttpd.patch \
 	vncviewer-connect.patch,-p1 \
-	vncserver-urandom.patch \
 	solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
@@ -131,7 +133,7 @@ Xvnc_source_fini: default_source
 # Command line options to GNU autoconf configure script for vnc clients
 VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \
 	--mandir='$${prefix}/share/man' --libdir='$${exec_prefix}/lib/vnc' \
-	--localstatedir=/var --with-system-jpeg
+	--localstatedir=/var --with-system-jpeg --without-simd
 
 # Command line options to GNU autoconf configure script for Xvnc
 XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS) \

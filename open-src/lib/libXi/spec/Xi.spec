@@ -1,6 +1,6 @@
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,23 +27,8 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident  "@(#)Xi.spec	1.3	09/05/14 SMI"
+# ident	"@(#)Xi.spec	1.4	09/12/05 SMI"
 #
-
-Function	XInput_find_display
-Version		SUNWprivate
-Arch		all
-End
-
-Function	_XiCheckExtInit
-Version		SUNWprivate
-Arch		all
-End
-
-Function	_XiEventToWire
-Version		SUNWprivate
-Arch		all
-End
 
 # Used by DevicePresence macro in public <X11/XInput.h> header
 Data		_XiGetDevicePresenceNotifyEvent
@@ -296,3 +281,164 @@ Version		SUNWprivate
 Arch		all
 End
 
+# Added in libXi 1.3.0 / <X11/extensions/XInput2.h>:
+
+Function	XIQueryPointer
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIWarpPointer
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIDefineCursor
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUndefineCursor
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIChangeHierarchy
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XISetClientPointer
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGetClientPointer
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XISelectEvents
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGetSelectedEvents
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIQueryVersion
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIQueryDevice
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XISetFocus
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGetFocus
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGrabDevice
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUngrabDevice
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIAllowEvents
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGrabButton
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGrabKeycode
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGrabEnter
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGrabFocusIn
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUngrabButton
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUngrabKeycode
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUngrabEnter
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUngrabFocusIn
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIListProperties
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIChangeProperty
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIUngrabFocusIn
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIListProperties
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIChangeProperty
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIDeleteProperty
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIGetProperty
+Version		SUNW_1.4
+Arch		all
+End
+
+Function	XIFreeDeviceInfo
+Version		SUNW_1.4
+Arch		all
+End

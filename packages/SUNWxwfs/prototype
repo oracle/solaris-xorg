@@ -1,6 +1,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-#       @(#)prototype	35.15	09/06/18  (c) Sun Microsystems, Inc.
+# ident	"@(#)prototype	35.16	09/12/05 SMI"
 #
 #  font server and associated files.
 
@@ -39,23 +40,29 @@ i depend
 
 !HOME=../usr
 
-d none X11			0755 root bin
+!search      $HOME/bin
+d none bin							0755 root bin
+f none bin/xfs							0755 root bin
 
-!search      $HOME/X11/bin
-d none X11/bin			0755 root bin
-f none X11/bin/xfs		0755 root bin
-f none X11/bin/fsadmin		0755 root bin
+!search      $HOME/sbin
+d none sbin							0755 root bin
+f none sbin/fsadmin						0755 root bin
 
-!search  $HOME/X11/lib/X11/fs
-d none X11/lib			0755 root bin
-d none X11/lib/X11		0755 root bin
-d none X11/lib/X11/fs		0755 root bin
-f none X11/lib/X11/fs/config	0444 root bin
+!search  $HOME/lib/X11/fs
+d none lib							0755 root bin
+d none lib/X11							0755 root bin
+d none lib/X11/fs						0755 root bin
+f none lib/X11/fs/config					0444 root bin
 
 # Symlinks for backwards compatibility
-d none openwin			0755 root bin
-d none openwin/bin		0755 root bin
+d none openwin							0755 root bin
+d none openwin/bin						0755 root bin
 s none openwin/bin/fs=../bin/xfs
-s none openwin/bin/xfs=../../X11/bin/xfs
-s none openwin/bin/fsadmin=../../X11/bin/fsadmin
+s none openwin/bin/xfs=../../bin/xfs
+s none openwin/bin/fsadmin=../../sbin/fsadmin
+
+d none X11							0755 root bin
+d none X11/bin							0755 root bin
+s none X11/bin/xfs=../../bin/xfs
+s none X11/bin/fsadmin=../../sbin/fsadmin
 

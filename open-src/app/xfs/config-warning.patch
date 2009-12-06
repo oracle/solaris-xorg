@@ -36,9 +36,9 @@ diff -urp -x '*~' -x '*.orig' config.cpp config.cpp
  XCOMM X font server configuration file
  XCOMM See xfs(__appmansuffix__) man page for more information.
  
-+XCOMM   DO NOT EDIT /usr/X11/lib/X11/fs/config directly.
++XCOMM   DO NOT EDIT /usr/lib/X11/fs/config directly.
 +XCOMM
-+XCOMM   /usr/X11/lib/X11/fs/config is a factory-default file and will
++XCOMM   /usr/lib/X11/fs/config is a factory-default file and will
 +XCOMM   be unconditionally overwritten upon subsequent installation.
 +XCOMM   Before making changes to the file, copy it to the system configuration 
 +XCOMM   location, /etc/X11/fs/config and edit it there.

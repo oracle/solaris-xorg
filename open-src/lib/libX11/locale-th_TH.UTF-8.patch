@@ -1,6 +1,6 @@
 ###############################################################################
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -123,10 +123,12 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
 +
  XCOMM 	fs1 class (Thai) 
 -fs2	{
+-	charset         ISO8859-11:GR
+-	font            ISO8859-11:GR
 +fs7	{
- 	charset         TIS620-0:GR
- 	font            TIS620-0:GR
- }
++	charset         TIS620-0:GR
++	font            TIS620-0:GR
++}
 +
 +fs8	{
 +	charset		ISO8859-5:GR
@@ -220,7 +222,7 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
 +            load_option delay_nocheck
 +	    primary	UNICODE-FONTSPECIFIC:GLGR
 +	}
-+}
+ }
 +
 +
 +
@@ -228,7 +230,7 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
  END XLC_FONTSET
  
  XCOMM 
-@@ -38,38 +182,138 @@ XCOMM 
+@@ -38,44 +182,138 @@ XCOMM 
  XLC_XLOCALE
  
  encoding_name           UTF-8
@@ -329,9 +331,7 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
  	length		1
 +	ct_encoding	ISO8859-2:GR
 +}
- 
--	wc_encoding	\x30000000
--	ct_encoding     TIS620-0:GR
++
 +XCOMM 	cs11 class
 +cs11	{
 +	side		GR:Default
@@ -343,9 +343,15 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
 +	side		GR:Default
 +	length		1
 +	ct_encoding	ISO8859-9:GR
-+
-+}
-+
+ 
+-	wc_encoding	\x30000000
+-	ct_encoding     ISO8859-11:GR
+ }
+ 
+-XCOMM 	cs2 class
+-cs2	{
+-	side		none
+-	ct_encoding     ISO10646-1
 +XCOMM 	cs13 class
 +cs13	{
 +	side		GR:Default

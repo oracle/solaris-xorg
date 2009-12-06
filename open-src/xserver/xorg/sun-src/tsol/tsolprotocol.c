@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolprotocol.c 1.31	09/08/23 SMI"
+#pragma ident	"@(#)tsolprotocol.c	1.32	09/12/05 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -47,6 +47,8 @@
 #include "tsol.h"
 
 #include "inputstr.h"
+#include "xkbstr.h"
+#include "xkbsrv.h"
 
 #define NEED_REPLIES
 
@@ -906,7 +908,8 @@ ProcTsolQueryPointer(ClientPtr client)
     xQueryPointerReply rep;
     WindowPtr pWin, ptrWin;
     DeviceIntPtr mouse = PickPointer(client);
-    DeviceIntPtr kbd = PickKeyboard(client);
+    DeviceIntPtr keyboard;
+    SpritePtr pSprite;
     int rc;
     TsolResPtr tsolres;
     TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
@@ -918,6 +921,13 @@ ProcTsolQueryPointer(ClientPtr client)
     rc = dixLookupWindow(&pWin, stuff->id, client, DixGetAttrAccess);
     if (rc != Success)
 	return rc;
+    rc = XaceHook(XACE_DEVICE_ACCESS, client, mouse, DixReadAccess);
+    if (rc != Success && rc != BadAccess)
+        return rc;
+
+    keyboard = GetPairedDevice(mouse);
+
+    pSprite = mouse->spriteInfo->sprite;
 
     ptrWin = GetSpriteWindow(mouse);
     tsolres = TsolResourcePrivate(ptrWin);
@@ -929,9 +939,11 @@ ProcTsolQueryPointer(ClientPtr client)
 
     if (mouse->valuator->motionHintWindow)
 	MaybeStopHint(mouse, client);
+    memset(&rep, 0, sizeof(xQueryPointerReply));
     rep.type = X_Reply;
     rep.sequenceNumber = client->sequence;
-    rep.mask = mouse->button->state | kbd->key->state;
+    rep.mask = mouse->button ? (mouse->button->state) : 0;
+    rep.mask |= XkbStateFieldFromRec(&keyboard->key->xkbInfo->state);
     rep.length = 0;
     rep.root = RootOf(pWin);
     rep.rootX = 0;

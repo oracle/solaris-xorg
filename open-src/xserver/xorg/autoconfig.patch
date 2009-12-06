@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,9 +29,9 @@
 6385111: Xorg auto-configuration Improvement
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-05-08 17:44:47.430402000 -0700
-+++ hw/xfree86/common/xf86Config.c	2009-05-08 17:44:56.031564000 -0700
-@@ -2105,7 +2105,7 @@ configMonitor(MonPtr monitorp, XF86ConfM
+--- hw/xfree86/common/xf86Config.c	2009-11-03 22:29:05.439748324 -0800
++++ hw/xfree86/common/xf86Config.c	2009-11-03 22:29:06.884510478 -0800
+@@ -2063,7 +2063,7 @@ configMonitor(MonPtr monitorp, XF86ConfM
      cmodep = conf_monitor->mon_modeline_lst;
      while( cmodep ) {
          mode = xnfcalloc(1, sizeof(DisplayModeRec));

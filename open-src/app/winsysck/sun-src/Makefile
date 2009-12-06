@@ -2,8 +2,8 @@
 #
 # winsysck 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/08/07
+# ident	"@(#)Makefile	1.2	09/12/05 SMI"
 #
 
 OBJS = main.o
@@ -38,7 +38,8 @@ OBJS = main.o
 winsysck: $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) -lX11
 
-install:
-	$(INSTALL) -m 755 winsysck $(DESTDIR)/usr/X11/bin/winsysck
+install: winsysck
+	mkdir -p $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)
+	$(INSTALL) -m 755 winsysck $(DESTDIR)$(bindir)/winsysck
 	$(INSTALL) -m 644 winsysck.man \
-		$(DESTDIR)/usr/X11/share/man/man1/winsysck.1
+		$(DESTDIR)$(mandir)/man1/winsysck.1

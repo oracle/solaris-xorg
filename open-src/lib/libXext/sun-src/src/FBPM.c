@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)FBPM.c	1.7	08/03/12 SMI"
+#pragma ident	"@(#)FBPM.c	1.8	09/12/05 SMI"
 
 #define NEED_REPLIES
 #include <X11/Xlibint.h>
@@ -78,11 +78,11 @@ static XEXT_GENERATE_CLOSE_DISPLAY (close_display, fbpm_info)
  *                                                                           *
  *****************************************************************************/
 
-Bool FBPMQueryExtension (dpy, event_basep, error_basep)
-    Display *dpy;
-    int *event_basep, *error_basep;
+Bool FBPMQueryExtension (
+    Display *dpy,
+    int *event_basep,
+    int *error_basep)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
 
     if (XextHasExtension(info)) {
@@ -92,16 +92,13 @@ Bool FBPMQueryExtension (dpy, event_basep, error_basep)
     } else {
 	return False;
     }
-#else
-	return False;
-#endif
 }
 
-Status FBPMGetVersion(dpy, major_versionp, minor_versionp)
-    Display *dpy;
-    int	    *major_versionp, *minor_versionp;
+Status FBPMGetVersion(
+    Display *dpy,
+    int	    *major_versionp,
+    int	    *minor_versionp)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
     xFBPMGetVersionReply	    rep;
     register xFBPMGetVersionReq  *req;
@@ -122,15 +119,11 @@ Status FBPMGetVersion(dpy, major_versionp, minor_versionp)
     UnlockDisplay (dpy);
     SyncHandle ();
     return 1;
-#else
-	return 0;
-#endif
 }
 
-Bool FBPMCapable(dpy)
-    Display *dpy;
+Bool FBPMCapable(
+    Display *dpy)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
     register xFBPMCapableReq *req;
     xFBPMCapableReply rep;
@@ -150,17 +143,13 @@ Bool FBPMCapable(dpy)
     UnlockDisplay(dpy);
     SyncHandle();
     return rep.capable;
-#else
-	return False;
-#endif
 }
 
 
-Bool FBPMEnable(dpy,state)
-    Display *dpy;
-	int state;
+Bool FBPMEnable(
+    Display *dpy,
+    int state)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
     register xFBPMEnableReq *req;
 
@@ -169,20 +158,16 @@ Bool FBPMEnable(dpy,state)
     GetReq(FBPMEnable, req);
     req->reqType = info->codes->major_opcode;
     req->fbpmReqType = X_FBPMEnable;
-	req->level = state;
+    req->level = state;
 
     UnlockDisplay(dpy);
     SyncHandle();
     return True;
-#else
-	return False;
-#endif
 }
 
-Status FBPMDisable(dpy)
-    Display *dpy;
+Status FBPMDisable(
+    Display *dpy)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
     register xFBPMDisableReq *req;
 
@@ -195,15 +180,11 @@ Status FBPMDisable(dpy)
     UnlockDisplay(dpy);
     SyncHandle();
     return 1;
-#else
-	return 0;
-#endif
 }
-Status FBPMForceLevel(dpy, level)
-    Display *dpy;
-    CARD16 level;
+Status FBPMForceLevel(
+    Display *dpy,
+    CARD16 level)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
     register xFBPMForceLevelReq *req;
 
@@ -224,17 +205,13 @@ Status FBPMForceLevel(dpy, level)
     UnlockDisplay(dpy);
     SyncHandle();
     return 1;
-#else
-	return 0;
-#endif
 }
 
-Status FBPMInfo(dpy, state, onoff)
-    Display *dpy;
-    CARD16 *state;
-	BOOL *onoff;
+Status FBPMInfo(
+    Display *dpy,
+    CARD16 *state,
+    BOOL *onoff)
 {
-#ifndef FBPM_STUB
     XExtDisplayInfo *info = find_display (dpy);
     register xFBPMInfoReq *req;
     xFBPMInfoReply rep;
@@ -256,8 +233,5 @@ Status FBPMInfo(dpy, state, onoff)
     *state = rep.power_level;
     *onoff = rep.state;
     return 1;
-#else
-	return 0;
-#endif
 }
 

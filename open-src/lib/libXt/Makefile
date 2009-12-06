@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.8 09/07/31
+# ident	"@(#)Makefile	1.9	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXt
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch
@@ -66,7 +66,5 @@ FIX_PC_FILES=xt.pc.in
 # needs to interpose on these functions, and if they are inline
 # then the loader can't find them.  It complains silently.
 MODULE_CFLAGS = -DGETVALUES_BUG -xinline=no%_XtAppCreateShell,no%XtAppNextEvent,no%XtAppProcessEvent
-
-MODULE_CONFIG_OPTS= --with-appdefaultdir=$(X11_DIR)/lib/X11/app-defaults
 
 include ../Makefile.inc

@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_sparc	1.55	09/11/13 SMI"
+# ident	"@(#)prototype_sparc	1.56	09/12/05 SMI"
 #
 #
 # Include ISA independent files (prototype_com)
@@ -36,9 +36,9 @@
 
 #   X Window System SPARC-specific 64-bit library software
 
-!search  $HOME/X11/lib/sparcv9
+!search  $HOME/lib/sparcv9
 # open-src/lib/libdga (runtime only - no compile links,
 # needed for binary compatibility for old Java runtimes,
 # sparc only since Xsun/DGA was already obsolete before amd64)
-s none openwin/lib/sparcv9/libdga.so.1=../../../X11/lib/sparcv9/libdga.so.1
-f none X11/lib/sparcv9/libdga.so.1	 	0555 root bin
+f none lib/sparcv9/libdga.so.1					0555 root bin
+s none openwin/lib/sparcv9/libdga.so.1=../../../lib/sparcv9/libdga.so.1

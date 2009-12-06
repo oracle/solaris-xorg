@@ -1,6 +1,7 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.7     09/10/06 SMI"
+# ident	"@(#)prototype	1.8	09/12/05 SMI"
 #
 # X.Org Foundation X clients for Solaris
 
@@ -39,21 +40,18 @@ i pkginfo
 i depend
 i copyright
 
-d none X11 0755 root bin
-d none X11/share 0755 root bin
+d none share							0755 root sys
+d none share/man						0755 root bin
 
-d none X11/share/man 0755 root bin
-s none X11/man=share/man
+!search $HOME/share/man/man1
+d none share/man/man1						0755 root bin
+f none share/man/man1/dispswitch.1				0444 root bin
+f none share/man/man1/glxgears.1				0444 root bin
+f none share/man/man1/glxinfo.1					0444 root bin
+f none share/man/man1/xgamma.1					0444 root bin
+f none share/man/man1/xinput.1					0444 root bin
+f none share/man/man1/xrandr.1					0444 root bin
+f none share/man/man1/xvidtune.1				0444 root bin
+f none share/man/man1/xvinfo.1					0444 root bin
 
-d none X11/share/man/man1 0755 root bin
-
-!search $HOME/X11/share/man/man1
-f none X11/share/man/man1/glxgears.1 0444 root bin
-f none X11/share/man/man1/glxinfo.1 0444 root bin
-f none X11/share/man/man1/xgamma.1 0444 root bin
-f none X11/share/man/man1/xrandr.1 0444 root bin
-f none X11/share/man/man1/dispswitch.1 0444 root bin
-f none X11/share/man/man1/xvidtune.1 0444 root bin
-f none X11/share/man/man1/xvinfo.1 0444 root bin
-f none X11/share/man/man1/xinput.1 0444 root bin
 

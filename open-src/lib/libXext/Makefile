@@ -2,8 +2,8 @@
 #
 # Xext 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +30,19 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/08/08
+# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.1.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	server-compat.patch,-p1 \
+	lint-flags.patch,-p1 \
 	shm.patch \
 	sun-exts.patch
 
@@ -52,8 +54,6 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xext
-
-
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xext.pc.in
@@ -71,13 +71,6 @@ AUTORECONF=yes
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
 
-### Rules specific to this directory:
-
-DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)$(X11_INCLUDES_DIR)/X11/extensions
-
-install_gen::
-	mkdir -p $(INSTDIR)
-	cp -pf sun-src/include/X11/extensions/*.h $(INSTDIR)/
-
 include ../Makefile.inc
+
+

@@ -30,19 +30,18 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.25	09/10/21 SMI"
+# ident	"@(#)Makefile	1.26	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.3.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	compose-masculine.patch,-p1 \
-	locale-fi_FI.UTF-8.patch,-p1 \
+	lintlib.patch,-p1 \
 	1234757.patch \
 	4010755.patch \
 	4614834.patch \
@@ -82,6 +81,7 @@ SOURCE_PATCHES = \
 	compose-zh_HK.UTF-8.patch \
 	compose-zh_TW.UTF-8.patch \
 	locale.aliases.patch \
+	locale.paths.patch \
 	locale-C.patch \
 	locale-iso8859-1.patch \
 	locale-iso8859-6.patch \
@@ -111,6 +111,7 @@ LIB_MAN_SUFFIX=3X11
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
+	--disable-specs \
 	--with-xcb=no --enable-loadable-xcursor --enable-xcms \
 	--enable-xlocaledir --enable-xkb --enable-man-pages=$(LIB_MAN_SUFFIX) \
 	--with-locale-lib-dir='$${exec_prefix}/lib/X11/locale$(LIBSUBDIR)'
@@ -122,6 +123,11 @@ MODULE_CFLAGS = -xF
 # -DMOTIFBC enables compatibility with bugs in Motif & other apps
 # -DSUNSOFT_KBD enables Solaris traditional keyboard handling
 MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD
+
+# Backwards compatibility for old paths until g11n moves all input methods
+MODULE_CONFIG_ENV = \
+ XLOCALEDIR="/usr/share/X11/locale:/usr/X11/share/X11/locale" \
+ XLOCALELIBDIR="/usr/lib/X11/locale$(LIBSUBDIR):/usr/X11/lib/X11/locale$(LIBSUBDIR)"
 
 # Work around libtool's interference
 DELIBTOOLIZE=yes
@@ -148,11 +154,12 @@ include ../Makefile.inc
 # Install additional headers we need in other parts of the build or ship in
 # packages, but which X.Org doesn't
 install_32:: build_32
-	mkdir -p $(PROTODIR)/usr/X11/include/X11/extensions
-	cp -pf sun-src/include/X11/Xvarargs.h $(PROTODIR)/usr/X11/include/X11/
+	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions
+	cp -pf sun-src/include/X11/Xvarargs.h \
+		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/
 	cp -pf sun-src/include/X11/extensions/XInteractive.h \
-		$(PROTODIR)/usr/X11/include/X11/extensions/
+		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions/
 	cp -pf $(BUILD_DIR_32)$(SOURCE_DIR)/src/ks_tables.h \
-		$(PROTODIR)/usr/X11/include/
+		$(PROTODIR)$(X11_INCLUDES_DIR)/
 	cp -pf $(BUILD_DIR_32)$(SOURCE_DIR)/src/xlibi18n/Xlc*.h \
-		$(PROTODIR)/usr/X11/include/X11/
+		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/

@@ -1,6 +1,7 @@
-#!/bin/ksh
+#!/bin/ksh93
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,75 +28,81 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)mesa_vendor_select	1.2	07/09/04 SMI"
+# ident	"@(#)mesa_vendor_select	1.3	09/12/05 SMI"
 #
 
 LINKDIR=/var/run/opengl
 
-PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+PATH=/usr/bin:/usr/sbin
 
-#
-# No support for SPARC, yet
-#
-if [ `uname -p` = "sparc" ]; then
-	return 0
-fi
+ARCH="$(uname -p)"
 
-MYIDENTITY="SUNWtext mesa"
+case "${ARCH}" in
+    sparc)	DIR64="sparcv9" ;;
+    i386)	DIR64="amd64"	;;
+    *)		exit 1		;; # Unknown architecture
+esac
 
 # If this is just a probe, identify ourself and leave.
-if [ $# -eq 1 ]; then
-	if [ $1 = "identify" ]; then
-		echo $MYIDENTITY
+if [[ $# -eq 1 ]]; then
+	if [[ $1 = "identify" ]]; then
+		if [[ "${ARCH}" == "i386" ]] ; then
+		    print "SUNWtext mesa"
+		fi
+		# Already is the default fallback for all platforms
 		return 0
 	fi
 fi
 
-# Make a directory link. $1 is the pathname.
-make_dir_link() {
-	if [ $# != 1 ]; then
+# Make a directory. $1 is the pathname.
+function make_dir {
+	if [[ $# != 1 ]]; then
 		return
 	fi
-	if [ ! -d $1 ]; then
+	if [[ ! -d $1 ]]; then
 		mkdir -p $1
 	fi	
 	chmod 755 $1
 }
 
-dir_init() {
-	make_dir_link $LINKDIR
-	make_dir_link $LINKDIR/lib
-	make_dir_link $LINKDIR/lib/amd64
-	make_dir_link $LINKDIR/include
-	make_dir_link $LINKDIR/server
-	make_dir_link $LINKDIR/server/amd64
-}
-
 # Make a file link. $1 is the source path, $2 is the target path
-make_file_link() {
-	if [ $# != 2 ]; then
+function make_link {
+	if [[ $# != 2 ]]; then
 		return
 	fi
-	if [ -h $2 ]; then
+	if [[ -h $2 ]]; then
 		rm -f $2
 	fi
 	ln -sf $1 $2
 }
 
-dir_init
+# Create directories
+make_dir ${LINKDIR}
+make_dir ${LINKDIR}/lib
+make_dir ${LINKDIR}/lib/${DIR64}
+make_link ${DIR64} ${LINKDIR}/lib/64
+make_dir ${LINKDIR}/include
+make_dir ${LINKDIR}/server
+
+if [[ -d /usr/lib/xorg/modules/extensions/mesa/${DIR64} ]] ; then
+    make_dir ${LINKDIR}/server/${DIR64}
+    make_link ${DIR64} ${LINKDIR}/server/64
+fi
 
 # User libraries
-make_file_link /usr/X11/lib/mesa/libGL.so.1 $LINKDIR/lib/libGL.so.1
-make_file_link /usr/X11/lib/mesa/amd64/libGL.so.1 $LINKDIR/lib/amd64/libGL.so.1
+make_link /usr/lib/mesa/libGL.so.1 ${LINKDIR}/lib/libGL.so.1
+make_link /usr/lib/mesa/${DIR64}/libGL.so.1 ${LINKDIR}/lib/${DIR64}/libGL.so.1
 
 # Server libraries
-make_file_link /usr/X11/lib/modules/extensions/mesa/libglx.so $LINKDIR/server/libglx.so
-make_file_link /usr/X11/lib/modules/extensions/mesa/amd64/libglx.so $LINKDIR/server/amd64/libglx.so
+make_link /usr/lib/xorg/modules/extensions/mesa/libglx.so ${LINKDIR}/server/libglx.so
+if [[ -d /usr/lib/xorg/modules/extensions/mesa/${DIR64} ]] ; then
+    make_link /usr/lib/xorg/modules/extensions/mesa/${DIR64}/libglx.so ${LINKDIR}/server/${DIR64}/libglx.so
+fi
 
 # Includes
-make_file_link /usr/X11/include/mesa/gl.h $LINKDIR/include/gl.h
-make_file_link /usr/X11/include/mesa/glext.h $LINKDIR/include/glext.h
-make_file_link /usr/X11/include/mesa/glx.h $LINKDIR/include/glx.h
-make_file_link /usr/X11/include/mesa/glxext.h $LINKDIR/include/glxext.h
+make_link /usr/include/mesa/gl.h	${LINKDIR}/include/gl.h
+make_link /usr/include/mesa/glext.h	${LINKDIR}/include/glext.h
+make_link /usr/include/mesa/glx.h	${LINKDIR}/include/glx.h
+make_link /usr/include/mesa/glxext.h	${LINKDIR}/include/glxext.h
 
 return 0

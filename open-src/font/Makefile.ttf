@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.ttf	1.1	09/11/23 SMI"
+# ident	"@(#)Makefile.ttf	1.2	09/12/05 SMI"
 #
 
 # No configure script to run
@@ -59,8 +59,8 @@ install_ttf:: $(SOURCE_TARGETS)
 	-rm -rf $(FONT_DEST_DIR)
 	mkdir -p $(FONT_DEST_DIR)
 	cp $(TTF_FONT_FILES:%=$(SOURCE_DIR)/%) $(FONT_DEST_DIR)
-	$(MKFONTSCALE) $(FONT_DEST_DIR)
-	$(MKFONTDIR) $(FONT_DEST_DIR)
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(MKFONTSCALE) $(FONT_DEST_DIR)
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(MKFONTDIR) $(FONT_DEST_DIR)
 
 
 

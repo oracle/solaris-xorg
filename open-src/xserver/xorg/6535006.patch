@@ -1,7 +1,7 @@
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf86Mode.c
---- hw/xfree86/common/xf86Mode.c	2009-01-22 20:35:43.655168000 -0800
-+++ hw/xfree86/common/xf86Mode.c	2009-01-22 20:35:51.516322000 -0800
-@@ -1409,7 +1409,45 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+--- hw/xfree86/common/xf86Mode.c	2009-12-02 18:58:15.014804225 -0800
++++ hw/xfree86/common/xf86Mode.c	2009-12-02 18:58:16.870675175 -0800
+@@ -1397,7 +1397,45 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
  	virtX = virtualX;
  	virtY = virtualY;
  	scrp->virtualFrom = X_CONFIG;
@@ -48,7 +48,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf8
  	/* No virtual size given in the config, try to infer */
  	/* XXX this doesn't take m{in,ax}Pitch into account; oh well */
  	inferred_virtual = inferVirtualSize(scrp, availModes, &virtX, &virtY);
-@@ -1494,12 +1532,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+@@ -1462,12 +1500,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
  	xf86DeleteMode(&scrp->modes, scrp->modes);
      endp = &scrp->modes;
      last = NULL;

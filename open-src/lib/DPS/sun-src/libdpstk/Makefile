@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.2	09/11/19 SMI"
+#ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Manual conversion of the X11R6.9 xc/lib/dpstk/Imakefile
@@ -110,5 +110,5 @@ clean ::
 install: all
 	$(INSTALL) libdpstk.so.5 $(DESTDIR)$(libdir)/libdpstk.so.5
 	$(INSTALL) libdpstkXm.so.5 $(DESTDIR)$(libdir)/libdpstkXm.so.5
-	$(INSTALL) ColorSelect.ad $(DESTDIR)$(libdir)/X11/app-defaults/ColorSelect
-	$(INSTALL) FontSelect.ad $(DESTDIR)$(libdir)/X11/app-defaults/FontSelect
+	$(INSTALL) ColorSelect.ad $(DESTDIR)$(datadir)/X11/app-defaults/ColorSelect
+	$(INSTALL) FontSelect.ad $(DESTDIR)$(datadir)/X11/app-defaults/FontSelect

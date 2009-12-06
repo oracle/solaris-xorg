@@ -1,6 +1,7 @@
 #! /usr/perl5/bin/perl
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)delibtoolize.pl	1.12	08/08/28 SMI"
+# ident	"@(#)delibtoolize.pl	1.15	09/12/05 SMI"
 #
 
 #
@@ -179,7 +180,7 @@ sub modify_file {
     # handle line continuation
     next if ($n =~ m/\\$/);
 
-    if ($l =~ m/^\s*CC\s*=\s*(\S*)/) {
+    if ($l =~ m/^\s*CC\s*=(?:.*\s+)?(\S+)/) {
       $compiler = $1;
     }
 
@@ -205,6 +206,7 @@ sub modify_file {
     # add PIC flags that libtool normally provides
     $l =~ s{\$\(LIBTOOL\)
 	    (?:[\\\s]+ \$\(LT_QUIET\))?
+	    (?:[\\\s]+ \$\(AM_V_lt\))?
 	    (?:[\\\s]+ --tag=(?:CC|CXX))?
 	    (?:[\\\s]+ \$\(AM_LIBTOOLFLAGS\) [\\\s]+ \$\(LIBTOOLFLAGS\))?
 	    [\\\s]+ --mode=compile
@@ -214,6 +216,7 @@ sub modify_file {
     # Remove libtool script from link step
     $l =~ s{\$\(LIBTOOL\)
 	    (?:[\\\s]+ \$\(LT_QUIET\))?
+	    (?:[\\\s]+ \$\(AM_V_lt\))?
 	    (?:[\\\s]+ --tag=(?:CC|CXX))?
 	    (?:[\\\s]+ \$\(AM_LIBTOOLFLAGS\) [\\\s]+ \$\(LIBTOOLFLAGS\))?
 	    [\\\s]+ --mode=link

@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.24	09/11/06 SMI"
+# ident	"@(#)Makefile	1.25	09/12/05 SMI"
 #
 ###############################################################################
 #
@@ -58,7 +58,9 @@ xserver/xorg xserver/xvnc: proto doc lib
 driver: xserver/xorg
 app/rgb: xserver/xorg
 data: app
-font: app
+FONTAPPS = app/bdftopcf app/mkfontscale app/mkfontdir
+font: $(FONTAPPS)
+$(FONTAPPS): lib
 
 OS_SUBDIRS_common = \
 	util/util-macros \
@@ -68,6 +70,7 @@ OS_SUBDIRS_common = \
 	doc \
 	lib \
 	app \
+	$(FONTAPPS) \
 	xserver/xorg \
 	xserver/xvnc \
 	driver \

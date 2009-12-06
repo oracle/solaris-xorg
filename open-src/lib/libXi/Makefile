@@ -1,9 +1,9 @@
 ###############################################################################
 #
-# Xi 1.x Makefile
+# libXi Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	07/12/11
+# ident	"@(#)Makefile	1.5	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6649171.patch
+SOURCE_PATCHES = \
+	man.patch,-p1 \
+	solaris-abi.patch
+
+# Need to autoreconf after patching man/Makefile.am in man.patch
+AUTORECONF = yes
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xi
@@ -51,13 +56,16 @@ SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xi
 
-
-
 # Use specfile to make mapfile & link with it
 MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
 MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xi.pc.in
+
+# Need to use GNU Make to build
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
+MODULE_MAKEFLAGS=-j 1
 
 include ../Makefile.inc

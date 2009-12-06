@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.7	09/10/15 SMI"
+# ident	"@(#)Makefile	1.8	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXaw
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

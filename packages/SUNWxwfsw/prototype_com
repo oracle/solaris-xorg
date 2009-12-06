@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype_com	1.10	09/11/23 SMI"
+# ident	"@(#)prototype_com	1.11	09/12/05 SMI"
 #
 #  X Window System required core font software package
 
@@ -43,16 +43,16 @@ i depend
 d none openwin							0755 root bin
 
 d none openwin/bin						0755 root bin
-s none openwin/bin/mkfontdir=../../X11/bin/mkfontdir
+s none openwin/bin/mkfontdir=../../bin/mkfontdir
+s none openwin/bin/mkfontscale=../../bin/mkfontscale
 
 d none openwin/lib						0755 root bin
-s none openwin/lib/installalias=../../X11/lib/installalias
+s none openwin/lib/installalias=../../lib/X11/installalias
 
 d none X11							0755 root bin
 
-!search	 $HOME/X11/lib
 d none X11/lib							0755 root bin
-f none X11/lib/installalias					0755 root bin
+s none X11/lib/installalias=../../lib/X11/installalias
 
 d none share							0755 root sys
 d none share/fonts						0755 root bin
@@ -64,6 +64,7 @@ f none share/fonts/X11/encodings/adobe-dingbats.enc		0444 root bin
 f none share/fonts/X11/encodings/adobe-standard.enc		0444 root bin
 f none share/fonts/X11/encodings/adobe-symbol.enc		0444 root bin
 f none share/fonts/X11/encodings/armscii-8.enc			0444 root bin
+f none share/fonts/X11/encodings/ascii-0.enc			0444 root bin
 f none share/fonts/X11/encodings/dec-special.enc		0444 root bin
 f none share/fonts/X11/encodings/encodings.dir			0444 root bin
 f none share/fonts/X11/encodings/ibm-cp437.enc			0444 root bin
@@ -115,20 +116,31 @@ f none share/fonts/X11/encodings/large/ksc5601.1992-3.enc.gz	0444 root bin
 f none share/fonts/X11/encodings/large/sun.unicode.india-0.enc.gz	0444 root bin
 
 # Font libraries used by Xorg and X11R7-based font programs
-!search $HOME/X11/lib/X11/xserver
-d none X11/lib/X11						0755 root bin
-d none X11/lib/X11/xserver					0755 root bin
-f none X11/lib/X11/xserver/libfontenc.so.1			0444 root bin
-f none X11/lib/X11/xserver/libXfont.so.1			0444 root bin
+!search $HOME/lib/xorg
+d none lib/xorg							0755 root bin
+f none lib/xorg/libfontenc.so.1					0444 root bin
+s none lib/xorg/libfontenc.so=libfontenc.so.1
+f none lib/xorg/libXfont.so.1					0444 root bin
+s none lib/xorg/libXfont.so=libXfont.so.1
 
-!search $HOME/X11/lib/X11/xserver/$plat_64
-d none X11/lib/X11/xserver/$plat_64				0755 root bin
-s none X11/lib/X11/xserver/64=$plat_64
-f none X11/lib/X11/xserver/$plat_64/libfontenc.so.1		0444 root bin
-f none X11/lib/X11/xserver/$plat_64/libXfont.so.1		0444 root bin
+!search $HOME/lib/xorg/$plat_64
+d none lib/xorg/$plat_64					0755 root bin
+s none lib/xorg/64=$plat_64
+f none lib/xorg/$plat_64/libfontenc.so.1			0444 root bin
+s none lib/xorg/$plat_64/libfontenc.so=libfontenc.so.1
+f none lib/xorg/$plat_64/libXfont.so.1				0444 root bin
+s none lib/xorg/$plat_64/libXfont.so=libXfont.so.1
 
-!search $HOME/X11/bin
+!search	 $HOME/lib/X11
+d none lib							0755 root bin
+d none lib/X11							0755 root bin
+f none lib/X11/installalias					0755 root bin
+
+!search $HOME/bin
+d none bin							0755 root bin
+f none bin/mkfontdir						0755 root bin
+f none bin/mkfontscale						0755 root bin
+
 d none X11/bin							0755 root bin
-f none X11/bin/mkfontdir					0755 root bin
-f none X11/bin/mkfontscale					0755 root bin
-
+s none X11/bin/mkfontdir=../../bin/mkfontdir
+s none X11/bin/mkfontscale=../../bin/mkfontscale

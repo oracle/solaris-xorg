@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-#       @(#)prototype	35.21     08/09/30 (c) Sun Microsystems, Inc.
+# ident	"@(#)prototype	35.22	09/12/05 SMI"
 #
 #  AccessX and associated files
 
@@ -37,27 +38,15 @@ i pkginfo
 i copyright
 i depend
 
-!HOME=../usr/X11
+!HOME=../usr
 
-d none X11                      0755 root bin
+d none share							0755 root sys
+d none share/X11						0755 root bin
+d none share/X11/locale						0755 root bin
+d none share/X11/locale/C					0755 root bin
+d none share/X11/locale/C/accessx				0755 root bin
 
-!search  $HOME/lib
-d none X11/lib 0755 root bin
-
-!search  $HOME/lib/locale/C/help
-d none X11/lib/locale 0755 root bin
-d none X11/lib/locale/C 0755 root bin
-d none X11/lib/locale/C/help 0755 root bin
-f none X11/lib/locale/C/help/accessx.hlp 0644 root bin
-
-!search  $HOME/lib/locale/C/app-defaults
-d none X11/lib/locale/C/app-defaults 0755 root bin
-f none X11/lib/locale/C/app-defaults/accessx.uil 0644 root bin
-f none X11/lib/locale/C/app-defaults/accessxstrings.uil 0644 root bin
-
-!search	 $HOME/share/man/man1
-s none X11/man=./share/man
-d none X11/share 0755 root bin
-d none X11/share/man 0755 root bin
-d none X11/share/man/man1 0755 root bin
-f none X11/share/man/man1/accessx.1 0444 root bin
+!search  $HOME/share/X11/locale/C/accessx
+f none share/X11/locale/C/accessx/accessx.uil			0444 root bin
+f none share/X11/locale/C/accessx/accessxstrings.uil		0444 root bin
+f none share/X11/locale/C/accessx/accessx.hlp			0444 root bin

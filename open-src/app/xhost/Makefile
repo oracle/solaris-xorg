@@ -2,8 +2,8 @@
 #
 # xhost 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -36,7 +36,7 @@
 MODULE_NAME=xhost
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xhost.patch
@@ -46,9 +46,10 @@ SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
+MODULE_ADD_INSTALL_TARGETS = install_po
+
 include ../Makefile.inc
 
-install_gen:: install_po
 install_po:
-	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
-	cp -f xhost.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
+	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -f xhost.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

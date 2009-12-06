@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2009-05-08 17:43:31.905647000 -0700
-+++ Makefile.am	2009-05-08 17:43:40.080197000 -0700
+--- Makefile.am	2009-12-02 18:57:55.879547825 -0800
++++ Makefile.am	2009-12-02 18:57:57.460574365 -0800
 @@ -17,6 +17,10 @@ if RECORD
  RECORD_DIR=record
  endif
@@ -47,11 +47,11 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
 +	$(TSOL_DIR) \
  	exa \
  	config \
- 	hw
+ 	hw \
 diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
---- Xext/security.c	2009-05-08 17:43:31.396504000 -0700
-+++ Xext/security.c	2009-05-08 17:43:40.081858000 -0700
-@@ -1148,3 +1148,27 @@ SecurityExtensionInit(INITARGS)
+--- Xext/security.c	2009-10-27 23:56:18.000000000 -0700
++++ Xext/security.c	2009-12-02 18:57:57.461302244 -0800
+@@ -1152,3 +1152,27 @@ SecurityExtensionInit(INITARGS)
      /* Label objects that were created before we could register ourself */
      SecurityLabelInitial();
  }
@@ -80,21 +80,21 @@ diff -urp -x '*~' -x '*.orig' Xext/security.c Xext/security.c
 +    return oldLevel;
 +}
 diff -urp -x '*~' -x '*.orig' Xext/securitysrv.h Xext/securitysrv.h
---- Xext/securitysrv.h	2008-01-04 14:42:34.000000000 -0800
-+++ Xext/securitysrv.h	2009-05-08 17:43:40.083180000 -0700
+--- Xext/securitysrv.h	2009-10-27 23:56:18.000000000 -0700
++++ Xext/securitysrv.h	2009-12-02 18:57:57.461621276 -0800
 @@ -80,4 +80,8 @@ typedef struct {
  /* Give this value or higher to the -audit option to get security messages */
  #define SECURITY_AUDIT_LEVEL 4
  
 +/* API needed for Xtsol module to get/set client trustLevel */
-+extern unsigned int getClientTrustLevel(ClientPtr client);
-+extern unsigned int setClientTrustLevel(ClientPtr client, unsigned int newLevel);
++extern _X_EXPORT unsigned int getClientTrustLevel(ClientPtr client);
++extern _X_EXPORT unsigned int setClientTrustLevel(ClientPtr client, unsigned int newLevel);
 +
  #endif /* _SECURITY_SRV_H */
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-05-08 17:43:31.908445000 -0700
-+++ configure.ac	2009-05-08 17:43:40.087326000 -0700
-@@ -207,6 +207,14 @@ dnl Find the math libary
+--- configure.ac	2009-12-02 18:57:55.880850520 -0800
++++ configure.ac	2009-12-02 18:57:57.463082828 -0800
+@@ -225,6 +225,14 @@ dnl Find the math libary
  AC_CHECK_LIB(m, sqrt)
  AC_CHECK_LIB(m, cbrt, AC_DEFINE(HAVE_CBRT, 1, [Have the 'cbrt' function]))
  
@@ -109,38 +109,33 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])
  
  dnl AGPGART headers
-@@ -1255,8 +1263,8 @@ AC_MSG_RESULT([$XVFB])
- AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
- 
+@@ -1384,6 +1392,8 @@ AM_CONDITIONAL(XVFB, [test "x$XVFB" = xy
  if test "x$XVFB" = xyes; then
--	XVFB_LIBS="$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $IA_LIB"
--	XVFB_SYS_LIBS="$XVFBMODULES_LIBS $GLX_SYS_LIBS"
-+	XVFB_LIBS="$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $IA_LIB $TSOL_LIB"
-+	XVFB_SYS_LIBS="$XVFBMODULES_LIBS $GLX_SYS_LIBS $TSOL_SYS_LIBS"
+ 	XVFB_LIBS="$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB"
+ 	XVFB_SYS_LIBS="$XVFBMODULES_LIBS $GLX_SYS_LIBS"
++	XVFB_LIBS="$XVFB_LIBS $TSOL_LIB"
++	XVFB_SYS_LIBS="$XVFB_SYS_LIBS $TSOL_SYS_LIBS"
  	AC_SUBST([XVFB_LIBS])
  	AC_SUBST([XVFB_SYS_LIBS])
  fi
-@@ -1273,8 +1281,8 @@ AC_MSG_RESULT([$XNEST])
- AM_CONDITIONAL(XNEST, [test "x$XNEST" = xyes])
- 
- if test "x$XNEST" = xyes; then
--	XNEST_LIBS="$FB_LIB $FIXES_LIB $MI_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $DIX_LIB $OS_LIB $CONFIG_LIB $IA_LIB"
--	XNEST_SYS_LIBS="$XNESTMODULES_LIBS $GLX_SYS_LIBS"
-+	XNEST_LIBS="$FB_LIB $FIXES_LIB $MI_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $DIX_LIB $OS_LIB $CONFIG_LIB $IA_LIB $TSOL_LIB"
-+	XNEST_SYS_LIBS="$XNESTMODULES_LIBS $GLX_SYS_LIBS $TSOL_SYS_LIBS"
+@@ -1405,6 +1415,8 @@ if test "x$XNEST" = xyes; then
+ 	fi
+ 	XNEST_LIBS="$FB_LIB $FIXES_LIB $MI_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $DIX_LIB $MAIN_LIB $OS_LIB $CONFIG_LIB"
+ 	XNEST_SYS_LIBS="$XNESTMODULES_LIBS $GLX_SYS_LIBS"
++	XNEST_LIBS="$XNEST_LIBS $TSOL_LIB"
++	XNEST_SYS_LIBS="$XNEST_SYS_LIBS $TSOL_SYS_LIBS"
  	AC_SUBST([XNEST_LIBS])
  	AC_SUBST([XNEST_SYS_LIBS])
  fi
-@@ -1776,7 +1784,7 @@ if test "$KDRIVE" = yes; then
-     
+@@ -1959,6 +1971,7 @@ if test "$KDRIVE" = yes; then
      KDRIVE_CFLAGS="$XSERVER_CFLAGS -DHAVE_KDRIVE_CONFIG_H $TSLIB_CFLAGS"
  
--    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $IA_LIB $OS_LIB"
-+    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $IA_LIB $TSOL_LIB $OS_LIB"
-     KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.a'
+     KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $OS_LIB"
++    KDRIVE_PURE_LIBS="$KDRIVE_PURE_LIBS $TSOL_LIB"
+     KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.la'
      case $host_os in
  	*linux*)
-@@ -1936,3 +1944,6 @@ xorg-server.pc
+@@ -2122,3 +2135,6 @@ xorg-server.pc
  
  # Add Sun IA extension
  AC_OUTPUT([IA/Makefile])
@@ -148,8 +143,8 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 +# Add Sun Trusted Extensions extension
 +AC_OUTPUT([tsol/Makefile])
 diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
---- dix/dispatch.c	2009-05-08 17:43:31.282930000 -0700
-+++ dix/dispatch.c	2009-05-08 17:43:40.089486000 -0700
+--- dix/dispatch.c	2009-10-27 23:56:19.000000000 -0700
++++ dix/dispatch.c	2009-12-02 18:57:57.464791536 -0800
 @@ -74,8 +74,8 @@ Equipment Corporation.
  
  ******************************************************************/
@@ -161,7 +156,7 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
   *
   * Permission is hereby granted, free of charge, to any person obtaining a
   * copy of this software and associated documentation files (the
-@@ -173,6 +173,10 @@ extern int connBlockScreenStart;
+@@ -168,6 +168,10 @@ int connBlockScreenStart;
  
  static void KillAllClients(void);
  
@@ -172,7 +167,7 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
  static int nextFreeClientID; /* always MIN free client ID */
  
  static int	nClients;	/* number of authorized clients */
-@@ -767,7 +771,12 @@ ProcCirculateWindow(ClientPtr client)
+@@ -937,7 +941,12 @@ ProcCirculateWindow(ClientPtr client)
      return(client->noClientException);
  }
  
@@ -186,7 +181,7 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
  GetGeometry(ClientPtr client, xGetGeometryReply *rep)
  {
      DrawablePtr pDraw;
-@@ -1901,7 +1910,12 @@ ProcPutImage(ClientPtr client)
+@@ -2077,7 +2086,12 @@ ProcPutImage(ClientPtr client)
       return (client->noClientException);
  }
  
@@ -201,8 +196,8 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
             int x, int y, int width, int height, 
             Mask planemask, xGetImageReply **im_return)
 diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
---- dix/events.c	2009-04-14 10:14:56.000000000 -0700
-+++ dix/events.c	2009-05-08 17:43:40.092405000 -0700
+--- dix/events.c	2009-12-02 18:57:55.670022804 -0800
++++ dix/events.c	2009-12-02 18:57:57.467284714 -0800
 @@ -76,7 +76,7 @@ Equipment Corporation.
  
  /*****************************************************************
@@ -212,8 +207,8 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
  
  All rights reserved.
  
-@@ -328,7 +328,12 @@ IsKeyboardDevice(DeviceIntPtr dev)
-     return (dev->key && dev->kbdfeed) && !IsPointerDevice(dev);
+@@ -370,7 +370,12 @@ IsMaster(DeviceIntPtr dev)
+     return (dev->type == MASTER_POINTER || dev->type == MASTER_KEYBOARD);
  }
  
 -static WindowPtr XYToWindow(
@@ -226,7 +221,7 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
      DeviceIntPtr pDev,
      int x,
      int y
-@@ -2477,7 +2482,12 @@ PointInBorderSize(WindowPtr pWin, int x,
+@@ -2641,7 +2646,12 @@ PointInBorderSize(WindowPtr pWin, int x,
   *
   * @returns the window at the given coordinates.
   */
@@ -241,9 +236,9 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
  {
      WindowPtr  pWin;
 diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
---- dix/window.c	2009-04-14 10:14:56.000000000 -0700
-+++ dix/window.c	2009-05-08 17:43:40.094539000 -0700
-@@ -98,6 +98,33 @@ Equipment Corporation.
+--- dix/window.c	2009-10-27 23:56:19.000000000 -0700
++++ dix/window.c	2009-12-02 18:57:57.468919797 -0800
+@@ -97,6 +97,33 @@ Equipment Corporation.
  
  ******************************************************************/
  
@@ -277,7 +272,7 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
  
  #ifdef HAVE_DIX_CONFIG_H
  #include <dix-config.h>
-@@ -180,6 +207,11 @@ static Bool TileScreenSaver(int i, int k
+@@ -179,6 +206,11 @@ static Bool TileScreenSaver(int i, int k
  
  #define SubStrSend(pWin,pParent) (StrSend(pWin) || SubSend(pParent))
  
@@ -289,7 +284,7 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
  #ifdef DEBUG
  /******
   * PrintWindowTree
-@@ -1881,7 +1913,12 @@ IsSiblingAboveMe(
+@@ -1825,7 +1857,12 @@ IsSiblingAboveMe(
      return(Below);
  }
  
@@ -303,7 +298,7 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
  WindowExtents(
      WindowPtr pWin,
      BoxPtr pBox)
-@@ -1917,7 +1954,12 @@ MakeBoundingRegion (
+@@ -1861,7 +1898,12 @@ MakeBoundingRegion (
      return pRgn;
  }
  
@@ -317,7 +312,7 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
  ShapeOverlap (
      WindowPtr	pWin,
      BoxPtr	pWinBox,
-@@ -2121,7 +2163,12 @@ WhereDoIGoInTheStack(
+@@ -2065,7 +2107,12 @@ WhereDoIGoInTheStack(
      }
  }
  
@@ -332,20 +327,20 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
      WindowPtr pWin,
      WindowPtr pSib,
 diff -urp -x '*~' -x '*.orig' hw/dmx/Makefile.am hw/dmx/Makefile.am
---- hw/dmx/Makefile.am	2009-05-08 17:43:31.909047000 -0700
-+++ hw/dmx/Makefile.am	2009-05-08 17:43:40.095075000 -0700
-@@ -87,6 +87,7 @@ XDMX_LIBS = \
+--- hw/dmx/Makefile.am	2009-10-27 23:56:20.000000000 -0700
++++ hw/dmx/Makefile.am	2009-12-02 18:57:57.469253907 -0800
+@@ -84,6 +84,7 @@ XDMX_LIBS = \
+ 	@XDMX_LIBS@ \
+ 	$(GLX_LIBS) \
          input/libdmxinput.a \
-         config/libdmxconfig.a \
- 	$(top_builddir)/IA/libIA.la \
-+	$(top_builddir)/tsol/libxtsol.la
- 	$(XSERVER_LIBS)
++	$(top_builddir)/tsol/libxtsol.la \
+         config/libdmxconfig.a
  
  Xdmx_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-05-08 17:43:31.911031000 -0700
-+++ hw/xfree86/common/xf86Config.c	2009-05-08 17:43:40.153291000 -0700
-@@ -122,6 +122,7 @@ static ModuleDefault ModuleDefaults[] = 
+--- hw/xfree86/common/xf86Config.c	2009-12-02 18:57:55.881970262 -0800
++++ hw/xfree86/common/xf86Config.c	2009-12-02 18:57:57.470350597 -0800
+@@ -124,6 +124,7 @@ static ModuleDefault ModuleDefaults[] = 
      {.name = "dri2",     .toLoad = TRUE,    .load_opt=NULL},
  #endif
      {.name = "ia",       .toLoad = TRUE,    .load_opt=NULL},
@@ -354,8 +349,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  };
  
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2009-05-08 17:43:31.912778000 -0700
-+++ hw/xfree86/dixmods/Makefile.am	2009-05-08 17:43:40.161877000 -0700
+--- hw/xfree86/dixmods/Makefile.am	2009-12-02 18:57:55.882261006 -0800
++++ hw/xfree86/dixmods/Makefile.am	2009-12-02 18:57:57.470671085 -0800
 @@ -73,3 +73,11 @@ extsmodule_LTLIBRARIES += libia.la
  libia_la_LDFLAGS = -avoid-version
  libia_la_LIBADD = $(top_builddir)/IA/libIA.la
@@ -369,38 +364,39 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/
 +libxtsol_la_SOURCES = tsolmodule.c
 +endif
 diff -urp -x '*~' -x '*.orig' include/dix.h include/dix.h
---- include/dix.h	2009-05-08 17:43:31.316827000 -0700
-+++ include/dix.h	2009-05-08 17:43:40.162550000 -0700
-@@ -171,6 +171,14 @@ extern void MarkClientException(
+--- include/dix.h	2009-11-24 21:25:19.000000000 -0800
++++ include/dix.h	2009-12-02 18:57:57.471114106 -0800
+@@ -171,6 +171,15 @@ extern _X_EXPORT void MarkClientExceptio
+     ClientPtr /*client*/);
  
- extern void ddxBeforeReset (void);
- 
+ extern _X_HIDDEN Bool CreateConnectionBlock(void);
++ 
 +#ifdef TSOL
-+extern int DoGetImage(ClientPtr client, int format, Drawable drawable, 
++extern _X_EXPORT int DoGetImage(ClientPtr client, int format, Drawable drawable, 
 +		      int x, int y, int width, int height, 
 +		      Mask planemask, xGetImageReply **im_return);
 +
-+extern int GetGeometry(ClientPtr client, xGetGeometryReply *rep);
++extern _X_EXPORT int GetGeometry(ClientPtr client, xGetGeometryReply *rep);
 +#endif
 +
  /* dixutils.c */
  
- extern void CopyISOLatin1Lowered(
+ extern _X_EXPORT void CopyISOLatin1Lowered(
 diff -urp -x '*~' -x '*.orig' include/dixevents.h include/dixevents.h
---- include/dixevents.h	2009-04-14 10:14:57.000000000 -0700
-+++ include/dixevents.h	2009-05-08 17:43:40.163000000 -0700
-@@ -88,4 +88,8 @@ extern void PostSyntheticMotion(DeviceIn
+--- include/dixevents.h	2009-08-10 21:00:25.000000000 -0700
++++ include/dixevents.h	2009-12-02 18:57:57.471389286 -0800
+@@ -88,4 +88,8 @@ extern _X_EXPORT void PostSyntheticMotio
                                  unsigned long time);
  #endif
  
 +#ifdef TSOL
-+extern WindowPtr XYToWindow(DeviceIntPtr pDev, int x, int y);
++extern _X_EXPORT WindowPtr XYToWindow(DeviceIntPtr pDev, int x, int y);
 +#endif
 +
  #endif /* DIXEVENTS_H */
 diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
---- include/extnsionst.h	2009-04-14 10:14:57.000000000 -0700
-+++ include/extnsionst.h	2009-05-08 17:43:40.164856000 -0700
+--- include/extnsionst.h	2009-08-10 21:00:25.000000000 -0700
++++ include/extnsionst.h	2009-12-02 18:57:57.471781805 -0800
 @@ -45,6 +45,34 @@ SOFTWARE.
  
  ******************************************************************/
@@ -447,9 +443,9 @@ diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
  typedef struct _ExtensionEntry {
      int index;
      void (* CloseDown)(	/* called at server shutdown */
-@@ -108,5 +140,21 @@ extern Bool AddExtensionAlias(
- extern ExtensionEntry *CheckExtension(const char *extname);
- extern ExtensionEntry *GetExtensionEntry(int major);
+@@ -108,5 +140,21 @@ extern _X_EXPORT Bool AddExtensionAlias(
+ extern _X_EXPORT ExtensionEntry *CheckExtension(const char *extname);
+ extern _X_EXPORT ExtensionEntry *GetExtensionEntry(int major);
  
 +#ifdef TSOL
 +typedef struct
@@ -463,29 +459,29 @@ diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
 +    void (*DeleteWindowFromAnySelections)(WindowPtr);
 +} SecurityHook, *SecurityHookPtr;
 +
-+extern SecurityHookPtr pSecHook;
++extern _X_EXPORT SecurityHookPtr pSecHook;
 +
 +#endif /* TSOL */
 +
  #endif /* EXTENSIONSTRUCT_H */
  
 diff -urp -x '*~' -x '*.orig' include/window.h include/window.h
---- include/window.h	2009-04-14 10:14:57.000000000 -0700
-+++ include/window.h	2009-05-08 17:43:40.165637000 -0700
-@@ -269,4 +269,9 @@ extern void DisableMapUnmapEvents(
- extern void EnableMapUnmapEvents(
+--- include/window.h	2009-10-27 23:56:24.000000000 -0700
++++ include/window.h	2009-12-02 18:57:57.472124669 -0800
+@@ -266,4 +266,9 @@ extern _X_EXPORT void DisableMapUnmapEve
+ extern _X_EXPORT void EnableMapUnmapEvents(
      WindowPtr /* pWin */ );
  
 +#ifdef TSOL
 +# include "validate.h" /* needed for VTKind enum definition */
-+extern void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
++extern _X_EXPORT void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
 +#endif
 +
  #endif /* WINDOW_H */
 diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
---- mi/miinitext.c	2009-05-08 17:43:31.913906000 -0700
-+++ mi/miinitext.c	2009-05-08 17:43:40.166609000 -0700
-@@ -155,6 +155,9 @@ extern Bool noGEExtension;
+--- mi/miinitext.c	2009-12-02 18:57:55.882784783 -0800
++++ mi/miinitext.c	2009-12-02 18:57:57.472636042 -0800
+@@ -163,6 +163,9 @@ extern Bool noGEExtension;
  #ifdef SolarisIAExtension
  Bool noIAExtension;
  #endif
@@ -495,7 +491,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  #ifndef XFree86LOADER
  #define INITARGS void
-@@ -193,6 +196,9 @@ typedef void (*InitExtension)(INITARGS);
+@@ -197,6 +200,9 @@ typedef void (*InitExtension)(INITARGS);
  #ifdef SolarisIAExtension
  #include <X11/extensions/interactive.h>
  #endif
@@ -505,7 +501,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  /* FIXME: this whole block of externs should be from the appropriate headers */
  #ifdef MITSHM
-@@ -331,6 +341,9 @@ static ExtensionToggle ExtensionToggleLi
+@@ -333,6 +339,9 @@ static ExtensionToggle ExtensionToggleLi
  #ifdef SolarisIAExtension
      { IANAME /* "SolarisIA" */, &noIAExtension },
  #endif    
@@ -515,7 +511,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  #ifdef RES
      { "X-Resource", &noResExtension },
  #endif
-@@ -493,6 +506,11 @@ InitExtensions(int argc, char *argv[])
+@@ -509,6 +518,11 @@ InitExtensions(int argc, char *argv[])
  #ifdef SolarisIAExtension
      if (!noIAExtension) IAExtensionInit();
  #endif
@@ -528,8 +524,8 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  #else /* XFree86LOADER */
 diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
---- os/connection.c	2009-05-08 17:43:31.889578000 -0700
-+++ os/connection.c	2009-05-08 17:43:40.167673000 -0700
+--- os/connection.c	2009-10-27 23:56:24.000000000 -0700
++++ os/connection.c	2009-12-02 18:57:57.473366754 -0800
 @@ -44,6 +44,33 @@ ARISING OUT OF OR IN CONNECTION WITH THE
  SOFTWARE.
  
@@ -564,7 +560,7 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
  /*****************************************************************
   *  Stuff to create connections --- OS dependent
   *
-@@ -261,6 +288,11 @@ static int		ListenTransCount;
+@@ -256,6 +283,11 @@ static int		ListenTransCount;
  
  static void ErrorConnMax(XtransConnInfo /* trans_conn */);
  
@@ -576,7 +572,7 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
  static XtransConnInfo
  lookup_trans_conn (int fd)
  {
-@@ -671,6 +703,12 @@ ClientAuthorized(ClientPtr client, 
+@@ -651,6 +683,12 @@ ClientAuthorized(ClientPtr client, 
      priv = (OsCommPtr)client->osPrivate;
      trans_conn = priv->trans_conn;
  

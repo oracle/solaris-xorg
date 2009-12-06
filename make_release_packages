@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# ident	"@(#)make_release_packages	1.79	09/11/23 SMI"
+# ident	"@(#)make_release_packages	1.80	09/12/05 SMI"
 #
 #	Create and fill a package staging area for X
 #
@@ -100,6 +100,7 @@ XW_PACKAGE_LIST="
     SUNWxorg-compatlinks
     SUNWxorg-graphics-ddx
     SUNWxorg-headers
+    SUNWxorg-mesa
     SUNWxorg-server
     SUNWxorg-tsol-module 
     SUNWxvnc
@@ -132,7 +133,7 @@ case "${MACH}" in
     	XW_PACKAGE_LIST="$XW_PACKAGE_LIST $XSUN_PACKAGE_LIST SUNWxwpsr" 
 	;;
     i386)	
-    	XW_PACKAGE_LIST="$XW_PACKAGE_LIST SUNWxorg-mesa" 
+    	XW_PACKAGE_LIST="$XW_PACKAGE_LIST"
 	;;
 esac
 

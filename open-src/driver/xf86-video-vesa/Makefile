@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	09/08/17
+# ident	"@(#)Makefile	1.14	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-vesa
 
 # Version number (used in path names)
-MODULE_VERSION=2.2.0
+MODULE_VERSION=2.2.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = vesa_xorg72.patch

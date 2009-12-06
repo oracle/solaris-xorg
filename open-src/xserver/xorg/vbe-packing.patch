@@ -1,11 +1,12 @@
-Fix contributed by Jürgen Keil for
+Fix contributed by JÃ¼rgen Keil for
 http://defect.opensolaris.org/bz/show_bug.cgi?id=11374
 aka
 6884183 GNOME is really slow in OpenSolaris build 122+ running in VirtualBox
 
---- hw/xfree86/vbe/vbe.h.orig	So. Nov 15 14:08:29 2009
-+++ hw/xfree86/vbe/vbe.h	So. Nov 15 14:11:15 2009
-@@ -59,16 +59,6 @@
+diff -urp -x '*~' -x '*.orig' hw/xfree86/vbe/vbe.h hw/xfree86/vbe/vbe.h
+--- hw/xfree86/vbe/vbe.h	2009-08-10 21:00:24.000000000 -0700
++++ hw/xfree86/vbe/vbe.h	2009-11-20 18:38:28.738767705 -0800
+@@ -59,16 +59,6 @@ typedef struct vbeControllerInfoBlock {
      CARD8  OemData[256];
  } vbeControllerInfoRec, *vbeControllerInfoPtr;
  
@@ -22,7 +23,7 @@ aka
  typedef struct _VbeInfoBlock VbeInfoBlock;
  typedef struct _VbeModeInfoBlock VbeModeInfoBlock;
  typedef struct _VbeCRTCInfoBlock VbeCRTCInfoBlock;
-@@ -96,7 +86,7 @@
+@@ -96,7 +86,7 @@ struct _VbeInfoBlock {
      /*CARD32*/char *OemProductRevPtr;	/* Pointer to Product Revision String */
      CARD8 Reserved[222];		/* Reserved for VBE implementation */
      CARD8 OemData[256];			/* Data Area for OEM Strings */
@@ -30,8 +31,8 @@ aka
 +};
  
  /* Return Super VGA Information */
- VbeInfoBlock *VBEGetVBEInfo(vbeInfoPtr pVbe);
-@@ -160,7 +150,7 @@
+ extern _X_EXPORT VbeInfoBlock *VBEGetVBEInfo(vbeInfoPtr pVbe);
+@@ -160,7 +150,7 @@ struct _VbeModeInfoBlock {
      CARD8 LinRsvdFieldPosition;		/* bit position of lsb of reserved mask (linear modes) */
      CARD32 MaxPixelClock;		/* maximum pixel clock (in Hz) for graphics mode */
      CARD8 Reserved2[189];		/* remainder of VbeModeInfoBlock */
@@ -39,8 +40,8 @@ aka
 +};
  
  /* Return VBE Mode Information */
- VbeModeInfoBlock *VBEGetModeInfo(vbeInfoPtr pVbe, int mode);
-@@ -186,9 +176,15 @@
+ extern _X_EXPORT VbeModeInfoBlock *VBEGetModeInfo(vbeInfoPtr pVbe, int mode);
+@@ -186,9 +176,15 @@ struct _VbeCRTCInfoBlock {
      CARD32 PixelClock;			/* Pixel clock in units of Hz */
      CARD16 RefreshRate;			/* Refresh rate in units of 0.01 Hz */
      CARD8 Reserved[40];			/* remainder of ModeInfoBlock */
@@ -54,6 +55,6 @@ aka
 +#pragma pack(0)
 +#endif
 +
- Bool VBESetVBEMode(vbeInfoPtr pVbe, int mode, VbeCRTCInfoBlock *crtc);
+ extern _X_EXPORT Bool VBESetVBEMode(vbeInfoPtr pVbe, int mode, VbeCRTCInfoBlock *crtc);
  
  /*

@@ -3,7 +3,7 @@
 # xf86-video-vmware Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.11	09/05/15
+# ident	"@(#)Makefile	1.12	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=10.16.6
+MODULE_VERSION=10.16.8
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6370961.patch
+SOURCE_PATCHES = 6370961.patch xf86LoaderReqSymLists.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

@@ -36,56 +36,55 @@ i depend
 
 
 !search      $HOME/sbin
-d none sbin 						0755 root bin
-f none sbin/xdm						0555 root bin
+d none sbin							0755 root bin
+f none sbin/xdm							0555 root bin
 
-d none lib 						0755 root bin
-d none lib/X11 						0755 root bin
+d none lib							0755 root bin
+d none lib/X11							0755 root bin
 
 !search  $HOME/lib/X11/xdm
-d none lib/X11/xdm					0755 root bin
+d none lib/X11/xdm						0755 root bin
 # scripts & binaries run by xdm
-f none lib/X11/xdm/GiveConsole				0555 root bin
-f none lib/X11/xdm/TakeConsole				0555 root bin
-f none lib/X11/xdm/Xreset				0555 root bin
-f none lib/X11/xdm/Xsession				0555 root bin
-f none lib/X11/xdm/Xsetup_0				0555 root bin
-f none lib/X11/xdm/Xstartup				0555 root bin
-f none lib/X11/xdm/Xwilling				0555 root bin
-f none lib/X11/xdm/chooser				0555 root bin
-f none lib/X11/xdm/libXdmGreet.so			0555 root bin
-f none lib/X11/xdm/xdmshell				0555 root bin
+f none lib/X11/xdm/GiveConsole					0555 root bin
+f none lib/X11/xdm/TakeConsole					0555 root bin
+f none lib/X11/xdm/Xreset					0555 root bin
+f none lib/X11/xdm/Xsession					0555 root bin
+f none lib/X11/xdm/Xsetup_0					0555 root bin
+f none lib/X11/xdm/Xstartup					0555 root bin
+f none lib/X11/xdm/Xwilling					0555 root bin
+f none lib/X11/xdm/chooser					0555 root bin
+f none lib/X11/xdm/libXdmGreet.so				0555 root bin
+f none lib/X11/xdm/xdmshell					0555 root bin
 
 # prototype files for users who have edited the versions in etc
-f none lib/X11/xdm/Xaccess				0444 root bin
-f none lib/X11/xdm/Xresources				0444 root bin
-f none lib/X11/xdm/Xservers				0444 root bin
-f none lib/X11/xdm/xdm-config				0444 root bin
-f none lib/X11/xdm/README				0444 root bin
+f none lib/X11/xdm/Xaccess					0444 root bin
+f none lib/X11/xdm/Xresources					0444 root bin
+f none lib/X11/xdm/Xservers					0444 root bin
+f none lib/X11/xdm/xdm-config					0444 root bin
+f none lib/X11/xdm/README					0444 root bin
 
-!search  $HOME/lib/X11/xdm/pixmaps
-d none lib/X11/xdm/pixmaps				0755 root bin
-f none lib/X11/xdm/pixmaps/xorg-bw.xpm			0444 root bin
-f none lib/X11/xdm/pixmaps/xorg.xpm			0444 root bin
+!search $HOME/lib/X11/xdm/pixmaps
+d none lib/X11/xdm/pixmaps					0755 root bin
+f none lib/X11/xdm/pixmaps/xorg-bw.xpm				0444 root bin
+f none lib/X11/xdm/pixmaps/xorg.xpm				0444 root bin
 
-!search $HOME/X11/lib/X11/app-defaults
-d none X11/lib						0755 root bin
-d none X11/lib/X11					0755 root bin
-d none X11/lib/X11/app-defaults				0755 root bin
-f none X11/lib/X11/app-defaults/Chooser			0444 root bin
-
+!search $HOME/share/X11/app-defaults
+d none share/X11						0755 root bin
+d none share/X11/app-defaults					0755 root bin
+f none share/X11/app-defaults/Chooser				0444 root bin
 
 !search      $HOME/share/man/man1
-d none share						0755 root sys
-d none share/man					0755 root bin
-d none share/man/man1					0755 root bin
-f none share/man/man1/xdm.1				0444 root bin
+d none share							0755 root sys
+d none share/man						0755 root bin
+d none share/man/man1						0755 root bin
+f none share/man/man1/xdm.1					0444 root bin
 
 # Backwards compatibility links
-d none openwin						0755 root bin
-d none openwin/bin					0755 root bin
+d none openwin							0755 root bin
+d none openwin/bin						0755 root bin
 s none openwin/bin/xdm=../../sbin/xdm
 s none openwin/bin/xdmshell=../../lib/X11/xdm/xdmshell
-d none openwin/lib					0755 root bin
+d none openwin/lib						0755 root bin
 s none openwin/lib/xdm=X11/xdm
+d none openwin/lib/X11						0755 root bin
 s none openwin/lib/X11/xdm=../../../lib/X11/xdm

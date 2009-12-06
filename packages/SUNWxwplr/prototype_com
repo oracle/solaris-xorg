@@ -1,4 +1,5 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -25,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_com	1.10	09/01/14 SMI"
+# ident	"@(#)prototype_com	1.11	09/12/05 SMI"
 #
 # This required package information file contains a list of package contents.
 # The 'pkgmk' command uses this file to identify the contents of a package
@@ -46,40 +47,53 @@ i preinstall
 #
 # SUNWxwplr
 #
-d none etc 755 root sys
-d none etc/security 755 root sys
+d none etc							0755 root sys
+d none etc/security						0755 root sys
 !search ../etc/security
-e rbac etc/security/auth_attr 0644 root sys
-e rbac etc/security/prof_attr 0644 root sys
-e rbac etc/security/exec_attr 0644 root sys
+e rbac etc/security/auth_attr					0644 root sys
+e rbac etc/security/prof_attr					0644 root sys
+e rbac etc/security/exec_attr					0644 root sys
 
-d none lib 755 root bin
-d none lib/svc 755 root bin
-d none lib/svc/method 755 root bin
-!search ../etc/xdg/autostart
-d none etc/xdg 0755 root sys
-d none etc/xdg/autostart 0755 root sys
-f none etc/xdg/autostart/gnome-dispswitch.desktop 0644 root sys
 !search ../lib/svc/method
-f none lib/svc/method/x11-server 755 root bin
-d none var 755 root sys
-d none var/svc 755 root sys
-d none var/svc/manifest 755 root sys
-d none var/svc/manifest/application 755 root sys
-d none var/svc/manifest/application/x11 755 root sys
+d none lib							0755 root bin
+d none lib/svc							0755 root bin
+d none lib/svc/method						0755 root bin
+f none lib/svc/method/ogl-select				0755 root bin
+f none lib/svc/method/x11-server				0755 root bin
+
+!search ../lib/opengl/ogl_select
+d none lib/opengl						0755 root bin
+d none lib/opengl/ogl_select					0755 root bin
+f none lib/opengl/ogl_select/mesa_vendor_select			0755 root bin
+
+!search ../etc/xdg/autostart
+d none etc/xdg							0755 root sys
+d none etc/xdg/autostart					0755 root sys
+f none etc/xdg/autostart/gnome-dispswitch.desktop		0444 root sys
+
+
+d none var							0755 root sys
+d none var/svc							0755 root sys
+d none var/svc/manifest						0755 root sys
+d none var/svc/manifest/application				0755 root sys
+d none var/svc/manifest/application/x11				0755 root sys
 !search ../var/svc/manifest/application/x11
-f manifest var/svc/manifest/application/x11/x11-server.xml 0444 root sys
-f manifest var/svc/manifest/application/x11/xfs.xml 0444 root sys
-f manifest var/svc/manifest/application/x11/xvnc-inetd.xml 0444 root sys
+f manifest var/svc/manifest/application/x11/x11-server.xml	0444 root sys
+f manifest var/svc/manifest/application/x11/xfs.xml		0444 root sys
+f manifest var/svc/manifest/application/x11/xvnc-inetd.xml	0444 root sys
+
+!search ../var/svc/manifest/application/opengl
+d none var/svc/manifest/application/opengl			0755 root sys
+f manifest var/svc/manifest/application/opengl/ogl-select.xml	0444 root sys
 
 # Font catalogue directory
-d none etc/X11 0755 root sys
-d none etc/X11/fontpath.d 0755 root sys
+d none etc/X11							0755 root sys
+d none etc/X11/fontpath.d					0755 root sys
 
 # HAL configuration for Xorg 1.5+ input devices
-d none etc/hal 0755 root bin
-d none etc/hal/fdi 0755 root bin
-d none etc/hal/fdi/preprobe 0755 root bin
-d none etc/hal/fdi/preprobe/10osvendor 0755 root bin
-!search ../usr/X11/share/hal/fdi/policy/10osvendor
-f none etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi 0444 root bin
+d none etc/hal							0755 root bin
+d none etc/hal/fdi						0755 root bin
+d none etc/hal/fdi/preprobe					0755 root bin
+d none etc/hal/fdi/preprobe/10osvendor				0755 root bin
+!search ../usr/share/hal/fdi/policy/10osvendor
+f none etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi		0444 root bin

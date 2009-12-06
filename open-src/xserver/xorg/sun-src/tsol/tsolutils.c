@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolutils.c	1.24	09/08/23 SMI"
+#pragma ident	"@(#)tsolutils.c	1.25	09/12/05 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -44,6 +44,8 @@
 #include <X11/Xproto.h>
 #include "windowstr.h"
 #include "scrnintstr.h"
+#include "xkbstr.h"
+#include "xkbsrv.h"
 #include  "tsol.h"
 #include  "tsolinfo.h"
 #include  "tsolpolicy.h"
@@ -364,31 +366,45 @@ lookupSL(bslabel_t *slptr)
 	return (NULL);
 }
 
-/* from dix/main.c */
-extern char 	*ConnectionInfo;
-extern int	connBlockScreenStart;
+static const int padlength[4] = {0, 3, 2, 1};
 
+/* Updated version based roughly on RREditConnectionInfo in randr/rrscreen.c */
 int
 DoScreenStripeHeight(int screen_num)
 {
 	int 		i, j;
-	xWindowRoot 	*root;
-	register xDepth *pDepth;
+	xConnSetup      *connSetup;
+	char            *vendor;
+	xPixmapFormat   *formats;
+	xWindowRoot     *root;
+	xDepth          *depth;
+	xVisualType     *visual;
 	ScreenPtr	pScreen;
         int             old_height;
         float           height_mult;
 
-	root = (xWindowRoot *)(ConnectionInfo + connBlockScreenStart);
+	connSetup = (xConnSetup *) ConnectionInfo;
+	vendor = (char *) connSetup + sizeof (xConnSetup);
+	formats = (xPixmapFormat *) ((char *) vendor +
+				     connSetup->nbytesVendor +
+				     padlength[connSetup->nbytesVendor & 3]);
+	root = (xWindowRoot *) ((char *) formats +
+				sizeof (xPixmapFormat) *
+				screenInfo.numPixmapFormats);
 	for (i = 0; i < screen_num; i++)
 	{
-		pDepth = (xDepth *)(root + 1);
+		depth = (xDepth *) ((char *) root + 
+                            sizeof (xWindowRoot));
 		for (j = 0; j < (int)root->nDepths; j++)
 		{
-			pDepth = (xDepth *)(((char *)(pDepth + 1)) +
-				pDepth->nVisuals * sizeof (xVisualType));
-		}
-		root = (xWindowRoot *) pDepth;
+			visual = (xVisualType *) ((char *) depth +
+						  sizeof (xDepth));
+			depth = (xDepth *) ((char *) visual +
+					    depth->nVisuals *
+					    sizeof (xVisualType));
 
+		}
+		root = (xWindowRoot *) ((char *) depth);
 	}
         old_height = root->pixHeight;
 
@@ -432,9 +448,8 @@ init_xtsol(void)
  * Modelled after Xlib code
  */
 static KeySym
-KeycodetoKeysym(KeyCode keycode, int col)
+KeycodetoKeysym(KeyCode keycode, int col, KeySymsPtr curKeySyms)
 {
-    KeySymsPtr curKeySyms = &inputInfo.keyboard->key->curKeySyms;
     int per = curKeySyms->mapWidth;
     KeySym *syms = curKeySyms->map;
     KeySym lsym = 0, usym = 0;
@@ -469,14 +484,13 @@ KeycodetoKeysym(KeyCode keycode, int col)
  * Modelled after Xlib code
  */
 static KeyCode
-KeysymToKeycode(KeySym ks)
+KeysymToKeycode(KeySym ks, KeySymsPtr curKeySyms)
 {
     int i, j;
-    KeySymsPtr curKeySyms = &inputInfo.keyboard->key->curKeySyms;
 
     for (j = 0; j < curKeySyms->mapWidth; j++) {
 	for (i = curKeySyms->minKeyCode; i <= curKeySyms->maxKeyCode; i++) {
-	    if (KeycodetoKeysym((KeyCode) i, j) == ks)
+	    if (KeycodetoKeysym((KeyCode) i, j, curKeySyms) == ks)
 		return i;
 	}
     }
@@ -488,13 +502,12 @@ KeysymToKeycode(KeySym ks)
  * Modelled after Xlib
  */
 static unsigned
-KeysymToModifier(KeySym ks)
+KeysymToModifier(KeySym ks, KeySymsPtr keysyms,
+		 KeyCode *modifierKeyMap, int maxKeysPerModifier) 
 {
     CARD8 code, mods;
     KeySym *kmax;
     KeySym *k;
-    KeySymsPtr keysyms = &inputInfo.keyboard->key->curKeySyms;
-    KeyClassPtr key = inputInfo.keyboard->key;
 
     kmax = keysyms->map + (keysyms->maxKeyCode - keysyms->minKeyCode + 1) *
 	keysyms->mapWidth;
@@ -502,13 +515,13 @@ KeysymToModifier(KeySym ks)
     mods = 0;
     while (k < kmax) {
         if (*k == ks ) {
-            int j = key->maxKeysPerModifier << 3;
+            int j = maxKeysPerModifier << 3;
 
             code = (((k - keysyms->map) / keysyms->mapWidth) + keysyms->minKeyCode);
 
             while (--j >= 0) {
-                if (code == key->modifierKeyMap[j])
-                    mods |= (1 << (j / key->maxKeysPerModifier));
+                if (code == modifierKeyMap[j])
+                    mods |= (1 << (j / maxKeysPerModifier));
             }
         }
         k++;
@@ -527,15 +540,26 @@ KeysymToModifier(KeySym ks)
  * same modifier mask
  */
 void
-InitHotKey(HotKeyPtr hk)
+InitHotKey(DeviceIntPtr keybd)
 {
+	HotKeyPtr hk = TsolKeyboardPrivate(keybd);
+	KeySymsPtr curKeySyms = XkbGetCoreMap(keybd);
+	int rc;
+	int max_keys_per_mod = 0;
+	KeyCode *modkeymap = NULL;
+
+	rc = generate_modkeymap(serverClient, keybd,
+				&modkeymap, &max_keys_per_mod);
+
 	/* Meta + Stop */
-	hk->shift = KeysymToModifier(XK_Meta_L);
-	hk->key = KeysymToKeycode(XK_L1);
+	hk->shift = KeysymToModifier(XK_Meta_L, curKeySyms,
+				     modkeymap, max_keys_per_mod);
+	hk->key = KeysymToKeycode(XK_L1, curKeySyms);
 
 	/* Alt + Break/Pause */
-	hk->altshift = KeysymToModifier(XK_Alt_L);
-	hk->altkey = KeysymToKeycode(XK_Pause);
+	hk->altshift = KeysymToModifier(XK_Alt_L, curKeySyms,
+					modkeymap, max_keys_per_mod);
+	hk->altkey = KeysymToKeycode(XK_Pause, curKeySyms);
 
 	hk->initialized = TRUE;
 }

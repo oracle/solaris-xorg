@@ -1,0 +1,48 @@
+From 882da603e0179a5f21879a3d3478b52e11daf438 Mon Sep 17 00:00:00 2001
+From: Matt Turner <mattst88@gmail.com>
+Date: Sat, 7 Nov 2009 00:27:26 -0500
+Subject: [PATCH] Use usleep instead of xf86UDelay
+
+Signed-off-by: Matt Turner <mattst88@gmail.com>
+---
+ src/ast_vgatool.c |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/ast_vgatool.c b/src/ast_vgatool.c
+index c4975f4..5629b85 100644
+--- a/src/ast_vgatool.c
++++ b/src/ast_vgatool.c
+@@ -451,18 +451,18 @@ GetVGA2EDID(ScrnInfoPtr pScrn, unsigned char *pEDIDBuffer)
+     /* SCU settings */
+     *(ULONG *) (pAST->MMIOVirtualAddr + 0xF004) = 0x1e6e0000;
+     *(ULONG *) (pAST->MMIOVirtualAddr + 0xF000) = 0x1;
+-    xf86UDelay(10000);
++    usleep(10000);
+ 
+     *(ULONG *) (pAST->MMIOVirtualAddr + 0x12000) = 0x1688A8A8;    
+     ulData = *(ULONG *) (pAST->MMIOVirtualAddr + 0x12004);
+     ulData &= 0xfffffffb;
+     *(ULONG *) (pAST->MMIOVirtualAddr + 0x12004) = ulData;    
+-    xf86UDelay(10000);
++    usleep(10000);
+     
+     /* I2C settings */
+     *(ULONG *) (pAST->MMIOVirtualAddr + 0xF004) = I2C_BASE;
+     *(ULONG *) (pAST->MMIOVirtualAddr + 0xF000) = 0x1;
+-    xf86UDelay(10000);
++    usleep(10000);
+     
+     /* I2C Start */
+     *(ULONG *) (ulI2CBase + 0x00) = 0x0;
+@@ -782,7 +782,7 @@ void vInitDRAMReg(ScrnInfoPtr pScrn)
+             if (pjDRAMRegInfo->Index == 0xFF00)			/* Delay function */
+             {
+             	for (i=0; i<15; i++)				
+-        	    xf86UDelay(pjDRAMRegInfo->Data);
++                    usleep(pjDRAMRegInfo->Data);
+             }
+             else if ( (pjDRAMRegInfo->Index == 0x0004) && (pAST->jChipType != AST2000) )
+             {
+-- 
+1.5.6.5
+

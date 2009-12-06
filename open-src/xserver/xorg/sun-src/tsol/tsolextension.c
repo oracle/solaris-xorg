@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolextension.c 1.41     09/08/23 SMI"
+#pragma ident	"@(#)tsolextension.c	1.42	09/12/05 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -69,8 +69,7 @@
 #include "../Xext/panoramiXsrv.h"
 #endif
 #ifdef XCSECURITY
-#define _SECURITY_SERVER
-#include "security.h"
+#include <X11/extensions/secur.h>
 #include "../Xext/securitysrv.h"
 #endif
 #include "tsolpolicy.h"
@@ -117,8 +116,6 @@ static void BreakAllGrabs(ClientPtr client);
 static unsigned char TsolReqCode = 0;
 static int tsolEventBase = -1;
 static int ScreenStripeHeight[MAX_SCREENS] = {0, 0};
-
-static HotKeyRec hotkey = {FALSE, 0, 0, 0, 0};
 
 int tsolMultiLevel = TRUE;
 int tsol_mac_enabled;
@@ -872,8 +869,8 @@ ProcSetResLabel(ClientPtr client)
             break;
 
         case IsPixmap:
-	    rc = dixLookupResource((pointer *)&pMap, stuff->id, RT_PIXMAP,
-			client, DixWriteAccess);
+	    rc = dixLookupDrawable((DrawablePtr *)&pMap, stuff->id, client,
+				   M_DRAWABLE_PIXMAP, DixWriteAccess);
     	    if (rc != Success)
 		return rc;
             if (pMap)
@@ -911,7 +908,7 @@ ProcSetResLabel(ClientPtr client)
         message.u.clientMessage.u.l.longs0 = RootOfClient(pWin);
         message.u.clientMessage.u.l.longs1 = stuff->id;
         DeliverEventsToWindow(PickPointer(client), pWin, &message, 1,
-                              SubstructureRedirectMask, NullGrab, 0);
+                              SubstructureRedirectMask, NullGrab);
 
     }
     return (client->noClientException);
@@ -971,9 +968,9 @@ ProcSetResUID(ClientPtr client)
             }
             break;
         case IsPixmap:
-	    rc = dixLookupResource((pointer *)&pMap, stuff->id, RT_PIXMAP,
-			client, DixWriteAccess);
-    	    if (rc != Success)
+	    rc = dixLookupDrawable((DrawablePtr *)&pMap, stuff->id, client,
+				   M_DRAWABLE_PIXMAP, DixWriteAccess);
+	    if (rc != Success)
 		return rc;
 
             if (pMap)
@@ -1279,8 +1276,8 @@ ProcGetResAttributes(ClientPtr client)
     if (stuff->resourceType == IsPixmap &&
         (stuff->mask & (RES_UID | RES_SL )))
     {
-	rc = dixLookupResource((pointer *)&pMap, stuff->id, RT_PIXMAP,
-		client, DixWriteAccess);
+	rc = dixLookupDrawable((DrawablePtr *)&pMap, stuff->id, client,
+			       M_DRAWABLE_PIXMAP, DixWriteAccess);
 	if (rc != Success)
 	    return rc;
 
@@ -1896,18 +1893,22 @@ TsolProcessKeyboard)
     xEvent *xE = rec->event;
     DeviceIntPtr keybd = rec->keybd;
 /*  int count = rec->count; */
-    KeyClassPtr keyc = keybd->key;
+    HotKeyPtr hotkey = TsolKeyboardPrivate(keybd);
 
     if (xE->u.u.type == KeyPress)
     {
-	if (!hotkey.initialized)
-	    InitHotKey(&hotkey);
+	if (!hotkey->initialized)
+	    InitHotKey(keybd);
 
-        if (((xE->u.u.detail == hotkey.key) &&
-		(keyc->state != 0 && keyc->state == hotkey.shift)) ||
-            ((xE->u.u.detail == hotkey.altkey) &&
-		(keyc->state != 0 && keyc->state == hotkey.altshift)))
-            		HandleHotKey(keybd);
+        if (((xE->u.u.detail == hotkey->key) &&
+		(xE->u.keyButtonPointer.state != 0 &&
+		 xE->u.keyButtonPointer.state == hotkey->shift)) ||
+            ((xE->u.u.detail == hotkey->altkey) &&
+		(xE->u.keyButtonPointer.state != 0 &&
+		 xE->u.keyButtonPointer.state == hotkey->altshift)))
+	{
+	    HandleHotKey(keybd);
+	}
     }
 }
 

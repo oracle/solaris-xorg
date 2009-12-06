@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-#       "@(#)prototype	1.14	08/08/07   Sun Microsystems" 
+# ident	"@(#)prototype	1.15	09/12/05 SMI"
 #
 # X Window System optional client localizable files
 
@@ -39,24 +40,36 @@ i copyright
 
 !HOME=../usr
 
-!search $HOME/X11/lib/X11/app-defaults
-d none X11						0755 root bin
-d none X11/lib						0755 root bin
-d none X11/lib/X11					0755 root bin
-d none X11/lib/X11/app-defaults				0755 root bin
-f none X11/lib/X11/app-defaults/Viewres 		0444 root bin
-f none X11/lib/X11/app-defaults/Xditview   		0444 root bin
-f none X11/lib/X11/app-defaults/Xedit   		0444 root bin
-f none X11/lib/X11/app-defaults/XFontSel   		0444 root bin
-f none X11/lib/X11/app-defaults/XLoad 			0444 root bin
-f none X11/lib/X11/app-defaults/Xman    		0444 root bin
+!search $HOME/share/X11/app-defaults
+d none share							0755 root sys
+d none share/X11						0755 root bin
+d none share/X11/app-defaults					0755 root bin
+d none share/X11/app-defaults/C					0755 root bin
+f none share/X11/app-defaults/Bitmap				0444 root bin
+f none share/X11/app-defaults/C/Bitmap-color			0444 root bin
+f none share/X11/app-defaults/C/Bitmap-nocase			0444 root bin
+f none share/X11/app-defaults/C/Editres				0444 root bin
+f none share/X11/app-defaults/C/Editres-color			0444 root bin
+f none share/X11/app-defaults/C/Clock-color			0444 root bin
+f none share/X11/app-defaults/C/Viewres				0444 root bin
+f none share/X11/app-defaults/C/XClipboard			0444 root bin
+f none share/X11/app-defaults/C/XClock				0444 root bin
+f none share/X11/app-defaults/C/XClock-color			0444 root bin
+f none share/X11/app-defaults/C/XConsole			0444 root bin
+f none share/X11/app-defaults/C/Xditview			0444 root bin
+f none share/X11/app-defaults/C/Xditview-chrtr			0444 root bin
+f none share/X11/app-defaults/C/Xedit				0444 root bin
+f none share/X11/app-defaults/C/Xedit-color			0444 root bin
+f none share/X11/app-defaults/C/XFontSel			0444 root bin
+f none share/X11/app-defaults/C/Xgc				0444 root bin
+f none share/X11/app-defaults/C/Xgc-color			0444 root bin
+f none share/X11/app-defaults/C/XLoad				0444 root bin
+f none share/X11/app-defaults/C/Xman				0444 root bin
 
-!search $HOME/X11/share/locale/C/LC_MESSAGES
-d none X11/share                                        0755 root bin
-d none X11/share/locale                                 0755 root bin
-d none X11/share/locale/C                               0755 root bin
-d none X11/share/locale/C/LC_MESSAGES                   0755 root bin
-f none X11/share/locale/C/LC_MESSAGES/xfontsel.po	0444 root bin
-f none X11/share/locale/C/LC_MESSAGES/xload.po 		0444 root bin
-f none X11/share/locale/C/LC_MESSAGES/xman.po           0444 root bin
-
+!search $HOME/share/locale/C/LC_MESSAGES
+d none share/locale						0755 root bin
+d none share/locale/C						0755 root bin
+d none share/locale/C/LC_MESSAGES				0755 root bin
+f none share/locale/C/LC_MESSAGES/xfontsel.po			0444 root bin
+f none share/locale/C/LC_MESSAGES/xload.po			0444 root bin
+f none share/locale/C/LC_MESSAGES/xman.po			0444 root bin

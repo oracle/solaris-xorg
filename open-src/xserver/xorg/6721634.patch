@@ -1,5 +1,5 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2009-01-09 09:47:03.000000000 -0800
-+++ hw/xfree86/common/xf86AutoConfig.c	2009-01-22 20:36:15.107090000 -0800
+--- hw/xfree86/common/xf86AutoConfig.c	2009-10-08 21:08:28.000000000 -0700
++++ hw/xfree86/common/xf86AutoConfig.c	2009-11-03 22:29:14.137406985 -0800
 @@ -59,6 +59,18 @@
  	"\tIdentifier\t" BUILTIN_DEVICE_NAME "\n" \
  	"\tDriver\t\"%s\"\n"
@@ -62,7 +62,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/comm
  #define BUILTIN_SCREEN_NAME \
  	"\"Builtin Default %s Screen %d\""
  
-@@ -233,6 +252,14 @@ xf86AutoConfig(void)
+@@ -247,6 +266,14 @@ xf86AutoConfig(void)
      listPossibleVideoDrivers(deviceList, 20);
  
      for (p = deviceList; *p; p++) {

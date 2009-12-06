@@ -1,0 +1,351 @@
+diff
+--- unix/xserver/hw/vnc/XserverDesktop.cc	Thu Aug 20 02:46:42 2009
++++ unix/xserver/hw/vnc/XserverDesktop.cc	Fri Nov  6 16:10:43 2009
+@@ -244,8 +244,8 @@
+   int i;
+   pointer retval;
+ 
+-  i = dixLookupResource(&retval, pScreen->defColormap, RT_COLORMAP, NullClient,
+-			DixReadAccess);
++  i = dixLookupResourceByType(&retval, pScreen->defColormap, RT_COLORMAP,
++			      NullClient, DixReadAccess);
+ 
+   /* Handle suspicious conditions */
+   assert(i == Success);
+diff
+--- unix/xserver/hw/vnc/xorg-version.h	2009-11-11 21:46:35.933464092 -0800
++++ unix/xserver/hw/vnc/xorg-version.h	2009-11-11 21:56:10.657410927 -0800
+@@ -26,8 +26,10 @@
+ 
+ #if XORG_VERSION_CURRENT < ((1 * 10000000) + (5 * 100000) + (99 * 1000))
+ #define XORG 15
+-#else
++#elif XORG_VERSION_CURRENT < ((1 * 10000000) + (6 * 100000) + (99 * 1000))
+ #define XORG 16
++#else
++#define XORG 17
+ #endif
+ 
+ #endif
+diff
+--- unix/xserver/hw/vnc/xvnc.cc	Fri Nov  6 15:23:56 2009
++++ unix/xserver/hw/vnc/xvnc.cc	Fri Nov  6 16:02:35 2009
+@@ -39,6 +39,10 @@
+ #include "vncExtInit.h"
+ #include "xorg-version.h"
+ 
++#if XORG >= 17
++#include <version-config.h>
++#endif
++
+ extern "C" {
+ #define class c_class
+ #define public c_public
+diff
+--- unix/xserver/hw/vnc/Input.cc~	2009-11-11 22:21:00.795223025 -0800
++++ unix/xserver/hw/vnc/Input.cc	2009-11-12 00:36:37.552679740 -0800
+@@ -31,6 +31,10 @@ extern "C" {
+ #define class c_class
+ #include "inputstr.h"
+ #include "mi.h"
++#if XORG >= 17
++#include "xserver-properties.h"
++#define XKB
++#endif
+ #ifndef XKB_IN_SERVER
+ #define XKB_IN_SERVER
+ #endif
+@@ -100,6 +104,9 @@ static void enqueueEvents(DeviceIntPtr d
+ #if XORG == 15
+ 			    eventq + i
+ #else
++# if XORG >= 17
++			    (InternalEvent*)
++# endif
+ 			    (eventq + i)->event
+ #endif
+ 			   );
+@@ -172,15 +179,38 @@ static int pointerProc(DeviceIntPtr pDev
+ 
+ 	switch (onoff) {
+ 	case DEVICE_INIT:
++	{
++#if XORG >= 17	
++		Atom btn_labels[BUTTONS] = {0};
++		Atom axes_labels[2] = {0};
++
++		btn_labels[0] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_LEFT);
++		btn_labels[1] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_MIDDLE);
++		btn_labels[2] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_RIGHT);
++		btn_labels[3] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_WHEEL_UP);
++		btn_labels[4] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_WHEEL_DOWN);
++
++		axes_labels[0] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_X);
++		axes_labels[1] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_Y);
++#endif
++
+ 		for (i = 0; i < BUTTONS + 1; i++)
+ 			map[i] = i;
+ 
+ 		InitPointerDeviceStruct(pDev, map, BUTTONS,
++#if XORG >= 17
++					btn_labels,
++#endif					
+ #if XORG == 15
+ 					GetMotionHistory,
+ #endif
+ 					(PtrCtrlProcPtr)NoopDDA,
+-					GetMotionHistorySize(), 2);
++					GetMotionHistorySize(), 2
++#if XORG >= 17
++					, axes_labels
++#endif					
++			);
++	}
+ 		break;
+ 	case DEVICE_ON:
+ 		pDev->on = TRUE;
+@@ -240,32 +270,79 @@ public:
+ 	void press()
+ 	{
+ 		KeyClassPtr keyc = dev->key;
+-		if (!(keyc->state & (1 << modIndex))) {
+-			int index = modIndex * keyc->maxKeysPerModifier;
+-			tempKeyEvent(keyc->modifierKeyMap[index], true);
++		KeyCode *modKeyMap = NULL;
++		int maxKeysPerModifier, modState;
++#if XORG >= 17
++		int ret = generate_modkeymap(serverClient, dev, &modKeyMap,
++					     &maxKeysPerModifier);
++		if (ret != Success)
++		    return;
++		modState = XkbStateFieldFromRec(&keyc->xkbInfo->state);
++#else
++		maxKeysPerModifier = keyc->maxKeysPerModifier;
++		modKeyMap = keyc->modifierKeyMap;
++		modState = keyc->state;
++#endif
++	       
++		if (!(modState & (1 << modIndex))) {
++			int index = modIndex * maxKeysPerModifier;
++			tempKeyEvent(modKeyMap[index], true);
+ 			pressed = true;
+ 		}
++#if XORG >= 17
++		xfree(modKeyMap);
++#endif
+ 	}
+ 
+ 	void release()
+ 	{
+ 		KeyClassPtr keyc = dev->key;
+-		if ((keyc->state & (1 << modIndex)) == 0)
++		int modState, maxKeysPerModifier;
++		KeyCode *modKeyMap = NULL;
++#if XORG >= 17
++		int ret = generate_modkeymap(serverClient, dev, &modKeyMap,
++					     &maxKeysPerModifier);
++		if (ret != Success)
++		    return;
++		modState = XkbStateFieldFromRec(&keyc->xkbInfo->state);
++#else
++		modState = keyc->state;
++		maxKeysPerModifier = keyc->maxKeysPerModifier;
++		modKeyMap = keyc->modifierKeyMap;
++#endif
++		if ((modState & (1 << modIndex)) == 0)
+ 			return;
+ 
+-		for (int k = 0; k < keyc->maxKeysPerModifier; k++) {
+-			int index = modIndex * keyc->maxKeysPerModifier + k;
+-			int keycode = keyc->modifierKeyMap[index];
++		for (int k = 0; k < maxKeysPerModifier; k++) {
++			int index = modIndex * maxKeysPerModifier + k;
++			int keycode = modKeyMap[index];
+ 			if (keycode && IS_PRESSED(keyc, keycode))
+ 				tempKeyEvent(keycode, false);
+ 		}
++#if XORG >= 17
++		xfree(modKeyMap);
++#endif
+ 	}
+ 
+ private:
+ 	void tempKeyEvent(int keycode, bool down)
+ 	{
+ 		if (keycode) {
+-			if (!keys) keys = new int[dev->key->maxKeysPerModifier];
++			if (!keys) {
++				int maxKeysPerModifier;
++#if XORG >= 17
++				KeyCode *modKeyMap = NULL;
++				int ret = generate_modkeymap
++					(serverClient, dev, &modKeyMap,
++					 &maxKeysPerModifier);
++				if (ret != Success)
++					return;
++				xfree(modKeyMap);
++#else
++				maxKeysPerModifier = keyc->maxKeysPerModifier;
++#endif
++				keys = new int[maxKeysPerModifier];
++			}
+ 			keys[nKeys++] = keycode;
+ 			generateXKeyEvent(keycode, down);
+ 		}
+@@ -365,7 +442,13 @@ void KeyboardDevice::keyEvent(rdr::U32 k
+ {
+ 	DeviceIntPtr master;
+ 	KeyClassPtr keyc = dev->key;
++	KeyCode *modKeyMap = NULL;
++	int maxKeysPerModifier, modState;
++#if XORG >= 17	
++	KeySymsPtr keymap = XkbGetCoreMap(dev);
++#else
+ 	KeySymsPtr keymap = &keyc->curKeySyms;
++#endif
+ 	KeySym *map = keymap->map;
+ 	KeyCode minKeyCode = keymap->minKeyCode;
+ 	KeyCode maxKeyCode = keymap->maxKeyCode;
+@@ -375,15 +458,26 @@ void KeyboardDevice::keyEvent(rdr::U32 k
+ 
+ 	if (keysym == XK_Caps_Lock) {
+ 		vlog.debug("Ignoring caps lock");
+-		return;
++		goto cleanup;
+ 	}
+ 
++#if XORG >= 17
++	int ret = generate_modkeymap(serverClient, dev, &modKeyMap,
++					     &maxKeysPerModifier);
++	if (ret != Success)
++		goto cleanup;
++	modState = XkbStateFieldFromRec(&keyc->xkbInfo->state);
++#else
++	maxKeysPerModifier = keyc->maxKeysPerModifier;
++	modKeyMap = keyc->modifierKeyMap;
++	modState = keyc->state;
++#endif
+ 	/* find which modifier Mode_switch is on. */
+ 	int modeSwitchMapIndex = 0;
+ 	for (i = 3; i < 8; i++) {
+-		for (k = 0; k < keyc->maxKeysPerModifier; k++) {
+-			int index = i * keyc->maxKeysPerModifier + k;
+-			int keycode = keyc->modifierKeyMap[index];
++		for (k = 0; k < maxKeysPerModifier; k++) {
++			int index = i * maxKeysPerModifier + k;
++			int keycode = modKeyMap[index];
+ 
+ 			if (keycode == 0)
+ 				continue;
+@@ -400,10 +494,10 @@ void KeyboardDevice::keyEvent(rdr::U32 k
+ ModeSwitchFound:
+ 
+ 	int col = 0;
+-	if ((keyc->state & (1 << ShiftMapIndex)) != 0)
++	if ((modState & (1 << ShiftMapIndex)) != 0)
+ 		col |= 1;
+ 	if (modeSwitchMapIndex != 0 &&
+-	    ((keyc->state & (1 << modeSwitchMapIndex))) != 0)
++	    ((modState & (1 << modeSwitchMapIndex))) != 0)
+ 		col |= 2;
+ 
+ 	int kc = KeysymToKeycode(keymap, keysym, &col);
+@@ -416,7 +510,7 @@ ModeSwitchFound:
+ 	 * We never get ISO_Left_Tab here because it's already been translated
+ 	 * in VNCSConnectionST.
+ 	 */
+-	if (keysym == XK_Tab && ((keyc->state & (1 << ShiftMapIndex))) != 0)
++	if (keysym == XK_Tab && ((modState & (1 << ShiftMapIndex))) != 0)
+ 		col |= 1;
+ 
+ 	if (kc == 0) {
+@@ -447,6 +541,13 @@ ModeSwitchFound:
+ 
+ 			vlog.info("Added unknown keysym 0x%x to keycode %d",
+ 				  keysym, kc);
++#if XORG >= 17
++			if (!IsMaster(dev))
++			{
++				master = dev->u.master;
++				CopyKeyClass(dev, master);
++			}
++#else
+ #if XORG == 15
+ 			master = inputInfo.keyboard;
+ #else
+@@ -463,6 +564,7 @@ ModeSwitchFound:
+ 				CopyKeyClass(dev, master);
+ #endif
+ 			}
++#endif /* XORG >= 17 */
+ 			break;
+ 		}
+ 	}
+@@ -470,7 +572,7 @@ ModeSwitchFound:
+ 	if (kc < minKeyCode) {
+ 		vlog.info("Keyboard mapping full - ignoring unknown keysym "
+ 			  "0x%x",keysym);
+-		return;
++		goto cleanup;
+ 	}
+ 
+ 	/*
+@@ -479,11 +581,11 @@ ModeSwitchFound:
+ 	 * followed by a press.
+ 	 */
+ 	for (i = 0; i < 8; i++) {
+-		for (k = 0; k < keyc->maxKeysPerModifier; k++) {
+-			int index = i * keyc->maxKeysPerModifier + k;
+-			if (kc == keyc->modifierKeyMap[index] &&
++		for (k = 0; k < maxKeysPerModifier; k++) {
++			int index = i * maxKeysPerModifier + k;
++			if (kc == modKeyMap[index] &&
+ 			    IS_PRESSED(keyc,kc) && down)
+-				return;
++				goto cleanup;
+ 		}
+ 	}
+ 
+@@ -506,6 +608,15 @@ ModeSwitchFound:
+ 	action = down ? KeyPress : KeyRelease;
+ 	n = GetKeyboardEvents(eventq, dev, action, kc);
+ 	enqueueEvents(dev, n);
++  cleanup:
++#if XORG >= 17
++	xfree(modKeyMap);
++	if (keymap)
++	{
++		xfree(keymap->map);
++		xfree(keymap);
++	}
++#endif
+ }
+ 
+ static KeySym KeyCodetoKeySym(KeySymsPtr keymap, int keycode, int col)
+@@ -738,15 +849,25 @@ static void keyboardBell(int percent, De
+ 
+ static int keyboardProc(DeviceIntPtr pDevice, int onoff)
+ {
++#if XORG >= 17
++	XkbRMLVOSet rmlvo;
++#else
+ 	KeySymsRec keySyms;
+ 	CARD8 modMap[MAP_LENGTH];
++#endif
+ 	DevicePtr pDev = (DevicePtr)pDevice;
+ 
+ 	switch (onoff) {
+ 	case DEVICE_INIT:
++#if XORG >= 17
++		XkbGetRulesDflts(&rmlvo);
++		InitKeyboardDeviceStruct(pDevice, &rmlvo, keyboardBell,
++					 (KbdCtrlProcPtr)NoopDDA);
++#else
+ 		GetMappings(&keySyms, modMap);
+ 		InitKeyboardDeviceStruct(pDev, &keySyms, modMap, keyboardBell,
+ 					 (KbdCtrlProcPtr)NoopDDA);
++#endif
+ 		break;
+ 	case DEVICE_ON:
+ 		pDev->on = TRUE;

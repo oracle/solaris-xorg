@@ -3,7 +3,7 @@
 # xf86-video-ast 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.13	09/07/14
+# ident	"@(#)Makefile	1.14	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -40,8 +40,11 @@ MODULE_NAME=xf86-video-ast
 MODULE_VERSION=0.89.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = sparc-ast.patch \
-		 sparc-ast-6860461.patch
+SOURCE_PATCHES = \
+		xf86UDelay.patch,-p1 \
+		sparc-ast.patch \
+		sparc-ast-6860461.patch \
+		port.patch
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

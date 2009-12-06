@@ -2,8 +2,8 @@
 #
 # Xmu 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	08/08/08
+# ident	"@(#)Makefile	1.6	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXmu
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -77,16 +77,16 @@ source_gen::
 
 # Additional files we need to install
 CP = cp -pf
-MANDIR = $(PROTODIR)/usr/X11/share/man/man3Xmu
+MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3Xmu
 
 install_gen::
-	mkdir -p $(PROTODIR)/usr/X11/include/X11/Xmu $(MANDIR) \
-		 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)
+	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu $(MANDIR) \
+		 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 	$(CP) $(SOURCE_DIR)/include/X11/Xmu/XmuSolaris.h \
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
-		$(PROTODIR)/usr/X11/include/X11/Xmu
+		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu
 	$(CP) sun-src/*.3Xmu $(MANDIR)
-	rm -f $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmu.so \
-		$(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmuu.so
-	ln -s libXmu.so.4 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmu.so
-	ln -s libXmuu.so.1 $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)/libXmuu.so
+	rm -f $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmu.so \
+		$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmuu.so
+	ln -s libXmu.so.4 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmu.so
+	ln -s libXmuu.so.1 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmuu.so

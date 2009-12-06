@@ -1,6 +1,6 @@
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,30 +27,31 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)soversion.patch	1.1	06/10/02
+# ident	"@(#)soversion.patch	1.2	09/12/05 SMI"
 #
 
 On Solaris we shipped the Xsun libxkbfile as libxkbfile.so.4, so the Xorg 
 libxkbfile (which is ABI incompatible) was made to be libxkbfile.so.5.
 
---- src/Makefile.am	2006-02-28 14:44:54.000000000 -0800
-+++ src/Makefile.am	2006-09-28 13:36:49.520232000 -0700
-@@ -22,7 +22,7 @@
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2009-10-06 16:57:31.000000000 -0700
++++ src/Makefile.am	2009-11-12 16:46:59.845715257 -0800
+@@ -22,7 +22,7 @@ INCLUDES = -I$(top_srcdir)/include/ -I$(
  libxkbfile_la_LIBADD = @XKBFILE_LIBS@
- AM_CFLAGS = @XKBFILE_CFLAGS@
+ AM_CFLAGS = $(CWARNFLAGS) @XKBFILE_CFLAGS@
  
 -libxkbfile_la_LDFLAGS = -version-number 1:0:2 -no-undefined
 +libxkbfile_la_LDFLAGS = -version-number 5 -no-undefined
  
  libxkbfileincludedir = $(includedir)/X11/extensions
  libxkbfileinclude_HEADERS = \
-
---- src/Makefile.in	2006-04-26 12:58:32.000000000 -0700
-+++ src/Makefile.in	2006-09-28 13:56:37.123309000 -0700
-@@ -203,7 +203,7 @@
+diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
+--- src/Makefile.in	2009-10-06 17:09:31.000000000 -0700
++++ src/Makefile.in	2009-11-12 16:46:59.846258117 -0800
+@@ -262,7 +262,7 @@ libxkbfile_la_SOURCES = \
  INCLUDES = -I$(top_srcdir)/include/ -I$(top_srcdir)/include/X11/extensions/
  libxkbfile_la_LIBADD = @XKBFILE_LIBS@
- AM_CFLAGS = @XKBFILE_CFLAGS@
+ AM_CFLAGS = $(CWARNFLAGS) @XKBFILE_CFLAGS@
 -libxkbfile_la_LDFLAGS = -version-number 1:0:2 -no-undefined
 +libxkbfile_la_LDFLAGS = -version-number 5 -no-undefined
  libxkbfileincludedir = $(includedir)/X11/extensions

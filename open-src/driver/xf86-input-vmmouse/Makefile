@@ -3,7 +3,7 @@
 # xf86-input-vmmouse Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)Makefile	1.4	09/05/15 SMI"
+# ident	"@(#)Makefile	1.5	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-MODULE_VERSION=12.6.4
+MODULE_VERSION=12.6.5
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES =
+SOURCE_PATCHES = xf86LoaderReqSymLists.patch,-p1
 
 # vmmouse_client code won't build with Sun compiler
 MODULE_COMPILER=gcc

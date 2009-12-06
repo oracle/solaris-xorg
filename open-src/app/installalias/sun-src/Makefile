@@ -1,5 +1,5 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/09/15
+# ident	"@(#)Makefile	1.2	09/12/05 SMI"
 
 SRCS = installalias.c
 OBJS = $(SRCS:.c=.o)
@@ -36,8 +36,8 @@ installalias: $(OBJS)
 	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBS)
 
 install: installalias
-	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	$(INSTALL) installalias $(DESTDIR)$(PREFIX)/lib
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/X11
+	$(INSTALL) installalias $(DESTDIR)$(PREFIX)/lib/X11
 
 lint:
 	$(LINT) -b -h $(LINTFLAGS) $(CPPFLAGS) $(SRCS) $(LIBS)

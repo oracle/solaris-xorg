@@ -2,8 +2,8 @@
 #
 # installalias module Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/09/15
+# ident	"@(#)Makefile	1.2	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -60,10 +60,8 @@ MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Need to find libXfont in matching directory when used
 # in alternate root environments, like during OS install
-# $ORIGIN paths are relative to /usr/X11/lib, since that's where 
+# $ORIGIN paths are relative to /usr/lib/X11, since that's where 
 # installalias is installed
-MODULE_LD_OPTIONS= -R $$ORIGIN/X11/xserver$(ARCHLIBSUBDIR)
+MODULE_LD_OPTIONS= -R $$ORIGIN/../xorg$(ARCHLIBSUBDIR)
 
 include ../Makefile.inc
-
-source_gen:: $(LNDIR)

@@ -1,4 +1,5 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -25,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_i386	1.5	09/01/14 SMI"
+# ident	"@(#)prototype_i386	1.6	09/12/05 SMI"
 #
 #
 # Include ISA independent files (prototype_com)
@@ -33,18 +34,10 @@
 !include prototype_com
 
 !search ../lib/opengl/ogl_select
-d none lib/opengl 0755 root bin
-d none lib/opengl/ogl_select 0755 root bin
-f none lib/opengl/ogl_select/mesa_vendor_select 0755 root bin
-f none lib/opengl/ogl_select/nvidia_vendor_select 0755 root bin
-
-!search ../lib/svc/method
-f none lib/svc/method/ogl-select 755 root bin
-!search ../var/svc/manifest/application/opengl
-d none var/svc/manifest/application/opengl 755 root sys
-f manifest var/svc/manifest/application/opengl/ogl-select.xml 0444 root sys
+f none lib/opengl/ogl_select/nvidia_vendor_select		0755 root bin
 
 !search ../etc/hal/fdi/policy/10osvendor
-d none etc/hal/fdi/policy 0755 root bin
-d none etc/hal/fdi/policy/10osvendor 0755 root bin
-f none etc/hal/fdi/policy/10osvendor/11-x11-vmmouse.fdi 0444 root bin
+d none etc/hal/fdi/policy					0755 root bin
+d none etc/hal/fdi/policy/10osvendor				0755 root bin
+f none etc/hal/fdi/policy/10osvendor/11-x11-vmmouse.fdi		0444 root bin
+f none etc/hal/fdi/policy/10osvendor/11-x11-synaptics.fdi	0444 root bin

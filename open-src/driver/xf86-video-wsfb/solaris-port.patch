@@ -1,4 +1,4 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,15 +26,16 @@
 # of the copyright holder.
 # 
 
-diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
---- src/wsfb_driver.c	2007-01-02 06:38:33.000000000 -0800
-+++ src/wsfb_driver.c	2007-01-02 13:39:11.809759000 -0800
-@@ -43,12 +43,28 @@
- #include <fcntl.h>
+diff -urp -x '*~' -x '*.orig' src/wsfb_driver.c src/wsfb_driver.c
+--- src/wsfb_driver.c	2009-09-13 13:25:34.000000000 -0700
++++ src/wsfb_driver.c	2009-11-25 09:37:03.238454000 -0800
+@@ -45,7 +45,25 @@
  #include <sys/types.h>
+ #include <sys/mman.h>
  #include <sys/time.h>
 -#include <dev/wscons/wsconsio.h>
 +#ifdef sun
++# include <unistd.h>
 +# include <sys/fbio.h>
 +# include <sys/visual_io.h>
 +# define wsdisplay_fbinfo	fbtype
@@ -53,28 +54,9 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
 +# include <dev/wscons/wsconsio.h>
 +#endif
  
- /* all driver need this */
+ /* All drivers need this. */
  #include "xf86.h"
- #include "xf86_OSproc.h"
--#include "xf86_ansic.h"
- 
- #include "mipointer.h"
- #include "mibstore.h"
-@@ -71,10 +87,10 @@
- #endif
- 
- /* #include "wsconsio.h" */
--
--#ifndef XFree86LOADER
-+#include <errno.h>
-+#include <unistd.h>
- #include <sys/mman.h>
--#endif
-+
- 
- #ifdef USE_PRIVSEP
- extern int priv_open_device(const char *);
-@@ -84,16 +100,18 @@ extern int priv_open_device(const char *
+@@ -85,16 +103,18 @@ extern int priv_open_device(const char *
  
  #if defined(__NetBSD__)
  #define WSFB_DEFAULT_DEV "/dev/ttyE0"
@@ -97,8 +79,8 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  #else
  # define TRACE_ENTER(str)
  # define TRACE_EXIT(str)
-@@ -227,7 +245,8 @@ WsfbSetup(pointer module, pointer opts, 
- 	/* Check that we're being loaded on a OpenBSD or NetBSD system */
+@@ -212,7 +232,8 @@ WsfbSetup(pointer module, pointer opts, 
+ 	/* Check that we're being loaded on a OpenBSD or NetBSD system. */
  	LoaderGetOS(&osname, NULL, NULL, NULL);
  	if (!osname || (strcmp(osname, "openbsd") != 0 &&
 -	                strcmp(osname, "netbsd") != 0)) {
@@ -107,7 +89,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  		if (errmaj)
  			*errmaj = LDR_BADOS;
  		if (errmin)
-@@ -353,7 +372,7 @@ wsfb_mmap(size_t len, off_t off, int fd)
+@@ -337,7 +358,7 @@ wsfb_mmap(size_t len, off_t off, int fd)
  		mapaddr = NULL;
  	}
  #if DEBUG
@@ -116,7 +98,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  #endif
  	return mapaddr;
  }
-@@ -366,13 +385,50 @@ WsfbProbe(DriverPtr drv, int flags)
+@@ -350,13 +371,50 @@ WsfbProbe(DriverPtr drv, int flags)
  	int numDevSections;
  	char *dev;
  	Bool foundScreen = FALSE;
@@ -169,7 +151,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	if ((numDevSections = xf86MatchDevice(WSFB_DRIVER_NAME,
  					      &devSections)) <= 0)
  		return FALSE;
-@@ -406,7 +462,7 @@ WsfbProbe(DriverPtr drv, int flags)
+@@ -390,7 +448,7 @@ WsfbProbe(DriverPtr drv, int flags)
  		}
  	}
  	xfree(devSections);
@@ -178,7 +160,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	return foundScreen;
  }
  
-@@ -414,7 +470,11 @@ static Bool
+@@ -398,7 +456,11 @@ static Bool
  WsfbPreInit(ScrnInfoPtr pScrn, int flags)
  {
  	WsfbPtr fPtr;
@@ -191,7 +173,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	char *dev, *s;
  	char *mod = NULL;
  	const char *reqSym = NULL;
-@@ -443,6 +503,34 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+@@ -429,6 +491,34 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
  		return FALSE;
  	}
  
@@ -226,16 +208,16 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	if (ioctl(fPtr->fd, WSDISPLAYIO_GINFO, &fPtr->info) == -1) {
  		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
  			   "ioctl WSDISPLAY_GINFO: %s\n",
-@@ -461,6 +549,8 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+@@ -447,6 +537,8 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
  			   strerror(errno));
  		return FALSE;
  	}
 +#endif
 +	
  	/*
- 	 * Allocate room for saving the colormap 
+ 	 * Allocate room for saving the colormap.
  	 */
-@@ -516,6 +606,7 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+@@ -502,6 +594,7 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
  	if (pScrn->depth > 8) {
  		rgb zeros = { 0, 0, 0 }, masks;
  
@@ -243,7 +225,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  		if (wstype == WSDISPLAY_TYPE_SUN24 ||
  		    wstype == WSDISPLAY_TYPE_SUNCG12 ||
  		    wstype == WSDISPLAY_TYPE_SUNCG14 ||
-@@ -524,7 +615,9 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
+@@ -510,7 +603,9 @@ WsfbPreInit(ScrnInfoPtr pScrn, int flags
  			masks.red = 0x0000ff;
  			masks.green = 0x00ff00;
  			masks.blue = 0xff0000;
@@ -254,7 +236,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  			masks.red = 0;
  			masks.green = 0;
  			masks.blue = 0;
-@@ -728,12 +821,16 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
+@@ -710,12 +805,16 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
  	WsfbPtr fPtr = WSFBPTR(pScrn);
  	VisualPtr visual;
  	int ret, flags, ncolors;
@@ -272,15 +254,15 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	       "\tmask: %x,%x,%x, offset: %u,%u,%u\n",
  	       pScrn->bitsPerPixel,
  	       pScrn->depth,
-@@ -773,6 +870,7 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
+@@ -755,6 +854,7 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
  			   "unsupported depth %d\n", fPtr->info.depth);
  		return FALSE;
  	}
 +#ifdef WSDISPLAYIO_SMODE
- 	/* Switch to graphics mode - required before mmap */
+ 	/* Switch to graphics mode - required before mmap. */
  	if (ioctl(fPtr->fd, WSDISPLAYIO_SMODE, &wsmode) == -1) {
  		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
-@@ -780,6 +878,7 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
+@@ -762,6 +862,7 @@ WsfbScreenInit(int scrnIndex, ScreenPtr 
  			   strerror(errno));
  		return FALSE;
  	}
@@ -288,7 +270,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	fPtr->fbmem = wsfb_mmap(len, 0, fPtr->fd);
  
  	if (fPtr->fbmem == NULL) {
-@@ -975,9 +1074,16 @@ WsfbWindowLinear(ScreenPtr pScreen, CARD
+@@ -985,9 +1086,16 @@ WsfbWindowLinear(ScreenPtr pScreen, CARD
  	if (fPtr->linebytes)
  		*size = fPtr->linebytes;
  	else {
@@ -305,7 +287,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	}
  	return ((CARD8 *)fPtr->fbmem + row *fPtr->linebytes + offset);
  }
-@@ -1163,7 +1269,9 @@ static void
+@@ -1178,7 +1286,9 @@ static void
  WsfbRestore(ScrnInfoPtr pScrn)
  {
  	WsfbPtr fPtr = WSFBPTR(pScrn);
@@ -315,12 +297,12 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  
  	TRACE_ENTER("WsfbRestore");
  
-@@ -1180,12 +1288,14 @@ WsfbRestore(ScrnInfoPtr pScrn)
- 	/* Clear the screen */
+@@ -1195,12 +1305,14 @@ WsfbRestore(ScrnInfoPtr pScrn)
+ 	/* Clear the screen. */
  	memset(fPtr->fbmem, 0, fPtr->fbmem_len);
  
 +#ifdef WSDISPLAYIO_SMODE
- 	/* Restore the text mode */
+ 	/* Restore the text mode. */
  	mode = WSDISPLAYIO_MODE_EMUL;
  	if (ioctl(fPtr->fd, WSDISPLAYIO_SMODE, &mode) == -1) {
  		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
@@ -330,7 +312,7 @@ diff -urp -x '*~' src/wsfb_driver.c src/wsfb_driver.c
  	TRACE_EXIT("WsfbRestore");
  }
  
-@@ -1294,9 +1404,15 @@ WsfbDGAAddModes(ScrnInfoPtr pScrn)
+@@ -1309,9 +1421,15 @@ WsfbDGAAddModes(ScrnInfoPtr pScrn)
  		if (fPtr->linebytes)
  			pDGAMode->bytesPerScanline = fPtr->linebytes;
  		else {

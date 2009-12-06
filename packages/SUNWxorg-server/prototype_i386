@@ -1,6 +1,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.18     09/07/22 SMI"
+# ident	"@(#)prototype_i386	1.19	09/12/05 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -38,104 +39,98 @@ i depend=depend_i386
 # Include ISA independent files (prototype_com)
 #
 !XSERVERBINDIR=bin/i386
-!XSERVERMODDIR=lib/modules/
+!XSERVERMODDIR=lib/xorg/modules/
 !include prototype_com
 
 # On x86 we ship two sets of modules and server - 32-bit & 64-bit
-l none X11/bin/Xorg=../../lib/isaexec
-l none X11/bin/Xephyr=../../lib/isaexec
-l none X11/bin/Xvfb=../../lib/isaexec
+l none bin/Xorg=../lib/isaexec
+l none bin/Xephyr=../lib/isaexec
+l none bin/Xvfb=../lib/isaexec
 
 !search $HOME/bin/i386
-d none X11/bin/i386 0755 root bin
-f none X11/bin/i386/Xorg 4555 root bin
-f none X11/bin/i386/Xephyr 0555 root bin
-f none X11/bin/i386/Xvfb 0555 root bin
+d none bin/i386							0755 root bin
+f none bin/i386/Xorg						4555 root bin
+f none bin/i386/Xephyr						0555 root bin
+f none bin/i386/Xvfb						0555 root bin
+
+s none X11/bin/i386=../../bin/i386
 
 !search $HOME/bin/amd64
-d none X11/bin/amd64 0755 root bin
-f none X11/bin/amd64/Xorg 4555 root bin
-f none X11/bin/amd64/Xephyr 0555 root bin
-f none X11/bin/amd64/Xvfb 0555 root bin
+d none bin/amd64						0755 root bin
+f none bin/amd64/Xorg						4555 root bin
+f none bin/amd64/Xephyr						0555 root bin
+f none bin/amd64/Xvfb						0555 root bin
 
-!search $HOME/lib/X11/xserver
-d none X11/lib/X11 0755 root bin
-d none X11/lib/X11/xserver 0755 root bin
-f none X11/lib/X11/xserver/libdrm.so.2 0755 root bin
-f none X11/lib/X11/xserver/libdrm_intel.so.1 0755 root bin
+s none X11/bin/amd64=../../bin/amd64
 
-!search $HOME/lib/X11/xserver/$plat_64
-d none X11/lib/X11/xserver/$plat_64 0755 root bin
-f none X11/lib/X11/xserver/$plat_64/libdrm.so.2 0755 root bin
-f none X11/lib/X11/xserver/$plat_64/libdrm_intel.so.1 0755 root bin
+!search $HOME/lib/xorg
+d none lib/xorg							0755 root bin
+f none lib/xorg/libdrm_intel.so.1				0755 root bin
+f none lib/xorg/synclient					0444 root bin
+f none lib/xorg/syndaemon					0444 root bin
 
-!search $HOME/lib/modules/amd64
-d none X11/lib/modules/amd64 0755 root bin
-f none X11/lib/modules/amd64/libexa.so 0755 root bin
-f none X11/lib/modules/amd64/libfb.so 0755 root bin
-f none X11/lib/modules/amd64/libint10.so 0755 root bin
-f none X11/lib/modules/amd64/libshadow.so 0755 root bin
-f none X11/lib/modules/amd64/libshadowfb.so 0755 root bin
-f none X11/lib/modules/amd64/libvbe.so 0755 root bin
-f none X11/lib/modules/amd64/libvgahw.so 0755 root bin
-f none X11/lib/modules/amd64/libwfb.so 0755 root bin
-f none X11/lib/modules/amd64/libxaa.so 0755 root bin
-f none X11/lib/modules/amd64/libxf8_16bpp.so 0755 root bin
+!search $HOME/lib/xorg/$plat_64
+d none lib/xorg/$plat_64					0755 root bin
+f none lib/xorg/$plat_64/libdrm.so.2				0755 root bin
+f none lib/xorg/$plat_64/libdrm_intel.so.1			0755 root bin
+f none lib/xorg/$plat_64/synclient				0444 root bin
+f none lib/xorg/$plat_64/syndaemon				0444 root bin
 
-!search $HOME/lib/modules/amd64/drivers
-d none X11/lib/modules/drivers/amd64 0755 root bin
-f none X11/lib/modules/drivers/amd64/dummy_drv.so 0755 root bin
+!search $HOME/$XSERVERMODDIR/amd64
+d none lib/xorg/modules/amd64					0755 root bin
+f none lib/xorg/modules/amd64/libexa.so				0755 root bin
+f none lib/xorg/modules/amd64/libfb.so				0755 root bin
+f none lib/xorg/modules/amd64/libint10.so			0755 root bin
+f none lib/xorg/modules/amd64/libshadow.so			0755 root bin
+f none lib/xorg/modules/amd64/libshadowfb.so			0755 root bin
+f none lib/xorg/modules/amd64/libvbe.so				0755 root bin
+f none lib/xorg/modules/amd64/libvgahw.so			0755 root bin
+f none lib/xorg/modules/amd64/libwfb.so				0755 root bin
+f none lib/xorg/modules/amd64/libxaa.so				0755 root bin
+f none lib/xorg/modules/amd64/libxf8_16bpp.so			0755 root bin
 
-!search $HOME/lib/modules/amd64/extensions
-d none X11/lib/modules/extensions/amd64 0755 root bin
-f none X11/lib/modules/extensions/amd64/libia.so 0755 root bin
-f none X11/lib/modules/extensions/amd64/libdbe.so 0755 root bin
-f none X11/lib/modules/extensions/amd64/libextmod.so 0755 root bin
+!search $HOME/$XSERVERMODDIR/amd64/drivers
+d none lib/xorg/modules/drivers/amd64				0755 root bin
+f none lib/xorg/modules/drivers/amd64/dummy_drv.so		0755 root bin
+
+!search $HOME/$XSERVERMODDIR/amd64/extensions
+d none lib/xorg/modules/extensions/amd64			0755 root bin
+f none lib/xorg/modules/extensions/amd64/libia.so		0755 root bin
+f none lib/xorg/modules/extensions/amd64/libdbe.so		0755 root bin
+f none lib/xorg/modules/extensions/amd64/libextmod.so		0755 root bin
 
 !search $HOME/$XSERVERMODDIR/input
-d none X11/lib/modules/input 0755 root bin
-f none X11/lib/modules/input/acecad_drv.so 0755 root bin
-f none X11/lib/modules/input/citron_drv.so 0755 root bin
-f none X11/lib/modules/input/elographics_drv.so 0755 root bin
-f none X11/lib/modules/input/fpit_drv.so 0755 root bin
-f none X11/lib/modules/input/hyperpen_drv.so 0755 root bin
-f none X11/lib/modules/input/mutouch_drv.so 0755 root bin
-f none X11/lib/modules/input/penmount_drv.so 0755 root bin
-f none X11/lib/modules/input/vmmouse_drv.so 0755 root bin
-f none X11/lib/modules/input/hotkey_drv.so 0755 root bin
+d none lib/xorg/modules/input					0755 root bin
+f none lib/xorg/modules/input/acecad_drv.so			0755 root bin
+f none lib/xorg/modules/input/synaptics_drv.so			0755 root bin
+f none lib/xorg/modules/input/vmmouse_drv.so			0755 root bin
+f none lib/xorg/modules/input/hotkey_drv.so			0755 root bin
 
-!search $HOME/lib/modules/amd64/input
-d none X11/lib/modules/input/amd64 0755 root bin
-f none X11/lib/modules/input/amd64/acecad_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/citron_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/elographics_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/fpit_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/hyperpen_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/kbd_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/mouse_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/mutouch_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/penmount_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/void_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/vmmouse_drv.so 0755 root bin
-f none X11/lib/modules/input/amd64/hotkey_drv.so 0755 root bin
+!search $HOME/$XSERVERMODDIR/amd64/input
+d none lib/xorg/modules/input/amd64				0755 root bin
+f none lib/xorg/modules/input/amd64/acecad_drv.so		0755 root bin
+f none lib/xorg/modules/input/amd64/kbd_drv.so			0755 root bin
+f none lib/xorg/modules/input/amd64/mouse_drv.so		0755 root bin
+f none lib/xorg/modules/input/amd64/synaptics_drv.so		0755 root bin
+f none lib/xorg/modules/input/amd64/void_drv.so			0755 root bin
+f none lib/xorg/modules/input/amd64/vmmouse_drv.so		0755 root bin
+f none lib/xorg/modules/input/amd64/hotkey_drv.so		0755 root bin
 
 !search $HOME/share/man/man7
-f none X11/share/man/man7/acecad.7 0444 root bin
-f none X11/share/man/man7/citron.7 0444 root bin
-f none X11/share/man/man7/elographics.7 0444 root bin
-f none X11/share/man/man7/fpit.7 0444 root bin
-f none X11/share/man/man7/mutouch.7 0444 root bin
-f none X11/share/man/man7/penmount.7 0444 root bin
-f none X11/share/man/man7/vmmouse.7 0444 root bin
+f none share/man/man7/acecad.7					0444 root bin
+f none share/man/man7/synaptics.7				0444 root bin
+f none share/man/man7/vmmouse.7					0444 root bin
 
 # HAL probe support for vmmouse driver
 !search ../usr/lib/hal
-d none lib 					0755 root bin
-d none lib/hal 					0755 root bin
-f none lib/hal/hal-probe-vmmouse 		0555 root bin
+d none lib							0755 root bin
+d none lib/hal							0755 root bin
+f none lib/hal/hal-probe-vmmouse				0555 root bin
 
-!search $HOME/lib/X11/xserver
-f none X11/lib/X11/xserver/vmmouse_detect	0555 root bin
+!search $HOME/lib/xorg
+f none lib/xorg/vmmouse_detect					0555 root bin
 
 !search $HOME/share/man/man1
-f none X11/share/man/man1/vmmouse_detect.1 0444 root bin
+f none share/man/man1/vmmouse_detect.1				0444 root bin
+f none share/man/man1/synclient.1				0444 root bin
+f none share/man/man1/syndaemon.1				0444 root bin

@@ -1,0 +1,13 @@
+--- hw/xfree86/exa/examodule.c	Fri Dec  4 10:24:29 2009
++++ hw/xfree86/exa/examodule.c	Fri Dec  4 10:25:23 2009
+@@ -158,6 +158,10 @@
+ 	pExaScr->info->PrepareComposite = NULL;
+     }
+ 
++    /* temporarily disable Composite to workaround 6906694 */
++    pExaScr->info->CheckComposite = NULL;
++    pExaScr->info->PrepareComposite = NULL;
++
+     if (xf86ReturnOptValBool(pScreenPriv->options, EXAOPT_NO_UTS, FALSE)) {
+ 	xf86DrvMsg(pScreen->myNum, X_CONFIG,
+ 		   "EXA: Disabling UploadToScreen\n");

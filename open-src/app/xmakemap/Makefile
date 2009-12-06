@@ -43,7 +43,7 @@ CONFIGURE_TARGETS =
 CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS = 
 BUILD_TARGETS_SET=yes
-INSTALL_TARGETS =
+INSTALL_TARGETS = install_xmakemap
 INSTALL_TARGETS_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list
@@ -55,12 +55,12 @@ MODULE_STABILITY=Committed
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)/$(X11_DIR)
 
-install_gen::
-	mkdir -p $(INSTDIR)/bin $(INSTDIR)/share/man/man1
+install_xmakemap:
+	mkdir -p $(DESTDIR)$(X11_BIN_DIR) \
+		$(DESTDIR)$(X11_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/xmakemap \
-		$(PROTODIR)$(X11_DIR)/bin
+		$(DESTDIR)$(X11_BIN_DIR)
 	$(INSTALL_SCRIPT) $(SOURCE_DIR)/xmakemap.man \
-		$(PROTODIR)$(X11_DIR)/share/man/man1/xmakemap.1
+		$(DESTDIR)$(X11_MAN_DIR)/man1/xmakemap.1
 

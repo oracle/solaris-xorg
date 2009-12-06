@@ -1,0 +1,37 @@
+--- src/vmware.c	Mon Nov  9 12:26:22 2009
++++ src/vmware.c	Mon Nov  9 12:26:48 2009
+@@ -640,8 +640,6 @@
+         return FALSE;
+     }
+ 
+-    xf86LoaderReqSymLists(vgahwSymbols, NULL);
+-
+     if (!vgaHWGetHWRec(pScrn)) {
+         return FALSE;
+     }
+@@ -973,7 +971,6 @@
+         VMWAREFreeRec(pScrn);
+         return FALSE;
+     }
+-    xf86LoaderReqSymLists(fbSymbols, shadowfbSymbols, NULL);
+ 
+     /* Need ramdac for hwcursor */
+     if (pVMWARE->hwCursor) {
+@@ -981,7 +978,6 @@
+             VMWAREFreeRec(pScrn);
+             return FALSE;
+         }
+-        xf86LoaderReqSymLists(ramdacSymbols, NULL);
+     }
+ 
+     return TRUE;
+@@ -2065,9 +2061,6 @@
+         setupDone = TRUE;
+         xf86AddDriver(&VMWARE, module, VMWARE_DRIVER_FUNC);
+ 
+-        LoaderRefSymLists(vgahwSymbols, fbSymbols, ramdacSymbols,
+-                          shadowfbSymbols, NULL);
+-
+         return (pointer)1;
+     }
+     if (errmaj) {

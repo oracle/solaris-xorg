@@ -58,21 +58,15 @@ GLXGEARS_BIN=$(SOURCE_DIR)/progs/xdemos/glxgears
 GLXINFO_BIN=$(SOURCE_DIR)/progs/xdemos/glxinfo
 
 # configure script is run in ../lib/mesa build, just link to results here
-CONFIGURE_TARGETS_sparc=
-CONFIGURE_TARGETS_i386=$(SOURCE_DIR)/configs/current
-CONFIGURE_TARGETS= $(CONFIGURE_TARGETS_$(MACH))
+CONFIGURE_TARGETS= $(SOURCE_DIR)/configs/current
 CONFIGURE_TARGETS_SET=yes
 
 # What to build
-BUILD_TARGETS_sparc=
-BUILD_TARGETS_i386=$(GLXGEARS_BIN) $(GLXINFO_BIN)
-BUILD_TARGETS= $(BUILD_TARGETS_$(MACH))
+BUILD_TARGETS= $(GLXGEARS_BIN) $(GLXINFO_BIN)
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS_sparc=install_man
-INSTALL_TARGETS_i386=install_glxgears install_glxinfo install_man
-INSTALL_TARGETS= $(INSTALL_TARGETS_$(MACH))
+INSTALL_TARGETS= install_glxgears install_glxinfo install_man
 INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
@@ -83,10 +77,8 @@ include ../Makefile.inc
 # Only care about building X demos
 DEMOS_DIR=$(SOURCE_DIR)/progs/xdemos
 
-DEMO_LDFLAGS=$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
-
-# Workaround 6724478 libc printf should not SEGV when passed NULL for %s format
-DEMO_LDFLAGS += /usr/lib$(ARCHLIBSUBDIR)/0@0.so.1
+DEMO_LDFLAGS=$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
+	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Flags passed on make command line when building
 MODULE_BUILD_MAKEFLAGS = LDFLAGS="$(DEMO_LDFLAGS)"

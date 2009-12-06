@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.78	09/10/13 SMI"
+# ident	"@(#)Makefile	1.79	09/12/05 SMI"
 #
 
 # Build 32-bit or 64-bit?
@@ -85,15 +85,22 @@ MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xorg-server.pc.in
+# Remove compiler specific visibility flag that breaks builds of drivers
+# with other compilers
+MODULE_FIX_PC_FLAGS= -e 's|\@symbol_visibility\@||'
+
+# Need to use GNU Make to build due to hw/xfree86/loader
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
 
 include ../Makefile.inc
 
 # Additional install targets beyond the defaults
 # - install_pc can't be in INSTALL_TARGETS or MODULE_ADD_INSTALL_TARGETS
 #   without causing a dependency loop that breaks dmake
-EXTRA_INSTALL_sparc=install_pc
+EXTRA_INSTALL_sparc=install_pc_copy
 EXTRA_INSTALL_i386=
-install_gen:: install_extras $(EXTRA_INSTALL_$(MACH))
+install_gen:: install_extras install_pc_common $(EXTRA_INSTALL_$(MACH))
 
 # Merge in additional sources from sun-src directory
 source_gen:: $(LNDIR)
@@ -104,29 +111,37 @@ $(XORGSERVER_BIN): default_build
 SDK_INCLUDES_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/xorg/
 
 install_extras: default_install
+	-rm -f $(SDK_INCLUDES_DIR)/xorg-server.h
 	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
 	    -e 's%^.* _XSERVER64 .*$$%#include <sys/isa_defs.h>\
 #ifdef _LP64\
 #define _XSERVER64 1\
 #endif%' \
 	    $(SOURCE_DIR)/include/xorg-server.h > $(SDK_INCLUDES_DIR)/xorg-server.h
-	cp -p $(SOURCE_DIR)/mi/mioverlay.h $(SDK_INCLUDES_DIR)/mioverlay.h
-	cp -p $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(SDK_INCLUDES_DIR)/xf86Sbus.h
-	cp -p $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
+	cp -pf $(SOURCE_DIR)/mi/mioverlay.h $(SDK_INCLUDES_DIR)/mioverlay.h
+	cp -pf $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(SDK_INCLUDES_DIR)/xf86Sbus.h
+	cp -pf $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
 	-rm -f $(SDK_INCLUDES_DIR)/xf1bpp.h $(SDK_INCLUDES_DIR)/xf4bpp.h
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
+	cp -pf $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
 	mkdir -p $(PROTODIR)$(X11_MAN_DIR)/man1
 	cp -pf $(SOURCE_DIR)/doc/Xnest.1 \
 	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgcfg.1 \
 	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgconfig.1 \
 	       $(PROTODIR)$(X11_MAN_DIR)/man1
 	mkdir -p $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor
-	cp -p $(SOURCE_DIR)/config/x11-input.fdi \
+	cp -pf $(SOURCE_DIR)/config/x11-input.fdi \
 	 $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor/10-x11-input.fdi
 
+# Workaround bug in installing pkgconfig file to wrong directory in 64-bit
+# builds
+install_pc_common: default_install
+	-rm -f $(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
+	cp -pf $(SOURCE_DIR)/xorg-server.pc \
+		$(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
+
 # Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
-install_pc: install_pkgconfig_uninstalled
+install_pc_copy: install_pc_common install_pkgconfig_uninstalled 
 	cp -pf $(PROTODIR)$(PKGCONFIG_DIR_64)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server.pc
 	cp -pf $(PROTODIR)$(PKGCONFIG_DIR_64)/xorg-server-uninstalled.pc \

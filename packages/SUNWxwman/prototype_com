@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident "@(#)prototype_com 35.124     09/11/09 SMI"
+# ident	"@(#)prototype_com	35.125	09/12/05 SMI"
 #
 #  X Window System online user man pages
 
@@ -35,309 +35,309 @@ i pkginfo
 i copyright
 i depend=../depend
 
-!USR=../usr
-!NEWHOME=$USR/X11/share/man
+!HOME=../usr/share/man
 
-d none share				0755 root sys
-d none share/man			0755 root bin
+d none share							0755 root sys
+d none share/man						0755 root bin
 
-!search $USR/share/man/man4
-d none share/man/man4			0755 root bin
-f none share/man/man4/rasterfile.4	0444 root bin
-
-d none X11 0755 root bin
-d none X11/share 0755 root bin
-d none X11/share/man 0755 root bin
-d none X11/share/man/man1 0755 root bin
-s none X11/man=share/man
+!search $HOME/man4
+d none share/man/man4						0755 root bin
+f none share/man/man4/rasterfile.4				0444 root bin
+f none share/man/man4/Compose.4					0444 root bin
 
 #### applications replaced with new versions from open-src/app
 
-!search $NEWHOME/man1
+!search $HOME/man1
+d none share/man/man1						0755 root bin
 
 # open-src/app/appres
-f none X11/share/man/man1/appres.1 	0444 root bin
+f none share/man/man1/appres.1					0444 root bin
 
 # open-src/app/atobm
-f none X11/share/man/man1/atobm.1 	0444 root bin
+f none share/man/man1/atobm.1					0444 root bin
 
 # open-src/app/bdftopcf
-f none X11/share/man/man1/bdftopcf.1 	0444 root bin
+f none share/man/man1/bdftopcf.1				0444 root bin
 
 # open-src/app/bitmap
-f none X11/share/man/man1/bitmap.1 	0444 root bin
+f none share/man/man1/bitmap.1					0444 root bin
 
 # open-src/app/bmtoa
-f none X11/share/man/man1/bmtoa.1 	0444 root bin
+f none share/man/man1/bmtoa.1					0444 root bin
 
 # open-src/app/cmap_alloc
-f none X11/share/man/man1/cmap_alloc.1  0444 root bin
+f none share/man/man1/cmap_alloc.1				0444 root bin
 
 # open-src/app/cp_compact
-f none X11/share/man/man1/cmap_compact.1        0444 root bin
+f none share/man/man1/cmap_compact.1				0444 root bin
 
 # open-src/app/constype
-f none X11/share/man/man1/constype.1 	0444 root bin
+f none share/man/man1/constype.1				0444 root bin
 
 # open-src/app/editres
-f none X11/share/man/man1/editres.1 	0444 root bin
+f none share/man/man1/editres.1					0444 root bin
 
 # open-src/app/fslsfonts
-f none X11/share/man/man1/fslsfonts.1 	0444 root bin
+f none share/man/man1/fslsfonts.1				0444 root bin
 
 # open-src/app/fstobdf
-f none X11/share/man/man1/fstobdf.1 	0444 root bin
+f none share/man/man1/fstobdf.1					0444 root bin
 
 # open-src/app/iceauth
-f none X11/share/man/man1/iceauth.1 	0444 root bin
+f none share/man/man1/iceauth.1					0444 root bin
 
 # open-src/app/lbxproxy
-f none X11/share/man/man1/lbxproxy.1 	0444 root bin
+f none share/man/man1/lbxproxy.1				0444 root bin
 
 # open-src/app/proxymngr
-f none X11/share/man/man1/proxymngr.1 	0444 root bin
+f none share/man/man1/proxymngr.1				0444 root bin
 
 # open-src/app/listres
-f none X11/share/man/man1/listres.1 	0444 root bin
+f none share/man/man1/listres.1					0444 root bin
 
 # open-src/app/luit
-f none X11/share/man/man1/luit.1 	0444 root bin
+f none share/man/man1/luit.1					0444 root bin
 
 # open-src/app/kbd_mode
-f none X11/share/man/man1/kbd_mode.1 	0444 root bin
+f none share/man/man1/kbd_mode.1				0444 root bin
 
 # open-src/app/mkfontdir
-f none X11/share/man/man1/mkfontdir.1	0444 root bin
+f none share/man/man1/mkfontdir.1				0444 root bin
 
 # open-src/app/mkfontscale
-f none X11/share/man/man1/mkfontscale.1	0444 root bin
+f none share/man/man1/mkfontscale.1				0444 root bin
 
 # open-src/app/oclock
-f none X11/share/man/man1/oclock.1 	0444 root bin
+f none share/man/man1/oclock.1					0444 root bin
 
 # open-src/app/rgb
-f none X11/share/man/man1/rgb.1 	0444 root bin
-f none X11/share/man/man1/showrgb.1 	0444 root bin
+f none share/man/man1/rgb.1					0444 root bin
+f none share/man/man1/showrgb.1					0444 root bin
 
 # open-src/app/rstart
-f none X11/share/man/man1/rstart.1 	0444 root bin
-f none X11/share/man/man1/rstartd.1 	0444 root bin
+f none share/man/man1/rstart.1					0444 root bin
+f none share/man/man1/rstartd.1					0444 root bin
 
 # open-src/app/sessreg
-f none X11/share/man/man1/sessreg.1	0444 root bin
+f none share/man/man1/sessreg.1					0444 root bin
 
 # open-src/app/setxkbmap
-f none X11/share/man/man1/setxkbmap.1   0444 root bin
+f none share/man/man1/setxkbmap.1				0444 root bin
 
 # open-src/app/showfont
-f none X11/share/man/man1/showfont.1 	0444 root bin
+f none share/man/man1/showfont.1				0444 root bin
 
 # open-src/app/twm
-f none X11/share/man/man1/twm.1 	0444 root bin
+f none share/man/man1/twm.1					0444 root bin
 
 # open-src/app/viewres
-f none X11/share/man/man1/viewres.1 	0444 root bin
+f none share/man/man1/viewres.1					0444 root bin
 
 # open-src/app/winsysck
-f none X11/share/man/man1/winsysck.1   0444 root bin
+f none share/man/man1/winsysck.1				0444 root bin
 
 # open-src/app/x11perf
-f none X11/share/man/man1/x11perf.1 	0444 root bin
-f none X11/share/man/man1/x11perfcomp.1	0444 root bin
-f none X11/share/man/man1/Xmark.1	0444 root bin
+f none share/man/man1/x11perf.1					0444 root bin
+f none share/man/man1/x11perfcomp.1				0444 root bin
+f none share/man/man1/Xmark.1					0444 root bin
 
 # open-src/app/xauth
-f none X11/share/man/man1/xauth.1 	0444 root bin
+f none share/man/man1/xauth.1					0444 root bin
 
 # open-src/app/xbiff
-f none X11/share/man/man1/xbiff.1      0444 root bin
+f none share/man/man1/xbiff.1					0444 root bin
 
 # open-src/app/xcalc
-f none X11/share/man/man1/xcalc.1 	0444 root bin
+f none share/man/man1/xcalc.1					0444 root bin
 
 # open-src/app/xclipboard
-f none X11/share/man/man1/xclipboard.1 	0444 root bin
+f none share/man/man1/xclipboard.1				0444 root bin
 
 # open-src/app/xcmsdb
-f none X11/share/man/man1/xcmsdb.1 	0444 root bin
+f none share/man/man1/xcmsdb.1					0444 root bin
 
 # open-src/app/xconsole
-f none X11/share/man/man1/xconsole.1 	0444 root bin
+f none share/man/man1/xconsole.1				0444 root bin
 
 # open-src/app/xcursorgen
-f none X11/share/man/man1/xcursorgen.1 	0444 root bin
+f none share/man/man1/xcursorgen.1				0444 root bin
 
 # open-src/app/xcutsel
-f none X11/share/man/man1/xcutsel.1 	0444 root bin
+f none share/man/man1/xcutsel.1					0444 root bin
 
 # open-src/app/xclock
-f none X11/share/man/man1/xclock.1 	0444 root bin
+f none share/man/man1/xclock.1					0444 root bin
+
+# open-src/app/xdriinfo
+f none share/man/man1/xdriinfo.1				0444 root bin
 
 # open-src/app/xdpyinfo
-f none X11/share/man/man1/xdpyinfo.1 	0444 root bin
+f none share/man/man1/xdpyinfo.1				0444 root bin
 
 # open-src/app/xev
-f none X11/share/man/man1/xev.1 	0444 root bin
+f none share/man/man1/xev.1					0444 root bin
 
 # open-src/app/xeyes
-f none X11/share/man/man1/xeyes.1 	0444 root bin
+f none share/man/man1/xeyes.1					0444 root bin
 
 # open-src/app/xfd
-f none X11/share/man/man1/xfd.1 	0444 root bin
+f none share/man/man1/xfd.1					0444 root bin
 
 # open-src/app/xfs
-f none X11/share/man/man1/xfs.1 	0444 root bin
-s none X11/share/man/man1/fs.1=xfs.1
-f none X11/share/man/man1/fsadmin.1 	0444 root bin
+f none share/man/man1/xfs.1					0444 root bin
+s none share/man/man1/fs.1=xfs.1
+f none share/man/man1/fsadmin.1					0444 root bin
 
 # open-src/app/xfsinfo
-f none X11/share/man/man1/xfsinfo.1 	0444 root bin
-s none X11/share/man/man1/fsinfo.1=xfsinfo.1
+f none share/man/man1/xfsinfo.1					0444 root bin
+s none share/man/man1/fsinfo.1=xfsinfo.1
 
 # open-src/app/xfwp
-f none X11/share/man/man1/xfwp.1 	0444 root bin
+f none share/man/man1/xfwp.1					0444 root bin
 
 # open-src/app/xgc
-f none X11/share/man/man1/xgc.1 	0444 root bin
+f none share/man/man1/xgc.1					0444 root bin
 
 # open-src/app/xhost
-f none X11/share/man/man1/xhost.1 	0444 root bin
+f none share/man/man1/xhost.1					0444 root bin
 
 # open-src/app/xinit
-f none X11/share/man/man1/xinit.1 	0444 root bin
-f none X11/share/man/man1/startx.1 	0444 root bin
+f none share/man/man1/xinit.1					0444 root bin
+f none share/man/man1/startx.1					0444 root bin
 
 # open-src/app/xkbprint
-f none X11/share/man/man1/xkbprint.1 	0444 root bin
+f none share/man/man1/xkbprint.1				0444 root bin
 
 # open-src/app/xkbutils
-f none X11/share/man/man1/xkbbell.1 	0444 root bin
-f none X11/share/man/man1/xkbvleds.1 	0444 root bin
-f none X11/share/man/man1/xkbwatch.1 	0444 root bin
+f none share/man/man1/xkbbell.1					0444 root bin
+f none share/man/man1/xkbvleds.1				0444 root bin
+f none share/man/man1/xkbwatch.1				0444 root bin
 
 # open-src/app/xkill
-f none X11/share/man/man1/xkill.1 	0444 root bin
+f none share/man/man1/xkill.1					0444 root bin
 
 # open-src/app/xlock
-f none X11/share/man/man1/xlock.1 	0444 root bin
+f none share/man/man1/xlock.1					0444 root bin
 
 # open-src/app/xlsatoms
-f none X11/share/man/man1/xlsatoms.1 	0444 root bin
+f none share/man/man1/xlsatoms.1				0444 root bin
 
 # open-src/app/xlsclients
-f none X11/share/man/man1/xlsclients.1 	0444 root bin
+f none share/man/man1/xlsclients.1				0444 root bin
 
 # open-src/app/xlsfonts
-f none X11/share/man/man1/xlsfonts.1 	0444 root bin
+f none share/man/man1/xlsfonts.1				0444 root bin
 
 # open-src/app/xlswins
-f none X11/share/man/man1/xlswins.1 	0444 root bin
+f none share/man/man1/xlswins.1					0444 root bin
 
 # open-src/app/xload
-f none X11/share/man/man1/xload.1 	0444 root bin
+f none share/man/man1/xload.1					0444 root bin
 
 # open-src/app/xlogo
-f none X11/share/man/man1/xlogo.1 	0444 root bin
+f none share/man/man1/xlogo.1					0444 root bin
 
 # open-src/app/xmag
-f none X11/share/man/man1/xmag.1 	0444 root bin
+f none share/man/man1/xmag.1					0444 root bin
 
 # open-src/app/xmag_multivis
-f none X11/share/man/man1/xmag_multivis.1 	0444 root bin
+f none share/man/man1/xmag_multivis.1				0444 root bin
 
 # open-src/app/xmakemap
-f none X11/share/man/man1/xmakemap.1 	0444 root bin
+f none share/man/man1/xmakemap.1				0444 root bin
 
 # open-src/app/xman
-f none X11/share/man/man1/xman.1 	0444 root bin
+f none share/man/man1/xman.1					0444 root bin
 
 # open-src/app/xmodmap
-f none X11/share/man/man1/xmodmap.1 	0444 root bin
+f none share/man/man1/xmodmap.1					0444 root bin
 
 # open-src/app/xpr
-f none X11/share/man/man1/xdpr.1        0444 root bin
-f none X11/share/man/man1/xpr.1         0444 root bin
+f none share/man/man1/xdpr.1					0444 root bin
+f none share/man/man1/xpr.1					0444 root bin
 
 # open-src/app/xpm
-f none X11/share/man/man1/cxpm.1	0444 root bin
-f none X11/share/man/man1/sxpm.1 	0444 root bin
+f none share/man/man1/cxpm.1					0444 root bin
+f none share/man/man1/sxpm.1					0444 root bin
 
 # open-src/app/xprop
-f none X11/share/man/man1/xprop.1 	0444 root bin
+f none share/man/man1/xprop.1					0444 root bin
 
 # open-src/app/xrdb
-f none X11/share/man/man1/xrdb.1 	0444 root bin
+f none share/man/man1/xrdb.1					0444 root bin
 
 # open-src/app/xrefresh
-f none X11/share/man/man1/xrefresh.1 	0444 root bin
+f none share/man/man1/xrefresh.1				0444 root bin
 
 # open-src/app/xrx
-f none X11/share/man/man1/libxrx.1 	0444 root bin
-f none X11/share/man/man1/xrx.1 	0444 root bin
+f none share/man/man1/libxrx.1					0444 root bin
+f none share/man/man1/xrx.1					0444 root bin
 
 # open-src/app/xset
-f none X11/share/man/man1/xset.1 	0444 root bin
+f none share/man/man1/xset.1					0444 root bin
 
 # open-src/app/xsetroot
-f none X11/share/man/man1/xsetroot.1 	0444 root bin
+f none share/man/man1/xsetroot.1				0444 root bin
 
 # open-src/app/xstdcmap
-f none X11/share/man/man1/xstdcmap.1 	0444 root bin
+f none share/man/man1/xstdcmap.1				0444 root bin
 
 # open-src/app/xcolor
-f none X11/share/man/man1/xcolor.1 	0444 root bin
+f none share/man/man1/xcolor.1					0444 root bin
 
 # open-src/app/xscope
-f none X11/share/man/man1/xscope.1 	0444 root bin
+f none share/man/man1/xscope.1					0444 root bin
 
 # open-src/app/xterm
-f none X11/share/man/man1/xterm.1 	0444 root bin
-f none X11/share/man/man1/resize.1 	0444 root bin
+f none share/man/man1/xterm.1					0444 root bin
+f none share/man/man1/resize.1					0444 root bin
 
 # open-src/app/xditview
-f none X11/share/man/man1/xditview.1    0444 root bin
+f none share/man/man1/xditview.1				0444 root bin
 
 # open-src/app/xfontsel
-f none X11/share/man/man1/xfontsel.1    0444 root bin
+f none share/man/man1/xfontsel.1				0444 root bin
 
 # open-src/app/xfindproxy
-f none X11/share/man/man1/xfindproxy.1  0444 root bin
+f none share/man/man1/xfindproxy.1				0444 root bin
 
 # open-src/app/smproxy
-f none X11/share/man/man1/smproxy.1     0444 root bin
+f none share/man/man1/smproxy.1					0444 root bin
 
 # open-src/app/ico
-f none X11/share/man/man1/ico.1     0444 root bin
+f none share/man/man1/ico.1					0444 root bin
 
 # open-src/app/xwd
-f none X11/share/man/man1/xwd.1 	0444 root bin
+f none share/man/man1/xwd.1					0444 root bin
 
 # open-src/app/xwininfo
-f none X11/share/man/man1/xwininfo.1 	0444 root bin
+f none share/man/man1/xwininfo.1				0444 root bin
 
 # open-src/app/xwud
-f none X11/share/man/man1/xwud.1 	0444 root bin
+f none share/man/man1/xwud.1					0444 root bin
 
 # open-src/app/xedit
-f none X11/share/man/man1/xedit.1 	0444 root bin
+f none share/man/man1/xedit.1					0444 root bin
 
 # open-src/util/imake
-f none X11/share/man/man1/imake.1 	0444 root bin
-f none X11/share/man/man1/mkdirhier.1 	0444 root bin
-f none X11/share/man/man1/xmkmf.1 	0444 root bin
+f none share/man/man1/imake.1					0444 root bin
+f none share/man/man1/mkdirhier.1				0444 root bin
+f none share/man/man1/xmkmf.1					0444 root bin
 
 # open-src/util/makedepend
-f none X11/share/man/man1/makedepend.1 	0444 root bin
+f none share/man/man1/makedepend.1				0444 root bin
 
 # open-src/xserver/xorg
-f none X11/share/man/man1/Xserver.1	0444 root bin 
+f none share/man/man1/Xserver.1					0444 root bin
+
+# open-src/data/smf-rbac
+f none share/man/man1/ogl-select.1				0444 root bin
 
 # open-src/doc/xorg-docs
-!search $NEWHOME/man5
-d none X11/share/man/man5 0755 root bin
-f none X11/share/man/man5/X.5 0444 root bin
-f none X11/share/man/man5/X11.5 0444 root bin
-f none X11/share/man/man5/XOrgFoundation.5 0444 root bin
-f none X11/share/man/man5/Xprint.5 0444 root bin
-f none X11/share/man/man5/XStandards.5=$NEWHOME/man5/Standards.5 0444 root bin
-f none X11/share/man/man5/Xsecurity.5=$NEWHOME/man5/security.5 0444 root bin
+!search $HOME/man5
+d none share/man/man5						0755 root bin
+f none share/man/man5/X.5					0444 root bin
+f none share/man/man5/X11.5					0444 root bin
+f none share/man/man5/XOrgFoundation.5				0444 root bin
+f none share/man/man5/XStandards.5=$HOME/man5/Standards.5	0444 root bin
+f none share/man/man5/Xsecurity.5				0444 root bin

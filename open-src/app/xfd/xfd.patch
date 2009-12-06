@@ -79,7 +79,7 @@
 +
 +    /* mainly for debugging */
 +    if((domaindir = getenv("TEXTDOMAINDIR")) == NULL) {
-+        domaindir = "/usr/X11/share/locale";
++        domaindir = "/usr/share/locale";
 +    }
 +    bindtextdomain("xfd", domaindir);
 +

@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,17 +28,17 @@
 
 Raise hsync and default to "1024x768" when DDC data not available.
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf86Mode.c
---- hw/xfree86/common/xf86Mode.c	2009-01-09 09:47:04.000000000 -0800
-+++ hw/xfree86/common/xf86Mode.c	2009-01-22 20:35:36.195292000 -0800
-@@ -1209,6 +1209,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+--- hw/xfree86/common/xf86Mode.c	2009-11-22 16:33:40.000000000 -0800
++++ hw/xfree86/common/xf86Mode.c	2009-12-02 18:58:13.140105361 -0800
+@@ -1199,6 +1199,7 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
      range hsync[MAX_HSYNC];
      range vrefresh[MAX_VREFRESH];
      Bool inferred_virtual = FALSE;
 +    Bool UseDefaultRate = FALSE;
  
- #ifdef DEBUG
-     ErrorF("xf86ValidateModes(%p, %p, %p, %p,\n\t\t  %p, %d, %d, %d, %d, %d, %d, %d, %d, 0x%x)\n",
-@@ -1256,8 +1257,9 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+     DebugF("xf86ValidateModes(%p, %p, %p, %p,\n\t\t  %p, %d, %d, %d, %d, %d, %d, %d, %d, 0x%x)\n",
+ 	   scrp, availModes, modeNames, clockRanges,
+@@ -1244,8 +1245,9 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
  		}
  	    } else {
  		scrp->monitor->hsync[0].lo = 31.5;
@@ -49,7 +49,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Mode.c hw/xfree86/common/xf8
  	    }
  	    type = "default ";
  	}
-@@ -1492,6 +1494,11 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
+@@ -1460,6 +1462,11 @@ xf86ValidateModes(ScrnInfoPtr scrp, Disp
  	xf86DeleteMode(&scrp->modes, scrp->modes);
      endp = &scrp->modes;
      last = NULL;

@@ -187,8 +187,8 @@ SUNTOUCHED_MANPAGES
 
 MODULE_SUNTOUCH_MAN_FLAGS
  - Additional flags to pass to open-src/common/suntouch-manpages.pl, such as
-   -p /usr/X11/bin to add a path of /usr/X11/bin to the command in the 
-   synopsis.   Available flags are:
+   -p /usr/bin to add a path of /usr/bin to the command in the synopsis.
+   Available flags are:
       -a '{attribute, value}, ...' - entries for Attributes section table
       -l libname                   - add library line to synopsis
       -p path                      - add path to command in synopsis
@@ -309,7 +309,7 @@ MODULE_MAKE
 
 MODULE_PREFIX
  - Prefix to install files under, passed to configure scripts via --prefix.
-   Default: $(X11_DIR) (aka /usr/X11).
+   Default: $(X11_DIR) (aka /usr).
 
 SOURCE_DIRNAME
  - Directory that will be created when the source tarball is unpacked.
@@ -514,7 +514,7 @@ Things we should fix someday, but haven't had time to do yet, include:
 =============================================================================
 
 Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-Use subject to license terms.
+Use is subject to license terms.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the

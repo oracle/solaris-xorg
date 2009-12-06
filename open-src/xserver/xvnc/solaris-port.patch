@@ -120,14 +120,13 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vn
 diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Xvnc.man unix/xserver/hw/vnc/Xvnc.man
 --- unix/xserver/hw/vnc/Xvnc.man	2009-10-20 18:57:59.463630437 -0700
 +++ unix/xserver/hw/vnc/Xvnc.man	2009-10-20 18:58:01.782738186 -0700
-@@ -67,8 +67,8 @@ List all the options and parameters
+@@ -67,8 +67,7 @@ List all the options and parameters
  
  .SH PARAMETERS
  VNC parameters can be set both via the command-line and through the
 -\fBvncconfig\fP(1) program, and with a VNC-enabled XFree86 server via Options
 -entries in the XF86Config file.
-+\fBvncconfig\fP(1) program, and with a VNC-enabled Xorg server via Options
-+entries in the xorg.conf(4) file.
++\fBvncconfig\fP(1) program.
  
  Parameters can be turned on with -\fIparam\fP or off with
  -\fIparam\fP=0.  Parameters which take a value can be specified as
@@ -165,7 +164,7 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Xvnc.man unix/xserver/hw/vnc/X
 +.PP
 +The provided application/x11/xvnc-inetd service defaults to running
 +
-+.B "/usr/X11/bin/Xvnc -inetd -query localhost -once securitytypes=none"
++.B "/usr/bin/Xvnc -inetd -query localhost -once securitytypes=none"
 +
 +in nowait mode.   This service can be enabled via 
 +.BR svcadm (1m),
@@ -193,7 +192,7 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Xvnc.man unix/xserver/hw/vnc/X
 -5951   stream   tcp wait   james     /usr/local/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd
 +case.  A typical command line to include in the service exec property might be:
  
-+.B "/usr/X11/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd"
++.B "/usr/bin/Xvnc Xvnc -inetd -query localhost -once passwordFile=/home/james/.vnc/passwd"
 +.PP
  In fact typically, you would have one entry for each user who uses VNC
  regularly, each of whom has their own dedicated TCP port which they use.  In
@@ -209,9 +208,9 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/xfree86/x86emu/Makefile.am unix/xs
 +++ unix/xserver/hw/xfree86/x86emu/Makefile.am	2009-10-20 18:58:01.734528099 -0700
 @@ -1,3 +1,4 @@
 +if INT10_X86EMU
- noinst_LIBRARIES = libx86emu.a
+ noinst_LTLIBRARIES = libx86emu.la
  
- libx86emu_a_SOURCES = debug.c \
+ libx86emu_la_SOURCES = debug.c \
 @@ -8,6 +9,7 @@ libx86emu_a_SOURCES = debug.c \
                        prim_ops.c \
                        sys.c \

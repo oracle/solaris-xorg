@@ -58,20 +58,19 @@ MODULE_STABILITY=Committed
 
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
 # and run time 
-FT_CFLAGS= -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2 \
-	-I$(PROTODIR)/usr/X11/include
+FT_CFLAGS= -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 FT_LIBS= \
-  -L$(PROTODIR)/usr/X11/lib$(LIBSUBDIR) -R/usr/X11/lib$(LIBSUBDIR) -lXft \
-  -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -R/usr/lib$(LIBSUBDIR) -lfontconfig
+  -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -R/usr/lib$(LIBSUBDIR) -lXft -lfontconfig
 
 # Additional flags to pass to configure script
 MODULE_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
   --with-freetype-cflags="$(FT_CFLAGS)" --with-freetype-libs="$(FT_LIBS)" \
   --disable-setuid --disable-setgid  --enable-luit \
-  --x-includes=$(PROTODIR)/usr/X11/include --x-libraries=/usr/X11/lib \
+  --x-includes=$(PROTODIR)$(X11_INCLUDES_DIR) --x-libraries=$(X11_LIB_DIR) \
+  --with-app-defaults=/usr/share/X11/app-defaults \
   --with-icondir=/usr/share/pixmaps --enable-logging
 
 # Tell configure where to find luit binary
-MODULE_CONFIG_ENV = LUIT=/usr/X11/bin/luit
+MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
 
 include ../Makefile.inc

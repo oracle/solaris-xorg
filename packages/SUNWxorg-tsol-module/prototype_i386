@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,16 +30,16 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386	1.1	07/06/04 SMI"
+# ident	"@(#)prototype_i386	1.2	09/12/05 SMI"
 #
 # Xorg Trusted Extensions
 
 
 # Include ISA independent files (prototype_com)
 #
-!XSERVERMODDIR=lib/modules
+!XSERVERMODDIR=lib/xorg/modules
 !include prototype_com
 
 !search $HOME/$XSERVERMODDIR/amd64/extensions
-d none X11/lib/modules/extensions/amd64 0755 root bin
-f none X11/lib/modules/extensions/amd64/libxtsol.so 0755 root bin
+d none lib/xorg/modules/extensions/amd64			0755 root bin
+f none lib/xorg/modules/extensions/amd64/libxtsol.so		0755 root bin

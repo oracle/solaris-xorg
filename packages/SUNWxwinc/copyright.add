@@ -103,12 +103,6 @@ include proto/scrnsaverproto/COPYING
 
 --------------------------------------------------------------------
 
-Files from the proto/trapproto package are covered by the following notice:
-
-include proto/trapproto/COPYING
-
---------------------------------------------------------------------
-
 Files from the proto/videoproto package are covered by the following notice:
 
 include proto/videoproto/COPYING

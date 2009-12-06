@@ -3,7 +3,7 @@
 # xf86-input-keyboard 1.x Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#pragma  ident  "@(#)Makefile 1.1     09/04/09 SMI"
+# ident	"@(#)Makefile	1.2	09/12/05 SMI"
 
 # Package name used in tarballs
 MODULE_NAME=hotkey
@@ -49,8 +49,8 @@ SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
+	MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR)
 
 include ../Makefile.inc
 

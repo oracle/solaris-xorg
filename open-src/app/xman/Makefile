@@ -2,8 +2,8 @@
 #
 # xman 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 08/08/08
+# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xman
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6708109.patch
@@ -47,9 +47,10 @@ SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
 
+MODULE_ADD_INSTALL_TARGETS = install_po
+
 include ../Makefile.inc
 
-install_gen:: install_po
 install_po:
-	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
-	cp -f xman.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
+	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -f xman.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

@@ -2,8 +2,8 @@
 #
 # xf86-video-wsfb Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,19 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/01/14
+# ident	"@(#)Makefile	1.10	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-wsfb
 
 # Version number (used in path names)
-MODULE_VERSION=0.2.1
+MODULE_VERSION=0.3.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	shadow-crash.patch,-p1 \
-	xfbpp-removal.patch,-p1 \
 	solaris-port.patch
 
 

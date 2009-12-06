@@ -2,8 +2,8 @@
 #
 # xlock 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.plain	35.1 94/09/01 XLOCK
+# ident	"@(#)Makefile	1.6	09/12/05 SMI"
 # Makefile for xlock. 
 
 CFLAGS=${DEFINES} -DSYSV -DUSE_PAM
@@ -40,16 +40,13 @@ HDRS=xlock.h
 IMAGES=lifeicon.bit sunlogo.bit
 SRCS=${C_SRCS} ${HDRS} ${IMAGES} xlock.man XLock.ad
 OBJS=${C_SRCS:.c=.o}
-LIBDIR=/usr/X11/lib
 
 xlock: ${OBJS}
 	cc -o $@ ${OBJS} $(CFLAGS) $(LDFLAGS) -lX11 -lm -lpam -lbsm -lsocket -lnsl
 
-resource.o:=DEFINES=-DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"
 pyro.o:=DEFINES=-DSTARSIZE=2
 
 install:
-	$(INSTALL) -m 4755 xlock $(DESTDIR)/usr/X11/bin/xlock
-	$(INSTALL) -m 644 xlock.1 \
-		$(DESTDIR)/usr/X11/share/man/man1/xlock.1
-	$(INSTALL) -m 644 XLock.ad $(DESTDIR)/usr/X11/lib/X11/app-defaults/XLock
+	$(INSTALL) -m 4755 xlock $(DESTDIR)$(bindir)/xlock
+	$(INSTALL) -m 0444 xlock.1 $(DESTDIR)$(mandir)/man1/xlock.1
+	$(INSTALL) -m 0444 XLock.ad $(DESTDIR)$(datadir)/X11/app-defaults/XLock

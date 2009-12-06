@@ -1,0 +1,11 @@
+--- src/sis_driver.c	Tue Nov 10 09:48:55 2009
++++ src/sis_driver.c	Tue Nov 10 09:49:18 2009
+@@ -9322,7 +9322,7 @@
+      if(doit) {
+ 	UpdateCurrentTime();
+ 	sigstate = xf86BlockSIGIO();
+-	miPointerAbsoluteCursor(x, y, currentTime.milliseconds);
++	miPointerSetPosition(pSiS, &x, &y);
+ 	xf86UnblockSIGIO(sigstate);
+ 	return;
+      }

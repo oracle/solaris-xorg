@@ -1,7 +1,7 @@
-From a99ce1b80c7fd3f0b611eb782dcda32ecd240d5f Mon Sep 17 00:00:00 2001
+From 22e6adf46de3d13285e357b2ce1b776acd3d57e9 Mon Sep 17 00:00:00 2001
 From: Alan Coopersmith <alan.coopersmith@sun.com>
 Date: Fri, 30 Oct 2009 23:38:18 -0700
-Subject: [PATCH] Buffer overflow in TcpSocket::sameMachine for IPv6 connections
+Subject: [PATCH] Fix crash in TcpSocket::sameMachine for IPv6 connections
 
 Only enough room to write IPv4 addresses was being passed to
 getpeername & getsockname, but they could be used on IPv6 connections.
@@ -9,7 +9,7 @@ getpeername & getsockname, but they could be used on IPv6 connections.
 If a connection was made to an IPv6 address, the call to getpeername
 would overwrite addrlen with the actual size of the IPv6 address, which
 would then be passed to getsockname as the space available to write the
-next address, which would cause it to overflow the stack.
+next address, which would cause it to smash the stack.
 
 OpenSolaris bug report: http://defect.opensolaris.org/bz/show_bug.cgi?id=12366
 ---

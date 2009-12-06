@@ -1,4 +1,4 @@
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,9 +29,9 @@
 Allow probing for /dev/fb cards other than the traditional sbus devices.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/xf86sbusBus.c
---- hw/xfree86/common/xf86sbusBus.c	2009-01-09 09:47:04.000000000 -0800
-+++ hw/xfree86/common/xf86sbusBus.c	2009-01-22 20:34:49.343790000 -0800
-@@ -41,6 +41,10 @@
+--- hw/xfree86/common/xf86sbusBus.c	2009-08-10 21:00:23.000000000 -0700
++++ hw/xfree86/common/xf86sbusBus.c	2009-11-03 22:29:01.187852455 -0800
+@@ -40,6 +40,10 @@
  #include "xf86sbusBus.h"
  #include "xf86Sbus.h"
  
@@ -42,7 +42,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/
  Bool sbusSlotClaimed = FALSE;
  
  static int xf86nSbusInfo;
-@@ -213,8 +217,25 @@ xf86SbusProbe(void)
+@@ -212,8 +216,25 @@ xf86SbusProbe(void)
  		xf86ErrorF(" at %s", promPath);
  		xfree(promPath);
  	    }
@@ -70,8 +70,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/
      }
      if (useProm)
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/xf86sbusBus.h
---- hw/xfree86/common/xf86sbusBus.h	2009-01-09 09:47:04.000000000 -0800
-+++ hw/xfree86/common/xf86sbusBus.h	2009-01-22 20:34:49.344526000 -0800
+--- hw/xfree86/common/xf86sbusBus.h	2009-08-10 21:00:23.000000000 -0700
++++ hw/xfree86/common/xf86sbusBus.h	2009-11-03 22:29:01.188001632 -0800
 @@ -39,6 +39,7 @@
  #define SBUS_DEVICE_FFB		0x000b
  #define SBUS_DEVICE_GT		0x000c
@@ -81,8 +81,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/
  typedef struct sbus_prom_node {
      int			node;
 diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bus/Sbus.c hw/xfree86/os-support/bus/Sbus.c
---- hw/xfree86/os-support/bus/Sbus.c	2009-01-09 09:47:04.000000000 -0800
-+++ hw/xfree86/os-support/bus/Sbus.c	2009-01-22 20:34:49.345181000 -0800
+--- hw/xfree86/os-support/bus/Sbus.c	2009-08-10 21:00:24.000000000 -0700
++++ hw/xfree86/os-support/bus/Sbus.c	2009-11-03 22:29:01.188224955 -0800
 @@ -68,6 +68,7 @@ struct sbus_devtable sbusDeviceTable[] =
      { SBUS_DEVICE_TCX, FBTYPE_TCXCOLOR, "tcx", "suntcx", "Sun TCX" },
      { SBUS_DEVICE_FFB, FBTYPE_CREATOR, "ffb", "sunffb", "Sun FFB" },

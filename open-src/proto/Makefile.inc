@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.9	09/10/13 SMI"
+# ident	"@(#)Makefile.inc	1.10	09/12/05 SMI"
 #
 
 PWD:sh=pwd
@@ -54,13 +54,11 @@ MODTYPE_LD_OPTIONS=
 FIX_PC_FILES_DEFAULT		= $(FIX_PC_FILES_SET:yes=$(POUND_SIGN))
 $(FIX_PC_FILES_DEFAULT)		FIX_PC_FILES=*.pc.in
 
+# proto pkg-config files are architecture independent, so install in share
+MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODTYPE_PKGCONFIG_DIR_SET=yes
+
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
-
-# Install
-default_install::
-	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=$(PKGCONFIG_DIR_64) install-pkgconfigDATA )
-
 
 

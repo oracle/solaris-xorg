@@ -1,5 +1,5 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,8 +27,8 @@
 # of the copyright holder.
 
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2009-04-14 10:14:56.000000000 -0700
-+++ Makefile.am	2009-05-08 17:43:31.905647000 -0700
+--- Makefile.am	2009-11-24 21:25:15.000000000 -0800
++++ Makefile.am	2009-12-02 18:57:55.879547825 -0800
 @@ -36,6 +36,7 @@ SUBDIRS = \
  	damageext \
  	$(COMPOSITE_DIR) \
@@ -36,69 +36,32 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
 +	IA \
  	exa \
  	config \
- 	hw
+ 	hw \
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-05-08 17:43:23.621871000 -0700
-+++ configure.ac	2009-05-08 17:43:31.908445000 -0700
-@@ -1009,6 +1009,9 @@ MIEXT_DAMAGE_INC='-I$(top_srcdir)/miext/
+--- configure.ac	2009-12-02 18:57:54.176548474 -0800
++++ configure.ac	2009-12-02 18:57:55.880850520 -0800
+@@ -1082,6 +1082,10 @@ MIEXT_DAMAGE_INC='-I$(top_srcdir)/miext/
  XI_LIB='$(top_builddir)/Xi/libXi.la'
  XI_INC='-I$(top_srcdir)/Xi'
  
 +# SolarisIA extension
 +IA_LIB='$(top_builddir)/IA/libIA.la'
++XEXT_LIB="${XEXT_LIB} ${IA_LIB}"
 +
  AM_CONDITIONAL(XF86UTILS, test "x$XF86UTILS" = xyes)
- 
- AC_DEFINE(SHAPE, 1, [Support SHAPE extension])
-@@ -1252,7 +1255,7 @@ AC_MSG_RESULT([$XVFB])
- AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
- 
- if test "x$XVFB" = xyes; then
--	XVFB_LIBS="$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB"
-+	XVFB_LIBS="$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $IA_LIB"
- 	XVFB_SYS_LIBS="$XVFBMODULES_LIBS $GLX_SYS_LIBS"
- 	AC_SUBST([XVFB_LIBS])
- 	AC_SUBST([XVFB_SYS_LIBS])
-@@ -1270,7 +1273,7 @@ AC_MSG_RESULT([$XNEST])
- AM_CONDITIONAL(XNEST, [test "x$XNEST" = xyes])
- 
- if test "x$XNEST" = xyes; then
--	XNEST_LIBS="$FB_LIB $FIXES_LIB $MI_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $DIX_LIB $OS_LIB $CONFIG_LIB"
-+	XNEST_LIBS="$FB_LIB $FIXES_LIB $MI_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $DIX_LIB $OS_LIB $CONFIG_LIB $IA_LIB"
- 	XNEST_SYS_LIBS="$XNESTMODULES_LIBS $GLX_SYS_LIBS"
- 	AC_SUBST([XNEST_LIBS])
- 	AC_SUBST([XNEST_SYS_LIBS])
-@@ -1773,7 +1776,7 @@ if test "$KDRIVE" = yes; then
-     
-     KDRIVE_CFLAGS="$XSERVER_CFLAGS -DHAVE_KDRIVE_CONFIG_H $TSLIB_CFLAGS"
- 
--    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $OS_LIB"
-+    KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $IA_LIB $OS_LIB"
-     KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.a'
-     case $host_os in
- 	*linux*)
-@@ -1930,3 +1933,6 @@ hw/kdrive/sdl/Makefile
- hw/kdrive/src/Makefile
+ AM_CONDITIONAL(XAA, test "x$XAA" = xyes)
+ AM_CONDITIONAL(VGAHW, test "x$VGAHW" = xyes)
+@@ -2115,3 +2119,6 @@ test/Makefile
+ test/xi2/Makefile
  xorg-server.pc
  ])
 +
 +# Add Sun IA extension
 +AC_OUTPUT([IA/Makefile])
-diff -urp -x '*~' -x '*.orig' hw/dmx/Makefile.am hw/dmx/Makefile.am
---- hw/dmx/Makefile.am	2009-04-14 10:14:56.000000000 -0700
-+++ hw/dmx/Makefile.am	2009-05-08 17:43:31.909047000 -0700
-@@ -86,6 +86,7 @@ XDMX_LIBS = \
- 	$(GLX_LIBS) \
-         input/libdmxinput.a \
-         config/libdmxconfig.a \
-+	$(top_builddir)/IA/libIA.la \
- 	$(XSERVER_LIBS)
- 
- Xdmx_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-05-08 17:43:23.432853000 -0700
-+++ hw/xfree86/common/xf86Config.c	2009-05-08 17:43:31.911031000 -0700
-@@ -121,6 +121,7 @@ static ModuleDefault ModuleDefaults[] = 
+--- hw/xfree86/common/xf86Config.c	2009-12-02 18:57:53.999906206 -0800
++++ hw/xfree86/common/xf86Config.c	2009-12-02 18:57:55.881970262 -0800
+@@ -123,6 +123,7 @@ static ModuleDefault ModuleDefaults[] = 
  #ifdef DRI2
      {.name = "dri2",     .toLoad = TRUE,    .load_opt=NULL},
  #endif
@@ -107,8 +70,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  };
  
 diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2008-12-16 14:43:11.000000000 -0800
-+++ hw/xfree86/dixmods/Makefile.am	2009-05-08 17:43:31.912778000 -0700
+--- hw/xfree86/dixmods/Makefile.am	2009-10-30 21:19:51.000000000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2009-12-02 18:57:55.882261006 -0800
 @@ -66,3 +66,10 @@ libdixmods_la_CFLAGS = -DXFree86LOADER $
  
  libxorgxkb_la_SOURCES = xkbVT.c xkbPrivate.c xkbKillSrv.c
@@ -121,9 +84,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/
 +libia_la_LIBADD = $(top_builddir)/IA/libIA.la
 +libia_la_SOURCES = iamodule.c
 diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
---- mi/miinitext.c	2009-04-14 10:14:57.000000000 -0700
-+++ mi/miinitext.c	2009-05-08 17:43:31.913906000 -0700
-@@ -83,6 +83,7 @@ SOFTWARE.
+--- mi/miinitext.c	2009-11-22 16:33:40.000000000 -0800
++++ mi/miinitext.c	2009-12-02 18:57:55.882784783 -0800
+@@ -95,6 +95,7 @@ SOFTWARE.
  #include "micmap.h"
  #include "globals.h"
  
@@ -131,7 +94,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  extern Bool noTestExtensions;
  
-@@ -151,6 +152,9 @@ extern Bool noSELinuxExtension;
+@@ -159,6 +160,9 @@ extern Bool noSELinuxExtension;
  extern Bool noXvExtension;
  #endif
  extern Bool noGEExtension;
@@ -141,7 +104,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  #ifndef XFree86LOADER
  #define INITARGS void
-@@ -186,6 +190,9 @@ typedef void (*InitExtension)(INITARGS);
+@@ -190,6 +194,9 @@ typedef void (*InitExtension)(INITARGS);
  #ifdef RES
  #include <X11/extensions/XResproto.h>
  #endif
@@ -151,7 +114,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  /* FIXME: this whole block of externs should be from the appropriate headers */
  #ifdef MITSHM
-@@ -272,6 +279,9 @@ extern void DamageExtensionInit(INITARGS
+@@ -274,6 +281,9 @@ extern void DamageExtensionInit(INITARGS
  extern void CompositeExtensionInit(INITARGS);
  #endif
  extern void GEExtensionInit(INITARGS);
@@ -161,7 +124,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  /* The following is only a small first step towards run-time
   * configurable extensions.
-@@ -318,6 +328,9 @@ static ExtensionToggle ExtensionToggleLi
+@@ -320,6 +330,9 @@ static ExtensionToggle ExtensionToggleLi
  #ifdef XCSECURITY
      { "SECURITY", &noSecurityExtension },
  #endif
@@ -171,7 +134,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  #ifdef RES
      { "X-Resource", &noResExtension },
  #endif
-@@ -477,6 +490,9 @@ InitExtensions(int argc, char *argv[])
+@@ -493,6 +506,9 @@ InitExtensions(int argc, char *argv[])
  	GlxPushProvider(&__glXDRISWRastProvider);
      if (!noGlxExtension) GlxExtensionInit();
  #endif

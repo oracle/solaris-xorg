@@ -26,8 +26,8 @@
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
-# 
-# ident	"@(#)prototype	35.22	09/11/09 SMI"
+#
+# ident	"@(#)prototype	35.23	09/12/05 SMI"
 #
 #  DPS motif include files and library.
 
@@ -37,20 +37,21 @@ i depend
 
 !HOME=../usr
 
-d none openwin					0755 root bin
-d none openwin/lib 				0755 root bin
-d none X11					0755 root bin
-d none X11/lib					0755 root bin
-d none X11/lib/X11				0755 root bin
-
 # open-src/lib/DPS (32-bit only, runtime only - no compile links,
 # needed for binary compatibility)
 
-!search  $HOME/X11/lib
-s none openwin/lib/libdpstkXm.so.5=../../X11/lib/libdpstkXm.so.5
-f none X11/lib/libdpstkXm.so.5 			0555 root bin
+!search  $HOME/lib
+d none lib							0755 root bin
+f none lib/libdpstkXm.so.5					0555 root bin
 
-!search  $HOME/X11/lib/X11/app-defaults
-d none X11/lib/X11/app-defaults			0755 root bin
-f none X11/lib/X11/app-defaults/ColorSelect	0444 root bin
-f none X11/lib/X11/app-defaults/FontSelect	0444 root bin
+!search  $HOME/share/X11/app-defaults
+d none share							0755 root sys
+d none share/X11						0755 root bin
+d none share/X11/app-defaults					0755 root bin
+f none share/X11/app-defaults/ColorSelect			0444 root bin
+f none share/X11/app-defaults/FontSelect			0444 root bin
+
+d none openwin							0755 root bin
+d none openwin/lib						0755 root bin
+s none openwin/lib/libdpstkXm.so.5=../../lib/libdpstkXm.so.5
+

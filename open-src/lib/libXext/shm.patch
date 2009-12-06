@@ -1,5 +1,5 @@
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,8 +28,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
---- src/XShm.c	2006-07-11 11:05:14.000000000 -0700
-+++ src/XShm.c	2007-12-04 17:30:36.150780000 -0800
+--- src/XShm.c	2009-10-16 14:26:30.000000000 -0700
++++ src/XShm.c	2009-11-02 15:45:20.940394110 -0800
 @@ -43,6 +43,13 @@ in this Software without prior written a
  #include <X11/extensions/Xext.h>
  #include <X11/extensions/extutil.h>
@@ -44,7 +44,7 @@ diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
  static XExtensionInfo _shm_info_data;
  static XExtensionInfo *shm_info = &_shm_info_data;
  static /* const */ char *shm_extension_name = SHMNAME;
-@@ -140,6 +144,46 @@ event_to_wire (Display *dpy, XEvent *re,
+@@ -140,6 +147,46 @@ event_to_wire (Display *dpy, XEvent *re,
      return False;
  }
  
@@ -91,7 +91,7 @@ diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
  /*****************************************************************************
   *                                                                           *
   *		    public Shared Memory Extension routines                  *
-@@ -149,6 +192,15 @@ event_to_wire (Display *dpy, XEvent *re,
+@@ -149,6 +196,15 @@ event_to_wire (Display *dpy, XEvent *re,
  Bool XShmQueryExtension (Display *dpy /*  int *event_basep, *error_basep */)
  {
      XExtDisplayInfo *info = find_display (dpy);
@@ -107,7 +107,7 @@ diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
  
      if (XextHasExtension(info)) {
  /*	*event_basep = info->codes->first_event;
-@@ -181,6 +233,15 @@ Bool XShmQueryVersion(
+@@ -181,6 +237,15 @@ Bool XShmQueryVersion(
      XExtDisplayInfo *info = find_display (dpy);
      xShmQueryVersionReply rep;
      register xShmQueryVersionReq *req;

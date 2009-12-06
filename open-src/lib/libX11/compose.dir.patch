@@ -1,6 +1,6 @@
 ###############################################################################
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -31,7 +31,7 @@
 diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
 --- nls/compose.dir.pre	2009-03-16 17:38:41.000000000 -0700
 +++ nls/compose.dir.pre	2009-04-08 00:20:59.155189000 -0700
-@@ -336,11 +336,11 @@ en_US.UTF-8/Compose:		is_IS.UTF-8
+@@ -336,12 +336,12 @@ en_US.UTF-8/Compose:		is_IS.UTF-8
  en_US.UTF-8/Compose:		it_CH.UTF-8
  en_US.UTF-8/Compose:		it_IT.UTF-8
  en_US.UTF-8/Compose:		iu_CA.UTF-8
@@ -40,11 +40,12 @@ diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
  en_US.UTF-8/Compose:		ka_GE.UTF-8
  en_US.UTF-8/Compose:		kl_GL.UTF-8
  en_US.UTF-8/Compose:		kk_KZ.UTF-8
+ en_US.UTF-8/Compose:		kn_IN.UTF-8
 -en_US.UTF-8/Compose:		ko_KR.UTF-8
 +ko_KR.UTF-8/Compose:		ko_KR.UTF-8
+ en_US.UTF-8/Compose:		ks_IN.UTF-8
+ en_US.UTF-8/Compose:		ks_IN@devanagari.UTF-8
  en_US.UTF-8/Compose:		kw_GB.UTF-8
- en_US.UTF-8/Compose:		ky_KG.UTF-8
- en_US.UTF-8/Compose:		lo_LA.UTF-8
 @@ -400,6 +400,8 @@ en_US.UTF-8/Compose:		vi_VN.UTF-8
  en_US.UTF-8/Compose:		wa_BE.UTF-8
  en_US.UTF-8/Compose:		yi_US.UTF-8

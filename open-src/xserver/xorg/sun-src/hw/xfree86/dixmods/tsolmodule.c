@@ -26,7 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)tsolmodule.c 1.5     07/02/15 SMI"
+#pragma ident	"@(#)tsolmodule.c	1.6	09/12/05 SMI"
 
 /*
  * X Trusted Extension module for X.org X server 
@@ -66,7 +66,7 @@ static XF86ModuleVersionInfo VersRec =
 /*
  * Data for the loader
  */
-XF86ModuleData xtsolModuleData = { &VersRec, xtsolSetup, NULL };
+_X_EXPORT XF86ModuleData xtsolModuleData = { &VersRec, xtsolSetup, NULL };
 
 static pointer
 xtsolSetup(pointer module, pointer opts, int *errmaj, int *errmin)

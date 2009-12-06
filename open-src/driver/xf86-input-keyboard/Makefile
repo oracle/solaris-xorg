@@ -30,21 +30,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.13	09/11/16 SMI"
+# ident	"@(#)Makefile	1.14	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.4.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	hal-man-page.patch,-p1 \
-	hal-hotplug.patch,-p1 \
-	sun-keymappings.patch,-p1 \
-	sun-kbd-vt.patch \
 	6886424.patch \
 	6897086.patch
 

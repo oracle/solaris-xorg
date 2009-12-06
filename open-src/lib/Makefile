@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.34	09/11/09 SMI"
+# ident	"@(#)Makefile	1.35	09/12/05 SMI"
 #
 ###############################################################################
 
@@ -59,36 +59,46 @@ libICE: libxtrans
 libSM: libxtrans libICE
 libX11: libxtrans libXau libXdmcp
 libXaw: libX11 libXt libXmu libXpm
+libXaw4: libX11 libXt libXmu
+libXaw5: libX11 libXt libXmu
 libXcomposite: libX11 libXext libXfixes
 libXcursor: libX11 libXfixes libXrender
 libXdamage: libXfixes
 libXevie: libX11 libXext
 libXext: libX11 libXau
+libXfixes: libX11 libXext
 libXfont: libxtrans freetype libfontenc
-libXft: freetype fontconfig libXrender
+libXft: freetype fontconfig libXrender libX11
 libXi: libX11 libXext
 libXinerama: libX11 libXext
-libXlg3d: libX11 libXfixes libXext
 libXmu: libX11 libXt libXext
 libXp: libX11 libXext
 libXpm: libX11 libXt
 libXrandr: libX11 libXext libXrender
+libXrender: libX11 libXext
 libXres: libX11 libXext
+libXScrnSaver: libX11 libXext
 libXt: libX11 libSM
+libXtsol: libX11 libXext
 libXtst: libX11 libXext
 libXv: libX11 libXext
 libXvMC: libX11 libXext
 libXxf86misc: libX11 libXext
 libXxf86vm: libX11 libXext
 libxkbfile: libX11
-libxkbui: libX11 libXt libxkbfile
 mesa: libdrm libX11 libXext
+
+# pixman doesn't need these itself, but its test framework uses gtk,
+# which does depend on these
+pixman: libXext libXrender libXinerama libXi libXrandr libXcursor 
+pixman: libXcomposite libXdamage libXfixes libX11 freetype fontconfig 
 
 OS_SUBDIRS_common = \
 	DPS \
 	freetype \
 	fontconfig \
 	libdga \
+	libdrm \
 	libowconfig \
 	libpthread-stubs \
 	libxtrans \
@@ -120,7 +130,6 @@ OS_SUBDIRS_common = \
 	libXi \
 	libXinerama \
 	libxkbfile \
-	libxkbui \
 	libXrandr \
 	libXres \
 	libXScrnSaver \
@@ -130,14 +139,13 @@ OS_SUBDIRS_common = \
 	libXvMC \
 	libXxf86misc \
 	libXxf86vm \
+	mesa \
 	pixman \
 	hwc
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
-	libdrm \
-	mesa
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
 	libXlg3d \

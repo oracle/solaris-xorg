@@ -1,6 +1,7 @@
 ##########################################################################
 #
-# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,30 +30,38 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.5     09/10/06 SMI"
+# ident	"@(#)prototype	1.6	09/12/05 SMI"
 #
 # X.Org Foundation X client programs for Solaris
 
-!HOME=../usr/X11
+!HOME=../usr
 
 i pkginfo
 i depend
 i copyright
 
-d none X11 				0755 root bin
+d none bin							0755 root bin
 
 !search $HOME/bin
-d none X11/bin 				0755 root bin
-f none X11/bin/xgamma	 		0755 root bin
-f none X11/bin/xrandr	 		0755 root bin
-f none X11/bin/dispswitch		0755 root bin
-f none X11/bin/xvidtune	 		0755 root bin
-f none X11/bin/xvinfo	 		0755 root bin
-f none X11/bin/xinput	 		0755 root bin
+f none bin/xgamma						0755 root bin
+f none bin/xrandr						0755 root bin
+f none bin/dispswitch						0755 root bin
+f none bin/xvidtune						0755 root bin
+f none bin/xvinfo						0755 root bin
+f none bin/xinput						0755 root bin
 
-d none X11/lib 				0755 root bin
-d none X11/lib/X11			0755 root bin
+d none X11							0755 root bin
+d none X11/bin							0755 root bin
+s none X11/bin/xgamma=../../bin/xgamma
+s none X11/bin/xrandr=../../bin/xrandr
+s none X11/bin/dispswitch=../../bin/dispswitch
+s none X11/bin/xvidtune=../../bin/xvidtune
+s none X11/bin/xvinfo=../../bin/xvinfo
+s none X11/bin/xinput=../../bin/xinput
 
-!search $HOME/lib/X11/app-defaults
-d none X11/lib/X11/app-defaults		0755 root bin
-f none X11/lib/X11/app-defaults/Xvidtune 0644 root bin
+
+!search $HOME/share/X11/app-defaults
+d none share							0755 root sys
+d none share/X11						0755 root bin
+d none share/X11/app-defaults					0755 root bin
+f none share/X11/app-defaults/Xvidtune				0444 root bin

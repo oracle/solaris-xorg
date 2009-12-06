@@ -1,6 +1,6 @@
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,28 +27,32 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident  "@(#)versions	1.4	09/05/14 SMI"
+# ident	"@(#)versions	1.5	09/12/05 SMI"
 #
 
 amd64 {
+	SUNW_1.4;
 	SUNW_1.3;
 	SUNW_1.2;
 	SUNW_1.1;
 	SUNWprivate;
 }
 i386 {
+	SUNW_1.4;
 	SUNW_1.3;
 	SUNW_1.2;
 	SUNW_1.1;
 	SUNWprivate;
 }
 sparc {
+	SUNW_1.4;
 	SUNW_1.3;
 	SUNW_1.2;
 	SUNW_1.1;
 	SUNWprivate;
 }
 sparcv9 {
+	SUNW_1.4;
 	SUNW_1.3;
 	SUNW_1.2;
 	SUNW_1.1;

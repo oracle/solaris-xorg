@@ -28,19 +28,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.6	09/10/13 SMI"
+# ident	"@(#)Makefile	1.7	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xorg-docs
 
 # Version number (used in path names)
-MODULE_VERSION=1.4
+MODULE_VERSION=1.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	docbook-errors.patch,-p1 \
-	X-manpage.patch,-p1 \
 	solaris-manpages.patch
 
 # Makefiles require gmake -i to build all targets
@@ -50,14 +48,11 @@ MODULE_MAKEFLAGS= MAKEFLAGS="-i"
 
 # Additional arguments to configure script
 MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
+	--docdir='$(X11_DOC_DIR)' \
 	XORG_SGML_PATH=$(PROTODIR)$(X11_DIR)/share/sgml
 
 # Module dependencies
 MODULE_CONFIGURE_DEPS=$(DOCBOOK2TEXT) $(XORG_DEFS_ENT)
-
-# Need to autoreconf to build with newer util-macros that allows overriding
-# XORG_SGML_PATH until upstream is built with it
-AUTORECONF=yes
 
 ### Include common rulesets
 include ../Makefile.inc

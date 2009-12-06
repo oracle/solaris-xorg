@@ -1,5 +1,5 @@
-.\"  Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-.\"  Use subject to license terms.
+.\"  Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+.\"  Use is subject to license terms.
 .\" 
 .\"  Permission is hereby granted, free of charge, to any person obtaining a
 .\"  copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
 .\"  of the copyright holder.
 .\" 
 .ds q \N'34'
-.TH ogl-select 1 "09 Oct 2007"
+.TH ogl-select 1 "25 Nov 2009"
 .SH NAME
 ogl-select \- boot time selection of OpenGL vendor files 
 .PP
@@ -98,7 +98,6 @@ cbp-1 | cbp-1
 l | l .
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
 =
-Architecture	x86
 Availability	SUNWxwplr
 Interface Stability	Uncommitted
 .TE 

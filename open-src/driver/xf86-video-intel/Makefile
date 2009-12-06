@@ -3,7 +3,7 @@
 # xf86-video-intel Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.28	09/11/25
+# ident	"@(#)Makefile	1.30	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -43,7 +43,8 @@ MODULE_VERSION=2.6.3
 SOURCE_PATCHES= build-dri.patch libraries.patch \
 		6538497_6554161.patch bugs.patch \
                 gem.patch 6872597.patch \
-		gem-hang.patch 6898754.patch
+		gem-hang.patch 6898754.patch \
+		6907204.patch port.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

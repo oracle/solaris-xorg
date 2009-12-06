@@ -2,8 +2,8 @@
 #
 # Xtst library Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +30,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.4	08/08/08
+# ident	"@(#)Makefile	1.5	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=libXtst
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-abi.patch
+SOURCE_PATCHES = \
+	man.patch,-p1 \
+	solaris-abi.patch
+
+# Need to regenerate automake files after solaris-abi.patch
+AUTORECONF=yes
 
 # Library name
 LIBNAME=Xtst
@@ -50,8 +55,6 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xtst
-
-
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

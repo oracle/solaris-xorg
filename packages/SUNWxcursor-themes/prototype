@@ -1,6 +1,7 @@
 ##########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.2     08/03/07 SMI"
+# ident	"@(#)prototype	1.3	09/12/05 SMI"
 #
 # X.Org Foundation X cursor themes for Solaris
 
@@ -121,6 +122,7 @@ f none share/icons/redglass/cursors/top_left_corner       0444 root other
 f none share/icons/redglass/cursors/top_right_corner      0444 root other
 f none share/icons/redglass/cursors/top_side              0444 root other
 f none share/icons/redglass/cursors/top_tee               0444 root other
+f none share/icons/redglass/cursors/watch                 0444 root other
 f none share/icons/redglass/cursors/xterm                 0444 root other
 
 !search $HOME/whiteglass/cursors

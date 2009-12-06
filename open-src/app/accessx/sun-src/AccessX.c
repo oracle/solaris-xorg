@@ -1,7 +1,7 @@
 /*
 *
-* Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
-* Use subject to license terms.
+* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+* Use is subject to license terms.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the
@@ -70,7 +70,7 @@
 /*			Redesign GUI					*/
 /*									*/
 /************************************************************************/
-#pragma ident "@(#)AccessX.c	35.18	08/09/30 SMI"
+#pragma ident	"@(#)AccessX.c	35.19	09/12/05 SMI"
 
 /* Special constants needed for the accessx extension */
 #define NEED_EVENTS
@@ -279,11 +279,11 @@ static char *repeatHelpString = NULL;
 static char *slowHelpString = NULL;
 static char *bounceHelpString = NULL;
 
-#define ACCESSXHELP_DIRECTORY "/usr/X11/lib/locale/"
+#define ACCESSXHELP_DIRECTORY "/usr/share/X11/locale/"
 /* used for debugging.
 #define ACCESSXHELP_DIRECTORY "./locale/"
 */
-#define HELPDIR "/help/"
+#define HELPDIR "/accessx/"
 #define ACCESSXHELP_FILE      "accessx.hlp"
 #define COMMENT '-'
 
@@ -2948,9 +2948,9 @@ Bool SetHelpText(id)
 
    if (!inited) {
 	 if (InitHelp() == False) {
-		fprintf(stderr, "The help file \
-[/usr/X11/lib/locale/<locale>/help/accessx.hlp] is not installed. Please \
-contact your system administrator\n");
+		fprintf(stderr, "The help file \n"
+			"[" ACCESSXHELP_DIRECTORY "<locale>" HELPDIR ACCESSXHELP_FILE "] is not installed.\n"
+			"Please contact your system administrator\n");
 		return(False);
 	 }
 	 inited = 1;
@@ -3747,8 +3747,8 @@ int main(argc, argv)
     char		*argv[];
 #endif
 {
-    char *uidpathstr = "UIDPATH=/usr/X11/lib/locale/%L/app-defaults/accessx.uid:/usr/X11/lib/app-defaults/accessx.uid";
-    char *xfilesearchpathstr = "XFILESEARCHPATH=/usr/dt/app-defaults/%L/%N:/usr/dt/app-defaults/C/%N";
+    char *uidpathstr = "UIDPATH=/usr/share/X11/locale/%L/accessx/accessx.uid:/usr/share/X11/locale/C/accessx/accessx.uid";
+    char *xfilesearchpathstr = "XFILESEARCHPATH=/usr/dt/app-defaults/%L/%N:/usr/dt/app-defaults/C/%N:/usr/share/X11/app-defaults/%L/%N:/usr/share/X11/app-defaults/C/%N";
     char *tmpstr;
 
     if ((tmpstr = getenv("UIDPATH")) == NULL) {

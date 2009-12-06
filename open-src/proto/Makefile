@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.15	09/07/14
+# ident	"@(#)Makefile	1.16	09/12/05 SMI"
 #
 ###############################################################################
 
@@ -52,7 +52,6 @@ OS_SUBDIRS_common = 		\
 	renderproto 		\
 	resourceproto 		\
 	scrnsaverproto 		\
-	trapproto 		\
 	videoproto 		\
 	xcmiscproto 		\
 	xextproto 		\
@@ -69,7 +68,8 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
-	lg3dproto
+	lg3dproto \
+	trapproto
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.

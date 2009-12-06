@@ -1,7 +1,6 @@
 ###############################################################################
-#
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -47,6 +46,11 @@ BUILD_TYPES_SET=yes
 # No configure script
 CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
+
+# Override default build target, since set-elf-comments changes binaries
+# after packaging and causes checksum errors
+BUILD_TARGETS=default_build
+BUILD_TARGETS_SET=yes
 
 # No install steps, since the package is built in the tree
 INSTALL_TARGETS=

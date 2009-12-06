@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)depend_com	1.4	09/11/19 SMI"
+# ident	"@(#)depend_com	1.5	09/12/05 SMI"
 #
 # Xvnc server for Solaris
 
@@ -45,3 +45,4 @@ P SUNWlibC 	Sun Compilers Bundled libC
 P SUNWjpg	jpeg - The Independent JPEG Groups JPEG software
 P SUNWpixman	Pixman library
 P SUNWperl584core	Perl 5.8.4 (core)
+P SUNWxorg-mesa Xorg Server Mesa Modules and Libraries

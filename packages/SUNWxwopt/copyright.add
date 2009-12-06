@@ -1,23 +1,5 @@
 --------------------------------------------------------------------
 
-Files from the app/xcolor package are covered by the following notice:
-
-include app/xcolor/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xditview package are covered by the following notice:
-
-include app/xditview/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xfontsel package are covered by the following notice:
-
-include app/xfontsel/COPYING
-
---------------------------------------------------------------------
-
 Files from the app/appres package are covered by the following notice:
 
 include app/appres/COPYING
@@ -36,15 +18,15 @@ include app/editres/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/listres package are covered by the following notice:
+Files from the app/lbxproxy package are covered by the following notice:
 
-include app/listres/COPYING
+include app/lbxproxy/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/luit package are covered by the following notice:
+Files from the app/listres package are covered by the following notice:
 
-include app/luit/COPYING
+include app/listres/COPYING
 
 --------------------------------------------------------------------
 
@@ -54,27 +36,15 @@ include app/oclock/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/proxymngr package are covered by the following notice:
+
+include app/proxymngr/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/rgb package are covered by the following notice:
 
 include app/rgb/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/sessreg package are covered by the following notice:
-
-include app/sessreg/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xman package are covered by the following notice:
-
-include app/xman/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xterm package are covered by the following notice:
-
-include app/xterm/COPYING
 
 --------------------------------------------------------------------
 
@@ -90,15 +60,33 @@ include app/viewres/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xbiff package are covered by the following notice:
+
+include app/xbiff/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xclipboard package are covered by the following notice:
 
 include app/xclipboard/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xclock package are covered by the following notice:
+
+include app/xclock/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xcmsdb package are covered by the following notice:
 
 include app/xcmsdb/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xcolor package are covered by the following notice:
+
+include app/xcolor/COPYING
 
 --------------------------------------------------------------------
 
@@ -114,51 +102,9 @@ include app/xcursorgen/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/xkill package are covered by the following notice:
+Files from the app/xditview package are covered by the following notice:
 
-include app/xkill/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xrdb package are covered by the following notice:
-
-include app/xrdb/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xset package are covered by the following notice:
-
-include app/xset/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xload package are covered by the following notice:
-
-include app/xload/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xclock package are covered by the following notice:
-
-include app/xclock/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xbiff package are covered by the following notice:
-
-include app/xbiff/COPYING
-
---------------------------------------------------------------------
-
-Files from the util/imake package are covered by the following notice:
-
-include util/imake/COPYING
-
---------------------------------------------------------------------
-
-Files from the util/xorg-cf-files package are covered by the following notice:
-
-include util/xorg-cf-files/COPYING
+include app/xditview/COPYING
 
 --------------------------------------------------------------------
 
@@ -168,6 +114,55 @@ include app/xedit/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xfindproxy package are covered by the following notice:
+
+include app/xfindproxy/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xfontsel package are covered by the following notice:
+
+include app/xfontsel/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xfwp package are covered by the following notice:
+
+include app/xfwp/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xload package are covered by the following notice:
+
+include app/xload/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xman package are covered by the following notice:
+
+include app/xman/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xrx package are covered by the following notice:
+
+include app/xrx/COPYING
+
+--------------------------------------------------------------------
+
+Files from the util/imake package are covered by the following notice:
+
+include util/imake/COPYING
+
+--------------------------------------------------------------------
+
 Files from the util/makedepend package are covered by the following notice:
 
 include util/makedepend/COPYING
+
+--------------------------------------------------------------------
+
+Files from the util/xorg-cf-files package are covered by the following notice:
+
+include util/xorg-cf-files/COPYING
+

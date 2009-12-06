@@ -31,7 +31,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)upgrade-X	1.61	09/11/23 SMI"
+# ident	"@(#)upgrade-X	1.62	09/12/05 SMI"
 #
 # Description: This script upgrades X software on a Solaris Nevada
 #	       system. It should be run as root from a X package area.
@@ -148,7 +148,7 @@ if [[ ( -z "${ALTROOT}" ) && ( "$(uname -r)" != "5.11" ) ]] ; then
 fi
 
 if [[ -f /usr/bin/pkg ]] ; then
-    if /usr/bin/pkg list SUNWxwplt > /dev/null 2>&1 ; then
+    if /usr/bin/pkg ${ADDITIONAL_PKG_FLAGS} list SUNWxwplt > /dev/null 2>&1 ; then
 	fatal_error "Cannot run on system with IPS installed X packages."
     fi
 fi
@@ -215,6 +215,7 @@ pkg_list="
 	SUNWxorg-compatlinks
 	SUNWxorg-graphics-ddx
 	SUNWxorg-headers
+	SUNWxorg-mesa
 	SUNWxorg-server
 	SUNWxorg-tsol-module
 	SUNWxvnc
@@ -247,9 +248,6 @@ xsun_pkg_list="
 case "${MACH}" in
     sparc)      
         pkg_list+=" SUNWxwpsr ${xsun_pkg_list}" 
-        ;;
-    i386)       
-        pkg_list+=" SUNWxorg-mesa" 
         ;;
 esac
 
@@ -408,6 +406,41 @@ for pkg in ${REM_PKGS} ${reverse_pkg_list}; do
     remove_package $pkg
 done
 
+# Special handling for Sun OpenGL on SPARC until their packages are updated
+if [[ "${MACH}" == "sparc" ]] ; then
+    if [[ -h ${ALTROOT}/usr/include/GL ]] ; then
+	print "Moving SUNWglh links"| tee -a ${PKG_UPGRADE_LOG}
+	removef ${ADDITIONAL_PKG_FLAGS} SUNWglh /usr/include/GL \
+		| tee -a ${PKG_UPGRADE_LOG}
+	rm ${ALTROOT}/usr/include/GL
+	installf ${ADDITIONAL_PKG_FLAGS} SUNWglh \
+		/usr/include/SUNWgl=../openwin/include/GL s \
+		| tee -a ${PKG_UPGRADE_LOG}
+	installf -f SUNWglh | tee -a ${PKG_UPGRADE_LOG}
+    fi
+    if [[ -h ${ALTROOT}/usr/lib/libGL.so.1 ]] ; then
+	print "Moving SUNWglrt links" | tee -a ${PKG_UPGRADE_LOG}
+	removef ${ADDITIONAL_PKG_FLAGS} SUNWglrt \
+		/usr/lib/libGL* /usr/lib/sparcv9/libGL* \
+		| tee -a ${PKG_UPGRADE_LOG}
+	rm ${ALTROOT}/usr/lib/libGL* ${ALTROOT}/usr/lib/sparcv9/libGL*
+	mkdir -p ${ALTROOT}/usr/lib/SUNWgl/sparcv9
+	for f in ${ALTROOT}/usr/openwin/lib/libGL* ; do
+	    bf=$(basename $f)
+	    installf ${ADDITIONAL_PKG_FLAGS} SUNWglrt \
+		/usr/lib/SUNWgl/$bf=../../openwin/lib/$bf s \
+		| tee -a ${PKG_UPGRADE_LOG}
+	done
+	for f in ${ALTROOT}/usr/openwin/lib/sparcv9/libGL* ; do
+	    bf=$(basename $f)
+	    installf ${ADDITIONAL_PKG_FLAGS} SUNWglrt \
+		/usr/lib/SUNWgl/sparcv9/$bf=../../../openwin/lib/$bf s \
+		| tee -a ${PKG_UPGRADE_LOG}
+	done
+	installf -f SUNWglrt | tee -a ${PKG_UPGRADE_LOG}
+    fi
+fi
+
 if [[ $REMOVE_ONLY -eq 0 ]] ; then
     for pkg in ${pkg_list} ; do
 	if [[ -e $pkg ]] ; then
@@ -421,10 +454,13 @@ if [[ $REMOVE_ONLY -eq 0 ]] ; then
 	fi
     done
 
-    # Start the rebuild of fontconfig caches now, instead of at next reboot
+    # Start the rebuild of fontconfig caches & reset OpenGL links now, 
+    # instead of at next reboot
     if [[ -z "${ALTROOT}" ]] ; then
 	/usr/sbin/svccfg -s application/font/fc-cache setprop options/force_rebuild="true"
 	/usr/sbin/svcadm restart application/font/fc-cache
+	/usr/sbin/svcadm enable application/font/fc-cache
+	/usr/sbin/svcadm restart application/opengl/ogl-select
     fi
 fi
 

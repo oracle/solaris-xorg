@@ -33,7 +33,7 @@
 MODULE_NAME=xcursor-themes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

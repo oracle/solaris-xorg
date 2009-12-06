@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.12	09/07/31
+# ident	"@(#)Makefile	1.13	09/12/05 SMI"
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code
@@ -40,7 +40,7 @@
 MODULE_NAME=xtrans
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.4
+MODULE_VERSION=1.2.5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = inetv6.patch \

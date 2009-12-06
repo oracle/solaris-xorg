@@ -1,9 +1,8 @@
 ###############################################################################
-#
 # lbxutil 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,17 +29,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.3 08/08/13
+# ident	"@(#)Makefile	1.4	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=liblbxutil
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6718029.patch
+SOURCE_PATCHES = 
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=lbxutil
@@ -50,10 +49,20 @@ LIBNAME=lbxutil
 #LIB_STABILITY=Committed
 #LIB_MAN_SUFFIX=3lbxutil
 
+# Only need 32-bit since we only ship Xsun & lbxproxy as 32-bit
+BUILD_TYPES=32
+BUILD_TYPES_SET=yes
+
 # pkg-config files that need to have -R added
 FIX_PC_FILES=lbxutil.pc.in
 
-# Install in private subdir for use by Xservers & lbxproxy
-MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
+# Install in private subdir for use by lbxproxy
+MODULE_ADD_LIB_SUBDIR=/X11/lbxproxy
+
+# Link with mapfile to allow referring to symbols defined in callers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-externs
 
 include ../Makefile.inc
+
+# Clean up old 64-bit builds from before we stopped building them
+clean:: clean_64

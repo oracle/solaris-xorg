@@ -1,8 +1,8 @@
 diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
---- dix/main.c	2009-07-08 01:48:57.000000000 +0800
-+++ dix/main.c	2009-09-08 16:29:20.327992000 +0800
+--- dix/main.c	2009-12-02 18:58:25.228885721 -0800
++++ dix/main.c	2009-12-02 18:58:27.293238950 -0800
 @@ -79,6 +79,8 @@ Equipment Corporation.
- #include <dix-config.h>
+ #include <version-config.h>
  #endif
  
 +#include <sys/stat.h>
@@ -10,9 +10,9 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
  #include <X11/X.h>
  #include <X11/Xos.h>   /* for unistd.h  */
  #include <X11/Xproto.h>
-@@ -233,6 +235,30 @@ static int indexForScanlinePad[ 65 ] = {
- #define MIN(a,b) (((a) < (b)) ? (a) : (b))
- #endif
+@@ -125,6 +127,30 @@ extern void Dispatch(void);
+ 
+ extern void InitProcVectors(void);
  
 +#if defined(sun) 
 +extern const char * GetAuthFilename(void);
@@ -41,7 +41,7 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
  #ifdef XQUARTZ
  #include <pthread.h>
  
-@@ -247,6 +273,9 @@ int main(int argc, char *argv[], char *e
+@@ -139,6 +165,9 @@ int main(int argc, char *argv[], char *e
  {
      int		i;
      HWEventQueueType	alwaysCheckForInput[2];
@@ -51,7 +51,7 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
  
      display = "0";
  
-@@ -260,6 +289,12 @@ int main(int argc, char *argv[], char *e
+@@ -154,6 +183,12 @@ int main(int argc, char *argv[], char *e
  
      ProcessCommandLine(argc, argv);
  
@@ -64,55 +64,16 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
      alwaysCheckForInput[0] = 0;
      alwaysCheckForInput[1] = 1;
      while(1)
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c~	2009-08-15 19:21:29.790065000 -0700
-+++ hw/xfree86/common/xf86AutoConfig.c	2009-08-18 15:07:14.284126000 -0700
-@@ -475,8 +475,25 @@ listPossibleVideoDrivers(char *matches[]
-     if (xf86Info.consoleFd >= 0) {
- 	struct vis_identifier   visid;
- 	const char *cp;
-+	extern char xf86SolarisFbDev[PATH_MAX];
-+	int iret;
- 
--	if (ioctl(xf86Info.consoleFd, VIS_GETIDENTIFIER, &visid) >= 0) {
-+	SYSCALL(iret = ioctl(xf86Info.consoleFd, VIS_GETIDENTIFIER, &visid));
-+	if (iret < 0) {
-+	    int fbfd;
-+
-+	    fbfd = open(xf86SolarisFbDev, O_RDONLY);
-+	    if (fbfd >= 0) {
-+		SYSCALL(iret = ioctl(fbfd, VIS_GETIDENTIFIER, &visid));
-+		close(fbfd);
-+	    }
-+	}
-+
-+	if (iret < 0) {
-+	    xf86Msg(X_WARNING,
-+		    "could not get frame buffer identifier from %s\n",
-+		    xf86SolarisFbDev);
-+	} else {
- 	    xf86Msg(X_PROBED, "console driver: %s\n", visid.name);
- 
- 	    /* Special case from before the general case was set */
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Events.c hw/xfree86/common/xf86Events.c
---- hw/xfree86/common/xf86Events.c	2009-07-08 01:48:58.000000000 +0800
-+++ hw/xfree86/common/xf86Events.c	2009-09-08 16:29:20.326923000 +0800
-@@ -205,16 +205,31 @@ xf86ProcessActionEvent(ActionEvent actio
- 	if (!xf86Info.dontZoom)
- 	    xf86ZoomViewport(xf86Info.currentScreen, -1);
- 	break;
--#if !defined(__SOL8__) && \
--    (!defined(sun) || defined(__i386__)) && defined(VT_ACTIVATE)
-     case ACTION_SWITCHSCREEN:
- 	if (VTSwitchEnabled && !xf86Info.dontVTSwitch && arg) {
- 	    int vtno = *((int *) arg);
- #if defined(__SCO__) || defined(__UNIXWARE__)
+--- hw/xfree86/common/xf86Events.c	2009-11-22 16:33:40.000000000 -0800
++++ hw/xfree86/common/xf86Events.c	2009-12-02 18:58:27.293764193 -0800
+@@ -202,8 +202,16 @@ xf86ProcessActionEvent(ActionEvent actio
  	    vtno--;
  #endif
-+
-+#if defined(sun)
+ #if defined(sun)
+-	    if (vtno == xf86Info.vtno)
 +	    if (vtno == xf86Info.vtno) {
-+		break;
+ 		break;
 +	    } else {
 +		struct vt_stat state;
 +		if (ioctl(xf86Info.consoleFd, VT_GETSTATE, &state) < 0)
@@ -121,87 +82,61 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Events.c hw/xfree86/common/x
 +		if ((state.v_state & (1 << vtno)) == 0)
 +			break;
 +	    }
+ 
+ 	    xf86Info.vtRequestsPending = TRUE;
+ 	    xf86Info.vtPendingNum = vtno;
+diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_VTsw.c hw/xfree86/os-support/solaris/sun_VTsw.c
+--- hw/xfree86/os-support/solaris/sun_VTsw.c	2009-10-27 23:56:22.000000000 -0700
++++ hw/xfree86/os-support/solaris/sun_VTsw.c	2009-12-02 18:58:27.294750205 -0800
+@@ -44,17 +44,27 @@
+  * Handle the VT-switching interface for Solaris/OpenSolaris
+  */
+ 
++static int xf86VTPruneDoor = 0;
 +
-+	    xf86Info.vtRequestsPending = TRUE;
-+	    xf86Info.vtPendingNum = vtno;
-+#else
- 	    if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, vtno) < 0)
- 		ErrorF("Failed to switch consoles (%s)\n", strerror(errno));
-+#endif
- 	}
- 	break;
-     case ACTION_SWITCHSCREEN_NEXT:
-@@ -239,7 +254,7 @@ xf86ProcessActionEvent(ActionEvent actio
- 		ErrorF("Failed to switch consoles (%s)\n", strerror(errno));
- 	}
- 	break;
--#endif
-+
-     default:
- 	break;
-     }
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/xf86Globals.c
---- hw/xfree86/common/xf86Globals.c	2009-07-08 01:48:58.000000000 +0800
-+++ hw/xfree86/common/xf86Globals.c	2009-09-08 16:29:20.327526000 +0800
-@@ -104,6 +104,9 @@ xf86InfoRec xf86Info = {
-     .ddxSpecialKeys             = SKWhenNeeded,
-     .lastEventTime              = -1,
-     .vtRequestsPending          = FALSE,
-+#if defined(sun)
-+    .vtPendingNum		= -1,
-+#endif
-     .dontVTSwitch               = FALSE,
-     .dontZap                    = FALSE,
-     .dontZoom                   = FALSE,
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Privstr.h hw/xfree86/common/xf86Privstr.h
---- hw/xfree86/common/xf86Privstr.h	2009-07-08 01:48:58.000000000 +0800
-+++ hw/xfree86/common/xf86Privstr.h	2009-09-08 16:29:20.327232000 +0800
-@@ -70,6 +70,11 @@ typedef struct {
-     /* event handler part */
-     int			lastEventTime;
-     Bool		vtRequestsPending;
-+
-+#if defined(sun)
-+    int			vtPendingNum;
-+#endif
-+
-     Bool		dontVTSwitch;
-     Bool		dontZap;
-     Bool		dontZoom;
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/Makefile.am hw/xfree86/os-support/solaris/Makefile.am
---- hw/xfree86/os-support/solaris/Makefile.am	2009-09-08 16:29:16.886013000 +0800
-+++ hw/xfree86/os-support/solaris/Makefile.am	2009-09-08 16:29:20.326026000 +0800
-@@ -1,9 +1,3 @@
--if SOLARIS_USL_CONSOLE
--VTSW_SRC = $(srcdir)/../shared/VTsw_usl.c
--else
--VTSW_SRC = $(srcdir)/../shared/VTsw_noop.c
--endif
+ void
+-xf86VTRequest(int sig)
++xf86VTRelease(int sig)
+ {
+ 	if (xf86Info.vtPendingNum != -1)
+ 	{
+-		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
+-		xf86Info.vtPendingNum = -1;
 -
- if AGP
- AGP_SRC = sun_agp.c
- else
-@@ -18,13 +12,13 @@ solaris-@SOLARIS_INOUT_ARCH@.il: solaris
++		xf86VTPruneDoor = 1;
++		xf86Info.vtRequestsPending = TRUE;
+ 		return;
+ 	}
  
- noinst_LTLIBRARIES = libsolaris.la
- libsolaris_la_SOURCES = sun_init.c \
--	sun_vid.c sun_bell.c $(AGP_SRC) sun_apm.c \
-+	sun_vid.c sun_bell.c $(AGP_SRC) sun_apm.c sun_VTsw.c\
- 	$(srcdir)/../shared/kmod_noop.c \
- 	$(srcdir)/../shared/posix_tty.c \
- 	$(srcdir)/../shared/sigio.c \
- 	$(srcdir)/../shared/stdResource.c \
--	$(srcdir)/../shared/vidmem.c \
--	$(VTSW_SRC)
-+	$(srcdir)/../shared/vidmem.c
++	ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
++	xf86Info.vtPendingNum = -1;
 +
- nodist_libsolaris_la_SOURCES = $(SOLARIS_INOUT_SRC)
++	return;
++}
++
++void
++xf86VTAcquire(int sig)
++{
+ 	xf86Info.vtRequestsPending = TRUE;
+ 	return;
+ }
+@@ -74,6 +84,12 @@ xf86VTSwitchAway(void)
  
- sdk_HEADERS =
+ 	xf86Info.vtRequestsPending = FALSE;
+ 
++	if (xf86VTPruneDoor) {
++		xf86VTPruneDoor = 0;
++		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
++		return (TRUE);
++	}
++
+ 	vt_door_arg.vt_ev = VT_EV_HOTKEYS;
+ 	vt_door_arg.vt_num = xf86Info.vtPendingNum;
+ 	door_arg.data_ptr = (char *)&vt_door_arg;
 diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree86/os-support/solaris/sun_init.c
---- hw/xfree86/os-support/solaris/sun_init.c	2008-12-16 03:45:40.000000000 +0800
-+++ hw/xfree86/os-support/solaris/sun_init.c	2009-09-08 16:29:20.325732000 +0800
-@@ -33,18 +33,25 @@
+--- hw/xfree86/os-support/solaris/sun_init.c	2009-10-27 23:56:22.000000000 -0700
++++ hw/xfree86/os-support/solaris/sun_init.c	2009-12-02 18:58:27.294287421 -0800
+@@ -33,12 +33,17 @@
  # include <sys/kd.h>
  #endif
  
@@ -213,325 +148,72 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree8
  #ifdef HAS_USL_VTS
  static int VTnum = -1;
  static int xf86StartVT = -1;
-+static int vtEnabled = 0;
+ static int vtEnabled = 0;
 +extern void xf86VTAcquire(int);
 +extern void xf86VTRelease(int);
  #endif
  
--#if defined(__SOL8__) || (!defined(__i386__) && !defined(__i386))
--static char fb_dev[PATH_MAX] = "/dev/fb";
--#else
--static char fb_dev[PATH_MAX] = "/dev/console";
--#endif
-+/* Device to open as xf86Info.consoleFd */
-+static char console_dev[PATH_MAX] = "/dev/fb";
-+
-+/* Set by -dev argument on CLI
-+   Used by hw/xfree86/common/xf86AutoConfig.c for VIS_GETIDENTIFIER */
-+_X_HIDDEN char xf86SolarisFbDev[PATH_MAX] = "/dev/fb";
- 
- void
- xf86OpenConsole(void)
-@@ -93,86 +100,105 @@ xf86OpenConsole(void)
- 	/*
- 	 * Setup the virtual terminal manager
- 	 */
--	if (VTnum != -1)
-+	if ((fd = open("/dev/vt/0", O_RDWR, 0)) == -1)
- 	{
--	    xf86Info.vtno = VTnum;
--	    from = X_CMDLINE;
-+	    xf86ErrorF("xf86OpenConsole: Cannot open /dev/vt/0 (%s)\n",
-+			strerror(errno));
-+	    vtEnabled = 0;
- 	}
- 	else
- 	{
--	    if ((fd = open("/dev/vt00",O_RDWR,0)) < 0)
--		FatalError("xf86OpenConsole: Cannot open /dev/vt00 (%s)\n",
--		    strerror(errno));
-+	    if (ioctl(fd, VT_ENABLED, &vtEnabled) < 0)
-+	    {
-+		xf86ErrorF("xf86OpenConsole: VT_ENABLED failed (%s)\n",
-+			   strerror(errno));
-+		vtEnabled = 0;
-+	    }
-+	}
- 
-+	if (vtEnabled == 0)
-+	{
-+	    /* VT not enabled - kernel too old or Sparc platforms
-+	       without visual_io support */
-+	    xf86Msg(from, "VT infrastructure is not available\n");
-+
-+	    xf86StartVT = 0;
-+	    xf86Info.vtno = 0;
-+	    strlcpy(console_dev, xf86SolarisFbDev, sizeof(console_dev));
-+	}
-+	else
-+	{
- 	    if (ioctl(fd, VT_GETSTATE, &vtinfo) < 0)
- 		FatalError("xf86OpenConsole: Cannot determine current VT\n");
- 
- 	    xf86StartVT = vtinfo.v_active;
- 
--	    /*
--	     * There is a SEVERE problem with x86's VT's.  The VT_OPENQRY
--	     * ioctl() will panic the entire system if all 8 (7 VT's+Console)
--	     * terminals are used.  The only other way I've found to determine
--	     * if there is a free VT is to try activating all the the available
--	     * VT's and see if they all succeed - if they do, there there is no
--	     * free VT, and the Xserver cannot continue without panic'ing the
--	     * system.  (It's ugly, but it seems to work.)  Note there is a
--	     * possible race condition here.
--	     *
--	     * David Holland 2/23/94
--	     */
--
--	    FreeVTslot = 0;
--	    for (i = 7; (i >= 0) && !FreeVTslot; i--)
--		if (ioctl(fd, VT_ACTIVATE, i) != 0)
--		    FreeVTslot = 1;
--
--	    if (!FreeVTslot ||
--	        (ioctl(fd, VT_OPENQRY, &xf86Info.vtno) < 0) ||
--		(xf86Info.vtno == -1))
--		FatalError("xf86OpenConsole: Cannot find a free VT\n");
-+	    if (VTnum != -1)
-+	    {
-+		xf86Info.vtno = VTnum;
-+		from = X_CMDLINE;
-+	    }
-+	    else
-+	    {
-+		if ((ioctl(fd, VT_OPENQRY, &xf86Info.vtno) < 0) ||
+ /* Device to open as xf86Info.consoleFd */
+@@ -137,7 +142,8 @@ xf86OpenConsole(void)
+ 	    else
+ 	    {
+ 		if ((ioctl(fd, VT_OPENQRY, &xf86Info.vtno) < 0) ||
+-		    (xf86Info.vtno == -1)) {
 +		    (xf86Info.vtno == -1))
 +		{
-+		    FatalError("xf86OpenConsole: Cannot find a free VT\n");
-+		}
-+	    }
- 
--	    close(fd);
-+	    xf86Msg(from, "using VT number %d\n\n", xf86Info.vtno);
-+	    snprintf(console_dev, PATH_MAX, "/dev/vt/%d", xf86Info.vtno);
+ 		    FatalError("xf86OpenConsole: Cannot find a free VT\n");
+ 		}
+ 	    }
+@@ -146,7 +152,8 @@ xf86OpenConsole(void)
+ 	    snprintf(consoleDev, PATH_MAX, "/dev/vt/%d", xf86Info.vtno);
  	}
  
--	xf86Msg(from, "using VT number %d\n\n", xf86Info.vtno);
--
--	sprintf(fb_dev, "/dev/vt%02d", xf86Info.vtno); /* Solaris 2.1 x86 */
+-	if (fd != -1) {
 +	if (fd != -1)
 +	{
-+		close(fd);
-+	}
+ 	    close(fd);
+ 	}
  
- #endif /* HAS_USL_VTS */
+@@ -178,17 +185,20 @@ xf86OpenConsole(void)
+ 	    if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) < 0)
+ 		FatalError("xf86OpenConsole: VT_GETMODE failed\n");
  
- 	if (!KeepTty)
- 	    setpgrp();
- 
--	if (((xf86Info.consoleFd = open(fb_dev, O_RDWR | O_NDELAY, 0)) < 0))
-+	if (((xf86Info.consoleFd = open(console_dev, O_RDWR | O_NDELAY, 0)) < 0))
- 	    FatalError("xf86OpenConsole: Cannot open %s (%s)\n",
--		       fb_dev, strerror(errno));
-+		       console_dev, strerror(errno));
- 
- #ifdef HAS_USL_VTS
- 
- 	/* Change ownership of the vt */
--	chown(fb_dev, getuid(), getgid());
-+	chown(console_dev, getuid(), getgid());
- 
--	/*
--	 * Now get the VT
--	 */
--	if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
--	    xf86Msg(X_WARNING, "xf86OpenConsole: VT_ACTIVATE failed\n");
-+	if (vtEnabled)
-+	{
-+	    /*
-+	     * Now get the VT
-+	     */
-+	    if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
-+	        xf86Msg(X_WARNING, "xf86OpenConsole: VT_ACTIVATE failed\n");
- 
--	if (ioctl(xf86Info.consoleFd, VT_WAITACTIVE, xf86Info.vtno) != 0)
--	    xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
-+	    if (ioctl(xf86Info.consoleFd, VT_WAITACTIVE, xf86Info.vtno) != 0)
-+	        xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
- 
--	if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) < 0)
--	    FatalError("xf86OpenConsole: VT_GETMODE failed\n");
-+	    if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) < 0)
-+	        FatalError("xf86OpenConsole: VT_GETMODE failed\n");
- 
--	signal(SIGUSR1, xf86VTRequest);
+-	    OsSignal(SIGUSR1, xf86VTRequest);
 +	    OsSignal(SIGUSR1, xf86VTAcquire);
 +	    OsSignal(SIGUSR2, xf86VTRelease);
  
--	VT.mode = VT_PROCESS;
--	VT.relsig = SIGUSR1;
--	VT.acqsig = SIGUSR1;
-+	    VT.mode = VT_PROCESS;
-+	    VT.acqsig = SIGUSR1;
+ 	    VT.mode = VT_PROCESS;
+-	    VT.relsig = SIGUSR1;
+ 	    VT.acqsig = SIGUSR1;
 +	    VT.relsig = SIGUSR2;
  
--	if (ioctl(xf86Info.consoleFd, VT_SETMODE, &VT) < 0)
--	    FatalError("xf86OpenConsole: VT_SETMODE VT_PROCESS failed\n");
-+	    if (ioctl(xf86Info.consoleFd, VT_SETMODE, &VT) < 0)
-+	        FatalError("xf86OpenConsole: VT_SETMODE VT_PROCESS failed\n");
-+
-+	    if (ioctl(xf86Info.consoleFd, VT_SETDISPINFO, atoi(display)) < 0)
-+		xf86Msg(X_WARNING, "xf86OpenConsole: VT_SETDISINFO failed\n");
+ 	    if (ioctl(xf86Info.consoleFd, VT_SETMODE, &VT) < 0)
+ 		FatalError("xf86OpenConsole: VT_SETMODE VT_PROCESS failed\n");
+ 
+ 	    if (ioctl(xf86Info.consoleFd, VT_SETDISPINFO, atoi(display)) < 0)
+ 		xf86Msg(X_WARNING, "xf86OpenConsole: VT_SETDISPINFO failed\n");
 +
 +	    xf86ConsoleFd = xf86Info.consoleFd;
-+	}
- #endif
- 
- #ifdef KDSETMODE
-@@ -180,30 +206,33 @@ xf86OpenConsole(void)
- 	if (i < 0) {
- 	    xf86Msg(X_WARNING,
- 		    "xf86OpenConsole: KDSETMODE KD_GRAPHICS failed on %s (%s)\n",
--		    fb_dev, strerror(errno));
-+		    console_dev, strerror(errno));
  	}
  #endif
-     }
+ 
+@@ -204,7 +214,8 @@ xf86OpenConsole(void)
      else /* serverGeneration != 1 */
      {
  #ifdef HAS_USL_VTS
--	/*
--	 * Now re-get the VT
--	 */
--	if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
--	    xf86Msg(X_WARNING, "xf86OpenConsole: VT_ACTIVATE failed\n");
+-	if (vtEnabled) {
 +	if (vtEnabled)
 +	{
-+	    /*
-+	     * Now re-get the VT
-+	     */
-+    	    if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
-+	        xf86Msg(X_WARNING, "xf86OpenConsole: VT_ACTIVATE failed\n");
- 
--	if (ioctl(xf86Info.consoleFd, VT_WAITACTIVE, xf86Info.vtno) != 0)
--	    xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
-+	    if (ioctl(xf86Info.consoleFd, VT_WAITACTIVE, xf86Info.vtno) != 0)
-+	        xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
- 
--	/*
--	 * If the server doesn't have the VT when the reset occurs,
--	 * this is to make sure we don't continue until the activate
--	 * signal is received.
--	 */
--	if (!xf86Screens[0]->vtSema)
--	    sleep(5);
-+	    /*
-+	     * If the server doesn't have the VT when the reset occurs,
-+	     * this is to make sure we don't continue until the activate
-+	     * signal is received.
-+	     */
-+	    if (!xf86Screens[0]->vtSema)
-+	        sleep(5);
- 
-+	}
- #endif /* HAS_USL_VTS */
- 
-     }
-@@ -268,28 +297,17 @@ xf86CloseConsole(void)
- 
- #ifdef HAS_USL_VTS
- 
--    /*
--     * Solaris 2.1 x86 doesn't seem to "switch" back to the console when the VT
--     * is relinquished and its mode is reset to auto.  Also, Solaris 2.1 seems
--     * to associate vt00 with the console so I've opened the "console" back up
--     * and made it the active vt again in text mode and then closed it.  There
--     * must be a better hack for this but I'm not aware of one at this time.
--     *
--     * Doug Anson 11/6/93
--     * danson@lgc.com
--     *
--     * Fixed - 12/5/93 - David Holland - davidh@dorite.use.com
--     * Did the whole thing similarly to the way linux does it
--     */
--
--    if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) != -1)
-+    if (vtEnabled)
-     {
--	VT.mode = VT_AUTO;		/* Set default vt handling */
--	ioctl(xf86Info.consoleFd, VT_SETMODE, &VT);
--    }
-+       if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) != -1)
-+       {
-+	    VT.mode = VT_AUTO;		/* Set default vt handling */
-+	    ioctl(xf86Info.consoleFd, VT_SETMODE, &VT);
-+        }
- 
--    /* Activate the VT that X was started on */
--    ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86StartVT);
-+        /* Activate the VT that X was started on */
-+        ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86StartVT);
-+    }
- 
- #endif /* HAS_USL_VTS */
- 
-@@ -323,7 +341,7 @@ xf86ProcessArgument(int argc, char **arg
- 
-     if ((argv[i][0] == 'v') && (argv[i][1] == 't'))
-     {
--	if (sscanf(argv[i], "vt%2d", &VTnum) == 0)
-+	if (sscanf(argv[i], "vt%d", &VTnum) == 0)
- 	{
- 	    UseMsg();
- 	    VTnum = -1;
-@@ -337,8 +355,8 @@ xf86ProcessArgument(int argc, char **arg
- 
-     if ((i + 1) < argc) {
- 	if (!strcmp(argv[i], "-dev")) {
--	    strncpy(fb_dev, argv[i+1], PATH_MAX);
--	    fb_dev[PATH_MAX - 1] = '\0';
-+	    strncpy(xf86SolarisFbDev, argv[i+1], PATH_MAX);
-+	    xf86SolarisFbDev[PATH_MAX - 1] = '\0';
- 	    return 2;
- 	}
-     }
-@@ -349,7 +367,7 @@ xf86ProcessArgument(int argc, char **arg
- void xf86UseMsg()
- {
- #ifdef HAS_USL_VTS
--    ErrorF("vtXX                   Use the specified VT number\n");
-+    ErrorF("vtX                   Use the specified VT number\n");
+ 	    /*
+ 	     * Now re-get the VT
+ 	     */
+@@ -285,7 +296,8 @@ xf86CloseConsole(void)
  #endif
-     ErrorF("-dev <fb>              Framebuffer device\n");
-     ErrorF("-keeptty               Don't detach controlling tty\n");
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/xf86_OSlib.h hw/xfree86/os-support/xf86_OSlib.h
---- hw/xfree86/os-support/xf86_OSlib.h	2008-11-15 05:27:05.000000000 +0800
-+++ hw/xfree86/os-support/xf86_OSlib.h	2009-09-08 16:29:20.326443000 +0800
-@@ -140,9 +140,8 @@
- #  include <sys/mmap.h>		/* MMAP driver header */
- # endif
  
--# if !defined(sun) || (!defined(sparc) && !defined(__SOL8__))
- #  define HAS_USL_VTS
--# endif
-+
- # if !defined(sun)
- #  include <sys/emap.h>
- # endif
-@@ -155,10 +154,14 @@
- #  define LED_NUM NLKED
- #  define LED_SCR SLKED
- # elif defined(HAS_USL_VTS)
--#  include <sys/at_ansi.h>
-+#  if !defined(sun)
-+#   include <sys/at_ansi.h>
-+#  endif
- #  include <sys/kd.h>
- #  include <sys/vt.h>
--# elif defined(sun)
-+# endif
-+
-+# if defined(sun)
- #  include <sys/fbio.h>
- #  include <sys/kbd.h> 
- #  include <sys/kbio.h>
+ #ifdef HAS_USL_VTS
+-    if (vtEnabled == 1) {
++    if (vtEnabled)
++    {
+ 	if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) != -1)
+ 	{
+ 	    VT.mode = VT_AUTO;		/* Set default vt handling */

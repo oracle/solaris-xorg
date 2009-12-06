@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.26	09/02/12
+# ident	"@(#)prototype	35.27	09/12/05 SMI"
 #
 #  AccessX and associated files
 
@@ -37,35 +38,32 @@ i pkginfo
 i copyright
 i depend
 
-!HOME=../usr/X11
-
-d none openwin                  0755 root bin
-d none X11                      0755 root bin
+!HOME=../usr
 
 !search $HOME/bin
-d none openwin/bin              0755 root bin
-d none X11/bin              0755 root bin
-f none X11/bin/accessx  0755 root bin
-s none openwin/bin/accessx=../../X11/bin/accessx
+d none bin							0755 root bin
+f none bin/accessx						0755 root bin
 
-!search  $HOME/lib
-d none X11/lib 0755 root bin
-d none X11/lib/app-defaults 0755 root bin
+d none openwin							0755 root bin
+d none openwin/bin						0755 root bin
+s none openwin/bin/accessx=../../bin/accessx
+d none X11							0755 root bin
+d none X11/bin							0755 root bin
+s none X11/bin/accessx=../../bin/accessx
 
-!search  $HOME/lib/app-defaults
-f none X11/lib/app-defaults/accessx.uid 0644 root bin
 
-!search  $HOME/lib/locale/C/help
-s none X11/lib/help=./locale/C/help
-d none X11/lib/locale 0755 root bin
-d none X11/lib/locale/C 0755 root bin
-d none X11/lib/locale/C/help 0755 root bin
-f none X11/lib/locale/C/help/accessx.hlp 0644 root bin
+d none share							0755 root sys
+
+!search  $HOME/share/X11/locale/C/accessx
+d none share/X11						0755 root bin
+d none share/X11/locale						0755 root bin
+d none share/X11/locale/C					0755 root bin
+d none share/X11/locale/C/accessx				0755 root bin
+f none share/X11/locale/C/accessx/accessx.uid			0444 root bin
+f none share/X11/locale/C/accessx/accessx.hlp			0444 root bin
 
 !search  $HOME/share/man/man1
-s none X11/man=share/man
-d none X11/share 0755 root bin
-d none X11/share/man 0755 root bin
-d none X11/share/man/man1 0755 root bin
-f none X11/share/man/man1/accessx.1 0444 root bin
+d none share/man						0755 root bin
+d none share/man/man1						0755 root bin
+f none share/man/man1/accessx.1					0444 root bin
 

@@ -1,0 +1,43 @@
+From 43e123c2f4fadfdf6e7cf5aa864102d82e40fe4b Mon Sep 17 00:00:00 2001
+From: Peter Hutterer <peter.hutterer@who-t.net>
+Date: Tue, 8 Sep 2009 22:35:55 -0700
+Subject: [PATCH] Symbol was removed from the server.
+
+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ src/vmmouse.c |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/src/vmmouse.c b/src/vmmouse.c
+index d4f0ca6..1f4774a 100644
+--- a/src/vmmouse.c
++++ b/src/vmmouse.c
+@@ -146,6 +146,7 @@ typedef struct {
+    Bool                absoluteRequested;
+ } VMMousePrivRec, *VMMousePrivPtr;
+ 
++#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 7
+ static const char *reqSymbols[] = {
+    "InitPointerDeviceStruct",
+    "LoaderSymbol",
+@@ -192,6 +193,7 @@ static const char *reqSymbols[] = {
+    "Xstrdup",
+    NULL
+ };
++#endif
+ 
+ InputDriverRec VMMOUSE = {
+    1,
+@@ -1175,7 +1177,9 @@ VMMousePlug(pointer	module,
+ {
+    static Bool Initialised = FALSE;
+ 
++#if GET_ABI_MAJOR(ABI_XINPUT_VERSION) < 7
+    xf86LoaderReqSymLists(reqSymbols, NULL);
++#endif
+ 
+    if (!Initialised)
+       Initialised = TRUE;
+-- 
+1.5.6.5
+

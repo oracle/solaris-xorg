@@ -1,35 +1,13 @@
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-10-22 13:54:32.540502728 -0700
-+++ configure.ac	2009-10-22 13:54:33.966045650 -0700
-@@ -476,6 +476,9 @@ AC_ARG_WITH(default-font-path, AS_HELP_S
- AC_ARG_WITH(xkb-path,         AS_HELP_STRING([--with-xkb-path=PATH], [Path to XKB base dir (default: ${datadir}/X11/xkb)]),
- 				[ XKBPATH="$withval" ],
- 				[ XKBPATH="${datadir}/X11/xkb" ])
-+AC_ARG_WITH(xkb-bindir,       AS_HELP_STRING([--with-xkb-bindir=PATH], [Path to XKB program dir (default: ${bindir})]),
-+				[ XKBBINDIR="$withval" ],
-+				[ XKBBINDIR="${bindir}" ])
- AC_ARG_WITH(xkb-output,       AS_HELP_STRING([--with-xkb-output=PATH], [Path to XKB output dir (default: ${datadir}/X11/xkb/compiled)]),
- 				[ XKBOUTPUT="$withval" ],
- 				[ XKBOUTPUT="compiled" ])
-@@ -1017,7 +1020,7 @@ AC_DEFINE(XKB, 1, [Build XKB])
- AC_DEFINE(XKB_IN_SERVER, 1, [Build XKB server])
- AC_DEFINE(XKB_DFLT_DISABLED, 0, [Disable XKB per default])
- AC_DEFINE_DIR(XKB_BASE_DIRECTORY, XKBPATH, [Path to XKB data])
--AC_DEFINE_DIR(XKB_BIN_DIRECTORY, bindir, [Path to XKB bin dir])
-+AC_DEFINE_DIR(XKB_BIN_DIRECTORY, XKBBINDIR, [Path to XKB bin dir])
- 
- dnl Make sure XKM_OUTPUT_DIR is an absolute path
- XKBOUTPUT_FIRSTCHAR=`echo $XKBOUTPUT | cut -b 1`
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Configure.c hw/xfree86/common/xf86Configure.c
---- hw/xfree86/common/xf86Configure.c	2009-10-11 19:52:40.000000000 -0700
-+++ hw/xfree86/common/xf86Configure.c	2009-10-22 13:54:33.966485848 -0700
-@@ -518,7 +518,8 @@ configureModuleSection (void)
-             /* 'strstr(dFP,"/dir")' is meant as 'dFP =~ m(/dir\W)' */
-     	    if (defaultFontPath && (
- 		(strcmp(*el, "freetype")  == 0 &&
--		 strstr(defaultFontPath, "/TTF")) ||
-+ 		 (strstr(defaultFontPath, "/TrueType") ||
-+ 		  strstr(defaultFontPath, "/TTF"))) ||
-     	        (strcmp(*el, "type1")  == 0 &&
- 		 strstr(defaultFontPath, "/Type1")))) 
- 	    	ptr->mod_load_lst = (XF86LoadPtr)xf86addListItem(
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/xf86Globals.c
+--- hw/xfree86/common/xf86Globals.c	2009-11-22 16:35:01.000000000 -0800
++++ hw/xfree86/common/xf86Globals.c	2009-12-02 18:57:45.196668578 -0800
+@@ -143,7 +143,8 @@ xf86InfoRec xf86Info = {
+ #endif
+ };
+ const char *xf86ConfigFile = NULL;
+-const char *xf86ModulePath = DEFAULT_MODULE_PATH;
++/* Sun: add old module path for compatibility with out-of-tree driver packages */
++const char *xf86ModulePath = DEFAULT_MODULE_PATH ",/usr/X11/lib/modules/";
+ MessageType xf86ModPathFrom = X_DEFAULT;
+ const char *xf86LogFile = DEFAULT_LOGPREFIX;
+ MessageType xf86LogFileFrom = X_DEFAULT;

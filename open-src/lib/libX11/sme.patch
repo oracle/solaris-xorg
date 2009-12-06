@@ -1,6 +1,6 @@
 ###############################################################################
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -31,9 +31,9 @@ diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
 --- include/X11/Xlibint.h	2009-04-08 00:18:36.242153000 -0700
 +++ include/X11/Xlibint.h	2009-04-08 00:18:46.488588000 -0700
 @@ -185,6 +185,10 @@ struct _XDisplay
- 	struct _XkbInfoRec *xkb_info; /* XKB info */
- 	struct _XtransConnInfo *trans_conn; /* transport connection object */
- 	struct _X11XCBPrivate *xcb; /* XCB glue private data */
+ 		XGenericEventCookie *   /* in */,
+ 		XGenericEventCookie *   /* out*/);
+ 	void *cookiejar;  /* cookie events returned but not claimed */
 +#ifdef SUNSOFT
 +	char *smeBuffer;	/* Address of sme region */
 +	int smeSize;		/* size of sme region */
@@ -207,28 +207,6 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  		Xfree ((char *) dpy);
  		return(NULL);
  	}
-@@ -290,7 +318,12 @@
- #ifndef XLIBMINBUFSIZE
- #define XLIBMINBUFSIZE BUFSIZE /* old default buffer size */
- #endif
--    if ((xlib_buffer_size = getenv("XLIBBUFFERSIZE")) == NULL)
-+    if ((xlib_buffer_size = getenv("XLIBBUFFERSIZE")) == NULL)   
-+#ifdef SUNSOFT
-+         xlib_buffer_size = getenv("XSUNBUFFERSIZE");
-+
-+    if ((xlib_buffer_size == NULL))
-+#endif
-         conn_buf_size = XLIBDEFAULTBUFSIZE;
-     else
-         conn_buf_size = 1024 * strtol(xlib_buffer_size, NULL, 10);
-@@ -302,6 +335,7 @@
-          return(NULL);
-     }
-     dpy->bufmax = dpy->buffer + conn_buf_size;
-+
- #if USE_XCB
-     dpy->xcb->real_bufmax = dpy->bufmax;
-     dpy->bufmax = dpy->buffer;
 @@ -776,6 +810,26 @@
  	}
  /* end SUNSOFT_INTERACTIVE */

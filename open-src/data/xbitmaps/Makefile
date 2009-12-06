@@ -1,7 +1,7 @@
 ###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,31 +28,22 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.6	09/05/15
+# ident	"@(#)Makefile	1.7	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xbitmaps
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# bitmap pkg-config files are architecture independent, so install in share
+MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODULE_PKGCONFIG_DIR_SET=yes
+
 ### Include common rulesets
 include ../Makefile.inc
 
-# Install copy of xbitmaps.pc in 64-bit pkgconfig files as well
-install_gen:: $(SOURCE_DIR)/Makefile
-	(cd $(SOURCE_DIR) ; \
-	 $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) pkgconfigdir=$(PKGCONFIGDIR_64) install-pkgconfigDATA )
-
-# Install bitmaps that we've shipped in Solaris, but which come from xmh
-# (which we're dropping)
-BITMAP_INST_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/X11/bitmaps
-ADDITIONAL_BITMAPS=black6 box6
-
-install_gen:: $(ADDITIONAL_BITMAPS)
-	mkdir -p $(BITMAP_INST_DIR)
-	$(INSTALL_SCRIPT) -m 0444 $(ADDITIONAL_BITMAPS) $(BITMAP_INST_DIR)

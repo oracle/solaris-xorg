@@ -70,4 +70,5 @@ $(INSTDIR)/%/fonts.alias.all: fonts.alias.%
 	cat $< >> $@
 
 $(INSTDIR)/%/fonts.alias: $(INSTDIR)/%/fonts.alias.all
-	(cd $(@:fonts.alias=) ; $(INSTALLALIAS) fonts.alias.all .)
+	(cd $(@:fonts.alias=) ; \
+	 LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(INSTALLALIAS) fonts.alias.all .)

@@ -1,181 +1,6 @@
 
 --------------------------------------------------------------------
 
-
-Portions of this software are additionally covered by one or more of
-the following notices:
-
-
---------------------------------------------------------------------
-
-
-Copyright (c) 1987-1993,1996-1997 Digital Equipment Corporation
-Copyright (c) 1999-2001 Compaq Computer Corporation
-Copyright (c) 1992-1996 Fujitsu Limited
-Copyright (c) 1986-1989,1993-1996,1999-2001 Hewlett-Packard Company
-Copyright (c) 1996 Hitachi, Ltd.
-Copyright (c) 1996,1999-2001 IBM Corporation
-Copyright (c) 1999-2001 Hummingbird Communications Ltd.
-Copyright (c) 1984-1991 by The Massachusetts Institute of Technology
-Copyright (c) 1990-1994 Network Computing Devices, Inc.
-Copyright (c) 1996 Novell, Inc.
-Copyright (c) 1985-1987 by the Regents of the University of California
-Copyright (c) 1991-2001 Silicon Graphics, Inc.
-Copyright (c) 1986-2001 Sun Microsystems, Inc.
-Copyright (c) 1990-1991 Tektronix, Inc.
-Copyright (c) 1989-2001 The Open Group
-Copyright (c) 1992-1993 by TOSHIBA Corp.
-Copyright (c) 1985-1994 X Consortium
-
-All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, and/or sell copies of the Software, and to permit persons
-to whom the Software is furnished to do so, provided that the above
-copyright notice(s) and this permission notice appear in all copies of
-the Software and that both the above copyright notice(s) and this
-permission notice appear in supporting documentation.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
-INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
-FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-Except as contained in this notice, the name of a copyright holder
-shall not be used in advertising or otherwise to promote the sale, use
-or other dealings in this Software without prior written authorization
-of the copyright holder.
-
-X Window System is a trademark of The Open Group.
-
-
---------------------------------------------------------------------
-
-
-Copyright (C) 1994-2002 The XFree86 Project, Inc.  All Rights Reserved.
- 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to
-deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
- 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-XFREE86 PROJECT BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
-Except as contained in this notice, the name of the XFree86 Project shall
-not be used in advertising or otherwise to promote the sale, use or other
-dealings in this Software without prior written authorization from the
-XFree86 Project.
-
-
---------------------------------------------------------------------
-
-
-Copyright © 1998-2001 Keith Packard, member of The XFree86 Project, Inc.
- 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of Keith Packard not be used in
-advertising or publicity pertaining to distribution of the software without
-specific, written prior permission.  Keith Packard makes no
-representations about the suitability of this software for any purpose.  It
-is provided "as is" without express or implied warranty.
- 
-KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-
-
---------------------------------------------------------------------
-
-
-Copyright © 2000 SuSE, Inc.
- 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of SuSE not be used in advertising or
-publicity pertaining to distribution of the software without specific,
-written prior permission.  SuSE makes no representations about the
-suitability of this software for any purpose.  It is provided "as is"
-without express or implied warranty.
- 
-SuSE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL SuSE
-BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
-OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
-CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-
---------------------------------------------------------------------
-
-
-Copyright (C) 1989-95 GROUPE BULL
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to
-deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-GROUPE BULL BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of GROUPE BULL shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from GROUPE BULL.
-
---------------------------------------------------------------------
-Files from the app/xlock package are covered by the following notice:
-
-include app/xlock/COPYING
-
---------------------------------------------------------------------
-Files from the app/xfindproxy package are covered by the following notice:
-
-include app/xfindproxy/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/smproxy package are covered by the following notice:
-
-include app/smproxy/COPYING
-
---------------------------------------------------------------------
-
 Files from the app/bdftopcf package are covered by the following notice:
 
 include app/bdftopcf/COPYING
@@ -200,9 +25,9 @@ include app/constype/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/editres package are covered by the following notice:
+Files from the app/fslsfonts package are covered by the following notice:
 
-include app/editres/COPYING
+include app/fslsfonts/COPYING
 
 --------------------------------------------------------------------
 
@@ -212,15 +37,9 @@ include app/fstobdf/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/fslsfonts package are covered by the following notice:
+Files from the app/luit package are covered by the following notice:
 
-include app/fslsfonts/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/lbxproxy package are covered by the following notice:
-
-include app/lbxproxy/COPYING
+include app/luit/COPYING
 
 --------------------------------------------------------------------
 
@@ -242,6 +61,12 @@ include app/rstart/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/sessreg package are covered by the following notice:
+
+include app/sessreg/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/setxkbmap package are covered by the following notice:
 
 include app/setxkbmap/COPYING
@@ -252,6 +77,12 @@ Files from the app/showfont package are covered by the following notice:
 
 include app/showfont/COPYING
 
+--------------------------------------------------------------------
+
+Files from the app/smproxy package are covered by the following notice:
+
+include app/smproxy/COPYING
+ 
 --------------------------------------------------------------------
 
 Files from the app/winsysck package are covered by the following notice:
@@ -278,18 +109,6 @@ include app/xcalc/COPYING
 
 --------------------------------------------------------------------
 
-Files from the app/xclipboard package are covered by the following notice:
-
-include app/xclipboard/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xconsole package are covered by the following notice:
-
-include app/xconsole/COPYING
-
---------------------------------------------------------------------
-
 Files from the app/xdpyinfo package are covered by the following notice:
 
 include app/xdpyinfo/COPYING
@@ -305,12 +124,6 @@ include app/xfd/COPYING
 Files from the app/xfsinfo package are covered by the following notice:
 
 include app/xfsinfo/COPYING
-
---------------------------------------------------------------------
-
-Files from the app/xfwp package are covered by the following notice:
-
-include app/xfwp/COPYING
 
 --------------------------------------------------------------------
 
@@ -338,6 +151,12 @@ include app/xkbutils/COPYING
 
 --------------------------------------------------------------------
 
+Files from the app/xkill package are covered by the following notice:
+
+include app/xkill/COPYING
+
+--------------------------------------------------------------------
+
 Files from the app/xlsatoms package are covered by the following notice:
 
 include app/xlsatoms/COPYING
@@ -359,6 +178,12 @@ include app/xlsfonts/COPYING
 Files from the app/xlswins package are covered by the following notice:
 
 include app/xlswins/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xlock package are covered by the following notice:
+
+include app/xlock/COPYING
 
 --------------------------------------------------------------------
 
@@ -419,6 +244,12 @@ include app/xsetroot/COPYING
 Files from the app/xstdcmap package are covered by the following notice:
 
 include app/xstdcmap/COPYING
+
+--------------------------------------------------------------------
+
+Files from the app/xterm package are covered by the following notice:
+
+include app/xterm/COPYING
 
 --------------------------------------------------------------------
 
@@ -606,8 +437,3 @@ Files from the lib/libxtrans package are covered by the following notice:
 
 include lib/libxtrans/COPYING
 
---------------------------------------------------------------------
-
-Files from the app/proxymngr package are covered by the following notice:
-
-include app/proxymngr/COPYING

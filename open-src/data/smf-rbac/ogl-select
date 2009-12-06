@@ -1,6 +1,7 @@
-#!/bin/ksh
+#!/bin/ksh93
 #
-# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -27,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)ogl-select	1.4	07/09/04 SMI"
+# ident	"@(#)ogl-select	1.5	09/12/05 SMI"
 #
 
 . /lib/svc/share/smf_include.sh
 
 USAGE="Usage: $0 <method>"
 
-PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+PATH=/usr/bin:/usr/sbin
 
 DRIVER=""
 OGL_SELECT_DIR=/lib/opengl/ogl_select
@@ -46,19 +47,13 @@ OGL_SELECT_DIR=/lib/opengl/ogl_select
 # Users must not modify this script to change them - change via SMF properties
 #
 
-#
-# No support for SPARC, yet
-#
-if [ `uname -p` = "sparc" ]; then
-	exit $SMF_EXIT_OK
-fi
 
 # Default to MESA
 VENDOR="MESA"
 
 METHOD=$1
-if [ $# -lt 1 ] ; then
-	echo $USAGE
+if [[ $# -lt 1 ]] ; then
+	print $USAGE
 	exit $SMF_EXIT_ERR_FATAL
 fi
 shift
@@ -72,13 +67,13 @@ case $METHOD in
 		exit $SMF_EXIT_OK
 		;;
 	*)
-		echo "Invalid method $METHOD"
+		print "Invalid method $METHOD"
 		exit $SMF_EXIT_ERR_FATAL
 		;;
 esac
 
-if [ "$1" != "" ] ; then
-	echo $USAGE
+if [[ "$1" != "" ]] ; then
+	print $USAGE
 	exit $SMF_EXIT_ERR_FATAL
 fi
 
@@ -87,9 +82,9 @@ getprop() {
 	# The "" instance is to get the properties from the base service 
 	# without any instance specifier
 	svcprop -q -p $1 application/opengl/ogl-select
-	if [ $? -eq 0 ] ; then
+	if [[ $? -eq 0 ]] ; then
 		PROPVAL=$(svcprop -p $1 application/opengl/ogl-select)
-		if [ "$PROPVAL" == "\"\"" ] ; then
+		if [[ "$PROPVAL" == "\"\"" ]] ; then
 			PROPVAL=""
 		fi
 		return
@@ -104,45 +99,45 @@ readregistry()
 		'#'* | '')	# Ignore comments or empty lines
 			continue ;;
 		esac
-		if [ $DRIVERTMP = $DRIVER -a $VENDORTMP != '' ]; then
-			VENDOR=$VENDORTMP
+		if [[ "$DRIVERTMP" = "$DRIVER" && "$VENDORTMP" != '' ]]; then
+			VENDOR="$VENDORTMP"
 		fi
 	done
 }
 
 # Get the driver attached to the console
-DRIVER=`/usr/X/bin/constype`
+DRIVER="$(/usr/bin/constype)"
 
 REGISTRY=/tmp/ogl_select$$
-if [ -e $REGISTRY ]; then
-	rm -f $REGISTRY
+if [[ -e ${REGISTRY} ]]; then
+	rm -f ${REGISTRY}
 fi
-touch $REGISTRY
+touch ${REGISTRY}
 
-for x in $OGL_SELECT_DIR/*_vendor_select
+for x in ${OGL_SELECT_DIR}/*_vendor_select
 do
-	if [ -x $x ]; then
-		($x identify >> $REGISTRY)
+	if [[ -x "$x" ]]; then
+		($x identify >> ${REGISTRY})
 	fi
 done
  
-if [ -f $REGISTRY ]; then
-	readregistry < $REGISTRY
+if [[ -f ${REGISTRY} ]]; then
+	readregistry < ${REGISTRY}
 fi
 
 # Check for user override of vendor
 getprop options/vendor
-if [ "$PROPVAL" != "" -a "$PROPVAL" != "notset" ] ; then
-	VENDOR=$PROPVAL
+if [[ "$PROPVAL" != "" && "$PROPVAL" != "notset" ]] ; then
+	VENDOR="${PROPVAL}"
 fi
 
 # Force the vendor name to lower case
-VENDOR=`echo ${VENDOR} | /usr/bin/tr "[A-Z]" "[a-z]"`
+VENDOR=$(print ${VENDOR} | /usr/bin/tr "[A-Z]" "[a-z]")
 
 # Build vendor script name
-SELECT_SCRIPT=$OGL_SELECT_DIR/${VENDOR}_vendor_select
-if [ ! -x $SELECT_SCRIPT ]; then
-        echo $0 "Can't execute vendor select script:" $SELECT_SCRIPT
+SELECT_SCRIPT="${OGL_SELECT_DIR}/${VENDOR}_vendor_select"
+if [[ ! -x "${SELECT_SCRIPT}" ]]; then
+        print $0 "Can't execute vendor select script:" $SELECT_SCRIPT
         exit $SMF_EXIT_ERR_FATAL
 fi
 

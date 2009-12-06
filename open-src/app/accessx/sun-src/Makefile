@@ -1,5 +1,5 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	08/10/28
+# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 
 UIL = /usr/dt/bin/uil
 UIL_INCLUDES = -I/usr/dt/include/uil
@@ -48,12 +48,10 @@ accessx: $(OBJS)
 
 install: accessx
 	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
-	mkdir -p $(DESTDIR)$(PREFIX)/lib/app-defaults
-	mkdir -p $(DESTDIR)$(PREFIX)/lib/locale/C/help
-	mkdir -p $(DESTDIR)$(PREFIX)/lib/locale/C/app-defaults
+	mkdir -p $(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx
 	$(INSTALL) accessx $(DESTDIR)$(PREFIX)/bin
-	$(INSTALL) accessx.uid $(DESTDIR)$(PREFIX)/lib/app-defaults
 	$(INSTALL) accessx.1 $(DESTDIR)$(PREFIX)/share/man/man1
-	$(INSTALL) accessx.hlp $(DESTDIR)$(PREFIX)/lib/locale/C/help
-	$(INSTALL) accessx.uil $(DESTDIR)$(PREFIX)/lib/locale/C/app-defaults
-	$(INSTALL) accessxstrings.uil $(DESTDIR)$(PREFIX)/lib/locale/C/app-defaults
+	$(INSTALL) accessx.hlp $(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx/
+	$(INSTALL) accessx.uid $(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx/
+	$(INSTALL) accessx.uil $(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx/
+	$(INSTALL) accessxstrings.uil $(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx/

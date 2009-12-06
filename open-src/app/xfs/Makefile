@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2	09/06/18
+# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Package name used in tarballs
@@ -53,25 +53,27 @@ MODULE_STABILITY=Committed
 MODULE_CONFIG_OPTS= --sysconfdir=$(X11_DIR)/lib \
 	--enable-syslog --enable-inetd --disable-devel-docs \
 	--with-default-font-path='catalogue:/etc/X11/fontpath.d' \
-	--with-default-config-file='/etc/X11/fs/config,$(X11_DIR)/lib/X11/fs/config,/etc/openwin/fs/fontserver.cfg,/usr/openwin/lib/X11/fontserver.cfg'
+	--with-default-config-file='/etc/X11/fs/config,$(X11_X11LIB_DIR)/fs/config,/etc/openwin/fs/fontserver.cfg,/usr/openwin/lib/X11/fontserver.cfg'
 
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)
 
-# Make sure SMF manifest is valid before installing it
-MODULE_INSTALL_DEPS = check_smf
+MODULE_ADD_INSTALL_TARGETS = install_smf install_fsadmin
 
 include ../Makefile.inc
 
+# Make sure SMF manifest is valid before installing it
 check_smf: xfs.xml
 	/usr/sbin/svccfg validate xfs.xml
 
 SMF_MANIFEST_DIR=/var/svc/manifest/application/x11
 
-install_gen::
-	mkdir -p $(PROTODIR)$(SMF_MANIFEST_DIR) \
-		$(PROTODIR)$(X11_DIR)/bin \
-		$(PROTODIR)$(X11_DIR)/share/man/man1
+install_smf: check_smf
+	mkdir -p $(PROTODIR)$(SMF_MANIFEST_DIR)
 	$(INSTALL_SCRIPT) xfs.xml $(PROTODIR)$(SMF_MANIFEST_DIR)
-	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/bin
-	$(INSTALL_SCRIPT) fsadmin.1 $(PROTODIR)$(X11_DIR)/share/man/man1
+
+install_fsadmin:
+	mkdir -p $(PROTODIR)$(X11_DIR)/sbin \
+		$(PROTODIR)$(X11_MAN_DIR)/man/man1
+	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/sbin
+	$(INSTALL_SCRIPT) fsadmin.1 $(PROTODIR)$(X11_MAN_DIR)/man1

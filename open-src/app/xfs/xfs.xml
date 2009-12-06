@@ -30,7 +30,7 @@
     of the copyright holder.
 
 
-    ident	"@(#)xfs.xml	1.5	09/06/18 SMI"
+    ident	"@(#)xfs.xml	1.6	09/12/05 SMI"
 
     Service manifest for the X Window System font server (xfs).
 
@@ -60,13 +60,13 @@ fs stream tcp6 wait nobody /usr/openwin/lib/fs.auto fs
 	<exec_method
 		type='method'
 		name='inetd_start'
-		exec='/usr/X11/bin/xfs -inetd'
+		exec='/usr/bin/xfs -inetd'
 		timeout_seconds='-1'>
 		<method_context>
 			<method_credential user='noaccess' group='noaccess' />
 		</method_context>
 		<propval name='arg0' type='astring'
-		    value='/usr/X11/bin/xfs' />
+		    value='/usr/bin/xfs' />
 	</exec_method>
 
 	<exec_method
@@ -106,9 +106,9 @@ fs stream tcp6 wait nobody /usr/openwin/lib/fs.auto fs
 		</common_name>
 		<documentation>
 			<manpage title='xfs' section='1' 
-				manpath='/usr/X11/share/man' />
+				manpath='/usr/share/man' />
 			<manpage title='fsadmin' section='1' 
-				manpath='/usr/X11/share/man' />
+				manpath='/usr/share/man' />
 		</documentation>
 	</template>
 </service>

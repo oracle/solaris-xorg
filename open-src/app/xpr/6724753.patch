@@ -1,585 +1,811 @@
---- x2jet.c	2008-07-23 15:27:46.864480000 -0700
-+++ x2jet.c.new	2008-07-23 14:55:43.947706000 -0700
-@@ -86,6 +86,7 @@
- #define NL_SETN 2	/* set number */
- #include <nl_types.h>
- 
-+extern  char *catgets();
- extern	nl_catd	nlmsg_fd;
- 
- #endif /* NLS */
-@@ -131,6 +132,11 @@
- 
- static int true_scale;
- 
-+extern  char    *progname;
-+
-+void fatal_err();
-+void fatal_err2();
-+
- typedef struct {
-   unsigned long Rmask, Gmask, Bmask;
-   int Rshift, Gshift, Bshift;
-@@ -258,7 +264,6 @@
-   int scale,
-   enum orientation orient,
-   enum device device);
--static void fatal_err (const char *s, ...);
- 
- 
- /* Computes the centipoint width of one printer dot. */
-@@ -1046,21 +1051,21 @@
- 
-   switch (xwd_header.visual_class) {
-   case GrayScale:
--    if (depth > 8)  fatal_err(errmsg, depth, "GrayScale");    break;
-+    if (depth > 8)  fatal_err2(errmsg, depth, "GrayScale");    break;
-   case StaticGray:
--    if (depth > 8)  fatal_err(errmsg, depth, "StaticGray");    break;
-+    if (depth > 8)  fatal_err2(errmsg, depth, "StaticGray");    break;
-   case PseudoColor:
--    if (depth > 8)  fatal_err(errmsg, depth, "PseudoColor");    break;
-+    if (depth > 8)  fatal_err2(errmsg, depth, "PseudoColor");    break;
-   case StaticColor:
--    if (depth > 8)  fatal_err(errmsg, depth, "StaticColor");    break;
-+    if (depth > 8)  fatal_err2(errmsg, depth, "StaticColor");    break;
-   case DirectColor:
-   case TrueColor:
-     if (depth != 12 && depth != 24)
--       fatal_err(errmsg, depth, (xwd_header.visual_class == DirectColor)
-+       fatal_err2(errmsg, depth, (xwd_header.visual_class == DirectColor)
-                                ? "DirectColor" : "TrueColor");
-     break;
-   default:
--    fatal_err((catgets(nlmsg_fd,NL_SETN,26,
-+    fatal_err2((catgets(nlmsg_fd,NL_SETN,26,
- 		"visual class #%d not supported.\n")), xwd_header.visual_class);
-   }
- }
-@@ -1266,7 +1271,10 @@
-   if (device == PJETXL)
-      fprintf(out,"\033*rC");
-   else
-+  {
-      fprintf(out,"\033*rB");
-+     fprintf(out,"\033E");
-+  }
- 
-   /* If doing transparencies, tell it to stop */
-   if (slide && device != LJET)
-@@ -1682,10 +1690,19 @@
-   fclose(out);
- }
- 
--static
--void fatal_err (const char *s, ...)
-+
-+void fatal_err (s)
-+char * s;
- {
-   fprintf(stderr, "%s: %s\n", progname, s);
-   exit(EXIT_FAILURE);
- }
- 
-+void fatal_err2 (s, a1, a2, a3)
-+char *s;
-+char *a1, *a2, *a3;
-+{
-+  fprintf(stderr, "%s: ", progname);
-+  fprintf(stderr, s, a1, a2, a3);
-+  exit(1);
-+}
---- x2pmp.c	2004-11-07 23:22:50.000000000 -0800
-+++ x2pmp.c.new	2008-07-18 15:55:54.000000000 -0700
-@@ -19,6 +19,9 @@
- #define min_(a, b) ((a) < (b) ? (a) : (b))
- #define abs_(a)    ((a) < 0 ? -(a) : (a))
- 
-+/* global variables set by main() and used by x2pmp() */
-+extern char *progname;
-+extern int debug;
- 
- /* Local prototypes */
- static unsigned char *magnification_table(int scale);
---- xpr.c	2004-11-08 13:38:56.000000000 -0800
-+++ xpr.c.new	2008-07-23 14:47:23.000560000 -0700
-@@ -70,6 +70,35 @@
-  * to devices recognized.  Also added -density, -cutoff, and -noposition
-  * command line options.
-  *
-+ * Modified by Jay Hobson, Sun Microsystems to support paper sizes other
-+ * than 8.5x11 inches.
-+ *
-+ * Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, and/or sell copies of the Software, and to permit persons
-+ * to whom the Software is furnished to do so, provided that the above
-+ * copyright notice(s) and this permission notice appear in all copies of
-+ * the Software and that both the above copyright notice(s) and this
-+ * permission notice appear in supporting documentation.
-+ * 
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-+ * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-+ * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
-+ * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
-+ * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-+ * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-+ * 
-+ * Except as contained in this notice, the name of a copyright holder
-+ * shall not be used in advertising or otherwise to promote the sale, use
-+ * or other dealings in this Software without prior written authorization
-+ * of the copyright holder.
-  */
- 
- #include <X11/Xos.h>
-@@ -112,6 +141,9 @@
- #define W_PAGE 2550
- #define H_PAGE 3225
- 
-+#define PAPER_WIDTH 85*30 /* 8.5 inches */
-+#define PAPER_LENGTH 11*300 /* 11 inches */
-+
- #ifdef NOINLINE
- #define min(x,y) (((x)<(y))?(x):(y))
- #endif /* NOINLINE */
-@@ -134,6 +166,7 @@
- char *infilename = NULL;
- char *progname   = NULL;
- 
-+
- typedef struct _grayRec {
-     int level;
-     int sizeX, sizeY;		/* 2x2, 3x3, 4x4 */
-@@ -153,6 +186,50 @@
- GrayRec gray3x3 = {sizeof(grayscale3x3)/sizeof(long), 3, 3, grayscale3x3};
- GrayRec gray4x4 = {sizeof(grayscale4x4)/sizeof(long), 4, 4, grayscale4x4};
- 
-+typedef struct {
-+        char *name;
-+        double width;
-+        double length;
-+} PaperRec;
-+
-+PaperRec paper_size[] = {
-+        {"Letter", 8.5,  11.0 },
-+        {"Legal",  8.5,  14.0 },
-+        {"A0",    33.11, 46.81},
-+        {"A1",    23.39, 33.11},
-+        {"A2",    16.5,  23.39},
-+        {"A3",    11.7,  16.5 },
-+        {"A4",     8.27, 11.7 },
-+        {"A5",     5.83,  8.27},
-+        {"A6",     4.13,  5.83},
-+        {"A7",     2.91,  4.13},
-+        {"A8",     2.05,  2.91},
-+        {"A9",     1.46,  2.05},
-+        {"A10",    1.02,  1.46},
-+        {"B0",    39.37, 55.67},
-+        {"B1",    27.83, 39.37},
-+        {"B2",    19.69, 27.83},
-+        {"B3",    13.90, 19.69},
-+        {"B4",     9.84, 13.90},
-+        {"B5",     6.93,  9.84},
-+        {"B6",     4.92,  6.93},
-+        {"B7",     3.46,  4.92},
-+        {"B8",     2.44,  3.46},
-+        {"B9",     1.73,  2.44},
-+        {"B10",    1.22,  1.73},
-+        {"C0",    36.10, 51.06},
-+        {"C1",    25.51, 36.10},
-+        {"C2",    18.03, 25.51},
-+        {"C3",    12.76, 18.03},
-+        {"C4",     9.02, 12.76},
-+        {"C5",     6.38,  9.02},
-+        {"C6",     4.49,  6.38},
-+        {"C7",     3.19,  4.49},
-+        {"C8",     2.24,  3.19},
-+        {"C9",     1.57,  2.24},
-+        {"C10",    1.10,  1.57}};
-+
-+
- /* mapping tables to map a byte in to the hex representation of its
-  * bit-reversal
-  */
-@@ -190,7 +267,9 @@
-   int *density,
-   unsigned int *cutoff,
-   float *gamma,
--  int *render);
-+  int *render,
-+  int *paper_width,
-+  int *paper_length);
- static
- void setup_layout(
-   enum device device,
-@@ -202,7 +281,9 @@
-   char *header,
-   char *trailer,
-   int *scale,
--  enum orientation *orientation);
-+  enum orientation *orientation,
-+  int wmax,
-+  int hmax);
- static
- char *convert_data(
-     XWDFileHeader *win,
-@@ -255,7 +336,9 @@
-   int flags,
-   const char *header,
-   const char *trailer,
--  const char *name);
-+  const char *name,
-+  int paper_width,
-+  int paper_length);
- static void ps_finish(void);
- static void ln03_alter_background(
-   unsigned char (*sixmap)[],
-@@ -299,7 +382,7 @@
-   char *data,
-   int nbytes);  
-   
--int main(int argc, char **argv)
-+main(int argc, char **argv)
- {
-     unsigned long swaptest = 1;
-     XWDFileHeader win;
-@@ -324,6 +407,11 @@
-     enum orientation orientation;
-     enum device device;
-     XColor *colors = (XColor *)NULL;
-+    int paper_width  = PAPER_WIDTH;
-+    int paper_length = PAPER_LENGTH;
-+    int w_max        = W_MAX;
-+    int h_max        = H_MAX;
-+
-     
-     if (!(progname = argv[0]))
-       progname = "xpr";
-@@ -332,8 +420,13 @@
- #endif
-     parse_args (argc, argv, &scale, &width, &height, &left, &top, &device, 
- 		&flags, &split, &header, &trailer, &plane, &gray,
--		&density, &cutoff, &gamma, &render);
--    
-+		&density, &cutoff, &gamma, &render, &paper_width, &paper_length);
-+   
-+    if (paper_width != PAPER_WIDTH) 
-+	w_max = paper_width - 150;
-+    if (paper_length != PAPER_LENGTH)
-+	h_max = paper_length - 150;
-+
-     if (device == PP) {
- 	x2pmp(stdin, stdout, scale,
- 	      width >= 0? inch2pel((float)width/300.0): X_MAX_PELS,
-@@ -418,7 +511,8 @@
- 
-     /* calculate orientation and scale */
-     setup_layout(device, (int) win.pixmap_width, (int) win.pixmap_height,
--		 flags, width, height, header, trailer, &scale, &orientation);
-+		 flags, width, height, header, trailer, &scale, &orientation,
-+		 w_max, h_max);
- 
-     if (device == PS) {
- 	iw = win.pixmap_width;
-@@ -449,7 +543,7 @@
- 	la100_finish();
-     } else if (device == PS) {
- 	ps_setup(iw, ih, orientation, scale, left, top,
--		   flags, header, trailer, w_name);
-+		   flags, header, trailer, w_name, paper_width, paper_length);
- 	ps_output_bits(iw, ih, flags, orientation, &win, data);
- 	ps_finish();
-     } else {
-@@ -485,6 +579,8 @@
-     fprintf(stderr, "    -left <inches>  -top <inches>\n");
-     fprintf(stderr, "    -noposition\n");
-     fprintf(stderr, "    -nosixopt\n");
-+    fprintf(stderr, "    -papertype {letter | legal | A0-A10 | B0-B10 | C0-C10}\n");
-+    fprintf(stderr, "    -pheight <inches>[in | cm | mm] -pwidth <inches>[in | cm | mm]\n");
-     fprintf(stderr, "    -plane <n>\n");
-     fprintf(stderr, "    -psfig\n");
-     fprintf(stderr, "    -render <type>\n");
-@@ -515,7 +611,9 @@
-   int *density,
-   unsigned int *cutoff,
-   float *gamma,
--  int *render)
-+  int *render,
-+int *paper_width,
-+int *paper_length)
- {
-     register char *output_filename;
-     register int f;
-@@ -688,17 +786,54 @@
- 		usage();
- 	    break;
- 
--	case 'p':		/* -portrait | -plane <n> */
-+	case 'p':		/* -portrait | -plane <n> | -pwidth <n> | -pheight <n> */
- 	    if (len <= 2)
- 		usage();
- 	    if (!bcmp(*argv, "-portrait", len)) {
- 		*flags |= F_PORTRAIT;
-+	    } else if (!bcmp(*argv, "-papertype", len)) {
-+		int found = 0;
-+		int i;
-+
-+		argc--; argv++;
-+		if (argc == 0) usage();
-+		for ( i = 0; i < sizeof ( paper_size ) / sizeof ( PaperRec ); i++ )
-+		{
-+		    if ( !strcasecmp ( paper_size[i].name, *argv ))
-+		    {
-+			found = 1;		
-+			*paper_width  = (int)(300.0 * paper_size[i].width);
-+			*paper_length = (int)(300.0 * paper_size[i].length);
-+		    }		
-+		}
-+
-+		if ( !found ) usage();
- 	    } else if (!bcmp(*argv, "-plane", len)) {
- 		argc--; argv++;
- 		if (argc == 0) usage();
- 		*plane = atoi(*argv);
- 	    } else if (!bcmp(*argv, "-psfig", len)) {
- 		*flags |= F_NPOSITION;
-+	    } else if (!bcmp(*argv, "-pwidth", len)) {
-+		double mult = 1.0;
-+
-+		argc--; argv++;
-+		if (argc == 0) usage();
-+		if ( strstr ( *argv, "cm" ))
-+		    mult = 2.54;
-+		else if ( strstr ( *argv, "mm" ))
-+		    mult = 25.4;
-+		*paper_width = (int)(300.0 * atof(*argv) / mult);
-+	    } else if (!bcmp(*argv, "-pheight", len)) {
-+		double mult = 1.0;
-+
-+		argc--; argv++;
-+		if (argc == 0) usage();
-+		if ( strstr ( *argv, "cm" ))
-+		    mult = 2.54;
-+		else if ( strstr ( *argv, "mm" ))
-+		    mult = 25.4;
-+		*paper_length = (int)(300.0 * atof(*argv) / mult);
- 	    } else
- 		usage();
- 	    break;
-@@ -816,7 +951,9 @@
-   char *header,
-   char *trailer,
-   int *scale,
--  enum orientation *orientation)
-+  enum orientation *orientation,
-+  int wmax,
-+  int hmax)
- {
-     register int w_scale;
-     register int h_scale;
-@@ -832,22 +969,22 @@
- 	if ((win_width < win_height || (flags & F_PORTRAIT)) && 
- 	    !(flags & F_LANDSCAPE)) {
- 	    *orientation = PORTRAIT;
--	    w_max = (width > 0)? width : W_MAX;
--	    h_max = (height > 0)? height : H_MAX;
-+	    w_max = (width > 0)? width : wmax;
-+	    h_max = (height > 0)? height : hmax;
- 	    w_scale = w_max / win_width;
- 	    h_scale = h_max / win_height;
- 	    *scale = min(w_scale, h_scale);
- 	} else {
- 	    *orientation = LANDSCAPE;
--	    w_max = (width > 0)? width : H_MAX;
--	    h_max = (height > 0)? height : W_MAX;
-+	    w_max = (width > 0)? width : hmax;
-+	    h_max = (height > 0)? height : wmax;
- 	    w_scale = w_max / win_width;
- 	    h_scale = h_max / win_height;
- 	    *scale = min(w_scale, h_scale);
- 	}
-     } else {			/* device == LA100 */
- 	*orientation = PORTRAIT;
--	*scale = W_MAX / win_width;
-+	*scale = wmax / win_width;
-     }
-     if (*scale == 0) *scale = 1;
-     if (*scale > 6) *scale = 6;
-@@ -1445,7 +1582,9 @@
-   int flags,
-   const char *header,
-   const char *trailer,
--  const char *name)
-+  const char *name,
-+  int paper_width,
-+  int paper_length)
- {
-     char    hostname[256];
- #ifdef WIN32
-@@ -1559,7 +1698,7 @@
- static
- void ps_finish(void)
- {
--	char **p = ps_epilog;
-+	const char **p = ps_epilog;
- 
- 	while (*p) printf("%s\n",*p++);
- }
---- xpr.man	2008-07-23 15:31:10.000000000 -0700
-+++ xpr.man.new	2008-07-24 09:43:48.183505000 -0700
-@@ -54,6 +54,19 @@
- .B \-split
- .I n
- ] [
-+.B \-papertype
-+.I format
-+] [
-+.B \-pheight
-+.I inches
-+[
-+.I units
-+]] [
-+.B \-pwidth
-+.I inches
-+[
-+.I units
-+]] [
- .B \-psfig
- ] [
- .B \-density
-@@ -182,8 +195,127 @@
- This option allows the user to split a window onto several pages.  
- This might be necessary for very large windows that would otherwise
- cause the printer to overload and print the page in an obscure manner.
-+.IP "\fB\-papertype\fP \fIformat\fP"
-+Specifies the output paper format.  Currently supported:
-+.RS 12
-+.PD 0
-+.TP
-+.B letter
-+letter size 8.5x11 inches
-+.TP
-+.B legal
-+legal size 8.5x14 inches
-+.TP
-+.B A0
-+A0  size  841x1189 mm or 33.11x46.81 inches
-+.TP
-+.B A1
-+A1  size  594x841  mm or 23.39x33.11 inches
-+.TP
-+.B A2
-+A2  size  420x594  mm or 16.54x23.39 inches
-+.TP
-+.B A3
-+A3  size  297x420  mm or 11.69x16.54 inches
-+.TP
-+.B A4
-+A4  size  210x297  mm or  8.27x11.69 inches
-+.TP
-+.B A5
-+A5  size  148x210  mm or  5.83x 8.27 inches
-+.TP
-+.B A6
-+A6  size  105x148  mm or  4.13x 5.83 inches
-+.TP
-+.B A7
-+A7  size   74x105  mm or  2.91x 4.13 inches
-+.TP
-+.B A8
-+A8  size   52x74   mm or  2.05x 2.91 inches
-+.TP
-+.B A9
-+A9  size   37x52   mm or  1.46x 2.05 inches
-+.TP
-+.B A10
-+A10 size   26x37   mm or  1.02x 1.46 inches
-+.TP
-+.B B0
-+B0  size 1000x1414 mm or 39.37x55.67
-+.TP
-+.B B1
-+B1  size  707x1000 mm or 27.83x39.37 inches
-+.TP
-+.B B2
-+B2  size  500x707  mm or 19.69x27.83 inches
-+.TP
-+.B B3
-+B3  size  353x500  mm or 13.90x19.69 inches
-+.TP
-+.B B4
-+B4  size  250x353  mm or  9.84x13.90 inches
-+.TP
-+.B B5
-+B5  size  176x250  mm or  6.93x 9.84 inches
-+.TP
-+.B B6
-+B6  size  125x176  mm or  4.92x 6.93 inches
-+.TP
-+.B B7
-+B7  size   88x125  mm or  3.46x 4.92 inches
-+.TP
-+.B B8
-+B8  size   62x88   mm or  2.44x 3.46 inches
-+.TP
-+.B B9
-+B9  size   44x62   mm or  1.73x 2.44 inches
-+.TP
-+.B B10
-+B10 size   31x44   mm or  1.22x 1.73 inches
-+.TP
-+.B C0
-+C0  size  917x1297 mm or 36.10x51.06 inches
-+.TP
-+.B C1
-+C1  size  648x917  mm or 25.51x36.10 inches
-+.TP
-+.B C2
-+C2  size  458x648  mm or 18.03x25.51 inches
-+.TP
-+.B C3
-+C3  size  324x458  mm or 12.76x18.03 inches
-+.TP
-+.B C4
-+C4  size  229x324  mm or  9.02x12.76 inches
-+.TP
-+.B C5
-+C5  size  162x229  mm or  6.38x 9.02 inches
-+.TP
-+.B C6
-+C6  size  114x162  mm or  4.49x 6.38 inches
-+.TP
-+.B C7
-+C7  size   81x114  mm or  3.19x 4.49 inches
-+.TP
-+.B C8
-+C8  size   57x81   mm or  2.24x 3.19 inches
-+.TP
-+.B C9
-+C9  size   40x57   mm or  1.57x 2.24 inches
-+.TP
-+.B C10
-+C10 size   28x40   mm or  1.10x 1.57 inches
-+.PD
-+.RE
-+.IP "\fB\-pheight\fP \fIinches\fP [ \fIunits\fP ]"
-+This option allows the user to specify a specific paper height. The
-+default units are in inches (in), but may be overridden with cm or mm
-+for centimeters or millimeters respectively.
-+.IP "\fB\-pwidth\fP \fIinches\fP [ \fIunits\fP ]"
-+This option allows the user to specify a specific paper width. The
-+default units are in inches (in), but may be overridden with cm or mm
-+for centimeters or millimeters respectively.
- .IP "\fB\-psfig\fP"
--Suppress translation of the PostScript picture to the center of the page.
-+Suppress translation of the PostScript picture to the center of the page. \fI \fP
- .IP "\fB\-density\fP \fIdpi\fP"
- Indicates what dot-per-inch density should be used by the HP printer.
- .IP "\fB\-cutoff\fP \fIlevel\fP"
+*** xpr.man	Thu Nov 12 17:56:45 2009
+--- xpr.man.new	Thu Nov 12 18:05:50 2009
+***************
+*** 53,58 ****
+--- 53,71 ----
+  .B \-split
+  .I n
+  ] [
++ .B \-papertype
++ .I format
++ ] [
++ .B \-pheight
++ .I inches
++ [
++ .I units
++ ]] [
++ .B \-pwidth
++ .I inches
++ [
++ .I units
++ ]] [
+  .B \-psfig
+  ] [
+  .B \-density
+***************
+*** 181,188 ****
+  This option allows the user to split a window onto several pages.  
+  This might be necessary for very large windows that would otherwise
+  cause the printer to overload and print the page in an obscure manner.
+! .IP "\fB\-psfig\fP"
+! Suppress translation of the PostScript picture to the center of the page.
+  .IP "\fB\-density\fP \fIdpi\fP"
+  Indicates what dot-per-inch density should be used by the HP printer.
+  .IP "\fB\-cutoff\fP \fIlevel\fP"
+--- 195,321 ----
+  This option allows the user to split a window onto several pages.  
+  This might be necessary for very large windows that would otherwise
+  cause the printer to overload and print the page in an obscure manner.
+! .IP "\fB\-papertype\fP \fIformat\fP"
+! Specifies the output paper format.  Currently supported:
+! .RS 12
+! .PD 0
+! .TP
+! .B letter
+! letter size 8.5x11 inches
+! .TP
+! .B legal
+! legal size 8.5x14 inches
+! .TP
+! .B A0
+! A0  size  841x1189 mm or 33.11x46.81 inches
+! .TP
+! .B A1
+! A1  size  594x841  mm or 23.39x33.11 inches
+! .TP
+! .B A2
+! A2  size  420x594  mm or 16.54x23.39 inches
+! .TP
+! .B A3
+! A3  size  297x420  mm or 11.69x16.54 inches
+! .TP
+! .B A4
+! A4  size  210x297  mm or  8.27x11.69 inches
+! .TP
+! .B A5
+! A5  size  148x210  mm or  5.83x 8.27 inches
+! .TP
+! .B A6
+! A6  size  105x148  mm or  4.13x 5.83 inches
+! .TP
+! .B A7
+! A7  size   74x105  mm or  2.91x 4.13 inches
+! .TP
+! .B A8
+! A8  size   52x74   mm or  2.05x 2.91 inches
+! .TP
+! .B A9
+! A9  size   37x52   mm or  1.46x 2.05 inches
+! .TP
+! .B A10
+! A10 size   26x37   mm or  1.02x 1.46 inches
+! .TP
+! .B B0
+! B0  size 1000x1414 mm or 39.37x55.67
+! .TP
+! .B B1
+! B1  size  707x1000 mm or 27.83x39.37 inches
+! .TP
+! .B B2
+! B2  size  500x707  mm or 19.69x27.83 inches
+! .TP
+! .B B3
+! B3  size  353x500  mm or 13.90x19.69 inches
+! .TP
+! .B B4
+! B4  size  250x353  mm or  9.84x13.90 inches
+! .TP
+! .B B5
+! B5  size  176x250  mm or  6.93x 9.84 inches
+! .TP
+! .B B6
+! B6  size  125x176  mm or  4.92x 6.93 inches
+! .TP
+! .B B7
+! B7  size   88x125  mm or  3.46x 4.92 inches
+! .TP
+! .B B8
+! B8  size   62x88   mm or  2.44x 3.46 inches
+! .TP
+! .B B9
+! B9  size   44x62   mm or  1.73x 2.44 inches
+! .TP
+! .B B10
+! B10 size   31x44   mm or  1.22x 1.73 inches
+! .TP
+! .B C0
+! C0  size  917x1297 mm or 36.10x51.06 inches
+! .TP
+! .B C1
+! C1  size  648x917  mm or 25.51x36.10 inches
+! .TP
+! .B C2
+! C2  size  458x648  mm or 18.03x25.51 inches
+! .TP
+! .B C3
+! C3  size  324x458  mm or 12.76x18.03 inches
+! .TP
+! .B C4
+! C4  size  229x324  mm or  9.02x12.76 inches
+! .TP
+! .B C5
+! C5  size  162x229  mm or  6.38x 9.02 inches
+! .TP
+! .B C6
+! C6  size  114x162  mm or  4.49x 6.38 inches
+! .TP
+! .B C7
+! C7  size   81x114  mm or  3.19x 4.49 inches
+! .TP
+! .B C8
+! C8  size   57x81   mm or  2.24x 3.19 inches
+! .TP
+! .B C9
+! C9  size   40x57   mm or  1.57x 2.24 inches
+! .TP
+! .B C10
+! C10 size   28x40   mm or  1.10x 1.57 inches
+! .PD
+! .RE
+! .IP "\fB\-pheight\fP \fIinches\fP [ \fIunits\fP ]"
+! This option allows the user to specify a specific paper height. The
+! default units are in inches (in), but may be overridden with cm or mm
+! for centimeters or millimeters respectively.
+! .IP "\fB\-pwidth\fP \fIinches\fP [ \fIunits\fP ]"
+! This option allows the user to specify a specific paper width. The
+! default units are in inches (in), but may be overridden with cm or mm
+! for centimeters or millimeters respectively.
+!  .IP "\fB\-psfig\fP"
+! Suppress translation of the PostScript picture to the center of the page. \fI \fP
+  .IP "\fB\-density\fP \fIdpi\fP"
+  Indicates what dot-per-inch density should be used by the HP printer.
+  .IP "\fB\-cutoff\fP \fIlevel\fP"
+*** x2jet.c	Sat Jan 24 14:54:44 2009
+--- x2jet.c.new	Thu Nov 12 17:57:32 2009
+***************
+*** 87,92 ****
+--- 87,93 ----
+  #define NL_SETN 2	/* set number */
+  #include <nl_types.h>
+  
++ extern char *catgets();
+  extern	nl_catd	nlmsg_fd;
+  
+  #endif /* NLS */
+***************
+*** 132,137 ****
+--- 133,143 ----
+  
+  static int true_scale;
+  
++ extern char *progname;
++ 
++ void fatal_err();
++ void fatal_err2();
++ 
+  typedef struct {
+    unsigned long Rmask, Gmask, Bmask;
+    int Rshift, Gshift, Bshift;
+***************
+*** 259,269 ****
+    int scale,
+    enum orientation orient,
+    enum device device);
+- static void fatal_err (const char *s, ...)
+- #if defined(__GNUC__) && (__GNUC__ > 2)
+- __attribute__((noreturn, format(printf, 1, 2)))
+- #endif
+-     ;
+  
+  
+  /* Computes the centipoint width of one printer dot. */
+--- 265,270 ----
+***************
+*** 1052,1072 ****
+  
+    switch (xwd_header.visual_class) {
+    case GrayScale:
+!     if (depth > 8)  fatal_err(errmsg, depth, "GrayScale");    break;
+    case StaticGray:
+!     if (depth > 8)  fatal_err(errmsg, depth, "StaticGray");    break;
+    case PseudoColor:
+!     if (depth > 8)  fatal_err(errmsg, depth, "PseudoColor");    break;
+    case StaticColor:
+!     if (depth > 8)  fatal_err(errmsg, depth, "StaticColor");    break;
+    case DirectColor:
+    case TrueColor:
+      if (depth != 12 && depth != 24)
+!        fatal_err(errmsg, depth, (xwd_header.visual_class == DirectColor)
+                                 ? "DirectColor" : "TrueColor");
+      break;
+    default:
+!     fatal_err((catgets(nlmsg_fd,NL_SETN,26,
+  		       "visual class #%d not supported.\n")),
+  	      (int)xwd_header.visual_class);
+    }
+--- 1053,1073 ----
+  
+    switch (xwd_header.visual_class) {
+    case GrayScale:
+!     if (depth > 8)  fatal_err2(errmsg, depth, "GrayScale");    break;
+    case StaticGray:
+!     if (depth > 8)  fatal_err2(errmsg, depth, "StaticGray");    break;
+    case PseudoColor:
+!     if (depth > 8)  fatal_err2(errmsg, depth, "PseudoColor");    break;
+    case StaticColor:
+!     if (depth > 8)  fatal_err2(errmsg, depth, "StaticColor");    break;
+    case DirectColor:
+    case TrueColor:
+      if (depth != 12 && depth != 24)
+!        fatal_err2(errmsg, depth, (xwd_header.visual_class == DirectColor)
+                                 ? "DirectColor" : "TrueColor");
+      break;
+    default:
+!     fatal_err2((catgets(nlmsg_fd,NL_SETN,26,
+  		       "visual class #%d not supported.\n")),
+  	      (int)xwd_header.visual_class);
+    }
+***************
+*** 1273,1279 ****
+--- 1274,1283 ----
+    if (device == PJETXL)
+       fprintf(out,"\033*rC");
+    else
++   {
+       fprintf(out,"\033*rB");
++      fprintf(out,"\033E");
++   }
+  
+    /* If doing transparencies, tell it to stop */
+    if (slide && device != LJET)
+***************
+*** 1692,1707 ****
+    fclose(out);
+  }
+  
+! static
+! void fatal_err (const char *s, ...)
+  {
+!     va_list	ap;
+  
+!     fprintf(stderr, "%s: ", progname);
+!     va_start(ap, s);
+!     vfprintf(stderr, s, ap);
+!     va_end(ap);
+!     fputc('\n', stderr);
+!     exit(EXIT_FAILURE);
+  }
+  
+--- 1696,1715 ----
+    fclose(out);
+  }
+  
+! 
+! void fatal_err (s)
+! char * s;
+  {
+!   fprintf(stderr, "%s: %s\n", progname, s);
+!   exit(EXIT_FAILURE);
+! }
+  
+! void fatal_err2 (s, a1, a2, a3)
+! char *s;
+! char *a1, *a2, *a3;
+! {
+!   fprintf(stderr, "%s: ", progname);
+!   fprintf(stderr, s, a1, a2, a3);
+!   exit(1);
+  }
+  
+*** xpr.c	Sat Jan 24 14:54:44 2009
+--- xpr.c.new	Thu Nov 12 17:57:17 2009
+***************
+*** 70,75 ****
+--- 70,104 ----
+   * to devices recognized.  Also added -density, -cutoff, and -noposition
+   * command line options.
+   *
++  * Modified by Jay Hobson, Sun Microsystems to support paper sizes other
++  * than 8.5x11 inches.
++  *
++  * Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
++  *
++  * Permission is hereby granted, free of charge, to any person obtaining a
++  * copy of this software and associated documentation files (the
++  * "Software"), to deal in the Software without restriction, including
++  * without limitation the rights to use, copy, modify, merge, publish,
++  * distribute, and/or sell copies of the Software, and to permit persons
++  * to whom the Software is furnished to do so, provided that the above
++  * copyright notice(s) and this permission notice appear in all copies of
++  * the Software and that both the above copyright notice(s) and this
++  * permission notice appear in supporting documentation.
++  *
++  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++  * OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
++  * HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
++  * INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
++  * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
++  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
++  * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++  *
++  * Except as contained in this notice, the name of a copyright holder
++  * shall not be used in advertising or otherwise to promote the sale, use
++  * or other dealings in this Software without prior written authorization
++  * of the copyright holder.
+   */
+  
+  #include <X11/Xos.h>
+***************
+*** 112,117 ****
+--- 141,149 ----
+  #define W_PAGE 2550
+  #define H_PAGE 3225
+  
++ #define PAPER_WIDTH 85*30 /* 8.5 inches */
++ #define PAPER_LENGTH 11*300 /* 11 inches */
++ 
+  #ifdef NOINLINE
+  #define min(x,y) (((x)<(y))?(x):(y))
+  #endif /* NOINLINE */
+***************
+*** 153,158 ****
+--- 185,234 ----
+  static GrayRec gray3x3 = {sizeof(grayscale3x3)/sizeof(long), 3, 3, grayscale3x3};
+  static GrayRec gray4x4 = {sizeof(grayscale4x4)/sizeof(long), 4, 4, grayscale4x4};
+  
++ typedef struct {
++         char *name;
++         double width;
++         double length;
++ } PaperRec;
++ 
++ PaperRec paper_size[] = {
++         {"Letter", 8.5,  11.0 },
++         {"Legal",  8.5,  14.0 },
++         {"A0",    33.11, 46.81},
++         {"A1",    23.39, 33.11},
++         {"A2",    16.5,  23.39},
++         {"A3",    11.7,  16.5 },
++         {"A4",     8.27, 11.7 },
++         {"A5",     5.83,  8.27},
++         {"A6",     4.13,  5.83},
++         {"A7",     2.91,  4.13},
++         {"A8",     2.05,  2.91},
++         {"A9",     1.46,  2.05},
++         {"A10",    1.02,  1.46},
++         {"B0",    39.37, 55.67},
++         {"B1",    27.83, 39.37},
++         {"B2",    19.69, 27.83},
++         {"B3",    13.90, 19.69},
++         {"B4",     9.84, 13.90},
++         {"B5",     6.93,  9.84},
++         {"B6",     4.92,  6.93},
++         {"B7",     3.46,  4.92},
++         {"B8",     2.44,  3.46},
++         {"B9",     1.73,  2.44},
++         {"B10",    1.22,  1.73},
++         {"C0",    36.10, 51.06},
++         {"C1",    25.51, 36.10},
++         {"C2",    18.03, 25.51},
++         {"C3",    12.76, 18.03},
++         {"C4",     9.02, 12.76},
++         {"C5",     6.38,  9.02},
++         {"C6",     4.49,  6.38},
++         {"C7",     3.19,  4.49},
++         {"C8",     2.24,  3.19},
++         {"C9",     1.57,  2.24},
++         {"C10",    1.10,  1.57}};
++ 
++ 
+  /* mapping tables to map a byte in to the hex representation of its
+   * bit-reversal
+   */
+***************
+*** 190,196 ****
+    int *density,
+    unsigned int *cutoff,
+    float *gamma,
+!   int *render);
+  static
+  void setup_layout(
+    enum device device,
+--- 266,274 ----
+    int *density,
+    unsigned int *cutoff,
+    float *gamma,
+!   int *render,
+!   int *paper_width,
+!   int *paper_length);
+  static
+  void setup_layout(
+    enum device device,
+***************
+*** 202,208 ****
+    char *header,
+    char *trailer,
+    int *scale,
+!   enum orientation *orientation);
+  static
+  char *convert_data(
+      XWDFileHeader *win,
+--- 280,288 ----
+    char *header,
+    char *trailer,
+    int *scale,
+!   enum orientation *orientation,
+!   int wmax,
+!   int hmax);
+  static
+  char *convert_data(
+      XWDFileHeader *win,
+***************
+*** 236,242 ****
+    int *top_margin,
+    int flags,
+    const char *header,
+!   const char *trailer);
+  static void ln03_finish(void);
+  static void la100_setup(int iw, int ih, int scale);
+  static void la100_finish(void);
+--- 316,324 ----
+    int *top_margin,
+    int flags,
+    const char *header,
+!   const char *trailer,
+!   int paper_width,
+!   int paper_length);
+  static void ln03_finish(void);
+  static void la100_setup(int iw, int ih, int scale);
+  static void la100_finish(void);
+***************
+*** 254,260 ****
+    int flags,
+    const char *header,
+    const char *trailer,
+!   const char *name);
+  static void ps_finish(void);
+  static
+  void ln03_output_sixels(
+--- 336,344 ----
+    int flags,
+    const char *header,
+    const char *trailer,
+!   const char *name,
+!   int paper_width,
+!   int paper_length);
+  static void ps_finish(void);
+  static
+  void ln03_output_sixels(
+***************
+*** 294,300 ****
+    char *data,
+    int nbytes);  
+    
+! int main(int argc, char **argv)
+  {
+      unsigned long swaptest = 1;
+      XWDFileHeader win;
+--- 378,384 ----
+    char *data,
+    int nbytes);  
+    
+! main(int argc, char **argv)
+  {
+      unsigned long swaptest = 1;
+      XWDFileHeader win;
+***************
+*** 319,324 ****
+--- 403,412 ----
+      enum orientation orientation;
+      enum device device;
+      XColor *colors = (XColor *)NULL;
++     int paper_width  = PAPER_WIDTH;
++     int paper_length = PAPER_LENGTH;
++     int w_max        = W_MAX;
++     int h_max        = W_MAX;
+      
+      if (!(progname = argv[0]))
+        progname = "xpr";
+***************
+*** 327,333 ****
+  #endif
+      parse_args (argc, argv, &scale, &width, &height, &left, &top, &device, 
+  		&flags, &split, &header, &trailer, &plane, &gray,
+! 		&density, &cutoff, &gamma, &render);
+      
+      if (device == PP) {
+  	x2pmp(stdin, stdout, scale,
+--- 415,428 ----
+  #endif
+      parse_args (argc, argv, &scale, &width, &height, &left, &top, &device, 
+  		&flags, &split, &header, &trailer, &plane, &gray,
+! 		&density, &cutoff, &gamma, &render, &paper_width, &paper_length);
+! 
+!     if (paper_width != PAPER_WIDTH)
+!        w_max = paper_width - 150;
+!     if (paper_length != PAPER_LENGTH)
+!        h_max = paper_length - 150;
+! 
+! 
+      
+      if (device == PP) {
+  	x2pmp(stdin, stdout, scale,
+***************
+*** 413,419 ****
+  
+      /* calculate orientation and scale */
+      setup_layout(device, (int) win.pixmap_width, (int) win.pixmap_height,
+! 		 flags, width, height, header, trailer, &scale, &orientation);
+  
+      if (device == PS) {
+  	iw = win.pixmap_width;
+--- 508,515 ----
+  
+      /* calculate orientation and scale */
+      setup_layout(device, (int) win.pixmap_width, (int) win.pixmap_height,
+! 		 flags, width, height, header, trailer, &scale, &orientation,
+! 		 w_max, h_max);
+  
+      if (device == PS) {
+  	iw = win.pixmap_width;
+***************
+*** 435,441 ****
+      if (device == LN03) {
+  /*	ln03_grind_fonts(sixmap, iw, ih, scale, &pixmap); */
+  	ln03_setup(iw, ih, orientation, scale, left, top,
+! 		   &left_margin, &top_margin, flags, header, trailer);
+  	ln03_output_sixels(sixmap, iw, ih, (flags & F_NOSIXOPT), split, 
+  			   scale, top_margin, left_margin);
+  	ln03_finish();
+--- 531,537 ----
+      if (device == LN03) {
+  /*	ln03_grind_fonts(sixmap, iw, ih, scale, &pixmap); */
+  	ln03_setup(iw, ih, orientation, scale, left, top,
+! 		   &left_margin, &top_margin, flags, header, trailer, paper_width, paper_length);
+  	ln03_output_sixels(sixmap, iw, ih, (flags & F_NOSIXOPT), split, 
+  			   scale, top_margin, left_margin);
+  	ln03_finish();
+***************
+*** 445,451 ****
+  	la100_finish();
+      } else if (device == PS) {
+  	ps_setup(iw, ih, orientation, scale, left, top,
+! 		   flags, header, trailer, w_name);
+  	ps_output_bits(iw, ih, flags, orientation, &win, data);
+  	ps_finish();
+      } else {
+--- 541,547 ----
+  	la100_finish();
+      } else if (device == PS) {
+  	ps_setup(iw, ih, orientation, scale, left, top,
+! 		   flags, header, trailer, w_name, paper_width, paper_length);
+  	ps_output_bits(iw, ih, flags, orientation, &win, data);
+  	ps_finish();
+      } else {
+***************
+*** 481,486 ****
+--- 577,584 ----
+      fprintf(stderr, "    -left <inches>  -top <inches>\n");
+      fprintf(stderr, "    -noposition\n");
+      fprintf(stderr, "    -nosixopt\n");
++     fprintf(stderr, "    -papertype {letter | legal | A0-A10 | B0-B10 | C0-C10}\n");
++     fprintf(stderr, "    -pheight <inches>[in | cm | mm] -pwidth <inches>[in | cm | mm]\n");
+      fprintf(stderr, "    -plane <n>\n");
+      fprintf(stderr, "    -psfig\n");
+      fprintf(stderr, "    -render <type>\n");
+***************
+*** 511,517 ****
+    int *density,
+    unsigned int *cutoff,
+    float *gamma,
+!   int *render)
+  {
+      register char *output_filename;
+      register int f;
+--- 609,617 ----
+    int *density,
+    unsigned int *cutoff,
+    float *gamma,
+!   int *render,
+!   int *paper_width,
+!   int *paper_length)
+  {
+      register char *output_filename;
+      register int f;
+***************
+*** 684,694 ****
+  		usage();
+  	    break;
+  
+! 	case 'p':		/* -portrait | -plane <n> */
+  	    if (len <= 2)
+  		usage();
+  	    if (!bcmp(*argv, "-portrait", len)) {
+  		*flags |= F_PORTRAIT;
+  	    } else if (!bcmp(*argv, "-plane", len)) {
+  		argc--; argv++;
+  		if (argc == 0) usage();
+--- 784,811 ----
+  		usage();
+  	    break;
+  
+! 	case 'p':		/* -portrait | -plane <n> | -pwidth <n> | -pheight <n> */
+  	    if (len <= 2)
+  		usage();
+  	    if (!bcmp(*argv, "-portrait", len)) {
+  		*flags |= F_PORTRAIT;
++             } else if (!bcmp(*argv, "-papertype", len)) {
++                int found = 0;
++                int i;
++ 
++                argc--; argv++;
++                if (argc == 0) usage();
++                for ( i = 0; i < sizeof ( paper_size ) / sizeof ( PaperRec ); i++ )
++                {
++                    if ( !strcasecmp ( paper_size[i].name, *argv ))
++                    {
++                        found = 1;
++                        *paper_width  = (int)(300.0 * paper_size[i].width);
++                        *paper_length = (int)(300.0 * paper_size[i].length);
++                    }
++                }
++ 
++                if ( !found ) usage();
+  	    } else if (!bcmp(*argv, "-plane", len)) {
+  		argc--; argv++;
+  		if (argc == 0) usage();
+***************
+*** 695,700 ****
+--- 812,837 ----
+  		*plane = atoi(*argv);
+  	    } else if (!bcmp(*argv, "-psfig", len)) {
+  		*flags |= F_NPOSITION;
++            } else if (!bcmp(*argv, "-pwidth", len)) {
++                double mult = 1.0;
++ 
++                argc--; argv++;
++                if (argc == 0) usage();
++                if ( strstr ( *argv, "cm" ))
++                    mult = 2.54;
++                else if ( strstr ( *argv, "mm" ))
++                    mult = 25.4;
++                *paper_width = (int)(300.0 * atof(*argv) / mult);
++            } else if (!bcmp(*argv, "-pheight", len)) {
++                double mult = 1.0;
++ 
++                argc--; argv++;
++                if (argc == 0) usage();
++                if ( strstr ( *argv, "cm" ))
++                    mult = 2.54;
++                else if ( strstr ( *argv, "mm" ))
++                    mult = 25.4;
++                *paper_length = (int)(300.0 * atof(*argv) / mult);
+  	    } else
+  		usage();
+  	    break;
+***************
+*** 812,818 ****
+    char *header,
+    char *trailer,
+    int *scale,
+!   enum orientation *orientation)
+  {
+      register int w_scale;
+      register int h_scale;
+--- 949,957 ----
+    char *header,
+    char *trailer,
+    int *scale,
+!   enum orientation *orientation,
+!   int wmax,
+!   int hmax)
+  {
+      register int w_scale;
+      register int h_scale;
+***************
+*** 828,842 ****
+  	if ((win_width < win_height || (flags & F_PORTRAIT)) && 
+  	    !(flags & F_LANDSCAPE)) {
+  	    *orientation = PORTRAIT;
+! 	    w_max = (width > 0)? width : W_MAX;
+! 	    h_max = (height > 0)? height : H_MAX;
+  	    w_scale = w_max / win_width;
+  	    h_scale = h_max / win_height;
+  	    *scale = min(w_scale, h_scale);
+  	} else {
+  	    *orientation = LANDSCAPE;
+! 	    w_max = (width > 0)? width : H_MAX;
+! 	    h_max = (height > 0)? height : W_MAX;
+  	    w_scale = w_max / win_width;
+  	    h_scale = h_max / win_height;
+  	    *scale = min(w_scale, h_scale);
+--- 967,981 ----
+  	if ((win_width < win_height || (flags & F_PORTRAIT)) && 
+  	    !(flags & F_LANDSCAPE)) {
+  	    *orientation = PORTRAIT;
+! 	    w_max = (width > 0)? width : wmax;
+! 	    h_max = (height > 0)? height : hmax;
+  	    w_scale = w_max / win_width;
+  	    h_scale = h_max / win_height;
+  	    *scale = min(w_scale, h_scale);
+  	} else {
+  	    *orientation = LANDSCAPE;
+! 	    w_max = (width > 0)? width : hmax;
+! 	    h_max = (height > 0)? height : wmax;
+  	    w_scale = w_max / win_width;
+  	    h_scale = h_max / win_height;
+  	    *scale = min(w_scale, h_scale);
+***************
+*** 843,849 ****
+  	}
+      } else {			/* device == LA100 */
+  	*orientation = PORTRAIT;
+! 	*scale = W_MAX / win_width;
+      }
+      if (*scale == 0) *scale = 1;
+      if (*scale > 6) *scale = 6;
+--- 982,988 ----
+  	}
+      } else {			/* device == LA100 */
+  	*orientation = PORTRAIT;
+! 	*scale = wmax / win_width;
+      }
+      if (*scale == 0) *scale = 1;
+      if (*scale > 6) *scale = 6;
+***************
+*** 1150,1156 ****
+    int *top_margin,
+    int flags,
+    const char *header,
+!   const char *trailer)
+  {
+      register int i;
+      register int lm, tm, xm;
+--- 1289,1297 ----
+    int *top_margin,
+    int flags,
+    const char *header,
+!   const char *trailer,
+!   int paper_width,
+!   int paper_length)
+  {
+      register int i;
+      register int lm, tm, xm;
+***************
+*** 1431,1437 ****
+    int flags,
+    const char *header,
+    const char *trailer,
+!   const char *name)
+  {
+      char    hostname[256];
+  #ifdef WIN32
+--- 1572,1580 ----
+    int flags,
+    const char *header,
+    const char *trailer,
+!   const char *name,
+!   int paper_width,
+!   int paper_length)
+  {
+      char    hostname[256];
+  #ifdef WIN32
+***************
+*** 1545,1551 ****
+  static
+  void ps_finish(void)
+  {
+! 	char **p = (char **)ps_epilog;
+  
+  	while (*p) printf("%s\n",*p++);
+  }
+--- 1688,1694 ----
+  static
+  void ps_finish(void)
+  {
+! 	const char **p = ps_epilog;
+  
+  	while (*p) printf("%s\n",*p++);
+  }

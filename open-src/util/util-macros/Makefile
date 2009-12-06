@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.9	09/08/03
+# ident	"@(#)Makefile	1.10	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=util-macros
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.3.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

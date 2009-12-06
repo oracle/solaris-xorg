@@ -1,4 +1,4 @@
-/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+/* Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -27,7 +27,7 @@
  */
 
 #ifndef lint
-static char sccsid[] = "@(#)XGrabWin.c	35.5	08/03/12 SMI";
+#pragma ident	"@(#)XGrabWin.c	35.6	09/12/05 SMI"
 #endif
 /*-
  *-----------------------------------------------------------------------
@@ -97,9 +97,9 @@ Initialize(dpy)
 }
 
 int 
-XGrabWindow(dpy, win)
-     Display *dpy;
-     Window win;
+XGrabWindow(
+    Display *dpy,
+    Window win)
 {
   xResourceReq *req;
   xGenericReply rep;
@@ -128,12 +128,13 @@ XGrabWindow(dpy, win)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 int
-XUnGrabWindow(dpy, win)
-    Display *dpy;
-    Window win;
+XUnGrabWindow(
+    Display *dpy,
+    Window win)
 {
   xResourceReq *req;
   xGenericReply rep;
@@ -162,13 +163,14 @@ XUnGrabWindow(dpy, win)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 
 int 
-XGrabColormap(dpy, cmap)
-     Display *dpy;
-     Colormap cmap;
+XGrabColormap(
+    Display *dpy,
+    Colormap cmap)
 {
   xResourceReq *req;
   xGenericReply rep;
@@ -191,12 +193,13 @@ XGrabColormap(dpy, cmap)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 int
-XUnGrabColormap(dpy, cmap)
-     Display *dpy;
-     Colormap cmap;
+XUnGrabColormap(
+    Display *dpy,
+    Colormap cmap)
 {
   xResourceReq *req;
   xGenericReply rep;
@@ -219,13 +222,14 @@ XUnGrabColormap(dpy, cmap)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 
 int 
-XGrabRetainedWindow(dpy, win)
-     Display *dpy;
-     Window win;
+XGrabRetainedWindow(
+    Display *dpy,
+    Window win)
 {
   xResourceReq *req;
   xGenericReply rep;
@@ -248,12 +252,13 @@ XGrabRetainedWindow(dpy, win)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 int
-XUnGrabRetainedWindow(dpy, win)
-    Display *dpy;
-    Window win;
+XUnGrabRetainedWindow(
+    Display *dpy,
+    Window win)
 {
   xResourceReq *req;
   xGenericReply rep;
@@ -276,14 +281,15 @@ XUnGrabRetainedWindow(dpy, win)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 
 int
-XGetRetainedPath(dpy, win, path)
-    Display *dpy;
-    Window win;
-    char *path;
+XGetRetainedPath(
+    Display *dpy,
+    Window win,
+    char *path)
 {
   xResourceReq *req;
   xOWGXRtndPathReply rep;
@@ -308,6 +314,7 @@ XGetRetainedPath(dpy, win, path)
   case NOT_LOCAL_HOST:
     return BadCookie;
   }
+  return BadImplementation;
 }
 
 
@@ -315,9 +322,9 @@ XGetRetainedPath(dpy, win, path)
 
 
 static int
-WxError (dpy,mc)
-     Display *dpy;
-     int mc;
+WxError (
+    Display *dpy,
+    int mc)
 {
   XErrorEvent event;
   extern int (*_XErrorFunction)();

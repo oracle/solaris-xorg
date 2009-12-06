@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.init	1.14	09/11/23 SMI"
+# ident	"@(#)Makefile.init	1.15	09/12/05 SMI"
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -231,26 +231,28 @@ OW_X11LIB_DIR=$(OW_DIR)/lib/X11
 OW_FONT_DIR=$(OW_X11LIB_DIR)/fonts
 OW_TRUETYPE_DIR=$(OW_FONT_DIR)/TrueType
 
-X11_DIR=/usr/X11
+X11_DIR=/usr
+X11_BIN_DIR=$(X11_DIR)/bin
+X11_LIB_DIR=$(X11_DIR)/lib
 X11_INCLUDES_DIR=$(X11_DIR)/include
 XORG_SDK_INCLUDES_DIR=$(X11_INCLUDES_DIR)/xorg
-X11_X11LIB_DIR=$(X11_DIR)/lib/X11
+X11_X11LIB_DIR=$(X11_LIB_DIR)/X11
 SHARE_FONT_DIR=/usr/share/fonts
 X11_FONT_DIR=$(SHARE_FONT_DIR)/X11
 TRUETYPE_FONT_DIR=$(SHARE_FONT_DIR)/TrueType
-X11_DOC_DIR=$(X11_DIR)/share/doc
+X11_DOC_DIR=/usr/share/doc/X11
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
 X11_MAN_DIR=$(X11_DIR)/share/man
 X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal
 X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
 
-# Subdirectory of /usr/X11/lib for X server private libraries
-X11_SERVERLIBS_SUBDIR=/X11/xserver
-X11_SERVERLIBS_DIR=$(X11_DIR)/lib$(X11_SERVERLIBS_SUBDIR)
+# Subdirectory of /usr/lib for X server private libraries
+X11_SERVERLIBS_SUBDIR=/xorg
+X11_SERVERLIBS_DIR=$(X11_LIB_DIR)$(X11_SERVERLIBS_SUBDIR)
 
-# Subdirectory of /usr/X11/lib for X server loadable modules
-X11_SERVERMODS_SUBDIR=/modules
-X11_SERVERMODS_DIR=$(X11_DIR)/lib$(X11_SERVERMODS_SUBDIR)
+# Subdirectory of /usr/lib for X server loadable modules
+X11_SERVERMODS_SUBDIR=/xorg/modules
+X11_SERVERMODS_DIR=$(X11_LIB_DIR)$(X11_SERVERMODS_SUBDIR)
 
 SERVERMOD_subdir_sparc=
 SERVERMOD_subdir_i386=$(ARCHLIBSUBDIR)
@@ -262,6 +264,7 @@ PKGCONFIG_DIR_suffix=/pkgconfig
 PKGCONFIG_DIR=$(PKGCONFIG_DIR_prefix)$(ARCHLIBSUBDIR)$(PKGCONFIG_DIR_suffix)
 PKGCONFIG_DIR_32=$(PKGCONFIG_DIR_prefix)$(PKGCONFIG_DIR_suffix)
 PKGCONFIG_DIR_64=$(PKGCONFIG_DIR_prefix)/$(SUBDIR64)$(PKGCONFIG_DIR_suffix)
+PKGCONFIG_DIR_SHARE=/usr/share$(PKGCONFIG_DIR_suffix)
 
 # Directory used for installing tools used during build but not
 # delivered in packages
@@ -280,7 +283,7 @@ INSTALL_SCRIPT=$(TOP)/common/install-sh -c
 GNUMAKE = gmake
 
 # Some modules use lndir to merge in sources from Sun specific directories
-LNDIR=$(PROTODIR)/usr/X11/bin/lndir
+LNDIR=$(PROTODIR)$(X11_BIN_DIR)/lndir
 
 # Tools needed to build docbook documentation
 DOCBOOKUTIL_BINDIR=$(PROTODIR)$(TOOLS_DIR)/bin
@@ -289,9 +292,9 @@ DOCBOOK2TXT=$(DOCBOOKUTIL_BINDIR)/docbook2txt
 XORG_DEFS_ENT=$(PROTODIR)/$(X11_DIR)/share/sgml/X11/defs.ent
 
 # Commands to run font utilities from proto area
-MKFONTDIR=$(PROTODIR)$(X11_DIR)/bin/mkfontdir
-MKFONTSCALE=$(PROTODIR)$(X11_DIR)/bin/mkfontscale
-INSTALLALIAS=$(PROTODIR)$(X11_DIR)/lib/installalias
+MKFONTDIR=$(PROTODIR)$(X11_BIN_DIR)/mkfontdir
+MKFONTSCALE=$(PROTODIR)$(X11_BIN_DIR)/mkfontscale
+INSTALLALIAS=$(PROTODIR)$(X11_X11LIB_DIR)/installalias
 
 # Script fragment to start echoing commands in shell sequences in make rules
 # Sets PS4 to "" so output isn't prepended with "+ " and looks like normal
@@ -320,4 +323,4 @@ UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 # Need to define more dependencies to enable simpler builds of subtree portions
 
 # Almost everything depends on the headers in xproto
-XPROTO_DEP=$(PROTODIR)$(PKGCONFIG_DIR)/xproto.pc
+XPROTO_DEP=$(PROTODIR)$(PKGCONFIG_DIR_SHARE)/xproto.pc

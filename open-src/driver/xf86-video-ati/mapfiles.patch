@@ -1,35 +1,6 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a
-# copy of this software and associated documentation files (the
-# "Software"), to deal in the Software without restriction, including
-# without limitation the rights to use, copy, modify, merge, publish,
-# distribute, and/or sell copies of the Software, and to permit persons
-# to whom the Software is furnished to do so, provided that the above
-# copyright notice(s) and this permission notice appear in all copies of
-# the Software and that both the above copyright notice(s) and this
-# permission notice appear in supporting documentation.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
-# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
-# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# 
-# Except as contained in this notice, the name of a copyright holder
-# shall not be used in advertising or otherwise to promote the sale, use
-# or other dealings in this Software without prior written authorization
-# of the copyright holder.
-
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2009-03-31 12:11:10.000000000 -0700
-+++ src/Makefile.am	2009-04-08 13:19:15.269540000 -0700
-@@ -165,3 +165,30 @@ EXTRA_DIST = \
+--- src/Makefile.am	Tue Nov 10 11:09:55 2009
++++ src/Makefile.am	Tue Nov 10 11:29:10 2009
+@@ -165,3 +165,40 @@
  	pcidb/ati_pciids.csv \
  	pcidb/parse_pci_ids.pl \
  	radeon_atombios.h
@@ -40,7 +11,12 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +
 +radeon_MAPFILES = \
 +	mapfile-theatre_detect_drv-external \
-+	mapfile-theatre_drv-external
++	mapfile-theatre_drv-external \
++	mapfile-tda9885_drv-external \
++	mapfile-msp3430_drv-external \
++	mapfile-uda1380_drv-external \
++	mapfile-fi1236_drv-external \
++	mapfile-bt829_drv-external
 +
 +radeon_drv_la_LDFLAGS += $(radeon_MAPFILES:%=-Wl,-M,%) \
 +	-lexa -lfb -lint10 -lvbe -lvgahw -lxaa -lshadow \
@@ -52,6 +28,11 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +
 +mapfile-theatre_drv-external: $(theatre_drv_la_OBJECTS)
 +mapfile-theatre_detect_drv-external: $(theatre_detect_drv_la_OBJECTS)
++mapfile-bt829_drv-external: $(bt829_drv_la_OBJECTS)
++mapfile-fi1236_drv-external: $(fi1236_drv_OBJECTS)
++mapfile-uda1380_drv-external: $(uda1380_drv_OBJECTS)
++mapfile-msp3430_drv-external: $(msp3430_drv_OBJECTS)
++mapfile-tda9885_drv-external: $(tda9885_drv_OBJECTS)
 +
 +mapfile-%-external:
 +	-rm -f $@

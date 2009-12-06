@@ -1,6 +1,6 @@
 ###############################################################################
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -42,12 +42,13 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 --- src/Makefile.am	2008-11-18 22:42:01.000000000 -0800
 +++ src/Makefile.am	2009-04-08 00:18:15.094065000 -0700
-@@ -373,9 +373,13 @@ if XKB
+@@ -373,9 +373,14 @@ if XKB
  USE_XKB_LIBS = $(XKB_LIBS)
  endif
  
--libX11_la_LDFLAGS = -version-number 6:2:0 -no-undefined
-+libX11_la_LDFLAGS = -version-number 4 -no-undefined $(ADD_libX11_LDFLAGS) \
+-libX11_la_LDFLAGS = -version-number 6:3:0 -no-undefined
++libX11_la_LDFLAGS = -version-number 4 -no-undefined \
++	$(ADD_libX11_LDFLAGS) \
 +	-M $(top_srcdir)/../../mapfile-vers \
 +	-M $(top_srcdir)/../../mapfile-order \
 +	-N libXext.so.0

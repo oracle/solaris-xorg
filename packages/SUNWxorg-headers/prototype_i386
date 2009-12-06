@@ -30,33 +30,21 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.16     09/07/17 SMI"
+# ident	"@(#)prototype_i386	1.2	09/12/05 SMI"
 #
-# Xorg libdrm headers
 
 !include prototype_com
 
 !HOME=../usr
 
-!search $HOME/X11/include
-f none X11/include/xf86drm.h 				0444 root bin
-f none X11/include/xf86drmMode.h			0444 root bin
-f none X11/include/intel_bufmgr.h			0444 root bin
+# Xorg libdrm headers for x86-specific hardware
 
-!search $HOME/X11/include/drm
-d none X11/include/drm                                  0755 root bin
-f none X11/include/drm/drm.h                            0444 root bin
-f none X11/include/drm/drm_mode.h                       0444 root bin
-f none X11/include/drm/drm_sarea.h                      0444 root bin
-f none X11/include/drm/i915_drm.h                       0444 root bin
-f none X11/include/drm/mach64_drm.h                     0444 root bin
-f none X11/include/drm/mga_drm.h                        0444 root bin
-f none X11/include/drm/nouveau_drm.h                    0444 root bin
-f none X11/include/drm/r128_drm.h                       0444 root bin
-f none X11/include/drm/r300_reg.h                       0444 root bin
-f none X11/include/drm/radeon_drm.h                     0444 root bin
-f none X11/include/drm/savage_drm.h                     0444 root bin
-f none X11/include/drm/sis_drm.h                        0444 root bin
-f none X11/include/drm/via_3d_reg.h                     0444 root bin
-f none X11/include/drm/via_drm.h                        0444 root bin
-f none X11/include/drm/xgi_drm.h                        0444 root bin
+!search $HOME/include/drm
+f none include/drm/i915_drm.h					0444 root bin
+f none include/drm/mga_drm.h					0444 root bin
+f none include/drm/nouveau_drm.h				0444 root bin
+f none include/drm/savage_drm.h					0444 root bin
+f none include/drm/sis_drm.h					0444 root bin
+f none include/drm/via_3d_reg.h					0444 root bin
+f none include/drm/via_drm.h					0444 root bin
+f none include/drm/xgi_drm.h					0444 root bin

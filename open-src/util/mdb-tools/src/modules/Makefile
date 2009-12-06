@@ -1,5 +1,5 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.3	08/08/08 SMI"
+# ident	"@(#)Makefile	1.4	09/12/05 SMI"
 
 MODULES_plat=$(Xserver)_clients.so $(Xserver)_device_grabs.so
 MODULES_32=$(MODULES_plat:%=$(PLATDIR_32)/%)
@@ -37,16 +37,18 @@ XC_TOP=$(TOP)/../xc
 
 CFLAGS += -K pic -g
 XSUN_CPPFLAGS = \
-	-I $(PROTODIR)/usr/X11/include/X11 \
+	-I $(PROTODIR)/usr/include/X11 \
 	-I /usr/include/X11 \
 	-I $(PROTODIR)/usr/openwin/server/include \
 	-I /usr/openwin/server/include \
 	-I $(XC_TOP)/programs/Xserver/os
 XORG_CPPFLAGS = \
-	-I $(PROTODIR)/usr/X11/include/X11 \
+	-I $(PROTODIR)/usr/include/X11 \
 	-I /usr/include/X11 \
-        -I $(PROTODIR)/usr/X11/include/xorg \
-        -I /usr/X11/include/xorg \
+        -I $(PROTODIR)/usr/include/xorg \
+        -I /usr/include/xorg \
+        -I $(PROTODIR)/usr/include/pixman-1 \
+        -I /usr/include/pixman-1 \
 	-I $(TOP)/xserver/xorg/build_64/*/os
 CPPFLAGS += $($(XSERVER)_CPPFLAGS) -D$(XSERVER)
 LDFLAGS += -Wl,-z,text

@@ -3,7 +3,7 @@
 # pixman Makefile
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -35,13 +35,10 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.14.0
+MODULE_VERSION=0.16.2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = sun-cc-intrinsics.patch,-p1
-
-# Regenerate Makefile.in & configure after applying sun-cc-intrinsics.patch
-AUTORECONF=yes
+SOURCE_PATCHES = 
 
 # Override default CFLAGS for x86 builds to avoid clashes between
 # -xtarget=pentium and the MMX/SSE flags added by configure for specific

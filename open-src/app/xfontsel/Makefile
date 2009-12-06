@@ -2,8 +2,8 @@
 #
 # xfontsel 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -49,10 +49,10 @@ MODULE_STABILITY=Committed
 
 MODULE_CPPFLAGS= -DXLOCALEDIR=\"$(XLOCALEDIR)\"
 
+MODULE_ADD_INSTALL_TARGETS = install_po
+
 include ../Makefile.inc
 
-install_gen:: install_po
-
 install_po:
-	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
-	cp -f xfontsel.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
+	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -f xfontsel.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

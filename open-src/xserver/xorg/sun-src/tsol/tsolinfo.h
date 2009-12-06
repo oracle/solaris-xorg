@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolinfo.h 1.25     09/08/23 SMI"
+#pragma ident	"@(#)tsolinfo.h	1.26	09/12/05 SMI"
 
 
 #ifndef    _TSOL_INFO_H
@@ -218,11 +218,25 @@ typedef struct _TsolRes {
 } TsolResRec, *TsolResPtr;
 
 /*
+ * per keyboard info:
+ * Hot Key structure caches keycode/mask for primary & alternate Hot Keys
+ */
+typedef struct _HotKeyRec {
+	int      initialized;
+	KeyCode  key;		/* Primary key */
+	unsigned shift;		/* Primary modifier/shift */
+	KeyCode	 altkey;	/* Alternate key */
+	unsigned altshift;	/* Alternate modifier/shift */
+} HotKeyRec, *HotKeyPtr;
+
+
+/*
  * information stored in devPrivates
  */
 typedef union {
     TsolInfoRec		clientPrivate;
     TsolResRec		resourcePrivate;
+    HotKeyRec		keyboardPrivate;
 } TsolPrivateRec, *TsolPrivatePtr;
 
 extern DevPrivateKey tsolPrivateKey;
@@ -232,6 +246,9 @@ extern DevPrivateKey tsolPrivateKey;
 
 #define TsolResourcePrivate(pRes)	\
     ((TsolResPtr) dixLookupPrivate(&(pRes)->devPrivates, tsolPrivateKey))
+
+#define TsolKeyboardPrivate(pDev)	\
+    ((HotKeyPtr) dixLookupPrivate(&(pDev)->devPrivates, tsolPrivateKey))
 
 
 #define NODE_SLSIZE	16	/* increase sl array by this amount */
@@ -268,53 +285,6 @@ typedef struct _TsolPolyInstInfo {
     bslabel_t  *sl;
 } TsolPolyInstInfoRec, *TsolPolyInstInfoPtr;
 
-
-/*
- *  Disable flags for extensions
- */
-typedef struct _extensionFlag {
-    Bool disableACCESSX;
-    Bool disableDPS;
-    Bool disableDBE;
-    Bool disableDPMS;
-    Bool disableEVI;
-    Bool disableFBPM;
-    Bool disableLBX;
-    Bool disableSCREENSAVER;
-    Bool disableMITSHM;
-    Bool disableMITMISC;
-    Bool disableMULTIBUFFER;
-    Bool disableSECURITY;
-    Bool disableSHAPE;
-    Bool disableALLPLANES;
-    Bool disableDGA;
-    Bool disableOVL;
-    Bool disableRECORD;
-    Bool disableSYNC;
-    Bool disableIA;
-    Bool disableCUP;
-    Bool disableAPPGROUP;
-    Bool disableXCMISC;
-    Bool disableXIE;
-    Bool disableXINPUT;
-    Bool disableXINERAMA;
-    Bool disableXTEST;
-} ExtensionFlag;
-
-
-/*
- * Hot Key structure
- * caches keycode/mask for
- * a primary & alternate
- * Hot Keys
- */
-typedef struct _HotKeyRec {
-	int      initialized;
-	KeyCode  key;	/* Primary key */
-	unsigned shift;	/* Primary modifier/shift */
-	KeyCode	 altkey;	/* Alternate key */
-	unsigned altshift;	/* Alternate modifier/shift */
-} HotKeyRec, *HotKeyPtr;
 
 /*********************************
  *

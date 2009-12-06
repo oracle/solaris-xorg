@@ -1,6 +1,7 @@
 ##########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident "@(#)prototype 1.4     09/09/28 SMI"
+# ident	"@(#)prototype	1.5	09/12/05 SMI"
 #
 # Symlinks for compatibility with X11 delivery locations on other systems
 
@@ -39,11 +40,6 @@ i depend
 i copyright
 
 d none X11 				0755 root bin
-d none X11/lib 				0755 root bin
-d none X11/bin 				0755 root bin
-
 s none X11R6=X11
-d none lib						0755 root bin
-d none lib/X11 						0755 root bin
-d none bin						0755 root bin
-s none bin/X11=../X11/bin
+
+

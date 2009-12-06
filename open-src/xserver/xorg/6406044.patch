@@ -29,9 +29,10 @@
 Redo the patch for Xorg 1.5. The patch is helpful only for nv driver.
 
 diff -Nurp -x '*~' -x '*.orig' hw/xfree86/modes/xf86EdidModes.c hw/xfree86/modes/xf86EdidModes.c
---- hw/xfree86/modes/xf86EdidModes.c	2009-07-07 10:48:58.000000000 -0700
-+++ hw/xfree86/modes/xf86EdidModes.c	2009-07-07 17:59:22.482157000 -0700
-@@ -884,6 +884,20 @@ xf86DDCGetModes(int scrnIndex, xf86MonPt
+diff -urp -x '*~' -x '*.orig' hw/xfree86/modes/xf86EdidModes.c hw/xfree86/modes/xf86EdidModes.c
+--- hw/xfree86/modes/xf86EdidModes.c	2009-11-26 21:40:35.000000000 -0800
++++ hw/xfree86/modes/xf86EdidModes.c	2009-12-02 18:58:15.024979778 -0800
+@@ -948,6 +948,20 @@ xf86DDCGetModes(int scrnIndex, xf86MonPt
                                               &det_mon->section.d_timings,
  					     preferred,
  					     quirks);

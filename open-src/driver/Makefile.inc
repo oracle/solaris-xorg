@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile.inc	1.15	09/05/15
+# ident	"@(#)Makefile.inc	1.16	09/12/05 SMI"
 #
 
 PWD:sh=pwd
@@ -47,10 +47,14 @@ BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 # Additional command line options to GNU autoconf configure script
 MODTYPE_CONFIG_OPTS = \
-	--with-xorg-module-dir='$${libdir}/modules$(SERVERMOD_subdir)'
+	--docdir='$(X11_DOC_DIR)' \
+	--with-xorg-module-dir='$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)'
 
 MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
 MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
+
+MODTYPE_BUILD_MAKEFLAGS= \
+	inputdir='$(X11_SERVERMODS_DIR)/input$(SERVERMOD_subdir)'
 
 # Set comments in ELF binaries to help identify versions/builds
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
@@ -70,6 +74,12 @@ MODTYPE_CFLAGS_suncc_i386_64 = $(ASM_IL_DIR)/solaris-amd64.il
 MODTYPE_CFLAGS_suncc_sparc_32 = $(ASM_IL_DIR)/solaris-sparcv8plus.il
 MODTYPE_CFLAGS_suncc_sparc_64 = $(ASM_IL_DIR)/solaris-sparcv8plus.il
 MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_$(MACH)_$(BUILD_TYPE))
+
+# Replaces @symbol_visibilty@ in xorg-server.pc, since that fails when
+# some drivers are compiled with a different compiler than the server
+MODTYPE_CFLAGS_suncc_common = -xldscope=hidden
+MODTYPE_CFLAGS_gcc_common = # -fvisibility=hidden - doesn't work with gcc 3.4.3
+MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 
 MODTYPE_LDFLAGS_suncc=
 MODTYPE_LDFLAGS_gcc=-R/usr/sfw/lib$(ARCHLIBSUBDIR)

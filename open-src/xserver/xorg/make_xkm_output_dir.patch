@@ -9,8 +9,8 @@ it doesn't already exist. (ported from Solaris Xsun bug #5039004)
 [Xorg has since dropped upstream, but we still use.]
 
 diff -urp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
---- xkb/Makefile.am	2008-11-14 13:27:05.000000000 -0800
-+++ xkb/Makefile.am	2009-01-22 20:33:49.220235000 -0800
+--- xkb/Makefile.am	2009-10-21 14:52:56.000000000 -0700
++++ xkb/Makefile.am	2009-11-03 22:28:52.978880918 -0800
 @@ -1,6 +1,7 @@
  noinst_LTLIBRARIES = libxkb.la libxkbstubs.la
  
@@ -20,9 +20,9 @@ diff -urp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
  
  DDX_SRCS = \
 diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
---- xkb/ddxLoad.c	2009-01-09 09:47:04.000000000 -0800
-+++ xkb/ddxLoad.c	2009-01-22 20:33:49.230965000 -0800
-@@ -153,13 +153,29 @@ Win32System(const char *cmdline)
+--- xkb/ddxLoad.c	2009-10-21 14:52:56.000000000 -0700
++++ xkb/ddxLoad.c	2009-11-03 22:28:52.979183313 -0800
+@@ -152,6 +152,18 @@ Win32System(const char *cmdline)
  #define System(x) Win32System(x)
  #endif
  
@@ -41,15 +41,16 @@ diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
  static void
  OutputDirectory(
      char* outdir,
-     size_t size)
+@@ -159,7 +171,11 @@ OutputDirectory(
  {
  #ifndef WIN32
--    if (getuid() == 0 && (strlen(XKM_OUTPUT_DIR) < size))
-+    if (getuid() == 0 && (strlen(XKM_OUTPUT_DIR) < size)
+     /* Can we write an xkm and then open it too? */
+-    if (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0 && (strlen(XKM_OUTPUT_DIR) < size))
++    if ( ( (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0)
 +#ifdef MAKE_XKM_OUTPUT_DIR    
-+	&& (trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0)
++	   || (trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0)
 +#endif
-+	)
++	     ) && (strlen(XKM_OUTPUT_DIR) < size))
      {
- 	/* if server running as root it *may* be able to write */
- 	/* FIXME: check whether directory is writable at all */
+ 	(void) strcpy (outdir, XKM_OUTPUT_DIR);
+     } else

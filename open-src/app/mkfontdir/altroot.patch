@@ -2,8 +2,8 @@
 #
 # mkfontdir 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -44,7 +44,7 @@ If mkfontdir is called from an alternate path, look there first for mkfontscale
 -exec BINDIR/mkfontscale -b -s -l "$@"
 +FONTUTILDIR=`dirname $0`
 +if [ ! -x ${FONTUTILDIR}/mkfontscale ] ; then
-+    FONTUTILDIR=${FONTUTILDIR}/../../X11/bin
++    FONTUTILDIR=${FONTUTILDIR}/../bin
 +    if [ ! -x ${FONTUTILDIR}/mkfontscale ] ; then
 +        FONTUTILDIR=BINDIR
 +    fi

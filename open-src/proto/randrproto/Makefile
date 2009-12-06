@@ -1,7 +1,7 @@
 ###############################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -28,14 +28,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	09/05/07
+# ident	"@(#)Makefile	1.6	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=randrproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

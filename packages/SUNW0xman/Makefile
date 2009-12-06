@@ -28,14 +28,13 @@
 # of the copyright holder.
 #
 #
-# ident	"@(#)Makefile	1.5	09/08/05 SMI"
+# ident	"@(#)Makefile	1.6	09/12/05 SMI"
 #
 
 SOURCEDIR=../../packages
 
 PROTO_SOURCES = \
 	$(SOURCEDIR)/SUNWxwman/prototype_com			\
-	$(SOURCEDIR)/SUNWxwman/prototype_i386			\
 	$(SOURCEDIR)/SUNWfontconfig-docs/prototype 		\
 	$(SOURCEDIR)/SUNWpciaccess/prototype	 		\
 	$(SOURCEDIR)/SUNWvncviewer/prototype	 		\

@@ -1,5 +1,5 @@
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/09/30
+# ident	"@(#)Makefile	1.2	09/12/05 SMI"
 
 SRCS = mkcookie.c
 OBJS = $(SRCS:.c=.o)
@@ -36,5 +36,5 @@ mkcookie: $(OBJS)
 	$(LD) -o $@ $(CFLAGS) $(CFLAGS1) $(LDFLAGS) $(OBJS) -lX11 -lXau -lnsl
 
 install: mkcookie
-	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	$(INSTALL) mkcookie $(DESTDIR)$(PREFIX)/lib
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/X11
+	$(INSTALL) mkcookie $(DESTDIR)$(PREFIX)/lib/X11

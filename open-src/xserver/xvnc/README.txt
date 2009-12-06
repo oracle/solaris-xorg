@@ -95,7 +95,8 @@ Source code access
       New package SUNWxvnc:
 	  /usr/bin/vncpasswd
 	  /usr/bin/vncserver
-	  /usr/X11/bin/Xvnc	
+	  /usr/bin/x0vncserver
+	  /usr/bin/Xvnc	
       
       New package SUNWvncviewer:
 	  /usr/bin/vncviewer

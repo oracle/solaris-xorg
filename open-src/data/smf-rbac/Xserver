@@ -1,8 +1,9 @@
 #!/bin/ksh93
 #
-# ident	"@(#)Xserver	1.8	09/05/01 SMI"
+# ident	"@(#)Xserver	1.9	09/12/05 SMI"
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -57,7 +58,7 @@ SERVERARGS=""
 if [[ "$(uname -p)" == "sparc" && -x /usr/openwin/bin/Xsun ]] ; then
     XSERVER="/usr/openwin/bin/Xsun"
 else
-    XSERVER="/usr/X11/bin/Xorg"
+    XSERVER="/usr/bin/Xorg"
 fi
 
 while getopts :c: opt; do
@@ -138,10 +139,10 @@ else
     # Automatically select replacements for removed X servers
     case ${XSERVER} in
 	*/Xsun)	
-	    newserver="/usr/X11/bin/Xorg" 
+	    newserver="/usr/bin/Xorg" 
 	    ;;
 	*/Xvfb)	
-	    newserver="/usr/X11/bin/Xvfb" 
+	    newserver="/usr/bin/Xvfb" 
 	    ;;
 	*)
 	    fatal_error "${XSERVER} is not an executable"
@@ -160,13 +161,13 @@ fi
 # Make sure ${XSERVER} is a known X server binary
 function is_known_xserver {
     case "$1" in
-	/usr/X11/bin/Xorg)		return 0 ;;
-	/usr/X11/bin/amd64/Xorg)	return 0 ;;
-	/usr/X11/bin/i386/Xorg)		return 0 ;;
-	/usr/X11/bin/Xvfb)		return 0 ;;
-	/usr/X11/bin/amd64/Xvfb)	return 0 ;;
-	/usr/X11/bin/i386/Xvfb)		return 0 ;;
-	/usr/X11/bin/Xvnc)		return 0 ;;
+	/usr/bin/Xorg)			return 0 ;;
+	/usr/bin/amd64/Xorg)		return 0 ;;
+	/usr/bin/i386/Xorg)		return 0 ;;
+	/usr/bin/Xvfb)			return 0 ;;
+	/usr/bin/amd64/Xvfb)		return 0 ;;
+	/usr/bin/i386/Xvfb)		return 0 ;;
+	/usr/bin/Xvnc)			return 0 ;;
 	/usr/openwin/bin/Xsun)		return 0 ;;
 	/usr/openwin/bin/Xvfb)		return 0 ;;
 	/opt/SUNWut/lib/Xnewt)		return 0 ;;
@@ -186,7 +187,7 @@ case ${XSERVER} in
 	DEPTHARG="-defdepth ${DEFDEPTH:-24}"
 	;;
     # Xorg based
-    /usr/X11/bin/*)
+    /usr/bin/*)
 	if [[ "${DEFDEPTH}" != "" ]] ; then
 	    DEPTHARG="-depth ${DEFDEPTH}"
 	fi

@@ -14,7 +14,7 @@ Building
 --------
 Due to the different data structures used, there are different versions
 for X servers based on the Xsun source (those delivered in /usr/openwin)
-and for those based on the Xorg source (those delivered in /usr/X11).
+and for those based on the Xorg source (those delivered in /usr/bin).
 
 Building these depends on headers in the X server sources which aren't
 delivered in each server's SDK headers, so the Xsun one requires the
@@ -138,8 +138,8 @@ Xorg_device_grabs.so.  It should be documented here, but hasn't been yet.
 
 =============================================================================
 
-Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-Use subject to license terms.
+Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+Use is subject to license terms.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the

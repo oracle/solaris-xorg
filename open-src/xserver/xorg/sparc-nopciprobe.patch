@@ -1,4 +1,4 @@
-# Copyright 2008 Sun Microsystems, Inc.	 All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,9 +30,9 @@ Omit Bus probing on sparc. It is terribly slow and we get the same info thru /de
 
 *** hw/xfree86/common/xf86Init.c.orig	Thu Dec 18 18:01:47 2008
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
---- hw/xfree86/common/xf86Init.c	2009-01-22 20:34:49.294385000 -0800
-+++ hw/xfree86/common/xf86Init.c	2009-01-22 20:34:57.326657000 -0800
-@@ -790,7 +790,10 @@ InitOutput(ScreenInfo *pScreenInfo, int 
+--- hw/xfree86/common/xf86Init.c	2009-10-08 21:08:28.000000000 -0700
++++ hw/xfree86/common/xf86Init.c	2009-11-03 22:29:02.592675371 -0800
+@@ -604,7 +604,10 @@ InitOutput(ScreenInfo *pScreenInfo, int 
      xf86OpenConsole();
  
      /* Do a general bus probe.  This will be a PCI probe for x86 platforms */
@@ -41,5 +41,5 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf8
 +#endif
 +
  
-     if (xf86DoProbe)
- 	DoProbe();
+     if (xf86DoConfigure)
+ 	DoConfigure();

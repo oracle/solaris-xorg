@@ -2,8 +2,8 @@
 #
 # xclipboard 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2   08/08/08 
+# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xclipboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.1.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

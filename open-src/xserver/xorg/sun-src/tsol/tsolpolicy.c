@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)tsolpolicy.c 1.28     09/08/23 SMI"
+#pragma ident	"@(#)tsolpolicy.c	1.29	09/12/05 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -828,8 +828,8 @@ TsolDrawablePrivate(DrawablePtr pDraw, ClientPtr client)
 	}
 	else if (pDraw->type == DRAWABLE_PIXMAP)
 	{
-		rc = dixLookupResource((pointer *)&pMap, pDraw->id, RT_PIXMAP,
-				client, DixReadAccess);
+		rc = dixLookupDrawable((DrawablePtr *)&pMap, pDraw->id, client,
+				       M_DRAWABLE_PIXMAP, DixReadAccess);
 		if (rc == Success && pMap != NullPixmap)
 			tsolres = TsolResourcePrivate(pMap);
 	}

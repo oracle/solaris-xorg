@@ -1,6 +1,7 @@
 ###########################################################################
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-#	@(#)prototype	35.29	09/05/19
+# ident	"@(#)prototype	35.30	09/12/05 SMI"
 #
 #  X Window System demo programs
 
@@ -39,39 +40,48 @@ i depend
 
 !HOME=../usr
 
-d none openwin				0755 root bin
-d none openwin/demo			0755 root bin
+d none openwin							0755 root bin
+d none openwin/demo						0755 root bin
 
-!search $HOME/X11/bin
-d none X11				0755 root bin
-d none X11/bin				0755 root bin
+d none X11							0755 root bin
+d none X11/bin							0755 root bin
+
+!search $HOME/bin
+d none bin							0755 root bin
 
 # open-src/app/xev
-f none X11/bin/xev 			0755 root bin
-s none openwin/demo/xev=../../X11/bin/xev
+f none bin/xev							0755 root bin
+s none openwin/demo/xev=../../bin/xev
+s none X11/bin/xev=../../bin/xev
 
 # open-src/app/xeyes
-f none X11/bin/xeyes                    0755 root bin
-s none openwin/demo/xeyes=../../X11/bin/xeyes
+f none bin/xeyes						0755 root bin
+s none openwin/demo/xeyes=../../bin/xeyes
+s none X11/bin/xeyes=../../bin/xeyes
 
 # open-src/app/ico
-f none X11/bin/ico 			0755 root bin
-s none openwin/demo/ico=../../X11/bin/ico
+f none bin/ico							0755 root bin
+s none openwin/demo/ico=../../bin/ico
+s none X11/bin/ico=../../bin/ico
 
 # open-src/app/xgc
-f none X11/bin/xgc 			0755 root bin
-s none openwin/demo/xgc=../../X11/bin/xgc
+f none bin/xgc							0755 root bin
+s none openwin/demo/xgc=../../bin/xgc
+s none X11/bin/xgc=../../bin/xgc
 
 # open-src/app/xmag_multivis
-f none X11/bin/xmag_multivis 		0755 root bin
-s none openwin/demo/xmag_multivis=../../X11/bin/xmag_multivis
+f none bin/xmag_multivis					0755 root bin
+s none openwin/demo/xmag_multivis=../../bin/xmag_multivis
+s none X11/bin/xmag_multivis=../../bin/xmag_multivis
 
 # open-src/app/xscope
-f none X11/bin/xscope 		0755 root bin
-s none openwin/demo/xscope=../../X11/bin/xscope
+f none bin/xscope						0755 root bin
+s none openwin/demo/xscope=../../bin/xscope
+s none X11/bin/xscope=../../bin/xscope
 
-!search      $HOME/X11/lib/X11/app-defaults
-d none X11/lib					0755 root bin
-d none X11/lib/X11                              0755 root bin
-d none X11/lib/X11/app-defaults                 0755 root bin
-f none X11/lib/X11/app-defaults/Xgc		0444 root bin
+!search      $HOME/share/X11/app-defaults
+d none share							0755 root sys
+d none share/X11						0755 root bin
+d none share/X11/app-defaults					0755 root bin
+f none share/X11/app-defaults/Xgc				0444 root bin
+f none share/X11/app-defaults/Xgc-color				0444 root bin

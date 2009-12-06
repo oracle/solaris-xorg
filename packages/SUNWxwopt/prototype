@@ -27,9 +27,9 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype	35.76	09/11/09 SMI"
+# ident	"@(#)prototype	35.77	09/12/05 SMI"
 ##
-#  nonessential X core clients and server extensions
+#  nonessential X core clients and developer tools
 
 i pkginfo
 i copyright
@@ -37,192 +37,307 @@ i depend
 
 !HOME=../usr
 
-d none openwin			0755 root bin
-d none openwin/bin		0755 root bin
+d none bin							0755 root bin
+d none lib							0755 root bin
+d none lib/X11							0755 root bin
+d none share							0755 root sys
+d none share/X11						0755 root bin
+d none share/X11/app-defaults					0755 root bin
+d none openwin							0755 root bin
+d none openwin/bin						0755 root bin
+d none X11							0755 root bin
+d none X11/bin							0755 root bin
 
-# modified from original
-!search $HOME/X11/share/X11/twm
-d none X11/share 0755 root bin
-d none X11/share/X11 0755 root bin
-d none X11/share/X11/twm 0755 root bin
-s none X11/share/X11/system.twmrc=./twm/system.twmrc
-f none X11/share/X11/twm/system.twmrc 0644 root bin
+# open-src/app/appres
+!search $HOME/bin
+f none bin/appres						0755 root bin
+s none openwin/bin/appres=../../bin/appres
+s none X11/bin/appres=../../bin/appres
 
-d none openwin/lib		0755 root bin
-d none openwin/lib/X11		0755 root bin
-s none openwin/lib/X11/config=../config
-s none openwin/lib/config=../../X11/lib/X11/config
-d none X11/lib/X11/config 0755 root bin
+# open-src/app/bitmap
+!search $HOME/bin
+f none bin/atobm						0755 root bin
+f none bin/bitmap						0755 root bin
+f none bin/bmtoa						0755 root bin
+s none openwin/bin/atobm=../../bin/atobm
+s none openwin/bin/bitmap=../../bin/bitmap
+s none openwin/bin/bmtoa=../../bin/bmtoa
+s none X11/bin/atobm=../../bin/atobm
+s none X11/bin/bitmap=../../bin/bitmap
+s none X11/bin/bmtoa=../../bin/bmtoa
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Bitmap				0444 root bin
+f none share/X11/app-defaults/Bitmap-color			0444 root bin
+f none share/X11/app-defaults/Bitmap-nocase			0444 root bin
 
-!search  $HOME/X11/lib/X11/config
-f none X11/lib/X11/config/Imake.cf		0444 root bin
-f none X11/lib/X11/config/Imake.rules 		0444 root bin
-f none X11/lib/X11/config/Imake.tmpl 		0444 root bin
-f none X11/lib/X11/config/Library.tmpl 		0444 root bin
-f none X11/lib/X11/config/Motif.rules 		0444 root bin
-f none X11/lib/X11/config/Motif.tmpl 		0444 root bin
-f none X11/lib/X11/config/Server.tmpl 		0444 root bin
-f none X11/lib/X11/config/ServerLib.tmpl	0444 root bin
-f none X11/lib/X11/config/Threads.tmpl 		0444 root bin
-f none X11/lib/X11/config/X11.rules 		0444 root bin
-f none X11/lib/X11/config/X11.tmpl 		0444 root bin
-f none X11/lib/X11/config/date.def 		0444 root bin
-f none X11/lib/X11/config/generic.cf 		0444 root bin
-f none X11/lib/X11/config/host.def 		0444 root bin
-f none X11/lib/X11/config/noop.rules 		0444 root bin
-f none X11/lib/X11/config/oldlib.rules 		0444 root bin
-f none X11/lib/X11/config/site.def 		0444 root bin
-f none X11/lib/X11/config/sun.cf 		0444 root bin
-f none X11/lib/X11/config/sunLib.rules 		0444 root bin
-f none X11/lib/X11/config/sunLib.tmpl 		0444 root bin
-f none X11/lib/X11/config/sv4Lib.rules 		0444 root bin
-f none X11/lib/X11/config/sv4Lib.tmpl 		0444 root bin
-f none X11/lib/X11/config/svr4.cf 		0444 root bin
-f none X11/lib/X11/config/version.def 		0444 root bin
-f none X11/lib/X11/config/xf86.rules 		0444 root bin
-f none X11/lib/X11/config/xf86.tmpl 		0444 root bin
-f none X11/lib/X11/config/xf86site.def 		0444 root bin
-f none X11/lib/X11/config/xfree86.cf 		0444 root bin
-f none X11/lib/X11/config/xorg.cf 		0444 root bin
-f none X11/lib/X11/config/xorg.tmpl 		0444 root bin
-f none X11/lib/X11/config/xorgsite.def 		0444 root bin
-f none X11/lib/X11/config/xorgversion.def	0444 root bin
+# open-src/app/editres
+!search $HOME/bin
+f none bin/editres						0755 root bin
+s none openwin/bin/editres=../../bin/editres
+s none X11/bin/editres=../../bin/editres
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Editres				0444 root bin
+f none share/X11/app-defaults/Editres-color			0444 root bin
 
-!search $HOME/X11/bin
-d none X11					0755 root bin
-d none X11/bin					0755 root bin
-f none X11/bin/appres				0755 root bin
-f none X11/bin/atobm				0755 root bin
-f none X11/bin/bitmap				0755 root bin
-f none X11/bin/bmtoa				0755 root bin
-f none X11/bin/editres				0755 root bin
-f none X11/bin/oclock				0755 root bin
-f none X11/bin/xman				0755 root bin
-f none X11/bin/xcolor				0755 root bin
-f none X11/bin/xterm				0755 root bin
-f none X11/bin/resize				0755 root bin
-f none X11/bin/xditview                         0755 root bin
-f none X11/bin/xfontsel                         0755 root bin
-f none X11/bin/viewres				0755 root bin
-f none X11/bin/xcursorgen			0755 root bin
-f none X11/bin/xkill				0755 root bin
-f none X11/bin/xclipboard			0755 root bin
-f none X11/bin/xcmsdb				0755 root bin
-f none X11/bin/xconsole				0755 root bin
-f none X11/bin/xcutsel				0755 root bin
-f none X11/bin/xload				0755 root sys
-f none X11/bin/xbiff				0755 root bin
-f none X11/bin/xedit				0755 root bin
-f none X11/bin/imake				0755 root bin
-f none X11/bin/mkdirhier			0755 root bin
-f none X11/bin/xmkmf				0755 root bin
-f none X11/bin/makedepend			0755 root bin
-s none openwin/bin/makedepend=../../X11/bin/makedepend
-s none openwin/bin/imake=../../X11/bin/imake
-s none openwin/bin/mkdirhier=../../X11/bin/mkdirhier
-s none openwin/bin/xmkmf=../../X11/bin/xmkmf
-s none openwin/bin/xedit=../../X11/bin/xedit
-s none openwin/bin/xbiff=../../X11/bin/xbiff
-s none openwin/bin/xload=../../X11/bin/xload
-s none openwin/bin/appres=../../X11/bin/appres
-s none openwin/bin/atobm=../../X11/bin/atobm
-s none openwin/bin/bitmap=../../X11/bin/bitmap
-s none openwin/bin/bmtoa=../../X11/bin/bmtoa
-s none openwin/bin/editres=../../X11/bin/editres
-s none openwin/bin/oclock=../../X11/bin/oclock
-s none openwin/bin/xman=../../X11/bin/xman
-s none openwin/bin/xcolor=../../X11/bin/xcolor
-s none openwin/bin/xterm=../../X11/bin/xterm
-s none openwin/bin/resize=../../X11/bin/resize
-s none openwin/bin/xfontsel=../../X11/bin/xfontsel
-s none openwin/bin/xditview=../../X11/bin/xditview
-s none openwin/bin/viewres=../../X11/bin/viewres
-s none openwin/bin/xkill=../../X11/bin/xkill
-s none openwin/bin/xclipboard=../../X11/bin/xclipboard
-s none openwin/bin/xcmsdb=../../X11/bin/xcmsdb
-s none openwin/bin/xconsole=../../X11/bin/xconsole
-s none openwin/bin/xcutsel=../../X11/bin/xcutsel
+# open-src/app/lbxproxy
+!search $HOME/bin
+f none bin/lbxproxy						2755 root root
+s none X11/bin/lbxproxy=../../bin/lbxproxy
+s none openwin/bin/lbxproxy=../../bin/lbxproxy
+!search $HOME/lib/X11/lbxproxy
+d none lib/X11/lbxproxy						0755 root bin
+f none lib/X11/lbxproxy/AtomControl				0444 root bin
 
 # open-src/app/listres
-f none X11/bin/listres		0755 root bin
-s none openwin/bin/listres=../../X11/bin/listres
+!search $HOME/bin
+f none bin/listres						0755 root bin
+s none openwin/bin/listres=../../bin/listres
+s none X11/bin/listres=../../bin/listres
+
+# open-src/app/oclock
+!search $HOME/bin
+f none bin/oclock						0755 root bin
+s none openwin/bin/oclock=../../bin/oclock
+s none X11/bin/oclock=../../bin/oclock
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Clock-color			0444 root bin
+
+# open-src/app/proxymngr
+!search $HOME/bin
+f none bin/proxymngr						0755 root bin
+s none X11/bin/proxymngr=../../bin/proxymngr
+s none openwin/bin/proxymngr=../../bin/proxymngr
+!search $HOME/lib/X11/proxymngr
+d none lib/X11/proxymngr					0755 root bin
+f none lib/X11/proxymngr/pmconfig				0444 root bin
 
 # open-src/app/rgb
-f none X11/bin/rgb				0755 root bin
-s none openwin/bin/rgb=../../X11/bin/rgb
-
-# open-src/app/sessreg
-f none X11/bin/sessreg				0755 root bin
-s none openwin/bin/sessreg=../../X11/bin/sessreg
+!search $HOME/bin
+f none bin/rgb							0755 root bin
+s none openwin/bin/rgb=../../bin/rgb
+s none X11/bin/rgb=../../bin/rgb
 
 # open-src/app/twm
-f none X11/bin/twm				0755 root bin
-s none openwin/bin/twm=../../X11/bin/twm
+!search $HOME/bin
+f none bin/twm							0755 root bin
+s none openwin/bin/twm=../../bin/twm
+s none X11/bin/twm=../../bin/twm
+!search $HOME/share/X11/twm
+d none share/X11/twm						0755 root bin
+f none share/X11/twm/system.twmrc				0444 root bin
 
-# open-src/app/luit
-# no openwin link since it was never delivered into /usr/openwin
-f none X11/bin/luit				0755 root bin
+# open-src/app/viewres
+!search $HOME/bin
+f none bin/viewres						0755 root bin
+s none openwin/bin/viewres=../../bin/viewres
+s none X11/bin/viewres=../../bin/viewres
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Viewres				0444 root bin
+
+# open-src/app/xbiff
+!search $HOME/bin
+f none bin/xbiff						0755 root bin
+s none openwin/bin/xbiff=../../bin/xbiff
+s none X11/bin/xbiff=../../bin/xbiff
+
+# open-src/app/xclipboard
+!search $HOME/bin
+f none bin/xclipboard						0755 root bin
+s none openwin/bin/xclipboard=../../bin/xclipboard
+s none X11/bin/xclipboard=../../bin/xclipboard
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/XClipboard			0444 root bin
 
 # open-src/app/xclock
-f none X11/bin/xclock				0755 root bin
-s none openwin/bin/xclock=../../X11/bin/xclock
+!search $HOME/bin
+f none bin/xclock						0755 root bin
+s none openwin/bin/xclock=../../bin/xclock
+s none X11/bin/xclock=../../bin/xclock
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/XClock				0444 root bin
+f none share/X11/app-defaults/XClock-color			0444 root bin
 
-!search $HOME/X11/lib/X11/app-defaults
-d none X11/lib                                  0755 root bin
-d none X11/lib/X11		                0755 root bin
-d none X11/lib/X11/app-defaults		        0755 root bin
-f none X11/lib/X11/app-defaults/XLoad		0644 root bin
-f none X11/lib/X11/app-defaults/Xman		0644 root bin
-f none X11/lib/X11/app-defaults/Viewres		0644 root bin
-f none X11/lib/X11/app-defaults/Xedit 		0644 root bin
-f none X11/lib/X11/app-defaults/Xedit-color	0644 root bin
-f none X11/lib/X11/app-defaults/XFontSel 	0644 root bin
-f none X11/lib/X11/app-defaults/Xditview 	0644 root bin
-f none X11/lib/X11/app-defaults/Xditview-chrtr 	0644 root bin
+# open-src/app/xcmsdb
+!search $HOME/bin
+f none bin/xcmsdb						0755 root bin
+s none openwin/bin/xcmsdb=../../bin/xcmsdb
+s none X11/bin/xcmsdb=../../bin/xcmsdb
 
-# Create links back to openwin
-d none openwin/lib/app-defaults			0755 root bin
-s none openwin/lib/app-defaults/Viewres=../../../X11/lib/X11/app-defaults/Viewres
-s none openwin/lib/app-defaults/XLoad=../../../X11/lib/X11/app-defaults/XLoad
-s none openwin/lib/app-defaults/Xman=../../../X11/lib/X11/app-defaults/Xman
-s none openwin/lib/app-defaults/XFontSel=../../../X11/lib/X11/app-defaults/XFontSel
-s none openwin/lib/app-defaults/Xditview=../../../X11/lib/X11/app-defaults/Xditview
+# open-src/app/xcolor
+!search $HOME/bin
+f none bin/xcolor						0755 root bin
+s none openwin/bin/xcolor=../../bin/xcolor
+s none X11/bin/xcolor=../../bin/xcolor
 
-d none share					0755 root sys
-!search $HOME/share/pixmaps
-d none share/pixmaps				0755 root other
+# open-src/app/xconsole
+!search $HOME/bin
+f none bin/xconsole						0755 root bin
+s none openwin/bin/xconsole=../../bin/xconsole
+s none X11/bin/xconsole=../../bin/xconsole
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/XConsole				0444 root bin
 
-# open-src/app/xterm
-f none share/pixmaps/xterm_32x32.xpm		0444 root bin
-f none share/pixmaps/xterm_48x48.xpm		0444 root bin
-f none share/pixmaps/xterm-color_32x32.xpm	0444 root bin
-f none share/pixmaps/xterm-color_48x48.xpm	0444 root bin
+# open-src/app/xcursorgen - never delivered in /usr/openwin/bin
+!search $HOME/bin
+f none bin/xcursorgen						0755 root bin
+s none X11/bin/xcursorgen=../../bin/xcursorgen
 
-!search $HOME/X11/lib/X11/xedit/lisp
-d none X11/lib/X11/xedit			0755 root bin
-d none X11/lib/X11/xedit/lisp			0755 root bin
+# open-src/app/xcutsel
+!search $HOME/bin
+f none bin/xcutsel						0755 root bin
+s none openwin/bin/xcutsel=../../bin/xcutsel
+s none X11/bin/xcutsel=../../bin/xcutsel
 
-f none X11/lib/X11/xedit/lisp/lisp.lsp 		0644 root bin
-f none X11/lib/X11/xedit/lisp/indent.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/xedit.lsp		0644 root bin
-f none X11/lib/X11/xedit/lisp/syntax.lsp	0644 root bin
+# open-src/app/xditview
+!search $HOME/bin
+f none bin/xditview						0755 root bin
+s none openwin/bin/xditview=../../bin/xditview
+s none X11/bin/xditview=../../bin/xditview
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Xditview				0444 root bin
+f none share/X11/app-defaults/Xditview-chrtr			0444 root bin
 
-!search $HOME/X11/lib/X11/xedit/lisp/progmodes
-d none X11/lib/X11/xedit/lisp/progmodes		0755 root bin
+# open-src/app/xedit
+!search $HOME/bin
+f none bin/xedit						0755 root bin
+s none openwin/bin/xedit=../../bin/xedit
+s none X11/bin/xedit=../../bin/xedit
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Xedit				0444 root bin
+f none share/X11/app-defaults/Xedit-color			0444 root bin
 
-f none X11/lib/X11/xedit/lisp/progmodes/auto.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/imake.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/man.lsp		0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/python.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/sh.lsp		0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/xrdb.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/c.lsp		0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/lisp.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/patch.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/rpm.lsp		0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/xconf.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/html.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/make.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/perl.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/sgml.lsp	0644 root bin
-f none X11/lib/X11/xedit/lisp/progmodes/xlog.lsp	0644 root bin
+!search $HOME/lib/X11/xedit/lisp
+d none lib/X11/xedit						0755 root bin
+d none lib/X11/xedit/lisp					0755 root bin
+
+f none lib/X11/xedit/lisp/lisp.lsp				0444 root bin
+f none lib/X11/xedit/lisp/indent.lsp				0444 root bin
+f none lib/X11/xedit/lisp/xedit.lsp				0444 root bin
+f none lib/X11/xedit/lisp/syntax.lsp				0444 root bin
+
+!search $HOME/lib/X11/xedit/lisp/progmodes
+d none lib/X11/xedit/lisp/progmodes				0755 root bin
+
+f none lib/X11/xedit/lisp/progmodes/auto.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/imake.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/man.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/python.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/sh.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/xrdb.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/c.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/lisp.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/patch.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/rpm.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/xconf.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/html.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/make.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/perl.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/sgml.lsp			0444 root bin
+f none lib/X11/xedit/lisp/progmodes/xlog.lsp			0444 root bin
+
+# open-src/app/xfindproxy
+!search $HOME/bin
+f none bin/xfindproxy						0755 root bin
+s none X11/bin/xfindproxy=../../bin/xfindproxy
+s none openwin/bin/xfindproxy=../../bin/xfindproxy
+
+# open-src/app/xfontsel
+!search $HOME/bin
+f none bin/xfontsel						0755 root bin
+s none openwin/bin/xfontsel=../../bin/xfontsel
+s none X11/bin/xfontsel=../../bin/xfontsel
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/XFontSel				0444 root bin
+
+# open-src/app/xfwp
+!search $HOME/bin
+f none bin/xfwp							0755 root bin
+s none X11/bin/xfwp=../../bin/xfwp
+s none openwin/bin/xfwp=../../bin/xfwp
+
+# open-src/app/xload
+!search $HOME/bin
+f none bin/xload						0755 root sys
+s none openwin/bin/xload=../../bin/xload
+s none X11/bin/xload=../../bin/xload
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/XLoad				0444 root bin
+
+# open-src/app/xman
+!search $HOME/bin
+f none bin/xman							0755 root bin
+s none openwin/bin/xman=../../bin/xman
+s none X11/bin/xman=../../bin/xman
+!search $HOME/share/X11
+f none share/X11/xman.help					0444 root bin
+!search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/Xman				0444 root bin
+
+# open-src/app/xrx
+!search $HOME/bin
+f none bin/xrx							0755 root bin
+s none X11/bin/xrx=../../bin/xrx
+s none openwin/bin/xrx=../../bin/xrx
+!search $HOME/lib
+f none lib/libxrx.so						0755 root bin
+s none openwin/lib/libxrx.so=../../lib/libxrx.so
+s none X11/lib/libxrx.so=../../lib/libxrx.so
+
+# open-src/util/imake
+!search $HOME/bin
+f none bin/imake						0755 root bin
+f none bin/xmkmf						0755 root bin
+s none openwin/bin/imake=../../bin/imake
+s none openwin/bin/xmkmf=../../bin/xmkmf
+s none X11/bin/imake=../../bin/imake
+s none X11/bin/xmkmf=../../bin/xmkmf
+
+# open-src/util/makedepend
+!search $HOME/bin
+f none bin/makedepend						0755 root bin
+s none openwin/bin/makedepend=../../bin/makedepend
+s none X11/bin/makedepend=../../bin/makedepend
+
+
+# Imake configuration files
+# open-src/util/xorg-cf-files
+
+d none openwin/lib						0755 root bin
+d none openwin/lib/X11						0755 root bin
+s none openwin/lib/X11/config=../config
+s none openwin/lib/config=../../lib/X11/config
+
+!search  $HOME/lib/X11/config
+d none lib/X11/config						0755 root bin
+f none lib/X11/config/Imake.cf					0444 root bin
+f none lib/X11/config/Imake.rules				0444 root bin
+f none lib/X11/config/Imake.tmpl				0444 root bin
+f none lib/X11/config/Library.tmpl				0444 root bin
+f none lib/X11/config/Motif.rules				0444 root bin
+f none lib/X11/config/Motif.tmpl				0444 root bin
+f none lib/X11/config/Server.tmpl				0444 root bin
+f none lib/X11/config/ServerLib.tmpl				0444 root bin
+f none lib/X11/config/Threads.tmpl				0444 root bin
+f none lib/X11/config/X11.rules					0444 root bin
+f none lib/X11/config/X11.tmpl					0444 root bin
+f none lib/X11/config/date.def					0444 root bin
+f none lib/X11/config/generic.cf				0444 root bin
+f none lib/X11/config/host.def					0444 root bin
+f none lib/X11/config/noop.rules				0444 root bin
+f none lib/X11/config/oldlib.rules				0444 root bin
+f none lib/X11/config/site.def					0444 root bin
+f none lib/X11/config/sun.cf					0444 root bin
+f none lib/X11/config/sunLib.rules				0444 root bin
+f none lib/X11/config/sunLib.tmpl				0444 root bin
+f none lib/X11/config/sv4Lib.rules				0444 root bin
+f none lib/X11/config/sv4Lib.tmpl				0444 root bin
+f none lib/X11/config/svr4.cf					0444 root bin
+f none lib/X11/config/version.def				0444 root bin
+f none lib/X11/config/xf86.rules				0444 root bin
+f none lib/X11/config/xf86.tmpl					0444 root bin
+f none lib/X11/config/xf86site.def				0444 root bin
+f none lib/X11/config/xfree86.cf				0444 root bin
+f none lib/X11/config/xorg.cf					0444 root bin
+f none lib/X11/config/xorg.tmpl					0444 root bin
+f none lib/X11/config/xorgsite.def				0444 root bin
+f none lib/X11/config/xorgversion.def				0444 root bin

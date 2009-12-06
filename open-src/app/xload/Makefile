@@ -2,8 +2,8 @@
 #
 # xload 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -50,11 +50,11 @@ MODULE_STABILITY=Committed
 # Specify which cpp to use instead of depending on builder's $PATH
 MODULE_CONFIG_OPTS = --with-cpp=/usr/lib/cpp
 
+MODULE_ADD_INSTALL_TARGETS=install_po
 
 include ../Makefile.inc
 
-install_gen:: install_po
 install_po:
-	mkdir -p $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
-	cp -f xload.po $(PROTODIR)/usr/X11/share/locale/C/LC_MESSAGES
+	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -f xload.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
 
