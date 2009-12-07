@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype	1.15	09/12/05 SMI"
+# ident	"@(#)prototype	1.16	09/12/07 SMI"
 #
 # X Window System optional client localizable files
 
@@ -45,7 +45,7 @@ d none share							0755 root sys
 d none share/X11						0755 root bin
 d none share/X11/app-defaults					0755 root bin
 d none share/X11/app-defaults/C					0755 root bin
-f none share/X11/app-defaults/Bitmap				0444 root bin
+f none share/X11/app-defaults/C/Bitmap				0444 root bin
 f none share/X11/app-defaults/C/Bitmap-color			0444 root bin
 f none share/X11/app-defaults/C/Bitmap-nocase			0444 root bin
 f none share/X11/app-defaults/C/Editres				0444 root bin
