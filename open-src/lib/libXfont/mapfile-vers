@@ -54,6 +54,17 @@ SUNWprivate {
 	FontCharInkMetrics;
 	FontCharReshape;
 
+	# <X11/fonts/bufio.h>
+	BufFileCreate;
+	BufFileOpenRead;
+	BufFileOpenWrite;
+	BufFilePushCompressed;
+	BufFilePushZIP;
+	BufFilePushBZIP2;
+	BufFileClose;
+	BufFileRead;
+	BufFileWrite;
+
 	# <X11/fonts/font.h>
 	MakeFontNamesRecord;
 	FreeFontNames;
@@ -122,6 +133,9 @@ SUNWprivate {
 	FontFileOpenWriteFd;
 	FontFileOpenFd;
 
+	# <X11/fonts/fntfilst.h>
+	FontFileBitmapSources;
+
 	# <X11/fonts/fontmisc.h>
 	MakeAtom = NODIRECT;
 	ValidAtom = NODIRECT;
@@ -149,6 +163,9 @@ SUNWprivate {
 	AllocateFontPrivateIndex;
 	ResetFontPrivateIndex;
 	FreeTypeRegisterFontFileFunctions;
+
+	# <X11/fonts/fontstruct.h>
+	_FontSetNewPrivate;
 
 	# <X11/fonts/fontutil.h>
 	FontCouldBeTerminal;
