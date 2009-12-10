@@ -36,7 +36,7 @@
 MODULE_NAME=xterm
 
 # Version number (used in path names)
-MODULE_VERSION=243
+MODULE_VERSION=253
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
@@ -48,12 +48,11 @@ SOURCE_TARBALL_NAME_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	4251073.patch
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
+SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
@@ -65,12 +64,39 @@ FT_LIBS= \
 # Additional flags to pass to configure script
 MODULE_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
   --with-freetype-cflags="$(FT_CFLAGS)" --with-freetype-libs="$(FT_LIBS)" \
-  --disable-setuid --disable-setgid  --enable-luit \
+  --disable-setuid --disable-setgid  --enable-luit --disable-imake \
   --x-includes=$(PROTODIR)$(X11_INCLUDES_DIR) --x-libraries=$(X11_LIB_DIR) \
   --with-app-defaults=/usr/share/X11/app-defaults \
   --with-icondir=/usr/share/pixmaps --enable-logging
 
+# Sort-of emulate automake silent rules - run make configure V=1 to see 
+# full compiler flags
+MODULE_CONFIG_OPTS_VERBOSE_0 = --disable-echo
+MODULE_CONFIG_OPTS_VERBOSE_1 = --enable-echo
+MODULE_CONFIG_OPTS_VERBOSE_ = $(MODULE_CONFIG_OPTS_VERBOSE_0)
+MODULE_CONFIG_OPTS += $(MODULE_CONFIG_OPTS_VERBOSE_$(V))
+
 # Tell configure where to find luit binary
 MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
 
+MODULE_ADD_BUILD_TARGETS=fix_manpages
+MODULE_ADD_INSTALL_TARGETS=install_docs
+
 include ../Makefile.inc
+
+# Fix man page footers to not say "Last changed: X Window System"
+XORGRELSTRING = $(MODULE_NAME) $(MODULE_VERSION)
+  XORGMANNAME = X Version 11
+  XVENDORVERS = "$(XORGRELSTRING)" "$(XORGMANNAME)"
+
+fix_manpages: $(UNPACK_TARGET)
+	/usr/perl5/bin/perl -i -p -e 's{__vendorversion__}{$(XVENDORVERS)}g' \
+	  $(SOURCE_DIR)/*.man
+
+# Install documentation of xterm control sequences for packaging
+MODULE_DOCDIR=/usr/share/doc/xterm
+
+install_docs: $(UNPACK_TARGET)
+	mkdir -p $(PROTODIR)$(MODULE_DOCDIR)
+	rm -f $(PROTODIR)$(MODULE_DOCDIR)/ctlseqs.txt
+	cp -pf $(SOURCE_DIR)/ctlseqs.txt $(PROTODIR)$(MODULE_DOCDIR)/

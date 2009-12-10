@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_com	35.225	09/12/05 SMI"
+# ident	"@(#)prototype_com	35.226	09/12/10 SMI"
 #
 # X Window System required core package
 
@@ -47,6 +47,7 @@ d none sfw/lib							0755 root bin
 d none sfw/lib/$plat_64						0755 root bin
 
 d none share							0755 root sys
+d none share/doc						0755 root other
 d none share/X11						0755 root bin
 d none share/X11/app-defaults					0755 root bin
 
@@ -391,9 +392,13 @@ s none openwin/bin/resize=../../bin/resize
 s none X11/bin/xterm=../../bin/xterm
 s none X11/bin/resize=../../bin/resize
 !search $HOME/share/X11/app-defaults
+f none share/X11/app-defaults/KOI8RXTerm			0444 root bin
+f none share/X11/app-defaults/UXTerm				0444 root bin
 f none share/X11/app-defaults/XTerm				0444 root bin
 f none share/X11/app-defaults/XTerm-color			0444 root bin
-# open-src/app/xterm
+!search $HOME/share/doc/xterm
+d none share/doc/xterm						0755 root bin
+f none share/doc/xterm/ctlseqs.txt				0444 root bin
 !search $HOME/share/pixmaps
 d none share/pixmaps						0755 root other
 f none share/pixmaps/xterm_32x32.xpm				0444 root bin

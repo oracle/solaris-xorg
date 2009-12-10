@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.24	09/12/05 SMI"
+# ident	"@(#)prototype	1.25	09/12/10 SMI"
 #
 # X Window System required core package localizable files
 
@@ -61,6 +61,8 @@ f none share/X11/app-defaults/C/XLock				0444 root bin
 f none share/X11/app-defaults/C/XLogo				0444 root bin
 f none share/X11/app-defaults/C/XLogo-color			0444 root bin
 f none share/X11/app-defaults/C/Xmag				0444 root bin
+f none share/X11/app-defaults/C/KOI8RXTerm			0444 root bin
+f none share/X11/app-defaults/C/UXTerm				0444 root bin
 f none share/X11/app-defaults/C/XTerm				0444 root bin
 f none share/X11/app-defaults/C/XTerm-color			0444 root bin
 f none share/X11/app-defaults/C/Xvidtune			0444 root bin
