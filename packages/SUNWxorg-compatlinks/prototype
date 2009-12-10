@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype	1.5	09/12/05 SMI"
+# ident	"@(#)prototype	1.6	09/12/09 SMI"
 #
 # Symlinks for compatibility with X11 delivery locations on other systems
 
@@ -39,7 +39,13 @@ i pkginfo
 i depend
 i copyright
 
-d none X11 				0755 root bin
 s none X11R6=X11
 
-
+d none X11							0755 root bin
+d none X11/lib							0755 root bin
+d none X11/lib/X11						0755 root bin
+d none X11/lib/X11/fonts					0755 root bin
+s none X11/lib/X11/fonts/75dpi=../../../../share/fonts/X11/75dpi-ISO8859-1
+s none X11/lib/X11/fonts/100dpi=../../../../share/fonts/X11/100dpi-ISO8859-1
+s none X11/lib/X11/fonts/misc=../../../../share/fonts/X11/misc
+s none X11/lib/X11/fonts/TrueType=../../../../share/fonts/TrueType

@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype_com	35.85	09/11/23 SMI"
+# ident	"@(#)prototype_com	35.86	09/12/09 SMI"
 #
 #  X Window System required core fonts package
 
@@ -427,9 +427,6 @@ d none X11							0755 root bin
 d none X11/lib							0755 root bin
 d none X11/lib/X11						0755 root bin
 d none X11/lib/X11/fonts					0755 root bin
-s none X11/lib/X11/fonts/75dpi=../../../../share/fonts/X11/75dpi
-s none X11/lib/X11/fonts/100dpi=../../../../share/fonts/X11/100dpi
-s none X11/lib/X11/fonts/misc=../../../../share/fonts/X11/misc
 s none X11/lib/X11/fonts/F3bitmaps=../../../../share/fonts/sun/F3bitmaps
 
 # These need to be a directory, not a symlink, since other packages install
@@ -439,6 +436,4 @@ d none openwin/lib/X11/fonts/misc				0755 root bin
 e fontsdir openwin/lib/X11/fonts/misc/fonts.dir			0644 root bin
 d none openwin/lib/X11/fonts/TrueType				0755 root bin
 e fontsdir openwin/lib/X11/fonts/TrueType/fonts.dir		0644 root bin
-d none X11/lib/X11/fonts/TrueType				0755 root bin
-e fontsdir X11/lib/X11/fonts/TrueType/fonts.dir			0644 root bin
 
