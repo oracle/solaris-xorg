@@ -15,7 +15,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 --- doc/Xserver.man.pre	2009-08-10 21:00:22.000000000 -0700
 +++ doc/Xserver.man.pre	2009-11-03 22:28:48.641981596 -0800
 @@ -1,3 +1,33 @@
-+.\" ident	"@(#)sun-manpage.patch	1.11	09/12/06 SMI"
++.\" ident	"@(#)sun-manpage.patch	1.12	09/12/11 SMI"
 +.\" 
 +.\" Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 +.\" Use is subject to license terms.
@@ -187,10 +187,10 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +\fB/usr/openwin/bin/Xsun\fP
 +\fB/usr/openwin/bin/Xvfb\fP
 +\fB/usr/bin/Xorg\fP
-+\fB/usr/bin/i386/Xorg\fP
++\fB/usr/bin/i86/Xorg\fP
 +\fB/usr/bin/amd64/Xorg\fP
 +\fB/usr/bin/Xvfb\fP
-+\fB/usr/bin/i386/Xvfb\fP
++\fB/usr/bin/i86/Xvfb\fP
 +\fB/usr/bin/amd64/Xvfb\fP
 +\fB/usr/bin/Xvnc\fP
 +.fi

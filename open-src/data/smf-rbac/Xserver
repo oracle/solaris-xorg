@@ -1,6 +1,6 @@
 #!/bin/ksh93
 #
-# ident	"@(#)Xserver	1.9	09/12/05 SMI"
+# ident	"@(#)Xserver	1.10	09/12/11 SMI"
 #
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -163,10 +163,10 @@ function is_known_xserver {
     case "$1" in
 	/usr/bin/Xorg)			return 0 ;;
 	/usr/bin/amd64/Xorg)		return 0 ;;
-	/usr/bin/i386/Xorg)		return 0 ;;
+	/usr/bin/i86/Xorg)		return 0 ;;
 	/usr/bin/Xvfb)			return 0 ;;
 	/usr/bin/amd64/Xvfb)		return 0 ;;
-	/usr/bin/i386/Xvfb)		return 0 ;;
+	/usr/bin/i86/Xvfb)		return 0 ;;
 	/usr/bin/Xvnc)			return 0 ;;
 	/usr/openwin/bin/Xsun)		return 0 ;;
 	/usr/openwin/bin/Xvfb)		return 0 ;;

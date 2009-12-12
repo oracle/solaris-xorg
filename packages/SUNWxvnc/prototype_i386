@@ -1,6 +1,7 @@
 ###########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -29,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident "@(#)prototype_i386 1.1     07/10/10 SMI"
+# ident	"@(#)prototype_i386	1.2	09/12/11 SMI"
 #
 # Xvnc server for Solaris
 
@@ -37,6 +38,6 @@ i depend=depend_i386
 
 # Include ISA independent files (prototype_com)
 #
-!XSERVERBINDIR=bin/i386
+!XSERVERBINDIR=bin/i86
 !XSERVERMODDIR=lib/modules/
 !include prototype_com

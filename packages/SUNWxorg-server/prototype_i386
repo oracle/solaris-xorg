@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype_i386	1.20	09/12/11 SMI"
+# ident	"@(#)prototype_i386	1.21	09/12/11 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -38,7 +38,7 @@ i depend=depend_i386
 
 # Include ISA independent files (prototype_com)
 #
-!XSERVERBINDIR=bin/i386
+!XSERVERBINDIR=bin/i86
 !XSERVERMODDIR=lib/xorg/modules/
 !include prototype_com
 
@@ -47,7 +47,7 @@ l none bin/Xorg=../lib/isaexec
 l none bin/Xephyr=../lib/isaexec
 l none bin/Xvfb=../lib/isaexec
 
-!search $HOME/bin/i386
+!search $HOME/bin/i86
 d none bin/i86							0755 root bin
 f none bin/i86/Xorg						4555 root bin
 f none bin/i86/Xephyr						0555 root bin
