@@ -69,6 +69,7 @@ SOURCE_PATCHES =  \
 		  CKeyMap.cpp.patch \
 		  CKeyState.cpp.patch \
 		  CXWindowsClipboard.cpp.patch \
+		  CXWindowsClipboard.h.patch \
 		  CXWindowsKeyState.cpp.patch \
 		  CXWindowsScreen.cpp.patch \
 		  CArchConsoleUnix.cpp.patch
