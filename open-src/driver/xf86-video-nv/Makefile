@@ -30,14 +30,14 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.23	09/12/05 SMI"
+# ident	"@(#)Makefile	1.24	09/12/16 SMI"
 #
 
 # Package name used in tarballs
 MODULE_NAME=xf86-video-nv
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.15
+MODULE_VERSION=2.1.16
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
