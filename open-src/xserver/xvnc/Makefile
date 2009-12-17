@@ -32,7 +32,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.22	09/12/05 SMI"
+# ident	"@(#)Makefile	1.23	09/12/17 SMI"
 #
 
 # Package name used in tarballs
@@ -67,6 +67,7 @@ SOURCE_PATCHES = \
 	vnc-nobuildtime.patch \
 	vnc-nohttpd.patch \
 	vncviewer-connect.patch,-p1 \
+	upstream-modkeystick.patch,-p0 \
 	solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
