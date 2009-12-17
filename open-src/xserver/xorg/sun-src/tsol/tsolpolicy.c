@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolpolicy.c	1.29	09/12/05 SMI"
+#pragma ident	"@(#)tsolpolicy.c	1.30	09/12/17 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>
@@ -198,6 +198,8 @@ tsol_check_policy(TsolInfoPtr tsolinfo, TsolResPtr tsolres, xpolicy_t flags, int
 
 		if (flags & TSOL_WRITEOP) {
 			if ((tsolinfo->uid == tsolres->uid) ||
+			   (tsolinfo->uid == OwnerUID &&
+                               reqcode == X_ChangeWindowAttributes) ||
 			    client_has_privilege(tsolinfo, pset_win_dac_write)) {
 
 				status = Success;
