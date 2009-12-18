@@ -27,7 +27,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)prototype_com	35.226	09/12/10 SMI"
+# ident	"@(#)prototype_com	35.227	09/12/17 SMI"
 #
 # X Window System required core package
 
@@ -683,24 +683,24 @@ s none lib/$plat_64/libX.so.4=libX11.so.4
 s none lib/$plat_64/libX11.so=libX11.so.4
 f none lib/$plat_64/libX11.so.4					0555 root bin
 s none lib/$plat_64/libX11.so.5=libX11.so.4
-s none openwin/lib/$plat_64/libX.so=../../lib/64/libX.so
-s none openwin/lib/$plat_64/libX.so.4=../../lib/64/libX.so.4
-s none openwin/lib/$plat_64/libX11.so=../../lib/64/libX11.so
-s none openwin/lib/$plat_64/libX11.so.4=../../lib/64/libX11.so.4
-s none openwin/lib/$plat_64/libX11.so.5=../../lib/64/libX11.so.5
-s none X11/lib/$plat_64/libX.so=../../lib/64/libX.so
-s none X11/lib/$plat_64/libX.so.4=../../lib/64/libX.so.4
-s none X11/lib/$plat_64/libX11.so=../../lib/64/libX11.so
-s none X11/lib/$plat_64/libX11.so.4=../../lib/64/libX11.so.4
-s none X11/lib/$plat_64/libX11.so.5=../../lib/64/libX11.so.5
+s none openwin/lib/$plat_64/libX.so=../../../lib/64/libX.so
+s none openwin/lib/$plat_64/libX.so.4=../../../lib/64/libX.so.4
+s none openwin/lib/$plat_64/libX11.so=../../../lib/64/libX11.so
+s none openwin/lib/$plat_64/libX11.so.4=../../../lib/64/libX11.so.4
+s none openwin/lib/$plat_64/libX11.so.5=../../../lib/64/libX11.so.5
+s none X11/lib/$plat_64/libX.so=../../../lib/64/libX.so
+s none X11/lib/$plat_64/libX.so.4=../../../lib/64/libX.so.4
+s none X11/lib/$plat_64/libX11.so=../../../lib/64/libX11.so
+s none X11/lib/$plat_64/libX11.so.4=../../../lib/64/libX11.so.4
+s none X11/lib/$plat_64/libX11.so.5=../../../lib/64/libX11.so.5
 
 # open-src/lib/libXau
 s none lib/$plat_64/libXau.so=libXau.so.6
 f none lib/$plat_64/libXau.so.6					0555 root bin
-s none openwin/lib/$plat_64/libXau.so=../../lib/64/libXau.so
-s none openwin/lib/$plat_64/libXau.so.6=../../lib/64/libXau.so.6
-s none X11/lib/$plat_64/libXau.so=../../lib/64/libXau.so
-s none X11/lib/$plat_64/libXau.so.6=../../lib/64/libXau.so.6
+s none openwin/lib/$plat_64/libXau.so=../../../lib/64/libXau.so
+s none openwin/lib/$plat_64/libXau.so.6=../../../lib/64/libXau.so.6
+s none X11/lib/$plat_64/libXau.so=../../../lib/64/libXau.so
+s none X11/lib/$plat_64/libXau.so.6=../../../lib/64/libXau.so.6
 
 # open-src/lib/libXaw
 # The libXaw.so link from /usr/openwin/lib is redirected,
@@ -709,49 +709,49 @@ s none lib/$plat_64/libXaw.so=libXaw7.so.7
 s none lib/$plat_64/libXaw.so.7=libXaw7.so.7
 f none lib/$plat_64/libXaw7.so.7				0555 root bin
 s none lib/$plat_64/libXaw7.so=libXaw7.so.7
-s none openwin/lib/$plat_64/libXaw.so=../../lib/64/libXaw.so
-s none X11/lib/$plat_64/libXaw.so=../../lib/64/libXaw.so
-s none X11/lib/$plat_64/libXaw.so.7=../../lib/64/libXaw.so.7
-s none X11/lib/$plat_64/libXaw7.so=../../lib/64/libXaw7.so
-s none X11/lib/$plat_64/libXaw7.so.7=../../lib/64/libXaw7.so.7
+s none openwin/lib/$plat_64/libXaw.so=../../../lib/64/libXaw.so
+s none X11/lib/$plat_64/libXaw.so=../../../lib/64/libXaw.so
+s none X11/lib/$plat_64/libXaw.so.7=../../../lib/64/libXaw.so.7
+s none X11/lib/$plat_64/libXaw7.so=../../../lib/64/libXaw7.so
+s none X11/lib/$plat_64/libXaw7.so.7=../../../lib/64/libXaw7.so.7
 
 # open-src/lib/libXaw5
 f none lib/$plat_64/libXaw.so.5					0755 root bin
-s none openwin/lib/$plat_64/libXaw.so.5=../../lib/64/libXaw.so.5
-s none X11/lib/$plat_64/libXaw.so.5=../../lib/64/libXaw.so.5
+s none openwin/lib/$plat_64/libXaw.so.5=../../../lib/64/libXaw.so.5
+s none X11/lib/$plat_64/libXaw.so.5=../../../lib/64/libXaw.so.5
 
 # open-src/lib/libFS - never delivered into openwin in 64-bit version
 s none lib/$plat_64/libFS.so=libFS.so.5
 f none lib/$plat_64/libFS.so.5					0555 root bin
-s none X11/lib/$plat_64/libFS.so=../../lib/64/libFS.so
-s none X11/lib/$plat_64/libFS.so.5=../../lib/64/libFS.so.5
+s none X11/lib/$plat_64/libFS.so=../../../lib/64/libFS.so
+s none X11/lib/$plat_64/libFS.so.5=../../../lib/64/libFS.so.5
 
 # open-src/lib/libSM
 s none lib/$plat_64/libSM.so=libSM.so.6
 f none lib/$plat_64/libSM.so.6					0555 root bin
-s none openwin/lib/$plat_64/libSM.so=../../lib/64/libSM.so
-s none openwin/lib/$plat_64/libSM.so.6=../../lib/64/libSM.so.6
-s none X11/lib/$plat_64/libSM.so=../../lib/64/libSM.so
-s none X11/lib/$plat_64/libSM.so.6=../../lib/64/libSM.so.6
+s none openwin/lib/$plat_64/libSM.so=../../../lib/64/libSM.so
+s none openwin/lib/$plat_64/libSM.so.6=../../../lib/64/libSM.so.6
+s none X11/lib/$plat_64/libSM.so=../../../lib/64/libSM.so
+s none X11/lib/$plat_64/libSM.so.6=../../../lib/64/libSM.so.6
 
 # open-src/lib/libXcomposite (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXcomposite.so=libXcomposite.so.1
 f none lib/$plat_64/libXcomposite.so.1				0555 root bin
-s none X11/lib/$plat_64/libXcomposite.so=../../lib/64/libXcomposite.so
-s none X11/lib/$plat_64/libXcomposite.so.1=../../lib/64/libXcomposite.so.1
+s none X11/lib/$plat_64/libXcomposite.so=../../../lib/64/libXcomposite.so
+s none X11/lib/$plat_64/libXcomposite.so.1=../../../lib/64/libXcomposite.so.1
 
 # open-src/lib/libXcursor (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXcursor.so=libXcursor.so.1
 f none lib/$plat_64/libXcursor.so.1				0555 root bin
-s none X11/lib/$plat_64/libXcursor.so=../../lib/64/libXcursor.so
-s none X11/lib/$plat_64/libXcursor.so.1=../../lib/64/libXcursor.so.1
+s none X11/lib/$plat_64/libXcursor.so=../../../lib/64/libXcursor.so
+s none X11/lib/$plat_64/libXcursor.so.1=../../../lib/64/libXcursor.so.1
 
 # open-src/lib/libXdamage  (never delivered into /usr/openwin/lib -
 # only into /usr/openwin/sfw/lib, which is covered by symlink below)
 s none lib/$plat_64/libXdamage.so=libXdamage.so.1
 f none lib/$plat_64/libXdamage.so.1				0755 root bin
-s none X11/lib/$plat_64/libXdamage.so=../../lib/64/libXdamage.so
-s none X11/lib/$plat_64/libXdamage.so.1=../../lib/64/libXdamage.so.1
+s none X11/lib/$plat_64/libXdamage.so=../../../lib/64/libXdamage.so
+s none X11/lib/$plat_64/libXdamage.so.1=../../../lib/64/libXdamage.so.1
 # Backwards compatibility for original locations [see PSARC/2006/557]
 s none sfw/lib/$plat_64/libXdamage.so=../../../lib/64/libXdamage.so
 s none sfw/lib/$plat_64/libXdamage.so.1=../../../lib/64/libXdamage.so.1
@@ -759,32 +759,32 @@ s none sfw/lib/$plat_64/libXdamage.so.1=../../../lib/64/libXdamage.so.1
 # open-src/lib/libXdmcp
 s none lib/$plat_64/libXdmcp.so=libXdmcp.so.6
 f none lib/$plat_64/libXdmcp.so.6				0555 root bin
-s none openwin/lib/$plat_64/libXdmcp.so=../../lib/64/libXdmcp.so
-s none openwin/lib/$plat_64/libXdmcp.so.6=../../lib/64/libXdmcp.so.6
-s none X11/lib/$plat_64/libXdmcp.so=../../lib/64/libXdmcp.so
-s none X11/lib/$plat_64/libXdmcp.so.6=../../lib/64/libXdmcp.so.6
+s none openwin/lib/$plat_64/libXdmcp.so=../../../lib/64/libXdmcp.so
+s none openwin/lib/$plat_64/libXdmcp.so.6=../../../lib/64/libXdmcp.so.6
+s none X11/lib/$plat_64/libXdmcp.so=../../../lib/64/libXdmcp.so
+s none X11/lib/$plat_64/libXdmcp.so.6=../../../lib/64/libXdmcp.so.6
 
 # open-src/lib/libXevie (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXevie.so=libXevie.so.1
 f none lib/$plat_64/libXevie.so.1				0555 root bin
-s none X11/lib/$plat_64/libXevie.so=../../lib/64/libXevie.so
-s none X11/lib/$plat_64/libXevie.so.1=../../lib/64/libXevie.so.1
+s none X11/lib/$plat_64/libXevie.so=../../../lib/64/libXevie.so
+s none X11/lib/$plat_64/libXevie.so.1=../../../lib/64/libXevie.so.1
 
 # open-src/lib/libXext
 s none lib/$plat_64/libXext.so=libXext.so.0
 f none lib/$plat_64/libXext.so.0				0555 root bin
-s none openwin/lib/$plat_64/libXext.so=../../lib/64/libXext.so
-s none openwin/lib/$plat_64/libXext.so.0=../../lib/64/libXext.so.0
-s none X11/lib/$plat_64/libXext.so=../../lib/64/libXext.so
-s none X11/lib/$plat_64/libXext.so.0=../../lib/64/libXext.so.0
+s none openwin/lib/$plat_64/libXext.so=../../../lib/64/libXext.so
+s none openwin/lib/$plat_64/libXext.so.0=../../../lib/64/libXext.so.0
+s none X11/lib/$plat_64/libXext.so=../../../lib/64/libXext.so
+s none X11/lib/$plat_64/libXext.so.0=../../../lib/64/libXext.so.0
 
 # open-src/lib/libXfixes (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXfixes.so=libXfixes.so.1
 f none lib/$plat_64/libXfixes.so.1				0555 root bin
-s none openwin/lib/$plat_64/libXfixes.so=../../lib/64/libXfixes.so
-s none openwin/lib/$plat_64/libXfixes.so.1=../../lib/64/libXfixes.so.1
-s none X11/lib/$plat_64/libXfixes.so=../../lib/64/libXfixes.so
-s none X11/lib/$plat_64/libXfixes.so.1=../../lib/64/libXfixes.so.1
+s none openwin/lib/$plat_64/libXfixes.so=../../../lib/64/libXfixes.so
+s none openwin/lib/$plat_64/libXfixes.so.1=../../../lib/64/libXfixes.so.1
+s none X11/lib/$plat_64/libXfixes.so=../../../lib/64/libXfixes.so
+s none X11/lib/$plat_64/libXfixes.so.1=../../../lib/64/libXfixes.so.1
 # Backwards compatibility for original locations [see PSARC/2006/557]
 s none sfw/lib/$plat_64/libXfixes.so=../../../lib/64/libXfixes.so
 s none sfw/lib/$plat_64/libXfixes.so.1=../../../lib/64/libXfixes.so.1
@@ -792,56 +792,56 @@ s none sfw/lib/$plat_64/libXfixes.so.1=../../../lib/64/libXfixes.so.1
 # open-src/lib/libXi
 s none lib/$plat_64/libXi.so=libXi.so.5
 f none lib/$plat_64/libXi.so.5					0555 root bin
-s none openwin/lib/$plat_64/libXi.so=../../lib/64/libXi.so
-s none openwin/lib/$plat_64/libXi.so.5=../../lib/64/libXi.so.5
-s none X11/lib/$plat_64/libXi.so=../../lib/64/libXi.so
-s none X11/lib/$plat_64/libXi.so.5=../../lib/64/libXi.so.5
+s none openwin/lib/$plat_64/libXi.so=../../../lib/64/libXi.so
+s none openwin/lib/$plat_64/libXi.so.5=../../../lib/64/libXi.so.5
+s none X11/lib/$plat_64/libXi.so=../../../lib/64/libXi.so
+s none X11/lib/$plat_64/libXi.so.5=../../../lib/64/libXi.so.5
 
 # open-src/lib/libXinerama (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXinerama.so=libXinerama.so.1
 f none lib/$plat_64/libXinerama.so.1				0555 root bin
-s none X11/lib/$plat_64/libXinerama.so=../../lib/64/libXinerama.so
-s none X11/lib/$plat_64/libXinerama.so.1=../../lib/64/libXinerama.so.1
+s none X11/lib/$plat_64/libXinerama.so=../../../lib/64/libXinerama.so
+s none X11/lib/$plat_64/libXinerama.so.1=../../../lib/64/libXinerama.so.1
 
 # open-src/lib/libxkbfile (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libxkbfile.so=libxkbfile.so.5
 f none lib/$plat_64/libxkbfile.so.5				0555 root bin
 s none X11/lib/$plat_64/libxkbfile.so=libxkbfile.so.5
-s none X11/lib/$plat_64/libxkbfile.so.5=../../lib/64/libxkbfile.so.5
+s none X11/lib/$plat_64/libxkbfile.so.5=../../../lib/64/libxkbfile.so.5
 
 # opensrc/lib/libXmu (only libXmu, not libXmuu was delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXmu.so=libXmu.so.4
 f none lib/$plat_64/libXmu.so.4					0755 root bin
 s none lib/$plat_64/libXmuu.so=libXmuu.so.1
 f none lib/$plat_64/libXmuu.so.1				0755 root bin
-s none openwin/lib/$plat_64/libXmu.so=../../lib/64/libXmu.so
-s none openwin/lib/$plat_64/libXmu.so.4=../../lib/64/libXmu.so.4
-s none X11/lib/$plat_64/libXmu.so=../../lib/64/libXmu.so
-s none X11/lib/$plat_64/libXmu.so.4=../../lib/64/libXmu.so.4
-s none X11/lib/$plat_64/libXmuu.so=../../lib/64/libXmuu.so
-s none X11/lib/$plat_64/libXmuu.so.1=../../lib/64/libXmuu.so.1
+s none openwin/lib/$plat_64/libXmu.so=../../../lib/64/libXmu.so
+s none openwin/lib/$plat_64/libXmu.so.4=../../../lib/64/libXmu.so.4
+s none X11/lib/$plat_64/libXmu.so=../../../lib/64/libXmu.so
+s none X11/lib/$plat_64/libXmu.so.4=../../../lib/64/libXmu.so.4
+s none X11/lib/$plat_64/libXmuu.so=../../../lib/64/libXmuu.so
+s none X11/lib/$plat_64/libXmuu.so.1=../../../lib/64/libXmuu.so.1
 
 # opensrc/lib/libXpm
 s none lib/$plat_64/libXpm.so=libXpm.so.4
 f none lib/$plat_64/libXpm.so.4					0755 root bin
-s none openwin/lib/$plat_64/libXpm.so=../../lib/64/libXpm.so
-s none openwin/lib/$plat_64/libXpm.so.4=../../lib/64/libXpm.so.4
-s none X11/lib/$plat_64/libXpm.so=../../lib/64/libXpm.so
-s none X11/lib/$plat_64/libXpm.so.4=../../lib/64/libXpm.so.4
+s none openwin/lib/$plat_64/libXpm.so=../../../lib/64/libXpm.so
+s none openwin/lib/$plat_64/libXpm.so.4=../../../lib/64/libXpm.so.4
+s none X11/lib/$plat_64/libXpm.so=../../../lib/64/libXpm.so
+s none X11/lib/$plat_64/libXpm.so.4=../../../lib/64/libXpm.so.4
 
 # open-src/lib/libXp
 s none lib/$plat_64/libXp.so=libXp.so.1
 f none lib/$plat_64/libXp.so.1					0755 root bin
-s none openwin/lib/$plat_64/libXp.so=../../lib/64/libXp.so
-s none openwin/lib/$plat_64/libXp.so.1=../../lib/64/libXp.so.1
-s none X11/lib/$plat_64/libXp.so=../../lib/64/libXp.so
-s none X11/lib/$plat_64/libXp.so.1=../../lib/64/libXp.so.1
+s none openwin/lib/$plat_64/libXp.so=../../../lib/64/libXp.so
+s none openwin/lib/$plat_64/libXp.so.1=../../../lib/64/libXp.so.1
+s none X11/lib/$plat_64/libXp.so=../../../lib/64/libXp.so
+s none X11/lib/$plat_64/libXp.so.1=../../../lib/64/libXp.so.1
 
 # open-src/lib/libXrender (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXrender.so=libXrender.so.1
 f none lib/$plat_64/libXrender.so.1				0755 root bin
-s none X11/lib/$plat_64/libXrender.so=../../lib/64/libXrender.so
-s none X11/lib/$plat_64/libXrender.so.1=../../lib/64/libXrender.so.1
+s none X11/lib/$plat_64/libXrender.so=../../../lib/64/libXrender.so
+s none X11/lib/$plat_64/libXrender.so.1=../../../lib/64/libXrender.so.1
 # Backwards compatibility for original locations [see PSARC/2006/557]
 s none sfw/lib/$plat_64/libXrender.so=../../../lib/64/libXrender.so
 s none sfw/lib/$plat_64/libXrender.so.1=../../../lib/64/libXrender.so.1
@@ -849,39 +849,39 @@ s none sfw/lib/$plat_64/libXrender.so.1=../../../lib/64/libXrender.so.1
 # open-src/lib/libXRes (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXRes.so=libXRes.so.1
 f none lib/$plat_64/libXRes.so.1				0755 root bin
-s none X11/lib/$plat_64/libXRes.so=../../lib/64/libXRes.so
-s none X11/lib/$plat_64/libXRes.so.1=../../lib/64/libXRes.so.1
+s none X11/lib/$plat_64/libXRes.so=../../../lib/64/libXRes.so
+s none X11/lib/$plat_64/libXRes.so.1=../../../lib/64/libXRes.so.1
 
 # open-src/lib/libXss (never delivered into /usr/openwin/lib)
 s none lib/$plat_64/libXss.so=libXss.so.1
 f none lib/$plat_64/libXss.so.1					0555 root bin
-s none X11/lib/$plat_64/libXss.so=../../lib/64/libXss.so
-s none X11/lib/$plat_64/libXss.so.1=../../lib/64/libXss.so.1
+s none X11/lib/$plat_64/libXss.so=../../../lib/64/libXss.so
+s none X11/lib/$plat_64/libXss.so.1=../../../lib/64/libXss.so.1
 
 # open-src/lib/libXt
 s none lib/$plat_64/libXt.so=libXt.so.4
 f none lib/$plat_64/libXt.so.4					0555 root bin
 s none lib/$plat_64/libXt.so.5=libXt.so.4
-s none openwin/lib/$plat_64/libXt.so=../../lib/64/libXt.so
-s none openwin/lib/$plat_64/libXt.so.4=../../lib/64/libXt.so.4
-s none X11/lib/$plat_64/libXt.so=../../lib/64/libXt.so
-s none X11/lib/$plat_64/libXt.so.4=../../lib/64/libXt.so.4
+s none openwin/lib/$plat_64/libXt.so=../../../lib/64/libXt.so
+s none openwin/lib/$plat_64/libXt.so.4=../../../lib/64/libXt.so.4
+s none X11/lib/$plat_64/libXt.so=../../../lib/64/libXt.so
+s none X11/lib/$plat_64/libXt.so.4=../../../lib/64/libXt.so.4
 
 # open-src/lib/libXtsol - Trusted Extensions API support
 s none lib/$plat_64/libXtsol.so=libXtsol.so.1
 f none lib/$plat_64/libXtsol.so.1				0555 root bin
-s none openwin/lib/$plat_64/libXtsol.so=../../lib/64/libXtsol.so
-s none openwin/lib/$plat_64/libXtsol.so.1=../../lib/64/libXtsol.so.1
-s none X11/lib/$plat_64/libXtsol.so=../../lib/64/libXtsol.so
-s none X11/lib/$plat_64/libXtsol.so.1=../../lib/64/libXtsol.so.1
+s none openwin/lib/$plat_64/libXtsol.so=../../../lib/64/libXtsol.so
+s none openwin/lib/$plat_64/libXtsol.so.1=../../../lib/64/libXtsol.so.1
+s none X11/lib/$plat_64/libXtsol.so=../../../lib/64/libXtsol.so
+s none X11/lib/$plat_64/libXtsol.so.1=../../../lib/64/libXtsol.so.1
 
 # open-src/lib/libXtst
 s none lib/$plat_64/libXtst.so=libXtst.so.1
 f none lib/$plat_64/libXtst.so.1				0755 root bin
-s none openwin/lib/$plat_64/libXtst.so=../../lib/64/libXtst.so
-s none openwin/lib/$plat_64/libXtst.so.1=../../lib/64/libXtst.so.1
-s none X11/lib/$plat_64/libXtst.so=../../lib/64/libXtst.so
-s none X11/lib/$plat_64/libXtst.so.1=../../lib/64/libXtst.so.1
+s none openwin/lib/$plat_64/libXtst.so=../../../lib/64/libXtst.so
+s none openwin/lib/$plat_64/libXtst.so.1=../../../lib/64/libXtst.so.1
+s none X11/lib/$plat_64/libXtst.so=../../../lib/64/libXtst.so
+s none X11/lib/$plat_64/libXtst.so.1=../../../lib/64/libXtst.so.1
 
 #
 !search $HOME/share/X11
