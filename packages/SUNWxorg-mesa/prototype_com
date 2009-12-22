@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype_com	1.23	09/12/05 SMI"
+# ident	"@(#)prototype_com	1.24	09/12/22 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -122,11 +122,11 @@ f none include/mesa/GLwDrawAP.h					0444 root bin
 f none include/mesa/GLwMDrawA.h					0444 root bin
 f none include/mesa/GLwMDrawAP.h				0444 root bin
 d none include/GL						0755 root bin
-s none include/GL/gl.h=../../var/run/opengl/include/gl.h
-s none include/GL/glext.h=../../var/run/opengl/include/glext.h
+s none include/GL/gl.h=../../../var/run/opengl/include/gl.h
+s none include/GL/glext.h=../../../var/run/opengl/include/glext.h
 s none include/GL/glu.h=../mesa/glu.h
-s none include/GL/glx.h=../../var/run/opengl/include/glx.h
-s none include/GL/glxext.h=../../var/run/opengl/include/glxext.h
+s none include/GL/glx.h=../../../var/run/opengl/include/glx.h
+s none include/GL/glxext.h=../../../var/run/opengl/include/glxext.h
 s none include/GL/glxint.h=../mesa/glxint.h
 s none include/GL/glxmd.h=../mesa/glxmd.h
 s none include/GL/glxproto.h=../mesa/glxproto.h
