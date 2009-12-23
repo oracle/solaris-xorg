@@ -29,7 +29,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.init	1.16	09/12/11 SMI"
+# ident	"@(#)Makefile.init	1.17	09/12/22 SMI"
 #
 
 # Use ksh93 for shell commands in Makefiles so that builds are the same
@@ -167,8 +167,7 @@ PROG_CXXFLAGS		= $(CXXFLAGS)
 # Linker mapfiles to link with for better performance & security
 # SPARC architecture requires PLT section in .data be executable, so
 # we can only make .bss, not all of .data no-exec on SPARC
-MAPFILE_DIR 		= $(TOP)/common/mapfiles
-MAPFILE_NOEXBSS		= $(MAPFILE_DIR)/map.noexbss
+MAPFILE_NOEXBSS		= /usr/lib/ld/map.noexbss
 MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
 MAPFILE_NOEXDATA_i386	= /usr/lib/ld/map.noexdata
 MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
