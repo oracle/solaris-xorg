@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype_com	1.24	09/12/22 SMI"
+# ident	"@(#)prototype_com	1.25	09/12/23 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -165,7 +165,7 @@ f none lib/xorg/modules/extensions/libdri.so			0755 root bin
 f none lib/xorg/modules/extensions/libdri2.so			0755 root bin
 d none lib/xorg/modules/extensions/mesa				0755 root bin
 f none lib/xorg/modules/extensions/mesa/libglx.so		0755 root bin
-s none lib/xorg/modules/extensions/GL=mesa
+s none lib/xorg/modules/extensions/GL=../../../../../var/run/opengl/server
 s none lib/xorg/modules/extensions/libglx.so=../../../../../var/run/opengl/server/libglx.so
 
 !search $HOME/lib/pkgconfig
