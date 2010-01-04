@@ -1,5 +1,6 @@
 server-1.7-nominations.patch,-p1
 resource-names.patch,-p1
+closedevice.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch
