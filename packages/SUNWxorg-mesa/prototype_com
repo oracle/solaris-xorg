@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype_com	1.25	09/12/23 SMI"
+# ident	"@(#)prototype_com	1.26	10/01/04 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -163,10 +163,12 @@ f none lib/xorg/modules/dri/swrast_dri.so			0755 root bin
 d none lib/xorg/modules/extensions				0755 root bin
 f none lib/xorg/modules/extensions/libdri.so			0755 root bin
 f none lib/xorg/modules/extensions/libdri2.so			0755 root bin
-d none lib/xorg/modules/extensions/mesa				0755 root bin
-f none lib/xorg/modules/extensions/mesa/libglx.so		0755 root bin
 s none lib/xorg/modules/extensions/GL=../../../../../var/run/opengl/server
 s none lib/xorg/modules/extensions/libglx.so=../../../../../var/run/opengl/server/libglx.so
+
+d none lib/mesa/modules						0755 root bin
+d none lib/mesa/modules/extensions				0755 root bin
+f none lib/mesa/modules/extensions/libglx.so			0755 root bin
 
 !search $HOME/lib/pkgconfig
 d none lib							0755 root bin

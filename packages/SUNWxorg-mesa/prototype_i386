@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype_i386	1.1	09/12/05 SMI"
+# ident	"@(#)prototype_i386	1.2	10/01/04 SMI"
 #
 # Mesa - OpenGL Workalike for Solaris
 
@@ -59,9 +59,10 @@ f none lib/xorg/modules/dri/$plat_64/swrast_dri.so		0755 root bin
 d none lib/xorg/modules/extensions/$plat_64			0755 root bin
 f none lib/xorg/modules/extensions/$plat_64/libdri.so		0755 root bin
 f none lib/xorg/modules/extensions/$plat_64/libdri2.so		0755 root bin
-d none lib/xorg/modules/extensions/mesa/$plat_64		0755 root bin
-f none lib/xorg/modules/extensions/mesa/$plat_64/libglx.so	0755 root bin
 s none lib/xorg/modules/extensions/$plat_64/libglx.so=../../../../../../var/run/opengl/server/amd64/libglx.so
+
+d none lib/mesa/modules/extensions/$plat_64			0755 root bin
+f none lib/mesa/modules/extensions/$plat_64/libglx.so		0755 root bin
 
 # "legacy" links for GLU/GLw headers and libraries 
 # Only delivered on x86, since they clash with SUNWglrt on SPARC
