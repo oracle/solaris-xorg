@@ -1,0 +1,23 @@
+--- modules/om/generic/omGeneric.c.old	Thu Dec 31 23:28:51 2009
++++ modules/om/generic/omGeneric.c	Sat Jan  3 09:10:58 2010
+@@ -437,11 +437,10 @@
+ 		}
+ 	    }
+ 
+-	    if(font_set->vrotate_num > 0) {
++	    if(font_set->vrotate_num > 0 && font_set->vrotate != NULL) {
+ 		font_data = (FontData) font_set->vrotate;
+ 		font_data_count = font_set->vrotate_num;
+ 		for( ; font_data_count-- ; font_data++) {
+-		    if(font_data != NULL)
+ 		    if(font_data->font != NULL) {
+ 			check_fontset_extents(&overall, &logical_ascent,
+ 					      &logical_descent,
+@@ -597,6 +596,7 @@
+ 	if((ptr = strchr(ptr, '-'))) {
+ 	    *ptr = '\0';
+ 	} else {
++	    field_num++;	/* Count last field */
+ 	    break;
+ 	}
+     }

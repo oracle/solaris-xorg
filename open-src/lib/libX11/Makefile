@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.26	09/12/05 SMI"
+# ident	"@(#)Makefile	1.27	10/01/05 SMI"
 #
 
 # Package name used in tarballs
@@ -98,7 +98,8 @@ SOURCE_PATCHES = \
 	locale-zh_HK.UTF-8.patch \
 	locale-zh_TW.UTF-8.patch \
 	locale-zh_TW.patch \
-	locale-ru-RU.UTF-8.patch
+	locale-ru-RU.UTF-8.patch \
+	6913809.patch 
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
