@@ -27,4 +27,4 @@ sparc-initvisuals.patch
 hotkey.patch
 vt.patch
 vbe-packing.patch
-exa-workaround.patch
+6906694.patch
