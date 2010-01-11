@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolextension.c	1.42	09/12/05 SMI"
+#pragma ident	"@(#)tsolextension.c	1.43	10/01/07 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"
@@ -162,6 +162,8 @@ extern Bool client_has_privilege(TsolInfoPtr tsolinfo, priv_set_t *priv);
 extern priv_set_t *pset_win_mac_write;
 extern priv_set_t *pset_win_dac_write;
 extern priv_set_t *pset_win_config;
+
+extern RESTYPE RREventType;
 
 /*
  * Initialize the extension. Main entry point for this loadable
@@ -299,7 +301,16 @@ static CALLBACK(
 	case RT_FONT:
 		TsolCheckXIDAccess(pcbl, nulldata, calldata);
 		break;
-
+	default:
+		/* 
+		 * Handle other resource types.
+		 * In RANDR extension, usual window policy is 
+		 * enforced before checking for RREventType.
+		 */
+		if (rtype == RREventType) {
+			rec->status = Success;
+		}
+		break;
 	}
 }
 
