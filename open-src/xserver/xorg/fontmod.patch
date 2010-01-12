@@ -1,4 +1,4 @@
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,20 +26,17 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-Replace "type1" and "bitstream" font modules in xorg.conf files with
-"freetype"
+Add Sun's old "bitstream" font module to the list of obsolete modules
+to ignore in xorg.conf files.
 
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-11-03 22:28:58.358427130 -0800
-+++ hw/xfree86/common/xf86Config.c	2009-11-03 22:28:59.768980995 -0800
-@@ -251,7 +251,9 @@ xf86ModulelistFromConfig(pointer **optli
- {
-     int count = 0, i = 0;
+--- hw/xfree86/common/xf86Config.c	2010-01-07 18:14:17.933694496 -0800
++++ hw/xfree86/common/xf86Config.c	2010-01-07 18:14:19.290141839 -0800
+@@ -246,6 +246,7 @@ xf86ModulelistFromConfig(pointer **optli
      char **modulearray;
--    char *ignore[] = { "GLcore", "speedo", "bitmap", "drm", NULL };
-+    char *ignore[] = { "GLcore", "speedo", "bitmap", "drm",
-+		       "type1", "bitstream",
-+		       NULL };
+     char *ignore[] = { "GLcore", "speedo", "bitmap", "drm",
+ 		       "freetype", "type1",
++		       "bitstream",
+ 		       NULL };
      pointer *optarray;
      XF86LoadPtr modp;
-     Bool found;

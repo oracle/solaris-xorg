@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to both Xorg & Xvnc builds
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.21	09/12/06 SMI"
+# ident	"@(#)Makefile.inc	1.22	10/01/07 SMI"
 #
 
 PWD:sh=pwd
@@ -40,7 +40,7 @@ MODTYPE=xserver
 include $(TOP)/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.7.3
+XORGSERVER_VERS=1.7.4
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
