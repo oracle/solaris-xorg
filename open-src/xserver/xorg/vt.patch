@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
---- dix/main.c	2009-12-02 18:58:25.228885721 -0800
-+++ dix/main.c	2009-12-02 18:58:27.293238950 -0800
+--- dix/main.c	2010-01-08 16:22:48.829415280 +0800
++++ dix/main.c	2010-01-08 16:22:51.760077266 +0800
 @@ -79,6 +79,8 @@ Equipment Corporation.
  #include <version-config.h>
  #endif
@@ -65,8 +65,8 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
      alwaysCheckForInput[1] = 1;
      while(1)
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Events.c hw/xfree86/common/xf86Events.c
---- hw/xfree86/common/xf86Events.c	2009-11-22 16:33:40.000000000 -0800
-+++ hw/xfree86/common/xf86Events.c	2009-12-02 18:58:27.293764193 -0800
+--- hw/xfree86/common/xf86Events.c	2009-11-30 13:42:31.000000000 +0800
++++ hw/xfree86/common/xf86Events.c	2010-01-08 16:22:51.760552017 +0800
 @@ -202,8 +202,16 @@ xf86ProcessActionEvent(ActionEvent actio
  	    vtno--;
  #endif
@@ -86,8 +86,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Events.c hw/xfree86/common/x
  	    xf86Info.vtRequestsPending = TRUE;
  	    xf86Info.vtPendingNum = vtno;
 diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_VTsw.c hw/xfree86/os-support/solaris/sun_VTsw.c
---- hw/xfree86/os-support/solaris/sun_VTsw.c	2009-10-27 23:56:22.000000000 -0700
-+++ hw/xfree86/os-support/solaris/sun_VTsw.c	2009-12-02 18:58:27.294750205 -0800
+--- hw/xfree86/os-support/solaris/sun_VTsw.c	2009-10-28 14:56:22.000000000 +0800
++++ hw/xfree86/os-support/solaris/sun_VTsw.c	2010-01-08 16:22:51.761209557 +0800
 @@ -44,17 +44,27 @@
   * Handle the VT-switching interface for Solaris/OpenSolaris
   */
@@ -98,7 +98,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_VTsw.c hw/xfree8
 -xf86VTRequest(int sig)
 +xf86VTRelease(int sig)
  {
- 	if (xf86Info.vtPendingNum != -1)
+-	if (xf86Info.vtPendingNum != -1)
++	if (xf86Info.vtPendingNum == -1)
  	{
 -		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
 -		xf86Info.vtPendingNum = -1;
@@ -134,8 +135,8 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_VTsw.c hw/xfree8
  	vt_door_arg.vt_num = xf86Info.vtPendingNum;
  	door_arg.data_ptr = (char *)&vt_door_arg;
 diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree86/os-support/solaris/sun_init.c
---- hw/xfree86/os-support/solaris/sun_init.c	2009-10-27 23:56:22.000000000 -0700
-+++ hw/xfree86/os-support/solaris/sun_init.c	2009-12-02 18:58:27.294287421 -0800
+--- hw/xfree86/os-support/solaris/sun_init.c	2009-10-28 14:56:22.000000000 +0800
++++ hw/xfree86/os-support/solaris/sun_init.c	2010-01-08 16:22:51.760970370 +0800
 @@ -33,12 +33,17 @@
  # include <sys/kd.h>
  #endif
