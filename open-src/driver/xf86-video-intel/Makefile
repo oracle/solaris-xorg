@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.31	09/12/17 SMI"
+# ident	"@(#)Makefile	1.32	10/01/13 SMI"
 #
 
 # Package name used in tarballs
@@ -45,7 +45,8 @@ SOURCE_PATCHES= build-dri.patch libraries.patch \
                 gem.patch 6872597.patch \
 		gem-hang.patch 6898754.patch \
 		6907204.patch port.patch \
-		mplayer-crash.patch 6907803.patch
+		mplayer-crash.patch 6907803.patch \
+		6915882.patch disable-tiling-for-ironlake.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
