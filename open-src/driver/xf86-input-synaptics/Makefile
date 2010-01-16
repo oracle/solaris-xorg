@@ -2,7 +2,7 @@
 #
 # xf86-input-synaptics Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,7 +36,7 @@
 MODULE_NAME=xf86-input-synaptics
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
