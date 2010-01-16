@@ -2,7 +2,7 @@
 #
 # xf86-input-mouse 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.11	09/12/05 SMI"
+# ident	"@(#)Makefile	1.12	10/01/13 SMI"
 #
 
 # Package name used in tarballs
@@ -41,6 +41,7 @@ MODULE_VERSION=1.5.0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	enodev.patch \
 	6892799.patch
 
 # Man pages to apply Sun footer to & attributes to list
