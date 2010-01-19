@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,11 +35,20 @@
 FONTDIR=../../../usr/X11/lib/X11/fonts
 FONTPATHDIR=${BASEDIR}/../etc/X11/fontpath.d
 
+# Links made before build 132
 rm -f ${FONTPATHDIR}/misc-ISO8859-1:unscaled:pri=16
 rm -f ${FONTPATHDIR}/100dpi-ISO8859-1:unscaled:pri=21
 rm -f ${FONTPATHDIR}/75dpi-ISO8859-1:unscaled:pri=26
 rm -f ${FONTPATHDIR}/misc-ISO8859-1:pri=86
 rm -f ${FONTPATHDIR}/100dpi-ISO8859-1:pri=91
 rm -f ${FONTPATHDIR}/75dpi-ISO8859-1:pri=96
+
+# Links made in builds 132 & later
+rm -f ${FONTPATHDIR}/misc-ISO8859-1:unscaled:pri=15
+rm -f ${FONTPATHDIR}/100dpi-ISO8859-1:unscaled:pri=20
+rm -f ${FONTPATHDIR}/75dpi-ISO8859-1:unscaled:pri=25
+rm -f ${FONTPATHDIR}/misc-ISO8859-1:pri=85
+rm -f ${FONTPATHDIR}/100dpi-ISO8859-1:pri=90
+rm -f ${FONTPATHDIR}/75dpi-ISO8859-1:pri=95
 
 exit 0 
