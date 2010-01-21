@@ -26,7 +26,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)enodev.patch	1.1	10/01/13 SMI"
+# ident	"@(#)enodev.patch	1.2	10/01/20 SMI"
 #
 
 6844148 Xorg support for errno ENODEV from mouse devices
@@ -35,7 +35,16 @@ Based on xf86-input-keyboard fix for 6835394
 
 diff -Nurp -x '*~' -x '*.orig' src/sun_mouse.c src/sun_mouse.c
 --- src/sun_mouse.c	2009-09-20 19:02:57.000000000 -0700
-+++ src/sun_mouse.c	2010-01-13 20:45:40.837311250 -0800
++++ src/sun_mouse.c	2010-01-20 15:17:08.303078733 -0800
+@@ -23,7 +23,7 @@
+  * dealings in this Software without prior written authorization from the
+  * XFree86 Project.
+  */
+-/* Copyright 2004-2005, 2008-2009 Sun Microsystems, Inc.  All rights reserved.
++/* Copyright 2004-2005, 2008-2010 Sun Microsystems, Inc.  All rights reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
 @@ -107,6 +107,7 @@ typedef struct _VuidMseRec {
  #ifdef HAVE_ABSOLUTE_MOUSE_SCALING
      Ms_screen_resolution	 absres;
@@ -63,7 +72,7 @@ diff -Nurp -x '*~' -x '*.orig' src/sun_mouse.c src/sun_mouse.c
  
  /*
   * Initialize and enable the mouse wheel, if present.
-@@ -334,19 +347,39 @@ vuidReadInput(InputInfoPtr pInfo)
+@@ -334,19 +347,40 @@ vuidReadInput(InputInfoPtr pInfo)
      pMse = pInfo->private;
      pVuidMse = getVuidMsePriv(pInfo);
      buttons = pMse->lastButtons;
@@ -86,7 +95,8 @@ diff -Nurp -x '*~' -x '*.orig' src/sun_mouse.c src/sun_mouse.c
 +	} else if (n == -1) {
 +	    switch (errno) {
 +		case EAGAIN: /* Nothing to read now */
-+		    return;
++		    n = 0;   /* End loop, go on to flush events & return */
++		    continue;
 +		case EINTR:  /* Interrupted, try again */
 +		    continue;
 +		case ENODEV: /* May happen when USB mouse is unplugged */
@@ -111,7 +121,7 @@ diff -Nurp -x '*~' -x '*.orig' src/sun_mouse.c src/sun_mouse.c
  	    xf86Msg(X_WARNING, "%s: incomplete packet, size %d\n",
  			pInfo->name, n);
  	}
-@@ -416,11 +449,6 @@ vuidReadInput(InputInfoPtr pInfo)
+@@ -416,11 +450,6 @@ vuidReadInput(InputInfoPtr pInfo)
  	}
  #endif
  
@@ -123,7 +133,7 @@ diff -Nurp -x '*~' -x '*.orig' src/sun_mouse.c src/sun_mouse.c
      } while (n != 0);
  
      if (absXset || absYset) {
-@@ -563,6 +591,13 @@ vuidMouseProc(DeviceIntPtr pPointer, int
+@@ -563,6 +592,13 @@ vuidMouseProc(DeviceIntPtr pPointer, int
  	    vuidMouseSendScreenSize(screenInfo.screens[0], pVuidMse);
  #endif	    
  	    xf86FlushInput(pInfo->fd);
@@ -137,7 +147,7 @@ diff -Nurp -x '*~' -x '*.orig' src/sun_mouse.c src/sun_mouse.c
  	}
  	break;
  
-@@ -578,6 +613,10 @@ vuidMouseProc(DeviceIntPtr pPointer, int
+@@ -578,6 +614,10 @@ vuidMouseProc(DeviceIntPtr pPointer, int
  		}
  	    }
  	}
