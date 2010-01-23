@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 #
 ##########################################################################
 #
-# ident	"@(#)prototype_com	1.8	09/12/05 SMI"
+# ident	"@(#)prototype_com	1.9	10/01/21 SMI"
 #
 # X.Org Foundation X server for Solaris Graphics Device DDX modules
 
@@ -44,7 +44,7 @@ d none lib/xorg							0755 root bin
 d none lib/xorg/modules						0755 root bin
 d none lib/xorg/modules/drivers					0755 root bin
 d none share							0755 root sys
-d none share/doc						0755 root bin
+d none share/doc						0755 root other
 d none share/doc/X11						0755 root bin
 d none share/man						0755 root bin
 d none share/man/man7						0755 root bin

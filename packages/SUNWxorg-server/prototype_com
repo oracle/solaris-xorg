@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype_com	1.37	09/12/05 SMI"
+# ident	"@(#)prototype_com	1.38	10/01/21 SMI"
 #
 # X.Org Foundation X server for Solaris & OpenSolaris
 
@@ -96,7 +96,7 @@ f none lib/xorg/modules/input/void_drv.so			0755 root bin
 d none share							0755 root sys
 
 !search $HOME/share/doc/X11
-d none share/doc						0755 root bin
+d none share/doc						0755 root other
 d none share/doc/X11						0755 root bin
 f none share/doc/X11/LICENSE					0444 root bin
 f none share/doc/X11/README.DRI					0444 root bin
