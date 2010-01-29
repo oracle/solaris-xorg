@@ -28,7 +28,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)mesa_vendor_select	1.4	10/01/04 SMI"
+# ident	"@(#)mesa_vendor_select	1.5	10/01/28 SMI"
 #
 
 LINKDIR=/var/run/opengl
@@ -86,7 +86,6 @@ make_dir ${LINKDIR}/server
 
 if [[ -d /usr/lib/mesa/modules/extensions/${DIR64} ]] ; then
     make_dir ${LINKDIR}/server/${DIR64}
-    make_link ${DIR64} ${LINKDIR}/server/64
 fi
 
 # User libraries
