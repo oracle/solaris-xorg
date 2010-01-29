@@ -2,7 +2,7 @@
 #
 # xf86-input-vmmouse Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.5	09/12/05 SMI"
+# ident	"@(#)Makefile	1.6	10/01/25 SMI"
 #
 
 # Package name used in tarballs
@@ -55,8 +55,8 @@ MODULE_STABILITY=Volatile
 # - need to set install locations for HAL config file & probe util/script
 MODULE_CONFIG_OPTS= \
 	--with-hal-bin-dir=/usr/sbin \
-	--with-hal-callouts-dir=/usr/lib/hal \
-	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor \
+	--with-hal-callouts-dir=/usr/lib/hal$(ARCHLIBSUBDIR) \
+	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor$(ARCHLIBSUBDIR) \
 	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Libraries/modules to link with
