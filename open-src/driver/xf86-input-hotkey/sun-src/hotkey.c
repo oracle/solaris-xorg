@@ -26,7 +26,7 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)hotkey.c	1.3	09/12/05 SMI"
+#pragma ident	"@(#)hotkey.c	1.4	10/01/28 SMI"
 
 #include "config.h"
 #include "xf86.h"
@@ -100,10 +100,7 @@ map_init(DeviceIntPtr device)
 {
 
 #if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 5
-    XkbRMLVOSet rmlvo;
-
-    XkbGetRulesDflts(&rmlvo);
-    if (!InitKeyboardDeviceStruct(device, &rmlvo, NULL, NULL)) {
+    if (!InitKeyboardDeviceStruct(device, NULL, NULL, NULL)) {
 	xf86Msg(X_WARNING, "hotkey map_init failed\n");
 	return FALSE;
     }
@@ -192,7 +189,10 @@ hotkey_read_input(InputInfoPtr pInfo)
 	keysym = buf + HOTKEY_KEYSYM_ROOT;
 
 #if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 5
-    curKeySyms = XkbGetCoreMap(dev);
+    if (dev->u.master)
+	curKeySyms = XkbGetCoreMap(dev->u.master);
+    else
+	curKeySyms = XkbGetCoreMap(inputInfo.keyboard);
 #else
     if (dev->u.master)
 	curKeySyms = &dev->u.master->key->curKeySyms;
