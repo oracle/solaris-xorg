@@ -1,0 +1,29 @@
+From a6bd5d2e482a5aa84acb3d4932e2a166d8670ef1 Mon Sep 17 00:00:00 2001
+From: Pierre-Loup A. Griffais <pgriffais@nvidia.com>
+Date: Wed, 27 Jan 2010 14:03:03 -0800
+Subject: [PATCH] Fix source pictures getting random transforms after 2d6a8f668342a5190cdf43b5.
+
+*xoff and *yoff were uninitialized for source-only pictures.x
+
+Signed-off-by: Pierre-Loup A. Griffais <pgriffais@nvidia.com>
+Reviewed-by: Aaron Plattner <aplattner@nvidia.com>
+Signed-off-by: Keith Packard <keithp@keithp.com>
+---
+ fb/fbpict.c |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/fb/fbpict.c b/fb/fbpict.c
+index 251754b..dddfce8 100644
+--- a/fb/fbpict.c
++++ b/fb/fbpict.c
+@@ -452,6 +452,7 @@ image_from_pict (PicturePtr pict, Bool has_clip, int *xoff, int *yoff)
+ 	    else if (sp->type == SourcePictTypeConical)
+ 		image = create_conical_gradient_image (gradient);
+ 	}
++	*xoff = *yoff = 0;
+     }
+     
+     if (image)
+-- 
+1.5.6.5
+
