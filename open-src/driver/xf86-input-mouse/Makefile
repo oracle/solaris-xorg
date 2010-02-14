@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.12	10/01/13 SMI"
+# ident	"@(#)Makefile	1.13	10/02/12 SMI"
 #
 
 # Package name used in tarballs
@@ -42,7 +42,8 @@ MODULE_VERSION=1.5.0
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	enodev.patch \
-	6892799.patch
+	6892799.patch \
+	6920647.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

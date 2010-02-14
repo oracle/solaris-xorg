@@ -1,0 +1,13 @@
+diff -ur old/src/sun_mouse.c new/src/sun_mouse.c
+--- src/sun_mouse.c	Thu Feb 11 17:09:23 2010
++++ src/sun_mouse.c	Thu Feb 11 17:10:24 2010
+@@ -438,6 +438,9 @@
+     ScrnInfoPtr pScr = XF86SCRNINFO(pScreen);
+     int result;
+ 
++    if (!pScr->currentMode)
++	return;
++
+     if ((pVuidMse->absres.width != pScr->currentMode->HDisplay) || 
+ 	(pVuidMse->absres.height != pScr->currentMode->VDisplay))
+     {
