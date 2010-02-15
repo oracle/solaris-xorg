@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 #
 ###########################################################################
 #
-# ident	"@(#)prototype_i386	1.21	09/12/11 SMI"
+# ident	"@(#)prototype_i386	1.22	10/02/13 SMI"
 #
 # X.Org Foundation X server for Solaris
 
@@ -71,7 +71,6 @@ f none lib/xorg/syndaemon					0444 root bin
 
 !search $HOME/lib/xorg/$plat_64
 d none lib/xorg/$plat_64					0755 root bin
-f none lib/xorg/$plat_64/libdrm.so.2				0755 root bin
 f none lib/xorg/$plat_64/libdrm_intel.so.1			0755 root bin
 f none lib/xorg/$plat_64/synclient				0444 root bin
 f none lib/xorg/$plat_64/syndaemon				0444 root bin
