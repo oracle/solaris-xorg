@@ -2,7 +2,7 @@
 #
 # xf86-video-ast 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -30,7 +30,7 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.14	09/12/05 SMI"
+# ident	"@(#)Makefile	1.16	10/02/15 SMI"
 #
 
 # Package name used in tarballs
@@ -44,7 +44,7 @@ SOURCE_PATCHES = \
 		xf86UDelay.patch,-p1 \
 		sparc-ast.patch \
 		sparc-ast-6860461.patch \
-		port.patch
+		6924667.patch port.patch
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

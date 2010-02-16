@@ -1,0 +1,53 @@
+--- src/ast_driver.c	Mon Feb 15 14:36:59 2010
++++ src/ast_driver.c	Mon Feb 15 14:46:07 2010
+@@ -404,28 +404,32 @@
+     xfree(usedChips);
+ #else
+ 
+-    for (i = 0; i < numDevSections; i++) {
++    if (flags & PROBE_DETECT) {
++        foundScreen = TRUE;
++    } else {
++        for (i = 0; i < numDevSections; i++) {
+ 
+-	ScrnInfoPtr pScrn = NULL;
++		ScrnInfoPtr pScrn = NULL;
+ 	
+-	/* Allocate new ScrnInfoRec and claim the slot */
+-	if (pScrn = ASTAllocScreen(drv, devSections[i])) {
+-	    pScrn->driverVersion = AST_VERSION;
+-	    pScrn->driverName = AST_DRIVER_NAME;
+-	    pScrn->name = AST_NAME;
++		/* Allocate new ScrnInfoRec and claim the slot */
++		if (pScrn = ASTAllocScreen(drv, devSections[i])) {
++	    	    pScrn->driverVersion = AST_VERSION;
++	    	    pScrn->driverName = AST_DRIVER_NAME;
++	    	    pScrn->name = AST_NAME;
+ 	    
+-	    pScrn->Probe = ASTProbe;
+-	    pScrn->PreInit = ASTPreInit;
+-	    pScrn->ScreenInit = ASTScreenInit;
+-	    pScrn->SwitchMode = ASTSwitchMode;
+-	    pScrn->AdjustFrame = ASTAdjustFrame;   
+-	    pScrn->EnterVT = ASTEnterVT;
+-	    pScrn->LeaveVT = ASTLeaveVT;
+-	    pScrn->FreeScreen = ASTFreeScreen;
+-	    pScrn->ValidMode = ASTValidMode;
++	    	    pScrn->Probe = ASTProbe;
++	    	    pScrn->PreInit = ASTPreInit;
++	    	    pScrn->ScreenInit = ASTScreenInit;
++	    	    pScrn->SwitchMode = ASTSwitchMode;
++	    	    pScrn->AdjustFrame = ASTAdjustFrame;   
++	    	    pScrn->EnterVT = ASTEnterVT;
++	    	    pScrn->LeaveVT = ASTLeaveVT;
++	    	    pScrn->FreeScreen = ASTFreeScreen;
++	    	    pScrn->ValidMode = ASTValidMode;
+ 	    
+-	    foundScreen = TRUE;	    
+-	}
++	    	    foundScreen = TRUE;	    
++		}
++    	}
+     }
+     xfree(devSections);
+ #endif
