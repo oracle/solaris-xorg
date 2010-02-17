@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -33,7 +33,12 @@
 #
 # Set version information in ELF files to give hints to help in troubleshooting
 #
-# Usage: set-elf-comments.pl -B <path/to/pkgversion> -M "module version" <path>
+# Usage: set-elf-comments.pl -B <pkgversion> -M "module version" <path>
+#  <pkgversion> may either be a path to a file containing BUILD="<version>"
+#   or the string "hg id" to get the version from the hg id output.
+#
+# If the XBUILD_HG_ID environment variable is set, it is used for the hg id
+# instead of forking a hg id process for every component in a full tree build
 #
 
 use strict;
@@ -56,18 +61,36 @@ my $build_info = strftime("%e %b %Y", localtime);
 
 if (exists($opts{'B'})) {
   my $build_version_file = $opts{'B'};
-  open my $VERS, '<', $build_version_file
+
+  if ($build_version_file eq 'hg id') {
+    if (exists $ENV{'XBUILD_HG_ID'}) {
+      $build_info = $ENV{'XBUILD_HG_ID'};
+    } else {
+      open my $VERS, '-|', $build_version_file
+	or die "Can't run $build_version_file: $!\n";
+
+      while ($_ = <$VERS>) {
+	chomp($_);
+	if ($_ =~ m/\S+/) {
+	  $build_info = "hg: $_ - " . $build_info;
+	}
+      }
+      close $VERS;
+    }
+  } else {
+    open my $VERS, '<', $build_version_file
       or die "Can't open $build_version_file for reading: $!\n";
 
-  while ($_ = <$VERS>) {
-    if ($_ =~ m/^BUILD="(.*)"/) {
-      my $v = $1 / 100.0;
-      if ($v >= 1.0) {
-	$build_info = "build $v - " . $build_info;
+    while ($_ = <$VERS>) {
+      if ($_ =~ m/^BUILD="(.*)"/) {
+	my $v = $1 / 100.0;
+	if ($v >= 1.0) {
+	  $build_info = "build $v - " . $build_info;
+	}
       }
     }
+    close $VERS;
   }
-  close $VERS;
 }
 
 $module_version_info .= " ($build_info)";

@@ -47,12 +47,13 @@ all: $(FILES) pkg
 
 install: all pkg
 
-PKGVERS=$(PKGDEFS)/pkgversion
-MACH:sh=uname -p
+MACH=$(TARGET_ARCH:-%=%)
 DATE:sh=date +0.%Y.%m.%d
-VERSIONCOMM=sed -n 's/VERSION=//p' $(PKGVERS)
-VERSION=$(VERSIONCOMM:sh)
-BUILDCOMM=sed -n 's/BUILD=//p' $(PKGVERS)
+OSVER:sh=uname -r
+VERSIONCOMM= sed -n 's/XORGSERVER_VERS=//p' $(TOP)/xserver/Makefile.inc 
+VERSION=$(VERSIONCOMM:sh).$(OSVER)
+BUILDCOMM=hg log | \
+	   perl -l -n -e 'if (m/^tag:\s+nv_(\d+)/) {print $$1 ; exit}'
 BUILD=$(BUILDCOMM:sh)
 
 PKGMK_VARS=plat=$(MACH) Xserver=$(Xserver)

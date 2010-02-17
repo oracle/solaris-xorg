@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -488,7 +488,7 @@ $(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_ELF_COMMENTS=
 ELF_COMMENTS += $(DEBUG_ELF_COMMENTS)
 
 set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
-	$(TOP)/common/set-elf-comments.pl -B $(TOP)/../packages/pkgversion \
+	$(TOP)/common/set-elf-comments.pl -B 'hg id' \
 	 -M '$(ELF_COMMENTS)' $(SOURCE_DIR)
 
 

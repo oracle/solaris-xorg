@@ -41,9 +41,8 @@
 MAKE_PKGS=0
 
 set -- $(getopt p $*)
-if [ $? != 0 ]
-then
-    echo USAGE: $0 [-p]
+if [ $? != 0 ] ; then
+    print -u2 USAGE: $0 [-p]
     exit 2
 fi
 
@@ -54,10 +53,9 @@ for i in $* ; do
 done
 
 # Add /usr/bin to front of path in case user has /usr/gnu/bin default
-# Add /usr/sbin to path for dtrace
-# Add /usr/X11/bin to path for makedepend
+# Add /usr/sbin to path for dtrace (to build probes in X servers)
 
-PATH=/usr/bin:${PATH}:/usr/sbin:/usr/X11/bin
+PATH=/usr/bin:${PATH}:/usr/sbin
 export PATH
 
 [ -d log ] || mkdir log
@@ -65,14 +63,18 @@ export PATH
 # Send all further output & errors to the log file
 exec > log/buildit-XW 2>&1
 
-echo "------------------------------------------------------------------------------"
-echo "Start time: "
-date
+# Find hg id and export it so set-elf-comments.pl doesn't have to re-run
+# for every module built
+export XBUILD_HG_ID="$(hg id)"
+
 START="$(perl -e 'print time')"
-echo "Building on: "
-uname -a
-echo "Using these compilers: "
-which cc gcc
+
+print "------------------------------------------------------------------------------"
+print "Building gate at hg id: ${XBUILD_HG_ID}"
+print -n "Start time: " ; date
+print -n "Building on: " ; uname -a
+print "Using these compilers: "
+whence cc gcc
 # Make sure Sun C compiler is at least version 5.9 (Studio 12)
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
     print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 9) ) }'
@@ -82,12 +84,9 @@ gcc -v
 export SUNW_NO_UPDATE_NOTIFY='true'
 export UT_NO_USAGE_TRACKING='1'
 
-echo "Using these environment variables: "
+print "Using these environment variables: "
 env
-echo "------------------------------------------------------------------------------"
-
-XMAKE="$(pwd)/open-src/util/build-tools/xmake"
-chmod +x ${XMAKE}
+print "------------------------------------------------------------------------------"
 
 MACH="$(uname -p)"
 if [ "${MACH}" = "i386" ]; then
@@ -96,22 +95,21 @@ else
     /bin/rm -rf proto-sun4-svr4
 fi
 
-chmod +x open-src/common/install-sh open-src/common/delibtoolize.pl
+XMAKE="$(pwd)/open-src/util/build-tools/xmake"
+
 cd open-src
-# Run as two steps to avoid race between cleaning & rebuilding
+# Run as two steps to avoid race between cleaning & rebuilding when
+# using parallel make
 ${XMAKE} -v -k clean 
 ${XMAKE} -v -k install
 cd ..
 
-echo ""
-date
-echo "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
-echo ""
-echo "Finish time: "
-date
-perl -e '$runtime=time-$ARGV[0]; printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' "${START}"
+print "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
+print -n "Finish time: " ; date
+perl -e '$runtime = time - $ARGV[0];
+	 printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' \
+	"${START}"
 
 if [ "${MAKE_PKGS}" = 1 ] ; then
-    chmod +x make_release_packages
     ./make_release_packages
 fi

@@ -179,23 +179,21 @@ PKG_SOURCE_DIR=${SOURCE_DIR}/packages
 
 cd ${PKG_SOURCE_DIR}
 
-# Get build version from pkgversion
-if [[ -f pkgversion ]] ; then
-    source ./pkgversion
-else
-    fatal_error "${PKG_SOURCE_DIR}/pkgversion not found.  Cannot continue."
+# Hardcode base package version for now, append OS version from uname
+XVERSION="6.9.0"
+OSVERSION="$(uname -r)"
+VERSION="${XVERSION}.${OSVERSION}"
+
+# Get build version from hg by searching for most recent tag matching nv_*
+BUILD_TAG="$(hg log | \
+	     perl -l -n -e 'if ($_ =~ m/^tag:\s+nv_(\d+)/) {print $1 ; exit}')"
+
+if [[ -z "${BUILD_TAG}" ]] ; then
+    fatal_error "BUILD_TAG could not be found from hg_log"
 fi
 
-if [[ -z "${VERSION}" ]] ; then
-    fatal_error "VERSION not set in ${PKG_SOURCE_DIR}/pkgversion - run newPkRev"
-fi
-
-if [[ -z "${BUILD}" ]] ; then
-    fatal_error "BUILD not set in ${PKG_SOURCE_DIR}/pkgversion - run newPkRev"
-fi
-
-DECIMAL_BUILD=$(( ${BUILD} / 100.0 ))
-print "Building packages for X11 version ${VERSION} build ${DECIMAL_BUILD}"
+print "Building packages for X11 version ${VERSION} build ${BUILD_TAG}"
+BUILD=$(( ${BUILD_TAG} * 100 ))
 
 if [[ "${MACH}" = "sparc" ]]; then
     PROTODIR=${SOURCE_DIR}/proto-sun4-svr4
