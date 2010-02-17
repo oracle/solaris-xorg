@@ -159,11 +159,7 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
     
     mdb_printf("Device \"%s\" id %d: %s\n", devName, dev->id, type);
 
-#ifdef XSUN
-    grabP = dev->grab;
-#else
     grabP = dev->deviceGrab.grab;
-#endif    
     
     if (grabP == NULL) {
 	mdb_printf("  -- no active grab on device\n\n");
@@ -173,17 +169,8 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 	if (mdb_vread(&grab, sizeof (GrabRec), (uintptr_t) grabP) == -1) {
 	    mdb_warn("failed to read GrabRec at %p", grabP);
 	} else {
-	    int clientid;
-#ifdef XSUN
-	    long flag1024;
+	    int clientid = CLIENT_ID(grab.resource);
 
-	    if (mdb_readsym(&flag1024, sizeof (flag1024), "NConnBitArrays") == -1) {
-		mdb_warn("failed to read NConnBitArrays", dev->grab);
-	    }
-	    clientid = CLIENT_ID_F(grab.resource, (flag1024 == 0));
-#else
-	    clientid = CLIENT_ID(grab.resource);
-#endif	    
 	    mdb_printf("  -- active grab %p by client %d\n\n", grab.resource,
 		       clientid);
 	}
@@ -205,7 +192,7 @@ static const mdb_dcmd_t dcmds[] = {
 };
 
 static const mdb_walker_t walkers[] = {
-	{ "inputdev_walk", "walk list of input devices connected to Xsun",
+	{ "inputdev_walk", "walk list of input devices connected to X server",
 		inputdev_walk_init, inputdev_walk_step, inputdev_walk_fini },
 	{ NULL }
 };

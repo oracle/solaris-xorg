@@ -12,19 +12,12 @@ has sent during its lifetime.
 
 Building
 --------
-Due to the different data structures used, there are different versions
-for X servers based on the Xsun source (those delivered in /usr/openwin)
-and for those based on the Xorg source (those delivered in /usr/bin).
-
 Building these depends on headers in the X server sources which aren't
-delivered in each server's SDK headers, so the Xsun one requires the
-closed Xsun source, and the Xorg one requires at least having done 
+delivered in each server's SDK headers, so you must have at least done
 "make source configure" in the open-src/xserver/xorg directory.
 
-Once the sources are in place "make build_Xsun" builds the modules for
-Xsun and creates a SVR4 package named XSUNdebug.   "make build_Xorg" 
-similarly creates XORGdebug.   In the instructions that follow, if you're
-using the Xsun version replace "XORG" with "XSUN" and "Xorg" with "Xsun".
+Once the sources are in place "make build_Xorg" builds the modules for
+Xorg and creates a SVR4 package named XORGdebug.
 
 Installation
 ------------
@@ -33,8 +26,6 @@ To install, simply copy the package directory to the target
 machine and run (as root):
 
  # pkgadd -d . XORGdebug
-
-(or Xsun debug as appropriate).
 
 Scripts
 -------

@@ -36,12 +36,6 @@ MODULES=$(MODULES_32) $(MODULES_64)
 XC_TOP=$(TOP)/../xc
 
 CFLAGS += -K pic -g
-XSUN_CPPFLAGS = \
-	-I $(PROTODIR)/usr/include/X11 \
-	-I /usr/include/X11 \
-	-I $(PROTODIR)/usr/openwin/server/include \
-	-I /usr/openwin/server/include \
-	-I $(XC_TOP)/programs/Xserver/os
 XORG_CPPFLAGS = \
 	-I $(PROTODIR)/usr/include/X11 \
 	-I /usr/include/X11 \
@@ -50,7 +44,7 @@ XORG_CPPFLAGS = \
         -I $(PROTODIR)/usr/include/pixman-1 \
         -I /usr/include/pixman-1 \
 	-I $(TOP)/xserver/xorg/build_64/*/os
-CPPFLAGS += $($(XSERVER)_CPPFLAGS) -D$(XSERVER)
+CPPFLAGS += $(XORG_CPPFLAGS)
 LDFLAGS += -Wl,-z,text
 
 OBJECTS = $(MODULES:%.so=%.o)

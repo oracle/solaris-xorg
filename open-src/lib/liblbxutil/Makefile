@@ -1,7 +1,7 @@
 ###############################################################################
 # lbxutil 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -49,7 +49,7 @@ LIBNAME=lbxutil
 #LIB_STABILITY=Committed
 #LIB_MAN_SUFFIX=3lbxutil
 
-# Only need 32-bit since we only ship Xsun & lbxproxy as 32-bit
+# Only need 32-bit since we only ship lbxproxy as 32-bit
 BUILD_TYPES=32
 BUILD_TYPES_SET=yes
 

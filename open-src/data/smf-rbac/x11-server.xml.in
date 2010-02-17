@@ -106,8 +106,7 @@ of the copyright holder.
 			</loctext>
 		</common_name>
 		<documentation>
-			<manpage title='Xserver' section='1' manpath='/usr/openwin/share/man' />
-			<manpage title='Xsun' section='1' manpath='/usr/openwin/share/man' />
+			<manpage title='Xserver' section='1' manpath='/usr/share/man' />
 			<manpage title='Xorg' section='1' manpath='/usr/share/man' />
 		</documentation>
 	</template>

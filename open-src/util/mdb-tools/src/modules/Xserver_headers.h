@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,20 +34,7 @@
 /* Xserver includes & definitions needed to build mdb modules */
 #define SUNSOFT
 
-#ifdef XSUN
-# define XKB
-# define SHAPE
-# define XEVIE
-# define INPUT
-# define XResExtension
-# define XCSECURITY
-# define PIXPRIV
-# define RENDER
-# define LBX
-#else /* Xorg */
-# include "xorg-server.h"
-#endif
-
+#include "xorg-server.h"
 #include "Xdefs.h"
 #include "osdep.h"
 #include "dixstruct.h"

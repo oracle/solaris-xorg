@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,9 +37,6 @@ SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=src
 
 # We build per-Xserver type, not per-bitsize
-# We default to building only the Xorg version, since the Xsun one requires
-# the osdep.h header not included in the open-src release or Xsun DDK headers 
-#BUILD_TYPES=Xorg Xsun
 BUILD_TYPES=Xorg
 BUILD_TYPES_SET=yes
 
@@ -69,19 +66,6 @@ MODULE_MAKEFLAGS= \
 
 ### Include common rulesets
 include ../Makefile.inc
-
-XSUN_MAKEFLAGS = XSERVER=XSUN Xserver=Xsun BUILD_DIR=build_Xsun
-
-source_Xsun::
-	$(MAKE) $(MAKEFLAGS) $(XSUN_MAKEFLAGS) source_gen
-
-build_Xsun:: source_Xsun
-	$(MAKE) $(MAKEFLAGS) $(XSUN_MAKEFLAGS) build_gen
-
-clean_Xsun:
-	-rm -rf build_Xsun
-
-clean:: clean_Xsun
 
 XORG_MAKEFLAGS = XSERVER=XORG Xserver=Xorg BUILD_DIR=build_Xorg
 

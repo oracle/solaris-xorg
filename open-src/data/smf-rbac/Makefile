@@ -66,9 +66,7 @@ build_common: $(BUILD_TARGETS)
 build_sparc: build_common
 build_i386: build_common
 
-DEFAULT_XSERVER_sparc=/usr/openwin/bin/Xsun
-DEFAULT_XSERVER_i386=$(X11_BIN_DIR)/Xorg
-DEFAULT_XSERVER=$(DEFAULT_XSERVER_$(MACH))
+DEFAULT_XSERVER=$(X11_BIN_DIR)/Xorg
 
 x11-server.xml: x11-server.xml.in
 	sed -e 's|@DEFAULT_XSERVER@|$(DEFAULT_XSERVER)|' < x11-server.xml.in > $@

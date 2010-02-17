@@ -105,17 +105,14 @@ XW_PACKAGE_LIST="
     SUNWxorg-tsol-module 
     SUNWxvnc
     SUNWxwacx
-    SUNWxwcft
     SUNWxwdem
     SUNWxwdxm
-    SUNWxwfnt
     SUNWxwfs
     SUNWxwfsw
     SUNWxwice
     SUNWxwinc
     SUNWxwman
     SUNWxwmod
-    SUNWxwoft
     SUNWxwopt
     SUNWxwplr
     SUNWxwplt
@@ -124,18 +121,6 @@ XW_PACKAGE_LIST="
     SUNWxwslb
     SUNWxwxft
 "
-
-XSUN_PACKAGE_LIST="SUNWxsun-headers SUNWxsun-server SUNWxwts"
-
-# Some packages are only built for certain platforms currently
-case "${MACH}" in
-    sparc)	
-    	XW_PACKAGE_LIST="$XW_PACKAGE_LIST $XSUN_PACKAGE_LIST SUNWxwpsr" 
-	;;
-    i386)	
-    	XW_PACKAGE_LIST="$XW_PACKAGE_LIST"
-	;;
-esac
 
 # Localization template packages for delivery to translation teams
 if [[ "$BUILD_L10N" != "no" ]]; then

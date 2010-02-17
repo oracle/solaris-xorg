@@ -2,7 +2,7 @@
 #
 # ident	"@(#)Xserver	1.10	09/12/11 SMI"
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,7 +33,7 @@
 
 USAGE="Usage: $0 [-c <class>] :<display> [<X server arguments>]"
 
-PATH=/usr/bin:/usr/sbin:/usr/X11/bin:/usr/openwin/bin
+PATH=/usr/bin:/usr/sbin
 
 progname=$0
 function fatal_error
@@ -54,12 +54,8 @@ DEFDEPTH=""
 CLASSES=""
 TCP_LISTEN=""
 SERVERARGS=""
+XSERVER="/usr/bin/Xorg"
 
-if [[ "$(uname -p)" == "sparc" && -x /usr/openwin/bin/Xsun ]] ; then
-    XSERVER="/usr/openwin/bin/Xsun"
-else
-    XSERVER="/usr/bin/Xorg"
-fi
 
 while getopts :c: opt; do
     case $opt in

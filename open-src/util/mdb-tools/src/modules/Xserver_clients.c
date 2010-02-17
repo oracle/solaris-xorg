@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -40,7 +40,6 @@ struct client_walk_data {
     ClientRec client_data;
 };
 
-#ifdef XORG
 /* Xsun has these in a header, Xorg has them in sun-src/IA/interactive.c so
    we just copy it here for now.   XXX: Move to header in Xorg too. */
 typedef struct _ClientProcessInfo {
@@ -58,7 +57,6 @@ struct _Private {
     int state;
     pointer value;
 };
-#endif
 
 /*
  * Initialize the client walker by either using the given starting address,
@@ -70,26 +68,17 @@ client_walk_init(mdb_walk_state_t *wsp)
 {
     struct client_walk_data *cwda;
     short max_clients = 128;
-#ifdef XSUN
-# define MAX_CLIENTS "max_clients"
-#else
+
 # define MAX_CLIENTS "currentMaxClients"
-#endif
     
     if (wsp->walk_addr == NULL) {
-#ifdef XSUN /* clients is a pointer to an array */	
-       if (mdb_readvar(&wsp->walk_addr, "clients") == -1) {
-	   mdb_warn("failed to read 'clients'");
-	   return (WALK_ERR);
-       }
-#else /* Xorg 1.6 - clients is the array itself */
+       /* Xorg 1.6 - clients is the array itself */
        GElf_Sym clients_sym;
        if (mdb_lookup_by_name("clients", &clients_sym) == -1) {
 	   mdb_warn("failed to lookup 'clients'");
 	   return (WALK_ERR);
        }
        wsp->walk_addr = clients_sym.st_value;
-#endif
        if (mdb_readvar(&max_clients, MAX_CLIENTS) == -1) {
 	   mdb_warn("failed to read '%s'", MAX_CLIENTS);
 	   return (WALK_ERR);
@@ -210,9 +199,7 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 
 			mdb_printf("%4d ", oscomm.fd);
 
-#ifdef XSUN
-			cpp = oscomm.process;
-#else /* XORG 1.6 or later */
+			/* Xorg 1.6 or later */
 			{
 			    int IAPrivKeyIndex;
 			    GElf_Sym privkey_sym;
@@ -242,7 +229,6 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 				}
 			    }
 			}
-#endif			
 			
 			if (cpp != NULL) {
 			    ClientProcessRec cpr;

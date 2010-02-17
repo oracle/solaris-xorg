@@ -5,7 +5,7 @@
 #
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -86,8 +86,6 @@ echo "Using these environment variables: "
 env
 echo "------------------------------------------------------------------------------"
 
-
-
 XMAKE="$(pwd)/open-src/util/build-tools/xmake"
 chmod +x ${XMAKE}
 
@@ -100,7 +98,9 @@ fi
 
 chmod +x open-src/common/install-sh open-src/common/delibtoolize.pl
 cd open-src
-${XMAKE} -v -k clean install
+# Run as two steps to avoid race between cleaning & rebuilding
+${XMAKE} -v -k clean 
+${XMAKE} -v -k install
 cd ..
 
 echo ""
@@ -112,8 +112,6 @@ date
 perl -e '$runtime=time-$ARGV[0]; printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' "${START}"
 
 if [ "${MAKE_PKGS}" = 1 ] ; then
-    export PACKAGE_LIST="$(cd packages && echo SUNW*)"
     chmod +x make_release_packages
-    mkdir packages/common_files
     ./make_release_packages
 fi
