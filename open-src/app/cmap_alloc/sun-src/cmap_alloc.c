@@ -31,7 +31,6 @@
 * of the copyright holder.
 */
 
-#pragma ident "@(#)cmap_alloc.c	35.3	08/09/30 SMI"
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

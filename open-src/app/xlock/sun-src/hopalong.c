@@ -44,9 +44,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)hopalong.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * hopalong.c - Real Plane Fractals for xlock, the X Window System lockscreen.
  *

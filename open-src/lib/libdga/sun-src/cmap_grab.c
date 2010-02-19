@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)cmap_grab.c	35.9	09/11/09 SMI"
 
 /*
  * cmap_grab.c - the client side code for DGA colormap grabber

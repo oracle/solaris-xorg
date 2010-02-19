@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)TransOvl.c	1.6	08/03/12 SMI"
 
 /*
  * TransOvl.c - the client side interface to the Transparent Overlays

@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.3	09/12/05 SMI"
 
 UIL = /usr/dt/bin/uil
 UIL_INCLUDES = -I/usr/dt/include/uil

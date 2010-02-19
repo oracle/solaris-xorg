@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.2	08/08/08 SMI"
 
 .KEEP_STATE:
 

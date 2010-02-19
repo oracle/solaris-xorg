@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.4	09/12/05 SMI"
 
 MODULES_plat=$(Xserver)_clients.so $(Xserver)_device_grabs.so
 MODULES_32=$(MODULES_plat:%=$(PLATDIR_32)/%)

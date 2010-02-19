@@ -28,7 +28,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)OWconfig.c	1.37	09/11/09 SMI"
 
 #include <stdio.h>
 #include <stdlib.h>

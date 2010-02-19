@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.3	09/12/05 SMI"
 #
 
 # Manual conversion of the X11R6.9 xc/lib/dpstk/Imakefile

@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)proc.smf_remove	1.3	07/09/04 SMI"
 #
 
 # proc.smf_remove -- common code for smf upgrade conditions

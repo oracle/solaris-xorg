@@ -29,7 +29,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)xmake	1.3	09/12/05 SMI"
 #
 
 require 5.005;				# minimal Perl version required

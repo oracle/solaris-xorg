@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)mbufsetstr.h	35.2	09/11/09 SMI"
 
 #ifndef	_DGA_MBUFSETSTR_H
 #define	_DGA_MBUFSETSTR_H

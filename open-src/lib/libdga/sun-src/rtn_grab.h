@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)rtn_grab.h	35.3	09/11/09 SMI"
 
 /*
  *  rtn_grab.h DGA Retained Window Grabber Definitions

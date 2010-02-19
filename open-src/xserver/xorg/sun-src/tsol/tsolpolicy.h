@@ -29,7 +29,6 @@
 #ifndef	_TSOL_POLICY_H
 #define	_TSOL_POLICY_H
 
-#pragma ident	"@(#)tsolpolicy.h	1.11	09/08/23 SMI"
 
 #ifdef	__cplusplus
 extern "C" {

@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.6	09/11/09 SMI"
 #
 
 SHLIBLDFLAGS = -G -z defs $(LDFLAGS)

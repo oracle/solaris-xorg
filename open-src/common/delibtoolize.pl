@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)delibtoolize.pl	1.15	09/12/05 SMI"
 #
 
 #

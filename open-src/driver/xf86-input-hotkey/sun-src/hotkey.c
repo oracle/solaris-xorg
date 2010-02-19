@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)hotkey.c	1.4	10/01/28 SMI"
 
 #include "config.h"
 #include "xf86.h"

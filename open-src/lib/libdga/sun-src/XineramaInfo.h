@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)XineramaInfo.h	1.3	09/11/09 SMI"
 
 #define XinID	int
 #define MAXSCREEN 16

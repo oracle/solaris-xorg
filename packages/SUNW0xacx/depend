@@ -29,7 +29,6 @@
 #
 ############################################################################
 #
-#	@(#)depend	35.3     07/11/05 (c) Sun Microsystems, Inc.
 
 P SUNWcar	Core Architecture, (Root)
 P SUNWcakr	Core Solaris Kernel Architecture (Root)

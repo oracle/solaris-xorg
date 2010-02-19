@@ -29,7 +29,6 @@
 #
 ###########################################################################
 #
-# ident	"@(#)depend.font	1.1	09/02/26"
 #
 # This package information file defines software dependencies associated
 # with the pkg.  You can define three types of pkg dependencies with this file:

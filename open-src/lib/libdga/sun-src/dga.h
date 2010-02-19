@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga.h	35.14	09/11/09 SMI"
 
 /*
  * dga.h - Sun Direct Graphics Access interface

@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)win_grab.c	35.22	09/11/09 SMI"
 
 /* 
  * win_grab.c - the client side code for DGA window grabber

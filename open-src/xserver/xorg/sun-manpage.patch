@@ -14,8 +14,7 @@ diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
 diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 --- doc/Xserver.man.pre	2009-08-10 21:00:22.000000000 -0700
 +++ doc/Xserver.man.pre	2009-11-03 22:28:48.641981596 -0800
-@@ -1,3 +1,33 @@
-+.\" ident	"@(#)sun-manpage.patch	1.12	09/12/11 SMI"
+@@ -1,3 +1,32 @@
 +.\" 
 +.\" Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 +.\" Use is subject to license terms.

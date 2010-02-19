@@ -29,7 +29,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)suntouch-manpages.pl	1.5	08/08/08
 #
 
 # Updates manual pages to include standard Sun man page sections

@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)cmap_grab.h	35.7	09/11/09 SMI"
 
 /*
  * cmap_grab.h - colormap grabber structures and information

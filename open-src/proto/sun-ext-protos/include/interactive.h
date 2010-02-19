@@ -36,7 +36,6 @@
 #ifndef _INTERACTIVE_H
 #define _INTERACTIVE_H
 
-#pragma ident	"@(#)interactive.h	35.3	05/08/31 SMI"
 
 #include <X11/Xproto.h>
 

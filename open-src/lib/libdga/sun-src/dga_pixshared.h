@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_pixshared.h	1.4	09/11/09 SMI"
 
 #ifndef _DGA_PIXSHARED_H
 #define _DGA_PIXSHARED_H

@@ -28,7 +28,6 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)fbpm.h	1.10	06/08/09 SMI"
 
 #define FBPMModeOn	0
 #define FBPMModeStandby	1

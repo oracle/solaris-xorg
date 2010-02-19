@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.5	09/08/03
 #
 
 # Package name used in tarballs

@@ -32,7 +32,6 @@
  * naughton@wind.sun.com
  */
 
-#pragma ident "@(#)xcolor.c	35.3 08/08/21 XCOLOR SMI"
 
 #include <stdio.h>
 #include <math.h>

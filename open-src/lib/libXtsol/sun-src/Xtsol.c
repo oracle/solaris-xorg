@@ -26,7 +26,6 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)Xtsol.c 1.7     08/08/12 SMI"
 
 #define NEED_REPLIES
 #define NEED_EVENTS

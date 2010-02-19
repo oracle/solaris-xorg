@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)enodev.patch	1.2	10/01/20 SMI"
 #
 
 6844148 Xorg support for errno ENODEV from mouse devices

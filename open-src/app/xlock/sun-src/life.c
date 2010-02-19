@@ -44,9 +44,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)life.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * life.c - Conway's game of Life for xlock, the X Window System lockscreen.
  *

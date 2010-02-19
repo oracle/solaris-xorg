@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.22	10/01/07 SMI"
 #
 
 PWD:sh=pwd

@@ -29,7 +29,6 @@
 # of the copyright holder.
 #
 #
-# ident	"@(#)Makefile	1.4	09/10/13 SMI"
 #
 # Definitions of Solaris-specific X Server extensions
 

@@ -28,7 +28,6 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)fbconsole.c	35.6	08/09/09 SMI"
 
 /*
  * fbconsole - fallback console

@@ -2,7 +2,6 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# ident	"@(#)Xdmcp.spec	1.3	09/09/28 SMI"
 #
 
 Function	XdmcpARRAY8Equal

@@ -45,7 +45,6 @@
  */
 
 /*-
- * @(#)xlock.h	35.8 08/09/18 XLOCK
  *
  * xlock.h - external interfaces for new modes and SYSV OS defines.
  */

@@ -26,9 +26,7 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)allplanes.h	35.3	07/12/04 SMI"
 
-/* @(#)allplanes.h	35.3 07/12/04 INCLUDE_XEXT SMI */
 
 #ifndef _ALLPLANES_H_
 #define _ALLPLANES_H_

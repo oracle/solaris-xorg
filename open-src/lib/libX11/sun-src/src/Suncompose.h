@@ -1,7 +1,6 @@
 /*
  * Suncompose.h -- Compose Key Sequence Table
  *
- * @(#)Suncompose.h	35.2	10/05/94
  *
  * Copyright (c) 1986 by Sun Microsystems, Inc.
  * 

@@ -60,7 +60,6 @@
  * 07-Jul-90: Created from resource work in xlock.c
  *
  */
-#pragma ident "@(#)resource.c	35.15 09/18/08 16:24:30 SunSoft"
 #include <stdio.h>
 #include "xlock.h"
 #include <netdb.h>

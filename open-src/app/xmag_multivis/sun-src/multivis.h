@@ -3,7 +3,6 @@
 /*-
  * multivis.h - Header file for Mechanism for GetImage across Multiple Visuals
  *
- * @(#)multivis.h 35.1 94/09/01
  *
  * Copyright (c) 1989,90 by Sun Microsystems, Inc.
  *

@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)iamodule.c	1.4	09/01/14"
 
 #ifdef HAVE_XORG_CONFIG_H
 #include <xorg-config.h>

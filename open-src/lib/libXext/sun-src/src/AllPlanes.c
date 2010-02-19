@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)AllPlanes.c	35.6	08/03/12 SMI"
 
 /*
  * AllPlanes.c - the client side interface to the SUN_ALLPLANES extension.

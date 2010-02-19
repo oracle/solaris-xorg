@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)transovl.h	35.3	07/12/04 INCLUDE_EXT SMI"
 
 #ifndef _TRANSOVL_H_
 #define _TRANSOVL_H_

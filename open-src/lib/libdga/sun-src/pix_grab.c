@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)pix_grab.c	35.10	09/11/09 SMI"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_Xrequests.h	35.6	09/11/09 SMI"
 
 /*
  * dga_Xrequests.h - DGA X11 protocol extension definitions

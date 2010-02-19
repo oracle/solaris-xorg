@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)sme.h	1.6	07/12/04 SMI"
 
 /************************************************************
 Copyright 1989 by The Massachusetts Institute of Technology

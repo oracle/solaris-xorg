@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 09/07/14
 #
 
 MODULE_NAME=libXaw5

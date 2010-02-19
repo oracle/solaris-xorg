@@ -43,9 +43,6 @@
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
  */
-#ifndef lint
-static char sccsid[] = "@(#)pyro.c	35.4 08/09/18 XLOCK";
-#endif
 /*-
  * pyro.c - Fireworks for xlock, the X Window System lockscreen.
  *

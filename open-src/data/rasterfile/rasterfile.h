@@ -26,7 +26,6 @@
  * of the copyright holder.
  */ 
 
-/*	@(#)rasterfile.h 1.11 89/08/21 SMI	*/
 
 /*
  * Description of header for files containing raster images

@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.13	09/12/05 SMI"
 #
 
 # IMPORTANT NOTE:  xtrans is not really a library, but shared source code

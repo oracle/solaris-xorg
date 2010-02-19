@@ -26,9 +26,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-#pragma ident	"@(#)XGrabWin.c	35.6	09/12/05 SMI"
-#endif
 /*-
  *-----------------------------------------------------------------------
  * XGrabWin.c - X11 Client Side interface to Window Grabber.

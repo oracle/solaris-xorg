@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.79	09/12/05 SMI"
 #
 
 # Build 32-bit or 64-bit?

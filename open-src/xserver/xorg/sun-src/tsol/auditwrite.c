@@ -3,7 +3,6 @@
  * Use is subject to license terms.
  */
 
-#pragma ident	"@(#)auditwrite.c	1.12	08/04/11 SMI"
 
 /*
  * auditwrite() - Construct and write user level records to the audit trail.

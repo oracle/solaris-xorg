@@ -28,7 +28,6 @@
 * of the copyright holder.
 */
 
-#pragma ident "@(#)cmcNeWSinit.c	35.4 08/09/30 CMAP_COMPACT SMI"
 
 #include <stdio.h>
 #include <X11/Xlib.h>

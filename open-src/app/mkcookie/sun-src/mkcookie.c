@@ -31,7 +31,6 @@
 * of the copyright holder.
 *
 */
-#pragma ident	"@(#)mkcookie.c	35.13	08/09/30 SMI"
 
 /*
  * $XConsortium: auth.c,v 1.17 89/12/14 09:42:18 rws Exp $

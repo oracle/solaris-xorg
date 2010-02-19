@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1 09/07/14
 
 SRCS = 	Xaw3_1AsciiSink.c Xaw3_1AsciiSrc.c Xaw3_1AsciiText.c Xaw3_1Box.c\
 	Xaw3_1Clock.c Xaw3_1Command.c Xaw3_1Dialog.c Xaw3_1Form.c \

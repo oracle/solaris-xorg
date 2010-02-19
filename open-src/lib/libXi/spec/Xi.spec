@@ -27,7 +27,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Xi.spec	1.4	09/12/05 SMI"
 #
 
 # Used by DevicePresence macro in public <X11/XInput.h> header

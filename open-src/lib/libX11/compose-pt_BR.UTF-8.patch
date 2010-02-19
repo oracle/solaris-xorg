@@ -31,7 +31,7 @@
 diff -urp -x '*~' -x '*.orig' nls/pt_BR.UTF-8/Compose.pre nls/pt_BR.UTF-8/Compose.pre
 --- nls/pt_BR.UTF-8/Compose.pre	2009-03-24 22:23:13.000000000 -0700
 +++ nls/pt_BR.UTF-8/Compose.pre	2009-03-25 18:27:14.664666000 -0700
-@@ -1,4275 +1,2732 @@
+@@ -1,4275 +1,2731 @@
 -XCOMM UTF-8 (Unicode) compose sequence
 -XCOMM David.Monniaux@ens.fr
  XCOMM
@@ -4323,7 +4323,6 @@ diff -urp -x '*~' -x '*.orig' nls/pt_BR.UTF-8/Compose.pre nls/pt_BR.UTF-8/Compos
 +XCOMM Copyright 1996-2002 Sun Microsystems, Inc.  All rights reserved.
 +XCOMM Use is subject to license terms.
 +XCOMM
-+XCOMM ident	"@(#)pt_BR.UTF-8	1.46 03/05/29 SMI"
 +XCOMM
 +XCOMM Compose table for the pt_BR.UTF-8 locale
 +XCOMM

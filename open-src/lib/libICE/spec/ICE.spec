@@ -27,7 +27,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)ICE.spec	1.3	09/07/31 SMI"
 #
 
 Function	_IceAddOpcodeMapping

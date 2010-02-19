@@ -31,13 +31,11 @@
 diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/Compose.pre nls/ja_JP.UTF-8/Compose.pre
 --- nls/ja_JP.UTF-8/Compose.pre	2007-05-16 08:34:44.000000000 -0700
 +++ nls/ja_JP.UTF-8/Compose.pre	2008-02-27 21:08:32.576467000 -0800
-@@ -0,0 +1,2587 @@
+@@ -0,0 +1,2585 @@
 +XCOMM
 +XCOMM Copyright 1996-2002 Sun Microsystems, Inc.  All rights reserved.
 +XCOMM Use is subject to license terms.
 +XCOMM
-+XCOMM ident  "@(#)Compose 1.9 03/09/09 SMI"
-+XCOMM based on	"@(#)en_US.UTF-8	1.62 03/09/08 SMI"
 +XCOMM
 +XCOMM Compose table for the ja_JP.UTF-8 locale.
 +XCOMM

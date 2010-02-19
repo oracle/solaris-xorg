@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)pix_inquiry.c	35.2	09/11/09 SMI"
 
 /*
 ** pix_inquiry.c - state inquiry routines for pixmaps.

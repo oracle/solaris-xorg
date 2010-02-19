@@ -29,7 +29,6 @@
 *
 */
 
-#pragma ident "@(#)cmcinit.c	35.4 08/09/30 CMAP_COMPACT SMI"
 
 #include <stdio.h>
 #ifndef SYSV

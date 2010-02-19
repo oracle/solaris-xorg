@@ -27,7 +27,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)set-elf-comments.pl	1.1	08/11/26 SMI"
 #
 
 #

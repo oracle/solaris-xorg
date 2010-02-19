@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)interactive.c 35.20     09/05/15 SMI"
 
 /************************************************************
 	Basic boilerplate extension.

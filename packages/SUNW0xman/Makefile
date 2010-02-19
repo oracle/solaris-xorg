@@ -28,7 +28,6 @@
 # of the copyright holder.
 #
 #
-# ident	"@(#)Makefile	1.6	09/12/05 SMI"
 #
 
 SOURCEDIR=../../packages

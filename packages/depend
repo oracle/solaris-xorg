@@ -29,7 +29,6 @@
 #
 ###########################################################################
 #
-# ident	"@(#)depend	35.5	09/01/15 SMI"
 #
 # This package information file defines software dependencies associated
 # with the pkg.  You can define three types of pkg dependencies with this file:

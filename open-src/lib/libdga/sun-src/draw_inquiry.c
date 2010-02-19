@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)draw_inquiry.c	35.7	09/11/09 SMI"
 
 /* 
 ** draw_inquiry.c - state inquiry routines for drawable veneer.

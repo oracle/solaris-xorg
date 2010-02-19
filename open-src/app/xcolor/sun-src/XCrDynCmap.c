@@ -32,7 +32,6 @@
  * naughton@sun.com
  */
 
-#pragma ident "@(#)XCrDynCmap.c	35.4 08/08/21 XCOLOR SMI"
 
 #include <X11/X.h>
 #include <X11/Xos.h>

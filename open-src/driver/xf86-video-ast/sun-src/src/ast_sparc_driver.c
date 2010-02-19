@@ -28,7 +28,6 @@
  */
 
 
-#pragma ident	"@(#)ast_sparc_driver.c	1.3	09/12/05 SMI"
 
 #if defined(__sparc)
 

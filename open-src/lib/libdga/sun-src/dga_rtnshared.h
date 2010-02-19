@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_rtnshared.h	1.3	09/11/09 SMI"
 
 #ifndef _DGA_RTNSHARED_H
 #define _DGA_RTNSHARED_H

@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)mbsmemb_inquiry.c	35.4	09/11/09 SMI"
 
 /* 
 ** mbsmemb_inquiry.c - state inquiry routines for mbufset members.

@@ -30,7 +30,6 @@
 *
 */
 
-/* @(#)cmc.h 35.2 08/09/30 */
 
 /*
 ** Definitions for all Colormap compacting operations

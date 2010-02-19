@@ -29,11 +29,6 @@
 *
 */
 
-#ifndef lint
-static char sccsid[] = "@(#)cmcdiscard.c 35.3 08/09/30";
-#endif
-
-
 #include <sys/fcntl.h>
 #include <X11/Xlib.h>
 #include "cmc.h"

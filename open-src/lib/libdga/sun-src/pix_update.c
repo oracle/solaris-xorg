@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)pix_update.c	35.6	09/11/09 SMI"
 
 /*
 ** pix_update.c

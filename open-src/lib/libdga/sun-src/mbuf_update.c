@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)mbuf_update.c	35.2	09/11/09 SMI"
 
 /*
 ** mbuf_update.c

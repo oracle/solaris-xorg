@@ -29,7 +29,6 @@
 #
 ###########################################################################
 #
-#       @(#)postinstall.tmpl    1.1     08/02/25 SMI
 #
 # SUNWfontconfig-root (Fontconfig library configuration files) postinstall script.
 

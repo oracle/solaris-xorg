@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)rtn_grab.c	35.5	09/11/10 SMI"
 
 /*
  *

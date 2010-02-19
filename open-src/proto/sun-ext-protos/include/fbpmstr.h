@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)fbpmstr.h	1.4	07/12/04 SMI"
 
 
 #define X_FBPMGetVersion	0

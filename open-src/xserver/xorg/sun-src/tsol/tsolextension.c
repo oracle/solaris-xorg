@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolextension.c	1.43	10/01/07 SMI"
 
 #include <stdio.h>
 #include "auditwrite.h"

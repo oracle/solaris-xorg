@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.1	08/08/12
 
 SRCS = kbd_mode.c
 OBJS = $(SRCS:.c=.o)

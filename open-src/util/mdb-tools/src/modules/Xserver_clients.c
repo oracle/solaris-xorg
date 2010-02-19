@@ -28,7 +28,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)Xserver_clients.c	1.3	09/12/05 SMI"
 
 #include <sys/mdb_modapi.h>
 #include "Xserver_headers.h"

@@ -26,7 +26,6 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)Xtsol.h 1.9     07/07/30 SMI"
 
 #ifndef _XTSOL_H_
 #define _XTSOL_H_

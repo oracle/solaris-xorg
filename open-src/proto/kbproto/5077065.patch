@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)5077065.patch	1.1	06/06/12
 
 Part of fix for bug 5077065: Events appear even if XevieSendEvent is not called
 

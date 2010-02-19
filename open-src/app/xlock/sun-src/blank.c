@@ -44,9 +44,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)blank.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * blank.c - blank screen for xlock, the X Window System lockscreen.
  *

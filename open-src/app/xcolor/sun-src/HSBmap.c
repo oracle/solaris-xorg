@@ -32,7 +32,6 @@
  * naughton@sun.com
  */
 
-#pragma ident "@(#)HSBmap.c	35.3 08/08/21 XCOLOR SMI"
 
 #include <sys/types.h>
 #include <math.h>

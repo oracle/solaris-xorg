@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_internaldefs.h	35.3	09/11/09 SMI"
 
 #ifndef	_DGA_INTERNALDEFS_H
 #define	_DGA_INTERNALDEFS_H

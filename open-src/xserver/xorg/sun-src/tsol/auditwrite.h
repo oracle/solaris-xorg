@@ -6,7 +6,6 @@
 #ifndef	_BSM_AUDITWRITE_H
 #define	_BSM_AUDITWRITE_H
 
-#pragma ident	"@(#)auditwrite.h	1.5	08/02/04 SMI"
 
 #include <bsm/libbsm.h>
 #include <tsol/label.h>

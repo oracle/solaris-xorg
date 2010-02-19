@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)mesa_vendor_select	1.5	10/01/28 SMI"
 #
 
 LINKDIR=/var/run/opengl

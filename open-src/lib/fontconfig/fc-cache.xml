@@ -29,7 +29,6 @@
     or other dealings in this Software without prior written authorization
     of the copyright holder.
 
-    ident	"@(#)fc-cache.xml	1.5	08/10/21 SMI"
 
     Service manifest for ensuring fontconfig caches are up to date.
 -->

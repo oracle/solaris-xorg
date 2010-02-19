@@ -26,7 +26,6 @@
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
  */
-#pragma ident	"@(#)VisGamma.c	1.5	08/01/16 SMI"
 
 #include <math.h>
 #include <stdlib.h>

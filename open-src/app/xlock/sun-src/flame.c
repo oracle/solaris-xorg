@@ -44,9 +44,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)flame.c 35.3 08/09/18 XLOCK";
-#endif
 /*-
  * flame.c - recursive fractal cosmic dust.
  *

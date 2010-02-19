@@ -31,7 +31,6 @@
 #
 ###########################################################################
 #
-# ident	"@(#)upgrade-X	1.62	09/12/05 SMI"
 #
 # Description: This script upgrades X software on a Solaris Nevada
 #	       system. It should be run as root from a X package area.

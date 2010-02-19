@@ -26,7 +26,6 @@
  * of the copyright holder.
  */ 
 
-#pragma ident   "@(#)Xtsolproto.h 1.5     06/03/07 SMI"
 
 /*
  * X Server Trusted Extensions

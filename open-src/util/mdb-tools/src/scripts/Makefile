@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-#ident	"@(#)Makefile	1.1	08/08/07 SMI"
 
 SCRIPTS= \
 	list_$(Xserver)_clients \

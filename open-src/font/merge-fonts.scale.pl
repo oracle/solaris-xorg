@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)merge-fonts.scale.pl	1.1	07/09/14 SMI"
 #
 
 # Merge fonts.scale files

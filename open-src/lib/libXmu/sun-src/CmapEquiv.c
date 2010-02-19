@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)CmapEquiv.c	1.2 08/01/16   SMI" 
 
 #include <stdlib.h>
 #include <string.h>

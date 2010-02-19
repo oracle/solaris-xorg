@@ -26,7 +26,6 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsol.h	1.13	09/12/05 SMI"
 
 /*
  * tsol.h server side extension

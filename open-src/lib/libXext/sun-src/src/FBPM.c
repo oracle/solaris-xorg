@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)FBPM.c	1.8	09/12/05 SMI"
 
 #define NEED_REPLIES
 #include <X11/Xlibint.h>

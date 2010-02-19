@@ -2,7 +2,6 @@
 # Copyright (c) 2000 by Sun Microsystems, Inc.
 # All rights reserved.
 #
-#ident  "@(#)Xaw5.spec 1.2     00/06/19 SMI"
 #
 #lib/Xaw/spec/Xaw5.spec
 #

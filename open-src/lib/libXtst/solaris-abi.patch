@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)solaris-abi.patch	1.3	09/12/05 SMI"
 #
 
 Solaris has always shipped libXtst as libXtst.so.1

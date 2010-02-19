@@ -29,7 +29,6 @@
 # of the copyright holder.
 #
 #
-# ident	"@(#)Makefile	1.8	09/12/05 SMI"
 #
 # Files for integration with Solaris Service Management Framework (SMF) and
 # Role Based Access Control (RBAC)

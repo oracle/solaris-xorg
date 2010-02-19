@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_winshared.h	1.16	09/11/09 SMI"
 
 /*
  * dga_winshared.h - Sun Direct Graphics Access shared page include file.

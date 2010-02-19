@@ -1,4 +1,3 @@
-#pragma ident   "@(#)xlock.c 35.11     08/09/18 SMI"
 /*
  * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.

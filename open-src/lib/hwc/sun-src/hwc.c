@@ -27,7 +27,6 @@
  *
  */
 
-#pragma ident	"@(#)hwc.c	35.16	08/08/12 SMI"
 
 #include <sys/types.h>
 #include <sys/param.h>

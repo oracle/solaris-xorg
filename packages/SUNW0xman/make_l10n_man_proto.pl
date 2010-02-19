@@ -28,7 +28,6 @@
 # of the copyright holder.
 #
 #
-# ident "@(#)make_l10n_man_proto.pl	1.2    07/03/22 SMI"
 #
 
 use strict;

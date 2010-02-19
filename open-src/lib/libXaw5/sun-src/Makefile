@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# @(#)Makefile	1.2 09/12/02
 
 SRCS = 	AllWidgets.c AsciiSink.c AsciiText.c Box.c \
 	Command.c Dialog.c Form.c Grip.c Label.c List.c MenuButton.c \

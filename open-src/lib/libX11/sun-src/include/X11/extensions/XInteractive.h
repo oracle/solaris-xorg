@@ -35,7 +35,6 @@
 #ifndef _XINTERACTIVE_H_
 #define _XINTERACTIVE_H_
 
-#pragma ident	"@(#)XInteractive.h	35.3	08/02/27 SMI"
 
 #include <X11/Xmd.h>
 #include <X11/Xfuncproto.h>

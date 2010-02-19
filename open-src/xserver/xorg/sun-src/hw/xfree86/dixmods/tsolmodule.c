@@ -26,7 +26,6 @@
  * of the copyright holder.
  */ 
 
-#pragma ident	"@(#)tsolmodule.c	1.6	09/12/05 SMI"
 
 /*
  * X Trusted Extension module for X.org X server 

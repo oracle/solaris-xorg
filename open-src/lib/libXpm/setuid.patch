@@ -26,7 +26,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 # 
-# @(#)setuid.patch	1.3	08/03/24 SMI
 #
 
 Additional security checks for setuid programs that X.Org upstream doesn't

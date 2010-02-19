@@ -28,7 +28,6 @@
  * of the copyright holder.
  */
 
-#pragma ident   "@(#)main.c	35.8	08/07/30 SMI"
 
 /*
  * winsysck - determine which window system protocols are available

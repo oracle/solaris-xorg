@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)nvidia_vendor_select	1.3	10/02/08 SMI"
 #
 
 LINKDIR=/var/run/opengl

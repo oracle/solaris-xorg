@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_Xrequests.c	35.19	09/11/09 SMI"
  
 /* 
  * dga_Xrequests.c - the client side code for DGA X11 requests

@@ -1,6 +1,3 @@
-#ifndef lint
-static char sccsid[] = "@(#)multivis.c 35.2 97/04/10";
-#endif
 /*-
  * multivis.c - Mechanism for GetImage across Multiple Visuals
  *

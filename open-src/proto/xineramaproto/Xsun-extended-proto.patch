@@ -10,7 +10,7 @@ For more info, see:
 diff -urp -x '*~' -x '*.orig' panoramiXproto.h panoramiXproto.h
 --- panoramiXproto.h	2009-08-26 18:39:59.000000000 -0700
 +++ panoramiXproto.h	2009-11-02 14:56:50.107356009 -0800
-@@ -190,4 +190,90 @@ typedef struct {
+@@ -190,4 +190,89 @@ typedef struct {
  } xXineramaScreenInfo;
  #define sz_XineramaScreenInfo 8
  
@@ -46,7 +46,6 @@ diff -urp -x '*~' -x '*.orig' panoramiXproto.h panoramiXproto.h
 + * or other dealings in this Software without prior written authorization
 + * of the copyright holder.
 + */
-+#pragma ident	"@(#)Xsun-extended-proto.patch	1.4	09/12/05 SMI"
 +
 +#define X_PanoramiXGetInfo	4
 +#define X_XineramaInfo		4

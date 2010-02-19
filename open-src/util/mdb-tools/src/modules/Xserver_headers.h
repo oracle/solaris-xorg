@@ -29,7 +29,6 @@
  *
  */
 
-#pragma ident	"@(#)Xserver_headers.h	1.3	08/08/08 SMI"
 
 /* Xserver includes & definitions needed to build mdb modules */
 #define SUNSOFT

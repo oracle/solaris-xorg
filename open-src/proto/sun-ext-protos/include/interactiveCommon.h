@@ -30,7 +30,6 @@
 #ifndef _INTERACTIVECOMMON_H
 #define _INTERACTIVECOMMON_H
 
-#pragma ident	"@(#)interactiveCommon.h	35.3	05/08/31 SMI"
 
 
 #define INTERACTIVE_INFO		0x1

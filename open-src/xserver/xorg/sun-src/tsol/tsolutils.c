@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolutils.c	1.25	09/12/05 SMI"
 
 #ifdef HAVE_DIX_CONFIG_H
 #include <dix-config.h>

@@ -43,9 +43,6 @@
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
  */
-#ifndef lint
-static char sccsid[] = "@(#)swarm.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * swarm.c - swarm of bees for xlock, the X Window System lockscreen.
  *

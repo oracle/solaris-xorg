@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident "@(#)dtlogin.c	1.20	09/09/11   SMI"
 
 /* Implementation of Display Manager (dtlogin/gdm/xdm/etc.) to X server
  * communication pipe. The Display Manager process will start

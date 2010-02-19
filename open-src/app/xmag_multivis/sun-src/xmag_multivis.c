@@ -1,6 +1,3 @@
-#ifndef lint
-static char sccsid[] = "@(#)xmag.c	35.2	00/08/15 SMI";
-#endif
 /*
  * xmag - simple magnifying glass application
  *

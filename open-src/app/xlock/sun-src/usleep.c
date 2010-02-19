@@ -43,9 +43,6 @@
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
  */
-#ifndef lint
-static char sccsid[] = "@(#)usleep.c	35.5 08/09/18 XLOCK";
-#endif
 /*-
  * usleep.c - OS dependant implementation of usleep().
  *

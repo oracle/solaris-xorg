@@ -28,7 +28,6 @@
 
 #ifndef __XMUSOLARIS_H__
 #define __XMUSOLARIS_H__
-#pragma ident "@(#)XmuSolaris.h	1.3 08/01/16   SMI" 
 
 #include <X11/Xlib.h>
 #ifdef __cplusplus

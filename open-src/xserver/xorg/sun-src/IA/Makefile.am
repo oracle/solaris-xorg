@@ -29,7 +29,6 @@
 #
 ##########################################################################
 #
-# ident "@(#)Makefile.am 1.3     07/01/18 SMI"
 #
 
 # SolarisIA (interactive priority class) extension

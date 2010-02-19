@@ -43,9 +43,6 @@
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
  */
-#ifndef lint
-static char sccsid[] = "@(#)qix.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * qix.c - Vector swirl for xlock, the X Window System lockscreen.
  *

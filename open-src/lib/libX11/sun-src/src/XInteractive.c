@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)XInteractive.c	35.9	06/10/05 SMI"
 
 /*
 

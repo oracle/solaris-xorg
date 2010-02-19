@@ -2,7 +2,6 @@
 # Copyright (c) 2000 by Sun Microsystems, Inc.
 # All rights reserved.
 #
-#ident  "@(#)SM.spec 1.3     00/06/19 SMI"
 #
 #lib/SM/spec/SM.spec
 #

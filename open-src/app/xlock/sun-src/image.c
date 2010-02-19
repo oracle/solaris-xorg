@@ -44,9 +44,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)image.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * image.c - image bouncer for xlock, the X Window System lockscreen.
  *

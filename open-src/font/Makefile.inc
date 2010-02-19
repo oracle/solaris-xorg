@@ -28,7 +28,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile.inc	1.9	09/11/23 SMI"
 #
 
 ### Makefile settings/rules common to all X.Org font modules

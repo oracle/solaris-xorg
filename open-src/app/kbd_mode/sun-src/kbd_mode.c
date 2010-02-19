@@ -27,10 +27,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static  char sccsid[] = "@(#)kbd_mode.c	1.4	08/08/12 SMI";
-#endif
-
 /*
  *      kbd_mode:       set keyboard encoding mode
  */

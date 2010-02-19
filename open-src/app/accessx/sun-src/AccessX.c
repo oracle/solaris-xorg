@@ -70,7 +70,6 @@
 /*			Redesign GUI					*/
 /*									*/
 /************************************************************************/
-#pragma ident	"@(#)AccessX.c	35.19	09/12/05 SMI"
 
 /* Special constants needed for the accessx extension */
 #define NEED_EVENTS

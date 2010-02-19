@@ -30,7 +30,6 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
-# ident	"@(#)Makefile	1.88	09/12/01 SMI"
 #
 
 # Package name used in tarballs

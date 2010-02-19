@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_db.c	35.5	09/11/09 SMI"
  
 /* 
  * dga_db.c - the client side code for DGA double buffering

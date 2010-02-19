@@ -2,7 +2,6 @@
 # Copyright 2003 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# ident	"@(#)Xau.spec	1.1	03/04/08 SMI"
 #
 
 # AuDispose.c

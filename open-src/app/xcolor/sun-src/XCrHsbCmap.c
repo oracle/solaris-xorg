@@ -31,7 +31,6 @@
  * Author: Patrick J. Naughton
  * naughton@sun.com
  */
-#pragma ident "@(#)XCrHsbCmap.c	35.3 08/08/21 XCOLOR SMI"
 
 #include <X11/X.h>
 #include <X11/Xos.h>

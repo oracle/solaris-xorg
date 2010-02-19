@@ -44,9 +44,6 @@
  * of the copyright holder.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)hsbramp.c	35.3 08/09/18 XLOCK";
-#endif
 /*-
  * hsbramp.c - Create an HSB ramp.
  *

@@ -26,7 +26,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)tsolinfo.h	1.26	09/12/05 SMI"
 
 
 #ifndef    _TSOL_INFO_H

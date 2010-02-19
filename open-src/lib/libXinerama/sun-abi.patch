@@ -27,7 +27,6 @@
 # of the copyright holder.
 # 
 #
-# ident	"@(#)sun-abi.patch	1.2	07/03/15 SMI"
 #
 
 Solaris already has the old XPanoramiX* API in libXext, so we don't export

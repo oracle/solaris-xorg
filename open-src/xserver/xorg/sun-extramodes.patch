@@ -1,7 +1,7 @@
 diff -urp -x '*~' -x '*.orig' hw/xfree86/common/extramodes hw/xfree86/common/extramodes
 --- hw/xfree86/common/extramodes	2008-07-02 10:10:44.000000000 -0700
 +++ hw/xfree86/common/extramodes	2008-09-22 21:38:06.550110000 -0700
-@@ -25,3 +25,50 @@ Modeline "2048x1536" 340.48  2048 2216 2
+@@ -25,3 +25,48 @@ Modeline "2048x1536" 340.48  2048 2216 2
  # 2048x1536 @ 85Hz (VESA GTF) hsync: 137.0kHz
  Modeline "2048x1536" 388.04  2048 2216 2440 2832  1536 1537 1540 1612 -hsync +vsync
  
@@ -34,8 +34,6 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/extramodes hw/xfree86/common/ext
 +// of the copyright holder.
 +//
 +//-------------------------------------------------------------------------
-+//
-+// ident "@(#)sun_extramodes 1.4     05/11/08 SMI"
 +//
 +// Additional timing specs for Sun monitors
 +

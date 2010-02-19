@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)dga_ab.c	1.14	09/11/09 SMI"
  
 /*
  * dga_ab.c - the client side code for Ancillary Buffers (ABMG ) 

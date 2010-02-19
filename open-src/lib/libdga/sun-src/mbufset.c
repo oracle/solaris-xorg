@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)mbufset.c	35.3	09/11/09 SMI"
 
 /* 
 ** mbufset.c - Routines to manipulate multibuffer set objects.

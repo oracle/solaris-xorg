@@ -31,7 +31,6 @@
 #ifndef _HWCIO_H
 #define	_HWCIO_H
 
-#pragma ident	"@(#)hwcio.h	35.6	08/08/12 SMI"
 
 #ifdef	__cplusplus
 extern "C" {

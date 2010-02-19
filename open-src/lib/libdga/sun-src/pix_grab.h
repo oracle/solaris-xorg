@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)pix_grab.h	35.2	09/11/09 SMI"
 
 #ifndef _PIX_GRAB_H
 #define _PIX_GRAB_H

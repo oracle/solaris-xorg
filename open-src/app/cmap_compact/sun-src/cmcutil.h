@@ -29,7 +29,6 @@
 *
 */
 
-/* @(#)cmcutil.h 35.2 08/09/30 */
 
 /*
 ** Definitions shared between several Workspace Color operations

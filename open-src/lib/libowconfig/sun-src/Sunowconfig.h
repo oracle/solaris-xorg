@@ -28,7 +28,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)Sunowconfig.h	1.19	09/11/09 SMI"
 
 /*
  *  This file defines the private and public interfaces to the OWconfig API.

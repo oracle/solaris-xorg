@@ -1,4 +1,3 @@
-.\" @(#)flash.txt 35.1 94/09/01
 .\" 
 .\" To print: troff -ms flash.txt
 .\" 

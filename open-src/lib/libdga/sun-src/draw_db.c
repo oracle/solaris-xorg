@@ -27,7 +27,6 @@
  * of the copyright holder.
  */
 
-#pragma ident	"@(#)draw_db.c	35.2	09/11/09 SMI"
 
 /* 
 ** draw_db.c - Drawable veneer for DGA window buffer control routines
