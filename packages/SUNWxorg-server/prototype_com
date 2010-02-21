@@ -135,3 +135,31 @@ s none share/man/man7/keyboard.7=kbd.7
 f none share/man/man7/mousedrv.7				0444 root bin
 s none share/man/man7/mouse.7=mousedrv.7
 f none share/man/man7/void.7					0444 root bin
+
+# mdb module for getting client & grab information out of X servers
+!search $HOME/lib/mdb/proc
+d none lib/mdb							0755 root sys
+d none lib/mdb/proc						0755 root sys
+f none lib/mdb/proc/Xserver.so					0755 root bin
+s none lib/mdb/proc/Xephyr.so=Xserver.so
+s none lib/mdb/proc/Xorg.so=Xserver.so
+s none lib/mdb/proc/Xvfb.so=Xserver.so
+s none lib/mdb/proc/Xvnc.so=Xserver.so
+
+# lib/mdb/proc/$plat_64 has different group on sparc vs. x86 so has to be
+# in the platform specific prototype
+!search $HOME/lib/mdb/proc/$plat_64
+f none lib/mdb/proc/$plat_64/Xserver.so				0755 root bin
+s none lib/mdb/proc/$plat_64/Xephyr.so=Xserver.so
+s none lib/mdb/proc/$plat_64/Xorg.so=Xserver.so
+s none lib/mdb/proc/$plat_64/Xvfb.so=Xserver.so
+s none lib/mdb/proc/$plat_64/Xvnc.so=Xserver.so
+
+!search $HOME/demo/Xserver/mdb/
+d none demo							0755 root bin
+d none demo/Xserver						0755 root bin
+d none demo/Xserver/mdb						0755 root bin
+f none demo/Xserver/mdb/README					0444 root bin
+f none demo/Xserver/mdb/list_Xserver_clients			0755 root bin
+f none demo/Xserver/mdb/list_Xserver_devicegrab_client		0755 root bin
+f none demo/Xserver/mdb/list_Xserver_servergrab_client		0755 root bin

@@ -1,6 +1,5 @@
 /*
  * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
- * Use subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -11,7 +10,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the Software and that both the above copyright notice(s) and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,20 +20,36 @@
  * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
  * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of a copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- *
  */
 
+#ifndef _INTERACTIVE_SRV_H
+#define _INTERACTIVE_SRV_H
 
-/* Xserver includes & definitions needed to build mdb modules */
-#define SUNSOFT
+#include <X11/extensions/interactive.h>
 
-#include "xorg-server.h"
-#include "Xdefs.h"
-#include "osdep.h"
-#include "dixstruct.h"
-#include "inputstr.h"
+#define	UNSET_PRIORITY		0
+#define	SET_PRIORITY		1
+#define	SET_INTERACTIVE		2
+
+typedef struct _ClientProcessInfo {
+    int 		count;
+    ConnectionPidPtr	pids;
+    Bool		boosted;
+} ClientProcessRec, *ClientProcessPtr;
+
+typedef struct {
+    ClientProcessPtr    process;	/* Process id information */
+    Bool		wmgr;
+} IAClientPrivateRec, *IAClientPrivatePtr;
+
+
+/* Set via xorg.conf option in loadable module */
+extern int IADebugLevel;
+extern void IAExtensionInit(void);
+
+#endif /* _INTERACTIVE_SRV_H */

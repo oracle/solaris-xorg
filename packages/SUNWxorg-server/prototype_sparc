@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -47,3 +47,5 @@ i depend=depend_sparc
 f none bin/Xorg							2555 root root
 f none bin/Xephyr						0555 root bin
 f none bin/Xvfb							0555 root bin
+
+d none lib/mdb/proc/sparcv9					0755 root sys

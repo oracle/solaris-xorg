@@ -1,6 +1,4 @@
-#!/usr/bin/ksh93
-#
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -12,7 +10,7 @@
 # copyright notice(s) and this permission notice appear in all copies of
 # the Software and that both the above copyright notice(s) and this
 # permission notice appear in supporting documentation.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,58 +20,48 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
+# 
 # Except as contained in this notice, the name of a copyright holder
 # shall not be used in advertising or otherwise to promote the sale, use
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 #
 
-PATH=/usr/bin
+MODULES=Xserver.so
+MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
 
-if [[ -z "$1" ]] ; then
-	print "Usage: $0 [-p process_id | corefile]"
-	exit 1
-fi
+CFLAGS += -K pic -g
+CPPFLAGS += -I ../../../../include -I ../../../.. -I ../../../../Xext
+LDFLAGS += -Wl,-z,text
 
-if [[ -z "$__XSERVER__debugPATH" ]] ; then
-    __XSERVER__debugPATH=/opt/__XSERVER__debug
-fi
+HEADERS = Xserver_mdb.h
+SOURCES = Xserver_clients.c Xserver_device_grabs.c mdb_module.c
+OBJECTS = $(SOURCES:%.c=%.o)
+LINTFILES = $(SOURCES:%.so=%.ln)
 
-if [[ ! -d "$__XSERVER__debugPATH" ]] ; then
-    print "Can't find $__XSERVER__debugPATH - set __XSERVER__debugPATH env var to install location\n"
-    exit 1
-fi
+all: $(MODULES)
 
-MDBOUT=$(mktemp -t list___Xserver___clients.mdb.XXXXXX)
-SHOUT=$(mktemp -t list___Xserver___clients.sh.XXXXXX)
+.KEEP_STATE:
 
-if [[ -z "$MDBOUT" -o -z "$SHOUT" ]] ; then
-    print "Failed to create temporary file, cannot continue"
-    exit 1
-fi
+.NO_PARALLEL:
+.PARALLEL: $(OBJECTS) $(LINTFILES)
 
-mdb -L %o:$__XSERVER__debugPATH/lib/%i "$@" > ${MDBOUT} <<__EOF__
-::load __Xserver___clients
-GrabInProgress/D
-*clients+((*GrabInProgress)*4) ::client_pids
-__EOF__
+Xserver.so: $(OBJECTS)
+	$(CC) $(CFLAGS) -G -o Xserver.so $(OBJECTS) $(LDFLAGS) $(LIBS)
 
-cat ${MDBOUT}
+install:
+	mkdir $(DESTDIR)$(MDB_MODULE_DIR)
 
-awk '/GrabInProgress/ { if ($2 == 0) { \
-			    print "echo Server not grabbed" ; exit; \
-		        } else { grab = $2 } \
-		      } \
-    /^[^\#\?]*$/      { if ($1 == grab) { \
-			    for (i = 4 ; i <= NF ; i++) \
-				printf "ptree %s\n", $i
-			}\
-		      }' \
-  ${MDBOUT} >> ${SHOUT}
+clean:
+	rm -f $(OBJECTS)
 
-print ""
+clean.lint:
+	rm -f $(LINTFILES)
 
-ksh93 ${SHOUT} | awk '{ if (printed[$1]++ < 1) { print $0; } }'
+clobber: clean clean.lint
+	rm -f $(MODULES)
 
-rm -f ${MDBOUT} ${SHOUT}
+%.ln: %.c
+	$(LINT) $(LINTFLAGS) $(CPPFLAGS) -c $<
+
+lint: $(LINTFILES)

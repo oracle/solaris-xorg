@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -11,7 +11,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the Software and that both the above copyright notice(s) and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -21,7 +21,7 @@
  * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
  * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of a copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -30,7 +30,9 @@
 
 
 #include <sys/mdb_modapi.h>
-#include "Xserver_headers.h"
+#include "xorg-server.h"
+#include "inputstr.h"
+#include "Xserver_mdb.h"
 
 struct inputdev_walk_data {
     InputInfo 		inputInfo;
@@ -42,7 +44,7 @@ struct inputdev_walk_data {
  * or reading the value of the server's "inputInfo" pointer.  We also allocate
  * a for storage, and save this using the walk_data pointer.
  */
-static int
+_X_HIDDEN int
 inputdev_walk_init(mdb_walk_state_t *wsp)
 {
     uintptr_t inputInfoPtr;
@@ -56,7 +58,7 @@ inputdev_walk_init(mdb_walk_state_t *wsp)
 	mdb_warn("failed to read inputInfo data", inputInfoPtr);
 	return (WALK_ERR);
     }
-    
+
     if (wsp->walk_addr == NULL) {
 	wsp->walk_addr = (uintptr_t) iwda->inputInfo.devices;
     }
@@ -69,14 +71,14 @@ inputdev_walk_init(mdb_walk_state_t *wsp)
  * the callback function.  We terminate when we reach the end of the inputdevs
  * array.
  */
-static int
+_X_HIDDEN int
 inputdev_walk_step(mdb_walk_state_t *wsp)
 {
     int status;
     uintptr_t inputdevPtr;
     struct inputdev_walk_data *iwda
 	= (struct inputdev_walk_data *) wsp->walk_data;
-    
+
     if (wsp->walk_addr == NULL)
 	return (WALK_DONE);
 
@@ -87,7 +89,7 @@ inputdev_walk_step(mdb_walk_state_t *wsp)
 
     status = wsp->walk_callback(wsp->walk_addr, wsp->walk_data,
 				wsp->walk_cbdata);
-    
+
     wsp->walk_addr = (uintptr_t) iwda->dev.next;
     return (status);
 }
@@ -96,13 +98,13 @@ inputdev_walk_step(mdb_walk_state_t *wsp)
  * The walker's fini function is invoked at the end of each walk.  Since we
  * dynamically allocated data in client_walk_init, we must free it now.
  */
-static void
+_X_HIDDEN void
 inputdev_walk_fini(mdb_walk_state_t *wsp)
 {
     mdb_free(wsp->walk_data, sizeof (struct inputdev_walk_data));
 }
 
-static int
+_X_HIDDEN int
 inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 {
     uintptr_t inputdevP;
@@ -112,7 +114,7 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
     char devName[32];
     InputInfo 		inputInfo;
     GrabPtr	grabP;
-    
+
     if (argc != 0)
 	return (DCMD_USAGE);
 
@@ -134,7 +136,7 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 	mdb_warn("failed to read DeviceIntRec at %p", addr);
 	return (WALK_DONE);
     }
-    
+
     dev = &devRec;
 
     if (mdb_readsym(&inputInfo, sizeof (InputInfo), "inputInfo") == -1)
@@ -142,7 +144,7 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 	mdb_warn("failed to read inputInfo data");
 	return (DCMD_ERR);
     }
-    
+
     if (dev == inputInfo.keyboard) {
 	type = "* core keyboard *";
     } else if (dev == inputInfo.pointer) {
@@ -155,11 +157,11 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 	mdb_warn("failed to read InputdevRec.name at %p", dev->name);
 	devName[0] = '\0';
     }
-    
+
     mdb_printf("Device \"%s\" id %d: %s\n", devName, dev->id, type);
 
     grabP = dev->deviceGrab.grab;
-    
+
     if (grabP == NULL) {
 	mdb_printf("  -- no active grab on device\n\n");
     } else {
@@ -173,35 +175,7 @@ inputdev_grabs(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 	    mdb_printf("  -- active grab %p by client %d\n\n", grab.resource,
 		       clientid);
 	}
-    }	    
+    }
     return (DCMD_OK);
 }
 
-/*
- * MDB module linkage information:
- *
- * We declare a list of structures describing our dcmds, a list of structures
- * describing our walkers, and a function named _mdb_init to return a pointer
- * to our module information.
- */
-
-static const mdb_dcmd_t dcmds[] = {
-	{ "inputdev_grabs", NULL, "inputdev grab list", inputdev_grabs },
-	{ NULL }
-};
-
-static const mdb_walker_t walkers[] = {
-	{ "inputdev_walk", "walk list of input devices connected to X server",
-		inputdev_walk_init, inputdev_walk_step, inputdev_walk_fini },
-	{ NULL }
-};
-
-static const mdb_modinfo_t modinfo = {
-	MDB_API_VERSION, dcmds, walkers
-};
-
-const mdb_modinfo_t *
-_mdb_init(void)
-{
-	return (&modinfo);
-}

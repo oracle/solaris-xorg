@@ -1,6 +1,4 @@
-###############################################################################
-#
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,20 +31,15 @@
 
 all := TARGET = all
 clean := TARGET = clean
-clean.lint := TARGET = clean.lint
-clobber := TARGET = clobber
+install := TARGET = install
 lint := TARGET = lint
 
-SUBDIRS = $(XSERVER)debug
+SUBDIRS = modules scripts
 TARGET =
 
-all clean clean.lint clobber lint:: $(SUBDIRS)
+all clean install lint: $(SUBDIRS)
 
 $(SUBDIRS): FRC
-	-if [ ! -d $@ ] ; then mkdir $@ ; fi
-	@cd $@; pwd; $(MAKE) -f ../XSERVERdebug/Makefile $(TARGET)
-
-clean::
-	rm -rf proto-packages
+	@cd $@; pwd; $(MAKE) $(MAKEFLAGS) $(TARGET)
 
 FRC:

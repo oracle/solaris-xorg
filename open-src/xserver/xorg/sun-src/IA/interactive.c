@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -10,7 +10,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the Software and that both the above copyright notice(s) and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -20,7 +20,7 @@
  * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
  * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of a copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -70,20 +70,7 @@
 #include <X11/Xfuncproto.h>
 #include "dix.h"
 
-#define UNSET_PRIORITY 		0
-#define SET_PRIORITY		1
-#define SET_INTERACTIVE 	2
-
-typedef struct _ClientProcessInfo {
-    int 		count;
-    ConnectionPidPtr	pids;
-    Bool		boosted;
-} ClientProcessRec, *ClientProcessPtr;
-
-typedef struct {
-    ClientProcessPtr    process; /* Process id information */    
-    Bool		wmgr;
-} IAClientPrivateRec, *IAClientPrivatePtr;
+#include "interactive_srv.h"
 
 static int ProcIADispatch(ClientPtr client), SProcIADispatch(ClientPtr client);
 static int ProcIASetProcessInfo(ClientPtr client), SProcIASetProcessInfo(ClientPtr client);
@@ -149,8 +136,8 @@ IAExtensionInit(void)
 {
     ConnectionPidRec	myPid = P_MYID;
     ClientProcessRec	myProc = { 1, &myPid, FALSE };
-    
-    IA_DEBUG(IA_DEBUG_BASIC, 
+
+    IA_DEBUG(IA_DEBUG_BASIC,
 	     LogMessage(X_INFO, "SolarisIA: Initializing (generation %ld)\n",
 			IAExtensionGeneration));
 
@@ -187,7 +174,7 @@ IAExtensionInit(void)
     InteractiveOS = TRUE;
     IAExtensionGeneration = serverGeneration;
 
-    IA_DEBUG(IA_DEBUG_BASIC, 
+    IA_DEBUG(IA_DEBUG_BASIC,
 	     LogMessage(X_INFO,
 			"SolarisIA: Finished initializing (generation %ld)\n",
 			IAExtensionGeneration));
@@ -203,7 +190,7 @@ IAInitClientPrivate(ClientPtr pClient)
     if (priv != NULL) {
 	return Success;
     }
-	
+
     priv = xalloc(sizeof(IAClientPrivateRec));
     if (priv == NULL) {
 	return BadAlloc;
@@ -211,14 +198,14 @@ IAInitClientPrivate(ClientPtr pClient)
 
     priv->process = NULL;
     priv->wmgr = FALSE;
-    
+
     dixSetPrivate(&(pClient)->devPrivates, IAPrivKey, priv);
 
     return Success;
 }
 
 /* Called when we first hit WaitForSomething to initialize serverClient */
-static CARD32 
+static CARD32
 IAInitTimerCall(OsTimerPtr timer,CARD32 now,pointer arg)
 {
     ConnectionPidRec serverPid;
@@ -264,7 +251,7 @@ IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 	if (CurrentPids && CurrentPids->boosted) {
 	    SetPriority(CurrentPids, UNSET_PRIORITY);
 	}
-	
+
 	if (CurrentPids && LastPids && PidSetEqual(CurrentPids, LastPids)) {
 	    LastPids = NULL;
 	}
@@ -281,7 +268,7 @@ IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
     default:
 	break;
     }
-} 
+}
 
 
 static int
@@ -330,7 +317,7 @@ ProcIASetProcessInfo(ClientPtr client)
     if (ServerUid == (uid_t)-1)
 	ServerUid=getuid();
 
-    if ((stuff->flags & INTERACTIVE_INFO) && 
+    if ((stuff->flags & INTERACTIVE_INFO) &&
 	(stuff->uid==ServerUid || ServerUid==0 || stuff->uid==0) &&
 	LocalClient(client)) {
 	length = stuff->length - (sizeof(xIASetProcessInfoReq)>>2);
@@ -338,7 +325,7 @@ ProcIASetProcessInfo(ClientPtr client)
 	ChangeInteractive(client);
     }
 
-    if ((stuff->flags & INTERACTIVE_SETTING) && 
+    if ((stuff->flags & INTERACTIVE_SETTING) &&
 	(stuff->uid==ServerUid || ServerUid==0) &&
 	LocalClient(client)) {
 	SetIAPrivate((int*)&stuff[1]);
@@ -393,7 +380,7 @@ IACloseDown(ExtensionEntry *ext)
     DeleteCallback(&ClientStateCallback, IAClientStateChange, NULL);
 }
 
-/* 
+/*
    The SProc* functions are here for completeness. They should never get
    called. But since they do the server has to eat the request and
    return thanks for sharing.
@@ -424,7 +411,7 @@ SProcIAQueryVersion(ClientPtr client)
     REQUEST_SIZE_MATCH(xIAQueryVersionReq);
     return (client->noClientException);
 }
- 
+
 /*ARGSUSED*/
 static int
 SProcIASetProcessInfo(ClientPtr client)
@@ -479,7 +466,7 @@ ChangePriority(register ClientPtr client)
 	SetPriority(LastPids, UNSET_PRIORITY);
 	LastPids = NULL;
     }
-    
+
     /* If no pid info for current client, then we're done here.
      * This can happen if we have a remote client with focus or if the client
      * is statically linked or if it is using a down rev version of libX11.
@@ -493,7 +480,7 @@ ChangePriority(register ClientPtr client)
     if (!CurrentPids->boosted) {
 	SetPriority(CurrentPids, SET_PRIORITY);
     }
-    
+
     /* Make sure server or wmgr isn't unset by testing for them, so
      * that LastPids is never set to point to the server or wmgr pid.
      */
@@ -509,14 +496,14 @@ InitializeClass(void)
 
     /* Get TS class information */
     strcpy (pcinfo.pc_clname, "TS");
-    priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo); 
+    priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo);
     TScid = pcinfo.pc_cid;
 
     /* Get IA class information */
     strcpy (pcinfo.pc_clname, "IA");
     if ((priocntl(0, 0, PC_GETCID, (caddr_t)&pcinfo)) == -1)
         return ~Success;
- 
+
     IAClass.pc_cid = pcinfo.pc_cid;
     ((iaparms_t*)IAClass.pc_clparms)->ia_uprilim = IA_NOCHANGE;
     ((iaparms_t*)IAClass.pc_clparms)->ia_upri = IA_NOCHANGE;
@@ -535,7 +522,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
     if ( (cpp == NULL) || (cpp->pids == NULL) || (cpp->count == 0) ) {
 	return Success;
     }
-    
+
     if ( setegid(0) < 0 ) {
 	Error("Error in setting egid to 0");
     }
@@ -561,7 +548,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
 	      case SET_PRIORITY:
    		((iaparms_t*)IAClass.pc_clparms)->ia_mode=IA_SET_INTERACTIVE;
 		break;
-	      case SET_INTERACTIVE: 
+	      case SET_INTERACTIVE:
 		/* If this returns true, the process is already in the 	*/
 		/* IA class, so we don't need to update it.		*/
 		if ( pcinfo.pc_cid == IAClass.pc_cid)
@@ -586,7 +573,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
 		  case SET_INTERACTIVE:	cmdmsg = "SET_INTERACTIVE"; 	break;
 		  default:		cmdmsg = "UNKNOWN_CMD!!!"; 	break;
 		}
-		LogMessage(X_INFO, "SolarisIA: SetPriority(%ld, %s): %s\n", 
+		LogMessage(X_INFO, "SolarisIA: SetPriority(%ld, %s): %s\n",
 			   pid, cmdmsg,
 			   (ret == Success) ? "succeeeded" : "failed");
 	    });
@@ -603,7 +590,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
 	    cpp->boosted = FALSE;
 	}
     }
-    
+
     return ret;
 }
 
@@ -636,7 +623,7 @@ SetClientPrivate(ClientPtr client, ConnectionPidPtr stuff, int length)
     if (cpp == NULL)
 	return BadAlloc;
 
-    cpp->pids = (ConnectionPidPtr)xalloc(sizeof(ConnectionPidRec)*length);  
+    cpp->pids = (ConnectionPidPtr)xalloc(sizeof(ConnectionPidRec)*length);
 
     if (cpp->pids == NULL) {
 	xfree(cpp);
@@ -755,7 +742,7 @@ IAProcSendEvent(ClientPtr client)
         (GetIAClient(client)->wmgr == TRUE) &&
         (stuff->event.u.u.type == ClientMessage) &&
         (stuff->event.u.u.detail == 32) ) {
- 
+
         register ClientPtr requestee;
 	WindowPtr pWin = NULL;
 	DeviceIntPtr pPtr = PickPointer(client);
@@ -768,12 +755,12 @@ IAProcSendEvent(ClientPtr client)
 
 	    if (inputFocus == NoneWin)
 		return Success;
-	    
+
 	 /* If the input focus is PointerRootWin, send the event to where
 	    the pointer is if possible, then perhaps propogate up to root. */
 	    if (inputFocus == PointerRootWin)
 		inputFocus = GetCurrentRootWindow(pPtr);
-	    
+
 	    if (IsParent(inputFocus, GetSpriteWindow(pPtr)))
 		pWin = GetSpriteWindow(pPtr);
 	    else
@@ -787,10 +774,10 @@ IAProcSendEvent(ClientPtr client)
 		return res;
 	}
 
-	    
+
 	if (!pWin)
 	    return BadWindow;
- 
+
         requestee = wClient(pWin);
 	ChangePriority(requestee);
     }
@@ -837,7 +824,7 @@ IAProcChangeWindowAttributes(ClientPtr client)
 }
 
 
-static int 
+static int
 IAWrapProcVectors(void)
 {
     IASavedProcVector[X_SetInputFocus] = ProcVector[X_SetInputFocus];
@@ -846,14 +833,14 @@ IAWrapProcVectors(void)
     IASavedProcVector[X_SendEvent] = ProcVector[X_SendEvent];
     ProcVector[X_SendEvent] = IAProcSendEvent;
 
-    IASavedProcVector[X_ChangeWindowAttributes] 
+    IASavedProcVector[X_ChangeWindowAttributes]
       = ProcVector[X_ChangeWindowAttributes];
     ProcVector[X_ChangeWindowAttributes] = IAProcChangeWindowAttributes;
 
     return 0;
 }
 
-static int 
+static int
 IAUnwrapProcVectors(void)
 {
     ProcVector[X_SetInputFocus] = IASavedProcVector[X_SetInputFocus];

@@ -62,6 +62,8 @@ f none bin/amd64/Xvfb						0555 root bin
 
 s none X11/bin/amd64=../../bin/amd64
 
+d none lib/mdb/proc/amd64					0755 root bin
+
 !search $HOME/lib/xorg
 d none lib/xorg							0755 root bin
 f none lib/xorg/libdrm_intel.so.1				0755 root bin

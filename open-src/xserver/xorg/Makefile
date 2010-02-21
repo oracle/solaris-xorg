@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -65,7 +65,7 @@ MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 
-BUILD_TARGETS=$(XORGSERVER_BIN) set-elf-comments \
+BUILD_TARGETS=$(XORGSERVER_BIN) build_mdb set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
 
@@ -100,6 +100,7 @@ include ../Makefile.inc
 EXTRA_INSTALL_sparc=install_pc_copy
 EXTRA_INSTALL_i386=
 install_gen:: install_extras install_pc_common $(EXTRA_INSTALL_$(MACH))
+install_gen:: install_mdb
 
 # Merge in additional sources from sun-src directory
 source_gen:: $(LNDIR)
@@ -152,3 +153,32 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	printf '{\n  global:\n' >> $@
 	/usr/ccs/bin/nm -g $(XORGSERVER_BIN) $(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/libXfont.so | grep -v UNDEF | sed -n -e 's/^.*\|FUNC \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = FUNCTION extern;/p' -e 's/^.*\|OBJT \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = DATA extern;/p' >> $@
 	printf '};\n' >> $@
+
+
+# Build & install mdb modules & scripts that aren't integrated to
+# normal build process
+MDB_SOURCE_DIR=$(SOURCE_DIR)/os/solaris/mdb
+MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
+MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
+MDB_SCRIPTS=list_Xserver_clients \
+	list_Xserver_devicegrab_client \
+	list_Xserver_servergrab_client
+
+# Since configure options aren't used to build the mdb modules, pass
+# those variables at build tie
+MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
+
+build_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
+
+$(MDB_SOURCE_DIR)/modules/Xserver.so: $(CONFIGURE_TARGETS)
+	(cd $(MDB_SOURCE_DIR) ; \
+         $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+
+install_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
+	mkdir -p $(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR)
+	cp -pf $(MDB_SOURCE_DIR)/modules/Xserver.so \
+		 $(PROTODIR)$(MDB_MODULE_DIR)/
+	cp -pf $(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%) \
+		 $(PROTODIR)$(MDB_SCRIPT_DIR)/
+	chmod 0755 $(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
+	cp -pf $(MDB_SOURCE_DIR)/README $(PROTODIR)$(MDB_SCRIPT_DIR)/

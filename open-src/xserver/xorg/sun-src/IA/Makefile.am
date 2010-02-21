@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -35,7 +35,7 @@
 
 noinst_LTLIBRARIES = libIA.la
 
-libIA_la_SOURCES = interactive.c
+libIA_la_SOURCES = interactive.c interactive_srv.h
 AM_CFLAGS = $(DIX_CFLAGS) -DXSERV_t
 
 

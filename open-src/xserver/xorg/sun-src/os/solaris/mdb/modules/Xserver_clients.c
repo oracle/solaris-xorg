@@ -21,7 +21,7 @@
  * FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
  * WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of a copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -30,26 +30,19 @@
 
 
 #include <sys/mdb_modapi.h>
-#include "Xserver_headers.h"
-#include <X11/extensions/interactive.h>
+
+#include "xorg-server.h"
+#include "dixstruct.h"
+#include "misc.h"
+#include "os/osdep.h"
+#include "IA/interactive_srv.h"
+#include "Xserver_mdb.h"
 
 struct client_walk_data {
     uintptr_t client_next;
     uintptr_t clients_end;
     ClientRec client_data;
 };
-
-/* Xsun has these in a header, Xorg has them in sun-src/IA/interactive.c so
-   we just copy it here for now.   XXX: Move to header in Xorg too. */
-typedef struct _ClientProcessInfo {
-    int count;
-    ConnectionPidPtr pids;
-} ClientProcessRec, * ClientProcessPtr;
-
-typedef struct {
-    ClientProcessPtr    process; /* Process id information */    
-    Bool                wmgr;
-} IAClientPrivateRec, *IAClientPrivatePtr;
 
 /* Copied from dix/privates.c in Xorg 1.6 */
 struct _Private {
@@ -62,14 +55,14 @@ struct _Private {
  * or reading the value of the server's "clients" pointer.  We also allocate
  * a  for storage, and save this using the walk_data pointer.
  */
-static int
+_X_HIDDEN int
 client_walk_init(mdb_walk_state_t *wsp)
 {
     struct client_walk_data *cwda;
-    short max_clients = 128;
+    short max_clients = MAXCLIENTS;
 
-# define MAX_CLIENTS "currentMaxClients"
-    
+# define CUR_MAX_CLIENTS "currentMaxClients"
+
     if (wsp->walk_addr == NULL) {
        /* Xorg 1.6 - clients is the array itself */
        GElf_Sym clients_sym;
@@ -78,11 +71,11 @@ client_walk_init(mdb_walk_state_t *wsp)
 	   return (WALK_ERR);
        }
        wsp->walk_addr = clients_sym.st_value;
-       if (mdb_readvar(&max_clients, MAX_CLIENTS) == -1) {
-	   mdb_warn("failed to read '%s'", MAX_CLIENTS);
+       if (mdb_readvar(&max_clients, CUR_MAX_CLIENTS) == -1) {
+	   mdb_warn("failed to read '%s'", CUR_MAX_CLIENTS);
 	   return (WALK_ERR);
        } else {
-	   mdb_printf("%s = %d\n", MAX_CLIENTS, max_clients);
+	   mdb_printf("%s = %d\n", CUR_MAX_CLIENTS, max_clients);
        }
     }
 
@@ -97,7 +90,7 @@ client_walk_init(mdb_walk_state_t *wsp)
  * the callback function.  We terminate when we reach the end of the clients
  * array.
  */
-static int
+_X_HIDDEN int
 client_walk_step(mdb_walk_state_t *wsp)
 {
 	int status;
@@ -147,18 +140,18 @@ client_walk_step(mdb_walk_state_t *wsp)
  * The walker's fini function is invoked at the end of each walk.  Since we
  * dynamically allocated a proc_t in client_walk_init, we must free it now.
  */
-static void
+_X_HIDDEN void
 client_walk_fini(mdb_walk_state_t *wsp)
 {
 	mdb_free(wsp->walk_data, sizeof (ClientRec));
 }
 
-static int
+_X_HIDDEN int
 client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 {
     uintptr_t clientP;
     ClientRec client_data;
-    
+
 	if (argc != 0)
 		return (DCMD_USAGE);
 
@@ -217,9 +210,9 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 						  (uintptr_t) dpaddr) != sizeof (devPriv)) {
 					mdb_warn("failed to read client_data.devPrivates[IAPrivKeyIndex]");
 				    } else {
-				    
+
 					void *cppaddr = devPriv.value;
-				    
+
 					if (mdb_vread(&cpp, sizeof (cpp), (uintptr_t) cppaddr) != sizeof (cpp)) {
 					    cpp = NULL;
 					    mdb_warn("failed to read client_data.devPrivates[IAPrivKeyIndex].value");
@@ -228,7 +221,7 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 				}
 			    }
 			}
-			
+
 			if (cpp != NULL) {
 			    ClientProcessRec cpr;
 			    ConnectionPidRec pid;
@@ -267,33 +260,4 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 	}
 
 	return (DCMD_OK);
-}
-
-/*
- * MDB module linkage information:
- *
- * We declare a list of structures describing our dcmds, a list of structures
- * describing our walkers, and a function named _mdb_init to return a pointer
- * to our module information.
- */
-
-static const mdb_dcmd_t dcmds[] = {
-	{ "client_pids", NULL, "client process list", client_pids },
-	{ NULL }
-};
-
-static const mdb_walker_t walkers[] = {
-	{ "client_walk", "walk list of clients connected to Xorg",
-		client_walk_init, client_walk_step, client_walk_fini, NULL },
-	{ NULL }
-};
-
-static const mdb_modinfo_t modinfo = {
-	MDB_API_VERSION, dcmds, walkers
-};
-
-const mdb_modinfo_t *
-_mdb_init(void)
-{
-	return (&modinfo);
 }
