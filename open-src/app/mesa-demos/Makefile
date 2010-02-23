@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -105,8 +105,6 @@ all-xdemos_gen: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
 
 all-xdemos:
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) all-xdemos_gen
-
-install_gen:: $(INSTALL_TARGETS)
 
 DESTDIR=$(PROTODIR)
 

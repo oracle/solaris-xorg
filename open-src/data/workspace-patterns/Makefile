@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -42,7 +42,7 @@ CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS =
 BUILD_TARGETS_SET=yes
 
-INSTALL_TARGETS =
+INSTALL_TARGETS = install_patterns
 INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
@@ -51,7 +51,7 @@ include ../Makefile.inc
 DESTDIR=$(PROTODIR)
 INSTDIR=$(DESTDIR)/$(X11_DIR)/share/patterns/
 
-install_gen::
+install_patterns:
 	mkdir -p $(INSTDIR)
 	cp -pf attributes $(INSTDIR)
 	cp -pf background.xbm $(INSTDIR)

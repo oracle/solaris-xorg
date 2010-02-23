@@ -2,7 +2,7 @@
 #
 # xfd 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -41,15 +41,16 @@ MODULE_VERSION=1.0.1
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xfd.patch
 
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
+# Additional install rules beyond what upstream installs
+MODULE_ADD_INSTALL_TARGETS=install_po
+
 include ../Makefile.inc
 
-install_gen:: install_po
 install_po:
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
 	cp -f xfd.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

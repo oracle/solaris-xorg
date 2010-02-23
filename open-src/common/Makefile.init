@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -47,7 +47,7 @@ PRE_POUND=				pre\#
 POUND_SIGN=				$(PRE_POUND:pre\%=%)
 
 # Set default build target to all
-default:: all
+default: all
 
 # The infrastructure in the main tree requires Solaris make
 $(error You must use Solaris make, not GNU make in this build - make sure /usr/ccs/bin or /usr/bin is ahead of /usr/gnu/bin in $$PATH)

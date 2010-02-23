@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -41,7 +41,7 @@ CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS=
 BUILD_TARGETS_SET=yes
-INSTALL_TARGETS=
+INSTALL_TARGETS=install_sun_headers
 INSTALL_TARGETS_SET=yes
 FIX_PC_FILES=
 FIX_PC_FILES_SET=yes
@@ -52,6 +52,6 @@ include ../Makefile.inc
 DESTDIR=$(PROTODIR)
 INSTDIR=$(DESTDIR)$(X11_INCLUDES_DIR)/X11/extensions
 
-install_gen::
+install_sun_headers:
 	mkdir -p $(INSTDIR)
 	cp -pf include/*h $(INSTDIR)/

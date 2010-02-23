@@ -60,10 +60,11 @@ MODULE_CONFIG_OPTS= \
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= mouse_drv.so
+MODULE_ADD_SOURCE_TARGETS= source_mouse_drv_links
 
 include ../Makefile.inc
 
-source_gen::
+source_mouse_drv_links: default_source
 	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $(SOURCE_DIR)/src/mouse_drv.so
 	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $(SOURCE_DIR)/tools/mouse_drv.so
 

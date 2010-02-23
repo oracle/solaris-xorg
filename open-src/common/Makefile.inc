@@ -126,12 +126,12 @@ all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
 all_32: source_32 configure_32 build_32
 all_64: source_64 configure_64 build_64
 
-clean:: $(BUILD_TYPES:%=clean_%)
+clean: $(BUILD_TYPES:%=clean_%) 
 
-clean_32::
+clean_32:
 	-rm -rf $(BUILD_DIR_32)
 
-clean_64::
+clean_64:
 	-rm -rf $(BUILD_DIR_64)
 
 # Tell dmake not to remove and create source in parallel
@@ -140,7 +140,7 @@ clean_64::
 
 source: $(BUILD_TYPES:%=source_%)
 
-source_gen:: $(SOURCE_TARGETS)
+source_gen: $(SOURCE_TARGETS)
 
 source_32: $(SOURCE_DIR_32)/$(UNPACK_FILE)
 $(SOURCE_DIR_32)/$(UNPACK_FILE):
@@ -154,30 +154,30 @@ configure: $(BUILD_TYPES:%=configure_%)
 
 configure_gen: $(CONFIGURE_TARGETS)
 
-configure_32:: source_32
+configure_32: source_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) configure_gen
 
-configure_64:: source_64
+configure_64: source_64
 	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) configure_gen
 
 build: $(BUILD_TYPES:%=build_%)
 
 build_gen: $(BUILD_TARGETS)
 
-build_32:: configure_32
+build_32: configure_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) build_gen
 
-build_64:: configure_64
+build_64: configure_64
 	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) build_gen
 
 install: $(BUILD_TYPES:%=install_%)
 
-install_gen:: $(INSTALL_TARGETS) install_license install_pkgconfig_uninstalled
+install_gen: $(INSTALL_TARGETS) install_license install_pkgconfig_uninstalled
 
-install_32:: build_32
+install_32: build_32
 	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) install_gen
 
-install_64:: build_64
+install_64: build_64
 	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) install_gen
 
 DEBUG_BUILD_FLAGS = BUILD_DEBUG=yes
@@ -378,7 +378,7 @@ $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	    $(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
 	fi
 
-default_configure:: $(AUTOCONF_TARGET)
+default_configure: $(AUTOCONF_TARGET)
 
 
 ### Remove libtool from build process when needed
@@ -422,7 +422,7 @@ BUILD_ENV = LD_OPTIONS='$(LD_OPTIONS)' \
 DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 	$(MODTYPE_BUILD_MAKEFLAGS) $(MODULE_BUILD_MAKEFLAGS)
 
-default_build:: $(UNPACK_TARGET) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
+default_build: $(UNPACK_TARGET) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
 	(cd $(SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
@@ -444,7 +444,7 @@ DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
 # Dependencies for make install step
 INSTALL_DEPS = $(BUILD_TARGETS) $(MODTYPE_INSTALL_DEPS) $(MODULE_INSTALL_DEPS)
 
-default_install:: $(INSTALL_DEPS)
+default_install: $(INSTALL_DEPS)
 	(cd $(SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 install)
@@ -467,7 +467,10 @@ UNINSTALLED_PC_OPS= \
 	-e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;' \
 	$(MODTYPE_ADD_UNINSTALLED_PC_OPS) $(MODULE_ADD_UNINSTALLED_PC_OPS)
 
-install_pkgconfig_uninstalled: $(INSTALL_TARGETS)
+INSTALL_PCU_DEPS_DEFAULT	= $(INSTALL_PCU_DEPS_SET:yes=$(POUND_SIGN))
+$(INSTALL_PCU_DEPS_DEFAULT)	INSTALL_PCU_DEPS = $(INSTALL_TARGETS)
+
+install_pkgconfig_uninstalled: $(INSTALL_PCU_DEPS)
 	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \
 	    cd $(SOURCE_DIR) ; \
 	    for pcin in $(FIX_PC_FILES:.in=) ; do \

@@ -2,7 +2,7 @@
 #
 # X11 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -153,7 +153,9 @@ include ../Makefile.inc
 
 # Install additional headers we need in other parts of the build or ship in
 # packages, but which X.Org doesn't
-install_32:: build_32
+install_32: install_extra_headers
+
+install_extra_headers: build_32
 	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions
 	cp -pf sun-src/include/X11/Xvarargs.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/

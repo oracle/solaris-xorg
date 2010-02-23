@@ -2,7 +2,7 @@
 #
 # Xaw Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -65,5 +65,7 @@ MODULE_CONFIG_OPTS= --disable-xaw6
 include ../Makefile.inc
 
 # Remove existing Xaw headers from proto area before build to avoid conflicts
-clean::
+clean: clean_old_headers
+
+clean_old_headers:
 	rm -rf $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xaw

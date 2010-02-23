@@ -2,8 +2,8 @@
 #
 # synergy 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use subject to license terms.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -125,8 +125,6 @@ MODULE_CONFIG_ENV = $(MODULE_ENV)
 MODULE_BUILD_ENV = $(CONFIG_ENV)
 
 include ../Makefile.inc
-
-install_gen:: $(INSTALL_TARGETS)
 
 DESTDIR=$(PROTODIR)
 

@@ -52,8 +52,11 @@ MODULE_STABILITY=Volatile
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= -lm
 
+# Additional install rules beyond what upstream installs
+MODULE_ADD_INSTALL_TARGETS=install_docs
+
 include ../Makefile.inc
 
-install_gen::
+install_docs: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.mouse

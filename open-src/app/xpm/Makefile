@@ -2,7 +2,7 @@
 #
 # Xpm apps Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -60,7 +60,7 @@ INSTALL_TARGETS_SET=yes
 
 include ../Makefile.inc
 
-install_xpm_apps:: $(BUILD_TARGETS)
+install_xpm_apps: $(BUILD_TARGETS)
 	(cd $(SOURCE_DIR)/cxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)
 	(cd $(SOURCE_DIR)/sxpm ; $(MAKE) $(MAKEFLAGS) -e DESTDIR=$(PROTODIR) install)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)

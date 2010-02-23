@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -53,5 +53,4 @@ MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 
 include ../Makefile.inc
 
-source_gen:: $(LNDIR)
 

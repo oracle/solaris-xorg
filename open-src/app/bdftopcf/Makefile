@@ -2,7 +2,7 @@
 #
 # bdftopcf Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -53,4 +53,4 @@ MODULE_LD_OPTIONS	= -R $$ORIGIN/../lib/xorg$(ARCHLIBSUBDIR)
 include ../Makefile.inc
 
 # Clean up old 64-bit builds from before we stopped building them
-clean:: clean_64
+clean: clean_64

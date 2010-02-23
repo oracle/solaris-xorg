@@ -92,19 +92,21 @@ MODULE_FIX_PC_FLAGS= -e 's|\@symbol_visibility\@||'
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-include ../Makefile.inc
-
 # Additional install targets beyond the defaults
-# - install_pc can't be in INSTALL_TARGETS or MODULE_ADD_INSTALL_TARGETS
-#   without causing a dependency loop that breaks dmake
+MODULE_ADD_INSTALL_TARGETS=install_extras install_mdb install_pc_common
 EXTRA_INSTALL_sparc=install_pc_copy
 EXTRA_INSTALL_i386=
-install_gen:: install_extras install_pc_common $(EXTRA_INSTALL_$(MACH))
-install_gen:: install_mdb
+MODULE_ADD_INSTALL_TARGETS += $(EXTRA_INSTALL_$(MACH))
+
+# Have to avoid dependency loop between install_pc_copy and 
+# install_pkgconfig_uninstalled
+INSTALL_PCU_DEPS = $(INSTALL_TARGETS:install_pc_copy=)
+INSTALL_PCU_DEPS_SET=yes
 
 # Merge in additional sources from sun-src directory
-source_gen:: $(LNDIR)
-	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
+ADDITIONAL_SOURCE_DIR=sun-src
+
+include ../Makefile.inc
 
 $(XORGSERVER_BIN): default_build
 

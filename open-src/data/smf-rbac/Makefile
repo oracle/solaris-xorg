@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -70,7 +70,7 @@ DEFAULT_XSERVER=$(X11_BIN_DIR)/Xorg
 x11-server.xml: x11-server.xml.in
 	sed -e 's|@DEFAULT_XSERVER@|$(DEFAULT_XSERVER)|' < x11-server.xml.in > $@
 
-check:: x11-server.xml ogl-select.xml
+check: x11-server.xml ogl-select.xml
 	/usr/sbin/svccfg validate x11-server.xml
 	/usr/sbin/svccfg validate ogl-select.xml
 

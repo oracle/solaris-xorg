@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -39,13 +39,16 @@ MODULE_VERSION=1.3.0
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# Additional install rules beyond what upstream installs
+MODULE_ADD_INSTALL_TARGETS=install_libtool_fix
+
 ### Include common rulesets
 include ../Makefile.inc
 
 # Libtool versions before 2.2.2 fail to work with LD=cc in 64 bit builds, 
 # so install fixed libtool m4 macros here as well, so that modules that
 # run autoreconf get the fixed sources
-install_gen::
+install_libtool_fix:
 	mkdir -p $(PROTODIR)$(X11_ACLOCAL_DIR)/
 	-rm -f $(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
 	SYSTEM_ACLOCAL_DIR=$$($(ACLOCAL_PATH) --print-ac-dir) ; \

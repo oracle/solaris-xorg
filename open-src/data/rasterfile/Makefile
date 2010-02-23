@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -42,7 +42,7 @@ CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS =
 BUILD_TARGETS_SET=yes
 
-INSTALL_TARGETS =
+INSTALL_TARGETS = install_files
 INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
@@ -52,7 +52,7 @@ DESTDIR=$(PROTODIR)
 INCDIR=$(DESTDIR)/usr/include/pixrect
 MANDIR=$(DESTDIR)/usr/share/man/man4
 
-install_gen::
+install_files:
 	mkdir -p $(INCDIR) $(MANDIR)
 	cp -pf rasterfile.h $(INCDIR)
 	cp -pf rasterfile.4 $(MANDIR)

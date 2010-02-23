@@ -2,7 +2,7 @@
 #
 # Xmu 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -52,7 +52,8 @@ SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xmu
 
-
+# Merge in additional sources from sun-src directory
+ADDITIONAL_SOURCE_DIR=sun-src
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xmu.pc.in xmuu.pc.in
@@ -66,26 +67,19 @@ MODULE_BUILD_DEPS=delibtoolize
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes
 
-include ../Makefile.inc
+# Additional rules beyond what upstream provides
+MODULE_ADD_INSTALL_TARGETS=install_solaris_exts 
 
-# Add-in Sun-added source files
-source_gen::
-	mkdir -p $(SOURCE_DIR)/src $(SOURCE_DIR)/include/X11/Xmu/
-	(cd $(SOURCE_DIR)/src ; ln -s ../../../sun-src/*.c .)
-	(cd $(SOURCE_DIR)/include/X11/Xmu ; ln -s ../../../../../sun-src/*.h .)
+include ../Makefile.inc
 
 # Additional files we need to install
 CP = cp -pf
 MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3Xmu
 
-install_gen::
+install_solaris_exts: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu $(MANDIR) \
 		 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 	$(CP) $(SOURCE_DIR)/include/X11/Xmu/XmuSolaris.h \
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu
-	$(CP) sun-src/*.3Xmu $(MANDIR)
-	rm -f $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmu.so \
-		$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmuu.so
-	ln -s libXmu.so.4 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmu.so
-	ln -s libXmuu.so.1 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)/libXmuu.so
+	$(CP) $(ADDITIONAL_SOURCE_DIR)/*.3Xmu $(MANDIR)

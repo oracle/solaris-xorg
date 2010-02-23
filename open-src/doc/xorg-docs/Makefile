@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -53,6 +53,9 @@ MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
 # Module dependencies
 MODULE_CONFIGURE_DEPS=$(DOCBOOK2TEXT) $(XORG_DEFS_ENT)
 
+# Additional install rules beyond what upstream installs
+MODULE_ADD_INSTALL_TARGETS=install_docs
+
 ### Include common rulesets
 include ../Makefile.inc
 
@@ -60,7 +63,7 @@ SGML_DIR=$(SOURCE_DIR)/sgml
 DOC_DIR=$(PROTODIR)$(X11_DOC_DIR)
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
-install_gen::
+install_docs: $(INSTALL_DEPS)
 	mkdir -p $(DOC_DIR) $(MAN_DIR)/man5
 	cp -p $(SGML_DIR)/LICENSE.txt		$(DOC_DIR)/LICENSE
 	cp -p $(SGML_DIR)/RELNOTES.txt		$(DOC_DIR)/RELNOTES

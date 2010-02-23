@@ -2,7 +2,7 @@
 #
 # xf86-video-i740 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -52,9 +52,11 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa -lm
 
+# Additional install rules beyond what upstream installs
+MODULE_ADD_INSTALL_TARGETS=install_docs
+
 include ../Makefile.inc
 
-
-install_gen::
+install_docs: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
 	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.i740
