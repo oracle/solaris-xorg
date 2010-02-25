@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xbitmaps
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = f9ddd4e70a5375508b3acaf17be0d0ab
+TARBALL_SHA1 = 845b825f7e6d193d47db8b67ae8332d87ef8c2b3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

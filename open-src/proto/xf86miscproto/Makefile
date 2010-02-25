@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xf86miscproto
 
 # Version number (used in path names)
 MODULE_VERSION=0.9.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = ca63bbb31cf5b7f37b2237e923ff257a
+TARBALL_SHA1 = 52c54ed17e55f26b26654ff16d61da97f9fd36bc
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-mutt-misc
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = aab7ac62b960e77aa11d032bafe1d460
+TARBALL_SHA1 = b677831b477027f56ad3f35c95ef3cd6711f87ac
 
 ### Include common rulesets
 include ../Makefile.inc

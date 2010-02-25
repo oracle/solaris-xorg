@@ -2,7 +2,7 @@
 #
 # xrdb 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xrdb
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.6
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 8dd881cd5a7dcb6e456549817f0fb475
+TARBALL_SHA1 = e4faff5e02b3027298dc589e318a6dc7eb30a6d5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

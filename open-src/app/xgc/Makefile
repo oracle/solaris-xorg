@@ -2,7 +2,7 @@
 #
 # xgc 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xgc
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = fec79887ca14575bef4c757b4e95a693
+TARBALL_SHA1 = fbba25046970fa95af4ebbdb5ab0c8e1419531ed
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

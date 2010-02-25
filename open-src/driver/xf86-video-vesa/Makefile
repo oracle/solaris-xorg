@@ -2,7 +2,7 @@
 #
 # xf86-video-vesa Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-vesa
 
 # Version number (used in path names)
 MODULE_VERSION=2.2.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 61a1dc9a22991bd04d0ff98f800775c1
+TARBALL_SHA1 = 086adbf06e9043ed2c18d887fb32ce605324876e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = vesa_xorg72.patch

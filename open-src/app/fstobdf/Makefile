@@ -2,7 +2,7 @@
 #
 # fstobdf Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=fstobdf
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 49a6225380f6c18fff664a043cd569b1
+TARBALL_SHA1 = c7f9184afe3f7526a51b4e19722af8451b33d873
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

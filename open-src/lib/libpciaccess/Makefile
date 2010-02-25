@@ -37,6 +37,10 @@ MODULE_NAME=libpciaccess
 # Version number (used in path names)
 MODULE_VERSION=0.10.9
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 685cb20e7a6165bc010972f1183addbd
+TARBALL_SHA1 = 491e137f34a22f7208a6b0f68cbe51d929923591
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	pciaccess_private.h.patch \

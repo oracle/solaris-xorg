@@ -2,7 +2,7 @@
 #
 # xkbfile 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libxkbfile
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.6
+
+# Checksums for upstream tarball
+TARBALL_MD5  = b01156e263eca8177e6b7f10441951c4
+TARBALL_SHA1 = 6364e0679eb893d6fbb6adcf0e8230cfdefe0b68
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch

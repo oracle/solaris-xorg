@@ -36,6 +36,10 @@ MODULE_NAME=xorg-docs
 # Version number (used in path names)
 MODULE_VERSION=1.5
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 359ac83ad27eecd5588914ba8715301d
+TARBALL_SHA1 = e4a0fdf848e9d5baa2de625ce74f204de37e0fb0
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
 	solaris-manpages.patch

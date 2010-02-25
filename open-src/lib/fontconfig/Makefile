@@ -2,7 +2,7 @@
 #
 # Fontconfig 2.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=fontconfig
 
 # Version number (used in path names)
 MODULE_VERSION=2.7.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 747d2c691c66b563c8e8c1784ce8d014
+TARBALL_SHA1 = bc84b883673a7f43f2849f06ec110c4eaccfb42c
 
 # Source tarball
 SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz

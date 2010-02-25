@@ -38,6 +38,10 @@ MODULE_NAME=synergy
 # Version number (used in path names)
 MODULE_VERSION=1.3.1
 
+# Checksums for upstream tarball
+TARBALL_MD5  = a6e09d6b71cb217f23069980060abf27
+TARBALL_SHA1 = 03113ec8aadfecaeba8e369b083f4fb5b44f5c62
+
 # Where to install synergy files
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes

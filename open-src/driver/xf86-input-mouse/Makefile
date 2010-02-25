@@ -38,6 +38,10 @@ MODULE_NAME=xf86-input-mouse
 # Version number (used in path names)
 MODULE_VERSION=1.5.0
 
+# Checksums for upstream tarball
+TARBALL_MD5  = c58629fddf0782dad5c02da6aeb35521
+TARBALL_SHA1 = b9213bf745b793a3da2c946ea4d8ee5768e560f4
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	enodev.patch \

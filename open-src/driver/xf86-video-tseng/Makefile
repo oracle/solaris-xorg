@@ -2,7 +2,7 @@
 #
 # xf86-video-tseng 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-tseng
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 79f63999c88477801ae54dc486272ad6
+TARBALL_SHA1 = 6cfc03bec98d56b3294ca45c604cf620b4b477c8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

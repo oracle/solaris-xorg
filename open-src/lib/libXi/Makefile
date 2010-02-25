@@ -2,7 +2,7 @@
 #
 # libXi Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXi
 
 # Version number (used in path names)
 MODULE_VERSION=1.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 8df4ece9bd1efb02c28acb2b6f485e09
+TARBALL_SHA1 = 7685f2881ce40b13028d9409eedbb9cf1ed0d8ef
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

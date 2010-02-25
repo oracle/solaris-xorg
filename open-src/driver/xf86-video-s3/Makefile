@@ -2,7 +2,7 @@
 #
 # xf86-video-s3 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-s3
 
 # Version number (used in path names)
 MODULE_VERSION=0.6.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5eb06d88533fb327d067928faeb20860
+TARBALL_SHA1 = 5953c5c9cdc84487d1997a3cb5f8ff857cdf033b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

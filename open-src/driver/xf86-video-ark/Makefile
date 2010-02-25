@@ -2,7 +2,7 @@
 #
 # xf86-video-ark 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-ark
 
 # Version number (used in path names)
 MODULE_VERSION=0.7.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4745f5c722b030962cc56eb2443894a0
+TARBALL_SHA1 = fc934b68e06b8fa4f54ccda028134ab88065c6ea
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

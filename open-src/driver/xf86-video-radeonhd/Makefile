@@ -2,7 +2,7 @@
 #
 # xf86-video-radeonhd Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-radeonhd
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7b6641aa9d836f1621b9b220ad6771b8
+TARBALL_SHA1 = 4cdcdbcdc6ec7cd4caa19afdbfc34a8bec461f56
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 

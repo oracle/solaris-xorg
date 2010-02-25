@@ -2,7 +2,7 @@
 #
 # lbxproxy 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=lbxproxy
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 0aa9284354552ce6700485a36d2803c3
+TARBALL_SHA1 = 8aca328ae2e19a389263ef59cacc3074b8e20697
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6718029.patch

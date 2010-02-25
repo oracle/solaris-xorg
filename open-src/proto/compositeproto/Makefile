@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=compositeproto
 
 # Version number (used in path names)
 MODULE_VERSION=0.4.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 3692f3f8b2ea10dff3d2cede8dc65e79
+TARBALL_SHA1 = fb1ae34418855c313a75e8e697b414a4935e13d6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

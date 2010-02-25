@@ -2,7 +2,7 @@
 #
 # xclock 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xclock
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = bb9fd5e00d39c348a0078b97fdf8258f
+TARBALL_SHA1 = 1987cafb3163c6b68bc7ecfbe143c8cd373d64bb
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

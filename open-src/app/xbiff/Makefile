@@ -2,7 +2,7 @@
 #
 # xbiff 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xbiff
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 404f5add4537d22dd109c33e518a5190
+TARBALL_SHA1 = 9a925f8565e79c9e24cca66b8e5d868a5670b08f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

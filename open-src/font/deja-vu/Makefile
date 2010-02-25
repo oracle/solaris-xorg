@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=dejavu-fonts-ttf
 
 # Version number (used in path names)
 MODULE_VERSION=2.30
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 545b3bfc69893075a90a7c6e6f4a7e67
+TARBALL_SHA1 = 3a09830033f74be6e370155410091f76193f5528
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)

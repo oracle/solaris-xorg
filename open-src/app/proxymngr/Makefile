@@ -2,7 +2,7 @@
 #
 # proxymngr 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=proxymngr
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = aad44d0f65b97fd6d564b1d2ae510bb1
+TARBALL_SHA1 = e2bfdab14e5a893831bb3b6178f667ee68cb48d8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

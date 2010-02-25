@@ -2,7 +2,7 @@
 #
 # xinput 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xinput
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.99.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = cc2b98b561b6431bd1e06d13ad2c7b5e
+TARBALL_SHA1 = 472dc49cf4fe8aabdd16cc410005f48f67d99875
 
 
 # Man pages to apply Sun footer to & attributes to list

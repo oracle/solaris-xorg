@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-intel
 # Version number (used in path names)
 MODULE_VERSION=2.6.3
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 440c014bbd3072b5d379fe1bdb861918
+TARBALL_SHA1 = 96fe7e8b804ab8833b1d462f99c08be29bb9e283
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= build-dri.patch libraries.patch \
 		6538497_6554161.patch bugs.patch \

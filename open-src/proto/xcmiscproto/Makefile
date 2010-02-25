@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xcmiscproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7b83e4a7e9f4edc9c6cfb0500f4a7196
+TARBALL_SHA1 = 1a55e042b33c0e0aaf2299942315a5208d644707
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

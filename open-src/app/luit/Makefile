@@ -2,7 +2,7 @@
 #
 # luit 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=luit
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4e45233e310d72dce307709761cf241b
+TARBALL_SHA1 = d5f1326017c0cebf62e7e7df2703b3b4998a39bd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-man.patch \

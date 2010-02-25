@@ -2,7 +2,7 @@
 #
 # Xfont Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXfont
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4f2bed2a2be82e90a51a24bb3a22cdf0
+TARBALL_SHA1 = f8dc669760975b41885143f828b54164224c8a31
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\

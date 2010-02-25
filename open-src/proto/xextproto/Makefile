@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xextproto
 
 # Version number (used in path names)
 MODULE_VERSION=7.1.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = fb6ccaae76db7a35e49b12aea60ca6ff
+TARBALL_SHA1 = 1bb4bd12d65a17b3168dc9b4e028b33a2f7b2cad
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

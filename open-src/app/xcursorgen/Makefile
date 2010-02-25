@@ -2,7 +2,7 @@
 #
 # xcursorgen 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xcursorgen
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 69df079b3950a0db4e5f4e6f0e00ddee
+TARBALL_SHA1 = 7df26b371476654dc191c45e7d20ae3a5e0cad87
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

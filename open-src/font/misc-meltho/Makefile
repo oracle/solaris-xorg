@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-misc-meltho
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 345f1a78312e30cd2c41d24ea3f3276f
+TARBALL_SHA1 = d20d9f8ffdeb88b62842b021d5d3d2a8cc31ea2c
 
 # Install to separate directory for easier packaging
 MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/syriac'

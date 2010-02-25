@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-isas-misc
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 88b5b32c5a27576e9d00675bcc966806
+TARBALL_SHA1 = 13fe07a669dd93dfdb08717a03efe47936ab9cea
 
 # Install to separate directory for easier packaging
 MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/isas'

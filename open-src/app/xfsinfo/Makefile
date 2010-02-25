@@ -2,7 +2,7 @@
 #
 # xfsinfo Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xfsinfo
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e6c0071f6d5436113982f4a575d3f94b
+TARBALL_SHA1 = 035ea714088d1b08bc27c02a6806d75dabc4eade
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

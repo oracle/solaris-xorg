@@ -38,6 +38,10 @@ MODULE_NAME=libX11
 # Version number (used in path names)
 MODULE_VERSION=1.3.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 001d780829f936e34851ef7cd37b4dfd
+TARBALL_SHA1 = d4b3966d8eeb79514daad3eeae0debf65d16edca
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	lintlib.patch,-p1 \

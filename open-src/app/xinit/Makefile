@@ -2,7 +2,7 @@
 #
 # xinit 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xinit
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 93c73705ed9eb1e1a6b6938405672f2b
+TARBALL_SHA1 = 577a111efc9b5a8ec6cc294ae7c35048eebde704
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6714067.patch

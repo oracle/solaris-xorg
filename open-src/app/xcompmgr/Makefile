@@ -2,7 +2,7 @@
 #
 # xcompmgr 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xcompmgr
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.5
+
+# Checksums for upstream tarball
+TARBALL_MD5  = bf8faa8c540bfdcd0252801d8f16d868
+TARBALL_SHA1 = 9b4d7c3c64b3d980ea317b5206fee17adefd1d65
 
 
 # Man pages to apply Sun footer to & attributes to list

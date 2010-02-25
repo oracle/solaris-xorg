@@ -2,7 +2,7 @@
 #
 # Xdmcp 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXdmcp
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = d60941d471800f41a3f19b24bea855a7
+TARBALL_SHA1 = 7efd71d29d6cfba797b8791398e4d81ade677d77
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

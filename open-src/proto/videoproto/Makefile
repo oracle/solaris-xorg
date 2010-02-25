@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=videoproto
 
 # Version number (used in path names)
 MODULE_VERSION=2.3.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = fb762146a18207a1e8bc9f299dfc7ac0
+TARBALL_SHA1 = 4aef2b438d45b3ab75e640996ce1267d3468f48c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -2,7 +2,7 @@
 #
 # xf86-video-cirrus 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-cirrus
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 8195d03ed0be0975c03441e66a9f53b3
+TARBALL_SHA1 = 85bc5833075f9ddadb902f71a40249aa769aa4d1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = mapfiles.patch

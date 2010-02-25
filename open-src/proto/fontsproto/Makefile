@@ -36,6 +36,10 @@ MODULE_NAME=fontsproto
 # Version number (used in path names)
 MODULE_VERSION=2.1.0
 
+# Checksums for upstream tarball
+TARBALL_MD5  = f3a857deadca3144fba041af1dbf7603
+TARBALL_SHA1 = 395b300fd5120a7ff90cb8fea4e2356b9632dc3e
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 

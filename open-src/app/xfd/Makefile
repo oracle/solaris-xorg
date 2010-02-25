@@ -38,6 +38,10 @@ MODULE_NAME=xfd
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
+# Checksums for upstream tarball
+TARBALL_MD5  = c72abd90f50ef459bc14b39ec9fcc7f8
+TARBALL_SHA1 = 4b4987d8c8d41b29c0475474261f1aaea7d5efcb
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xfd.patch
 

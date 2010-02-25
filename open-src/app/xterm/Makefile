@@ -2,7 +2,7 @@
 #
 # xterm Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xterm
 
 # Version number (used in path names)
 MODULE_VERSION=253
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 363cc4865b7691bd0ae5eebb42cde9c9
+TARBALL_SHA1 = 4234376b43a0c60f2516df0c0abe26037671d50f
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)

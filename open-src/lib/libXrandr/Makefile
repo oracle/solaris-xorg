@@ -2,7 +2,7 @@
 #
 # Xrandr 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXrandr
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 68eb59c3b7524db6ffd78746ee893d1d
+TARBALL_SHA1 = 33dd2f67060465f872db9ea03f597e28517f0c8e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

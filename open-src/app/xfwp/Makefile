@@ -2,7 +2,7 @@
 #
 # xfwp 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xfwp
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 0dbde8b3867032b9e4a383d46dfd7e48
+TARBALL_SHA1 = 2b5be6d941182f4b309f68e1bde11c0e092db33e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

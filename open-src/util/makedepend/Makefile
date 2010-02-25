@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=makedepend
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 54ab2549d723e51ff2b9cff4d8bf44d1
+TARBALL_SHA1 = c795cdc754d8c9c73e6a310e41eab37c5ab867bf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

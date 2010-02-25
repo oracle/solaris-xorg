@@ -2,7 +2,7 @@
 #
 # xf86-input-acecad 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-input-acecad
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 51247dc0d73185e35bec326283bc49a5
+TARBALL_SHA1 = 4182aa30d4209ec60fd423a3e24e4951e16c0a4b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -2,7 +2,7 @@
 #
 # Xcomposite 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXcomposite
 
 # Version number (used in path names)
 MODULE_VERSION=0.4.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 0f1367f57fdf5df17a8dd71d0fa68248
+TARBALL_SHA1 = 959180b067c64f3f7ac06e85400bd265e5579031
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

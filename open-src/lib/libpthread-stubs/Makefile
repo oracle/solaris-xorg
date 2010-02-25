@@ -2,7 +2,7 @@
 #
 # libpthread-stubs Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,6 +36,10 @@ MODULE_NAME=libpthread-stubs
 
 # Version number (used in path names)
 MODULE_VERSION=0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 774eabaf33440d534efe108ef9130a7d
+TARBALL_SHA1 = 34ef40880d0112dc6d32b386d59ce94f2c139eef
 
 # Download site for source
 SOURCE_URL=http://xcb.freedesktop.org/dist/$(SOURCE_TARBALL_NAME)

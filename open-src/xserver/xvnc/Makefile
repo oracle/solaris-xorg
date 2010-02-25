@@ -4,7 +4,7 @@
 # Based on Fedora's tigervnc.spec revision 1.20 from
 # http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -39,6 +39,10 @@ MODULE_NAME=tigervnc
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 622c6689a66651419b5431efdee99d5a
+TARBALL_SHA1 = 2435ea2e3c34a4055350f7680a94cea580b92979
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz

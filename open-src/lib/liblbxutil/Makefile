@@ -37,6 +37,10 @@ MODULE_NAME=liblbxutil
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 273329a78c2e9ea189ac416c7fde94a1
+TARBALL_SHA1 = 99616bab0ca0afeaa9c0a19222091b1ff4f18680
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

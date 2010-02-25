@@ -2,7 +2,7 @@
 #
 # xstdcmap 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xstdcmap
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 86ab558441edfb86f853639e4290a754
+TARBALL_SHA1 = cb222bca38c5f739bdda9f2d66a023b531c51f93
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6661101.patch

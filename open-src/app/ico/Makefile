@@ -2,7 +2,7 @@
 #
 # ico 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=ico
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5711827c5c2563620b56c33aababbc63
+TARBALL_SHA1 = 64940e202d8d53b6c036ad17bc5af9f4823f7fb0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

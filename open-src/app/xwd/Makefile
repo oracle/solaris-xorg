@@ -2,7 +2,7 @@
 #
 # xwd 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xwd
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 007cea1f389abde5c93162dcd5541351
+TARBALL_SHA1 = f6708d14040630d1d3255987c28efcbf7aee05aa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

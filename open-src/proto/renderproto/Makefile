@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=renderproto
 
 # Version number (used in path names)
 MODULE_VERSION=0.11
+
+# Checksums for upstream tarball
+TARBALL_MD5  = b160a9733fe91b666e74fca284333148
+TARBALL_SHA1 = d30cf508b1a1b5f0deb1c6db41ba2f4e57680637
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

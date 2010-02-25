@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-adobe-100dpi
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = c754c3f4a5e08442bf6972b9466625ed
+TARBALL_SHA1 = 814baccf5cf6c6545b7e8f3bbbad377be369042d
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=100dpi

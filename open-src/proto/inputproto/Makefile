@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=inputproto
 
 # Version number (used in path names)
 MODULE_VERSION=2.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 0f7acbc14a082f9ae03744396527d23d
+TARBALL_SHA1 = 3ed9879b7dd3c14ae2283959f5962162fc01c219
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 

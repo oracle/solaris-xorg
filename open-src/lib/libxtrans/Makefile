@@ -2,7 +2,7 @@
 #
 # xtrans 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -40,6 +40,10 @@ MODULE_NAME=xtrans
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.5
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 2d1e57e82acc5f21797e92341415af2f
+TARBALL_SHA1 = e8c4ce58b42d05e613fe535319a7d7f45f30f3e9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = inetv6.patch \

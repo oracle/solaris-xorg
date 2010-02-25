@@ -2,7 +2,7 @@
 #
 # xwud 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xwud
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 20bc5d85634964d4ceee77cdfcd131ed
+TARBALL_SHA1 = 15a6c5e3ffc03b7e8e597947061940fee6c0a9fc
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

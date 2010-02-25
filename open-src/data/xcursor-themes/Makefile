@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,6 +34,10 @@ MODULE_NAME=xcursor-themes
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e8929a1bb4d98d1a3991fd340d0b5f09
+TARBALL_SHA1 = 12b865c17c65e70a6bc20300dfa660fe8faaa0a4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

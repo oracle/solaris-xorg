@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-bh-ttf
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 664df71cb510b744b4a10e778445c37b
+TARBALL_SHA1 = 0e9ffbc738072ca832cdf5f82bff071c67b71825
 
 # Directory to install to
 MODULE_CONFIG_OPTS=--with-fontdir=$(TRUETYPE_FONT_DIR)/bh-luxi

@@ -2,7 +2,7 @@
 #
 # Xevie 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXevie
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 88e9bf535364e7c821ef4014fb1ca2dd
+TARBALL_SHA1 = d22fd24d8f096fdff54d303d63fea1422f0cfeea
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

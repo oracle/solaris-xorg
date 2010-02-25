@@ -38,6 +38,10 @@ MODULE_NAME=bdftopcf
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 148f20d28caaa69bbe7dcca7c2674fb6
+TARBALL_SHA1 = 245778068b5e5ccde07151635ded50da90333524
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

@@ -38,6 +38,10 @@ MODULE_NAME=libXaw
 # Version number (used in path names)
 MODULE_VERSION=1.0.7
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 815e74de989ccda684e2baf8d12cf519
+TARBALL_SHA1 = 0e5effe33c4c44d960132e3dd50370134a28f8b2
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=
 

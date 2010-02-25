@@ -2,7 +2,8 @@
 #
 ###########################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -34,12 +35,12 @@
 #
 
 CLOBBER=0
-WGET=/usr/sfw/bin/wget
+WGET='/usr/bin/wget'
 MAKE_FLAGS="-k"
 # Make sure Solaris make, not GNU make, is first in the $PATH
 export PATH=/usr/bin:/usr/ccs/bin
 
-set -- `getopt cn $*`
+set -- $(getopt cn $*)
 if [[ $? != 0 ]] ; then
     echo USAGE: $0 [-c] [-n]
     exit 2
@@ -60,6 +61,10 @@ if [[ $CLOBBER = 1 ]] ; then
 fi
 if [[ ! -d tarballs ]] ; then 
     mkdir tarballs
+fi
+if [[ "$(domainname)" =~ \.sun\.com$ ]] ; then
+    export TARBALL_ARCHIVE='http://xserver.sfbay.sun.com/tarballs/'
+    export TARBALL_ARCHIVE_SET='yes'
 fi
 make $MAKE_FLAGS download
 cd ../..

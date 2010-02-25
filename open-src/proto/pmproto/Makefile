@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xproxymanagementprotocol
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 9de22ca1522008c28fb03dfc41ba2d30
+TARBALL_SHA1 = 4abb036371670ecc25d32e48b3277fe203ae5203
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -2,7 +2,7 @@
 #
 # Xt 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXt
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.7
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 96f3c93434a93186d178b60d4a262496
+TARBALL_SHA1 = 3c285b9c04a393dec1cc3d60cf5582d798eb3272
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch

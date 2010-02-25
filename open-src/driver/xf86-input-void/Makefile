@@ -2,7 +2,7 @@
 #
 # xf86-input-void 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-input-void
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 53bdac9ca56418f4675810ed8a78b3e8
+TARBALL_SHA1 = 2b2d284c4cc356f2ff6fc8e448e61bbea2e4ff30
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

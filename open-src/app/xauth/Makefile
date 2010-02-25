@@ -2,7 +2,7 @@
 #
 # xauth 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xauth
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = fa00078c414c4a57cab7a6d89a0c8734
+TARBALL_SHA1 = 90d32f28bb61ca6d831dcc35429a5ad53be73283
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

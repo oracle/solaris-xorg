@@ -3,7 +3,7 @@
 #
 # setxkbmap 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -38,6 +38,10 @@ MODULE_NAME=setxkbmap
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 2f902e0a89aaf2b19e06e7f26c6efb3a
+TARBALL_SHA1 = f02f93a08ac060d760566693c748e0fba3db8a06
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

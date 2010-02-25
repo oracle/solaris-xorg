@@ -2,7 +2,7 @@
 #
 # rgb 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=rgb
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 44ea16cc3104de6401bc74035f642357
+TARBALL_SHA1 = 89970e73e95819756e6f3fb11631fa917031813a
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

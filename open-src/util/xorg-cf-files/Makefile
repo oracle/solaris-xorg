@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xorg-cf-files
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5f62dd5545b782c74f6e4e70d0e6552c
+TARBALL_SHA1 = a1182e1fd05a648e6282598a355b7c4be9339755
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

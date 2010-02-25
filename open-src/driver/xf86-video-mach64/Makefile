@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-mach64
 # Version number (used in path names)
 MODULE_VERSION=6.8.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 6c0522b2b72a0a47c48d718443616651
+TARBALL_SHA1 = b7303689a6a971b956061fd81399dc81adb865af
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6205248.patch  
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-bitstream-75dpi
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = aed54fb53d2d24aff10c92985286d1e5
+TARBALL_SHA1 = 43344b8ff3b2c2fda8d4cdbcc12c0688b2e04789
 
 ### Include common rulesets
 include ../Makefile.inc

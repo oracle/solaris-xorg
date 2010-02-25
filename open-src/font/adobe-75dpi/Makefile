@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-adobe-75dpi
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = a47681c97bd012196691c95e34d400f1
+TARBALL_SHA1 = 3cbed8a4a3a6bbe6ccd3d6e07a238f8c9ab7a26c
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi

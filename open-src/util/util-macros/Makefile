@@ -36,6 +36,10 @@ MODULE_NAME=util-macros
 # Version number (used in path names)
 MODULE_VERSION=1.3.0
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 0837fe88af7d692308b25815457a3288
+TARBALL_SHA1 = 2c6396976af20bb0c7b3b27b229876fe67c6b9dc
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 

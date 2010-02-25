@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xorg-sgml-doctools
 
 # Version number (used in path names)
 MODULE_VERSION=1.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 1e3ee108688d1df91049a565813c973d
+TARBALL_SHA1 = ee9f308f1c5f11a8fc19f034a5599f1867e4bbe7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

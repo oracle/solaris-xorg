@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-winitzki-cyrillic
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 92bf4ecb373faac545cef2dcbe40be35
+TARBALL_SHA1 = d19f476710783d784dfdbcb6a1f34ef7746d3439
 
 ### Include common rulesets
 include ../Makefile.inc

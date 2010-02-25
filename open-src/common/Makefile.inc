@@ -92,6 +92,7 @@ $(BUILD_TYPES_DEFAULT)	BUILD_TYPES=32
 # Set default rules if not set in module/modtype Makefile
 SOURCE_TARGETS_DEFAULT		= $(SOURCE_TARGETS_SET:yes=$(POUND_SIGN))
 $(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=default_source \
+					check-checksums \
 					$(MODTYPE_ADD_SOURCE_TARGETS) \
 					$(MODULE_ADD_SOURCE_TARGETS)
 
@@ -209,13 +210,22 @@ debug-install_64:
 
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 
+# Allow downloading from local archive/mirror
+TARBALL_ARCHIVE_sun.com		= http://xserver.sfbay.sun.com/tarballs
+TARBALL_ARCHIVE_DEFAULT		= $(TARBALL_ARCHIVE_SET:yes=$(POUND_SIGN))
+$(TARBALL_ARCHIVE_DEFAULT)	ARCHIVE_DOMAIN = domainname | awk -F. '{printf "%s.%s", $$(NF-1), $$NF}'
+$(TARBALL_ARCHIVE_DEFAULT)	TARBALL_ARCHIVE = $(TARBALL_ARCHIVE_$(ARCHIVE_DOMAIN:sh))
+ARCHIVE_URL=$(TARBALL_ARCHIVE)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
+
 GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
 
 # Download if SOURCE_TARBALL_NAME is not set to NONE and the file either
 # doesn't exist or is empty
 # If MODULE_VERSION is git, checkout source from git repo instead of
 # a tarball
-download: $(TARBALLDIR)
+download: $(SOURCE_TARBALL)
+
+$(SOURCE_TARBALL): $(TARBALLDIR)
 	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; $(START_CMD_ECHO) ; \
 	if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
 	    if [[ ! -d $(GIT_CLONE_DIR) ]] ; then \
@@ -226,10 +236,46 @@ download: $(TARBALLDIR)
 	    fi ; \
 	else \
 	    if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
-		if [[ ! -s $(SOURCE_TARBALL) ]] ; then \
+		if [[ ! -z "$(TARBALL_ARCHIVE)" ]] ; then \
+		    $(WGET) -O $(SOURCE_TARBALL) $(ARCHIVE_URL) ; \
+		else \
 		    $(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ; \
 		fi ; \
 	    fi ; \
+	fi
+
+check-checksums: $(SOURCE_TARBALL)
+	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; \
+	if [[ "$(MODULE_VERSION)" != "git" && \
+	      "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+	    ACTUAL_MD5="$$(digest -a md5 $(SOURCE_TARBALL))" ; \
+	    if [[ "$${ACTUAL_MD5}" != "${TARBALL_MD5}" ]] ; then \
+		print -u2 "ERROR: MD5 sum mismatch on ${SOURCE_TARBALL}\n" \
+			"$${ACTUAL_MD5} != ${TARBALL_MD5}" ; \
+		exit 1; \
+	    fi ; \
+	    ACTUAL_SHA1="$$(digest -a sha1 ${SOURCE_TARBALL})" ; \
+	    if [[ "$${ACTUAL_SHA1}" != "${TARBALL_SHA1}" ]] ; then \
+		print -u2 "ERROR: SHA1 sum mismatch on ${SOURCE_TARBALL}\n" \
+			"$${ACTUAL_SHA1} != ${TARBALL_SHA1}" ; \
+		exit 1; \
+	    fi ; \
+	fi
+
+
+# Submit a tarball to the archive
+ARCHIVE_SUBMIT=/ws/x11/tarballs/bin/archive-tarballs
+
+archive-tarball:
+	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; \
+	if [[ "$(MODULE_VERSION)" != "git" && \
+	      "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+		$(ARCHIVE_SUBMIT) \
+		 --modtype='$(SOURCE_TARBALL_DIR)' \
+		 --tarball='$(SOURCE_TARBALL_NAME)' \
+		 --url='$(SOURCE_URL)' \
+		 --md5='$(TARBALL_MD5)' \
+		 --sha1='$(TARBALL_SHA1)' ; \
 	fi
 
 $(TARBALLDIR):
@@ -267,7 +313,9 @@ SUNTOUCH_MAN_FLAGS = \
 	$(MODTYPE_SUNTOUCH_MAN_FLAGS) \
 	$(MODULE_SUNTOUCH_MAN_FLAGS)
 
-default_source: $(MODULE_SOURCE_DEPS) $(MODTYPE_SOURCE_DEPS)
+SOURCE_DEPS = $(SOURCE_TARBALL) $(MODTYPE_SOURCE_DEPS) $(MODULE_SOURCE_DEPS)
+
+default_source: $(SOURCE_DEPS)
 	mkdir -p $(BUILD_DIR)
 	@ if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
 	  if [[ "$(MODULE_VERSION)" = "git" ]] ; then \

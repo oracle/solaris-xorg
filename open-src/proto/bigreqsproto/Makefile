@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=bigreqsproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = d30c5dbf19ca6dffcd9788227ecff8c5
+TARBALL_SHA1 = 32ae0505ec963cc5c0e3ee9258b126e6865d1b1b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

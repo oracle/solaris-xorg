@@ -2,7 +2,7 @@
 #
 # Droid Fonts Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,7 +36,11 @@
 MODULE_NAME=google-droid-fonts
 
 # Version number (used in path names)
-MODULE_VERSION=1.00
+MODULE_VERSION=2010.02.24
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 6ea3273ac2868f72499276a562838289
+TARBALL_SHA1 = 4eef8d0fc11231350cb3fe59cdd19716f192e311
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -47,7 +51,12 @@ SOURCE_DIRNAME=base
 SOURCE_DIRNAME_SET=yes
 
 # Download site for source
-SOURCE_URL='http://android.git.kernel.org/?p=platform/frameworks/base.git;a=snapshot;h=b2fdf4096d6f8fc4aaca49bd804f480ba7892856;sf=tgz'
+# Upstream doesn't have a stable download tarball, so we use our mirror
+# to get consistent checksums - updates will come from snapshot link on
+# http://android.git.kernel.org/?p=platform/frameworks/base.git;a=tree;f=data/fonts;hb=HEAD
+# Current version was downloaded on 2/24/2010 from 
+# http://android.git.kernel.org/?p=platform/frameworks/base.git;a=snapshot;h=54e235b011be9e1e38a2b9be787d0a196493d89e;sf=tgz
+SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=printproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7321847a60748b4d2f1fa16db4b6ede8
+TARBALL_SHA1 = 8da2d19faca74f894d0e2b3e142283b725c0ef46
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6725007.patch

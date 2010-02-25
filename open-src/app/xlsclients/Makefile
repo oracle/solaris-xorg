@@ -2,7 +2,7 @@
 #
 # xlsclients 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xlsclients
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = df270f7dd5528ae1b7d80c47585d8278
+TARBALL_SHA1 = 5cde39a28c5352d1d555714836f57c05197e419d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

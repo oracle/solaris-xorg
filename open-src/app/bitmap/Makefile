@@ -2,7 +2,7 @@
 #
 # bitmap 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=bitmap
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7d0c1ac193be2491c72a91ccf37ef18e
+TARBALL_SHA1 = b83483937b1d4c542379b5f82edf408a023f8671
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

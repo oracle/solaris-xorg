@@ -2,7 +2,7 @@
 #
 # xdm Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xdm
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.9
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 030ae4bd9b8d428749d68bfdf56ce8a5
+TARBALL_SHA1 = ea0ee2923999d54848dc8a165867ffa7c628fd7b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

@@ -2,7 +2,7 @@
 #
 # Xpm Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXpm
 
 # Version number (used in path names)
 MODULE_VERSION=3.5.8
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 38e58e72d476a74298a59052fde185a3
+TARBALL_SHA1 = 3bfc833ed4527f74b1c66c386da62271d0313413
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = setuid.patch

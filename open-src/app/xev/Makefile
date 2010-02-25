@@ -2,7 +2,7 @@
 #
 # xev 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xev
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5f98c0a2725a33d60ef4956befe078fb
+TARBALL_SHA1 = 4f62e131ba96842eef1660e8869533cd3923ac35
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=mesa
 
 # Version number (used in path names)
 MODULE_VERSION=7.4.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = b66528d314c574dccbe0ed963cac5e93
+TARBALL_SHA1 = 1cdcef24900489bc0a879013b2138c0d9aedffe3
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2

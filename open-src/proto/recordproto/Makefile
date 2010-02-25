@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=recordproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.14
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 70f5998c673aa510e2acd6d8fb3799de
+TARBALL_SHA1 = 212928572898ed150366c6026e2694b193ff9f79
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

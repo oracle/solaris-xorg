@@ -2,7 +2,7 @@
 #
 # xcmsdb 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xcmsdb
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7f2bed9f4dd3301d18d83eb296c3be0d
+TARBALL_SHA1 = 8341f7219a5720da758b0571eb1f4d9072265485
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

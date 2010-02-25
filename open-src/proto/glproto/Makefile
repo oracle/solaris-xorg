@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=glproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.10
+
+# Checksums for upstream tarball
+TARBALL_MD5  = c9f8cebfba72bfab674bc0170551fb8d
+TARBALL_SHA1 = 30d312863288316da26aa33bfd7d0b303c8b0851
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

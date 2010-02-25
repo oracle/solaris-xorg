@@ -2,7 +2,7 @@
 #
 # SM 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libSM
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 184cbf502b3cd5d7ba5f9d1290a99606
+TARBALL_SHA1 = ccf38d4575da92b750640525af55d770b85765e1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = libsm.globals.h.patch libsm.SMlibint.h.patch libsm.sm_client.c.patch libsm.sm_manager.c.patch

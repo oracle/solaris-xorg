@@ -2,7 +2,7 @@
 #
 # Xxf86misc 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXxf86misc
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 51fed53e8de067d4b8666f75a0212400
+TARBALL_SHA1 = aea1be067de8c7bdedd917e07d8db608f4a804a8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

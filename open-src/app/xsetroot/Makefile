@@ -2,7 +2,7 @@
 #
 # xsetroot 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xsetroot
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = cbda9b9b8da5af4614110883d5a276b8
+TARBALL_SHA1 = 56ed1df9834627a107550475629df51275cd0c44
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

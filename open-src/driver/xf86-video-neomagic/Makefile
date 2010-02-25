@@ -2,7 +2,7 @@
 #
 # xf86-video-neomagic 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-neomagic
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 2d722ee9b9fe8da49109f280689c9c25
+TARBALL_SHA1 = 9a6991d2ca64d544a41ff653a5f4c7d5d4b9760f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xf86UDelay.patch,-p1

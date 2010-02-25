@@ -2,7 +2,7 @@
 #
 # xprop 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xprop
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = f0bacbd30f0dd1c1e9ccafe97687b7a4
+TARBALL_SHA1 = 16b377c76a4a010200063a056e7a5e244ab6ff00
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

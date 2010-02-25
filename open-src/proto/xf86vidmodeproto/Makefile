@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xf86vidmodeproto
 
 # Version number (used in path names)
 MODULE_VERSION=2.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4434894fc7d4eeb4a22e6b876d56fdaa
+TARBALL_SHA1 = 22d034c2f66985f8541b9ea3421096ceaa006355
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

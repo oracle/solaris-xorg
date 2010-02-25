@@ -2,7 +2,7 @@
 #
 # Xv 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXv
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.5
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 1d97798b1d8bbf8d9085e1b223a0738f
+TARBALL_SHA1 = 3936dd661e75d173b9fd1da9d97e5720e9657254
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

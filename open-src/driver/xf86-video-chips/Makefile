@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-chips
 # Version number (used in path names)
 MODULE_VERSION=1.2.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = a3969c28c3b36ab2caa852a9324e9b70
+TARBALL_SHA1 = 3990bc1cf4e8963164b3a38b15f92bc87da9278c
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xf86UDelay.patch,-p1
 

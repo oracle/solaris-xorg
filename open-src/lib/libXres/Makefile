@@ -2,7 +2,7 @@
 #
 # libXres 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXres
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4daf91f93d924e693f6f6ed276791be2
+TARBALL_SHA1 = d5ee9560a61666e6bb3d2285b9634fccd7211d65
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

@@ -2,7 +2,7 @@
 #
 # Xcursor 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXcursor
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.10
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7dcdad1c10daea872cb3355af414b2ca
+TARBALL_SHA1 = 096d0e538d37fd865705e5f45b0e96c7294c1f2f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

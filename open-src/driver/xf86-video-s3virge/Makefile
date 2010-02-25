@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-s3virge
 # Version number (used in path names)
 MODULE_VERSION=1.10.4
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 6517bbbf808c700502d51acdc44662f8
+TARBALL_SHA1 = 69b83a1e9bba5176d6c0ff95d531117734f02eec
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

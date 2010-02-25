@@ -2,7 +2,7 @@
 #
 # xf86-video-savage 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-savage
 
 # Version number (used in path names)
 MODULE_VERSION=2.2.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 62b8aba48b54eaefeae87df502bf219c
+TARBALL_SHA1 = c20eaf260cae10c8c65d3d690825a5c70a30419b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = port.patch

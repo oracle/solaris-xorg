@@ -2,7 +2,7 @@
 #
 # xfindproxy 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xfindproxy
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5df3a162429bdd6ce5aea3ca5f6365b8
+TARBALL_SHA1 = 2d7fcbce9a7426bdacf55a3acf60933f42bd4829
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

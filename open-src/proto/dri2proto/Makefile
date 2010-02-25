@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,6 +34,10 @@ MODULE_NAME=dri2proto
 
 # Version number (used in path names)
 MODULE_VERSION=2.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5cb7987d29db068153bdc8f23c767c43
+TARBALL_SHA1 = 1ba917531ff035287549d576097d7028bd3d037f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

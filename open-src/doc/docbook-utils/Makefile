@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=docbook-utils
 
 # Version number (used in path names)
 MODULE_VERSION=0.6.14
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 6b41b18c365c01f225bc417cf632d81c
+TARBALL_SHA1 = aae596844930e0e4bb7f8824024be0982cc4fa85
 
 # Source tarball
 SOURCE_TARBALL_NAME=docbook-utils-$(MODULE_VERSION).tar.gz

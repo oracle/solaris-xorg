@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-i740
 # Version number (used in path names)
 MODULE_VERSION=1.3.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 4ac1318788f62159965f15131c869e7a
+TARBALL_SHA1 = aadd2168153f780c487778e5fdda5473ed4b243d
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

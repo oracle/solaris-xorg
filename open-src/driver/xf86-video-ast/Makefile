@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-ast
 # Version number (used in path names)
 MODULE_VERSION=0.89.0
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 9d98ac74ea7feb9f1f4783b59eccdb2b
+TARBALL_SHA1 = dca605c1d7202209bc0f3ecec10ae979cbf71e14
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 		xf86UDelay.patch,-p1 \

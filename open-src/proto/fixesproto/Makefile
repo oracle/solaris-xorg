@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=fixesproto
 
 # Version number (used in path names)
 MODULE_VERSION=4.1.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4c1cb4f2ed9f34de59f2f04783ca9483
+TARBALL_SHA1 = fb47920c629e08a56442a51968a02a22733085e5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -2,7 +2,7 @@
 #
 # xf86-video-ati Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
 MODULE_VERSION=6.12.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e662348f6f957fcedf52818d668ab9f5
+TARBALL_SHA1 = efd9b9392787251756bbce6afc9715c417dae68f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

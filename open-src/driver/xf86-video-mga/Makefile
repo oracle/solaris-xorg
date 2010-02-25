@@ -2,7 +2,7 @@
 #
 # xf86-video-mga Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-mga
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.11
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 9d1ca965cedb0856296b47442f3c739d
+TARBALL_SHA1 = 1add2aa03fb8387bab5d3b36ca09035aaf4e0b4c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = no-hal.patch 

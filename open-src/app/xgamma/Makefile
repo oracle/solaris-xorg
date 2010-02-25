@@ -2,7 +2,7 @@
 #
 # xgamma 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xgamma
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e8a88bf1a18f35b724619849dca97f4f
+TARBALL_SHA1 = f9c7d93f4b271bab41ee3c91b371d52572e4e08c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

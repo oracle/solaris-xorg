@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-i128
 # Version number (used in path names)
 MODULE_VERSION=1.3.3
 
+# Checksums for upstream tarball
+TARBALL_MD5  = a597e8efeec6ab8bc6ba6d87fceb2dba
+TARBALL_SHA1 = 75838161e8ddc2e68d53250ad3ea6b54c9cca7a3
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

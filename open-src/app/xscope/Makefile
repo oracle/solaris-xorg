@@ -2,7 +2,7 @@
 #
 # xscope 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xscope
 
 # Version number (used in path names)
 MODULE_VERSION=1.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 1a9df0ac0dd5a2c2a7948dcf48d126c3
+TARBALL_SHA1 = 3952f381c3f8ee81cd602e6f025304c2322a06a0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

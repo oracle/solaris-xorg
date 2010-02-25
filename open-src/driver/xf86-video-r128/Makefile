@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-r128
 # Version number (used in path names)
 MODULE_VERSION=6.8.1
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 2b90854a62a4d45d652062f582dc8d13
+TARBALL_SHA1 = 14f33cbd248dfd1584ee14949475ab3bb922da17
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

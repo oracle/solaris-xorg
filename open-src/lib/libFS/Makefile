@@ -2,7 +2,7 @@
 #
 # libFS Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libFS
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = ecf2d6a27da053500283e803efa2a808
+TARBALL_SHA1 = 41cf53fae37210acaa034199f01f36af3f3ec548
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch

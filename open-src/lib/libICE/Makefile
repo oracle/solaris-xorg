@@ -2,7 +2,7 @@
 #
 # ICE 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libICE
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.6
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 2d39bc924af24325dae589e9a849180c
+TARBALL_SHA1 = ac1f702ea580bd496610266b13434858b62df9e1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

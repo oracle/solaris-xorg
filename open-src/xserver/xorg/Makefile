@@ -44,6 +44,10 @@ MODULE_NAME=xorg-server
 # Version number (used in path names)
 MODULE_VERSION=$(XORGSERVER_VERS)
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 75d27c3a1c12293f620a2d6518fcbdfa
+TARBALL_SHA1 = 26de24d7ced735bd717a21c5110d22d662221a58
+
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
 SOURCE_PATCHES=$(XORG_SOURCE_PATCHES)

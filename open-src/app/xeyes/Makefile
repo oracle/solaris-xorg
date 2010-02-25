@@ -2,7 +2,7 @@
 #
 # xeyes 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xeyes
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.991
+
+# Checksums for upstream tarball
+TARBALL_MD5  = ba1b886bd6104018fe78ab431d83ce4d
+TARBALL_SHA1 = 8b30da0ca87aa10fefa9791bb636fdffa2049a0a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

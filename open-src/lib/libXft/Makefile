@@ -2,7 +2,7 @@
 #
 # Xft 2.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXft
 
 # Version number (used in path names)
 MODULE_VERSION=2.1.14
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 254e62a233491e0e1251636536163e20
+TARBALL_SHA1 = e08ae6b1f56e160179b9f141b4ab799333ec725e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

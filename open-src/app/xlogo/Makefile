@@ -2,7 +2,7 @@
 #
 # xlogo 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xlogo
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4c5482552f38a7d42398a694cc9b2ee6
+TARBALL_SHA1 = c2ffec6ffdc3dec7e27ed58d1e25b2237d85e053
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

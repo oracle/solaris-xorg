@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = fd17158ffeacecc8cc670604460cb98b
+TARBALL_SHA1 = 5061fdaff8b7ddcbcca82f065c4abbfff255a1da
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=xf86dgaproto
 
 # Version number (used in path names)
 MODULE_VERSION=2.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = a036dc2fcbf052ec10621fd48b68dbb1
+TARBALL_SHA1 = 97a06120e7195c968875e8ba42e82c90ab54948b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

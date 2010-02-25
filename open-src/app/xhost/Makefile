@@ -2,7 +2,7 @@
 #
 # xhost 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xhost
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = c7f91b4a750d297f269c2a0a3206a1b2
+TARBALL_SHA1 = ebcdccdc908e642e527eebbde6ba8084d90c04f6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xhost.patch

@@ -2,7 +2,7 @@
 #
 # xrx 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xrx
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = c121945afcfc84e99af17158fda68be9
+TARBALL_SHA1 = 76265c2046b637701c4b61cbfe532ed542640950
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 

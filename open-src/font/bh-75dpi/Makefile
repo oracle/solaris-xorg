@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-bh-75dpi
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 53785d2688392aec5cba79fc0ddb23a2
+TARBALL_SHA1 = 7b891d5bfd966c405c19574bca8f87b8803146d1
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi

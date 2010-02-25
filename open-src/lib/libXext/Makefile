@@ -2,7 +2,7 @@
 #
 # Xext 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXext
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = c417c0e8df39a067f90a2a2e7133637d
+TARBALL_SHA1 = c2eb8d8d760c6881e51c938812764d1d6cefd51c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

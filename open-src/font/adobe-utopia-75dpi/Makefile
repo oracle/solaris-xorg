@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-adobe-utopia-75dpi
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 71dffebeeb702d10876555c361fb69cf
+TARBALL_SHA1 = 2db08c2e0186831e4d68f7a2ffb2f9fe598a7280
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi

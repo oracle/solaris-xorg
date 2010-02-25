@@ -2,7 +2,7 @@
 #
 # xman 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xman
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5e5b3351bac26cc1f8490faf1c1402bb
+TARBALL_SHA1 = 645d8910f0febd0c4f00fee964221883a12d4af3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6708109.patch

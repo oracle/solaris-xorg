@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-daewoo-misc
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 05597e2b193a7b7de2ca525468276b1d
+TARBALL_SHA1 = d169cec4e92fe1e99f3ff6766d4c6edcbb808860
 
 # Install to separate directory for easier packaging
 MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/daewoo'

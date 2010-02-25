@@ -2,7 +2,7 @@
 #
 # fslsfonts Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=fslsfonts
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = a61be25c87ee42169ee4dc8344acc9e2
+TARBALL_SHA1 = 707710c9360b0554ee1ab9a2ef388025a6a8a27a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

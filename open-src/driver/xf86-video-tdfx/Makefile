@@ -2,7 +2,7 @@
 #
 # xf86-video-tdfx 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-tdfx
 
 # Version number (used in path names)
 MODULE_VERSION=1.4.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 8161bbf2b100c21b609163f0010766b3
+TARBALL_SHA1 = d091d3c93b500b361c083bc1b54c4f5d5fac0943
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

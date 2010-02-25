@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-schumacher-misc
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 86f4b7d8b11a2e6da70884c59b5866a3
+TARBALL_SHA1 = ea7e009e222379fa31a16bdbd4ca5b1e9d412944
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=misc

@@ -2,7 +2,7 @@
 #
 # xditview 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xditview
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e9a7192ef29453b8c810ddd556a463c0
+TARBALL_SHA1 = 1f369042a725bab1c2d3774184b99f09e7933920
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

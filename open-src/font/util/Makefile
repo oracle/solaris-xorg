@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-util
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 5c735ae6916b65186f3c876d76c27ce3
+TARBALL_SHA1 = 6ee3af5466de84d61411e173e578a256aeb1074d
 
 # Set encoding directory path used during build in fontutil.pc
 FIX_PC_FILES = fontutil.pc.in

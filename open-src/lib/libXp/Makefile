@@ -2,7 +2,7 @@
 #
 # Xp 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXp
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 0f4ac39108c1ae8c443cdfac259b58fa
+TARBALL_SHA1 = fac67954e247fc805af6e495ff8695b5724cd1e2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch 6724993.patch

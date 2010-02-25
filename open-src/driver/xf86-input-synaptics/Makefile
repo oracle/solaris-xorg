@@ -38,6 +38,10 @@ MODULE_NAME=xf86-input-synaptics
 # Version number (used in path names)
 MODULE_VERSION=1.2.1
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 29a6f9da5123149e4abc8ff83880ed5c
+TARBALL_SHA1 = ffdad38384f3dcbf650d1db7e3d75ed46935a2c6
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server

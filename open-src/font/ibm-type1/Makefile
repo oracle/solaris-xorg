@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-ibm-type1
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 1646179ff224b3e2c9b1e7f59042897f
+TARBALL_SHA1 = 9bcf72bcabfcbe218ad3a96ba2a45e92ef9efbc3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

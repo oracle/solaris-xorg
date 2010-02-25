@@ -35,6 +35,10 @@ MODULE_NAME=MesaDemos
 # Version number (used in path names)
 MODULE_VERSION=7.4.4
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 628142ec9a54cd28cc027e6ce26cff47
+TARBALL_SHA1 = 190b51dd1e456f12c70cd428ec47ca8de0ed72fe
+
 # Directory created by unpacking source
 SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)
 SOURCE_DIRNAME_SET=yes

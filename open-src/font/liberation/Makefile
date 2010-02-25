@@ -2,7 +2,7 @@
 #
 # Liberation Fonts Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=liberation-fonts
 
 # Version number (used in path names)
 MODULE_VERSION=1.04
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 4846797ef0fc70b0cbaede2514677c58
+TARBALL_SHA1 = 097882c92e3260742a3dc3bf033792120d8635a3
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz

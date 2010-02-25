@@ -2,7 +2,7 @@
 #
 # mkfontscale 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=mkfontscale
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.7
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 96ca346f185c0ab48e42bf5bb0375da5
+TARBALL_SHA1 = 0a0c25da68c87380e2c013c808a6e0cc0983fae9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

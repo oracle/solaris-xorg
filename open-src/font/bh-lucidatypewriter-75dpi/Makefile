@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-bh-lucidatypewriter-75dpi
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 6397062f2b346ce5bbe5472f3353a9a9
+TARBALL_SHA1 = 26efd25d2802c8406a96ccc3240b2c14e511d49f
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi

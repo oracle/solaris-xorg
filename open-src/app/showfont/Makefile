@@ -2,7 +2,7 @@
 #
 # showfont Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=showfont
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 8f83d774ed4cc2a6dca86edd856d820a
+TARBALL_SHA1 = 02ad183046d0a2e34bbb8d44e754fbcb0cf27f32
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

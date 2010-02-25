@@ -2,7 +2,7 @@
 #
 # xedit 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xedit
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 67193be728414d45a1922911e6437991
+TARBALL_SHA1 = e2d9f49dd7e82959e0678c2417256cd59b06772f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -2,7 +2,7 @@
 #
 # Xdamage 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXdamage
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = b42780bce703ec202a33e5693991c09d
+TARBALL_SHA1 = dc1fbc938e9bbc859c70cf2087440fc15b00bb1e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

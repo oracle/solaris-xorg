@@ -2,7 +2,7 @@
 #
 # XvMC 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXvMC
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.5
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 16c3a11add14979beb7510e44623cac6
+TARBALL_SHA1 = 153b85884f22b882cecb9fc462fe24c669a80dbd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

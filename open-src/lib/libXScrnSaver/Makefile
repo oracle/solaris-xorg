@@ -2,7 +2,7 @@
 #
 # libXScrnSaver 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXScrnSaver
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 33e54f64b55f22d8bbe822a5b62568cb
+TARBALL_SHA1 = ea2935eb67efa77fd90372337f2d782a8ef74cea
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

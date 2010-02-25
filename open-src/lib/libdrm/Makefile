@@ -1,5 +1,5 @@
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,6 +34,10 @@ MODULE_NAME=libdrm
 
 # Version number (used in path names)
 MODULE_VERSION=2.4.14
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e785b6a6ebd6b8a49dd8210cd8742842
+TARBALL_SHA1 = a18cc2cdfd02b8ba1c91c3e9ac609521ad3e2fe9
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm

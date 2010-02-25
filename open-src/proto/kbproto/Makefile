@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=kbproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 7f439166a9b2bf81471a33951883019f
+TARBALL_SHA1 = d300745389d3a80d90c9a3c989651f228db486e5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	5077065.patch

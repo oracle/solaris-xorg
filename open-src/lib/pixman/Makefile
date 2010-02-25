@@ -2,7 +2,7 @@
 #
 # pixman Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,6 +36,10 @@ MODULE_NAME=pixman
 
 # Version number (used in path names)
 MODULE_VERSION=0.16.4
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 70c249a575ed02b7a5daa1bc9f9c6a4e
+TARBALL_SHA1 = 08fecbd065fa3792823818fcf715b97bc66d94cd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

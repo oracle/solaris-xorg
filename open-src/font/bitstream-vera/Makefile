@@ -2,7 +2,7 @@
 #
 # Bitstream Vera Fonts Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=ttf-bitstream-vera
 
 # Version number (used in path names)
 MODULE_VERSION=1.10
+
+# Checksums for upstream tarball
+TARBALL_MD5  = bb22bd5b4675f5dbe17c6963d8c00ed6
+TARBALL_SHA1 = c3e8505a58d52e198a02960a2bd295e4c7a14242
 
 # Download site for source
 SOURCE_URL=http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)

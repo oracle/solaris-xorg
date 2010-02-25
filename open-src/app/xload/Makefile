@@ -2,7 +2,7 @@
 #
 # xload 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xload
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = b41ed6b4bcfc9897366c27a94d2bf150
+TARBALL_SHA1 = cbbbf23531e0d781b556f5864cc3b83874f786d2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = patch.xload

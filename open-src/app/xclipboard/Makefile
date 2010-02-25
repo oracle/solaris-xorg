@@ -2,7 +2,7 @@
 #
 # xclipboard 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xclipboard
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 113eccea3ee73a1ef7b43d2291ca1e09
+TARBALL_SHA1 = d1ec94f032174f5d011e33817cb7f48e3cd957be
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=imake
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 02fea5a02ba2857c7d81820c8e8b8e6f
+TARBALL_SHA1 = 863a1015af41149e91a2f4b20858cb5d584c6943
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -2,7 +2,7 @@
 #
 # appres 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=appres
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 6f2f5d9f41669d498b56d73dc3206951
+TARBALL_SHA1 = a82009c1d548b91282fc49efd1be446dc0ee8e32
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -2,7 +2,7 @@
 #
 # xlsatoms 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xlsatoms
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = dc8b420bbfa35091ea30edf57c952ec2
+TARBALL_SHA1 = 3855734b5ec0d43b5886ac0ffa58d7cf96f46926
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=scrnsaverproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 9040c991a56ee9b5976936f8c65d5c8a
+TARBALL_SHA1 = c734cfe9a1ce57fd42957389dcc90518fd7ca6b6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

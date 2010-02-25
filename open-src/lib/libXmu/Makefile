@@ -38,6 +38,10 @@ MODULE_NAME=libXmu
 # Version number (used in path names)
 MODULE_VERSION=1.0.5
 
+# Checksums for upstream tarball
+TARBALL_MD5  = fc4d66be7a1a1eb474954728415e46d6
+TARBALL_SHA1 = e7ff5960f2374852b941f909cdbdeafe7d29322f
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	bitmap-path.patch \

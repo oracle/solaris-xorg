@@ -2,7 +2,7 @@
 #
 # xf86-video-siliconmotion 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-siliconmotion
 
 # Version number (used in path names)
 MODULE_VERSION=1.7.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 29fb322cd3adab52cc7f1ac86f9315bb
+TARBALL_SHA1 = f3edf5853a17c3725c11ea983edcf4b6bd54d10a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

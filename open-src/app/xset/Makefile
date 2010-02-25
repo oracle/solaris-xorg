@@ -2,7 +2,7 @@
 #
 # xset 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xset
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = eeb0d02f69c76bd40470dede99b4bd49
+TARBALL_SHA1 = ff4295442821826092b17248c1ad65e16cd860ef
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xsetfbpm.patch xsetman.patch

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=lndir
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = e274ea9f55dfd62afa0a7b1e1ab4ba96
+TARBALL_SHA1 = c7eed31c4cb2b016e4a06b629a57333c8df14421
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -2,7 +2,7 @@
 #
 # transset 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=transset
 
 # Version number (used in path names)
 MODULE_VERSION=0.9.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = d289dd300124c9680e9eeae83947b0cf
+TARBALL_SHA1 = 6e59ffc4f7ccca4d88bf5ec1bb7700ad611720f9
 
 # Source tarball
 SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)

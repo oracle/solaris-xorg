@@ -2,7 +2,7 @@
 #
 # xf86-video-openchrome Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-openchrome
 
 # Version number (used in path names)
 MODULE_VERSION=0.2.904
+
+# Checksums for upstream tarball
+TARBALL_MD5  = f2481d98ef54febf5bffbb88a2a2426d
+TARBALL_SHA1 = 23225057d5b75d6aac3e7a710cbc067b2eb29228
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

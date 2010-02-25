@@ -2,7 +2,7 @@
 #
 # xf86-video-tga 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-tga
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = bcbceda78395de74544c83b46a7700cd
+TARBALL_SHA1 = 6b434227d9f2cea723908eec15fefe59f73cb282
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

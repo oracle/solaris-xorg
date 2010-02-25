@@ -2,7 +2,7 @@
 #
 # xwininfo 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xwininfo
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.5
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 908f8bc3255f639effa9780fb1c19ea4
+TARBALL_SHA1 = 9730db0d1bd75b8bc5bc399f56cab9f5aee3bcfc
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

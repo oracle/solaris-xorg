@@ -2,7 +2,7 @@
 #
 # sessreg 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=sessreg
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.5
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 00e834c3cbfd990e9d7d5ddc834242df
+TARBALL_SHA1 = d1dac6a398b23ed44bb67286ec083e9071bd00e7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

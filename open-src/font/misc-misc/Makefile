@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-misc-misc
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 878bfd4e9f14c1279cea3a8392e0dbdd
+TARBALL_SHA1 = 83c44111b5727c26e52eb915b66dc6c9eba4c458
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=misc

@@ -2,7 +2,7 @@
 #
 # xf86-video-nv Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-nv
 
 # Version number (used in path names)
 MODULE_VERSION=2.1.16
+
+# Checksums for upstream tarball
+TARBALL_MD5  = fb02d5506e35054348d1c2b2c924530d
+TARBALL_SHA1 = fce8c42268f1b60c8aece2adb35d780f02300fe8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

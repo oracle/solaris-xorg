@@ -2,7 +2,7 @@
 #
 # xkbprint 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xkbprint
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 3d3eb10466442354d6b73b503b9829db
+TARBALL_SHA1 = 36e4c8a143b6ab3672843c110db9357b39589927
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

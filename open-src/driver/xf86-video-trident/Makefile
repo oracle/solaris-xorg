@@ -2,7 +2,7 @@
 #
 # xf86-video-trident 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-trident
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 47f3c5da1942017218355f178f02ef84
+TARBALL_SHA1 = ac795465d47d807969970ae1433336439afad9b8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

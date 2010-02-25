@@ -2,7 +2,7 @@
 #
 # Xxf86vm 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXxf86vm
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = b431ad7084e1055fef99a9115237edd8
+TARBALL_SHA1 = f5ce7854f201d9c69dfcdd13123b51f497b69a47
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

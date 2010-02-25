@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=randrproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = a5c244c36382b0de39b2828cea4b651d
+TARBALL_SHA1 = 36731bae6e815453af4b055c26ad8e9e2653ca05
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

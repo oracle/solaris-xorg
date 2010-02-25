@@ -2,7 +2,7 @@
 #
 # Xinerama library Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=libXinerama
 
 # Version number (used in path names)
 MODULE_VERSION=1.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = a2ac01fc0426cdbb713c5d59cf9955ed
+TARBALL_SHA1 = 5f445194ef3318f66c287c0c69f778988a3f9266
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = sun-abi.patch

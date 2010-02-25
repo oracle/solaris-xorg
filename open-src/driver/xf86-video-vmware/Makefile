@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-vmware
 # Version number (used in path names)
 MODULE_VERSION=10.16.9
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 3b3d38abfa1f8be4b1e26dcd236bc94f
+TARBALL_SHA1 = 4e0e5d193f3e83dce46a7d39d52257629e51f4d3
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6370961.patch xf86LoaderReqSymLists.patch
 

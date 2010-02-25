@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-sis
 # Version number (used in path names)
 MODULE_VERSION=0.10.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = f04baa307e49e9f0e5a5c3d2e89a5576
+TARBALL_SHA1 = c7369196d504671b6fdc9e17c90c0f07aa8e0c24
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = port.patch
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=damageproto
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.0
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 434b931b02bd83ed9fc44951df81cdac
+TARBALL_SHA1 = ffe177a6ae2cf023d41e015aa6ece2b191cb8a8a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

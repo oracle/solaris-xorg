@@ -2,7 +2,7 @@
 #
 # oclock 1.x Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=oclock
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 91f49547f9ed3cd0137c8b7c3183e360
+TARBALL_SHA1 = 5245ac01d5dc940c89b8c39c3ee435b4f20a5db7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

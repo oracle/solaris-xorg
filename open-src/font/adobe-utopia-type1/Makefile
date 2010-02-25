@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -35,6 +35,10 @@ MODULE_NAME=font-adobe-utopia-type1
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
+
+# Checksums for upstream tarball
+TARBALL_MD5  = ad945b19b2db64dec3a19507848ff63b
+TARBALL_SHA1 = 565cb66523f59f02da02aa9e74604634a2113643
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

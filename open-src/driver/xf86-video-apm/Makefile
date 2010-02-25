@@ -38,6 +38,10 @@ MODULE_NAME=xf86-video-apm
 # Version number (used in path names)
 MODULE_VERSION=1.2.2
 
+# Checksums for upstream tarball
+TARBALL_MD5  = 48441a19aaf015570b267f2a8e67d8ab
+TARBALL_SHA1 = d319ccb26754419541bde73636d747d581a7ab84
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 

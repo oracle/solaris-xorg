@@ -2,7 +2,7 @@
 #
 # xf86-video-dummy 1.x Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,6 +37,10 @@ MODULE_NAME=xf86-video-dummy
 
 # Version number (used in path names)
 MODULE_VERSION=0.3.3
+
+# Checksums for upstream tarball
+TARBALL_MD5  = 3ffe3a28f4452e66bf56180e7da9cbc5
+TARBALL_SHA1 = 3ea81b819c29938feab58b644b7066250e88da79
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
