@@ -47,8 +47,6 @@ SOURCE_PATCHES = 6726838.patch
 
 AUTORECONF=yes
 
-include ../Makefile.inc
-
 # Directory created by unpacking source
 SOURCE_DIRNAME=xmag-$(MODULE_VERSION)
 SOURCE_DIRNAME_SET=yes
@@ -60,3 +58,6 @@ ADDITIONAL_SOURCE_DIR=sun-src
 SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwdem
 MODULE_STABILITY=Committed
+
+include ../Makefile.inc
+
