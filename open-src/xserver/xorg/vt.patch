@@ -64,80 +64,10 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
      alwaysCheckForInput[0] = 0;
      alwaysCheckForInput[1] = 1;
      while(1)
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Events.c hw/xfree86/common/xf86Events.c
---- hw/xfree86/common/xf86Events.c	2009-11-30 13:42:31.000000000 +0800
-+++ hw/xfree86/common/xf86Events.c	2010-01-08 16:22:51.760552017 +0800
-@@ -202,8 +202,16 @@ xf86ProcessActionEvent(ActionEvent actio
- 	    vtno--;
- #endif
- #if defined(sun)
--	    if (vtno == xf86Info.vtno)
-+	    if (vtno == xf86Info.vtno) {
- 		break;
-+	    } else {
-+		struct vt_stat state;
-+		if (ioctl(xf86Info.consoleFd, VT_GETSTATE, &state) < 0)
-+			break;
-+
-+		if ((state.v_state & (1 << vtno)) == 0)
-+			break;
-+	    }
- 
- 	    xf86Info.vtRequestsPending = TRUE;
- 	    xf86Info.vtPendingNum = vtno;
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_VTsw.c hw/xfree86/os-support/solaris/sun_VTsw.c
---- hw/xfree86/os-support/solaris/sun_VTsw.c	2009-10-28 14:56:22.000000000 +0800
-+++ hw/xfree86/os-support/solaris/sun_VTsw.c	2010-01-08 16:22:51.761209557 +0800
-@@ -44,17 +44,27 @@
-  * Handle the VT-switching interface for Solaris/OpenSolaris
-  */
- 
-+static int xf86VTPruneDoor = 0;
-+
- void
--xf86VTRequest(int sig)
-+xf86VTRelease(int sig)
- {
--	if (xf86Info.vtPendingNum != -1)
-+	if (xf86Info.vtPendingNum == -1)
- 	{
--		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
--		xf86Info.vtPendingNum = -1;
--
-+		xf86VTPruneDoor = 1;
-+		xf86Info.vtRequestsPending = TRUE;
- 		return;
- 	}
- 
-+	ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
-+	xf86Info.vtPendingNum = -1;
-+
-+	return;
-+}
-+
-+void
-+xf86VTAcquire(int sig)
-+{
- 	xf86Info.vtRequestsPending = TRUE;
- 	return;
- }
-@@ -74,6 +84,12 @@ xf86VTSwitchAway(void)
- 
- 	xf86Info.vtRequestsPending = FALSE;
- 
-+	if (xf86VTPruneDoor) {
-+		xf86VTPruneDoor = 0;
-+		ioctl(xf86Info.consoleFd, VT_RELDISP, 1);
-+		return (TRUE);
-+	}
-+
- 	vt_door_arg.vt_ev = VT_EV_HOTKEYS;
- 	vt_door_arg.vt_num = xf86Info.vtPendingNum;
- 	door_arg.data_ptr = (char *)&vt_door_arg;
 diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree86/os-support/solaris/sun_init.c
 --- hw/xfree86/os-support/solaris/sun_init.c	2009-10-28 14:56:22.000000000 +0800
 +++ hw/xfree86/os-support/solaris/sun_init.c	2010-01-08 16:22:51.760970370 +0800
-@@ -33,12 +33,17 @@
+@@ -33,6 +33,9 @@
  # include <sys/kd.h>
  #endif
  
@@ -147,49 +77,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree8
  static Bool KeepTty = FALSE;
  static Bool Protect0 = FALSE;
  #ifdef HAS_USL_VTS
- static int VTnum = -1;
- static int xf86StartVT = -1;
- static int vtEnabled = 0;
-+extern void xf86VTAcquire(int);
-+extern void xf86VTRelease(int);
- #endif
- 
- /* Device to open as xf86Info.consoleFd */
-@@ -137,7 +142,8 @@ xf86OpenConsole(void)
- 	    else
- 	    {
- 		if ((ioctl(fd, VT_OPENQRY, &xf86Info.vtno) < 0) ||
--		    (xf86Info.vtno == -1)) {
-+		    (xf86Info.vtno == -1))
-+		{
- 		    FatalError("xf86OpenConsole: Cannot find a free VT\n");
- 		}
- 	    }
-@@ -146,7 +152,8 @@ xf86OpenConsole(void)
- 	    snprintf(consoleDev, PATH_MAX, "/dev/vt/%d", xf86Info.vtno);
- 	}
- 
--	if (fd != -1) {
-+	if (fd != -1)
-+	{
- 	    close(fd);
- 	}
- 
-@@ -178,17 +185,20 @@ xf86OpenConsole(void)
- 	    if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) < 0)
- 		FatalError("xf86OpenConsole: VT_GETMODE failed\n");
- 
--	    OsSignal(SIGUSR1, xf86VTRequest);
-+	    OsSignal(SIGUSR1, xf86VTAcquire);
-+	    OsSignal(SIGUSR2, xf86VTRelease);
- 
- 	    VT.mode = VT_PROCESS;
--	    VT.relsig = SIGUSR1;
- 	    VT.acqsig = SIGUSR1;
-+	    VT.relsig = SIGUSR2;
- 
- 	    if (ioctl(xf86Info.consoleFd, VT_SETMODE, &VT) < 0)
- 		FatalError("xf86OpenConsole: VT_SETMODE VT_PROCESS failed\n");
+@@ -194,6 +197,8 @@ xf86OpenConsole(void)
  
  	    if (ioctl(xf86Info.consoleFd, VT_SETDISPINFO, atoi(display)) < 0)
  		xf86Msg(X_WARNING, "xf86OpenConsole: VT_SETDISPINFO failed\n");
@@ -198,23 +86,3 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree8
  	}
  #endif
  
-@@ -204,7 +214,8 @@ xf86OpenConsole(void)
-     else /* serverGeneration != 1 */
-     {
- #ifdef HAS_USL_VTS
--	if (vtEnabled) {
-+	if (vtEnabled)
-+	{
- 	    /*
- 	     * Now re-get the VT
- 	     */
-@@ -285,7 +296,8 @@ xf86CloseConsole(void)
- #endif
- 
- #ifdef HAS_USL_VTS
--    if (vtEnabled == 1) {
-+    if (vtEnabled)
-+    {
- 	if (ioctl(xf86Info.consoleFd, VT_GETMODE, &VT) != -1)
- 	{
- 	    VT.mode = VT_AUTO;		/* Set default vt handling */
