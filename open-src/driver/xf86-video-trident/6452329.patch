@@ -1,0 +1,11 @@
+diff -ur old/src/trident_driver.c new/src/trident_driver.c
+--- src/trident_driver.c	Thu Feb 25 16:56:47 2010
++++ src/trident_driver.c	Thu Feb 25 16:56:57 2010
+@@ -213,7 +213,6 @@
+     { CYBER9385,	PCI_CHIP_9660,	RES_SHARED_VGA },
+     { IMAGE975,		PCI_CHIP_9750,	RES_SHARED_VGA },
+     { IMAGE985,		PCI_CHIP_9850,	RES_SHARED_VGA },
+-    { BLADE3D,		PCI_CHIP_9880,	RES_SHARED_VGA },
+     { CYBERBLADEI7,	PCI_CHIP_8400,	RES_SHARED_VGA },
+     { CYBERBLADEI7D,	PCI_CHIP_8420,	RES_SHARED_VGA },
+     { CYBERBLADEI1,	PCI_CHIP_8500,	RES_SHARED_VGA },
