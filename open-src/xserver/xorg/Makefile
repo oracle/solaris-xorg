@@ -52,6 +52,10 @@ TARBALL_SHA1 = c385293b66a6b0bc6bad648588f611d844c26ee7
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
 SOURCE_PATCHES=$(XORG_SOURCE_PATCHES)
 
+# Used in rules shared between Xorg & Xvnc builds in Makefile.inc
+# to allow for different source layouts
+XORG_BUILD_DIR=$(SOURCE_DIR)
+
 # Man pages to apply Sun footer to & attributes to list
 # XXX: Need to adjust some of these to correct packages/stability
 SUNTOUCHED_MANPAGES= \
@@ -161,30 +165,3 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	printf '};\n' >> $@
 
 
-# Build & install mdb modules & scripts that aren't integrated to
-# normal build process
-MDB_SOURCE_DIR=$(SOURCE_DIR)/os/solaris/mdb
-MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
-MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
-MDB_SCRIPTS=list_Xserver_clients \
-	list_Xserver_devicegrab_client \
-	list_Xserver_servergrab_client
-
-# Since configure options aren't used to build the mdb modules, pass
-# those variables at build tie
-MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
-
-build_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
-
-$(MDB_SOURCE_DIR)/modules/Xserver.so: $(CONFIGURE_TARGETS)
-	(cd $(MDB_SOURCE_DIR) ; \
-         $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
-
-install_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
-	mkdir -p $(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR)
-	cp -pf $(MDB_SOURCE_DIR)/modules/Xserver.so \
-		 $(PROTODIR)$(MDB_MODULE_DIR)/
-	cp -pf $(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%) \
-		 $(PROTODIR)$(MDB_SCRIPT_DIR)/
-	chmod 0755 $(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
-	cp -pf $(MDB_SOURCE_DIR)/README $(PROTODIR)$(MDB_SCRIPT_DIR)/

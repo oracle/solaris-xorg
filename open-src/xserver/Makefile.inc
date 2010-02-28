@@ -124,3 +124,33 @@ MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
 
+## mdb module rules
+# Build & install mdb modules & scripts that aren't integrated to
+# normal build process - these are here since they are built in
+# the Xorg build for 32-bit & 64-bit x86 and 64-bit SPARC, but
+# in the Xvnc build for 32-bit SPARC
+MDB_SOURCE_DIR=$(XORG_BUILD_DIR)/os/solaris/mdb
+MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
+MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
+MDB_SCRIPTS=list_Xserver_clients \
+	list_Xserver_devicegrab_client \
+	list_Xserver_servergrab_client
+
+# Since configure options aren't used to build the mdb modules, pass
+# those variables at build tie
+MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
+
+build_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
+
+$(MDB_SOURCE_DIR)/modules/Xserver.so: $(CONFIGURE_TARGETS)
+	(cd $(MDB_SOURCE_DIR) ; \
+         $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+
+install_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
+	mkdir -p $(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR)
+	cp -pf $(MDB_SOURCE_DIR)/modules/Xserver.so \
+		 $(PROTODIR)$(MDB_MODULE_DIR)/
+	cp -pf $(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%) \
+		 $(PROTODIR)$(MDB_SCRIPT_DIR)/
+	chmod 0755 $(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
+	cp -pf $(MDB_SOURCE_DIR)/README $(PROTODIR)$(MDB_SCRIPT_DIR)/

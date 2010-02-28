@@ -101,6 +101,14 @@ INSTALL_TARGETS_32=Xvnc_install_programs java_install
 INSTALL_TARGETS=$(INSTALL_TARGETS_common) $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
 
+# Since we only build 64-bit versions of the Xorg servers on SPARC,
+# need to build a 32-bit version of the Xserver mdb module to allow
+# use with Xvnc on SPARC
+BUILD_TARGETS_sparc = build_mdb
+BUILD_TARGETS += $(BUILD_TARGETS_$(MACH))
+INSTALL_TARGETS_sparc = install_mdb
+INSTALL_TARGETS += $(INSTALL_TARGETS_$(MACH))
+
 include ../Makefile.inc
 
 # Merge in additional sources from Xorg tarball & sun-src directory
