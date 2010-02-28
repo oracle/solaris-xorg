@@ -42,7 +42,6 @@ TARBALL_SHA1 = 0eda5588d42f2c810d8491da44fe84a4093e12bc
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	Xpoll.h-patch \
 	X.h-patch
 
 ### Include common rulesets
