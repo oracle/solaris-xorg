@@ -585,3 +585,15 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
      /* Allow any client to connect without authorization on a launchd socket,
         because it is securely created -- this prevents a race condition on launch */
      if(trans_conn->flags & TRANS_NOXAUTH) {
+
+--- include/input.h	Thu Jan  7 14:44:57 2010
++++ include/input.h.new	Fri Jan 29 14:27:49 2010
+@@ -383,7 +383,7 @@
+     int /*led*/,
+     Bool /*on*/);
+ 
+-extern void MaybeStopHint(
++extern _X_EXPORT void MaybeStopHint(
+     DeviceIntPtr /*device*/,
+     ClientPtr /*client*/);
+ 
