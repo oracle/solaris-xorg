@@ -53,9 +53,8 @@ SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3Xi
 
-# Use specfile to make mapfile & link with it
-MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+# Link with version mapfile
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xi.pc.in

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xaw5 1.x Makefile
+# Xaw5 Makefile
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -52,8 +52,7 @@ MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 MODULE_CFLAGS += -I. -DHAS_ISW_FUNCS -DHAS_WCTYPE_H -DOLDXAW
 
-# Use specfile to make mapfile & link with it
-MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+# Link with version mapfile
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc

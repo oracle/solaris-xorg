@@ -55,10 +55,8 @@ MODULE_CONFIG_OPTS =  --enable-unix-transport \
 		      --disable-local-transport \
 		      --enable-ipv6
 
-# Use specfile to make mapfile & link with it
-MODULE_BUILD_DEPS = $(BUILD_DIR)/$(SPECMAP)
-
-MODULE_LD_OPTIONS = -M $(PWD)/$(BUILD_DIR)/$(SPECMAP)
+# Link with version mapfile
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=ice.pc.in

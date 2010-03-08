@@ -1,5 +1,6 @@
 #
-# Copyright © 2000 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,23 +21,36 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#lib/SM/spec/versions
-#
 
- 
-amd64 {
-        SUNW_1.1;
-        SUNWprivate;
-}
-i386 {
-        SUNW_1.1;
-        SUNWprivate;
-}
-sparc {
-        SUNW_1.1;
-        SUNWprivate;
-}
-sparcv9 {
-        SUNW_1.1;
-        SUNWprivate;
-}
+SUNW_1.1 {
+    global:
+
+# AuDispose.c
+	XauDisposeAuth;
+
+# AuFileName.c
+	XauFileName;
+
+# AuGetAddr.c
+	XauGetAuthByAddr;
+
+# AuGetBest.c
+	XauGetBestAuthByAddr;
+
+# AuLock.c
+	XauLockAuth;
+
+# AuRead.c
+	XauReadAuth;
+
+# AuUnlock.c
+	XauUnlockAuth;
+
+# AuWrite.c
+	XauWriteAuth;
+
+    local:
+	*;
+};
+
+

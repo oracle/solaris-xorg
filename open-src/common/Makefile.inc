@@ -428,25 +428,6 @@ default_configure: $(AUTOCONF_TARGET)
 delibtoolize:
 	$(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) $(SOURCE_DIR)
 
-
-### Generate mapfiles to limit/version exported symbols in libraries
-
-SPEC2MAP=       /usr/lib/abi/spec2map
-
-SPECMAP=	mapfile.vers.$(LIBNAME)
-SPECFILE=	spec/$(LIBNAME).spec 
-VERSFILE=	spec/versions
-
-$(BUILD_DIR_32)/$(SPECMAP): $(SPECFILE) $(VERSFILE)
-	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_32) MACH=$(MACH32) spec_gen
-
-$(BUILD_DIR_64)/$(SPECMAP): $(SPECFILE) $(VERSFILE)
-	$(MAKE) $(MAKEFLAGS) BUILD_DIR=$(BUILD_DIR_64) MACH=$(MACH64) spec_gen
-
-spec_gen:
-	$(SPEC2MAP) -a $(MACH) -v $(VERSFILE) -p -l $(LIBNAME) \
-	 -o $(BUILD_DIR)/$(SPECMAP) $(SPECFILE)
-
 ### Default rules for common build pattern
 
 LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
