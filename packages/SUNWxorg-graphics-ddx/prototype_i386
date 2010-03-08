@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -32,6 +32,13 @@ i depend=depend_i386
 # Include ISA independent files (prototype_com)
 #
 !include prototype_com
+
+!search $HOME/lib
+d none lib							0755 root bin
+f none lib/libIntelXvMC.so.1					0444 root bin
+f none lib/libI810XvMC.so.1					0444 root bin
+s none lib/libIntelXvMC.so=libIntelXvMC.so.1
+s none lib/libI810XvMC.so=libI810XvMC.so.1
 
 !search $HOME/lib/xorg/modules/
 d none lib/xorg/modules						0755 root bin
