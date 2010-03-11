@@ -1,8 +1,10 @@
 # Use perl/python regular expression syntax
 syntax: regexp
 # Skip build directories
-/build_32/
-/build_64/
+/build-i386/
+/build-amd64/
+/build-sparc/
+/build-sparcv9/
 /build_core/
 /build_iso8859-\d*/
 # Skip downloaded tarballs

@@ -52,3 +52,6 @@ include ../Makefile.inc
 
 # Clean up old 64-bit builds from before we stopped building them
 clean: clean_64
+
+clean_64:
+	-rm -rf build_64

@@ -2,7 +2,7 @@
 #
 # hwc server Makefile
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -43,5 +43,6 @@ CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
 
 MODULE_BUILD_ENV=$(CONFIG_ENV)
+MODULE_INSTALL_MAKEFLAGS = ARCHLIBSUBDIR="$(ARCHLIBSUBDIR)"
 
 include ../Makefile.inc

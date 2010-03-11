@@ -33,31 +33,24 @@ MODULE_NAME=smf-rbac
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
+SOURCE_TARGETS=
+SOURCE_TARGETS_SET=yes
 
-# Build per-arch, not per-bitsize
-BUILD_TYPES_SET=yes
-BUILD_TYPES=$(MACH)
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
 
 BUILD_TARGETS = x11-server.xml check
 BUILD_TARGETS_SET=yes
 
-INSTALL_TARGETS =
+INSTALL_TARGETS = install_common install_ogl-select
 INSTALL_TARGETS_SET=yes
 
 ### Include common rulesets
 include ../Makefile.inc
 
-source_i386:
-
-source_sparc:
-
 SUN_SMF_MANIFEST_DIR=/var/svc/manifest/application
 SUN_SMF_METHOD_DIR=/lib/svc/method
 DESTDIR=$(PROTODIR)
-
-build_common: $(BUILD_TARGETS)
-build_sparc: build_common
-build_i386: build_common
 
 DEFAULT_XSERVER=$(X11_BIN_DIR)/Xorg
 
@@ -71,8 +64,7 @@ check: x11-server.xml ogl-select.xml
 clean_common:
 	$(RM) x11-server.xml
 
-clean_sparc: clean_common
-clean_i386: clean_common
+clean: clean_common
 
 RBAC_ATTR_FILES=auth_attr exec_attr prof_attr 
 RBAC_AUTH_HELP=X11States.html FontStates.html
@@ -93,9 +85,6 @@ install_common: $(BUILD_TARGETS)
 	cp -pf $(RBAC_AUTH_HELP) $(DESTDIR)/usr/lib/help/auths/locale/C
 	cp -pf $(RBAC_PROFILE_HELP) $(DESTDIR)/usr/lib/help/profiles/locale/C
 	cp -pf ogl-select.man $(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
-
-install_sparc: install_common install_ogl-select
-install_i386: install_common install_ogl-select
 
 OGL_VENDOR_SCRIPTS_sparc=sun_vendor_select
 OGL_VENDOR_SCRIPTS_i386=nvidia_vendor_select

@@ -43,7 +43,7 @@ MODULE_STABILITY=Volatile
 
 # Since we don't have a configure script, pass configure flags to make
 MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
-	MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR)
+	MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR) ARCHLIBSUBDIR="$(ARCHLIBSUBDIR)"
 
 include ../Makefile.inc
 

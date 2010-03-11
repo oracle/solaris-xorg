@@ -134,10 +134,13 @@ install_synergyc: $(SYNERGYC_BIN)
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
 	cp -pf $(SYNERGYC_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
 
+$(SYNERGYS_BIN): $(BUILD_TARGETS)
+$(SYNERGYC_BIN): $(BUILD_TARGETS)
+
 DOC_AREA=$(DESTDIR)$(MODULE_PREFIX)/share/doc/synergy
 
 # Doc all in html format
-install_doc: 
+install_doc: $(INSTALL_DEPS)
 	mkdir -p 				$(DOC_AREA)
 	mkdir -p 				$(DOC_AREA)/images
 	cp -pf $(SYNERGY_DOC)/about.html	$(DOC_AREA)

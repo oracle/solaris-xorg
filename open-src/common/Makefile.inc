@@ -54,6 +54,14 @@ $(MODULE_PKGCONFIG_DIR_DEFAULT)	MODULE_PKGCONFIG_DIR=$(MODTYPE_PKGCONFIG_DIR)
 SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
 $(SOURCE_DIRNAME_DEFAULT)	SOURCE_DIRNAME=$(MODULE_NAME)-$(MODULE_VERSION)
 
+BUILD_DIR_$(BUILD_TYPE) = build_$(BUILD_TYPE)
+# Special cases for 32-bit & 64-bit directory names to allow building
+# both architectures in the same tree (serially - building both in 
+# parallel is likely to have race conditions)
+BUILD_DIR_32 = build-$(MACH32)
+BUILD_DIR_64 = build-$(MACH64)
+BUILD_DIR = $(BUILD_DIR_$(BUILD_TYPE))
+
 SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 SOURCE_DIR_32 = $(BUILD_DIR_32)/$(SOURCE_DIRNAME)
 SOURCE_DIR_64 = $(BUILD_DIR_64)/$(SOURCE_DIRNAME)
@@ -74,10 +82,6 @@ $(SOURCE_URL_DEFAULT)		SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(S
 # Set default git repo location if not set in module makefile
 GIT_URL_DEFAULT		= $(GIT_URL_SET:yes=$(POUND_SIGN))
 $(GIT_URL_DEFAULT)	GIT_URL=$(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME).git
-
-
-BUILD_DIR_32 = build_32
-BUILD_DIR_64 = build_64
 
 # Set default build type to 32-bit if not set in module makefile
 BUILD_TYPES_DEFAULT	= $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
@@ -106,98 +110,74 @@ $(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install \
 					$(MODULE_ADD_INSTALL_TARGETS)
 
 # Additional flags to pass to make in 32-bit & 64-bit builds
-BUILD_DIR_32_FLAGS= BUILD_DIR=$(BUILD_DIR_32) BUILD_TYPE=32
-
-BUILD_DIR_64_FLAGS= BUILD_DIR=$(BUILD_DIR_64) BUILD_TYPE=64 \
-	LIBSUBDIR=/$(SUBDIR64) ARCHLIBSUBDIR=/$(SUBDIR64)
-
-BUILD_32_FLAGS= $(BUILD_DIR_32_FLAGS) ARCH_FLAGS="$(ARCH32_FLAGS)" \
+BUILD_32_FLAGS= ARCH_FLAGS="$(ARCH32_FLAGS)" \
 	$(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
 
-BUILD_64_FLAGS= $(BUILD_DIR_64_FLAGS) ARCH_FLAGS="$(ARCH64_FLAGS)" \
+BUILD_64_FLAGS= ARCH_FLAGS="$(ARCH64_FLAGS)" \
 	$(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
 
-all: $(BUILD_TYPES:%=source_%) $(BUILD_TYPES:%=build_%)
-all_32: source_32 configure_32 build_32
-all_64: source_64 configure_64 build_64
+all: $(BUILD_TYPES:%=build_%)
+all_%: build_%
 
-clean: $(BUILD_TYPES:%=clean_%) 
+CLEAN_RULES = $(BUILD_TYPES:%=clean_%)
+clean: $(CLEAN_RULES)
+.PARALLEL: $(CLEAN_RULES)
 
-clean_32:
-	-rm -rf $(BUILD_DIR_32)
-
-clean_64:
-	-rm -rf $(BUILD_DIR_64)
+# Remove directories with both styles of naming
+$(CLEAN_RULES):
+	-rm -rf $(BUILD_DIR_$(@:clean_%=%)) $(@:clean_%=build_%)
 
 # Tell dmake not to remove and create source in parallel
 .NOPARALLEL: clean source
 .NOPARALLEL: clean_$(BUILD_TYPE) source_$(BUILD_TYPE)
 
-source: $(BUILD_TYPES:%=source_%)
+SOURCE_RULES = $(BUILD_TYPES:%=source_%)
+source: $(SOURCE_RULES)
+.PARALLEL: $(SOURCE_RULES)
 
-source_gen: $(SOURCE_TARGETS)
+source-gen: $(SOURCE_TARGETS)
 
-source_32: $(SOURCE_DIR_32)/$(UNPACK_FILE)
-$(SOURCE_DIR_32)/$(UNPACK_FILE):
-	$(MAKE) $(MAKEFLAGS) $(BUILD_DIR_32_FLAGS) source_gen
+$(SOURCE_RULES):
+	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:source_%=%)" source-gen
 
-source_64: $(SOURCE_DIR_64)/$(UNPACK_FILE)
-$(SOURCE_DIR_64)/$(UNPACK_FILE):
-	$(MAKE) $(MAKEFLAGS) $(BUILD_DIR_64_FLAGS) source_gen
+CONFIGURE_RULES = $(BUILD_TYPES:%=configure_%)
+configure: $(CONFIGURE_RULES)
+.PARALLEL: $(CONFIGURE_RULES)
 
-configure: $(BUILD_TYPES:%=configure_%)
+configure-gen: source-gen $(CONFIGURE_TARGETS)
 
-configure_gen: $(CONFIGURE_TARGETS)
+$(CONFIGURE_RULES):
+	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:configure_%=%)" \
+	 $(BUILD_$(@:configure_%=%)_FLAGS) configure-gen
 
-configure_32: source_32
-	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) configure_gen
+BUILD_RULES = $(BUILD_TYPES:%=build_%)
+build: $(BUILD_RULES)
+.PARALLEL: $(BUILD_RULES)
 
-configure_64: source_64
-	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) configure_gen
+build-gen: configure-gen $(BUILD_TARGETS)
 
-build: $(BUILD_TYPES:%=build_%)
+$(BUILD_RULES):
+	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:build_%=%)" \
+	 $(BUILD_$(@:build_%=%)_FLAGS) build-gen
 
-build_gen: $(BUILD_TARGETS)
+INSTALL_RULES = $(BUILD_TYPES:%=install_%)
+install: $(INSTALL_RULES)
 
-build_32: configure_32
-	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) build_gen
+install-gen: build-gen $(INSTALL_TARGETS) install_license install_pkgconfig_uninstalled
 
-build_64: configure_64
-	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) build_gen
-
-install: $(BUILD_TYPES:%=install_%)
-
-install_gen: $(INSTALL_TARGETS) install_license install_pkgconfig_uninstalled
-
-install_32: build_32
-	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) install_gen
-
-install_64: build_64
-	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) install_gen
+$(INSTALL_RULES):
+	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:install_%=%)" \
+	 $(BUILD_$(@:install_%=%)_FLAGS) install-gen
 
 DEBUG_BUILD_FLAGS = BUILD_DEBUG=yes
 
-debug-build:	debug
-debug-build_32:	debug_32
-debug-build_64:	debug_64
+# Allow adding "debug-" prefix to rules like build_32, install, etc.
+debug-%:
+	$(MAKE) $(MAKEFLAGS) $(@:debug-%=%) $(DEBUG_BUILD_FLAGS)
 
-debug:
-	$(MAKE) $(MAKEFLAGS) all $(DEBUG_BUILD_FLAGS)
-
-debug_32:
-	$(MAKE) $(MAKEFLAGS) all_32 $(DEBUG_BUILD_FLAGS) 
-
-debug_64:
-	$(MAKE) $(MAKEFLAGS) all_64 $(DEBUG_BUILD_FLAGS)
-
-debug-install:
-	$(MAKE) $(MAKEFLAGS) install $(DEBUG_BUILD_FLAGS)
-
-debug-install_32:
-	$(MAKE) $(MAKEFLAGS) install_32 $(DEBUG_BUILD_FLAGS)
-
-debug-install_64:
-	$(MAKE) $(MAKEFLAGS) install $(DEBUG_BUILD_FLAGS)
+# Allow debug_XX to run "make all_XX" with debug flags (including without _XX)
+debug%:
+	$(MAKE) $(MAKEFLAGS) $(@:debug%=all%) $(DEBUG_BUILD_FLAGS)
 
 
 ### Source tarballs & downloading if necessary
@@ -309,7 +289,9 @@ SUNTOUCH_MAN_FLAGS = \
 
 SOURCE_DEPS = $(SOURCE_TARBALL) $(MODTYPE_SOURCE_DEPS) $(MODULE_SOURCE_DEPS)
 
-default_source: $(SOURCE_DEPS)
+default_source: $(UNPACK_TARGET)
+
+$(UNPACK_TARGET): $(SOURCE_DEPS)
 	mkdir -p $(BUILD_DIR)
 	@ if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
 	  if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
@@ -334,9 +316,14 @@ default_source: $(SOURCE_DEPS)
 	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
 	        if [[ "$$p" != "x" ]] ; then \
-		    PATCH_CMD="$$(print $$p | awk -F, '{if (NF > 1) FLAGS = $$2; else FLAGS="-p0" ; printf "gpatch -d $(SOURCE_DIR) %s < %s\n", FLAGS, $$1}')" ; \
-		    print "$${PATCH_CMD}" ; \
-		    eval $${PATCH_CMD} ; \
+		    patch_file="$${p%,*}" ; \
+		    if [[ "$$p" =~ "," ]] ; then \
+			patch_flags="$${p/*,}" ; \
+		    else \
+			patch_flags="-p0" ; \
+		    fi ; \
+		    ($(START_CMD_ECHO) ; \
+		     gpatch -d $(SOURCE_DIR) $${patch_flags} < "$${patch_file}" ) ; \
 		fi ; \
 	    done ; \
 	fi ; \
@@ -369,7 +356,7 @@ AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
 	AUTOMAKE="$(AUTOMAKE_PATH)"
 
 # Dependencies for running configure to make a Makefile
-CONFIGURE_DEPS = $(UNPACK_TARGET) \
+CONFIGURE_DEPS = $(SOURCE_TARGETS) \
 	$(MODTYPE_CONFIGURE_DEPS) $(MODULE_CONFIGURE_DEPS)
 
 # Command line options to GNU autoconf configure script
@@ -445,7 +432,10 @@ BUILD_ENV = LD_OPTIONS='$(LD_OPTIONS)' \
 DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 	$(MODTYPE_BUILD_MAKEFLAGS) $(MODULE_BUILD_MAKEFLAGS)
 
-default_build: $(UNPACK_TARGET) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
+# Dependencies for make build step
+BUILD_DEPS = $(SOURCE_TARGETS) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
+
+default_build: $(BUILD_DEPS)
 	(cd $(SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
@@ -542,7 +532,7 @@ $(XORG_DEFS_ENT):
 $(XPROTO_DEP):
 	@print "$(XPROTO_DEP) not found..."
 	@print "Installing dependency proto/x11proto"
-	(cd $(TOP)/proto/x11proto ; make install)
+	(cd $(TOP)/proto/x11proto ; $(MAKE) $(MAKEFLAGS) install)
 
 ### Useful rules for maintaining patch sets
 
@@ -552,19 +542,19 @@ $(XPROTO_DEP):
 regen-patches: 
 	CUR_LIST=""
 	rm -rf tmp-regen
-	make SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source_gen
+	$(MAKE) SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source-gen
 	mkdir -p new
 	for f in $(SOURCE_PATCHES) ; do \
-	    p=$$(print $$f | sed 's/,.*$$//') ; \
+	    p=$${f%,*} ; \
 	    print '=================' $$p ; \
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
-	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source_gen ; \
+	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source-gen ; \
 	    awk '/^--- /	{exit} \
 		 /^diff -u/	{exit} \
 			 	{print}' $$p > new/$$p ; \
 	    gdiff -urp -x '*~' -x '*.orig' ./prev ./tmp-regen \
-		| sed -e 's% \./prev$(SOURCE_DIR)/% %' -e 's% \./tmp-regen$(SOURCE_DIR)/% %' \
+		| sed -e 's% \./prev/$(SOURCE_DIRNAME)/% %' -e 's% \./tmp-regen/$(SOURCE_DIRNAME)/% %' \
 		| grep -v '^Common subdirectories:' \
 		| grep -v '^Only in ' \
 		>> new/$$p ; \
@@ -572,14 +562,16 @@ regen-patches:
 	done
 	rm -rf tmp-regen
 
+# Derive directory name relative to open-src
+THIS_MODULE:sh=echo ${PWD} | sed 's|.*/open-src/||'
+
 # Allows running "make list-patches" to get a list of all patches we 
 # currently apply in our builds
 list-patches:
-	@THIS_MODULE=$$(print $(PWD) | sed 's|.*/open-src/||') ; \
-	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
+	@if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
 		if [[ "$$p" != "x" ]] ; then \
-	            print "$${THIS_MODULE}/$$p" | sed 's/,-p[0-9]$$//' ;  \
+	            print "$(THIS_MODULE)/$${p%,*}" ;  \
 		fi ; \
 	    done ; \
 	fi
@@ -591,25 +583,24 @@ list-patches:
 # and set LICENSE_FILE_SET=yes
 # A file in the same directory as the Makefile takes precedence
 # over one that is delivered in the package.
-# For additional license files, set EXTRA_LICENSE_FILES to a list of
-# licenses to copy
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
-install_license:
-	@ THIS_MODULE="$$(echo $(PWD) | sed 's|.*/open-src/||')" ; \
-	$(START_CMD_ECHO) ; \
+MODULE_LICENSE_DESTDIR	= $(LICENSE_DEST)/$(THIS_MODULE)
+
+install_license: $(MODULE_LICENSE_DESTDIR)/COPYING
+
+$(MODULE_LICENSE_DESTDIR):
+	mkdir -p $@
+
+$(MODULE_LICENSE_DESTDIR)/COPYING: $(MODULE_LICENSE_DESTDIR) $(SOURCE_TARGETS)
+	@ $(START_CMD_ECHO) ; \
 	if [[ -f $(LICENSE_FILE) ]] ; then \
 	    LICENSE_TO_COPY="$(LICENSE_FILE)" ; \
 	elif [[ -f $(SOURCE_DIR)/$(LICENSE_FILE) ]] ; then \
 	    LICENSE_TO_COPY="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
 	fi ; \
 	if [[ "$${LICENSE_TO_COPY}" != "" ]] ; then \
-	    mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
-	    cp -pf $${LICENSE_TO_COPY} \
-		$(LICENSE_DEST)/$${THIS_MODULE}/COPYING ; \
-	fi ; \
-	if [[ "$(EXTRA_LICENSES)" != "" ]] ; then \
-	    mkdir -p $(LICENSE_DEST)/$${THIS_MODULE}/ ; \
-	    cp -pf $(EXTRA_LICENSES) $(LICENSE_DEST)/$${THIS_MODULE} ; \
+	    rm -f $@ ; \
+	    cp -pf $${LICENSE_TO_COPY} $@ ; \
 	fi

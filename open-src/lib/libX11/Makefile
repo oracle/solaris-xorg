@@ -147,19 +147,18 @@ AUTORECONF=yes
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
 
-include ../Makefile.inc
-
 # Install additional headers we need in other parts of the build or ship in
 # packages, but which X.Org doesn't
-install_32: install_extra_headers
+MODULE_ADD_INSTALL_TARGETS_32 = install_extra_headers
+MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
-install_extra_headers: build_32
+include ../Makefile.inc
+
+install_extra_headers: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions
 	cp -pf sun-src/include/X11/Xvarargs.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/
 	cp -pf sun-src/include/X11/extensions/XInteractive.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions/
-	cp -pf $(BUILD_DIR_32)$(SOURCE_DIR)/src/ks_tables.h \
-		$(PROTODIR)$(X11_INCLUDES_DIR)/
-	cp -pf $(BUILD_DIR_32)$(SOURCE_DIR)/src/xlibi18n/Xlc*.h \
+	cp -pf $(SOURCE_DIR)/src/xlibi18n/Xlc*.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/

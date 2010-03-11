@@ -100,8 +100,6 @@ MODULE_FONTDIR=$(ENCODED_FONTDIR:%-core=%)
 MODULE_CONFIG_OPTS = $($(BUILD_TYPE)_ENCODING_CONFIG_OPTS) \
 	--with-fontdir="$(MODULE_FONTDIR)"
 
-BUILD_DIR = build_$(BUILD_TYPE)
-
 core_INSTALL_CORE_FONTS=yes
 # All other build types are left unset for "no"
 MODTYPE_MAKEFLAGS_DEFAULT=$($(BUILD_TYPE)_INSTALL_CORE_FONTS:yes=$(POUND_SIGN))
@@ -112,45 +110,11 @@ MODULE_ADD_INSTALL_TARGETS = install_license
 ### Include common rulesets
 include ../Makefile.inc
 
-CLEAN_RULES = $(BUILD_TYPES:%=clean_%)
-
-$(CLEAN_RULES):
-	-rm -rf $(@:clean_%=build_%)
-
 # Clean up old directories when we switch to the new rules
 clean: clean_32
 
-.PARALLEL: $(CLEAN_RULES) clean_32
-
-SOURCE_RULES = $(BUILD_TYPES:%=source_%)
-
-source_%: build_%/$(SOURCE_DIRNAME)/$(UNPACK_FILE)
-
-build_%/$(SOURCE_DIRNAME)/$(UNPACK_FILE):
-	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:build_%/$(SOURCE_DIRNAME)/$(UNPACK_FILE)=%)" $(SOURCE_TARGETS)
-
-.PARALLEL: $(SOURCE_RULES)
-
-CONFIGURE_RULES = $(BUILD_TYPES:%=configure_%)
-
-configure_%: source_%
-	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:configure_%=%)" $(CONFIGURE_TARGETS)
-
-.PARALLEL: $(CONFIGURE_RULES)
-
-BUILD_RULES = $(BUILD_TYPES:%=build_%)
-
-build_%: configure_% 
-	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:build_%=%)" $(BUILD_TARGETS)
-
-.PARALLEL: $(BUILD_RULES)
-
-INSTALL_RULES = $(BUILD_TYPES:%=install_%)
-
-install_%: build_%
-	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:install_%=%)" $(INSTALL_TARGETS)
-
-.PARALLEL: $(INSTALL_RULES) install_license
+clean_32:
+	-rm -rf build_32
 
 configure_$(BUILD_TYPE): $(UNPACK_TARGET)
 build_$(BUILD_TYPE): configure_$(BUILD_TYPE)

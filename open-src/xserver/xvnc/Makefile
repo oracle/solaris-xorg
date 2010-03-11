@@ -68,7 +68,7 @@ SOURCE_PATCHES = \
 	solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
-# Common ones are here - source_gen target below has more with
+# Common ones are here - Xvnc_source_fini target below has more with
 # different attributes/path set
 SUNTOUCHED_MANPAGES= \
 	unix/vncconfig/vncconfig.man unix/vncpasswd/vncpasswd.man \
@@ -114,9 +114,14 @@ Xvnc_source_init: $(LNDIR)
 	@if [ "x$(XORG_SOURCE_PATCHES)" != "x" ] ; then \
 	    for p in $(XORG_SOURCE_PATCHES) x ; do \
 	        if [ "$$p" != "x" ] ; then \
-		    PATCH_CMD=`echo $$p | awk -F, '{if (NF > 1) FLAGS = $$2; else FLAGS="-p0" ; printf "gpatch -d $(XORG_SOURCE_DIR) %s < ../xorg/%s\n", FLAGS, $$1}'` ; \
-		    echo "$${PATCH_CMD}" ; \
-		    eval $${PATCH_CMD} ; \
+		    patch_file="$${p%,*}" ; \
+		    if [[ "$$p" =~ "," ]] ; then \
+			patch_flags="$${p/*,}" ; \
+		    else \
+			patch_flags="-p0" ; \
+		    fi ; \
+		    ($(START_CMD_ECHO) ; \
+		     gpatch -d $(XORG_SOURCE_DIR) $${patch_flags} < "../xorg/$${patch_file}" ) ; \
 		fi ; \
 	    done ; \
 	fi
@@ -177,7 +182,7 @@ MODULE_LDFLAGS = $(LDPATH_ADDITIONS)
 MODULE_MAKEFLAGS = PROTODIR=$(PROTODIR)
 
 # Run configure scripts for vnc sources
-$(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
+$(SOURCE_DIR)/unix/Makefile: $(SOURCE_TARGETS)
 	(cd $(SOURCE_DIR)/common && \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
@@ -187,7 +192,7 @@ $(SOURCE_DIR)/unix/Makefile: $(UNPACK_TARGET)
 
 
 # Run configure script for Xvnc
-$(XORG_BUILD_DIR)/Makefile: $(UNPACK_TARGET)
+$(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 	(cd $(XORG_BUILD_DIR) &&  \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
@@ -234,7 +239,7 @@ JAVA_JAR_FILE = $(JAVA_SOURCE_DIR)/VncViewer.jar
 JAVA_MAKEFILE = $(JAVA_SOURCE_DIR)/Makefile
 BUILD_TARGETS += $(JAVA_MAKEFILE)
 
-$(JAVA_MAKEFILE): $(UNPACK_TARGETS)
+$(JAVA_MAKEFILE): $(SOURCE_TARGETS)
 	cp $(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/Makefile $@
 	gpatch -d $(SOURCE_DIR) -p0 < applet-build.patch
 	gpatch -d $(SOURCE_DIR) -p0 < icon.patch
@@ -242,7 +247,7 @@ $(JAVA_MAKEFILE): $(UNPACK_TARGETS)
 
 java_build: $(JAVA_JAR_FILE)
 
-$(JAVA_JAR_FILE): $(UNPACK_TARGETS) $(JAVA_MAKEFILE)
+$(JAVA_JAR_FILE): $(SOURCE_TARGETS) $(JAVA_MAKEFILE)
 	(cd $(JAVA_SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 

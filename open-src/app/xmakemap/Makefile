@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -50,7 +50,7 @@ include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
 
-install_xmakemap:
+install_xmakemap: $(SOURCE_TARGETS) $(INSTALL_DEPS)
 	mkdir -p $(DESTDIR)$(X11_BIN_DIR) \
 		$(DESTDIR)$(X11_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/xmakemap \

@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.subdirs has rules for recursively iterating through module subdirs
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -57,11 +57,7 @@ clean-obsolete-subdirs:
 		    	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=$$i ; \
 		    else ; \
 		    	print "## removing obsolete build directories in open-src/$(DIRNAME)$$i..."; \
-			($(START_CMD_ECHO) ; \
-			 cd $$i && rm -rf build_32 build_64 ) ; \
-			if [[ -d $$i/SCCS ]] ; then \
-				($(START_CMD_ECHO) ; rmdir $$i/SCCS) ; \
-			fi ; \
+			($(START_CMD_ECHO) ; cd $$i && rm -rf build* ) ; \
 			($(START_CMD_ECHO) ; rmdir $$i ) ; \
 		    fi ; \
 		fi ; \
