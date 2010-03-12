@@ -225,6 +225,7 @@ IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
     ClientPtr pClient = pci->client;
     ClientProcessPtr CurrentPids;
     IAClientPrivatePtr priv;
+    LocalClientCredRec *lcc;
 
     switch (pClient->clientState) {
       case ClientStateGone:
@@ -258,6 +259,14 @@ IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 
     case ClientStateInitial:
 	IAInitClientPrivate(pClient);
+	if (GetLocalClientCreds(pClient, &lcc) != -1) {
+	    if (lcc->fieldsSet & LCC_PID_SET) {
+		ConnectionPidRec clientPid = lcc->pid;
+		SetClientPrivate(pClient, &clientPid, 1);
+		ChangeInteractive(pClient);
+	    }
+	    FreeLocalClientCreds(lcc);
+	}
 	break;
 
     default:
