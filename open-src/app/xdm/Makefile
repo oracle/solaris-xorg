@@ -41,6 +41,7 @@ SOURCE_PATCHES = \
 	mkdir.patch,-p1 \
 	bindir.patch \
 	terminateServer.patch \
+	bug-6820612.patch,-p1 \
 	Xsession.patch
 
 # Man pages to apply Sun footer to & attributes to list
