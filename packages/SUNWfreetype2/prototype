@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -44,7 +44,6 @@ d none sfw/lib 							0755 root bin
 s none sfw/lib/libfreetype.so.6=../../lib/libfreetype.so.6
 s none sfw/lib/libfreetype.so=libfreetype.so.6
 d none sfw/lib/$plat_64						0755 root bin
-s none sfw/lib/64=$plat_64
 s none sfw/lib/$plat_64/libfreetype.so.6=../../../lib/64/libfreetype.so.6
 s none sfw/lib/$plat_64/libfreetype.so=libfreetype.so.6
 
