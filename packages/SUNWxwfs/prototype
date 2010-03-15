@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -48,12 +48,6 @@ d none lib/X11/fs						0755 root bin
 f none lib/X11/fs/config					0444 root bin
 
 # Symlinks for backwards compatibility
-d none openwin							0755 root bin
-d none openwin/bin						0755 root bin
-s none openwin/bin/fs=../bin/xfs
-s none openwin/bin/xfs=../../bin/xfs
-s none openwin/bin/fsadmin=../../sbin/fsadmin
-
 d none X11							0755 root bin
 d none X11/bin							0755 root bin
 s none X11/bin/xfs=../../bin/xfs

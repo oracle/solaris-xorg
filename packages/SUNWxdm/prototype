@@ -1,4 +1,4 @@
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -73,12 +73,3 @@ d none share/man						0755 root bin
 d none share/man/man1						0755 root bin
 f none share/man/man1/xdm.1					0444 root bin
 
-# Backwards compatibility links
-d none openwin							0755 root bin
-d none openwin/bin						0755 root bin
-s none openwin/bin/xdm=../../sbin/xdm
-s none openwin/bin/xdmshell=../../lib/X11/xdm/xdmshell
-d none openwin/lib						0755 root bin
-s none openwin/lib/xdm=X11/xdm
-d none openwin/lib/X11						0755 root bin
-s none openwin/lib/X11/xdm=../../../lib/X11/xdm

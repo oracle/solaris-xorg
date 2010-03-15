@@ -1,5 +1,5 @@
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,12 +33,6 @@ i depend
 
 d none include							0755 root bin
 d none include/X11						0755 root bin
-
-d none openwin							0755 root bin
-d none openwin/share						0755 root bin
-d none openwin/share/include					0755 root bin
-d none openwin/share/include/X11				0755 root bin
-s none openwin/share/include/Xau=./X11
 
 d none X11							0755 root bin
 d none X11/include						0755 root bin
@@ -74,57 +68,17 @@ f none include/X11/Xvarargs.h					0444 root bin
 f none include/X11/ap_keysym.h					0444 root bin
 f none include/X11/keysym.h					0444 root bin
 f none include/X11/keysymdef.h					0444 root bin
-s none openwin/share/include/X11/DECkeysym.h=../../../../include/X11/DECkeysym.h
-s none openwin/share/include/X11/HPkeysym.h=../../../../include/X11/HPkeysym.h
-s none openwin/share/include/X11/Sunkeysym.h=../../../../include/X11/Sunkeysym.h
-s none openwin/share/include/X11/X.h=../../../../include/X11/X.h
-s none openwin/share/include/X11/XF86keysym.h=../../../../include/X11/XF86keysym.h
-s none openwin/share/include/X11/XWDFile.h=../../../../include/X11/XWDFile.h
-s none openwin/share/include/X11/Xalloca.h=../../../../include/X11/Xalloca.h
-s none openwin/share/include/X11/Xarch.h=../../../../include/X11/Xarch.h
-s none openwin/share/include/X11/Xatom.h=../../../../include/X11/Xatom.h
-s none openwin/share/include/X11/Xdefs.h=../../../../include/X11/Xdefs.h
-s none openwin/share/include/X11/Xfuncproto.h=../../../../include/X11/Xfuncproto.h
-s none openwin/share/include/X11/Xfuncs.h=../../../../include/X11/Xfuncs.h
-s none openwin/share/include/X11/Xmd.h=../../../../include/X11/Xmd.h
-s none openwin/share/include/X11/Xos.h=../../../../include/X11/Xos.h
-s none openwin/share/include/X11/Xos_r.h=../../../../include/X11/Xos_r.h
-s none openwin/share/include/X11/Xosdefs.h=../../../../include/X11/Xosdefs.h
-s none openwin/share/include/X11/Xpoll.h=../../../../include/X11/Xpoll.h
-s none openwin/share/include/X11/Xproto.h=../../../../include/X11/Xproto.h
-s none openwin/share/include/X11/Xprotostr.h=../../../../include/X11/Xprotostr.h
-s none openwin/share/include/X11/Xthreads.h=../../../../include/X11/Xthreads.h
-s none openwin/share/include/X11/ap_keysym.h=../../../../include/X11/ap_keysym.h
-s none openwin/share/include/X11/keysym.h=../../../../include/X11/keysym.h
-s none openwin/share/include/X11/keysymdef.h=../../../../include/X11/keysymdef.h
 
 # open-src/lib/libXau
-s none openwin/share/include/X11/Xauth.h=../../../../include/X11/Xauth.h
 f none include/X11/Xauth.h					0444 root bin
 
 # open-src/lib/libXdmcp
-s none openwin/share/include/X11/Xdmcp.h=../../../../include/X11/Xdmcp.h
 f none include/X11/Xdmcp.h					0444 root bin
 
 # open-src/lib/libXpm
-s none openwin/share/include/X11/xpm.h=../../../../include/X11/xpm.h
 f none include/X11/xpm.h					0444 root bin
 
 # open-src/lib/libX11
-s none openwin/share/include/X11/XKBlib.h=../../../../include/X11/XKBlib.h
-s none openwin/share/include/X11/Xcms.h=../../../../include/X11/Xcms.h
-s none openwin/share/include/X11/XlcGeneric.h=../../../../include/X11/XlcGeneric.h
-s none openwin/share/include/X11/XlcPubI.h=../../../../include/X11/XlcPubI.h
-s none openwin/share/include/X11/XlcPublic.h=../../../../include/X11/XlcPublic.h
-s none openwin/share/include/X11/Xlcint.h=../../../../include/X11/Xlcint.h
-s none openwin/share/include/X11/Xlib.h=../../../../include/X11/Xlib.h
-s none openwin/share/include/X11/Xlibint.h=../../../../include/X11/Xlibint.h
-s none openwin/share/include/X11/XlibConf.h=../../../../include/X11/XlibConf.h
-s none openwin/share/include/X11/Xlocale.h=../../../../include/X11/Xlocale.h
-s none openwin/share/include/X11/Xregion.h=../../../../include/X11/Xregion.h
-s none openwin/share/include/X11/Xresource.h=../../../../include/X11/Xresource.h
-s none openwin/share/include/X11/Xutil.h=../../../../include/X11/Xutil.h
-s none openwin/share/include/X11/cursorfont.h=../../../../include/X11/cursorfont.h
 f none include/X11/ImUtil.h					0444 root bin
 f none include/X11/XKBlib.h					0444 root bin
 f none include/X11/Xcms.h					0444 root bin
@@ -142,23 +96,6 @@ f none include/X11/Xutil.h					0444 root bin
 f none include/X11/cursorfont.h					0444 root bin
 
 # open-src/lib/libXt
-s none openwin/share/include/X11/Composite.h=../../../../include/X11/Composite.h
-s none openwin/share/include/X11/CompositeP.h=../../../../include/X11/CompositeP.h
-s none openwin/share/include/X11/ConstrainP.h=../../../../include/X11/ConstrainP.h
-s none openwin/share/include/X11/Constraint.h=../../../../include/X11/Constraint.h
-s none openwin/share/include/X11/Core.h=../../../../include/X11/Core.h
-s none openwin/share/include/X11/CoreP.h=../../../../include/X11/CoreP.h
-s none openwin/share/include/X11/Intrinsic.h=../../../../include/X11/Intrinsic.h
-s none openwin/share/include/X11/IntrinsicP.h=../../../../include/X11/IntrinsicP.h
-s none openwin/share/include/X11/Object.h=../../../../include/X11/Object.h
-s none openwin/share/include/X11/ObjectP.h=../../../../include/X11/ObjectP.h
-s none openwin/share/include/X11/RectObj.h=../../../../include/X11/RectObj.h
-s none openwin/share/include/X11/RectObjP.h=../../../../include/X11/RectObjP.h
-s none openwin/share/include/X11/Shell.h=../../../../include/X11/Shell.h
-s none openwin/share/include/X11/ShellP.h=../../../../include/X11/ShellP.h
-s none openwin/share/include/X11/StringDefs.h=../../../../include/X11/StringDefs.h
-s none openwin/share/include/X11/Vendor.h=../../../../include/X11/Vendor.h
-s none openwin/share/include/X11/VendorP.h=../../../../include/X11/VendorP.h
 f none include/X11/StringDefs.h					0444 root bin
 f none include/X11/Shell.h					0444 root bin
 f none include/X11/Composite.h					0444 root bin
@@ -199,7 +136,6 @@ f none include/X11/Sunowconfig.h				0444 root bin
 # open-src/lib/libXaw
 !search                $HOME/include/X11/Xaw
 d none include/X11/Xaw						0755 root bin
-s none openwin/share/include/X11/Xaw=../../../../include/X11/Xaw
 f none include/X11/Xaw/AllWidgets.h				0444 root bin
 f none include/X11/Xaw/AsciiSink.h				0444 root bin
 f none include/X11/Xaw/AsciiSinkP.h				0444 root bin
@@ -275,7 +211,6 @@ f none include/X11/Xaw/XawInit.h				0444 root bin
 
 # open-src/lib/libXmu
 d none include/X11/Xmu						0755 root bin
-s none openwin/share/include/X11/Xmu=../../../../include/X11/Xmu
 
 !search                $HOME/include/X11/Xmu
 f none include/X11/Xmu/Atoms.h					0444 root bin
@@ -308,9 +243,6 @@ f none include/X11/Xmu/XmuSolaris.h				0444 root bin
 d none include/X11/dri						0755 root bin
 f none include/X11/dri/xf86dri.h				0444 root bin
 f none include/X11/dri/xf86dristr.h				0444 root bin
-
-# symlink for backwards compatibility with old locations
-s none openwin/share/include/X11/extensions=../../../../include/X11/extensions
 
 # extension headers from open-src/proto/*
 !search                $HOME/include/X11/extensions
@@ -533,7 +465,6 @@ f none include/X11/PM/PM.h					0444 root bin
 f none include/X11/PM/PMproto.h					0444 root bin
 
 # open-src/lib/libSM
-s none openwin/share/include/X11/SM=../../../../include/X11/SM
 !search                $HOME/include/X11/SM
 d none include/X11/SM						0755 root bin
 f none include/X11/SM/SM.h					0644 root bin
@@ -541,7 +472,6 @@ f none include/X11/SM/SMlib.h					0644 root bin
 f none include/X11/SM/SMproto.h					0644 root bin
 
 # open-src/lib/libICE
-s none openwin/share/include/X11/ICE=../../../../include/X11/ICE
 !search                $HOME/include/X11/ICE
 d none include/X11/ICE						0755 root bin
 f none include/X11/ICE/ICE.h					0644 root bin
@@ -566,7 +496,6 @@ f none include/X11/Xtrans/transport.c				0444 root bin
 !search                $HOME/include/X11/Xcursor
 # open-src/lib/libXcursor
 d none include/X11/Xcursor					0755 root bin
-s none openwin/share/include/X11/Xcursor=../../../../include/X11/Xcursor
 f none include/X11/Xcursor/Xcursor.h				0444 root bin
 
 # pkgconfig data files for X modular protocols & libraries

@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -50,15 +50,6 @@ f none lib/$plat_64/libICE.so.6					0755 root bin
 s none lib/$plat_64/libICE.so=libICE.so.6
 
 # Backwards compatible symbolic links
-d none openwin							0755 root bin
-d none openwin/bin						0755 root bin
-s none openwin/bin/iceauth=../../bin/iceauth
-d none openwin/lib						0755 root bin
-s none openwin/lib/libICE.so.6=../../lib/libICE.so.6
-d none openwin/lib/$plat_64					0755 root bin
-s none openwin/lib/$plat_64/libICE.so=../../../lib/64/libICE.so.6
-s none openwin/lib/$plat_64/libICE.so.6=../../../lib/64/libICE.so.6
-
 d none X11							0755 root bin
 d none X11/bin							0755 root bin
 s none X11/bin/iceauth=../../bin/iceauth

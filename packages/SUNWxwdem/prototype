@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,8 +33,6 @@ i depend
 
 !HOME=../usr
 
-d none openwin							0755 root bin
-d none openwin/demo						0755 root bin
 
 d none X11							0755 root bin
 d none X11/bin							0755 root bin
@@ -44,32 +42,26 @@ d none bin							0755 root bin
 
 # open-src/app/xev
 f none bin/xev							0755 root bin
-s none openwin/demo/xev=../../bin/xev
 s none X11/bin/xev=../../bin/xev
 
 # open-src/app/xeyes
 f none bin/xeyes						0755 root bin
-s none openwin/demo/xeyes=../../bin/xeyes
 s none X11/bin/xeyes=../../bin/xeyes
 
 # open-src/app/ico
 f none bin/ico							0755 root bin
-s none openwin/demo/ico=../../bin/ico
 s none X11/bin/ico=../../bin/ico
 
 # open-src/app/xgc
 f none bin/xgc							0755 root bin
-s none openwin/demo/xgc=../../bin/xgc
 s none X11/bin/xgc=../../bin/xgc
 
 # open-src/app/xmag_multivis
 f none bin/xmag_multivis					0755 root bin
-s none openwin/demo/xmag_multivis=../../bin/xmag_multivis
 s none X11/bin/xmag_multivis=../../bin/xmag_multivis
 
 # open-src/app/xscope
 f none bin/xscope						0755 root bin
-s none openwin/demo/xscope=../../bin/xscope
 s none X11/bin/xscope=../../bin/xscope
 
 !search      $HOME/share/X11/app-defaults

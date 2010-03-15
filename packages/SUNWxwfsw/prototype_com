@@ -1,6 +1,6 @@
 ##########################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -32,20 +32,6 @@ i copyright
 i depend
 
 !HOME=../usr
-
-d none openwin							0755 root bin
-
-d none openwin/bin						0755 root bin
-s none openwin/bin/mkfontdir=../../bin/mkfontdir
-s none openwin/bin/mkfontscale=../../bin/mkfontscale
-
-d none openwin/lib						0755 root bin
-s none openwin/lib/installalias=../../lib/X11/installalias
-
-d none X11							0755 root bin
-
-d none X11/lib							0755 root bin
-s none X11/lib/installalias=../../lib/X11/installalias
 
 d none share							0755 root sys
 d none share/fonts						0755 root bin
@@ -133,6 +119,10 @@ f none lib/X11/installalias					0755 root bin
 d none bin							0755 root bin
 f none bin/mkfontdir						0755 root bin
 f none bin/mkfontscale						0755 root bin
+
+d none X11							0755 root bin
+d none X11/lib							0755 root bin
+s none X11/lib/installalias=../../lib/X11/installalias
 
 d none X11/bin							0755 root bin
 s none X11/bin/mkfontdir=../../bin/mkfontdir

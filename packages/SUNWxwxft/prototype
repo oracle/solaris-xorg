@@ -1,4 +1,4 @@
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -65,17 +65,4 @@ f none lib/$plat_64/libXft.so.2					0755 root bin
 d none lib/$plat_64/pkgconfig					0755 root other
 f none lib/$plat_64/pkgconfig/xft.pc				0444 root other
 
-# Backwards compatibility links for old install locations
-d none openwin							0755 root bin
-d none openwin/share						0755 root bin
-d none openwin/share/include					0755 root bin
-d none openwin/share/include/X11				0755 root bin
-s none openwin/share/include/X11/Xft=../../../../include/X11/Xft
 
-d none openwin/lib						0755 root bin
-s none openwin/lib/libXft.so=./libXft.so.2
-s none openwin/lib/libXft.so.2=../../lib/libXft.so.2
-
-d none openwin/lib/$plat_64					0755 root bin
-s none openwin/lib/$plat_64/libXft.so=./libXft.so.2
-s none openwin/lib/$plat_64/libXft.so.2=../../../lib/64/libXft.so.2

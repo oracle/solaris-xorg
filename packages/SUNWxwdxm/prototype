@@ -1,5 +1,5 @@
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -44,7 +44,4 @@ d none share/X11/app-defaults					0755 root bin
 f none share/X11/app-defaults/ColorSelect			0444 root bin
 f none share/X11/app-defaults/FontSelect			0444 root bin
 
-d none openwin							0755 root bin
-d none openwin/lib						0755 root bin
-s none openwin/lib/libdpstkXm.so.5=../../lib/libdpstkXm.so.5
 

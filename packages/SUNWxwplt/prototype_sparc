@@ -1,5 +1,5 @@
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,4 +34,3 @@
 # needed for binary compatibility for old Java runtimes,
 # sparc only since Xsun/DGA was already obsolete before amd64)
 f none lib/sparcv9/libdga.so.1					0555 root bin
-s none openwin/lib/sparcv9/libdga.so.1=../../../lib/sparcv9/libdga.so.1

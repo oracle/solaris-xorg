@@ -1,5 +1,5 @@
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -33,15 +33,11 @@ i depend
 #/usr/X/lib/app-defaults are missing.  
 #They are required by SVID3 ABI .
 
-s none X=./openwin
+s none X=./X11
 #
 #	all the rest follow X...
 #
-#s none X/lib=./openwin/lib
-#s none X/lib/locale=./openwin/lib/locale
-#s none X/lib/app-defaults=./openwin/lib/app-defaults
 
-
-# Symlinks for individual libraries from /usr/lib -> /usr/X11/lib or
-# /usr/openwin/lib that used to be in this package have been moved to
+# Symlinks for individual libraries from /usr/lib -> /usr/X11/lib 
+# that used to be in this package have been moved to
 # the packages with the actual library files that they link to.

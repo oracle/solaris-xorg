@@ -56,26 +56,3 @@ s none lib/xorg/modules/extensions/$plat_64/libglx.so=../../../../../../var/run/
 
 d none lib/mesa/modules/extensions/$plat_64			0755 root bin
 f none lib/mesa/modules/extensions/$plat_64/libglx.so		0755 root bin
-
-# "legacy" links for GLU/GLw headers and libraries 
-# Only delivered on x86, since they clash with SUNWglrt on SPARC
-d none openwin							0755 root bin
-d none openwin/lib						0755 root bin
-s none openwin/lib/libGL.so=../../lib/libGL.so
-s none openwin/lib/libGL.so.1=../../lib/libGL.so.1
-s none openwin/lib/libGLU.so=../../lib/libGLU.so
-s none openwin/lib/libGLU.so.1=../../lib/libGLU.so.1
-s none openwin/lib/libGLw.so=../../lib/libGLw.so
-s none openwin/lib/libGLw.so.1=../../lib/libGLw.so.1
-d none openwin/lib/$plat_64					0755 root bin
-s none openwin/lib/$plat_64/libGL.so=../../../lib/amd64/libGL.so
-s none openwin/lib/$plat_64/libGL.so.1=../../../lib/amd64/libGL.so.1
-s none openwin/lib/$plat_64/libGLU.so=../../../lib/amd64/libGLU.so
-s none openwin/lib/$plat_64/libGLU.so.1=../../../lib/amd64/libGLU.so.1
-s none openwin/lib/$plat_64/libGLw.so=../../../lib/amd64/libGLw.so
-s none openwin/lib/$plat_64/libGLw.so.1=../../../lib/amd64/libGLw.so.1
-
-d none openwin/share						0755 root bin
-d none openwin/share/include					0755 root bin
-s none openwin/share/include/GL=../../../include/GL
-
