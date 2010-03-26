@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 <!--
-    Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+    Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
     Use is subject to license terms.
 
     Permission is hereby granted, free of charge, to any person obtaining a
@@ -38,12 +38,14 @@
 
 	<single_instance />
 
+	<!-- Need / & /usr filesystems mounted readable, 
+	     /var/cache mounted read/write -->
 	<dependency
 		name='usr'
 		type='service'
 		grouping='require_all'
 		restart_on='none'>
-		<service_fmri value='svc:/system/filesystem/local' />
+		<service_fmri value='svc:/system/filesystem/minimal' />
 	</dependency>
 
 	<dependency
