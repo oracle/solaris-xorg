@@ -2,7 +2,7 @@
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 <!--
 
-Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 Use is subject to license terms.
 
 Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,30 +36,14 @@ DEALINGS IN THE SOFTWARE.
 	<create_default_instance enabled='true'/>
 	<single_instance/>
 
-	<!-- Need / & /usr filesystems mounted, /var mounted read/write -->
+	<!-- Need / & /usr filesystems mounted, /var/run mounted read/write -->
 	<dependency
 		name='fs-local'
 		type='service'
 		grouping='require_all'
 		restart_on='none'>
-		<service_fmri value='svc:/system/filesystem/local' />
+		<service_fmri value='svc:/system/filesystem/minimal' />
 	</dependency>
-
-        <dependency
-            name='network-service'
-            grouping='require_all'
-            restart_on='none'
-            type='service'>
-                <service_fmri value='svc:/network/service' />
-        </dependency>
-
-        <dependency
-            name='name-services'
-            grouping='require_all'
-            restart_on='refresh'
-            type='service'>
-                <service_fmri value='svc:/milestone/name-services' />
-        </dependency>
 
         <!-- We need to run before x11/dtlogin/gdm starts -->
         <dependent
@@ -67,13 +51,6 @@ DEALINGS IN THE SOFTWARE.
             grouping='optional_all'
             restart_on='none'>
                 <service_fmri value='svc:/application/x11/x11-server' />
-        </dependent>
-
-        <dependent
-            name='ogl-select_before_dtlogin'
-            grouping='optional_all'
-            restart_on='none'>
-                <service_fmri value='svc:/application/graphical-login/cde-login' />
         </dependent>
 
         <dependent
