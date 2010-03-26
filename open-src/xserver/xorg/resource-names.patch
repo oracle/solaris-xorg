@@ -1,3 +1,5 @@
+[Adjusted to apply to xorg-server 1.7.6]
+
 From a11c58fa0c5809f918b36b84be53385cb2d8ea59 Mon Sep 17 00:00:00 2001
 From: Alan Coopersmith <alan.coopersmith@sun.com>
 Date: Fri, 11 Dec 2009 00:58:25 -0800
@@ -637,10 +639,10 @@ diff --git a/record/record.c b/record/record.c
 index b94b4ae..649f4b2 100644
 --- a/record/record.c
 +++ b/record/record.c
-@@ -42,6 +42,7 @@ and Jim Haggerty of Metheus.
- #include "set.h"
- #include "swaprep.h"
+@@ -44,6 +44,7 @@ and Jim Haggerty of Metheus.
  #include "inputstr.h"
+ #include "eventconvert.h"
+ 
 +#include "registry.h"
  
  #include <stdio.h>

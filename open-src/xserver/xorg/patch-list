@@ -1,6 +1,5 @@
 CreateNewResourceType.patch,-p1
 resource-names.patch,-p1
-xf86OSRingBell.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch
