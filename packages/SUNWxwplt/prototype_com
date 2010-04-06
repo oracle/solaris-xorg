@@ -1,6 +1,5 @@
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -615,7 +614,8 @@ f none lib/$plat_64/libXcomposite.so.1				0555 root bin
 s none X11/lib/$plat_64/libXcomposite.so=../../../lib/64/libXcomposite.so
 s none X11/lib/$plat_64/libXcomposite.so.1=../../../lib/64/libXcomposite.so.1
 
-# open-src/lib/libXcursors none lib/$plat_64/libXcursor.so=libXcursor.so.1
+# open-src/lib/libXcursor
+s none lib/$plat_64/libXcursor.so=libXcursor.so.1
 f none lib/$plat_64/libXcursor.so.1				0555 root bin
 s none X11/lib/$plat_64/libXcursor.so=../../../lib/64/libXcursor.so
 s none X11/lib/$plat_64/libXcursor.so.1=../../../lib/64/libXcursor.so.1
