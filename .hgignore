@@ -5,10 +5,12 @@ syntax: regexp
 /build-amd64/
 /build-sparc/
 /build-sparcv9/
-/build_core/
-/build_iso8859-\d*/
+/build-core/
+/build-iso8859-\d*/
 # Skip downloaded tarballs
 open-src/tarballs
+# Skip checksum verification files for downloaded tarballs
+/\.checksum_done\.
 # Skip proto area and packages
 proto-.*
 # Skip build logs & reports from build cron jobs

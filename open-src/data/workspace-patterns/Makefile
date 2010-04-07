@@ -1,7 +1,6 @@
 ###############################################################################
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 1995, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,6 +29,9 @@ MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 
+SOURCE_TARGETS =
+SOURCE_TARGETS_SET=yes
+
 CONFIGURE_TARGETS =
 CONFIGURE_TARGETS_SET=yes
 
@@ -43,33 +45,36 @@ INSTALL_TARGETS_SET=yes
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)/$(X11_DIR)/share/patterns/
+INSTDIR=$(DESTDIR)$(X11_DIR)/share/patterns/
+
+PATTERN_FILES = \
+	attributes      \
+	background.xbm  \
+	bricks.xbm      \
+	burl.xbm	\
+	corn.xbm	\
+	dmndpla.xbm     \
+	dolphin.xbm     \
+	dotwave2.xbm    \
+	dune.xbm	\
+	flowers.xbm     \
+	flyseye.xbm     \
+	foreground.xbm  \
+	fuji.xbm	\
+	geiger2.xbm     \
+	gray25.xbm      \
+	gray50.xbm      \
+	gray75.xbm      \
+	miniweave.xbm   \
+	sbump.xbm       \
+	sizmk2.xbm      \
+	southwest.xbm   \
+	squares.xbm     \
+	sunmulti.xbm    \
+	swirl2.xbm      \
+	wave1.xbm	\
+	wrnkle2.xbm
 
 install_patterns:
 	mkdir -p $(INSTDIR)
-	cp -pf attributes $(INSTDIR)
-	cp -pf background.xbm $(INSTDIR)
-	cp -pf bricks.xbm $(INSTDIR)
-	cp -pf burl.xbm $(INSTDIR)
-	cp -pf corn.xbm $(INSTDIR)
-	cp -pf dmndpla.xbm $(INSTDIR)
-	cp -pf dolphin.xbm $(INSTDIR)
-	cp -pf dotwave2.xbm $(INSTDIR)
-	cp -pf dune.xbm $(INSTDIR)
-	cp -pf flowers.xbm $(INSTDIR)
-	cp -pf flyseye.xbm $(INSTDIR)
-	cp -pf foreground.xbm $(INSTDIR)
-	cp -pf fuji.xbm $(INSTDIR)
-	cp -pf geiger2.xbm $(INSTDIR)
-	cp -pf gray25.xbm $(INSTDIR)
-	cp -pf gray50.xbm $(INSTDIR)
-	cp -pf gray75.xbm $(INSTDIR)
-	cp -pf miniweave.xbm $(INSTDIR)
-	cp -pf sbump.xbm $(INSTDIR)
-	cp -pf sizmk2.xbm $(INSTDIR)
-	cp -pf southwest.xbm $(INSTDIR)
-	cp -pf squares.xbm $(INSTDIR)
-	cp -pf sunmulti.xbm $(INSTDIR)
-	cp -pf swirl2.xbm $(INSTDIR)
-	cp -pf wave1.xbm $(INSTDIR)
-	cp -pf wrnkle2.xbm $(INSTDIR)
+	cp -pf $(PATTERN_FILES) $(INSTDIR)

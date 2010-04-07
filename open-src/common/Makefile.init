@@ -1,8 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -208,9 +207,6 @@ PROG_LDFLAGS=$(PROG_LDFLAGS_$(MODULE_COMPILER))
 
 ## Commonly added options
 
-# No longer needed, since X.Org libXaw is now default
-XAW_LDFLAGS = 
-
 # Link with X server private libraries like libXfont & libfontenc
 X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 			-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
@@ -220,12 +216,6 @@ X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 
 # Proto directory to install into for packaging
 PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
-
-# Common subdirs
-OW_DIR=/usr/openwin
-OW_X11LIB_DIR=$(OW_DIR)/lib/X11
-OW_FONT_DIR=$(OW_X11LIB_DIR)/fonts
-OW_TRUETYPE_DIR=$(OW_FONT_DIR)/TrueType
 
 X11_DIR=/usr
 X11_BIN_DIR=$(X11_DIR)/bin
@@ -297,6 +287,9 @@ INSTALLALIAS=$(PROTODIR)$(X11_X11LIB_DIR)/installalias
 # make output
 START_CMD_ECHO = PS4="" ; set -x
 
+# Other tools used during build
+PERL = /usr/perl5/bin/perl
+
 ### Sources, in-tree and upstream
 
 TARBALLDIR=$(TOP)/tarballs
@@ -314,9 +307,3 @@ XORG_GIT_URL=$(FDO_GIT_URL)/xorg
 # Target created when sources are unpacked
 UNPACK_FILE = .unpack_done
 UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE) 
-
-### Dependencies
-# Need to define more dependencies to enable simpler builds of subtree portions
-
-# Almost everything depends on the headers in xproto
-XPROTO_DEP=$(PROTODIR)$(PKGCONFIG_DIR_SHARE)/xproto.pc

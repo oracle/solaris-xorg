@@ -1,7 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org TrueType font modules
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,8 +27,8 @@
 CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
 
-# Nothing to build
-BUILD_TARGETS=
+# "Build" is just creating fonts.scale & fonts.dir metadata files
+BUILD_TARGETS=build_ttf_dir
 BUILD_TARGETS_SET=yes
 
 # What to install
@@ -48,12 +47,26 @@ $(TTF_FONT_DIR_DEFAULT)	TTF_FONT_DIR=$(TRUETYPE_FONT_DIR)/$(TTF_SUBDIR)
 
 FONT_DEST_DIR=$(PROTODIR)/$(TTF_FONT_DIR)
 
-install_ttf: $(SOURCE_TARGETS)
+SOURCE_FONT_FILES=$(TTF_FONT_FILES:%=$(SOURCE_DIR)/%)
+
+FONT_DATA_FILES=fonts.dir fonts.scale
+SOURCE_DATA_DIR=$(SOURCE_DIR)/$(TTF_SOURCE_SUBDIR)
+
+SOURCE_FONT_DATA=$(FONT_DATA_FILES:%=$(SOURCE_DATA_DIR)%)
+
+$(SOURCE_FONT_FILES): $(SOURCE_TARGETS)
+
+$(SOURCE_DATA_DIR)fonts.scale: $(SOURCE_FONT_FILES)
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(MKFONTSCALE) $(SOURCE_DATA_DIR)
+
+$(SOURCE_DATA_DIR)fonts.dir: $(SOURCE_FONT_FILES) $(SOURCE_DATA_DIR)fonts.scale
+	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(MKFONTDIR) $(SOURCE_DATA_DIR)
+
+build_ttf_dir: $(SOURCE_DATA_DIR)fonts.dir
+
+install_ttf: $(BUILD_TARGETS)
 	-rm -rf $(FONT_DEST_DIR)
 	mkdir -p $(FONT_DEST_DIR)
-	cp $(TTF_FONT_FILES:%=$(SOURCE_DIR)/%) $(FONT_DEST_DIR)
-	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(MKFONTSCALE) $(FONT_DEST_DIR)
-	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(MKFONTDIR) $(FONT_DEST_DIR)
-
-
+	cp -pf $(SOURCE_FONT_FILES) $(FONT_DEST_DIR)
+	cp -pf $(SOURCE_FONT_DATA) $(FONT_DEST_DIR)
 

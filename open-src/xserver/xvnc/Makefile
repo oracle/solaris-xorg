@@ -4,8 +4,7 @@
 # Based on Fedora's tigervnc.spec revision 1.20 from
 # http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -108,38 +107,37 @@ include ../Makefile.inc
 # Merge in additional sources from Xorg tarball & sun-src directory
 # This step has to be done before default_source, so that patches applied
 # in that step work correctly.
-Xvnc_source_init: $(LNDIR)
+XORG_SOURCE_INIT_TARGET = $(XORG_BUILD_DIR)/$(SOURCE_INIT_TARGET_FILE)
+XORG_PATCHED_TARGET = $(XORG_BUILD_DIR)/$(PATCHED_TARGET_FILE)
+Xvnc_source_init: $(XORG_PATCHED_TARGET)
+
+$(XORG_TARBALL):
+	(cd ../xorg && $(MAKE) $(MAKEFLAGS) download)
+
+$(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL)
 	mkdir -p $(SOURCE_DIR)/unix
-	bzcat $(XORG_TARBALL) | (cd $(BUILD_DIR) ; tar -xf - )
-	@if [ "x$(XORG_SOURCE_PATCHES)" != "x" ] ; then \
-	    for p in $(XORG_SOURCE_PATCHES) x ; do \
-	        if [ "$$p" != "x" ] ; then \
-		    patch_file="$${p%,*}" ; \
-		    if [[ "$$p" =~ "," ]] ; then \
-			patch_flags="$${p/*,}" ; \
-		    else \
-			patch_flags="-p0" ; \
-		    fi ; \
-		    ($(START_CMD_ECHO) ; \
-		     gpatch -d $(XORG_SOURCE_DIR) $${patch_flags} < "../xorg/$${patch_file}" ) ; \
-		fi ; \
-	    done ; \
-	fi
+	$(MAKE) $(MAKEFLAGS) init_source \
+		SOURCE_TARBALL="$(XORG_TARBALL)" \
+		SOURCE_UNCOMPRESS="bzcat" \
+		SOURCE_DIR="$(XORG_SOURCE_DIR)"	
 	mv $(XORG_SOURCE_DIR) $(XORG_BUILD_DIR)
 	(cd $(XORG_BUILD_DIR) && $(LNDIR) ../../../../../xorg/sun-src)
+
+$(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
+	$(MAKE) $(MAKEFLAGS) patched_source \
+		SOURCE_PATCHES="$(XORG_SOURCE_PATCHES:%=../xorg/%)" \
+		SOURCE_DIR="$(XORG_BUILD_DIR)"
 
 # Apply specific sets of Solaris attributes to various man pages
 # This step has to be done after default_source, since it depends
 # on files created in that stage
-Xvnc_source_fini: default_source
-	(cd $(SOURCE_DIR) && \
-		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
-		-a '{Availability, SUNWvncviewer} {Interface Stability, Volatile}' \
-		-p /usr/bin/ unix/vncviewer/vncviewer.man )
-	(cd $(SOURCE_DIR) && \
-		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
-		-a '{Availability, SUNWxvnc} {Interface Stability, Volatile}' \
-		-p $(X11_DIR)/bin/ unix/xserver/hw/vnc/Xvnc.man )
+Xvnc_source_fini: $(UNPACK_TARGET)
+	$(PERL) $(TOP)/common/suntouch-manpages.pl \
+	  -a '{Availability, SUNWvncviewer} {Interface Stability, Volatile}' \
+	  -p /usr/bin/ $(SOURCE_DIR)/unix/vncviewer/vncviewer.man
+	$(PERL) $(TOP)/common/suntouch-manpages.pl \
+	  -a '{Availability, SUNWxvnc} {Interface Stability, Volatile}' \
+	  -p $(X11_DIR)/bin/ $(SOURCE_DIR)/unix/xserver/hw/vnc/Xvnc.man
 
 # Command line options to GNU autoconf configure script for vnc clients
 VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \

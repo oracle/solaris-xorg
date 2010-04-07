@@ -1,7 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,9 +53,9 @@ $(MODULE_PKGCONFIG_DIR_DEFAULT)	MODULE_PKGCONFIG_DIR=$(MODTYPE_PKGCONFIG_DIR)
 SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
 $(SOURCE_DIRNAME_DEFAULT)	SOURCE_DIRNAME=$(MODULE_NAME)-$(MODULE_VERSION)
 
-BUILD_DIR_$(BUILD_TYPE) = build_$(BUILD_TYPE)
+BUILD_DIR_$(BUILD_TYPE) = build-$(BUILD_TYPE)
 # Special cases for 32-bit & 64-bit directory names to allow building
-# both architectures in the same tree (serially - building both in 
+# both architectures in the same tree (serially - building both in
 # parallel is likely to have race conditions)
 BUILD_DIR_32 = build-$(MACH32)
 BUILD_DIR_64 = build-$(MACH64)
@@ -89,8 +88,7 @@ $(BUILD_TYPES_DEFAULT)	BUILD_TYPES=32
 
 # Set default rules if not set in module/modtype Makefile
 SOURCE_TARGETS_DEFAULT		= $(SOURCE_TARGETS_SET:yes=$(POUND_SIGN))
-$(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=default_source \
-					check-checksums \
+$(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=$(UNPACK_TARGET) \
 					$(MODTYPE_ADD_SOURCE_TARGETS) \
 					$(MODULE_ADD_SOURCE_TARGETS)
 
@@ -125,7 +123,7 @@ clean: $(CLEAN_RULES)
 
 # Remove directories with both styles of naming
 $(CLEAN_RULES):
-	-rm -rf $(BUILD_DIR_$(@:clean_%=%)) $(@:clean_%=build_%)
+	-rm -rf $(BUILD_DIR_$(@:clean_%=%)) $(@:clean_%=build_%) $(@:clean_%=build-%)
 
 # Tell dmake not to remove and create source in parallel
 .NOPARALLEL: clean source
@@ -187,7 +185,7 @@ SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 # Allow downloading from local archive/mirror
 TARBALL_ARCHIVE_sun.com		= http://xserver.sfbay.sun.com/tarballs
 TARBALL_ARCHIVE_DEFAULT		= $(TARBALL_ARCHIVE_SET:yes=$(POUND_SIGN))
-$(TARBALL_ARCHIVE_DEFAULT)	ARCHIVE_DOMAIN = domainname | awk -F. '{printf "%s.%s", $$(NF-1), $$NF}'
+$(TARBALL_ARCHIVE_DEFAULT)	ARCHIVE_DOMAIN = domainname | awk -F. '{if (NF > 1) {printf "%s.%s", $$(NF-1), $$NF}}'
 $(TARBALL_ARCHIVE_DEFAULT)	TARBALL_ARCHIVE = $(TARBALL_ARCHIVE_$(ARCHIVE_DOMAIN:sh))
 ARCHIVE_URL=$(TARBALL_ARCHIVE)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
@@ -218,7 +216,10 @@ $(SOURCE_TARBALL): $(TARBALLDIR)
 	    fi ; \
 	fi
 
-check-checksums: $(SOURCE_TARBALL)
+CHECKSUM_TARGET = .checksum_done.$(MODULE_VERSION)
+check-checksums: $(CHECKSUM_TARGET)
+
+$(CHECKSUM_TARGET): $(SOURCE_TARBALL)
 	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; \
 	if [[ "$(MODULE_VERSION)" != "git" && \
 	      "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
@@ -235,6 +236,12 @@ check-checksums: $(SOURCE_TARBALL)
 		exit 1; \
 	    fi ; \
 	fi
+	touch $(CHECKSUM_TARGET)
+
+clean: clean-checksums
+
+clean-checksums:
+	-rm -f .checksum_done.*
 
 
 # Submit a tarball to the archive
@@ -273,47 +280,58 @@ git-update:
 
 ### Unpack source and apply patches
 
-FIX_PC_OPS= \
-	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
-	-e 's|Requires.private: .*$$||;' \
-	$(MODTYPE_FIX_PC_FLAGS) \
-	$(MODULE_FIX_PC_FLAGS)
+# Step 1: Initialize source dir with upstream sources
+# - if there's a tarball, unpack it.
+# - if using a git master, copy it.
+SOURCE_INIT_TARGET_FILE=.source.init.done
+SOURCE_INIT_TARGET=$(SOURCE_DIR)/$(SOURCE_INIT_TARGET_FILE)
+init_source: $(SOURCE_INIT_TARGET)
 
-#	-e 's|(Requires: .*)\bx11\b|$$1|;' \
-
-SUNTOUCH_MAN_FLAGS = \
-	-a '{Availability, $(SUN_PACKAGE)}' \
-	-a '{Interface Stability, $(MODULE_STABILITY)}' \
-	$(MODTYPE_SUNTOUCH_MAN_FLAGS) \
-	$(MODULE_SUNTOUCH_MAN_FLAGS)
-
-SOURCE_DEPS = $(SOURCE_TARBALL) $(MODTYPE_SOURCE_DEPS) $(MODULE_SOURCE_DEPS)
-
-default_source: $(UNPACK_TARGET)
-
-$(UNPACK_TARGET): $(SOURCE_DEPS)
+$(SOURCE_INIT_TARGET):
 	mkdir -p $(BUILD_DIR)
-	@ if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+	@ if [[ "$(SOURCE_TARBALL_NAME)" == "NONE" ]] ; then \
+	  $(START_CMD_ECHO); mkdir -p $(SOURCE_DIR) ; \
+	else \
 	  if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
 	    SOURCE_CMD='gtar --exclude=.git* -cf - $(GIT_CLONE_DIR)' ; \
 	  else \
 	    UNCOMP_CMD="$(SOURCE_UNCOMPRESS)" ; \
 	    SOURCE_CMD="$${UNCOMP_CMD:-bzcat} $(SOURCE_TARBALL)" ; \
 	  fi ; \
-	  print "$${SOURCE_CMD} | (cd $(BUILD_DIR) ; gtar -xf - )" ; \
-	  $${SOURCE_CMD} | (cd $(BUILD_DIR) ; gtar -xf - ) ; \
-	else \
-	  print "mkdir -p $(SOURCE_DIR)" ; \
-	  mkdir -p $(SOURCE_DIR) ; \
-	fi ; \
-	if [[ "$(ADDITIONAL_SOURCE_DIR)" != "" ]] ; then \
+	  $(START_CMD_ECHO) ; \
+	  $${SOURCE_CMD} | \
+		gtar --directory="$(BUILD_DIR)" $(ADD_TAR_FLAGS) -xf -  ; \
+	fi
+	touch $(SOURCE_INIT_TARGET)
+
+# Step 2: Add in any additional local sources from $(ADDITIONAL_SOURCE_DIR)
+# (done after init source to avoid races in directory/file creation)
+SOURCE_ADD_TARGET_FILE=.source.add.done
+SOURCE_ADD_TARGET=$(SOURCE_DIR)/$(SOURCE_ADD_TARGET_FILE)
+add_source: $(SOURCE_ADD_TARGET)
+
+$(SOURCE_ADD_TARGET): $(SOURCE_INIT_TARGET)
+	@if [[ "$(ADDITIONAL_SOURCE_DIR)" != "" ]] ; then \
 	  if [[ ! -x $(LNDIR) ]] ; then \
 	    (cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
 	  fi ; \
-	  ($(START_CMD_ECHO) ; \
-	   cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ) ; \
-	fi ; \
-	if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
+	  $(START_CMD_ECHO) ; \
+	  cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ; \
+	fi
+	touch $(SOURCE_ADD_TARGET)
+
+# Step 3: Apply any local patches (may be done in parallel to add_source,
+# but must come after init_source is finished)
+#
+# SOURCE_PATCHES is a list in the format: filename[,flags]
+# $${p/*,} is ksh93 syntax to remove the comma and everything before it in $p
+# $${p%,*} is ksh93 syntax to remove the comma and everything after it in $p
+PATCHED_TARGET_FILE=.patches.done
+PATCHED_TARGET=$(SOURCE_DIR)/$(PATCHED_TARGET_FILE)
+patched_source: $(PATCHED_TARGET)
+
+$(PATCHED_TARGET): $(SOURCE_INIT_TARGET)
+	@ if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
 	        if [[ "$$p" != "x" ]] ; then \
 		    patch_file="$${p%,*}" ; \
@@ -326,19 +344,56 @@ $(UNPACK_TARGET): $(SOURCE_DEPS)
 		     gpatch -d $(SOURCE_DIR) $${patch_flags} < "$${patch_file}" ) ; \
 		fi ; \
 	    done ; \
-	fi ; \
-	if [[ "$(SUNTOUCHED_MANPAGES)" != "" ]] ; then \
-	    ($(START_CMD_ECHO) ; \
-		cd $(SOURCE_DIR) && \
-		/usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
-		$(SUNTOUCH_MAN_FLAGS) $(SUNTOUCHED_MANPAGES) ) ; \
-	fi ; \
-	if [[ "$(FIX_PC_FILES)" != "" ]] ; then \
-	    ($(START_CMD_ECHO) ; \
-		cd $(SOURCE_DIR) && \
-		/usr/perl5/bin/perl -i.orig -p \
-			$(FIX_PC_OPS) $(FIX_PC_FILES) ); \
 	fi
+	touch $(PATCHED_TARGET)
+
+# Step 4: Apply common Solaris changes to man pages in $(SUNTOUCHED_MANPAGES)
+FIXED_MAN_TARGET_FILE=.mantouch.done
+FIXED_MAN_TARGET=$(SOURCE_DIR)/$(FIXED_MAN_TARGET_FILE)
+fixed_man: $(FIXED_MAN_TARGET)
+
+COMMON_SUNTOUCH_MAN_FLAGS = \
+	-a '{Availability, $(SUN_PACKAGE)}' \
+	-a '{Interface Stability, $(MODULE_STABILITY)}'
+
+SUNTOUCH_MAN_FLAGS = \
+	$(COMMON_SUNTOUCH_MAN_FLAGS) \
+	$(MODTYPE_SUNTOUCH_MAN_FLAGS) \
+	$(MODULE_SUNTOUCH_MAN_FLAGS)
+
+$(FIXED_MAN_TARGET): $(PATCHED_TARGET)
+	@if [[ "$(SUNTOUCHED_MANPAGES)" != "" ]] ; then \
+	    $(START_CMD_ECHO) ; \
+	    $(PERL) $(TOP)/common/suntouch-manpages.pl $(SUNTOUCH_MAN_FLAGS) \
+		$(SUNTOUCHED_MANPAGES:%=$(SOURCE_DIR)/%) ; \
+	fi
+	touch $(FIXED_MAN_TARGET)
+
+# Step 5: Apply common Solaris changes to pkg-config *.pc files listed in
+# $(FIX_PC_FILES)
+SOURCE_PC_FILES = $(FIX_PC_FILES:%=$(SOURCE_DIR)/%)
+ORIG_PC_FILES = $(SOURCE_PC_FILES:%=%.orig)
+FIXED_PC_TARGET = $(ORIG_PC_FILES)
+fixed_pc: $(FIXED_PC_TARGET)
+
+FIX_PC_OPS= \
+	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
+	-e 's|Requires.private: .*$$||;' \
+	$(MODTYPE_FIX_PC_FLAGS) \
+	$(MODULE_FIX_PC_FLAGS)
+
+$(ORIG_PC_FILES): $(PATCHED_TARGET)
+	$(PERL) -i.orig -p $(FIX_PC_OPS) $(@:.orig=)
+
+# Tie them all together
+SOURCE_DEPS = $(SOURCE_TARBALL) $(MODTYPE_SOURCE_DEPS) $(MODULE_SOURCE_DEPS)
+
+UNPACK_TARGETS = $(SOURCE_INIT_TARGET) $(PATCHED_TARGET) \
+	$(SOURCE_ADD_TARGET) $(FIXED_MAN_TARGET) $(FIXED_PC_TARGET)
+
+default_source: $(UNPACK_TARGET)
+
+$(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 	touch $(UNPACK_TARGET)
 
 ### Run configure scripts
@@ -347,7 +402,7 @@ $(UNPACK_TARGET): $(SOURCE_DEPS)
 # and use automake 1.10 instead of the older 1.9.
 # /opt/jdsbld/share/aclocal is needed to get the nls.m4 from CBEgettext
 # due to: 6785384 SUNWgnu-gettext does not include autoconf m4 files
-ACLOCAL_PATH=/usr/bin/aclocal-1.10 
+ACLOCAL_PATH=/usr/bin/aclocal-1.10
 ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
 	-I /usr/share/aclocal -I /usr/share/aclocal-1.10 \
 	-I /opt/jdsbld/share/aclocal
@@ -410,11 +465,6 @@ $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 default_configure: $(AUTOCONF_TARGET)
 
 
-### Remove libtool from build process when needed
-
-delibtoolize:
-	$(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) $(SOURCE_DIR)
-
 ### Default rules for common build pattern
 
 LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
@@ -467,7 +517,7 @@ print_default_install_flags:
 	print "MAKE='$(MODULE_MAKE)'" ; \
 	print "MAKE_FLAGS='$(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS)'"
 
-install-in-subdir: 
+install-in-subdir:
 	(cd $(subdir) ; \
 	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 $(subdir_cmd))
@@ -489,7 +539,7 @@ install_pkgconfig_uninstalled: $(INSTALL_PCU_DEPS)
 	    for pcin in $(FIX_PC_FILES:.in=) ; do \
 		pc=$${pcin%%+(.pc|.in)} ; \
 		($(START_CMD_ECHO) ; \
-		 /usr/perl5/bin/perl -p $(UNINSTALLED_PC_OPS) $$pc.pc > \
+		 $(PERL) -p $(UNINSTALLED_PC_OPS) $$pc.pc > \
 		    $(PROTODIR)$(MODULE_PKGCONFIG_DIR)/$$(basename $${pc})-uninstalled.pc ) ; \
 	    done ; \
 	fi
@@ -528,30 +578,24 @@ $(DOCBOOK2HTML) + $(DOCBOOK2TEXT):
 $(XORG_DEFS_ENT):
 	cd $(TOP)/doc/xorg-sgml-doctools && $(MAKE) $(MAKEFLAGS) install
 
-# Almost everything depends on the headers in xproto
-$(XPROTO_DEP):
-	@print "$(XPROTO_DEP) not found..."
-	@print "Installing dependency proto/x11proto"
-	(cd $(TOP)/proto/x11proto ; $(MAKE) $(MAKEFLAGS) install)
-
 ### Useful rules for maintaining patch sets
 
 # regenerate patches against new baseline to reduce messages about hunks
 # having fuzz or offsets when applying patches - new patches will be in new/
 
-regen-patches: 
+regen-patches:
 	CUR_LIST=""
 	rm -rf tmp-regen
-	$(MAKE) SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source-gen
+	$(MAKE) SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen patched_source
 	mkdir -p new
 	for f in $(SOURCE_PATCHES) ; do \
 	    p=$${f%,*} ; \
 	    print '=================' $$p ; \
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
-	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen SUNTOUCHED_MANPAGES="" source-gen ; \
-	    awk '/^--- /	{exit} \
-		 /^diff -u/	{exit} \
+	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen patched_source ; \
+	    gawk '/^--- /	{exit} \
+		  /^diff -u/	{exit} \
 			 	{print}' $$p > new/$$p ; \
 	    gdiff -urp -x '*~' -x '*.orig' ./prev ./tmp-regen \
 		| sed -e 's% \./prev/$(SOURCE_DIRNAME)/% %' -e 's% \./tmp-regen/$(SOURCE_DIRNAME)/% %' \
@@ -565,7 +609,7 @@ regen-patches:
 # Derive directory name relative to open-src
 THIS_MODULE:sh=echo ${PWD} | sed 's|.*/open-src/||'
 
-# Allows running "make list-patches" to get a list of all patches we 
+# Allows running "make list-patches" to get a list of all patches we
 # currently apply in our builds
 list-patches:
 	@if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
@@ -604,3 +648,12 @@ $(MODULE_LICENSE_DESTDIR)/COPYING: $(MODULE_LICENSE_DESTDIR) $(SOURCE_TARGETS)
 	    rm -f $@ ; \
 	    cp -pf $${LICENSE_TO_COPY} $@ ; \
 	fi
+
+# For use in debugging or calling from scripts like the code review helper
+# Use such as: make print_make_vars VARS="MODTYPE MODULE_NAME"
+# or: make print_make_var BUILD_TYPE=32 VARS=SOURCE_DIR
+print_make_var-%:
+	@print -n ' $(@:print_make_var-%=%)="$($(@:print_make_var-%=%))"'
+
+print_make_vars: $(VARS:%=print_make_var-%)
+	@print '\n'

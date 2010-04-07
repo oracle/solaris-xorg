@@ -2,8 +2,7 @@
 #
 # xf86-video-radeonhd Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -67,4 +66,4 @@ include ../Makefile.inc
 # ATI's atombios code has ^M's at linefeeds which break Sun compilers
 clean_linefeeds: default_source
 	find $(BUILD_DIR) -type f -name '*.[ch]' | \
-		xargs perl -i -p -e 's{\r\n}{\n}g'
+		xargs $(PERL) -i -p -e 's{\r\n}{\n}g'

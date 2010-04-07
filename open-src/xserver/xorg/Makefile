@@ -2,8 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -141,15 +140,18 @@ install_extras: default_install
 # builds
 install_pc_common: default_install
 	-rm -f $(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
+	mkdir -p $(PROTODIR)$(PKGCONFIG_DIR)
 	cp -pf $(SOURCE_DIR)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
 
 # Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
 install_pc_copy: install_pc_common install_pkgconfig_uninstalled 
-	cp -pf $(PROTODIR)$(PKGCONFIG_DIR_64)/xorg-server.pc \
-		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server.pc
-	cp -pf $(PROTODIR)$(PKGCONFIG_DIR_64)/xorg-server-uninstalled.pc \
+	-rm -f $(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server-uninstalled.pc
+	mkdir -p $(PROTODIR)$(PKGCONFIG_DIR_32)
+	ln -s ../$(SUBDIR64)$(PKGCONFIG_DIR_suffix)/xorg-server.pc \
+	    ../$(SUBDIR64)$(PKGCONFIG_DIR_suffix)/xorg-server-uninstalled.pc \
+		$(PROTODIR)$(PKGCONFIG_DIR_32)/
 
 $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@

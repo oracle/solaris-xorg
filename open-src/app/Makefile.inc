@@ -1,7 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org application modules
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,9 +33,6 @@ include $(TOP)/common/Makefile.init
 
 # Changes to apply to man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
-
-# All modules depend on Xproto
-MODTYPE_CONFIGURE_DEPS=$(XPROTO_DEP)
 
 # Flags to build & link applications with
 MODTYPE_CFLAGS=$(PROG_CFLAGS)

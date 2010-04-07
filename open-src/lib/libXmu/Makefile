@@ -2,8 +2,7 @@
 #
 # Xmu 1.x Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -60,7 +59,7 @@ FIX_PC_FILES=xmu.pc.in xmuu.pc.in
 MODULE_CONFIG_OPTS = --with-lint --enable-lint-library
 
 # Work around libtool brokenness that adds -R `pwd` to libXmu build
-MODULE_BUILD_DEPS=delibtoolize
+DELIBTOOLIZE=yes
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

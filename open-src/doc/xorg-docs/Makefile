@@ -1,7 +1,6 @@
 ###############################################################################
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,7 +44,7 @@ MODULE_MAKEFLAGS= MAKEFLAGS="-i"
 
 # Additional arguments to configure script
 MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
-	--docdir='$(X11_DOC_DIR)' \
+	--docdir='$(X11_DOC_DIR)' --with-x11docdir='$(X11_DOC_DIR)' \
 	XORG_SGML_PATH=$(PROTODIR)$(X11_DIR)/share/sgml
 
 # Module dependencies
@@ -57,15 +56,8 @@ MODULE_ADD_INSTALL_TARGETS=install_docs
 ### Include common rulesets
 include ../Makefile.inc
 
-SGML_DIR=$(SOURCE_DIR)/sgml
-DOC_DIR=$(PROTODIR)$(X11_DOC_DIR)
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
-install_docs: $(INSTALL_DEPS)
-	mkdir -p $(DOC_DIR) $(MAN_DIR)/man5
-	cp -p $(SGML_DIR)/LICENSE.txt		$(DOC_DIR)/LICENSE
-	cp -p $(SGML_DIR)/RELNOTES.txt		$(DOC_DIR)/RELNOTES
-	cp -p $(SGML_DIR)/input/XKB-Config.txt	$(DOC_DIR)/README.XKB-Config
-	cp -p $(SGML_DIR)/input/XKB-Enhancing.txt $(DOC_DIR)/README.XKB-Enhancing
-	cp -p $(SGML_DIR)/fonts/fonts.txt	$(DOC_DIR)/README.fonts
-	cp -p X11.5                             $(MAN_DIR)/man5/X11.5
+install_docs:
+	mkdir -p $(MAN_DIR)/man5
+	cp -pf X11.5 $(MAN_DIR)/man5/X11.5

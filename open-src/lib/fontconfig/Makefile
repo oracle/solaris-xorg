@@ -2,8 +2,7 @@
 #
 # Fontconfig 2.x Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -127,7 +126,7 @@ fontconfig-sunman-install: default_install
 	    -e 's/SUNWfontconfig/SUNWfontconfig-root/' 		\
 	  $(FC_MAN_DIR)/man5/fonts-conf.5 > $(FC_MAN_DIR)/man4/fonts.conf.4
 	-rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
-	perl -p -e 's/^$$/.LP/;' -e 's/.?\251/\\(co/;' 		\
+	$(PERL) -p -e 's/^$$/.LP/;' -e 's/.?\251/\\(co/;' 	\
 		libfontconfig.3lib $(SOURCE_DIR)/COPYING >> 	\
 		$(FC_MAN_DIR)/man3lib/libfontconfig.3lib
 	-rm -f $(FC_MAN_DIR)/man1/fc-cache.1

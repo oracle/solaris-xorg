@@ -1,7 +1,6 @@
 ###############################################################################
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -69,7 +68,7 @@ MODULE_ADD_INSTALL_TARGETS = install_catalog
 ### Include common rulesets
 include ../Makefile.inc
 
-$(CATALOG): catalog.in
+$(CATALOG): catalog.in $(SOURCE_TARGETS)
 	sed 's%__sgmldir__%$(PROTODIR)$(X11_DIR)/share/sgml%' < catalog.in > $@
 
 install_catalog: $(CATALOG)

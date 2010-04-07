@@ -2,8 +2,7 @@
 #
 # Xtsol 1.x Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -55,7 +54,9 @@ MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 include ../Makefile.inc
 
-source_auditwrite:
+source_auditwrite: $(SOURCE_DIR)/auditwrite.c $(SOURCE_DIR)/auditwrite.h
+
+$(SOURCE_DIR)/auditwrite.c + $(SOURCE_DIR)/auditwrite.h:
 	mkdir -p $(SOURCE_DIR)
 	(cd $(SOURCE_DIR) ; \
 	 ln -s ../../../../xserver/xorg/sun-src/tsol/auditwrite.[ch] . )

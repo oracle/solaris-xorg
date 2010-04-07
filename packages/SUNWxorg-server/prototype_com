@@ -1,7 +1,6 @@
 ###########################################################################
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -95,13 +94,19 @@ d none share							0755 root sys
 !search $HOME/share/doc/X11
 d none share/doc						0755 root other
 d none share/doc/X11						0755 root bin
-f none share/doc/X11/LICENSE					0444 root bin
+f none share/doc/X11/LICENSE.txt				0444 root bin
 f none share/doc/X11/README.DRI					0444 root bin
-f none share/doc/X11/README.XKB-Config				0444 root bin
-f none share/doc/X11/README.XKB-Enhancing			0444 root bin
-f none share/doc/X11/README.fonts				0444 root bin
 f none share/doc/X11/README.mouse				0444 root bin
-f none share/doc/X11/RELNOTES					0444 root bin
+f none share/doc/X11/RELNOTES.txt				0444 root bin
+
+!search $HOME/share/doc/X11/fonts
+d none share/doc/X11/fonts					0755 root bin
+f none share/doc/X11/fonts/fonts.txt				0444 root bin
+
+!search $HOME/share/doc/X11/input
+d none share/doc/X11/input					0755 root bin
+f none share/doc/X11/input/XKB-Config.txt			0444 root bin
+f none share/doc/X11/input/XKB-Enhancing.txt			0444 root bin
 
 d none share/man						0755 root bin
 

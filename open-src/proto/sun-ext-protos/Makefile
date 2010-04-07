@@ -1,7 +1,6 @@
 ###############################################################################
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,6 +24,8 @@
 #
 #
 # Definitions of Solaris-specific X Server extensions
+
+MODULE_NAME=sun-ext-protos
 
 # No upstream sources for these files, since they're Solaris-specific
 SOURCE_TARBALL_NAME=NONE

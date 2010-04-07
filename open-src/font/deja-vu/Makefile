@@ -2,8 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,6 +58,9 @@ TTF_FONT_FILES= \
 	README \
 	$(LICENSE_FILE) \
 	ttf/*.ttf
+
+# Subdir of $(SOURCE_DIR) containing *.ttf files
+TTF_SOURCE_SUBDIR=ttf/
 
 ### Include common rulesets
 include ../Makefile.ttf

@@ -2,8 +2,7 @@
 #
 # xterm Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -88,7 +87,7 @@ XORGRELSTRING = $(MODULE_NAME) $(MODULE_VERSION)
   XVENDORVERS = "$(XORGRELSTRING)" "$(XORGMANNAME)"
 
 fix_manpages: $(UNPACK_TARGET)
-	/usr/perl5/bin/perl -i -p -e 's{__vendorversion__}{$(XVENDORVERS)}g' \
+	$(PERL) -i -p -e 's{__vendorversion__}{$(XVENDORVERS)}g' \
 	  $(SOURCE_DIR)/*.man
 
 # Install documentation of xterm control sequences for packaging

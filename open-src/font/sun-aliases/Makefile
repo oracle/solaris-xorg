@@ -1,7 +1,6 @@
 ###############################################################################
 #
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +28,9 @@ MODULE_NAME=sun-aliases
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
+
+SOURCE_TARGETS = 
+SOURCE_TARGETS_SET=yes
 
 CONFIGURE_TARGETS = 
 CONFIGURE_TARGETS_SET=yes

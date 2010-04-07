@@ -2,8 +2,7 @@
 #
 # libpciaccess Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -62,23 +61,30 @@ MODULE_DEBUG_FLAGS=-DDEBUG
 
 # Additional targets for scanpci
 MODULE_ADD_SOURCE_TARGETS = source_scanpci_man
-MODULE_ADD_INSTALL_TARGETS = install_scanpci
+MODULE_ADD_INSTALL_TARGETS_32 = install_scanpci
+MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
 include ../Makefile.inc
 
 # Update scanpci.man with program man page flags instead of library ones
-source_scanpci_man: default_source
+SCANPCI_MAN_SRC = $(SOURCE_DIR)/src/scanpci.man
+SCANPCI_MAN_OUT = $(SOURCE_DIR)/src/scanpci.1
+
+source_scanpci_man: $(SCANPCI_MAN_OUT)
+
+$(SCANPCI_MAN_SRC): $(UNPACK_TARGET)
+
+$(SCANPCI_MAN_OUT): $(SCANPCI_MAN_SRC)
 	(cd $(SOURCE_DIR) && \
-	 /usr/perl5/bin/perl $(TOP)/common/suntouch-manpages.pl \
-	        -a '{Availability, $(SUN_PACKAGE)}' \
-		-a '{Interface Stability, $(MODULE_STABILITY)}' \
+	 $(PERL) $(TOP)/common/suntouch-manpages.pl \
+		$(COMMON_SUNTOUCH_MAN_FLAGS) \
 		-p $(MODULE_PREFIX)/bin/ \
 		src/scanpci.man && \
 	 sed -e 's/__xorgversion__/"$(MODULE_NAME) $(MODULE_VERSION)"/' \
 		src/scanpci.man > src/scanpci.1 )
 
 # We want to install scanpci, even though the upstream Makefile doesn't
-install_scanpci: default_install
+install_scanpci: default_install $(SCANPCI_MAN_OUT)
 	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR) \
 		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
 	$(INSTALL_SCRIPT) -m 755 $(SOURCE_DIR)/src/scanpci \

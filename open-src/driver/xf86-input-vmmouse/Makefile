@@ -2,8 +2,7 @@
 #
 # xf86-input-vmmouse Makefile
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -62,7 +61,13 @@ MODULE_ADD_SOURCE_TARGETS= source_mouse_drv_links
 
 include ../Makefile.inc
 
-source_mouse_drv_links: default_source
-	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $(SOURCE_DIR)/src/mouse_drv.so
-	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $(SOURCE_DIR)/tools/mouse_drv.so
+MOUSE_DRV_LINKS = \
+	$(SOURCE_DIR)/src/mouse_drv.so \
+	$(SOURCE_DIR)/tools/mouse_drv.so
 
+source_mouse_drv_links: $(MOUSE_DRV_LINKS)
+default_build: $(MOUSE_DRV_LINKS)
+
+$(MOUSE_DRV_LINKS): $(UNPACK_TARGET)
+	-rm -f $@
+	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $@
