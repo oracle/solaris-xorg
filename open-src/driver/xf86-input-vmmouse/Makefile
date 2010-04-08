@@ -55,19 +55,4 @@ MODULE_CONFIG_OPTS= \
 	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor$(ARCHLIBSUBDIR) \
 	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-# Libraries/modules to link with
-MODULE_LD_OPTIONS= mouse_drv.so
-MODULE_ADD_SOURCE_TARGETS= source_mouse_drv_links
-
 include ../Makefile.inc
-
-MOUSE_DRV_LINKS = \
-	$(SOURCE_DIR)/src/mouse_drv.so \
-	$(SOURCE_DIR)/tools/mouse_drv.so
-
-source_mouse_drv_links: $(MOUSE_DRV_LINKS)
-default_build: $(MOUSE_DRV_LINKS)
-
-$(MOUSE_DRV_LINKS): $(UNPACK_TARGET)
-	-rm -f $@
-	ln -s $(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/input/mouse_drv.so $@
