@@ -1,7 +1,6 @@
 ###############################################################################
 #
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,11 +27,11 @@
 MODULE_NAME=imake
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 02fea5a02ba2857c7d81820c8e8b8e6f
-TARBALL_SHA1 = 863a1015af41149e91a2f4b20858cb5d584c6943
+TARBALL_MD5  = ff553c4646edcc9e76b7308991ad421a
+TARBALL_SHA1 = 625a974dd0fe4c4e9d7ec036fc7b079ec05185f1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
@@ -41,6 +40,11 @@ SOURCE_PATCHES=
 SUNTOUCHED_MANPAGES=*.man
 SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Uncommitted
+
+# Additional flags to pass to configure script
+MODULE_CONFIG_OPTS  = --enable-mkdirhier \
+ --disable-ccmakedep --disable-cleanlinks --disable-makeg \
+ --disable-mergelib --disable-mkhtmlindex --disable-revpath
 
 ### Include common rulesets
 include ../Makefile.inc
