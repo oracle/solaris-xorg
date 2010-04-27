@@ -1,7 +1,7 @@
 diff -Nurp -x '*~' -x '*.orig' cpprules.in cpprules.in
 diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
---- cpprules.in	2009-10-21 14:52:55.000000000 -0700
-+++ cpprules.in	2009-11-03 22:28:48.641330995 -0800
+--- cpprules.in	2010-03-12 12:38:21.000000000 +0800
++++ cpprules.in	2010-04-21 15:37:09.527675889 +0800
 @@ -25,7 +25,7 @@ XORGRELSTRING = @PACKAGE_STRING@
    XORGMANNAME = X Version 11
    XSERVERNAME = Xorg
@@ -12,12 +12,11 @@ diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
          -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
  	-D__appmansuffix__=$(APP_MAN_SUFFIX) \
 diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
---- doc/Xserver.man.pre	2009-08-10 21:00:22.000000000 -0700
-+++ doc/Xserver.man.pre	2009-11-03 22:28:48.641981596 -0800
-@@ -1,3 +1,26 @@
+--- doc/Xserver.man.pre	2010-03-12 12:38:21.000000000 +0800
++++ doc/Xserver.man.pre	2010-04-21 15:37:09.528520653 +0800
+@@ -1,3 +1,25 @@
 +.\" 
-+.\" Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-+.\" Use is subject to license terms.
++.\" Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 +.\" 
 +.\" Permission is hereby granted, free of charge, to any person obtaining a
 +.\" copy of this software and associated documentation files (the "Software"),
@@ -41,7 +40,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .\" $Xorg: Xserver.man,v 1.4 2001/02/09 02:04:07 xorgcvs Exp $
  .\" $XdotOrg: xserver/xorg/doc/Xserver.man.pre,v 1.4 2005/12/23 20:11:12 alanc Exp $
  .\" Copyright 1984 - 1991, 1993, 1994, 1998  The Open Group
-@@ -32,14 +62,31 @@ Xserver \- X Window System display serve
+@@ -32,14 +54,31 @@ Xserver \- X Window System display serve
  .SH SYNOPSIS
  .B X
  [option ...]
@@ -73,7 +72,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  This utility is run from the system boot files and takes care of keeping
  the server running, prompting for usernames and passwords, and starting up
  the user sessions.
-@@ -183,6 +230,35 @@ causes all remaining command line argume
+@@ -183,6 +222,35 @@ causes all remaining command line argume
  sets the maximum big request to
  .I size
  MB.
@@ -109,7 +108,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-nolisten \fItrans-type\fP
  disables a transport type.  For example, TCP/IP connections can be disabled
-@@ -190,6 +266,7 @@ with
+@@ -190,6 +258,7 @@ with
  .BR "\-nolisten tcp" .
  This option may be issued multiple times to disable listening to different
  transport types.
@@ -117,7 +116,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .TP 8
  .B \-noreset
  prevents a server reset when the last client connection is closed.  This
-@@ -389,7 +466,7 @@ located in the XKB base directory or a s
+@@ -389,7 +458,7 @@ located in the XKB base directory or a s
  relative path from the XKB base directory.  The default XKB base directory is
  .IR __projectroot__/lib/X11/xkb .
  .TP 8
@@ -126,7 +125,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  enables(+) or disables(-) AccessX key sequences.
  .TP 8
  .B \-xkbdir \fIdirectory\fP
-@@ -545,6 +622,95 @@ the following font path:
+@@ -545,6 +614,102 @@ the following font path:
      /usr/share/fonts/default/Type1,
      /usr/share/fonts/default/ghostscript
  .fi
@@ -200,6 +199,13 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +must be used when using options specific to a particular X server as then it
 +may cause failure to start the X server if the server to be started is later
 +changed to one that does not support those options.
++.TP
++.B options/display_0_on_console
++(Type boolean) Setting this to true starts the X server with a DISPLAY ":0.0"
++on "/dev/console" rather than the first available "/dev/vt/#", see vt(7i),
++this preserves backward compatibility with programs such as "xterm -C"
++that expect have access to "/dev/console".  X servers with any other DISPLAY
++are not affected. The default is false.
 +.SS "Example: Allow remote access"
 +.PP
 +The following command allows access from remote clients.
@@ -222,7 +228,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  
  .SH FILES
  .TP 30
-@@ -559,12 +725,23 @@ Outline font directories
+@@ -559,12 +724,23 @@ Outline font directories
  .TP 30
  .I /tmp/.X11-unix/X\fBn\fP
  Unix domain socket for display number \fBn\fP
@@ -246,7 +252,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  .SH "SEE ALSO"
  General information: \fIX\fP(__miscmansuffix__)
  .PP
-@@ -581,14 +758,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
+@@ -581,14 +757,28 @@ Security: \fIXsecurity\fP(__miscmansuffi
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP
