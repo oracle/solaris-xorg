@@ -1,8 +1,7 @@
 /*-
  * xcolor.c - X11 client to display all colors in current colormap.
  *
- * Copyright 1995 Sun Microsystems, Inc.  All rights reserved.
- * Use is subject to license terms.
+ * Copyright (c) 1989, 1995, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),

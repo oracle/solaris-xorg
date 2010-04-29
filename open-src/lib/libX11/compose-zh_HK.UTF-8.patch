@@ -1,6 +1,5 @@
 ###############################################################################
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,10 +24,9 @@
 diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/Compose.pre nls/zh_HK.UTF-8/Compose.pre
 --- nls/zh_HK.UTF-8/Compose.pre	2007-05-16 08:34:44.000000000 -0700
 +++ nls/zh_HK.UTF-8/Compose.pre	2008-02-27 21:08:32.643402000 -0800
-@@ -0,0 +1,2543 @@
+@@ -0,0 +1,2542 @@
 +XCOMM
-+XCOMM Copyright (c) 1996-2000 by Sun Microsystems, Inc.
-+XCOMM All rights reserved.
++XCOMM Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
 +XCOMM
 +XCOMM ident	$Id: Compose,v 1.7 2006/02/13 07:51:51 bt150191 Exp $
 +XCOMM

@@ -1,6 +1,5 @@
 ###############################################################################
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,11 +23,10 @@
 
 --- nls/en_US.UTF-8/Compose.pre	2009-10-23 13:53:33.689534403 -0700
 +++ nls/en_US.UTF-8/Compose.pre	2009-11-12 22:38:21.017230553 -0800
-@@ -1,9 +1,70 @@
+@@ -1,9 +1,69 @@
 -XCOMM UTF-8 (Unicode) compose sequence
 +XCOMM
-+XCOMM Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-+XCOMM Use is subject to license terms.
++XCOMM Copyright (c) 2006, 2009 Oracle and/or its affiliates. All rights reserved.
 +XCOMM
 +XCOMM Permission is hereby granted, free of charge, to any person obtaining a
 +XCOMM copy of this software and associated documentation files (the

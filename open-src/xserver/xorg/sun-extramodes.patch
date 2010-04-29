@@ -6,7 +6,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/extramodes hw/xfree86/common/ext
  Modeline "2048x1536" 388.04  2048 2216 2440 2832  1536 1537 1540 1612 -hsync +vsync
  
 +//-------------------------------------------------------------------------
-+// Copyright © 2004 Sun Microsystems, Inc.  All rights reserved.
++// Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
 +//
 +// Permission is hereby granted, free of charge, to any person obtaining a
 +// copy of this software and associated documentation files (the "Software"),

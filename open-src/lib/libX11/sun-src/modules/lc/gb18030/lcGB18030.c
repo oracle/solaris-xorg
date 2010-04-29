@@ -1,5 +1,5 @@
 /*
- * Copyright © 1996 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright © 1996, 2008, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),

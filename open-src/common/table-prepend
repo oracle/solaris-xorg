@@ -4,8 +4,7 @@
 .\" table added, such as via the sun-manpage-templates/attributes file,
 .\" that doesn't already have one, so that man pre-processes it via tbl.
 .\"
-.\" Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-.\" Use is subject to license terms.
+.\" Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),

@@ -1,8 +1,7 @@
 /*-
  * HSBmap.c - Create an HSB ramp.
  *
- * Copyright 1995 Sun Microsystems, Inc.  All rights reserved.
- * Use is subject to license terms.
+ * Copyright (c) 1991, 1995, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),

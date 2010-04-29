@@ -1,6 +1,5 @@
 ###############################################################################
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,7 +32,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-2/Compose.pre nls/iso8859-2/Compose.pr
 -XCOMM $XFree86: xc/nls/Compose/iso8859-2,v 1.6 2001/05/18 23:35:29 dawes Exp $
 +XCOMM   Compose keys configuration file for
 +XCOMM   Czech, Hungarian and Polish SMCC localizations[turlough]
-+XCOMM   Copyright (c) 1994 by Sun Microsystems, Inc.
++XCOMM   Copyright (c) 1994, Oracle and/or its affiliates. All rights reserved.
 +XCOMM------------------------------------------------------------------------------
 +
 +XCOMM ISO 8859-2 (Latin2) Czech/Polish/Hungarian  Compose Sequence

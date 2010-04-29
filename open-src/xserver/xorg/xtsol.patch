@@ -1,5 +1,4 @@
-# Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -145,7 +144,7 @@ diff -urp -x '*~' -x '*.orig' dix/dispatch.c dix/dispatch.c
 -/* XSERVER_DTRACE additions:
 - * Copyright 2005-2006 Sun Microsystems, Inc.  All rights reserved.
 +/* 
-+ * Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
++ * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
   *
   * Permission is hereby granted, free of charge, to any person obtaining a
   * copy of this software and associated documentation files (the "Software"),
@@ -196,7 +195,7 @@ diff -urp -x '*~' -x '*.orig' dix/events.c dix/events.c
  
  /*
 - * Copyright © 2003-2005 Sun Microsystems, Inc.  All rights reserved.
-+ * Copyright © 2003-2005, 2007 Sun Microsystems, Inc.  All rights reserved.
++ * Copyright (c) 2003-2005, 2007, Oracle and/or its affiliates. All rights reserved.
   *
   * Permission is hereby granted, free of charge, to any person obtaining a
   * copy of this software and associated documentation files (the "Software"),
@@ -235,7 +234,7 @@ diff -urp -x '*~' -x '*.orig' dix/window.c dix/window.c
  
  ******************************************************************/
  
-+/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
++/* Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the
@@ -394,7 +393,7 @@ diff -urp -x '*~' -x '*.orig' include/extnsionst.h include/extnsionst.h
  
  ******************************************************************/
  
-+/* Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
++/* Copyright (c) 2006, 2007, Oracle and/or its affiliates. All rights reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the
@@ -523,7 +522,7 @@ diff -urp -x '*~' -x '*.orig' os/connection.c os/connection.c
  SOFTWARE.
  
  ******************************************************************/
-+/* Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
++/* Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the

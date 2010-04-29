@@ -1,6 +1,5 @@
 /* $XConsortium: kbd_mode.c,v 4.6 94/04/17 20:29:33 kaleb Exp $ */
-/* Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
- * Use is subject to license terms.
+/* Copyright (c) 1994, 2008, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
