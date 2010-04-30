@@ -43,4 +43,11 @@ SUNTOUCHED_MANPAGES=*/*.man
 SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
 
+# Additional flags to pass to configure script:
+# PLUGIN_CFLAGS - force use of bundled browser plugin headers instead
+# of trying to keep up with the many incompatible changes from Firefox
+MODULE_CONFIG_OPTS = PLUGIN_CFLAGS='-I$$(top_srcdir)/plugin/include'
+# Disable build of useless lib*.a files for browser plugin loadable modules
+MODULE_CONFIG_OPTS += --disable-static
+
 include ../Makefile.inc
