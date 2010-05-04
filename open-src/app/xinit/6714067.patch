@@ -1,7 +1,7 @@
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2008-08-05 14:58:52.000000000 -0700
-+++ Makefile.am	2009-07-30 18:11:28.517520000 -0700
-@@ -53,6 +53,7 @@ PROGCPPDEFS = \
+--- Makefile.am	2010-03-15 15:35:56.000000000 -0700
++++ Makefile.am	2010-05-03 16:23:32.292195265 -0700
+@@ -52,6 +52,7 @@ PROGCPPDEFS = \
  	-DXINIT=@XINIT@
  
  CPP_FILES_FLAGS = \
@@ -10,9 +10,9 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
  	-D__libexecdir__="$(libexecdir)" \
 diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
---- Makefile.in	2008-12-17 15:24:32.000000000 -0800
-+++ Makefile.in	2009-07-30 18:11:28.518046000 -0700
-@@ -307,6 +307,7 @@ PROGCPPDEFS = \
+--- Makefile.in	2010-03-15 15:42:07.000000000 -0700
++++ Makefile.in	2010-05-03 16:23:32.293031588 -0700
+@@ -372,6 +372,7 @@ PROGCPPDEFS = \
  	-DXINIT=@XINIT@
  
  CPP_FILES_FLAGS = \
@@ -21,9 +21,9 @@ diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
  	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
  	-D__libexecdir__="$(libexecdir)" \
 diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
---- xinit.c	2008-11-22 10:52:00.000000000 -0800
-+++ xinit.c	2009-07-30 18:11:28.522338000 -0700
-@@ -199,6 +199,11 @@ static void set_environment ( void );
+--- xinit.c	2009-11-23 14:49:24.000000000 -0800
++++ xinit.c	2010-05-03 16:23:32.293658400 -0700
+@@ -174,6 +174,11 @@ static void set_environment ( void );
  static void Fatal(char *msg);
  static void Error ( char *fmt, ... );
  
@@ -35,7 +35,7 @@ diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
  #ifdef RETSIGTYPE /* autoconf AC_TYPE_SIGNAL */
  # define SIGVAL RETSIGTYPE
  #endif /* RETSIGTYPE */
-@@ -221,6 +226,14 @@ sigAlarm(int sig)
+@@ -196,6 +201,14 @@ sigAlarm(int sig)
  static SIGVAL
  sigUsr1(int sig)
  {
@@ -50,7 +50,7 @@ diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
  #if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__UNIXOS2__) || defined(__APPLE__)
  	signal (sig, sigUsr1);
  #endif
-@@ -567,6 +580,12 @@ startServer(char *server[])
+@@ -533,6 +546,12 @@ startServer(char *server[])
  	sigaddset(&mask, SIGUSR1);
  	sigprocmask(SIG_BLOCK, &mask, &old);
  
@@ -63,7 +63,7 @@ diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
  	serverpid = fork(); 
  
  	switch(serverpid) {
-@@ -654,6 +673,17 @@ startServer(char *server[])
+@@ -620,6 +639,17 @@ startServer(char *server[])
  		if (!sigismember(&pendings, SIGUSR1))
  #endif /* __UNIXOS2__ */
  		sigsuspend(&old);
@@ -81,7 +81,7 @@ diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
  		alarm (0);
  		sigprocmask(SIG_SETMASK, &old, NULL);
  
-@@ -820,7 +850,12 @@ shutdown(void)
+@@ -786,7 +816,12 @@ shutdown(void)
  	if (serverpid < 0)
  		return;
  	errno = 0;
@@ -94,7 +94,7 @@ diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
  		if (errno == EPERM)
  			Fatal("Can't kill X server\r\n");
  		if (errno == ESRCH)
-@@ -844,6 +879,13 @@ shutdown(void)
+@@ -810,6 +845,13 @@ shutdown(void)
  		fprintf (stderr, "\r\n");
  		Fatal("Can't kill server\r\n");
  	}
@@ -109,9 +109,9 @@ diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
  	return;
  }
 diff -urp -x '*~' -x '*.orig' xinitrc.cpp xinitrc.cpp
---- xinitrc.cpp	2008-04-08 17:25:11.000000000 -0700
-+++ xinitrc.cpp	2009-07-30 18:11:28.522525000 -0700
-@@ -97,7 +97,7 @@ fi
+--- xinitrc.cpp	2009-11-23 14:49:24.000000000 -0800
++++ xinitrc.cpp	2010-05-03 16:23:32.293824820 -0700
+@@ -96,7 +96,7 @@ fi
  #endif
  
  TWM &

@@ -29,11 +29,11 @@
 MODULE_NAME=xinput
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.99.3
+MODULE_VERSION=1.5.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cc2b98b561b6431bd1e06d13ad2c7b5e
-TARBALL_SHA1 = 472dc49cf4fe8aabdd16cc410005f48f67d99875
+TARBALL_MD5  = 82400f0ba63217df9b00d825532cea7d
+TARBALL_SHA1 = f8f45486de7d44b3d7274dfd24f988035fe05910
 
 
 # Man pages to apply Sun footer to & attributes to list

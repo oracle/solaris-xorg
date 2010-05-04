@@ -29,11 +29,11 @@
 MODULE_NAME=xlogo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4c5482552f38a7d42398a694cc9b2ee6
-TARBALL_SHA1 = c2ffec6ffdc3dec7e27ed58d1e25b2237d85e053
+TARBALL_MD5  = 7365c0852750134119734bc1879f60ca
+TARBALL_SHA1 = 79f0370e1944194cb6dcce9c4efd144be69e8657
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

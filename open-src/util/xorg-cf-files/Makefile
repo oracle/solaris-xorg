@@ -27,11 +27,11 @@
 MODULE_NAME=xorg-cf-files
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5f62dd5545b782c74f6e4e70d0e6552c
-TARBALL_SHA1 = a1182e1fd05a648e6282598a355b7c4be9339755
+TARBALL_MD5  = 10546b5ddda3cdda7950bb56bf98e0ea
+TARBALL_SHA1 = 0c63edf6ceeb78fe32dd88bfce8d71c85e311bb0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

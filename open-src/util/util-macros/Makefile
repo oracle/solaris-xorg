@@ -27,20 +27,36 @@
 MODULE_NAME=util-macros
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.7.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0837fe88af7d692308b25815457a3288
-TARBALL_SHA1 = 2c6396976af20bb0c7b3b27b229876fe67c6b9dc
+TARBALL_MD5  = 0c6d2cedcfc83d2f2d873d489d868230
+TARBALL_SHA1 = 82f832a47ab6ea6aca11f29161e88b14958d883d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# Additional rules for generating sources
+MODULE_ADD_SOURCE_TARGETS=source_fix_pkgname
+
+# Need to autoreconf after running source_fix_pkgname
+AUTORECONF=yes
+
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_libtool_fix
 
+# xorg-macro pkg-config files are architecture independent, so install in share
+MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODTYPE_PKGCONFIG_DIR_SET=yes
+
 ### Include common rulesets
 include ../Makefile.inc
+
+# Install additional data files under xorg-macros instead of the
+# too-generic "util-macros"
+source_fix_pkgname: $(PATCHED_TARGET)
+	$(PERL) -i.orig -p -e 's{util-macros}{xorg-macros}g' \
+		$(SOURCE_DIR)/configure.ac
 
 # Libtool versions before 2.2.2 fail to work with LD=cc in 64 bit builds, 
 # so install fixed libtool m4 macros here as well, so that modules that

@@ -29,11 +29,11 @@
 MODULE_NAME=listres
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 827a1ac5adf9aadd0c13b54a897e297b
-TARBALL_SHA1 = 389bd1dfa099746aeb7e31cb46dcfca18ad53c2e
+TARBALL_MD5  = 3c0d5d8d6abaf411cd0647bc7073ac38
+TARBALL_SHA1 = 4c1c9b16dbd9c442a76203b57a9fef33965415d9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

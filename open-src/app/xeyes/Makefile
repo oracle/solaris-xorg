@@ -29,11 +29,11 @@
 MODULE_NAME=xeyes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.991
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ba1b886bd6104018fe78ab431d83ce4d
-TARBALL_SHA1 = 8b30da0ca87aa10fefa9791bb636fdffa2049a0a
+TARBALL_MD5  = 933f6d2b132d14f707f1f3c87b39ebe2
+TARBALL_SHA1 = 3422f65b6c5b9480cf74f48df115a6c837b84dae
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -29,11 +29,11 @@
 MODULE_NAME=viewres
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cdbed540daf7975b56000420c9aa5bf9
-TARBALL_SHA1 = 1dff013616ca56c363308a172b2283169f58d8a0
+TARBALL_MD5  = f35c4ad7e1aa1ee2b25373dcdc34345b
+TARBALL_SHA1 = 2ab60b6751c135a3bbb5a7f3f5a1fd711a4d233b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

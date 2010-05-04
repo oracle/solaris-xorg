@@ -29,11 +29,11 @@
 MODULE_NAME=xcalc
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d31a99795b9668f047aa11bf36df6df0
-TARBALL_SHA1 = 0bb9691201e403d294779e401a70f32d6d99cdd9
+TARBALL_MD5  = 0b981e360b54584fcb6dc2ec4658c406
+TARBALL_SHA1 = 0871efa12f0b28228457b898c3487bc8723d1ea8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

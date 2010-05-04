@@ -29,11 +29,11 @@
 MODULE_NAME=libXt
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 96f3c93434a93186d178b60d4a262496
-TARBALL_SHA1 = 3c285b9c04a393dec1cc3d60cf5582d798eb3272
+TARBALL_MD5  = fb7d2aa5b24cd5fe9b238a26d88030e7
+TARBALL_SHA1 = d5e3dfba90a12169771399b3e2ccae07243489c9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch

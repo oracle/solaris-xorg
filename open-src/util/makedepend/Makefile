@@ -27,11 +27,11 @@
 MODULE_NAME=makedepend
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 54ab2549d723e51ff2b9cff4d8bf44d1
-TARBALL_SHA1 = c795cdc754d8c9c73e6a310e41eab37c5ab867bf
+TARBALL_MD5  = 62e58330fe8d1e3e28c7a45779833a48
+TARBALL_SHA1 = 57e092856580d9984e47c4b1433b69391de07df3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -536,6 +536,7 @@ f none share/pkgconfig/xproxymngproto.pc			0444 root bin
 # Data files & other miscellany
 
 f none share/pkgconfig/xbitmaps.pc				0444 root bin
+f none share/pkgconfig/xorg-macros.pc				0444 root bin
 
 
 # Libraries
@@ -623,3 +624,8 @@ f none lib/$plat_64/pkgconfig/xxf86vm.pc			0444 root bin
 d none share/aclocal						0755 root other
 f none share/aclocal/xorg-macros.m4				0444 root bin
 f none share/aclocal/xtrans.m4					0444 root bin
+
+# other xorg-macros datafiles
+!search $HOME/share/xorg-macros
+d none share/xorg-macros					0755 root bin
+f none share/xorg-macros/INSTALL				0444 root bin

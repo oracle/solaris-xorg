@@ -29,11 +29,11 @@
 MODULE_NAME=xvidtune
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e0744594f4e5969b20df28d897781318
-TARBALL_SHA1 = 63ec5ecff8bdef3988bf2612a3694ad7d87d3867
+TARBALL_MD5  = e40eeb4454f2a7cdde3a14f5dfd3aadd
+TARBALL_SHA1 = 2f3f821943018c07efd4547afa4313ac92718b1e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

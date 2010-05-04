@@ -29,11 +29,11 @@
 MODULE_NAME=xterm
 
 # Version number (used in path names)
-MODULE_VERSION=253
+MODULE_VERSION=258
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 363cc4865b7691bd0ae5eebb42cde9c9
-TARBALL_SHA1 = 4234376b43a0c60f2516df0c0abe26037671d50f
+TARBALL_MD5  = bcf4f0ba51f5f58fd5bef76b3d05e40e
+TARBALL_SHA1 = d3357fc88917e23210eea2db32b185799bb2d22e
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)

@@ -29,11 +29,11 @@
 MODULE_NAME=xinit
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 93c73705ed9eb1e1a6b6938405672f2b
-TARBALL_SHA1 = 577a111efc9b5a8ec6cc294ae7c35048eebde704
+TARBALL_MD5  = 56f2d202b3dc10fcd21931a67bb270f7
+TARBALL_SHA1 = baf36374aa1632054816a8281e55e1539459664b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6714067.patch

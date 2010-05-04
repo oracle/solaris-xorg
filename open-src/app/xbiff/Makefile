@@ -29,11 +29,11 @@
 MODULE_NAME=xbiff
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 404f5add4537d22dd109c33e518a5190
-TARBALL_SHA1 = 9a925f8565e79c9e24cca66b8e5d868a5670b08f
+TARBALL_MD5  = 1d4ad06725f9dc4b877ecd210b7b1607
+TARBALL_SHA1 = 9980a9f92b060168cfb46006f7c98c7f34459011
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
