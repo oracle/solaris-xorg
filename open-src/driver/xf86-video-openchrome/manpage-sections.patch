@@ -1,0 +1,15 @@
+Use XORG_MANPAGE_SECTIONS to get the right OS-specific man page sections
+instead of the hardcoded Linux/BSD sections that don't match SysV/Solaris.
+
+--- xf86-video-openchrome-0.2.904/configure.ac	Wed Oct  7 16:41:12 2009
++++ xf86-video-openchrome-0.2.904/configure.ac	Thu Apr  8 15:11:06 2010
+@@ -169,8 +169,7 @@
+ AC_DEFINE(X_HAVE_XAAGETROP,1,[Compatibility define for older Xen])
+ AC_DEFINE(X_NEED_I2CSTART,1,[Compatibility define for older Xen])
+ 
+-DRIVER_MAN_SUFFIX="4"
+-AC_SUBST([DRIVER_MAN_SUFFIX])
++XORG_MANPAGE_SECTIONS
+ 
+ XORG_RELEASE_VERSION
+ 

@@ -45,8 +45,9 @@ LIBNAME=Xau
 SUNTOUCHED_MANPAGES=Xau.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+MODULE_MTLEVEL=Unsafe
+MODULE_MTLEVEL_SET=yes
 LIB_MAN_SUFFIX=3Xau
-LIB_SUNTOUCH_MAN_FLAGS= -a '{Availability, $(SUN_PACKAGE)} {Interface Stability, $(MODULE_STABILITY)} {MT-Level, Unsafe}'
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library

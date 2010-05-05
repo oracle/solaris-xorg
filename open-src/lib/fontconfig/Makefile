@@ -53,12 +53,28 @@ SOURCE_PATCHES=fontconfig-$(MODULE_VERSION)-fonts.conf.patch,-p1 \
 LIBNAME=fontconfig
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*/*.1 doc/*.3 doc/*.5
+FONTCONFIG_CMDS = fc-cache fc-list fc-query fc-cat fc-match fc-scan
+SUNTOUCHED_MANPAGES = $(FONTCONFIG_CMDS:%=%/%.1) doc/*.3 doc/*.5
 SUN_PACKAGE=SUNWfontconfig
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3fontconfig
 MODULE_MTLEVEL=Unknown
-MODULE_MTLEVEL_set=yes
+MODULE_MTLEVEL_SET=yes
+
+# Override specific attributes for specific man pages
+SUNTOUCH_MAN_FLAGS = $(COMMON_SUNTOUCH_MAN_FLAGS) \
+	$(SUNTOUCH_MAN_FLAGS_$(@F:%.$(FIXED_MAN_SUFFIX)=%))
+SUNTOUCH_MAN_FLAGS_SET = yes
+# API docs are in doc/*.3
+SUNTOUCH_MAN_FLAGS_*.3 = $(MODTYPE_SUNTOUCH_MAN_FLAGS)
+# Command docs are in per-command dirs
+SUNTOUCH_MAN_FLAGS_CMDS = -p $(MODULE_PREFIX)/bin/
+SUNTOUCH_MAN_FLAGS_fc-cache.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-list.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-query.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-cat.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-match.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-scan.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 
 # Install to /usr, not /usr/X11
 MODULE_PREFIX=/usr

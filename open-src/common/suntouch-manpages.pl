@@ -1,7 +1,7 @@
 #!/usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2006, 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,8 +26,10 @@
 
 # Updates manual pages to include standard Sun man page sections
 #
-# Arguments: 
-#	-a '{attribute, value}, ...' - entries for Attributes section table
+# Arguments:
+#	-a '{attribute, value}, ...' - add entries to Attributes section table
+#	-o '{attribute, value}, ...' - override previous entries in
+#					Attributes section table
 #	-l libname		     - add library line to synopsis
 #	-p path			     - add path to command in synopsis
 
@@ -36,16 +38,18 @@ use integer;
 use strict;
 
 my @attributes;
+my @overrides;
 my $library;
 my $synpath;
 
 my $result = GetOptions('a|attribute=s' => \@attributes,
+			'o|override=s'  => \@overrides,
 			'l|library=s'	=> \$library,
 			'p|path=s'	=> \$synpath);
 
 my $add_attributes = 0;
 
-if (scalar(@attributes) > 0) {
+if (scalar(@attributes) + scalar(@overrides) > 0) {
   $add_attributes = 1;
 }
 
@@ -64,12 +68,12 @@ if (defined($synpath)) {
 my $filename;
 
 while ($filename = shift) {
-  rename($filename, "$filename.orig") 
-    || die "Cannot rename $filename to $filename.orig";
-  open(IN, "<$filename.orig") 
-    || die "Cannot read $filename.orig";
-  open(OUT, ">$filename")
-    || die "Cannot write to $filename";
+  rename($filename, "$filename.orig")
+    || die "Cannot rename $filename to $filename.orig: $!";
+  open(IN, '<', "$filename.orig")
+    || die "Cannot read $filename.orig: $!";
+  open(OUT, '>', $filename)
+    || die "Cannot write to $filename: $!";
 
   my $firstline = <IN>;
 
@@ -113,7 +117,7 @@ while ($filename = shift) {
   }
 
   if ($add_attributes) {
-    print OUT &get_attributes_table(join(" ", @attributes));
+    print OUT &get_attributes_table(\@attributes, \@overrides);
   }
 
   close(IN);
@@ -122,7 +126,7 @@ while ($filename = shift) {
 
 
 sub get_attributes_table {
-  my $attribute_list = $_[0];
+  my ($attributes_ref, $overrides_ref) = @_;
 
   my $attributes_table = q{
 .\\" Begin Sun update
@@ -135,26 +139,55 @@ cw(2.750000i)| cw(2.750000i)
 lw(2.750000i)| lw(2.750000i).
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
 <attributes>
-.TE 
+.TE
 .sp
 .\\" End Sun update
 };
 
-  # Parse input list of attributes
-  $attribute_list =~ s/^\s*{//;
-  $attribute_list =~ s/}\s*$//;
-  my @attribs = split /}\s*{/, $attribute_list;
-
-  my $a;
   my $attribute_entries = "";
 
-  foreach $a (@attribs) {
-    my ($name, $value) = split /,\s*/, $a, 2;
+  my @attribute_pairs = parse_attributes_list($attributes_ref);
+  my @overrides_pairs = parse_attributes_list($overrides_ref);
 
+  foreach my $o (@overrides_pairs) {
+    my ($oname, $ovalue) = @{$o};
+    my $found_match = 0;
+
+    foreach my $a (@attribute_pairs) {
+      if ($a->[0] eq $oname) {
+	$a->[1] = $ovalue;
+	$found_match++;
+      }
+    }
+
+    if ($found_match == 0) {
+      push @attribute_pairs, $o;
+    }
+  }
+
+  foreach my $a (@attribute_pairs) {
+    my ($name, $value) = @{$a};
     $attribute_entries .= $name . "\t" . $value . "\n";
   }
 
   $attributes_table =~ s/<attributes>\n/$attribute_entries/;
 
   return $attributes_table;
+}
+
+sub parse_attributes_list {
+  my ($list_ref) = @_;
+
+  my $list_string = join(" ", @{$list_ref});
+  $list_string =~ s/^\s*{//;
+  $list_string =~ s/}\s*$//;
+
+  my @attribs = split /}\s*{/, $list_string;
+  my @attrib_pairs = ();
+
+  foreach my $a (@attribs) {
+    my @pair = split /,\s*/, $a, 2;  # pair = name, value
+    push @attrib_pairs, \@pair;
+  }
+  return @attrib_pairs;
 }

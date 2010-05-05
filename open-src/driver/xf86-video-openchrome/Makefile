@@ -36,7 +36,10 @@ TARBALL_MD5  = f2481d98ef54febf5bffbb88a2a2426d
 TARBALL_SHA1 = 23225057d5b75d6aac3e7a710cbc067b2eb29228
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES =
+SOURCE_PATCHES = manpage-sections.patch,-p1
+
+# manpage-sections.patch edits configure.ac, so we need to autoreconf
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

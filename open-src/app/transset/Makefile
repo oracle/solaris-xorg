@@ -40,8 +40,8 @@ SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWcompmgr
+SUNTOUCHED_MANPAGES=transset.1
+SUN_PACKAGE=SUNWxcompmgr
 MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

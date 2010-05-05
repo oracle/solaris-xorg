@@ -37,7 +37,7 @@ TARBALL_SHA1 = 9b4d7c3c64b3d980ea317b5206fee17adefd1d65
 
 
 # Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES=xcompmgr.1
 SUN_PACKAGE=SUNWxcompmgr
 MODULE_STABILITY=Volatile
 

@@ -70,6 +70,6 @@ install_smf: check_smf
 
 install_fsadmin:
 	mkdir -p $(PROTODIR)$(X11_DIR)/sbin \
-		$(PROTODIR)$(X11_MAN_DIR)/man/man1
+		$(PROTODIR)$(X11_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/sbin
 	$(INSTALL_SCRIPT) fsadmin.1 $(PROTODIR)$(X11_MAN_DIR)/man1

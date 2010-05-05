@@ -46,6 +46,7 @@ SUNTOUCHED_MANPAGES=
 SUN_PACKAGE=SUNWxwice
 MODULE_STABILITY=Committed
 MODULE_MTLEVEL=Unsafe
+MODULE_MTLEVEL_SET=yes
 LIB_MAN_SUFFIX=3ICE
 
 # Command line options to GNU autoconf configure script

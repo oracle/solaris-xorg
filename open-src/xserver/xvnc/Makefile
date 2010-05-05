@@ -66,14 +66,23 @@ SOURCE_PATCHES = \
 	upstream-modkeystick.patch,-p0 \
 	solaris-port.patch
 
+
 # Man pages to apply Sun footer to & attributes to list
-# Common ones are here - Xvnc_source_fini target below has more with
-# different attributes/path set
 SUNTOUCHED_MANPAGES= \
+	unix/xserver/hw/vnc/Xvnc.man unix/vncviewer/vncviewer.man \
 	unix/vncconfig/vncconfig.man unix/vncpasswd/vncpasswd.man \
 	unix/vncserver.man unix/x0vncserver/x0vncserver.man
-SUNTOUCH_MAN_FLAGS= -p /usr/bin/ \
- -a '{Availability, SUNWxvnc} {Interface Stability, Volatile}'
+SUN_PACKAGE = SUNWxvnc
+MODULE_STABILITY = Volatile
+
+# Additional package name used for vncviewer package
+VNCVIEWER_PKGNAME=SUNWvncviewer
+
+# Override specific attributes for specific man pages
+MODULE_SUNTOUCH_MAN_FLAGS= \
+	$(SUNTOUCH_MAN_FLAGS_$(@F:%.man.$(FIXED_MAN_SUFFIX)=%))
+SUNTOUCH_MAN_FLAGS_vncviewer = -o '{Availability, $(VNCVIEWER_PKGNAME)}' \
+	-o '{Interface Stability, Path: Committed, Options: Volatile}'
 
 # Compiler to use
 MODULE_COMPILER=suncc
@@ -81,8 +90,8 @@ MODULE_COMPILER_SET=yes
 
 # Xvnc has to configure, build, and install in different directories due to 
 # the mixed codebases and unusual directory layout
-MODULE_ADD_SOURCE_TARGETS=Xvnc_source_init Xvnc_source_fini
-MODULE_SOURCE_DEPS=Xvnc_source_init
+MODULE_ADD_SOURCE_TARGETS=Xvnc_source_init
+MODULE_SOURCE_DEPS = Xvnc_source_init
 CONFIGURE_TARGETS=$(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS_common=Xvnc_build set-elf-comments
@@ -128,16 +137,6 @@ $(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
 		SOURCE_PATCHES="$(XORG_SOURCE_PATCHES:%=../xorg/%)" \
 		SOURCE_DIR="$(XORG_BUILD_DIR)"
 
-# Apply specific sets of Solaris attributes to various man pages
-# This step has to be done after default_source, since it depends
-# on files created in that stage
-Xvnc_source_fini: $(UNPACK_TARGET)
-	$(PERL) $(TOP)/common/suntouch-manpages.pl \
-	  -a '{Availability, SUNWvncviewer} {Interface Stability, Volatile}' \
-	  -p /usr/bin/ $(SOURCE_DIR)/unix/vncviewer/vncviewer.man
-	$(PERL) $(TOP)/common/suntouch-manpages.pl \
-	  -a '{Availability, SUNWxvnc} {Interface Stability, Volatile}' \
-	  -p $(X11_DIR)/bin/ $(SOURCE_DIR)/unix/xserver/hw/vnc/Xvnc.man
 
 # Command line options to GNU autoconf configure script for vnc clients
 VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \

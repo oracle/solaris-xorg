@@ -39,7 +39,7 @@ TARBALL_SHA1 = 5953c5c9cdc84487d1997a3cb5f8ff857cdf033b
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 

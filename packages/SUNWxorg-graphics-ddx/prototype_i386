@@ -164,11 +164,12 @@ f none share/man/man7/intel.7					0444 root bin
 f none share/man/man7/mga.7					0444 root bin
 f none share/man/man7/neomagic.7				0444 root bin
 f none share/man/man7/nv.7					0444 root bin
-f none share/man/man7/openchrome.7=$HOME/share/man/man4/openchrome.4	0444 root bin
+f none share/man/man7/openchrome.7				0444 root bin
 f none share/man/man7/r128.7					0444 root bin
 f none share/man/man7/radeon.7					0444 root bin
 f none share/man/man7/radeonhd.7				0444 root bin
 f none share/man/man7/rendition.7				0444 root bin
+f none share/man/man7/s3.7					0444 root bin
 f none share/man/man7/s3virge.7					0444 root bin
 f none share/man/man7/savage.7					0444 root bin
 f none share/man/man7/siliconmotion.7				0444 root bin

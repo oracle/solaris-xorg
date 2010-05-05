@@ -41,7 +41,7 @@ SOURCE_PATCHES = \
 
 
 # Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 

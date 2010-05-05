@@ -40,7 +40,7 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwopt} {Interface Stability, Committed}'
+SUN_PACKAGE=SUNWxwopt
+MODULE_STABILITY=Committed
 
 include ../Makefile.inc

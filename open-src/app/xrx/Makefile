@@ -39,7 +39,7 @@ TARBALL_SHA1 = 76265c2046b637701c4b61cbfe532ed542640950
 SOURCE_PATCHES= 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*/*.man
+SUNTOUCHED_MANPAGES=helper/xrx.man plugin/libxrx.man
 SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
 
