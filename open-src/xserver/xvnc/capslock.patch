@@ -1,0 +1,108 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+--- unix/xserver/hw/vnc/Input.cc	Tue May 11 13:29:10 2010
++++ unix/xserver/hw/vnc/Input.cc.new	Tue May 11 13:11:55 2010
+@@ -436,8 +436,28 @@
+  * 1.6 (aka MPX - Multi pointer X)
+  * - multiple master devices (= core devices) exists, keep vncKeyboardDevice
+  *   synchronized with proper master device
++ *
++ * 1.7
++ * - Need to fix per-keysym memory leak but not with goto's
+  */
+ 
++#if XORG >= 17
++#define CLEANUP_RETURN			\
++    {					\
++	xfree(modKeyMap);		\
++	if (keymap)			\
++	{				\
++		xfree(keymap->map);	\
++		xfree(keymap);		\
++	}				\
++	return;				\
++    }
++#else
++#define CLEANUP_RETURN			\
++	return;
++#endif
++
++
+ void KeyboardDevice::keyEvent(rdr::U32 keysym, bool down)
+ {
+ 	DeviceIntPtr master;
+@@ -458,7 +478,7 @@
+ 
+ 	if (keysym == XK_Caps_Lock) {
+ 		vlog.debug("Ignoring caps lock");
+-		goto cleanup;
++		CLEANUP_RETURN
+ 	}
+ 
+ #if XORG >= 17
+@@ -465,8 +485,8 @@
+ 	int ret = generate_modkeymap(serverClient, dev, &modKeyMap,
+ 					     &maxKeysPerModifier);
+ 	if (ret != Success)
+-		goto cleanup;
+-	modState = XkbStateFieldFromRec(&keyc->xkbInfo->state);
++		CLEANUP_RETURN
++	modState = XkbStateFieldFromRec(&keyc->xkbInfo->state);	/*SHOULD SEE MODIFIER STATE HERE!!*/
+ #else
+ 	maxKeysPerModifier = keyc->maxKeysPerModifier;
+ 	modKeyMap = keyc->modifierKeyMap;
+@@ -572,7 +592,7 @@
+ 	if (kc < minKeyCode) {
+ 		vlog.info("Keyboard mapping full - ignoring unknown keysym "
+ 			  "0x%x",keysym);
+-		goto cleanup;
++		CLEANUP_RETURN
+ 	}
+ 
+ 	/*
+@@ -585,7 +605,7 @@
+ 			int index = i * maxKeysPerModifier + k;
+ 			if (kc == modKeyMap[index] &&
+ 			    IS_PRESSED(keyc,kc) && down)
+-				goto cleanup;
++				CLEANUP_RETURN
+ 		}
+ 	}
+ 
+@@ -608,15 +628,7 @@
+ 	action = down ? KeyPress : KeyRelease;
+ 	n = GetKeyboardEvents(eventq, dev, action, kc);
+ 	enqueueEvents(dev, n);
+-  cleanup:
+-#if XORG >= 17
+-	xfree(modKeyMap);
+-	if (keymap)
+-	{
+-		xfree(keymap->map);
+-		xfree(keymap);
+-	}
+-#endif
++	CLEANUP_RETURN
+ }
+ 
+ static KeySym KeyCodetoKeySym(KeySymsPtr keymap, int keycode, int col)

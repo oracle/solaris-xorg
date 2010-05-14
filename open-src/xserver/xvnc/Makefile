@@ -64,7 +64,8 @@ SOURCE_PATCHES = \
 	vnc-nohttpd.patch \
 	vncviewer-connect.patch,-p1 \
 	upstream-modkeystick.patch,-p0 \
-	solaris-port.patch
+	solaris-port.patch \
+	capslock.patch
 
 
 # Man pages to apply Sun footer to & attributes to list
