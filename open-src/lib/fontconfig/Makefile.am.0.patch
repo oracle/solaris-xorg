@@ -1,6 +1,7 @@
---- fontconfig-2.7.3/Makefile.am	2009-06-24 11:43:43.000000000 -0700
-+++ fontconfig-2.7.3/Makefile.am	2009-10-26 13:37:54.735090942 -0700
-@@ -104,16 +104,6 @@
+diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
+--- Makefile.am	2009-11-16 09:24:52.000000000 -0800
++++ Makefile.am	2010-05-10 15:15:11.378520724 -0700
+@@ -104,16 +104,6 @@ install-data-local: fonts.conf
  	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf"; \
  	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
  	fi; fi

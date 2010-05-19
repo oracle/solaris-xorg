@@ -29,11 +29,11 @@
 MODULE_NAME=fontconfig
 
 # Version number (used in path names)
-MODULE_VERSION=2.7.3
+MODULE_VERSION=2.8.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 747d2c691c66b563c8e8c1784ce8d014
-TARBALL_SHA1 = bc84b883673a7f43f2849f06ec110c4eaccfb42c
+TARBALL_MD5  = 77e15a92006ddc2adbb06f840d591c0e
+TARBALL_SHA1 = 570fb55eb14f2c92a7b470b941e9d35dbfafa716
 
 # Source tarball
 SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz
@@ -45,9 +45,13 @@ SOURCE_URL=http://fontconfig.org/release/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=fontconfig-$(MODULE_VERSION)-fonts.conf.patch,-p1 \
-	       Makefile.am.0.patch,-p1 \
-	       6770058.patch,-p1
+SOURCE_PATCHES = \
+		arial-narrow.conf.patch \
+		cjk-fonts.conf.patch \
+		Makefile.am.0.patch \
+		bitmap-hacks.patch \
+		6447517.patch \
+		6770058.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig

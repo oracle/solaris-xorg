@@ -1,0 +1,92 @@
+Changes were originally part of Solaris bug fix for:
+5099951 Fonts (in particular Lucida Sans Typewriter) look terrible in JDS.
+
+Allows fontconfig to use bitmap fonts (which may be hand-tuned for the
+specific size) instead of scalable fonts when a close match is found and
+anti-aliasing is not requested.
+
+diff -urp -x '*~' -x '*.orig' src/fcmatch.c src/fcmatch.c
+--- src/fcmatch.c	2010-05-10 15:00:04.208294425 -0700
++++ src/fcmatch.c	2010-05-10 15:00:04.449154429 -0700
+@@ -168,6 +168,15 @@ FcCompareSize (FcValue *value1, FcValue 
+     if (v2 == 0)
+ 	return 0;
+     v = v2 - v1;
++
++    /*
++     * Hack to allow bitmap fonts to equal requested font if it is close
++     */
++    if ( v > -.5 && v <= .5 )
++    {
++        v = 0;
++    }
++
+     if (v < 0)
+ 	v = -v;
+     return v;
+@@ -430,6 +439,47 @@ FcFontRenderPrepare (FcConfig	    *confi
+     return new;
+ }
+ 
++static void
++FcChangeFormat ( FcPattern *p )
++{
++    int i;
++    FcPatternElt    *pe = FcPatternElts(p);
++
++    /*
++     * Hack. If user want monochrome mode, then try to pick bitmaps over
++     * outlines.
++     */
++    for ( i = 0; i < p->num; i++ )
++    {
++        if ( !strcmp(&pe[i].object, "antialias" ))
++        {
++            int aa = (int) &pe[i].values->value.u.b;
++            int j;
++            int done = 0;
++            FcValue v;
++
++            v.type = FcTypeBool;
++            v.u.b  = aa;
++
++            for ( j = 0; j < p->num; j++ )
++            {
++                if ( !strcmp(&pe[j].object, "outline" ))
++                {
++                    done = 1;
++                    break;
++                }
++            }
++            if ( !done )
++            {
++                FcPatternObjectAddWithBinding (p, "outline", v,
++                        FcValueBindingStrong, 1);
++            }
++            break;
++        }
++    }
++}
++
++
+ static FcPattern *
+ FcFontSetMatchInternal (FcConfig    *config,
+ 			FcFontSet   **sets,
+@@ -444,6 +494,8 @@ FcFontSetMatchInternal (FcConfig    *con
+     int		    i;
+     int		    set;
+ 
++    FcChangeFormat ( p );
++
+     for (i = 0; i < NUM_MATCH_VALUES; i++)
+ 	bestscore[i] = 0;
+     best = 0;
+@@ -672,6 +724,8 @@ FcFontSetSort (FcConfig	    *config,
+     FcBool    	    *patternLangSat;
+     FcValue	    patternLang;
+ 
++    FcChangeFormat ( p );
++
+     if (FcDebug () & FC_DBG_MATCH)
+     {
+ 	printf ("Sort ");

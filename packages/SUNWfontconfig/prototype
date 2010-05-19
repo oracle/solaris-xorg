@@ -31,9 +31,11 @@ i depend
 !search      $HOME/bin
 d none bin 						0755 root bin
 f none bin/fc-cache					0755 root bin
+f none bin/fc-cat					0755 root bin
 f none bin/fc-list					0755 root bin
 f none bin/fc-match					0755 root bin
-f none bin/fc-cat					0755 root bin
+f none bin/fc-query					0755 root bin
+f none bin/fc-scan					0755 root bin
 
 !search      $HOME/include/fontconfig
 d none include 						0755 root bin

@@ -1,6 +1,7 @@
---- fontconfig-2.7.3/src/fcmatch.c	2009-09-08 11:45:26.000000000 -0400
-+++ fontconfig-2.7.3/src/fcmatch.c	2009-10-15 11:39:33.083335000 -0400
-@@ -677,6 +677,12 @@
+diff -urp -x '*~' -x '*.orig' src/fcmatch.c src/fcmatch.c
+--- src/fcmatch.c	2010-05-10 15:15:11.983002021 -0700
++++ src/fcmatch.c	2010-05-10 15:15:12.294147068 -0700
+@@ -731,6 +731,12 @@ FcFontSetSort (FcConfig	    *config,
  	printf ("Sort ");
  	FcPatternPrint (p);
      }
