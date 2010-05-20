@@ -30,3 +30,4 @@ vbe-packing.patch
 6912996.patch
 6942816.patch
 getifaddrs.patch,-p1
+mousekeys.patch
