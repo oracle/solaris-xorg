@@ -42,7 +42,8 @@ SOURCE_PATCHES= build-dri.patch libraries.patch \
 		gem-hang.patch 6898754.patch \
 		6907204.patch port.patch \
 		mplayer-crash.patch 6907803.patch \
-		6915882.patch disable-tiling-for-ironlake.patch
+		6915882.patch disable-tiling-for-ironlake.patch \
+		6950311.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
