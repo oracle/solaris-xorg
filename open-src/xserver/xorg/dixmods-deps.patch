@@ -27,3 +27,20 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/int10/Makefile.am hw/xfree86/int10/Make
  EXTRA_DIST = xf86x86emu.h INT10.HOWTO
 +
 +libint10_la_LIBADD = $(PCIACCESS_LIBS)
+--- hw/xfree86/shadowfb/Makefile.am~	Tue Apr 15 23:14:18 2008
++++ hw/xfree86/shadowfb/Makefile.am	Wed Apr  7 07:33:34 2010
+@@ -7,3 +7,5 @@
+ INCLUDES = $(XORG_INCS)
+ 
+ AM_CFLAGS = $(DIX_CFLAGS) $(XORG_CFLAGS)
++
++libshadowfb_la_LIBADD = -lXfont
+
+--- hw/xfree86/vbe/Makefile.am~	Tue Apr 15 23:14:18 2008
++++ hw/xfree86/vbe/Makefile.am	Tue Apr 20 16:01:20 2010
+@@ -8,3 +8,5 @@
+ 
+ INCLUDES = $(XORG_INCS) -I$(srcdir)/../ddc -I$(srcdir)/../i2c \
+            -I$(srcdir)/../int10
++
++libvbe_la_LIBADD = ../int10/libint10.la

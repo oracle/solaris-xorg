@@ -51,6 +51,11 @@ MODULE_LD_OPTIONS= \
 
 AUTORECONF=yes
 
+# Need to override install path for all the modules, not just cirrus_drv.so
+MODULE_MAKEFLAGS = \
+	cirrus_alpine_ladir='$(DRIVER_DIR)' \
+	cirrus_laguna_ladir='$(DRIVER_DIR)'
+
 include ../Makefile.inc
 
 

@@ -1,41 +1,25 @@
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2010-04-20 16:51:58.116747548 -0700
++++ configure.ac	2010-04-20 16:51:58.619268104 -0700
+@@ -244,8 +244,7 @@ if test "$XVMC" = yes && test "$DRI" = n
+ 	AC_MSG_ERROR([XvMC can't be enabled without DRI])
+ fi
+ if test "$XVMC" = yes; then
+-	PKG_CHECK_MODULES(XVMCLIB, [xvmc], [XVMC=yes], [XVMC=no])
+-	PKG_CHECK_MODULES(XEXT, [xext])
++	PKG_CHECK_MODULES(XVMCLIB, [xvmc xext x11 xfixes dri2proto], [XVMC=yes], [XVMC=no])
+ fi
+ AC_MSG_CHECKING([whether to include XvMC support])
+ AC_MSG_RESULT([$XVMC])
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2009-01-21 14:02:00.000000000 -0800
-+++ src/Makefile.am	2009-05-08 20:47:55.817701000 -0700
-@@ -35,7 +35,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ 
- 	@XMODES_CFLAGS@ -DI830_XV -DI830_USE_XAA -DI830_USE_EXA
- 
- intel_drv_la_LTLIBRARIES = intel_drv.la
--intel_drv_la_LDFLAGS = -module -avoid-version
-+intel_drv_la_LDFLAGS = -module -avoid-version \
-+	-ldrm -lfb -lint10 -lshadow -lshadowfb \
-+	-lvbe -lvgahw -lxaa -lexa -ldri -ldri2 -lglx -lm
+--- src/Makefile.am	2009-02-28 12:28:53.000000000 -0800
++++ src/Makefile.am	2010-04-20 16:51:58.619438335 -0700
+@@ -38,6 +38,8 @@ intel_drv_la_LTLIBRARIES = intel_drv.la
+ intel_drv_la_LDFLAGS = -module -avoid-version
  intel_drv_ladir = @moduledir@/drivers
  intel_drv_la_LIBADD = -lm @DRM_LIBS@ -ldrm_intel
++intel_drv_la_LIBADD += -lfb -lextmod -lshadowfb -lXfont \
++	-lvbe -lvgahw -lxaa -lexa -ldri -ldri2 -lglx
  if BUILD_UXA
-diff -urp -x '*~' -x '*.orig' src/ch7017/Makefile.am src/ch7017/Makefile.am
---- src/ch7017/Makefile.am	2009-01-21 14:02:00.000000000 -0800
-+++ src/ch7017/Makefile.am	2009-05-08 20:47:55.811627000 -0700
-@@ -7,7 +7,9 @@ AM_CFLAGS = @WARN_CFLAGS@ @XMODES_CFLAGS
- 	@PCIACCESS_CFLAGS@
- 
- ch7017_la_LTLIBRARIES = ch7017.la
--ch7017_la_LDFLAGS = -module -avoid-version
-+ch7017_la_LDFLAGS = -module -avoid-version \
-+	-ldrm -lfb -lint10  -lshadow -lshadowfb \
-+	-lvbe -lvgahw -lxaa -ldri -lglx -lm
- ch7017_ladir = @moduledir@/drivers
- 
- ch7017_la_SOURCES = \
-diff -urp -x '*~' -x '*.orig' src/xvmc/Makefile.am src/xvmc/Makefile.am
---- src/xvmc/Makefile.am	2009-01-21 14:02:00.000000000 -0800
-+++ src/xvmc/Makefile.am	2009-05-08 20:47:55.806902000 -0700
-@@ -6,7 +6,8 @@ libI810XvMC_la_SOURCES = I810XvMC.c \
- 
- libI810XvMC_la_CFLAGS = @WARN_CFLAGS@ @XORG_CFLAGS@ @DRM_CFLAGS@ @DRI_CFLAGS@ \
- 	-I$(top_srcdir)/src -DTRUE=1 -DFALSE=0
--libI810XvMC_la_LDFLAGS = -version-number 1:0:0
-+libI810XvMC_la_LDFLAGS = -version-number 1:0:0 \
-+	-lXvMC -lXv -lX11 -ldrm
- libI810XvMC_la_LIBADD = @DRI_LIBS@ @DRM_LIBS@ @XVMCLIB_LIBS@
- 
- libIntelXvMC_la_SOURCES = intel_xvmc.c \
+ intel_drv_la_LIBADD += ../uxa/libuxa.la
+ endif

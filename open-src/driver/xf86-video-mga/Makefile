@@ -50,12 +50,12 @@ MODULE_CONFIG_OPTS=--disable-dri
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/linux \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe \
+	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe \
 	-lvgahw -lxaa -lfbdevhw
 
 AUTORECONF=yes

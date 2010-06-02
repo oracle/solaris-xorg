@@ -47,7 +47,7 @@ f none lib/xorg/modules/dri/$plat_64/r300_dri.so		0755 root bin
 f none lib/xorg/modules/dri/$plat_64/radeon_dri.so		0755 root bin
 f none lib/xorg/modules/dri/$plat_64/swrast_dri.so		0755 root bin
 
-!search $HOME/lib/xorg/modules/$plat_64/extensions
+!search $HOME/lib/xorg/modules/extensions/$plat_64
 d none lib/xorg/modules/extensions/$plat_64			0755 root bin
 f none lib/xorg/modules/extensions/$plat_64/libdri.so		0755 root bin
 f none lib/xorg/modules/extensions/$plat_64/libdri2.so		0755 root bin

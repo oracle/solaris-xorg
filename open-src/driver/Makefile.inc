@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,11 @@ MODTYPE=driver
 ### Include common definitions
 include $(TOP)/common/Makefile.init
 
+# Determine from MODULE_NAME if this is a video or input driver
+DRIVER_CLASS_V=$(MODULE_NAME:xf86-video-%=video)
+DRIVER_CLASS=$(DRIVER_CLASS_V:xf86-input-%=input)
+DRIVER_NAME=$(MODULE_NAME:xf86-$(DRIVER_CLASS)-%=%)
+
 # Build 64-bit on SPARC, 32-bit & 64-bit on x86, to match Xorg server builds
 BUILD_TYPES_SET=yes
 BUILD_TYPES_sparc=64
@@ -45,8 +50,16 @@ MODTYPE_CONFIG_OPTS = \
 MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
 MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
 
-MODTYPE_BUILD_MAKEFLAGS= \
-	inputdir='$(X11_SERVERMODS_DIR)/input$(SERVERMOD_subdir)'
+# Override module subdirs to be modules/xxx/amd64, not modules/amd64/xxx
+DRIVER_DIR_input=$(X11_SERVERMODS_DIR)/input$(SERVERMOD_subdir)
+DRIVER_DIR_video=$(X11_SERVERMODS_DIR)/drivers$(SERVERMOD_subdir)
+DRIVER_DIR=$(DRIVER_DIR_$(DRIVER_CLASS))
+
+MODTYPE_MAKEFLAGS= \
+	inputdir='$(DRIVER_DIR_input)' \
+	driversdir='$(DRIVER_DIR_video)' \
+	$(DRIVER_NAME)_drv_ladir='$(DRIVER_DIR)'
+MODTYPE_ADD_CONFIGURE_TARGETS = fix-moduledirs
 
 # Set comments in ELF binaries to help identify versions/builds
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments

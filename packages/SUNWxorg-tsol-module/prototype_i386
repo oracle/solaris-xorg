@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,6 @@
 !XSERVERMODDIR=lib/xorg/modules
 !include prototype_com
 
-!search $HOME/$XSERVERMODDIR/amd64/extensions
+!search $HOME/$XSERVERMODDIR/extensions/amd64
 d none lib/xorg/modules/extensions/amd64			0755 root bin
 f none lib/xorg/modules/extensions/amd64/libxtsol.so		0755 root bin

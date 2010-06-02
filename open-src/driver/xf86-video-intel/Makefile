@@ -60,9 +60,8 @@ MODULE_CONFIG_OPTS=--enable-dri
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/extensions \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lX11 -lXext -lXvMC -lXv -lextmod \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) 
@@ -73,6 +72,14 @@ AUTORECONF=yes
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs
+
+# Need to override install path for all the modules, not just intel_drv.so
+MODULE_MAKEFLAGS = \
+	ch7017_ladir='$(DRIVER_DIR)' \
+	ch7xxx_ladir='$(DRIVER_DIR)' \
+	ivch_ladir='$(DRIVER_DIR)' \
+	sil164_ladir='$(DRIVER_DIR)' \
+	tfp410_ladir='$(DRIVER_DIR)'
 
 include ../Makefile.inc
 

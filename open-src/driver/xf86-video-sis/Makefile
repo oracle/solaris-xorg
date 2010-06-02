@@ -52,7 +52,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe -lvgahw -lxaa -lm 
+	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe -lvgahw -lxaa -lm 
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

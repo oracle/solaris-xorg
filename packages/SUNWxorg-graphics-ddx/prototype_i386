@@ -86,7 +86,7 @@ f none lib/xorg/modules/drivers/vesa_drv.so			0755 root bin
 s none lib/xorg/modules/drivers/via_drv.so=openchrome_drv.so
 f none lib/xorg/modules/drivers/vmware_drv.so			0755 root bin
 
-!search $HOME/lib/xorg/modules/amd64/drivers
+!search $HOME/lib/xorg/modules/drivers/amd64
 d none lib/xorg/modules/drivers/amd64				0755 root bin
 f none lib/xorg/modules/drivers/amd64/ati_drv.so		0755 root bin
 f none lib/xorg/modules/drivers/amd64/ch7017.so			0755 root bin
@@ -125,7 +125,7 @@ f none lib/xorg/modules/multimedia/theatre_detect_drv.so	0755 root bin
 f none lib/xorg/modules/multimedia/theatre_drv.so		0755 root bin
 f none lib/xorg/modules/multimedia/uda1380_drv.so		0755 root bin
 
-!search $HOME/lib/xorg/modules/amd64/multimedia
+!search $HOME/lib/xorg/modules/multimedia/amd64
 d none lib/xorg/modules/multimedia/amd64			0755 root bin
 f none lib/xorg/modules/multimedia/amd64/bt829_drv.so		0755 root bin
 f none lib/xorg/modules/multimedia/amd64/fi1236_drv.so		0755 root bin

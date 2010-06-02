@@ -1,4 +1,4 @@
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,6 +25,7 @@ OBJS = $(SRCS:.c=.o)
 REQLIBS = -lsysevent
 MODULEDIR = /lib/modules
 DRVDIR = /input
+INSTDIR = $(DESTDIR)$(PREFIX)$(MODULEDIR)$(DRVDIR)$(ARCHLIBSUBDIR)
 
 hotkey_drv.so: $(OBJS)
 	$(CC) -o $@ $(LDFLAGS) -shared $(OBJS) $(REQLIBS)
@@ -33,6 +34,6 @@ hotkey_drv.so: $(OBJS)
 	$(CC) -fpic -DPIC $(CFLAGS) $(CPPFLAGS) -c $<
 
 install: hotkey_drv.so 
-	mkdir -p $(DESTDIR)$(PREFIX)$(MODULEDIR)$(ARCHLIBSUBDIR)$(DRVDIR)
-	$(INSTALL) hotkey_drv.so $(DESTDIR)$(PREFIX)$(MODULEDIR)$(ARCHLIBSUBDIR)$(DRVDIR)
+	mkdir -p $(INSTDIR)
+	$(INSTALL) hotkey_drv.so $(INSTDIR)/hotkey_drv.so
 

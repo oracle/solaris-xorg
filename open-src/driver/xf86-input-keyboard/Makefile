@@ -45,4 +45,7 @@ SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
 
+# Keyboard driver is kbd_drv, not keyboard_drv as the package name implies
+MODULE_MAKEFLAGS = kbd_drv_ladir='$(DRIVER_DIR)'
+
 include ../Makefile.inc

@@ -53,7 +53,7 @@ MODULE_LD_OPTIONS= -M $(PWD)/mapfile-vbemodeinit-external \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lvbe -lvgahw -lxaa -lm
+	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe -lvgahw -lxaa -lm
 
 AUTORECONF=yes
 

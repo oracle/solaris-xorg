@@ -47,6 +47,6 @@ MODULE_STABILITY=Volatile
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa -lshadowfb
+	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa -lshadowfb -lXfont
 
 include ../Makefile.inc

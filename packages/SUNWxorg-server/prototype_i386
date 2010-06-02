@@ -82,11 +82,11 @@ f none lib/xorg/modules/amd64/libwfb.so				0755 root bin
 f none lib/xorg/modules/amd64/libxaa.so				0755 root bin
 f none lib/xorg/modules/amd64/libxf8_16bpp.so			0755 root bin
 
-!search $HOME/$XSERVERMODDIR/amd64/drivers
+!search $HOME/$XSERVERMODDIR/drivers/amd64
 d none lib/xorg/modules/drivers/amd64				0755 root bin
 f none lib/xorg/modules/drivers/amd64/dummy_drv.so		0755 root bin
 
-!search $HOME/$XSERVERMODDIR/amd64/extensions
+!search $HOME/$XSERVERMODDIR/extensions/amd64
 d none lib/xorg/modules/extensions/amd64			0755 root bin
 f none lib/xorg/modules/extensions/amd64/libia.so		0755 root bin
 f none lib/xorg/modules/extensions/amd64/libdbe.so		0755 root bin
@@ -99,7 +99,7 @@ f none lib/xorg/modules/input/synaptics_drv.so			0755 root bin
 f none lib/xorg/modules/input/vmmouse_drv.so			0755 root bin
 f none lib/xorg/modules/input/hotkey_drv.so			0755 root bin
 
-!search $HOME/$XSERVERMODDIR/amd64/input
+!search $HOME/$XSERVERMODDIR/input/amd64
 d none lib/xorg/modules/input/amd64				0755 root bin
 f none lib/xorg/modules/input/amd64/acecad_drv.so		0755 root bin
 f none lib/xorg/modules/input/amd64/kbd_drv.so			0755 root bin
