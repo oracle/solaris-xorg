@@ -64,6 +64,7 @@ f none lib/xorg/$plat_64/libdrm.so.2				0755 root bin
 d none lib/xorg/modules						0755 root bin
 f none lib/xorg/modules/libexa.so				0755 root bin
 f none lib/xorg/modules/libfb.so				0755 root bin
+f none lib/xorg/modules/libfbdevhw.so				0755 root bin
 f none lib/xorg/modules/libint10.so				0755 root bin
 f none lib/xorg/modules/libshadow.so				0755 root bin
 f none lib/xorg/modules/libshadowfb.so				0755 root bin

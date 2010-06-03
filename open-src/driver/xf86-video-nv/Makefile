@@ -46,9 +46,7 @@ MODULE_STABILITY=Volatile
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-lexa -lfb -lint10 -lshadowfb -lXfont -lvbe -lvgahw -lxaa -lfbdevhw -lm \
 	-L$(PROTODIR)/usr/lib -lpciaccess
 

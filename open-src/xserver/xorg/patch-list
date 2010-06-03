@@ -1,5 +1,6 @@
 CreateNewResourceType.patch,-p1
 resource-names.patch,-p1
+fbdevhw-path.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch

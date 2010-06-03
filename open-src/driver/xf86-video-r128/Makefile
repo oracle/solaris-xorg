@@ -51,11 +51,9 @@ MODULE_CONFIG_OPTS=--disable-dri
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lint10 -lpciaccess -lfb -lvbe -lxaa -lfbdevhw -lvgahw
 

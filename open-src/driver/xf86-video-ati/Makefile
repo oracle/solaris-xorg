@@ -65,7 +65,6 @@ MODULE_CONFIG_ENV= CONFIG_SHELL=/usr/bin/bash
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-M $(PWD)/mapfile-bt829_drv-external \
 	-M $(PWD)/mapfile-fi1236_drv-external \
@@ -74,7 +73,6 @@ MODULE_LD_OPTIONS= \
 	-M $(PWD)/mapfile-uda1380_drv-external \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)/linux$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Need to override install path for all the modules, not just ati_drv.so

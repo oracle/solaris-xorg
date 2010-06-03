@@ -73,6 +73,7 @@ f none lib/xorg/$plat_64/syndaemon				0444 root bin
 d none lib/xorg/modules/amd64					0755 root bin
 f none lib/xorg/modules/amd64/libexa.so				0755 root bin
 f none lib/xorg/modules/amd64/libfb.so				0755 root bin
+f none lib/xorg/modules/amd64/libfbdevhw.so			0755 root bin
 f none lib/xorg/modules/amd64/libint10.so			0755 root bin
 f none lib/xorg/modules/amd64/libshadow.so			0755 root bin
 f none lib/xorg/modules/amd64/libshadowfb.so			0755 root bin
