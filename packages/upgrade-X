@@ -1,7 +1,7 @@
 #!/bin/ksh93
 
 ###
-# Copyright (c) 2000, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,6 +41,8 @@
 
 # Update this when X package version number changes
 XVERS="6.9.0.5.11"
+
+PATH="/usr/bin:/usr/sbin:/sbin"
 
 # Set up error reporting function
 progname="$0"
@@ -139,10 +141,15 @@ if [[ ( -z "${ALTROOT}" ) && ( "$(uname -r)" != "5.11" ) ]] ; then
 	"X ${XVERS} is only supported on Solaris Nevada"
 fi
 
+HAS_IPS=0
+
 if [[ -f /usr/bin/pkg ]] ; then
-    if /usr/bin/pkg ${ADDITIONAL_PKG_FLAGS} list SUNWxwplt > /dev/null 2>&1 ; then
-	fatal_error "Cannot run on system with IPS installed X packages."
-    fi
+    print -u2 \
+	"${progname}: WARNING: Can only overwrite & add files on systems\n" \
+	"installed with IPS packages, cannot remove obsolete files/packages.\n" \
+	"Expect removal errors for all packages installed via IPS."
+    HAS_IPS=1
+	
 fi
 
 PKG_UPGRADE_LOG="${ALTROOT}/var/tmp/SunSoft_X${XVERS}_B${X_BUILD}_upgrade.log.${DATE}"
@@ -163,7 +170,6 @@ altroot_dir_check /var/tmp 1777 root:sys
 pkg_list="
 	SUNWfreetype2
 	SUNWxwfsw
-	SUNWxwfnt
 	SUNWfontconfig 
 	SUNWfontconfig-root
 	SUNWfontconfig-docs 
@@ -212,7 +218,6 @@ pkg_list="
 	SUNWxorg-tsol-module
 	SUNWxvnc
 	SUNWxwacx
-	SUNWxwcft
 	SUNWxwdem
 	SUNWxwdxm
 	SUNWxwfs
@@ -220,7 +225,6 @@ pkg_list="
 	SUNWxwinc
 	SUNWxwman
 	SUNWxwmod
-	SUNWxwoft
 	SUNWxwopt
 	SUNWxwplr
 	SUNWxwplt
@@ -271,6 +275,7 @@ REM_PKGS+=" SUNWxwsrv"
 # snv_118: 6781710 Removal of Xsun on x86/x64 [PSARC 2008/033]
 # snv_135: 6926932 Removal of Xsun on SPARC [PSARC 2008/033]
 REM_PKGS+=" SUNWxsun-headers SUNWxsun-server SUNWxwts SUNWxwpsr"
+REM_PKGS+=" SUNWxwfnt SUNWxwcft SUNWxwoft"
 
 # snv_120: 6859233 Removal of Xprint [PSARC 2009/294]
 REM_PKGS+=" SUNWxprint-server SUNWxwpft"
@@ -347,12 +352,6 @@ rdepend=nocheck
 space=quit
 EOF
 
-# Back up OWconfig before adding/removing packages to 
-# workaround pkg bug 4946663/4992643
-if [[ -f ${ALTROOT}/usr/openwin/server/etc/OWconfig ]]; then
-    cp ${ALTROOT}/usr/openwin/server/etc/OWconfig ${ALTROOT}/var/tmp/OWconfig.${DATE}
-fi
-
 # Remove all instances of the specified package
 function remove_package 
 {
@@ -389,7 +388,7 @@ for pkg in ${REM_PKGS} ${reverse_pkg_list}; do
 done
 
 # Special handling for Sun OpenGL on SPARC until their packages are updated
-if [[ "${MACH}" == "sparc" ]] ; then
+if [[ "${MACH}" == "sparc"  && "${HAS_IPS}" == "0" ]] ; then
     if [[ -h ${ALTROOT}/usr/include/GL ]] ; then
 	print "Moving SUNWglh links"| tee -a ${PKG_UPGRADE_LOG}
 	removef ${ADDITIONAL_PKG_FLAGS} SUNWglh /usr/include/GL \
