@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/iso8859-8/Compose.pre nls/iso8859-8/Compose.pre
---- nls/iso8859-8/Compose.pre	2007-05-16 08:34:44.000000000 -0700
-+++ nls/iso8859-8/Compose.pre	2008-02-27 21:08:32.570555000 -0800
-@@ -1,15 +1,57 @@
+--- nls/iso8859-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/iso8859-8/Compose.pre	2010-06-07 15:49:32.801727080 -0700
+@@ -1,14 +1,57 @@
 +XCOMM Arabic input table (Ascii input mode)
  XCOMM
 -XCOMM ISO 8859-8 Compose Sequence
@@ -42,7 +42,6 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-8/Compose.pre nls/iso8859-8/Compose.pr
 +
 +
  XCOMM
--XCOMM $XFree86: xc/nls/Compose/iso8859-8,v 1.1 1999/08/28 09:00:36 dawes Exp $
 +XCOMM Hebrew input table (Hebrew input mode)
  XCOMM
 -XCOMM This file currently has no entries.  It appears that a compose file (even

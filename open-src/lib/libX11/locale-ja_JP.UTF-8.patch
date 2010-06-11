@@ -22,10 +22,10 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XI18N_OBJS nls/ja_JP.UTF-8/XI18N_OBJS
---- nls/ja_JP.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ja_JP.UTF-8/XI18N_OBJS	2009-04-08 00:26:30.954518000 -0700
-@@ -5,5 +5,8 @@
- # $XFree86$
+--- nls/ja_JP.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
++++ nls/ja_JP.UTF-8/XI18N_OBJS	2010-06-07 15:49:51.158931189 -0700
+@@ -4,5 +4,8 @@
+ #
  #
  XLC	common/xlcUTF8Load	_XlcUtf8Loader	# XLC_open
 -XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
@@ -35,9 +35,9 @@ diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XI18N_OBJS nls/ja_JP.UTF-8/XI18N_O
 +XIM	common/ximp40	_Ximp_OpenIM		# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
 diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC_LOCALE.pre
---- nls/ja_JP.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ja_JP.UTF-8/XLC_LOCALE.pre	2009-04-08 00:26:30.954835000 -0700
-@@ -18,7 +18,7 @@ fs0 {
+--- nls/ja_JP.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/ja_JP.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:51.159344368 -0700
+@@ -17,7 +17,7 @@ fs0 {
      name  ISO8859-1:GL
    }
    font  {
@@ -46,7 +46,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC
      vertical_rotate all
    }
  }
-@@ -42,18 +42,29 @@ fs2	{
+@@ -41,18 +41,29 @@ fs2	{
  	}
  }
  
@@ -81,7 +81,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC
  	charset	{
  		name	GB2312.1980-0:GL
  	}
-@@ -61,8 +72,8 @@ fs4	{
+@@ -60,8 +71,8 @@ fs4	{
  		primary	GB2312.1980-0:GL
  	}
  }
@@ -92,7 +92,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC
  	charset	{
  		name	JISX0201.1976-0:GR
  	}
-@@ -76,12 +87,13 @@ XCOMM other fonts are picked up before i
+@@ -75,12 +86,13 @@ XCOMM other fonts are picked up before i
  XCOMM Moreover, some iso10646-1 fonts don't have any glyph at all
  XCOMM in ISO8859-X ranges.
  
@@ -108,7 +108,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC
      primary ISO10646-1
    }
  }
-@@ -101,7 +113,7 @@ XCOMM	cs0 class
+@@ -100,7 +112,7 @@ XCOMM	cs0 class
  cs0	{
  	side		GL:Default
  	length		1
@@ -117,7 +117,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/XLC_LOCALE.pre nls/ja_JP.UTF-8/XLC
  }
  
  XCOMM	cs1 class
-@@ -120,29 +132,36 @@ cs2	{
+@@ -119,29 +131,36 @@ cs2	{
  }
  
  XCOMM	cs3 class

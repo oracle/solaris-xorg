@@ -22,10 +22,10 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XI18N_OBJS nls/ko_KR.UTF-8/XI18N_OBJS
---- nls/ko_KR.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ko_KR.UTF-8/XI18N_OBJS	2009-04-08 00:26:54.574738000 -0700
-@@ -5,5 +5,8 @@
- # $XFree86$
+--- nls/ko_KR.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
++++ nls/ko_KR.UTF-8/XI18N_OBJS	2010-06-07 15:49:53.100568379 -0700
+@@ -4,5 +4,8 @@
+ #
  #
  XLC	common/xlcUTF8Load	_XlcUtf8Loader	# XLC_open
 +XIM	common/xiiimp		_SwitchOpenIM		# XIM_open
@@ -34,9 +34,9 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XI18N_OBJS nls/ko_KR.UTF-8/XI18N_O
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
 diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC_LOCALE.pre
---- nls/ko_KR.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ko_KR.UTF-8/XLC_LOCALE.pre	2009-04-08 00:26:54.584168000 -0700
-@@ -34,10 +34,10 @@ fs1 {
+--- nls/ko_KR.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/ko_KR.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:53.100967122 -0700
+@@ -33,10 +33,10 @@ fs1 {
  XCOMM   fs2 class (Korean Character)
  fs2	{
  	charset	{
@@ -49,7 +49,7 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC
  	}
  }
  XCOMM 	fs3 class (Kanji)
-@@ -69,20 +69,133 @@ fs5	{
+@@ -68,20 +68,133 @@ fs5	{
  	}
  }
  
@@ -191,7 +191,7 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC
  
  END XLC_FONTSET
  
-@@ -111,10 +224,9 @@ cs1     {
+@@ -110,10 +223,9 @@ cs1     {
  
  XCOMM	cs2 class
  cs2     {
@@ -204,7 +204,7 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC
  }
   
  XCOMM	cs3 class
-@@ -139,10 +251,92 @@ cs5	{
+@@ -138,10 +250,92 @@ cs5	{
  	ct_encoding	JISX0201.1976-0:GR
  }
  

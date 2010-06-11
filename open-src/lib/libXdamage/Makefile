@@ -29,11 +29,11 @@
 MODULE_NAME=libXdamage
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b42780bce703ec202a33e5693991c09d
-TARBALL_SHA1 = dc1fbc938e9bbc859c70cf2087440fc15b00bb1e
+TARBALL_MD5  = 44774e1a065158b52f1a0da5100cebec
+TARBALL_SHA1 = 7d96e8de107fede16951cb47d5e147630fbc7dee
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

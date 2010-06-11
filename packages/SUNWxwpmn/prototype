@@ -687,7 +687,7 @@ f none share/man/man3X11/XkbGetBounceKeysDelay.3X11		0444 root bin
 f none share/man/man3X11/XkbGetCompatMap.3X11			0444 root bin
 f none share/man/man3X11/XkbGetControls.3X11			0444 root bin
 f none share/man/man3X11/XkbGetControlsChanges.3X11		0444 root bin
-f none share/man/man3X11/XkbGetDetectableAutorepeat.3X11	0444 root bin
+f none share/man/man3X11/XkbGetDetectableAutoRepeat.3X11	0444 root bin
 f none share/man/man3X11/XkbGetDeviceButtonActions.3X11		0444 root bin
 f none share/man/man3X11/XkbGetDeviceInfo.3X11			0444 root bin
 f none share/man/man3X11/XkbGetDeviceInfoChanges.3X11		0444 root bin
@@ -780,7 +780,7 @@ f none share/man/man3X11/XkbSetBounceKeysDelay.3X11		0444 root bin
 f none share/man/man3X11/XkbSetCompatMap.3X11			0444 root bin
 f none share/man/man3X11/XkbSetControls.3X11			0444 root bin
 f none share/man/man3X11/XkbSetDebuggingFlags.3X11		0444 root bin
-f none share/man/man3X11/XkbSetDetectableAutorepeat.3X11	0444 root bin
+f none share/man/man3X11/XkbSetDetectableAutoRepeat.3X11	0444 root bin
 f none share/man/man3X11/XkbSetDeviceButtonActions.3X11		0444 root bin
 f none share/man/man3X11/XkbSetDeviceInfo.3X11			0444 root bin
 f none share/man/man3X11/XkbSetIgnoreLockMods.3X11		0444 root bin

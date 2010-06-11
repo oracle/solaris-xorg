@@ -29,15 +29,14 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 001d780829f936e34851ef7cd37b4dfd
-TARBALL_SHA1 = d4b3966d8eeb79514daad3eeae0debf65d16edca
+TARBALL_MD5  = f65c9c7ecbfb64c19dbd7927160d63fd
+TARBALL_SHA1 = 5aab6dc8ed5ec0e86419626715efc3edd34d1db4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	lintlib.patch,-p1 \
 	1234757.patch \
 	4010755.patch \
 	4614834.patch \
@@ -94,8 +93,7 @@ SOURCE_PATCHES = \
 	locale-zh_HK.UTF-8.patch \
 	locale-zh_TW.UTF-8.patch \
 	locale-zh_TW.patch \
-	locale-ru-RU.UTF-8.patch \
-	6913809.patch 
+	locale-ru-RU.UTF-8.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11

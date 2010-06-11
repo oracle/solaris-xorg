@@ -29,16 +29,14 @@
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c417c0e8df39a067f90a2a2e7133637d
-TARBALL_SHA1 = c2eb8d8d760c6881e51c938812764d1d6cefd51c
+TARBALL_MD5  = 9e51f9cb7e0a38c7099ac1c0de1a1add
+TARBALL_SHA1 = b48a4e55d21e5ce9dd3356281f32e00b17b4c9f7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	server-compat.patch,-p1 \
-	lint-flags.patch,-p1 \
 	shm.patch \
 	sun-exts.patch
 

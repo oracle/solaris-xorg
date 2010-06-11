@@ -24,12 +24,12 @@
 1261271 /usr/dist/exe/gnuemacs doesn't work on s297.
 
 diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
---- src/XlibInt.c	2009-03-24 23:25:37.548747000 -0700
-+++ src/XlibInt.c	2009-03-24 23:25:49.514829000 -0700
-@@ -54,6 +54,12 @@
+--- src/XlibInt.c	2010-06-07 15:49:17.815076479 -0700
++++ src/XlibInt.c	2010-06-07 15:49:18.612816160 -0700
+@@ -52,6 +52,12 @@ from The Open Group.
  #include <direct.h>
  #endif
-
+ 
 +/* Xtransint.h is needed for access to an xtrans internal structure.
 + * See the comments in _XFlush for information. This is required for
 + * compatibility between X11R6-xtrans and gnuemacs v18.58.
@@ -38,11 +38,11 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +
  #ifdef XTHREADS
  #include "locking.h"
-
-@@ -653,6 +659,18 @@
-	register char *bufindex;
-	_XExtension *ext;
-
+ 
+@@ -661,6 +667,18 @@ static void _XFlushInt(
+ 	register char *bufindex;
+ 	_XExtension *ext;
+ 
 +	/* Begin gnuemacs v18.58 compatability fix.
 +	 * In x11trans.c, line 2207, in gnuemacs source, the dpy->fd is
 +	 * modified.  This was of no consequence in X11R5, but in X11R6,
@@ -56,5 +56,5 @@ diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
 +	/* End gnuemacs v18.58 compatability fix. */
 +
  	/* This fix resets the bufptr to the front of the buffer so
-	 * additional appends to the bufptr will not corrupt memory. Since
-	 * the server is down, these appends are no-op's anyway but
+ 	 * additional appends to the bufptr will not corrupt memory. Since
+ 	 * the server is down, these appends are no-op's anyway but

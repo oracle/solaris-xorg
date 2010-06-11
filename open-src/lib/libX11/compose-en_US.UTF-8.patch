@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
---- nls/en_US.UTF-8/Compose.pre	2009-10-23 13:53:33.689534403 -0700
-+++ nls/en_US.UTF-8/Compose.pre	2009-11-12 22:38:21.017230553 -0800
-@@ -1,9 +1,69 @@
+diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/Compose.pre nls/en_US.UTF-8/Compose.pre
+--- nls/en_US.UTF-8/Compose.pre	2010-04-26 22:00:12.000000000 -0700
++++ nls/en_US.UTF-8/Compose.pre	2010-06-07 15:49:36.457980695 -0700
+@@ -1,8 +1,69 @@
 -XCOMM UTF-8 (Unicode) compose sequence
 +XCOMM
 +XCOMM Copyright (c) 2006, 2009 Oracle and/or its affiliates. All rights reserved.
@@ -58,7 +59,6 @@
 +XCOMM Partially merged with X.Org UTF-8 (Unicode) compose sequence from
  XCOMM David.Monniaux@ens.fr
  XCOMM
--XCOMM $XFree86: xc/nls/Compose/en_US.UTF-8,v 1.11 2004/01/06 13:14:04 pascal Exp $
  
 -XCOMM Part 1 - Manual definitions
 +STATE "[ English/European ]"
@@ -96,7 +96,7 @@
  
  XCOMM Spacing versions of dead accents
  <dead_tilde> <space>             	: "~"   asciitilde # TILDE
-@@ -23,7 +85,7 @@
+@@ -22,7 +83,7 @@ XCOMM Spacing versions of dead accents
  <dead_abovedot> <space>          	: "˙"   abovedot # DOT ABOVE
  <dead_abovedot> <dead_abovedot>  	: "˙"   abovedot # DOT ABOVE
  <dead_diaeresis> <dead_diaeresis> 	: "¨"   diaeresis # DIAERESIS
@@ -105,7 +105,7 @@
  <dead_doubleacute> <space>       	: "˝"   U2dd # DOUBLE ACUTE ACCENT
  <dead_doubleacute> <dead_doubleacute> 	: "˝"   U2dd # DOUBLE ACUTE ACCENT
  <dead_caron> <space>             	: "ˇ"   caron # CARON
-@@ -93,7 +155,7 @@
+@@ -92,7 +153,7 @@ XCOMM Spaces
  
  <Multi_key> <period> <greater>   	: "›"   U203a # SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
  <Multi_key> <period> <less>      	: "‹"   U2039 # SINGLE LEFT-POINTING ANGLE QUOTATION MARK
@@ -114,7 +114,7 @@
  <Multi_key> <period> <minus>    	: "·"   periodcentered # MIDDLE DOT
  <Multi_key> <period> <equal>    	: "•"   enfilledcircbullet # BULLET
  <Multi_key> <exclam> <asciicircum> 	: "¦"   brokenbar # BROKEN BAR
-@@ -102,12 +165,12 @@
+@@ -101,12 +162,12 @@ XCOMM Spaces
  <Multi_key> <P> <exclam>         	: "¶"   paragraph # PILCROW SIGN
  <Multi_key> <plus> <minus>       	: "±"   plusminus # PLUS-MINUS SIGN
  <Multi_key> <question> <question> 	: "¿"   questiondown # INVERTED QUESTION MARK
@@ -131,7 +131,7 @@
  <Multi_key> <a> <e>              	: "æ"   ae # LATIN SMALL LETTER AE
  <Multi_key> <A> <E>              	: "Æ"   AE # LATIN CAPITAL LETTER AE
  
-@@ -136,12 +199,12 @@
+@@ -135,12 +196,12 @@ XCOMM Per xxx
  
  XCOMM Currencies
  <Multi_key> <C> <E>              	: "₠"   U20a0 # EURO-CURRENCY SIGN
@@ -148,7 +148,7 @@
  <Multi_key> <m> <slash>          	: "₥"   U20a5 # MILL SIGN
  <Multi_key> <slash> <m>          	: "₥"   U20a5 # MILL SIGN
  <Multi_key> <N> <equal>          	: "₦"   U20a6 # NAIRA SIGN
-@@ -151,7 +214,7 @@
+@@ -150,7 +211,7 @@ XCOMM Currencies
  <Multi_key> <W> <equal>          	: "₩"   U20a9 # WON SIGN
  <Multi_key> <equal> <W>          	: "₩"   U20a9 # WON SIGN
  XCOMM "₪" U20aa NEW SHEQEL SIGN
@@ -157,7 +157,7 @@
  <Multi_key> <C> <equal>          	: "€"   EuroSign # EURO SIGN
  <Multi_key> <equal> <C>          	: "€"   EuroSign # EURO SIGN
  <Multi_key> <c> <equal>          	: "€"   EuroSign # EURO SIGN
-@@ -189,8 +252,8 @@
+@@ -188,8 +249,8 @@ XCOMM Long S
  <Multi_key> <f> <S>              	: "ſ"   U017f # LATIN SMALL LETTER LONG S
  
  XCOMM Dashes
@@ -168,7 +168,7 @@
  
  XCOMM Musical alterations
  <Multi_key> <numbersign> <b>     	: "♭"   U266d # MUSIC FLAT SIGN
-@@ -221,5154 +284,2592 @@
+@@ -221,5154 +282,2592 @@ XCOMM Other symbols
  <Multi_key> <colon> <parenright>        : "☺"   U263A # WHITE SMILING FACE
  <Multi_key> <colon> <parenleft>         : "☹"   U2639 # WHITE FROWNING FACE
  

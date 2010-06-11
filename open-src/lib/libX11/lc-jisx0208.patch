@@ -22,13 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0208.h src/xlibi18n/lcUniConv/jisx0208.h
---- src/xlibi18n/lcUniConv/jisx0208.h	2008-10-07 10:18:20.000000000 -0700
-+++ src/xlibi18n/lcUniConv/jisx0208.h	2009-04-08 00:20:13.439661000 -0700
-@@ -1,9 +1,454 @@
--/* $XFree86: xc/lib/X11/lcUniConv/jisx0208.h,v 1.5tsi Exp $ */
-+/* $XFree86: xc/lib/X11/lcUniConv/jisx0208.h,v 1.5 2001/11/21 21:20:56 dawes Exp $ */
- 
- /*
+--- src/xlibi18n/lcUniConv/jisx0208.h	2010-01-14 17:11:36.000000000 -0800
++++ src/xlibi18n/lcUniConv/jisx0208.h	2010-06-07 15:49:24.412325193 -0700
+@@ -3,6 +3,451 @@
   * JISX0208.1990-0
   */
  
@@ -480,7 +476,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0208.h src/xlibi18n/lcU
  static const unsigned short jisx0208_2uni_page21[690] = {
    /* 0x21 */
    0x3000, 0x3001, 0x3002, 0xff0c, 0xff0e, 0x30fb, 0xff1a, 0xff1b,
-@@ -1013,11 +1458,19 @@ jisx0208_mbtowc (conv_t conv, ucs4_t *pw
+@@ -1012,11 +1457,19 @@ jisx0208_mbtowc (conv_t conv, ucs4_t *pw
            return 2;
          }
        }
@@ -500,7 +496,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0208.h src/xlibi18n/lcU
  }
  
  static const unsigned short jisx0208_2charset[6879] = {
-@@ -2360,7 +2813,7 @@ jisx0208_wctomb (conv_t conv, unsigned c
+@@ -2359,7 +2812,7 @@ jisx0208_wctomb (conv_t conv, unsigned c
  {
    if (n >= 2) {
      const Summary16 *summary = NULL;
@@ -509,7 +505,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0208.h src/xlibi18n/lcU
        summary = &jisx0208_uni2indx_page00[(wc>>4)];
      else if (wc >= 0x0300 && wc < 0x0460)
        summary = &jisx0208_uni2indx_page03[(wc>>4)-0x030];
-@@ -2391,7 +2844,11 @@ jisx0208_wctomb (conv_t conv, unsigned c
+@@ -2390,7 +2843,11 @@ jisx0208_wctomb (conv_t conv, unsigned c
          return 2;
        }
      }

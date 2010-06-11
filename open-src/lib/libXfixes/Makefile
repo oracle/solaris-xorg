@@ -29,11 +29,11 @@
 MODULE_NAME=libXfixes
 
 # Version number (used in path names)
-MODULE_VERSION=4.0.4
+MODULE_VERSION=4.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7f2c40852eb337b237ad944ca5c30d49
-TARBALL_SHA1 = 3f2d1c473855ba0cf13137a80d585df7fe37111c
+TARBALL_MD5  = 1b4b8386bd5d1751b2c7177223ad4629
+TARBALL_SHA1 = 255dfb9a8c50d795c60711ec4764f76cd0620cbf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch

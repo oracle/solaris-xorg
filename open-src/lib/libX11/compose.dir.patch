@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
---- nls/compose.dir.pre	2009-03-16 17:38:41.000000000 -0700
-+++ nls/compose.dir.pre	2009-04-08 00:20:59.155189000 -0700
-@@ -336,12 +336,12 @@ en_US.UTF-8/Compose:		is_IS.UTF-8
+--- nls/compose.dir.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/compose.dir.pre	2010-06-07 18:01:10.730751798 -0700
+@@ -337,12 +337,12 @@ en_US.UTF-8/Compose:		is_IS.UTF-8
  en_US.UTF-8/Compose:		it_CH.UTF-8
  en_US.UTF-8/Compose:		it_IT.UTF-8
  en_US.UTF-8/Compose:		iu_CA.UTF-8
@@ -39,7 +39,7 @@ diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
  en_US.UTF-8/Compose:		ks_IN.UTF-8
  en_US.UTF-8/Compose:		ks_IN@devanagari.UTF-8
  en_US.UTF-8/Compose:		kw_GB.UTF-8
-@@ -400,6 +400,8 @@ en_US.UTF-8/Compose:		vi_VN.UTF-8
+@@ -413,7 +413,9 @@ en_US.UTF-8/Compose:		vi_VN.UTF-8
  en_US.UTF-8/Compose:		wa_BE.UTF-8
  en_US.UTF-8/Compose:		yi_US.UTF-8
  en_US.UTF-8/Compose:		xh_ZA.UTF-8
@@ -49,3 +49,4 @@ diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
 +zh_HK.UTF-8/Compose:		zh_HK.UTF-8
  en_US.UTF-8/Compose:		zu_ZA.UTF-8
  en_US.UTF-8/Compose:		bs_BA.UTF-8
+ en_US.UTF-8/Compose:		ne_NP.UTF-8

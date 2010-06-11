@@ -22,19 +22,19 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/XI18N_OBJS nls/zh_CN.UTF-8/XI18N_OBJS
---- nls/zh_CN.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_CN.UTF-8/XI18N_OBJS	2009-04-08 00:27:19.563966000 -0700
-@@ -5,5 +5,6 @@
- # $XFree86$
+--- nls/zh_CN.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
++++ nls/zh_CN.UTF-8/XI18N_OBJS	2010-06-07 15:49:55.352147612 -0700
+@@ -4,5 +4,6 @@
+ #
  #
  XLC	common/xlcUTF8Load	_XlcUtf8Loader	# XLC_open
 +XIM	common/xiiimp	_SwitchOpenIM
  XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
 diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/XLC_LOCALE.pre nls/zh_CN.UTF-8/XLC_LOCALE.pre
---- nls/zh_CN.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_CN.UTF-8/XLC_LOCALE.pre	2009-04-08 00:27:19.576085000 -0700
-@@ -14,8 +14,7 @@ on_demand_loading      True
+--- nls/zh_CN.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/zh_CN.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:55.352537991 -0700
+@@ -12,8 +12,7 @@ on_demand_loading      True
  
  object_name            generic
  
@@ -44,7 +44,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/XLC_LOCALE.pre nls/zh_CN.UTF-8/XLC
  XCOMM  fs0 class (7 bit ASCII)
  fs0    {
         charset {
-@@ -37,6 +36,7 @@ fs1    {
+@@ -35,6 +34,7 @@ fs1    {
         }
  }
  
@@ -52,7 +52,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/XLC_LOCALE.pre nls/zh_CN.UTF-8/XLC
  XCOMM  fs2 class (Chinese Han Character)
  fs2    {
         charset {
-@@ -46,7 +46,6 @@ fs2    {
+@@ -44,7 +44,6 @@ fs2    {
                 primary GB2312.1980-0:GL
         }
  }
@@ -60,7 +60,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/XLC_LOCALE.pre nls/zh_CN.UTF-8/XLC
  XCOMM  fs3 class (Chinese Han Character GBK)
  fs3    {
         charset {
-@@ -58,15 +57,145 @@ fs3    {
+@@ -56,15 +55,145 @@ fs3    {
         }
  }
  
@@ -214,7 +214,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/XLC_LOCALE.pre nls/zh_CN.UTF-8/XLC
  END XLC_FONTSET
  
  XCOMM 
-@@ -91,18 +220,117 @@ cs1     {
+@@ -89,18 +218,117 @@ cs1     {
          length          1
          ct_encoding     ISO8859-1:GR
  }

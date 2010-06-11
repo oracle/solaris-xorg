@@ -29,11 +29,11 @@
 MODULE_NAME=libXcomposite
 
 # Version number (used in path names)
-MODULE_VERSION=0.4.1
+MODULE_VERSION=0.4.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0f1367f57fdf5df17a8dd71d0fa68248
-TARBALL_SHA1 = 959180b067c64f3f7ac06e85400bd265e5579031
+TARBALL_MD5  = e38dc98509149083f6c31b49b484e63c
+TARBALL_SHA1 = d6fade1cb5f9174e702d9e751ddc2b341e946e3a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

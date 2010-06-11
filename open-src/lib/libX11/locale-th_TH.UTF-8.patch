@@ -22,10 +22,10 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XI18N_OBJS nls/th_TH.UTF-8/XI18N_OBJS
---- nls/th_TH.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/th_TH.UTF-8/XI18N_OBJS	2009-04-08 00:27:07.186577000 -0700
-@@ -5,5 +5,9 @@
- # $XFree86$
+--- nls/th_TH.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
++++ nls/th_TH.UTF-8/XI18N_OBJS	2010-06-07 15:49:53.964572637 -0700
+@@ -4,5 +4,9 @@
+ #
  #
  XLC	common/xlcUTF8Load	_XlcUtf8Loader	# XLC_open
 +XIM	common/xiiimp		_SwitchOpenIM		# XIM_open
@@ -35,9 +35,9 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XI18N_OBJS nls/th_TH.UTF-8/XI18N_O
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
 diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC_LOCALE.pre
---- nls/th_TH.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/th_TH.UTF-8/XLC_LOCALE.pre	2009-04-08 00:27:07.187017000 -0700
-@@ -9,27 +9,171 @@ XCOMM 
+--- nls/th_TH.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/th_TH.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:53.964950384 -0700
+@@ -7,27 +7,171 @@ XCOMM 
  XCOMM 	XLC_FONTSET category
  XCOMM 
  XLC_FONTSET
@@ -223,7 +223,7 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
  END XLC_FONTSET
  
  XCOMM 
-@@ -38,44 +182,138 @@ XCOMM 
+@@ -36,44 +180,138 @@ XCOMM 
  XLC_XLOCALE
  
  encoding_name           UTF-8

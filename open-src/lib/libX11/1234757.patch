@@ -35,10 +35,10 @@ make the call to XInitThreads, even if the client has already made
 other Xlib calls.
 
 diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
---- include/X11/Xlibint.h	2009-02-20 15:17:13.000000000 -0800
-+++ include/X11/Xlibint.h	2009-04-08 00:17:31.818676000 -0700
-@@ -187,6 +187,29 @@ struct _XDisplay
- 	struct _X11XCBPrivate *xcb; /* XCB glue private data */
+--- include/X11/Xlibint.h	2010-04-26 22:00:12.000000000 -0700
++++ include/X11/Xlibint.h	2010-06-07 15:49:10.764640595 -0700
+@@ -199,6 +199,29 @@ struct _XDisplay
+ 	void *cookiejar;  /* cookie events returned but not claimed */
  };
  
 +#if defined(XTHREADS) && defined(SUNSOFT)
@@ -68,9 +68,9 @@ diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
  
  /*
 diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2009-04-06 16:48:55.000000000 -0700
-+++ src/OpenDis.c	2009-04-08 00:17:31.819345000 -0700
-@@ -62,6 +62,11 @@ typedef struct {
+--- src/OpenDis.c	2010-05-14 20:33:41.000000000 -0700
++++ src/OpenDis.c	2010-06-07 15:49:10.765824756 -0700
+@@ -60,6 +60,11 @@ typedef struct {
  } _XBigReqState;
  #endif /* !USE_XCB */
  
@@ -82,7 +82,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  #ifdef XTHREADS
  #include "locking.h"
  int  (*_XInitDisplayLock_fn)(Display *dpy) = NULL;
-@@ -261,6 +266,13 @@ XOpenDisplay (
+@@ -278,6 +283,13 @@ fallback_success:
  		return(NULL);
  	}
  
@@ -96,7 +96,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  	if (!_XPollfdCacheInit(dpy)) {
  	        OutOfMemory (dpy, setup);
  		return(NULL);
-@@ -790,5 +802,9 @@ _XBigReqHandler(
+@@ -814,6 +826,10 @@ _XBigReqHandler(
  
  void _XFreeDisplayStructure(Display *dpy)
  {
@@ -104,9 +104,10 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +        RemoveFromDisplayLink(dpy);
 +#endif XTHREADS
 +
-	/* move all cookies in the EQ to the jar, then free them. */
-	if (dpy->qfree) {
-@@ -910,6 +926,107 @@ void _XFreeDisplayStructure(Display *dpy
+ 	/* move all cookies in the EQ to the jar, then free them. */
+ 	if (dpy->qfree) {
+ 	    _XQEvent *qelt = dpy->qfree;
+@@ -945,6 +961,107 @@ void _XFreeDisplayStructure(Display *dpy
  	Xfree ((char *)dpy);
  }
  
@@ -215,9 +216,9 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
     after this returns. */
  
 diff -urp -x '*~' -x '*.orig' src/locking.c src/locking.c
---- src/locking.c	2009-04-06 16:29:10.000000000 -0700
-+++ src/locking.c	2009-04-08 00:17:31.819992000 -0700
-@@ -611,6 +611,11 @@ Status XInitThreads(void)
+--- src/locking.c	2010-04-16 08:40:29.000000000 -0700
++++ src/locking.c	2010-06-07 15:49:10.766507253 -0700
+@@ -612,6 +612,11 @@ Status XInitThreads(void)
  #endif
  #endif
  

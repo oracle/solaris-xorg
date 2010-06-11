@@ -22,13 +22,11 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/Compose.pre nls/zh_CN.UTF-8/Compose.pre
---- nls/zh_CN.UTF-8/Compose.pre	2007-05-16 08:34:44.000000000 -0700
-+++ nls/zh_CN.UTF-8/Compose.pre	2008-02-27 21:08:32.623903000 -0800
-@@ -0,0 +1,2541 @@
+--- nls/zh_CN.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/zh_CN.UTF-8/Compose.pre	2010-06-07 15:49:40.781722582 -0700
+@@ -0,0 +1,2539 @@
 +XCOMM
 +XCOMM Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
-+XCOMM
-+XCOMM ident	$Id: Compose,v 1.16 2006/02/13 07:51:51 bt150191 Exp $
 +XCOMM
 +XCOMM Compose table for the zh.UTF8 locale
 +XCOMM

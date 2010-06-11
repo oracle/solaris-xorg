@@ -1,8 +1,9 @@
 Allow passing multi-directory paths to configure search for locale files
 
---- configure.ac	Fri Dec  4 22:17:54 2009
-+++ configure.ac	Fri Dec  4 23:18:01 2009
-@@ -412,10 +412,15 @@
+diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2010-06-07 15:49:42.994766047 -0700
++++ configure.ac	2010-06-07 15:49:44.506894780 -0700
+@@ -477,11 +477,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRI
   [Directory where locale libraries files are installed (default: $libdir/X11/locale)]),
  				[ X11_LOCALELIBDIR="$withval" ],
  				[ X11_LOCALELIBDIR="${X11_LIBDIR}/locale" ])
@@ -21,3 +22,4 @@ Allow passing multi-directory paths to configure search for locale files
 +AC_DEFINE_DIR(XLOCALEDIR, XLOCALEDIR, [Location of libX11 locale data])
  AC_SUBST(X11_LOCALEDIR)
  
+ XKEYSYMDB="${X11_DATADIR}/XKeysymDB"

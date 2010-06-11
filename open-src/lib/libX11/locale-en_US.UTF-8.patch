@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XI18N_OBJS nls/en_US.UTF-8/XI18N_OBJS
---- nls/en_US.UTF-8/XI18N_OBJS	2008-10-07 10:18:17.000000000 -0700
-+++ nls/en_US.UTF-8/XI18N_OBJS	2009-04-08 00:25:53.116178000 -0700
+--- nls/en_US.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
++++ nls/en_US.UTF-8/XI18N_OBJS	2010-06-07 15:49:48.410747016 -0700
 @@ -3,6 +3,10 @@
  #	XI18N objects table for euro locales
  #
@@ -37,9 +37,9 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XI18N_OBJS nls/en_US.UTF-8/XI18N_O
 +XIM	common/ximll            _XimpLocalOpenIM        # XIM_open
 +XIM	common/ximlocal         _XimpLocalOpenIM        # XIM_open
 diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC_LOCALE.pre
---- nls/en_US.UTF-8/XLC_LOCALE.pre	2008-11-26 20:17:22.000000000 -0800
-+++ nls/en_US.UTF-8/XLC_LOCALE.pre	2009-04-08 00:25:53.116644000 -0700
-@@ -54,6 +54,7 @@ fs4	{
+--- nls/en_US.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/en_US.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:48.411369670 -0700
+@@ -53,6 +53,7 @@ fs4	{
  		name	ISO8859-4:GR
  	}
  	font	{
@@ -47,10 +47,18 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  		primary	ISO8859-4:GR
  	}
  }
-@@ -67,17 +68,17 @@
+@@ -66,16 +67,16 @@ fs5	{
  	}
  }
  XCOMM	fs6 class (koi8-r)
+-fs6	{
+-	charset	{
+-		name	KOI8-R:GR
+-	}
+-	font	{
+-		primary	KOI8-R:GR
+-	}
+-}
 +XCOMM fs6	{
 +XCOMM	charset	{
 +XCOMM		name	KOI8-R:GR
@@ -59,22 +67,13 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
 +XCOMM		primary	KOI8-R:GR
 +XCOMM	}
 +XCOMM}
-+XCOMM	fs7 class (ISO8859 families)
- fs6	{
- 	charset	{
--		name	KOI8-R:GR
--	}
--	font	{
--		primary	KOI8-R:GR
--	}
--}
--XCOMM	fs7 class (ISO8859 families)
+ XCOMM	fs7 class (ISO8859 families)
 -fs7	{
--	charset	{
++fs6	{
+ 	charset	{
  		name	ISO8859-7:GR
  	}
- 	font	{
-@@ -85,7 +86,7 @@
+@@ -84,7 +85,7 @@ fs7	{
  	}
  }
  XCOMM	fs9 class (ISO8859 families)
@@ -83,7 +82,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	ISO8859-9:GR
  	}
-@@ -94,7 +95,7 @@
+@@ -93,7 +94,7 @@ fs8	{
  	}
  }
  XCOMM	fs13 class (ISO8859 families)
@@ -92,7 +91,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	ISO8859-13:GR
  	}
-@@ -103,7 +104,7 @@
+@@ -102,7 +103,7 @@ fs9	{
  	}
  }
  XCOMM	fs14 class (ISO8859 families)
@@ -101,7 +100,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	ISO8859-14:GR
  	}
-@@ -112,16 +113,17 @@
+@@ -111,16 +112,17 @@ fs10	{
  	}
  }
  XCOMM	fs15 class (ISO8859 families)
@@ -122,7 +121,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	JISX0208.1983-0:GL
  	}
-@@ -130,16 +132,16 @@
+@@ -129,16 +131,16 @@ fs12	{
  	}
  }
  XCOMM   fs17 class (Korean Character)
@@ -143,7 +142,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	GB2312.1980-0:GL
  	}
-@@ -148,7 +150,7 @@
+@@ -147,7 +149,7 @@ fs14	{
  	}
  }
  XCOMM	fs20 class (Half Kana)
@@ -152,7 +151,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	JISX0201.1976-0:GR
  	}
-@@ -157,9 +159,70 @@
+@@ -156,9 +158,70 @@ fs15	{
  		vertical_rotate	all
  	}
  }
@@ -224,7 +223,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
  	charset	{
  		name	ISO10646-1
  	}
-@@ -221,21 +284,21 @@
+@@ -220,79 +283,120 @@ cs5     {
  }
   
  XCOMM	cs6 class
@@ -254,7 +253,6 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
          side            GR
          length          1
          ct_encoding     ISO8859-9:GR
-@@ -242,7 +305,7 @@
  }
   
  XCOMM	cs13 class
@@ -263,7 +261,6 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
          side            GR
          length          1
          ct_encoding     ISO8859-13:GR
-@@ -249,7 +312,7 @@
  }
   
  XCOMM	cs14 class
@@ -272,7 +269,6 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
          side            GR
          length          1
          ct_encoding     ISO8859-14:GR
-@@ -256,7 +319,7 @@
  }
   
  XCOMM	cs15 class
@@ -281,7 +277,6 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
          side            GR
          length          1
          ct_encoding     ISO8859-15:GR
-@@ -263,23 +326,22 @@
  }
   
  XCOMM	cs16 class
@@ -311,7 +306,6 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC
          side            GR
          length          2
          ct_encoding     GB2312.1980-0:GL; GB2312.1980-0:GR
-@@ -286,14 +348,56 @@
  }
   
  XCOMM	cs20 class

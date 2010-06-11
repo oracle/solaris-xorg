@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.pre
---- nls/iso8859-13/Compose.pre	2009-03-24 22:23:13.000000000 -0700
-+++ nls/iso8859-13/Compose.pre	2009-04-06 13:46:56.802935000 -0700
-@@ -2,18 +2,107 @@ XCOMM $XFree86: xc/nls/Compose/iso8859-1
+--- nls/iso8859-13/Compose.pre	2010-01-14 17:11:36.000000000 -0800
++++ nls/iso8859-13/Compose.pre	2010-06-07 15:49:34.269131380 -0700
+@@ -1,18 +1,106 @@
  XCOMM
  XCOMM ISO 8859-13 (Latin7) Compose Sequence
  XCOMM
@@ -59,7 +59,6 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
 +XCOMM
 +
 +XCOMM
-+XCOMM $XConsortium: iso8859-1,v 1.5 95/06/07 18:45:50 kaleb Exp $
 +XCOMM
 +XCOMM ISO 8859-13 (Latin8) Compose Sequence
 +XCOMM
@@ -135,7 +134,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <parenleft> <parenleft>     : "["   bracketleft
  <Multi_key> <slash> <slash>             : "\\"  backslash
  <Multi_key> <slash> <less>              : "\\"  backslash
-@@ -25,29 +115,26 @@ XCOMM are for compose sequences.
+@@ -24,29 +112,26 @@ XCOMM are for compose sequences.
  <Multi_key> <space> <greater>           : "^"   asciicircum
  <Multi_key> <grave> <space>             : "`"   grave
  <Multi_key> <space> <grave>             : "`"   grave
@@ -173,7 +172,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <c> <slash>                 : "\242"        cent
  <Multi_key> <slash> <c>                 : "\242"        cent
  <Multi_key> <C> <slash>                 : "\242"        cent
-@@ -56,6 +143,10 @@ XCOMM are for compose sequences.
+@@ -55,6 +140,10 @@ XCOMM are for compose sequences.
  <Multi_key> <bar> <C>                   : "\242"        cent
  <Multi_key> <c> <bar>                   : "\242"        cent
  <Multi_key> <bar> <c>                   : "\242"        cent
@@ -184,7 +183,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <l> <equal>                 : "\243"        sterling
  <Multi_key> <equal> <l>                 : "\243"        sterling
  <Multi_key> <L> <equal>                 : "\243"        sterling
-@@ -133,6 +224,8 @@ XCOMM are for compose sequences.
+@@ -132,6 +221,8 @@ XCOMM are for compose sequences.
  <Multi_key> <period> <asciicircum>      : "\267"        periodcentered
  <Multi_key> <asciicircum> <period>      : "\267"        periodcentered
  <Multi_key> <period> <period>           : "\267"        periodcentered
@@ -193,7 +192,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <1> <4>                     : "\274"        onequarter
  <Multi_key> <1> <2>                     : "\275"        onehalf
  <Multi_key> <3> <4>                     : "\276"        threequarters
-@@ -167,8 +260,12 @@ XCOMM Accented Alphabet
+@@ -166,8 +257,12 @@ XCOMM Accented Alphabet
  <Multi_key> <L> <cedilla>		: "\317"	Lcedilla
  <Multi_key> <comma> <L>			: "\317"	Lcedilla
  <Multi_key> <cedilla> <L>		: "\317"	Lcedilla
@@ -208,7 +207,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <E> <minus>			: "\307"	Emacron
  <Multi_key> <minus> <E>			: "\307"	Emacron
  <Multi_key> <E> <underscore>		: "\307"	Emacron
-@@ -177,12 +274,11 @@ XCOMM Accented Alphabet
+@@ -176,12 +271,11 @@ XCOMM Accented Alphabet
  <Multi_key> <G> <cedilla>		: "\314"	Gcedilla
  <Multi_key> <comma> <G>			: "\314"	Gcedilla
  <Multi_key> <cedilla> <G>		: "\314"	Gcedilla
@@ -226,7 +225,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <r> <comma>			: "\272"	rcedilla
  <Multi_key> <r> <cedilla>		: "\272"	rcedilla
  <Multi_key> <comma> <r>			: "\272"	rcedilla
-@@ -191,8 +287,10 @@ XCOMM Accented Alphabet
+@@ -190,8 +284,10 @@ XCOMM Accented Alphabet
  <Multi_key> <l> <cedilla>		: "\357"	lcedilla
  <Multi_key> <comma> <l>			: "\357"	lcedilla
  <Multi_key> <cedilla> <l>		: "\357"	lcedilla
@@ -239,7 +238,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <e> <minus>			: "\347"	emacron
  <Multi_key> <minus> <e>			: "\347"	emacron
  <Multi_key> <e> <underscore>		: "\347"	emacron
-@@ -201,8 +299,9 @@ XCOMM Accented Alphabet
+@@ -200,8 +296,9 @@ XCOMM Accented Alphabet
  <Multi_key> <g> <cedilla>		: "\354"	gcedilla
  <Multi_key> <comma> <g>			: "\354"	gcedilla
  <Multi_key> <cedilla> <g>		: "\354"	gcedilla
@@ -251,7 +250,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <A> <underscore>		: "\302"	Amacron
  <Multi_key> <underscore> <A>		: "\302"	Amacron
  <Multi_key> <A> <minus>			: "\302"	Amacron
-@@ -211,23 +310,22 @@ XCOMM Accented Alphabet
+@@ -210,23 +307,22 @@ XCOMM Accented Alphabet
  <Multi_key> <quotedbl> <A>		: "\304"	Adiaeresis
  <Multi_key> <A> <asterisk>		: "\305"	Aring
  <Multi_key> <asterisk> <A>		: "\305"	Aring
@@ -286,7 +285,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <E> <period>		: "\313"	Eabovedot
  <Multi_key> <period> <E>		: "\313"	Eabovedot
  <Multi_key> <I> <minus>			: "\316"	Imacron
-@@ -240,22 +338,25 @@ XCOMM Accented Alphabet
+@@ -239,22 +335,25 @@ XCOMM Accented Alphabet
  <Multi_key> <cedilla> <N>		: "\322"	Ncedilla
  <Multi_key> <O> <underscore>		: "\324"	Omacron
  <Multi_key> <underscore> <O>		: "\324"	Omacron
@@ -318,7 +317,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <U> <quotedbl>		: "\334"	Udiaeresis
  <Multi_key> <quotedbl> <U>		: "\334"	Udiaeresis
  <Multi_key> <U> <underscore>		: "\333"	Umacron
-@@ -271,23 +372,23 @@ XCOMM Accented Alphabet
+@@ -270,23 +369,23 @@ XCOMM Accented Alphabet
  <Multi_key> <quotedbl> <a>		: "\344"	adiaeresis
  <Multi_key> <a> <asterisk>		: "\345"	aring
  <Multi_key> <asterisk> <a>		: "\345"	aring
@@ -354,7 +353,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <e> <period>		: "\353"	eabovedot
  <Multi_key> <period> <e>		: "\353"	eabovedot
  <Multi_key> <i> <minus>			: "\356"	imacron
-@@ -300,22 +401,26 @@ XCOMM Accented Alphabet
+@@ -299,22 +398,26 @@ XCOMM Accented Alphabet
  <Multi_key> <cedilla> <n>		: "\362"	ncedilla
  <Multi_key> <o> <underscore>		: "\364"	omacron
  <Multi_key> <underscore> <o>		: "\364"	omacron
@@ -389,7 +388,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.
  <Multi_key> <u> <quotedbl>		: "\374"	udiaeresis
  <Multi_key> <quotedbl> <u>		: "\374"	udiaeresis
  <Multi_key> <u> <underscore>		: "\373"	umacron
-@@ -324,110 +429,384 @@ XCOMM Accented Alphabet
+@@ -323,110 +426,384 @@ XCOMM Accented Alphabet
  <Multi_key> <minus> <u>			: "\373"	umacron
  <Multi_key> <C> <apostrophe>		: "\303"	Cacute
  <Multi_key> <apostrophe> <C>		: "\303"	Cacute

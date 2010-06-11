@@ -29,11 +29,11 @@
 MODULE_NAME=libXrender
 
 # Version number (used in path names)
-MODULE_VERSION=0.9.5
+MODULE_VERSION=0.9.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 276dd9e85daf0680616cd9f132b354c9
-TARBALL_SHA1 = 278f762feb8e754aa5214175abf580ff486281f7
+TARBALL_MD5  = 3b3b7d076c2384b6c600c0b5f4ba971f
+TARBALL_SHA1 = 65bd96dc17da6b064f95109da02d9c9d14cb06dc
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

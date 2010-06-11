@@ -21,10 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
---- include/X11/Xlibint.h	2009-04-08 00:18:36.242153000 -0700
-+++ include/X11/Xlibint.h	2009-04-08 00:18:46.488588000 -0700
-@@ -185,6 +185,10 @@ struct _XDisplay
- 		XGenericEventCookie *   /* in */,
+--- include/X11/Xlibint.h	2010-06-07 15:49:19.999603302 -0700
++++ include/X11/Xlibint.h	2010-06-07 15:49:20.803676676 -0700
+@@ -197,6 +197,10 @@ struct _XDisplay
+ 		XGenericEventCookie *	/* in */,
  		XGenericEventCookie *   /* out*/);
  	void *cookiejar;  /* cookie events returned but not claimed */
 +#ifdef SUNSOFT
@@ -35,9 +35,9 @@ diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
  
  #if defined(XTHREADS) && defined(SUNSOFT)
 diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
---- src/ConnDis.c	2008-11-18 22:42:01.000000000 -0800
-+++ src/ConnDis.c	2009-04-08 00:18:46.494720000 -0700
-@@ -137,7 +137,12 @@ _X11TransConnectDisplay (
+--- src/ConnDis.c	2010-06-03 12:45:32.000000000 -0700
++++ src/ConnDis.c	2010-06-07 15:49:20.804309938 -0700
+@@ -136,7 +136,12 @@ _X11TransConnectDisplay (
      char **auth_namep,			/* RETURN */
      int *auth_namelenp,			/* RETURN */
      char **auth_datap,			/* RETURN */
@@ -50,7 +50,7 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
  {
      int family;
      int saddrlen;
-@@ -164,6 +169,9 @@ _X11TransConnectDisplay (
+@@ -163,6 +168,9 @@ _X11TransConnectDisplay (
      int local_transport_index = -1;
      const char *local_transport[] = { LOCAL_TRANSPORT_LIST, NULL };
  #endif
@@ -60,7 +60,7 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
  
      p = display_name;
  
-@@ -273,6 +281,13 @@ _X11TransConnectDisplay (
+@@ -272,6 +280,13 @@ _X11TransConnectDisplay (
  	}
      }
  
@@ -74,7 +74,7 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
      /*
       * At this point, we know the following information:
       *
-@@ -505,13 +520,23 @@ int _XConnectDisplay (
+@@ -504,13 +519,23 @@ int _XConnectDisplay (
      char **auth_namep,			/* RETURN */
      int *auth_namelenp,			/* RETURN */
      char **auth_datap,			/* RETURN */
@@ -98,37 +98,10 @@ diff -urp -x '*~' -x '*.orig' src/ConnDis.c src/ConnDis.c
  
     if (trans_conn)
     {
-diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
---- src/Xintconn.h	2008-10-07 10:18:19.000000000 -0700
-+++ src/Xintconn.h	2009-04-08 00:18:46.530793000 -0700
-@@ -18,7 +18,12 @@ int _XConnectDisplay (
-     char **auth_namep,          /* RETURN */
-     int *auth_namelenp,         /* RETURN */
-     char **auth_datap,          /* RETURN */
-+#ifdef SUNSOFT /* SME */
-+    int *auth_datalenp,         /* RETURN */
-+    int *sme_conn);             /* RETURN */
-+#else
-     int *auth_datalenp);        /* RETURN */
-+#endif /* SME */
- extern int _XDisconnectDisplay(XtransConnInfo trans_conn);
- extern Bool _XSendClientPrefix(Display *dpy, xConnClientPrefix *client,
- 				char *auth_proto, char *auth_string,
-@@ -27,7 +32,11 @@ extern XtransConnInfo _X11TransConnectDi
- 				char **fullnamep, int *dpynump,
- 				int *screenp, char **auth_namep,
- 				int *auth_namelenp, char **auth_datap,
-+#ifdef SUNSOFT /* SME */
-+				int *auth_datalenp, int *sme_conn);
-+#else
- 				int *auth_datalenp);
-+#endif /* SME */
- #endif /* !USE_XCB */
- 
- /* OpenDis.c */
---- src/OpenDis.c	Fri Oct 16 15:10:13 2009
-+++ src/OpenDis.c	Fri Oct 16 15:17:29 2009
-@@ -52,6 +52,11 @@
+diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
+--- src/OpenDis.c	2010-06-07 15:49:20.020725240 -0700
++++ src/OpenDis.c	2010-06-07 15:49:20.805475576 -0700
+@@ -50,6 +50,11 @@ in this Software without prior written a
  #include <X11/extensions/XInteractive.h>
  /* end SUNSOFT_INTERACTIVE */
  
@@ -140,7 +113,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  #if !USE_XCB
  #ifdef X_NOT_POSIX
  #define Size_t unsigned int
-@@ -67,6 +72,13 @@
+@@ -65,6 +70,13 @@ typedef struct {
  } _XBigReqState;
  #endif /* !USE_XCB */
  
@@ -154,7 +127,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  #if defined(XTHREADS) && defined(SUNSOFT)
  DisplayPtrLink *HeadDisplay=NULL;
  DisplayPtrLink *LastDisplay=NULL;
-@@ -84,6 +96,10 @@
+@@ -82,6 +94,10 @@ void (*_XFreeDisplayLock_fn)(Display *dp
  #define FreeDisplayLock(dis)
  #endif /* XTHREADS */
  
@@ -165,7 +138,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  static xReq _dummy_request = {
  	0, 0, 0
  };
-@@ -94,6 +110,10 @@
+@@ -92,6 +108,10 @@ static Bool _XBigReqHandler(Display *dpy
  				XPointer data);
  #endif /* !USE_XCB */
  
@@ -176,7 +149,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  /*
   * Connects to a server, creates a Display object and returns a pointer to
   * the newly created Display back to the caller.
-@@ -131,6 +151,10 @@
+@@ -129,6 +149,10 @@ XOpenDisplay (
  	long setuplength;	/* number of bytes in setup message */
  	long usedbytes = 0;     /* number of bytes we have processed */
  	unsigned long mask;
@@ -184,10 +157,10 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
 +        int sme_conn = 0;
 +#endif /* SME */
 +
-        long int conn_buf_size;
-        char *xlib_buffer_size;
+ 	long int conn_buf_size;
+ 	char *xlib_buffer_size;
  
-@@ -185,7 +209,11 @@
+@@ -202,7 +226,11 @@ fallback_success:
  					 display_name, &fullname, &idisplay,
  					 &iscreen, &conn_auth_name,
  					 &conn_auth_namelen, &conn_auth_data,
@@ -200,7 +173,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  		Xfree ((char *) dpy);
  		return(NULL);
  	}
-@@ -776,6 +810,26 @@
+@@ -800,6 +828,26 @@ fallback_success:
  	}
  /* end SUNSOFT_INTERACTIVE */
  
@@ -227,7 +200,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  /*
   * and return successfully
   */
-@@ -899,8 +953,20 @@
+@@ -934,8 +982,20 @@ void _XFreeDisplayStructure(Display *dpy
  	if (dpy->vendor)
  	   Xfree (dpy->vendor);
  
@@ -248,7 +221,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  	if (dpy->keysyms)
  	   Xfree ((char *) dpy->keysyms);
  	if (dpy->xdefaults)
-@@ -1063,3 +1129,160 @@
+@@ -1098,3 +1158,160 @@ static void OutOfMemory(Display *dpy, ch
      if (setup) Xfree (setup);
  #endif /* !USE_XCB */
  }
@@ -409,9 +382,38 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
 +}
 +#endif /* SME */
 +
---- src/XlibInt.c	Fri Oct 16 15:10:13 2009
-+++ src/XlibInt.c	Fri Oct 16 10:43:49 2009
-@@ -54,8 +54,15 @@
+diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
+--- src/Xintconn.h	2010-01-14 17:11:36.000000000 -0800
++++ src/Xintconn.h	2010-06-07 15:49:20.804631804 -0700
+@@ -17,7 +17,12 @@ int _XConnectDisplay (
+     char **auth_namep,          /* RETURN */
+     int *auth_namelenp,         /* RETURN */
+     char **auth_datap,          /* RETURN */
++#ifdef SUNSOFT /* SME */
++    int *auth_datalenp,         /* RETURN */
++    int *sme_conn);             /* RETURN */
++#else
+     int *auth_datalenp);        /* RETURN */
++#endif /* SME */
+ extern int _XDisconnectDisplay(XtransConnInfo trans_conn);
+ extern Bool _XSendClientPrefix(Display *dpy, xConnClientPrefix *client,
+ 				char *auth_proto, char *auth_string,
+@@ -26,7 +31,11 @@ extern XtransConnInfo _X11TransConnectDi
+ 				char **fullnamep, int *dpynump,
+ 				int *screenp, char **auth_namep,
+ 				int *auth_namelenp, char **auth_datap,
++#ifdef SUNSOFT /* SME */
++				int *auth_datalenp, int *sme_conn);
++#else
+ 				int *auth_datalenp);
++#endif /* SME */
+ #endif /* !USE_XCB */
+ 
+ /* OpenDis.c */
+diff -urp -x '*~' -x '*.orig' src/XlibInt.c src/XlibInt.c
+--- src/XlibInt.c	2010-06-07 15:49:20.026209260 -0700
++++ src/XlibInt.c	2010-06-07 15:49:20.806893011 -0700
+@@ -52,8 +52,15 @@ from The Open Group.
  #include <direct.h>
  #endif
  
@@ -428,7 +430,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
   * compatibility between X11R6-xtrans and gnuemacs v18.58.
   */
  #include <X11/Xtrans/Xtransint.h>
-@@ -192,6 +199,19 @@
+@@ -181,6 +188,19 @@ xthread_t (*_Xthread_self_fn)(void) = NU
  
  #endif /* MUSTCOPY */
  
@@ -448,7 +450,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  typedef union {
      xReply rep;
      char buf[BUFSIZE];
-@@ -228,7 +248,141 @@
+@@ -217,6 +237,140 @@ static xReq _dummy_request = {
  	0, 0, 0
  };
  
@@ -482,7 +484,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
 +        } \
 +}
 +
- /*
++/*
 + * Wait for the server to open up enough buffer space for us to
 + * continue writing. Since the inbound connection is shared with client
 + * traffic a condition variable is used to block until the Xserver
@@ -586,11 +588,10 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
 +
 +#endif /* SME */
 +
-+/*
+ /*
   * This is an OS dependent routine which:
   * 1) returns as soon as the connection can be written on....
-  * 2) if the connection can be read, must enqueue events and handle errors,
-@@ -315,7 +469,7 @@
+@@ -304,7 +458,7 @@ _XWaitForWritable(
  	{
  	    _XAlignedBuffer buf;
  	    BytesReadable_t pend;
@@ -599,14 +600,14 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  	    register xReply *rep;
  
  	    /* find out how much data can be read */
-@@ -670,7 +824,25 @@
+@@ -678,6 +832,24 @@ static void _XFlushInt(
  		dpy->trans_conn->fd = dpy->fd;
  	}
  	/* End gnuemacs v18.58 compatability fix. */
 +#ifdef SUNSOFT
 +        if (dpy->smeBuffer) {
 +                smeRegion *smeBp = (smeRegion *) dpy->smeBuffer;
- 
++
 +                size = (long)(dpy->bufptr - dpy->buffer);
 +                if (!size) return;
 +                smeConnQueueIn (dpy,smeBp,dpy->buffer,size,_conn_buf_size);
@@ -621,11 +622,10 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
 +        }
 +        else {
 +#endif /* SME */
-+
+ 
  	/* This fix resets the bufptr to the front of the buffer so
  	 * additional appends to the bufptr will not corrupt memory. Since
- 	 * the server is down, these appends are no-op's anyway but
-@@ -692,7 +864,7 @@
+@@ -700,7 +872,7 @@ static void _XFlushInt(
  	    }
  	}
  #endif
@@ -634,7 +634,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  	if (!size) return;
  #ifdef XTHREADS
  	dpy->flags |= XlibDisplayWriting;
-@@ -753,6 +925,11 @@
+@@ -761,6 +933,11 @@ static void _XFlushInt(
  #ifdef XTHREADS
  	dpy->flags &= ~XlibDisplayWriting;
  #endif
@@ -646,7 +646,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  }
  
  int
-@@ -760,7 +937,7 @@
+@@ -768,7 +945,7 @@ _XEventsQueued(
      register Display *dpy,
      int mode)
  {
@@ -655,7 +655,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  	BytesReadable_t pend;
  	_XAlignedBuffer buf;
  	register xReply *rep;
-@@ -884,7 +1061,6 @@
+@@ -892,7 +1069,6 @@ _XEventsQueued(
  #endif /* XTHREADS*/
  	{
  	    read_buf = buf.buf;
@@ -663,7 +663,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  	    if (len < SIZEOF(xReply)
  #ifdef XTHREADS
  		|| dpy->async_handlers
-@@ -956,7 +1132,7 @@
+@@ -964,7 +1140,7 @@ void _XReadEvents(
  {
  	_XAlignedBuffer buf;
  	BytesReadable_t pend;
@@ -672,7 +672,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  	register xReply *rep;
  	Bool not_yet_flushed = True;
  	char *read_buf;
-@@ -1420,8 +1596,84 @@
+@@ -1428,8 +1604,84 @@ _XSend (
  	long skip, dbufsize, padsize, total, todo;
  	_XExtension *ext;
  
@@ -758,7 +758,7 @@ diff -urp -x '*~' -x '*.orig' src/Xintconn.h src/Xintconn.h
  #ifdef XTHREADS
  	dpy->flags |= XlibDisplayWriting;
  	/* make sure no one else can put in data */
-@@ -1525,9 +1777,66 @@
+@@ -1533,9 +1785,66 @@ _XSend (
  #ifdef XTHREADS
  	dpy->flags &= ~XlibDisplayWriting;
  #endif
