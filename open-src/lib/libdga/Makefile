@@ -2,7 +2,7 @@
 #
 # libdga Makefile (for Xsun SUN_DGA extension)
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,13 @@ SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
+# We build 64-bit only on sparc since Xsun/DGA was already obsolete
+# before amd64 was added
+BUILD_TYPES_SET=yes
+BUILD_TYPES_sparc=32 64
+BUILD_TYPES_i386=32
+BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+
 # Library name (used for specfiles/mapfiles)
 LIBNAME=dga
 
@@ -51,3 +58,9 @@ MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 MODULE_INSTALL_MAKEFLAGS=$(MODULE_BUILD_MAKEFLAGS)
 
 include ../Makefile.inc
+
+# Clean up old 64-bit builds from before we stopped building them on x86
+clean: clean_old64
+
+clean_old64:
+	-rm -rf $(BUILD_DIR_64)
