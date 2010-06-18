@@ -34,7 +34,8 @@ TARBALL_MD5  = 05597e2b193a7b7de2ca525468276b1d
 TARBALL_SHA1 = d169cec4e92fe1e99f3ff6766d4c6edcbb808860
 
 # Install to separate directory for easier packaging
-MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/daewoo'
+MODULE_FONTDIR = $(X11_FONT_DIR)/daewoo
+FONTPATH_LINKS = daewoo:unscaled:pri=30 daewoo:pri=75
 
 ### Include common rulesets
 include ../Makefile.inc

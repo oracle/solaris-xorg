@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org font modules
 #
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,6 +41,7 @@ MODTYPE_CONFIGURE_DEPS=
 
 # Set default installation path for fonts
 MODTYPE_CONFIG_OPTS = --with-fontrootdir="$(X11_FONT_DIR)"
+MODTYPE_CONFIG_OPTS += $(MODULE_FONTDIR:%=--with-fontdir="%")
 
 # Disable compression of pcf fonts
 MODTYPE_CONFIG_OPTS += --without-compression
@@ -62,6 +63,23 @@ MODTYPE_CONFIG_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
 MODTYPE_BUILD_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
 	LD_LIBRARY_PATH="$(FONT_LIBS_PATH)"
 
+# Need to install links in fontpath.d directory
+MODTYPE_ADD_INSTALL_TARGETS = install_fontpath_links
+
 ### Include common rulesets
 include $(TOP)/common/Makefile.inc
 
+# Can't use Makefile substitutions or dependencies on the links themselves
+#  due to the : characters & shell math expansion in the link names
+# Ignores errors since /usr/bin/ln -sf can fail due to race conditions
+#  when parallel makes try making the same symlink at the same time
+install_fontpath_links: $(PROTODIR)$(X11_FONT_CATALOGUE)
+	@for l in $(FONTPATH_LINKS) ; do \
+	    if [[ ! -L $(PROTODIR)$(X11_FONT_CATALOGUE)/$$l ]] ; then \
+		( $(START_CMD_ECHO) ; ln -sf ../../..$(MODULE_FONTDIR) \
+		  $(PROTODIR)$(X11_FONT_CATALOGUE)/$$l || true ); \
+	    fi \
+	done
+
+$(PROTODIR)$(X11_FONT_CATALOGUE):
+	mkdir -p $@

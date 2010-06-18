@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,11 +35,11 @@ i postremove
 
 d none share							0755 root sys
 d none share/fonts						0755 root bin
-d none share/fonts/X11						0755 root bin
+d none share/fonts/TrueType					0755 root bin
 
-!search $HOME/share/fonts/X11/ethiopic
-d none share/fonts/X11/ethiopic					0755 root bin
-f none share/fonts/X11/ethiopic/GohaTibebZemen.otf		0444 root bin
-f none share/fonts/X11/ethiopic/GohaTibebZemen.ttf		0444 root bin
-f none share/fonts/X11/ethiopic/fonts.dir			0444 root bin
-f none share/fonts/X11/ethiopic/fonts.scale			0444 root bin
+!search $HOME/share/fonts/TrueType/ethiopic
+d none share/fonts/TrueType/ethiopic				0755 root bin
+f none share/fonts/TrueType/ethiopic/GohaTibebZemen.otf		0444 root bin
+f none share/fonts/TrueType/ethiopic/GohaTibebZemen.ttf		0444 root bin
+f none share/fonts/TrueType/ethiopic/fonts.dir			0444 root bin
+f none share/fonts/TrueType/ethiopic/fonts.scale		0444 root bin

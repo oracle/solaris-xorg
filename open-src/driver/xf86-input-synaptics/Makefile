@@ -63,4 +63,5 @@ FDI_DIR=$(PROTODIR)/etc/hal/fdi/policy/10osvendor
 
 install_fdi: $(SOURCE_TARGETS)
 	mkdir -p $(FDI_DIR)
-	$(INSTALL_SCRIPT) $(SOURCE_DIR)/fdi/11-x11-synaptics.fdi $(FDI_DIR)/
+	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/fdi/11-x11-synaptics.fdi \
+		$(FDI_DIR)/

@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,8 +41,6 @@ f none bin/vncconfig						0555 root bin
 f none bin/vncpasswd						0555 root bin
 f none bin/vncserver						0555 root bin
 f none bin/x0vncserver						0555 root bin
-
-!search $HOME/$XSERVERBINDIR
 f none bin/Xvnc							2555 root root
 
 !search $HOME/share/vnc/classes

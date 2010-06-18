@@ -122,7 +122,7 @@ FT_libdir=$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)
 # Have to override default_install since the -e causes our BUILD_DIR to
 # clash with the one in freetype's Makefiles
 install_freetype: $(BUILD_TARGETS)
-	mkdir -p $(PROTODIR)/usr/bin$(ARCHLIBSUBDIR)
+	mkdir -p $(PROTODIR)$(FT_bindir)
 	( cd $(SOURCE_DIR)/builds/unix ; \
 	    ./config.status --file ftconfig ; \
 	    rm -f ftconfig.h ; \
@@ -133,21 +133,3 @@ install_freetype: $(BUILD_TARGETS)
 	( cd $(SOURCE_DIR) ; \
 	  $(GNUMAKE) DESTDIR=$(PROTODIR) prefix=$(MODULE_PREFIX) libdir=$(FT_libdir) bindir=$(FT_bindir) install )
 
-# $(PROTODIR)/usr/sfw is made so that the RUNPATH in mkfontscale picks up
-# libfreetype from the $(PROTODIR) when running in the build
-install_32: $(PROTODIR)/usr/sfw
-
-$(PROTODIR)/usr/sfw:
-	-/bin/rm -f $(PROTODIR)/usr/sfw
-	ln -s . $(PROTODIR)/usr/sfw
-
-# Make 64-bit link when installing 64-bit binaries
-
-BIN_INST_DIR=$(PROTODIR)$(MODULE_PREFIX)/bin
-
-install_64: $(BIN_INST_DIR)/64
-
-$(BIN_INST_DIR)/64:
-	-/bin/rm -f $(BIN_INST_DIR)/64
-	mkdir -p $(BIN_INST_DIR)
-	ln -s $(SUBDIR64) $(BIN_INST_DIR)/64

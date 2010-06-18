@@ -61,10 +61,17 @@ source_fix_pkgname: $(PATCHED_TARGET)
 # Libtool versions before 2.2.2 fail to work with LD=cc in 64 bit builds, 
 # so install fixed libtool m4 macros here as well, so that modules that
 # run autoreconf get the fixed sources
-install_libtool_fix:
-	mkdir -p $(PROTODIR)$(X11_ACLOCAL_DIR)/
-	-rm -f $(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
+install_libtool_fix: $(TOOLS_ACLOCAL_DIR)/libtool.m4
+
+$(TOOLS_ACLOCAL_DIR)/libtool.m4: $(TOOLS_ACLOCAL_DIR) libtool-64.patch
+	-rm -f $(TOOLS_ACLOCAL_DIR)/libtool.m4
 	SYSTEM_ACLOCAL_DIR=$$($(ACLOCAL_PATH) --print-ac-dir) ; \
 	cp $${SYSTEM_ACLOCAL_DIR}/libtool.m4 \
-		$(PROTODIR)$(X11_ACLOCAL_DIR)/libtool.m4
-	gpatch -d $(PROTODIR)$(X11_ACLOCAL_DIR) < libtool-64.patch
+		$(TOOLS_ACLOCAL_DIR)/libtool.m4
+	gpatch -d $(TOOLS_ACLOCAL_DIR) < libtool-64.patch
+
+# autoreconf fails if the aclocal include directories don't exist yet
+$(AUTOCONF_TARGET): $(TOOLS_ACLOCAL_DIR) $(PROTODIR)$(X11_ACLOCAL_DIR)
+
+$(TOOLS_ACLOCAL_DIR) $(PROTODIR)$(X11_ACLOCAL_DIR):
+	mkdir -p $@

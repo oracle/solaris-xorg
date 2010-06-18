@@ -48,8 +48,18 @@ LIBNAME=xtrans
 # Man pages to apply Sun footer to & attributes to list
 # - Xtrans has none
 
-# Xtrans doesn't build a library, so use the pkgconfig file it builds instead
-LIB_BUILT = xtrans.pc
+# Because xtrans is not a real library, don't need 64-bit build,
+# and the pkg-config file goes into share directory
+BUILD_TYPES=32
+BUILD_TYPES_SET=yes
+
+MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODULE_PKGCONFIG_DIR_SET=yes
 
 include ../Makefile.inc
 
+# Clean up old 64-bit builds from before we stopped building them
+clean: clean_64
+
+clean_64:
+	-rm -rf $(BUILD_DIR_64) build_64

@@ -537,6 +537,7 @@ f none share/pkgconfig/xproxymngproto.pc			0444 root bin
 
 f none share/pkgconfig/xbitmaps.pc				0444 root bin
 f none share/pkgconfig/xorg-macros.pc				0444 root bin
+f none share/pkgconfig/xtrans.pc				0444 root bin
 
 
 # Libraries
@@ -573,7 +574,6 @@ f none lib/pkgconfig/xrender.pc					0444 root bin
 f none lib/pkgconfig/xres.pc					0444 root bin
 f none lib/pkgconfig/xscrnsaver.pc				0444 root bin
 f none lib/pkgconfig/xt.pc					0444 root bin
-f none lib/pkgconfig/xtrans.pc					0444 root bin
 f none lib/pkgconfig/xtst.pc					0444 root bin
 f none lib/pkgconfig/xv.pc					0444 root bin
 f none lib/pkgconfig/xvmc.pc					0444 root bin
@@ -612,7 +612,6 @@ f none lib/$plat_64/pkgconfig/xrender.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xres.pc				0444 root bin
 f none lib/$plat_64/pkgconfig/xscrnsaver.pc			0444 root bin
 f none lib/$plat_64/pkgconfig/xt.pc				0444 root bin
-f none lib/$plat_64/pkgconfig/xtrans.pc				0444 root bin
 f none lib/$plat_64/pkgconfig/xtst.pc				0444 root bin
 f none lib/$plat_64/pkgconfig/xv.pc				0444 root bin
 f none lib/$plat_64/pkgconfig/xvmc.pc				0444 root bin

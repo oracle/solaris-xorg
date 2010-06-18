@@ -225,6 +225,7 @@ XORG_SDK_INCLUDES_DIR=$(X11_INCLUDES_DIR)/xorg
 X11_X11LIB_DIR=$(X11_LIB_DIR)/X11
 SHARE_FONT_DIR=/usr/share/fonts
 X11_FONT_DIR=$(SHARE_FONT_DIR)/X11
+X11_FONT_CATALOGUE=/etc/X11/fontpath.d
 TRUETYPE_FONT_DIR=$(SHARE_FONT_DIR)/TrueType
 X11_DOC_DIR=/usr/share/doc/X11
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
@@ -254,7 +255,8 @@ PKGCONFIG_DIR_SHARE=/usr/share$(PKGCONFIG_DIR_suffix)
 
 # Directory used for installing tools used during build but not
 # delivered in packages
-TOOLS_DIR=/tools
+TOOLS_DIR=$(PROTODIR)/tools
+TOOLS_ACLOCAL_DIR=$(TOOLS_DIR)/share/aclocal
 
 # Directory that license files are copied to for use in building package
 # license files
@@ -272,7 +274,7 @@ GNUMAKE = gmake
 LNDIR=$(PROTODIR)$(X11_BIN_DIR)/lndir
 
 # Tools needed to build docbook documentation
-DOCBOOKUTIL_BINDIR=$(PROTODIR)$(TOOLS_DIR)/bin
+DOCBOOKUTIL_BINDIR=$(TOOLS_DIR)/bin
 DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/docbook2html
 DOCBOOK2TXT=$(DOCBOOKUTIL_BINDIR)/docbook2txt
 XORG_DEFS_ENT=$(PROTODIR)/$(X11_DIR)/share/sgml/X11/defs.ent
@@ -307,3 +309,14 @@ XORG_GIT_URL=$(FDO_GIT_URL)/xorg
 # Target created when sources are unpacked
 UNPACK_FILE = .unpack_done
 UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE) 
+
+### Misc rules
+
+# For use in debugging or calling from scripts like the code review helper
+# Use such as: make print_make_vars VARS="MODTYPE MODULE_NAME"
+# or: make print_make_vars BUILD_TYPE=32 VARS=SOURCE_DIR
+print_make_var-%:
+	@print -n ' $(@:print_make_var-%=%)="$($(@:print_make_var-%=%))"'
+
+print_make_vars: $(VARS:%=print_make_var-%)
+	@print '\n'

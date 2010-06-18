@@ -34,7 +34,8 @@ TARBALL_MD5  = 88b5b32c5a27576e9d00675bcc966806
 TARBALL_SHA1 = 13fe07a669dd93dfdb08717a03efe47936ab9cea
 
 # Install to separate directory for easier packaging
-MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/isas'
+MODULE_FONTDIR = $(X11_FONT_DIR)/isas
+FONTPATH_LINKS = isas:unscaled:pri=14 isas:pri=84
 
 ### Include common rulesets
 include ../Makefile.inc

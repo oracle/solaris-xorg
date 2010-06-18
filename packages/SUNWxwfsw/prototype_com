@@ -75,23 +75,23 @@ f none share/fonts/X11/encodings/viscii1.1-1.enc		0444 root bin
 
 !search $HOME/share/fonts/X11/encodings/large
 d none share/fonts/X11/encodings/large				0755 root bin
-f none share/fonts/X11/encodings/large/big5.eten-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/big5hkscs-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/cns11643-1.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/cns11643-2.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/cns11643-3.enc.gz	0444 root bin
+f none share/fonts/X11/encodings/large/big5.eten-0.enc		0444 root bin
+f none share/fonts/X11/encodings/large/big5hkscs-0.enc		0444 root bin
+f none share/fonts/X11/encodings/large/cns11643-1.enc		0444 root bin
+f none share/fonts/X11/encodings/large/cns11643-2.enc		0444 root bin
+f none share/fonts/X11/encodings/large/cns11643-3.enc		0444 root bin
 f none share/fonts/X11/encodings/large/encodings.dir		0444 root bin
-f none share/fonts/X11/encodings/large/gb18030-0.enc.gz		0444 root bin
-f none share/fonts/X11/encodings/large/gb18030.2000-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/gb18030.2000-1.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/gb2312.1980-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/gbk-0.enc.gz		0444 root bin
-f none share/fonts/X11/encodings/large/jisx0201.1976-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/jisx0208.1990-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/jisx0212.1990-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/ksc5601.1987-0.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/ksc5601.1992-3.enc.gz	0444 root bin
-f none share/fonts/X11/encodings/large/sun.unicode.india-0.enc.gz	0444 root bin
+f none share/fonts/X11/encodings/large/gb18030-0.enc		0444 root bin
+f none share/fonts/X11/encodings/large/gb18030.2000-0.enc	0444 root bin
+f none share/fonts/X11/encodings/large/gb18030.2000-1.enc	0444 root bin
+f none share/fonts/X11/encodings/large/gb2312.1980-0.enc	0444 root bin
+f none share/fonts/X11/encodings/large/gbk-0.enc		0444 root bin
+f none share/fonts/X11/encodings/large/jisx0201.1976-0.enc	0444 root bin
+f none share/fonts/X11/encodings/large/jisx0208.1990-0.enc	0444 root bin
+f none share/fonts/X11/encodings/large/jisx0212.1990-0.enc	0444 root bin
+f none share/fonts/X11/encodings/large/ksc5601.1987-0.enc	0444 root bin
+f none share/fonts/X11/encodings/large/ksc5601.1992-3.enc	0444 root bin
+f none share/fonts/X11/encodings/large/sun.unicode.india-0.enc	0444 root bin
 
 # Font libraries used by Xorg and X11R7-based font programs
 !search $HOME/lib/xorg

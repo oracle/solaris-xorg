@@ -41,24 +41,30 @@ BUILD_TARGETS_SET=yes
 INSTALL_TARGETS = install_aliases
 INSTALL_TARGETS_SET=yes
 
+BUILD_TYPES = core ISO8859-1
+BUILD_TYPES_SET = yes
+
 ### Include common rulesets
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
 INSTDIR=$(DESTDIR)$(X11_FONT_DIR)
 
-ALIAS_DIRS = Type1 misc 75dpi 100dpi \
-	misc-ISO8859-1 75dpi-ISO8859-1 100dpi-ISO8859-1
+ALIAS_DIRS_core = Type1 misc 75dpi 100dpi
+ALIAS_DIRS_ISO8859-1 = misc-ISO8859-1 75dpi-ISO8859-1 100dpi-ISO8859-1
+ALIAS_DIRS = $(ALIAS_DIRS_$(BUILD_TYPE))
 ALIAS_FILES = $(ALIAS_DIRS:%=$(INSTDIR)/%/fonts.alias)
 
 install_aliases: $(ALIAS_FILES)
 
 $(INSTDIR)/%-ISO8859-1/fonts.alias.all: $(INSTDIR)/%/fonts.alias.all
 	-rm -f $@
+	mkdir -p $(@D)
 	cp -pf $< $@
 
 $(INSTDIR)/%/fonts.alias.all: fonts.alias.%
 	-rm -f $@
+	mkdir -p $(@:fonts.alias.all=)
 	@if [[ -f $(@:.all=) ]] ; then \
 		$(START_CMD_ECHO) ; \
 		cat $(@:.all=) > $@ ; \

@@ -34,7 +34,8 @@ TARBALL_MD5  = 345f1a78312e30cd2c41d24ea3f3276f
 TARBALL_SHA1 = d20d9f8ffdeb88b62842b021d5d3d2a8cc31ea2c
 
 # Install to separate directory for easier packaging
-MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/syriac'
+MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/syriac
+FONTPATH_LINKS = syriac:pri=61
 
 ### Include common rulesets
 include ../Makefile.inc

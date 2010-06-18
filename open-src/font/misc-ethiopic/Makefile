@@ -34,9 +34,11 @@ TARBALL_MD5  = 4c88c79b8e5d47af90b21e948d42755f
 TARBALL_SHA1 = 2677191fd8b515c53bde6402513249fc0f48d53a
 
 # Install to separate directory for easier packaging
+MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/ethiopic
 MODULE_CONFIG_OPTS= \
-	--with-ttf-fontdir='$(X11_FONT_DIR)/ethiopic' \
-	--with-otf-fontdir='$(X11_FONT_DIR)/ethiopic'
+	--with-ttf-fontdir='$(MODULE_FONTDIR)' \
+	--with-otf-fontdir='$(MODULE_FONTDIR)'
+FONTPATH_LINKS = ethiopic:pri=60
 
 ### Include common rulesets
 include ../Makefile.inc

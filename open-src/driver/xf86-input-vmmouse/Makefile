@@ -55,4 +55,16 @@ MODULE_CONFIG_OPTS= \
 	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor$(ARCHLIBSUBDIR) \
 	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
+# Additional install steps to run
+MODULE_ADD_INSTALL_TARGETS_64 = uninstall-hal-files
+MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
+
 include ../Makefile.inc
+
+uninstall-hal-files: default_install
+	(cd $(SOURCE_DIR)/tools ; \
+	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
+	uninstall)
+	(cd $(SOURCE_DIR)/fdi ; \
+	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
+	uninstall)

@@ -34,7 +34,8 @@ TARBALL_MD5  = 664df71cb510b744b4a10e778445c37b
 TARBALL_SHA1 = 0e9ffbc738072ca832cdf5f82bff071c67b71825
 
 # Directory to install to
-MODULE_CONFIG_OPTS=--with-fontdir=$(TRUETYPE_FONT_DIR)/bh-luxi
+MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/bh-luxi
+FONTPATH_LINKS = bh-luxi:pri=42
 
 ### Include common rulesets
 include ../Makefile.inc

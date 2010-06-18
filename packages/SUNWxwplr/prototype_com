@@ -1,4 +1,4 @@
-# Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -87,5 +87,5 @@ d none etc/hal							0755 root bin
 d none etc/hal/fdi						0755 root bin
 d none etc/hal/fdi/preprobe					0755 root bin
 d none etc/hal/fdi/preprobe/10osvendor				0755 root bin
-!search ../usr/share/hal/fdi/policy/10osvendor
+!search ../etc/hal/fdi/preprobe/10osvendor
 f none etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi		0444 root bin

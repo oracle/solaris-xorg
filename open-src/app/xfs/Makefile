@@ -66,10 +66,10 @@ SMF_MANIFEST_DIR=/var/svc/manifest/application/x11
 
 install_smf: check_smf
 	mkdir -p $(PROTODIR)$(SMF_MANIFEST_DIR)
-	$(INSTALL_SCRIPT) xfs.xml $(PROTODIR)$(SMF_MANIFEST_DIR)
+	$(INSTALL_SCRIPT) -m 0444 xfs.xml $(PROTODIR)$(SMF_MANIFEST_DIR)
 
 install_fsadmin:
 	mkdir -p $(PROTODIR)$(X11_DIR)/sbin \
 		$(PROTODIR)$(X11_MAN_DIR)/man1
-	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/sbin
-	$(INSTALL_SCRIPT) fsadmin.1 $(PROTODIR)$(X11_MAN_DIR)/man1
+	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/sbin/fsadmin
+	$(INSTALL_SCRIPT) -m 0444 fsadmin.1 $(PROTODIR)$(X11_MAN_DIR)/man1/

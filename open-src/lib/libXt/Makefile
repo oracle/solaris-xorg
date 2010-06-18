@@ -65,4 +65,17 @@ FIX_PC_FILES=xt.pc.in
 # then the loader can't find them.  It complains silently.
 MODULE_CFLAGS = -DGETVALUES_BUG -xinline=no%_XtAppCreateShell,no%XtAppNextEvent,no%XtAppProcessEvent
 
+# Install additional links to libXt that we include in our packages
+MODULE_ADD_INSTALL_TARGETS = install_extra_links
+
 include ../Makefile.inc
+
+# Extra links to libXt for compatibility with SVID / SPARC ABI / etc.
+EXTRA_LINKS = libXt.so.5
+EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
+
+$(EXTRA_PROTO_LINKS): $(INSTALL_DEPS)
+	@rm -f $@
+	ln -s libXt.so.4 $@
+
+install_extra_links: $(EXTRA_PROTO_LINKS)

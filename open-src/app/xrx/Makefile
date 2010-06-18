@@ -48,6 +48,8 @@ MODULE_STABILITY=Committed
 # of trying to keep up with the many incompatible changes from Firefox
 MODULE_CONFIG_OPTS = PLUGIN_CFLAGS='-I$$(top_srcdir)/plugin/include'
 # Disable build of useless lib*.a files for browser plugin loadable modules
-MODULE_CONFIG_OPTS += --disable-static
+MODULE_CONFIG_OPTS += --enable-shared=yes --enable-static=no 
+# Install directly to firefox plugin directory
+MODULE_CONFIG_OPTS += --libdir='/usr/lib/firefox/plugins'
 
 include ../Makefile.inc

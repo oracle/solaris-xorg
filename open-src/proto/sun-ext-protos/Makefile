@@ -32,6 +32,8 @@ SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 
 # Don't need to configure or build these or install pkg-config files for them
+SOURCE_TARGETS=
+SOURCE_TARGETS_SET=yes
 CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS=

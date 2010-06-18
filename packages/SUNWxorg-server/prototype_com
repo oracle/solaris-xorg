@@ -33,7 +33,7 @@ i copyright
 
 d none X11							0755 root bin
 
-!search $HOME/$XSERVERBINDIR
+!search $HOME/bin
 d none bin							0755 root bin
 f none bin/gtf							0555 root bin
 f none bin/cvt							0555 root bin
@@ -96,7 +96,6 @@ d none share							0755 root sys
 d none share/doc						0755 root other
 d none share/doc/X11						0755 root bin
 f none share/doc/X11/LICENSE.txt				0444 root bin
-f none share/doc/X11/README.DRI					0444 root bin
 f none share/doc/X11/README.mouse				0444 root bin
 f none share/doc/X11/RELNOTES.txt				0444 root bin
 

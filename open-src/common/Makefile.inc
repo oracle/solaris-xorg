@@ -167,6 +167,9 @@ $(INSTALL_RULES):
 	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:install_%=%)" \
 	 $(BUILD_$(@:install_%=%)_FLAGS) install-gen
 
+$(PROTODIR)$(MODULE_DOC_DIR):
+	mkdir -p $@
+
 DEBUG_BUILD_FLAGS = BUILD_DEBUG=yes
 
 # Allow adding "debug-" prefix to rules like build_32, install, etc.
@@ -280,6 +283,9 @@ git-update:
 
 ### Unpack source and apply patches
 
+SOURCE_DEPS = $(SOURCE_TARBALL) $(CHECKSUM_TARGET) \
+	$(MODTYPE_SOURCE_DEPS) $(MODULE_SOURCE_DEPS)
+
 # Step 1: Initialize source dir with upstream sources
 # - if there's a tarball, unpack it.
 # - if using a git master, copy it.
@@ -287,7 +293,7 @@ SOURCE_INIT_TARGET_FILE=.source.init.done
 SOURCE_INIT_TARGET=$(SOURCE_DIR)/$(SOURCE_INIT_TARGET_FILE)
 init_source: $(SOURCE_INIT_TARGET)
 
-$(SOURCE_INIT_TARGET):
+$(SOURCE_INIT_TARGET): $(SOURCE_DEPS)
 	mkdir -p $(BUILD_DIR)
 	@ if [[ "$(SOURCE_TARBALL_NAME)" == "NONE" ]] ; then \
 	  $(START_CMD_ECHO); mkdir -p $(SOURCE_DIR) ; \
@@ -386,8 +392,6 @@ $(ORIG_PC_FILES): $(PATCHED_TARGET)
 	$(PERL) -i.orig -p $(FIX_PC_OPS) $(@:.orig=)
 
 # Tie them all together
-SOURCE_DEPS = $(SOURCE_TARBALL) $(MODTYPE_SOURCE_DEPS) $(MODULE_SOURCE_DEPS)
-
 UNPACK_TARGETS = $(SOURCE_INIT_TARGET) $(PATCHED_TARGET) \
 	$(SOURCE_ADD_TARGET) $(FIXED_MAN_TARGET) $(FIXED_PC_TARGET)
 
@@ -404,6 +408,7 @@ $(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 # due to: 6785384 SUNWgnu-gettext does not include autoconf m4 files
 ACLOCAL_PATH=/usr/bin/aclocal-1.10
 ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
+	-I $(TOOLS_ACLOCAL_DIR) \
 	-I /usr/share/aclocal -I /usr/share/aclocal-1.10 \
 	-I /opt/jdsbld/share/aclocal
 AUTOMAKE_PATH=/usr/bin/automake-1.10
@@ -666,12 +671,3 @@ $(MODULE_LICENSE_DESTDIR)/COPYING: $(MODULE_LICENSE_DESTDIR) $(SOURCE_TARGETS)
 	    rm -f $@ ; \
 	    cp -pf $${LICENSE_TO_COPY} $@ ; \
 	fi
-
-# For use in debugging or calling from scripts like the code review helper
-# Use such as: make print_make_vars VARS="MODTYPE MODULE_NAME"
-# or: make print_make_var BUILD_TYPE=32 VARS=SOURCE_DIR
-print_make_var-%:
-	@print -n ' $(@:print_make_var-%=%)="$($(@:print_make_var-%=%))"'
-
-print_make_vars: $(VARS:%=print_make_var-%)
-	@print '\n'

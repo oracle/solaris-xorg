@@ -68,14 +68,3 @@ MODTYPE_INSTALL_MAKEFLAGS = \
 DELIBTOOLIZE=yes
 
 include $(TOP)/common/Makefile.inc
-
-# Make 64-bit link when installing 64-bit libraries
-
-LIB_INST_DIR=$(PROTODIR)$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)
-
-install_64: $(LIB_INST_DIR)/64
-
-$(LIB_INST_DIR)/64:
-	mkdir -p $(LIB_INST_DIR)
-	/bin/ln -s $(SUBDIR64) $(LIB_INST_DIR)/64 || true
-

@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,31 +35,31 @@ i postremove
 
 d none share							0755 root sys
 d none share/fonts						0755 root bin
-d none share/fonts/X11						0755 root bin
+d none share/fonts/TrueType					0755 root bin
 
-!search $HOME/share/fonts/X11/syriac
-d none share/fonts/X11/syriac					0755 root bin
-f none share/fonts/X11/syriac/SyrCOMAdiabene.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMAntioch.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMBatnan.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMBatnanBold.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMCtesiphon.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMEdessa.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMJerusalem.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMJerusalemBold.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMJerusalemItalic.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMJerusalemOutline.otf	0444 root bin
-f none share/fonts/X11/syriac/SyrCOMKharput.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMMalankara.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMMardin.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMMardinBold.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMMidyat.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMNisibin.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMNisibinOutline.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMQenNeshrin.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMTalada.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMTurAbdin.otf		0444 root bin
-f none share/fonts/X11/syriac/SyrCOMUrhoy.otf			0444 root bin
-f none share/fonts/X11/syriac/SyrCOMUrhoyBold.otf		0444 root bin
-f none share/fonts/X11/syriac/fonts.dir				0444 root bin
-f none share/fonts/X11/syriac/fonts.scale			0444 root bin
+!search $HOME/share/fonts/TrueType/syriac
+d none share/fonts/TrueType/syriac				0755 root bin
+f none share/fonts/TrueType/syriac/SyrCOMAdiabene.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMAntioch.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMBatnan.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMBatnanBold.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMCtesiphon.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMEdessa.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMJerusalem.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMJerusalemBold.otf	0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMJerusalemItalic.otf	0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMJerusalemOutline.otf	0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMKharput.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMMalankara.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMMardin.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMMardinBold.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMMidyat.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMNisibin.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMNisibinOutline.otf	0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMQenNeshrin.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMTalada.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMTurAbdin.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMUrhoy.otf		0444 root bin
+f none share/fonts/TrueType/syriac/SyrCOMUrhoyBold.otf		0444 root bin
+f none share/fonts/TrueType/syriac/fonts.dir			0444 root bin
+f none share/fonts/TrueType/syriac/fonts.scale			0444 root bin

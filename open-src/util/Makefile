@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source utility modules
 #
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,10 +27,9 @@
 # These module directories are not listed here on purpose:
 #  util-macros - has to be the very first, built in top-level Makefile
 #  build-tools - nothing to build
-#  mdb-tools - must be built after X servers, not built/shipped by default,
-#		here for developers to build as needed
 
 OS_SUBDIRS_common = \
+	compat-links \
 	lndir \
 	imake \
 	makedepend \

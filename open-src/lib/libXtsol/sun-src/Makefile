@@ -1,4 +1,4 @@
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,11 +39,9 @@ libXtsol.so.1: $(OBJS) mapfile-vers
 
 install: libXtsol.so.1
 	mkdir -p $(DESTDIR)$(HEADERSPublic_dir)
-	for i in $(HEADERSPublic) ; do \
-		$(INSTALL) $$i $(DESTDIR)$(HEADERSPublic_dir) ; \
-	done
+	$(INSTALL) -m 0444 $(HEADERSPublic) $(DESTDIR)$(HEADERSPublic_dir)
 	mkdir -p $(DESTDIR)$(libdir)
 	-rm -f $(DESTDIR)$(libdir)/libXtsol.so \
 	       $(DESTDIR)$(libdir)/libXtsol.so.1
-	$(INSTALL) libXtsol.so.1 $(DESTDIR)$(libdir)/libXtsol.so.1
+	$(INSTALL) -m 0555 libXtsol.so.1 $(DESTDIR)$(libdir)/libXtsol.so.1
 	ln -s libXtsol.so.1 $(DESTDIR)$(libdir)/libXtsol.so

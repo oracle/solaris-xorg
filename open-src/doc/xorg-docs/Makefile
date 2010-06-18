@@ -43,7 +43,7 @@ MODULE_MAKE_SET=yes
 MODULE_MAKEFLAGS= MAKEFLAGS="-i"
 
 # Additional arguments to configure script
-MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --disable-html \
+MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --enable-html \
 	--docdir='$(X11_DOC_DIR)' --with-x11docdir='$(X11_DOC_DIR)' \
 	XORG_SGML_PATH=$(PROTODIR)$(X11_DIR)/share/sgml
 
@@ -58,6 +58,11 @@ include ../Makefile.inc
 
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
-install_docs:
+install_docs: $(MAN_DIR)/man5/X11.5 $(MAN_DIR)/man5/XStandards.5
+
+$(MAN_DIR)/man5/XStandards.5: default_install
+	mv $(MAN_DIR)/man5/Standards.5 $@
+
+$(MAN_DIR)/man5/X11.5:
 	mkdir -p $(MAN_DIR)/man5
-	cp -pf X11.5 $(MAN_DIR)/man5/X11.5
+	$(INSTALL_SCRIPT) -m 0444 X11.5 $@

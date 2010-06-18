@@ -38,6 +38,10 @@ TARBALL_SHA1 = 9a6991d2ca64d544a41ff653a5f4c7d5d4b9760f
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xf86UDelay.patch,-p1
 
+# Only build 32-bit since hardware is too old to be found in 64-bit systems
+BUILD_TYPES=32
+BUILD_TYPES_SET=yes
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-graphics-ddx

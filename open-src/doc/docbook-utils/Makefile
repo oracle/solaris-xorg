@@ -49,7 +49,7 @@ SOURCE_PATCHES= solaris-port.patch
 AUTORECONF=yes
 
 # Only used during build, so install in tools directory in proto area
-MODULE_PREFIX=$(PROTODIR)$(TOOLS_DIR)
+MODULE_PREFIX=$(TOOLS_DIR)
 MODULE_PREFIX_SET=yes
 MODULE_MAKEFLAGS= DESTDIR=""
 

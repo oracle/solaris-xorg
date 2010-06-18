@@ -42,21 +42,27 @@ ALL_ENCODINGS = \
 	iso8859-16 jisx0201   koi8-r
 
 # Encodings we split out into separate subdirs for packaging
-BDF_SUBDIR_ENCODINGS =	\
+ALL_BDF_SUBDIR_ENCODINGS = \
 	iso8859-1       \
 	iso8859-2       \
         iso8859-3       \
         iso8859-4       \
-        iso8859-5       \
-        iso8859-7       \
-        iso8859-8       \
         iso8859-9       \
         iso8859-10      \
-        iso8859-11      \
         iso8859-13      \
         iso8859-14      \
         iso8859-15      \
         iso8859-16
+
+misc_BDF_SUBDIR_ENCODINGS = \
+	$(ALL_BDF_SUBDIR_ENCODINGS) \
+        iso8859-5       \
+        iso8859-7       \
+        iso8859-8	\
+        iso8859-11
+100dpi_BDF_SUBDIR_ENCODINGS = $(ALL_BDF_SUBDIR_ENCODINGS)
+75dpi_BDF_SUBDIR_ENCODINGS = $(ALL_BDF_SUBDIR_ENCODINGS)
+BDF_SUBDIR_ENCODINGS = $($(FONTSUBDIR)_BDF_SUBDIR_ENCODINGS)
 
 BUILD_TYPES = core $(BDF_SUBDIR_ENCODINGS)
 BUILD_TYPES_SET = yes
@@ -93,11 +99,43 @@ iso8859-15_ENCODING_CONFIG_OPTS = \
 iso8859-16_ENCODING_CONFIG_OPTS = \
 	$(DISABLE_ALL_ENCODINGS:--disable-iso8859-16=--enable-iso8859-16)
 
-ENCODED_FONTDIR=$(X11_FONT_DIR)/$(FONTSUBDIR)-$(BUILD_TYPE:iso%=ISO%)
-MODULE_FONTDIR=$(ENCODED_FONTDIR:%-core=%)
+
+ENCODED_FONTSUBDIR = $(FONTSUBDIR)-$(BUILD_TYPE:iso%=ISO%)
+BDF_SUBDIR = $(ENCODED_FONTSUBDIR:%-core=%)
+MODULE_FONTDIR = $(X11_FONT_DIR)/$(BDF_SUBDIR)
 
 MODULE_CONFIG_OPTS = $($(BUILD_TYPE)_ENCODING_CONFIG_OPTS) \
 	--with-fontdir="$(MODULE_FONTDIR)"
+
+# Font path entries
+iso8859-1_PRIORITY 	= 0
+iso8859-2_PRIORITY 	= 1
+iso8859-3_PRIORITY 	= 1
+iso8859-4_PRIORITY 	= 1
+iso8859-5_PRIORITY 	= 1
+iso8859-6_PRIORITY 	= 1
+iso8859-7_PRIORITY 	= 1
+iso8859-8_PRIORITY 	= 1
+iso8859-9_PRIORITY 	= 1
+iso8859-10_PRIORITY 	= 1
+iso8859-11_PRIORITY 	= 1
+iso8859-12_PRIORITY 	= 1
+iso8859-13_PRIORITY 	= 1
+iso8859-14_PRIORITY 	= 1
+iso8859-15_PRIORITY 	= 1
+iso8859-16_PRIORITY 	= 1
+core_PRIORITY		= 2
+
+misc_PRIORITY		= 15
+100dpi_PRIORITY		= 20
+75dpi_PRIORITY		= 25
+
+unscaled_PRIORITY = 0 + $($(BUILD_TYPE)_PRIORITY) + $($(FONTSUBDIR)_PRIORITY)
+scaled_PRIORITY	  = 70 + $(unscaled_PRIORITY)
+
+# Use of $(( )) causes ksh93 to evaluate the arithmetic expression
+FONTPATH_LINKS = $(BDF_SUBDIR):unscaled:pri=$$(( $(unscaled_PRIORITY) ))
+FONTPATH_LINKS += $(BDF_SUBDIR):pri=$$(( $(scaled_PRIORITY) ))
 
 core_INSTALL_CORE_FONTS=yes
 # All other build types are left unset for "no"

@@ -37,10 +37,11 @@ DRIVER_CLASS=$(DRIVER_CLASS_V:xf86-input-%=input)
 DRIVER_NAME=$(MODULE_NAME:xf86-$(DRIVER_CLASS)-%=%)
 
 # Build 64-bit on SPARC, 32-bit & 64-bit on x86, to match Xorg server builds
-BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=64
-BUILD_TYPES_i386=32 64
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+BUILD_TYPES_DEFAULT     = $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
+$(BUILD_TYPES_DEFAULT)	BUILD_TYPES_sparc=64
+$(BUILD_TYPES_DEFAULT)	BUILD_TYPES_i386=32 64
+$(BUILD_TYPES_DEFAULT)	BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+$(BUILD_TYPES_DEFAULT)	BUILD_TYPES_SET=yes
 
 # Additional command line options to GNU autoconf configure script
 MODTYPE_CONFIG_OPTS = \
@@ -98,3 +99,10 @@ DELIBTOOLIZE=yes
 
 ### Include common rules
 include $(TOP)/common/Makefile.inc
+
+# Clean up old 64-bit builds from before we stopped building them
+# for some drivers
+clean: clean_old64
+
+clean_old64:
+	-rm -rf $(BUILD_DIR_64)

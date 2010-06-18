@@ -241,9 +241,10 @@ f none share/X11/app-defaults/Xman				0444 root bin
 !search $HOME/bin
 f none bin/xrx							0755 root bin
 s none X11/bin/xrx=../../bin/xrx
-!search $HOME/lib
-f none lib/libxrx.so						0755 root bin
-s none X11/lib/libxrx.so=../../lib/libxrx.so
+!search $HOME/lib/firefox/plugins/
+d none lib/firefox						0755 root bin
+d none lib/firefox/plugins					0755 root bin
+f none lib/firefox/plugins/libxrx.so				0755 root bin
 
 # open-src/util/imake
 !search $HOME/bin

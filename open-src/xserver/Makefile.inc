@@ -59,7 +59,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-log-dir=/var/log --with-xkb-output=/var/run/xkb \
 	--with-module-dir=$(SERVER_MODULES_DIR) \
 	--with-dri-driver-path=$(DRI_MODULES_DIR) \
-	--with-default-font-path='catalogue:/etc/X11/fontpath.d' \
+	--with-default-font-path='catalogue:$(X11_FONT_CATALOGUE)' \
 	--with-xkb-bin-directory='$${exec_prefix}/bin' \
 	--with-default-xkb-model=pc105 \
 	$(ADDITIONAL_CONFIG_OPTS)
@@ -133,22 +133,43 @@ MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
 MDB_SCRIPTS=list_Xserver_clients \
 	list_Xserver_devicegrab_client \
 	list_Xserver_servergrab_client
+MDB_MODULE_NAMES=Xephyr Xorg Xvfb Xvnc
+
+BUILT_MDB_MODULE=$(MDB_SOURCE_DIR)/modules/Xserver.so
+BUILT_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%)
+
+INSTALLED_MDB_LINKS=$(MDB_MODULE_NAMES:%=$(PROTODIR)$(MDB_MODULE_DIR)/%.so)
+INSTALLED_MDB_MODULE=$(PROTODIR)$(MDB_MODULE_DIR)/Xserver.so
+INSTALLED_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
+INSTALLED_MDB_ALL=$(INSTALLED_MDB_MODULE) $(INSTALLED_MDB_LINKS) \
+	$(INSTALLED_MDB_SCRIPTS)
 
 # Since configure options aren't used to build the mdb modules, pass
-# those variables at build tie
+# those variables at build time
 MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
 
-build_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
+build_mdb: $(BUILT_MDB_MODULE)
 
-$(MDB_SOURCE_DIR)/modules/Xserver.so: $(CONFIGURE_TARGETS)
+$(BUILT_MDB_SCRIPTS): $(SOURCE_TARGETS)
+
+$(BUILT_MDB_MODULE): $(CONFIGURE_TARGETS)
 	(cd $(MDB_SOURCE_DIR) ; \
          $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
-install_mdb: $(MDB_SOURCE_DIR)/modules/Xserver.so
-	mkdir -p $(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR)
-	cp -pf $(MDB_SOURCE_DIR)/modules/Xserver.so \
-		 $(PROTODIR)$(MDB_MODULE_DIR)/
-	cp -pf $(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%) \
-		 $(PROTODIR)$(MDB_SCRIPT_DIR)/
-	chmod 0755 $(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
-	cp -pf $(MDB_SOURCE_DIR)/README $(PROTODIR)$(MDB_SCRIPT_DIR)/
+$(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR):
+	mkdir -p $@
+
+$(INSTALLED_MDB_MODULE): $(PROTODIR)$(MDB_MODULE_DIR) $(BUILT_MDB_MODULE)
+	$(INSTALL_SCRIPT) -c -m 0555 $(BUILT_MDB_MODULE) $@
+
+$(INSTALLED_MDB_LINKS): $(PROTODIR)$(MDB_MODULE_DIR)
+	@rm -f $@
+	ln -s Xserver.so $@
+
+$(INSTALLED_MDB_SCRIPTS): $(BUILT_MDB_SCRIPTS) $(PROTODIR)$(MDB_SCRIPT_DIR)
+	$(INSTALL_SCRIPT) -c -m 0555 $(MDB_SOURCE_DIR)/scripts/$(@F) \
+		$(PROTODIR)$(MDB_SCRIPT_DIR)/
+
+install_mdb: $(INSTALLED_MDB_ALL)
+	$(INSTALL_SCRIPT) -c -m 0444 $(MDB_SOURCE_DIR)/README \
+		$(PROTODIR)$(MDB_SCRIPT_DIR)/

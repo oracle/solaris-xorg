@@ -1,5 +1,5 @@
 #
-# Copyright (c) 1993, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1993, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -331,5 +331,5 @@ d none share/man/man5						0755 root bin
 f none share/man/man5/X.5					0444 root bin
 f none share/man/man5/X11.5					0444 root bin
 f none share/man/man5/XOrgFoundation.5				0444 root bin
-f none share/man/man5/XStandards.5=$HOME/man5/Standards.5	0444 root bin
+f none share/man/man5/XStandards.5				0444 root bin
 f none share/man/man5/Xsecurity.5				0444 root bin

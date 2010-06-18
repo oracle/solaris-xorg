@@ -149,6 +149,9 @@ ADDITIONAL_SOURCE_DIR=sun-src
 MODULE_ADD_INSTALL_TARGETS_32 = install_extra_headers
 MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
+# Install additional links to libX11 that we include in our packages
+MODULE_ADD_INSTALL_TARGETS += install_extra_links
+
 include ../Makefile.inc
 
 install_extra_headers: $(INSTALL_DEPS)
@@ -159,3 +162,13 @@ install_extra_headers: $(INSTALL_DEPS)
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions/
 	cp -pf $(SOURCE_DIR)/src/xlibi18n/Xlc*.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/
+
+# Extra links to libX11 for compatibility with SVID / SPARC ABI / etc.
+EXTRA_LINKS = libX.so libX.so.4 libX11.so.5
+EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
+
+$(EXTRA_PROTO_LINKS): $(INSTALL_DEPS)
+	@rm -f $@
+	ln -s libX11.so.4 $@
+
+install_extra_links: $(EXTRA_PROTO_LINKS)

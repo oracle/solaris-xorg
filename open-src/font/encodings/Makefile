@@ -37,7 +37,8 @@ TARBALL_SHA1 = 615b8367ee20fc50688e4876aa250419927d64cc
 SOURCE_PATCHES=	
 
 # Extra configure flags
-MODULE_CONFIG_OPTS=--disable-gzip-small-encodings
+MODULE_CONFIG_OPTS=--disable-gzip-small-encodings \
+	--disable-gzip-large-encodings
 
 ### Include common rulesets
 include ../Makefile.inc

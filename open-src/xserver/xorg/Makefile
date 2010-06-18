@@ -93,7 +93,8 @@ MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
 # Additional install targets beyond the defaults
-MODULE_ADD_INSTALL_TARGETS=install_extras install_mdb install_pc_common
+MODULE_ADD_INSTALL_TARGETS=install_extras install_mdb install_pc_common \
+	install_fix_paths
 EXTRA_INSTALL_sparc=install_pc_copy
 EXTRA_INSTALL_i386=
 MODULE_ADD_INSTALL_TARGETS += $(EXTRA_INSTALL_$(MACH))
@@ -124,16 +125,14 @@ install_extras: default_install
 	cp -pf $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(SDK_INCLUDES_DIR)/xf86Sbus.h
 	cp -pf $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
 	-rm -f $(SDK_INCLUDES_DIR)/xf1bpp.h $(SDK_INCLUDES_DIR)/xf4bpp.h
-	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -pf $(SOURCE_DIR)/hw/xfree86/doc/README.* $(PROTODIR)$(X11_DOC_DIR)/
 	mkdir -p $(PROTODIR)$(X11_MAN_DIR)/man1
 	cp -pf $(SOURCE_DIR)/doc/Xnest.1 \
 	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgcfg.1 \
 	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgconfig.1 \
 	       $(PROTODIR)$(X11_MAN_DIR)/man1
-	mkdir -p $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor
+	mkdir -p $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor
 	cp -pf $(SOURCE_DIR)/config/x11-input.fdi \
-	 $(PROTODIR)$(X11_DIR)/share/hal/fdi/policy/10osvendor/10-x11-input.fdi
+	 $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
 
 # Workaround bug in installing pkgconfig file to wrong directory in 64-bit
 # builds
@@ -159,4 +158,40 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	/usr/ccs/bin/nm -g $(XORGSERVER_BIN) $(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/libXfont.so | grep -v UNDEF | sed -n -e 's/^.*\|FUNC \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = FUNCTION extern;/p' -e 's/^.*\|OBJT \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = DATA extern;/p' >> $@
 	printf '};\n' >> $@
 
+# Fix paths in proto area to match paths in packages / installed systems
+install_fix_paths: install_fix_paths_$(MACH)_$(BUILD_TYPE) install_fix_paths_X
+install_fix_paths_$(MACH)_: $(BUILD_TYPES:%=install_fix_paths_$(MACH)_%)
 
+install_fix_paths_i386_32: install_fix_paths_use_utilities
+install_fix_paths_i386_64: install_fix_paths_remove_utilities
+install_fix_paths_sparc_64: # not needed
+
+install_fix_paths_use_utilities: default_install
+	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/cvt \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/gtf
+	mv -f $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/cvt \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin
+
+install_fix_paths_remove_utilities: default_install
+	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/cvt \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf
+
+install_fix_paths_X: default_install
+	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/X \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/X
+	ln -s Xserver $(PROTODIR)$(MODULE_PREFIX)/bin/X
+
+XSERVERS = Xorg Xephyr Xvfb
+XSERVER_LINKS = $(XSERVERS:%=$(PROTODIR)$(MODULE_PREFIX)/bin/%)
+
+$(PROTODIR)/usr/lib/isaexec:
+	@rm -f $@
+	cp -pf /usr/lib/isaexec $@
+
+$(XSERVER_LINKS): $(PROTODIR)/usr/lib/isaexec
+	@rm -f $@
+	ln $(PROTODIR)/usr/lib/isaexec $@
+
+install_fix_paths_i386_32: install_fix_paths_Xservers_isaexec
+install_fix_paths_Xservers_isaexec: $(XSERVER_LINKS)

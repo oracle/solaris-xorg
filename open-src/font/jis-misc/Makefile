@@ -34,7 +34,8 @@ TARBALL_MD5  = 5835c99d056f4a29d7d6a5ae873cf00e
 TARBALL_SHA1 = adb3275d19e71e9553aa8a5fdc3b2c647277d8d4
 
 # Install to separate directory for easier packaging
-MODULE_CONFIG_OPTS= --with-fontdir='$(X11_FONT_DIR)/jiskan'
+MODULE_FONTDIR = $(X11_FONT_DIR)/jiskan
+FONTPATH_LINKS = jiskan:unscaled:pri=14 jiskan:pri=84
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,4 +1,4 @@
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,7 @@ install: dispswitch
 	mkdir -p $(DESTDIR)$(PREFIX)/bin \
 		 $(DESTDIR)$(PREFIX)/share/man/man1 \
 		 $(DESTDIR)/etc/xdg/autostart
-	$(INSTALL) dispswitch $(DESTDIR)$(PREFIX)/bin
-	$(INSTALL) dispswitch.man $(DESTDIR)$(PREFIX)/share/man/man1/dispswitch.1
-	$(INSTALL) gnome-dispswitch.desktop $(DESTDIR)/etc/xdg/autostart
+	$(INSTALL) -m 0555 dispswitch $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) -m 0444 dispswitch.man \
+		$(DESTDIR)$(PREFIX)/share/man/man1/dispswitch.1
+	$(INSTALL) -m 0444 gnome-dispswitch.desktop $(DESTDIR)/etc/xdg/autostart

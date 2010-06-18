@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,14 +21,18 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+#
 
-MODULE_NAME=xmakemap
+# This makefile simply creates a number of compatibility links in the
+# proto area that we include in our packages
 
-# No upstream sources for these files, since they're Sun created
-MODULE_VERSION=src
+# Package name used in tarballs
+MODULE_NAME=compat-links
+
+# No sources
+MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
 
 # Don't need default targets for configure, build, or install, since there's
 # nothing to build, and the install rule follows here
@@ -36,24 +40,28 @@ CONFIGURE_TARGETS =
 CONFIGURE_TARGETS_SET=yes
 BUILD_TARGETS = 
 BUILD_TARGETS_SET=yes
-INSTALL_TARGETS = install_xmakemap
+INSTALL_TARGETS = install_links
 INSTALL_TARGETS_SET=yes
-
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwman
-MODULE_STABILITY=Committed
 
 ### Include common rulesets
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
 
-install_xmakemap: $(SOURCE_TARGETS) $(INSTALL_DEPS)
-	mkdir -p $(DESTDIR)$(X11_BIN_DIR) \
-		$(DESTDIR)$(X11_MAN_DIR)/man1
-	$(INSTALL_SCRIPT) -m 0555 $(SOURCE_DIR)/xmakemap \
-		$(DESTDIR)$(X11_BIN_DIR)
-	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/xmakemap.man \
-		$(DESTDIR)$(X11_MAN_DIR)/man1/xmakemap.1
+# Even though we deliver all our files to /usr/{bin,lib} now, other 
+# consolidations still deliver to /usr/X11, so we have to maintain
+# /usr/X11, which means leaving symlinks there to our programs & libraries
+# to avoid breaking existing scripts and binaries
+$(DESTDIR)/usr/X11:
+	mkdir -p $@
 
+# The SVID ABI established the X->X11 link
+# PSARC 2004/187 established the X11R6->X11 link for compatibility with Linux
+# PSARC 2008/405 removed /usr/openwin and replaced it with a link to /usr/X11
+INSTALL_LINKS = $(DESTDIR)/usr/X $(DESTDIR)/usr/X11R6 $(DESTDIR)/usr/openwin
+
+$(INSTALL_LINKS): $(DESTDIR)/usr/X11
+	@rm -f $@
+	ln -s X11 $@
+
+install_links: $(INSTALL_LINKS)

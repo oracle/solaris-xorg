@@ -1,4 +1,4 @@
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,5 +28,5 @@ kbd_mode: $(OBJS)
 
 install: kbd_mode
 	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
-	$(INSTALL) kbd_mode $(DESTDIR)$(PREFIX)/bin
-	$(INSTALL) kbd_mode.1 $(DESTDIR)$(PREFIX)/share/man/man1
+	$(INSTALL) -m 0555 kbd_mode $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) -m 0444 kbd_mode.1 $(DESTDIR)$(PREFIX)/share/man/man1

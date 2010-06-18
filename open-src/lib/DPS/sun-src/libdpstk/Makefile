@@ -2,7 +2,7 @@
 #
 # libdpstk Makefile
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -102,5 +102,7 @@ clean ::
 install: all
 	$(INSTALL) libdpstk.so.5 $(DESTDIR)$(libdir)/libdpstk.so.5
 	$(INSTALL) libdpstkXm.so.5 $(DESTDIR)$(libdir)/libdpstkXm.so.5
-	$(INSTALL) ColorSelect.ad $(DESTDIR)$(datadir)/X11/app-defaults/ColorSelect
-	$(INSTALL) FontSelect.ad $(DESTDIR)$(datadir)/X11/app-defaults/FontSelect
+	$(INSTALL) -m 0444 ColorSelect.ad \
+		$(DESTDIR)$(datadir)/X11/app-defaults/ColorSelect
+	$(INSTALL) -m 0444 FontSelect.ad \
+		$(DESTDIR)$(datadir)/X11/app-defaults/FontSelect
