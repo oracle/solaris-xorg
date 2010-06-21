@@ -39,11 +39,6 @@ MODTYPE_CFLAGS=$(PROG_CFLAGS)
 MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 
-# Since so many app modules build against the currently private Xorg libXaw,
-# just set the flag here, so it's one place to maintain until we get the
-# libXaw mess straightened out
-MODTYPE_LD_OPTIONS = $(XAW_LD_OPTIONS)
-
 # Set comments in ELF binaries to help identify versions/builds
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 

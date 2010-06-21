@@ -63,16 +63,8 @@ MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-# Need to find libfontenc & libfreetype in matching directory when used
-# in alternate root environments, like during OS install
-# We use sfw/lib to find libfreetype (via the compatibility link) and not
-# libc, which may be incompatible with the running system during Live Upgrade
-MODULE_LD_OPTIONS= -R $$ORIGIN -R $$ORIGIN/$(FREETYPE_RELATIVE_PATH)
-MODULE_BUILD_32_FLAGS= FREETYPE_RELATIVE_PATH=../../../../sfw/lib
-MODULE_BUILD_64_FLAGS= FREETYPE_RELATIVE_PATH=../../../../../sfw/lib$(ARCHLIBSUBDIR)
-
 # Link with version mapfile
-MODULE_LD_OPTIONS += -M $(PWD)/mapfile-vers
+MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc
 

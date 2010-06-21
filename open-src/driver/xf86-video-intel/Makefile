@@ -55,16 +55,15 @@ MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
 # Extra flags to pass to configure script
-MODULE_CONFIG_OPTS=--enable-dri
+# --libdir is needed to set path for XvMC libraries
+MODULE_CONFIG_OPTS=--enable-dri --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)'
 
-# Libraries/modules to link with
+# Library paths at build time
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) 
+	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 
 # Need to regenerate configure & Makefile.in's after patching
 # configure.ac & Makefile.am's in libraries.patch & build-dri.patch

@@ -52,6 +52,6 @@ MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_CFLAGS += -I. -DHAS_ISW_FUNCS -DHAS_WCTYPE_H -DOLDXAW
 
 # Link with version mapfile
-MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+MODULE_LDFLAGS = -R/usr/lib$(ARCHLIBSUBDIR) -M $(PWD)/mapfile-vers
 
 include ../Makefile.inc

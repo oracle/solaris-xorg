@@ -119,6 +119,8 @@ MODULE_CFLAGS = -xF
 # -DSUNSOFT_KBD enables Solaris traditional keyboard handling
 MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD
 
+MODULE_LDFLAGS = -R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
+
 # Backwards compatibility for old paths until g11n moves all input methods
 MODULE_CONFIG_ENV = \
  XLOCALEDIR="/usr/share/X11/locale:/usr/X11/share/X11/locale" \

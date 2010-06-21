@@ -49,9 +49,4 @@ MODULE_CONFIG_OPTS= --with-bzip2
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
-# Need to find libfontenc & libfreetype in matching directory when used
-# in alternate root environments, like during OS install
-MODULE_LD_OPTIONS= -R $$ORIGIN/../../sfw/lib$(ARCHLIBSUBDIR) \
-	-R $$ORIGIN/../lib/X11/xserver$(ARCHLIBSUBDIR)
-
 include ../Makefile.inc

@@ -54,9 +54,12 @@ SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
+AST_LIBRARIES_sparc = # nothing extra
+AST_LIBRARIES_i386 = -lint10 -lpciaccess -lvbe -lvgahw
+AST_LIBRARIES = -lfb -lxaa $(AST_LIBRARIES_$(MACH))
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa
+	$(AST_LIBRARIES)
 
 include ../Makefile.inc

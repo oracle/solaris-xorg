@@ -2,7 +2,7 @@
 #
 # installalias module Makefile
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,12 +48,7 @@ MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 # Need to link with libXfont in server private directory
-MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
-
-# Need to find libXfont in matching directory when used
-# in alternate root environments, like during OS install
-# $ORIGIN paths are relative to /usr/lib/X11, since that's where 
-# installalias is installed
-MODULE_LD_OPTIONS= -R $$ORIGIN/../xorg$(ARCHLIBSUBDIR)
+MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 include ../Makefile.inc

@@ -69,6 +69,7 @@ MODULE_PREFIX_SET=yes
 
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS= \
+	--libdir='$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)' \
 	--with-zlib \
 	--with-pic
 

@@ -192,10 +192,14 @@ LDFLAGS_suncc		= $(LDFLAGS_common)
 LIB_LDFLAGS_suncc	= $(LIB_LDFLAGS_common)
 PROG_LDFLAGS_suncc	= $(PROG_LDFLAGS_common)
 
+# gcc requires additional library path for libgcc_s.so
+DEFAULT_LDFLAGS_gcc = -L/usr/sfw/lib$(ARCHLIBSUBDIR) \
+		      -R/usr/sfw/lib$(ARCHLIBSUBDIR)
+
 # Need to use -Wl,.. to pass linker flags through gcc
 GCC_CONVERT_LDFLAGS_CMD=sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
 GCC_LDFLAGS_CMD=echo $(LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
-LDFLAGS_gcc=$(GCC_LDFLAGS_CMD:sh)
+LDFLAGS_gcc=$(GCC_LDFLAGS_CMD:sh) $(DEFAULT_LDFLAGS_gcc)
 GCC_LIB_LDFLAGS_CMD=echo $(LIB_LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
 LIB_LDFLAGS_gcc=$(GCC_LIB_LDFLAGS_CMD:sh)
 GCC_PROG_LDFLAGS_CMD=echo $(PROG_LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)

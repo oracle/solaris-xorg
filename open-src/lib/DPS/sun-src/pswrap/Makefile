@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,7 +31,7 @@
       CPPFLAGS += $(DEFINES)
            YACC = /usr/ccs/bin/yacc
          YFLAGS = -d
-EXTRA_LIBRARIES = -ll
+EXTRA_LIBRARIES = # -ll
 
 SRCS = main.c pswdict.c pswfile.c \
 	systemnames.c psw.c pswstring.c pswsemantics.c

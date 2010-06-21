@@ -82,6 +82,9 @@ MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
 	MKFONTSCALE="$(MKFONTSCALE)" \
 	LD="$(CC) $(ARCH_FLAGS)"
 
+MODULE_LDFLAGS = $(XSERVER_LDFLAGS)
+MODULE_LD_OPTIONS = $(MAPFILES_FOR_ALL)
+
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xorg-server.pc.in
 # Remove compiler specific visibility flag that breaks builds of drivers

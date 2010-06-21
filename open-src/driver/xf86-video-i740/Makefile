@@ -51,7 +51,7 @@ MODULE_STABILITY=Volatile
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lint10 -lpciaccess -lvbe -lvgahw -lxaa -lm
+	-lfb -lpciaccess -lvbe -lvgahw -lxaa -lm
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

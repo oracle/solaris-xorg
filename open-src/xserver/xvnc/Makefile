@@ -173,19 +173,13 @@ MODULE_CPPFLAGS = \
 CFLAGS_gcc += -fPIC
 
 # Environment variable options to GNU autoconf configure script
-XVNC_CONFIG_ENV = LIBS="-lsocket -lnsl" \
-	LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_LDFLAGS)"
-CONFIG_ENV += $(XVNC_CONFIG_ENV) 
+# Have to remove CFLAGS entries from default LDFLAGS to avoid conflicts
+# with the C++ compiler we use instead
+VNC_CONFIG_ENV = $(CONFIG_ENV) LIBS="-lsocket -lnsl" \
+    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_LDFLAGS)"
 
-LDPATH_ADDITIONS_sparc = \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
-        -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
-LDPATH_ADDITIONS_i386 = \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR) \
-        -R$(X11_SERVERMODS_DIR)/extensions$(ARCHLIBSUBDIR)
-LDPATH_ADDITIONS=$(LDPATH_ADDITIONS_$(MACH))
-
-MODULE_LDFLAGS = $(LDPATH_ADDITIONS)
+XVNC_CONFIG_ENV = $(CONFIG_ENV) \
+    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(XSERVER_LDFLAGS)"
 
 # Needed by unix/xorg-x11-server-source/hw/vnc/Makefile.am to find libpixman
 # headers in proto area after solaris-port.patch is applied
@@ -195,17 +189,17 @@ MODULE_MAKEFLAGS = PROTODIR=$(PROTODIR)
 $(SOURCE_DIR)/unix/Makefile: $(SOURCE_TARGETS)
 	(cd $(SOURCE_DIR)/common && \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
+		$(VNC_CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
 	(cd $(SOURCE_DIR)/unix && \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
+		$(VNC_CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
 
 
 # Run configure script for Xvnc
 $(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 	(cd $(XORG_BUILD_DIR) &&  \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
+		$(XVNC_CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
 
 Xvnc_build: $(CONFIGURE_TARGETS)
 	(cd $(SOURCE_DIR)/unix ; \

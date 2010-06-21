@@ -47,7 +47,8 @@ SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3Xevie
 
-
+# libXevie actually doesn't call any libc functions
+NEED_LIBC=no
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xevie.pc.in

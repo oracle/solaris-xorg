@@ -54,7 +54,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe \
-	-lvgahw -lxaa -lfbdevhw
+	-lxaa -lfbdevhw
 
 # Extra flags to pass to configure script
 # - Disable DRI since the kernel module isn't ported

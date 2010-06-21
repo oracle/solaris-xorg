@@ -41,11 +41,16 @@ MODULE_MTLEVEL_DEFAULT	= $(MODULE_MTLEVEL_SET:yes=$(POUND_SIGN))
 $(MODULE_MTLEVEL_DEFAULT)	MODULE_MTLEVEL=See XInitThreads(3X11)
 MODTYPE_SUNTOUCH_MAN_FLAGS= -l $(LIBNAME) -a '{MT-Level, $(MODULE_MTLEVEL)}'
 
+# Add -lc to library link except for the handful of libraries that don't 
+# need it
+LIBC_DEFAULT		= $(NEED_LIBC:no=$(POUND_SIGN))
+$(LIBC_DEFAULT)		LIBC=-lc
+
 # Flags to build & link libraries with
 MODTYPE_CPPFLAGS=$(LIB_CPPFLAGS)
 MODTYPE_CFLAGS=$(LIB_CFLAGS)
 MODTYPE_CXXFLAGS=$(LIB_CXXFLAGS)
-MODTYPE_LDFLAGS=$(LIB_LDFLAGS) -lc
+MODTYPE_LDFLAGS=$(LIB_LDFLAGS) $(LIBC)
 MODTYPE_LD_OPTIONS=$(LIB_REQUIRED_LDFLAGS)
 
 # Additional command line options to GNU autoconf configure script

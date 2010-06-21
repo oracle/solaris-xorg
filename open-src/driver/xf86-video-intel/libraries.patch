@@ -14,10 +14,11 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 --- src/Makefile.am	2009-02-28 12:28:53.000000000 -0800
 +++ src/Makefile.am	2010-04-20 16:51:58.619438335 -0700
-@@ -38,6 +38,8 @@ intel_drv_la_LTLIBRARIES = intel_drv.la
+@@ -38,6 +38,9 @@
  intel_drv_la_LDFLAGS = -module -avoid-version
  intel_drv_ladir = @moduledir@/drivers
  intel_drv_la_LIBADD = -lm @DRM_LIBS@ -ldrm_intel
++intel_drv_la_LDFLAGS += -R $(moduledir) -R $(moduledir)/extensions
 +intel_drv_la_LIBADD += -lfb -lextmod -lshadowfb -lXfont \
 +	-lvbe -lvgahw -lxaa -lexa -ldri -ldri2 -lglx
  if BUILD_UXA

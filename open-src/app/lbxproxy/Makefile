@@ -43,7 +43,4 @@ SUNTOUCHED_MANPAGES=*.man
 SUNTOUCH_MAN_FLAGS= \
  -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
 
-# Find liblbxutil in private subdir
-MODULE_LDFLAGS= $(X11_SERVERLIBS_LDFLAGS)
-
 include ../Makefile.inc

@@ -1,4 +1,4 @@
-# Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -89,14 +89,15 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vn
  	-I$(top_srcdir)/include -I$(includedir)/pixman-1 -I$(includedir)
  
 +if BUILD_TSOL_MODULE
-+TSOL_LIBS = 	../../tsol/libxtsol.la -ltsol -ltsnet -lsecdb -lbsm
++TSOL_LIBS = 	../../tsol/libxtsol.la -ltsol -ltsnet -lbsm
 +endif
 +
  Xvnc_LDADD = $(XVNC_LIBS) libvnccommon.la $(COMMON_LIBS) \
+-	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
 +	-ljpeg -lz \
 +	../../IA/libIA.la \
 +	$(TSOL_LIBS) \
- 	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
++	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS)
  
  Xvnc_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
 @@ -62,8 +69,8 @@ BUILT_SOURCES = $(nodist_Xvnc_SOURCES)

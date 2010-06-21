@@ -28,8 +28,8 @@
 # Manual conversion of the X11R6.9 xc/lib/dpstk/Imakefile
 
 LDPRELIB = -L . -L ../libdps -L ../libpsres
-DPSTKLIBS = $(LDPRELIB) -ldps -lXt -lX11 -lm -lc
-DPSTKXMLIBS = $(LDPRELIB) -ldpstk -lpsres -ldps -L/usr/dt/lib -lXm $(DPSTKLIBS)
+DPSTKLIBS = $(LDPRELIB) -ldps -lX11 -lm -lc
+DPSTKXMLIBS = $(LDPRELIB) -ldpstk -lpsres -ldps -L/usr/dt/lib -lXm -lXt $(DPSTKLIBS)
 
        PSWRAP = ../pswrap/pswrap
 

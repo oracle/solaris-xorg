@@ -37,5 +37,10 @@ TARBALL_SHA1 = 6ee3af5466de84d61411e173e578a256aeb1074d
 FIX_PC_FILES = fontutil.pc.in
 MODULE_ADD_UNINSTALLED_PC_OPS = -e 's|mapdir=|mapdir=$$protodir|g;'
 
+# Apply program flags, like app/*
+MODULE_CFLAGS=$(PROG_CFLAGS)
+MODULE_LDFLAGS=$(PROG_LDFLAGS)
+MODULE_ADD_BUILD_TARGETS=set-elf-comments
+
 ### Include common rulesets
 include ../Makefile.inc

@@ -53,6 +53,6 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe -lvgahw -lxaa -lexa
+	-lfb -lint10 -lpciaccess -lXfont -lvbe -lvgahw -lxaa -lexa
 
 include ../Makefile.inc

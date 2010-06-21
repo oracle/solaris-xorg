@@ -49,14 +49,10 @@ SUN_PACKAGE=SUNWxwxft
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
 
-# Paths to find libraries at build time (LD_LIBRARY_PATH) 
-# and run time (LD_RUN_PATH) and freetype-config binary at build time (PATH)
-BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR):$(PROTODIR)/usr/openwin/lib$(LIBSUBDIR):/usr/sfw/lib$(LIBSUBDIR) LD_RUN_PATH=/usr/sfw/lib$(LIBSUBDIR) PATH=$(PROTODIR)/usr/bin$(LIBSUBDIR):$(PATH)
-MODULE_LD_OPTIONS= -L$(PROTODIR)/usr/lib$(LIBSUBDIR)
 
 # Mapfile used to control which symbols are exported
 XFT_MAPFILE=$(PWD)/mapfile.scope
-MODULE_LD_OPTIONS += -M$(XFT_MAPFILE) -lX11
+MODULE_LD_OPTIONS = -M$(XFT_MAPFILE)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xft.pc.in
