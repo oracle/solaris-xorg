@@ -76,7 +76,7 @@ $(SCANPCI_MAN_SRC): $(UNPACK_TARGET)
 
 $(SCANPCI_MAN_OUT): $(SCANPCI_MAN_SRC)
 	(cd $(SOURCE_DIR) && \
-	 $(PERL) $(TOP)/common/suntouch-manpages.pl \
+	 $(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
 		$(COMMON_SUNTOUCH_MAN_FLAGS) \
 		-p $(MODULE_PREFIX)/bin/ \
 		src/scanpci.man && \

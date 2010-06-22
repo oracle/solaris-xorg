@@ -25,19 +25,22 @@
 #
 
 # Need to set $MACH
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 
+# Variables to always pass down to subdirs
+PASSDOWN_VARS = V="$(V)" TOP="$(TOP)" CDEBUGFLAGS="$(CDEBUGFLAGS)" 
+
 .DEFAULT:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=$@
+	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=$@
 
 World: clean all
 
 clean: clean-subdirs clean-obsolete-subdirs
 
 clean-subdirs:
-	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean
+	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=clean
 
 subdirs: $(OS_SUBDIRS)
 
@@ -45,7 +48,7 @@ $(OS_SUBDIRS): ALWAYS_RUN
 	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \
 	cd $@ ; \
 	print "## making" $(OS_TARGET) "in open-src/$(DIRNAME)$@..."; \
-        $(MAKE) $(MAKEFLAGS) CDEBUGFLAGS="$(CDEBUGFLAGS)" $(OS_TARGET)
+        $(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) $(OS_TARGET)
 
 clean-obsolete-subdirs:
 	@ set +e; \

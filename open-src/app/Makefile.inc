@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=app
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Changes to apply to man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
@@ -43,5 +43,5 @@ MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 

@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=driver
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Determine from MODULE_NAME if this is a video or input driver
 DRIVER_CLASS_V=$(MODULE_NAME:xf86-video-%=video)
@@ -90,17 +90,18 @@ MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 MODTYPE_LDFLAGS=$(LDFLAGS) -Wl,-B,direct -R/lib$(ARCHLIBSUBDIR)
 
 MODTYPE_LD_OPTIONS=-z defs $(X11_SERVERLIBS_LDFLAGS) \
-	-M $(TOP)/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs -lc
+	-M $(TOP)/open-src/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs -lc
 
 # Need to fix libtool interference with our linker flags
 DELIBTOOLIZE=yes
 
 ### Include common rules
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 
 # Clean up old 64-bit builds from before we stopped building them
-# for some drivers
+# for some drivers - depends on $(CLEAN_RULES) to avoid errors from
+# rm -r when two rules try to remove the same directory at once
 clean: clean_old64
 
-clean_old64:
+clean_old64: $(CLEAN_RULES)
 	-rm -rf $(BUILD_DIR_64)

@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=xserver
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Xorg server source tarball to use sources from
 XORGSERVER_VERS=1.7.7
@@ -118,7 +118,7 @@ MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
 MODTYPE_ADD_CONFIGURE_TARGETS = fix-moduledirs
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 
 ## mdb module rules
 # Build & install mdb modules & scripts that aren't integrated to

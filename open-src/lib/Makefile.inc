@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=lib
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Set default to build both 32-bit & 64-bit if not set in module makefile
 BUILD_TYPES_DEFAULT     = $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
@@ -72,4 +72,4 @@ MODTYPE_INSTALL_MAKEFLAGS = \
 # Need to fix libtool interference with our linker flags
 DELIBTOOLIZE=yes
 
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc

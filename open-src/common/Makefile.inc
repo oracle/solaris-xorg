@@ -319,7 +319,7 @@ add_source: $(SOURCE_ADD_TARGET)
 $(SOURCE_ADD_TARGET): $(SOURCE_INIT_TARGET)
 	@if [[ "$(ADDITIONAL_SOURCE_DIR)" != "" ]] ; then \
 	  if [[ ! -x $(LNDIR) ]] ; then \
-	    (cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
+	    (cd $(TOP)/open-src/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
 	  fi ; \
 	  $(START_CMD_ECHO) ; \
 	  cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ; \
@@ -371,7 +371,7 @@ SUNTOUCH_MAN_FLAGS_DEFAULT	= $(SUNTOUCH_MAN_FLAGS_SET:yes=$(POUND_SIGN))
 $(SUNTOUCH_MAN_FLAGS_DEFAULT)	SUNTOUCH_MAN_FLAGS = $(DEFAULT_SUNTOUCH_MAN_FLAGS)
 
 $(FIXED_MAN_TARGET): $(PATCHED_TARGET) $(SOURCE_ADD_TARGET)
-	$(PERL) $(TOP)/common/suntouch-manpages.pl $(SUNTOUCH_MAN_FLAGS) \
+	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl $(SUNTOUCH_MAN_FLAGS) \
 		$(@:%.$(FIXED_MAN_SUFFIX)=%)
 	touch $@
 
@@ -435,7 +435,7 @@ $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
-DEFAULT_PKG_CONFIG_PATH=$(TOP)/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
+DEFAULT_PKG_CONFIG_PATH=$(TOP)/open-src/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
@@ -465,7 +465,7 @@ $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	chmod a+x configure ; \
 	$(CONFIG_ENV) $(SHELL) ./configure $(CONFIG_OPTS) ; \
 	if [[ "$(DELIBTOOLIZE)" = "yes" ]] ; then \
-	    $(TOP)/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
+	    $(TOP)/open-src/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
 	fi
 
 default_configure: $(AUTOCONF_TARGET)
@@ -561,10 +561,12 @@ install_pkgconfig_uninstalled: $(INSTALL_PCU_DEPS)
 	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \
 	    cd $(SOURCE_DIR) ; \
 	    for pcin in $(FIX_PC_FILES:.in=) ; do \
-		pc=$${pcin%%+(.pc|.in)} ; \
+		pc="$${pcin%%+(.pc|.in)}" ; \
+		pcu="$${pc##*/}-uninstalled.pc" ; \
 		($(START_CMD_ECHO) ; \
+		 rm -f $(PROTODIR)$(MODULE_PKGCONFIG_DIR)/$${pcu} ; \
 		 $(PERL) -p $(UNINSTALLED_PC_OPS) $$pc.pc > \
-		    $(PROTODIR)$(MODULE_PKGCONFIG_DIR)/$$(basename $${pc})-uninstalled.pc ) ; \
+		    $(PROTODIR)$(MODULE_PKGCONFIG_DIR)/$${pcu} ) ; \
 	    done ; \
 	fi
 
@@ -577,7 +579,7 @@ $(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_ELF_COMMENTS=
 ELF_COMMENTS += $(DEBUG_ELF_COMMENTS)
 
 set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
-	$(TOP)/common/set-elf-comments.pl -B 'hg id' \
+	$(TOP)/open-src/common/set-elf-comments.pl -B 'hg id' \
 	 -M '$(ELF_COMMENTS)' $(SOURCE_DIR)
 
 
@@ -593,14 +595,14 @@ $(MAKE):
 
 # Some modules use lndir to merge in sources from Sun specific directories
 $(LNDIR):
-	(cd $(TOP)/util/lndir && $(MAKE) $(MAKEFLAGS) install)
+	(cd $(TOP)/open-src/util/lndir && $(MAKE) $(MAKEFLAGS) install)
 
 # Some modules use these tools to convert DocBook docs to text or html
 $(DOCBOOK2HTML) + $(DOCBOOK2TEXT):
-	cd $(TOP)/doc/docbook-utils && $(MAKE) $(MAKEFLAGS) install
+	cd $(TOP)/open-src/doc/docbook-utils && $(MAKE) $(MAKEFLAGS) install
 
 $(XORG_DEFS_ENT):
-	cd $(TOP)/doc/xorg-sgml-doctools && $(MAKE) $(MAKEFLAGS) install
+	cd $(TOP)/open-src/doc/xorg-sgml-doctools && $(MAKE) $(MAKEFLAGS) install
 
 ### Useful rules for maintaining patch sets
 

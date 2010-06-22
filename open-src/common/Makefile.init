@@ -219,7 +219,7 @@ X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 ### Directory paths
 
 # Proto directory to install into for packaging
-PROTODIR=$(TOP)/../proto-$(ARCH)-svr4
+PROTODIR=$(TOP)/proto-$(ARCH)-svr4
 
 X11_DIR=/usr
 X11_BIN_DIR=$(X11_DIR)/bin
@@ -269,7 +269,7 @@ LICENSE_DEST = $(PROTODIR)/licenses
 ### Other tools needed to build
 
 # Script used to install files in proto area
-INSTALL_SCRIPT=$(TOP)/common/install-sh -c
+INSTALL_SCRIPT=$(TOP)/open-src/common/install-sh -c
 
 # Some modules (such as FreeType 2) require GNU make
 GNUMAKE = gmake
@@ -298,7 +298,7 @@ PERL = /usr/perl5/bin/perl
 
 ### Sources, in-tree and upstream
 
-TARBALLDIR=$(TOP)/tarballs
+TARBALLDIR=$(TOP)/open-src/tarballs
 WGET=/usr/sfw/bin/wget --no-check-certificate
 GIT=git
 

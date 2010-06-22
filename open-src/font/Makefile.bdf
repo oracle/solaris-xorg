@@ -26,12 +26,12 @@
 ### Makefile settings/rules common to most bdf/pcf X.Org font modules
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=font
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 
 # All the encodings defined in font-util/fontutil.m4.in

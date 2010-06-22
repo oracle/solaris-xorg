@@ -40,8 +40,8 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 PWD:sh=pwd
-TOP=$(PWD)/..
+TOP=$(PWD)/../..
 
 ### Include common definitions
 DIRNAME="util/"
-include $(TOP)/common/Makefile.subdirs
+include $(TOP)/open-src/common/Makefile.subdirs

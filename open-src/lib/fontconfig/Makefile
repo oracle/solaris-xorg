@@ -103,6 +103,9 @@ MODULE_BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR) \
 # Need to rebuild autoconf/automake files
 AUTORECONF=yes
 
+# Include common rulesets
+include ../Makefile.inc
+
 # Path to install fc-cache manifest & method script
 FONTCONFIG_SMF_MANIFEST_dir=$(PROTODIR)/var/svc/manifest/application/font
 FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
@@ -114,13 +117,13 @@ FONTCONFIG_CONFDIR = $(PROTODIR)/etc/fonts/conf.avail
 SUN_CONFFILES = 20-indic.conf 49-sun-preuser.conf 90-sun-prefer-bitmap.conf
 FONTCONFIG_SUN_CONFFILES = $(SUN_CONFFILES:%=$(FONTCONFIG_CONFDIR)/%)
 
-# Additional targets to install beyond the default_install
-MODULE_ADD_INSTALL_TARGETS = fontconfig-sunman-install \
+# Additional targets to install beyond the default_install,
+# run just once, not per bitwidth
+FONTCONFIG_INSTALL_RULES = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
 	$(FONTCONFIG_SUN_CONFFILES)
 
-# Include common rulesets
-include ../Makefile.inc
+install: $(FONTCONFIG_INSTALL_RULES)
 
 $(FONTCONFIG_SMF_MANIFEST): fc-cache.xml
 	/usr/sbin/svccfg validate fc-cache.xml
@@ -133,24 +136,20 @@ $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 
 $(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
 	mkdir -p $(PROTODIR)/etc/fonts/conf.d $(PROTODIR)/etc/fonts/conf.avail
-	@f=`basename $@` ; $(START_CMD_ECHO) ; \
-	cp -fp $$f $@ ; \
-	rm -f $(PROTODIR)/etc/fonts/conf.d/$$f ; \
-	ln -sf ../conf.avail/$$f $(PROTODIR)/etc/fonts/conf.d/$$f
+	cp -fp $(@F) $@
+	rm -f $(PROTODIR)/etc/fonts/conf.d/$(@F)
+	ln -sf ../conf.avail/$(@F) $(PROTODIR)/etc/fonts/conf.d/$(@F)
 
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
-fontconfig-sunman-install: default_install
+fontconfig-sunman-install: $(INSTALL_RULES)
 	mkdir -p $(FC_MAN_DIR)/man4 $(FC_MAN_DIR)/man3lib
 	sed -e 's/.TH "FONTS-CONF" "5"/.TH "fonts.conf" "4"/' 	\
 	    -e 's/SUNWfontconfig/SUNWfontconfig-root/' 		\
 	  $(FC_MAN_DIR)/man5/fonts-conf.5 > $(FC_MAN_DIR)/man4/fonts.conf.4
 	-rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
 	$(PERL) -p -e 's/^$$/.LP/;' -e 's/.?\251/\\(co/;' 	\
-		libfontconfig.3lib $(SOURCE_DIR)/COPYING >> 	\
-		$(FC_MAN_DIR)/man3lib/libfontconfig.3lib
-	-rm -f $(FC_MAN_DIR)/man1/fc-cache.1
-	cat $(SOURCE_DIR)/fc-cache/fc-cache.1 sunman-notes-fc-cache >> \
-		$(FC_MAN_DIR)/man1/fc-cache.1
-
+	    libfontconfig.3lib > $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
+	cat sunman-notes-fc-cache >> $(FC_MAN_DIR)/man1/fc-cache.1
+	-rm -f $(PROTODIR)/etc/fonts/fonts.conf.bak
 

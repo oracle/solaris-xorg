@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org data modules
 #
-# Copyright (c) 2006, 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=data
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Most data modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
@@ -43,5 +43,5 @@ MODTYPE_LDFLAGS=$(LIB_LDFLAGS)
 MODTYPE_LD_OPTIONS=
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 

@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Protocol modules
 #
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,8 +68,8 @@ OBSOLETE_SUBDIRS = \
 default_target: install
 
 PWD:sh=pwd
-TOP=$(PWD)/..
+TOP=$(PWD)/../..
 
 ### Include common definitions
 DIRNAME="proto/"
-include $(TOP)/common/Makefile.subdirs
+include $(TOP)/open-src/common/Makefile.subdirs

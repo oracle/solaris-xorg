@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=doc
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # No common man flags to add
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
@@ -53,7 +53,7 @@ MODTYPE_BUILD_ENV = $(DOCTOOLS_PATH) \
 	LD_LIBRARY_PATH="$(PROTODIR)$(X11_SERVERLIBS_DIR)"
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 
 
 

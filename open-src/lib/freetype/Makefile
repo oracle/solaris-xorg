@@ -26,7 +26,7 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 # Package name used in tarballs
 MODULE_NAME=freetype

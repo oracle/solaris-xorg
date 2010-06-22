@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,8 +43,9 @@ default_target: install
 # - font depends on utils like mkfontdir from app
 
 # High level dependencies
-proto: util/util-macros
-lib: proto
+proto: util/util-macros util/lndir
+lib: proto util
+util: proto
 app: lib data/xbitmaps
 xserver/xorg xserver/xvnc: proto doc lib
 driver: xserver/xorg
@@ -56,6 +57,7 @@ $(FONTAPPS): lib
 
 OS_SUBDIRS_common = \
 	util/util-macros \
+	util/lndir \
 	proto \
 	data/xbitmaps \
 	util \
@@ -74,9 +76,9 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 PWD:sh=pwd
-TOP=$(PWD)
+TOP=$(PWD)/..
 
 ### Include common definitions
 DIRNAME=""
-include $(TOP)/common/Makefile.subdirs
+include $(TOP)/open-src/common/Makefile.subdirs
 

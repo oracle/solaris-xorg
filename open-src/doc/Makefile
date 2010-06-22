@@ -41,10 +41,10 @@ xorg-docs: docbook-utils xorg-sgml-doctools
 docbook-utils: xorg-sgml-doctools
 
 PWD:sh=pwd
-TOP=$(PWD)/..
+TOP=$(PWD)/../..
 
 ### Include common definitions
 DIRNAME="doc/"
-include $(TOP)/common/Makefile.subdirs
+include $(TOP)/open-src/common/Makefile.subdirs
 
 

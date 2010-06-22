@@ -26,12 +26,12 @@
 ### Makefile settings/rules common to all X.Org font modules
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=font
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Most font modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
@@ -67,7 +67,7 @@ MODTYPE_BUILD_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
 MODTYPE_ADD_INSTALL_TARGETS = install_fontpath_links
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 
 # Can't use Makefile substitutions or dependencies on the links themselves
 #  due to the : characters & shell math expansion in the link names

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org protocol modules
 #
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,12 +24,12 @@
 #
 
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=proto
 
 ### Include common definitions
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # Most proto modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
@@ -51,6 +51,6 @@ MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
 MODTYPE_PKGCONFIG_DIR_SET=yes
 
 ### Include common rulesets
-include $(TOP)/common/Makefile.inc
+include $(TOP)/open-src/common/Makefile.inc
 
 

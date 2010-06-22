@@ -25,11 +25,11 @@
 
 ### Include common definitions
 PWD:sh=pwd
-TOP=$(PWD)/../..
+TOP=$(PWD)/../../..
 
 MODTYPE=font
 
-include $(TOP)/common/Makefile.init
+include $(TOP)/open-src/common/Makefile.init
 
 # No configure script to run
 CONFIGURE_TARGETS=

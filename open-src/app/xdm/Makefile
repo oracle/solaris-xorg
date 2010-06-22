@@ -113,11 +113,11 @@ $(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_SRCDIR):
 $(XCF_USR_FILES): $(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_SRCFILES)
 	-rm -f $@
 	mkdir -p $(PROTODIR)/$(XDM_USR_CONFIGDIR)
-	@ $(START_CMD_ECHO) ; cp -p $(XCF_USR_SRCDIR)/$$(basename $@) $@
+	cp -p $(XCF_USR_SRCDIR)/$(@F) $@
 
 $(XCF_USR_SRCFILES): $(XCF_USR_SRCDIR) $(XCF_ETC_SRCFILES)
 	-rm -f $@
-	FILENAME=$$(basename $@) ; \
+	FILENAME=$(@F) ; \
 	COMMENT_CHAR=$$(head -n 1 $(XCF_ETC_SRCDIR)/$${FILENAME}) ; \
 	printf '$(XCF_HEADER)' $${COMMENT_CHAR} $${FILENAME} > $@ ; \
 	cat $(XCF_ETC_SRCDIR)/$${FILENAME} >> $@

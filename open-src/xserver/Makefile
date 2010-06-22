@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source xserver modules
 #
-# Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,8 +29,8 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 PWD:sh=pwd
-TOP=$(PWD)/..
+TOP=$(PWD)/../..
 
 ### Include common definitions
 DIRNAME="xserver/"
-include $(TOP)/common/Makefile.subdirs
+include $(TOP)/open-src/common/Makefile.subdirs

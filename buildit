@@ -30,25 +30,27 @@
 #
 #
 
-MAKE_PKGS=0
+# Add /usr/bin to front of path in case user has /usr/gnu/bin default
+# Add /usr/sbin to path for dtrace (to build probes in X servers)
 
-set -- $(getopt p $*)
+PATH=/usr/bin:${PATH}:/usr/sbin
+export PATH
+
+MAKE_PKGS=0
+VERBOSE_FLAGS=""	# verbosity flags passed to xmake
+
+set -- $(getopt pv $*)
 if [ $? != 0 ] ; then
-    print -u2 USAGE: $0 [-p]
+    print -u2 USAGE: $0 [-p] [-v]
     exit 2
 fi
 
 for i in $* ; do 
     case $i in
 	-p)     MAKE_PKGS=1; shift;;
+	-v)     VERBOSE_FLAGS="-v"; shift;;
     esac
 done
-
-# Add /usr/bin to front of path in case user has /usr/gnu/bin default
-# Add /usr/sbin to path for dtrace (to build probes in X servers)
-
-PATH=/usr/bin:${PATH}:/usr/sbin
-export PATH
 
 [ -d log ] || mkdir log
 
@@ -87,13 +89,13 @@ else
     /bin/rm -rf proto-sun4-svr4
 fi
 
-XMAKE="$(pwd)/open-src/util/build-tools/xmake"
+XMAKE="$(pwd)/open-src/util/build-tools/xmake -k ${VERBOSE_FLAGS}"
 
 cd open-src
 # Run as two steps to avoid race between cleaning & rebuilding when
 # using parallel make
-${XMAKE} -v -k clean 
-${XMAKE} -v -k install
+${XMAKE} clean
+${XMAKE} install
 cd ..
 
 print "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
