@@ -2,7 +2,7 @@ Index: java/src/Makefile
 ===================================================================
 --- java/src/Makefile	(revision 3916)
 +++ java/src/Makefile	(working copy)
-@@ -4,41 +4,55 @@
+@@ -4,41 +4,56 @@
  
  CP = cp
  JC = javac
@@ -33,6 +33,7 @@ Index: java/src/Makefile
 +	com/tigervnc/decoder/TightDecoder.java			\
 +	com/tigervnc/decoder/ZlibDecoder.java			\
 +	com/tigervnc/decoder/ZRLEDecoder.java			\
++	com/tigervnc/decoder/common/Repaintable.java		\
 +	com/tigervnc/vncviewer/AuthPanel.java			\
 +	com/tigervnc/vncviewer/ButtonPanel.java			\
 +	com/tigervnc/vncviewer/CapabilityInfo.java		\
