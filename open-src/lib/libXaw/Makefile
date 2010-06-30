@@ -45,7 +45,7 @@ LIBNAME=Xaw
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
-LIB_MAN_SUFFIX=3Xaw
+LIB_MAN_SUFFIX=3xaw
 
 # Link with version mapfile
 # MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

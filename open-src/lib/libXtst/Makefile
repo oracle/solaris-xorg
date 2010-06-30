@@ -50,7 +50,7 @@ LIBNAME=Xtst
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
-LIB_MAN_SUFFIX=3Xtst
+LIB_MAN_SUFFIX=3xtst
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

@@ -47,7 +47,7 @@ LIBNAME=Xext
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
-LIB_MAN_SUFFIX=3Xext
+LIB_MAN_SUFFIX=3xext
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xext.pc.in

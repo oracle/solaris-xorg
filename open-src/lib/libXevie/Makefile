@@ -45,7 +45,7 @@ LIBNAME=Xevie
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
-LIB_MAN_SUFFIX=3Xevie
+LIB_MAN_SUFFIX=3xevie
 
 # libXevie actually doesn't call any libc functions
 NEED_LIBC=no

@@ -47,7 +47,7 @@ SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 MODULE_MTLEVEL=Unsafe
 MODULE_MTLEVEL_SET=yes
-LIB_MAN_SUFFIX=3Xau
+LIB_MAN_SUFFIX=3xau
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --with-lint --enable-lint-library

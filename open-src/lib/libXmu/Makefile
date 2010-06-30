@@ -47,7 +47,7 @@ LIBNAME=Xmu
 #SUNTOUCHED_MANPAGES= no man pages in upstream package
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
-LIB_MAN_SUFFIX=3Xmu
+LIB_MAN_SUFFIX=3xmu
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
@@ -71,7 +71,7 @@ include ../Makefile.inc
 
 # Additional files we need to install
 CP = cp -pf
-MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3Xmu
+MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xmu
 
 install_solaris_exts: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu $(MANDIR) \
@@ -79,4 +79,4 @@ install_solaris_exts: $(INSTALL_DEPS)
 	$(CP) $(SOURCE_DIR)/include/X11/Xmu/XmuSolaris.h \
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu
-	$(CP) $(ADDITIONAL_SOURCE_DIR)/*.3Xmu $(MANDIR)
+	$(CP) $(ADDITIONAL_SOURCE_DIR)/*.3xmu $(MANDIR)

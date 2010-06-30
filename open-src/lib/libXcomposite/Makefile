@@ -45,7 +45,7 @@ LIBNAME=Xcomposite
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
-LIB_MAN_SUFFIX=3Xcomposite
+LIB_MAN_SUFFIX=3xcomposite
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xcomposite.pc.in

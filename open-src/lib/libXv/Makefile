@@ -45,7 +45,7 @@ LIBNAME=Xv
 SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
-LIB_MAN_SUFFIX=3Xv
+LIB_MAN_SUFFIX=3xv
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xv.pc.in

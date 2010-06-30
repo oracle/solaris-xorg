@@ -102,7 +102,7 @@ LIBNAME=X11
 SUNTOUCHED_MANPAGES=man/*.man man/xkb/*.man
 SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
-LIB_MAN_SUFFIX=3X11
+LIB_MAN_SUFFIX=3x11
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \

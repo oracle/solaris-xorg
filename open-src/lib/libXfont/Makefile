@@ -47,7 +47,7 @@ LIBNAME=Xfont
 #SUNTOUCHED_MANPAGES=man/*.man
 SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Project Private
-LIB_MAN_SUFFIX=3Xfont
+LIB_MAN_SUFFIX=3xfont
 
 # Additional configure script options to select the modules we use
 MODULE_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
