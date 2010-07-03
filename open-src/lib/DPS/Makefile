@@ -2,7 +2,7 @@
 #
 # DPS Makefile
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,7 +43,6 @@ LIBNAME=dps
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Obsolete
 
 # No configure script to run
@@ -55,4 +54,23 @@ MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 	datadir=$(MODULE_PREFIX)/share bindir=$(X11_DIR)/bin \
 	libdir=$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
 
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = makepsres pswrap
+
 include ../Makefile.inc
+
+# Install metadata for dps-motif package too
+MOTIF_PKG_METADATA_DIR	= $(MODULE_PKG_METADATA_DIR:%dps/=%dps-motif/)
+MOTIF_PKG_ATTRDATA_FILE	= $(MOTIF_PKG_METADATA_DIR)/$(ATTRDATA_FILE_NAME)
+MOTIF_PKG_LICENSE_FILE	= $(MOTIF_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+EXTRA_METADATA_TARGETS = \
+	$(MOTIF_PKG_METADATA_DIR) \
+	$(MOTIF_PKG_ATTRDATA_FILE) \
+	$(MOTIF_PKG_LICENSE_FILE)
+
+install_metadata: $(EXTRA_METADATA_TARGETS)
+
+$(MOTIF_PKG_METADATA_DIR):
+	mkdir -p $@
+
+$(MOTIF_PKG_ATTRDATA_FILE) $(MOTIF_PKG_LICENSE_FILE): $(MOTIF_PKG_METADATA_DIR)

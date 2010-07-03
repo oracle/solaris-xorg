@@ -56,8 +56,9 @@ if (exists($opts{'B'})) {
   my $build_version_file = $opts{'B'};
 
   if ($build_version_file eq 'hg id') {
+    my $hg_id = 'revision unavailable';
     if (exists $ENV{'XBUILD_HG_ID'}) {
-      $build_info = $ENV{'XBUILD_HG_ID'};
+      $hg_id = $ENV{'XBUILD_HG_ID'};
     } else {
       open my $VERS, '-|', $build_version_file
 	or die "Can't run $build_version_file: $!\n";
@@ -65,11 +66,17 @@ if (exists($opts{'B'})) {
       while ($_ = <$VERS>) {
 	chomp($_);
 	if ($_ =~ m/\S+/) {
-	  $build_info = "hg: $_ - " . $build_info;
+	  my ($rev, $tag) = split(' ', $_, 2);
+	  if ($tag eq 'tip') {
+	    $hg_id = $rev;
+	  } else {
+	    $hg_id = $_;
+	  }
 	}
       }
       close $VERS;
     }
+    $build_info = "hg: $hg_id - $build_info";
   } else {
     open my $VERS, '<', $build_version_file
       or die "Can't open $build_version_file for reading: $!\n";

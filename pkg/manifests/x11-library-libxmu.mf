@@ -1,0 +1,77 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxmu@__version:libXmu__
+set name=pkg.description \
+    value="This library contains miscellaneous utilities and is not part of the Xlib standard.  It contains routines which only use public interfaces so that it may be layered on top of any proprietary implementation of Xlib or Xt."
+set name=pkg.summary \
+    value="libXmu - miscellaneous utility functions for Xaw and Xt clients"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/Xmu
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man3xmu
+file path=usr/include/X11/Xmu/Atoms.h
+file path=usr/include/X11/Xmu/CloseHook.h
+file path=usr/include/X11/Xmu/Converters.h
+file path=usr/include/X11/Xmu/CvtCache.h
+file path=usr/include/X11/Xmu/DisplayQue.h
+file path=usr/include/X11/Xmu/Drawing.h
+file path=usr/include/X11/Xmu/Editres.h
+file path=usr/include/X11/Xmu/EditresP.h
+file path=usr/include/X11/Xmu/ExtAgent.h
+file path=usr/include/X11/Xmu/Initer.h
+file path=usr/include/X11/Xmu/Lookup.h
+file path=usr/include/X11/Xmu/Misc.h
+file path=usr/include/X11/Xmu/StdCmap.h
+file path=usr/include/X11/Xmu/StdSel.h
+file path=usr/include/X11/Xmu/WhitePoint.h
+file path=usr/include/X11/Xmu/WidgetNode.h
+file path=usr/include/X11/Xmu/Xct.h
+file path=usr/include/X11/Xmu/Xmu.h
+file path=usr/include/X11/Xmu/XmuSolaris.h
+file path=usr/lib/$(ARCH64)/libXmu.so.4
+file path=usr/lib/$(ARCH64)/llib-lXmu.ln
+file path=usr/lib/$(ARCH64)/pkgconfig/xmu.pc
+file path=usr/lib/libXmu.so.4
+file path=usr/lib/llib-lXmu.ln
+file path=usr/lib/pkgconfig/xmu.pc
+file path=usr/share/man/man3xmu/XSolarisCheckColormapEquivalence.3xmu
+file path=usr/share/man/man3xmu/XSolarisGetVisualGamma.3xmu
+link path=usr/X11/lib/$(ARCH64)/libXmu.so \
+    target=../../../lib/$(ARCH64)/libXmu.so
+link path=usr/X11/lib/$(ARCH64)/libXmu.so.4 \
+    target=../../../lib/$(ARCH64)/libXmu.so.4
+link path=usr/X11/lib/libXmu.so target=../../lib/libXmu.so
+link path=usr/X11/lib/libXmu.so.4 target=../../lib/libXmu.so.4
+link path=usr/lib/$(ARCH64)/libXmu.so target=libXmu.so.4
+link path=usr/lib/libXmu.so target=libXmu.so.4
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend fmri=pkg:/x11/library/libxmuu type=require

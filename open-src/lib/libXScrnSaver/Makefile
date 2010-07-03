@@ -41,15 +41,19 @@ SOURCE_PATCHES =
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xss
 
+# ARC cases that covered this module
+# PSARC/2008/194 X11R7 update to libXext, libXevie & libXss
+MODULE_ARC_CASES = PSARC/2008/194
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xss
 
-
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xscrnsaver.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXss.so libXss.so.1
 
 include ../Makefile.inc

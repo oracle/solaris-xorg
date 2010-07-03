@@ -43,10 +43,12 @@ LIBNAME=Xcursor
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3xcursor
 
+# ARC cases that covered this module
+# LSARC/2007/491 libXcursor
+MODULE_ARC_CASES = LSARC/2007/491
 
 
 # pkg-config files that need to have -R added
@@ -55,5 +57,8 @@ FIX_PC_FILES=xcursor.pc.in
 # Use /usr/share/icons only, not /usr/X11/share, for consistency with GNOME
 MODULE_CONFIG_OPTS=--with-icondir=/usr/share/icons \
 	--with-cursorpath='~/.icons:/usr/share/icons:/usr/share/pixmaps'
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXcursor.so libXcursor.so.1
 
 include ../Makefile.inc

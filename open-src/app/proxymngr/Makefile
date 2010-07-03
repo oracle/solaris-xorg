@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=proxymngr
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/network/x11-network-proxies
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/Internet
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
@@ -40,8 +48,10 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = proxymngr
 
 include ../Makefile.inc
 

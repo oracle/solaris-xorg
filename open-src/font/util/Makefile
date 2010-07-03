@@ -26,6 +26,14 @@
 # Package name used in tarballs
 MODULE_NAME=font-util
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/font-utilities
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=System/X11
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.1
 

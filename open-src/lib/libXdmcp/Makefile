@@ -43,7 +43,6 @@ LIBNAME=Xdmcp
 
 # libXdmcp has no man pages to apply Sun footer to
 #SUNTOUCHED_MANPAGES=Xdmcp.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xdmcp
 MODULE_MTLEVEL=Unsafe
@@ -54,6 +53,9 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xdmcp.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXdmcp.so libXdmcp.so.6
 
 include ../Makefile.inc
 

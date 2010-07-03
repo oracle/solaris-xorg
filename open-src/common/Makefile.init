@@ -50,9 +50,6 @@ $(error You must use Solaris make, not GNU make in this build - make sure /usr/c
 # MACH will be either "sparc" or "i386"
 MACH=$(TARGET_ARCH:-%=%)
 
-# ARCH will be either "sun4" or "i386" - mainly used in $(PROTODIR)
-ARCH=$(MACH:sparc=sun4)
-
 MACH32_sparc	= sparc
 MACH64_sparc 	= sparcv9
 MACH32_i386	= i386
@@ -219,7 +216,9 @@ X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 ### Directory paths
 
 # Proto directory to install into for packaging
-PROTODIR=$(TOP)/proto-$(ARCH)-svr4
+PROTOTOP=$(TOP)/proto
+PROTODIR=$(PROTOTOP)/root_$(MACH)
+PROTOMETA=$(PROTOTOP)/metadata_$(MACH)
 
 X11_DIR=/usr
 X11_BIN_DIR=$(X11_DIR)/bin
@@ -244,6 +243,7 @@ X11_SERVERLIBS_DIR=$(X11_LIB_DIR)$(X11_SERVERLIBS_SUBDIR)
 # Subdirectory of /usr/lib for X server loadable modules
 X11_SERVERMODS_SUBDIR=/xorg/modules
 X11_SERVERMODS_DIR=$(X11_LIB_DIR)$(X11_SERVERMODS_SUBDIR)
+MESA_XSERVERMODS_DIR=$(X11_LIB_DIR)/mesa/modules
 
 SERVERMOD_subdir_sparc=
 SERVERMOD_subdir_i386=$(ARCHLIBSUBDIR)
@@ -259,12 +259,9 @@ PKGCONFIG_DIR_SHARE=/usr/share$(PKGCONFIG_DIR_suffix)
 
 # Directory used for installing tools used during build but not
 # delivered in packages
-TOOLS_DIR=$(PROTODIR)/tools
+TOOLS_DIR=$(PROTOTOP)/tools_$(MACH)
 TOOLS_ACLOCAL_DIR=$(TOOLS_DIR)/share/aclocal
 
-# Directory that license files are copied to for use in building package
-# license files
-LICENSE_DEST = $(PROTODIR)/licenses
 
 ### Other tools needed to build
 
@@ -274,19 +271,25 @@ INSTALL_SCRIPT=$(TOP)/open-src/common/install-sh -c
 # Some modules (such as FreeType 2) require GNU make
 GNUMAKE = gmake
 
+# Directory to find tools used during build, even when installing to a
+# temporary dest dir, such as during 'make manifest'
+PROTOTOOLSDIR=$(PROTODIR)
+
 # Some modules use lndir to merge in sources from Sun specific directories
-LNDIR=$(PROTODIR)$(X11_BIN_DIR)/lndir
+LNDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/lndir
 
 # Tools needed to build docbook documentation
 DOCBOOKUTIL_BINDIR=$(TOOLS_DIR)/bin
 DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/docbook2html
 DOCBOOK2TXT=$(DOCBOOKUTIL_BINDIR)/docbook2txt
-XORG_DEFS_ENT=$(PROTODIR)/$(X11_DIR)/share/sgml/X11/defs.ent
+XORG_DEFS_ENT=$(PROTOTOOLSDIR)/$(X11_DIR)/share/sgml/X11/defs.ent
 
 # Commands to run font utilities from proto area
-MKFONTDIR=$(PROTODIR)$(X11_BIN_DIR)/mkfontdir
-MKFONTSCALE=$(PROTODIR)$(X11_BIN_DIR)/mkfontscale
-INSTALLALIAS=$(PROTODIR)$(X11_X11LIB_DIR)/installalias
+MKFONTDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontdir
+MKFONTSCALE=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontscale
+INSTALLALIAS=$(PROTOTOOLSDIR)$(X11_X11LIB_DIR)/installalias
+FC_QUERY=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-query
+FC_SCAN=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-scan
 
 # Script fragment to start echoing commands in shell sequences in make rules
 # Sets PS4 to "" so output isn't prepended with "+ " and looks like normal

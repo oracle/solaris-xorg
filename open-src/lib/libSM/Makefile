@@ -43,7 +43,6 @@ LIBNAME=SM
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 MODULE_MTLEVEL=Unsafe
 MODULE_MTLEVEL_SET=yes
@@ -59,5 +58,8 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=sm.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libSM.so libSM.so.6
 
 include ../Makefile.inc

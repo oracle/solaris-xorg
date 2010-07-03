@@ -28,6 +28,15 @@ TOP=$(PWD)/../../..
 
 MODTYPE=util
 
+# Hierarchical parent for pkg names in this area
+MODTYPE_PKGHIER=developer/build
+MODTYPE_PKGHIER_SET=yes
+
+# Package classification - must be a valid value recognized by pkg gui
+MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=Development/X11
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS_SET=yes
+
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 

@@ -45,7 +45,6 @@ LIBNAME=dga
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Obsolete
 
 # No configure script to run
@@ -56,6 +55,9 @@ CONFIGURE_TARGETS_SET=yes
 MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 	X11_INCLUDES_DIR=$(X11_INCLUDES_DIR)
 MODULE_INSTALL_MAKEFLAGS=$(MODULE_BUILD_MAKEFLAGS)
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libdga.so.1
 
 include ../Makefile.inc
 

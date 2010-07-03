@@ -31,6 +31,10 @@
 # Package name used in tarballs
 MODULE_NAME=xtrans
 
+# Package classification (override default)
+MODULE_PKGCLASS=Development/X11
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.2.5
 

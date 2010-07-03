@@ -38,9 +38,19 @@ TARBALL_SHA1 = 3952f381c3f8ee81cd602e6f025304c2322a06a0
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2009/549 xscope 1.2
+MODULE_ARC_CASES = LSARC/2009/549
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwdem
 MODULE_STABILITY=Volatile
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xscope
 
 include ../Makefile.inc

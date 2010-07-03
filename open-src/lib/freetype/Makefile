@@ -31,6 +31,34 @@ TOP=$(PWD)/../../..
 # Package name used in tarballs
 MODULE_NAME=freetype
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/library/freetype-2
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=System/Libraries
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2002/291 FreeType 2.1.0
+MODULE_ARC_CASES = LSARC/2002/291
+# LSARC/2003/400 FreeType 2.1.4
+MODULE_ARC_CASES += LSARC/2003/400
+# LSARC/2004/568 FreeType 2.1.9
+MODULE_ARC_CASES += LSARC/2004/568
+# LSARC/2005/397 FreeType 2.1.10
+MODULE_ARC_CASES += LSARC/2005/397
+# LSARC/2007/662 FreeType move from /usr/sfw to /usr
+MODULE_ARC_CASES += LSARC/2007/662
+
+# Package metadata
+UPSTREAM		= The FreeType Project
+UPSTREAM_URL		= http://freetype.org/
+UPSTREAM_SET		= yes
+
+MODULE_LICENSE		= The FreeType Project License
+MODULE_LICENSE_SET	= yes
+
 # Library name used in man pages & spec files
 LIBNAME=freetype
 
@@ -87,7 +115,7 @@ MODULE_MAKE_SET=yes
 # Don't run normal configure/install rules - freetype is different
 CONFIGURE_TARGETS=$(SOURCE_DIR)/config.mk
 CONFIGURE_TARGETS_SET=yes
-INSTALL_TARGETS=install_freetype
+INSTALL_TARGETS=install_freetype install_freetype_docs
 INSTALL_TARGETS_SET=yes
 
 # Environment variables to pass to configure & build steps
@@ -119,6 +147,7 @@ $(SOURCE_DIR)/config.mk: $(UNPACK_TARGET)
 
 FT_bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 FT_libdir=$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)
+FT_docdir=$(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
 
 # Have to override default_install since the -e causes our BUILD_DIR to
 # clash with the one in freetype's Makefiles
@@ -133,4 +162,15 @@ install_freetype: $(BUILD_TARGETS)
 	    cp -fp ./builds/unix/ftconfig.h ./include/freetype/config/ftconfig.h )
 	( cd $(SOURCE_DIR) ; \
 	  $(GNUMAKE) DESTDIR=$(PROTODIR) prefix=$(MODULE_PREFIX) libdir=$(FT_libdir) bindir=$(FT_bindir) install )
+
+install_freetype_docs: $(PROTODIR)$(FT_docdir)/index.html
+
+$(PROTODIR)$(FT_docdir)/index.html: $(BUILD_TARGETS)
+	-rm -rf $(PROTODIR)$(FT_docdir)
+	mkdir -p $(PROTODIR)$(FT_docdir)
+	( cd $(SOURCE_DIR) ; \
+	    cp -fp docs/reference/*.html $(PROTODIR)$(FT_docdir)/ )
+	cp -fp $(SOURCE_DIR)/docs/formats.txt $(PROTODIR)$(FT_docdir)/
+	cp -fp $(SOURCE_DIR)/docs/VERSION.DLL $(PROTODIR)$(FT_docdir)/
+	ln -sf ft2-toc.html $(PROTODIR)$(FT_docdir)/index.html
 

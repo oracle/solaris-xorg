@@ -33,6 +33,19 @@ MODTYPE=font
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 
+# Default package name for font packages
+MODTYPE_PKGHIER_DEFAULT         = $(MODTYPE_PKGHIER_SET:yes=$(POUND_SIGN))
+$(MODTYPE_PKGHIER_DEFAULT)	MODTYPE_PKGHIER=system/font
+MODTYPE_PKGHIER_SET=yes
+MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL:sh=basename $(pwd)
+MODULE_PKGTAIL_SET	      	= yes
+
+# Package classification
+MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=System/Fonts
+MODULE_PKGCLASS_SET		= yes
+
 # Most font modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
 

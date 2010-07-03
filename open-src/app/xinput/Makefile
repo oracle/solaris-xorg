@@ -35,10 +35,19 @@ MODULE_VERSION=1.5.1
 TARBALL_MD5  = 82400f0ba63217df9b00d825532cea7d
 TARBALL_SHA1 = f8f45486de7d44b3d7274dfd24f988035fe05910
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2009/506  xinput program
+MODULE_ARC_CASES = LSARC/2009/506
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-client-programs
 MODULE_STABILITY=Volatile
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xinput
 
 include ../Makefile.inc

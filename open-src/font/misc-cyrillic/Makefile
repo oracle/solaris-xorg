@@ -26,12 +26,24 @@
 # Package name used in tarballs
 MODULE_NAME=font-misc-cyrillic
 
+# Package metadata
+MODULE_LICENSE          = Mixed
+MODULE_LICENSE_SET      = yes
+
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGTAIL=xorg/cyrillic
+MODULE_PKGTAIL_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
 # Checksums for upstream tarball
 TARBALL_MD5  = c79d7921d95b2c4f10fad464bb121090
 TARBALL_SHA1 = c178f8a8b6897a8382a0f4315a5b577760ba703c
+
+# Link to make in font catalogue dir
+FONTPATH_LINKS = cyrillic:pri=75
+MODULE_FONTDIR = $(X11_FONT_DIR)/cyrillic
 
 ### Include common rulesets
 include ../Makefile.inc

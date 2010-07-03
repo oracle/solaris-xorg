@@ -1,0 +1,82 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/x11/server/xserver-common@__version:xserver-common__
+set name=pkg.description \
+    value="Files shared by all X server variants based on the X.Org Foundation implementation.  Includes the x11-server SMF service for Solaris."
+set name=pkg.summary value="X server common files"
+dir path=etc
+dir path=etc/security
+dir path=etc/security/auth_attr.d
+dir path=etc/security/prof_attr.d
+dir path=lib
+dir path=lib/svc
+dir path=lib/svc/method
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/demo
+dir path=usr/demo/Xserver
+dir path=usr/demo/Xserver/mdb
+dir path=usr/lib
+dir path=usr/lib/help
+dir path=usr/lib/help/auths
+dir path=usr/lib/help/auths/locale
+dir path=usr/lib/help/auths/locale/C
+dir path=usr/lib/help/profiles
+dir path=usr/lib/help/profiles/locale
+dir path=usr/lib/help/profiles/locale/C
+dir path=usr/lib/mdb
+dir path=usr/lib/mdb/proc
+$(i386_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=bin
+$(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
+dir path=var
+dir path=var/svc
+dir path=var/svc/manifest
+dir path=var/svc/manifest/application
+dir path=var/svc/manifest/application/x11
+file path=etc/security/auth_attr.d/xserver-common group=sys preserve=true
+file path=etc/security/prof_attr.d/xserver-common group=sys preserve=true
+file path=lib/svc/method/x11-server
+file path=usr/bin/Xserver
+file path=usr/demo/Xserver/mdb/README
+file path=usr/demo/Xserver/mdb/list_Xserver_clients mode=0555
+file path=usr/demo/Xserver/mdb/list_Xserver_devicegrab_client mode=0555
+file path=usr/demo/Xserver/mdb/list_Xserver_servergrab_client mode=0555
+file path=usr/lib/help/auths/locale/C/X11States.html
+file path=usr/lib/help/profiles/locale/C/RtDesktopConfiguration.html
+file path=usr/lib/mdb/proc/$(ARCH64)/Xserver.so
+file path=usr/lib/mdb/proc/Xserver.so
+file path=usr/lib/xorg/TrustedExtensionsPolicy
+file path=usr/lib/xorg/protocol.txt
+file path=usr/share/man/man1/Xnest.1
+file path=usr/share/man/man1/Xserver.1
+file path=var/svc/manifest/application/x11/x11-server.xml
+link path=usr/X11/bin/X target=../../bin/X
+link path=usr/X11/bin/Xserver target=../../bin/Xserver
+$(i386_ONLY)link path=usr/X11/bin/amd64 target=../../bin/amd64
+$(i386_ONLY)link path=usr/X11/bin/i386 target=../../bin/i86
+link path=usr/bin/X target=Xserver

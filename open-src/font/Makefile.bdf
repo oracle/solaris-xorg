@@ -33,6 +33,12 @@ MODTYPE=font
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 
+# Default package name for bitmap font packages
+MODTYPE_PKGHIER 		= system/font/xorg
+MODTYPE_PKGHIER_SET 		= yes
+MODULE_PKGTAIL_DEFAULT          = $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL = $(BUILD_TYPE:core=xorg-core)
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL_SET = yes
 
 # All the encodings defined in font-util/fontutil.m4.in
 ALL_ENCODINGS = \
@@ -144,6 +150,10 @@ $(MODTYPE_MAKEFLAGS_DEFAULT)	MODTYPE_MAKEFLAGS=PCF_FILES=""
 
 MODULE_ADD_INSTALL_TARGETS = install_license
 
+# Special rules for pkg manifest generation
+MANIFEST_TARGETS=$(BUILD_TYPES:%=manifest_%)
+MANIFEST_TARGETS_SET=yes
+
 ### Include common rulesets
 include ../Makefile.inc
 
@@ -156,3 +166,8 @@ clean_32:
 configure_$(BUILD_TYPE): $(UNPACK_TARGET)
 build_$(BUILD_TYPE): configure_$(BUILD_TYPE)
 install_$(BUILD_TYPE): build_$(BUILD_TYPE)
+
+manifest_%: 
+	/usr/xpg4/bin/make $(MAKEFLAGS) manifest-per-type \
+		BUILD_TYPES="$(@:manifest_%=%)" \
+		MODULE_PKGTAIL="$(@:manifest_%=%)" MODULE_PKGTAIL_SET="yes"

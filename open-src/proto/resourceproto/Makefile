@@ -36,5 +36,9 @@ TARBALL_SHA1 = 36b86840005c15e393c86d7075688d430ab2a11d
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# ARC cases that covered this module
+# LSARC/2003/686 X-Resource Extension
+MODULE_ARC_CASES = LSARC/2003/686
+
 ### Include common rulesets
 include ../Makefile.inc

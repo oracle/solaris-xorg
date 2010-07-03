@@ -55,9 +55,21 @@ LIBNAME=pixman
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=library/graphics/pixman
+MODULE_PKGNAME_SET=yes
+# Package classification (override default)
+MODULE_PKGCLASS=System/Libraries
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2008/637 pixman
+MODULE_ARC_CASES = LSARC/2008/637
+# LSARC/2009/223 pixman 0.14
+MODULE_ARC_CASES += LSARC/2009/223
+
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWpixman
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3pixman
 

@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=google-droid-fonts
 
+# Package metadata
+UPSTREAM	= Google Android
+UPSTREAM_URL	= http://www.droidfonts.com/
+UPSTREAM_SET	= yes
+
+MODULE_LICENSE          = Apache License, Version 2.0
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=2010.02.24
 

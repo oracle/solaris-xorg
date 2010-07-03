@@ -38,16 +38,16 @@ TARBALL_SHA1 = 3bfc833ed4527f74b1c66c386da62271d0313413
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = setuid.patch
 
+# ARC cases that covered this module
+MODULE_ARC_CASES = PSARC/2001/060
+
 # Library name
 LIBNAME=Xpm
 
 # Library man pages to apply Sun footer to & attributes to list
 # SUNTOUCHED_MANPAGES=
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3
-
-
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
@@ -58,5 +58,15 @@ FIX_PC_FILES=xpm.pc.in
 # Additional arguments to pass to make
 MODULE_MAKEFLAGS= -e SUBDIRS=src
 
+# Install documentation as well
+MODULE_ADD_INSTALL_TARGETS = install-docs
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXpm.so libXpm.so.4
+
 include ../Makefile.inc
 
+install-docs: $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps
+
+$(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps: $(INSTALL_DEPS) $(PROTODIR)$(MODULE_DOC_DIR)
+	gzcat $(SOURCE_DIR)/xpm.PS.gz > $@

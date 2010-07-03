@@ -1,0 +1,125 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+# font-screen-cyrillic chosen since it has the highest version number
+# at this time (1.0.2), while others are 1.0.1
+set name=pkg.fmri \
+    value=pkg:/system/font/xorg/cyrillic@__version:font-screen-cyrillic__
+set name=pkg.description \
+    value="X Window System font files for Cyrillic scripts from X.Org Foundation open source release"
+set name=pkg.summary value="Cyrillic bitmap fonts from X.Org Foundation"
+dir path=etc
+dir path=etc/X11
+dir path=etc/X11/fontpath.d
+dir path=usr
+dir path=usr/share
+dir path=usr/share/fonts
+dir path=usr/share/fonts/X11
+dir path=usr/share/fonts/X11/cyrillic
+file path=usr/share/fonts/X11/cyrillic/crox1c.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1cb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1cbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1co.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1h.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1hb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1hbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1ho.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1t.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1tb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1tbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox1to.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2c.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2cb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2cbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2co.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2h.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2hb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2hbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2ho.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2t.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2tb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2tbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox2to.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3c.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3cb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3cbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3co.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3h.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3hb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3hbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3ho.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3t.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3tb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3tbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox3to.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4h.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4hb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4hbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4ho.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4t.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4tb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4tbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox4to.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5h.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5hb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5hbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5ho.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5t.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5tb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5tbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox5to.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6h.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6hb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6hbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6ho.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6t.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6tb.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6tbo.pcf
+file path=usr/share/fonts/X11/cyrillic/crox6to.pcf
+file path=usr/share/fonts/X11/cyrillic/fonts.dir
+file path=usr/share/fonts/X11/cyrillic/koi10x16b.pcf
+file path=usr/share/fonts/X11/cyrillic/koi10x20.pcf
+file path=usr/share/fonts/X11/cyrillic/koi12x24.pcf
+file path=usr/share/fonts/X11/cyrillic/koi12x24b.pcf
+file path=usr/share/fonts/X11/cyrillic/koi5x8.pcf
+file path=usr/share/fonts/X11/cyrillic/koi6x10.pcf
+file path=usr/share/fonts/X11/cyrillic/koi6x13.pcf
+file path=usr/share/fonts/X11/cyrillic/koi6x13b.pcf
+file path=usr/share/fonts/X11/cyrillic/koi6x9.pcf
+file path=usr/share/fonts/X11/cyrillic/koi7x14.pcf
+file path=usr/share/fonts/X11/cyrillic/koi7x14b.pcf
+file path=usr/share/fonts/X11/cyrillic/koi8x13.pcf
+file path=usr/share/fonts/X11/cyrillic/koi8x16.pcf
+file path=usr/share/fonts/X11/cyrillic/koi8x16b.pcf
+file path=usr/share/fonts/X11/cyrillic/koi9x15.pcf
+file path=usr/share/fonts/X11/cyrillic/koi9x15b.pcf
+file path=usr/share/fonts/X11/cyrillic/koi9x18.pcf
+file path=usr/share/fonts/X11/cyrillic/koi9x18b.pcf
+file path=usr/share/fonts/X11/cyrillic/koinil2.pcf
+file path=usr/share/fonts/X11/cyrillic/proof9x16.pcf
+file path=usr/share/fonts/X11/cyrillic/screen8x16.pcf
+file path=usr/share/fonts/X11/cyrillic/screen8x16b.pcf
+legacy pkg=SUNWfont-xorg-cyrillic \
+    desc="X Window System font files for Cyrillic scripts based on X.Org Foundation open source release" \
+    name="Cyrillic bitmap fonts from X.Org Foundation"
+link path=etc/X11/fontpath.d/cyrillic:pri=75 \
+    target=../../../usr/share/fonts/X11/cyrillic

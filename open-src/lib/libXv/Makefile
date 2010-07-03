@@ -43,11 +43,13 @@ LIBNAME=Xv
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xv
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xv.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXv.so libXv.so.1
 
 include ../Makefile.inc

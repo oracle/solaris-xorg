@@ -41,12 +41,18 @@ SOURCE_PATCHES =
 # Library name
 LIBNAME=Xrandr
 
+# ARC cases that covered this module
+# PSARC/2004/187 Xorg Server for Solaris
+MODULE_ARC_CASES = PSARC/2004/187
+# PSARC/2007/430 X Resize, Rotate and Reflect (RandR) 1.2
+MODULE_ARC_CASES += PSARC/2007/430
+# PSARC/2009/269 X Resize, Rotate and Reflect (RandR) 1.3
+MODULE_ARC_CASES += PSARC/2009/269
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xrandr
-
 
 
 # pkg-config files that need to have -R added
@@ -54,5 +60,8 @@ FIX_PC_FILES=xrandr.pc.in
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXrandr.so libXrandr.so.2
 
 include ../Makefile.inc

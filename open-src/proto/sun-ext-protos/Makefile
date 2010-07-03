@@ -31,6 +31,14 @@ MODULE_NAME=sun-ext-protos
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 
+# ARC cases that covered this module
+# PSARC 1994/377 SUN_SME extension to Xsun
+MODULE_ARC_CASES = PSARC/1994/377
+# PSARC 1999/188 FBPM (Frame Buffer Power Management) Extension
+MODULE_ARC_CASES += PSARC/1999/188
+# PSARC 1999/545 Xinerama addition to DGA Extension
+MODULE_ARC_CASES += PSARC/1999/545
+
 # Don't need to configure or build these or install pkg-config files for them
 SOURCE_TARGETS=
 SOURCE_TARGETS_SET=yes

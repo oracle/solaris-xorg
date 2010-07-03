@@ -20,7 +20,7 @@
 .\" TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 .\" PERFORMANCE OF THIS SOFTWARE.
 .\"
-.\" Copyright (c) 2009, 2008, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -95,7 +95,7 @@ allbox;
 cw(2.750000i)| cw(2.750000i)
 lw(2.750000i)| lw(2.750000i).
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
-Availability	SUNWxorg-client-programs
+Availability	pkg:/x11/utility/x11-server-utilities
 Interface Stability	Volatile
 .TE 
 .sp

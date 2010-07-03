@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xrdb
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.6
 
@@ -40,12 +44,14 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # Specify which cpp to use instead of depending on builder's $PATH
 MODULE_CONFIG_OPTS = --with-cpp=/usr/lib/cpp
 
 MODULE_CPPFLAGS=-DPATHETICCPP
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xrdb
 
 include ../Makefile.inc

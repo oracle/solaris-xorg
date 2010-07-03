@@ -48,7 +48,6 @@ LIBNAME=Xtst
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xtst
 
@@ -57,6 +56,9 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xtst.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXtst.so libXtst.so.1
 
 include ../Makefile.inc
 

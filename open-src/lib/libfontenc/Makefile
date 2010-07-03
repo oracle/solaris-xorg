@@ -43,7 +43,6 @@ LIBNAME=fontenc
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Project Private
 LIB_MAN_SUFFIX=3fontenc
 

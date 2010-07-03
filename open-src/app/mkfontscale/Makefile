@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=mkfontscale
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/font-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.7
 
@@ -38,9 +42,12 @@ TARBALL_SHA1 = 0a0c25da68c87380e2c013c808a6e0cc0983fae9
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# ARC cases that covered this module
+# LSARC/2008/009 X11R7 font server and utilities
+MODULE_ARC_CASES = LSARC/2008/009
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwfsw
 MODULE_STABILITY=Uncommitted
 
 # Additional configure script options
@@ -48,5 +55,8 @@ MODULE_CONFIG_OPTS= --with-bzip2
 
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = mkfontscale
 
 include ../Makefile.inc

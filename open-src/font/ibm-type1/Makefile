@@ -26,6 +26,15 @@
 # Package name used in tarballs
 MODULE_NAME=font-ibm-type1
 
+# Package metadata
+MODULE_LICENSE          = IBM/MIT X Consortium Courier Typefont agreement
+MODULE_LICENSE_SET      = yes
+
+
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/font/xorg/xorg-core
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
@@ -38,6 +47,10 @@ SOURCE_PATCHES=
 
 # Extra configure flags
 MODULE_CONFIG_OPTS=
+
+# Link to make in font catalogue dir
+FONTPATH_LINKS = Type1:pri=45
+MODULE_FONTDIR = $(X11_FONT_DIR)/Type1
 
 ### Include common rulesets
 include ../Makefile.inc

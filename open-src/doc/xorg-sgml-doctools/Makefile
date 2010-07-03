@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=xorg-sgml-doctools
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGTAIL=xorg-docs
+MODULE_PKGTAIL_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.4
 
@@ -35,6 +39,10 @@ TARBALL_SHA1 = 629687695b367946575ee935727d26e621f25674
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# doctools pkg-config file is architecture independent, so install in share
+MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODTYPE_PKGCONFIG_DIR_SET=yes
 
 ### Include common rulesets
 include ../Makefile.inc

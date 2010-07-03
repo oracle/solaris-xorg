@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xdm
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/display-manager/xdm
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.9
 
@@ -46,7 +50,6 @@ SOURCE_PATCHES = \
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=xdm.man.cpp
-SUN_PACKAGE=SUNWxdm
 MODULE_STABILITY=Committed
 MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/sbin/
 

@@ -1,0 +1,73 @@
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+#
+# programs & shared objects should generally have mode 0555
+#
+<transform file path=.*lib/.*\.so.* -> default mode 0555>
+<transform file path=.*bin/.* -> default mode 0555>
+<transform file path=lib/svc/method/.* -> default mode 0555>
+
+#
+# a few special directories are owned by specific groups
+#
+<transform dir path=^etc/hal.* -> default group bin>
+<transform dir path=^etc.* -> default group sys>
+<transform dir path=^usr$ -> default group sys>
+<transform dir path=^usr/share$ -> default group sys>
+<transform dir path=^usr/lib/mdb -> default group sys>
+<transform dir path=^usr/share/(aclocal|doc|pixmaps|pkgconfig)$ -> \
+	default group other>
+<transform dir path=^usr/share/icons -> default group other>
+<transform dir path=^usr/share/$(ARCH64)/pkgconfig$ -> default group other>
+<transform dir path=^var$ -> default group sys>
+<transform dir path=^var/svc.* -> default group sys>
+<transform file path=^var/svc/.* -> default group sys>
+
+#
+# For what's left, go with root:bin 0444 for files, 0755 for directories
+#
+<transform file dir -> default owner root>
+<transform file dir -> default group bin>
+<transform file -> default mode 0444>
+<transform dir -> default mode 0755>
+
+#
+# Defaults for legacy metadata for SVR4 package information
+#
+<transform legacy -> default vendor "Oracle Corporation">
+<transform legacy -> default hotline \
+	"Please contact your local service provider">
+<transform legacy -> default arch $(ARCH)>
+<transform legacy -> default category "system">
+# This is set to the final version number delivered as SVR4 format
+<transform legacy -> default version "6.9.0.5.11.14300,REV=0.2010.06.21">
+
+#
+# These aren't really transforms, but are valid defaults for
+# current packages, but not the renamed/obsolete ones, which is
+# why they're in this file instead of common_actions
+#
+
+license cr_Oracle license="Oracle Copyright Notice"
+

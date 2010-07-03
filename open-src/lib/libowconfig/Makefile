@@ -2,7 +2,7 @@
 #
 # libowconfig Makefile
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,7 +41,6 @@ LIBNAME=owconfig
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Obsolete
 
 # No configure script to run
@@ -52,5 +51,8 @@ CONFIGURE_TARGETS_SET=yes
 MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 	X11_INCLUDES_DIR=$(X11_INCLUDES_DIR)
 MODULE_INSTALL_MAKEFLAGS=$(MODULE_BUILD_MAKEFLAGS)
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libowconfig.so libowconfig.so.0
 
 include ../Makefile.inc

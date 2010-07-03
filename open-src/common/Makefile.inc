@@ -43,11 +43,39 @@ $(MODTYPE_PREFIX_DEFAULT)	MODTYPE_PREFIX=$(X11_DIR)
 MODULE_PREFIX_DEFAULT		= $(MODULE_PREFIX_SET:yes=$(POUND_SIGN))
 $(MODULE_PREFIX_DEFAULT)	MODULE_PREFIX=$(MODTYPE_PREFIX)
 
+# Where to install documentation files
+MODTYPE_DOC_DIR_DEFAULT		= $(MODTYPE_DOC_DIR_SET:yes=$(POUND_SIGN))
+$(MODTYPE_DOC_DIR_DEFAULT)	MODTYPE_DOC_DIR=$(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
+MODULE_DOC_DIR_DEFAULT		= $(MODULE_DOC_DIR_SET:yes=$(POUND_SIGN))
+$(MODULE_DOC_DIR_DEFAULT)	MODULE_DOC_DIR=$(MODTYPE_DOC_DIR)
+
 # Where to install pkgconfig files
 MODTYPE_PKGCONFIG_DIR_DEFAULT	= $(MODTYPE_PKGCONFIG_DIR_SET:yes=$(POUND_SIGN))
 $(MODTYPE_PKGCONFIG_DIR_DEFAULT) MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR)
 MODULE_PKGCONFIG_DIR_DEFAULT	= $(MODULE_PKGCONFIG_DIR_SET:yes=$(POUND_SIGN))
 $(MODULE_PKGCONFIG_DIR_DEFAULT)	MODULE_PKGCONFIG_DIR=$(MODTYPE_PKGCONFIG_DIR)
+
+# Package files will be delivered in
+MODTYPE_PKGHIER_DEFAULT		= $(MODTYPE_PKGHIER_SET:yes=$(POUND_SIGN))
+$(MODTYPE_PKGHIER_DEFAULT)	MODTYPE_PKGHIER=x11/$(MODTYPE)
+MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL_CMD=print $(MODULE_NAME) | \
+						   tr '[:upper:]' '[:lower:]'
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL=$(MODULE_PKGTAIL_CMD:sh)
+MODULE_PKGNAME_DEFAULT		= $(MODULE_PKGNAME_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGNAME_DEFAULT)	MODULE_PKGNAME=$(MODTYPE_PKGHIER)/$(MODULE_PKGTAIL)
+
+# Package manifest file
+PKG_SRC_DIR			= $(TOP)/pkg
+PKG_MANIFEST_DIR		= $(PKG_SRC_DIR)/manifests
+PKG_LICENSE_DIR			= $(PKG_SRC_DIR)/license_files
+MODULE_PKG_MANIFEST_NAME_CMD	= print $(MODULE_PKGNAME) | tr '/' '-'
+MODULE_PKG_MANIFEST_NAME	= $(MODULE_PKG_MANIFEST_NAME_CMD:sh)
+MODULE_PKG_MANIFEST = $(PKG_MANIFEST_DIR)/$(MODULE_PKG_MANIFEST_NAME).mf
+
+# Package classification - must be a valid value recognized by pkg gui
+MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=System/X11
 
 # Directory created by unpacking source, if not set in module makefile
 SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
@@ -161,7 +189,8 @@ $(BUILD_RULES):
 INSTALL_RULES = $(BUILD_TYPES:%=install_%)
 install: $(INSTALL_RULES)
 
-install-gen: build-gen $(INSTALL_TARGETS) install_license install_pkgconfig_uninstalled
+install-gen: build-gen $(INSTALL_TARGETS) install_metadata 
+install-gen: install_pkgconfig_uninstalled install_X11_compat_links
 
 $(INSTALL_RULES):
 	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:install_%=%)" \
@@ -359,7 +388,7 @@ FIXED_MAN_TARGET=$(SUNTOUCHED_MANPAGES:%=$(SOURCE_DIR)/%.$(FIXED_MAN_SUFFIX))
 fixed_man: $(FIXED_MAN_TARGET)
 
 COMMON_SUNTOUCH_MAN_FLAGS = \
-	-a '{Availability, $(SUN_PACKAGE)}' \
+	-a '{Availability, $(MODULE_PKGNAME)}' \
 	-a '{Interface Stability, $(MODULE_STABILITY)}'
 
 DEFAULT_SUNTOUCH_MAN_FLAGS = \
@@ -570,6 +599,30 @@ install_pkgconfig_uninstalled: $(INSTALL_PCU_DEPS)
 	    done ; \
 	fi
 
+# Add links if needed from /usr/X11/* to new locations in /usr/*
+X11_BINCOMPAT_DIR = $(PROTODIR)/usr/X11/bin
+X11_BINCOMPAT_LINKS = $(MODULE_X11_BINCOMPAT_LINKS:%=$(X11_BINCOMPAT_DIR)/%)
+X11_LIBCOMPAT_DIR = $(PROTODIR)/usr/X11/lib$(ARCHLIBSUBDIR)
+X11_LIBCOMPAT_LINKS = $(MODULE_X11_LIBCOMPAT_LINKS:%=$(X11_LIBCOMPAT_DIR)/%)
+
+$(X11_BINCOMPAT_DIR) $(X11_LIBCOMPAT_DIR):
+	mkdir -p $@
+
+$(X11_BINCOMPAT_LINKS): $(X11_BINCOMPAT_DIR)
+	@rm -f $@
+	ln -s ../../bin/$(@F) $@
+
+$(X11_LIBCOMPAT_LINKS): $(X11_LIBCOMPAT_DIR)
+	@rm -f $@
+	@if [[ -z "$(ARCHLIBSUBDIR)" ]] ; then \
+	    TARGETDIR=../../lib ; \
+	else \
+	    TARGETDIR=../../../lib$(ARCHLIBSUBDIR) ; \
+	fi ; $(START_CMD_ECHO) ; \
+	ln -s $${TARGETDIR}/$(@F) $@
+
+install_X11_compat_links: $(X11_BINCOMPAT_LINKS) $(X11_LIBCOMPAT_LINKS)
+
 # Set comments in ELF binaries to help identify versions/builds
 ELF_COMMENTS = $(MODULE_NAME) $(MODULE_VERSION)
 ELF_COMMENTS += $(MODTYPE_ELF_COMMENTS)$(MODULE_ELF_COMMENTS)
@@ -582,6 +635,46 @@ set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
 	$(TOP)/open-src/common/set-elf-comments.pl -B 'hg id' \
 	 -M '$(ELF_COMMENTS)' $(SOURCE_DIR)
 
+# Help generate templates for package manifests
+DEFAULT_LICENSE=$(PKG_LICENSE_DIR)/cr_Oracle $(PKG_LICENSE_DIR)/lic_X11
+
+MANIFEST_DEST=$(PWD)/tmp-proto-$(MACH)
+MANIFEST_TMP=$(PWD)/tmp.mf
+
+PKGFMT=/usr/bin/pkgfmt
+
+MANIFEST_TARGETS_DEFAULT	= $(MANIFEST_TARGETS_SET:yes=$(POUND_SIGN))
+$(MANIFEST_TARGETS_DEFAULT)	MANIFEST_TARGETS=$(MODULE_PKG_MANIFEST)
+
+manifest: $(MANIFEST_TARGETS)
+
+manifest-per-type: $(MODULE_PKG_MANIFEST)
+
+MANIFEST_INSTALL_RULES = PROTOTOOLSDIR="$(PROTODIR)" \
+	PROTODIR="$(MANIFEST_DEST)"
+
+$(MANIFEST_DEST): install
+	/usr/xpg4/bin/make $(MAKEFLAGS) install $(MANIFEST_INSTALL_RULES) \
+		|| (rm -rf $(MANIFEST_DEST) ; exit 1)
+
+$(MANIFEST_TMP): $(MANIFEST_DEST) $(PKGFMT)
+	$(PERL) $(TOP)/open-src/common/pkg-manifest-generate.pl \
+		input_manifest='$(MODULE_PKG_MANIFEST)' \
+		manifest_license='$(PKG_LICENSE_DIR)/cr_Oracle' \
+		manifest_license='$(PKG_LICENSE_DIR)/lic_X11' \
+		pkg_name='$(MODULE_PKGNAME)' \
+		source_dir='$(SOURCE_DIRNAME)' \
+		arch_64='$(ARCH64)' subdir_64='$(SUBDIR64)' \
+		proto_area='$(MANIFEST_DEST)' \
+		pkgfmt='$(PKGFMT)' \
+		> $(MANIFEST_TMP)
+	-rm -rf $(MANIFEST_DEST)
+
+$(MODULE_PKG_MANIFEST): $(MANIFEST_TMP) $(PKG_MANIFEST_DIR)
+	mv -f $(MANIFEST_TMP) $@
+
+$(PKG_MANIFEST_DIR):
+	mkdir -p $(PKG_MANIFEST_DIR)
 
 ### Other tools/dependencies needed to build
 
@@ -632,21 +725,84 @@ regen-patches:
 	done
 	rm -rf tmp-regen
 
-# Derive directory name relative to open-src
-THIS_MODULE:sh=echo ${PWD} | sed 's|.*/open-src/||'
-
 # Allows running "make list-patches" to get a list of all patches we
 # currently apply in our builds
 list-patches:
 	@if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
+	    THIS_MODULE="$${PWD##*/open-src/}" ; \
 	    for p in $(SOURCE_PATCHES) x ; do \
 		if [[ "$$p" != "x" ]] ; then \
-	            print "$(THIS_MODULE)/$${p%,*}" ;  \
+	            print "$${THIS_MODULE}/$${p%,*}" ;  \
 		fi ; \
 	    done ; \
 	fi
 
-### Licensing files
+### Metadata used in packaging
+
+MODULE_PKG_METADATA_DIR	= $(PROTOMETA)/$(MODULE_PKG_MANIFEST_NAME)
+
+$(MODULE_PKG_METADATA_DIR):
+	mkdir -p $@
+
+METADATA_TARGETS = $(MODULE_PKG_METADATA_DIR)
+
+# Base URL for ARC cases used in opensolaris.arc_url metadata
+# Set to '$(ARC_URL)' here, resolved by pkgmogrify to the URL
+# set in pkg/Makefile during the package building process
+ARC_URL_BASE = $$(ARC_URL)
+
+# Metadata about upstream
+UPSTREAM_NONE		= NONE
+UPSTREAM_NONE_SET	= yes
+
+UPSTREAM_xorg		= X.Org Foundation
+UPSTREAM_URL_xorg	= http://www.x.org/
+
+UPSTREAM_DEFAULT	= $(UPSTREAM_SET:yes=$(POUND_SIGN))
+$(UPSTREAM_DEFAULT) UPSTREAM = $(UPSTREAM_$(SOURCE_TARBALL_NAME))
+$(UPSTREAM_DEFAULT) UPSTREAM_SET_YET = $(UPSTREAM_$(SOURCE_TARBALL_NAME)_SET)
+$(UPSTREAM_DEFAULT) UPSTREAM_NOTFOUND = $(UPSTREAM_SET_YET:yes=$(POUND_SIGN))
+$(UPSTREAM_NOTFOUND) $(SOURCE_URL_DEFAULT) UPSTREAM = $(UPSTREAM_xorg)
+$(UPSTREAM_NOTFOUND) $(SOURCE_URL_DEFAULT) UPSTREAM_URL = $(UPSTREAM_URL_xorg)
+
+## Attributes files
+
+ATTRDATA_FILE_NAME	= attributes_$(MODULE_NAME).mf
+ATTRDATA_FILE		= $(MODULE_PKG_METADATA_DIR)/$(ATTRDATA_FILE_NAME)
+
+METADATA_TARGETS += $(ATTRDATA_FILE)
+
+# $${MODVERS//\.+(0)(\d)/.\2} - ksh93 pattern substitution to remove leading
+# 0's from package version number components, to meet pkg(5) fmri requirements
+%/$(ATTRDATA_FILE_NAME): %
+	-rm -f $@
+	@if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+	    $(START_CMD_ECHO) ; \
+	    print 'set name=info.source_url value="$(SOURCE_URL)"' >> $@ ; \
+	fi
+	@if [[ "$(UPSTREAM)" != "NONE" ]] ; then \
+	    $(START_CMD_ECHO) ; \
+	    print 'set name=info.upstream value="$(UPSTREAM)"' >> $@ ; \
+	    print 'set name=info.upstream_url value="$(UPSTREAM_URL)"' >> $@ ; \
+	fi
+	@if [[ ! -z "$(MODULE_ARC_CASES)" ]] ; then \
+	    $(START_CMD_ECHO) ; \
+	    print 'set name=opensolaris.arc_url' \
+		'$(MODULE_ARC_CASES:%=value="$(ARC_URL_BASE)%/")' >> $@ ;  \
+	fi
+	@if [[ ! -z "$(MODULE_PKGCLASS)" ]] ; then \
+	    $(START_CMD_ECHO) ; \
+	    print 'set name=info.classification' \
+		'value="org.opensolaris.category.2008:$(MODULE_PKGCLASS)"' \
+		>> $@ ;  \
+	fi
+	@ MODVERS="$(MODULE_VERSION)" ; $(START_CMD_ECHO) ; \
+	printf '<transform set -> edit value __version:$(MODULE_NAME)__ %s>\n' \
+	       "$${MODVERS//\.+(0)(\d)/.\2}" >> $@
+	$(MODTYPE_ATTRDATA_COMMANDS)
+	$(MODULE_ATTRDATA_COMMANDS)
+
+## License files
 
 # Default license file name is COPYING (X.Org & GNU autoconf default)
 # For other license file names, set LICENSE_FILE to the file name
@@ -656,21 +812,27 @@ list-patches:
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
-MODULE_LICENSE_DESTDIR	= $(LICENSE_DEST)/$(THIS_MODULE)
+LICENSE_FILE_NAME = license_$(MODULE_NAME)
+LICENSE_FILE_DEST = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+LICENSE_ATTR_FILE = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME).mf
 
-install_license: $(MODULE_LICENSE_DESTDIR)/COPYING
+MODULE_LICENSE_DEFAULT		= $(MODULE_LICENSE_SET:yes=$(POUND_SIGN))
+$(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = MIT License ($(MODULE_NAME))
 
-$(MODULE_LICENSE_DESTDIR):
-	mkdir -p $@
+install_license: $(LICENSE_FILE_DEST)
+METADATA_TARGETS += $(LICENSE_FILE_DEST)
 
-$(MODULE_LICENSE_DESTDIR)/COPYING: $(MODULE_LICENSE_DESTDIR) $(SOURCE_TARGETS)
+%/$(LICENSE_FILE_NAME): % $(SOURCE_TARGETS)
 	@ $(START_CMD_ECHO) ; \
-	if [[ -f $(LICENSE_FILE) ]] ; then \
+	if [[ -f "$(LICENSE_FILE)" ]] ; then \
 	    LICENSE_TO_COPY="$(LICENSE_FILE)" ; \
-	elif [[ -f $(SOURCE_DIR)/$(LICENSE_FILE) ]] ; then \
+	elif [[ -f "$(SOURCE_DIR)/$(LICENSE_FILE)" ]] ; then \
 	    LICENSE_TO_COPY="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
 	fi ; \
 	if [[ "$${LICENSE_TO_COPY}" != "" ]] ; then \
 	    rm -f $@ ; \
 	    cp -pf $${LICENSE_TO_COPY} $@ ; \
+	    print 'license license_$(MODULE_NAME) license="$(MODULE_LICENSE)"' > $@.mf ; \
 	fi
+
+install_metadata: $(METADATA_TARGETS)

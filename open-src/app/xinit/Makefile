@@ -38,9 +38,19 @@ TARBALL_SHA1 = baf36374aa1632054816a8281e55e1539459664b
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6714067.patch
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/session/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2008/379  startx
+MODULE_ARC_CASES = PSARC/2008/379
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xinit startx
 
 include ../Makefile.inc

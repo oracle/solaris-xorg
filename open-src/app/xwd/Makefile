@@ -38,9 +38,19 @@ TARBALL_SHA1 = f6708d14040630d1d3255987c28efcbf7aee05aa
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-window-dump
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2008/107  xwd -silent
+MODULE_ARC_CASES = PSARC/2008/107
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xwd
 
 include ../Makefile.inc

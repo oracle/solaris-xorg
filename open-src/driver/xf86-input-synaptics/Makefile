@@ -37,7 +37,6 @@ TARBALL_SHA1 = ffdad38384f3dcbf650d1db7e3d75ed46935a2c6
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
 
 # Extra flags to pass to configure script

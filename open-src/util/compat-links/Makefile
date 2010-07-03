@@ -29,6 +29,20 @@
 # Package name used in tarballs
 MODULE_NAME=compat-links
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/compatibility/links-xorg
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=System/X11
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2004/187 Xorg Server For Solaris
+MODULE_ARC_CASES = PSARC/2004/187
+# PSARC/2008/405 Removal of /usr/openwin
+MODULE_ARC_CASES += PSARC/2008/405
+
 # No sources
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE

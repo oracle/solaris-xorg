@@ -26,6 +26,14 @@
 # Package name used in tarballs
 MODULE_NAME=docbook-utils
 
+# Package metadata
+UPSTREAM                = Red Hat
+UPSTREAM_URL            = http://sourceware.org/docbook-tools/
+UPSTREAM_SET            = yes
+
+MODULE_LICENSE          = GPLv2
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=0.6.14
 

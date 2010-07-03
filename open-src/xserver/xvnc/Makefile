@@ -30,6 +30,14 @@
 # Package name used in tarballs
 MODULE_NAME=tigervnc
 
+# Package metadata
+UPSTREAM	= TigerVNC
+UPSTREAM_URL	= http://www.tigervnc.com/
+UPSTREAM_SET	= yes
+
+MODULE_LICENSE          = GPLv2
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.0
 
@@ -67,17 +75,23 @@ SOURCE_PATCHES = \
 	solaris-port.patch \
 	capslock.patch
 
+# ARC cases that covered this module
+# PSARC/2007/545 Xvnc
+MODULE_ARC_CASES = PSARC/2007/545
+# LSARC/2007/625 vncviewer
+MODULE_ARC_CASES += LSARC/2007/625
+# PSARC/2009/592 TigerVNC 1.0
+MODULE_ARC_CASES += PSARC/2009/592
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \
 	unix/xserver/hw/vnc/Xvnc.man unix/vncviewer/vncviewer.man \
 	unix/vncconfig/vncconfig.man unix/vncpasswd/vncpasswd.man \
 	unix/vncserver.man unix/x0vncserver/x0vncserver.man
-SUN_PACKAGE = SUNWxvnc
 MODULE_STABILITY = Volatile
 
-# Additional package name used for vncviewer package
-VNCVIEWER_PKGNAME=SUNWvncviewer
+# Additional pkg(5) package name used for vncviewer package
+VNCVIEWER_PKGNAME=desktop/remote-desktop/$(MODULE_NAME)
 
 # Override specific attributes for specific man pages
 MODULE_SUNTOUCH_MAN_FLAGS= \
@@ -115,6 +129,9 @@ INSTALL_TARGETS += $(INSTALL_TARGETS_$(MACH))
 # Since we only build Xvnc in 32-bit mode, don't need ARCHBINSUBDIR set
 # like in the Xorg builds
 MODULE_BUILD_32_FLAGS = ARCHBINSUBDIR=""
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = Xvnc
 
 include ../Makefile.inc
 
@@ -267,3 +284,19 @@ java_install: $(JAVA_JAR_FILE)
 		$(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/LICENCE.TXT \
 		$(JAVA_INSTALL_DIR)
 	chmod a+x $(JAVA_INSTALL_DIR)/VncViewer.jar
+
+# Metadata for vncviewer package
+VNCVIEWER_PKG_METADATA_DIR	= $(PROTOMETA)/desktop-remote-desktop-tigervnc
+VNCVIEWER_PKG_ATTRDATA_FILE	= $(VNCVIEWER_PKG_METADATA_DIR)/$(ATTRDATA_FILE_NAME)
+VNCVIEWER_PKG_LICENSE_FILE	= $(VNCVIEWER_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+VNCVIEWER_METADATA_TARGETS = \
+	$(VNCVIEWER_PKG_METADATA_DIR) \
+	$(VNCVIEWER_PKG_ATTRDATA_FILE) \
+	$(VNCVIEWER_PKG_LICENSE_FILE)
+
+install_metadata: $(VNCVIEWER_METADATA_TARGETS)
+
+$(VNCVIEWER_PKG_METADATA_DIR):
+	mkdir -p $@
+
+$(VNCVIEWER_PKG_ATTRDATA_FILE) $(VNCVIEWER_PKG_LICENSE_FILE): $(VNCVIEWER_PKG_METADATA_DIR)

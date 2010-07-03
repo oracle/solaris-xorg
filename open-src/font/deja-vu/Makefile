@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=dejavu-fonts-ttf
 
+# Package metadata
+UPSTREAM	= DejaVu fonts
+UPSTREAM_URL	= http://dejavu-fonts.org/
+UPSTREAM_SET	= yes
+
+MODULE_LICENSE          = Bitstream Vera Fonts License
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=2.30
 

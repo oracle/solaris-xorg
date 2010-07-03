@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=rgb
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 
@@ -37,10 +41,12 @@ TARBALL_SHA1 = 89970e73e95819756e6f3fb11631fa917031813a
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 MODULE_CONFIG_OPTS = --with-rgb-db-dir=$(X11_DIR)/lib/X11/rgb \
 	--with-rgb-db-type=ndbm
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = rgb showrgb
 
 include ../Makefile.inc

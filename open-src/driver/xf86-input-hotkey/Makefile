@@ -25,7 +25,7 @@
 #
 
 # Package name used in tarballs
-MODULE_NAME=hotkey
+MODULE_NAME=xf86-input-hotkey
 
 # Version number (used in path names)
 MODULE_VERSION=src
@@ -37,7 +37,6 @@ ADDITIONAL_SOURCE_DIR=sun-src
 CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes
 
-SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
 
 # Since we don't have a configure script, pass configure flags to make

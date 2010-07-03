@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=xedit
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=editor/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Development/Editors
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.2
 
@@ -40,7 +48,9 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xedit
 
 include ../Makefile.inc

@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=cmap_alloc
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/colormap-utilities
+MODULE_PKGNAME_SET=yes
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -36,7 +40,6 @@ ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # No configure script to run
@@ -46,5 +49,8 @@ CONFIGURE_TARGETS_SET=yes
 # Since we don't have a configure script, pass configure flags to make
 MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = cmap_alloc
 
 include ../Makefile.inc

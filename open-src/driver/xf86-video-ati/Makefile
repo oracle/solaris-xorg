@@ -46,7 +46,6 @@ AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # AtomBios code won't build with Sun compiler
@@ -64,6 +63,7 @@ MODULE_CONFIG_ENV= CONFIG_SHELL=/usr/bin/bash
 # in src/Makefile.am since ATI has multiple submodules with different needs
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-M $(PWD)/mapfile-bt829_drv-external \
@@ -72,6 +72,7 @@ MODULE_LD_OPTIONS= \
 	-M $(PWD)/mapfile-tda9885_drv-external \
 	-M $(PWD)/mapfile-uda1380_drv-external \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(MESA_XSERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 

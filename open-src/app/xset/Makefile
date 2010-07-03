@@ -38,9 +38,22 @@ TARBALL_SHA1 = ff4295442821826092b17248c1ad65e16cd860ef
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xsetfbpm.patch xsetman.patch
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC 1999/188 - FBPM (Frame Buffer Power Management) Extension
+MODULE_ARC_CASES = PSARC/1999/188
+# LSARC/2009/361 xset support for XKB indicator names
+MODULE_ARC_CASES += LSARC/2009/361
+
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xset
 
 include ../Makefile.inc

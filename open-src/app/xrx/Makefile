@@ -28,6 +28,19 @@
 # Package name used in tarballs
 MODULE_NAME=xrx
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=web/browser/firefox/plugin/firefox-xrx
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/Plug-ins and Run-times
+MODULE_PKGCLASS_SET=yes
+
+# Additional metadata to include in pkg
+MODULE_ATTRDATA_COMMANDS = \
+	print 'set name=info.upstream_url' \
+		'value="http://www.broadwayinfo.com/"' >> $@
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 
@@ -40,7 +53,6 @@ SOURCE_PATCHES=
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=helper/xrx.man plugin/libxrx.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
 
 # Additional flags to pass to configure script:
@@ -51,5 +63,8 @@ MODULE_CONFIG_OPTS = PLUGIN_CFLAGS='-I$$(top_srcdir)/plugin/include'
 MODULE_CONFIG_OPTS += --enable-shared=yes --enable-static=no 
 # Install directly to firefox plugin directory
 MODULE_CONFIG_OPTS += --libdir='/usr/lib/firefox/plugins'
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xrx
 
 include ../Makefile.inc

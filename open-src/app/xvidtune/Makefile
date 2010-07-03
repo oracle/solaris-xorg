@@ -38,9 +38,15 @@ TARBALL_SHA1 = 2f3f821943018c07efd4547afa4313ac92718b1e
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# ARC cases that covered this module
+# PSARC/2005/189 X client support for XFree86 extensions
+MODULE_ARC_CASES = PSARC/2005/189
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxorg-client-programs
 MODULE_STABILITY=Volatile
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xvidtune
 
 include ../Makefile.inc

@@ -24,6 +24,10 @@
 
 MODULE_NAME=xmakemap
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
 # No upstream sources for these files, since they're Sun created
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -41,10 +45,12 @@ INSTALL_TARGETS_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwman
 MODULE_STABILITY=Committed
 
 ### Include common rulesets
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xmakemap
+
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)

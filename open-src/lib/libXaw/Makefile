@@ -41,9 +41,16 @@ SOURCE_PATCHES=
 # Library name
 LIBNAME=Xaw
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/toolkit/libxaw7
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2008/609 libXaw.so.7
+MODULE_ARC_CASES = LSARC/2008/609
+
 # Library man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3xaw
 
@@ -58,6 +65,9 @@ FIX_PC_FILES=xaw7.pc.in
 # compatibility with the libXaw.so.6 version we never shipped, and never
 # started shipping the now-dropped-by-X.Org libXaw.so.8 (Xaw + Xprint)
 MODULE_CONFIG_OPTS= --disable-xaw6
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXaw.so libXaw.so.7 libXaw7.so libXaw7.so.7
 
 include ../Makefile.inc
 

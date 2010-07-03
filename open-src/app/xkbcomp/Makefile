@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xkbcomp
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/keyboard/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.1
 
@@ -40,7 +44,9 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xkbcomp
 
 include ../Makefile.inc

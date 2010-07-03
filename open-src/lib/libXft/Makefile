@@ -45,10 +45,12 @@ LIBNAME=Xft
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/Xft.3.in man/Xft.3
-SUN_PACKAGE=SUNWxwxft
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
 
+# ARC cases that covered this module
+# LSARC/2003/274 Xft2 library
+MODULE_ARC_CASES = LSARC/2003/274
 
 # Mapfile used to control which symbols are exported
 XFT_MAPFILE=$(PWD)/mapfile.scope
@@ -56,6 +58,9 @@ MODULE_LD_OPTIONS = -M$(XFT_MAPFILE)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xft.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXft.so libXft.so.2
 
 include ../Makefile.inc
 

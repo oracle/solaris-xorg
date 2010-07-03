@@ -27,6 +27,11 @@
 # Package name used in tarballs
 MODULE_NAME=libpthread-stubs
 
+# Package metadata
+UPSTREAM	= XCB project
+UPSTREAM_URL	= http://xcb.freedesktop.org/
+UPSTREAM_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=0.1
 
@@ -48,9 +53,16 @@ LIBNAME=pthread-stubs
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes
 
+# Package classification (override default)
+MODULE_PKGCLASS=Development/X11
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2008/657 pthread-stubs
+MODULE_ARC_CASES = LSARC/2008/657
+
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWlibpthread-stubs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3libpthread-stubs
 

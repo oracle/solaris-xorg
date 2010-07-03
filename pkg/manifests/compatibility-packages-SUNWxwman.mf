@@ -1,0 +1,173 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+# Man pages are part of the man page facet
+<transform depend  -> set facet.doc.man true>
+
+set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwman@$(OSPKGVERS)
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 user manual pages as the SUNWxwman & SUNWxorg-client-docs package for prior Solaris releases"
+set name=pkg.summary value="X Window System user man pages group"
+set name=facet.doc.man value=true
+set name=info.classification value=org.opensolaris.category.2008:System/X11
+legacy pkg=SUNWxorg-client-docs \
+    desc="Documentation for X Window System client programs based on X.Org Foundation open source release" \
+    name="X.Org Foundation X client programs documentation"
+legacy pkg=SUNWxwman desc="X Window System online user man pages" \
+    name="X Window System online user man pages"
+
+### Depends on packages split out of the old SVR4 versions
+
+# app/x11perf
+depend fmri=pkg:/benchmark/x11perf type=require
+
+# app/twm
+depend fmri=pkg:/desktop/window-manager/twm type=require
+
+# util/imake, xorg-cf-files
+depend fmri=pkg:/developer/build/imake type=require
+
+# util/makedepend
+depend fmri=pkg:/developer/build/makedepend type=require
+
+# app/constype
+depend fmri=pkg:/diagnostic/constype type=require
+
+# app/xload
+depend fmri=pkg:/diagnostic/xload type=require
+
+# app/xditview
+depend fmri=pkg:/document/viewer/xditview type=require
+
+# app/xedit
+depend fmri=pkg:/editor/xedit type=require
+
+# app/bitmap
+depend fmri=pkg:/image/editor/bitmap type=require
+
+# app/xcursorgen
+depend fmri=pkg:/image/xcursorgen type=require
+
+# app/luit
+depend fmri=pkg:/terminal/luit type=require
+
+# app/xterm
+depend fmri=pkg:/terminal/xterm type=require
+
+# app/xrx
+depend fmri=pkg:/web/browser/firefox/plugin/firefox-xrx type=require
+
+# app/oclock
+depend fmri=pkg:/x11/accessory/oclock type=require
+
+# app/xbiff
+depend fmri=pkg:/x11/accessory/xbiff type=require
+
+# app/xcalc
+depend fmri=pkg:/x11/accessory/xcalc type=require
+
+# app/xclipboard
+depend fmri=pkg:/x11/accessory/xclipboard type=require
+
+# app/ico, xeyes, xgc, xlogo
+depend fmri=pkg:/x11/demo type=require
+
+# app/xdpyinfo, xdriinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xwininfo
+depend fmri=pkg:/x11/diagnostic/x11-info-clients type=require
+
+# app/xev
+depend fmri=pkg:/x11/diagnostic/xev type=require
+
+# app/xscope
+depend fmri=pkg:/x11/diagnostic/xscope type=require
+
+# doc/xorg-docs
+depend fmri=pkg:/x11/documentation/xorg-docs type=require
+
+# app/bdftopcf, mkfontdir, mkfontscale
+depend fmri=pkg:/x11/font-utilities type=require
+
+# app/setxkbmap, xkbprint, xkbutils
+depend fmri=pkg:/x11/keyboard/xkb-utilities type=require
+
+# app/iceauth
+depend fmri=pkg:/x11/library/libice type=require
+
+# lib/libXpm
+depend fmri=pkg:/x11/library/libxpm type=require
+
+# app/rstart
+depend fmri=pkg:/x11/network/rstart type=require
+
+# app/lbxproxy, proxymgr, xfindproxy, xfwp
+depend fmri=pkg:/x11/network/x11-network-proxies type=require
+
+# app/sessreg
+depend fmri=pkg:/x11/session/sessreg type=require
+
+# app/smproxy
+depend fmri=pkg:/x11/session/smproxy type=require
+
+# app/xauth
+depend fmri=pkg:/x11/session/xauth type=require
+
+# app/xinit
+depend fmri=pkg:/x11/session/xinit type=require
+
+# app/appres, editres, listres, viewres
+depend fmri=pkg:/x11/toolkit/libxt/xt-resource-utilities type=require
+
+# app/cmap_alloc, cmap_compact, xcolor, xstdcmap
+depend fmri=pkg:/x11/utility/colormap-utilities type=require
+
+# app/rgb, xcmsdb, xhost, xmodmap, xprop, xrdb, xrefresh, xset, xsetroot
+depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+
+# app/xpr, xwd, xwud
+depend fmri=pkg:/x11/utility/x11-window-dump type=require
+
+# app/xconsole
+depend fmri=pkg:/x11/utility/xconsole type=require
+
+# app/xfd
+depend fmri=pkg:/x11/utility/xfd type=require
+
+# app/xfontsel
+depend fmri=pkg:/x11/utility/xfontsel type=require
+
+# app/xkill
+depend fmri=pkg:/x11/utility/xkill type=require
+
+# app/xlock
+depend fmri=pkg:/x11/utility/xlock type=require
+
+# app/xmag, xmag_multivis
+depend fmri=pkg:/x11/utility/xmag type=require
+
+# app/xman
+depend fmri=pkg:/x11/utility/xman type=require
+
+# app/xfs
+depend fmri=pkg:/x11/xfs type=require
+
+# app/fslsfonts, fstobdf, showfont, xfsinfo
+depend fmri=pkg:/x11/xfs/xfs-utilities type=require

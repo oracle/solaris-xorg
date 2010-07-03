@@ -1,0 +1,92 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/utility/x11-server-utilities@$(X11PKGVERS)
+set name=pkg.description \
+    value="A collection of common utilities for manipulating the state of an X server in a running X session."
+set name=pkg.summary value="X11 server state utilities"
+dir path=etc
+dir path=etc/xdg
+dir path=etc/xdg/autostart
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/lib
+dir path=usr/lib/X11
+dir path=usr/share
+dir path=usr/share/locale
+dir path=usr/share/locale/C
+dir path=usr/share/locale/C/LC_MESSAGES
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=etc/xdg/autostart/gnome-dispswitch.desktop
+file path=usr/bin/dispswitch
+file path=usr/bin/rgb
+file path=usr/bin/showrgb
+file path=usr/bin/xcmsdb
+file path=usr/bin/xgamma
+file path=usr/bin/xhost
+file path=usr/bin/xinput
+file path=usr/bin/xmakemap
+file path=usr/bin/xmodmap
+file path=usr/bin/xprop
+file path=usr/bin/xrandr
+file path=usr/bin/xrdb
+file path=usr/bin/xrefresh
+file path=usr/bin/xset
+file path=usr/bin/xsetroot
+file path=usr/lib/X11/rgb.dir
+file path=usr/lib/X11/rgb.pag
+file path=usr/lib/X11/rgb.txt
+file path=usr/share/locale/C/LC_MESSAGES/xhost.po
+file path=usr/share/man/man1/dispswitch.1
+file path=usr/share/man/man1/rgb.1
+file path=usr/share/man/man1/showrgb.1
+file path=usr/share/man/man1/xcmsdb.1
+file path=usr/share/man/man1/xgamma.1
+file path=usr/share/man/man1/xhost.1
+file path=usr/share/man/man1/xinput.1
+file path=usr/share/man/man1/xmakemap.1
+file path=usr/share/man/man1/xmodmap.1
+file path=usr/share/man/man1/xprop.1
+file path=usr/share/man/man1/xrandr.1
+file path=usr/share/man/man1/xrdb.1
+file path=usr/share/man/man1/xrefresh.1
+file path=usr/share/man/man1/xset.1
+file path=usr/share/man/man1/xsetroot.1
+link path=usr/X11/bin/dispswitch target=../../bin/dispswitch
+link path=usr/X11/bin/rgb target=../../bin/rgb
+link path=usr/X11/bin/showrgb target=../../bin/showrgb
+link path=usr/X11/bin/xcmsdb target=../../bin/xcmsdb
+link path=usr/X11/bin/xgamma target=../../bin/xgamma
+link path=usr/X11/bin/xhost target=../../bin/xhost
+link path=usr/X11/bin/xinput target=../../bin/xinput
+link path=usr/X11/bin/xmakemap target=../../bin/xmakemap
+link path=usr/X11/bin/xmodmap target=../../bin/xmodmap
+link path=usr/X11/bin/xprop target=../../bin/xprop
+link path=usr/X11/bin/xrandr target=../../bin/xrandr
+link path=usr/X11/bin/xrdb target=../../bin/xrdb
+link path=usr/X11/bin/xrefresh target=../../bin/xrefresh
+link path=usr/X11/bin/xset target=../../bin/xset
+link path=usr/X11/bin/xsetroot target=../../bin/xsetroot
+# xrdb requires cpp
+depend fmri=pkg:/developer/macro/cpp type=require

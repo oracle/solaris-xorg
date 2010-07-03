@@ -35,10 +35,16 @@ MODULE_VERSION=1.1.5
 TARBALL_MD5  = bf8faa8c540bfdcd0252801d8f16d868
 TARBALL_SHA1 = 9b4d7c3c64b3d980ea317b5206fee17adefd1d65
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=desktop/window-manager/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2009/597  xcompmgr & transset 
+MODULE_ARC_CASES = LSARC/2009/597
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=xcompmgr.1
-SUN_PACKAGE=SUNWxcompmgr
 MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

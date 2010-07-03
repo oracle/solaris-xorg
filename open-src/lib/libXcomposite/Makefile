@@ -43,14 +43,20 @@ LIBNAME=Xcomposite
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xcomposite
+
+# ARC cases that covered this module
+# PSARC/2007/240 libXcomposite
+MODULE_ARC_CASES = PSARC/2007/240
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xcomposite.pc.in
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXcomposite.so libXcomposite.so.1
 
 include ../Makefile.inc

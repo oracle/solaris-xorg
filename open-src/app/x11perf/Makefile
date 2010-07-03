@@ -38,9 +38,19 @@ TARBALL_SHA1 = d1f85da3df5b216b64c1735d109380214787222d
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=benchmark/x11perf
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2008/095 x11perf 
+MODULE_ARC_CASES = PSARC/2008/095
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = x11perf x11perfcomp
 
 include ../Makefile.inc

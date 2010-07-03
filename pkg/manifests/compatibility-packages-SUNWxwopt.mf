@@ -1,0 +1,91 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwopt@$(OSPKGVERS)
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwopt package for prior Solaris releases"
+set name=pkg.summary \
+    value="X Window System optional client libraries and applications group"
+set name=info.classification value=org.opensolaris.category.2008:System/X11
+legacy pkg=SUNWxwopt desc="X Window System Optional Clients" \
+    name="X Window System Optional Clients"
+
+### Depends on packages split out of the old SVR4 versions
+
+# twm
+depend fmri=pkg:/desktop/window-manager/twm type=require
+
+# imake, xorg-cf-files
+depend fmri=pkg:/developer/build/imake type=require
+
+# makedepend
+depend fmri=pkg:/developer/build/makedepend type=require
+
+# xload
+depend fmri=pkg:/diagnostic/xload type=require
+
+# xditview
+depend fmri=pkg:/document/viewer/xditview type=require
+
+# xedit
+depend fmri=pkg:/editor/xedit type=require
+
+# bitmap
+depend fmri=pkg:/image/editor/bitmap type=require
+
+# xcursorgen
+depend fmri=pkg:/image/xcursorgen type=require
+
+# xrx
+depend fmri=pkg:/web/browser/firefox/plugin/firefox-xrx type=require
+
+# oclock
+depend fmri=pkg:/x11/accessory/oclock type=require
+
+# xbiff
+depend fmri=pkg:/x11/accessory/xbiff type=require
+
+# xclipboard
+depend fmri=pkg:/x11/accessory/xclipboard type=require
+
+# xclock
+depend fmri=pkg:/x11/accessory/xclock type=require
+
+# lbxproxy, proxymngr, xfindproxy, xfwp
+depend fmri=pkg:/x11/network/x11-network-proxies type=require
+
+# appres, editres, listres, viewres
+depend fmri=pkg:/x11/toolkit/libxt/xt-resource-utilities type=require
+
+# xcolor
+depend fmri=pkg:/x11/utility/colormap-utilities type=require
+
+# rgb, xcmsdb
+depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+
+# xconsole
+depend fmri=pkg:/x11/utility/xconsole type=require
+
+# xfontsel
+depend fmri=pkg:/x11/utility/xfontsel type=require
+
+# xman
+depend fmri=pkg:/x11/utility/xman type=require

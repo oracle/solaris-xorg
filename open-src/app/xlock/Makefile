@@ -2,7 +2,7 @@
 #
 # xlock 1.x Makefile
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,5 +44,8 @@ CONFIGURE_TARGETS_SET=yes
 MODULE_BUILD_ENV=$(CONFIG_ENV)
 MODULE_INSTALL_MAKEFLAGS = \
    bindir=$(X11_BIN_DIR) datadir=$(MODULE_PREFIX)/share mandir=$(X11_MAN_DIR)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xlock
 
 include ../Makefile.inc

@@ -36,5 +36,9 @@ TARBALL_SHA1 = 22d034c2f66985f8541b9ea3421096ceaa006355
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# ARC cases that covered this module
+# PSARC/2005/189 X client support for XFree86 extensions
+MODULE_ARC_CASES = PSARC/2005/189
+
 ### Include common rulesets
 include ../Makefile.inc

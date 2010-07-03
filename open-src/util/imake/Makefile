@@ -38,13 +38,15 @@ SOURCE_PATCHES=
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Uncommitted
 
 # Additional flags to pass to configure script
 MODULE_CONFIG_OPTS  = --enable-mkdirhier \
  --disable-ccmakedep --disable-cleanlinks --disable-makeg \
  --disable-mergelib --disable-mkhtmlindex --disable-revpath
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = imake xmkmf mkdirhier
 
 ### Include common rulesets
 include ../Makefile.inc

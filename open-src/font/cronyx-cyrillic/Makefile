@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=font-cronyx-cyrillic
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGTAIL=xorg/cyrillic
+MODULE_PKGTAIL_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 

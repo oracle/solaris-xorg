@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xhost
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 
@@ -40,10 +44,17 @@ SOURCE_PATCHES = xhost.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
+# ARC cases that covered this module
+# PSARC/2001/108 X11 Over IPv6
+MODULE_ARC_CASES = PSARC/2001/108
+
+
 MODULE_ADD_INSTALL_TARGETS = install_po
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xhost
 
 include ../Makefile.inc
 

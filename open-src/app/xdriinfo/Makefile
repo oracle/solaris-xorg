@@ -38,12 +38,22 @@ TARBALL_SHA1 = d211d6f12f4c801d2f4cf184c6daae37aa5858ff
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = compile-on-sparc.patch
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/diagnostic/x11-info-clients
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2008/292  xdriinfo
+MODULE_ARC_CASES = PSARC/2008/292
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # Needed for libGL to find libdrm at build time
 MODULE_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xdriinfo
 
 include ../Makefile.inc

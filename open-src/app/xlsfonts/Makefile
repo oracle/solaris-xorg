@@ -38,9 +38,19 @@ TARBALL_SHA1 = 556c8b94002e834cf61e08ea4f5551a039e2d5c9
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/diagnostic/x11-info-clients
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2008/178  xlsfonts update to X11R7
+MODULE_ARC_CASES = PSARC/2008/178
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xlsfonts
 
 include ../Makefile.inc

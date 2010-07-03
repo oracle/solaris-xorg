@@ -28,6 +28,31 @@
 # Package name used in tarballs
 MODULE_NAME=fontconfig
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/library/fontconfig
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=System/Libraries
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2003/273 fontconfig library
+MODULE_ARC_CASES = LSARC/2003/273
+# PSARC/2004/752 X Consolidation conversion to SMF
+MODULE_ARC_CASES += PSARC/2004/752
+# LSARC/2006/485 fontconfig Hide/Only/Poor (HOP) language matching
+MODULE_ARC_CASES += LSARC/2006/485
+# LSARC/2007/532 fc-match
+MODULE_ARC_CASES += LSARC/2007/532
+# LSARC/2008/140 fontconfig 2.5.0
+MODULE_ARC_CASES += LSARC/2008/140
+
+# Package metadata
+UPSTREAM	= fontconfig
+UPSTREAM_URL	= http://fontconfig.org/
+UPSTREAM_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=2.8.0
 
@@ -59,7 +84,6 @@ LIBNAME=fontconfig
 # Man pages to apply Sun footer to & attributes to list
 FONTCONFIG_CMDS = fc-cache fc-list fc-query fc-cat fc-match fc-scan
 SUNTOUCHED_MANPAGES = $(FONTCONFIG_CMDS:%=%/%.1) doc/*.3 doc/*.5
-SUN_PACKAGE=SUNWfontconfig
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3fontconfig
 MODULE_MTLEVEL=Unknown
@@ -106,11 +130,15 @@ AUTORECONF=yes
 # Include common rulesets
 include ../Makefile.inc
 
-# Path to install fc-cache manifest & method script
+# Path to install fc-cache SMF files and the RBAC files they use
 FONTCONFIG_SMF_MANIFEST_dir=$(PROTODIR)/var/svc/manifest/application/font
 FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
 FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
+FONTCONFIG_RBAC_AUTH_dir=$(PROTODIR)/etc/security/auth_attr.d
+FONTCONFIG_RBAC_AUTH=$(FONTCONFIG_RBAC_AUTH_dir)/fontconfig
+FONTCONFIG_RBAC_HELP_dir=$(PROTODIR)/usr/lib/help/auths/locale/C
+FONTCONFIG_RBAC_HELP=$(FONTCONFIG_RBAC_HELP_dir)/FontStates.html
 
 # Sun specification configuration files to be installed in /etc/fonts/conf.d
 FONTCONFIG_CONFDIR = $(PROTODIR)/etc/fonts/conf.avail
@@ -121,6 +149,7 @@ FONTCONFIG_SUN_CONFFILES = $(SUN_CONFFILES:%=$(FONTCONFIG_CONFDIR)/%)
 # run just once, not per bitwidth
 FONTCONFIG_INSTALL_RULES = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
+	$(FONTCONFIG_RBAC_AUTH) $(FONTCONFIG_RBAC_HELP) \
 	$(FONTCONFIG_SUN_CONFFILES)
 
 install: $(FONTCONFIG_INSTALL_RULES)
@@ -134,6 +163,14 @@ $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 	mkdir -p $(FONTCONFIG_SMF_METHOD_dir)
 	$(INSTALL_SCRIPT) -c -m 0755 fc-cache.sh $@
 
+$(FONTCONFIG_RBAC_AUTH): auth_attr
+	mkdir -p $(FONTCONFIG_RBAC_AUTH_dir)
+	$(INSTALL_SCRIPT) -c -m 0444 auth_attr $@
+
+$(FONTCONFIG_RBAC_HELP): FontStates.html
+	mkdir -p $(FONTCONFIG_RBAC_HELP_dir)
+	$(INSTALL_SCRIPT) -c -m 0444 FontStates.html $@
+
 $(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
 	mkdir -p $(PROTODIR)/etc/fonts/conf.d $(PROTODIR)/etc/fonts/conf.avail
 	cp -fp $(@F) $@
@@ -145,7 +182,6 @@ FC_MAN_DIR=$(PROTODIR)/usr/share/man
 fontconfig-sunman-install: $(INSTALL_RULES)
 	mkdir -p $(FC_MAN_DIR)/man4 $(FC_MAN_DIR)/man3lib
 	sed -e 's/.TH "FONTS-CONF" "5"/.TH "fonts.conf" "4"/' 	\
-	    -e 's/SUNWfontconfig/SUNWfontconfig-root/' 		\
 	  $(FC_MAN_DIR)/man5/fonts-conf.5 > $(FC_MAN_DIR)/man4/fonts.conf.4
 	-rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
 	$(PERL) -p -e 's/^$$/.LP/;' -e 's/.?\251/\\(co/;' 	\

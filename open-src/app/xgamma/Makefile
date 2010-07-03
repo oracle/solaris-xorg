@@ -38,9 +38,19 @@ TARBALL_SHA1 = f9c7d93f4b271bab41ee3c91b371d52572e4e08c
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2005/189 X client support for XFree86 extensions
+MODULE_ARC_CASES = PSARC/2005/189
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxorg-client-programs
 MODULE_STABILITY=Volatile
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xgamma
 
 include ../Makefile.inc

@@ -28,6 +28,11 @@
 # Package name used in tarballs
 MODULE_NAME=xf86-video-openchrome
 
+# Package metadata
+UPSTREAM        = The OpenChrome project
+UPSTREAM_URL    = http://www.openchrome.org/
+UPSTREAM_SET    = yes
+
 # Version number (used in path names)
 MODULE_VERSION=0.2.904
 
@@ -43,7 +48,6 @@ AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # Extra flags to pass to configure script

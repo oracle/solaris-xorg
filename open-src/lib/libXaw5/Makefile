@@ -27,6 +27,10 @@
 
 MODULE_NAME=libXaw5
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/toolkit/libxaw5
+MODULE_PKGNAME_SET=yes
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -38,7 +42,6 @@ LIBNAME=Xaw5
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # No configure script to run
@@ -53,5 +56,8 @@ MODULE_CFLAGS += -I. -DHAS_ISW_FUNCS -DHAS_WCTYPE_H -DOLDXAW
 
 # Link with version mapfile
 MODULE_LDFLAGS = -R/usr/lib$(ARCHLIBSUBDIR) -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXaw.so.5
 
 include ../Makefile.inc

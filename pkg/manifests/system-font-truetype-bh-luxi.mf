@@ -1,0 +1,53 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/system/font/truetype/bh-luxi@__version:font-bh-ttf__
+set name=pkg.description \
+    value="Luxi family of TrueType fonts designed by Bigelow & Holmes for the XFree86 Project"
+set name=pkg.summary value="Luxi font family from Bigelow & Holmes"
+dir path=etc
+dir path=etc/X11
+dir path=etc/X11/fontpath.d
+dir path=usr
+dir path=usr/share
+dir path=usr/share/fonts
+dir path=usr/share/fonts/TrueType
+dir path=usr/share/fonts/TrueType/bh-luxi
+file path=usr/share/fonts/TrueType/bh-luxi/fonts.dir
+file path=usr/share/fonts/TrueType/bh-luxi/fonts.scale
+file path=usr/share/fonts/TrueType/bh-luxi/luximb.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luximbi.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luximr.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luximri.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxirb.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxirbi.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxirr.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxirri.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxisb.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxisbi.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxisr.ttf
+file path=usr/share/fonts/TrueType/bh-luxi/luxisri.ttf
+legacy pkg=SUNWttf-bh-luxi \
+    desc="Luxi family of TrueType fonts designed by Bigelow & Holmes for the XFree86 Project" \
+    name="Luxi font family from Bigelow & Holmes"
+link path=etc/X11/fontpath.d/bh-luxi:pri=42 \
+    target=../../../usr/share/fonts/TrueType/bh-luxi

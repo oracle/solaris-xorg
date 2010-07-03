@@ -1,0 +1,163 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/x11/data/xcursor-themes@__version:xcursor-themes__
+set name=pkg.description \
+    value="This is a default set of full-color, translucent cursor themes for use with libXcursor, originally created for the XFree86 Project, and now shipped as part of the X.Org software distribution."
+set name=pkg.summary value="X.Org default X11 cursor themes"
+dir path=usr
+dir path=usr/share
+dir path=usr/share/icons
+dir path=usr/share/icons/handhelds
+dir path=usr/share/icons/handhelds/cursors
+dir path=usr/share/icons/redglass
+dir path=usr/share/icons/redglass/cursors
+dir path=usr/share/icons/whiteglass
+dir path=usr/share/icons/whiteglass/cursors
+file path=usr/share/icons/handhelds/cursors/X_cursor
+file path=usr/share/icons/handhelds/cursors/based_arrow_down
+file path=usr/share/icons/handhelds/cursors/based_arrow_up
+file path=usr/share/icons/handhelds/cursors/bottom_left_corner
+file path=usr/share/icons/handhelds/cursors/bottom_right_corner
+file path=usr/share/icons/handhelds/cursors/bottom_side
+file path=usr/share/icons/handhelds/cursors/bottom_tee
+file path=usr/share/icons/handhelds/cursors/center_ptr
+file path=usr/share/icons/handhelds/cursors/circle
+file path=usr/share/icons/handhelds/cursors/cross
+file path=usr/share/icons/handhelds/cursors/dot
+file path=usr/share/icons/handhelds/cursors/dotbox
+file path=usr/share/icons/handhelds/cursors/double_arrow
+file path=usr/share/icons/handhelds/cursors/draped_box
+file path=usr/share/icons/handhelds/cursors/fleur
+file path=usr/share/icons/handhelds/cursors/gumby
+file path=usr/share/icons/handhelds/cursors/hand2
+file path=usr/share/icons/handhelds/cursors/left_ptr
+file path=usr/share/icons/handhelds/cursors/left_ptr_watch
+file path=usr/share/icons/handhelds/cursors/left_side
+file path=usr/share/icons/handhelds/cursors/left_tee
+file path=usr/share/icons/handhelds/cursors/ll_angle
+file path=usr/share/icons/handhelds/cursors/pencil
+file path=usr/share/icons/handhelds/cursors/right_ptr
+file path=usr/share/icons/handhelds/cursors/right_side
+file path=usr/share/icons/handhelds/cursors/right_tee
+file path=usr/share/icons/handhelds/cursors/sb_h_double_arrow
+file path=usr/share/icons/handhelds/cursors/sb_right_arrow
+file path=usr/share/icons/handhelds/cursors/sb_up_arrow
+file path=usr/share/icons/handhelds/cursors/sb_v_double_arrow
+file path=usr/share/icons/handhelds/cursors/shuttle
+file path=usr/share/icons/handhelds/cursors/top_left_corner
+file path=usr/share/icons/handhelds/cursors/top_right_corner
+file path=usr/share/icons/handhelds/cursors/top_side
+file path=usr/share/icons/handhelds/cursors/top_tee
+file path=usr/share/icons/handhelds/cursors/watch
+file path=usr/share/icons/handhelds/cursors/xterm
+file path=usr/share/icons/redglass/cursors/X_cursor
+file path=usr/share/icons/redglass/cursors/based_arrow_down
+file path=usr/share/icons/redglass/cursors/based_arrow_up
+file path=usr/share/icons/redglass/cursors/bottom_left_corner
+file path=usr/share/icons/redglass/cursors/bottom_right_corner
+file path=usr/share/icons/redglass/cursors/bottom_side
+file path=usr/share/icons/redglass/cursors/bottom_tee
+file path=usr/share/icons/redglass/cursors/center_ptr
+file path=usr/share/icons/redglass/cursors/circle
+file path=usr/share/icons/redglass/cursors/cross
+file path=usr/share/icons/redglass/cursors/dot
+file path=usr/share/icons/redglass/cursors/dotbox
+file path=usr/share/icons/redglass/cursors/double_arrow
+file path=usr/share/icons/redglass/cursors/draped_box
+file path=usr/share/icons/redglass/cursors/fleur
+file path=usr/share/icons/redglass/cursors/gumby
+file path=usr/share/icons/redglass/cursors/hand2
+file path=usr/share/icons/redglass/cursors/left_ptr
+file path=usr/share/icons/redglass/cursors/left_ptr_watch
+file path=usr/share/icons/redglass/cursors/left_side
+file path=usr/share/icons/redglass/cursors/left_tee
+file path=usr/share/icons/redglass/cursors/ll_angle
+file path=usr/share/icons/redglass/cursors/pencil
+file path=usr/share/icons/redglass/cursors/right_ptr
+file path=usr/share/icons/redglass/cursors/right_side
+file path=usr/share/icons/redglass/cursors/right_tee
+file path=usr/share/icons/redglass/cursors/sb_h_double_arrow
+file path=usr/share/icons/redglass/cursors/sb_right_arrow
+file path=usr/share/icons/redglass/cursors/sb_up_arrow
+file path=usr/share/icons/redglass/cursors/sb_v_double_arrow
+file path=usr/share/icons/redglass/cursors/shuttle
+file path=usr/share/icons/redglass/cursors/top_left_corner
+file path=usr/share/icons/redglass/cursors/top_right_corner
+file path=usr/share/icons/redglass/cursors/top_side
+file path=usr/share/icons/redglass/cursors/top_tee
+file path=usr/share/icons/redglass/cursors/watch
+file path=usr/share/icons/redglass/cursors/xterm
+file path=usr/share/icons/whiteglass/cursors/X_cursor
+file path=usr/share/icons/whiteglass/cursors/base_arrow_down
+file path=usr/share/icons/whiteglass/cursors/base_arrow_up
+file path=usr/share/icons/whiteglass/cursors/boat
+file path=usr/share/icons/whiteglass/cursors/bottom_left_corner
+file path=usr/share/icons/whiteglass/cursors/bottom_right_corner
+file path=usr/share/icons/whiteglass/cursors/bottom_side
+file path=usr/share/icons/whiteglass/cursors/bottom_tee
+file path=usr/share/icons/whiteglass/cursors/center_ptr
+file path=usr/share/icons/whiteglass/cursors/circle
+file path=usr/share/icons/whiteglass/cursors/cross
+file path=usr/share/icons/whiteglass/cursors/dot
+file path=usr/share/icons/whiteglass/cursors/dot_box_mask
+file path=usr/share/icons/whiteglass/cursors/double_arrow
+file path=usr/share/icons/whiteglass/cursors/draped_box
+file path=usr/share/icons/whiteglass/cursors/exchange
+file path=usr/share/icons/whiteglass/cursors/fleur
+file path=usr/share/icons/whiteglass/cursors/gumby
+file path=usr/share/icons/whiteglass/cursors/hand1
+file path=usr/share/icons/whiteglass/cursors/hand2
+file path=usr/share/icons/whiteglass/cursors/left_ptr
+file path=usr/share/icons/whiteglass/cursors/left_ptr_watch
+file path=usr/share/icons/whiteglass/cursors/left_side
+file path=usr/share/icons/whiteglass/cursors/left_tee
+file path=usr/share/icons/whiteglass/cursors/ll_angle
+file path=usr/share/icons/whiteglass/cursors/lr_angle
+file path=usr/share/icons/whiteglass/cursors/pencil
+file path=usr/share/icons/whiteglass/cursors/pirate
+file path=usr/share/icons/whiteglass/cursors/question_arrow
+file path=usr/share/icons/whiteglass/cursors/right_ptr
+file path=usr/share/icons/whiteglass/cursors/right_side
+file path=usr/share/icons/whiteglass/cursors/right_tee
+file path=usr/share/icons/whiteglass/cursors/sailboat
+file path=usr/share/icons/whiteglass/cursors/sb_down_arrow
+file path=usr/share/icons/whiteglass/cursors/sb_h_double_arrow
+file path=usr/share/icons/whiteglass/cursors/sb_left_arrow
+file path=usr/share/icons/whiteglass/cursors/sb_right_arrow
+file path=usr/share/icons/whiteglass/cursors/sb_up_arrow
+file path=usr/share/icons/whiteglass/cursors/sb_v_double_arrow
+file path=usr/share/icons/whiteglass/cursors/shuttle
+file path=usr/share/icons/whiteglass/cursors/sizing
+file path=usr/share/icons/whiteglass/cursors/target
+file path=usr/share/icons/whiteglass/cursors/top_left_corner
+file path=usr/share/icons/whiteglass/cursors/top_right_corner
+file path=usr/share/icons/whiteglass/cursors/top_side
+file path=usr/share/icons/whiteglass/cursors/top_tee
+file path=usr/share/icons/whiteglass/cursors/trek
+file path=usr/share/icons/whiteglass/cursors/ul_angle
+file path=usr/share/icons/whiteglass/cursors/ur_angle
+file path=usr/share/icons/whiteglass/cursors/watch
+file path=usr/share/icons/whiteglass/cursors/xterm
+legacy pkg=SUNWxcursor-themes \
+    desc="X Window System full-color, translucent cursor themes from X.Org Foundation open source release" \
+    name="X.Org Foundation X11 cursor themes"

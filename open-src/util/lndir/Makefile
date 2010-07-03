@@ -26,6 +26,18 @@
 # Package name used in tarballs
 MODULE_NAME=lndir
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=file/lndir
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/System Utilities
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2010/219 lndir
+MODULE_ARC_CASES = PSARC/2010/219
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
@@ -35,6 +47,10 @@ TARBALL_SHA1 = c7eed31c4cb2b016e4a06b629a57333c8df14421
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=*.man
+MODULE_STABILITY=Uncommitted
 
 ### Include common rulesets
 include ../Makefile.inc

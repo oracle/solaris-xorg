@@ -1,0 +1,66 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/editor/xedit@__version:xedit__
+set name=pkg.description \
+    value="Xedit is a simple Xaw toolkit text editor for X, with extensible modes for editing various programming languages."
+set name=pkg.summary value="xedit - simple text editor for X"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/lib
+dir path=usr/lib/X11
+dir path=usr/lib/X11/xedit
+dir path=usr/lib/X11/xedit/lisp
+dir path=usr/lib/X11/xedit/lisp/progmodes
+dir path=usr/share
+dir path=usr/share/X11
+dir path=usr/share/X11/app-defaults
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=usr/bin/xedit
+file path=usr/lib/X11/xedit/lisp/indent.lsp
+file path=usr/lib/X11/xedit/lisp/lisp.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/auto.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/c.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/html.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/imake.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/lisp.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/make.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/man.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/patch.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/perl.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/python.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/rpm.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/sgml.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/sh.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/xconf.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/xlog.lsp
+file path=usr/lib/X11/xedit/lisp/progmodes/xrdb.lsp
+file path=usr/lib/X11/xedit/lisp/syntax.lsp
+file path=usr/lib/X11/xedit/lisp/xedit.lsp
+file path=usr/share/X11/app-defaults/Xedit
+file path=usr/share/X11/app-defaults/Xedit-color
+file path=usr/share/man/man1/xedit.1
+link path=usr/X11/bin/xedit target=../../bin/xedit
+# Xedit app-defaults references icons in xbitmaps
+depend fmri=pkg:/x11/data/xbitmaps type=require

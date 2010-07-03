@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=twm
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=desktop/window-manager/twm
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.4
 
@@ -40,8 +44,10 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = twm
 
 include ../Makefile.inc
 

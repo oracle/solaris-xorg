@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=mkfontdir
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/font-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.5
 
@@ -38,9 +42,15 @@ TARBALL_SHA1 = 971728b0f453ea5df028aa5d54fe3fbdb8e99a7d
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = altroot.patch
 
+# ARC cases that covered this module
+# LSARC/2008/009 X11R7 font server and utilities
+MODULE_ARC_CASES = LSARC/2008/009
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwfsw
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = mkfontdir
 
 include ../Makefile.inc

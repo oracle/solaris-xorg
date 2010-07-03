@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=font-daewoo-misc
 
+# Package metadata
+MODULE_LICENSE          = Daewoo Electronics Copyright
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 

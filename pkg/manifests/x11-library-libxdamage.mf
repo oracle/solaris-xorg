@@ -1,0 +1,50 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxdamage@__version:libXdamage__
+set name=pkg.description \
+    value="Xlib-based client API for the Damage extension to the X11 protocol"
+set name=pkg.summary value="libXdamage - X Damage extension client library"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/extensions
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+file path=usr/include/X11/extensions/Xdamage.h
+file path=usr/lib/$(ARCH64)/libXdamage.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/xdamage.pc
+file path=usr/lib/libXdamage.so.1
+file path=usr/lib/pkgconfig/xdamage.pc
+link path=usr/X11/lib/$(ARCH64)/libXdamage.so \
+    target=../../../lib/$(ARCH64)/libXdamage.so
+link path=usr/X11/lib/$(ARCH64)/libXdamage.so.1 \
+    target=../../../lib/$(ARCH64)/libXdamage.so.1
+link path=usr/X11/lib/libXdamage.so target=../../lib/libXdamage.so
+link path=usr/X11/lib/libXdamage.so.1 target=../../lib/libXdamage.so.1
+link path=usr/lib/$(ARCH64)/libXdamage.so target=libXdamage.so.1
+link path=usr/lib/libXdamage.so target=libXdamage.so.1
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

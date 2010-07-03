@@ -1,0 +1,90 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/service/application/opengl/ogl-select@$(OSPKGVERS)
+set name=pkg.description \
+    value="ogl-select is a SMF service that determines at boot time which vendor supplied OpenGL headers and libraries will be used, based on the hardware and drivers installed in the system."
+set name=pkg.summary \
+    value="ogl-select - boot time selection of OpenGL vendor files"
+dir path=lib
+dir path=lib/opengl
+dir path=lib/opengl/ogl_select
+dir path=lib/svc
+dir path=lib/svc/method
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/include
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/GL
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/GL
+dir path=usr/lib/GL/$(ARCH64)
+dir path=usr/lib/xorg
+dir path=usr/lib/xorg/modules
+dir path=usr/lib/xorg/modules/extensions
+$(i386_ONLY)dir path=usr/lib/xorg/modules/extensions/$(ARCH64)
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
+dir path=var
+dir path=var/svc
+dir path=var/svc/manifest
+dir path=var/svc/manifest/application
+dir path=var/svc/manifest/application/opengl
+file path=lib/opengl/ogl_select/mesa_vendor_select mode=0555
+$(i386_ONLY)file path=lib/opengl/ogl_select/nvidia_vendor_select mode=0555
+$(sparc_ONLY)file path=lib/opengl/ogl_select/sun_vendor_select mode=0555
+file path=lib/svc/method/ogl-select
+file path=usr/share/man/man1/ogl-select.1
+file path=var/svc/manifest/application/opengl/ogl-select.xml
+link path=usr/X11/include/GL target=../../include/GL
+link path=usr/X11/lib/$(ARCH64)/libGL.so target=libGL.so.1
+link path=usr/X11/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
+link path=usr/X11/lib/64 target=$(ARCH64)
+link path=usr/X11/lib/GL target=../../lib/GL
+link path=usr/X11/lib/libGL.so target=libGL.so.1
+link path=usr/X11/lib/libGL.so.1 target=GL/libGL.so.1
+link path=usr/include/GL/gl.h target=../../../var/run/opengl/include/gl.h
+link path=usr/include/GL/glext.h \
+    target=../../../var/run/opengl/include/glext.h
+link path=usr/include/GL/glx.h target=../../../var/run/opengl/include/glx.h
+link path=usr/include/GL/glxext.h \
+    target=../../../var/run/opengl/include/glxext.h
+link path=usr/lib/$(ARCH64)/libGL.so target=libGL.so.1
+link path=usr/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
+link path=usr/lib/GL/$(ARCH64)/libGL.so target=libGL.so.1
+link path=usr/lib/GL/$(ARCH64)/libGL.so.1 \
+    target=../../../../var/run/opengl/lib/$(ARCH64)/libGL.so.1
+link path=usr/lib/GL/64 target=$(ARCH64)
+link path=usr/lib/GL/libGL.so target=libGL.so.1
+link path=usr/lib/GL/libGL.so.1 target=../../../var/run/opengl/lib/libGL.so.1
+link path=usr/lib/libGL.so target=libGL.so.1
+link path=usr/lib/libGL.so.1 target=GL/libGL.so.1
+$(i386_ONLY)link path=usr/lib/xorg/modules/extensions/$(ARCH64)/libglx.so \
+    target=../../../../../../var/run/opengl/server/$(ARCH64)/libglx.so
+link path=usr/lib/xorg/modules/extensions/libglx.so \
+    target=../../../../../var/run/opengl/server/libglx.so
+# constype is required to detect which vendor_select script to run
+depend fmri=pkg:/diagnostic/constype type=require

@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=font-bh-lucidatypewriter-75dpi
 
+# Package metadata
+MODULE_LICENSE          = Bigelow & Holmes Copyright
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 

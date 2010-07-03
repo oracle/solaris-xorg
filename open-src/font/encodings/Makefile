@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=encodings
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/library/libfontenc
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 

@@ -34,9 +34,16 @@ SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2008/519  disp_switch 
+MODULE_ARC_CASES = LSARC/2008/519
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxorg-client-programs
 MODULE_STABILITY=Volatile
 
 # No configure script to run
@@ -46,5 +53,8 @@ CONFIGURE_TARGETS_SET=yes
 # Since we don't have a configure script, pass configure flags to make
 MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = dispswitch
 
 include ../Makefile.inc

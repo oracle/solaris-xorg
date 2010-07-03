@@ -26,12 +26,20 @@
 # Package name used in tarballs
 MODULE_NAME=font-bh-ttf
 
+# Package metadata
+MODULE_LICENSE          = Luxi fonts license
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
 # Checksums for upstream tarball
 TARBALL_MD5  = 664df71cb510b744b4a10e778445c37b
 TARBALL_SHA1 = 0e9ffbc738072ca832cdf5f82bff071c67b71825
+
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/font/truetype/bh-luxi
+MODULE_PKGNAME_SET=yes
 
 # Directory to install to
 MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/bh-luxi

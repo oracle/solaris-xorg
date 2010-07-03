@@ -46,9 +46,16 @@ AUTORECONF = yes
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xi
 
+# ARC cases that covered this module
+# PSARC/1992/172  X Input Extensions
+MODULE_ARC_CASES = PSARC/1992/172
+# PSARC/2009/303  X Input Extension 1.5
+MODULE_ARC_CASES += PSARC/2009/303
+# PSARC/2009/678  X Input Extension version 2.0 (XI2)
+MODULE_ARC_CASES += PSARC/2009/678
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xi
 
@@ -62,5 +69,8 @@ FIX_PC_FILES=xi.pc.in
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 MODULE_MAKEFLAGS=-j 1
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXi.so libXi.so.5
 
 include ../Makefile.inc

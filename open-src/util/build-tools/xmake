@@ -80,7 +80,7 @@ for my $n (1..$#dirtree) {
       last;
     }
   }
-  if ($dirtree[$n] eq 'closed-src') {
+  if (($dirtree[$n] eq 'pkg') || ($dirtree[$n] eq 'closed-src')) {
     if (-f File::Spec->catfile( @dirtree[0..($n-1)],
 				'open-src/common/Makefile.inc')) {
       $osdepth = $n;

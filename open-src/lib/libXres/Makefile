@@ -44,9 +44,12 @@ SOURCE_PATCHES =
 # Library name (used for specfiles/mapfiles)
 LIBNAME=XRes
 
+# ARC cases that covered this module
+# LSARC/2003/686 X-Resource Extension
+MODULE_ARC_CASES = LSARC/2003/686
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xres
 
@@ -54,5 +57,8 @@ LIB_MAN_SUFFIX=3xres
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xres.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXres.so libXres.so.1
 
 include ../Makefile.inc

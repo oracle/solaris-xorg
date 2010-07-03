@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,17 +32,34 @@ use File::stat;				# Named results from stat() function
 use English qw( -nomatchvars );
 
 my $default_logfile = 'buildit-XW';
+# Log file from new pkg(5) build (in same directory as $default_logfile)
+my $default_ips_pkglogfile = 'make-pkgs';
+# Log file from old SVR4 package build:
 my $default_logpath = 'log/' . $default_logfile;
-my $default_pkglogpath = 'proto-packages/logs/package_build';
+my $default_svr4_pkglogpath = 'proto-packages/logs/package_build';
 my $logfile;
 my $pkglog;
+my $pkglog_type;	# 'ips' or 'svr4'
 my $pkgfailed;
+my $summary_only = 0;
+
+if (defined $ARGV[0] && $ARGV[0] eq '-s') {
+  $summary_only = 1;
+  shift @ARGV;
+}
 
 if (defined $ARGV[0]) {
   if (-d $ARGV[0]) {
     $logfile = $ARGV[0] . '/' . $default_logpath;
+  } elsif ($ARGV[0] =~ m{/make-pkgs$}ms) {
+    $pkglog = $ARGV[0];
+    $pkglog_type = 'ips';
+  } elsif ($ARGV[0] =~ m{/check-pkgs$}ms) {
+    $pkglog = $ARGV[0];
+    $pkglog_type = 'validate';
   } elsif ($ARGV[0] =~ m{/package_build$}ms) {
     $pkglog = $ARGV[0];
+    $pkglog_type = 'svr4';
   } else {
     $logfile = $ARGV[0];
   }
@@ -68,6 +85,56 @@ if (defined $ARGV[0]) {
 }
 
 if (defined $logfile) {
+  my $make_errors = 0;
+  my $LOGFILE = check_make_log($logfile, \$make_errors);
+
+  print "Build errors: ", $make_errors, "\n";
+
+  my $printme = 0;
+
+  # end of file stuff
+  while (my $l = <$LOGFILE>) {
+    if ($l =~ m{^Runtime: }) {
+      print $l;
+      next;
+    }
+
+    # Look for package build results
+    if ($l =~ m{^result log is in (\S*)$}ims) {
+      $pkglog = $1;
+      if ($1 =~ m{/package_build$}ms) {
+	$pkglog_type = 'svr4';
+      } else {
+	$pkglog_type = 'ips';
+      }
+    } elsif ($l =~ m{^Packages built:}ms) {
+      print $l;
+    } elsif ($l =~ m{^Package.* failed:\s+(\d+)}ms) {
+      $pkgfailed = $1;
+      print $l;
+    }
+    # print lines where messages about COPYING file errors appear
+    # between "Copying package descriptions" & "Building packages"
+    elsif ($l =~ m{Copying package descriptions}) {
+      $printme = 1;
+    } elsif ($l =~ m{Building packages}) {
+      $printme = 0;
+    }
+    elsif ($printme == 1) {
+      print $l;
+    }
+  }
+  print "\n";
+
+  close($LOGFILE);
+}
+
+# Input: string containing name of logfile
+# Prints errors from make output log
+# Returns open log file pointer for post-processing
+sub check_make_log {
+  my ($logfile, $error_count_ref) = @_;
+
   open my $LOGFILE, '<', $logfile
     or die "Can't open '$logfile': $OS_ERROR";
 
@@ -75,6 +142,7 @@ if (defined $logfile) {
 
   my @steplines;
   my $found_error = 0;
+  my $error_count = 0;
 
   while (my $l = <$LOGFILE>) {
     # Finished if we see the end line
@@ -83,6 +151,7 @@ if (defined $logfile) {
     # Clear saved lines for each new module/subdir
     if (($l =~ m{^\#\# making \S+ in \S+\.\.\.$}ms) ||	# open-src pattern
 	($l =~ m{^dmake: Warning: Target `subdirs' not remade because of errors}ms) ||
+	($l =~ m{^\#\# [[:upper:]][[:lower:]]+ing }ms) || # pkg pattern
 	($l =~ m{^\S+ing( \S+)* in \S+\.\.\.$}ms)) {	# xc pattern
       @steplines = ();
       $found_error = 0;
@@ -103,8 +172,11 @@ if (defined $logfile) {
     next if ($l =~ m{\\\Z}ms);
 
     # Found a new error?
-    if (($l =~ m{\*\*\* }ms) || ($l =~ m{^make: Fatal error}ms)) {
+    if (($l =~ m{\*\*\* }ms) || ($l =~ m{^(d)?make: Fatal error}ms)) {
       $found_error = 1;
+      $error_count++;
+
+      next if ($summary_only);
 
       # Print section header
       print $steplines[0], "\n";
@@ -151,37 +223,11 @@ if (defined $logfile) {
     }
   }
 
-  my $printme = 0;
-
-  # end of file stuff
-  while (my $l = <$LOGFILE>) {
-    if ($l =~ m{^Runtime: }) {
-      print $l;
-      next;
-    }
-
-    # Look for package build results
-    if ($l =~ m{^result log is in (.*/package_build)$}ms) {
-      $pkglog = $1;
-    } elsif ($l =~ m{^Packages built:}ms) {
-      print $l;
-    } elsif ($l =~ m{^Packages failed:\s+(\d+)}ms) {
-      $pkgfailed = $1;
-      print $l;
-    }
-    # print lines where messages about COPYING file errors appear
-    # between "Copying package descriptions" & "Building packages"
-    elsif ($l =~ m{Copying package descriptions}) {
-      $printme = 1;
-    } elsif ($l =~ m{Building packages}) {
-      $printme = 0;
-    }
-    elsif ($printme == 1) {
-      print $l;
-    }
+  if (defined $error_count_ref) {
+    ${$error_count_ref} = $error_count;
   }
 
-  close($LOGFILE);
+  return $LOGFILE;
 }
 
 sub check_pkglog {
@@ -191,7 +237,7 @@ sub check_pkglog {
     my $logfile_sb = stat($logfile);
     my $pkglog_sb = stat($pl);
 
-    if ($logfile_sb > $pkglog_sb) {
+    if ($logfile_sb->mtime > $pkglog_sb->mtime) {
       # Haven't rebuilt packages since last build, so no point reporting errors
       undef $pl;
     }
@@ -205,42 +251,156 @@ sub check_pkglog {
 # No packaging log found in build log, try to guess where it is
 if (!defined($pkglog)) {
   my $path_to_check = $logfile;
-  $path_to_check =~ s{$default_logpath}{$default_pkglogpath}ms;
+  $path_to_check =~ s{$default_logfile}{$default_ips_pkglogfile}ms;
 
   $pkglog = check_pkglog($path_to_check);
 
-  if (!defined($pkglog)) {
+  if (defined($pkglog)) {
+    $pkglog_type = 'ips';
+  } else {
+    $pkglog_type = 'svr4';
+
     $path_to_check = $logfile;
-    $path_to_check =~ s{($default_logpath).*$}{$default_pkglogpath}ms;
+    $path_to_check =~ s{$default_logpath}{$default_svr4_pkglogpath}ms;
 
     $pkglog = check_pkglog($path_to_check);
+    if (!defined($pkglog)) {
+      $path_to_check = $logfile;
+      $path_to_check =~ s{($default_logpath).*$}{$default_svr4_pkglogpath}ms;
+
+      $pkglog = check_pkglog($path_to_check);
+    }
   }
 }
 
+
 if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
-  open my $PKGLOG, '<', $pkglog
-    or die "Can't open '$pkglog': $OS_ERROR";
+  if ($pkglog_type eq 'svr4') {
+    open my $PKGLOG, '<', $pkglog
+      or die "Can't open '$pkglog': $OS_ERROR";
 
-  my @pkglines;
+    my @pkglines;
 
-  while (my $l = <$PKGLOG>) {
-    # Clear saved lines for each new package
-    if ($l =~ m{^[*]+ Making the \S+ package [*]+$}ms) {
-      @pkglines = ();
+    while (my $l = <$PKGLOG>) {
+      # Clear saved lines for each new package
+      if ($l =~ m{^[*]+ Making the \S+ package [*]+$}ms) {
+	@pkglines = ();
+      }
+
+      # Warnings we can ignore
+      next if $l =~ m{^WARNING: parameter \<PSTAMP\> set}ms;
+      next if $l =~ m{^WARNING: parameter \<CLASSES\> set to "none"}ms;
+
+      push @pkglines, $l;
+
+      if (($l =~ m{(Packaging was not successful.|was not found ; skipping)}ms)
+	  || ($l =~ m{^WARNING: }ms)) {
+	print join('', @pkglines);
+	@pkglines = ();
+      }
+    }
+    close($PKGLOG);
+  } elsif ($pkglog_type eq 'ips') {
+    my $ips_count_errors = 0;
+    my $PKGLOG = check_make_log($pkglog, \$ips_count_errors);
+
+    seek($PKGLOG, 0, 0);  # reset to start reading from beginning of file
+
+    my $ips_count_published = 0;
+
+    while (my $l = <$PKGLOG>) {
+      if ($l =~ m{Publishing .* to proto repository}) {
+	$ips_count_published++;
+      }
     }
 
-    # Warnings we can ignore
-    next if $l =~ m{^WARNING: parameter \<PSTAMP\> set}ms;
-    next if $l =~ m{^WARNING: parameter \<CLASSES\> set to "none"}ms;
+    print "Packages published: $ips_count_published\n";
+    print "Package build errors: $ips_count_errors\n";
+  } elsif ($pkglog_type eq 'validate') { # validate_pkg
+    open my $PKGLOG, '<', $pkglog
+      or die "Can't open '$pkglog': $OS_ERROR";
 
-    push @pkglines, $l;
+    my @pkglines;
+    my $issue_count = 0;
+    my $issue_type = "";
 
-    if (($l =~ m{(Packaging was not successful.|was not found ; skipping)}ms)
-	|| ($l =~ m{^WARNING: }ms)) {
-      print join('', @pkglines);
-      @pkglines = ();
+    while (my $l = <$PKGLOG>) {
+      chomp($l);
+
+      # Clear saved lines for each new class of issue
+      if ($l =~ m{^\S+ .*:+$}ms) {
+	$issue_type = $l;
+	$issue_count = 0;
+	@pkglines = ();
+	next;
+      }
+
+      # These issues print across two lines
+      if ($issue_type eq
+	  'Entries that differ between manifests and proto area:')
+	{
+	  if ($l =~ m{^\s+manifests }) {
+	    my $l2 = <$PKGLOG>;
+	    chomp($l2);
+
+	    # strip off prefixes for comparisons
+	    my $compare1 = $l;
+	    $compare1 =~ s{^\s+manifests }{};
+	    my $compare2 = $l2;
+	    $compare2 =~ s{^\s+proto area }{};
+
+	    # Warnings we can ignore
+	    if ($compare1 =~ m{^hardlink }) {
+	      my $hl1 = $compare1;
+	      my $hl2 = $compare2;
+
+	      # validate_pkg doesn't like hardlinks to isaexec from our pkgs
+	      $hl1 =~ s{ target=usr/lib/isaexec}{};
+	      $hl2 =~ s{ target=\d+}{};
+
+	      next if ($hl1 eq $hl2);
+
+	    } elsif ($compare1 =~ m{^file }) {
+	      my $f1 = $compare1;
+	      my $f2 = $compare2;
+
+	      $f1 =~ s{^file NOHASH }{ };
+	      $f2 =~ s{^file \S+ }{ };
+
+	      # We don't expect files in proto area to be chowned/chgrped
+	      $f1 =~ s{ owner=root}{};
+	      $f2 =~ s{ owner=owner}{};
+	      $f1 =~ s{ group=\S+}{};
+	      $f2 =~ s{ group=group}{};
+
+	      # We don't expect files in proto area to be setuid/setgid
+	      if ($f1 =~ m{mode=[24]555}) {
+		$f1 =~ s{ mode=[24]555}{};
+		$f2 =~ s{ mode=0555}{};
+	      }
+
+	      next if ($f1 eq $f2);
+	    }
+
+	    $l .= "\n" . $l2 . "\n";
+	  }
+	}
+
+      if ($l =~ m{^$}) { # Blank lines separate sections
+	if ($issue_count > 0) {
+	  if ($summary_only) {
+	    print $issue_type, ' ', $issue_count, "\n";
+	  } else {
+	    print join("\n", $issue_type, '', @pkglines), "\n\n";
+	  }
+	}
+	@pkglines = ();
+      } else {
+	push @pkglines, $l;
+	$issue_count++;
+      }
+
     }
+    close($PKGLOG);
   }
-
-  close($PKGLOG);
 }

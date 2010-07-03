@@ -31,6 +31,10 @@ MODULE_NAME=libXpm
 SOURCE_TARBALL_DIR=lib
 SOURCE_TARBALL_DIR_SET=yes
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/library/libxpm
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=3.5.8
 
@@ -43,7 +47,6 @@ SOURCE_PATCHES =
 
 # man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=cxpm/cxpm.man sxpm/sxpm.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 
 INSTALL_TARGETS=install_xpm_apps
@@ -54,6 +57,9 @@ INSTALL_TARGETS_SET=yes
 
 # Undo libtool use of libXpm.la to link with
 #MODULE_BUILD_DEPS=delibtoolize
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = cxpm sxpm
 
 include ../Makefile.inc
 

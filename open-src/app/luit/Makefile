@@ -39,13 +39,27 @@ TARBALL_SHA1 = 7260feca7db48d8aa80d493b4cbcf6b7c5774d8d
 SOURCE_PATCHES = solaris-man.patch \
 	6824625.patch
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=terminal/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/System Utilities
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2008/100 luit
+MODULE_ARC_CASES = PSARC/2008/100
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Uncommitted
 
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = luit
 
 include ../Makefile.inc
 

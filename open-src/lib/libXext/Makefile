@@ -43,9 +43,20 @@ SOURCE_PATCHES = \
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xext
 
+# ARC cases that covered this module
+# PSARC 1999/188 FBPM (Frame Buffer Power Management) Extension
+MODULE_ARC_CASES = PSARC/1999/188
+# PSARC/2005/328 Xinerama Protocol Compatibility
+MODULE_ARC_CASES += PSARC/2005/328
+# PSARC/2007/500 X11 MIT-SHM Extension across zones
+MODULE_ARC_CASES += PSARC/2007/500
+# PSARC/2008/194 X11R7 update to libXext, libXevie & libXss
+MODULE_ARC_CASES += PSARC/2008/194
+# PSARC/2009/293 X Generic Event Extension (XGE), Version 1.0
+MODULE_ARC_CASES += PSARC/2009/293
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xext
 
@@ -64,6 +75,9 @@ AUTORECONF=yes
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXext.so libXext.so.0
 
 include ../Makefile.inc
 

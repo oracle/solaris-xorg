@@ -1,0 +1,147 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/server/xorg/driver/xorg-video@$(OSPKGVERS)
+set name=pkg.description \
+    value="A group package that provides all of the available Xorg video drivers for a given platform"
+set name=pkg.summary value="Xorg server video drivers group"
+set name=info.classification value=org.opensolaris.category.2008:System/X11
+legacy pkg=SUNWxorg-graphics-ddx \
+    desc="Graphics device DDX modules for X Window System server based on X.Org Foundation open source release" \
+    name="X.Org Foundation Xserver Graphics Device Modules"
+
+### Depends on packages delivering the drivers
+
+# Nvidia driver (from outside the X gate)
+$(i386_ONLY)depend fmri=pkg:/driver/graphics/nvidia type=require
+
+# Drivers from the SPARC Graphics gate
+$(sparc_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-efb type=require
+$(sparc_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-kfb type=require
+
+# driver/xf86-video-apm
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-apm \
+    type=require
+
+# driver/xf86-video-ark
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ark \
+    type=require
+
+# driver/xf86-video-ast
+depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ast type=require
+
+# driver/xf86-video-ati
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ati \
+    type=require
+
+# driver/xf86-video-chips
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-chips \
+    type=require
+
+# driver/xf86-video-cirrus
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus \
+    type=require
+
+# driver/xf86-video-glint
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-glint \
+    type=require
+
+# driver/xf86-video-i128
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-i128 \
+    type=require
+
+# driver/xf86-video-i740
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-i740 \
+    type=require
+
+# driver/xf86-video-intel
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-intel \
+    type=require
+
+# driver/xf86-video-mga
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mga \
+    type=require
+
+# driver/xf86-video-neomagic
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-neomagic \
+    type=require
+
+# driver/xf86-video-nv
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-nv type=require
+
+# driver/xf86-video-openchrome
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-openchrome \
+    type=require
+
+# driver/xf86-video-radeonhd
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-radeonhd \
+    type=require
+
+# driver/xf86-video-rendition
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-rendition \
+    type=require
+
+# driver/xf86-video-s3
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-s3 type=require
+
+# driver/xf86-video-s3virge
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-s3virge \
+    type=require
+
+# driver/xf86-video-savage
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-savage \
+    type=require
+
+# driver/xf86-video-siliconmotion
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-siliconmotion \
+    type=require
+
+# driver/xf86-video-sis
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-sis \
+    type=require
+
+# driver/xf86-video-tdfx
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-tdfx \
+    type=require
+
+# driver/xf86-video-tga
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-tga \
+    type=require
+
+# driver/xf86-video-trident
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-trident \
+    type=require
+
+# driver/xf86-video-tseng
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-tseng \
+    type=require
+
+# driver/xf86-video-vesa
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-vesa \
+    type=require
+
+# driver/xf86-video-vmware
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-vmware \
+    type=require
+
+# driver/xf86-video-wsfb
+$(sparc_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-wsfb \
+    type=require

@@ -25,6 +25,11 @@
 # Package name used in tarballs
 MODULE_NAME=libdrm
 
+# Package metadata
+UPSTREAM	= Direct Rendering Infrastructure project
+UPSTREAM_URL	= http://dri.freedesktop.org/
+UPSTREAM_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=2.4.14
 
@@ -52,7 +57,6 @@ AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man
-#SUN_PACKAGE=SUNWxorg-server
 #MODULE_STABILITY=Volatile
 #LIB_MAN_SUFFIX=3drm
 

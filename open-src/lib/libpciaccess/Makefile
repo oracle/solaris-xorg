@@ -47,9 +47,20 @@ LIBNAME=libpciaccess
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=diagnostic/scanpci
+MODULE_PKGNAME_SET=yes
+# Package classification (override default)
+MODULE_PKGCLASS=System/Hardware
+MODULE_PKGCLASS_SET=yes
+
+
+# ARC cases that covered this module
+# PSARC/2008/638  libpciaccess & scanpci 
+MODULE_ARC_CASES = PSARC/2008/638
+
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWpciaccess
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3pciaccess
 
@@ -63,6 +74,9 @@ MODULE_DEBUG_FLAGS=-DDEBUG
 MODULE_ADD_SOURCE_TARGETS = source_scanpci_man
 MODULE_ADD_INSTALL_TARGETS_32 = install_scanpci
 MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = scanpci
 
 include ../Makefile.inc
 
@@ -86,9 +100,11 @@ $(SCANPCI_MAN_OUT): $(SCANPCI_MAN_SRC)
 # We want to install scanpci, even though the upstream Makefile doesn't
 install_scanpci: default_install $(SCANPCI_MAN_OUT)
 	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR) \
+		 $(PROTODIR)/etc/security/exec_attr.d/ \
 		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
 	$(INSTALL_SCRIPT) -m 755 $(SOURCE_DIR)/src/scanpci \
 		$(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)/scanpci
 	$(INSTALL_SCRIPT) -m 444 $(SOURCE_DIR)/src/scanpci.1 \
 		$(PROTODIR)$(MODULE_PREFIX)/share/man/man1/scanpci.1
-
+	$(INSTALL_SCRIPT) -m 444 exec_attr \
+		$(PROTODIR)/etc/security/exec_attr.d/scanpci

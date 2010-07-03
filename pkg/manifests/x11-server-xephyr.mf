@@ -1,0 +1,49 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/server/xephyr@__version:xorg-server__
+set name=pkg.description \
+    value="Xephyr is a X11 server that outputs to a window on a pre-existing host X display. Think Xnest but with support for modern extensions like composite, damage and randr."
+set name=pkg.summary \
+    value="Xephyr - X server displaying to a window on a pre-existing X display"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+$(i386_ONLY)dir path=usr/bin/$(ARCH32)
+$(i386_ONLY)dir path=usr/bin/$(ARCH64)
+dir path=usr/lib
+dir path=usr/lib/mdb
+dir path=usr/lib/mdb/proc
+$(i386_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=bin
+$(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys
+$(i386_ONLY)file path=usr/bin/$(ARCH32)/Xephyr
+$(i386_ONLY)file path=usr/bin/$(ARCH64)/Xephyr
+$(sparc_ONLY)file path=usr/bin/Xephyr
+file path=usr/share/man/man1/Xephyr.1
+$(i386_ONLY)hardlink path=usr/bin/Xephyr target=../lib/isaexec
+link path=usr/X11/bin/Xephyr target=../../bin/Xephyr
+link path=usr/lib/mdb/proc/$(ARCH64)/Xephyr.so target=Xserver.so
+link path=usr/lib/mdb/proc/Xephyr.so target=Xserver.so
+depend fmri=pkg:/x11/keyboard/data-xkb type=require
+# X servers require xkbcomp & data-xkb for keyboard layouts
+depend fmri=pkg:/x11/keyboard/xkbcomp type=require
+depend fmri=pkg:/x11/server/xserver-common type=require

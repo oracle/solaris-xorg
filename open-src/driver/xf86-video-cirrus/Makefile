@@ -40,7 +40,6 @@ SOURCE_PATCHES = mapfiles.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # Paths to find libraries/modules to link with - libraries themselves listed

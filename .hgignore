@@ -12,7 +12,7 @@ open-src/tarballs
 # Skip checksum verification files for downloaded tarballs
 /\.checksum_done\.
 # Skip proto area and packages
-proto-.*
+^proto/
 # Skip build logs & reports from build cron jobs
 ^log/
 ^report/

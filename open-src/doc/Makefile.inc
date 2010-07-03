@@ -28,6 +28,10 @@ TOP=$(PWD)/../../..
 
 MODTYPE=doc
 
+# Hierarchical parent for pkg names in this area
+MODTYPE_PKGHIER=x11/documentation
+MODTYPE_PKGHIER_SET=yes
+
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 

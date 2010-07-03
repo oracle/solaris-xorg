@@ -1,0 +1,123 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxi@__version:libXi__
+set name=pkg.description \
+    value="Xlib-based client API for the X Input extension to the X11 protocol"
+set name=pkg.summary value="libXi - X Input extension client library"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/extensions
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man3xi
+file path=usr/include/X11/extensions/XInput.h
+file path=usr/include/X11/extensions/XInput2.h
+file path=usr/lib/$(ARCH64)/libXi.so.5
+file path=usr/lib/$(ARCH64)/pkgconfig/xi.pc
+file path=usr/lib/libXi.so.5
+file path=usr/lib/pkgconfig/xi.pc
+file path=usr/share/man/man3xi/XAllowDeviceEvents.3xi
+file path=usr/share/man/man3xi/XChangeDeviceControl.3xi
+file path=usr/share/man/man3xi/XChangeDeviceDontPropagateList.3xi
+file path=usr/share/man/man3xi/XChangeDeviceKeyMapping.3xi
+file path=usr/share/man/man3xi/XChangeDeviceProperty.3xi
+file path=usr/share/man/man3xi/XChangeFeedbackControl.3xi
+file path=usr/share/man/man3xi/XChangeKeyboardDevice.3xi
+file path=usr/share/man/man3xi/XChangePointerDevice.3xi
+file path=usr/share/man/man3xi/XCloseDevice.3xi
+file path=usr/share/man/man3xi/XDeleteDeviceProperty.3xi
+file path=usr/share/man/man3xi/XDeviceBell.3xi
+file path=usr/share/man/man3xi/XDeviceTimeCoord.3xi
+file path=usr/share/man/man3xi/XFreeDeviceList.3xi
+file path=usr/share/man/man3xi/XGetDeviceButtonMapping.3xi
+file path=usr/share/man/man3xi/XGetDeviceControl.3xi
+file path=usr/share/man/man3xi/XGetDeviceDontPropagateList.3xi
+file path=usr/share/man/man3xi/XGetDeviceFocus.3xi
+file path=usr/share/man/man3xi/XGetDeviceKeyMapping.3xi
+file path=usr/share/man/man3xi/XGetDeviceModifierMapping.3xi
+file path=usr/share/man/man3xi/XGetDeviceMotionEvents.3xi
+file path=usr/share/man/man3xi/XGetDeviceProperty.3xi
+file path=usr/share/man/man3xi/XGetExtensionVersion.3xi
+file path=usr/share/man/man3xi/XGetFeedbackControl.3xi
+file path=usr/share/man/man3xi/XGetSelectedExtensionEvents.3xi
+file path=usr/share/man/man3xi/XGrabDevice.3xi
+file path=usr/share/man/man3xi/XGrabDeviceButton.3xi
+file path=usr/share/man/man3xi/XGrabDeviceKey.3xi
+file path=usr/share/man/man3xi/XIChangeHierarchy.3xi
+file path=usr/share/man/man3xi/XIChangeProperty.3xi
+file path=usr/share/man/man3xi/XIDefineCursor.3xi
+file path=usr/share/man/man3xi/XIDeleteProperty.3xi
+file path=usr/share/man/man3xi/XIFreeDeviceInfo.3xi
+file path=usr/share/man/man3xi/XIGetClientPointer.3xi
+file path=usr/share/man/man3xi/XIGetFocus.3xi
+file path=usr/share/man/man3xi/XIGetProperty.3xi
+file path=usr/share/man/man3xi/XIGetSelectedEvents.3xi
+file path=usr/share/man/man3xi/XIGrabButton.3xi
+file path=usr/share/man/man3xi/XIGrabDevice.3xi
+file path=usr/share/man/man3xi/XIGrabEnter.3xi
+file path=usr/share/man/man3xi/XIGrabFocusIn.3xi
+file path=usr/share/man/man3xi/XIGrabKeycode.3xi
+file path=usr/share/man/man3xi/XIListProperties.3xi
+file path=usr/share/man/man3xi/XIQueryDevice.3xi
+file path=usr/share/man/man3xi/XIQueryPointer.3xi
+file path=usr/share/man/man3xi/XIQueryVersion.3xi
+file path=usr/share/man/man3xi/XISelectEvents.3xi
+file path=usr/share/man/man3xi/XISetClientPointer.3xi
+file path=usr/share/man/man3xi/XISetFocus.3xi
+file path=usr/share/man/man3xi/XIUndefineCursor.3xi
+file path=usr/share/man/man3xi/XIUngrabButton.3xi
+file path=usr/share/man/man3xi/XIUngrabDevice.3xi
+file path=usr/share/man/man3xi/XIUngrabEnter.3xi
+file path=usr/share/man/man3xi/XIUngrabFocusIn.3xi
+file path=usr/share/man/man3xi/XIUngrabKeycode.3xi
+file path=usr/share/man/man3xi/XIWarpPointer.3xi
+file path=usr/share/man/man3xi/XListDeviceProperties.3xi
+file path=usr/share/man/man3xi/XListInputDevices.3xi
+file path=usr/share/man/man3xi/XOpenDevice.3xi
+file path=usr/share/man/man3xi/XQueryDeviceState.3xi
+file path=usr/share/man/man3xi/XSelectExtensionEvent.3xi
+file path=usr/share/man/man3xi/XSendExtensionEvent.3xi
+file path=usr/share/man/man3xi/XSetDeviceButtonMapping.3xi
+file path=usr/share/man/man3xi/XSetDeviceFocus.3xi
+file path=usr/share/man/man3xi/XSetDeviceMode.3xi
+file path=usr/share/man/man3xi/XSetDeviceModifierMapping.3xi
+file path=usr/share/man/man3xi/XSetDeviceValuators.3xi
+file path=usr/share/man/man3xi/XUngrabDevice.3xi
+file path=usr/share/man/man3xi/XUngrabDeviceButton.3xi
+file path=usr/share/man/man3xi/XUngrabDeviceKey.3xi
+link path=usr/X11/lib/$(ARCH64)/libXi.so \
+    target=../../../lib/$(ARCH64)/libXi.so
+link path=usr/X11/lib/$(ARCH64)/libXi.so.5 \
+    target=../../../lib/$(ARCH64)/libXi.so.5
+link path=usr/X11/lib/libXi.so target=../../lib/libXi.so
+link path=usr/X11/lib/libXi.so.5 target=../../lib/libXi.so.5
+link path=usr/lib/$(ARCH64)/libXi.so target=libXi.so.5
+link path=usr/lib/libXi.so target=libXi.so.5
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

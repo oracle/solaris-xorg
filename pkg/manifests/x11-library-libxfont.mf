@@ -1,0 +1,70 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxfont@__version:libXfont__
+set name=pkg.description \
+    value="libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them.   It is used by the X servers, the X Font Server (xfs), and some font utilities (bdftopcf for instance), but should not be used by normal X11 clients.  X11 clients access fonts via either the new API's in libXft, or the legacy API's in libX11."
+set name=pkg.summary \
+    value="libXfont - library for X servers and utilities to access font files"
+dir path=etc
+dir path=etc/X11
+dir path=etc/X11/fontpath.d
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/fonts
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/lib/xorg
+dir path=usr/lib/xorg/$(ARCH64)
+file path=usr/include/X11/fonts/bdfint.h
+file path=usr/include/X11/fonts/bitmap.h
+file path=usr/include/X11/fonts/bufio.h
+file path=usr/include/X11/fonts/fntfil.h
+file path=usr/include/X11/fonts/fntfilio.h
+file path=usr/include/X11/fonts/fntfilst.h
+file path=usr/include/X11/fonts/fontconf.h
+file path=usr/include/X11/fonts/fontencc.h
+file path=usr/include/X11/fonts/fontmisc.h
+file path=usr/include/X11/fonts/fontshow.h
+file path=usr/include/X11/fonts/fontutil.h
+file path=usr/include/X11/fonts/fontxlfd.h
+file path=usr/include/X11/fonts/ft.h
+file path=usr/include/X11/fonts/ftfuncs.h
+file path=usr/include/X11/fonts/pcf.h
+file path=usr/lib/$(ARCH64)/pkgconfig/xfont.pc
+file path=usr/lib/pkgconfig/xfont.pc
+file path=usr/lib/xorg/$(ARCH64)/libXfont.so.1
+file path=usr/lib/xorg/libXfont.so.1
+link path=usr/X11/lib/$(ARCH64)/libXfont.so \
+    target=../../../lib/$(ARCH64)/libXfont.so
+link path=usr/X11/lib/$(ARCH64)/libXfont.so.1 \
+    target=../../../lib/$(ARCH64)/libXfont.so.1
+link path=usr/X11/lib/libXfont.so target=../../lib/libXfont.so
+link path=usr/X11/lib/libXfont.so.1 target=../../lib/libXfont.so.1
+link path=usr/lib/xorg/$(ARCH64)/libXfont.so target=libXfont.so.1
+link path=usr/lib/xorg/libXfont.so target=libXfont.so.1
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

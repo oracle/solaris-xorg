@@ -26,6 +26,14 @@
 # Package name used in tarballs
 MODULE_NAME=font-winitzki-cyrillic
 
+# Package metadata
+MODULE_LICENSE          = Public domain
+MODULE_LICENSE_SET      = yes
+
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGTAIL=xorg/cyrillic
+MODULE_PKGTAIL_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 

@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xstdcmap
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/colormap-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.1
 
@@ -40,7 +44,9 @@ SOURCE_PATCHES = 6661101.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xstdcmap
 
 include ../Makefile.inc

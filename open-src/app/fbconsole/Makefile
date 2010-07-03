@@ -2,7 +2,7 @@
 #
 # fbconsole Makefile
 #
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,16 @@
 # Package name used in tarballs
 MODULE_NAME=fbconsole
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=terminal/fbconsole
+MODULE_PKGNAME_SET=yes
+# Package classification (override default)
+MODULE_PKGCLASS=System/Hardware
+MODULE_PKGCLASS_SET=yes
+
+# ARC cases that covered this module
+MODULE_ARC_CASES = PSARC/1992/130 LSARC/2005/590
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -44,6 +54,9 @@ CONFIGURE_TARGETS_SET=yes
 # Since we don't have a configure script, pass configure flags to make
 MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = fbconsole
 
 include ../Makefile.inc
 

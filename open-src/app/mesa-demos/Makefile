@@ -25,6 +25,15 @@
 # Package name used in tarballs
 MODULE_NAME=MesaDemos
 
+# Package metadata
+UPSTREAM	= The Mesa 3-D Graphics Library
+UPSTREAM_URL	= http://mesa3d.org/
+UPSTREAM_SET	= yes
+
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/demo/mesa-demos
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=7.4.4
 
@@ -65,6 +74,9 @@ BUILD_TARGETS_SET=yes
 # What to install
 INSTALL_TARGETS= install_glxgears install_glxinfo install_man
 INSTALL_TARGETS_SET=yes
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = glxinfo
 
 ### Include common rulesets
 include ../Makefile.inc

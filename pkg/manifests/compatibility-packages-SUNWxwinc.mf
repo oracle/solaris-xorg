@@ -1,0 +1,122 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+# Headers are part of the developer facet
+<transform depend -> set facet.devel true>
+
+set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwinc@$(OSPKGVERS)
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 headers and developer files as the SUNWxwinc package for prior Solaris releases"
+set name=pkg.summary value="X Window System include files group"
+set name=facet.devel value=true
+set name=info.classification \
+    value=org.opensolaris.category.2008:Development/X11
+legacy pkg=SUNWxwinc \
+    desc="X Window System header & pkgconfig files needed to build software" \
+    name="X Window System include files"
+
+### Depends on packages split out of the old SVR4 versions
+
+# util/util-macros
+depend fmri=pkg:/developer/build/autoconf/xorg-macros type=require
+
+# data/xbitmaps
+depend fmri=pkg:/x11/data/xbitmaps type=require
+
+# proto/*
+depend fmri=pkg:/x11/header/x11-protocols type=require
+
+# lib/libfontenc
+depend fmri=pkg:/x11/library/libfontenc type=require
+
+# lib/libFS
+depend fmri=pkg:/x11/library/libfs type=require
+
+# lib/libICE
+depend fmri=pkg:/x11/library/libice type=require
+
+# lib/libSM
+depend fmri=pkg:/x11/library/libsm type=require
+
+# lib/libX11
+depend fmri=pkg:/x11/library/libx11 type=require
+
+# lib/libXau
+depend fmri=pkg:/x11/library/libxau type=require
+
+# lib/libXcomposite
+depend fmri=pkg:/x11/library/libxcomposite type=require
+
+# lib/libXcursor
+depend fmri=pkg:/x11/library/libxcursor type=require
+
+# lib/libXdamage
+depend fmri=pkg:/x11/library/libxdamage type=require
+
+# lib/libXdmcp
+depend fmri=pkg:/x11/library/libxdmcp type=require
+
+# lib/libXevie
+depend fmri=pkg:/x11/library/libxevie type=require
+
+# lib/libXfixes
+depend fmri=pkg:/x11/library/libxfixes type=require
+
+# lib/libXfont
+depend fmri=pkg:/x11/library/libxfont type=require
+
+# lib/libxkbfile
+depend fmri=pkg:/x11/library/libxkbfile type=require
+
+# lib/libXmu
+depend fmri=pkg:/x11/library/libxmu type=require
+depend fmri=pkg:/x11/library/libxmuu type=require
+
+# lib/libXp
+depend fmri=pkg:/x11/library/libxp type=require
+
+# lib/libXpm
+depend fmri=pkg:/x11/library/libxpm type=require
+
+# lib/libXrandr
+depend fmri=pkg:/x11/library/libxrandr type=require
+
+# lib/libXrender
+depend fmri=pkg:/x11/library/libxrender type=require
+
+# lib/libXres
+depend fmri=pkg:/x11/library/libxres type=require
+
+# lib/libXtst
+depend fmri=pkg:/x11/library/libxtst type=require
+
+# lib/libXv
+depend fmri=pkg:/x11/library/libxv type=require
+
+# lib/libXvMC
+depend fmri=pkg:/x11/library/libxvmc type=require
+
+# lib/libxtrans
+depend fmri=pkg:/x11/library/xtrans type=require
+
+# lib/libXt
+depend fmri=pkg:/x11/toolkit/libxt type=require

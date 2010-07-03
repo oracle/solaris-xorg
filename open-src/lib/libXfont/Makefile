@@ -45,9 +45,12 @@ LIBNAME=Xfont
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Project Private
 LIB_MAN_SUFFIX=3xfont
+
+# ARC cases that covered this module
+# PSARC 2003/094 Bitmap Font File Compression Formats
+MODULE_ARC_CASES = PSARC/2003/094
 
 # Additional configure script options to select the modules we use
 MODULE_CONFIG_OPTS= --enable-freetype --disable-type1 --disable-cid \
@@ -65,6 +68,9 @@ MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXfont.so libXfont.so.1
 
 include ../Makefile.inc
 

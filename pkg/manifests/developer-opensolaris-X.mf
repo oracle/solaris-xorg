@@ -1,0 +1,156 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/developer/opensolaris/X@$(OSPKGVERS)
+set name=pkg.description \
+    value="Dependencies required to build the X Consolidation."
+set name=pkg.summary \
+    value="Dependencies required to build the X Consolidation."
+set name=info.classification \
+    value="org.opensolaris.category.2008:Development/Distribution Tools"
+set name=org.opensolaris.noincorp value=true
+
+# Workaround for https://defect.opensolaris.org/bz/show_bug.cgi?id=15809
+depend fmri=pkg:/compatibility/ucb type=require
+
+# Builds need to be able to uncompress upstream tar.bz2 & tar.gz files
+depend fmri=pkg:/compress/bzip2 type=require
+depend fmri=pkg:/compress/gzip type=require
+
+# X.Org ships many docs using the DocBook SGML/XML DTD's
+depend fmri=pkg:/data/docbook type=require
+
+# Many packages need to use GNU autotools to rebuild upstream configure files
+depend fmri=pkg:/developer/build/autoconf type=require
+depend fmri=pkg:/developer/build/autogen type=require
+depend fmri=pkg:/developer/build/automake-110 type=require
+
+# Some packages need GNU make to build
+depend fmri=pkg:/developer/build/gnu-make type=require
+
+depend fmri=pkg:/developer/build/libtool type=require
+
+# Most of the X gate requires Solaris make to build
+depend fmri=pkg:/developer/build/make type=require
+
+# The X gate borrows some ON scripts to build, such as validate_pkg
+depend fmri=pkg:/developer/build/onbld type=require
+
+# Xserver build includes mdb modules
+depend fmri=pkg:/developer/debug/mdb type=require
+
+# Tools needed to process DocBook docs
+depend fmri=pkg:/developer/documentation-tool/openjade type=require
+depend fmri=pkg:/developer/documentation-tool/opensp type=require
+
+# Xserver build includes dtrace probes
+depend fmri=pkg:/developer/dtrace type=require
+
+# Some modules use gcc to build
+depend fmri=pkg:/developer/gcc-3 type=require
+
+# For now, this is the package that delivers pkg-config (Defect #15543)
+depend fmri=pkg:/developer/gnome/gettext type=require
+
+# tigervnc builds a java applet with javac
+depend fmri=pkg:/developer/java/jdk type=require
+
+depend fmri=pkg:/developer/lexer/flex type=require
+
+# Various libraries build lint libraries, that depend on system lint libs
+depend fmri=pkg:/developer/library/lint type=require
+
+# Basic build utilities - ld, ar, nm, mcs, etc.
+depend fmri=pkg:/developer/linker type=require
+depend fmri=pkg:/developer/object-file type=require
+
+# Xserver build uses flex & bison
+depend fmri=pkg:/developer/parser/bison type=require
+
+# autopoint (from gnu gettext) requires CVS!
+depend fmri=pkg:/developer/versioning/cvs type=require
+
+# OpenSolaris X gate source is kept in mercurial scm
+depend fmri=pkg:/developer/versioning/mercurial type=require
+
+# tigervnc links with libjpg
+depend fmri=pkg:/image/library/libjpeg type=require
+
+# app/xcursorgen links with libpng12
+depend fmri=pkg:/image/library/libpng type=require
+
+# synergy-plus links against libstdcxx
+depend fmri=pkg:/library/c++/stdcxx type=require
+
+# lib/fontconfig links with libexpat
+depend fmri=pkg:/library/expat type=require
+
+# AccessX & DPS require motif libraries
+depend fmri=pkg:/library/motif type=require
+
+# xterm uses ncurses/term.h
+depend fmri=pkg:/library/ncurses type=require
+
+# app/xrx needs Firefox NSPR headers
+depend fmri=pkg:/library/nspr/header-nspr type=require
+
+# libXfont & libfontenc link with libz
+depend fmri=pkg:/library/zlib type=require
+
+# Build runs a number of perl scripts
+depend fmri=pkg:/runtime/perl-584 type=require
+depend fmri=pkg:/runtime/perl-584/extra type=require
+
+# Xserver currently links with HAL & Dbus
+depend fmri=pkg:/service/hal type=require
+
+# Basic system headers & libraries
+depend fmri=pkg:/system/header type=require
+$(i386_ONLY)depend fmri=pkg:/system/header/header-agp type=require
+depend fmri=pkg:/system/header/header-audio type=require
+depend fmri=pkg:/system/header/header-usb type=require
+depend fmri=pkg:/system/library type=require
+depend fmri=pkg:/system/library/c++/sunpro type=require
+depend fmri=pkg:/system/library/flex-runtime type=require
+depend fmri=pkg:/system/library/gcc-3-runtime type=require
+depend fmri=pkg:/system/library/libdbus type=require
+depend fmri=pkg:/system/library/math type=require
+depend fmri=pkg:/system/library/math/header-math type=require
+
+depend fmri=pkg:/text/doctools type=require
+
+# Some packages need GNU gettext to process upstream localization data
+depend fmri=pkg:/text/gnu-gettext type=require
+
+# Builds need to be able to apply local patches
+depend fmri=pkg:/text/gnu-patch type=require
+
+# Some X.Org packages use groff to transform their old troff docs to HTML
+depend fmri=pkg:/text/groff type=require
+
+# app/xrx needs Firefox plugin headers
+depend fmri=pkg:/web/browser/firefox type=require
+
+# docbook2txt uses lynx to translate html docs to text during the build
+depend fmri=pkg:/web/browser/lynx type=require
+
+# Builds need to be able to download upstream sources with wget
+depend fmri=pkg:/web/wget type=require

@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=libXt
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/toolkit/libxt
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.8
 
@@ -47,15 +51,16 @@ DELIBTOOLIZE=yes
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xt
 
+# ARC cases that covered this module
+# PSARC/1997/141 Sym links needed in /usr/lib for SPARC ABI compliance
+MODULE_ARC_CASES = PSARC/1997/141
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 MODULE_MTLEVEL=See XtToolkitThreadInitialize(3XT)
 MODULE_MTLEVEL_SET=yes
 LIB_MAN_SUFFIX=3xt
-
-
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xt.pc.in
@@ -65,13 +70,16 @@ FIX_PC_FILES=xt.pc.in
 # then the loader can't find them.  It complains silently.
 MODULE_CFLAGS = -DGETVALUES_BUG -xinline=no%_XtAppCreateShell,no%XtAppNextEvent,no%XtAppProcessEvent
 
-# Install additional links to libXt that we include in our packages
+# Extra links to libXt for compatibility with SVID / SPARC ABI / etc.
+EXTRA_LINKS = libXt.so.5
 MODULE_ADD_INSTALL_TARGETS = install_extra_links
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXt.so libXt.so.4 $(EXTRA_LINKS)
 
 include ../Makefile.inc
 
-# Extra links to libXt for compatibility with SVID / SPARC ABI / etc.
-EXTRA_LINKS = libXt.so.5
+# Install additional links to libXt that we include in our packages
 EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
 
 $(EXTRA_PROTO_LINKS): $(INSTALL_DEPS)

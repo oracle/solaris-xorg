@@ -38,9 +38,19 @@ TARBALL_SHA1 = 16b377c76a4a010200063a056e7a5e244ab6ff00
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2008/048  xprop -set 
+MODULE_ARC_CASES = LSARC/2008/048
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xprop
 
 include ../Makefile.inc

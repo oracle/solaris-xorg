@@ -24,6 +24,13 @@
 
 MODULE_NAME=rasterfile
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/header/rasterfile
+MODULE_PKGNAME_SET=yes
+# Package classification (override default)
+MODULE_PKGCLASS=Development/X11
+MODULE_PKGCLASS_SET=yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE

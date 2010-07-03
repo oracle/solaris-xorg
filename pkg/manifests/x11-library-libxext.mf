@@ -1,0 +1,143 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxext@__version:libXext__
+set name=pkg.description \
+    value="Xlib-based client API for a number of common extensions to the X11 protocol, including SHAPE, MIT-SHM, DPMS, Sync, GenericEvent and more.   Also includes common extension framework used by other Xlib-based extension libraries."
+set name=pkg.summary \
+    value="libXext - X11 protocol common extensions client library"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/extensions
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man3xext
+file path=usr/include/X11/extensions/MITMisc.h
+file path=usr/include/X11/extensions/XEVI.h
+file path=usr/include/X11/extensions/XLbx.h
+file path=usr/include/X11/extensions/XShm.h
+file path=usr/include/X11/extensions/Xag.h
+file path=usr/include/X11/extensions/Xcup.h
+file path=usr/include/X11/extensions/Xdbe.h
+file path=usr/include/X11/extensions/Xext.h
+file path=usr/include/X11/extensions/Xge.h
+file path=usr/include/X11/extensions/dpms.h
+file path=usr/include/X11/extensions/extutil.h
+file path=usr/include/X11/extensions/multibuf.h
+file path=usr/include/X11/extensions/security.h
+file path=usr/include/X11/extensions/shape.h
+file path=usr/include/X11/extensions/sync.h
+file path=usr/include/X11/extensions/xinerama.h
+file path=usr/include/X11/extensions/xtestext1.h
+file path=usr/lib/$(ARCH64)/libXext.so.0
+file path=usr/lib/$(ARCH64)/llib-lXext.ln
+file path=usr/lib/$(ARCH64)/pkgconfig/xext.pc
+file path=usr/lib/libXext.so.0
+file path=usr/lib/llib-lXext.ln
+file path=usr/lib/pkgconfig/xext.pc
+file path=usr/share/man/man3xext/DBE.3xext
+file path=usr/share/man/man3xext/DPMSCapable.3xext
+file path=usr/share/man/man3xext/DPMSDisable.3xext
+file path=usr/share/man/man3xext/DPMSEnable.3xext
+file path=usr/share/man/man3xext/DPMSForceLevel.3xext
+file path=usr/share/man/man3xext/DPMSGetTimeouts.3xext
+file path=usr/share/man/man3xext/DPMSGetVersion.3xext
+file path=usr/share/man/man3xext/DPMSInfo.3xext
+file path=usr/share/man/man3xext/DPMSQueryExtension.3xext
+file path=usr/share/man/man3xext/DPMSSetTimeouts.3xext
+file path=usr/share/man/man3xext/XReadScreen.3xext
+file path=usr/share/man/man3xext/XShape.3xext
+file path=usr/share/man/man3xext/XShapeCombineMask.3xext
+file path=usr/share/man/man3xext/XShapeCombineRectangles.3xext
+file path=usr/share/man/man3xext/XShapeCombineRegion.3xext
+file path=usr/share/man/man3xext/XShapeCombineShape.3xext
+file path=usr/share/man/man3xext/XShapeGetRectangles.3xext
+file path=usr/share/man/man3xext/XShapeInputSelected.3xext
+file path=usr/share/man/man3xext/XShapeOffsetShape.3xext
+file path=usr/share/man/man3xext/XShapeQueryExtension.3xext
+file path=usr/share/man/man3xext/XShapeQueryExtents.3xext
+file path=usr/share/man/man3xext/XShapeQueryVersion.3xext
+file path=usr/share/man/man3xext/XShapeSelectInput.3xext
+file path=usr/share/man/man3xext/XShm.3xext
+file path=usr/share/man/man3xext/XShmAttach.3xext
+file path=usr/share/man/man3xext/XShmCreateImage.3xext
+file path=usr/share/man/man3xext/XShmCreatePixmap.3xext
+file path=usr/share/man/man3xext/XShmDetach.3xext
+file path=usr/share/man/man3xext/XShmGetEventBase.3xext
+file path=usr/share/man/man3xext/XShmGetImage.3xext
+file path=usr/share/man/man3xext/XShmPixmapFormat.3xext
+file path=usr/share/man/man3xext/XShmPutImage.3xext
+file path=usr/share/man/man3xext/XShmQueryExtension.3xext
+file path=usr/share/man/man3xext/XShmQueryVersion.3xext
+file path=usr/share/man/man3xext/XSolarisOvlCopyAreaAndPaintType.3xext
+file path=usr/share/man/man3xext/XSolarisOvlCopyPaintType.3xext
+file path=usr/share/man/man3xext/XSolarisOvlCreateWindow.3xext
+file path=usr/share/man/man3xext/XSolarisOvlGetPaintType.3xext
+file path=usr/share/man/man3xext/XSolarisOvlIsOverlayWindow.3xext
+file path=usr/share/man/man3xext/XSolarisOvlSelectPair.3xext
+file path=usr/share/man/man3xext/XSolarisOvlSelectPartner.3xext
+file path=usr/share/man/man3xext/XSolarisOvlSetPaintType.3xext
+file path=usr/share/man/man3xext/XSolarisOvlSetWindowTransparent.3xext
+file path=usr/share/man/man3xext/XcupGetReservedColormapEntries.3xext
+file path=usr/share/man/man3xext/XcupQueryVersion.3xext
+file path=usr/share/man/man3xext/XcupStoreColors.3xext
+file path=usr/share/man/man3xext/XdbeAllocateBackBufferName.3xext
+file path=usr/share/man/man3xext/XdbeBeginIdiom.3xext
+file path=usr/share/man/man3xext/XdbeDeallocateBackBufferName.3xext
+file path=usr/share/man/man3xext/XdbeEndIdiom.3xext
+file path=usr/share/man/man3xext/XdbeFreeVisualInfo.3xext
+file path=usr/share/man/man3xext/XdbeGetBackBufferAttributes.3xext
+file path=usr/share/man/man3xext/XdbeGetVisualInfo.3xext
+file path=usr/share/man/man3xext/XdbeQueryExtension.3xext
+file path=usr/share/man/man3xext/XdbeSwapBuffers.3xext
+file path=usr/share/man/man3xext/Xevi.3xext
+file path=usr/share/man/man3xext/XeviGetVisualInfo.3xext
+file path=usr/share/man/man3xext/XeviQueryExtension.3xext
+file path=usr/share/man/man3xext/XeviQueryVersion.3xext
+file path=usr/share/man/man3xext/Xmbuf.3xext
+file path=usr/share/man/man3xext/XmbufChangeBufferAttributes.3xext
+file path=usr/share/man/man3xext/XmbufChangeWindowAttributes.3xext
+file path=usr/share/man/man3xext/XmbufCreateBuffers.3xext
+file path=usr/share/man/man3xext/XmbufCreateStereoWindow.3xext
+file path=usr/share/man/man3xext/XmbufDestroyBuffers.3xext
+file path=usr/share/man/man3xext/XmbufDisplayBuffers.3xext
+file path=usr/share/man/man3xext/XmbufGetBufferAttributes.3xext
+file path=usr/share/man/man3xext/XmbufGetScreenInfo.3xext
+file path=usr/share/man/man3xext/XmbufGetVersion.3xext
+file path=usr/share/man/man3xext/XmbufGetWindowAttributes.3xext
+file path=usr/share/man/man3xext/XmbufQueryExtension.3xext
+link path=usr/X11/lib/$(ARCH64)/libXext.so \
+    target=../../../lib/$(ARCH64)/libXext.so
+link path=usr/X11/lib/$(ARCH64)/libXext.so.0 \
+    target=../../../lib/$(ARCH64)/libXext.so.0
+link path=usr/X11/lib/libXext.so target=../../lib/libXext.so
+link path=usr/X11/lib/libXext.so.0 target=../../lib/libXext.so.0
+link path=usr/lib/$(ARCH64)/libXext.so target=libXext.so.0
+link path=usr/lib/libXext.so target=libXext.so.0
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

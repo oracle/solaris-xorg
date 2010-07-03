@@ -31,6 +31,13 @@ MODTYPE=font
 
 include $(TOP)/open-src/common/Makefile.init
 
+# Default package name for TrueType font packages
+MODTYPE_PKGHIER=system/font/truetype
+MODTYPE_PKGHIER_SET=yes
+MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL=$(TTF_SUBDIR)
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL_SET=yes
+
 # No configure script to run
 CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes

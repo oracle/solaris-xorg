@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=installalias
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/font-utilities
+MODULE_PKGNAME_SET=yes
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -36,7 +40,6 @@ ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwfsw
 MODULE_STABILITY="Consolidation Private"
 
 # No configure script to run

@@ -1,0 +1,226 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwplt@$(OSPKGVERS)
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwplt and SUNWxorg-client-programs packages for prior Solaris releases"
+set name=pkg.summary \
+    value="X Window System core client libraries and applications group"
+set name=info.classification value=org.opensolaris.category.2008:System/X11
+legacy pkg=SUNWxorg-client-programs \
+    desc="X Window System client programs based on X.Org Foundation open source release" \
+    name="X.Org Foundation X Client Programs"
+legacy pkg=SUNWxorg-clientlibs \
+    desc="X Window System client libraries based on X.Org Foundation open source release" \
+    name="X.Org Foundation X Client Libraries"
+legacy pkg=SUNWxwplt \
+    desc="X Window System platform software (required & common client libraries and applications)" \
+    name="X Window System platform software"
+
+### Depends on packages split out of the old SVR4 versions
+
+# app/x11perf
+depend fmri=pkg:/benchmark/x11perf type=require
+
+# app/constype
+depend fmri=pkg:/diagnostic/constype type=require
+
+# app/kbd_mode
+depend fmri=pkg:/system/keyboard/kbd_mode type=require
+
+# app/fbconsole
+depend fmri=pkg:/terminal/fbconsole type=require
+
+# app/luit
+depend fmri=pkg:/terminal/luit type=require
+
+# app/xterm
+depend fmri=pkg:/terminal/xterm type=require
+
+# app/xcalc
+depend fmri=pkg:/x11/accessory/xcalc type=require
+
+# data/workspace-patterns
+depend fmri=pkg:/x11/data/workspace-patterns type=require
+
+# data/xbitmaps
+depend fmri=pkg:/x11/data/xbitmaps type=require
+
+# app/xlogo
+depend fmri=pkg:/x11/demo type=require
+
+# app/xdpyinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xvinfo, xwininfo
+depend fmri=pkg:/x11/diagnostic/x11-info-clients type=require
+
+# app/bdftopcf
+depend fmri=pkg:/x11/font-utilities type=require
+
+# app/setxkbmap, xkbprint, xkbutils
+depend fmri=pkg:/x11/keyboard/xkb-utilities type=require
+
+# lib/DPS
+depend fmri=pkg:/x11/library/dps type=require
+
+# lib/libdga
+depend fmri=pkg:/x11/library/libdga type=require
+
+# lib/libFS
+depend fmri=pkg:/x11/library/libfs type=require
+
+# lib/libSM
+depend fmri=pkg:/x11/library/libsm type=require
+
+# lib/libX11
+depend fmri=pkg:/x11/library/libx11 type=require
+
+# lib/libXau
+depend fmri=pkg:/x11/library/libxau type=require
+
+# lib/libXcomposite
+depend fmri=pkg:/x11/library/libxcomposite type=require
+
+# lib/libXcursor
+depend fmri=pkg:/x11/library/libxcursor type=require
+
+# lib/libXdamage
+depend fmri=pkg:/x11/library/libxdamage type=require
+
+# lib/libXdmcp
+depend fmri=pkg:/x11/library/libxdmcp type=require
+
+# lib/libXevie
+depend fmri=pkg:/x11/library/libxevie type=require
+
+# lib/libXext
+depend fmri=pkg:/x11/library/libxext type=require
+
+# lib/libXfixes
+depend fmri=pkg:/x11/library/libxfixes type=require
+
+# lib/libXi
+depend fmri=pkg:/x11/library/libxi type=require
+
+# lib/libXinerama
+depend fmri=pkg:/x11/library/libxinerama type=require
+
+# lib/libxkbfile
+depend fmri=pkg:/x11/library/libxkbfile type=require
+
+# lib/libXmu
+depend fmri=pkg:/x11/library/libxmu type=require
+depend fmri=pkg:/x11/library/libxmuu type=require
+
+# lib/libXp
+depend fmri=pkg:/x11/library/libxp type=require
+
+# lib/libXpm
+depend fmri=pkg:/x11/library/libxpm type=require
+
+# lib/libXrandr
+depend fmri=pkg:/x11/library/libxrandr type=require
+
+# lib/libXrender
+depend fmri=pkg:/x11/library/libxrender type=require
+
+# lib/libXres
+depend fmri=pkg:/x11/library/libxres type=require
+
+# lib/libXScrnSaver
+depend fmri=pkg:/x11/library/libxscrnsaver type=require
+
+# lib/libXtst
+depend fmri=pkg:/x11/library/libxtst type=require
+
+# lib/libXv
+depend fmri=pkg:/x11/library/libxv type=require
+
+# lib/libXvMC
+depend fmri=pkg:/x11/library/libxvmc type=require
+
+# lib/libXxf86misc
+depend fmri=pkg:/x11/library/libxxf86misc type=require
+
+# lib/libXxf86vm
+depend fmri=pkg:/x11/library/libxxf86vm type=require
+
+# lib/libxtrans
+depend fmri=pkg:/x11/library/xtrans type=require
+
+# app/rstart
+depend fmri=pkg:/x11/network/rstart type=require
+
+# app/sessreg
+depend fmri=pkg:/x11/session/sessreg type=require
+
+# app/smproxy
+depend fmri=pkg:/x11/session/smproxy type=require
+
+# app/winsysck
+depend fmri=pkg:/x11/session/winsysck type=require
+
+# app/mkcookie, xauth
+depend fmri=pkg:/x11/session/xauth type=require
+
+# app/xinit
+depend fmri=pkg:/x11/session/xinit type=require
+
+# lib/libXaw4
+depend fmri=pkg:/x11/toolkit/libxaw4 type=require
+
+# lib/libXaw5
+depend fmri=pkg:/x11/toolkit/libxaw5 type=require
+
+# lib/libXaw
+depend fmri=pkg:/x11/toolkit/libxaw7 type=require
+
+# lib/libXt
+depend fmri=pkg:/x11/toolkit/libxt type=require
+
+# lib/libXtsol
+depend fmri=pkg:/x11/trusted/libxtsol type=require
+
+# app/cmap_alloc, cmap_compact, xstdcmap
+depend fmri=pkg:/x11/utility/colormap-utilities type=require
+
+# app/rgb, xgamma, xhost, xinput, xmodmap, xprop, xrandr, xrdb
+# xrefresh, xset, xsetroot
+depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+
+# app/xpr, xwd, xwud
+depend fmri=pkg:/x11/utility/x11-window-dump type=require
+
+# app/xfd
+depend fmri=pkg:/x11/utility/xfd type=require
+
+# app/xkill
+depend fmri=pkg:/x11/utility/xkill type=require
+
+# app/xlock
+depend fmri=pkg:/x11/utility/xlock type=require
+
+# app/xmag
+depend fmri=pkg:/x11/utility/xmag type=require
+
+# app/xvidtune
+depend fmri=pkg:/x11/utility/xvidtune type=require
+
+# app/fslsfonts, fstobdf, showfont, xfsinfo
+depend fmri=pkg:/x11/xfs/xfs-utilities type=require

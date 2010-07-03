@@ -40,7 +40,6 @@ SOURCE_PATCHES = 6370961.patch xf86LoaderReqSymLists.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # vmwarevideo code won't build with Sun compiler

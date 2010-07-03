@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=xload
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=diagnostic/xload
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/System Utilities
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 
@@ -41,13 +49,15 @@ SOURCE_PATCHES = patch.xload
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # Specify which cpp to use instead of depending on builder's $PATH
 MODULE_CONFIG_OPTS = --with-cpp=/usr/lib/cpp
 
 MODULE_ADD_INSTALL_TARGETS=install_po
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xload
 
 include ../Makefile.inc
 

@@ -21,10 +21,16 @@ For each module, at build time the tarball is unpacked, patches applied for
 post-release bug fixes or customizations, and then the build is run.
 
 To allow building both 32-bit and 64-bit versions in the same build,
-this all happens in subdirectories named build_32 & build_64 in each
-modules' directory.   Since those subdirectories are competely recreatable
-from the source tarball and patches, rebuilding the tree or running make clean
-simply removes them entirely and recreates them.
+and building both sparc and x86 versions in the same tree, this all 
+happens in subdirectories named build-amd64, build-i386, build-sparc,
+and build-sparcv9 in each modules' directory.   Since those subdirectories
+are competely recreatable from the source tarball and patches, rebuilding the
+tree or running make clean simply removes them entirely and recreates them.
+Note that some modules, especially the fonts, use different build-* patterns
+for the variants they build, and thus trying to have both sparc & x86 
+platforms building in the same directory at the same time will likely fail
+as they stomp on each other in those directories.  Running one build then
+the other should work.
 
 You should be able to run make commands in any module directory or
 module-type directory, though since most of the intermodule dependencies 
@@ -89,7 +95,14 @@ make regen-patches
 	and line offsets.
 
 make git-update
-	See "Building from git" section below. 
+	See "Building from git" section below.
+
+make manifest
+	Run the make install rules with DESTDIR set to a temporary directory, 
+	and then generate a pkg manifest in pkg/manifests/$(MODULE_PKGNAME).mf
+	that includes all the installed files.   If a manifest already exists
+	there, this merges changes with the existing manifest so that you can
+	update when upgrading to a new upstream release.
 
 =============================================================================
 
@@ -141,18 +154,14 @@ MODULE_NAME
 
 MODULE_VERSION
  - Version of the source to use, used by default in the tarball name and
-   source directory unpacked from it.
+   source directory unpacked from it.   Also exported to the package 
+   attributes as __version:$(MODULE_NAME)__ for use in package manifests.
    - Special values:  
 	"git" - see "Building from git" below
         "src" - used when there is no upstream tarball, only local sources
 	"NONE" - used when no build_* directories are created
 
 Required for some modules:
-
-SUN_PACKAGE
- - Package name that this module is shipped in, to list in attributes section
-   of man page
- * Required if SUNTOUCHED_MANPAGES is not empty
 
 MODULE_STABILITY
  - Interface Stability to list in attributes section of man page
@@ -192,6 +201,11 @@ MODULE_SUNTOUCH_MAN_FLAGS
       -a '{attribute, value}, ...' - entries for Attributes section table
       -l libname                   - add library line to synopsis
       -p path                      - add path to command in synopsis
+
+MODULE_ARC_CASES
+ - ARC cases that covered this module, both for future reference by engineers
+   and for publication in opensolaris.arc_url metadata attributes in packages.
+   Must be in the format "ARC/year/case", such as "PSARC/2004/187".
 
 FIX_PC_FILES
  - Names of pkgconfig .pc or .pc.in files in the module, which will be
@@ -280,14 +294,13 @@ MODULE_INSTALL_MAKEFLAGS
  - Additional command line arguments passed when calling make
    by default_install
 
-EXTRA_LICENSES
- - Additional files containing copyright & license information for this module,
-   beyond what's in LICENSE_FILE, such as subsets for specific packages.
-   Will be copied under their own names to $(PROTODIR)/licenses/<path>/
-   for use by include statements in package copyright.add files, where
-   path is the same as the directory & subdirectory the module source is in.
-   Files are looked for relative to module directory, include $(SOURCE_DIR)/
-   in the filename to look relative to the top-level source directory.
+MODULE_X11_BINCOMPAT_LINKS
+MODULE_X11_LIBCOMPAT_LINKS
+ - For binaries previously delivered in /usr/X11/bin or libraries previously
+   delivered in /usr/X11/lib (or their /usr/openwin predecessors), set these
+   to the basenames of files to link from each of those directories to 
+   /usr/lib & /usr/bin.   For libraries, be sure to include both the .so and
+   the .so.* names, if both are still delivered.
 
 Optional, with non-empty default:
 
@@ -297,6 +310,30 @@ Optional, with non-empty default:
   example:
 	SOURCE_URL=http://fontconfig.org/release/$(SOURCE_TARBALL_NAME)
 	SOURCE_URL_SET=yes
+
+MODULE_PKGNAME
+ - IPS/pkg(5) package name that this module is shipped in.  Used in 
+   attributes section of man page, when generating manifests, and for
+   delivering license and other metadata from the build to the package.
+   Default: $(MODTYPE_PKGHIER)/$(MODULE_NAME), translated to lowercase
+
+MODULE_PKGCLASS
+ - IPS/pkg(5) package classification that the package should be listed
+   under in the Package Manager GUI.   Must be one of the values defined
+   by the GUI, which are listed in src/gui/data/opensolaris.org.sections
+   in the pkg gate.  Published in package metadata as the info.classification
+   tag for the package.
+   Default: System/X11
+
+UPSTREAM
+ - Name of the upstream source of this module, or "NONE"
+   Published in package metadata as the info.upstream tag for the package.
+   Default: X.Org Foundation
+
+UPSTREAM_URL
+ - URL of the web site of the  upstream source of this module
+   Published in package metadata as the info.upstream_url tag for the package.
+   Default: http://www.x.org/
 
 MODULE_COMPILER
  - Compiler to use, either "suncc" or "gcc".   
@@ -310,6 +347,11 @@ MODULE_MAKE
 MODULE_PREFIX
  - Prefix to install files under, passed to configure scripts via --prefix.
    Default: $(X11_DIR) (aka /usr).
+
+MODULE_DOC_DIR
+ - Directory to install documentation under
+   Default: $(MODTYPE_DOC_DIR) if it is set, otherwise
+	    $(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
 
 SOURCE_DIRNAME
  - Directory that will be created when the source tarball is unpacked.
@@ -328,6 +370,7 @@ SOURCE_TARBALL_DIR
 
 SOURCE_URL
  - URL to download the SOURCE_TARBALL from when running "make download"
+   Published in package metadata as the info.source_url tag for the package.
    Default: $(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
 GIT_URL
@@ -359,12 +402,19 @@ AUTOCONF_TARGET
 
 LICENSE_FILE
  - File containing copyright & license information for this module.
-   Will be copied to $(PROTODIR)/licenses/<path>/COPYING
-   for use by include statements in package copyright.add files, where
-   path is the same as the directory & subdirectory the module source is in.
+   Will be copied to $(MODULE_PKG_METADATA_DIR) and added as a license
+   action to the package.
    File is looked for first in module directory, if not found there,
    in top-level source directory (SOURCE_DIR).
    Default: COPYING
+
+MODULE_LICENSE
+ - Name of the license.   See the "license" attribute in pkg(5) for details.
+   Must be unique for each license aggregated into a package, so if two 
+   upstream modules with different license texts are delivered into the
+   same package, they cannot both have the license name "MIT License", which
+   is why our default string includes the package name to disambiguate.
+   Default: MIT License ($(MODULE_NAME))
 
 MODULE_MTLEVEL
  - For modules in the lib directory, Multi-thread safety level to list in
@@ -418,6 +468,7 @@ Optional, with non-empty default:
 [See note in module variable section about setting _SET variables to override]
 
 	- MODTYPE_COMPILER
+	- MODTYPE_DOC_DIR
 	- MODTYPE_MAKE
 	- MODTYPE_PREFIX
 
@@ -463,10 +514,14 @@ find-build-errors - looks for a log/buildit-XW file (or another file you
 	If you did buildit -p, also shows packaging errors.
 
 xmake - when you change one file in a large module like xserver and just
-	want to rebuild in that subdirectory of the build_32 or build_64
+	want to rebuild in that subdirectory of the build-<platform>
 	tree, running xmake will attempt to run make or gmake in that
 	directory with the same flags and environment variables that would
 	be passed from running make in the module make directory
+
+	xmake can also be used in higher level directories of the tree
+	where it will call dmake with the correct options for parallel
+	builds.
 
 =============================================================================
 
@@ -494,12 +549,10 @@ Known deficiencies (aka TODO):
 
 Things we should fix someday, but haven't had time to do yet, include:
 
-- Builds are slow.   Painfully slow.   Things we might be able to do to
+- Builds are slower than they could be.   Things we might be able to do to
   speed them up include:
 	- Using a cache of configure script results shared among all the
 	  components in the tree
-	- Setting up proper parallel make rules so that multi-core/cpu
-	  machines can build more than one bit at a time.
 	- Profiling the builds to see where bottlenecks are
 
 - There aren't dependency relationships listed in most of the module
@@ -513,7 +566,7 @@ Things we should fix someday, but haven't had time to do yet, include:
 
 =============================================================================
 
-Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

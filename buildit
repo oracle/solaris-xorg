@@ -37,20 +37,24 @@ PATH=/usr/bin:${PATH}:/usr/sbin
 export PATH
 
 MAKE_PKGS=0
-VERBOSE_FLAGS=""	# verbosity flags passed to xmake
+VERBOSE_FLAGS=""	# verbosity flag passed to xmake/make_release_packages
+PUBLISHER_FLAGS=""
 
-set -- $(getopt pv $*)
-if [ $? != 0 ] ; then
-    print -u2 USAGE: $0 [-p] [-v]
-    exit 2
-fi
-
-for i in $* ; do 
+while getopts pP:v i; do
     case $i in
-	-p)     MAKE_PKGS=1; shift;;
-	-v)     VERBOSE_FLAGS="-v"; shift;;
+	p) MAKE_PKGS=1 ;;
+	v) VERBOSE_FLAGS="-v" ;;
+	P) PUBLISHER_FLAGS="-p $OPTARG" ;;
+	?) print -u2 "USAGE: $0 [-p [-P publisher]] [-v]"; exit 2 ;;
     esac
 done
+
+shift $(($OPTIND-1))
+
+if [[ $? != 0 ]] ; then
+    print -u2 "USAGE: $0 [-p [-P publisher]] [-v]"
+    exit 2
+fi
 
 [ -d log ] || mkdir log
 
@@ -59,7 +63,14 @@ exec > log/buildit-XW 2>&1
 
 # Find hg id and export it so set-elf-comments.pl doesn't have to re-run
 # for every module built
-export XBUILD_HG_ID="$(hg id)"
+hg_id() {
+    hg id -it | read rev tag
+    case "${tag}" in
+        tip)	print "${rev}" ;;
+        *)	print "${tag}" ;;
+    esac
+}
+export XBUILD_HG_ID="$(hg_id)"
 
 START="$(perl -e 'print time')"
 
@@ -83,13 +94,20 @@ env
 print "------------------------------------------------------------------------------"
 
 MACH="$(uname -p)"
+
+# Remove old proto area & package area to clean after moving to new locations
 if [ "${MACH}" = "i386" ]; then
     /bin/rm -rf proto-i386-svr4
 else
     /bin/rm -rf proto-sun4-svr4
 fi
+/bin/rm -rf proto-packages
 
-XMAKE="$(pwd)/open-src/util/build-tools/xmake -k ${VERBOSE_FLAGS}"
+# Clean new proto areas for this architecture
+/bin/rm -rf "proto/root_${MACH}" "proto/metadata_${MACH}" \
+    "proto/pkg_${MACH}" "proto/tools_${MACH}"
+
+XMAKE="$(pwd)/open-src/util/build-tools/xmake ${VERBOSE_FLAGS} -k"
 
 cd open-src
 # Run as two steps to avoid race between cleaning & rebuilding when
@@ -105,5 +123,5 @@ perl -e '$runtime = time - $ARGV[0];
 	"${START}"
 
 if [ "${MAKE_PKGS}" = 1 ] ; then
-    ./make_release_packages
+    ./make_release_packages ${PUBLISHER_FLAGS} ${VERBOSE_FLAGS}
 fi

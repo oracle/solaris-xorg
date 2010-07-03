@@ -31,6 +31,19 @@ MODTYPE=proto
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 
+# Default package name for X11 protocol header packages
+MODTYPE_PKGHIER=x11/header
+MODTYPE_PKGHIER_SET=yes
+MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL=x11-protocols
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL_SET=yes
+
+
+# Package classification - must be a valid value recognized by pkg gui
+MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=Development/X11
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS_SET=yes
+
 # Most proto modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
 

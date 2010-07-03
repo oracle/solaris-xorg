@@ -40,7 +40,6 @@ SOURCE_PATCHES = 6452329.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-graphics-ddx
 MODULE_STABILITY=Volatile
 
 # Temporarily revert to gcc until the complier problem is fixed

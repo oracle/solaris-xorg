@@ -1,0 +1,85 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/system/font/truetype/dejavu@__version:dejavu-fonts-ttf__
+set name=pkg.description \
+    value="The DejaVu fonts are a TrueType font family based on the Vera Fonts. Its purpose is to provide a wider range of characters while maintaining the original look and feel through the process of collaborative development under a Free license."
+set name=pkg.summary value="DejaVu fonts"
+dir path=etc
+dir path=etc/X11
+dir path=etc/X11/fontpath.d
+dir path=etc/fonts
+dir path=etc/fonts/conf.avail
+dir path=etc/fonts/conf.d
+dir path=usr
+dir path=usr/share
+dir path=usr/share/fonts
+dir path=usr/share/fonts/TrueType
+dir path=usr/share/fonts/TrueType/dejavu
+file path=etc/fonts/conf.avail/20-unhint-small-dejavu-sans-mono.conf
+file path=etc/fonts/conf.avail/20-unhint-small-dejavu-sans.conf
+file path=etc/fonts/conf.avail/20-unhint-small-dejavu-serif.conf
+file path=etc/fonts/conf.avail/57-dejavu-sans-mono.conf
+file path=etc/fonts/conf.avail/57-dejavu-sans.conf
+file path=etc/fonts/conf.avail/57-dejavu-serif.conf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-Bold.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-BoldOblique.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-ExtraLight.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-Oblique.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSans.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansCondensed-Bold.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansCondensed-Oblique.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansCondensed.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansMono-Bold.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansMono-BoldOblique.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansMono-Oblique.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSansMono.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerif-Bold.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerif-BoldItalic.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerif-Italic.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerif.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerifCondensed-Bold.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerifCondensed-Italic.ttf
+file path=usr/share/fonts/TrueType/dejavu/DejaVuSerifCondensed.ttf
+file path=usr/share/fonts/TrueType/dejavu/LICENSE
+file path=usr/share/fonts/TrueType/dejavu/README
+file path=usr/share/fonts/TrueType/dejavu/fonts.dir
+file path=usr/share/fonts/TrueType/dejavu/fonts.scale
+legacy pkg=SUNWttf-dejavu \
+    desc="TrueType font files for the DejaVu family of open source fonts" \
+    name="DejaVu fonts"
+link path=etc/X11/fontpath.d/dejavu:pri=42 \
+    target=../../../usr/share/fonts/TrueType/dejavu
+link path=etc/fonts/conf.d/20-unhint-small-dejavu-sans-mono.conf \
+    target=../conf.avail/20-unhint-small-dejavu-sans-mono.conf
+link path=etc/fonts/conf.d/20-unhint-small-dejavu-sans.conf \
+    target=../conf.avail/20-unhint-small-dejavu-sans.conf
+link path=etc/fonts/conf.d/20-unhint-small-dejavu-serif.conf \
+    target=../conf.avail/20-unhint-small-dejavu-serif.conf
+link path=etc/fonts/conf.d/57-dejavu-sans-mono.conf \
+    target=../conf.avail/57-dejavu-sans-mono.conf
+link path=etc/fonts/conf.d/57-dejavu-sans.conf \
+    target=../conf.avail/57-dejavu-sans.conf
+link path=etc/fonts/conf.d/57-dejavu-serif.conf \
+    target=../conf.avail/57-dejavu-serif.conf

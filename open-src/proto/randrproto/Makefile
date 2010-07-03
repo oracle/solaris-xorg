@@ -36,5 +36,13 @@ TARBALL_SHA1 = 36731bae6e815453af4b055c26ad8e9e2653ca05
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# ARC cases that covered this module
+# PSARC/2004/187 Xorg Server for Solaris
+MODULE_ARC_CASES = PSARC/2004/187
+# PSARC/2007/430 X Resize, Rotate and Reflect (RandR) 1.2
+MODULE_ARC_CASES += PSARC/2007/430
+# PSARC/2009/269 X Resize, Rotate and Reflect (RandR) 1.3
+MODULE_ARC_CASES += PSARC/2009/269
+
 ### Include common rulesets
 include ../Makefile.inc

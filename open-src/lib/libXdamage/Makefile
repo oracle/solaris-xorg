@@ -41,9 +41,14 @@ SOURCE_PATCHES =
 # Library name
 LIBNAME=Xdamage
 
+# ARC cases that covered this module
+# LSARC 2003/506 X Damage Extension
+MODULE_ARC_CASES = LSARC/2003/506
+# LSARC/2007/421 X Damage Extension Version 1.1
+MODULE_ARC_CASES += LSARC/2007/421
+
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xdamage
 
@@ -54,5 +59,8 @@ FIX_PC_FILES=xdamage.pc.in
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXdamage.so libXdamage.so.1
 
 include ../Makefile.inc

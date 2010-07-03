@@ -1,0 +1,222 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/header/x11-protocols@$(X11PKGVERS)
+set name=pkg.description \
+    value="Developer documentation and C language definitions of X11, X extension, and related protocols"
+set name=pkg.summary value="X Window System protocol definitions"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/include
+dir path=usr/include
+dir path=usr/include/GL
+dir path=usr/include/GL/internal
+dir path=usr/include/X11
+dir path=usr/include/X11/PM
+dir path=usr/include/X11/dri
+dir path=usr/include/X11/extensions
+dir path=usr/include/X11/fonts
+dir path=usr/share
+dir path=usr/share/doc
+dir path=usr/share/doc/compositeproto
+dir path=usr/share/doc/damageproto
+dir path=usr/share/doc/fixesproto
+dir path=usr/share/doc/randrproto
+dir path=usr/share/doc/renderproto
+dir path=usr/share/doc/xproxymanagementprotocol
+dir path=usr/share/pkgconfig
+file path=usr/include/GL/glxint.h
+file path=usr/include/GL/glxmd.h
+file path=usr/include/GL/glxproto.h
+file path=usr/include/GL/glxtokens.h
+file path=usr/include/GL/internal/glcore.h
+file path=usr/include/X11/DECkeysym.h
+file path=usr/include/X11/HPkeysym.h
+file path=usr/include/X11/PM/PM.h
+file path=usr/include/X11/PM/PMproto.h
+file path=usr/include/X11/Sunkeysym.h
+file path=usr/include/X11/X.h
+file path=usr/include/X11/XF86keysym.h
+file path=usr/include/X11/XWDFile.h
+file path=usr/include/X11/Xalloca.h
+file path=usr/include/X11/Xarch.h
+file path=usr/include/X11/Xatom.h
+file path=usr/include/X11/Xdefs.h
+file path=usr/include/X11/Xfuncproto.h
+file path=usr/include/X11/Xfuncs.h
+file path=usr/include/X11/Xmd.h
+file path=usr/include/X11/Xos.h
+file path=usr/include/X11/Xos_r.h
+file path=usr/include/X11/Xosdefs.h
+file path=usr/include/X11/Xpoll.h
+file path=usr/include/X11/Xproto.h
+file path=usr/include/X11/Xprotostr.h
+file path=usr/include/X11/Xthreads.h
+file path=usr/include/X11/Xw32defs.h
+file path=usr/include/X11/Xwindows.h
+file path=usr/include/X11/Xwinsock.h
+file path=usr/include/X11/ap_keysym.h
+file path=usr/include/X11/dri/xf86dri.h
+file path=usr/include/X11/dri/xf86driproto.h
+file path=usr/include/X11/dri/xf86dristr.h
+file path=usr/include/X11/extensions/EVI.h
+file path=usr/include/X11/extensions/EVIproto.h
+file path=usr/include/X11/extensions/Print.h
+file path=usr/include/X11/extensions/Printstr.h
+file path=usr/include/X11/extensions/XI.h
+file path=usr/include/X11/extensions/XI2.h
+file path=usr/include/X11/extensions/XI2proto.h
+file path=usr/include/X11/extensions/XIproto.h
+file path=usr/include/X11/extensions/XKB.h
+file path=usr/include/X11/extensions/XKBgeom.h
+file path=usr/include/X11/extensions/XKBproto.h
+file path=usr/include/X11/extensions/XKBsrv.h
+file path=usr/include/X11/extensions/XKBstr.h
+file path=usr/include/X11/extensions/XResproto.h
+file path=usr/include/X11/extensions/Xeviestr.h
+file path=usr/include/X11/extensions/Xv.h
+file path=usr/include/X11/extensions/XvMC.h
+file path=usr/include/X11/extensions/XvMCproto.h
+file path=usr/include/X11/extensions/Xvproto.h
+file path=usr/include/X11/extensions/ag.h
+file path=usr/include/X11/extensions/agproto.h
+file path=usr/include/X11/extensions/allplanes.h
+file path=usr/include/X11/extensions/allplanesstr.h
+file path=usr/include/X11/extensions/bigreqsproto.h
+file path=usr/include/X11/extensions/bigreqstr.h
+file path=usr/include/X11/extensions/composite.h
+file path=usr/include/X11/extensions/compositeproto.h
+file path=usr/include/X11/extensions/cup.h
+file path=usr/include/X11/extensions/cupproto.h
+file path=usr/include/X11/extensions/damageproto.h
+file path=usr/include/X11/extensions/damagewire.h
+file path=usr/include/X11/extensions/dbe.h
+file path=usr/include/X11/extensions/dbeproto.h
+file path=usr/include/X11/extensions/dgast.h
+file path=usr/include/X11/extensions/dpmsconst.h
+file path=usr/include/X11/extensions/dpmsproto.h
+file path=usr/include/X11/extensions/dri2proto.h
+file path=usr/include/X11/extensions/dri2tokens.h
+file path=usr/include/X11/extensions/evieproto.h
+file path=usr/include/X11/extensions/fbpm.h
+file path=usr/include/X11/extensions/fbpmstr.h
+file path=usr/include/X11/extensions/fontcache.h
+file path=usr/include/X11/extensions/fontcacheP.h
+file path=usr/include/X11/extensions/fontcachstr.h
+file path=usr/include/X11/extensions/ge.h
+file path=usr/include/X11/extensions/geproto.h
+file path=usr/include/X11/extensions/interactive.h
+file path=usr/include/X11/extensions/interactiveCommon.h
+file path=usr/include/X11/extensions/lbx.h
+file path=usr/include/X11/extensions/lbxproto.h
+file path=usr/include/X11/extensions/mitmiscconst.h
+file path=usr/include/X11/extensions/mitmiscproto.h
+file path=usr/include/X11/extensions/multibufconst.h
+file path=usr/include/X11/extensions/multibufproto.h
+file path=usr/include/X11/extensions/panoramiXproto.h
+file path=usr/include/X11/extensions/randr.h
+file path=usr/include/X11/extensions/randrproto.h
+file path=usr/include/X11/extensions/recordconst.h
+file path=usr/include/X11/extensions/recordproto.h
+file path=usr/include/X11/extensions/recordstr.h
+file path=usr/include/X11/extensions/render.h
+file path=usr/include/X11/extensions/renderproto.h
+file path=usr/include/X11/extensions/saver.h
+file path=usr/include/X11/extensions/saverproto.h
+file path=usr/include/X11/extensions/secur.h
+file path=usr/include/X11/extensions/securproto.h
+file path=usr/include/X11/extensions/shapeconst.h
+file path=usr/include/X11/extensions/shapeproto.h
+file path=usr/include/X11/extensions/shm.h
+file path=usr/include/X11/extensions/shmproto.h
+file path=usr/include/X11/extensions/sme.h
+file path=usr/include/X11/extensions/syncconst.h
+file path=usr/include/X11/extensions/syncproto.h
+file path=usr/include/X11/extensions/transovl.h
+file path=usr/include/X11/extensions/transovlstr.h
+file path=usr/include/X11/extensions/vldXvMC.h
+file path=usr/include/X11/extensions/xcmiscproto.h
+file path=usr/include/X11/extensions/xcmiscstr.h
+file path=usr/include/X11/extensions/xf86bigfont.h
+file path=usr/include/X11/extensions/xf86bigfproto.h
+file path=usr/include/X11/extensions/xf86bigfstr.h
+file path=usr/include/X11/extensions/xf86dga.h
+file path=usr/include/X11/extensions/xf86dga1const.h
+file path=usr/include/X11/extensions/xf86dga1proto.h
+file path=usr/include/X11/extensions/xf86dga1str.h
+file path=usr/include/X11/extensions/xf86dgaconst.h
+file path=usr/include/X11/extensions/xf86dgaproto.h
+file path=usr/include/X11/extensions/xf86dgastr.h
+file path=usr/include/X11/extensions/xf86misc.h
+file path=usr/include/X11/extensions/xf86mscstr.h
+file path=usr/include/X11/extensions/xf86vm.h
+file path=usr/include/X11/extensions/xf86vmproto.h
+file path=usr/include/X11/extensions/xf86vmstr.h
+file path=usr/include/X11/extensions/xfixesproto.h
+file path=usr/include/X11/extensions/xfixeswire.h
+file path=usr/include/X11/extensions/xtestconst.h
+file path=usr/include/X11/extensions/xtestext1const.h
+file path=usr/include/X11/extensions/xtestext1proto.h
+file path=usr/include/X11/extensions/xtestproto.h
+file path=usr/include/X11/fonts/FS.h
+file path=usr/include/X11/fonts/FSproto.h
+file path=usr/include/X11/fonts/font.h
+file path=usr/include/X11/fonts/fontproto.h
+file path=usr/include/X11/fonts/fontstruct.h
+file path=usr/include/X11/fonts/fsmasks.h
+file path=usr/include/X11/keysym.h
+file path=usr/include/X11/keysymdef.h
+file path=usr/share/doc/compositeproto/compositeproto.txt
+file path=usr/share/doc/damageproto/damageproto.txt
+file path=usr/share/doc/fixesproto/fixesproto.txt
+file path=usr/share/doc/randrproto/randrproto.txt
+file path=usr/share/doc/renderproto/renderproto.txt
+file path=usr/share/doc/xproxymanagementprotocol/PM_spec
+file path=usr/share/pkgconfig/bigreqsproto.pc
+file path=usr/share/pkgconfig/compositeproto.pc
+file path=usr/share/pkgconfig/damageproto.pc
+file path=usr/share/pkgconfig/dri2proto.pc
+file path=usr/share/pkgconfig/evieproto.pc
+file path=usr/share/pkgconfig/fixesproto.pc
+file path=usr/share/pkgconfig/fontcacheproto.pc
+file path=usr/share/pkgconfig/fontsproto.pc
+file path=usr/share/pkgconfig/glproto.pc
+file path=usr/share/pkgconfig/inputproto.pc
+file path=usr/share/pkgconfig/kbproto.pc
+file path=usr/share/pkgconfig/printproto.pc
+file path=usr/share/pkgconfig/randrproto.pc
+file path=usr/share/pkgconfig/recordproto.pc
+file path=usr/share/pkgconfig/renderproto.pc
+file path=usr/share/pkgconfig/resourceproto.pc
+file path=usr/share/pkgconfig/scrnsaverproto.pc
+file path=usr/share/pkgconfig/videoproto.pc
+file path=usr/share/pkgconfig/xcmiscproto.pc
+file path=usr/share/pkgconfig/xextproto.pc
+file path=usr/share/pkgconfig/xf86bigfontproto.pc
+file path=usr/share/pkgconfig/xf86dgaproto.pc
+file path=usr/share/pkgconfig/xf86driproto.pc
+file path=usr/share/pkgconfig/xf86miscproto.pc
+file path=usr/share/pkgconfig/xf86vidmodeproto.pc
+file path=usr/share/pkgconfig/xineramaproto.pc
+file path=usr/share/pkgconfig/xproto.pc
+file path=usr/share/pkgconfig/xproxymngproto.pc
+link path=usr/X11/include/GL target=../../include/GL
+link path=usr/X11/include/X11 target=../../include/X11

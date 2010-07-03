@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=libXtsol
 
+# Package classification (override default)
+MODULE_PKGCLASS=System/Trusted
+MODULE_PKGCLASS_SET=yes
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -40,9 +44,16 @@ LIBNAME=Xtsol
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xtsol
+
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/trusted/libxtsol
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# LSARC/2004/109 - Trusted Solaris X Server Extension
+MODULE_ARC_CASES = LSARC/2004/109
 
 # No configure script to run
 CONFIGURE_TARGETS=
@@ -51,6 +62,9 @@ CONFIGURE_TARGETS_SET=yes
 # Since we don't have a configure script, pass configure flags to make
 MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXtsol.so libXtsol.so.1
 
 include ../Makefile.inc
 

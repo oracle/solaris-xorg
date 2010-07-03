@@ -34,7 +34,11 @@ TARBALL_MD5  = 5c74f61d6f77b2e6a083b2b31000be42
 TARBALL_SHA1 = d0b57a8fbbf0845588a690542a6c29d351c2b4e5
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES =
+
+# ARC cases that covered this module
+# LSARC/2002/312 XEvIE
+MODULE_ARC_CASES = LSARC/2002/312
 
 ### Include common rulesets
 include ../Makefile.inc

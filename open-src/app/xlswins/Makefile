@@ -2,7 +2,7 @@
 #
 # xlswins 1.x Makefile
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xlswins
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/diagnostic/x11-info-clients
+MODULE_PKGNAME_SET=yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -39,7 +43,6 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # No configure script, so pass usual environment to build/install instead
@@ -48,6 +51,9 @@ CONFIGURE_TARGETS_SET=yes
 
 MODULE_BUILD_ENV=$(CONFIG_ENV)
 MODULE_INSTALL_MAKEFLAGS = bindir=$(X11_BIN_DIR) mandir=$(X11_MAN_DIR)
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xlswins
 
 include ../Makefile.inc
 

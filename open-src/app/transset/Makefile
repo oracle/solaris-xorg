@@ -28,6 +28,12 @@
 # Package name used in tarballs
 MODULE_NAME=transset
 
+# Package metadata - set manually since we download from somewhere
+# other than the normal X.Org site
+UPSTREAM	= $(UPSTREAM_xorg)
+UPSTREAM_URL	= $(UPSTREAM_URL_xorg)
+UPSTREAM_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=0.9.1
 
@@ -41,7 +47,6 @@ SOURCE_URL_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=transset.1
-SUN_PACKAGE=SUNWxcompmgr
 MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

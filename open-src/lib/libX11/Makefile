@@ -98,9 +98,22 @@ SOURCE_PATCHES = \
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
 
+# ARC cases that covered this module
+# PSARC/1992/077 X11/R5 Xlib API
+MODULE_ARC_CASES = PSARC/1992/077
+# PSARC/1992/082 Dynamic Locale Access For X11/R5 Xlib
+MODULE_ARC_CASES += PSARC/1992/082
+# PSARC/1997/141 Sym links needed in /usr/lib for SPARC ABI compliance
+MODULE_ARC_CASES += PSARC/1997/141
+# PSARC/2006/448 UTF8_STRING support in Solaris libX11 and XLC modules
+MODULE_ARC_CASES += PSARC/2006/448
+# PSARC/2008/062  Porting of Xorg XI18N
+MODULE_ARC_CASES += PSARC/2008/062
+# PSARC/2009/666 libX11 1.3 
+MODULE_ARC_CASES += PSARC/2009/666
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man man/xkb/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3x11
 
@@ -151,8 +164,12 @@ ADDITIONAL_SOURCE_DIR=sun-src
 MODULE_ADD_INSTALL_TARGETS_32 = install_extra_headers
 MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
-# Install additional links to libX11 that we include in our packages
+# Extra links to libX11 for compatibility with SVID / SPARC ABI / etc.
+EXTRA_LINKS = libX.so libX.so.4 libX11.so.5
 MODULE_ADD_INSTALL_TARGETS += install_extra_links
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libX11.so libX11.so.4 $(EXTRA_LINKS)
 
 include ../Makefile.inc
 
@@ -165,8 +182,7 @@ install_extra_headers: $(INSTALL_DEPS)
 	cp -pf $(SOURCE_DIR)/src/xlibi18n/Xlc*.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/
 
-# Extra links to libX11 for compatibility with SVID / SPARC ABI / etc.
-EXTRA_LINKS = libX.so libX.so.4 libX11.so.5
+# Install additional links to libX11 that we include in our packages
 EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
 
 $(EXTRA_PROTO_LINKS): $(INSTALL_DEPS)

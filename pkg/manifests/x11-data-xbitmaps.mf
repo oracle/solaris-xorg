@@ -1,0 +1,113 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+#
+# X has always installed the bitmaps in /usr/include so that programs
+# can #include them in their builds, but some programs load them at
+# runtime, so we need to override the default devel facet tagging on
+# the bitmap files & directories
+#
+<transform dir path=usr/include.* -> set facet.devel false>
+<transform file path=usr/include/.* -> set facet.devel false>
+
+set name=pkg.fmri value=pkg:/x11/data/xbitmaps@__version:xbitmaps__
+set name=pkg.description \
+    value="A set of xbm format bitmap images commonly provided with the X Window System and used by many clients in the X.Org implementation."
+set name=pkg.summary value="X Window System standard bitmaps"
+dir path=usr
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/bitmaps
+dir path=usr/share
+dir path=usr/share/pkgconfig
+file path=usr/include/X11/bitmaps/1x1
+file path=usr/include/X11/bitmaps/2x2
+file path=usr/include/X11/bitmaps/black
+file path=usr/include/X11/bitmaps/black6
+file path=usr/include/X11/bitmaps/box6
+file path=usr/include/X11/bitmaps/boxes
+file path=usr/include/X11/bitmaps/calculator
+file path=usr/include/X11/bitmaps/cntr_ptr
+file path=usr/include/X11/bitmaps/cntr_ptrmsk
+file path=usr/include/X11/bitmaps/cross_weave
+file path=usr/include/X11/bitmaps/dimple1
+file path=usr/include/X11/bitmaps/dimple3
+file path=usr/include/X11/bitmaps/dot
+file path=usr/include/X11/bitmaps/dropbar7
+file path=usr/include/X11/bitmaps/dropbar8
+file path=usr/include/X11/bitmaps/escherknot
+file path=usr/include/X11/bitmaps/flagdown
+file path=usr/include/X11/bitmaps/flagup
+file path=usr/include/X11/bitmaps/flipped_gray
+file path=usr/include/X11/bitmaps/gray
+file path=usr/include/X11/bitmaps/gray1
+file path=usr/include/X11/bitmaps/gray3
+file path=usr/include/X11/bitmaps/grid16
+file path=usr/include/X11/bitmaps/grid2
+file path=usr/include/X11/bitmaps/grid4
+file path=usr/include/X11/bitmaps/grid8
+file path=usr/include/X11/bitmaps/hlines2
+file path=usr/include/X11/bitmaps/hlines3
+file path=usr/include/X11/bitmaps/icon
+file path=usr/include/X11/bitmaps/keyboard16
+file path=usr/include/X11/bitmaps/left_ptr
+file path=usr/include/X11/bitmaps/left_ptrmsk
+file path=usr/include/X11/bitmaps/letters
+file path=usr/include/X11/bitmaps/light_gray
+file path=usr/include/X11/bitmaps/mailempty
+file path=usr/include/X11/bitmaps/mailemptymsk
+file path=usr/include/X11/bitmaps/mailfull
+file path=usr/include/X11/bitmaps/mailfullmsk
+file path=usr/include/X11/bitmaps/mensetmanus
+file path=usr/include/X11/bitmaps/menu10
+file path=usr/include/X11/bitmaps/menu12
+file path=usr/include/X11/bitmaps/menu16
+file path=usr/include/X11/bitmaps/menu6
+file path=usr/include/X11/bitmaps/menu8
+file path=usr/include/X11/bitmaps/noletters
+file path=usr/include/X11/bitmaps/opendot
+file path=usr/include/X11/bitmaps/opendotMask
+file path=usr/include/X11/bitmaps/plaid
+file path=usr/include/X11/bitmaps/right_ptr
+file path=usr/include/X11/bitmaps/right_ptrmsk
+file path=usr/include/X11/bitmaps/root_weave
+file path=usr/include/X11/bitmaps/scales
+file path=usr/include/X11/bitmaps/sipb
+file path=usr/include/X11/bitmaps/star
+file path=usr/include/X11/bitmaps/starMask
+file path=usr/include/X11/bitmaps/stipple
+file path=usr/include/X11/bitmaps/target
+file path=usr/include/X11/bitmaps/terminal
+file path=usr/include/X11/bitmaps/tie_fighter
+file path=usr/include/X11/bitmaps/vlines2
+file path=usr/include/X11/bitmaps/vlines3
+file path=usr/include/X11/bitmaps/weird_size
+file path=usr/include/X11/bitmaps/wide_weave
+file path=usr/include/X11/bitmaps/wingdogs
+file path=usr/include/X11/bitmaps/woman
+file path=usr/include/X11/bitmaps/xfd_icon
+file path=usr/include/X11/bitmaps/xlogo11
+file path=usr/include/X11/bitmaps/xlogo16
+file path=usr/include/X11/bitmaps/xlogo32
+file path=usr/include/X11/bitmaps/xlogo64
+file path=usr/include/X11/bitmaps/xsnow
+file path=usr/share/pkgconfig/xbitmaps.pc

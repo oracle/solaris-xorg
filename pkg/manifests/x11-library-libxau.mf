@@ -1,0 +1,63 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxau@__version:libXau__
+set name=pkg.description \
+    value="This library provides a basic API for reading and writing authentication data entries for X server connections in .Xauthority files."
+set name=pkg.summary value="libXau - X authorization database library"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man3xau
+file path=usr/include/X11/Xauth.h
+file path=usr/lib/$(ARCH64)/libXau.so.6
+file path=usr/lib/$(ARCH64)/llib-lXau.ln
+file path=usr/lib/$(ARCH64)/pkgconfig/xau.pc
+file path=usr/lib/libXau.so.6
+file path=usr/lib/llib-lXau.ln
+file path=usr/lib/pkgconfig/xau.pc
+file path=usr/share/man/man3xau/Xau.3xau
+file path=usr/share/man/man3xau/XauDisposeAuth.3xau
+file path=usr/share/man/man3xau/XauFileName.3xau
+file path=usr/share/man/man3xau/XauGetAuthByAddr.3xau
+file path=usr/share/man/man3xau/XauGetBestAuthByAddr.3xau
+file path=usr/share/man/man3xau/XauLockAuth.3xau
+file path=usr/share/man/man3xau/XauReadAuth.3xau
+file path=usr/share/man/man3xau/XauUnlockAuth.3xau
+file path=usr/share/man/man3xau/XauWriteAuth.3xau
+link path=usr/X11/lib/$(ARCH64)/libXau.so \
+    target=../../../lib/$(ARCH64)/libXau.so
+link path=usr/X11/lib/$(ARCH64)/libXau.so.6 \
+    target=../../../lib/$(ARCH64)/libXau.so.6
+link path=usr/X11/lib/libXau.so target=../../lib/libXau.so
+link path=usr/X11/lib/libXau.so.6 target=../../lib/libXau.so.6
+link path=usr/lib/$(ARCH64)/libXau.so target=libXau.so.6
+link path=usr/lib/libXau.so target=libXau.so.6
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

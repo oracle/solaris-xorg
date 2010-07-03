@@ -38,13 +38,19 @@ TARBALL_SHA1 = 4b4987d8c8d41b29c0475474261f1aaea7d5efcb
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xfd.patch
 
+# ARC cases that covered this module
+# PSARC/2008/137  xfd -fa 
+MODULE_ARC_CASES = PSARC/2008/137
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_po
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xfd
 
 include ../Makefile.inc
 

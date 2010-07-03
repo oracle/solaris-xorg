@@ -1,0 +1,88 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/system/display-manager/xdm@__version:xdm__
+set name=pkg.description \
+    value="xdm is an Xaw-based display manager for a collection of X displays, which may be on the local host or remote servers."
+set name=pkg.summary \
+    value="xdm - X Display Manager with support for XDMCP and host chooser"
+dir path=etc group=sys
+dir path=etc/X11 group=sys
+dir path=etc/X11/xdm group=sys
+dir path=usr
+dir path=usr/lib
+dir path=usr/lib/X11
+dir path=usr/lib/X11/xdm
+dir path=usr/lib/X11/xdm/pixmaps
+dir path=usr/sbin
+dir path=usr/share
+dir path=usr/share/X11
+dir path=usr/share/X11/app-defaults
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=etc/X11/xdm/Xaccess group=sys \
+    original_name=SUNWxdm:etc/X11/xdm/Xaccess preserve=true
+file path=etc/X11/xdm/Xresources group=sys \
+    original_name=SUNWxdm:etc/X11/xdm/Xresources preserve=true
+file path=etc/X11/xdm/Xservers group=sys \
+    original_name=SUNWxdm:etc/X11/xdm/Xservers preserve=true
+file path=etc/X11/xdm/xdm-config group=sys \
+    original_name=SUNWxdm:etc/X11/xdm/xdm-config preserve=true
+file path=usr/lib/X11/xdm/GiveConsole mode=0555
+file path=usr/lib/X11/xdm/README
+file path=usr/lib/X11/xdm/TakeConsole mode=0555
+file path=usr/lib/X11/xdm/Xaccess
+file path=usr/lib/X11/xdm/Xreset mode=0555
+file path=usr/lib/X11/xdm/Xresources
+file path=usr/lib/X11/xdm/Xservers
+file path=usr/lib/X11/xdm/Xsession mode=0555
+file path=usr/lib/X11/xdm/Xsetup_0 mode=0555
+file path=usr/lib/X11/xdm/Xstartup mode=0555
+file path=usr/lib/X11/xdm/Xwilling mode=0555
+file path=usr/lib/X11/xdm/chooser mode=0555
+file path=usr/lib/X11/xdm/libXdmGreet.so
+file path=usr/lib/X11/xdm/pixmaps/xorg-bw.xpm
+file path=usr/lib/X11/xdm/pixmaps/xorg.xpm
+file path=usr/lib/X11/xdm/xdm-config
+file path=usr/lib/X11/xdm/xdmshell mode=0555
+file path=usr/sbin/xdm
+file path=usr/share/X11/app-defaults/Chooser
+file path=usr/share/man/man1/xdm.1
+legacy pkg=SUNWxdm desc="X Window System xdm Display Manager" \
+    name="xdm Display Manager"
+legacy pkg=SUNWxdm-root \
+    desc="X Window System xdm Display Manager components located outside of /usr" \
+    name="xdm Display Manager - / filesystem"
+# Default xdm session uses twm for the window manager
+depend fmri=pkg:/desktop/window-manager/twm type=require
+# xdm Xresources specifies fonts including:
+# -adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
+# *-new century schoolbook-bold-i-normal-*-240-*
+# fixed
+depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
+# Default xdm session runs an xterm
+depend fmri=pkg:/terminal/xterm type=require
+# xdm calls sessreg for utmpx/wtmpx updates
+depend fmri=pkg:/x11/session/sessreg type=require
+# Default xdm session uses xrdb
+depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+# xdm runs xconsole for messages on login screen
+depend fmri=pkg:/x11/utility/xconsole type=require

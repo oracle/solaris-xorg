@@ -28,6 +28,19 @@
 # Package name used in tarballs
 MODULE_NAME=xterm
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=terminal/xterm
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/System Utilities
+MODULE_PKGCLASS_SET=yes
+
+# Package metadata
+UPSTREAM	= Thomas Dickey
+UPSTREAM_URL	= http://invisible-island.net/xterm/
+UPSTREAM_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=258
 
@@ -49,7 +62,6 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
@@ -78,6 +90,9 @@ MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
 
 MODULE_ADD_BUILD_TARGETS=fix_manpages
 MODULE_ADD_INSTALL_TARGETS=install_docs
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xterm resize
 
 include ../Makefile.inc
 

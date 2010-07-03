@@ -1,0 +1,327 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/server/xorg@__version:xorg-server__
+set name=pkg.description \
+    value="Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on a wide range of hardware and OS platforms."
+set name=pkg.summary value="Xorg - X11R7 X server"
+dir path=etc
+dir path=etc/hal
+dir path=etc/hal/fdi
+dir path=etc/hal/fdi/preprobe
+dir path=etc/hal/fdi/preprobe/10osvendor
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/X11/include
+dir path=usr/bin
+$(i386_ONLY)dir path=usr/bin/$(ARCH32)
+$(i386_ONLY)dir path=usr/bin/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/xorg
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/mdb
+dir path=usr/lib/mdb/proc
+$(i386_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=bin
+$(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys
+dir path=usr/lib/pkgconfig
+dir path=usr/lib/xorg
+dir path=usr/lib/xorg/modules
+$(i386_ONLY)dir path=usr/lib/xorg/modules/$(ARCH64)
+dir path=usr/lib/xorg/modules/extensions
+$(i386_ONLY)dir path=usr/lib/xorg/modules/extensions/$(ARCH64)
+dir path=usr/lib/xorg/modules/multimedia
+$(i386_ONLY)dir path=usr/lib/xorg/modules/multimedia/$(ARCH64)
+dir path=usr/share
+dir path=usr/share/aclocal
+dir path=usr/share/man
+dir path=usr/share/man/man1
+dir path=usr/share/man/man4
+dir path=usr/share/man/man7
+dir path=var
+dir path=var/log
+file path=etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
+# Xorg must be setuid root on x86 in order to access PCI bus devices
+# and make the sysi86 system call to change I/O privilege level (IOPL).
+# On SPARC, Xorg only requires setgid root in order to create the
+# sockets and pipes in /tmp/.X11-* securely.
+$(i386_ONLY)file path=usr/bin/$(ARCH32)/Xorg mode=4555 owner=root
+$(i386_ONLY)file path=usr/bin/$(ARCH64)/Xorg mode=4555 owner=root
+$(sparc_ONLY)file path=usr/bin/Xorg group=root mode=2555 owner=root
+file path=usr/bin/cvt
+file path=usr/bin/gtf
+file path=usr/include/xorg/BT.h
+file path=usr/include/xorg/IBM.h
+file path=usr/include/xorg/TI.h
+file path=usr/include/xorg/XIstubs.h
+file path=usr/include/xorg/bstore.h
+file path=usr/include/xorg/bstorestr.h
+file path=usr/include/xorg/bt829.h
+file path=usr/include/xorg/cfb8_16.h
+file path=usr/include/xorg/closestr.h
+file path=usr/include/xorg/closure.h
+file path=usr/include/xorg/colormap.h
+file path=usr/include/xorg/colormapst.h
+file path=usr/include/xorg/compiler.h
+file path=usr/include/xorg/compositeext.h
+file path=usr/include/xorg/cursor.h
+file path=usr/include/xorg/cursorstr.h
+file path=usr/include/xorg/damage.h
+file path=usr/include/xorg/damagestr.h
+file path=usr/include/xorg/dbestruct.h
+file path=usr/include/xorg/dgaproc.h
+file path=usr/include/xorg/dix.h
+file path=usr/include/xorg/dixaccess.h
+file path=usr/include/xorg/dixevents.h
+file path=usr/include/xorg/dixfont.h
+file path=usr/include/xorg/dixfontstr.h
+file path=usr/include/xorg/dixgrabs.h
+file path=usr/include/xorg/dixstruct.h
+file path=usr/include/xorg/dri.h
+file path=usr/include/xorg/dri2.h
+file path=usr/include/xorg/dristruct.h
+file path=usr/include/xorg/edid.h
+file path=usr/include/xorg/events.h
+file path=usr/include/xorg/exa.h
+file path=usr/include/xorg/exevents.h
+file path=usr/include/xorg/extension.h
+file path=usr/include/xorg/extinit.h
+file path=usr/include/xorg/extnsionst.h
+file path=usr/include/xorg/fb.h
+file path=usr/include/xorg/fbdevhw.h
+file path=usr/include/xorg/fboverlay.h
+file path=usr/include/xorg/fbpict.h
+file path=usr/include/xorg/fbrop.h
+file path=usr/include/xorg/fi1236.h
+file path=usr/include/xorg/fourcc.h
+file path=usr/include/xorg/gc.h
+file path=usr/include/xorg/gcstruct.h
+file path=usr/include/xorg/geext.h
+file path=usr/include/xorg/geint.h
+file path=usr/include/xorg/globals.h
+file path=usr/include/xorg/glyphstr.h
+file path=usr/include/xorg/hotplug.h
+file path=usr/include/xorg/i2c_def.h
+file path=usr/include/xorg/input.h
+file path=usr/include/xorg/inputstr.h
+file path=usr/include/xorg/mi.h
+file path=usr/include/xorg/mibank.h
+file path=usr/include/xorg/mibstore.h
+file path=usr/include/xorg/micmap.h
+file path=usr/include/xorg/micoord.h
+file path=usr/include/xorg/mifillarc.h
+file path=usr/include/xorg/mifpoly.h
+file path=usr/include/xorg/migc.h
+file path=usr/include/xorg/miline.h
+file path=usr/include/xorg/mioverlay.h
+file path=usr/include/xorg/mipict.h
+file path=usr/include/xorg/mipointer.h
+file path=usr/include/xorg/mipointrst.h
+file path=usr/include/xorg/misc.h
+file path=usr/include/xorg/miscstruct.h
+file path=usr/include/xorg/mispans.h
+file path=usr/include/xorg/mistruct.h
+file path=usr/include/xorg/miwideline.h
+file path=usr/include/xorg/mizerarc.h
+file path=usr/include/xorg/msp3430.h
+file path=usr/include/xorg/opaque.h
+file path=usr/include/xorg/os.h
+file path=usr/include/xorg/panoramiX.h
+file path=usr/include/xorg/panoramiXsrv.h
+file path=usr/include/xorg/picture.h
+file path=usr/include/xorg/picturestr.h
+file path=usr/include/xorg/pixmap.h
+file path=usr/include/xorg/pixmapstr.h
+file path=usr/include/xorg/privates.h
+file path=usr/include/xorg/property.h
+file path=usr/include/xorg/propertyst.h
+file path=usr/include/xorg/ptrveloc.h
+file path=usr/include/xorg/randrstr.h
+file path=usr/include/xorg/region.h
+file path=usr/include/xorg/regionstr.h
+file path=usr/include/xorg/registry.h
+file path=usr/include/xorg/renderedge.h
+file path=usr/include/xorg/resource.h
+file path=usr/include/xorg/rgb.h
+file path=usr/include/xorg/rrtransform.h
+file path=usr/include/xorg/sarea.h
+file path=usr/include/xorg/screenint.h
+file path=usr/include/xorg/scrnintstr.h
+file path=usr/include/xorg/selection.h
+file path=usr/include/xorg/servermd.h
+file path=usr/include/xorg/shadow.h
+file path=usr/include/xorg/shadowfb.h
+file path=usr/include/xorg/shmint.h
+file path=usr/include/xorg/site.h
+$(i386_ONLY)file path=usr/include/xorg/solaris-amd64.il facet.devel=true
+$(i386_ONLY)file path=usr/include/xorg/solaris-ia32.il facet.devel=true
+$(sparc_ONLY)file path=usr/include/xorg/solaris-sparcv8plus.il \
+    facet.devel=true
+file path=usr/include/xorg/swaprep.h
+file path=usr/include/xorg/swapreq.h
+file path=usr/include/xorg/tda8425.h
+file path=usr/include/xorg/tda9850.h
+file path=usr/include/xorg/tda9885.h
+file path=usr/include/xorg/uda1380.h
+file path=usr/include/xorg/validate.h
+file path=usr/include/xorg/vbe.h
+file path=usr/include/xorg/vbeModes.h
+file path=usr/include/xorg/vgaHW.h
+file path=usr/include/xorg/vidmodeproc.h
+file path=usr/include/xorg/wfbrename.h
+file path=usr/include/xorg/window.h
+file path=usr/include/xorg/windowstr.h
+file path=usr/include/xorg/xaa.h
+file path=usr/include/xorg/xaaWrapper.h
+file path=usr/include/xorg/xaalocal.h
+file path=usr/include/xorg/xaarop.h
+file path=usr/include/xorg/xace.h
+file path=usr/include/xorg/xacestr.h
+file path=usr/include/xorg/xf86.h
+file path=usr/include/xorg/xf86Crtc.h
+file path=usr/include/xorg/xf86Cursor.h
+file path=usr/include/xorg/xf86DDC.h
+file path=usr/include/xorg/xf86Modes.h
+file path=usr/include/xorg/xf86Module.h
+file path=usr/include/xorg/xf86Opt.h
+file path=usr/include/xorg/xf86Optrec.h
+file path=usr/include/xorg/xf86Parser.h
+file path=usr/include/xorg/xf86Pci.h
+file path=usr/include/xorg/xf86PciInfo.h
+file path=usr/include/xorg/xf86Priv.h
+file path=usr/include/xorg/xf86Privstr.h
+file path=usr/include/xorg/xf86RamDac.h
+file path=usr/include/xorg/xf86RandR12.h
+file path=usr/include/xorg/xf86Rename.h
+file path=usr/include/xorg/xf86Sbus.h
+file path=usr/include/xorg/xf86VGAarbiter.h
+file path=usr/include/xorg/xf86Xinput.h
+file path=usr/include/xorg/xf86_OSlib.h
+file path=usr/include/xorg/xf86_OSproc.h
+file path=usr/include/xorg/xf86cmap.h
+file path=usr/include/xorg/xf86fbman.h
+file path=usr/include/xorg/xf86i2c.h
+file path=usr/include/xorg/xf86int10.h
+file path=usr/include/xorg/xf86sbusBus.h
+file path=usr/include/xorg/xf86str.h
+file path=usr/include/xorg/xf86xv.h
+file path=usr/include/xorg/xf86xvmc.h
+file path=usr/include/xorg/xf86xvpriv.h
+file path=usr/include/xorg/xfixes.h
+file path=usr/include/xorg/xisb.h
+file path=usr/include/xorg/xkbfile.h
+file path=usr/include/xorg/xkbrules.h
+file path=usr/include/xorg/xkbsrv.h
+file path=usr/include/xorg/xkbstr.h
+file path=usr/include/xorg/xorg-server.h
+file path=usr/include/xorg/xorgVersion.h
+file path=usr/include/xorg/xserver-properties.h
+file path=usr/include/xorg/xvdix.h
+file path=usr/include/xorg/xvmcext.h
+file path=usr/lib/$(ARCH64)/pkgconfig/xorg-server.pc
+$(i386_ONLY)file path=usr/lib/pkgconfig/xorg-server.pc
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libexa.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libfb.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libfbdevhw.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libint10.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libshadow.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libshadowfb.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libvbe.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libvgahw.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libwfb.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libxaa.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libxf8_16bpp.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libdbe.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libdri.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libdri2.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libextmod.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libia.so
+file path=usr/lib/xorg/modules/extensions/libdbe.so
+file path=usr/lib/xorg/modules/extensions/libdri.so
+file path=usr/lib/xorg/modules/extensions/libdri2.so
+file path=usr/lib/xorg/modules/extensions/libextmod.so
+file path=usr/lib/xorg/modules/extensions/libia.so
+file path=usr/lib/xorg/modules/libexa.so
+file path=usr/lib/xorg/modules/libfb.so
+file path=usr/lib/xorg/modules/libfbdevhw.so
+file path=usr/lib/xorg/modules/libint10.so
+file path=usr/lib/xorg/modules/libshadow.so
+file path=usr/lib/xorg/modules/libshadowfb.so
+file path=usr/lib/xorg/modules/libvbe.so
+file path=usr/lib/xorg/modules/libvgahw.so
+file path=usr/lib/xorg/modules/libwfb.so
+file path=usr/lib/xorg/modules/libxaa.so
+file path=usr/lib/xorg/modules/libxf8_16bpp.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/bt829_drv.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/fi1236_drv.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/msp3430_drv.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/tda8425_drv.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/tda9850_drv.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/tda9885_drv.so
+$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/uda1380_drv.so
+file path=usr/lib/xorg/modules/multimedia/bt829_drv.so
+file path=usr/lib/xorg/modules/multimedia/fi1236_drv.so
+file path=usr/lib/xorg/modules/multimedia/msp3430_drv.so
+file path=usr/lib/xorg/modules/multimedia/tda8425_drv.so
+file path=usr/lib/xorg/modules/multimedia/tda9850_drv.so
+file path=usr/lib/xorg/modules/multimedia/tda9885_drv.so
+file path=usr/lib/xorg/modules/multimedia/uda1380_drv.so
+file path=usr/share/aclocal/xorg-server.m4
+file path=usr/share/man/man1/Xorg.1
+file path=usr/share/man/man1/cvt.1
+file path=usr/share/man/man1/gtf.1
+file path=usr/share/man/man1/xorgcfg.1
+file path=usr/share/man/man1/xorgconfig.1
+file path=usr/share/man/man4/xorg.conf.4
+file path=usr/share/man/man7/exa.7
+file path=usr/share/man/man7/fbdevhw.7
+$(i386_ONLY)hardlink path=usr/bin/Xorg target=../lib/isaexec
+legacy pkg=SUNWxorg-headers \
+    desc="Header files and other files needed for building loadable modules for the Xorg X server" \
+    name="Xorg server SDK headers" facet.devel=true
+legacy pkg=SUNWxorg-server \
+    desc="X Window System server based on X.Org Foundation open source release" \
+    name="X.Org Foundation Xserver"
+link path=usr/X11/bin/Xorg target=../../bin/Xorg
+link path=usr/X11/bin/cvt target=../../bin/cvt
+link path=usr/X11/bin/gtf target=../../bin/gtf
+link path=usr/X11/include/xorg target=../../include/xorg
+link path=usr/lib/mdb/proc/$(ARCH64)/Xorg.so target=Xserver.so
+link path=usr/lib/mdb/proc/Xorg.so target=Xserver.so
+$(sparc_ONLY)link path=usr/lib/pkgconfig/xorg-server.pc \
+    target=../sparcv9/pkgconfig/xorg-server.pc
+
+# On x86/x64, Xorg requires /dev/xsvc to access video cards
+$(i386_ONLY)depend fmri=pkg:/driver/x11/xsvc type=require
+
+# X servers require xkbcomp & data-xkb for keyboard layouts
+depend fmri=pkg:/x11/keyboard/data-xkb type=require
+depend fmri=pkg:/x11/keyboard/xkbcomp type=require
+
+# keyboard & mouse drivers used to be part of this package, so we preserve
+# the dependency to ensure they're not lost on upgrade
+depend fmri=pkg:/x11/server/xorg/driver/xorg-input-keyboard type=require
+depend fmri=pkg:/x11/server/xorg/driver/xorg-input-mouse type=require
+
+# X servers require several shared data files in xserver-common
+depend fmri=pkg:/x11/server/xserver-common type=require

@@ -1,0 +1,55 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/diagnostic/scanpci@__version:libpciaccess__
+set name=pkg.description \
+    value="libpciaccess is a generic PCI device access library.  scanpci is a sample tool that uses libpciaccess to list the PCI devices installed in a system."
+set name=pkg.summary \
+    value="scanpci and libpciaccess - generic PCI access software"
+dir path=etc
+dir path=etc/security
+dir path=etc/security/exec_attr.d
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/include
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=etc/security/exec_attr.d/scanpci group=sys preserve=true
+file path=usr/bin/scanpci
+file path=usr/include/pciaccess.h
+file path=usr/lib/$(ARCH64)/libpciaccess.so.0
+file path=usr/lib/$(ARCH64)/pkgconfig/pciaccess.pc
+file path=usr/lib/libpciaccess.so.0
+file path=usr/lib/pkgconfig/pciaccess.pc
+file path=usr/share/man/man1/scanpci.1
+legacy pkg=SUNWpciaccess \
+    desc="Library and tools for accessing PCI bus information" \
+    name="PCI bus access library and tools"
+link path=usr/X11/bin/scanpci target=../../bin/scanpci
+link path=usr/lib/$(ARCH64)/libpciaccess.so target=libpciaccess.so.0
+link path=usr/lib/libpciaccess.so target=libpciaccess.so.0

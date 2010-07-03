@@ -33,6 +33,14 @@ BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 MODULE_NAME=hwc
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/kernel/hardware-cursor
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=System/Hardware
+MODULE_PKGCLASS_SET=yes
+
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes

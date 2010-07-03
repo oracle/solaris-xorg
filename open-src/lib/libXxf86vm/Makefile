@@ -41,15 +41,19 @@ SOURCE_PATCHES =
 # Library name
 LIBNAME=Xxf86vm
 
+# ARC cases that covered this module
+# PSARC/2005/189 X client support for XFree86 extensions
+MODULE_ARC_CASES = PSARC/2005/189
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xxf86vm
 
-
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xxf86vm.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXxf86vm.so libXxf86vm.so.1
 
 include ../Makefile.inc

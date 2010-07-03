@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=ttf-bitstream-vera
 
+# Package metadata
+UPSTREAM	= GNOME Foundation
+UPSTREAM_URL	= http://www.gnome.org/fonts/
+UPSTREAM_SET	= yes
+
+MODULE_LICENSE          = Bitstream Vera Fonts License
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.10
 

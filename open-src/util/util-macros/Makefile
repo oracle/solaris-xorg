@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=util-macros
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=developer/build/autoconf/xorg-macros
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.8.0
 

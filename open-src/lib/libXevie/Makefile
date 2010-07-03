@@ -41,9 +41,14 @@ SOURCE_PATCHES =
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xevie
 
+# ARC cases that covered this module
+# LSARC/2002/312 XEvIE
+MODULE_ARC_CASES = LSARC/2002/312
+# PSARC/2008/194 X11R7 update to libXext, libXevie & libXss
+MODULE_ARC_CASES += PSARC/2008/194
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xevie
 
@@ -55,5 +60,8 @@ FIX_PC_FILES=xevie.pc.in
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXevie.so libXevie.so.1
 
 include ../Makefile.inc

@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=xclipboard
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/accessory/$(MODULE_NAME)
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/Accessories
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
 
@@ -38,10 +46,11 @@ TARBALL_SHA1 = d1ec94f032174f5d011e33817cb7f48e3cd957be
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xclipboard xcutsel
 
 include ../Makefile.inc

@@ -1,0 +1,84 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+# Developer man pages are part of the developer & man page facets
+<transform depend fmri=pkg:/x11/library/.* -> set facet.devel true>
+<transform depend fmri=pkg:/x11/library/.* -> set facet.doc.man true>
+
+set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwpmn@$(OSPKGVERS)
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 developer manual pages as the SUNWxwpmn and SUNWxorg-devel-docs packages for prior Solaris releases"
+set name=pkg.summary value="X Window System programmers man pages group"
+set name=info.classification \
+    value=org.opensolaris.category.2008:Development/X11
+legacy pkg=SUNWxwpmn desc="X Window System programmers reference manual pages" \
+    name="X Window System programmers man pages"
+
+### Depends on packages split out of the old SVR4 versions
+
+# lib/libX11
+depend fmri=pkg:/x11/library/libx11 type=require
+
+# lib/libXau
+depend fmri=pkg:/x11/library/libxau type=require
+
+# lib/libXcomposite
+depend fmri=pkg:/x11/library/libxcomposite type=require
+
+# lib/libXevie
+depend fmri=pkg:/x11/library/libxevie type=require
+
+# lib/libXext
+depend fmri=pkg:/x11/library/libxext type=require
+
+# lib/libXfixes
+depend fmri=pkg:/x11/library/libxfixes type=require
+
+# lib/libXft
+depend fmri=pkg:/x11/library/libxft type=require
+
+# lib/libXi
+depend fmri=pkg:/x11/library/libxi type=require
+
+# lib/libXinerama
+depend fmri=pkg:/x11/library/libxinerama type=require
+
+# lib/libXmu
+depend fmri=pkg:/x11/library/libxmu type=require
+
+# lib/libXp
+depend fmri=pkg:/x11/library/libxp type=require
+
+# lib/libXrandr
+depend fmri=pkg:/x11/library/libxrandr type=require
+
+# lib/libXScrnSaver
+depend fmri=pkg:/x11/library/libxscrnsaver type=require
+
+# lib/libXtst
+depend fmri=pkg:/x11/library/libxtst type=require
+
+# lib/libXv
+depend fmri=pkg:/x11/library/libxv type=require
+
+# lib/libXt
+depend fmri=pkg:/x11/toolkit/libxt type=require

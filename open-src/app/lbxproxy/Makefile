@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=lbxproxy
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/network/x11-network-proxies
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/Internet
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 
@@ -40,7 +48,9 @@ SOURCE_PATCHES = 6718029.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUNTOUCH_MAN_FLAGS= \
- -a '{Availability, SUNWxwplt} {Interface Stability, Committed}'
+MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = lbxproxy
 
 include ../Makefile.inc

@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=iceauth
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/library/libice
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 
@@ -40,8 +44,10 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxplt
 MODULE_STABILITY=Committed
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = iceauth
 
 include ../Makefile.inc
 

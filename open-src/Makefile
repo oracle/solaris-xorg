@@ -44,6 +44,7 @@ default_target: install
 
 # High level dependencies
 proto: util/util-macros util/lndir
+util/lndir: proto/x11proto
 lib: proto util
 util: proto
 app: lib data/xbitmaps
@@ -57,6 +58,7 @@ $(FONTAPPS): lib
 
 OS_SUBDIRS_common = \
 	util/util-macros \
+	proto/x11proto \
 	util/lndir \
 	proto \
 	data/xbitmaps \
@@ -67,6 +69,7 @@ OS_SUBDIRS_common = \
 	$(FONTAPPS) \
 	xserver/xorg \
 	xserver/xvnc \
+	xserver/xserver-common \
 	driver \
 	app/rgb \
 	data \

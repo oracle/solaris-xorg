@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=makedepend
 
+# Package classification (override default)
+MODULE_PKGCLASS=Development/C
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 
@@ -38,9 +42,11 @@ SOURCE_PATCHES=		MAXFILES.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Uncommitted
 
 ### Include common rulesets
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = makedepend
+
 include ../Makefile.inc
 

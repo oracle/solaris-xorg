@@ -1,0 +1,141 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/toolkit/libxaw7@__version:libXaw__
+set name=pkg.description \
+    value="Xaw is the X Athena Widget Set. Xaw is a widget set based on the X Toolkit Intrinsics (Xt) Library."
+set name=pkg.summary \
+    value="libXaw7 - X Athena Widgets Toolkit (current/X11R7 version)"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/Xaw
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/doc
+dir path=usr/share/doc/libXaw
+dir path=usr/share/man
+dir path=usr/share/man/man3xaw
+file path=usr/include/X11/Xaw/AllWidgets.h
+file path=usr/include/X11/Xaw/AsciiSink.h
+file path=usr/include/X11/Xaw/AsciiSinkP.h
+file path=usr/include/X11/Xaw/AsciiSrc.h
+file path=usr/include/X11/Xaw/AsciiSrcP.h
+file path=usr/include/X11/Xaw/AsciiText.h
+file path=usr/include/X11/Xaw/AsciiTextP.h
+file path=usr/include/X11/Xaw/Box.h
+file path=usr/include/X11/Xaw/BoxP.h
+file path=usr/include/X11/Xaw/Cardinals.h
+file path=usr/include/X11/Xaw/Command.h
+file path=usr/include/X11/Xaw/CommandP.h
+file path=usr/include/X11/Xaw/Dialog.h
+file path=usr/include/X11/Xaw/DialogP.h
+file path=usr/include/X11/Xaw/Form.h
+file path=usr/include/X11/Xaw/FormP.h
+file path=usr/include/X11/Xaw/Grip.h
+file path=usr/include/X11/Xaw/GripP.h
+file path=usr/include/X11/Xaw/Label.h
+file path=usr/include/X11/Xaw/LabelP.h
+file path=usr/include/X11/Xaw/List.h
+file path=usr/include/X11/Xaw/ListP.h
+file path=usr/include/X11/Xaw/MenuButtoP.h
+file path=usr/include/X11/Xaw/MenuButton.h
+file path=usr/include/X11/Xaw/MultiSink.h
+file path=usr/include/X11/Xaw/MultiSinkP.h
+file path=usr/include/X11/Xaw/MultiSrc.h
+file path=usr/include/X11/Xaw/MultiSrcP.h
+file path=usr/include/X11/Xaw/Paned.h
+file path=usr/include/X11/Xaw/PanedP.h
+file path=usr/include/X11/Xaw/Panner.h
+file path=usr/include/X11/Xaw/PannerP.h
+file path=usr/include/X11/Xaw/Porthole.h
+file path=usr/include/X11/Xaw/PortholeP.h
+file path=usr/include/X11/Xaw/Repeater.h
+file path=usr/include/X11/Xaw/RepeaterP.h
+file path=usr/include/X11/Xaw/Reports.h
+file path=usr/include/X11/Xaw/Scrollbar.h
+file path=usr/include/X11/Xaw/ScrollbarP.h
+file path=usr/include/X11/Xaw/Simple.h
+file path=usr/include/X11/Xaw/SimpleMenP.h
+file path=usr/include/X11/Xaw/SimpleMenu.h
+file path=usr/include/X11/Xaw/SimpleP.h
+file path=usr/include/X11/Xaw/Sme.h
+file path=usr/include/X11/Xaw/SmeBSB.h
+file path=usr/include/X11/Xaw/SmeBSBP.h
+file path=usr/include/X11/Xaw/SmeLine.h
+file path=usr/include/X11/Xaw/SmeLineP.h
+file path=usr/include/X11/Xaw/SmeP.h
+file path=usr/include/X11/Xaw/StripCharP.h
+file path=usr/include/X11/Xaw/StripChart.h
+file path=usr/include/X11/Xaw/Template.c facet.devel=true
+file path=usr/include/X11/Xaw/Template.h
+file path=usr/include/X11/Xaw/TemplateP.h
+file path=usr/include/X11/Xaw/Text.h
+file path=usr/include/X11/Xaw/TextP.h
+file path=usr/include/X11/Xaw/TextSink.h
+file path=usr/include/X11/Xaw/TextSinkP.h
+file path=usr/include/X11/Xaw/TextSrc.h
+file path=usr/include/X11/Xaw/TextSrcP.h
+file path=usr/include/X11/Xaw/Tip.h
+file path=usr/include/X11/Xaw/TipP.h
+file path=usr/include/X11/Xaw/Toggle.h
+file path=usr/include/X11/Xaw/ToggleP.h
+file path=usr/include/X11/Xaw/Tree.h
+file path=usr/include/X11/Xaw/TreeP.h
+file path=usr/include/X11/Xaw/VendorEP.h
+file path=usr/include/X11/Xaw/Viewport.h
+file path=usr/include/X11/Xaw/ViewportP.h
+file path=usr/include/X11/Xaw/XawImP.h
+file path=usr/include/X11/Xaw/XawInit.h
+file path=usr/lib/$(ARCH64)/libXaw7.so.7
+file path=usr/lib/$(ARCH64)/pkgconfig/xaw7.pc
+file path=usr/lib/libXaw7.so.7
+file path=usr/lib/pkgconfig/xaw7.pc
+file path=usr/share/doc/libXaw/widgets.html facet.devel=true
+file path=usr/share/doc/libXaw/widgets.index.ps facet.devel=true
+file path=usr/share/doc/libXaw/widgets.ps facet.devel=true
+file path=usr/share/doc/libXaw/widgets.txt facet.devel=true
+file path=usr/share/man/man3xaw/Xaw.3xaw
+link path=usr/X11/lib/$(ARCH64)/libXaw.so \
+    target=../../../lib/$(ARCH64)/libXaw.so
+link path=usr/X11/lib/$(ARCH64)/libXaw.so.7 \
+    target=../../../lib/$(ARCH64)/libXaw.so.7
+link path=usr/X11/lib/$(ARCH64)/libXaw7.so \
+    target=../../../lib/$(ARCH64)/libXaw7.so
+link path=usr/X11/lib/$(ARCH64)/libXaw7.so.7 \
+    target=../../../lib/$(ARCH64)/libXaw7.so.7
+link path=usr/X11/lib/libXaw.so target=../../lib/libXaw.so
+link path=usr/X11/lib/libXaw.so.7 target=../../lib/libXaw.so.7
+link path=usr/X11/lib/libXaw7.so target=../../lib/libXaw7.so
+link path=usr/X11/lib/libXaw7.so.7 target=../../lib/libXaw7.so.7
+link path=usr/lib/$(ARCH64)/libXaw.so target=libXaw7.so
+link path=usr/lib/$(ARCH64)/libXaw.so.7 target=libXaw7.so.7
+link path=usr/lib/$(ARCH64)/libXaw7.so target=libXaw7.so.7
+link path=usr/lib/libXaw.so target=libXaw7.so
+link path=usr/lib/libXaw.so.7 target=libXaw7.so.7
+link path=usr/lib/libXaw7.so target=libXaw7.so.7
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

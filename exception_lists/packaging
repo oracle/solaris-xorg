@@ -1,0 +1,102 @@
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+#
+# Exception List for validate_pkg
+#
+
+#
+# The following entries are built in the proto/ area
+# but not included in any packages - this is intentional.
+#
+
+# ON delivers the master copy of isaexec
+usr/lib/isaexec		i386
+
+# /var/run is a tmpfs filesystem created at system boot
+var/run
+
+# Empty directories
+usr/share/doc/xtrans
+
+# Documentation for other platforms
+usr/share/doc/X11/platforms/Darwin.html
+usr/share/doc/X11/platforms/Darwin.sgml
+usr/share/doc/X11/platforms/Darwin.txt
+usr/share/doc/X11/platforms/NetBSD.html
+usr/share/doc/X11/platforms/NetBSD.sgml
+usr/share/doc/X11/platforms/NetBSD.txt
+usr/share/doc/X11/platforms/OpenBSD.html
+usr/share/doc/X11/platforms/OpenBSD.sgml
+usr/share/doc/X11/platforms/OpenBSD.txt
+usr/share/doc/X11/platforms/SCO.html
+usr/share/doc/X11/platforms/SCO.sgml
+usr/share/doc/X11/platforms/SCO.txt
+
+# Server internals (not useful without upstream sources which include them)
+usr/share/doc/X11/core/Xserver-spec.html
+usr/share/doc/X11/core/Xserver-spec.sgml
+usr/share/doc/X11/core/Xserver-spec.txt
+usr/share/doc/X11/security/XACE-Spec.html
+usr/share/doc/X11/security/XACE-Spec.sgml
+usr/share/doc/X11/security/XACE-Spec.txt
+
+# Other docs it doesn't make sense to ship in our packages
+usr/share/doc/X11/graphics/dps.html
+usr/share/doc/X11/graphics/dps.sgml
+usr/share/doc/X11/graphics/dps.txt
+usr/share/doc/X11/Install.html
+usr/share/doc/X11/Install.sgml
+usr/share/doc/X11/Install.txt
+usr/share/doc/X11/MAINTAINERS
+
+# Obsolete man pages
+usr/share/man/man5/Consortium.5
+usr/share/man/man5/XProjectTeam.5
+
+# We don't ship 64-bit Xvnc, only 32-bit
+usr/lib/mdb/proc/amd64/Xvnc.so		i386
+usr/lib/mdb/proc/sparcv9/Xvnc.so	sparc
+
+# We didn't start shipping Xft until after the move to pkg-config
+# so don't need to maintain backwards compatibility with xft-config
+usr/bin/xft-config
+usr/bin/amd64/xft-config		i386
+usr/bin/sparcv9/xft-config		sparc
+usr/share/man/man1/xft-config.1
+
+# Only need the 32-bit versions of these files
+usr/lib/amd64/X11			i386
+usr/lib/sparcv9/X11			sparc
+
+# Licensing issues
+usr/lib/xorg/modules/extensions/libvnc.so
+
+# Intel DRM modules make no sense on SPARC, but upstream doesn't provide
+# an option not to build them
+usr/lib/xorg/libdrm_intel.so			sparc
+usr/lib/xorg/libdrm_intel.so.1			sparc
+usr/lib/xorg/sparcv9/libdrm_intel.so		sparc
+usr/lib/xorg/sparcv9/libdrm_intel.so.1		sparc
+usr/lib/pkgconfig/libdrm_intel.pc		sparc
+usr/lib/sparcv9/pkgconfig/libdrm_intel.pc	sparc

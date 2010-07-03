@@ -32,6 +32,10 @@ BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 MODULE_NAME=libXaw4
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/toolkit/libxaw4
+MODULE_PKGNAME_SET=yes
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
@@ -43,7 +47,6 @@ LIBNAME=Xaw4
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
 # No configure script to run
@@ -58,5 +61,8 @@ MODULE_CFLAGS += -I.
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXaw.so.4
 
 include ../Makefile.inc

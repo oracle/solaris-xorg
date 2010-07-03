@@ -43,13 +43,13 @@ LIBNAME=XvMC
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xvMC
 
-
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xvmc.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXvMC.so libXvMC.so.1 libXvMCW.so libXvMCW.so.1
 
 include ../Makefile.inc

@@ -43,13 +43,13 @@ LIBNAME=xkbfile
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xkbfile
 
-
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xkbfile.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libxkbfile.so libxkbfile.so.5
 
 include ../Makefile.inc

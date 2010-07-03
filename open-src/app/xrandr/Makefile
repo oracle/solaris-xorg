@@ -35,9 +35,29 @@ MODULE_VERSION=1.3.2
 TARBALL_MD5  = 2cb19bb1c19ccf77c40032b03dbe06f0
 TARBALL_SHA1 = 0e49b0a0889ae8a590452c6cd0d60a2253a8d940
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME_SET=yes
+
+# ARC cases that covered this module
+# PSARC/2005/189 X client support for XFree86 extensions
+MODULE_ARC_CASES = PSARC/2005/189
+# PSARC/2007/430 X Resize, Rotate and Reflect (RandR) 1.2
+MODULE_ARC_CASES += PSARC/2007/430
+# PSARC/2009/269 X Resize, Rotate and Reflect (RandR) 1.3
+MODULE_ARC_CASES += PSARC/2009/269
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxorg-client-programs
 MODULE_STABILITY=Volatile
 
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xrandr
+
 include ../Makefile.inc
+
+# Remove xkeystone utility that requires nickle interpreter we don't ship yet
+remove_xkeystone: $(INSTALL_RULES)
+	-rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/xkeystone
+
+install: remove_xkeystone

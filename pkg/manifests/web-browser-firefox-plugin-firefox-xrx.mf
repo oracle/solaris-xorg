@@ -1,0 +1,42 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/web/browser/firefox/plugin/firefox-xrx@__version:xrx__
+set name=pkg.description \
+    value="Web browser plugin and helper application that allow embedding X client applications in a web page."
+set name=pkg.summary value="RX: X Remote eXecution (aka Xweb or Broadway)"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/lib
+dir path=usr/lib/firefox
+dir path=usr/lib/firefox/plugins
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=usr/bin/xrx
+file path=usr/lib/firefox/plugins/libxrx.so
+file path=usr/lib/firefox/plugins/libxrxnest.so
+file path=usr/share/man/man1/libxrx.1
+file path=usr/share/man/man1/xrx.1
+link path=usr/X11/bin/xrx target=../../bin/xrx

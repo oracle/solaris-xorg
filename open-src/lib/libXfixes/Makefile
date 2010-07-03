@@ -44,9 +44,14 @@ AUTORECONF=yes
 # Library name
 LIBNAME=Xfixes
 
+# ARC cases that covered this module
+# PSARC 2004/318 XFixes Xserver Extension
+MODULE_ARC_CASES = PSARC/2004/318
+# PSARC/2006/702 XFixes 4.0
+MODULE_ARC_CASES += PSARC/2006/702
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
 
@@ -55,5 +60,8 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xfixes.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXfixes.so libXfixes.so.1
 
 include ../Makefile.inc

@@ -45,9 +45,17 @@ LIBNAME=Xmu
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES= no man pages in upstream package
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3xmu
+
+# ARC cases that covered this module
+# PSARC/2005/192 Update libXmu to X11R6.8 version
+MODULE_ARC_CASES = PSARC/2005/192
+# PSARC/2008/036 libXmuu
+MODULE_ARC_CASES += PSARC/2008/036
+
+# Additional pkg(5) package name used for libxmuu package
+XMUU_PKGNAME=$(MODULE_PKGNAME:libxmu=libxmuu)
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
@@ -67,6 +75,9 @@ AUTORECONF=yes
 # Additional rules beyond what upstream provides
 MODULE_ADD_INSTALL_TARGETS=install_solaris_exts 
 
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXmu.so libXmu.so.4 libXmuu.so libXmuu.so.1
+
 include ../Makefile.inc
 
 # Additional files we need to install
@@ -80,3 +91,19 @@ install_solaris_exts: $(INSTALL_DEPS)
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu
 	$(CP) $(ADDITIONAL_SOURCE_DIR)/*.3xmu $(MANDIR)
+
+# Metadata for libxmuu package
+LIBXMUU_PKG_METADATA_DIR      = $(PROTOMETA)/x11-library-libxmuu
+LIBXMUU_PKG_ATTRDATA_FILE     = $(LIBXMUU_PKG_METADATA_DIR)/$(ATTRDATA_FILE_NAME)
+LIBXMUU_PKG_LICENSE_FILE      = $(LIBXMUU_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+LIBXMUU_METADATA_TARGETS = \
+	$(LIBXMUU_PKG_METADATA_DIR) \
+	$(LIBXMUU_PKG_ATTRDATA_FILE) \
+	$(LIBXMUU_PKG_LICENSE_FILE)
+
+install_metadata: $(LIBXMUU_METADATA_TARGETS)
+
+$(LIBXMUU_PKG_METADATA_DIR):
+	mkdir -p $@
+
+$(LIBXMUU_PKG_ATTRDATA_FILE) $(LIBXMUU_PKG_LICENSE_FILE): $(LIBXMUU_PKG_METADATA_DIR)

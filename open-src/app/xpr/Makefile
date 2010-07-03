@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xpr
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/utility/x11-window-dump
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 
@@ -40,7 +44,13 @@ SOURCE_PATCHES = 6724753.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
+
+# ARC cases that covered this module
+# PSARC/2002/435 xpr Paper Size Option
+MODULE_ARC_CASES = PSARC/2002/435
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xpr xdpr
 
 include ../Makefile.inc

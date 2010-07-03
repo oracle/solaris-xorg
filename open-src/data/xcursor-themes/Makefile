@@ -42,6 +42,10 @@ MODULE_CONFIG_ENV= PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
 MODULE_BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_DIR)/lib" \
 	PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
 
+# ARC cases that covered this module
+# LSARC/2007/491 libXcursor
+MODULE_ARC_CASES = LSARC/2007/491
+
 ### Include common rulesets
 include ../Makefile.inc
 

@@ -1,0 +1,59 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/desktop/synergy@__version:synergy__
+set name=pkg.description \
+    value="Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware.  It's intended for users with multiple computers on their desk since each system uses its own display."
+set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
+dir path=usr
+dir path=usr/bin
+dir path=usr/share
+dir path=usr/share/doc
+dir path=usr/share/doc/synergy
+dir path=usr/share/doc/synergy/images
+file path=usr/bin/synergyc
+file path=usr/bin/synergys
+file path=usr/share/doc/synergy/about.html
+file path=usr/share/doc/synergy/authors.html
+file path=usr/share/doc/synergy/autostart.html
+file path=usr/share/doc/synergy/banner.html
+file path=usr/share/doc/synergy/border.html
+file path=usr/share/doc/synergy/compiling.html
+file path=usr/share/doc/synergy/configuration.html
+file path=usr/share/doc/synergy/contact.html
+file path=usr/share/doc/synergy/developer.html
+file path=usr/share/doc/synergy/faq.html
+file path=usr/share/doc/synergy/history.html
+file path=usr/share/doc/synergy/home.html
+file path=usr/share/doc/synergy/images/logo.gif
+file path=usr/share/doc/synergy/images/warp.gif
+file path=usr/share/doc/synergy/index.html
+file path=usr/share/doc/synergy/license.html
+file path=usr/share/doc/synergy/news.html
+file path=usr/share/doc/synergy/roadmap.html
+file path=usr/share/doc/synergy/running.html
+file path=usr/share/doc/synergy/security.html
+file path=usr/share/doc/synergy/tips.html
+file path=usr/share/doc/synergy/toc.html
+file path=usr/share/doc/synergy/trouble.html
+legacy pkg=SUNWsynergy \
+    desc="Synergy permits sharing Xorg Mouse/Keyboard across several networked desktops including Windows and MacOS" \
+    name="Synergy Mouse/Keyboard sharing"

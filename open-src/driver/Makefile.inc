@@ -36,6 +36,22 @@ DRIVER_CLASS_V=$(MODULE_NAME:xf86-video-%=video)
 DRIVER_CLASS=$(DRIVER_CLASS_V:xf86-input-%=input)
 DRIVER_NAME=$(MODULE_NAME:xf86-$(DRIVER_CLASS)-%=%)
 
+# Hierarchical parent for pkg names in this area
+MODTYPE_PKGHIER=x11/server/xorg/driver
+MODTYPE_PKGHIER_SET=yes
+
+# Default pkg names for drivers - map xf86- to xorg- in names
+MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL=$(MODULE_NAME:xf86-%=xorg-%)
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL_SET=yes
+
+# Package classification - must be a valid value recognized by pkg gui
+MODULE_PKGCLASS_input		= Drivers/Other Peripherals
+MODULE_PKGCLASS_video		= Drivers/Display
+MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=$(MODULE_PKGCLASS_$(DRIVER_CLASS))
+$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS_SET=yes
+
 # Build 64-bit on SPARC, 32-bit & 64-bit on x86, to match Xorg server builds
 BUILD_TYPES_DEFAULT     = $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
 $(BUILD_TYPES_DEFAULT)	BUILD_TYPES_sparc=64

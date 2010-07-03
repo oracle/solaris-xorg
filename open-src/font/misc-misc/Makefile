@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=font-misc-misc
 
+# Package metadata
+MODULE_LICENSE          = Public domain
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
 

@@ -1,6 +1,6 @@
 #! /bin/ksh93
 #
-# Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,302 +25,70 @@
 #	Create and fill a package staging area for X
 #
 #	This script should be run from the base of the build tree.
-#	It takes no parameters.
 #
-#	Example:
-#	    cd /export/home/hammer1/WORKSPACES_S493_ALPHA2.1
-#	    ./make_release_packages
-#
-#   To build a subset of packages
-#	./make_release_packages packages
-#		or
-#	env PACKAGE_LIST="packages" ./make_release_packages
+#	Arguments:
+#	 -v		Enable verbose mode
+#	 -p <publisher>	Set publisher name in built repo to <publisher>
 #
 
 #   Make sure that we aren't affected by the personal environment of
 #   whoever is running this script
-PATH=/usr/bin:/usr/ccs/bin
+PATH=/usr/bin:/usr/ccs/bin:/opt/onbld/bin:${PATH}
 SHELL=/bin/ksh93
-export LC_NUMERIC=C
+export PATH
+
+# Path to directory in build tree containing build tools
+BUILD_TOOLS="$(pwd)/open-src/util/build-tools/"
+
+VERBOSE_FLAGS=""	# verbosity flags passed to make
+PUBLISHER_FLAGS=""	# publisher flags passed to make
+
+set -- $(getopt p:v $*)
+if [ $? != 0 ] ; then
+    print -u2 USAGE: $0 [-v]
+    exit 2
+fi
+
+for i in $* ; do 
+    case $i in
+	-p)     PUBLISHER_FLAGS="PKGPUBLISHER=$2"; shift 2;;
+	-v)     VERBOSE_FLAGS="-v"; shift;;
+    esac
+done
+
+
+[ -d log ] || mkdir log
+LOG="$(pwd)/log/make-pkgs"
+CHECK_LOG="$(pwd)/log/check-pkgs"
+
+if [[ -z "${XNV_BUILDNUM}" ]] ; then
+    # Get build version from hg by searching for most recent tag matching nv_*
+    BUILD_TAG="$(hg log | \
+             perl -l -n -e 'if ($_ =~ m/^tag:\s+nv_(\d+)/) {print $1 ; exit}')"
+
+    if [[ -z "${BUILD_TAG}" ]] ; then
+	fatal_error "BUILD_TAG could not be found from hg_log"
+    fi
+    XNV_BUILDNUM="${BUILD_TAG}"
+fi
+
+print "Building packages for X Consolidation, Nevada build ${XNV_BUILDNUM}"
 
 MACH="$(uname -p)"
-DATE="$(date +0.%Y.%m.%d)"
 
-# List of official (deliverable) X-window packages for all platforms
-XW_PACKAGE_LIST="
-    SUNWfontconfig
-    SUNWfontconfig-docs
-    SUNWfontconfig-root 
-    SUNWfont-daewoo-misc
-    SUNWfont-isas-misc
-    SUNWfont-jis-misc
-    SUNWfont-misc-ethiopic
-    SUNWfont-misc-meltho
-    SUNWfont-xorg-cyrillic
-    SUNWfont-xorg-core
-    SUNWfont-xorg-iso8859-1
-    SUNWfont-xorg-iso8859-2
-    SUNWfont-xorg-iso8859-3
-    SUNWfont-xorg-iso8859-4
-    SUNWfont-xorg-iso8859-5
-    SUNWfont-xorg-iso8859-7
-    SUNWfont-xorg-iso8859-8
-    SUNWfont-xorg-iso8859-9
-    SUNWfont-xorg-iso8859-10
-    SUNWfont-xorg-iso8859-11
-    SUNWfont-xorg-iso8859-13
-    SUNWfont-xorg-iso8859-14
-    SUNWfont-xorg-iso8859-15
-    SUNWfont-xorg-iso8859-16
-    SUNWfreetype2
-    SUNWpciaccess
-    SUNWpixman
-    SUNWsynergy
-    SUNWttf-bh-luxi
-    SUNWttf-bitstream-vera
-    SUNWttf-dejavu
-    SUNWttf-google-droid
-    SUNWttf-liberation
-    SUNWvncviewer
-    SUNWxcompmgr
-    SUNWxcursor-themes
-    SUNWxdm
-    SUNWxdm-root
-    SUNWxorg-client-docs
-    SUNWxorg-client-programs
-    SUNWxorg-clientlibs
-    SUNWxorg-compatlinks
-    SUNWxorg-graphics-ddx
-    SUNWxorg-headers
-    SUNWxorg-mesa
-    SUNWxorg-server
-    SUNWxorg-tsol-module 
-    SUNWxvnc
-    SUNWxwacx
-    SUNWxwdem
-    SUNWxwdxm
-    SUNWxwfs
-    SUNWxwfsw
-    SUNWxwice
-    SUNWxwinc
-    SUNWxwman
-    SUNWxwmod
-    SUNWxwopt
-    SUNWxwplr
-    SUNWxwplt
-    SUNWxwpmn
-    SUNWxwrtl
-    SUNWxwslb
-    SUNWxwxft
-"
+# Remove old packages
+/bin/rm -rf "proto/pkg_${MACH}"
 
-# Localization template packages for delivery to translation teams
-if [[ "$BUILD_L10N" != "no" ]]; then
-    XW_L10N_PACKAGES="SUNW0xacx SUNW0xman SUNW0xpmn 
-		      SUNW0xwplt SUNW0xwopt"
-else
-    XW_L10N_PACKAGES=" "
-fi
+XMAKE="${BUILD_TOOLS}/xmake ${VERBOSE_FLAGS} -k"
 
-#   To build a subset of packages:
-#	make_release_packages packages
-#		or
-#	env PACKAGE_LIST="packages" make_release_packages
-#
-if (( $# > 0 )) ; then
-    PACKAGE_LIST="$*"
-else
-    : ${PACKAGE_LIST:="$XW_PACKAGE_LIST $EXTRA_PACKAGES $XW_L10N_PACKAGES"}
-fi
+cd pkg
+${XMAKE} clean > "${LOG}" 2>&1
+${XMAKE} install XNV_BUILDNUM="${XNV_BUILDNUM}" "${PUBLISHER_FLAGS}" > "${LOG}" 2>&1
+${XMAKE} check XNV_BUILDNUM="${XNV_BUILDNUM}" > "${CHECK_LOG}" 2>&1
 
-### Functions for use later
-function print_and_run
-{
-    print "$@"
-    "$@"
-}
+print "Result log is in ${LOG}"
 
-progname="$0"
-
-function fatal_error
-{
-    print -u2 "${progname}: ERROR: $*"
-    exit 1
-}
-
-function process_includes
-{
-    nawk \
-	"/^include / 	{
-			  system(\"cat $1/\" \$2)
-			  next
-			}
-	{ print }" $2
-}
-
-# Which platform name do we use for 64-bit?
-case "${MACH}" in
-    sparc)	PLAT_64="sparcv9" ;;
-    i386)	PLAT_64="amd64" ;;
-    *)    	fatal_error "Unknown architecture - not SPARC nor i386." ;;
-esac
-
-: ${PACKAGE_DIR:="$(pwd)/proto-packages"}
-SOURCE_DIR="$(pwd)"
-PKG_SOURCE_DIR=${SOURCE_DIR}/packages
-
-cd ${PKG_SOURCE_DIR}
-
-# Hardcode base package version for now, append OS version from uname
-XVERSION="6.9.0"
-OSVERSION="$(uname -r)"
-VERSION="${XVERSION}.${OSVERSION}"
-
-# Get build version from hg by searching for most recent tag matching nv_*
-BUILD_TAG="$(hg log | \
-	     perl -l -n -e 'if ($_ =~ m/^tag:\s+nv_(\d+)/) {print $1 ; exit}')"
-
-if [[ -z "${BUILD_TAG}" ]] ; then
-    fatal_error "BUILD_TAG could not be found from hg_log"
-fi
-
-print "Building packages for X11 version ${VERSION} build ${BUILD_TAG}"
-BUILD=$(( ${BUILD_TAG} * 100 ))
-
-if [[ "${MACH}" = "sparc" ]]; then
-    PROTODIR=${SOURCE_DIR}/proto-sun4-svr4
-else
-    PROTODIR=${SOURCE_DIR}/proto-${MACH}-svr4
-fi
-
-#   Next, create the staging area.
-#
-print 'Removing old proto-packages and recreating'
-/bin/rm -rf ${PACKAGE_DIR}
-/bin/mkdir ${PACKAGE_DIR} ${PACKAGE_DIR}/logs
-
-#  Now copy the package description info
-print 'Copying package descriptions'
-
-/bin/cp copyright depend i.* r.* ${PACKAGE_DIR} >/dev/null 2>&1
-
-for package in ${PACKAGE_LIST} common_files ; do
-    if [[ ! -d ${package} ]] ; then
-	print "packages/${package} not found ; skipping"
-	continue
-    fi
-
-    cd ${package}
-
-    /bin/mkdir ${PACKAGE_DIR}/${package}
-    /bin/cp p* d* lib* i.* r.* M* ${PACKAGE_DIR}/${package} >/dev/null 2>&1
-
-    # We keep the master copyright in the top-level copyright file
-    # Packages that need additional copyright have copyright.add files
-    # that we then merge here
-    cp ../copyright ${PACKAGE_DIR}/${package}/copyright
-    
-    for F in copyright.add copyright.add.${MACH} ; do
-	if [[ -f $F ]] ; then
-	    chmod +w ${PACKAGE_DIR}/${package}/copyright
-	    process_includes "${PROTODIR}/licenses" $F \
-		>> ${PACKAGE_DIR}/${package}/copyright
-	fi
-    done
-    cd ..
-done
-
-
-#   Now move into the package staging area and build the packages.
-cd ${PACKAGE_DIR}
-
-for D in etc usr var lib licenses kernel ; do
-    /bin/rm -f $D
-    /bin/ln -s ${PROTODIR}/$D $D
-done
-
-for D in openwin ; do
-    /bin/rm -f $D
-    /bin/ln -s ${PROTODIR}/usr/$D $D
-done
-
-LOGfile=logs/package_build
-
-print -- '---Building packages'
-
-# Variables to pass to pkgmk for use in prototype files
-# They must start with lowercase letters to be resolved at pkgmk time
-PKGMK_VARS="plat_64=${PLAT_64} plat=${MACH}"
-
-for package in ${PACKAGE_LIST} ; do
-    print "******** Making the ${package} package ********"
-    if [[ ! -d ${package} ]] ; then
-	print "${PACKAGE_DIR}/${package} was not found ; skipping"
-	continue
-    fi
-
-    cd ${package}
-    date
-
-    sed -e '/ARCH/s/ISA/'${MACH}'/' -e 's/SUNW_PRODVERS=.*$/SUNW_PRODVERS='${VERSION}/ -e 's/VERSION=.*$/VERSION='${VERSION}.${BUILD},REV=${DATE}/ pkginfo.tmpl > pkginfo
-    if [[ -f Makefile ]] ; then
-	print_and_run /usr/ccs/bin/make SOURCEDIR=${PKG_SOURCE_DIR} all
-    else
-	for pf in preinstall preremove postinstall postremove ; do
-	    # If filename.tmpl exists, but filename does not, 
-	    # build filename from the .tmpl
-	    if [[ -f "${pf}.tmpl" && ! -f "${pf}" ]] ; then
-		SOURCEDIR=${PKG_SOURCE_DIR} \
-		    nawk -f ${PKG_SOURCE_DIR}/awk_procedure \
-		    ${pf}.tmpl > ${pf}
-	    fi
-	done
-    fi
-
-    for df in depend depend_${MACH} ; do
-	# If filename.tmpl exists, but filename does not, 
-	# build filename from the .tmpl
-	if [[ -f "${df}.tmpl" && ! -f "${df}" ]] ; then
-	    process_includes "${PKG_SOURCE_DIR}/${package}" ${df}.tmpl > ${df}
-	fi
-    done
-
-    if [[ -f prototype ]] ; then
-	# Simple package with the same prototype on all platforms
-	PROTOTYPE="prototype"
-    else
-    	# Package with some platform-specific settings in prototype
-	if [[ ! -f prototype_${MACH} ]]; then
-	    ln -s prototype_com prototype_${MACH}
-	fi
-	PROTOTYPE="prototype_${MACH}"
-    fi
-
-    print_and_run /usr/bin/pkgmk -d ${PACKAGE_DIR}/${package} -f ${PROTOTYPE} -o ${PKGMK_VARS}
-
-    print "******** Done Making the ${package} package ********"
-    cd ..
-done >$LOGfile 2>&1
-
-print result log is in ${PACKAGE_DIR}/$LOGfile
-
-print -n "Packages built:  "
-grep -c "Packaging complete" ${PACKAGE_DIR}/$LOGfile
-print -n "Packages failed: "
-grep -c "Packaging was not successful" ${PACKAGE_DIR}/$LOGfile
-
-# Create an installdir with symlinks to built packages
-cd ${PACKAGE_DIR}
-mkdir installdir
-cd installdir
-for package in ${PACKAGE_LIST} ; do
-    if [[ -d ../${package}/${package} ]] ; then
-	ln -s ../${package}/${package} .
-    fi
-done
-if [[ -f ${PKG_SOURCE_DIR}/upgrade-X ]] ; then
-    cp -p ${PKG_SOURCE_DIR}/upgrade-X .
-    chmod a+x upgrade-X
-fi
+"${BUILD_TOOLS}/find-build-errors" -s "${LOG}"
+"${BUILD_TOOLS}/find-build-errors" -s "${CHECK_LOG}"
 
 exit 0

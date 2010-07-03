@@ -37,5 +37,21 @@ TARBALL_SHA1 = 0eda5588d42f2c810d8491da44fe84a4093e12bc
 SOURCE_PATCHES=	\
 	X.h-patch
 
+# ARC cases that covered this module
+# PSARC/2001/108 X11 Over IPv6
+MODULE_ARC_CASES = PSARC/2001/108
+
+# Additional install targets beyond the defaults
+MODULE_ADD_INSTALL_TARGETS = install_x11_compat_link
+
 ### Include common rulesets
 include ../Makefile.inc
+
+# Special compatibility link from /usr/X11/include/X11 to /usr/include/X11
+X11_INC_COMPAT_LINK = $(PROTODIR)/usr/X11/include/X11
+
+install_x11_compat_link: $(X11_INC_COMPAT_LINK)
+
+$(X11_INC_COMPAT_LINK):
+	mkdir -p $(@D)
+	ln -s ../../include/X11 $@

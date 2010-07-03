@@ -43,7 +43,6 @@ LIBNAME=ICE
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=
-SUN_PACKAGE=SUNWxwice
 MODULE_STABILITY=Committed
 MODULE_MTLEVEL=Unsafe
 MODULE_MTLEVEL_SET=yes
@@ -60,5 +59,8 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=ice.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libICE.so libICE.so.6
 
 include ../Makefile.inc

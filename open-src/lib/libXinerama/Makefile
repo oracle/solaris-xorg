@@ -43,11 +43,12 @@ LIBNAME=Xinerama
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3xinerama
 
-
+# ARC cases that covered this module
+# PSARC/2007/135 libXinerama
+MODULE_ARC_CASES = PSARC/2007/135
 
 # Needed for sun-abi.patch
 MODULE_CPPFLAGS= -D SUNSOFT
@@ -57,5 +58,8 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xinerama.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXinerama.so libXinerama.so.1
 
 include ../Makefile.inc

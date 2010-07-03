@@ -28,6 +28,10 @@
 # Package name used in tarballs
 MODULE_NAME=xfsinfo
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/xfs/xfs-utilities
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 
@@ -40,7 +44,16 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwplt
 MODULE_STABILITY=Committed
 
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xfsinfo
+
 include ../Makefile.inc
+
+# Special compatibility link from /usr/X11/bin/fsinfo to /usr/bin/xfsinfo
+install: $(X11_BINCOMPAT_DIR)/fsinfo
+
+$(X11_BINCOMPAT_DIR)/fsinfo: $(X11_BINCOMPAT_DIR)
+	@rm -f $@
+	ln -s ../../bin/xfsinfo $@

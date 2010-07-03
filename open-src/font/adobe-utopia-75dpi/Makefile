@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=font-adobe-utopia-75dpi
 
+# Package metadata
+MODULE_LICENSE          = Adobe Utopia Font License
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 

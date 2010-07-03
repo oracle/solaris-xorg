@@ -24,6 +24,10 @@
 
 MODULE_NAME=sun-aliases
 
+# Default package name for bitmap font packages
+MODTYPE_PKGHIER=system/font/xorg
+MODTYPE_PKGHIER_SET=yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE
@@ -43,6 +47,13 @@ INSTALL_TARGETS_SET=yes
 
 BUILD_TYPES = core ISO8859-1
 BUILD_TYPES_SET = yes
+
+# Special rules for pkg manifest generation
+MANIFEST_TARGETS=$(BUILD_TYPES:%=manifest_%)
+MANIFEST_TARGETS_SET=yes
+MODULE_PKGTAIL_core = xorg-core
+MODULE_PKGTAIL_ISO8859-1 = iso8859-1
+MODULE_PKGTAIL = $(MODULE_PKGTAIL_$(BUILD_TYPES))
 
 ### Include common rulesets
 include ../Makefile.inc
@@ -71,6 +82,18 @@ $(INSTDIR)/%/fonts.alias.all: fonts.alias.%
 	fi
 	cat $< >> $@
 
-$(INSTDIR)/%/fonts.alias: $(INSTDIR)/%/fonts.alias.all
+$(INSTDIR)/%/fonts.alias: $(INSTDIR)/%/fonts.alias.all $(INSTDIR)/%/fonts.dir
 	(cd $(@:fonts.alias=) ; \
 	 LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(INSTALLALIAS) fonts.alias.all .)
+
+# Needed when installing to alternate protodir, such as when
+# generating pkg manifests
+$(INSTDIR)/%/fonts.dir:
+	print '0' > $@.fake
+	ln $@.fake $@ ; rm $@.fake
+
+manifest_%: 
+	$(MAKE) $(MAKEFLAGS) manifest-per-type \
+		BUILD_TYPES="$(@:manifest_%=%)" \
+		ALIAS_DIRS='$(@:manifest_%=$$(ALIAS_DIRS_%))' \
+		MODULE_PKGTAIL_SET="yes"

@@ -1,0 +1,63 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/system/font/misc-meltho@__version:font-misc-meltho__
+set name=pkg.description \
+    value="OpenType font files for Syraic languages from Project Meltho at Beth Mardutho: The Syriac Computing Institute"
+set name=pkg.summary value="Meltho Syriac fonts"
+dir path=etc
+dir path=etc/X11
+dir path=etc/X11/fontpath.d
+dir path=usr
+dir path=usr/share
+dir path=usr/share/fonts
+dir path=usr/share/fonts/TrueType
+dir path=usr/share/fonts/TrueType/syriac
+file path=usr/share/fonts/TrueType/syriac/SyrCOMAdiabene.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMAntioch.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMBatnan.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMBatnanBold.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMCtesiphon.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMEdessa.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMJerusalem.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMJerusalemBold.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMJerusalemItalic.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMJerusalemOutline.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMKharput.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMMalankara.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMMardin.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMMardinBold.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMMidyat.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMNisibin.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMNisibinOutline.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMQenNeshrin.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMTalada.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMTurAbdin.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMUrhoy.otf
+file path=usr/share/fonts/TrueType/syriac/SyrCOMUrhoyBold.otf
+file path=usr/share/fonts/TrueType/syriac/fonts.dir
+file path=usr/share/fonts/TrueType/syriac/fonts.scale
+legacy pkg=SUNWfont-misc-meltho \
+    desc="OpenType font files for Syraic languages from Project Meltho at Beth Mardutho: The Syriac Computing Institute" \
+    name="Meltho Syriac fonts"
+link path=etc/X11/fontpath.d/syriac:pri=61 \
+    target=../../../usr/share/fonts/TrueType/syriac

@@ -26,7 +26,7 @@
 
 OS_SUBDIRS_common = \
 	rasterfile		\
-	smf-rbac		\
+	ogl-select		\
 	workspace-patterns 	\
 	xcursor-themes
 

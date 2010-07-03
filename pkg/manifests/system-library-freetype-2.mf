@@ -1,0 +1,142 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/system/library/freetype-2@__version:freetype__
+set name=pkg.description \
+    value="FreeType 2 is a software font engine that is designed to be small, efficient, highly customizable, and portable while capable of producing high-quality output (glyph images). It can be used in graphics libraries, display servers, font conversion tools, text image generation tools, and many other products as well."
+set name=pkg.summary value="FreeType 2 font engine"
+dir path=usr
+dir path=usr/bin
+dir path=usr/bin/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/freetype2
+dir path=usr/include/freetype2/freetype
+dir path=usr/include/freetype2/freetype/config
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/aclocal
+dir path=usr/share/doc
+dir path=usr/share/doc/freetype
+file path=usr/bin/$(ARCH64)/freetype-config
+file path=usr/bin/freetype-config
+file path=usr/include/freetype2/freetype/config/ftconfig.h
+file path=usr/include/freetype2/freetype/config/ftheader.h
+file path=usr/include/freetype2/freetype/config/ftmodule.h
+file path=usr/include/freetype2/freetype/config/ftoption.h
+file path=usr/include/freetype2/freetype/config/ftstdlib.h
+file path=usr/include/freetype2/freetype/freetype.h
+file path=usr/include/freetype2/freetype/ftadvanc.h
+file path=usr/include/freetype2/freetype/ftbbox.h
+file path=usr/include/freetype2/freetype/ftbdf.h
+file path=usr/include/freetype2/freetype/ftbitmap.h
+file path=usr/include/freetype2/freetype/ftcache.h
+file path=usr/include/freetype2/freetype/ftchapters.h
+file path=usr/include/freetype2/freetype/ftcid.h
+file path=usr/include/freetype2/freetype/fterrdef.h
+file path=usr/include/freetype2/freetype/fterrors.h
+file path=usr/include/freetype2/freetype/ftgasp.h
+file path=usr/include/freetype2/freetype/ftglyph.h
+file path=usr/include/freetype2/freetype/ftgxval.h
+file path=usr/include/freetype2/freetype/ftgzip.h
+file path=usr/include/freetype2/freetype/ftimage.h
+file path=usr/include/freetype2/freetype/ftincrem.h
+file path=usr/include/freetype2/freetype/ftlcdfil.h
+file path=usr/include/freetype2/freetype/ftlist.h
+file path=usr/include/freetype2/freetype/ftlzw.h
+file path=usr/include/freetype2/freetype/ftmac.h
+file path=usr/include/freetype2/freetype/ftmm.h
+file path=usr/include/freetype2/freetype/ftmodapi.h
+file path=usr/include/freetype2/freetype/ftmoderr.h
+file path=usr/include/freetype2/freetype/ftotval.h
+file path=usr/include/freetype2/freetype/ftoutln.h
+file path=usr/include/freetype2/freetype/ftpfr.h
+file path=usr/include/freetype2/freetype/ftrender.h
+file path=usr/include/freetype2/freetype/ftsizes.h
+file path=usr/include/freetype2/freetype/ftsnames.h
+file path=usr/include/freetype2/freetype/ftstroke.h
+file path=usr/include/freetype2/freetype/ftsynth.h
+file path=usr/include/freetype2/freetype/ftsystem.h
+file path=usr/include/freetype2/freetype/fttrigon.h
+file path=usr/include/freetype2/freetype/fttypes.h
+file path=usr/include/freetype2/freetype/ftwinfnt.h
+file path=usr/include/freetype2/freetype/ftxf86.h
+file path=usr/include/freetype2/freetype/t1tables.h
+file path=usr/include/freetype2/freetype/ttnameid.h
+file path=usr/include/freetype2/freetype/tttables.h
+file path=usr/include/freetype2/freetype/tttags.h
+file path=usr/include/freetype2/freetype/ttunpat.h
+file path=usr/include/ft2build.h
+file path=usr/lib/$(ARCH64)/libfreetype.so.6.3.20
+file path=usr/lib/$(ARCH64)/pkgconfig/freetype2.pc
+file path=usr/lib/libfreetype.so.6.3.20
+file path=usr/lib/pkgconfig/freetype2.pc
+file path=usr/share/aclocal/freetype2.m4
+file path=usr/share/doc/freetype/VERSION.DLL
+file path=usr/share/doc/freetype/formats.txt
+file path=usr/share/doc/freetype/ft2-base_interface.html
+file path=usr/share/doc/freetype/ft2-basic_types.html
+file path=usr/share/doc/freetype/ft2-bdf_fonts.html
+file path=usr/share/doc/freetype/ft2-bitmap_handling.html
+file path=usr/share/doc/freetype/ft2-cache_subsystem.html
+file path=usr/share/doc/freetype/ft2-cid_fonts.html
+file path=usr/share/doc/freetype/ft2-computations.html
+file path=usr/share/doc/freetype/ft2-font_formats.html
+file path=usr/share/doc/freetype/ft2-gasp_table.html
+file path=usr/share/doc/freetype/ft2-glyph_management.html
+file path=usr/share/doc/freetype/ft2-glyph_stroker.html
+file path=usr/share/doc/freetype/ft2-glyph_variants.html
+file path=usr/share/doc/freetype/ft2-gx_validation.html
+file path=usr/share/doc/freetype/ft2-gzip.html
+file path=usr/share/doc/freetype/ft2-header_file_macros.html
+file path=usr/share/doc/freetype/ft2-incremental.html
+file path=usr/share/doc/freetype/ft2-index.html
+file path=usr/share/doc/freetype/ft2-lcd_filtering.html
+file path=usr/share/doc/freetype/ft2-list_processing.html
+file path=usr/share/doc/freetype/ft2-lzw.html
+file path=usr/share/doc/freetype/ft2-mac_specific.html
+file path=usr/share/doc/freetype/ft2-module_management.html
+file path=usr/share/doc/freetype/ft2-multiple_masters.html
+file path=usr/share/doc/freetype/ft2-ot_validation.html
+file path=usr/share/doc/freetype/ft2-outline_processing.html
+file path=usr/share/doc/freetype/ft2-pfr_fonts.html
+file path=usr/share/doc/freetype/ft2-quick_advance.html
+file path=usr/share/doc/freetype/ft2-raster.html
+file path=usr/share/doc/freetype/ft2-sfnt_names.html
+file path=usr/share/doc/freetype/ft2-sizes_management.html
+file path=usr/share/doc/freetype/ft2-system_interface.html
+file path=usr/share/doc/freetype/ft2-toc.html
+file path=usr/share/doc/freetype/ft2-truetype_engine.html
+file path=usr/share/doc/freetype/ft2-truetype_tables.html
+file path=usr/share/doc/freetype/ft2-type1_tables.html
+file path=usr/share/doc/freetype/ft2-user_allocation.html
+file path=usr/share/doc/freetype/ft2-version.html
+file path=usr/share/doc/freetype/ft2-winfnt_fonts.html
+legacy pkg=SUNWfreetype2 \
+    desc="FreeType2 font handling library and rendering engine" \
+    name="FreeType2 Font library"
+link path=usr/lib/$(ARCH64)/libfreetype.so target=libfreetype.so.6.3.20
+link path=usr/lib/$(ARCH64)/libfreetype.so.6 target=libfreetype.so.6.3.20
+link path=usr/lib/libfreetype.so target=libfreetype.so.6.3.20
+link path=usr/lib/libfreetype.so.6 target=libfreetype.so.6.3.20
+link path=usr/share/doc/freetype/index.html target=ft2-toc.html

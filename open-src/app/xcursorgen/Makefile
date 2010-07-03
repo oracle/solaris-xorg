@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=xcursorgen
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=image/xcursorgen
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/Graphics and Imaging
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.3
 
@@ -40,10 +48,16 @@ SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
-SUN_PACKAGE=SUNWxwopt
 MODULE_STABILITY=Volatile
+
+# ARC cases that covered this module
+# LSARC/2007/491 libXcursor
+MODULE_ARC_CASES = LSARC/2007/491
 
 # Additional flags to pass to configure script
 MODULE_CONFIG_OPTS = LIB_MAN_SUFFIX=3Xcursor
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = xcursorgen
 
 include ../Makefile.inc

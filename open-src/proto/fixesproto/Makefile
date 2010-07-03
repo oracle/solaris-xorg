@@ -36,5 +36,11 @@ TARBALL_SHA1 = fb47920c629e08a56442a51968a02a22733085e5
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# ARC cases that covered this module
+# PSARC 2004/318 XFixes Xserver Extension
+MODULE_ARC_CASES = PSARC/2004/318
+# PSARC/2006/702 XFixes 4.0
+MODULE_ARC_CASES += PSARC/2006/702
+
 ### Include common rulesets
 include ../Makefile.inc

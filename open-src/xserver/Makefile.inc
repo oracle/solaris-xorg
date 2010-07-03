@@ -28,6 +28,13 @@ TOP=$(PWD)/../../..
 
 MODTYPE=xserver
 
+# Defaults for pkg names in this area
+MODTYPE_PKGHIER=x11/server
+MODTYPE_PKGHIER_SET=yes
+MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL:sh=basename $(pwd)
+MODULE_PKGTAIL_SET	      	= yes
+
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 

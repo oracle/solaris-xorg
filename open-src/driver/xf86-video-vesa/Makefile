@@ -40,7 +40,6 @@ SOURCE_PATCHES = vesa_xorg72.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-server
 MODULE_STABILITY=Volatile
 
 MODULE_COMPILER=gcc

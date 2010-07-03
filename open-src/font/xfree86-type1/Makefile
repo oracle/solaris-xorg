@@ -26,6 +26,10 @@
 # Package name used in tarballs
 MODULE_NAME=font-xfree86-type1
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=system/font/xorg/xorg-core
+MODULE_PKGNAME_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.0.2
 

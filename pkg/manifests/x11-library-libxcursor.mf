@@ -1,0 +1,86 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxcursor@__version:libXcursor__
+set name=pkg.description \
+    value="Xcursor is a simple library designed to help locate and load cursors.  When the Render extension is available in the X server, cursors can be full 32-bit color images, including alpha channels for translucency."
+set name=pkg.summary \
+    value="libXcursor - X Window System Cursor management library"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/Xcursor
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man3xcursor
+file path=usr/include/X11/Xcursor/Xcursor.h
+file path=usr/lib/$(ARCH64)/libXcursor.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/xcursor.pc
+file path=usr/lib/libXcursor.so.1
+file path=usr/lib/pkgconfig/xcursor.pc
+file path=usr/share/man/man3xcursor/Xcursor.3xcursor
+file path=usr/share/man/man3xcursor/XcursorCursorsCreate.3xcursor
+file path=usr/share/man/man3xcursor/XcursorCursorsDestroy.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameLoad.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameLoadAllImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameLoadCursor.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameLoadImage.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameLoadImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameSave.3xcursor
+file path=usr/share/man/man3xcursor/XcursorFilenameSaveImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorGetDefaultSize.3xcursor
+file path=usr/share/man/man3xcursor/XcursorGetTheme.3xcursor
+file path=usr/share/man/man3xcursor/XcursorImageCreate.3xcursor
+file path=usr/share/man/man3xcursor/XcursorImageDestroy.3xcursor
+file path=usr/share/man/man3xcursor/XcursorImagesCreate.3xcursor
+file path=usr/share/man/man3xcursor/XcursorImagesDestroy.3xcursor
+file path=usr/share/man/man3xcursor/XcursorLibraryLoadCursor.3xcursor
+file path=usr/share/man/man3xcursor/XcursorLibraryLoadCursors.3xcursor
+file path=usr/share/man/man3xcursor/XcursorLibraryLoadImage.3xcursor
+file path=usr/share/man/man3xcursor/XcursorLibraryLoadImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorSetDefaultSize.3xcursor
+file path=usr/share/man/man3xcursor/XcursorSetTheme.3xcursor
+file path=usr/share/man/man3xcursor/XcursorShapeLoadCursor.3xcursor
+file path=usr/share/man/man3xcursor/XcursorShapeLoadCursors.3xcursor
+file path=usr/share/man/man3xcursor/XcursorShapeLoadImage.3xcursor
+file path=usr/share/man/man3xcursor/XcursorShapeLoadImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorSupportsARGB.3xcursor
+file path=usr/share/man/man3xcursor/XcursorXcFileLoad.3xcursor
+file path=usr/share/man/man3xcursor/XcursorXcFileLoadAllImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorXcFileLoadImage.3xcursor
+file path=usr/share/man/man3xcursor/XcursorXcFileLoadImages.3xcursor
+file path=usr/share/man/man3xcursor/XcursorXcFileSave.3xcursor
+link path=usr/X11/lib/$(ARCH64)/libXcursor.so \
+    target=../../../lib/$(ARCH64)/libXcursor.so
+link path=usr/X11/lib/$(ARCH64)/libXcursor.so.1 \
+    target=../../../lib/$(ARCH64)/libXcursor.so.1
+link path=usr/X11/lib/libXcursor.so target=../../lib/libXcursor.so
+link path=usr/X11/lib/libXcursor.so.1 target=../../lib/libXcursor.so.1
+link path=usr/lib/$(ARCH64)/libXcursor.so target=libXcursor.so.1
+link path=usr/lib/libXcursor.so target=libXcursor.so.1
+depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

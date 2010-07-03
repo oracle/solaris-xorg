@@ -1,0 +1,44 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/accessory/xclipboard@__version:xclipboard__
+set name=pkg.description \
+    value="xclipboard is used to collect and display text selections that are sent to the CLIPBOARD by other clients.  It is typically used to save CLIPBOARD selections for later use.  It stores each CLIPBOARD selection as a separate string, each of which can be selected.  The xcutsel program is used to copy the current selection into a cut buffer and to make a selection that contains the current contents of the cut buffer.  It acts as a bridge between applications that don't support selections and those that do."
+set name=pkg.summary \
+    value="xclipboard & xcutsel tools for clipboard management"
+dir path=usr
+dir path=usr/X11
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/share
+dir path=usr/share/X11
+dir path=usr/share/X11/app-defaults
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=usr/bin/xclipboard
+file path=usr/bin/xcutsel
+file path=usr/share/X11/app-defaults/XClipboard
+file path=usr/share/man/man1/xclipboard.1
+file path=usr/share/man/man1/xcutsel.1
+link path=usr/X11/bin/xclipboard target=../../bin/xclipboard
+link path=usr/X11/bin/xcutsel target=../../bin/xcutsel
+# XClipboard app-defaults specifies helvetica & courier fonts
+depend fmri=pkg:/system/font/xorg/xorg-core type=require

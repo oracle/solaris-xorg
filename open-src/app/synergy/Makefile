@@ -28,6 +28,22 @@
 # Package name used in tarballs
 MODULE_NAME=synergy
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=desktop/synergy
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/System Utilities
+MODULE_PKGCLASS_SET=yes
+
+# Package metadata
+UPSTREAM		= Synergy
+UPSTREAM_URL		= http://synergy2.sourceforge.net/
+UPSTREAM_SET		= yes
+
+MODULE_LICENSE		= GPLv2
+MODULE_LICENSE_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.3.1
 
@@ -72,7 +88,6 @@ SOURCE_PATCHES =  \
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWsynergy
 MODULE_STABILITY=Committed
 
 USE_DEFAULT_CONFIG_ENV=no

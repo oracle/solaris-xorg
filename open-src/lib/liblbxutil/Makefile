@@ -27,6 +27,14 @@
 # Package name used in tarballs
 MODULE_NAME=liblbxutil
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/network/x11-network-proxies
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=Applications/Internet
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
 
@@ -41,7 +49,6 @@ SOURCE_PATCHES =
 LIBNAME=lbxutil
 
 # Man pages to apply Sun footer to & attributes to list
-#SUN_PACKAGE=SUNWxwplt
 #LIB_STABILITY=Committed
 #LIB_MAN_SUFFIX=3lbxutil
 

@@ -43,9 +43,16 @@ LIBNAME=Xrender
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
-SUN_PACKAGE=SUNWxorg-clientlibs
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xrender
+
+# ARC cases that covered this module
+# LSARC/2001/125 Xserver Render Extension
+MODULE_ARC_CASES = LSARC/2001/125
+# LSARC/2004/414 X Render Extension 0.8
+MODULE_ARC_CASES += LSARC/2004/414
+# LSARC/2007/193 X Render Extension: Protocol 0.10 / API 0.9 
+MODULE_ARC_CASES += LSARC/2007/193
 
 # Environment variable options to GNU autoconf configure script
 MODULE_CFLAGS=-I../include
@@ -57,5 +64,8 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xrender.pc.in
+
+# Compatibility links from /usr/X11/lib to /usr/lib
+MODULE_X11_LIBCOMPAT_LINKS = libXrender.so libXrender.so.1
 
 include ../Makefile.inc

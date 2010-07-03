@@ -28,6 +28,14 @@
 # Package name used in tarballs
 MODULE_NAME=liberation-fonts
 
+# Package metadata
+UPSTREAM	= Fedora Fonts SIG
+UPSTREAM_URL	= http://fedorahosted.org/liberation-fonts/
+UPSTREAM_SET	= yes
+
+MODULE_LICENSE          = Liberation Font Software License Agreement
+MODULE_LICENSE_SET      = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.04
 
@@ -73,3 +81,10 @@ TTF_SUBDIR_SET=yes
 ### Include common rulesets
 include ../Makefile.ttf
 
+# Additional license file
+install_license: $(MODULE_PKG_METADATA_DIR)/license_GPL
+
+$(MODULE_PKG_METADATA_DIR)/license_GPL: $(SOURCE_DATA_DIR)/COPYING
+	rm -f $@
+	cp -pf $(SOURCE_DATA_DIR)/COPYING $@
+	print 'license license_GPL license="GPLv2"' > $(LICENSE_ATTR_FILE)
