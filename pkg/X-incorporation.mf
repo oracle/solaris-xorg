@@ -22,7 +22,6 @@
 #
 
 set name=pkg.fmri value=pkg:/consolidation/X/X-incorporation@$(OSPKGVERS)
-set name=variant.arch value=$(ARCH)
 set name=pkg.description value="This incorporation constrains packages from the X Window System consolidation."
 set name=pkg.summary value="X consolidation incorporation"
 set name=pkg.depend.install-hold value=core-os.X

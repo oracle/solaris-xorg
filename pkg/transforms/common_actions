@@ -22,17 +22,19 @@
 #
 
 #
-# These aren't really transforms, but are settings which should appear in
-# every package
-#
-
-#
 # Packages are built here for a specific architecture, then later
 # merged into "fat" packages.   Packages that should only be built
 # for a single architecture override this in their manifests.
 #
 
-set name=variant.arch value=$(ARCH)
+<transform pkg -> default variant.arch set-default>
+<transform pkg variant.arch=set-default -> \
+	emit set name=variant.arch value=$(ARCH)>
+
+#
+# These aren't really transforms, but are settings which should appear in
+# every package
+#
 
 #
 # Metadata for the consolidation this package came from.
