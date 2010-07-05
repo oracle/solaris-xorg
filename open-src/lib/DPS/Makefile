@@ -60,7 +60,7 @@ MODULE_X11_BINCOMPAT_LINKS = makepsres pswrap
 include ../Makefile.inc
 
 # Install metadata for dps-motif package too
-MOTIF_PKG_METADATA_DIR	= $(MODULE_PKG_METADATA_DIR:%dps/=%dps-motif/)
+MOTIF_PKG_METADATA_DIR	= $(MODULE_PKG_METADATA_DIR:%x11-library-dps=%library-motif-libdpstkxm)
 MOTIF_PKG_ATTRDATA_FILE	= $(MOTIF_PKG_METADATA_DIR)/$(ATTRDATA_FILE_NAME)
 MOTIF_PKG_LICENSE_FILE	= $(MOTIF_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
 EXTRA_METADATA_TARGETS = \

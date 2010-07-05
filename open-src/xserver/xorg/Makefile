@@ -249,11 +249,13 @@ install_fix_paths_glxmodule: default_install
 install_fix_paths: install_fix_paths_glxmodule
 
 # Install metadata for Xephyr, Xvfb, & xtsol packages too
+XCOMMON_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xserver-common)
 XEPHYR_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xephyr)
 XVFB_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xvfb)
 XTSOL_PKG_METADATA_DIR =  $(MODULE_PKG_METADATA_DIR:%-server-xorg=%-trusted-trusted-xorg)
 
-EXTRA_METADATA_DIRS =	$(XEPHYR_PKG_METADATA_DIR) \
+EXTRA_METADATA_DIRS =	$(XCOMMON_PKG_METADATA_DIR) \
+			$(XEPHYR_PKG_METADATA_DIR) \
 			$(XVFB_PKG_METADATA_DIR) \
 			$(XTSOL_PKG_METADATA_DIR)
 

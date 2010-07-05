@@ -35,6 +35,9 @@ dir path=usr/lib/mdb
 dir path=usr/lib/mdb/proc
 $(i386_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=bin
 $(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
 $(i386_ONLY)file path=usr/bin/$(ARCH32)/Xephyr
 $(i386_ONLY)file path=usr/bin/$(ARCH64)/Xephyr
 $(sparc_ONLY)file path=usr/bin/Xephyr
