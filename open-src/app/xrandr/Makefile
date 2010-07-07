@@ -36,7 +36,7 @@ TARBALL_MD5  = 2cb19bb1c19ccf77c40032b03dbe06f0
 TARBALL_SHA1 = 0e49b0a0889ae8a590452c6cd0d60a2253a8d940
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

@@ -33,7 +33,7 @@ BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 MODULE_NAME=libXaw4
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/toolkit/libxaw4
+MODULE_PKGNAME=x11/library/toolkit/libxaw4
 MODULE_PKGNAME_SET=yes
 
 # No upstream sources, only local sources

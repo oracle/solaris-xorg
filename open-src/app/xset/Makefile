@@ -39,7 +39,7 @@ TARBALL_SHA1 = ff4295442821826092b17248c1ad65e16cd860ef
 SOURCE_PATCHES = xsetfbpm.patch xsetman.patch
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

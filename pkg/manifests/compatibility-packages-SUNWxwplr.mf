@@ -31,7 +31,7 @@ legacy pkg=SUNWxwplr desc="X Window System platform software configuration" \
 ### Depends on packages split out of the old SVR4 versions
 
 # application/opengl/ogl-select SMF service
-depend fmri=pkg:/service/application/opengl/ogl-select type=require
+depend fmri=pkg:/service/opengl/ogl-select type=require
 
 # etc/security/auth_attr entries for solaris.smf.manage.font
 depend fmri=pkg:/system/library/fontconfig type=require

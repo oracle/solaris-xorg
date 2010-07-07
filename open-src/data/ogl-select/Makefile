@@ -29,7 +29,7 @@
 MODULE_NAME=ogl-select
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=service/application/opengl/ogl-select
+MODULE_PKGNAME=service/opengl/ogl-select
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

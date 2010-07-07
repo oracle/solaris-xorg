@@ -19,23 +19,19 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/accessory/xcalc@__version:xcalc__
+set name=pkg.fmri value=pkg:/x11/xbiff@__version:xbiff__
 set name=pkg.description \
-    value="xcalc is a scientific calculator desktop accessory that can emulate a TI-30 or an HP-10C."
-set name=pkg.summary value="xcalc - scientific calculator for X"
+    value="xbiff displays whether a local mailbox has new mail."
+set name=pkg.summary value="xbiff - mailbox flag for X"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
 dir path=usr/bin
 dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
 dir path=usr/share/man
 dir path=usr/share/man/man1
-file path=usr/bin/xcalc
-file path=usr/share/X11/app-defaults/XCalc
-file path=usr/share/X11/app-defaults/XCalc-color
-file path=usr/share/man/man1/xcalc.1
-link path=usr/X11/bin/xcalc target=../../bin/xcalc
-# XCalc app-defaults specifies -adobe-symbol-*-*-*-*-*-120-*-*-*-*-*-* font
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+file path=usr/bin/xbiff
+file path=usr/share/man/man1/xbiff.1
+link path=usr/X11/bin/xbiff target=../../bin/xbiff
+# xbiff loads the "flagup" and "flagdown" bitmaps from xbitmaps
+depend fmri=pkg:/x11/data/xbitmaps type=require

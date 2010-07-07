@@ -19,14 +19,17 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/toolkit/libxaw4@$(OSPKGVERS)
+set name=pkg.fmri value=pkg:/x11/xkill@__version:xkill__
 set name=pkg.description \
-    value="This package provides a libXaw.so.4 binary for backwards compatibility with programs compiled on older releases of Solaris."
-set name=pkg.summary \
-    value="libXaw4 - X Athena Widgets Toolkit (X11R4 binary compatibility version)"
+    value="xkill is a utility for forcing the X server to close connections to clients.  This program is very dangerous, but is useful for aborting programs that have displayed undesired windows on a user's screen."
+set name=pkg.summary value="xkill - utility to forcibly close X11 clients"
 dir path=usr
 dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/lib
-file path=usr/lib/libXaw.so.4
-link path=usr/X11/lib/libXaw.so.4 target=../../lib/libXaw.so.4
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=usr/bin/xkill
+file path=usr/share/man/man1/xkill.1
+link path=usr/X11/bin/xkill target=../../bin/xkill

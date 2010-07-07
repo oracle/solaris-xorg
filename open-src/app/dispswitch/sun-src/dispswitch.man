@@ -95,7 +95,7 @@ allbox;
 cw(2.750000i)| cw(2.750000i)
 lw(2.750000i)| lw(2.750000i).
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
-Availability	pkg:/x11/utility/x11-server-utilities
+Availability	pkg:/x11/x11-server-utilities
 Interface Stability	Volatile
 .TE 
 .sp

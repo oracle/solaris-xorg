@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/utility/colormap-utilities@$(X11PKGVERS)
+set name=pkg.fmri value=pkg:/x11/x11-window-dump@__version:xwd__
 set name=pkg.description \
-    value="Utilties for viewing and manipulating entries in X colormaps, especially those associated with low bit-depth visuals."
-set name=pkg.summary value="X Colormap Utilities"
+    value="A collection of utilities to dump an image of a window on screen to a XWD format image file, and to view or print such files."
+set name=pkg.summary value="X11 Window Dump (screenshot) utilities"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
@@ -30,15 +30,15 @@ dir path=usr/bin
 dir path=usr/share
 dir path=usr/share/man
 dir path=usr/share/man/man1
-file path=usr/bin/cmap_alloc
-file path=usr/bin/cmap_compact
-file path=usr/bin/xcolor
-file path=usr/bin/xstdcmap
-file path=usr/share/man/man1/cmap_alloc.1
-file path=usr/share/man/man1/cmap_compact.1
-file path=usr/share/man/man1/xcolor.1
-file path=usr/share/man/man1/xstdcmap.1
-link path=usr/X11/bin/cmap_alloc target=../../bin/cmap_alloc
-link path=usr/X11/bin/cmap_compact target=../../bin/cmap_compact
-link path=usr/X11/bin/xcolor target=../../bin/xcolor
-link path=usr/X11/bin/xstdcmap target=../../bin/xstdcmap
+file path=usr/bin/xdpr
+file path=usr/bin/xpr
+file path=usr/bin/xwd
+file path=usr/bin/xwud
+file path=usr/share/man/man1/xdpr.1
+file path=usr/share/man/man1/xpr.1
+file path=usr/share/man/man1/xwd.1
+file path=usr/share/man/man1/xwud.1
+link path=usr/X11/bin/xdpr target=../../bin/xdpr
+link path=usr/X11/bin/xpr target=../../bin/xpr
+link path=usr/X11/bin/xwd target=../../bin/xwd
+link path=usr/X11/bin/xwud target=../../bin/xwud

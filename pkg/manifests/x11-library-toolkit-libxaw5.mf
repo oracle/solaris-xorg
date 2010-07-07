@@ -19,20 +19,19 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/accessory/oclock@__version:oclock__
+set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw5@$(OSPKGVERS)
 set name=pkg.description \
-    value="Oclock simply displays the current time on an analog display in a rounded window."
-set name=pkg.summary value="oclock - round X clock"
+    value="This package provides a libXaw.so.5 binary for backwards compatibility with programs compiled on older releases of Solaris."
+set name=pkg.summary \
+    value="libXaw5 - X Athena Widgets Toolkit (X11R5/X11R6 binary compatibility version)"
 dir path=usr
 dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
-file path=usr/bin/oclock
-file path=usr/share/X11/app-defaults/Clock-color
-file path=usr/share/man/man1/oclock.1
-link path=usr/X11/bin/oclock target=../../bin/oclock
+dir path=usr/X11/lib
+dir path=usr/X11/lib/$(ARCH64)
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+file path=usr/lib/$(ARCH64)/libXaw.so.5
+file path=usr/lib/libXaw.so.5
+link path=usr/X11/lib/$(ARCH64)/libXaw.so.5 \
+    target=../../../lib/$(ARCH64)/libXaw.so.5
+link path=usr/X11/lib/libXaw.so.5 target=../../lib/libXaw.so.5

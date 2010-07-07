@@ -119,4 +119,4 @@ depend fmri=pkg:/x11/library/libxvmc type=require
 depend fmri=pkg:/x11/library/xtrans type=require
 
 # lib/libXt
-depend fmri=pkg:/x11/toolkit/libxt type=require
+depend fmri=pkg:/x11/library/toolkit/libxt type=require

@@ -29,7 +29,7 @@
 MODULE_NAME=viewres
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/toolkit/libxt/xt-resource-utilities
+MODULE_PKGNAME=x11/xt-resource-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)

@@ -20,7 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/service/application/opengl/ogl-select@$(OSPKGVERS)
+    value=pkg:/service/opengl/ogl-select@$(OSPKGVERS)
 set name=pkg.description \
     value="ogl-select is a SMF service that determines at boot time which vendor supplied OpenGL headers and libraries will be used, based on the hardware and drivers installed in the system."
 set name=pkg.summary \

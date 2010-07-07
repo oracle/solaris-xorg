@@ -19,19 +19,20 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/toolkit/libxaw5@$(OSPKGVERS)
+set name=pkg.fmri value=pkg:/x11/xvidtune@__version:xvidtune__
 set name=pkg.description \
-    value="This package provides a libXaw.so.5 binary for backwards compatibility with programs compiled on older releases of Solaris."
-set name=pkg.summary \
-    value="libXaw5 - X Athena Widgets Toolkit (X11R5/X11R6 binary compatibility version)"
+    value="Xvidtune is a client interface to the X server video mode extension (XFree86-VidModeExtension), allowing a user to interactively adjust existing video modes."
+set name=pkg.summary value="xvidtune - video mode tuner for Xorg servers"
 dir path=usr
 dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-file path=usr/lib/$(ARCH64)/libXaw.so.5
-file path=usr/lib/libXaw.so.5
-link path=usr/X11/lib/$(ARCH64)/libXaw.so.5 \
-    target=../../../lib/$(ARCH64)/libXaw.so.5
-link path=usr/X11/lib/libXaw.so.5 target=../../lib/libXaw.so.5
+dir path=usr/X11/bin
+dir path=usr/bin
+dir path=usr/share
+dir path=usr/share/X11
+dir path=usr/share/X11/app-defaults
+dir path=usr/share/man
+dir path=usr/share/man/man1
+file path=usr/bin/xvidtune
+file path=usr/share/X11/app-defaults/Xvidtune
+file path=usr/share/man/man1/xvidtune.1
+link path=usr/X11/bin/xvidtune target=../../bin/xvidtune

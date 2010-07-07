@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/toolkit/libxt@__version:libXt__
+set name=pkg.fmri value=pkg:/x11/library/toolkit/libxt@__version:libXt__
 set name=pkg.description \
     value="The X Toolkit Intrinsics are a programming library tailored to the special requirements of user interface construction within a network window system, specifically the X Window System.  The X Toolkit Intrinsics and a widget set such as the Athena Widgets (Xaw) or Motif (Xm) make up an X Toolkit."
 set name=pkg.summary value="libXt - X Toolkit Intrinsics library"

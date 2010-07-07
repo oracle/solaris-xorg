@@ -56,7 +56,7 @@ depend fmri=pkg:/terminal/luit type=require
 depend fmri=pkg:/terminal/xterm type=require
 
 # app/xcalc
-depend fmri=pkg:/x11/accessory/xcalc type=require
+depend fmri=pkg:/x11/xcalc type=require
 
 # data/workspace-patterns
 depend fmri=pkg:/x11/data/workspace-patterns type=require
@@ -183,44 +183,44 @@ depend fmri=pkg:/x11/session/xauth type=require
 depend fmri=pkg:/x11/session/xinit type=require
 
 # lib/libXaw4
-depend fmri=pkg:/x11/toolkit/libxaw4 type=require
+depend fmri=pkg:/x11/library/toolkit/libxaw4 type=require
 
 # lib/libXaw5
-depend fmri=pkg:/x11/toolkit/libxaw5 type=require
+depend fmri=pkg:/x11/library/toolkit/libxaw5 type=require
 
 # lib/libXaw
-depend fmri=pkg:/x11/toolkit/libxaw7 type=require
+depend fmri=pkg:/x11/library/toolkit/libxaw7 type=require
 
 # lib/libXt
-depend fmri=pkg:/x11/toolkit/libxt type=require
+depend fmri=pkg:/x11/library/toolkit/libxt type=require
 
 # lib/libXtsol
 depend fmri=pkg:/x11/trusted/libxtsol type=require
 
 # app/cmap_alloc, cmap_compact, xstdcmap
-depend fmri=pkg:/x11/utility/colormap-utilities type=require
+depend fmri=pkg:/x11/colormap-utilities type=require
 
 # app/rgb, xgamma, xhost, xinput, xmodmap, xprop, xrandr, xrdb
 # xrefresh, xset, xsetroot
-depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+depend fmri=pkg:/x11/x11-server-utilities type=require
 
 # app/xpr, xwd, xwud
-depend fmri=pkg:/x11/utility/x11-window-dump type=require
+depend fmri=pkg:/x11/x11-window-dump type=require
 
 # app/xfd
-depend fmri=pkg:/x11/utility/xfd type=require
+depend fmri=pkg:/x11/xfd type=require
 
 # app/xkill
-depend fmri=pkg:/x11/utility/xkill type=require
+depend fmri=pkg:/x11/xkill type=require
 
 # app/xlock
-depend fmri=pkg:/x11/utility/xlock type=require
+depend fmri=pkg:/x11/xlock type=require
 
 # app/xmag
-depend fmri=pkg:/x11/utility/xmag type=require
+depend fmri=pkg:/x11/xmag type=require
 
 # app/xvidtune
-depend fmri=pkg:/x11/utility/xvidtune type=require
+depend fmri=pkg:/x11/xvidtune type=require
 
 # app/fslsfonts, fstobdf, showfont, xfsinfo
 depend fmri=pkg:/x11/xfs/xfs-utilities type=require

@@ -21,7 +21,7 @@
 .\" DEALINGS IN THE SOFTWARE.
 .\" 
 .ds q \N'34'
-.TH ogl-select 1 "2 Jul 2010"
+.TH ogl-select 1 "6 Jul 2010"
 .SH NAME
 ogl-select \- boot time selection of OpenGL vendor files 
 .PP
@@ -92,7 +92,7 @@ cbp-1 | cbp-1
 l | l .
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
 =
-Availability	pkg:/service/application/opengl/ogl-select
+Availability	pkg:/service/opengl/ogl-select
 Interface Stability	Uncommitted
 .TE
 

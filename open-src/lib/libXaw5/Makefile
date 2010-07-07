@@ -28,7 +28,7 @@
 MODULE_NAME=libXaw5
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/toolkit/libxaw5
+MODULE_PKGNAME=x11/library/toolkit/libxaw5
 MODULE_PKGNAME_SET=yes
 
 # No upstream sources, only local sources

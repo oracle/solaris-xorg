@@ -29,7 +29,7 @@
 MODULE_NAME=xsetroot
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)

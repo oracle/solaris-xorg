@@ -39,7 +39,7 @@ TARBALL_SHA1 = 16b377c76a4a010200063a056e7a5e244ab6ff00
 SOURCE_PATCHES = 
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

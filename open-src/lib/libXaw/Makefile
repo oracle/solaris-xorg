@@ -42,7 +42,7 @@ SOURCE_PATCHES=
 LIBNAME=Xaw
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/toolkit/libxaw7
+MODULE_PKGNAME=x11/library/toolkit/libxaw7
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

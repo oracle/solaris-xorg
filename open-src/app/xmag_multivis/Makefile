@@ -29,7 +29,7 @@
 MODULE_NAME=xmag_multivis
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/xmag
+MODULE_PKGNAME=x11/xmag
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)

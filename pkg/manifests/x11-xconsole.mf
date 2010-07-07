@@ -19,11 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/x11/toolkit/libxt/xt-resource-utilities@$(X11PKGVERS)
+set name=pkg.fmri value=pkg:/x11/xconsole@__version:xconsole__
 set name=pkg.description \
-    value="Utilties to view and edit the configuration resources used by applications based on toolkits such as Athena Widgets (Xaw) and Motif (Xm) that utilize the X Toolkit Intrinsics (libXt)."
-set name=pkg.summary value="X Toolkit Resource utilities"
+    value="The xconsole program displays in a X window the messages which are usually sent to /dev/console."
+set name=pkg.summary value="xconsole - monitor system console messages with X"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
@@ -33,22 +32,7 @@ dir path=usr/share/X11
 dir path=usr/share/X11/app-defaults
 dir path=usr/share/man
 dir path=usr/share/man/man1
-file path=usr/bin/appres
-file path=usr/bin/editres
-file path=usr/bin/listres
-file path=usr/bin/viewres
-file path=usr/share/X11/app-defaults/Editres
-file path=usr/share/X11/app-defaults/Editres-color
-file path=usr/share/X11/app-defaults/Viewres
-file path=usr/share/X11/app-defaults/Viewres-color
-file path=usr/share/man/man1/appres.1
-file path=usr/share/man/man1/editres.1
-file path=usr/share/man/man1/listres.1
-file path=usr/share/man/man1/viewres.1
-link path=usr/X11/bin/appres target=../../bin/appres
-link path=usr/X11/bin/editres target=../../bin/editres
-link path=usr/X11/bin/listres target=../../bin/listres
-link path=usr/X11/bin/viewres target=../../bin/viewres
-# Editres app-defaults specifies -*-new century schoolbook-...-*-* font
-# Viewres app-defaults specifies -adobe-helvetica-....-iso*-* font
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+file path=usr/bin/xconsole
+file path=usr/share/X11/app-defaults/XConsole
+file path=usr/share/man/man1/xconsole.1
+link path=usr/X11/bin/xconsole target=../../bin/xconsole

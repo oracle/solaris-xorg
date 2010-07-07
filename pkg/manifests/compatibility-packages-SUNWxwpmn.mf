@@ -81,4 +81,4 @@ depend fmri=pkg:/x11/library/libxtst type=require
 depend fmri=pkg:/x11/library/libxv type=require
 
 # lib/libXt
-depend fmri=pkg:/x11/toolkit/libxt type=require
+depend fmri=pkg:/x11/library/toolkit/libxt type=require

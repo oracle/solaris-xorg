@@ -83,6 +83,6 @@ depend fmri=pkg:/terminal/xterm type=require
 # xdm calls sessreg for utmpx/wtmpx updates
 depend fmri=pkg:/x11/session/sessreg type=require
 # Default xdm session uses xrdb
-depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+depend fmri=pkg:/x11/x11-server-utilities type=require
 # xdm runs xconsole for messages on login screen
-depend fmri=pkg:/x11/utility/xconsole type=require
+depend fmri=pkg:/x11/xconsole type=require

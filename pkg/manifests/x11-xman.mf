@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/accessory/xclock@__version:xclock__
+set name=pkg.fmri value=pkg:/x11/xman@__version:xman__
 set name=pkg.description \
-    value="xclock is the classic X Window System clock utility.  It displays the time in analog or digital form, continuously updated at a frequency which may be specified by the user."
-set name=pkg.summary value="xclock - analog / digital clock for X"
+    value="xman is a graphical manual page browser using the Athena Widgets (Xaw) toolkit."
+set name=pkg.summary value="xman - graphical manual page display program"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
@@ -30,10 +30,16 @@ dir path=usr/bin
 dir path=usr/share
 dir path=usr/share/X11
 dir path=usr/share/X11/app-defaults
+dir path=usr/share/locale
+dir path=usr/share/locale/C
+dir path=usr/share/locale/C/LC_MESSAGES
 dir path=usr/share/man
 dir path=usr/share/man/man1
-file path=usr/bin/xclock
-file path=usr/share/X11/app-defaults/XClock
-file path=usr/share/X11/app-defaults/XClock-color
-file path=usr/share/man/man1/xclock.1
-link path=usr/X11/bin/xclock target=../../bin/xclock
+file path=usr/bin/xman
+file path=usr/share/X11/app-defaults/Xman
+file path=usr/share/X11/xman.help
+file path=usr/share/locale/C/LC_MESSAGES/xman.po
+file path=usr/share/man/man1/xman.1
+link path=usr/X11/bin/xman target=../../bin/xman
+# Xman app-defaults uses fonts including courier, symbol, helvetica, lucida
+depend fmri=pkg:/system/font/xorg/xorg-core type=require

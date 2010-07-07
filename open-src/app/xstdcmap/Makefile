@@ -29,7 +29,7 @@
 MODULE_NAME=xstdcmap
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/colormap-utilities
+MODULE_PKGNAME=x11/colormap-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)

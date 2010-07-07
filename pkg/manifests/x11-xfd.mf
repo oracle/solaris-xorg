@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/utility/xlock@$(OSPKGVERS)
+set name=pkg.fmri value=pkg:/x11/xfd@__version:xfd__
 set name=pkg.description \
-    value="xlock locks the X server till the user enters their password at the keyboard. While xlock is running, all new server connections are refused, the screen is blanked and a changing pattern is put on the screen."
-set name=pkg.summary value="xlock - X display screen lock"
+    value="The xfd utility creates a window containing the name of the font being displayed, a row of command buttons, several lines of text for displaying character metrics, and a grid containing one glyph per cell."
+set name=pkg.summary value="xfd - display all the characters in an X font"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
@@ -30,13 +30,13 @@ dir path=usr/bin
 dir path=usr/share
 dir path=usr/share/X11
 dir path=usr/share/X11/app-defaults
+dir path=usr/share/locale
+dir path=usr/share/locale/C
+dir path=usr/share/locale/C/LC_MESSAGES
 dir path=usr/share/man
 dir path=usr/share/man/man1
-# Must be setuid root to authenticate local users with passwds in /etc/shadow
-file path=usr/bin/xlock mode=4555 owner=root
-file path=usr/share/X11/app-defaults/XLock
-file path=usr/share/man/man1/xlock.1
-link path=usr/X11/bin/xlock target=../../bin/xlock
-# XLock app-defaults specifies font:
-# -b&h-lucida-medium-r-normal-sans-24-*-*-*-*-*-iso8859-1
-depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
+file path=usr/bin/xfd
+file path=usr/share/X11/app-defaults/Xfd
+file path=usr/share/locale/C/LC_MESSAGES/xfd.po
+file path=usr/share/man/man1/xfd.1
+link path=usr/X11/bin/xfd target=../../bin/xfd

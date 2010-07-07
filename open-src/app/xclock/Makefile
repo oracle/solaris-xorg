@@ -28,10 +28,6 @@
 # Package name used in tarballs
 MODULE_NAME=xclock
 
-# pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/accessory/$(MODULE_NAME)
-MODULE_PKGNAME_SET=yes
-
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes

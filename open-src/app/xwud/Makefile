@@ -39,7 +39,7 @@ TARBALL_SHA1 = 15a6c5e3ffc03b7e8e597947061940fee6c0a9fc
 SOURCE_PATCHES = 
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/x11-window-dump
+MODULE_PKGNAME=x11/x11-window-dump
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

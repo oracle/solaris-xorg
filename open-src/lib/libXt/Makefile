@@ -29,7 +29,7 @@
 MODULE_NAME=libXt
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/toolkit/libxt
+MODULE_PKGNAME=x11/library/toolkit/libxt
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)

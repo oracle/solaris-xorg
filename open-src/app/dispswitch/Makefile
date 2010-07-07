@@ -35,7 +35,7 @@ SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/utility/x11-server-utilities
+MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # ARC cases that covered this module

@@ -58,34 +58,34 @@ depend fmri=pkg:/image/xcursorgen type=require
 depend fmri=pkg:/web/browser/firefox/plugin/firefox-xrx type=require
 
 # oclock
-depend fmri=pkg:/x11/accessory/oclock type=require
+depend fmri=pkg:/x11/oclock type=require
 
 # xbiff
-depend fmri=pkg:/x11/accessory/xbiff type=require
+depend fmri=pkg:/x11/xbiff type=require
 
 # xclipboard
-depend fmri=pkg:/x11/accessory/xclipboard type=require
+depend fmri=pkg:/x11/xclipboard type=require
 
 # xclock
-depend fmri=pkg:/x11/accessory/xclock type=require
+depend fmri=pkg:/x11/xclock type=require
 
 # lbxproxy, proxymngr, xfindproxy, xfwp
 depend fmri=pkg:/x11/network/x11-network-proxies type=require
 
 # appres, editres, listres, viewres
-depend fmri=pkg:/x11/toolkit/libxt/xt-resource-utilities type=require
+depend fmri=pkg:/x11/xt-resource-utilities type=require
 
 # xcolor
-depend fmri=pkg:/x11/utility/colormap-utilities type=require
+depend fmri=pkg:/x11/colormap-utilities type=require
 
 # rgb, xcmsdb
-depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+depend fmri=pkg:/x11/x11-server-utilities type=require
 
 # xconsole
-depend fmri=pkg:/x11/utility/xconsole type=require
+depend fmri=pkg:/x11/xconsole type=require
 
 # xfontsel
-depend fmri=pkg:/x11/utility/xfontsel type=require
+depend fmri=pkg:/x11/xfontsel type=require
 
 # xman
-depend fmri=pkg:/x11/utility/xman type=require
+depend fmri=pkg:/x11/xman type=require

@@ -105,7 +105,7 @@ PKGS= $(MANIFESTS:%.mf=%)
 # build rules and dependencies.  The synthetic and real packages use
 # different sets of transforms and macros for pkgmogrify.
 #
-SYNTH_PKGS= X-incorporation X-consolidation
+SYNTH_PKGS= X-incorporation X-redistributable
 
 # Any given package list may be empty, but we can only determine that 
 # dynamically, so we always generate all lists.
@@ -272,7 +272,7 @@ pkglists: $(PKGLISTS)
 # dependency types, so that they can be included by either an
 # incorporation or a group package.
 #
-$(PDIR)/X-consolidation.mog:= PKGDEP_TYPE= require
+$(PDIR)/X-redistributable.mog:= PKGDEP_TYPE= require
 $(PDIR)/X-incorporation.mog:= PKGDEP_TYPE= incorporate
 
 # rule to build the synthetic manifests

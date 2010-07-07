@@ -77,16 +77,16 @@ depend fmri=pkg:/terminal/xterm type=require
 depend fmri=pkg:/web/browser/firefox/plugin/firefox-xrx type=require
 
 # app/oclock
-depend fmri=pkg:/x11/accessory/oclock type=require
+depend fmri=pkg:/x11/oclock type=require
 
 # app/xbiff
-depend fmri=pkg:/x11/accessory/xbiff type=require
+depend fmri=pkg:/x11/xbiff type=require
 
 # app/xcalc
-depend fmri=pkg:/x11/accessory/xcalc type=require
+depend fmri=pkg:/x11/xcalc type=require
 
 # app/xclipboard
-depend fmri=pkg:/x11/accessory/xclipboard type=require
+depend fmri=pkg:/x11/xclipboard type=require
 
 # app/ico, xeyes, xgc, xlogo
 depend fmri=pkg:/x11/demo type=require
@@ -134,37 +134,37 @@ depend fmri=pkg:/x11/session/xauth type=require
 depend fmri=pkg:/x11/session/xinit type=require
 
 # app/appres, editres, listres, viewres
-depend fmri=pkg:/x11/toolkit/libxt/xt-resource-utilities type=require
+depend fmri=pkg:/x11/xt-resource-utilities type=require
 
 # app/cmap_alloc, cmap_compact, xcolor, xstdcmap
-depend fmri=pkg:/x11/utility/colormap-utilities type=require
+depend fmri=pkg:/x11/colormap-utilities type=require
 
 # app/rgb, xcmsdb, xhost, xmodmap, xprop, xrdb, xrefresh, xset, xsetroot
-depend fmri=pkg:/x11/utility/x11-server-utilities type=require
+depend fmri=pkg:/x11/x11-server-utilities type=require
 
 # app/xpr, xwd, xwud
-depend fmri=pkg:/x11/utility/x11-window-dump type=require
+depend fmri=pkg:/x11/x11-window-dump type=require
 
 # app/xconsole
-depend fmri=pkg:/x11/utility/xconsole type=require
+depend fmri=pkg:/x11/xconsole type=require
 
 # app/xfd
-depend fmri=pkg:/x11/utility/xfd type=require
+depend fmri=pkg:/x11/xfd type=require
 
 # app/xfontsel
-depend fmri=pkg:/x11/utility/xfontsel type=require
+depend fmri=pkg:/x11/xfontsel type=require
 
 # app/xkill
-depend fmri=pkg:/x11/utility/xkill type=require
+depend fmri=pkg:/x11/xkill type=require
 
 # app/xlock
-depend fmri=pkg:/x11/utility/xlock type=require
+depend fmri=pkg:/x11/xlock type=require
 
 # app/xmag, xmag_multivis
-depend fmri=pkg:/x11/utility/xmag type=require
+depend fmri=pkg:/x11/xmag type=require
 
 # app/xman
-depend fmri=pkg:/x11/utility/xman type=require
+depend fmri=pkg:/x11/xman type=require
 
 # app/xfs
 depend fmri=pkg:/x11/xfs type=require

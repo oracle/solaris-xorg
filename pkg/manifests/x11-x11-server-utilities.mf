@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/utility/x11-server-utilities@$(X11PKGVERS)
+set name=pkg.fmri value=pkg:/x11/x11-server-utilities@$(X11PKGVERS)
 set name=pkg.description \
     value="A collection of common utilities for manipulating the state of an X server in a running X session."
 set name=pkg.summary value="X11 server state utilities"

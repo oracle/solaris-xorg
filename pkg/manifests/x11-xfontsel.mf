@@ -19,10 +19,11 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/utility/xmag@__version:xmag__
+set name=pkg.fmri value=pkg:/x11/xfontsel@__version:xfontsel__
 set name=pkg.description \
-    value="The xmag program allows you to capture a static image of a portion of an X screen, and display it magnified."
-set name=pkg.summary value="xmag - magnify parts of the screen"
+    value="The xfontsel application provides a simple way to display the fonts known to your X server, examine samples of each, and retrieve the X Logical Font Description (XLFD) full name for a font."
+set name=pkg.summary \
+    value="xfontsel - point and click selection of X11 font names"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
@@ -30,14 +31,13 @@ dir path=usr/bin
 dir path=usr/share
 dir path=usr/share/X11
 dir path=usr/share/X11/app-defaults
+dir path=usr/share/locale
+dir path=usr/share/locale/C
+dir path=usr/share/locale/C/LC_MESSAGES
 dir path=usr/share/man
 dir path=usr/share/man/man1
-file path=usr/bin/xmag
-file path=usr/bin/xmag_multivis
-file path=usr/share/X11/app-defaults/Xmag
-file path=usr/share/man/man1/xmag.1
-file path=usr/share/man/man1/xmag_multivis.1
-link path=usr/X11/bin/xmag target=../../bin/xmag
-link path=usr/X11/bin/xmag_multivis target=../../bin/xmag_multivis
-# Xmag app-defaults specifies font: 8x13bold
-depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
+file path=usr/bin/xfontsel
+file path=usr/share/X11/app-defaults/XFontSel
+file path=usr/share/locale/C/LC_MESSAGES/xfontsel.po
+file path=usr/share/man/man1/xfontsel.1
+link path=usr/X11/bin/xfontsel target=../../bin/xfontsel
