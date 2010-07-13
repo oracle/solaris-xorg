@@ -26,7 +26,6 @@ set name=pkg.summary \
     value="Dependencies required to build the X Consolidation."
 set name=info.classification \
     value="org.opensolaris.category.2008:Development/Distribution Tools"
-set name=org.opensolaris.noincorp value=true
 
 # Workaround for https://defect.opensolaris.org/bz/show_bug.cgi?id=15809
 depend fmri=pkg:/compatibility/ucb type=require
