@@ -232,7 +232,7 @@ Xvnc_install_module: $(BUILD_TARGETS)
 Xvnc_install_programs: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR) \
 		$(PROTODIR)/usr/share/man/man1 \
-		$(PROTODIR)/var/svc/manifest/application/x11 
+		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11 
 	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/unix/vncserver \
 		$(SOURCE_DIR)/unix/vncpasswd/vncpasswd \
 		$(SOURCE_DIR)/unix/vncconfig/vncconfig \
@@ -251,7 +251,7 @@ Xvnc_install_programs: $(BUILD_TARGETS)
 	    $(SOURCE_DIR)/unix/x0vncserver/x0vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/x0vncserver.1
 	$(INSTALL_SCRIPT) -m 0444 xvnc-inetd.xml \
-		$(PROTODIR)/var/svc/manifest/application/x11/
+		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11/
 
 # Java VNCviewer applet for connecting from a web browser
 JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src

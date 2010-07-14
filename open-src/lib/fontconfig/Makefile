@@ -131,9 +131,9 @@ AUTORECONF=yes
 include ../Makefile.inc
 
 # Path to install fc-cache SMF files and the RBAC files they use
-FONTCONFIG_SMF_MANIFEST_dir=$(PROTODIR)/var/svc/manifest/application/font
+FONTCONFIG_SMF_MANIFEST_dir=$(PROTODIR)$(SMF_MANIFEST_DIR)/application/font
 FONTCONFIG_SMF_MANIFEST=$(FONTCONFIG_SMF_MANIFEST_dir)/fc-cache.xml
-FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)/lib/svc/method
+FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)$(SMF_METHOD_DIR)
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 FONTCONFIG_RBAC_AUTH_dir=$(PROTODIR)/etc/security/auth_attr.d
 FONTCONFIG_RBAC_AUTH=$(FONTCONFIG_RBAC_AUTH_dir)/fontconfig

@@ -54,8 +54,7 @@ MODULE_X11_BINCOMPAT_LINKS = X Xserver
 ### Include common rulesets
 include ../Makefile.inc
 
-X11_SMF_MANIFEST_DIR=/var/svc/manifest/application/x11
-SMF_METHOD_DIR=/lib/svc/method
+X11_SMF_MANIFEST_DIR=$(SMF_MANIFEST_DIR)/application/x11
 DESTDIR=$(PROTODIR)
 
 check: x11-server.xml

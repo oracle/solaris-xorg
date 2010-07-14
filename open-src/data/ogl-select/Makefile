@@ -55,8 +55,7 @@ INSTALL_TARGETS_SET=yes
 ### Include common rulesets
 include ../Makefile.inc
 
-SUN_SMF_MANIFEST_DIR=/var/svc/manifest/application
-SUN_SMF_METHOD_DIR=/lib/svc/method
+OGL_SMF_MANIFEST_DIR=$(SMF_MANIFEST_DIR)/application/opengl
 DESTDIR=$(PROTODIR)
 
 check: ogl-select.xml
@@ -67,14 +66,14 @@ OGL_VENDOR_SCRIPTS_i386=nvidia_vendor_select
 OGL_VENDOR_SCRIPTS=mesa_vendor_select $(OGL_VENDOR_SCRIPTS_$(MACH))
 
 install_ogl-select:
-	mkdir -p $(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl \
-		$(DESTDIR)$(SUN_SMF_METHOD_DIR) \
+	mkdir -p $(DESTDIR)$(OGL_SMF_MANIFEST_DIR) \
+		$(DESTDIR)$(SMF_METHOD_DIR) \
 		$(DESTDIR)$(X11_DIR)/share/man/man1 \
 		$(DESTDIR)/lib/opengl/ogl_select/
 	$(INSTALL_SCRIPT) -c -m 0444 ogl-select.xml \
-		$(DESTDIR)$(SUN_SMF_MANIFEST_DIR)/opengl
+		$(DESTDIR)$(OGL_SMF_MANIFEST_DIR)
 	$(INSTALL_SCRIPT) -c -m 0555 ogl-select \
-		$(DESTDIR)$(SUN_SMF_METHOD_DIR)/ogl-select
+		$(DESTDIR)$(SMF_METHOD_DIR)/ogl-select
 	$(INSTALL_SCRIPT) -c -m 0444 ogl-select.man \
 		$(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
 	$(INSTALL_SCRIPT) -c -m 0555 $(OGL_VENDOR_SCRIPTS) \

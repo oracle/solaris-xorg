@@ -220,6 +220,9 @@ PROTOTOP=$(TOP)/proto
 PROTODIR=$(PROTOTOP)/root_$(MACH)
 PROTOMETA=$(PROTOTOP)/metadata_$(MACH)
 
+SMF_MANIFEST_DIR=/lib/svc/manifest
+SMF_METHOD_DIR=/lib/svc/method
+
 X11_DIR=/usr
 X11_BIN_DIR=$(X11_DIR)/bin
 X11_LIB_DIR=$(X11_DIR)/lib

@@ -33,6 +33,8 @@
 #
 <transform dir path=^etc/hal.* -> default group bin>
 <transform dir path=^etc.* -> default group sys>
+<transform dir path=^lib/svc/manifest.* -> default group sys>
+<transform file path=^lib/svc/manifest/.* -> default group sys>
 <transform dir path=^usr$ -> default group sys>
 <transform dir path=^usr/share$ -> default group sys>
 <transform dir path=^usr/lib/mdb -> default group sys>
@@ -41,8 +43,6 @@
 <transform dir path=^usr/share/icons -> default group other>
 <transform dir path=^usr/share/$(ARCH64)/pkgconfig$ -> default group other>
 <transform dir path=^var$ -> default group sys>
-<transform dir path=^var/svc.* -> default group sys>
-<transform file path=^var/svc/.* -> default group sys>
 
 #
 # For what's left, go with root:bin 0444 for files, 0755 for directories

@@ -74,11 +74,11 @@ include ../Makefile.inc
 check_smf: xfs.xml
 	/usr/sbin/svccfg validate xfs.xml
 
-SMF_MANIFEST_DIR=/var/svc/manifest/application/x11
+X11_SMF_MANIFEST_DIR=$(SMF_MANIFEST_DIR)/application/x11
 
 install_smf: check_smf
-	mkdir -p $(PROTODIR)$(SMF_MANIFEST_DIR)
-	$(INSTALL_SCRIPT) -m 0444 xfs.xml $(PROTODIR)$(SMF_MANIFEST_DIR)
+	mkdir -p $(PROTODIR)$(X11_SMF_MANIFEST_DIR)
+	$(INSTALL_SCRIPT) -m 0444 xfs.xml $(PROTODIR)$(X11_SMF_MANIFEST_DIR)
 
 install_fsadmin:
 	mkdir -p $(PROTODIR)$(X11_DIR)/sbin \

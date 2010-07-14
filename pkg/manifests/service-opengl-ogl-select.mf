@@ -19,8 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/service/opengl/ogl-select@$(OSPKGVERS)
+set name=pkg.fmri value=pkg:/service/opengl/ogl-select@$(OSPKGVERS)
 set name=pkg.description \
     value="ogl-select is a SMF service that determines at boot time which vendor supplied OpenGL headers and libraries will be used, based on the hardware and drivers installed in the system."
 set name=pkg.summary \
@@ -29,6 +28,9 @@ dir path=lib
 dir path=lib/opengl
 dir path=lib/opengl/ogl_select
 dir path=lib/svc
+dir path=lib/svc/manifest
+dir path=lib/svc/manifest/application
+dir path=lib/svc/manifest/application/opengl
 dir path=lib/svc/method
 dir path=usr
 dir path=usr/X11
@@ -48,17 +50,12 @@ $(i386_ONLY)dir path=usr/lib/xorg/modules/extensions/$(ARCH64)
 dir path=usr/share
 dir path=usr/share/man
 dir path=usr/share/man/man1
-dir path=var
-dir path=var/svc
-dir path=var/svc/manifest
-dir path=var/svc/manifest/application
-dir path=var/svc/manifest/application/opengl
 file path=lib/opengl/ogl_select/mesa_vendor_select mode=0555
 $(i386_ONLY)file path=lib/opengl/ogl_select/nvidia_vendor_select mode=0555
 $(sparc_ONLY)file path=lib/opengl/ogl_select/sun_vendor_select mode=0555
+file path=lib/svc/manifest/application/opengl/ogl-select.xml
 file path=lib/svc/method/ogl-select
 file path=usr/share/man/man1/ogl-select.1
-file path=var/svc/manifest/application/opengl/ogl-select.xml
 link path=usr/X11/include/GL target=../../include/GL
 link path=usr/X11/lib/$(ARCH64)/libGL.so target=libGL.so.1
 link path=usr/X11/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1

@@ -22,7 +22,7 @@
 #
 
 # SMF service manifests
-<transform file path=var/svc/manifest/.+\.xml -> \
+<transform file path=lib/svc/manifest/.+\.xml -> \
     add restart_fmri svc:/system/manifest-import:default>
 
 # RBAC files
