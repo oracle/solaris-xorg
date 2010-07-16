@@ -117,15 +117,15 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/buildtime.c unix/xserver/hw/vn
 diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/xvnc.cc unix/xserver/hw/vnc/xvnc.cc
 --- unix/xserver/hw/vnc/xvnc.cc	2009-08-20 02:46:42.000000000 -0700
 +++ unix/xserver/hw/vnc/xvnc.cc	2009-11-05 09:51:42.545083912 -0800
-@@ -79,7 +79,6 @@ extern "C" {
+@@ -80,7 +80,6 @@ extern "C" {
  #include "randrstr.h"
  #endif /* RANDR */
  #include <X11/keysym.h>
 -  extern char buildtime[];
- #undef class
- #undef public
- }
-@@ -256,7 +255,7 @@ void ddxBeforeReset(void)
+ #if XORG >= 17
+ #undef VENDOR_RELEASE
+ #undef VENDOR_STRING
+@@ -263,7 +262,7 @@ void ddxBeforeReset(void)
  void 
  ddxUseMsg()
  {
@@ -134,7 +134,7 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/xvnc.cc unix/xserver/hw/vnc/xv
      ErrorF("Underlying X server release %d, %s\n\n", VENDOR_RELEASE,
             VENDOR_STRING);
      ErrorF("-screen scrn WxHxD     set screen's width, height, depth\n");
-@@ -1225,7 +1224,7 @@ static void vfbClientStateChange(Callbac
+@@ -1232,7 +1231,7 @@ static void vfbClientStateChange(Callbac
  void
  InitOutput(ScreenInfo *screenInfo, int argc, char **argv)
  {

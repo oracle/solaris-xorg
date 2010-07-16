@@ -39,11 +39,11 @@ MODULE_LICENSE          = GPLv2
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.0
+MODULE_VERSION=1.0.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 622c6689a66651419b5431efdee99d5a
-TARBALL_SHA1 = 2435ea2e3c34a4055350f7680a94cea580b92979
+TARBALL_MD5  = daca3eb16afe65253b766eccb8bfdbc5
+TARBALL_SHA1 = 0c3dd6a3540966fea979a06df08c3aa9bdd1dc67
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -63,17 +63,12 @@ SOURCE_UNCOMPRESS=gzcat
 SOURCE_PATCHES = \
 	upstream-xorg-version.patch,-p1 \
 	upstream-input-refactor.patch,-p1 \
-	tigervnc-port-to-1.7.patch \
+	upstream-modkeystick.patch,-p1 \
+	upstream-port-to-1.7.patch,-p1 \
 	tigervnc-xserver17.patch \
-	vnc-samemachine-ipv6.patch,-p1 \
-	c++public.patch,-p1 \
-	vncserver-urandom.patch,-p1 \
 	vnc-nobuildtime.patch \
 	vnc-nohttpd.patch \
-	vncviewer-connect.patch,-p1 \
-	upstream-modkeystick.patch,-p0 \
-	solaris-port.patch \
-	capslock.patch
+	solaris-port.patch
 
 # ARC cases that covered this module
 # PSARC/2007/545 Xvnc
@@ -145,7 +140,7 @@ Xvnc_source_init: $(XORG_PATCHED_TARGET)
 $(XORG_TARBALL):
 	(cd ../xorg && $(MAKE) $(MAKEFLAGS) download)
 
-$(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL)
+$(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL) $(LNDIR)
 	mkdir -p $(SOURCE_DIR)/unix
 	$(MAKE) $(MAKEFLAGS) init_source \
 		NO_RECURSE="$(POUND_SIGN)" \

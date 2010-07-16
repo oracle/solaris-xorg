@@ -1323,7 +1323,7 @@ index 58f70d9..66c92d2 100644
    delete httpServer;
    delete server;
  }
-@@ -854,533 +800,10 @@ void XserverDesktop::lookup(int index, int* r, int* g, int* b)
+@@ -854,550 +800,10 @@
    }
  }
  
@@ -1483,6 +1483,14 @@ index 58f70d9..66c92d2 100644
 -  unsigned int i, n;
 -  int j, k;
 -
+-  /* 
+-   * Since we are checking the current state to determine if we need
+-   * to fake modifiers, we must make sure that everything put on the
+-   * input queue is processed before we start. Otherwise, shift may be
+-   * stuck down.
+-   */ 
+-  mieqProcessInputEvents();
+-
 -  if (keysym == XK_Caps_Lock) {
 -    vlog.debug("Ignoring caps lock");
 -    return;
@@ -1599,6 +1607,15 @@ index 58f70d9..66c92d2 100644
 -#endif
 -    );
 -  }
+-
+-  /*
+-   * When faking a modifier we are putting a keycode (which can
+-   * currently activate the desired modifier) on the input
+-   * queue. A future modmap change can change the mapping so
+-   * that this keycode means something else entirely. Guard
+-   * against this by processing the queue now.
+-   */
+-  mieqProcessInputEvents();
 +	if (down)
 +		keyboardDevice->Press(keysym);
 +	else
@@ -1873,6 +1890,7 @@ index 9f300f5..6e4f609 100644
    OsTimerPtr deferredUpdateTimer, dummyTimer;
    rfb::VNCServerST* server;
    rfb::HTTPServer* httpServer;
+
 -- 
 1.5.6.5
 

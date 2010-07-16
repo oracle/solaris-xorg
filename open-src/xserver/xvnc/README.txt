@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ Source code access
 
    Upstream:
 	Original: http://www.tigervnc.com/
-	Fedora patches: http://cvs.fedoraproject.org/viewcvs/rpms/vnc/
+	Fedora patches: http://cvs.fedoraproject.org/viewcvs/rpms/tigervnc/
 
    1. Please provide a brief description of the feature and how it is used.
 
@@ -79,19 +79,19 @@ Source code access
 
    6. Please list the minimum system requirements.
 
-      System running Solaris 10U5 or Nevada.
+      System running Solaris 10U5 or later.
 
    7. List the things (GUI, commands, packages, binaries, configuration files,
       etc.) that are introduced, removed, or have substantially changed by
       this feature or project.
 
-      New package SUNWxvnc:
+  New package SUNWxvnc (S10) / pkg:/x11/server/xvnc (IPS):
 	  /usr/bin/vncpasswd
 	  /usr/bin/vncserver
 	  /usr/bin/x0vncserver
 	  /usr/bin/Xvnc	
       
-      New package SUNWvncviewer:
+  New package SUNWvncviewer (S10) / pkg:/desktop/remote-desktop/tigervnc (IPS):
 	  /usr/bin/vncviewer
 
    8. What major data structures have changed or have been added?
@@ -142,8 +142,92 @@ Source code access
   16.  If available, please provide a pointer to the cookbook procedures 
        for installation and configuration.
 
-	   See test case instructions in bugster bug id 6572087.
+Updated from test case instructions in bugster bug id 6572087,
+these are several common ways of configuring Xvnc to run:
 
+1) Starting on demand from inetd, displaying graphical login screen:
 
+  a) If using dtlogin (Solaris 10):
 
+     # Enable XDMCP connections on dtlogin by removing "-udpport 0" from args
+     # Warning: restart will kill all current dtlogin sessions!
+	svccfg -s cde-login setprop 'dtlogin/args=""'
+	svcadm refresh cde-login
+	svcadm restart cde-login
 
+     If using gdm (optional in Solaris 10, default in later releases):
+
+     Enable XDMCP connections in gdm by editing /etc/gdm/custom.conf
+     (GDM 2.30 & later) or /etc/X11/gdm/custom.conf (older GDM's) to
+     contain:
+	[xdmcp]
+	Enable=true
+
+     If it wasn't already there, then run "svcadm restart gdm" to activate.
+     ( Warning: restart will kill all current gdm sessions!)
+
+  b) For either dtlogin or gdm:
+
+    # Add xvnc service to /etc/services if it isn't already there
+    # (it was added in snv_99 but is not in any S10 update release)
+	printf "vnc-server\t5900/tcp\t\t\t# VNC Server\n" >> /etc/services
+    # Enable Xvnc inetd service:
+	inetadm -e xvnc-inetd
+
+    Connect from another machine with:
+	vncviewer hostname:0
+    and verify you see the login screen and can login to a desktop session.
+
+2) Starting at system boot from display manager, displaying login screen:
+
+   a) Add a display1 instance of x11-server service for configuration
+      and configure it to run Xvnc:
+
+	svccfg -s application/x11/x11-server add display1
+	svccfg -s application/x11/x11-server:display1 addpg options application
+	svccfg -s application/x11/x11-server:display1 addpropvalue options/server astring: "/usr/X11/bin/Xvnc"
+	svccfg -s application/x11/x11-server:display1 addpropvalue options/server_args astring: '"SecurityTypes=None"'
+
+  b) If using dtlogin (Solaris 10):
+    # Configure dtlogin to start it
+	mkdir -p /etc/dt/config
+	cp /usr/dt/config/Xservers /etc/dt/config/Xservers
+	echo "   :1   Local local_uid@none root /usr/X11/bin/Xserver :1" >> /etc/dt/config/Xservers
+	pkill -HUP dtlogin
+
+     If using gdm 2.30 or later (snv_130 or later):
+        ck-seat-tool -a --display-type=Local  display=:1
+
+  c) Connect from another machine with:
+	vncviewer hostname:1
+    and verify you see the login screen and can login to a desktop session.
+
+3) Starting manually, displaying session of user who started it, requiring
+VNC password (separate from Unix login password, not securely encoded on 
+disk or across the network, so don't use a valuable password):
+
+	/usr/bin/vncserver -httpd
+
+    From another machine, open a web browser and go to
+	http://hostname:5802/
+
+    (Assuming vncserver said it was starting on display :2 - if it listed
+     another display number, change :5802 to 5800 + the display id.)
+
+    Enter the password you provided to the vncserver script when it asked
+    and verify you see a simple desktop session in the viewer.
+
+    When done testing, kill the session with:
+
+    	 vncserver -kill :2
+
+    (again, substituting display value as necessary)
+
+4) Login to a normal/local X desktop session, open a terminal window and
+   run:
+	x0vncserver --SecurityTypes=None
+
+   Connect from another machine with:
+	vncviewer hostname:0
+   and verify you see and can control the existing session you ran
+   x0vncserver in.
