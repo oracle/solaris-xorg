@@ -115,6 +115,7 @@ SYNTH_PKGS= X-incorporation X-redistributable
 # 	PKGSTAT		meaning
 # 	----------	----------------------------------------------------
 # 	noincorp	Do not include in incorporation or group package
+# 	grouponly	Include in group package, but not incorporation
 #	obsolete	Include in incorporation, but not group package
 #	renamed		Include in incorporation, but not group package
 #	current		Include in incorporation and group package
@@ -128,6 +129,7 @@ SYNTH_PKGS= X-incorporation X-redistributable
 #
 PKGLISTS= \
 	$(PDIR)/packages.current \
+	$(PDIR)/packages.grouponly \
 	$(PDIR)/packages.renamed \
 	$(PDIR)/packages.obsolete
 

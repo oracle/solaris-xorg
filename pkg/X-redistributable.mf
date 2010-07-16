@@ -22,6 +22,8 @@
 #
 
 set name=pkg.fmri value=pkg:/consolidation/X/X-redistributable@$(OSPKGVERS)
-set name=pkg.description value="This group package installs all packages from the X Window System consolidation."
+set name=pkg.description \
+    value="This group package installs all packages from the X Window System consolidation."
 set name=pkg.summary value="X consolidation group package"
 <include packages.current>
+<include packages.grouponly>

@@ -27,6 +27,13 @@ set name=pkg.summary \
 set name=info.classification \
     value="org.opensolaris.category.2008:Development/Distribution Tools"
 
+# We don't want this package to be part of the X incorporation so that you
+# can install it to bootstrap the consolidation build for a later build
+# without having to uninstall all the X packages first.
+# We do want it to be part of the X-redistributable group, so it gets
+# included in the WOS correctly.
+set name=org.opensolaris.grouponly value=true
+
 # Workaround for https://defect.opensolaris.org/bz/show_bug.cgi?id=15809
 depend fmri=pkg:/compatibility/ucb type=require
 
