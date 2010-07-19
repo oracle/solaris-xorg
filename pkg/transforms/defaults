@@ -38,10 +38,11 @@
 <transform dir path=^usr$ -> default group sys>
 <transform dir path=^usr/share$ -> default group sys>
 <transform dir path=^usr/lib/mdb -> default group sys>
-<transform dir path=^usr/share/(aclocal|doc|pixmaps|pkgconfig)$ -> \
+<transform dir path=^usr/lib/pkgconfig$ -> default group other>
+<transform dir path=^usr/lib/$(ARCH64)/pkgconfig$ -> default group other>
+<transform dir path=^usr/share/(aclocal|doc|locale|pixmaps)$ -> \
 	default group other>
 <transform dir path=^usr/share/icons -> default group other>
-<transform dir path=^usr/share/$(ARCH64)/pkgconfig$ -> default group other>
 <transform dir path=^var$ -> default group sys>
 
 #
