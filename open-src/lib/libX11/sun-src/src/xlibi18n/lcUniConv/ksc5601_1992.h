@@ -4195,6 +4195,11 @@ ksc5601_1992_wctomb(conv_t conv, unsigned char *r, ucs4_t wc, int n)
         h = 0xD9B0;
     } else if (wc==0x25C9) {
         h = 0xD9C1;
+    } else if ((wc >= 0x3041 && wc <= 0x309F) || (wc >= 0x30A0 && wc <= 0x30FF)) {
+        /* Hiragana and Katakana should be handled in jis0208 as below else block
+          is KSC specific and breaks Hiragana/Katakana */
+        return RET_ILSEQ;
+
     } else {
         /* Try KSC5601, now KS X 1001. */
         ret = ksc5601_wctomb(conv, buf, wc, 2);

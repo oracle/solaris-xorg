@@ -72,8 +72,8 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      { "BIG5-0:GLGR", "\033%/2"},
      { "BIG5HKSCS-0:GLGR", "\033%/2"},
      { "GBK-0:GLGR", "\033%/2"},
-+    { "GB18030-0:GLGR", "\033%/2??GB18030-0" },
-+    { "GB18030-1:GLGR", "\033%/2??GB18030-1" },
++    { "GB18030-0:GLGR", "\033%/2" },
++    { "GB18030-1:GLGR", "\033%/2" },
      /* used by Emacs, but not backed by ISO-IR */
      { "BIG5-E0:GL", "\033$(0" },
      { "BIG5-E0:GR", "\033$)0" },

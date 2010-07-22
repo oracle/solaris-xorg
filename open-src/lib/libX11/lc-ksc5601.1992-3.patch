@@ -24,11 +24,20 @@
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
 --- src/xlibi18n/lcCT.c	2009-01-28 21:09:42.000000000 -0800
 +++ src/xlibi18n/lcCT.c	2009-04-08 00:20:25.037179000 -0700
+@@ -51,7 +51,7 @@
+  * Static representation of a character set that can be used in Compound Text.
+  */
+ typedef struct _CTDataRec {
+-    const char name[19];
++    const char name[20];
+     const char ct_sequence[5];	/* Compound Text encoding, ESC sequence */
+ } CTDataRec, *CTData;
+ 
 @@ -97,6 +97,7 @@ static const CTDataRec default_ct_data[]
      { "JISX0212.1990-0:GR", /* JIS_X0212-1990      159   */ "\033$)D" },
      { "KSC5601.1987-0:GL",  /* KS_C_5601-1987      149   */ "\033$(C" },
      { "KSC5601.1987-0:GR",  /* KS_C_5601-1987      149   */ "\033$)C" },
-+    { "KSC5601.1992-3:GLGR",  /* KS_C_5601-1992    149   */ "\033%/2??SUN-KSC5601.1992-3" },
++    { "KSC5601.1992-3:GLGR",  /* KS_C_5601-1992    149   */ "\033%/2" },
      { "CNS11643.1986-1:GL", /* CNS 11643-1992 pl.1 171   */ "\033$(G" },
      { "CNS11643.1986-1:GR", /* CNS 11643-1992 pl.1 171   */ "\033$)G" },
      { "CNS11643.1986-2:GL", /* CNS 11643-1992 pl.2 172   */ "\033$(H" },
