@@ -28,11 +28,11 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.16.4
+MODULE_VERSION=0.18.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 70c249a575ed02b7a5daa1bc9f9c6a4e
-TARBALL_SHA1 = 08fecbd065fa3792823818fcf715b97bc66d94cd
+TARBALL_MD5  = 8f0c47bbb12a0d9c0d14242596bf6bf9
+TARBALL_SHA1 = d66ab37ebc111e8031dd6d0ff1edf19b7adab5be
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -67,6 +67,8 @@ MODULE_PKGCLASS_SET=yes
 MODULE_ARC_CASES = LSARC/2008/637
 # LSARC/2009/223 pixman 0.14
 MODULE_ARC_CASES += LSARC/2009/223
+# PSARC/2010/282 pixman 0.18
+MODULE_ARC_CASES += PSARC/2010/282
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
