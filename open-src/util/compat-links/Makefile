@@ -79,3 +79,27 @@ $(INSTALL_LINKS): $(DESTDIR)/usr/X11
 	ln -s X11 $@
 
 install_links: $(INSTALL_LINKS)
+
+# Font links so that Java fontconfig.properties can find the fonts they use
+# (see CR 6905518 & 6972032)
+
+FONT_LINKDIR = $(DESTDIR)/usr/X11/lib/X11/fonts
+FONT_LINKS = 75dpi 100dpi misc TrueType
+FONT_LINKPATHS = $(FONT_LINKS:%=$(FONT_LINKDIR)/%)
+
+install_links: $(FONT_LINKPATHS)
+
+$(FONT_LINKDIR): $(DESTDIR)/usr/X11
+	mkdir -p $@
+
+$(FONT_LINKDIR)/75dpi $(FONT_LINKDIR)/100dpi: $(FONT_LINKDIR)
+	@rm -f $@
+	ln -s ../../../../share/fonts/X11/$(@F)-ISO8859-1 $@
+
+$(FONT_LINKDIR)/misc: $(FONT_LINKDIR)
+	@rm -f $@
+	ln -s ../../../../share/fonts/X11/misc $@
+
+$(FONT_LINKDIR)/TrueType: $(FONT_LINKDIR)
+	@rm -f $@
+	ln -s ../../../../share/fonts/TrueType $@
