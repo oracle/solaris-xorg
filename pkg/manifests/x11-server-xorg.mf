@@ -59,7 +59,7 @@ dir path=usr/share/man/man1
 dir path=usr/share/man/man4
 dir path=usr/share/man/man7
 dir path=var
-dir path=var/log
+dir path=var/log group=sys
 file path=etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
 # Xorg must be setuid root on x86 in order to access PCI bus devices
 # and make the sysi86 system call to change I/O privilege level (IOPL).
