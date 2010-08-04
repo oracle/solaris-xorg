@@ -69,8 +69,5 @@ MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-# Compatibility links from /usr/X11/lib to /usr/lib
-MODULE_X11_LIBCOMPAT_LINKS = libXfont.so libXfont.so.1
-
 include ../Makefile.inc
 

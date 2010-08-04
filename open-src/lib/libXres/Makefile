@@ -59,6 +59,6 @@ LIB_MAN_SUFFIX=3xres
 FIX_PC_FILES=xres.pc.in
 
 # Compatibility links from /usr/X11/lib to /usr/lib
-MODULE_X11_LIBCOMPAT_LINKS = libXres.so libXres.so.1
+MODULE_X11_LIBCOMPAT_LINKS = libXRes.so libXRes.so.1
 
 include ../Makefile.inc

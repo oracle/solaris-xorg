@@ -38,5 +38,6 @@ link path=usr/X11/lib/X11/fonts/75dpi \
 link path=usr/X11/lib/X11/fonts/TrueType \
     target=../../../../share/fonts/TrueType
 link path=usr/X11/lib/X11/fonts/misc target=../../../../share/fonts/X11/misc
+link path=usr/X11/lib/X11/xserver target=../../../lib/xorg
 link path=usr/X11R6 target=X11
 link path=usr/openwin target=X11

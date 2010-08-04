@@ -28,9 +28,6 @@ dir path=etc
 dir path=etc/X11
 dir path=etc/X11/fontpath.d
 dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
 dir path=usr/include
 dir path=usr/include/X11
 dir path=usr/include/X11/fonts
@@ -59,12 +56,6 @@ file path=usr/lib/$(ARCH64)/pkgconfig/xfont.pc
 file path=usr/lib/pkgconfig/xfont.pc
 file path=usr/lib/xorg/$(ARCH64)/libXfont.so.1
 file path=usr/lib/xorg/libXfont.so.1
-link path=usr/X11/lib/$(ARCH64)/libXfont.so \
-    target=../../../lib/$(ARCH64)/libXfont.so
-link path=usr/X11/lib/$(ARCH64)/libXfont.so.1 \
-    target=../../../lib/$(ARCH64)/libXfont.so.1
-link path=usr/X11/lib/libXfont.so target=../../lib/libXfont.so
-link path=usr/X11/lib/libXfont.so.1 target=../../lib/libXfont.so.1
 link path=usr/lib/xorg/$(ARCH64)/libXfont.so target=libXfont.so.1
 link path=usr/lib/xorg/libXfont.so target=libXfont.so.1
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

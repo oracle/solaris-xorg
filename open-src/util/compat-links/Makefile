@@ -80,6 +80,20 @@ $(INSTALL_LINKS): $(DESTDIR)/usr/X11
 
 install_links: $(INSTALL_LINKS)
 
+# Link directory for Xserver private libraries and data files for 
+# compatibility with Xnewt binaries built for Solaris 10
+XSERVER_LIB_LINKDIR = $(DESTDIR)/usr/X11/lib/X11
+XSERVER_LIB_LINKPATH = $(XSERVER_LIB_LINKDIR)/xserver
+
+install_links: $(XSERVER_LIB_LINKPATH)
+
+$(XSERVER_LIB_LINKDIR): $(DESTDIR)/usr/X11
+	mkdir -p $@
+
+$(XSERVER_LIB_LINKPATH): $(XSERVER_LIB_LINKDIR)
+	@rm -f $@
+	ln -s ../../../lib/xorg $@
+
 # Font links so that Java fontconfig.properties can find the fonts they use
 # (see CR 6905518 & 6972032)
 
@@ -89,7 +103,7 @@ FONT_LINKPATHS = $(FONT_LINKS:%=$(FONT_LINKDIR)/%)
 
 install_links: $(FONT_LINKPATHS)
 
-$(FONT_LINKDIR): $(DESTDIR)/usr/X11
+$(FONT_LINKDIR): $(XSERVER_LIB_LINKDIR)
 	mkdir -p $@
 
 $(FONT_LINKDIR)/75dpi $(FONT_LINKDIR)/100dpi: $(FONT_LINKDIR)

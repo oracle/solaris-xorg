@@ -48,12 +48,12 @@ file path=usr/share/man/man3xres/XResQueryClientResources.3xres
 file path=usr/share/man/man3xres/XResQueryClients.3xres
 file path=usr/share/man/man3xres/XResQueryExtension.3xres
 file path=usr/share/man/man3xres/XResQueryVersion.3xres
-link path=usr/X11/lib/$(ARCH64)/libXres.so \
-    target=../../../lib/$(ARCH64)/libXres.so
-link path=usr/X11/lib/$(ARCH64)/libXres.so.1 \
-    target=../../../lib/$(ARCH64)/libXres.so.1
-link path=usr/X11/lib/libXres.so target=../../lib/libXres.so
-link path=usr/X11/lib/libXres.so.1 target=../../lib/libXres.so.1
+link path=usr/X11/lib/$(ARCH64)/libXRes.so \
+    target=../../../lib/$(ARCH64)/libXRes.so
+link path=usr/X11/lib/$(ARCH64)/libXRes.so.1 \
+    target=../../../lib/$(ARCH64)/libXRes.so.1
+link path=usr/X11/lib/libXRes.so target=../../lib/libXRes.so
+link path=usr/X11/lib/libXRes.so.1 target=../../lib/libXRes.so.1
 link path=usr/lib/$(ARCH64)/libXRes.so target=libXRes.so.1
 link path=usr/lib/libXRes.so target=libXRes.so.1
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
