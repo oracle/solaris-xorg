@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -18,14 +18,54 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
---- freetype-2.3.9/builds/unix/unix-cc.in	2006-10-15 04:57:22.000000000 -0400
-+++ freetype-2.3.9/builds/unix/unix-cc.in	2009-08-27 12:09:50.107998000 -0400
-@@ -105,7 +105,7 @@
+
+Call compiler directly to build & link, avoiding libtool, so we can pass
+the compiler & linker flags we want.
+
+--- freetype-2.4.1/builds/unix/unix-cc.in	2009-03-14 06:45:26.000000000 -0700
++++ freetype-2.4.1/builds/unix/unix-cc.in	2010-08-05 19:38:02.381773781 -0700
+@@ -21,7 +21,7 @@ LIBTOOL ?= $(BUILD_DIR)/libtool
+ # The object file extension (for standard and static libraries).  This can be
+ # .o, .tco, .obj, etc., depending on the platform.
+ #
+-O  := lo
++O  := o
+ SO := o
+ 
+ 
+@@ -35,7 +35,7 @@ E := @EXEEXT@
+ # The library file extension (for standard and static libraries).  This can
+ # be .a, .lib, etc., depending on the platform.
+ #
+-A  := la
++A  := so.6
+ SA := a
+ 
+ 
+@@ -84,11 +84,11 @@ CFLAGS   := -c @XX_CFLAGS@ @CFLAGS@ -DFT
+ #
+ ANSIFLAGS := @XX_ANSIFLAGS@
+ 
+-# C compiler to use -- we use libtool!
++# C compiler to use -- we hate libtool!
+ #
+ #
+ CCraw := $(CC)
+-CC    := $(LIBTOOL) --mode=compile $(CCraw)
++CC    := $(CCraw) -Kpic
+ 
+ # Linker flags.
+ #
+@@ -105,9 +105,8 @@ CCexe        := $(CCraw_build)	# used to
  
  # Library linking
  #
 -LINK_LIBRARY = $(LIBTOOL) --mode=link $(CCraw) -o $@ $(OBJECTS_LIST) \
-+LINK_LIBRARY = $(LIBTOOL) --mode=link $(CCraw) $(CFLAGS) -o $@ $(OBJECTS_LIST) \
-                           -rpath $(libdir) -version-info $(version_info) \
-                           $(LDFLAGS) -no-undefined \
-                           # -export-symbols $(EXPORTS_LIST)
+-                          -rpath $(libdir) -version-info $(version_info) \
+-                          $(LDFLAGS) -no-undefined \
+-                          # -export-symbols $(EXPORTS_LIST)
++LINK_LIBRARY = $(CCraw) -G @CFLAGS@ -o $@ $(OBJECTS_LIST) \
++                          -R $(libdir) -h $(@F) -mc \
++                          $(LDFLAGS)
+ 
+ # EOF

@@ -1,4 +1,4 @@
-# Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -18,14 +18,18 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
---- freetype-2.3.9/builds/unix/freetype-config.in	2009-02-03 18:09:49.000000000 -0500
-+++ freetype-2.3.9/builds/unix/freetype-config.in	2009-08-27 13:53:14.803454000 -0400
+
+Remove -lz from the flags listed by freetype-config --libs since ELF
+library dependencies take care of that for us instead.
+
+--- freetype-2.4.1/builds/unix/freetype-config.in	2009-12-21 15:23:42.000000000 -0800
++++ freetype-2.4.1/builds/unix/freetype-config.in	2010-08-05 16:04:18.244153366 -0700
 @@ -144,7 +144,7 @@
    if test "$enable_shared" = "yes" ; then
      eval "rpath=\"$hardcode_libdir_flag_spec\""
    fi
 -  libs="-lfreetype @LIBZ@ @FT2_EXTRA_LIBS@"
 +  libs="-lfreetype @FT2_EXTRA_LIBS@"
-   if test "$libdir" != "/usr/lib" && test "$libdir" != "/usr/lib64"; then
-     echo -L$libdir $rpath $libs
+   if test "${SYSROOT}$libdir" != "/usr/lib" && test "${SYSROOT}$libdir" != "/usr/lib64"; then
+     echo -L${SYSROOT}$libdir $libs
    else

@@ -63,11 +63,11 @@ MODULE_LICENSE_SET	= yes
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.9
+MODULE_VERSION=2.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d76233108aca9c9606cdbd341562ad9a
-TARBALL_SHA1 = db08969cb5053879ff9e973fe6dd2c52c7ea2d4e
+TARBALL_MD5  = 567a27e5189ed581396f69fb51faf2d8
+TARBALL_SHA1 = 1870cc142be52a721031fcf16c4f8110dfb84fdb
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -75,21 +75,10 @@ SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	freetype-2.3.9-CVE-2009-0946.patch,-p1 \
-	fedora_aliasing_patch90.patch,-p1 \
+	freetype-CVE-2010-1797.patch,-p1 \
 	freetype-config.patch,-p1 \
-	ftoption.h.0.patch,-p1 \
-	ftconfig.h.1.patch,-p1 \
-	ttobjs.h.3.patch,-p1 \
-	ttobjs.c.4.patch,-p1 \
-	ttinterp.h.5.patch,-p1 \
-	ttinterp.c.6.patch,-p1 \
-	ttgload.c.7.patch,-p1 \
-	ftconfig.in.8.patch,-p1 \
-	unix-cc.in.9.patch,-p1 \
-	freetype2.in.10.patch,-p1 \
-	configure.11.patch,-p1 \
-	configure.12.patch,-p1
+	freetype-GS-conflict.patch,-p1 \
+	unix-cc.in.9.patch,-p1
 
 # Where to install freetype files
 MODULE_PREFIX=/usr
@@ -97,6 +86,8 @@ MODULE_PREFIX_SET=yes
 
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS= \
+	CONFIG_SHELL="/bin/bash" \
+	--enable-biarch-config \
 	--libdir='$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)' \
 	--with-zlib \
 	--with-pic
@@ -128,6 +119,11 @@ MODULE_ENV = \
     MAKEFLAGS= \
     MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(CONFIG_OPTS)"
 
+# Don't use -I paths to proto area, since freetype doesn't depend on
+# anything there, but can break if it finds old freetype headers during
+# an incremental rebuild.
+USE_DEFAULT_CONFIG_CPPFLAGS=no
+
 MODULE_CONFIG_ENV = $(MODULE_ENV)
 MODULE_BUILD_ENV = $(CONFIG_ENV)
 
@@ -153,13 +149,6 @@ FT_docdir=$(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
 # clash with the one in freetype's Makefiles
 install_freetype: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)$(FT_bindir)
-	( cd $(SOURCE_DIR)/builds/unix ; \
-	    ./config.status --file ftconfig ; \
-	    rm -f ftconfig.h ; \
-	    mv ftconfig ftconfig.h ; \
-	    touch -acm ftconfig.h )
-	( cd $(SOURCE_DIR) ; \
-	    cp -fp ./builds/unix/ftconfig.h ./include/freetype/config/ftconfig.h )
 	( cd $(SOURCE_DIR) ; \
 	  $(GNUMAKE) DESTDIR=$(PROTODIR) prefix=$(MODULE_PREFIX) libdir=$(FT_libdir) bindir=$(FT_bindir) install )
 
