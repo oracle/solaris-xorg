@@ -26,13 +26,17 @@
 #
 # Set version information in ELF files to give hints to help in troubleshooting
 #
-# Usage: set-elf-comments.pl -B <pkgversion> -M "module version" <path>
+# Usage: set-elf-comments.pl [-B <pkgversion>] -M "module version" \
+#	 [-X <exclude regexp>] <path>
+#
 #  <pkgversion> may either be a path to a file containing BUILD="<version>"
 #   or the string "hg id" to get the version from the hg id output.
 #
 # If the XBUILD_HG_ID environment variable is set, it is used for the hg id
 # instead of forking a hg id process for every component in a full tree build
 #
+# If -X is specified, it gives a regular expresion for filenames to skip
+# for this module.
 
 use strict;
 use warnings;
@@ -40,14 +44,21 @@ use Getopt::Std;
 use POSIX qw(strftime);
 use File::Find;
 
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
+
 my %opts;
-getopts('B:M:', \%opts);
+getopts('B:M:X:', \%opts);
 
 my $module_version_info = '@(#)';
 if (exists($opts{'M'})) {
   $module_version_info .= $opts{'M'};
 } else {
   die qq(Must specify -M "module version");
+}
+
+my $exclude_regexp;
+if (exists($opts{'X'})) {
+    $exclude_regexp = $opts{'X'};
 }
 
 my $build_info = strftime("%e %b %Y", localtime);
@@ -100,8 +111,13 @@ sub scan_file {
   # skip sources & intermediate build files that we don't ship
   return if $_ =~ m/\.[acho]$/ims;
 
-  # skip the *.uc files used by xf86-video-rendition for firmware
-  return if $_ =~ m/\.uc$/ms;
+  # skip files matching specified regexp
+  if (defined $exclude_regexp) {
+      if ($_ =~ m{$exclude_regexp}so) {
+	  print "Excluding $_\n";
+	  return;
+      }
+  }
 
   # If the file is not a symlink, is a regular file, and is at least 256 bytes
   if ((! -l $_) && (-f _) && (-s _ > 256)) {

@@ -631,9 +631,12 @@ $(BUILD_DEBUG:yes=)			DEBUG_ELF_COMMENTS=(DEBUG)
 $(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_ELF_COMMENTS=
 ELF_COMMENTS += $(DEBUG_ELF_COMMENTS)
 
+ELF_COMMENTS_FLAGS = -B 'hg id' -M '$(ELF_COMMENTS)'
+ELF_COMMENTS_FLAGS += $(MODTYPE_ELF_COMMENTS_FLAGS) $(MODULE_ELF_COMMENTS_FLAGS)
+
 set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
-	$(TOP)/open-src/common/set-elf-comments.pl -B 'hg id' \
-	 -M '$(ELF_COMMENTS)' $(SOURCE_DIR)
+	$(TOP)/open-src/common/set-elf-comments.pl $(ELF_COMMENTS_FLAGS) \
+	 $(SOURCE_DIR)
 
 # Help generate templates for package manifests
 DEFAULT_LICENSE=$(PKG_LICENSE_DIR)/cr_Oracle $(PKG_LICENSE_DIR)/lic_X11

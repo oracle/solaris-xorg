@@ -57,6 +57,10 @@ MODULE_LD_OPTIONS= \
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs
 
+# Don't touch the firmware blobs when setting elf comments, even though
+# they look like ELF files
+MODULE_ELF_COMMENTS_FLAGS = -X '\.uc$$'
+
 include ../Makefile.inc
 
 install_docs: $(INSTALL_DEPS)

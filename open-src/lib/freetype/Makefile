@@ -129,6 +129,10 @@ MODULE_BUILD_ENV = $(CONFIG_ENV)
 
 MODULE_INSTALL_MAKEFLAGS=bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 
+# Don't touch apinames when running set-elf-comments or it will trigger
+# a rebuild during "make install" that loses the comments.
+MODULE_ELF_COMMENTS_FLAGS = -X apinames
+
 ### Include common rulesets
 include ../Makefile.inc
 
