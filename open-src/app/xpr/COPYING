@@ -1,5 +1,5 @@
 
-Copyright (c) 1988  X Consortium
+Copyright (c) 1985, 1988  X Consortium
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -25,100 +25,29 @@ not be used in advertising or otherwise to promote the sale, use or
 other dealings in this Software without prior written authorization
 from the X Consortium.
 
+Copyright 1986 by Marvin Solomon and the University of Wisconsin
 
-
-Copyright (c) 1985  X Consortium
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of the X Consortium shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
-from the X Consortium.
-
-
- * XPR - process xwd(1) files for various printers
- *
- * Author: Michael R. Gretzinger, MIT Project Athena
- *
- * Modified by Marvin Solomon, Univeristy of Wisconsin, to handle Apple
- * Laserwriter (PostScript) devices (-device ps).
- * Also accepts the -compact flag that produces more compact output
- * by using run-length encoding on white (1) pixels.
- * This version does not (yet) support the following options
- *   -append -dump -noff -nosixopt -split
- * 
- * Changes
- * Copyright 1986 by Marvin Solomon and the University of Wisconsin
- * 
- * Permission to use, copy, modify, and distribute this
- * software and its documentation for any purpose and without
- * fee is hereby granted, provided that the above copyright
- * notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting
- * documentation, and that the names of Marvin Solomon and
- * the University of Wisconsin not be used in
- * advertising or publicity pertaining to distribution of the
- * software without specific, written prior permission.
- * Neither Marvin Solomon nor the University of Wisconsin
- * makes any representations about the suitability of
- * this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
- * 
- * Modified by Bob Scheifler for 2x2 grayscale, then ...
- * Modified by Angela Bock and E. Mike Durbin, Rich Inc., to produce output
- * using 2x2, 3x3, or 4x4 grayscales. This version modifies the grayscale
- * conversion option of -gray to accept an input of  2, 3, or 4 to signify
- * the gray level desired.  The output is produced, using 5, 10, or 17-level
- * gray scales, respectively.
- *
- * Modifications by Larry Rupp, Hewlett-Packard Company, to support HP
- * LaserJet, PaintJet, and other PCL printers.  Added "ljet" and "pjet"
- * to devices recognized.  Also added -density, -cutoff, and -noposition
- * command line options.
- *
- 
+Permission to use, copy, modify, and distribute this
+software and its documentation for any purpose and without
+fee is hereby granted, provided that the above copyright
+notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting
+documentation, and that the names of Marvin Solomon and
+the University of Wisconsin not be used in
+advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+Neither Marvin Solomon nor the University of Wisconsin
+makes any representations about the suitability of
+this software for any purpose.  It is provided "as is"
+without express or implied warranty.
 
 Copyright (c) 1988 by Hewlett-Packard Company
 
-Permission to use, copy, modify, and distribute this software 
-and its documentation for any purpose and without fee is hereby 
-granted, provided that the above copyright notice appear in all 
-copies and that both that copyright notice and this permission 
-notice appear in supporting documentation, and that 
-Hewlett-Packard not be used in advertising or publicity 
-pertaining to distribution of the software without specific, written 
+Permission to use, copy, modify, and distribute this software
+and its documentation for any purpose and without fee is hereby
+granted, provided that the above copyright notice appear in all
+copies and that both that copyright notice and this permission
+notice appear in supporting documentation, and that
+Hewlett-Packard not be used in advertising or publicity
+pertaining to distribution of the software without specific, written
 prior permission.
-
-*
-* File:         x2jet.c
-* RCS:          x2jet.c,v 1.23 89/07/17 12:02:51 lori Exp
-* Description:  xpr support for HP LaserJet and PaintJet printers
-* Author:       Larry Rupp, HP Graphics Technology Division
-* Created:      Fri Jul 15 15:22:26 1988
-* Modified:     Thu Sep 15 11:59:34 1988 (Larry Rupp) ler@hpfcler
-*               Tue Dec  6 10:04:43 PST 1988 (Marc Ayotte) marca@hp-pcd
-* Language:     C
-* Package:      N/A
-* Status:       Released to MIT
-*
-* (c) Copyright 1988, Hewlett-Packard Company.
-*
-********************************************************************************
