@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,8 +23,48 @@
 
 diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
 --- nls/compose.dir.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/compose.dir.pre	2010-06-07 18:01:10.730751798 -0700
-@@ -337,12 +337,12 @@ en_US.UTF-8/Compose:		is_IS.UTF-8
++++ nls/compose.dir.pre	2010-08-10 16:38:10.899093635 -0700
+@@ -239,6 +239,7 @@ XCOMM
+ XCOMM
+ en_US.UTF-8/Compose:		af_ZA.UTF-8
+ en_US.UTF-8/Compose:		ar_AA.UTF-8
++en_US.UTF-8/Compose:		ar_AE.UTF-8
+ en_US.UTF-8/Compose:		ar_BH.UTF-8
+ en_US.UTF-8/Compose:		ar_DZ.UTF-8
+ en_US.UTF-8/Compose:		ar_EG.UTF-8
+@@ -254,6 +255,7 @@ en_US.UTF-8/Compose:		ar_QA.UTF-8
+ en_US.UTF-8/Compose:		ar_SA.UTF-8
+ en_US.UTF-8/Compose:		ar_TN.UTF-8
+ en_US.UTF-8/Compose:		ar_YE.UTF-8
++en_US.UTF-8/Compose:		as_IN.UTF-8
+ en_US.UTF-8/Compose:		bo_IN.UTF-8
+ en_US.UTF-8/Compose:		bs_BA.UTF-8
+ en_US.UTF-8/Compose:		az_AZ.UTF-8
+@@ -279,17 +281,23 @@ en_US.UTF-8/Compose:		de_LU.UTF-8
+ el_GR.UTF-8/Compose:		el_CY.UTF-8
+ el_GR.UTF-8/Compose:		el_GR.UTF-8
+ en_US.UTF-8/Compose:		en_AU.UTF-8
++en_US.UTF-8/Compose:		en_BW.UTF-8
+ en_US.UTF-8/Compose:		en_BZ.UTF-8
+ en_US.UTF-8/Compose:		en_CA.UTF-8
+ en_US.UTF-8/Compose:		en_GB.UTF-8
++en_US.UTF-8/Compose:		en_HK.UTF-8
+ en_US.UTF-8/Compose:		en_IE.UTF-8
++en_US.UTF-8/Compose:		en_IN.UTF-8
+ en_US.UTF-8/Compose:		en_JM.UTF-8
+ en_US.UTF-8/Compose:		en_MT.UTF-8
+ en_US.UTF-8/Compose:		en_NZ.UTF-8
++en_US.UTF-8/Compose:		en_PH.UTF-8
++en_US.UTF-8/Compose:		en_SG.UTF-8
+ en_US.UTF-8/Compose:		en_TT.UTF-8
+ en_US.UTF-8/Compose:		en_UK.UTF-8
+ en_US.UTF-8/Compose:		en_US.UTF-8
+ en_US.UTF-8/Compose:		en_ZA.UTF-8
++en_US.UTF-8/Compose:		en_ZW.UTF-8
+ en_US.UTF-8/Compose:		eo_XX.UTF-8
+ en_US.UTF-8/Compose:		es_AR.UTF-8
+ en_US.UTF-8/Compose:		es_BO.UTF-8
+@@ -337,14 +345,15 @@ en_US.UTF-8/Compose:		is_IS.UTF-8
  en_US.UTF-8/Compose:		it_CH.UTF-8
  en_US.UTF-8/Compose:		it_IT.UTF-8
  en_US.UTF-8/Compose:		iu_CA.UTF-8
@@ -38,15 +78,19 @@ diff -urp -x '*~' -x '*.orig' nls/compose.dir.pre nls/compose.dir.pre
 +ko_KR.UTF-8/Compose:		ko_KR.UTF-8
  en_US.UTF-8/Compose:		ks_IN.UTF-8
  en_US.UTF-8/Compose:		ks_IN@devanagari.UTF-8
++en_US.UTF-8/Compose:		ku_TR.UTF-8
  en_US.UTF-8/Compose:		kw_GB.UTF-8
-@@ -413,7 +413,9 @@ en_US.UTF-8/Compose:		vi_VN.UTF-8
+ en_US.UTF-8/Compose:		ky_KG.UTF-8
+ en_US.UTF-8/Compose:		lo_LA.UTF-8
+@@ -413,7 +422,10 @@ en_US.UTF-8/Compose:		vi_VN.UTF-8
  en_US.UTF-8/Compose:		wa_BE.UTF-8
  en_US.UTF-8/Compose:		yi_US.UTF-8
  en_US.UTF-8/Compose:		xh_ZA.UTF-8
 -en_US.UTF-8/Compose:		zh_TW.UTF-8
-+zh_TW.UTF-8/Compose:		zh_TW.UTF-8
 +zh_CN.UTF-8/Compose:		zh_CN.UTF-8
 +zh_HK.UTF-8/Compose:		zh_HK.UTF-8
++zh_CN.UTF-8/Compose:		zh_SG.UTF-8
++zh_TW.UTF-8/Compose:		zh_TW.UTF-8
  en_US.UTF-8/Compose:		zu_ZA.UTF-8
  en_US.UTF-8/Compose:		bs_BA.UTF-8
  en_US.UTF-8/Compose:		ne_NP.UTF-8

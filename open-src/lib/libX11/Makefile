@@ -76,6 +76,7 @@ SOURCE_PATCHES = \
 	compose-zh_HK.UTF-8.patch \
 	compose-zh_TW.UTF-8.patch \
 	locale.aliases.patch \
+	locale.dir.patch \
 	locale.paths.patch \
 	locale-C.patch \
 	locale-iso8859-1.patch \
