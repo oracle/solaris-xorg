@@ -76,6 +76,10 @@ $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-i740 \
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-intel \
     type=require
 
+# driver/xf86-video-mach64
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64 \
+    type=require
+
 # driver/xf86-video-mga
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mga \
     type=require
@@ -89,6 +93,10 @@ $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-nv type=require
 
 # driver/xf86-video-openchrome
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-openchrome \
+    type=require
+
+# driver/xf86-video-r128
+$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-r128 \
     type=require
 
 # driver/xf86-video-radeonhd
