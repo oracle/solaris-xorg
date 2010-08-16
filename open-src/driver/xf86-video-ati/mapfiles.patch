@@ -1,10 +1,10 @@
---- src/Makefile.am	Tue Nov 10 11:09:55 2009
-+++ src/Makefile.am	Tue Nov 10 11:29:10 2009
-@@ -165,3 +165,40 @@
- 	pcidb/ati_pciids.csv \
- 	pcidb/parse_pci_ids.pl \
- 	radeon_atombios.h
-+
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2010-01-04 16:32:29.000000000 -0800
++++ src/Makefile.am	2010-04-26 20:36:36.232188492 -0700
+@@ -184,3 +184,39 @@ EXTRA_DIST = \
+ 	radeon_atombios.h \
+ 	radeon_dri2.h \
+ 	drmmode_display.h
 +
 +# Generate linker mapfiles for symbols found in other modules and use them
 +# and library flag additions to make sure all symbols are resolvable
@@ -20,7 +20,7 @@
 +
 +radeon_drv_la_LDFLAGS += $(radeon_MAPFILES:%=-Wl,-M,%) \
 +	-lexa -lfb -lint10 -lvbe -lvgahw -lxaa -lshadow \
-+	-ldrm -ldri -lglx -lm
++	-lpixman-1 -ldrm -ldri -lglx -lm
 +
 +radeon_drv_la_DEPENDENCIES = $(radeon_MAPFILES)
 +

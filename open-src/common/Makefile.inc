@@ -451,6 +451,7 @@ CONFIGURE_DEPS = $(SOURCE_TARGETS) \
 
 # Command line options to GNU autoconf configure script
 DEFAULT_CONFIG_OPTS = --prefix=$(MODULE_PREFIX) \
+	--without-xmlto --without-asciidoc \
 	--mandir='$${prefix}/share/man' --localstatedir=/var
 
 CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \

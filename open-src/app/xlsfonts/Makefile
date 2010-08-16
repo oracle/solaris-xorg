@@ -29,11 +29,11 @@
 MODULE_NAME=xlsfonts
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 28958248590ff60ecd70e8f590d977b7
-TARBALL_SHA1 = 556c8b94002e834cf61e08ea4f5551a039e2d5c9
+TARBALL_MD5  = bf6f3e7074479839d5182ffed735d2be
+TARBALL_SHA1 = 9d4e0adbcb83362dd9234e90507c0528f60e309b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

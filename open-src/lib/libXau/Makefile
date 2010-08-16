@@ -29,11 +29,11 @@
 MODULE_NAME=libXau
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 993b3185c629e4b89401fca072dcb663
-TARBALL_SHA1 = b1c68843edf7e80ce952f7ee0541448f41bac202
+TARBALL_MD5  = 4a2cbd83727682f9ee1c1e719bac6adb
+TARBALL_SHA1 = 0e1ab449f98026e4599f6e0d7491810d36c8fe4d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

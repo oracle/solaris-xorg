@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-nv
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.16
+MODULE_VERSION=2.1.18
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fb02d5506e35054348d1c2b2c924530d
-TARBALL_SHA1 = fce8c42268f1b60c8aece2adb35d780f02300fe8
+TARBALL_MD5  = b12f0b2114849d1a542d8084732573d3
+TARBALL_SHA1 = d35b2fa5a26a507a9cc95b69243d9fd0c0f32aa2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -29,11 +29,11 @@
 MODULE_NAME=libXvMC
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 16c3a11add14979beb7510e44623cac6
-TARBALL_SHA1 = 153b85884f22b882cecb9fc462fe24c669a80dbd
+TARBALL_MD5  = bfc7524646f890dfc30dea1d676004a3
+TARBALL_SHA1 = 4ace7e7ce6b646b5715b2efa561affc89bc87f91
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

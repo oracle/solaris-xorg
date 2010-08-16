@@ -29,18 +29,29 @@
 MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-MODULE_VERSION=12.6.5
+MODULE_VERSION=12.6.10
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ce78e0135b5e34338a1ea98afb933120
-TARBALL_SHA1 = bf2f1031ccc0096f388272ce93b75572d24548be
+TARBALL_MD5  = 49c6e77851e9f7bc5cb7d85f061992f8
+TARBALL_SHA1 = 4c510d3f3ceaeb3bf826d440a406fe53fd85902c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = xf86LoaderReqSymLists.patch,-p1
+SOURCE_PATCHES = 
 
 # vmmouse_client code won't build with Sun compiler
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
+
+# Need to use GNU Make to build due to Sun make bug 6474905
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
+
+# Special handling for 64-bit installs, since GNU make doesn't
+# pass through the *_drv_ladir override correctly from MODTYPE_MAKEFLAGS
+INSTALL_TARGETS_64 = install-driver
+INSTALL_TARGETS_SET_64 = yes
+INSTALL_TARGETS = $(INSTALL_TARGETS_$(BUILD_TYPE))
+INSTALL_TARGETS_SET = $(INSTALL_TARGETS_SET_$(BUILD_TYPE))
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -67,3 +78,7 @@ uninstall-hal-files: default_install
 	(cd $(SOURCE_DIR)/fdi ; \
 	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	uninstall)
+
+install-driver: $(INSTALL_DEPS)
+	mkdir -p $(PROTODIR)$(DRIVER_DIR)
+	cp -pf $(SOURCE_DIR)/src/vmmouse_drv.so $(PROTODIR)$(DRIVER_DIR)/

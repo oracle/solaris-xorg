@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-trident
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.3
+MODULE_VERSION=1.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 47f3c5da1942017218355f178f02ef84
-TARBALL_SHA1 = ac795465d47d807969970ae1433336439afad9b8
+TARBALL_MD5  = 7a646ba7033dd4eb10d38dca8682b391
+TARBALL_SHA1 = 7c40f5c02bddf399862782b708941e79302318af
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6452329.patch
@@ -52,7 +52,8 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lpciaccess -lshadow -lvbe -lvgahw -lxaa -lm
+	-lexa -lfb -lint10 -lpciaccess -lpixman-1 -lshadow -lvbe -lvgahw \
+	-lxaa -lm
 
 include ../Makefile.inc
 

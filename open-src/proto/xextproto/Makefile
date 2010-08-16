@@ -27,11 +27,11 @@
 MODULE_NAME=xextproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.1.1
+MODULE_VERSION=7.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fb6ccaae76db7a35e49b12aea60ca6ff
-TARBALL_SHA1 = 1bb4bd12d65a17b3168dc9b4e028b33a2f7b2cad
+TARBALL_MD5  = 263ae968b223c23b2986603d84e5c30e
+TARBALL_SHA1 = be6303a9449277af58f38e1be57e442d98f400fe
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -29,18 +29,16 @@
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.89.0
+MODULE_VERSION=0.91.10
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9d98ac74ea7feb9f1f4783b59eccdb2b
-TARBALL_SHA1 = dca605c1d7202209bc0f3ecec10ae979cbf71e14
+TARBALL_MD5  = 65da53af3ebd1685149b6145976fdb2d
+TARBALL_SHA1 = a90624e63f33fdcb50ccefcdeebb34052f341ef3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-		xf86UDelay.patch,-p1 \
 		sparc-ast.patch \
-		sparc-ast-6860461.patch \
-		6924667.patch port.patch
+		6924667.patch 
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

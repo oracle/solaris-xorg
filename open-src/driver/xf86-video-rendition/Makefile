@@ -29,14 +29,14 @@
 MODULE_NAME=xf86-video-rendition
 
 # Version number (used in path names)
-MODULE_VERSION=4.2.3
+MODULE_VERSION=4.2.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9a0a916fe1e7b5c81cd4c80a08e646cc
-TARBALL_SHA1 = 11972f4223de2381c66855c57652b9e2333099d8
+TARBALL_MD5  = 75cc28125077acb7344955294545553b
+TARBALL_SHA1 = 16148c25183f7829c22bc9dfdb588c1a16bf4565
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = xf86UDelay.patch,-p1
+SOURCE_PATCHES = 
 
 # Only build 32-bit since hardware is too old to be found in 64-bit systems
 BUILD_TYPES=32

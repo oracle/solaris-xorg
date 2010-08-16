@@ -29,19 +29,15 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.3
+MODULE_VERSION=1.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8df4ece9bd1efb02c28acb2b6f485e09
-TARBALL_SHA1 = 7685f2881ce40b13028d9409eedbb9cf1ed0d8ef
+TARBALL_MD5  = 26f93781356b1fdde08f7ee9cd5884d6
+TARBALL_SHA1 = 50fdac374d45feb4fe39938d3530bd4f314f3a85
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	man.patch,-p1 \
 	solaris-abi.patch
-
-# Need to autoreconf after patching man/Makefile.am in man.patch
-AUTORECONF = yes
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xi

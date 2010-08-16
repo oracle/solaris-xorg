@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-dummy
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.3
+MODULE_VERSION=0.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3ffe3a28f4452e66bf56180e7da9cbc5
-TARBALL_SHA1 = 3ea81b819c29938feab58b644b7066250e88da79
+TARBALL_MD5  = 1cf99415c998994f2e88575f942b364c
+TARBALL_SHA1 = 876ed7165ea2821bbddd73232a1ce0b79c1f14ff
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

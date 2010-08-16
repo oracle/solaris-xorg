@@ -29,11 +29,11 @@
 MODULE_NAME=xset
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = eeb0d02f69c76bd40470dede99b4bd49
-TARBALL_SHA1 = ff4295442821826092b17248c1ad65e16cd860ef
+TARBALL_MD5  = 88ff2d390695366fa53e5d746fe86ad5
+TARBALL_SHA1 = 0aa0fa0b7620a7bee846e5cd7847c20095a7d654
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xsetfbpm.patch xsetman.patch

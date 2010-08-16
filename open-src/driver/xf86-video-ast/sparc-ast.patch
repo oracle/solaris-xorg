@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2009-04-13 18:32:28.000000000 -0700
-+++ src/Makefile.am	2009-04-24 02:03:07.532962000 -0700
+--- src/Makefile.am	2008-08-15 10:54:35.000000000 -0700
++++ src/Makefile.am	2010-08-16 13:45:07.710404820 -0700
 @@ -42,4 +42,5 @@ ast_drv_la_SOURCES =	\
  	ast_pcirename.h \
  	ast_tool.c 	\
@@ -9,8 +9,8 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +	ast_vgatool.h	\
 +	ast_sparc_driver.c
 diff -urp -x '*~' -x '*.orig' src/ast.h src/ast.h
---- src/ast.h	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast.h	2009-04-24 02:03:07.534004000 -0700
+--- src/ast.h	2010-08-10 07:38:29.000000000 -0700
++++ src/ast.h	2010-08-16 13:45:07.710712331 -0700
 @@ -20,8 +20,17 @@
   * PERFORMANCE OF THIS SOFTWARE.
   */
@@ -29,7 +29,7 @@ diff -urp -x '*~' -x '*.orig' src/ast.h src/ast.h
  
  #include "ast_pcirename.h"
  
-@@ -83,6 +92,15 @@ typedef CARD32  	ULONG;
+@@ -84,6 +93,15 @@ typedef CARD32  	ULONG;
  typedef struct _ASTRegRec {
      UCHAR 	ExtCRTC[0x50];
      
@@ -45,9 +45,9 @@ diff -urp -x '*~' -x '*.orig' src/ast.h src/ast.h
  } ASTRegRec, *ASTRegPtr;
  
  typedef struct _VIDEOMODE {
-@@ -187,12 +205,108 @@ typedef struct _ASTRec {
-     ULONG		ulCMDReg;   
-     Bool		EnableClip;
+@@ -194,12 +212,108 @@ typedef struct _ASTRec {
+     int			clip_right;    
+     int			clip_bottom;    	
     		
 +#if defined(__sparc__)
 +    char 		*deviceName;
@@ -155,17 +155,17 @@ diff -urp -x '*~' -x '*.orig' src/ast.h src/ast.h
 +
 +#endif /* AST_H */
 diff -urp -x '*~' -x '*.orig' src/ast_2dtool.c src/ast_2dtool.c
---- src/ast_2dtool.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_2dtool.c	2009-04-24 02:03:07.534955000 -0700
-@@ -190,6 +190,7 @@ Bool
- bEnable2D(ScrnInfoPtr pScrn, ASTRecPtr pAST)
+--- src/ast_2dtool.c	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_2dtool.c	2010-08-16 13:45:07.711030285 -0700
+@@ -256,6 +256,7 @@ bEnable2D(ScrnInfoPtr pScrn, ASTRecPtr p
  {
      ULONG ulData;
+     PFN_bENABLE_CMDQ pfnEnableCMDQ = bEnableCMDQ;
 +    ASTDECL_FD
-     	
-     switch (pAST->jChipType)
-     {
-@@ -225,6 +226,7 @@ bEnable2D(ScrnInfoPtr pScrn, ASTRecPtr p
+     
+     if (pAST->jChipType == AST2300)
+         pfnEnableCMDQ = bEnableCMDQ2300;
+@@ -295,6 +296,7 @@ bEnable2D(ScrnInfoPtr pScrn, ASTRecPtr p
  void
  vDisable2D(ScrnInfoPtr pScrn, ASTRecPtr pAST)
  {
@@ -173,7 +173,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_2dtool.c src/ast_2dtool.c
  	
      vWaitEngIdle(pScrn, pAST);
      vWaitEngIdle(pScrn, pAST);
-@@ -240,6 +242,7 @@ vWaitEngIdle(ScrnInfoPtr pScrn, ASTRecPt
+@@ -310,6 +312,7 @@ vWaitEngIdle(ScrnInfoPtr pScrn, ASTRecPt
      ULONG ulEngState, ulEngState2;
      UCHAR jReg;
      ULONG ulEngCheckSetting; 
@@ -182,8 +182,8 @@ diff -urp -x '*~' -x '*.orig' src/ast_2dtool.c src/ast_2dtool.c
      if (pAST->MMIO2D)     
          ulEngCheckSetting = 0x10000000;
 diff -urp -x '*~' -x '*.orig' src/ast_2dtool.h src/ast_2dtool.h
---- src/ast_2dtool.h	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_2dtool.h	2009-04-24 02:03:07.535695000 -0700
+--- src/ast_2dtool.h	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_2dtool.h	2010-08-16 13:45:07.711347075 -0700
 @@ -20,6 +20,9 @@
   * PERFORMANCE OF THIS SOFTWARE.
   */
@@ -194,16 +194,16 @@ diff -urp -x '*~' -x '*.orig' src/ast_2dtool.h src/ast_2dtool.h
  /* Eng Capability Definition */
  #define	ENG_CAP_Sync				0x0001
  #define	ENG_CAP_ScreenToScreenCopy		0x0002
-@@ -482,3 +485,5 @@ typedef struct {
-         addr->PKT_SC_dwHeader  = (ULONG) (PKT_NULL_CMD); 			\
-         addr->PKT_SC_dwData[0] = (ULONG) 0;					\
+@@ -533,3 +536,5 @@ typedef struct {
+         addr->PKT_SC_dwHeader  = (ULONG)(PKT_SINGLE_CMD_HEADER + CMDQREG_LINE_NUMBER); 	\
+         addr->PKT_SC_dwData[0] = (ULONG)(no);					\
        }
 +
 +#endif /* AST2DTOOL_H */
 diff -urp -x '*~' -x '*.orig' src/ast_accel.c src/ast_accel.c
---- src/ast_accel.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_accel.c	2009-04-24 02:03:07.537053000 -0700
-@@ -184,7 +184,12 @@ ASTAccelInit(ScreenPtr pScreen)
+--- src/ast_accel.c	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_accel.c	2010-08-16 13:45:07.711848515 -0700
+@@ -189,7 +189,12 @@ ASTAccelInit(ScreenPtr pScreen)
      {    
          infoPtr->SetupForSolidFill = ASTSetupForSolidFill;
          infoPtr->SubsequentSolidFillRect = ASTSubsequentSolidFillRect;
@@ -217,9 +217,9 @@ diff -urp -x '*~' -x '*.orig' src/ast_accel.c src/ast_accel.c
          
      /* Solid Lines */
 diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
---- src/ast_cursor.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_cursor.c	2009-04-24 02:03:07.538408000 -0700
-@@ -84,9 +84,14 @@ ASTCursorInit(ScreenPtr pScreen)
+--- src/ast_cursor.c	2009-10-29 13:33:38.000000000 -0700
++++ src/ast_cursor.c	2010-08-16 13:45:07.712204039 -0700
+@@ -82,9 +82,14 @@ ASTCursorInit(ScreenPtr pScreen)
  
      pAST->HWCInfoPtr = infoPtr;
  
@@ -234,7 +234,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
  
      infoPtr->MaxWidth  = MAX_HWC_WIDTH;
      infoPtr->MaxHeight = MAX_HWC_HEIGHT;
-@@ -137,6 +142,7 @@ ASTShowCursor(ScrnInfoPtr pScrn)
+@@ -135,6 +140,7 @@ ASTShowCursor(ScrnInfoPtr pScrn)
  {
      ASTRecPtr   pAST = ASTPTR(pScrn);    
      UCHAR 	jReg;
@@ -242,7 +242,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
  
      jReg= 0x02;
      if (pAST->HWCInfo.cursortype ==HWC_COLOR)
-@@ -150,6 +156,7 @@ void
+@@ -148,6 +154,7 @@ void
  ASTHideCursor(ScrnInfoPtr pScrn)
  {
      ASTRecPtr  pAST = ASTPTR(pScrn);
@@ -250,7 +250,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
          
      SetIndexRegMask(CRTC_PORT, 0xCB, 0xFC, 0x00);	/* disable HWC */ 	
          
-@@ -162,6 +169,7 @@ ASTSetCursorPosition(ScrnInfoPtr pScrn, 
+@@ -160,6 +167,7 @@ ASTSetCursorPosition(ScrnInfoPtr pScrn, 
      DisplayModePtr mode = pAST->ModePtr;    
      int		x_offset, y_offset;
      UCHAR 	*pjSignature;    
@@ -258,7 +258,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
         
      /* Set cursor info to Offscreen */    
      pjSignature = (UCHAR *) pAST->HWCInfo.pjHWCVirtualAddr + (HWC_SIZE+HWC_SIGNATURE_SIZE)*pAST->HWCInfo.HWC_NUM_Next + HWC_SIZE;   
-@@ -219,6 +227,7 @@ ASTLoadCursorImage(ScrnInfoPtr pScrn, UC
+@@ -223,6 +231,7 @@ ASTLoadCursorImage(ScrnInfoPtr pScrn, UC
      UCHAR    	jTempSrcAnd32, jTempSrcXor32;
      ULONG	ulCheckSum = 0;  		               
      ULONG 	ulPatternAddr;    
@@ -266,7 +266,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
         
      /* init cursor info. */
      pAST->HWCInfo.cursortype = HWC_MONO;
-@@ -317,6 +326,7 @@ ASTLoadCursorARGB(ScrnInfoPtr pScrn, Cur
+@@ -320,6 +329,7 @@ ASTLoadCursorARGB(ScrnInfoPtr pScrn, Cur
      } usData16;
      ULONG	ulCheckSum = 0;  		           
      ULONG 	ulPatternAddr;
@@ -274,7 +274,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
   
      /* init cursor info. */
      pAST->HWCInfo.cursortype = HWC_COLOR;
-@@ -404,6 +414,7 @@ static void
+@@ -407,6 +417,7 @@ static void
  ASTFireCursor(ScrnInfoPtr pScrn)
  {
      ASTRecPtr  pAST = ASTPTR(pScrn);
@@ -283,8 +283,8 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.c src/ast_cursor.c
      SetIndexRegMask(CRTC_PORT, 0xCB, 0xFF, 0x00);	/* dummp write to fire HWC */ 	
      
 diff -urp -x '*~' -x '*.orig' src/ast_cursor.h src/ast_cursor.h
---- src/ast_cursor.h	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_cursor.h	2009-04-24 02:03:07.538932000 -0700
+--- src/ast_cursor.h	2008-03-17 10:20:40.000000000 -0700
++++ src/ast_cursor.h	2010-08-16 13:45:07.712406043 -0700
 @@ -20,6 +20,9 @@
   * PERFORMANCE OF THIS SOFTWARE.
   */
@@ -302,11 +302,11 @@ diff -urp -x '*~' -x '*.orig' src/ast_cursor.h src/ast_cursor.h
 +
 +#endif /* ASTCURSOR_H */
 diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
---- src/ast_driver.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_driver.c	2009-04-24 02:03:07.541179000 -0700
-@@ -74,6 +74,14 @@ extern Bool ASTSetMode(ScrnInfoPtr pScrn
- extern Bool GetVGA2EDID(ScrnInfoPtr pScrn, unsigned char *pEDIDBuffer);
- extern void vInitDRAMReg(ScrnInfoPtr pScrn);
+--- src/ast_driver.c	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_driver.c	2010-08-16 13:45:07.713360394 -0700
+@@ -80,6 +80,14 @@ extern Bool bIsVGAEnabled(ScrnInfoPtr pS
+ extern void ASTBlankScreen(ScrnInfoPtr pScreen, Bool unblack);
+ extern Bool InitVGA(ScrnInfoPtr pScrn);
  
 +#if defined(__sparc__)
 +extern Bool InitVGA(ScrnInfoPtr pScrn);
@@ -319,7 +319,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  extern Bool bInitCMDQInfo(ScrnInfoPtr pScrn, ASTRecPtr pAST);
  extern Bool bEnableCMDQ(ScrnInfoPtr pScrn, ASTRecPtr pAST);
  extern void vDisable2D(ScrnInfoPtr pScrn, ASTRecPtr pAST);
-@@ -97,7 +105,7 @@ static void ASTFreeScreen(int scrnIndex,
+@@ -103,7 +111,7 @@ static void ASTFreeScreen(int scrnIndex,
  static ModeStatus ASTValidMode(int scrnIndex, DisplayModePtr mode, Bool verbose, int flags);
  
  /* Internally used functions */
@@ -328,22 +328,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  static void ASTFreeRec(ScrnInfoPtr pScrn);
  static Bool ASTSaveScreen(ScreenPtr pScreen, Bool unblack);
  static Bool ASTCloseScreen(int scrnIndex, ScreenPtr pScreen);
-@@ -283,10 +291,14 @@ astSetup(pointer module, pointer opts, i
-        * Tell the loader about symbols from other modules that this module
-        * might refer to.
-        */
-+#if !(defined(__sparc__))       
-       LoaderRefSymLists(vgahwSymbols,
- 			fbSymbols, xaaSymbols, ramdacSymbols,
- 			vbeSymbols, vbeOptionalSymbols,
- 			ddcSymbols, int10Symbols, NULL);
-+#else
-+      LoaderRefSymLists(fbSymbols, xaaSymbols, ramdacSymbols, ddcSymbols, NULL);
-+#endif
- 
-       /*
-        * The return value must be non-NULL on success even though there
-@@ -347,7 +359,7 @@ ASTProbe(DriverPtr drv, int flags)
+@@ -257,7 +265,7 @@ ASTProbe(DriverPtr drv, int flags)
        return FALSE;
      }
  
@@ -352,7 +337,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     /*
      * This probing is just checking the PCI data the server already
      * collected.
-@@ -357,6 +369,7 @@ ASTProbe(DriverPtr drv, int flags)
+@@ -267,6 +275,7 @@ ASTProbe(DriverPtr drv, int flags)
      }
  #endif
  
@@ -360,7 +345,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
      numUsed = xf86MatchPciInstances(AST_NAME, PCI_VENDOR_AST,
  				   ASTChipsets, ASTPciChipsets,
  				   devSections, numDevSections,
-@@ -400,6 +413,33 @@ ASTProbe(DriverPtr drv, int flags)
+@@ -310,6 +319,33 @@ ASTProbe(DriverPtr drv, int flags)
      } /* end of if flags */	   
  
      xfree(usedChips);
@@ -394,7 +379,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
      return foundScreen;
  }
-@@ -415,7 +455,9 @@ static Bool
+@@ -325,7 +361,9 @@ static Bool
  ASTPreInit(ScrnInfoPtr pScrn, int flags)
  {
     EntityInfoPtr pEnt;
@@ -404,7 +389,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     int flags24;
     rgb defaultWeight = { 0, 0, 0 };
        
-@@ -431,6 +473,10 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
+@@ -341,6 +379,10 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
  
     pEnt = xf86GetEntityInfo(pScrn->entityList[0]);
  
@@ -415,21 +400,19 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     if (flags & PROBE_DETECT) {
         ASTProbeDDC(pScrn, pEnt->index);
         return TRUE;
-@@ -442,20 +488,24 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
-    if (xf86RegisterResources(pEnt->index, 0, ResExclusive))
+@@ -354,18 +396,22 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
         return FALSE;
+ #endif
  
 +#if !(defined(__sparc__))       
     /* The vgahw module should be loaded here when needed */
     if (!xf86LoadSubModule(pScrn, "vgahw"))
        return FALSE;
-    xf86LoaderReqSymLists(vgahwSymbols, NULL);
 +#endif
  
     /* The fb module should be loaded here when needed */
     if (!xf86LoadSubModule(pScrn, "fb"))
        return FALSE;
-    xf86LoaderReqSymLists(fbSymbols, NULL);      
     	
 +#if !(defined(__sparc__))             	
     /* Allocate a vgaHWRec */
@@ -440,7 +423,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
     /* Color Depth Check */
     flags24 = Support32bppFb;
-@@ -526,7 +576,12 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
+@@ -438,7 +484,12 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
     /* Fill AST Info */
     pAST = ASTPTR(pScrn);
     pAST->pEnt    = xf86GetEntityInfo(pScrn->entityList[0]);
@@ -453,7 +436,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  #ifndef XSERVER_LIBPCIACCESS
     pAST->PciTag  = pciTag(pAST->PciInfo->bus, pAST->PciInfo->device,
  			  pAST->PciInfo->func);
-@@ -573,10 +628,13 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
+@@ -485,10 +536,13 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
  
     /* Resource Allocation */
      pAST->IODBase = pScrn->domainIOBase;  
@@ -467,7 +450,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  	
      pAST->RelocateIO = (IOADDRESS)(PCI_REGION_BASE(pAST->PciInfo, 2, REGION_IO) + pAST->IODBase);
  	
-@@ -602,7 +660,11 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
+@@ -514,7 +568,11 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
        from = X_CONFIG;
     } else {
        if (PCI_REGION_BASE(pAST->PciInfo, 1, REGION_MEM)) {
@@ -480,25 +463,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  	 from = X_PROBED;
        } else {
  	 xf86DrvMsg(pScrn->scrnIndex, X_INFO,
-@@ -624,6 +686,9 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
-    /* Init VGA Adapter */
-    if (!xf86IsPrimaryPci(pAST->PciInfo))
-    {
-+#if defined (__sparc__)
-+       InitVGA(pScrn);      	
-+#else
-        if (xf86LoadSubModule(pScrn, "int10")) {
-  	       xf86Int10InfoPtr pInt10;
- 	       xf86LoaderReqSymLists(int10Symbols, NULL);
-@@ -631,6 +696,7 @@ ASTPreInit(ScrnInfoPtr pScrn, int flags)
- 	       pInt10 = xf86InitInt10(pAST->pEnt->index);
- 	       xf86FreeInt10(pInt10);
-        }
-+#endif       
-    }
- 
-    vASTOpenKey(pScrn);
-@@ -789,7 +855,6 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
+@@ -695,7 +753,6 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
  {
     ScrnInfoPtr pScrn;
     ASTRecPtr pAST;
@@ -506,7 +471,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     VisualPtr visual;
   
     /* for FB Manager */
-@@ -798,7 +863,6 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
+@@ -704,7 +761,6 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
  
     pScrn = xf86Screens[pScreen->myNum];
     pAST = ASTPTR(pScrn);
@@ -514,7 +479,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
     if (!ASTMapMem(pScrn)) {
        xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "Map FB Memory Failed \n");      	
-@@ -822,7 +886,14 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
+@@ -728,7 +784,14 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
  
     }
         
@@ -530,7 +495,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
     vFillASTModeInfo (pScrn);      
  
-@@ -863,6 +934,10 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
+@@ -769,6 +832,10 @@ ASTScreenInit(int scrnIndex, ScreenPtr p
                
     }
  
@@ -541,7 +506,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     if (pScrn->bitsPerPixel > 8) {
        /* Fixup RGB ordering */
        visual = pScreen->visuals + pScreen->numVisuals;
-@@ -991,8 +1066,10 @@ ASTLeaveVT(int scrnIndex, int flags)
+@@ -905,8 +972,10 @@ ASTLeaveVT(int scrnIndex, int flags)
  {
  	
     ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
@@ -553,7 +518,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
  #ifdef	HWC
     if (pAST->pHWCPtr) {
-@@ -1011,7 +1088,10 @@ ASTLeaveVT(int scrnIndex, int flags)
+@@ -925,7 +994,10 @@ ASTLeaveVT(int scrnIndex, int flags)
  #endif
        
     ASTRestore(pScrn);  
@@ -564,7 +529,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
  }
  
-@@ -1019,8 +1099,11 @@ static void
+@@ -933,8 +1005,11 @@ static void
  ASTFreeScreen(int scrnIndex, int flags)
  {
     ASTFreeRec(xf86Screens[scrnIndex]);
@@ -576,7 +541,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  }
  
  
-@@ -1081,7 +1164,6 @@ ASTValidMode(int scrnIndex, DisplayModeP
+@@ -1009,7 +1084,6 @@ ASTValidMode(int scrnIndex, DisplayModeP
  }			
  
  
@@ -584,7 +549,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  /*
   * ASTGetRec and ASTFreeRec --
   *
-@@ -1089,7 +1171,7 @@ ASTValidMode(int scrnIndex, DisplayModeP
+@@ -1017,7 +1091,7 @@ ASTValidMode(int scrnIndex, DisplayModeP
   * These two functions create and destroy that private data.
   *
   */
@@ -593,7 +558,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  ASTGetRec(ScrnInfoPtr pScrn)
  {
     if (pScrn->driverPrivate)
-@@ -1099,6 +1181,8 @@ ASTGetRec(ScrnInfoPtr pScrn)
+@@ -1027,6 +1101,8 @@ ASTGetRec(ScrnInfoPtr pScrn)
     return TRUE;
  }
  
@@ -602,30 +567,17 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  static void
  ASTFreeRec(ScrnInfoPtr pScrn)
  {
-@@ -1113,16 +1197,21 @@ ASTFreeRec(ScrnInfoPtr pScrn)
- static Bool
- ASTSaveScreen(ScreenPtr pScreen, Bool unblack)
- {
-+#if (!defined(__sparc__))         
-    return vgaHWSaveScreen(pScreen, unblack);
-+#endif   
- }
- 
- static Bool
+@@ -1058,7 +1134,9 @@ static Bool
  ASTCloseScreen(int scrnIndex, ScreenPtr pScreen)
  {
     ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
--   vgaHWPtr hwp = VGAHWPTR(pScrn);
++#if (!defined(__sparc__))         
+    vgaHWPtr hwp = VGAHWPTR(pScrn);
++#endif   
     ASTRecPtr pAST = ASTPTR(pScrn);
  
-+#if (!defined(__sparc__))         
-+   vgaHWPtr hwp = VGAHWPTR(pScrn);
-+#endif   
-+
     if (pScrn->vtSema == TRUE)
-    {  
- #ifdef	HWC
-@@ -1142,11 +1231,15 @@ ASTCloseScreen(int scrnIndex, ScreenPtr 
+@@ -1080,11 +1158,15 @@ ASTCloseScreen(int scrnIndex, ScreenPtr 
  #endif
           
        ASTRestore(pScrn);
@@ -641,7 +593,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  
     if(pAST->AccelInfoPtr) {
         XAADestroyInfoRec(pAST->AccelInfoPtr);
-@@ -1166,12 +1259,12 @@ ASTCloseScreen(int scrnIndex, ScreenPtr 
+@@ -1104,12 +1186,12 @@ ASTCloseScreen(int scrnIndex, ScreenPtr 
  static void
  ASTSave(ScrnInfoPtr pScrn)
  {
@@ -657,7 +609,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     vgaReg = &VGAHWPTR(pScrn)->SavedReg;
     astReg = &pAST->SavedReg;
      
-@@ -1182,6 +1275,10 @@ ASTSave(ScrnInfoPtr pScrn)
+@@ -1120,6 +1202,10 @@ ASTSave(ScrnInfoPtr pScrn)
     else {
         vgaHWSave(pScrn, vgaReg, VGA_SR_MODE);
     }
@@ -668,7 +620,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     
     /* Ext. Save */
     vASTOpenKey(pScrn);
-@@ -1198,12 +1295,12 @@ ASTSave(ScrnInfoPtr pScrn)
+@@ -1136,12 +1222,12 @@ ASTSave(ScrnInfoPtr pScrn)
  static void
  ASTRestore(ScrnInfoPtr pScrn)
  {
@@ -684,19 +636,14 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     vgaReg = &VGAHWPTR(pScrn)->SavedReg;
     astReg = &pAST->SavedReg;
      
-@@ -1214,6 +1311,11 @@ ASTRestore(ScrnInfoPtr pScrn)
-    else
-        vgaHWRestore(pScrn, vgaReg, VGA_SR_MODE);     
-    vgaHWProtect(pScrn, FALSE);   
-+#else
-+
-+   astReg = &pAST->SavedReg;
-+   ASTRestoreHW(pScrn);
+@@ -1162,12 +1248,25 @@ ASTRestore(ScrnInfoPtr pScrn)
+    for (i=0xBC; i<=0xC1; i++)
+        SetIndexReg(CRTC_PORT, (UCHAR) (i), astReg->ExtCRTC[icount++]);
+    SetIndexReg(CRTC_PORT, (UCHAR) (0xBB), astReg->ExtCRTC[icount]);
 +#endif
-    
-    /* Ext. restore */
-    vASTOpenKey(pScrn);
-@@ -1230,6 +1332,19 @@ ASTRestore(ScrnInfoPtr pScrn)
+ 
+ }
+ 
  static void
  ASTProbeDDC(ScrnInfoPtr pScrn, int index)
  {
@@ -705,7 +652,6 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
 +#if defined(__sparc__)
 +   if ((xf86LoadSubModule(pScrn, "ddc")) && (GetVGAEDID(pScrn, DDC_data) == TRUE))
 +   {
-+      xf86LoaderReqSymLists(ddcSymbols, NULL);
 +      ConfiguredMonitor = xf86InterpretEDID(pScrn->scrnIndex, DDC_data);
 +   }	
 +   else
@@ -716,7 +662,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     vbeInfoPtr pVbe;
  
     if (xf86LoadSubModule(pScrn, "vbe")) {
-@@ -1237,6 +1352,7 @@ ASTProbeDDC(ScrnInfoPtr pScrn, int index
+@@ -1175,6 +1274,7 @@ ASTProbeDDC(ScrnInfoPtr pScrn, int index
        ConfiguredMonitor = vbeDoEDID(pVbe, NULL);
        vbeFree(pVbe);
     }
@@ -724,7 +670,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  }
  
  #define SkipDT	0x00
-@@ -1246,15 +1362,18 @@ ASTProbeDDC(ScrnInfoPtr pScrn, int index
+@@ -1184,15 +1284,18 @@ ASTProbeDDC(ScrnInfoPtr pScrn, int index
  static xf86MonPtr
  ASTDoDDC(ScrnInfoPtr pScrn, int index)
  {
@@ -746,7 +692,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
     /* Honour Option "noDDC" */
     if (xf86ReturnOptValBool(pAST->Options, OPTION_NO_DDC, FALSE)) {
        return MonInfo;
-@@ -1266,7 +1385,7 @@ ASTDoDDC(ScrnInfoPtr pScrn, int index)
+@@ -1203,7 +1306,7 @@ ASTDoDDC(ScrnInfoPtr pScrn, int index)
        MonInfo = MonInfo1;
        
        /* For VGA2 CLONE Support, ycchen@012508 */
@@ -755,7 +701,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
            if (GetVGA2EDID(pScrn, DDC_data) == TRUE) {
                xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Get VGA2 EDID Correctly!! \n");	
                MonInfo2 = xf86InterpretEDID(pScrn->scrnIndex, DDC_data);
-@@ -1413,6 +1532,31 @@ ASTDoDDC(ScrnInfoPtr pScrn, int index)
+@@ -1350,6 +1453,30 @@ ASTDoDDC(ScrnInfoPtr pScrn, int index)
        xf86DrvMsg(pScrn->scrnIndex, X_INFO,
  		 "this driver cannot do DDC without VBE\n");
     }
@@ -772,7 +718,6 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
 +
 +   if ((xf86LoadSubModule(pScrn, "ddc")) && (GetVGAEDID(pScrn, DDC_data) == TRUE))
 +   {
-+      xf86LoaderReqSymLists(ddcSymbols, NULL);
 +      MonInfo = xf86InterpretEDID(pScrn->scrnIndex, DDC_data);
 +
 +      xf86PrintEDID(MonInfo);
@@ -787,7 +732,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
  	
     return MonInfo;
  }
-@@ -1438,9 +1582,14 @@ ASTModeInit(ScrnInfoPtr pScrn, DisplayMo
+@@ -1375,9 +1502,14 @@ ASTModeInit(ScrnInfoPtr pScrn, DisplayMo
      vgaHWPtr hwp;
      ASTRecPtr pAST;
  
@@ -803,7 +748,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
      vgaHWUnlock(hwp);
  
      if (!vgaHWInit(pScrn, mode))
-@@ -1453,6 +1602,10 @@ ASTModeInit(ScrnInfoPtr pScrn, DisplayMo
+@@ -1390,6 +1522,10 @@ ASTModeInit(ScrnInfoPtr pScrn, DisplayMo
        return FALSE;
      
      vgaHWProtect(pScrn, FALSE);
@@ -815,9 +760,9 @@ diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
      return TRUE;
  }
 diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
---- src/ast_mode.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_mode.c	2009-04-24 02:03:07.543155000 -0700
-@@ -392,11 +392,9 @@ ASTSetMode(ScrnInfoPtr pScrn, DisplayMod
+--- src/ast_mode.c	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_mode.c	2010-08-16 13:45:07.713865832 -0700
+@@ -425,11 +425,9 @@ ASTSetMode(ScrnInfoPtr pScrn, DisplayMod
  
  Bool bGetAST1000VGAModeInfo(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
@@ -830,7 +775,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      
      switch (pScrn->bitsPerPixel)
      {
-@@ -490,13 +488,12 @@ Bool bGetAST1000VGAModeInfo(ScrnInfoPtr 
+@@ -536,13 +534,12 @@ Bool bGetAST1000VGAModeInfo(ScrnInfoPtr 
  void vSetStdReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
  	
@@ -845,7 +790,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      
      /* Set Misc */
      jReg = pStdModePtr->MISC;
-@@ -520,7 +517,7 @@ void vSetStdReg(ScrnInfoPtr pScrn, Displ
+@@ -566,7 +563,7 @@ void vSetStdReg(ScrnInfoPtr pScrn, Displ
      }
  
      /* Set AR */
@@ -854,7 +799,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      for (i=0; i<20; i++)
      {
          jReg = pStdModePtr->AR[i];
-@@ -530,7 +527,7 @@ void vSetStdReg(ScrnInfoPtr pScrn, Displ
+@@ -576,7 +573,7 @@ void vSetStdReg(ScrnInfoPtr pScrn, Displ
      SetReg(AR_PORT_WRITE, 0x14);         
      SetReg(AR_PORT_WRITE, 0x00);  
      
@@ -863,7 +808,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      SetReg (AR_PORT_WRITE, 0x20);		/* set POS */
                           
      /* Set GR */
-@@ -547,11 +544,10 @@ void vSetStdReg(ScrnInfoPtr pScrn, Displ
+@@ -593,11 +590,10 @@ void vSetStdReg(ScrnInfoPtr pScrn, Displ
  void
  vSetCRTCReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
@@ -876,7 +821,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      jReg05 = jReg07 = jReg09 = jRegAC = jRegAD = jRegAE = 0;
      
      /* unlock CRTC */
-@@ -621,11 +617,9 @@ vSetCRTCReg(ScrnInfoPtr pScrn, DisplayMo
+@@ -667,11 +663,9 @@ vSetCRTCReg(ScrnInfoPtr pScrn, DisplayMo
  
  void vSetOffsetReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
@@ -889,7 +834,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      usOffset = 	pAST->VideoModeInfo.ScreenPitch >> 3;		/* Unit: char */
          
      SetIndexReg(CRTC_PORT,0x13, (UCHAR) (usOffset & 0xFF));         	
-@@ -635,11 +629,9 @@ void vSetOffsetReg(ScrnInfoPtr pScrn, Di
+@@ -681,11 +675,9 @@ void vSetOffsetReg(ScrnInfoPtr pScrn, Di
  
  void vSetDCLKReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
@@ -902,7 +847,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
  
      pEnhModePtr = pVGAModeInfo->pEnhTableEntry;
      pDCLKPtr = &DCLKTable[pEnhModePtr->DCLKIndex];
-@@ -654,11 +646,10 @@ void vSetDCLKReg(ScrnInfoPtr pScrn, Disp
+@@ -700,11 +692,10 @@ void vSetDCLKReg(ScrnInfoPtr pScrn, Disp
  void vSetExtReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
  	
@@ -916,7 +861,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      jRegA0=jRegA3=jRegA8=0;	
      /* Mode Type Setting */	
      switch (pScrn->bitsPerPixel) {
-@@ -683,6 +674,14 @@ void vSetExtReg(ScrnInfoPtr pScrn, Displ
+@@ -729,6 +720,14 @@ void vSetExtReg(ScrnInfoPtr pScrn, Displ
      SetIndexRegMask(CRTC_PORT,0xA3, 0xF0, (UCHAR) jRegA3);                                
      SetIndexRegMask(CRTC_PORT,0xA8, 0xFD, (UCHAR) jRegA8);                                
  
@@ -929,9 +874,9 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
 +#endif
 +
      /* Set Threshold */
-     if ((pAST->jChipType == AST2100) || (pAST->jChipType == AST1100) || (pAST->jChipType == AST2200) || (pAST->jChipType == AST2150) ) 
+     if (pAST->jChipType == AST2300)
      {
-@@ -699,14 +698,13 @@ void vSetExtReg(ScrnInfoPtr pScrn, Displ
+@@ -750,14 +749,13 @@ void vSetExtReg(ScrnInfoPtr pScrn, Displ
  
  void vSetSyncReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
@@ -948,7 +893,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      jReg |= (UCHAR) (pEnhModePtr->Flags & SyncNN);
      SetReg(MISC_PORT_WRITE,jReg);
  	
-@@ -714,13 +712,11 @@ void vSetSyncReg(ScrnInfoPtr pScrn, Disp
+@@ -765,13 +763,11 @@ void vSetSyncReg(ScrnInfoPtr pScrn, Disp
  
  Bool bSetDACReg(ScrnInfoPtr pScrn, DisplayModePtr mode, PVBIOS_MODE_INFO pVGAModeInfo)
  {
@@ -964,8 +909,8 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.c src/ast_mode.c
      {
      case 8:
 diff -urp -x '*~' -x '*.orig' src/ast_mode.h src/ast_mode.h
---- src/ast_mode.h	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_mode.h	2009-04-24 02:03:07.544063000 -0700
+--- src/ast_mode.h	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_mode.h	2010-08-16 13:45:07.714072591 -0700
 @@ -20,6 +20,9 @@
   * PERFORMANCE OF THIS SOFTWARE.
   */
@@ -976,16 +921,16 @@ diff -urp -x '*~' -x '*.orig' src/ast_mode.h src/ast_mode.h
  /* Mode Limitation */
  #define MAX_HResolution		1920
  #define MAX_VResolution		1200
-@@ -115,3 +118,5 @@ typedef struct {
+@@ -119,3 +122,5 @@ typedef struct {
      PVBIOS_ENHTABLE_STRUCT pEnhTableEntry;
      	
  } VBIOS_MODE_INFO, *PVBIOS_MODE_INFO;
 +
 +#endif /* ASTMODE_H */
 diff -urp -x '*~' -x '*.orig' src/ast_tool.c src/ast_tool.c
---- src/ast_tool.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_tool.c	2009-04-24 02:03:07.544930000 -0700
-@@ -62,16 +62,29 @@ Bool ASTUnmapMem(ScrnInfoPtr pScrn);
+--- src/ast_tool.c	2009-10-29 13:33:38.000000000 -0700
++++ src/ast_tool.c	2010-08-16 13:45:07.714339101 -0700
+@@ -60,16 +60,29 @@ Bool ASTUnmapMem(ScrnInfoPtr pScrn);
  Bool ASTMapMMIO(ScrnInfoPtr pScrn);
  void ASTUnmapMMIO(ScrnInfoPtr pScrn);
  
@@ -1016,7 +961,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_tool.c src/ast_tool.c
     {
       void** result = (void**)&pAST->FBVirtualAddr;
       int err = pci_device_map_range(pAST->PciInfo,
-@@ -97,10 +110,14 @@ ASTUnmapMem(ScrnInfoPtr pScrn)
+@@ -95,10 +108,14 @@ ASTUnmapMem(ScrnInfoPtr pScrn)
  {
     ASTRecPtr pAST = ASTPTR(pScrn);
  
@@ -1032,7 +977,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_tool.c src/ast_tool.c
     pci_device_unmap_range(pAST->PciInfo, pAST->FBVirtualAddr, pAST->FbMapSize);
  #endif
  		   
-@@ -113,7 +130,7 @@ Bool
+@@ -111,7 +128,7 @@ Bool
  ASTMapMMIO(ScrnInfoPtr pScrn)
  {
     ASTRecPtr pAST = ASTPTR(pScrn);
@@ -1041,7 +986,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_tool.c src/ast_tool.c
     int mmioFlags;
  
  #if !defined(__alpha__)
-@@ -123,9 +140,15 @@ ASTMapMMIO(ScrnInfoPtr pScrn)
+@@ -121,9 +138,15 @@ ASTMapMMIO(ScrnInfoPtr pScrn)
  #endif
  
  
@@ -1057,7 +1002,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_tool.c src/ast_tool.c
  
  #else
     {
-@@ -152,10 +175,14 @@ ASTUnmapMMIO(ScrnInfoPtr pScrn)
+@@ -150,10 +173,14 @@ ASTUnmapMMIO(ScrnInfoPtr pScrn)
  {
     ASTRecPtr pAST = ASTPTR(pScrn);
  
@@ -1074,14 +1019,13 @@ diff -urp -x '*~' -x '*.orig' src/ast_tool.c src/ast_tool.c
  #endif
     pAST->MMIOVirtualAddr = 0;
 diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
---- src/ast_vgatool.c	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_vgatool.c	2009-04-24 02:03:07.548007000 -0700
-@@ -69,11 +69,15 @@ void vASTLoadPalette(ScrnInfoPtr pScrn, 
- void ASTDisplayPowerManagementSet(ScrnInfoPtr pScrn, int PowerManagementMode, int flags);
- Bool GetVGA2EDID(ScrnInfoPtr pScrn, unsigned char *pEDIDBuffer);
+--- src/ast_vgatool.c	2010-08-10 07:38:29.000000000 -0700
++++ src/ast_vgatool.c	2010-08-16 13:45:15.622974545 -0700
+@@ -71,11 +71,14 @@ Bool GetVGA2EDID(ScrnInfoPtr pScrn, unsi
  void vInitDRAMReg(ScrnInfoPtr pScrn);
-+#if	defined(__sparc__)
-+Bool InitVGA(ScrnInfoPtr pScrn);
+ Bool bIsVGAEnabled(ScrnInfoPtr pScrn);
+ Bool InitVGA(ScrnInfoPtr pScrn);
++#if defined(__sparc__)
 +Bool GetVGAEDID(ScrnInfoPtr pScrn, unsigned char *pEDIDBuffer);
 +#endif
  
@@ -1093,7 +1037,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
     
     SetIndexReg(CRTC_PORT,0x80, 0xA8);     
     
-@@ -82,11 +86,31 @@ vASTOpenKey(ScrnInfoPtr pScrn)
+@@ -84,11 +87,31 @@ vASTOpenKey(ScrnInfoPtr pScrn)
  Bool
  bASTRegInit(ScrnInfoPtr pScrn)
  {
@@ -1126,7 +1070,16 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
     return (TRUE);
     	
  }
-@@ -94,7 +118,7 @@ bASTRegInit(ScrnInfoPtr pScrn)
+@@ -96,7 +119,7 @@ bASTRegInit(ScrnInfoPtr pScrn)
+ void
+ GetDRAMInfo(ScrnInfoPtr pScrn)
+ {
+-    ASTRecPtr pAST = ASTPTR(pScrn);
++    ASTDECL
+     ULONG ulData;
+     
+     if ( (pAST->jChipType != AST2000) )
+@@ -136,7 +159,7 @@ GetDRAMInfo(ScrnInfoPtr pScrn)
  ULONG
  GetVRAMInfo(ScrnInfoPtr pScrn)
  {
@@ -1135,7 +1088,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
     UCHAR jReg;
  
     vASTOpenKey(pScrn);
-@@ -120,7 +144,7 @@ GetVRAMInfo(ScrnInfoPtr pScrn)
+@@ -162,7 +185,7 @@ GetVRAMInfo(ScrnInfoPtr pScrn)
  ULONG
  GetMaxDCLK(ScrnInfoPtr pScrn)
  {
@@ -1144,7 +1097,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
     UCHAR jReg;
     ULONG ulData, ulData2;
     ULONG ulRefPLL, ulDeNumerator, ulNumerator, ulDivider;
-@@ -209,7 +233,7 @@ GetMaxDCLK(ScrnInfoPtr pScrn)
+@@ -251,7 +274,7 @@ GetMaxDCLK(ScrnInfoPtr pScrn)
  void
  GetChipType(ScrnInfoPtr pScrn)
  {
@@ -1153,7 +1106,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
     ULONG ulData;
     UCHAR jReg;
     
-@@ -253,6 +277,8 @@ GetChipType(ScrnInfoPtr pScrn)
+@@ -295,6 +318,8 @@ GetChipType(ScrnInfoPtr pScrn)
  void
  vSetStartAddressCRT1(ASTRecPtr pAST, ULONG base)
  {
@@ -1162,7 +1115,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
      SetIndexReg(CRTC_PORT,0x0D, (UCHAR) (base & 0xFF));
      SetIndexReg(CRTC_PORT,0x0C, (UCHAR) ((base >> 8) & 0xFF));
      SetIndexReg(CRTC_PORT,0xAF, (UCHAR) ((base >> 16) & 0xFF));
-@@ -262,6 +288,8 @@ vSetStartAddressCRT1(ASTRecPtr pAST, ULO
+@@ -304,6 +329,8 @@ vSetStartAddressCRT1(ASTRecPtr pAST, ULO
  void
  vAST1000DisplayOff(ASTRecPtr pAST)
  {
@@ -1171,7 +1124,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
      SetIndexRegMask(SEQ_PORT,0x01, 0xDF, 0x20);
  	    
  }
-@@ -270,6 +298,7 @@ vAST1000DisplayOff(ASTRecPtr pAST)
+@@ -312,6 +339,7 @@ vAST1000DisplayOff(ASTRecPtr pAST)
  void
  vAST1000DisplayOn(ASTRecPtr pAST)
  {
@@ -1179,7 +1132,16 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
  	
      SetIndexRegMask(SEQ_PORT,0x01, 0xDF, 0x00);	
      
-@@ -280,8 +309,7 @@ void
+@@ -319,7 +347,7 @@ vAST1000DisplayOn(ASTRecPtr pAST)
+ 
+ void ASTBlankScreen(ScrnInfoPtr pScrn, Bool unblack)
+ {
+-   ASTRecPtr pAST;
++   ASTDECL
+ 
+    pAST = ASTPTR(pScrn);
+ 	
+@@ -333,8 +361,7 @@ void
  vASTLoadPalette(ScrnInfoPtr pScrn, int numColors, int *indices, LOCO *colors,
                 VisualPtr pVisual)
  {
@@ -1189,7 +1151,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
      int     i, j, index;
      UCHAR DACIndex, DACR, DACG, DACB;
    
-@@ -344,10 +372,10 @@ vASTLoadPalette(ScrnInfoPtr pScrn, int n
+@@ -397,10 +424,10 @@ vASTLoadPalette(ScrnInfoPtr pScrn, int n
  void
  ASTDisplayPowerManagementSet(ScrnInfoPtr pScrn, int PowerManagementMode, int flags)
  {
@@ -1202,7 +1164,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
     SEQ01=CRB6=0;
     
     vASTOpenKey(pScrn);
-@@ -377,6 +405,7 @@ ASTDisplayPowerManagementSet(ScrnInfoPtr
+@@ -430,6 +457,7 @@ ASTDisplayPowerManagementSet(ScrnInfoPtr
  
     SetIndexRegMask(SEQ_PORT,0x01, 0xDF, SEQ01);
     SetIndexRegMask(CRTC_PORT,0xB6, 0xFC, CRB6);
@@ -1210,7 +1172,51 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
  
  
  }
-@@ -557,7 +586,7 @@ AST_DRAMStruct AST1100DRAMTableData[] = 
+@@ -441,7 +469,7 @@ ASTDisplayPowerManagementSet(ScrnInfoPtr
+ Bool
+ GetVGA2EDID(ScrnInfoPtr pScrn, unsigned char *pEDIDBuffer)
+ {
+-    ASTRecPtr pAST = ASTPTR(pScrn);
++    ASTDECL
+     UCHAR *ulI2CBase = pAST->MMIOVirtualAddr + 0x10000 + I2C_OFFSET;
+     ULONG i, ulData;    
+     UCHAR *pjEDID;
+@@ -530,12 +558,12 @@ GetVGA2EDID(ScrnInfoPtr pScrn, unsigned 
+ /* Init VGA */
+ Bool bIsVGAEnabled(ScrnInfoPtr pScrn)
+ {
+-    ASTRecPtr pAST;
++    ASTDECL
+     UCHAR ch;
+    
+     pAST = ASTPTR(pScrn);
+ 
+-    ch = GetReg(pAST->RelocateIO+0x43);
++    GetReg(pAST->RelocateIO+0x43, ch);
+ 
+     if (ch)
+     {
+@@ -552,9 +580,7 @@ Bool bIsVGAEnabled(ScrnInfoPtr pScrn)
+ 
+ void vEnableVGA(ScrnInfoPtr pScrn)
+ {
+-    ASTRecPtr pAST;
+-   
+-    pAST = ASTPTR(pScrn);
++    ASTDECL
+ 
+     SetReg(pAST->RelocateIO+0x43, 0x01);
+     SetReg(pAST->RelocateIO+0x42, 0x01);   
+@@ -577,7 +603,7 @@ UCHAR ExtRegInfo_AST2300[] = {
+ 
+ void vSetDefExtReg(ScrnInfoPtr pScrn)
+ {
+-    ASTRecPtr pAST;
++    ASTDECL
+     UCHAR i, jIndex, *pjExtRegInfo;
+    
+     pAST = ASTPTR(pScrn);
+@@ -698,7 +724,7 @@ AST_DRAMStruct AST1100DRAMTableData[] = 
      { 0x0030, 0x00000040 },
      { 0x0028, 0x00000003 },
      { 0x000C, 0x00005a21 },
@@ -1219,7 +1225,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
      { 0x0120, 0x00004c41 },
      { 0xffff, 0xffffffff },
  };
-@@ -610,15 +639,15 @@ AST_DRAMStruct AST2100DRAMTableData[] = 
+@@ -751,15 +777,15 @@ AST_DRAMStruct AST2100DRAMTableData[] = 
      { 0x0030, 0x00000040 },
      { 0x0028, 0x00000003 },
      { 0x000C, 0x00005a21 },
@@ -1234,84 +1240,35 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
 +    ASTDECL
      AST_DRAMStruct *pjDRAMRegInfo;
 -    ASTRecPtr pAST = ASTPTR(pScrn);
-     ULONG i, ulTemp;
+     ULONG i, ulTemp, ulData;
      UCHAR jReg;
  
-@@ -708,3 +737,334 @@ void vInitDRAMReg(ScrnInfoPtr pScrn)
-     } while ((jReg & 0x40) == 0);
-        
- } /* vInitDRAMReg */
+@@ -858,16 +884,16 @@ void vInitDRAMReg(ScrnInfoPtr pScrn)
+ 
+ Bool InitVGA(ScrnInfoPtr pScrn)
+ {
+-   ASTRecPtr pAST;
++   ASTDECL
+    ULONG ulData;
+ 
+-   pAST = ASTPTR(pScrn);
+-
+    {
+        /* Enable PCI */
++#if    !defined(__sparc__)
+        PCI_READ_LONG(pAST->PciInfo, &ulData, 0x04);
+        ulData |= 0x03;
+        PCI_WRITE_LONG(pAST->PciInfo, ulData, 0x04);       
++#endif
+ 
+        /* Enable VGA */
+        vEnableVGA(pScrn);
+@@ -881,3 +907,265 @@ Bool InitVGA(ScrnInfoPtr pScrn)
+ 
+    return (TRUE);	
+ } /* Init VGA */
 +
 +#if	defined(__sparc__)
-+/* Init VGA */
-+void vEnableVGA(ScrnInfoPtr pScrn)
-+{
-+    ASTDECL
-+
-+    SetReg(pAST->RelocateIO+0x43, 0x01);
-+    SetReg(pAST->RelocateIO+0x42, 0x01);   
-+}	
-+
-+UCHAR ExtRegInfo[] = {
-+    0x0F,
-+    0x07,
-+    0x1C,
-+    0xFF
-+};
-+
-+void vSetDefExtReg(ScrnInfoPtr pScrn)
-+{
-+    ASTDECL
-+    UCHAR i, jIndex, *pjExtRegInfo;
-+   
-+    /* Reset Scratch */
-+    for (i=0x81; i<=0x8F; i++)
-+    {
-+        SetIndexReg(CRTC_PORT, i, 0x00);
-+    }
-+
-+    /* Set Ext. Reg */
-+    pjExtRegInfo = ExtRegInfo;    
-+    jIndex = 0xA0;
-+    while (*(UCHAR *) (pjExtRegInfo) != 0xFF)
-+    {
-+        SetIndexRegMask(CRTC_PORT,jIndex, 0x00, *(UCHAR *) (pjExtRegInfo));
-+        jIndex++;
-+        pjExtRegInfo++;
-+    }
-+
-+    /* Set Ext. Default */
-+    SetIndexRegMask(CRTC_PORT,0x8C, 0x00, 0x01);    	
-+    SetIndexRegMask(CRTC_PORT,0xB7, 0x00, 0x00);    	
-+    
-+    /* Enable RAMDAC for A1, ycchen@113005 */
-+    SetIndexRegMask(CRTC_PORT,0xB6, 0xFF, 0x04);    	
-+      	
-+}	
-+
-+Bool InitVGA(ScrnInfoPtr pScrn)
-+{
-+   ASTDECL
-+   ULONG ulData;
-+
-+   {
-+       /* Enable PCI */
-+#if    !defined(__sparc__)
-+       PCI_READ_LONG(pAST->PciInfo, &ulData, 0x04);
-+       ulData |= 0x03;
-+       PCI_WRITE_LONG(pAST->PciInfo, ulData, 0x04);       
-+#endif
-+
-+       /* Enable VGA */
-+       vEnableVGA(pScrn);
-+       
-+       vASTOpenKey(pScrn);
-+       vSetDefExtReg(pScrn);      
-+   }
-+
-+   return (TRUE);	
-+} /* Init VGA */
-+
 +/* Get EDID */
 +void 
 +I2CWriteClock(ASTRecPtr pAST, UCHAR data)
@@ -1573,8 +1530,8 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.c src/ast_vgatool.c
 +} /* GetVGAEDID */
 +#endif	/* __sparc__ */
 diff -urp -x '*~' -x '*.orig' src/ast_vgatool.h src/ast_vgatool.h
---- src/ast_vgatool.h	2009-04-13 18:32:28.000000000 -0700
-+++ src/ast_vgatool.h	2009-04-24 02:03:07.549164000 -0700
+--- src/ast_vgatool.h	2009-10-29 13:33:38.000000000 -0700
++++ src/ast_vgatool.h	2010-08-16 13:45:07.715261578 -0700
 @@ -20,6 +20,12 @@
   * PERFORMANCE OF THIS SOFTWARE.
   */
@@ -1588,9 +1545,9 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.h src/ast_vgatool.h
  /* VRAM Size Definition */
  #define VIDEOMEM_SIZE_08M	0x00800000
  #define VIDEOMEM_SIZE_16M	0x01000000
-@@ -27,6 +33,85 @@
- #define VIDEOMEM_SIZE_64M	0x04000000
- #define VIDEOMEM_SIZE_128M	0x08000000
+@@ -32,6 +38,85 @@
+ #define DRAMTYPE_512Mx32	2
+ #define DRAMTYPE_1Gx32		3
  
 +#if defined(__sparc__)
 +
@@ -1674,7 +1631,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.h src/ast_vgatool.h
  #define AR_PORT_WRITE		(pAST->RelocateIO + 0x40)
  #define MISC_PORT_WRITE		(pAST->RelocateIO + 0x42)
  #define SEQ_PORT 		(pAST->RelocateIO + 0x44)
-@@ -37,7 +122,7 @@
+@@ -42,7 +127,7 @@
  #define INPUT_STATUS1_READ	(pAST->RelocateIO + 0x5A)
  #define MISC_PORT_READ		(pAST->RelocateIO + 0x4C)
  
@@ -1683,7 +1640,7 @@ diff -urp -x '*~' -x '*.orig' src/ast_vgatool.h src/ast_vgatool.h
  #define SetReg(base,val)			outb(base,val)
  #define GetIndexReg(base,index,val)			do {			\
                        				outb(base,index);	\
-@@ -58,15 +143,32 @@
+@@ -62,15 +147,32 @@
                        				SetIndexReg(base,index,__Temp); 	\
                      				} while (0)
  

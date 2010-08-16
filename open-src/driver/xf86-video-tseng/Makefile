@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-tseng
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.3
+MODULE_VERSION=1.2.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 79f63999c88477801ae54dc486272ad6
-TARBALL_SHA1 = 6cfc03bec98d56b3294ca45c604cf620b4b477c8
+TARBALL_MD5  = fa441774f8bf516a5c6331d64231a39d
+TARBALL_SHA1 = 1b45f55657b2c92f30abb0769cae57fca98d93b7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

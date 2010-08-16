@@ -27,11 +27,11 @@
 MODULE_NAME=renderproto
 
 # Version number (used in path names)
-MODULE_VERSION=0.11
+MODULE_VERSION=0.11.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b160a9733fe91b666e74fca284333148
-TARBALL_SHA1 = d30cf508b1a1b5f0deb1c6db41ba2f4e57680637
+TARBALL_MD5  = a914ccc1de66ddeb4b611c6b0686e274
+TARBALL_SHA1 = 7ae9868a358859fe539482b02414aa15c2d8b1e4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

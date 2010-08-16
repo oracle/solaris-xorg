@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-ark
 
 # Version number (used in path names)
-MODULE_VERSION=0.7.2
+MODULE_VERSION=0.7.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4745f5c722b030962cc56eb2443894a0
-TARBALL_SHA1 = fc934b68e06b8fa4f54ccda028134ab88065c6ea
+TARBALL_MD5  = ff0cb9cb0a7f36cc6f556deed7327798
+TARBALL_SHA1 = 56901ec6097a83433689f208268281f9c98c238b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

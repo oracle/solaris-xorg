@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-siliconmotion
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.3
+MODULE_VERSION=1.7.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 29fb322cd3adab52cc7f1ac86f9315bb
-TARBALL_SHA1 = f3edf5853a17c3725c11ea983edcf4b6bd54d10a
+TARBALL_MD5  = 3059e87586e16c34da89437cc6215b49
+TARBALL_SHA1 = 3c0fd42fbd301e66104e4b9190796d102a034787
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -52,6 +52,6 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lpciaccess -lXfont -lvbe -lvgahw -lxaa -lexa
+	-lfb -lpixman-1 -lint10 -lpciaccess -lXfont -lvbe -lvgahw -lxaa -lexa
 
 include ../Makefile.inc

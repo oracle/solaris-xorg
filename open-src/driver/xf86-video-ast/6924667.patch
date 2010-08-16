@@ -1,6 +1,7 @@
---- src/ast_driver.c	Mon Feb 15 14:36:59 2010
-+++ src/ast_driver.c	Mon Feb 15 14:46:07 2010
-@@ -404,28 +404,32 @@
+diff -urp -x '*~' -x '*.orig' src/ast_driver.c src/ast_driver.c
+--- src/ast_driver.c	2010-08-16 13:19:22.622286472 -0700
++++ src/ast_driver.c	2010-08-16 13:19:22.900612901 -0700
+@@ -321,28 +321,32 @@ ASTProbe(DriverPtr drv, int flags)
      xfree(usedChips);
  #else
  

@@ -39,11 +39,11 @@ MODULE_PKGCLASS_SET=yes
 MODULE_ARC_CASES = PSARC/2010/219
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e274ea9f55dfd62afa0a7b1e1ab4ba96
-TARBALL_SHA1 = c7eed31c4cb2b016e4a06b629a57333c8df14421
+TARBALL_MD5  = 619acbb2ed766d7762f02328513b1f72
+TARBALL_SHA1 = bad5a03b82cd817e4a2a7d2e83b820326fb2a7b7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

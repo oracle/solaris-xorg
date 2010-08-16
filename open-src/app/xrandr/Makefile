@@ -29,11 +29,11 @@
 MODULE_NAME=xrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.3.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2cb19bb1c19ccf77c40032b03dbe06f0
-TARBALL_SHA1 = 0e49b0a0889ae8a590452c6cd0d60a2253a8d940
+TARBALL_MD5  = 5b2dcfb0d9b736afaf78f6ce7651259c
+TARBALL_SHA1 = dada3eb30fead3334d954dc4dad9f0ffd7a8ff95
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

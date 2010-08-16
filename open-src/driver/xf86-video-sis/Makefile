@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-sis
 
 # Version number (used in path names)
-MODULE_VERSION=0.10.2
+MODULE_VERSION=0.10.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f04baa307e49e9f0e5a5c3d2e89a5576
-TARBALL_SHA1 = c7369196d504671b6fdc9e17c90c0f07aa8e0c24
+TARBALL_MD5  = dd930928b5ed7fcf34e3be4d43202ec7
+TARBALL_SHA1 = 158673747e240b0c33499685a32d46bdaead7cd5
 
 # Only build 32-bit since hardware is too old to be found in 64-bit systems
 BUILD_TYPES=32
@@ -55,7 +55,8 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe -lxaa -lm 
+	-lexa -lfb -lint10 -lpciaccess -lpixman-1 -lshadowfb -lXfont -lvbe \
+	-lxaa -lm 
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

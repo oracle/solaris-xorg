@@ -33,11 +33,11 @@ MODULE_PKGNAME=document/viewer/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e9a7192ef29453b8c810ddd556a463c0
-TARBALL_SHA1 = 1f369042a725bab1c2d3774184b99f09e7933920
+TARBALL_MD5  = dbf480019b75377154b6976726809bba
+TARBALL_SHA1 = 18f603e76a82fd2a62017dbd0c51258769539b0a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

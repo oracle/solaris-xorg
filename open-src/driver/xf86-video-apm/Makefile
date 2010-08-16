@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-apm
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.2
+MODULE_VERSION=1.2.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 48441a19aaf015570b267f2a8e67d8ab
-TARBALL_SHA1 = d319ccb26754419541bde73636d747d581a7ab84
+TARBALL_MD5  = a3743a971b3acb7de3d2eefc8b1a4834
+TARBALL_SHA1 = 1fa7180cf985a74132f8d5b39a0bf9df08713fac
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -52,7 +52,8 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lint10 -lpciaccess -lshadowfb -lXfont -lvbe -lvgahw -lxaa
+	-lfb -lpixman-1 -lint10 -lpciaccess -lshadowfb -lXfont -lvbe \
+	-lvgahw -lxaa
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

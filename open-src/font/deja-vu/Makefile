@@ -37,11 +37,11 @@ MODULE_LICENSE          = Bitstream Vera Fonts License
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=2.30
+MODULE_VERSION=2.31
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 545b3bfc69893075a90a7c6e6f4a7e67
-TARBALL_SHA1 = 3a09830033f74be6e370155410091f76193f5528
+TARBALL_MD5  = a794a75d8c43c83f0226207cd3aaf666
+TARBALL_SHA1 = 33ed20fc45566bfac776a713b3bb4f1214ccb0f7
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)

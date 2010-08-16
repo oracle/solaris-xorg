@@ -29,14 +29,14 @@
 MODULE_NAME=xf86-video-chips
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.2
+MODULE_VERSION=1.2.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a3969c28c3b36ab2caa852a9324e9b70
-TARBALL_SHA1 = 3990bc1cf4e8963164b3a38b15f92bc87da9278c
+TARBALL_MD5  = e3e8b8661b3ba2159f83f64e2aa6e29f
+TARBALL_SHA1 = 79d1592dacbdd5ff0419dcb2fef2a2ca541dd329
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = xf86UDelay.patch,-p1
+SOURCE_PATCHES = 
 
 # Only build 32-bit since hardware is too old to be found in 64-bit systems
 BUILD_TYPES=32
@@ -52,7 +52,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lpciaccess -lshadowfb -lXfont -lvbe -lvgahw -lxaa \
+	-lfb -lpixman-1 -lpciaccess -lshadowfb -lXfont -lvbe -lvgahw -lxaa \
 	-lxf8_16bpp
 
 # Additional install rules beyond what upstream installs

@@ -42,11 +42,11 @@ UPSTREAM_URL	= http://invisible-island.net/xterm/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=258
+MODULE_VERSION=261
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bcf4f0ba51f5f58fd5bef76b3d05e40e
-TARBALL_SHA1 = d3357fc88917e23210eea2db32b185799bb2d22e
+TARBALL_MD5  = 10d211f6986c4b279cfa9530b2361457
+TARBALL_SHA1 = c19b73bea2f43c676699e914c8a059d8b69fc89b
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
