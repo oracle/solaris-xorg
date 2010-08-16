@@ -155,6 +155,9 @@ install_freetype: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)$(FT_bindir)
 	( cd $(SOURCE_DIR) ; \
 	  $(GNUMAKE) DESTDIR=$(PROTODIR) prefix=$(MODULE_PREFIX) libdir=$(FT_libdir) bindir=$(FT_bindir) install )
+	( cd $(PROTODIR)$(FT_libdir) ; \
+	  rm -f libfreetype.so ; ln -s libfreetype.so.6 libfreetype.so )
+
 
 install_freetype_docs: $(PROTODIR)$(FT_docdir)/index.html
 
