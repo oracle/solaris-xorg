@@ -39,7 +39,8 @@ TARBALL_SHA1 = b9213bf745b793a3da2c946ea4d8ee5768e560f4
 SOURCE_PATCHES = \
 	enodev.patch \
 	6892799.patch \
-	6920647.patch
+	6920647.patch \
+	6950572.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -53,6 +54,12 @@ MODULE_ADD_INSTALL_TARGETS=install_docs
 
 include ../Makefile.inc
 
-install_docs: $(INSTALL_DEPS)
+install_docs: $(PROTODIR)$(X11_DOC_DIR)/README.mouse
+
+$(SOURCE_DIR)/README: $(INSTALL_DEPS)
+
+$(PROTODIR)$(X11_DOC_DIR):
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.mouse
+
+$(PROTODIR)$(X11_DOC_DIR)/README.mouse: $(PROTODIR)$(X11_DOC_DIR) $(SOURCE_DIR)/README
+	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/README $@

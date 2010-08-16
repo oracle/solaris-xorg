@@ -1,0 +1,68 @@
+From cb11e9ca60e8ca2590c77f844bfd19e5278f518f Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Wed, 11 Aug 2010 21:30:40 -0700
+Subject: [PATCH:xf86-input-mouse] MouseCtrl doesn't need to save values we never use
+
+Makes it into a no-op, like evdev's PtrCtrl function, now that
+mouse acceleration is completely handled in dix.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+Reviewed-by: Patrick E. Kane <pekane52 at gmail.com>
+Reviewed-by: Simon Thum <simon.thum@gmx.de>
+---
+ src/mouse.c       |   18 +++---------------
+ src/xf86OSmouse.h |    3 ---
+ 2 files changed, 3 insertions(+), 18 deletions(-)
+
+diff --git a/src/mouse.c b/src/mouse.c
+index 99d1f2b..a296021 100644
+--- a/src/mouse.c
++++ b/src/mouse.c
+@@ -1546,26 +1546,14 @@ post_event:
+ 
+ /*
+  * MouseCtrl --
+- *      Alter the control parameters for the mouse. Note that all special
+- *      protocol values are handled by dix.
++ *      Alter the control parameters for the mouse. Note that all
++ *      settings are now handled by dix.
+  */
+ 
+ static void
+ MouseCtrl(DeviceIntPtr device, PtrCtrl *ctrl)
+ {
+-    InputInfoPtr pInfo;
+-    MouseDevPtr pMse;
+-
+-    pInfo = device->public.devicePrivate;
+-    pMse = pInfo->private;
+-
+-#ifdef EXTMOUSEDEBUG
+-    ErrorF("MouseCtrl pMse=%p\n", pMse);
+-#endif
+-    
+-    pMse->num       = ctrl->num;
+-    pMse->den       = ctrl->den;
+-    pMse->threshold = ctrl->threshold;
++    /* This function intentionally left blank */
+ }
+ 
+ /*
+diff --git a/src/xf86OSmouse.h b/src/xf86OSmouse.h
+index 09b8525..33b2232 100644
+--- a/src/xf86OSmouse.h
++++ b/src/xf86OSmouse.h
+@@ -214,9 +214,6 @@ typedef struct _MouseDevRec {
+     int			oldBaudRate;
+     int			sampleRate;
+     int			lastButtons;
+-    int			threshold;	/* acceleration */
+-    int			num;
+-    int			den;
+     int			buttons;	/* # of buttons */
+     int			emulateState;	/* automata state for 2 button mode */
+     Bool		emulate3Buttons;
+-- 
+1.5.6.5
+
