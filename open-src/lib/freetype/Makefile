@@ -63,11 +63,11 @@ MODULE_LICENSE_SET	= yes
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.1
+MODULE_VERSION=2.4.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 567a27e5189ed581396f69fb51faf2d8
-TARBALL_SHA1 = 1870cc142be52a721031fcf16c4f8110dfb84fdb
+TARBALL_MD5  = 647ee8ed266f9a4117c8d0a4855b3d3e
+TARBALL_SHA1 = cc257ceda2950b8c80950d780ccf3ce665a815d1
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -75,7 +75,6 @@ SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	freetype-CVE-2010-1797.patch,-p1 \
 	freetype-config.patch,-p1 \
 	freetype-GS-conflict.patch,-p1 \
 	unix-cc.in.9.patch,-p1
