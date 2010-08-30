@@ -7,7 +7,7 @@ diff -urp -x '*~' -x '*.orig' cpprules.in cpprules.in
    XSERVERNAME = Xorg
  
 -MANDEFS = \
-+MANDEFS = -D__SUNSOFT__ \
++MANDEFS = -D__SUNSOFT__ -D__distroname__="$${DISTRO_NAME}" \
          -D__vendorversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
          -D__xorgversion__="\"$(XORGRELSTRING)\" \"$(XORGMANNAME)\"" \
  	-D__appmansuffix__=$(APP_MAN_SUFFIX) \
@@ -54,7 +54,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  frequently a link or a copy of the appropriate server binary for
  driving the most frequently used server on a given machine.
 +#ifdef __SUNSOFT__
-+In this release of Solaris and OpenSolaris, /usr/bin/X is a link to the 
++In this release of __distroname__, /usr/bin/X is a link to the 
 +Xserver program which starts the appropriate X server based on properties
 +set for the service management facility, under the service identifier
 +\fIsvc:/application/x11/x11-server\fP.  The properties are described in the
@@ -62,7 +62,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +#endif
  .SH "STARTING THE SERVER"
 +#ifdef __SUNSOFT__
-+On Solaris and OpenSolaris, the X server is usually started from the GNOME
++On __distroname__, the X server is usually started from the GNOME
 +Display Manager program \fIgdm\fP(1m).   This role may also be performed
 +by the X Display Manager program \fIxdm\fP(1), or another display manager. 
 +#else

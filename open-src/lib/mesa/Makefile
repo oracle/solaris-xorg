@@ -33,6 +33,7 @@ UPSTREAM_SET	= yes
 
 MODULE_LICENSE          = Mesa License (Mixed: MIT, LGPLv2, others)
 MODULE_LICENSE_SET      = yes
+MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # ARC cases that covered this module
 # LSARC/2005/109 MESA, Open Source OpenGL clone

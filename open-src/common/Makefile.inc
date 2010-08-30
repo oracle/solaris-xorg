@@ -215,10 +215,7 @@ debug%:
 SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 
 # Allow downloading from local archive/mirror
-TARBALL_ARCHIVE_sun.com		= http://xserver.sfbay.sun.com/tarballs
-TARBALL_ARCHIVE_DEFAULT		= $(TARBALL_ARCHIVE_SET:yes=$(POUND_SIGN))
-$(TARBALL_ARCHIVE_DEFAULT)	ARCHIVE_DOMAIN = domainname | awk -F. '{if (NF > 1) {printf "%s.%s", $$(NF-1), $$NF}}'
-$(TARBALL_ARCHIVE_DEFAULT)	TARBALL_ARCHIVE = $(TARBALL_ARCHIVE_$(ARCHIVE_DOMAIN:sh))
+# TARBALL_ARCHIVE is now set in Makefile.options
 ARCHIVE_URL=$(TARBALL_ARCHIVE)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
 GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
@@ -816,12 +813,44 @@ METADATA_TARGETS += $(ATTRDATA_FILE)
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
+# Default is the MIT/X11 license
+MIT_LICENSE_NAME = MIT License ($(MODULE_NAME))
+MIT_LICENSE_FILE = $(PKG_SRC_DIR)/license_files/lic_X11
+
+MODULE_LICENSE_DEFAULT		= $(MODULE_LICENSE_SET:yes=$(POUND_SIGN))
+$(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = $(MIT_LICENSE_NAME)
+
+# Some packages contain only code that Oracle owns all the rights to.
+# For these, Makefile.options.oracle.com chooses to omit the license
+# notice when Oracle is building its distros.   Everyone else gets the
+# notice required by open source license Oracle released the code under.
+LICENSE_CHOICE_DEFAULT		= $(LICENSE_CHOICE_SET:yes=$(POUND_SIGN))
+$(LICENSE_CHOICE_DEFAULT)	LICENSE_CHOICE=open
+
+ORACLE_LICENSE_NAME_open	= $(MIT_LICENSE_NAME)
+ORACLE_LICENSE_APPEND_open	= $(MIT_LICENSE_FILE)
+
+ORACLE_LICENSE_NAME_Oracle	= Oracle Copyright Notice ($(MODULE_NAME))
+ORACLE_LICENSE_APPEND_Oracle 	= # Nothing to append to copyright notice
+
+ORACLE_LICENSE_NAME 		= $(ORACLE_LICENSE_NAME_$(LICENSE_CHOICE))
+ORACLE_LICENSE_PREPEND	 	= # Nothing to prepend to copyright notice
+ORACLE_LICENSE_APPEND		= $(ORACLE_LICENSE_APPEND_$(LICENSE_CHOICE))
+
+# Use default license info unless MODULE_LICENSE = "Oracle"
+LICENSE_NAME			= $(MODULE_LICENSE)
+LICENSE_PREPEND 		= $(MODULE_LICENSE_PREPEND)
+LICENSE_APPEND 			= $(MODULE_LICENSE_APPEND)
+
+LICENSE_OVERRIDE_1		= $(POUND_SIGN)$(MODULE_LICENSE)
+LICENSE_OVERRIDE		= $(LICENSE_OVERRIDE_1:$(POUND_SIGN)Oracle%=)
+$(LICENSE_OVERRIDE)		LICENSE_NAME = $(ORACLE_LICENSE_NAME)
+$(LICENSE_OVERRIDE)		LICENSE_PREPEND = $(ORACLE_LICENSE_PREPEND)
+$(LICENSE_OVERRIDE)		LICENSE_APPEND = $(ORACLE_LICENSE_APPEND)
+
 LICENSE_FILE_NAME = license_$(MODULE_NAME)
 LICENSE_FILE_DEST = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
 LICENSE_ATTR_FILE = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME).mf
-
-MODULE_LICENSE_DEFAULT		= $(MODULE_LICENSE_SET:yes=$(POUND_SIGN))
-$(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = MIT License ($(MODULE_NAME))
 
 install_license: $(LICENSE_FILE_DEST)
 METADATA_TARGETS += $(LICENSE_FILE_DEST)
@@ -829,14 +858,13 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 %/$(LICENSE_FILE_NAME): % $(SOURCE_TARGETS)
 	@ $(START_CMD_ECHO) ; \
 	if [[ -f "$(LICENSE_FILE)" ]] ; then \
-	    LICENSE_TO_COPY="$(LICENSE_FILE)" ; \
+	    license_to_copy="$(LICENSE_FILE)" ; \
 	elif [[ -f "$(SOURCE_DIR)/$(LICENSE_FILE)" ]] ; then \
-	    LICENSE_TO_COPY="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
+	    license_to_copy="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
 	fi ; \
-	if [[ "$${LICENSE_TO_COPY}" != "" ]] ; then \
-	    rm -f $@ ; \
-	    cp -pf $${LICENSE_TO_COPY} $@ ; \
-	    print 'license license_$(MODULE_NAME) license="$(MODULE_LICENSE)"' > $@.mf ; \
+	if [[ -n "$${license_to_copy}" ]] ; then \
+	    cat $(LICENSE_PREPEND) "$${license_to_copy}" $(LICENSE_APPEND) > "$@" ; \
+	    print 'license $(LICENSE_FILE_NAME) license="$(LICENSE_NAME)"' > "$@.mf" ; \
 	fi
 
 install_metadata: $(METADATA_TARGETS)

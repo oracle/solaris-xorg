@@ -59,8 +59,8 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--enable-glx --enable-dri2 \
 	--disable-xsdl --disable-xwin --disable-xnest \
 	--disable-install-setuid \
-	--with-vendor-name='Sun Microsystems, Inc., based on X.Org Foundation sources' \
-	--with-vendor-web='http://sunsolve.sun.com/' \
+	--with-vendor-name='$(VENDOR_NAME)' \
+	--with-vendor-web='$(VENDOR_SUPPORT_URL)' \
 	--with-builderstring='Solaris ABI: $(BUILD_TYPE)-bit' \
 	--with-os-name="`uname -srm`" \
 	--with-log-dir=/var/log --with-xkb-output=/var/run/xkb \

@@ -37,6 +37,13 @@ PATH=/usr/bin:/usr/ccs/bin:/opt/onbld/bin:${PATH}
 SHELL=/bin/ksh93
 export PATH
 
+progname="$0"
+function fatal_error
+{
+    print -u2 "${progname}: ERROR: $*"
+    exit 1
+}
+
 # Path to directory in build tree containing build tools
 BUILD_TOOLS="$(pwd)/open-src/util/build-tools/"
 

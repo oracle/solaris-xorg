@@ -1,8 +1,6 @@
-###############################################################################
+# X build options for OpenSolaris sources
 #
-# hwc server Makefile
-#
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,36 +22,20 @@
 # DEALINGS IN THE SOFTWARE.
 #
 #
+###############################################################################
+#
 
-# Match kernel build types
-BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=64
-BUILD_TYPES_i386=32 64
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+# These defaults should be sufficient for people building OpenSolaris
+# sources for their own use.   Distro makers will probably want to copy
+# this file or the oracle.com file to customize/brand for their distro.
 
-MODULE_NAME=hwc
+# Local mirror/archive of tarballs used to build - default: none
+# TARBALL_ARCHIVE = http://...
+# TARBALL_ARCHIVE_SET=yes
 
-# pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=system/kernel/hardware-cursor
-MODULE_PKGNAME_SET=yes
+# OS/Distro name for use in documentation
+DISTRO_NAME = OpenSolaris
 
-# Package classification (override default)
-MODULE_PKGCLASS=System/Hardware
-MODULE_PKGCLASS_SET=yes
-
-# Package metadata
-MODULE_LICENSE = Oracle
-MODULE_LICENSE_SET = yes
-
-MODULE_VERSION=src
-SOURCE_TARBALL_NAME=NONE
-SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
-
-CONFIGURE_TARGETS=
-CONFIGURE_TARGETS_SET=yes
-
-MODULE_BUILD_ENV=$(CONFIG_ENV)
-MODULE_INSTALL_MAKEFLAGS = ARCHLIBSUBDIR="$(ARCHLIBSUBDIR)"
-
-include ../Makefile.inc
+# Xserver configuration options for vendor name & support URL
+VENDOR_NAME = OpenSolaris, based on X.Org Foundation sources
+VENDOR_SUPPORT_URL = http://hub.opensolaris.org/bin/view/Community+Group+x_win/

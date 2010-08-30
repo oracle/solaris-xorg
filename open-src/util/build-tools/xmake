@@ -74,18 +74,10 @@ my @dirtree = File::Spec->splitdir($startdir);
 my $osdepth;
 
 for my $n (1..$#dirtree) {
-  if ($dirtree[$n] eq 'open-src') {
-    if (-f File::Spec->catfile( @dirtree[0..$n], 'common/Makefile.inc')) {
-      $osdepth = $n;
-      last;
-    }
-  }
-  if (($dirtree[$n] eq 'pkg') || ($dirtree[$n] eq 'closed-src')) {
-    if (-f File::Spec->catfile( @dirtree[0..($n-1)],
-				'open-src/common/Makefile.inc')) {
-      $osdepth = $n;
-      last;
-    }
+  if (-f File::Spec->catfile( @dirtree[0..$n],
+			      'open-src/common/Makefile.inc')) {
+    $osdepth = $n + 1;
+    last;
   }
 }
 

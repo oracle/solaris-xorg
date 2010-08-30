@@ -24,8 +24,9 @@
 #
 #
 
-# Need to set $MACH
-include $(TOP)/open-src/common/Makefile.init
+# MACH will be either "sparc" or "i386"
+MACH=$(TARGET_ARCH:-%=%)
+START_CMD_ECHO = PS4="" ; set -x
 
 OS_SUBDIRS=$(OS_SUBDIRS_$(MACH))
 

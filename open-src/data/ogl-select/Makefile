@@ -36,6 +36,10 @@ MODULE_PKGNAME_SET=yes
 # LSARC 2005/700 OpenGL boot time selection of libraries and headers
 MODULE_ARC_CASES = LSARC/2005/700
 
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE

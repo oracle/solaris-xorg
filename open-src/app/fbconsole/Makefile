@@ -35,6 +35,10 @@ MODULE_PKGNAME_SET=yes
 MODULE_PKGCLASS=System/Hardware
 MODULE_PKGCLASS_SET=yes
 
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/1992/130 LSARC/2005/590
 

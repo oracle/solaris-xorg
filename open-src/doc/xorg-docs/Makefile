@@ -37,6 +37,12 @@ TARBALL_SHA1 = e4a0fdf848e9d5baa2de625ce74f204de37e0fb0
 SOURCE_PATCHES=	\
 	solaris-manpages.patch
 
+# Man pages to apply distro customizations to
+# Normal attributes table not added, since these aren't simple interfaces
+SUNTOUCHED_MANPAGES=man/general/*.man
+SUNTOUCH_MAN_FLAGS=-r '{__distroname__, $(DISTRO_NAME)}'
+SUNTOUCH_MAN_FLAGS_SET=yes
+
 # Makefiles require gmake -i to build all targets
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes

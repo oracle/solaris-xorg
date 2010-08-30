@@ -15,7 +15,7 @@
  using a network-address based form of authentication, \fIxhost\fP must
  be used to add the new address and/or remove the old address.
 +.SH WARNINGS
-+Solaris is secure by default.  See Xserver(1) which details how to re-enable
++__distroname__ is secure by default.  See Xserver(1) which details how to re-enable
 +remote connections to the X server as in previous releases.
  .SH AUTHORS
  Bob Scheifler, MIT Laboratory for Computer Science,

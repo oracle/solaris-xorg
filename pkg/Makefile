@@ -206,7 +206,8 @@ PKGMOG_DEFINES= \
 	ARC_URL='$(ARC_URL)'
 
 # Default transformations to apply
-PM_TRANSFORMS = common_actions publish restart_fmri facets \
+PM_TRANSFORMS = $(PKG_BRANDING_TRANSFORMS) \
+		common_actions publish restart_fmri facets \
 		licenses $(PDIR)/versions extract_metadata
 PM_INC = transforms
 

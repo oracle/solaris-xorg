@@ -56,7 +56,7 @@
 #
 # Defaults for legacy metadata for SVR4 package information
 #
-<transform legacy -> default vendor "Oracle Corporation">
+<transform legacy -> default vendor "OpenSolaris">
 <transform legacy -> default hotline \
 	"Please contact your local service provider">
 <transform legacy -> default arch $(ARCH)>

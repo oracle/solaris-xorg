@@ -207,6 +207,10 @@ MODULE_ARC_CASES
    and for publication in opensolaris.arc_url metadata attributes in packages.
    Must be in the format "ARC/year/case", such as "PSARC/2004/187".
 
+MODULE_LICENSE_PREPEND, MODULE_LICENSE_APPEND
+ - Files to be added to the beginning or end of LICENSE_FILE when generating
+   the license notice placed in the package.
+
 FIX_PC_FILES
  - Names of pkgconfig .pc or .pc.in files in the module, which will be
    "fixed" to add required -R flags for linking libraries with and remove
@@ -414,6 +418,12 @@ MODULE_LICENSE
    upstream modules with different license texts are delivered into the
    same package, they cannot both have the license name "MIT License", which
    is why our default string includes the package name to disambiguate.
+   The value "Oracle" is a special case, indicating that Oracle owns all the
+   IP in a module, and can choose to release under the license terms of its
+   choice, while others building from this source tree will be using under
+   the MIT license terms that Oracle has offered the sources under.
+   The license used in this case depends on the LICENSE_CHOICE setting
+   in open-src/common/Makefile.options.
    Default: MIT License ($(MODULE_NAME))
 
 MODULE_MTLEVEL
@@ -491,12 +501,82 @@ on x86/x64, you can do:
 
 =============================================================================
 
-Variables you may want to customize for your site/tree:
+Setting builder/distro variables:
+---------------------------------
 
-XORG_RELEASES_URL & SF_DOWNLOADS_URL (set in open-src/common/Makefile.init)
+"make setup" in the top-level directory of the X gate (i.e. the parent of
+this open-src disrectory) makes a open-src/common/Makefile.options symlink
+to one of the Makefile.options.* files to set variables for options that
+differ depending on who is building, such as distro branding, licensing,
+and network access.
+
+To force a specific configuration, specify X_BUILD_OPTIONS when running
+"make setup", such as:
+      make setup X_BUILD_OPTIONS=opensolaris
+
+Otherwise it will strip the last two components of the output of domainname,
+lowercase them and look for a matching file - for instance, if building on
+a machine with a domainname of it.SFBay.Sun.COM, make setup will check for
+a file named Makefile.options.sun.com.
+
+If X_BUILD_OPTIONS is not found, and a domainname match is not found, then
+Makefile.options.opensolaris as a final fallback.
+
+Required settings in Makefile.options.*:
+
+DISTRO_NAME
+- String used when a reference to the distro name is needed.  Mostly used
+  in man pages at the moment, such as open-src/xserver/xorg/sun-manpage.patch
+
+VENDOR_NAME
+- Vendor name string reported by the X server in the log & protocol.
+  The vendor name needs to include "X.Org Foundation" for software
+  like cairo that does strstr on VendorName to detect servers built
+  from the X.Org source tree for bug workarounds/compatibility tweaks,
+  or for xdpyinfo to convert the vendor version integer to a human-friendly
+  string.
+
+VENDOR_SUPPORT_URL
+- URL printed by the X server for Xorg -version, in the Xorg.0.log, and
+  in crash messages, for where to get help or check you have the latest
+  version.
+
+Optional, with empty default:
+
+GPL_CHOICE_FILE
+- file containing a notice prepended to package license notices for modules
+  containing GPL licensed sources, for builders who wish to specify choice
+  of licenses in modules that are dual-licensed or "GPLv2 or later".
+
+PKG_BRANDING_TRANSFORMS
+- name of a file in pkg/transforms that is added to the list passed to
+  pkgmogrify when building packages, for setting distribution-specific
+  metadata.
+
+TARBALL_ARCHIVE
+- url for a mirror site containing all the upstream tarballs needed during
+  the build - can be any protocol supported by wget.   If not set, then
+  "make download" will wget directly from the upstream sites on the internet.
+
+Optional, with non-empty default:
+
+* Important, for these, to override the default values, you must not only
+  set the variable, but set another variable <variable>_SET=yes before the
+  Makefile.inc is included to prevent the default from being set.
+
+LICENSE_CHOICE
+- For modules with MODULE_LICENSE="Oracle", this controls which license 
+  terms are published in the package.  This must be set to "Oracle" for
+  builds done for Oracle Solaris.   If not set, it defaults to "open",
+  which is the value that all others must use, unless they have obtained
+  special permission from Oracle to license the sources under something
+  other than the standard MIT license terms used for X11 software.
+  Default: open
+
+XORG_RELEASES_URL & SF_DOWNLOADS_URL
 - urls for X.Org & sourceforge mirrors to download tarballs from
 
-FDO_GIT_URL (set in open-src/common/Makefile.init)
+FDO_GIT_URL & XORG_GIT_URL
 - url for git repositories hosted on freedesktop.org, including
   X.Org, Mesa, pixman, etc.  - defaults to anonymous git over http, can 
   change to use another protocol if needed

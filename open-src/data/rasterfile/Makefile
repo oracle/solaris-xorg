@@ -31,6 +31,10 @@ MODULE_PKGNAME_SET=yes
 MODULE_PKGCLASS=Development/X11
 MODULE_PKGCLASS_SET=yes
 
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=NONE
 SOURCE_TARBALL_NAME=NONE

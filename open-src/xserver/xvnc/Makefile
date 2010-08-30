@@ -37,6 +37,7 @@ UPSTREAM_SET	= yes
 
 MODULE_LICENSE          = GPLv2
 MODULE_LICENSE_SET      = yes
+MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.1

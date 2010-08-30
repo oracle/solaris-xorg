@@ -32,6 +32,10 @@ MODULE_NAME=winsysck
 MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE

@@ -1,8 +1,5 @@
-###############################################################################
 #
-# hwc server Makefile
-#
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,37 +20,19 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
+#
+# This file sets branding for Oracle Solaris releases that differs 
+# from other distros
 #
 
-# Match kernel build types
-BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=64
-BUILD_TYPES_i386=32 64
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+#
+# Defaults for legacy metadata for SVR4 package information
+#
+<transform legacy -> default vendor "Oracle Corporation">
 
-MODULE_NAME=hwc
-
-# pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=system/kernel/hardware-cursor
-MODULE_PKGNAME_SET=yes
-
-# Package classification (override default)
-MODULE_PKGCLASS=System/Hardware
-MODULE_PKGCLASS_SET=yes
-
-# Package metadata
-MODULE_LICENSE = Oracle
-MODULE_LICENSE_SET = yes
-
-MODULE_VERSION=src
-SOURCE_TARBALL_NAME=NONE
-SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
-
-CONFIGURE_TARGETS=
-CONFIGURE_TARGETS_SET=yes
-
-MODULE_BUILD_ENV=$(CONFIG_ENV)
-MODULE_INSTALL_MAKEFLAGS = ARCHLIBSUBDIR="$(ARCHLIBSUBDIR)"
-
-include ../Makefile.inc
+#
+# Add distro maintainer URL in addition to OpenSolaris community
+#
+<transform set name=info.maintainer_url -> \
+    add value "http://www.oracle.com/solaris/">

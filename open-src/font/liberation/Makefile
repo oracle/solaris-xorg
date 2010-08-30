@@ -35,6 +35,7 @@ UPSTREAM_SET	= yes
 
 MODULE_LICENSE          = Liberation Font Software License Agreement
 MODULE_LICENSE_SET      = yes
+MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # Version number (used in path names)
 MODULE_VERSION=1.04

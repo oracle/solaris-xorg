@@ -32,6 +32,7 @@
 #					Attributes section table
 #	-l libname		     - add library line to synopsis
 #	-p path			     - add path to command in synopsis
+#	-r '{text, replacement}'     - replace text with replacement
 
 use Getopt::Long;
 use integer;
@@ -39,18 +40,29 @@ use strict;
 
 my @attributes;
 my @overrides;
+my @replacements;
 my $library;
 my $synpath;
 
 my $result = GetOptions('a|attribute=s' => \@attributes,
 			'o|override=s'  => \@overrides,
+			'r|replace=s'	=> \@replacements,
 			'l|library=s'	=> \$library,
 			'p|path=s'	=> \$synpath);
 
 my $add_attributes = 0;
+my $attributes_table;
 
 if (scalar(@attributes) + scalar(@overrides) > 0) {
   $add_attributes = 1;
+  $attributes_table = &get_attributes_table(\@attributes, \@overrides);
+}
+
+# Reference to generated function to substitute text replacements
+my $text_subref;
+
+if (scalar(@replacements) > 0) {
+  $text_subref = &get_text_substitutions(\@replacements);
 }
 
 my $add_library_to_synopsis = 0;
@@ -99,6 +111,9 @@ while ($filename = shift) {
 
   my $nextline;
   while ($nextline = <IN>) {
+    if ($text_subref) {
+      $nextline = &$text_subref($nextline);
+    }
     print OUT $nextline;
 
     if ($nextline =~ m/.SH[\s "]*(SYNOPSIS|SYNTAX)/) {
@@ -117,7 +132,7 @@ while ($filename = shift) {
   }
 
   if ($add_attributes) {
-    print OUT &get_attributes_table(\@attributes, \@overrides);
+    print OUT $attributes_table;
   }
 
   close(IN);
@@ -190,4 +205,28 @@ sub parse_attributes_list {
     push @attrib_pairs, \@pair;
   }
   return @attrib_pairs;
+}
+
+sub get_text_substitutions {
+  my ($replacements_ref) = @_;
+
+  my @replacement_pairs = parse_attributes_list($replacements_ref);
+
+  my @subst_pattern_list = ();
+
+  foreach my $r (@replacement_pairs) {
+    my ($text_in, $text_out) = @{$r};
+    push @subst_pattern_list, " s{$text_in}{$text_out}go;";
+  }
+
+  my $subst_function = join("\n",
+			    'sub {',
+			    ' $_ = $_[0]; ',
+			    @subst_pattern_list, 
+			    ' return $_;',
+			    '}');
+
+  print $subst_function;
+
+  return eval $subst_function;
 }

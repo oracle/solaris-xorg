@@ -36,6 +36,13 @@
 PATH=/usr/bin:${PATH}:/usr/sbin
 export PATH
 
+progname="$0"
+function fatal_error
+{
+    print -u2 "${progname}: ERROR: $*"
+    exit 1
+}
+
 MAKE_PKGS=0
 VERBOSE_FLAGS=""	# verbosity flag passed to xmake/make_release_packages
 PUBLISHER_FLAGS=""
@@ -108,6 +115,8 @@ fi
     "proto/pkg_${MACH}" "proto/tools_${MACH}"
 
 XMAKE="$(pwd)/open-src/util/build-tools/xmake ${VERBOSE_FLAGS} -k"
+
+${XMAKE} setup || fatal_error "make setup failed: cannot build"
 
 cd open-src
 # Run as two steps to avoid race between cleaning & rebuilding when

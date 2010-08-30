@@ -94,6 +94,10 @@ MODULE_SUNTOUCH_MAN_FLAGS= \
 SUNTOUCH_MAN_FLAGS_Xephyr = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xephyr)}'
 SUNTOUCH_MAN_FLAGS_Xvfb = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xvfb)}'
 
+# Used in sun-manpage.patch to set distro name in Xserver man page
+# DISTRO_NAME is set in open-src/common/Makefile.options.*
+MODULE_BUILD_ENV = DISTRO_NAME="$(DISTRO_NAME)"
+
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
 XSERVERS = Xorg Xephyr Xvfb
@@ -272,6 +276,12 @@ $(EXTRA_ATTRDATA_FILES) $(EXTRA_LICENSE_FILES): $(EXTRA_METADATA_DIRS)
 
 $(EXTRA_METADATA_DIRS):
 	mkdir -p $@
+
+# Xtsol module is covered only by Oracle copyright/license
+XTSOL_LICENSE = $(XTSOL_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+$(XTSOL_LICENSE):=	LICENSE_NAME	= $(ORACLE_LICENSE_NAME)
+$(XTSOL_LICENSE):=	LICENSE_FILE	= COPYING.tsol
+$(XTSOL_LICENSE):=	LICENSE_APPEND  = $(ORACLE_LICENSE_APPEND)
 
 # Special compatibility link from /usr/X11/bin/i386 to /usr/bin/i86
 install_i386_bincompat_link: $(X11_BINCOMPAT_DIR)/i386

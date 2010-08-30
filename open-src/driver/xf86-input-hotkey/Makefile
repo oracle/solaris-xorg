@@ -27,6 +27,10 @@
 # Package name used in tarballs
 MODULE_NAME=xf86-input-hotkey
 
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
 # Version number (used in path names)
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE

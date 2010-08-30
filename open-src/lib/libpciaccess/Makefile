@@ -93,9 +93,10 @@ $(SCANPCI_MAN_OUT): $(SCANPCI_MAN_SRC)
 	 $(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
 		$(COMMON_SUNTOUCH_MAN_FLAGS) \
 		-p $(MODULE_PREFIX)/bin/ \
+		-r '{__distroname__, $(DISTRO_NAME)}' \
+		-r '{__xorgversion__, "$(MODULE_NAME) $(MODULE_VERSION)"}' \
 		src/scanpci.man && \
-	 sed -e 's/__xorgversion__/"$(MODULE_NAME) $(MODULE_VERSION)"/' \
-		src/scanpci.man > src/scanpci.1 )
+	 cp src/scanpci.man src/scanpci.1 )
 
 # We want to install scanpci, even though the upstream Makefile doesn't
 install_scanpci: default_install $(SCANPCI_MAN_OUT)

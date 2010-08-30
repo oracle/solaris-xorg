@@ -30,6 +30,10 @@ BUILD_TYPES=32
 
 MODULE_NAME=libowconfig
 
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE

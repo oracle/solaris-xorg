@@ -45,6 +45,15 @@ default: all
 # The infrastructure in the main tree requires Solaris make
 $(error You must use Solaris make, not GNU make in this build - make sure /usr/ccs/bin or /usr/bin is ahead of /usr/gnu/bin in $$PATH)
 
+### Build options
+
+# Different builders want different settings for various options such
+# as branding or download sites.  The top-level "make setup" command
+# sets the Makefile.options link to point to a included Makefile to
+# set these up.
+
+include "Makefile.options"
+
 ###  Machine architecture macros
 
 # MACH will be either "sparc" or "i386"
@@ -308,17 +317,22 @@ TARBALLDIR=$(TOP)/open-src/tarballs
 WGET=/usr/sfw/bin/wget --no-check-certificate
 GIT=git
 
-# If you need to use a closer mirror for X.Org or SourceForge, change these
-XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
-SF_DOWNLOADS_URL=http://easynews.dl.sourceforge.net/sourceforge
+# If you need to use a closer mirror for X.Org or SourceForge, override
+# these in your Makefile.options file
+XRU_DEFAULT	= $(XORG_RELEASES_URL_SET:yes=$(POUND_SIGN))
+$(XRU_DEFAULT)	XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
+SFU_DEFAULT	= $(SF_DOWNLOADS_URL_SET:yes=$(POUND_SIGN))
+$(SFU_DEFAULT)	SF_DOWNLOADS_URL=http://easynews.dl.sourceforge.net/sourceforge
 
 # Git repositories hosted on freedesktop.org (X.Org, Mesa, pixman, etc.)
-FDO_GIT_URL=http://anongit.freedesktop.org/git
-XORG_GIT_URL=$(FDO_GIT_URL)/xorg
+FDO_GIT_DEFAULT		= $(FDO_GIT_URL_SET:yes=$(POUND_SIGN))
+$(FDO_GIT_DEFAULT)	FDO_GIT_URL=http://anongit.freedesktop.org/git
+XORG_GIT_DEFAULT	= $(XORG_GIT_URL_SET:yes=$(POUND_SIGN))
+$(XORG_GIT_DEFAULT)	XORG_GIT_URL=$(FDO_GIT_URL)/xorg
 
 # Target created when sources are unpacked
 UNPACK_FILE = .unpack_done
-UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE) 
+UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 
 ### Misc rules
 

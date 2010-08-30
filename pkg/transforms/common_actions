@@ -45,6 +45,8 @@ set name=info.maintainer_url \
 	value="http://hub.opensolaris.org/bin/view/Community+Group+x_win/"
 set name=info.repository_url \
 	value="ssh://anon@hg.opensolaris.org/hg/x-cons/xnv-clone"
+set name=info.defect_tracker.url \
+	value="http://bugs.opensolaris.org/"
 
 #
 # Indicate that the package was published in a zones aware
