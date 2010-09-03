@@ -66,20 +66,62 @@ MODULE_MAKEFLAGS= DESTDIR=""
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# Catalog generated to find SGML files
-CATALOG=$(SOURCE_DIR)/catalog
-
-# Need to use local catalog during build due to empty /etc/sgml/catalog
-# on OpenSolaris systems
-MODULE_BUILD_DEPS = $(CATALOG)
+# Need to use local catalog during build
+MODULE_BUILD_DEPS = install_catalog
 MODULE_ADD_INSTALL_TARGETS = install_catalog
 
 ### Include common rulesets
 include ../Makefile.inc
 
-$(CATALOG): catalog.in $(SOURCE_TARGETS)
-	sed 's%__sgmldir__%$(PROTODIR)$(X11_DIR)/share/sgml%' < catalog.in > $@
+.SUFFIXES: .in
 
-install_catalog: $(CATALOG)
-	mkdir -p $(MODULE_PREFIX)/share/sgml
-	cp -p $(CATALOG) $(MODULE_PREFIX)/share/sgml
+CATALOG=$(SOURCE_DIR)/catalog
+SGMLCONF=$(SOURCE_DIR)/sgml.conf
+SGMLWHICH=$(SOURCE_DIR)/bin/sgmlwhich
+
+TOOLS_SGML_DIR=$(TOOLS_DIR)/share/sgml
+
+TOOLS_CATALOG=$(TOOLS_SGML_DIR)/catalog
+TOOLS_SGMLCONF=$(TOOLS_SGML_DIR)/sgml.conf
+TOOLS_SGMLWHICH=$(TOOLS_DIR)/bin/sgmlwhich
+
+install_catalog: $(TOOLS_CATALOG) $(TOOLS_SGMLCONF) $(TOOLS_SGMLWHICH)
+
+$(TOOLS_CATALOG) $(TOOLS_SGMLCONF) $(TOOLS_SGMLWHICH): $(@D)
+$(TOOLS_DIR)/bin $(TOOLS_SGMLDIR):
+	mkdir -p $@
+
+# Wait until source tree is unpacked first before writing files into it
+$(CATALOG) $(SGMLCONF) $(SGMLWHICH): $(SOURCE_TARGETS)
+
+# Find the X11/defs.ent in the main proto area during the build
+# Add "OVERRIDE YES" tags to sgml catalogs to prefer local copies of
+# the DocBook DTDs over network fetches of them
+$(CATALOG): catalog.in
+	sed 's%__sgmldir__%$(PROTODIR)$(X11_DIR)/share/sgml%' < catalog.in > $@
+	@for srcdir in /usr/share/sgml/docbook/*-dtd-* ; do \
+	    ( destdir=$(TOOLS_SGML_DIR)/docbook/$${srcdir##*/docbook/} ; \
+	      $(START_CMD_ECHO) ; \
+	      rm -rf $$destdir ; \
+	      mkdir -p $$destdir ; ln -s $$srcdir/* $$destdir/ ; \
+	      rm -f $$destdir/catalog ; \
+	      print "OVERRIDE YES" > $$destdir/catalog ; \
+	      cat $$srcdir/catalog >> $$destdir/catalog ; \
+	      print "CATALOG \"$$destdir/catalog\"" >> $@ ) \
+	done
+
+$(TOOLS_CATALOG): $(CATALOG)
+	$(INSTALL_SCRIPT) -m 0444 $(CATALOG) $@
+
+# Find the other sgml files in the tools area during the build
+$(SGMLCONF): sgml.conf.in
+	sed 's%__sgmldir__%$(TOOLS_SGML_DIR)%' < sgml.conf.in > $@
+
+$(TOOLS_SGMLCONF): $(SGMLCONF)
+	$(INSTALL_SCRIPT) -m 0444 $(SGMLCONF) $@
+
+$(SGMLWHICH): sgmlwhich.in
+	sed 's%__sgmldir__%$(TOOLS_SGML_DIR)%' < sgmlwhich.in > $@
+
+$(TOOLS_SGMLWHICH): $(SGMLWHICH)
+	$(INSTALL_SCRIPT) -m 0755 $(SGMLWHICH) $@
