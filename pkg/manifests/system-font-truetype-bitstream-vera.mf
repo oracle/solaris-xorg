@@ -47,6 +47,6 @@ file path=usr/share/fonts/TrueType/bitstream-vera/fonts.dir
 file path=usr/share/fonts/TrueType/bitstream-vera/fonts.scale
 legacy pkg=SUNWttf-bitstream-vera \
     desc="TrueType font files for the Vera family of redistributable fonts from Bitstream, Inc." \
-    name=""
+    name="Bitstream Vera fonts"
 link path=etc/X11/fontpath.d/bitstream-vera:pri=42 \
     target=../../../usr/share/fonts/TrueType/bitstream-vera
