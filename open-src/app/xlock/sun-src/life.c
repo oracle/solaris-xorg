@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 2008, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -441,7 +441,7 @@ spawn(loc)
 
 
 static void
-kill(loc)
+killcell(loc)
     unsigned char *loc;
 {
     lifestruct *lp = &lifes[screen];
@@ -620,7 +620,7 @@ drawlife(win)
 		break;
 	    case DEATH:
 		if (*(loc + 1) & RT) {
-		    kill(loc);
+		    killcell(loc);
 		    erasecell(win, row, col);
 		}
 		break;
