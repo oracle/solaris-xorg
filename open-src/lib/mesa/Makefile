@@ -66,6 +66,7 @@ SOURCE_PATCHES= \
 	install-pc-dir.patch,-p1 \
 	glu-no-mangled-exports.patch \
 	solaris-port.patch \
+	make-race.patch \
 	6872597.patch 6866668.patch
 
 # File created by running configure script

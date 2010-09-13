@@ -70,7 +70,7 @@ libXrandr: libX11 libXext libXrender
 libXrender: libX11 libXext
 libXres: libX11 libXext
 libXScrnSaver: libX11 libXext
-libXt: libX11 libSM
+libXt: libX11 libSM libICE
 libXtsol: libX11 libXext
 libXtst: libX11 libXext
 libXv: libX11 libXext
