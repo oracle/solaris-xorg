@@ -364,7 +364,6 @@ PKGPUBLISHER = xnv-devel
 # Initialize the empty on-disk repositories
 $(PKGDEST):
 	@print "## Initializing $(@F)"
-	$(PKGDEBUG)mkdir -p $@
 	$(PKGDEBUG)pkgsend -s file://$(@) create-repository \
 		--set-property publisher.prefix=$(PKGPUBLISHER)
 
