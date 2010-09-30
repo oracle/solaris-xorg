@@ -169,17 +169,20 @@ PROG_CXXFLAGS		= $(CXXFLAGS)
 # Linker mapfiles to link with for better performance & security
 # SPARC architecture requires PLT section in .data be executable, so
 # we can only make .bss, not all of .data no-exec on SPARC
-MAPFILE_NOEXBSS		= /usr/lib/ld/map.noexbss
+#
+# The mapfiles that cause extra .bss sections to be generated have
+# been temporarily disabled due to linker bug 6988300 - see bug 6988507.
+MAPFILE_NOEXBSS		= # -M /usr/lib/ld/map.noexbss
 MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
-MAPFILE_NOEXDATA_i386	= /usr/lib/ld/map.noexdata
+MAPFILE_NOEXDATA_i386	= -M /usr/lib/ld/map.noexdata
 MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
-MAPFILE_NOEXSTACK	= /usr/lib/ld/map.noexstk
-MAPFILE_PAGEALIGN	= /usr/lib/ld/map.pagealign
-MAPFILE_HEAPALIGN	= /usr/lib/ld/map.bssalign
+MAPFILE_NOEXSTACK	= -M /usr/lib/ld/map.noexstk
+MAPFILE_PAGEALIGN	= -M /usr/lib/ld/map.pagealign
+MAPFILE_HEAPALIGN	= # -M /usr/lib/ld/map.bssalign
 
-MAPFILES_FOR_ALL   = -M $(MAPFILE_PAGEALIGN) -M $(MAPFILE_NOEXDATA)
-MAPFILES_FOR_PROGS = -M $(MAPFILE_HEAPALIGN) -M $(MAPFILE_NOEXSTACK) \
-			-M $(MAPFILE_NOEXBSS)
+MAPFILES_FOR_ALL   = $(MAPFILE_PAGEALIGN) $(MAPFILE_NOEXDATA)
+MAPFILES_FOR_PROGS = $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXSTACK) \
+			$(MAPFILE_NOEXBSS)
 
 # Common flags for all binaries
 LDFLAGS_common 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
