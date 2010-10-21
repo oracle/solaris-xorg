@@ -31,6 +31,9 @@ MODULE_NAME = xserver-common
 # ARC cases that covered this module
 # PSARC/2004/752 X Consolidation conversion to SMF
 MODULE_ARC_CASES = PSARC/2004/752
+# PSARC/2010/161 Xorg configuration file for VESA driver selection
+# (addition of SMF property options/config_file)
+MODULE_ARC_CASES += PSARC/2010/161
 
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=$(XORGSERVER_VERS)

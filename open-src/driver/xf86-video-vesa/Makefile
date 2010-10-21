@@ -54,3 +54,15 @@ MODULE_LD_OPTIONS= \
 	-lfb -lpciaccess -lshadow -lvbe
 
 include ../Makefile.inc
+
+# Additional files to install
+CONFDIR = /usr/lib/X11
+CONFFILE = xorg.conf.vesa
+
+install: $(PROTODIR)$(CONFDIR)/$(CONFFILE)
+
+$(PROTODIR)$(CONFDIR)/$(CONFFILE): $(PROTODIR)$(CONFDIR) $(CONFFILE)
+	$(INSTALL_SCRIPT) -c -m 0444 $(CONFFILE) $@
+
+$(PROTODIR)$(CONFDIR):
+	mkdir -p $@

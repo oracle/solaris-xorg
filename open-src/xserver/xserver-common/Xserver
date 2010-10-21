@@ -48,6 +48,7 @@ TCP_LISTEN=""
 SERVERARGS=""
 XSERVER="/usr/bin/Xorg"
 CONSOLE=""
+CONFIG_FILE=""
 
 
 while getopts :c: opt; do
@@ -117,6 +118,7 @@ getprop options/server XSERVER
 getprop options/server_args SERVERARGS
 getprop options/tcp_listen TCP_LISTEN
 getprop options/display_0_on_console CONSOLE
+getprop options/config_file CONFIG_FILE
 
 ORIGINAL_XSERVER="${XSERVER}"
 
@@ -205,6 +207,20 @@ else
     CONSOLE=""
 fi
 
-ALLARGS="${DEPTHARG} ${LISTENARG} ${SERVERARGS} ${CONSOLE} $*"
+# Currently only Xorg accepts a command line flag for choosing config files.
+# If other X servers add such flags in the future, they should be added here.
+# Only filenames without directory paths are allowed (similar to when a 
+# non-root user runs Xorg -config) to avoid security issues.
+CONFIGARG=""
+if [[ ! -z "${CONFIG_FILE}" ]] ; then
+    case ${CONFIG_FILE} in
+	*/*)	fatal_error "Illegal value for config_file property" ;;
+    esac
+    case ${XSERVER} in
+	*Xorg)	CONFIGARG="-config ${CONFIG_FILE}" ;;
+    esac
+fi
+
+ALLARGS="${DEPTHARG} ${LISTENARG} ${SERVERARGS} ${CONSOLE} ${CONFIGARG} $*"
 
 exec ${XSERVER} :${DISPLAY} ${ALLARGS}

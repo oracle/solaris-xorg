@@ -125,7 +125,7 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
  enables(+) or disables(-) AccessX key sequences.
  .TP 8
  .B \-xkbdir \fIdirectory\fP
-@@ -545,6 +614,102 @@ the following font path:
+@@ -545,6 +614,117 @@ the following font path:
      /usr/share/fonts/default/Type1,
      /usr/share/fonts/default/ghostscript
  .fi
@@ -187,6 +187,13 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +\fB/usr/bin/Xvnc\fP
 +.fi
 +.TP
++.B options/config_file
++(Type string) Setting this to a filename causes this file to be used as the
++configuration file for the X server.   Currently this property is only
++available when used with the Xorg server.  The value of this property must
++be a relative path from one of the directories in the Xorg config file
++search path, and not an absolute path.
++.TP
 +.B options/tcp_listen
 +(Type boolean) Setting this to false disables listening for incoming TCP/IP 
 +connections (see \fB-nolisten tcp\fP option above).
@@ -217,7 +224,15 @@ diff -urp -x '*~' -x '*.orig' doc/Xserver.man.pre doc/Xserver.man.pre
 +Restart the Xserver by either logging out and logging back in, or manually 
 +if the Xserver was started from the command line.
 +.sp
-+.SS "Example: Enables the XINERAMA extension"
++.SS "Example: Use of VESA driver"
++.PP
++The following command overrides the default Xorg driver selection to use the
++/usr/lib/X11/xorg.conf.vesa configuration file to select the "vesa" driver.
++.sp
++.nf
++svccfg -s svc:/application/x11/x11-server setprop options/config_file=xorg.conf.vesa
++.fi
++.SS "Example: Enabling the XINERAMA extension"
 +.PP
 +The following command enables the XINERAMA extension.
 +.sp
