@@ -115,8 +115,8 @@ BUILD_TARGETS_32=java_build
 BUILD_TARGETS=$(BUILD_TARGETS_common) $(BUILD_TARGETS_$(BUILD_TYPE))
 BUILD_TARGETS_SET=yes
 INSTALL_TARGETS_common=Xvnc_install_module
-INSTALL_TARGETS_32=Xvnc_install_programs java_install
-INSTALL_TARGETS_64=Xvnc_install_programs
+INSTALL_TARGETS_32=Xvnc_install_programs
+INSTALL_TARGETS_64=Xvnc_install_programs Java_install
 INSTALL_TARGETS=$(INSTALL_TARGETS_common) $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
 
