@@ -26,6 +26,11 @@
 # DEALINGS IN THE SOFTWARE.
 #
 #
+# Build 32-bit or 64-bit?
+BUILD_TYPES_SET=yes
+BUILD_TYPES_sparc=64
+BUILD_TYPES_i386=32 64
+BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 # Package name used in tarballs
 MODULE_NAME=tigervnc
@@ -111,6 +116,7 @@ BUILD_TARGETS=$(BUILD_TARGETS_common) $(BUILD_TARGETS_$(BUILD_TYPE))
 BUILD_TARGETS_SET=yes
 INSTALL_TARGETS_common=Xvnc_install_module
 INSTALL_TARGETS_32=Xvnc_install_programs java_install
+INSTALL_TARGETS_64=Xvnc_install_programs
 INSTALL_TARGETS=$(INSTALL_TARGETS_common) $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
 
@@ -121,10 +127,6 @@ BUILD_TARGETS_sparc = build_mdb
 BUILD_TARGETS += $(BUILD_TARGETS_$(MACH))
 INSTALL_TARGETS_sparc = install_mdb
 INSTALL_TARGETS += $(INSTALL_TARGETS_$(MACH))
-
-# Since we only build Xvnc in 32-bit mode, don't need ARCHBINSUBDIR set
-# like in the Xorg builds
-MODULE_BUILD_32_FLAGS = ARCHBINSUBDIR=""
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = Xvnc
@@ -226,7 +228,7 @@ Xvnc_install_module: $(BUILD_TARGETS)
 	 CPPROG="cp -p" install)
 
 Xvnc_install_programs: $(BUILD_TARGETS)
-	mkdir -p $(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR) \
+	mkdir -p $(PROTODIR)/usr/bin/$(ARCHBINSUBDIR) \
 		$(PROTODIR)/usr/share/man/man1 \
 		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11 
 	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/unix/vncserver \
@@ -234,7 +236,7 @@ Xvnc_install_programs: $(BUILD_TARGETS)
 		$(SOURCE_DIR)/unix/vncconfig/vncconfig \
 		$(SOURCE_DIR)/unix/vncviewer/vncviewer \
 		$(SOURCE_DIR)/unix/x0vncserver/x0vncserver \
-		$(PROTODIR)/usr/bin/$(ARCHLIBSUBDIR)
+		$(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/unix/vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/vncserver.1
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/unix/vncconfig/vncconfig.man \
