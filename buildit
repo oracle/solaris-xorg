@@ -87,9 +87,9 @@ print -n "Start time: " ; date
 print -n "Building on: " ; uname -a
 print "Using these compilers: "
 whence cc gcc
-# Make sure Sun C compiler is at least version 5.9 (Studio 12)
+# Make sure Sun C compiler is at least version 5.10 (Studio 12 Update 1)
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
-    print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 9) ) }'
+    print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 10) ) }'
 gcc -v
 
 # Exported to stop Sun compilers from reporting home on each usage
