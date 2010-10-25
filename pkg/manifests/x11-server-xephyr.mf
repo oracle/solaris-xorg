@@ -45,7 +45,7 @@ file path=usr/share/man/man1/Xephyr.1
 $(i386_ONLY)hardlink path=usr/bin/Xephyr target=../lib/isaexec
 link path=usr/X11/bin/Xephyr target=../../bin/Xephyr
 link path=usr/lib/mdb/proc/$(ARCH64)/Xephyr.so target=Xserver.so
-link path=usr/lib/mdb/proc/Xephyr.so target=Xserver.so
+$(i386_ONLY)link path=usr/lib/mdb/proc/Xephyr.so target=Xserver.so
 depend fmri=pkg:/x11/keyboard/data-xkb type=require
 # X servers require xkbcomp & data-xkb for keyboard layouts
 depend fmri=pkg:/x11/keyboard/xkbcomp type=require

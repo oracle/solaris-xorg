@@ -44,7 +44,7 @@ file path=usr/share/man/man1/Xvfb.1
 $(i386_ONLY)hardlink path=usr/bin/Xvfb target=../lib/isaexec
 link path=usr/X11/bin/Xvfb target=../../bin/Xvfb
 link path=usr/lib/mdb/proc/$(ARCH64)/Xvfb.so target=Xserver.so
-link path=usr/lib/mdb/proc/Xvfb.so target=Xserver.so
+$(i386_ONLY)link path=usr/lib/mdb/proc/Xvfb.so target=Xserver.so
 depend fmri=pkg:/x11/keyboard/data-xkb type=require
 # X servers require xkbcomp & data-xkb for keyboard layouts
 depend fmri=pkg:/x11/keyboard/xkbcomp type=require

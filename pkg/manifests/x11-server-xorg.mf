@@ -307,7 +307,7 @@ link path=usr/X11/bin/cvt target=../../bin/cvt
 link path=usr/X11/bin/gtf target=../../bin/gtf
 link path=usr/X11/include/xorg target=../../include/xorg
 link path=usr/lib/mdb/proc/$(ARCH64)/Xorg.so target=Xserver.so
-link path=usr/lib/mdb/proc/Xorg.so target=Xserver.so
+$(i386_ONLY)link path=usr/lib/mdb/proc/Xorg.so target=Xserver.so
 $(sparc_ONLY)link path=usr/lib/pkgconfig/xorg-server.pc \
     target=../sparcv9/pkgconfig/xorg-server.pc
 

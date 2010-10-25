@@ -79,7 +79,7 @@ $(i386_ONLY)hardlink path=usr/bin/vncpasswd target=../lib/isaexec
 $(i386_ONLY)hardlink path=usr/bin/vncserver target=../lib/isaexec
 $(i386_ONLY)hardlink path=usr/bin/x0vncserver target=../lib/isaexec
 link path=usr/X11/bin/Xvnc target=../../bin/Xvnc
-link path=usr/lib/mdb/proc/Xvnc.so target=Xserver.so
+$(i386_ONLY)link path=usr/lib/mdb/proc/Xvnc.so target=Xserver.so
 link path=usr/lib/mdb/proc/$(ARCH64)/Xvnc.so target=Xserver.so
 # /usr/bin/vncserver is a perl script, but pkgdep doesn't pick up the
 # dependency automatically

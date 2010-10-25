@@ -74,10 +74,6 @@ usr/share/doc/X11/MAINTAINERS
 usr/share/man/man5/Consortium.5
 usr/share/man/man5/XProjectTeam.5
 
-# We don't ship 64-bit Xvnc, only 32-bit
-usr/lib/mdb/proc/amd64/Xvnc.so		i386
-usr/lib/mdb/proc/sparcv9/Xvnc.so	sparc
-
 # We didn't start shipping Xft until after the move to pkg-config
 # so don't need to maintain backwards compatibility with xft-config
 usr/bin/xft-config

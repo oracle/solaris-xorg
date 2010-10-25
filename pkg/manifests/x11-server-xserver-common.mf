@@ -69,7 +69,7 @@ file path=usr/demo/Xserver/mdb/list_Xserver_servergrab_client mode=0555
 file path=usr/lib/help/auths/locale/C/X11States.html
 file path=usr/lib/help/profiles/locale/C/RtDesktopConfiguration.html
 file path=usr/lib/mdb/proc/$(ARCH64)/Xserver.so
-file path=usr/lib/mdb/proc/Xserver.so
+$(i386_ONLY)file path=usr/lib/mdb/proc/Xserver.so
 file path=usr/lib/xorg/TrustedExtensionsPolicy
 file path=usr/lib/xorg/protocol.txt
 file path=usr/share/man/man1/Xnest.1
