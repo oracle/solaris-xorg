@@ -1,0 +1,8 @@
+--- mi/miinitext.c.orig	Wed Oct 20 17:49:04 2010
++++ mi/miinitext.c	Thu Oct 21 14:23:23 2010
+@@ -67,6 +67,7 @@
+ #undef DAMAGE
+ #undef COMPOSITE
+ #undef MITSHM
++#undef TSOL
+ #endif

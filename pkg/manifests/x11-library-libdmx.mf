@@ -1,0 +1,62 @@
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libdmx@__version:libdmx__
+set name=pkg.description \
+    value="libdmx is an interface to the DMX extension for X, which allows a single server to be set up as a proxy spanning multiple servers -- not unlike Xinerama across discrete physical machines. It can be reconfigured on the fly to change the layout, and it is presented as a single logical display to clients."
+set name=pkg.summary \
+    value="libdmx - X Window System DMX (Distributed Multihead X) extension library"
+dir path=usr
+dir path=usr/include
+dir path=usr/include/X11
+dir path=usr/include/X11/extensions
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man3
+file path=usr/include/X11/extensions/dmxext.h
+file path=usr/lib/$(ARCH64)/pkgconfig/dmx.pc
+file path=usr/lib/pkgconfig/dmx.pc
+file path=usr/lib/$(ARCH64)/libdmx.so.1
+file path=usr/lib/libdmx.so.1
+file path=usr/share/man/man3/DMX.3
+file path=usr/share/man/man3/DMXAddInput.3
+file path=usr/share/man/man3/DMXAddScreen.3
+file path=usr/share/man/man3/DMXChangeDesktopAttributes.3
+file path=usr/share/man/man3/DMXChangeScreensAttributes.3
+file path=usr/share/man/man3/DMXForceWindowCreation.3
+file path=usr/share/man/man3/DMXGetDesktopAttributes.3
+file path=usr/share/man/man3/DMXGetInputAttributes.3
+file path=usr/share/man/man3/DMXGetInputCount.3
+file path=usr/share/man/man3/DMXGetScreenAttributes.3
+file path=usr/share/man/man3/DMXGetScreenCount.3
+file path=usr/share/man/man3/DMXGetWindowAttributes.3
+file path=usr/share/man/man3/DMXQueryExtension.3
+file path=usr/share/man/man3/DMXQueryVersion.3
+file path=usr/share/man/man3/DMXRemoveInput.3
+file path=usr/share/man/man3/DMXRemoveScreen.3
+file path=usr/share/man/man3/DMXSync.3
+link path=usr/lib/$(ARCH64)/libdmx.so target=libdmx.so.1
+link path=usr/lib/libdmx.so target=libdmx.so.1
+

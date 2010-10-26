@@ -33,3 +33,4 @@ vbe-packing.patch
 getifaddrs.patch,-p1
 mousekeys.patch
 6949754.patch
+dmx.patch

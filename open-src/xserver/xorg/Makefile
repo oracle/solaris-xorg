@@ -90,9 +90,10 @@ MODULE_STABILITY=Volatile
 # Override specific attributes for specific man pages
 MODULE_SUNTOUCH_MAN_FLAGS= \
 	$(SUNTOUCH_MAN_FLAGS_$(@F:%.man.$(FIXED_MAN_SUFFIX)=%))
-# Xephyr & Xvfb are split out into their own packages
+# Xephyr, Xvfb, and Xdmx are split out into their own packages
 SUNTOUCH_MAN_FLAGS_Xephyr = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xephyr)}'
 SUNTOUCH_MAN_FLAGS_Xvfb = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xvfb)}'
+SUNTOUCH_MAN_FLAGS_Xdmx = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xdmx)}'
 
 # Used in sun-manpage.patch to set distro name in Xserver man page
 # DISTRO_NAME is set in open-src/common/Makefile.options.*
@@ -113,6 +114,7 @@ AUTORECONF=yes
 #  Need to override LD setting to add -xarch flags that libtool strips
 # XXX: --disable-dga
 MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
+        --enable-dmx \
         --enable-builddocs \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
 	MKFONTDIR="$(MKFONTDIR)" \
@@ -212,14 +214,47 @@ install_fix_paths_sparc_64: # not needed
 
 install_fix_paths_use_utilities: default_install
 	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/cvt \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/gtf
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/gtf \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxaddinput \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxaddscreen \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxreconfig \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxresize \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxrminput \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxrmscreen \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxtodmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxwininfo \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/vdltodmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/xdmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/xdmxconfig
 	mv -f $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/cvt \
 	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddinput \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddscreen \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxreconfig \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxresize \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrminput \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrmscreen \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxtodmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxwininfo \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/vdltodmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmxconfig \
 	      $(PROTODIR)$(MODULE_PREFIX)/bin
 
 install_fix_paths_remove_utilities: default_install
 	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/cvt \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddinput \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddscreen \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxreconfig \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxresize \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrminput \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrmscreen \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxtodmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxwininfo \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/vdltodmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmx \
+	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmxconfig
 
 install_fix_paths_X: default_install
 	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/X \
@@ -252,15 +287,17 @@ install_fix_paths_glxmodule: default_install
 
 install_fix_paths: install_fix_paths_glxmodule
 
-# Install metadata for Xephyr, Xvfb, & xtsol packages too
+# Install metadata for Xephyr, Xvfb, Xdmx, & xtsol packages too
 XCOMMON_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xserver-common)
 XEPHYR_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xephyr)
 XVFB_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xvfb)
+XDMX_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xdmx)
 XTSOL_PKG_METADATA_DIR =  $(MODULE_PKG_METADATA_DIR:%-server-xorg=%-trusted-trusted-xorg)
 
 EXTRA_METADATA_DIRS =	$(XCOMMON_PKG_METADATA_DIR) \
 			$(XEPHYR_PKG_METADATA_DIR) \
 			$(XVFB_PKG_METADATA_DIR) \
+			$(XDMX_PKG_METADATA_DIR) \
 			$(XTSOL_PKG_METADATA_DIR)
 
 EXTRA_ATTRDATA_FILES = $(EXTRA_METADATA_DIRS:%=%/$(ATTRDATA_FILE_NAME))

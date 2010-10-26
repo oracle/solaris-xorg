@@ -1,4 +1,4 @@
-# -*- Makefile -*- rules common to both Xorg & Xvnc builds
+# -*- Makefile -*- rules common to Xorg, Xvfb, Xvnc main build trees
 #
 # Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
@@ -41,7 +41,7 @@ include $(TOP)/open-src/common/Makefile.init
 # Xorg server source tarball to use sources from
 XORGSERVER_VERS=1.7.7
 
-# Patches shared between Xorg & Xvnc builds
+# Patches shared between Xephyr Xorg Xvfb Xvnc Xdmx builds
 XORG_SOURCE_PATCHES:sh=cat -s ../xorg/patch-list ../xorg/closed-src/patch-list | sed '/^\#/ d'
 
 SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)'
@@ -84,7 +84,6 @@ MODTYPE_CPPFLAGS=  \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR) \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/drm \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri \
-	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions \
 	$(DPMS_DEFINES) -DSUNSOFT -DTSOL \
 	$(MODTYPE_CPPFLAGS_$(MODULE_COMPILER))
 
@@ -138,7 +137,7 @@ MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
 MDB_SCRIPTS=list_Xserver_clients \
 	list_Xserver_devicegrab_client \
 	list_Xserver_servergrab_client
-MDB_MODULE_NAMES=Xephyr Xorg Xvfb Xvnc
+MDB_MODULE_NAMES=Xephyr Xorg Xvfb Xvnc Xdmx
 
 BUILT_MDB_MODULE=$(MDB_SOURCE_DIR)/modules/Xserver.so
 BUILT_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%)

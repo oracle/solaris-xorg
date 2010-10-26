@@ -45,6 +45,7 @@ default_target: install
 DPS: libX11 libXt
 fontconfig: freetype
 libdga: libX11
+libdmx: libX11 libXext
 libdrm: libpthread-stubs
 libFS: libxtrans
 libICE: libxtrans
@@ -90,6 +91,7 @@ OS_SUBDIRS_common = \
 	freetype \
 	fontconfig \
 	libdga \
+	libdmx \
 	libdrm \
 	libowconfig \
 	libpthread-stubs \

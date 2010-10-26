@@ -29,6 +29,7 @@ OS_SUBDIRS_common = 		\
 	bigreqsproto 		\
 	compositeproto 		\
 	damageproto 		\
+	dmxproto 		\
 	dri2proto		\
 	evieproto 		\
 	fixesproto 		\
