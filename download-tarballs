@@ -27,6 +27,13 @@
 #
 #
 
+progname="$0"
+function fatal_error
+{
+    print -u2 "${progname}: ERROR: $*"
+    exit 1
+}
+
 CLOBBER=0
 WGET='/usr/bin/wget'
 MAKE_FLAGS="-k"
@@ -46,6 +53,8 @@ for i in $* ; do
     esac
 done
 
+make setup || fatal_error "make setup failed: cannot continue"
+
 set -v
 
 cd open-src
@@ -55,10 +64,6 @@ fi
 if [[ ! -d tarballs ]] ; then 
     mkdir tarballs
 fi
-if [[ "$(domainname)" =~ \.sun\.com$ ]] ; then
-    export TARBALL_ARCHIVE='http://xserver.sfbay.sun.com/tarballs/'
-    export TARBALL_ARCHIVE_SET='yes'
-fi
-make $MAKE_FLAGS download
+make ${MAKE_FLAGS} download
 cd ../..
 
