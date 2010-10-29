@@ -345,12 +345,14 @@ ProcIAGetProcessInfo(ClientPtr client)
     REQUEST(xIAGetProcessInfoReq);
     xIAGetProcessInfoReply rep;
     register int length = 0;
-    caddr_t write_back = NULL;
+    int i;
+    int32_t* write_back = NULL;
 
     REQUEST_SIZE_MATCH(xIAGetProcessInfoReq);
     rep.type = X_Reply;
     rep.length = 0;
     rep.sequenceNumber = client->sequence;
+
     if (stuff->flags & INTERACTIVE_INFO) {
 	priv = GetIAClient(client);
 	if ( (priv == NULL) || (priv->process == NULL) ) {
@@ -359,17 +361,39 @@ ProcIAGetProcessInfo(ClientPtr client)
     	    CurrentPids = priv->process;
 	    rep.count = CurrentPids->count;
 	    length = rep.count << 2;
-	    write_back=(caddr_t)CurrentPids->pids;
+	    rep.length = rep.count;
+	    write_back = (int32_t *) xalloc((size_t) rep.count * sizeof(int32_t));
+	    if (write_back == NULL)
+		return ~Success;
+
+	    int32_t* tmp = write_back;
+
+	    for (i = 0; i < CurrentPids->count; ++i)
+		*write_back++ = *CurrentPids->pids++;
+
+	    write_back = tmp;
 	}
     }
     if (stuff->flags & INTERACTIVE_SETTING) {
 	rep.count=1;
 	length=rep.count << 2;
-	write_back=(caddr_t)&ia_nice;
+	rep.length = rep.count;
+
+	write_back = (int32_t *) xalloc(sizeof(int32_t));
+	if (write_back == NULL)
+	    return ~Success;
+
+	*write_back = (int32_t) ia_nice;
     }
 
     WriteToClient(client, sizeof(xIAGetProcessInfoReply), (char *)&rep);
-    WriteToClient(client, length, write_back);
+
+    if (rep.length > 0) {
+	(void) WriteToClient(client, (int) sizeof(int32_t) * rep.count,
+		(char *) write_back);
+	xfree((char *) write_back);
+    }
+
     return (client->noClientException);
 }
 

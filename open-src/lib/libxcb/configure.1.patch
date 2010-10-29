@@ -1,0 +1,43 @@
+--- configure	2010-08-13 04:46:52.000000000 -0700
++++ configure	2010-10-12 11:26:34.563891000 -0700
+@@ -3024,7 +3024,7 @@
+   $as_echo_n "(cached) " >&6
+ else
+ 
+-	for am_cv_pathless_PYTHON in python python2 python3 python3.0 python2.6 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0 none; do
++	for am_cv_pathless_PYTHON in python2.6 none; do
+ 	  test "$am_cv_pathless_PYTHON" = none && break
+ 	  prog="import sys
+ # split strings by '.' and convert to numeric.  Append some zeros
+@@ -3113,9 +3113,9 @@
+ 
+ 
+ 
+-  PYTHON_PREFIX='${prefix}'
++  PYTHON_PREFIX="/usr"
+ 
+-  PYTHON_EXEC_PREFIX='${exec_prefix}'
++  PYTHON_EXEC_PREFIX="/usr"
+ 
+ 
+ 
+@@ -3144,8 +3144,7 @@
+      else
+        am_py_prefix=$prefix
+      fi
+-     am_cv_python_pythondir=`$PYTHON -c "import sys; from distutils import sysconfig; sys.stdout.write(sysconfig.get_python_lib(0,0,prefix='$am_py_prefix'))" 2>/dev/null ||
+-     echo "$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages"`
++     am_cv_python_pythondir=`echo "$PYTHON_PREFIX/lib/python$PYTHON_VERSION/vendor-packages"`
+      case $am_cv_python_pythondir in
+      $am_py_prefix*)
+        am__strip_prefix=`echo "$am_py_prefix" | sed 's|.|.|g'`
+@@ -3182,8 +3181,7 @@
+      else
+        am_py_exec_prefix=$exec_prefix
+      fi
+-     am_cv_python_pyexecdir=`$PYTHON -c "import sys; from distutils import sysconfig; sys.stdout.write(sysconfig.get_python_lib(1,0,prefix='$am_py_exec_prefix'))" 2>/dev/null ||
+-     echo "$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/site-packages"`
++     am_cv_python_pyexecdir=`echo "$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/vendor-packages"`
+      case $am_cv_python_pyexecdir in
+      $am_py_exec_prefix*)
+        am__strip_prefix=`echo "$am_py_exec_prefix" | sed 's|.|.|g'`

@@ -35,9 +35,18 @@
 
 #include <X11/extensions/interactiveCommon.h>
 
+#if USE_XCB
+#include <xcb/xcb.h>
+#include <xcb/xia.h>
+#endif
+
 _XFUNCPROTOBEGIN
 
 /* -------------------- Public Functions Prototypes ------------------- */
+
+Bool XSolarisIAQueryExtension(
+    Display *		/* dpy */
+);
 
 Bool XSolarisIAQueryVersion(
     Display *,		/* dpy */
@@ -58,6 +67,32 @@ Bool XSolarisIAGetProcessInfo(
     CARD32,		/* flags */
     int *		/* count */
 );
+
+#if USE_XCB
+Bool XCBSolarisIAQueryExtension(
+    xcb_connection_t*   /* xcb connection */
+);
+
+Bool XCBSolarisIAQueryVersion(
+    xcb_connection_t*,  /* xcb connection */
+    int*,               /* majorVersion */
+    int*                /* minorVersion */
+);
+
+Bool XCBSolarisIASetProcessInfo(
+    xcb_connection_t*,  /* xcb connection */
+    unsigned char*,     /* request specific */
+    CARD32,             /* flags */
+    CARD32              /* count */
+);
+
+Bool XCBSolarisIAGetProcessInfo(
+    xcb_connection_t*,  /* xcb connection */
+    unsigned char**,    /* request specific */
+    CARD32,             /* flags */
+    int*                /* count */
+);
+#endif
 
 _XFUNCPROTOEND
 

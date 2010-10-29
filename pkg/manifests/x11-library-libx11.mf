@@ -113,6 +113,7 @@ file path=usr/include/X11/XlcPubI.h
 file path=usr/include/X11/XlcPublic.h
 file path=usr/include/X11/Xlcint.h
 file path=usr/include/X11/Xlib.h
+file path=usr/include/X11/Xlib-xcb.h
 file path=usr/include/X11/XlibConf.h
 file path=usr/include/X11/Xlibint.h
 file path=usr/include/X11/Xlocale.h
@@ -124,7 +125,9 @@ file path=usr/include/X11/cursorfont.h
 file path=usr/include/X11/extensions/XInteractive.h
 file path=usr/lib/$(ARCH64)/libX11.so.4
 file path=usr/lib/$(ARCH64)/llib-lX11.ln
+file path=usr/lib/$(ARCH64)/libX11-xcb.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/x11.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/x11-xcb.pc
 file path=usr/lib/X11/Xcms.txt
 file path=usr/lib/X11/locale/$(ARCH64)/common/ximcp.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlcDef.so.2
@@ -142,7 +145,9 @@ file path=usr/lib/X11/locale/common/xlocale.so.2
 file path=usr/lib/X11/locale/common/xomGeneric.so.2
 file path=usr/lib/libX11.so.4
 file path=usr/lib/llib-lX11.ln
+file path=usr/lib/libX11-xcb.so.1
 file path=usr/lib/pkgconfig/x11.pc
+file path=usr/lib/pkgconfig/x11-xcb.pc
 file path=usr/share/X11/XErrorDB
 file path=usr/share/X11/XKeysymDB
 file path=usr/share/X11/locale/C/Compose
@@ -1184,6 +1189,11 @@ link path=usr/lib/X11/locale/common/xomGeneric.so target=xomGeneric.so.2
 link path=usr/lib/libX.so target=libX11.so.4
 link path=usr/lib/libX.so.4 target=libX11.so.4
 link path=usr/lib/libX11.so target=libX11.so.4
+link path=usr/lib/$(ARCH64)/libX11-xcb.so target=libX11-xcb.so.1
+link path=usr/lib/libX11-xcb.so target=libX11-xcb.so.1
 # Additional link required by SVID ABI (see PSARC/1997/141)
 link path=usr/lib/libX11.so.5 target=libX11.so.4
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend fmri=pkg:/x11/libraries/libxcb type=require
+depend fmri=pkg:/x11/libraries/xcb-util type=require
+

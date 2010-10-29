@@ -247,7 +247,7 @@ Display *dpy;
 	    &namelen) < 0)
 		return 0;
 
-	hostlen = _X11TransGetHostname(hostname, sizeof(hostname));
+	hostlen = _XGetHostname(hostname, sizeof(hostname));
       
 #ifdef IPv6
         if (getaddrinfo(hostname, NULL, NULL, &localhostaddr) != 0)

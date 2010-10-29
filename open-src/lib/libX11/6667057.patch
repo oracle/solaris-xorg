@@ -1,0 +1,75 @@
+--- src/OpenDis.c	2010-10-12 08:09:31.324390000 -0700
++++ src/OpenDis.c	2010-10-13 12:17:28.320665000 -0700
+@@ -39,6 +39,13 @@
+ #include <X11/Xatom.h>
+ #include <X11/Xresource.h>
+ #include <stdio.h>
++#if defined(sun) || defined(__sun) || defined(__sun__)
++#include <stdlib.h>
++#include <unistd.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
++#endif
+ #include "Xintconn.h"
+ 
+ #ifdef XKB
+@@ -815,6 +822,18 @@
+ #endif
+ /* begin SUNSOFT_INTERACTIVE */
+ 	{
++#if USE_XCB
++	   uint32_t pid = (uint32_t) getpid();
++
++	   if ((XCBSolarisIAQueryExtension(dpy->xcb->connection)) == True) {
++	       (void) XCBSolarisIASetProcessInfo(dpy->xcb->connection,
++		       (unsigned char *) &pid, INTERACTIVE_INFO, 1);
++	   }
++#ifdef SUNSOFT
++	   dpy->smeBuffer = NULL;
++	   dpy->smeSize = 0;
++#endif
++#else
+ 
+ 	   long  pid    = (long) getpid();
+ 	   int majorop, first_event, first_error;
+@@ -825,6 +844,7 @@
+ 		  XSolarisIASetProcessInfo(dpy, (unsigned char *)&pid,
+ 					   INTERACTIVE_INFO, 1);
+ 	   }
++#endif /* USE_XCB */
+ 	}
+ /* end SUNSOFT_INTERACTIVE */
+ 
+@@ -841,10 +861,12 @@
+      */
+         _conn_buf_size = conn_buf_size;
+ 
++#if !USE_XCB
+         if (sme_conn)
+            InitializeSmeConn(dpy, idisplay);
+         else
+            dpy->smeBuffer = NULL ;
++#endif /* USE_XCB */
+ 
+ #endif /* SME */
+ 
+--- src/Makefile.am	2010-10-12 08:09:30.817810000 -0700
++++ src/Makefile.am	2010-10-13 12:18:30.723983000 -0700
+@@ -3,7 +3,7 @@
+ endif
+ SUBDIRS = util xcms xlibi18n $(XKB_SUBDIRS)
+ 
+-lib_LTLIBRARIES=libX11.la
++lib_LTLIBRARIES=libX11.la libX11-xcb.la
+ 
+ BUILT_SOURCES=ks_tables.h
+ CLEANFILES=ks_tables.h ks_tables_h
+@@ -353,7 +353,6 @@
+                   xcb_io.c \
+                   Xxcbint.h
+ 
+-lib_LTLIBRARIES += libX11-xcb.la
+ libX11_xcb_la_SOURCES = x11_xcb.c Xxcbint.h
+ libX11_xcb_la_LDFLAGS = -version-info 1:0:0 -no-undefined
+ libX11_xcb_la_LIBADD = libX11.la

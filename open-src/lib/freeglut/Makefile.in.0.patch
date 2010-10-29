@@ -1,0 +1,59 @@
+--- doc/Makefile.in	2009-11-25 11:14:29.000000000 -0800
++++ doc/Makefile.in	2010-10-22 11:06:14.746946682 -0700
+@@ -135,7 +135,7 @@
+ builddir = @builddir@
+ datadir = @datadir@
+ datarootdir = @datarootdir@
+-docdir = @docdir@
++docdir = ${datarootdir}/doc/${LIBRARY}
+ dvidir = @dvidir@
+ exec_prefix = @exec_prefix@
+ host = @host@
+@@ -216,31 +216,16 @@
+ 
+ 
+ distdir: $(DISTFILES)
+-	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
+-	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
++	srcdirstrip=`echo "$(abs_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
++	topsrcdirstrip=`echo "$(abs_top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
+ 	list='$(DISTFILES)'; \
+-	  dist_files=`for file in $$list; do echo $$file; done | \
+-	  sed -e "s|^$$srcdirstrip/||;t" \
+-	      -e "s|^$$topsrcdirstrip/|$(top_builddir)/|;t"`; \
+-	case $$dist_files in \
+-	  */*) $(MKDIR_P) `echo "$$dist_files" | \
+-			   sed '/\//!d;s|^|$(distdir)/|;s,/[^/]*$$,,' | \
+-			   sort -u` ;; \
+-	esac; \
++	dist_files=`for file in $$list; do echo $$file; done` ; \
++	$(MKDIR_P) $(DESTDIR)/$(docdir) ; \
+ 	for file in $$dist_files; do \
+-	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
+-	  if test -d $$d/$$file; then \
+-	    dir=`echo "/$$file" | sed -e 's,/[^/]*$$,,'`; \
+-	    if test -d $(srcdir)/$$file && test $$d != $(srcdir); then \
+-	      cp -pR $(srcdir)/$$file $(distdir)$$dir || exit 1; \
+-	    fi; \
+-	    cp -pR $$d/$$file $(distdir)$$dir || exit 1; \
+-	  else \
+-	    test -f $(distdir)/$$file \
+-	    || cp -p $$d/$$file $(distdir)/$$file \
+-	    || exit 1; \
+-	  fi; \
++	    cp -pR $$file $(DESTDIR)/$(docdir)/$$file || exit 1; \
++	    chmod 0644 $(DESTDIR)/$(docdir)/$$file || exit 1; \
+ 	done
++
+ check-am: all-am
+ check: check-am
+ all-am: Makefile
+@@ -250,7 +235,7 @@
+ install-data: install-data-am
+ uninstall: uninstall-am
+ 
+-install-am: all-am
++install-am: all-am distdir
+ 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+ 
+ installcheck: installcheck-am

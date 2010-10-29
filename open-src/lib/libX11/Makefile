@@ -94,7 +94,8 @@ SOURCE_PATCHES = \
 	locale-zh_HK.UTF-8.patch \
 	locale-zh_TW.UTF-8.patch \
 	locale-zh_TW.patch \
-	locale-ru-RU.UTF-8.patch
+	locale-ru-RU.UTF-8.patch \
+	6667057.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
@@ -112,6 +113,8 @@ MODULE_ARC_CASES += PSARC/2006/448
 MODULE_ARC_CASES += PSARC/2008/062
 # PSARC/2009/666 libX11 1.3 
 MODULE_ARC_CASES += PSARC/2009/666
+# PSARC/2010/109 Introduce libXcb in Solaris
+MODULE_ARC_CASES += PSARC/2010/109
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man man/xkb/*.man
@@ -121,7 +124,7 @@ LIB_MAN_SUFFIX=3x11
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
 	--disable-specs \
-	--with-xcb=no --enable-loadable-xcursor --enable-xcms \
+	--with-xcb=yes --enable-loadable-xcursor --enable-xcms \
 	--enable-xlocaledir --enable-xkb --enable-man-pages=$(LIB_MAN_SUFFIX) \
 	--with-locale-lib-dir='$${exec_prefix}/lib/X11/locale$(LIBSUBDIR)'
 
@@ -131,7 +134,9 @@ MODULE_CFLAGS = -xF
 # -DSUNSOFT enables SUN_SME (Shared Memory transport extension)
 # -DMOTIFBC enables compatibility with bugs in Motif & other apps
 # -DSUNSOFT_KBD enables Solaris traditional keyboard handling
-MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD
+MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD \
+		  -I$(PROTODIR)/usr/include/X11 \
+		  -I$(PROTODIR)/usr/include/xcb
 
 MODULE_LDFLAGS = -R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 

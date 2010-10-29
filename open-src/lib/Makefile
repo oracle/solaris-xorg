@@ -47,6 +47,8 @@ fontconfig: freetype
 libdga: libX11
 libdmx: libX11 libXext
 libdrm: libpthread-stubs
+libxcb: libpthread-stubs
+xcbutil: libxcb
 libFS: libxtrans
 libICE: libxtrans
 libSM: libxtrans libICE
@@ -80,6 +82,7 @@ libXxf86misc: libX11 libXext
 libXxf86vm: libX11 libXext
 libxkbfile: libX11
 mesa: libdrm libX11 libXext
+freeglut: mesa
 
 # pixman doesn't need these itself, but its test framework uses gtk,
 # which does depend on these
@@ -98,6 +101,8 @@ OS_SUBDIRS_common = \
 	libxtrans \
 	libXau \
 	libXdmcp \
+	libxcb \
+	xcbutil \
 	libX11 \
 	libXext \
 	libfontenc \
@@ -134,6 +139,7 @@ OS_SUBDIRS_common = \
 	libXxf86misc \
 	libXxf86vm \
 	mesa \
+	freeglut \
 	pixman \
 	hwc
 

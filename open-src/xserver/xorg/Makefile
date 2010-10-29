@@ -74,6 +74,8 @@ MODULE_ARC_CASES += PSARC/2009/021
 MODULE_ARC_CASES += PSARC/2009/292
 # PSARC/2009/679 Xorg server 1.7
 MODULE_ARC_CASES += PSARC/2009/679
+# PSARC/2010/109 Introduce libXcb in Solaris
+MODULE_ARC_CASES += PSARC/2010/109
 
 # Man pages to apply Sun footer to & attributes to list
 # XXX: Need to adjust some of these to correct packages/stability

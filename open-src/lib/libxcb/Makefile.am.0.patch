@@ -1,0 +1,29 @@
+--- src/Makefile.am	2009-12-10 05:43:43.000000000 -0800
++++ src/Makefile.am	2010-10-26 07:18:03.869184761 -0700
+@@ -8,7 +8,7 @@
+ libxcb_la_LIBADD = $(NEEDED_LIBS) $(XDMCP_LIBS)
+ libxcb_la_SOURCES = \
+ 		xcb_conn.c xcb_out.c xcb_in.c xcb_ext.c xcb_xid.c \
+-		xcb_list.c xcb_util.c xcb_auth.c c_client.py
++		xcb_list.c xcb_util.c xcb_auth.c xia.c c_client.py
+ nodist_libxcb_la_SOURCES = xproto.c bigreq.c xc_misc.c
+ 
+ # Explanation for -version-info:
+@@ -208,9 +208,10 @@
+ nodist_libxcb_xvmc_la_SOURCES = xvmc.c xvmc.h
+ endif
+ 
++EXTSOURCES += xia.c
+ 
+ EXTHEADERS=$(EXTSOURCES:.c=.h)
+-xcbinclude_HEADERS = xcb.h xcbext.h
++xcbinclude_HEADERS = xcb.h xcbext.h xia.h
+ nodist_xcbinclude_HEADERS = $(EXTHEADERS)
+ noinst_HEADERS = xcbint.h
+ 
+@@ -218,4 +219,4 @@
+ CLEANFILES = $(EXTSOURCES) $(EXTHEADERS)
+ 
+ $(EXTSOURCES): c_client.py
+-	$(PYTHON) $(srcdir)/c_client.py -p $(XCBPROTO_XCBPYTHONDIR) $(XCBPROTO_XCBINCLUDEDIR)/$(@:.c=.xml)
++	$(PYTHON) $(srcdir)/c_client.py -p $(PROTODIR)/$(XCBPROTO_XCBPYTHONDIR) $(PROTODIR)/$(XCBPROTO_XCBINCLUDEDIR)/$(@:.c=.xml)

@@ -1,0 +1,20 @@
+--- aclocal.m4	2010-08-13 04:46:51.000000000 -0700
++++ aclocal.m4	2010-10-12 11:20:55.270006000 -0700
+@@ -8911,7 +8911,7 @@
+     am_display_PYTHON=python
+   ], [
+     dnl A version check is needed.
+-    if test -n "$PYTHON"; then
++    if [ "x$PYTHON" = "x" ] ; then
+       # If the user set $PYTHON, use it and don't search something else.
+       AC_MSG_CHECKING([whether $PYTHON version >= $1])
+       AM_PYTHON_CHECK_VERSION([$PYTHON], [$1],
+@@ -8929,7 +8929,7 @@
+ 	done])
+       # Set $PYTHON to the absolute path of $am_cv_pathless_PYTHON.
+       if test "$am_cv_pathless_PYTHON" = none; then
+-	PYTHON=:
++	PYTHON=/usr/bin/python2.6
+       else
+         AC_PATH_PROG([PYTHON], [$am_cv_pathless_PYTHON])
+       fi

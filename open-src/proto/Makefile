@@ -54,6 +54,7 @@ OS_SUBDIRS_common = 		\
 	xf86miscproto 		\
 	xf86vidmodeproto 	\
 	xineramaproto 		\
+	xcbproto 		\
 	sun-ext-protos
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)

@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -70,6 +70,16 @@ sub rulename_to_filename {
   }
 }
 
+# Expands make macros in a string
+sub expand_macros {
+  my ($in, $macro_ref) = @_;
+
+  $in =~ s{\$\(([^\)]+)\)}{
+    exists($macro_ref->{$1}) ? $macro_ref->{$1} : "" }msgex;
+
+  return $in;
+}
+
 sub scan_file {
   if ($_ eq 'Makefile' && -f $_) {
     my $old_file = $_;
@@ -81,6 +91,7 @@ sub scan_file {
     my $l = "";
     my %makefile_macros = ();
     my %makefile_ldflags = ();
+    my @makefile_ltlibs = ();
 
     while (my $n = <$OLD>) {
       $l .= $n;
@@ -88,7 +99,7 @@ sub scan_file {
       next if ($n =~ m/\\$/);
 
       # Save macros for later expansion if needed
-      if ($l =~ m/^([^\#\s]*)\s*=\s*(.*)\s*/ms) {
+      if ($l =~ m/^([^\#\s]*)\s*=\s*(.*?)\s*$/ms) {
 	$makefile_macros{$1} = $2;
       }
 
@@ -99,23 +110,27 @@ sub scan_file {
 	$makefile_ldflags{$libname} = $flags;
       }
       elsif ($l =~ m/^[^\#\s]*_LTLIBRARIES\s*=(.*)$/ms) {
-	foreach my $ltl (split /\s+/, $1) {
-	  $ltl =~ s{\.la$}{}ms;
-	  my $transformed = $ltl;
-	  $transformed =~ s{[^\w\@]}{_}msg;
-	  $ltlib_names{$transformed} = $ltl;
-	}
+	push @makefile_ltlibs, $1;
       }
       $l = "";
     }
     close($OLD) or die;
 
+    foreach my $ltline ( @makefile_ltlibs ) {
+      my $ltline_exp = expand_macros($ltline, \%makefile_macros);
+      foreach my $ltl (split /\s+/, $ltline_exp) {
+	$ltl =~ s{\.la$}{}ms;
+	my $transformed = $ltl;
+	$transformed =~ s{[^\w\@]}{_}msg;
+	$ltlib_names{$transformed} = $ltl;
+      }
+    }
+
     foreach my $librulename (keys %makefile_ldflags) {
       my $libname = rulename_to_filename($librulename);
-      my $flags = $makefile_ldflags{$librulename};
+      my $flags = expand_macros($makefile_ldflags{$librulename},
+				\%makefile_macros);
       my $vers;
-
-      $flags =~ s{\$\(([^\)]+)\)}{$makefile_macros{$1}}msg;
 
       if ($flags =~ m/[\b\s]-version-(number|info)\s+(\S+)/ms) {
 	my $vtype = $1;

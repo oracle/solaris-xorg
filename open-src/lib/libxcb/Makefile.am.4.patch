@@ -1,0 +1,13 @@
+--- doc/Makefile.am	2008-08-14 01:18:25.000000000 -0700
++++ doc/Makefile.am	2010-10-13 08:40:57.478825000 -0700
+@@ -29,8 +29,8 @@
+ 	  $(mkinstalldirs) '$(DESTDIR)$(htmldir)'; \
+ 	fi
+ 	@for d in $(docdirs); do \
+-	  echo "cp -pR $$d '$(DESTDIR)$(htmldir)/'"; \
+-	  cp -pR $$d '$(DESTDIR)$(htmldir)/'; \
++	  echo "/usr/gnu/bin/cp -pR $$d '$(DESTDIR)$(htmldir)/'"; \
++	  /usr/gnu/bin/cp -pR $$d '$(DESTDIR)$(htmldir)/'; \
+ 	done
+ 
+ uninstall-local:

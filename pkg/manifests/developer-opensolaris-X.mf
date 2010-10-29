@@ -152,6 +152,10 @@ depend fmri=pkg:/text/gnu-patch type=require
 # Some X.Org packages use groff to transform their old troff docs to HTML
 depend fmri=pkg:/text/groff type=require
 
+# xcb and xcb-utils need gperf and GNU M4 to build
+depend fmri=pkg:/developer/gperf type=require
+depend fmri=pkg:/developer/macro/gnu-m4 type=require
+
 # app/xrx needs Firefox plugin headers
 depend fmri=pkg:/web/browser/firefox type=require
 
