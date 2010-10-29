@@ -114,14 +114,28 @@ BUILD_TARGETS_common=Xvnc_build set-elf-comments
 BUILD_TARGETS_32=java_build
 BUILD_TARGETS=$(BUILD_TARGETS_common) $(BUILD_TARGETS_$(BUILD_TYPE))
 BUILD_TARGETS_SET=yes
-INSTALL_TARGETS_common=Xvnc_install_module
-INSTALL_TARGETS_32=Xvnc_install_programs
-INSTALL_TARGETS_64=Xvnc_install_programs java_install
+INSTALL_TARGETS_common=Xvnc_install_server Xvnc_install_programs \
+	install_fix_paths
+# Since the Java bits are the same for both 32 & 64 bit, we only need to
+# install them once, even when building both 32 & 64-bit, but sparc only 
+# builds 64-bit, so install during the 64-bit build.
+INSTALL_TARGETS_64=java_install Xvnc_install_data
 INSTALL_TARGETS=$(INSTALL_TARGETS_common) $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = Xvnc
+
+# Binaries that are linked to isaexec on x86 to choose 32-bit or 64-bit
+LINKED_TO_ISAEXEC = Xvnc vncconfig vncpasswd vncviewer x0vncserver
+
+# When both 32-bit & 64-bit are built, only one copy of these programs
+# (scripts) are needed, so move it to /usr/bin instead of linking to isaexec
+NOT_LINKED_TO_ISAEXEC = vncserver
+
+# Steps that need to complete before the install_fix_paths in ../Makefile.inc
+# is run to do the above isaexec fixes
+INSTALL_FIX_PATHS_DEPS = Xvnc_install_server Xvnc_install_programs
 
 include ../Makefile.inc
 
@@ -214,21 +228,24 @@ Xvnc_build: $(CONFIGURE_TARGETS)
 	(cd $(XORG_BUILD_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
-Xvnc_install_module: $(BUILD_TARGETS)
+Xvnc_install_server: $(BUILD_TARGETS)
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
 	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 CPPROG="cp -p" install)
+	rm -f $(PROTODIR)/$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/extensions/libvnc.so
 
 Xvnc_install_programs: $(BUILD_TARGETS)
-	mkdir -p $(PROTODIR)/usr/bin/$(ARCHBINSUBDIR) \
-		$(PROTODIR)/usr/share/man/man1 \
-		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11 
+	mkdir -p $(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
 	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/unix/vncserver \
 		$(SOURCE_DIR)/unix/vncpasswd/vncpasswd \
 		$(SOURCE_DIR)/unix/vncconfig/vncconfig \
 		$(SOURCE_DIR)/unix/vncviewer/vncviewer \
 		$(SOURCE_DIR)/unix/x0vncserver/x0vncserver \
 		$(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
+
+Xvnc_install_data: $(SOURCE_TARGETS)
+	mkdir -p $(PROTODIR)/usr/share/man/man1 \
+		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11 
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/unix/vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/vncserver.1
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/unix/vncconfig/vncconfig.man \

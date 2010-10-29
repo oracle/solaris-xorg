@@ -38,6 +38,7 @@ var/run
 
 # Empty directories
 usr/share/doc/xtrans
+usr/lib/xorg/modules/amd64/extensions	i386
 
 # Documentation for other platforms
 usr/share/doc/X11/platforms/Darwin.html
@@ -84,9 +85,6 @@ usr/share/man/man1/xft-config.1
 # Only need the 32-bit versions of these files
 usr/lib/amd64/X11			i386
 usr/lib/sparcv9/X11			sparc
-
-# Licensing issues
-usr/lib/xorg/modules/extensions/libvnc.so
 
 # Intel DRM modules make no sense on SPARC, but upstream doesn't provide
 # an option not to build them

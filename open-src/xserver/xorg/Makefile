@@ -103,7 +103,6 @@ MODULE_BUILD_ENV = DISTRO_NAME="$(DISTRO_NAME)"
 
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
-XSERVERS = Xorg Xephyr Xvfb
 
 BUILD_TARGETS=$(XORGSERVER_BIN) build_mdb set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
@@ -152,9 +151,24 @@ INSTALL_PCU_DEPS_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
 # Compatibility links from /usr/X11/bin to /usr/bin
-MODULE_X11_BINCOMPAT_LINKS = $(XSERVERS) cvt gtf
+# Only needed for programs that were in /usr/X11/bin before we moved
+MODULE_X11_BINCOMPAT_LINKS = Xorg Xephyr Xvfb cvt gtf
 MODULE_X11_BINCOMPAT_LINKS_i386 = amd64
 MODULE_X11_BINCOMPAT_LINKS += $(MODULE_X11_BINCOMPAT_LINKS_$(MACH))
+
+# Binaries that are linked to isaexec on x86 to choose 32-bit or 64-bit
+LINKED_TO_ISAEXEC = Xorg Xephyr Xvfb Xdmx
+
+# When both 32-bit & 64-bit are built, only one copy of these programs (mostly
+# scripts) are needed, so move the 32-bit one to /usr/bin instead of linking 
+# to isaexec.
+NOT_LINKED_TO_ISAEXEC = cvt gtf \
+  dmxaddinput dmxaddscreen dmxreconfig dmxresize dmxrminput \
+  dmxrmscreen dmxtodmx dmxwininfo vdltodmx xdmx xdmxconfig
+
+# Steps that need to complete before the install_fix_paths in ../Makefile.inc
+# is run  to do the above isaexec fixes
+INSTALL_FIX_PATHS_DEPS = default_install
 
 include ../Makefile.inc
 
@@ -207,74 +221,12 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	printf '};\n' >> $@
 
 # Fix paths in proto area to match paths in packages / installed systems
-install_fix_paths: install_fix_paths_$(MACH)_$(BUILD_TYPE) install_fix_paths_X
-install_fix_paths_$(MACH)_: $(BUILD_TYPES:%=install_fix_paths_$(MACH)_%)
-
-install_fix_paths_i386_32: install_fix_paths_use_utilities
-install_fix_paths_i386_64: install_fix_paths_remove_utilities
-install_fix_paths_sparc_64: # not needed
-
-install_fix_paths_use_utilities: default_install
-	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/cvt \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/gtf \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxaddinput \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxaddscreen \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxreconfig \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxresize \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxrminput \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxrmscreen \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxtodmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/dmxwininfo \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/vdltodmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/xdmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/xdmxconfig
-	mv -f $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/cvt \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddinput \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddscreen \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxreconfig \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxresize \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrminput \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrmscreen \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxtodmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxwininfo \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/vdltodmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmxconfig \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin
-
-install_fix_paths_remove_utilities: default_install
-	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/cvt \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/gtf \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddinput \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxaddscreen \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxreconfig \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxresize \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrminput \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxrmscreen \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxtodmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/dmxwininfo \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/vdltodmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmx \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/xdmxconfig
-
 install_fix_paths_X: default_install
 	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/X \
 	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/X
 	ln -s Xserver $(PROTODIR)$(MODULE_PREFIX)/bin/X
 
-XSERVER_LINKS = $(XSERVERS:%=$(PROTODIR)$(MODULE_PREFIX)/bin/%)
-
-$(PROTODIR)/usr/lib/isaexec:
-	@rm -f $@
-	cp -pf /usr/lib/isaexec $@
-
-$(XSERVER_LINKS): $(PROTODIR)/usr/lib/isaexec
-	@rm -f $@
-	ln $(PROTODIR)/usr/lib/isaexec $@
-
-install_fix_paths_i386_32: install_fix_paths_Xservers_isaexec
-install_fix_paths_Xservers_isaexec: $(XSERVER_LINKS)
+install_fix_paths: install_fix_paths_X
 
 MESA_MODULE_DIR = /usr/lib/mesa/modules/extensions$(SERVERMOD_subdir)
 EXT_MODULE_DIR = $(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir)
@@ -342,3 +294,53 @@ $(X11_INCLUDE_COMPAT_DIR):
 $(X11_INCLUDE_COMPAT_LINKS): $(X11_INCLUDE_COMPAT_DIR)
 	@rm -f $@
 	ln -s ../../include/$(@F) $@
+
+## mdb module rules
+# Build & install mdb modules & scripts that aren't integrated to
+# normal build process.
+MDB_SOURCE_DIR=$(XORG_BUILD_DIR)/os/solaris/mdb
+MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
+MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
+MDB_SCRIPTS=list_Xserver_clients \
+	list_Xserver_devicegrab_client \
+	list_Xserver_servergrab_client
+MDB_MODULE_NAMES=Xephyr Xorg Xvfb Xvnc Xdmx
+
+BUILT_MDB_MODULE=$(MDB_SOURCE_DIR)/modules/Xserver.so
+BUILT_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%)
+
+INSTALLED_MDB_LINKS=$(MDB_MODULE_NAMES:%=$(PROTODIR)$(MDB_MODULE_DIR)/%.so)
+INSTALLED_MDB_MODULE=$(PROTODIR)$(MDB_MODULE_DIR)/Xserver.so
+INSTALLED_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
+INSTALLED_MDB_ALL=$(INSTALLED_MDB_MODULE) $(INSTALLED_MDB_LINKS) \
+	$(INSTALLED_MDB_SCRIPTS)
+
+# Since configure options aren't used to build the mdb modules, pass
+# those variables at build time
+MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
+
+build_mdb: $(BUILT_MDB_MODULE)
+
+$(BUILT_MDB_SCRIPTS): $(SOURCE_TARGETS)
+
+$(BUILT_MDB_MODULE): $(CONFIGURE_TARGETS)
+	(cd $(MDB_SOURCE_DIR) ; \
+         $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+
+$(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR):
+	mkdir -p $@
+
+$(INSTALLED_MDB_MODULE): $(PROTODIR)$(MDB_MODULE_DIR) $(BUILT_MDB_MODULE)
+	$(INSTALL_SCRIPT) -c -m 0555 $(BUILT_MDB_MODULE) $@
+
+$(INSTALLED_MDB_LINKS): $(PROTODIR)$(MDB_MODULE_DIR)
+	@rm -f $@
+	ln -s Xserver.so $@
+
+$(INSTALLED_MDB_SCRIPTS): $(BUILT_MDB_SCRIPTS) $(PROTODIR)$(MDB_SCRIPT_DIR)
+	$(INSTALL_SCRIPT) -c -m 0555 $(MDB_SOURCE_DIR)/scripts/$(@F) \
+		$(PROTODIR)$(MDB_SCRIPT_DIR)/
+
+install_mdb: $(INSTALLED_MDB_ALL)
+	$(INSTALL_SCRIPT) -c -m 0444 $(MDB_SOURCE_DIR)/README \
+		$(PROTODIR)$(MDB_SCRIPT_DIR)/

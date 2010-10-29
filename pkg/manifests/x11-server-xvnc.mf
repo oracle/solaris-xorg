@@ -47,17 +47,15 @@ file path=lib/svc/manifest/application/x11/xvnc-inetd.xml
 $(i386_ONLY)file path=usr/bin/$(ARCH32)/Xvnc group=root mode=2555
 $(i386_ONLY)file path=usr/bin/$(ARCH32)/vncconfig
 $(i386_ONLY)file path=usr/bin/$(ARCH32)/vncpasswd
-$(i386_ONLY)file path=usr/bin/$(ARCH32)/vncserver
 $(i386_ONLY)file path=usr/bin/$(ARCH32)/x0vncserver
 $(i386_ONLY)file path=usr/bin/$(ARCH64)/Xvnc group=root mode=2555
 $(i386_ONLY)file path=usr/bin/$(ARCH64)/vncconfig
 $(i386_ONLY)file path=usr/bin/$(ARCH64)/vncpasswd
-$(i386_ONLY)file path=usr/bin/$(ARCH64)/vncserver
 $(i386_ONLY)file path=usr/bin/$(ARCH64)/x0vncserver
 $(sparc_ONLY)file path=usr/bin/Xvnc group=root mode=2555
 $(sparc_ONLY)file path=usr/bin/vncconfig
 $(sparc_ONLY)file path=usr/bin/vncpasswd
-$(sparc_ONLY)file path=usr/bin/vncserver
+file path=usr/bin/vncserver
 $(sparc_ONLY)file path=usr/bin/x0vncserver
 file path=usr/share/man/man1/Xvnc.1
 file path=usr/share/man/man1/vncconfig.1
@@ -76,7 +74,6 @@ legacy pkg=SUNWxvnc \
 $(i386_ONLY)hardlink path=usr/bin/Xvnc target=../lib/isaexec
 $(i386_ONLY)hardlink path=usr/bin/vncconfig target=../lib/isaexec
 $(i386_ONLY)hardlink path=usr/bin/vncpasswd target=../lib/isaexec
-$(i386_ONLY)hardlink path=usr/bin/vncserver target=../lib/isaexec
 $(i386_ONLY)hardlink path=usr/bin/x0vncserver target=../lib/isaexec
 link path=usr/X11/bin/Xvnc target=../../bin/Xvnc
 $(i386_ONLY)link path=usr/lib/mdb/proc/Xvnc.so target=Xserver.so

@@ -101,11 +101,13 @@ if (defined $logfile) {
 
     # Look for package build results
     if ($l =~ m{^result log is in (\S*)$}ims) {
-      $pkglog = $1;
       if ($1 =~ m{/package_build$}ms) {
+	$pkglog = $1;
 	$pkglog_type = 'svr4';
       } else {
 	$pkglog_type = 'ips';
+	$printme = 1;
+	print "\n";
       }
     } elsif ($l =~ m{^Packages built:}ms) {
       print $l;

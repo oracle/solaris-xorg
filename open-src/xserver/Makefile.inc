@@ -126,54 +126,42 @@ MODTYPE_ADD_CONFIGURE_TARGETS = fix-moduledirs
 ### Include common rulesets
 include $(TOP)/open-src/common/Makefile.inc
 
-## mdb module rules
-# Build & install mdb modules & scripts that aren't integrated to
-# normal build process - these are here since they are built in
-# the Xorg build for 32-bit & 64-bit x86 and 64-bit SPARC, but
-# in the Xvnc build for 32-bit SPARC
-MDB_SOURCE_DIR=$(XORG_BUILD_DIR)/os/solaris/mdb
-MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
-MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
-MDB_SCRIPTS=list_Xserver_clients \
-	list_Xserver_devicegrab_client \
-	list_Xserver_servergrab_client
-MDB_MODULE_NAMES=Xephyr Xorg Xvfb Xvnc Xdmx
+# Fix paths in proto area to match paths in packages / installed systems
+install_fix_paths: install_fix_paths_$(MACH)_$(BUILD_TYPE)
+install_fix_paths_$(MACH)_: $(BUILD_TYPES:%=install_fix_paths_$(MACH)_%)
 
-BUILT_MDB_MODULE=$(MDB_SOURCE_DIR)/modules/Xserver.so
-BUILT_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%)
+# When both 32-bit & 64-bit are built, only one copy of the programs in
+# NOT_LINKED_TO_ISAEXEC are needed, so move the 32-bit copy to /usr/bin
+# instead of linking to isaexec, and delete the 64-bit copy.
+UTILS_IN_BIN = $(NOT_LINKED_TO_ISAEXEC:%=$(PROTODIR)$(MODULE_PREFIX)/bin/%)
+UTILS_IN_ARCHBIN = \
+ $(NOT_LINKED_TO_ISAEXEC:%=$(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/%)
 
-INSTALLED_MDB_LINKS=$(MDB_MODULE_NAMES:%=$(PROTODIR)$(MDB_MODULE_DIR)/%.so)
-INSTALLED_MDB_MODULE=$(PROTODIR)$(MDB_MODULE_DIR)/Xserver.so
-INSTALLED_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(PROTODIR)$(MDB_SCRIPT_DIR)/%)
-INSTALLED_MDB_ALL=$(INSTALLED_MDB_MODULE) $(INSTALLED_MDB_LINKS) \
-	$(INSTALLED_MDB_SCRIPTS)
+install_fix_paths_use_utilities: $(INSTALL_FIX_PATHS_DEPS)
+	rm -f $(UTILS_IN_BIN)
+	mv -f $(UTILS_IN_ARCHBIN) $(PROTODIR)$(MODULE_PREFIX)/bin
 
-# Since configure options aren't used to build the mdb modules, pass
-# those variables at build time
-MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
+install_fix_paths_remove_utilities: $(INSTALL_FIX_PATHS_DEPS)
+	rm -f $(UTILS_IN_ARCHBIN)
 
-build_mdb: $(BUILT_MDB_MODULE)
+install_fix_paths_i386_32: install_fix_paths_use_utilities
+install_fix_paths_i386_64: install_fix_paths_remove_utilities
+install_fix_paths_sparc_64: # not needed
 
-$(BUILT_MDB_SCRIPTS): $(SOURCE_TARGETS)
+# When both 32-bit & 64-bit are built, we install both versions of the 
+# programs in LINKED_TO_ISAEXEC, and use isaexec to pick 32-bit or 64-bit
+# binaries to execute.
+ISAEXEC_LINKS = $(LINKED_TO_ISAEXEC:%=$(PROTODIR)$(MODULE_PREFIX)/bin/%)
 
-$(BUILT_MDB_MODULE): $(CONFIGURE_TARGETS)
-	(cd $(MDB_SOURCE_DIR) ; \
-         $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
-
-$(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR):
-	mkdir -p $@
-
-$(INSTALLED_MDB_MODULE): $(PROTODIR)$(MDB_MODULE_DIR) $(BUILT_MDB_MODULE)
-	$(INSTALL_SCRIPT) -c -m 0555 $(BUILT_MDB_MODULE) $@
-
-$(INSTALLED_MDB_LINKS): $(PROTODIR)$(MDB_MODULE_DIR)
+$(PROTODIR)/usr/lib/isaexec:
 	@rm -f $@
-	ln -s Xserver.so $@
+	cp -pf /usr/lib/isaexec $@
 
-$(INSTALLED_MDB_SCRIPTS): $(BUILT_MDB_SCRIPTS) $(PROTODIR)$(MDB_SCRIPT_DIR)
-	$(INSTALL_SCRIPT) -c -m 0555 $(MDB_SOURCE_DIR)/scripts/$(@F) \
-		$(PROTODIR)$(MDB_SCRIPT_DIR)/
+$(ISAEXEC_LINKS): $(PROTODIR)/usr/lib/isaexec
+	@rm -f $@
+	ln $(PROTODIR)/usr/lib/isaexec $@
 
-install_mdb: $(INSTALLED_MDB_ALL)
-	$(INSTALL_SCRIPT) -c -m 0444 $(MDB_SOURCE_DIR)/README \
-		$(PROTODIR)$(MDB_SCRIPT_DIR)/
+install_fix_isaexec: $(ISAEXEC_LINKS)
+
+install_fix_paths_i386_32: install_fix_isaexec
+# Not needed in 64-bit builds on sparc or x86
