@@ -94,3 +94,8 @@ usr/lib/xorg/sparcv9/libdrm_intel.so		sparc
 usr/lib/xorg/sparcv9/libdrm_intel.so.1		sparc
 usr/lib/pkgconfig/libdrm_intel.pc		sparc
 usr/lib/sparcv9/pkgconfig/libdrm_intel.pc	sparc
+
+# We don't install the XCB SELinux extension
+usr/include/xcb/xselinux.h
+usr/share/xcb/xselinux.xml
+

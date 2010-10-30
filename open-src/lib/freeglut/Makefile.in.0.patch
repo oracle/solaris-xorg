@@ -1,5 +1,14 @@
 --- doc/Makefile.in	2009-11-25 11:14:29.000000000 -0800
-+++ doc/Makefile.in	2010-10-22 11:06:14.746946682 -0700
++++ doc/Makefile.in	2010-10-29 16:52:04.575893925 -0700
+@@ -42,7 +42,7 @@
+ CONFIG_CLEAN_FILES =
+ SOURCES =
+ DIST_SOURCES =
+-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
++DISTFILES = $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+ ACLOCAL = @ACLOCAL@
+ AMTAR = @AMTAR@
+ AR = @AR@
 @@ -135,7 +135,7 @@
  builddir = @builddir@
  datadir = @datadir@
@@ -9,7 +18,7 @@
  dvidir = @dvidir@
  exec_prefix = @exec_prefix@
  host = @host@
-@@ -216,31 +216,16 @@
+@@ -216,31 +216,18 @@
  
  
  distdir: $(DISTFILES)
@@ -41,14 +50,16 @@
 -	    || cp -p $$d/$$file $(distdir)/$$file \
 -	    || exit 1; \
 -	  fi; \
-+	    cp -pR $$file $(DESTDIR)/$(docdir)/$$file || exit 1; \
++	    cp -fpR $$file $(DESTDIR)/$(docdir)/$$file || exit 1; \
 +	    chmod 0644 $(DESTDIR)/$(docdir)/$$file || exit 1; \
++	    rm -f $(DESTDIR)/$(docdir)/Makefile.am; \
++	    rm -f $(DESTDIR)/$(docdir)/Makefile.in; \
  	done
 +
  check-am: all-am
  check: check-am
  all-am: Makefile
-@@ -250,7 +235,7 @@
+@@ -250,7 +237,7 @@
  install-data: install-data-am
  uninstall: uninstall-am
  

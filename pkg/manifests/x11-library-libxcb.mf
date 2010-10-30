@@ -77,7 +77,6 @@ file path=usr/lib/libxcb-xv.so.0
 #
 link path=usr/lib/libxcb-composite.so target=./libxcb-composite.so.0
 link path=usr/lib/libxcb-damage.so target=./libxcb-damage.so.0
-link path=usr/lib/libxcb-dpms.so target=./libxcb-damage.so.0
 link path=usr/lib/libxcb-dpms.so target=./libxcb-dpms.so.0
 link path=usr/lib/libxcb-dri2.so target=./libxcb-dri2.so.0
 link path=usr/lib/libxcb-glx.so target=./libxcb-glx.so.0
@@ -126,7 +125,6 @@ file path=usr/lib/$(ARCH64)/libxcb-xv.so.0
 #
 link path=usr/lib/$(ARCH64)/libxcb-composite.so target=./libxcb-composite.so.0
 link path=usr/lib/$(ARCH64)/libxcb-damage.so target=./libxcb-damage.so.0
-link path=usr/lib/$(ARCH64)/libxcb-dpms.so target=./libxcb-damage.so.0
 link path=usr/lib/$(ARCH64)/libxcb-dpms.so target=./libxcb-dpms.so.0
 link path=usr/lib/$(ARCH64)/libxcb-dri2.so target=./libxcb-dri2.so.0
 link path=usr/lib/$(ARCH64)/libxcb-glx.so target=./libxcb-glx.so.0

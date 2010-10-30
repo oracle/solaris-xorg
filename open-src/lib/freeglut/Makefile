@@ -133,3 +133,15 @@ DELIBTOOLIZE=no
 # But we don't want autoreconf
 AUTORECONF=no
 
+install: install_extra_symlinks
+
+install_extra_symlinks:
+	( cd $(PROTODIR)/usr/lib/GL ; \
+	    ln -sf ../libglut.so.3.9.0 libglut.so.3 ; \
+	    ln -sf ../libglut.so.3.9.0 libglut.so ; \
+	    cd - )
+	( cd $(PROTODIR)/usr/lib/GL/$(SUBDIR64) ; \
+	    ln -sf ../../$(SUBDIR64)/libglut.so.3.9.0 libglut.so.3 ; \
+	    ln -sf ../../$(SUBDIR64)/libglut.so.3.9.0 libglut.so ; \
+	    cd - )
+
