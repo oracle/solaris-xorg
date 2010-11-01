@@ -52,7 +52,7 @@ xcbutil: libxcb
 libFS: libxtrans
 libICE: libxtrans
 libSM: libxtrans libICE
-libX11: libxtrans libXau libXdmcp
+libX11: libxtrans libXau libXdmcp libxcb xcbutil
 libXaw: libX11 libXt libXmu libXpm
 libXaw4: libX11 libXt libXmu
 libXaw5: libX11 libXt libXmu
