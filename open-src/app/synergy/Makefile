@@ -26,7 +26,7 @@
 #
 
 # Package name used in tarballs
-MODULE_NAME=synergy
+MODULE_NAME=synergy-plus
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=desktop/synergy
@@ -38,7 +38,7 @@ MODULE_PKGCLASS_SET=yes
 
 # Package metadata
 UPSTREAM		= Synergy
-UPSTREAM_URL		= http://synergy2.sourceforge.net/
+UPSTREAM_URL		= http://synergy-foss.org/
 UPSTREAM_SET		= yes
 
 MODULE_LICENSE		= GPLv2
@@ -46,18 +46,18 @@ MODULE_LICENSE_SET	= yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a6e09d6b71cb217f23069980060abf27
-TARBALL_SHA1 = 03113ec8aadfecaeba8e369b083f4fb5b44f5c62
+TARBALL_MD5  = 2c565afe5f920d363eef38dd97449b73
+TARBALL_SHA1 = 17b2dc2611974189ad0d54367b6c96b7932d9e32
 
 # Where to install synergy files
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes
 
 # Source tarball
-SOURCE_TARBALL_NAME=synergy-$(MODULE_VERSION).tar.gz
+SOURCE_TARBALL_NAME=synergy-plus-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 SOURCE_UNCOMPRESS_SET=yes
@@ -66,37 +66,29 @@ SOURCE_UNCOMPRESS_SET=yes
 SYNERGYS_BIN=$(SOURCE_DIR)/cmd/synergys/synergys
 SYNERGYC_BIN=$(SOURCE_DIR)/cmd/synergyc/synergyc
 
-SYNERGY_DOC=$(SOURCE_DIR)/doc
+#SYNERGY_DOC=$(SOURCE_DIR)/doc/obselete	- They moved it to a directory called "obselete"
 
-INSTALL_TARGETS=install_synergys install_synergyc install_doc
+INSTALL_TARGETS=install_synergys install_synergyc 
+# install_doc (Obselete)
 INSTALL_TARGETS_SET=yes
 
-SOURCE_URL=$(SF_DOWNLOADS_URL)/synergy2/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=http://synergy-plus.googlecode.com/files/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES =  \
-		  configure.patch \
-		  CConfig.h.patch \
-		  CConfig.cpp.patch \
-		  CKeyMap.cpp.patch \
-		  CKeyState.cpp.patch \
-		  CXWindowsClipboard.cpp.patch \
-		  CXWindowsClipboard.h.patch \
-		  CXWindowsKeyState.cpp.patch \
-		  CXWindowsScreen.cpp.patch \
-		  CArchConsoleUnix.cpp.patch
+SOURCE_PATCHES = CConfig.cpp.patch
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
-
 USE_DEFAULT_CONFIG_ENV=no
 
-MODULE_CXXFLAGS = -m32
+MODULE_CXXFLAGS = -library=no%Cstd -library=Crun
+MODULE_CXXFLAGS += -m32 $(OPTIM) -s -xspace
 MODULE_CXXFLAGS += -features=except,rtti,export,extensions,nestedaccess,tmplife,tmplrefstatic
 MODULE_CXXFLAGS += -instances=global -template=geninlinefuncs -verbose=template
 MODULE_CXXFLAGS += -xlang=c99 -xbuiltin=%none
+MODULE_CXXFLAGS += -Qoption ccfe ++boolflag:sunwcch=false
 MODULE_CXXFLAGS += -Qoption ccfe -features=gcc
 MODULE_CXXFLAGS += -Qoption ccfe -features=zla
 MODULE_CXXFLAGS += -mt -D_REENTRANT -D__EXTENSIONS__ -D_LARGEFILE_SOURCE
@@ -106,53 +98,59 @@ MODULE_CXXFLAGS += -D_POSIX_PTHREAD_SEMANTICS
 MODULE_CXXFLAGS += -DPIC -KPIC -DSYSAPI_UNIX=1 -DWINAPI_XWINDOWS=1
 MODULE_CPPFLAGS = -DSYSAPI_UNIX=1 \
 		  -DWINAPI_XWINDOWS=1 \
+		  -I/usr/include/stdcxx4/ansi \
+		  -I/usr/include/stdcxx4/tr1 \
+		  -I/usr/include/stdcxx4 \
 		  -I$(PROTODIR)$(X11_INCLUDES_DIR) \
 		  -I$(PROTODIR)/usr/include \
 		  -I$(PROTODIR)/usr/include/freetype2
 MODULE_LDFLAGS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 		 -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 		 -R$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
-		 -KPIC -Bdynamic -lc -lCrun -lCstd -lm \
+		 -KPIC -Bdynamic -lc -lstdcxx4 -lCrun -lm \
 		 -lsocket -lnsl -lgen -z combreloc -z ignore
 INSTALL = /usr/bin/ginstall -c
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
-LD_OPTIONS = -lc -lCrun -lCstd -lm -lsocket -lnsl -lgen -z combreloc -z ignore
+LD_OPTIONS = -lc -lstdcxx4 -lCrun -lm -lsocket -lnsl -lgen -z combreloc -z ignore
 
 MODULE_ENV = \
+	     SHELL="/bin/ksh93" \
+	     CONFIG_SHELL="/bin/ksh93" \
 	     CC="$(CC)" \
 	     CXX="$(CXX)" \
 	     CXXFLAGS="$(CXXFLAGS) $(MODULE_CXXFLAGS)" \
 	     CPPFLAGS="$(MODULE_CPPFLAGS)" \
 	     CPP="$(CC) -E $(MODULE_CPPFLAGS) $(CPPFLAGS)" \
-	     CXXCPP="$(CXX) -E $(MODULE_CPPFLAGS) $(CPPFLAGS) $(CXXFLAGS)" \
+	     CXXCPP="$(CXX) -E $(MODULE_CPPFLAGS) $(CPPFLAGS) $(MODULE_CXXFLAGS) $(CXXFLAGS)" \
 	     LDFLAGS="$(MODULE_LDFLAGS)" \
 	     LD="$(CXX) $(CXXFLAGS) $(LDFLAGS)" \
-	     CXXLD="$(CXX) $(CXXFLAGS) $(LDFLAGS)" \
+	     CXXLD="$(CXX) $(MODULE_CXXFLAGS) $(CXXFLAGS) $(MODULE_LDFLAGS) $(LDFLAGS)" \
 	     INSTALL="$(INSTALL)" \
 	     MAKE=$(GNUMAKE) \
 	     GNUMAKE=$(GNUMAKE) \
 	     LD_OPTIONS="$(LD_OPTIONS)"
+
+MODULE_CONFIG_OPTS = --disable-debug
 
 MODULE_CONFIG_ENV = $(MODULE_ENV)
 MODULE_BUILD_ENV = $(CONFIG_ENV)
 
 include ../Makefile.inc
 
+install_gen:: $(INSTALL_TARGETS)
+
 DESTDIR=$(PROTODIR)
 
 install_synergys: $(SYNERGYS_BIN)
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
-	cp -pf $(SYNERGYS_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
+	cp -pf $(SYNERGYS_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin/
 
 install_synergyc: $(SYNERGYC_BIN)
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
-	cp -pf $(SYNERGYC_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
+	cp -pf $(SYNERGYC_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin/
 
-$(SYNERGYS_BIN): $(BUILD_TARGETS)
-$(SYNERGYC_BIN): $(BUILD_TARGETS)
-
-DOC_AREA=$(DESTDIR)$(MODULE_PREFIX)/share/doc/synergy
+#DOC_AREA=$(DESTDIR)$(MODULE_PREFIX)/share/doc/synergy
 
 # Doc all in html format
 install_doc: $(INSTALL_DEPS)
