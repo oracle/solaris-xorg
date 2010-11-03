@@ -26,7 +26,7 @@
 #
 
 # Package name used in tarballs
-MODULE_NAME=synergy-plus
+MODULE_NAME=synergy
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=desktop/synergy
@@ -61,19 +61,8 @@ SOURCE_TARBALL_NAME=synergy-plus-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 SOURCE_UNCOMPRESS_SET=yes
-
-# Binaries built in tree
-SYNERGYS_BIN=$(SOURCE_DIR)/cmd/synergys/synergys
-SYNERGYC_BIN=$(SOURCE_DIR)/cmd/synergyc/synergyc
-
-$(SYNERGYS_BIN): $(BUILD_TARGETS)
-$(SYNERGYC_BIN): $(BUILD_TARGETS)
-
-#SYNERGY_DOC=$(SOURCE_DIR)/doc/obselete	- They moved it to a directory called "obselete"
-
-INSTALL_TARGETS=install_synergys install_synergyc 
-# install_doc (Obselete)
-INSTALL_TARGETS_SET=yes
+SOURCE_DIRNAME=synergy-plus-$(MODULE_VERSION)
+SOURCE_DIRNAME_SET=yes
 
 SOURCE_URL=http://synergy-plus.googlecode.com/files/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
@@ -140,45 +129,3 @@ MODULE_CONFIG_ENV = $(MODULE_ENV)
 MODULE_BUILD_ENV = $(CONFIG_ENV)
 
 include ../Makefile.inc
-
-install_gen:: $(INSTALL_TARGETS)
-
-DESTDIR=$(PROTODIR)
-
-install_synergys: $(SYNERGYS_BIN)
-	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
-	cp -pf $(SYNERGYS_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin/
-
-install_synergyc: $(SYNERGYC_BIN)
-	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
-	cp -pf $(SYNERGYC_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin/
-
-#DOC_AREA=$(DESTDIR)$(MODULE_PREFIX)/share/doc/synergy
-
-# Doc all in html format
-install_doc: $(INSTALL_DEPS)
-	mkdir -p 				$(DOC_AREA)
-	mkdir -p 				$(DOC_AREA)/images
-	cp -pf $(SYNERGY_DOC)/about.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/authors.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/autostart.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/banner.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/border.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/compiling.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/configuration.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/contact.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/developer.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/faq.html		$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/history.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/home.html		$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/index.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/license.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/news.html		$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/roadmap.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/running.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/security.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/tips.html		$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/toc.html		$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/trouble.html	$(DOC_AREA)
-	cp -pf $(SYNERGY_DOC)/images/logo.gif	$(DOC_AREA)/images
-	cp -pf $(SYNERGY_DOC)/images/warp.gif	$(DOC_AREA)/images
