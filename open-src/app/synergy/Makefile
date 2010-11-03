@@ -66,6 +66,9 @@ SOURCE_UNCOMPRESS_SET=yes
 SYNERGYS_BIN=$(SOURCE_DIR)/cmd/synergys/synergys
 SYNERGYC_BIN=$(SOURCE_DIR)/cmd/synergyc/synergyc
 
+$(SYNERGYS_BIN): $(BUILD_TARGETS)
+$(SYNERGYC_BIN): $(BUILD_TARGETS)
+
 #SYNERGY_DOC=$(SOURCE_DIR)/doc/obselete	- They moved it to a directory called "obselete"
 
 INSTALL_TARGETS=install_synergys install_synergyc 
