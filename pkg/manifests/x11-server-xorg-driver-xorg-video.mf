@@ -37,14 +37,6 @@ $(i386_ONLY)depend fmri=pkg:/driver/graphics/nvidia type=require
 $(sparc_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-efb type=require
 $(sparc_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-kfb type=require
 
-# driver/xf86-video-apm
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-apm \
-    type=require
-
-# driver/xf86-video-ark
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ark \
-    type=require
-
 # driver/xf86-video-ast
 depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ast type=require
 
@@ -52,24 +44,8 @@ depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ast type=require
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ati \
     type=require
 
-# driver/xf86-video-chips
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-chips \
-    type=require
-
 # driver/xf86-video-cirrus
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus \
-    type=require
-
-# driver/xf86-video-glint
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-glint \
-    type=require
-
-# driver/xf86-video-i128
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-i128 \
-    type=require
-
-# driver/xf86-video-i740
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-i740 \
     type=require
 
 # driver/xf86-video-intel
@@ -82,10 +58,6 @@ $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64 \
 
 # driver/xf86-video-mga
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mga \
-    type=require
-
-# driver/xf86-video-neomagic
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-neomagic \
     type=require
 
 # driver/xf86-video-nv
@@ -103,43 +75,8 @@ $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-r128 \
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-radeonhd \
     type=require
 
-# driver/xf86-video-rendition
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-rendition \
-    type=require
-
-# driver/xf86-video-s3
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-s3 type=require
-
-# driver/xf86-video-s3virge
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-s3virge \
-    type=require
-
-# driver/xf86-video-savage
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-savage \
-    type=require
-
-# driver/xf86-video-siliconmotion
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-siliconmotion \
-    type=require
-
-# driver/xf86-video-sis
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-sis \
-    type=require
-
-# driver/xf86-video-tdfx
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-tdfx \
-    type=require
-
-# driver/xf86-video-tga
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-tga \
-    type=require
-
 # driver/xf86-video-trident
 $(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-trident \
-    type=require
-
-# driver/xf86-video-tseng
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-tseng \
     type=require
 
 # driver/xf86-video-vesa

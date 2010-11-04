@@ -1,8 +1,4 @@
-###############################################################################
-#
-# xf86-video-tga 1.x Makefile
-#
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,34 +19,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#
-
-# Package name used in tarballs
-MODULE_NAME=xf86-video-tga
-
-# Version number (used in path names)
-MODULE_VERSION=1.2.1
-
-# Checksums for upstream tarball
-TARBALL_MD5  = bcbceda78395de74544c83b46a7700cd
-TARBALL_SHA1 = 6b434227d9f2cea723908eec15fefe59f73cb282
-
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
-
-# Only build 32-bit since hardware is too old to be found in 64-bit systems
-BUILD_TYPES=32
-BUILD_TYPES_SET=yes
-
-# Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES=man/*.man
-MODULE_STABILITY=Volatile
-
-# Libraries/modules to link with
-MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-lfb -lxaa -lpciaccess
-
-include ../Makefile.inc
-
+set name=pkg.fmri \
+    value=pkg:/x11/server/xorg/driver/xorg-video-neomagic@1.2.5,5.11-0.153
+set name=pkg.obsolete value=true

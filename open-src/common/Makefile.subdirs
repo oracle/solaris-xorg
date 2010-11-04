@@ -60,7 +60,7 @@ clean-obsolete-subdirs:
 		    	$(MAKE) $(MAKEFLAGS) subdirs OS_TARGET=clean OS_SUBDIRS=$$i ; \
 		    else ; \
 		    	print "## removing obsolete build directories in open-src/$(DIRNAME)$$i..."; \
-			($(START_CMD_ECHO) ; cd $$i && rm -rf build* ) ; \
+			($(START_CMD_ECHO) ; cd $$i && rm -rf build* .checksum* ) ; \
 			($(START_CMD_ECHO) ; rmdir $$i ) ; \
 		    fi ; \
 		fi ; \

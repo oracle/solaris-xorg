@@ -20,15 +20,5 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-video-tga@__version:xf86-video-tga__
-set name=pkg.description \
-    value="Xorg video driver for DEC 21030 (TGA) graphics."
-set name=pkg.summary \
-    value="xf86-video-tga - DEC 21030 video driver for the Xorg X server"
-set name=variant.arch value=i386
-dir path=usr
-dir path=usr/lib
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/modules
-dir path=usr/lib/xorg/modules/drivers
-file path=usr/lib/xorg/modules/drivers/tga_drv.so
+    value=pkg:/x11/server/xorg/driver/xorg-video-siliconmotion@1.7.4,5.11-0.153
+set name=pkg.obsolete value=true

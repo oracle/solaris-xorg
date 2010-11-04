@@ -20,18 +20,5 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-video-tseng@__version:xf86-video-tseng__
-set name=pkg.description value="Xorg driver for Tseng Labs video cards"
-set name=pkg.summary \
-    value="xf86-video-tseng - Tseng Labs video driver for the Xorg X server"
-set name=variant.arch value=i386
-dir path=usr
-dir path=usr/lib
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/modules
-dir path=usr/lib/xorg/modules/drivers
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man7
-file path=usr/lib/xorg/modules/drivers/tseng_drv.so
-file path=usr/share/man/man7/tseng.7
+    value=pkg:/x11/server/xorg/driver/xorg-video-i128@1.3.4,5.11-0.153
+set name=pkg.obsolete value=true

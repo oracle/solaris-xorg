@@ -39,32 +39,16 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-synaptics		\
 	xf86-input-vmmouse		\
 	xf86-input-hotkey		\
-	xf86-video-apm			\
-	xf86-video-ark			\
 	xf86-video-ati			\
-	xf86-video-chips		\
 	xf86-video-cirrus		\
-	xf86-video-glint		\
-	xf86-video-i128			\
-	xf86-video-i740			\
 	xf86-video-intel		\
 	xf86-video-mach64		\
 	xf86-video-mga			\
-	xf86-video-neomagic		\
 	xf86-video-nv			\
 	xf86-video-openchrome		\
 	xf86-video-radeonhd		\
-	xf86-video-rendition		\
 	xf86-video-r128			\
-	xf86-video-s3			\
-	xf86-video-s3virge		\
-	xf86-video-savage		\
-	xf86-video-siliconmotion	\
-	xf86-video-sis			\
-	xf86-video-tdfx			\
-	xf86-video-tga			\
 	xf86-video-trident		\
-	xf86-video-tseng		\
 	xf86-video-vesa			\
 	xf86-video-vmware
 
@@ -87,9 +71,25 @@ OBSOLETE_SUBDIRS = \
 	xf86-input-spaceorb		\
 	xf86-input-summa		\
 	xf86-input-tek4957		\
+	xf86-video-apm			\
+	xf86-video-ark			\
+	xf86-video-chips		\
 	xf86-video-cyrix		\
+	xf86-video-glint		\
+	xf86-video-i128			\
+	xf86-video-i740			\
 	xf86-video-i810			\
+	xf86-video-neomagic		\
 	xf86-video-nsc			\
+	xf86-video-rendition		\
+	xf86-video-s3			\
+	xf86-video-s3virge		\
+	xf86-video-savage		\
+	xf86-video-siliconmotion	\
+	xf86-video-sis			\
+	xf86-video-tdfx			\
+	xf86-video-tga			\
+	xf86-video-tseng		\
 	xf86-video-vga			\
 	xf86-video-via
 
