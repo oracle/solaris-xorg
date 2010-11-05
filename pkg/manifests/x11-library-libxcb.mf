@@ -276,4 +276,3 @@ file path=usr/lib/python2.6/vendor-packages/xcbgen/xtypes.pyc
 file path=usr/lib/python2.6/vendor-packages/xcbgen/xtypes.pyo
 # 
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
-depend fmri=pkg:/x11/libraries/xtrans type=require facet.devel=true

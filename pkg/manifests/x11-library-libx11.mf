@@ -1194,6 +1194,3 @@ link path=usr/lib/libX11-xcb.so target=libX11-xcb.so.1
 # Additional link required by SVID ABI (see PSARC/1997/141)
 link path=usr/lib/libX11.so.5 target=libX11.so.4
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
-depend fmri=pkg:/x11/libraries/libxcb type=require
-depend fmri=pkg:/x11/libraries/xcb-util type=require
-

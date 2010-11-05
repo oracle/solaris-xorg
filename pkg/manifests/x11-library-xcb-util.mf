@@ -126,6 +126,3 @@ file path=usr/lib/$(ARCH64)/pkgconfig/xcb-keysyms.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-property.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-renderutil.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-reply.pc
-#
-depend fmri=pkg/x11/libraries/libxcb type=require
-
