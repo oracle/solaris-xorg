@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 908f8bc3255f639effa9780fb1c19ea4
-TARBALL_SHA1 = 9730db0d1bd75b8bc5bc399f56cab9f5aee3bcfc
+TARBALL_MD5  = 7a7f44b826d877ba39c19cf5913978d7
+TARBALL_SHA1 = 945e5d51632876e304e001003c8068f34ffe299e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
