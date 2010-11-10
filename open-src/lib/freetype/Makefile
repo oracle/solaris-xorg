@@ -77,7 +77,8 @@ SOURCE_URL_SET=yes
 SOURCE_PATCHES= \
 	freetype-config.patch,-p1 \
 	freetype-GS-conflict.patch,-p1 \
-	unix-cc.in.9.patch,-p1
+	unix-cc.in.9.patch,-p1 \
+	6997986.patch,-p1
 
 # Where to install freetype files
 MODULE_PREFIX=/usr
