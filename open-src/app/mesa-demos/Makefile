@@ -51,7 +51,7 @@ SOURCE_TARBALL_NAME=MesaDemos-$(MODULE_VERSION).tar.bz2
 SOURCE_TARBALL_NAME_SET=yes
 
 # Download site for source
-SOURCE_URL=$(SF_DOWNLOADS_URL)/mesa3d/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(SF_DOWNLOADS_URL)/mesa3d/MesaDemos/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order

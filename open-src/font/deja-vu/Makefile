@@ -44,7 +44,7 @@ TARBALL_MD5  = a794a75d8c43c83f0226207cd3aaf666
 TARBALL_SHA1 = 33ed20fc45566bfac776a713b3bb4f1214ccb0f7
 
 # Download site for source
-SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/dejavu/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order

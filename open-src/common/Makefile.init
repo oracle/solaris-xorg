@@ -323,9 +323,9 @@ GIT=git
 # If you need to use a closer mirror for X.Org or SourceForge, override
 # these in your Makefile.options file
 XRU_DEFAULT	= $(XORG_RELEASES_URL_SET:yes=$(POUND_SIGN))
-$(XRU_DEFAULT)	XORG_RELEASES_URL=http://xorg.freedesktop.org/releases/individual
+$(XRU_DEFAULT)	XORG_RELEASES_URL=http://www.x.org/releases/individual
 SFU_DEFAULT	= $(SF_DOWNLOADS_URL_SET:yes=$(POUND_SIGN))
-$(SFU_DEFAULT)	SF_DOWNLOADS_URL=http://easynews.dl.sourceforge.net/sourceforge
+$(SFU_DEFAULT)	SF_DOWNLOADS_URL=http://downloads.sourceforge.net/project
 
 # Git repositories hosted on freedesktop.org (X.Org, Mesa, pixman, etc.)
 FDO_GIT_DEFAULT		= $(FDO_GIT_URL_SET:yes=$(POUND_SIGN))
