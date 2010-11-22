@@ -27,11 +27,15 @@ set name=pkg.summary value="Luxi font family from Bigelow & Holmes"
 dir path=etc
 dir path=etc/X11
 dir path=etc/X11/fontpath.d
+dir path=etc/fonts
+dir path=etc/fonts/conf.avail
+dir path=etc/fonts/conf.d
 dir path=usr
 dir path=usr/share
 dir path=usr/share/fonts
 dir path=usr/share/fonts/TrueType
 dir path=usr/share/fonts/TrueType/bh-luxi
+file path=etc/fonts/conf.avail/42-luxi-mono.conf
 file path=usr/share/fonts/TrueType/bh-luxi/fonts.dir
 file path=usr/share/fonts/TrueType/bh-luxi/fonts.scale
 file path=usr/share/fonts/TrueType/bh-luxi/luximb.ttf
@@ -51,3 +55,5 @@ legacy pkg=SUNWttf-bh-luxi \
     name="Luxi font family from Bigelow & Holmes"
 link path=etc/X11/fontpath.d/bh-luxi:pri=42 \
     target=../../../usr/share/fonts/TrueType/bh-luxi
+link path=etc/fonts/conf.d/42-luxi-mono.conf \
+    target=../conf.avail/42-luxi-mono.conf

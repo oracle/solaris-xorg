@@ -35,11 +35,11 @@ MODULE_PKGCLASS=System/X11
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION = 1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5c735ae6916b65186f3c876d76c27ce3
-TARBALL_SHA1 = 6ee3af5466de84d61411e173e578a256aeb1074d
+TARBALL_MD5  = 1bdd8ed070e02b2165d7b0f0ed93280b
+TARBALL_SHA1 = 011fa9c8fe08d9f6f848df570374ed1cb7488146
 
 # Set encoding directory path used during build in fontutil.pc
 FIX_PC_FILES = fontutil.pc.in

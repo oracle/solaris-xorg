@@ -35,11 +35,11 @@ MODULE_PKGTAIL=xorg/cyrillic
 MODULE_PKGTAIL_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 92bf4ecb373faac545cef2dcbe40be35
-TARBALL_SHA1 = d19f476710783d784dfdbcb6a1f34ef7746d3439
+TARBALL_MD5  = 829a3159389b7f96f629e5388bfee67b
+TARBALL_SHA1 = 29249b49eac7e3f32d7a1a93808fcfd9d399011c
 
 ### Include common rulesets
 include ../Makefile.inc

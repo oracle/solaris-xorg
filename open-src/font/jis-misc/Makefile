@@ -31,11 +31,11 @@ MODULE_LICENSE          = Japanese Industrial Standard
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5835c99d056f4a29d7d6a5ae873cf00e
-TARBALL_SHA1 = adb3275d19e71e9553aa8a5fdc3b2c647277d8d4
+TARBALL_MD5  = cb7b57d7800fd9e28ec35d85761ed278
+TARBALL_SHA1 = 8c08c5fe01d4605f2886822cb3655548a6535e58
 
 # Install to separate directory for easier packaging
 MODULE_FONTDIR = $(X11_FONT_DIR)/jiskan

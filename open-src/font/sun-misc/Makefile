@@ -31,11 +31,11 @@ MODULE_PKGNAME=system/font/xorg/xorg-core
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5a185c5549a650bf062d343e128682ca
-TARBALL_SHA1 = fc91999e66fe479d07ea74e5dd2d950ff02ccb80
+TARBALL_MD5  = 948f2e07810b4f31195185921470f68d
+TARBALL_SHA1 = 6a72602557bb5dfe46c1ee3b56658aeed1e04f9d
 
 ### Include common rulesets
 include ../Makefile.inc

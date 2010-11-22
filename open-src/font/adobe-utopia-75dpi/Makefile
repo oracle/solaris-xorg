@@ -31,11 +31,11 @@ MODULE_LICENSE          = Adobe Utopia Font License
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION = 1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 71dffebeeb702d10876555c361fb69cf
-TARBALL_SHA1 = 2db08c2e0186831e4d68f7a2ffb2f9fe598a7280
+TARBALL_MD5  = e99276db3e7cef6dccc8a57bc68aeba7
+TARBALL_SHA1 = 50e837322a09f1a7c40fb78fc6aad1a157284507
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi

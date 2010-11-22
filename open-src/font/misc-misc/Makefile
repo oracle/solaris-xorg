@@ -31,11 +31,11 @@ MODULE_LICENSE          = Public domain
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION = 1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 878bfd4e9f14c1279cea3a8392e0dbdd
-TARBALL_SHA1 = 83c44111b5727c26e52eb915b66dc6c9eba4c458
+TARBALL_MD5  = c88eb44b3b903d79fb44b860a213e623
+TARBALL_SHA1 = c6d28c56880807963175cbbd682fb6f75a35f77d
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=misc

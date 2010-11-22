@@ -27,11 +27,11 @@
 MODULE_NAME=font-isas-misc
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 88b5b32c5a27576e9d00675bcc966806
-TARBALL_SHA1 = 13fe07a669dd93dfdb08717a03efe47936ab9cea
+TARBALL_MD5  = a2401caccbdcf5698e001784dbd43f1a
+TARBALL_SHA1 = cbd9bf441b25362123c817b1aa7a7be1ee4a9321
 
 # Install to separate directory for easier packaging
 MODULE_FONTDIR = $(X11_FONT_DIR)/isas

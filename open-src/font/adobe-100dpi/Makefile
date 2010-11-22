@@ -27,11 +27,11 @@
 MODULE_NAME=font-adobe-100dpi
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c754c3f4a5e08442bf6972b9466625ed
-TARBALL_SHA1 = 814baccf5cf6c6545b7e8f3bbbad377be369042d
+TARBALL_MD5  = 1347c3031b74c9e91dc4dfa53b12f143
+TARBALL_SHA1 = 53311cbd604f18bd9570727105a4222473d363e3
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=100dpi

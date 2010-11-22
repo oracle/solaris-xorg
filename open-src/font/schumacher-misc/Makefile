@@ -27,11 +27,11 @@
 MODULE_NAME=font-schumacher-misc
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION = 1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 86f4b7d8b11a2e6da70884c59b5866a3
-TARBALL_SHA1 = ea7e009e222379fa31a16bdbd4ca5b1e9d412944
+TARBALL_MD5  = e805feb7c4f20e6bfb1118d19d972219
+TARBALL_SHA1 = fbe3629e9dcc03d12300d4ebab64fd038ea98952
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=misc

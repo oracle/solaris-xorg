@@ -36,11 +36,11 @@ MODULE_PKGNAME=system/font/xorg/xorg-core
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1646179ff224b3e2c9b1e7f59042897f
-TARBALL_SHA1 = 9bcf72bcabfcbe218ad3a96ba2a45e92ef9efbc3
+TARBALL_MD5  = bfb2593d2102585f45daa960f43cb3c4
+TARBALL_SHA1 = bfc7d0a3aa0f96bf61ea26d6b3f5afbbdd0f35f6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

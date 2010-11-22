@@ -35,11 +35,11 @@ MODULE_PKGTAIL=xorg/cyrillic
 MODULE_PKGTAIL_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c79d7921d95b2c4f10fad464bb121090
-TARBALL_SHA1 = c178f8a8b6897a8382a0f4315a5b577760ba703c
+TARBALL_MD5  = 96109d0890ad2b6b0e948525ebb0aba8
+TARBALL_SHA1 = 9c0e283ae59e7b05c0798fe0645cc822d22dcb0c
 
 # Link to make in font catalogue dir
 FONTPATH_LINKS = cyrillic:pri=75

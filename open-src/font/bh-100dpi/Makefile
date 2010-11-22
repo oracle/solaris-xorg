@@ -31,11 +31,11 @@ MODULE_LICENSE          = Lucida Fonts Legal Notice
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8af580b87e17ddacdf0ce3d775248387
-TARBALL_SHA1 = 4f3edda5dd35145cbd1ce8759e0a999b3a04f9c0
+TARBALL_MD5  = 9f11ade089d689b9d59e0f47d26f39cd
+TARBALL_SHA1 = 47d5e50be9e78695017650a088da52bfcf1eeb40
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=100dpi

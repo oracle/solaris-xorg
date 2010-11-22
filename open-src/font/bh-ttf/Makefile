@@ -31,11 +31,11 @@ MODULE_LICENSE          = Luxi fonts license
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 664df71cb510b744b4a10e778445c37b
-TARBALL_SHA1 = 0e9ffbc738072ca832cdf5f82bff071c67b71825
+TARBALL_MD5  = e8ca58ea0d3726b94fe9f2c17344be60
+TARBALL_SHA1 = f42ebd527096011040a312e0f9cdf78d64177419
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=system/font/truetype/bh-luxi
@@ -44,6 +44,9 @@ MODULE_PKGNAME_SET=yes
 # Directory to install to
 MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/bh-luxi
 FONTPATH_LINKS = bh-luxi:pri=42
+
+# Set correct path for fontconfig files
+MODULE_CONFIG_OPTS = --with-fc-confdir=/etc/fonts
 
 ### Include common rulesets
 include ../Makefile.inc

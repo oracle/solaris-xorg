@@ -27,11 +27,11 @@
 MODULE_NAME=font-misc-ethiopic
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4c88c79b8e5d47af90b21e948d42755f
-TARBALL_SHA1 = 2677191fd8b515c53bde6402513249fc0f48d53a
+TARBALL_MD5  = 6306c808f7d7e7d660dfb3859f9091d2
+TARBALL_SHA1 = 3f6af53047cb1206d737e8e8fbbbbb315c5419bb
 
 # Install to separate directory for easier packaging
 MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/ethiopic

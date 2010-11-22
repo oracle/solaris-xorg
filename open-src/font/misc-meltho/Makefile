@@ -31,11 +31,11 @@ MODULE_LICENSE          = Meltho fonts license
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 345f1a78312e30cd2c41d24ea3f3276f
-TARBALL_SHA1 = d20d9f8ffdeb88b62842b021d5d3d2a8cc31ea2c
+TARBALL_MD5  = e3e7b0fda650adc7eb6964ff3c486b1c
+TARBALL_SHA1 = f0693ea8fbc1d43177014155a0ecd2516348b51b
 
 # Install to separate directory for easier packaging
 MODULE_FONTDIR = $(TRUETYPE_FONT_DIR)/syriac

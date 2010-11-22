@@ -31,11 +31,11 @@ MODULE_LICENSE          = Bigelow & Holmes Copyright
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6397062f2b346ce5bbe5472f3353a9a9
-TARBALL_SHA1 = 26efd25d2802c8406a96ccc3240b2c14e511d49f
+TARBALL_MD5  = f6d65758ac9eb576ae49ab24c5e9019a
+TARBALL_SHA1 = 3c6678e6bbb2bd352baaf610a8f6aac9c5140c85
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi

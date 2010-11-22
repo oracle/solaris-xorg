@@ -31,11 +31,11 @@ MODULE_PKGNAME=x11/library/libfontenc
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION = 1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 29637480e7ce12546668631067c19ced
-TARBALL_SHA1 = 615b8367ee20fc50688e4876aa250419927d64cc
+TARBALL_MD5  = 0f2d6546d514c5cc4ecf78a60657a5c1
+TARBALL_SHA1 = 24ace2470403f85a0d393769204029bd8247992a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

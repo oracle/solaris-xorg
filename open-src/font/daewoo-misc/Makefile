@@ -31,11 +31,11 @@ MODULE_LICENSE          = Daewoo Electronics Copyright
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION = 1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 05597e2b193a7b7de2ca525468276b1d
-TARBALL_SHA1 = d169cec4e92fe1e99f3ff6766d4c6edcbb808860
+TARBALL_MD5  = 0571bf77f8fab465a5454569d9989506
+TARBALL_SHA1 = 0c7b24e08e6d42eb006d79ae7ab4bbf446d59f7a
 
 # Install to separate directory for easier packaging
 MODULE_FONTDIR = $(X11_FONT_DIR)/daewoo
