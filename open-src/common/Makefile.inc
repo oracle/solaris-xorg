@@ -431,13 +431,10 @@ $(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 
 # Include Xorg autoconf macros when rebuilding configure scripts
 # and use automake 1.10 instead of the older 1.9.
-# /opt/jdsbld/share/aclocal is needed to get the nls.m4 from CBEgettext
-# due to: 6785384 SUNWgnu-gettext does not include autoconf m4 files
 ACLOCAL_PATH=/usr/bin/aclocal-1.10
 ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
 	-I $(TOOLS_ACLOCAL_DIR) \
-	-I /usr/share/aclocal -I /usr/share/aclocal-1.10 \
-	-I /opt/jdsbld/share/aclocal
+	-I /usr/share/aclocal -I /usr/share/aclocal-1.10
 AUTOMAKE_PATH=/usr/bin/automake-1.10
 AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
 	AUTOMAKE="$(AUTOMAKE_PATH)"
