@@ -334,6 +334,10 @@ PKGDEP_VERBOSE_FLAG_0 =
 PKGDEP_VERBOSE_FLAG_1 = -v
 PKGDEP_VERBOSE_FLAG = $(PKGDEP_VERBOSE_FLAG_$(V))
 
+# Root of pkg image to use for dependency resolution
+# Normally / on the machine used to build the binaries
+PKGDEP_RESOLVE_IMAGE = /
+
 $(PDIR)/gendeps: $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 	-$(PKGDEBUG)if [[ "$(SUPPRESSPKGDEP)" = "true" ]]; then \
 		print "## Suppressing dependency resolution"; \
@@ -342,7 +346,8 @@ $(PDIR)/gendeps: $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 		done; \
 	else \
 		print "## Resolving dependencies"; \
-		pkgdepend resolve $(PKGDEP_VERBOSE_FLAG) -m $(DEP_PKGS); \
+		pkgdepend -R $(PKGDEP_RESOLVE_IMAGE) resolve \
+		    $(PKGDEP_VERBOSE_FLAG) -m $(DEP_PKGS); \
 		for p in $(DEP_PKGS:%.dep=%); do \
 			$(MV) $$p.dep.res $$p.res; \
 		done; \
