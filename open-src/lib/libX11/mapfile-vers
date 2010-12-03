@@ -795,10 +795,6 @@ SUNWprivate {
 	XSolarisIAQueryExtension;
 	XSolarisIAQueryVersion;
 	XSolarisIASetProcessInfo;
-	XCBSolarisIAGetProcessInfo;
-	XCBSolarisIAQueryExtension;
-	XCBSolarisIAQueryVersion;
-	XCBSolarisIASetProcessInfo;
 	XUnlockDisplay;
 	XcmsCIELabClipL;
 	XcmsCIELabClipLab;
