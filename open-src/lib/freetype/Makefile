@@ -63,11 +63,11 @@ MODULE_LICENSE_SET	= yes
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.2
+MODULE_VERSION=2.4.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 647ee8ed266f9a4117c8d0a4855b3d3e
-TARBALL_SHA1 = cc257ceda2950b8c80950d780ccf3ce665a815d1
+TARBALL_MD5  = b3e2b6e2f1c3e0dffa1fd2a0f848b671
+TARBALL_SHA1 = 1d136cbc51c67b212c91ba04dc5db797f35e64e6
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -77,8 +77,7 @@ SOURCE_URL_SET=yes
 SOURCE_PATCHES= \
 	freetype-config.patch,-p1 \
 	freetype-GS-conflict.patch,-p1 \
-	unix-cc.in.9.patch,-p1 \
-	6997986.patch,-p1
+	unix-cc.in.9.patch,-p1
 
 # Where to install freetype files
 MODULE_PREFIX=/usr
@@ -94,10 +93,6 @@ MODULE_CONFIG_OPTS= \
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=builds/unix/freetype2.in
-
-# License file
-LICENSE_FILE=docs/FTL.TXT
-LICENSE_FILE_SET=yes
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
