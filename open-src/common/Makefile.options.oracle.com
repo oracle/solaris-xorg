@@ -31,7 +31,7 @@
 # or make a customized options file for your site/distro/build.
 
 # Oracle internal mirror/archive of tarballs used to build
-TARBALL_ARCHIVE = http://xserver.sfbay.sun.com/tarballs
+TARBALL_ARCHIVE = http://xserver.us.oracle.com/tarballs
 TARBALL_ARCHIVE_SET=yes
 
 # OS/Distro name for use in documentation
