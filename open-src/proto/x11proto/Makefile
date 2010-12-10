@@ -27,11 +27,11 @@
 MODULE_NAME=xproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.0.18
+MODULE_VERSION=7.0.20
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6b8a34b274c6fceaffe57c579db826b9
-TARBALL_SHA1 = 252596e7264f3174d535bf67fd1b704b1ba8f699
+TARBALL_MD5  = 65633168e5315c19defb4652cd3d83c1
+TARBALL_SHA1 = a55d051c8ad9c50e90429c9319d6d3af821f0696
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
