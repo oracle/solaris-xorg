@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-input-void
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 53bdac9ca56418f4675810ed8a78b3e8
-TARBALL_SHA1 = 2b2d284c4cc356f2ff6fc8e448e61bbea2e4ff30
+TARBALL_MD5  = 3056bc7c57db8c5d56039648c0530c45
+TARBALL_SHA1 = f0009bd77d205c5e5a9791d8f498780b44e931ae
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -19,9 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
---- src/sun_kbdMap.c.orig	Thu Aug 26 03:28:10 2010
-+++ src/sun_kbdMap.c	Fri Dec 10 02:32:43 2010
-@@ -36,10 +36,6 @@
+diff -urp -x '*~' -x '*.orig' src/sun_kbdMap.c src/sun_kbdMap.c
+--- src/sun_kbdMap.c	2010-08-14 00:59:20.000000000 -0700
++++ src/sun_kbdMap.c	2010-12-14 18:27:31.709516099 -0800
+@@ -37,10 +37,6 @@
  
  /* Map the Solaris keycodes to the "XFree86" keycodes. */
  
@@ -29,10 +30,10 @@
 -#define KEY_Kanji	0x82
 -#define KEY_Execute	0x83
 -
- /* 
+ /*
   * Additional Korean 106 Keyboard Keys not defined in atKeynames.h
-  * These are exactly same USB usage id with Kana(0x90) and Eisu(0x91) keys 
-@@ -478,10 +474,10 @@
+  * These are exactly same USB usage id with Kana(0x90) and Eisu(0x91) keys
+@@ -479,10 +475,10 @@ static unsigned char usbmap[256] = {
  	/* 133 */ KEY_NOTUSED,
  	/* 134 */ KEY_NOTUSED,
  	/* 135 */ KEY_BSlash2,	/* Sun Japanese Kbd: Backslash / Underscore */
@@ -46,7 +47,7 @@
  	/* 140 */ KEY_NOTUSED,
  	/* 141 */ KEY_NOTUSED,
  	/* 142 */ KEY_NOTUSED,
-@@ -603,8 +599,6 @@
+@@ -604,8 +600,6 @@ KbdGetMapping (InputInfoPtr pInfo, KeySy
       * Add Sun keyboard keysyms to default map
       */
  #define map_for_key(k,c) 	map[(k * GLYPHS_PER_KEY) + c]   

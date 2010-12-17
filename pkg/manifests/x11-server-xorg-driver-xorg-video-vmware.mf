@@ -35,5 +35,7 @@ dir path=usr/share
 dir path=usr/share/man
 dir path=usr/share/man/man7
 file path=usr/lib/xorg/modules/drivers/$(ARCH64)/vmware_drv.so
+file path=usr/lib/xorg/modules/drivers/$(ARCH64)/vmwlegacy_drv.so
 file path=usr/lib/xorg/modules/drivers/vmware_drv.so
+file path=usr/lib/xorg/modules/drivers/vmwlegacy_drv.so
 file path=usr/share/man/man7/vmware.7

@@ -29,16 +29,14 @@
 MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fd17158ffeacecc8cc670604460cb98b
-TARBALL_SHA1 = 5061fdaff8b7ddcbcca82f065c4abbfff255a1da
+TARBALL_MD5  = b74d7162db5ce7899c17927c6cfa9522
+TARBALL_SHA1 = 206e0c8b9ac68d6aa44521f8437b6626a75fe963
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	6886424.patch \
-	6897086.patch \
 	7005752.patch
 
 # Man pages to apply Sun footer to & attributes to list

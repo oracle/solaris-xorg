@@ -187,7 +187,7 @@ sub modify_file {
     # handle line continuation
     next if ($n =~ m/\\$/);
 
-    if ($l =~ m/^\s*CC\s*=(?:.*\s+)?(\S+)/) {
+    if ($l =~ m/^\s*CC\s*=(?:.*\s+)?(\S*cc)/) {
       $compiler = $1;
     }
 

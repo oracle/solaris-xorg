@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 6370961  - needs sane vert, horiz ranges
 
-diff -urp -x '*~' -x '*.orig' src/vmware.c src/vmware.c
---- src/vmware.c	2009-05-12 16:47:50.000000000 -0700
-+++ src/vmware.c	2009-05-12 21:01:29.909838000 -0700
-@@ -927,6 +927,20 @@ VMWAREPreInit(ScrnInfoPtr pScrn, int fla
+diff -Nurp -x '*~' -x '*.orig' src/vmware.c src/vmware.c
+--- src/vmware.c	2010-10-29 00:25:37.000000000 -0700
++++ src/vmware.c	2010-11-09 07:46:56.703211613 -0800
+@@ -955,6 +955,20 @@ VMWAREPreInit(ScrnInfoPtr pScrn, int fla
       */
      vmwareGetSupportedModelines(&pScrn->monitor->Modes);
  

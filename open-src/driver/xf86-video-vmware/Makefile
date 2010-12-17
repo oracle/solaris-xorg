@@ -29,14 +29,14 @@
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=10.16.9
+MODULE_VERSION=11.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3b3d38abfa1f8be4b1e26dcd236bc94f
-TARBALL_SHA1 = 4e0e5d193f3e83dce46a7d39d52257629e51f4d3
+TARBALL_MD5  = 579bee487309b1bdc8329bf627d43413
+TARBALL_SHA1 = 8aa23618a3dfa91f88094a4d1dc45c878f386f69
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6370961.patch xf86LoaderReqSymLists.patch
+SOURCE_PATCHES = 6370961.patch 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -52,6 +52,6 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lshadowfb -lXfont -lvgahw -lpciaccess
+	-lfb -lpixman-1 -lshadowfb -lXfont -lvgahw -lpciaccess
 
 include ../Makefile.inc

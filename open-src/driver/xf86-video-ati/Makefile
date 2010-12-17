@@ -29,15 +29,14 @@
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=6.13.1
+MODULE_VERSION=6.13.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d65ae11cc66146c7006dbf5acebde413
-TARBALL_SHA1 = 74a8e647e3149af0b1eb1baf58ef1b69b44f0228
+TARBALL_MD5  = a8f92fe3c458e511f4e2ead7f92c02b0
+TARBALL_SHA1 = f9d379a884a833829ab1942de4ad4f4766cdcd46
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	fix-build-on-non-kms.patch,-p1 \
 	mapfiles.patch \
 	solaris-dri-drv-port.patch
 

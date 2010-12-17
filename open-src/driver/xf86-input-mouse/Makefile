@@ -29,18 +29,15 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.0
+MODULE_VERSION=1.6.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c58629fddf0782dad5c02da6aeb35521
-TARBALL_SHA1 = b9213bf745b793a3da2c946ea4d8ee5768e560f4
+TARBALL_MD5  = cef849b1a2743d2e84de98422f372974
+TARBALL_SHA1 = df3f2fe711db195fc58dbffef5f2cd8964d9b9df
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	enodev.patch \
-	6892799.patch \
-	6920647.patch \
-	6950572.patch,-p1
+	6892799.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

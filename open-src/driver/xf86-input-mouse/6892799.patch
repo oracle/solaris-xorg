@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-diff -urp -x '*~' -x '*.orig' src/mouse.c src/mouse.c
---- src/mouse.c	2009-10-21 15:54:31.146864000 +0800
-+++ src/mouse.c	2009-10-21 15:54:31.343475000 +0800
-@@ -1744,13 +1744,14 @@ MouseProc(DeviceIntPtr device, int what)
+diff -Nurp -x '*~' -x '*.orig' src/mouse.c src/mouse.c
+--- src/mouse.c	2010-08-14 01:04:54.000000000 -0700
++++ src/mouse.c	2010-09-09 11:31:51.072960718 -0700
+@@ -1637,13 +1637,14 @@ MouseProc(DeviceIntPtr device, int what)
  	ErrorF("assigning %p atom=%d name=%s\n", device, pInfo->atom,
  		pInfo->name);
  #endif
@@ -41,26 +41,23 @@ diff -urp -x '*~' -x '*.orig' src/mouse.c src/mouse.c
  	    if (pMse->xisbscale)
  		pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
  	    else
-@@ -1800,6 +1801,22 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1699,8 +1700,6 @@ MouseProc(DeviceIntPtr device, int what)
+ 		XisbFree(pMse->buffer);
+ 		pMse->buffer = NULL;
+ 	    }
+-	    xf86CloseSerial(pInfo->fd);
+-	    pInfo->fd = -1;
+ 	    if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
+ 	    {
+ 		RemoveBlockAndWakeupHandlers (MouseBlockHandler,
+@@ -1711,6 +1710,10 @@ MouseProc(DeviceIntPtr device, int what)
+ 	device->public.on = FALSE;
  	break;
- 	    
-     case DEVICE_OFF:
-+	if (pInfo->fd != -1) {
-+	    xf86RemoveEnabledDevice(pInfo);
-+	    if (pMse->buffer) {
-+		XisbFree(pMse->buffer);
-+		pMse->buffer = NULL;
-+	    }
-+	    if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
-+	    {
-+		RemoveBlockAndWakeupHandlers (MouseBlockHandler,
-+					      MouseWakeupHandler,
-+					      (pointer) pInfo);
-+	    }
-+	}
-+	device->public.on = FALSE;
-+	break;
-+
      case DEVICE_CLOSE:
- 	if (pInfo->fd != -1) {
- 	    xf86RemoveEnabledDevice(pInfo);
++ 	if (pInfo->fd != -1) {
++	    xf86CloseSerial(pInfo->fd);
++	    pInfo->fd = -1;
++	}
+ 	xfree(pMse->mousePriv);
+ 	pMse->mousePriv = NULL;
+ 	break;

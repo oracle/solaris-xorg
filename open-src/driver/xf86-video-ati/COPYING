@@ -25,16 +25,27 @@ authorization from the copyright holder(s) and author(s).
 
 ------------------------------------------------------------------------
 
-Copyright 2004, 2005 Eric Anholt
+Copyright 2007  Advanced Micro Devices, Inc.
+Copyright (C) 2008-2009  Advanced Micro Devices, Inc.
+Copyright 2004 Eric Anholt
+Copyright 2005 Eric Anholt
+Copyright 2000 ATI Technologies Inc., Markham, Ontario, and
+Copyright 2004 ATI Technologies Inc., Markham, Ontario
+Copyright (C) 2008-2009  Alexander Deucher
+Copyright 2008 Jérôme Glisse
 Copyright 2005 Benjamin Herrenschmidt
+Copyright 2008 Kristian Høgsberg
+Copyright (C) 2008-2009  Matthias Hopf
+Copyright (c) 2006 Itronix Inc.
+Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
+Copyright © 2007 Red Hat, Inc.
+Copyright © 2009 Red Hat, Inc.
+Copyright 2007 George Sapountzis
+Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
 Copyright 2006 Tungsten Graphics, Inc.
-All Rights Reserved.
+Copyright 2000 VA Linux Systems, Inc., Fremont, California.
 Copyright © 2006 Intel Corporation
 Copyright 2006 Luc Verhaegen.
-Copyright 2007 George Sapountzis
-Copyright 2007, 2008 Red Hat, Inc.
-Copyright 2007, 2008 Advanced Micro Devices, Inc.
-Copyright 2008 Alex Deucher
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -57,12 +68,12 @@ SOFTWARE.
 
 ------------------------------------------------------------------------
 
-Copyright 2005-2007 Luc Verhaegen.
-Copyright 2006-2007  Advanced Micro Devices, Inc.
+Copyright 2006-2007 Advanced Micro Devices, Inc.
 Copyright 2007  Egbert Eich   <eich@novell.com>
 Copyright 2007  Matthias Hopf <mhopf@novell.com>
-Copyright (C) 2008-2009  Advanced Micro Devices, Inc.
-Copyright (C) 2008-2009  Matthias Hopf
+Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
+Copyright 2007  Luc Verhaegen <lverhaegen@novell.com>
+Copyright 2005-2007 Luc Verhaegen.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
