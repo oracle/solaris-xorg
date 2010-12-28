@@ -226,7 +226,5 @@ sub get_text_substitutions {
 			    ' return $_;',
 			    '}');
 
-  print $subst_function;
-
   return eval $subst_function;
 }

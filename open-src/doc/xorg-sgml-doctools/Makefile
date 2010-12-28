@@ -31,18 +31,23 @@ MODULE_PKGTAIL=xorg-docs
 MODULE_PKGTAIL_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.5
+MODULE_VERSION=1.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1cd2d8213ee71ebdbefce45c9da54762
-TARBALL_SHA1 = 16c70d7fb704309b7c9f2c05c226ea131b6e9088
+TARBALL_MD5  = fe333413fd4139de07ebfa36039b8a59
+TARBALL_SHA1 = adb6da74caadde7a568cfd6e8933e8e2f3179a54
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
 
+# doctools pkg-config file needs to have sgml path in share adjusted
+# so that xorg-docs and other parts of build can find it
+FIX_PC_FILES = xorg-sgml-doctools.pc.in
+MODULE_ADD_UNINSTALLED_PC_OPS = -e 's|sgmlrootdir=|sgmlrootdir=$(PROTODIR)|g'
+
 # doctools pkg-config file is architecture independent, so install in share
-MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
-MODTYPE_PKGCONFIG_DIR_SET=yes
+MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODULE_PKGCONFIG_DIR_SET=yes
 
 ### Include common rulesets
 include ../Makefile.inc

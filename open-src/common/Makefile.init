@@ -293,12 +293,6 @@ PROTOTOOLSDIR=$(PROTODIR)
 # Some modules use lndir to merge in sources from Sun specific directories
 LNDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/lndir
 
-# Tools needed to build docbook documentation
-DOCBOOKUTIL_BINDIR=$(TOOLS_DIR)/bin
-DOCBOOK2HTML=$(DOCBOOKUTIL_BINDIR)/docbook2html
-DOCBOOK2TXT=$(DOCBOOKUTIL_BINDIR)/docbook2txt
-XORG_DEFS_ENT=$(PROTOTOOLSDIR)/$(X11_DIR)/share/sgml/X11/defs.ent
-
 # Commands to run font utilities from proto area
 MKFONTDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontdir
 MKFONTSCALE=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontscale

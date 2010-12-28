@@ -25,7 +25,6 @@
 ###############################################################################
 
 OS_SUBDIRS_common = \
-	docbook-utils \
 	xorg-sgml-doctools \
 	xorg-docs
 
@@ -37,8 +36,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)
 default_target: install
 
 # Dependencies for parallel make
-xorg-docs: docbook-utils xorg-sgml-doctools
-docbook-utils: xorg-sgml-doctools
+xorg-docs: xorg-sgml-doctools
 
 PWD:sh=pwd
 TOP=$(PWD)/../..

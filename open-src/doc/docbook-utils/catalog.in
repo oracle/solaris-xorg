@@ -1,6 +1,0 @@
-OVERRIDE YES
-
-SYSTEM "X11/defs.ent" "__sgmldir__/X11/defs.ent"
-CATALOG "/usr/share/sgml/docbook/dsssl-stylesheets/catalog"
-CATALOG "/usr/share/sgml/sgml-iso-entities-8879.1986/catalog"
-CATALOG "/usr/share/sgml/openjade/catalog"

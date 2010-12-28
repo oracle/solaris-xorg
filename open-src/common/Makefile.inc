@@ -445,7 +445,7 @@ CONFIGURE_DEPS = $(SOURCE_TARGETS) \
 
 # Command line options to GNU autoconf configure script
 DEFAULT_CONFIG_OPTS = --prefix=$(MODULE_PREFIX) \
-	--without-xmlto --without-asciidoc \
+	--without-xmlto --without-asciidoc --without-fop \
 	--mandir='$${prefix}/share/man' --localstatedir=/var
 
 CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \
@@ -687,13 +687,6 @@ $(MAKE):
 # Some modules use lndir to merge in sources from Sun specific directories
 $(LNDIR):
 	(cd $(TOP)/open-src/util/lndir && $(MAKE) $(MAKEFLAGS) install)
-
-# Some modules use these tools to convert DocBook docs to text or html
-$(DOCBOOK2HTML) + $(DOCBOOK2TEXT):
-	cd $(TOP)/open-src/doc/docbook-utils && $(MAKE) $(MAKEFLAGS) install
-
-$(XORG_DEFS_ENT):
-	cd $(TOP)/open-src/doc/xorg-sgml-doctools && $(MAKE) $(MAKEFLAGS) install
 
 ### Useful rules for maintaining patch sets
 

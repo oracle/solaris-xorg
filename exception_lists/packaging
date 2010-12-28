@@ -40,35 +40,14 @@ var/run
 usr/share/doc/xtrans
 usr/lib/xorg/modules/amd64/extensions	i386
 
-# Documentation for other platforms
-usr/share/doc/X11/platforms/Darwin.html
-usr/share/doc/X11/platforms/Darwin.sgml
-usr/share/doc/X11/platforms/Darwin.txt
-usr/share/doc/X11/platforms/NetBSD.html
-usr/share/doc/X11/platforms/NetBSD.sgml
-usr/share/doc/X11/platforms/NetBSD.txt
-usr/share/doc/X11/platforms/OpenBSD.html
-usr/share/doc/X11/platforms/OpenBSD.sgml
-usr/share/doc/X11/platforms/OpenBSD.txt
-usr/share/doc/X11/platforms/SCO.html
-usr/share/doc/X11/platforms/SCO.sgml
-usr/share/doc/X11/platforms/SCO.txt
-
-# Server internals (not useful without upstream sources which include them)
-usr/share/doc/X11/core/Xserver-spec.html
-usr/share/doc/X11/core/Xserver-spec.sgml
-usr/share/doc/X11/core/Xserver-spec.txt
-usr/share/doc/X11/security/XACE-Spec.html
-usr/share/doc/X11/security/XACE-Spec.sgml
-usr/share/doc/X11/security/XACE-Spec.txt
-
-# Other docs it doesn't make sense to ship in our packages
-usr/share/doc/X11/graphics/dps.html
-usr/share/doc/X11/graphics/dps.sgml
-usr/share/doc/X11/graphics/dps.txt
-usr/share/doc/X11/Install.html
-usr/share/doc/X11/Install.sgml
-usr/share/doc/X11/Install.txt
+# Documentation it doesn't make sense to ship in our packages
+usr/share/doc/X11/graphics/dps.xml
+usr/share/doc/X11/platforms/Darwin.xml
+usr/share/doc/X11/specs/Xext/lbxalg.xml
+usr/share/doc/X11/specs/Xserver/XACE-Spec.xml
+usr/share/doc/X11/specs/Xserver/appgroup.xml
+usr/share/doc/X11/specs/Xserver/analysis.xml
+usr/share/doc/X11/specs/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
 
 # Obsolete man pages

@@ -27,34 +27,29 @@
 MODULE_NAME=xorg-docs
 
 # Version number (used in path names)
-MODULE_VERSION=1.5
+MODULE_VERSION=1.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 359ac83ad27eecd5588914ba8715301d
-TARBALL_SHA1 = e4a0fdf848e9d5baa2de625ce74f204de37e0fb0
+TARBALL_MD5  = 86101433834b485ab243f235757d7079
+TARBALL_SHA1 = be4a0259d52a5f39acbe5aa34d213cceb90f59d8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
+	X.man-decnet.patch,-p1 \
 	solaris-manpages.patch
 
 # Man pages to apply distro customizations to
 # Normal attributes table not added, since these aren't simple interfaces
-SUNTOUCHED_MANPAGES=man/general/*.man
+SUNTOUCHED_MANPAGES=man/*.man
 SUNTOUCH_MAN_FLAGS=-r '{__distroname__, $(DISTRO_NAME)}'
 SUNTOUCH_MAN_FLAGS_SET=yes
 
-# Makefiles require gmake -i to build all targets
-MODULE_MAKE=$(GNUMAKE)
-MODULE_MAKE_SET=yes
-MODULE_MAKEFLAGS= MAKEFLAGS="-i"
-
 # Additional arguments to configure script
-MODULE_CONFIG_OPTS=--enable-txt --disable-pdf --disable-ps --enable-html \
-	--docdir='$(X11_DOC_DIR)' --with-x11docdir='$(X11_DOC_DIR)' \
+MODULE_CONFIG_OPTS= --docdir='$(X11_DOC_DIR)' \
 	XORG_SGML_PATH=$(PROTODIR)$(X11_DIR)/share/sgml
 
-# Module dependencies
-MODULE_CONFIGURE_DEPS=$(DOCBOOK2TEXT) $(XORG_DEFS_ENT)
+# Additional rules to fix up unpacked source
+MODULE_ADD_SOURCE_TARGETS = fix_entity_paths
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs
@@ -62,13 +57,25 @@ MODULE_ADD_INSTALL_TARGETS=install_docs
 ### Include common rulesets
 include ../Makefile.inc
 
+# Fix entity paths in DocBook files so that gnome-help can resolve them
+fix_entity_paths: $(UNPACK_TARGET)
+	find $(SOURCE_DIR) -name '*.xml' | xargs perl -i.orig -p -e \
+	 's{SYSTEM ".*/X11/defs.ent"}{SYSTEM "$(X11_DIR)/share/sgml/X11/defs.ent"}'
+
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
 install_docs: $(MAN_DIR)/man5/X11.5 $(MAN_DIR)/man5/XStandards.5
 
 $(MAN_DIR)/man5/XStandards.5: default_install
-	mv $(MAN_DIR)/man5/Standards.5 $@
+	mv -f $(MAN_DIR)/man5/Standards.5 $@
 
 $(MAN_DIR)/man5/X11.5:
 	mkdir -p $(MAN_DIR)/man5
 	$(INSTALL_SCRIPT) -m 0444 X11.5 $@
+
+default_install: install_preformatted
+
+install_preformatted:
+	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
+	(cd preformatted && tar -cf - .) | \
+	 (cd $(PROTODIR)$(X11_DOC_DIR) && tar -xf - )

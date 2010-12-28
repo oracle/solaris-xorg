@@ -48,11 +48,10 @@ util/lndir: proto/x11proto
 lib: proto util
 util: proto
 app: lib data/xbitmaps
-xserver/xorg xserver/xvnc: proto doc/docbook-utils lib
+xserver/xorg xserver/xvnc: proto doc/xorg-sgml-doctools lib
 driver: xserver/xorg
 app/rgb: xserver/xorg
-doc/docbook-utils: doc/xorg-sgml-doctools
-doc/xorg-docs: doc/docbook-utils doc/xorg-sgml-doctools
+doc/xorg-docs: doc/xorg-sgml-doctools
 data: app
 FONTAPPS = app/bdftopcf app/mkfontscale app/mkfontdir
 font: $(FONTAPPS)
@@ -66,7 +65,6 @@ OS_SUBDIRS_common = \
 	data/xbitmaps \
 	util \
 	doc/xorg-sgml-doctools \
-	doc/docbook-utils \
 	doc/xorg-docs \
 	lib \
 	app \
@@ -81,6 +79,10 @@ OS_SUBDIRS_common = \
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+
+# Subdirs we used to build, but now just need to clean up
+OBSOLETE_SUBDIRS = \
+	doc/docbook-utils
 
 PWD:sh=pwd
 TOP=$(PWD)/..

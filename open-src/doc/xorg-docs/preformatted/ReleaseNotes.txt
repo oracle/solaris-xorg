@@ -1,0 +1,1020 @@
+Release Notes for X11R7.6
+
+The X.Org Foundation
+
+December 2010
+
+Abstract
+
+These release notes contain information about features and their status in the
+X.Org Foundation X11R7.6 release.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Table of Contents
+
+Dedication
+Introduction to the X11R7.6 Release
+Summary of new features in X11R7.6
+Overview of X11R7.6
+Details of X11R7.6 components
+
+    Video Drivers
+    Input Drivers
+    Xorg server
+    Font support
+
+Build changes and issues
+
+    Silent build rules
+    New configure options for font modules
+    New configure options for documentation in modules
+
+Miscellaneous
+
+    Socket directory ownership and permissions
+
+Deprecated components and removal plans
+
+    Future Removals
+    Removed in this Release
+
+Attributions/Acknowledgements/Credits
+
+Dedication
+
+Two of the early leaders of the X Window System community were lost to cancer
+this year — Smokey Wallace, who led the DEC WSL team which created the initial
+implementation of X11, and Hideki Hiura from Sun Microsystems who helped design
+the X11R6 internationalization framework. This release is dedicated to their
+memory.
+
+Introduction to the X11R7.6 Release
+
+This release is the seventh modular release of the X Window System™. The next
+full release will be X11R7.7 and is expected in 2011.
+
+Unlike X11R1 through X11R6.9, X11R7.x releases are not built from one
+monolithic source tree, but many individual modules. These modules are
+distributed as individual source code releases, and each one is released when
+it is ready, instead of only when the overall window system is ready for
+release. The X11R7.x releases are made by “rolling up” the individual module
+releases into a collection that is often affectionately called the “katamari”
+by the developers.
+
+The X11R7.6 release does not include all of the software formerly included in
+the previous X Window System releases. It is designed to be a reasonable
+baseline from which to start when building the window system for the first time
+for a new installation, distribution, or package set. It does not provide a
+full desktop environment, expecting a more feature rich set of applications to
+be installed from one of the several excellent desktop environments available
+for the X Window System. The X.Org developers continue to maintain and produce
+new releases of much of the software that was formerly in the main window
+system releases but is no longer included in the katamari releases, including
+many of the Athena Widgets desktop applications that were provided as samples
+in previous window system versions.
+
+Once their window system build is established, most builders watch for
+announcements of individual module updates on the xorg-announce mailing list
+and update to those as needed. The X.Org Foundation currently releases the X
+Window System katamari releases approximately once a year, but many modules,
+especially the X servers and drivers, are updated more frequently between those
+releases.
+
+For help with how to build and develop in the modular tree see the Modular
+Developer's Guide in the X.Org wiki.
+
+We encourage you to report bugs using freedesktop.org's bug tracking system
+using the xorg product, and to submit bug fixes and enhancements to <
+xorg-devel@lists.x.org>. More details on patch submission and review process
+are available on the SubmittingPatches page of the X.Org wiki.
+
+The release numbering is based on the original MIT X numbering system. X11
+refers to the version of the network protocol that the X Window system is based
+on: Version 11 was first released in 1988 and has been stable for 22 years,
+with only upward compatible additions to the core X protocol, a record of
+stability envied in computing. Formal releases of X started with X version 9
+from MIT; the first commercial X products were based on X version 10. The MIT X
+Consortium and its successors, the X Consortium, the Open Group X Project Team,
+and the X.Org Group released versions X11R3 through X11R6.6. Since the founding
+of the X.Org Foundation in early 2004, many further releases have been issued,
+from X11R6.7 to the current 7.6.
+
+The next section describes what is new in the latest full release (7.6)
+compared with the previous full release (7.5).
+
+Summary of new features in X11R7.6
+
+This is a sampling of the new features in X11R7.6. A more complete list of
+changes can be found in the ChangeLog files that are part of the source of each
+X module.
+
+  ● InputClass sections in Xorg configuration files are used to apply
+    configuration options to any input device matching specified rules, such as
+    device path, type of device, device manufacturer, or other data provided by
+    the input hotplug backend. Details can be found in the INPUTCLASS section
+    of the xorg.conf(5) manual page.
+
+  ● Xorg configuration directories are used to allow fragments of the X server
+    configuration to be delivered in individual files. For instance, the input
+    device driver matching rules previously provided in HAL .fdi files are now
+    provided as InputClass sections in .conf files in a xorg.conf.d directory.
+
+  ● udev is now used by the X server on Linux systems for input device
+    discovery and hot-plug notification. Other platforms continue to use the
+    HAL framework for these tasks for now.
+
+  ● X protocol C-language Binding (XCB) is now included in the katamari, and is
+    required by several client-side modules, including libX11, xlsatoms,
+    xlsclients and xwininfo. XCB is a replacement for Xlib featuring a small
+    footprint, latency hiding, direct access to the protocol, improved
+    threading support, and extensibility. More information can be found on the
+    XCB website at http://xcb.freedesktop.org/.
+
+  ● Major progress has been made on the X.Org Documentation modernization -
+    most of the library and protocol specifications are now included in the
+    modules for those libraries and protocols so they can be updated in sync
+    with new versions, and many have been converted to DocBook XML from the
+    variety of formats they were previously in. On most systems these documents
+    will be installed under /usr/share/doc/. They are also posted on the X.Org
+    website at http://www.x.org/releases/X11R7.6/.
+
+  ● Video and input driver enhancements. Please see the ChangeLog files for
+    individual drivers; there are far too many updates to list here.
+
+  ● ... and the usual assortment of correctness and crash fixes.
+
+Overview of X11R7.6
+
+On most platforms, X11R7.6 has a single hardware-driving X server binary called
+Xorg. This binary can dynamically load the video drivers, input drivers, and
+other modules that are needed. Xorg has currently has support for Linux,
+Solaris, and some BSD OSs on Alpha, PowerPC, IA-64, AMD64, Intel x86, Sparc,
+and MIPS platforms.
+
+Additional specialized X server binaries may be found depending on the platform
+and build configuration, including:
+
+Xdmx
+
+    is a proxy X server that uses one or more other X servers as its display
+    devices. It provides multi-head X functionality for displays that might be
+    located on different machines.
+
+Xnest
+
+    is a nested X server, that operates as both an X client and X server. Xnest
+    is a client of the real server which manages windows and graphics requests
+    on its behalf. Xnest is a server to its own clients, and manages windows
+    and graphics requests on their behalf. To these clients, it appears to be a
+    conventional server.
+
+Xephyr
+
+    is a X server that outputs to a window on a pre-existing “host” X display.
+    Unlike Xnest which is an X proxy, and thus limited to the capabilities of
+    the host X server, Xephyr is a full X server which uses the host X server
+    window as a “framebuffer” via fast SHM XImages.
+
+Xvfb
+
+    is a virtual framebuffer X server that can run on machines with no display
+    hardware and no physical input devices. It emulates a dumb framebuffer
+    using virtual memory.
+
+Xquartz
+
+    is an X server that interacts with the MacOS X native Aqua window system,
+    displaying windows on the Mac desktop and accepting input from the Mac
+    system devices, allowing X11 applications to be used in a native Mac
+    desktop session.
+
+Xwin
+
+    is an X server that runs under the Cygwin environment, interacting with the
+    Microsoft Windows native window system, displaying windows on the Windows
+    desktop and accepting input from the Windows system devices, allowing X11
+    applications to be used in a native Windows desktop session.
+
+Details of X11R7.6 components
+
+Video Drivers
+
+X11R7.6 includes the following video drivers:
+
+┌─────────────┬─────────────────────────────┬──────────────────────────────┐
+│Driver Name  │Description                  │Further Information           │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│apm          │Alliance Pro Motion          │README.apm                    │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│ark          │Ark Logic                    │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│ast          │ASPEED Technology            │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│chips        │Chips & Technologies         │README.chips, chips(4)        │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│cirrus       │Cirrus Logic                 │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│fbdev        │Linux framebuffer device     │fbdev(4)                      │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│geode (*)    │AMD Geode GX and LX          │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│glint        │3Dlabs, TI                   │glint(4)                      │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│i128         │Number Nine                  │README.I128, i128(4)          │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│i740         │Intel i740                   │README.i740                   │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│imstt        │Integrated Micro Solns       │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│intel        │Intel i8xx/i9xx              │README.intel, intel(4)        │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│mach64       │ATI Mach64                   │README.ati                    │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│mga          │Matrox                       │mga(4)                        │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│neomagic     │NeoMagic                     │neomagic(4)                   │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│newport (-)  │SGI Newport                  │README.newport, newport(4)    │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│nsc          │National Semiconductor       │nsc(4)                        │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│nv           │NVIDIA                       │nv(4)                         │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│r128         │ATI Rage128                  │README.r128, r128(4)          │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│radeon       │ATI Radeon                   │radeon(4)                     │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│rendition    │Rendition                    │README.rendition, rendition(4)│
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│s3           │S3 (not ViRGE or Savage)     │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│s3virge      │S3 ViRGE                     │README.s3virge, s3virge(4)    │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│savage       │S3 Savage                    │savage(4)                     │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│siliconmotion│Silicon Motion               │siliconmotion(4)              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│sis          │SiS                          │README.SiS, sis(4)            │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│sisusb       │SiS USB                      │sisusb(4)                     │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│suncg14 (+)  │Sun cg14                     │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│suncg3 (+)   │Sun cg3                      │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│suncg6 (+)   │Sun GX and Turbo GX          │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│sunffb (+)   │Sun Creator/3D, Elite 3D     │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│sunleo (+)   │Sun Leo (ZX)                 │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│suntcx (+)   │Sun TCX                      │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│tdfx         │3Dfx Voodoo Banshee, 3, 4 & 5│tdfx(4)                       │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│tga          │DEC TGA                      │README.DECtga                 │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│trident      │Trident                      │trident(4)                    │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│tseng        │Tseng Labs                   │                              │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│v4l          │Video4Linux                  │v4l(4)                        │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│vesa         │VESA                         │vesa(4)                       │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│vmware       │VMware guest OS              │vmware(4)                     │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│voodoo       │3Dfx Voodoo 1 & 2            │voodoo(4)                     │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│wsfb         │Workstation Framebuffer      │wsfb(4)                       │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│xgi          │XGI                          │xgi(4)                        │
+├─────────────┼─────────────────────────────┼──────────────────────────────┤
+│xgixp        │XGI XP                       │xgixp(4)                      │
+└─────────────┴─────────────────────────────┴──────────────────────────────┘
+
+Drivers marked with (*) are present in a preliminary form in this release, but
+are not complete and/or stable yet.
+
+Drivers marked with (+) are for Linux/Sparc only.
+
+Drivers marked with (-) are for Linux/mips only.
+
+Input Drivers
+
+X11R7.6 includes the following input drivers:
+
+┌───────────┬──────────────────────────────────────┬───────────────────┐
+│Driver Name│Description                           │Further Information│
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│acecad     │Acecad Flair                          │acecad(4)          │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│aiptek(*)  │Aiptek USB tablet                     │aiptek(4)          │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│evdev(*)   │Linux kernel EvDev                    │evdev(4)           │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│joystick   │Joystick                              │joystick(4)        │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│kbd        │generic keyboards (non-evdev systems) │kbd(4)             │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│mouse      │most mouse devices (non-evdev systems)│mousedrv(4)        │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│synaptics  │Synaptics & ALP touchpads             │synaptics(4)       │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│vmmouse    │VMWare virtual mouse                  │vmmouse(4)         │
+├───────────┼──────────────────────────────────────┼───────────────────┤
+│void       │dummy device                          │void(4)            │
+└───────────┴──────────────────────────────────────┴───────────────────┘
+
+Drivers marked with (*) are available for Linux only.
+
+Xorg server
+
+Loader and Modules
+
+The Xorg server relies on the operating system's native module loader support
+for handling program modules. The X server makes use of modules for video
+drivers, X server extensions, input device drivers, framebuffer layers, and
+internal components used by some drivers (like XAA & EXA).
+
+The module interfaces (both API and ABI) used in this release are subject to
+change without notice. While we will attempt to provide backward compatibility
+for the module interfaces, we cannot guarantee this. Compatibility in the other
+direction is explicitly not guaranteed because new modules may rely on
+interfaces added in new releases.
+
+Note about module security
+
+The X server runs with root privileges, i.e., the X server loadable modules
+also run with these privileges. For this reason we recommend that all users be
+careful to only use loadable modules from reliable sources, otherwise the
+introduction of viruses and contaminated code can occur and wreak havoc on your
+system. We hope to have a mechanism for signing/verifying the modules that we
+provide available in a future release.
+
+Configuration File
+
+The Xorg server uses a configuration file as the primary mechanism for
+providing configuration and run-time parameters. The configuration file format
+is described in detail in the xorg.conf(5) manual page.
+
+Note that this release features significant improvements for running the server
+without a configuration file, so many users may find that that they don't need
+a configuration file.
+
+If you do need to customize the configuration file, see the xorg.conf manual
+page . You can also check the driver-specific manual pages and the related
+documentation (found at driver tables) also.
+
+The recommended method for generating a configuration file is to use the Xorg
+server itself. Run as root:
+
+        Xorg -configure
+
+
+and follow the instructions.
+
+Command Line Options
+
+Command line options can be used to override some default parameters and
+parameters provided in the configuration file. These command line options are
+described in the Xorg(1) manual page.
+
+Multi-head
+
+Some multi-head configurations are supported in X11R7.6. Support for multiple
+PCI/AGP cards may require a kernel with changes to support VGA arbitration.
+
+One of the main problems is with drivers not sufficiently initializing cards
+that were not initialized at boot time. This has been improved somewhat with
+the INT10 support that is used by most drivers (which allows secondary card to
+be "soft-booted", but in some cases there are other issues that still need to
+be resolved. Some combinations can be made to work better by changing which
+card is the primary card (either by using a different PCI slot, or by changing
+the system BIOS's preference for the primary card).
+
+Xinerama
+
+Xinerama is an X server extension that allows multiple physical screens
+connected to multiple video devices to behave as a single screen. With
+traditional multi-head in X11, windows cannot span or cross physical screens.
+Xinerama removes this limitation. Xinerama does, however, require that the
+physical screens all have the same root depth, so it isn't possible, for
+example, to use an 8-bit screen together with a 16-bit screen in Xinerama mode.
+
+Xinerama is not enabled by default, and can be enabled with the +xinerama
+command line option for the X server. Note that enabling Xinerama may disable
+certain other extensions which are not compatible with Xinerama.
+
+DDC
+
+The VESA® Display Data Channel (DDC™) standard allows the monitor to tell the
+video card (or in some cases the computer directly) about itself; particularly
+the supported screen resolutions and refresh rates.
+
+Partial or complete DDC support is available in most of the video drivers. DDC
+is enabled by default, but can be disabled with a "Device" section entry:
+Option "NoDDC". We have support for DDC versions 1 and 2; these can be disabled
+independently with Option "NoDDC1" and Option "NoDDC2".
+
+At startup the server prints out DDC information from the display, and can use
+this information to set the default monitor parameters, or to warn about
+monitor sync limits if those provided in the configuration file don't match
+those that are detected.
+
+Changed behavior caused by DDC.
+
+Several drivers use DDC information to set the screen size and pitch. This can
+be overridden by explicitly resetting it to the and non-DDC default value 75
+with the -dpi 75 command line option for the X server, or by specifying
+appropriate screen dimensions with the "DisplaySize" keyword in the "Monitor"
+section of the config file.
+
+GLX and the Direct Rendering Infrastructure (DRI)
+
+Direct rendered OpenGL® support is provided for several hardware platforms by
+the Direct Rendering Infrastructure (DRI). Further information about DRI can be
+found at the DRI Project's web site. The 3D core rendering component is
+provided by Mesa.
+
+Of note is that this release supports building the X server using the
+system-wide libdrm. Previously, drm was kept in the server's tree and loaded as
+a module, rather than using the standard OS mechanisms for managing shared
+libraries of code. This requires that the server be built using a version of
+libdrm of 2.3.0 or newer if it is to use DRM.
+
+Terminate Server keystroke
+
+The Xorg server has previously allowed users to exit the server by pressing the
+keys Control + Alt + Backspace. While this function is still enabled by default
+in this release, the keymap data usually used with Xorg, from the
+xkeyboard-config project, has been modified to not map that sequence by
+default, in order to reduce the chance that inexperienced users will
+accidentally destroy their work.
+
+Users who wish to have this functionality available by default may enable it
+via the XKB configuration option “terminate:ctrl_alt_bksp”. For instance, the
+setxkbmap command can be used to enable this by running:
+
+        setxkbmap -option "terminate:ctrl_alt_bksp"
+
+
+The XKB Configuration Guide also includes an example xorg.conf.d file that sets
+the “terminate:ctrl_alt_bksp” option by default on all keyboards. Many desktop
+environments include XKB configuration options in their preferences to enable
+this as well.
+
+X Server startup state
+
+The X servers in the X11R7.6 release now start by default with an empty black
+screen and do not draw the mouse cursor until a client sets the cursor image.
+To restore the classic behavior of starting with the grey weave pattern and ×
+cursor, start the X server with the -retro option.
+
+Font support
+
+Details about the font support in X11R7.6 can be found in the “Fonts in X11R7.6
+” document.
+
+Default font installation directory
+
+Previous versions of X installed font files under the lib/X11/fonts
+subdirectory of the X installation directory (for instance, in X11R6 releases,
+/usr/X11R6/lib/X11/fonts was commonly used). This release uses the default
+installation path of the fonts subdirectory of the datadir setting from the GNU
+autoconf configuration. For instance, if the fonts are configured with ./
+configure --prefix=/usr, they will be installed under subdirectories of /usr/
+share/fonts/X11. The font module configure scripts all take an option of
+--with-fontrootdir=PATH to override the default. If --with-fontrootdir is not
+specified, the fontutil pkg-config file will be consulted to find the
+fontrootdir specified when the fontutil module was installed.
+
+Bitmap font compression methods
+
+The X11R7.6 release supports PCF format bitmap fonts stored uncompressed or
+compressed via the compress, gzip, or bzip2 programs. To utilize bzip2
+compression, the libXfont and mkfontscale modules must be built with the
+--with-bzip2 — all other methods are enabled by default.
+
+To specify which compression method to use when installing a font module from
+X11R7.6 the configure scripts accept an option of --with-compression=TYPE,
+where TYPE may be none, compress, gzip, or bzip2.
+
+Type1 Font support
+
+Previous versions of X came with two Postscript Type1 font backends. The
+functionality from the “Type1” backend has been replaced by the Type1 support
+in the “FreeType” backend.
+
+CID Font support
+
+The CID-keyed font format was designed by Adobe Systems for fonts with large
+character sets. The CID-keyed format is obsolete, as it has been superseded by
+other formats such as OpenType/CFF and support for CID-keyed fonts has been
+removed from X11.
+
+Build changes and issues
+
+Silent build rules
+
+Most of the modules in this release use the AM_SILENT_RULES option of GNU
+automake 1.11. When building the software, most output will show an abbreviated
+format for the commands being run, such as:
+
+   CC   xmen.o
+
+
+To enable verbose output, showing all the arguments to the commands being run,
+add the flag V=1 to the make command line or add the flag
+--disable-silent-rules to the configure command.
+
+New configure options for font modules
+
+The bitmap font modules now accept a configure option of
+--disable-all-encodings to set the default for all encodings to off, requiring
+builders to then pass --enable-<encoding> flags for each encoding to be built.
+
+New configure options for documentation in modules
+
+As many more modules now contain documentation to be converted from DocBook XML
+to text, HTML, PostScript, and/or PDF formats, new standard options have been
+added to the configure macros to control the build of these in the modules.
+
+                    Enables or disables use of the xmlto command to translate
+--with-xmlto=yes|no DocBook XML to other formats. All DocBook XML conversions
+                    require use of this command.
+
+                    Enables or disables use of the Apache fop command to
+--with-fop=yes|no   translate DocBook XML to PostScript and PDF formats.
+
+                    Enables or disables the build and installation of all
+--enable-docs=yes|  documentation except traditional man pages or those covered
+no                  by the --enable-devel-docs and --enable-specs options.
+
+--enable-devel-docs Enables or disables the build and installation of
+=yes|no             documentation for developers of the X.Org software modules.
+
+--enable-specs=yes| Enables or disables the build and installation of the
+no                  formal specification documents for protocols and APIs.
+
+Miscellaneous
+
+This section describes other items of note for the X11R7.6 release.
+
+Socket directory ownership and permissions
+
+The socket directories created in /tmp are now required to be owned by root and
+have their sticky-bit set. If the permissions are not set correctly, the
+component using this directory will print an error message and fail to start.
+Common socket directories that are known to be affected include:
+
+        /tmp/.font-unix
+        /tmp/.ICE-unix
+        /tmp/.X11-unix
+
+
+These directories are used by the font server (xfs), applications using the
+Inter-Client Exchange protocol (ICE) and the X server, respectively.
+
+There are several solutions to the problem of when to create these directories.
+They could be created at install time by the system's installer if the /tmp dir
+is persistent. They could be created at boot time by the system's boot scripts
+(e.g., the init.d scripts). Or, they could be created by PAM modules at service
+startup or user login time.
+
+The solution chosen is platform dependent, and the system administrator should
+be able to handle creating those directories on any systems that do not have
+the correct ownership or permissions.
+
+Deprecated components and removal plans
+
+This section lists current plans for removal of obsolete or deprecated
+components in the X.Org releases. As our releases are open source, users who
+continue to require these can find the source in previous releases and continue
+to use these, but the X.Org Foundation and its volunteers have decided the
+burden of continued maintenance and distribution in the core X11 releases
+outweighs the benefits of doing so. In some cases, this is simply because no
+one has volunteered to do continued maintenance, so if software is listed here
+that you need, you can contact <xorg@lists.freedesktop.org> to volunteer to
+take over maintainership, either inside or outside of the Xorg release process.
+
+Future Removals
+
+          DGA 2.0 is included in 7.6. Documentation for the client libraries
+          can be found in the XDGA(3) man page. DGA should be considered
+DGA       deprecated; if you are relying on it, please let us know what you
+version 2 need it for so we can find better solutions. In this release, support
+          has been removed for all DGA rendering and mapping code, leaving just
+          mode setting and raw input device access.
+
+          The Xorg server currently uses the HAL framework to discover
+          connected input devices, receive notification of hotplug events for
+Input     them, and to retrieve configuration parameters for them. The HAL
+device    maintainers have deprecated HAL, so the X.Org developers have begun
+discovery replacement with alternatives. As a result, configuration of input
+via HAL   devices via HAL *.fdi files is no longer supported on Linux platforms
+          using udev, and may not be supported on other platforms in future
+          Xorg server releases.
+
+Removed in this Release
+
+             The Xprint server and extension were previously removed from
+Xprint       X11R7.5. This release removes Xprint support from a number of
+             client programs that still had it.
+
+             The experimental Xsdl server has never been finished or
+Xsdl server  maintained, and was removed in this release.
+
+             Support has been removed from the X servers for the following
+Unmaintained extensions, which were obsolete, not widely used, or not working:
+extensions
+               ● Multi-Buffering
+
+Attributions/Acknowledgements/Credits
+
+This section lists the credits for the X11R7.6 release. For a more detailed
+breakdown, refer to the ChangeLog file in the source tree for each module, the
+history in the xorg product in freedesktop.org's git repositories or the 'git
+log' information for individual source files.
+
+The X Window System has been a collaborative effort from its inception. Our
+apologies for anyone or organization inadvertently overlooked. Many individuals
+(including major contributors) who worked on X are represented by their
+employers in this list. If you feel we have left anyone out, please let us
+know.
+
+These people contributed in some way to X11R7.6 since the release of X11R7.5:
+
+邓逸昕                               Kim Woelders
+Aaron Plattner                       Kok, Auke
+Aaron Zang                           Kristian Høgsberg
+Adam Jackson                         Kusanagi Kouichi
+Adam Tkac                            Lee Leahu
+Adrian 'Dagurashibanipal' von Bidder Leif Middelschulte
+Adrian Bunk                          Leonardo Chiquitto
+Alan Coopersmith                     Lubos Lunak
+Alberto Milone                       Luc Verhaegen
+Alex Deucher                         Luca Tettamanti
+Alex Warg                            Ma Ling
+Alexander Kabaev                     Maarten Maathuis
+Alp Toker                            Macpaul Lin
+Andrej Gelenberg                     Magnus Kessler
+Andres Salomon                       Marc Majka
+Andrew Chant                         Marcin Baczyński
+Andrew Randrianasulu                 Marcin Kościelnicki
+Andrzej Hajda                        Marcin Slusarz
+Andy Furniss                         Marek Olšák
+Andy Ritger                          Mario Kleiner
+Antoine Latter                       Mark Kettenis
+Arkadiusz Miśkiewicz                 Marko Myllynen
+Arnaud Fontaine                      Markus Duft
+Auke Kok                             Markus Gapp
+Bart Massey                          Markus Strobl
+Bartek Iwaniec                       Mart Raudsepp
+Bartosz Brachaczek                   Martin Ettl
+Ben Byer                             Martin Otte
+Ben Hutchings                        Martin Pärtel
+Ben Skeggs                           Martin-Éric Racine
+Benjamin Close                       Márton Németh
+Benjamin Tissoires                   Matt Dew
+Bernhard R. Link                     Matt Turner
+Bob Ham                              Matteo Delfino
+Brian Paul                           Matthias Hopf
+Brice Goglin                         Matthieu Herrb
+Bryce Harrington                     Matthijs Kooijman
+Carl Worth                           Michael Cree
+Carlos Garnacho                      Michael Jansen
+Carsten Meier                        Michael Olbrich
+Cedric Cellier                       Michael Ost
+Chase Douglas                        Michael Stapelberg
+Chris Bagwell                        Michael Vogt
+Chris Ball                           Michał Górny
+Chris Dekter                         Michel Dänzer
+Chris Humbert                        Mikhail Gusarov
+Chris Wilson                         Nicolai Hähnle
+Christian Bühler                     Nicolas Boullis
+Christian Hartmann                   Nicolas George
+Christian Zander                     Nicolas Reinecke
+Christoph Pfister                    Nigel Tamplin
+Christopher James Halse Rogers       Nirbheek Chauhan
+Cody Maloney                         Oldřich Jedlička
+Colin Harrison                       Oliver McFadden
+Colin Watson                         Olivier Samyn
+Cooper Yuan                          Osamu Sayama
+Corbin Simpson                       Oswald Buddenhagen
+Csillag Kristof                      Otavio Salvador
+Cyril Brulebois                      Owain G. Ainsworth
+Dan Nicholson                        Owen W. Taylor
+Daniel Drake                         Patrick Caulfield
+Daniel Kahn Gillmor                  Patrick Curran
+Daniel Stone                         Patrick E. Kane
+Dave Airlie                          Patrick Guimond
+David Ge                             Paul Bender
+David James                          Paul Loewenstein
+David Ronis                          Paul "TBBle" Hampson
+David Woodhouse                      Pauli Nieminen
+Diego 'Flameeyes' Pettenò            Paulo César Pereira de Andrade
+Dima Kogan                           Paulo Ricardo Zanoni
+Dirk Wallenstein                     Peter Harris
+Dmitry Torokhov                      Peter Hutterer
+Dominik Jasiok                       Peter Korsgaard
+Donnie Berkholz                      Petr Salinger
+Eamon Walsh                          Philippe Ribet
+Ed Schouten                          Pierre-Loup A. Griffais
+Edward Moy                           Rami Ylimäki
+Edward O'Callaghan                   Rémi Cardona
+Egbert Eich                          Rémi Denis-Courmont
+Eric Anholt                          Richard Barnette
+Éric Piel                            Richard Purdie
+Eric Sesterhenn                      Rob Taylor
+Fabio Pedretti                       Robert Bragg
+Fernando Carrijo                     Robert Hooker
+Francisco Jerez                      Robert Morell
+Frank Huang                          Roel Kluin
+Fredrik Höglund                      Roland Scheidegger
+Gabor Z. Papp                        Ruediger Oertel
+Gaetan Nadon                         Ryan Hajdaj
+Geoffrey Li                          Sam Lau
+Guillem Jover                        Sami Farin
+Hans Nieser                          Samuel Thibault
+Heikki Lindholm                      Sascha Hlusiak
+Henning Sten                         Sedat Dilek
+Henry Zhao                           Shunichi Fuji
+Hiroyuki Ikezoe                      Simon Farnsworth
+Horst Wente                          Simon Thum
+Hunk Cui                             Søren Sandmann Pedersen
+Ian Osgood                           Thien-Thi Nguyen
+Ian Romanick                         Thomas Coppi
+Ingmar Vanhassel                     Thomas Hellstrom
+Jakob Bornecrantz                    Thomas Hunger
+James Cloos                          Thomas Jaeger
+James Jones                          Tiago Vignatti
+James Le Cuirot                      Tilman Sauerbeck
+Jamey Sharp                          Tim Yamin
+Jan Hauffa                           Timo Aaltonen
+Jens Petersen                        Timo Myyra
+Jeremy Huddleston                    Tobias Droste
+Jeremy Kolb                          Tobias Koch
+Jeroen Hoek                          Tollef Fog Heen
+Jerome Glisse                        Tomas Carnecky
+Jesse Adkins                         Tomáš Chvátal
+Jesse Barnes                         Tormod Volden
+Jim Ingram                           Trevor Woerner
+Jim Ramsay                           Ville Syrjälä
+Joachim Breitner                     Vincent Torri
+Jon TURNEY                           Walter Harms
+Josh Triplett                        Will Thompson
+Julien Cristau                       Wolfram
+Julien Danjou                        Xavier Chantry
+Juliusz Chroboczek                   Xiaoyang Yu (Max)
+Justin Mattock                       Y.C. Chen
+Kalle Olavi Niemitalo                Yaakov Selkowitz
+Karl Tomlinson                       Yang Zhao
+Kees Cook                            Yann Droneaud
+Keith Packard                        Yannick Heneault
+Kenneth Graunke                      Zephaniah E. Hull
+Kevin E Martin                       Zhao Yakui
+Kevin Van Vechten                     
+
+This product includes software developed by:
+
+2d3d Inc.                                  Kevin E. Martin
+3Dlabs Inc. Ltd.                           Kim woelders
+Aaron Plattner                             Kristian Høgsberg
+Adam de Boor                               Larry Wall
+Adam Jackson                               Lars Knoll
+Adobe Systems Inc.                         Lawrence Berkeley Laboratory
+Advanced Micro Devices, Inc.               Leif Delgass
+After X-TT Project                         Lennart Augustsson
+AGE Logic Inc.                             Leon Shiman
+Alan Coopersmith                           Lexmark International Inc.
+Alan Cox                                   Linus Torvalds
+Alan Hourihane                             Linuxcare Inc.
+Alexander Gottwald                         Lorens Younes
+Alex Deucher                               Luc Verhaegen
+Alex Williamson                            Machine Vision Holdings Inc.
+Alexei Gilchrist                           Mandriva Linux
+Anders Carlsson                            Manfred Brands
+Andreas Luik                               Manish Singh
+Andreas Monitzer                           Marc Aurele La France
+Andreas Robinson                           Mark Adler
+Andrei Barbu                               Mark J. Kilgard
+Andrew C Aitchison                         Mark Kettenis
+Andrey A. Chernov                          Mark Leisher
+Andy Ritger                                Mark Smulders
+Angus Lees                                 Mark Vojkovich
+Ani Joshi                                  Martin Husemann
+Anton Zioviev                              Marvin Solomon
+Apollo Computer Inc.                       Massachusetts Inst. Of Technology
+Apple Computer Inc.                        Matrox Graphics
+Apple Inc.                                 Matt Dew
+Ares Software Corp.                        Matthew Grossman
+Arnaud LE HORS                             Matthias Hopf
+Arne Schwabe                               Matthias Ihmig
+ASPEED Technology Inc.                     Matthieu Herrb
+AT&T Inc.                                  Metro Link Inc.
+ATI Technologies Inc.                      Michal Rehacek
+Bart Massey                                Michael Bax
+Bart Trojanowski, Symbio Technologies, LLC Michael H. Schimek
+BEAM Ltd.                                  Michael P. Marking
+Benjamin Herrenschmidt                     Michael Schimek
+Benjamin Rienfenstahl                      Michael Smith
+Ben Skeggs                                 Michel Dänzer
+Beth Mardutho: The Syriac Institute        Mike A. Harris
+Bigelow and Holmes                         Mike Harris
+Bill Reynolds                              Ming Yu
+Bitstream Inc.                             MIPS Computer Systems Inc.
+Bogdan Diaconescu                          MontaVista Software Inc.
+Branden Robinson                           National Security Agency
+Brian Fundakowski Feldman                  National Semiconductor
+Brian Goines                               NCR Corporation Inc.
+Bogdan D.                                  Neil Brown
+Brian Paul                                 NetBSD Foundation
+Bruce Kalk                                 Netscape Communications Corp.
+Bruno Haible                               Network Computing Devices Inc.
+Bryan Stine                                New Mexico State University
+Bryan W. Headley.                          Nicholas Joly
+C. Scott Ananian                           Nicholas Miell
+Carl Switzky                               Nicholas Wourms
+Catharon Productions Inc.                  Nicolai Haehnle
+Charles Murcko                             Noah Levitt
+Chen Xiangyang                             Nolan Leake
+Chisato Yamauchi                           Nokia Corporation
+Chris Constello                            Nokia Home Communications
+Chris Salch                                Novell Inc.
+Christian Thaeter                          Nozomi YTOW
+Christian Zietz                            NTT Software Corporation
+Cognition Corp.                            Number Nine Computer Corp.
+Compaq Computer Corporation                Number Nine Visual Technologies
+Concurrent Computer Corporation            NVIDIA Corporation
+Conectiva S.A.                             Oivier Danet
+Corin Anderson                             Oki Technosystems Laboratory Inc.
+Corvin Zahn.                               Olivetti Research Limited
+Cronyx Ltd.                                OMRON Corporation
+Craig Struble                              Open Software Foundation
+Daewoo Electronics Co. Ltd.                Open Text Corporation
+Dag-Erling Smørgrav                        OpenedHand Ltd.
+Dale Schumacher                            Oracle Corp.
+Damien Miller                              Orest Zborowski
+Daniel Berrange                            Owen Taylor
+Daniel Borca                               Pablo Saratxaga
+Daniel Stone                               Panacea Inc.
+Daniver Limited                            Panagiotis Tsirigotis
+Daryll Strauss                             Paolo Severini
+Data General Corporation                   Pascal Haible
+Dave Airlie                                Patrick Lecoanet
+David Bateman                              Patrick Lerda
+David Dawes                                Paul Anderson
+David E. Wexelblat                         Paul Elliott
+David Holland                              Paul Mackerras
+David J. McKay                             Peter Breitenlohner
+David McCullough                           Peter Hutterer
+David Mosberger-Tang                       Peter Kunzmann
+David Reveman                              Peter Osterlund
+David S. Miller                            Peter Trattler
+David Woodhouse                            Phil Karlton
+Davor Matic                                Philip Blundell
+Deron Johnson                              Philip Homburg
+Digeo Inc.                                 Philip Langdale
+Dennis De Winter                           Precision Insight Inc.
+Digital Equipment Corporation              Prentice Hall
+Dirk Hohndel                               Quarterdeck Office Systems
+Dmitry Golubev                             Radek Doulik
+Donnie Berkholz                            Ralf Habacker
+DOS-EMU-Development-Team                   Randy Hendry
+Doug Anson                                 Ranier Keller
+Drew Parsons                               Red Hat Inc.
+Earle F. Philhower III                     Regis Cridlig
+Edouard TISSERANT                          Rene Cougnenc
+Eduard Fuchs                               Richard A. Hecker
+Eduardo Horvath                            Richard Burdick
+Egbert Eich                                Rich Murphey
+Egmont Koblinger                           Rickard E. Faith
+Elliot Lee                                 Rik Faith
+Eric Anholt                                Robert Chesler
+Eric Fortune                               Robert Millan
+Eric Sunshine                              Robert V. Baron
+Erik Fortune                               Robert W. Scheifler
+Erik Nygren                                Robin Cutshaw
+Evans & Sutherland Computer Corp.          Roland Mainz
+Fabio Massimo Di Nitto                     Roland Scheidegger
+Fabrizio Gennari                           Ronny Vindenes
+Fedor P. Goncharov                         Russ Blaine
+Felix Kühling                              Ryan Breen
+Finn Thoegersen                            Ryan Lortie
+Francesco Zappa Nardelli                   Ryan Underwood
+Frank C. Earl                              S. Lehner
+Florian Loitsch                            S3 Graphics Inc.
+Francisco Jerez                            Sam Leffler
+Fred Hucht                                 Santa Cruz Operation Inc.
+Frederic Lepied                            Sascha Hlusiak.
+Fredrik Höglund                            SciTech Software
+Free Software Foundation                   Scott Laird
+Fujitsu Limited                            Sebastien Marineau
+Fujitsu Open Systems Solutions Inc.        Serge Winitzki
+Fuji Xerox Co. Ltd.                        Sergey Vovk
+Gaetan Nadon                               Shigehiro Nomura
+Gareth Hughes                              ShoGraphics Inc.
+Geert Uytterhoeven                         Shunsuke Akiyama
+George Fufutos                             Silicon Graphics Computer Systems
+George Sapountzis                          Silicon Graphics, Inc.
+Gerrit Jan Akkerman                        Silicon Integrated Systems Corp
+Gerry Toll                                 Silicon Motion Inc.
+Ghozlane Toumi                             Simon P. Cooper
+Glenn G. Lai                               Simon Thum
+GNOME Foundation                           Snitily Graphics Consulting Services
+Go Watanabe                                Sony Corporation
+Google Summer of Code participants         Søren Sandmann
+Greg Kroah-Hartman                         SRI
+Gregory Mokhin                             Stanislav Brabec
+Greg Parker                                Stefan Bethge
+GROUPE BULL                                Stefan Dirsch
+Guillem Jover                              Stefan Gmeiner
+Guy Martin                                 Stephane Marchesin
+Hans Oey                                   Stephan Lang
+Harald Koenig                              Steven Lang
+Harm Hanemaayer                            Stuart Kreitman
+Harold L Hunt II                           Sun Microsystems Inc.
+Harry Langenbacher                         SunSoft Inc.
+Hartwig Felger                             SuSE Inc
+Henry A. Worth                             Sven Luther
+Henry Davies                               Takis Psarogiannakopoulos
+Hewlett-Packard Company                    Takuma Murakami
+Hideki Hiura                               Takuya SHIOZAKI
+Hitachi Ltd.                               T. A. Phelps
+Holger Veit                                Tektronix Inc.
+Hong Bo Peng                               Theo de Raadt
+Howard Greenwell                           Theodore Ts'o
+Hummingbird Communications Ltd.            The Open Group
+Ian Romanick                               The Unichrome Project
+IBM Corporation                            The Weather Channel Inc.
+Inst. of Software Academia Sinica          Thomas E. Dickey
+Intel Corporation                          Thomas G. Lane
+INTERACTIVE Systems Corporation            Thomas Hellström
+Itai Nahshon                               Thomas Mueller
+Itronix Inc.                               Thomas Roell
+Ivan Kokshaysky                            Thomas Thanner
+Ivan Pascal                                Thomas Winischhofer
+Jakub Jelinek                              Thomas Wolfram
+James Tsillas                              Thorsten.Ohl
+Jamey Sharp                                Tiago Gons
+Jason Bacon                                Tilman Sauerbeck
+Jaymz Julian                               Todd C. Miller
+Jean-loup Gailly                           Tomohiro KUBOTA
+Jeff Hartmann                              Torrey Lyons
+Jeff Kirk                                  Torrey T. Lyons
+Jeffrey Hsu                                TOSHIBA Corp.
+Jehan Bing                                 Toshimitsu Tanaka
+Jeremy C. Reed                             Travis Tilley
+Jeremy Katz                                Trolltech AS
+Jeremy Huddleston                          Troy D. Hanson
+Jerome Glisse                              Tungsten Graphics Inc.
+Jesse Barnes                               Tuomas J. Lukka
+Jim Gettys                                 Ty Sarna
+Jim Tsillas                                UCHIYAMA Yasushi
+Joerg Sonnenberger                         Unicode Inc.
+John Dennis                                UniSoft Group Limited
+John Harper                                University of California
+John Heasley                               University of South Australia
+Jonathan Adamczewski                       University of Utah
+Jon Block                                  University of Wisconsin
+Jon Smirl                                  UNIX System Laboratories Inc.
+Jon Tombs                                  URW++ GmbH
+Jörg Bösner                                Valery Inozemtsev
+Jorge Delgado                              VA Linux Systems
+José Fonseca                               VIA Technologies Inc.
+Josh Triplett                              Video Electronics Standard Assoc.
+Joseph Friedman                            VMware Inc.
+Joseph P. Skudlarek                        Vrije Universiteit
+Joseph V. Moss                             Wittawat Yamwong
+Julio M. Merino Vidal                      Wyse Technology Inc.
+Juan Romero Pardines                       X Consortium
+Juliusz Chroboczek                         XFree86 Project Inc.
+Jyunji Takagi                              Xi Graphics Inc.
+Kaleb Keithley                             X-Oz Technologies
+Kazushi (Jam) Marukawa                     X-TrueType Server Project
+Kazuyuki (ikko-) Okamoto                   X.Org Foundation
+Kazutaka YOKOTA                            XGI Technology
+Kean Johnston                              Yu Shao
+Keith Packard                              Zack Rusin
+Keith Whitwell                             Zephaniah E. Hull
+Kensuke Matsuzaki                          Zhenyu Wang
+
+This product includes software developed by The XFree86 Project, Inc (http://
+www.xfree86.org/) and its contributors.
+
+This product includes software that is based in part on the work of the
+FreeType Team (http://www.freetype.org/).
+
+This product includes software developed by the University of California,
+Berkeley and its contributors.
+
+This product includes software developed by Christopher G. Demetriou.
+
+This product includes software developed by the NetBSD Foundation, Inc. (http:/
+/www.netbsd.org/) and its contributors.
+
+This product includes software developed by X-Oz Technologies (http://
+www.x-oz.com/).
+
