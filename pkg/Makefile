@@ -173,7 +173,7 @@ $(PDIR)/versions: transforms/versions.tmpl $(PDIR)
 	@print "## Substituting build info in versions transformation template"
 	$(PKGDEBUG)XNV_BUILDNUM="$${XNV_BUILDNUM:-$$(hg log | \
 	    $(PERL) -l -n -e \
-		'if ($$_ =~ m/^tag:\s+nv_(\d+)/) { print $$1 ; exit}')}" ; \
+		'if ($$_ =~ m/^tag:\s+nv_([\d\.]+)/) { print $$1 ; exit}')}" ; \
 	PKGVERS_BUILTON="$(RELEASE)" ; \
 	PKGVERS_BRANCH="0.$${XNV_BUILDNUM}" ; \
 	PKGVERS_BUILD="$${PKGVERS_BUILTON}-$${PKGVERS_BRANCH}" ; \

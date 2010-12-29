@@ -71,7 +71,7 @@ CHECK_LOG="$(pwd)/log/check-pkgs"
 if [[ -z "${XNV_BUILDNUM}" ]] ; then
     # Get build version from hg by searching for most recent tag matching nv_*
     BUILD_TAG="$(hg log | \
-             perl -l -n -e 'if ($_ =~ m/^tag:\s+nv_(\d+)/) {print $1 ; exit}')"
+        perl -l -n -e 'if ($_ =~ m/^tag:\s+nv_([\d\.]+)/) {print $1 ; exit}')"
 
     if [[ -z "${BUILD_TAG}" ]] ; then
 	fatal_error "BUILD_TAG could not be found from hg_log"
