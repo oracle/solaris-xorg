@@ -1,0 +1,42 @@
+From 2ce05c4033c8c48bc357edaabcb363835806b182 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 30 Dec 2010 09:04:51 -0800
+Subject: [PATCH:mesa-demos] Allow builders to specify GLEW_CFLAGS & GLEW_LIBS
+
+configure --help says that builders can set those variables to override
+pkgconfig settings, but configure.ac was overwriting those before calling
+PKG_CHECK_MODULES
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ configure.ac |    8 +++-----
+ 1 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index d6753a9..36e42f8 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -81,17 +81,15 @@ AC_CHECK_LIB([glut],
+ 		[],
+ 		[glut_enabled=no])
+ 
+-GLEW_CFLAGS=""
+-GLEW_LIBS="-lGLEW"
+ dnl Include a fallback path for GLEW for the moment while not all distros
+ dnl have picked up the .pc file.
+ PKG_CHECK_MODULES(GLEW, [glew], [], [
+ 		  AC_CHECK_HEADER([GL/glew.h],
+-		  [],
+-		  AC_MSG_ERROR([GLEW required]))
++				  [GLEW_CFLAGS=""],
++				  AC_MSG_ERROR([GLEW required]))
+ 		  AC_CHECK_LIB([GLEW],
+ 			       [glewInit],
+-			       [],
++			       [GLEW_LIBS="-lGLEW"],
+ 			       AC_MSG_ERROR([GLEW required]))
+ 		  ])
+ DEMO_CFLAGS="$DEMO_CFLAGS $GLEW_CFLAGS"
+-- 
+1.7.3.2
+
