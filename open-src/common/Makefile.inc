@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -227,9 +227,10 @@ GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
 download: $(SOURCE_TARBALL)
 
 $(SOURCE_TARBALL): $(TARBALLDIR)
-	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; $(START_CMD_ECHO) ; \
+	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; \
 	if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
 	    if [[ ! -d $(GIT_CLONE_DIR) ]] ; then \
+		$(START_CMD_ECHO) ; \
 		$(GIT) clone $(GIT_URL) $(GIT_CLONE_DIR) ; \
 		if [[ ! -z "$(GIT_BRANCH)" ]] ; then \
 		    cd $(GIT_CLONE_DIR) && $(GIT) checkout $(GIT_BRANCH) ; \
@@ -238,10 +239,14 @@ $(SOURCE_TARBALL): $(TARBALLDIR)
 	else \
 	    if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
 		if [[ ! -z "$(TARBALL_ARCHIVE)" ]] ; then \
-		    $(WGET) -O $(SOURCE_TARBALL) $(ARCHIVE_URL) ; \
+		    URL='$(ARCHIVE_URL)' ; \
 		else \
-		    $(WGET) -O $(SOURCE_TARBALL) $(SOURCE_URL) ; \
+		    URL='$(SOURCE_URL)' ; \
 		fi ; \
+		$(START_CMD_ECHO) ; \
+		$(WGET) -O '$(SOURCE_TARBALL)' "$${URL}" || \
+		    ( status=$$? ; rm -f '$(SOURCE_TARBALL)' ; \
+		      exit $${status} ) ; \
 	    fi ; \
 	fi
 
