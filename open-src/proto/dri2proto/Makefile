@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,11 +26,11 @@
 MODULE_NAME=dri2proto
 
 # Version number (used in path names)
-MODULE_VERSION=2.1
+MODULE_VERSION=2.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5cb7987d29db068153bdc8f23c767c43
-TARBALL_SHA1 = 1ba917531ff035287549d576097d7028bd3d037f
+TARBALL_MD5  = 3407b494d5e90d584c9af52aa8f9f028
+TARBALL_SHA1 = 6c9e2c822e777db435a43616067f8dd21cc00a53
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

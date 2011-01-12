@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=printproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7321847a60748b4d2f1fa16db4b6ede8
-TARBALL_SHA1 = 8da2d19faca74f894d0e2b3e142283b725c0ef46
+TARBALL_MD5  = 99d0e25feea2fead7d8325b7000b41c3
+TARBALL_SHA1 = 4ddb7781ebc2418d681a6f5e16d777aed56ea35e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6725007.patch

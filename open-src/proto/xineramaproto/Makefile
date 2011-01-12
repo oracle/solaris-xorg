@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=xineramaproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.2
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a8aadcb281b9c11a91303e24cdea45f5
-TARBALL_SHA1 = 3c397c9ea38aaae785dd7901f250891dfa7f3249
+TARBALL_MD5  = 9959fe0bfb22a0e7260433b8d199590a
+TARBALL_SHA1 = 818bffc16139d6e3de4344c83f00c495d3536753
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	 Xsun-extended-proto.patch

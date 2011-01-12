@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=xf86vidmodeproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.3
+MODULE_VERSION=2.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4434894fc7d4eeb4a22e6b876d56fdaa
-TARBALL_SHA1 = 22d034c2f66985f8541b9ea3421096ceaa006355
+TARBALL_MD5  = e793ecefeaecfeabd1aed6a01095174e
+TARBALL_SHA1 = 11d54c3210887631ea71e8f8030a77692e964fc4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

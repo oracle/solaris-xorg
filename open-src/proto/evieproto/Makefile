@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=evieext
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5c74f61d6f77b2e6a083b2b31000be42
-TARBALL_SHA1 = d0b57a8fbbf0845588a690542a6c29d351c2b4e5
+TARBALL_MD5  = 98bd86a13686f65f0873070fdee6efc7
+TARBALL_SHA1 = 86d9545273b07961f0d5ba65c6c408371e10c0d2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

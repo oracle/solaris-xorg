@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=compositeproto
 
 # Version number (used in path names)
-MODULE_VERSION=0.4.1
+MODULE_VERSION=0.4.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3692f3f8b2ea10dff3d2cede8dc65e79
-TARBALL_SHA1 = fb1ae34418855c313a75e8e697b414a4935e13d6
+TARBALL_MD5  = 98482f65ba1e74a08bf5b056a4031ef0
+TARBALL_SHA1 = aa7b5abcfd5bbfad7cb681ce89dc1d6e381e3044
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

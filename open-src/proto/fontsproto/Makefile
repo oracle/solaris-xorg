@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=fontsproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.0
+MODULE_VERSION=2.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f3a857deadca3144fba041af1dbf7603
-TARBALL_SHA1 = 395b300fd5120a7ff90cb8fea4e2356b9632dc3e
+TARBALL_MD5  = 37102ffcaa73f77d700acd6f7a25d8f0
+TARBALL_SHA1 = 77ab428ad4ad7cf0294a72a2201d665c4edf5fb1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

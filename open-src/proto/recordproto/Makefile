@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=recordproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.14
+MODULE_VERSION=1.14.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 70f5998c673aa510e2acd6d8fb3799de
-TARBALL_SHA1 = 212928572898ed150366c6026e2694b193ff9f79
+TARBALL_MD5  = 24541a30b399213def35f48efd926c63
+TARBALL_SHA1 = 14acb36540814bfe5d3caf47311b72a3bf1322bd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

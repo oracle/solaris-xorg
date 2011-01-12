@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -79,6 +79,7 @@ file path=usr/share/man/man5/X.5
 file path=usr/share/man/man5/X11.5
 file path=usr/share/man/man5/XOrgFoundation.5
 file path=usr/share/man/man5/XStandards.5
+file path=usr/share/man/man5/Xprint.5
 file path=usr/share/man/man5/Xsecurity.5
 file path=usr/share/pkgconfig/xorg-sgml-doctools.pc
 file path=usr/share/sgml/X11/defs.ent

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=damageproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 434b931b02bd83ed9fc44951df81cdac
-TARBALL_SHA1 = ffe177a6ae2cf023d41e015aa6ece2b191cb8a8a
+TARBALL_MD5  = 998e5904764b82642cc63d97b4ba9e95
+TARBALL_SHA1 = bd0f0f4dc8f37eaabd9279d10fe2889710507358
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

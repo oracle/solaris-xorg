@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=xf86driproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.0
+MODULE_VERSION=2.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 309d552732666c3333d7dc63e80d042f
-TARBALL_SHA1 = 0dfc6616ffc68ca3c3b5decb1e365aaa93be8548
+TARBALL_MD5  = 1d716d0dac3b664e5ee20c69d34bc10e
+TARBALL_SHA1 = 23e861f40ba0f0cbbfd7db7ba2ef623762ffca17
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,14 +35,12 @@ TARBALL_SHA1 = a55d051c8ad9c50e90429c9319d6d3af821f0696
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
+	xfuncproto.patch,-p1 \
 	X.h-patch
 
 # ARC cases that covered this module
 # PSARC/2001/108 X11 Over IPv6
 MODULE_ARC_CASES = PSARC/2001/108
-
-# Additional install targets beyond the defaults
-MODULE_ADD_INSTALL_TARGETS = install_x11_compat_link
 
 ### Include common rulesets
 include ../Makefile.inc
@@ -50,7 +48,7 @@ include ../Makefile.inc
 # Special compatibility link from /usr/X11/include/X11 to /usr/include/X11
 X11_INC_COMPAT_LINK = $(PROTODIR)/usr/X11/include/X11
 
-install_x11_compat_link: $(X11_INC_COMPAT_LINK)
+install_X11_compat_links: $(X11_INC_COMPAT_LINK)
 
 $(X11_INC_COMPAT_LINK):
 	mkdir -p $(@D)

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=scrnsaverproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9040c991a56ee9b5976936f8c65d5c8a
-TARBALL_SHA1 = c734cfe9a1ce57fd42957389dcc90518fd7ca6b6
+TARBALL_MD5  = 6af0f2e3369f5f74e69345e214f5fd0d
+TARBALL_SHA1 = 94758e81ac20469c5b586b6cef924c8ab9a32e0f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

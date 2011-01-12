@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=resourceproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 84795594b3ebd2ee2570cf93340d152c
-TARBALL_SHA1 = 36b86840005c15e393c86d7075688d430ab2a11d
+TARBALL_MD5  = 8ff0525ae7502b48597b78d00bc22284
+TARBALL_SHA1 = a529e14f5556d29e213a0b123e0aeb309cbb5110
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

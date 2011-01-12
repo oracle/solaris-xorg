@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,18 @@ dir path=usr/include/X11/extensions
 dir path=usr/include/X11/fonts
 dir path=usr/share
 dir path=usr/share/doc
+dir path=usr/share/doc/bigreqsproto
 dir path=usr/share/doc/compositeproto
 dir path=usr/share/doc/damageproto
 dir path=usr/share/doc/fixesproto
+dir path=usr/share/doc/fontsproto
+dir path=usr/share/doc/inputproto
 dir path=usr/share/doc/randrproto
+dir path=usr/share/doc/recordproto
 dir path=usr/share/doc/renderproto
+dir path=usr/share/doc/scrnsaverproto
 dir path=usr/share/doc/videoproto
+dir path=usr/share/doc/xcmiscproto
 dir path=usr/share/doc/xextproto
 dir path=usr/share/doc/xproto
 dir path=usr/share/doc/xproxymanagementprotocol
@@ -192,12 +198,19 @@ file path=usr/include/X11/fonts/fontstruct.h
 file path=usr/include/X11/fonts/fsmasks.h
 file path=usr/include/X11/keysym.h
 file path=usr/include/X11/keysymdef.h
+file path=usr/share/doc/bigreqsproto/bigreq.xml
 file path=usr/share/doc/compositeproto/compositeproto.txt
 file path=usr/share/doc/damageproto/damageproto.txt
 file path=usr/share/doc/fixesproto/fixesproto.txt
+file path=usr/share/doc/fontsproto/fsproto.xml
+file path=usr/share/doc/inputproto/XI2proto.txt
+file path=usr/share/doc/inputproto/XIproto.txt
 file path=usr/share/doc/randrproto/randrproto.txt
+file path=usr/share/doc/recordproto/record.xml
 file path=usr/share/doc/renderproto/renderproto.txt
+file path=usr/share/doc/scrnsaverproto/saver.xml
 file path=usr/share/doc/videoproto/xv-protocol-v2.txt
+file path=usr/share/doc/xcmiscproto/xc-misc.xml
 file path=usr/share/doc/xextproto/appgroup.xml
 file path=usr/share/doc/xextproto/dbe.xml
 file path=usr/share/doc/xextproto/dpms.xml
