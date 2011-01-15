@@ -2,7 +2,7 @@
 #
 # xterm Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,11 +42,11 @@ UPSTREAM_URL	= http://invisible-island.net/xterm/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=261
+MODULE_VERSION=267
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 10d211f6986c4b279cfa9530b2361457
-TARBALL_SHA1 = c19b73bea2f43c676699e914c8a059d8b69fc89b
+TARBALL_MD5  = 3945ab70cfa2a9e95804157ee1b0f8e8
+TARBALL_SHA1 = ba80d0ef00292e7888bfbe69dcce0dfbbc4f5091
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
