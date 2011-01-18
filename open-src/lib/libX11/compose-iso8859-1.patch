@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pre
---- nls/iso8859-1/Compose.pre	2009-03-24 22:23:13.000000000 -0700
-+++ nls/iso8859-1/Compose.pre	2009-03-25 01:20:57.486198000 -0700
-@@ -13,6 +13,7 @@ XCOMM Special Character
+--- nls/iso8859-1/Compose.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/iso8859-1/Compose.pre	2010-11-21 18:48:06.890258020 -0800
+@@ -11,6 +11,7 @@ XCOMM Special Character
  <Multi_key> <apostrophe> <space>	: "'"	apostrophe
  <Multi_key> <space> <apostrophe>	: "'"	apostrophe
  <Multi_key> <A> <T>			: "@"	at
@@ -32,7 +32,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  <Multi_key> <parenleft> <parenleft>	: "["	bracketleft
  <Multi_key> <slash> <slash>		: "\\"	backslash
  <Multi_key> <slash> <less>		: "\\"	backslash
-@@ -195,7 +196,8 @@ XCOMM Accented Alphabet
+@@ -193,7 +194,8 @@ XCOMM Accented Alphabet
  <Multi_key> <diaeresis> <A>		: "\304"	Adiaeresis
  <Multi_key> <A> <asterisk>		: "\305"	Aring
  <Multi_key> <asterisk> <A>		: "\305"	Aring
@@ -42,7 +42,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  <Multi_key> <A> <O>			: "\305"	Aring
  <Multi_key> <A> <E>			: "\306"	AE
  <Multi_key> <a> <grave>			: "\340"	agrave
-@@ -396,7 +398,7 @@ XCOMM Special Character
+@@ -394,7 +396,7 @@ XCOMM Special Character
  XCOMM These are for us_intl, that does not have diaeresis, etc
  <dead_acute> <space>			: "'"	apostrophe
  <dead_acute> <dead_acute>		: "\264"	acute
@@ -51,7 +51,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  <dead_diaeresis> <dead_diaeresis>	: "\250"	diaeresis
  <dead_doubleacute> <space>		: "\""	quotedbl
  <dead_abovering> <space>		: "\260"	degree
-@@ -473,7 +475,6 @@ XCOMM Useful for portuguese language
+@@ -471,7 +473,6 @@ XCOMM Useful for portuguese language
  <dead_acute> <C>			: "\307"	Ccedilla
  <dead_acute> <c>			: "\347"	ccedilla
  XCOMM
@@ -59,7 +59,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  XCOMM Ctrl<T> Means <Compose>
  XCOMM Special Character
  Ctrl<T> <plus> <plus>			: "#"	numbersign
-@@ -660,7 +661,6 @@ Ctrl<T> <A> <diaeresis>			: "\304"	Adiae
+@@ -658,7 +659,6 @@ Ctrl<T> <A> <diaeresis>			: "\304"	Adiae
  Ctrl<T> <diaeresis> <A>			: "\304"	Adiaeresis
  Ctrl<T> <A> <asterisk>			: "\305"	Aring
  Ctrl<T> <asterisk> <A>			: "\305"	Aring
@@ -67,7 +67,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  Ctrl<T> <A> <O>				: "\305"	Aring
  Ctrl<T> <A> <E>				: "\306"	AE
  Ctrl<T> <a> <grave>			: "\340"	agrave
-@@ -841,5 +841,70 @@ Ctrl<T> <y> <quotedbl>			: "\377"	ydiaer
+@@ -839,5 +839,70 @@ Ctrl<T> <y> <quotedbl>			: "\377"	ydiaer
  Ctrl<T> <quotedbl> <y>			: "\377"	ydiaeresis
  Ctrl<T> <y> <diaeresis>			: "\377"	ydiaeresis
  Ctrl<T> <diaeresis> <y>			: "\377"	ydiaeresis

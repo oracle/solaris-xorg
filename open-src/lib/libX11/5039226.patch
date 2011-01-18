@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,9 +35,9 @@ requests come in. Without this XSync, a dead lock may formed just like
 this case.
 
 diff -urp -x '*~' -x '*.orig' src/UngrabSvr.c src/UngrabSvr.c
---- src/UngrabSvr.c	2008-10-07 10:18:18.000000000 -0700
-+++ src/UngrabSvr.c	2009-04-08 00:18:04.825622000 -0700
-@@ -41,6 +41,9 @@ XUngrabServer (
+--- src/UngrabSvr.c	2010-09-03 22:52:39.000000000 -0700
++++ src/UngrabSvr.c	2010-11-21 18:47:54.042619136 -0800
+@@ -39,6 +39,9 @@ XUngrabServer (
          GetEmptyReq(UngrabServer, req);
          UnlockDisplay(dpy);
  	SyncHandle();

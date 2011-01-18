@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
---- src/xlibi18n/lcCT.c	2009-01-28 21:09:42.000000000 -0800
-+++ src/xlibi18n/lcCT.c	2009-04-08 00:20:25.037179000 -0700
+--- src/xlibi18n/lcCT.c	2010-09-03 22:52:39.000000000 -0700
++++ src/xlibi18n/lcCT.c	2010-11-21 18:48:03.683823575 -0800
 @@ -51,7 +51,7 @@
   * Static representation of a character set that can be used in Compound Text.
   */
@@ -33,7 +33,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      const char ct_sequence[5];	/* Compound Text encoding, ESC sequence */
  } CTDataRec, *CTData;
  
-@@ -97,6 +97,7 @@ static const CTDataRec default_ct_data[]
+@@ -95,6 +95,7 @@ static const CTDataRec default_ct_data[]
      { "JISX0212.1990-0:GR", /* JIS_X0212-1990      159   */ "\033$)D" },
      { "KSC5601.1987-0:GL",  /* KS_C_5601-1987      149   */ "\033$(C" },
      { "KSC5601.1987-0:GR",  /* KS_C_5601-1987      149   */ "\033$)C" },
@@ -42,9 +42,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      { "CNS11643.1986-1:GR", /* CNS 11643-1992 pl.1 171   */ "\033$)G" },
      { "CNS11643.1986-2:GL", /* CNS 11643-1992 pl.2 172   */ "\033$(H" },
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcGeneric.c src/xlibi18n/lcGeneric.c
---- src/xlibi18n/lcGeneric.c	2009-01-28 21:09:42.000000000 -0800
-+++ src/xlibi18n/lcGeneric.c	2009-04-08 00:20:25.037898000 -0700
-@@ -758,6 +758,8 @@ load_generic(
+--- src/xlibi18n/lcGeneric.c	2010-09-03 22:52:39.000000000 -0700
++++ src/xlibi18n/lcGeneric.c	2010-11-21 18:48:03.684217722 -0800
+@@ -756,6 +756,8 @@ load_generic(
              /* 3.4.1 side */
              if (!_XlcNCompareISOLatin1(value[0], "none", 4)) {
                  codeset->side =  XlcNONE;
@@ -54,9 +54,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcGeneric.c src/xlibi18n/lcGeneric.c
                  codeset->side =  XlcGL;
              } else {
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
---- src/xlibi18n/lcUTF8.c	2009-01-28 21:09:43.000000000 -0800
-+++ src/xlibi18n/lcUTF8.c	2009-04-08 00:20:25.071063000 -0700
-@@ -210,6 +210,7 @@ typedef struct {
+--- src/xlibi18n/lcUTF8.c	2010-09-03 22:52:39.000000000 -0700
++++ src/xlibi18n/lcUTF8.c	2010-11-21 18:48:03.684843035 -0800
+@@ -208,6 +208,7 @@ typedef struct {
  #include "lcUniConv/jisx0208.h"
  #include "lcUniConv/jisx0212.h"
  #include "lcUniConv/ksc5601.h"
@@ -64,7 +64,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
  #include "lcUniConv/big5.h"
  #include "lcUniConv/big5_emacs.h"
  #include "lcUniConv/big5hkscs.h"
-@@ -288,6 +289,9 @@ static Utf8ConvRec all_charsets[] = {
+@@ -286,6 +287,9 @@ static Utf8ConvRec all_charsets[] = {
      { "KSC5601.1987-0", NULLQUARK,
  	ksc5601_mbtowc, ksc5601_wctomb
      },

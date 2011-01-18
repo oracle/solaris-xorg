@@ -1,7 +1,7 @@
 diff -urp -x '*~' -x '*.orig' modules/lc/gen/lcGenConv.c modules/lc/gen/lcGenConv.c
---- modules/lc/gen/lcGenConv.c	2009-03-17 14:58:15.000000000 -0700
-+++ modules/lc/gen/lcGenConv.c	2009-04-08 00:19:18.692831000 -0700
-@@ -1786,9 +1786,6 @@ mbtocs(
+--- modules/lc/gen/lcGenConv.c	2010-09-03 22:52:38.000000000 -0700
++++ modules/lc/gen/lcGenConv.c	2010-11-21 18:47:57.083531216 -0800
+@@ -1784,9 +1784,6 @@ mbtocs(
          return( 0 );
      }
  

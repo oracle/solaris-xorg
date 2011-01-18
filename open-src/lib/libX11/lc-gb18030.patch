@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-04-08 00:20:24.733191000 -0700
-+++ configure.ac	2009-04-08 00:20:36.467703000 -0700
-@@ -431,6 +431,7 @@ AC_OUTPUT([Makefile
+--- configure.ac	2010-11-21 18:48:03.658185379 -0800
++++ configure.ac	2010-11-21 18:48:04.458891398 -0800
+@@ -455,6 +455,7 @@ AC_OUTPUT([Makefile
  	   modules/im/ximcp/Makefile
  	   modules/lc/Makefile
  	   modules/lc/def/Makefile
@@ -33,15 +33,15 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  	   modules/lc/Utf8/Makefile
  	   modules/lc/xlocale/Makefile
 diff -urp -x '*~' -x '*.orig' modules/lc/Makefile.am modules/lc/Makefile.am
---- modules/lc/Makefile.am	2008-10-07 10:18:17.000000000 -0700
-+++ modules/lc/Makefile.am	2009-04-08 00:20:36.467900000 -0700
+--- modules/lc/Makefile.am	2010-09-03 22:52:38.000000000 -0700
++++ modules/lc/Makefile.am	2010-11-21 18:48:04.459061907 -0800
 @@ -1 +1 @@
 -SUBDIRS=Utf8 def gen xlocale
 +SUBDIRS=Utf8 def gen xlocale gb18030
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/Makefile.am src/xlibi18n/Makefile.am
---- src/xlibi18n/Makefile.am	2008-12-19 19:21:36.000000000 -0800
-+++ src/xlibi18n/Makefile.am	2009-04-08 00:20:36.492576000 -0700
-@@ -34,6 +34,7 @@ LC_LIBS = \
+--- src/xlibi18n/Makefile.am	2010-09-21 18:25:24.000000000 -0700
++++ src/xlibi18n/Makefile.am	2010-11-21 18:48:04.459305791 -0800
+@@ -36,6 +36,7 @@ LC_LIBS = \
  	${top_builddir}/modules/lc/def/libxlcDef.la \
  	${top_builddir}/modules/lc/gen/libxlibi18n.la \
  	${top_builddir}/modules/lc/Utf8/libxlcUTF8Load.la \
@@ -50,9 +50,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/Makefile.am src/xlibi18n/Makefile.am
  
  OM_LIBS = \
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/Xlcint.h src/xlibi18n/Xlcint.h
---- src/xlibi18n/Xlcint.h	2008-11-26 20:17:22.000000000 -0800
-+++ src/xlibi18n/Xlcint.h	2009-04-08 00:20:36.493192000 -0700
-@@ -934,6 +934,12 @@ extern XLCd _XlcUtf8Loader(
+--- src/xlibi18n/Xlcint.h	2010-09-03 22:52:39.000000000 -0700
++++ src/xlibi18n/Xlcint.h	2010-11-21 18:48:04.459698934 -0800
+@@ -932,6 +932,12 @@ extern XLCd _XlcUtf8Loader(
      const char*		name
  );
  
@@ -66,9 +66,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/Xlcint.h src/xlibi18n/Xlcint.h
  extern XLCd _XlcEucLoader(
      const char*		name
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
---- src/xlibi18n/lcCT.c	2009-04-08 00:20:25.037179000 -0700
-+++ src/xlibi18n/lcCT.c	2009-04-08 00:20:36.493817000 -0700
-@@ -128,6 +128,8 @@ static const CTDataRec default_ct_data[]
+--- src/xlibi18n/lcCT.c	2010-11-21 18:48:03.683823575 -0800
++++ src/xlibi18n/lcCT.c	2010-11-21 18:48:04.460141231 -0800
+@@ -126,6 +126,8 @@ static const CTDataRec default_ct_data[]
      { "BIG5-0:GLGR", "\033%/2"},
      { "BIG5HKSCS-0:GLGR", "\033%/2"},
      { "GBK-0:GLGR", "\033%/2"},
@@ -78,9 +78,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      { "BIG5-E0:GL", "\033$(0" },
      { "BIG5-E0:GR", "\033$)0" },
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
---- src/xlibi18n/lcInit.c	2009-01-28 21:09:43.000000000 -0800
-+++ src/xlibi18n/lcInit.c	2009-04-08 00:20:36.494244000 -0700
-@@ -90,6 +90,7 @@ Sun Microsystems, Inc. or its licensors 
+--- src/xlibi18n/lcInit.c	2010-09-21 18:25:24.000000000 -0700
++++ src/xlibi18n/lcInit.c	2010-11-21 18:48:04.460499579 -0800
+@@ -106,6 +106,7 @@ Sun Microsystems, Inc. or its licensors 
  #define USE_GENERIC_LOADER
  #define USE_DEFAULT_LOADER
  #define USE_UTF8_LOADER
@@ -88,7 +88,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
  #ifdef X_LOCALE
  # define USE_EUC_LOADER
  # define USE_SJIS_LOADER
-@@ -134,6 +135,10 @@ _XlcInitLoader(void)
+@@ -150,6 +151,10 @@ _XlcInitLoader(void)
      _XlcAddLoader(_XlcJisLoader, XlcHead);
  #endif
  
@@ -99,7 +99,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
  #ifdef USE_DYNAMIC_LOADER
      _XlcAddLoader(_XlcDynamicLoader, XlcHead);
  #endif
-@@ -173,6 +178,10 @@ _XlcDeInitLoader(void)
+@@ -189,6 +194,10 @@ _XlcDeInitLoader(void)
      _XlcRemoveLoader(_XlcJisLoader);
  #endif
  
@@ -111,9 +111,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
      _XlcRemoveLoader(_XlcDynamicLoader);
  #endif
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
---- src/xlibi18n/lcUTF8.c	2009-04-08 00:20:25.071063000 -0700
-+++ src/xlibi18n/lcUTF8.c	2009-04-08 00:20:36.512578000 -0700
-@@ -215,6 +215,7 @@ typedef struct {
+--- src/xlibi18n/lcUTF8.c	2010-11-21 18:48:03.684843035 -0800
++++ src/xlibi18n/lcUTF8.c	2010-11-21 18:48:04.461129908 -0800
+@@ -213,6 +213,7 @@ typedef struct {
  #include "lcUniConv/big5_emacs.h"
  #include "lcUniConv/big5hkscs.h"
  #include "lcUniConv/gbk.h"
@@ -121,7 +121,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
  
  static Utf8ConvRec all_charsets[] = {
      /* The ISO10646-1/UTF-8 entry occurs twice, once at the beginning
-@@ -352,6 +353,18 @@ static Utf8ConvRec all_charsets[] = {
+@@ -350,6 +351,18 @@ static Utf8ConvRec all_charsets[] = {
      { "BIG5HKSCS-0", NULLQUARK,
  	big5hkscs_mbtowc, big5hkscs_wctomb
      },
@@ -141,8 +141,8 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
      /* The ISO10646-1/UTF-8 entry occurs twice, once at the beginning
         (for lookup speed), once at the end (as a fallback).  */
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/gbk.h src/xlibi18n/lcUniConv/gbk.h
---- src/xlibi18n/lcUniConv/gbk.h	2008-11-26 20:17:22.000000000 -0800
-+++ src/xlibi18n/lcUniConv/gbk.h	2009-04-08 00:20:36.516905000 -0700
+--- src/xlibi18n/lcUniConv/gbk.h	2010-09-03 22:52:39.000000000 -0700
++++ src/xlibi18n/lcUniConv/gbk.h	2010-11-21 18:48:04.463729400 -0800
 @@ -1,9 +1,41 @@
 +/*
 + * Copyright  The Open Group

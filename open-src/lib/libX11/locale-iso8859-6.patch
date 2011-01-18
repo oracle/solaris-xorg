@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XI18N_OBJS nls/iso8859-6/XI18N_OBJS
---- nls/iso8859-6/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/iso8859-6/XI18N_OBJS	2009-04-08 00:25:28.810325000 -0700
+--- nls/iso8859-6/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
++++ nls/iso8859-6/XI18N_OBJS	2010-11-21 18:48:33.986029438 -0800
 @@ -3,5 +3,6 @@
  #	XI18N objects table for iso8859-6 locale
  #
@@ -33,9 +33,9 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XI18N_OBJS nls/iso8859-6/XI18N_OBJS
 +#XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
 diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XLC_LOCALE.pre nls/iso8859-6/XLC_LOCALE.pre
---- nls/iso8859-6/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/iso8859-6/XLC_LOCALE.pre	2009-04-08 00:25:28.812654000 -0700
-@@ -12,8 +12,7 @@ fs0	{
+--- nls/iso8859-6/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/iso8859-6/XLC_LOCALE.pre	2010-11-21 18:48:33.986304874 -0800
+@@ -11,8 +11,7 @@ fs0	{
  		name		ISO8859-1:GL
  	}
  	font	{
@@ -45,7 +45,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XLC_LOCALE.pre nls/iso8859-6/XLC_LOC
  		vertical_rotate	all
  	}
  }
-@@ -22,8 +21,9 @@ fs1	{
+@@ -21,8 +20,9 @@ fs1	{
  	charset	{
  		name		ISO8859-6:GR
  	}

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,11 +31,11 @@ MODULE_PKGNAME=developer/build/autoconf/xorg-macros
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.10.0
+MODULE_VERSION=1.11.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 533b86bfdafadbde12c654e2f0144679
-TARBALL_SHA1 = 01bd26de7f76907ad502b430a5d18f64a896dc81
+TARBALL_MD5  = 22d5cdff672450cb6902e0d68c200dcb
+TARBALL_SHA1 = 646188eeca4fa319d95aba7a271149bcbf9ee49e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

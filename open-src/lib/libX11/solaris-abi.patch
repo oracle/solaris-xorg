@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,9 +21,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-04-07 15:18:30.000000000 -0700
-+++ configure.ac	2009-04-08 00:18:15.093686000 -0700
-@@ -138,7 +138,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
+--- configure.ac	2010-11-21 14:02:48.000000000 -0800
++++ configure.ac	2010-11-21 18:47:54.799563366 -0800
+@@ -206,7 +206,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
  	fi
  	AC_DEFINE(USE_DYNAMIC_LC,1,
  		  [Split some i18n functions into loadable modules])
@@ -33,9 +33,9 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_MSG_RESULT($XLIB_LOADABLE_I18N)
  
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-11-18 22:42:01.000000000 -0800
-+++ src/Makefile.am	2009-04-08 00:18:15.094065000 -0700
-@@ -373,9 +373,14 @@ if XKB
+--- src/Makefile.am	2010-09-21 18:25:24.000000000 -0700
++++ src/Makefile.am	2010-11-21 18:47:54.799940548 -0800
+@@ -369,9 +369,14 @@ if XKB
  USE_XKB_LIBS = $(XKB_LIBS)
  endif
  

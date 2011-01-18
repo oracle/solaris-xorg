@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/iso8859-15/Compose.pre nls/iso8859-15/Compose.pre
---- nls/iso8859-15/Compose.pre	2009-04-06 10:49:37.000000000 -0700
-+++ nls/iso8859-15/Compose.pre	2009-04-08 00:22:46.717715000 -0700
-@@ -11,7 +11,7 @@ XCOMM Special Character
+--- nls/iso8859-15/Compose.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/iso8859-15/Compose.pre	2010-11-21 18:48:18.747788946 -0800
+@@ -9,7 +9,7 @@ XCOMM Special Character
  <Multi_key> <plus> <plus>		: "#"	numbersign
  <Multi_key> <apostrophe> <space>	: "'"	apostrophe
  <Multi_key> <space> <apostrophe>	: "'"	apostrophe
@@ -33,7 +33,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-15/Compose.pre nls/iso8859-15/Compose.
  <Multi_key> <parenleft> <parenleft>	: "["	bracketleft
  <Multi_key> <slash> <slash>		: "\\"	backslash
  <Multi_key> <slash> <less>		: "\\"	backslash
-@@ -181,7 +181,8 @@ XCOMM Accented Alphabet
+@@ -179,7 +179,8 @@ XCOMM Accented Alphabet
  <Multi_key> <diaeresis> <A>		: "\304"	Adiaeresis
  <Multi_key> <A> <asterisk>		: "\305"	Aring
  <Multi_key> <asterisk> <A>		: "\305"	Aring
@@ -43,7 +43,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-15/Compose.pre nls/iso8859-15/Compose.
  <Multi_key> <A> <O>			: "\305"	Aring
  <Multi_key> <A> <E>			: "\306"	AE
  <Multi_key> <a> <grave>			: "\340"	agrave
-@@ -383,6 +384,19 @@ XCOMM Accented Alphabet
+@@ -381,6 +382,19 @@ XCOMM Accented Alphabet
  <Multi_key> <z> <less>			: "\270"	zcaron
  <Multi_key> <less> <z>			: "\270"	zcaron
  XCOMM
@@ -63,7 +63,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-15/Compose.pre nls/iso8859-15/Compose.
  XCOMM dead key accent keysyms
  XCOMM Special Character
  <dead_circumflex> <slash>		: "|"	bar
-@@ -392,12 +406,7 @@ XCOMM Special Character
+@@ -390,12 +404,7 @@ XCOMM Special Character
  <dead_tilde> <dead_tilde>		: "~"	asciitilde
  <dead_grave> <space>			: "`"	grave
  <dead_grave> <dead_grave>		: "`"	grave
@@ -76,7 +76,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-15/Compose.pre nls/iso8859-15/Compose.
  <dead_circumflex> <0>			: "\260"	degree
  <dead_circumflex> <1>			: "\271"	onesuperior
  <dead_circumflex> <2>			: "\262"	twosuperior
-@@ -475,4 +484,415 @@ XCOMM Accented Alphabet
+@@ -473,4 +482,415 @@ XCOMM Accented Alphabet
  XCOMM Useful for portuguese language
  <dead_acute> <C>			: "\307"	Ccedilla
  <dead_acute> <c>			: "\347"	ccedilla

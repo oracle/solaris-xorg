@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,11 +35,25 @@ make the call to XInitThreads, even if the client has already made
 other Xlib calls.
 
 diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
---- include/X11/Xlibint.h	2010-04-26 22:00:12.000000000 -0700
-+++ include/X11/Xlibint.h	2010-06-07 15:49:10.764640595 -0700
-@@ -199,6 +199,29 @@ struct _XDisplay
+--- include/X11/Xlibint.h	2010-10-04 18:02:06.000000000 -0700
++++ include/X11/Xlibint.h	2010-11-21 18:47:51.771637018 -0800
+@@ -199,6 +199,10 @@ struct _XDisplay
  	void *cookiejar;  /* cookie events returned but not claimed */
  };
+ 
++#if defined(XTHREADS) && defined(SUNSOFT)
++int  InitDisplayArrayLock(void);
++#endif /* XTHREADS && SUNSOFT */
++
+ #define XAllocIDs(dpy,ids,n) (*(dpy)->idlist_alloc)(dpy,ids,n)
+ 
+ /*
+diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
+--- src/OpenDis.c	2010-09-21 18:25:24.000000000 -0700
++++ src/OpenDis.c	2010-11-21 18:47:51.772360199 -0800
+@@ -38,6 +38,21 @@ in this Software without prior written a
+ #include "XKBlib.h"
+ #endif /* XKB */
  
 +#if defined(XTHREADS) && defined(SUNSOFT)
 +struct _DisplayPtrLink {
@@ -48,55 +62,32 @@ diff -urp -x '*~' -x '*.orig' include/X11/Xlibint.h include/X11/Xlibint.h
 +};
 +
 +typedef struct _DisplayPtrLink DisplayPtrLink;
-+
-+int InitDisplayArrayLock();
-+
-+void RemoveFromDisplayLink(
-+#if NeedFunctionPrototypes
-+    Display *   /*dpy */
-+#endif /* NeedFunctionPrototypes */
-+);
-+
-+int AddToDisplayLink(
-+#if NeedFunctionPrototypes
-+    Display *   /*dpy */
-+#endif /* NeedFunctionPrototypes */
-+);
-+#endif /* XTHREADS && SUNSOFT */
-+
- #define XAllocIDs(dpy,ids,n) (*(dpy)->idlist_alloc)(dpy,ids,n)
- 
- /*
-diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2010-05-14 20:33:41.000000000 -0700
-+++ src/OpenDis.c	2010-06-07 15:49:10.765824756 -0700
-@@ -60,6 +60,11 @@ typedef struct {
- } _XBigReqState;
- #endif /* !USE_XCB */
- 
-+#if defined(XTHREADS) && defined(SUNSOFT)
 +DisplayPtrLink *HeadDisplay=NULL;
 +DisplayPtrLink *LastDisplay=NULL;
++
++static int  AddToDisplayLink(Display *dpy);
++static void RemoveFromDisplayLink(Display *dpy);
++
 +#endif /* XTHREADS && SUNSOFT */
 +
  #ifdef XTHREADS
  #include "locking.h"
  int  (*_XInitDisplayLock_fn)(Display *dpy) = NULL;
-@@ -278,6 +283,13 @@ fallback_success:
+@@ -227,6 +232,13 @@ fallback_success:
  		return(NULL);
  	}
  
 +#ifdef XTHREADS
 +        if (AddToDisplayLink(dpy) == 0) {
-+                OutOfMemory (dpy, setup);
++                OutOfMemory (dpy);
 +                return(NULL);
 +        }
 +#endif XTHREADS
 +
  	if (!_XPollfdCacheInit(dpy)) {
- 	        OutOfMemory (dpy, setup);
+ 	        OutOfMemory (dpy);
  		return(NULL);
-@@ -814,6 +826,10 @@ _XBigReqHandler(
+@@ -600,6 +612,10 @@ fallback_success:
  
  void _XFreeDisplayStructure(Display *dpy)
  {
@@ -107,14 +98,13 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  	/* move all cookies in the EQ to the jar, then free them. */
  	if (dpy->qfree) {
  	    _XQEvent *qelt = dpy->qfree;
-@@ -945,6 +961,107 @@ void _XFreeDisplayStructure(Display *dpy
+@@ -728,6 +744,105 @@ void _XFreeDisplayStructure(Display *dpy
  	Xfree ((char *)dpy);
  }
  
 +#if defined(XTHREADS) && defined(SUNSOFT)
-+int
-+AddToDisplayLink(dpy)
-+Display *dpy;
++static int
++AddToDisplayLink(Display *dpy)
 +{
 +    if ( dpy->lock )
 +        return 1;
@@ -145,9 +135,8 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +    return 1;
 +}
 +
-+void
-+RemoveFromDisplayLink(dpy)
-+Display *dpy;
++static void
++RemoveFromDisplayLink(Display *dpy)
 +{
 +    DisplayPtrLink *tmp_display  = HeadDisplay;
 +    DisplayPtrLink *prev_display = HeadDisplay;
@@ -191,7 +180,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +}
 +
 +int
-+InitDisplayArrayLock()
++InitDisplayArrayLock(void)
 +{
 +    DisplayPtrLink *tmp_display  = HeadDisplay;
 +    DisplayPtrLink *prev_display = HeadDisplay;
@@ -200,7 +189,7 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
 +        if ((tmp_display->dpy) && (!tmp_display->dpy->lock)) {
 +            /* Initialize the display lock */
 +            if (_XInitDisplayLock_fn(tmp_display->dpy) != 0) {
-+                OutOfMemory (tmp_display->dpy, NULL);
++                OutOfMemory (tmp_display->dpy);
 +                return 0;
 +            }
 +        }
@@ -216,8 +205,8 @@ diff -urp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
     after this returns. */
  
 diff -urp -x '*~' -x '*.orig' src/locking.c src/locking.c
---- src/locking.c	2010-04-16 08:40:29.000000000 -0700
-+++ src/locking.c	2010-06-07 15:49:10.766507253 -0700
+--- src/locking.c	2010-09-03 22:52:39.000000000 -0700
++++ src/locking.c	2010-11-21 18:47:51.772597162 -0800
 @@ -612,6 +612,11 @@ Status XInitThreads(void)
  #endif
  #endif

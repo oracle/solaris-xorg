@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,12 +21,13 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
---- nls/en_US.UTF-8/Compose.pre	2010-08-10 17:42:18.000000000 -0700
-+++ nls/en_US.UTF-8/Compose.pre	2010-08-05 20:42:35.085554525 -0700
+diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/Compose.pre nls/en_US.UTF-8/Compose.pre
+--- nls/en_US.UTF-8/Compose.pre	2010-09-21 18:25:24.000000000 -0700
++++ nls/en_US.UTF-8/Compose.pre	2010-11-21 18:48:20.433248840 -0800
 @@ -1,8 +1,69 @@
 -XCOMM UTF-8 (Unicode) compose sequence
 +XCOMM
-+XCOMM Copyright (c) 2006, 2009 Oracle and/or its affiliates. All rights reserved.
++XCOMM Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 +XCOMM
 +XCOMM Permission is hereby granted, free of charge, to any person obtaining a
 +XCOMM copy of this software and associated documentation files (the
@@ -113,7 +114,7 @@
  <Multi_key> <period> <minus>    	: "·"   periodcentered # MIDDLE DOT
  <Multi_key> <period> <equal>    	: "•"   enfilledcircbullet # BULLET
  <Multi_key> <exclam> <asciicircum> 	: "¦"   brokenbar # BROKEN BAR
-@@ -101,12 +162,12 @@ XCOMM Spaces
+@@ -101,13 +162,13 @@ XCOMM Spaces
  <Multi_key> <P> <exclam>         	: "¶"   paragraph # PILCROW SIGN
  <Multi_key> <plus> <minus>       	: "±"   plusminus # PLUS-MINUS SIGN
  <Multi_key> <question> <question> 	: "¿"   questiondown # INVERTED QUESTION MARK
@@ -122,6 +123,7 @@
 +XCOMM <Multi_key> <minus> <d>          	: "đ"   dstroke # LATIN SMALL LETTER D WITH STROKE
 +XCOMM <Multi_key> <minus> <D>          	: "Đ"   Dstroke # LATIN CAPITAL LETTER D WITH STROKE
  <Multi_key> <s> <s>              	: "ß"   ssharp # LATIN SMALL LETTER SHARP S
+ <Multi_key> <S> <S>              	: "ẞ"   Ssharp # LATIN CAPITAL LETTER SHARP S
  
 -<Multi_key> <o> <e>              	: "œ"   oe # LATIN SMALL LIGATURE OE
 -<Multi_key> <O> <E>              	: "Œ"   OE # LATIN CAPITAL LIGATURE OE
@@ -130,7 +132,7 @@
  <Multi_key> <a> <e>              	: "æ"   ae # LATIN SMALL LETTER AE
  <Multi_key> <A> <E>              	: "Æ"   AE # LATIN CAPITAL LETTER AE
  
-@@ -135,12 +196,12 @@ XCOMM Per xxx
+@@ -136,12 +197,12 @@ XCOMM Per xxx
  
  XCOMM Currencies
  <Multi_key> <C> <E>              	: "₠"   U20a0 # EURO-CURRENCY SIGN
@@ -147,7 +149,7 @@
  <Multi_key> <m> <slash>          	: "₥"   U20a5 # MILL SIGN
  <Multi_key> <slash> <m>          	: "₥"   U20a5 # MILL SIGN
  <Multi_key> <N> <equal>          	: "₦"   U20a6 # NAIRA SIGN
-@@ -150,7 +211,7 @@ XCOMM Currencies
+@@ -151,7 +212,7 @@ XCOMM Currencies
  <Multi_key> <W> <equal>          	: "₩"   U20a9 # WON SIGN
  <Multi_key> <equal> <W>          	: "₩"   U20a9 # WON SIGN
  XCOMM "₪" U20aa NEW SHEQEL SIGN
@@ -156,7 +158,7 @@
  <Multi_key> <C> <equal>          	: "€"   EuroSign # EURO SIGN
  <Multi_key> <equal> <C>          	: "€"   EuroSign # EURO SIGN
  <Multi_key> <c> <equal>          	: "€"   EuroSign # EURO SIGN
-@@ -188,8 +249,8 @@ XCOMM Long S
+@@ -189,8 +250,8 @@ XCOMM Long S
  <Multi_key> <f> <S>              	: "ſ"   U017f # LATIN SMALL LETTER LONG S
  
  XCOMM Dashes
@@ -167,7 +169,7 @@
  
  XCOMM Musical alterations
  <Multi_key> <numbersign> <b>     	: "♭"   U266d # MUSIC FLAT SIGN
-@@ -221,5161 +282,2594 @@ XCOMM Other symbols
+@@ -222,5161 +283,2594 @@ XCOMM Other symbols
  <Multi_key> <colon> <parenright>        : "☺"   U263A # WHITE SMILING FACE
  <Multi_key> <colon> <parenleft>         : "☹"   U2639 # WHITE FROWNING FACE
  

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/ko/XI18N_OBJS nls/ko/XI18N_OBJS
---- nls/ko/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ko/XI18N_OBJS	2009-04-08 00:26:42.662948000 -0700
+--- nls/ko/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
++++ nls/ko/XI18N_OBJS	2010-11-21 18:48:40.529442909 -0800
 @@ -3,5 +3,5 @@
  #	XI18N objects table for ko locale
  #
@@ -32,9 +32,9 @@ diff -urp -x '*~' -x '*.orig' nls/ko/XI18N_OBJS nls/ko/XI18N_OBJS
 +XIM	common/ximcp   _XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open    XIM_register XIM_unregister
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
 diff -urp -x '*~' -x '*.orig' nls/ko/XLC_LOCALE.pre nls/ko/XLC_LOCALE.pre
---- nls/ko/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ko/XLC_LOCALE.pre	2009-04-08 00:26:42.663142000 -0700
-@@ -13,7 +13,7 @@ fs0	{
+--- nls/ko/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/ko/XLC_LOCALE.pre	2010-11-21 18:48:40.529726589 -0800
+@@ -11,7 +11,7 @@ fs0	{
  		name	ISO8859-1:GL
  	}
  	font	{

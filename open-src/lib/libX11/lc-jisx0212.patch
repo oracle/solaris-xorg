@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcUniConv/jisx0212.h
---- src/xlibi18n/lcUniConv/jisx0212.h	2008-10-07 10:18:20.000000000 -0700
-+++ src/xlibi18n/lcUniConv/jisx0212.h	2009-04-08 00:20:02.958840000 -0700
-@@ -4,6 +4,1592 @@
+--- src/xlibi18n/lcUniConv/jisx0212.h	2010-09-03 22:52:39.000000000 -0700
++++ src/xlibi18n/lcUniConv/jisx0212.h	2010-11-21 20:00:51.399834544 -0800
+@@ -3,6 +3,1592 @@
   * JISX0212.1990-0
   */
  
@@ -1617,7 +1617,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcU
  static const unsigned short jisx0212_2uni_page22[81] = {
    /* 0x22 */
    0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-@@ -920,11 +2506,19 @@ jisx0212_mbtowc (conv_t conv, ucs4_t *pw
+@@ -919,11 +2505,19 @@ jisx0212_mbtowc (conv_t conv, ucs4_t *pw
            return 2;
          }
        }
@@ -1637,7 +1637,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcU
  }
  
  static const unsigned short jisx0212_2charset[6067] = {
-@@ -2135,7 +3729,7 @@ jisx0212_wctomb (conv_t conv, unsigned c
+@@ -2134,7 +3728,7 @@ jisx0212_wctomb (conv_t conv, unsigned c
  {
    if (n >= 2) {
      const Summary16 *summary = NULL;
@@ -1646,7 +1646,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcU
        summary = &jisx0212_uni2indx_page00[(wc>>4)];
      else if (wc >= 0x2100 && wc < 0x2130)
        summary = &jisx0212_uni2indx_page21[(wc>>4)-0x210];
-@@ -2158,7 +3752,11 @@ jisx0212_wctomb (conv_t conv, unsigned c
+@@ -2157,7 +3751,11 @@ jisx0212_wctomb (conv_t conv, unsigned c
          return 2;
        }
      }

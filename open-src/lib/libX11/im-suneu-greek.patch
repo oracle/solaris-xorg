@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/imConv.c src/imConv.c
---- src/imConv.c	2008-10-07 10:18:19.000000000 -0700
-+++ src/imConv.c	2009-04-08 00:19:39.715079000 -0700
-@@ -72,6 +72,7 @@ struct SubstRec {
+--- src/imConv.c	2010-09-21 18:25:24.000000000 -0700
++++ src/imConv.c	2010-11-21 18:47:58.605389418 -0800
+@@ -69,6 +69,7 @@ struct SubstRec {
  };
  
  static const struct SubstRec SubstTable[] = {

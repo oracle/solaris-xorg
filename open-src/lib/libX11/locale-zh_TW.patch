@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/zh_TW/XI18N_OBJS nls/zh_TW/XI18N_OBJS
---- nls/zh_TW/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_TW/XI18N_OBJS	2009-04-08 00:28:10.543760000 -0700
+--- nls/zh_TW/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
++++ nls/zh_TW/XI18N_OBJS	2010-11-21 18:48:46.686739982 -0800
 @@ -3,5 +3,5 @@
  #	XI18N objects table for zh_TW locale
  #
@@ -32,9 +32,9 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW/XI18N_OBJS nls/zh_TW/XI18N_OBJS
 +XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
 diff -urp -x '*~' -x '*.orig' nls/zh_TW/XLC_LOCALE.pre nls/zh_TW/XLC_LOCALE.pre
---- nls/zh_TW/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_TW/XLC_LOCALE.pre	2009-04-08 00:28:10.552797000 -0700
-@@ -21,14 +21,14 @@ fs0	{
+--- nls/zh_TW/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/zh_TW/XLC_LOCALE.pre	2010-11-21 18:48:46.687115085 -0800
+@@ -20,14 +20,14 @@ fs0	{
  		name	ISO8859-1:GL
  	}
  	font	{
@@ -51,7 +51,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW/XLC_LOCALE.pre nls/zh_TW/XLC_LOCALE.pre
  	}
  	font	{
  		primary	CNS11643.1986-1:GL
-@@ -37,7 +37,7 @@ fs1	{
+@@ -36,7 +36,7 @@ fs1	{
  XCOMM 	fs2 class
  fs2	{
  	charset	{
@@ -60,7 +60,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW/XLC_LOCALE.pre nls/zh_TW/XLC_LOCALE.pre
  	}
  	font	{
  		primary	CNS11643.1986-2:GL
-@@ -46,7 +46,7 @@ fs2	{
+@@ -45,7 +45,7 @@ fs2	{
  XCOMM 	fs3 class 
  fs3	{
  	charset	{
@@ -69,7 +69,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW/XLC_LOCALE.pre nls/zh_TW/XLC_LOCALE.pre
  	}
  	font	{
  		primary	CNS11643.1986-14:GL
-@@ -55,7 +55,7 @@ fs3	{
+@@ -54,7 +54,7 @@ fs3	{
  XCOMM 	fs4 class 
  fs4	{
  	charset	{
@@ -78,7 +78,7 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW/XLC_LOCALE.pre nls/zh_TW/XLC_LOCALE.pre
  	}
  	font	{
  		primary	CNS11643.1986-15:GL
-@@ -64,7 +64,7 @@ fs4	{
+@@ -63,7 +63,7 @@ fs4	{
  XCOMM 	fs5 class 
  fs5	{
  	charset	{

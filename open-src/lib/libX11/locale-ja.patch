@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/ja/XI18N_OBJS nls/ja/XI18N_OBJS
---- nls/ja/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ja/XI18N_OBJS	2009-04-08 00:26:17.490332000 -0700
+--- nls/ja/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
++++ nls/ja/XI18N_OBJS	2010-11-21 18:48:37.485411943 -0800
 @@ -4,8 +4,5 @@
  #
  XLC	ja/xlibi18n_ja	_XlcGenericLoader	# XLC_open
@@ -34,9 +34,9 @@ diff -urp -x '*~' -x '*.orig' nls/ja/XI18N_OBJS nls/ja/XI18N_OBJS
  XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_regiser XIM_unregister
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
 diff -urp -x '*~' -x '*.orig' nls/ja/XLC_LOCALE.pre nls/ja/XLC_LOCALE.pre
---- nls/ja/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ja/XLC_LOCALE.pre	2009-04-08 00:26:17.490544000 -0700
-@@ -44,16 +44,18 @@ fs2	{
+--- nls/ja/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/ja/XLC_LOCALE.pre	2010-11-21 18:48:37.485721624 -0800
+@@ -39,16 +39,18 @@ fs2	{
  		vertical_rotate	all
  	}
  }
@@ -64,7 +64,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja/XLC_LOCALE.pre nls/ja/XLC_LOCALE.pre
  END XLC_FONTSET
  
  XCOMM 
-@@ -112,18 +114,16 @@ cs2	{
+@@ -107,18 +109,16 @@ cs2	{
  }
  
  XCOMM 	cs3 class

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,9 +35,9 @@ sure only one thread can access the data at one time fixed the
 problem.
 
 diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
---- src/GetColor.c	2008-10-07 10:18:18.000000000 -0700
-+++ src/GetColor.c	2009-04-08 00:17:54.349336000 -0700
-@@ -58,12 +58,14 @@ XColor *exact_def) /* RETURN */
+--- src/GetColor.c	2010-09-21 18:25:24.000000000 -0700
++++ src/GetColor.c	2010-11-21 18:47:53.290042212 -0800
+@@ -55,12 +55,14 @@ XColor *exact_def) /* RETURN */
      if ((ccc = XcmsCCCOfColormap(dpy, cmap)) != (XcmsCCC)NULL) {
  	const char *tmpName = colorname;
  
@@ -52,7 +52,7 @@ diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
  	    ret = XAllocColor(dpy, cmap, hard_def);
  	    exact_def->pixel = hard_def->pixel;
  	    return(ret);
-@@ -76,6 +78,7 @@ XColor *exact_def) /* RETURN */
+@@ -73,6 +75,7 @@ XColor *exact_def) /* RETURN */
  	     */
  	    break;
  	}
@@ -61,9 +61,9 @@ diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
  #endif
  
 diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
---- src/LookupCol.c	2008-10-07 10:18:18.000000000 -0700
-+++ src/LookupCol.c	2009-04-08 00:17:54.349566000 -0700
-@@ -56,6 +56,7 @@ XLookupColor (
+--- src/LookupCol.c	2010-09-21 18:25:24.000000000 -0700
++++ src/LookupCol.c	2010-11-21 18:47:53.290371408 -0800
+@@ -53,6 +53,7 @@ XLookupColor (
  	if ((ccc = XcmsCCCOfColormap(dpy, cmap)) != (XcmsCCC)NULL) {
  	    const char *tmpName = spec;
  
@@ -71,7 +71,7 @@ diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
  	    switch (_XcmsResolveColorString(ccc, &tmpName, &cmsColor_exact,
  					    XcmsRGBFormat)) {
  	    case XcmsSuccess:
-@@ -63,6 +64,7 @@ XLookupColor (
+@@ -60,6 +61,7 @@ XLookupColor (
  		_XcmsRGB_to_XColor(&cmsColor_exact, def, 1);
  		memcpy((char *)scr, (char *)def, sizeof(XColor));
  		_XUnresolveColor(ccc, scr);
@@ -79,7 +79,7 @@ diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
  		return(1);
  	    case XcmsFailure:
  	    case _XCMS_NEWNAME:
-@@ -73,6 +75,7 @@ XLookupColor (
+@@ -70,6 +72,7 @@ XLookupColor (
  		 */
  		break;
  	    }

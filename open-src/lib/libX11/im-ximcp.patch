@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw.c
---- modules/im/ximcp/imImSw.c	2008-10-07 10:18:17.000000000 -0700
-+++ modules/im/ximcp/imImSw.c	2009-04-08 00:19:51.221058000 -0700
-@@ -50,7 +50,9 @@ _XimCheckIfDefault(
+--- modules/im/ximcp/imImSw.c	2010-09-03 22:52:38.000000000 -0700
++++ modules/im/ximcp/imImSw.c	2010-11-21 18:47:59.406356831 -0800
+@@ -48,7 +48,9 @@ _XimCheckIfDefault(
  }
  
  XimImsportSW _XimImSportRec[] = {
@@ -35,9 +35,9 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw.
      { _XimCheckIfDefault,         _XimProtoOpenIM, _XimProtoIMFree },
      { NULL,                       NULL,		 NULL },
 diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imThaiFlt.c
---- modules/im/ximcp/imThaiFlt.c	2009-01-28 21:09:42.000000000 -0800
-+++ modules/im/ximcp/imThaiFlt.c	2009-04-08 00:19:51.228478000 -0700
-@@ -78,6 +78,12 @@ SOFTWARE.
+--- modules/im/ximcp/imThaiFlt.c	2010-09-03 22:52:38.000000000 -0700
++++ modules/im/ximcp/imThaiFlt.c	2010-11-21 18:47:59.407125117 -0800
+@@ -76,6 +76,12 @@ SOFTWARE.
  #include "XimThai.h"
  #include "XlcPubI.h"
  
@@ -50,7 +50,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
  
  #define SPACE   32
  
-@@ -518,6 +524,45 @@ Private Bool ThaiComposeConvert(
+@@ -516,6 +522,45 @@ Private Bool ThaiComposeConvert(
       (wchar_t)(c) : \
       ((0x0A1<=(c)) ? ((wchar_t)(c)-0xA0+0x0E00) : 0))
  
@@ -96,7 +96,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
  /*
   * Macros to save and recall last input character in XIC
   */
-@@ -1188,6 +1233,41 @@ Private void InitIscMode(Xic ic)
+@@ -1210,6 +1255,41 @@ Private void InitIscMode(Xic ic)
      return;
  }
  
@@ -138,7 +138,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
  /*
   * Helper functions for _XimThaiFilter()
   */
-@@ -1195,8 +1275,20 @@ Private Bool
+@@ -1217,8 +1297,20 @@ Private Bool
  ThaiFltAcceptInput(Xic ic, unsigned char new_char, KeySym symbol)
  {
      DefTreeBase *b = &ic->private.local.base;
@@ -159,7 +159,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
  
      if ((new_char <= 0x1f) || (new_char == 0x7f))
          b->tree[ic->private.local.composed].keysym = symbol;
-@@ -1211,10 +1303,23 @@ ThaiFltReorderInput(Xic ic, unsigned cha
+@@ -1233,10 +1325,23 @@ ThaiFltReorderInput(Xic ic, unsigned cha
  {
      DefTreeBase *b = &ic->private.local.base;
      if (!IC_DeletePreviousChar(ic)) return False;
@@ -184,7 +184,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
      b->tree[ic->private.local.composed].keysym = NoSymbol;
  
      return True;
-@@ -1225,9 +1330,20 @@ ThaiFltReplaceInput(Xic ic, unsigned cha
+@@ -1247,9 +1352,20 @@ ThaiFltReplaceInput(Xic ic, unsigned cha
  {
      DefTreeBase *b = &ic->private.local.base;
      if (!IC_DeletePreviousChar(ic)) return False;
@@ -206,7 +206,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
      if ((new_char <= 0x1f) || (new_char == 0x7f))
          b->tree[ic->private.local.composed].keysym = symbol;
      else
-@@ -1329,7 +1445,15 @@ _XimThaiFilter(Display *d, Window w, XEv
+@@ -1367,7 +1483,15 @@ _XimThaiFilter(Display *d, Window w, XEv
       */
      isc_mode = IC_IscMode(ic);
      if (!(previous_char = IC_GetPreviousChar(ic))) previous_char = ' ';

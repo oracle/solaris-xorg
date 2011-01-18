@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XI18N_OBJS nls/ja.SJIS/XI18N_OBJS
---- nls/ja.SJIS/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ja.SJIS/XI18N_OBJS	2009-04-08 00:26:05.914860000 -0700
+--- nls/ja.SJIS/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
++++ nls/ja.SJIS/XI18N_OBJS	2010-11-21 18:48:36.526767266 -0800
 @@ -4,7 +4,7 @@
  #
  XLC	ja_JP.PCK/xlibi18n_PCK	_XlcGenericLoader	# XLC_open
@@ -35,9 +35,9 @@ diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XI18N_OBJS nls/ja.SJIS/XI18N_OBJS
 +XIM	common/ximp40	_Ximp_OpenIM		# XIM_open
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
 diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XLC_LOCALE.pre nls/ja.SJIS/XLC_LOCALE.pre
---- nls/ja.SJIS/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/ja.SJIS/XLC_LOCALE.pre	2009-04-08 00:26:05.933297000 -0700
-@@ -34,9 +34,20 @@ fs1	{
+--- nls/ja.SJIS/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/ja.SJIS/XLC_LOCALE.pre	2010-11-21 18:48:36.527360324 -0800
+@@ -29,9 +29,20 @@ fs1	{
  		substitute      JISX0208.1990-0:GL
  	}
  }
@@ -59,7 +59,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XLC_LOCALE.pre nls/ja.SJIS/XLC_LOCALE.
  		name		JISX0201.1976-0:GR
  	}
  	font	{
-@@ -45,15 +56,7 @@ fs2	{
+@@ -40,15 +51,7 @@ fs2	{
  		vertical_rotate	all
  	}
  }
@@ -76,7 +76,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XLC_LOCALE.pre nls/ja.SJIS/XLC_LOCALE.
  END XLC_FONTSET
  
  XCOMM 
-@@ -148,30 +151,279 @@ cs1	{
+@@ -143,30 +146,279 @@ cs1	{
      [\xef40,\xef7e]->\x7d21,[\xef80,\xef9e]->\x7d60,[\xef9f,\xeffc]->\x7e21
  }
  

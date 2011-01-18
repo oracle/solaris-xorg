@@ -1,25 +1,25 @@
 Allow passing multi-directory paths to configure search for locale files
 
 diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2010-06-07 15:49:42.994766047 -0700
-+++ configure.ac	2010-06-07 15:49:44.506894780 -0700
-@@ -477,11 +477,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRI
+--- configure.ac	2010-11-21 18:48:30.520846608 -0800
++++ configure.ac	2010-11-21 18:48:31.439723048 -0800
+@@ -427,11 +427,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRI
   [Directory where locale libraries files are installed (default: $libdir/X11/locale)]),
  				[ X11_LOCALELIBDIR="$withval" ],
  				[ X11_LOCALELIBDIR="${X11_LIBDIR}/locale" ])
--AC_DEFINE_DIR(XLOCALELIBDIR, X11_LOCALELIBDIR, [Location of libX11 locale libraries])
+-AX_DEFINE_DIR(XLOCALELIBDIR, X11_LOCALELIBDIR, [Location of libX11 locale libraries])
 +if test "x$XLOCALELIBDIR" = "x" ; then
 +	XLOCALELIBDIR="${X11_LOCALELIBDIR}"
 +fi
-+AC_DEFINE_DIR(XLOCALELIBDIR, XLOCALELIBDIR, [Location of libX11 locale libraries])
++AX_DEFINE_DIR(XLOCALELIBDIR, XLOCALELIBDIR, [Location of libX11 locale libraries])
  AC_SUBST(X11_LOCALELIBDIR)
  
 -X11_LOCALEDIR="${X11_LOCALEDATADIR}"
--AC_DEFINE_DIR(XLOCALEDIR, X11_LOCALEDIR, [Location of libX11 locale data])
+-AX_DEFINE_DIR(XLOCALEDIR, X11_LOCALEDIR, [Location of libX11 locale data])
 +if test "x$XLOCALEDIR" = "x" ; then
 +	XLOCALEDIR="${X11_LOCALEDATADIR}"
 +fi
-+AC_DEFINE_DIR(XLOCALEDIR, XLOCALEDIR, [Location of libX11 locale data])
++AX_DEFINE_DIR(XLOCALEDIR, XLOCALEDIR, [Location of libX11 locale data])
  AC_SUBST(X11_LOCALEDIR)
  
  XKEYSYMDB="${X11_DATADIR}/XKeysymDB"

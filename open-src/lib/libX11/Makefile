@@ -1,8 +1,6 @@
 ###############################################################################
 #
-# X11 1.x Makefile
-#
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +27,11 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.5
+MODULE_VERSION = 1.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a1175b6667fcb249c6f1d725965944e3
-TARBALL_SHA1 = c5dda2b6279f3e3267646576138fcd091a7f3c54
+TARBALL_MD5  = 4603bdbce1bd73cbc140de402fe6ed24
+TARBALL_SHA1 = 83590cdac5071b7154b223d73655edcfc82095c1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -44,11 +42,8 @@ SOURCE_PATCHES = \
 	solaris-abi.patch \
 	solaris-kbd.patch \
 	SolarisIA.patch \
-	4076297.patch \
-	1261271.patch \
 	6714036.patch \
 	6789219.patch \
-	sme.patch \
 	im-suneu-greek.patch \
 	im-ximcp.patch \
 	lc-jisx0212.patch \
@@ -94,8 +89,7 @@ SOURCE_PATCHES = \
 	locale-zh_HK.UTF-8.patch \
 	locale-zh_TW.UTF-8.patch \
 	locale-zh_TW.patch \
-	locale-ru-RU.UTF-8.patch \
-	6667057.patch
+	locale-ru-RU.UTF-8.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
@@ -123,7 +117,7 @@ LIB_MAN_SUFFIX=3x11
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
-	--disable-specs \
+	--disable-xf86bigfont \
 	--with-xcb=yes --enable-loadable-xcursor --enable-xcms \
 	--enable-xlocaledir --enable-xkb --enable-man-pages=$(LIB_MAN_SUFFIX) \
 	--with-locale-lib-dir='$${exec_prefix}/lib/X11/locale$(LIBSUBDIR)'
@@ -131,7 +125,7 @@ MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
 # -xF is needed for mapfile reordering to work
 MODULE_CFLAGS = -xF
 
-# -DSUNSOFT enables SUN_SME (Shared Memory transport extension)
+# -DSUNSOFT enables Solaris extensions
 # -DMOTIFBC enables compatibility with bugs in Motif & other apps
 # -DSUNSOFT_KBD enables Solaris traditional keyboard handling
 MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD \

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -102,6 +102,17 @@ dir path=usr/share/X11/locale/zh_HK.big5hkscs
 dir path=usr/share/X11/locale/zh_TW
 dir path=usr/share/X11/locale/zh_TW.UTF-8
 dir path=usr/share/X11/locale/zh_TW.big5
+dir path=usr/share/doc
+dir path=usr/share/doc/libX11
+dir path=usr/share/doc/libX11/Compose
+dir path=usr/share/doc/libX11/specs
+dir path=usr/share/doc/libX11/specs/XIM
+dir path=usr/share/doc/libX11/specs/XKB
+dir path=usr/share/doc/libX11/specs/i18n
+dir path=usr/share/doc/libX11/specs/i18n/framework
+dir path=usr/share/doc/libX11/specs/i18n/localedb
+dir path=usr/share/doc/libX11/specs/i18n/trans
+dir path=usr/share/doc/libX11/specs/libX11
 dir path=usr/share/man
 dir path=usr/share/man/man3x11
 dir path=usr/share/man/man4
@@ -112,8 +123,8 @@ file path=usr/include/X11/XlcGeneric.h
 file path=usr/include/X11/XlcPubI.h
 file path=usr/include/X11/XlcPublic.h
 file path=usr/include/X11/Xlcint.h
-file path=usr/include/X11/Xlib.h
 file path=usr/include/X11/Xlib-xcb.h
+file path=usr/include/X11/Xlib.h
 file path=usr/include/X11/XlibConf.h
 file path=usr/include/X11/Xlibint.h
 file path=usr/include/X11/Xlocale.h
@@ -123,11 +134,11 @@ file path=usr/include/X11/Xutil.h
 file path=usr/include/X11/Xvarargs.h
 file path=usr/include/X11/cursorfont.h
 file path=usr/include/X11/extensions/XInteractive.h
+file path=usr/lib/$(ARCH64)/libX11-xcb.so.1
 file path=usr/lib/$(ARCH64)/libX11.so.4
 file path=usr/lib/$(ARCH64)/llib-lX11.ln
-file path=usr/lib/$(ARCH64)/libX11-xcb.so.1
-file path=usr/lib/$(ARCH64)/pkgconfig/x11.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/x11-xcb.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/x11.pc
 file path=usr/lib/X11/Xcms.txt
 file path=usr/lib/X11/locale/$(ARCH64)/common/ximcp.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlcDef.so.2
@@ -143,13 +154,12 @@ file path=usr/lib/X11/locale/common/xlcUTF8Load.so.2
 file path=usr/lib/X11/locale/common/xlibi18n.so.2
 file path=usr/lib/X11/locale/common/xlocale.so.2
 file path=usr/lib/X11/locale/common/xomGeneric.so.2
+file path=usr/lib/libX11-xcb.so.1
 file path=usr/lib/libX11.so.4
 file path=usr/lib/llib-lX11.ln
-file path=usr/lib/libX11-xcb.so.1
-file path=usr/lib/pkgconfig/x11.pc
 file path=usr/lib/pkgconfig/x11-xcb.pc
+file path=usr/lib/pkgconfig/x11.pc
 file path=usr/share/X11/XErrorDB
-file path=usr/share/X11/XKeysymDB
 file path=usr/share/X11/locale/C/Compose
 file path=usr/share/X11/locale/C/XI18N_OBJS
 file path=usr/share/X11/locale/C/XLC_LOCALE
@@ -333,6 +343,87 @@ file path=usr/share/X11/locale/zh_TW.big5/XLC_LOCALE
 file path=usr/share/X11/locale/zh_TW/Compose
 file path=usr/share/X11/locale/zh_TW/XI18N_OBJS
 file path=usr/share/X11/locale/zh_TW/XLC_LOCALE
+file path=usr/share/doc/libX11/specs/XIM/dynamicflow.svg
+file path=usr/share/doc/libX11/specs/XIM/dynamicflowsampleseq.svg
+file path=usr/share/doc/libX11/specs/XIM/eventflow.svg
+file path=usr/share/doc/libX11/specs/XIM/sampleprotocolflow1.svg
+file path=usr/share/doc/libX11/specs/XIM/sampleprotocolflow2.svg
+file path=usr/share/doc/libX11/specs/XIM/staticflow.svg
+file path=usr/share/doc/libX11/specs/XIM/staticflowsampleseq.svg
+file path=usr/share/doc/libX11/specs/XIM/xim.xml
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-1.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-10.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-11.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-12.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-13.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-14.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-15.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-16.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-17.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-18.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-19.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-2.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-20.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-21.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-3.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-4.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-5.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-6.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-7.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-8.svg
+file path=usr/share/doc/libX11/specs/XKB/XKBlib-9.svg
+file path=usr/share/doc/libX11/specs/XKB/acknowledgement.xml
+file path=usr/share/doc/libX11/specs/XKB/ch01.xml
+file path=usr/share/doc/libX11/specs/XKB/ch02.xml
+file path=usr/share/doc/libX11/specs/XKB/ch03.xml
+file path=usr/share/doc/libX11/specs/XKB/ch04.xml
+file path=usr/share/doc/libX11/specs/XKB/ch05.xml
+file path=usr/share/doc/libX11/specs/XKB/ch06.xml
+file path=usr/share/doc/libX11/specs/XKB/ch07.xml
+file path=usr/share/doc/libX11/specs/XKB/ch08.xml
+file path=usr/share/doc/libX11/specs/XKB/ch09.xml
+file path=usr/share/doc/libX11/specs/XKB/ch10.xml
+file path=usr/share/doc/libX11/specs/XKB/ch11.xml
+file path=usr/share/doc/libX11/specs/XKB/ch12.xml
+file path=usr/share/doc/libX11/specs/XKB/ch13.xml
+file path=usr/share/doc/libX11/specs/XKB/ch14.xml
+file path=usr/share/doc/libX11/specs/XKB/ch15.xml
+file path=usr/share/doc/libX11/specs/XKB/ch16.xml
+file path=usr/share/doc/libX11/specs/XKB/ch17.xml
+file path=usr/share/doc/libX11/specs/XKB/ch18.xml
+file path=usr/share/doc/libX11/specs/XKB/ch19.xml
+file path=usr/share/doc/libX11/specs/XKB/ch20.xml
+file path=usr/share/doc/libX11/specs/XKB/ch21.xml
+file path=usr/share/doc/libX11/specs/XKB/ch22.xml
+file path=usr/share/doc/libX11/specs/XKB/glossary.xml
+file path=usr/share/doc/libX11/specs/XKB/xkblib.xml
+file path=usr/share/doc/libX11/specs/i18n/framework/framework.svg
+file path=usr/share/doc/libX11/specs/i18n/framework/framework.xml
+file path=usr/share/doc/libX11/specs/i18n/localedb/localedb.xml
+file path=usr/share/doc/libX11/specs/i18n/trans/trans.xml
+file path=usr/share/doc/libX11/specs/libX11/AppA.xml
+file path=usr/share/doc/libX11/specs/libX11/AppB.xml
+file path=usr/share/doc/libX11/specs/libX11/AppC.xml
+file path=usr/share/doc/libX11/specs/libX11/AppD.xml
+file path=usr/share/doc/libX11/specs/libX11/CH01.xml
+file path=usr/share/doc/libX11/specs/libX11/CH02.xml
+file path=usr/share/doc/libX11/specs/libX11/CH03.xml
+file path=usr/share/doc/libX11/specs/libX11/CH04.xml
+file path=usr/share/doc/libX11/specs/libX11/CH05.xml
+file path=usr/share/doc/libX11/specs/libX11/CH06.xml
+file path=usr/share/doc/libX11/specs/libX11/CH07.xml
+file path=usr/share/doc/libX11/specs/libX11/CH08.xml
+file path=usr/share/doc/libX11/specs/libX11/CH09.xml
+file path=usr/share/doc/libX11/specs/libX11/CH10.xml
+file path=usr/share/doc/libX11/specs/libX11/CH11.xml
+file path=usr/share/doc/libX11/specs/libX11/CH12.xml
+file path=usr/share/doc/libX11/specs/libX11/CH13.xml
+file path=usr/share/doc/libX11/specs/libX11/CH14.xml
+file path=usr/share/doc/libX11/specs/libX11/CH15.xml
+file path=usr/share/doc/libX11/specs/libX11/CH16.xml
+file path=usr/share/doc/libX11/specs/libX11/credits.xml
+file path=usr/share/doc/libX11/specs/libX11/glossary.xml
+file path=usr/share/doc/libX11/specs/libX11/libX11.xml
 file path=usr/share/man/man3x11/AllPlanes.3x11
 file path=usr/share/man/man3x11/BitmapBitOrder.3x11
 file path=usr/share/man/man3x11/BitmapPad.3x11
@@ -449,6 +540,7 @@ file path=usr/share/man/man3x11/XCloseIM.3x11
 file path=usr/share/man/man3x11/XCloseOM.3x11
 file path=usr/share/man/man3x11/XColor.3x11
 file path=usr/share/man/man3x11/XColormapEvent.3x11
+file path=usr/share/man/man3x11/XCompose.3x11
 file path=usr/share/man/man3x11/XConfigureEvent.3x11
 file path=usr/share/man/man3x11/XConfigureRequestEvent.3x11
 file path=usr/share/man/man3x11/XConfigureWindow.3x11
@@ -1167,6 +1259,7 @@ link path=usr/X11/lib/libX11.so.4 target=../../lib/libX11.so.4
 link path=usr/X11/lib/libX11.so.5 target=../../lib/libX11.so.5
 link path=usr/lib/$(ARCH64)/libX.so target=libX11.so.4
 link path=usr/lib/$(ARCH64)/libX.so.4 target=libX11.so.4
+link path=usr/lib/$(ARCH64)/libX11-xcb.so target=libX11-xcb.so.1
 link path=usr/lib/$(ARCH64)/libX11.so target=libX11.so.4
 link path=usr/lib/$(ARCH64)/libX11.so.5 target=libX11.so.4
 link path=usr/lib/X11/locale/$(ARCH64)/common/ximcp.so target=ximcp.so.2
@@ -1188,9 +1281,8 @@ link path=usr/lib/X11/locale/common/xlocale.so target=xlocale.so.2
 link path=usr/lib/X11/locale/common/xomGeneric.so target=xomGeneric.so.2
 link path=usr/lib/libX.so target=libX11.so.4
 link path=usr/lib/libX.so.4 target=libX11.so.4
-link path=usr/lib/libX11.so target=libX11.so.4
-link path=usr/lib/$(ARCH64)/libX11-xcb.so target=libX11-xcb.so.1
 link path=usr/lib/libX11-xcb.so target=libX11-xcb.so.1
+link path=usr/lib/libX11.so target=libX11.so.4
 # Additional link required by SVID ABI (see PSARC/1997/141)
 link path=usr/lib/libX11.so.5 target=libX11.so.4
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

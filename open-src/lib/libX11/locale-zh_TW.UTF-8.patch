@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,8 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/zh_TW.UTF-8/XI18N_OBJS nls/zh_TW.UTF-8/XI18N_OBJS
---- nls/zh_TW.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_TW.UTF-8/XI18N_OBJS	2009-04-08 00:27:57.542784000 -0700
+--- nls/zh_TW.UTF-8/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
++++ nls/zh_TW.UTF-8/XI18N_OBJS	2010-11-21 18:48:45.802760490 -0800
 @@ -3,5 +3,9 @@
  #	XI18N objects table for zh_TW.UTF-8 locale
  #
@@ -35,9 +35,9 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW.UTF-8/XI18N_OBJS nls/zh_TW.UTF-8/XI18N_O
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
 diff -urp -x '*~' -x '*.orig' nls/zh_TW.UTF-8/XLC_LOCALE.pre nls/zh_TW.UTF-8/XLC_LOCALE.pre
---- nls/zh_TW.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_TW.UTF-8/XLC_LOCALE.pre	2009-04-08 00:27:57.543020000 -0700
-@@ -48,6 +48,7 @@ fs3	{
+--- nls/zh_TW.UTF-8/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/zh_TW.UTF-8/XLC_LOCALE.pre	2010-11-21 18:48:45.803025953 -0800
+@@ -47,6 +47,7 @@ fs3	{
  		name	ISO10646-1
  	}
  	font	{

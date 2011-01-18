@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pre
---- nls/iso8859-9/Compose.pre	2009-03-24 22:23:13.000000000 -0700
-+++ nls/iso8859-9/Compose.pre	2009-03-25 22:27:33.494864000 -0700
-@@ -11,6 +11,7 @@ XCOMM Special Character
+--- nls/iso8859-9/Compose.pre	2010-09-03 22:52:38.000000000 -0700
++++ nls/iso8859-9/Compose.pre	2010-11-21 18:48:14.880056336 -0800
+@@ -9,6 +9,7 @@ XCOMM Special Character
  <Multi_key> <plus> <plus>		: "#"	numbersign
  <Multi_key> <apostrophe> <space>	: "'"	apostrophe
  <Multi_key> <space> <apostrophe>	: "'"	apostrophe
@@ -32,7 +32,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <parenleft> <parenleft>	: "["	bracketleft
  <Multi_key> <slash> <slash>		: "\\"	backslash
  <Multi_key> <slash> <less>		: "\\"	backslash
-@@ -81,6 +82,18 @@ XCOMM Special Character
+@@ -79,6 +80,18 @@ XCOMM Special Character
  <Multi_key> <0> <S>			: "\247"	section
  <Multi_key> <s> <0>			: "\247"	section
  <Multi_key> <0> <s>			: "\247"	section
@@ -51,7 +51,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <c> <o>			: "\251"	copyright
  <Multi_key> <o> <c>			: "\251"	copyright
  <Multi_key> <C> <O>			: "\251"	copyright
-@@ -139,10 +152,20 @@ XCOMM Special Character
+@@ -137,10 +150,20 @@ XCOMM Special Character
  <Multi_key> <period> <asciicircum>	: "\267"	periodcentered
  <Multi_key> <asciicircum> <period>	: "\267"	periodcentered
  <Multi_key> <period> <period>		: "\267"	periodcentered
@@ -74,7 +74,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <minus> <minus>		: "\255"	hyphen
  <Multi_key> <R> <O>			: "\256"	registered
  <Multi_key> <O> <R>			: "\256"	registered
-@@ -179,8 +202,10 @@ XCOMM Accented Alphabet
+@@ -177,8 +200,10 @@ XCOMM Accented Alphabet
  <Multi_key> <diaeresis> <A>		: "\304"	Adiaeresis
  <Multi_key> <A> <asterisk>		: "\305"	Aring
  <Multi_key> <asterisk> <A>		: "\305"	Aring
@@ -86,7 +86,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <a> <grave>			: "\340"	agrave
  <Multi_key> <grave> <a>			: "\340"	agrave
  <Multi_key> <a> <acute>			: "\341"	aacute
-@@ -201,16 +226,20 @@ XCOMM Accented Alphabet
+@@ -199,16 +224,20 @@ XCOMM Accented Alphabet
  <Multi_key> <diaeresis> <a>		: "\344"	adiaeresis
  <Multi_key> <a> <asterisk>		: "\345"	aring
  <Multi_key> <asterisk> <a>		: "\345"	aring
@@ -108,7 +108,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <minus> <D>			: "\320"	ETH
  <Multi_key> <D> <minus>			: "\320"	ETH
  <Multi_key> <minus> <d>			: "\360"	eth
-@@ -232,6 +261,7 @@ XCOMM Accented Alphabet
+@@ -230,6 +259,7 @@ XCOMM Accented Alphabet
  <Multi_key> <e> <grave>			: "\350"	egrave
  <Multi_key> <grave> <e>			: "\350"	egrave
  <Multi_key> <e> <acute>			: "\351"	eacute
@@ -116,7 +116,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <acute> <e>			: "\351"	eacute
  <Multi_key> <e> <apostrophe>		: "\351"	eacute
  <Multi_key> <apostrophe> <e>		: "\351"	eacute
-@@ -253,6 +283,12 @@ XCOMM Accented Alphabet
+@@ -251,6 +281,12 @@ XCOMM Accented Alphabet
  <Multi_key> <parenleft> <g>             : "\360"        gbreve
  <Multi_key> <g> <breve>                 : "\360"        gbreve
  <Multi_key> <breve> <g>                 : "\360"        gbreve
@@ -129,7 +129,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <I> <grave>			: "\314"	Igrave
  <Multi_key> <grave> <I>			: "\314"	Igrave
  <Multi_key> <I> <acute>			: "\315"	Iacute
-@@ -269,6 +305,7 @@ XCOMM Accented Alphabet
+@@ -267,6 +303,7 @@ XCOMM Accented Alphabet
  <Multi_key> <diaeresis> <I>		: "\317"	Idiaeresis
  <Multi_key> <I> <period>                : "\335"        Iabovedot
  <Multi_key> <period> <I>                : "\335"        Iabovedot
@@ -137,7 +137,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <i> <grave>			: "\354"	igrave
  <Multi_key> <grave> <i>			: "\354"	igrave
  <Multi_key> <i> <acute>			: "\355"	iacute
-@@ -285,6 +322,7 @@ XCOMM Accented Alphabet
+@@ -283,6 +320,7 @@ XCOMM Accented Alphabet
  <Multi_key> <diaeresis> <i>		: "\357"	idiaeresis
  <Multi_key> <i> <period>                : "\375"        idotless
  <Multi_key> <period> <i>                : "\375"        idotless
@@ -145,7 +145,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <N> <asciitilde>		: "\321"	Ntilde
  <Multi_key> <asciitilde> <N>		: "\321"	Ntilde
  <Multi_key> <N> <minus>			: "\321"	Ntilde
-@@ -311,6 +349,7 @@ XCOMM Accented Alphabet
+@@ -309,6 +347,7 @@ XCOMM Accented Alphabet
  <Multi_key> <quotedbl> <O>		: "\326"	Odiaeresis
  <Multi_key> <O> <diaeresis>		: "\326"	Odiaeresis
  <Multi_key> <diaeresis> <O>		: "\326"	Odiaeresis
@@ -153,7 +153,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <O> <slash>			: "\330"	Ooblique
  <Multi_key> <slash> <O>			: "\330"	Ooblique
  <Multi_key> <O> <E>			: "\274"	OE
-@@ -332,6 +371,7 @@ XCOMM Accented Alphabet
+@@ -330,6 +369,7 @@ XCOMM Accented Alphabet
  <Multi_key> <quotedbl> <o>		: "\366"	odiaeresis
  <Multi_key> <o> <diaeresis>		: "\366"	odiaeresis
  <Multi_key> <diaeresis> <o>		: "\366"	odiaeresis
@@ -161,7 +161,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <o> <slash>			: "\370"	oslash
  <Multi_key> <slash> <o>			: "\370"	oslash
  <Multi_key> <S> <cedilla>               : "\336"        Scedilla
-@@ -342,6 +382,8 @@ XCOMM Accented Alphabet
+@@ -340,6 +380,8 @@ XCOMM Accented Alphabet
  <Multi_key> <comma> <s>                 : "\376"        scedilla
  <Multi_key> <s> <cedilla>               : "\376"        scedilla
  <Multi_key> <s> <comma>                 : "\376"        scedilla
@@ -170,7 +170,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <U> <grave>			: "\331"	Ugrave
  <Multi_key> <grave> <U>			: "\331"	Ugrave
  <Multi_key> <U> <acute>			: "\332"	Uacute
-@@ -356,6 +398,7 @@ XCOMM Accented Alphabet
+@@ -354,6 +396,7 @@ XCOMM Accented Alphabet
  <Multi_key> <quotedbl> <U>		: "\334"	Udiaeresis
  <Multi_key> <U> <diaeresis>		: "\334"	Udiaeresis
  <Multi_key> <diaeresis> <U>		: "\334"	Udiaeresis
@@ -178,7 +178,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <u> <grave>			: "\371"	ugrave
  <Multi_key> <grave> <u>			: "\371"	ugrave
  <Multi_key> <u> <acute>			: "\372"	uacute
-@@ -370,7 +413,9 @@ XCOMM Accented Alphabet
+@@ -368,7 +411,9 @@ XCOMM Accented Alphabet
  <Multi_key> <quotedbl> <u>		: "\374"	udiaeresis
  <Multi_key> <u> <diaeresis>		: "\374"	udiaeresis
  <Multi_key> <diaeresis> <u>		: "\374"	udiaeresis
@@ -188,7 +188,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <Multi_key> <T> <H>			: "\336"	THORN
  <Multi_key> <t> <h>			: "\376"	thorn
  <Multi_key> <Y> <acute>			: "\335"	Yacute
-@@ -409,6 +454,7 @@ XCOMM Special Character
+@@ -407,6 +452,7 @@ XCOMM Special Character
  <dead_circumflex> <2>			: "\262"	twosuperior
  <dead_circumflex> <3>			: "\263"	threesuperior
  <dead_circumflex> <period>		: "\267"	periodcentered
@@ -196,7 +196,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pr
  <dead_cedilla> <minus>			: "\254"	notsign
  <dead_circumflex> <minus>		: "\257"	macron
  <dead_circumflex> <underscore>		: "\257"	macron
-@@ -480,4 +526,373 @@ XCOMM Accented Alphabet
+@@ -478,4 +524,373 @@ XCOMM Accented Alphabet
  <dead_diaeresis> <y>			: "\377"	ydiaeresis
  <dead_caron> <Z>			: "\264"	Zcaron
  <dead_caron> <z>			: "\270"	zcaron
