@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -94,7 +94,7 @@ file path=etc/fonts/conf.avail/90-synthetic.conf
 file path=etc/fonts/conf.d/README
 file path=etc/fonts/fonts.conf
 file path=etc/fonts/fonts.dtd
-file path=etc/security/auth_attr.d/fontconfig group=sys preserve=true
+file path=etc/security/auth_attr.d/fontconfig group=sys
 file path=lib/svc/manifest/application/font/fc-cache.xml
 file path=lib/svc/method/fc-cache
 file path=usr/bin/$(ARCH64)/fc-cache
