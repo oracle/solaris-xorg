@@ -2,7 +2,7 @@
 #
 # showfont Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/xfs/xfs-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8f83d774ed4cc2a6dca86edd856d820a
-TARBALL_SHA1 = 02ad183046d0a2e34bbb8d44e754fbcb0cf27f32
+TARBALL_MD5  = 50b466ab6ed4a5b8df5abf1ef844309a
+TARBALL_SHA1 = 161bf5f037db70dd75cb327648fbba559e821e76
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

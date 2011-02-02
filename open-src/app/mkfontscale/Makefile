@@ -2,7 +2,7 @@
 #
 # mkfontscale 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/font-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 96ca346f185c0ab48e42bf5bb0375da5
-TARBALL_SHA1 = 0a0c25da68c87380e2c013c808a6e0cc0983fae9
+TARBALL_MD5  = 5210c9385c6cc4a00ce829d8dc9c819b
+TARBALL_SHA1 = accfb12751bf3b7ae7b28c1b0b863d5be871398f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -52,9 +52,6 @@ MODULE_STABILITY=Uncommitted
 
 # Additional configure script options
 MODULE_CONFIG_OPTS= --with-bzip2
-
-# Need to link with libfontenc in server private directory
-MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = mkfontscale

@@ -2,7 +2,7 @@
 #
 # xdriinfo 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xdriinfo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cb304d1ce562ac48b68eedeba38c662f
-TARBALL_SHA1 = d211d6f12f4c801d2f4cf184c6daae37aa5858ff
+TARBALL_MD5  = 3d3cad4d754e10e325438193433d59fd
+TARBALL_SHA1 = 723482b3fc627d7cc6124fec43dd1c21d102daaa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = compile-on-sparc.patch

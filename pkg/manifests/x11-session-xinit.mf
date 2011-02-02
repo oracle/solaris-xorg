@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,19 +24,19 @@ set name=pkg.description \
     value="xinit and startx are used to start the X Window System server and clients when a display manager or other startup methods are not in use."
 set name=pkg.summary \
     value="xinit & startx - X Window System manual session startup"
+dir path=etc
+dir path=etc/X11
+dir path=etc/X11/xinit
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/bin
 dir path=usr/bin
-dir path=usr/lib
-dir path=usr/lib/X11
-dir path=usr/lib/X11/xinit
 dir path=usr/share
 dir path=usr/share/man
 dir path=usr/share/man/man1
+file path=etc/X11/xinit/xinitrc preserve=renamenew
 file path=usr/bin/startx
 file path=usr/bin/xinit
-file path=usr/lib/X11/xinit/xinitrc
 file path=usr/share/man/man1/startx.1
 file path=usr/share/man/man1/xinit.1
 link path=usr/X11/bin/startx target=../../bin/startx

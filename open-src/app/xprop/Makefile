@@ -2,7 +2,7 @@
 #
 # xprop 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xprop
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f0bacbd30f0dd1c1e9ccafe97687b7a4
-TARBALL_SHA1 = 16b377c76a4a010200063a056e7a5e244ab6ff00
+TARBALL_MD5  = e6d0673a1e1e469f0a6220a6868fb94b
+TARBALL_SHA1 = 278f83c5077eed1d96c180bdc0a6f22ba5279a66
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -45,6 +45,8 @@ MODULE_PKGNAME_SET=yes
 # ARC cases that covered this module
 # LSARC/2008/048  xprop -set 
 MODULE_ARC_CASES = LSARC/2008/048
+# PSARC/2011/033 X11R7.6 application updates
+MODULE_ARC_CASES += PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

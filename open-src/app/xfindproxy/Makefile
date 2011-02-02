@@ -2,7 +2,7 @@
 #
 # xfindproxy 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,11 @@ MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5df3a162429bdd6ce5aea3ca5f6365b8
-TARBALL_SHA1 = 2d7fcbce9a7426bdacf55a3acf60933f42bd4829
+TARBALL_MD5  = 2fa74c68511ae845f52c2f33e641d0fd
+TARBALL_SHA1 = 26da3f96eeeae0deeb10797dc0b8479c1fe16924
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

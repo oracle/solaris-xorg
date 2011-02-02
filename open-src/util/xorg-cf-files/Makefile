@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,11 +31,11 @@ MODULE_PKGTAIL=imake
 MODULE_PKGTAIL_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 10546b5ddda3cdda7950bb56bf98e0ea
-TARBALL_SHA1 = 0c63edf6ceeb78fe32dd88bfce8d71c85e311bb0
+TARBALL_MD5  = 700c6d040d36a569e657a3ba5e1d8b24
+TARBALL_SHA1 = c58b7252df481572ec1ccd77b9f1ab561ed89e45
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

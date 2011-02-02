@@ -2,7 +2,7 @@
 #
 # appres 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/xt-resource-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6f2f5d9f41669d498b56d73dc3206951
-TARBALL_SHA1 = a82009c1d548b91282fc49efd1be446dc0ee8e32
+TARBALL_MD5  = 48d56924f76738872ef6c90f99030e34
+TARBALL_SHA1 = 7303f12fae8cce92da2dbd88c9d31d816dc5da06
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

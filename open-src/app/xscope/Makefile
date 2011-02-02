@@ -2,7 +2,7 @@
 #
 # xscope 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,14 @@
 MODULE_NAME=xscope
 
 # Version number (used in path names)
-MODULE_VERSION=1.2
+MODULE_VERSION=1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1a9df0ac0dd5a2c2a7948dcf48d126c3
-TARBALL_SHA1 = 3952f381c3f8ee81cd602e6f025304c2322a06a0
+TARBALL_MD5  = 4198c875ebc4808b73fa5468e009f14b
+TARBALL_SHA1 = 228773993bf1e5b4b4a772205e550e81f41e8fd9
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = COPYING.patch,-p1
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)

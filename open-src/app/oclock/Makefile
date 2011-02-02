@@ -2,7 +2,7 @@
 #
 # oclock 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 91f49547f9ed3cd0137c8b7c3183e360
-TARBALL_SHA1 = 5245ac01d5dc940c89b8c39c3ee435b4f20a5db7
+TARBALL_MD5  = 353d939113901ea3cdcf1c0369b522e4
+TARBALL_SHA1 = ba606d39fba6021c4db76d79751779f7b5c862e9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -2,7 +2,7 @@
 #
 # xstdcmap 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,14 @@ MODULE_PKGNAME=x11/colormap-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 86ab558441edfb86f853639e4290a754
-TARBALL_SHA1 = cb222bca38c5f739bdda9f2d66a023b531c51f93
+TARBALL_MD5  = ee97f0cbb80e321c914dc7bc5d49960a
+TARBALL_SHA1 = 32374e671e5cdd4d55bd7f3f6619cc5b5267fda8
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6661101.patch
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

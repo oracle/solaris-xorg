@@ -2,7 +2,7 @@
 #
 # fstobdf Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/xfs/xfs-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 49a6225380f6c18fff664a043cd569b1
-TARBALL_SHA1 = c7f9184afe3f7526a51b4e19722af8451b33d873
+TARBALL_MD5  = fc1f42aac16d6b76c79a1a3a0fb6a53b
+TARBALL_SHA1 = 5310493f53277fd196f93bbb7f2a204cad8997b7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

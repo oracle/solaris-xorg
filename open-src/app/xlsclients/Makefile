@@ -2,7 +2,7 @@
 #
 # xlsclients 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 550a0fee047c5043f2cbf190b41f8a1b
-TARBALL_SHA1 = 1961ee982f98d270c9069eaf84790c6b9dcdc851
+TARBALL_MD5  = 6d42621616da0c720f640d23873604ce
+TARBALL_SHA1 = 67bfdcb089e8669df7ec5bc7a137e037047f2535
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

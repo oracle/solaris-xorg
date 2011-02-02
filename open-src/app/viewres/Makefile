@@ -2,7 +2,7 @@
 #
 # viewres 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/xt-resource-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f35c4ad7e1aa1ee2b25373dcdc34345b
-TARBALL_SHA1 = 2ab60b6751c135a3bbb5a7f3f5a1fd711a4d233b
+TARBALL_MD5  = c9d15462c0190dce61d04a6717dd7622
+TARBALL_SHA1 = 383ff3cc93340b246e9fee29cad605478399eb62
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

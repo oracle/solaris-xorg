@@ -2,7 +2,7 @@
 #
 # proxymngr 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,11 @@ MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = aad44d0f65b97fd6d564b1d2ae510bb1
-TARBALL_SHA1 = e2bfdab14e5a893831bb3b6178f667ee68cb48d8
+TARBALL_MD5  = 714c4656e749ce856690b872e3d4ac4c
+TARBALL_SHA1 = 1fe5a8d935c4b5f15c35fb37d9828465b599c2cd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

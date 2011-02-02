@@ -1,5 +1,6 @@
---- Makefile.am	Wed Aug 15 17:58:23 2007
-+++ /tmp/Makefile.am	Wed Jul 16 14:22:11 2008
+diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
+--- Makefile.am	2010-10-30 17:17:29.000000000 -0700
++++ Makefile.am	2011-01-28 20:22:00.477766877 -0800
 @@ -19,24 +19,18 @@
  #  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  #  PERFORMANCE OF THIS SOFTWARE.
@@ -7,9 +8,10 @@
 -bin_PROGRAMS = xmag
 +bin_PROGRAMS = xmag_multivis
  
- AM_CFLAGS = $(XMAG_CFLAGS)
+-AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS)
 -xmag_LDADD = $(XMAG_LIBS) -lm
-+xmag_multivis_LDADD = $(XMAG_LIBS) -lm
++AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS) -DSHAPE -DALLPLANES
++xmag_multivis_LDADD = $(XMAG_LIBS) -lXext -lm
  
 -xmag_SOURCES =	\
 -        CutPaste.c \
@@ -23,14 +25,12 @@
 -        xmag.c
 +xmag_multivis_SOURCES = \
 +        xmag_multivis.c \
-+	multivis.c \
-+	multivis.h
++        multivis.c \
++        multivis.h
  
  appman_PRE = \
 -        xmag.man
 +        xmag_multivis.man
  
  # App default files  (*.ad)
-
- 
  

@@ -2,7 +2,7 @@
 #
 # xmag 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xmag
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 32f7ed4c089365cadb9382f6fbd750a9
-TARBALL_SHA1 = 1acbc1ccdcd0399b62ad6e96a47021c00dcfde7d
+TARBALL_MD5  = 2a76128511214bde973258baef537be3
+TARBALL_SHA1 = 95695d4d4a731e5deb4196a0cc6d04ecaba023fe
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

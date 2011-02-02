@@ -2,7 +2,7 @@
 #
 # xwud 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xwud
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 20bc5d85634964d4ceee77cdfcd131ed
-TARBALL_SHA1 = 15a6c5e3ffc03b7e8e597947061940fee6c0a9fc
+TARBALL_MD5  = a37020053e8ee32c6fd1145242d53ee3
+TARBALL_SHA1 = 2e706d50c7039e3daa4963d36ab703e48aa652ed
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

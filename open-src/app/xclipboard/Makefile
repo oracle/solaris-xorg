@@ -2,7 +2,7 @@
 #
 # xclipboard 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 113eccea3ee73a1ef7b43d2291ca1e09
-TARBALL_SHA1 = d1ec94f032174f5d011e33817cb7f48e3cd957be
+TARBALL_MD5  = b9102fe787eda2a1c9578079d8f55eed
+TARBALL_SHA1 = 922ddf89acd0781156e9ccdf191a3e0c6376415a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

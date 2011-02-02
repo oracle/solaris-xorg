@@ -2,7 +2,7 @@
 #
 # bdftopcf Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/font-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 148f20d28caaa69bbe7dcca7c2674fb6
-TARBALL_SHA1 = 245778068b5e5ccde07151635ded50da90333524
+TARBALL_MD5  = 4a7a4a848c43c42f7d499b60666434a4
+TARBALL_SHA1 = 146b4ece2867479045c3b4593b22c9f1d21da14a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -46,17 +46,7 @@ SOURCE_PATCHES =
 SUNTOUCHED_MANPAGES=*.man
 MODULE_STABILITY=Committed
 
-# Need to link with libXfont in server private directory
-MODULE_LDFLAGS		= $(X11_SERVERLIBS_LDFLAGS)
-MODULE_LD_OPTIONS	= -R $$ORIGIN/../lib/xorg$(ARCHLIBSUBDIR)
-
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = bdftopcf
 
 include ../Makefile.inc
-
-# Clean up old 64-bit builds from before we stopped building them
-clean: clean_64
-
-clean_64:
-	-rm -rf build_64

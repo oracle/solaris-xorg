@@ -2,7 +2,7 @@
 #
 # xrandr 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.3
+MODULE_VERSION=1.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5b2dcfb0d9b736afaf78f6ce7651259c
-TARBALL_SHA1 = dada3eb30fead3334d954dc4dad9f0ffd7a8ff95
+TARBALL_MD5  = d6d20038257eba5178b523e10239d51c
+TARBALL_SHA1 = 637949501b8a45d32d9cab809e8822ee45b69414
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

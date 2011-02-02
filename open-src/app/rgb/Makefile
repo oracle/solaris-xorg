@@ -2,7 +2,7 @@
 #
 # rgb 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,14 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 44ea16cc3104de6401bc74035f642357
-TARBALL_SHA1 = 89970e73e95819756e6f3fb11631fa917031813a
+TARBALL_MD5  = 35c6cccbf25a872bdd62bfcb1a73d951
+TARBALL_SHA1 = d0360dda290b76c41fa467c47d4c122ea8cc92a4
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 MODULE_CONFIG_OPTS = --with-rgb-db-dir=$(X11_DIR)/lib/X11/rgb \

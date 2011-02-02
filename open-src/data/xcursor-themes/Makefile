@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,11 +26,11 @@
 MODULE_NAME=xcursor-themes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e8929a1bb4d98d1a3991fd340d0b5f09
-TARBALL_SHA1 = 12b865c17c65e70a6bc20300dfa660fe8faaa0a4
+TARBALL_MD5  = ba21aad0b353f1881f5069e423a44587
+TARBALL_SHA1 = d65dd5cb931bf4a9722e64b5a265eb14dcc6ec09
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

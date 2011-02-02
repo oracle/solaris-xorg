@@ -2,7 +2,7 @@
 #
 # luit 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=luit
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fd8579a993c4480978e3504a4c53c189
-TARBALL_SHA1 = 7260feca7db48d8aa80d493b4cbcf6b7c5774d8d
+TARBALL_MD5  = cb9377b09e562e4084cc614a44df2641
+TARBALL_SHA1 = fa974b417f6b65c241398d8d011207c6facb0766
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-man.patch \
@@ -50,9 +50,11 @@ MODULE_PKGCLASS_SET=yes
 # ARC cases that covered this module
 # PSARC/2008/100 luit
 MODULE_ARC_CASES = PSARC/2008/100
+# PSARC/2011/033 X11R7.6 application updates
+MODULE_ARC_CASES += PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/luit.man
 MODULE_STABILITY=Uncommitted
 
 # Need to link with libfontenc in server private directory

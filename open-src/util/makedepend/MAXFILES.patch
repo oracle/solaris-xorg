@@ -23,9 +23,10 @@
 #
 #
 
---- def.orig	Fri May 21 17:08:56 2010
-+++ def.h	Fri May 21 17:09:11 2010
-@@ -50,7 +50,7 @@
+diff -urp -x '*~' -x '*.orig' def.h def.h
+--- def.h	2009-10-16 14:45:45.000000000 -0700
++++ def.h	2011-01-28 21:21:24.851745310 -0800
+@@ -40,7 +40,7 @@ in this Software without prior written a
  #include <sys/stat.h>
  
  #define MAXDEFINES	512

@@ -2,7 +2,7 @@
 #
 # xinit 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xinit
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.3.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 56f2d202b3dc10fcd21931a67bb270f7
-TARBALL_SHA1 = baf36374aa1632054816a8281e55e1539459664b
+TARBALL_MD5  = bc4e8b7d1919597cc37a0d24aa149dda
+TARBALL_SHA1 = 6437292214bbca6efad8889c68e72a1ca584928b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6714067.patch
@@ -45,6 +45,8 @@ MODULE_PKGNAME_SET=yes
 # ARC cases that covered this module
 # PSARC/2008/379  startx
 MODULE_ARC_CASES = PSARC/2008/379
+# PSARC/2011/033 X11R7.6 application updates
+MODULE_ARC_CASES += PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
@@ -52,5 +54,8 @@ MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xinit startx
+
+# Additional flags to pass to configure script
+MODULE_CONFIG_OPTS = --with-xinitdir=/etc/X11/xinit
 
 include ../Makefile.inc

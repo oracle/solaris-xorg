@@ -2,7 +2,7 @@
 #
 # xkill 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xkill
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = dca031355b4afcf8517a8258eeb730c3
-TARBALL_SHA1 = 90f08652859daf71b682c3b9163ebf72ce88c4bc
+TARBALL_MD5  = e7f0d57b6ba49c384e9cf8c9ff3243c1
+TARBALL_SHA1 = bab7b9c7f3bc053d743eb339cf5fa496bace57e5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

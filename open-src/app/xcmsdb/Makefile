@@ -2,7 +2,7 @@
 #
 # xcmsdb 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7f2bed9f4dd3301d18d83eb296c3be0d
-TARBALL_SHA1 = 8341f7219a5720da758b0571eb1f4d9072265485
+TARBALL_MD5  = a8f013229f7234d582e0ee2c89879e30
+TARBALL_SHA1 = 14df39b4d5518f551302c210131dcc5bac03f3ff
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

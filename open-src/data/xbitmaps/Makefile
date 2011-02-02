@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=xbitmaps
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f9ddd4e70a5375508b3acaf17be0d0ab
-TARBALL_SHA1 = 845b825f7e6d193d47db8b67ae8332d87ef8c2b3
+TARBALL_MD5  = 7444bbbd999b53bec6a60608a5301f4c
+TARBALL_SHA1 = 578afff7e4912192b524c25254cf7f54c16e57d8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

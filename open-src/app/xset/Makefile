@@ -2,7 +2,7 @@
 #
 # xset 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,14 @@
 MODULE_NAME=xset
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 88ff2d390695366fa53e5d746fe86ad5
-TARBALL_SHA1 = 0aa0fa0b7620a7bee846e5cd7847c20095a7d654
+TARBALL_MD5  = 4e0ce390394416c9e2c5cd4d7413ba87
+TARBALL_SHA1 = 9b1eb8835637dd70eea1a1365df5d909a306cc2c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = xsetfbpm.patch xsetman.patch
+SOURCE_PATCHES = xsetfbpm.patch
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

@@ -2,7 +2,7 @@
 #
 # xload 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,15 +37,14 @@ MODULE_PKGCLASS=Applications/System Utilities
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b41ed6b4bcfc9897366c27a94d2bf150
-TARBALL_SHA1 = cbbbf23531e0d781b556f5864cc3b83874f786d2
+TARBALL_MD5  = 5f6e8c54da51ad0e751abf54980b0ef1
+TARBALL_SHA1 = dcad93d769b0614466f1e48fed5dd956349cfcfb
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = patch.xload
-
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

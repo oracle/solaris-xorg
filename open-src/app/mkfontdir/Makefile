@@ -2,7 +2,7 @@
 #
 # mkfontdir 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,14 @@ MODULE_PKGNAME=x11/font-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9365ac66d19186eaf030482d312fca06
-TARBALL_SHA1 = 971728b0f453ea5df028aa5d54fe3fbdb8e99a7d
+TARBALL_MD5  = dc342dd8858416254bb5f71a9ddce589
+TARBALL_SHA1 = c2b504f5a019777f2f0d3c2fc635b114c7924804
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = altroot.patch
+SOURCE_PATCHES = 
 
 # ARC cases that covered this module
 # LSARC/2008/009 X11R7 font server and utilities

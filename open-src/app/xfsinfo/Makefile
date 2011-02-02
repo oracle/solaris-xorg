@@ -2,7 +2,7 @@
 #
 # xfsinfo Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/xfs/xfs-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e6c0071f6d5436113982f4a575d3f94b
-TARBALL_SHA1 = 035ea714088d1b08bc27c02a6806d75dabc4eade
+TARBALL_MD5  = aae6fa48b5c2ce9186a5ff4ccc14a1d4
+TARBALL_SHA1 = 21c5f544f34d9164797575da85727558f5e09d33
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

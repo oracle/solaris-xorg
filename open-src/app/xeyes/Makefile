@@ -2,7 +2,7 @@
 #
 # xeyes 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/demo
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 933f6d2b132d14f707f1f3c87b39ebe2
-TARBALL_SHA1 = 3422f65b6c5b9480cf74f48df115a6c837b84dae
+TARBALL_MD5  = a3035dcecdbdb89e864177c080924981
+TARBALL_SHA1 = efe6116d31a7f69e4fb6038613e52b0960b9b61c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

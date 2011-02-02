@@ -1,8 +1,9 @@
---- xhost.man.orig	2007-04-11 17:51:16.000000000 -0400
-+++ xhost.man	2010-07-21 00:31:38.057633427 -0400
-@@ -132,7 +132,8 @@
- .SH FILES
- /etc/X*.hosts
+diff -urp -x '*~' -x '*.orig' xhost.man xhost.man
+--- xhost.man	2010-10-30 09:45:05.000000000 -0700
++++ xhost.man	2011-01-28 18:14:02.974827934 -0800
+@@ -150,7 +150,8 @@ For each name removed from the access co
+ a line of the form "\fIname\fP being removed from access control list"
+ is printed.
  .SH "SEE ALSO"
 -X(__miscmansuffix__), Xsecurity(__miscmansuffix__), Xserver(1), xdm(1), xauth(1), getaddrinfo(3)
 +X(__miscmansuffix__), Xsecurity(__miscmansuffix__), Xserver(1), xdm(1), 
@@ -10,13 +11,13 @@
  .SH ENVIRONMENT
  .TP 8
  .B DISPLAY
-@@ -151,6 +152,9 @@
+@@ -169,6 +170,9 @@ the server-interpreted hostname type add
  host's network address while the server is still running, and you are
  using a network-address based form of authentication, \fIxhost\fP must
  be used to add the new address and/or remove the old address.
 +.SH WARNINGS
-+__distroname__ is secure by default.  See Xserver(1) which details how to re-enable
-+remote connections to the X server as in previous releases.
++__distroname__ is secure by default.  See Xserver(1) which details how to
++re-enable remote connections to the X server as in previous releases.
  .SH AUTHORS
  Bob Scheifler, MIT Laboratory for Computer Science,
  .br

@@ -2,7 +2,7 @@
 #
 # xbiff 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,17 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1d4ad06725f9dc4b877ecd210b7b1607
-TARBALL_SHA1 = 9980a9f92b060168cfb46006f7c98c7f34459011
+TARBALL_MD5  = f38a0c63c2a7ed6fb9d6f8884785b5c9
+TARBALL_SHA1 = 17337a951264f0f96f6d03893f9dfd9cf8f12a5a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xbiff.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

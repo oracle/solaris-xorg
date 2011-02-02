@@ -1,18 +1,22 @@
 Update See Also section of man page to remove man pages not found on Solaris
 and to not overflow the number of words Solaris nroff can have in a .I macro.
 
---- luit.man	2008-01-28 18:26:16.083034000 -0800
-+++ luit.man	2008-01-28 18:27:34.635445000 -0800
-@@ -213,9 +213,9 @@
+diff -urp -x '*~' -x '*.orig' man/luit.man man/luit.man
+--- man/luit.man	2010-09-03 16:03:33.000000000 -0700
++++ man/luit.man	2011-01-25 08:15:02.270624108 -0800
+@@ -230,12 +230,12 @@ Charsets with a non-trivial intermediary
  Selecting alternate sets of control characters is not supported and
  will never be.
  .SH SEE ALSO
--xterm(1), unicode(7), utf-8(7), charsets(7).
--.I Character Code Structure and Extension Techniques (ISO\ 2022, ECMA-35).
--.I Control Functions for Coded Character Sets (ISO\ 6429, ECMA-48).
+-xterm(__appmansuffix__), unicode(__miscmansuffix__), utf-8(__miscmansuffix__), charsets(__miscmansuffix__).
 +xterm(1),
+ .nf
+ .br
+-.I Character Code Structure and Extension Techniques (ISO\ 2022, ECMA-35).
 +\fICharacter Code Structure and Extension Techniques (ISO\ 2022, ECMA-35)\fR,
+ .br
+-.I Control Functions for Coded Character Sets (ISO\ 6429, ECMA-48).
 +\fIControl Functions for Coded Character Sets (ISO\ 6429, ECMA-48)\fR.
+ .fi
  .SH AUTHOR
  The version of
- .B Luit

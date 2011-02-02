@@ -2,7 +2,7 @@
 #
 # xfontsel 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xfontsel
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 288fe4cf8a990e4e602aac16dd9109fb
-TARBALL_SHA1 = c492444a3bada3e44bc0319cfd85a89cd7770b84
+TARBALL_MD5  = 299fabe7d7be92b6572d814895ce3bb1
+TARBALL_SHA1 = df2eb12b90339b7091bd362b095344015ec8b6fa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

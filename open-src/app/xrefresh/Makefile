@@ -2,7 +2,7 @@
 #
 # xrefresh 1.x Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8f4fafcfb77b3c6972cc44bb3f1c899c
-TARBALL_SHA1 = 3f34ceca9509f47e60ddfe14a98225eaffeba705
+TARBALL_MD5  = 2f63f88ad0dcecd33c8cf000f38e9250
+TARBALL_SHA1 = 5e85ee14ea9a357c1d4372bbc068a8d452a134aa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

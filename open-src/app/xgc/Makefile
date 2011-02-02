@@ -2,7 +2,7 @@
 #
 # xgc 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/demo
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fec79887ca14575bef4c757b4e95a693
-TARBALL_SHA1 = fbba25046970fa95af4ebbdb5ab0c8e1419531ed
+TARBALL_MD5  = f9addda7d1e157fc7d17ff87b1e360f8
+TARBALL_SHA1 = cb0c0285f1354a983b5cd4a925844a8ab56e4f09
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

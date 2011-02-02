@@ -2,7 +2,7 @@
 #
 # xkbcomp 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/keyboard/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 38c387bacdc01038c8ac280588792bcf
-TARBALL_SHA1 = aeb733c495d7afd42136bf8ae5c6e792c63f0b4b
+TARBALL_MD5  = 0f55995cd8da9b2d88553e1a2e17cd0a
+TARBALL_SHA1 = 67a10a1671fd1a0d6e09b4dfe93d0331af699f26
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

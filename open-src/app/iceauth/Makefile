@@ -2,7 +2,7 @@
 #
 # iceauth 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/library/libice
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 975ade3f238c1eb10705da0a91e6e8e7
-TARBALL_SHA1 = b75b87fed108bc4fe14ef06f76025016fa54299a
+TARBALL_MD5  = bb2e4d2611047f7c5a1a82ec956a9de4
+TARBALL_SHA1 = 9b446c0d1815dce48bdea32db7dea7e429f6a310
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

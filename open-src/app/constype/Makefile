@@ -2,7 +2,7 @@
 #
 # constype 1.x Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,11 +36,11 @@ MODULE_PKGCLASS=System/Hardware
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 83f623f961400ecc56ff52a716308173
-TARBALL_SHA1 = 7d38de9d5acc4b87106926cd0b774b9ce56ee4c0
+TARBALL_MD5  = 7347bb324e3095f8791386b8154edc11
+TARBALL_SHA1 = fc4cbf7773fbc755b5ebba5b85b7d0e39e6d3e82
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

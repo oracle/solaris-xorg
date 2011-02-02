@@ -1,6 +1,6 @@
 diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2010-03-15 15:35:56.000000000 -0700
-+++ Makefile.am	2010-05-03 16:23:32.292195265 -0700
+--- Makefile.am	2010-04-26 08:48:51.000000000 -0700
++++ Makefile.am	2011-01-28 18:41:11.374909599 -0800
 @@ -52,6 +52,7 @@ PROGCPPDEFS = \
  	-DXINIT=@XINIT@
  
@@ -10,9 +10,9 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
  	-D__libexecdir__="$(libexecdir)" \
 diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
---- Makefile.in	2010-03-15 15:42:07.000000000 -0700
-+++ Makefile.in	2010-05-03 16:23:32.293031588 -0700
-@@ -372,6 +372,7 @@ PROGCPPDEFS = \
+--- Makefile.in	2010-10-30 16:44:46.000000000 -0700
++++ Makefile.in	2011-01-28 18:41:11.375365804 -0800
+@@ -374,6 +374,7 @@ PROGCPPDEFS = \
  	-DXINIT=@XINIT@
  
  CPP_FILES_FLAGS = \
@@ -21,102 +21,32 @@ diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
  	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
  	-D__libexecdir__="$(libexecdir)" \
 diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
---- xinit.c	2009-11-23 14:49:24.000000000 -0800
-+++ xinit.c	2010-05-03 16:23:32.293658400 -0700
-@@ -174,6 +174,11 @@ static void set_environment ( void );
- static void Fatal(char *msg);
- static void Error ( char *fmt, ... );
+--- xinit.c	2010-06-11 18:14:10.000000000 -0700
++++ xinit.c	2011-01-28 18:41:11.375613442 -0800
+@@ -630,6 +630,26 @@ shutdown(void)
  
-+/* Bug 4284529, vivekp, this flag is set by the SIGUSR1
-+   signal handler in xinit, it tells Xserver is ready to accept connection.
-+*/
-+volatile static int  received_SIGUSR1_from_xserver   = 0;
+     if (processTimeout(3, "server to die"))
+         Fatalx("X server refuses to die");
++#ifdef sun
++    else {
++      	/* Restore keyboard mode. */
++	serverpid = fork();
++	switch (serverpid) {
++	case 0:
++	    execlp ("kbd_mode", "kbd_mode", "-a");
++	    Fatal("Unable to run program \"%s\"", "kbd_mode");
++	    break;
 +
- #ifdef RETSIGTYPE /* autoconf AC_TYPE_SIGNAL */
- # define SIGVAL RETSIGTYPE
- #endif /* RETSIGTYPE */
-@@ -196,6 +201,14 @@ sigAlarm(int sig)
- static SIGVAL
- sigUsr1(int sig)
- {
-+        /* Bug 4284529, vivekp, set this flag if received SIGUSR1 from X server
-+           so that we know X server is ready to accept connections.
++	case 1:
++	    Error("fork failed");
++	    break;
 +
-+          SIGUSR1 is not received by xinit if Xsun is executed thru shell that
-+           is in case of executing X server thru .xserverrc.
-+        */
-+       received_SIGUSR1_from_xserver   = 1;
-+
- #if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__UNIXOS2__) || defined(__APPLE__)
- 	signal (sig, sigUsr1);
- #endif
-@@ -533,6 +546,12 @@ startServer(char *server[])
- 	sigaddset(&mask, SIGUSR1);
- 	sigprocmask(SIG_BLOCK, &mask, &old);
- 
-+        /* Bug 4284529, vivekp, reset it, this flag gets set in
-+           SIGUSR1 handler, sigUsr1().
-+        */
-+        received_SIGUSR1_from_xserver  = 0;
-+
-+
- 	serverpid = fork(); 
- 
- 	switch(serverpid) {
-@@ -620,6 +639,17 @@ startServer(char *server[])
- 		if (!sigismember(&pendings, SIGUSR1))
- #endif /* __UNIXOS2__ */
- 		sigsuspend(&old);
-+
-+               /* Bug 4284529, vivekp, check if SIGUSR1 is already received,
-+                  no need to pause. SIGUSR1 is never received only in the case
-+                  where Xserver is started thru $HOME/.xserverrc file.
-+                  This fix corrects last few fixes from version 1.6, 1.3, 1.4
-+                  of xinit.c. That is bug 4284529, 4245301 and 4226277.
-+                */
-+                if (!received_SIGUSR1_from_xserver)
-+                   pause ();
-+
-+
- 		alarm (0);
- 		sigprocmask(SIG_SETMASK, &old, NULL);
- 
-@@ -786,7 +816,12 @@ shutdown(void)
- 	if (serverpid < 0)
- 		return;
- 	errno = 0;
-+#ifndef i386
- 	if (killpg(serverpid, SIGTERM) < 0) {
-+#else
-+        if (kill(serverpid, SIGTERM) < 0) {
++	default:
++	    fprintf (stderr, "\r\nRestoring keyboard mode\r\n");
++	    processTimeout(1, "kbd_mode");
++	}
++    }
 +#endif
-+
- 		if (errno == EPERM)
- 			Fatal("Can't kill X server\r\n");
- 		if (errno == ESRCH)
-@@ -810,6 +845,13 @@ shutdown(void)
- 		fprintf (stderr, "\r\n");
- 		Fatal("Can't kill server\r\n");
- 	}
-+	else {
-+		/* B U G : 4221128 */
-+          	/* Restore keyboard mode. */
-+       		fprintf (stderr, "\r\nRestoring keyboard mode\r\n");
-+       		execlp ("kbd_mode", "kbd_mode", "-a");
-+    	}
-+
- 	fprintf (stderr, "\r\n");
- 	return;
  }
-diff -urp -x '*~' -x '*.orig' xinitrc.cpp xinitrc.cpp
---- xinitrc.cpp	2009-11-23 14:49:24.000000000 -0800
-+++ xinitrc.cpp	2010-05-03 16:23:32.293824820 -0700
-@@ -96,7 +96,7 @@ fi
- #endif
  
- TWM &
--XCLOCK -geometry 50x50-1+1 &
-+XCOMM XCLOCK -geometry 50x50-1+1 &
- XTERM -geometry 80x50+494+51 &
- XTERM -geometry 80x20+494-0 &
- exec XTERM -geometry 80x66+0+0 -name login
+ static void

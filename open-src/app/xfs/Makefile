@@ -2,7 +2,7 @@
 #
 # xfs Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,19 +29,23 @@
 MODULE_NAME=xfs
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5cfc06a320f74f07a0aa73da62307e9a
-TARBALL_SHA1 = 040dee6ff7628c192874447fb178a965c744eea9
+TARBALL_MD5  = e02c6cae689c082b8c98a421df8f8670
+TARBALL_SHA1 = aa0f4cb4e307c531a78ba9d09c44d042c072742b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	solaris-make.patch,-p1 \
 	smf-manpage.patch \
 	config-warning.patch
 
+# Need to rebuild config/Makefile.in after applying solaris-make.patch
+AUTORECONF=yes
+
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xfs.man
 MODULE_STABILITY=Committed
 
 # pkg(5) name we deliver the files in (override default)

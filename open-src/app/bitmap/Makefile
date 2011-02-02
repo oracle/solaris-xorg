@@ -2,7 +2,7 @@
 #
 # bitmap 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,17 +37,17 @@ MODULE_PKGCLASS=Applications/Graphics and Imaging
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7d0c1ac193be2491c72a91ccf37ef18e
-TARBALL_SHA1 = b83483937b1d4c542379b5f82edf408a023f8671
+TARBALL_MD5  = 0b7ceb0ded994dac645bb81e86ce69cc
+TARBALL_SHA1 = 4f6f847b6cfc3e250f1befe907a3d1957f4a43c8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/bitmap.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

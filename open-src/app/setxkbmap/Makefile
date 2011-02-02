@@ -2,7 +2,7 @@
 #
 # setxkbmap 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,20 @@ MODULE_PKGNAME=x11/keyboard/xkb-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2f902e0a89aaf2b19e06e7f26c6efb3a
-TARBALL_SHA1 = f02f93a08ac060d760566693c748e0fba3db8a06
+TARBALL_MD5  = 2f6df89201eb9a2cbfb905d6b82a191e
+TARBALL_SHA1 = 860785e16313d30792fe62604f65d84281812322
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6971649.patch
+SOURCE_PATCHES = 6971649.patch,-p1
+
+# ARC cases that covered this module
+# PSARC/2008/162 setxkbmap
+MODULE_ARC_CASES = PSARC/2008/162
+# PSARC/2011/033 X11R7.6 application updates
+MODULE_ARC_CASES += PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

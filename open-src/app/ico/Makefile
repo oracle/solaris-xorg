@@ -2,7 +2,7 @@
 #
 # ico 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/demo
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5711827c5c2563620b56c33aababbc63
-TARBALL_SHA1 = 64940e202d8d53b6c036ad17bc5af9f4823f7fb0
+TARBALL_MD5  = 9574a53c122b3a6e85bbf3476ebf8ee8
+TARBALL_SHA1 = f5a73d6626b9d4016423594ad18b3073b556e3bf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

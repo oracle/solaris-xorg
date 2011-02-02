@@ -22,12 +22,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' config.cpp config.cpp
---- config.cpp	2008-12-03 19:43:27.000000000 -0800
-+++ config.cpp	2009-06-18 14:33:55.670348000 -0700
+diff -urp -x '*~' -x '*.orig' config/config.cpp config/config.cpp
+--- config/config.cpp	2010-08-06 18:40:29.000000000 -0700
++++ config/config.cpp	2011-01-28 18:01:17.331211005 -0800
 @@ -1,6 +1,13 @@
- XCOMM X font server configuration file
- XCOMM See xfs(__appmansuffix__) man page for more information.
+ # X font server configuration file
+ # See xfs(__appmansuffix__) man page for more information.
  
 +XCOMM   DO NOT EDIT /usr/lib/X11/fs/config directly.
 +XCOMM

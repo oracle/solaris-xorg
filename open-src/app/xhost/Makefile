@@ -2,7 +2,7 @@
 #
 # xhost 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c7f91b4a750d297f269c2a0a3206a1b2
-TARBALL_SHA1 = ebcdccdc908e642e527eebbde6ba8084d90c04f6
+TARBALL_MD5  = 2be663a0afbcc0856c1591477d5bf32a
+TARBALL_SHA1 = b4fde9899861f1a97395f8c7197db00cc44242a7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = xhost.patch manual.patch

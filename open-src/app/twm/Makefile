@@ -2,7 +2,7 @@
 #
 # twm 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=desktop/window-manager/twm
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0865e14c73c08fa8c501ae877298ee9f
-TARBALL_SHA1 = 7456e90f19e4747e1785f596b93f692d68a9f079
+TARBALL_MD5  = 952d06a0c2ec34687b536c7b619fc671
+TARBALL_SHA1 = 5c28194c9c620b34df56fdee140d662425ba8a86
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

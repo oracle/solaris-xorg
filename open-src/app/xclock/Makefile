@@ -2,7 +2,7 @@
 #
 # xclock 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bb9fd5e00d39c348a0078b97fdf8258f
-TARBALL_SHA1 = 1987cafb3163c6b68bc7ecfbe143c8cd373d64bb
+TARBALL_MD5  = eaf124bbc9d13e1a12a29faaa2ed3612
+TARBALL_SHA1 = 1651ac8961c0aa287a6a7412ee5e6d3bfc3bb3e2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

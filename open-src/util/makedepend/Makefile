@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,11 +31,11 @@ MODULE_PKGCLASS=Development/C
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 62e58330fe8d1e3e28c7a45779833a48
-TARBALL_SHA1 = 57e092856580d9984e47c4b1433b69391de07df3
+TARBALL_MD5  = 4e6cb97bbecfbb34f3f644a75e513093
+TARBALL_SHA1 = 9a2ea514c0e52b59712678be1f9a33a74a4e0b8e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		MAXFILES.patch

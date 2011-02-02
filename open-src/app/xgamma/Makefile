@@ -2,7 +2,7 @@
 #
 # xgamma 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xgamma
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e8a88bf1a18f35b724619849dca97f4f
-TARBALL_SHA1 = f9c7d93f4b271bab41ee3c91b371d52572e4e08c
+TARBALL_MD5  = 34d22b130bffd8aa857eae6d9da4bbb1
+TARBALL_SHA1 = c4124b42618c6d4bc9eb9690348b5d60e4c9daed
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -2,7 +2,7 @@
 #
 # xkbprint 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/keyboard/xkb-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3d3eb10466442354d6b73b503b9829db
-TARBALL_SHA1 = 36e4c8a143b6ab3672843c110db9357b39589927
+TARBALL_MD5  = 526b5ba87cccd05aa700fa628bcfda3e
+TARBALL_SHA1 = 4e7c91a137f0746202b3a74bbaf49c849484aa30
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

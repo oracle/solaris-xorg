@@ -2,7 +2,7 @@
 #
 # xrdb 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8dd881cd5a7dcb6e456549817f0fb475
-TARBALL_SHA1 = e4faff5e02b3027298dc589e318a6dc7eb30a6d5
+TARBALL_MD5  = 93f54f04e0b531b5fb77d3f051cbf22a
+TARBALL_SHA1 = ab9f79e736c61c7c8d5bbb6841c291e877e368a9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

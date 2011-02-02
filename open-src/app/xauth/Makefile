@@ -2,7 +2,7 @@
 #
 # xauth 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fa00078c414c4a57cab7a6d89a0c8734
-TARBALL_SHA1 = 90d32f28bb61ca6d831dcc35429a5ad53be73283
+TARBALL_MD5  = 46fc44e5e947d3720f3be5054044ff0e
+TARBALL_SHA1 = 6d94b5822e8ce08630a8ff510230246d5ed45290
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

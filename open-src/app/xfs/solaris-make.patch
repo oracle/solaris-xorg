@@ -1,0 +1,26 @@
+From 68bf267fa4080e4a85df91e4a196bb701ee921d1 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 7 Jan 2011 18:19:56 -0800
+Subject: [PATCH:xfs] Make config.cpp rule compatible with Solaris make
+
+Solaris make doesn't support $< in direct target rules.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ config/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/config/Makefile.am b/config/Makefile.am
+index 70bb896..4f8613e 100644
+--- a/config/Makefile.am
++++ b/config/Makefile.am
+@@ -33,5 +33,5 @@ MAN_SUBSTS += -e 's|DEFAULTFONTPATH|$(FONTPATH)|g'
+ MAN_SUBSTS += -e 's|FSERRORS|/var/log/xfs.log|g'
+ 
+ config: config.cpp
+-	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
++	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < config.cpp > $@
+ 
+-- 
+1.7.3.2
+

@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,16 +45,16 @@ default_target: install
 # High level dependencies
 proto: util/util-macros util/lndir
 util/lndir: proto/x11proto
-lib: proto util
-util: proto
-app: lib data/xbitmaps
-xserver/xorg xserver/xvnc: proto doc/xorg-sgml-doctools lib
+lib: proto font/util util
+util: proto font/util
+app: lib data/xbitmaps font/util
+xserver/xorg xserver/xvnc: proto doc/xorg-sgml-doctools lib font/util
 driver: xserver/xorg
 app/rgb: xserver/xorg
 doc/xorg-docs: doc/xorg-sgml-doctools
 data: app
 FONTAPPS = app/bdftopcf app/mkfontscale app/mkfontdir
-font: $(FONTAPPS)
+font: $(FONTAPPS) font/util
 $(FONTAPPS): lib
 
 OS_SUBDIRS_common = \
@@ -63,6 +63,7 @@ OS_SUBDIRS_common = \
 	util/lndir \
 	proto \
 	data/xbitmaps \
+	font/util \
 	util \
 	doc/xorg-sgml-doctools \
 	doc/xorg-docs \

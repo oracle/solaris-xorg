@@ -2,7 +2,7 @@
 #
 # xdpyinfo Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d1d516610316138105cd07064b257c5c
-TARBALL_SHA1 = 01971f007048a46a4a31a69c661bc3a378de60f0
+TARBALL_MD5  = c52fda7bbc80e74b7839f29298cb1d77
+TARBALL_SHA1 = 5d53cd31afd40bdc4575b5347f2cda67f135f5f2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

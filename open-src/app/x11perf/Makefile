@@ -2,7 +2,7 @@
 #
 # x11perf 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=x11perf
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.1
+MODULE_VERSION=1.5.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 66e4aa4645f83809071eb69553ed0222
-TARBALL_SHA1 = d1f85da3df5b216b64c1735d109380214787222d
+TARBALL_MD5  = c3ac3667a6f5c3cead9847fbf4b5f36e
+TARBALL_SHA1 = 2fd00ba38c36c569751bbe3d60917df2a39e10ba
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

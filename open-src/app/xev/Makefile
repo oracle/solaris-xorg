@@ -2,7 +2,7 @@
 #
 # xev 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,19 @@ MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5f98c0a2725a33d60ef4956befe078fb
-TARBALL_SHA1 = 4f62e131ba96842eef1660e8869533cd3923ac35
+TARBALL_MD5  = 515cfd1fe857b66abe43ec3343634954
+TARBALL_SHA1 = 77dcbdaa2046db56f31936f921843bd05df2255f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# ARC cases that covered this module
+# Original integration predates ARC
+# PSARC/2011/033 X11R7.6 application updates
+MODULE_ARC_CASES = PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

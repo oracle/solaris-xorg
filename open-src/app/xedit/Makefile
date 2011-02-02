@@ -2,7 +2,7 @@
 #
 # xedit 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,11 @@ MODULE_PKGCLASS=Development/Editors
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 67193be728414d45a1922911e6437991
-TARBALL_SHA1 = e2d9f49dd7e82959e0678c2417256cd59b06772f
+TARBALL_MD5  = f55e84713542a36887e966fc0648dd7b
+TARBALL_SHA1 = e6f8735d09c9da67bba3cd3c39f34f5d1fc79a70
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

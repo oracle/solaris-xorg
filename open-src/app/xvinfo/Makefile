@@ -2,7 +2,7 @@
 #
 # xvinfo 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xvinfo
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8cc299b2cb636b5f7fe672610789d3d4
-TARBALL_SHA1 = 8695bfb597dbf3ed8e3277fddda4722da21baaa3
+TARBALL_MD5  = c88feb501083951a8f47a21aaeb1529d
+TARBALL_SHA1 = dc326464748fa608da50386112a89024804c1910
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

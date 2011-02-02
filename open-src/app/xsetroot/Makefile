@@ -2,7 +2,7 @@
 #
 # xsetroot 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,19 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cbda9b9b8da5af4614110883d5a276b8
-TARBALL_SHA1 = 56ed1df9834627a107550475629df51275cd0c44
+TARBALL_MD5  = b78a2da4cf128775031a5a3422fc0b78
+TARBALL_SHA1 = 1ef9ddd80c7013dc6d33e5c421537eb8b0427da4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# ARC cases that covered this module
+# Original integration predates ARC
+# PSARC/2011/033 X11R7.6 application updates
+MODULE_ARC_CASES = PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

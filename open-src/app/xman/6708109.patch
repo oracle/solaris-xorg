@@ -1,6 +1,339 @@
---- main.c	Fri Aug 10 07:14:12 2007
-+++ main.c	Tue Apr 15 16:20:10 2008
-@@ -37,6 +37,8 @@
+diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
+--- buttons.c	2009-10-16 14:39:48.000000000 -0700
++++ buttons.c	2011-01-28 20:32:24.195046596 -0800
+@@ -36,6 +36,8 @@ from the X Consortium.
+  * Created:   October 27, 1987
+  */
+ 
++#include <libintl.h>
++#include <X11/Xlocale.h>
+ #include "globals.h"
+ #include "vendor.h"
+ 
+@@ -47,6 +49,7 @@ from the X Consortium.
+ 
+ static void CreateOptionMenu(ManpageGlobals * man_globals, Widget parent);
+ static void CreateSectionMenu(ManpageGlobals * man_globals, Widget parent);
++static void CreateMoreMenu(ManpageGlobals * man_globals, Widget parent);
+ static void StartManpage(ManpageGlobals * man_globals, Boolean help, Boolean page);
+ static Widget * ConvertNamesToWidgets(Widget parent, char ** names);
+ 
+@@ -57,6 +60,7 @@ static Widget * ConvertNamesToWidgets(Wi
+  */
+ 
+ #define TOPARGS 5
++#define MAX_MENU 30
+ 
+ Widget top;			/* needed in PopupWarning, misc.c */
+ 
+@@ -213,7 +217,7 @@ Boolean full_instance)
+ {
+   Arg arglist[MANPAGEARGS];	/* An argument list for widget creation */
+   Cardinal num_args;		/* The number of arguments in the list. */
+-  Widget mytop, pane, hpane, mysections;	/* Widgets */
++  Widget mytop, pane, hpane, mysections, sect1;	/* Widgets */
+   ManPageWidgets * mpw = &(man_globals->manpagewidgets);
+ 
+   num_args = (Cardinal) 0;
+@@ -240,8 +244,13 @@ Boolean full_instance)
+   num_args++;
+   XtSetValues(mytop, arglist, num_args);
+ 
++#ifdef SUNSOFT
++  pane = XtCreateManagedWidget("Manpage_Vpane", panedWidgetClass, mytop, NULL, 
++			       (Cardinal) 0);
++#else
+   pane = XtCreateManagedWidget("vertPane", panedWidgetClass, mytop, NULL, 
+ 			       (Cardinal) 0);
++#endif
+ 
+ /* Create menu bar. */
+ 
+@@ -259,15 +268,24 @@ Boolean full_instance)
+   mysections = XtCreateManagedWidget("sections", menuButtonWidgetClass,
+ 				   hpane, arglist, num_args);
+ 
++  if(sections > MAX_MENU){
++     num_args = 0;
++     XtSetArg(arglist[num_args], XtNmenuName, MORE_MENU); num_args++;
++     sect1 = XtCreateManagedWidget("More...", menuButtonWidgetClass,
++                                   hpane, arglist, num_args);
++  }
++
+   XtSetArg(arglist[0], XtNlabel, SHOW_BOTH);
+   XtSetValues(man_globals->both_screens_entry, arglist, (Cardinal) 1);
+ 
+   if (full_instance) {
+     MakeSearchWidget(man_globals, mytop);
+     CreateSectionMenu(man_globals, mytop);
++    if(sections > MAX_MENU) CreateMoreMenu(man_globals, mytop);
+     MakeSaveWidgets(man_globals, mytop);
+   } else {
+     XtSetSensitive(mysections, FALSE);       
++    if(sections > MAX_MENU) XtSetSensitive(sect1, FALSE);
+     XtSetArg(arglist[0], XtNsensitive, FALSE);
+     XtSetValues(man_globals->dir_entry, arglist, ONE);
+     XtSetValues(man_globals->manpage_entry, arglist, ONE);
+@@ -281,8 +299,13 @@ Boolean full_instance)
+   XtSetValues(man_globals->print_entry, arglist, ONE);
+ #endif /* INCLUDE_XPRINT_SUPPORT */
+ 
++#ifdef SUNSOFT
++  man_globals->label = XtCreateManagedWidget(MANNAME, labelWidgetClass,
++					     hpane, NULL, (Cardinal) 0);
++#else
+   man_globals->label = XtCreateManagedWidget("manualTitle", labelWidgetClass,
+ 					     hpane, NULL, (Cardinal) 0);
++#endif
+ 
+ /* Create Directory */
+ 
+@@ -330,7 +353,7 @@ StartManpage(ManpageGlobals * man_global
+ 
+   if (page || help) {
+     if (help) 
+-      strcpy(man_globals->manpage_title, "Xman Help");
++      strcpy(man_globals->manpage_title, gettext("Xman Help"));
+ 
+     if (man_globals->both_shown) {
+       XtManageChild(dir);
+@@ -519,7 +542,7 @@ CreateSectionMenu(ManpageGlobals * man_g
+   menu = XtCreatePopupShell(SECTION_MENU, simpleMenuWidgetClass, parent,
+ 			    NULL, (Cardinal) 0);
+ 
+-  for (i = 0 ; i < sections ; i ++) {
++  for (i = 0 ; i < ((sections <= MAX_MENU) ? sections:sections/2) ; i ++) {
+     num_args = 0;
+     XtSetArg(args[num_args], XtNlabel, manual[i].blabel); num_args++;
+     sprintf(entry_name, "section%d", i);
+@@ -535,6 +558,37 @@ CreateSectionMenu(ManpageGlobals * man_g
+   }
+ }
+ 
++static void
++CreateMoreMenu(man_globals, parent)
++ManpageGlobals * man_globals;
++Widget parent;
++{
++  Widget menu, entry;
++  int i;
++  MenuStruct * menu_struct;
++  Arg args[1];
++  Cardinal num_args;
++  char entry_name[BUFSIZ];
++
++  menu = XtCreatePopupShell(MORE_MENU, simpleMenuWidgetClass, parent,
++                            NULL, (Cardinal) 0);
++
++  for (i = sections/2-1 ; i < sections ; i ++) {
++    num_args = 0;
++    XtSetArg(args[num_args], XtNlabel, manual[i].blabel); num_args++;
++    sprintf(entry_name, "section%d", i);
++
++    entry = XtCreateManagedWidget(entry_name, smeBSBObjectClass,
++                                  menu, args, num_args);
++    menu_struct = (MenuStruct *) XtMalloc(sizeof(MenuStruct));
++    menu_struct->data = (caddr_t) man_globals;
++    menu_struct->number = i;
++    XtAddCallback(entry, XtNcallback, DirPopupCallback, (caddr_t) menu_struct);
++    XtAddCallback(entry, XtNdestroyCallback,MenuDestroy, (caddr_t)menu_struct);
++
++  }
++}
++
+ /*	Function Name: CreateList
+  *	Description: this function prints a label in the directory list
+  *	Arguments: section - the manual section.
+@@ -579,7 +633,7 @@ MakeDirectoryBox(ManpageGlobals *man_glo
+     return;
+ 
+   name = manual[section].blabel;   /* Set the section name */
+-  sprintf(label_name,"Directory of: %s",name);
++  snprintf(label_name, sizeof(label_name), gettext("Directory of: %s"),name);
+   man_globals->section_name[section] = StrAlloc(label_name);
+ 
+   num_args = 0;
+@@ -677,7 +731,7 @@ FormUpWidgets(Widget parent, char ** ful
+ 
+   if (long_widget == (Widget) NULL) {          /* Make sure we found one. */
+     PopupWarning(GetGlobals(parent), 
+-		 "Could not find longest widget, aborting...");
++		 gettext("Could not find longest widget, aborting..."));
+     XtFree((char *)full_widgets);
+     XtFree((char *)half_widgets);
+     return;
+@@ -745,7 +799,8 @@ ConvertNamesToWidgets(Widget parent, cha
+     if (*temp_ids == NULL) {
+       char error_buf[BUFSIZ];
+     
+-      sprintf(error_buf, "Could not find widget named '%s'", *names);
++      snprintf(error_buf, sizeof(error_buf),
++			gettext("Could not find widget named '%s'"), *names);
+       PrintError(error_buf);
+       XtFree((char *)ids);
+       return(NULL);
+diff -urp -x '*~' -x '*.orig' defs.h defs.h
+--- defs.h	2009-10-16 14:39:48.000000000 -0700
++++ defs.h	2011-01-28 20:32:24.195247147 -0800
+@@ -51,6 +51,7 @@ from the X Consortium.
+ 
+ #define OPTION_MENU "optionMenu" /* Name of the Option Menu. */
+ #define SECTION_MENU "sectionMenu" /* Name of the Section Menu. */
++#define MORE_MENU "moreMenu" /* Name of the More... Menu. */
+ 
+ #define HELP_BUTTON "helpButton" /* Name of top help button */
+ #define QUIT_BUTTON "quitButton" /* Name of top quit button */
+diff -urp -x '*~' -x '*.orig' handler.c handler.c
+--- handler.c	2009-11-06 17:58:29.000000000 -0800
++++ handler.c	2011-01-28 20:32:24.173913473 -0800
+@@ -43,6 +43,8 @@ from the X Consortium.
+ #include <sys/stat.h>
+ #include "globals.h"
+ #include "vendor.h"
++#include <libintl.h>
++#include <X11/Xlocale.h>
+ #ifdef INCLUDE_XPRINT_SUPPORT
+ #include "printdialog.h"
+ #include "print.h"
+@@ -309,8 +311,10 @@ SaveFormattedPage(Widget w, XEvent * eve
+   char cmdbuf[BUFSIZ], error_buf[BUFSIZ];
+ 
+   if (*num_params != 1) {
+-    XtAppWarning(XtWidgetToApplicationContext(w), 
+-       "Xman - SaveFormattedPage: This action routine requires one argument.");
++    snprintf(error_buf, sizeof(error_buf),
++	gettext("%s This action routine requires one argument."),
++	"Xman - SaveFormattedPage:");
++    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+     return;
+   }
+ 
+@@ -347,12 +351,12 @@ SaveFormattedPage(Widget w, XEvent * eve
+ 	/* make sure the formatted man page is fully accessible by the world */
+ 	if (chmod(man_globals->save_file, CHMOD_MODE) != 0) {
+ 	    sprintf(error_buf,
+-		    "Couldn't set permissions on formatted man page '%s'.\n",
++		    gettext("Couldn't set permissions on formatted man page '%s'.\n"),
+ 		    man_globals->save_file);
+ 	    PopupWarning( man_globals, error_buf);
+ 	}
+     } else {
+-	sprintf(error_buf, "Error while executing the command '%s'.\n",
++	sprintf(error_buf, gettext("Error while executing the command '%s'.\n"),
+ 		cmdbuf);
+ 	PopupWarning( man_globals, error_buf);
+     }
+@@ -362,7 +366,7 @@ SaveFormattedPage(Widget w, XEvent * eve
+     break;
+   default:
+     sprintf(error_buf,"%s %s", "Xman - SaveFormattedPagee:",
+-	    "Unknown argument must be either 'Save' or 'Cancel'.");
++	    gettext("Unknown argument must be either 'Save' or 'Cancel'."));
+     PopupWarning(man_globals, error_buf);
+     return;
+   }
+@@ -397,8 +401,10 @@ GotoPage(Widget w, XEvent * event, Strin
+   Boolean sensitive;
+ 
+   if (*num_params != 1) {
+-    XtAppWarning(XtWidgetToApplicationContext(w), 
+-		"Xman - GotoPage: This action routine requires one argument.");
++    snprintf(error_buf, sizeof(error_buf),
++	gettext("%s This action routine requires one argument."),
++	gettext("Xman - GotoPage:"));
++    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+     return;
+   }
+ 
+@@ -431,8 +437,8 @@ GotoPage(Widget w, XEvent * event, Strin
+     man_globals->dir_shown = TRUE;
+     break;
+   default:
+-    sprintf(error_buf,"%s %s", "Xman - GotoPage: Unknown argument must be",
+-	    "either Manpage or Directory.");
++    sprintf(error_buf,"%s %s", gettext("Xman - GotoPage: Unknown argument must be"),
++	    gettext("either Manpage or Directory."));
+     XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+     return;
+   }
+@@ -550,13 +556,16 @@ void 
+ Search(Widget w, XEvent * event, String * params, Cardinal * num_params)
+ {
+   ManpageGlobals * man_globals = GetGlobals(w);
++  char error_buf[BUFSIZ];
+   FILE * file = NULL;
+ 
+   XtPopdown(  XtParent(XtParent(w)) );       /* popdown the search widget */
+ 
+   if ( (*num_params < 1) || (*num_params > 2) ) {
+-    XtAppWarning(XtWidgetToApplicationContext(w), 
+-      "Xman - Search: This action routine requires one or two arguments.");
++    snprintf(error_buf, sizeof(error_buf),
++	gettext("%s This action routine requires one or two arguments."),
++	gettext("Xman - Search:"));
++    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+     return;
+   }
+ 
+@@ -574,8 +583,10 @@ Search(Widget w, XEvent * event, String 
+     file = NULL;
+     break;
+   default:
+-    XtAppWarning(XtWidgetToApplicationContext(w), 
+-		 "Xman - Search: First parameter unknown.");
++    snprintf(error_buf, sizeof(error_buf),
++	gettext("%s First parameter unknown."),
++	gettext("Xman - Search:"));
++    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+     file = NULL;
+     break;
+   }
+@@ -600,8 +611,9 @@ Search(Widget w, XEvent * event, String 
+       }
+       break;
+     default:
+-      XtAppWarning(XtWidgetToApplicationContext(w), 
+-		   "Xman - Search: Second parameter unknown.");
++      snprintf(error_buf, sizeof(error_buf),
++	gettext("%s Second parameter unknown."), "Xman - Search:");
++      XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+       break;
+     }
+   else {
+diff -urp -x '*~' -x '*.orig' help.c help.c
+--- help.c	2009-10-16 14:39:48.000000000 -0700
++++ help.c	2011-01-28 20:32:24.173431338 -0800
+@@ -36,6 +36,8 @@ from the X Consortium.
+  * Created:   January 19, 1988
+  */
+ 
++#include <libintl.h>
++#include <X11/Xlocale.h>
+ #include "globals.h"
+ 
+ /*	Function Name: MakeHelpWidget.
+@@ -66,7 +68,7 @@ MakeHelpWidget(void)
+     return(FALSE);
+   }
+ 
+-  ChangeLabel(man_globals->label, "Xman Help");
++  ChangeLabel(man_globals->label, gettext("Xman Help"));
+ 
+   XtManageChild( man_globals->manpagewidgets.manpage );
+   XtRealizeWidget(  help_widget );
+@@ -99,7 +101,7 @@ OpenHelpfile(ManpageGlobals * man_global
+ 
+   if( (help_file_ptr = fopen(resources.help_file, "r")) == NULL ) {
+     PopupWarning(man_globals,
+-		 "Could not open help file, NO HELP WILL BE AVALIABLE.");
++		 gettext("Could not open help file, NO HELP WILL BE AVALIABLE."));
+     return(FALSE);
+   }
+     
+diff -urp -x '*~' -x '*.orig' main.c main.c
+--- main.c	2009-10-16 14:39:48.000000000 -0700
++++ main.c	2011-01-28 20:32:24.172597167 -0800
+@@ -37,6 +37,8 @@ from the X Consortium.
   * Created:   October 22, 1987
   */
  
@@ -9,7 +342,7 @@
  #include "globals.h"
  #ifndef ZERO
  #include <X11/Xaw/Cardinals.h>
-@@ -150,6 +152,7 @@
+@@ -146,6 +148,7 @@ int main(int argc, char ** argv)
  {
    XtAppContext app_con;
  
@@ -17,7 +350,7 @@
    saved_argc = argc;
    saved_argv = (char **)XtMalloc(argc * sizeof(char *));
    bcopy(argv, saved_argv, argc * sizeof(char *));
-@@ -162,6 +165,13 @@
+@@ -158,6 +161,13 @@ int main(int argc, char ** argv)
    wm_delete_window = XInternAtom(XtDisplay(initial_widget), "WM_DELETE_WINDOW",
  				 False);
  
@@ -31,7 +364,7 @@
    manglobals_context = XStringToContext(MANNAME);
  
    AdjustDefResources();
-@@ -178,10 +188,10 @@
+@@ -174,10 +184,10 @@ int main(int argc, char ** argv)
    XtAppAddActions(app_con, xman_actions, XtNumber(xman_actions));
  
    if (!resources.fonts.directory)
@@ -44,7 +377,7 @@
  #endif
  
  /*
-@@ -199,7 +209,7 @@
+@@ -195,7 +205,7 @@ int main(int argc, char ** argv)
    default_height /= 4;
  
    if ( (sections = Man()) == 0 )
@@ -53,7 +386,7 @@
  
    if (resources.top_box_active) 
      MakeTopBox();	
-@@ -223,7 +233,7 @@
+@@ -219,7 +229,7 @@ int main(int argc, char ** argv)
  }
  
  /*	Function Name: ArgError
@@ -62,7 +395,7 @@
   *	Arguments: argc, argv - args not understood.
   *	Returns: none.
   */
-@@ -233,42 +243,53 @@
+@@ -229,42 +239,53 @@ ArgError(int argc, char ** argv)
  {
    int i;
  
@@ -149,10 +482,10 @@
  }
  
  /*    Function Name: AdjustDefResources
-
---- man.c	Fri Aug 10 07:14:12 2007
-+++ man.c	Mon Apr 14 14:11:10 2008
-@@ -31,7 +31,8 @@
+diff -urp -x '*~' -x '*.orig' man.c man.c
+--- man.c	2009-10-16 14:39:48.000000000 -0700
++++ man.c	2011-01-28 20:32:24.173179002 -0800
+@@ -31,7 +31,8 @@ from the X Consortium.
  */
  /* $XFree86: xc/programs/xman/man.c,v 1.8 2003/04/09 20:31:31 herrb Exp $ */
  
@@ -162,7 +495,7 @@
  #include "globals.h"
  #include "vendor.h"		/* vendor-specific defines and data */
  
-@@ -171,7 +172,7 @@
+@@ -171,7 +172,7 @@ Man(void)
  	  manual = (Manual *) XtRealloc ( (char *) manual,
  				        (sizeof(Manual) * num_alloced));
  	  if (manual == NULL) 
@@ -171,7 +504,7 @@
  	}
  	InitManual( manual + sect, list->label );
  	manual[sect].flags = list->flags;
-@@ -198,10 +199,10 @@
+@@ -198,10 +199,10 @@ Man(void)
   */
  
    if (sect == 0)
@@ -184,7 +517,7 @@
  
    return(sect);		/* return the number of man sections. */
  }    
-@@ -223,7 +224,7 @@
+@@ -223,7 +224,7 @@ SortList(SectionList ** list)
    SectionList *head, *last, *inner, *old;
    
    if (*list == NULL)
@@ -193,7 +526,7 @@
  
  /* 
   * First step 
-@@ -426,7 +427,7 @@
+@@ -426,7 +427,7 @@ ReadCurrentSection(Manual * local_manual
  
    if((dir = opendir(path)) == NULL) {
  #ifdef DEBUG
@@ -202,7 +535,7 @@
      PopupWarning(NULL, error_buf);
  #endif /* DEBUG */
      return;
-@@ -496,7 +497,7 @@
+@@ -512,7 +513,7 @@ ReadCurrentSection(Manual * local_manual
      local_manual->entries_less_paths[nentries] = 
        rindex(local_manual->entries[nentries], '/');
      if ( local_manual->entries_less_paths[nentries] == NULL )
@@ -211,7 +544,7 @@
      ++ nentries;
    }
    
-@@ -524,7 +525,7 @@
+@@ -540,7 +541,7 @@ SortAndRemove(Manual *man, int number)
      register int i2 = 0;      
      
  #ifdef DEBUG
@@ -220,7 +553,7 @@
  #endif /* DEBUG */
  
      s1 = (char **)malloc(man->nentries * sizeof(char *));
-@@ -555,14 +556,14 @@
+@@ -571,14 +572,14 @@ SortAndRemove(Manual *man, int number)
        j = 0;
        l2 = man->entries_less_paths[j++];
        if ( l2 == NULL )
@@ -238,7 +571,7 @@
  	  if ( streq(l1,l2) )
  	    {
  	      j2 = j-1;
-@@ -964,7 +965,7 @@
+@@ -980,7 +981,7 @@ DumpManual(int number)
    register int i,j;
    
    for ( i = 0; i < number; i++) {
@@ -247,342 +580,10 @@
      for (j = 0; j < manual[i].nentries; j++) 
        printf("%s\n", manual[i].entries[j]);
    }
-
---- help.c	Fri Aug 10 07:14:12 2007
-+++ help.c	Fri Aug 10 07:14:12 2007
-@@ -36,6 +36,8 @@
-  * Created:   January 19, 1988
-  */
- 
-+#include <libintl.h>
-+#include <X11/Xlocale.h>
- #include "globals.h"
- 
- extern Atom wm_delete_window;	/* in main.c */
-@@ -68,7 +70,7 @@
-     return(FALSE);
-   }
- 
--  ChangeLabel(man_globals->label, "Xman Help");
-+  ChangeLabel(man_globals->label, gettext("Xman Help"));
- 
-   XtManageChild( man_globals->manpagewidgets.manpage );
-   XtRealizeWidget(  help_widget );
-@@ -101,7 +103,7 @@
- 
-   if( (help_file_ptr = fopen(resources.help_file, "r")) == NULL ) {
-     PopupWarning(man_globals,
--		 "Could not open help file, NO HELP WILL BE AVALIABLE.");
-+		 gettext("Could not open help file, NO HELP WILL BE AVALIABLE."));
-     return(FALSE);
-   }
-
---- handler.c	Fri Aug 10 07:14:12 2007
-+++ handler.c	Tue Apr 15 16:15:43 2008
-@@ -40,6 +40,8 @@
- #include <sys/stat.h>
- #include "globals.h"
- #include "vendor.h"
-+#include <libintl.h>
-+#include <X11/Xlocale.h>
- #ifdef INCLUDE_XPRINT_SUPPORT
- #include "printdialog.h"
- #include "print.h"
-@@ -300,8 +302,10 @@
-   char cmdbuf[BUFSIZ], error_buf[BUFSIZ];
- 
-   if (*num_params != 1) {
--    XtAppWarning(XtWidgetToApplicationContext(w), 
--       "Xman - SaveFormattedPage: This action routine requires one argument.");
-+    snprintf(error_buf, sizeof(error_buf),
-+	gettext("%s This action routine requires one argument."),
-+	"Xman - SaveFormattedPage:");
-+    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
-     return;
-   }
- 
-@@ -338,12 +342,12 @@
- 	/* make sure the formatted man page is fully accessible by the world */
- 	if (chmod(man_globals->save_file, CHMOD_MODE) != 0) {
- 	    sprintf(error_buf,
--		    "Couldn't set permissions on formatted man page '%s'.\n",
-+		    gettext("Couldn't set permissions on formatted man page '%s'.\n"),
- 		    man_globals->save_file);
- 	    PopupWarning( man_globals, error_buf);
- 	}
-     } else {
--	sprintf(error_buf, "Error while executing the command '%s'.\n",
-+	sprintf(error_buf, gettext("Error while executing the command '%s'.\n"),
- 		cmdbuf);
- 	PopupWarning( man_globals, error_buf);
-     }
-@@ -353,7 +357,7 @@
-     break;
-   default:
-     sprintf(error_buf,"%s %s", "Xman - SaveFormattedPagee:",
--	    "Unknown argument must be either 'Save' or 'Cancel'.");
-+	    gettext("Unknown argument must be either 'Save' or 'Cancel'."));
-     PopupWarning(man_globals, error_buf);
-     return;
-   }
-@@ -388,8 +392,10 @@
-   Boolean sensitive;
- 
-   if (*num_params != 1) {
--    XtAppWarning(XtWidgetToApplicationContext(w), 
--		"Xman - GotoPage: This action routine requires one argument.");
-+    snprintf(error_buf, sizeof(error_buf),
-+	gettext("%s This action routine requires one argument."),
-+	gettext("Xman - GotoPage:"));
-+    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
-     return;
-   }
- 
-@@ -422,8 +428,8 @@
-     man_globals->dir_shown = TRUE;
-     break;
-   default:
--    sprintf(error_buf,"%s %s", "Xman - GotoPage: Unknown argument must be",
--	    "either Manpage or Directory.");
-+    sprintf(error_buf,"%s %s", gettext("Xman - GotoPage: Unknown argument must be"),
-+	    gettext("either Manpage or Directory."));
-     XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
-     return;
-   }
-@@ -541,13 +547,16 @@
- Search(Widget w, XEvent * event, String * params, Cardinal * num_params)
- {
-   ManpageGlobals * man_globals = GetGlobals(w);
-+  char error_buf[BUFSIZ];
-   FILE * file = NULL;
- 
-   XtPopdown(  XtParent(XtParent(w)) );       /* popdown the search widget */
- 
-   if ( (*num_params < 1) || (*num_params > 2) ) {
--    XtAppWarning(XtWidgetToApplicationContext(w), 
--      "Xman - Search: This action routine requires one or two arguments.");
-+    snprintf(error_buf, sizeof(error_buf),
-+	gettext("%s This action routine requires one or two arguments."),
-+	gettext("Xman - Search:"));
-+    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
-     return;
-   }
- 
-@@ -565,8 +574,10 @@
-     file = NULL;
-     break;
-   default:
--    XtAppWarning(XtWidgetToApplicationContext(w), 
--		 "Xman - Search: First parameter unknown.");
-+    snprintf(error_buf, sizeof(error_buf),
-+	gettext("%s First parameter unknown."),
-+	gettext("Xman - Search:"));
-+    XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
-     file = NULL;
-     break;
-   }
-@@ -591,8 +602,9 @@
-       }
-       break;
-     default:
--      XtAppWarning(XtWidgetToApplicationContext(w), 
--		   "Xman - Search: Second parameter unknown.");
-+      snprintf(error_buf, sizeof(error_buf),
-+	gettext("%s Second parameter unknown."), "Xman - Search:");
-+      XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
-       break;
-     }
-   else {
-
---- buttons.c	Fri Aug 10 07:14:12 2007
-+++ buttons.c	Tue Apr 15 14:17:59 2008
-@@ -36,6 +36,8 @@
-  * Created:   October 27, 1987
-  */
- 
-+#include <libintl.h>
-+#include <X11/Xlocale.h>
- #include "globals.h"
- #include "vendor.h"
- 
-@@ -47,6 +49,7 @@
- 
- static void CreateOptionMenu(ManpageGlobals * man_globals, Widget parent);
- static void CreateSectionMenu(ManpageGlobals * man_globals, Widget parent);
-+static void CreateMoreMenu(ManpageGlobals * man_globals, Widget parent);
- static void StartManpage(ManpageGlobals * man_globals, Boolean help, Boolean page);
- static Widget * ConvertNamesToWidgets(Widget parent, char ** names);
- 
-@@ -57,6 +60,7 @@
-  */
- 
- #define TOPARGS 5
-+#define MAX_MENU 30
- 
- extern Atom wm_delete_window;	/* in main.c */
- 
-@@ -215,7 +219,7 @@
- {
-   Arg arglist[MANPAGEARGS];	/* An argument list for widget creation */
-   Cardinal num_args;		/* The number of arguments in the list. */
--  Widget mytop, pane, hpane, mysections;	/* Widgets */
-+  Widget mytop, pane, hpane, mysections, sect1;	/* Widgets */
-   ManPageWidgets * mpw = &(man_globals->manpagewidgets);
- 
-   num_args = (Cardinal) 0;
-@@ -242,8 +246,13 @@
-   num_args++;
-   XtSetValues(mytop, arglist, num_args);
- 
-+#ifdef SUNSOFT
-+  pane = XtCreateManagedWidget("Manpage_Vpane", panedWidgetClass, mytop, NULL, 
-+			       (Cardinal) 0);
-+#else
-   pane = XtCreateManagedWidget("vertPane", panedWidgetClass, mytop, NULL, 
- 			       (Cardinal) 0);
-+#endif
- 
- /* Create menu bar. */
- 
-@@ -261,6 +270,13 @@
-   mysections = XtCreateManagedWidget("sections", menuButtonWidgetClass,
- 				   hpane, arglist, num_args);
- 
-+  if(sections > MAX_MENU){
-+     num_args = 0;
-+     XtSetArg(arglist[num_args], XtNmenuName, MORE_MENU); num_args++;
-+     sect1 = XtCreateManagedWidget("More...", menuButtonWidgetClass,
-+                                   hpane, arglist, num_args);
-+  }
-+
-   XtSetArg(arglist[0], XtNlabel, SHOW_BOTH);
-   XtSetValues(man_globals->both_screens_entry, arglist, (Cardinal) 1);
- 
-@@ -267,9 +283,11 @@
-   if (full_instance) {
-     MakeSearchWidget(man_globals, mytop);
-     CreateSectionMenu(man_globals, mytop);
-+    if(sections > MAX_MENU) CreateMoreMenu(man_globals, mytop);
-     MakeSaveWidgets(man_globals, mytop);
-   } else {
-     XtSetSensitive(mysections, FALSE);       
-+    if(sections > MAX_MENU) XtSetSensitive(sect1, FALSE);
-     XtSetArg(arglist[0], XtNsensitive, FALSE);
-     XtSetValues(man_globals->dir_entry, arglist, ONE);
-     XtSetValues(man_globals->manpage_entry, arglist, ONE);
-@@ -283,8 +301,13 @@
-   XtSetValues(man_globals->print_entry, arglist, ONE);
- #endif /* INCLUDE_XPRINT_SUPPORT */
- 
-+#ifdef SUNSOFT
-+  man_globals->label = XtCreateManagedWidget(MANNAME, labelWidgetClass,
-+					     hpane, NULL, (Cardinal) 0);
-+#else
-   man_globals->label = XtCreateManagedWidget("manualTitle", labelWidgetClass,
- 					     hpane, NULL, (Cardinal) 0);
-+#endif
- 
- /* Create Directory */
- 
-@@ -332,7 +355,7 @@
- 
-   if (page || help) {
-     if (help) 
--      strcpy(man_globals->manpage_title, "Xman Help");
-+      strcpy(man_globals->manpage_title, gettext("Xman Help"));
- 
-     if (man_globals->both_shown) {
-       XtManageChild(dir);
-@@ -521,7 +544,7 @@
-   menu = XtCreatePopupShell(SECTION_MENU, simpleMenuWidgetClass, parent,
- 			    NULL, (Cardinal) 0);
- 
--  for (i = 0 ; i < sections ; i ++) {
-+  for (i = 0 ; i < ((sections <= MAX_MENU) ? sections:sections/2) ; i ++) {
-     num_args = 0;
-     XtSetArg(args[num_args], XtNlabel, manual[i].blabel); num_args++;
-     sprintf(entry_name, "section%d", i);
-@@ -537,6 +560,37 @@
-   }
- }
- 
-+static void
-+CreateMoreMenu(man_globals, parent)
-+ManpageGlobals * man_globals;
-+Widget parent;
-+{
-+  Widget menu, entry;
-+  int i;
-+  MenuStruct * menu_struct;
-+  Arg args[1];
-+  Cardinal num_args;
-+  char entry_name[BUFSIZ];
-+
-+  menu = XtCreatePopupShell(MORE_MENU, simpleMenuWidgetClass, parent,
-+                            NULL, (Cardinal) 0);
-+
-+  for (i = sections/2-1 ; i < sections ; i ++) {
-+    num_args = 0;
-+    XtSetArg(args[num_args], XtNlabel, manual[i].blabel); num_args++;
-+    sprintf(entry_name, "section%d", i);
-+
-+    entry = XtCreateManagedWidget(entry_name, smeBSBObjectClass,
-+                                  menu, args, num_args);
-+    menu_struct = (MenuStruct *) XtMalloc(sizeof(MenuStruct));
-+    menu_struct->data = (caddr_t) man_globals;
-+    menu_struct->number = i;
-+    XtAddCallback(entry, XtNcallback, DirPopupCallback, (caddr_t) menu_struct);
-+    XtAddCallback(entry, XtNdestroyCallback,MenuDestroy, (caddr_t)menu_struct);
-+
-+  }
-+}
-+
- /*	Function Name: CreateList
-  *	Description: this function prints a label in the directory list
-  *	Arguments: section - the manual section.
-@@ -581,7 +635,7 @@
-     return;
- 
-   name = manual[section].blabel;   /* Set the section name */
--  sprintf(label_name,"Directory of: %s",name);
-+  snprintf(label_name, sizeof(label_name), gettext("Directory of: %s"),name);
-   man_globals->section_name[section] = StrAlloc(label_name);
- 
-   num_args = 0;
-@@ -679,7 +733,7 @@
- 
-   if (long_widget == (Widget) NULL) {          /* Make sure we found one. */
-     PopupWarning(GetGlobals(parent), 
--		 "Could not find longest widget, aborting...");
-+		 gettext("Could not find longest widget, aborting..."));
-     XtFree((char *)full_widgets);
-     XtFree((char *)half_widgets);
-     return;
-@@ -747,7 +801,8 @@
-     if (*temp_ids == NULL) {
-       char error_buf[BUFSIZ];
-     
--      sprintf(error_buf, "Could not find widget named '%s'", *names);
-+      snprintf(error_buf, sizeof(error_buf),
-+			gettext("Could not find widget named '%s'"), *names);
-       PrintError(error_buf);
-       XtFree((char *)ids);
-       return(NULL);
-
---- defs.h	Fri Aug 10 07:14:12 2007
-+++ defs.h	Tue Apr 15 15:46:28 2008
-@@ -51,6 +51,7 @@
- 
- #define OPTION_MENU "optionMenu" /* Name of the Option Menu. */
- #define SECTION_MENU "sectionMenu" /* Name of the Section Menu. */
-+#define MORE_MENU "moreMenu" /* Name of the More... Menu. */
- 
- #define HELP_BUTTON "helpButton" /* Name of top help button */
- #define QUIT_BUTTON "quitButton" /* Name of top quit button */
-
---- misc.c	Fri Aug 10 07:14:12 2007
-+++ misc.c	Tue Apr 15 16:24:49 2008
-@@ -41,6 +41,8 @@
+diff -urp -x '*~' -x '*.orig' misc.c misc.c
+--- misc.c	2009-10-16 14:39:48.000000000 -0700
++++ misc.c	2011-01-28 20:32:24.196139861 -0800
+@@ -41,6 +41,8 @@ from the X Consortium.
  # include "config.h"
  #endif
  
@@ -591,7 +592,7 @@
  #include "globals.h"
  #include "vendor.h"
  #include <X11/Xos.h> 		/* sys/types.h and unistd.h included in here */
-@@ -99,7 +101,7 @@
+@@ -98,7 +100,7 @@ PopupWarning(ManpageGlobals * man_global
    char buffer[BUFSIZ];
    Boolean hasPosition;
  
@@ -600,7 +601,7 @@
    hasPosition = FALSE;
    if (top)
    {
-@@ -141,7 +143,7 @@
+@@ -140,7 +142,7 @@ PopupWarning(ManpageGlobals * man_global
  void
  PrintError(char * string)
  {
@@ -609,7 +610,7 @@
    exit(EXIT_FAILURE);
  }
  
-@@ -203,7 +205,7 @@
+@@ -202,7 +204,7 @@ FindManualFile(ManpageGlobals * man_glob
  
    temp = CreateManpageName(entry, 0, 0);
    snprintf(man_globals->manpage_title, sizeof(man_globals->manpage_title),
@@ -618,7 +619,7 @@
    XtFree(temp);
  
    ParseEntry(entry, path, section, page);
-@@ -306,14 +308,14 @@
+@@ -328,14 +330,14 @@ Uncompress(ManpageGlobals * man_globals,
      return(NULL);
  
    else if ((file = fopen(tmp_file, "r")) == NULL) {
@@ -637,7 +638,7 @@
        PopupWarning(man_globals, error_buf);
        return(NULL);
    }
-@@ -351,7 +353,7 @@
+@@ -373,7 +375,7 @@ UncompressNamed(ManpageGlobals * man_glo
    if (stat(filename, &junk) != 0) { /* Check for existance of the file. */
      if (errno != ENOENT) {
        snprintf(error_buf, sizeof(error_buf),
@@ -646,7 +647,7 @@
        PopupWarning(man_globals, error_buf);
      }
      return(FALSE);
-@@ -368,7 +370,7 @@
+@@ -390,7 +392,7 @@ UncompressNamed(ManpageGlobals * man_glo
  #else
    fd = mkstemp(tmp);
    if (fd < 0) {
@@ -655,7 +656,7 @@
        return FALSE;
    }
    *output_fd = fdopen(fd, "r");
-@@ -386,7 +388,7 @@
+@@ -420,7 +422,7 @@ UncompressNamed(ManpageGlobals * man_glo
      return(TRUE);
  
    snprintf(error_buf, sizeof(error_buf),
@@ -664,7 +665,7 @@
    PopupWarning(man_globals, error_buf);
    return(FALSE);
  }
-@@ -482,7 +484,7 @@
+@@ -516,7 +518,7 @@ Format(ManpageGlobals * man_globals, cha
  #endif
      /* We Really could not find it, this should never happen, yea right. */
      snprintf(error_buf, sizeof(error_buf),
@@ -673,13 +674,13 @@
      PopupWarning(man_globals, error_buf);
      XtPopdown( XtParent(man_globals->standby) );
      return(NULL);
-@@ -539,7 +541,20 @@
+@@ -573,6 +575,19 @@ Format(ManpageGlobals * man_globals, cha
    ParseEntry(entry, path, sect, NULL);
  
  #ifndef HANDLE_ROFFSEQ
 +#ifdef SFORMAT				/* Handle Solaris SGML pages */
 +  if (sect[0] == 's') {
- #ifndef HAS_MKSTEMP
++#ifndef HAS_MKSTEMP
 +    snprintf(cmdbuf, sizeof(cmdbuf), "cd %s ; %s %s | %s %s > %s %s", 
 +    	     path, SFORMAT, filename, TBL, FORMAT, man_globals->tempfile,
 +    	     "2> /dev/null");
@@ -690,11 +691,10 @@
 +#endif
 +  } else {
 +#endif /* SFORMAT */
-+#ifndef HAS_MKSTEMP
+ #ifndef HAS_MKSTEMP
    snprintf(cmdbuf, sizeof(cmdbuf), "cd %s ; %s %s %s > %s %s", path, TBL,
  	  filename, FORMAT, man_globals->tempfile, "2> /dev/null");
- #else
-@@ -546,10 +561,13 @@
+@@ -580,10 +595,13 @@ Format(ManpageGlobals * man_globals, cha
    snprintf(cmdbuf, sizeof(cmdbuf), "cd %s ; %s %s %s >> %s %s", path, TBL,
  	  filename, FORMAT, man_globals->tempfile, "2> /dev/null");
  #endif
@@ -709,7 +709,7 @@
       PopupWarning(man_globals, error_buf);
       file = NULL;
    }
-@@ -558,7 +576,7 @@
+@@ -592,15 +610,15 @@ Format(ManpageGlobals * man_globals, cha
  
    if(system(cmdbuf) != 0) {	/* execute search. */
      snprintf(error_buf, sizeof(error_buf),
@@ -718,7 +718,6 @@
      PopupWarning(man_globals, error_buf);
      file = NULL;
    }
-@@ -565,8 +583,8 @@
    else {
  #ifndef HAS_MKSTEMP
      if ((file = fopen(man_globals->tempfile,"r")) == NULL) {
@@ -729,7 +728,7 @@
        PopupWarning(man_globals, error_buf);
      }
      else {
-@@ -962,7 +980,7 @@
+@@ -1071,7 +1089,7 @@ AddCursor(Widget w, Cursor cursor)
    Colormap c_map;
  
    if (!XtIsRealized(w)) {
@@ -738,7 +737,7 @@
      return;
    }
  
-@@ -1073,7 +1091,7 @@
+@@ -1182,14 +1200,14 @@ ParseEntry(char *entry, char *path, char
  
    c = rindex(temp, '/');
    if (c == NULL)
@@ -747,7 +746,6 @@
    *c++ = '\0';
    if (page != NULL)
      strcpy(page, c);
-@@ -1080,7 +1098,7 @@
  
    c = rindex(temp, '/');
    if (c == NULL)
@@ -756,7 +754,7 @@
    *c++ = '\0';
  #if defined(SFORMAT) && defined(SMAN)
    /* sgmltoroff sometimes puts an extra ./ in the path to .so entries */
-@@ -1127,12 +1145,12 @@
+@@ -1236,12 +1254,12 @@ GetGlobals(Widget w)
  
    if (temp == NULL)
      XtAppError(XtWidgetToApplicationContext(w),
@@ -771,7 +769,7 @@
  
    return( (ManpageGlobals *) data);
  }
-@@ -1154,7 +1172,7 @@
+@@ -1263,7 +1281,7 @@ SaveGlobals(Widget w, ManpageGlobals * g
    if (XSaveContext(XtDisplay(w), XtWindow(w), manglobals_context,
  		   (caddr_t) globals) != XCSUCCESS)
      XtAppError(XtWidgetToApplicationContext(w),
@@ -780,17 +778,17 @@
  }
  
  /*      Function Name: RemoveGlobals
-@@ -1172,5 +1190,5 @@
+@@ -1281,5 +1299,5 @@ RemoveGlobals(Widget w)
    if (XDeleteContext(XtDisplay(w), XtWindow(w),
  		     manglobals_context) != XCSUCCESS)
      XtAppError(XtWidgetToApplicationContext(w),
 -	       "Xman: Could not remove global data?");
 +	       gettext("Xman: Could not remove global data?"));
  }
-
---- search.c	Fri Aug 10 07:14:12 2007
-+++ search.c	Mon Apr 14 13:05:13 2008
-@@ -30,7 +30,8 @@
+diff -urp -x '*~' -x '*.orig' search.c search.c
+--- search.c	2009-10-16 14:39:48.000000000 -0700
++++ search.c	2011-01-28 20:32:24.196499890 -0800
+@@ -30,7 +30,8 @@ from the X Consortium.
  */
  /* $XFree86: xc/programs/xman/search.c,v 1.5 2001/01/27 17:24:27 herrb Exp $ */
  
@@ -800,7 +798,7 @@
  #include "globals.h"
  #include "vendor.h"
  
-@@ -70,7 +71,7 @@
+@@ -70,7 +71,7 @@ MakeSearchWidget(ManpageGlobals * man_gl
  				 arglist, num_args);
  
    if ( (text = XtNameToWidget(dialog, "value")) == (Widget) NULL)
@@ -809,7 +807,7 @@
    else
      XtSetKeyboardFocus(dialog, text);
  
-@@ -86,7 +87,7 @@
+@@ -86,7 +87,7 @@ MakeSearchWidget(ManpageGlobals * man_gl
    if ( ((command = XtNameToWidget(dialog, MANUALSEARCH)) == (Widget) NULL) ||
         ((cancel = XtNameToWidget(dialog, CANCEL)) == (Widget) NULL) )
      PopupWarning(NULL,
@@ -818,7 +816,7 @@
    else {
      static char * half_size[] = {
        MANUALSEARCH, APROPOSSEARCH, NULL
-@@ -121,7 +122,7 @@
+@@ -121,7 +122,7 @@ ManpageGlobals * man_globals)
      return(XawDialogGetValueString(dialog));
  
    PopupWarning(man_globals,
@@ -827,7 +825,7 @@
    return(NULL);
  }
  
-@@ -165,16 +166,16 @@
+@@ -165,16 +166,16 @@ DoSearch(ManpageGlobals * man_globals, i
    /* If the string is empty or starts with a space then do not search */
  
    if ( streq(search_string,"") ) {
@@ -847,7 +845,7 @@
      return(NULL);
    }
  
-@@ -210,7 +211,7 @@
+@@ -210,7 +211,7 @@ DoSearch(ManpageGlobals * man_globals, i
      }
  
      snprintf(label, sizeof(label), 
@@ -856,7 +854,7 @@
  
  #ifdef NO_MANPATH_SUPPORT	/* not quite correct, but the best I can do. */
      snprintf(cmdbuf, sizeof(cmdbuf), APROPOS_FORMAT, search_string, mantmp);
-@@ -219,7 +220,7 @@
+@@ -219,7 +220,7 @@ DoSearch(ManpageGlobals * man_globals, i
  #endif
  
      if(system(cmdbuf) != 0) {	/* execute search. */
@@ -865,7 +863,7 @@
        PopupWarning(man_globals, error_buf);
      }
  
-@@ -228,7 +229,7 @@
+@@ -228,7 +229,7 @@ DoSearch(ManpageGlobals * man_globals, i
  #else
      if((file = fopen(mantmp,"r")) == NULL)
  #endif
@@ -874,7 +872,7 @@
  
  /* 
   * Since we keep the FD open we can unlink the file safely, this
-@@ -237,7 +238,7 @@
+@@ -237,7 +238,7 @@ DoSearch(ManpageGlobals * man_globals, i
  
      unlink(mantmp);
  
@@ -883,7 +881,7 @@
  
      /*
       * Check first LOOKLINES lines for "nothing appropriate".
-@@ -276,7 +277,7 @@
+@@ -276,7 +277,7 @@ DoSearch(ManpageGlobals * man_globals, i
    else {			/* MANUAL SEACH */
      file = DoManualSearch(man_globals, search_string);
      if (file == NULL) {
@@ -892,7 +890,7 @@
        ChangeLabel(man_globals->label, string_buf);
        if (man_globals->label == NULL)
  	PopupWarning(man_globals, string_buf);
-@@ -290,7 +291,7 @@
+@@ -290,7 +291,7 @@ DoSearch(ManpageGlobals * man_globals, i
  
      dialog = XtNameToWidget(man_globals->search_widget, DIALOG);
      if (dialog == NULL) 
@@ -901,7 +899,7 @@
  
      XtSetArg(arglist[0], XtNvalue, "");
      XtSetValues(dialog, arglist, (Cardinal) 1);
-@@ -377,7 +378,7 @@
+@@ -377,7 +378,7 @@ int number)
  
      head = rindex(first[ global_number + check ], '/');
      if (head == NULL) 
@@ -910,10 +908,10 @@
      head++;
  
      tail = rindex(head, '.');
-
---- vendor.c	Fri Aug 10 07:14:12 2007
-+++ vendor.c	Wed May 28 11:33:51 2008
-@@ -34,6 +34,8 @@
+diff -urp -x '*~' -x '*.orig' vendor.c vendor.c
+--- vendor.c	2009-10-16 14:39:48.000000000 -0700
++++ vendor.c	2011-01-28 20:32:24.196781956 -0800
+@@ -34,6 +34,8 @@ from the X Consortium.
  
  #include "globals.h"
  #include "vendor.h"
@@ -922,7 +920,7 @@
  
  typedef struct sectionName {
      char *	name;
-@@ -100,21 +102,74 @@
+@@ -100,21 +102,74 @@ static SectionNameRec SectionNames[] = {
      {"(1m) Maintenance Commands",		"1m"},
      {"(1s) SunOS Specific Commands",		"1s"},
      {"(2)  System Calls",			"2"},
@@ -1003,7 +1001,7 @@
      {"(4)  File Formats",			"4"},
      {"(4b) Misc. Reference Manual Pages",	"4b"},
      {"(5)  Environments, Tables, and TROFF Macros", "5"},
-@@ -133,6 +188,7 @@
+@@ -133,6 +188,7 @@ static SectionNameRec SectionNames[] = {
      {"(9s) DDI and DKI Data Structures",	"9s"},
      {"(l)  Local",				"l"},
      {"(n)  New",				"n"},
@@ -1011,7 +1009,7 @@
  };
  
  #else
-@@ -188,10 +244,10 @@
+@@ -188,10 +244,10 @@ char * path)
  
    for (i=0; i < numSections; i++) {
      sprintf(file, "%s%s", SEARCHDIR, SectionNames[i].suffix);
@@ -1024,7 +1022,7 @@
  #endif
    }
  #endif
-@@ -252,7 +308,7 @@
+@@ -252,7 +308,7 @@ char *path)
      int flags = (int) *p++;
      while (*p != NULL) {
        sprintf(file, "%s%s", SEARCHDIR, *p++);

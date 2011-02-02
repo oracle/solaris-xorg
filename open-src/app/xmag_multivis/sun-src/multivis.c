@@ -1,7 +1,16 @@
 /*-
  * multivis.c - Mechanism for GetImage across Multiple Visuals
  *
- * Copyright 1990, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Original author:
+ *		       Milind M. Pansare
+ *		       Window Systems Group
+ *		       Sun Microsystems, Inc.
+ *
+ * Revision History:
+ * 11-15-90 Written
+ */
+ 
+/* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,16 +30,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- *
- * Original author:
- *		       Milind M. Pansare
- *		       Window Systems Group
- *		       Sun Microsystems, Inc.
- *
- * Revision History:
- * 11-15-90 Written
  */
 
+#include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #ifdef SHAPE

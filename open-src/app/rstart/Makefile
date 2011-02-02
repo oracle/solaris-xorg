@@ -2,7 +2,7 @@
 #
 # rstart 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,11 @@ MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e09c14cf1ac78260f95a9aa45bccab4c
-TARBALL_SHA1 = 253ebb330f5cb2b49711e04ae0ad8a659e854244
+TARBALL_MD5  = eb82a6290dfbaa1fc09a3b7426b2eac2
+TARBALL_SHA1 = 92b1743af23e7bc8be732f314cba92dedf7907d3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -1,4 +1,4 @@
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,9 +21,9 @@
 Adds support for Sun's Frame Buffer Power Management (fbpm) extension
 
 diff -urp -x '*~' -x '*.orig' xset.c xset.c
---- xset.c	2008-03-06 14:28:40.000000000 -0800
-+++ xset.c	2008-03-19 09:53:30.880805000 -0700
-@@ -74,6 +74,10 @@ in this Software without prior written a
+--- xset.c	2010-11-09 18:15:26.000000000 -0800
++++ xset.c	2011-01-28 20:59:48.793243393 -0800
+@@ -65,6 +65,10 @@ in this Software without prior written a
  #endif
  #ifdef DPMSExtension
  # include <X11/extensions/dpms.h>
@@ -34,7 +34,7 @@ diff -urp -x '*~' -x '*.orig' xset.c xset.c
  # ifdef WIN32
  #  define BOOL wBOOL
  #  ifdef Status
-@@ -650,6 +654,62 @@ main(int argc, char *argv[])
+@@ -639,6 +643,62 @@ main(int argc, char *argv[])
  	    }
  	}
  #endif /* DPMSExtension */
@@ -97,7 +97,7 @@ diff -urp -x '*~' -x '*.orig' xset.c xset.c
  	else if (strcmp(arg, "s") == 0) {
  	    if (i >= argc) {
  		set_saver(dpy, ALL, 0);	/* Set everything to default  */
-@@ -1421,6 +1481,46 @@ query(Display *dpy)
+@@ -1522,6 +1582,46 @@ query(Display *dpy)
  	}
      }
  #endif
@@ -144,7 +144,7 @@ diff -urp -x '*~' -x '*.orig' xset.c xset.c
  #ifdef FONTCACHE
      {
  	int dummy;
-@@ -1551,6 +1651,16 @@ usage(char *fmt, ...)
+@@ -1652,6 +1752,16 @@ usage(char *fmt, ...)
      fprintf(stderr, "\t      (also implicitly enables DPMS features) \n");
      fprintf(stderr, "\t      a timeout value of zero disables the mode \n");
  #endif
@@ -161,3 +161,67 @@ diff -urp -x '*~' -x '*.orig' xset.c xset.c
  #ifdef FONTCACHE
      fprintf(stderr, "    To control font cache:\n");
      fprintf(stderr, "\t fc [hi-mark [low-mark [balance]]]\n");
+diff -urp -x '*~' -x '*.orig' xset.man xset.man
+--- xset.man	2010-11-09 18:15:26.000000000 -0800
++++ xset.man	2011-01-28 20:59:48.793541415 -0800
+@@ -1,4 +1,5 @@
+ .\" Copyright 1988, 1998  The Open Group
++.\" Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ .\"
+ .\" Permission to use, copy, modify, distribute, and sell this software and its
+ .\" documentation for any purpose is hereby granted without fee, provided that
+@@ -40,6 +41,10 @@ xset - user preference utility for X
+ 	[dpms \fIstandby\fP [\fI suspend\fP [\fI off\fP]]]
+ 	[dpms force {standby|suspend|off|on}]
+ .br
++[+fbpm] [-fbpm]
++.br
++	[fbpm force {standby|suspend|off|on}]
++.br
+ [fp=\fIpathlist\fP]
+ [-fp=\fIpathlist\fP]
+ [+fp=\fIpathlist\fP]
+@@ -121,7 +126,9 @@ the volume to the nearest value that the
+ The \fB\-dpms\fP option disables DPMS (Energy Star) features.
+ .TP 8
+ .B +dpms
+-The \fB+dpms\fP option enables DPMS (Energy Star) features.
++Enable Energy Star mode. Default times are standby = 1440, suspend = 1620, and
++off = 1800 seconds.
++.PP
+ .TP 8
+ .B dpms \fIflags...\fP
+ The \fBdpms\fP option allows the DPMS (Energy Star) parameters to be
+@@ -136,6 +143,32 @@ The first value given is for the `standb
+ `suspend' mode, and the third is for the `off' mode.  Setting these
+ values implicitly enables the DPMS features.  A value of zero disables
+ a particular mode.
++Note that standby is less than suspend is less than off, if this condition is not met, an error is produced.
++.PP
++.TP 8
++.B +fbpm
++Enable frame buffer power management. NOTE: FBPM timing is linked to DPMS, See DPMS for default timeout values.
++.PP
++.TP 8
++.B -fbpm
++Disable frame buffer power management. NOTE: Does not affect DPMS timeouts.
++.PP
++.TP 8
++.B fbpm force standby
++Force to standby power level.
++.PP
++.TP 8
++.B fbpm force suspend
++Force to suspend power level.
++.PP
++.TP 8
++.B fbpm force off
++Force power to off.
++.PP
++.TP 8
++.B fbpm force on
++Force power to on.
++.PP
+ .TP 8
+ .B fp= \fIpath,...\fP
+ The \fBfp=\fP sets the font path to the entries given in the path argument.

@@ -2,7 +2,7 @@
 #
 # xwd 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xwd
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 007cea1f389abde5c93162dcd5541351
-TARBALL_SHA1 = f6708d14040630d1d3255987c28efcbf7aee05aa
+TARBALL_MD5  = ecd9167fbfdfc3cfef7e0bb089edd25b
+TARBALL_SHA1 = 4ef4fd9072a507e9a1ee88ba1d28b314006cc109
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

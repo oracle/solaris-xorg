@@ -25,9 +25,9 @@
 Add notes on SMF integration and change to reflect default startup via
 inetd.
 
-diff -urp -x '*~' -x '*.orig' xfs.man xfs.man
---- xfs.man	2009-06-17 18:32:46.000000000 -0700
-+++ xfs.man	2009-06-18 14:33:54.591588000 -0700
+diff -urp -x '*~' -x '*.orig' man/xfs.man man/xfs.man
+--- man/xfs.man	2010-08-06 18:40:29.000000000 -0700
++++ man/xfs.man	2011-01-28 18:01:17.083394642 -0800
 @@ -68,10 +68,14 @@ xfs \- X font server
  .B xfs
  is the X Window System font server.
