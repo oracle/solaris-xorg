@@ -33,17 +33,17 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 93f54f04e0b531b5fb77d3f051cbf22a
-TARBALL_SHA1 = ab9f79e736c61c7c8d5bbb6841c291e877e368a9
+TARBALL_MD5  = 55cb47aa28460c34c3f9bac376e7fd78
+TARBALL_SHA1 = 9bfdd09a2b303b962439910f7bccaddd69b6ca8a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xrdb.man
 MODULE_STABILITY=Committed
 
 # Specify which cpp to use instead of depending on builder's $PATH
