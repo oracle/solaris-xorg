@@ -2,7 +2,7 @@
 #
 # pixman Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,11 +28,11 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.18.4
+MODULE_VERSION=0.20.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c1d69aaddba8c1e046d26ac125da95bf
-TARBALL_SHA1 = 011b00fb33d6e5021a680bcc74f600f44d709d8d
+TARBALL_MD5  = 7ed10a0f0fde6853613105a99735e7e7
+TARBALL_SHA1 = 9972c8f8ce484f7649d9f588168cd29f61c05c63
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -77,5 +77,11 @@ LIB_MAN_SUFFIX=3pixman
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=pixman-1.pc.in
+
+# Command line options to GNU autoconf configure script
+# --disable-gtk: Disable building of test programs that require gtk
+#   and have problems with mismatches between system library & the one we're
+#   building in our builds.
+MODULE_CONFIG_OPTS = --disable-gtk
 
 include ../Makefile.inc
