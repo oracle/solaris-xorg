@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@
 #
 # Set version information in ELF files to give hints to help in troubleshooting
 #
-# Usage: set-elf-comments.pl [-B <pkgversion>] -M "module version" \
+# Usage: set-elf-comments.pl [-b] [-B <pkgversion>] -M "module version" \
 #	 [-X <exclude regexp>] <path>
 #
 #  <pkgversion> may either be a path to a file containing BUILD="<version>"
@@ -47,7 +47,7 @@ use File::Find;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
 my %opts;
-getopts('B:M:X:', \%opts);
+getopts('B:M:X:b', \%opts);
 
 my $module_version_info = '@(#)';
 if (exists($opts{'M'})) {
@@ -61,50 +61,53 @@ if (exists($opts{'X'})) {
     $exclude_regexp = $opts{'X'};
 }
 
-my $build_info = strftime("%e %b %Y", localtime);
+if (exists($opts{'b'})) {
+    # Add build info, including date & anything specified by -B
+    my $build_info = strftime("%e %b %Y", localtime);
 
-if (exists($opts{'B'})) {
-  my $build_version_file = $opts{'B'};
+    if (exists($opts{'B'})) {
+	my $build_version_file = $opts{'B'};
 
-  if ($build_version_file eq 'hg id') {
-    my $hg_id = 'revision unavailable';
-    if (exists $ENV{'XBUILD_HG_ID'}) {
-      $hg_id = $ENV{'XBUILD_HG_ID'};
-    } else {
-      open my $VERS, '-|', $build_version_file
-	or die "Can't run $build_version_file: $!\n";
+	if ($build_version_file eq 'hg id') {
+	    my $hg_id = 'revision unavailable';
+	    if (exists $ENV{'XBUILD_HG_ID'}) {
+		$hg_id = $ENV{'XBUILD_HG_ID'};
+	    } else {
+		open my $VERS, '-|', $build_version_file
+		    or die "Can't run $build_version_file: $!\n";
 
-      while ($_ = <$VERS>) {
-	chomp($_);
-	if ($_ =~ m/\S+/) {
-	  my ($rev, $tag) = split(' ', $_, 2);
-	  if ($tag eq 'tip') {
-	    $hg_id = $rev;
-	  } else {
-	    $hg_id = $_;
-	  }
+		while ($_ = <$VERS>) {
+		    chomp($_);
+		    if ($_ =~ m/\S+/) {
+			my ($rev, $tag) = split(' ', $_, 2);
+			if ($tag eq 'tip') {
+			    $hg_id = $rev;
+			} else {
+			    $hg_id = $_;
+			}
+		    }
+		}
+		close $VERS;
+	    }
+	    $build_info = "hg: $hg_id - $build_info";
+	} else {
+	    open my $VERS, '<', $build_version_file
+		or die "Can't open $build_version_file for reading: $!\n";
+
+	    while ($_ = <$VERS>) {
+		if ($_ =~ m/^BUILD="(.*)"/) {
+		    my $v = $1 / 100.0;
+		    if ($v >= 1.0) {
+			$build_info = "build $v - " . $build_info;
+		    }
+		}
+	    }
+	    close $VERS;
 	}
-      }
-      close $VERS;
     }
-    $build_info = "hg: $hg_id - $build_info";
-  } else {
-    open my $VERS, '<', $build_version_file
-      or die "Can't open $build_version_file for reading: $!\n";
-
-    while ($_ = <$VERS>) {
-      if ($_ =~ m/^BUILD="(.*)"/) {
-	my $v = $1 / 100.0;
-	if ($v >= 1.0) {
-	  $build_info = "build $v - " . $build_info;
-	}
-      }
-    }
-    close $VERS;
-  }
+    $module_version_info .= " ($build_info)";
 }
 
-$module_version_info .= " ($build_info)";
 $module_version_info =~ s/\s+$//ms;
 
 sub scan_file {
