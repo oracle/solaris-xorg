@@ -2,7 +2,7 @@
 #
 # libFS Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libFS
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ecf2d6a27da053500283e803efa2a808
-TARBALL_SHA1 = 41cf53fae37210acaa034199f01f36af3f3ec548
+TARBALL_MD5  = 8e68a3a6f3cac936042b240b20d1fb7d
+TARBALL_SHA1 = 2b33fa17369605303ae70a7de1aa681879249c92
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch

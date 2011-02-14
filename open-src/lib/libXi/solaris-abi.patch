@@ -1,6 +1,8 @@
---- src/Makefile.am	Wed Sep  5 09:41:58 2007
-+++ src/Makefile.am	Wed Dec 19 16:02:06 2007
-@@ -48,6 +48,6 @@
+diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
+--- src/Makefile.am	2010-10-25 16:55:23.000000000 -0700
++++ src/Makefile.am	2011-02-11 16:44:24.132405127 -0800
+@@ -72,7 +72,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
+             $(CWARNFLAGS)
  
  
 -libXi_la_LDFLAGS = -version-number 6:1:0 -no-undefined
@@ -8,13 +10,15 @@
  
  libXiincludedir = $(includedir)/X11/extensions
  libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h \
-diff
---- src/libXi-1.1.3/src/Makefile.in    Wed Sep  5 09:42:53 2007
-+++ src/Makefile.in Wed Dec 19 17:00:21 2007
-@@ -253,5 +253,5 @@
-             $(MALLOC_ZERO_CFLAGS)
+diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
+--- src/Makefile.in	2011-01-25 13:42:19.000000000 -0800
++++ src/Makefile.in	2011-02-11 16:44:24.132924989 -0800
+@@ -337,7 +337,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
+             $(MALLOC_ZERO_CFLAGS) \
+             $(CWARNFLAGS)
  
 -libXi_la_LDFLAGS = -version-number 6:1:0 -no-undefined
 +libXi_la_LDFLAGS = -version-number 5:0:0 -no-undefined
  libXiincludedir = $(includedir)/X11/extensions
  libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h \
+ 		       $(top_srcdir)/include/X11/extensions/XInput2.h

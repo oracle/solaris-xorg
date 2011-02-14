@@ -28,11 +28,11 @@
 Solaris has always shipped libXtst as libXtst.so.1
 
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2009-08-17 18:10:42.000000000 -0700
-+++ src/Makefile.am	2009-11-02 15:38:27.072683166 -0800
-@@ -11,7 +11,7 @@ AM_CFLAGS=\
-           -I$(top_srcdir)/include/X11/extensions\
-           @XTST_CFLAGS@
+--- src/Makefile.am	2010-02-24 23:39:25.000000000 -0800
++++ src/Makefile.am	2011-02-11 16:46:10.932604094 -0800
+@@ -12,7 +12,7 @@ AM_CFLAGS = \
+ 	$(XTST_CFLAGS) \
+ 	$(CWARNFLAGS)
  
 -libXtst_la_LDFLAGS = -version-number 6:1:0 -no-undefined
 +libXtst_la_LDFLAGS = -version-number 1 -no-undefined

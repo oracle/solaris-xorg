@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,12 +26,11 @@
 MODULE_NAME=libdmx
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5	= a2fcf0382837888d3781b714489a8999
-TARBALL_SHA1	= 8719434f167d476d53fca57c5be516c153354d60
-
+TARBALL_MD5	= 75fd328fab3bd4a55cccaa6d5dfff749
+TARBALL_SHA1	= 49aeab743cb8b667829efda140487b69a7148676
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=dmx

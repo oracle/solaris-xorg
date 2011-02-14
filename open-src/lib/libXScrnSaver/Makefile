@@ -2,7 +2,7 @@
 #
 # libXScrnSaver 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXScrnSaver
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 33e54f64b55f22d8bbe822a5b62568cb
-TARBALL_SHA1 = ea2935eb67efa77fd90372337f2d782a8ef74cea
+TARBALL_MD5  = 898794bf6812fc9be9bf1bb7aa4d2b08
+TARBALL_SHA1 = 3c29e2222fd68e26e408234c51c6d8b2edf6ab19
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

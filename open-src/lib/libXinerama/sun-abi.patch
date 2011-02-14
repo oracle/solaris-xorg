@@ -26,9 +26,10 @@
 Solaris already has the old XPanoramiX* API in libXext, so we don't export
 it from libXinerama to avoid symbol clashes.
 
---- src/Xinerama.c	2007-03-01 15:41:16.000000000 -0800
-+++ src/Xinerama.c	2007-03-07 14:50:49.899520000 -0800
-@@ -76,6 +76,9 @@
+diff -urp -x '*~' -x '*.orig' src/Xinerama.c src/Xinerama.c
+--- src/Xinerama.c	2010-10-06 21:13:01.000000000 -0700
++++ src/Xinerama.c	2011-02-11 16:43:46.565053733 -0800
+@@ -72,6 +72,9 @@ static XEXT_GENERATE_CLOSE_DISPLAY (clos
   *                                                                          *
   ****************************************************************************/
  
@@ -37,8 +38,8 @@ it from libXinerama to avoid symbol clashes.
 +#endif /* SUNSOFT */
  Bool XPanoramiXQueryExtension (
      Display *dpy,
-     int *event_basep,
-@@ -94,6 +97,9 @@
+     int *event_base_return,
+@@ -90,6 +93,9 @@ Bool XPanoramiXQueryExtension (
  }
  
  
@@ -47,8 +48,8 @@ it from libXinerama to avoid symbol clashes.
 +#endif /* SUNSOFT */
  Status XPanoramiXQueryVersion(
      Display *dpy,
-     int	    *major_versionp, 
-@@ -124,6 +130,7 @@
+     int     *major_version_return,
+@@ -120,6 +126,7 @@ Status XPanoramiXQueryVersion(
      return 1;
  }
  
@@ -56,7 +57,7 @@ it from libXinerama to avoid symbol clashes.
  XPanoramiXInfo *XPanoramiXAllocInfo(void)
  {
  	return (XPanoramiXInfo *) Xmalloc (sizeof (XPanoramiXInfo));
-@@ -219,6 +226,7 @@
+@@ -215,6 +222,7 @@ Status XPanoramiXGetScreenSize (
      panoramiX_info->height = rep.height;
      return 1;
  }

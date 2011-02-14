@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,6 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+<transform file path=usr/share/doc/libXaw/.* -> default facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw7@__version:libXaw__
 set name=pkg.description \
     value="Xaw is the X Athena Widget Set. Xaw is a widget set based on the X Toolkit Intrinsics (Xt) Library."
@@ -115,10 +116,52 @@ file path=usr/lib/$(ARCH64)/libXaw7.so.7
 file path=usr/lib/$(ARCH64)/pkgconfig/xaw7.pc
 file path=usr/lib/libXaw7.so.7
 file path=usr/lib/pkgconfig/xaw7.pc
-file path=usr/share/doc/libXaw/widgets.html facet.devel=true
-file path=usr/share/doc/libXaw/widgets.index.ps facet.devel=true
-file path=usr/share/doc/libXaw/widgets.ps facet.devel=true
-file path=usr/share/doc/libXaw/widgets.txt facet.devel=true
+file path=usr/share/doc/libXaw/AsciiSink.xml
+file path=usr/share/doc/libXaw/AsciiSource.xml
+file path=usr/share/doc/libXaw/AsciiText.xml
+file path=usr/share/doc/libXaw/Box.xml
+file path=usr/share/doc/libXaw/CH1.xml
+file path=usr/share/doc/libXaw/CH2.xml
+file path=usr/share/doc/libXaw/CH3.xml
+file path=usr/share/doc/libXaw/CH4.xml
+file path=usr/share/doc/libXaw/CH5.xml
+file path=usr/share/doc/libXaw/CH6.xml
+file path=usr/share/doc/libXaw/CH7.xml
+file path=usr/share/doc/libXaw/Command.xml
+file path=usr/share/doc/libXaw/Dialog.xml
+file path=usr/share/doc/libXaw/Form.xml
+file path=usr/share/doc/libXaw/Grip.xml
+file path=usr/share/doc/libXaw/Label.xml
+file path=usr/share/doc/libXaw/List.xml
+file path=usr/share/doc/libXaw/MenuButton.xml
+file path=usr/share/doc/libXaw/Paned.xml
+file path=usr/share/doc/libXaw/Panner.xml
+file path=usr/share/doc/libXaw/Porthole.xml
+file path=usr/share/doc/libXaw/Repeater.xml
+file path=usr/share/doc/libXaw/Scrollbar.xml
+file path=usr/share/doc/libXaw/Simple.xml
+file path=usr/share/doc/libXaw/SimpleMenu.xml
+file path=usr/share/doc/libXaw/Sme.xml
+file path=usr/share/doc/libXaw/SmeBSB.xml
+file path=usr/share/doc/libXaw/SmeLine.xml
+file path=usr/share/doc/libXaw/StripChart.xml
+file path=usr/share/doc/libXaw/TPage_Credits.xml
+file path=usr/share/doc/libXaw/Template.xml
+file path=usr/share/doc/libXaw/Template_private_header_file.xml
+file path=usr/share/doc/libXaw/Template_public_header_file.xml
+file path=usr/share/doc/libXaw/Template_widget_source_file.xml
+file path=usr/share/doc/libXaw/Text.xml
+file path=usr/share/doc/libXaw/TextActions.xml
+file path=usr/share/doc/libXaw/TextActions_default_translation_bindings.xml
+file path=usr/share/doc/libXaw/TextActions_text_widget_actions.xml
+file path=usr/share/doc/libXaw/TextCustom.xml
+file path=usr/share/doc/libXaw/TextFuncs.xml
+file path=usr/share/doc/libXaw/TextSink.xml
+file path=usr/share/doc/libXaw/TextSource.xml
+file path=usr/share/doc/libXaw/Toggle.xml
+file path=usr/share/doc/libXaw/Tree.xml
+file path=usr/share/doc/libXaw/Viewport.xml
+file path=usr/share/doc/libXaw/libXaw.xml
 file path=usr/share/man/man3xaw/Xaw.3xaw
 link path=usr/X11/lib/$(ARCH64)/libXaw.so \
     target=../../../lib/$(ARCH64)/libXaw.so

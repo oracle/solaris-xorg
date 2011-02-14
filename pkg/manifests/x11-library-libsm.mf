@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,6 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+<transform file path=usr/share/doc/libSM/.* -> default facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/libsm@__version:libSM__
 set name=pkg.description \
     value="The purpose of the X Session Management Protocol (XSMP) is to provide a uniform mechanism for users to save and restore their sessions.  The Session Management Library (SMlib) is a low-level C language interface to XSMP. It is expected that higher level toolkits will hide many of the details of session management from clients."
@@ -34,6 +35,9 @@ dir path=usr/lib
 dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/$(ARCH64)/pkgconfig
 dir path=usr/lib/pkgconfig
+dir path=usr/share
+dir path=usr/share/doc
+dir path=usr/share/doc/libSM
 file path=usr/include/X11/SM/SM.h
 file path=usr/include/X11/SM/SMlib.h
 file path=usr/include/X11/SM/SMproto.h
@@ -41,6 +45,8 @@ file path=usr/lib/$(ARCH64)/libSM.so.6
 file path=usr/lib/$(ARCH64)/pkgconfig/sm.pc
 file path=usr/lib/libSM.so.6
 file path=usr/lib/pkgconfig/sm.pc
+file path=usr/share/doc/libSM/SMlib.xml
+file path=usr/share/doc/libSM/xsmp.xml
 link path=usr/X11/lib/$(ARCH64)/libSM.so \
     target=../../../lib/$(ARCH64)/libSM.so
 link path=usr/X11/lib/$(ARCH64)/libSM.so.6 \

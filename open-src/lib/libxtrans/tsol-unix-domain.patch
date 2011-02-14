@@ -29,9 +29,9 @@ to the above loopback mounted dir.
 (See LSARC/2008/506)
 
 diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
---- Xtranssock.c	2009-11-12 16:54:25.972675041 -0800
-+++ Xtranssock.c	2009-11-12 16:54:26.157813536 -0800
-@@ -74,6 +74,9 @@ from the copyright holders.
+--- Xtranssock.c	2011-02-11 16:46:56.023653158 -0800
++++ Xtranssock.c	2011-02-11 16:46:56.447445693 -0800
+@@ -95,6 +95,9 @@ from the copyright holders.
  #include <sys/stat.h>
  #endif
  
@@ -41,7 +41,7 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
  
  #ifndef NO_TCP_H
  #if defined(linux) || defined(__GLIBC__) 
-@@ -192,6 +195,7 @@ static int TRANS(SocketINETClose) (Xtran
+@@ -213,6 +216,7 @@ static int TRANS(SocketINETClose) (Xtran
  #if defined(X11_t)
  #define UNIX_PATH "/tmp/.X11-unix/X"
  #define UNIX_DIR "/tmp/.X11-unix"
@@ -49,7 +49,7 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
  #endif /* X11_t */
  #if defined(XIM_t)
  #define UNIX_PATH "/tmp/.XIM-unix/XIM"
-@@ -1067,6 +1071,29 @@ TRANS(SocketUNIXCreateListener) (XtransC
+@@ -1088,6 +1092,29 @@ TRANS(SocketUNIXCreateListener) (XtransC
  #else
      mode = 0777;
  #endif
@@ -79,7 +79,7 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
      if (!abstract && trans_mkdir(UNIX_DIR, mode) == -1) {
  	PRMSG (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
  	       UNIX_DIR, errno, 0);
-@@ -1962,10 +1989,28 @@ TRANS(SocketUNIXConnect) (XtransConnInfo
+@@ -1983,10 +2010,28 @@ TRANS(SocketUNIXConnect) (XtransConnInfo
  	return TRANS_CONNECT_FAILED;
      }
  

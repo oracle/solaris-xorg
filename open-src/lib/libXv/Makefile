@@ -2,7 +2,7 @@
 #
 # Xv 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXv
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1d97798b1d8bbf8d9085e1b223a0738f
-TARBALL_SHA1 = 3936dd661e75d173b9fd1da9d97e5720e9657254
+TARBALL_MD5  = e292445a64b63e918bbc8b6aae6391dd
+TARBALL_SHA1 = 9ebb6d7936a7b247b9b0f6dc81def39a18e4214c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

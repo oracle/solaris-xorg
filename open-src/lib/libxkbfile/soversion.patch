@@ -26,8 +26,8 @@ On Solaris we shipped the Xsun libxkbfile as libxkbfile.so.4, so the Xorg
 libxkbfile (which is ABI incompatible) was made to be libxkbfile.so.5.
 
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2009-10-06 16:57:31.000000000 -0700
-+++ src/Makefile.am	2009-11-12 16:46:59.845715257 -0800
+--- src/Makefile.am	2009-10-16 14:27:13.000000000 -0700
++++ src/Makefile.am	2011-02-11 16:52:54.247433835 -0800
 @@ -22,7 +22,7 @@ INCLUDES = -I$(top_srcdir)/include/ -I$(
  libxkbfile_la_LIBADD = @XKBFILE_LIBS@
  AM_CFLAGS = $(CWARNFLAGS) @XKBFILE_CFLAGS@
@@ -38,9 +38,9 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  libxkbfileincludedir = $(includedir)/X11/extensions
  libxkbfileinclude_HEADERS = \
 diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
---- src/Makefile.in	2009-10-06 17:09:31.000000000 -0700
-+++ src/Makefile.in	2009-11-12 16:46:59.846258117 -0800
-@@ -262,7 +262,7 @@ libxkbfile_la_SOURCES = \
+--- src/Makefile.in	2010-10-29 18:16:24.000000000 -0700
++++ src/Makefile.in	2011-02-11 16:52:54.247908598 -0800
+@@ -265,7 +265,7 @@ libxkbfile_la_SOURCES = \
  INCLUDES = -I$(top_srcdir)/include/ -I$(top_srcdir)/include/X11/extensions/
  libxkbfile_la_LIBADD = @XKBFILE_LIBS@
  AM_CFLAGS = $(CWARNFLAGS) @XKBFILE_CFLAGS@

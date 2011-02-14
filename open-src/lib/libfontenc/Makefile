@@ -2,7 +2,7 @@
 #
 # fontenc 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libfontenc
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4f0d8191819be9f2bdf9dad49a65e43b
-TARBALL_SHA1 = e71370c349e93ba70f91ad1148ca9e5cabfcca4f
+TARBALL_MD5  = 11d3c292f05a90f6f67840a9e9c3d9b8
+TARBALL_SHA1 = ba158e4c10a1aff2351ef632def03dec0e0ee11e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

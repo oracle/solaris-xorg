@@ -2,7 +2,7 @@
 #
 # Xaw Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXaw
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 815e74de989ccda684e2baf8d12cf519
-TARBALL_SHA1 = 0e5effe33c4c44d960132e3dd50370134a28f8b2
+TARBALL_MD5  = ccc57478c41b7a75b9702241b889b1d4
+TARBALL_SHA1 = 5f8fc1b10316f31d4c6fa1d938b2297ff5bd2da5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=
@@ -70,9 +70,3 @@ MODULE_CONFIG_OPTS= --disable-xaw6
 MODULE_X11_LIBCOMPAT_LINKS = libXaw.so libXaw.so.7 libXaw7.so libXaw7.so.7
 
 include ../Makefile.inc
-
-# Remove existing Xaw headers from proto area before build to avoid conflicts
-clean: clean_old_headers
-
-clean_old_headers:
-	rm -rf $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xaw

@@ -2,7 +2,7 @@
 #
 # libpthread-stubs Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ UPSTREAM_URL	= http://xcb.freedesktop.org/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.1
+MODULE_VERSION=0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 774eabaf33440d534efe108ef9130a7d
-TARBALL_SHA1 = 34ef40880d0112dc6d32b386d59ce94f2c139eef
+TARBALL_MD5  = e8fa31b42e13f87e8f5a7a2b731db7ee
+TARBALL_SHA1 = 7fc486ad0ec54938f8b781cc374218f50eac8b99
 
 # Download site for source
 SOURCE_URL=http://xcb.freedesktop.org/dist/$(SOURCE_TARBALL_NAME)

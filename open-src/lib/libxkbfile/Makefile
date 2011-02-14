@@ -2,7 +2,7 @@
 #
 # xkbfile 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libxkbfile
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b01156e263eca8177e6b7f10441951c4
-TARBALL_SHA1 = 6364e0679eb893d6fbb6adcf0e8230cfdefe0b68
+TARBALL_MD5  = 59b4fe0bdf8d9b05e45b59e8fe9e7516
+TARBALL_SHA1 = 0fed539ffbc05859bc666b425fafa42e046bef5f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch

@@ -416,7 +416,6 @@ fixed_pc: $(FIXED_PC_TARGET)
 FIX_PC_OPS= \
 	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
 	-e 's|-R\$${libdir}( .*)? -R\$${libdir}|-R\$${libdir}$$1|g;' \
-	-e 's|Requires.private: .*$$||;' \
 	$(MODTYPE_FIX_PC_FLAGS) \
 	$(MODULE_FIX_PC_FLAGS)
 

@@ -2,7 +2,7 @@
 #
 # Xcomposite 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXcomposite
 
 # Version number (used in path names)
-MODULE_VERSION=0.4.2
+MODULE_VERSION=0.4.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e38dc98509149083f6c31b49b484e63c
-TARBALL_SHA1 = d6fade1cb5f9174e702d9e751ddc2b341e946e3a
+TARBALL_MD5  = a60e0b5c276d0aa9e2d3b982c98f61c8
+TARBALL_SHA1 = 081b26b556d55e20d7956c80a2ea2854962aecec
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

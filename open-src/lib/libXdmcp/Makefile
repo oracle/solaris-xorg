@@ -2,7 +2,7 @@
 #
 # Xdmcp 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXdmcp
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d60941d471800f41a3f19b24bea855a7
-TARBALL_SHA1 = 7efd71d29d6cfba797b8791398e4d81ade677d77
+TARBALL_MD5  = 762b6bbaff7b7d0831ddb4f072f939a5
+TARBALL_SHA1 = 28132db24727552f77e998e6a6798a5b9b30789f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -187,7 +187,7 @@ $(PDIR)/versions: transforms/versions.tmpl $(PDIR)
 # Some use $(X11PKGVERS) to refer to the X11 katamari version since they
 # bundle together components from multiple upstream packages with individual
 # version numbers
-X11PKGVERS = 7.5
+X11PKGVERS = 7.6
 OSPKGVERS = 0.$(RELEASE)
 
 # Base URL for ARC cases used in opensolaris.arc_url metadata

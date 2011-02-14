@@ -2,7 +2,7 @@
 #
 # Xcursor 1.x Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXcursor
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.10
+MODULE_VERSION=1.1.11
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7dcdad1c10daea872cb3355af414b2ca
-TARBALL_SHA1 = 096d0e538d37fd865705e5f45b0e96c7294c1f2f
+TARBALL_MD5  = 866ed46f7e0d85b8c0003cebbb78a4af
+TARBALL_SHA1 = 35491bd17cbcdda712e1a064c67ccbc523e2702c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

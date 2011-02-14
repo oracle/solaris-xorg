@@ -2,7 +2,7 @@
 #
 # libXres 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXres
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4daf91f93d924e693f6f6ed276791be2
-TARBALL_SHA1 = d5ee9560a61666e6bb3d2285b9634fccd7211d65
+TARBALL_MD5  = d08f0b6df3f96c051637d37009f4e55a
+TARBALL_SHA1 = d3a36f9b6ae430da91f2cbae409916f605074195
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

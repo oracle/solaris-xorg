@@ -2,7 +2,7 @@
 #
 # libXi Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 26f93781356b1fdde08f7ee9cd5884d6
-TARBALL_SHA1 = 50fdac374d45feb4fe39938d3530bd4f314f3a85
+TARBALL_MD5  = e4b6fb1b08a92075469174f0cccde168
+TARBALL_SHA1 = 15c9d369cc76c73b5e3833ba3b39355e6cc06636
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

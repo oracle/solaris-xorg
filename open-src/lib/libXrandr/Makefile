@@ -2,7 +2,7 @@
 #
 # Xrandr 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 68eb59c3b7524db6ffd78746ee893d1d
-TARBALL_SHA1 = 33dd2f67060465f872db9ea03f597e28517f0c8e
+TARBALL_MD5  = 7785c3f7cff2735c94657e8f87ed8ad3
+TARBALL_SHA1 = 8e89622b0656cb2eb22c1f3c646c797dc648ead5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

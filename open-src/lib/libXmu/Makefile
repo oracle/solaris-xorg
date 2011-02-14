@@ -2,7 +2,7 @@
 #
 # Xmu 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXmu
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fc4d66be7a1a1eb474954728415e46d6
-TARBALL_SHA1 = e7ff5960f2374852b941f909cdbdeafe7d29322f
+TARBALL_MD5  = 6836883a0120e8346cf7f58dc42e465a
+TARBALL_SHA1 = 81876a0848070bfc4476a2538fc16898eb6d96cd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

@@ -21,9 +21,9 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
---- src/XShm.c	2009-10-16 14:26:30.000000000 -0700
-+++ src/XShm.c	2009-11-02 15:45:20.940394110 -0800
-@@ -43,6 +43,13 @@ in this Software without prior written a
+--- src/XShm.c	2010-10-06 21:11:53.000000000 -0700
++++ src/XShm.c	2011-01-14 07:43:31.157693442 -0800
+@@ -38,6 +38,13 @@ in this Software without prior written a
  #include <X11/extensions/Xext.h>
  #include <X11/extensions/extutil.h>
  
@@ -37,7 +37,7 @@ diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
  static XExtensionInfo _shm_info_data;
  static XExtensionInfo *shm_info = &_shm_info_data;
  static /* const */ char *shm_extension_name = SHMNAME;
-@@ -140,6 +147,46 @@ event_to_wire (Display *dpy, XEvent *re,
+@@ -135,6 +142,46 @@ event_to_wire (Display *dpy, XEvent *re,
      return False;
  }
  
@@ -84,7 +84,7 @@ diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
  /*****************************************************************************
   *                                                                           *
   *		    public Shared Memory Extension routines                  *
-@@ -149,6 +196,15 @@ event_to_wire (Display *dpy, XEvent *re,
+@@ -144,6 +191,15 @@ event_to_wire (Display *dpy, XEvent *re,
  Bool XShmQueryExtension (Display *dpy /*  int *event_basep, *error_basep */)
  {
      XExtDisplayInfo *info = find_display (dpy);
@@ -100,7 +100,7 @@ diff -urp -x '*~' -x '*.orig' src/XShm.c src/XShm.c
  
      if (XextHasExtension(info)) {
  /*	*event_basep = info->codes->first_event;
-@@ -181,6 +237,15 @@ Bool XShmQueryVersion(
+@@ -176,6 +232,15 @@ Bool XShmQueryVersion(
      XExtDisplayInfo *info = find_display (dpy);
      xShmQueryVersionReply rep;
      register xShmQueryVersionReq *req;

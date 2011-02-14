@@ -2,7 +2,7 @@
 #
 # Xxf86vm 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXxf86vm
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b431ad7084e1055fef99a9115237edd8
-TARBALL_SHA1 = f5ce7854f201d9c69dfcdd13123b51f497b69a47
+TARBALL_MD5  = 34dc3df888c164378da89a7deeb245a0
+TARBALL_SHA1 = 2ff2d2b3c60a5c5c0cc4e0a18492d3b7168a03af
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

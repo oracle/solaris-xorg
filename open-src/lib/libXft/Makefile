@@ -2,7 +2,7 @@
 #
 # Xft 2.x Makefile
 #
-# Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXft
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.14
+MODULE_VERSION=2.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 254e62a233491e0e1251636536163e20
-TARBALL_SHA1 = e08ae6b1f56e160179b9f141b4ab799333ec725e
+TARBALL_MD5  = cce3c327258116493b753f157e0360c7
+TARBALL_SHA1 = ed29784259f4e26df78141035560ae8a7c62e83f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -44,7 +44,7 @@ SOURCE_PATCHES = \
 LIBNAME=Xft
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/Xft.3.in man/Xft.3
+SUNTOUCHED_MANPAGES=man/Xft.man
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
 

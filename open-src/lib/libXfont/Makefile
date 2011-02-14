@@ -2,7 +2,7 @@
 #
 # Xfont Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,15 @@
 MODULE_NAME=libXfont
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.1
+MODULE_VERSION=1.4.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4f2bed2a2be82e90a51a24bb3a22cdf0
-TARBALL_SHA1 = f8dc669760975b41885143f828b54164224c8a31
+TARBALL_MD5  = 6fb689cfe13d8d9460f4abb5bd88588d
+TARBALL_SHA1 = 191b40c566f80737cf6838747d86ebaee7b0c7d7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	ps-fonts.patch \
-	htons-inline.patch
+	ps-fonts.patch
 
 # Library name
 LIBNAME=Xfont

@@ -2,7 +2,7 @@
 #
 # SM 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,14 @@
 MODULE_NAME=libSM
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 184cbf502b3cd5d7ba5f9d1290a99606
-TARBALL_SHA1 = ccf38d4575da92b750640525af55d770b85765e1
+TARBALL_MD5  = e78c447bf1790552b644eca81b542742
+TARBALL_SHA1 = f78bc72f0b3ec26cbf980f84f014422ba854544d
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = libsm.globals.h.patch libsm.SMlibint.h.patch libsm.sm_client.c.patch libsm.sm_manager.c.patch
+SOURCE_PATCHES = pkgconfig.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=SM
@@ -51,7 +51,8 @@ LIB_MAN_SUFFIX=3SM
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS =  --enable-unix-transport \
 		      --enable-tcp-transport \
-		      --enable-IPv6
+		      --enable-IPv6 \
+		      --without-libuuid
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

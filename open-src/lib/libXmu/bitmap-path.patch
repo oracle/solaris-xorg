@@ -25,9 +25,9 @@ Search /usr/include/X11/bitmaps, then /usr/X11/include/X11/bitmaps, for
 bitmaps in XmuLocatePixmapFile(), as specified in PSARC/2005/192.
 
 diff -urp -x '*~' -x '*.orig' src/LocBitmap.c src/LocBitmap.c
---- src/LocBitmap.c	2006-11-08 09:51:59.000000000 -0800
-+++ src/LocBitmap.c	2008-01-11 20:50:30.995077000 -0800
-@@ -99,10 +99,15 @@ XmuLocatePixmapFile(Screen *screen, _Xco
+--- src/LocBitmap.c	2010-10-06 21:13:41.000000000 -0700
++++ src/LocBitmap.c	2011-02-11 16:42:33.783488948 -0800
+@@ -96,10 +96,15 @@ XmuLocatePixmapFile(Screen *screen, _Xco
  			    int *widthp, int *heightp, int *xhotp, int *yhotp)
  {
  
@@ -43,7 +43,7 @@ diff -urp -x '*~' -x '*.orig' src/LocBitmap.c src/LocBitmap.c
      Display *dpy = DisplayOfScreen (screen);
      Window root = RootWindowOfScreen (screen);
      Bool try_plain_name = True;
-@@ -149,7 +154,8 @@ XmuLocatePixmapFile(Screen *screen, _Xco
+@@ -146,7 +151,8 @@ XmuLocatePixmapFile(Screen *screen, _Xco
       *    1.  name if it begins with / or ./
       *    2.  "each prefix in file_paths"/name
       *    3.  BITMAPDIR/name
@@ -53,7 +53,7 @@ diff -urp -x '*~' -x '*.orig' src/LocBitmap.c src/LocBitmap.c
       */
  
      for (i = 1; i <= 4; i++) {
-@@ -182,6 +188,9 @@ XmuLocatePixmapFile(Screen *screen, _Xco
+@@ -179,6 +185,9 @@ XmuLocatePixmapFile(Screen *screen, _Xco
  	    XmuSnprintf(filename, sizeof(filename), "%s/%s", BITMAPDIR, name);
  	    break;
  	  case 4:

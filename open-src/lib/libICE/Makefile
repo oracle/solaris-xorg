@@ -2,7 +2,7 @@
 #
 # ICE 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libICE
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2d39bc924af24325dae589e9a849180c
-TARBALL_SHA1 = ac1f702ea580bd496610266b13434858b62df9e1
+TARBALL_MD5  = bb72a732b15e9dc25c3036559387eed5
+TARBALL_SHA1 = c7d0f4c5b0e999385445b8be1bc89aec4e5de71d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

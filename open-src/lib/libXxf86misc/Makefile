@@ -2,7 +2,7 @@
 #
 # Xxf86misc 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXxf86misc
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 51fed53e8de067d4b8666f75a0212400
-TARBALL_SHA1 = aea1be067de8c7bdedd917e07d8db608f4a804a8
+TARBALL_MD5  = 6bc0bf78909fd71021c466c793d4385c
+TARBALL_SHA1 = 4d1923ee60a47609c0e751b9b6bb9536b3b933df
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -25,9 +25,10 @@
 Additional security checks for setuid programs that X.Org upstream doesn't
 have yet.
 
---- src/RdFToI.c	2006-10-11 15:31:40.000000000 -0700
-+++ src/RdFToI.c	2006-10-03 16:34:35.553330000 -0700
-@@ -154,7 +154,15 @@
+diff -urp -x '*~' -x '*.orig' src/RdFToI.c src/RdFToI.c
+--- src/RdFToI.c	2010-10-06 21:14:06.000000000 -0700
++++ src/RdFToI.c	2011-02-11 17:00:23.916602294 -0800
+@@ -161,7 +161,15 @@ xpmPipeThrough(
  	    goto err;
  	if ( 0 == pid )
  	{
@@ -44,4 +45,3 @@ have yet.
  	    perror(cmd);
  	    goto err;
  	}
-

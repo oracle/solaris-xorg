@@ -2,7 +2,7 @@
 #
 # Xext 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9e51f9cb7e0a38c7099ac1c0de1a1add
-TARBALL_SHA1 = b48a4e55d21e5ce9dd3356281f32e00b17b4c9f7
+TARBALL_MD5  = 9bb236ff0193e9fc1c1fb504dd840331
+TARBALL_SHA1 = 090d7109c5fffde8a0063e10f22f3e2ec48cf19e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

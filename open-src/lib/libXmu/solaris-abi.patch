@@ -22,11 +22,11 @@
 #
 
 diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-01-11 20:50:30.986475000 -0800
-+++ src/Makefile.am	2008-01-11 20:50:31.465732000 -0800
+--- src/Makefile.am	2009-10-16 14:26:51.000000000 -0700
++++ src/Makefile.am	2011-02-11 16:42:34.881458929 -0800
 @@ -9,11 +9,13 @@ AM_CPPFLAGS = \
  
- AM_CFLAGS = $(XMU_CFLAGS)
+ AM_CFLAGS = $(CWARNFLAGS) $(XMU_CFLAGS)
  
 -libXmu_la_LDFLAGS = -version-number 6:2:0 -no-undefined
 -libXmuu_la_LDFLAGS = -version-number 1:0:0 -no-undefined

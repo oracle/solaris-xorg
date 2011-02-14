@@ -40,7 +40,10 @@ TARBALL_MD5  = 8ab518393bef44d3ea2bccb027021aab
 TARBALL_SHA1 = ea9639b6d0669f157ac62b807cdba64f509b25ed
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = pkgconfig.patch,-p1
+
+# Need to regenerate configure from configure.ac after applying pkgconfig.patch
+AUTORECONF = yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

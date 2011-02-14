@@ -2,7 +2,7 @@
 #
 # Xtst library Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,14 @@
 MODULE_NAME=libXtst
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = dd6f3e20b87310187121539f9605d977
-TARBALL_SHA1 = 4363e9285bfb5a884073efacc50d39edb803a1a5
+TARBALL_MD5  = 7c592c72da6676f8b0aeec9133b81686
+TARBALL_SHA1 = 9fb06ed599caf7f9e7115cbbfadf02b47c17aa72
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	man.patch,-p1 \
 	solaris-abi.patch
 
 # Need to regenerate automake files after solaris-abi.patch

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,26 +63,3 @@ SUNW_1.1 {
     local:
 	*;
 };
-
-SUNWprivate {
-    global:
-	_SmAuthCount;
-	_SmAuthNames;
-	_SmVersionCount;
-	_SmcAuthProcs;
-	_SmcDefaultErrorHandler;
-	_SmcErrorHandler;
-	_SmcOpcode;
-	_SmcProcessMessage;
-	_SmcVersions;
-	_SmsAuthProcs;
-	_SmsDefaultErrorHandler;
-	_SmsErrorHandler;
-	_SmsNewClientData;
-	_SmsNewClientProc;
-	_SmsOpcode;
-	_SmsProcessMessage;
-	_SmsProtocolSetupProc;
-	_SmsVersions;
-};
-

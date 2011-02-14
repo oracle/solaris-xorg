@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,10 @@
 # ON delivers the master copy of isaexec
 usr/lib/isaexec		i386
 
-# /var/run is a tmpfs filesystem created at system boot
+# /var/run is a symlink to a tmpfs filesystem created at system boot
 var/run
 
 # Empty directories
-usr/share/doc/xtrans
 usr/lib/xorg/modules/amd64/extensions	i386
 
 # Documentation it doesn't make sense to ship in our packages
@@ -49,17 +48,11 @@ usr/share/doc/X11/specs/Xserver/appgroup.xml
 usr/share/doc/X11/specs/Xserver/analysis.xml
 usr/share/doc/X11/specs/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
+usr/share/doc/libXi/doc
 
 # Obsolete man pages
 usr/share/man/man5/Consortium.5
 usr/share/man/man5/XProjectTeam.5
-
-# We didn't start shipping Xft until after the move to pkg-config
-# so don't need to maintain backwards compatibility with xft-config
-usr/bin/xft-config
-usr/bin/amd64/xft-config		i386
-usr/bin/sparcv9/xft-config		sparc
-usr/share/man/man1/xft-config.1
 
 # Only need the 32-bit versions of these files
 usr/lib/amd64/X11			i386

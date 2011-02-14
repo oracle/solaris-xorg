@@ -2,7 +2,7 @@
 #
 # xtrans 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,11 +36,11 @@ MODULE_PKGCLASS=Development/X11
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.5
+MODULE_VERSION=1.2.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2d1e57e82acc5f21797e92341415af2f
-TARBALL_SHA1 = e8c4ce58b42d05e613fe535319a7d7f45f30f3e9
+TARBALL_MD5  = c66f9ffd2da4fb012220c6c40ebc7609
+TARBALL_SHA1 = 99f019a6e6d4d2b8274c4a27f9c8482c7fc64e85
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = inetv6.patch \

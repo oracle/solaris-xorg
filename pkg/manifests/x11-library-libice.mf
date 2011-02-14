@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,6 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+<transform file path=usr/share/doc/libICE/.* -> default facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/libice@__version:libICE__
 set name=pkg.description \
     value="Library and utilities to support the X Window System Inter-Client Exchange (ICE) protocol"
@@ -37,6 +38,8 @@ dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/$(ARCH64)/pkgconfig
 dir path=usr/lib/pkgconfig
 dir path=usr/share
+dir path=usr/share/doc
+dir path=usr/share/doc/libICE
 dir path=usr/share/man
 dir path=usr/share/man/man1
 file path=usr/bin/iceauth
@@ -50,6 +53,8 @@ file path=usr/lib/$(ARCH64)/libICE.so.6
 file path=usr/lib/$(ARCH64)/pkgconfig/ice.pc
 file path=usr/lib/libICE.so.6
 file path=usr/lib/pkgconfig/ice.pc
+file path=usr/share/doc/libICE/ICElib.xml
+file path=usr/share/doc/libICE/ice.xml
 file path=usr/share/man/man1/iceauth.1
 legacy pkg=SUNWxwice \
     desc="Library and utilities to support the X Window System Inter-Client Exchange (ICE) protocol" \

@@ -2,7 +2,7 @@
 #
 # Xpm apps Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,11 +36,11 @@ MODULE_PKGNAME=x11/library/libxpm
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=3.5.8
+MODULE_VERSION=3.5.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 38e58e72d476a74298a59052fde185a3
-TARBALL_SHA1 = 3bfc833ed4527f74b1c66c386da62271d0313413
+TARBALL_MD5  = 2de3a1b9541f4b3a6f9d84b69d25530e
+TARBALL_SHA1 = 38258a1d589d3f157e0338d0fd13eec11bc4a39b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

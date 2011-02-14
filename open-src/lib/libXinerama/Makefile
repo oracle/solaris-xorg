@@ -2,7 +2,7 @@
 #
 # Xinerama library Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXinerama
 
 # Version number (used in path names)
-MODULE_VERSION=1.1
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a2ac01fc0426cdbb713c5d59cf9955ed
-TARBALL_SHA1 = 5f445194ef3318f66c287c0c69f778988a3f9266
+TARBALL_MD5  = ecd4839ad01f6f637c6fb5327207f89b
+TARBALL_SHA1 = f030b0cfcce15502aac78188524f32a6f29bd0a4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = sun-abi.patch

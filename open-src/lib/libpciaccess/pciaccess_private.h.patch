@@ -1,6 +1,7 @@
---- src/pciaccess_private.h	2009-10-28 17:14:59.710022000 +0800
-+++ src/pciaccess_private.h	2009-10-28 17:13:33.071366000 +0800
-@@ -105,6 +105,7 @@ struct pci_device_private {
+diff -urp -x '*~' -x '*.orig' src/pciaccess_private.h src/pciaccess_private.h
+--- src/pciaccess_private.h	2010-02-24 23:36:56.000000000 -0800
++++ src/pciaccess_private.h	2011-02-02 20:56:47.243743550 -0800
+@@ -128,6 +128,7 @@ struct pci_device_private {
      struct pci_device_mapping *mappings;
      unsigned num_mappings;
      /*@}*/

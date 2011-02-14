@@ -2,7 +2,7 @@
 #
 # Xt 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/library/toolkit/libxt
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fb7d2aa5b24cd5fe9b238a26d88030e7
-TARBALL_SHA1 = d5e3dfba90a12169771399b3e2ccae07243489c9
+TARBALL_MD5  = 8a414f8f2327aaa616ca2dcac1f5d8c3
+TARBALL_SHA1 = 3222c028b37e70a1d0d88feba5e52c2408e6bd5c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch

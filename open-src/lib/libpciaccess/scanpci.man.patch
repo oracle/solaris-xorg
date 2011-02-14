@@ -1,6 +1,6 @@
-diff -urp -x '*~' -x '*.orig' src/scanpci.man src/scanpci.man
---- src/scanpci.man	2008-10-17 13:46:29.000000000 -0700
-+++ src/scanpci.man	2008-10-17 14:37:48.524928000 -0700
+diff -urp -x '*~' -x '*.orig' man/scanpci.man man/scanpci.man
+--- man/scanpci.man	2010-10-07 11:14:44.000000000 -0700
++++ man/scanpci.man	2011-02-02 20:56:47.527978008 -0800
 @@ -35,10 +35,16 @@ about the configuration space settings f
  On most platforms,
  .I scanpci
@@ -15,6 +15,6 @@ diff -urp -x '*~' -x '*.orig' src/scanpci.man src/scanpci.man
  format.  Without this option, only a brief description is printed for
  each device.
 +.SH "SEE ALSO"
-+.BR prtconf (1M), prtdiag (1M), smbios (1M),
-+.BR user_attr (4), rbac (5).
++.BR prtconf "(1M), " prtdiag "(1M), " smbios "(1M), "
++.BR user_attr "(4), " rbac "(5)."
  

@@ -2,7 +2,7 @@
 #
 # Xevie 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXevie
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 88e9bf535364e7c821ef4014fb1ca2dd
-TARBALL_SHA1 = d22fd24d8f096fdff54d303d63fea1422f0cfeea
+TARBALL_MD5  = ffa3f82595211609140440505b0e6301
+TARBALL_SHA1 = 84e2dc6e35c4a82f1a4d1fe4723fba58364c3bec
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

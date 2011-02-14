@@ -1,0 +1,30 @@
+From b29f5c9f3a728c5b7673cf54ad60d988b5dd93e7 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 27 Jan 2011 22:05:40 -0800
+Subject: [PATCH:libSM] Bug 33390 - sm.pc: don't export a dependency on ice
+
+https://bugs.freedesktop.org/show_bug.cgi?id=33390
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Dan Nicholson <dbn.lists@gmail.com>
+---
+ sm.pc.in |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sm.pc.in b/sm.pc.in
+index ab1261e..3c82387 100644
+--- a/sm.pc.in
++++ b/sm.pc.in
+@@ -6,7 +6,7 @@ includedir=@includedir@
+ Name: SM
+ Description: X Session Management Library
+ Version: @PACKAGE_VERSION@
+-Requires: ice xproto
+-Requires.private: ice
++Requires:
++Requires.private: ice xproto
+ Cflags: -I${includedir}
+ Libs: -L${libdir} -lSM
+-- 
+1.7.3.2
+

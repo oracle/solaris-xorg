@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,8 @@ dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/$(ARCH64)/pkgconfig
 dir path=usr/lib/pkgconfig
 dir path=usr/share
+dir path=usr/share/doc
+dir path=usr/share/doc/libXtst
 dir path=usr/share/man
 dir path=usr/share/man/man3xtst
 file path=usr/include/X11/extensions/XTest.h
@@ -44,6 +46,8 @@ file path=usr/lib/$(ARCH64)/libXtst.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xtst.pc
 file path=usr/lib/libXtst.so.1
 file path=usr/lib/pkgconfig/xtst.pc
+file path=usr/share/doc/libXtst/recordlib.xml facet.devel=true
+file path=usr/share/doc/libXtst/xtestlib.xml facet.devel=true
 file path=usr/share/man/man3xtst/XTestCompareCurrentCursorWithWindow.3xtst
 file path=usr/share/man/man3xtst/XTestCompareCursorWithWindow.3xtst
 file path=usr/share/man/man3xtst/XTestDiscard.3xtst
