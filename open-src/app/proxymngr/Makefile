@@ -53,5 +53,9 @@ MODULE_STABILITY=Committed
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = proxymngr
 
+# Tell proxymgr where lbxproxy will be found on the installed system,
+# even if it's not installed during the build.
+MODULE_CONFIG_OPTS = LBXPROXY="$(X11_BIN_DIR)/lbxproxy"
+
 include ../Makefile.inc
 
