@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -169,16 +169,13 @@ PROG_CXXFLAGS		= $(CXXFLAGS)
 # Linker mapfiles to link with for better performance & security
 # SPARC architecture requires PLT section in .data be executable, so
 # we can only make .bss, not all of .data no-exec on SPARC
-#
-# The mapfiles that cause extra .bss sections to be generated have
-# been temporarily disabled due to linker bug 6988300 - see bug 6988507.
-MAPFILE_NOEXBSS		= # -M /usr/lib/ld/map.noexbss
+MAPFILE_NOEXBSS		= -M /usr/lib/ld/map.noexbss
 MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
 MAPFILE_NOEXDATA_i386	= -M /usr/lib/ld/map.noexdata
 MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
 MAPFILE_NOEXSTACK	= -M /usr/lib/ld/map.noexstk
 MAPFILE_PAGEALIGN	= -M /usr/lib/ld/map.pagealign
-MAPFILE_HEAPALIGN	= # -M /usr/lib/ld/map.bssalign
+MAPFILE_HEAPALIGN	= -M /usr/lib/ld/map.bssalign
 
 MAPFILES_FOR_ALL   = $(MAPFILE_PAGEALIGN) $(MAPFILE_NOEXDATA)
 MAPFILES_FOR_PROGS = $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXSTACK) \
