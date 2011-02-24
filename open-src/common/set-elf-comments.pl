@@ -1,4 +1,4 @@
-#! /usr/perl5/bin/perl
+#! /usr/perl5/5.10.0/bin/perl
 #
 # Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
@@ -38,11 +38,14 @@
 # If -X is specified, it gives a regular expresion for filenames to skip
 # for this module.
 
+require 5.10.0;		# needed for Time::Hires::stat
+
 use strict;
 use warnings;
 use Getopt::Std;
 use POSIX qw(strftime);
 use File::Find;
+use Time::HiRes qw();
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
@@ -110,6 +113,8 @@ if (exists($opts{'b'})) {
 
 $module_version_info =~ s/\s+$//ms;
 
+my %elf_files;
+
 sub scan_file {
   # skip sources & intermediate build files that we don't ship
   return if $_ =~ m/\.[acho]$/ims;
@@ -124,7 +129,7 @@ sub scan_file {
 
   # If the file is not a symlink, is a regular file, and is at least 256 bytes
   if ((! -l $_) && (-f _) && (-s _ > 256)) {
-    open my $IN, '<', $_ 
+    open my $IN, '<', $_
       or die "Can't open $_ for reading: $!\n";
 
     my $magic_number;
@@ -134,14 +139,21 @@ sub scan_file {
     close $IN;
 
     if ($magic_number eq "\177ELF") {
-      my @cmd = ('/usr/bin/mcs', '-a', $module_version_info, '-c', $_);
-
-      print join(' ', @cmd), "\n";
-      system(@cmd) == 0
-	or die "*** mcs $File::Find::name failed: $?\n";
+      my @sb = Time::HiRes::stat($_);
+      $elf_files{$File::Find::name} = $sb[9]; # mtime
     }
   }
 }
 
-
 find(\&scan_file, @ARGV);
+
+if (scalar(keys %elf_files) > 0) {
+    my @filelist = sort { $elf_files{$a} <=> $elf_files{$b} } keys %elf_files;
+
+    my @cmd = ('/usr/bin/mcs', '-a', $module_version_info, '-c', @filelist);
+
+    print join(' ', map { if ($_ =~ /\s+/) { qq("$_") } else { $_ } } @cmd),
+	       "\n";
+    system(@cmd) == 0
+	or die "*** mcs failed: $?\n";
+}

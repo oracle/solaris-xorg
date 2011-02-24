@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -122,6 +122,7 @@ depend fmri=pkg:/library/nspr/header-nspr type=require
 depend fmri=pkg:/library/zlib type=require
 
 # Build runs a number of perl scripts
+depend fmri=pkg:/runtime/perl-510 type=require
 depend fmri=pkg:/runtime/perl-584 type=require
 depend fmri=pkg:/runtime/perl-584/extra type=require
 
