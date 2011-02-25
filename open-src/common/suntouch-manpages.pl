@@ -1,7 +1,7 @@
 #!/usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -88,6 +88,7 @@ while ($filename = shift) {
     || die "Cannot write to $filename: $!";
 
   my $firstline = <IN>;
+  my $is_shadow = 0;
 
   if ($add_attributes > 0) {
     # Check for man page preprocessor list - if found, make sure t is in it for
@@ -101,6 +102,9 @@ while ($filename = shift) {
 	chomp($firstline);
 	$firstline .= "t\n";
       }
+    } elsif ($firstline =~ m/^\.so /) {
+      # Shadow man page, do not add table header or footer
+      $is_shadow = 1;
     } else {
       # No preprocessor list found
       print OUT q('\" t), "\n";
@@ -131,7 +135,7 @@ while ($filename = shift) {
     }
   }
 
-  if ($add_attributes) {
+  if ($add_attributes && !$is_shadow) {
     print OUT $attributes_table;
   }
 
