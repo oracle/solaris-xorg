@@ -49,8 +49,7 @@ LIB_MAN_SUFFIX=3fontenc
 # pkg-config files that need to have -R added
 FIX_PC_FILES=fontenc.pc.in
 
-# Install in private subdir, but don't look there for encodings
+# Install in private subdir
 MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
-MODULE_CONFIG_OPTS=--with-encodingsdir=$(X11_DIR)/lib/X11/fonts/encodings
 
 include ../Makefile.inc
