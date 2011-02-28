@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,11 +63,11 @@ dir path=var/log group=sys
 file path=etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
 # Xorg must be setuid root on x86 in order to access PCI bus devices
 # and make the sysi86 system call to change I/O privilege level (IOPL).
-# On SPARC, Xorg only requires setgid root in order to create the
-# sockets and pipes in /tmp/.X11-* securely.
+# On SPARC, Xorg only requires setuid root in order to create the
+# Xorg.*.log file in /var/log
 $(i386_ONLY)file path=usr/bin/$(ARCH32)/Xorg mode=4555 owner=root
 $(i386_ONLY)file path=usr/bin/$(ARCH64)/Xorg mode=4555 owner=root
-$(sparc_ONLY)file path=usr/bin/Xorg group=root mode=2555 owner=root
+$(sparc_ONLY)file path=usr/bin/Xorg mode=4555 owner=root
 file path=usr/bin/cvt
 file path=usr/bin/gtf
 file path=usr/include/xorg/BT.h
