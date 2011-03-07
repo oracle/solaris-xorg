@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -276,3 +276,5 @@ file path=usr/lib/python2.6/vendor-packages/xcbgen/xtypes.pyc
 file path=usr/lib/python2.6/vendor-packages/xcbgen/xtypes.pyo
 # 
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+# pkg-config dependency from xcb.pc
+depend fmri=pkg:/x11/library/libpthread-stubs type=require facet.devel=true
