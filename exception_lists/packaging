@@ -50,6 +50,9 @@ usr/share/doc/X11/specs/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
 usr/share/doc/libXi/doc
 
+# Extra unused copy currently delivered by xorg-server, should go away in 1.10
+usr/share/doc/X11/xorg.css
+
 # Obsolete man pages
 usr/share/man/man5/Consortium.5
 usr/share/man/man5/XProjectTeam.5
@@ -71,3 +74,5 @@ usr/lib/sparcv9/pkgconfig/libdrm_intel.pc	sparc
 usr/include/xcb/xselinux.h
 usr/share/xcb/xselinux.xml
 
+# Don't install until we move off HAL .fdi file for synaptics
+usr/share/X11/xorg.conf.d/50-synaptics.conf	i386

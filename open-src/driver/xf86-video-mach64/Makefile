@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xf86-video-mach64 1.x Makefile
+# xf86-video-mach64 Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lint10 -lpciaccess -lfb -lshadowfb -lXfont -lvbe -lxaa
+	-lexa -lint10 -lpciaccess -lfb -lpixman-1 -lshadowfb -lXfont -lvbe -lxaa
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

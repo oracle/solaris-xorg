@@ -18,33 +18,32 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -urp -x '*~' -x '*.orig' os/utils.c os/utils.c
---- os/utils.c	2009-09-07 23:04:53.000000000 -0700
-+++ os/utils.c	2009-11-03 22:28:49.970963082 -0800
-@@ -504,9 +504,11 @@ void UseMsg(void)
+diff -Nurp -x '*~' -x '*.orig' os/utils.c os/utils.c
+diff -Nurp -x '*~' -x '*.orig' os/utils.c os/utils.c
+--- os/utils.c	2011-01-07 06:26:45.000000000 -0800
++++ os/utils.c	2011-02-15 15:53:10.744333673 -0800
+@@ -509,7 +509,9 @@ void UseMsg(void)
  #ifdef RLIMIT_STACK
      ErrorF("-ls int                limit stack space to N Kb\n");
  #endif
 +#ifndef SUNSOFT /* Not in Sun version as required by PSARC 2004/187 TCR */
- #ifdef SERVER_LOCK
      ErrorF("-nolock                disable the locking mechanism\n");
- #endif
 +#endif
  #ifndef NOLOGOHACK
      ErrorF("-logo                  enable logo in screen saver\n");
      ErrorF("nologo                 disable logo in screen saver\n");
-@@ -758,6 +760,7 @@ ProcessCommandLine(int argc, char *argv[
+@@ -759,6 +761,7 @@ ProcessCommandLine(int argc, char *argv[
  		UseMsg();
  	}
  #endif
 +#ifndef SUNSOFT /* Not in Sun version as required by PSARC 2004/187 TCR */
- #ifdef SERVER_LOCK
  	else if ( strcmp ( argv[i], "-nolock") == 0)
  	{
-@@ -769,6 +772,7 @@ ProcessCommandLine(int argc, char *argv[
+ #if !defined(WIN32) && !defined(__CYGWIN__)
+@@ -768,6 +771,7 @@ ProcessCommandLine(int argc, char *argv[
+ #endif
  	    nolock = TRUE;
  	}
- #endif
 +#endif
  #ifndef NOLOGOHACK
  	else if ( strcmp( argv[i], "-logo") == 0)

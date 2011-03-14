@@ -218,7 +218,7 @@ SOURCE_TARBALL=$(TARBALLDIR)/$(SOURCE_TARBALL_NAME)
 # TARBALL_ARCHIVE is now set in Makefile.options
 ARCHIVE_URL=$(TARBALL_ARCHIVE)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
-GIT_CLONE_DIR=$(MODULE_NAME)-$(MODULE_VERSION)
+GIT_CLONE_DIR=$(MODULE_NAME)-git
 
 # Download if SOURCE_TARBALL_NAME is not set to NONE and the file either
 # doesn't exist or is empty
@@ -310,6 +310,36 @@ git-update:
 		fi ; \
 	    fi ; \
 	fi
+
+# Create a local git repo from tarball and patches, to ease generating
+# patches for submission to upstream git or rebasing to new tarballs
+git-import:
+	mkdir $(GIT_CLONE_DIR)
+	cd $(GIT_CLONE_DIR) && git init
+	$(MAKE) BUILD_DIR="$(GIT_CLONE_DIR)" SOURCE_DIR="$(GIT_CLONE_DIR)" \
+		ADD_TAR_FLAGS="--strip-components=1" init_source
+	cd $(GIT_CLONE_DIR) && git add . && \
+		git commit -a -m 'Initialized from $(SOURCE_TARBALL_NAME)' \
+		&& git tag '$(MODULE_NAME)-$(MODULE_VERSION)'
+	@for f in $(SOURCE_PATCHES) ; do \
+	    p=$${f%,*} ; \
+	    print '=================' $$p ; \
+	    if head -n 1 $$p | \
+	       ggrep -Eq '^From .* Mon Sep 17 00:00:00 2001' ; then \
+		(cd $(GIT_CLONE_DIR) ; $(START_CMD_ECHO) ; git am $(PWD)/$$p) ; \
+	    else \
+		rm -f $(GIT_CLONE_DIR)/$(PATCHED_TARGET_FILE) ; \
+		$(MAKE) SOURCE_PATCHES="$$f" BUILD_DIR="$(GIT_CLONE_DIR)" \
+			SOURCE_DIR="$(GIT_CLONE_DIR)" patched_source ; \
+		printf '%s\n\n' "$${p%.patch}" > git.comments ; \
+	    	gawk '/^--- /		{exit} \
+		      /^diff -u/	{exit} \
+		      {print}' $$p >> git.comments ; \
+		(cd $(GIT_CLONE_DIR) ; $(START_CMD_ECHO) ; \
+		 git commit -a --file=$(PWD)/git.comments ) ; \
+		rm git.comments ; \
+	   fi ; \
+	done
 
 
 ### Unpack source and apply patches
@@ -672,6 +702,7 @@ $(MANIFEST_TMP): $(MANIFEST_DEST) $(PKGFMT)
 		arch_64='$(ARCH64)' subdir_64='$(SUBDIR64)' \
 		proto_area='$(MANIFEST_DEST)' \
 		pkgfmt='$(PKGFMT)' \
+		version='__version:$(MODULE_NAME)__' \
 		> $(MANIFEST_TMP)
 	-rm -rf $(MANIFEST_DEST)
 
@@ -714,7 +745,7 @@ regen-patches:
 	    gawk '/^--- /	{exit} \
 		  /^diff -u/	{exit} \
 			 	{print}' $$p > new/$$p ; \
-	    gdiff -urp -x '*~' -x '*.orig' ./prev ./tmp-regen \
+	    LC_COLLATE=C gdiff -Nurp -x '*~' -x '*.orig' ./prev ./tmp-regen \
 		| sed -e 's% \./prev/$(SOURCE_DIRNAME)/% %' -e 's% \./tmp-regen/$(SOURCE_DIRNAME)/% %' \
 		| grep -v '^Common subdirectories:' \
 		| grep -v '^Only in ' \

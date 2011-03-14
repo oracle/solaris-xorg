@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xf86-video-r128 1.x Makefile
+# xf86-video-r128 Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,7 +54,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
 	-R$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lint10 -lpciaccess -lfb -lvbe -lxaa -lfbdevhw -lvgahw
+	-lint10 -lpciaccess -lfb -lpixman-1 -lvbe -lxaa -lfbdevhw -lvgahw
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

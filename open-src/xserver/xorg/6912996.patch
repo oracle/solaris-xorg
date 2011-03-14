@@ -1,12 +1,13 @@
---- exa/exa.c	Tue Jan 12 15:07:10 2010
-+++ exa/exa.c	Tue Jan 12 15:10:44 2010
-@@ -64,7 +64,11 @@
+diff -Nurp -x '*~' -x '*.orig' exa/exa.c exa/exa.c
+--- exa/exa.c	2010-07-14 13:23:17.000000000 -0700
++++ exa/exa.c	2010-09-03 16:45:44.147202216 -0700
+@@ -61,7 +61,11 @@ exaGetPixmapOffset(PixmapPtr pPix)
      ExaScreenPriv (pPix->drawable.pScreen);
      ExaPixmapPriv (pPix);
  
 -    return (CARD8 *)pExaPixmap->fb_ptr - pExaScr->info->memoryBase;
 +    /* added in as a fix for 6912996 */
-+    if (pExaPixmap->offscreen && pExaPixmap->fb_ptr)
++    if (exaPixmapHasGpuCopy(pExaPixmap) && pExaPixmap->fb_ptr)
 +	return (CARD8 *)pExaPixmap->fb_ptr - pExaScr->info->memoryBase;
 +    else
 +	return (CARD8 *)pExaPixmap->sys_ptr - pExaScr->info->memoryBase;

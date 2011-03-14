@@ -18,9 +18,10 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2009-11-24 21:25:15.000000000 -0800
-+++ Makefile.am	2009-12-02 18:57:55.879547825 -0800
+diff -Nurp -x '*~' -x '*.orig' Makefile.am Makefile.am
+diff -Nurp -x '*~' -x '*.orig' Makefile.am Makefile.am
+--- Makefile.am	2010-08-26 14:51:37.000000000 -0700
++++ Makefile.am	2011-02-15 15:53:19.157650482 -0800
 @@ -36,6 +36,7 @@ SUBDIRS = \
  	damageext \
  	$(COMPOSITE_DIR) \
@@ -29,10 +30,10 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	exa \
  	config \
  	hw \
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-12-02 18:57:54.176548474 -0800
-+++ configure.ac	2009-12-02 18:57:55.880850520 -0800
-@@ -1082,6 +1082,10 @@ MIEXT_DAMAGE_INC='-I$(top_srcdir)/miext/
+diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2011-02-15 15:53:16.732320605 -0800
++++ configure.ac	2011-02-15 15:53:19.158803446 -0800
+@@ -1158,6 +1158,10 @@ AC_DEFINE(XINPUT, 1, [Support X Input ex
  XI_LIB='$(top_builddir)/Xi/libXi.la'
  XI_INC='-I$(top_srcdir)/Xi'
  
@@ -43,17 +44,17 @@ diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
  AM_CONDITIONAL(XF86UTILS, test "x$XF86UTILS" = xyes)
  AM_CONDITIONAL(XAA, test "x$XAA" = xyes)
  AM_CONDITIONAL(VGAHW, test "x$VGAHW" = xyes)
-@@ -2115,3 +2119,6 @@ test/Makefile
+@@ -2273,3 +2277,6 @@ test/Makefile
  test/xi2/Makefile
  xorg-server.pc
  ])
 +
 +# Add Sun IA extension
 +AC_OUTPUT([IA/Makefile])
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-12-02 18:57:53.999906206 -0800
-+++ hw/xfree86/common/xf86Config.c	2009-12-02 18:57:55.881970262 -0800
-@@ -123,6 +123,7 @@ static ModuleDefault ModuleDefaults[] = 
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2011-02-15 15:53:16.711587149 -0800
++++ hw/xfree86/common/xf86Config.c	2011-02-15 15:53:19.159630285 -0800
+@@ -126,6 +126,7 @@ static ModuleDefault ModuleDefaults[] = 
  #ifdef DRI2
      {.name = "dri2",     .toLoad = TRUE,    .load_opt=NULL},
  #endif
@@ -61,9 +62,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
      {.name = NULL,       .toLoad = FALSE,   .load_opt=NULL}
  };
  
-diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
---- hw/xfree86/dixmods/Makefile.am	2009-10-30 21:19:51.000000000 -0700
-+++ hw/xfree86/dixmods/Makefile.am	2009-12-02 18:57:55.882261006 -0800
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/Makefile.am
+--- hw/xfree86/dixmods/Makefile.am	2009-09-27 18:57:00.000000000 -0700
++++ hw/xfree86/dixmods/Makefile.am	2011-02-15 15:53:19.159921744 -0800
 @@ -66,3 +66,11 @@ libdixmods_la_CFLAGS = -DXFree86LOADER $
  
  libxorgxkb_la_SOURCES = xkbVT.c xkbPrivate.c xkbKillSrv.c
@@ -76,10 +77,10 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/dixmods/Makefile.am hw/xfree86/dixmods/
 +libia_la_LDFLAGS = -avoid-version
 +libia_la_LIBADD = $(top_builddir)/IA/libIA.la
 +libia_la_SOURCES = iamodule.c
-diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
---- mi/miinitext.c	2009-11-22 16:33:40.000000000 -0800
-+++ mi/miinitext.c	2009-12-02 18:57:55.882784783 -0800
-@@ -95,6 +95,7 @@ SOFTWARE.
+diff -Nurp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
+--- mi/miinitext.c	2010-05-02 19:59:26.000000000 -0700
++++ mi/miinitext.c	2011-02-15 15:53:19.160356394 -0800
+@@ -94,6 +94,7 @@ SOFTWARE.
  #include "micmap.h"
  #include "globals.h"
  
@@ -87,7 +88,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  extern Bool noTestExtensions;
  
-@@ -159,6 +160,9 @@ extern Bool noSELinuxExtension;
+@@ -153,6 +154,9 @@ extern Bool noSELinuxExtension;
  extern Bool noXvExtension;
  #endif
  extern Bool noGEExtension;
@@ -97,7 +98,7 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  #ifndef XFree86LOADER
  #define INITARGS void
-@@ -190,6 +194,10 @@ typedef void (*InitExtension)(INITARGS);
+@@ -184,6 +188,10 @@ typedef void (*InitExtension)(INITARGS);
  #ifdef RES
  #include <X11/extensions/XResproto.h>
  #endif
@@ -108,17 +109,17 @@ diff -urp -x '*~' -x '*.orig' mi/miinitext.c mi/miinitext.c
  
  /* FIXME: this whole block of externs should be from the appropriate headers */
  #ifdef MITSHM
-@@ -320,6 +330,9 @@ static ExtensionToggle ExtensionToggleLi
+@@ -304,6 +312,9 @@ static ExtensionToggle ExtensionToggleLi
  #ifdef XCSECURITY
      { "SECURITY", &noSecurityExtension },
  #endif
 +#ifdef SolarisIAExtension
 +    { IANAME /* "SolarisIA" */, &noIAExtension },
-+#endif    
++#endif
  #ifdef RES
      { "X-Resource", &noResExtension },
  #endif
-@@ -493,6 +506,9 @@ InitExtensions(int argc, char *argv[])
+@@ -472,6 +483,9 @@ InitExtensions(int argc, char *argv[])
  	GlxPushProvider(&__glXDRISWRastProvider);
      if (!noGlxExtension) GlxExtensionInit();
  #endif

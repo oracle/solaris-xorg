@@ -1,4 +1,4 @@
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -84,14 +84,26 @@ diff -urp -x '*~' -x '*.orig' unix/x0vncserver/Makefile.am unix/x0vncserver/Make
 diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vnc/Makefile.am
 --- unix/xserver/hw/vnc/Makefile.am	2010-01-07 18:27:33.782620873 -0800
 +++ unix/xserver/hw/vnc/Makefile.am	2010-01-07 18:27:36.002105937 -0800
-@@ -34,7 +34,14 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW
- 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
- 	-I$(top_srcdir)/include -I$(includedir)/pixman-1 -I$(includedir)
+@@ -17,7 +17,7 @@
  
-+if BUILD_TSOL_MODULE
-+TSOL_LIBS = 	../../tsol/libxtsol.la -ltsol -ltsnet -lbsm
-+endif
+ libvnccommon_la_CPPFLAGS = -DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
+ 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
+-	-I$(BIN_DIR)/vncconfig $(XVNC_CPPFLAGS) -I$(includedir)/pixman-1 -I$(includedir)
++	-I$(BIN_DIR)/vncconfig $(XVNC_CPPFLAGS) $(PIXMAN_CFLAGS)
+ 
+ bin_PROGRAMS = Xvnc
+ 
+@@ -32,10 +32,17 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW
+ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW_ONLY_EXTS -DNO_MODULE_EXTS \
+ 	-DXFree86Server -DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
+ 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
+-	-I$(top_srcdir)/include -I$(includedir)/pixman-1 -I$(includedir)
++	-I$(top_srcdir)/include $(PIXMAN_CFLAGS)
 +
++if BUILD_TSOL_MODULE
++TSOL_LIBS = 	../../tsol/libxtsol.la
++endif
+ 
  Xvnc_LDADD = $(XVNC_LIBS) libvnccommon.la $(COMMON_LIBS) \
 -	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
 +	-ljpeg -lz \
@@ -100,14 +112,24 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vn
 +	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS)
  
  Xvnc_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
+ 
+@@ -55,7 +55,7 @@
+ 	-I$(top_srcdir)/hw/xfree86/common \
+ 	-I$(top_srcdir)/hw/xfree86/os-support \
+ 	-I$(top_srcdir)/hw/xfree86/os-support/bus \
+-	-I$(includedir)/pixman-1 -I$(includedir)
++	$(PIXMAN_CFLAGS)
+ 
+ libvnc_la_LDFLAGS = -module -avoid-version
+ 
 @@ -62,8 +69,8 @@ BUILT_SOURCES = $(nodist_Xvnc_SOURCES)
  fb.h: $(top_srcdir)/fb/fb.h
  	cat $(top_srcdir)/fb/fb.h | sed -e 's,and,c_and,' -e 's,xor,c_xor,' > $(srcdir)/fb.h
  
 -pixman.h: $(includedir)/pixman-1/pixman.h
 -	cat $(includedir)/pixman-1/pixman.h | sed 's/xor/c_xor/' > $(srcdir)/pixman.h
-+pixman.h: $(PROTODIR)/usr/include/pixman-1/pixman.h
-+	cat $(PROTODIR)/usr/include/pixman-1/pixman.h | sed 's/xor/c_xor/' > $(srcdir)/pixman.h
++pixman.h: $(PROTODIR)$(includedir)/pixman-1/pixman.h
++	cat $(PROTODIR)$(includedir)/pixman-1/pixman.h | sed 's/xor/c_xor/' > $(srcdir)/pixman.h
  
  fbrop.h: $(top_srcdir)/fb/fbrop.h
  	cat $(top_srcdir)/fb/fbrop.h | sed -e 's,and,c_and,' -e 's,xor,c_xor,' > $(srcdir)/fbrop.h

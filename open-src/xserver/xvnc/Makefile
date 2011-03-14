@@ -4,7 +4,7 @@
 # Based on Fedora's tigervnc.spec revision 1.20 from
 # http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -71,7 +71,11 @@ SOURCE_PATCHES = \
 	upstream-input-refactor.patch,-p1 \
 	upstream-modkeystick.patch,-p1 \
 	upstream-port-to-1.7.patch,-p1 \
-	tigervnc-xserver17.patch \
+	upstream-port-to-1.8.patch,-p1 \
+	upstream-xorg-1.8-closeinput.patch,-p1 \
+	upstream-xkbconvertcase.patch,-p1 \
+	port-to-1.9.patch \
+	$(SOURCE_DIR)/unix/xserver18.patch,'-p0 -d unix' \
 	vnc-nobuildtime.patch \
 	vnc-nohttpd.patch \
 	solaris-port.patch
@@ -149,7 +153,7 @@ Xvnc_source_init: $(XORG_PATCHED_TARGET)
 $(XORG_TARBALL):
 	(cd ../xorg && $(MAKE) $(MAKEFLAGS) download)
 
-$(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL) $(LNDIR)
+$(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL)
 	mkdir -p $(SOURCE_DIR)/unix
 	$(MAKE) $(MAKEFLAGS) init_source \
 		NO_RECURSE="$(POUND_SIGN)" \

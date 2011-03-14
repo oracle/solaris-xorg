@@ -12,21 +12,21 @@ Updated to include changes to ensure xkb directory & files are writable
 by gid 0, to fix bug:
 6916317 Changing xkb settings after login not working on snv130
 
-diff -urp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
---- xkb/Makefile.am	2009-10-21 14:52:56.000000000 -0700
-+++ xkb/Makefile.am	2009-11-03 22:28:52.978880918 -0800
+diff -Nurp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
+--- xkb/Makefile.am	2010-06-05 18:17:03.000000000 -0700
++++ xkb/Makefile.am	2010-09-03 16:44:59.203991086 -0700
 @@ -1,6 +1,7 @@
  noinst_LTLIBRARIES = libxkb.la libxkbstubs.la
  
- AM_CFLAGS = $(DIX_CFLAGS) \
-+	-DMAKE_XKM_OUTPUT_DIR \
- 	-DHAVE_XKB_CONFIG_H
+ AM_CFLAGS = $(DIX_CFLAGS)
++AM_CFLAGS += -DMAKE_XKM_OUTPUT_DIR
  
  DDX_SRCS = \
-diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
---- xkb/ddxLoad.c	2010-01-07 14:44:57.000000000 -0800
-+++ xkb/ddxLoad.c	2010-01-12 14:52:06.919527180 -0800
-@@ -152,6 +152,18 @@ Win32System(const char *cmdline)
+         ddxBeep.c \
+diff -Nurp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
+--- xkb/ddxLoad.c	2010-07-14 13:23:17.000000000 -0700
++++ xkb/ddxLoad.c	2010-09-03 16:44:59.204354950 -0700
+@@ -150,6 +150,18 @@ Win32System(const char *cmdline)
  #define System(x) Win32System(x)
  #endif
  
@@ -45,7 +45,7 @@ diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
  static void
  OutputDirectory(
      char* outdir,
-@@ -159,7 +171,11 @@ OutputDirectory(
+@@ -157,7 +169,11 @@ OutputDirectory(
  {
  #ifndef WIN32
      /* Can we write an xkm and then open it too? */
@@ -58,7 +58,7 @@ diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
      {
  	(void) strcpy (outdir, XKM_OUTPUT_DIR);
      } else
-@@ -201,6 +217,15 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		
+@@ -199,6 +215,15 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		
      const char *xkmfile = "-";
  #endif
  
@@ -74,7 +74,7 @@ diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
      snprintf(keymap, sizeof(keymap), "server-%s", display);
  
      OutputDirectory(xkm_output_dir, sizeof(xkm_output_dir));
-@@ -245,7 +270,12 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		
+@@ -246,6 +271,11 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		
  #else
      out= fopen(tmpname, "w");
  #endif
@@ -86,4 +86,3 @@ diff -urp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
      
      if (out!=NULL) {
  #ifdef DEBUG
-

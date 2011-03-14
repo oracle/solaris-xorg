@@ -1,0 +1,27 @@
+From 1988eda4f80eae04ccd71b7051765ed0a0967ada Mon Sep 17 00:00:00 2001
+From: atkac <atkac@3789f03b-4d11-0410-bbf8-ca57d06f2519>
+Date: Fri, 19 Feb 2010 13:07:19 +0000
+Subject: [PATCH] [Bugfix] X.Org 1.8 series needs CloseInput function defined in xvnc.cc.
+
+git-svn-id: https://tigervnc.svn.sourceforge.net/svnroot/tigervnc/trunk@3993 3789f03b-4d11-0410-bbf8-ca57d06f2519
+---
+ unix/xserver/hw/vnc/xvnc.cc |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/unix/xserver/hw/vnc/xvnc.cc b/unix/xserver/hw/vnc/xvnc.cc
+index 62564d3..1d19695 100644
+--- a/unix/xserver/hw/vnc/xvnc.cc
++++ b/unix/xserver/hw/vnc/xvnc.cc
+@@ -1345,3 +1345,9 @@ void InitInput(int argc, char *argv[])
+ {
+   mieqInit ();
+ }
++
++#if XORG > 17
++void CloseInput(void)
++{
++}
++#endif
+-- 
+1.5.6.5
+

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,8 @@ Source code access
 
    Upstream:
 	Original: http://www.tigervnc.com/
-	Fedora patches: http://cvs.fedoraproject.org/viewcvs/rpms/tigervnc/
+	Fedora patches: http://pkgs.fedoraproject.org/gitweb/?p=tigervnc.git
+	       		git://pkgs.fedoraproject.org/tigervnc.git
 
    1. Please provide a brief description of the feature and how it is used.
 
@@ -85,13 +86,14 @@ Source code access
       etc.) that are introduced, removed, or have substantially changed by
       this feature or project.
 
-  New package SUNWxvnc (S10) / pkg:/x11/server/xvnc (IPS):
+      S10 package SUNWxvnc / S11 package pkg:/x11/server/xvnc :
 	  /usr/bin/vncpasswd
 	  /usr/bin/vncserver
 	  /usr/bin/x0vncserver
 	  /usr/bin/Xvnc	
       
-  New package SUNWvncviewer (S10) / pkg:/desktop/remote-desktop/tigervnc (IPS):
+      S10 package SUNWvncviewer / 
+      S11 package pkg:/desktop/remote-desktop/tigervnc :
 	  /usr/bin/vncviewer
 
    8. What major data structures have changed or have been added?
@@ -114,6 +116,8 @@ Source code access
 
       Can a VNC client (such as vncviewer) connect to a VNC server (such as
       Xvnc) and see the desktop session in it?
+
+      See full test case instructions below.
 
   12. Are there any diagnostic tools for this feature and what are they?
 

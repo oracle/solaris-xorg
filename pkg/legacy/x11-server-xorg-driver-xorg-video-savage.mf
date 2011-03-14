@@ -20,5 +20,5 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-video-savage@2.2.1,5.11-0.153
+    value=pkg:/x11/server/xorg/driver/xorg-video-savage@2.3.1,5.11-0.153
 set name=pkg.obsolete value=true

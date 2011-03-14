@@ -2,7 +2,7 @@
 #
 # xf86-input-synaptics Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,9 +46,19 @@ MODULE_CONFIG_OPTS= \
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= -lm
 
-# Fix path for installing headers & HAL fdi file in proto area
-MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)' \
-	fdidir=/etc/hal/fdi/policy/10osvendor
+# Extra install rules
+MODULE_ADD_INSTALL_TARGETS = install_fdi
+
+# Fix path for installing headers in proto area
+MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)'
 
 include ../Makefile.inc
 
+FDI_DIR=$(PROTODIR)/etc/hal/fdi/policy/10osvendor
+
+$(FDI_DIR):
+	mkdir -p $(FDI_DIR)
+
+install_fdi: $(SOURCE_TARGETS) $(FDI_DIR)
+	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/conf/11-x11-synaptics.fdi \
+		$(FDI_DIR)/

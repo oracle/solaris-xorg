@@ -1,6 +1,7 @@
---- exa/exa_render.c	Wed Jan  6 12:31:27 2010
-+++ exa/exa_render.c	Wed Jan  6 12:32:59 2010
-@@ -903,8 +903,9 @@
+diff -Nurp -x '*~' -x '*.orig' exa/exa_render.c exa/exa_render.c
+--- exa/exa_render.c	2010-06-06 10:53:51.000000000 -0700
++++ exa/exa_render.c	2010-09-03 16:45:42.134444609 -0700
+@@ -902,8 +902,9 @@ exaComposite(CARD8	op,
      Bool saveMaskRepeat = pMask ? pMask->repeat : 0;
      RegionRec region;
  

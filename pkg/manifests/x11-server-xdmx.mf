@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,7 @@ $(sparc_ONLY)file path=usr/bin/Xdmx
 
 file path=usr/bin/dmxaddinput
 file path=usr/bin/dmxaddscreen
+file path=usr/bin/dmxinfo
 file path=usr/bin/dmxreconfig
 file path=usr/bin/dmxresize
 file path=usr/bin/dmxrminput
@@ -50,7 +51,6 @@ file path=usr/bin/dmxrmscreen
 file path=usr/bin/dmxtodmx
 file path=usr/bin/dmxwininfo
 file path=usr/bin/vdltodmx
-file path=usr/bin/xdmx
 file path=usr/bin/xdmxconfig
 
 file path=usr/share/man/man1/Xdmx.1
@@ -59,7 +59,7 @@ file path=usr/share/man/man1/vdltodmx.1
 file path=usr/share/man/man1/xdmxconfig.1
 $(i386_ONLY)hardlink path=usr/bin/Xdmx target=../lib/isaexec
 link path=usr/lib/mdb/proc/$(ARCH64)/Xdmx.so target=Xserver.so
-link path=usr/lib/mdb/proc/Xdmx.so target=Xserver.so
+$(i386_ONLY)link path=usr/lib/mdb/proc/Xdmx.so target=Xserver.so
 depend fmri=pkg:/x11/keyboard/data-xkb type=require
 # X servers require xkbcomp & data-xkb for keyboard layouts
 depend fmri=pkg:/x11/keyboard/xkbcomp type=require

@@ -1,6 +1,5 @@
-CreateNewResourceType.patch,-p1
-resource-names.patch,-p1
-fbdevhw-path.patch,-p1
+upstream-in-1.9-branch.patch,-p1
+headers_64bit.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch
@@ -18,7 +17,6 @@ glx-impure.patch
 nvidia-autoconfig.patch
 autoconfig.patch
 autoconfig2.patch
-6406044.patch
 6535006.patch
 signal-handler.patch
 6721634.patch
@@ -26,11 +24,7 @@ dixmods-deps.patch
 sparc-initvisuals.patch
 hotkey.patch
 vt.patch
-vbe-packing.patch
 6906694.patch
 6912996.patch
-6942816.patch
-getifaddrs.patch,-p1
-mousekeys.patch
-6949754.patch
-dmx.patch
+record-regset.patch
+autodetect-kernel-dev-fb.patch

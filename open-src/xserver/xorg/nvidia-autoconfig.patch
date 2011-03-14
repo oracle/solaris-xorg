@@ -18,10 +18,10 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-11-03 22:29:03.988992847 -0800
-+++ hw/xfree86/common/xf86Config.c	2009-11-03 22:29:05.439748324 -0800
-@@ -534,11 +534,30 @@ fixup_video_driver_list(char **drivers)
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2010-09-03 16:45:16.628892543 -0700
++++ hw/xfree86/common/xf86Config.c	2010-09-03 16:45:19.100446935 -0700
+@@ -538,11 +538,30 @@ fixup_video_driver_list(char **drivers)
                  if (!strcmp(*drv, "ati")) {
                      ati = drv;
                      x = *ati; *ati = *atimisc; *atimisc = x;

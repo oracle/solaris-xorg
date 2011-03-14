@@ -1,0 +1,13 @@
+diff -Nurp -x '*~' -x '*.orig' record/record.c record/record.c
+--- record/record.c	2010-07-14 13:23:17.000000000 -0700
++++ record/record.c	2010-09-03 16:45:46.118590143 -0700
+@@ -1467,6 +1467,9 @@ typedef struct
+     short first, last;	/* if for extension, major opcode interval */
+ } SetInfoRec, *SetInfoPtr;
+ 
++#undef ERR /* protect against #define ERR in <sys/regset.h> on Solaris x86,
++	      which gets included indirectly via #include <stdlib.h> */
++
+ /* These constant are used to index into an array of SetInfoRec. */
+ enum {REQ,	/* set info for requests */
+       REP,	/* set info for replies */

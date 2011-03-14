@@ -22,9 +22,9 @@
 
 Allow probing for /dev/fb cards other than the traditional sbus devices.
 
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/xf86sbusBus.c
---- hw/xfree86/common/xf86sbusBus.c	2009-08-10 21:00:23.000000000 -0700
-+++ hw/xfree86/common/xf86sbusBus.c	2009-11-03 22:29:01.187852455 -0800
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/xf86sbusBus.c
+--- hw/xfree86/common/xf86sbusBus.c	2010-06-10 07:07:55.000000000 -0700
++++ hw/xfree86/common/xf86sbusBus.c	2010-09-03 16:45:12.667073647 -0700
 @@ -40,6 +40,10 @@
  #include "xf86sbusBus.h"
  #include "xf86Sbus.h"
@@ -38,7 +38,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/
  static int xf86nSbusInfo;
 @@ -212,8 +216,25 @@ xf86SbusProbe(void)
  		xf86ErrorF(" at %s", promPath);
- 		xfree(promPath);
+ 		free(promPath);
  	    }
 -	} else
 +	} else {
@@ -63,9 +63,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.c hw/xfree86/common/
  	xf86ErrorF("\n");
      }
      if (useProm)
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/xf86sbusBus.h
---- hw/xfree86/common/xf86sbusBus.h	2009-08-10 21:00:23.000000000 -0700
-+++ hw/xfree86/common/xf86sbusBus.h	2009-11-03 22:29:01.188001632 -0800
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/xf86sbusBus.h
+--- hw/xfree86/common/xf86sbusBus.h	2010-06-05 18:16:49.000000000 -0700
++++ hw/xfree86/common/xf86sbusBus.h	2010-09-03 16:45:12.667333987 -0700
 @@ -39,6 +39,7 @@
  #define SBUS_DEVICE_FFB		0x000b
  #define SBUS_DEVICE_GT		0x000c
@@ -74,9 +74,9 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86sbusBus.h hw/xfree86/common/
  
  typedef struct sbus_prom_node {
      int			node;
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bus/Sbus.c hw/xfree86/os-support/bus/Sbus.c
---- hw/xfree86/os-support/bus/Sbus.c	2009-08-10 21:00:24.000000000 -0700
-+++ hw/xfree86/os-support/bus/Sbus.c	2009-11-03 22:29:01.188224955 -0800
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/os-support/bus/Sbus.c hw/xfree86/os-support/bus/Sbus.c
+--- hw/xfree86/os-support/bus/Sbus.c	2010-07-14 13:23:17.000000000 -0700
++++ hw/xfree86/os-support/bus/Sbus.c	2010-09-03 16:45:12.667732075 -0700
 @@ -68,6 +68,7 @@ struct sbus_devtable sbusDeviceTable[] =
      { SBUS_DEVICE_TCX, FBTYPE_TCXCOLOR, "tcx", "suntcx", "Sun TCX" },
      { SBUS_DEVICE_FFB, FBTYPE_CREATOR, "ffb", "sunffb", "Sun FFB" },

@@ -18,20 +18,21 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2009-11-03 22:28:52.912813822 -0800
-+++ configure.ac	2009-11-03 22:28:54.304262174 -0800
-@@ -1328,6 +1328,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUI
- XSERVER_CFLAGS="${XSERVERCFLAGS_CFLAGS} ${SHA1_CFLAGS}"
- XSERVER_LIBS="$DIX_LIB $CONFIG_LIB $MI_LIB $OS_LIB"
- XSERVER_SYS_LIBS="${XSERVERLIBS_LIBS} ${SYS_LIBS} ${LIBS} ${SHA1_LIB}"
+diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
+diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2011-02-04 11:37:03.000000000 -0800
++++ configure.ac	2011-02-15 15:53:16.732320605 -0800
+@@ -1472,6 +1472,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUI
+ XSERVER_CFLAGS="${XSERVER_CFLAGS} ${XSERVERCFLAGS_CFLAGS}"
+ XSERVER_LIBS="$DIX_LIB $MI_LIB $OS_LIB"
+ XSERVER_SYS_LIBS="${XSERVERLIBS_LIBS} ${SYS_LIBS} ${LIBS}"
 +XSERVER_SYS_LIBS="${XSERVER_SYS_LIBS} -lproject"
  AC_SUBST([XSERVER_LIBS])
  AC_SUBST([XSERVER_SYS_LIBS])
  
-diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
---- dix/main.c	2009-10-19 19:45:37.000000000 -0700
-+++ dix/main.c	2009-11-03 22:28:54.304577823 -0800
+diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
+--- dix/main.c	2010-12-02 12:16:53.000000000 -0800
++++ dix/main.c	2011-02-15 15:53:16.732690379 -0800
 @@ -116,6 +116,11 @@ Equipment Corporation.
  #include "dpmsproc.h"
  #endif
@@ -44,10 +45,10 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
  extern void Dispatch(void);
  
  extern void InitProcVectors(void);
-@@ -169,6 +174,13 @@ int main(int argc, char *argv[], char *e
+@@ -168,6 +173,13 @@ int main(int argc, char *argv[], char *e
+ 	InitBlockAndWakeupHandlers();
  	/* Perform any operating system dependent initializations you'd like */
  	OsInit();
-         config_init();
 +
 +#ifdef SUNSOFT
 +	/* Create pipe for dtlogin authentication info before we tell dtlogin 
@@ -58,7 +59,7 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
  	if(serverGeneration == 1)
  	{
  	    CreateWellKnownSockets();
-@@ -284,6 +296,11 @@ int main(int argc, char *argv[], char *e
+@@ -290,6 +302,11 @@ int main(int argc, char *argv[], char *e
  
  	Dispatch();
  
@@ -70,30 +71,23 @@ diff -urp -x '*~' -x '*.orig' dix/main.c dix/main.c
          UndisplayDevices();
  
  	/* Now free up whatever must be freed */
-diff -urp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
---- os/Makefile.am	2009-10-21 14:52:56.000000000 -0700
-+++ os/Makefile.am	2009-11-03 22:28:54.304721381 -0800
-@@ -24,6 +24,7 @@ libos_la_SOURCES = 	\
- 	xdmauth.c	\
- 	xstrans.c	\
- 	xprintf.c	\
-+	dtlogin.c	\
- 	$(XORG_SRCS)
- 
- if SECURE_RPC
-@@ -38,6 +39,8 @@ if NEED_STRLCAT
+diff -Nurp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
+--- os/Makefile.am	2010-03-25 22:17:44.000000000 -0700
++++ os/Makefile.am	2011-02-15 15:53:16.732911213 -0800
+@@ -47,6 +47,9 @@ if NEED_STRLCAT
  libos_la_SOURCES += $(STRLCAT_SRCS)
  endif
  
++libos_la_SOURCES += dtlogin.c
 +libos_la_LIBADD = -lproject
 +
  EXTRA_DIST = $(SECURERPC_SRCS) $(INTERNALMALLOC_SRCS) \
       $(XDMCP_SRCS) $(STRLCAT_SRCS)
  
-diff -urp -x '*~' -x '*.orig' os/auth.c os/auth.c
---- os/auth.c	2009-07-09 21:05:36.000000000 -0700
-+++ os/auth.c	2009-11-03 22:28:54.304879545 -0800
-@@ -289,6 +289,19 @@ AddAuthorization (unsigned name_length, 
+diff -Nurp -x '*~' -x '*.orig' os/auth.c os/auth.c
+--- os/auth.c	2010-05-12 20:16:31.000000000 -0700
++++ os/auth.c	2011-02-15 15:53:16.733178408 -0800
+@@ -290,6 +290,19 @@ AddAuthorization (unsigned name_length, 
      return 0;
  }
  

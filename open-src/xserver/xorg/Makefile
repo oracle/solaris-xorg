@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,8 +38,8 @@ MODULE_NAME=xorg-server
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8c0146330fb155c23d947ac37d431d4b
-TARBALL_SHA1 = 0f1b71363843b7e394d6de62d0db5b74d3e645ef
+TARBALL_MD5  = 040f091dfdfb4e335116eb0032cc690b
+TARBALL_SHA1 = e8d5776fe973f15c0e907fd827106f8d296acf7e
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -163,8 +163,8 @@ LINKED_TO_ISAEXEC = Xorg Xephyr Xvfb Xdmx
 # scripts) are needed, so move the 32-bit one to /usr/bin instead of linking 
 # to isaexec.
 NOT_LINKED_TO_ISAEXEC = cvt gtf \
-  dmxaddinput dmxaddscreen dmxreconfig dmxresize dmxrminput \
-  dmxrmscreen dmxtodmx dmxwininfo vdltodmx xdmx xdmxconfig
+  dmxaddinput dmxaddscreen dmxinfo dmxreconfig dmxresize dmxrminput \
+  dmxrmscreen dmxtodmx dmxwininfo vdltodmx xdmxconfig
 
 # Steps that need to complete before the install_fix_paths in ../Makefile.inc
 # is run  to do the above isaexec fixes
@@ -179,15 +179,10 @@ SDK_INCLUDES_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/xorg/
 install_extras: default_install
 	-rm -f $(SDK_INCLUDES_DIR)/xorg-server.h
 	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
-	    -e 's%^.* _XSERVER64 .*$$%#include <sys/isa_defs.h>\
-#ifdef _LP64\
-#define _XSERVER64 1\
-#endif%' \
 	    $(SOURCE_DIR)/include/xorg-server.h > $(SDK_INCLUDES_DIR)/xorg-server.h
-	cp -pf $(SOURCE_DIR)/mi/mioverlay.h $(SDK_INCLUDES_DIR)/mioverlay.h
-	cp -pf $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h $(SDK_INCLUDES_DIR)/xf86Sbus.h
-	cp -pf $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
-	-rm -f $(SDK_INCLUDES_DIR)/xf1bpp.h $(SDK_INCLUDES_DIR)/xf4bpp.h
+	cp -pf $(SOURCE_DIR)/mi/mioverlay.h \
+	       $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h \
+	       $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
 	mkdir -p $(PROTODIR)$(X11_MAN_DIR)/man1
 	cp -pf $(SOURCE_DIR)/hw/xfree86/doc/man/xorgcfg.1 \
 	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgconfig.1 \
@@ -195,6 +190,10 @@ install_extras: default_install
 	mkdir -p $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor
 	cp -pf $(SOURCE_DIR)/config/x11-input.fdi \
 	 $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
+	mkdir -p $(PROTODIR)/etc/X11/xorg.conf.d \
+		 $(PROTODIR)/etc/X11/xorg.conf.avail \
+		 $(PROTODIR)/usr/share/X11/xorg.conf.d
+	cp -pf 90-zap.conf $(PROTODIR)/etc/X11/xorg.conf.avail
 
 # Workaround bug in installing pkgconfig file to wrong directory in 64-bit
 # builds

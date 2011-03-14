@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 6385111: Xorg auto-configuration Improvement
 
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2009-11-03 22:29:05.439748324 -0800
-+++ hw/xfree86/common/xf86Config.c	2009-11-03 22:29:06.884510478 -0800
-@@ -2063,7 +2063,7 @@ configMonitor(MonPtr monitorp, XF86ConfM
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2010-09-03 16:45:19.100446935 -0700
++++ hw/xfree86/common/xf86Config.c	2010-09-03 16:45:21.057252713 -0700
+@@ -2045,7 +2045,7 @@ configMonitor(MonPtr monitorp, XF86ConfM
      cmodep = conf_monitor->mon_modeline_lst;
      while( cmodep ) {
          mode = xnfcalloc(1, sizeof(DisplayModeRec));

@@ -1,7 +1,7 @@
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2010-05-03 17:47:58.000000000 -0700
-+++ hw/xfree86/common/xf86Config.c	2010-10-20 20:27:00.062592706 -0700
-@@ -77,9 +77,9 @@ extern DeviceAssocRec mouse_assoc;
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
+--- hw/xfree86/common/xf86Config.c	2010-06-10 23:10:22.000000000 -0700
++++ hw/xfree86/common/xf86Config.c	2011-02-15 15:53:04.379144701 -0800
+@@ -75,9 +75,9 @@ extern DeviceAssocRec mouse_assoc;
   */
  #ifndef ROOT_CONFIGPATH
  #define ROOT_CONFIGPATH	"%A," "%R," \
@@ -13,7 +13,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  			"/etc/X11/%X-%M," "/etc/X11/%X," "/etc/%X," \
  			"%P/etc/X11/%X.%H," "%P/etc/X11/%X-%M," \
  			"%P/etc/X11/%X," \
-@@ -87,8 +87,8 @@ extern DeviceAssocRec mouse_assoc;
+@@ -85,8 +85,8 @@ extern DeviceAssocRec mouse_assoc;
  			"%P/lib/X11/%X"
  #endif
  #ifndef USER_CONFIGPATH
@@ -24,23 +24,23 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/x
  			"/etc/X11/%X-%M," "/etc/X11/%X," "/etc/%X," \
  			"%P/etc/X11/%X.%H," "%P/etc/X11/%X-%M," \
  			"%P/etc/X11/%X," \
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/xf86Globals.c
---- hw/xfree86/common/xf86Globals.c	2009-11-22 16:35:01.000000000 -0800
-+++ hw/xfree86/common/xf86Globals.c	2009-12-02 18:57:45.196668578 -0800
-@@ -143,7 +143,8 @@ xf86InfoRec xf86Info = {
- #endif
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/xf86Globals.c
+--- hw/xfree86/common/xf86Globals.c	2010-06-06 14:37:03.000000000 -0700
++++ hw/xfree86/common/xf86Globals.c	2011-02-15 15:53:04.379410669 -0800
+@@ -140,7 +140,8 @@ xf86InfoRec xf86Info = {
  };
  const char *xf86ConfigFile = NULL;
+ const char *xf86ConfigDir = NULL;
 -const char *xf86ModulePath = DEFAULT_MODULE_PATH;
 +/* Sun: add old module path for compatibility with out-of-tree driver packages */
 +const char *xf86ModulePath = DEFAULT_MODULE_PATH ",/usr/X11/lib/modules/";
  MessageType xf86ModPathFrom = X_DEFAULT;
  const char *xf86LogFile = DEFAULT_LOGPREFIX;
  MessageType xf86LogFileFrom = X_DEFAULT;
-diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/xorg.conf.man.pre hw/xfree86/doc/man/xorg.conf.man.pre
---- hw/xfree86/doc/man/xorg.conf.man.pre	2010-05-03 17:47:59.000000000 -0700
-+++ hw/xfree86/doc/man/xorg.conf.man.pre	2010-10-20 20:27:00.063252935 -0700
-@@ -28,9 +28,9 @@ server is started as a normal user:
+diff -Nurp -x '*~' -x '*.orig' hw/xfree86/doc/man/xorg.conf.man.pre hw/xfree86/doc/man/xorg.conf.man.pre
+--- hw/xfree86/doc/man/xorg.conf.man.pre	2010-06-10 23:10:22.000000000 -0700
++++ hw/xfree86/doc/man/xorg.conf.man.pre	2011-02-15 15:53:04.380098603 -0800
+@@ -36,9 +36,9 @@ server is started as a normal user:
  .RS 4
  .nf
  .IR /etc/X11/ <cmdline>
@@ -52,7 +52,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/xorg.conf.man.pre hw/xfree86/do
  .I /etc/X11/__xconfigfile__\-4
  .I /etc/X11/__xconfigfile__
  .I /etc/__xconfigfile__
-@@ -62,10 +62,10 @@ search locations are as follows:
+@@ -70,10 +70,10 @@ search locations are as follows:
  .nf
  <cmdline>
  .IR /etc/X11/ <cmdline>
@@ -65,3 +65,14 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/xorg.conf.man.pre hw/xfree86/do
  .I /etc/X11/__xconfigfile__\-4
  .I /etc/X11/__xconfigfile__
  .I /etc/__xconfigfile__
+diff -Nurp -x '*~' -x '*.orig' include/xorg-server.h.in include/xorg-server.h.in
+--- include/xorg-server.h.in	2011-02-15 15:53:02.434190580 -0800
++++ include/xorg-server.h.in	2011-02-15 15:53:04.380266311 -0800
+@@ -184,6 +184,7 @@
+ /* X Access Control Extension */
+ #undef XACE
+ 
++#include <sys/isa_defs.h> /* Ensure _LP64 is defined when needed on Solaris */
+ #ifdef _LP64
+ #define _XSERVER64 1
+ #endif

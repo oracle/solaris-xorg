@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,11 +35,12 @@ dir path=usr
 dir path=usr/lib
 dir path=usr/lib/hal
 dir path=usr/lib/xorg
-dir path=usr/lib/xorg/$(ARCH64)
 dir path=usr/lib/xorg/modules
 dir path=usr/lib/xorg/modules/input
 dir path=usr/lib/xorg/modules/input/$(ARCH64)
 dir path=usr/share
+dir path=usr/share/X11
+dir path=usr/share/X11/xorg.conf.d
 dir path=usr/share/man
 dir path=usr/share/man/man1
 dir path=usr/share/man/man7
@@ -48,5 +49,6 @@ file path=usr/lib/hal/hal-probe-vmmouse mode=0555
 file path=usr/lib/xorg/modules/input/$(ARCH64)/vmmouse_drv.so
 file path=usr/lib/xorg/modules/input/vmmouse_drv.so
 file path=usr/lib/xorg/vmmouse_detect mode=0555
+file path=usr/share/X11/xorg.conf.d/50-vmmouse.conf
 file path=usr/share/man/man1/vmmouse_detect.1
 file path=usr/share/man/man7/vmmouse.7

@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -115,8 +115,13 @@ if (!@manifest_header) {
   my $pkg_name = required_option ('pkg_name',
 				  'when not merging with existing manifest.');
 
+  my $pkg_vers = '$(PKGVERS)';
+  if (exists $options{'version'}) {
+    $pkg_vers = $options{'version'}->[0];
+  }
+
   push @manifest_header, join('', 'set name=pkg.fmri value=pkg:/',
-			      $pkg_name, '@$(PKGVERS)');
+			      $pkg_name, '@', $pkg_vers);
 
   push @manifest_header, 'set name=pkg.description ' .
     'value="XXX: Please provide a descriptive paragraph for the package."';

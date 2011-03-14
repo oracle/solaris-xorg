@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Protocol modules
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,7 +33,6 @@ OS_SUBDIRS_common = 		\
 	dri2proto		\
 	evieproto 		\
 	fixesproto 		\
-	fontcacheproto 		\
 	fontsproto 		\
 	glproto 		\
 	inputproto 		\
@@ -48,7 +47,6 @@ OS_SUBDIRS_common = 		\
 	videoproto 		\
 	xcmiscproto 		\
 	xextproto 		\
-	xf86bigfontproto 	\
 	xf86dgaproto 		\
 	xf86driproto 		\
 	xf86miscproto 		\
@@ -62,8 +60,10 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
-	lg3dproto \
-	trapproto
+	lg3dproto 		\
+	fontcacheproto 		\
+	trapproto		\
+	xf86bigfontproto
 
 # Need to install to proto area by default for inter-package dependencies to
 # work right.

@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Xorg driver modules
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,8 +31,7 @@ OS_SUBDIRS_common = \
 	xf86-video-ast			\
 	xf86-video-dummy		
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)	\
-	xf86-video-wsfb
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-acecad		\
@@ -46,7 +45,6 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-mga			\
 	xf86-video-nv			\
 	xf86-video-openchrome		\
-	xf86-video-radeonhd		\
 	xf86-video-r128			\
 	xf86-video-trident		\
 	xf86-video-vesa			\
@@ -81,6 +79,7 @@ OBSOLETE_SUBDIRS = \
 	xf86-video-i810			\
 	xf86-video-neomagic		\
 	xf86-video-nsc			\
+	xf86-video-radeonhd		\
 	xf86-video-rendition		\
 	xf86-video-s3			\
 	xf86-video-s3virge		\
@@ -91,7 +90,8 @@ OBSOLETE_SUBDIRS = \
 	xf86-video-tga			\
 	xf86-video-tseng		\
 	xf86-video-vga			\
-	xf86-video-via
+	xf86-video-via			\
+	xf86-video-wsfb
 
 PWD:sh=pwd
 TOP=$(PWD)/../..

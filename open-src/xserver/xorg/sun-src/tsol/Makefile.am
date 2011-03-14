@@ -1,6 +1,6 @@
 #########################################################################
 #
-# Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,4 +39,4 @@ TSOLPOLICYFILEDEF = -DTSOLPOLICYFILE=\"$(SERVERCONFIGdir)/TrustedExtensionsPolic
 
 AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF)
 
-libxtsol_la_LIBADD = -ltsol -ltsnet -lbsm
+libxtsol_la_LIBADD = -ltsol -ltsnet -lbsm $(top_builddir)/randr/librandr.la
