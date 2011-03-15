@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,25 +48,13 @@ file path=usr/lib/xorg/modules/dri/$(ARCH64)/i915_dri.so
 file path=usr/lib/xorg/modules/dri/$(ARCH64)/i965_dri.so
 file path=usr/lib/xorg/modules/dri/i915_dri.so
 file path=usr/lib/xorg/modules/dri/i965_dri.so
-file path=usr/lib/xorg/modules/drivers/$(ARCH64)/ch7017.so
-file path=usr/lib/xorg/modules/drivers/$(ARCH64)/ch7xxx.so
 file path=usr/lib/xorg/modules/drivers/$(ARCH64)/intel_drv.so
-file path=usr/lib/xorg/modules/drivers/$(ARCH64)/ivch.so
-file path=usr/lib/xorg/modules/drivers/$(ARCH64)/sil164.so
-file path=usr/lib/xorg/modules/drivers/$(ARCH64)/tfp410.so
-file path=usr/lib/xorg/modules/drivers/ch7017.so
-file path=usr/lib/xorg/modules/drivers/ch7xxx.so
 file path=usr/lib/xorg/modules/drivers/intel_drv.so
-file path=usr/lib/xorg/modules/drivers/ivch.so
-file path=usr/lib/xorg/modules/drivers/sil164.so
-file path=usr/lib/xorg/modules/drivers/tfp410.so
 file path=usr/share/doc/X11/README.intel
-file path=usr/share/man/man7/i810.7
 file path=usr/share/man/man7/intel.7
 link path=usr/lib/$(ARCH64)/libI810XvMC.so target=libI810XvMC.so.1
 link path=usr/lib/$(ARCH64)/libIntelXvMC.so target=libIntelXvMC.so.1
 link path=usr/lib/libI810XvMC.so target=libI810XvMC.so.1
 link path=usr/lib/libIntelXvMC.so target=libIntelXvMC.so.1
-link path=usr/lib/xorg/modules/drivers/$(ARCH64)/i810_drv.so \
-    target=intel_drv.so
-link path=usr/lib/xorg/modules/drivers/i810_drv.so target=intel_drv.so
+# Intel driver requires Intel DRM kernel module with KMS support
+depend fmri=pkg:/driver/graphics/drm@0.5.11-0.162 type=require

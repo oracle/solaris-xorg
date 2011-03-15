@@ -1,0 +1,56 @@
+Backported to 2.10 from these upstream git commits:
+
+From 84d65bace521ad80b9bede4ae9e3e2a8d0668b90 Mon Sep 17 00:00:00 2001
+From: Chris Wilson <chris@chris-wilson.co.uk>
+Date: Mon, 14 Jun 2010 11:31:40 +0100
+Subject: [PATCH] Compile fix for alternate list.h from xserver-1.9
+
+From 2267e5928bd90a6997970584462bd97df447e819 Mon Sep 17 00:00:00 2001
+From: Chris Wilson <chris@chris-wilson.co.uk>
+Date: Tue, 13 Jul 2010 10:36:34 +0100
+Subject: [PATCH] Workaround a broken container_of define in list.h
+
+--- src/i830.h
++++ src/i830.h
+@@ -77,6 +77,15 @@ void i830_uxa_block_handler(ScreenPtr pS
+ Bool i830_get_aperture_space(ScrnInfoPtr scrn, drm_intel_bo ** bo_table,
+ 			     int num_bos);
+ 
++/* XXX
++ * The X server gained an *almost* identical implementation in 1.9.
++ *
++ * Remove this duplicate code either in 2.16 (when we can depend upon 1.9)
++ * or the drivers are merged back into the xserver tree, whichever happens
++ * earlier.
++ */
++
++#ifndef _LIST_H_
+ /* classic doubly-link circular list */
+ struct list {
+ 	struct list *next, *prev;
+@@ -124,17 +133,25 @@ list_is_empty(struct list *head)
+ {
+ 	return head->next == head;
+ }
++#endif
++ 
++/* XXX work around a broken define in list.h currently [ickle 20100713] */
++#undef container_of
+ 
+ #ifndef container_of
+ #define container_of(ptr, type, member) \
+ 	(type *)((char *)(ptr) - (char *) &((type *)0)->member)
+ #endif
+ 
++#ifndef list_entry
+ #define list_entry(ptr, type, member) \
+ 	container_of(ptr, type, member)
++#endif
+ 
++#ifndef list_first_entry
+ #define list_first_entry(ptr, type, member) \
+ 	list_entry((ptr)->next, type, member)
++#endif
+ 
+ struct intel_pixmap {
+ 	dri_bo *bo;

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,18 +40,18 @@ MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 MODULE_ARC_CASES = LSARC/2005/109
 
 # Version number (used in path names)
-MODULE_VERSION=7.4.4
+MODULE_VERSION=7.8.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b66528d314c574dccbe0ed963cac5e93
-TARBALL_SHA1 = 1cdcef24900489bc0a879013b2138c0d9aedffe3
+TARBALL_MD5  = 6be2d343a0089bfd395ce02aaf8adb57
+TARBALL_SHA1 = 21de672a1cbe307135d7f172dc6952041a38e1c7
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
 SOURCE_TARBALL_NAME_SET=yes
 
 # Download site for source
-SOURCE_URL=$(SF_DOWNLOADS_URL)/mesa3d/MesaLib/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 GIT_URL=$(FDO_GIT_URL)/mesa/mesa
 GIT_URL_SET=yes
@@ -63,11 +63,9 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	install-pc-dir.patch,-p1 \
+	install-pc-dir.patch \
 	glu-no-mangled-exports.patch \
-	solaris-port.patch \
-	make-race.patch \
-	6872597.patch 6866668.patch
+	solaris-port.patch glsl.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
@@ -80,7 +78,7 @@ DRI_DRIVER_LIST_i386=i915 i965 r200 r300 radeon
 DRI_DRIVER_LIST= $(DRI_DRIVER_LIST_$(MACH)) swrast
 
 # Command line options to GNU autoconf configure script
-MODULE_CONFIG_OPTS = --with-driver=dri \
+MODULE_CONFIG_OPTS = --with-driver=dri --disable-egl --disable-gallium \
 	--with-dri-driverdir='$(X11_SERVERMODS_DIR)/dri$(SERVERMOD_subdir)' \
 	--with-dri-drivers='$(DRI_DRIVER_LIST)'
 
@@ -96,15 +94,15 @@ MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
 # To build with gcc, uncomment these lines and comment out the MODULE_CFLAGS
-# MODULE_COMPILER=gcc
-# MODULE_COMPILER_SET=yes
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
 
 # Tell Sun compiler to not apply optimizations that increase binary sizes
 # Without this flag, Studio 12 binaries are almost 2x bigger (CR 6808868)
-MODULE_CFLAGS = -xspace
+#MODULE_CFLAGS = -xspace
 
 # Add include paths and linker paths needed for DRM modules
-MODULE_CPPFLAGS = -I$(PROTODIR)$(X11_INCLUDES_DIR)/drm
+MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/libdrm
 
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
@@ -129,10 +127,9 @@ LIBRARIES_TO_MOVE = $(LIBRARIES_TO_DIRECT_LINK) $(LIBRARIES_TO_RUNTIME_LINK)
 MESA_LIBDIR = $(PROTODIR)/usr/lib/mesa$(ARCHLIBSUBDIR)
 
 HEADERS_TO_MOVE = GLwDrawA.h GLwDrawAP.h GLwMDrawA.h GLwMDrawAP.h \
-	dmesa.h ggimesa.h \
 	gl.h gl_mangle.h glext.h glfbdev.h \
 	glu.h glu_mangle.h glx.h glx_mangle.h glxext.h \
-	mesa_wgl.h mglmesa.h osmesa.h svgamesa.h vms_x_fix.h wmesa.h
+	mesa_wgl.h mglmesa.h osmesa.h vms_x_fix.h wglext.h wmesa.h
 HEADERS_TO_DIRECT_LINK = GLwDrawA.h GLwDrawAP.h GLwMDrawA.h GLwMDrawAP.h \
 	glu.h osmesa.h
 HEADERS_TO_RUNTIME_LINK = gl.h glext.h glx.h glxext.h

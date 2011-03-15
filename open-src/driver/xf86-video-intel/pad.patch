@@ -1,0 +1,79 @@
+--- src/i830_dri.h	Thu May  6 15:35:08 2010
++++ src/i830_dri.h	Thu May  6 15:38:23 2010
+@@ -21,16 +21,20 @@
+ 	drm_handle_t unused2;	/* backbuffer */
+ 
+ 	drmSize unused3;	/* depthbufferSize */
++	drmSize pad0;
+ 	drm_handle_t unused4;	/* depthbuffer */
+ 
+ 	drmSize unused5;	/* rotatedSize / */
++        drmSize pad1;
+ 	drm_handle_t unused6;	/* rotatedbuffer */
+ 
+ 	drm_handle_t unused7;	/* textures */
+ 	int unused8;		/* textureSize */
++        drmSize pad2;
+ 
+ 	drm_handle_t unused9;	/* agp_buffers */
+ 	drmSize unused10;	/* agp_buf_size */
++        drmSize pad3;
+ 
+ 	int deviceID;
+ 	int width;
+--- src/i830_common.h	Thu May  6 15:35:04 2010
++++ src/i830_common.h	Thu May  6 15:39:11 2010
+@@ -90,6 +90,7 @@
+ 	int pf_current_page;	/* which buffer is being displayed? */
+ 	int perf_boxes;		/* performance boxes to be displayed */
+ 	int width, height;	/* screen size in pixels */
++        int pad0;
+ 
+ 	drm_handle_t front_handle;
+ 	int front_offset;
+@@ -128,6 +129,8 @@
+ 	int pipeB_y;
+ 	int pipeB_w;
+ 	int pipeB_h;
++        
++        int pad1;
+ 
+ 	/* Triple buffering */
+ 	drm_handle_t third_handle;
+--- src/i830_batchbuffer.h	Thu May  6 15:37:39 2010
++++ src/i830_batchbuffer.h	Thu May  6 15:40:34 2010
+@@ -30,9 +30,9 @@
+ #ifndef _INTEL_BATCHBUFFER_H
+ #define _INTEL_BATCHBUFFER_H
+ 
+-#define BATCH_RESERVED		16
++#define BATCH_RESERVED4k       4096
++#define BATCH_RESERVED16       16
+ 
+-
+ void intel_batch_init(ScrnInfoPtr scrn);
+ void intel_batch_teardown(ScrnInfoPtr scrn);
+ void intel_batch_emit_flush(ScrnInfoPtr scrn);
+@@ -41,7 +41,10 @@
+ 
+ static inline int intel_batch_space(intel_screen_private *intel)
+ {
+-	return (intel->batch_bo->size - BATCH_RESERVED) - (intel->batch_used);
++	if (IS_I865G(intel))
++	   return (intel->batch_bo->size - BATCH_RESERVED16) - (intel->batch_used);
++	else
++	  return (intel->batch_bo->size - BATCH_RESERVED4k) - (intel->batch_used);
+ }
+ 
+ static inline void
+--- src/i830_driver.c	Thu May  6 15:39:02 2010
++++ src/i830_driver.c	Thu May  6 15:42:54 2010
+@@ -1500,6 +1500,8 @@
+ 	if (!i830_bind_all_memory(scrn))
+ 		return FALSE;
+ 
++        scrn->vtSema = TRUE;
++
+ 	i830_describe_allocations(scrn, 1, "");
+ 
+ 	intel_batch_init(scrn);

@@ -1,0 +1,62 @@
+--- intel/intel_bufmgr_gem.c	Tue Sep 21 11:59:31 2010
++++ intel/intel_bufmgr_gem.c	Tue Sep 21 12:03:02 2010
+@@ -112,7 +112,7 @@
+ struct _drm_intel_bo_gem {
+ 	drm_intel_bo bo;
+ 
+-	atomic_t refcount;
++	int refcount;
+ 	uint32_t gem_handle;
+ 	const char *name;
+ 
+@@ -333,8 +333,8 @@
+ {
+ 	drm_intel_bo_gem *bo_gem = (drm_intel_bo_gem *) bo;
+ 
+-	assert(atomic_read(&bo_gem->refcount) > 0);
+-	atomic_inc(&bo_gem->refcount);
++	assert(bo_gem->refcount > 0);
++	bo_gem->refcount++;
+ }
+ 
+ /**
+@@ -645,7 +645,7 @@
+ 	}
+ 
+ 	bo_gem->name = name;
+-	atomic_set(&bo_gem->refcount, 1);
++	bo_gem->refcount = 1;
+ 	bo_gem->validate_index = -1;
+ 	bo_gem->reloc_tree_fences = 0;
+ 	bo_gem->used_as_reloc_target = 0;
+@@ -776,7 +776,7 @@
+ 	bo_gem->bo.virtual = NULL;
+ 	bo_gem->bo.bufmgr = bufmgr;
+ 	bo_gem->name = name;
+-	atomic_set(&bo_gem->refcount, 1);
++	bo_gem->refcount = 1;
+ 	bo_gem->validate_index = -1;
+ 	bo_gem->gem_handle = open_arg.handle;
+ 	bo_gem->global_name = handle;
+@@ -906,8 +906,8 @@
+ {
+ 	drm_intel_bo_gem *bo_gem = (drm_intel_bo_gem *) bo;
+ 
+-	assert(atomic_read(&bo_gem->refcount) > 0);
+-	if (atomic_dec_and_test(&bo_gem->refcount))
++	assert(bo_gem->refcount > 0);
++	if (--bo_gem->refcount == 0)
+ 		drm_intel_gem_bo_unreference_final(bo, time);
+ }
+ 
+@@ -915,8 +915,8 @@
+ {
+ 	drm_intel_bo_gem *bo_gem = (drm_intel_bo_gem *) bo;
+ 
+-	assert(atomic_read(&bo_gem->refcount) > 0);
+-	if (atomic_dec_and_test(&bo_gem->refcount)) {
++	assert(bo_gem->refcount > 0);
++	if (--bo_gem->refcount == 0) {
+ 		drm_intel_bufmgr_gem *bufmgr_gem =
+ 		    (drm_intel_bufmgr_gem *) bo->bufmgr;
+ 		struct timespec time;

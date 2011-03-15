@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,21 +29,19 @@
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.6.3
+MODULE_VERSION=2.10.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 440c014bbd3072b5d379fe1bdb861918
-TARBALL_SHA1 = 96fe7e8b804ab8833b1d462f99c08be29bb9e283
+TARBALL_MD5  = 78309d4f04dd8ae6585d120377042741
+TARBALL_SHA1 = 1683eddf89ed88f109cb2fe46284e3f8f304a0d9
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES= build-dri.patch libraries.patch \
-		6538497_6554161.patch bugs.patch \
-                gem.patch 6872597.patch \
-		gem-hang.patch 6898754.patch \
-		6907204.patch port.patch \
-		mplayer-crash.patch 6907803.patch \
-		6915882.patch disable-tiling-for-ironlake.patch \
-		6950311.patch
+SOURCE_PATCHES= \
+	xserver-1.9-list.h.patch \
+	xserver-1.9-abi.patch \
+	build-dri.patch \
+	libraries.patch \
+	pad.patch sandybridge.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -63,7 +61,8 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
+	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
+	-M $(PWD)/mapfile.externs
 
 # Need to regenerate configure & Makefile.in's after patching
 # configure.ac & Makefile.am's in libraries.patch & build-dri.patch
@@ -71,14 +70,6 @@ AUTORECONF=yes
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs
-
-# Need to override install path for all the modules, not just intel_drv.so
-MODULE_MAKEFLAGS = \
-	ch7017_ladir='$(DRIVER_DIR)' \
-	ch7xxx_ladir='$(DRIVER_DIR)' \
-	ivch_ladir='$(DRIVER_DIR)' \
-	sil164_ladir='$(DRIVER_DIR)' \
-	tfp410_ladir='$(DRIVER_DIR)'
 
 include ../Makefile.inc
 

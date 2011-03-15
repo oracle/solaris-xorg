@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,43 +28,49 @@ dir path=usr
 dir path=usr/X11
 dir path=usr/X11/include
 dir path=usr/include
-dir path=usr/include/drm
+dir path=usr/include/libdrm
+dir path=usr/include/libkms
 dir path=usr/lib
 dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/$(ARCH64)/pkgconfig
 dir path=usr/lib/pkgconfig
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/$(ARCH64)
-file path=usr/include/drm/drm.h
-file path=usr/include/drm/drm_mode.h
-file path=usr/include/drm/drm_sarea.h
-file path=usr/include/drm/i915_drm.h
-file path=usr/include/drm/mach64_drm.h
-file path=usr/include/drm/mga_drm.h
-file path=usr/include/drm/nouveau_drm.h
-file path=usr/include/drm/r128_drm.h
-file path=usr/include/drm/r300_reg.h
-file path=usr/include/drm/radeon_drm.h
-file path=usr/include/drm/savage_drm.h
-file path=usr/include/drm/sis_drm.h
-file path=usr/include/drm/via_3d_reg.h
-file path=usr/include/drm/via_drm.h
-file path=usr/include/drm/xgi_drm.h
-file path=usr/include/intel_bufmgr.h
+file path=usr/include/libdrm/drm.h
+file path=usr/include/libdrm/drm_mode.h
+file path=usr/include/libdrm/drm_sarea.h
+file path=usr/include/libdrm/i915_drm.h
+file path=usr/include/libdrm/intel_bufmgr.h
+file path=usr/include/libdrm/mach64_drm.h
+file path=usr/include/libdrm/mga_drm.h
+file path=usr/include/libdrm/nouveau_drm.h
+file path=usr/include/libdrm/r128_drm.h
+file path=usr/include/libdrm/radeon_drm.h
+file path=usr/include/libdrm/savage_drm.h
+file path=usr/include/libdrm/sis_drm.h
+file path=usr/include/libdrm/via_drm.h
+file path=usr/include/libkms/libkms.h
 file path=usr/include/xf86drm.h
 file path=usr/include/xf86drmMode.h
 file path=usr/lib/$(ARCH64)/pkgconfig/libdrm.pc
 $(i386_ONLY)file path=usr/lib/$(ARCH64)/pkgconfig/libdrm_intel.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/libkms.pc
 file path=usr/lib/pkgconfig/libdrm.pc
 $(i386_ONLY)file path=usr/lib/pkgconfig/libdrm_intel.pc
+file path=usr/lib/pkgconfig/libkms.pc
 file path=usr/lib/xorg/$(ARCH64)/libdrm.so.2
 $(i386_ONLY)file path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so.1
+file path=usr/lib/xorg/$(ARCH64)/libkms.so.1
 file path=usr/lib/xorg/libdrm.so.2
 $(i386_ONLY)file path=usr/lib/xorg/libdrm_intel.so.1
+file path=usr/lib/xorg/libkms.so.1
 link path=usr/X11/include/drm target=../../include/drm
+link path=usr/include/drm target=libdrm
 link path=usr/lib/xorg/$(ARCH64)/libdrm.so target=libdrm.so.2
 $(i386_ONLY)link path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so \
     target=libdrm_intel.so.1
+link path=usr/lib/xorg/$(ARCH64)/libkms.so target=libkms.so.1
 link path=usr/lib/xorg/libdrm.so target=libdrm.so.2
 $(i386_ONLY)link path=usr/lib/xorg/libdrm_intel.so target=libdrm_intel.so.1
+link path=usr/lib/xorg/libkms.so target=libkms.so.1
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

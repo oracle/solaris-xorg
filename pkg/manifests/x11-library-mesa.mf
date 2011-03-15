@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,8 +53,6 @@ file path=usr/include/mesa/GLwDrawA.h
 file path=usr/include/mesa/GLwDrawAP.h
 file path=usr/include/mesa/GLwMDrawA.h
 file path=usr/include/mesa/GLwMDrawAP.h
-file path=usr/include/mesa/dmesa.h
-file path=usr/include/mesa/ggimesa.h
 file path=usr/include/mesa/gl.h
 file path=usr/include/mesa/gl_mangle.h
 file path=usr/include/mesa/glext.h
@@ -68,8 +66,8 @@ file path=usr/include/mesa/internal/dri_interface.h
 file path=usr/include/mesa/mesa_wgl.h
 file path=usr/include/mesa/mglmesa.h
 file path=usr/include/mesa/osmesa.h
-file path=usr/include/mesa/svgamesa.h
 file path=usr/include/mesa/vms_x_fix.h
+file path=usr/include/mesa/wglext.h
 file path=usr/include/mesa/wmesa.h
 file path=usr/lib/$(ARCH64)/pkgconfig/dri.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/gl.pc

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,11 +31,11 @@ UPSTREAM_URL	= http://dri.freedesktop.org/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.14
+MODULE_VERSION=2.4.21
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e785b6a6ebd6b8a49dd8210cd8742842
-TARBALL_SHA1 = a18cc2cdfd02b8ba1c91c3e9ac609521ad3e2fe9
+TARBALL_MD5  = 273ed9dad986e3a931649f3d8762ff74
+TARBALL_SHA1 = be7754008424a12e01ab0f0da3deb8de13ad2f0c
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -48,12 +48,13 @@ GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	solaris-drm-port.patch \
-	6802045.patch \
-	gem.patch
+	solaris-drm-port.patch atomic.patch
 
 # Need to regenerate files after patching Makefile.am in solaris-drm-port.patch
 AUTORECONF=yes
+
+# Command line options to GNU autoconf configure script
+MODULE_CONFIG_OPTS = --disable-radeon --enable-libkms
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man
@@ -61,9 +62,15 @@ AUTORECONF=yes
 #LIB_MAN_SUFFIX=3drm
 
 # pkg-config files that need to have -R added
-FIX_PC_FILES=libdrm.pc.in libdrm_intel.pc.in
+FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in
 
 # Where to install files
 MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
 
 include ../Makefile.inc
+
+install: $(PROTODIR)/usr/include/drm
+
+$(PROTODIR)/usr/include/drm:
+	@rm -f $@
+	ln -s libdrm $@

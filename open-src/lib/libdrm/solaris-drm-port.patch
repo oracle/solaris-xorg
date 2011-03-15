@@ -1,39 +1,214 @@
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
-# copy of this software and associated documentation files (the "Software"),
-# to deal in the Software without restriction, including without limitation
-# the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# and/or sell copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice (including the next
-# paragraph) shall be included in all copies or substantial portions of the
-# Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# DEALINGS IN THE SOFTWARE.
-diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2009-02-23 13:29:52.000000000 -0800
-+++ Makefile.am	2009-05-09 17:29:00.787462000 -0700
-@@ -22,7 +22,7 @@
- # here too, but let's just do libdrm for now
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, and/or sell copies of the Software, and to permit persons
+# to whom the Software is furnished to do so, provided that the above
+# copyright notice(s) and this permission notice appear in all copies of
+# the Software and that both the above copyright notice(s) and this
+# permission notice appear in supporting documentation.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+# OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL
+# INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING
+# FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+# WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# 
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale, use
+# or other dealings in this Software without prior written authorization
+# of the copyright holder.
+
+diff -urp -x '*~' -x '*.orig' include/drm/drm.h include/drm/drm.h
+--- include/drm/drm.h	2010-06-06 18:11:46.000000000 -0700
++++ include/drm/drm.h	2011-01-24 19:15:45.548418714 -0800
+@@ -54,10 +54,39 @@ typedef int32_t  __s32;
+ typedef uint32_t __u32;
+ typedef int64_t  __s64;
+ typedef uint64_t __u64;
++#if defined(__SOLARIS__) || defined(__sun)
++#include <sys/types32.h>
++typedef unsigned long long drm_handle_t;
++#else
+ typedef unsigned long drm_handle_t;
++#endif
  
- AUTOMAKE_OPTIONS = foreign
--SUBDIRS = libdrm shared-core tests
-+SUBDIRS = libdrm shared-core
+ #endif
  
- pkgconfigdir = @pkgconfigdir@
- pkgconfig_DATA = libdrm.pc libdrm_intel.pc
-diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.c libdrm/xf86drm.c
---- libdrm/xf86drm.c	2009-01-09 17:08:29.000000000 -0800
-+++ libdrm/xf86drm.c	2009-05-09 17:29:00.797394000 -0700
-@@ -940,7 +940,7 @@ int drmRmMap(int fd, drm_handle_t handle
++/* Solaris-specific. */
++#if defined(__SOLARIS__) || defined(__sun)
++
++#define        _IOC_NRBITS     8
++#define        _IOC_TYPEBITS   8
++#define        _IOC_SIZEBITS   14
++#define        _IOC_DIRBITS    2
++
++#define        _IOC_NRSHIFT    0
++#define        _IOC_TYPESHIFT  (_IOC_NRSHIFT + _IOC_NRBITS)
++#define        _IOC_SIZESHIFT  (_IOC_TYPESHIFT + _IOC_TYPEBITS)
++#define        _IOC_DIRSHIFT   (_IOC_SIZESHIFT + _IOC_SIZEBITS)
++
++#define        _IOC(dir, type, nr, size) \
++       (((dir) /* already shifted */) | \
++       ((type) << _IOC_TYPESHIFT) | \
++       ((nr)   << _IOC_NRSHIFT) | \
++       ((size) << _IOC_SIZESHIFT))
++
++#endif /* __Solaris__ or __sun */
++
++
++
++
+ #define DRM_NAME	"drm"	  /**< Name in kernel, /dev, and /proc */
+ #define DRM_MIN_ORDER	5	  /**< At least 2^5 bytes = 32 bytes */
+ #define DRM_MAX_ORDER	22	  /**< Up to 2^22 bytes = 4MB */
+@@ -210,12 +239,13 @@ struct drm_ctx_priv_map {
+  * \sa drmAddMap().
+  */
+ struct drm_map {
+-	unsigned long offset;	 /**< Requested physical address (0 for SAREA)*/
++	unsigned long long offset;	 /**< Requested physical address (0 for SAREA)*/
++	unsigned long long handle;	 
++				 /**< User-space: "Handle" to pass to mmap() */
++				 /**< Kernel-space: kernel-virtual address */
+ 	unsigned long size;	 /**< Requested physical size (bytes) */
+ 	enum drm_map_type type;	 /**< Type of memory to map */
+ 	enum drm_map_flags flags;	 /**< Flags */
+-	void *handle;		 /**< User-space: "Handle" to pass to mmap() */
+-				 /**< Kernel-space: kernel-virtual address */
+ 	int mtrr;		 /**< MTRR slot used */
+ 	/*   Private data */
+ };
+@@ -322,18 +352,22 @@ enum drm_dma_flags {
+  *
+  * \sa drmAddBufs().
+  */
++
++typedef enum {
++       _DRM_PAGE_ALIGN = 0x01, /**< Align on page boundaries for DMA */
++       _DRM_AGP_BUFFER = 0x02, /**< Buffer is in AGP space */
++       _DRM_SG_BUFFER  = 0x04, /**< Scatter/gather memory buffer */
++       _DRM_FB_BUFFER  = 0x08, /**< Buffer is in frame buffer */
++       _DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
++} drm_buf_flag;
++
++
+ struct drm_buf_desc {
+ 	int count;		 /**< Number of buffers of this size */
+ 	int size;		 /**< Size in bytes */
+ 	int low_mark;		 /**< Low water mark */
+ 	int high_mark;		 /**< High water mark */
+-	enum {
+-		_DRM_PAGE_ALIGN = 0x01,	/**< Align on page boundaries for DMA */
+-		_DRM_AGP_BUFFER = 0x02,	/**< Buffer is in AGP space */
+-		_DRM_SG_BUFFER = 0x04,	/**< Scatter/gather memory buffer */
+-		_DRM_FB_BUFFER = 0x08,	/**< Buffer is in frame buffer */
+-		_DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
+-	} flags;
++	drm_buf_flag flags;
+ 	unsigned long agp_start; /**<
+ 				  * Start address of where the AGP buffers are
+ 				  * in the AGP aperture
+@@ -375,6 +409,7 @@ struct drm_buf_map {
+ 	int count;		/**< Length of the buffer list */
+ 	void *virtual;		/**< Mmap'd area in user-virtual */
+ 	struct drm_buf_pub *list;	/**< Buffer information */
++	int fd;
+ };
+ 
+ /**
+diff -urp -x '*~' -x '*.orig' include/drm/i915_drm.h include/drm/i915_drm.h
+--- include/drm/i915_drm.h	2010-06-07 16:33:16.000000000 -0700
++++ include/drm/i915_drm.h	2011-01-24 19:15:45.548058832 -0800
+@@ -75,6 +75,7 @@ typedef struct _drm_i915_sarea {
+ 	int pf_current_page;	/* which buffer is being displayed? */
+ 	int perf_boxes;		/* performance boxes to be displayed */
+ 	int width, height;      /* screen size in pixels */
++	int pad0;
+ 
+ 	drm_handle_t front_handle;
+ 	int front_offset;
+@@ -114,6 +115,8 @@ typedef struct _drm_i915_sarea {
+ 	int pipeB_w;
+ 	int pipeB_h;
+ 
++	int pad1;
++
+ 	/* fill out some space for old userspace triple buffer */
+ 	drm_handle_t unused_handle;
+ 	__u32 unused1, unused2, unused3;
+diff -urp -x '*~' -x '*.orig' libkms/intel.c libkms/intel.c
+--- libkms/intel.c	2010-06-06 18:11:46.000000000 -0700
++++ libkms/intel.c	2011-01-24 19:15:45.549160465 -0800
+@@ -37,6 +37,7 @@
+ 
+ #include <sys/mman.h>
+ #include <sys/ioctl.h>
++#include <unistd.h>
+ #include "xf86drm.h"
+ 
+ #include "i915_drm.h"
+@@ -190,6 +191,30 @@ intel_bo_unmap(struct kms_bo *_bo)
+ 	return 0;
+ }
+ 
++int
++drmIoctl(int fd, unsigned long request, void *arg)
++{
++    int ret;
++
++    do {
++        ret = ioctl(fd, request, arg);
++    } while (ret == -1 && (errno == EINTR || errno == EAGAIN));
++    return ret;
++}
++
++int drmCommandWriteRead(int fd, unsigned long drmCommandIndex, void *data,
++                        unsigned long size)
++{
++    unsigned long request;
++
++    request = DRM_IOC( DRM_IOC_READ|DRM_IOC_WRITE, DRM_IOCTL_BASE,
++        DRM_COMMAND_BASE + drmCommandIndex, size);
++
++    if (drmIoctl(fd, request, data))
++        return -errno;
++    return 0;
++}
++
+ static int
+ intel_bo_destroy(struct kms_bo *_bo)
+ {
+diff -urp -x '*~' -x '*.orig' libkms/linux.c libkms/linux.c
+--- libkms/linux.c	2010-06-06 18:11:46.000000000 -0700
++++ libkms/linux.c	2011-01-24 19:15:45.548957995 -0800
+@@ -39,6 +39,7 @@
+ #include <unistd.h>
+ 
+ #include <sys/stat.h>
++#include <sys/sysmacros.h>
+ 
+ #include "internal.h"
+ 
+diff -urp -x '*~' -x '*.orig' tests/Makefile.am tests/Makefile.am
+--- tests/Makefile.am	2010-06-06 18:11:45.000000000 -0700
++++ tests/Makefile.am	2011-01-24 19:15:45.549320900 -0800
+@@ -1,5 +1,3 @@
+-NULL:=#
+-
+ AM_CPPFLAGS = \
+ 	-I $(top_srcdir)/include/drm \
+ 	-I $(top_srcdir)
+diff -urp -x '*~' -x '*.orig' xf86drm.c xf86drm.c
+--- xf86drm.c	2010-06-06 18:11:46.000000000 -0700
++++ xf86drm.c	2011-01-24 19:15:45.547448918 -0800
+@@ -967,7 +967,7 @@ int drmRmMap(int fd, drm_handle_t handle
  {
      drm_map_t map;
  
@@ -42,10 +217,10 @@ diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.c libdrm/xf86drm.c
  
      if(drmIoctl(fd, DRM_IOCTL_RM_MAP, &map))
  	return -errno;
-diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.h libdrm/xf86drm.h
---- libdrm/xf86drm.h	2009-02-23 13:26:49.000000000 -0800
-+++ libdrm/xf86drm.h	2009-05-09 17:29:00.802707000 -0700
-@@ -425,6 +425,19 @@ do {	register unsigned int __old __asm("
+diff -urp -x '*~' -x '*.orig' xf86drm.h xf86drm.h
+--- xf86drm.h	2010-06-06 18:11:46.000000000 -0700
++++ xf86drm.h	2011-01-24 19:15:45.547758484 -0800
+@@ -451,6 +451,17 @@ do {	register unsigned int __old __asm("
  #endif /* architecture */
  #endif /* __GNUC__ >= 2 */
  
@@ -60,154 +235,20 @@ diff -urp -x '*~' -x '*.orig' libdrm/xf86drm.h libdrm/xf86drm.h
 +                               } while(0)
 +#endif
 +
-+
-+
  #ifndef DRM_CAS
  #define DRM_CAS(lock,old,new,ret) do { ret=1; } while (0) /* FAST LOCK FAILS */
  #endif
---- shared-core/drm.h	Fri May 15 16:13:57 2009
-+++ shared-core/drm.h	Mon Jun  1 12:10:27 2009
-@@ -58,6 +58,8 @@
- #ifndef _DRM_H_
- #define _DRM_H_
+diff -urp -x '*~' -x '*.orig' xf86drmMode.c xf86drmMode.c
+--- xf86drmMode.c	2010-06-06 18:11:45.000000000 -0700
++++ xf86drmMode.c	2011-01-24 19:15:45.548770835 -0800
+@@ -708,7 +708,9 @@ int drmCheckModesettingSupported(const c
+ 	if (found)
+ 		return 0;
+ #endif
+-	return -ENOSYS;
++
++/* for now return 0 on solaris */
++	return 0;
  
-+#include <sys/types32.h>
-+
- #ifndef __user
- #define __user
- #endif
-@@ -95,6 +97,62 @@
- #define DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
- #endif
+ }
  
-+/* Solaris-specific. */
-+#if defined(__SOLARIS__) || defined(__sun)
-+#define        _IOC_NR(nr)     (((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
-+
-+#define        _IOC_NRBITS     8
-+#define        _IOC_TYPEBITS   8
-+#define        _IOC_SIZEBITS   14
-+#define        _IOC_DIRBITS    2
-+
-+#define        _IOC_NRMASK     ((1 << _IOC_NRBITS)-1)
-+#define        _IOC_TYPEMASK   ((1 << _IOC_TYPEBITS)-1)
-+#define        _IOC_SIZEMASK   ((1 << _IOC_SIZEBITS)-1)
-+#define        _IOC_DIRMASK    ((1 << _IOC_DIRBITS)-1)
-+
-+#define        _IOC_NRSHIFT    0
-+#define        _IOC_TYPESHIFT  (_IOC_NRSHIFT+_IOC_NRBITS)
-+#define        _IOC_SIZESHIFT  (_IOC_TYPESHIFT+_IOC_TYPEBITS)
-+#define        _IOC_DIRSHIFT   (_IOC_SIZESHIFT+_IOC_SIZEBITS)
-+
-+#define        _IOC_NONE       0U
-+#define        _IOC_WRITE      1U
-+#define        _IOC_READ       2U
-+
-+#define        _IOC(dir, type, nr, size) \
-+       (((dir)  << _IOC_DIRSHIFT) | \
-+       ((type) << _IOC_TYPESHIFT) | \
-+       ((nr)   << _IOC_NRSHIFT) | \
-+       ((size) << _IOC_SIZESHIFT))
-+
-+/* used for X server compile */
-+#if !defined(_KERNEL)
-+#define        _IO(type, nr)           _IOC(_IOC_NONE, (type), (nr), 0)
-+#define        _IOR(type, nr, size)    _IOC(_IOC_READ, (type), (nr), sizeof (size))
-+#define        _IOW(type, nr, size)    _IOC(_IOC_WRITE, (type), (nr), sizeof (size))
-+#define        _IOWR(type, nr, size)   _IOC(_IOC_READ|_IOC_WRITE, \
-+				(type), (nr), sizeof (size))
-+#define        _IOC_DIR(nr)            (((nr) >> _IOC_DIRSHIFT) & _IOC_DIRMASK)
-+#define        _IOC_TYPE(nr)           (((nr) >> _IOC_TYPESHIFT) & _IOC_TYPEMASK)
-+#define        _IOC_NR(nr)             (((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
-+#define        _IOC_SIZE(nr)           (((nr) >> _IOC_SIZESHIFT) & _IOC_SIZEMASK)
-+#define        IOC_IN                  (_IOC_WRITE << _IOC_DIRSHIFT)
-+#define        IOC_OUT                 (_IOC_READ << _IOC_DIRSHIFT)
-+#define        IOC_INOUT               ((_IOC_WRITE|_IOC_READ) << _IOC_DIRSHIFT)
-+#define        IOCSIZE_MASK            (_IOC_SIZEMASK << _IOC_SIZESHIFT)
-+#define        IOCSIZE_SHIFT           (_IOC_SIZESHIFT)
-+#endif /* _KERNEL */
-+
-+#define        DRM_IOCTL_NR(n)         _IOC_NR(n)
-+#define        DRM_IOC_VOID            IOC_VOID
-+#define        DRM_IOC_READ            IOC_OUT
-+#define        DRM_IOC_WRITE           IOC_IN
-+#define        DRM_IOC_READWRITE       IOC_INOUT
-+#define        DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
-+
-+#endif /* __Solaris__ or __sun */
-+
- #ifdef __OpenBSD__
- #define DRM_MAJOR       81
- #endif
-@@ -118,7 +176,7 @@
- typedef unsigned int drm_handle_t;
- #else
- #include <sys/types.h>
--typedef unsigned long drm_handle_t;	/**< To mapped regions */
-+typedef unsigned long long drm_handle_t;	/**< To mapped regions */
- #endif
- typedef unsigned int drm_context_t;	/**< GLXContext handle */
- typedef unsigned int drm_drawable_t;
-@@ -175,7 +233,9 @@
- #ifdef __SIZE_TYPE__
- # define DRM_SIZE_T __SIZE_TYPE__
- #else
-+#if !defined(__SOLARIS__) && !defined(__sun)
- # warning "__SIZE_TYPE__ not defined.  Assuming sizeof(size_t) == sizeof(unsigned long)!"
-+#endif
- # define DRM_SIZE_T unsigned long
- #endif
- 
-@@ -272,12 +332,13 @@
-  * \sa drmAddMap().
-  */
- struct drm_map {
--	unsigned long offset;	 /**< Requested physical address (0 for SAREA)*/
-+	unsigned long long offset;	 /**< Requested physical address (0 for SAREA)*/
-+        unsigned long long handle;  
-+				 /**< User-space: "Handle" to pass to mmap() */
-+			         /**< Kernel-space: kernel-virtual address */
- 	unsigned long size;	 /**< Requested physical size (bytes) */
- 	enum drm_map_type type;	 /**< Type of memory to map */
- 	enum drm_map_flags flags;	 /**< Flags */
--	void *handle;		 /**< User-space: "Handle" to pass to mmap() */
--				 /**< Kernel-space: kernel-virtual address */
- 	int mtrr;		 /**< MTRR slot used */
- 	/*   Private data */
- };
-@@ -384,18 +445,20 @@
-  *
-  * \sa drmAddBufs().
-  */
-+typedef enum {
-+       _DRM_PAGE_ALIGN = 0x01, /**< Align on page boundaries for DMA */
-+       _DRM_AGP_BUFFER = 0x02, /**< Buffer is in AGP space */
-+       _DRM_SG_BUFFER  = 0x04, /**< Scatter/gather memory buffer */
-+       _DRM_FB_BUFFER  = 0x08, /**< Buffer is in frame buffer */
-+       _DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
-+} drm_buf_flag;
-+
- struct drm_buf_desc {
- 	int count;		 /**< Number of buffers of this size */
- 	int size;		 /**< Size in bytes */
- 	int low_mark;		 /**< Low water mark */
- 	int high_mark;		 /**< High water mark */
--	enum {
--		_DRM_PAGE_ALIGN = 0x01,	/**< Align on page boundaries for DMA */
--		_DRM_AGP_BUFFER = 0x02,	/**< Buffer is in AGP space */
--		_DRM_SG_BUFFER  = 0x04,	/**< Scatter/gather memory buffer */
--		_DRM_FB_BUFFER  = 0x08, /**< Buffer is in frame buffer */
--		_DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
--	} flags;
-+        drm_buf_flag flags;
- 	unsigned long agp_start; /**<
- 				  * Start address of where the AGP buffers are
- 				  * in the AGP aperture
-@@ -441,6 +504,7 @@
- 	void __user *virtual;		/**< Mmap'd area in user-virtual */
- #endif
- 	struct drm_buf_pub __user *list;	/**< Buffer information */
-+	int	fd;
- };
- 
- /**
