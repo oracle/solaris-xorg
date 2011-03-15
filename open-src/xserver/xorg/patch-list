@@ -1,5 +1,6 @@
 upstream-in-1.9-branch.patch,-p1
 headers_64bit.patch,-p1
+oslog-race.patch,-p1
 sun-paths.patch
 sun-extramodes.patch
 sun-manpage.patch

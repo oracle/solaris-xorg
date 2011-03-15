@@ -1,0 +1,93 @@
+[Backported from upstream to fix race condition in dtrace-enabled builds
+ that can cause os.O to fail to include the log.c functions and thus fail
+ to build the X servers that call functions in it.]
+
+From 2b364bf970b2ce6829af656990c33afd0d365f3c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rami=20Ylim=C3=A4ki?= <rami.ylimaki@vincit.fi>
+Date: Tue, 15 Jun 2010 14:44:38 +0200
+Subject: [PATCH] Revert "os: Prevent backtrace from being stopped in noreturn functions."
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This reverts commit 579715f830fbbca9e1ecb17dc18176132f5969e7.
+
+The patch is not needed anymore. I haven't encountered backtrace
+problems with GCC 4.3.3. Even if the problems still persisted, this
+commit should be removed and instead the definition of _X_NORETURN
+should be modified to be empty if GCC/ARM is used. However, currently
+it seems that ARM backtraces are OK even if _X_NORETURN is used and
+-mapcs-frame is not defined in CFLAGS.
+
+Signed-off-by: Rami Ylimäki <rami.ylimaki@vincit.fi>
+Reviewed-by: Jamey Sharp <jamey@minilop.net>
+---
+ configure.ac   |   13 -------------
+ os/Makefile.am |   17 +++++------------
+ 2 files changed, 5 insertions(+), 25 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 1ceffe7..de172ce 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -312,19 +312,6 @@ AC_CHECK_HEADER([execinfo.h],[
+     ])]
+ )
+ 
+-dnl ARM needs additional compiler flags for proper backtraces if GCC is
+-dnl used. Compile a dummy program with the -mapcs-frame option. If it
+-dnl succeeds, we know that we are building for ARM with GCC.
+-old_CFLAGS="$CFLAGS"
+-CFLAGS="-mapcs-frame"
+-AC_COMPILE_IFELSE(
+-        AC_LANG_PROGRAM([[ ]]),
+-        ARM_BACKTRACE_CFLAGS="$CFLAGS",
+-        ARM_BACKTRACE_CFLAGS=""
+-)
+-CFLAGS="$old_CFLAGS"
+-AC_SUBST(ARM_BACKTRACE_CFLAGS)
+-
+ dnl ---------------------------------------------------------------------------
+ dnl Bus options and CPU capabilities.  Replaces logic in
+ dnl hw/xfree86/os-support/bus/Makefile.am, among others.
+diff --git a/os/Makefile.am b/os/Makefile.am
+index 3e4f2c5..66a4a0f 100644
+--- a/os/Makefile.am
++++ b/os/Makefile.am
+@@ -1,19 +1,11 @@
+-noinst_LTLIBRARIES = libos.la liblog.la
++noinst_LTLIBRARIES = libos.la
+ 
+ AM_CFLAGS = $(DIX_CFLAGS) $(SHA1_CFLAGS)
+ 
+ SECURERPC_SRCS = rpcauth.c
+ XDMCP_SRCS = xdmcp.c
+ STRLCAT_SRCS = strlcat.c strlcpy.c
+-
+-# Build a convenience library liblog.la that will be added into
+-# libos.la. The split is done so that log.c can be built with
+-# different compiler options.
+-liblog_la_SOURCES = log.c
+-# Add flags needed for proper backtraces of functions marked with GCC
+-# __attribute__((noreturn)). Currently those flags are needed for
+-# FatalError and AbortServer in log.c.
+-liblog_la_CFLAGS = $(AM_CFLAGS) $(ARM_BACKTRACE_CFLAGS)
++XORG_SRCS = log.c
+ 
+ libos_la_SOURCES = 	\
+ 	WaitFor.c	\
+@@ -32,8 +24,9 @@ libos_la_SOURCES = 	\
+ 	xdmauth.c	\
+ 	xsha1.c		\
+ 	xstrans.c	\
+-	xprintf.c
+-libos_la_LIBADD = @SHA1_LIBS@ $(DLOPEN_LIBS) liblog.la
++	xprintf.c	\
++	$(XORG_SRCS)
++libos_la_LIBADD = @SHA1_LIBS@ $(DLOPEN_LIBS)
+ 
+ if SECURE_RPC
+ libos_la_SOURCES += $(SECURERPC_SRCS)
+-- 
+1.7.3.2
+
