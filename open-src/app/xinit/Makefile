@@ -36,7 +36,7 @@ TARBALL_MD5  = bc4e8b7d1919597cc37a0d24aa149dda
 TARBALL_SHA1 = 6437292214bbca6efad8889c68e72a1ca584928b
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6714067.patch
+SOURCE_PATCHES = 6714067.patch 7023672.patch
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/session/$(MODULE_NAME)
