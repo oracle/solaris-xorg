@@ -161,8 +161,15 @@ ARCH_LIB_FLAGS		= $(ARCH_LIB_FLAGS_$(MACH)_$(MODULE_COMPILER))
 LIB_CPPFLAGS 		= -D_REENTRANT
 LIB_CFLAGS 		= $(CFLAGS) $(ARCH_LIB_FLAGS)
 LIB_CXXFLAGS 		= $(CXXFLAGS) $(ARCH_LIB_FLAGS)
+PROG_CPPFLAGS		= -DFD_SETSIZE=$(FD_SETSIZE)
 PROG_CFLAGS		= $(CFLAGS)
 PROG_CXXFLAGS		= $(CXXFLAGS)
+
+# Default FD_SETSIZE - 1024 was the 32-bit default and was big enough
+# <sys/select.h> makes the 64-bit default be 65536 which is way too big,
+# and eats a lot of memory for fd_sets and cpu doing operations on them
+FD_SETSIZE_DEFAULT	= $(FD_SETSIZE_SET:yes=$(POUND_SIGN))
+$(FD_SETSIZE_DEFAULT)	FD_SETSIZE = 1024
 
 ### Linker flags
 

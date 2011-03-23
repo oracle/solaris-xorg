@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org utility modules
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,6 +48,7 @@ MODTYPE_CONFIGURE_DEPS=
 
 # Use the flags we normally use to build & link applications with
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_CPPFLAGS=$(PROG_CPPFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 MODTYPE_LD_OPTIONS=
 

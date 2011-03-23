@@ -53,4 +53,10 @@ MODULE_STABILITY=Volatile
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xscope
 
+# Since xscope allocates a 32k buffer for FD_SETSIZE file descriptors,
+# we want far fewer than the 1024 default in 32-bit builds or the 
+# 65536 default in 64-bit builds - working to make this dynamic upstream.
+FD_SETSIZE=256
+FD_SETSIZE_SET=yes
+
 include ../Makefile.inc

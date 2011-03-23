@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -81,7 +81,7 @@ MODTYPE_ADD_CONFIGURE_TARGETS = fix-moduledirs
 # Set comments in ELF binaries to help identify versions/builds
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
-MODTYPE_CPPFLAGS= \
+MODTYPE_CPPFLAGS= $(PROG_CPPFLAGS) \
 	-I$(PROTODIR)/usr/include		\
 	-I$(PROTODIR)/usr/include/pixman-1	\
 	-I$(PROTODIR)$(XORG_SDK_INCLUDES_DIR)	\

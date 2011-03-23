@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org application modules
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,6 +40,7 @@ MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
 
 # Flags to build & link applications with
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_CPPFLAGS=$(PROG_CPPFLAGS)
 MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 
