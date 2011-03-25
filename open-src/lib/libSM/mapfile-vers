@@ -63,3 +63,10 @@ SUNW_1.1 {
     local:
 	*;
 };
+
+SUNWprivate {
+    # This version definition intentionally left blank.
+    # While there are no symbols to include here, the version must be 
+    # defined to support binaries linked with libSM before CR 4532312 
+    # upgraded the public symbols from SUNWprivate to SUNW_1.1 in Solaris 9.
+};
