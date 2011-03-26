@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,8 +42,5 @@ SOURCE_PATCHES = \
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
-
-# Keyboard driver is kbd_drv, not keyboard_drv as the package name implies
-MODULE_MAKEFLAGS = kbd_drv_ladir='$(DRIVER_DIR)'
 
 include ../Makefile.inc

@@ -1,7 +1,7 @@
 ###############################################################################
 # lbxutil 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,23 +52,35 @@ LIBNAME=lbxutil
 #LIB_STABILITY=Committed
 #LIB_MAN_SUFFIX=3lbxutil
 
-# Only need 32-bit since we only ship lbxproxy as 32-bit
-BUILD_TYPES=32
+### Include common definitions
+PWD:sh=pwd
+TOP=$(PWD)/../../..
+include $(TOP)/open-src/common/Makefile.init
+
+# Build as a static library since only lbxproxy needs it anymore
+# and install it in $(TOOLS_DIR) since we're not packaging it
+MODULE_CONFIG_OPTS = --enable-shared=no --enable-static=yes
+MODULE_CONFIG_OPTS += --libdir='$${exec_prefix}/lib$(ARCHLIBSUBDIR)'
+MODULE_CFLAGS = $(PROG_CFLAGS)
+MODULE_ADD_UNINSTALLED_PC_OPS = -e 's|$$protodir|$(TOOLS_DIR)|g;'
+MODULE_INSTALL_MAKEFLAGS = DESTDIR=$(TOOLS_DIR)
+
+# Only need 64-bit since we only ship lbxproxy as 64-bit
+BUILD_TYPES=64
 BUILD_TYPES_SET=yes
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=lbxutil.pc.in
 
-# Install in private subdir for use by lbxproxy
-MODULE_ADD_LIB_SUBDIR=/X11/lbxproxy
+# Don't include lib/Makefile.inc that sets options for shared libraries
+# which we don't want in this special case
+include ../../common/Makefile.inc
 
-# Link with mapfile to allow referring to symbols defined in callers
-MODULE_LD_OPTIONS = -M $(PWD)/mapfile-externs
+# Since liblbxutil doesn't depend on any other libraries we build, it may
+# be the first library built.   Since it installs the normal .pc file to
+# $(TOOLS_DIR), have to ensure the directory exists before installing the
+# lbxutil-uninstalled.pc file.
+install_pkgconfig_uninstalled: $(PROTODIR)$(MODULE_PKGCONFIG_DIR)
 
-include ../Makefile.inc
-
-# Clean up old 64-bit builds from before we stopped building them
-clean: clean_64
-
-clean_64:
-	-rm -rf build_64
+$(PROTODIR)$(MODULE_PKGCONFIG_DIR):
+	mkdir -p $@

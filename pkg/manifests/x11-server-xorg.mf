@@ -36,7 +36,6 @@ dir path=usr/X11
 dir path=usr/X11/bin
 dir path=usr/X11/include
 dir path=usr/bin
-$(i386_ONLY)dir path=usr/bin/$(ARCH32)
 $(i386_ONLY)dir path=usr/bin/$(ARCH64)
 dir path=usr/include
 dir path=usr/include/xorg
@@ -50,11 +49,8 @@ $(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys
 dir path=usr/lib/pkgconfig
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/modules
-$(i386_ONLY)dir path=usr/lib/xorg/modules/$(ARCH64)
 dir path=usr/lib/xorg/modules/extensions
-$(i386_ONLY)dir path=usr/lib/xorg/modules/extensions/$(ARCH64)
 dir path=usr/lib/xorg/modules/multimedia
-$(i386_ONLY)dir path=usr/lib/xorg/modules/multimedia/$(ARCH64)
 dir path=usr/share
 dir path=usr/share/X11
 dir path=usr/share/X11/xorg.conf.d
@@ -71,9 +67,7 @@ file path=etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
 # and make the sysi86 system call to change I/O privilege level (IOPL).
 # On SPARC, Xorg only requires setuid root in order to create the
 # Xorg.*.log file in /var/log
-$(i386_ONLY)file path=usr/bin/$(ARCH32)/Xorg mode=4555 owner=root
-$(i386_ONLY)file path=usr/bin/$(ARCH64)/Xorg mode=4555 owner=root
-$(sparc_ONLY)file path=usr/bin/Xorg mode=4555 owner=root
+file path=usr/bin/Xorg mode=4555 owner=root
 file path=usr/bin/cvt
 file path=usr/bin/gtf
 file path=usr/include/xorg/BT.h
@@ -181,7 +175,6 @@ file path=usr/include/xorg/shadowfb.h
 file path=usr/include/xorg/shmint.h
 file path=usr/include/xorg/site.h
 $(i386_ONLY)file path=usr/include/xorg/solaris-amd64.il facet.devel=true
-$(i386_ONLY)file path=usr/include/xorg/solaris-ia32.il facet.devel=true
 $(sparc_ONLY)file path=usr/include/xorg/solaris-sparcv8plus.il \
     facet.devel=true
 file path=usr/include/xorg/swaprep.h
@@ -246,24 +239,6 @@ file path=usr/include/xorg/xserver-properties.h
 file path=usr/include/xorg/xvdix.h
 file path=usr/include/xorg/xvmcext.h
 file path=usr/lib/$(ARCH64)/pkgconfig/xorg-server.pc
-$(i386_ONLY)file path=usr/lib/pkgconfig/xorg-server.pc
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libexa.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libfb.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libfbdevhw.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libint10.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libshadow.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libshadowfb.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libvbe.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libvgahw.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libwfb.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libxaa.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/$(ARCH64)/libxf8_16bpp.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libdbe.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libdri.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libdri2.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libextmod.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/libia.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/extensions/$(ARCH64)/librecord.so
 file path=usr/lib/xorg/modules/extensions/libdbe.so
 file path=usr/lib/xorg/modules/extensions/libdri.so
 file path=usr/lib/xorg/modules/extensions/libdri2.so
@@ -281,13 +256,6 @@ file path=usr/lib/xorg/modules/libvgahw.so
 file path=usr/lib/xorg/modules/libwfb.so
 file path=usr/lib/xorg/modules/libxaa.so
 file path=usr/lib/xorg/modules/libxf8_16bpp.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/bt829_drv.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/fi1236_drv.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/msp3430_drv.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/tda8425_drv.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/tda9850_drv.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/tda9885_drv.so
-$(i386_ONLY)file path=usr/lib/xorg/modules/multimedia/$(ARCH64)/uda1380_drv.so
 file path=usr/lib/xorg/modules/multimedia/bt829_drv.so
 file path=usr/lib/xorg/modules/multimedia/fi1236_drv.so
 file path=usr/lib/xorg/modules/multimedia/msp3430_drv.so
@@ -304,7 +272,6 @@ file path=usr/share/man/man1/xorgconfig.1
 file path=usr/share/man/man4/xorg.conf.4
 file path=usr/share/man/man7/exa.7
 file path=usr/share/man/man7/fbdevhw.7
-$(i386_ONLY)hardlink path=usr/bin/Xorg target=../lib/isaexec
 legacy pkg=SUNWxorg-headers \
     desc="Header files and other files needed for building loadable modules for the Xorg X server" \
     name="Xorg server SDK headers" facet.devel=true
@@ -315,10 +282,10 @@ link path=usr/X11/bin/Xorg target=../../bin/Xorg
 link path=usr/X11/bin/cvt target=../../bin/cvt
 link path=usr/X11/bin/gtf target=../../bin/gtf
 link path=usr/X11/include/xorg target=../../include/xorg
+$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xorg target=../Xorg
 link path=usr/lib/mdb/proc/$(ARCH64)/Xorg.so target=Xserver.so
-$(i386_ONLY)link path=usr/lib/mdb/proc/Xorg.so target=Xserver.so
-$(sparc_ONLY)link path=usr/lib/pkgconfig/xorg-server.pc \
-    target=../sparcv9/pkgconfig/xorg-server.pc
+link path=usr/lib/pkgconfig/xorg-server.pc \
+    target=../$(ARCH64)/pkgconfig/xorg-server.pc
 
 # On x86/x64, Xorg requires /dev/xsvc to access video cards
 $(i386_ONLY)depend fmri=pkg:/driver/x11/xsvc type=require

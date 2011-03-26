@@ -61,9 +61,3 @@ MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
 MODULE_PKGCONFIG_DIR_SET=yes
 
 include ../Makefile.inc
-
-# Clean up old 64-bit builds from before we stopped building them
-clean: clean_64
-
-clean_64:
-	-rm -rf $(BUILD_DIR_64) build_64

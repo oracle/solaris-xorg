@@ -63,11 +63,11 @@ MODULE_CONFIG_ENV = \
 	GLEW_CFLAGS="-I-have-no-GLEW-" GLEW_LIBS="-I-have-no-GLEW-"
 
 # What to build
-BUILD_TARGETS= $(GLXGEARS_BIN) $(GLXINFO_BIN)
+BUILD_TARGETS= $(GLXGEARS_BIN) $(GLXINFO_BIN) $(MODTYPE_ADD_BUILD_TARGETS)
 BUILD_TARGETS_SET=yes
 
 # What to install
-INSTALL_TARGETS= install_glxgears install_glxinfo install_man
+INSTALL_TARGETS= install_demos install_man
 INSTALL_TARGETS_SET=yes
 
 # Compatibility links from /usr/X11/bin to /usr/bin
@@ -100,17 +100,13 @@ all-xdemos_gen: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
 	 $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
 all-xdemos:
-	$(MAKE) $(MAKEFLAGS) $(BUILD_32_FLAGS) all-xdemos_gen
+	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) all-xdemos_gen
 
 DESTDIR=$(PROTODIR)
 
-install_glxgears: $(GLXGEARS_BIN)
-	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
-	cp -pf $(GLXGEARS_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
-
-install_glxinfo: $(GLXINFO_BIN)
-	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin
-	cp -pf $(GLXINFO_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
+install_demos: $(INSTALL_DEPS)
+	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin		 
+	cp -pf $(GLXGEARS_BIN) $(GLXINFO_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
 
 install_man: 
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/share/man/man1

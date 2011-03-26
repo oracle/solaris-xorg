@@ -69,7 +69,6 @@ file path=usr/demo/Xserver/mdb/list_Xserver_servergrab_client mode=0555
 file path=usr/lib/help/auths/locale/C/X11States.html
 file path=usr/lib/help/profiles/locale/C/RtDesktopConfiguration.html
 file path=usr/lib/mdb/proc/$(ARCH64)/Xserver.so
-$(i386_ONLY)file path=usr/lib/mdb/proc/Xserver.so
 file path=usr/lib/xorg/TrustedExtensionsPolicy
 file path=usr/lib/xorg/protocol.txt
 file path=usr/share/man/man1/Xnest.1
@@ -77,5 +76,4 @@ file path=usr/share/man/man1/Xserver.1
 link path=usr/X11/bin/X target=../../bin/X
 link path=usr/X11/bin/Xserver target=../../bin/Xserver
 $(i386_ONLY)link path=usr/X11/bin/amd64 target=../../bin/amd64
-$(i386_ONLY)link path=usr/X11/bin/i386 target=../../bin/i86
 link path=usr/bin/X target=Xserver

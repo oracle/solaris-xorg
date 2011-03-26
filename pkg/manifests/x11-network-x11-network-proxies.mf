@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,16 +43,8 @@ file path=usr/bin/lbxproxy
 file path=usr/bin/proxymngr
 file path=usr/bin/xfindproxy
 file path=usr/bin/xfwp
-file path=usr/include/X11/extensions/lbxbuf.h
-file path=usr/include/X11/extensions/lbxbufstr.h
-file path=usr/include/X11/extensions/lbxdeltastr.h
-file path=usr/include/X11/extensions/lbximage.h
-file path=usr/include/X11/extensions/lbxopts.h
-file path=usr/include/X11/extensions/lbxzlib.h
 file path=usr/lib/X11/lbxproxy/AtomControl
-file path=usr/lib/X11/lbxproxy/liblbxutil.so.1
 file path=usr/lib/X11/proxymngr/pmconfig
-file path=usr/lib/pkgconfig/lbxutil.pc
 file path=usr/share/man/man1/lbxproxy.1
 file path=usr/share/man/man1/proxymngr.1
 file path=usr/share/man/man1/xfindproxy.1
@@ -61,4 +53,4 @@ link path=usr/X11/bin/lbxproxy target=../../bin/lbxproxy
 link path=usr/X11/bin/proxymngr target=../../bin/proxymngr
 link path=usr/X11/bin/xfindproxy target=../../bin/xfindproxy
 link path=usr/X11/bin/xfwp target=../../bin/xfwp
-link path=usr/lib/X11/lbxproxy/liblbxutil.so target=liblbxutil.so.1
+

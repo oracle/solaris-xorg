@@ -77,7 +77,7 @@ FIX_PC_FILES=pciaccess.pc.in
 MODULE_DEBUG_FLAGS=-DDEBUG
 
 # Additional targets for scanpci
-MODULE_ADD_INSTALL_TARGETS_32 = install_scanpci
+MODULE_ADD_INSTALL_TARGETS_64 = install_scanpci
 MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
 # Compatibility links from /usr/X11/bin to /usr/bin
@@ -87,11 +87,11 @@ include ../Makefile.inc
 
 # We want to install scanpci, even though the upstream Makefile doesn't
 install_scanpci: default_install
-	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR) \
+	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin \
 		 $(PROTODIR)/etc/security/exec_attr.d/ \
 		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
 	$(INSTALL_SCRIPT) -m 755 $(SOURCE_DIR)/scanpci/scanpci \
-		$(PROTODIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)/scanpci
+		$(PROTODIR)$(MODULE_PREFIX)/bin/scanpci
 	$(INSTALL_SCRIPT) -m 444 $(SOURCE_DIR)/man/scanpci.1 \
 		$(PROTODIR)$(MODULE_PREFIX)/share/man/man1/scanpci.1
 	$(INSTALL_SCRIPT) -m 444 exec_attr \

@@ -2,7 +2,7 @@
 #
 # libdga Makefile (for Xsun SUN_DGA extension)
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -64,9 +64,3 @@ MODULE_INSTALL_MAKEFLAGS=$(MODULE_BUILD_MAKEFLAGS)
 MODULE_X11_LIBCOMPAT_LINKS = libdga.so.1
 
 include ../Makefile.inc
-
-# Clean up old 64-bit builds from before we stopped building them on x86
-clean: clean_old64
-
-clean_old64:
-	-rm -rf $(BUILD_DIR_64)

@@ -115,7 +115,7 @@ ARCH64_FLAGS_sparc_suncc	= -m64
 # -xregs=no%frameptr is required on x86 when compiling at -xO4 or higher to 
 # avoid losing stack frame pointers so you can't get stack traces or debug
 ARCH_FLAGS_i386_suncc		= -xregs=no%frameptr
-ARCH32_FLAGS_i386_suncc 	= -m32 -xtarget=pentium -D__i386__
+ARCH32_FLAGS_i386_suncc 	= -m32 -xarch=sse2 -D__i386__
 ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -D__amd64__
 
 # SPARC ABI requires system libraries not use application registers
@@ -139,7 +139,7 @@ CXXFLAGS_gcc			= $(DEBUG_OR_OPT_FLAGS_gcc) \
 
 ARCH32_FLAGS_sparc_gcc	 	= -mcpu=ultrasparc -m32
 ARCH64_FLAGS_sparc_gcc 		= -mcpu=ultrasparc -m64
-ARCH32_FLAGS_i386_gcc 		= -march=i686 -m32
+ARCH32_FLAGS_i386_gcc 		= -march=pentium4 -m32
 ARCH64_FLAGS_i386_gcc 		= -march=opteron -m64
 
 # SPARC ABI requires system libraries not use application registers
@@ -263,10 +263,6 @@ X11_SERVERLIBS_DIR=$(X11_LIB_DIR)$(X11_SERVERLIBS_SUBDIR)
 X11_SERVERMODS_SUBDIR=/xorg/modules
 X11_SERVERMODS_DIR=$(X11_LIB_DIR)$(X11_SERVERMODS_SUBDIR)
 MESA_XSERVERMODS_DIR=$(X11_LIB_DIR)/mesa/modules
-
-SERVERMOD_subdir_sparc=
-SERVERMOD_subdir_i386=$(ARCHLIBSUBDIR)
-SERVERMOD_subdir=$(SERVERMOD_subdir_$(MACH))
 
 # PKGCONFIG_DIR is constructed of _prefix + ARCHLIBSUBDIR + _suffix
 PKGCONFIG_DIR_prefix=/usr/lib

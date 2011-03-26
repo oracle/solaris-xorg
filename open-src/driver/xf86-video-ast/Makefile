@@ -2,7 +2,7 @@
 #
 # xf86-video-ast 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -55,8 +55,8 @@ AST_LIBRARIES_sparc = # nothing extra
 AST_LIBRARIES_i386 = -lint10 -lpciaccess -lvbe -lvgahw
 AST_LIBRARIES = -lfb -lxaa $(AST_LIBRARIES_$(MACH))
 MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
+	-R$(X11_SERVERMODS_DIR) \
 	$(AST_LIBRARIES)
 
 include ../Makefile.inc

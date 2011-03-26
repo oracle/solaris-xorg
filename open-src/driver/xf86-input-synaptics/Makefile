@@ -41,7 +41,7 @@ MODULE_STABILITY=Volatile
 
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS= \
-	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+	--bindir=$(X11_SERVERLIBS_DIR)
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= -lm
@@ -51,6 +51,11 @@ MODULE_ADD_INSTALL_TARGETS = install_fdi
 
 # Fix path for installing headers in proto area
 MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)'
+
+# Install xorg-synaptics.pc to /usr/share since it defines the architecture
+# independent header files in /usr/include and not any library flags
+MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODULE_PKGCONFIG_DIR_SET=yes
 
 include ../Makefile.inc
 

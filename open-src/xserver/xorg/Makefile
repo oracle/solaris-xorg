@@ -25,12 +25,6 @@
 #
 #
 
-# Build 32-bit or 64-bit?
-BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=64
-BUILD_TYPES_i386=32 64
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
-
 # Package name used in tarballs
 MODULE_NAME=xorg-server
 
@@ -138,13 +132,10 @@ MODULE_MAKE_SET=yes
 # Additional install targets beyond the defaults
 MODULE_ADD_INSTALL_TARGETS=install_extras install_mdb install_pc_common \
 	install_fix_paths
-EXTRA_INSTALL_sparc=install_pc_copy
-EXTRA_INSTALL_i386=install_i386_bincompat_link
-MODULE_ADD_INSTALL_TARGETS += $(EXTRA_INSTALL_$(MACH))
 
-# Have to avoid dependency loop between install_pc_copy and 
+# Have to avoid dependency loop between install_pc_common and 
 # install_pkgconfig_uninstalled
-INSTALL_PCU_DEPS = $(INSTALL_TARGETS:install_pc_copy=)
+INSTALL_PCU_DEPS = $(INSTALL_TARGETS:install_pc_common=)
 INSTALL_PCU_DEPS_SET=yes
 
 # Merge in additional sources from sun-src directory
@@ -156,19 +147,9 @@ MODULE_X11_BINCOMPAT_LINKS = Xorg Xephyr Xvfb cvt gtf
 MODULE_X11_BINCOMPAT_LINKS_i386 = amd64
 MODULE_X11_BINCOMPAT_LINKS += $(MODULE_X11_BINCOMPAT_LINKS_$(MACH))
 
-# Binaries that are linked to isaexec on x86 to choose 32-bit or 64-bit
+# Binaries that were linked to isaexec on x86 to choose 32-bit or 64-bit,
+# now just symlinks from amd64 to parent directory
 LINKED_TO_ISAEXEC = Xorg Xephyr Xvfb Xdmx
-
-# When both 32-bit & 64-bit are built, only one copy of these programs (mostly
-# scripts) are needed, so move the 32-bit one to /usr/bin instead of linking 
-# to isaexec.
-NOT_LINKED_TO_ISAEXEC = cvt gtf \
-  dmxaddinput dmxaddscreen dmxinfo dmxreconfig dmxresize dmxrminput \
-  dmxrmscreen dmxtodmx dmxwininfo vdltodmx xdmxconfig
-
-# Steps that need to complete before the install_fix_paths in ../Makefile.inc
-# is run  to do the above isaexec fixes
-INSTALL_FIX_PATHS_DEPS = default_install
 
 include ../Makefile.inc
 
@@ -196,15 +177,12 @@ install_extras: default_install
 	cp -pf 90-zap.conf $(PROTODIR)/etc/X11/xorg.conf.avail
 
 # Workaround bug in installing pkgconfig file to wrong directory in 64-bit
-# builds
-install_pc_common: default_install
+# builds, and install xorg-server.pc in 32-bit pkgconfig dir too
+install_pc_common: default_install install_pkgconfig_uninstalled 
 	-rm -f $(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
 	mkdir -p $(PROTODIR)$(PKGCONFIG_DIR)
 	cp -pf $(SOURCE_DIR)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
-
-# Install xorg-server.pc in 32-bit pkgconfig dir on SPARC too
-install_pc_copy: install_pc_common install_pkgconfig_uninstalled 
 	-rm -f $(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server-uninstalled.pc
 	mkdir -p $(PROTODIR)$(PKGCONFIG_DIR_32)
@@ -227,15 +205,15 @@ install_fix_paths_X: default_install
 
 install_fix_paths: install_fix_paths_X
 
-MESA_MODULE_DIR = /usr/lib/mesa/modules/extensions$(SERVERMOD_subdir)
-EXT_MODULE_DIR = $(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir)
+MESA_MODULE_DIR = /usr/lib/mesa/modules/extensions
+EXT_MODULE_DIR = $(X11_SERVERMODS_DIR)/extensions
 
 install_fix_paths_glxmodule: default_install
 	@rm -f $(PROTODIR)$(MESA_MODULE_DIR)/libglx.so
 	mkdir -p $(PROTODIR)$(MESA_MODULE_DIR)/
 	mv -f $(PROTODIR)$(EXT_MODULE_DIR)/libglx.so \
 	      $(PROTODIR)$(MESA_MODULE_DIR)/libglx.so
-	ln -s ../../../../..$(SERVERMOD_subdir:$(SUBDIR64)=..)/var/run/opengl/server/$(SERVERMOD_subdir)/libglx.so \
+	ln -s ../../../../../var/run/opengl/server/libglx.so \
 	      $(PROTODIR)$(EXT_MODULE_DIR)/libglx.so
 
 install_fix_paths: install_fix_paths_glxmodule
@@ -272,13 +250,6 @@ XTSOL_LICENSE = $(XTSOL_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
 $(XTSOL_LICENSE):=	LICENSE_NAME	= $(ORACLE_LICENSE_NAME)
 $(XTSOL_LICENSE):=	LICENSE_FILE	= COPYING.tsol
 $(XTSOL_LICENSE):=	LICENSE_APPEND  = $(ORACLE_LICENSE_APPEND)
-
-# Special compatibility link from /usr/X11/bin/i386 to /usr/bin/i86
-install_i386_bincompat_link: $(X11_BINCOMPAT_DIR)/i386
-
-$(X11_BINCOMPAT_DIR)/i386: $(X11_BINCOMPAT_DIR)
-	@rm -f $@
-	ln -s ../../bin/i86 $@
 
 # Special compatibility links from /usr/X11/include to /usr/include
 X11_INCLUDE_COMPAT_DIR = $(PROTODIR)/usr/X11/include

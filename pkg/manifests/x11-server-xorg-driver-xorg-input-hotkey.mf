@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,4 @@ dir path=usr/lib
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/modules
 dir path=usr/lib/xorg/modules/input
-dir path=usr/lib/xorg/modules/input/$(ARCH64)
-file path=usr/lib/xorg/modules/input/$(ARCH64)/hotkey_drv.so
 file path=usr/lib/xorg/modules/input/hotkey_drv.so

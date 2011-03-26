@@ -1,6 +1,6 @@
-#!/bin/ksh
+#!/bin/ksh93
 #
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -76,6 +76,18 @@ if [ "$PROPVAL" = "true" ] ; then
 fi
 
 /usr/bin/fc-cache $ARGS
+if [ $? -ne 0 ] ; then
+    RETVAL=$SMF_EXIT_MON_DEGRADE
+fi
+
+case "$(uname -p)" in
+    sparc)	ARCH64="sparcv9" ;;
+    i386)	ARCH64="amd64" ;;
+    *)		echo "Unknown architecture $(uname -p)"
+    		exit $SMF_EXIT_ERR_FATAL ;;
+esac
+
+/usr/bin/${ARCH64}/fc-cache $ARGS
 if [ $? -ne 0 ] ; then
     RETVAL=$SMF_EXIT_MON_DEGRADE
 fi

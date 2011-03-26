@@ -52,31 +52,10 @@ MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
 $(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=$(MODULE_PKGCLASS_$(DRIVER_CLASS))
 $(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS_SET=yes
 
-# Build 64-bit on SPARC, 32-bit & 64-bit on x86, to match Xorg server builds
-BUILD_TYPES_DEFAULT     = $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
-$(BUILD_TYPES_DEFAULT)	BUILD_TYPES_sparc=64
-$(BUILD_TYPES_DEFAULT)	BUILD_TYPES_i386=32 64
-$(BUILD_TYPES_DEFAULT)	BUILD_TYPES=$(BUILD_TYPES_$(MACH))
-$(BUILD_TYPES_DEFAULT)	BUILD_TYPES_SET=yes
-
 # Additional command line options to GNU autoconf configure script
 MODTYPE_CONFIG_OPTS = \
 	--docdir='$(X11_DOC_DIR)' \
-	--with-xorg-module-dir='$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)'
-
-MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
-MODTYPE_BUILD_64_FLAGS=ARCHBINSUBDIR="$(SUBDIR64)"
-
-# Override module subdirs to be modules/xxx/amd64, not modules/amd64/xxx
-DRIVER_DIR_input=$(X11_SERVERMODS_DIR)/input$(SERVERMOD_subdir)
-DRIVER_DIR_video=$(X11_SERVERMODS_DIR)/drivers$(SERVERMOD_subdir)
-DRIVER_DIR=$(DRIVER_DIR_$(DRIVER_CLASS))
-
-MODTYPE_MAKEFLAGS= \
-	inputdir='$(DRIVER_DIR_input)' \
-	driversdir='$(DRIVER_DIR_video)' \
-	$(DRIVER_NAME)_drv_ladir='$(DRIVER_DIR)'
-MODTYPE_ADD_CONFIGURE_TARGETS = fix-moduledirs
+	--with-xorg-module-dir='$(X11_SERVERMODS_DIR)'
 
 # Set comments in ELF binaries to help identify versions/builds
 MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
@@ -105,19 +84,12 @@ MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 
 MODTYPE_LDFLAGS=$(LDFLAGS) -Wl,-B,direct -R/lib$(ARCHLIBSUBDIR)
 
-MODTYPE_LD_OPTIONS=-z defs $(X11_SERVERLIBS_LDFLAGS) \
-	-M $(TOP)/open-src/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs -lc
+XORG_EXTERNS_FLAG = \
+	-M $(TOP)/open-src/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs
+MODTYPE_LD_OPTIONS=-z defs $(XORG_EXTERNS_FLAG) -lc
 
 # Need to fix libtool interference with our linker flags
 DELIBTOOLIZE=yes
 
 ### Include common rules
 include $(TOP)/open-src/common/Makefile.inc
-
-# Clean up old 64-bit builds from before we stopped building them
-# for some drivers - depends on $(CLEAN_RULES) to avoid errors from
-# rm -r when two rules try to remove the same directory at once
-clean: clean_old64
-
-clean_old64: $(CLEAN_RULES)
-	-rm -rf $(BUILD_DIR_64)

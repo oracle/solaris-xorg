@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,6 @@ dir path=usr/X11/bin
 dir path=usr/bin
 dir path=usr/lib
 dir path=usr/lib/X11
-dir path=usr/lib/pkgconfig
 dir path=usr/share
 dir path=usr/share/aclocal
 dir path=usr/share/fonts
@@ -37,13 +36,13 @@ dir path=usr/share/fonts/X11
 dir path=usr/share/fonts/X11/util
 dir path=usr/share/man
 dir path=usr/share/man/man1
+dir path=usr/share/pkgconfig
 file path=usr/bin/bdftopcf
 file path=usr/bin/bdftruncate
 file path=usr/bin/mkfontdir
 file path=usr/bin/mkfontscale
 file path=usr/bin/ucs2any
 file path=usr/lib/X11/installalias mode=0555
-file path=usr/lib/pkgconfig/fontutil.pc
 file path=usr/share/aclocal/fontutil.m4
 file path=usr/share/fonts/X11/util/map-ISO8859-1
 file path=usr/share/fonts/X11/util/map-ISO8859-10
@@ -67,6 +66,7 @@ file path=usr/share/man/man1/bdftruncate.1
 file path=usr/share/man/man1/mkfontdir.1
 file path=usr/share/man/man1/mkfontscale.1
 file path=usr/share/man/man1/ucs2any.1
+file path=usr/share/pkgconfig/fontutil.pc
 
 #
 # The former SUNWxwfsw is split between this package and the

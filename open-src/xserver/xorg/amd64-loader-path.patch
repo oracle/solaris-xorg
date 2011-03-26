@@ -1,4 +1,4 @@
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -18,9 +18,11 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -Nurp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loadmod.c
---- hw/xfree86/loader/loadmod.c	2010-07-14 13:23:17.000000000 -0700
-+++ hw/xfree86/loader/loadmod.c	2010-09-03 16:45:07.235123707 -0700
+
+diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
+index 615e8c6..a9ccdf0 100644
+--- a/hw/xfree86/loader/loadmod.c
++++ b/hw/xfree86/loader/loadmod.c
 @@ -167,6 +167,13 @@ InitPathList(const char *path)
  		list[n][len - 1] = '/';
  		list[n][len] = '\0';
@@ -35,7 +37,7 @@ diff -Nurp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loa
  	    n++;
  	}
  	elem = strtok(NULL, ",");
-@@ -388,6 +395,18 @@ FindModuleInSubdir(const char *dirpath, 
+@@ -388,6 +395,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      char *ret = NULL, tmpBuf[PATH_MAX];
      struct stat stat_buf;
  
@@ -49,12 +51,18 @@ diff -Nurp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loa
 +       in_64_dir = TRUE;
 +# endif
 +    }
++    /* After the 32-bit EOF, all modules under /usr/lib/xorg are 64-bit,
++       but legacy modules under /usr/X11/lib are still split into 32-bit
++       and 64-bit versions */
++    if (strncmp(dirpath, "/usr/X11/lib/modules/", 21) != 0) {
++	in_64_dir = TRUE;
++    }
 +#endif
 +
      dir = opendir(dirpath);
      if (!dir)
          return NULL;
-@@ -395,6 +414,13 @@ FindModuleInSubdir(const char *dirpath, 
+@@ -395,6 +420,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      while ((direntry = readdir(dir))) {
          if (direntry->d_name[0] == '.')
              continue;
@@ -68,7 +76,7 @@ diff -Nurp -x '*~' -x '*.orig' hw/xfree86/loader/loadmod.c hw/xfree86/loader/loa
          snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpath, direntry->d_name);
  	/* the stat with the appended / fails for normal files,
  	   and works for sub dirs fine, looks a bit strange in strace
-@@ -404,6 +430,12 @@ FindModuleInSubdir(const char *dirpath, 
+@@ -404,6 +436,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
                  break;
              continue;
          }

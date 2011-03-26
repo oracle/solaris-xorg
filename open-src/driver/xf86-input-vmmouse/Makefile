@@ -2,7 +2,7 @@
 #
 # xf86-input-vmmouse Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,13 +46,6 @@ MODULE_COMPILER_SET=yes
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# Special handling for 64-bit installs, since GNU make doesn't
-# pass through the *_drv_ladir override correctly from MODTYPE_MAKEFLAGS
-INSTALL_TARGETS_64 = install-driver
-INSTALL_TARGETS_SET_64 = yes
-INSTALL_TARGETS = $(INSTALL_TARGETS_$(BUILD_TYPE))
-INSTALL_TARGETS_SET = $(INSTALL_TARGETS_SET_$(BUILD_TYPE))
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
@@ -61,24 +54,8 @@ MODULE_STABILITY=Volatile
 # - need to set install locations for HAL config file & probe util/script
 MODULE_CONFIG_OPTS= \
 	--with-hal-bin-dir=/usr/sbin \
-	--with-hal-callouts-dir=/usr/lib/hal$(ARCHLIBSUBDIR) \
-	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor$(ARCHLIBSUBDIR) \
-	--bindir=$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
-
-# Additional install steps to run
-MODULE_ADD_INSTALL_TARGETS_64 = uninstall-hal-files
-MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
+	--with-hal-callouts-dir=/usr/lib/hal \
+	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor \
+	--bindir=$(X11_SERVERLIBS_DIR)
 
 include ../Makefile.inc
-
-uninstall-hal-files: default_install
-	(cd $(SOURCE_DIR)/tools ; \
-	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
-	uninstall)
-	(cd $(SOURCE_DIR)/fdi ; \
-	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
-	uninstall)
-
-install-driver: $(INSTALL_DEPS)
-	mkdir -p $(PROTODIR)$(DRIVER_DIR)
-	cp -pf $(SOURCE_DIR)/src/vmmouse_drv.so $(PROTODIR)$(DRIVER_DIR)/

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,6 +44,11 @@ TARBALL_SHA1 = 011fa9c8fe08d9f6f848df570374ed1cb7488146
 # Set encoding directory path used during build in fontutil.pc
 FIX_PC_FILES = fontutil.pc.in
 MODULE_ADD_UNINSTALLED_PC_OPS = -e 's|mapdir=|mapdir=$$protodir|g;'
+
+# Install fontutil.pc to /usr/share since it defines the architecture
+# independent font paths in /usr/share/fonts and not any library flags
+MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODULE_PKGCONFIG_DIR_SET=yes
 
 # Apply program flags, like app/*
 MODULE_CFLAGS=$(PROG_CFLAGS)

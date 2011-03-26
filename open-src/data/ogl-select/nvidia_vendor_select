@@ -1,6 +1,6 @@
 #!/bin/ksh
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,7 +25,7 @@
 
 LINKDIR=/var/run/opengl
 
-PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+PATH=/usr/bin:/usr/sbin
 
 #
 # No support for SPARC, yet
@@ -83,8 +83,7 @@ make_file_link /usr/X11/lib/NVIDIA/amd64/libGL.so.1 $LINKDIR/lib/amd64/libGL.so.
 make_file_link amd64 $LINKDIR/lib/64
 
 # Server libraries
-make_file_link /usr/X11/lib/modules/extensions/NVIDIA/libglx.so $LINKDIR/server/libglx.so
-make_file_link /usr/X11/lib/modules/extensions/NVIDIA/amd64/libglx.so $LINKDIR/server/amd64/libglx.so
+make_file_link /usr/X11/lib/modules/extensions/NVIDIA/amd64/libglx.so $LINKDIR/server/libglx.so
 
 # Includes
 make_file_link /usr/X11/include/NVIDIA/GL/gl.h $LINKDIR/include/gl.h

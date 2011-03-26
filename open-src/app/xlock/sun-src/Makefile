@@ -2,7 +2,7 @@
 #
 # xlock Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,7 +25,7 @@
 #
 # Makefile for xlock. 
 
-CFLAGS=${DEFINES} -DSYSV -DUSE_PAM
+CFLAGS += ${DEFINES} -DSYSV -DUSE_PAM
 C_SRCS=xlock.c hsbramp.c usleep.c resource.c \
 	hopalong.c qix.c life.c image.c blank.c swarm.c rotor.c pyro.c flame.c
 HDRS=xlock.h

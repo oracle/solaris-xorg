@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,7 +45,7 @@ MODULE_STABILITY=Volatile
 
 # Since we don't have a configure script, pass configure flags to make
 MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
-	MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR) ARCHLIBSUBDIR="$(ARCHLIBSUBDIR)"
+	MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR)
 
 include ../Makefile.inc
 

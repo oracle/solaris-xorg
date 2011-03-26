@@ -44,15 +44,14 @@ XORGSERVER_VERS=1.9.4
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=sed '/^\#/ d' ../xorg/patch-list
 
-SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)'
-DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(SERVERMOD_subdir)'
+SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)'
+DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri'
 
 # Changes to apply to man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
 
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
-	--bindir='$${exec_prefix}/bin/$(ARCHBINSUBDIR)' \
 	--docdir='$(X11_DOC_DIR)' \
         --enable-xdm-auth-1 --enable-xdmcp --enable-xcsecurity \
 	--enable-shared --disable-static \
@@ -111,58 +110,31 @@ XSERVER_LDFLAGS = \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 	-R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 
-MODTYPE_BUILD_32_FLAGS=ARCHBINSUBDIR="$(SUBDIR32)"
-
-MODTYPE_BUILD_64_FLAGS_sparc=ARCHBINSUBDIR=""
-MODTYPE_BUILD_64_FLAGS_i386=ARCHBINSUBDIR="$(SUBDIR64)"
-MODTYPE_BUILD_64_FLAGS=$(MODTYPE_BUILD_64_FLAGS_$(MACH))
-
 # Environment variable options to use when building
 #  - PATH - include /usr/sbin for dtrace command (needed for building probes)
 MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
 	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
-MODTYPE_ADD_CONFIGURE_TARGETS = fix-moduledirs
-
 ### Include common rulesets
 include $(TOP)/open-src/common/Makefile.inc
 
 # Fix paths in proto area to match paths in packages / installed systems
-install_fix_paths: install_fix_paths_$(MACH)_$(BUILD_TYPE)
-install_fix_paths_$(MACH)_: $(BUILD_TYPES:%=install_fix_paths_$(MACH)_%)
+install_fix_paths: install_fix_paths_$(MACH)
+install_fix_paths_sparc: # not needed
+install_fix_paths_i386: install_fix_paths_amd64_links
 
-# When both 32-bit & 64-bit are built, only one copy of the programs in
-# NOT_LINKED_TO_ISAEXEC are needed, so move the 32-bit copy to /usr/bin
-# instead of linking to isaexec, and delete the 64-bit copy.
-UTILS_IN_BIN = $(NOT_LINKED_TO_ISAEXEC:%=$(PROTODIR)$(MODULE_PREFIX)/bin/%)
-UTILS_IN_ARCHBIN = \
- $(NOT_LINKED_TO_ISAEXEC:%=$(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/%)
+# We used to deliver both 32-bit & 64-bit binaries on x86 and use isaexec to
+# choose between them.   Now we just deliver 64-bit and make symlinks from
+# the amd64 paths to the default paths for compatibility
 
-install_fix_paths_use_utilities: $(INSTALL_FIX_PATHS_DEPS)
-	rm -f $(UTILS_IN_BIN)
-	mv -f $(UTILS_IN_ARCHBIN) $(PROTODIR)$(MODULE_PREFIX)/bin
+ISAEXEC_DIR = $(PROTODIR)$(MODULE_PREFIX)/bin/$(SUBDIR64)
+ISAEXEC_LINKS = $(LINKED_TO_ISAEXEC:%=$(ISAEXEC_DIR)/%)
 
-install_fix_paths_remove_utilities: $(INSTALL_FIX_PATHS_DEPS)
-	rm -f $(UTILS_IN_ARCHBIN)
+install_fix_paths_amd64_links: $(ISAEXEC_LINKS)
 
-install_fix_paths_i386_32: install_fix_paths_use_utilities
-install_fix_paths_i386_64: install_fix_paths_remove_utilities
-install_fix_paths_sparc_64: # not needed
+$(ISAEXEC_DIR):
+	mkdir -p $@
 
-# When both 32-bit & 64-bit are built, we install both versions of the 
-# programs in LINKED_TO_ISAEXEC, and use isaexec to pick 32-bit or 64-bit
-# binaries to execute.
-ISAEXEC_LINKS = $(LINKED_TO_ISAEXEC:%=$(PROTODIR)$(MODULE_PREFIX)/bin/%)
-
-$(PROTODIR)/usr/lib/isaexec:
+$(ISAEXEC_LINKS): $(ISAEXEC_DIR)
 	@rm -f $@
-	cp -pf /usr/lib/isaexec $@
-
-$(ISAEXEC_LINKS): $(PROTODIR)/usr/lib/isaexec
-	@rm -f $@
-	ln $(PROTODIR)/usr/lib/isaexec $@
-
-install_fix_isaexec: $(ISAEXEC_LINKS)
-
-install_fix_paths_i386_32: install_fix_isaexec
-# Not needed in 64-bit builds on sparc or x86
+	ln -s ../$(@F) $@

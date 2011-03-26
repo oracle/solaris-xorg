@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,16 +26,11 @@ set name=pkg.description \
 set name=pkg.summary value="TigerVNC client"
 dir path=usr
 dir path=usr/bin
-$(i386_ONLY)dir path=usr/bin/$(ARCH32)
-$(i386_ONLY)dir path=usr/bin/$(ARCH64)
 dir path=usr/share
 dir path=usr/share/man
 dir path=usr/share/man/man1
-$(i386_ONLY)file path=usr/bin/$(ARCH32)/vncviewer
-$(i386_ONLY)file path=usr/bin/$(ARCH64)/vncviewer
-$(sparc_ONLY)file path=usr/bin/vncviewer
+file path=usr/bin/vncviewer
 file path=usr/share/man/man1/vncviewer.1
-$(i386_ONLY)hardlink path=usr/bin/vncviewer target=../lib/isaexec
 legacy pkg=SUNWvncviewer \
     desc="VNC client based on the TigerVNC open source release that displays a session over RFB protocol from a VNC server" \
     name="VNC viewer client"

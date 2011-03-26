@@ -47,6 +47,27 @@ SOURCE_PATCHES= \
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 
+# Need to build 32-bit libXvMC libraries even when X server is 64-bit only
+BUILD_TYPES=32 64
+BUILD_TYPES_SET=yes
+
+# but we only want those libraries built in the 32-bit build, not the whole
+# driver (which would overwrite the 64-bit driver)
+BUILD_TARGETS = build-in-subdir $(MODTYPE_ADD_BUILD_TARGETS)
+BUILD_TARGETS_SET=yes
+subdir_32 = $(SOURCE_DIR)/src/xvmc
+subdir_64 = $(SOURCE_DIR)
+subdir = $(subdir_$(BUILD_TYPE))
+install_subdir_cmd = install
+INSTALL_TARGETS = install-in-subdir $(MODTYPE_ADD_INSTALL_TARGETS)
+INSTALL_TARGETS_64 = install_docs
+INSTALL_TARGETS += $(INSTALL_TARGETS_$(BUILD_TYPE))
+INSTALL_TARGETS_SET=yes
+LIBXVMC_LD_OPTIONS = -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
+LIBXVMC_LD_OPTIONS += $(LIB_REQUIRED_LDFLAGS) -lc
+MODULE_BUILD_ENV_32 = LD_OPTIONS="$(LIBXVMC_LD_OPTIONS)"
+MODULE_BUILD_ENV = $(MODULE_BUILD_ENV_$(BUILD_TYPE))
+
 # Intel driver doesn't work on some chipsets if built with Sun compiler
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
@@ -57,9 +78,9 @@ MODULE_CONFIG_OPTS=--enable-dri --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)'
 
 # Library paths at build time
 MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
+	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
 	-M $(PWD)/mapfile.externs
@@ -68,11 +89,11 @@ MODULE_LD_OPTIONS= \
 # configure.ac & Makefile.am's in libraries.patch & build-dri.patch
 AUTORECONF=yes
 
-# Additional install rules beyond what upstream installs
-MODULE_ADD_INSTALL_TARGETS=install_docs
-
 include ../Makefile.inc
 
 install_docs: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.intel
+	cp -pf $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.intel
+
+build-in-subdir: $(BUILD_DEPS)
+install-in-subdir: $(INSTALL_DEPS)

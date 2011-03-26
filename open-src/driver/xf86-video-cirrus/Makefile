@@ -2,7 +2,7 @@
 #
 # xf86-video-cirrus 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,15 +45,10 @@ MODULE_STABILITY=Volatile
 # Paths to find libraries/modules to link with - libraries themselves listed
 # in src/Makefile.am since cirrus has submodules with different needs
 MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
+	-R$(X11_SERVERMODS_DIR)
 
 AUTORECONF=yes
-
-# Need to override install path for all the modules, not just cirrus_drv.so
-MODULE_MAKEFLAGS = \
-	cirrus_alpine_ladir='$(DRIVER_DIR)' \
-	cirrus_laguna_ladir='$(DRIVER_DIR)'
 
 include ../Makefile.inc
 

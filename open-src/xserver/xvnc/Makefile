@@ -25,12 +25,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#
-# Build 32-bit or 64-bit?
-BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=64
-BUILD_TYPES_i386=32 64
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
 
 # Package name used in tarballs
 MODULE_NAME=tigervnc
@@ -114,32 +108,18 @@ $(NO_RECURSE)MODULE_ADD_SOURCE_TARGETS=Xvnc_source_init
 $(NO_RECURSE)MODULE_SOURCE_DEPS = Xvnc_source_init
 CONFIGURE_TARGETS=$(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
 CONFIGURE_TARGETS_SET=yes
-BUILD_TARGETS_common=Xvnc_build set-elf-comments
-BUILD_TARGETS_32=java_build
-BUILD_TARGETS=$(BUILD_TARGETS_common) $(BUILD_TARGETS_$(BUILD_TYPE))
+BUILD_TARGETS=Xvnc_build set-elf-comments java_build
 BUILD_TARGETS_SET=yes
-INSTALL_TARGETS_common=Xvnc_install_server Xvnc_install_programs \
-	install_fix_paths
-# Since the Java bits are the same for both 32 & 64 bit, we only need to
-# install them once, even when building both 32 & 64-bit, but sparc only 
-# builds 64-bit, so install during the 64-bit build.
-INSTALL_TARGETS_64=java_install Xvnc_install_data
-INSTALL_TARGETS=$(INSTALL_TARGETS_common) $(INSTALL_TARGETS_$(BUILD_TYPE))
+INSTALL_TARGETS=Xvnc_install_server Xvnc_install_programs \
+	java_install Xvnc_install_data install_fix_paths
 INSTALL_TARGETS_SET=yes
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = Xvnc
 
-# Binaries that are linked to isaexec on x86 to choose 32-bit or 64-bit
-LINKED_TO_ISAEXEC = Xvnc vncconfig vncpasswd vncviewer x0vncserver
-
-# When both 32-bit & 64-bit are built, only one copy of these programs
-# (scripts) are needed, so move it to /usr/bin instead of linking to isaexec
-NOT_LINKED_TO_ISAEXEC = vncserver
-
-# Steps that need to complete before the install_fix_paths in ../Makefile.inc
-# is run to do the above isaexec fixes
-INSTALL_FIX_PATHS_DEPS = Xvnc_install_server Xvnc_install_programs
+# Binaries that were linked to isaexec on x86 to choose 32-bit or 64-bit,
+# now just symlinks from amd64 to parent directory
+LINKED_TO_ISAEXEC = Xvnc
 
 include ../Makefile.inc
 
@@ -236,7 +216,7 @@ Xvnc_install_server: $(BUILD_TARGETS)
 	(cd $(XORG_BUILD_DIR)/hw/vnc \
 	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
 	 CPPROG="cp -p" install)
-	rm -f $(PROTODIR)/$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir)/extensions/libvnc.so
+	rm -f $(PROTODIR)/$(X11_SERVERMODS_DIR)/extensions/libvnc.so
 
 Xvnc_install_programs: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)

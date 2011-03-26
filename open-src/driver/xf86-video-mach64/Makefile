@@ -48,9 +48,9 @@ MODULE_CONFIG_OPTS=--disable-dri
 
 # Paths to find libraries/modules to link with
 MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lexa -lint10 -lpciaccess -lfb -lpixman-1 -lshadowfb -lXfont -lvbe -lxaa
 

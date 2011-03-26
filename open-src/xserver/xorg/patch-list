@@ -10,7 +10,7 @@ make_xkm_output_dir.patch
 dtlogin-userinfo.patch
 IA.patch
 xtsol.patch
-amd64-loader-path.patch
+amd64-loader-path.patch,-p1
 fontmod.patch
 sparc-probe.patch
 sparc-nopciprobe.patch

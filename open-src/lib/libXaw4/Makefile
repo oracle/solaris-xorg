@@ -2,7 +2,7 @@
 #
 # Xaw4 Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,10 +25,11 @@
 #
 #
 
+# libXaw4 was replaced by libXaw5 well before 64-bit libraries were shipped
+# in Solaris, and since it's just kept for binary compatibility of old apps,
+# we don't need a 64-bit version.
 BUILD_TYPES_SET=yes
-BUILD_TYPES_sparc=32
-BUILD_TYPES_i386=32
-BUILD_TYPES=$(BUILD_TYPES_$(MACH))
+BUILD_TYPES=32
 
 MODULE_NAME=libXaw4
 

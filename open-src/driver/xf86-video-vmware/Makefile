@@ -2,7 +2,7 @@
 #
 # xf86-video-vmware Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,9 +48,9 @@ MODULE_COMPILER_SET=yes
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lfb -lpixman-1 -lshadowfb -lXfont -lvgahw -lpciaccess
 

@@ -2,7 +2,7 @@
 #
 # xdm Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -79,6 +79,9 @@ MODULE_CONFIG_OPTS += \
 # Additional build & install targets
 MODULE_ADD_BUILD_TARGETS=build_xdm_configs
 MODULE_ADD_INSTALL_TARGETS=install_xdmshell install_xdm_configs
+
+# Need to fix libtool interference with our linker flags
+DELIBTOOLIZE=yes
 
 include ../Makefile.inc
 

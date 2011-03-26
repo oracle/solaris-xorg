@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,8 +30,6 @@ dir path=usr/lib
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/modules
 dir path=usr/lib/xorg/modules/drivers
-$(i386_ONLY)dir path=usr/lib/xorg/modules/drivers/$(ARCH64)
-$(i386_ONLY)file path=usr/lib/xorg/modules/drivers/$(ARCH64)/ast_drv.so
 file path=usr/lib/xorg/modules/drivers/ast_drv.so
 
 # SPARC version requires sparc kernel fb driver

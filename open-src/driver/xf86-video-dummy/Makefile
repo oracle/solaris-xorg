@@ -2,7 +2,7 @@
 #
 # xf86-video-dummy 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,8 +44,8 @@ MODULE_STABILITY=Volatile
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
-	-R$(X11_SERVERMODS_DIR)$(SERVERMOD_subdir) \
+	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
+	-R$(X11_SERVERMODS_DIR) \
 	-lfb
 
 include ../Makefile.inc

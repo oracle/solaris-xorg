@@ -30,14 +30,8 @@
 # but not included in any packages - this is intentional.
 #
 
-# ON delivers the master copy of isaexec
-usr/lib/isaexec		i386
-
 # /var/run is a symlink to a tmpfs filesystem created at system boot
 var/run
-
-# Empty directories
-usr/lib/xorg/modules/amd64/extensions	i386
 
 # Documentation it doesn't make sense to ship in our packages
 usr/share/doc/X11/graphics/dps.xml

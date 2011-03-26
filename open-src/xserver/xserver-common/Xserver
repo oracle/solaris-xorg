@@ -1,7 +1,7 @@
 #!/bin/ksh93
 #
 #
-# Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -136,6 +136,12 @@ else
 	*/Xvfb)	
 	    newserver="/usr/bin/Xvfb" 
 	    ;;
+	/usr/bin/i86/*) # Map to same name in /usr/bin
+	    newserver="/usr/bin/${XSERVER#/usr/bin/i86/}"
+	    ;;
+	/usr/bin/amd64/*) # Map to same name in /usr/bin
+	    newserver="/usr/bin/${XSERVER#/usr/bin/amd64/}"
+	    ;;
 	*)
 	    fatal_error "${XSERVER} is not an executable"
 	    ;;
@@ -153,12 +159,9 @@ fi
 # Make sure ${XSERVER} is a known X server binary
 function is_known_xserver {
     case "$1" in
+	/usr/bin/Xdmx)			return 0 ;;
 	/usr/bin/Xorg)			return 0 ;;
-	/usr/bin/amd64/Xorg)		return 0 ;;
-	/usr/bin/i86/Xorg)		return 0 ;;
 	/usr/bin/Xvfb)			return 0 ;;
-	/usr/bin/amd64/Xvfb)		return 0 ;;
-	/usr/bin/i86/Xvfb)		return 0 ;;
 	/usr/bin/Xvnc)			return 0 ;;
 	/usr/openwin/bin/Xsun)		return 0 ;;
 	/usr/openwin/bin/Xvfb)		return 0 ;;
