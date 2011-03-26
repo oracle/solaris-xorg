@@ -73,7 +73,8 @@ BUILD_TYPES_SET=yes
 FIX_PC_FILES=lbxutil.pc.in
 
 # Don't include lib/Makefile.inc that sets options for shared libraries
-# which we don't want in this special case
+# which we don't want in this special case, but set MODTYPE so download works
+MODTYPE=lib
 include ../../common/Makefile.inc
 
 # Since liblbxutil doesn't depend on any other libraries we build, it may
