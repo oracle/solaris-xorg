@@ -38,7 +38,8 @@ TARBALL_SHA1 = 4933bda545df37395e57ff6b4bd61e17a5431770
 SOURCE_PATCHES = \
 	pciaccess_private.h.patch \
 	scanpci.man.patch \
-	solx_devfs.c.patch
+	solx_devfs.c.patch \
+	solx_devfs.c.domain.patch
 
 # Library name
 LIBNAME=libpciaccess
