@@ -2,7 +2,7 @@
 #
 # Fontconfig 2.x Makefile
 #
-# Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -76,7 +76,8 @@ SOURCE_PATCHES = \
 		Makefile.am.0.patch \
 		bitmap-hacks.patch \
 		6447517.patch \
-		6770058.patch
+		6770058.patch \
+		7026635.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig
