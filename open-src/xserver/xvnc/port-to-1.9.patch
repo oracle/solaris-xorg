@@ -50,8 +50,8 @@
 +#if XORG >= 19
 +static DevPrivateKeyRec vncHooksScreenPrivateKeyRec;
 +#define vncHooksScreenPrivateKey (&vncHooksScreenPrivateKeyRec)
-+static DevPrivateKeyRec vncHooksGCPrivateKey;
-+#define vncHooksGCPrivateKey (&vncHooksScreenPrivateKeyRec)
++static DevPrivateKeyRec vncHooksGCPrivateKeyRec;
++#define vncHooksGCPrivateKey (&vncHooksGCPrivateKeyRec)
 +#elif XORG == 15
  static DevPrivateKey vncHooksScreenPrivateKey = &vncHooksScreenPrivateKey;
  static DevPrivateKey vncHooksGCPrivateKey = &vncHooksGCPrivateKey;
