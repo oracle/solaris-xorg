@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -163,9 +163,6 @@ depend fmri=pkg:/x11/library/libxxf86vm type=require
 
 # lib/libxtrans
 depend fmri=pkg:/x11/library/xtrans type=require
-
-# app/rstart
-depend fmri=pkg:/x11/network/rstart type=require
 
 # app/sessreg
 depend fmri=pkg:/x11/session/sessreg type=require
