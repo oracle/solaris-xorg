@@ -47,7 +47,9 @@ SOURCE_URL = http://xcb.freedesktop.org/dist//$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET = yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = Makefile.am.0.patch \
+SOURCE_PATCHES = \
+		 tsol-sockets.patch,-p1 \
+		 Makefile.am.0.patch \
 		 configure.1.patch \
 		 aclocal.m4.2.patch \
 		 xcb_conn.c.3.patch \
