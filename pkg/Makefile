@@ -41,7 +41,7 @@ TOP=$(PWD)/..
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 
-.SUFFIXES: .mf .mog .dep .res .pub
+.SUFFIXES: .p5m .mog .dep .res .pub
 
 # We don't yet support building packages cross-architecture, but would
 # need this if we ever did.   (See "Cross platform packaging notes" in
@@ -95,10 +95,10 @@ $(PDIR):
 # build environment and then reference (implicitly or explicitly) the all
 # or install targets.
 #
-CURRENT_MANIFESTS :sh= (cd manifests; print *.mf)
-LEGACY_MANIFESTS :sh= (cd legacy; print *.mf)
+CURRENT_MANIFESTS :sh= (cd manifests; print *.p5m)
+LEGACY_MANIFESTS :sh= (cd legacy; print *.p5m)
 MANIFESTS = $(CURRENT_MANIFESTS) $(LEGACY_MANIFESTS)
-PKGS= $(MANIFESTS:%.mf=%)
+PKGS= $(MANIFESTS:%.p5m=%)
 
 #
 # Track the synthetic manifests separately so we can properly express
@@ -134,10 +134,10 @@ PKGLISTS= \
 	$(PDIR)/packages.obsolete
 
 # Manifests are in either manifests or legacy directory - merge in $(PDIR)
-$(PDIR)/%.mf: manifests/%.mf
+$(PDIR)/%.p5m: manifests/%.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
 
-$(PDIR)/%.mf: legacy/%.mf
+$(PDIR)/%.p5m: legacy/%.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
 
 PMANIFESTS = $(MANIFESTS:%=$(PDIR)/%)
@@ -148,13 +148,13 @@ $(PMANIFESTS): $(PDIR)
 
 # This should eventually move into pkg publication
 
-FONT_MANIFESTS :sh= (cd manifests; print system-font-*.mf)
-FONT_METADATA = $(FONT_MANIFESTS:%.mf=$(PDIR)/%.font)
-FONT_ATTRS = $(FONT_MANIFESTS:%.mf=$(PDIR)/%.attr)
+FONT_MANIFESTS :sh= (cd manifests; print system-font-*.p5m)
+FONT_METADATA = $(FONT_MANIFESTS:%.p5m=$(PDIR)/%.font)
+FONT_ATTRS = $(FONT_MANIFESTS:%.p5m=$(PDIR)/%.attr)
 
 $(FONT_ATTRS): $(FONT_METADATA)
 
-$(PDIR)/%.font: $(PDIR)/%.mf
+$(PDIR)/%.font: $(PDIR)/%.p5m
 	@print "## Generating font metadata in $(@F)"
 	$(PKGDEBUG)$(RM) $(@)
 	$(PKGDEBUG)$(PERL) generate_font_metadata.pl \
@@ -215,7 +215,7 @@ PKGDEP_INCORP = depend fmri=pkg:/consolidation/X/X-incorporation type=require
 
 PROC_PKGS = $(PKGS:%=$(PDIR)/%.mog)
 PROC_SYNTH_PKGS = $(SYNTH_PKGS:%=$(PDIR)/%.mog)
-PROC_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.mf=$(PDIR)/%.mog)
+PROC_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.mog)
 
 # Extra transforms for non-legacy packages
 $(PROC_CURRENT_PKGS):= EXTRA_TRANSFORMS = defaults
@@ -230,16 +230,16 @@ $(PDIR)/%.attr:
 		system-font-*) ADDITIONAL_ATTRS="$(@:%.attr=%.font)" ;; \
 	esac ; \
 	$(PERL) merge-metadata.pl $${ADDITIONAL_ATTRS} \
-		~(N)$(PROTOMETA)/$(@F:.attr=)/attributes_*.mf \
-		~(N)$(PROTOMETA)/$(@F:.attr=)/license_*.mf /dev/null > $@
+		~(N)$(PROTOMETA)/$(@F:.attr=)/attributes_*.p5m \
+		~(N)$(PROTOMETA)/$(@F:.attr=)/license_*.p5m /dev/null > $@
 
-$(PDIR)/%.mog: $(PDIR)/%.mf $(PDIR)/%.attr
-	@print "## Processing manifest $(@F:.mog=.mf)"
+$(PDIR)/%.mog: $(PDIR)/%.p5m $(PDIR)/%.attr
+	@print "## Processing manifest $(@F:.mog=.p5m)"
 	$(PKGDEBUG)$(RM) $(@) $(@:%.mog=%) $(@:%.mog=%.nodepend) \
 		$(@:%.mog=%.metadata.*) $(@).vars
 	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
 		$(PKGMOG_DEFINES:%=-D %) -P $(@).vars -O $(@) \
-		$(@:.mog=.mf) $(@:.mog=.attr) \
+		$(@:.mog=.p5m) $(@:.mog=.attr) \
 		$(PM_TRANSFORMS) $(EXTRA_TRANSFORMS) 
 	$(PKGDEBUG)if [[ -f $(@) ]]; then \
 		eval PKGSTAT=current NODEPEND="$(SUPPRESSPKGDEP)" \
@@ -279,12 +279,12 @@ $(PDIR)/X-redistributable.mog:= PKGDEP_TYPE= require
 $(PDIR)/X-incorporation.mog:= PKGDEP_TYPE= incorporate
 
 # rule to build the synthetic manifests
-$(PROC_SYNTH_PKGS): $(PKGLISTS) $$(@F:%.mog=%.mf)
-	@print "## Processing synthetic manifest $(@F:%.mog=%.mf)"
+$(PROC_SYNTH_PKGS): $(PKGLISTS) $$(@F:%.mog=%.p5m)
+	@print "## Processing synthetic manifest $(@F:%.mog=%.p5m)"
 	$(PKGDEBUG)$(RM) $(@) $(@:%.mog=%).metadata.*
 	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) -I transforms -I $(PDIR) \
 		$(PKGMOG_DEFINES:%=-D %) -D PKGDEP_TYPE=$(PKGDEP_TYPE) \
-		-O $(@) $(@F:%.mog=%.mf) \
+		-O $(@) $(@F:%.mog=%.p5m) \
 		$(PM_TRANSFORMS) defaults synthetic
 
 ### Dependency detection
