@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 55cb47aa28460c34c3f9bac376e7fd78
-TARBALL_SHA1 = 9bfdd09a2b303b962439910f7bccaddd69b6ca8a
+TARBALL_MD5  = ed2e48cf33584455d74615ad4bbe4246
+TARBALL_SHA1 = efa5f2420411988d6a6e142934393fd272507857
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
