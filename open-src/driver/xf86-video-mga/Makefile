@@ -36,7 +36,8 @@ TARBALL_MD5  = f967fb3e655f6f68aa3f495eaadcaac2
 TARBALL_SHA1 = 55aa185cf381def4b5905c8b93694b8dfbd5c378
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = no-hal.patch 
+SOURCE_PATCHES = no-hal.patch \
+		7027761.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

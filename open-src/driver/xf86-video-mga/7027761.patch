@@ -1,0 +1,511 @@
+From 5f1b04e86e79938c8158055a777280a649f95510 Mon Sep 17 00:00:00 2001
+From: Yannick Heneault <yheneaul@matrox.com>
+Date: Fri, 17 Dec 2010 14:00:46 +0000
+Subject: added support for G200ER.
+
+---
+diff --git a/src/mga.h b/src/mga.h
+index 7725b56..c520e86 100644
+--- a/src/mga.h
++++ b/src/mga.h
+@@ -136,6 +136,10 @@ void MGAdbg_outreg32(ScrnInfoPtr, int,int, char*);
+ #define PCI_CHIP_MGAG200_EH_PCI 0x0533
+ #endif
+ 
++#ifndef PCI_CHIP_MGAG200_ER_PCI
++#define PCI_CHIP_MGAG200_ER_PCI 0x0534
++#endif
++
+ /*
+  * Read/write to the DAC via MMIO 
+  */
+@@ -199,7 +203,9 @@ void MGAdbg_outreg32(ScrnInfoPtr, int,int, char*);
+ typedef struct {
+     unsigned char	ExtVga[6];
+     unsigned char 	DacClk[6];
+-    unsigned char *     DacRegs;
++    unsigned char	ExtVga_Index24;
++    unsigned char	Dac_Index90;
++    unsigned char * DacRegs;
+     unsigned long	crtc2[0x58];
+     unsigned char	dac2[0x21];
+     CARD32		Option;
+@@ -478,6 +484,7 @@ typedef struct {
+     int is_G200WB:1;
+     int is_G200EV:1;
+     int is_G200EH:1;
++    int is_G200ER:1;
+ 
+     int KVM;
+ 
+diff --git a/src/mga_dacG.c b/src/mga_dacG.c
+index df00765..fca1031 100644
+--- a/src/mga_dacG.c
++++ b/src/mga_dacG.c
+@@ -444,6 +444,116 @@ MGAG200WBPIXPLLSET(ScrnInfoPtr pScrn, MGARegPtr mgaReg)
+     outMGAdac(MGA1064_REMHEADCTL, ucTempByte);
+ }
+ 
++#define G200ER_PLLREF 48000
++#define G200ER_VCOMIN 1056000
++#define G200ER_VCOMAX 1488000
++
++static void MGAG200ERComputePLLParam(ScrnInfoPtr pScrn, long lFo, int *piM, int *piN, int *piP)
++{
++
++    int  ulM;
++    int  ulN;
++    int  ulO;
++    int  ulR;
++
++    CARD32 ulComputedFo;
++    CARD32 ulVco;
++    CARD32 ulFDelta;
++    CARD32 ulFTmpDelta;
++
++    CARD32 aulMDivValue[] = {1, 2, 4, 8};
++
++    CARD32 ulFo   = lFo;
++
++    ulFDelta = 0xFFFFFFFF;
++
++    for (ulR = 0; ulR < 4;  ulR++)
++    {
++    	if(ulFDelta==0) break;
++        for (ulN = 5; (ulN <= 128) ; ulN++)
++        {
++            if(ulFDelta==0) break;
++            for (ulM = 3; ulM >= 0; ulM--)
++            {
++            	if(ulFDelta==0) break;
++                for (ulO = 5; ulO <= 32; ulO++)
++                {
++                	ulVco = (G200ER_PLLREF * (ulN+1)) / (ulR+1);
++                	// Validate vco
++                    if (ulVco < G200ER_VCOMIN) continue;
++					if (ulVco > G200ER_VCOMAX) continue;
++                	ulComputedFo = ulVco / (aulMDivValue[ulM] * (ulO+1));
++
++                    if (ulComputedFo > ulFo)
++                    {
++                        ulFTmpDelta = ulComputedFo - ulFo;
++                    }
++                    else
++                    {
++                        ulFTmpDelta = ulFo - ulComputedFo;
++                    }
++
++                    if (ulFTmpDelta < ulFDelta)
++                    {
++                        ulFDelta = ulFTmpDelta;
++                        // XG200ERPIXPLLCM M<1:0> O<7:3>
++                        *piM = (CARD8)ulM | (CARD8)(ulO<<3);
++                        //
++                        // XG200ERPIXPLLCN N<6:0>
++                        *piN = (CARD8)ulN;
++                        //
++                        // XG200ERPIXPLLCP R<1:0> cg<7:4> (Use R value)
++                        *piP = (CARD8)ulR | (CARD8)(ulR<<3);
++
++                        // Test
++                        int ftest = (G200ER_PLLREF * (ulN+1)) / ((ulR+1) * aulMDivValue[ulM] * (ulO+1));
++                        ftest=ftest;
++                    }
++                } // End O Loop
++            } // End M Loop
++        } // End N Loop
++    } // End R Loop
++}
++
++static void
++MGAG200ERPIXPLLSET(ScrnInfoPtr pScrn, MGARegPtr mgaReg)
++{
++    //TODO  G200ER Validate sequence 
++    CARD8 ucPixCtrl, ucTempByte;
++    MGAPtr pMga = MGAPTR(pScrn);
++
++
++    // Set pixclkdis to 1
++    ucPixCtrl = inMGAdac(MGA1064_PIX_CLK_CTL);
++    ucPixCtrl |= MGA1064_PIX_CLK_CTL_CLK_DIS;
++    outMGAdac(MGA1064_PIX_CLK_CTL, ucPixCtrl);
++
++    ucTempByte = inMGAdac(MGA1064_REMHEADCTL);
++    ucTempByte |= MGA1064_REMHEADCTL_CLKDIS;
++    outMGAdac(MGA1064_REMHEADCTL, ucTempByte);
++
++    // Select PLL Set C
++    ucTempByte = INREG8(MGAREG_MEM_MISC_READ);
++    ucTempByte |= (0x3<<2) | 0xc0; //select MGA pixel clock
++    OUTREG8(MGAREG_MEM_MISC_WRITE, ucTempByte);
++
++    ucPixCtrl &= ~MGA1064_PIX_CLK_CTL_CLK_DIS;
++    ucPixCtrl |= MGA1064_PIX_CLK_CTL_CLK_POW_DOWN;
++    outMGAdac(MGA1064_PIX_CLK_CTL, ucPixCtrl);
++
++    // Wait 500 us
++    usleep(500);
++
++    // Program the Pixel PLL Register
++    outMGAdac(MGA1064_ER_PIX_PLLC_N, mgaReg->PllN);
++    outMGAdac(MGA1064_ER_PIX_PLLC_M, mgaReg->PllM);
++    outMGAdac(MGA1064_ER_PIX_PLLC_P, mgaReg->PllP);
++
++        // Wait 50 us
++    usleep(50);
++
++}
++
+ static void
+ MGAG200WBPrepareForModeSwitch(ScrnInfoPtr pScrn)
+ {
+@@ -768,8 +878,13 @@ MGAGSetPCLK( ScrnInfoPtr pScrn, long f_out )
+ 
+ 	    pReg->PllM = m;
+ 	    pReg->PllN = n;
+-	    pReg->PllP = p;
+-        } else {
++	    pReg->PllP = p;		
++	} else if (pMga->is_G200ER) {
++	    MGAG200ERComputePLLParam(pScrn, f_out, &m, &n, &p);
++	    pReg->PllM = m;
++	    pReg->PllN = n;
++	    pReg->PllP = p;		
++    } else {
+ 	    /* Do the calculations for m, n, p and s */
+ 	    MGAGCalcClock( pScrn, f_out, &m, &n, &p, &s );
+ 
+@@ -966,6 +1081,10 @@ MGAGInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
+                 pReg->Option2 = 0x0000b000;
+                 break;
+ 
++		case PCI_CHIP_MGAG200_ER_PCI:
++			pReg->Dac_Index90 = 0;
++			break;
++
+         case PCI_CHIP_MGAG200_EH_PCI:
+                 pReg->DacRegs[MGA1064_MISC_CTL] =
+                     MGA1064_MISC_CTL_VGA8 |
+@@ -1088,6 +1207,7 @@ MGAGInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
+         if (pMga->is_G200WB){
+             pReg->ExtVga[1] |= 0x88;
+         }
++	pReg->ExtVga_Index24 = 0x05;
+ 		
+ 	pVga->CRTC[0]	= ht - 4;
+ 	pVga->CRTC[1]	= hd;
+@@ -1327,10 +1447,15 @@ MGA_NOT_HAL(
+ 	      if ( (pMga->is_G200EV || pMga->is_G200WB || pMga->is_G200EH) &&
+ 		   (i >= 0x44) && (i <= 0x4E))
+ 	         continue;
+-
++			 
+ 	      outMGAdac(i, mgaReg->DacRegs[i]);
+ 	   }
+ 	   
++		if (pMga->is_G200ER)
++        {
++			outMGAdac(0x90, mgaReg->Dac_Index90);
++        }
++   
+ 	   if (!MGAISGx50(pMga)) {
+ 	       /* restore pci_option register */
+ #ifdef XSERVER_LIBPCIACCESS
+@@ -1361,7 +1486,9 @@ MGA_NOT_HAL(
+ #endif
+ 	   }
+ 
+-           if (pMga->is_G200EV) {
++           if (pMga->is_G200ER) {
++               MGAG200ERPIXPLLSET(pScrn, mgaReg);               
++           } else  if (pMga->is_G200EV) {
+                MGAG200EVPIXPLLSET(pScrn, mgaReg);
+            } else if (pMga->is_G200WB) {
+                MGAG200WBPIXPLLSET(pScrn, mgaReg);
+@@ -1388,6 +1515,11 @@ MGA_NOT_HAL(
+            for (i = 0; i < 6; i++)
+ 	      OUTREG16(MGAREG_CRTCEXT_INDEX, (mgaReg->ExtVga[i] << 8) | i);
+ 
++           if (pMga->is_G200ER) {
++               OUTREG8(MGAREG_CRTCEXT_INDEX, 0x24);
++               OUTREG8(MGAREG_CRTCEXT_DATA,  mgaReg->ExtVga_Index24);			   
++           }
++
+ 	   /* This handles restoring the generic VGA registers. */
+ 	   if (pMga->is_G200SE) {
+  	      MGAG200SERestoreMode(pScrn, vgaReg);
+@@ -1404,7 +1536,7 @@ MGA_NOT_HAL(
+                OUTREG16(MGAREG_CRTCEXT_INDEX, 6);
+                OUTREG16(MGAREG_CRTCEXT_DATA, 0);
+            }
+-
++		   
+ 	   /*
+ 	    * this is needed to properly restore start address
+ 	    */
+@@ -1555,6 +1687,11 @@ MGAGSave(ScrnInfoPtr pScrn, vgaRegPtr vgaReg, MGARegPtr mgaReg,
+             mgaReg->PllM = inMGAdac(MGA1064_EH_PIX_PLLC_M);
+             mgaReg->PllN = inMGAdac(MGA1064_EH_PIX_PLLC_N);
+             mgaReg->PllP = inMGAdac(MGA1064_EH_PIX_PLLC_P);
++        } else if (pMga->is_G200ER) {
++            mgaReg->PllM = inMGAdac(MGA1064_ER_PIX_PLLC_M);
++            mgaReg->PllN = inMGAdac(MGA1064_ER_PIX_PLLC_N);
++            mgaReg->PllP = inMGAdac(MGA1064_ER_PIX_PLLC_P);
++            mgaReg->Dac_Index90 = inMGAdac(0x90);
+         }
+ 
+         mgaReg->PIXPLLCSaved = TRUE;
+@@ -1583,6 +1720,11 @@ MGAGSave(ScrnInfoPtr pScrn, vgaRegPtr vgaReg, MGARegPtr mgaReg,
+ 		OUTREG8(MGAREG_CRTCEXT_INDEX, i);
+ 		mgaReg->ExtVga[i] = INREG8(MGAREG_CRTCEXT_DATA);
+ 	}
++	if (pMga->is_G200ER)
++	{
++		OUTREG8(MGAREG_CRTCEXT_INDEX, 0x24);
++		mgaReg->ExtVga_Index24 = INREG8(MGAREG_CRTCEXT_DATA);
++	}
+ 
+ #ifdef DEBUG		
+ 	ErrorF("Saved values:\nDAC:");
+@@ -1737,7 +1879,7 @@ static const struct mgag_i2c_private {
+     { (1 << 0), (1 << 2) },
+     { (1 << 4), (1 << 5) },
+     { (1 << 0), (1 << 1) },  /* G200SE, G200EV and G200WB I2C bits */
+-    { (1 << 1), (1 << 0) },  /* G200EH I2C bits */
++    { (1 << 1), (1 << 0) },  /* G200EH, G200ER I2C bits */
+ };
+ 
+ 
+@@ -1750,7 +1892,7 @@ MGAG_ddc1Read(ScrnInfoPtr pScrn)
+ 
+   if (pMga->is_G200SE || pMga->is_G200WB || pMga->is_G200EV)
+     i2c_index = 3;
+-  else if (pMga->is_G200EH)
++  else if (pMga->is_G200EH || pMga->is_G200ER)
+     i2c_index = 4;
+   else
+     i2c_index = 0;
+@@ -1851,7 +1993,7 @@ MGAG_i2cInit(ScrnInfoPtr pScrn)
+ 
+         if (pMga->is_G200SE || pMga->is_G200WB || pMga->is_G200EV)
+             i2c_index = 3;
+-        else if (pMga->is_G200EH)
++        else if (pMga->is_G200EH || pMga->is_G200ER)
+             i2c_index = 4;
+         else
+             i2c_index = 0;
+@@ -1976,7 +2118,7 @@ void MGAGSetupFuncs(ScrnInfoPtr pScrn)
+     pMga->Save = MGAGSave;
+     pMga->Restore = MGAGRestore;
+     pMga->ModeInit = MGAGInit;
+-    if (!pMga->is_G200WB){
++    if ((!pMga->is_G200WB) && (!pMga->is_G200ER)) {
+         pMga->ddc1Read = MGAG_ddc1Read;
+         /* vgaHWddc1SetSpeed will only work if the card is in VGA mode */
+         pMga->DDC1SetSpeed = vgaHWddc1SetSpeedWeak();
+diff --git a/src/mga_driver.c b/src/mga_driver.c
+index 37bf847..7232c73 100644
+--- a/src/mga_driver.c
++++ b/src/mga_driver.c
+@@ -403,6 +403,21 @@ static const struct mga_device_attributes attribs[] = {
+ 	8192, 0x4000,          /* Memory probe size & offset values */
+     },
+ 
++    /* G200ER */
++    [15] = { 0, 1, 0, 0, 1, 0, 0, 0, new_BARs,
++            (TRANSC_SOLID_FILL | TWO_PASS_COLOR_EXPAND | USE_LINEAR_EXPANSION),
++	{
++	    { 50000, 230000 }, /* System VCO frequencies */
++	    { 50000, 203400 }, /* Pixel VCO frequencies */
++	    { 0, 0 },          /* Video VCO frequencies */
++	    45000,            /* Memory clock */
++	    27050,             /* PLL reference frequency */
++	    0,                 /* Supports fast bitblt? */
++	    MGA_HOST_PCI       /* Host interface */
++	},
++
++	16384, 0x4000,          /* Memory probe size & offset values */
++    }
+ };
+ 
+ #ifdef XSERVER_LIBPCIACCESS
+@@ -432,6 +447,8 @@ static const struct pci_id_match mga_device_match[] = {
+ 
+     MGA_DEVICE_MATCH( PCI_CHIP_MGAG200_EH_PCI, 14 ),
+ 
++	MGA_DEVICE_MATCH(PCI_CHIP_MGAG200_ER_PCI, 15 ),
++
+     { 0, 0, 0 },
+ };
+ #endif
+@@ -449,6 +466,7 @@ static SymTabRec MGAChipsets[] = {
+     { PCI_CHIP_MGAG200_SE_A_PCI,	"mgag200 SE A PCI" },
+     { PCI_CHIP_MGAG200_SE_B_PCI,	"mgag200 SE B PCI" },
+     { PCI_CHIP_MGAG200_EV_PCI,	"mgag200 EV Maxim" },
++    { PCI_CHIP_MGAG200_ER_PCI,	"mgag200 ER SH7757" },	
+     { PCI_CHIP_MGAG200_WINBOND_PCI,	"mgag200 eW Nuvoton" },
+     { PCI_CHIP_MGAG200_EH_PCI,	"mgag200eH" },
+     { PCI_CHIP_MGAG400,		"mgag400" },
+@@ -471,6 +489,8 @@ static PciChipsets MGAPciChipsets[] = {
+ 	RES_SHARED_VGA },
+     { PCI_CHIP_MGAG200_EV_PCI, PCI_CHIP_MGAG200_EV_PCI,
+ 	RES_SHARED_VGA },
++    { PCI_CHIP_MGAG200_ER_PCI, PCI_CHIP_MGAG200_ER_PCI,
++	RES_SHARED_VGA },
+     { PCI_CHIP_MGAG200_WINBOND_PCI, PCI_CHIP_MGAG200_WINBOND_PCI,
+ 	RES_SHARED_VGA },
+     { PCI_CHIP_MGAG200_EH_PCI, PCI_CHIP_MGAG200_EH_PCI,
+@@ -912,6 +932,11 @@ MGAProbe(DriverPtr drv, int flags)
+             case PCI_CHIP_MGAG200_EH_PCI:
+                 attrib_no = 14;
+                 break;
++				
++            case PCI_CHIP_MGAG200_ER_PCI:
++                attrib_no = 15;
++                break;
++				
+ 
+ 	    default:
+ 		return FALSE;
+@@ -1285,6 +1310,11 @@ MGAdoDDC(ScrnInfoPtr pScrn)
+     MGASave(pScrn);
+ 
+     /* It is now safe to talk to the card */
++    /* Allow access to DDC */
++    if (pMga->is_G200ER) {
++	 CARD8 ucData = inMGAdac(MGA1064_GEN_IO_CTL2);
++     outMGAdac(MGA1064_GEN_IO_CTL2, ucData | 1);        
++    }
+ 
+     /* Initialize I2C buses - used by DDC if available */
+     if (pMga->i2cInit) {
+@@ -1326,6 +1356,12 @@ MGAdoDDC(ScrnInfoPtr pScrn)
+ 	xf86DrvMsg(pScrn->scrnIndex, X_INFO, "end of monitor info\n");
+     }
+ 
++    /* Remove access to DDC */
++    if (pMga->is_G200ER) {
++	  CARD8 ucData = inMGAdac(MGA1064_GEN_IO_CTL2);
++      outMGAdac(MGA1064_GEN_IO_CTL2, ucData & ~1);        
++    }
++
+     /* Restore previous state and unmap MGA memory and MMIO areas */
+     MGARestore(pScrn);
+     MGAUnmapMem(pScrn);
+@@ -1619,6 +1655,7 @@ MGAPreInit(ScrnInfoPtr pScrn, int flags)
+     pMga->is_G200EV = (pMga->Chipset == PCI_CHIP_MGAG200_EV_PCI);
+     pMga->is_G200WB = (pMga->Chipset == PCI_CHIP_MGAG200_WINBOND_PCI);
+     pMga->is_G200EH = (pMga->Chipset == PCI_CHIP_MGAG200_EH_PCI);
++    pMga->is_G200ER = (pMga->Chipset == PCI_CHIP_MGAG200_ER_PCI);
+ 
+ #ifdef USEMGAHAL
+     if (pMga->chip_attribs->HAL_chipset) {
+@@ -2134,6 +2171,7 @@ MGAPreInit(ScrnInfoPtr pScrn, int flags)
+     case PCI_CHIP_MGAG200_WINBOND_PCI:
+     case PCI_CHIP_MGAG200_EV_PCI:
+     case PCI_CHIP_MGAG200_EH_PCI:
++    case PCI_CHIP_MGAG200_ER_PCI:	
+     case PCI_CHIP_MGAG400:
+     case PCI_CHIP_MGAG550:
+ 	MGAGSetupFuncs(pScrn);
+@@ -2247,6 +2285,7 @@ MGAPreInit(ScrnInfoPtr pScrn, int flags)
+           case PCI_CHIP_MGAG200_WINBOND_PCI:
+ 	  case PCI_CHIP_MGAG200_EV_PCI:
+       case PCI_CHIP_MGAG200_EH_PCI:
++	  case PCI_CHIP_MGAG200_ER_PCI:	  
+ 	    pMga->SrcOrg = 0;
+ 	    pMga->DstOrg = 0;
+ 	    break;
+@@ -2424,16 +2463,17 @@ MGAPreInit(ScrnInfoPtr pScrn, int flags)
+ 	   maxPitch = 2048;
+ 	   break;
+ 	case PCI_CHIP_MGAG200_SE_A_PCI:
+-	   if (pScrn->videoRam < 2048){
++           if (pScrn->videoRam < 2048){
+                maxPitch = 1280;
+-	   }
+-	   break;
++           }
++           break;
+ 	case PCI_CHIP_MGAG200:
+ 	case PCI_CHIP_MGAG200_PCI:
+ 	case PCI_CHIP_MGAG200_SE_B_PCI:
+         case PCI_CHIP_MGAG200_WINBOND_PCI:
+ 	case PCI_CHIP_MGAG200_EV_PCI:
+     case PCI_CHIP_MGAG200_EH_PCI:
++	case PCI_CHIP_MGAG200_ER_PCI:	
+ 	case PCI_CHIP_MGAG400:
+ 	case PCI_CHIP_MGAG550:
+ 	   maxPitch = 4096;
+@@ -4332,10 +4372,13 @@ MGAValidMode(int scrnIndex, DisplayModePtr mode, Bool verbose, int flags)
+ 	    return MODE_BANDWIDTH;
+     } else if (pMga->is_G200EV
+ 	       && (xf86ModeBandwidth(mode, pScrn->bitsPerPixel) > 327)) {
+-        return MODE_BANDWIDTH;
++	return MODE_BANDWIDTH;
+     } else if (pMga->is_G200EH
+                && (xf86ModeBandwidth(mode, pScrn->bitsPerPixel) > 375)) {
+         return MODE_BANDWIDTH;
++    } else if (pMga->is_G200ER
++               && (xf86ModeBandwidth(mode, pScrn->bitsPerPixel) > 550)) {
++        return MODE_BANDWIDTH;
+     }
+ 
+     lace = 1 + ((mode->Flags & V_INTERLACE) != 0);
+diff --git a/src/mga_merge.c b/src/mga_merge.c
+index 753f752..1fd0572 100644
+--- a/src/mga_merge.c
++++ b/src/mga_merge.c
+@@ -363,6 +363,7 @@ MGAPreInitMergedFB(ScrnInfoPtr pScrn1, int flags)
+     case PCI_CHIP_MGAG200_WINBOND_PCI:
+     case PCI_CHIP_MGAG200_EV_PCI:
+     case PCI_CHIP_MGAG200_EH_PCI:
++	case PCI_CHIP_MGAG200_ER_PCI:
+     case PCI_CHIP_MGAG400:
+     case PCI_CHIP_MGAG550:
+ 	MGAGSetupFuncs(pScrn);
+@@ -518,6 +519,7 @@ MGAPreInitMergedFB(ScrnInfoPtr pScrn1, int flags)
+         case PCI_CHIP_MGAG200_WINBOND_PCI:
+         case PCI_CHIP_MGAG200_EV_PCI:
+         case PCI_CHIP_MGAG200_EH_PCI:
++	case PCI_CHIP_MGAG200_ER_PCI:		
+ 	case PCI_CHIP_MGAG400:
+ 	case PCI_CHIP_MGAG550:
+ 	   maxPitch = 4096;
+diff --git a/src/mga_reg.h b/src/mga_reg.h
+index ffe4723..5a37db6 100644
+--- a/src/mga_reg.h
++++ b/src/mga_reg.h
+@@ -369,6 +369,7 @@
+ #define MGA1064_MISC_CTL_VGA8   		( 0x01 << 3 )
+ #define MGA1064_MISC_CTL_DAC_RAM_CS   		( 0x01 << 4 )
+ 
++#define MGA1064_GEN_IO_CTL2	0x29
+ #define MGA1064_GEN_IO_CTL	0x2a
+ #define MGA1064_GEN_IO_DATA	0x2b
+ #define MGA1064_SYS_PLL_M	0x2c
+@@ -429,6 +430,10 @@
+ #define MGA1064_EH_PIX_PLLC_N   0xb7
+ #define MGA1064_EH_PIX_PLLC_P   0xb8
+ 
++/* Modified PLL for G200 Maxim (G200ER) */
++#define MGA1064_ER_PIX_PLLC_M	0xb7
++#define MGA1064_ER_PIX_PLLC_N	0xb6
++#define MGA1064_ER_PIX_PLLC_P	0xb8
+ 
+ #define MGA1064_DISP_CTL        0x8a
+ #define MGA1064_DISP_CTL_DAC1OUTSEL_MASK       0x01
+diff --git a/src/mga_storm.c b/src/mga_storm.c
+index 87473c8..db7fae7 100644
+--- a/src/mga_storm.c
++++ b/src/mga_storm.c
+@@ -1131,6 +1131,7 @@ void MGAStormEngineInit( ScrnInfoPtr pScrn )
+     case PCI_CHIP_MGAG200_WINBOND_PCI:
+     case PCI_CHIP_MGAG200_EV_PCI:
+     case PCI_CHIP_MGAG200_EH_PCI:
++    case PCI_CHIP_MGAG200_ER_PCI:	
+ 	pMga->SrcOrg = 0;
+ 	OUTREG(MGAREG_SRCORG, pMga->realSrcOrg);
+ 	OUTREG(MGAREG_DSTORG, pMga->DstOrg);
+--
+cgit v0.8.3-6-g21f6
