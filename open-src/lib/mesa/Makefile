@@ -82,6 +82,9 @@ MODULE_CONFIG_OPTS = --with-driver=dri --disable-egl --disable-gallium \
 	--with-dri-driverdir='$(X11_SERVERMODS_DIR)/dri' \
 	--with-dri-drivers='$(DRI_DRIVER_LIST)'
 
+# Build mesa with this define (CR 7032292)
+MODULE_CFLAGS = -D__EXTENSIONS__
+
 # Override LDFLAGS passed to configure to not include CFLAGS, since that
 # breaks building libGLU with Sun Studio C++ compiler
 MODULE_CONFIG_ENV = LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(ARCH_FLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)"
