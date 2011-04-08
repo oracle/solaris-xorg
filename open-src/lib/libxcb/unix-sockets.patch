@@ -1,0 +1,60 @@
+From eb9dd980bdfda54a15271743ac657dbadfaf9930 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Mon, 4 Apr 2011 21:36:47 -0700
+Subject: [PATCH] If protocol is "unix", use a Unix domain socket, not TCP
+
+Fixes fallback to local connections from Xlib's XOpenDisplay(), which
+will try with protocol "unix" if a hostname is specified and tcp fails
+(as it usually will now that most OS'es ship with -nolisten tcp enabled).
+
+Also fixes explicitly specifying DISPLAY as "unix/foo:0", which Xlib
+previously accepted for Unix domain sockets.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/xcb_util.c |   27 ++++++---------------------
+ 1 files changed, 6 insertions(+), 21 deletions(-)
+
+diff --git a/src/xcb_util.c b/src/xcb_util.c
+index 6782ee4..4936cf6 100644
+--- a/src/xcb_util.c
++++ b/src/xcb_util.c
+@@ -170,28 +170,13 @@ static int _xcb_open(const char *host, char *protocol, const int display)
+         }
+ #endif
+ 
+-    if(*host || protocol)
++    /* If protocol or host is "unix", fall through to Unix socket code below */
++    if ((!protocol || (strcmp("unix",protocol) != 0)) &&
++        (*host != '\0') && (strcmp("unix",host) != 0))
+     {
+-#ifdef DNETCONN
+-        /* DECnet displays have two colons, so _xcb_parse_display will have
+-           left one at the end.  However, an IPv6 address can end with *two*
+-           colons, so only treat this as a DECnet display if host ends with
+-           exactly one colon. */
+-        char *colon = strchr(host, ':');
+-        if(colon && *(colon+1) == '\0')
+-        {
+-            *colon = '\0';
+-            return _xcb_open_decnet(host, protocol, display);
+-        }
+-        else
+-#endif
+-            if (protocol
+-                || strcmp("unix",host)) { /* follow the old unix: rule */
+-
+-                /* display specifies TCP */
+-                unsigned short port = X_TCP_PORT + display;
+-                return _xcb_open_tcp(host, protocol, port);
+-            }
++        /* display specifies TCP */
++        unsigned short port = X_TCP_PORT + display;
++        return _xcb_open_tcp(host, protocol, port);
+     }
+ 
+ #if defined(HAVE_TSOL_LABEL_H) && defined(HAVE_IS_SYSTEM_LABELED)
+
+-- 
+1.7.3.2
+
