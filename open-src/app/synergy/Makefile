@@ -2,7 +2,7 @@
 #
 # synergy 1.x Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -108,7 +108,6 @@ LD_OPTIONS = -lc -lstdcxx4 -lCrun -lm -lsocket -lnsl -lgen -z combreloc -z ignor
 
 MODULE_ENV = \
 	     SHELL="/bin/ksh93" \
-	     CONFIG_SHELL="/bin/ksh93" \
 	     CC="$(CC)" \
 	     CXX="$(CXX)" \
 	     CXXFLAGS="$(CXXFLAGS) $(MODULE_CXXFLAGS)" \

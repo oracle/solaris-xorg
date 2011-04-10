@@ -502,6 +502,12 @@ $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 
 DEFAULT_PKG_CONFIG_PATH=$(TOP)/open-src/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
 
+# Most upstream software is written by developers using bash as /bin/sh, so
+# we run configure scripts with that to minimize problems and work around
+# some ksh93 bugs we've hit
+CONFIG_SHELL_DEFAULT		= $(CONFIG_SHELL_SET:yes=$(POUND_SIGN))
+$(CONFIG_SHELL_DEFAULT)		CONFIG_SHELL = /usr/bin/bash
+
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
 $(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN))	DEFAULT_CONFIG_ENV = \
@@ -513,7 +519,7 @@ $(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN))	DEFAULT_CONFIG_ENV = \
     LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_CFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)" \
     PKG_CONFIG_PATH="$(DEFAULT_PKG_CONFIG_PATH)" \
     INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p" \
-    MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(SHELL)"
+    MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
 
 CONFIG_ENV = $(DEFAULT_CONFIG_ENV) $(MODTYPE_CONFIG_ENV) $(MODULE_CONFIG_ENV)
 
@@ -528,7 +534,7 @@ $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	     $(AUTORECONF_ENV) autoreconf -v --install --force ; \
 	fi ; \
 	chmod a+x configure ; \
-	$(CONFIG_ENV) $(SHELL) ./configure $(CONFIG_OPTS) ; \
+	$(CONFIG_ENV) $(CONFIG_SHELL) ./configure $(CONFIG_OPTS) ; \
 	if [[ "$(DELIBTOOLIZE)" = "yes" ]] ; then \
 	    $(TOP)/open-src/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
 	fi

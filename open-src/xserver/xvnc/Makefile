@@ -194,17 +194,17 @@ MODULE_MAKEFLAGS = PROTODIR=$(PROTODIR)
 $(SOURCE_DIR)/unix/Makefile: $(SOURCE_TARGETS)
 	(cd $(SOURCE_DIR)/common && \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(VNC_CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
+		$(VNC_CONFIG_ENV) $(CONFIG_SHELL) ./configure $(VNC_CONFIG_OPTS) )
 	(cd $(SOURCE_DIR)/unix && \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(VNC_CONFIG_ENV) $(SHELL) ./configure $(VNC_CONFIG_OPTS) )
+		$(VNC_CONFIG_ENV) $(CONFIG_SHELL) ./configure $(VNC_CONFIG_OPTS) )
 
 
 # Run configure script for Xvnc
 $(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 	(cd $(XORG_BUILD_DIR) &&  \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(XVNC_CONFIG_ENV) $(SHELL) ./configure $(XVNC_CONFIG_OPTS) )
+		$(XVNC_CONFIG_ENV) $(CONFIG_SHELL) ./configure $(XVNC_CONFIG_OPTS) )
 
 Xvnc_build: $(CONFIGURE_TARGETS)
 	(cd $(SOURCE_DIR)/unix ; \

@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -274,7 +274,7 @@ sub modify_file {
 	my $dirname = $1;
 	my $installrule = <<'END_RULE';
 	list='$(<DIRNAME>_LTLIBRARIES)'; for p in $$list; do \
-	  so=$${p%+(.+(\d))} ; \
+	  so=$${p%.[[:digit:]]} ; \
 	  if [[ "$$p" != "$$so" ]] ; then \
 		echo "rm -f $(DESTDIR)$(<DIRNAME>dir)/$$so" ; \
 		rm -f $(DESTDIR)$(<DIRNAME>dir)/$$so ; \

@@ -55,10 +55,6 @@ MODULE_COMPILER_SET=yes
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS=--enable-dri
 
-# Need to override setting of CONFIG_SHELL from Makefile.init to work around
-# ksh93 bug that causes config.status/config.h to be incorrectly generated
-MODULE_CONFIG_ENV= CONFIG_SHELL=/usr/bin/bash
-
 # Paths to find libraries/modules to link with - libraries themselves listed
 # in src/Makefile.am since ATI has multiple submodules with different needs
 MODULE_LD_OPTIONS= \

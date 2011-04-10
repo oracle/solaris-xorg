@@ -2,7 +2,7 @@
 #
 # FreeGLUT 2.6.0 Makefile
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -69,9 +69,6 @@ MODULE_LD_OPTIONS += -z combreloc -z redlocsym -z ignore
 # We want GNU cp
 GNUCP=/usr/gnu/bin/cp
 
-# And GNU sed
-GSED=/usr/gnu/bin/sed
-
 # We must build with GNU make
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
@@ -103,7 +100,6 @@ MODULE_LDFLAGS += -z combreloc -z redlocsym -z ignore
 MODULE_ENV = \
 	     SHELL="/bin/bash" \
 	     MAKESHELL="/bin/bash" \
-	     CONFIG_SHELL="/bin/bash" \
 	     PROTODIR="$(PROTODIR)" \
 	     CC="$(CC)" \
 	     CPPFLAGS="$(MODULE_CPPFLAGS) $(CPPFLAGS)" \
@@ -121,11 +117,8 @@ MODULE_BUILD_ENV = $(MODULE_ENV)
 
 include ../Makefile.inc
 
-# Freeglut needs libtool
+# Freeglut's $(VERSION_INFO) breaks delibtoolize.pl
 DELIBTOOLIZE=no
-
-# But we don't want autoreconf
-AUTORECONF=no
 
 install: install_extra_symlinks
 

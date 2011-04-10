@@ -2,7 +2,7 @@
 #
 # Freetype 2.x Makefile
 #
-# Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -85,7 +85,6 @@ MODULE_PREFIX_SET=yes
 
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS= \
-	CONFIG_SHELL="/bin/bash" \
 	--enable-biarch-config \
 	--libdir='$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)' \
 	--with-zlib \
@@ -108,7 +107,6 @@ INSTALL_TARGETS_SET=yes
 MODULE_ENV = \
     SHELL="/bin/bash" \
     MAKESHELL="/bin/bash" \
-    CONFIG_SHELL="/bin/bash" \
     CPP="$(CC) -E $(LIB_CFLAGS)" \
     CXXCPP="$(CXX) -E $(CXXFLAGS)" \
     MAKEFLAGS= \
