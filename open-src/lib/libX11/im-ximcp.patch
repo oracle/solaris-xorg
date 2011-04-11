@@ -21,9 +21,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw.c
+diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw.c
 --- modules/im/ximcp/imImSw.c	2010-09-03 22:52:38.000000000 -0700
-+++ modules/im/ximcp/imImSw.c	2010-11-21 18:47:59.406356831 -0800
++++ modules/im/ximcp/imImSw.c	2011-04-06 13:52:23.090417547 -0700
 @@ -48,7 +48,9 @@ _XimCheckIfDefault(
  }
  
@@ -34,9 +34,9 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw.
      { _XimCheckIfThaiProcessing,	_XimThaiOpenIM,	 _XimThaiIMFree },
      { _XimCheckIfDefault,         _XimProtoOpenIM, _XimProtoIMFree },
      { NULL,                       NULL,		 NULL },
-diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imThaiFlt.c
---- modules/im/ximcp/imThaiFlt.c	2010-09-03 22:52:38.000000000 -0700
-+++ modules/im/ximcp/imThaiFlt.c	2010-11-21 18:47:59.407125117 -0800
+diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imThaiFlt.c
+--- modules/im/ximcp/imThaiFlt.c	2011-03-24 22:34:22.000000000 -0700
++++ modules/im/ximcp/imThaiFlt.c	2011-04-06 13:52:23.091092465 -0700
 @@ -76,6 +76,12 @@ SOFTWARE.
  #include "XimThai.h"
  #include "XlcPubI.h"
@@ -206,7 +206,7 @@ diff -urp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imTh
      if ((new_char <= 0x1f) || (new_char == 0x7f))
          b->tree[ic->private.local.composed].keysym = symbol;
      else
-@@ -1367,7 +1483,15 @@ _XimThaiFilter(Display *d, Window w, XEv
+@@ -1374,7 +1490,15 @@ _XimThaiFilter(Display *d, Window w, XEv
       */
      isc_mode = IC_IscMode(ic);
      if (!(previous_char = IC_GetPreviousChar(ic))) previous_char = ' ';

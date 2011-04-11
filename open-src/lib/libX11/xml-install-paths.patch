@@ -1,0 +1,68 @@
+From 78a05d38e4736d75a175a1b99270940f83a24b56 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 8 Apr 2011 21:36:11 -0700
+Subject: [PATCH:libX11] Make doc install directories match pre-docbook.am paths
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ specs/i18n/framework/Makefile.am |    2 +-
+ specs/i18n/localedb/Makefile.am  |    2 +-
+ specs/i18n/trans/Makefile.am     |    2 +-
+ specs/libX11/Makefile.am         |    2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/specs/i18n/framework/Makefile.am b/specs/i18n/framework/Makefile.am
+index 350b7df..af7ae1d 100644
+--- a/specs/i18n/framework/Makefile.am
++++ b/specs/i18n/framework/Makefile.am
+@@ -8,7 +8,7 @@ docbook = framework.xml
+ chapters = framework.svg
+ 
+ # The location where the DocBook/XML files and their generated formats are installed
+-shelfdir = $(docdir)/framework
++shelfdir = $(docdir)/i18n/framework
+ 
+ # Generate DocBook/XML output formats with or without stylesheets
+ include $(top_srcdir)/docbook.am
+diff --git a/specs/i18n/localedb/Makefile.am b/specs/i18n/localedb/Makefile.am
+index 0c52a13..68a917c 100644
+--- a/specs/i18n/localedb/Makefile.am
++++ b/specs/i18n/localedb/Makefile.am
+@@ -5,7 +5,7 @@ if ENABLE_SPECS
+ docbook = localedb.xml
+ 
+ # The location where the DocBook/XML files and their generated formats are installed
+-shelfdir = $(docdir)/localedb
++shelfdir = $(docdir)/i18n/localedb
+ 
+ # Generate DocBook/XML output formats with or without stylesheets
+ include $(top_srcdir)/docbook.am
+diff --git a/specs/i18n/trans/Makefile.am b/specs/i18n/trans/Makefile.am
+index 6e4baf1..40a135a 100644
+--- a/specs/i18n/trans/Makefile.am
++++ b/specs/i18n/trans/Makefile.am
+@@ -5,7 +5,7 @@ if ENABLE_SPECS
+ docbook = trans.xml
+ 
+ # The location where the DocBook/XML files and their generated formats are installed
+-shelfdir = $(docdir)/trans
++shelfdir = $(docdir)/i18n/trans
+ 
+ # Generate DocBook/XML output formats with or without stylesheets
+ include $(top_srcdir)/docbook.am
+diff --git a/specs/libX11/Makefile.am b/specs/libX11/Makefile.am
+index c4de67e..b87e568 100644
+--- a/specs/libX11/Makefile.am
++++ b/specs/libX11/Makefile.am
+@@ -30,7 +30,7 @@ chapters =		\
+ 	glossary.xml
+ 
+ # The location where the DocBook/XML files and their generated formats are installed
+-shelfdir = $(docdir)
++shelfdir = $(docdir)/libX11
+ 
+ # Generate DocBook/XML output formats with or without stylesheets
+ include $(top_srcdir)/docbook.am
+-- 
+1.7.3.2
+

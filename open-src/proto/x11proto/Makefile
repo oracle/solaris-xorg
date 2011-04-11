@@ -27,15 +27,14 @@
 MODULE_NAME=xproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.0.20
+MODULE_VERSION=7.0.21
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 65633168e5315c19defb4652cd3d83c1
-TARBALL_SHA1 = a55d051c8ad9c50e90429c9319d6d3af821f0696
+TARBALL_MD5  = c5a93a69b701cf81925fab02b35b0d0e
+TARBALL_SHA1 = 608290fa354b1aff4a075c905f1057d979c62ac9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	xfuncproto.patch,-p1 \
 	X.h-patch
 
 # ARC cases that covered this module

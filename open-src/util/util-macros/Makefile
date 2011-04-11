@@ -31,11 +31,11 @@ MODULE_PKGNAME=developer/build/autoconf/xorg-macros
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.11.0
+MODULE_VERSION=1.13.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 22d5cdff672450cb6902e0d68c200dcb
-TARBALL_SHA1 = 646188eeca4fa319d95aba7a271149bcbf9ee49e
+TARBALL_MD5  = ed6dbe0cd80c29fd7d6653385b1db540
+TARBALL_SHA1 = 5d86ac2a4c0aa3428d72aff35dacc07baf883121
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -22,18 +22,18 @@
 #
 
 
-diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
---- src/KeyBind.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/KeyBind.c	2010-11-21 18:47:55.561803959 -0800
-@@ -44,6 +44,7 @@ in this Software without prior written a
- #define XK_CAUCASUS
+diff -Nurp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
+--- src/KeyBind.c	2011-03-24 22:34:22.000000000 -0700
++++ src/KeyBind.c	2011-04-06 13:52:16.519172102 -0700
+@@ -45,6 +45,7 @@ in this Software without prior written a
  #define XK_VIETNAMESE
  #define XK_XKB_KEYS
+ #define XK_SINHALA
 +#define XK_CURRENCY
  #include <X11/keysymdef.h>
  #include <stdio.h>
  
-@@ -55,6 +56,20 @@ in this Software without prior written a
+@@ -56,6 +57,20 @@ in this Software without prior written a
  #include "Xresource.h"
  #include "Key.h"
  
@@ -54,7 +54,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  #ifdef XKB
  #include "XKBlib.h"
  #include "XKBlibint.h"
-@@ -76,6 +91,11 @@ ComputeMaskFromKeytrans(
+@@ -77,6 +92,11 @@ ComputeMaskFromKeytrans(
      Display *dpy,
      register struct _XKeytrans *p);
  
@@ -66,7 +66,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  struct _XKeytrans {
  	struct _XKeytrans *next;/* next on list */
  	char *string;		/* string to return when the time comes */
-@@ -97,6 +117,10 @@ KeyCodetoKeySym(register Display *dpy, K
+@@ -98,6 +118,10 @@ KeyCodetoKeySym(register Display *dpy, K
  	((int)keycode < dpy->min_keycode) || ((int)keycode > dpy->max_keycode))
        return NoSymbol;
  
@@ -77,7 +77,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
      syms = &dpy->keysyms[(keycode - dpy->min_keycode) * per];
      if (col < 4) {
  	if (col > 1) {
-@@ -765,6 +789,9 @@ _XTranslateKey(	register Display *dpy,
+@@ -766,6 +790,9 @@ _XTranslateKey(	register Display *dpy,
      int per;
      register KeySym *syms;
      KeySym sym, lsym, usym;
@@ -87,7 +87,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  
      if ((! dpy->keysyms) && (! _XKeyInitialize(dpy)))
  	return 0;
-@@ -779,17 +806,54 @@ _XTranslateKey(	register Display *dpy,
+@@ -780,17 +807,54 @@ _XTranslateKey(	register Display *dpy,
      syms = &dpy->keysyms[(keycode - dpy->min_keycode) * per];
      while ((per > 2) && (syms[per - 1] == NoSymbol))
  	per--;
@@ -142,7 +142,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
      } else if (!(modifiers & ShiftMask) &&
  	(!(modifiers & LockMask) || (dpy->lock_meaning == NoSymbol))) {
  	if ((per == 1) || (syms[1] == NoSymbol))
-@@ -817,19 +881,41 @@ _XTranslateKey(	register Display *dpy,
+@@ -818,19 +882,41 @@ _XTranslateKey(	register Display *dpy,
  
  int
  _XTranslateKeySym(
@@ -190,7 +190,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
      /* see if symbol rebound, if so, return that string. */
      for (p = dpy->key_bindings; p; p = p->next) {
  	if (((modifiers & AllMods) == p->state) && (symbol == p->key)) {
-@@ -843,8 +929,29 @@ _XTranslateKeySym(
+@@ -844,8 +930,29 @@ _XTranslateKeySym(
      hiBytes = symbol >> 8;
      if (!(nbytes &&
  	  ((hiBytes == 0) ||
@@ -220,7 +220,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  	     (symbol == XK_Return) ||
  	     (symbol == XK_Escape) ||
  	     (symbol == XK_KP_Space) ||
-@@ -855,15 +962,35 @@ _XTranslateKeySym(
+@@ -856,15 +963,35 @@ _XTranslateKeySym(
  	     (symbol == XK_Delete))))))
  	return 0;
  
@@ -256,7 +256,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  	if ((c >= '@' && c < '\177') || c == ' ') c &= 0x1F;
  	else if (c == '2') c = '\000';
  	else if (c >= '3' && c <= '7') c -= ('3' - '\033');
-@@ -957,11 +1084,22 @@ XLookupString (
+@@ -958,11 +1085,22 @@ XLookupString (
      }
  #endif
  
@@ -279,7 +279,7 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
  }
  
  static void
-@@ -1075,3 +1213,287 @@ ComputeMaskFromKeytrans(
+@@ -1076,3 +1214,287 @@ ComputeMaskFromKeytrans(
      }
      p->state &= AllMods;
  }
@@ -567,9 +567,9 @@ diff -urp -x '*~' -x '*.orig' src/KeyBind.c src/KeyBind.c
 +    }
 +}
 +#endif /* SUNSOFT_KBD */
-diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
---- src/xkb/XKBBind.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/xkb/XKBBind.c	2010-11-21 18:47:55.562288437 -0800
+diff -Nurp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
+--- src/xkb/XKBBind.c	2011-01-29 10:09:13.000000000 -0800
++++ src/xkb/XKBBind.c	2011-04-06 13:52:16.519538005 -0700
 @@ -577,6 +577,20 @@ XkbTranslateKeySym(	register Display *	d
  			int 			nbytes,
  			int *			extra_rtrn)
@@ -652,9 +652,9 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBBind.c src/xkb/XKBBind.c
  }
  
  
-diff -urp -x '*~' -x '*.orig' src/xkb/XKBlibint.h src/xkb/XKBlibint.h
+diff -Nurp -x '*~' -x '*.orig' src/xkb/XKBlibint.h src/xkb/XKBlibint.h
 --- src/xkb/XKBlibint.h	2010-09-03 22:52:39.000000000 -0700
-+++ src/xkb/XKBlibint.h	2010-11-21 18:47:55.562584726 -0800
++++ src/xkb/XKBlibint.h	2011-04-06 13:52:16.519753992 -0700
 @@ -175,10 +175,19 @@ extern int _XTranslateKey(
  
  extern int	_XTranslateKeySym(
@@ -693,9 +693,9 @@ diff -urp -x '*~' -x '*.orig' src/xkb/XKBlibint.h src/xkb/XKBlibint.h
  _XFUNCPROTOEND
  
  #endif /* _XKBLIBINT_H_ */
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
---- src/xlibi18n/ICWrap.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/xlibi18n/ICWrap.c	2010-11-21 18:47:55.562971854 -0800
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/ICWrap.c src/xlibi18n/ICWrap.c
+--- src/xlibi18n/ICWrap.c	2011-01-29 10:09:13.000000000 -0800
++++ src/xlibi18n/ICWrap.c	2011-04-06 13:52:16.520026528 -0700
 @@ -67,6 +67,12 @@ from The Open Group.
  #include "Xlibint.h"
  #include "Xlcint.h"

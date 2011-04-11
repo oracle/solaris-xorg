@@ -21,26 +21,26 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2010-11-21 18:48:03.658185379 -0800
-+++ configure.ac	2010-11-21 18:48:04.458891398 -0800
-@@ -455,6 +455,7 @@ AC_OUTPUT([Makefile
- 	   modules/im/ximcp/Makefile
- 	   modules/lc/Makefile
- 	   modules/lc/def/Makefile
-+	   modules/lc/gb18030/Makefile
- 	   modules/lc/gen/Makefile
- 	   modules/lc/Utf8/Makefile
- 	   modules/lc/xlocale/Makefile
-diff -urp -x '*~' -x '*.orig' modules/lc/Makefile.am modules/lc/Makefile.am
+diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2011-04-06 13:52:26.413533808 -0700
++++ configure.ac	2011-04-06 13:52:27.461991654 -0700
+@@ -450,6 +450,7 @@ AC_CONFIG_FILES([Makefile
+ 		modules/im/ximcp/Makefile
+ 		modules/lc/Makefile
+ 		modules/lc/def/Makefile
++		modules/lc/gb18030/Makefile
+ 		modules/lc/gen/Makefile
+ 		modules/lc/Utf8/Makefile
+ 		modules/lc/xlocale/Makefile
+diff -Nurp -x '*~' -x '*.orig' modules/lc/Makefile.am modules/lc/Makefile.am
 --- modules/lc/Makefile.am	2010-09-03 22:52:38.000000000 -0700
-+++ modules/lc/Makefile.am	2010-11-21 18:48:04.459061907 -0800
++++ modules/lc/Makefile.am	2011-04-06 13:52:27.462144697 -0700
 @@ -1 +1 @@
 -SUBDIRS=Utf8 def gen xlocale
 +SUBDIRS=Utf8 def gen xlocale gb18030
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/Makefile.am src/xlibi18n/Makefile.am
---- src/xlibi18n/Makefile.am	2010-09-21 18:25:24.000000000 -0700
-+++ src/xlibi18n/Makefile.am	2010-11-21 18:48:04.459305791 -0800
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/Makefile.am src/xlibi18n/Makefile.am
+--- src/xlibi18n/Makefile.am	2011-01-29 10:09:13.000000000 -0800
++++ src/xlibi18n/Makefile.am	2011-04-06 13:52:27.462304357 -0700
 @@ -36,6 +36,7 @@ LC_LIBS = \
  	${top_builddir}/modules/lc/def/libxlcDef.la \
  	${top_builddir}/modules/lc/gen/libxlibi18n.la \
@@ -49,9 +49,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/Makefile.am src/xlibi18n/Makefile.am
  	${top_builddir}/modules/lc/xlocale/libxlocale.la
  
  OM_LIBS = \
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/Xlcint.h src/xlibi18n/Xlcint.h
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/Xlcint.h src/xlibi18n/Xlcint.h
 --- src/xlibi18n/Xlcint.h	2010-09-03 22:52:39.000000000 -0700
-+++ src/xlibi18n/Xlcint.h	2010-11-21 18:48:04.459698934 -0800
++++ src/xlibi18n/Xlcint.h	2011-04-06 13:52:27.462605995 -0700
 @@ -932,6 +932,12 @@ extern XLCd _XlcUtf8Loader(
      const char*		name
  );
@@ -65,9 +65,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/Xlcint.h src/xlibi18n/Xlcint.h
  /* The old EUC locale loader. */
  extern XLCd _XlcEucLoader(
      const char*		name
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
---- src/xlibi18n/lcCT.c	2010-11-21 18:48:03.683823575 -0800
-+++ src/xlibi18n/lcCT.c	2010-11-21 18:48:04.460141231 -0800
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
+--- src/xlibi18n/lcCT.c	2011-04-06 13:52:26.445490222 -0700
++++ src/xlibi18n/lcCT.c	2011-04-06 13:52:27.462981375 -0700
 @@ -126,6 +126,8 @@ static const CTDataRec default_ct_data[]
      { "BIG5-0:GLGR", "\033%/2"},
      { "BIG5HKSCS-0:GLGR", "\033%/2"},
@@ -77,9 +77,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      /* used by Emacs, but not backed by ISO-IR */
      { "BIG5-E0:GL", "\033$(0" },
      { "BIG5-E0:GR", "\033$)0" },
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
---- src/xlibi18n/lcInit.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/xlibi18n/lcInit.c	2010-11-21 18:48:04.460499579 -0800
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
+--- src/xlibi18n/lcInit.c	2011-01-29 10:09:13.000000000 -0800
++++ src/xlibi18n/lcInit.c	2011-04-06 13:52:27.463186940 -0700
 @@ -106,6 +106,7 @@ Sun Microsystems, Inc. or its licensors 
  #define USE_GENERIC_LOADER
  #define USE_DEFAULT_LOADER
@@ -110,9 +110,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcInit.c src/xlibi18n/lcInit.c
  #ifdef USE_DYNAMIC_LOADER
      _XlcRemoveLoader(_XlcDynamicLoader);
  #endif
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
---- src/xlibi18n/lcUTF8.c	2010-11-21 18:48:03.684843035 -0800
-+++ src/xlibi18n/lcUTF8.c	2010-11-21 18:48:04.461129908 -0800
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
+--- src/xlibi18n/lcUTF8.c	2011-04-06 13:52:26.446628892 -0700
++++ src/xlibi18n/lcUTF8.c	2011-04-06 13:52:27.463715259 -0700
 @@ -213,6 +213,7 @@ typedef struct {
  #include "lcUniConv/big5_emacs.h"
  #include "lcUniConv/big5hkscs.h"
@@ -140,9 +140,9 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
  
      /* The ISO10646-1/UTF-8 entry occurs twice, once at the beginning
         (for lookup speed), once at the end (as a fallback).  */
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/gbk.h src/xlibi18n/lcUniConv/gbk.h
+diff -Nurp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/gbk.h src/xlibi18n/lcUniConv/gbk.h
 --- src/xlibi18n/lcUniConv/gbk.h	2010-09-03 22:52:39.000000000 -0700
-+++ src/xlibi18n/lcUniConv/gbk.h	2010-11-21 18:48:04.463729400 -0800
++++ src/xlibi18n/lcUniConv/gbk.h	2011-04-06 13:52:27.466387657 -0700
 @@ -1,9 +1,41 @@
 +/*
 + * Copyright  The Open Group

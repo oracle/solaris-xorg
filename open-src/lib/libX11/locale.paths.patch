@@ -1,9 +1,9 @@
 Allow passing multi-directory paths to configure search for locale files
 
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2010-11-21 18:48:30.520846608 -0800
-+++ configure.ac	2010-11-21 18:48:31.439723048 -0800
-@@ -427,11 +427,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRI
+diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
+--- configure.ac	2011-04-06 13:52:52.161843884 -0700
++++ configure.ac	2011-04-06 13:52:53.339680452 -0700
+@@ -422,11 +422,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRI
   [Directory where locale libraries files are installed (default: $libdir/X11/locale)]),
  				[ X11_LOCALELIBDIR="$withval" ],
  				[ X11_LOCALELIBDIR="${X11_LIBDIR}/locale" ])
