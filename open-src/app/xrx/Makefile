@@ -48,6 +48,10 @@ MODULE_VERSION=1.0.4
 TARBALL_MD5  = c93be22d20658ac5ff60469207dec118
 TARBALL_SHA1 = ff5b8c329ed255138eb78e6b9c034add2b02de94
 
+# Have to build 32-bit so the plugin matches Firefox
+BUILD_TYPES_SET=yes
+BUILD_TYPES=32
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 
 
