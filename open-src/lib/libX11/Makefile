@@ -37,6 +37,7 @@ TARBALL_SHA1 = 174270a0e51614b5077026fc6c20701d4e09aef8
 SOURCE_PATCHES = \
 	xml-install.patch,-p1 \
 	xml-install-paths.patch,-p1 \
+	7038737.patch,-p1 \
 	1234757.patch \
 	4010755.patch \
 	4614834.patch \
