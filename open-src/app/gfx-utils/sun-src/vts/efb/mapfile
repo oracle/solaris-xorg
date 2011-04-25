@@ -1,0 +1,7 @@
+SUNW_1.1 {
+		global:
+			get_tests;
+			cleanup_tests;
+		local:
+				*;
+};

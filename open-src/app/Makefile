@@ -124,7 +124,8 @@ OS_SUBDIRS_common = \
 	xwininfo \
 	xwud \
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common) \
+	gfx-utils
 
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
