@@ -1,0 +1,65 @@
+[Backported to xf86-video-ati 6.8.0]
+
+From 21a621c297ac71c65c239ea960c38706e718b91c Mon Sep 17 00:00:00 2001
+From: Dave Airlie <airlied@redhat.com>
+Date: Tue, 28 Jul 2009 13:32:28 +1000
+Subject: [PATCH] ati: update for resources/RAC API removal
+
+---
+ src/radeon_driver.c |    6 +++++-
+ src/radeon_probe.c  |    3 +++
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/src/radeon_driver.c b/src/radeon_driver.c
+index 9c5fce6..25d912d 100644
+--- a/src/radeon_driver.c
++++ b/src/radeon_driver.c
+@@ -92,9 +92,11 @@
+ 				/* X and server generic header files */
+ #include "xf86.h"
+ #include "xf86_OSproc.h"
+-#include "xf86RAC.h"
+ #include "xf86RandR12.h"
++#ifndef XSERVER_LIBPCIACCESS
++#include "xf86RAC.h"
+ #include "xf86Resources.h"
++#endif
+ #include "xf86cmap.h"
+ #include "vbe.h"
+ 
+@@ -2633,6 +2635,7 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+ 	       PCI_DEV_DEV(info->PciInfo),
+ 	       PCI_DEV_FUNC(info->PciInfo));
+ 
++#ifndef XSERVER_LIBPCIACCESS
+     if (xf86RegisterResources(info->pEnt->index, 0, ResExclusive))
+ 	goto fail;
+ 
+@@ -2640,6 +2643,7 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+ 	goto fail;
+ 
+     pScrn->racMemFlags = RAC_FB | RAC_COLORMAP | RAC_VIEWPORT | RAC_CURSOR;
++#endif
+     pScrn->monitor     = pScrn->confScreen->monitor;
+ 
+    /* Allocate an xf86CrtcConfig */
+diff --git a/src/radeon_probe.c b/src/radeon_probe.c
+index 4ec7485..36451f9 100644
+--- a/src/radeon_probe.c
++++ b/src/radeon_probe.c
+@@ -46,12 +46,15 @@
+ #include "xf86.h"
+ #define _XF86MISC_SERVER_
+ #include <X11/extensions/xf86misc.h>
++#ifndef XSERVER_LIBPCIACCESS
+ #include "xf86Resources.h"
++#endif
+ 
+ #include "radeon_chipset_gen.h"
+ 
+ #include "radeon_pci_chipset_gen.h"
+ 
++
+ #ifdef XSERVER_LIBPCIACCESS
+ #include "radeon_pci_device_match_gen.h"
+ #endif

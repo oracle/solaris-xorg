@@ -31,7 +31,8 @@ OS_SUBDIRS_common = \
 	xf86-video-ast			\
 	xf86-video-dummy		
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common) \
+	efb
 
 OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-acecad		\

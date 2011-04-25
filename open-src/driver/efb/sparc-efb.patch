@@ -1,0 +1,1445 @@
+diff --git a/src/AtomBios/Decoder.c b/src/AtomBios/Decoder.c
+index cdaa9ef..c6e3c9f 100644
+--- a/src/AtomBios/Decoder.c
++++ b/src/AtomBios/Decoder.c
+@@ -210,7 +210,7 @@ CD_STATUS ParseTable(DEVICE_DATA STACK_BASED* pDeviceData, UINT8 IndexInMasterTa
+ 						{
+               IndexInMasterTable=ProcessCommandProperties((PARSER_TEMP_DATA STACK_BASED *)&ParserTempData);
+ 							(*CallTable[IndexInMasterTable].function)((PARSER_TEMP_DATA STACK_BASED *)&ParserTempData);
+-#if (PARSER_TYPE!=DRIVER_TYPE_PARSER)
++#if (!defined(__sparc__) && (PARSER_TYPE!=DRIVER_TYPE_PARSER))
+               BIOS_STACK_MODIFIER();
+ #endif
+ 						}
+diff --git a/src/AtomBios/hwserv_drv.c b/src/AtomBios/hwserv_drv.c
+index a5f5a5b..2a454a4 100644
+--- a/src/AtomBios/hwserv_drv.c
++++ b/src/AtomBios/hwserv_drv.c
+@@ -105,6 +105,10 @@ UINT8   ReadPCIReg8(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     CailReadPCIConfigData(pWorkingTableData->pDeviceData->CAIL,&rvl,pWorkingTableData->Index,sizeof(UINT8));
+ 	return rvl;
+ }
++#else
++UINT8   ReadPCIReg8(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -117,6 +121,10 @@ UINT16	ReadPCIReg16(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     return rvl;
+ 
+ }
++#else
++UINT16	ReadPCIReg16(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -129,6 +137,10 @@ UINT32  ReadPCIReg32   (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     CailReadPCIConfigData(pWorkingTableData->pDeviceData->CAIL,&rvl,pWorkingTableData->Index,sizeof(UINT32));
+     return rvl;
+ }
++#else
++UINT32  ReadPCIReg32   (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -142,6 +154,10 @@ VOID	WritePCIReg8	(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+ 
+ }
+ 
++#else
++VOID	WritePCIReg8	(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -152,6 +168,10 @@ VOID    WritePCIReg16  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+         CailWritePCIConfigData(pWorkingTableData->pDeviceData->CAIL,&(pWorkingTableData->DestData32),pWorkingTableData->Index,sizeof(UINT16));
+ }
+ 
++#else
++VOID    WritePCIReg16  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -160,6 +180,10 @@ VOID    WritePCIReg32  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+ {
+     CailWritePCIConfigData(pWorkingTableData->pDeviceData->CAIL,&(pWorkingTableData->DestData32),pWorkingTableData->Index,sizeof(UINT32));
+ }
++#else
++VOID    WritePCIReg32  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -174,6 +198,10 @@ UINT8   ReadSysIOReg8    (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     //rvl= (UINT8) ReadGenericPciCfg(dev,reg,sizeof(UINT8));
+ 	return rvl;
+ }
++#else
++UINT8   ReadSysIOReg8    (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -187,6 +215,10 @@ UINT16	ReadSysIOReg16(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     return rvl;
+ 
+ }
++#else
++UINT16	ReadSysIOReg16(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -200,6 +232,10 @@ UINT32  ReadSysIOReg32   (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     //rvl= (UINT32) ReadGenericPciCfg(dev,reg,sizeof(UINT32));
+     return rvl;
+ }
++#else
++UINT32  ReadSysIOReg32   (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -212,6 +248,10 @@ VOID	WriteSysIOReg8	(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     //WriteGenericPciCfg(dev,reg,sizeof(UINT8),(UINT32)value);
+ }
+ 
++#else
++VOID	WriteSysIOReg8	(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -222,6 +262,10 @@ VOID    WriteSysIOReg16  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     //WriteGenericPciCfg(dev,reg,sizeof(UINT16),(UINT32)value);
+ }
+ 
++#else
++VOID    WriteSysIOReg16  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ 
+@@ -230,6 +274,10 @@ VOID    WriteSysIOReg32  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+ {
+     //WriteGenericPciCfg(dev,reg,sizeof(UINT32),(UINT32)value);
+ }
++#else
++VOID    WriteSysIOReg32  (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
+ // ATI Registers Memory Mapped Access
+@@ -257,6 +305,24 @@ VOID	WriteIndReg32(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     CailWriteATIRegister(pWorkingTableData->pDeviceData->CAIL,*(UINT16*)(pWorkingTableData->IndirectIOTablePointer+1),pWorkingTableData->IndirectData );
+ }
+ 
++#else
++UINT32	ReadReg32 (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
++
++VOID	WriteReg32(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
++
++
++VOID	ReadIndReg32 (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
++
++VOID	WriteIndReg32(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
++
+ #endif
+ 
+ // ATI Registers IO Mapped Access
+@@ -271,8 +337,17 @@ VOID	WriteRegIO(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+ {
+       //  return CailWriteATIRegister(pWorkingTableData->pDeviceData->CAIL,pWorkingTableData->Index,pWorkingTableData->DestData32 );
+ }
++#else
++UINT32	ReadRegIO (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++    return 0;
++}
++VOID	WriteRegIO(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
+ #endif
+ 
++#if !defined(__sparc__)
+ // access to Frame buffer, dummy function, need more information to implement it  
+ UINT32	ReadFrameBuffer32 (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+ {
+@@ -286,6 +361,15 @@ VOID	WriteFrameBuffer32(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
+     CailWriteFBData(pWorkingTableData->pDeviceData->CAIL,(pWorkingTableData->Index <<2), pWorkingTableData->DestData32);
+ 
+ }
++#else
++UINT32	ReadFrameBuffer32 (PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
++
++VOID	WriteFrameBuffer32(PARSER_TEMP_DATA STACK_BASED * pWorkingTableData)
++{
++}
++#endif /* __sparc__ */
+ 
+ 
+ VOID *AllocateMemory(DEVICE_DATA *pDeviceData , UINT16 MemSize)
+diff --git a/src/AtomBios/includes/CD_Structs.h b/src/AtomBios/includes/CD_Structs.h
+index c43f81d..f61232a 100644
+--- a/src/AtomBios/includes/CD_Structs.h
++++ b/src/AtomBios/includes/CD_Structs.h
+@@ -375,7 +375,7 @@ typedef UINT8	COMMAND_TYPE_OPCODE_ONLY;
+ typedef UINT8  COMMAND_HEADER_POINTER;
+ 
+ 
+-#if (PARSER_TYPE==BIOS_TYPE_PARSER)
++#if (!defined(__sparc__) && (PARSER_TYPE==BIOS_TYPE_PARSER)) 
+ 
+ typedef struct _DEVICE_DATA	{
+     UINT32	STACK_BASED		*pParameterSpace;
+diff --git a/src/AtomBios/includes/CD_binding.h b/src/AtomBios/includes/CD_binding.h
+index 7b021d3..b74b5db 100644
+--- a/src/AtomBios/includes/CD_binding.h
++++ b/src/AtomBios/includes/CD_binding.h
+@@ -36,7 +36,11 @@
+ #define USE_SWITCH_COMMAND			1
+ #define	DRIVER_TYPE_PARSER		0x48
+ 
++#if !defined(__sparc__)
+ #define PARSER_TYPE DRIVER_TYPE_PARSER
++#else
++#define PARSER_TYPE 0
++#endif /* __sparc__ */
+ 
+ #define AllocateWorkSpace(x,y)      AllocateMemory(pDeviceData,y)
+ #define FreeWorkSpace(x,y)          ReleaseMemory(x,y)
+diff --git a/src/Makefile.am b/src/Makefile.am
+index a146df3..7411677 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -27,8 +27,6 @@
+ # TODO: -nostdlib/-Bstatic/-lgcc platform magic, not installing the .a, etc.
+ 
+ if DRI
+-ATIMISC_DRI_SRCS = atidri.c
+-R128_DRI_SRCS = r128_dri.c
+ RADEON_DRI_SRCS = radeon_dri.c
+ endif
+ 
+@@ -64,52 +62,17 @@ XMODE_SRCS=\
+         modes/xf86Rotate.c \
+         modes/xf86DiDGA.c
+ 
+-if ATIMISC_CPIO
+-ATIMISC_CPIO_SOURCES = ativga.c ativgaio.c atibank.c atiwonder.c atiwonderio.c
+-endif
+-
+-if ATIMISC_DGA
+-ATIMISC_DGA_SOURCES = atidga.c
+-endif
+-
+ if USE_EXA
+-ATIMISC_EXA_SOURCES = atimach64exa.c
+ RADEON_EXA_SOURCES = radeon_exa.c
+ endif
+ 
+-AM_CFLAGS = @XORG_CFLAGS@ @DRI_CFLAGS@ @XMODES_CFLAGS@ -DDISABLE_EASF -DENABLE_ALL_SERVICE_FUNCTIONS -DATOM_BIOS -DATOM_BIOS_PARSER -DFGL_LINUX -DDRIVER_PARSER
++AM_CFLAGS = @XORG_CFLAGS@ @DRI_CFLAGS@ @XMODES_CFLAGS@ -DDISABLE_EASF -DENABLE_ALL_SERVICE_FUNCTIONS -DATOM_BIOS -DATOM_BIOS_PARSER -DDRIVER_PARSER
+ INCLUDES = -I$(srcdir)/AtomBios/includes
+ 
+-ati_drv_la_LTLIBRARIES = ati_drv.la
+-ati_drv_la_LDFLAGS = -module -avoid-version
+-ati_drv_ladir = @moduledir@/drivers
+-ati_drv_la_SOURCES = \
+-	ati.c atimodule.c
+-
+-mach64_drv_la_LTLIBRARIES = mach64_drv.la
+-mach64_drv_la_LDFLAGS = -module -avoid-version
+-mach64_drv_ladir = @moduledir@/drivers
+-mach64_drv_la_SOURCES = \
+-	atibus.c atichip.c atiprobe.c atividmem.c \
+-	atiadjust.c atiaudio.c aticlock.c aticonfig.c aticonsole.c \
+-	atidac.c atidecoder.c atidsp.c atii2c.c \
+-	atilock.c atimach64.c atimach64accel.c atimach64cursor.c \
+-	atimach64i2c.c atimach64io.c atimach64xv.c atimode.c atipreinit.c \
+-	atiprint.c atirgb514.c atiscreen.c atituner.c atiutil.c ativalid.c \
+-	atiload.c atimisc.c atimach64probe.c $(ATIMISC_CPIO_SOURCES) \
+-	$(ATIMISC_DGA_SOURCES) $(ATIMISC_DRI_SRCS) $(ATIMISC_EXA_SOURCES)
+-
+-r128_drv_la_LTLIBRARIES = r128_drv.la
+-r128_drv_la_LDFLAGS = -module -avoid-version
+-r128_drv_ladir = @moduledir@/drivers
+-r128_drv_la_SOURCES = \
+-	r128_accel.c r128_cursor.c r128_dga.c r128_driver.c \
+-	r128_video.c r128_misc.c r128_probe.c $(R128_DRI_SRCS)
+-
+-radeon_drv_la_LTLIBRARIES = radeon_drv.la
+-radeon_drv_la_LDFLAGS = -module -avoid-version
+-radeon_drv_ladir = @moduledir@/drivers
+-radeon_drv_la_SOURCES = \
++efb_drv_la_LTLIBRARIES = efb_drv.la
++efb_drv_la_LDFLAGS = -module -avoid-version
++efb_drv_ladir = @moduledir@/drivers
++efb_drv_la_SOURCES = efb_driver.c \
+ 	radeon_accel.c radeon_cursor.c radeon_dga.c \
+ 	radeon_driver.c radeon_video.c radeon_bios.c radeon_mm_i2c.c \
+ 	radeon_vip.c radeon_misc.c radeon_probe.c \
+@@ -119,31 +82,10 @@ radeon_drv_la_SOURCES = \
+ 	$(RADEON_DRI_SRCS) $(RADEON_EXA_SOURCES) atombios_output.c atombios_crtc.c
+ 
+ if XMODES
+-radeon_drv_la_SOURCES += \
++efb_drv_la_SOURCES += \
+ 	$(XMODE_SRCS)
+ endif
+ 
+-theatre_detect_drv_la_LTLIBRARIES = theatre_detect_drv.la
+-theatre_detect_drv_la_LDFLAGS = -module -avoid-version
+-theatre_detect_drv_ladir = @moduledir@/multimedia
+-theatre_detect_drv_la_SOURCES = \
+-	theatre_detect.c theatre_detect_module.c
+-
+-theatre_drv_la_LTLIBRARIES = theatre_drv.la
+-theatre_drv_la_LDFLAGS = -module -avoid-version
+-theatre_drv_ladir = @moduledir@/multimedia
+-
+-theatre_drv_la_SOURCES = \
+-	theatre.c theatre_module.c
+-
+-theatre200_drv_la_LTLIBRARIES = theatre200_drv.la
+-theatre200_drv_la_LDFLAGS = -module -avoid-version
+-theatre200_drv_ladir = @moduledir@/multimedia
+-theatre200_drv_la_CFLAGS = \
+-	$(AM_CFLAGS) -DMICROC_DIR=\"$(theatre200_drv_ladir)\"
+-theatre200_drv_la_SOURCES = \
+-	theatre200.c theatre200_module.c
+-
+ EXTRA_DIST = \
+ 	$(XMODE_SRCS) \
+ 	atimach64render.c \
+diff --git a/src/ati.c b/src/ati.c
+index b3f07ca..084b27f 100644
+--- a/src/ati.c
++++ b/src/ati.c
+@@ -68,7 +68,12 @@
+ /* names duplicated from version headers */
+ #define MACH64_DRIVER_NAME  "mach64"
+ #define R128_DRIVER_NAME    "r128"
++
++#if defined(__sparc__)
++#define RADEON_DRIVER_NAME  "efb"
++#else
+ #define RADEON_DRIVER_NAME  "radeon"
++#endif /* __sparc__ */
+ 
+ enum
+ {
+diff --git a/src/aticonsole.c b/src/aticonsole.c
+index 8efe897..aa3905a 100644
+--- a/src/aticonsole.c
++++ b/src/aticonsole.c
+@@ -514,6 +514,20 @@ ATIEnterGraphics
+     ATIPtr      pATI
+ )
+ {
++    unsigned int PciReg;
++    pciConfigPtr           pPCI;
++    pciVideoPtr            pVideo, *xf86PciVideoInfo = xf86GetPciVideoInfo();
++
++    pVideo = xf86PciVideoInfo[pScreenInfo->scrnIndex];
++    pPCI = pVideo->thisCard;
++/*
++* Possibly fix block I/O indicator in PCI configuration space.
++*/
++    PciReg = pciReadLong(pPCI->tag, PCI_REG_USERCONFIG);
++    if (!(PciReg & 0x00000004U))
++		pciWriteLong(pPCI->tag, PCI_REG_USERCONFIG, PciReg | 
++				0x00000004U);
++
+     /* Map apertures */
+     if (!ATIMapApertures(pScreenInfo->scrnIndex, pATI))
+         return FALSE;
+diff --git a/src/radeon.h b/src/radeon.h
+index 7d63f28..ddb779e 100644
+--- a/src/radeon.h
++++ b/src/radeon.h
+@@ -167,7 +167,15 @@ typedef enum {
+     OPTION_TVDAC_LOAD_DETECT,
+     OPTION_FORCE_TVOUT,
+     OPTION_TVSTD,
+-    OPTION_IGNORE_LID_STATUS
++    OPTION_IGNORE_LID_STATUS,
++#if defined(__sparc__)
++    OPTION_DUAL_DISPLAY,
++    OPTION_DUAL_DISPLAY_VERTICAL,
++    OPTION_STREAM_XOFFSET,
++    OPTION_STREAM_YOFFSET,
++    OPTION_OUTPUTS,
++    OPTION_DISABLE_RANDR,
++#endif
+ } RADEONOpts;
+ 
+ 
+@@ -734,6 +742,12 @@ typedef struct {
+ 
+     Bool              r600_shadow_fb;
+     void *fb_shadow;
++
++#if defined(__sparc__)
++    char *deviceName;
++    int  fd;
++#endif /* __sparc__ */
++
+ } RADEONInfoRec, *RADEONInfoPtr;
+ 
+ #define RADEONWaitForFifo(pScrn, entries)				\
+@@ -1182,4 +1196,8 @@ static __inline__ int radeon_timedout(const struct timeval *endtime)
+         now.tv_usec > endtime->tv_usec : now.tv_sec > endtime->tv_sec;
+ }
+ 
++#if defined(__sparc__)
++#include "efb.h"
++#endif /* __sparc__ */
++
+ #endif /* _RADEON_H_ */
+diff --git a/src/radeon_accel.c b/src/radeon_accel.c
+index 8b2f167..b581719 100644
+--- a/src/radeon_accel.c
++++ b/src/radeon_accel.c
+@@ -280,7 +280,11 @@ void RADEONEngineReset(ScrnInfoPtr pScrn)
+ 	INREG(RADEON_RBBM_SOFT_RESET);
+     }
+ 
++#if !defined(__sparc__)
++    // soft reset the HDP causes system panic on some SPARC machines
+     OUTREG(RADEON_HOST_PATH_CNTL, host_path_cntl | RADEON_HDP_SOFT_RESET);
++#endif
++
+     INREG(RADEON_HOST_PATH_CNTL);
+     OUTREG(RADEON_HOST_PATH_CNTL, host_path_cntl);
+ 
+diff --git a/src/radeon_accelfuncs.c b/src/radeon_accelfuncs.c
+index e3b37c1..52856ec 100644
+--- a/src/radeon_accelfuncs.c
++++ b/src/radeon_accelfuncs.c
+@@ -723,7 +723,11 @@ FUNC_NAME(RADEONSetupForScanlineCPUToScreenColorExpandFill)(ScrnInfoPtr pScrn,
+ #else
+     BEGIN_ACCEL(5);
+ 
++#if !defined(__sparc__)
+     OUT_ACCEL_REG(RADEON_RBBM_GUICNTL,       RADEON_HOST_DATA_SWAP_NONE);
++#else
++    OUT_ACCEL_REG(RADEON_RBBM_GUICNTL,       RADEON_HOST_DATA_SWAP_32BIT);
++#endif
+ #endif
+     OUT_ACCEL_REG(RADEON_DP_GUI_MASTER_CNTL, info->dp_gui_master_cntl_clip);
+     OUT_ACCEL_REG(RADEON_DP_WRITE_MASK,      planemask);
+diff --git a/src/radeon_atombios.h b/src/radeon_atombios.h
+index 9cb279e..ba1b462 100644
+--- a/src/radeon_atombios.h
++++ b/src/radeon_atombios.h
+@@ -245,9 +245,13 @@ typedef struct _atomBiosHandle {
+     unsigned int BIOSImageSize;
+ } atomBiosHandleRec;
+ 
+-# endif
+-
+ extern Bool
+ RADEONATOMGetTVTimings(ScrnInfoPtr pScrn, int index, SET_CRTC_TIMING_PARAMETERS_PS_ALLOCATION *crtc_timing, int32_t *pixel_clock);
+ 
++#else
++
++extern Bool
++RADEONATOMGetTVTimings(ScrnInfoPtr pScrn, int index, void *crtc_timing, int32_t *pixel_clock);
++
++#endif
+ #endif /*  RHD_ATOMBIOS_H_ */
+diff --git a/src/radeon_common.h b/src/radeon_common.h
+index 467addf..c081088 100644
+--- a/src/radeon_common.h
++++ b/src/radeon_common.h
+@@ -73,6 +73,7 @@
+ #define DRM_RADEON_SETPARAM               0x19
+ #define DRM_RADEON_SURF_ALLOC             0x1a
+ #define DRM_RADEON_SURF_FREE              0x1b
++#define DRM_RADEON_GET_PCICONFIG          0x1c
+ #define DRM_RADEON_MAX_DRM_COMMAND_INDEX  0x39
+ 
+ 
+diff --git a/src/radeon_commonfuncs.c b/src/radeon_commonfuncs.c
+index 8c4b598..2ff5bcb 100644
+--- a/src/radeon_commonfuncs.c
++++ b/src/radeon_commonfuncs.c
+@@ -285,12 +285,34 @@ void FUNC_NAME(RADEONWaitForIdle)(ScrnInfoPtr pScrn)
+     RADEONWaitForFifoFunction(pScrn, 64);
+ 
+     for (;;) {
++
++	/* execute a tight loop to wait for idle. If timeout, then
++	   execute a slower loop for half a second. If then timeout,
++	   reset the engine.
++         */
+ 	for (i = 0; i < RADEON_TIMEOUT; i++) {
+ 	    if (!(INREG(RADEON_RBBM_STATUS) & RADEON_RBBM_ACTIVE)) {
+ 		RADEONEngineFlush(pScrn);
+ 		return;
+ 	    }
+ 	}
++
++#ifdef __sparc__
++	{
++            hrtime_t limit;
++            limit = gethrtime() + (hrtime_t)1000000000; /* 1000 ms from now */
++            while (((unsigned int)(INREG(RADEON_RBBM_STATUS)) & RADEON_RBBM_ACTIVE) 
++			&& (gethrtime() < limit)) {
++                    yield();
++	    }
++	}
++
++	if (!(INREG(RADEON_RBBM_STATUS) & RADEON_RBBM_ACTIVE)) {
++	    RADEONEngineFlush(pScrn);
++	    return;
++	}
++#endif /* __sparc__ */
++
+ 	xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, RADEON_LOGLEVEL_DEBUG,
+ 		       "Idle timed out: %u entries, stat=0x%08x\n",
+ 		       (unsigned int)INREG(RADEON_RBBM_STATUS) & RADEON_RBBM_FIFOCNT_MASK,
+diff --git a/src/radeon_crtc.c b/src/radeon_crtc.c
+index 3524b75..da1153a 100644
+--- a/src/radeon_crtc.c
++++ b/src/radeon_crtc.c
+@@ -218,6 +218,11 @@ radeon_crtc_mode_set(xf86CrtcPtr crtc, DisplayModePtr mode,
+     } else {
+ 	legacy_crtc_mode_set(crtc, mode, adjusted_mode, x, y);
+     }
++
++#if defined(__sparc__)
++    pScrn->currentMode = mode;
++    EFBNotifyModeChanged(pScrn);
++#endif
+ }
+ 
+ static void
+@@ -238,6 +243,9 @@ radeon_crtc_mode_commit(xf86CrtcPtr crtc)
+     }
+ 
+     radeon_crtc_dpms(crtc, DPMSModeOn);
++
++    if (crtc->scrn->pScreen != NULL)
++	xf86_reload_cursors (crtc->scrn->pScreen);
+ }
+ 
+ void
+diff --git a/src/radeon_dri.h b/src/radeon_dri.h
+index 3b54626..57ff2d8 100644
+--- a/src/radeon_dri.h
++++ b/src/radeon_dri.h
+@@ -80,20 +80,25 @@ typedef struct {
+     /* MMIO register data */
+     drm_handle_t     registerHandle;
+     drmSize       registerSize;
++	int		padding0;
+ 
+     /* CP in-memory status information */
+     drm_handle_t     statusHandle;
+     drmSize       statusSize;
++	int		padding1;
+ 
+     /* CP GART Texture data */
+     drm_handle_t     gartTexHandle;
+     drmSize       gartTexMapSize;
++	int		padding2;
+     int           log2GARTTexGran;
+     int           gartTexOffset;
+     unsigned int  sarea_priv_offset;
+ 
+ #ifdef PER_CONTEXT_SAREA
+     drmSize      perctx_sarea_size;
++#else
++	int		padding3;
+ #endif
+ } RADEONDRIRec, *RADEONDRIPtr;
+ 
+diff --git a/src/radeon_driver.c b/src/radeon_driver.c
+index 25d912d..095d71b 100644
+--- a/src/radeon_driver.c
++++ b/src/radeon_driver.c
+@@ -115,6 +115,10 @@
+ 
+ #include "radeon_chipinfo_gen.h"
+ 
++#if defined(__sparc__)
++#include "efb.h"
++#endif /* __sparc__ */
++
+ 				/* Forward definitions for driver functions */
+ static Bool RADEONCloseScreen(int scrnIndex, ScreenPtr pScreen);
+ static Bool RADEONSaveScreen(ScreenPtr pScreen, int mode);
+@@ -221,6 +225,14 @@ static const OptionInfoRec RADEONOptions[] = {
+     { OPTION_FORCE_TVOUT,    "ForceTVOut",         OPTV_BOOLEAN, {0}, FALSE },
+     { OPTION_TVSTD,          "TVStandard",         OPTV_STRING,  {0}, FALSE },
+     { OPTION_IGNORE_LID_STATUS, "IgnoreLidStatus", OPTV_BOOLEAN, {0}, FALSE },
++#if defined(__sparc__)
++    { OPTION_DUAL_DISPLAY,   "DoubleWide",	 OPTV_STRING,  {0}, FALSE },
++    { OPTION_DUAL_DISPLAY_VERTICAL,   "DoubleHigh",	 OPTV_STRING,  {0}, FALSE },
++    { OPTION_STREAM_XOFFSET,   "StreamXOffset",	 OPTV_INTEGER,  {0}, FALSE },
++    { OPTION_STREAM_YOFFSET,   "StreamYOffset",	 OPTV_INTEGER,  {0}, FALSE },
++    { OPTION_OUTPUTS,          "Outputs",	 OPTV_STRING,   {0}, FALSE },
++    { OPTION_DISABLE_RANDR,    "DisableRANDR",	 OPTV_BOOLEAN,  {0}, FALSE },
++#endif /* __sparc__ */
+     { -1,                    NULL,               OPTV_NONE,    {0}, FALSE }
+ };
+ 
+@@ -367,7 +379,7 @@ RADEONPostInt10Check(ScrnInfoPtr pScrn, void *ptr)
+ }
+ 
+ /* Allocate our private RADEONInfoRec */
+-static Bool RADEONGetRec(ScrnInfoPtr pScrn)
++Bool RADEONGetRec(ScrnInfoPtr pScrn)
+ {
+     if (pScrn->driverPrivate) return TRUE;
+ 
+@@ -383,6 +395,41 @@ static void RADEONFreeRec(ScrnInfoPtr pScrn)
+     pScrn->driverPrivate = NULL;
+ }
+ 
++static pciVideoPtr RADEONGetPciInfo(RADEONInfoPtr info)
++{
++#if !defined(__sparc__)
++    return (xf86GetPciInfoForEntity(info->pEnt->index));
++#else
++    return (EFBGetPciInfo(info));
++#endif
++}
++
++
++pointer
++RADEONMapVidMem(ScrnInfoPtr pScrn, unsigned int flags, PCITAG picTag, 
++			unsigned long base, unsigned long size)
++{
++#if !defined(__sparc__)
++    return (xf86MapPciMem(pScrn->scrnIndex, flags, pciTag, base, size));
++#else
++    return (EFBMapVidMem(pScrn, flags, picTag, base, size));
++#endif /* sparc */
++}
++
++void
++RADEONUnmapVidMem(ScrnInfoPtr pScrn, pointer base, unsigned long size)
++{
++#if !defined(__sparc__)
++    xf86UnMapVidMem(pScrn->scrnIndex, base, size);
++#else
++    EFBUnmapVidMem(pScrn, base, size);
++#endif
++
++    return;
++}
++
++
++
+ /* Memory map the MMIO region.  Used during pre-init and by RADEONMapMem,
+  * below
+  */
+@@ -390,9 +437,9 @@ static Bool RADEONMapMMIO(ScrnInfoPtr pScrn)
+ {
+     RADEONInfoPtr  info = RADEONPTR(pScrn);
+ 
+-#ifndef XSERVER_LIBPCIACCESS
++#if !defined(XSERVER_LIBPCIACCESS) || defined(__sparc__)
+ 
+-    info->MMIO = xf86MapPciMem(pScrn->scrnIndex,
++    info->MMIO = RADEONMapVidMem(pScrn,
+ 			       VIDMEM_MMIO | VIDMEM_READSIDEEFFECT,
+ 			       info->PciTag,
+ 			       info->MMIOAddr,
+@@ -428,8 +475,8 @@ static Bool RADEONUnmapMMIO(ScrnInfoPtr pScrn)
+ {
+     RADEONInfoPtr  info = RADEONPTR(pScrn);
+ 
+-#ifndef XSERVER_LIBPCIACCESS
+-    xf86UnMapVidMem(pScrn->scrnIndex, info->MMIO, info->MMIOSize);
++#if !defined(XSERVER_LIBPCIACCESS) || defined(__sparc__)
++    RADEONUnmapVidMem(pScrn, info->MMIO, info->MMIOSize);
+ #else
+     pci_device_unmap_range(info->PciInfo, info->MMIO, info->MMIOSize);
+ #endif
+@@ -446,9 +493,9 @@ static Bool RADEONMapFB(ScrnInfoPtr pScrn)
+     xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, RADEON_LOGLEVEL_DEBUG,
+ 		   "Map: 0x%08lx, 0x%08lx\n", info->LinearAddr, info->FbMapSize);
+ 
+-#ifndef XSERVER_LIBPCIACCESS
++#if !defined(XSERVER_LIBPCIACCESS) || defined(__sparc__)
+ 
+-    info->FB = xf86MapPciMem(pScrn->scrnIndex,
++    info->FB = RADEONMapVidMem(pScrn,
+ 			     VIDMEM_FRAMEBUFFER,
+ 			     info->PciTag,
+ 			     info->LinearAddr,
+@@ -482,8 +529,8 @@ static Bool RADEONUnmapFB(ScrnInfoPtr pScrn)
+ {
+     RADEONInfoPtr  info = RADEONPTR(pScrn);
+ 
+-#ifndef XSERVER_LIBPCIACCESS
+-    xf86UnMapVidMem(pScrn->scrnIndex, info->FB, info->FbMapSize);
++#if !defined(XSERVER_LIBPCIACCESS) || defined(__sparc__)
++    RADEONUnmapVidMem(pScrn, info->FB, info->FbMapSize);
+ #else
+     pci_device_unmap_range(info->PciInfo, info->FB, info->FbMapSize);
+ #endif
+@@ -1261,6 +1308,10 @@ static void RADEONInitMemoryMap(ScrnInfoPtr pScrn)
+     }
+ #endif
+ 
++#if !defined(__sparc__)
++    //
++    // don't reinitialize mc_fb_location on sparc
++    //
+     if (info->ChipFamily != CHIP_FAMILY_RS690) {
+ 	if (info->IsIGP)
+ 	    info->mc_fb_location = INREG(RADEON_NB_TOM);
+@@ -1306,6 +1357,8 @@ static void RADEONInitMemoryMap(ScrnInfoPtr pScrn)
+ 	    }
+ 	}
+     }
++#endif
++
+     if (info->ChipFamily >= CHIP_FAMILY_R600) {
+ 	info->fbLocation = (info->mc_fb_location & 0xffff) << 24;
+     } else {
+@@ -1429,6 +1482,12 @@ static CARD32 RADEONGetAccessibleVRAM(ScrnInfoPtr pScrn)
+ 	    return aper_size * 2;
+     }
+ 
++#if defined(__sparc__)
++    else if (info->ChipFamily == CHIP_FAMILY_RV100) {
++	return aper_size;
++    }
++#endif /* __sparc__ */
++
+     /* Older cards have all sorts of funny issues to deal with. First
+      * check if it's a multifunction card by reading the PCI config
+      * header type... Limit those to one aperture size
+@@ -1492,8 +1551,12 @@ static Bool RADEONPreInitVRAM(ScrnInfoPtr pScrn)
+     bar_size = PCI_REGION_SIZE(info->PciInfo, 0) / 1024;
+     if (bar_size == 0)
+ 	bar_size = 0x20000;
++
++
++#if ccl
+     if (accessible > bar_size)
+ 	accessible = bar_size;
++#endif
+ 
+     xf86DrvMsg(pScrn->scrnIndex, X_INFO,
+ 	       "Detected total video RAM=%dK, accessible=%uK (PCI BAR=%uK)\n",
+@@ -2190,8 +2253,16 @@ static void RADEONPreInitColorTiling(ScrnInfoPtr pScrn)
+ {
+     RADEONInfoPtr  info = RADEONPTR(pScrn);
+ 
++#if !defined(__sparc__)
+     info->allowColorTiling = xf86ReturnOptValBool(info->Options,
+ 				        OPTION_COLOR_TILING, TRUE);
++#else
++    /*
++     * disable Tiling for now because of coherent console
++     */
++    info->allowColorTiling = FALSE;
++#endif /* __sparc__ */
++
+     if (IS_R300_VARIANT || IS_AVIVO_VARIANT) {
+ 	/* this may be 4096 on r4xx -- need to double check */
+ 	info->MaxSurfaceWidth = 3968; /* one would have thought 4096...*/
+@@ -2551,6 +2622,16 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+     info->IsPrimary = FALSE;
+ 
+     info->pEnt         = xf86GetEntityInfo(pScrn->entityList[pScrn->numEntities - 1]);
++
++#if defined(__sparc__)
++    if (info->fd == -1) {
++	xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
++		"invalid device %s\n", info->deviceName);
++	goto fail1;
++    }
++    info->pEnt->location.type = BUS_PCI;
++#endif /* __sparc__ */
++
+     if (info->pEnt->location.type != BUS_PCI) goto fail;
+ 
+     pPriv = xf86GetEntityPrivate(pScrn->entityList[0], 
+@@ -2580,7 +2661,7 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+ 	info->ModeReg = &pRADEONEnt->ModeReg;
+     }
+ 
+-    info->PciInfo = xf86GetPciInfoForEntity(info->pEnt->index);
++    info->PciInfo = RADEONGetPciInfo(info);
+     info->PciTag  = pciTag(PCI_DEV_BUS(info->PciInfo),
+ 			   PCI_DEV_DEV(info->PciInfo),
+ 			   PCI_DEV_FUNC(info->PciInfo));
+@@ -2639,8 +2720,10 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+     if (xf86RegisterResources(info->pEnt->index, 0, ResExclusive))
+ 	goto fail;
+ 
++#if !defined(__sparc__)
+     if (xf86SetOperatingState(resVga, info->pEnt->index, ResUnusedOpr))
+ 	goto fail;
++#endif /* __sparc__ */
+ 
+     pScrn->racMemFlags = RAC_FB | RAC_COLORMAP | RAC_VIEWPORT | RAC_CURSOR;
+ #endif
+@@ -2693,7 +2776,12 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+     if (!RADEONPreInitWeight(pScrn))
+ 	goto fail;
+ 
++#if !defined(__sparc__)
+     info->DispPriority = 1; 
++#else
++    info->DispPriority = 2;
++#endif /* __sparc__ */
++
+     if ((s = xf86GetOptValString(info->Options, OPTION_DISP_PRIORITY))) {
+ 	if (strcmp(s, "AUTO") == 0) {
+ 	    info->DispPriority = 1;
+@@ -2713,7 +2801,9 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+     if (!RADEONPreInitChipType(pScrn))
+ 	goto fail;
+ 
++#if !defined(__sparc__)
+     RADEONPreInitBIOS(pScrn, pInt10);
++#endif /* __sparc__ */
+ 
+ #ifdef XF86DRI
+     /* PreInit DRI first of all since we need that for getting a proper
+@@ -2726,6 +2816,15 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+ 
+     RADEONPreInitColorTiling(pScrn);
+ 
++#if defined(__sparc__)
++    RADEONPreInitDDC(pScrn);
++
++    if (!RADEONPreInitControllers(pScrn))
++       goto fail;
++
++    EFBPreInitOutputConfiguration(pScrn, xf86_config);
++#endif /* __sparc__ */
++
+     /* we really need an FB manager... */
+     if (pScrn->display->virtualX) {
+ 	crtc_max_X = pScrn->display->virtualX;
+@@ -2767,10 +2866,12 @@ Bool RADEONPreInit(ScrnInfoPtr pScrn, int flags)
+     /*xf86CrtcSetSizeRange (pScrn, 320, 200, info->MaxSurfaceWidth, info->MaxLines);*/
+     xf86CrtcSetSizeRange (pScrn, 320, 200, crtc_max_X, crtc_max_Y);
+ 
++#if !defined(__sparc__)
+     RADEONPreInitDDC(pScrn);
+ 
+     if (!RADEONPreInitControllers(pScrn))
+        goto fail;
++#endif /* __sparc__ */
+ 
+ 
+     ErrorF("before xf86InitialConfiguration\n");
+@@ -2985,6 +3086,7 @@ RADEONPointerMoved(int index, int x, int y)
+     (*info->PointerMoved)(index, newX, newY);
+ }
+ 
++#if !defined(__sparc__)
+ static void
+ RADEONInitBIOSRegisters(ScrnInfoPtr pScrn)
+ {
+@@ -3028,6 +3130,7 @@ RADEONInitBIOSRegisters(ScrnInfoPtr pScrn)
+     }
+ 
+ }
++#endif /* __sparc__ */
+ 
+ 
+ /* Called at the start of each server generation. */
+@@ -3077,8 +3180,10 @@ Bool RADEONScreenInit(int scrnIndex, ScreenPtr pScreen,
+ 
+     RADEONSave(pScrn);
+ 
++#if !defined(__sparc__)
+     /* set initial bios scratch reg state */
+     RADEONInitBIOSRegisters(pScrn);
++#endif /* __sparc__ */
+ 
+     /* blank the outputs/crtcs */
+     RADEONBlank(pScrn);
+@@ -3514,6 +3619,13 @@ Bool RADEONScreenInit(int scrnIndex, ScreenPtr pScreen,
+    if (!xf86CrtcScreenInit (pScreen))
+        return FALSE;
+ 
++#if defined(__sparc__)
++    /*
++     * Give the sparc driver a chance to do any necessary initialization
++     */
++    EFBScreenInit(pScrn);
++#endif /* __sparc__ */
++
+     /* Wrap pointer motion to flip touch screen around */
+     info->PointerMoved = pScrn->PointerMoved;
+     pScrn->PointerMoved = RADEONPointerMoved;
+@@ -3623,7 +3735,8 @@ void RADEONRestoreMemMapRegisters(ScrnInfoPtr pScrn,
+ 	 * reprogrammed
+ 	 */
+ 	if (mc_fb_loc != restore->mc_fb_location ||
+-	    mc_agp_loc != restore->mc_agp_location) {
++	    mc_agp_loc != restore->mc_agp_location) 
++	{
+ 	    CARD32 crtc_ext_cntl, crtc_gen_cntl, crtc2_gen_cntl=0, ov0_scale_cntl;
+ 	    CARD32 old_mc_status, status_idle;
+ 
+@@ -4509,6 +4622,7 @@ void RADEONRestore(ScrnInfoPtr pScrn)
+ 	    RADEONRestoreMemMapRegisters(pScrn, restore);
+ 	    RADEONRestoreCommonRegisters(pScrn, restore);
+ 
++#if !defined(__sparc__)
+ 	    if (pRADEONEnt->HasCRTC2) {
+ 		RADEONRestoreCrtc2Registers(pScrn, restore);
+ 		RADEONRestorePLL2Registers(pScrn, restore);
+@@ -4516,6 +4630,25 @@ void RADEONRestore(ScrnInfoPtr pScrn)
+ 
+ 	    RADEONRestoreCrtcRegisters(pScrn, restore);
+ 	    RADEONRestorePLLRegisters(pScrn, restore);
++#else
++	    /*
++	       On sparc, leave the mode untouched when switching
++	       back to the console mode, but make sure to leave
++	       the CRT on
++	     */
++	    if (pRADEONEnt->HasCRTC2) {
++	        OUTREGP(RADEON_CRTC2_GEN_CNTL, (RADEON_CRTC2_EN | 0x200),
++            		~(RADEON_CRTC2_EN | RADEON_CRTC2_DISP_REQ_EN_B |
++			  0xf00));
++	    }
++
++	    OUTREGP(RADEON_CRTC_EXT_CNTL, RADEON_CRTC_CRT_ON,
++            		~(RADEON_CRTC_CRT_ON));
++	    OUTREGP(RADEON_CRTC_GEN_CNTL, (RADEON_CRTC_EN),
++            		~(RADEON_CRTC_EN | RADEON_CRTC_DISP_REQ_EN_B 
++			  ));
++#endif /* __sparc__ */
++
+ 	    RADEONRestoreRMXRegisters(pScrn, restore);
+ 	    RADEONRestoreFPRegisters(pScrn, restore);
+ 	    RADEONRestoreFP2Registers(pScrn, restore);
+@@ -4710,6 +4843,7 @@ ModeStatus RADEONValidMode(int scrnIndex, DisplayModePtr mode,
+     RADEONInfoPtr info = RADEONPTR(pScrn);
+     RADEONEntPtr pRADEONEnt = RADEONEntPriv(pScrn);
+ 
++#if !defined(__sparc__)
+     /*
+      * RN50 has effective maximum mode bandwidth of about 300MiB/s.
+      * XXX should really do this for all chips by properly computing
+@@ -4719,6 +4853,7 @@ ModeStatus RADEONValidMode(int scrnIndex, DisplayModePtr mode,
+ 	if (xf86ModeBandwidth(mode, pScrn->bitsPerPixel) > 300)
+ 	    return MODE_BANDWIDTH;
+     }
++#endif
+ 
+     /* There are problems with double scan mode at high clocks
+      * They're likely related PLL and display buffer settings.
+@@ -5046,9 +5181,15 @@ static Bool RADEONCloseScreen(int scrnIndex, ScreenPtr pScreen)
+     }
+ #endif /* USE_XAA */
+ 
++#if !defined(__sparc__)
++    //
++    // When running on sparc, no need to restore the video state when 
++    // switch back to console mode
++    //
+     if (pScrn->vtSema) {
+ 	RADEONRestore(pScrn);
+     }
++#endif /* __sparc__ */
+ 
+     xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, RADEON_LOGLEVEL_DEBUG,
+ 		   "Disposing accel...\n");
+@@ -5088,6 +5229,13 @@ static Bool RADEONCloseScreen(int scrnIndex, ScreenPtr pScreen)
+ 
+     xf86ClearPrimInitDone(info->pEnt->index);
+ 
++#if defined(__sparc__)
++    /*
++     * Give the sparc driver a chance to do any necessary cleanup
++     */
++    EFBCloseScreen(pScrn);
++#endif /* __sparc__ */
++
+     pScreen->BlockHandler = info->BlockHandler;
+     pScreen->CloseScreen = info->CloseScreen;
+     return (*pScreen->CloseScreen)(scrnIndex, pScreen);
+diff --git a/src/radeon_macros.h b/src/radeon_macros.h
+index 7f532a8..b8e8218 100644
+--- a/src/radeon_macros.h
++++ b/src/radeon_macros.h
+@@ -60,12 +60,40 @@
+                           (info->VBIOS[(v) + 3] << 24))
+ 
+ 				/* Memory mapped register access macros */
++#if defined(__sparc__)
++
++#define READ_MMIO_UCHAR(base, offset) \
++	*((unsigned char *)((unsigned char *)base + (offset)))
++
++#define READ_MMIO_USHORT(base, offset) \
++	*((unsigned short *)((unsigned char *)base + (offset)))
++
++#define READ_MMIO_UINT(base, offset) \
++	*((unsigned int *)((unsigned char *)base + (offset)))
++
++#define WRITE_MMIO_UCHAR(base, offset, val) \
++	*((unsigned char *)((unsigned char *)base + (offset))) = val
++
++#define WRITE_MMIO_USHORT(base, offset, val) \
++	*((unsigned short *)((unsigned char *)base + (offset))) = val
++
++#define WRITE_MMIO_UINT(base, offset, val) \
++	*((unsigned int *)((unsigned char *)base + (offset))) = val
++
++#define INREG8(addr)        READ_MMIO_UCHAR(RADEONMMIO, addr)
++#define INREG16(addr)       READ_MMIO_USHORT(RADEONMMIO, addr)
++#define INREG(addr)         READ_MMIO_UINT(RADEONMMIO, addr)
++#define OUTREG8(addr, val)  WRITE_MMIO_UCHAR(RADEONMMIO, addr, val)
++#define OUTREG16(addr, val) WRITE_MMIO_USHORT(RADEONMMIO, addr, val)
++#define OUTREG(addr, val)   WRITE_MMIO_UINT(RADEONMMIO, addr, val)
++#else
+ #define INREG8(addr)        MMIO_IN8(RADEONMMIO, addr)
+ #define INREG16(addr)       MMIO_IN16(RADEONMMIO, addr)
+ #define INREG(addr)         MMIO_IN32(RADEONMMIO, addr)
+ #define OUTREG8(addr, val)  MMIO_OUT8(RADEONMMIO, addr, val)
+ #define OUTREG16(addr, val) MMIO_OUT16(RADEONMMIO, addr, val)
+ #define OUTREG(addr, val)   MMIO_OUT32(RADEONMMIO, addr, val)
++#endif /* __sparc__ */
+ 
+ #define ADDRREG(addr)       ((volatile CARD32 *)(pointer)(RADEONMMIO + (addr)))
+ 
+diff --git a/src/radeon_modes.c b/src/radeon_modes.c
+index 2c72395..140975f 100644
+--- a/src/radeon_modes.c
++++ b/src/radeon_modes.c
+@@ -258,6 +258,18 @@ static void RADEONAddScreenModes(xf86OutputPtr output, DisplayModePtr *modeList)
+ }
+ 
+ DisplayModePtr
++RADEONOutputGetEDIDModes(xf86OutputPtr output)
++{
++#if !defined(__sparc__)
++    return (xf86OutputGetEDIDModes(output));
++#else
++    extern DisplayModePtr EFBOutputGetEDIDModes();
++
++    return (EFBOutputGetEDIDModes(output));
++#endif /* __sparc__ */
++}
++
++DisplayModePtr
+ RADEONProbeOutputModes(xf86OutputPtr output)
+ {
+     RADEONOutputPrivatePtr radeon_output = output->driver_private;
+@@ -283,7 +295,8 @@ RADEONProbeOutputModes(xf86OutputPtr output)
+ 	    }
+ 	} else {
+ 	    if (output->MonInfo)
+-		modes = xf86OutputGetEDIDModes (output);
++		modes = RADEONOutputGetEDIDModes (output);
++
+ 	    if (modes == NULL) {
+ 		if ((radeon_output->type == OUTPUT_LVDS) && info->IsAtomBios) {
+ 		    atomBiosResult = RHDAtomBiosFunc(pScrn->scrnIndex,
+@@ -292,7 +305,7 @@ RADEONProbeOutputModes(xf86OutputPtr output)
+ 		    if (atomBiosResult == ATOM_SUCCESS) {
+ 			output->MonInfo = xf86InterpretEDID(pScrn->scrnIndex,
+ 							    atomBiosArg.EDIDBlock);
+-			modes = xf86OutputGetEDIDModes(output);
++			modes = RADEONOutputGetEDIDModes(output);
+ 		    }
+ 		}
+ 		if (modes == NULL) {
+diff --git a/src/radeon_output.c b/src/radeon_output.c
+index aceb3d8..93c5654 100644
+--- a/src/radeon_output.c
++++ b/src/radeon_output.c
+@@ -514,6 +514,7 @@ radeon_mode_valid(xf86OutputPtr output, DisplayModePtr pMode)
+     RADEONInfoPtr info = RADEONPTR(pScrn);
+     RADEONEntPtr pRADEONEnt = RADEONEntPriv(pScrn);
+ 
++#if !defined(__sparc__)
+     /*
+      * RN50 has effective maximum mode bandwidth of about 300MiB/s.
+      * XXX should really do this for all chips by properly computing
+@@ -523,6 +524,7 @@ radeon_mode_valid(xf86OutputPtr output, DisplayModePtr pMode)
+ 	if (xf86ModeBandwidth(pMode, pScrn->bitsPerPixel) > 300)
+ 	    return MODE_BANDWIDTH;
+     }
++#endif
+ 
+     if (OUTPUT_IS_TV) {
+ 	/* FIXME: Update when more modes are added */
+@@ -670,6 +672,10 @@ radeon_bios_output_lock(xf86OutputPtr output, Bool lock)
+     unsigned char *RADEONMMIO = info->MMIO;
+     RADEONSavePtr save = info->ModeReg;
+ 
++#if defined(__sparc__)
++    return;
++#endif /* __sparc__ */
++
+     if (info->IsAtomBios) {
+ 	if (lock) {
+ 	    save->bios_6_scratch |= (ATOM_S6_CRITICAL_STATE | ATOM_S6_ACC_MODE);
+@@ -698,6 +704,10 @@ radeon_bios_output_dpms(xf86OutputPtr output, int mode)
+     unsigned char *RADEONMMIO = info->MMIO;
+     RADEONSavePtr save = info->ModeReg;
+ 
++#if defined(__sparc__)
++    return;
++#endif /* __sparc__ */
++
+     if (info->IsAtomBios) {
+ 	if (mode == DPMSModeOn) {
+ 	    if (radeon_output->MonType == MT_STV ||
+@@ -845,6 +855,10 @@ radeon_bios_output_crtc(xf86OutputPtr output)
+     xf86CrtcPtr crtc = output->crtc;
+     RADEONCrtcPrivatePtr radeon_crtc = crtc->driver_private;
+ 
++#if defined(__sparc__)
++    return;
++#endif /* __sparc__ */
++
+     if (info->IsAtomBios) {
+ 	if (radeon_output->MonType == MT_STV ||
+ 	    radeon_output->MonType == MT_CTV) {
+@@ -924,6 +938,10 @@ radeon_bios_output_connected(xf86OutputPtr output, Bool connected)
+     unsigned char *RADEONMMIO = info->MMIO;
+     RADEONSavePtr save = info->ModeReg;
+ 
++#if defined(__sparc__)
++    return;
++#endif /* __sparc__ */
++
+     if (info->ChipFamily >= CHIP_FAMILY_R600)
+ 	return;
+ 
+@@ -1577,6 +1595,23 @@ radeon_set_property(xf86OutputPtr output, Atom property,
+     return TRUE;
+ }
+ 
++#if defined(__sparc__)
++static const xf86OutputFuncsRec radeon_output_funcs = {
++    .create_resources = radeon_create_resources,
++    .dpms = radeon_dpms,
++    .save = radeon_save,
++    .restore = radeon_restore,
++    .mode_valid = radeon_mode_valid,
++    .mode_fixup = radeon_mode_fixup,
++    .prepare = radeon_mode_prepare,
++    .mode_set = radeon_mode_set,
++    .commit = radeon_mode_commit,
++    .detect = radeon_detect,
++    .get_modes = efb_get_modes,
++    .set_property = radeon_set_property,
++    .destroy = radeon_destroy
++};
++#else
+ static const xf86OutputFuncsRec radeon_output_funcs = {
+     .create_resources = radeon_create_resources,
+     .dpms = radeon_dpms,
+@@ -1592,6 +1627,7 @@ static const xf86OutputFuncsRec radeon_output_funcs = {
+     .set_property = radeon_set_property,
+     .destroy = radeon_destroy
+ };
++#endif /* __sparc__ */
+ 
+ void RADEONSetOutputType(ScrnInfoPtr pScrn, RADEONOutputPrivatePtr radeon_output)
+ {
+@@ -2439,6 +2475,17 @@ static void RADEONSetupGenericConnectors(ScrnInfoPtr pScrn)
+ 		info->BiosConnector[1].TMDSType = TMDS_EXT;
+ 		info->BiosConnector[1].ConnectorType = CONNECTOR_DVI_I;
+ 		info->BiosConnector[1].valid = TRUE;
++#elif defined(__sparc__)
++		info->BiosConnector[1].ddc_i2c = legacy_setup_i2c_bus(RADEON_GPIO_VGA_DDC);
++		info->BiosConnector[1].DACType = DAC_PRIMARY;
++		info->BiosConnector[1].TMDSType = TMDS_EXT;
++		info->BiosConnector[1].valid = TRUE;
++
++		if (info->ChipFamily == CHIP_FAMILY_RV380) {
++		    info->BiosConnector[1].ConnectorType = CONNECTOR_DVI_I;
++		} else {
++		    info->BiosConnector[1].ConnectorType = CONNECTOR_VGA;
++		}
+ #else
+ 		info->BiosConnector[1].ddc_i2c = legacy_setup_i2c_bus(RADEON_GPIO_VGA_DDC);
+ 		info->BiosConnector[1].DACType = DAC_PRIMARY;
+@@ -2782,6 +2829,10 @@ Bool RADEONSetupConnectors(ScrnInfoPtr pScrn)
+ 	       but I'm not sure it's worth the trouble */
+ 	    output->possible_clones = 0;
+ 
++#if defined(__sparc__)
++	    xf86OutputUseScreenMonitor(output, TRUE);
++#endif /* __sparc__ */
++
+ 	    RADEONInitConnector(output);
+ 	}
+     }
+diff --git a/src/radeon_probe.c b/src/radeon_probe.c
+index 36451f9..6f7eafa 100644
+--- a/src/radeon_probe.c
++++ b/src/radeon_probe.c
+@@ -31,7 +31,9 @@
+ #endif
+ 
+ #include <string.h>
++#include <sys/fcntl.h>
+ 
++#include <sys/visual_io.h>
+ /*
+  * Authors:
+  *   Kevin E. Martin <martin@xfree86.org>
+@@ -53,6 +55,7 @@
+ #include "radeon_chipset_gen.h"
+ 
+ #include "radeon_pci_chipset_gen.h"
++#include "radeon.h"
+ 
+ 
+ #ifdef XSERVER_LIBPCIACCESS
+@@ -63,6 +66,7 @@
+ static Bool RADEONProbe(DriverPtr drv, int flags);
+ #endif
+ 
++_X_EXPORT
+ int gRADEONEntityIndex = -1;
+ 
+ /* Return the options for supported chipset 'n'; NULL otherwise */
+@@ -81,18 +85,22 @@ RADEONIdentify(int flags)
+ 		      RADEONChipsets);
+ }
+ 
+-static Bool
++static ScrnInfoPtr
+ radeon_get_scrninfo(int entity_num)
+ {
+     ScrnInfoPtr   pScrn = NULL;
+     EntityInfoPtr pEnt;
+ 
++#if !defined(__sparc__)
+     pScrn = xf86ConfigPciEntity(pScrn, 0, entity_num, RADEONPciChipsets,
+                                 NULL,
+                                 NULL, NULL, NULL, NULL);
++#else
++    pScrn = xf86ConfigFbEntity(pScrn, 0, entity_num, NULL,NULL,NULL,NULL);
++#endif 
+ 
+     if (!pScrn)
+-        return FALSE;
++        return NULL;
+ 
+     pScrn->driverVersion = RADEON_VERSION_CURRENT;
+     pScrn->driverName    = RADEON_DRIVER_NAME;
+@@ -146,10 +154,14 @@ radeon_get_scrninfo(int entity_num)
+ 
+     xfree(pEnt);
+ 
+-    return TRUE;
++    return pScrn;
+ }
+ 
+-#ifndef XSERVER_LIBPCIACCESS
++#if defined(__sparc__)
++#define RADEON_DEFAULT_DEVICE_PATH "/dev/fb"
++#endif /* __sparc__ */
++
++#if !defined(XSERVER_LIBPCIACCESS) || defined(__sparc__)
+ 
+ /* Return TRUE if chipset is present; FALSE otherwise. */
+ static Bool
+@@ -161,13 +173,17 @@ RADEONProbe(DriverPtr drv, int flags)
+     GDevPtr *devSections;
+     Bool     foundScreen = FALSE;
+     int      i;
++    ScrnInfoPtr pScrn;
+ 
++#if !defined(__sparc__)
+     if (!xf86GetPciVideoInfo()) return FALSE;
++#endif /* __sparc__ */
+ 
+     numDevSections = xf86MatchDevice(RADEON_NAME, &devSections);
+ 
+     if (!numDevSections) return FALSE;
+ 
++#if !defined(__sparc__)
+     numUsed = xf86MatchPciInstances(RADEON_NAME,
+ 				    PCI_VENDOR_ATI,
+ 				    RADEONChipsets,
+@@ -183,12 +199,50 @@ RADEONProbe(DriverPtr drv, int flags)
+ 	foundScreen = TRUE;
+     } else {
+ 	for (i = 0; i < numUsed; i++) {
+-	    if (radeon_get_scrninfo(usedChips[i]))
++	    if (pScrn = radeon_get_scrninfo(usedChips[i]))
+ 		foundScreen = TRUE;
+ 	}
+     }
+ 
+     xfree(usedChips);
++#else
++
++
++    // CR 6876840 - fix the core dump, but it still won't support
++    // -configure option
++
++    if (flags & PROBE_DETECT) {
++	if (devSections)
++            xfree(devSections);
++	return TRUE;
++    }
++
++    for (i = 0; i < numDevSections; i++) {
++	char * dev;
++	int entity;
++	RADEONInfoPtr info;
++	int fd;
++
++	entity = xf86ClaimFbSlot(drv, 0, devSections[i], TRUE);
++	if (pScrn = radeon_get_scrninfo(entity)) {
++	    dev = xf86FindOptionValue(devSections[i]->options, "device");
++            if (dev == NULL) {
++                dev = RADEON_DEFAULT_DEVICE_PATH;
++            }
++
++            if (((fd = open(dev, O_RDWR, 0)) >= 0)) {
++		foundScreen = TRUE;
++	    }
++
++    	    if (RADEONGetRec(pScrn)) {
++    		info = RADEONPTR(pScrn);
++		info->deviceName = dev;
++		info->fd = fd;
++	    }
++	}
++    }
++#endif /* __sparc__ */
++
+     xfree(devSections);
+ 
+     return foundScreen;
+@@ -196,7 +250,7 @@ RADEONProbe(DriverPtr drv, int flags)
+ 
+ #else /* XSERVER_LIBPCIACCESS */
+ 
+-static Bool
++static ScrnInfoPtr
+ radeon_pci_probe(
+     DriverPtr          pDriver,
+     int                entity_num,
+@@ -204,7 +258,48 @@ radeon_pci_probe(
+     intptr_t           match_data
+ )
+ {
+-    return radeon_get_scrninfo(entity_num);
++    ScrnInfoPtr pScrn;
++    pScrn = radeon_get_scrninfo(entity_num);
++
++#if defined(__sparc__)
++    if (pScrn != NULL) {
++	char * dev;
++	RADEONInfoPtr info = NULL;
++	int fd = -1;
++	int i, numDevSections;
++	GDevPtr *devSections;
++
++	numDevSections = xf86MatchDevice(RADEON_NAME, &devSections);
++
++    	if (RADEONGetRec(pScrn)) {
++    	    info = RADEONPTR(pScrn);
++	    info->fd = -1;
++	}
++
++	for (i = 0; i < numDevSections; i++) {
++            dev = xf86FindOptionValue(devSections[i]->options, "device");
++            if (dev == NULL) {
++                dev = RADEON_DEFAULT_DEVICE_PATH;
++            }
++
++            if (((fd = open(dev, O_RDWR, 0)) >= 0)) {
++    	        if (RADEONGetRec(pScrn)) {
++    		    info = RADEONPTR(pScrn);
++		    info->deviceName = dev;
++		    info->fd = fd;
++	        }
++	    }
++	}
++
++	if (info->fd == -1) {
++	    dev = RADEON_DEFAULT_DEVICE_PATH;
++	    info->deviceName = dev;
++	    info->fd = open(dev, O_RDWR, 0);
++	}
++    }
++#endif /* __sparc__ */
++
++    return pScrn;
+ }
+ 
+ #endif /* XSERVER_LIBPCIACCESS */
+@@ -214,7 +309,7 @@ _X_EXPORT DriverRec RADEON =
+     RADEON_VERSION_CURRENT,
+     RADEON_DRIVER_NAME,
+     RADEONIdentify,
+-#ifdef XSERVER_LIBPCIACCESS
++#if defined(XSERVER_LIBPCIACCESS) && !defined(__sparc__)
+     NULL,
+ #else
+     RADEONProbe,
+@@ -223,7 +318,7 @@ _X_EXPORT DriverRec RADEON =
+     NULL,
+     0,
+     NULL,
+-#ifdef XSERVER_LIBPCIACCESS
++#if defined(XSERVER_LIBPCIACCESS) && !defined(__sparc__)
+     radeon_device_match,
+     radeon_pci_probe
+ #endif
+diff --git a/src/radeon_version.h b/src/radeon_version.h
+index ccc1367..01958af 100644
+--- a/src/radeon_version.h
++++ b/src/radeon_version.h
+@@ -34,8 +34,14 @@
+ #undef  RADEON_VERSION_STRINGIFY
+ #undef  RADEON_VERSION_NAME
+ 
++#if !defined(__sparc__)
+ #define RADEON_NAME          "RADEON"
+ #define RADEON_DRIVER_NAME   "radeon"
++#else
++#define RADEON_NAME          "efb"
++#define RADEON_DRIVER_NAME   "efb"
++#endif /* __sparc__ */
++
+ #define R200_DRIVER_NAME     "r200"
+ #define R300_DRIVER_NAME     "r300"
+ 

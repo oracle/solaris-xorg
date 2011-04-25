@@ -51,6 +51,11 @@ usr/share/doc/X11/xorg.css
 usr/share/man/man5/Consortium.5
 usr/share/man/man5/XProjectTeam.5
 
+# Upstream ati man pages don't apply to efb driver on sparc
+usr/share/man/man7/ati.7       	        sparc
+usr/share/man/man7/r128.7		sparc
+usr/share/man/man7/radeon.7		sparc
+
 # Only need the 32-bit versions of these files
 usr/lib/amd64/X11			i386
 usr/lib/sparcv9/X11			sparc
