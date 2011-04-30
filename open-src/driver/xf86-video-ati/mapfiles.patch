@@ -1,7 +1,8 @@
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2010-01-04 16:32:29.000000000 -0800
-+++ src/Makefile.am	2010-04-26 20:36:36.232188492 -0700
-@@ -184,3 +184,39 @@ EXTRA_DIST = \
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 855d99c..5fcb4ec 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -171,3 +171,39 @@ EXTRA_DIST = \
  	radeon_atombios.h \
  	radeon_dri2.h \
  	drmmode_display.h

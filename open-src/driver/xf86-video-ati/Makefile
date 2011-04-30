@@ -29,19 +29,19 @@
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=6.13.2
+MODULE_VERSION=6.14.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a8f92fe3c458e511f4e2ead7f92c02b0
-TARBALL_SHA1 = f9d379a884a833829ab1942de4ad4f4766cdcd46
+TARBALL_MD5  = 395e23ad026e4246dd70bbd2143688b5
+TARBALL_SHA1 = 89b8a64a23fc307646a11cd2c2636a8125fada8f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	mapfiles.patch \
+	r6xx-r7xx-UMS.patch,-p1 \
+	mapfiles.patch,-p1 \
 	solaris-dri-drv-port.patch
 
-# Need to regenerate configure after patching configure.ac in build-dri.patch
-# and regenerate Makefile.in after patching Makefile.am in mapfiles.patch
+# Need to regenerate Makefile.in after patching Makefile.am in mapfiles.patch
 AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
@@ -53,7 +53,7 @@ MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
 # Extra flags to pass to configure script
-MODULE_CONFIG_OPTS=--enable-dri
+MODULE_CONFIG_OPTS=--disable-kms
 
 # Paths to find libraries/modules to link with - libraries themselves listed
 # in src/Makefile.am since ATI has multiple submodules with different needs
