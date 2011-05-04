@@ -140,6 +140,9 @@ $(PDIR)/%.p5m: manifests/%.p5m
 $(PDIR)/%.p5m: legacy/%.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
 
+$(PDIR)/%.p5m: %.p5m
+	$(PKGDEBUG)$(LN) -s ../$< $@
+
 PMANIFESTS = $(MANIFESTS:%=$(PDIR)/%)
 manifests: $(PMANIFESTS)
 $(PMANIFESTS): $(PDIR)
@@ -425,7 +428,11 @@ EXCEPTIONS= $(PWD)/../exception_lists/packaging $(PDIR)/generated-exceptions
 $(PDIR)/generated-exceptions:
 	$(PKGDEBUG)(cd $(PKGROOT) ; find . -name '*-uninstalled.pc') > $@
 
-protocmp: $(PROC_PKGS) $(EXCEPTIONS) fix_perms
+# Handle exceptions list exceptions-validate_pkg.p5m
+EXCEPTIONS_MOG = $(PDIR)/exceptions-validate_pkg.mog
+$(EXCEPTIONS_MOG):= EXTRA_TRANSFORMS = defaults
+
+protocmp: $(PROC_PKGS) $(EXCEPTIONS) $(EXCEPTIONS_MOG) fix_perms
 	$(PKGDEBUG)validate_pkg -a $(PKGMACH) -v $(EXCEPTIONS:%=-e %) \
 		-m $(PDIR) -p $(PKGROOT)
 

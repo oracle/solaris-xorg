@@ -1,4 +1,5 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+#
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,25 +20,16 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/server/xvfb@__version:xorg-server__
-set name=pkg.description \
-    value="Xvfb is an X server that can run on machines using no display hardware and no physical input devices. It emulates a dumb framebuffer using virtual memory."
-set name=pkg.summary value="Xvfb - virtual framebuffer X server"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-$(i386_ONLY)dir path=usr/bin/$(ARCH64)
-dir path=usr/lib
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
-file path=usr/bin/Xvfb
-file path=usr/share/man/man1/Xvfb.1
-link path=usr/X11/bin/Xvfb target=../../bin/Xvfb
-$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xvfb target=../Xvfb
-link path=usr/lib/mdb/proc/$(ARCH64)/Xvfb.so target=Xserver.so
-# X servers require xkbcomp & data-xkb for keyboard layouts
-depend fmri=pkg:/x11/keyboard/data-xkb type=require
-depend fmri=pkg:/x11/keyboard/xkbcomp type=require
-depend fmri=pkg:/x11/server/xserver-common type=require
+
+# This manifest exists solely to provide a list of directories that
+# validate_pkg can match against, since the actions that define them
+# are provided in other consolidations.
+#
+# These can't be included in exception_lists/packaging since that causes
+# all files under these directories to be flagged as errors for being
+# included in packages.
+
+dir path=usr/lib/mdb
+dir path=usr/lib/mdb/proc
+$(i386_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=bin
+$(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys

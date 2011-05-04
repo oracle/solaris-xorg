@@ -42,10 +42,6 @@ dir path=usr/include/xorg
 dir path=usr/lib
 dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/mdb
-dir path=usr/lib/mdb/proc
-$(i386_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=bin
-$(sparc_ONLY)dir path=usr/lib/mdb/proc/$(ARCH64) group=sys
 dir path=usr/lib/pkgconfig
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/modules
