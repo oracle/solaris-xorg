@@ -73,9 +73,6 @@ depend fmri=pkg:/terminal/luit type=require
 # app/xterm
 depend fmri=pkg:/terminal/xterm type=require
 
-# app/xrx
-depend fmri=pkg:/web/browser/firefox/plugin/firefox-xrx type=require
-
 # app/oclock
 depend fmri=pkg:/x11/oclock type=require
 

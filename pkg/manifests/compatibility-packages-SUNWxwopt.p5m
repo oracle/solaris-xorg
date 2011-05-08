@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,9 +53,6 @@ depend fmri=pkg:/image/editor/bitmap type=require
 
 # xcursorgen
 depend fmri=pkg:/image/xcursorgen type=require
-
-# xrx
-depend fmri=pkg:/web/browser/firefox/plugin/firefox-xrx type=require
 
 # oclock
 depend fmri=pkg:/x11/oclock type=require

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,23 +20,5 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/web/browser/firefox/plugin/firefox-xrx@__version:xrx__
-set name=pkg.description \
-    value="Web browser plugin and helper application that allow embedding X client applications in a web page."
-set name=pkg.summary value="RX: X Remote eXecution (aka Xweb or Broadway)"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/lib
-dir path=usr/lib/firefox
-dir path=usr/lib/firefox/plugins
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
-file path=usr/bin/xrx
-file path=usr/lib/firefox/plugins/libxrx.so
-file path=usr/lib/firefox/plugins/libxrxnest.so
-file path=usr/share/man/man1/libxrx.1
-file path=usr/share/man/man1/xrx.1
-link path=usr/X11/bin/xrx target=../../bin/xrx
+    value=pkg:/web/browser/firefox/plugin/firefox-xrx@1.0.4,5.11-0.166
+set name=pkg.obsolete value=true

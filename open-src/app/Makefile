@@ -112,7 +112,6 @@ OS_SUBDIRS_common = \
 	xrandr \
 	xrdb \
 	xrefresh \
-	xrx \
 	xscope \
 	xset \
 	xsetroot \
@@ -133,6 +132,7 @@ OBSOLETE_SUBDIRS = \
 	rstart \
 	xplsprinters \
 	xprehashprinterlist \
+	xrx \
 	xscreensaver \
 	rss-glx
 

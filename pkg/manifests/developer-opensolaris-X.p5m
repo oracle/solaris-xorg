@@ -115,9 +115,6 @@ depend fmri=pkg:/library/motif type=require
 # xterm uses ncurses/term.h
 depend fmri=pkg:/library/ncurses type=require
 
-# app/xrx needs Firefox NSPR headers
-depend fmri=pkg:/library/nspr/header-nspr type=require
-
 # libXfont & libfontenc link with libz
 depend fmri=pkg:/library/zlib type=require
 
@@ -156,9 +153,6 @@ depend fmri=pkg:/text/groff type=require
 # xcb and xcb-utils need gperf and GNU M4 to build
 depend fmri=pkg:/developer/gperf type=require
 depend fmri=pkg:/developer/macro/gnu-m4 type=require
-
-# app/xrx needs Firefox plugin headers
-depend fmri=pkg:/web/browser/firefox type=require
 
 # docbook2txt uses lynx to translate html docs to text during the build
 depend fmri=pkg:/web/browser/lynx type=require
