@@ -52,6 +52,7 @@ depend fmri=pkg:/developer/build/automake-110 type=require
 # Some packages need GNU make to build
 depend fmri=pkg:/developer/build/gnu-make type=require
 
+# Many packages need to use GNU libtool to rebuild upstream libtool files
 depend fmri=pkg:/developer/build/libtool type=require
 
 # Most of the X gate requires Solaris make to build
@@ -76,16 +77,26 @@ depend fmri=pkg:/developer/gcc-3 type=require
 # For now, this is the package that delivers pkg-config (Defect #15543)
 depend fmri=pkg:/developer/gnome/gettext type=require
 
+# xcb-util needs gperf to generate hash functions
+depend fmri=pkg:/developer/gperf type=require
+
 # tigervnc builds a java applet with javac
 depend fmri=pkg:/developer/java/jdk type=require
 
+# Various modules need flex to generate lexers
 depend fmri=pkg:/developer/lexer/flex type=require
 
 # Various libraries build lint libraries, that depend on system lint libs
 depend fmri=pkg:/developer/library/lint type=require
 
-# Basic build utilities - ld, ar, nm, mcs, etc.
+# Almost all modules need ld to link binaries
 depend fmri=pkg:/developer/linker type=require
+
+# xcb, xcb-util, xcb-util-wm need GNU M4 to build
+# (also required by any module running autoconf/autoreconf)
+depend fmri=pkg:/developer/macro/gnu-m4 type=require
+
+# Basic build utilities - ar, nm, mcs, etc.
 depend fmri=pkg:/developer/object-file type=require
 
 # Xserver build uses flex & bison
@@ -139,6 +150,7 @@ depend fmri=pkg:/system/library/libdbus type=require
 depend fmri=pkg:/system/library/math type=require
 depend fmri=pkg:/system/library/math/header-math type=require
 
+
 depend fmri=pkg:/text/doctools type=require
 
 # Some packages need GNU gettext to process upstream localization data
@@ -149,10 +161,6 @@ depend fmri=pkg:/text/gnu-patch type=require
 
 # Some X.Org packages use groff to transform their old troff docs to HTML
 depend fmri=pkg:/text/groff type=require
-
-# xcb and xcb-utils need gperf and GNU M4 to build
-depend fmri=pkg:/developer/gperf type=require
-depend fmri=pkg:/developer/macro/gnu-m4 type=require
 
 # docbook2txt uses lynx to translate html docs to text during the build
 depend fmri=pkg:/web/browser/lynx type=require

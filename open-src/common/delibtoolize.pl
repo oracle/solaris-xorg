@@ -27,30 +27,31 @@
 # Undo libtool damage to makefiles to allow us to control the linker
 # settings that libtool tries to force on us.
 #
-# Usage: delibtoolize.pl [-P] <path>
+# Usage: delibtoolize.pl [-P] [-s] [--shared=<so>] <path>
 # -P - Use large pic flags (-KPIC/-fPIC) instead of default/small (-Kpic/-fpic)
 # -s - Only track libraries from a single file at a time, instead of across all
 #	files in a project
+# --shared=libname.so.0 - force libname to be treated as a shared library, 
+#	even if version flags are not found
 
 use strict;
 use warnings;
 use integer;
-use Getopt::Std;
+use Getopt::Long;
 
 use File::Find;
 
-my %opts;
-getopts('Ps', \%opts);
+my $large_pic = '';	# -P
+my $single_file = '';	# -s
+my @shared_args = ();
 
-my $pic_size = "pic";
-if (exists($opts{'P'})) {
-  $pic_size = "PIC";
-}
+die unless GetOptions(
+    "P" => \$large_pic,
+    "s" => \$single_file,
+    "shared=s" => \@shared_args
+);
 
-my $single_file;
-if (exists($opts{'s'})) {
-  $single_file = 1;
-}
+my $pic_size = $large_pic ? "PIC" : "pic";
 
 my %compiler_pic_flags = ( 'cc' => "-K$pic_size -DPIC",
 			   'gcc' => "-f$pic_size -DPIC" );
@@ -60,6 +61,17 @@ my %compiler_sharedobj_flags = ( 'cc' => '-G -z allextract',
 my %so_versions = ();
 my %ltlib_names = ();
 my @Makefiles;
+
+# initialize %so_versions with command line flags
+foreach my $so ( @shared_args ) {
+    if ($so =~ m{^(.*)\.so\.([\d\.]+)}) {
+	$so_versions{$1} = $2;
+    } elsif ($so =~ m{^(.*)\.so$}) {
+	$so_versions{$1} = 'none';
+    } else {
+	die "Unable to parse --shared object name $so\n";
+    }
+}
 
 sub rulename_to_filename {
   my $rulename = $_[0];

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,98 +31,69 @@ dir path=usr
 dir path=usr/include
 dir path=usr/include/xcb
 dir path=usr/lib
-dir path=usr/lib/pkgconfig
 dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/$(ARCH64)/pkgconfig
+dir path=usr/lib/pkgconfig
 dir path=usr/share
 dir path=usr/share/xcb
-#
-file path=usr/lib/libxcb-atom.so.1.0.0
-file path=usr/lib/libxcb-aux.so.0.0.0
-file path=usr/lib/libxcb-event.so.1.0.0
-file path=usr/lib/libxcb-icccm.so.1.0.0
-file path=usr/lib/libxcb-image.so.0.0.0
-file path=usr/lib/libxcb-keysyms.so.1.0.0
-file path=usr/lib/libxcb-property.so.1.0.0
-file path=usr/lib/libxcb-render-util.so.0.0.0
-file path=usr/lib/libxcb-reply.so.1.0.0
-#
-link path=usr/lib/libxcb-atom.so.1 target=./libxcb-atom.so.1.0.0
-link path=usr/lib/libxcb-atom.so target=./libxcb-atom.so.1.0.0
-link path=usr/lib/libxcb-aux.so.0 target=./libxcb-aux.so.0.0.0
-link path=usr/lib/libxcb-aux.so target=./libxcb-aux.so.0.0.0
-link path=usr/lib/libxcb-event.so.1 target=./libxcb-event.so.1.0.0
-link path=usr/lib/libxcb-event.so target=./libxcb-event.so.1.0.0
-link path=usr/lib/libxcb-icccm.so.1 target=./libxcb-icccm.so.1.0.0
-link path=usr/lib/libxcb-icccm.so target=./libxcb-icccm.so.1.0.0
-link path=usr/lib/libxcb-image.so.0 target=./libxcb-image.so.0.0.0
-link path=usr/lib/libxcb-image.so target=./libxcb-image.so.0.0.0
-link path=usr/lib/libxcb-keysyms.so.1 target=./libxcb-keysyms.so.1.0.0
-link path=usr/lib/libxcb-keysyms.so target=./libxcb-keysyms.so.1.0.0
-link path=usr/lib/libxcb-property.so.1 target=./libxcb-property.so.1.0.0
-link path=usr/lib/libxcb-property.so target=./libxcb-property.so.1.0.0
-link path=usr/lib/libxcb-render-util.so.0 target=./libxcb-render-util.so.0.0.0
-link path=usr/lib/libxcb-render-util.so target=./libxcb-render-util.so.0.0.0
-link path=usr/lib/libxcb-reply.so.1 target=./libxcb-reply.so.1.0.0
-link path=usr/lib/libxcb-reply.so target=./libxcb-reply.so.1.0.0
-#
-file path=usr/lib/$(ARCH64)/libxcb-atom.so.1.0.0
-file path=usr/lib/$(ARCH64)/libxcb-aux.so.0.0.0
-file path=usr/lib/$(ARCH64)/libxcb-event.so.1.0.0
-file path=usr/lib/$(ARCH64)/libxcb-icccm.so.1.0.0
-file path=usr/lib/$(ARCH64)/libxcb-image.so.0.0.0
-file path=usr/lib/$(ARCH64)/libxcb-keysyms.so.1.0.0
-file path=usr/lib/$(ARCH64)/libxcb-property.so.1.0.0
-file path=usr/lib/$(ARCH64)/libxcb-render-util.so.0.0.0
-file path=usr/lib/$(ARCH64)/libxcb-reply.so.1.0.0
-#
-link path=usr/lib/$(ARCH64)/libxcb-atom.so.1 target=./libxcb-atom.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-atom.so target=./libxcb-atom.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-aux.so.0 target=./libxcb-aux.so.0.0.0
-link path=usr/lib/$(ARCH64)/libxcb-aux.so target=./libxcb-aux.so.0.0.0
-link path=usr/lib/$(ARCH64)/libxcb-event.so.1 target=./libxcb-event.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-event.so target=./libxcb-event.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-icccm.so.1 target=./libxcb-icccm.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-icccm.so target=./libxcb-icccm.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-image.so.0 target=./libxcb-image.so.0.0.0
-link path=usr/lib/$(ARCH64)/libxcb-image.so target=./libxcb-image.so.0.0.0
-link path=usr/lib/$(ARCH64)/libxcb-keysyms.so.1 target=./libxcb-keysyms.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-keysyms.so target=./libxcb-keysyms.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-property.so.1 target=./libxcb-property.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-property.so target=./libxcb-property.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-render-util.so.0 target=./libxcb-render-util.so.0.0.0
-link path=usr/lib/$(ARCH64)/libxcb-render-util.so target=./libxcb-render-util.so.0.0.0
-link path=usr/lib/$(ARCH64)/libxcb-reply.so.1 target=./libxcb-reply.so.1.0.0
-link path=usr/lib/$(ARCH64)/libxcb-reply.so target=./libxcb-reply.so.1.0.0
 #
 file path=usr/include/xcb/xcb_atom.h
 file path=usr/include/xcb/xcb_aux.h
 file path=usr/include/xcb/xcb_bitops.h
 file path=usr/include/xcb/xcb_event.h
+file path=usr/include/xcb/xcb_ewmh.h
 file path=usr/include/xcb/xcb_icccm.h
 file path=usr/include/xcb/xcb_image.h
-file path=usr/include/xcb/xcb_pixel.h
 file path=usr/include/xcb/xcb_keysyms.h
-file path=usr/include/xcb/xcb_property.h
+file path=usr/include/xcb/xcb_pixel.h
 file path=usr/include/xcb/xcb_renderutil.h
-file path=usr/include/xcb/xcb_reply.h
+file path=usr/include/xcb/xcb_util.h
 #
-file path=usr/lib/pkgconfig/xcb-atom.pc
-file path=usr/lib/pkgconfig/xcb-aux.pc
-file path=usr/lib/pkgconfig/xcb-event.pc
-file path=usr/lib/pkgconfig/xcb-icccm.pc
-file path=usr/lib/pkgconfig/xcb-image.pc
-file path=usr/lib/pkgconfig/xcb-keysyms.pc
-file path=usr/lib/pkgconfig/xcb-property.pc
-file path=usr/lib/pkgconfig/xcb-renderutil.pc
-file path=usr/lib/pkgconfig/xcb-reply.pc
+file path=usr/lib/$(ARCH64)/libxcb-ewmh.so.1
+file path=usr/lib/$(ARCH64)/libxcb-icccm.so.4
+file path=usr/lib/$(ARCH64)/libxcb-image.so.0
+file path=usr/lib/$(ARCH64)/libxcb-keysyms.so.1
+file path=usr/lib/$(ARCH64)/libxcb-render-util.so.0
+file path=usr/lib/$(ARCH64)/libxcb-util.so.0
 #
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-atom.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-aux.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-event.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/xcb-ewmh.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-icccm.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-image.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-keysyms.pc
-file path=usr/lib/$(ARCH64)/pkgconfig/xcb-property.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-renderutil.pc
-file path=usr/lib/$(ARCH64)/pkgconfig/xcb-reply.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/xcb-util.pc
+#
+file path=usr/lib/libxcb-ewmh.so.1
+file path=usr/lib/libxcb-icccm.so.4
+file path=usr/lib/libxcb-image.so.0
+file path=usr/lib/libxcb-keysyms.so.1
+file path=usr/lib/libxcb-render-util.so.0
+file path=usr/lib/libxcb-util.so.0
+#
+file path=usr/lib/pkgconfig/xcb-atom.pc
+file path=usr/lib/pkgconfig/xcb-aux.pc
+file path=usr/lib/pkgconfig/xcb-event.pc
+file path=usr/lib/pkgconfig/xcb-ewmh.pc
+file path=usr/lib/pkgconfig/xcb-icccm.pc
+file path=usr/lib/pkgconfig/xcb-image.pc
+file path=usr/lib/pkgconfig/xcb-keysyms.pc
+file path=usr/lib/pkgconfig/xcb-renderutil.pc
+file path=usr/lib/pkgconfig/xcb-util.pc
+#
+link path=usr/lib/$(ARCH64)/libxcb-ewmh.so target=libxcb-ewmh.so.1
+link path=usr/lib/$(ARCH64)/libxcb-icccm.so target=libxcb-icccm.so.4
+link path=usr/lib/$(ARCH64)/libxcb-image.so target=libxcb-image.so.0
+link path=usr/lib/$(ARCH64)/libxcb-keysyms.so target=libxcb-keysyms.so.1
+link path=usr/lib/$(ARCH64)/libxcb-render-util.so \
+    target=libxcb-render-util.so.0
+link path=usr/lib/$(ARCH64)/libxcb-util.so target=libxcb-util.so.0
+#
+link path=usr/lib/libxcb-ewmh.so target=libxcb-ewmh.so.1
+link path=usr/lib/libxcb-icccm.so target=libxcb-icccm.so.4
+link path=usr/lib/libxcb-image.so target=libxcb-image.so.0
+link path=usr/lib/libxcb-keysyms.so target=libxcb-keysyms.so.1
+link path=usr/lib/libxcb-render-util.so target=libxcb-render-util.so.0
+link path=usr/lib/libxcb-util.so target=libxcb-util.so.0

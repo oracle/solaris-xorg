@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlsclients 1.x Makefile
+# xcb-util-renderutil Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,30 +23,40 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#
 
 # Package name used in tarballs
-MODULE_NAME=xlsclients
+MODULE_NAME=xcb-util-renderutil
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/diagnostic/x11-info-clients
+MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=0.3.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 760099f0af112401735801e3b9aa8595
-TARBALL_SHA1 = c4051429c190444ae9ba327f0ad776a74eb7b27b
+TARBALL_MD5  = b346ff598ee093c141f836fbc0f8f721
+TARBALL_SHA1 = ce6b6acb015fa47c716adfd83b2f36c874401277
+
+# ARC cases that covered this module
+MODULE_ARC_CASES = PSARC/2010/109
+
+# Package metadata
+UPSTREAM_PROJECT = xcb
+UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
-MODULE_STABILITY=Committed
+# Library name (used for specfiles/mapfiles)
+LIBNAME=xcb-render-util
 
-# Compatibility links from /usr/X11/bin to /usr/bin
-MODULE_X11_BINCOMPAT_LINKS = xlsclients
+# Need to tell delibtoolize.pl the shared object name since upstream makefile
+# relies on libtool defaults 
+DELIBTOOLIZE_FLAGS = --shared libxcb-render-util.so.0
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=
+MODULE_STABILITY=Uncommitted
 
 include ../Makefile.inc

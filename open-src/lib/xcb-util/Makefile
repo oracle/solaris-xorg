@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlsclients 1.x Makefile
+# xcb-util Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,30 +23,36 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#
 
 # Package name used in tarballs
-MODULE_NAME=xlsclients
-
-# pkg(5) name we deliver the files in (override default)
-MODULE_PKGNAME=x11/diagnostic/x11-info-clients
-MODULE_PKGNAME_SET=yes
+MODULE_NAME=xcb-util
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=0.3.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 760099f0af112401735801e3b9aa8595
-TARBALL_SHA1 = c4051429c190444ae9ba327f0ad776a74eb7b27b
+TARBALL_MD5  = 8ce019c4bbf20dce246b98f177cfccff
+TARBALL_SHA1 = 71093ad81feb21758a2446cf3297bebaf03af228
+
+# ARC cases that covered this module
+MODULE_ARC_CASES = PSARC/2010/109
+
+# Package metadata
+UPSTREAM_PROJECT = xcb
+UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
-MODULE_STABILITY=Committed
+# Library name (used for specfiles/mapfiles)
+LIBNAME=xcbutil
 
-# Compatibility links from /usr/X11/bin to /usr/bin
-MODULE_X11_BINCOMPAT_LINKS = xlsclients
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=
+MODULE_STABILITY=Uncommitted
+
+# Need to use GNU Make to build, due to the use of $< in explicit rules
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
 
 include ../Makefile.inc

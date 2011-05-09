@@ -38,13 +38,8 @@ TARBALL_SHA1 = 7540f0587907bce421914f0ddb813810cb2f36f8
 MODULE_ARC_CASES = PSARC/2010/109
 
 # Package metadata
-UPSTREAM = The XCB Project
-UPSTREAM_URL = http://xcb.freedesktop.org/
-UPSTREAM_SET = yes
-
-# Download site for source
-SOURCE_URL = http://xcb.freedesktop.org/dist//$(SOURCE_TARBALL_NAME)
-SOURCE_URL_SET = yes
+UPSTREAM_PROJECT = xcb
+UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

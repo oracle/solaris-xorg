@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Library modules
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ default_target: install
 # Xt before Xmu and Xpm and Xtst
 # Xext before any other extension library, including mesa
 # Xfixes before Xcomposite, Xcursor or Xdamage
-# libpthread-stubs before libdrm (and in the future, before xcb)
+# libpthread-stubs before libdrm and xcb
 # libdrm before mesa
 
 # Dependencies needed for parallel make:
@@ -48,11 +48,15 @@ libdga: libX11
 libdmx: libX11 libXext
 libdrm: libpthread-stubs
 libxcb: libpthread-stubs
-xcbutil: libxcb
+xcb-util: libxcb
+xcb-util-image: libxcb xcb-util
+xcb-util-keysyms: libxcb
+xcb-util-renderutil: libxcb
+xcb-util-wm: libxcb
 libFS: libxtrans
 libICE: libxtrans
 libSM: libxtrans libICE
-libX11: libxtrans libXau libXdmcp libxcb xcbutil
+libX11: libxtrans libXau libXdmcp libxcb
 libXaw: libX11 libXt libXmu libXpm
 libXaw4: libX11 libXt libXmu
 libXaw5: libX11 libXt libXmu
@@ -102,7 +106,11 @@ OS_SUBDIRS_common = \
 	libXau \
 	libXdmcp \
 	libxcb \
-	xcbutil \
+	xcb-util \
+	xcb-util-image \
+	xcb-util-keysyms \
+	xcb-util-renderutil \
+	xcb-util-wm \
 	libX11 \
 	libXext \
 	libfontenc \
