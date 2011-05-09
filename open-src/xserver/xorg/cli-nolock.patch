@@ -18,10 +18,10 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -Nurp -x '*~' -x '*.orig' os/utils.c os/utils.c
-diff -Nurp -x '*~' -x '*.orig' os/utils.c os/utils.c
---- os/utils.c	2011-01-07 06:26:45.000000000 -0800
-+++ os/utils.c	2011-02-15 15:53:10.744333673 -0800
+diff --git a/os/utils.c b/os/utils.c
+index 18fd911..0cf4d37 100644
+--- a/os/utils.c
++++ b/os/utils.c
 @@ -509,7 +509,9 @@ void UseMsg(void)
  #ifdef RLIMIT_STACK
      ErrorF("-ls int                limit stack space to N Kb\n");
@@ -29,10 +29,10 @@ diff -Nurp -x '*~' -x '*.orig' os/utils.c os/utils.c
 +#ifndef SUNSOFT /* Not in Sun version as required by PSARC 2004/187 TCR */
      ErrorF("-nolock                disable the locking mechanism\n");
 +#endif
- #ifndef NOLOGOHACK
-     ErrorF("-logo                  enable logo in screen saver\n");
-     ErrorF("nologo                 disable logo in screen saver\n");
-@@ -759,6 +761,7 @@ ProcessCommandLine(int argc, char *argv[
+     ErrorF("-nolisten string       don't listen on protocol\n");
+     ErrorF("-noreset               don't reset after last client exists\n");
+     ErrorF("-background [none]     create root window with no background\n");
+@@ -757,6 +759,7 @@ ProcessCommandLine(int argc, char *argv[])
  		UseMsg();
  	}
  #endif
@@ -40,11 +40,11 @@ diff -Nurp -x '*~' -x '*.orig' os/utils.c os/utils.c
  	else if ( strcmp ( argv[i], "-nolock") == 0)
  	{
  #if !defined(WIN32) && !defined(__CYGWIN__)
-@@ -768,6 +771,7 @@ ProcessCommandLine(int argc, char *argv[
+@@ -766,6 +769,7 @@ ProcessCommandLine(int argc, char *argv[])
  #endif
  	    nolock = TRUE;
  	}
 +#endif
- #ifndef NOLOGOHACK
- 	else if ( strcmp( argv[i], "-logo") == 0)
+ 	else if ( strcmp( argv[i], "-nolisten") == 0)
  	{
+             if(++i < argc) {

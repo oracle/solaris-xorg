@@ -26,9 +26,9 @@ diff -urp -x '*~' -x '*.orig' common/rfb/Makefile.am common/rfb/Makefile.am
 @@ -42,7 +42,7 @@ librfb_la_SOURCES = $(HDRS) Blacklist.cx
  	secTypes.cxx util.cxx
  
- librfb_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/../win
--librfb_la_LIBADD =
-+librfb_la_LIBADD = $(LIBS)
+ librfb_la_CPPFLAGS = -I$(top_srcdir)/common -I$(top_srcdir)/win
+-librfb_la_LIBADD = @GNUTLS_LIBS@
++librfb_la_LIBADD = @GNUTLS_LIBS@ $(LIBS)
  
  if INCLUDED_JPEG
  librfb_la_CPPFLAGS += -I$(top_srcdir)/jpeg
@@ -59,44 +59,22 @@ diff -urp -x '*~' -x '*.orig' unix/vncserver unix/vncserver
         "[ -r \$HOME/.Xresources ] && xrdb \$HOME/.Xresources\n".
         "xsetroot -solid grey\n".
         "xterm -geometry 80x24+10+10 -ls -title \"\$VNCDESKTOP Desktop\" &\n".
-diff -urp -x '*~' -x '*.orig' unix/vncviewer/Makefile.am unix/vncviewer/Makefile.am
---- unix/vncviewer/Makefile.am	2009-08-20 02:46:42.000000000 -0700
-+++ unix/vncviewer/Makefile.am	2010-01-07 18:27:36.001729152 -0800
-@@ -13,6 +13,7 @@ vncviewer_CPPFLAGS = -I$(COMMON_DIR) -I$
- 
- vncviewer_LDADD = $(top_srcdir)/tx/libtx.la $(COMMON_DIR)/rfb/librfb.la \
- 	$(COMMON_DIR)/network/libnetwork.la $(COMMON_DIR)/rdr/librdr.la \
-+	-ljpeg -lz \
- 	@X_PRE_LIBS@ @X_LIBS@ -lXext -lX11 @X_EXTRA_LIBS@ # @LIBINTL@
- 
- EXTRA_DIST = vncviewer.man
-diff -urp -x '*~' -x '*.orig' unix/x0vncserver/Makefile.am unix/x0vncserver/Makefile.am
---- unix/x0vncserver/Makefile.am	2009-08-20 02:46:42.000000000 -0700
-+++ unix/x0vncserver/Makefile.am	2010-01-07 18:27:36.001861492 -0800
-@@ -15,6 +15,7 @@ x0vncserver_CPPFLAGS = -I$(COMMON_DIR) -
- 	@MITSHM_DEFINE@ @X_CFLAGS@
- 
- x0vncserver_LDADD = $(COMMON_DIR)/rfb/librfb.la \
-+	-ljpeg -lz \
- 	$(COMMON_DIR)/network/libnetwork.la $(COMMON_DIR)/rdr/librdr.la \
- 	$(top_srcdir)/tx/libtx.la @INET_LIB@ @X_PRE_LIBS@ @X_LIBS@ \
- 	@XTEST_LIB@ -lXext -lX11 @X_EXTRA_LIBS@
 diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vnc/Makefile.am
 --- unix/xserver/hw/vnc/Makefile.am	2010-01-07 18:27:33.782620873 -0800
 +++ unix/xserver/hw/vnc/Makefile.am	2010-01-07 18:27:36.002105937 -0800
 @@ -17,7 +17,7 @@
  
  libvnccommon_la_CPPFLAGS = -DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
- 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
--	-I$(BIN_DIR)/vncconfig $(XVNC_CPPFLAGS) -I$(includedir)/pixman-1 -I$(includedir)
-+	-I$(BIN_DIR)/vncconfig $(XVNC_CPPFLAGS) $(PIXMAN_CFLAGS)
+ 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(TIGERVNC_SRCDIR)/common -UHAVE_CONFIG_H \
+-	-I$(TIGERVNC_SRCDIR)/unix/vncconfig $(XVNC_CPPFLAGS) -I$(includedir)/pixman-1 -I$(includedir)
++	-I$(TIGERVNC_SRCDIR)/unix/vncconfig $(XVNC_CPPFLAGS) $(PIXMAN_CFLAGS) -I$(includedir)
  
  bin_PROGRAMS = Xvnc
  
 @@ -32,10 +32,17 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW
- Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW_ONLY_EXTS -DNO_MODULE_EXTS \
+ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW_ONLY_EXTS -DNO_MODULE_EXTS -UHAVE_CONFIG_H \
  	-DXFree86Server -DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
- 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(LIB_DIR) \
+ 	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(TIGERVNC_SRCDIR)/common \
 -	-I$(top_srcdir)/include -I$(includedir)/pixman-1 -I$(includedir)
 +	-I$(top_srcdir)/include $(PIXMAN_CFLAGS)
 +

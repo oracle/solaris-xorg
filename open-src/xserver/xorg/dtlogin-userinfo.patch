@@ -18,11 +18,11 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
-diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2011-02-04 11:37:03.000000000 -0800
-+++ configure.ac	2011-02-15 15:53:16.732320605 -0800
-@@ -1472,6 +1472,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUI
+diff --git a/configure.ac b/configure.ac
+index 524c2af..926d159 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1458,6 +1458,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUIRED_LIBS])
  XSERVER_CFLAGS="${XSERVER_CFLAGS} ${XSERVERCFLAGS_CFLAGS}"
  XSERVER_LIBS="$DIX_LIB $MI_LIB $OS_LIB"
  XSERVER_SYS_LIBS="${XSERVERLIBS_LIBS} ${SYS_LIBS} ${LIBS}"
@@ -30,10 +30,11 @@ diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
  AC_SUBST([XSERVER_LIBS])
  AC_SUBST([XSERVER_SYS_LIBS])
  
-diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
---- dix/main.c	2010-12-02 12:16:53.000000000 -0800
-+++ dix/main.c	2011-02-15 15:53:16.732690379 -0800
-@@ -116,6 +116,11 @@ Equipment Corporation.
+diff --git a/dix/main.c b/dix/main.c
+index 692bec1..9c3951a 100644
+--- a/dix/main.c
++++ b/dix/main.c
+@@ -115,6 +115,11 @@ Equipment Corporation.
  #include "dpmsproc.h"
  #endif
  
@@ -44,8 +45,8 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
 +
  extern void Dispatch(void);
  
- extern void InitProcVectors(void);
-@@ -168,6 +173,13 @@ int main(int argc, char *argv[], char *e
+ #ifdef XQUARTZ
+@@ -165,6 +170,13 @@ int main(int argc, char *argv[], char *envp[])
  	InitBlockAndWakeupHandlers();
  	/* Perform any operating system dependent initializations you'd like */
  	OsInit();
@@ -59,7 +60,7 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
  	if(serverGeneration == 1)
  	{
  	    CreateWellKnownSockets();
-@@ -290,6 +302,11 @@ int main(int argc, char *argv[], char *e
+@@ -286,6 +298,11 @@ int main(int argc, char *argv[], char *envp[])
  
  	Dispatch();
  
@@ -71,10 +72,11 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
          UndisplayDevices();
  
  	/* Now free up whatever must be freed */
-diff -Nurp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
---- os/Makefile.am	2010-03-25 22:17:44.000000000 -0700
-+++ os/Makefile.am	2011-02-15 15:53:16.732911213 -0800
-@@ -47,6 +47,9 @@ if NEED_STRLCAT
+diff --git a/os/Makefile.am b/os/Makefile.am
+index 66a4a0f..b4f90ce 100644
+--- a/os/Makefile.am
++++ b/os/Makefile.am
+@@ -40,6 +40,9 @@ if NEED_STRLCAT
  libos_la_SOURCES += $(STRLCAT_SRCS)
  endif
  
@@ -84,10 +86,11 @@ diff -Nurp -x '*~' -x '*.orig' os/Makefile.am os/Makefile.am
  EXTRA_DIST = $(SECURERPC_SRCS) $(INTERNALMALLOC_SRCS) \
       $(XDMCP_SRCS) $(STRLCAT_SRCS)
  
-diff -Nurp -x '*~' -x '*.orig' os/auth.c os/auth.c
---- os/auth.c	2010-05-12 20:16:31.000000000 -0700
-+++ os/auth.c	2011-02-15 15:53:16.733178408 -0800
-@@ -290,6 +290,19 @@ AddAuthorization (unsigned name_length, 
+diff --git a/os/auth.c b/os/auth.c
+index 7685751..995235e 100644
+--- a/os/auth.c
++++ b/os/auth.c
+@@ -290,6 +290,19 @@ AddAuthorization (unsigned name_length, const char *name,
      return 0;
  }
  

@@ -1,28 +1,27 @@
---- java/src/Makefile	2009-10-30 00:10:31.496797111 -0700
-+++ java/src/Makefile.icon	2009-10-30 00:10:14.375398782 -0700
-@@ -45,14 +45,19 @@
- 
- CLASSES = $(SOURCES:.java=.class)
- 
+--- java/src/com/tigervnc/vncviewer/Makefile	2009-10-30 00:10:31.496797111 -0700
++++ java/src/com/tigervnc/vncviewer/Makefile.icon	2009-10-30 00:10:14.375398782 -0700
+@@ -9,6 +9,7 @@
+ ARCHIVE = VncViewer.jar
+ MANIFEST = MANIFEST.MF
+ PAGES = index.vnc index.html
 +ICON = tigervnc_16.gif
-+
- all: $(ARCHIVE)
+ INSTALL_DIR = /usr/local/vnc/classes
  
- $(ARCHIVE): $(SOURCES) $(MANIFEST)
- 	$(JC) $(JCFLAGS) -O $(SOURCES)
- 	$(JAR) cfm $(ARCHIVE) $(MANIFEST) $(CLASSES)
+ CLASSES = VncViewer.class RfbProto.class AuthPanel.class VncCanvas.class \
+@@ -44,8 +45,11 @@ $(ARCHIVE): $(CLASSES) $(MANIFEST)
+ 		com/tigervnc/decoder/*.class \
+ 		com/tigervnc/decoder/common/*.class
  
--install: $(ARCHIVE)
--	$(CP) $(ARCHIVE) $(PAGES) $(INSTALL_DIR)
+-install: $(CLASSES) $(ARCHIVE)
+-	$(CP) $(CLASSES) $(ARCHIVE) $(PAGES) $(INSTALL_DIR)
 +$(ICON):
 +	convert -background transparent ../../media/tigervnc_16.svg $@
 +
-+install: $(ARCHIVE) $(ICON)
-+	$(CP) $(ARCHIVE) $(ICON) $(PAGES) $(INSTALL_DIR)
++install: $(CLASSES) $(ARCHIVE) $(ICON)
++	$(CP) $(CLASSES) $(ARCHIVE) $(ICON) $(PAGES) $(INSTALL_DIR)
  
  export:: $(CLASSES) $(ARCHIVE) $(PAGES)
  	@$(ExportJavaClasses)
-
 --- java/src/com/tigervnc/vncviewer/index.html	2009-10-30 00:12:27.490801957 -0700
 +++ java/src/com/tigervnc/vncviewer/index.html.icon	2009-10-30 00:26:29.413918281 -0700
 @@ -19,12 +19,13 @@
@@ -31,7 +30,7 @@
  </TITLE>
 +<link rel="icon" type="image/gif" href="tigervnc_16.gif">
  </HEAD><BODY>
- <APPLET CODE="com.tigervnc.vncviewer.VncViewer.class" ARCHIVE="VncViewer.jar"
+ <APPLET CODE="com.tigervnc.vncviewer.VncViewer" ARCHIVE="VncViewer.jar"
          WIDTH="800" HEIGHT="632">
  <PARAM NAME="PORT" VALUE="5901">
  </APPLET>

@@ -2,7 +2,7 @@
 #
 # xf86-input-mouse 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,16 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.0
+MODULE_VERSION=1.7.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cef849b1a2743d2e84de98422f372974
-TARBALL_SHA1 = df3f2fe711db195fc58dbffef5f2cd8964d9b9df
+TARBALL_MD5  = 7f31472689c15b6de62eff04d0fb57d7
+TARBALL_SHA1 = 8b99054e5e4feafd7e08c87b936e64386b74ae8f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	6892799.patch
+	Fix-OSMouse.patch,-p1 \
+	6892799.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

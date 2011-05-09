@@ -1,6 +1,7 @@
-diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
---- dix/main.c	2010-09-03 16:45:37.986184004 -0700
-+++ dix/main.c	2010-09-03 16:45:40.072259890 -0700
+diff --git a/dix/main.c b/dix/main.c
+index 9c3951a..86afa8c 100644
+--- a/dix/main.c
++++ b/dix/main.c
 @@ -79,6 +79,8 @@ Equipment Corporation.
  #include <version-config.h>
  #endif
@@ -10,9 +11,9 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
  #include <X11/X.h>
  #include <X11/Xos.h>   /* for unistd.h  */
  #include <X11/Xproto.h>
-@@ -125,6 +127,30 @@ extern void Dispatch(void);
+@@ -122,6 +124,30 @@ extern void DtloginCloseDown(void);
  
- extern void InitProcVectors(void);
+ extern void Dispatch(void);
  
 +#if defined(sun) 
 +extern const char * GetAuthFilename(void);
@@ -41,7 +42,7 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
  #ifdef XQUARTZ
  #include <pthread.h>
  
-@@ -141,6 +167,9 @@ int main(int argc, char *argv[], char *e
+@@ -138,6 +164,9 @@ int main(int argc, char *argv[], char *envp[])
  {
      int		i;
      HWEventQueueType	alwaysCheckForInput[2];
@@ -51,7 +52,7 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
  
      display = "0";
  
-@@ -156,6 +185,12 @@ int main(int argc, char *argv[], char *e
+@@ -153,6 +182,12 @@ int main(int argc, char *argv[], char *envp[])
  
      ProcessCommandLine(argc, argv);
  
@@ -64,9 +65,10 @@ diff -Nurp -x '*~' -x '*.orig' dix/main.c dix/main.c
      alwaysCheckForInput[0] = 0;
      alwaysCheckForInput[1] = 1;
      while(1)
-diff -Nurp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree86/os-support/solaris/sun_init.c
---- hw/xfree86/os-support/solaris/sun_init.c	2010-06-05 18:16:52.000000000 -0700
-+++ hw/xfree86/os-support/solaris/sun_init.c	2010-09-03 16:45:40.072623997 -0700
+diff --git a/hw/xfree86/os-support/solaris/sun_init.c b/hw/xfree86/os-support/solaris/sun_init.c
+index 281a6df..42e20ac 100644
+--- a/hw/xfree86/os-support/solaris/sun_init.c
++++ b/hw/xfree86/os-support/solaris/sun_init.c
 @@ -45,6 +45,9 @@
  #define	CONSOLE_VTNO	1
  #define	SOL_CONSOLE_DEV	"/dev/console"
@@ -77,7 +79,7 @@ diff -Nurp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree
  static Bool KeepTty = FALSE;
  static Bool Protect0 = FALSE;
  static Bool UseConsole = FALSE;
-@@ -235,6 +238,8 @@ OPENCONSOLE:
+@@ -234,6 +237,8 @@ OPENCONSOLE:
  
  	    if (ioctl(xf86Info.consoleFd, VT_SETDISPINFO, atoi(display)) < 0)
  		xf86Msg(X_WARNING, "xf86OpenConsole: VT_SETDISPINFO failed\n");

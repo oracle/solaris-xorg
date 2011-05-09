@@ -1,4 +1,4 @@
-/* Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,6 +22,8 @@
 
 
 #include "config.h"
+#include <xorg-server.h>
+
 #include "xf86.h"
 #include "xf86Priv.h"
 #include "xf86Xinput.h"
@@ -34,7 +36,7 @@
 #include <libsysevent.h>
 #include <xkbsrv.h>
 
-static InputInfoPtr HkeyPreInit(InputDriverPtr drv, IDevPtr dev, int flags);
+static int HkeyPreInit(InputDriverPtr drv, InputInfoPtr pInfo, int flags);
 static void HkeyUnInit(InputDriverPtr drv, InputInfoPtr pInfo, int flags);
 
 _X_EXPORT InputDriverRec HKEY = {
@@ -289,25 +291,17 @@ HkeyProc(DeviceIntPtr device, int what)
     return (Success);
 }
 
-static InputInfoPtr
-HkeyPreInit(InputDriverPtr drv, IDevPtr dev, int flags)
+static int
+HkeyPreInit(InputDriverPtr drv, InputInfoPtr pInfo, int flags)
 {
-    InputInfoPtr 	pInfo;
-
-    if (!(pInfo = xf86AllocateInput(drv, 0)))
-	return NULL;
-
     /* Initialize the InputInfoRec. */
-    pInfo->name = xstrdup (dev->identifier);
     pInfo->type_name = XI_KEYBOARD;
     pInfo->device_control = HkeyProc;
     pInfo->read_input = hotkey_read_input;
     pInfo->fd = -1;
-    pInfo->conf_idev = dev;
-    pInfo->flags = XI86_OPEN_ON_INIT | XI86_ALWAYS_CORE;
-    pInfo->flags |= XI86_CONFIGURED;
+    pInfo->flags = XI86_ALWAYS_CORE;
 
-    return pInfo;
+    return Success;
 }
 
 static void

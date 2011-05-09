@@ -1,7 +1,8 @@
-diff -Nurp -x '*~' -x '*.orig' record/record.c record/record.c
---- record/record.c	2010-07-14 13:23:17.000000000 -0700
-+++ record/record.c	2010-09-03 16:45:46.118590143 -0700
-@@ -1467,6 +1467,9 @@ typedef struct
+diff --git a/record/record.c b/record/record.c
+index facaebb..8256738 100644
+--- a/record/record.c
++++ b/record/record.c
+@@ -1470,6 +1470,9 @@ typedef struct
      short first, last;	/* if for extension, major opcode interval */
  } SetInfoRec, *SetInfoPtr;
  

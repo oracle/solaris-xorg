@@ -39,7 +39,7 @@ MODULE_PKGTAIL_SET	      	= yes
 include $(TOP)/open-src/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.9.4
+XORGSERVER_VERS=1.10.1
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=sed '/^\#/ d' ../xorg/patch-list
@@ -48,7 +48,7 @@ SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)'
 DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri'
 
 # Changes to apply to man pages
-MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
+MODTYPE_SUNTOUCH_MAN_FLAGS = -p $(MODULE_PREFIX)/bin/
 
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \

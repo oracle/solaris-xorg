@@ -2,7 +2,7 @@
 #
 # Xaw5 Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,10 @@ LIBNAME=Xaw5
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
 MODULE_STABILITY=Committed
+
+# ARC cases that covered this module
+# PSARC/1992/173 - Update MIT-based Clients to X11R5 Level
+MODULE_ARC_CASES = PSARC/1992/173
 
 # No configure script to run
 CONFIGURE_TARGETS=

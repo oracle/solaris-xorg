@@ -340,7 +340,7 @@ git-import:
 			SOURCE_DIR="$(GIT_CLONE_DIR)" patched_source ; \
 		printf '%s\n\n' "$${p%.patch}" > git.comments ; \
 	    	gawk '/^--- /		{exit} \
-		      /^diff -u/	{exit} \
+		      /^diff -/		{exit} \
 		      {print}' $$p >> git.comments ; \
 		(cd $(GIT_CLONE_DIR) ; $(START_CMD_ECHO) ; \
 		 git commit -a --file=$(PWD)/git.comments ) ; \
@@ -426,9 +426,9 @@ FIXED_MAN_SUFFIX=mantouch.done
 FIXED_MAN_TARGET=$(SUNTOUCHED_MANPAGES:%=$(SOURCE_DIR)/%.$(FIXED_MAN_SUFFIX))
 fixed_man: $(FIXED_MAN_TARGET)
 
-COMMON_SUNTOUCH_MAN_FLAGS = \
-	-a '{Availability, $(MODULE_PKGNAME)}' \
-	-a '{Interface Stability, $(MODULE_STABILITY)}'
+COMMON_SUNTOUCH_MAN_FLAGS  = -a '{Availability, $(MODULE_PKGNAME)}'
+COMMON_SUNTOUCH_MAN_FLAGS += -a '{Interface Stability, $(MODULE_STABILITY)}' 
+COMMON_SUNTOUCH_MAN_FLAGS += -r '{__distroname__, $(DISTRO_NAME)}'
 
 DEFAULT_SUNTOUCH_MAN_FLAGS = \
 	$(COMMON_SUNTOUCH_MAN_FLAGS) \
@@ -561,19 +561,14 @@ DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 # Dependencies for make build step
 BUILD_DEPS = $(SOURCE_TARGETS) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
 
-default_build: $(BUILD_DEPS)
-	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+DEFAULT_BUILD_COMMAND = cd @DIR@ ; \
+	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)
 
-print_default_build_flags:
-	@print "BUILD_ENV='$(BUILD_ENV)'" ; \
-	print "MAKE='$(MODULE_MAKE)'" ; \
-	print "MAKEFLAGS='$(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)'"
+default_build: $(BUILD_DEPS)
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(SOURCE_DIR))
 
 build-in-subdir:
-	(cd $(subdir) ; \
-	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) \
-	 $(subdir_cmd) )
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(subdir)) $(subdir_cmd)
 
 DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
 	pkgconfigdir=$(MODULE_PKGCONFIG_DIR) \
@@ -583,20 +578,15 @@ DEFAULT_INSTALL_MAKEFLAGS= -e DESTDIR=$(PROTODIR) \
 # Dependencies for make install step
 INSTALL_DEPS = $(BUILD_TARGETS) $(MODTYPE_INSTALL_DEPS) $(MODULE_INSTALL_DEPS)
 
-default_install: $(INSTALL_DEPS)
-	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
-	 install)
+DEFAULT_INSTALL_COMMAND = cd @DIR@ ; \
+	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS)
 
-print_default_install_flags:
-	@print "BUILD_ENV='$(BUILD_ENV)'" ; \
-	print "MAKE='$(MODULE_MAKE)'" ; \
-	print "MAKE_FLAGS='$(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS)'"
+default_install: $(INSTALL_DEPS)
+	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(SOURCE_DIR)) install
 
 install-in-subdir:
-	(cd $(subdir) ; \
-	 $(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
-	 $(subdir_cmd) $(install_subdir_cmd))
+	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(subdir)) $(subdir_cmd) \
+		$(install_subdir_cmd)
 
 # Adjust paths in pkg-config files for -uninstalled variants used during build
 UNINSTALLED_PC_OPS= \
@@ -736,15 +726,16 @@ regen-patches:
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
 	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen patched_source ; \
+	    find tmp-regen -name '*.orig' -exec rm {} \+ ; \
 	    gawk '/^--- /	{exit} \
-		  /^diff -u/	{exit} \
+		  /^diff -/	{exit} \
 			 	{print}' $$p > new/$$p ; \
-	    LC_COLLATE=C gdiff -Nurp -x '*~' -x '*.orig' ./prev ./tmp-regen \
-		| sed -e 's% \./prev/$(SOURCE_DIRNAME)/% %' -e 's% \./tmp-regen/$(SOURCE_DIRNAME)/% %' \
+	    LC_COLLATE=C git diff --no-color ./prev ./tmp-regen \
+		| sed -e 's% a/\./prev/$(SOURCE_DIRNAME)/% a/%' -e 's% b/\./tmp-regen/$(SOURCE_DIRNAME)/% b/%' \
 		| grep -v '^Common subdirectories:' \
 		| grep -v '^Only in ' \
 		>> new/$$p ; \
-	    CUR_LIST="$${CUR_LIST} new/$$p" ; \
+	    CUR_LIST="$${CUR_LIST} new/$$p,-p1" ; \
 	done
 	rm -rf tmp-regen
 

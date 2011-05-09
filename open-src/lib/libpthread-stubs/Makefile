@@ -28,9 +28,8 @@
 MODULE_NAME=libpthread-stubs
 
 # Package metadata
-UPSTREAM	= XCB project
-UPSTREAM_URL	= http://xcb.freedesktop.org/
-UPSTREAM_SET	= yes
+UPSTREAM_PROJECT = xcb
+UPSTREAM_PROJECT_SET = yes
 
 # Version number (used in path names)
 MODULE_VERSION=0.3
@@ -38,10 +37,6 @@ MODULE_VERSION=0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = e8fa31b42e13f87e8f5a7a2b731db7ee
 TARBALL_SHA1 = 7fc486ad0ec54938f8b781cc374218f50eac8b99
-
-# Download site for source
-SOURCE_URL=http://xcb.freedesktop.org/dist/$(SOURCE_TARBALL_NAME)
-SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

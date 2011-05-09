@@ -12,9 +12,10 @@ Updated to include changes to ensure xkb directory & files are writable
 by gid 0, to fix bug:
 6916317 Changing xkb settings after login not working on snv130
 
-diff -Nurp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
---- xkb/Makefile.am	2010-06-05 18:17:03.000000000 -0700
-+++ xkb/Makefile.am	2010-09-03 16:44:59.203991086 -0700
+diff --git a/xkb/Makefile.am b/xkb/Makefile.am
+index fb3ccbf..5a82e09 100644
+--- a/xkb/Makefile.am
++++ b/xkb/Makefile.am
 @@ -1,6 +1,7 @@
  noinst_LTLIBRARIES = libxkb.la libxkbstubs.la
  
@@ -23,10 +24,11 @@ diff -Nurp -x '*~' -x '*.orig' xkb/Makefile.am xkb/Makefile.am
  
  DDX_SRCS = \
          ddxBeep.c \
-diff -Nurp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
---- xkb/ddxLoad.c	2010-07-14 13:23:17.000000000 -0700
-+++ xkb/ddxLoad.c	2010-09-03 16:44:59.204354950 -0700
-@@ -150,6 +150,18 @@ Win32System(const char *cmdline)
+diff --git a/xkb/ddxLoad.c b/xkb/ddxLoad.c
+index a935698..7682228 100644
+--- a/xkb/ddxLoad.c
++++ b/xkb/ddxLoad.c
+@@ -146,6 +146,18 @@ Win32System(const char *cmdline)
  #define System(x) Win32System(x)
  #endif
  
@@ -45,7 +47,7 @@ diff -Nurp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
  static void
  OutputDirectory(
      char* outdir,
-@@ -157,7 +169,11 @@ OutputDirectory(
+@@ -153,7 +165,11 @@ OutputDirectory(
  {
  #ifndef WIN32
      /* Can we write an xkm and then open it too? */
@@ -58,7 +60,7 @@ diff -Nurp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
      {
  	(void) strcpy (outdir, XKM_OUTPUT_DIR);
      } else
-@@ -199,6 +215,15 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		
+@@ -195,6 +211,15 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
      const char *xkmfile = "-";
  #endif
  
@@ -74,7 +76,7 @@ diff -Nurp -x '*~' -x '*.orig' xkb/ddxLoad.c xkb/ddxLoad.c
      snprintf(keymap, sizeof(keymap), "server-%s", display);
  
      OutputDirectory(xkm_output_dir, sizeof(xkm_output_dir));
-@@ -246,6 +271,11 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		
+@@ -245,6 +270,11 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
  #else
      out= fopen(tmpname, "w");
  #endif

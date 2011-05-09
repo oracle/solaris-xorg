@@ -1,8 +1,8 @@
-diff -Nurp -x '*~' -x '*.orig' Xi/exevents.c Xi/exevents.c
-diff -Nurp -x '*~' -x '*.orig' Xi/exevents.c Xi/exevents.c
---- Xi/exevents.c	2010-12-23 14:15:10.000000000 -0800
-+++ Xi/exevents.c	2011-02-15 15:53:51.551620898 -0800
-@@ -194,7 +194,16 @@ CopyKeyClass(DeviceIntPtr device, Device
+diff --git a/Xi/exevents.c b/Xi/exevents.c
+index 327873e..717f275 100644
+--- a/Xi/exevents.c
++++ b/Xi/exevents.c
+@@ -187,7 +187,16 @@ CopyKeyClass(DeviceIntPtr device, DeviceIntPtr master)
  {
      KeyClassPtr mk = master->key;
  
@@ -19,9 +19,10 @@ diff -Nurp -x '*~' -x '*.orig' Xi/exevents.c Xi/exevents.c
          return;
  
      mk->sourceid = device->id;
-diff -Nurp -x '*~' -x '*.orig' Xi/extinit.c Xi/extinit.c
---- Xi/extinit.c	2010-12-02 12:24:35.000000000 -0800
-+++ Xi/extinit.c	2011-02-15 15:53:51.552122593 -0800
+diff --git a/Xi/extinit.c b/Xi/extinit.c
+index 82df7eb..6b99fae 100644
+--- a/Xi/extinit.c
++++ b/Xi/extinit.c
 @@ -371,6 +371,10 @@ extern XExtensionVersion XIVersion;
  
  Mask PropagateMask[MAXDEVICES];
@@ -45,10 +46,11 @@ diff -Nurp -x '*~' -x '*.orig' Xi/extinit.c Xi/extinit.c
      if (!AddCallback(&ClientStateCallback, XIClientCallback, 0))
          FatalError("Failed to add callback to XI.\n");
  
-diff -Nurp -x '*~' -x '*.orig' config/hal.c config/hal.c
---- config/hal.c	2010-06-27 16:43:05.000000000 -0700
-+++ config/hal.c	2011-02-15 15:53:51.552429571 -0800
-@@ -125,6 +125,63 @@ get_prop_string_array(LibHalContext *hal
+diff --git a/config/hal.c b/config/hal.c
+index 297520a..44c1582 100644
+--- a/config/hal.c
++++ b/config/hal.c
+@@ -123,6 +123,63 @@ get_prop_string_array(LibHalContext *hal_ctx, const char *udi, const char *prop)
      return ret;
  }
  
@@ -112,7 +114,7 @@ diff -Nurp -x '*~' -x '*.orig' config/hal.c config/hal.c
  static void
  device_added(LibHalContext *hal_ctx, const char *udi)
  {
-@@ -136,6 +193,9 @@ device_added(LibHalContext *hal_ctx, con
+@@ -134,6 +191,9 @@ device_added(LibHalContext *hal_ctx, const char *udi)
      DBusError error;
      struct xkb_options xkb_opts = {0};
      int rc;
@@ -122,9 +124,9 @@ diff -Nurp -x '*~' -x '*.orig' config/hal.c config/hal.c
  
      LibHalPropertySet *set = NULL;
  	LibHalPropertySetIterator set_iter;
-@@ -377,6 +437,16 @@ device_added(LibHalContext *hal_ctx, con
-     if (xkb_opts.options)
+@@ -377,6 +437,16 @@ device_added(LibHalContext *hal_ctx, const char *udi)
          add_option(&options, "xkb_options", xkb_opts.options);
+     add_option(&options, "config_info", config_info);
  
 +#ifdef SUNSOFT
 +    for (tmpo = options; tmpo; tmpo = tmpo->next) {
@@ -139,10 +141,11 @@ diff -Nurp -x '*~' -x '*.orig' config/hal.c config/hal.c
      /* this isn't an error, but how else do you output something that the user can see? */
      LogMessage(X_INFO, "config/hal: Adding input device %s\n", name);
      if ((rc = NewInputDeviceRequest(options, &attrs, &dev)) != Success) {
-diff -Nurp -x '*~' -x '*.orig' config/x11-input.fdi config/x11-input.fdi
---- config/x11-input.fdi	2009-09-27 18:56:59.000000000 -0700
-+++ config/x11-input.fdi	2011-02-15 15:53:51.552591586 -0800
-@@ -76,6 +76,12 @@
+diff --git a/config/x11-input.fdi b/config/x11-input.fdi
+index b263f36..425aec2 100644
+--- a/config/x11-input.fdi
++++ b/config/x11-input.fdi
+@@ -71,6 +71,12 @@
        <!-- If we're using Linux, we use evdev by default (falling back to
             kbd otherwise). -->
        <merge key="input.x11_driver" type="string">kbd</merge>
@@ -155,9 +158,10 @@ diff -Nurp -x '*~' -x '*.orig' config/x11-input.fdi config/x11-input.fdi
        <merge key="input.x11_options.XkbModel" type="string">pc105</merge>
        <match key="/org/freedesktop/Hal/devices/computer:system.kernel.name"
               string="Linux">
-diff -Nurp -x '*~' -x '*.orig' include/inputstr.h include/inputstr.h
---- include/inputstr.h	2010-12-03 21:53:07.000000000 -0800
-+++ include/inputstr.h	2011-02-15 15:53:51.552836408 -0800
+diff --git a/include/inputstr.h b/include/inputstr.h
+index b74ee04..808f36f 100644
+--- a/include/inputstr.h
++++ b/include/inputstr.h
 @@ -57,6 +57,11 @@ SOFTWARE.
  #include "geext.h"
  #include "privates.h"

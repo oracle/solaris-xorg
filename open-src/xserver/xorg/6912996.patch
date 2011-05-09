@@ -1,6 +1,7 @@
-diff -Nurp -x '*~' -x '*.orig' exa/exa.c exa/exa.c
---- exa/exa.c	2010-07-14 13:23:17.000000000 -0700
-+++ exa/exa.c	2010-09-03 16:45:44.147202216 -0700
+diff --git a/exa/exa.c b/exa/exa.c
+index a4e294a..df29441 100644
+--- a/exa/exa.c
++++ b/exa/exa.c
 @@ -61,7 +61,11 @@ exaGetPixmapOffset(PixmapPtr pPix)
      ExaScreenPriv (pPix->drawable.pScreen);
      ExaPixmapPriv (pPix);

@@ -20,4 +20,6 @@
     sl_pp_context_destroy = FUNCTION extern;
     sl_pp_version = FUNCTION extern;
     sl_cl_compile = FUNCTION extern;
+    
+    radeon_gem_get_kernel_name = FUNCTION extern;
 };

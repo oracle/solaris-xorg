@@ -1,6 +1,6 @@
---- src/mesa/drivers/dri/intel/intel_context.h	Thu Apr  8 12:57:04 2010
-+++ src/mesa/drivers/dri/intel/intel_context.h	Thu Apr  8 13:02:36 2010
-@@ -254,9 +254,13 @@
+--- src/mesa/drivers/dri/intel/intel_context.h	Thu Feb 10 09:26:20 2011
++++ src/mesa/drivers/dri/intel/intel_context.h	Thu Feb 10 09:27:22 2011
+@@ -271,9 +271,13 @@
     driOptionCache optionCache;
  };
  
@@ -15,7 +15,7 @@
  #define SUBPIXEL_X 0.125
  #define SUBPIXEL_Y 0.125
  
-@@ -288,7 +292,7 @@
+@@ -307,7 +311,7 @@
   * than COPY_DWORDS would:
   * XXX Put this in src/mesa/main/imports.h ???
   */
@@ -24,9 +24,9 @@
  static INLINE void * __memcpy(void * to, const void * from, size_t n)
  {
     int d0, d1, d2;
---- src/mesa/drivers/dri/intel/intel_batchbuffer.h	Thu Apr  8 13:04:23 2010
-+++ src/mesa/drivers/dri/intel/intel_batchbuffer.h	Thu Apr  8 13:05:06 2010
-@@ -8,7 +8,8 @@
+--- src/mesa/drivers/dri/intel/intel_batchbuffer.h	Thu Feb 10 09:28:18 2011
++++ src/mesa/drivers/dri/intel/intel_batchbuffer.h	Thu Feb 10 13:28:05 2011
+@@ -8,9 +8,9 @@
  #include "intel_reg.h"
  
  #define BATCH_SZ 16384
@@ -34,61 +34,40 @@
 +#define BATCH_RESERVED16 16
 +#define BATCH_RESERVED4k 4096
  
- 
+-
  struct intel_batchbuffer
-@@ -92,7 +93,10 @@
+ {
+    struct intel_context *intel;
+@@ -92,8 +92,12 @@
  static INLINE GLint
  intel_batchbuffer_space(struct intel_batchbuffer *batch)
  {
--   return (batch->size - batch->reserved_space) - (batch->ptr - batch->map);
-+    if (batch->intel->intelScreen->deviceID == PCI_CHIP_I865_G)
-+       return (batch->size - BATCH_RESERVED16) - (batch->ptr - batch->map);
-+    else
-+       return (batch->size - BATCH_RESERVED4k) - (batch->ptr - batch->map);
+-   return (batch->state_batch_offset - batch->reserved_space) -
+-      (batch->ptr - batch->map);
++   if (batch->intel->intelScreen->deviceID == PCI_CHIP_I865_G)
++   	return (batch->state_batch_offset - BATCH_RESERVED16) -
++      		(batch->ptr - batch->map);
++   else 
++   	return (batch->state_batch_offset - BATCH_RESERVED4k) -
++      		(batch->ptr - batch->map);
  }
  
  
---- src/glx/glxcurrent.c	Thu Apr  8 13:08:15 2010
-+++ src/glx/glxcurrent.c	Thu Apr  8 13:08:49 2010
-@@ -397,7 +397,7 @@
- 
- #ifdef GLX_DIRECT_RENDERING
-    if ((dpy != oldGC->currentDpy || (gc && gc->driContext)) &&
--       !oldGC->isDirect && oldGC != &dummyContext) {
-+       !oldGC->isDirect && oldGC != &dummyContext && oldGC->xid != None) {
- #else
-    if ((dpy != oldGC->currentDpy) && oldGC != &dummyContext) {
- #endif
---- src/glx/Makefile	Thu Apr  8 13:17:33 2010
-+++ src/glx/Makefile	Thu Apr  8 13:18:05 2010
-@@ -65,6 +65,10 @@
- 
- default: depend $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME)
- 
-+# Needed to truly hide symbols gcc treats as HIDDEN/INTERNAL but doesn't mark
-+# as hidden in the ELF files properly.
-+GL_LIB_DEPS += -Wl,-M,mapfile.scope
-+
- # Make libGL
- $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME): $(OBJECTS) $(GLAPI_LIB) Makefile
- 	$(MKLIB) -o $(GL_LIB) -linker '$(CC)' -ldflags '$(LDFLAGS)' \
-diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/Makefile.template src/mesa/drivers/dri/Makefile.template
---- src/mesa/drivers/dri/Makefile.template      2009-03-12 20:28:49.000000000 -0700
-+++ src/mesa/drivers/dri/Makefile.template      2009-03-31 09:12:45.628778000 -0700
-@@ -1,5 +1,10 @@
+--- src/mesa/drivers/dri/Makefile.template	Thu Feb 10 13:58:58 2011
++++ src/mesa/drivers/dri/Makefile.template	Thu Feb 10 14:01:53 2011
+@@ -1,5 +1,9 @@
  # -*-makefile-*-
-
+ 
 +# Needed to specify symbols which are allowed to be undefined when
 +# linking DRI modules with -z defs
 +DRI_LIB_DEPS += -Wl,-M,$(TOP)/src/mesa/drivers/dri/mapfile.externs
 +
-+
  MESA_MODULES = $(TOP)/src/mesa/libmesa.a
-
- COMMON_SOURCES = \
---- src/mesa/drivers/dri/common/dri_util.h	Thu Apr  8 13:21:04 2010
-+++ src/mesa/drivers/dri/common/dri_util.h	Thu Apr  8 13:21:23 2010
-@@ -57,6 +57,10 @@
+ 
+ COMMON_GALLIUM_SOURCES = \
+--- src/mesa/drivers/dri/common/dri_util.h	Thu Feb 10 14:04:16 2011
++++ src/mesa/drivers/dri/common/dri_util.h	Thu Feb 10 14:04:54 2011
+@@ -58,6 +58,10 @@
  
  #define GLX_BAD_CONTEXT                    5
  
@@ -99,19 +78,18 @@ diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/Makefile.template src/mesa/dr
  typedef struct __DRIswapInfoRec        __DRIswapInfo;
  
  /**
-diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/common/mmio.h src/mesa/drivers/dri/common/mmio.h
---- src/mesa/drivers/dri/common/mmio.h  2009-01-22 09:38:33.000000000 -0800
-+++ src/mesa/drivers/dri/common/mmio.h  2009-03-31 09:12:45.639560000 -0700
+--- src/mesa/drivers/dri/common/mmio.h	Thu Feb 10 14:05:39 2011
++++ src/mesa/drivers/dri/common/mmio.h	Thu Feb 10 14:05:58 2011
 @@ -34,6 +34,7 @@
  #define MMIO_H
-
+ 
  #include "main/glheader.h"
 +#include "dri_util.h"
-
+ 
  #if defined( __powerpc__ )
-
---- src/mesa/drivers/dri/i915/intel_tris.c	Thu Apr  8 13:22:36 2010
-+++ src/mesa/drivers/dri/i915/intel_tris.c	Thu Apr  8 13:23:31 2010
+ 
+--- src/mesa/drivers/dri/i915/intel_tris.c	Thu Feb 10 14:07:48 2011
++++ src/mesa/drivers/dri/i915/intel_tris.c	Thu Feb 10 14:08:17 2011
 @@ -325,7 +325,7 @@
   *                    Emit primitives as inline vertices               *
   ***********************************************************************/
@@ -121,8 +99,8 @@ diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/common/mmio.h src/mesa/driver
  #define COPY_DWORDS( j, vb, vertsize, v )			\
  do {								\
     int __tmp;							\
---- src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Apr  8 13:27:42 2010
-+++ src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Apr  8 13:29:09 2010
+--- src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Feb 10 14:09:00 2011
++++ src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Feb 10 14:09:49 2011
 @@ -159,7 +159,24 @@
     BRW_SURFACEFORMAT_R8G8B8A8_SSCALED
  };
@@ -148,98 +126,70 @@ diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/common/mmio.h src/mesa/driver
  /**
   * Given vertex array type/size/format/normalized info, return
   * the appopriate hardware surface type.
-diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/intel/server/i830_dri.h src/mesa/drivers/dri/intel/server/i830_dri.h
---- src/mesa/drivers/dri/intel/server/i830_dri.h        2008-08-25 07:46:43.000000000 -0700
-+++ src/mesa/drivers/dri/intel/server/i830_dri.h        2009-03-31 09:12:45.654900000 -0700
-@@ -21,16 +21,20 @@ typedef struct _I830DRIRec {
-    drm_handle_t unused2; /* backbuffer */
-
-    drmSize unused3; /* depthbufferSize */
-+   drmSize pad0;
-    drm_handle_t unused4; /* depthbuffer */
-
-    drmSize unused5; /* rotatedSize */
-+   drmSize pad1;
-    drm_handle_t unused6; /* rotatedbuffer */
-
-    drm_handle_t unused7; /* textures */
-    int unused8; /* textureSize */
-+   drmSize pad2;
-
-    drm_handle_t unused9; /* agp_buffers */
-    drmSize unused10; /* agp_buf_size */
-+   drmSize pad3;
-
-    int deviceID;
-    int width;
-
-diff -urp -x '*~' -x '*.orig' src/mesa/drivers/dri/radeon/server/radeon_dri.h src/mesa/drivers/dri/radeon/server/radeon_dri.h
---- src/mesa/drivers/dri/radeon/server/radeon_dri.h     2009-01-22 09:38:33.000000000 -0800
-+++ src/mesa/drivers/dri/radeon/server/radeon_dri.h     2009-03-31 09:12:45.642139000 -0700
-@@ -89,6 +89,7 @@ typedef struct {
-     /*@{*/
-     drm_handle_t     registerHandle; /**< \brief MMIO register map size */
-     drmSize       registerSize;   /**< \brief MMIO register map handle */
-+    int          padding0;
-     /*@}*/
-
-     /**
-@@ -97,6 +98,7 @@ typedef struct {
-     /*@{*/
-     drm_handle_t     statusHandle;   /**< \brief status map handle */
-     drmSize       statusSize;     /**< \brief status map size */
-+    int                  padding1;
-     /*@}*/
-
-     /**
-@@ -105,11 +107,13 @@ typedef struct {
-     /*@{*/
-     drm_handle_t     gartTexHandle;   /**< \brief AGP texture area map handle */
-     drmSize       gartTexMapSize;  /**< \brief AGP texture area map size */
-+    int          padding2;
-     int           log2GARTTexGran; /**< \brief AGP texture granularity in log base 2 */
-     int           gartTexOffset;   /**< \brief AGP texture area offset in AGP space */
-     /*@}*/
-
-     unsigned int  sarea_priv_offset; /**< \brief offset of the private SAREA data*/
-+    int                  padding3;
- } RADEONDRIRec, *RADEONDRIPtr;
-
- #endif
---- src/mesa/drivers/dri/intel/intel_batchbuffer.c      Tue Mar 30 15:21:12 2010
-+++ src/mesa/drivers/dri/intel/intel_batchbuffer.c      Tue Mar 30 15:22:42 2010
-@@ -244,7 +244,10 @@
-    if (intel->vtbl.finish_batch)
-       intel->vtbl.finish_batch(intel);
-
+--- src/mesa/drivers/dri/intel/intel_batchbuffer.c	Thu Feb 10 14:12:23 2011
++++ src/mesa/drivers/dri/intel/intel_batchbuffer.c	Thu Feb 10 14:13:06 2011
+@@ -49,7 +49,10 @@
+ 
+    batch->size = intel->maxBatchSize;
+    batch->ptr = batch->map;
 -   batch->reserved_space = BATCH_RESERVED;
 +   if (batch->intel->intelScreen->deviceID == PCI_CHIP_I865_G)
-+       batch->reserved_space = BATCH_RESERVED16;
++	batch->reserved_space = BATCH_RESERVED16;
 +   else
-+       batch->reserved_space = BATCH_RESERVED4k;
-
-    /* TODO: Just pass the relocation list and dma buffer up to the
-     * kernel.
---- src/gallium/drivers/svga/Makefile	Thu Apr  8 14:31:43 2010
-+++ src/gallium/drivers/svga/Makefile	Thu Apr  8 14:31:51 2010
-@@ -54,7 +54,7 @@
- CFLAGS := $(filter-out -pedantic, $(filter-out -ansi, $(CFLAGS)))
++	batch->reserved_space = BATCH_RESERVED4k;
+    batch->dirty_state = ~0;
+    batch->state_batch_offset = batch->size;
+ }
+--- configure.ac	Thu Mar 24 13:20:29 2011
++++ configure.ac	Thu Mar 24 13:21:39 2011
+@@ -150,7 +150,7 @@
+     # Enable -fvisibility=hidden if using a gcc that supports it
+     save_CFLAGS="$CFLAGS"
+     AC_MSG_CHECKING([whether $CC supports -fvisibility=hidden])
+-    CFLAGS="$CFLAGS -fvisibility=hidden"
++    CFLAGS="$CFLAGS"
+     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
+ 		   [CFLAGS="$save_CFLAGS" ; AC_MSG_RESULT([no])]);
  
- LIBRARY_DEFINES = \
--	-std=gnu99 -fvisibility=hidden \
-+	-std=gnu99 \
- 	-DHAVE_STDINT_H -DHAVE_SYS_TYPES_H
+@@ -163,7 +163,7 @@
+     # Enable -fvisibility=hidden if using a gcc that supports it
+     save_CXXFLAGS="$CXXFLAGS"
+     AC_MSG_CHECKING([whether $CXX supports -fvisibility=hidden])
+-    CXXFLAGS="$CXXFLAGS -fvisibility=hidden"
++    CXXFLAGS="$CXXFLAGS "
+     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
+ 		   [CXXFLAGS="$save_CXXFLAGS" ; AC_MSG_RESULT([no])]);
  
- include ../../Makefile.template
---- src/glx/single2.c	Tue Apr 20 11:00:09 2010
-+++ src/glx/single2.c	Tue Apr 20 11:02:19 2010
-@@ -44,6 +44,9 @@
- #include <X11/Xlib-xcb.h>
- #endif /* USE_XCB */
+--- configure	Thu Mar 24 13:20:33 2011
++++ configure	Thu Mar 24 13:22:08 2011
+@@ -4884,7 +4884,7 @@
+     save_CFLAGS="$CFLAGS"
+     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CC supports -fvisibility=hidden" >&5
+ $as_echo_n "checking whether $CC supports -fvisibility=hidden... " >&6; }
+-    CFLAGS="$CFLAGS -fvisibility=hidden"
++    CFLAGS="$CFLAGS "
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
  
-+#if !defined(__GNUC__)
-+#  define __builtin_expect(x, y) x
-+#endif
+@@ -4916,7 +4916,7 @@
+     save_CXXFLAGS="$CXXFLAGS"
+     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CXX supports -fvisibility=hidden" >&5
+ $as_echo_n "checking whether $CXX supports -fvisibility=hidden... " >&6; }
+-    CXXFLAGS="$CXXFLAGS -fvisibility=hidden"
++    CXXFLAGS="$CXXFLAGS "
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
  
- /* Used for GL_ARB_transpose_matrix */
- static void
+--- src/glx/Makefile	Tue Apr 19 10:57:29 2011
++++ src/glx/Makefile	Tue Apr 19 10:58:54 2011
+@@ -73,6 +73,10 @@
+ 
+ default: depend $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME)
+ 
++# Needed to truly hide symbols gcc treats as HIDDEN/INTERNAL but doesn't mark
++# as hidden in the ELF files properly.
++GL_LIB_DEPS += -Wl,-M,mapfile.scope
++
+ # Make libGL
+ $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME): $(OBJECTS) $(GLAPI_LIB) Makefile
+ 	$(MKLIB) -o $(GL_LIB) -linker '$(CXX)' -ldflags '$(LDFLAGS)' \

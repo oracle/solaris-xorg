@@ -65,10 +65,8 @@ MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3pciaccess
 
 # Update scanpci.man with program man page flags instead of library ones
-SUNTOUCH_MAN_FLAGS = \
-	$(COMMON_SUNTOUCH_MAN_FLAGS) \
-	-p $(MODULE_PREFIX)/bin/ \
-	-r '{__distroname__, $(DISTRO_NAME)}'
+SUNTOUCH_MAN_FLAGS  = $(COMMON_SUNTOUCH_MAN_FLAGS)
+SUNTOUCH_MAN_FLAGS +=-p $(MODULE_PREFIX)/bin/
 SUNTOUCH_MAN_FLAGS_SET=yes
 
 # pkg-config files that need to have -R added

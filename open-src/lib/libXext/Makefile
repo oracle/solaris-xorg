@@ -29,14 +29,15 @@
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.3.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9bb236ff0193e9fc1c1fb504dd840331
-TARBALL_SHA1 = 090d7109c5fffde8a0063e10f22f3e2ec48cf19e
+TARBALL_MD5  = 161d200b690ace818db1cc7537e70ba9
+TARBALL_SHA1 = 0bf3708177b9320091ebc069e905c042c31d859d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	install-xml-specs.patch,-p1 \
 	shm.patch \
 	sun-exts.patch
 
@@ -54,6 +55,8 @@ MODULE_ARC_CASES += PSARC/2007/500
 MODULE_ARC_CASES += PSARC/2008/194
 # PSARC/2009/293 X Generic Event Extension (XGE), Version 1.0
 MODULE_ARC_CASES += PSARC/2009/293
+# PSARC/2011/213 X Synchronization Extension version 3.1
+MODULE_ARC_CASES += PSARC/2011/213
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

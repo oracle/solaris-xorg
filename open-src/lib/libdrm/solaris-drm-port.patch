@@ -196,15 +196,6 @@ diff -urp -x '*~' -x '*.orig' libkms/linux.c libkms/linux.c
  
  #include "internal.h"
  
-diff -urp -x '*~' -x '*.orig' tests/Makefile.am tests/Makefile.am
---- tests/Makefile.am	2010-06-06 18:11:45.000000000 -0700
-+++ tests/Makefile.am	2011-01-24 19:15:45.549320900 -0800
-@@ -1,5 +1,3 @@
--NULL:=#
--
- AM_CPPFLAGS = \
- 	-I $(top_srcdir)/include/drm \
- 	-I $(top_srcdir)
 diff -urp -x '*~' -x '*.orig' xf86drm.c xf86drm.c
 --- xf86drm.c	2010-06-06 18:11:46.000000000 -0700
 +++ xf86drm.c	2011-01-24 19:15:45.547448918 -0800
@@ -251,4 +242,4 @@ diff -urp -x '*~' -x '*.orig' xf86drmMode.c xf86drmMode.c
 +	return 0;
  
  }
- 
+

@@ -28,11 +28,11 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.20.2
+MODULE_VERSION=0.22.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7ed10a0f0fde6853613105a99735e7e7
-TARBALL_SHA1 = 9972c8f8ce484f7649d9f588168cd29f61c05c63
+TARBALL_MD5  = 307fe4d7dc83b1a558c362907097c0d0
+TARBALL_SHA1 = d24ea233755d7dce9f0d93136ad99fba8d4e4fa0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -42,8 +42,7 @@ SOURCE_PATCHES =
 # files in pixman and to work around assertions in Studio 12 when the 
 # -xspace flag is used (Studio bug #6825222)
 include ../../common/Makefile.init
-NO_TARGET_CFLAGS = $(LIB_CFLAGS:-xtarget%=-xchip%)
-NO_XSPACE_CFLAGS = $(NO_TARGET_CFLAGS:-xspace=)
+NO_XSPACE_CFLAGS = $(LIB_CFLAGS:-xspace=)
 MODULE_CONFIG_ENV_i386 = CFLAGS="$(NO_XSPACE_CFLAGS)"
 MODULE_CONFIG_ENV_sparc = # not needed
 MODULE_CONFIG_ENV = $(MODULE_CONFIG_ENV_$(MACH))

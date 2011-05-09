@@ -29,14 +29,14 @@
 MODULE_NAME=xf86-video-mach64
 
 # Version number (used in path names)
-MODULE_VERSION=6.8.2
+MODULE_VERSION=6.9.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6c0522b2b72a0a47c48d718443616651
-TARBALL_SHA1 = b7303689a6a971b956061fd81399dc81adb865af
+TARBALL_MD5  = ae62936e11af4fc0fac9f2db601a844f
+TARBALL_SHA1 = 95a7ec9761fe11dadbcd9078c55148198a91b2f1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6205248.patch  
+SOURCE_PATCHES = 6205248.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
@@ -61,4 +61,4 @@ include ../Makefile.inc
 
 install_docs: $(INSTALL_DEPS)
 	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README.ati $(PROTODIR)$(X11_DOC_DIR)/
+	cp -pf $(SOURCE_DIR)/README $(PROTODIR)$(X11_DOC_DIR)/README.ati

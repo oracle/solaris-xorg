@@ -23,10 +23,11 @@
 Change needed to resume from S3 suspend on Rage XL chipset in Ultra 20.
 https://bugs.freedesktop.org/show_bug.cgi?id=6829
 
-diff -urp -x '*~' -x '*.orig' src/aticonsole.c src/aticonsole.c
---- src/aticonsole.c	2008-03-25 23:09:43.000000000 -0700
-+++ src/aticonsole.c	2009-01-12 18:24:36.680149000 -0800
-@@ -514,6 +514,16 @@ ATIEnterGraphics
+diff --git a/src/aticonsole.c b/src/aticonsole.c
+index 50cc6e1..947a122 100644
+--- a/src/aticonsole.c
++++ b/src/aticonsole.c
+@@ -515,6 +515,16 @@ ATIEnterGraphics
      ATIPtr      pATI
  )
  {

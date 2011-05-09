@@ -31,11 +31,11 @@ UPSTREAM_URL	= http://dri.freedesktop.org/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.21
+MODULE_VERSION=2.4.25
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 273ed9dad986e3a931649f3d8762ff74
-TARBALL_SHA1 = be7754008424a12e01ab0f0da3deb8de13ad2f0c
+TARBALL_MD5  = f53dc4c72109b17908e4113c3b8addfe
+TARBALL_SHA1 = b950f29cd1c4bb9f1c98a926486a47256b0a4194
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -50,8 +50,11 @@ GIT_URL_SET=yes
 SOURCE_PATCHES = \
 	solaris-drm-port.patch atomic.patch
 
-# Need to regenerate files after patching Makefile.am in solaris-drm-port.patch
-AUTORECONF=yes
+# Need to use GNU Make to build
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
+
+MODULE_BUILD_MAKEFLAGS = libkms_la_LIBADD=../libdrm.so.2
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --disable-radeon --enable-libkms
@@ -65,7 +68,9 @@ MODULE_CONFIG_OPTS = --disable-radeon --enable-libkms
 FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in
 
 # Where to install files
-MODULE_ADD_LIB_SUBDIR=$(X11_SERVERLIBS_SUBDIR)
+MODULE_ADD_LIB_SUBDIR = $(X11_SERVERLIBS_SUBDIR)
+MODULE_PKGCONFIG_DIR = $(PKGCONFIG_DIR)
+MODULE_PKGCONFIG_DIR_SET = yes
 
 include ../Makefile.inc
 
@@ -74,3 +79,17 @@ install: $(PROTODIR)/usr/include/drm
 $(PROTODIR)/usr/include/drm:
 	@rm -f $@
 	ln -s libdrm $@
+
+# Upstream seems to install in $(X11_SERVERLIBS_SUBDIR)/pkgconfig no matter
+# what, so just move them afterwards
+PC_FILES = libdrm.pc libdrm_intel.pc libkms.pc
+MOVED_PC_FILES = $(PC_FILES:%=$(PROTODIR)/$(PKGCONFIG_DIR)/%)
+XSERVER_PC_DIR = $(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/pkgconfig
+
+install-gen: $(MOVED_PC_FILES)
+
+$(PROTODIR)/$(PKGCONFIG_DIR)/%.pc: $(PROTODIR)/$(XSERVER_PC_DIR)/%.pc
+	-rm -f $@
+	mv $< $@
+
+$(PC_FILES:%=$(PROTODIR)/$(XSERVER_PC_DIR)/%): default_install

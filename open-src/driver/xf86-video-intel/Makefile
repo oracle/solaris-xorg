@@ -41,7 +41,8 @@ SOURCE_PATCHES= \
 	xserver-1.9-abi.patch \
 	build-dri.patch \
 	libraries.patch \
-	pad.patch sandybridge.patch
+	pad.patch sandybridge.patch \
+	build-with-Xorg1.10.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

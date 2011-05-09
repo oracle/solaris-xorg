@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,14 +27,18 @@
 MODULE_NAME=xextproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.1.2
+MODULE_VERSION=7.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 263ae968b223c23b2986603d84e5c30e
-TARBALL_SHA1 = be6303a9449277af58f38e1be57e442d98f400fe
+TARBALL_MD5  = 220732210ceffb01bf1caf970e3b1bfb
+TARBALL_SHA1 = a117fb9d7fdebee7af3f9e79efe9812e39e650a5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# ARC cases that covered this module
+# PSARC/2011/213 X Synchronization Extension version 3.1
+MODULE_ARC_CASES = PSARC/2011/213
 
 ### Include common rulesets
 include ../Makefile.inc

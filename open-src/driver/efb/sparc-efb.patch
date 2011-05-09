@@ -236,7 +236,7 @@ index 7b021d3..b74b5db 100644
  #define AllocateWorkSpace(x,y)      AllocateMemory(pDeviceData,y)
  #define FreeWorkSpace(x,y)          ReleaseMemory(x,y)
 diff --git a/src/Makefile.am b/src/Makefile.am
-index a146df3..7411677 100644
+index 052bca6..2f147d0 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
 @@ -27,8 +27,6 @@
@@ -248,9 +248,9 @@ index a146df3..7411677 100644
  RADEON_DRI_SRCS = radeon_dri.c
  endif
  
-@@ -64,52 +62,17 @@ XMODE_SRCS=\
-         modes/xf86Rotate.c \
-         modes/xf86DiDGA.c
+@@ -47,52 +45,17 @@ RADEON_ATOMBIOS_SOURCES = \
+         AtomBios/includes/ObjectID.h \
+         AtomBios/includes/regsdef.h
  
 -if ATIMISC_CPIO
 -ATIMISC_CPIO_SOURCES = ativga.c ativgaio.c atibank.c atiwonder.c atiwonderio.c
@@ -265,8 +265,8 @@ index a146df3..7411677 100644
  RADEON_EXA_SOURCES = radeon_exa.c
  endif
  
--AM_CFLAGS = @XORG_CFLAGS@ @DRI_CFLAGS@ @XMODES_CFLAGS@ -DDISABLE_EASF -DENABLE_ALL_SERVICE_FUNCTIONS -DATOM_BIOS -DATOM_BIOS_PARSER -DFGL_LINUX -DDRIVER_PARSER
-+AM_CFLAGS = @XORG_CFLAGS@ @DRI_CFLAGS@ @XMODES_CFLAGS@ -DDISABLE_EASF -DENABLE_ALL_SERVICE_FUNCTIONS -DATOM_BIOS -DATOM_BIOS_PARSER -DDRIVER_PARSER
+-AM_CFLAGS = @XORG_CFLAGS@ @DRI_CFLAGS@ -DDISABLE_EASF -DENABLE_ALL_SERVICE_FUNCTIONS -DATOM_BIOS -DATOM_BIOS_PARSER -DFGL_LINUX -DDRIVER_PARSER
++AM_CFLAGS = @XORG_CFLAGS@ @DRI_CFLAGS@ -DDISABLE_EASF -DENABLE_ALL_SERVICE_FUNCTIONS -DATOM_BIOS -DATOM_BIOS_PARSER -DDRIVER_PARSER
  INCLUDES = -I$(srcdir)/AtomBios/includes
  
 -ati_drv_la_LTLIBRARIES = ati_drv.la
@@ -306,14 +306,9 @@ index a146df3..7411677 100644
  	radeon_accel.c radeon_cursor.c radeon_dga.c \
  	radeon_driver.c radeon_video.c radeon_bios.c radeon_mm_i2c.c \
  	radeon_vip.c radeon_misc.c radeon_probe.c \
-@@ -119,31 +82,10 @@ radeon_drv_la_SOURCES = \
+@@ -101,27 +64,6 @@ radeon_drv_la_SOURCES = \
+ 	$(RADEON_ATOMBIOS_SOURCES) radeon_atombios.c radeon_atomwrapper.c \
  	$(RADEON_DRI_SRCS) $(RADEON_EXA_SOURCES) atombios_output.c atombios_crtc.c
- 
- if XMODES
--radeon_drv_la_SOURCES += \
-+efb_drv_la_SOURCES += \
- 	$(XMODE_SRCS)
- endif
  
 -theatre_detect_drv_la_LTLIBRARIES = theatre_detect_drv.la
 -theatre_detect_drv_la_LDFLAGS = -module -avoid-version
@@ -337,8 +332,8 @@ index a146df3..7411677 100644
 -	theatre200.c theatre200_module.c
 -
  EXTRA_DIST = \
- 	$(XMODE_SRCS) \
  	atimach64render.c \
+ 	radeon_render.c \
 diff --git a/src/ati.c b/src/ati.c
 index b3f07ca..084b27f 100644
 --- a/src/ati.c

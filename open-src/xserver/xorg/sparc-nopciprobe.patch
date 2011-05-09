@@ -23,10 +23,11 @@
 Omit Bus probing on sparc. It is terribly slow and we get the same info thru /dev/fb
 
 *** hw/xfree86/common/xf86Init.c.orig	Thu Dec 18 18:01:47 2008
-diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
---- hw/xfree86/common/xf86Init.c	2010-06-10 07:07:55.000000000 -0700
-+++ hw/xfree86/common/xf86Init.c	2010-09-03 16:45:14.619429003 -0700
-@@ -396,7 +396,10 @@ InitOutput(ScreenInfo *pScreenInfo, int 
+diff --git a/hw/xfree86/common/xf86Init.c b/hw/xfree86/common/xf86Init.c
+index e664ce4..1da5f5a 100644
+--- a/hw/xfree86/common/xf86Init.c
++++ b/hw/xfree86/common/xf86Init.c
+@@ -388,7 +388,10 @@ InitOutput(ScreenInfo *pScreenInfo, int argc, char **argv)
          DoShowOptions();
  
      /* Do a general bus probe.  This will be a PCI probe for x86 platforms */

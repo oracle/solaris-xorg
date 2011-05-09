@@ -30,6 +30,12 @@
 # but not included in any packages - this is intentional.
 #
 
+# These should be empty directories left from the libdrm workaround for
+# pkgconfig installation
+usr/lib/xorg/pkgconfig
+usr/lib/xorg/amd64/pkgconfig		i386
+usr/lib/xorg/sparcv9/pkgconfig		sparc
+
 # /var/run is a symlink to a tmpfs filesystem created at system boot
 var/run
 
@@ -43,9 +49,6 @@ usr/share/doc/X11/specs/Xserver/analysis.xml
 usr/share/doc/X11/specs/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
 usr/share/doc/libXi/doc
-
-# Extra unused copy currently delivered by xorg-server, should go away in 1.10
-usr/share/doc/X11/xorg.css
 
 # Obsolete man pages
 usr/share/man/man5/Consortium.5

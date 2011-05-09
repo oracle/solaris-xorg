@@ -32,8 +32,8 @@ MODULE_NAME=xorg-server
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 040f091dfdfb4e335116eb0032cc690b
-TARBALL_SHA1 = e8d5776fe973f15c0e907fd827106f8d296acf7e
+TARBALL_MD5  = 75f117c74f2ecaf9dd167f6a66ac98de
+TARBALL_SHA1 = 59ada4c9a59f7f1eb4b68c359e9cd58272aa4809
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -70,16 +70,23 @@ MODULE_ARC_CASES += PSARC/2009/292
 MODULE_ARC_CASES += PSARC/2009/679
 # PSARC/2010/109 Introduce libXcb in Solaris
 MODULE_ARC_CASES += PSARC/2010/109
+# PSARC/2011/008 Xorg server 1.9
+MODULE_ARC_CASES += PSARC/2011/008
+# PSARC/2010/382 Removal of 32-bit X servers
+MODULE_ARC_CASES += PSARC/2010/382
+# PSARC/2011/214 Xorg server 1.10
+MODULE_ARC_CASES += PSARC/2011/214
 
 # Man pages to apply Sun footer to & attributes to list
-# XXX: Need to adjust some of these to correct packages/stability
 SUNTOUCHED_MANPAGES= \
-	hw/kdrive/ephyr/Xephyr.man.pre \
-	hw/xfree86/utils/gtf/gtf.man.pre \
-	hw/xfree86/utils/cvt/cvt.man.pre \
-	hw/xfree86/doc/man/Xorg.man.pre \
-	hw/xfree86/doc/man/xorg.conf.man.pre \
-	hw/vfb/Xvfb.man.pre
+	doc/man/Xserver.man \
+	hw/kdrive/ephyr/man/Xephyr.man \
+	hw/xfree86/utils/man/cvt.man \
+	hw/xfree86/utils/man/gtf.man \
+	hw/xfree86/doc/man/Xorg.man \
+	hw/xfree86/doc/man/xorg.conf.man \
+	hw/xfree86/doc/man/xorg.conf.d.man \
+	hw/vfb/man/Xvfb.man
 
 MODULE_STABILITY=Volatile
 
@@ -90,10 +97,7 @@ MODULE_SUNTOUCH_MAN_FLAGS= \
 SUNTOUCH_MAN_FLAGS_Xephyr = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xephyr)}'
 SUNTOUCH_MAN_FLAGS_Xvfb = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xvfb)}'
 SUNTOUCH_MAN_FLAGS_Xdmx = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xdmx)}'
-
-# Used in sun-manpage.patch to set distro name in Xserver man page
-# DISTRO_NAME is set in open-src/common/Makefile.options.*
-MODULE_BUILD_ENV = DISTRO_NAME="$(DISTRO_NAME)"
+SUNTOUCH_MAN_FLAGS_Xserver = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xserver-common)}'
 
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg

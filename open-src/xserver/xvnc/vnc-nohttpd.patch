@@ -10,7 +10,7 @@ diff -urp -x '*~' -x '*.orig' unix/vncserver unix/vncserver
  
  &ParseOptions("-geometry",1,"-depth",1,"-pixelformat",1,"-name",1,"-kill",1,
 +              "-httpd",0,
- 	      "-help",0,"-h",0,"--help",0,"-fp",1);
+ 	      "-help",0,"-h",0,"--help",0,"-fp",1,"-list",0,"-fg",0,"-autokill",0);
  
  &Usage() if ($opt{'-help'} || $opt{'-h'} || $opt{'--help'});
 @@ -145,6 +146,12 @@ if ($opt{'-fp'}) {

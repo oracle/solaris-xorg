@@ -40,11 +40,11 @@ MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 MODULE_ARC_CASES = LSARC/2005/109
 
 # Version number (used in path names)
-MODULE_VERSION=7.8.2
+MODULE_VERSION=7.10.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6be2d343a0089bfd395ce02aaf8adb57
-TARBALL_SHA1 = 21de672a1cbe307135d7f172dc6952041a38e1c7
+TARBALL_MD5  = f5de82852f1243f42cc004039e10b771
+TARBALL_SHA1 = 71bbb2686230f6334aa625a951b58b4b2d5d6aa0
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -132,7 +132,7 @@ MESA_LIBDIR = $(PROTODIR)/usr/lib/mesa$(ARCHLIBSUBDIR)
 HEADERS_TO_MOVE = GLwDrawA.h GLwDrawAP.h GLwMDrawA.h GLwMDrawAP.h \
 	gl.h gl_mangle.h glext.h glfbdev.h \
 	glu.h glu_mangle.h glx.h glx_mangle.h glxext.h \
-	mesa_wgl.h mglmesa.h osmesa.h vms_x_fix.h wglext.h wmesa.h
+	mesa_wgl.h osmesa.h vms_x_fix.h wglext.h wmesa.h
 HEADERS_TO_DIRECT_LINK = GLwDrawA.h GLwDrawAP.h GLwMDrawA.h GLwMDrawAP.h \
 	glu.h osmesa.h
 HEADERS_TO_RUNTIME_LINK = gl.h glext.h glx.h glxext.h

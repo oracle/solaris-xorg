@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 
 diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
-index 615e8c6..a9ccdf0 100644
+index eaa99e8..0c8b21c 100644
 --- a/hw/xfree86/loader/loadmod.c
 +++ b/hw/xfree86/loader/loadmod.c
-@@ -167,6 +167,13 @@ InitPathList(const char *path)
+@@ -166,6 +166,13 @@ InitPathList(const char *path)
  		list[n][len - 1] = '/';
  		list[n][len] = '\0';
  	    }
@@ -37,7 +37,7 @@ index 615e8c6..a9ccdf0 100644
  	    n++;
  	}
  	elem = strtok(NULL, ",");
-@@ -388,6 +395,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -387,6 +394,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      char *ret = NULL, tmpBuf[PATH_MAX];
      struct stat stat_buf;
  
@@ -62,7 +62,7 @@ index 615e8c6..a9ccdf0 100644
      dir = opendir(dirpath);
      if (!dir)
          return NULL;
-@@ -395,6 +420,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -394,6 +419,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      while ((direntry = readdir(dir))) {
          if (direntry->d_name[0] == '.')
              continue;
@@ -76,7 +76,7 @@ index 615e8c6..a9ccdf0 100644
          snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpath, direntry->d_name);
  	/* the stat with the appended / fails for normal files,
  	   and works for sub dirs fine, looks a bit strange in strace
-@@ -404,6 +436,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -403,6 +435,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
                  break;
              continue;
          }

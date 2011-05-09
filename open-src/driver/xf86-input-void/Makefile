@@ -2,7 +2,7 @@
 #
 # xf86-input-void 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-input-void
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3056bc7c57db8c5d56039648c0530c45
-TARBALL_SHA1 = f0009bd77d205c5e5a9791d8f498780b44e931ae
+TARBALL_MD5  = 93821f21e807260b05431c62437a8b32
+TARBALL_SHA1 = 49b462d3acb16337eaf78202d4074f19d5e20b29
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

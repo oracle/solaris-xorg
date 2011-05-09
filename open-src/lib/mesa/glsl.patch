@@ -1,24 +1,20 @@
---- src/mesa/drivers/dri/Makefile.template	Wed Apr 21 16:11:04 2010
-+++ src/mesa/drivers/dri/Makefile.template	Wed Apr 21 16:11:52 2010
-@@ -7,6 +7,8 @@
+--- src/mesa/drivers/dri/Makefile.template	Tue Apr 19 07:55:49 2011
++++ src/mesa/drivers/dri/Makefile.template	Tue Apr 19 07:50:29 2011
+@@ -6,6 +6,8 @@
  
  MESA_MODULES = $(TOP)/src/mesa/libmesa.a
  
-+LIBGLSL_MOBULES = $(TOP)/src/glsl/pp/libglslpp.a $(TOP)/src/glsl/cl/libglslcl.a
++LIBGLSL_MOBULES = $(TOP)/src/glsl/libglsl.a
 +
  COMMON_GALLIUM_SOURCES = \
          ../common/utils.c \
          ../common/vblank.c \
-@@ -55,10 +57,10 @@
- lib: symlinks subdirs depend
- 	@$(MAKE) $(LIBNAME) $(TOP)/$(LIB_DIR)/$(LIBNAME)
- 
--$(LIBNAME): $(OBJECTS) $(MESA_MODULES) $(EXTRA_MODULES) Makefile \
-+$(LIBNAME): $(OBJECTS) $(MESA_MODULES) $(LIBGLSL_MOBULES) $(EXTRA_MODULES) Makefile \
- 		$(TOP)/src/mesa/drivers/dri/Makefile.template
- 	$(MKLIB) -o $@ -noprefix -linker '$(CC)' -ldflags '$(LDFLAGS)' \
+@@ -64,7 +66,7 @@
+ $(LIBNAME): $(OBJECTS) $(MESA_MODULES) $(EXTRA_MODULES) Makefile \
+ 		$(TOP)/src/mesa/drivers/dri/Makefile.template $(TOP)/src/mesa/drivers/dri/common/dri_test.o
+ 	$(MKLIB) -o $@.tmp -noprefix -linker '$(CXX)' -ldflags '$(LDFLAGS)' \
 -		$(OBJECTS) $(MESA_MODULES) $(EXTRA_MODULES) $(DRI_LIB_DEPS)
 +		$(OBJECTS) $(MESA_MODULES) $(LIBGLSL_MOBULES) $(EXTRA_MODULES) $(DRI_LIB_DEPS)
- 
- 
- $(TOP)/$(LIB_DIR)/$(LIBNAME): $(LIBNAME)
+ 	$(CXX) $(CFLAGS) -o $@.test $(TOP)/src/mesa/drivers/dri/common/dri_test.o $@.tmp $(DRI_LIB_DEPS)
+ 	@rm -f $@.test
+ 	mv -f $@.tmp $@

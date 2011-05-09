@@ -45,7 +45,6 @@ SOURCE_PATCHES = xhost.patch manual.patch
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
 MODULE_STABILITY=Committed
-MODULE_SUNTOUCH_MAN_FLAGS=-r '{__distroname__, $(DISTRO_NAME)}'
 
 # ARC cases that covered this module
 # PSARC/2001/108 X11 Over IPv6

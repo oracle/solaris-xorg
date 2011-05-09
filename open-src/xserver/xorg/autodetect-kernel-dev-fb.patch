@@ -18,9 +18,10 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/common/xf86AutoConfig.c
---- hw/xfree86/common/xf86AutoConfig.c	2010-12-16 15:40:50.420727168 -0500
-+++ hw/xfree86/common/xf86AutoConfig.c	2010-12-03 15:50:42.721496105 -0500
+diff --git a/hw/xfree86/common/xf86AutoConfig.c b/hw/xfree86/common/xf86AutoConfig.c
+index 64377d3..7dc3189 100644
+--- a/hw/xfree86/common/xf86AutoConfig.c
++++ b/hw/xfree86/common/xf86AutoConfig.c
 @@ -219,6 +219,12 @@ static void
  listPossibleVideoDrivers(char *matches[], int nmatches)
  {
@@ -34,7 +35,7 @@ diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86AutoConfig.c hw/xfree86/com
      
      for (i = 0 ; i < nmatches ; i++) {
          matches[i] = NULL;
-@@ -229,50 +235,50 @@ listPossibleVideoDrivers(char *matches[]
+@@ -229,50 +235,50 @@ listPossibleVideoDrivers(char *matches[], int nmatches)
      /* Check for driver type based on /dev/fb type and if valid, use
         it instead of PCI bus probe results */
      if (xf86Info.consoleFd >= 0) {

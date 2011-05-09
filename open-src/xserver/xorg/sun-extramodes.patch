@@ -1,7 +1,8 @@
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/extramodes hw/xfree86/common/extramodes
---- hw/xfree86/common/extramodes	2008-07-02 10:10:44.000000000 -0700
-+++ hw/xfree86/common/extramodes	2008-09-22 21:38:06.550110000 -0700
-@@ -25,3 +25,42 @@ Modeline "2048x1536" 340.48  2048 2216 2
+diff --git a/hw/xfree86/common/extramodes b/hw/xfree86/common/extramodes
+index 4505026..86b3d51 100644
+--- a/hw/xfree86/common/extramodes
++++ b/hw/xfree86/common/extramodes
+@@ -25,3 +25,42 @@ Modeline "2048x1536" 340.48  2048 2216 2440 2832  1536 1537 1540 1603 -hsync +vs
  # 2048x1536 @ 85Hz (VESA GTF) hsync: 137.0kHz
  Modeline "2048x1536" 388.04  2048 2216 2440 2832  1536 1537 1540 1612 -hsync +vsync
  

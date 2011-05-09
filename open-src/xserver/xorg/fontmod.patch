@@ -21,10 +21,11 @@
 Add Sun's old "bitstream" font module to the list of obsolete modules
 to ignore in xorg.conf files.
 
-diff -Nurp -x '*~' -x '*.orig' hw/xfree86/common/xf86Config.c hw/xfree86/common/xf86Config.c
---- hw/xfree86/common/xf86Config.c	2010-09-03 16:45:07.229888581 -0700
-+++ hw/xfree86/common/xf86Config.c	2010-09-03 16:45:09.170375390 -0700
-@@ -256,6 +256,7 @@ xf86ModulelistFromConfig(pointer **optli
+diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
+index 7c548eb..7638e5c 100644
+--- a/hw/xfree86/common/xf86Config.c
++++ b/hw/xfree86/common/xf86Config.c
+@@ -253,6 +253,7 @@ xf86ModulelistFromConfig(pointer **optlist)
      char **modulearray;
      char *ignore[] = { "GLcore", "speedo", "bitmap", "drm",
  		       "freetype", "type1",

@@ -68,6 +68,7 @@ file path=usr/share/doc/libXext/dbelib.xml
 file path=usr/share/doc/libXext/dpmslib.xml
 file path=usr/share/doc/libXext/shapelib.xml
 file path=usr/share/doc/libXext/synclib.xml
+file path=usr/share/doc/libXext/xtest1.xml
 file path=usr/share/man/man3xext/DBE.3xext
 file path=usr/share/man/man3xext/DPMSCapable.3xext
 file path=usr/share/man/man3xext/DPMSDisable.3xext

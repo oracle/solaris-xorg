@@ -38,6 +38,7 @@ TARBALL_SHA1 = b6974237b6ae9b45b32fc37f31a3fee7358230d3
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	RAC-API-removal.patch,-p1 \
+	no-modes.patch,-p1 \
 	sparc-efb.patch,-p1
 
 # Need to regenerate configure after patching Makefile.am in sparc-efb.patch

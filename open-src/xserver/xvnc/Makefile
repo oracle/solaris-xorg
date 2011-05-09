@@ -39,11 +39,11 @@ MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.90
 
 # Checksums for upstream tarball
-TARBALL_MD5  = daca3eb16afe65253b766eccb8bfdbc5
-TARBALL_SHA1 = 0c3dd6a3540966fea979a06df08c3aa9bdd1dc67
+TARBALL_MD5  = 90db4d34543e20f053e2ac93745af7e3
+TARBALL_SHA1 = 9fbfb1680bf118ad9d5033159504552c779629ad
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -54,25 +54,28 @@ XORG_TARBALL=$(TARBALLDIR)/xorg-server-$(XORGSERVER_VERS).tar.bz2
 XORG_SOURCE_DIR=$(BUILD_DIR)/xorg-server-$(XORGSERVER_VERS)
 XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xserver
 
+# Java VNCviewer applet for connecting from a web browser
+JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src/com/tigervnc/vncviewer
+
 # Download site for source
-SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.0.90%20%281.1beta1%29/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	upstream-xorg-version.patch,-p1 \
-	upstream-input-refactor.patch,-p1 \
-	upstream-modkeystick.patch,-p1 \
-	upstream-port-to-1.7.patch,-p1 \
-	upstream-port-to-1.8.patch,-p1 \
-	upstream-xorg-1.8-closeinput.patch,-p1 \
-	upstream-xkbconvertcase.patch,-p1 \
-	port-to-1.9.patch \
-	$(SOURCE_DIR)/unix/xserver18.patch,'-p0 -d unix' \
+	miext-sync.patch,-p1 \
+	$(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix' \
+	no-nasm.patch,-p1 \
+	applet-html.patch \
+	icon.patch \
+	solaris-libraries.patch,-p1 \
 	vnc-nobuildtime.patch \
 	vnc-nohttpd.patch \
 	solaris-port.patch
+
+# Need to regenerate autoconf/automake files after patching
+AUTORECONF=yes
 
 # ARC cases that covered this module
 # PSARC/2007/545 Xvnc
@@ -104,15 +107,25 @@ MODULE_COMPILER_SET=yes
 
 # Xvnc has to configure, build, and install in different directories due to 
 # the mixed codebases and unusual directory layout
-$(NO_RECURSE)MODULE_ADD_SOURCE_TARGETS=Xvnc_source_init
+$(NO_RECURSE)MODULE_ADD_SOURCE_TARGETS = Xvnc_source_init 
 $(NO_RECURSE)MODULE_SOURCE_DEPS = Xvnc_source_init
-CONFIGURE_TARGETS=$(SOURCE_DIR)/unix/Makefile $(XORG_BUILD_DIR)/Makefile
-CONFIGURE_TARGETS_SET=yes
+$(NO_RECURSE)ADDITIONAL_SOURCE_DIR = sun-src
+MODULE_ADD_CONFIGURE_TARGETS = $(XORG_BUILD_DIR)/Makefile
 BUILD_TARGETS=Xvnc_build set-elf-comments java_build
 BUILD_TARGETS_SET=yes
 INSTALL_TARGETS=Xvnc_install_server Xvnc_install_programs \
 	java_install Xvnc_install_data install_fix_paths
 INSTALL_TARGETS_SET=yes
+
+# Environment variable options to GNU autoconf configure script
+# Have to remove CFLAGS entries from default LDFLAGS to avoid conflicts
+# with the C++ compiler we use instead
+MODULE_CONFIG_ENV = \
+    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_LDFLAGS)"
+
+# Command line options to GNU autoconf configure script for vnc clients
+MODULE_CONFIG_OPTS  = --with-installed-zlib --with-system-jpeg --without-simd
+MODULE_CONFIG_OPTS += --libdir='$${exec_prefix}/lib/vnc'
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = Xvnc
@@ -156,18 +169,12 @@ $(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
 		XORG_BUILD_DIR="$(XORG_BUILD_DIR)"
 	touch $(XORG_PATCHED_TARGET)
 
-# Command line options to GNU autoconf configure script for vnc clients
-VNC_CONFIG_OPTS= --with-installed-zlib --prefix=/usr \
-	--mandir='$${prefix}/share/man' --libdir='$${exec_prefix}/lib/vnc' \
-	--localstatedir=/var --with-system-jpeg --without-simd
-
 # Command line options to GNU autoconf configure script for Xvnc
 XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS) \
 	--disable-builddocs --without-int10 \
 	--disable-dga --disable-xfree86-utils --disable-config-hal \
 	--disable-xorg --disable-xnest --disable-xvfb --disable-dmx \
 	--disable-xwin --disable-xephyr --disable-kdrive
-
 
 MODULE_CPPFLAGS = \
 	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
@@ -177,37 +184,18 @@ MODULE_CPPFLAGS = \
 
 CFLAGS_gcc += -fPIC
 
-# Environment variable options to GNU autoconf configure script
-# Have to remove CFLAGS entries from default LDFLAGS to avoid conflicts
-# with the C++ compiler we use instead
-VNC_CONFIG_ENV = $(CONFIG_ENV) LIBS="-lsocket -lnsl" \
-    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_LDFLAGS)"
-
-XVNC_CONFIG_ENV = $(CONFIG_ENV) \
-    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_LDFLAGS) $(XSERVER_LDFLAGS)"
-
 # Needed by unix/xorg-x11-server-source/hw/vnc/Makefile.am to find libpixman
 # headers in proto area after solaris-port.patch is applied
 MODULE_MAKEFLAGS = PROTODIR=$(PROTODIR)
-
-# Run configure scripts for vnc sources
-$(SOURCE_DIR)/unix/Makefile: $(SOURCE_TARGETS)
-	(cd $(SOURCE_DIR)/common && \
-		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(VNC_CONFIG_ENV) $(CONFIG_SHELL) ./configure $(VNC_CONFIG_OPTS) )
-	(cd $(SOURCE_DIR)/unix && \
-		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(VNC_CONFIG_ENV) $(CONFIG_SHELL) ./configure $(VNC_CONFIG_OPTS) )
-
 
 # Run configure script for Xvnc
 $(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 	(cd $(XORG_BUILD_DIR) &&  \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
-		$(XVNC_CONFIG_ENV) $(CONFIG_SHELL) ./configure $(XVNC_CONFIG_OPTS) )
+		$(CONFIG_ENV) $(CONFIG_SHELL) ./configure $(XVNC_CONFIG_OPTS) )
 
 Xvnc_build: $(CONFIGURE_TARGETS)
-	(cd $(SOURCE_DIR)/unix ; \
+	(cd $(SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 	(cd $(XORG_BUILD_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
@@ -245,23 +233,14 @@ Xvnc_install_data: $(SOURCE_TARGETS)
 		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11/
 
 # Java VNCviewer applet for connecting from a web browser
-JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src
 JAVA_INSTALL_DIR = $(PROTODIR)/usr/share/vnc/classes
 JAVA_JAR_FILE = $(JAVA_SOURCE_DIR)/VncViewer.jar
 
-# Temporary special handling of Java build fix submitted upstream
-JAVA_MAKEFILE = $(JAVA_SOURCE_DIR)/Makefile
-BUILD_TARGETS += $(JAVA_MAKEFILE)
-
-$(JAVA_MAKEFILE): $(SOURCE_TARGETS)
-	cp $(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/Makefile $@
-	gpatch -d $(SOURCE_DIR) -p0 < applet-build.patch
-	gpatch -d $(SOURCE_DIR) -p0 < icon.patch
-	cp tigervnc_16.gif $(JAVA_SOURCE_DIR)
-
 java_build: $(JAVA_JAR_FILE)
 
-$(JAVA_JAR_FILE): $(SOURCE_TARGETS) $(JAVA_MAKEFILE)
+$(JAVA_JAR_FILE): $(SOURCE_TARGETS)
+	(cd $(JAVA_SOURCE_DIR)/../decoder ; \
+	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 	(cd $(JAVA_SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
@@ -271,10 +250,11 @@ java_install: $(JAVA_JAR_FILE)
 	(cd $(JAVA_SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) \
 		install INSTALL_DIR=$(JAVA_INSTALL_DIR))
-	cp -pf  $(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/README \
-		$(JAVA_SOURCE_DIR)/com/tigervnc/vncviewer/LICENCE.TXT \
+	$(INSTALL_SCRIPT) -m 0444 $(JAVA_SOURCE_DIR)/README \
+		$(JAVA_SOURCE_DIR)/LICENCE.TXT \
 		$(JAVA_INSTALL_DIR)
 	chmod a+x $(JAVA_INSTALL_DIR)/VncViewer.jar
+	rm -f $(JAVA_INSTALL_DIR)/*.class
 
 # Metadata for vncviewer package
 VNCVIEWER_PKG_METADATA_DIR	= $(PROTOMETA)/desktop-remote-desktop-tigervnc

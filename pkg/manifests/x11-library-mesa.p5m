@@ -62,7 +62,6 @@ file path=usr/include/mesa/glx_mangle.h
 file path=usr/include/mesa/glxext.h
 file path=usr/include/mesa/internal/dri_interface.h
 file path=usr/include/mesa/mesa_wgl.h
-file path=usr/include/mesa/mglmesa.h
 file path=usr/include/mesa/osmesa.h
 file path=usr/include/mesa/vms_x_fix.h
 file path=usr/include/mesa/wglext.h

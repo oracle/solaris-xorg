@@ -1,0 +1,13 @@
+diff --git a/tigervnc-1.0.90/unix/xserver110.patch b/tigervnc-1.0.90/unix/xserver110.patch
+index ccdf433..f5cdf72 100644
+--- a/unix/xserver110.patch
++++ b/unix/xserver110.patch
+@@ -23,7 +23,7 @@ diff -up xserver/configure.ac.vnc xserver/configure.ac
+  
+ +dnl Xvnc DDX
+ +AC_SUBST([XVNC_CPPFLAGS], ["-DHAVE_DIX_CONFIG_H $XEXT_INC $FB_INC $MI_INC $RENDER_INC $RANDR_INC"])
+-+AC_SUBST([XVNC_LIBS], ["$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $MAIN_LIB"])
+++AC_SUBST([XVNC_LIBS], ["$FB_LIB $FIXES_LIB $XEXT_LIB $CONFIG_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_SYNC_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $MAIN_LIB"])
+ +
+ +dnl This is necessary to allow Xvnc to statically link with GnuTLS
+ +AC_ARG_VAR(GNUTLS_LDFLAGS, [Custom linker flags for using GnuTLS, e.g. -L{GnuTLS directory}/lib -lgnutls])

@@ -50,6 +50,10 @@ MODULE_ARC_CASES = PSARC/2008/089
 SUNTOUCHED_MANPAGES=*.man
 MODULE_STABILITY=Committed
 
+# ARC cases that covered this module
+# PSARC/1992/173 - Update MIT-based Clients to X11R5 Level
+MODULE_ARC_CASES = PSARC/1992/173
+
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xconsole
 

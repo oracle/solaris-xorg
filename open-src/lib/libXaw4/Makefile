@@ -50,6 +50,10 @@ LIBNAME=Xaw4
 SUNTOUCHED_MANPAGES= # None
 MODULE_STABILITY=Committed
 
+# ARC cases that covered this module
+# PSARC/1992/173 - Update MIT-based Clients to X11R5 Level
+MODULE_ARC_CASES = PSARC/1992/173
+
 # No configure script to run
 CONFIGURE_TARGETS=
 CONFIGURE_TARGETS_SET=yes

@@ -2,7 +2,7 @@
 #
 # xf86-input-acecad 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-input-acecad
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 51247dc0d73185e35bec326283bc49a5
-TARBALL_SHA1 = 4182aa30d4209ec60fd423a3e24e4951e16c0a4b
+TARBALL_MD5  = a03721cae66c475e5f6513fa51142869
+TARBALL_SHA1 = 410cee68e4435dc95774fb389fcefae1b2ffe3d1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
