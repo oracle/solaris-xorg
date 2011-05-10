@@ -130,7 +130,7 @@ depend fmri=pkg:/library/ncurses type=require
 depend fmri=pkg:/library/zlib type=require
 
 # Mesa 7.10.2 requires libxml2 python module
-depend fmri=pkg:/python-2/libxml2-26 type=require
+depend fmri=pkg:/library/python-2/libxml2-26 type=require
 
 # Build runs a number of perl scripts
 depend fmri=pkg:/runtime/perl-510 type=require
