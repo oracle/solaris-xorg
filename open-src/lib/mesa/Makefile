@@ -89,8 +89,9 @@ MODULE_CFLAGS = -D__EXTENSIONS__
 # breaks building libGLU with Sun Studio C++ compiler
 MODULE_CONFIG_ENV = LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(ARCH_FLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)"
 
-# Put /usr/xpg4/bin first in path so that grep -q works (CR 4843344)
-MODULE_BUILD_ENV = PATH="/usr/xpg4/bin:$(PATH)"
+# Add proto area to path to find makedepend
+MODULE_BUILD_ENV = PATH="$(PROTODIR)/$(X11_BIN_DIR):$(PATH)"
+MODULE_CONFIG_ENV += $(MODULE_BUILD_ENV)
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
