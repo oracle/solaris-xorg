@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,9 +22,12 @@
 #
 
 set name=pkg.fmri value=pkg:/consolidation/X/X-incorporation@$(OSPKGVERS)
-set name=pkg.description value="This incorporation constrains packages from the X Window System consolidation."
-set name=pkg.summary value="X consolidation incorporation"
 set name=pkg.depend.install-hold value=core-os.X
+set name=pkg.description \
+    value="This incorporation constrains packages from the X Window System consolidation."
+set name=pkg.summary value="X consolidation incorporation"
+set name=info.classification \
+    value="org.opensolaris.category.2008:Meta Packages/Incorporations"
 <include packages.current>
 <include packages.renamed>
 <include packages.obsolete>

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,11 +21,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-set name=pkg.fmri value=pkg:/consolidation/X/X-redistributable@$(OSPKGVERS)
-set name=pkg.description \
-    value="This group package installs all packages from the X Window System consolidation."
-set name=pkg.summary value="X consolidation group package"
-set name=info.classification \
-    value="org.opensolaris.category.2008:Meta Packages/Group Packages"
-<include packages.current>
-<include packages.grouponly>
+[pkglint]
+# The default log level at which to start emitting messages
+# log levels are, in order of increasing priority,
+# DEBUG, INFO, WARNING, ERROR, CRITICAL
+log_level = INFO
+
+# Whether to ignore publisher differences when comparing package versions
+ignore_different_publishers = True
+
+# Can't check for non-obsolete depends without using a repo for the whole WOS
+# which we do later, in the second pass, after publication
+pkglint.exclude = pkg.lint.pkglint_action.PkgActionChecker.dep_obsolete

@@ -67,6 +67,7 @@ CP=             /usr/bin/cp -f
 LN=             /usr/bin/ln
 MV=             /usr/bin/mv -f
 RM=             /usr/bin/rm -f
+SED=	        /usr/bin/sed
 TOUCH=          /usr/bin/touch
 
 #
@@ -363,6 +364,35 @@ $(PDIR)/gendeps: $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 
 gendeps: $(PDIR)/gendeps
 
+### pkglint checking (pre-publication)
+
+PKGLINT = pkglint
+PKGLINTRC = prepub-pkglintrc
+
+#
+# This rule runs pkglint across all manifests to be published.
+#
+# We require that packages be free from lint ERRORs before allowing them
+# to be published.  Lint WARNINGs are acceptable (though unpleasant)
+# The list of packages is the list of packages that did not resolve to
+# 0-byte files, $CHECK_PKGS
+#
+$(PDIR)/checkmf: $(PDIR)/gendeps $(DEP_SYNTH_PKGS) $(DEP_PKGS)
+	@print "## Checking packages"
+	@$(TOUCH) $(PDIR)/pkglint-output.txt
+	-$(PKGDEBUG)for p in $(DEP_SYNTH_PKGS:%.dep=%) $(DEP_PKGS:%.dep=%); do \
+		if [[ -s $$p.res ]]; then \
+			CHECK_PKGS="$$p.res $${CHECK_PKGS}"; \
+		fi; \
+	done; \
+	if [[ -n "$${CHECK_PKGS}" ]]; then \
+		$(PKGLINT) -f $(PKGLINTRC) $${CHECK_PKGS} \
+		    2> $(PDIR)/pkglint-output.txt; \
+	fi ; \
+	if grep '^ERROR' $(PDIR)/pkglint-output.txt; then \
+		return 1; \
+	fi
+
 ### Repo setup
 
 # Default in developer builds is "xnv-devel"
@@ -380,9 +410,9 @@ clean-repo:
 
 ### Package publication to repo
 PUB_PKGS= $(SYNTH_PKGS:%=$(PDIR)/%.pub) $(PKGS:%=$(PDIR)/%.pub)
-publish_pkgs: $(PKGDEST) $(PDIR)/gendeps $(PUB_PKGS)
+publish_pkgs: $(PKGDEST) $(PDIR)/gendeps $(PDIR)/checkmf $(PUB_PKGS)
 
-$(PUB_PKGS): $(PKGDEST) $(PDIR)/gendeps
+$(PUB_PKGS): $(PKGDEST) $(PDIR)/gendeps $(PDIR)/checkmf
 
 $(PDIR)/%.pub:  $(PKGDEST) $(PDIR)/gendeps $(PDIR)/%.res
 	$(PKGDEBUG) if [ -s $(@:%.pub=%.res) ]; then \
@@ -404,6 +434,24 @@ repository-metadata: $(PUB_PKGS)
 	$(PKGDEBUG)/usr/lib/pkg.depotd -d $(PKGDEST) \
 		--add-content --exit-ready
 	$(PKGDEBUG)chmod a+r $(PKGDEST)/cfg_cache
+
+### pkglint checking (post-publication)
+
+LINT_PKGLINTRC = postpub-pkglintrc
+
+#
+# Perform a pkglint run on the published repositories.  We remove package
+# version information from the lint output so that it is comparable across
+# lint runs.
+#
+lint:
+	@print "## Running pkglint on the $(PKGPUBLISHER) repository"
+	-$(PKGDEBUG)$(PKGLINT) -f $(LINT_PKGLINTRC) \
+	    -l file://$(PKGDEST) -c /tmp/pkglint_cache.$$$$ \
+	    $(PKGLINT_REFERENCE_REPO:%=-r %) \
+	    > /dev/null 2> $(PDIR)/pkglint.lint; \
+	$(RM) -rf /tmp/pkglint_cache.$$$$
+	$(PKGDEBUG)$(SED) -e 's/@[0-9TZ.:,-]*//g' $(PDIR)/pkglint.lint
 
 ### Overall rules
 
@@ -439,7 +487,7 @@ protocmp: $(PROC_PKGS) $(EXCEPTIONS) $(EXCEPTIONS_MOG) fix_perms
 pmodes: $(PROC_PKGS) fix_perms
 	$(PKGDEBUG)validate_pkg -a $(PKGMACH) -M -m $(PDIR)
 
-check: protocmp pmodes
+check: protocmp pmodes lint
 
 # Instead of fixing all the upstream packages to follow our permission rules
 # just fix the proto area to match our rules

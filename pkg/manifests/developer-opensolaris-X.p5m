@@ -20,8 +20,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/developer/opensolaris/X@$(OSPKGVERS)
-set name=pkg.description \
-    value="Dependencies required to build the X Consolidation."
 set name=pkg.summary \
     value="Dependencies required to build the X Consolidation."
 set name=info.classification \
@@ -126,11 +124,11 @@ depend fmri=pkg:/library/motif type=require
 # xterm uses ncurses/term.h
 depend fmri=pkg:/library/ncurses type=require
 
-# libXfont & libfontenc link with libz
-depend fmri=pkg:/library/zlib type=require
-
 # Mesa 7.10.2 requires libxml2 python module
 depend fmri=pkg:/library/python-2/libxml2-26 type=require
+
+# libXfont & libfontenc link with libz
+depend fmri=pkg:/library/zlib type=require
 
 # Build runs a number of perl scripts
 depend fmri=pkg:/runtime/perl-510 type=require

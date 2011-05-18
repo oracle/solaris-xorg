@@ -1,6 +1,6 @@
 # X build options for Oracle Solaris
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,3 +56,6 @@ VENDOR_SUPPORT_URL = http://support.oracle.com/
 
 # Additional pkg transforms to set Oracle Solaris branding
 PKG_BRANDING_TRANSFORMS = branding_Oracle
+
+# Reference repository for pkglint to check against
+PKGLINT_REFERENCE_REPO = http://ipkg.us.oracle.com/solaris11/dev/

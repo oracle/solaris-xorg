@@ -78,4 +78,3 @@ link path=usr/X11/lib/libXmu.so.4 target=../../lib/libXmu.so.4
 link path=usr/lib/$(ARCH64)/libXmu.so target=libXmu.so.4
 link path=usr/lib/libXmu.so target=libXmu.so.4
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
-depend fmri=pkg:/x11/library/libxmuu type=require

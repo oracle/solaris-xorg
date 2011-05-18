@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,6 +22,10 @@
 set name=pkg.fmri value=pkg:/x11/demo@$(X11PKGVERS)
 set name=pkg.description \
     value="ico, xeyes, xgc, and xlogo sample clients to demonstrate or test various X operations."
+# Silence pkglint WARNING pkglint.manifest004:
+#	last name component demo in package name clashes across
+#	pkg://solaris/library/java/demo pkg://xnv-devel/x11/
+set name=pkg.linted value=True
 set name=pkg.summary value="X Window System demo programs"
 dir path=usr
 dir path=usr/X11

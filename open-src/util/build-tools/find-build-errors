@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,6 +40,7 @@ my $default_svr4_pkglogpath = 'proto-packages/logs/package_build';
 my $logfile;
 my $pkglog;
 my $pkglog_type;	# 'ips' or 'svr4'
+my $pkgvalidlog;
 my $pkgfailed;
 my $summary_only = 0;
 
@@ -122,6 +123,13 @@ if (defined $logfile) {
     } elsif ($l =~ m{Building packages}) {
       $printme = 0;
     }
+    # Log for IPS packaging checks
+    elsif ($l =~ m{Checking built packages}) {
+	next;
+    } elsif ($l =~ m{Package check log is in (\S*)$}ims) {
+	$pkgvalidlog = $1;
+    }
+    # Print selected lines
     elsif ($printme == 1) {
       print $l;
     }
@@ -275,11 +283,20 @@ if (!defined($pkglog)) {
   }
 }
 
-
 if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
-  if ($pkglog_type eq 'svr4') {
-    open my $PKGLOG, '<', $pkglog
-      or die "Can't open '$pkglog': $OS_ERROR";
+  check_pkg_log($pkglog, $pkglog_type);
+}
+
+if (defined($pkgvalidlog)) {
+  print "\nScanning $pkgvalidlog for package checking issues...\n\n";
+  check_pkg_log($pkgvalidlog, 'validate');
+}
+
+sub check_pkg_log {
+  my ($logfile, $logtype) = @_;
+  if ($logtype eq 'svr4') {
+    open my $PKGLOG, '<', $logfile
+      or die "Can't open '$logfile': $OS_ERROR";
 
     my @pkglines;
 
@@ -302,9 +319,9 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
       }
     }
     close($PKGLOG);
-  } elsif ($pkglog_type eq 'ips') {
+  } elsif ($logtype eq 'ips') {
     my $ips_count_errors = 0;
-    my $PKGLOG = check_make_log($pkglog, \$ips_count_errors);
+    my $PKGLOG = check_make_log($logfile, \$ips_count_errors);
 
     seek($PKGLOG, 0, 0);  # reset to start reading from beginning of file
 
@@ -318,19 +335,25 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
 
     print "Packages published: $ips_count_published\n";
     print "Package build errors: $ips_count_errors\n";
-  } elsif ($pkglog_type eq 'validate') { # validate_pkg
-    open my $PKGLOG, '<', $pkglog
-      or die "Can't open '$pkglog': $OS_ERROR";
+  } elsif ($logtype eq 'validate') { # validate_pkg
+    open my $PKGLOG, '<', $logfile
+      or die "Can't open '$logfile': $OS_ERROR";
 
     my @pkglines;
     my $issue_count = 0;
     my $issue_type = "";
 
+    my $publisher;
+
     while (my $l = <$PKGLOG>) {
       chomp($l);
 
+      if ($l =~ m{^\#\# Running pkglint on the (\S+) repository}) {
+	$publisher = $1;
+      }
+
       # Clear saved lines for each new class of issue
-      if ($l =~ m{^\S+ .*:+$}ms) {
+      if (($l =~ m{^\S+ .*:+$}ms) || ($l =~ m{^\#\# })) {
 	$issue_type = $l;
 	$issue_count = 0;
 	@pkglines = ();
@@ -339,8 +362,8 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
 
       # These issues print across two lines
       if ($issue_type eq
-	  'Entries that differ between manifests and proto area:')
-	{
+	  'Entries that differ between manifests and proto area:') 
+        {
 	  if ($l =~ m{^\s+manifests }) {
 	    my $l2 = <$PKGLOG>;
 	    chomp($l2);
@@ -388,14 +411,32 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
 	  }
 	}
 
-      if ($l =~ m{^$}) { # Blank lines separate sections
-	if ($issue_count > 0) {
-	  if ($summary_only) {
-	    print $issue_type, ' ', $issue_count, "\n";
-	  } else {
-	    print join("\n", $issue_type, '', @pkglines), "\n\n";
-	  }
+      # Skip warnings we can't do anything about (workaround for
+      # https://defect.opensolaris.org/bz/show_bug.cgi?id=18346 )
+      if ($l =~ m{^WARNING pkglint.manifest004}) {
+	next unless $l =~ m{pkg://$publisher/};
+      }
+
+      # Skip informational messages from pkglint
+      next if ($l =~ m{^INFO pkglint});
+
+      # Group pkglint errors by type
+      if ($l =~ m{^([A-Z]+ (?:pkglint|opensolaris)\S+)\s+(.*)$}) {
+	my ($new_issue, $details) = ($1, $2);
+	if ($issue_type eq $new_issue) {
+	  push @pkglines, $details;
+	  $issue_count++;
+	} else {
+	  print_valid_issue($issue_type, $issue_count, \@pkglines);
+	  $issue_type = $new_issue;
+	  $issue_count = 1;
+	  @pkglines = ($details);
 	}
+      }
+      elsif ($l =~ m{^$}) { # Blank lines separate validate_pkg sections
+	print_valid_issue($issue_type, $issue_count, \@pkglines);
+	$issue_type = "";
+	$issue_count = 0;
 	@pkglines = ();
       } else {
 	push @pkglines, $l;
@@ -403,6 +444,24 @@ if ((!defined($pkgfailed) || ($pkgfailed > 0)) && defined($pkglog)) {
       }
 
     }
+    # print any final issues that weren't followed by a blank line
+    print_valid_issue($issue_type, $issue_count, \@pkglines);
     close($PKGLOG);
+  }
+}
+
+sub print_valid_issue
+{
+  my ($issue_type, $issue_count, $pkglines) = @_;
+
+  if ($issue_count > 0) {
+    if ($issue_type !~ m{:$}) {
+      $issue_type .= ':';
+    }
+    if ($summary_only) {
+      print $issue_type, ' ', $issue_count, "\n";
+    } else {
+      print join("\n", $issue_type, '', @{$pkglines}), "\n\n";
+    }
   }
 }

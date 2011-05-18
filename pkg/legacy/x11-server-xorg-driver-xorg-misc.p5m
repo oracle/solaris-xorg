@@ -21,15 +21,11 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-misc@0.5.11,5.11-0.162
+    value=pkg:/x11/server/xorg/driver/xorg-misc@0.5.11,5.11-0.167
 set name=pkg.renamed value=true
 
 # Depends on packages for video drivers split out of this package in snv_144
 # and remaining after the removal of the EOF drivers in 153 & 162.
-#
-# Does not depend on the new xorg-video group package, since that
-# would force in the latest nvidia driver on upgrade, possibly breaking
-# users with older cards needing the nvidia legacy driver.
 
 depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ast@0.91.10,5.11-0.152 \
     type=require
@@ -65,4 +61,6 @@ $(i386_ONLY)depend \
     type=require
 $(i386_ONLY)depend \
     fmri=pkg:/x11/server/xorg/driver/xorg-video-vmware@10.16.9,5.11-0.152 \
+    type=require
+depend fmri=pkg:/x11/server/xorg/driver/xorg-video@0.5.11,5.11-0.167 \
     type=require

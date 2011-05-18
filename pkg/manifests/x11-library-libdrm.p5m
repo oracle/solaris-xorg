@@ -21,9 +21,9 @@
 #
 set name=pkg.fmri value=pkg:/x11/library/libdrm@__version:libdrm__
 set name=pkg.description \
-    value="Direct Rendering Module (DRM) client library/interface"
+    value="User-space library interface to kernel modules using the Direct Rendering Infrastructure (DRI) and Kernel Mode-Setting (KMS) interfaces"
 set name=pkg.summary \
-    value="Direct Rendering Module (DRM) client library/interface"
+    value="Direct Rendering Module (DRM) client libraries/interface"
 dir path=usr
 dir path=usr/X11
 dir path=usr/X11/include

@@ -127,11 +127,13 @@ ${XMAKE} install
 cd ..
 
 print "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
-print -n "Finish time: " ; date
+
+if [ "${MAKE_PKGS}" = 1 ] ; then
+    print -n "Build finish time: " ; date ; print ""
+    ./make_release_packages ${PUBLISHER_FLAGS} ${VERBOSE_FLAGS}
+fi
+
+print -n "\nFinish time: " ; date
 perl -e '$runtime = time - $ARGV[0];
 	 printf("Runtime: %d:%02d\n", $runtime/3600, ($runtime%3600)/60); ' \
 	"${START}"
-
-if [ "${MAKE_PKGS}" = 1 ] ; then
-    ./make_release_packages ${PUBLISHER_FLAGS} ${VERBOSE_FLAGS}
-fi

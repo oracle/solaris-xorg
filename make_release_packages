@@ -1,6 +1,6 @@
 #! /bin/ksh93
 #
-# Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -91,11 +91,12 @@ XMAKE="${BUILD_TOOLS}/xmake ${VERBOSE_FLAGS} -k"
 cd pkg
 ${XMAKE} clean > "${LOG}" 2>&1
 ${XMAKE} install XNV_BUILDNUM="${XNV_BUILDNUM}" "${PUBLISHER_FLAGS}" > "${LOG}" 2>&1
-${XMAKE} check XNV_BUILDNUM="${XNV_BUILDNUM}" > "${CHECK_LOG}" 2>&1
-
 print "Result log is in ${LOG}"
 
+print "Checking built packages"
+${XMAKE} check XNV_BUILDNUM="${XNV_BUILDNUM}" > "${CHECK_LOG}" 2>&1
+print "Package check log is in ${CHECK_LOG}"
+
 "${BUILD_TOOLS}/find-build-errors" -s "${LOG}"
-"${BUILD_TOOLS}/find-build-errors" -s "${CHECK_LOG}"
 
 exit 0
