@@ -1,7 +1,5 @@
-/*-
- * XCrHsbCmap.c - X11 library routine to create an HSB ramp colormaps.
- *
- * Copyright (c) 1991, 2011, Oracle and/or its affiliates. All rights reserved.
+/*
+ * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,18 +19,40 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- *
- * Author: Patrick J. Naughton
- * naughton@sun.com
  */
 
-#include <X11/X.h>
-#include <X11/Xos.h>
-#include <X11/Xlib.h>
-#include "xcolor.h"
+#ifndef _XCOLOR_H
+#define _XCOLOR_H
 
-Status
-XCreateHSBColormap(
+#include <sys/types.h>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+
+extern void HSBramp(
+    double      h1,
+    double      s1,
+    double      b1,
+    double      h2,
+    double      s2,
+    double      b2,
+    int         start,
+    int         end,
+    u_char     *red,
+    u_char     *green,
+    u_char     *blue);
+
+extern Status XCreateDynamicColormap(
+    Display    *dsp,
+    int		screen,
+    Colormap   *cmap,		/* return */
+    Visual    **visual,		/* return */
+    XColor     *colors,
+    int 	count,
+    u_char     *red,
+    u_char     *green,
+    u_char     *blue);
+
+extern Status XCreateHSBColormap(
     Display    *dsp,
     int         screen,
     Colormap   *cmap,		/* colormap return value */
@@ -44,31 +64,6 @@ XCreateHSBColormap(
     double      s2,		/* ending saturation */
     double      b2,		/* ending brightness */
     int         bw,		/* Boolean: True = save black and white */
-    Visual    **visual)
-{
-    u_char      red[256];
-    u_char      green[256];
-    u_char      blue[256];
-    unsigned long pixel;
-    Status      status;
-    XColor      xcolors[256];
+    Visual    **visual);
 
-    if (count > 256)
-	return BadValue;
-
-    HSBramp(h1, s1, b1, h2, s2, b2, 0, count - 1, red, green, blue);
-
-    if (bw) {
-	pixel = WhitePixel(dsp, screen);
-	if (pixel < 256)
-	    red[pixel] = green[pixel] = blue[pixel] = 0xff;
-
-	pixel = BlackPixel(dsp, screen);
-	if (pixel < 256)
-	    red[pixel] = green[pixel] = blue[pixel] = 0;
-    }
-    status = XCreateDynamicColormap(dsp, screen, cmap, visual, xcolors,
-				    count, red, green, blue);
-
-    return status;
-}
+#endif /* _XCOLOR_H */

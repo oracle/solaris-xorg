@@ -1,7 +1,7 @@
 /*-
  * XCrDynCmap.c - X11 library routine to create dynamic colormaps.
  *
- * Copyright (c) 1990, 1995, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -31,22 +31,22 @@
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include "xcolor.h"
 
 Status
-XCreateDynamicColormap(dsp, screen, cmap, visual, colors,
-		       count, red, green, blue)
-    Display    *dsp;
-    int		screen;
-    Colormap   *cmap;		/* return */
-    Visual    **visual;		/* return */
-    XColor     *colors;
-    int 	count;
+XCreateDynamicColormap(
+    Display    *dsp,
+    int		screen,
+    Colormap   *cmap,		/* return */
+    Visual    **visual,		/* return */
+    XColor     *colors,
+    int 	count,
     u_char     *red,
-	       *green,
-	       *blue;
+    u_char     *green,
+    u_char     *blue)
 {
     XVisualInfo vinfo;
-    int		pixels[256];
+    unsigned long pixels[256];
     int		i,
 		ncolors,
 		planes;

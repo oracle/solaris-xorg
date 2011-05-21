@@ -1,7 +1,7 @@
 /*-
  * HSBmap.c - Create an HSB ramp.
  *
- * Copyright (c) 1991, 1995, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1991, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,17 @@
 
 #include <sys/types.h>
 #include <math.h>
+#include "xcolor.h"
 
-void
-hsb2rgb(H, S, B, r, g, b)
+static void
+hsb2rgb(
     double      H,
-                S,
-                B;
+    double      S,
+    double      B,
     u_char     *r,
-               *g,
-               *b;
+    u_char     *g,
+    u_char     *b)
+    
 {
     register int i;
     register double f,
@@ -90,18 +92,18 @@ hsb2rgb(H, S, B, r, g, b)
 
 
 void
-HSBramp(h1, s1, b1, h2, s2, b2, start, end, red, green, blue)
+HSBramp(
     double      h1,
-                s1,
-                b1,
-                h2,
-                s2,
-                b2;
+    double      s1,
+    double      b1,
+    double      h2,
+    double      s2,
+    double      b2,
     int         start,
-                end;
+    int         end,
     u_char     *red,
-               *green,
-               *blue;
+    u_char     *green,
+    u_char     *blue)
 {
     double      dh,
                 ds,

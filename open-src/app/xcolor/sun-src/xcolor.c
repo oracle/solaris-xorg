@@ -1,7 +1,7 @@
 /*-
  * xcolor.c - X11 client to display all colors in current colormap.
  *
- * Copyright (c) 1989, 1995, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1989, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -28,12 +28,14 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <X11/X.h>
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+#include "xcolor.h"
 
 #define DEFX 256
 #define DEFY 256
@@ -59,16 +61,15 @@ Atom	    ATOM_WM_DELETE_WINDOW;
 int    	    cmap_size;
 
 
-void
-error(s1, s2)
-    char       *s1,
-               *s2;
+static void
+error(const char *s1, const void *s2)
 {
     fprintf(stderr, s1, pname, s2);
     exit(1);
 }
 
-dumpCmap()
+static void
+dumpCmap(void)
 {
     register int i;
     XColor      color[256];
@@ -82,8 +83,8 @@ dumpCmap()
     }
 }
 
-redisplay_indexed(window)
-    Window window;
+static void
+redisplay_indexed(Window window)
 {
     int		 max;
     register int i,
@@ -118,9 +119,8 @@ redisplay_indexed(window)
     }
 }
 
-
-redisplay_direct(window)
-    Window window;
+static void
+redisplay_direct(Window window)
 {
     register int i,
                 j, k;
@@ -182,9 +182,8 @@ redisplay_direct(window)
     }
 }
 
-
-redisplay (w)
-    Window w;
+static void
+redisplay (Window w)
 {
     if (visual->class == TrueColor || visual->class == DirectColor)
 	    redisplay_direct(w);
@@ -192,8 +191,8 @@ redisplay (w)
 	    redisplay_indexed(w);
 }
 
-
-HandleEvents()
+static void
+HandleEvents(void)
 {
     XEvent      event;
     XConfigureEvent *xce = (XConfigureEvent *) & event;
@@ -236,10 +235,11 @@ HandleEvents()
     }
 }
 
-
-main(argc, argv)
-    int         argc;
-    char       *argv[];
+int
+main(
+    int         argc,
+    char       *argv[]
+    )
 {
     XSetWindowAttributes xswa;
     XGCValues   xgcv;
@@ -283,15 +283,9 @@ main(argc, argv)
 \t[-dump] [-nobw] [-half] [-noinst] [-iconwin]\n", NULL);
     }
 
-    /* SUNSOFT_BUYBACK
-    if (!(dsp = XOpenDisplay(displayName)))
-	error("%s: unable to open display, %s.\n", displayName);
-    **********/
     if (!(dsp = XOpenDisplay(displayName))) {
-	if (displayName)
-	    error("%s: unable to open display, %s.\n", displayName);
-        else
-	    error("unable to open display\n");
+	error("%s: unable to open display, %s.\n",
+	      displayName ? displayName : "no display specified");
     }
 
     screen = DefaultScreen(dsp);
@@ -310,7 +304,7 @@ main(argc, argv)
 				      0.0, 1.0, 1.0,
 				      1.0, 1.0, 1.0, !nobw, &visual);
 	    if (stat != Success)
-		error("%s: unable create colormap (%d).\n", stat);
+		error("%s: unable create colormap (%d).\n", (void *) stat);
     }
 
     size_hints.x = DEFX;

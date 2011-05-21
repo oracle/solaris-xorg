@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xcolor 1.x Makefile
+# xcolor Makefile
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,7 +28,7 @@
 OBJS = HSBmap.o XCrDynCmap.o XCrHsbCmap.o xcolor.o
 
 xcolor: $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) -lX11
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) -lX11 -lm
 
 install: xcolor
 	mkdir -p $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)/man1
