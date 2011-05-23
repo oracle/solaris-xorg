@@ -48,15 +48,6 @@ SOURCE_PATCHES = configure.0.patch \
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
 
-# We need Python
-PYTHON_VERSION=2.6
-PYTHON=/usr/bin/python$(PYTHON_VERSION)
-PYTHON_PATH=$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/vendor-packages:$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/vendor-packages
-
-# We want to use the PYTHON set above in our environment
-MODULE_BUILD_ENV = PYTHON="$(PYTHON)" \
-		   PYTHONPATH="$(PYTHON_PATH)"
-
 ### Include common rulesets
 include ../Makefile.inc
 

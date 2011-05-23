@@ -78,3 +78,11 @@ usr/share/xcb/xselinux.xml
 
 # Don't install until we move off HAL .fdi file for synaptics
 usr/share/X11/xorg.conf.d/50-synaptics.conf	i386
+
+# Only need the normal *.pyc compiled byte-code, not the "optimized" *.pyo
+usr/lib/python2.6/vendor-packages/xcbgen/__init__.pyo
+usr/lib/python2.6/vendor-packages/xcbgen/error.pyo
+usr/lib/python2.6/vendor-packages/xcbgen/expr.pyo
+usr/lib/python2.6/vendor-packages/xcbgen/matcher.pyo
+usr/lib/python2.6/vendor-packages/xcbgen/state.pyo
+usr/lib/python2.6/vendor-packages/xcbgen/xtypes.pyo

@@ -186,28 +186,35 @@ $(PDIR)/versions: transforms/versions.tmpl $(PDIR)
 		-e "s{_HG_ID_}{$${HG_ID}}" transforms/versions.tmpl > $@
 
 # Set variables used by pkgmogrify 
+# These are the macros that may be used in package manifests
+PKGMOG_DEFINES = 
+
 # Most upstream packages provide specific version numbers instead of using
 # the default of $(OSPKGVERS)
 # Some use $(X11PKGVERS) to refer to the X11 katamari version since they
 # bundle together components from multiple upstream packages with individual
 # version numbers
-X11PKGVERS = 7.6
-OSPKGVERS = 0.$(RELEASE)
+PKGMOG_DEFINES += X11PKGVERS=7.6
+PKGMOG_DEFINES += OSPKGVERS=0.$(RELEASE)
 
 # Base URL for ARC cases used in opensolaris.arc_url metadata
-ARC_URL=http://arc.opensolaris.org/caselog/
+PKGMOG_DEFINES += ARC_URL='http://arc.opensolaris.org/caselog/'
 
-# These are the macros that may be used in package manifests
-PKGMOG_DEFINES= \
-        i386_ONLY=$(POUND_SIGN) \
-        sparc_ONLY=$(POUND_SIGN) \
-        $(PKGMACH)_ONLY= \
-        ARCH=$(PKGMACH) \
-        ARCH32=$(SUBDIR32_$(PKGMACH)) \
-        ARCH64=$(SUBDIR64_$(PKGMACH)) \
-        OSPKGVERS=$(OSPKGVERS) \
-        X11PKGVERS=$(X11PKGVERS) \
-	ARC_URL='$(ARC_URL)'
+# Platform specific choices
+PKGMOG_DEFINES += i386_ONLY=$(POUND_SIGN) sparc_ONLY=$(POUND_SIGN)
+PKGMOG_DEFINES += $(PKGMACH)_ONLY= 
+
+# Architecture specific directory names
+PKGMOG_DEFINES += ARCH=$(PKGMACH)
+PKGMOG_DEFINES += ARCH32=$(SUBDIR32_$(PKGMACH))
+PKGMOG_DEFINES += ARCH64=$(SUBDIR64_$(PKGMACH))
+
+# Python version string used in path names, such as /usr/lib/python2.6
+PKGMOG_DEFINES += PYTHON_PATH_VERSION=$(PYTHON_VERSION)
+# Python version string used in package names, such as pkg:/runtime/python-26
+PYTHON_PKG_VERSION_CMD = print $(PYTHON_VERSION) | tr -d '.'
+PKGMOG_DEFINES += PYTHON_PKG_VERSION=$(PYTHON_PKG_VERSION_CMD:sh)
+
 
 # Default transformations to apply
 PM_TRANSFORMS = $(PKG_BRANDING_TRANSFORMS) \
@@ -419,7 +426,7 @@ $(PDIR)/%.pub:  $(PKGDEST) $(PDIR)/gendeps $(PDIR)/%.res
 		print "## Publishing $(@F:%.pub=%) to proto repository"; \
 		pkgsend -s file://$(PKGDEST) publish -d $(PKGROOT) \
 		    -d license_files -d $(PROTOMETA)/$(@F:%.pub=%) \
-		    --fmri-in-manifest --no-index --no-catalog \
+		    --fmri-in-manifest --no-index --no-catalog -T '*.py' \
 		    $(@:%.pub=%.res) > /dev/null; \
 	fi; \
 	$(TOUCH) $(@)

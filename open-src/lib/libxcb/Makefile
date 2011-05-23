@@ -51,6 +51,9 @@ SOURCE_PATCHES = \
 		 xcb_conn.c.3.patch \
 		 Makefile.am.4.patch
 
+# Regenerate Makefile.in's from Makefile.am's after patching them
+AUTORECONF=yes
+
 # Library name (used for specfiles/mapfiles)
 LIBNAME=xcb
 
@@ -61,15 +64,6 @@ LIB_MAN_SUFFIX=
 
 MODULE_LD_OPTIONS = -z ignore -lc
 LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
-
-# We need Python
-PYTHON_VERSION=2.6
-PYTHON=/usr/bin/python$(PYTHON_VERSION)
-PYTHON_PATH=$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/vendor-packages:$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/vendor-packages
-PYTHONPATH=$(PYTHON_PATH)
-
-# We want GNU cp
-GNUCP=/usr/gnu/bin/cp
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = $(MODTYPE_CONFIG_OPTS) \
@@ -104,28 +98,7 @@ MODULE_CONFIG_OPTS = $(MODTYPE_CONFIG_OPTS) \
 # Work around libtool's interference
 DELIBTOOLIZE=yes
 
-MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/X11 \
-		  -I$(PROTODIR)/usr/include
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=*.pc.in
 
 include ../Makefile.inc
-
-# Regenerate Makefile.in's from Makefile.am's after patching them
-AUTORECONF=yes
-AUTORECONF_FLAGS = -vif
-
-# We need PYTHON and PYTHONPATH in our environment
-MODULE_BUILD_ENV = PYTHON="$(PYTHON)" \
-		   PYTHONPATH="$(PYTHON_PATH)" \
-		   PROTODIR="$(PROTODIR)" \
-		   CC="$(CC)" \
-		   CFLAGS="$(CFLAGS)" \
-		   CPPFLAGS="$(CPPFLAGS)" \
-		   LDFLAGS="$(LDFLAGS)" \
-		   LD_OPTIONS="$(MODULE_LD_OPTIONS)" \
-		   LD="$(CC) $(CFLAGS) $(LDFLAGS)" \
-		   LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" \
-		   LD_OPTIONS="$(MODULE_LD_OPTIONS)"
-

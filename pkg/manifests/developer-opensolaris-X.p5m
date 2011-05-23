@@ -125,7 +125,7 @@ depend fmri=pkg:/library/motif type=require
 depend fmri=pkg:/library/ncurses type=require
 
 # Mesa 7.10.2 requires libxml2 python module
-depend fmri=pkg:/library/python-2/libxml2-26 type=require
+depend fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION) type=require
 
 # libXfont & libfontenc link with libz
 depend fmri=pkg:/library/zlib type=require
@@ -134,6 +134,9 @@ depend fmri=pkg:/library/zlib type=require
 depend fmri=pkg:/runtime/perl-510 type=require
 depend fmri=pkg:/runtime/perl-584 type=require
 depend fmri=pkg:/runtime/perl-584/extra type=require
+
+# xcb & mesa require python interpreter/compiler
+depend fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION) type=require
 
 # Xserver currently links with HAL & Dbus
 depend fmri=pkg:/service/hal type=require

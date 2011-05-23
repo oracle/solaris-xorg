@@ -280,6 +280,13 @@ TOOLS_ACLOCAL_DIR=$(TOOLS_DIR)/share/aclocal
 
 ### Other tools needed to build
 
+## Python tools & paths
+# When changing PYTHON_VERSION, check that PYTHON_PKG_VERSION & 
+# PYTHON_PATH_VERSION are still set correctly in pkg/Makefile
+PYTHON_VERSION=2.6
+PYTHON=/usr/bin/python$(PYTHON_VERSION)
+PYTHON_PATH=$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/vendor-packages:$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/vendor-packages:/usr/lib/python$(PYTHON_VERSION)/site-packages
+
 # Script used to install files in proto area
 INSTALL_SCRIPT=$(TOP)/open-src/common/install-sh -c
 
