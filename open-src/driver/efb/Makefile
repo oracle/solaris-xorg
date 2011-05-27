@@ -91,6 +91,7 @@ include ../Makefile.inc
 # ATI's atombios code has ^M's at linefeeds which break Sun compilers
 clean_linefeeds: $(CLEAN_LINEFEED_TARGET)
 $(SOURCE_ADD_TARGET): $(CLEAN_LINEFEED_TARGET)
+$(PATCHED_TARGET): $(CLEAN_LINEFEED_TARGET)
 
 $(CLEAN_LINEFEED_TARGET): $(SOURCE_INIT_TARGET)
 	find $(BUILD_DIR) -type f -name '*.[ch]' | \
