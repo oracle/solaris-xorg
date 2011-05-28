@@ -25,6 +25,7 @@ set name=pkg.description value="Generic frame buffer configuration utility"
 set name=pkg.summary value="Frame Buffer Configuration Utility"
 set name=variant.arch value=sparc
 dir path=usr/lib/fbconfig
+file path=etc/security/exec_attr.d/fbconfig group=sys
 file path=usr/lib/fbconfig/SunModes_xorg.conf
 file path=usr/lib/fbconfig/fbconf_xorg mode=0555
 file path=usr/lib/fbconfig/libfbconf_xorg.so.1

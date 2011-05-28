@@ -55,5 +55,6 @@ clobber: clean
 
 install: all
 	$(INSTALL) -m 0555 $(BIN) $(INSTALL_BIN_DIR)
+	$(INSTALL) -m 0444 exec_attr $(DESTDIR)/etc/security/exec_attr.d/fbconfig
 
 # End of Makefile
