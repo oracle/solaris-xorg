@@ -125,11 +125,14 @@ $(AST_BIN_DIR):
 	[ -d $@ ] || mkdir -p $@
 
 
-#install: all $(INSTALL_LIB_DIR)/$(LIB_AST_SO) $(INSTALL_LIB_DIR)/$(LIB_AST_SO)$(VERS)
-install: $(INSTALL_LIB_DIR)/$(LIB_AST_SO)$(VERS)
+install: all $(INSTALL_LIB_DIR)/$(LIB_AST_SO) $(INSTALL_LIB_DIR)/$(LIB_AST_SO)$(VERS)
 
 $(INSTALL_LIB_DIR)/$(LIB_AST_SO)$(VERS): $(LIB_AST_SO)$(VERS)
 	$(INSTALL) -m 0555 $? $@
+
+$(INSTALL_LIB_DIR)/$(LIB_AST_SO): $(LIB_AST_SO)$(VERS)
+	-rm -f $@
+	ln -s $(LIB_AST_SO)$(VERS) $@
 
 clean:
 	rm -f $(AST_OBJS) $(AST_SRC_DIR)/*~

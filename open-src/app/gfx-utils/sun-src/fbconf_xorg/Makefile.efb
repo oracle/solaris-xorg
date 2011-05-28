@@ -123,11 +123,14 @@ $(EFB_BIN_DIR):
 	[ -d $@ ] || mkdir -p $@
 
 
-#install: all $(INSTALL_LIB_DIR)/$(LIB_EFB_SO) $(INSTALL_LIB_DIR)/$(LIB_EFB_SO)$(VERS)
-install: $(INSTALL_LIB_DIR)/$(LIB_EFB_SO)$(VERS)
+install: all $(INSTALL_LIB_DIR)/$(LIB_EFB_SO) $(INSTALL_LIB_DIR)/$(LIB_EFB_SO)$(VERS)
 
 $(INSTALL_LIB_DIR)/$(LIB_EFB_SO)$(VERS): $(LIB_EFB_SO)$(VERS)
 	$(INSTALL) -m 0555 $? $@
+
+$(INSTALL_LIB_DIR)/$(LIB_EFB_SO): $(LIB_EFB_SO)$(VERS)
+	-rm -f $@
+	ln -s $(LIB_EFB_SO)$(VERS) $@
 
 clean:
 	rm -f $(EFB_OBJS) $(EFB_SRC_DIR)/*~

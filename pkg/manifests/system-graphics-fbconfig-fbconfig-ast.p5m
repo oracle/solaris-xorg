@@ -33,6 +33,7 @@ legacy pkg=SUNWastfbcf arch=sparc category=application,graphics \
     desc="Configuration and diagnostics software for AST graphics" \
     name="AST Graphics Configuration and Diagnostics Software" \
     version=11.0.0,REV=2010.10.22
+link path=usr/lib/fbconfig/libSUNWast_conf.so target=libSUNWast_conf.so.1
 
 # Requires kernel driver for astfb
 depend fmri=pkg:/driver/graphics/ast type=require
