@@ -1083,6 +1083,7 @@ ListDevices(
 		/*
 		 * See if this file is a device and get its identifications
 		 */
+		device_model[0] = '\0';
 		error_code = get_device_identification(
 				device_path,
 				&st_rdev, &vis_ident, &device_model[0]);
