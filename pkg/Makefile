@@ -409,8 +409,8 @@ PKGPUBLISHER = xnv-devel
 # Initialize the empty on-disk repositories
 $(PKGDEST):
 	@print "## Initializing $(@F)"
-	$(PKGDEBUG)pkgsend -s file://$(@) create-repository \
-		--set-property publisher.prefix=$(PKGPUBLISHER)
+	$(PKGDEBUG)pkgrepo create --version 4 $(@)
+	$(PKGDEBUG)pkgrepo add-publisher -s $(@) $(PKGPUBLISHER)
 
 clean-repo:
 	$(RM) -r $(PKGDEST)
@@ -424,7 +424,7 @@ $(PUB_PKGS): $(PKGDEST) $(PDIR)/gendeps $(PDIR)/checkmf
 $(PDIR)/%.pub:  $(PKGDEST) $(PDIR)/gendeps $(PDIR)/%.res
 	$(PKGDEBUG) if [ -s $(@:%.pub=%.res) ]; then \
 		print "## Publishing $(@F:%.pub=%) to proto repository"; \
-		pkgsend -s file://$(PKGDEST) publish -d $(PKGROOT) \
+		pkgsend -s $(PKGDEST) publish -d $(PKGROOT) \
 		    -d license_files -d $(PROTOMETA)/$(@F:%.pub=%) \
 		    --fmri-in-manifest --no-index --no-catalog -T '*.py' \
 		    $(@:%.pub=%.res) > /dev/null; \
@@ -438,9 +438,7 @@ default: install
 
 repository-metadata: $(PUB_PKGS)
 	@print "## Creating repository metadata"
-	$(PKGDEBUG)/usr/lib/pkg.depotd -d $(PKGDEST) \
-		--add-content --exit-ready
-	$(PKGDEBUG)chmod a+r $(PKGDEST)/cfg_cache
+	$(PKGDEBUG)pkgrepo refresh -s $(PKGDEST)
 
 ### pkglint checking (post-publication)
 
@@ -456,7 +454,8 @@ lint:
 	-$(PKGDEBUG)$(PKGLINT) -f $(LINT_PKGLINTRC) \
 	    -l file://$(PKGDEST) -c /tmp/pkglint_cache.$$$$ \
 	    $(PKGLINT_REFERENCE_REPO:%=-r %) \
-	    > /dev/null 2> $(PDIR)/pkglint.lint; \
+	    > $(PDIR)/pkglint.out 2> $(PDIR)/pkglint.lint ; \
+	grep '^Error:' $(PDIR)/pkglint.out ; \
 	$(RM) -rf /tmp/pkglint_cache.$$$$
 	$(PKGDEBUG)$(SED) -e 's/@[0-9TZ.:,-]*//g' $(PDIR)/pkglint.lint
 
