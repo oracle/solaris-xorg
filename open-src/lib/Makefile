@@ -148,14 +148,14 @@ OS_SUBDIRS_common = \
 	libXxf86vm \
 	mesa \
 	freeglut \
-	pixman \
-	hwc
+	pixman
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
+	hwc \
 	libXlg3d \
 	libXprintUtil \
 	libXprintAppUtil

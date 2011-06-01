@@ -1,3 +1,4 @@
+#
 # Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -19,19 +20,5 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-
-# This package should only be installed in the global zone since it
-# only contains kernel modules, so override the default from common_actions
-<transform set name=variant.opensolaris.zone -> delete value nonglobal>
-
-set name=pkg.fmri value=pkg:/system/kernel/hardware-cursor@$(OSPKGVERS)
-set name=pkg.description \
-    value="hwc is a kernel streams module that may be pushed onto a mouse device stream to cause mouse movements to directly update the cursor position on a frame buffer device supporting the hardware cursor ioctls."
-set name=pkg.summary value="Hardware Cursor Kernel modules"
-dir path=kernel group=sys
-dir path=kernel/strmod group=sys
-dir path=kernel/strmod/$(ARCH64) group=sys
-file path=kernel/strmod/$(ARCH64)/hwc group=sys mode=0555
-legacy pkg=SUNWxwmod \
-    desc="Kernel modules used by the Solaris X Window System Server" \
-    name="X Window System kernel modules"
+set name=pkg.fmri value=pkg:/system/kernel/hardware-cursor@0.5.11,5.11-0.168
+set name=pkg.obsolete value=true
