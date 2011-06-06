@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,7 +21,7 @@
 #
 set name=pkg.fmri value=pkg:/terminal/xterm@__version:xterm__
 set name=pkg.description \
-    value="The xterm program is a terminal emulator for the X Window System. It provides DEC VT102 and Tektronix 4014 compatible terminals for programs that can't use the window system directly.  This version implements ISO/ANSI colors using the new color model (i.e., background color erase). It also implements most of the control sequences for VT220."
+    value="The xterm program is a terminal emulator for the X Window System. It provides DEC VT102 and Tektronix 4014 compatible terminals for programs that can't use the window system directly.  This version implements ISO/ANSI colors, Unicode, and most of the control sequences used by DEC VT220 terminals."
 set name=pkg.summary value="xterm - terminal emulator for X"
 dir path=usr
 dir path=usr/X11
@@ -36,7 +36,6 @@ dir path=usr/share/man
 dir path=usr/share/man/man1
 dir path=usr/share/pixmaps
 file path=usr/bin/koi8rxterm
-file path=usr/bin/resize
 file path=usr/bin/uxterm
 file path=usr/bin/xterm
 file path=usr/share/X11/app-defaults/KOI8RXTerm
@@ -47,14 +46,12 @@ file path=usr/share/X11/app-defaults/XTerm
 file path=usr/share/X11/app-defaults/XTerm-color
 file path=usr/share/doc/xterm/ctlseqs.txt
 file path=usr/share/man/man1/koi8rxterm.1
-file path=usr/share/man/man1/resize.1
 file path=usr/share/man/man1/uxterm.1
 file path=usr/share/man/man1/xterm.1
 file path=usr/share/pixmaps/xterm-color_32x32.xpm
 file path=usr/share/pixmaps/xterm-color_48x48.xpm
 file path=usr/share/pixmaps/xterm_32x32.xpm
 file path=usr/share/pixmaps/xterm_48x48.xpm
-link path=usr/X11/bin/resize target=../../bin/resize
 link path=usr/X11/bin/xterm target=../../bin/xterm
 # xterm app-defaults specifies fonts including:
 #  -adobe-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-*
@@ -62,3 +59,4 @@ depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
 #  -misc-fixed-medium-r-normal--<various sizes>-iso10646-1
 depend fmri=pkg:/system/font/xorg/xorg-core type=require
 depend fmri=pkg:/terminal/luit type=require
+depend fmri=pkg:/terminal/resize type=require

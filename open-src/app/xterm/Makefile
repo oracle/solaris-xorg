@@ -32,6 +32,10 @@ MODULE_NAME=xterm
 MODULE_PKGNAME=terminal/xterm
 MODULE_PKGNAME_SET=yes
 
+# resize goes into a separate package so it can be installed in zones without
+# X, but which you login to from a resizable GUI terminal window.
+RESIZE_PKGNAME=terminal/resize
+
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/System Utilities
 MODULE_PKGCLASS_SET=yes
@@ -61,8 +65,19 @@ SOURCE_UNCOMPRESS=gzcat
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=koi8rxterm.man resize.man uxterm.man xterm.man
 MODULE_STABILITY=Committed
+
+# Fix man page footers to not say "Last changed: X Window System"
+XORGRELSTRING = $(MODULE_NAME) $(MODULE_VERSION)
+  XORGMANNAME = X Version 11
+  XVENDORVERS = "$(XORGRELSTRING)" "$(XORGMANNAME)"
+MODULE_SUNTOUCH_MAN_FLAGS = -r '{__vendorversion__, $(XVENDORVERS)}'
+
+# Override specific attributes for specific man pages
+MODULE_SUNTOUCH_MAN_FLAGS += \
+	$(SUNTOUCH_MAN_FLAGS_$(@F:%.man.$(FIXED_MAN_SUFFIX)=%))
+SUNTOUCH_MAN_FLAGS_resize = -o '{Availability, $(RESIZE_PKGNAME)}'
 
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
 # and run time 
@@ -88,22 +103,12 @@ MODULE_CONFIG_OPTS += $(MODULE_CONFIG_OPTS_VERBOSE_$(V))
 # Tell configure where to find luit binary
 MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
 
-MODULE_ADD_BUILD_TARGETS=fix_manpages
 MODULE_ADD_INSTALL_TARGETS=install_docs
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xterm resize
 
 include ../Makefile.inc
-
-# Fix man page footers to not say "Last changed: X Window System"
-XORGRELSTRING = $(MODULE_NAME) $(MODULE_VERSION)
-  XORGMANNAME = X Version 11
-  XVENDORVERS = "$(XORGRELSTRING)" "$(XORGMANNAME)"
-
-fix_manpages: $(UNPACK_TARGET)
-	$(PERL) -i -p -e 's{__vendorversion__}{$(XVENDORVERS)}g' \
-	  $(SOURCE_DIR)/*.man
 
 # Install documentation of xterm control sequences for packaging
 MODULE_DOCDIR=/usr/share/doc/xterm
@@ -112,3 +117,19 @@ install_docs: $(UNPACK_TARGET)
 	mkdir -p $(PROTODIR)$(MODULE_DOCDIR)
 	rm -f $(PROTODIR)$(MODULE_DOCDIR)/ctlseqs.txt
 	cp -pf $(SOURCE_DIR)/ctlseqs.txt $(PROTODIR)$(MODULE_DOCDIR)/
+
+# Metadata for separate package for resize
+RESIZE_PKG_METADATA_DIR      = $(MODULE_PKG_METADATA_DIR:%xterm=%resize)
+RESIZE_PKG_ATTRDATA_FILE     = $(RESIZE_PKG_METADATA_DIR)/$(ATTRDATA_FILE_NAME)
+RESIZE_PKG_LICENSE_FILE      = $(RESIZE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+RESIZE_METADATA_TARGETS = \
+        $(RESIZE_PKG_METADATA_DIR) \
+        $(RESIZE_PKG_ATTRDATA_FILE) \
+        $(RESIZE_PKG_LICENSE_FILE)
+
+install_metadata: $(RESIZE_METADATA_TARGETS)
+
+$(RESIZE_PKG_METADATA_DIR):
+	mkdir -p $@
+
+$(RESIZE_PKG_ATTRDATA_FILE) $(RESIZE_PKG_LICENSE_FILE): $(RESIZE_PKG_METADATA_DIR)
