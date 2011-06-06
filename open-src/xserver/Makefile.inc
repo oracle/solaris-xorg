@@ -39,7 +39,7 @@ MODULE_PKGTAIL_SET	      	= yes
 include $(TOP)/open-src/common/Makefile.init
 
 # Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.10.1
+XORGSERVER_VERS=1.10.2
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=sed '/^\#/ d' ../xorg/patch-list

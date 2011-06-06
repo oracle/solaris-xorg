@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 diff --git a/configure.ac b/configure.ac
-index 524c2af..926d159 100644
+index de6665a..ac7caae 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1458,6 +1458,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUIRED_LIBS])
@@ -31,7 +31,7 @@ index 524c2af..926d159 100644
  AC_SUBST([XSERVER_SYS_LIBS])
  
 diff --git a/dix/main.c b/dix/main.c
-index 692bec1..9c3951a 100644
+index e20ffd6..7cab838 100644
 --- a/dix/main.c
 +++ b/dix/main.c
 @@ -115,6 +115,11 @@ Equipment Corporation.
@@ -60,16 +60,16 @@ index 692bec1..9c3951a 100644
  	if(serverGeneration == 1)
  	{
  	    CreateWellKnownSockets();
-@@ -286,6 +298,11 @@ int main(int argc, char *argv[], char *envp[])
- 
- 	Dispatch();
+@@ -293,6 +305,11 @@ int main(int argc, char *argv[], char *envp[])
+ 	pthread_mutex_unlock(&serverRunningMutex);
+ #endif
  
 +#ifdef SUNSOFT
 +	/* Return to root privs before calling the rest of close down */
 +	DtloginCloseDown ();
 +#endif
 +
-         UndisplayDevices();
+ 	UndisplayDevices();
  
  	/* Now free up whatever must be freed */
 diff --git a/os/Makefile.am b/os/Makefile.am
