@@ -21,7 +21,7 @@
 #
 set name=pkg.fmri value=pkg:/terminal/resize@0.__version:xterm__
 set name=pkg.description \
-    value="Resize prints a shell command for setting the TERM and TERMCAP environment variables to indicate the current size of the terminal window from which the command is run."
+    value="Resize prints a shell command for setting the COLUMNS and LINES environment variables to indicate the current size of the terminal window from which the command is run."
 set name=pkg.summary \
     value="resize - adjust terminal settings to current window size"
 dir path=usr
