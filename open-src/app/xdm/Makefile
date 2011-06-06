@@ -42,6 +42,8 @@ TARBALL_SHA1 = ea0ee2923999d54848dc8a165867ffa7c628fd7b
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	mkdir.patch,-p1 \
+	pam_tty.patch,-p1 \
+	pam_user.patch,-p1 \
 	bindir.patch \
 	terminateServer.patch \
 	bug-6822636.patch \
