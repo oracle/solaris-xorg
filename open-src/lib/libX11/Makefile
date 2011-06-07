@@ -86,6 +86,7 @@ SOURCE_PATCHES = \
 	locale-ja_JP.UTF-8.patch \
 	locale-ko.patch \
 	locale-ko_KR.UTF-8.patch \
+	locale-pt_BR.UTF-8.patch \
 	locale-th_TH.UTF-8.patch \
 	locale-zh_CN.UTF-8.patch \
 	locale-zh_CN.gb18030.patch \

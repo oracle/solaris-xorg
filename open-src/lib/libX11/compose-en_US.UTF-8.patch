@@ -169,7 +169,7 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/Compose.pre nls/en_US.UTF-8/Compos
  
  XCOMM Musical alterations
  <Multi_key> <numbersign> <b>     	: "♭"   U266d # MUSIC FLAT SIGN
-@@ -222,5161 +283,2594 @@ XCOMM Other symbols
+@@ -222,5161 +283,2607 @@ XCOMM Other symbols
  <Multi_key> <colon> <parenright>        : "☺"   U263A # WHITE SMILING FACE
  <Multi_key> <colon> <parenleft>         : "☹"   U2639 # WHITE FROWNING FACE
  
@@ -954,6 +954,19 @@ diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/Compose.pre nls/en_US.UTF-8/Compos
 +<Multi_key> <period> <I>	: "\xc4\xb0"	Iabovedot
 +<Multi_key> <i> <period>	: "\xc4\xb1"	idotless
 +<Multi_key> <period> <i>	: "\xc4\xb1"	idotless
++XCOMM slovak
++<dead_acute> <L>		: "Ĺ"	U0139 # LATIN CAPITAL LETTER L WITH ACUTE
++<Multi_key> <acute> <L>	: "Ĺ"	U0139 # LATIN CAPITAL LETTER L WITH ACUTE
++<Multi_key> <apostrophe> <L>	: "Ĺ"	U0139 # LATIN CAPITAL LETTER L WITH ACUTE
++<dead_acute> <l>		: "ĺ"	U013A # LATIN SMALL LETTER L WITH ACUTE
++<Multi_key> <acute> <l>	: "ĺ"	U013A # LATIN SMALL LETTER L WITH ACUTE
++<Multi_key> <apostrophe> <l>	: "ĺ"	U013A # LATIN SMALL LETTER L WITH ACUTE
++<dead_acute> <R>		: "Ŕ"	U0154 # LATIN CAPITAL LETTER R WITH ACUTE
++<Multi_key> <acute> <R>	: "Ŕ"	U0154 # LATIN CAPITAL LETTER R WITH ACUTE
++<Multi_key> <apostrophe> <R>	: "Ŕ"	U0154 # LATIN CAPITAL LETTER R WITH ACUTE
++<dead_acute> <r>		: "ŕ"	U0155 # LATIN SMALL LETTER R WITH ACUTE
++<Multi_key> <acute> <r>	: "ŕ"	U0155 # LATIN SMALL LETTER R WITH ACUTE
++<Multi_key> <apostrophe> <r>	: "ŕ"	U0155 # LATIN SMALL LETTER R WITH ACUTE
 +XCOMM polish
 +<Multi_key> <space> <breve>	: "\xcb\x98"	breve
 +<Multi_key> <space> <degree>	: "\xc2\xb0"	degree
