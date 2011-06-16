@@ -518,6 +518,7 @@ $(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN))	DEFAULT_CONFIG_ENV = \
     CPPFLAGS="$(DEFAULT_CONFIG_CPPFLAGS) $(MODTYPE_CPPFLAGS) $(MODULE_CPPFLAGS)" \
     LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_CFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)" \
     PKG_CONFIG_PATH="$(DEFAULT_PKG_CONFIG_PATH)" \
+    PERL="$(PERL)" \
     PYTHON="$(PYTHON)" PYTHONPATH="$(PYTHON_PATH)" \
     INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p" \
     MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
@@ -537,7 +538,7 @@ $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	chmod a+x configure ; \
 	$(CONFIG_ENV) $(CONFIG_SHELL) ./configure $(CONFIG_OPTS) ; \
 	if [[ "$(DELIBTOOLIZE)" = "yes" ]] ; then \
-	    $(TOP)/open-src/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
+	    $(PERL) $(TOP)/open-src/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
 	fi
 
 default_configure: $(AUTOCONF_TARGET)
@@ -657,8 +658,8 @@ ELF_COMMENTS_FLAGS += $(DEBUG_ELF_COMMENTS_FLAGS)
 ELF_COMMENTS_FLAGS += $(MODTYPE_ELF_COMMENTS_FLAGS) $(MODULE_ELF_COMMENTS_FLAGS)
 
 set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
-	$(TOP)/open-src/common/set-elf-comments.pl $(ELF_COMMENTS_FLAGS) \
-	 $(SOURCE_DIR)
+	$(PERL) $(TOP)/open-src/common/set-elf-comments.pl \
+	 $(ELF_COMMENTS_FLAGS) $(SOURCE_DIR)
 
 # Help generate templates for package manifests
 DEFAULT_LICENSE=$(PKG_LICENSE_DIR)/cr_Oracle $(PKG_LICENSE_DIR)/lic_X11

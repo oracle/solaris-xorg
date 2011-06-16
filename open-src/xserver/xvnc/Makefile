@@ -195,6 +195,8 @@ $(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 		$(CONFIG_ENV) $(CONFIG_SHELL) ./configure $(XVNC_CONFIG_OPTS) )
 
 Xvnc_build: $(CONFIGURE_TARGETS)
+	$(PERL) -i -p -e 's{/usr/bin/env perl}{$(PERL)}' \
+		$(SOURCE_DIR)/unix/vncserver
 	(cd $(SOURCE_DIR) ; \
 	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 	(cd $(XORG_BUILD_DIR) ; \

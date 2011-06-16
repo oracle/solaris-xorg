@@ -209,6 +209,10 @@ PKGMOG_DEFINES += ARCH=$(PKGMACH)
 PKGMOG_DEFINES += ARCH32=$(SUBDIR32_$(PKGMACH))
 PKGMOG_DEFINES += ARCH64=$(SUBDIR64_$(PKGMACH))
 
+# Perl version string used in package names, such as pkg:/runtime/perl-512
+PERL_PKG_VERSION_CMD = print $(PERL_VERSION) | tr -d '.'
+PKGMOG_DEFINES += PERL_PKG_VERSION=$(PERL_PKG_VERSION_CMD:sh)
+
 # Python version string used in path names, such as /usr/lib/python2.6
 PKGMOG_DEFINES += PYTHON_PATH_VERSION=$(PYTHON_VERSION)
 # Python version string used in package names, such as pkg:/runtime/python-26

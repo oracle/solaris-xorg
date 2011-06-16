@@ -95,5 +95,5 @@ $(PATCHED_TARGET): $(CLEAN_LINEFEED_TARGET)
 
 $(CLEAN_LINEFEED_TARGET): $(SOURCE_INIT_TARGET)
 	find $(BUILD_DIR) -type f -name '*.[ch]' | \
-		xargs perl -i -p -e 's{\r\n}{\n}g'
+		xargs $(PERL) -i -p -e 's{\r\n}{\n}g'
 	touch $(CLEAN_LINEFEED_TARGET)

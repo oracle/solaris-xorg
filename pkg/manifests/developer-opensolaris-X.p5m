@@ -131,9 +131,7 @@ depend fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION) type=require
 depend fmri=pkg:/library/zlib type=require
 
 # Build runs a number of perl scripts
-depend fmri=pkg:/runtime/perl-510 type=require
-depend fmri=pkg:/runtime/perl-584 type=require
-depend fmri=pkg:/runtime/perl-584/extra type=require
+depend fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION) type=require
 
 # xcb & mesa require python interpreter/compiler
 depend fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION) type=require

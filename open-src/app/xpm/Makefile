@@ -55,9 +55,6 @@ INSTALL_TARGETS_SET=yes
 # Additional arguments to pass to make
 #MODULE_MAKEFLAGS= -e SUBDIRS="cxpm sxpm"
 
-# Undo libtool use of libXpm.la to link with
-#MODULE_BUILD_DEPS=delibtoolize
-
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = cxpm sxpm
 

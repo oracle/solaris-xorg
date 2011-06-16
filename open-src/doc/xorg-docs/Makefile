@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,7 +59,7 @@ include ../Makefile.inc
 
 # Fix entity paths in DocBook files so that gnome-help can resolve them
 fix_entity_paths: $(UNPACK_TARGET)
-	find $(SOURCE_DIR) -name '*.xml' | xargs perl -i.orig -p -e \
+	find $(SOURCE_DIR) -name '*.xml' | xargs $(PERL) -i.orig -p -e \
 	 's{SYSTEM ".*/X11/defs.ent"}{SYSTEM "$(X11_DIR)/share/sgml/X11/defs.ent"}'
 
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)

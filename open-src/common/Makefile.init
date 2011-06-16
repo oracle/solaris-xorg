@@ -287,6 +287,12 @@ PYTHON_VERSION=2.6
 PYTHON=/usr/bin/python$(PYTHON_VERSION)
 PYTHON_PATH=$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/vendor-packages:$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/vendor-packages:/usr/lib/python$(PYTHON_VERSION)/site-packages
 
+## Perl tools & paths
+# When changing PERL_VERSION, check that PERL_PKG_VERSION is
+# still set correctly in pkg/Makefile
+PERL_VERSION = 5.12
+PERL = /usr/perl5/$(PERL_VERSION)/bin/perl
+
 # Script used to install files in proto area
 INSTALL_SCRIPT=$(TOP)/open-src/common/install-sh -c
 
@@ -311,9 +317,6 @@ FC_SCAN=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-scan
 # Sets PS4 to "" so output isn't prepended with "+ " and looks like normal
 # make output
 START_CMD_ECHO = PS4="" ; set -x
-
-# Other tools used during build
-PERL = /usr/perl5/bin/perl
 
 ### Sources, in-tree and upstream
 
