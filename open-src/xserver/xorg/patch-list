@@ -28,3 +28,4 @@ vt.patch,-p1
 6912996.patch,-p1
 record-regset.patch,-p1
 autodetect-kernel-dev-fb.patch,-p1
+CR7054054.patch,-p0

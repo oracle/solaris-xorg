@@ -1,0 +1,316 @@
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/xf86Globals.c
+--- hw/xfree86/common/xf86Globals.c	2011-06-16 07:12:02.147878487 -0400
++++ hw/xfree86/common/xf86Globals.c	2011-06-15 14:15:33.000000000 -0400
+@@ -103,6 +103,8 @@ xf86InfoRec xf86Info = {
+     .vtPendingNum               = -1,
+ #endif
+     .dontVTSwitch               = FALSE,
++    .autoVTSwitch               = TRUE,
++    .ShareVTs                   = FALSE,
+     .dontZap                    = FALSE,
+     .dontZoom                   = FALSE,
+     .notrapSignals              = FALSE,
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
+--- hw/xfree86/common/xf86Init.c	2011-06-16 07:12:02.229728639 -0400
++++ hw/xfree86/common/xf86Init.c	2011-06-15 14:18:08.000000000 -0400
+@@ -1334,6 +1334,16 @@ ddxProcessArgument(int argc, char **argv
+     xf86xkbdirFlag = TRUE;
+     return 0;
+   }
++  if (!strcmp(argv[i], "-novtswitch"))
++  {
++    xf86Info.autoVTSwitch = FALSE;
++    return 1;
++  }
++  if (!strcmp(argv[i], "-sharevts"))
++  {
++    xf86Info.ShareVTs = TRUE;
++    return 1;
++  }
+ 
+   /* OS-specific processing */
+   return xf86ProcessArgument(argc, argv, i);
+@@ -1390,6 +1400,8 @@ ddxUseMsg(void)
+   ErrorF("-version               show the server version\n");
+   ErrorF("-showDefaultModulePath show the server default module path\n");
+   ErrorF("-showDefaultLibPath    show the server default library path\n");
++  ErrorF("-novtswitch            don't automatically switch VT at reset & exit\n");
++  ErrorF("-sharevts              share VTs with another X server\n");
+   /* OS-specific usage */
+   xf86UseMsg();
+   ErrorF("\n");
+diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Privstr.h hw/xfree86/common/xf86Privstr.h
+--- hw/xfree86/common/xf86Privstr.h	2010-11-14 05:27:21.000000000 -0500
++++ hw/xfree86/common/xf86Privstr.h	2011-06-15 14:19:12.000000000 -0400
+@@ -66,6 +66,8 @@ typedef struct {
+     int			vtPendingNum;
+ #endif
+     Bool		dontVTSwitch;
++    Bool		autoVTSwitch;
++    Bool		ShareVTs;
+     Bool		dontZap;
+     Bool		dontZoom;
+     Bool		notrapSignals;	/* don't exit cleanly - die at fault */
+diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/Xorg.man hw/xfree86/doc/man/Xorg.man
+--- hw/xfree86/doc/man/Xorg.man	2011-06-16 07:12:02.427320678 -0400
++++ hw/xfree86/doc/man/Xorg.man	2011-06-15 14:33:05.000000000 -0400
+@@ -335,6 +335,10 @@ as root (i.e, with real-uid 0).
+ .B \-nosilk
+ Disable Silken Mouse support.
+ .TP 8
++.B \-novtswitch
++Disable the automatic switching on X server reset and shutdown to the
++VT that was active when the server started, if supported by the OS.
++.TP 8
+ .B \-pixmap24
+ Set the internal pixmap format for depth 24 pixmaps to 24 bits per pixel.
+ The default is usually 32 bits per pixel.  There is normally little
+@@ -377,6 +381,9 @@ and
+ .B \-ggamma
+ options.
+ .TP 8
++.B \-sharevts
++Share virtual terminals with another X server, if supported by the OS.
++.TP 8
+ .BI \-screen " screen-name"
+ Use the __xconfigfile__(__filemansuffix__) file
+ .B Screen
+diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bsd/bsd_init.c hw/xfree86/os-support/bsd/bsd_init.c
+--- hw/xfree86/os-support/bsd/bsd_init.c	2011-02-27 18:48:26.000000000 -0500
++++ hw/xfree86/os-support/bsd/bsd_init.c	2011-06-16 07:43:20.548858212 -0400
+@@ -45,7 +45,6 @@ static int devConsoleFd = -1;
+ #if defined (SYSCONS_SUPPORT) || defined (PCVT_SUPPORT)
+ static int VTnum = -1;
+ static int initialVT = -1;
+-static Bool ShareVTs = FALSE;
+ #endif
+ 
+ #ifdef PCCONS_SUPPORT
+@@ -266,7 +265,7 @@ xf86OpenConsole()
+ 	    }
+ #endif
+ acquire_vt:
+-	    if (!ShareVTs) {
++	    if (!xf86Info.ShareVTs) {
+ 		    /*
+ 		     * now get the VT
+ 		     */
+@@ -304,7 +303,7 @@ acquire_vt:
+ 		    {
+ 			FatalError("xf86OpenConsole: KDSETMODE KD_GRAPHICS failed");
+ 		    }
+-	    } else { /* ShareVTs */
++	    } else { /* xf86Info.ShareVTs */
+ 		    close(xf86Info.consoleFd);
+ 	    }	
+   	    break; 
+@@ -320,7 +319,8 @@ acquire_vt:
+     {
+ 	/* serverGeneration != 1 */
+ #if defined (SYSCONS_SUPPORT) || defined (PCVT_SUPPORT)
+-    	if (!ShareVTs) if (xf86Info.consType == SYSCONS || xf86Info.consType == PCVT)
++    	if (!xf86Info.ShareVTs &&
++	    (xf86Info.consType == SYSCONS || xf86Info.consType == PCVT))
+     	{
+ 	    if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
+ 	    {
+@@ -393,7 +393,7 @@ xf86OpenSyscons()
+ 	    if (ioctl(fd, VT_GETACTIVE, &initialVT) < 0)
+ 		initialVT = -1;
+ #endif
+-            if (ShareVTs)
++            if (xf86Info.ShareVTs)
+ 		xf86Info.vtno = initialVT;
+ 
+ 	    if (xf86Info.vtno == -1)
+@@ -655,7 +655,7 @@ xf86CloseConsole()
+     struct vt_mode   VT;
+ #endif
+ 
+-    if (ShareVTs) return;
++    if (xf86Info.ShareVTs) return;
+ 
+     switch (xf86Info.consType)
+     {
+@@ -723,11 +723,6 @@ xf86ProcessArgument(int argc, char *argv
+ 		return 1;
+ 	}
+ #if defined (SYSCONS_SUPPORT) || defined (PCVT_SUPPORT)
+-	if (!strcmp(argv[i], "-sharevts"))
+-	{	
+-		ShareVTs = TRUE;
+-		return 1;
+-	}
+ 	if ((argv[i][0] == 'v') && (argv[i][1] == 't'))
+ 	{
+ 		if (sscanf(argv[i], "vt%2d", &VTnum) == 0 ||
+diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/os-support/linux/lnx_init.c
+--- hw/xfree86/os-support/linux/lnx_init.c	2010-12-02 15:25:57.000000000 -0500
++++ hw/xfree86/os-support/linux/lnx_init.c	2011-06-16 07:39:56.547383139 -0400
+@@ -39,8 +39,6 @@
+ #include <sys/stat.h>
+ 
+ static Bool KeepTty = FALSE;
+-static Bool VTSwitch = TRUE;
+-static Bool ShareVTs = FALSE;
+ static int activeVT = -1;
+ 
+ static char vtname[11];
+@@ -105,7 +103,7 @@ xf86OpenConsole(void)
+ 		    "xf86OpenConsole: Cannot open /dev/tty0 (%s)\n",
+ 		    strerror(errno));
+ 
+-            if (ShareVTs)
++            if (xf86Info.ShareVTs)
+             {
+                 if (ioctl(fd, VT_GETSTATE, &vts) == 0)
+                     xf86Info.vtno = vts.v_active;
+@@ -177,7 +175,7 @@ xf86OpenConsole(void)
+ 	}
+ #endif
+ 
+-        if (!ShareVTs)
++        if (!xf86Info.ShareVTs)
+         {
+             struct termios nTty;
+ 
+@@ -229,7 +227,7 @@ xf86OpenConsole(void)
+ 	     * of Init?$#*&Device(). So I just place it here */
+         }
+     } else { 	/* serverGeneration != 1 */
+-        if (!ShareVTs && VTSwitch)
++        if (!xf86Info.ShareVTs && xf86Info.autoVTSwitch)
+         {
+ 	    /* now get the VT */
+             switch_to(xf86Info.vtno, "xf86OpenConsole");
+@@ -242,7 +240,7 @@ xf86CloseConsole(void)
+ {
+     struct vt_mode   VT;
+ 
+-    if (ShareVTs) {
++    if (xf86Info.ShareVTs) {
+         close(xf86Info.consoleFd);
+         return;
+     }
+@@ -271,7 +269,7 @@ xf86CloseConsole(void)
+ 		    strerror(errno));
+     }
+ 
+-    if (VTSwitch)
++    if (xf86Info.autoVTSwitch)
+     {
+         /*
+          * Perform a switch back to the active VT when we were started
+@@ -296,16 +294,6 @@ xf86ProcessArgument(int argc, char *argv
+ 		KeepTty = TRUE;
+ 		return 1;
+ 	}
+-        if (!strcmp(argv[i], "-novtswitch"))
+-        {
+-                VTSwitch = FALSE;
+-                return 1;
+-        }
+-        if (!strcmp(argv[i], "-sharevts"))
+-        {
+-                ShareVTs = TRUE;
+-                return 1;
+-        }
+ 	if ((argv[i][0] == 'v') && (argv[i][1] == 't'))
+ 	{
+ 		if (sscanf(argv[i], "vt%2d", &xf86Info.vtno) == 0)
+@@ -325,6 +313,4 @@ xf86UseMsg(void)
+ 	ErrorF("vtXX                   use the specified VT number\n");
+ 	ErrorF("-keeptty               ");
+ 	ErrorF("don't detach controlling tty (for debugging only)\n");
+-	ErrorF("-novtswitch            don't immediately switch to new VT\n");
+-	ErrorF("-sharevts              share VTs with another X server\n");
+ }
+diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree86/os-support/solaris/sun_init.c
+--- hw/xfree86/os-support/solaris/sun_init.c	2011-06-16 07:12:02.278692640 -0400
++++ hw/xfree86/os-support/solaris/sun_init.c	2011-06-15 14:51:09.000000000 -0400
+@@ -66,6 +66,22 @@ static char consoleDev[PATH_MAX] = "/dev
+    Used by hw/xfree86/common/xf86AutoConfig.c for VIS_GETIDENTIFIER */
+ _X_HIDDEN char xf86SolarisFbDev[PATH_MAX] = "/dev/fb";
+ 
++static void
++switch_to(int vt, const char *from)
++{
++    int ret;
++
++    SYSCALL(ret = ioctl(xf86Info.consoleFd, VT_ACTIVATE, vt));
++    if (ret != 0)
++        xf86Msg(X_WARNING, "%s: VT_ACTIVATE failed: %s\n",
++		from, strerror(errno));
++
++    SYSCALL(ret = ioctl(xf86Info.consoleFd, VT_WAITACTIVE, vt));
++    if (ret != 0)
++        xf86Msg(X_WARNING, "%s: VT_WAITACTIVE failed: %s\n",
++		from, strerror(errno));
++}
++
+ void
+ xf86OpenConsole(void)
+ {
+@@ -173,6 +189,11 @@ xf86OpenConsole(void)
+ 	    xf86Info.vtno = VTnum;
+ 	    from = X_CMDLINE;
+ 	}
++	else if (xf86Info.ShareVTs)
++	{
++	    xf86Info.vtno = vtinfo.v_active;
++	    from = X_CMDLINE;
++	}
+ 	else
+ 	{
+ 	    if ((ioctl(fd, VT_OPENQRY, &xf86Info.vtno) < 0) ||
+@@ -204,16 +225,15 @@ OPENCONSOLE:
+ 	chown(consoleDev, getuid(), getgid());
+ 
+ #ifdef HAS_USL_VTS
++	if (xf86Info.ShareVTs)
++	    return;
++
+ 	if (vtEnabled)
+ 	{
+ 	    /*
+ 	     * Now get the VT
+ 	     */
+-	    if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
+-		xf86Msg(X_WARNING, "xf86OpenConsole: VT_ACTIVATE failed\n");
+-
+-	    if (ioctl(xf86Info.consoleFd, VT_WAITACTIVE, xf86Info.vtno) != 0)
+-		xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
++	    switch_to(xf86Info.vtno, "xf86OpenConsole");
+ 
+ #ifdef VT_SET_CONSUSER /* added in snv_139 */
+ 	    if (strcmp(display, "0") == 0)
+@@ -254,16 +274,13 @@ OPENCONSOLE:
+     else /* serverGeneration != 1 */
+     {
+ #ifdef HAS_USL_VTS
+-	if (vtEnabled)
++	if (vtEnabled && !xf86Info.ShareVTs)
+ 	{
+ 	    /*
+ 	     * Now re-get the VT
+ 	     */
+-	    if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86Info.vtno) != 0)
+-		xf86Msg(X_WARNING, "xf86OpenConsole: VT_ACTIVATE failed\n");
+-
+-	    if (ioctl(xf86Info.consoleFd, VT_WAITACTIVE, xf86Info.vtno) != 0)
+-		xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
++	    if (xf86Info.autoVTSwitch)
++		switch_to(xf86Info.vtno, "xf86OpenConsole");
+ 
+ #ifdef VT_SET_CONSUSER /* added in snv_139 */
+ 	    if (strcmp(display, "0") == 0)
+@@ -352,7 +369,8 @@ xf86CloseConsole(void)
+ 	}
+ 
+ 	/* Activate the VT that X was started on */
+-	ioctl(xf86Info.consoleFd, VT_ACTIVATE, xf86StartVT);
++	if (xf86Info.autoVTSwitch)
++	    switch_to(xf86StartVT, "xf86CloseConsole");
+     }
+ #endif /* HAS_USL_VTS */
+ 
