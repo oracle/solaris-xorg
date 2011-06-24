@@ -1,6 +1,6 @@
 #!/bin/ksh93
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 #
 #
 
-LINKDIR=/var/run/opengl
+LINKDIR=/system/volatile/opengl
 
 PATH=/usr/bin:/usr/sbin
 

@@ -107,6 +107,7 @@ PKGS= $(MANIFESTS:%.p5m=%)
 # different sets of transforms and macros for pkgmogrify.
 #
 SYNTH_PKGS= X-incorporation X-redistributable
+SYNTH_MANIFESTS = $(SYNTH_PKGS:%=%.p5m)
 
 # Any given package list may be empty, but we can only determine that 
 # dynamically, so we always generate all lists.
@@ -304,7 +305,9 @@ $(PROC_SYNTH_PKGS): $(PKGLISTS) $$(@F:%.mog=%.p5m)
 
 ### Dependency detection
 DEP_PKGS= $(PKGS:%=$(PDIR)/%.dep)
-DEP_SYNTH_PKGS= $(SYNTH_PKGS:%=$(PDIR)/%.dep)
+DEP_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.dep)
+DEP_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.dep)
+DEP_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.dep)
 
 PKGDEP_TOKENS_i386= \
 	'PLATFORM=i86hvm' \
@@ -329,21 +332,16 @@ $(PDIR)/%.dep: $(PDIR)/%.mog
 		$(CP) $(<) $(@); \
 	fi
 
-$(DEP_SYNTH_PKGS): $$(@:%.dep=%.mog)
+$(DEP_SYNTH_PKGS) $(DEP_LEGACY_PKGS): $$(@:%.dep=%.mog)
 	@print "## Skipping dependency generation for $(@F:%.dep=%)"
 	$(PKGDEBUG)$(CP) $(@:%.dep=%.mog) $(@)
 
 ### Dependency resolution
 
-#
-# This rule resolves dependencies across all published manifests.
-# We should be able to do this with
-#
-#    pkgdepend resolve -m $(PUB_PKGS:%.pub=%.dep)
-#
-# but until 14113 is fixed, the incorporations confuse pkgdepend, so we
-# just create the .res file for DEP_SYNTH_PKGS directly.
-#
+DEP_RES_PKGS = $(PKGS:%=$(PDIR)/%.dep.res)
+DEP_RES_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.dep.res)
+DEP_RES_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.dep.res)
+DEP_RES_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.dep.res)
 
 PKGDEP_VERBOSE_FLAG_0 =
 PKGDEP_VERBOSE_FLAG_1 = -v
@@ -353,27 +351,36 @@ PKGDEP_VERBOSE_FLAG = $(PKGDEP_VERBOSE_FLAG_$(V))
 # Normally / on the machine used to build the binaries
 PKGDEP_RESOLVE_IMAGE = /
 
-$(PDIR)/gendeps: $(DEP_SYNTH_PKGS) $(DEP_PKGS)
-	-$(PKGDEBUG)if [[ "$(SUPPRESSPKGDEP)" = "true" ]]; then \
+# This rule resolves dependencies across all manifests for packages
+# currently delivering files.
+$(PDIR)/gendeps: $(DEP_CURRENT_PKGS)
+	$(PKGDEBUG)if [[ "$(SUPPRESSPKGDEP)" = "true" ]]; then \
 		print "## Suppressing dependency resolution"; \
-		for p in $(DEP_PKGS:%.dep=%); do \
-			$(CP) $$p.dep $$p.res; \
+		for p in $(DEP_CURRENT_PKGS:%.dep=%); do \
+			$(CP) $$p.dep $$p.dep.res; \
 		done; \
 	else \
 		print "## Resolving dependencies"; \
 		pkgdepend -R $(PKGDEP_RESOLVE_IMAGE) resolve \
-		    $(PKGDEP_VERBOSE_FLAG) -m $(DEP_PKGS); \
-		for p in $(DEP_PKGS:%.dep=%); do \
-			$(MV) $$p.dep.res $$p.res; \
-		done; \
+		    $(PKGDEP_VERBOSE_FLAG) -m $(DEP_CURRENT_PKGS) ; \
 	fi
-	$(PKGDEBUG)for p in $(DEP_SYNTH_PKGS:%.dep=%); \
-	do \
-		$(CP) $$p.dep $$p.res; \
-	done
 	$(PKGDEBUG)$(TOUCH) $(@)
 
 gendeps: $(PDIR)/gendeps
+$(DEP_RES_CURRENT_PKGS): $(PDIR)/gendeps
+
+$(DEP_RES_SYNTH_PKGS) $(DEP_RES_LEGACY_PKGS): $$(@:%.dep.res=%.dep)
+	@print "## Skipping dependency generation for $(@F:%.dep.res=%)"
+	$(PKGDEBUG)$(CP) $(@:%.dep.res=%.dep) $(@)
+
+# Post-processing of manifests after dependency resolution
+$(PDIR)/%.res: $(PDIR)/%.dep.res
+	$(PKGDEBUG)if [[ -s $< ]] ; then \
+		$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
+			-O $@ $< post-pkgdepend ; \
+	else \
+		$(CP) $< $@ ; \
+	fi
 
 ### pkglint checking (pre-publication)
 

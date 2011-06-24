@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,6 +66,7 @@ file path=usr/share/doc/glut/ogl_sm.png
 file path=usr/share/doc/glut/progress.html
 file path=usr/share/doc/glut/structure.html
 #
-depend fmri=pkg:/service/opengl/ogl-select type=require
+# Autodetected for now:
+# depend fmri=pkg:/service/opengl/ogl-select type=require
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
 

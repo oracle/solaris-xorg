@@ -128,5 +128,6 @@ link path=usr/lib/mesa/64 target=$(ARCH64)
 link path=usr/lib/mesa/libGL.so target=libGL.so.1
 link path=usr/lib/mesa/libGLU.so target=libGLU.so.1
 link path=usr/lib/mesa/libGLw.so target=libGLw.so.1
-depend fmri=pkg:/service/opengl/ogl-select type=require
+# Autodetected for now
+# depend fmri=pkg:/service/opengl/ogl-select type=require
 depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true

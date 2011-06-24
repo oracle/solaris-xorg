@@ -19,6 +19,9 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
+# Mark /system/volatile/* paths to be removed after pkgdepend, before publishing
+<transform dir link path=system/volatile.* -> set org.opensolaris.nopublish true>
 set name=pkg.fmri value=pkg:/service/opengl/ogl-select@$(OSPKGVERS)
 set name=pkg.description \
     value="ogl-select is a SMF service that determines at boot time which vendor supplied OpenGL headers and libraries will be used, based on the hardware and drivers installed in the system."
@@ -49,6 +52,13 @@ dir path=usr/lib/xorg/modules/extensions
 dir path=usr/share
 dir path=usr/share/man
 dir path=usr/share/man/man1
+# These dirs are used to resolve dependencies during the build but are not
+# published in the packages as they're created at runtime by the SMF service
+dir path=system/volatile/opengl
+dir path=system/volatile/opengl/include
+dir path=system/volatile/opengl/lib
+dir path=system/volatile/opengl/lib/$(ARCH64)
+dir path=system/volatile/opengl/server
 file path=lib/opengl/ogl_select/mesa_vendor_select mode=0555
 $(i386_ONLY)file path=lib/opengl/ogl_select/nvidia_vendor_select mode=0555
 $(sparc_ONLY)file path=lib/opengl/ogl_select/sun_vendor_select mode=0555
@@ -62,23 +72,39 @@ link path=usr/X11/lib/64 target=$(ARCH64)
 link path=usr/X11/lib/GL target=../../lib/GL
 link path=usr/X11/lib/libGL.so target=libGL.so.1
 link path=usr/X11/lib/libGL.so.1 target=GL/libGL.so.1
-link path=usr/include/GL/gl.h target=../../../var/run/opengl/include/gl.h
+link path=usr/include/GL/gl.h target=../../../system/volatile/opengl/include/gl.h
 link path=usr/include/GL/glext.h \
-    target=../../../var/run/opengl/include/glext.h
-link path=usr/include/GL/glx.h target=../../../var/run/opengl/include/glx.h
+    target=../../../system/volatile/opengl/include/glext.h
+link path=usr/include/GL/glx.h target=../../../system/volatile/opengl/include/glx.h
 link path=usr/include/GL/glxext.h \
-    target=../../../var/run/opengl/include/glxext.h
+    target=../../../system/volatile/opengl/include/glxext.h
 link path=usr/lib/$(ARCH64)/libGL.so target=libGL.so.1
 link path=usr/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
 link path=usr/lib/GL/$(ARCH64)/libGL.so target=libGL.so.1
 link path=usr/lib/GL/$(ARCH64)/libGL.so.1 \
-    target=../../../../var/run/opengl/lib/$(ARCH64)/libGL.so.1
+    target=../../../../system/volatile/opengl/lib/$(ARCH64)/libGL.so.1
 link path=usr/lib/GL/64 target=$(ARCH64)
 link path=usr/lib/GL/libGL.so target=libGL.so.1
-link path=usr/lib/GL/libGL.so.1 target=../../../var/run/opengl/lib/libGL.so.1
+link path=usr/lib/GL/libGL.so.1 target=../../../system/volatile/opengl/lib/libGL.so.1
 link path=usr/lib/libGL.so target=libGL.so.1
 link path=usr/lib/libGL.so.1 target=GL/libGL.so.1
 link path=usr/lib/xorg/modules/extensions/libglx.so \
-    target=../../../../../var/run/opengl/server/libglx.so
+    target=../../../../../system/volatile/opengl/server/libglx.so
+# These links are used to resolve dependencies during the build but are not
+# published in the packages as they're created at runtime by the SMF service
+link path=system/volatile/opengl/include/gl.h target=../../../../usr/include/mesa/gl.h
+link path=system/volatile/opengl/include/glext.h \
+    target=../../../../usr/include/mesa/glext.h
+link path=system/volatile/opengl/include/glx.h \
+    target=../../../../usr/include/mesa/glx.h
+link path=system/volatile/opengl/include/glxext.h \
+    target=../../../../usr/include/mesa/glxext.h
+link path=system/volatile/opengl/lib/$(ARCH64)/libGL.so.1 \
+    target=../../../../../usr/lib/mesa/$(ARCH64)/libGL.so.1
+link path=system/volatile/opengl/lib/64 target=$(ARCH64)
+link path=system/volatile/opengl/lib/libGL.so.1 \
+    target=../../../../usr/lib/mesa/libGL.so.1
+link path=system/volatile/opengl/server/libglx.so \
+    target=../../../../usr/lib/mesa/modules/extensions/libglx.so
 # constype is required to detect which vendor_select script to run
 depend fmri=pkg:/diagnostic/constype type=require

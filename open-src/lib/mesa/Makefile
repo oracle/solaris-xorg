@@ -153,7 +153,7 @@ install_ogl_layout: $(INSTALL_RULES)
 	-rm -f $(HEADERS_TO_DIRECT_LINK:%=$(PROTODIR)/usr/include/GL/%) \
 	       $(HEADERS_TO_RUNTIME_LINK:%=$(PROTODIR)/usr/include/GL/%)
 	ln -s $(HEADERS_TO_DIRECT_LINK:%=../mesa/%) \
-	      $(HEADERS_TO_RUNTIME_LINK:%=../../../var/run/opengl/include/%) \
+	      $(HEADERS_TO_RUNTIME_LINK:%=../../../system/volatile/opengl/include/%) \
 	      $(PROTODIR)/usr/include/GL
 	mkdir -p $(PROTODIR)/usr/lib/GL/$(SUBDIR64) \
 		 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)
@@ -188,9 +188,9 @@ install_ogl_layout: $(INSTALL_RULES)
 	    ln -s $(LIBRARIES_TO_DIRECT_LINK:%=../../mesa/$(SUBDIR64)/%) .)
 	-rm -f $(PROTODIR)/usr/lib/GL/libGL.so.1 \
 	       $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1
-	ln -s ../../../var/run/opengl/lib/libGL.so.1 \
+	ln -s ../../../system/volatile/opengl/lib/libGL.so.1 \
 		$(PROTODIR)/usr/lib/GL/libGL.so.1
-	ln -s ../../../../var/run/opengl/lib/$(SUBDIR64)/libGL.so.1 \
+	ln -s ../../../../system/volatile/opengl/lib/$(SUBDIR64)/libGL.so.1 \
 		$(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1
 	mkdir -p $(PROTODIR)/usr/X11/lib/$(SUBDIR64) \
 		 $(PROTODIR)/usr/X11/include

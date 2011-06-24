@@ -23,7 +23,7 @@
 #
 #
 
-LINKDIR=/var/run/opengl
+LINKDIR=/system/volatile/opengl
 
 PATH=/usr/bin:/usr/sbin
 

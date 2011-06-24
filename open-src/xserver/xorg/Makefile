@@ -217,7 +217,7 @@ install_fix_paths_glxmodule: default_install
 	mkdir -p $(PROTODIR)$(MESA_MODULE_DIR)/
 	mv -f $(PROTODIR)$(EXT_MODULE_DIR)/libglx.so \
 	      $(PROTODIR)$(MESA_MODULE_DIR)/libglx.so
-	ln -s ../../../../../var/run/opengl/server/libglx.so \
+	ln -s ../../../../../system/volatile/opengl/server/libglx.so \
 	      $(PROTODIR)$(EXT_MODULE_DIR)/libglx.so
 
 install_fix_paths: install_fix_paths_glxmodule
