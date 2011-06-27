@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,17 +21,29 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
+<transform pkg -> default pkg.obsolete false>
+<transform pkg -> default pkg.renamed false>
+
+# 
+# Non-obsolete packages should be included in the consolidation 
+# incorporation, unless marked otherwise
 #
-# Ordering is important here, and the last line wins.
-#
-# The default of "current" is provided by the calling environment,
-# rather than a print operation.
-#
-<transform set name=pkg.renamed value=true -> print PKGSTAT=renamed>
-<transform set name=pkg.obsolete value=true -> print PKGSTAT=obsolete>
-<transform set name=org.opensolaris.grouponly value=true -> print PKGSTAT=grouponly>
-<transform set name=org.opensolaris.grouponly -> drop>
-<transform set name=org.opensolaris.nodepend value=true -> print NODEPEND=true>
-<transform set name=org.opensolaris.nodepend -> drop>
-<transform set name=org.opensolaris.noincorp value=true -> print PKGSTAT=noincorp>
+<transform pkg -> default org.opensolaris.noincorp false>
+<transform pkg -> default org.opensolaris.incorporation \
+    pkg:/consolidation/X/X-incorporation>
+<transform pkg pkg.obsolete=false org.opensolaris.noincorp=false -> print \
+    %(org.opensolaris.incorporation): depend fmri=%{pkg.fmri} type=incorporate>
+<transform pkg pkg.obsolete=false org.opensolaris.noincorp=false -> emit \
+    depend fmri=%(org.opensolaris.incorporation) type=require>
 <transform set name=org.opensolaris.noincorp -> drop>
+<transform set name=org.opensolaris.incorporation -> drop>
+
+# 
+# Packages that are neither obsolete nor renamed should be included in
+# the X-redistributable group package, unless marked otherwise
+#
+<transform pkg -> default org.opensolaris.nogroup false>
+<transform pkg pkg.renamed=false pkg.obsolete=false \
+    org.opensolaris.nogroup=false pkg.fmri=^(.*)@.* -> print \
+    pkg:/consolidation/X/X-redistributable: depend fmri=%<1> type=require>
+<transform set name=org.opensolaris.nogroup -> drop>

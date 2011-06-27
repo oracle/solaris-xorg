@@ -27,5 +27,3 @@ set name=pkg.description \
 set name=pkg.summary value="X consolidation group package"
 set name=info.classification \
     value="org.opensolaris.category.2008:Meta Packages/Group Packages"
-<include packages.current>
-<include packages.grouponly>

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-#
-# When we process the synthetic manifests, we don't know if a "make
-# clobber" was done or not.  This keeps us from having silly,
-# self-referential dependencies in 'em, even when they make it into
-# the package lists.
-#
-<transform depend fmri=pkg:/consolidation/X/X-incorporation@.+ -> drop>
+# Generate the sed command used to extract the metadata for this synthetic
+# package from the *.synth files for the other packages
+
+<transform pkg pkg.fmri=^(.*)@.* -> print s|^%<1>: ||p>

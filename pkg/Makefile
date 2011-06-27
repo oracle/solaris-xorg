@@ -109,32 +109,6 @@ PKGS= $(MANIFESTS:%.p5m=%)
 SYNTH_PKGS= X-incorporation X-redistributable
 SYNTH_MANIFESTS = $(SYNTH_PKGS:%=%.p5m)
 
-# Any given package list may be empty, but we can only determine that 
-# dynamically, so we always generate all lists.
-#
-# The meanings of each package status are as follows:
-#
-# 	PKGSTAT		meaning
-# 	----------	----------------------------------------------------
-# 	noincorp	Do not include in incorporation or group package
-# 	grouponly	Include in group package, but not incorporation
-#	obsolete	Include in incorporation, but not group package
-#	renamed		Include in incorporation, but not group package
-#	current		Include in incorporation and group package
-#
-# Since the semantics of the "noincorp" package status dictate that
-# such packages are not included in the incorporation or group packages,
-# there is no need to build noincorp package lists.
-#
-# Since packages depend on their incorporation, noincorp necessarily
-# implies nodepend, or it would inadvertently pull in other packages.
-#
-PKGLISTS= \
-	$(PDIR)/packages.current \
-	$(PDIR)/packages.grouponly \
-	$(PDIR)/packages.renamed \
-	$(PDIR)/packages.obsolete
-
 # Manifests are in either manifests or legacy directory - merge in $(PDIR)
 $(PDIR)/%.p5m: manifests/%.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
@@ -148,6 +122,10 @@ $(PDIR)/%.p5m: %.p5m
 PMANIFESTS = $(MANIFESTS:%=$(PDIR)/%)
 manifests: $(PMANIFESTS)
 $(PMANIFESTS): $(PDIR)
+
+SMANIFESTS = $(SYNTH_MANIFESTS:%=$(PDIR)/%)
+manifests: $(SMANIFESTS)
+$(SMANIFESTS): $(PDIR)
 
 ### Additional metadata generation
 
@@ -220,21 +198,19 @@ PKGMOG_DEFINES += PYTHON_PATH_VERSION=$(PYTHON_VERSION)
 PYTHON_PKG_VERSION_CMD = print $(PYTHON_VERSION) | tr -d '.'
 PKGMOG_DEFINES += PYTHON_PKG_VERSION=$(PYTHON_PKG_VERSION_CMD:sh)
 
+PROC_PKGS = $(PKGS:%=$(PDIR)/%.mog)
+PROC_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.mog)
+PROC_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.mog)
+PROC_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.mog)
 
 # Default transformations to apply
 PM_TRANSFORMS = $(PKG_BRANDING_TRANSFORMS) \
 		common_actions publish restart_fmri facets \
-		licenses $(PDIR)/versions extract_metadata
+		licenses $(PDIR)/versions
 PM_INC = transforms
 
-PKGDEP_INCORP = depend fmri=pkg:/consolidation/X/X-incorporation type=require
-
-PROC_PKGS = $(PKGS:%=$(PDIR)/%.mog)
-PROC_SYNTH_PKGS = $(SYNTH_PKGS:%=$(PDIR)/%.mog)
-PROC_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.mog)
-
-# Extra transforms for non-legacy packages
-$(PROC_CURRENT_PKGS):= EXTRA_TRANSFORMS = defaults
+# Additional transforms for specific types of packages
+$(PROC_CURRENT_PKGS) $(PROC_SYNTH_PKGS) := EXTRA_TRANSFORMS = defaults
 
 mogrify: $(PROC_PKGS)
 $(PROC_PKGS): $(PDIR)/versions
@@ -251,57 +227,13 @@ $(PDIR)/%.attr:
 
 $(PDIR)/%.mog: $(PDIR)/%.p5m $(PDIR)/%.attr
 	@print "## Processing manifest $(@F:.mog=.p5m)"
-	$(PKGDEBUG)$(RM) $(@) $(@:%.mog=%) $(@:%.mog=%.nodepend) \
-		$(@:%.mog=%.metadata.*) $(@).vars
+	$(PKGDEBUG)$(RM) $(@) $(@:%.mog=%) \
+		$(@:%.mog=%.metadata.*) $(@:%.mog=%.synth)
 	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
-		$(PKGMOG_DEFINES:%=-D %) -P $(@).vars -O $(@) \
-		$(@:.mog=.p5m) $(@:.mog=.attr) \
-		$(PM_TRANSFORMS) $(EXTRA_TRANSFORMS) 
-	$(PKGDEBUG)if [[ -f $(@) ]]; then \
-		eval PKGSTAT=current NODEPEND="$(SUPPRESSPKGDEP)" \
-			$$(cat -s $(@).vars) ; \
-		if [[ "$$NODEPEND" != "false" || "$$PKGSTAT" = "noincorp" ]]; \
-		then \
-			$(TOUCH) $(@:%.mog=%.nodepend); \
-		fi; \
-		$(LN) -s $(@F) \
-			$(PDIR)/$(@F:%.mog=%).metadata.$$PKGSTAT ; \
-		if [[ "$$PKGSTAT" = "current" || "$$PKGSTAT" = "renamed"  ]]; \
-		then \
-			print $(PKGDEP_INCORP) >> $(@); \
-		fi; \
-	else \
-		$(TOUCH) $(@); \
-	fi
-	$(PKGDEBUG)$(RM) $(@).vars
-
-# make the package lists from the real manifests for the synthetic manifests
-$(PKGLISTS): $(PROC_PKGS)
-	@print "## Generating $(@F:packages.%=%) package list"
-	$(PKGDEBUG)$(PERL) -nl -w -Mdiagnostics \
-	 -e 'if ($$_ =~ m{name=pkg.fmri value=(\S+)}) {' \
-	 -e '   printf "depend fmri=$$1 type=\$$(PKGDEP_TYPE)\n";' \
-	 -e '   close ARGV; ' \
-	 -e '}' $(PDIR)/*.metadata.$(@F:packages.%=%) > $(@).new
-	$(PKGDEBUG) mv -f $(@).new $(@)
-
-pkglists: $(PKGLISTS)
-
-# The package lists are generated with $(PKGDEP_TYPE) as their
-# dependency types, so that they can be included by either an
-# incorporation or a group package.
-#
-$(PDIR)/X-redistributable.mog:= PKGDEP_TYPE= require
-$(PDIR)/X-incorporation.mog:= PKGDEP_TYPE= incorporate
-
-# rule to build the synthetic manifests
-$(PROC_SYNTH_PKGS): $(PKGLISTS) $$(@F:%.mog=%.p5m)
-	@print "## Processing synthetic manifest $(@F:%.mog=%.p5m)"
-	$(PKGDEBUG)$(RM) $(@) $(@:%.mog=%).metadata.*
-	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) -I transforms -I $(PDIR) \
-		$(PKGMOG_DEFINES:%=-D %) -D PKGDEP_TYPE=$(PKGDEP_TYPE) \
-		-O $(@) $(@F:%.mog=%.p5m) \
-		$(PM_TRANSFORMS) defaults synthetic
+		$(PKGMOG_DEFINES:%=-D %) -O $(@) \
+		$(@:%.mog=%.p5m) $(@:%.mog=%.attr) \
+		$(PM_TRANSFORMS) $(EXTRA_TRANSFORMS)
+	$(PKGDEBUG)$(TOUCH) $(@)
 
 ### Dependency detection
 DEP_PKGS= $(PKGS:%=$(PDIR)/%.dep)
@@ -325,7 +257,7 @@ PKGDEP_TOKENS= $(PKGDEP_TOKENS_$(PKGMACH))
 $(PDIR)/%.dep: $(PDIR)/%.mog
 	@print "## Generating dependencies for $(<F)"
 	$(PKGDEBUG)$(RM) $(@)
-	$(PKGDEBUG)if [[ ! -f $(@:%.dep=%.nodepend) ]]; then \
+	$(PKGDEBUG)if [[ "$(SUPPRESSPKGDEP)" != "true" ]]; then \
 		pkgdepend generate -m $(PKGDEP_TOKENS:%=-D %) $(<) \
 			$(PKGROOT) > $(@); \
 	else \
@@ -374,13 +306,29 @@ $(DEP_RES_SYNTH_PKGS) $(DEP_RES_LEGACY_PKGS): $$(@:%.dep.res=%.dep)
 	$(PKGDEBUG)$(CP) $(@:%.dep.res=%.dep) $(@)
 
 # Post-processing of manifests after dependency resolution
+RES_PKGS = $(PKGS:%=$(PDIR)/%.res)
+RES_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.res)
+RES_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.res)
+RES_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.res)
+
+POST_TRANSFORMS = post-pkgdepend extract_metadata
 $(PDIR)/%.res: $(PDIR)/%.dep.res
+	@print "## Post-processing manifest for $(@F:%.res=%)"
 	$(PKGDEBUG)if [[ -s $< ]] ; then \
 		$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
-			-O $@ $< post-pkgdepend ; \
+		 -O $@ -P $(@:%.res=%.synth) $< $(POST_TRANSFORMS) ; \
 	else \
 		$(CP) $< $@ ; \
 	fi
+
+# Generate info for synthetic manifests
+$(RES_SYNTH_PKGS): $(RES_PKGS) $$(@:%.res=%.dep.res)
+	@print "## Gathering package lists for synthetic package $(@F:%.res=%)"
+	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
+		-O $(@) -P $(@:%.res=%.synth.sed) \
+		$(@:%.res=%.dep.res) synthetic
+	$(PKGDEBUG)$(SED) -n -f $(@:%.res=%.synth.sed) $(PDIR)/*.synth >> $(@)
+
 
 ### pkglint checking (pre-publication)
 

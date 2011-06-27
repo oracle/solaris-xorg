@@ -28,6 +28,3 @@ set name=pkg.description \
 set name=pkg.summary value="X consolidation incorporation"
 set name=info.classification \
     value="org.opensolaris.category.2008:Meta Packages/Incorporations"
-<include packages.current>
-<include packages.renamed>
-<include packages.obsolete>
