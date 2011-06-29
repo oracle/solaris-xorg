@@ -40,10 +40,10 @@
 
 # 
 # Packages that are neither obsolete nor renamed should be included in
-# the X-redistributable group package, unless marked otherwise
+# the X-all group package, unless marked otherwise
 #
 <transform pkg -> default org.opensolaris.nogroup false>
 <transform pkg pkg.renamed=false pkg.obsolete=false \
     org.opensolaris.nogroup=false pkg.fmri=^(.*)@.* -> print \
-    pkg:/consolidation/X/X-redistributable: depend fmri=%<1> type=require>
+    pkg:/consolidation/X/X-all: depend fmri=%<1> type=group>
 <transform set name=org.opensolaris.nogroup -> drop>

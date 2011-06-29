@@ -106,7 +106,7 @@ PKGS= $(MANIFESTS:%.p5m=%)
 # build rules and dependencies.  The synthetic and real packages use
 # different sets of transforms and macros for pkgmogrify.
 #
-SYNTH_PKGS= X-incorporation X-redistributable
+SYNTH_PKGS= X-incorporation X-all
 SYNTH_MANIFESTS = $(SYNTH_PKGS:%=%.p5m)
 
 # Manifests are in either manifests or legacy directory - merge in $(PDIR)
@@ -213,7 +213,7 @@ PM_INC = transforms
 $(PROC_CURRENT_PKGS) $(PROC_SYNTH_PKGS) := EXTRA_TRANSFORMS = defaults
 
 mogrify: $(PROC_PKGS)
-$(PROC_PKGS): $(PDIR)/versions
+$(PROC_PKGS) $(PROC_SYNTH_PKGS): $(PDIR)/versions
 
 # Combine & uniq metadata & license attributes generated during build
 $(PDIR)/%.attr:

@@ -21,9 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-set name=pkg.fmri value=pkg:/consolidation/X/X-redistributable@$(OSPKGVERS)
-set name=pkg.description \
-    value="This group package installs all packages from the X Window System consolidation."
-set name=pkg.summary value="X consolidation group package"
-set name=info.classification \
-    value="org.opensolaris.category.2008:Meta Packages/Group Packages"
+set name=pkg.fmri \
+    value=pkg:/consolidation/X/X-redistributable@0.5.11,5.11-0.170
+set name=pkg.renamed value=true
+depend fmri=pkg:/consolidation/X/X-all@0.5.11,5.11-0.170 type=require
