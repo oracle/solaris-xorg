@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Copyright (c) 1992, 1995, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1992, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,10 +28,12 @@
 # Usage: xmakemap > $HOME/.xmodmaprc
 #
 # Notes:
-#    OpenWindows (i.e., an X server) must be running to use xmakemap.
+#    An X server must be running to use xmakemap.
 #    Run xmakemap and edit $HOME/.xmodmaprc to customize it as desired
 #    (read "Notes" in $HOME/.xmodmaprc).
 #
+
+PATH=/usr/bin ; export PATH
 
 echo '! File:
 !    .xmodmaprc
@@ -46,7 +48,7 @@ echo '! File:
 !    xmodmap $HOME/.xmodmaprc
 !
 ! Notes:
-!  - If you would like your keytable to be customized each time OW
+!  - If you would like your keytable to be customized each time X
 !    is run, you should place the appropriate command in $HOME/.xinitrc.
 !    For example:
 !

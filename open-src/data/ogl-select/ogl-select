@@ -1,6 +1,6 @@
 #!/bin/ksh93
 #
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,11 +23,11 @@
 #
 #
 
+PATH=/usr/bin:/usr/sbin
+
 . /lib/svc/share/smf_include.sh
 
 USAGE="Usage: $0 <method>"
-
-PATH=/usr/bin:/usr/sbin
 
 DRIVER=""
 OGL_SELECT_DIR=/lib/opengl/ogl_select
@@ -100,14 +100,13 @@ readregistry()
 # Get the driver attached to the console
 DRIVER="$(/usr/bin/constype)"
 
-REGISTRY=/tmp/ogl_select$$
-if [[ -e ${REGISTRY} ]]; then
-	rm -f ${REGISTRY}
+REGISTRY="$(mktemp /tmp/ogl_select.XXXXXX)"
+if [[ -z "${REGISTRY}" ]]; then
+    print -u2 "$0: Can't create temporary file"
+    exit $SMF_EXIT_ERR_FATAL
 fi
-touch ${REGISTRY}
 
-for x in ${OGL_SELECT_DIR}/*_vendor_select
-do
+for x in ${OGL_SELECT_DIR}/*_vendor_select ; do
 	if [[ -x "$x" ]]; then
 		($x identify >> ${REGISTRY})
 	fi
@@ -129,10 +128,12 @@ VENDOR=$(print ${VENDOR} | /usr/bin/tr "[A-Z]" "[a-z]")
 # Build vendor script name
 SELECT_SCRIPT="${OGL_SELECT_DIR}/${VENDOR}_vendor_select"
 if [[ ! -x "${SELECT_SCRIPT}" ]]; then
-        print $0 "Can't execute vendor select script:" $SELECT_SCRIPT
+        print -u2 "$0: Can't execute vendor select script:" $SELECT_SCRIPT
         exit $SMF_EXIT_ERR_FATAL
 fi
 
 ($SELECT_SCRIPT)
+
+rm -f "${REGISTRY}"
 
 exit $SMF_ERR_OK

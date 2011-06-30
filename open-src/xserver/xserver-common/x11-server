@@ -1,6 +1,6 @@
-#!/bin/ksh
+#!/bin/ksh93
 #
-# Copyright (c) 2004, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,7 +24,7 @@
 
 USAGE="Usage: $0 [-d <display>] [-c <class>] <method> [-- <X server arguments>]"
 
-PATH=/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/X11/bin
+PATH=/usr/bin:/usr/sbin
 
 #########
 #
@@ -38,7 +38,7 @@ CLASSES=""
 
 while getopts c:d: opt; do
     case $opt in
-	c)	if [ "$OPTARG" != "default" ] ; then
+	c)	if [[ "$OPTARG" != "default" ]] ; then
 		    CLASSES="$CLASSES -c $OPTARG"
 		fi ;;
 	d)	DISPLAY="$OPTARG";;
@@ -49,8 +49,8 @@ done
 shift `expr $OPTIND - 1`
 
 METHOD=$1
-if [ $# -lt 1 ] ; then
-    echo $USAGE
+if [[ $# -lt 1 ]] ; then
+    print -u2 $USAGE
     exit 2
 fi
 shift
@@ -65,10 +65,10 @@ case $METHOD in
 	;;
 esac
 
-if [ "$1" = "--" ] ; then
+if [[ "$1" = "--" ]] ; then
     shift
 else
-    if [ "$1" != "" ] ; then
+    if [[ "$1" != "" ]] ; then
 	echo $USAGE
 	exit 2
     fi
