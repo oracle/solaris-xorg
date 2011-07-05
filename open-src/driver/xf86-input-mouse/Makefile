@@ -29,15 +29,14 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.0
+MODULE_VERSION=1.7.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7f31472689c15b6de62eff04d0fb57d7
-TARBALL_SHA1 = 8b99054e5e4feafd7e08c87b936e64386b74ae8f
+TARBALL_MD5  = 13276d780b8ef3a82088f009185bf42b
+TARBALL_SHA1 = 11a6402e82d65bda5fb559c5e9bc72f3fd7af2ed
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	Fix-OSMouse.patch,-p1 \
 	6892799.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list

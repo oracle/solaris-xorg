@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/mouse.c b/src/mouse.c
-index c3498ea..ba9bfef 100644
+index d981f6f..298f042 100644
 --- a/src/mouse.c
 +++ b/src/mouse.c
-@@ -1612,13 +1612,14 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1614,13 +1614,14 @@ MouseProc(DeviceIntPtr device, int what)
  	ErrorF("assigning %p atom=%d name=%s\n", device, pInfo->atom,
  		pInfo->name);
  #endif
@@ -42,7 +42,7 @@ index c3498ea..ba9bfef 100644
  	    if (pMse->xisbscale)
  		pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
  	    else
-@@ -1674,8 +1675,6 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1676,8 +1677,6 @@ MouseProc(DeviceIntPtr device, int what)
  		XisbFree(pMse->buffer);
  		pMse->buffer = NULL;
  	    }
@@ -51,7 +51,7 @@ index c3498ea..ba9bfef 100644
  	    if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
  	    {
  		RemoveBlockAndWakeupHandlers (MouseBlockHandler,
-@@ -1686,6 +1685,10 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1688,6 +1687,10 @@ MouseProc(DeviceIntPtr device, int what)
  	device->public.on = FALSE;
  	break;
      case DEVICE_CLOSE:
