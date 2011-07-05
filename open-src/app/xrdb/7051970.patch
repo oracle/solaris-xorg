@@ -1,0 +1,40 @@
+From 60577129058e018f13748b99e51ab1a17088db8e Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 16 Jun 2011 15:38:17 -0700
+Subject: [PATCH:xrdb] Tokenize #define names in the PATHETICCPP case too
+
+Fixes generation of the EXT_<extension-name> #defines, since cpp treats
+a #define EXT_MIT-SHM as a token "EXT_MIT" with a value of "-SHM".
+
+Without this fix, an xrdb built with PATHETICCPP prints warnings of:
+macro EXT_XC redefines previous macro at "", line 27
+macro EXT_XVideo redefines previous macro at "", line 33
+macro EXT_MIT redefines previous macro at "", line 35
+macro EXT_MIT redefines previous macro at "", line 37
+
+due to extension #defines such as EXT_MIT-SCREEN-SAVER & EXT_MIT-SHM
+conflicting with each other.
+
+Now matches the non-PATHETICCPP handling of #define names.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ xrdb.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/xrdb.c b/xrdb.c
+index ea698b9..cf2758a 100644
+--- a/xrdb.c
++++ b/xrdb.c
+@@ -420,7 +420,7 @@ AddDef(String *buff, char *title, char *value)
+ #ifdef PATHETICCPP
+     if (need_real_defines) {
+ 	addstring(buff, "\n#define ");
+-	addstring(buff, title);
++	addtokstring(buff, title);
+ 	if (value && (value[0] != '\0')) {
+ 	    addstring(buff, " ");
+ 	    addstring(buff, value);
+-- 
+1.7.3.2
+
