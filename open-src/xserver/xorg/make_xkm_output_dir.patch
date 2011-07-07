@@ -54,7 +54,7 @@ index a935698..7682228 100644
 -    if (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0 && (strlen(XKM_OUTPUT_DIR) < size))
 +    if ( ( (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0)
 +#ifdef MAKE_XKM_OUTPUT_DIR    
-+	   || (trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0)
++	   || (getuid() == 0 && (trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0))
 +#endif
 +	     ) && (strlen(XKM_OUTPUT_DIR) < size))
      {
