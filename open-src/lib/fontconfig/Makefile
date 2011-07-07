@@ -77,7 +77,8 @@ SOURCE_PATCHES = \
 		bitmap-hacks.patch \
 		6447517.patch \
 		6770058.patch \
-		7026635.patch
+		7026635.patch \
+		7058808.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig
