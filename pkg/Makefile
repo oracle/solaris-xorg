@@ -345,6 +345,7 @@ PKGLINTRC = prepub-pkglintrc
 #
 $(PDIR)/checkmf: $(PDIR)/gendeps $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 	@print "## Checking packages"
+	@$(RM) $@
 	@$(TOUCH) $(PDIR)/pkglint-output.txt
 	-$(PKGDEBUG)for p in $(DEP_SYNTH_PKGS:%.dep=%) $(DEP_PKGS:%.dep=%); do \
 		if [[ -s $$p.res ]]; then \
@@ -358,11 +359,12 @@ $(PDIR)/checkmf: $(PDIR)/gendeps $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 	if grep '^ERROR' $(PDIR)/pkglint-output.txt; then \
 		return 1; \
 	fi
+	@$(TOUCH) $@
 
 ### Repo setup
 
 # Default in developer builds is "xnv-devel"
-# X RE cronjob build scripts override to "xnv-nightly" or "xnv-biweekly"
+# X RE cronjob build scripts override to "xnv-nightly"
 PKGPUBLISHER = xnv-devel
 
 # Initialize the empty on-disk repositories
