@@ -807,17 +807,17 @@ METADATA_TARGETS += $(ATTRDATA_FILE)
 	-rm -f $@
 	@if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
 	    $(START_CMD_ECHO) ; \
-	    print 'set name=info.source_url value="$(SOURCE_URL)"' >> $@ ; \
+	    print 'set name=info.source-url value="$(SOURCE_URL)"' >> $@ ; \
 	fi
 	@if [[ "$(UPSTREAM)" != "NONE" ]] ; then \
 	    $(START_CMD_ECHO) ; \
 	    print 'set name=info.upstream value="$(UPSTREAM)"' >> $@ ; \
-	    print 'set name=info.upstream_url value="$(UPSTREAM_URL)"' >> $@ ; \
+	    print 'set name=info.upstream-url value="$(UPSTREAM_URL)"' >> $@ ; \
 	fi
 	@if [[ ! -z "$(MODULE_ARC_CASES)" ]] ; then \
 	    $(START_CMD_ECHO) ; \
-	    print 'set name=opensolaris.arc_url' \
-		'$(MODULE_ARC_CASES:%=value="$(ARC_URL_BASE)%/")' >> $@ ;  \
+	    print 'set name=org.opensolaris.arc-caseid' \
+		'$(MODULE_ARC_CASES:%=value="%")' >> $@ ;  \
 	fi
 	@if [[ ! -z "$(MODULE_PKGCLASS)" ]] ; then \
 	    $(START_CMD_ECHO) ; \
