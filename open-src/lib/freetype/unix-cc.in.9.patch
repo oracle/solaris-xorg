@@ -22,9 +22,11 @@
 Call compiler directly to build & link, avoiding libtool, so we can pass
 the compiler & linker flags we want.
 
---- freetype-2.4.1/builds/unix/unix-cc.in	2009-03-14 06:45:26.000000000 -0700
-+++ freetype-2.4.1/builds/unix/unix-cc.in	2010-08-05 19:38:02.381773781 -0700
-@@ -21,7 +21,7 @@ LIBTOOL ?= $(BUILD_DIR)/libtool
+diff --git a/builds/unix/unix-cc.in b/builds/unix/unix-cc.in
+index b84bc5d..d6c19bc 100644
+--- a/builds/unix/unix-cc.in
++++ b/builds/unix/unix-cc.in
+@@ -22,7 +22,7 @@ LIBTOOL := $(FT_LIBTOOL_DIR)/libtool
  # The object file extension (for standard and static libraries).  This can be
  # .o, .tco, .obj, etc., depending on the platform.
  #
@@ -33,7 +35,7 @@ the compiler & linker flags we want.
  SO := o
  
  
-@@ -35,7 +35,7 @@ E := @EXEEXT@
+@@ -36,7 +36,7 @@ E := @EXEEXT@
  # The library file extension (for standard and static libraries).  This can
  # be .a, .lib, etc., depending on the platform.
  #
@@ -42,7 +44,7 @@ the compiler & linker flags we want.
  SA := a
  
  
-@@ -84,11 +84,11 @@ CFLAGS   := -c @XX_CFLAGS@ @CFLAGS@ -DFT
+@@ -85,11 +85,11 @@ CFLAGS   := -c @XX_CFLAGS@ @CFLAGS@ -DFT_CONFIG_CONFIG_H="<ftconfig.h>"
  #
  ANSIFLAGS := @XX_ANSIFLAGS@
  
@@ -56,7 +58,7 @@ the compiler & linker flags we want.
  
  # Linker flags.
  #
-@@ -105,9 +105,8 @@ CCexe        := $(CCraw_build)	# used to
+@@ -106,9 +106,8 @@ CCexe        := $(CCraw_build)	# used to compile `apinames' only
  
  # Library linking
  #
