@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,11 @@ MODULE_LICENSE          = Bitstream Vera Fonts License
 MODULE_LICENSE_SET      = yes
 
 # Version number (used in path names)
-MODULE_VERSION=2.31
+MODULE_VERSION=2.33
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a794a75d8c43c83f0226207cd3aaf666
-TARBALL_SHA1 = 33ed20fc45566bfac776a713b3bb4f1214ccb0f7
+TARBALL_MD5  = 8b601e91725b6d69141b0fcf527948c0
+TARBALL_SHA1 = 4459d6adc3d5cfeb08e5fbe7a4310da96a58f752
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/dejavu/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
