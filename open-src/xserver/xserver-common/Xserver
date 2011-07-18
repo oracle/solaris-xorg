@@ -125,7 +125,6 @@ ORIGINAL_XSERVER="${XSERVER}"
 if [[ -f ${XSERVER} ]] ; then
     # Canonicalize path, so that we don't break people who specified path
     # via the /usr/X -> openwin or X11 link
-    builtin -f libcmd.so.1 readlink && \
     XSERVER=$(readlink -f ${XSERVER})
 else
     # Automatically select replacements for removed X servers
