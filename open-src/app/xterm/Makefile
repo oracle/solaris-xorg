@@ -46,11 +46,11 @@ UPSTREAM_URL	= http://invisible-island.net/xterm/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=267
+MODULE_VERSION=271
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3945ab70cfa2a9e95804157ee1b0f8e8
-TARBALL_SHA1 = ba80d0ef00292e7888bfbe69dcce0dfbbc4f5091
+TARBALL_MD5  = e07b05bd3d3a666a8cf086fcc8d227f3
+TARBALL_SHA1 = 53586916147cb88e71b3d620a7d1b80f1696749b
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
@@ -62,7 +62,7 @@ SOURCE_TARBALL_NAME_SET=yes
 SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = resize.man.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=koi8rxterm.man resize.man uxterm.man xterm.man
@@ -103,20 +103,28 @@ MODULE_CONFIG_OPTS += $(MODULE_CONFIG_OPTS_VERBOSE_$(V))
 # Tell configure where to find luit binary
 MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
 
-MODULE_ADD_INSTALL_TARGETS=install_docs
-
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xterm resize
+
+MODULE_ADD_INSTALL_TARGETS=install_docs install_desktop
 
 include ../Makefile.inc
 
 # Install documentation of xterm control sequences for packaging
 MODULE_DOCDIR=/usr/share/doc/xterm
+PROTO_CTLSEQS=$(PROTODIR)$(MODULE_DOCDIR)/ctlseqs.txt
 
-install_docs: $(UNPACK_TARGET)
-	mkdir -p $(PROTODIR)$(MODULE_DOCDIR)
-	rm -f $(PROTODIR)$(MODULE_DOCDIR)/ctlseqs.txt
-	cp -pf $(SOURCE_DIR)/ctlseqs.txt $(PROTODIR)$(MODULE_DOCDIR)/
+install_docs: $(PROTO_CTLSEQS)
+
+# Install desktop file to allow starting xterm from GNOME menu
+DESKTOP_DIR=/usr/share/applications
+PROTO_DESKTOP=$(PROTODIR)$(DESKTOP_DIR)/xterm.desktop
+
+install_desktop: $(PROTO_DESKTOP)
+
+$(PROTO_CTLSEQS) $(PROTO_DESKTOP): $(UNPACK_TARGET)
+	mkdir -p $(@D)
+	cp -pf $(SOURCE_DIR)/$(@F) $@
 
 # Metadata for separate package for resize
 RESIZE_PKG_METADATA_DIR      = $(MODULE_PKG_METADATA_DIR:%xterm=%resize)
