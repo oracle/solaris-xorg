@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -452,3 +452,7 @@ link path=etc/X11/fontpath.d/misc-ISO8859-1:pri=85 \
     target=../../../usr/share/fonts/X11/misc-ISO8859-1
 link path=etc/X11/fontpath.d/misc-ISO8859-1:unscaled:pri=15 \
     target=../../../usr/share/fonts/X11/misc-ISO8859-1
+link path=usr/X11/lib/X11/fonts/100dpi \
+    target=../../../../share/fonts/X11/100dpi-ISO8859-1
+link path=usr/X11/lib/X11/fonts/75dpi \
+    target=../../../../share/fonts/X11/75dpi-ISO8859-1

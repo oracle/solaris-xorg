@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -83,3 +83,5 @@ link path=etc/fonts/conf.d/57-dejavu-sans.conf \
     target=../conf.avail/57-dejavu-sans.conf
 link path=etc/fonts/conf.d/57-dejavu-serif.conf \
     target=../conf.avail/57-dejavu-serif.conf
+link path=usr/X11/lib/X11/fonts/TrueType \
+    target=../../../../share/fonts/TrueType

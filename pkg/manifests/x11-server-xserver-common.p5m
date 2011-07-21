@@ -72,6 +72,7 @@ file path=usr/share/man/man1/Xserver.1
 link path=usr/X11/bin/X target=../../bin/X
 link path=usr/X11/bin/Xserver target=../../bin/Xserver
 $(i386_ONLY)link path=usr/X11/bin/amd64 target=../../bin/amd64
+link path=usr/X11/lib/X11/xserver target=../../../lib/xorg
 link path=usr/bin/X target=Xserver
 # Xserver script runs /usr/bin/readlink (from GNU coreutils)
 depend fmri=pkg:/file/gnu-coreutils type=require
