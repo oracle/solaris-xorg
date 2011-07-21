@@ -44,7 +44,7 @@ link path=usr/X11/bin/xinit target=../../bin/xinit
 # Default xinit session uses twm for window manager
 depend fmri=pkg:/desktop/window-manager/twm type=require
 # startx runs /usr/bin/od to read /dev/urandom
-depend fmri=pkg:/developer/linker type=require
+depend fmri=__TBD pkg.debug.depend.file=usr/bin/od type=require
 # startx runs kbd_mode to reset kbd state on Xserver exit/crash
 depend fmri=pkg:/system/keyboard/kbd_mode type=require
 # Default xinit session runs xterm

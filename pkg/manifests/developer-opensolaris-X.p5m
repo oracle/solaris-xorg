@@ -30,19 +30,24 @@ set name=info.classification \
 # without having to uninstall all the X packages first.
 set name=org.opensolaris.noincorp value=true
 
-# Workaround for https://defect.opensolaris.org/bz/show_bug.cgi?id=15809
-depend fmri=pkg:/compatibility/ucb type=require
-
 # Builds need to be able to uncompress upstream tar.bz2 & tar.gz files
 depend fmri=pkg:/compress/bzip2 type=require
 depend fmri=pkg:/compress/gzip type=require
 
-# X.Org ships many docs using the DocBook SGML/XML DTD's
-depend fmri=pkg:/data/docbook type=require
+# X.Org ships many docs using the DocBook XML DTD's and stylesheets
+depend fmri=pkg:/data/docbook/docbook-style-dsssl type=require
+depend fmri=pkg:/data/docbook/docbook-style-xsl type=require
+depend fmri=pkg:/data/sgml-common type=require
+depend fmri=pkg:/data/xml-common type=require
+
+# Solaris assembler required by Studio compilers
+depend fmri=pkg:/developer/assembler type=require
+
+# Basic build utilities - nm, mcs, etc.
+depend fmri=pkg:/developer/base-developer-utilities type=require
 
 # Many packages need to use GNU autotools to rebuild upstream configure files
 depend fmri=pkg:/developer/build/autoconf type=require
-depend fmri=pkg:/developer/build/autogen type=require
 depend fmri=pkg:/developer/build/automake-110 type=require
 
 # Some packages need GNU make to build
@@ -85,15 +90,9 @@ depend fmri=pkg:/developer/lexer/flex type=require
 # Various libraries build lint libraries, that depend on system lint libs
 depend fmri=pkg:/developer/library/lint type=require
 
-# Almost all modules need ld to link binaries
-depend fmri=pkg:/developer/linker type=require
-
 # xcb, xcb-util, xcb-util-wm need GNU M4 to build
 # (also required by any module running autoconf/autoreconf)
 depend fmri=pkg:/developer/macro/gnu-m4 type=require
-
-# Basic build utilities - ar, nm, mcs, etc.
-depend fmri=pkg:/developer/object-file type=require
 
 # Xserver build uses flex & bison
 depend fmri=pkg:/developer/parser/bison type=require
@@ -101,8 +100,15 @@ depend fmri=pkg:/developer/parser/bison type=require
 # autopoint (from gnu gettext) requires CVS!
 depend fmri=pkg:/developer/versioning/cvs type=require
 
-# OpenSolaris X gate source is kept in mercurial scm
+# X gate source is kept in mercurial scm
 depend fmri=pkg:/developer/versioning/mercurial type=require
+
+# Driver packages delivering headers we require
+$(i386_ONLY)depend fmri=pkg:/driver/graphics/agpgart type=require
+depend fmri=pkg:/driver/usb type=require
+
+# autoconf scripts prefer various gnu utilities (mkdir, install, etc.)
+depend fmri=pkg:/file/gnu-coreutils type=require
 
 # tigervnc links with libjpg
 depend fmri=pkg:/image/library/libjpeg type=require
@@ -116,6 +122,12 @@ depend fmri=pkg:/library/c++/stdcxx type=require
 # lib/fontconfig links with libexpat
 depend fmri=pkg:/library/expat type=require
 
+# xcb-proto runs xmllint
+depend fmri=pkg:/library/libxml2 type=require
+
+# A number of X packages use xsltproc to process DocBook and other XML files
+depend fmri=pkg:/library/libxslt type=require
+
 # AccessX & DPS require motif libraries
 depend fmri=pkg:/library/motif type=require
 
@@ -125,7 +137,7 @@ depend fmri=pkg:/library/ncurses type=require
 # Mesa 7.10.2 requires libxml2 python module
 depend fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION) type=require
 
-# libXfont & libfontenc link with libz
+# freetype, libXfont & libfontenc link with libz
 depend fmri=pkg:/library/zlib type=require
 
 # Build runs a number of perl scripts
@@ -139,31 +151,30 @@ depend fmri=pkg:/service/hal type=require
 
 # Basic system headers & libraries
 depend fmri=pkg:/system/header type=require
-$(i386_ONLY)depend fmri=pkg:/system/header/header-agp type=require
-depend fmri=pkg:/system/header/header-audio type=require
-depend fmri=pkg:/system/header/header-usb type=require
 depend fmri=pkg:/system/library type=require
-depend fmri=pkg:/system/library/c++/sunpro type=require
+depend fmri=pkg:/system/library/c++-runtime type=require
 depend fmri=pkg:/system/library/flex-runtime type=require
 depend fmri=pkg:/system/library/gcc-3-runtime type=require
 depend fmri=pkg:/system/library/libdbus type=require
 depend fmri=pkg:/system/library/math type=require
-depend fmri=pkg:/system/library/math/header-math type=require
 
+# Almost all modules need Solaris ld to link binaries
+depend fmri=pkg:/system/linker type=require
 
-depend fmri=pkg:/text/doctools type=require
+# autoconf scripts prefer gnu awk
+depend fmri=pkg:/text/gawk type=require
 
 # Some packages need GNU gettext to process upstream localization data
 depend fmri=pkg:/text/gnu-gettext type=require
 
+# autoconf scripts prefer gnu grep
+depend fmri=pkg:/text/gnu-grep type=require
+
 # Builds need to be able to apply local patches
 depend fmri=pkg:/text/gnu-patch type=require
 
-# Some X.Org packages use groff to transform their old troff docs to HTML
-depend fmri=pkg:/text/groff type=require
-
-# docbook2txt uses lynx to translate html docs to text during the build
-depend fmri=pkg:/web/browser/lynx type=require
+# autoconf scripts prefer gnu sed
+depend fmri=pkg:/text/gnu-sed type=require
 
 # Builds need to be able to download upstream sources with wget
 depend fmri=pkg:/web/wget type=require
