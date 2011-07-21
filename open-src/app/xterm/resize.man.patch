@@ -1,0 +1,37 @@
+diff --git a/resize.man b/resize.man
+index 56d95d1..273780d 100644
+--- a/resize.man
++++ b/resize.man
+@@ -12,13 +12,13 @@
+ .el       .ds '' ''
+ .TH RESIZE 1 __vendorversion__
+ .SH NAME
+-resize \- set TERMCAP and terminal settings to current xterm window size
++resize \- set environment and terminal settings to current xterm window size
+ .SH SYNOPSIS
+ .B resize
+ [ \fB\-u\fP | \fB\-c\fP ] [ \fB\-s\fP [ \fIrow col\fP ] ]
+ .SH DESCRIPTION
+ .I Resize
+-prints a shell command for setting the TERM and TERMCAP environment variables
++prints a shell command for setting the appropriate environment variables
+ to indicate the current size of \fIxterm\fP window from which the command
+ is run.  For this output to take effect, \fIresize\fP must either be evaluated
+ as part of the command line (usually done with a shell alias or function) or
+@@ -79,6 +79,16 @@ for the base termcap entry to modify.
+ .TP 15
+ ~/.cshrc
+ user's alias for the command.
++.SH ENVIRONMENT
++.TP 15
++TERM
++set to "xterm" if not already set.
++.TP 15
++TERMCAP
++variable set on systems using termcap
++.TP 15
++COLUMNS, LINES
++variables set on systems using terminfo
+ .SH "SEE ALSO"
+ csh(1), tset(1), xterm(__mansuffix__)
+ .SH AUTHORS
