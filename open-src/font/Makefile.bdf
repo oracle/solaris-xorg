@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org bdf/pcf font modules
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -57,15 +57,15 @@ ALL_BDF_SUBDIR_ENCODINGS = \
         iso8859-10      \
         iso8859-13      \
         iso8859-14      \
-        iso8859-15      \
-        iso8859-16
+        iso8859-15
 
 misc_BDF_SUBDIR_ENCODINGS = \
 	$(ALL_BDF_SUBDIR_ENCODINGS) \
         iso8859-5       \
         iso8859-7       \
         iso8859-8	\
-        iso8859-11
+        iso8859-11      \
+        iso8859-16
 100dpi_BDF_SUBDIR_ENCODINGS = $(ALL_BDF_SUBDIR_ENCODINGS)
 75dpi_BDF_SUBDIR_ENCODINGS = $(ALL_BDF_SUBDIR_ENCODINGS)
 BDF_SUBDIR_ENCODINGS = $($(FONTSUBDIR)_BDF_SUBDIR_ENCODINGS)

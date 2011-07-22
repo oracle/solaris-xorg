@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,11 +30,7 @@ dir path=usr
 dir path=usr/share
 dir path=usr/share/fonts
 dir path=usr/share/fonts/X11
-dir path=usr/share/fonts/X11/100dpi-ISO8859-16
-dir path=usr/share/fonts/X11/75dpi-ISO8859-16
 dir path=usr/share/fonts/X11/misc-ISO8859-16
-file path=usr/share/fonts/X11/100dpi-ISO8859-16/fonts.dir
-file path=usr/share/fonts/X11/75dpi-ISO8859-16/fonts.dir
 file path=usr/share/fonts/X11/misc-ISO8859-16/10x20-ISO8859-16.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-16/4x6-ISO8859-16.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-16/5x7-ISO8859-16.pcf
@@ -62,14 +58,6 @@ file path=usr/share/fonts/X11/misc-ISO8859-16/fonts.dir
 legacy pkg=SUNWfont-xorg-iso8859-16 \
     desc="X Window System font files based on X.Org Foundation open source release" \
     name="X.Org Foundation X11 iso8859-16 fonts"
-link path=etc/X11/fontpath.d/100dpi-ISO8859-16:pri=91 \
-    target=../../../usr/share/fonts/X11/100dpi-ISO8859-16
-link path=etc/X11/fontpath.d/100dpi-ISO8859-16:unscaled:pri=21 \
-    target=../../../usr/share/fonts/X11/100dpi-ISO8859-16
-link path=etc/X11/fontpath.d/75dpi-ISO8859-16:pri=96 \
-    target=../../../usr/share/fonts/X11/75dpi-ISO8859-16
-link path=etc/X11/fontpath.d/75dpi-ISO8859-16:unscaled:pri=26 \
-    target=../../../usr/share/fonts/X11/75dpi-ISO8859-16
 link path=etc/X11/fontpath.d/misc-ISO8859-16:pri=86 \
     target=../../../usr/share/fonts/X11/misc-ISO8859-16
 link path=etc/X11/fontpath.d/misc-ISO8859-16:unscaled:pri=16 \
