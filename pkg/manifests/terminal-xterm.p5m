@@ -23,18 +23,7 @@ set name=pkg.fmri value=pkg:/terminal/xterm@__version:xterm__
 set name=pkg.description \
     value="The xterm program is a terminal emulator for the X Window System. It provides DEC VT102 and Tektronix 4014 compatible terminals for programs that can't use the window system directly.  This version implements ISO/ANSI colors, Unicode, and most of the control sequences used by DEC VT220 terminals."
 set name=pkg.summary value="xterm - terminal emulator for X"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/doc
 dir path=usr/share/doc/xterm
-dir path=usr/share/man
-dir path=usr/share/man/man1
-dir path=usr/share/pixmaps
 file path=usr/bin/koi8rxterm
 file path=usr/bin/uxterm
 file path=usr/bin/xterm

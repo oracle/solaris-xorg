@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,17 +24,6 @@ set name=pkg.description \
     value="libxkbfile is used by X servers and utilities to access the data files for XKB layout information.  It also contains some utility routines used by some Xlib-based clients when used with the XKB extension."
 set name=pkg.summary \
     value="libxkbfile - library for the X Keyboard (XKB) extension"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/extensions
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
 file path=usr/include/X11/extensions/XKBbells.h
 file path=usr/include/X11/extensions/XKBconfig.h
 file path=usr/include/X11/extensions/XKBfile.h

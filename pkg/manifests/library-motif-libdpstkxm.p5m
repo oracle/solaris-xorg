@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,11 +24,6 @@ set name=pkg.description \
     value="Libraries provided for binary compatibility with Motif clients designed to connect to servers supporting the DPS extension."
 set name=pkg.summary \
     value="X Window System DPS extension Motif client compatibility libraries"
-dir path=usr
-dir path=usr/lib
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
 file path=usr/lib/libdpstkXm.so.5
 file path=usr/share/X11/app-defaults/ColorSelect
 file path=usr/share/X11/app-defaults/FontSelect

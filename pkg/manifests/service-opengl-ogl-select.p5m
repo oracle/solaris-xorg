@@ -27,31 +27,15 @@ set name=pkg.description \
     value="ogl-select is a SMF service that determines at boot time which vendor supplied OpenGL headers and libraries will be used, based on the hardware and drivers installed in the system."
 set name=pkg.summary \
     value="ogl-select - boot time selection of OpenGL vendor files"
-dir path=lib
 dir path=lib/opengl
 dir path=lib/opengl/ogl_select
-dir path=lib/svc
-dir path=lib/svc/manifest
-dir path=lib/svc/manifest/application
 dir path=lib/svc/manifest/application/opengl
-dir path=lib/svc/method
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/include
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
 dir path=usr/include/GL
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
 dir path=usr/lib/GL
 dir path=usr/lib/GL/$(ARCH64)
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/modules
 dir path=usr/lib/xorg/modules/extensions
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 # These dirs are used to resolve dependencies during the build but are not
 # published in the packages as they're created at runtime by the SMF service
 dir path=system/volatile/opengl
@@ -65,7 +49,6 @@ $(sparc_ONLY)file path=lib/opengl/ogl_select/sun_vendor_select mode=0555
 file path=lib/svc/manifest/application/opengl/ogl-select.xml
 file path=lib/svc/method/ogl-select
 file path=usr/share/man/man1/ogl-select.1
-link path=usr/X11/include/GL target=../../include/GL
 link path=usr/X11/lib/$(ARCH64)/libGL.so target=libGL.so.1
 link path=usr/X11/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
 link path=usr/X11/lib/64 target=$(ARCH64)

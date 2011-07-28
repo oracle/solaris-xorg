@@ -27,15 +27,6 @@ set name=pkg.description \
 #	pkg://solaris/library/java/demo pkg://xnv-devel/x11/
 set name=pkg.linted value=True
 set name=pkg.summary value="X Window System demo programs"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/ico
 file path=usr/bin/xeyes
 file path=usr/bin/xgc

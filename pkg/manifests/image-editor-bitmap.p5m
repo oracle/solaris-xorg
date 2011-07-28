@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,18 +24,8 @@ set name=pkg.description \
     value="The bitmap program is a rudimentary tool for creating or editing XBM format bitmap images. The bmtoa and atobm filters convert XBM format bitmap files to and from ASCII strings. They are most commonly used to quickly print out bitmaps and to generate versions for including in text."
 set name=pkg.summary \
     value="bitmap, bmtoa, atobm - X bitmap (XBM) editor and converter utilities"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/bitmaps
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
+
+
 file path=usr/bin/atobm
 file path=usr/bin/bitmap
 file path=usr/bin/bmtoa

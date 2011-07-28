@@ -23,10 +23,7 @@ set name=pkg.fmri value=pkg:/x11/header/x11-protocols@$(X11PKGVERS)
 set name=pkg.description \
     value="Developer documentation and C language definitions of X11, X extension, and related protocols"
 set name=pkg.summary value="X Window System protocol definitions"
-dir path=usr
-dir path=usr/X11
 dir path=usr/X11/include
-dir path=usr/include
 dir path=usr/include/GL
 dir path=usr/include/GL/internal
 dir path=usr/include/X11
@@ -34,8 +31,6 @@ dir path=usr/include/X11/PM
 dir path=usr/include/X11/dri
 dir path=usr/include/X11/extensions
 dir path=usr/include/X11/fonts
-dir path=usr/share
-dir path=usr/share/doc
 dir path=usr/share/doc/bigreqsproto
 dir path=usr/share/doc/compositeproto
 dir path=usr/share/doc/damageproto
@@ -51,7 +46,6 @@ dir path=usr/share/doc/xcmiscproto
 dir path=usr/share/doc/xextproto
 dir path=usr/share/doc/xproto
 dir path=usr/share/doc/xproxymanagementprotocol
-dir path=usr/share/pkgconfig
 file path=usr/include/GL/glxint.h
 file path=usr/include/GL/glxmd.h
 file path=usr/include/GL/glxproto.h

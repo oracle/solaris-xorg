@@ -25,11 +25,6 @@ set name=pkg.description \
     value="Xorg video driver for AST remote console/KVM devices in enterprise server service processors."
 set name=pkg.summary \
     value="xf86-video-ast - ASpeed Technologies graphics driver for Xorg X server"
-dir path=usr
-dir path=usr/lib
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/modules
-dir path=usr/lib/xorg/modules/drivers
 file path=usr/lib/xorg/modules/drivers/ast_drv.so
 
 # SPARC version requires sparc kernel fb driver

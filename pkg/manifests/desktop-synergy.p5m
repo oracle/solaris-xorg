@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,9 +23,6 @@ set name=pkg.fmri value=pkg:/desktop/synergy@__version:synergy__
 set name=pkg.description \
     value="Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware.  It's intended for users with multiple computers on their desk since each system uses its own display."
 set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
-dir path=usr
-dir path=usr/bin
-dir path=usr/share
 file path=usr/bin/synergyc
 file path=usr/bin/synergys
 legacy pkg=SUNWsynergy \

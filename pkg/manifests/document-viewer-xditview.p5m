@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,18 +23,6 @@ set name=pkg.fmri value=pkg:/document/viewer/xditview@__version:xditview__
 set name=pkg.description \
     value="The xditview program displays ditroff output on an X display."
 set name=pkg.summary value="xditview - display ditroff output"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/bitmaps
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/xditview
 file path=usr/include/X11/bitmaps/ldblarrow
 file path=usr/include/X11/bitmaps/rdblarrow

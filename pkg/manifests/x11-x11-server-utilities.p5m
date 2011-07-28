@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,21 +23,8 @@ set name=pkg.fmri value=pkg:/x11/x11-server-utilities@$(X11PKGVERS)
 set name=pkg.description \
     value="A collection of common utilities for manipulating the state of an X server in a running X session."
 set name=pkg.summary value="X11 server state utilities"
-dir path=etc
 dir path=etc/xdg
 dir path=etc/xdg/autostart
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/lib
-dir path=usr/lib/X11
-dir path=usr/share
-dir path=usr/share/locale
-dir path=usr/share/locale/C
-dir path=usr/share/locale/C/LC_MESSAGES
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=etc/xdg/autostart/gnome-dispswitch.desktop
 file path=usr/bin/dispswitch
 file path=usr/bin/rgb

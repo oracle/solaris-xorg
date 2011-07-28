@@ -23,15 +23,6 @@ set name=pkg.fmri value=pkg:/x11/server/xvfb@__version:xorg-server__
 set name=pkg.description \
     value="Xvfb is an X server that can run on machines using no display hardware and no physical input devices. It emulates a dumb framebuffer using virtual memory."
 set name=pkg.summary value="Xvfb - virtual framebuffer X server"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-$(i386_ONLY)dir path=usr/bin/$(ARCH64)
-dir path=usr/lib
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/Xvfb
 file path=usr/share/man/man1/Xvfb.1
 link path=usr/X11/bin/Xvfb target=../../bin/Xvfb

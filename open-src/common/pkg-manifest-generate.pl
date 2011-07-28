@@ -66,31 +66,57 @@ sub required_option {
 my %actions_seen = ();
 my @manifest_header;
 
-# Check if there is an existing manifest to merge with
-if (exists $options{'input_manifest'}) {
-  foreach my $mf (@{$options{'input_manifest'}}) {
-    next if (! -f $mf);
-    open my $INPUT_MF, '<', $mf or die "Cannot open input_manifest $mf: $!\n";
+sub next_action_seen {
+    my ($FH) = @_;
     my $action = "";
-    while (my $im = <$INPUT_MF>) {
-      chomp($im);
-      if ($im =~ m{^(.*)\\$}) {  # Line continues
+
+    while (my $l = <$FH>) {
+      chomp($l);
+      if ($l =~ m{^(.*)\\$}) {  # Line continues
 	$action .= $1 . " ";
       } else {
-	$action .= $im;
-	push @manifest_header, $action;
+	$action .= $l;
 
 	$action =~ s{\s+}{ }g;
+
+	next if $action =~ m{^\s*$};
+
 	if ($action =~ m{ path=(\S+)}) {
 	  $actions_seen{$1} = $action;
 	} else {
 	  $actions_seen{$action} = $action;
 	}
 
-	$action = "";
+	return $action;
       }
     }
+
+    return undef;
+}
+
+# Check if there is an existing manifest to merge with
+if (exists $options{'input_manifest'}) {
+  foreach my $mf (@{$options{'input_manifest'}}) {
+    next if (! -f $mf);
+    open my $INPUT_MF, '<', $mf or die "Cannot open input_manifest $mf: $!\n";
+    my $action = "";
+    while (my $action = next_action_seen($INPUT_MF)) {
+	push @manifest_header, $action;
+    }
     close $INPUT_MF;
+  }
+}
+
+# Manifest listing entries not to include in manifest
+if (exists $options{'exception_manifest'}) {
+  foreach my $mf (@{$options{'exception_manifest'}}) {
+    next if (! -f $mf);
+    open my $EXCEPT_MF, '<', $mf or 
+	die "Cannot open exception_manifest $mf: $!\n";
+    while (my $action = next_action_seen($EXCEPT_MF)) {
+	# Just adding it to action_seen, nothing more to do 
+    }
+    close $EXCEPT_MF;
   }
 }
 

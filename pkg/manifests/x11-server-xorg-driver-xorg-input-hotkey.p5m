@@ -26,9 +26,4 @@ set name=pkg.description \
 set name=pkg.summary \
     value="xf86-input-hotkey: ACPI hotkey input driver for the Xorg server"
 set name=variant.arch value=i386
-dir path=usr
-dir path=usr/lib
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/modules
-dir path=usr/lib/xorg/modules/input
 file path=usr/lib/xorg/modules/input/hotkey_drv.so

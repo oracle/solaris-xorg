@@ -24,13 +24,6 @@ set name=pkg.description \
     value="Resize prints a shell command for setting the COLUMNS and LINES environment variables to indicate the current size of the terminal window from which the command is run."
 set name=pkg.summary \
     value="resize - adjust terminal settings to current window size"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/resize
 file path=usr/share/man/man1/resize.1
 link path=usr/X11/bin/resize target=../../bin/resize

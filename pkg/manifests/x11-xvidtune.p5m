@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,15 +23,6 @@ set name=pkg.fmri value=pkg:/x11/xvidtune@__version:xvidtune__
 set name=pkg.description \
     value="Xvidtune is a client interface to the X server video mode extension (XFree86-VidModeExtension), allowing a user to interactively adjust existing video modes."
 set name=pkg.summary value="xvidtune - video mode tuner for Xorg servers"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/xvidtune
 file path=usr/share/X11/app-defaults/Xvidtune
 file path=usr/share/man/man1/xvidtune.1

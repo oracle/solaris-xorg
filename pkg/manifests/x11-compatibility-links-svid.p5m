@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,8 +24,6 @@ set name=pkg.description \
     value="Provides the /usr/X -> X11 link required by the SVID3 ABI"
 set name=pkg.summary value="X Window System SVID compatibility links"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
-dir path=usr
-dir path=usr/X11
 legacy pkg=SUNWxwrtl desc="X Window System SVID compatibility links" \
     name="X Window System SVID compatibility links"
 

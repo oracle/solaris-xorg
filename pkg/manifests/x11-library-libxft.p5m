@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,23 +23,7 @@ set name=pkg.fmri value=pkg:/x11/library/libxft@__version:libXft__
 set name=pkg.description \
     value="Xft is a simple library designed to interface the FreeType rasterizer with the X Rendering Extension.   X11 clients and toolkits use it to render text with modern features such as antialiasing."
 set name=pkg.summary value="libXft - X FreeType library"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/bin
-dir path=usr/bin/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
 dir path=usr/include/X11/Xft
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
-dir path=usr/share/man/man3
 file path=usr/include/X11/Xft/Xft.h
 file path=usr/include/X11/Xft/XftCompat.h
 file path=usr/lib/$(ARCH64)/libXft.so.2

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,18 +23,13 @@ set name=pkg.fmri value=pkg:/x11/library/libxau@__version:libXau__
 set name=pkg.description \
     value="This library provides a basic API for reading and writing authentication data entries for X server connections in .Xauthority files."
 set name=pkg.summary value="libXau - X authorization database library"
-dir path=usr
+
+# Since libXau is the base of the dependency tree for all libX11 & libxcb
+# libraries, and all X servers, this package provides the central definition
+# for a number of directories that all the other X packages deliver files to.
 dir path=usr/X11
 dir path=usr/X11/lib
 dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/man
 dir path=usr/share/man/man3xau
 file path=usr/include/X11/Xauth.h
 file path=usr/lib/$(ARCH64)/libXau.so.6

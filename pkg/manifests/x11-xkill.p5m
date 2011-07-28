@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/x11/xkill@__version:xkill__
 set name=pkg.description \
     value="xkill is a utility for forcing the X server to close connections to clients.  This program is very dangerous, but is useful for aborting programs that have displayed undesired windows on a user's screen."
 set name=pkg.summary value="xkill - utility to forcibly close X11 clients"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/xkill
 file path=usr/share/man/man1/xkill.1
 link path=usr/X11/bin/xkill target=../../bin/xkill

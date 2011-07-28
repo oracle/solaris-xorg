@@ -23,20 +23,9 @@ set name=pkg.fmri value=pkg:/system/library/freetype-2@__version:freetype__
 set name=pkg.description \
     value="FreeType 2 is a software font engine that is designed to be small, efficient, highly customizable, and portable while capable of producing high-quality output (glyph images). It can be used in graphics libraries, display servers, font conversion tools, text image generation tools, and many other products as well."
 set name=pkg.summary value="FreeType 2 font engine"
-dir path=usr
-dir path=usr/bin
-dir path=usr/bin/$(ARCH64)
-dir path=usr/include
 dir path=usr/include/freetype2
 dir path=usr/include/freetype2/freetype
 dir path=usr/include/freetype2/freetype/config
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/aclocal
-dir path=usr/share/doc
 dir path=usr/share/doc/freetype
 file path=usr/bin/$(ARCH64)/freetype-config
 file path=usr/bin/freetype-config

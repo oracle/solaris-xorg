@@ -23,12 +23,6 @@ set name=pkg.fmri value=pkg:/x11/server/xdmx@__version:xorg-server__
 set name=pkg.description \
     value="Xdmx is an X server that can tie several local or remote X servers into one multihead X server"
 set name=pkg.summary value="Xdmx - Distributed Multihead X"
-dir path=usr
-dir path=usr/bin
-dir path=usr/lib
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/Xdmx
 
 file path=usr/bin/dmxaddinput

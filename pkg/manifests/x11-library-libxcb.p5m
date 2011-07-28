@@ -37,21 +37,10 @@ set name=pkg.fmri value=pkg:/x11/library/libxcb@__version:libxcb__
 set name=pkg.description \
     value="XCB - The X11 C Protocol Bindings."
 set name=pkg.summary value="libxcb - The X11 C protocol bindings"
-dir path=usr
-dir path=usr/include
 dir path=usr/include/xcb
-dir path=usr/lib
-dir path=usr/lib/pkgconfig
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/python$(PYTHON_PATH_VERSION)
-dir path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages
 dir path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/share
-dir path=usr/share/doc
 dir path=usr/share/doc/libxcb
 dir path=usr/share/doc/libxcb/tutorial
-dir path=usr/share/pkgconfig
 dir path=usr/share/xcb
 #
 file path=usr/lib/libxcb-composite.so.0

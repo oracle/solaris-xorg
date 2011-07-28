@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,16 +23,7 @@ set name=pkg.fmri value=pkg:/benchmark/x11perf@__version:x11perf__
 set name=pkg.description \
     value="The x11perf program runs one or more performance tests and reports how fast an X server can execute the tests."
 set name=pkg.summary value="x11perf - X11 server performance test program"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/lib
-dir path=usr/lib/X11
 dir path=usr/lib/X11/x11perfcomp
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/x11perf
 file path=usr/bin/x11perfcomp
 file path=usr/lib/X11/x11perfcomp/Xmark mode=0555

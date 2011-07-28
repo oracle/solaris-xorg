@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,15 +23,6 @@ set name=pkg.fmri value=pkg:/x11/oclock@__version:oclock__
 set name=pkg.description \
     value="Oclock simply displays the current time on an analog display in a rounded window."
 set name=pkg.summary value="oclock - round X clock"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/oclock
 file path=usr/share/X11/app-defaults/Clock-color
 file path=usr/share/man/man1/oclock.1

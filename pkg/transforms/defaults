@@ -31,18 +31,12 @@
 #
 # a few special directories are owned by specific groups
 #
-<transform dir path=^etc/hal.* -> default group bin>
-<transform dir path=^etc.* -> default group sys>
-<transform dir path=^lib/svc/manifest.* -> default group sys>
-<transform file path=^lib/svc/manifest/.* -> default group sys>
-<transform dir path=^usr$ -> default group sys>
-<transform dir path=^usr/share$ -> default group sys>
-<transform dir path=^usr/lib/pkgconfig$ -> default group other>
-<transform dir path=^usr/lib/$(ARCH64)/pkgconfig$ -> default group other>
-<transform dir path=^usr/share/(aclocal|doc|locale|pixmaps)$ -> \
+<transform dir path=etc/hal.* -> default group bin>
+<transform dir path=etc.* -> default group sys>
+<transform dir file path=lib/svc/manifest -> default group sys>
+<transform dir path=usr/share/(aclocal|doc|locale|pixmaps)$ -> \
 	default group other>
-<transform dir path=^usr/share/icons -> default group other>
-<transform dir path=^var$ -> default group sys>
+<transform dir path=usr/share/icons -> default group other>
 
 #
 # For what's left, go with root:bin 0444 for files, 0755 for directories

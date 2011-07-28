@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/system/font/xorg/iso8859-16@$(X11PKGVERS)
 set name=pkg.description \
     value="X Window System bitmap font files based on X.Org Foundation open source release"
 set name=pkg.summary value="X.Org Foundation X11 iso8859-16 bitmap fonts"
-dir path=etc
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/share
-dir path=usr/share/fonts
-dir path=usr/share/fonts/X11
 dir path=usr/share/fonts/X11/misc-ISO8859-16
 file path=usr/share/fonts/X11/misc-ISO8859-16/10x20-ISO8859-16.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-16/4x6-ISO8859-16.pcf

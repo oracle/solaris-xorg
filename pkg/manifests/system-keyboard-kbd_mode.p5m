@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/system/keyboard/kbd_mode@$(OSPKGVERS)
 set name=pkg.description \
     value="kbd_mode sets the translation mode of the console's keyboard (/dev/kbd) to one of the four values defined for KIOCTRANS in kb(7M). This is useful when a program, such as an X server, that resets the translation mode terminates abnormally and fails to restore the original translation mode."
 set name=pkg.summary value="kbd_mode - change the keyboard translation mode"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/kbd_mode
 file path=usr/share/man/man1/kbd_mode.1
 link path=usr/X11/bin/kbd_mode target=../../bin/kbd_mode

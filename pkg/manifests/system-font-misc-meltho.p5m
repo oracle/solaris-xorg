@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,13 +24,7 @@ set name=pkg.fmri \
 set name=pkg.description \
     value="OpenType font files for Syraic languages from Project Meltho at Beth Mardutho: The Syriac Computing Institute"
 set name=pkg.summary value="Meltho Syriac fonts"
-dir path=etc
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/share
-dir path=usr/share/fonts
-dir path=usr/share/fonts/TrueType
+
 dir path=usr/share/fonts/TrueType/syriac
 file path=usr/share/fonts/TrueType/syriac/SyrCOMAdiabene.otf
 file path=usr/share/fonts/TrueType/syriac/SyrCOMAntioch.otf

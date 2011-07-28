@@ -23,11 +23,6 @@ set name=pkg.fmri value=pkg:/x11/trusted/trusted-xorg@__version:xorg-server__
 set name=pkg.description \
     value="Loadable extension module for the Xorg X server to provide the XTSOL extension required to support labeled desktops under Trusted Extensions."
 set name=pkg.summary value="Xorg X server - Trusted Extensions support"
-dir path=usr
-dir path=usr/lib
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/modules
-dir path=usr/lib/xorg/modules/extensions
 file path=usr/lib/xorg/modules/extensions/libxtsol.so
 legacy pkg=SUNWxorg-tsol-module \
     desc="Solaris Trusted Extensions, Xorg X Server support" \

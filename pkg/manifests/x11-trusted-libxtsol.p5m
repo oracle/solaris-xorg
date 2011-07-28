@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,15 +24,6 @@ set name=pkg.description \
     value="Xlib-based client API for the Solaris Trusted Extensions (SUN_TSOL) extension to the X11 protocol"
 set name=pkg.summary \
     value="libXtsol - Solaris Trusted Extensions X11 extension client library"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/extensions
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
 file path=usr/include/X11/extensions/Xtsol.h
 file path=usr/include/X11/extensions/Xtsolproto.h
 file path=usr/lib/$(ARCH64)/libXtsol.so.1

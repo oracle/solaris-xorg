@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,11 +24,6 @@ set name=pkg.description \
     value="Libraries provided for binary compatibility with X clients designed to connect to Xsun servers supporting the SUN-DGA extension."
 set name=pkg.summary \
     value="X Window System SUN-DGA extension client compatibility libraries"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
 # sparc only since Xsun/DGA was already obsolete before amd64 was added
 $(sparc_ONLY)file path=usr/lib/$(ARCH64)/libdga.so.1
 file path=usr/lib/libdga.so.1

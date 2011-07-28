@@ -23,23 +23,13 @@ set name=pkg.fmri value=pkg:/x11/library/libx11@__version:libX11__
 set name=pkg.description \
     value="libX11 provides the basic API most X11 clients use to communicate with an X server."
 set name=pkg.summary value="libX11 - X11 core protocol client library"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/extensions
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
+
+
 dir path=usr/lib/X11
 dir path=usr/lib/X11/locale
 dir path=usr/lib/X11/locale/$(ARCH64)
 dir path=usr/lib/X11/locale/$(ARCH64)/common
 dir path=usr/lib/X11/locale/common
-dir path=usr/lib/pkgconfig
-dir path=usr/share
 dir path=usr/share/X11
 dir path=usr/share/X11/locale
 dir path=usr/share/X11/locale/C
@@ -102,7 +92,6 @@ dir path=usr/share/X11/locale/zh_HK.big5hkscs
 dir path=usr/share/X11/locale/zh_TW
 dir path=usr/share/X11/locale/zh_TW.UTF-8
 dir path=usr/share/X11/locale/zh_TW.big5
-dir path=usr/share/doc
 dir path=usr/share/doc/libX11
 dir path=usr/share/doc/libX11/Compose
 dir path=usr/share/doc/libX11/XIM
@@ -112,9 +101,7 @@ dir path=usr/share/doc/libX11/i18n/framework
 dir path=usr/share/doc/libX11/i18n/localedb
 dir path=usr/share/doc/libX11/i18n/trans
 dir path=usr/share/doc/libX11/libX11
-dir path=usr/share/man
 dir path=usr/share/man/man3x11
-dir path=usr/share/man/man4
 file path=usr/include/X11/ImUtil.h
 file path=usr/include/X11/XKBlib.h
 file path=usr/include/X11/Xcms.h

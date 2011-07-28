@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/x11/session/smproxy@__version:smproxy__
 set name=pkg.description \
     value="smproxy allows X applications that do not support X11R6 session management to participate in an X11R6 session."
 set name=pkg.summary value="smproxy - X Session Manager Proxy"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/smproxy
 file path=usr/share/man/man1/smproxy.1
 link path=usr/X11/bin/smproxy target=../../bin/smproxy

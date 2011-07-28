@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,13 +24,6 @@ set name=pkg.description \
     value="Luit is a filter that can be run between an arbitrary application and a UTF-8 terminal emulator such as xterm.  It will convert application output from the locale's encoding into UTF-8, and convert terminal input from UTF-8 into the locale's encoding."
 set name=pkg.summary \
     value="luit - Locale and ISO 2022 support for Unicode terminals"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/luit
 file path=usr/share/man/man1/luit.1
 link path=usr/X11/bin/luit target=../../bin/luit

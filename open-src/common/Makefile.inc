@@ -686,6 +686,7 @@ $(MANIFEST_DEST): install
 $(MANIFEST_TMP): $(MANIFEST_DEST) $(PKGFMT)
 	$(PERL) $(TOP)/open-src/common/pkg-manifest-generate.pl \
 		input_manifest='$(MODULE_PKG_MANIFEST)' \
+		exception_manifest='$(PKG_SRC_DIR)/exceptions-validate_pkg.p5m' \
 		manifest_license='$(PKG_LICENSE_DIR)/cr_Oracle' \
 		manifest_license='$(PKG_LICENSE_DIR)/lic_X11' \
 		pkg_name='$(MODULE_PKGNAME)' \

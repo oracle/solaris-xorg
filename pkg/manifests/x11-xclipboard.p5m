@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,15 +24,6 @@ set name=pkg.description \
     value="xclipboard is used to collect and display text selections that are sent to the CLIPBOARD by other clients.  It is typically used to save CLIPBOARD selections for later use.  It stores each CLIPBOARD selection as a separate string, each of which can be selected.  The xcutsel program is used to copy the current selection into a cut buffer and to make a selection that contains the current contents of the cut buffer.  It acts as a bridge between applications that don't support selections and those that do."
 set name=pkg.summary \
     value="xclipboard & xcutsel tools for clipboard management"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/xclipboard
 file path=usr/bin/xcutsel
 file path=usr/share/X11/app-defaults/XClipboard

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/system/font/xorg/iso8859-5@$(X11PKGVERS)
 set name=pkg.description \
     value="X Window System bitmap font files based on X.Org Foundation open source release"
 set name=pkg.summary value="X.Org Foundation X11 iso8859-5 bitmap fonts"
-dir path=etc
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/share
-dir path=usr/share/fonts
-dir path=usr/share/fonts/X11
 dir path=usr/share/fonts/X11/misc-ISO8859-5
 file path=usr/share/fonts/X11/misc-ISO8859-5/10x20-ISO8859-5.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-5/4x6-ISO8859-5.pcf

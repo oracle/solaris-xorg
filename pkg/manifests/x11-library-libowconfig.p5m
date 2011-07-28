@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,13 +24,6 @@ set name=pkg.description \
     value="libowconfig is provided for binary compatibility with programs such as fbconfig that were written to read or write the now-obsolete OWconfig file used by the Xsun X server."
 set name=pkg.summary \
     value="libowconfig - library for Xsun OWconfig file handling"
-dir path=usr
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/lib
 file path=usr/include/X11/Sunowconfig.h
 file path=usr/lib/libowconfig.so.0
 link path=usr/X11/lib/libowconfig.so target=../../lib/libowconfig.so

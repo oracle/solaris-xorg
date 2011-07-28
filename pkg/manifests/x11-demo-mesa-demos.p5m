@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/x11/demo/mesa-demos@__version:mesa-demos__
 set name=pkg.description \
     value="glxinfo lists information about the GLX extension, OpenGL capable visuals, and the OpenGL renderer on an X server.  glxgears is a GLX demo that draws three rotating gears, and prints out framerate information."
 set name=pkg.summary value="Mesa sample GLX clients"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/glxgears
 file path=usr/bin/glxinfo
 file path=usr/share/man/man1/glxgears.1

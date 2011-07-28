@@ -24,24 +24,8 @@ set name=pkg.fmri value=pkg:/x11/library/libice@__version:libICE__
 set name=pkg.description \
     value="Library and utilities to support the X Window System Inter-Client Exchange (ICE) protocol"
 set name=pkg.summary value="libICE - Inter-Client Exchange Library"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/bin
-dir path=usr/include
-dir path=usr/include/X11
 dir path=usr/include/X11/ICE
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/doc
 dir path=usr/share/doc/libICE
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/iceauth
 file path=usr/include/X11/ICE/ICE.h
 file path=usr/include/X11/ICE/ICEconn.h

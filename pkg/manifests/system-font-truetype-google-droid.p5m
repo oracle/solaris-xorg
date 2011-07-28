@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,13 +27,6 @@ set name=pkg.fmri \
 set name=pkg.description \
     value="TrueType fonts designed by Ascender Corp for the Android mobile platform from Google"
 set name=pkg.summary value="Droid font family from Google's Android project"
-dir path=etc
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/share
-dir path=usr/share/fonts
-dir path=usr/share/fonts/TrueType
 dir path=usr/share/fonts/TrueType/google-droid
 file path=usr/share/fonts/TrueType/google-droid/DroidSans-Bold.ttf
 file path=usr/share/fonts/TrueType/google-droid/DroidSans.ttf

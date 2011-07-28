@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,19 +24,8 @@ set name=pkg.description \
     value="libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them.   It is used by the X servers, the X Font Server (xfs), and some font utilities (bdftopcf for instance), but should not be used by normal X11 clients.  X11 clients access fonts via either the new API's in libXft, or the legacy API's in libX11."
 set name=pkg.summary \
     value="libXfont - library for X servers and utilities to access font files"
-dir path=etc
 dir path=etc/X11
 dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/fonts
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/$(ARCH64)
 file path=usr/include/X11/fonts/bdfint.h
 file path=usr/include/X11/fonts/bitmap.h
 file path=usr/include/X11/fonts/bufio.h

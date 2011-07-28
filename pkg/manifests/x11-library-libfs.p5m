@@ -23,19 +23,6 @@ set name=pkg.fmri value=pkg:/x11/library/libfs@__version:libFS__
 set name=pkg.description \
     value="Library used by X servers and clients to retreive font data from xfs font servers."
 set name=pkg.summary value="libFS - X Font Service client library"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/fonts
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/doc
 dir path=usr/share/doc/libFS
 file path=usr/include/X11/fonts/FSlib.h
 file path=usr/lib/$(ARCH64)/libFS.so.5

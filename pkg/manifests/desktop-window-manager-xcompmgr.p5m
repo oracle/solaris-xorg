@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,11 +24,6 @@ set name=pkg.fmri \
 set name=pkg.description \
     value="xcompmgr is a sample compositing manager for X servers supporting the XFIXES, DAMAGE, RENDER, and COMPOSITE extensions.  It enables basic eye-candy effects."
 set name=pkg.summary value="xcompmgr - sample X compositing manager"
-dir path=usr
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/xcompmgr
 file path=usr/share/man/man1/xcompmgr.1
 legacy pkg=SUNWcompmgr \

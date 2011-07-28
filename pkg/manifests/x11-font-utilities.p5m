@@ -23,20 +23,7 @@ set name=pkg.fmri value=pkg:/x11/font-utilities@$(X11PKGVERS)
 set name=pkg.description \
     value="Utilities for building and installing X font and font metadata files."
 set name=pkg.summary value="X Window System font utilities"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/lib
-dir path=usr/lib/X11
-dir path=usr/share
-dir path=usr/share/aclocal
-dir path=usr/share/fonts
-dir path=usr/share/fonts/X11
 dir path=usr/share/fonts/X11/util
-dir path=usr/share/man
-dir path=usr/share/man/man1
-dir path=usr/share/pkgconfig
 file path=usr/bin/bdftopcf
 file path=usr/bin/bdftruncate
 file path=usr/bin/mkfontdir

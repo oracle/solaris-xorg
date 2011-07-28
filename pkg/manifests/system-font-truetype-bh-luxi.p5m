@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,16 +24,6 @@ set name=pkg.fmri \
 set name=pkg.description \
     value="Luxi family of TrueType fonts designed by Bigelow & Holmes for the XFree86 Project"
 set name=pkg.summary value="Luxi font family from Bigelow & Holmes"
-dir path=etc
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
-dir path=etc/fonts
-dir path=etc/fonts/conf.avail
-dir path=etc/fonts/conf.d
-dir path=usr
-dir path=usr/share
-dir path=usr/share/fonts
-dir path=usr/share/fonts/TrueType
 dir path=usr/share/fonts/TrueType/bh-luxi
 file path=etc/fonts/conf.avail/42-luxi-mono.conf
 file path=usr/share/fonts/TrueType/bh-luxi/fonts.dir

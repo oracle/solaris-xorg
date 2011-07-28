@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,9 +24,5 @@ set name=pkg.description \
     value="This package provides a libXaw.so.4 binary for backwards compatibility with programs compiled on older releases of Solaris."
 set name=pkg.summary \
     value="libXaw4 - X Athena Widgets Toolkit (X11R4 binary compatibility version)"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/lib
 file path=usr/lib/libXaw.so.4
 link path=usr/X11/lib/libXaw.so.4 target=../../lib/libXaw.so.4

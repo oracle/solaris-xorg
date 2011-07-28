@@ -24,15 +24,6 @@ set name=pkg.description \
     value="Xephyr is a X11 server that outputs to a window on a pre-existing host X display. Think Xnest but with support for modern extensions like composite, damage and randr."
 set name=pkg.summary \
     value="Xephyr - X server displaying to a window on a pre-existing X display"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-$(i386_ONLY)dir path=usr/bin/$(ARCH64)
-dir path=usr/lib
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/Xephyr
 file path=usr/share/man/man1/Xephyr.1
 $(i386_ONLY)link path=usr/bin/$(ARCH64)/Xephyr target=../Xephyr

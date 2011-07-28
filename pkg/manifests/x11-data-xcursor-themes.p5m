@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,8 +24,6 @@ set name=pkg.fmri \
 set name=pkg.description \
     value="This is a default set of full-color, translucent cursor themes for use with libXcursor, originally created for the XFree86 Project, and now shipped as part of the X.Org software distribution."
 set name=pkg.summary value="X.Org default X11 cursor themes"
-dir path=usr
-dir path=usr/share
 dir path=usr/share/icons
 dir path=usr/share/icons/handhelds
 dir path=usr/share/icons/handhelds/cursors

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,20 +24,10 @@ set name=pkg.description \
     value="xdm is an Xaw-based display manager for a collection of X displays, which may be on the local host or remote servers."
 set name=pkg.summary \
     value="xdm - X Display Manager with support for XDMCP and host chooser"
-dir path=etc group=sys
 dir path=etc/X11 group=sys
 dir path=etc/X11/xdm group=sys
-dir path=usr
-dir path=usr/lib
-dir path=usr/lib/X11
 dir path=usr/lib/X11/xdm
 dir path=usr/lib/X11/xdm/pixmaps
-dir path=usr/sbin
-dir path=usr/share
-dir path=usr/share/X11
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=etc/X11/xdm/Xaccess group=sys \
     original_name=SUNWxdm:etc/X11/xdm/Xaccess preserve=true
 file path=etc/X11/xdm/Xresources group=sys \

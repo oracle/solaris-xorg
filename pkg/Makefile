@@ -109,6 +109,9 @@ PKGS= $(MANIFESTS:%.p5m=%)
 SYNTH_PKGS= X-incorporation X-all
 SYNTH_MANIFESTS = $(SYNTH_PKGS:%=%.p5m)
 
+# Special manifest for exceptions to pass to pkglint & validate_pkg
+EXCEPTION_MANIFESTS = exceptions-validate_pkg.p5m
+
 # Manifests are in either manifests or legacy directory - merge in $(PDIR)
 $(PDIR)/%.p5m: manifests/%.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
@@ -120,12 +123,12 @@ $(PDIR)/%.p5m: %.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
 
 PMANIFESTS = $(MANIFESTS:%=$(PDIR)/%)
-manifests: $(PMANIFESTS)
-$(PMANIFESTS): $(PDIR)
-
 SMANIFESTS = $(SYNTH_MANIFESTS:%=$(PDIR)/%)
-manifests: $(SMANIFESTS)
-$(SMANIFESTS): $(PDIR)
+EMANIFESTS = $(EXCEPTION_MANIFESTS:%=$(PDIR)/%)
+
+ALL_MANIFESTS = $(PMANIFESTS) $(SMANIFESTS) $(EMANIFESTS)
+manifests: $(ALL_MANIFESTS)
+$(ALL_MANIFESTS): $(PDIR)
 
 ### Additional metadata generation
 
@@ -202,6 +205,7 @@ PROC_PKGS = $(PKGS:%=$(PDIR)/%.mog)
 PROC_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.mog)
 PROC_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.mog)
 PROC_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.mog)
+PROC_EXCEPTIONS = $(EXCEPTION_MANIFESTS:%.p5m=$(PDIR)/%.mog)
 
 # Default transformations to apply
 PM_TRANSFORMS = $(PKG_BRANDING_TRANSFORMS) \
@@ -210,9 +214,10 @@ PM_TRANSFORMS = $(PKG_BRANDING_TRANSFORMS) \
 PM_INC = transforms
 
 # Additional transforms for specific types of packages
-$(PROC_CURRENT_PKGS) $(PROC_SYNTH_PKGS) := EXTRA_TRANSFORMS = defaults
+$(PROC_CURRENT_PKGS) $(PROC_SYNTH_PKGS) $(PROC_EXCEPTIONS) := \
+	EXTRA_TRANSFORMS = defaults
 
-mogrify: $(PROC_PKGS)
+mogrify: $(PROC_PKGS) $(PROC_EXCEPTIONS)
 $(PROC_PKGS) $(PROC_SYNTH_PKGS): $(PDIR)/versions
 
 # Combine & uniq metadata & license attributes generated during build
@@ -353,7 +358,7 @@ $(PDIR)/checkmf: $(PDIR)/gendeps $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 		fi; \
 	done; \
 	if [[ -n "$${CHECK_PKGS}" ]]; then \
-		$(PKGLINT) -f $(PKGLINTRC) $${CHECK_PKGS} \
+		$(PKGLINT) -f $(PKGLINTRC) $${CHECK_PKGS} $(PROC_EXCEPTIONS) \
 		    2> $(PDIR)/pkglint-output.txt; \
 	fi ; \
 	if grep '^ERROR' $(PDIR)/pkglint-output.txt; then \
@@ -443,11 +448,7 @@ EXCEPTIONS= $(PWD)/../exception_lists/packaging $(PDIR)/generated-exceptions
 $(PDIR)/generated-exceptions:
 	$(PKGDEBUG)(cd $(PKGROOT) ; find . -name '*-uninstalled.pc') > $@
 
-# Handle exceptions list exceptions-validate_pkg.p5m
-EXCEPTIONS_MOG = $(PDIR)/exceptions-validate_pkg.mog
-$(EXCEPTIONS_MOG):= EXTRA_TRANSFORMS = defaults
-
-protocmp: $(PROC_PKGS) $(EXCEPTIONS) $(EXCEPTIONS_MOG) fix_perms
+protocmp: $(PROC_PKGS) $(EXCEPTIONS) $(PROC_EXCEPTIONS) fix_perms
 	$(PKGDEBUG)validate_pkg -a $(PKGMACH) -v $(EXCEPTIONS:%=-e %) \
 		-m $(PDIR) -p $(PKGROOT)
 

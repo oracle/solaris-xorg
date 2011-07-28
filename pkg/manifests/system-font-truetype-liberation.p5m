@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,13 +24,6 @@ set name=pkg.fmri \
 set name=pkg.description \
     value="TrueType font files for the Liberation family of open source fonts designed by Ascender and released by Red Hat.  The Liberation Fonts are intended to be open font replacements for the three most commonly used fonts on Microsoft systems: Times New Roman, Arial, and Courier New."
 set name=pkg.summary value="Liberation fonts"
-dir path=etc
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/share
-dir path=usr/share/fonts
-dir path=usr/share/fonts/TrueType
 dir path=usr/share/fonts/TrueType/liberation
 file path=usr/share/fonts/TrueType/liberation/LiberationMono-Bold.ttf
 file path=usr/share/fonts/TrueType/liberation/LiberationMono-BoldItalic.ttf

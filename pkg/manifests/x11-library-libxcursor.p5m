@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,19 +24,7 @@ set name=pkg.description \
     value="Xcursor is a simple library designed to help locate and load cursors.  When the Render extension is available in the X server, cursors can be full 32-bit color images, including alpha channels for translucency."
 set name=pkg.summary \
     value="libXcursor - X Window System Cursor management library"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
-dir path=usr/X11/lib/$(ARCH64)
-dir path=usr/include
-dir path=usr/include/X11
 dir path=usr/include/X11/Xcursor
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/man
 dir path=usr/share/man/man3xcursor
 file path=usr/include/X11/Xcursor/Xcursor.h
 file path=usr/lib/$(ARCH64)/libXcursor.so.1

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,17 +23,8 @@ set name=pkg.fmri value=pkg:/x11/library/libfontenc@__version:libfontenc__
 set name=pkg.description \
     value="Library and data files used by X servers and utilities for handling fonts encoded for different character sets."
 set name=pkg.summary value="libfontenc - font encoding library"
-dir path=usr
-dir path=usr/include
-dir path=usr/include/X11
-dir path=usr/include/X11/fonts
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
 dir path=usr/lib/xorg
 dir path=usr/lib/xorg/$(ARCH64)
-dir path=usr/share
 dir path=usr/share/fonts
 dir path=usr/share/fonts/X11
 dir path=usr/share/fonts/X11/encodings

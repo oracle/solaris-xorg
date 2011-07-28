@@ -23,8 +23,6 @@ set name=pkg.fmri value=pkg:/x11/compatibility/links-xorg@$(OSPKGVERS)
 set name=pkg.description \
     value="Symbolic links for X Window System software compatibility with other releases"
 set name=pkg.summary value="X Window System platform compatibility links"
-dir path=usr
-dir path=usr/X11
 legacy pkg=SUNWxorg-compatlinks \
     desc="Symbolic links for X Window System software compatibility with other releases" \
     name="X11 Compatibility Links"

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,6 @@ set name=pkg.fmri value=pkg:/x11/diagnostic/xscope@__version:xscope__
 set name=pkg.description \
     value="Xscope sits in-between an X11 client and an X11 server and prints the contents of each request, reply, error, or event that is communicated between them. Xscope can decode the core X11 protocol and several extensions, including BIG-REQUESTS, LBX, MIT-SHM, NCD-WinCenterPro, RANDR, and RENDER."
 set name=pkg.summary value="xscope - X Window Protocol Viewer"
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=usr/bin/xscope
 file path=usr/share/man/man1/xscope.1
 link path=usr/X11/bin/xscope target=../../bin/xscope

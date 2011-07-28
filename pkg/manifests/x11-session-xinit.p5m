@@ -24,16 +24,8 @@ set name=pkg.description \
     value="xinit and startx are used to start the X Window System server and clients when a display manager or other startup methods are not in use."
 set name=pkg.summary \
     value="xinit & startx - X Window System manual session startup"
-dir path=etc
 dir path=etc/X11
 dir path=etc/X11/xinit
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/bin
-dir path=usr/bin
-dir path=usr/share
-dir path=usr/share/man
-dir path=usr/share/man/man1
 file path=etc/X11/xinit/xinitrc preserve=renamenew
 file path=usr/bin/startx
 file path=usr/bin/xinit

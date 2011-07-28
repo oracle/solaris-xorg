@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,8 +23,6 @@ set name=pkg.fmri value=pkg:/x11/data/workspace-patterns@$(OSPKGVERS)
 set name=pkg.description \
     value="The classic Solaris workspace background patterns in X Bitmap (xbm) format"
 set name=pkg.summary value="Bitmap patterns for workspace backgrounds"
-dir path=usr
-dir path=usr/share
 dir path=usr/share/patterns
 file path=usr/share/patterns/attributes
 file path=usr/share/patterns/background.xbm

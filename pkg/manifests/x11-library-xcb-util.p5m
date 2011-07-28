@@ -27,15 +27,6 @@ set name=pkg.fmri value=pkg:/x11/library/xcb-util@__version:xcb-util__
 set name=pkg.description \
     value="XCB - The X11 C Protocol Bindings - Utility Libraries."
 set name=pkg.summary value="xcb-util - The X11 C protocol bindings utilities"
-dir path=usr
-dir path=usr/include
-dir path=usr/include/xcb
-dir path=usr/lib
-dir path=usr/lib/$(ARCH64)
-dir path=usr/lib/$(ARCH64)/pkgconfig
-dir path=usr/lib/pkgconfig
-dir path=usr/share
-dir path=usr/share/xcb
 #
 file path=usr/include/xcb/xcb_atom.h
 file path=usr/include/xcb/xcb_aux.h

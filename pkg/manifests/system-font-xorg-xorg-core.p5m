@@ -24,15 +24,9 @@ set name=pkg.fmri value=pkg:/system/font/xorg/xorg-core@$(X11PKGVERS)
 set name=pkg.description \
     value="X Window System bitmap & scalable font files based on X.Org Foundation open source release"
 set name=pkg.summary value="X.Org Foundation X11 core fonts"
-dir path=etc
-dir path=etc/X11
 dir path=etc/X11/fontpath.d
-dir path=usr
-dir path=usr/X11
-dir path=usr/X11/lib
 dir path=usr/X11/lib/X11
 dir path=usr/X11/lib/X11/fonts
-dir path=usr/share
 dir path=usr/share/fonts
 dir path=usr/share/fonts/X11
 dir path=usr/share/fonts/X11/100dpi
@@ -40,6 +34,7 @@ dir path=usr/share/fonts/X11/75dpi
 dir path=usr/share/fonts/X11/Type1
 dir path=usr/share/fonts/X11/cyrillic
 dir path=usr/share/fonts/X11/misc
+
 file path=usr/share/fonts/X11/100dpi/UTBI__10.pcf
 file path=usr/share/fonts/X11/100dpi/UTBI__12.pcf
 file path=usr/share/fonts/X11/100dpi/UTBI__14.pcf
