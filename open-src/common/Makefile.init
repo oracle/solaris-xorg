@@ -119,7 +119,10 @@ ARCH32_FLAGS_i386_suncc 	= -m32 -xarch=sse2 -D__i386__
 ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -D__amd64__
 
 # SPARC ABI requires system libraries not use application registers
-ARCH_LIB_FLAGS_sparc_suncc 	= -xregs=no%appl
+# The normal/documented flag for this is -xregs=no%appl, but for now,
+# we use "-Qoption cg -xregs=no%appl" to workaround bug 7030022 in 
+# the Studio 12.1 compilers that fails to honor the normal option.
+ARCH_LIB_FLAGS_sparc_suncc 	= -Qoption cg -xregs=no%appl
 ARCH_LIB_FLAGS_i386_suncc 	=  
 
 ## GNU Compilers
