@@ -110,15 +110,13 @@ BUILD_TARGETS_SET=yes
 AUTORECONF=yes
 
 # Command line options to GNU autoconf configure script
-#  Need to override LD setting to add -xarch flags that libtool strips
 # XXX: --disable-dga
 MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
         --enable-dmx \
         --enable-builddocs \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
 	MKFONTDIR="$(MKFONTDIR)" \
-	MKFONTSCALE="$(MKFONTSCALE)" \
-	LD="$(CC) $(ARCH_FLAGS)"
+	MKFONTSCALE="$(MKFONTSCALE)"
 
 MODULE_LDFLAGS = $(XSERVER_LDFLAGS)
 MODULE_LD_OPTIONS = $(MAPFILES_FOR_ALL)

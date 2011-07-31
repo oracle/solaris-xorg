@@ -62,62 +62,16 @@ SUNTOUCHED_MANPAGES=
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=
 
-MODULE_LD_OPTIONS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
-MODULE_LD_OPTIONS += -lGL -lGLU
-MODULE_LD_OPTIONS += -z combreloc -z redlocsym -z ignore
-
-# We want GNU cp
-GNUCP=/usr/gnu/bin/cp
-
 # We must build with GNU make
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# Command line options to GNU autoconf configure script
-MODULE_CONFIG_OPTS = $(MODTYPE_CONFIG_OPTS) \
-		     --enable-shared \
-		     --disable-static \
-		     --disable-libtool-lock \
-		     --x-includes=/usr/include \
-		     --x-libraries=/usr/lib$(ARCHLIBSUBDIR) \
-		     --with-x \
-		     --with-pic
-
-# -xF is needed for mapfile reordering to work
-MODULE_CFLAGS = -xF -D__posix__ -D__unix__
-
 #  FreeGLUT really wants to know that we are POSIX friendly
 MODULE_CPPFLAGS = -D__posix__ -D__unix__
-MODULE_CPPFLAGS += -I$(PROTODIR)/usr/X11/include \
-		   -I$(PROTODIR)/usr/X11/include/X11
-
-# Add -lGL and -lGLU to LDFLAGS
-MODULE_LDFLAGS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
-MODULE_LDFLAGS += -lGL -lGLU
-MODULE_LDFLAGS += -z combreloc -z redlocsym -z ignore
-
-# We must use GNU make
-MODULE_ENV = \
-	     SHELL="/bin/bash" \
-	     MAKESHELL="/bin/bash" \
-	     PROTODIR="$(PROTODIR)" \
-	     CC="$(CC)" \
-	     CPPFLAGS="$(MODULE_CPPFLAGS) $(CPPFLAGS)" \
-	     CFLAGS="$(MODULE_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)" \
-	     LDFLAGS="$(LDFLAGS) $(MODULE_LDFLAGS)" \
-	     LD="$(CC) $(CFLAGS) $(LDFLAGS) $(MODULE_LDFLAGS)" \
-	     CPP="$(CC) -E $(MODULE_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)" \
-	     CXXCPP="$(CXX) -E $(CXXFLAGS)" \
-	     MAKEFLAGS= \
-	     MAKE="$(GNUMAKE)" \
-	     CPPROG="$(GNUCP)"
-
-MODULE_CONFIG_ENV = $(MODULE_ENV)
-MODULE_BUILD_ENV = $(MODULE_ENV)
 
 include ../Makefile.inc
 
-# Freeglut's $(VERSION_INFO) breaks delibtoolize.pl
+# FreeGLUT's $(VERSION_INFO) breaks delibtoolize.pl
 DELIBTOOLIZE=no
 
 install: install_extra_symlinks
