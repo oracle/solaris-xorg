@@ -39,7 +39,8 @@ SOURCE_PATCHES = \
 	pciaccess_private.h.patch \
 	scanpci.man.patch \
 	solx_devfs.c.patch \
-	solx_devfs.c.domain.patch
+	solx_devfs.c.domain.patch \
+	scanpci_64bit.patch
 
 # Library name
 LIBNAME=libpciaccess

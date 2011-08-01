@@ -1,0 +1,43 @@
+diff -urp -x '*~' -x '*.orig' src/solx_devfs.c src/solx_devfs.c
+--- src/solx_devfs.c	Fri Jul 15 15:29:25 2011
++++ src/solx_devfs.c	Mon Jul 25 18:57:29 2011
+@@ -865,14 +865,10 @@
+ 	}
+ 
+ 
+-	/*
+-	 * We split the shift count 32 into two 16 to
+-	 * avoid the complaining of the compiler
+-	 */
+-	dev->regions[ent].base_addr = reg->pci_phys_low +
+-	    ((reg->pci_phys_mid << 16) << 16);
+-	dev->regions[ent].size = reg->pci_size_low +
+-	    ((reg->pci_size_hi << 16) << 16);
++	dev->regions[ent].base_addr = reg->pci_phys_low |
++	    ((uint64_t)reg->pci_phys_mid << 32);
++	dev->regions[ent].size = reg->pci_size_low |
++	    ((uint64_t)reg->pci_size_hi << 32);
+ 
+ 	switch (reg->pci_phys_hi & PCI_REG_ADDR_M) {
+ 	    case PCI_ADDR_IO:
+
+diff -urp -x '*~' -x '*.orig' scanpci/scanpci.c scanpci/scanpci.c
+--- scanpci/scanpci.c	Thu Oct  7 14:14:44 2010
++++ scanpci/scanpci.c	Mon Jul 25 17:16:07 2011
+@@ -132,11 +132,14 @@
+ 	pci_device_probe( dev );
+ 	for ( i = 0 ; i < 6 ; i++ ) {
+ 	    if ( dev->regions[i].base_addr != 0 ) {
+-		printf( "  BASE%u     0x%08x SIZE %d  %s",
++		static const char *fmt8 = "  BASE%u     0x%08llx SIZE %d  %s";
++		static const char *fmt16 = "  BASE%u     0x%016llx SIZE %d  %s";
++		printf( dev->regions[i].is_64 ? fmt16 : fmt8,
+ 			i,
+ 			(intptr_t) dev->regions[i].base_addr,
+ 			(size_t) dev->regions[i].size,
+-			(dev->regions[i].is_IO) ? "I/O" : "MEM" );
++			(dev->regions[i].is_IO) ? "I/O" : 
++			((dev->regions[i].is_64) ? "MEM64" : "MEM") );
+ 
+ 		if ( ! dev->regions[i].is_IO ) {
+ 		    if ( dev->regions[i].is_prefetchable ) {
