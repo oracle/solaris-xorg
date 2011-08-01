@@ -36,7 +36,8 @@ TARBALL_MD5  = 13276d780b8ef3a82088f009185bf42b
 TARBALL_SHA1 = 11a6402e82d65bda5fb559c5e9bc72f3fd7af2ed
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
+SOURCE_PATCHES  = \
+	vuid-autoprobe.patch,-p1 \
 	6892799.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list

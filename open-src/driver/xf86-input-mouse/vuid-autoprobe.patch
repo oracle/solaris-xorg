@@ -1,0 +1,52 @@
+From 7bb5cbecbcc24f20467546f957fb95c9190514c0 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Mon, 25 Jul 2011 21:11:50 -0700
+Subject: [PATCH:xf86-input-mouse] sun_mouse.c: Ensure vuidMouse setup routines are called for protocol "Auto"
+
+Fixes regression caused by commit b12fa0d5ab23 in which devices with
+protocol "Auto" (generally just PS/2 devices on Solaris, since HAL
+sets protocol "VUID" for USB devices already) weren't going through
+vuidMousePreInit and setting up the device_control & read_input pointers
+to the routines which know how to decode VUID packets.
+
+Adds a check to vuidPreInit to ensure we don't leak memory if called
+twice for the same device, just in case I missed a code path, or a
+new one appears in the future.
+
+Fixes Solaris bug 7070321: Mouse protocol "Auto" does not work in build 170
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ src/sun_mouse.c |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
+
+diff --git a/src/sun_mouse.c b/src/sun_mouse.c
+index b0d53e8..755ed32 100644
+--- a/src/sun_mouse.c
++++ b/src/sun_mouse.c
+@@ -205,6 +205,10 @@ vuidPreInit(InputInfoPtr pInfo, const char *protocol, int flags)
+     VuidMsePtr pVuidMse;
+     int buttons, i;
+ 
++    /* Ensure we don't add the same device twice */
++    if (getVuidMsePriv(pInfo) != NULL)
++	return TRUE;
++
+     pVuidMse = calloc(sizeof(VuidMseRec), 1);
+     if (pVuidMse == NULL) {
+ 	xf86Msg(X_ERROR, "%s: cannot allocate VuidMouseRec\n", pInfo->name);
+@@ -684,7 +688,9 @@ SetupAuto(InputInfoPtr pInfo, int *protoPara)
+     } else if (pMse->protocolID == PROT_AUTO) {
+ 	pdev = xf86CheckStrOption(pInfo->options,
+ 		"Device", NULL);
+-	solarisMouseAutoProbe(pInfo, &pproto, &pdev);
++	if ((solarisMouseAutoProbe(pInfo, &pproto, &pdev) != FALSE) &&
++	    (pproto != NULL))
++	    sunMousePreInit(pInfo, pproto, 0);
+     }
+     return pproto;
+ }
+-- 
+1.7.3.2
+
