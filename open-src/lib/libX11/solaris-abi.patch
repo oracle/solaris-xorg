@@ -20,10 +20,11 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2011-04-05 13:28:42.000000000 -0700
-+++ configure.ac	2011-04-06 13:52:15.327642630 -0700
-@@ -204,7 +204,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; the
+diff --git a/configure.ac b/configure.ac
+index 6a4878e..64c9f60 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -196,7 +196,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; then
  	fi
  	AC_DEFINE(USE_DYNAMIC_LC,1,
  		  [Split some i18n functions into loadable modules])
@@ -32,9 +33,10 @@ diff -Nurp -x '*~' -x '*.orig' configure.ac configure.ac
  fi
  AC_MSG_RESULT($XLIB_LOADABLE_I18N)
  
-diff -Nurp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2011-02-17 20:54:46.000000000 -0800
-+++ src/Makefile.am	2011-04-06 13:52:15.327994531 -0700
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 71e02e7..a825bb9 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
 @@ -368,9 +368,14 @@ if XKB
  USE_XKB_LIBS = $(XKB_LIBS)
  endif

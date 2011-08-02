@@ -1,6 +1,7 @@
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/xf86Globals.c
---- hw/xfree86/common/xf86Globals.c	2011-06-16 07:12:02.147878487 -0400
-+++ hw/xfree86/common/xf86Globals.c	2011-06-15 14:15:33.000000000 -0400
+diff --git a/hw/xfree86/common/xf86Globals.c b/hw/xfree86/common/xf86Globals.c
+index f87c1eb..bd0279a 100644
+--- a/hw/xfree86/common/xf86Globals.c
++++ b/hw/xfree86/common/xf86Globals.c
 @@ -103,6 +103,8 @@ xf86InfoRec xf86Info = {
      .vtPendingNum               = -1,
  #endif
@@ -10,10 +11,11 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Globals.c hw/xfree86/common/
      .dontZap                    = FALSE,
      .dontZoom                   = FALSE,
      .notrapSignals              = FALSE,
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf86Init.c
---- hw/xfree86/common/xf86Init.c	2011-06-16 07:12:02.229728639 -0400
-+++ hw/xfree86/common/xf86Init.c	2011-06-15 14:18:08.000000000 -0400
-@@ -1334,6 +1334,16 @@ ddxProcessArgument(int argc, char **argv
+diff --git a/hw/xfree86/common/xf86Init.c b/hw/xfree86/common/xf86Init.c
+index c3ff668..db8c02b 100644
+--- a/hw/xfree86/common/xf86Init.c
++++ b/hw/xfree86/common/xf86Init.c
+@@ -1334,6 +1334,16 @@ ddxProcessArgument(int argc, char **argv, int i)
      xf86xkbdirFlag = TRUE;
      return 0;
    }
@@ -39,9 +41,10 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Init.c hw/xfree86/common/xf8
    /* OS-specific usage */
    xf86UseMsg();
    ErrorF("\n");
-diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Privstr.h hw/xfree86/common/xf86Privstr.h
---- hw/xfree86/common/xf86Privstr.h	2010-11-14 05:27:21.000000000 -0500
-+++ hw/xfree86/common/xf86Privstr.h	2011-06-15 14:19:12.000000000 -0400
+diff --git a/hw/xfree86/common/xf86Privstr.h b/hw/xfree86/common/xf86Privstr.h
+index 608f9bd..cdc67cb 100644
+--- a/hw/xfree86/common/xf86Privstr.h
++++ b/hw/xfree86/common/xf86Privstr.h
 @@ -66,6 +66,8 @@ typedef struct {
      int			vtPendingNum;
  #endif
@@ -51,10 +54,11 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/common/xf86Privstr.h hw/xfree86/common/
      Bool		dontZap;
      Bool		dontZoom;
      Bool		notrapSignals;	/* don't exit cleanly - die at fault */
-diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/Xorg.man hw/xfree86/doc/man/Xorg.man
---- hw/xfree86/doc/man/Xorg.man	2011-06-16 07:12:02.427320678 -0400
-+++ hw/xfree86/doc/man/Xorg.man	2011-06-15 14:33:05.000000000 -0400
-@@ -335,6 +335,10 @@ as root (i.e, with real-uid 0).
+diff --git a/hw/xfree86/doc/man/Xorg.man b/hw/xfree86/doc/man/Xorg.man
+index 6fa334c..ffeefd1 100644
+--- a/hw/xfree86/doc/man/Xorg.man
++++ b/hw/xfree86/doc/man/Xorg.man
+@@ -334,6 +334,10 @@ as root (i.e, with real-uid 0).
  .B \-nosilk
  Disable Silken Mouse support.
  .TP 8
@@ -65,7 +69,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/Xorg.man hw/xfree86/doc/man/Xor
  .B \-pixmap24
  Set the internal pixmap format for depth 24 pixmaps to 24 bits per pixel.
  The default is usually 32 bits per pixel.  There is normally little
-@@ -377,6 +381,9 @@ and
+@@ -376,6 +380,9 @@ and
  .B \-ggamma
  options.
  .TP 8
@@ -75,9 +79,10 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/doc/man/Xorg.man hw/xfree86/doc/man/Xor
  .BI \-screen " screen-name"
  Use the __xconfigfile__(__filemansuffix__) file
  .B Screen
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bsd/bsd_init.c hw/xfree86/os-support/bsd/bsd_init.c
---- hw/xfree86/os-support/bsd/bsd_init.c	2011-02-27 18:48:26.000000000 -0500
-+++ hw/xfree86/os-support/bsd/bsd_init.c	2011-06-16 07:43:20.548858212 -0400
+diff --git a/hw/xfree86/os-support/bsd/bsd_init.c b/hw/xfree86/os-support/bsd/bsd_init.c
+index 123eb17..c9ef330 100644
+--- a/hw/xfree86/os-support/bsd/bsd_init.c
++++ b/hw/xfree86/os-support/bsd/bsd_init.c
 @@ -45,7 +45,6 @@ static int devConsoleFd = -1;
  #if defined (SYSCONS_SUPPORT) || defined (PCVT_SUPPORT)
  static int VTnum = -1;
@@ -132,7 +137,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bsd/bsd_init.c hw/xfree86/os
  
      switch (xf86Info.consType)
      {
-@@ -723,11 +723,6 @@ xf86ProcessArgument(int argc, char *argv
+@@ -723,11 +723,6 @@ xf86ProcessArgument(int argc, char *argv[], int i)
  		return 1;
  	}
  #if defined (SYSCONS_SUPPORT) || defined (PCVT_SUPPORT)
@@ -144,9 +149,10 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/bsd/bsd_init.c hw/xfree86/os
  	if ((argv[i][0] == 'v') && (argv[i][1] == 't'))
  	{
  		if (sscanf(argv[i], "vt%2d", &VTnum) == 0 ||
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/os-support/linux/lnx_init.c
---- hw/xfree86/os-support/linux/lnx_init.c	2010-12-02 15:25:57.000000000 -0500
-+++ hw/xfree86/os-support/linux/lnx_init.c	2011-06-16 07:39:56.547383139 -0400
+diff --git a/hw/xfree86/os-support/linux/lnx_init.c b/hw/xfree86/os-support/linux/lnx_init.c
+index 77dfb2f..8977ab8 100644
+--- a/hw/xfree86/os-support/linux/lnx_init.c
++++ b/hw/xfree86/os-support/linux/lnx_init.c
 @@ -39,8 +39,6 @@
  #include <sys/stat.h>
  
@@ -156,16 +162,16 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/
  static int activeVT = -1;
  
  static char vtname[11];
-@@ -105,7 +103,7 @@ xf86OpenConsole(void)
+@@ -109,7 +107,7 @@ xf86OpenConsole(void)
  		    "xf86OpenConsole: Cannot open /dev/tty0 (%s)\n",
  		    strerror(errno));
  
 -            if (ShareVTs)
 +            if (xf86Info.ShareVTs)
              {
-                 if (ioctl(fd, VT_GETSTATE, &vts) == 0)
-                     xf86Info.vtno = vts.v_active;
-@@ -177,7 +175,7 @@ xf86OpenConsole(void)
+ 		SYSCALL(ret = ioctl(fd, VT_GETSTATE, &vts));
+ 		if (ret < 0)
+@@ -184,7 +182,7 @@ xf86OpenConsole(void)
  	}
  #endif
  
@@ -174,7 +180,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/
          {
              struct termios nTty;
  
-@@ -229,7 +227,7 @@ xf86OpenConsole(void)
+@@ -240,7 +238,7 @@ xf86OpenConsole(void)
  	     * of Init?$#*&Device(). So I just place it here */
          }
      } else { 	/* serverGeneration != 1 */
@@ -183,16 +189,16 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/
          {
  	    /* now get the VT */
              switch_to(xf86Info.vtno, "xf86OpenConsole");
-@@ -242,7 +240,7 @@ xf86CloseConsole(void)
- {
+@@ -254,7 +252,7 @@ xf86CloseConsole(void)
      struct vt_mode   VT;
+     int ret;
  
 -    if (ShareVTs) {
 +    if (xf86Info.ShareVTs) {
          close(xf86Info.consoleFd);
          return;
      }
-@@ -271,7 +269,7 @@ xf86CloseConsole(void)
+@@ -286,7 +284,7 @@ xf86CloseConsole(void)
  		    strerror(errno));
      }
  
@@ -201,7 +207,7 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/
      {
          /*
           * Perform a switch back to the active VT when we were started
-@@ -296,16 +294,6 @@ xf86ProcessArgument(int argc, char *argv
+@@ -311,16 +309,6 @@ xf86ProcessArgument(int argc, char *argv[], int i)
  		KeepTty = TRUE;
  		return 1;
  	}
@@ -218,17 +224,18 @@ diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/linux/lnx_init.c hw/xfree86/
  	if ((argv[i][0] == 'v') && (argv[i][1] == 't'))
  	{
  		if (sscanf(argv[i], "vt%2d", &xf86Info.vtno) == 0)
-@@ -325,6 +313,4 @@ xf86UseMsg(void)
+@@ -340,6 +328,4 @@ xf86UseMsg(void)
  	ErrorF("vtXX                   use the specified VT number\n");
  	ErrorF("-keeptty               ");
  	ErrorF("don't detach controlling tty (for debugging only)\n");
 -	ErrorF("-novtswitch            don't immediately switch to new VT\n");
 -	ErrorF("-sharevts              share VTs with another X server\n");
  }
-diff -urp -x '*~' -x '*.orig' hw/xfree86/os-support/solaris/sun_init.c hw/xfree86/os-support/solaris/sun_init.c
---- hw/xfree86/os-support/solaris/sun_init.c	2011-06-16 07:12:02.278692640 -0400
-+++ hw/xfree86/os-support/solaris/sun_init.c	2011-06-15 14:51:09.000000000 -0400
-@@ -66,6 +66,22 @@ static char consoleDev[PATH_MAX] = "/dev
+diff --git a/hw/xfree86/os-support/solaris/sun_init.c b/hw/xfree86/os-support/solaris/sun_init.c
+index 42e20ac..4fe40ca 100644
+--- a/hw/xfree86/os-support/solaris/sun_init.c
++++ b/hw/xfree86/os-support/solaris/sun_init.c
+@@ -66,6 +66,22 @@ static char consoleDev[PATH_MAX] = "/dev/fb";
     Used by hw/xfree86/common/xf86AutoConfig.c for VIS_GETIDENTIFIER */
  _X_HIDDEN char xf86SolarisFbDev[PATH_MAX] = "/dev/fb";
  

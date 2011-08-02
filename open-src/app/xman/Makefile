@@ -29,17 +29,17 @@
 MODULE_NAME=xman
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 56a00ccb38996c3518f14bb87c03a03e
-TARBALL_SHA1 = c8e1170e837da4bc280ee907030b3f9245608ef2
+TARBALL_MD5  = 17d89b043083cba9e335379fc61981c0
+TARBALL_SHA1 = ba10cf0b2d0c2b40ded93e892c69e7bd4586ad1e
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6708109.patch
+SOURCE_PATCHES = 6708109.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xman.man
 MODULE_STABILITY=Committed
 
 MODULE_ADD_INSTALL_TARGETS = install_po

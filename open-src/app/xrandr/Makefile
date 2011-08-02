@@ -29,11 +29,11 @@
 MODULE_NAME=xrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.4
+MODULE_VERSION=1.3.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d6d20038257eba5178b523e10239d51c
-TARBALL_SHA1 = 637949501b8a45d32d9cab809e8822ee45b69414
+TARBALL_MD5  = 9735173a84dca9b05e06fd4686196b07
+TARBALL_SHA1 = ef45925d5b0e72c73d21798d65a41d476fdb0d3f
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
@@ -48,7 +48,7 @@ MODULE_ARC_CASES += PSARC/2007/430
 MODULE_ARC_CASES += PSARC/2009/269
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xrandr.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

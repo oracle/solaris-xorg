@@ -24,7 +24,7 @@
 7010804 Xorg should audit connections and disconnections.
 
 diff --git a/configure.ac b/configure.ac
-index 756733e..1f1ba8e 100644
+index 122396b..d59ea4a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -312,6 +312,12 @@ AC_CHECK_HEADER([execinfo.h],[
@@ -37,11 +37,11 @@ index 756733e..1f1ba8e 100644
 +        [Define to 1 if you have the Solaris auditing library (-lbsm)])])
 +AM_CONDITIONAL([HAVE_LIBBSM], [test "x$HAVE_LIBBSM" = xyes])
 +
- dnl ARM needs additional compiler flags for proper backtraces if GCC is
- dnl used. Compile a dummy program with the -mapcs-frame option. If it
- dnl succeeds, we know that we are building for ARM with GCC.
+ dnl ---------------------------------------------------------------------------
+ dnl Bus options and CPU capabilities.  Replaces logic in
+ dnl hw/xfree86/os-support/bus/Makefile.am, among others.
 diff --git a/dix/main.c b/dix/main.c
-index 692bec1..dcc38b3 100644
+index e20ffd6..f79e861 100644
 --- a/dix/main.c
 +++ b/dix/main.c
 @@ -202,6 +202,7 @@ int main(int argc, char *argv[], char *envp[])
@@ -67,10 +67,10 @@ index d81264d..25bedef 100644
  #undef HAVE_LIBM
  
 diff --git a/os/Makefile.am b/os/Makefile.am
-index 3e4f2c5..40c732f 100644
+index 66a4a0f..725691d 100644
 --- a/os/Makefile.am
 +++ b/os/Makefile.am
-@@ -23,6 +23,7 @@ libos_la_SOURCES = 	\
+@@ -15,6 +15,7 @@ libos_la_SOURCES = 	\
  	connection.c	\
  	io.c		\
  	mitauth.c	\
@@ -90,6 +90,3 @@ index 087e36d..9095aab 100644
 +extern void OSAuditInit (void);
 +
  #endif /* _OSDEP_H_ */
--- 
-1.7.3.2
-

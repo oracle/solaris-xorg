@@ -29,11 +29,11 @@
 MODULE_NAME=xprop
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e6d0673a1e1e469f0a6220a6868fb94b
-TARBALL_SHA1 = 278f83c5077eed1d96c180bdc0a6f22ba5279a66
+TARBALL_MD5  = d5529dc8d811efabd136ca2d8e857deb
+TARBALL_SHA1 = d531be0f5f2b7758216ea4d7890f88c42c5fa3fd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -49,7 +49,7 @@ MODULE_ARC_CASES = LSARC/2008/048
 MODULE_ARC_CASES += PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xprop.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

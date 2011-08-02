@@ -31,11 +31,11 @@ MODULE_PKGTAIL=xorg-docs
 MODULE_PKGTAIL_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.7
+MODULE_VERSION=1.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2588efb3f49f7fc6ecf41ce42e0b2e5e
-TARBALL_SHA1 = 5301166d1e36df9cd796adf944d003f32b7b4945
+TARBALL_MD5  = c6ad2cca27c24115e3e74a34beb9f4d5
+TARBALL_SHA1 = 524c994832508d3097c1a42bd3623251c9f87d77
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

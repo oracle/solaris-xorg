@@ -21,10 +21,10 @@
 6385111: Xorg auto-configuration Improvement
 
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index d5e2097..e64d54c 100644
+index 3c3735e..764fe7e 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
-@@ -2005,7 +2005,7 @@ configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
+@@ -2019,7 +2019,7 @@ configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
      cmodep = conf_monitor->mon_modeline_lst;
      while( cmodep ) {
          mode = xnfcalloc(1, sizeof(DisplayModeRec));

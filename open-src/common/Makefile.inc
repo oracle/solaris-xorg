@@ -276,6 +276,15 @@ $(CHECKSUM_TARGET): $(SOURCE_TARBALL)
 			"$${ACTUAL_SHA1} != ${TARBALL_SHA1}" ; \
 		exit 1; \
 	    fi ; \
+	    if [[ -n "${TARBALL_SHA256}" ]] ; then \
+		ACTUAL_SHA256="$$(digest -a sha256 ${SOURCE_TARBALL})" ; \
+	    	if [[ "$${ACTUAL_SHA256}" != "${TARBALL_SHA256}" ]] ; then \
+			print -u2 \
+			  "ERROR: SHA256 sum mismatch on ${SOURCE_TARBALL}\n" \
+			  "$${ACTUAL_SHA256} !=\n ${TARBALL_SHA256}" ; \
+			exit 1; \
+	 	fi ; \
+	    fi ; \
 	fi
 	touch $(CHECKSUM_TARGET)
 

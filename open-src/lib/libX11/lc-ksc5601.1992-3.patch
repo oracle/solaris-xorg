@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
---- src/xlibi18n/lcCT.c	2010-09-03 22:52:39.000000000 -0700
-+++ src/xlibi18n/lcCT.c	2010-11-21 18:48:03.683823575 -0800
+diff --git a/src/xlibi18n/lcCT.c b/src/xlibi18n/lcCT.c
+index 2fbe8aa..ac07cb1 100644
+--- a/src/xlibi18n/lcCT.c
++++ b/src/xlibi18n/lcCT.c
 @@ -51,7 +51,7 @@
   * Static representation of a character set that can be used in Compound Text.
   */
@@ -33,7 +34,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      const char ct_sequence[5];	/* Compound Text encoding, ESC sequence */
  } CTDataRec, *CTData;
  
-@@ -95,6 +95,7 @@ static const CTDataRec default_ct_data[]
+@@ -95,6 +95,7 @@ static const CTDataRec default_ct_data[] =
      { "JISX0212.1990-0:GR", /* JIS_X0212-1990      159   */ "\033$)D" },
      { "KSC5601.1987-0:GL",  /* KS_C_5601-1987      149   */ "\033$(C" },
      { "KSC5601.1987-0:GR",  /* KS_C_5601-1987      149   */ "\033$)C" },
@@ -41,10 +42,11 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcCT.c src/xlibi18n/lcCT.c
      { "CNS11643.1986-1:GL", /* CNS 11643-1992 pl.1 171   */ "\033$(G" },
      { "CNS11643.1986-1:GR", /* CNS 11643-1992 pl.1 171   */ "\033$)G" },
      { "CNS11643.1986-2:GL", /* CNS 11643-1992 pl.2 172   */ "\033$(H" },
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcGeneric.c src/xlibi18n/lcGeneric.c
---- src/xlibi18n/lcGeneric.c	2010-09-03 22:52:39.000000000 -0700
-+++ src/xlibi18n/lcGeneric.c	2010-11-21 18:48:03.684217722 -0800
-@@ -756,6 +756,8 @@ load_generic(
+diff --git a/src/xlibi18n/lcGeneric.c b/src/xlibi18n/lcGeneric.c
+index 619cb47..3f6ebe7 100644
+--- a/src/xlibi18n/lcGeneric.c
++++ b/src/xlibi18n/lcGeneric.c
+@@ -745,6 +745,8 @@ load_generic(
              /* 3.4.1 side */
              if (!_XlcNCompareISOLatin1(value[0], "none", 4)) {
                  codeset->side =  XlcNONE;
@@ -53,9 +55,10 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcGeneric.c src/xlibi18n/lcGeneric.c
              } else if (!_XlcNCompareISOLatin1(value[0], "GL", 2)) {
                  codeset->side =  XlcGL;
              } else {
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUTF8.c src/xlibi18n/lcUTF8.c
---- src/xlibi18n/lcUTF8.c	2010-09-03 22:52:39.000000000 -0700
-+++ src/xlibi18n/lcUTF8.c	2010-11-21 18:48:03.684843035 -0800
+diff --git a/src/xlibi18n/lcUTF8.c b/src/xlibi18n/lcUTF8.c
+index 3e934b7..59dfe1a 100644
+--- a/src/xlibi18n/lcUTF8.c
++++ b/src/xlibi18n/lcUTF8.c
 @@ -208,6 +208,7 @@ typedef struct {
  #include "lcUniConv/jisx0208.h"
  #include "lcUniConv/jisx0212.h"

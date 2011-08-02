@@ -33,17 +33,17 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 46fc44e5e947d3720f3be5054044ff0e
-TARBALL_SHA1 = 6d94b5822e8ce08630a8ff510230246d5ed45290
+TARBALL_MD5  = 105f5b00bb9293b3db36f7e500d4f950
+TARBALL_SHA1 = 10a68367ecc60a641b9aa89e6f24f7ca71f23874
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xauth.man
 MODULE_STABILITY=Committed
 
 # ARC cases that covered this module

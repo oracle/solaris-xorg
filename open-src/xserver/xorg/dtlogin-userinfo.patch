@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 diff --git a/configure.ac b/configure.ac
-index de6665a..ac7caae 100644
+index d59ea4a..d960d4c 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1458,6 +1458,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUIRED_LIBS])
+@@ -1464,6 +1464,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUIRED_LIBS])
  XSERVER_CFLAGS="${XSERVER_CFLAGS} ${XSERVERCFLAGS_CFLAGS}"
  XSERVER_LIBS="$DIX_LIB $MI_LIB $OS_LIB"
  XSERVER_SYS_LIBS="${XSERVERLIBS_LIBS} ${SYS_LIBS} ${LIBS}"
@@ -31,7 +31,7 @@ index de6665a..ac7caae 100644
  AC_SUBST([XSERVER_SYS_LIBS])
  
 diff --git a/dix/main.c b/dix/main.c
-index e20ffd6..7cab838 100644
+index f79e861..148fb08 100644
 --- a/dix/main.c
 +++ b/dix/main.c
 @@ -115,6 +115,11 @@ Equipment Corporation.
@@ -60,7 +60,7 @@ index e20ffd6..7cab838 100644
  	if(serverGeneration == 1)
  	{
  	    CreateWellKnownSockets();
-@@ -293,6 +305,11 @@ int main(int argc, char *argv[], char *envp[])
+@@ -294,6 +306,11 @@ int main(int argc, char *argv[], char *envp[])
  	pthread_mutex_unlock(&serverRunningMutex);
  #endif
  
@@ -73,10 +73,10 @@ index e20ffd6..7cab838 100644
  
  	/* Now free up whatever must be freed */
 diff --git a/os/Makefile.am b/os/Makefile.am
-index 66a4a0f..b4f90ce 100644
+index 725691d..c41954d 100644
 --- a/os/Makefile.am
 +++ b/os/Makefile.am
-@@ -40,6 +40,9 @@ if NEED_STRLCAT
+@@ -41,6 +41,9 @@ if NEED_STRLCAT
  libos_la_SOURCES += $(STRLCAT_SRCS)
  endif
  

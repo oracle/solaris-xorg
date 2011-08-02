@@ -29,14 +29,15 @@
 MODULE_NAME=xset
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4e0ce390394416c9e2c5cd4d7413ba87
-TARBALL_SHA1 = 9b1eb8835637dd70eea1a1365df5d909a306cc2c
+TARBALL_MD5  = d44e0057d6722b25d5a314e82e0b7e7c
+TARBALL_SHA1 = e48d628259dbe1ff413ec8408b4fee9561c8815c
+TARBALL_SHA256 = 61371c140030b8b05075a1378b34a4d7c438ed9159496a95f10782c6f4aec1e8
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = xsetfbpm.patch
+SOURCE_PATCHES = xsetfbpm.patch,-p1
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
@@ -50,7 +51,7 @@ MODULE_ARC_CASES += LSARC/2009/361
 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xset.man
 MODULE_STABILITY=Uncommitted
 
 # Compatibility links from /usr/X11/bin to /usr/bin

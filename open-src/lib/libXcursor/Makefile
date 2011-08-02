@@ -29,11 +29,11 @@
 MODULE_NAME=libXcursor
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.11
+MODULE_VERSION=1.1.12
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 866ed46f7e0d85b8c0003cebbb78a4af
-TARBALL_SHA1 = 35491bd17cbcdda712e1a064c67ccbc523e2702c
+TARBALL_MD5  = a93b5a6f5b05976d2c0d3f8a07f6ac6a
+TARBALL_SHA1 = f68d7baed5ecf4b1ae88004dd05ef4680d63ee2c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

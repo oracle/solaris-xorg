@@ -29,19 +29,18 @@
 MODULE_NAME=xf86-input-synaptics
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cbe487f9d22237d1e39c7d0b5812ab7e
-TARBALL_SHA1 = 96541b063482568e177f883a9fcfbe9a22c25569
+TARBALL_MD5  = 2dac10f93918ed5bf7d1039d56880cf4
+TARBALL_SHA1 = e41201476f4bc8658291808d2d6ef2e0535179ae
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 
 # Extra flags to pass to configure script
-MODULE_CONFIG_OPTS= \
-	--bindir=$(X11_SERVERLIBS_DIR)
+MODULE_CONFIG_OPTS= --bindir=$(X11_SERVERLIBS_DIR)
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= -lm

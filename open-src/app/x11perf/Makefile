@@ -29,11 +29,12 @@
 MODULE_NAME=x11perf
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.3
+MODULE_VERSION=1.5.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c3ac3667a6f5c3cead9847fbf4b5f36e
-TARBALL_SHA1 = 2fd00ba38c36c569751bbe3d60917df2a39e10ba
+TARBALL_MD5  = 5c3c7431a38775caaea6051312a49bc9
+TARBALL_SHA1 = d820e95ee6698e7036d4823f5ac5669b79acea86
+TARBALL_SHA256 = 24ee8857a2bf414b360addabf1c27ef797f7f504ee9bc409c151760bfbe53184
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2008/095
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

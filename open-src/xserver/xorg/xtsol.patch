@@ -88,7 +88,7 @@ index 3d3894a..8b7317f 100644
 +
  #endif /* _SECURITY_SRV_H */
 diff --git a/configure.ac b/configure.ac
-index f4311c3..69057ec 100644
+index c6cbb69..32a3cce 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -227,6 +227,14 @@ dnl Find the math libary
@@ -106,7 +106,7 @@ index f4311c3..69057ec 100644
  AC_CHECK_HEADERS([ndbm.h dbm.h rpcsvc/dbm.h])
  
  dnl AGPGART headers
-@@ -1501,6 +1509,8 @@ AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
+@@ -1507,6 +1515,8 @@ AM_CONDITIONAL(XVFB, [test "x$XVFB" = xyes])
  if test "x$XVFB" = xyes; then
  	XVFB_LIBS="$FB_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_SYNC_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB"
  	XVFB_SYS_LIBS="$XVFBMODULES_LIBS $GLX_SYS_LIBS"
@@ -115,7 +115,7 @@ index f4311c3..69057ec 100644
  	AC_SUBST([XVFB_LIBS])
  	AC_SUBST([XVFB_SYS_LIBS])
  fi
-@@ -1522,6 +1532,8 @@ if test "x$XNEST" = xyes; then
+@@ -1528,6 +1538,8 @@ if test "x$XNEST" = xyes; then
  	fi
  	XNEST_LIBS="$FB_LIB $FIXES_LIB $MI_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_SYNC_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $DIX_LIB $MAIN_LIB $OS_LIB"
  	XNEST_SYS_LIBS="$XNESTMODULES_LIBS $GLX_SYS_LIBS"
@@ -124,7 +124,7 @@ index f4311c3..69057ec 100644
  	AC_SUBST([XNEST_LIBS])
  	AC_SUBST([XNEST_SYS_LIBS])
  fi
-@@ -2086,6 +2098,7 @@ if test "$KDRIVE" = yes; then
+@@ -2092,6 +2104,7 @@ if test "$KDRIVE" = yes; then
      KDRIVE_CFLAGS="$XSERVER_CFLAGS -DHAVE_KDRIVE_CONFIG_H $TSLIB_CFLAGS"
  
      KDRIVE_PURE_LIBS="$FB_LIB $MI_LIB $FIXES_LIB $XEXT_LIB $DBE_LIB $RECORD_LIB $GLX_LIBS $RANDR_LIB $RENDER_LIB $DAMAGE_LIB $MIEXT_SYNC_LIB $MIEXT_DAMAGE_LIB $MIEXT_SHADOW_LIB $XI_LIB $XKB_LIB $XKB_STUB_LIB $COMPOSITE_LIB $OS_LIB"
@@ -132,7 +132,7 @@ index f4311c3..69057ec 100644
      KDRIVE_LIB='$(top_builddir)/hw/kdrive/src/libkdrive.la'
      case $host_os in
  	*linux*)
-@@ -2277,3 +2290,6 @@ xorg-server.pc
+@@ -2283,3 +2296,6 @@ xorg-server.pc
  
  # Add Sun IA extension
  AC_OUTPUT([IA/Makefile])
@@ -194,7 +194,7 @@ index 7b2132d..63a2378 100644
             int x, int y, int width, int height, 
             Mask planemask, xGetImageReply **im_return)
 diff --git a/dix/window.c b/dix/window.c
-index 9be7064..25f1a52 100644
+index 41306b3..6d4db39 100644
 --- a/dix/window.c
 +++ b/dix/window.c
 @@ -97,6 +97,33 @@ Equipment Corporation.
@@ -243,7 +243,7 @@ index 9be7064..25f1a52 100644
  #ifdef DEBUG
  /******
   * PrintWindowTree
-@@ -1835,7 +1867,12 @@ IsSiblingAboveMe(
+@@ -1837,7 +1869,12 @@ IsSiblingAboveMe(
      return Below;
  }
  
@@ -257,7 +257,7 @@ index 9be7064..25f1a52 100644
  WindowExtents(
      WindowPtr pWin,
      BoxPtr pBox)
-@@ -1865,7 +1902,12 @@ MakeBoundingRegion (
+@@ -1867,7 +1904,12 @@ MakeBoundingRegion (
      return pRgn;
  }
  
@@ -271,7 +271,7 @@ index 9be7064..25f1a52 100644
  ShapeOverlap (
      WindowPtr	pWin,
      BoxPtr	pWinBox,
-@@ -2065,7 +2107,12 @@ WhereDoIGoInTheStack(
+@@ -2067,7 +2109,12 @@ WhereDoIGoInTheStack(
      }
  }
  
@@ -286,7 +286,7 @@ index 9be7064..25f1a52 100644
      WindowPtr pWin,
      WindowPtr pSib,
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index 21bfe0b..7c548eb 100644
+index e1d24e4..9827e4f 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
 @@ -126,6 +126,7 @@ static ModuleDefault ModuleDefaults[] = {
@@ -406,10 +406,10 @@ index bb66dfb..3a51180 100644
  #endif /* EXTENSIONSTRUCT_H */
  
 diff --git a/include/input.h b/include/input.h
-index f96a0a9..89ab1bf 100644
+index 95aae43..3f8a884 100644
 --- a/include/input.h
 +++ b/include/input.h
-@@ -403,7 +403,7 @@ extern void NoteLedState(
+@@ -408,7 +408,7 @@ extern void NoteLedState(
      int /*led*/,
      Bool /*on*/);
  

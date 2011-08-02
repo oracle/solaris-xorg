@@ -31,10 +31,10 @@ index 62c8d95..4d2e2ca 100644
  	config \
  	hw \
 diff --git a/configure.ac b/configure.ac
-index 926d159..f4311c3 100644
+index d960d4c..c6cbb69 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1141,6 +1141,10 @@ AC_DEFINE(XINPUT, 1, [Support X Input extension])
+@@ -1147,6 +1147,10 @@ AC_DEFINE(XINPUT, 1, [Support X Input extension])
  XI_LIB='$(top_builddir)/Xi/libXi.la'
  XI_INC='-I$(top_srcdir)/Xi'
  
@@ -45,7 +45,7 @@ index 926d159..f4311c3 100644
  AM_CONDITIONAL(XF86UTILS, test "x$XF86UTILS" = xyes)
  AM_CONDITIONAL(XAA, test "x$XAA" = xyes)
  AM_CONDITIONAL(VGAHW, test "x$VGAHW" = xyes)
-@@ -2270,3 +2274,6 @@ test/Makefile
+@@ -2276,3 +2280,6 @@ test/Makefile
  test/xi2/Makefile
  xorg-server.pc
  ])
@@ -53,7 +53,7 @@ index 926d159..f4311c3 100644
 +# Add Sun IA extension
 +AC_OUTPUT([IA/Makefile])
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index 9622eab..21bfe0b 100644
+index 387c134..e1d24e4 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
 @@ -125,6 +125,7 @@ static ModuleDefault ModuleDefaults[] = {

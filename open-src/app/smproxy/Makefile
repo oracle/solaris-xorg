@@ -33,20 +33,20 @@ MODULE_PKGNAME=x11/session/smproxy
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8ab518393bef44d3ea2bccb027021aab
-TARBALL_SHA1 = ea9639b6d0669f157ac62b807cdba64f509b25ed
+TARBALL_MD5  = edce41bd7562dcdfb813e05dbeede8ac
+TARBALL_SHA1 = 59e19def9a351896cb3101cb580ae424e9e48a3e
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = pkgconfig.patch,-p1
+SOURCE_PATCHES = 
 
 # Need to regenerate configure from configure.ac after applying pkgconfig.patch
 AUTORECONF = yes
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/smproxy.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

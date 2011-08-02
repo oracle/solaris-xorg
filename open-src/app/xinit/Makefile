@@ -29,14 +29,15 @@
 MODULE_NAME=xinit
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bc4e8b7d1919597cc37a0d24aa149dda
-TARBALL_SHA1 = 6437292214bbca6efad8889c68e72a1ca584928b
+TARBALL_MD5  = ee234056d8a3dbf37b61b4bcb35b88e4
+TARBALL_SHA1 = 6d3981c23ce49212a26912651d6d2473a5065766
+TARBALL_SHA256 = c7468dfae94bdb42785d79623c27156dc4bf379d8372992830482cb04d8439b0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6714067.patch 7023672.patch
+SOURCE_PATCHES = 6714067.patch,-p1 7023672.patch,-p1
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/session/$(MODULE_NAME)
@@ -49,7 +50,7 @@ MODULE_ARC_CASES = PSARC/2008/379
 MODULE_ARC_CASES += PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

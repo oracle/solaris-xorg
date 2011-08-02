@@ -32,8 +32,9 @@ MODULE_NAME=xorg-server
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c9ba50bd44ea70da51f13100336a5484
-TARBALL_SHA1 = fd831b3c6297d1a68830c602d767752d87b9ca54
+TARBALL_MD5  = fc1bb18a09244cd43a998625a6a1b071
+TARBALL_SHA1 = 1699be5c0edeca553cfa3ee6caa228483465136b
+TARBALL_SHA256 = 05ec05fbc8ec336127071db38cfb61c618e43b720edbd8d51d171c0cd359e290
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds

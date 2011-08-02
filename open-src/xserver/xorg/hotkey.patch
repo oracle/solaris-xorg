@@ -1,5 +1,5 @@
 diff --git a/Xi/exevents.c b/Xi/exevents.c
-index 327873e..717f275 100644
+index 9bd9d60..e41fa74 100644
 --- a/Xi/exevents.c
 +++ b/Xi/exevents.c
 @@ -187,7 +187,16 @@ CopyKeyClass(DeviceIntPtr device, DeviceIntPtr master)
@@ -20,10 +20,10 @@ index 327873e..717f275 100644
  
      mk->sourceid = device->id;
 diff --git a/Xi/extinit.c b/Xi/extinit.c
-index 82df7eb..6b99fae 100644
+index 7f09dfe..d81ca33 100644
 --- a/Xi/extinit.c
 +++ b/Xi/extinit.c
-@@ -371,6 +371,10 @@ extern XExtensionVersion XIVersion;
+@@ -372,6 +372,10 @@ extern XExtensionVersion XIVersion;
  
  Mask PropagateMask[MAXDEVICES];
  
@@ -34,7 +34,7 @@ index 82df7eb..6b99fae 100644
  /*****************************************************************
   *
   * Versioning support
-@@ -1255,6 +1259,11 @@ XInputExtensionInit(void)
+@@ -1258,6 +1262,11 @@ XInputExtensionInit(void)
      if (!dixRegisterPrivateKey(&XIClientPrivateKeyRec, PRIVATE_CLIENT, sizeof(XIClientRec)))
          FatalError("Cannot request private for XI.\n");
  
@@ -159,7 +159,7 @@ index b263f36..425aec2 100644
        <match key="/org/freedesktop/Hal/devices/computer:system.kernel.name"
               string="Linux">
 diff --git a/include/inputstr.h b/include/inputstr.h
-index b74ee04..808f36f 100644
+index 2ee2fd8..1c3711c 100644
 --- a/include/inputstr.h
 +++ b/include/inputstr.h
 @@ -57,6 +57,11 @@ SOFTWARE.

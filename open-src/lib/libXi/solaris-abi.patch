@@ -1,6 +1,7 @@
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2010-10-25 16:55:23.000000000 -0700
-+++ src/Makefile.am	2011-02-11 16:44:24.132405127 -0800
+diff --git a/src/Makefile.am b/src/Makefile.am
+index c036ae7..91e8029 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
 @@ -72,7 +72,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
              $(CWARNFLAGS)
  
@@ -10,10 +11,11 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  
  libXiincludedir = $(includedir)/X11/extensions
  libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h \
-diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
---- src/Makefile.in	2011-01-25 13:42:19.000000000 -0800
-+++ src/Makefile.in	2011-02-11 16:44:24.132924989 -0800
-@@ -337,7 +337,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 4ca3ac7..b66f7b3 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -340,7 +340,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
              $(MALLOC_ZERO_CFLAGS) \
              $(CWARNFLAGS)
  

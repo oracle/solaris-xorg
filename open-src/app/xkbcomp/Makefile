@@ -33,17 +33,17 @@ MODULE_PKGNAME=x11/keyboard/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0f55995cd8da9b2d88553e1a2e17cd0a
-TARBALL_SHA1 = 67a10a1671fd1a0d6e09b4dfe93d0331af699f26
+TARBALL_MD5  = 35622a497894c1cff9182d42696c3e27
+TARBALL_SHA1 = c20d1b5b8e25634cc9a79c5e4c3397a5ffbee1e0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xkbcomp.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

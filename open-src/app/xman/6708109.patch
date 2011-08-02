@@ -1,6 +1,35 @@
-diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
---- buttons.c	2009-10-16 14:39:48.000000000 -0700
-+++ buttons.c	2011-01-28 20:32:24.195046596 -0800
+#
+# Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+Includes Solaris changes for:
+4213490 Add support for SGML format man pages
+4226089 xman utility needs to display new SunOS directories
+4365478 Internationalize xman
+
+diff --git a/buttons.c b/buttons.c
+index 9233346..cd57352 100644
+--- a/buttons.c
++++ b/buttons.c
 @@ -36,6 +36,8 @@ from the X Consortium.
   * Created:   October 27, 1987
   */
@@ -18,7 +47,7 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
  static void StartManpage(ManpageGlobals * man_globals, Boolean help, Boolean page);
  static Widget * ConvertNamesToWidgets(Widget parent, char ** names);
  
-@@ -57,6 +60,7 @@ static Widget * ConvertNamesToWidgets(Wi
+@@ -57,6 +60,7 @@ static Widget * ConvertNamesToWidgets(Widget parent, char ** names);
   */
  
  #define TOPARGS 5
@@ -88,7 +117,7 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
  
  /* Create Directory */
  
-@@ -330,7 +353,7 @@ StartManpage(ManpageGlobals * man_global
+@@ -330,7 +353,7 @@ StartManpage(ManpageGlobals * man_globals, Boolean help, Boolean page)
  
    if (page || help) {
      if (help) 
@@ -97,7 +126,7 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
  
      if (man_globals->both_shown) {
        XtManageChild(dir);
-@@ -519,7 +542,7 @@ CreateSectionMenu(ManpageGlobals * man_g
+@@ -519,7 +542,7 @@ CreateSectionMenu(ManpageGlobals * man_globals, Widget parent)
    menu = XtCreatePopupShell(SECTION_MENU, simpleMenuWidgetClass, parent,
  			    NULL, (Cardinal) 0);
  
@@ -105,8 +134,8 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
 +  for (i = 0 ; i < ((sections <= MAX_MENU) ? sections:sections/2) ; i ++) {
      num_args = 0;
      XtSetArg(args[num_args], XtNlabel, manual[i].blabel); num_args++;
-     sprintf(entry_name, "section%d", i);
-@@ -535,6 +558,37 @@ CreateSectionMenu(ManpageGlobals * man_g
+     snprintf(entry_name, sizeof(entry_name), "section%d", i);
+@@ -535,6 +558,37 @@ CreateSectionMenu(ManpageGlobals * man_globals, Widget parent)
    }
  }
  
@@ -128,7 +157,7 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
 +  for (i = sections/2-1 ; i < sections ; i ++) {
 +    num_args = 0;
 +    XtSetArg(args[num_args], XtNlabel, manual[i].blabel); num_args++;
-+    sprintf(entry_name, "section%d", i);
++    snprintf(entry_name, sizeof(entry_name), "section%d", i);
 +
 +    entry = XtCreateManagedWidget(entry_name, smeBSBObjectClass,
 +                                  menu, args, num_args);
@@ -144,16 +173,16 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
  /*	Function Name: CreateList
   *	Description: this function prints a label in the directory list
   *	Arguments: section - the manual section.
-@@ -579,7 +633,7 @@ MakeDirectoryBox(ManpageGlobals *man_glo
+@@ -579,7 +633,7 @@ MakeDirectoryBox(ManpageGlobals *man_globals, Widget parent, Widget *dir_disp, i
      return;
  
    name = manual[section].blabel;   /* Set the section name */
--  sprintf(label_name,"Directory of: %s",name);
+-  snprintf(label_name, sizeof(label_name), "Directory of: %s", name);
 +  snprintf(label_name, sizeof(label_name), gettext("Directory of: %s"),name);
    man_globals->section_name[section] = StrAlloc(label_name);
  
    num_args = 0;
-@@ -677,7 +731,7 @@ FormUpWidgets(Widget parent, char ** ful
+@@ -677,7 +731,7 @@ FormUpWidgets(Widget parent, char ** full_size, char ** half_size)
  
    if (long_widget == (Widget) NULL) {          /* Make sure we found one. */
      PopupWarning(GetGlobals(parent), 
@@ -162,19 +191,19 @@ diff -urp -x '*~' -x '*.orig' buttons.c buttons.c
      XtFree((char *)full_widgets);
      XtFree((char *)half_widgets);
      return;
-@@ -745,7 +799,8 @@ ConvertNamesToWidgets(Widget parent, cha
-     if (*temp_ids == NULL) {
+@@ -746,7 +800,7 @@ ConvertNamesToWidgets(Widget parent, char ** names)
        char error_buf[BUFSIZ];
      
--      sprintf(error_buf, "Could not find widget named '%s'", *names);
-+      snprintf(error_buf, sizeof(error_buf),
-+			gettext("Could not find widget named '%s'"), *names);
+       snprintf(error_buf, sizeof(error_buf),
+-	       "Could not find widget named '%s'", *names);
++	       gettext("Could not find widget named '%s'"), *names);
        PrintError(error_buf);
        XtFree((char *)ids);
        return(NULL);
-diff -urp -x '*~' -x '*.orig' defs.h defs.h
---- defs.h	2009-10-16 14:39:48.000000000 -0700
-+++ defs.h	2011-01-28 20:32:24.195247147 -0800
+diff --git a/defs.h b/defs.h
+index ec4d068..9326268 100644
+--- a/defs.h
++++ b/defs.h
 @@ -51,6 +51,7 @@ from the X Consortium.
  
  #define OPTION_MENU "optionMenu" /* Name of the Option Menu. */
@@ -183,9 +212,10 @@ diff -urp -x '*~' -x '*.orig' defs.h defs.h
  
  #define HELP_BUTTON "helpButton" /* Name of top help button */
  #define QUIT_BUTTON "quitButton" /* Name of top quit button */
-diff -urp -x '*~' -x '*.orig' handler.c handler.c
---- handler.c	2009-11-06 17:58:29.000000000 -0800
-+++ handler.c	2011-01-28 20:32:24.173913473 -0800
+diff --git a/handler.c b/handler.c
+index 4fe291f..32a3e7d 100644
+--- a/handler.c
++++ b/handler.c
 @@ -43,6 +43,8 @@ from the X Consortium.
  #include <sys/stat.h>
  #include "globals.h"
@@ -195,7 +225,7 @@ diff -urp -x '*~' -x '*.orig' handler.c handler.c
  #ifdef INCLUDE_XPRINT_SUPPORT
  #include "printdialog.h"
  #include "print.h"
-@@ -309,8 +311,10 @@ SaveFormattedPage(Widget w, XEvent * eve
+@@ -309,8 +311,10 @@ SaveFormattedPage(Widget w, XEvent * event, String * params, Cardinal * num_para
    char cmdbuf[BUFSIZ], error_buf[BUFSIZ];
  
    if (*num_params != 1) {
@@ -208,32 +238,39 @@ diff -urp -x '*~' -x '*.orig' handler.c handler.c
      return;
    }
  
-@@ -347,12 +351,12 @@ SaveFormattedPage(Widget w, XEvent * eve
+@@ -347,13 +351,13 @@ SaveFormattedPage(Widget w, XEvent * event, String * params, Cardinal * num_para
  	/* make sure the formatted man page is fully accessible by the world */
  	if (chmod(man_globals->save_file, CHMOD_MODE) != 0) {
- 	    sprintf(error_buf,
+ 	    snprintf(error_buf, sizeof(error_buf),
 -		    "Couldn't set permissions on formatted man page '%s'.\n",
 +		    gettext("Couldn't set permissions on formatted man page '%s'.\n"),
  		    man_globals->save_file);
  	    PopupWarning( man_globals, error_buf);
  	}
      } else {
--	sprintf(error_buf, "Error while executing the command '%s'.\n",
-+	sprintf(error_buf, gettext("Error while executing the command '%s'.\n"),
- 		cmdbuf);
+ 	snprintf(error_buf, sizeof(error_buf),
+-		 "Error while executing the command '%s'.\n", cmdbuf);
++		 gettext("Error while executing the command '%s'.\n"), cmdbuf);
  	PopupWarning( man_globals, error_buf);
      }
-@@ -362,7 +366,7 @@ SaveFormattedPage(Widget w, XEvent * eve
+     break;
+@@ -361,8 +365,9 @@ SaveFormattedPage(Widget w, XEvent * event, String * params, Cardinal * num_para
+   case 'c':
      break;
    default:
-     sprintf(error_buf,"%s %s", "Xman - SaveFormattedPagee:",
--	    "Unknown argument must be either 'Save' or 'Cancel'.");
+-    PopupWarning(man_globals, "Xman - SaveFormattedPage: "
+-		 "Unknown argument must be either 'Save' or 'Cancel'.");
++    snprintf(error_buf, sizeof(error_buf), "%s %s", "Xman - SaveFormattedPage:",
 +	    gettext("Unknown argument must be either 'Save' or 'Cancel'."));
-     PopupWarning(man_globals, error_buf);
++    PopupWarning(man_globals, error_buf);
      return;
    }
-@@ -397,8 +401,10 @@ GotoPage(Widget w, XEvent * event, Strin
+     
+@@ -393,10 +398,13 @@ GotoPage(Widget w, XEvent * event, String * params, Cardinal * num_params)
+   ManpageGlobals * man_globals;
+   Arg arglist[1];
    Boolean sensitive;
++  char error_buf[BUFSIZ];
  
    if (*num_params != 1) {
 -    XtAppWarning(XtWidgetToApplicationContext(w), 
@@ -245,18 +282,18 @@ diff -urp -x '*~' -x '*.orig' handler.c handler.c
      return;
    }
  
-@@ -431,8 +437,8 @@ GotoPage(Widget w, XEvent * event, Strin
-     man_globals->dir_shown = TRUE;
+@@ -430,8 +438,8 @@ GotoPage(Widget w, XEvent * event, String * params, Cardinal * num_params)
      break;
    default:
--    sprintf(error_buf,"%s %s", "Xman - GotoPage: Unknown argument must be",
--	    "either Manpage or Directory.");
-+    sprintf(error_buf,"%s %s", gettext("Xman - GotoPage: Unknown argument must be"),
-+	    gettext("either Manpage or Directory."));
-     XtAppWarning(XtWidgetToApplicationContext(w), error_buf);
+     XtAppWarning(XtWidgetToApplicationContext(w),
+-		 "Xman - GotoPage: Unknown argument must be "
+-		 "either Manpage or Directory.");
++		 gettext("Xman - GotoPage: Unknown argument must be "
++		 "either Manpage or Directory."));
      return;
    }
-@@ -550,13 +556,16 @@ void 
+ }
+@@ -548,13 +556,16 @@ void
  Search(Widget w, XEvent * event, String * params, Cardinal * num_params)
  {
    ManpageGlobals * man_globals = GetGlobals(w);
@@ -275,7 +312,7 @@ diff -urp -x '*~' -x '*.orig' handler.c handler.c
      return;
    }
  
-@@ -574,8 +583,10 @@ Search(Widget w, XEvent * event, String 
+@@ -572,8 +583,10 @@ Search(Widget w, XEvent * event, String * params, Cardinal * num_params)
      file = NULL;
      break;
    default:
@@ -288,7 +325,7 @@ diff -urp -x '*~' -x '*.orig' handler.c handler.c
      file = NULL;
      break;
    }
-@@ -600,8 +611,9 @@ Search(Widget w, XEvent * event, String 
+@@ -598,8 +611,9 @@ Search(Widget w, XEvent * event, String * params, Cardinal * num_params)
        }
        break;
      default:
@@ -300,9 +337,10 @@ diff -urp -x '*~' -x '*.orig' handler.c handler.c
        break;
      }
    else {
-diff -urp -x '*~' -x '*.orig' help.c help.c
---- help.c	2009-10-16 14:39:48.000000000 -0700
-+++ help.c	2011-01-28 20:32:24.173431338 -0800
+diff --git a/help.c b/help.c
+index c9d9aa9..8b30d25 100644
+--- a/help.c
++++ b/help.c
 @@ -36,6 +36,8 @@ from the X Consortium.
   * Created:   January 19, 1988
   */
@@ -321,7 +359,7 @@ diff -urp -x '*~' -x '*.orig' help.c help.c
  
    XtManageChild( man_globals->manpagewidgets.manpage );
    XtRealizeWidget(  help_widget );
-@@ -99,7 +101,7 @@ OpenHelpfile(ManpageGlobals * man_global
+@@ -99,7 +101,7 @@ OpenHelpfile(ManpageGlobals * man_globals)
  
    if( (help_file_ptr = fopen(resources.help_file, "r")) == NULL ) {
      PopupWarning(man_globals,
@@ -330,9 +368,10 @@ diff -urp -x '*~' -x '*.orig' help.c help.c
      return(FALSE);
    }
      
-diff -urp -x '*~' -x '*.orig' main.c main.c
---- main.c	2009-10-16 14:39:48.000000000 -0700
-+++ main.c	2011-01-28 20:32:24.172597167 -0800
+diff --git a/main.c b/main.c
+index 1b6f8e9..73f4fcc 100644
+--- a/main.c
++++ b/main.c
 @@ -37,6 +37,8 @@ from the X Consortium.
   * Created:   October 22, 1987
   */
@@ -431,12 +470,13 @@ diff -urp -x '*~' -x '*.orig' main.c main.c
 +    (void) printf(gettext("This argument is unknown to Xman: %s\n"), argv[i]);
    
 -  (void) printf("\nKnown arguments are:\n");
-+  (void) printf(gettext("\nKnown arguments are:\n"));
- 
+-
 -  while ( *syntax != NULL ) {
 -    printf("%-30s - %s\n", syntax[0], syntax[1]);
 -    syntax += 2;
 -  }
++  (void) printf(gettext("\nKnown arguments are:\n"));
++
 +  printf("-help                         - %s\n",
 +         gettext("Print this message"));
 +  printf("-helpfile %s - %s\n", gettext("<filename>         "),
@@ -482,9 +522,10 @@ diff -urp -x '*~' -x '*.orig' main.c main.c
  }
  
  /*    Function Name: AdjustDefResources
-diff -urp -x '*~' -x '*.orig' man.c man.c
---- man.c	2009-10-16 14:39:48.000000000 -0700
-+++ man.c	2011-01-28 20:32:24.173179002 -0800
+diff --git a/man.c b/man.c
+index ad2b3f0..f3f1d99 100644
+--- a/man.c
++++ b/man.c
 @@ -31,7 +31,8 @@ from the X Consortium.
  */
  /* $XFree86: xc/programs/xman/man.c,v 1.8 2003/04/09 20:31:31 herrb Exp $ */
@@ -526,7 +567,7 @@ diff -urp -x '*~' -x '*.orig' man.c man.c
  
  /* 
   * First step 
-@@ -426,7 +427,7 @@ ReadCurrentSection(Manual * local_manual
+@@ -426,7 +427,7 @@ ReadCurrentSection(Manual * local_manual, char * path)
  
    if((dir = opendir(path)) == NULL) {
  #ifdef DEBUG
@@ -535,7 +576,7 @@ diff -urp -x '*~' -x '*.orig' man.c man.c
      PopupWarning(NULL, error_buf);
  #endif /* DEBUG */
      return;
-@@ -512,7 +513,7 @@ ReadCurrentSection(Manual * local_manual
+@@ -512,7 +513,7 @@ ReadCurrentSection(Manual * local_manual, char * path)
      local_manual->entries_less_paths[nentries] = 
        rindex(local_manual->entries[nentries], '/');
      if ( local_manual->entries_less_paths[nentries] == NULL )
@@ -580,9 +621,10 @@ diff -urp -x '*~' -x '*.orig' man.c man.c
      for (j = 0; j < manual[i].nentries; j++) 
        printf("%s\n", manual[i].entries[j]);
    }
-diff -urp -x '*~' -x '*.orig' misc.c misc.c
---- misc.c	2009-10-16 14:39:48.000000000 -0700
-+++ misc.c	2011-01-28 20:32:24.196139861 -0800
+diff --git a/misc.c b/misc.c
+index 8818aa8..fe476ec 100644
+--- a/misc.c
++++ b/misc.c
 @@ -41,6 +41,8 @@ from the X Consortium.
  # include "config.h"
  #endif
@@ -592,7 +634,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
  #include "globals.h"
  #include "vendor.h"
  #include <X11/Xos.h> 		/* sys/types.h and unistd.h included in here */
-@@ -98,7 +100,7 @@ PopupWarning(ManpageGlobals * man_global
+@@ -98,7 +100,7 @@ PopupWarning(ManpageGlobals * man_globals, const char * string)
    char buffer[BUFSIZ];
    Boolean hasPosition;
  
@@ -601,7 +643,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
    hasPosition = FALSE;
    if (top)
    {
-@@ -140,7 +142,7 @@ PopupWarning(ManpageGlobals * man_global
+@@ -140,7 +142,7 @@ PopupWarning(ManpageGlobals * man_globals, const char * string)
  void
  PrintError(char * string)
  {
@@ -610,7 +652,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
    exit(EXIT_FAILURE);
  }
  
-@@ -202,7 +204,7 @@ FindManualFile(ManpageGlobals * man_glob
+@@ -202,7 +204,7 @@ FindManualFile(ManpageGlobals * man_globals, int section_num, int entry_num)
  
    temp = CreateManpageName(entry, 0, 0);
    snprintf(man_globals->manpage_title, sizeof(man_globals->manpage_title),
@@ -619,26 +661,25 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
    XtFree(temp);
  
    ParseEntry(entry, path, section, page);
-@@ -328,14 +330,14 @@ Uncompress(ManpageGlobals * man_globals,
+@@ -328,13 +330,13 @@ Uncompress(ManpageGlobals * man_globals, char * filename)
      return(NULL);
  
    else if ((file = fopen(tmp_file, "r")) == NULL) {
--      sprintf(error_buf, "Something went wrong in retrieving the %s",
--	      "uncompressed manual page try cleaning up /tmp.");
-+      sprintf(error_buf, gettext("Something went wrong in retrieving the %s"),
-+	      gettext("uncompressed manual page try cleaning up /tmp."));
-       PopupWarning(man_globals, error_buf);
+-      PopupWarning(man_globals, "Something went wrong in retrieving the "
+-		   "uncompressed manual page try cleaning up /tmp.");
++      PopupWarning(man_globals, gettext("Something went wrong in retrieving "
++		   "the uncompressed manual page.  Try cleaning up /tmp."));
    }
  #else
    if (!UncompressNamed(man_globals, filename, tmp_file, &file)) {
--      sprintf(error_buf, "Something went wrong in retrieving the %s",
--	      "uncompressed manual page try cleaning up /tmp.");
-+      sprintf(error_buf, gettext("Something went wrong in retrieving the %s"),
-+	      gettext("uncompressed manual page try cleaning up /tmp."));
-       PopupWarning(man_globals, error_buf);
+-      PopupWarning(man_globals, "Something went wrong in retrieving the "
+-		   "uncompressed manual page try cleaning up /tmp.");
++      PopupWarning(man_globals, gettext("Something went wrong in retrieving "
++		   "the uncompressed manual page.  Try cleaning up /tmp."));
        return(NULL);
    }
-@@ -373,7 +375,7 @@ UncompressNamed(ManpageGlobals * man_glo
+ #endif
+@@ -371,7 +373,7 @@ UncompressNamed(ManpageGlobals * man_globals, char * filename, char * output,
    if (stat(filename, &junk) != 0) { /* Check for existance of the file. */
      if (errno != ENOENT) {
        snprintf(error_buf, sizeof(error_buf),
@@ -647,7 +688,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
        PopupWarning(man_globals, error_buf);
      }
      return(FALSE);
-@@ -390,7 +392,7 @@ UncompressNamed(ManpageGlobals * man_glo
+@@ -388,7 +390,7 @@ UncompressNamed(ManpageGlobals * man_globals, char * filename, char * output,
  #else
    fd = mkstemp(tmp);
    if (fd < 0) {
@@ -656,7 +697,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
        return FALSE;
    }
    *output_fd = fdopen(fd, "r");
-@@ -420,7 +422,7 @@ UncompressNamed(ManpageGlobals * man_glo
+@@ -418,7 +420,7 @@ UncompressNamed(ManpageGlobals * man_globals, char * filename, char * output,
      return(TRUE);
  
    snprintf(error_buf, sizeof(error_buf),
@@ -665,7 +706,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
    PopupWarning(man_globals, error_buf);
    return(FALSE);
  }
-@@ -516,7 +518,7 @@ Format(ManpageGlobals * man_globals, cha
+@@ -514,7 +516,7 @@ Format(ManpageGlobals * man_globals, char * entry)
  #endif
      /* We Really could not find it, this should never happen, yea right. */
      snprintf(error_buf, sizeof(error_buf),
@@ -674,7 +715,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
      PopupWarning(man_globals, error_buf);
      XtPopdown( XtParent(man_globals->standby) );
      return(NULL);
-@@ -573,6 +575,19 @@ Format(ManpageGlobals * man_globals, cha
+@@ -571,6 +573,19 @@ Format(ManpageGlobals * man_globals, char * entry)
    ParseEntry(entry, path, sect, NULL);
  
  #ifndef HANDLE_ROFFSEQ
@@ -694,7 +735,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
  #ifndef HAS_MKSTEMP
    snprintf(cmdbuf, sizeof(cmdbuf), "cd %s ; %s %s %s > %s %s", path, TBL,
  	  filename, FORMAT, man_globals->tempfile, "2> /dev/null");
-@@ -580,10 +595,13 @@ Format(ManpageGlobals * man_globals, cha
+@@ -578,10 +593,13 @@ Format(ManpageGlobals * man_globals, char * entry)
    snprintf(cmdbuf, sizeof(cmdbuf), "cd %s ; %s %s %s >> %s %s", path, TBL,
  	  filename, FORMAT, man_globals->tempfile, "2> /dev/null");
  #endif
@@ -704,12 +745,12 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
  #else
    /* Handle more flexible way of specifying the formatting pipeline */
    if (! ConstructCommand(cmdbuf, path, filename, man_globals->tempfile)) {
--     sprintf(error_buf, "Constructed command was too long!");
-+     sprintf(error_buf, gettext("Constructed command was too long!"));
-      PopupWarning(man_globals, error_buf);
+-     PopupWarning(man_globals, "Constructed command was too long!");
++     PopupWarning(man_globals, gettext("Constructed command was too long!"));
       file = NULL;
    }
-@@ -592,15 +610,15 @@ Format(ManpageGlobals * man_globals, cha
+   else
+@@ -589,15 +607,15 @@ Format(ManpageGlobals * man_globals, char * entry)
  
    if(system(cmdbuf) != 0) {	/* execute search. */
      snprintf(error_buf, sizeof(error_buf),
@@ -721,14 +762,14 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
    else {
  #ifndef HAS_MKSTEMP
      if ((file = fopen(man_globals->tempfile,"r")) == NULL) {
--      sprintf(error_buf, "Something went wrong in retrieving the %s",
--	      "temp file, try cleaning up /tmp");
-+      sprintf(error_buf, gettext("Something went wrong in retrieving the %s"),
-+	      gettext("temp file, try cleaning up /tmp"));
-       PopupWarning(man_globals, error_buf);
+-      PopupWarning(man_globals, "Something went wrong in retrieving the "
+-		   "temp file, try cleaning up /tmp");
++      PopupWarning(man_globals, gettext("Something went wrong in retrieving "
++		   "the temp file, try cleaning up /tmp"));
      }
      else {
-@@ -1071,7 +1089,7 @@ AddCursor(Widget w, Cursor cursor)
+ #endif
+@@ -1066,7 +1084,7 @@ AddCursor(Widget w, Cursor cursor)
    Colormap c_map;
  
    if (!XtIsRealized(w)) {
@@ -737,7 +778,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
      return;
    }
  
-@@ -1182,14 +1200,14 @@ ParseEntry(char *entry, char *path, char
+@@ -1177,14 +1195,14 @@ ParseEntry(char *entry, char *path, char *sect, char *page)
  
    c = rindex(temp, '/');
    if (c == NULL)
@@ -754,7 +795,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
    *c++ = '\0';
  #if defined(SFORMAT) && defined(SMAN)
    /* sgmltoroff sometimes puts an extra ./ in the path to .so entries */
-@@ -1236,12 +1254,12 @@ GetGlobals(Widget w)
+@@ -1231,12 +1249,12 @@ GetGlobals(Widget w)
  
    if (temp == NULL)
      XtAppError(XtWidgetToApplicationContext(w),
@@ -769,7 +810,7 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
  
    return( (ManpageGlobals *) data);
  }
-@@ -1263,7 +1281,7 @@ SaveGlobals(Widget w, ManpageGlobals * g
+@@ -1258,7 +1276,7 @@ SaveGlobals(Widget w, ManpageGlobals * globals)
    if (XSaveContext(XtDisplay(w), XtWindow(w), manglobals_context,
  		   (caddr_t) globals) != XCSUCCESS)
      XtAppError(XtWidgetToApplicationContext(w),
@@ -778,16 +819,17 @@ diff -urp -x '*~' -x '*.orig' misc.c misc.c
  }
  
  /*      Function Name: RemoveGlobals
-@@ -1281,5 +1299,5 @@ RemoveGlobals(Widget w)
+@@ -1276,5 +1294,5 @@ RemoveGlobals(Widget w)
    if (XDeleteContext(XtDisplay(w), XtWindow(w),
  		     manglobals_context) != XCSUCCESS)
      XtAppError(XtWidgetToApplicationContext(w),
 -	       "Xman: Could not remove global data?");
 +	       gettext("Xman: Could not remove global data?"));
  }
-diff -urp -x '*~' -x '*.orig' search.c search.c
---- search.c	2009-10-16 14:39:48.000000000 -0700
-+++ search.c	2011-01-28 20:32:24.196499890 -0800
+diff --git a/search.c b/search.c
+index 48c4efe..21d413d 100644
+--- a/search.c
++++ b/search.c
 @@ -30,7 +30,8 @@ from the X Consortium.
  */
  /* $XFree86: xc/programs/xman/search.c,v 1.5 2001/01/27 17:24:27 herrb Exp $ */
@@ -798,7 +840,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
  #include "globals.h"
  #include "vendor.h"
  
-@@ -70,7 +71,7 @@ MakeSearchWidget(ManpageGlobals * man_gl
+@@ -70,7 +71,7 @@ MakeSearchWidget(ManpageGlobals * man_globals, Widget parent)
  				 arglist, num_args);
  
    if ( (text = XtNameToWidget(dialog, "value")) == (Widget) NULL)
@@ -807,7 +849,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
    else
      XtSetKeyboardFocus(dialog, text);
  
-@@ -86,7 +87,7 @@ MakeSearchWidget(ManpageGlobals * man_gl
+@@ -86,7 +87,7 @@ MakeSearchWidget(ManpageGlobals * man_globals, Widget parent)
    if ( ((command = XtNameToWidget(dialog, MANUALSEARCH)) == (Widget) NULL) ||
         ((cancel = XtNameToWidget(dialog, CANCEL)) == (Widget) NULL) )
      PopupWarning(NULL,
@@ -825,7 +867,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
    return(NULL);
  }
  
-@@ -165,16 +166,16 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -165,16 +166,16 @@ DoSearch(ManpageGlobals * man_globals, int type)
    /* If the string is empty or starts with a space then do not search */
  
    if ( streq(search_string,"") ) {
@@ -845,7 +887,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
      return(NULL);
    }
  
-@@ -210,7 +211,7 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -210,7 +211,7 @@ DoSearch(ManpageGlobals * man_globals, int type)
      }
  
      snprintf(label, sizeof(label), 
@@ -854,7 +896,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
  
  #ifdef NO_MANPATH_SUPPORT	/* not quite correct, but the best I can do. */
      snprintf(cmdbuf, sizeof(cmdbuf), APROPOS_FORMAT, search_string, mantmp);
-@@ -219,7 +220,7 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -219,7 +220,7 @@ DoSearch(ManpageGlobals * man_globals, int type)
  #endif
  
      if(system(cmdbuf) != 0) {	/* execute search. */
@@ -863,7 +905,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
        PopupWarning(man_globals, error_buf);
      }
  
-@@ -228,7 +229,7 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -228,7 +229,7 @@ DoSearch(ManpageGlobals * man_globals, int type)
  #else
      if((file = fopen(mantmp,"r")) == NULL)
  #endif
@@ -872,7 +914,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
  
  /* 
   * Since we keep the FD open we can unlink the file safely, this
-@@ -237,7 +238,7 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -237,7 +238,7 @@ DoSearch(ManpageGlobals * man_globals, int type)
  
      unlink(mantmp);
  
@@ -881,7 +923,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
  
      /*
       * Check first LOOKLINES lines for "nothing appropriate".
-@@ -276,7 +277,7 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -276,7 +277,7 @@ DoSearch(ManpageGlobals * man_globals, int type)
    else {			/* MANUAL SEACH */
      file = DoManualSearch(man_globals, search_string);
      if (file == NULL) {
@@ -890,7 +932,7 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
        ChangeLabel(man_globals->label, string_buf);
        if (man_globals->label == NULL)
  	PopupWarning(man_globals, string_buf);
-@@ -290,7 +291,7 @@ DoSearch(ManpageGlobals * man_globals, i
+@@ -290,7 +291,7 @@ DoSearch(ManpageGlobals * man_globals, int type)
  
      dialog = XtNameToWidget(man_globals->search_widget, DIALOG);
      if (dialog == NULL) 
@@ -908,9 +950,10 @@ diff -urp -x '*~' -x '*.orig' search.c search.c
      head++;
  
      tail = rindex(head, '.');
-diff -urp -x '*~' -x '*.orig' vendor.c vendor.c
---- vendor.c	2009-10-16 14:39:48.000000000 -0700
-+++ vendor.c	2011-01-28 20:32:24.196781956 -0800
+diff --git a/vendor.c b/vendor.c
+index 79cc8bb..b3772dd 100644
+--- a/vendor.c
++++ b/vendor.c
 @@ -34,6 +34,8 @@ from the X Consortium.
  
  #include "globals.h"
@@ -1012,11 +1055,11 @@ diff -urp -x '*~' -x '*.orig' vendor.c vendor.c
 @@ -188,10 +244,10 @@ char * path)
  
    for (i=0; i < numSections; i++) {
-     sprintf(file, "%s%s", SEARCHDIR, SectionNames[i].suffix);
+     snprintf(file, sizeof(file), "%s%s", SEARCHDIR, SectionNames[i].suffix);
 -    AddNewSection(list, path, file, SectionNames[i].name, TRUE);
 +    AddNewSection(list, path, file, gettext(SectionNames[i].name), TRUE);
  #ifdef SEARCHOTHER
-     sprintf(file, "%s%s", SEARCHOTHER, SectionNames[i].suffix);
+     snprintf(file, sizeof(file), "%s%s", SEARCHOTHER, SectionNames[i].suffix);
 -    AddNewSection(list, path, file, SectionNames[i].name, TRUE);
 +    AddNewSection(list, path, file, gettext(SectionNames[i].name), TRUE);
  #endif
@@ -1025,7 +1068,7 @@ diff -urp -x '*~' -x '*.orig' vendor.c vendor.c
 @@ -252,7 +308,7 @@ char *path)
      int flags = (int) *p++;
      while (*p != NULL) {
-       sprintf(file, "%s%s", SEARCHDIR, *p++);
+       snprintf(file, sizeof(file), "%s%s", SEARCHDIR, *p++);
 -      AddNewSection(list, path, file, message, flags);
 +      AddNewSection(list, path, file, gettext(message), flags);
      }

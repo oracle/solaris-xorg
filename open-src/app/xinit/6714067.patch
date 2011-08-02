@@ -1,7 +1,8 @@
-diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2010-04-26 08:48:51.000000000 -0700
-+++ Makefile.am	2011-01-28 18:41:11.374909599 -0800
-@@ -52,6 +52,7 @@ PROGCPPDEFS = \
+diff --git a/Makefile.am b/Makefile.am
+index 3867bea..8288450 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -49,6 +49,7 @@ PROGCPPDEFS = \
  	-DXINIT=@XINIT@
  
  CPP_FILES_FLAGS = \
@@ -9,10 +10,11 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
  	-DXINITDIR=$(XINITDIR) $(PROGCPPDEFS) -DLIBDIR=$(libdir) \
  	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
  	-D__libexecdir__="$(libexecdir)" \
-diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
---- Makefile.in	2010-10-30 16:44:46.000000000 -0700
-+++ Makefile.in	2011-01-28 18:41:11.375365804 -0800
-@@ -374,6 +374,7 @@ PROGCPPDEFS = \
+diff --git a/Makefile.in b/Makefile.in
+index e6d2356..e53e951 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -356,6 +356,7 @@ PROGCPPDEFS = \
  	-DXINIT=@XINIT@
  
  CPP_FILES_FLAGS = \
@@ -20,10 +22,11 @@ diff -urp -x '*~' -x '*.orig' Makefile.in Makefile.in
  	-DXINITDIR=$(XINITDIR) $(PROGCPPDEFS) -DLIBDIR=$(libdir) \
  	-DSHELL_CMD=$(SHELL_CMD) $(STARTX_COOKIE_FLAGS) \
  	-D__libexecdir__="$(libexecdir)" \
-diff -urp -x '*~' -x '*.orig' xinit.c xinit.c
---- xinit.c	2010-06-11 18:14:10.000000000 -0700
-+++ xinit.c	2011-01-28 18:41:11.375613442 -0800
-@@ -630,6 +630,26 @@ shutdown(void)
+diff --git a/xinit.c b/xinit.c
+index 42ff008..e8b7559 100644
+--- a/xinit.c
++++ b/xinit.c
+@@ -629,6 +629,26 @@ shutdown(void)
  
      if (processTimeout(3, "server to die"))
          Fatalx("X server refuses to die");

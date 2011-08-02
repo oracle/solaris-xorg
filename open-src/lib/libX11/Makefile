@@ -27,33 +27,31 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION = 1.4.3
+MODULE_VERSION = 1.4.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 85e942627aaa020813e0eb8433353563
-TARBALL_SHA1 = 174270a0e51614b5077026fc6c20701d4e09aef8
+TARBALL_MD5  = ed7c382cbf8c13425b6a66bcac0ca5d9
+TARBALL_SHA1 = 2d9d38bfd7003ec60eea0b1999ab72cfd5fa3b90
+TARBALL_SHA256 = 7fe62180f08ef5f0a0062fb444591e349cae2ab5af6ad834599f5c654e6c840d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	xml-install.patch,-p1 \
-	xml-install-paths.patch,-p1 \
-	7038737.patch,-p1 \
 	1234757.patch \
 	4010755.patch \
 	4614834.patch \
 	5039226.patch \
-	solaris-abi.patch \
+	solaris-abi.patch,-p1 \
 	solaris-kbd.patch \
 	SolarisIA.patch \
 	6714036.patch \
-	6789219.patch \
+	6789219.patch,-p1 \
 	im-suneu-greek.patch \
 	im-ximcp.patch \
 	lc-jisx0212.patch \
 	lc-jisx0208.patch \
-	lc-ksc5601.1992-3.patch \
-	lc-gb18030.patch \
-	om-generic.patch \
+	lc-ksc5601.1992-3.patch,-p1 \
+	lc-gb18030.patch,-p1 \
+	om-generic.patch,-p1 \
 	compose.dir.patch \
 	compose-iso8859-1.patch \
 	compose-iso8859-2.patch \
@@ -75,7 +73,7 @@ SOURCE_PATCHES = \
 	compose-zh_TW.UTF-8.patch \
 	locale.aliases.patch \
 	locale.dir.patch \
-	locale.paths.patch \
+	locale.paths.patch,-p1 \
 	locale-C.patch \
 	locale-iso8859-1.patch \
 	locale-iso8859-6.patch \

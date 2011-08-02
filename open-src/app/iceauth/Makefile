@@ -33,17 +33,17 @@ MODULE_PKGNAME=x11/library/libice
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bb2e4d2611047f7c5a1a82ec956a9de4
-TARBALL_SHA1 = 9b446c0d1815dce48bdea32db7dea7e429f6a310
+TARBALL_MD5  = 08e3f6b523da8b0af179f22f339508b2
+TARBALL_SHA1 = d996c6ecaa93dcaccee4a11991eeacd40bddc13e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/iceauth.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

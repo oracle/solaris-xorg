@@ -33,11 +33,11 @@ MODULE_PKGNAME=x11/font-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5210c9385c6cc4a00ce829d8dc9c819b
-TARBALL_SHA1 = accfb12751bf3b7ae7b28c1b0b863d5be871398f
+TARBALL_MD5  = 3d1dc487f3e859f4e5c46540cb49abd3
+TARBALL_SHA1 = 5a8ac438d6d6694dcf1314b74c4d9f029da4f486
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +47,7 @@ SOURCE_PATCHES =
 MODULE_ARC_CASES = LSARC/2008/009
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/mkfontscale.man
 MODULE_STABILITY=Uncommitted
 
 # Additional configure script options

@@ -27,15 +27,15 @@
 MODULE_NAME=xproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.0.21
+MODULE_VERSION=7.0.22
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c5a93a69b701cf81925fab02b35b0d0e
-TARBALL_SHA1 = 608290fa354b1aff4a075c905f1057d979c62ac9
+TARBALL_MD5  = da0b0eb2f432b7cc1d665b05422a0457
+TARBALL_SHA1 = 96d9b37d15591412a94dd0d3620008e20ef500ca
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
-	X.h-patch
+	X.h-patch,-p1
 
 # ARC cases that covered this module
 # PSARC/2001/108 X11 Over IPv6

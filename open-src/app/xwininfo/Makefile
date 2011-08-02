@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xwininfo 1.x Makefile
+# xwininfo Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,17 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7a7f44b826d877ba39c19cf5913978d7
-TARBALL_SHA1 = 945e5d51632876e304e001003c8068f34ffe299e
+TARBALL_MD5  = 9e8b58c8aa6172e87ab4f9cf3612fedd
+TARBALL_SHA1 = c90b3c289f95474aa8eb6cf1bf4caf3b9dbf82d3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xwininfo.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

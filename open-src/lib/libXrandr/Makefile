@@ -29,11 +29,11 @@
 MODULE_NAME=libXrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7785c3f7cff2735c94657e8f87ed8ad3
-TARBALL_SHA1 = 8e89622b0656cb2eb22c1f3c646c797dc648ead5
+TARBALL_MD5  = 92473da2fccf5fac665be4fa4f2037fa
+TARBALL_SHA1 = 0c844a4c5237f96794f0c18a5af16dc5ab7a36ec
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

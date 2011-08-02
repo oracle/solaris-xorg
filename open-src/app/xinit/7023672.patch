@@ -1,11 +1,13 @@
---- xinitrc.cpp.orig	Wed Mar 16 10:11:59 2011
-+++ xinitrc.cpp	Wed Mar 16 10:13:12 2011
-@@ -39,6 +39,19 @@
+diff --git a/xinitrc.cpp b/xinitrc.cpp
+index 049a8e4..e60ff12 100644
+--- a/xinitrc.cpp
++++ b/xinitrc.cpp
+@@ -39,6 +39,19 @@ if [ -f "$usermodmap" ]; then
      XMODMAP "$usermodmap"
  fi
  
 +XCOMM
-+XCOMM  If OpenSolaris branded desktop is available, run it
++XCOMM  If GNOME desktop is available, run it
 +XCOMM
 +if [ -x /etc/gdm/Xsession ] && [ -x /usr/bin/dtstart ] ; then
 +  exec /etc/gdm/Xsession /usr/bin/dtstart jds
