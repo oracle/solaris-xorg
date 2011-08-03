@@ -47,7 +47,7 @@ SOURCE_URL = $(SF_DOWNLOADS_URL)/freeglut/freeglut/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET = yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = Makefile.in.0.patch
+SOURCE_PATCHES = 
 
 # Source tarball
 SOURCE_TARBALL_NAME = freeglut-$(MODULE_VERSION).tar.gz
@@ -69,6 +69,9 @@ MODULE_MAKE_SET=yes
 #  FreeGLUT really wants to know that we are POSIX friendly
 MODULE_CPPFLAGS = -D__posix__ -D__unix__
 
+# Additional targets to install
+MODULE_ADD_INSTALL_TARGETS = install_doc
+
 include ../Makefile.inc
 
 # FreeGLUT's $(VERSION_INFO) breaks delibtoolize.pl
@@ -85,4 +88,11 @@ install_extra_symlinks:
 	    ln -sf ../../$(SUBDIR64)/libglut.so.3.9.0 libglut.so.3 ; \
 	    ln -sf ../../$(SUBDIR64)/libglut.so.3.9.0 libglut.so ; \
 	    cd - )
+
+FREEGLUT_DOC=$(PROTODIR)$(MODULE_DOC_DIR)/freeglut_user_interface.html	
+install_doc: $(FREEGLUT_DOC)
+
+$(FREEGLUT_DOC): $(INSTALL_DEPS) 
+	$(INSTALL_SCRIPT) -c -m 0444 \
+	    $(SOURCE_DIR)/doc/freeglut_user_interface.html $@
 

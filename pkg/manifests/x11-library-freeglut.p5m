@@ -19,16 +19,13 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-<transform file path=usr/share/doc/glut/.*\.html$ -> default facet.devel true>
-<transform file path=usr/share/doc/glut/.*\.png$ -> default facet.devel true>
-#
 set name=pkg.fmri value=pkg:/x11/library/freeglut@__version:freeglut__
 set name=pkg.description \
     value="FreeGLUT 2.6.0 is an open-source implementation of the GLUT specification - a collection of useful API wrappers around OpenGL."
 set name=pkg.summary \
     value="FreeGLUT - an open-source implementation of the GLUT specification"
 #
-dir path=usr/share/doc/glut
+dir path=usr/share/doc/freeglut
 #
 file path=usr/include/GL/freeglut.h
 file path=usr/include/GL/freeglut_ext.h
@@ -48,14 +45,7 @@ link path=usr/lib/GL/libglut.so target=../libglut.so.3.9.0
 link path=usr/lib/GL/$(ARCH64)/libglut.so.3 target=../../$(ARCH64)/libglut.so.3.9.0
 link path=usr/lib/GL/$(ARCH64)/libglut.so target=../../$(ARCH64)/libglut.so.3.9.0
 #
-file path=usr/share/doc/glut/download.html
-file path=usr/share/doc/glut/freeglut.html
-file path=usr/share/doc/glut/freeglut_logo.png
-file path=usr/share/doc/glut/freeglut_user_interface.html
-file path=usr/share/doc/glut/index.html
-file path=usr/share/doc/glut/ogl_sm.png
-file path=usr/share/doc/glut/progress.html
-file path=usr/share/doc/glut/structure.html
+file path=usr/share/doc/freeglut/freeglut_user_interface.html
 #
 # Autodetected for now:
 # depend fmri=pkg:/service/opengl/ogl-select type=require
