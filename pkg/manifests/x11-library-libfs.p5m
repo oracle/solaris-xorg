@@ -31,7 +31,7 @@ file path=usr/lib/$(ARCH64)/pkgconfig/libfs.pc
 file path=usr/lib/libFS.so.5
 file path=usr/lib/llib-lFS.ln
 file path=usr/lib/pkgconfig/libfs.pc
-file path=usr/share/doc/libFS/FSlib.txt facet.devel=true
+file path=usr/share/doc/libFS/FSlib.txt
 link path=usr/X11/lib/$(ARCH64)/libFS.so \
     target=../../../lib/$(ARCH64)/libFS.so
 link path=usr/X11/lib/$(ARCH64)/libFS.so.5 \

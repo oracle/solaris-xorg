@@ -25,7 +25,7 @@ set name=pkg.description \
 set name=pkg.summary \
     value="FreeGLUT - an open-source implementation of the GLUT specification"
 #
-dir path=usr/share/doc/freeglut
+dir path=usr/share/doc/freeglut facet.doc.html=true
 #
 file path=usr/include/GL/freeglut.h
 file path=usr/include/GL/freeglut_ext.h

@@ -25,35 +25,42 @@
 <transform dir link path=usr/X11 -> default facet.compat.x11-links true>
 
 ## Documentation
+
 # Man pages
-<transform dir  path=usr/share/man/.* -> default facet.doc.man true>
-<transform file path=usr/share/man/.* -> default facet.doc.man true>
+<transform dir file link hardlink path=usr/share/man(/.+){0,1}$ -> \
+    default facet.doc.man true>
+
 # General docs
-<transform dir  path=usr/share/doc/.* -> default facet.doc true>
-<transform file path=usr/share/doc/.* -> default facet.doc true>
-<transform file path=usr/share/doc/.*\.html$ -> default facet.doc.html true>
-<transform file path=usr/share/doc/.*\.pdf$ -> default facet.doc.pdf true>
+<transform dir file link hardlink path=usr/share/doc/ -> \
+    default facet.doc true>
+<transform dir file link hardlink path=usr/share/doc/.*(css|html?) -> \
+    default facet.doc.html true>
+<transform dir file link hardlink path=usr/share/doc/.*pdf$ -> \
+    default facet.doc.pdf true>
+
 # RBAC docs
-<transform dir  path=usr/lib/help -> default facet.doc.html true>
-<transform file path=usr/lib/help/.*\.html$ -> default facet.doc.html true>
+<transform dir file path=usr/lib/help -> default facet.doc.html true>
+
+# Delete generic doc facet when more specific one is listed
+<transform dir file link hardlink facet.doc.html=true -> delete facet.doc true>
+<transform dir file link hardlink facet.doc.pdf=true -> delete facet.doc true>
 
 ## Development files
+
 # Headers
-<transform dir  path=usr/include.* -> default facet.devel true>
-<transform file path=usr/include/.*\.h$ -> default facet.devel true>
+<transform dir path=usr/include -> default facet.devel true>
+<transform file link hardlink path=usr/include/.+\.h$ -> \
+    default facet.devel true>
+
 # pkg-config data files
-<transform dir  path=usr/lib/pkgconfig -> default facet.devel true>
-<transform file path=usr/lib/pkgconfig/.* -> default facet.devel true>
-<transform dir  path=usr/lib/.*/pkgconfig -> default facet.devel true>
-<transform file path=usr/lib/.*/pkgconfig/.* -> default facet.devel true>
-<transform dir  path=usr/share/pkgconfig -> default facet.devel true>
-<transform file path=usr/share/pkgconfig/.* -> default facet.devel true>
+<transform dir file link hardlink path=usr/(share|lib)(/.+){0,1}/pkgconfig -> \
+    default facet.devel true>
+
 # autoconf macros
-<transform dir  path=usr/share/aclocal -> default facet.devel true>
-<transform file path=usr/share/aclocal/.*\.m4$ -> default facet.devel true>
+<transform dir file link hardlink path=usr/share/aclocal -> \
+    default facet.devel true>
+
 # lint libraries
-<transform file path=usr/lib/llib-.*\.ln$ -> default facet.devel true>
-# Developer documentation
-<transform dir  path=usr/share/man/man3.* -> default facet.devel true>
-<transform file path=usr/share/man/man3.* -> default facet.devel true>
+<transform file link hardlink path=usr/lib/llib-.+\.ln$ -> \
+    default facet.devel true>
 

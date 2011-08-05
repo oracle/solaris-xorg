@@ -19,7 +19,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-<transform file path=usr/share/doc/libSM/.* -> default facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/libsm@__version:libSM__
 set name=pkg.description \
     value="The purpose of the X Session Management Protocol (XSMP) is to provide a uniform mechanism for users to save and restore their sessions.  The Session Management Library (SMlib) is a low-level C language interface to XSMP. It is expected that higher level toolkits will hide many of the details of session management from clients."

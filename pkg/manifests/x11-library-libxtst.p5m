@@ -32,8 +32,8 @@ file path=usr/lib/$(ARCH64)/libXtst.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xtst.pc
 file path=usr/lib/libXtst.so.1
 file path=usr/lib/pkgconfig/xtst.pc
-file path=usr/share/doc/libXtst/recordlib.xml facet.devel=true
-file path=usr/share/doc/libXtst/xtestlib.xml facet.devel=true
+file path=usr/share/doc/libXtst/recordlib.xml
+file path=usr/share/doc/libXtst/xtestlib.xml
 file path=usr/share/man/man3xtst/XTestCompareCurrentCursorWithWindow.3xtst
 file path=usr/share/man/man3xtst/XTestCompareCursorWithWindow.3xtst
 file path=usr/share/man/man3xtst/XTestDiscard.3xtst

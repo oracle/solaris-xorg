@@ -19,7 +19,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-<transform file path=usr/share/doc/libXaw/.* -> default facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw7@__version:libXaw__
 set name=pkg.description \
     value="Xaw is the X Athena Widget Set. Xaw is a widget set based on the X Toolkit Intrinsics (Xt) Library."

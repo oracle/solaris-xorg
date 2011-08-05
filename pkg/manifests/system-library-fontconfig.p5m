@@ -30,7 +30,7 @@ dir path=etc/fonts/conf.d
 dir path=lib/svc/manifest/application/font
 dir path=usr/include/fontconfig
 dir path=usr/share/doc/fontconfig
-dir path=usr/share/doc/fontconfig/fontconfig-devel
+dir path=usr/share/doc/fontconfig/fontconfig-devel facet.doc.html=true
 dir path=var/cache/fontconfig
 file path=etc/fonts/conf.avail/10-autohint.conf
 file path=etc/fonts/conf.avail/10-no-sub-pixel.conf

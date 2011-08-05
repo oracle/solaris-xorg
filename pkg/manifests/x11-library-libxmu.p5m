@@ -51,8 +51,8 @@ file path=usr/lib/$(ARCH64)/pkgconfig/xmu.pc
 file path=usr/lib/libXmu.so.4
 file path=usr/lib/llib-lXmu.ln
 file path=usr/lib/pkgconfig/xmu.pc
-file path=usr/share/doc/libXmu/Xmu.xml facet.devel=true
-file path=usr/share/doc/libXmu/xlogo.svg facet.devel=true
+file path=usr/share/doc/libXmu/Xmu.xml
+file path=usr/share/doc/libXmu/xlogo.svg
 file path=usr/share/man/man3xmu/XSolarisCheckColormapEquivalence.3xmu
 file path=usr/share/man/man3xmu/XSolarisGetVisualGamma.3xmu
 link path=usr/X11/lib/$(ARCH64)/libXmu.so \

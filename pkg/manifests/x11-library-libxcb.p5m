@@ -20,18 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-<transform dir path=usr/share/xcb.* -> default facet.devel true>
-<transform file path=usr/share/xcb/.*\.pc$ -> default facet.devel true>
-<transform file path=usr/share/xcb/.*\.xml$ -> default facet.devel true>
-<transform file path=usr/share/xcb/.*\.xsd$ -> default facet.devel true>
+<transform dir file path=usr/share/xcb -> default facet.devel true>
 <transform file path=usr/lib/python.*/vendor-packages/xcbgen/.* -> default facet.devel true>
-<transform file path=usr/share/doc/libxcb/.*\.html$ -> default facet.devel true>
-<transform file path=usr/share/doc/libxcb/tutorial/.*\.html$ -> default facet.devel true>
-<transform file path=usr/share/doc/libxcb/.*\.css$ -> default facet.devel true>
-<transform file path=usr/share/doc/libxcb/tutorial/.*\.css$ -> default facet.devel true>
 # Autogenerate *.pyc manifest entries for each *.py file
 <transform file path=.*\.py$ -> emit file path=%(path)c>
-
 
 set name=pkg.fmri value=pkg:/x11/library/libxcb@__version:libxcb__
 set name=pkg.description \
@@ -39,8 +31,8 @@ set name=pkg.description \
 set name=pkg.summary value="libxcb - The X11 C protocol bindings"
 dir path=usr/include/xcb
 dir path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen
-dir path=usr/share/doc/libxcb
-dir path=usr/share/doc/libxcb/tutorial
+dir path=usr/share/doc/libxcb facet.doc.html=true
+dir path=usr/share/doc/libxcb/tutorial facet.doc.html=true
 dir path=usr/share/xcb
 #
 file path=usr/lib/libxcb-composite.so.0
@@ -216,8 +208,8 @@ file path=usr/lib/$(ARCH64)/pkgconfig/xcb-xtest.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-xvmc.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-xv.pc
 #
-file path=usr/share/doc/libxcb/tutorial/index.html facet.devel=true
-file path=usr/share/doc/libxcb/tutorial/xcb.css facet.devel=true
+file path=usr/share/doc/libxcb/tutorial/index.html
+file path=usr/share/doc/libxcb/tutorial/xcb.css
 #
 file path=usr/share/pkgconfig/xcb-proto.pc
 file path=usr/share/xcb/bigreq.xml

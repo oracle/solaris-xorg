@@ -19,7 +19,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-<transform file path=usr/share/doc/libXext/.* -> default facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/libxext@__version:libXext__
 set name=pkg.description \
     value="Xlib-based client API for a number of common extensions to the X11 protocol, including SHAPE, MIT-SHM, DPMS, Sync, GenericEvent and more.   Also includes common extension framework used by other Xlib-based extension libraries."
