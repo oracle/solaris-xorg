@@ -156,6 +156,13 @@ LINKED_TO_ISAEXEC = Xorg Xephyr Xvfb Xdmx
 
 include ../Makefile.inc
 
+# Debug builds disable optimization that removes unused inline functions,
+# leaving many binaries referencing pixman symbols that normally don't
+# need them.
+$(BUILD_DEBUG:yes=)			DEBUG_CONFIG_OPTS = LIBS="-lpixman-1"
+$(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_CONFIG_OPTS =
+MODULE_CONFIG_OPTS += $(DEBUG_CONFIG_OPTS)
+
 $(XORGSERVER_BIN): default_build
 
 SDK_INCLUDES_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/xorg/
@@ -193,12 +200,23 @@ install_pc_common: default_install install_pkgconfig_uninstalled
 	    ../$(SUBDIR64)$(PKGCONFIG_DIR_suffix)/xorg-server-uninstalled.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR_32)/
 
+# Generate a list of exported functions & data objects so that we can verify
+# loadable modules don't reference symbols that have been deleted or renamed.
+SYMBOL_AWK_SCRIPT  = \
+'BEGIN { print "\043 Functions exported by Xorg server to loadable modules" ; \
+	 print "\n{\n  global:" } \
+ END   { print "};" } \
+ $$7 ~ /UNDEF|\.tdata/  { next } \
+ $$5 !~ /GLOB/  { next } \
+ $$8 ~ /^(__|_end|_etext|_start|_environ|_lib_version)/ { next } \
+ $$4 ~ /FUNC/ && $$7 ~ /\.text/ { printf "    %s = FUNCTION extern;\n", $$8 } \
+ $$4 ~ /OBJT/ && $$7 ~ /data|bss/ { printf "    %s = DATA extern;\n", $$8}'
+
 $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@
-	printf '# Functions exported by Xorg server to loadable modules\n\n' > $@
-	printf '{\n  global:\n' >> $@
-	/usr/ccs/bin/nm -g $(XORGSERVER_BIN) $(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/libXfont.so | grep -v UNDEF | sed -n -e 's/^.*\|FUNC \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = FUNCTION extern;/p' -e 's/^.*\|OBJT \|GLOB \|.*\|\([A-Za-z].*\)$$/    \1 = DATA extern;/p' >> $@
-	printf '};\n' >> $@
+	/usr/bin/nm -gs $(XORGSERVER_BIN) \
+	    $(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/libXfont.so | \
+	    gawk -F\| $(SYMBOL_AWK_SCRIPT) > $@
 
 # Fix paths in proto area to match paths in packages / installed systems
 install_fix_paths_X: default_install

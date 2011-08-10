@@ -62,5 +62,5 @@ MODULE_ADD_INSTALL_TARGETS=install_docs
 include ../Makefile.inc
 
 install_docs: $(INSTALL_DEPS)
-	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	cp -p $(SOURCE_DIR)/README.r128 $(PROTODIR)$(X11_DOC_DIR)/
+	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/README.r128 \
+		$(PROTODIR)$(X11_DOC_DIR)/README.r128

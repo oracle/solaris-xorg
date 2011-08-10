@@ -88,6 +88,10 @@ XORG_EXTERNS_FLAG = \
 	-M $(TOP)/open-src/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs
 MODTYPE_LD_OPTIONS=-z defs $(XORG_EXTERNS_FLAG) -lc
 
+$(BUILD_DEBUG:yes=)			MODTYPE_DEBUG_LD_OPTIONS = -lpixman-1
+$(BUILD_DEBUG:yes=$(POUND_SIGN))	MODTYPE_DEBUG_LD_OPTIONS =
+MODTYPE_LD_OPTIONS += $(MODTYPE_DEBUG_LD_OPTIONS)
+
 # Need to fix libtool interference with our linker flags
 DELIBTOOLIZE=yes
 
