@@ -1,5 +1,5 @@
 
-Based on Xorg upstream git commit b07602014061cb41540f6a7e74e4132e67aa1117 
+Based on Xorg upstream git commit b07602014061cb41540f6a7e74e4132e67aa1117
 From: Alan Coopersmith <Alan.Coopersmith@sun.com>
 Date: Mon, 22 Aug 2005 21:47:59 +0000
 
@@ -25,10 +25,10 @@ index fb3ccbf..5a82e09 100644
  DDX_SRCS = \
          ddxBeep.c \
 diff --git a/xkb/ddxLoad.c b/xkb/ddxLoad.c
-index a935698..7682228 100644
+index a935698..d751c2a 100644
 --- a/xkb/ddxLoad.c
 +++ b/xkb/ddxLoad.c
-@@ -146,6 +146,18 @@ Win32System(const char *cmdline)
+@@ -146,14 +146,30 @@ Win32System(const char *cmdline)
  #define System(x) Win32System(x)
  #endif
  
@@ -47,16 +47,15 @@ index a935698..7682228 100644
  static void
  OutputDirectory(
      char* outdir,
-@@ -153,7 +165,11 @@ OutputDirectory(
+     size_t size)
  {
  #ifndef WIN32
++#ifdef MAKE_XKM_OUTPUT_DIR
++    if (geteuid() == 0 && trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0 && (strlen(XKM_OUTPUT_DIR) < size))
++#else
      /* Can we write an xkm and then open it too? */
--    if (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0 && (strlen(XKM_OUTPUT_DIR) < size))
-+    if ( ( (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0)
-+#ifdef MAKE_XKM_OUTPUT_DIR    
-+	   || (getuid() == 0 && (trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0))
+     if (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0 && (strlen(XKM_OUTPUT_DIR) < size))
 +#endif
-+	     ) && (strlen(XKM_OUTPUT_DIR) < size))
      {
  	(void) strcpy (outdir, XKM_OUTPUT_DIR);
      } else
