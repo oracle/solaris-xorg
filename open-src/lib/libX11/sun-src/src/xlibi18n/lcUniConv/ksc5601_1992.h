@@ -4122,7 +4122,7 @@ static const unsigned short ucs_hangul[HANG_NUM] = {
 /*
  *Private Use Zone for Korean.
  */
-static const unsigned short usc_tab_f7[188] = {
+static const unsigned short ucs_tab_f7[188] = {
 0xd831, 0xd832, 0xd833, 0xd834, 0xd835, 0xd836, 0xd837, 0xd838, 
 0xd839, 0xd83a, 0xd83b, 0xd83c, 0xd83d, 0xd83e, 0xd83f, 0xd840, 
 0xd841, 0xd842, 0xd843, 0xd844, 0xd845, 0xd846, 0xd847, 0xd848, 
@@ -4170,7 +4170,7 @@ ksc5601_1992_wctomb(conv_t conv, unsigned char *r, ucs4_t wc, int n)
         return 2;
     }
     if (wc>=0xf700 && wc<=0xf7bb) {
-        unsigned short c = usc_tab_f7[wc-0xf700];
+        unsigned short c = ucs_tab_f7[wc-0xf700];
         r[0] = (c >> 8); r[1] = (c & 0xff);
         return 2;
     }
@@ -4209,8 +4209,8 @@ ksc5601_1992_wctomb(conv_t conv, unsigned char *r, ucs4_t wc, int n)
                 return RET_TOOSMALL;
             if (((buf[0] >= 0x21 && buf[0] <= 0x2c) || (buf[0] >= 0x4a && buf[0] <= 0x7d))
                 && (buf[1] >= 0x21 && buf[1] <= 0x7e)) {
-                /*Pre-calculations: 0x192=0x1b2-0x21; 0x176=0x197-0x21 */
-                unsigned int t = buf[0] < 0x4A ? (buf[0]+0x192) : (buf[0]+0x176);
+                /*Pre-calculations: 0x191=0x1b2-0x21; 0x176=0x197-0x21 */
+                unsigned int t = buf[0] < 0x4A ? (buf[0]+0x191) : (buf[0]+0x176);
                 unsigned char t2 = ((t & 1) ? 0x5e : 0) + (buf[1] - 0x21);
                 r[0] = t >> 1;
                 r[1] = (t2 < 0x4e ? t2+0x31 : t2+0x43);
