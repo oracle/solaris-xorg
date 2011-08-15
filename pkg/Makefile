@@ -152,19 +152,21 @@ PKGMOGRIFY = pkgmogrify
 
 # RELEASE = uname -r for the target release
 RELEASE = 5.11
+PKGVERS_BUILTON = $(RELEASE)
+
+# The PKGVERS_BRANCH is determined by the values in the Makefile.buildnum
+include Makefile.buildnum
+PKGVERS_BRANCH_MAIN = 0.$(TRUNKID).$(UPDATENUM).$(SRUNUM).$(PLATNUM)
+PKGVERS_BRANCH = $(PKGVERS_BRANCH_MAIN).$(BUILDID).$(NIGHTLYID)
+
+PKGVERS_BUILD = $(PKGVERS_BUILTON)-$(PKGVERS_BRANCH)
 
 # Generate pkgmogrify transform file with correct build version info in
 # Build number is derived from last nv_XXX tag in hg log
 $(PDIR)/versions: transforms/versions.tmpl $(PDIR)
 	@print "## Substituting build info in versions transformation template"
-	$(PKGDEBUG)XNV_BUILDNUM="$${XNV_BUILDNUM:-$$(hg log | \
-	    $(PERL) -l -n -e \
-		'if ($$_ =~ m/^tag:\s+nv_([\d\.]+)/) { print $$1 ; exit}')}" ; \
-	PKGVERS_BUILTON="$(RELEASE)" ; \
-	PKGVERS_BRANCH="0.$${XNV_BUILDNUM}" ; \
-	PKGVERS_BUILD="$${PKGVERS_BUILTON}-$${PKGVERS_BRANCH}" ; \
-	HG_ID="$$(hg id)" ; \
-	$(PERL) -p -e "s{_PKGVERS_BUILD_}{$${PKGVERS_BUILD}};" \
+	$(PKGDEBUG) HG_ID="$$(hg id)" ; \
+	$(PERL) -p -e "s{_PKGVERS_BUILD_}{$(PKGVERS_BUILD)};" \
 		-e "s{_HG_ID_}{$${HG_ID}}" transforms/versions.tmpl > $@
 
 # Set variables used by pkgmogrify 

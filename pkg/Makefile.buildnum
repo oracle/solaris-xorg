@@ -1,0 +1,115 @@
+#
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+#
+# This file has no user serviceable parts.
+#
+# If you need to override any value, do not edit it here.  Instead,
+# set the values in your build environment.  If you do this, it must
+# be an integer, and your choice will have ramifications on whether or
+# not the package repositories you build will be upgradable.
+#
+
+#
+# Package Version Information
+#
+# The package version is described in detail within the pkg(5) man page.
+# It is made of four components. The values within this file set the
+# third component, the branch version, which resides after the dash.
+# 
+# This component needs to accommodate the following:
+#
+# o uniquely identifying individual builds to support zone
+#   install/update
+#
+# o for the continued movement forwards when Solaris updates,
+#   bug fixes and other requirements are delivered.
+#
+# The package branch version scheme is:
+#
+#       trunk_id.update.SRU.platform.buildid.nightlyid
+#
+# where
+#       trunk_id : build number for tip development gate, with leading 0
+#       update   : 0 for FCS, 1 for update 1, etc.
+#       SRU      : SRU (support repository update) number for this update
+#       platform : reserved for future use.
+#       buildid  : the build number of the last non-zero element from above
+#       nightlyid: nightly build identifier
+#
+# This scheme is used below.
+#
+
+#
+# Generate the trunk id of the packages from the tag in the gate.
+# In X the Nevada builds are tagged with nv_XXX where XXX is the
+# build/trunk number.
+#
+# When the next development train is started this pattern will need to be
+# changed in order to match the tag used there.
+#
+TRUNKID :sh = hg parent --template '{latesttag}\n' | \
+        perl -l -n -e 'if ($_ =~ m/^nv_(\d+)/) {print $1} else {exit 1}'
+# If you get mksh: Fatal error from the above, then you have an unexpected
+# tag other than nv_XXX in your hg repo.   You can run make TRUNKID=123 to
+# override with a different build id until you fix your repo or this regexp.
+
+#
+# The Solaris Update number. This will be set by the gatekeepers.
+# The value must match the update number of the release.
+#
+UPDATENUM= 0
+
+#
+# Support Respository Update number. This is here to reserve space within the
+# version string. Typically it should not be set unless all the packages
+# are being delivered within an SRU.
+#
+SRUNUM= 0
+
+#
+# Platform number. This is here to reserve space within the version
+# string. It should not be set unless there is a specific need to
+# release a platform update while the Solaris Update is being built.
+#
+PLATNUM= 0
+
+#
+# Build Identifier. Used to indicate which build (or respin for
+# the development build) of the Solaris Update is being built. 
+# This is set by the gatekeepers.
+#
+BUILDID= 0
+
+#
+# Each (nightly) build of the code that produces packages needs to
+# be uniquely identified so that packages produced by different
+# builds can't be mixed.  Mixing packages from different builds can
+# easily result in broken global and nonglobal zones.
+#
+# Generate the identifier based upon the changeset id's of the gate.
+#
+# Note: :sh is used for the finding the values because it is evaluated
+# once during the package build.
+#
+NIGHTLYID		:sh = (hg parent --template '{rev}\n')
