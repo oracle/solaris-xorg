@@ -2174,6 +2174,10 @@ TsolCheckPropertyAccess)
 		    tsolprop->sl = tsolinfo->sl;        /* use client's sl/uid */
 		    tsolprop->uid = tsolinfo->uid;
 		    tsolprop->pid = tsolinfo->pid;
+		    if (client == serverClient)
+			tsolprop->internal = TRUE;
+		    else
+		    	tsolprop->internal = FALSE;
 		} else {
 		    tsolprop->sl = tsolres->sl;         /* use window's sl/uid */
 		    tsolprop->uid = tsolres->uid;
