@@ -95,5 +95,11 @@ MODTYPE_LD_OPTIONS += $(MODTYPE_DEBUG_LD_OPTIONS)
 # Need to fix libtool interference with our linker flags
 DELIBTOOLIZE=yes
 
+# Mark packages as only compatible with the current Xorg minor release series,
+# since Xorg tends to break ABI's in each minor release train (1.8, 1.9, etc.)
+MODTYPE_ATTRDATA_COMMANDS = @$(START_CMD_ECHO) ; \
+	print "depend fmri=pkg:/x11/server/xorg@$(MIN_XSERVER_VERS) type=optional" >> $@ ; \
+	print "depend fmri=pkg:/x11/server/xorg@$(NEXT_XSERVER_VERS) type=exclude" >> $@
+
 ### Include common rules
 include $(TOP)/open-src/common/Makefile.inc

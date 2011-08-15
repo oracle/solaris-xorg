@@ -344,6 +344,20 @@ $(XORG_GIT_DEFAULT)	XORG_GIT_URL=$(FDO_GIT_URL)/xorg
 UNPACK_FILE = .unpack_done
 UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 
+# Most module versions are in the individual makefiles, but the Xserver is
+# referenced in multiple places, so it's kept here for easy sharing.
+# 
+# Current Xorg server source tarball to use sources from:
+XORGSERVER_VERS=1.10.3
+# Minimum Xorg server version that we expect to be ABI compatible with.
+# Usually .99 of the previous minor release series, as that's the convention
+# for the development snapshots of the next release series.
+MIN_XSERVER_VERS=1.9.99
+# Next highest Xorg server version that we expect to be ABI incompatible with.
+# Usually .99 of the current release series, as Xorg tends to break ABI's
+# in each minor release train (1.8, 1.9, etc.)
+NEXT_XSERVER_VERS=1.10.99
+
 ### Misc rules
 
 # For use in debugging or calling from scripts like the code review helper

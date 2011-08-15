@@ -38,9 +38,6 @@ MODULE_PKGTAIL_SET	      	= yes
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
 
-# Xorg server source tarball to use sources from
-XORGSERVER_VERS=1.10.3
-
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=sed '/^\#/ d' ../xorg/patch-list
 
@@ -114,6 +111,12 @@ XSERVER_LDFLAGS = \
 #  - PATH - include /usr/sbin for dtrace command (needed for building probes)
 MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
 	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
+
+# Mark packages as only compatible with the current server minor release series,
+# since Xorg tends to break ABI's in each minor release train (1.8, 1.9, etc.)
+MODTYPE_ATTRDATA_COMMANDS = @$(START_CMD_ECHO) ; \
+	print "depend fmri=pkg:/x11/server/xserver-common@$(MIN_XSERVER_VERS) type=require" >> $@ ; \
+	print "depend fmri=pkg:/x11/server/xorg@$(NEXT_XSERVER_VERS) type=exclude" >> $@
 
 ### Include common rulesets
 include $(TOP)/open-src/common/Makefile.inc

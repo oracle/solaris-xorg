@@ -19,6 +19,12 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
+# open-src/xserver/Makefile.inc makes all X server packages depend on
+# xorg-common, so we drop those to avoid silly self-referential dependencies.
+<transform depend fmri=pkg:/x11/server/xserver-common -> drop>
+
+
 set name=pkg.fmri \
     value=pkg:/x11/server/xserver-common@__version:xserver-common__
 set name=pkg.description \

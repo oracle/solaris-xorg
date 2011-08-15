@@ -29,5 +29,6 @@ legacy pkg=SUNWxorg-tsol-module \
     name="Trusted Extensions, Xorg"
 # Requires Xorg itself of course
 depend fmri=pkg:/x11/server/xorg type=require
-# Requires the TrustedExtensionsPolicy file from xserver-common pkg
-depend fmri=pkg:/x11/server/xserver-common type=require
+# Requires the TrustedExtensionsPolicy file from xserver-common pkg, but
+# that is currently auto-added by open-src/xserver/Makefile.inc rules.
+# depend fmri=pkg:/x11/server/xserver-common type=require

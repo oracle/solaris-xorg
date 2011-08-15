@@ -269,9 +269,8 @@ depend fmri=pkg:/x11/keyboard/data-xkb type=require
 depend fmri=pkg:/x11/keyboard/xkbcomp type=require
 
 # keyboard & mouse drivers used to be part of this package, so we preserve
-# the dependency to ensure they're not lost on upgrade
-depend fmri=pkg:/x11/server/xorg/driver/xorg-input-keyboard type=require
-depend fmri=pkg:/x11/server/xorg/driver/xorg-input-mouse type=require
-
-# X servers require several shared data files in xserver-common
-depend fmri=pkg:/x11/server/xserver-common type=require
+# the dependency to ensure they're not lost on upgrade, and normally installed
+# on fresh install, but make it a group dependency, so that users can choose
+# to exclude in cases they're not needed (systems with alternate or no input)
+depend fmri=pkg:/x11/server/xorg/driver/xorg-input-keyboard type=group
+depend fmri=pkg:/x11/server/xorg/driver/xorg-input-mouse type=group

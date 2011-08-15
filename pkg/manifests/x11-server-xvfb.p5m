@@ -31,4 +31,3 @@ link path=usr/lib/mdb/proc/$(ARCH64)/Xvfb.so target=Xserver.so
 # X servers require xkbcomp & data-xkb for keyboard layouts
 depend fmri=pkg:/x11/keyboard/data-xkb type=require
 depend fmri=pkg:/x11/keyboard/xkbcomp type=require
-depend fmri=pkg:/x11/server/xserver-common type=require
