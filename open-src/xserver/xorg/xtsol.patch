@@ -193,6 +193,20 @@ index 7b2132d..63a2378 100644
  DoGetImage(ClientPtr client, int format, Drawable drawable, 
             int x, int y, int width, int height, 
             Mask planemask, xGetImageReply **im_return)
+diff --git a/dix/events.c b/dix/events.c
+index eefcdef..a945411 100644
+--- a/dix/events.c
++++ b/dix/events.c
+@@ -2544,6 +2544,9 @@ PointInBorderSize(WindowPtr pWin, int x, int y)
+  *
+  * @returns the window at the given coordinates.
+  */
++#ifdef TSOL
++_X_EXPORT
++#endif
+ WindowPtr
+ XYToWindow(SpritePtr pSprite, int x, int y)
+ {
 diff --git a/dix/window.c b/dix/window.c
 index 41306b3..6d4db39 100644
 --- a/dix/window.c
@@ -310,7 +324,7 @@ index ea065fa..5e5725e 100644
 +# Sun Trusted Extensions extension module additions
 +extsmodule_LTLIBRARIES += libxtsol.la
 +libxtsol_la_LDFLAGS = -avoid-version
-+libxtsol_la_LIBADD = $(top_builddir)/tsol/libxtsol.la
++libxtsol_la_LIBADD = $(top_builddir)/tsol/libxtsol.la $(PIXMAN_LIBS)
 +libxtsol_la_SOURCES = tsolmodule.c
 +endif
 diff --git a/include/dix.h b/include/dix.h

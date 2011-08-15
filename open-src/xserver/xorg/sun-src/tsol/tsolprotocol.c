@@ -1037,7 +1037,9 @@ TsolDoGetImage(
     {
         if (DrawableIsRoot(pDraw))
         {
-            pWin = XYToWindow(PickPointer(client), x, y);
+            DeviceIntPtr pDev = PickPointer(client);
+            SpritePtr pSprite = pDev->spriteInfo->sprite;
+            pWin = XYToWindow(pSprite, x, y);
             if (!WindowIsRoot(pWin))
             {
                 pDrawtmp = &(pWin->parent->drawable);
