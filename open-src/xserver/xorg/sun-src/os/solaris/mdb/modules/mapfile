@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,41 +21,33 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-MODULES=Xserver.so
-MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
+$mapfile_version 2
 
-CFLAGS += -K pic -g
-CPPFLAGS += -I ../../../../include -I ../../../.. -I ../../../../Xext
-LDFLAGS += -Wl,-z,text -M mapfile
+#
+# mapfile for Xserver mdb modules
+#
 
-HEADERS = Xserver_mdb.h
-SOURCES = Xserver_clients.c Xserver_device_grabs.c mdb_module.c
-OBJECTS = $(SOURCES:%.c=%.o)
-LINTFILES = $(SOURCES:%.so=%.ln)
+SYMBOL_SCOPE {
+	global:
 
-all: $(MODULES)
+# mdb modules reference symbols exported by mdb - this list should only
+# contain entries found in the ON gate's master copy of the mdb mapfile
+# in usr/src/cmd/mdb/common/modules/conf/mapfile-extern
+		mdb_alloc			{ FLAGS = EXTERN };
+		mdb_free			{ FLAGS = EXTERN };
+		mdb_lookup_by_name		{ FLAGS = EXTERN };
+		mdb_lookup_by_obj		{ FLAGS = EXTERN };
+		mdb_printf			{ FLAGS = EXTERN };
+		mdb_readstr			{ FLAGS = EXTERN };
+		mdb_readsym			{ FLAGS = EXTERN };
+		mdb_readvar			{ FLAGS = EXTERN };
+		mdb_vread			{ FLAGS = EXTERN };
+		mdb_warn			{ FLAGS = EXTERN };
+		mdb_walk_dcmd			{ FLAGS = EXTERN };
 
-.KEEP_STATE:
+# mdb modules aren't allowed to export any symbols except for _mdb_init
+		_mdb_init;
 
-.NO_PARALLEL:
-.PARALLEL: $(OBJECTS) $(LINTFILES)
-
-Xserver.so: $(OBJECTS)
-	$(CC) $(CFLAGS) -G -o Xserver.so $(OBJECTS) $(LDFLAGS) $(LIBS)
-
-install:
-	mkdir $(DESTDIR)$(MDB_MODULE_DIR)
-
-clean:
-	rm -f $(OBJECTS)
-
-clean.lint:
-	rm -f $(LINTFILES)
-
-clobber: clean clean.lint
-	rm -f $(MODULES)
-
-%.ln: %.c
-	$(LINT) $(LINTFLAGS) $(CPPFLAGS) -c $<
-
-lint: $(LINTFILES)
+	local:
+		*;
+};

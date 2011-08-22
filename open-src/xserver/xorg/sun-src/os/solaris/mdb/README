@@ -182,13 +182,14 @@ If you run one of the commands (such as ::client_pids) without an address in
 front, it will automatically call the associated walker to list the
 information for all the entries in the list.
 
-For more information about using mdb, see the Modular Debugger Guide manual
-on http://docs.sun.com/ and the mdb OpenSolaris Community website at
+For more information about using mdb, see the Solaris Modular Debugger Guide
+on http://www.oracle.com/technetwork/indexes/documentation/index.html and 
+the mdb OpenSolaris Community website at
 http://hub.opensolaris.org/bin/view/Community+Group+mdb/
 
 =============================================================================
 
-Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

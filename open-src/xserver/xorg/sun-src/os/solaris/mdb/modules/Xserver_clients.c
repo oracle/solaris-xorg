@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,13 @@
 
 
 #include <sys/mdb_modapi.h>
+#include "Xserver_mdb.h"
 
 #include "xorg-server.h"
 #include "dixstruct.h"
 #include "misc.h"
 #include "os/osdep.h"
 #include "IA/interactive_srv.h"
-#include "Xserver_mdb.h"
 
 struct client_walk_data {
     uintptr_t client_next;
@@ -37,11 +37,15 @@ struct client_walk_data {
     ClientRec client_data;
 };
 
-/* Copied from dix/privates.c in Xorg 1.6 */
-struct _Private {
-    int state;
-    pointer value;
-};
+/* Just here to satisfy linkage from inlines in privates.h
+   Should never ever be called from the module. */
+_X_HIDDEN DevPrivateKey
+_dixGetScreenPrivateKey(const DevScreenPrivateKey key, ScreenPtr pScreen)
+{
+    abort();
+    return NULL; /* compiler whines about not returning a value after abort() */
+}
+
 
 /*
  * Initialize the client walker by either using the given starting address,
@@ -145,112 +149,124 @@ client_pids(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
     uintptr_t clientP;
     ClientRec client_data;
 
-	if (argc != 0)
-		return (DCMD_USAGE);
+    if (argc != 0)
+	return (DCMD_USAGE);
 
-	/*
-	 * If no client address was specified on the command line, we can
-	 * print out all clients by invoking the walker, using this
-	 * dcmd itself as the callback.
-	 */
-	if (!(flags & DCMD_ADDRSPEC)) {
-		if (mdb_walk_dcmd("client_walk", "client_pids",
-		    argc, argv) == -1) {
-			mdb_warn("failed to walk 'client_walk'");
-			return (DCMD_ERR);
-		}
-		return (DCMD_OK);
+    /*
+     * If no client address was specified on the command line, we can
+     * print out all clients by invoking the walker, using this
+     * dcmd itself as the callback.
+     */
+    if (!(flags & DCMD_ADDRSPEC)) {
+	if (mdb_walk_dcmd("client_walk", "client_pids",
+			  argc, argv) == -1) {
+	    mdb_warn("failed to walk 'client_walk'");
+	    return (DCMD_ERR);
 	}
-
-	/*
-	 * If this is the first invocation of the command, print a nice
-	 * header line for the output that will follow.
-	 */
-	if (DCMD_HDRSPEC(flags))
-		mdb_printf("CLIENT SEQUENCE #  FD  PIDS\n");
-
-
-	if (mdb_vread(&clientP, sizeof (clientP), addr) == sizeof (clientP)) {
-
-	    if (mdb_vread(&client_data, sizeof (client_data), clientP) == sizeof (client_data)) {
-		mdb_printf("%5d  %10d", client_data.index, client_data.sequence);
-
-		if (client_data.osPrivate != NULL) {
-		    OsCommRec oscomm;
-
-		    if (mdb_vread(&oscomm, sizeof (oscomm),
-		      (uintptr_t)client_data.osPrivate) == sizeof (oscomm)) {
-			ClientProcessPtr cpp = NULL;
-
-			mdb_printf("%4d ", oscomm.fd);
-
-			/* Xorg 1.6 or later */
-			{
-			    int IAPrivKeyIndex;
-			    GElf_Sym privkey_sym;
-			    if (mdb_lookup_by_obj("libia.so", "IAPrivKeyIndex",
-						   &privkey_sym) == -1) {
-				mdb_warn("failed to lookup 'libia.so`IAPrivKeyIndex'");
-			    } else {
-				if (mdb_vread(&IAPrivKeyIndex, sizeof(int),
-					      privkey_sym.st_value) != sizeof(int)) {
-				    mdb_warn("failed to read 'IAPrivKeyIndex'");
-				} else {
-				    void *dpaddr = &(client_data.devPrivates[IAPrivKeyIndex]);
-				    struct _Private devPriv;
-
-				    if (mdb_vread(&devPriv, sizeof (devPriv),
-						  (uintptr_t) dpaddr) != sizeof (devPriv)) {
-					mdb_warn("failed to read client_data.devPrivates[IAPrivKeyIndex]");
-				    } else {
-
-					void *cppaddr = devPriv.value;
-
-					if (mdb_vread(&cpp, sizeof (cpp), (uintptr_t) cppaddr) != sizeof (cpp)) {
-					    cpp = NULL;
-					    mdb_warn("failed to read client_data.devPrivates[IAPrivKeyIndex].value");
-					}
-				    }
-				}
-			    }
-			}
-
-			if (cpp != NULL) {
-			    ClientProcessRec cpr;
-			    ConnectionPidRec pid;
-
-			    if (mdb_vread(&cpr, sizeof (cpr),
-					  (uintptr_t)cpp) == sizeof (cpr)) {
-				int i;
-				uintptr_t pidP = (uintptr_t) cpr.pids;
-
-				for (i = 0; i < cpr.count; i++, pidP += sizeof(pid)) {
-				    if (mdb_vread(&pid, sizeof (pid), pidP) == sizeof (pid)) {
-					mdb_printf("%d ", pid);
-				    } else {
-					mdb_warn("failed to read pid #%d from %p", i, pidP);
-				    }
-				}
-				mdb_printf("\n");
-
-			    } else {
-				mdb_warn("failed to read struct ClientProcessRec at %p", client_data.osPrivate);
-			    }
-			} else {
-			    mdb_printf(" ??? - NULL ClientProcessPtr\n");
-			}
-		    } else {
-			mdb_warn("failed to read struct OsCommRec at %p", client_data.osPrivate);
-		    }
-		} else {
-		    mdb_printf(" ??? - NULL ClientPtr->osPrivate\n");
-		}
-	    } else {
-		mdb_warn("failed to read ClientRec at %p", clientP);
-	    }
-	} else {
-	    mdb_warn("failed to read ClientPtr at %p", addr);
-	}
-
 	return (DCMD_OK);
+    }
+
+    /*
+     * If this is the first invocation of the command, print a nice
+     * header line for the output that will follow.
+     */
+    if (DCMD_HDRSPEC(flags))
+	mdb_printf("CLIENT SEQUENCE #  FD  PIDS\n");
+
+
+    if (mdb_vread(&clientP, sizeof (clientP), addr) != sizeof (clientP)) {
+	mdb_warn("failed to read ClientPtr at %p", addr);
+    } else {
+	if (mdb_vread(&client_data, sizeof (client_data), clientP)
+	    != sizeof (client_data)) {
+	    mdb_warn("failed to read ClientRec at %p", clientP);
+	} else {
+	    mdb_printf("%5d  %10d", client_data.index, client_data.sequence);
+
+	    if (client_data.osPrivate == NULL) {
+		mdb_printf(" ??? - NULL ClientPtr->osPrivate\n");
+	    } else {
+		OsCommRec oscomm;
+
+		if (mdb_vread(&oscomm, sizeof (oscomm),
+			      (uintptr_t)client_data.osPrivate)
+		    != sizeof (oscomm)) {
+		    mdb_warn("failed to read struct OsCommRec at %p",
+			     client_data.osPrivate);
+		} else {
+		    ClientProcessPtr cpp = NULL;
+
+		    /* Xorg 1.9 or later */
+		    DevPrivateKeyRec IAPrivKeyRec;
+		    GElf_Sym privkey_sym;
+
+		    mdb_printf("%4d ", oscomm.fd);
+
+		    if (mdb_lookup_by_obj("libia.so", "IAPrivKeyRec",
+					  &privkey_sym) == -1) {
+			mdb_warn("failed to lookup 'libia.so`IAPrivKeyRec'");
+		    } else {
+			if (mdb_vread(&IAPrivKeyRec, sizeof(DevPrivateKeyRec),
+				      privkey_sym.st_value)
+			    != sizeof(DevPrivateKeyRec)) {
+			    mdb_warn("failed to read 'IAPrivKeyRec'");
+			} else if (!IAPrivKeyRec.initialized) {
+			    mdb_warn("IAPrivKeyRec is uninitialized");
+			} else {
+			    uintptr_t dpaddr
+				= ((uintptr_t)client_data.devPrivates)
+				+ IAPrivKeyRec.offset;
+			    uintptr_t cppaddr = (uintptr_t) NULL;
+
+			    /*
+			     * ClientProcessPtr is the first entry in the
+			     * IAClientPrivatePtr that devPrivates points to
+			     */
+			    if (mdb_vread(&cppaddr, sizeof (cppaddr), dpaddr)
+				!= sizeof (cppaddr)) {
+				mdb_warn("failed to read "
+					 " client_data.devPrivates+offset");
+			    } else if (cppaddr == NULL) {
+				mdb_warn("no ClientProcessPtr found");
+			    } else if (mdb_vread(&cpp, sizeof (cpp), cppaddr)
+				       != sizeof (cpp)) {
+				cpp = NULL;
+				mdb_warn("failed to read IAClientPrivatePtr");
+			    }
+			}
+		    }
+
+		    if (cpp == NULL) {
+			mdb_printf(" ??? - NULL ClientProcessPtr\n");
+		    } else {
+			ClientProcessRec cpr;
+			ConnectionPidRec pid;
+
+			if (mdb_vread(&cpr, sizeof (cpr), (uintptr_t)cpp)
+			    != sizeof (cpr)) {
+			    mdb_warn("failed to read struct ClientProcessRec"
+				     " at %p", client_data.osPrivate);
+			} else {
+			    int i;
+			    uintptr_t pidP = (uintptr_t) cpr.pids;
+
+			    for (i = 0; i < cpr.count;
+				 i++, pidP += sizeof(pid)) {
+				if (mdb_vread(&pid, sizeof (pid), pidP)
+				    == sizeof (pid)) {
+				    mdb_printf("%d ", pid);
+				} else {
+				    mdb_warn("failed to read pid #%d from %p",
+					     i, pidP);
+				}
+			    }
+			    mdb_printf("\n");
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+    return (DCMD_OK);
 }

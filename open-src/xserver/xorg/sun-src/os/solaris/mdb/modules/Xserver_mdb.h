@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -26,6 +26,18 @@
 
 #include <sys/mdb_modapi.h>
 #include <X11/Xfuncproto.h>
+
+/*
+ * Avoid dragging in all the inline functions that cause invalid references
+ * to Xserver & libpixman symbols to appear in the mdb module, but provide
+ * stub typedefs needed by other headers from the excluded files.
+ */
+/* include/regionstr.h */
+#define REGIONSTRUCT_H
+typedef struct pixman_region16 RegionRec, *RegionPtr;
+/* include/callback.h */
+#define CALLBACK_H
+typedef void (*CallbackProcPtr) (void *, void *, void *);
 
 /* Xserver_client.c */
 _X_HIDDEN int	client_walk_init(mdb_walk_state_t *wsp);

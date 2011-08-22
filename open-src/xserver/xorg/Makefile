@@ -309,6 +309,7 @@ INSTALLED_MDB_ALL=$(INSTALLED_MDB_MODULE) $(INSTALLED_MDB_LINKS) \
 # Since configure options aren't used to build the mdb modules, pass
 # those variables at build time
 MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
+MDB_BUILD_ENV += CFLAGS="$(LIB_CFLAGS)" LDFLAGS="$(LIB_LDFLAGS)"
 
 build_mdb: $(BUILT_MDB_MODULE)
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,9 +23,11 @@
 
 
 #include <sys/mdb_modapi.h>
+
+#include "Xserver_mdb.h"
 #include "xorg-server.h"
 #include "inputstr.h"
-#include "Xserver_mdb.h"
+
 
 struct inputdev_walk_data {
     InputInfo 		inputInfo;
@@ -35,7 +37,7 @@ struct inputdev_walk_data {
 /*
  * Initialize the inputdev walker by either using the given starting address,
  * or reading the value of the server's "inputInfo" pointer.  We also allocate
- * a for storage, and save this using the walk_data pointer.
+ * a struct for storage, and save this using the walk_data pointer.
  */
 _X_HIDDEN int
 inputdev_walk_init(mdb_walk_state_t *wsp)
