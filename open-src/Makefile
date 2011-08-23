@@ -43,7 +43,7 @@ default_target: install
 # - font depends on utils like mkfontdir from app
 
 # High level dependencies
-proto: util/util-macros util/lndir
+proto: util/util-macros util/lndir util/build-tools
 util/lndir: proto/x11proto
 lib: proto font/util util
 util: proto font/util
@@ -59,6 +59,7 @@ $(FONTAPPS): lib
 
 OS_SUBDIRS_common = \
 	util/util-macros \
+	util/build-tools \
 	proto/x11proto \
 	util/lndir \
 	proto \

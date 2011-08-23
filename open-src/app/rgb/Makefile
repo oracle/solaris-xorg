@@ -43,10 +43,16 @@ TARBALL_SHA1 = d0360dda290b76c41fa467c47d4c122ea8cc92a4
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
-MODULE_CONFIG_OPTS = --with-rgb-db-dir=$(X11_DIR)/lib/X11/rgb \
-	--with-rgb-db-type=ndbm
-
 # Compatibility links from /usr/X11/bin to /usr/bin
-MODULE_X11_BINCOMPAT_LINKS = rgb showrgb
+MODULE_X11_BINCOMPAT_LINKS = showrgb
 
 include ../Makefile.inc
+
+# Additional compatibility links for the well-known rgb.txt data file
+X11_RGBCOMPAT_LINKS = $(PROTODIR)/usr/X11/lib/X11/rgb.txt
+
+install_X11_compat_links: $(X11_RGBCOMPAT_LINKS)
+
+$(X11_RGBCOMPAT_LINKS):
+	mkdir -p $(@D)
+	ln -s ../../../share/X11/rgb.txt $@

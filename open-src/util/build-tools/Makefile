@@ -1,6 +1,5 @@
-#########################################################################
 #
-# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,23 +19,26 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-# 
-#########################################################################
-# 
 #
 
-noinst_LTLIBRARIES = libxtsol.la
+# No upstream sources, only local sources
+MODULE_NAME		= build-tools
+MODULE_VERSION 		= src
+SOURCE_TARBALL_NAME	= NONE
+SOURCE_TARBALL_NAME_SET	= yes
+ADDITIONAL_SOURCE_DIR	= sun-src
 
-libxtsol_la_SOURCES= tsolpolicy.c tsolutils.c tsolextension.c tsolprotocol.c \
-			auditwrite.c
+# No configure script to run
+CONFIGURE_TARGETS	=
+CONFIGURE_TARGETS_SET	= yes
 
-INCLUDES = -I.. -I$(top_srcdir)/include -I$(top_srcdir)/os
+# Build both 32-bit & 64-bit versions
+BUILD_TYPES		= 32 64
+BUILD_TYPES_SET		= yes
 
-SERVERCONFIGdir = @SERVER_MISC_CONFIG_PATH@
-SERVERCONFIG_DATA = TrustedExtensionsPolicy
+# Since we don't have a configure script, pass configure flags to make
+MODULE_CONFIG_ENV	= MACH="$(MACH$(BUILD_TYPE))" DESTDIR="$(TOOLS_DIR)"
+MODULE_BUILD_MAKEFLAGS	= $(CONFIG_ENV)
+MODULE_INSTALL_MAKEFLAGS= $(CONFIG_ENV)
 
-TSOLPOLICYFILEDEF = -DTSOLPOLICYFILE=\"$(SERVERCONFIGdir)/TrustedExtensionsPolicy\"
-
-AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF)
-
-libxtsol_la_LIBADD = -ltsol -ltsnet -lbsm
+include ../Makefile.inc

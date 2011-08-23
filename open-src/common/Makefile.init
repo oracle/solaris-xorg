@@ -87,24 +87,24 @@ ARCHLIBSUBDIR	= $(LIBSUBDIR)
 # Our default compiler is Sun Studio, but if you want to default to GNU 
 # compilers, you can change this here - some modules with specific 
 # requirements override this in their makefiles with MODULE_COMPILER.
-DEFAULT_COMPILER		= suncc
+DEFAULT_COMPILER	 = suncc
 
 # Flags used by either compiler in debug builds
-DEBUG_FLAGS_common	= -g $(MODTYPE_DEBUG_FLAGS) $(MODULE_DEBUG_FLAGS)
+DEBUG_FLAGS_common	 = -g $(MODTYPE_DEBUG_FLAGS) $(MODULE_DEBUG_FLAGS)
 
 ## Sun Studio
-CC_suncc		= cc
-CXX_suncc		= CC
-OPT_FLAGS_suncc		= -xO4 -W2,-Rext_tail_dup -xbuiltin=%none -xlibmil -xprefetch \
-			  -xdepend -xspace
-DEBUG_FLAGS_suncc	= $(DEBUG_FLAGS_common)
+CC_suncc		 = cc
+CXX_suncc		 = CC
+OPT_FLAGS_suncc		 = -xO4 -xbuiltin=%none -xlibmil -xprefetch -xdepend
+OPT_FLAGS_suncc		+= -xspace -W0,-xglobalstatic -W2,-Rext_tail_dup
+DEBUG_FLAGS_suncc	 = $(DEBUG_FLAGS_common)
 $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_suncc = $(DEBUG_FLAGS_suncc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
 
-CFLAGS_suncc 		= $(DEBUG_OR_OPT_FLAGS_suncc) -v -xstrconst \
-			  -features=extensions
-CXXFLAGS_suncc		= $(DEBUG_OR_OPT_FLAGS_suncc) +w2 -norunpath \
-			  -features=extensions
+CFLAGS_suncc 		 = $(DEBUG_OR_OPT_FLAGS_suncc)
+CFLAGS_suncc		+= -v -xstrconst -features=extensions
+CXXFLAGS_suncc		 = $(DEBUG_OR_OPT_FLAGS_suncc)
+CXXFLAGS_suncc		+= +w2 -norunpath -features=extensions
 
 # -D__<arch>__ flags are to match gcc definitions that are used in much
 # of the upstream open source code base
@@ -194,6 +194,9 @@ MAPFILES_FOR_PROGS = $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXSTACK) \
 # Common flags for all binaries
 LDFLAGS_common 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
 
+# Strip debug info out of non-debug builds
+$(BUILD_DEBUG:yes=$(POUND_SIGN))  LDFLAGS_common += -z strip-class=debug
+
 # LIB_REQUIRED_LDFLAGS are forced on via LD_OPTIONS to override libtool when
 # building libraries.
 LIB_REQUIRED_LDFLAGS	= -z text -z defs
@@ -280,6 +283,12 @@ PKGCONFIG_DIR_SHARE=/usr/share$(PKGCONFIG_DIR_suffix)
 TOOLS_DIR=$(PROTOTOP)/tools_$(MACH)
 TOOLS_ACLOCAL_DIR=$(TOOLS_DIR)/share/aclocal
 
+# Work around _TIME, _DATE, embedded date chatter in component builds
+# to use, set TIME_CONSTANT in the component Makefile and add $(CONSTANT_TIME)
+# to the appropriate MODULE_CONFIG_ENV/MODULE_BUILD_ENV/MODULE_INSTALL_ENV
+CONSTANT_TIME  = LD_PRELOAD_32=$(TOOLS_DIR)/time-$(MACH32).so
+CONSTANT_TIME += LD_PRELOAD_64=$(TOOLS_DIR)/time-$(MACH64).so
+CONSTANT_TIME += TIME_CONSTANT=$(TIME_CONSTANT)
 
 ### Other tools needed to build
 

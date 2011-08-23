@@ -1,6 +1,5 @@
-#########################################################################
 #
-# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,23 +19,23 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-# 
-#########################################################################
-# 
 #
 
-noinst_LTLIBRARIES = libxtsol.la
+# LD_PRELOADable shared objects to interpose on time calls to make builds
+# more reproducible.
 
-libxtsol_la_SOURCES= tsolpolicy.c tsolutils.c tsolextension.c tsolprotocol.c \
-			auditwrite.c
+all: time-$(MACH).so
 
-INCLUDES = -I.. -I$(top_srcdir)/include -I$(top_srcdir)/os
+install: $(DESTDIR)/time-$(MACH).so
 
-SERVERCONFIGdir = @SERVER_MISC_CONFIG_PATH@
-SERVERCONFIG_DATA = TrustedExtensionsPolicy
+time-%.o:	time.c
+	$(CC) -Kpic $(CFLAGS) -c -o $@ $<
 
-TSOLPOLICYFILEDEF = -DTSOLPOLICYFILE=\"$(SERVERCONFIGdir)/TrustedExtensionsPolicy\"
+time-%.so: time-%.o
+	$(CC) -G $(CFLAGS) -o $@ $<
 
-AM_CFLAGS = $(DIX_CFLAGS) $(TSOLPOLICYFILEDEF)
+clean:
+	$(RM) time-*.o time-*.so
 
-libxtsol_la_LIBADD = -ltsol -ltsnet -lbsm
+$(DESTDIR)/time-%.so: time-%.so
+	$(INSTALL) $< $@

@@ -132,6 +132,9 @@ MODULE_FIX_PC_FLAGS= -e 's|\@symbol_visibility\@||'
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
+# Additional configure time targets beyond the defaults
+MODULE_ADD_CONFIGURE_TARGETS=clear_build_date
+
 # Additional install targets beyond the defaults
 MODULE_ADD_INSTALL_TARGETS=install_extras install_mdb install_pc_common \
 	install_fix_paths
@@ -162,6 +165,17 @@ include ../Makefile.inc
 $(BUILD_DEBUG:yes=)			DEBUG_CONFIG_OPTS = LIBS="-lpixman-1"
 $(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_CONFIG_OPTS =
 MODULE_CONFIG_OPTS += $(DEBUG_CONFIG_OPTS)
+
+# Don't include build date & time in delivered binaries as it just causes
+# unnecessary binary differences to be pulled into package updates, but
+# leave it in debug builds for developer convenience
+$(BUILD_DEBUG:yes=$(POUND_SIGN)) CBD_TARGET = actually_clear_build_date
+
+clear_build_date: $(CBD_TARGET)
+
+actually_clear_build_date: $(AUTOCONF_TARGET)
+	printf '#undef BUILD_DATE\n#undef BUILD_TIME\n' > \
+		$(SOURCE_DIR)/hw/xfree86/common/xf86Build.h
 
 $(XORGSERVER_BIN): default_build
 

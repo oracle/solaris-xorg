@@ -2,7 +2,7 @@
 #
 # libdps Makefile
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -214,7 +214,8 @@ all:: $(HEADERS)
 
 includes:: $(DPSOPSCFILES) $(PSOPSCFILES) $(HEADERS)
 
-$(DPSOPSCFILES) $(PSOPSCFILES): $(PSWRAP)
+# Causes unnecessary rebuilds after set-elf-comments touches pswrap
+# $(DPSOPSCFILES) $(PSOPSCFILES): $(PSWRAP)
 
 SRCS = \
 	${COMMONSOURCEFILES} \
@@ -249,7 +250,7 @@ V_GEN_0    = @echo "  GEN   " $@;
 .SUFFIXES: .psw
 
 .psw.c : 
-	$(V_PSWRAP)$(PSWRAP) -a -o $*.c -h $*.h $<
+	$(V_PSWRAP)$(PSWRAP) -a -o $*.c $<
 
 .psw.h : 
 	$(V_PSWRAP)$(PSWRAP) -a -h $*.h $< > /dev/null
@@ -306,4 +307,4 @@ install: all
 	$(INSTALL) libdps.so.5 $(DESTDIR)$(libdir)/libdps.so.5
 
 clean ::
-	${RM} $(DERIVED_FILES) .sort .ttt .att psops.h dpsops.h *%
+	${RM} $(DERIVED_FILES) .sort .ttt .att psops.h dpsops.h *% *.o
