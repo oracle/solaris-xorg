@@ -28,7 +28,7 @@ all: time-$(MACH).so
 
 install: $(DESTDIR)/time-$(MACH).so
 
-time-%.o:	time.c
+time-%.o:	$(srcdir)/time.c
 	$(CC) -Kpic $(CFLAGS) -c -o $@ $<
 
 time-%.so: time-%.o
