@@ -68,15 +68,8 @@ MODULE_CONFIG_OPTS= \
 	--with-piddir=/var/run/xdm \
 	--with-authdir=/var/run/xdm \
 	--bindir=/usr/sbin \
-	DEF_USER_PATH=/usr/bin:/usr/X11/bin:/usr/sbin:/sbin \
-	DEF_SYSTEM_PATH=/usr/bin:/usr/X11/bin:/usr/sbin:/sbin
-
-
-# Special handling while xdm is moved to /usr but other apps are still in
-# /usr/X11
-MODULE_CONFIG_OPTS += \
-	--with-xrdb='$(X11_BIN_DIR)/xrdb' \
-	--with-default-session=command='$(X11_BIN_DIR)/xterm -ls' \
+	DEF_USER_PATH=/usr/bin:/usr/sbin \
+	DEF_SYSTEM_PATH=/usr/bin:/usr/sbin
 
 # configure scripts add libraries like -lXt & -lXinerama to the global $(LIBS)
 # when only some objects need them, so ignore them in the rest.
