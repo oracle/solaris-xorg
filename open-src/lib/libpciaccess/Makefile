@@ -76,6 +76,12 @@ FIX_PC_FILES=pciaccess.pc.in
 # Activate additional debugging code in debug builds
 MODULE_DEBUG_FLAGS=-DDEBUG
 
+# Override linker flags for scanpci program
+PCIACCESS_PROG_LDFLAGS = $(MAPFILES_FOR_PROGS) ../src/libpciaccess.so.0
+PROGRAM_VARS = scanpci
+PROGRAM_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(PCIACCESS_PROG_LDFLAGS)")
+MODULE_BUILD_MAKEFLAGS = AM_MAKEFLAGS='$(PROGRAM_MAKEFLAGS)'
+
 # Additional targets for scanpci
 MODULE_ADD_INSTALL_TARGETS_64 = install_scanpci
 MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))

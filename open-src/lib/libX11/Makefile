@@ -136,6 +136,9 @@ MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD \
 
 MODULE_LDFLAGS = -R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 
+# Need to ignore extra libraries like -lsocket & -lnsl in i18n modules
+MODULE_LD_OPTIONS = -z ignore
+
 # Backwards compatibility for old paths until g11n moves all input methods
 MODULE_CONFIG_ENV = \
  XLOCALEDIR="/usr/share/X11/locale:/usr/X11/share/X11/locale" \

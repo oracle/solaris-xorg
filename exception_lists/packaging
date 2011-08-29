@@ -59,6 +59,9 @@ usr/share/man/man7/ati.7       	        sparc
 usr/share/man/man7/r128.7		sparc
 usr/share/man/man7/radeon.7		sparc
 
+# ON delivers the packaged version of this link
+usr/lib/64
+
 # Only need the 32-bit versions of these files
 usr/lib/amd64/X11			i386
 usr/lib/sparcv9/X11			sparc

@@ -52,7 +52,7 @@ LIB_OBJS = libvtsSUNW${Dev}.o gfx_vts.o tools.o mapper.o memory.o chip.o \
 all: libvtsSUNW${Dev}.so.1
 
 libvtsSUNW${Dev}.so.1: $(LIB_OBJS) mapfile
-	${CC} ${CFLAGS} -M mapfile -G -lXext -lX11 -lm $(LIB_OBJS) -o $@
+	${CC} ${CFLAGS} ${LIB_LDFLAGS} -M mapfile -G -lXext -lX11 $(LIB_OBJS) -o $@
 
 gfx_vts.o: ${GFX_COMMON}/vts/gfx_vts.c $(HDRS)
 	${CC} ${CFLAGS} -c ${INCL} -Kpic -xregs=no%appl ${GFX_COMMON}/vts/gfx_vts.c -o $@

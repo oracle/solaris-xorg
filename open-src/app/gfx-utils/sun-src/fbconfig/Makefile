@@ -33,13 +33,11 @@ INCPATHS=-I../gfx_common/include
 CFLAGS += $(INCPATHS)
 
 LIBPATHS=-lscf
-LFLAGS	=
-
 
 all:	$(BIN)
 
 $(BIN):	$(OBJECTS)
-	$(CC) $^ $(LFLAGS) $(LIBPATHS) -o $@
+	$(CC) $^ $(LDFLAGS) $(LIBPATHS) -o $@
 
 %.o:	%.c
 	$(CC) $(CFLAGS) -c $< -o $@

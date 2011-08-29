@@ -122,6 +122,17 @@ MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
 MODULE_LDFLAGS = $(XSERVER_LDFLAGS)
 MODULE_LD_OPTIONS = $(MAPFILES_FOR_ALL)
 
+# Pass linker mapfile listing symbols that modules can count on resolving
+# from the Xorg binary itself
+XORG_EXTERNS_FLAG = -Wl,-M,$(PWD)/$(XORG_EXTERNS_FILE)
+MODULE_BUILD_ENV = XORG_EXTERNS_FLAG='$(XORG_EXTERNS_FLAG)'
+MODULE_LDFLAGS += $(XORG_EXTERNS_FLAG)
+
+# Optimization doesn't always remove unused inline functions, leaving many 
+# binaries referencing pixman symbols that normally don't need them.  Using
+# -z ignore should ensure that it's not added when not really needed.
+MODULE_CONFIG_OPTS += LIBS="-z ignore -lpixman-1"
+
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xorg-server.pc.in
 # Remove compiler specific visibility flag that breaks builds of drivers
@@ -158,13 +169,6 @@ MODULE_X11_BINCOMPAT_LINKS += $(MODULE_X11_BINCOMPAT_LINKS_$(MACH))
 LINKED_TO_ISAEXEC = Xorg Xephyr Xvfb Xdmx
 
 include ../Makefile.inc
-
-# Debug builds disable optimization that removes unused inline functions,
-# leaving many binaries referencing pixman symbols that normally don't
-# need them.
-$(BUILD_DEBUG:yes=)			DEBUG_CONFIG_OPTS = LIBS="-lpixman-1"
-$(BUILD_DEBUG:yes=$(POUND_SIGN))	DEBUG_CONFIG_OPTS =
-MODULE_CONFIG_OPTS += $(DEBUG_CONFIG_OPTS)
 
 # Don't include build date & time in delivered binaries as it just causes
 # unnecessary binary differences to be pulled into package updates, but
@@ -218,19 +222,19 @@ install_pc_common: default_install install_pkgconfig_uninstalled
 # loadable modules don't reference symbols that have been deleted or renamed.
 SYMBOL_AWK_SCRIPT  = \
 'BEGIN { print "\043 Functions exported by Xorg server to loadable modules" ; \
-	 print "\n{\n  global:" } \
+	 print "\n\044mapfile_version 2\n\nSYMBOL_SCOPE {\n\tglobal:" } \
  END   { print "};" } \
  $$7 ~ /UNDEF|\.tdata/  { next } \
  $$5 !~ /GLOB/  { next } \
  $$8 ~ /^(__|_end|_etext|_start|_environ|_lib_version)/ { next } \
- $$4 ~ /FUNC/ && $$7 ~ /\.text/ { printf "    %s = FUNCTION extern;\n", $$8 } \
- $$4 ~ /OBJT/ && $$7 ~ /data|bss/ { printf "    %s = DATA extern;\n", $$8}'
+ $$4 ~ /FUNC/ && $$7 ~ /\.text/ { printf "\t\t%-40s { FLAGS = EXTERN };\n", $$8 } \
+ $$4 ~ /OBJT/ && $$7 ~ /data|bss/ { printf "\t\t%-40s { FLAGS = EXTERN };\n", $$8}'
 
 $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@
-	/usr/bin/nm -gs $(XORGSERVER_BIN) \
-	    $(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/libXfont.so | \
+	LC_ALL=C /usr/bin/nm -gs $(XORGSERVER_BIN) | \
 	    gawk -F\| $(SYMBOL_AWK_SCRIPT) > $@
+	cmp $(XORG_EXTERNS_FILE) $@
 
 # Fix paths in proto area to match paths in packages / installed systems
 install_fix_paths_X: default_install

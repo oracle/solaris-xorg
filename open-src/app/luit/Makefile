@@ -37,7 +37,11 @@ TARBALL_SHA1 = fa974b417f6b65c241398d8d011207c6facb0766
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-man.patch \
+	remove-zlib.patch,-p1 \
 	6824625.patch
+
+# Need to rebuild configure after patching configure.ac in remove-zlib.patch
+AUTORECONF=yes
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=terminal/$(MODULE_NAME)

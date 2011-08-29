@@ -85,6 +85,11 @@ FT_CFLAGS= -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 FT_LIBS= \
   -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -R/usr/lib$(LIBSUBDIR) -lXft -lfontconfig
 
+# Override the flags xterm's configure script generates, since it incorrectly
+# adds -R flags pointing to the build proto area, which are not wanted.
+MODULE_BUILD_MAKEFLAGS = \
+  LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_CFLAGS) $(MODTYPE_LDFLAGS)"
+
 # Additional flags to pass to configure script
 MODULE_CONFIG_OPTS = --enable-256-color --enable-88-color --enable-wide-chars \
   --with-freetype-cflags="$(FT_CFLAGS)" --with-freetype-libs="$(FT_LIBS)" \

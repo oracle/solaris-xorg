@@ -115,7 +115,6 @@ MODULE_CONFIG_OPTS = \
     --with-confdir=/etc/fonts \
     --with-default-fonts='/usr/share/fonts' \
     --with-add-fonts='/etc/X11/fontpath.d,/usr/share/ghostscript/fonts,/usr/X11/lib/X11/fonts' \
-    --with-freetype-config=$(PROTODIR)/usr/bin$(LIBSUBDIR)/freetype-config \
     --with-cache-dir=/var/cache/fontconfig
 
 # Need to use GNU Make to build
@@ -128,6 +127,11 @@ MODULE_BUILD_ENV = LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(LIBSUBDIR) \
 
 # Need to rebuild autoconf/automake files
 AUTORECONF=yes
+
+# Override linker flags for programs
+FONTCONFIG_PROG_LDFLAGS=$(MAPFILES_FOR_PROGS) ../src/libfontconfig.so.1
+PROGRAM_VARS = fc_cache fc_cat fc_list fc_match fc_query fc_scan
+MODULE_BUILD_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(FONTCONFIG_PROG_LDFLAGS)")
 
 # Include common rulesets
 include ../Makefile.inc

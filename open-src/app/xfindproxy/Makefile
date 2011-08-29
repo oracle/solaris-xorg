@@ -53,4 +53,8 @@ MODULE_STABILITY=Committed
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xfindproxy
 
+# ignore some unneeded dependencies that upstream includes:
+#   unreferenced object=libX11.so.4; unused dependency of /usr/bin/xfindproxy
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc

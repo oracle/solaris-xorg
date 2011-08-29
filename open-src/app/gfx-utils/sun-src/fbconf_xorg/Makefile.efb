@@ -46,7 +46,7 @@ EFB_INC += -I$(GFX_COMMON)/include
 # Linker flags
 #
 
-LIBS	= -L$(BIN_DIR) -l$(L_FBC) -lm
+LIBS	= -L$(BIN_DIR) -l$(L_FBC)
 
 
 #
@@ -105,7 +105,7 @@ all:	$(EFB_BIN_DIR) $(BIN_DIR)/$(LIB_EFB_SO)$(VERS)
 
 $(BIN_DIR)/$(LIB_EFB_SO)$(VERS): $(EFB_OBJS) $(BIN_DIR)/$(LIB_FBC_SO)$(VERS)
 	rm -f $(BIN_DIR)/$(LIB_EFB_SO)
-	$(CC) $(LDFLAGS) $(EFB_OBJS) $(LIBS) $(DYNLIBFLAGS) -o $@
+	$(CC) $(LIB_LDFLAGS) $(EFB_OBJS) $(LIBS) $(DYNLIBFLAGS) -o $@
 	ln -s $@ $(BIN_DIR)/$(LIB_EFB_SO)
 
 $(BIN_DIR)/$(LIB_FBC_SO)$(VERS):

@@ -2,7 +2,7 @@
 #
 # listres 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,5 +48,9 @@ MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = listres
+
+# pkg-config dependencies cause a link to libX11 to be brought in that we
+# can ignore
+MODULE_LDFLAGS = -z ignore
 
 include ../Makefile.inc

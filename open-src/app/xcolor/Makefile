@@ -2,7 +2,7 @@
 #
 # xcolor 1.x Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -47,6 +47,9 @@ CONFIGURE_TARGETS_SET=yes
 
 MODULE_BUILD_ENV=$(CONFIG_ENV)
 MODULE_INSTALL_MAKEFLAGS = bindir=$(X11_BIN_DIR) mandir=$(X11_MAN_DIR)
+
+# Allow linker to skip linking to libm if compiler inlined all math functions
+MODULE_LDFLAGS = -z ignore
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=# None

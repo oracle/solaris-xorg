@@ -56,4 +56,7 @@ MODULE_CONFIG_OPTS= --with-bzip2
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = mkfontscale
 
+# Need to find libfontenc & libfreetype in matching directory when used
+# in alternate root environments, like during the build of the fonts
+MODULE_LD_OPTIONS= -R $$ORIGIN/$(X11_SERVERLIBS_DIR:$(X11_DIR)%=..%)$(ARCHLIBSUBDIR)
 include ../Makefile.inc

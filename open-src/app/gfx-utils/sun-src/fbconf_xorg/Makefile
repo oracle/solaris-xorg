@@ -46,7 +46,7 @@ FBC_INC	= -I$(FBC_SRC_DIR) -I$(XF86_SRC_DIR) -I$(GFX_COMMON)/include
 # Linker flags
 #
 
-LIBS	= -L$(BIN_DIR) -l$(L_FBC) -L$(GFX_BIN_DIR) -lgfx -lm
+LIBS	= -L$(BIN_DIR) -l$(L_FBC) -L$(GFX_BIN_DIR) -lgfx
 
 #
 # Code modules
@@ -102,7 +102,7 @@ TARGETS	= \
 all:		init $(TARGETS) 
 
 $(BIN_DIR)/$(BIN): $(BIN_OBJS) $(BIN_DIR)/$(LIB_FBC_SO)$(VERS) $(GFX_BIN_DIR)/$(LIB_GFX_A)
-	$(CC) -o $@ $(BIN_OBJS) $(LIBS) $(DYNFLAGS)
+	$(CC) -o $@ $(BIN_OBJS) $(LDFLAGS) $(LIBS) $(DYNFLAGS)
 
 $(GFX_BIN_DIR)/$(LIB_GFX_A): Makefile.gfx
 	$(MAKE) -f Makefile.gfx all

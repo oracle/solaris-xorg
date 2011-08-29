@@ -50,4 +50,8 @@ MODULE_STABILITY=Volatile
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xinput
 
+# ignore some unneeded dependencies that upstream includes:
+#   unreferenced object=libXext.so.0; unused dependency of /usr/bin/xinput
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc

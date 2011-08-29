@@ -2,7 +2,7 @@
 #
 # xpr Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,6 +41,9 @@ TARBALL_SHA1 = 9dbd0ff136b612285e00d92d0c7675a4207b1c4a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6724753.patch
+
+# Allow linker to skip linking to libm if compiler inlined all math functions
+MODULE_LDFLAGS = -z ignore
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

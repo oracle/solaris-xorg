@@ -66,8 +66,18 @@ LIB_MAN_SUFFIX=
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
+# Command line options to GNU autoconf configure script
+MODULE_CONFIG_OPTS  = --x-includes=/usr/include
+MODULE_CONFIG_OPTS += --x-libraries=/usr/lib$(ARCHLIBSUBDIR)
+
 #  FreeGLUT really wants to know that we are POSIX friendly
 MODULE_CPPFLAGS = -D__posix__ -D__unix__
+
+# ignore some unneeded dependencies that upstream includes:
+#   unreferenced object=libXext.so.0; unused dependency of libglut.so.3.9.0
+#   unreferenced object=libXxf86vm.so.1; unused dependency of libglut.so.3.9.0
+#   unreferenced object=libXi.so.5; unused dependency of libglut.so.3.9.0
+MODULE_LD_OPTIONS = -z ignore
 
 # Additional targets to install
 MODULE_ADD_INSTALL_TARGETS = install_doc

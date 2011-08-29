@@ -49,4 +49,8 @@ MODULE_STABILITY=Committed
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xstdcmap
 
+# ignore some unneeded dependencies that upstream includes:
+#   unreferenced object=libXt.so.4; unused dependency of /usr/bin/xstdcmap
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc

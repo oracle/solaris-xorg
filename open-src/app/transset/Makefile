@@ -2,7 +2,7 @@
 #
 # transset 1.x Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,5 +48,9 @@ SOURCE_URL_SET=yes
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=transset.1
 MODULE_STABILITY=Volatile
+
+# The configure script in the tarball adds many unnecessary dependencies,
+# ignore them for now until we get a fixed tarball from upstream
+MODULE_LDFLAGS = -z ignore
 
 include ../Makefile.inc

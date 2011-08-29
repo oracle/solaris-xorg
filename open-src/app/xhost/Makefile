@@ -50,6 +50,9 @@ MODULE_STABILITY=Committed
 # PSARC/2001/108 X11 Over IPv6
 MODULE_ARC_CASES = PSARC/2001/108
 
+# ignore some unneeded dependencies that upstream includes:
+#   unreferenced object=libXau.so.6; unused dependency of /usr/bin/xhost
+MODULE_LDFLAGS = -z ignore
 
 MODULE_ADD_INSTALL_TARGETS = install_po
 

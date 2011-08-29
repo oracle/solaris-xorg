@@ -52,6 +52,11 @@ MODULE_ADD_INSTALL_TARGETS=install_po
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xfd
 
+# ignore some unneeded dependencies that upstream includes:
+# unreferenced object=/usr/lib/amd64/libfreetype.so.6;
+#   unused dependency of /usr/bin/xfd
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc
 
 install_po:

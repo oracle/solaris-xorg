@@ -75,8 +75,12 @@ SOURCE_PATCHES = CConfig.cpp.patch
 MODULE_STABILITY=Committed
 USE_DEFAULT_CONFIG_ENV=no
 
+# Haven't made sure it's 64-bit clean yet, so continue building 32-bit for now
+BUILD_TYPES_SET=yes
+BUILD_TYPES=32
+
 MODULE_CXXFLAGS = -library=no%Cstd -library=Crun
-MODULE_CXXFLAGS += -m32 $(OPTIM) -s -xspace
+MODULE_CXXFLAGS += -m32 $(OPTIM) -xspace
 MODULE_CXXFLAGS += -features=except,rtti,export,extensions,nestedaccess,tmplife,tmplrefstatic
 MODULE_CXXFLAGS += -instances=global -template=geninlinefuncs -verbose=template
 MODULE_CXXFLAGS += -xlang=c99 -xbuiltin=%none
@@ -99,12 +103,11 @@ MODULE_CPPFLAGS = -DSYSAPI_UNIX=1 \
 MODULE_LDFLAGS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 		 -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 		 -R$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
-		 -KPIC -Bdynamic -lc -lstdcxx4 -lCrun -lm \
-		 -lsocket -lnsl -lgen -z combreloc -z ignore
+		 -KPIC -Bdynamic -z ignore \
+		 -lstdcxx4 -lCrun -lCstd -lsocket -lnsl
 INSTALL = /usr/bin/ginstall -c
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
-LD_OPTIONS = -lc -lstdcxx4 -lCrun -lm -lsocket -lnsl -lgen -z combreloc -z ignore
 
 MODULE_ENV = \
 	     SHELL="/bin/ksh93" \
@@ -113,8 +116,8 @@ MODULE_ENV = \
 	     CXXFLAGS="$(CXXFLAGS) $(MODULE_CXXFLAGS)" \
 	     CPPFLAGS="$(MODULE_CPPFLAGS)" \
 	     CPP="$(CC) -E $(MODULE_CPPFLAGS) $(CPPFLAGS)" \
-	     CXXCPP="$(CXX) -E $(MODULE_CPPFLAGS) $(CPPFLAGS) $(MODULE_CXXFLAGS) $(CXXFLAGS)" \
-	     LDFLAGS="$(MODULE_LDFLAGS)" \
+	     CXXCPP="$(CXX) -E $(MODULE_CPPFLAGS) $(CPPFLAGS) $(CXXFLAGS)" \
+	     LDFLAGS="$(PROG_LDFLAGS) $(MODULE_LDFLAGS)" \
 	     LD="$(CXX) $(CXXFLAGS) $(LDFLAGS)" \
 	     CXXLD="$(CXX) $(MODULE_CXXFLAGS) $(CXXFLAGS) $(MODULE_LDFLAGS) $(LDFLAGS)" \
 	     INSTALL="$(INSTALL)" \

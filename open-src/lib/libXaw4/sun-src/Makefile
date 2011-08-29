@@ -1,4 +1,4 @@
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,7 +31,7 @@ SRCS = 	Xaw3_1AsciiSink.c Xaw3_1AsciiSrc.c Xaw3_1AsciiText.c Xaw3_1Box.c\
 	Xaw3_1XawInit.c
 OBJS = $(SRCS:.c=.o)
 
-REQUIREDLIBS = -lX11 -lc -lXext -lXmu -lm -lXt
+REQUIREDLIBS = -lX11 -lXmu -lXt -lm -lc
 
 XLIB_CFLAGS:sh = pkg-config --cflags x11
 

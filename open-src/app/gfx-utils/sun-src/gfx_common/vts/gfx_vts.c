@@ -164,7 +164,7 @@ gfx_vts_set_message(
 
 	if (rp != NULL) {
 	    if (rp->number_of_message_codes > 0) {
-		add_message(rp, count, mesg_num, string);
+		gfx_vts_add_message(rp, count, mesg_num, string);
 	    } else {
 		rp->message_count = count;
 		if (mesg_num >= 6000) {

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,16 +45,11 @@ MODULE_MTLEVEL_DEFAULT	= $(MODULE_MTLEVEL_SET:yes=$(POUND_SIGN))
 $(MODULE_MTLEVEL_DEFAULT)	MODULE_MTLEVEL=See XInitThreads(3X11)
 MODTYPE_SUNTOUCH_MAN_FLAGS= -l $(LIBNAME) -a '{MT-Level, $(MODULE_MTLEVEL)}'
 
-# Add -lc to library link except for the handful of libraries that don't 
-# need it
-LIBC_DEFAULT		= $(NEED_LIBC:no=$(POUND_SIGN))
-$(LIBC_DEFAULT)		LIBC=-lc
-
 # Flags to build & link libraries with
 MODTYPE_CPPFLAGS=$(LIB_CPPFLAGS)
 MODTYPE_CFLAGS=$(LIB_CFLAGS)
 MODTYPE_CXXFLAGS=$(LIB_CXXFLAGS)
-MODTYPE_LDFLAGS=$(LIB_LDFLAGS) $(LIBC)
+MODTYPE_LDFLAGS=$(LIB_LDFLAGS) -lc
 MODTYPE_LD_OPTIONS=$(LIB_REQUIRED_LDFLAGS)
 
 # Additional command line options to GNU autoconf configure script

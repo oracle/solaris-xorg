@@ -187,12 +187,15 @@ MAPFILE_NOEXSTACK	= -M /usr/lib/ld/map.noexstk
 MAPFILE_PAGEALIGN	= -M /usr/lib/ld/map.pagealign
 MAPFILE_HEAPALIGN	= -M /usr/lib/ld/map.bssalign
 
-MAPFILES_FOR_ALL   = $(MAPFILE_PAGEALIGN) $(MAPFILE_NOEXDATA)
-MAPFILES_FOR_PROGS = $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXSTACK) \
-			$(MAPFILE_NOEXBSS)
+MAPFILES_FOR_ALL   	= $(MAPFILE_PAGEALIGN) $(MAPFILE_NOEXDATA)
+MAPFILES_FOR_PROGS 	= $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXSTACK)
+MAPFILES_FOR_PROGS     += $(MAPFILE_NOEXBSS)
+
+XORG_EXTERNS_FILE 	= mapfile-Xorg-externs.$(MACH)
 
 # Common flags for all binaries
-LDFLAGS_common 		= -z combreloc -z lazyload $(MAPFILES_FOR_ALL)
+LDFLAGS_common 		= -z lazyload -B direct -z guidance
+LDFLAGS_common	       += $(MAPFILES_FOR_ALL)
 
 # Strip debug info out of non-debug builds
 $(BUILD_DEBUG:yes=$(POUND_SIGN))  LDFLAGS_common += -z strip-class=debug
@@ -203,7 +206,7 @@ LIB_REQUIRED_LDFLAGS	= -z text -z defs
 LIB_LDFLAGS_common	= $(LDFLAGS_common) $(LIB_REQUIRED_LDFLAGS)
 
 # Flags for programs
-PROG_LDFLAGS_common	= $(LDFLAGS_common) $(MAPFILES_FOR_PROGS) -B direct
+PROG_LDFLAGS_common	= $(LDFLAGS_common) $(MAPFILES_FOR_PROGS)
 
 # Sun Studio recognizes the common linker flags without -Wl, and 
 # Sun Studio CC can't handle -Wl,-flag,option format, so just pass directly

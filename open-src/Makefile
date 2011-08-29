@@ -93,3 +93,12 @@ TOP=$(PWD)/..
 DIRNAME=""
 include $(TOP)/open-src/common/Makefile.subdirs
 
+PROTOTOP=$(TOP)/proto
+PROTODIR=$(PROTOTOP)/root_$(MACH)
+
+check: check_rtime
+
+# check_rtime script from onbld to check binaries are built with the right
+# linker flags
+check_rtime:
+	check_rtime -e ../exception_lists/check_rtime -d $(PROTODIR) $(PROTODIR)

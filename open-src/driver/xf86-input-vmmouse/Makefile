@@ -58,4 +58,10 @@ MODULE_CONFIG_OPTS= \
 	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor \
 	--bindir=$(X11_SERVERLIBS_DIR)
 
+# Override linker flags for programs
+VMM_PROG_LDFLAGS=$(PROG_LDFLAGS) ../shared/libvmmouse.a
+PROGRAM_VARS = vmmouse_detect
+PROGRAM_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(VMM_PROG_LDFLAGS)")
+MODULE_BUILD_MAKEFLAGS = AM_MAKEFLAGS='$(PROGRAM_MAKEFLAGS)'
+
 include ../Makefile.inc

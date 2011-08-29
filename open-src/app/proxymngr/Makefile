@@ -57,5 +57,11 @@ MODULE_X11_BINCOMPAT_LINKS = proxymngr
 # even if it's not installed during the build.
 MODULE_CONFIG_OPTS = LBXPROXY="$(X11_BIN_DIR)/lbxproxy"
 
+# ignore some unneeded dependencies that upstream includes:
+#  unreferenced object=libX11.so.4; unused dependency of /usr/bin/proxymngr
+#    [fixed in git post-1.0.2]
+#  unreferenced object=libnsl.so.1; unused dependency of /usr/bin/proxymngr
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc
 

@@ -2,7 +2,7 @@
 #
 # XvMC 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -51,5 +51,9 @@ FIX_PC_FILES=xvmc.pc.in
 
 # Compatibility links from /usr/X11/lib to /usr/lib
 MODULE_X11_LIBCOMPAT_LINKS = libXvMC.so libXvMC.so.1 libXvMCW.so libXvMCW.so.1
+
+# configure passes "xv" to PKG_CHECK_MODULES since libXv headers are needed,
+# but we don't need to link with it, so ignore it at link time.
+MODULE_LDFLAGS = -z ignore
 
 include ../Makefile.inc

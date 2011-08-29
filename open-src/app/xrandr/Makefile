@@ -54,6 +54,10 @@ MODULE_STABILITY=Volatile
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xrandr
 
+# ignore some unneeded dependencies that upstream includes:
+#   unreferenced object=libXrender.so.1; unused dependency of /usr/bin/xrandr
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc
 
 # Remove xkeystone utility that requires nickle interpreter we don't ship yet

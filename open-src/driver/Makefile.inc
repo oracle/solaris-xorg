@@ -82,11 +82,10 @@ MODTYPE_CFLAGS_suncc_common = -xldscope=hidden
 MODTYPE_CFLAGS_gcc_common = # -fvisibility=hidden - doesn't work with gcc 3.4.3
 MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 
-MODTYPE_LDFLAGS=$(LDFLAGS) -Wl,-B,direct -R/lib$(ARCHLIBSUBDIR)
+MODTYPE_LDFLAGS=$(LDFLAGS) -R/lib$(ARCHLIBSUBDIR)
 
-XORG_EXTERNS_FLAG = \
-	-M $(TOP)/open-src/xserver/xorg/$(BUILD_DIR)/mapfile-Xorg-externs
-MODTYPE_LD_OPTIONS=-z defs $(XORG_EXTERNS_FLAG) -lc
+XORG_EXTERNS_FLAG = -M $(TOP)/open-src/xserver/xorg/$(XORG_EXTERNS_FILE)
+MODTYPE_LD_OPTIONS=-z defs $(XORG_EXTERNS_FLAG) -z ignore -lc
 
 $(BUILD_DEBUG:yes=)			MODTYPE_DEBUG_LD_OPTIONS = -lpixman-1
 $(BUILD_DEBUG:yes=$(POUND_SIGN))	MODTYPE_DEBUG_LD_OPTIONS =

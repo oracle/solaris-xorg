@@ -80,7 +80,7 @@ include ../Makefile.inc
 
 # Only care about building X demos
 DEMO_LDFLAGS=$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -z ignore
 
 # Flags passed on make command line when building
 MODULE_BUILD_MAKEFLAGS = LDFLAGS="$(DEMO_LDFLAGS)"

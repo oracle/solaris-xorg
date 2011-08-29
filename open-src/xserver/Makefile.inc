@@ -101,11 +101,9 @@ MODTYPE_CPPFLAGS += $(PROG_CPPFLAGS)
 MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 
-XSERVER_LDFLAGS = \
-	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
-	-R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
+# configure scripts add libraries like -lsocket & -lnsl to the global $(LIBS)
+# when only some objects need them, so ignore them in the rest.
+MODTYPE_LD_OPTIONS = -z ignore
 
 # Environment variable options to use when building
 #  - PATH - include /usr/sbin for dtrace command (needed for building probes)

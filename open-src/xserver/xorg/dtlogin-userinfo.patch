@@ -1,4 +1,4 @@
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -81,7 +81,7 @@ index 725691d..c41954d 100644
  endif
  
 +libos_la_SOURCES += dtlogin.c
-+libos_la_LIBADD = -lproject
++libos_la_LIBADD += -lproject
 +
  EXTRA_DIST = $(SECURERPC_SRCS) $(INTERNALMALLOC_SRCS) \
       $(XDMCP_SRCS) $(STRLCAT_SRCS)

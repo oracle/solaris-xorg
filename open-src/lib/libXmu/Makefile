@@ -66,6 +66,10 @@ FIX_PC_FILES=xmu.pc.in xmuu.pc.in
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --with-lint --enable-lint-library
 
+# configure adds -lsocket -lnsl to both libraries, but libXmu only needs
+# -lnsl and libXmuu doesn't need either one.
+MODULE_LD_OPTIONS = -z ignore
+
 # Work around libtool brokenness that adds -R `pwd` to libXmu build
 DELIBTOOLIZE=yes
 

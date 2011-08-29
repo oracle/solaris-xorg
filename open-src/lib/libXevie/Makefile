@@ -52,14 +52,15 @@ SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xevie
 
-# libXevie actually doesn't call any libc functions
-NEED_LIBC=no
-
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xevie.pc.in
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+
+# libXevie actually doesn't call any libc functions, but even if we don't
+# pass -lc, the compiler sneaks it in, so we tell the linker to ignore it
+MODULE_LD_OPTIONS += -z ignore
 
 # Compatibility links from /usr/X11/lib to /usr/lib
 MODULE_X11_LIBCOMPAT_LINKS = libXevie.so libXevie.so.1

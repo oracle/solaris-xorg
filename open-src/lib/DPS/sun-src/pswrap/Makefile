@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,7 @@ V_YACC_0   = @echo "  YACC  " $@;
 all: pswrap
 
 pswrap: $(OBJS)
-	$(V_CC)$(CC) -o $@ $(LDFLAGS) $(OBJS) $(EXTRA_LIBRARIES)
+	$(V_CC)$(CC) -o $@ $(LDFLAGS) $(PROG_LDFLAGS) $(OBJS) $(EXTRA_LIBRARIES)
 
 pswfile.o:
 	$(V_CC)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(FRIENDSDEF) $*.c

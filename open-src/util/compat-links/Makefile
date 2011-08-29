@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -117,3 +117,14 @@ $(FONT_LINKDIR)/misc: $(FONT_LINKDIR)
 $(FONT_LINKDIR)/TrueType: $(FONT_LINKDIR)
 	@rm -f $@
 	ln -s ../../../../share/fonts/TrueType $@
+
+# /usr/lib/64 link needed for check_rtime to find binaries using the */64
+# paths that gcc inserts in runpaths, even though we don't package the link.
+LIB64_LINK=$(PROTODIR)$(X11_LIB_DIR)/64
+
+$(LIB64_LINK):
+	mkdir -p $(@D)
+	rm -f $@
+	ln -s $(SUBDIR64) $@
+
+install_links: $(LIB64_LINK)

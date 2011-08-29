@@ -43,7 +43,13 @@ MODULE_STABILITY=Volatile
 MODULE_CONFIG_OPTS= --bindir=$(X11_SERVERLIBS_DIR)
 
 # Libraries/modules to link with
-MODULE_LD_OPTIONS= -lm
+MODULE_LD_OPTIONS= -z ignore -lm
+
+# Override linker flags for programs
+SYN_PROG_LDFLAGS=$(MAPFILES_FOR_PROGS)
+PROGRAM_VARS = synclient syndaemon
+PROGRAM_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(SYN_PROG_LDFLAGS)")
+MODULE_BUILD_MAKEFLAGS = AM_MAKEFLAGS='$(PROGRAM_MAKEFLAGS)'
 
 # Extra install rules
 MODULE_ADD_INSTALL_TARGETS = install_fdi

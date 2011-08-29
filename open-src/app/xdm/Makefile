@@ -78,6 +78,10 @@ MODULE_CONFIG_OPTS += \
 	--with-xrdb='$(X11_BIN_DIR)/xrdb' \
 	--with-default-session=command='$(X11_BIN_DIR)/xterm -ls' \
 
+# configure scripts add libraries like -lXt & -lXinerama to the global $(LIBS)
+# when only some objects need them, so ignore them in the rest.
+MODTYPE_LD_OPTIONS = -z ignore
+
 # Additional build & install targets
 MODULE_ADD_BUILD_TARGETS=build_xdm_configs
 MODULE_ADD_INSTALL_TARGETS=install_xdmshell install_xdm_configs

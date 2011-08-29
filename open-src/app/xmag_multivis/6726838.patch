@@ -11,7 +11,7 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
 -AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS)
 -xmag_LDADD = $(XMAG_LIBS) -lm
 +AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS) -DSHAPE -DALLPLANES
-+xmag_multivis_LDADD = $(XMAG_LIBS) -lXext -lm
++xmag_multivis_LDADD = -lXext -lX11
  
 -xmag_SOURCES =	\
 -        CutPaste.c \

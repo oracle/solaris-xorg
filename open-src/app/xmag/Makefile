@@ -38,6 +38,8 @@ TARBALL_SHA1 = 95695d4d4a731e5deb4196a0cc6d04ecaba023fe
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
+# Allow linker to skip linking to libm if compiler inlined all math functions
+MODULE_LDFLAGS = -z ignore
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

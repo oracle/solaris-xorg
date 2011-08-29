@@ -124,14 +124,24 @@ cd open-src
 # using parallel make
 ${XMAKE} clean
 ${XMAKE} install
+${XMAKE} check_rtime > ../log/check-rtime 2>&1 &
 cd ..
 
-print "\nFinished building the X Window System Consolidation for OpenSolaris.\n"
+# Set DISTRO_NAME based on open-src/common/Makefile.options
+eval "$(cd open-src/util/util-macros ; make print_make_vars VARS=DISTRO_NAME)"
+
+print "\nFinished building the X Window System Consolidation for" \
+    "${DISTRO_NAME:-OpenSolaris}.\n"
 
 if [ "${MAKE_PKGS}" = 1 ] ; then
     print -n "Build finish time: " ; date ; print ""
     ./make_release_packages ${PUBLISHER_FLAGS} ${VERBOSE_FLAGS}
 fi
+
+wait
+
+print -n "\ncheck-rtime errors: "
+grep -c '^====' log/check-rtime
 
 print -n "\nFinish time: " ; date
 perl -e '$runtime = time - $ARGV[0];

@@ -53,4 +53,10 @@ MODULE_STABILITY=Committed
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = bitmap atobm bmtoa
 
+# ignore some unneeded dependencies that upstream includes:
+# unreferenced object=/usr/lib/libm.so.2; unused dependency of /usr/bin/bitmap
+# unreferenced object=/usr/lib/libXt.so.4; unused dependency of /usr/bin/bmtoa
+# unreferenced object=/usr/lib/libX11.so.4; unused dependency of /usr/bin/bmtoa
+MODULE_LDFLAGS = -z ignore
+
 include ../Makefile.inc

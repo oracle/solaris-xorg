@@ -46,7 +46,9 @@ FBC_INC	+= -I$(COMMON) -I$(COMMON)/include
 # Linker flags
 #
 
-LIBS	= -L$(XF86_BIN_DIR) -l$(L_XF86) -L$(GFX_BIN_DIR) -lgfx -lm
+LIBS	= -L$(XF86_BIN_DIR) -l$(L_XF86) -L$(GFX_BIN_DIR) -lgfx
+# -z ignore since optimized builds may inline all needed libm functions
+LIBS   += -z ignore -lm
 
 
 #
@@ -142,7 +144,7 @@ all:	$(FBC_BIN_DIR) $(BIN_DIR)/$(LIB_FBC_SO)$(VERS)
 
 $(BIN_DIR)/$(LIB_FBC_SO)$(VERS): $(FBC_OBJS) $(GFX_BIN_DIR)/$(LIB_GFX_A) $(XF86_BIN_DIR)/$(LIB_XF86_A)
 	rm -f $(BIN_DIR)/$(LIB_FBC_SO)
-	$(CC) $(LDFLAGS) $(FBC_OBJS) $(LIBS) $(DYNLIBFLAGS) -o $@
+	$(CC) $(LIB_LDFLAGS) $(FBC_OBJS) $(LIBS) $(DYNLIBFLAGS) -o $@
 	ln -s $@ $(BIN_DIR)/$(LIB_FBC_SO)
 
 $(GFX_BIN_DIR)/$(LIB_GFX_A): Makefile.gfx

@@ -2,7 +2,7 @@
 #
 # DPS Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,11 @@ CONFIGURE_TARGETS_SET=yes
 # Since we don't have a configure script, pass configure flags to make
 MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 	datadir=$(MODULE_PREFIX)/share bindir=$(X11_DIR)/bin \
-	libdir=$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
+	libdir=$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR) \
+	PROG_LDFLAGS="$(PROG_LDFLAGS)"
+
+# Allow linker to skip linking to libm if compiler inlined all math functions
+MODULE_LDFLAGS = -z ignore
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = makepsres pswrap

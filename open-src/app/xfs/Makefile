@@ -67,6 +67,10 @@ MODULE_CONFIG_OPTS= --sysconfdir=$(X11_DIR)/lib \
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)
 
+# ignore some unneeded dependencies that upstream includes:
+# unreferenced object=/usr/lib/64/libFS.so.5; unused dependency of /usr/bin/xfs
+MODULE_LDFLAGS += -z ignore
+
 MODULE_ADD_INSTALL_TARGETS = install_smf install_fsadmin
 
 # Compatibility links from /usr/X11/bin to /usr/bin
