@@ -1,0 +1,44 @@
+From 560ae5c2d6f62fcb87d1f7197e81b62601cd82fb Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 26 Aug 2011 13:55:29 -0700
+Subject: [PATCH:x11proto] Fix Xfuncproto.h to work when #included in a C89-mode compilation
+
+Variable argument macros are not supported in C89, only C99 or a
+compiler-specific extension like gcc's.   Even just defining the
+macro causes builds with C89 compilers to fail, as they can't
+figure out how to handle #define _X_NONNULL(...), so only define
+the fallback for C99 compilers.
+
+Since this means C89 compilers will see _X_NONNULL unexpanded in
+sources, add a comment to remind users that this should not be
+used in public/exported API headers we install for other software
+to compile against, only in internal sources/headers used in the
+X build itself.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ Xfuncproto.h.in |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Xfuncproto.h.in b/Xfuncproto.h.in
+index 0d7b8b7..18ce04a 100644
+--- a/Xfuncproto.h.in
++++ b/Xfuncproto.h.in
+@@ -128,10 +128,12 @@ in this Software without prior written authorization from The Open Group.
+ # define _X_ATTRIBUTE_PRINTF(x,y)
+ #endif
+ 
+-/* requires xproto >= 7.0.22 */
++/* requires xproto >= 7.0.22 - since this uses either gcc or C99 variable
++   argument macros, must not be used in any public/exported API header, as
++   many legacy X clients are compiled in C89 mode still. */
+ #if defined(__GNUC__) &&  ((__GNUC__ * 100 + __GNUC_MINOR__) >= 303)
+ #define _X_NONNULL(args...)  __attribute__((nonnull(args)))
+-#else
++#elif defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0 >= 199901L) /* C99 */
+ #define _X_NONNULL(...)  /* */
+ #endif
+ 
+-- 
+1.7.3.2
+

@@ -35,6 +35,7 @@ TARBALL_SHA1 = 96d9b37d15591412a94dd0d3620008e20ef500ca
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	\
+	c99-varargs.patch,-p1 \
 	X.h-patch,-p1
 
 # ARC cases that covered this module
