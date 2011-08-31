@@ -44,11 +44,14 @@ SOURCE_PATCHES = \
 	mkdir.patch,-p1 \
 	pam_tty.patch,-p1 \
 	pam_user.patch,-p1 \
-	bindir.patch \
+	bindir.patch,-p1 \
 	terminateServer.patch \
 	bug-6822636.patch \
 	bug-6820612.patch,-p1 \
 	Xsession.patch
+
+# Need to rebuild configure/Makefile.in after applying bindir.patch
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=xdm.man.cpp
@@ -62,12 +65,16 @@ MODULE_PREFIX_SET=yes
 # Additional configure script options
 # Only build shared greeter module, not static
 # Set various paths to better match Solaris
+# Find xrdb & xterm in /usr/bin even with --bindir set to /usr/sbin
 MODULE_CONFIG_OPTS= \
 	--enable-shared=yes --enable-static=no \
 	--with-xdmconfigdir=/etc/X11/xdm \
 	--with-piddir=/var/run/xdm \
 	--with-authdir=/var/run/xdm \
 	--bindir=/usr/sbin \
+	--with-xrdb='$(X11_BIN_DIR)/xrdb' \
+	--with-default-session=command='$(X11_BIN_DIR)/xterm -ls' \
+	DEF_SERVER='$(X11_BIN_DIR)/X' \
 	DEF_USER_PATH=/usr/bin:/usr/sbin \
 	DEF_SYSTEM_PATH=/usr/bin:/usr/sbin
 

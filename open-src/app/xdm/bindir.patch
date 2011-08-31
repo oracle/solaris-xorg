@@ -26,10 +26,11 @@
 Set paths used in config files for finding X utilities to look in /usr/bin
 even though --bindir is set to /usr/sbin
 
-diff -urp -x '*~' -x '*.orig' config/Makefile.am config/Makefile.am
---- config/Makefile.am	2009-09-17 19:24:37.000000000 -0700
-+++ config/Makefile.am	2009-09-24 15:02:04.421431000 -0700
-@@ -49,7 +49,7 @@ XPMDEFINES = -DXPM -DBITMAPDIR=$(XDM_PIX
+diff --git a/config/Makefile.am b/config/Makefile.am
+index d13645f..4393667 100644
+--- a/config/Makefile.am
++++ b/config/Makefile.am
+@@ -49,7 +49,7 @@ XPMDEFINES = -DXPM -DBITMAPDIR=$(XDM_PIXMAPDIR) -DXDM_PIXMAP=$(XDM_PIXMAP) \
  MKTEMP_DEFINES = -DMKTEMP_COMMAND=$(MKTEMP_COMMAND)
  #endif
  
@@ -38,22 +39,24 @@ diff -urp -x '*~' -x '*.orig' config/Makefile.am config/Makefile.am
      -DUTMP_FILE="$(UTMP_FILE)" -DWTMP_FILE="$(WTMP_FILE)" \
      -DXDMDIR="$(XDMLIBDIR)" -DXDMLOGDIR="$(XDMLOGDIR)" \
      -DXDMXAUTHDIR="$(XDMXAUTHDIR)" \
-diff -urp -x '*~' -x '*.orig' config/Makefile.in config/Makefile.in
---- config/Makefile.in	2009-09-18 15:32:28.000000000 -0700
-+++ config/Makefile.in	2009-09-24 15:02:04.431540000 -0700
-@@ -340,7 +340,7 @@ XPMDEFINES = -DXPM -DBITMAPDIR=$(XDM_PIX
- #if HAVE_MKTEMP_COMMAND
- MKTEMP_DEFINES = -DMKTEMP_COMMAND=$(MKTEMP_COMMAND)
- #endif
--CPP_FILES_FLAGS = -DBINDIR="$(bindir)" -DDEFAULTVT="$(DEFAULTVT)" \
-+CPP_FILES_FLAGS = -DBINDIR="/usr/bin" -DDEFAULTVT="$(DEFAULTVT)" \
-     -DUTMP_FILE="$(UTMP_FILE)" -DWTMP_FILE="$(WTMP_FILE)" \
-     -DXDMDIR="$(XDMLIBDIR)" -DXDMLOGDIR="$(XDMLOGDIR)" \
-     -DXDMXAUTHDIR="$(XDMXAUTHDIR)" \
-diff -urp -x '*~' -x '*.orig' xdm.man.cpp xdm.man.cpp
---- xdm.man.cpp	2009-09-17 19:24:37.000000000 -0700
-+++ xdm.man.cpp	2009-09-24 15:02:04.446548000 -0700
-@@ -413,7 +413,7 @@ See the sections \fBXDMCP Access Control
+diff --git a/configure.ac b/configure.ac
+index b123a1f..4ebc4f5 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -547,7 +547,7 @@ AC_DEFINE_DIR(DEF_SYSTEM_SHELL, BOURNE_SHELL,
+ 
+ # -DDEF_FAILSAFE_CLIENT="$(BINDIR)/xterm"
+ 
+-AC_DEFINE_DIR(DEF_FAILSAFE_CLIENT, bindir/xterm,
++AC_DEFINE_DIR(DEF_FAILSAFE_CLIENT, /usr/bin/xterm,
+ 	[Define to default command to start failsafe X session])
+ 
+ # -DDEF_XDM_CONFIG="$(XDMDIR)/xdm-config"
+diff --git a/xdm.man.cpp b/xdm.man.cpp
+index b947e5a..1a25fa8 100644
+--- a/xdm.man.cpp
++++ b/xdm.man.cpp
+@@ -413,7 +413,7 @@ See the sections \fBXDMCP Access Control\fP and \fBChooser\fP.
  .IP "\fBDisplayManager.\fP\fIDISPLAY\fP\fB.xrdb\fP"
  Specifies the program used to load the resources.  By default,
  .I xdm
@@ -80,7 +83,7 @@ diff -urp -x '*~' -x '*.orig' xdm.man.cpp xdm.man.cpp
  .IP "\fBDisplayManager.\fP\fIDISPLAY\fP\fB.grabServer\fP"
  .IP "\fBDisplayManager.\fP\fIDISPLAY\fP\fB.grabTimeout\fP"
  To improve security,
-@@ -816,7 +816,7 @@ line to start the server.  A typical ent
+@@ -816,7 +816,7 @@ line to start the server.  A typical entry for local display number 0 would
  be:
  .nf
  
@@ -89,7 +92,7 @@ diff -urp -x '*~' -x '*.orig' xdm.man.cpp xdm.man.cpp
  
  .fi
  The display types are:
-@@ -831,8 +831,8 @@ foreign		remote display: \fIxdm\fP opens
+@@ -831,8 +831,8 @@ foreign		remote display: \fIxdm\fP opens an X connection to a running server
  The display name must be something that can be passed in the \fB\-display\fP
  option to an X program.  This string is used to generate the display-specific
  resource names, so be careful to match the
@@ -109,7 +112,7 @@ diff -urp -x '*~' -x '*.orig' xdm.man.cpp xdm.man.cpp
  
  .fi
  .PP
-@@ -1414,13 +1414,13 @@ user authorization file where \fIxdm\fP 
+@@ -1414,13 +1414,13 @@ user authorization file where \fIxdm\fP stores keys for clients to read
  .I CHOOSERPATH
  the default chooser
  .TP 20
