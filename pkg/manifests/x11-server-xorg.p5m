@@ -236,7 +236,6 @@ file path=usr/lib/xorg/modules/multimedia/tda9850_drv.so
 file path=usr/lib/xorg/modules/multimedia/tda9885_drv.so
 file path=usr/lib/xorg/modules/multimedia/uda1380_drv.so
 file path=usr/share/aclocal/xorg-server.m4
-file path=usr/share/doc/X11/Xserver-DTrace.xml
 file path=usr/share/man/man1/Xorg.1
 file path=usr/share/man/man1/cvt.1
 file path=usr/share/man/man1/gtf.1

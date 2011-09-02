@@ -1,0 +1,83 @@
+From a883023b2ed63d9e02d09b6d39002566eace3ecb Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 1 Sep 2011 16:48:37 -0700
+Subject: [PATCH] Assign ids to more tags in Xserver-Dtrace.xml
+
+Keeps xsltproc from adding random-number id tags to html output so that
+it's easier to see real changes vs. different random numbers.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ doc/dtrace/Xserver-DTrace.xml |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/doc/dtrace/Xserver-DTrace.xml b/doc/dtrace/Xserver-DTrace.xml
+index 69cd30e..ebba466 100644
+--- a/doc/xml/dtrace/Xserver-DTrace.xml
++++ b/doc/xml/dtrace/Xserver-DTrace.xml
+@@ -15,7 +15,7 @@
+       </affiliation>
+     </author>
+     <releaseinfo>X.Org Xserver version &xserver.version;</releaseinfo>
+-    <legalnotice>
++    <legalnotice id="copyright">
+       <para>
+ Copyright (c) 2005, 2006, 2007, 2010, Oracle and/or its affiliates.
+ All rights reserved.
+@@ -79,7 +79,7 @@ DEALINGS IN THE SOFTWARE.
+       <parameter>arg2</parameter>, etc.  These tables should help you
+       determine what the real data is for each of the probe arguments.
+ 
+-    <table>
++    <table id="probe-table">
+       <title>Probes and their arguments</title>
+       <tgroup cols='7'>
+ 	<colspec colname="probe" colwidth="2*"/>
+@@ -195,7 +195,7 @@ DEALINGS IN THE SOFTWARE.
+       To access data buffers referenced via <type>uintptr_t</type>'s, you will
+       need to use <ulink url="http://wikis.sun.com/display/DTrace/Actions+and+Subroutines#ActionsandSubroutines-{{copyin}}"><function>copyin()</function></ulink>.
+ 
+-    <table>
++    <table id="arguments-table">
+       <title>Probe Arguments</title>
+       <tgroup cols='3'>
+ 	<colspec colname="arg" colwidth="2*"/>
+@@ -313,7 +313,7 @@ DEALINGS IN THE SOFTWARE.
+   <sect1 id="examples">
+     <title>Examples</title>
+ 
+-    <example>
++    <example id="counting-requests">
+       <title>Counting requests by request name</title>
+ 
+       <para>
+@@ -370,7 +370,7 @@ Xserver*:::request-start
+       </para>
+     </example>
+ 
+-    <example>
++    <example id="cpu-per-request">
+       <title>Get average CPU time per request</title>
+ 
+       <para>This script records the CPU time used between the probes at
+@@ -419,7 +419,7 @@ Xserver*:::request-done
+       </para>
+     </example>
+ 
+-    <example>
++    <example id="monitor-connects">
+       <title>Monitoring clients that connect and disconnect</title>
+ 
+       <para>
+@@ -476,7 +476,7 @@ CPU     ID                    FUNCTION:NAME
+       </para>
+     </example>
+ 
+-    <example>
++    <example id="monitor-pixmaps">
+       <title>Monitoring clients creating Pixmaps</title>
+ 
+       <para>
+-- 
+1.7.3.2
+

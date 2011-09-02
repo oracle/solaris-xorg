@@ -107,6 +107,16 @@ BUILD_TARGETS=$(XORGSERVER_BIN) build_mdb set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
 
+# Need to convert dtrace docs from xml to text/html ourselves, since
+# Solaris doesn't bundle the xmlto tool used upstream
+MODULE_DOC_DIR  = $(MODULE_PREFIX)/share/doc/Xserver
+MODULE_DOC_DIR_SET=yes
+MODULE_XML_PATH = $(SOURCE_DIR)/doc/xml
+DTRACE_DOC_DIR  = $(SOURCE_DIR)/doc/xml/dtrace
+DTRACE_DOCS     = $(DTRACE_DOC_DIR)/Xserver-DTrace.html
+DTRACE_DOCS    += $(DTRACE_DOC_DIR)/Xserver-DTrace.txt
+BUILD_TARGETS  += $(DTRACE_DOCS)
+
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
 
@@ -148,7 +158,7 @@ MODULE_ADD_CONFIGURE_TARGETS=clear_build_date
 
 # Additional install targets beyond the defaults
 MODULE_ADD_INSTALL_TARGETS=install_extras install_mdb install_pc_common \
-	install_fix_paths
+	install_fix_paths install_docs
 
 # Have to avoid dependency loop between install_pc_common and 
 # install_pkgconfig_uninstalled
@@ -354,3 +364,9 @@ $(INSTALLED_MDB_SCRIPTS): $(BUILT_MDB_SCRIPTS) $(PROTODIR)$(MDB_SCRIPT_DIR)
 install_mdb: $(INSTALLED_MDB_ALL)
 	$(INSTALL_SCRIPT) -c -m 0444 $(MDB_SOURCE_DIR)/README \
 		$(PROTODIR)$(MDB_SCRIPT_DIR)/
+
+## Dtrace docs rules
+$(DTRACE_DOC_DIR)/Xserver-DTrace.xml: $(AUTOCONF_TARGET)
+
+install_docs: $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR)
+	$(INSTALL_SCRIPT) -c -m 0444 $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR)

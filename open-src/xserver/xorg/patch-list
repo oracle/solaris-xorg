@@ -1,4 +1,5 @@
 oslog-race.patch,-p1
+dtrace-doc.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1

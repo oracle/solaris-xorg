@@ -35,6 +35,7 @@ dir path=usr/X11/bin
 dir path=usr/demo/Xserver
 dir path=usr/demo/Xserver/mdb
 dir path=usr/lib/xorg
+dir path=usr/share/doc/Xserver
 file path=etc/security/auth_attr.d/xserver-common group=sys
 file path=etc/security/prof_attr.d/xserver-common group=sys
 file path=lib/svc/manifest/application/x11/x11-server.xml
@@ -49,6 +50,9 @@ file path=usr/lib/help/profiles/locale/C/RtDesktopConfiguration.html
 file path=usr/lib/mdb/proc/$(ARCH64)/Xserver.so
 file path=usr/lib/xorg/TrustedExtensionsPolicy
 file path=usr/lib/xorg/protocol.txt
+file path=usr/share/doc/Xserver/Xserver-DTrace.html
+file path=usr/share/doc/Xserver/Xserver-DTrace.txt
+file path=usr/share/doc/Xserver/Xserver-DTrace.xml
 file path=usr/share/man/man1/Xnest.1
 file path=usr/share/man/man1/Xserver.1
 link path=usr/X11/bin/X target=../../bin/X

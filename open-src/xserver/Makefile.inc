@@ -49,7 +49,7 @@ MODTYPE_SUNTOUCH_MAN_FLAGS = -p $(MODULE_PREFIX)/bin/
 
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
-	--docdir='$(X11_DOC_DIR)' \
+	--docdir='$(MODULE_DOC_DIR)' \
         --enable-xdm-auth-1 --enable-xdmcp --enable-xcsecurity \
 	--enable-shared --disable-static \
 	--enable-glx --enable-dri2 \

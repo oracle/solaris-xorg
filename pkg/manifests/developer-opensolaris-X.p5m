@@ -176,5 +176,8 @@ depend fmri=pkg:/text/gnu-patch type=require
 # autoconf scripts prefer gnu sed
 depend fmri=pkg:/text/gnu-sed type=require
 
+# w3m is used to convert html docs to text, after generating html from docbook
+depend fmri=pkg:/web/browser/w3m type=require
+
 # Builds need to be able to download upstream sources with wget
 depend fmri=pkg:/web/wget type=require

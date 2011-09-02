@@ -259,6 +259,7 @@ X11_FONT_DIR=$(SHARE_FONT_DIR)/X11
 X11_FONT_CATALOGUE=/etc/X11/fontpath.d
 TRUETYPE_FONT_DIR=$(SHARE_FONT_DIR)/TrueType
 X11_DOC_DIR=/usr/share/doc/X11
+X11_SGML_DIR=$(X11_DIR)/share/sgml/X11
 X11_LOCALE_DIR=$(X11_DIR)/share/locale
 X11_MAN_DIR=$(X11_DIR)/share/man
 X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal

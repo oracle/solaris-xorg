@@ -211,7 +211,7 @@ index b725949..a09b3ed 100644
  .SH "SEE ALSO"
  General information: \fIX\fP(__miscmansuffix__)
  .PP
-@@ -565,14 +718,17 @@ Security: \fIXsecurity\fP(__miscmansuffix__), \fIxauth\fP(1), \fIXau\fP(1),
+@@ -565,14 +718,21 @@ Security: \fIXsecurity\fP(__miscmansuffix__), \fIxauth\fP(1), \fIXau\fP(1),
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP
@@ -229,6 +229,10 @@ index b725949..a09b3ed 100644
 +.PP
 +Service management framework:
 +\fIsmf\fP(5), \fIsvcadm\fP(1M), \fIsvccfg\fP(1M)
++.PP
++Dtrace probes:
++\fI/usr/share/doc/Xserver/Xserver-DTrace.html\fP,
++\fI/usr/share/doc/Xserver/Xserver-DTrace.txt\fP
  .PP
  Server internal documentation:
  .I "Definition of the Porting Layer for the X v11 Sample Server"
