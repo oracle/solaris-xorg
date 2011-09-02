@@ -1,5 +1,5 @@
 diff --git a/doc/man/Xserver.man b/doc/man/Xserver.man
-index b725949..a09b3ed 100644
+index b725949..c562b3f 100644
 --- a/doc/man/Xserver.man
 +++ b/doc/man/Xserver.man
 @@ -1,3 +1,25 @@
@@ -61,8 +61,8 @@ index b725949..a09b3ed 100644
 +.sp
 +.nf 
 +tcp     TCP over IPv4 or IPv6
-+unix    UNIX Domain Sockets (/tmp/.x11-unix)
-+pipe    Named pipes (/tmp/.x11-pipe/)
++unix    UNIX Domain Sockets (/tmp/.X11-unix/X\fIn\fP)
++pipe    Named pipes (/tmp/.X11-pipe/X\fIn\fP)
 +.fi
  .TP 8
  .B \-noreset
@@ -76,7 +76,7 @@ index b725949..a09b3ed 100644
  enables(+) or disables(-) AccessX key sequences.
  .TP 8
  .B \-xkbdir \fIdirectory\fP
-@@ -529,6 +566,115 @@ the following font path:
+@@ -529,6 +566,110 @@ the following font path:
      /usr/share/fonts/default/Type1,
      /usr/share/fonts/default/ghostscript
  .fi
@@ -126,14 +126,9 @@ index b725949..a09b3ed 100644
 +must be one of:
 +.sp
 +.nf
-+\fB/usr/openwin/bin/Xsun\fP
-+\fB/usr/openwin/bin/Xvfb\fP
 +\fB/usr/bin/Xorg\fP
-+\fB/usr/bin/i86/Xorg\fP
-+\fB/usr/bin/amd64/Xorg\fP
++\fB/usr/bin/Xdmx\fP
 +\fB/usr/bin/Xvfb\fP
-+\fB/usr/bin/i86/Xvfb\fP
-+\fB/usr/bin/amd64/Xvfb\fP
 +\fB/usr/bin/Xvnc\fP
 +.fi
 +.TP
@@ -192,26 +187,22 @@ index b725949..a09b3ed 100644
  
  .SH FILES
  .TP 30
-@@ -544,11 +690,18 @@ Outline font directories
+@@ -544,8 +685,12 @@ Outline font directories
  .I /tmp/.X11-unix/X\fBn\fP
  Unix domain socket for display number \fBn\fP
  .TP 30
+-.I /usr/adm/X\fBn\fPmsgs
+-Error log file for display number \fBn\fP if run from \fIinit\fP(__adminmansuffix__)
 +.I /tmp/.X11-pipe/X\fBn\fP
 +Named pipe (FIFO) for display number \fBn\fP
-+.TP 30
- .I /usr/adm/X\fBn\fPmsgs
- Error log file for display number \fBn\fP if run from \fIinit\fP(__adminmansuffix__)
- .TP 30
- .I __projectroot__/lib/X11/xdm/xdm-errors
- Default error log file if the server is run from \fIxdm\fP(1)
 +.TP 30
 +.I /var/log/gdm/:\fBn\fP.log
 +Default error log file for display number \fBn\fP if the server is run 
 +from \fIgdm\fP(1m)
- .SH "SEE ALSO"
- General information: \fIX\fP(__miscmansuffix__)
- .PP
-@@ -565,14 +718,21 @@ Security: \fIXsecurity\fP(__miscmansuffix__), \fIxauth\fP(1), \fIXau\fP(1),
+ .TP 30
+ .I __projectroot__/lib/X11/xdm/xdm-errors
+ Default error log file if the server is run from \fIxdm\fP(1)
+@@ -565,14 +710,22 @@ Security: \fIXsecurity\fP(__miscmansuffix__), \fIxauth\fP(1), \fIXau\fP(1),
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP
@@ -225,7 +216,8 @@ index b725949..a09b3ed 100644
  Server-specific man pages:
 -\fIXorg\fP(1), \fIXdmx\fP(1), \fIXephyr\fP(1), \fIXnest\fP(1),
 -\fIXvfb\fP(1), \fIXquartz\fP(1), \fIXWin\fP(1).
-+\fIXorg\fP(1), \fIXdmx\fP(1), \fIXephyr\fP(1), \fIXvfb\fP(1), \fIXvnc\fP(1)
++\fIXorg\fP(1), \fIXdmx\fP(1), \fIXephyr\fP(1), \fIXvfb\fP(1), \fIXvnc\fP(1),
++\fIXnewt\fP(1M).
 +.PP
 +Service management framework:
 +\fIsmf\fP(5), \fIsvcadm\fP(1M), \fIsvccfg\fP(1M)

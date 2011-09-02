@@ -1,5 +1,4 @@
-'\" t
-.\" Copyright (c) 1987, 2010, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1987, 2011, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -20,11 +19,11 @@
 .\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 .\" DEALINGS IN THE SOFTWARE.
 .\"
-.TH kbd_mode 1 "2 July 2010"
+.TH kbd_mode 1 "5 Aug 2011"
 .IX "kbd_mode" "" "\f3kbd_mode\f1(1) \(em keyboard translation utility" ""
 .IX "keyboard" "trans" "keyboard" "translation utility \(em \f3kbd_mode\f1(1)"
 .SH NAME
-/usr/bin/kbd_mode \- change the keyboard translation mode
+kbd_mode \- change the keyboard translation mode
 .SH SYNOPSIS
 .B kbd_mode -a | -n |
 .B -e | -u
@@ -41,9 +40,7 @@ terminates abnormally and fails to restore the original translation mode.
 .LP
 Note that the text console desires ASCII characters (\f3kbd_mode -a\f1), while
 .BR Xorg (1)
-and
-.BR Xsun (1)
-desire untranslated events (\f3kbd_mode -u\f1).
+desires untranslated events (\f3kbd_mode -u\f1).
 .SH OPTIONS
 .TP
 .B -a
@@ -65,19 +62,6 @@ such as those desired by the X server.
 .nf
 /dev/kbd
 .fi
-.SH ATTRIBUTES
-See
-.BR attributes (5)
-for descriptions of the following attributes:
-.sp
-.TS
-box;
-cbp-1 | cbp-1
-l | l .
-ATTRIBUTE TYPE  ATTRIBUTE VALUE
-=
-Availability    pkg:/system/keyboard/kbd_mode
-Interface Stability     Committed
-.TE 
 .SH "SEE ALSO"
+.BR kbd (1),
 .BR kb (7M)

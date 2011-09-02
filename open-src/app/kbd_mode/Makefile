@@ -2,7 +2,7 @@
 #
 # kbd_mode module Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,7 +46,7 @@ SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES= # None
+SUNTOUCHED_MANPAGES= kbd_mode.1
 MODULE_STABILITY=Committed
 
 # No configure script to run
