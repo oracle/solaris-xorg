@@ -19,6 +19,14 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
+# open-src/xserver/Makefile.inc makes all X server packages depend on
+# xorg-common & exclude abi-changing versions of Xorg, but the vncviewer
+# client doesn't care about those, so drop them to avoid unneeded constraints.
+<transform depend fmri=pkg:/x11/server/xserver-common@.* -> drop>
+<transform depend fmri=pkg:/x11/server/xorg@.* type=exclude -> drop>
+
+
 set name=pkg.fmri \
     value=pkg:/desktop/remote-desktop/tigervnc@__version:tigervnc__
 set name=pkg.description \
