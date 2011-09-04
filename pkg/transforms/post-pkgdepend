@@ -24,3 +24,9 @@
 # Drop files needed for dependency resolution but which should not be
 # published in the packages.
 <transform file dir link org.opensolaris.nopublish=true -> drop>
+
+# Drop incorrect/unwanted debug.osnet variant tags that pkgdepend puts on 
+# ksh/ksh93 script dependencies when run on snv_173 (pkgdepend bug 18884).
+# Can be removed once X builds are guaranteed to be run on machines
+# with that bug fix integrated into the OS build.
+<transform depend -> delete variant.debug.osnet .*>
