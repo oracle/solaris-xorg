@@ -118,6 +118,9 @@ ARCH_FLAGS_i386_suncc		= -xregs=no%frameptr
 ARCH32_FLAGS_i386_suncc 	= -m32 -xarch=sse2 -D__i386__
 ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -D__amd64__
 
+# Workaround for Studio 12.1 compiler bug 7086868 (see CR 7086762)
+ARCH64_FLAGS_i386_suncc 	+= -W2,-Rtail
+
 # SPARC ABI requires system libraries not use application registers
 # The normal/documented flag for this is -xregs=no%appl, but for now,
 # we use "-Qoption cg -xregs=no%appl" to workaround bug 7030022 in 
