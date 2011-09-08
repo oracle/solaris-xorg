@@ -2,7 +2,7 @@
 #
 # libdpstk Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,14 +68,17 @@ V_PSWRAP   = $(V_PSWRAP_$(V))
 V_PSWRAP_  = $(V_PSWRAP_$(DEFAULT_V))
 V_PSWRAP_0 = @echo "  PSWRAP" $@;
 
-all:: $(SRCS) $(MOTIFSRCS)
+all:: $(SRCS) $(MOTIFSRCS) $(DERIVED_FILES)
 
 .SUFFIXES: .psw
 
 .psw.c:
-	$(V_PSWRAP)$(PSWRAP) -o $*.c -a -f $*.h -h $*.h $<
+	$(V_PSWRAP)$(PSWRAP) -o $*.c -a -f $*.h $<
 
-.c.o:
+.psw.h:
+	$(V_PSWRAP)$(PSWRAP) -h $*.h -a -f $*.h $< > /dev/null
+
+.c.o: $*.h
 	$(V_CC)$(CC) $(CFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
 
 all:: libdpstk.so.5 libdpstk.so
@@ -106,3 +109,11 @@ install: all
 		$(DESTDIR)$(datadir)/X11/app-defaults/ColorSelect
 	$(INSTALL) -m 0444 FontSelect.ad \
 		$(DESTDIR)$(datadir)/X11/app-defaults/FontSelect
+
+ColorSB.c:	CSBwraps.h
+DPSScrollW.c:	DSWwraps.h
+FontCreato.c:	FSBwraps.h
+FontSample.c:	FSBwraps.h
+FontSB.c:	FSBwraps.h
+XDPSpreview.c:	XDPSpwraps.h
+XDPSshare.c:	XDPSswraps.h
