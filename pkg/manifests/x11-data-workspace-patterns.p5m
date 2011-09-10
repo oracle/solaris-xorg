@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/data/workspace-patterns@$(OSPKGVERS)
+set name=pkg.summary value="Bitmap patterns for workspace backgrounds"
 set name=pkg.description \
     value="The classic Solaris workspace background patterns in X Bitmap (xbm) format"
-set name=pkg.summary value="Bitmap patterns for workspace backgrounds"
-dir path=usr/share/patterns
+dir  path=usr/share/patterns
 file path=usr/share/patterns/attributes
 file path=usr/share/patterns/background.xbm
 file path=usr/share/patterns/bricks.xbm

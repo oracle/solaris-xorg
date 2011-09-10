@@ -20,13 +20,13 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libdga@$(OSPKGVERS)
-set name=pkg.description \
-    value="Libraries provided for binary compatibility with X clients designed to connect to Xsun servers supporting the SUN-DGA extension."
 set name=pkg.summary \
     value="X Window System SUN-DGA extension client compatibility libraries"
-# sparc only since Xsun/DGA was already obsolete before amd64 was added
-$(sparc_ONLY)file path=usr/lib/$(ARCH64)/libdga.so.1
-file path=usr/lib/libdga.so.1
+set name=pkg.description \
+    value="Libraries provided for binary compatibility with X clients designed to connect to Xsun servers supporting the SUN-DGA extension."
 link path=usr/X11/lib/libdga.so.1 target=../../lib/libdga.so.1
 $(sparc_ONLY)link path=usr/X11/lib/sparcv9/libdga.so.1 \
     target=../../../lib/sparcv9/libdga.so.1
+# sparc only since Xsun/DGA was already obsolete before amd64 was added
+$(sparc_ONLY)file path=usr/lib/$(ARCH64)/libdga.so.1
+file path=usr/lib/libdga.so.1

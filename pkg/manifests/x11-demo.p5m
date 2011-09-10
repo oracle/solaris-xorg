@@ -20,13 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/demo@$(X11PKGVERS)
+set name=pkg.summary value="X Window System demo programs"
 set name=pkg.description \
     value="ico, xeyes, xgc, and xlogo sample clients to demonstrate or test various X operations."
 # Silence pkglint WARNING pkglint.manifest004:
 #	last name component demo in package name clashes across
 #	pkg://solaris/library/java/demo pkg://xnv-devel/x11/
 set name=pkg.linted value=True
-set name=pkg.summary value="X Window System demo programs"
+link path=usr/X11/bin/ico target=../../bin/ico
+link path=usr/X11/bin/xeyes target=../../bin/xeyes
+link path=usr/X11/bin/xgc target=../../bin/xgc
+link path=usr/X11/bin/xlogo target=../../bin/xlogo
 file path=usr/bin/ico
 file path=usr/bin/xeyes
 file path=usr/bin/xgc
@@ -41,10 +45,6 @@ file path=usr/share/man/man1/xgc.1
 file path=usr/share/man/man1/xlogo.1
 legacy pkg=SUNWxwdem desc="X Window System demo programs" \
     name="X Window System demo programs"
-link path=usr/X11/bin/ico target=../../bin/ico
-link path=usr/X11/bin/xeyes target=../../bin/xeyes
-link path=usr/X11/bin/xgc target=../../bin/xgc
-link path=usr/X11/bin/xlogo target=../../bin/xlogo
 
 # Xlogo app-defaults references icons in xbitmaps
-depend fmri=pkg:/x11/data/xbitmaps type=require
+depend type=require fmri=pkg:/x11/data/xbitmaps

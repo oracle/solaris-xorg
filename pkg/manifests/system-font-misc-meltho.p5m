@@ -21,11 +21,12 @@
 #
 set name=pkg.fmri \
     value=pkg:/system/font/misc-meltho@__version:font-misc-meltho__
+set name=pkg.summary value="Meltho Syriac fonts"
 set name=pkg.description \
     value="OpenType font files for Syraic languages from Project Meltho at Beth Mardutho: The Syriac Computing Institute"
-set name=pkg.summary value="Meltho Syriac fonts"
-
-dir path=usr/share/fonts/TrueType/syriac
+link path=etc/X11/fontpath.d/syriac:pri=61 \
+    target=../../../usr/share/fonts/TrueType/syriac
+dir  path=usr/share/fonts/TrueType/syriac
 file path=usr/share/fonts/TrueType/syriac/SyrCOMAdiabene.otf
 file path=usr/share/fonts/TrueType/syriac/SyrCOMAntioch.otf
 file path=usr/share/fonts/TrueType/syriac/SyrCOMBatnan.otf
@@ -53,5 +54,3 @@ file path=usr/share/fonts/TrueType/syriac/fonts.scale
 legacy pkg=SUNWfont-misc-meltho \
     desc="OpenType font files for Syraic languages from Project Meltho at Beth Mardutho: The Syriac Computing Institute" \
     name="Meltho Syriac fonts"
-link path=etc/X11/fontpath.d/syriac:pri=61 \
-    target=../../../usr/share/fonts/TrueType/syriac

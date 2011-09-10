@@ -19,15 +19,16 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
 set name=pkg.fmri value=pkg:/system/display-manager/xdm@__version:xdm__
-set name=pkg.description \
-    value="xdm is an Xaw-based display manager for a collection of X displays, which may be on the local host or remote servers."
 set name=pkg.summary \
     value="xdm - X Display Manager with support for XDMCP and host chooser"
-dir path=etc/X11 group=sys
-dir path=etc/X11/xdm group=sys
-dir path=usr/lib/X11/xdm
-dir path=usr/lib/X11/xdm/pixmaps
+set name=pkg.description \
+    value="xdm is an Xaw-based display manager for a collection of X displays, which may be on the local host or remote servers."
+
+
+dir  path=etc/X11 group=sys
+dir  path=etc/X11/xdm group=sys
 file path=etc/X11/xdm/Xaccess group=sys \
     original_name=SUNWxdm:etc/X11/xdm/Xaccess preserve=true
 file path=etc/X11/xdm/Xresources group=sys \
@@ -36,6 +37,7 @@ file path=etc/X11/xdm/Xservers group=sys \
     original_name=SUNWxdm:etc/X11/xdm/Xservers preserve=true
 file path=etc/X11/xdm/xdm-config group=sys \
     original_name=SUNWxdm:etc/X11/xdm/xdm-config preserve=true
+dir  path=usr/lib/X11/xdm
 file path=usr/lib/X11/xdm/GiveConsole mode=0555
 file path=usr/lib/X11/xdm/README
 file path=usr/lib/X11/xdm/TakeConsole mode=0555
@@ -49,6 +51,7 @@ file path=usr/lib/X11/xdm/Xstartup mode=0555
 file path=usr/lib/X11/xdm/Xwilling mode=0555
 file path=usr/lib/X11/xdm/chooser mode=0555
 file path=usr/lib/X11/xdm/libXdmGreet.so
+dir  path=usr/lib/X11/xdm/pixmaps
 file path=usr/lib/X11/xdm/pixmaps/xorg-bw.xpm
 file path=usr/lib/X11/xdm/pixmaps/xorg.xpm
 file path=usr/lib/X11/xdm/xdm-config
@@ -62,17 +65,17 @@ legacy pkg=SUNWxdm-root \
     desc="X Window System xdm Display Manager components located outside of /usr" \
     name="xdm Display Manager - / filesystem"
 # Default xdm session uses twm for the window manager
-depend fmri=pkg:/desktop/window-manager/twm type=require
+depend type=require fmri=pkg:/desktop/window-manager/twm
 # xdm Xresources specifies fonts including:
 # -adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
 # *-new century schoolbook-bold-i-normal-*-240-*
 # fixed
-depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
+depend type=require fmri=pkg:/system/font/xorg/iso8859-1
 # Default xdm session runs an xterm
-depend fmri=pkg:/terminal/xterm type=require
+depend type=require fmri=pkg:/terminal/xterm
 # xdm calls sessreg for utmpx/wtmpx updates
-depend fmri=pkg:/x11/session/sessreg type=require
+depend type=require fmri=pkg:/x11/session/sessreg
 # Default xdm session uses xrdb
-depend fmri=pkg:/x11/x11-server-utilities type=require
+depend type=require fmri=pkg:/x11/x11-server-utilities
 # xdm runs xconsole for messages on login screen
-depend fmri=pkg:/x11/xconsole type=require
+depend type=require fmri=pkg:/x11/xconsole

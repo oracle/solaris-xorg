@@ -20,22 +20,25 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/server/xvnc@__version:tigervnc__
+set name=pkg.summary value="TigerVNC X11/VNC server"
 set name=pkg.description \
     value="X Window System server based on X.Org Foundation open source release and TigerVNC open source release that displays over RFB protocol to a VNC client"
-set name=pkg.summary value="TigerVNC X11/VNC server"
-dir path=usr/share/vnc
-dir path=usr/share/vnc/classes
 file path=lib/svc/manifest/application/x11/xvnc-inetd.xml
+link path=usr/X11/bin/Xvnc target=../../bin/Xvnc
+$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xvnc target=../Xvnc
 file path=usr/bin/Xvnc group=root mode=2555
 file path=usr/bin/vncconfig
 file path=usr/bin/vncpasswd
 file path=usr/bin/vncserver
 file path=usr/bin/x0vncserver
+link path=usr/lib/mdb/proc/$(ARCH64)/Xvnc.so target=Xserver.so
 file path=usr/share/man/man1/Xvnc.1
 file path=usr/share/man/man1/vncconfig.1
 file path=usr/share/man/man1/vncpasswd.1
 file path=usr/share/man/man1/vncserver.1
 file path=usr/share/man/man1/x0vncserver.1
+dir  path=usr/share/vnc
+dir  path=usr/share/vnc/classes
 file path=usr/share/vnc/classes/LICENCE.TXT
 file path=usr/share/vnc/classes/README
 file path=usr/share/vnc/classes/VncViewer.jar mode=0555
@@ -45,9 +48,6 @@ file path=usr/share/vnc/classes/tigervnc_16.gif
 legacy pkg=SUNWxvnc \
     desc="X Window System server based on X.Org Foundation open source release and TigerVNC open source release that displays over RFB protocol to a VNC client" \
     name="X11/VNC server"
-$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xvnc target=../Xvnc
-link path=usr/X11/bin/Xvnc target=../../bin/Xvnc
-link path=usr/lib/mdb/proc/$(ARCH64)/Xvnc.so target=Xserver.so
 # X servers require xkbcomp & data-xkb for keyboard layouts
-depend fmri=pkg:/x11/keyboard/data-xkb type=require
-depend fmri=pkg:/x11/keyboard/xkbcomp type=require
+depend type=require fmri=pkg:/x11/keyboard/data-xkb
+depend type=require fmri=pkg:/x11/keyboard/xkbcomp

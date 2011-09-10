@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/diagnostic/xev@__version:xev__
+set name=pkg.summary value="xev - X11 event monitor"
 set name=pkg.description \
     value="xev prints information about X11 events received by a window whenever anything happens to the window (such as it being moved, resized, typed in, clicked in, etc.).  It is useful for seeing what causes events to occur and to display the information that they contain; it is essentially a debugging and development tool."
-set name=pkg.summary value="xev - X11 event monitor"
+link path=usr/X11/bin/xev target=../../bin/xev
 file path=usr/bin/xev
 file path=usr/share/man/man1/xev.1
-link path=usr/X11/bin/xev target=../../bin/xev

@@ -20,20 +20,21 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libfontenc@__version:libfontenc__
+set name=pkg.summary value="libfontenc - font encoding library"
 set name=pkg.description \
     value="Library and data files used by X servers and utilities for handling fonts encoded for different character sets."
-set name=pkg.summary value="libfontenc - font encoding library"
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/$(ARCH64)
-dir path=usr/share/fonts
-dir path=usr/share/fonts/X11
-dir path=usr/share/fonts/X11/encodings
-dir path=usr/share/fonts/X11/encodings/large
 file path=usr/include/X11/fonts/fontenc.h
 file path=usr/lib/$(ARCH64)/pkgconfig/fontenc.pc
 file path=usr/lib/pkgconfig/fontenc.pc
+dir  path=usr/lib/xorg
+dir  path=usr/lib/xorg/$(ARCH64)
+link path=usr/lib/xorg/$(ARCH64)/libfontenc.so target=libfontenc.so.1
 file path=usr/lib/xorg/$(ARCH64)/libfontenc.so.1
+link path=usr/lib/xorg/libfontenc.so target=libfontenc.so.1
 file path=usr/lib/xorg/libfontenc.so.1
+dir  path=usr/share/fonts
+dir  path=usr/share/fonts/X11
+dir  path=usr/share/fonts/X11/encodings
 file path=usr/share/fonts/X11/encodings/adobe-dingbats.enc
 file path=usr/share/fonts/X11/encodings/adobe-standard.enc
 file path=usr/share/fonts/X11/encodings/adobe-symbol.enc
@@ -50,6 +51,7 @@ file path=usr/share/fonts/X11/encodings/iso8859-13.enc
 file path=usr/share/fonts/X11/encodings/iso8859-16.enc
 file path=usr/share/fonts/X11/encodings/iso8859-6.16.enc
 file path=usr/share/fonts/X11/encodings/iso8859-6.8x.enc
+dir  path=usr/share/fonts/X11/encodings/large
 file path=usr/share/fonts/X11/encodings/large/big5.eten-0.enc
 file path=usr/share/fonts/X11/encodings/large/big5hkscs-0.enc
 file path=usr/share/fonts/X11/encodings/large/cns11643-1.enc
@@ -85,6 +87,4 @@ file path=usr/share/fonts/X11/encodings/suneu-greek.enc
 file path=usr/share/fonts/X11/encodings/tcvn-0.enc
 file path=usr/share/fonts/X11/encodings/tis620-2.enc
 file path=usr/share/fonts/X11/encodings/viscii1.1-1.enc
-link path=usr/lib/xorg/$(ARCH64)/libfontenc.so target=libfontenc.so.1
-link path=usr/lib/xorg/libfontenc.so target=libfontenc.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

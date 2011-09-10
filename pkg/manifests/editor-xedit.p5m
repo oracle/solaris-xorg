@@ -20,15 +20,16 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/editor/xedit@__version:xedit__
+set name=pkg.summary value="xedit - simple text editor for X"
 set name=pkg.description \
     value="Xedit is a simple Xaw toolkit text editor for X, with extensible modes for editing various programming languages."
-set name=pkg.summary value="xedit - simple text editor for X"
-dir path=usr/lib/X11/xedit
-dir path=usr/lib/X11/xedit/lisp
-dir path=usr/lib/X11/xedit/lisp/progmodes
+link path=usr/X11/bin/xedit target=../../bin/xedit
 file path=usr/bin/xedit
+dir  path=usr/lib/X11/xedit
+dir  path=usr/lib/X11/xedit/lisp
 file path=usr/lib/X11/xedit/lisp/indent.lsp
 file path=usr/lib/X11/xedit/lisp/lisp.lsp
+dir  path=usr/lib/X11/xedit/lisp/progmodes
 file path=usr/lib/X11/xedit/lisp/progmodes/auto.lsp
 file path=usr/lib/X11/xedit/lisp/progmodes/c.lsp
 file path=usr/lib/X11/xedit/lisp/progmodes/html.lsp
@@ -50,6 +51,5 @@ file path=usr/lib/X11/xedit/lisp/xedit.lsp
 file path=usr/share/X11/app-defaults/Xedit
 file path=usr/share/X11/app-defaults/Xedit-color
 file path=usr/share/man/man1/xedit.1
-link path=usr/X11/bin/xedit target=../../bin/xedit
 # Xedit app-defaults references icons in xbitmaps
-depend fmri=pkg:/x11/data/xbitmaps type=require
+depend type=require fmri=pkg:/x11/data/xbitmaps

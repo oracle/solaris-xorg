@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,10 +23,11 @@
 # Lint libraries are part of the developer facet
 <transform depend fmri=pkg:/x11/library/.* -> set facet.devel true>
 
+
 set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwslb@$(OSPKGVERS)
+set name=pkg.summary value="X Window System lint libraries group"
 set name=pkg.description \
     value="A group package that provides the same set of lint libraries for X11 client libraries as the SUNWxwslb package for prior Solaris releases"
-set name=pkg.summary value="X Window System lint libraries group"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
 legacy pkg=SUNWxwslb desc="X Window System lint libraries" \
     name="X Window System lint libraries for programmers."
@@ -34,18 +35,25 @@ legacy pkg=SUNWxwslb desc="X Window System lint libraries" \
 ### Depends on packages delivering the libraries now
 
 # lib/llib-lFS.ln
-depend fmri=pkg:/x11/library/libfs type=require
+depend type=require fmri=pkg:/x11/library/libfs
+
 # lib/llib-lX11.ln
-depend fmri=pkg:/x11/library/libx11 type=require
+depend type=require fmri=pkg:/x11/library/libx11
+
 # lib/llib-lXau.ln
-depend fmri=pkg:/x11/library/libxau type=require
+depend type=require fmri=pkg:/x11/library/libxau
+
 # lib/llib-lXdmcp.ln
-depend fmri=pkg:/x11/library/libxdmcp type=require
+depend type=require fmri=pkg:/x11/library/libxdmcp
+
 # lib/llib-lXext.ln
-depend fmri=pkg:/x11/library/libxext type=require
+depend type=require fmri=pkg:/x11/library/libxext
+
 # lib/llib-lXmu.ln, lib/llib-lXmuu.ln
-depend fmri=pkg:/x11/library/libxmu type=require
+depend type=require fmri=pkg:/x11/library/libxmu
+
 # lib/llib-lXss.ln
-depend fmri=pkg:/x11/library/libxscrnsaver type=require
+depend type=require fmri=pkg:/x11/library/libxscrnsaver
+
 # lib/llib-lXv.ln
-depend fmri=pkg:/x11/library/libxv type=require
+depend type=require fmri=pkg:/x11/library/libxv

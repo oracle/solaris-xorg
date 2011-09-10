@@ -21,9 +21,9 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-synaptics@__version:xf86-input-synaptics__
-set name=pkg.description value="Xorg laptop touchpad input driver"
 set name=pkg.summary \
     value="xf86-input-synaptics - Synaptics touchpad driver for X.Org"
+set name=pkg.description value="Xorg laptop touchpad input driver"
 set name=variant.arch value=i386
 
 

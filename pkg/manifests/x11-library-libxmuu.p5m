@@ -20,28 +20,28 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxmuu@__version:libXmu__
-set name=pkg.description \
-    value="This library contains miscellaneous utilities and is not part of the Xlib standard.  It contains the subset of libXmu routines that do not require libXaw or libXt."
 set name=pkg.summary \
     value="libXmuu - miscellaneous utility functions for Xlib clients"
-dir path=usr/include/X11/Xmu
-file path=usr/include/X11/Xmu/CharSet.h
-file path=usr/include/X11/Xmu/CurUtil.h
-file path=usr/include/X11/Xmu/Error.h
-file path=usr/include/X11/Xmu/SysUtil.h
-file path=usr/include/X11/Xmu/WinUtil.h
-file path=usr/lib/$(ARCH64)/libXmuu.so.1
-file path=usr/lib/$(ARCH64)/llib-lXmuu.ln
-file path=usr/lib/$(ARCH64)/pkgconfig/xmuu.pc
-file path=usr/lib/libXmuu.so.1
-file path=usr/lib/llib-lXmuu.ln
-file path=usr/lib/pkgconfig/xmuu.pc
+set name=pkg.description \
+    value="This library contains miscellaneous utilities and is not part of the Xlib standard.  It contains the subset of libXmu routines that do not require libXaw or libXt."
 link path=usr/X11/lib/$(ARCH64)/libXmuu.so \
     target=../../../lib/$(ARCH64)/libXmuu.so
 link path=usr/X11/lib/$(ARCH64)/libXmuu.so.1 \
     target=../../../lib/$(ARCH64)/libXmuu.so.1
 link path=usr/X11/lib/libXmuu.so target=../../lib/libXmuu.so
 link path=usr/X11/lib/libXmuu.so.1 target=../../lib/libXmuu.so.1
+dir  path=usr/include/X11/Xmu
+file path=usr/include/X11/Xmu/CharSet.h
+file path=usr/include/X11/Xmu/CurUtil.h
+file path=usr/include/X11/Xmu/Error.h
+file path=usr/include/X11/Xmu/SysUtil.h
+file path=usr/include/X11/Xmu/WinUtil.h
 link path=usr/lib/$(ARCH64)/libXmuu.so target=libXmuu.so.1
+file path=usr/lib/$(ARCH64)/libXmuu.so.1
+file path=usr/lib/$(ARCH64)/llib-lXmuu.ln
+file path=usr/lib/$(ARCH64)/pkgconfig/xmuu.pc
 link path=usr/lib/libXmuu.so target=libXmuu.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libXmuu.so.1
+file path=usr/lib/llib-lXmuu.ln
+file path=usr/lib/pkgconfig/xmuu.pc
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

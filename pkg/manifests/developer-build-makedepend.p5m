@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/developer/build/makedepend@__version:makedepend__
+set name=pkg.summary value="makedepend - create dependencies in makefiles"
 set name=pkg.description \
     value="The makedepend program reads source code and parses it like a C-preprocessor, so that it can correctly tell which #include directives would be used in a compilation, and then updates a Makefile with the discovered dependencies."
-set name=pkg.summary value="makedepend - create dependencies in makefiles"
+link path=usr/X11/bin/makedepend target=../../bin/makedepend
 file path=usr/bin/makedepend
 file path=usr/share/man/man1/makedepend.1
-link path=usr/X11/bin/makedepend target=../../bin/makedepend

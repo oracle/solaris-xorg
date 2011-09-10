@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwopt@$(OSPKGVERS)
-set name=pkg.description \
-    value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwopt package for prior Solaris releases"
 set name=pkg.summary \
     value="X Window System optional client libraries and applications group"
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwopt package for prior Solaris releases"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
 legacy pkg=SUNWxwopt desc="X Window System Optional Clients" \
     name="X Window System Optional Clients"
@@ -31,58 +31,58 @@ legacy pkg=SUNWxwopt desc="X Window System Optional Clients" \
 ### Depends on packages split out of the old SVR4 versions
 
 # twm
-depend fmri=pkg:/desktop/window-manager/twm type=require
+depend type=require fmri=pkg:/desktop/window-manager/twm
 
 # imake, xorg-cf-files
-depend fmri=pkg:/developer/build/imake type=require
+depend type=require fmri=pkg:/developer/build/imake
 
 # makedepend
-depend fmri=pkg:/developer/build/makedepend type=require
+depend type=require fmri=pkg:/developer/build/makedepend
 
 # xload
-depend fmri=pkg:/diagnostic/xload type=require
+depend type=require fmri=pkg:/diagnostic/xload
 
 # xditview
-depend fmri=pkg:/document/viewer/xditview type=require
+depend type=require fmri=pkg:/document/viewer/xditview
 
 # xedit
-depend fmri=pkg:/editor/xedit type=require
+depend type=require fmri=pkg:/editor/xedit
 
 # bitmap
-depend fmri=pkg:/image/editor/bitmap type=require
+depend type=require fmri=pkg:/image/editor/bitmap
 
 # xcursorgen
-depend fmri=pkg:/image/xcursorgen type=require
-
-# oclock
-depend fmri=pkg:/x11/oclock type=require
-
-# xbiff
-depend fmri=pkg:/x11/xbiff type=require
-
-# xclipboard
-depend fmri=pkg:/x11/xclipboard type=require
-
-# xclock
-depend fmri=pkg:/x11/xclock type=require
-
-# lbxproxy, proxymngr, xfindproxy, xfwp
-depend fmri=pkg:/x11/network/x11-network-proxies type=require
-
-# appres, editres, listres, viewres
-depend fmri=pkg:/x11/xt-resource-utilities type=require
+depend type=require fmri=pkg:/image/xcursorgen
 
 # xcolor
-depend fmri=pkg:/x11/colormap-utilities type=require
+depend type=require fmri=pkg:/x11/colormap-utilities
+
+# lbxproxy, proxymngr, xfindproxy, xfwp
+depend type=require fmri=pkg:/x11/network/x11-network-proxies
+
+# oclock
+depend type=require fmri=pkg:/x11/oclock
 
 # rgb, xcmsdb
-depend fmri=pkg:/x11/x11-server-utilities type=require
+depend type=require fmri=pkg:/x11/x11-server-utilities
+
+# xbiff
+depend type=require fmri=pkg:/x11/xbiff
+
+# xclipboard
+depend type=require fmri=pkg:/x11/xclipboard
+
+# xclock
+depend type=require fmri=pkg:/x11/xclock
 
 # xconsole
-depend fmri=pkg:/x11/xconsole type=require
+depend type=require fmri=pkg:/x11/xconsole
 
 # xfontsel
-depend fmri=pkg:/x11/xfontsel type=require
+depend type=require fmri=pkg:/x11/xfontsel
 
 # xman
-depend fmri=pkg:/x11/xman type=require
+depend type=require fmri=pkg:/x11/xman
+
+# appres, editres, listres, viewres
+depend type=require fmri=pkg:/x11/xt-resource-utilities

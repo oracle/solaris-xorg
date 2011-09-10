@@ -20,12 +20,16 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxext@__version:libXext__
-set name=pkg.description \
-    value="Xlib-based client API for a number of common extensions to the X11 protocol, including SHAPE, MIT-SHM, DPMS, Sync, GenericEvent and more.   Also includes common extension framework used by other Xlib-based extension libraries."
 set name=pkg.summary \
     value="libXext - X11 protocol common extensions client library"
-dir path=usr/share/doc/libXext
-dir path=usr/share/man/man3xext
+set name=pkg.description \
+    value="Xlib-based client API for a number of common extensions to the X11 protocol, including SHAPE, MIT-SHM, DPMS, Sync, GenericEvent and more.   Also includes common extension framework used by other Xlib-based extension libraries."
+link path=usr/X11/lib/$(ARCH64)/libXext.so \
+    target=../../../lib/$(ARCH64)/libXext.so
+link path=usr/X11/lib/$(ARCH64)/libXext.so.0 \
+    target=../../../lib/$(ARCH64)/libXext.so.0
+link path=usr/X11/lib/libXext.so target=../../lib/libXext.so
+link path=usr/X11/lib/libXext.so.0 target=../../lib/libXext.so.0
 file path=usr/include/X11/extensions/MITMisc.h
 file path=usr/include/X11/extensions/XEVI.h
 file path=usr/include/X11/extensions/XLbx.h
@@ -43,17 +47,21 @@ file path=usr/include/X11/extensions/shape.h
 file path=usr/include/X11/extensions/sync.h
 file path=usr/include/X11/extensions/xinerama.h
 file path=usr/include/X11/extensions/xtestext1.h
+link path=usr/lib/$(ARCH64)/libXext.so target=libXext.so.0
 file path=usr/lib/$(ARCH64)/libXext.so.0
 file path=usr/lib/$(ARCH64)/llib-lXext.ln
 file path=usr/lib/$(ARCH64)/pkgconfig/xext.pc
+link path=usr/lib/libXext.so target=libXext.so.0
 file path=usr/lib/libXext.so.0
 file path=usr/lib/llib-lXext.ln
 file path=usr/lib/pkgconfig/xext.pc
+dir  path=usr/share/doc/libXext
 file path=usr/share/doc/libXext/dbelib.xml
 file path=usr/share/doc/libXext/dpmslib.xml
 file path=usr/share/doc/libXext/shapelib.xml
 file path=usr/share/doc/libXext/synclib.xml
 file path=usr/share/doc/libXext/xtest1.xml
+dir  path=usr/share/man/man3xext
 file path=usr/share/man/man3xext/DBE.3xext
 file path=usr/share/man/man3xext/DPMSCapable.3xext
 file path=usr/share/man/man3xext/DPMSDisable.3xext
@@ -125,12 +133,4 @@ file path=usr/share/man/man3xext/XmbufGetScreenInfo.3xext
 file path=usr/share/man/man3xext/XmbufGetVersion.3xext
 file path=usr/share/man/man3xext/XmbufGetWindowAttributes.3xext
 file path=usr/share/man/man3xext/XmbufQueryExtension.3xext
-link path=usr/X11/lib/$(ARCH64)/libXext.so \
-    target=../../../lib/$(ARCH64)/libXext.so
-link path=usr/X11/lib/$(ARCH64)/libXext.so.0 \
-    target=../../../lib/$(ARCH64)/libXext.so.0
-link path=usr/X11/lib/libXext.so target=../../lib/libXext.so
-link path=usr/X11/lib/libXext.so.0 target=../../lib/libXext.so.0
-link path=usr/lib/$(ARCH64)/libXext.so target=libXext.so.0
-link path=usr/lib/libXext.so target=libXext.so.0
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

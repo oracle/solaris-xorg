@@ -23,4 +23,4 @@
 set name=pkg.fmri value=pkg:/SUNWastfbcf@0.5.11,5.11-0.133
 set name=pkg.renamed value=true
 set name=variant.arch value=sparc
-depend fmri=system/graphics/fbconfig/fbconfig-ast@0.5.11-0.133 type=require
+depend type=require fmri=system/graphics/fbconfig/fbconfig-ast@0.5.11-0.133

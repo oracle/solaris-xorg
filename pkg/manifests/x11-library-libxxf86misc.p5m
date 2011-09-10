@@ -20,15 +20,23 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxxf86misc@__version:libXxf86misc__
-set name=pkg.description \
-    value="Xlib-based client API for the XFree86-Misc extension to the X11 protocol"
 set name=pkg.summary \
     value="libXxf86misc - XFree86-Misc X extension client library"
-dir path=usr/share/man/man3xxf86misc
+set name=pkg.description \
+    value="Xlib-based client API for the XFree86-Misc extension to the X11 protocol"
+link path=usr/X11/lib/$(ARCH64)/libXxf86misc.so \
+    target=../../../lib/$(ARCH64)/libXxf86misc.so
+link path=usr/X11/lib/$(ARCH64)/libXxf86misc.so.1 \
+    target=../../../lib/$(ARCH64)/libXxf86misc.so.1
+link path=usr/X11/lib/libXxf86misc.so target=../../lib/libXxf86misc.so
+link path=usr/X11/lib/libXxf86misc.so.1 target=../../lib/libXxf86misc.so.1
+link path=usr/lib/$(ARCH64)/libXxf86misc.so target=libXxf86misc.so.1
 file path=usr/lib/$(ARCH64)/libXxf86misc.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xxf86misc.pc
+link path=usr/lib/libXxf86misc.so target=libXxf86misc.so.1
 file path=usr/lib/libXxf86misc.so.1
 file path=usr/lib/pkgconfig/xxf86misc.pc
+dir  path=usr/share/man/man3xxf86misc
 file path=usr/share/man/man3xxf86misc/XF86Misc.3xxf86misc
 file path=usr/share/man/man3xxf86misc/XF86MiscGetKbdSettings.3xxf86misc
 file path=usr/share/man/man3xxf86misc/XF86MiscGetMouseSettings.3xxf86misc
@@ -38,12 +46,4 @@ file path=usr/share/man/man3xxf86misc/XF86MiscQueryVersion.3xxf86misc
 file path=usr/share/man/man3xxf86misc/XF86MiscSetKbdSettings.3xxf86misc
 file path=usr/share/man/man3xxf86misc/XF86MiscSetMouseSettings.3xxf86misc
 file path=usr/share/man/man3xxf86misc/XF86MiscSetSaver.3xxf86misc
-link path=usr/X11/lib/$(ARCH64)/libXxf86misc.so \
-    target=../../../lib/$(ARCH64)/libXxf86misc.so
-link path=usr/X11/lib/$(ARCH64)/libXxf86misc.so.1 \
-    target=../../../lib/$(ARCH64)/libXxf86misc.so.1
-link path=usr/X11/lib/libXxf86misc.so target=../../lib/libXxf86misc.so
-link path=usr/X11/lib/libXxf86misc.so.1 target=../../lib/libXxf86misc.so.1
-link path=usr/lib/$(ARCH64)/libXxf86misc.so target=libXxf86misc.so.1
-link path=usr/lib/libXxf86misc.so target=libXxf86misc.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

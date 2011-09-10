@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/session/smproxy@__version:smproxy__
+set name=pkg.summary value="smproxy - X Session Manager Proxy"
 set name=pkg.description \
     value="smproxy allows X applications that do not support X11R6 session management to participate in an X11R6 session."
-set name=pkg.summary value="smproxy - X Session Manager Proxy"
+link path=usr/X11/bin/smproxy target=../../bin/smproxy
 file path=usr/bin/smproxy
 file path=usr/share/man/man1/smproxy.1
-link path=usr/X11/bin/smproxy target=../../bin/smproxy

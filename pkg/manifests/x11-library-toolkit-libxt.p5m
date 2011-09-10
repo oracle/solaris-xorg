@@ -20,11 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/toolkit/libxt@__version:libXt__
+set name=pkg.summary value="libXt - X Toolkit Intrinsics library"
 set name=pkg.description \
     value="The X Toolkit Intrinsics are a programming library tailored to the special requirements of user interface construction within a network window system, specifically the X Window System.  The X Toolkit Intrinsics and a widget set such as the Athena Widgets (Xaw) or Motif (Xm) make up an X Toolkit."
-set name=pkg.summary value="libXt - X Toolkit Intrinsics library"
-dir path=usr/share/X11/app-defaults
-dir path=usr/share/man/man3xt
+link path=usr/X11/lib/$(ARCH64)/libXt.so target=../../../lib/$(ARCH64)/libXt.so
+link path=usr/X11/lib/$(ARCH64)/libXt.so.4 \
+    target=../../../lib/$(ARCH64)/libXt.so.4
+link path=usr/X11/lib/$(ARCH64)/libXt.so.5 \
+    target=../../../lib/$(ARCH64)/libXt.so.5
+link path=usr/X11/lib/libXt.so target=../../lib/libXt.so
+link path=usr/X11/lib/libXt.so.4 target=../../lib/libXt.so.4
+link path=usr/X11/lib/libXt.so.5 target=../../lib/libXt.so.5
 file path=usr/include/X11/CallbackI.h
 file path=usr/include/X11/Composite.h
 file path=usr/include/X11/CompositeP.h
@@ -58,10 +64,17 @@ file path=usr/include/X11/VarargsI.h
 file path=usr/include/X11/Vendor.h
 file path=usr/include/X11/VendorP.h
 file path=usr/include/X11/Xtos.h
+link path=usr/lib/$(ARCH64)/libXt.so target=libXt.so.4
 file path=usr/lib/$(ARCH64)/libXt.so.4
+link path=usr/lib/$(ARCH64)/libXt.so.5 target=libXt.so.4
 file path=usr/lib/$(ARCH64)/pkgconfig/xt.pc
+link path=usr/lib/libXt.so target=libXt.so.4
 file path=usr/lib/libXt.so.4
+# Additional link required by SVID ABI (see PSARC/1997/141)
+link path=usr/lib/libXt.so.5 target=libXt.so.4
 file path=usr/lib/pkgconfig/xt.pc
+dir  path=usr/share/X11/app-defaults
+dir  path=usr/share/man/man3xt
 file path=usr/share/man/man3xt/MenuPopdown.3xt
 file path=usr/share/man/man3xt/MenuPopup.3xt
 file path=usr/share/man/man3xt/XtAddActions.3xt
@@ -329,18 +342,4 @@ file path=usr/share/man/man3xt/XtWidgetToApplicationContext.3xt
 file path=usr/share/man/man3xt/XtWindow.3xt
 file path=usr/share/man/man3xt/XtWindowOfObject.3xt
 file path=usr/share/man/man3xt/XtWindowToWidget.3xt
-link path=usr/X11/lib/$(ARCH64)/libXt.so \
-    target=../../../lib/$(ARCH64)/libXt.so
-link path=usr/X11/lib/$(ARCH64)/libXt.so.4 \
-    target=../../../lib/$(ARCH64)/libXt.so.4
-link path=usr/X11/lib/$(ARCH64)/libXt.so.5 \
-    target=../../../lib/$(ARCH64)/libXt.so.5
-link path=usr/X11/lib/libXt.so target=../../lib/libXt.so
-link path=usr/X11/lib/libXt.so.4 target=../../lib/libXt.so.4
-link path=usr/X11/lib/libXt.so.5 target=../../lib/libXt.so.5
-link path=usr/lib/$(ARCH64)/libXt.so target=libXt.so.4
-link path=usr/lib/$(ARCH64)/libXt.so.5 target=libXt.so.4
-link path=usr/lib/libXt.so target=libXt.so.4
-# Additional link required by SVID ABI (see PSARC/1997/141)
-link path=usr/lib/libXt.so.5 target=libXt.so.4
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

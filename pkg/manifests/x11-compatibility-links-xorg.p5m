@@ -20,11 +20,11 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/compatibility/links-xorg@$(OSPKGVERS)
+set name=pkg.summary value="X Window System platform compatibility links"
 set name=pkg.description \
     value="Symbolic links for X Window System software compatibility with other releases"
-set name=pkg.summary value="X Window System platform compatibility links"
+link path=usr/X11R6 target=X11 facet.compat.x11-links=true
+link path=usr/openwin target=X11 facet.compat.x11-links=true
 legacy pkg=SUNWxorg-compatlinks \
     desc="Symbolic links for X Window System software compatibility with other releases" \
     name="X11 Compatibility Links"
-link path=usr/X11R6 target=X11 facet.compat.x11-links=true
-link path=usr/openwin target=X11 facet.compat.x11-links=true

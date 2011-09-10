@@ -20,30 +20,27 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/server/xorg@__version:xorg-server__
+set name=pkg.summary value="Xorg - X11R7 X server"
 set name=pkg.description \
     value="Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on a wide range of hardware and OS platforms."
-set name=pkg.summary value="Xorg - X11R7 X server"
-dir path=etc/X11
-dir path=etc/X11/xorg.conf.avail
-dir path=etc/X11/xorg.conf.d
-dir path=usr/include/xorg
-dir path=usr/lib/xorg
-dir path=usr/lib/xorg/modules
-dir path=usr/lib/xorg/modules/dri
-dir path=usr/lib/xorg/modules/drivers
-dir path=usr/lib/xorg/modules/extensions
-dir path=usr/lib/xorg/modules/input
-dir path=usr/lib/xorg/modules/multimedia
-dir path=usr/share/X11/xorg.conf.d
+dir  path=etc/X11
+dir  path=etc/X11/xorg.conf.avail
 file path=etc/X11/xorg.conf.avail/90-zap.conf
+dir  path=etc/X11/xorg.conf.d
 file path=etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
+link path=usr/X11/bin/Xorg target=../../bin/Xorg
+link path=usr/X11/bin/cvt target=../../bin/cvt
+link path=usr/X11/bin/gtf target=../../bin/gtf
+link path=usr/X11/include/xorg target=../../include/xorg
+$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xorg target=../Xorg
 # Xorg must be setuid root on x86 in order to access PCI bus devices
 # and make the sysi86 system call to change I/O privilege level (IOPL).
 # On SPARC, Xorg only requires setuid root in order to create the
 # Xorg.*.log file in /var/log
-file path=usr/bin/Xorg mode=4555 owner=root
+file path=usr/bin/Xorg owner=root mode=4555
 file path=usr/bin/cvt
 file path=usr/bin/gtf
+dir  path=usr/include/xorg
 file path=usr/include/xorg/BT.h
 file path=usr/include/xorg/IBM.h
 file path=usr/include/xorg/TI.h
@@ -148,8 +145,7 @@ file path=usr/include/xorg/shadowfb.h
 file path=usr/include/xorg/shmint.h
 file path=usr/include/xorg/site.h
 $(i386_ONLY)file path=usr/include/xorg/solaris-amd64.il facet.devel=true
-$(sparc_ONLY)file path=usr/include/xorg/solaris-sparcv8plus.il \
-    facet.devel=true
+$(sparc_ONLY)file path=usr/include/xorg/solaris-sparcv8plus.il facet.devel=true
 file path=usr/include/xorg/swaprep.h
 file path=usr/include/xorg/swapreq.h
 file path=usr/include/xorg/syncsdk.h
@@ -212,12 +208,21 @@ file path=usr/include/xorg/xserver-properties.h
 file path=usr/include/xorg/xvdix.h
 file path=usr/include/xorg/xvmcext.h
 file path=usr/lib/$(ARCH64)/pkgconfig/xorg-server.pc
+link path=usr/lib/mdb/proc/$(ARCH64)/Xorg.so target=Xserver.so
+link path=usr/lib/pkgconfig/xorg-server.pc \
+    target=../$(ARCH64)/pkgconfig/xorg-server.pc
+dir  path=usr/lib/xorg
+dir  path=usr/lib/xorg/modules
+dir  path=usr/lib/xorg/modules/dri
+dir  path=usr/lib/xorg/modules/drivers
+dir  path=usr/lib/xorg/modules/extensions
 file path=usr/lib/xorg/modules/extensions/libdbe.so
 file path=usr/lib/xorg/modules/extensions/libdri.so
 file path=usr/lib/xorg/modules/extensions/libdri2.so
 file path=usr/lib/xorg/modules/extensions/libextmod.so
 file path=usr/lib/xorg/modules/extensions/libia.so
 file path=usr/lib/xorg/modules/extensions/librecord.so
+dir  path=usr/lib/xorg/modules/input
 file path=usr/lib/xorg/modules/libexa.so
 file path=usr/lib/xorg/modules/libfb.so
 file path=usr/lib/xorg/modules/libfbdevhw.so
@@ -228,6 +233,7 @@ file path=usr/lib/xorg/modules/libvbe.so
 file path=usr/lib/xorg/modules/libvgahw.so
 file path=usr/lib/xorg/modules/libwfb.so
 file path=usr/lib/xorg/modules/libxaa.so
+dir  path=usr/lib/xorg/modules/multimedia
 file path=usr/lib/xorg/modules/multimedia/bt829_drv.so
 file path=usr/lib/xorg/modules/multimedia/fi1236_drv.so
 file path=usr/lib/xorg/modules/multimedia/msp3430_drv.so
@@ -235,6 +241,7 @@ file path=usr/lib/xorg/modules/multimedia/tda8425_drv.so
 file path=usr/lib/xorg/modules/multimedia/tda9850_drv.so
 file path=usr/lib/xorg/modules/multimedia/tda9885_drv.so
 file path=usr/lib/xorg/modules/multimedia/uda1380_drv.so
+dir  path=usr/share/X11/xorg.conf.d
 file path=usr/share/aclocal/xorg-server.m4
 file path=usr/share/man/man1/Xorg.1
 file path=usr/share/man/man1/cvt.1
@@ -251,25 +258,17 @@ legacy pkg=SUNWxorg-headers \
 legacy pkg=SUNWxorg-server \
     desc="X Window System server based on X.Org Foundation open source release" \
     name="X.Org Foundation Xserver"
-link path=usr/X11/bin/Xorg target=../../bin/Xorg
-link path=usr/X11/bin/cvt target=../../bin/cvt
-link path=usr/X11/bin/gtf target=../../bin/gtf
-link path=usr/X11/include/xorg target=../../include/xorg
-$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xorg target=../Xorg
-link path=usr/lib/mdb/proc/$(ARCH64)/Xorg.so target=Xserver.so
-link path=usr/lib/pkgconfig/xorg-server.pc \
-    target=../$(ARCH64)/pkgconfig/xorg-server.pc
-
-# On x86/x64, Xorg requires /dev/xsvc to access video cards
-$(i386_ONLY)depend fmri=pkg:/driver/x11/xsvc type=require
-
-# X servers require xkbcomp & data-xkb for keyboard layouts
-depend fmri=pkg:/x11/keyboard/data-xkb type=require
-depend fmri=pkg:/x11/keyboard/xkbcomp type=require
 
 # keyboard & mouse drivers used to be part of this package, so we preserve
 # the dependency to ensure they're not lost on upgrade, and normally installed
 # on fresh install, but make it a group dependency, so that users can choose
 # to exclude in cases they're not needed (systems with alternate or no input)
-depend fmri=pkg:/x11/server/xorg/driver/xorg-input-keyboard type=group
-depend fmri=pkg:/x11/server/xorg/driver/xorg-input-mouse type=group
+depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-input-keyboard
+depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-input-mouse
+
+# On x86/x64, Xorg requires /dev/xsvc to access video cards
+$(i386_ONLY)depend type=require fmri=pkg:/driver/x11/xsvc
+
+# X servers require xkbcomp & data-xkb for keyboard layouts
+depend type=require fmri=pkg:/x11/keyboard/data-xkb
+depend type=require fmri=pkg:/x11/keyboard/xkbcomp

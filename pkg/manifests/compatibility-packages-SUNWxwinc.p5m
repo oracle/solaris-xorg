@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,13 @@
 # Headers are part of the developer facet
 <transform depend -> set facet.devel true>
 
+
 set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwinc@$(OSPKGVERS)
+set name=pkg.summary value="X Window System include files group"
 set name=pkg.description \
     value="A group package that provides the same core set of X11 headers and developer files as the SUNWxwinc package for prior Solaris releases"
-set name=pkg.summary value="X Window System include files group"
 set name=facet.devel value=true
-set name=info.classification \
-    value=org.opensolaris.category.2008:Development/X11
+set name=info.classification value=org.opensolaris.category.2008:Development/X11
 legacy pkg=SUNWxwinc \
     desc="X Window System header & pkgconfig files needed to build software" \
     name="X Window System include files"
@@ -37,86 +37,86 @@ legacy pkg=SUNWxwinc \
 ### Depends on packages split out of the old SVR4 versions
 
 # util/util-macros
-depend fmri=pkg:/developer/build/autoconf/xorg-macros type=require
+depend type=require fmri=pkg:/developer/build/autoconf/xorg-macros
 
 # data/xbitmaps
-depend fmri=pkg:/x11/data/xbitmaps type=require
+depend type=require fmri=pkg:/x11/data/xbitmaps
 
 # proto/*
-depend fmri=pkg:/x11/header/x11-protocols type=require
+depend type=require fmri=pkg:/x11/header/x11-protocols
 
 # lib/libfontenc
-depend fmri=pkg:/x11/library/libfontenc type=require
+depend type=require fmri=pkg:/x11/library/libfontenc
 
 # lib/libFS
-depend fmri=pkg:/x11/library/libfs type=require
+depend type=require fmri=pkg:/x11/library/libfs
 
 # lib/libICE
-depend fmri=pkg:/x11/library/libice type=require
+depend type=require fmri=pkg:/x11/library/libice
 
 # lib/libSM
-depend fmri=pkg:/x11/library/libsm type=require
+depend type=require fmri=pkg:/x11/library/libsm
 
 # lib/libX11
-depend fmri=pkg:/x11/library/libx11 type=require
+depend type=require fmri=pkg:/x11/library/libx11
 
 # lib/libXau
-depend fmri=pkg:/x11/library/libxau type=require
+depend type=require fmri=pkg:/x11/library/libxau
 
 # lib/libXcomposite
-depend fmri=pkg:/x11/library/libxcomposite type=require
+depend type=require fmri=pkg:/x11/library/libxcomposite
 
 # lib/libXcursor
-depend fmri=pkg:/x11/library/libxcursor type=require
+depend type=require fmri=pkg:/x11/library/libxcursor
 
 # lib/libXdamage
-depend fmri=pkg:/x11/library/libxdamage type=require
+depend type=require fmri=pkg:/x11/library/libxdamage
 
 # lib/libXdmcp
-depend fmri=pkg:/x11/library/libxdmcp type=require
+depend type=require fmri=pkg:/x11/library/libxdmcp
 
 # lib/libXevie
-depend fmri=pkg:/x11/library/libxevie type=require
+depend type=require fmri=pkg:/x11/library/libxevie
 
 # lib/libXfixes
-depend fmri=pkg:/x11/library/libxfixes type=require
+depend type=require fmri=pkg:/x11/library/libxfixes
 
 # lib/libXfont
-depend fmri=pkg:/x11/library/libxfont type=require
+depend type=require fmri=pkg:/x11/library/libxfont
 
 # lib/libxkbfile
-depend fmri=pkg:/x11/library/libxkbfile type=require
+depend type=require fmri=pkg:/x11/library/libxkbfile
 
 # lib/libXmu
-depend fmri=pkg:/x11/library/libxmu type=require
-depend fmri=pkg:/x11/library/libxmuu type=require
+depend type=require fmri=pkg:/x11/library/libxmu
+depend type=require fmri=pkg:/x11/library/libxmuu
 
 # lib/libXp
-depend fmri=pkg:/x11/library/libxp type=require
+depend type=require fmri=pkg:/x11/library/libxp
 
 # lib/libXpm
-depend fmri=pkg:/x11/library/libxpm type=require
+depend type=require fmri=pkg:/x11/library/libxpm
 
 # lib/libXrandr
-depend fmri=pkg:/x11/library/libxrandr type=require
+depend type=require fmri=pkg:/x11/library/libxrandr
 
 # lib/libXrender
-depend fmri=pkg:/x11/library/libxrender type=require
+depend type=require fmri=pkg:/x11/library/libxrender
 
 # lib/libXres
-depend fmri=pkg:/x11/library/libxres type=require
+depend type=require fmri=pkg:/x11/library/libxres
 
 # lib/libXtst
-depend fmri=pkg:/x11/library/libxtst type=require
+depend type=require fmri=pkg:/x11/library/libxtst
 
 # lib/libXv
-depend fmri=pkg:/x11/library/libxv type=require
+depend type=require fmri=pkg:/x11/library/libxv
 
 # lib/libXvMC
-depend fmri=pkg:/x11/library/libxvmc type=require
-
-# lib/libxtrans
-depend fmri=pkg:/x11/library/xtrans type=require
+depend type=require fmri=pkg:/x11/library/libxvmc
 
 # lib/libXt
-depend fmri=pkg:/x11/library/toolkit/libxt type=require
+depend type=require fmri=pkg:/x11/library/toolkit/libxt
+
+# lib/libxtrans
+depend type=require fmri=pkg:/x11/library/xtrans

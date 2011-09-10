@@ -20,18 +20,18 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xfs@__version:xfs__
+set name=pkg.summary value="xfs - X Font Server"
 set name=pkg.description \
     value="xfs is the X Window System font server. It supplies fonts to X Window System display servers on local or remote hosts."
-set name=pkg.summary value="xfs - X Font Server"
-dir path=lib/svc/manifest/application/x11
-dir path=usr/lib/X11/fs
+dir  path=lib/svc/manifest/application/x11
 file path=lib/svc/manifest/application/x11/xfs.xml
+link path=usr/X11/bin/fsadmin target=../../sbin/fsadmin
+link path=usr/X11/bin/xfs target=../../bin/xfs
 file path=usr/bin/xfs
+dir  path=usr/lib/X11/fs
 file path=usr/lib/X11/fs/config
 file path=usr/sbin/fsadmin
 file path=usr/share/man/man1/fsadmin.1
 file path=usr/share/man/man1/xfs.1
 legacy pkg=SUNWxwfs desc="X Window System font server" \
     name="X Window System Font server"
-link path=usr/X11/bin/fsadmin target=../../sbin/fsadmin
-link path=usr/X11/bin/xfs target=../../bin/xfs

@@ -20,21 +20,21 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxfixes@__version:libXfixes__
+set name=pkg.summary value="libXfixes - XFIXES extension client library"
 set name=pkg.description \
     value="Xlib-based client API for the XFIXES extension to the X11 protocol"
-set name=pkg.summary value="libXfixes - XFIXES extension client library"
-file path=usr/include/X11/extensions/Xfixes.h
-file path=usr/lib/$(ARCH64)/libXfixes.so.1
-file path=usr/lib/$(ARCH64)/pkgconfig/xfixes.pc
-file path=usr/lib/libXfixes.so.1
-file path=usr/lib/pkgconfig/xfixes.pc
-file path=usr/share/man/man3/Xfixes.3
 link path=usr/X11/lib/$(ARCH64)/libXfixes.so \
     target=../../../lib/$(ARCH64)/libXfixes.so
 link path=usr/X11/lib/$(ARCH64)/libXfixes.so.1 \
     target=../../../lib/$(ARCH64)/libXfixes.so.1
 link path=usr/X11/lib/libXfixes.so target=../../lib/libXfixes.so
 link path=usr/X11/lib/libXfixes.so.1 target=../../lib/libXfixes.so.1
+file path=usr/include/X11/extensions/Xfixes.h
 link path=usr/lib/$(ARCH64)/libXfixes.so target=libXfixes.so.1
+file path=usr/lib/$(ARCH64)/libXfixes.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/xfixes.pc
 link path=usr/lib/libXfixes.so target=libXfixes.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libXfixes.so.1
+file path=usr/lib/pkgconfig/xfixes.pc
+file path=usr/share/man/man3/Xfixes.3
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

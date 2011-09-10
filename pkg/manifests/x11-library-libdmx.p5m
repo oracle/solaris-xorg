@@ -20,15 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libdmx@__version:libdmx__
-set name=pkg.description \
-    value="libdmx is an interface to the DMX extension for X, which allows a single server to be set up as a proxy spanning multiple servers -- not unlike Xinerama across discrete physical machines. It can be reconfigured on the fly to change the layout, and it is presented as a single logical display to clients."
 set name=pkg.summary \
     value="libdmx - X Window System DMX (Distributed Multihead X) extension library"
+set name=pkg.description \
+    value="libdmx is an interface to the DMX extension for X, which allows a single server to be set up as a proxy spanning multiple servers -- not unlike Xinerama across discrete physical machines. It can be reconfigured on the fly to change the layout, and it is presented as a single logical display to clients."
 file path=usr/include/X11/extensions/dmxext.h
-file path=usr/lib/$(ARCH64)/pkgconfig/dmx.pc
-file path=usr/lib/pkgconfig/dmx.pc
+link path=usr/lib/$(ARCH64)/libdmx.so target=libdmx.so.1
 file path=usr/lib/$(ARCH64)/libdmx.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/dmx.pc
+link path=usr/lib/libdmx.so target=libdmx.so.1
 file path=usr/lib/libdmx.so.1
+file path=usr/lib/pkgconfig/dmx.pc
 file path=usr/share/man/man3/DMX.3
 file path=usr/share/man/man3/DMXAddInput.3
 file path=usr/share/man/man3/DMXAddScreen.3
@@ -46,6 +48,4 @@ file path=usr/share/man/man3/DMXQueryVersion.3
 file path=usr/share/man/man3/DMXRemoveInput.3
 file path=usr/share/man/man3/DMXRemoveScreen.3
 file path=usr/share/man/man3/DMXSync.3
-link path=usr/lib/$(ARCH64)/libdmx.so target=libdmx.so.1
-link path=usr/lib/libdmx.so target=libdmx.so.1
 

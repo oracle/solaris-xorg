@@ -20,13 +20,13 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/library/motif/libdpstkxm@$(OSPKGVERS)
-set name=pkg.description \
-    value="Libraries provided for binary compatibility with Motif clients designed to connect to servers supporting the DPS extension."
 set name=pkg.summary \
     value="X Window System DPS extension Motif client compatibility libraries"
+set name=pkg.description \
+    value="Libraries provided for binary compatibility with Motif clients designed to connect to servers supporting the DPS extension."
 file path=usr/lib/libdpstkXm.so.5
 file path=usr/share/X11/app-defaults/ColorSelect
 file path=usr/share/X11/app-defaults/FontSelect
 legacy pkg=SUNWxwdxm desc="DPS Motif library" name="DPS Motif library"
 # ColorSelect & FontSelect use -adobe-helvetica-....-iso8859-1 font
-depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
+depend type=require fmri=pkg:/system/font/xorg/iso8859-1

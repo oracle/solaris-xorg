@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/keyboard/xkbcomp@__version:xkbcomp__
+set name=pkg.summary value="X Keyboard Extension data compiler"
 set name=pkg.description \
     value="The xkbcomp keymap compiler converts a description of an XKB keymap into one of several output formats, including the one used by X servers to load keymap data."
-set name=pkg.summary value="X Keyboard Extension data compiler"
+link path=usr/X11/bin/xkbcomp target=../../bin/xkbcomp
 file path=usr/bin/xkbcomp
 file path=usr/share/man/man1/xkbcomp.1
-link path=usr/X11/bin/xkbcomp target=../../bin/xkbcomp

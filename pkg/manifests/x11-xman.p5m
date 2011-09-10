@@ -20,14 +20,14 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xman@__version:xman__
+set name=pkg.summary value="xman - graphical manual page display program"
 set name=pkg.description \
     value="xman is a graphical manual page browser using the Athena Widgets (Xaw) toolkit."
-set name=pkg.summary value="xman - graphical manual page display program"
+link path=usr/X11/bin/xman target=../../bin/xman
 file path=usr/bin/xman
 file path=usr/share/X11/app-defaults/Xman
 file path=usr/share/X11/xman.help
 file path=usr/share/locale/C/LC_MESSAGES/xman.po
 file path=usr/share/man/man1/xman.1
-link path=usr/X11/bin/xman target=../../bin/xman
 # Xman app-defaults uses fonts including courier, symbol, helvetica, lucida
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+depend type=require fmri=pkg:/system/font/xorg/xorg-core

@@ -20,16 +20,24 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxxf86vm@__version:libXxf86vm__
-set name=pkg.description \
-    value="Xlib-based client API for the XFree86-VidMode extension to the X11 protocol"
 set name=pkg.summary \
     value="libXxf86vm - XFree86-VidMode X extension client library"
-dir path=usr/share/man/man3xxf86vm
+set name=pkg.description \
+    value="Xlib-based client API for the XFree86-VidMode extension to the X11 protocol"
+link path=usr/X11/lib/$(ARCH64)/libXxf86vm.so \
+    target=../../../lib/$(ARCH64)/libXxf86vm.so
+link path=usr/X11/lib/$(ARCH64)/libXxf86vm.so.1 \
+    target=../../../lib/$(ARCH64)/libXxf86vm.so.1
+link path=usr/X11/lib/libXxf86vm.so target=../../lib/libXxf86vm.so
+link path=usr/X11/lib/libXxf86vm.so.1 target=../../lib/libXxf86vm.so.1
 file path=usr/include/X11/extensions/xf86vmode.h
+link path=usr/lib/$(ARCH64)/libXxf86vm.so target=libXxf86vm.so.1
 file path=usr/lib/$(ARCH64)/libXxf86vm.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xxf86vm.pc
+link path=usr/lib/libXxf86vm.so target=libXxf86vm.so.1
 file path=usr/lib/libXxf86vm.so.1
 file path=usr/lib/pkgconfig/xxf86vm.pc
+dir  path=usr/share/man/man3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VM.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeDeleteModeLine.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeGetAllModeLines.3xxf86vm
@@ -52,12 +60,4 @@ file path=usr/share/man/man3xxf86vm/XF86VidModeSetViewPort.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeSwitchMode.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeSwitchToMode.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeValidateModeLine.3xxf86vm
-link path=usr/X11/lib/$(ARCH64)/libXxf86vm.so \
-    target=../../../lib/$(ARCH64)/libXxf86vm.so
-link path=usr/X11/lib/$(ARCH64)/libXxf86vm.so.1 \
-    target=../../../lib/$(ARCH64)/libXxf86vm.so.1
-link path=usr/X11/lib/libXxf86vm.so target=../../lib/libXxf86vm.so
-link path=usr/X11/lib/libXxf86vm.so.1 target=../../lib/libXxf86vm.so.1
-link path=usr/lib/$(ARCH64)/libXxf86vm.so target=libXxf86vm.so.1
-link path=usr/lib/libXxf86vm.so target=libXxf86vm.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

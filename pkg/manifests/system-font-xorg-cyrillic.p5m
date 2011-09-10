@@ -24,10 +24,12 @@
 # at this time (1.0.2), while others are 1.0.1
 set name=pkg.fmri \
     value=pkg:/system/font/xorg/cyrillic@__version:font-screen-cyrillic__
+set name=pkg.summary value="Cyrillic bitmap fonts from X.Org Foundation"
 set name=pkg.description \
     value="X Window System font files for Cyrillic scripts from X.Org Foundation open source release"
-set name=pkg.summary value="Cyrillic bitmap fonts from X.Org Foundation"
-dir path=usr/share/fonts/X11/cyrillic
+link path=etc/X11/fontpath.d/cyrillic:pri=75 \
+    target=../../../usr/share/fonts/X11/cyrillic
+dir  path=usr/share/fonts/X11/cyrillic
 file path=usr/share/fonts/X11/cyrillic/crox1c.pcf
 file path=usr/share/fonts/X11/cyrillic/crox1cb.pcf
 file path=usr/share/fonts/X11/cyrillic/crox1cbo.pcf
@@ -114,5 +116,3 @@ file path=usr/share/fonts/X11/cyrillic/screen8x16b.pcf
 legacy pkg=SUNWfont-xorg-cyrillic \
     desc="X Window System font files for Cyrillic scripts based on X.Org Foundation open source release" \
     name="Cyrillic bitmap fonts from X.Org Foundation"
-link path=etc/X11/fontpath.d/cyrillic:pri=75 \
-    target=../../../usr/share/fonts/X11/cyrillic

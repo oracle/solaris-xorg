@@ -20,12 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/image/editor/bitmap@__version:bitmap__
-set name=pkg.description \
-    value="The bitmap program is a rudimentary tool for creating or editing XBM format bitmap images. The bmtoa and atobm filters convert XBM format bitmap files to and from ASCII strings. They are most commonly used to quickly print out bitmaps and to generate versions for including in text."
 set name=pkg.summary \
     value="bitmap, bmtoa, atobm - X bitmap (XBM) editor and converter utilities"
+set name=pkg.description \
+    value="The bitmap program is a rudimentary tool for creating or editing XBM format bitmap images. The bmtoa and atobm filters convert XBM format bitmap files to and from ASCII strings. They are most commonly used to quickly print out bitmaps and to generate versions for including in text."
 
 
+link path=usr/X11/bin/atobm target=../../bin/atobm
+link path=usr/X11/bin/bitmap target=../../bin/bitmap
+link path=usr/X11/bin/bmtoa target=../../bin/bmtoa
 file path=usr/bin/atobm
 file path=usr/bin/bitmap
 file path=usr/bin/bmtoa
@@ -48,6 +51,3 @@ file path=usr/share/X11/app-defaults/Bitmap-nocase
 file path=usr/share/man/man1/atobm.1
 file path=usr/share/man/man1/bitmap.1
 file path=usr/share/man/man1/bmtoa.1
-link path=usr/X11/bin/atobm target=../../bin/atobm
-link path=usr/X11/bin/bitmap target=../../bin/bitmap
-link path=usr/X11/bin/bmtoa target=../../bin/bmtoa

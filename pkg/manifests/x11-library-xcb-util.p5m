@@ -21,12 +21,16 @@
 #
 <transform dir path=usr/share/xcb.* -> default facet.devel true>
 <transform file path=usr/share/xcb/.*\.xml$ -> default facet.devel true>
-<transform file path=usr/lib/python.*/vendor-packages/xcbgen/.* -> default facet.devel true>
+<transform set name=info.upstream-url -> \
+    set value "http://xcb.freedesktop.org/XcbUtil/">
+<transform file path=usr/lib/python.*/vendor-packages/xcbgen/.* -> \
+    default facet.devel true>
 #
 set name=pkg.fmri value=pkg:/x11/library/xcb-util@__version:xcb-util__
+set name=pkg.summary \
+    value="xcb-util - The X11 protocol C bindings utility libraries"
 set name=pkg.description \
-    value="XCB - The X11 C Protocol Bindings - Utility Libraries."
-set name=pkg.summary value="xcb-util - The X11 C protocol bindings utilities"
+    value="The xcb-util module provides a number of libraries which sit on top of libxcb, the core X protocol library, and some of the extension libraries. These experimental libraries provide convenience functions and interfaces which make the raw X protocol more usable. Some of the libraries also provide client-side code which is not strictly part of the X protocol but which have traditionally been provided by Xlib."
 #
 file path=usr/include/xcb/xcb_atom.h
 file path=usr/include/xcb/xcb_aux.h
@@ -40,11 +44,17 @@ file path=usr/include/xcb/xcb_pixel.h
 file path=usr/include/xcb/xcb_renderutil.h
 file path=usr/include/xcb/xcb_util.h
 #
+link path=usr/lib/$(ARCH64)/libxcb-ewmh.so target=libxcb-ewmh.so.1
 file path=usr/lib/$(ARCH64)/libxcb-ewmh.so.1
+link path=usr/lib/$(ARCH64)/libxcb-icccm.so target=libxcb-icccm.so.4
 file path=usr/lib/$(ARCH64)/libxcb-icccm.so.4
+link path=usr/lib/$(ARCH64)/libxcb-image.so target=libxcb-image.so.0
 file path=usr/lib/$(ARCH64)/libxcb-image.so.0
+link path=usr/lib/$(ARCH64)/libxcb-keysyms.so target=libxcb-keysyms.so.1
 file path=usr/lib/$(ARCH64)/libxcb-keysyms.so.1
+link path=usr/lib/$(ARCH64)/libxcb-render-util.so target=libxcb-render-util.so.0
 file path=usr/lib/$(ARCH64)/libxcb-render-util.so.0
+link path=usr/lib/$(ARCH64)/libxcb-util.so target=libxcb-util.so.0
 file path=usr/lib/$(ARCH64)/libxcb-util.so.0
 #
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-atom.pc
@@ -57,11 +67,17 @@ file path=usr/lib/$(ARCH64)/pkgconfig/xcb-keysyms.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-renderutil.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-util.pc
 #
+link path=usr/lib/libxcb-ewmh.so target=libxcb-ewmh.so.1
 file path=usr/lib/libxcb-ewmh.so.1
+link path=usr/lib/libxcb-icccm.so target=libxcb-icccm.so.4
 file path=usr/lib/libxcb-icccm.so.4
+link path=usr/lib/libxcb-image.so target=libxcb-image.so.0
 file path=usr/lib/libxcb-image.so.0
+link path=usr/lib/libxcb-keysyms.so target=libxcb-keysyms.so.1
 file path=usr/lib/libxcb-keysyms.so.1
+link path=usr/lib/libxcb-render-util.so target=libxcb-render-util.so.0
 file path=usr/lib/libxcb-render-util.so.0
+link path=usr/lib/libxcb-util.so target=libxcb-util.so.0
 file path=usr/lib/libxcb-util.so.0
 #
 file path=usr/lib/pkgconfig/xcb-atom.pc
@@ -73,18 +89,3 @@ file path=usr/lib/pkgconfig/xcb-image.pc
 file path=usr/lib/pkgconfig/xcb-keysyms.pc
 file path=usr/lib/pkgconfig/xcb-renderutil.pc
 file path=usr/lib/pkgconfig/xcb-util.pc
-#
-link path=usr/lib/$(ARCH64)/libxcb-ewmh.so target=libxcb-ewmh.so.1
-link path=usr/lib/$(ARCH64)/libxcb-icccm.so target=libxcb-icccm.so.4
-link path=usr/lib/$(ARCH64)/libxcb-image.so target=libxcb-image.so.0
-link path=usr/lib/$(ARCH64)/libxcb-keysyms.so target=libxcb-keysyms.so.1
-link path=usr/lib/$(ARCH64)/libxcb-render-util.so \
-    target=libxcb-render-util.so.0
-link path=usr/lib/$(ARCH64)/libxcb-util.so target=libxcb-util.so.0
-#
-link path=usr/lib/libxcb-ewmh.so target=libxcb-ewmh.so.1
-link path=usr/lib/libxcb-icccm.so target=libxcb-icccm.so.4
-link path=usr/lib/libxcb-image.so target=libxcb-image.so.0
-link path=usr/lib/libxcb-keysyms.so target=libxcb-keysyms.so.1
-link path=usr/lib/libxcb-render-util.so target=libxcb-render-util.so.0
-link path=usr/lib/libxcb-util.so target=libxcb-util.so.0

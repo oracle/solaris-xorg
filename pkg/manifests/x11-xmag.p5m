@@ -20,15 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xmag@__version:xmag__
+set name=pkg.summary value="xmag - magnify parts of the screen"
 set name=pkg.description \
     value="The xmag program allows you to capture a static image of a portion of an X screen, and display it magnified."
-set name=pkg.summary value="xmag - magnify parts of the screen"
+link path=usr/X11/bin/xmag target=../../bin/xmag
+link path=usr/X11/bin/xmag_multivis target=../../bin/xmag_multivis
 file path=usr/bin/xmag
 file path=usr/bin/xmag_multivis
 file path=usr/share/X11/app-defaults/Xmag
 file path=usr/share/man/man1/xmag.1
 file path=usr/share/man/man1/xmag_multivis.1
-link path=usr/X11/bin/xmag target=../../bin/xmag
-link path=usr/X11/bin/xmag_multivis target=../../bin/xmag_multivis
 # Xmag app-defaults specifies font: 8x13bold
-depend fmri=pkg:/system/font/xorg/iso8859-1 type=require
+depend type=require fmri=pkg:/system/font/xorg/iso8859-1

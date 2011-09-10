@@ -20,11 +20,11 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xbiff@__version:xbiff__
+set name=pkg.summary value="xbiff - mailbox flag for X"
 set name=pkg.description \
     value="xbiff displays whether a local mailbox has new mail."
-set name=pkg.summary value="xbiff - mailbox flag for X"
+link path=usr/X11/bin/xbiff target=../../bin/xbiff
 file path=usr/bin/xbiff
 file path=usr/share/man/man1/xbiff.1
-link path=usr/X11/bin/xbiff target=../../bin/xbiff
 # xbiff loads the "flagup" and "flagdown" bitmaps from xbitmaps
-depend fmri=pkg:/x11/data/xbitmaps type=require
+depend type=require fmri=pkg:/x11/data/xbitmaps

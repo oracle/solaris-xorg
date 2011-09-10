@@ -20,14 +20,21 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxp@__version:libXp__
+set name=pkg.summary value="libXp - X Print Client Library"
 set name=pkg.description \
     value="Xlib-based client API for the X Print extension to the X11 protocol"
-set name=pkg.summary value="libXp - X Print Client Library"
-dir path=usr/share/man/man3xp
+link path=usr/X11/lib/$(ARCH64)/libXp.so target=../../../lib/$(ARCH64)/libXp.so
+link path=usr/X11/lib/$(ARCH64)/libXp.so.1 \
+    target=../../../lib/$(ARCH64)/libXp.so.1
+link path=usr/X11/lib/libXp.so target=../../lib/libXp.so
+link path=usr/X11/lib/libXp.so.1 target=../../lib/libXp.so.1
+link path=usr/lib/$(ARCH64)/libXp.so target=libXp.so.1
 file path=usr/lib/$(ARCH64)/libXp.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xp.pc
+link path=usr/lib/libXp.so target=libXp.so.1
 file path=usr/lib/libXp.so.1
 file path=usr/lib/pkgconfig/xp.pc
+dir  path=usr/share/man/man3xp
 file path=usr/share/man/man3xp/XpCancelDoc.3xp
 file path=usr/share/man/man3xp/XpCancelJob.3xp
 file path=usr/share/man/man3xp/XpCancelPage.3xp
@@ -62,12 +69,4 @@ file path=usr/share/man/man3xp/XpStartDoc.3xp
 file path=usr/share/man/man3xp/XpStartJob.3xp
 file path=usr/share/man/man3xp/XpStartPage.3xp
 file path=usr/share/man/man3xp/libXp.3xp
-link path=usr/X11/lib/$(ARCH64)/libXp.so \
-    target=../../../lib/$(ARCH64)/libXp.so
-link path=usr/X11/lib/$(ARCH64)/libXp.so.1 \
-    target=../../../lib/$(ARCH64)/libXp.so.1
-link path=usr/X11/lib/libXp.so target=../../lib/libXp.so
-link path=usr/X11/lib/libXp.so.1 target=../../lib/libXp.so.1
-link path=usr/lib/$(ARCH64)/libXp.so target=libXp.so.1
-link path=usr/lib/libXp.so target=libXp.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

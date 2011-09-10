@@ -20,24 +20,24 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/network/x11-network-proxies@$(X11PKGVERS)
-set name=pkg.description \
-    value="A collection of programs to proxy X11 protocol over the network and to find and manage running X11 network proxies.   In modern environments, ssh X forwarding is generally recommended for use instead of these."
 set name=pkg.summary \
     value="X11 Network Proxy utilities - lbxproxy, xfwp, xfindproxy, proxymngr"
-dir path=usr/lib/X11/lbxproxy
-dir path=usr/lib/X11/proxymngr
+set name=pkg.description \
+    value="A collection of programs to proxy X11 protocol over the network and to find and manage running X11 network proxies.   In modern environments, ssh X forwarding is generally recommended for use instead of these."
+link path=usr/X11/bin/lbxproxy target=../../bin/lbxproxy
+link path=usr/X11/bin/proxymngr target=../../bin/proxymngr
+link path=usr/X11/bin/xfindproxy target=../../bin/xfindproxy
+link path=usr/X11/bin/xfwp target=../../bin/xfwp
 file path=usr/bin/lbxproxy
 file path=usr/bin/proxymngr
 file path=usr/bin/xfindproxy
 file path=usr/bin/xfwp
+dir  path=usr/lib/X11/lbxproxy
 file path=usr/lib/X11/lbxproxy/AtomControl
+dir  path=usr/lib/X11/proxymngr
 file path=usr/lib/X11/proxymngr/pmconfig
 file path=usr/share/man/man1/lbxproxy.1
 file path=usr/share/man/man1/proxymngr.1
 file path=usr/share/man/man1/xfindproxy.1
 file path=usr/share/man/man1/xfwp.1
-link path=usr/X11/bin/lbxproxy target=../../bin/lbxproxy
-link path=usr/X11/bin/proxymngr target=../../bin/proxymngr
-link path=usr/X11/bin/xfindproxy target=../../bin/xfindproxy
-link path=usr/X11/bin/xfwp target=../../bin/xfwp
 

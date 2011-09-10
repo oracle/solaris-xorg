@@ -20,18 +20,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/library/fontconfig@__version:fontconfig__
-set name=pkg.description \
-    value="Fontconfig is a library for configuring and customizing font access. Information about fontconfig and open source releases may be found at http://www.fontconfig.org/"
 set name=pkg.summary \
     value="Fontconfig - Font configuration and customization library"
-dir path=etc/fonts
-dir path=etc/fonts/conf.avail
-dir path=etc/fonts/conf.d
-dir path=lib/svc/manifest/application/font
-dir path=usr/include/fontconfig
-dir path=usr/share/doc/fontconfig
-dir path=usr/share/doc/fontconfig/fontconfig-devel facet.doc.html=true
-dir path=var/cache/fontconfig
+set name=pkg.description \
+    value="Fontconfig is a library for configuring and customizing font access. Information about fontconfig and open source releases may be found at http://www.fontconfig.org/"
+dir  path=etc/fonts
+dir  path=etc/fonts/conf.avail
 file path=etc/fonts/conf.avail/10-autohint.conf
 file path=etc/fonts/conf.avail/10-no-sub-pixel.conf
 file path=etc/fonts/conf.avail/10-sub-pixel-bgr.conf
@@ -61,10 +55,42 @@ file path=etc/fonts/conf.avail/70-yes-bitmaps.conf
 file path=etc/fonts/conf.avail/80-delicious.conf
 file path=etc/fonts/conf.avail/90-sun-prefer-bitmap.conf
 file path=etc/fonts/conf.avail/90-synthetic.conf
+dir  path=etc/fonts/conf.d
+link path=etc/fonts/conf.d/20-fix-globaladvance.conf \
+    target=../conf.avail/20-fix-globaladvance.conf
+link path=etc/fonts/conf.d/20-indic.conf target=../conf.avail/20-indic.conf
+link path=etc/fonts/conf.d/20-unhint-small-vera.conf \
+    target=../conf.avail/20-unhint-small-vera.conf
+link path=etc/fonts/conf.d/30-metric-aliases.conf \
+    target=../conf.avail/30-metric-aliases.conf
+link path=etc/fonts/conf.d/30-urw-aliases.conf \
+    target=../conf.avail/30-urw-aliases.conf
+link path=etc/fonts/conf.d/40-nonlatin.conf \
+    target=../conf.avail/40-nonlatin.conf
+link path=etc/fonts/conf.d/45-latin.conf target=../conf.avail/45-latin.conf
+link path=etc/fonts/conf.d/49-sansserif.conf \
+    target=../conf.avail/49-sansserif.conf
+link path=etc/fonts/conf.d/49-sun-preuser.conf \
+    target=../conf.avail/49-sun-preuser.conf
+link path=etc/fonts/conf.d/50-user.conf target=../conf.avail/50-user.conf
+link path=etc/fonts/conf.d/51-local.conf target=../conf.avail/51-local.conf
+link path=etc/fonts/conf.d/60-latin.conf target=../conf.avail/60-latin.conf
+link path=etc/fonts/conf.d/65-fonts-persian.conf \
+    target=../conf.avail/65-fonts-persian.conf
+link path=etc/fonts/conf.d/65-nonlatin.conf \
+    target=../conf.avail/65-nonlatin.conf
+link path=etc/fonts/conf.d/69-unifont.conf target=../conf.avail/69-unifont.conf
+link path=etc/fonts/conf.d/80-delicious.conf \
+    target=../conf.avail/80-delicious.conf
+link path=etc/fonts/conf.d/90-sun-prefer-bitmap.conf \
+    target=../conf.avail/90-sun-prefer-bitmap.conf
+link path=etc/fonts/conf.d/90-synthetic.conf \
+    target=../conf.avail/90-synthetic.conf
 file path=etc/fonts/conf.d/README
 file path=etc/fonts/fonts.conf
 file path=etc/fonts/fonts.dtd
 file path=etc/security/auth_attr.d/fontconfig group=sys
+dir  path=lib/svc/manifest/application/font
 file path=lib/svc/manifest/application/font/fc-cache.xml
 file path=lib/svc/method/fc-cache
 file path=usr/bin/$(ARCH64)/fc-cache
@@ -79,14 +105,19 @@ file path=usr/bin/fc-list
 file path=usr/bin/fc-match
 file path=usr/bin/fc-query
 file path=usr/bin/fc-scan
+dir  path=usr/include/fontconfig
 file path=usr/include/fontconfig/fcfreetype.h
 file path=usr/include/fontconfig/fcprivate.h
 file path=usr/include/fontconfig/fontconfig.h
+link path=usr/lib/$(ARCH64)/libfontconfig.so target=libfontconfig.so.1
 file path=usr/lib/$(ARCH64)/libfontconfig.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/fontconfig.pc
 file path=usr/lib/help/auths/locale/C/FontStates.html
+link path=usr/lib/libfontconfig.so target=libfontconfig.so.1
 file path=usr/lib/libfontconfig.so.1
 file path=usr/lib/pkgconfig/fontconfig.pc
+dir  path=usr/share/doc/fontconfig
+dir  path=usr/share/doc/fontconfig/fontconfig-devel facet.doc.html=true
 file path=usr/share/doc/fontconfig/fontconfig-devel.pdf
 file path=usr/share/doc/fontconfig/fontconfig-devel.txt
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcatomiccreate.html
@@ -116,19 +147,16 @@ file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetequal.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetfirstpage.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsethaschar.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetintersect.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetintersectcount.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetintersectcount.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetissubset.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetmerge.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetnew.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetnextpage.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetsubtract.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetsubtractcount.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetsubtractcount.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fccharsetunion.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigappfontadddir.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigappfontaddfile.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigappfontaddfile.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigappfontclear.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigbuildfonts.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigcreate.html
@@ -139,22 +167,18 @@ file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetblanks.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetcache.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetcachedirs.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetconfigdirs.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetconfigfiles.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetconfigfiles.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetcurrent.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetfontdirs.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetfonts.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetrescaninterval.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiggetrescaninterval.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfighome.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigparseandload.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigreference.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigsetcurrent.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigsetrescaninterval.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigsetrescaninterval.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigsubstitute.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigsubstitutewithpat.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfigsubstitutewithpat.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcconfiguptodate.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcdefaultsubstitute.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcdircacheload.html
@@ -182,8 +206,7 @@ file path=usr/share/doc/fontconfig/fontconfig-devel/fcfontsetsortdestroy.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcfontsort.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcfreetypecharindex.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcfreetypecharset.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcfreetypecharsetandspacing.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcfreetypecharsetandspacing.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcfreetypequery.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcfreetypequeryface.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcgetlangs.html
@@ -191,8 +214,7 @@ file path=usr/share/doc/fontconfig/fontconfig-devel/fcgetversion.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcinit.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcinitbringuptodate.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcinitloadconfig.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcinitloadconfigandfonts.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcinitloadconfigandfonts.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcinitreinitialize.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcislower.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcisupper.html
@@ -218,15 +240,11 @@ file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameconstant.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcnamegetconstant.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcnamegetobjecttype.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameparse.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcnameregisterconstants.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcnameregisterobjecttypes.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameregisterconstants.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameregisterobjecttypes.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameunparse.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcnameunregisterconstants.html
-file \
-    path=usr/share/doc/fontconfig/fontconfig-devel/fcnameunregisterobjecttypes.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameunregisterconstants.html
+file path=usr/share/doc/fontconfig/fontconfig-devel/fcnameunregisterobjecttypes.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcobjectsetadd.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcobjectsetbuild.html
 file path=usr/share/doc/fontconfig/fontconfig-devel/fcobjectsetcreate.html
@@ -475,42 +493,10 @@ file path=usr/share/man/man3/FcValueSave.3
 file path=usr/share/man/man3lib/libfontconfig.3lib
 file path=usr/share/man/man4/fonts.conf.4
 file path=usr/share/man/man5/fonts-conf.5
+dir  path=var/cache/fontconfig
 legacy pkg=SUNWfontconfig desc="Fontconfig library" name="Fontconfig library"
 legacy pkg=SUNWfontconfig-docs desc="Fontconfig library documentation" \
     name="Fontconfig library documentation" facet.doc=true
 legacy pkg=SUNWfontconfig-root \
     desc="Fontconfig library configuration files (/etc/fonts)" \
     name="Fontconfig library configuration files"
-link path=etc/fonts/conf.d/20-fix-globaladvance.conf \
-    target=../conf.avail/20-fix-globaladvance.conf
-link path=etc/fonts/conf.d/20-indic.conf target=../conf.avail/20-indic.conf
-link path=etc/fonts/conf.d/20-unhint-small-vera.conf \
-    target=../conf.avail/20-unhint-small-vera.conf
-link path=etc/fonts/conf.d/30-metric-aliases.conf \
-    target=../conf.avail/30-metric-aliases.conf
-link path=etc/fonts/conf.d/30-urw-aliases.conf \
-    target=../conf.avail/30-urw-aliases.conf
-link path=etc/fonts/conf.d/40-nonlatin.conf \
-    target=../conf.avail/40-nonlatin.conf
-link path=etc/fonts/conf.d/45-latin.conf target=../conf.avail/45-latin.conf
-link path=etc/fonts/conf.d/49-sansserif.conf \
-    target=../conf.avail/49-sansserif.conf
-link path=etc/fonts/conf.d/49-sun-preuser.conf \
-    target=../conf.avail/49-sun-preuser.conf
-link path=etc/fonts/conf.d/50-user.conf target=../conf.avail/50-user.conf
-link path=etc/fonts/conf.d/51-local.conf target=../conf.avail/51-local.conf
-link path=etc/fonts/conf.d/60-latin.conf target=../conf.avail/60-latin.conf
-link path=etc/fonts/conf.d/65-fonts-persian.conf \
-    target=../conf.avail/65-fonts-persian.conf
-link path=etc/fonts/conf.d/65-nonlatin.conf \
-    target=../conf.avail/65-nonlatin.conf
-link path=etc/fonts/conf.d/69-unifont.conf \
-    target=../conf.avail/69-unifont.conf
-link path=etc/fonts/conf.d/80-delicious.conf \
-    target=../conf.avail/80-delicious.conf
-link path=etc/fonts/conf.d/90-sun-prefer-bitmap.conf \
-    target=../conf.avail/90-sun-prefer-bitmap.conf
-link path=etc/fonts/conf.d/90-synthetic.conf \
-    target=../conf.avail/90-synthetic.conf
-link path=usr/lib/$(ARCH64)/libfontconfig.so target=libfontconfig.so.1
-link path=usr/lib/libfontconfig.so target=libfontconfig.so.1

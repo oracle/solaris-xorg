@@ -20,34 +20,36 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/freeglut@__version:freeglut__
-set name=pkg.description \
-    value="FreeGLUT 2.6.0 is an open-source implementation of the GLUT specification - a collection of useful API wrappers around OpenGL."
 set name=pkg.summary \
     value="FreeGLUT - an open-source implementation of the GLUT specification"
-#
-dir path=usr/share/doc/freeglut facet.doc.html=true
+set name=pkg.description \
+    value="FreeGLUT 2.6.0 is an open-source implementation of the GLUT specification - a collection of useful API wrappers around OpenGL."
 #
 file path=usr/include/GL/freeglut.h
 file path=usr/include/GL/freeglut_ext.h
 file path=usr/include/GL/freeglut_std.h
 file path=usr/include/GL/glut.h
-#
-file path=usr/lib/libglut.so.3.9.0
-file path=usr/lib/$(ARCH64)/libglut.so.3.9.0
-#
-link path=usr/lib/libglut.so.3 target=./libglut.so.3.9.0
-link path=usr/lib/libglut.so target=./libglut.so.3.9.0
-link path=usr/lib/$(ARCH64)/libglut.so.3 target=./libglut.so.3.9.0
 link path=usr/lib/$(ARCH64)/libglut.so target=./libglut.so.3.9.0
+link path=usr/lib/$(ARCH64)/libglut.so.3 target=./libglut.so.3.9.0
+file path=usr/lib/$(ARCH64)/libglut.so.3.9.0
+link path=usr/lib/GL/$(ARCH64)/libglut.so \
+    target=../../$(ARCH64)/libglut.so.3.9.0
+link path=usr/lib/GL/$(ARCH64)/libglut.so.3 \
+    target=../../$(ARCH64)/libglut.so.3.9.0
+link path=usr/lib/GL/libglut.so target=../libglut.so.3.9.0
 #
 link path=usr/lib/GL/libglut.so.3 target=../libglut.so.3.9.0
-link path=usr/lib/GL/libglut.so target=../libglut.so.3.9.0
-link path=usr/lib/GL/$(ARCH64)/libglut.so.3 target=../../$(ARCH64)/libglut.so.3.9.0
-link path=usr/lib/GL/$(ARCH64)/libglut.so target=../../$(ARCH64)/libglut.so.3.9.0
+link path=usr/lib/libglut.so target=./libglut.so.3.9.0
+#
+link path=usr/lib/libglut.so.3 target=./libglut.so.3.9.0
+#
+file path=usr/lib/libglut.so.3.9.0
+#
+dir  path=usr/share/doc/freeglut facet.doc.html=true
 #
 file path=usr/share/doc/freeglut/freeglut_user_interface.html
 #
 # Autodetected for now:
 # depend fmri=pkg:/service/opengl/ogl-select type=require
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true
 

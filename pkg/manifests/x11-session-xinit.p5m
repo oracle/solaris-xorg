@@ -20,28 +20,28 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/session/xinit@__version:xinit__
-set name=pkg.description \
-    value="xinit and startx are used to start the X Window System server and clients when a display manager or other startup methods are not in use."
 set name=pkg.summary \
     value="xinit & startx - X Window System manual session startup"
-dir path=etc/X11
-dir path=etc/X11/xinit
+set name=pkg.description \
+    value="xinit and startx are used to start the X Window System server and clients when a display manager or other startup methods are not in use."
+dir  path=etc/X11
+dir  path=etc/X11/xinit
 file path=etc/X11/xinit/xinitrc preserve=renamenew
+link path=usr/X11/bin/startx target=../../bin/startx
+link path=usr/X11/bin/xinit target=../../bin/xinit
 file path=usr/bin/startx
 file path=usr/bin/xinit
 file path=usr/share/man/man1/startx.1
 file path=usr/share/man/man1/xinit.1
-link path=usr/X11/bin/startx target=../../bin/startx
-link path=usr/X11/bin/xinit target=../../bin/xinit
-# Default xinit session uses twm for window manager
-depend fmri=pkg:/desktop/window-manager/twm type=require
 # startx runs /usr/bin/od to read /dev/urandom
-depend fmri=__TBD pkg.debug.depend.file=usr/bin/od type=require
+depend type=require fmri=__TBD pkg.debug.depend.file=usr/bin/od
+# Default xinit session uses twm for window manager
+depend type=require fmri=pkg:/desktop/window-manager/twm
 # startx runs kbd_mode to reset kbd state on Xserver exit/crash
-depend fmri=pkg:/system/keyboard/kbd_mode type=require
+depend type=require fmri=pkg:/system/keyboard/kbd_mode
 # Default xinit session runs xterm
-depend fmri=pkg:/terminal/xterm type=require
+depend type=require fmri=pkg:/terminal/xterm
 # startx runs xauth to save cookies to .Xauthority
-depend fmri=pkg:/x11/session/xauth type=require
+depend type=require fmri=pkg:/x11/session/xauth
 # Default xinit session uses xrdb & xmodmap
-depend fmri=pkg:/x11/x11-server-utilities type=require
+depend type=require fmri=pkg:/x11/x11-server-utilities

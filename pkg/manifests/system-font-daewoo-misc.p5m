@@ -21,11 +21,14 @@
 #
 set name=pkg.fmri \
     value=pkg:/system/font/daewoo-misc@__version:font-daewoo-misc__
+set name=pkg.summary value="Korean bitmap fonts from Daewoo Electronics"
 set name=pkg.description \
     value="X Window System font files contributed to X.Org Foundation open source release by Daewoo Electronics"
-set name=pkg.summary value="Korean bitmap fonts from Daewoo Electronics"
-
-dir path=usr/share/fonts/X11/daewoo
+link path=etc/X11/fontpath.d/daewoo:pri=75 \
+    target=../../../usr/share/fonts/X11/daewoo
+link path=etc/X11/fontpath.d/daewoo:unscaled:pri=30 \
+    target=../../../usr/share/fonts/X11/daewoo
+dir  path=usr/share/fonts/X11/daewoo
 file path=usr/share/fonts/X11/daewoo/fonts.dir
 file path=usr/share/fonts/X11/daewoo/hanglg16.pcf
 file path=usr/share/fonts/X11/daewoo/hanglm16.pcf
@@ -33,7 +36,3 @@ file path=usr/share/fonts/X11/daewoo/hanglm24.pcf
 legacy pkg=SUNWfont-daewoo-misc \
     desc="X Window System font files contributed to X.Org Foundation open source release by Daewoo Electronics" \
     name="Korean bitmap fonts from Daewoo Electronics"
-link path=etc/X11/fontpath.d/daewoo:pri=75 \
-    target=../../../usr/share/fonts/X11/daewoo
-link path=etc/X11/fontpath.d/daewoo:unscaled:pri=30 \
-    target=../../../usr/share/fonts/X11/daewoo

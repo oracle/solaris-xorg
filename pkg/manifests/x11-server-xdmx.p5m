@@ -20,11 +20,11 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/server/xdmx@__version:xorg-server__
+set name=pkg.summary value="Xdmx - Distributed Multihead X"
 set name=pkg.description \
     value="Xdmx is an X server that can tie several local or remote X servers into one multihead X server"
-set name=pkg.summary value="Xdmx - Distributed Multihead X"
+$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xdmx target=../Xdmx
 file path=usr/bin/Xdmx
-
 file path=usr/bin/dmxaddinput
 file path=usr/bin/dmxaddscreen
 file path=usr/bin/dmxinfo
@@ -36,14 +36,12 @@ file path=usr/bin/dmxtodmx
 file path=usr/bin/dmxwininfo
 file path=usr/bin/vdltodmx
 file path=usr/bin/xdmxconfig
-
+link path=usr/lib/mdb/proc/$(ARCH64)/Xdmx.so target=Xserver.so
 file path=usr/share/man/man1/Xdmx.1
 file path=usr/share/man/man1/dmxtodmx.1
 file path=usr/share/man/man1/vdltodmx.1
 file path=usr/share/man/man1/xdmxconfig.1
-$(i386_ONLY)link path=usr/bin/$(ARCH64)/Xdmx target=../Xdmx
-link path=usr/lib/mdb/proc/$(ARCH64)/Xdmx.so target=Xserver.so
 
 # X servers require xkbcomp & data-xkb for keyboard layouts
-depend fmri=pkg:/x11/keyboard/data-xkb type=require
-depend fmri=pkg:/x11/keyboard/xkbcomp type=require
+depend type=require fmri=pkg:/x11/keyboard/data-xkb
+depend type=require fmri=pkg:/x11/keyboard/xkbcomp

@@ -21,11 +21,11 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-video-ast@__version:xf86-video-ast__
-set name=pkg.description \
-    value="Xorg video driver for AST remote console/KVM devices in enterprise server service processors."
 set name=pkg.summary \
     value="xf86-video-ast - ASpeed Technologies graphics driver for Xorg X server"
+set name=pkg.description \
+    value="Xorg video driver for AST remote console/KVM devices in enterprise server service processors, including some models of the Sun/Oracle Integrated Lights-Out Management (ILOM) module."
 file path=usr/lib/xorg/modules/drivers/ast_drv.so
 
 # SPARC version requires sparc kernel fb driver
-$(sparc_ONLY)depend fmri=pkg:/driver/graphics/ast type=require
+$(sparc_ONLY)depend type=require fmri=pkg:/driver/graphics/ast

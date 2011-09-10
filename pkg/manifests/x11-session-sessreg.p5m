@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/session/sessreg@__version:sessreg__
+set name=pkg.summary value="sessreg - X session utmp/wtmp registration"
 set name=pkg.description \
     value="Sessreg is a simple program for managing utmp/wtmp entries for X sessions. It was originally written for use with xdm, but may also be used with other display managers such as gdm or kdm."
-set name=pkg.summary value="sessreg - X session utmp/wtmp registration"
+link path=usr/X11/bin/sessreg target=../../bin/sessreg
 file path=usr/bin/sessreg
 file path=usr/share/man/man1/sessreg.1
-link path=usr/X11/bin/sessreg target=../../bin/sessreg

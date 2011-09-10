@@ -20,15 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/document/viewer/xditview@__version:xditview__
+set name=pkg.summary value="xditview - display ditroff output"
 set name=pkg.description \
     value="The xditview program displays ditroff output on an X display."
-set name=pkg.summary value="xditview - display ditroff output"
+link path=usr/X11/bin/xditview target=../../bin/xditview
 file path=usr/bin/xditview
 file path=usr/include/X11/bitmaps/ldblarrow
 file path=usr/include/X11/bitmaps/rdblarrow
 file path=usr/share/X11/app-defaults/Xditview
 file path=usr/share/X11/app-defaults/Xditview-chrtr
 file path=usr/share/man/man1/xditview.1
-link path=usr/X11/bin/xditview target=../../bin/xditview
 # xditview app-defaults specifies helvetica & courier fonts
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+depend type=require fmri=pkg:/system/font/xorg/xorg-core

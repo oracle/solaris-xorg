@@ -20,12 +20,22 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/font/xorg/iso8859-15@$(X11PKGVERS)
+set name=pkg.summary value="X.Org Foundation X11 iso8859-15 bitmap fonts"
 set name=pkg.description \
     value="X Window System bitmap font files based on X.Org Foundation open source release"
-set name=pkg.summary value="X.Org Foundation X11 iso8859-15 bitmap fonts"
-dir path=usr/share/fonts/X11/100dpi-ISO8859-15
-dir path=usr/share/fonts/X11/75dpi-ISO8859-15
-dir path=usr/share/fonts/X11/misc-ISO8859-15
+link path=etc/X11/fontpath.d/100dpi-ISO8859-15:pri=91 \
+    target=../../../usr/share/fonts/X11/100dpi-ISO8859-15
+link path=etc/X11/fontpath.d/100dpi-ISO8859-15:unscaled:pri=21 \
+    target=../../../usr/share/fonts/X11/100dpi-ISO8859-15
+link path=etc/X11/fontpath.d/75dpi-ISO8859-15:pri=96 \
+    target=../../../usr/share/fonts/X11/75dpi-ISO8859-15
+link path=etc/X11/fontpath.d/75dpi-ISO8859-15:unscaled:pri=26 \
+    target=../../../usr/share/fonts/X11/75dpi-ISO8859-15
+link path=etc/X11/fontpath.d/misc-ISO8859-15:pri=86 \
+    target=../../../usr/share/fonts/X11/misc-ISO8859-15
+link path=etc/X11/fontpath.d/misc-ISO8859-15:unscaled:pri=16 \
+    target=../../../usr/share/fonts/X11/misc-ISO8859-15
+dir  path=usr/share/fonts/X11/100dpi-ISO8859-15
 file path=usr/share/fonts/X11/100dpi-ISO8859-15/UTBI__10-ISO8859-15.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-15/UTBI__12-ISO8859-15.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-15/UTBI__14-ISO8859-15.pcf
@@ -213,6 +223,7 @@ file path=usr/share/fonts/X11/100dpi-ISO8859-15/timR12-ISO8859-15.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-15/timR14-ISO8859-15.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-15/timR18-ISO8859-15.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-15/timR24-ISO8859-15.pcf
+dir  path=usr/share/fonts/X11/75dpi-ISO8859-15
 file path=usr/share/fonts/X11/75dpi-ISO8859-15/UTBI__10-ISO8859-15.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-15/UTBI__12-ISO8859-15.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-15/UTBI__14-ISO8859-15.pcf
@@ -400,6 +411,7 @@ file path=usr/share/fonts/X11/75dpi-ISO8859-15/timR12-ISO8859-15.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-15/timR14-ISO8859-15.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-15/timR18-ISO8859-15.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-15/timR24-ISO8859-15.pcf
+dir  path=usr/share/fonts/X11/misc-ISO8859-15
 file path=usr/share/fonts/X11/misc-ISO8859-15/10x20-ISO8859-15.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-15/4x6-ISO8859-15.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-15/5x7-ISO8859-15.pcf
@@ -427,15 +439,3 @@ file path=usr/share/fonts/X11/misc-ISO8859-15/fonts.dir
 legacy pkg=SUNWfont-xorg-iso8859-15 \
     desc="X Window System font files based on X.Org Foundation open source release" \
     name="X.Org Foundation X11 iso8859-15 fonts"
-link path=etc/X11/fontpath.d/100dpi-ISO8859-15:pri=91 \
-    target=../../../usr/share/fonts/X11/100dpi-ISO8859-15
-link path=etc/X11/fontpath.d/100dpi-ISO8859-15:unscaled:pri=21 \
-    target=../../../usr/share/fonts/X11/100dpi-ISO8859-15
-link path=etc/X11/fontpath.d/75dpi-ISO8859-15:pri=96 \
-    target=../../../usr/share/fonts/X11/75dpi-ISO8859-15
-link path=etc/X11/fontpath.d/75dpi-ISO8859-15:unscaled:pri=26 \
-    target=../../../usr/share/fonts/X11/75dpi-ISO8859-15
-link path=etc/X11/fontpath.d/misc-ISO8859-15:pri=86 \
-    target=../../../usr/share/fonts/X11/misc-ISO8859-15
-link path=etc/X11/fontpath.d/misc-ISO8859-15:unscaled:pri=16 \
-    target=../../../usr/share/fonts/X11/misc-ISO8859-15

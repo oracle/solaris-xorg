@@ -21,20 +21,30 @@
 #
 
 set name=pkg.fmri value=pkg:/system/font/xorg/xorg-core@$(X11PKGVERS)
+set name=pkg.summary value="X.Org Foundation X11 core fonts"
 set name=pkg.description \
     value="X Window System bitmap & scalable font files based on X.Org Foundation open source release"
-set name=pkg.summary value="X.Org Foundation X11 core fonts"
-dir path=etc/X11/fontpath.d
-dir path=usr/X11/lib/X11
-dir path=usr/X11/lib/X11/fonts
-dir path=usr/share/fonts
-dir path=usr/share/fonts/X11
-dir path=usr/share/fonts/X11/100dpi
-dir path=usr/share/fonts/X11/75dpi
-dir path=usr/share/fonts/X11/Type1
-dir path=usr/share/fonts/X11/cyrillic
-dir path=usr/share/fonts/X11/misc
-
+dir  path=etc/X11/fontpath.d
+link path=etc/X11/fontpath.d/100dpi:pri=92 \
+    target=../../../usr/share/fonts/X11/100dpi
+link path=etc/X11/fontpath.d/100dpi:unscaled:pri=22 \
+    target=../../../usr/share/fonts/X11/100dpi
+link path=etc/X11/fontpath.d/75dpi:pri=97 \
+    target=../../../usr/share/fonts/X11/75dpi
+link path=etc/X11/fontpath.d/75dpi:unscaled:pri=27 \
+    target=../../../usr/share/fonts/X11/75dpi
+link path=etc/X11/fontpath.d/Type1:pri=45 \
+    target=../../../usr/share/fonts/X11/Type1
+link path=etc/X11/fontpath.d/misc:pri=87 \
+    target=../../../usr/share/fonts/X11/misc
+link path=etc/X11/fontpath.d/misc:unscaled:pri=17 \
+    target=../../../usr/share/fonts/X11/misc
+dir  path=usr/X11/lib/X11
+dir  path=usr/X11/lib/X11/fonts
+link path=usr/X11/lib/X11/fonts/misc target=../../../../share/fonts/X11/misc
+dir  path=usr/share/fonts
+dir  path=usr/share/fonts/X11
+dir  path=usr/share/fonts/X11/100dpi
 file path=usr/share/fonts/X11/100dpi/UTBI__10.pcf
 file path=usr/share/fonts/X11/100dpi/UTBI__12.pcf
 file path=usr/share/fonts/X11/100dpi/UTBI__14.pcf
@@ -258,6 +268,7 @@ file path=usr/share/fonts/X11/100dpi/timR12.pcf
 file path=usr/share/fonts/X11/100dpi/timR14.pcf
 file path=usr/share/fonts/X11/100dpi/timR18.pcf
 file path=usr/share/fonts/X11/100dpi/timR24.pcf
+dir  path=usr/share/fonts/X11/75dpi
 file path=usr/share/fonts/X11/75dpi/UTBI__10.pcf
 file path=usr/share/fonts/X11/75dpi/UTBI__12.pcf
 file path=usr/share/fonts/X11/75dpi/UTBI__14.pcf
@@ -481,6 +492,7 @@ file path=usr/share/fonts/X11/75dpi/timR12.pcf
 file path=usr/share/fonts/X11/75dpi/timR14.pcf
 file path=usr/share/fonts/X11/75dpi/timR18.pcf
 file path=usr/share/fonts/X11/75dpi/timR24.pcf
+dir  path=usr/share/fonts/X11/Type1
 file path=usr/share/fonts/X11/Type1/UTBI____.afm
 file path=usr/share/fonts/X11/Type1/UTBI____.pfa
 file path=usr/share/fonts/X11/Type1/UTB_____.afm
@@ -542,7 +554,9 @@ file path=usr/share/fonts/X11/Type1/l049033t.afm
 file path=usr/share/fonts/X11/Type1/l049033t.pfa
 file path=usr/share/fonts/X11/Type1/l049036t.afm
 file path=usr/share/fonts/X11/Type1/l049036t.pfa
+dir  path=usr/share/fonts/X11/cyrillic
 file path=usr/share/fonts/X11/cyrillic/fonts.alias
+dir  path=usr/share/fonts/X11/misc
 file path=usr/share/fonts/X11/misc/10x20-KOI8-R.pcf
 file path=usr/share/fonts/X11/misc/10x20.pcf
 file path=usr/share/fonts/X11/misc/12x13ja.pcf
@@ -644,18 +658,3 @@ file path=usr/share/fonts/X11/misc/olgl19.pcf
 legacy pkg=SUNWfont-xorg-core \
     desc="X Window System font files based on X.Org Foundation open source release" \
     name="X.Org Foundation X11 core fonts"
-link path=etc/X11/fontpath.d/100dpi:pri=92 \
-    target=../../../usr/share/fonts/X11/100dpi
-link path=etc/X11/fontpath.d/100dpi:unscaled:pri=22 \
-    target=../../../usr/share/fonts/X11/100dpi
-link path=etc/X11/fontpath.d/75dpi:pri=97 \
-    target=../../../usr/share/fonts/X11/75dpi
-link path=etc/X11/fontpath.d/75dpi:unscaled:pri=27 \
-    target=../../../usr/share/fonts/X11/75dpi
-link path=etc/X11/fontpath.d/Type1:pri=45 \
-    target=../../../usr/share/fonts/X11/Type1
-link path=etc/X11/fontpath.d/misc:pri=87 \
-    target=../../../usr/share/fonts/X11/misc
-link path=etc/X11/fontpath.d/misc:unscaled:pri=17 \
-    target=../../../usr/share/fonts/X11/misc
-link path=usr/X11/lib/X11/fonts/misc target=../../../../share/fonts/X11/misc

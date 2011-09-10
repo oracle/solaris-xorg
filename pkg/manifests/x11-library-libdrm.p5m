@@ -20,12 +20,13 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libdrm@__version:libdrm__
-set name=pkg.description \
-    value="User-space library interface to kernel modules using the Direct Rendering Infrastructure (DRI) and Kernel Mode-Setting (KMS) interfaces"
 set name=pkg.summary \
     value="Direct Rendering Module (DRM) client libraries/interface"
-dir path=usr/include/libdrm
-dir path=usr/include/libkms
+set name=pkg.description \
+    value="User-space library interface to kernel modules using the Direct Rendering Infrastructure (DRI) and Kernel Mode-Setting (KMS) interfaces"
+link path=usr/X11/include/drm target=../../include/drm
+link path=usr/include/drm target=libdrm
+dir  path=usr/include/libdrm
 file path=usr/include/libdrm/drm.h
 file path=usr/include/libdrm/drm_mode.h
 file path=usr/include/libdrm/drm_sarea.h
@@ -39,6 +40,7 @@ file path=usr/include/libdrm/radeon_drm.h
 file path=usr/include/libdrm/savage_drm.h
 file path=usr/include/libdrm/sis_drm.h
 file path=usr/include/libdrm/via_drm.h
+dir  path=usr/include/libkms
 file path=usr/include/libkms/libkms.h
 file path=usr/include/xf86drm.h
 file path=usr/include/xf86drmMode.h
@@ -48,19 +50,17 @@ file path=usr/lib/$(ARCH64)/pkgconfig/libkms.pc
 file path=usr/lib/pkgconfig/libdrm.pc
 $(i386_ONLY)file path=usr/lib/pkgconfig/libdrm_intel.pc
 file path=usr/lib/pkgconfig/libkms.pc
-file path=usr/lib/xorg/$(ARCH64)/libdrm.so.2
-$(i386_ONLY)file path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so.1
-file path=usr/lib/xorg/$(ARCH64)/libkms.so.1
-file path=usr/lib/xorg/libdrm.so.2
-$(i386_ONLY)file path=usr/lib/xorg/libdrm_intel.so.1
-file path=usr/lib/xorg/libkms.so.1
-link path=usr/X11/include/drm target=../../include/drm
-link path=usr/include/drm target=libdrm
 link path=usr/lib/xorg/$(ARCH64)/libdrm.so target=libdrm.so.2
+file path=usr/lib/xorg/$(ARCH64)/libdrm.so.2
 $(i386_ONLY)link path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so \
     target=libdrm_intel.so.1
+$(i386_ONLY)file path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so.1
 link path=usr/lib/xorg/$(ARCH64)/libkms.so target=libkms.so.1
+file path=usr/lib/xorg/$(ARCH64)/libkms.so.1
 link path=usr/lib/xorg/libdrm.so target=libdrm.so.2
+file path=usr/lib/xorg/libdrm.so.2
 $(i386_ONLY)link path=usr/lib/xorg/libdrm_intel.so target=libdrm_intel.so.1
+$(i386_ONLY)file path=usr/lib/xorg/libdrm_intel.so.1
 link path=usr/lib/xorg/libkms.so target=libkms.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/xorg/libkms.so.1
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

@@ -21,9 +21,9 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/library/libpthread-stubs@__version:libpthread-stubs__
-set name=pkg.description \
-    value="This library provides weak aliases for pthread functions not provided in libc or otherwise available by default.  Libraries like libxcb rely on pthread stubs to use pthreads optionally, becoming thread-safe when linked to libpthread, while avoiding any performance hit when running single-threaded. libpthread-stubs supports this behavior even on platforms which do not supply all the necessary pthread stubs.  On platforms (such as Solaris) which already supply all the necessary pthread stubs, this package ships only the pkg-config file pthread-stubs.pc, to allow libraries to unconditionally express a dependency on pthread-stubs and still obtain correct behavior."
 set name=pkg.summary \
     value="pthread-stubs - pkg-config data file for building software using POSIX threads"
+set name=pkg.description \
+    value="This library provides weak aliases for pthread functions not provided in libc or otherwise available by default.  Libraries like libxcb rely on pthread stubs to use pthreads optionally, becoming thread-safe when linked to libpthread, while avoiding any performance hit when running single-threaded. libpthread-stubs supports this behavior even on platforms which do not supply all the necessary pthread stubs.  On platforms (such as Solaris) which already supply all the necessary pthread stubs, this package ships only the pkg-config file pthread-stubs.pc, to allow libraries to unconditionally express a dependency on pthread-stubs and still obtain correct behavior."
 file path=usr/lib/$(ARCH64)/pkgconfig/pthread-stubs.pc
 file path=usr/lib/pkgconfig/pthread-stubs.pc

@@ -20,8 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/developer/opensolaris/X@$(OSPKGVERS)
-set name=pkg.summary \
-    value="Dependencies required to build the X Consolidation."
+set name=pkg.summary value="Dependencies required to build the X Consolidation."
 set name=info.classification \
     value="org.opensolaris.category.2008:Development/Distribution Tools"
 
@@ -31,153 +30,153 @@ set name=info.classification \
 set name=org.opensolaris.noincorp value=true
 
 # Builds need to be able to uncompress upstream tar.bz2 & tar.gz files
-depend fmri=pkg:/compress/bzip2 type=require
-depend fmri=pkg:/compress/gzip type=require
+depend type=require fmri=pkg:/compress/bzip2
+depend type=require fmri=pkg:/compress/gzip
 
 # X.Org ships many docs using the DocBook XML DTD's and stylesheets
-depend fmri=pkg:/data/docbook/docbook-style-dsssl type=require
-depend fmri=pkg:/data/docbook/docbook-style-xsl type=require
-depend fmri=pkg:/data/sgml-common type=require
-depend fmri=pkg:/data/xml-common type=require
+depend type=require fmri=pkg:/data/docbook/docbook-style-dsssl
+depend type=require fmri=pkg:/data/docbook/docbook-style-xsl
+depend type=require fmri=pkg:/data/sgml-common
+depend type=require fmri=pkg:/data/xml-common
 
 # Solaris assembler required by Studio compilers
-depend fmri=pkg:/developer/assembler type=require
+depend type=require fmri=pkg:/developer/assembler
 
 # Basic build utilities - nm, mcs, etc.
-depend fmri=pkg:/developer/base-developer-utilities type=require
+depend type=require fmri=pkg:/developer/base-developer-utilities
 
 # Many packages need to use GNU autotools to rebuild upstream configure files
-depend fmri=pkg:/developer/build/autoconf type=require
-depend fmri=pkg:/developer/build/automake-110 type=require
+depend type=require fmri=pkg:/developer/build/autoconf
+depend type=require fmri=pkg:/developer/build/automake-110
 
 # Some packages need GNU make to build
-depend fmri=pkg:/developer/build/gnu-make type=require
+depend type=require fmri=pkg:/developer/build/gnu-make
 
 # Many packages need to use GNU libtool to rebuild upstream libtool files
-depend fmri=pkg:/developer/build/libtool type=require
+depend type=require fmri=pkg:/developer/build/libtool
 
 # Most of the X gate requires Solaris make to build
-depend fmri=pkg:/developer/build/make type=require
+depend type=require fmri=pkg:/developer/build/make
 
 # The X gate borrows some ON scripts to build, such as validate_pkg
-depend fmri=pkg:/developer/build/onbld type=require
+depend type=require fmri=pkg:/developer/build/onbld
 
 # Xserver build includes mdb modules
-depend fmri=pkg:/developer/debug/mdb type=require
+depend type=require fmri=pkg:/developer/debug/mdb
 
 # Tools needed to process DocBook docs
-depend fmri=pkg:/developer/documentation-tool/openjade type=require
-depend fmri=pkg:/developer/documentation-tool/opensp type=require
+depend type=require fmri=pkg:/developer/documentation-tool/openjade
+depend type=require fmri=pkg:/developer/documentation-tool/opensp
 
 # Xserver build includes dtrace probes
-depend fmri=pkg:/developer/dtrace type=require
+depend type=require fmri=pkg:/developer/dtrace
 
 # Some modules use gcc to build
-depend fmri=pkg:/developer/gcc-3 type=require
+depend type=require fmri=pkg:/developer/gcc-3
 
 # For now, this is the package that delivers pkg-config (Defect #15543)
-depend fmri=pkg:/developer/gnome/gettext type=require
+depend type=require fmri=pkg:/developer/gnome/gettext
 
 # xcb-util needs gperf to generate hash functions
-depend fmri=pkg:/developer/gperf type=require
+depend type=require fmri=pkg:/developer/gperf
 
 # tigervnc builds a java applet with javac
-depend fmri=pkg:/developer/java/jdk type=require
+depend type=require fmri=pkg:/developer/java/jdk
 
 # Various modules need flex to generate lexers
-depend fmri=pkg:/developer/lexer/flex type=require
+depend type=require fmri=pkg:/developer/lexer/flex
 
 # Various libraries build lint libraries, that depend on system lint libs
-depend fmri=pkg:/developer/library/lint type=require
+depend type=require fmri=pkg:/developer/library/lint
 
 # xcb, xcb-util, xcb-util-wm need GNU M4 to build
 # (also required by any module running autoconf/autoreconf)
-depend fmri=pkg:/developer/macro/gnu-m4 type=require
+depend type=require fmri=pkg:/developer/macro/gnu-m4
 
 # Xserver build uses flex & bison
-depend fmri=pkg:/developer/parser/bison type=require
+depend type=require fmri=pkg:/developer/parser/bison
 
 # autopoint (from gnu gettext) requires CVS!
-depend fmri=pkg:/developer/versioning/cvs type=require
+depend type=require fmri=pkg:/developer/versioning/cvs
 
 # X gate source is kept in mercurial scm
-depend fmri=pkg:/developer/versioning/mercurial type=require
+depend type=require fmri=pkg:/developer/versioning/mercurial
 
 # Driver packages delivering headers we require
-$(i386_ONLY)depend fmri=pkg:/driver/graphics/agpgart type=require
-depend fmri=pkg:/driver/usb type=require
+$(i386_ONLY)depend type=require fmri=pkg:/driver/graphics/agpgart
+depend type=require fmri=pkg:/driver/usb
 
 # autoconf scripts prefer various gnu utilities (mkdir, install, etc.)
-depend fmri=pkg:/file/gnu-coreutils type=require
+depend type=require fmri=pkg:/file/gnu-coreutils
 
 # tigervnc links with libjpg
-depend fmri=pkg:/image/library/libjpeg type=require
+depend type=require fmri=pkg:/image/library/libjpeg
 
 # app/xcursorgen links with libpng12
-depend fmri=pkg:/image/library/libpng type=require
+depend type=require fmri=pkg:/image/library/libpng
 
 # synergy-plus links against libstdcxx
-depend fmri=pkg:/library/c++/stdcxx type=require
+depend type=require fmri=pkg:/library/c++/stdcxx
 
 # lib/fontconfig links with libexpat
-depend fmri=pkg:/library/expat type=require
+depend type=require fmri=pkg:/library/expat
 
 # xcb-proto runs xmllint
-depend fmri=pkg:/library/libxml2 type=require
+depend type=require fmri=pkg:/library/libxml2
 
 # A number of X packages use xsltproc to process DocBook and other XML files
-depend fmri=pkg:/library/libxslt type=require
+depend type=require fmri=pkg:/library/libxslt
 
 # AccessX & DPS require motif libraries
-depend fmri=pkg:/library/motif type=require
+depend type=require fmri=pkg:/library/motif
 
 # xterm uses ncurses/term.h
-depend fmri=pkg:/library/ncurses type=require
+depend type=require fmri=pkg:/library/ncurses
 
 # Mesa 7.10.2 requires libxml2 python module
-depend fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION) type=require
+depend type=require fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION)
 
 # freetype, libXfont & libfontenc link with libz
-depend fmri=pkg:/library/zlib type=require
+depend type=require fmri=pkg:/library/zlib
 
 # Build runs a number of perl scripts
-depend fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION) type=require
+depend type=require fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION)
 
 # xcb & mesa require python interpreter/compiler
-depend fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION) type=require
+depend type=require fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION)
 
 # Xserver currently links with HAL & Dbus
-depend fmri=pkg:/service/hal type=require
+depend type=require fmri=pkg:/service/hal
 
 # Basic system headers & libraries
-depend fmri=pkg:/system/header type=require
-depend fmri=pkg:/system/library type=require
-depend fmri=pkg:/system/library/c++-runtime type=require
-depend fmri=pkg:/system/library/flex-runtime type=require
-depend fmri=pkg:/system/library/gcc-3-runtime type=require
-depend fmri=pkg:/system/library/libdbus type=require
-depend fmri=pkg:/system/library/math type=require
+depend type=require fmri=pkg:/system/header
+depend type=require fmri=pkg:/system/library
+depend type=require fmri=pkg:/system/library/c++-runtime
+depend type=require fmri=pkg:/system/library/flex-runtime
+depend type=require fmri=pkg:/system/library/gcc-3-runtime
+depend type=require fmri=pkg:/system/library/libdbus
+depend type=require fmri=pkg:/system/library/math
 
 # Almost all modules need Solaris ld to link binaries
-depend fmri=pkg:/system/linker type=require
+depend type=require fmri=pkg:/system/linker
 
 # autoconf scripts prefer gnu awk
-depend fmri=pkg:/text/gawk type=require
+depend type=require fmri=pkg:/text/gawk
 
 # Some packages need GNU gettext to process upstream localization data
-depend fmri=pkg:/text/gnu-gettext type=require
+depend type=require fmri=pkg:/text/gnu-gettext
 
 # autoconf scripts prefer gnu grep
-depend fmri=pkg:/text/gnu-grep type=require
+depend type=require fmri=pkg:/text/gnu-grep
 
 # Builds need to be able to apply local patches
-depend fmri=pkg:/text/gnu-patch type=require
+depend type=require fmri=pkg:/text/gnu-patch
 
 # autoconf scripts prefer gnu sed
-depend fmri=pkg:/text/gnu-sed type=require
+depend type=require fmri=pkg:/text/gnu-sed
 
 # w3m is used to convert html docs to text, after generating html from docbook
-depend fmri=pkg:/web/browser/w3m type=require
+depend type=require fmri=pkg:/web/browser/w3m
 
 # Builds need to be able to download upstream sources with wget
-depend fmri=pkg:/web/wget type=require
+depend type=require fmri=pkg:/web/wget

@@ -20,17 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/desktop/window-manager/twm@__version:twm__
+set name=pkg.summary value="twm - Tab Window Manager for the X Window System"
 set name=pkg.description \
     value="Twm is a simple window manager for the X Window System.  It provides titlebars, shaped windows, several forms of icon management, user-defined macro functions, click-to-type  and pointer-driven  keyboard  focus,  and user-specified key and pointer button bindings."
-set name=pkg.summary value="twm - Tab Window Manager for the X Window System"
-dir path=usr/share/X11/twm
+link path=usr/X11/bin/twm target=../../bin/twm
 file path=usr/bin/twm
+dir  path=usr/share/X11/twm
 file path=usr/share/X11/twm/system.twmrc
 file path=usr/share/man/man1/twm.1
-link path=usr/X11/bin/twm target=../../bin/twm
 # system.twmrc uses -adobe-helvetica-* fonts
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+depend type=require fmri=pkg:/system/font/xorg/xorg-core
 # system.twmrc includes an xterm menu item
-depend fmri=pkg:/terminal/xterm type=require
+depend type=require fmri=pkg:/terminal/xterm
 # twm loads various bitmaps via XmuLocateBitmapFile
-depend fmri=pkg:/x11/data/xbitmaps type=require
+depend type=require fmri=pkg:/x11/data/xbitmaps

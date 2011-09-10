@@ -21,9 +21,9 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-mouse@__version:xf86-input-mouse__
-set name=pkg.description value="Xorg mouse input driver"
 set name=pkg.summary \
     value="xf86-input-mouse - Mouse input driver for the Xorg X server"
+set name=pkg.description value="Xorg mouse input driver"
 file path=usr/lib/xorg/modules/input/mouse_drv.so
 file path=usr/share/doc/X11/README.mouse
 file path=usr/share/man/man7/mousedrv.7

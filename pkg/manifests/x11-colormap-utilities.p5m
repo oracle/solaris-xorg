@@ -20,9 +20,13 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/colormap-utilities@$(X11PKGVERS)
+set name=pkg.summary value="X Colormap Utilities"
 set name=pkg.description \
     value="Utilties for viewing and manipulating entries in X colormaps, especially those associated with low bit-depth visuals."
-set name=pkg.summary value="X Colormap Utilities"
+link path=usr/X11/bin/cmap_alloc target=../../bin/cmap_alloc
+link path=usr/X11/bin/cmap_compact target=../../bin/cmap_compact
+link path=usr/X11/bin/xcolor target=../../bin/xcolor
+link path=usr/X11/bin/xstdcmap target=../../bin/xstdcmap
 file path=usr/bin/cmap_alloc
 file path=usr/bin/cmap_compact
 file path=usr/bin/xcolor
@@ -31,7 +35,3 @@ file path=usr/share/man/man1/cmap_alloc.1
 file path=usr/share/man/man1/cmap_compact.1
 file path=usr/share/man/man1/xcolor.1
 file path=usr/share/man/man1/xstdcmap.1
-link path=usr/X11/bin/cmap_alloc target=../../bin/cmap_alloc
-link path=usr/X11/bin/cmap_compact target=../../bin/cmap_compact
-link path=usr/X11/bin/xcolor target=../../bin/xcolor
-link path=usr/X11/bin/xstdcmap target=../../bin/xstdcmap

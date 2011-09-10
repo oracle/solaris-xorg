@@ -21,10 +21,10 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-video-ati@__version:xf86-video-ati__
+set name=pkg.summary \
+    value="xf86-video-ati - ATI/AMD Radeon video driver for the Xorg X server"
 set name=pkg.description \
     value="Xorg video driver for ATI Radeon and Radeon HD graphics devices from AMD"
-set name=pkg.summary \
-    value="xf86-video-ati - ATI Radeon video driver for the Xorg X server"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/dri/r200_dri.so
 file path=usr/lib/xorg/modules/dri/r300_dri.so

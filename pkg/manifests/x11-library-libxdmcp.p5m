@@ -20,25 +20,25 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxdmcp@__version:libXdmcp__
-set name=pkg.description \
-    value="Library used by X clients and servers to support the XDMCP protocol for remote X session setup."
 set name=pkg.summary \
     value="libXdmcp - X Display Manager Control Protocol (XDMCP) library"
-dir path=usr/share/doc/libXdmcp
-file path=usr/include/X11/Xdmcp.h
-file path=usr/lib/$(ARCH64)/libXdmcp.so.6
-file path=usr/lib/$(ARCH64)/llib-lXdmcp.ln
-file path=usr/lib/$(ARCH64)/pkgconfig/xdmcp.pc
-file path=usr/lib/libXdmcp.so.6
-file path=usr/lib/llib-lXdmcp.ln
-file path=usr/lib/pkgconfig/xdmcp.pc
-file path=usr/share/doc/libXdmcp/xdmcp.xml
+set name=pkg.description \
+    value="Library used by X clients and servers to support the XDMCP protocol for remote X session setup."
 link path=usr/X11/lib/$(ARCH64)/libXdmcp.so \
     target=../../../lib/$(ARCH64)/libXdmcp.so
 link path=usr/X11/lib/$(ARCH64)/libXdmcp.so.6 \
     target=../../../lib/$(ARCH64)/libXdmcp.so.6
 link path=usr/X11/lib/libXdmcp.so target=../../lib/libXdmcp.so
 link path=usr/X11/lib/libXdmcp.so.6 target=../../lib/libXdmcp.so.6
+file path=usr/include/X11/Xdmcp.h
 link path=usr/lib/$(ARCH64)/libXdmcp.so target=libXdmcp.so.6
+file path=usr/lib/$(ARCH64)/libXdmcp.so.6
+file path=usr/lib/$(ARCH64)/llib-lXdmcp.ln
+file path=usr/lib/$(ARCH64)/pkgconfig/xdmcp.pc
 link path=usr/lib/libXdmcp.so target=libXdmcp.so.6
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libXdmcp.so.6
+file path=usr/lib/llib-lXdmcp.ln
+file path=usr/lib/pkgconfig/xdmcp.pc
+dir  path=usr/share/doc/libXdmcp
+file path=usr/share/doc/libXdmcp/xdmcp.xml
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

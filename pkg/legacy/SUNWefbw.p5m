@@ -23,4 +23,4 @@
 set name=pkg.fmri value=pkg:/SUNWefbw@0.5.11,5.11-0.133
 set name=pkg.renamed value=true
 set name=variant.arch value=sparc
-depend fmri=pkg:/x11/server/xorg/driver/xorg-efb@0.5.11-0.133 type=require
+depend type=require fmri=pkg:/x11/server/xorg/driver/xorg-efb@0.5.11-0.133

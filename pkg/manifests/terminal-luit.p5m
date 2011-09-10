@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/terminal/luit@__version:luit__
-set name=pkg.description \
-    value="Luit is a filter that can be run between an arbitrary application and a UTF-8 terminal emulator such as xterm.  It will convert application output from the locale's encoding into UTF-8, and convert terminal input from UTF-8 into the locale's encoding."
 set name=pkg.summary \
     value="luit - Locale and ISO 2022 support for Unicode terminals"
+set name=pkg.description \
+    value="Luit is a filter that can be run between an arbitrary application and a UTF-8 terminal emulator such as xterm.  It will convert application output from the locale's encoding into UTF-8, and convert terminal input from UTF-8 into the locale's encoding."
+link path=usr/X11/bin/luit target=../../bin/luit
 file path=usr/bin/luit
 file path=usr/share/man/man1/luit.1
-link path=usr/X11/bin/luit target=../../bin/luit

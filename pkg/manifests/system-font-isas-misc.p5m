@@ -20,12 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/font/isas-misc@__version:font-isas-misc__
-set name=pkg.description \
-    value="X Window System font files for GB2312-80 encoded Chinese characters from The Institute of Software, Academia Sinica"
 set name=pkg.summary \
     value="Institute of Software, Academia Sinica GB2312-80 bitmap fonts"
-
-dir path=usr/share/fonts/X11/isas
+set name=pkg.description \
+    value="X Window System font files for GB2312-80 encoded Chinese characters from The Institute of Software, Academia Sinica"
+link path=etc/X11/fontpath.d/isas:pri=84 \
+    target=../../../usr/share/fonts/X11/isas
+link path=etc/X11/fontpath.d/isas:unscaled:pri=14 \
+    target=../../../usr/share/fonts/X11/isas
+dir  path=usr/share/fonts/X11/isas
 file path=usr/share/fonts/X11/isas/fonts.dir
 file path=usr/share/fonts/X11/isas/gb16fs.pcf
 file path=usr/share/fonts/X11/isas/gb16st.pcf
@@ -33,7 +36,3 @@ file path=usr/share/fonts/X11/isas/gb24st.pcf
 legacy pkg=SUNWfont-isas-misc \
     desc="X Window System font files for GB2312-80 encoded Chinese characters from The Institute of Software, Academia Sinica" \
     name="Institute of Software, Academia Sinica GB2312-80 bitmap fonts"
-link path=etc/X11/fontpath.d/isas:pri=84 \
-    target=../../../usr/share/fonts/X11/isas
-link path=etc/X11/fontpath.d/isas:unscaled:pri=14 \
-    target=../../../usr/share/fonts/X11/isas

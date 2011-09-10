@@ -21,11 +21,15 @@
 #
 set name=pkg.fmri \
     value=pkg:/system/font/truetype/bh-luxi@__version:font-bh-ttf__
+set name=pkg.summary value="Luxi font family from Bigelow & Holmes"
 set name=pkg.description \
     value="Luxi family of TrueType fonts designed by Bigelow & Holmes for the XFree86 Project"
-set name=pkg.summary value="Luxi font family from Bigelow & Holmes"
-dir path=usr/share/fonts/TrueType/bh-luxi
+link path=etc/X11/fontpath.d/bh-luxi:pri=42 \
+    target=../../../usr/share/fonts/TrueType/bh-luxi
 file path=etc/fonts/conf.avail/42-luxi-mono.conf
+link path=etc/fonts/conf.d/42-luxi-mono.conf \
+    target=../conf.avail/42-luxi-mono.conf
+dir  path=usr/share/fonts/TrueType/bh-luxi
 file path=usr/share/fonts/TrueType/bh-luxi/fonts.dir
 file path=usr/share/fonts/TrueType/bh-luxi/fonts.scale
 file path=usr/share/fonts/TrueType/bh-luxi/luximb.ttf
@@ -43,7 +47,3 @@ file path=usr/share/fonts/TrueType/bh-luxi/luxisri.ttf
 legacy pkg=SUNWttf-bh-luxi \
     desc="Luxi family of TrueType fonts designed by Bigelow & Holmes for the XFree86 Project" \
     name="Luxi font family from Bigelow & Holmes"
-link path=etc/X11/fontpath.d/bh-luxi:pri=42 \
-    target=../../../usr/share/fonts/TrueType/bh-luxi
-link path=etc/fonts/conf.d/42-luxi-mono.conf \
-    target=../conf.avail/42-luxi-mono.conf

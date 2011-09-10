@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,4 +22,4 @@
 #
 set name=pkg.fmri value=pkg:/FSWxorg-fonts-daewoo@0.5.11,5.11-0.130
 set name=pkg.renamed value=true
-depend fmri=pkg:/SUNWfont-daewoo-misc@0.5.11-0.130 type=require
+depend type=require fmri=pkg:/SUNWfont-daewoo-misc@0.5.11-0.130

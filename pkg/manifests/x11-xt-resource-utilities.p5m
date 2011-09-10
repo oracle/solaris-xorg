@@ -19,11 +19,14 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/x11/xt-resource-utilities@$(X11PKGVERS)
+set name=pkg.fmri value=pkg:/x11/xt-resource-utilities@$(X11PKGVERS)
+set name=pkg.summary value="X Toolkit Resource utilities"
 set name=pkg.description \
     value="Utilties to view and edit the configuration resources used by applications based on toolkits such as Athena Widgets (Xaw) and Motif (Xm) that utilize the X Toolkit Intrinsics (libXt)."
-set name=pkg.summary value="X Toolkit Resource utilities"
+link path=usr/X11/bin/appres target=../../bin/appres
+link path=usr/X11/bin/editres target=../../bin/editres
+link path=usr/X11/bin/listres target=../../bin/listres
+link path=usr/X11/bin/viewres target=../../bin/viewres
 file path=usr/bin/appres
 file path=usr/bin/editres
 file path=usr/bin/listres
@@ -36,10 +39,6 @@ file path=usr/share/man/man1/appres.1
 file path=usr/share/man/man1/editres.1
 file path=usr/share/man/man1/listres.1
 file path=usr/share/man/man1/viewres.1
-link path=usr/X11/bin/appres target=../../bin/appres
-link path=usr/X11/bin/editres target=../../bin/editres
-link path=usr/X11/bin/listres target=../../bin/listres
-link path=usr/X11/bin/viewres target=../../bin/viewres
 # Editres app-defaults specifies -*-new century schoolbook-...-*-* font
 # Viewres app-defaults specifies -adobe-helvetica-....-iso*-* font
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+depend type=require fmri=pkg:/system/font/xorg/xorg-core

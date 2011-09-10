@@ -24,10 +24,12 @@
 # ourselves, and upstream may someday provide their own version number
 set name=pkg.fmri \
     value=pkg:/system/font/truetype/google-droid@0.__version:google-droid-fonts__
+set name=pkg.summary value="Droid font family from Google's Android project"
 set name=pkg.description \
     value="TrueType fonts designed by Ascender Corp for the Android mobile platform from Google"
-set name=pkg.summary value="Droid font family from Google's Android project"
-dir path=usr/share/fonts/TrueType/google-droid
+link path=etc/X11/fontpath.d/google-droid:pri=42 \
+    target=../../../usr/share/fonts/TrueType/google-droid
+dir  path=usr/share/fonts/TrueType/google-droid
 file path=usr/share/fonts/TrueType/google-droid/DroidSans-Bold.ttf
 file path=usr/share/fonts/TrueType/google-droid/DroidSans.ttf
 file path=usr/share/fonts/TrueType/google-droid/DroidSansFallback.ttf
@@ -42,5 +44,3 @@ file path=usr/share/fonts/TrueType/google-droid/fonts.scale
 legacy pkg=SUNWttf-google-droid \
     desc="TrueType fonts designed by Ascender Corp for the Android mobile platform from Google" \
     name="Droid font family from Google's Android project"
-link path=etc/X11/fontpath.d/google-droid:pri=42 \
-    target=../../../usr/share/fonts/TrueType/google-droid

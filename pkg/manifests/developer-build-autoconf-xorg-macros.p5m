@@ -21,10 +21,10 @@
 #
 set name=pkg.fmri \
     value=pkg:/developer/build/autoconf/xorg-macros@__version:util-macros__
+set name=pkg.summary value="GNU autoconf macros for X.Org software packages"
 set name=pkg.description \
     value="This is a set of autoconf macros used by the configure.ac scripts in other Xorg modular packages, and is needed to generate new versions of their configure scripts with autoconf."
-set name=pkg.summary value="GNU autoconf macros for X.Org software packages"
-dir path=usr/share/xorg-macros
 file path=usr/share/aclocal/xorg-macros.m4
 file path=usr/share/pkgconfig/xorg-macros.pc
+dir  path=usr/share/xorg-macros
 file path=usr/share/xorg-macros/INSTALL

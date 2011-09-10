@@ -29,9 +29,9 @@
 
 set name=pkg.fmri \
     value=pkg:/desktop/remote-desktop/tigervnc@__version:tigervnc__
+set name=pkg.summary value="TigerVNC client"
 set name=pkg.description \
     value="VNC client based on the TigerVNC open source release that displays a session over RFB protocol from a VNC server"
-set name=pkg.summary value="TigerVNC client"
 file path=usr/bin/vncviewer
 file path=usr/share/man/man1/vncviewer.1
 legacy pkg=SUNWvncviewer \

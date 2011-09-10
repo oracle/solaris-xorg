@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/diagnostic/xscope@__version:xscope__
+set name=pkg.summary value="xscope - X Window Protocol Viewer"
 set name=pkg.description \
     value="Xscope sits in-between an X11 client and an X11 server and prints the contents of each request, reply, error, or event that is communicated between them. Xscope can decode the core X11 protocol and several extensions, including BIG-REQUESTS, LBX, MIT-SHM, NCD-WinCenterPro, RANDR, and RENDER."
-set name=pkg.summary value="xscope - X Window Protocol Viewer"
+link path=usr/X11/bin/xscope target=../../bin/xscope
 file path=usr/bin/xscope
 file path=usr/share/man/man1/xscope.1
-link path=usr/X11/bin/xscope target=../../bin/xscope

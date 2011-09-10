@@ -19,20 +19,26 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/x11/library/libxscrnsaver@__version:libXScrnSaver__
+set name=pkg.fmri value=pkg:/x11/library/libxscrnsaver@__version:libXScrnSaver__
+set name=pkg.summary value="libXss - X11 Screen Saver extension client library"
 set name=pkg.description \
     value="Xlib-based client API for the MIT-SCREEN-SAVER extension to the X11 protocol"
-set name=pkg.summary \
-    value="libXss - X11 Screen Saver extension client library"
-dir path=usr/share/man/man3xss
+link path=usr/X11/lib/$(ARCH64)/libXss.so \
+    target=../../../lib/$(ARCH64)/libXss.so
+link path=usr/X11/lib/$(ARCH64)/libXss.so.1 \
+    target=../../../lib/$(ARCH64)/libXss.so.1
+link path=usr/X11/lib/libXss.so target=../../lib/libXss.so
+link path=usr/X11/lib/libXss.so.1 target=../../lib/libXss.so.1
 file path=usr/include/X11/extensions/scrnsaver.h
+link path=usr/lib/$(ARCH64)/libXss.so target=libXss.so.1
 file path=usr/lib/$(ARCH64)/libXss.so.1
 file path=usr/lib/$(ARCH64)/llib-lXss.ln
 file path=usr/lib/$(ARCH64)/pkgconfig/xscrnsaver.pc
+link path=usr/lib/libXss.so target=libXss.so.1
 file path=usr/lib/libXss.so.1
 file path=usr/lib/llib-lXss.ln
 file path=usr/lib/pkgconfig/xscrnsaver.pc
+dir  path=usr/share/man/man3xss
 file path=usr/share/man/man3xss/XScreenSaverAllocInfo.3xss
 file path=usr/share/man/man3xss/XScreenSaverGetRegistered.3xss
 file path=usr/share/man/man3xss/XScreenSaverQueryExtension.3xss
@@ -45,12 +51,4 @@ file path=usr/share/man/man3xss/XScreenSaverSuspend.3xss
 file path=usr/share/man/man3xss/XScreenSaverUnregister.3xss
 file path=usr/share/man/man3xss/XScreenSaverUnsetAttributes.3xss
 file path=usr/share/man/man3xss/Xss.3xss
-link path=usr/X11/lib/$(ARCH64)/libXss.so \
-    target=../../../lib/$(ARCH64)/libXss.so
-link path=usr/X11/lib/$(ARCH64)/libXss.so.1 \
-    target=../../../lib/$(ARCH64)/libXss.so.1
-link path=usr/X11/lib/libXss.so target=../../lib/libXss.so
-link path=usr/X11/lib/libXss.so.1 target=../../lib/libXss.so.1
-link path=usr/lib/$(ARCH64)/libXss.so target=libXss.so.1
-link path=usr/lib/libXss.so target=libXss.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

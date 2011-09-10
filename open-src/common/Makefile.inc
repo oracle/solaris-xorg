@@ -676,8 +676,6 @@ DEFAULT_LICENSE=$(PKG_LICENSE_DIR)/cr_Oracle $(PKG_LICENSE_DIR)/lic_X11
 MANIFEST_DEST=$(PWD)/tmp-proto-$(MACH)
 MANIFEST_TMP=$(PWD)/tmp.p5m
 
-PKGFMT=/usr/bin/pkgfmt
-
 MANIFEST_TARGETS_DEFAULT	= $(MANIFEST_TARGETS_SET:yes=$(POUND_SIGN))
 $(MANIFEST_TARGETS_DEFAULT)	MANIFEST_TARGETS=$(MODULE_PKG_MANIFEST)
 
@@ -692,7 +690,7 @@ $(MANIFEST_DEST): install
 	/usr/xpg4/bin/make $(MAKEFLAGS) install $(MANIFEST_INSTALL_RULES) \
 		|| (rm -rf $(MANIFEST_DEST) ; exit 1)
 
-$(MANIFEST_TMP): $(MANIFEST_DEST) $(PKGFMT)
+$(MANIFEST_TMP): $(MANIFEST_DEST)
 	$(PERL) $(TOP)/open-src/common/pkg-manifest-generate.pl \
 		input_manifest='$(MODULE_PKG_MANIFEST)' \
 		exception_manifest='$(PKG_SRC_DIR)/exceptions-validate_pkg.p5m' \

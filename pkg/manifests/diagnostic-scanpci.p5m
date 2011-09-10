@@ -20,21 +20,21 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/diagnostic/scanpci@__version:libpciaccess__
-set name=pkg.description \
-    value="libpciaccess is a generic PCI device access library.  scanpci is a sample tool that uses libpciaccess to list the PCI devices installed in a system."
 set name=pkg.summary \
     value="scanpci and libpciaccess - generic PCI access software"
+set name=pkg.description \
+    value="libpciaccess is a generic PCI device access library.  scanpci is a sample tool that uses libpciaccess to list the PCI devices installed in a system."
 file path=etc/security/exec_attr.d/scanpci group=sys
+link path=usr/X11/bin/scanpci target=../../bin/scanpci
 file path=usr/bin/scanpci
 file path=usr/include/pciaccess.h
+link path=usr/lib/$(ARCH64)/libpciaccess.so target=libpciaccess.so.0
 file path=usr/lib/$(ARCH64)/libpciaccess.so.0
 file path=usr/lib/$(ARCH64)/pkgconfig/pciaccess.pc
+link path=usr/lib/libpciaccess.so target=libpciaccess.so.0
 file path=usr/lib/libpciaccess.so.0
 file path=usr/lib/pkgconfig/pciaccess.pc
 file path=usr/share/man/man1/scanpci.1
 legacy pkg=SUNWpciaccess \
     desc="Library and tools for accessing PCI bus information" \
     name="PCI bus access library and tools"
-link path=usr/X11/bin/scanpci target=../../bin/scanpci
-link path=usr/lib/$(ARCH64)/libpciaccess.so target=libpciaccess.so.0
-link path=usr/lib/libpciaccess.so target=libpciaccess.so.0

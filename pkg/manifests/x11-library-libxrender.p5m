@@ -20,23 +20,23 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxrender@__version:libXrender__
-set name=pkg.description \
-    value="Xlib-based client API for the RENDER extension to the X11 protocol"
 set name=pkg.summary \
     value="libXrender - library for the Render Extension to the X11 protocol"
-dir path=usr/share/doc/libXrender
-file path=usr/include/X11/extensions/Xrender.h
-file path=usr/lib/$(ARCH64)/libXrender.so.1
-file path=usr/lib/$(ARCH64)/pkgconfig/xrender.pc
-file path=usr/lib/libXrender.so.1
-file path=usr/lib/pkgconfig/xrender.pc
-file path=usr/share/doc/libXrender/libXrender.txt
+set name=pkg.description \
+    value="Xlib-based client API for the RENDER extension to the X11 protocol"
 link path=usr/X11/lib/$(ARCH64)/libXrender.so \
     target=../../../lib/$(ARCH64)/libXrender.so
 link path=usr/X11/lib/$(ARCH64)/libXrender.so.1 \
     target=../../../lib/$(ARCH64)/libXrender.so.1
 link path=usr/X11/lib/libXrender.so target=../../lib/libXrender.so
 link path=usr/X11/lib/libXrender.so.1 target=../../lib/libXrender.so.1
+file path=usr/include/X11/extensions/Xrender.h
 link path=usr/lib/$(ARCH64)/libXrender.so target=libXrender.so.1
+file path=usr/lib/$(ARCH64)/libXrender.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/xrender.pc
 link path=usr/lib/libXrender.so target=libXrender.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libXrender.so.1
+file path=usr/lib/pkgconfig/xrender.pc
+dir  path=usr/share/doc/libXrender
+file path=usr/share/doc/libXrender/libXrender.txt
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

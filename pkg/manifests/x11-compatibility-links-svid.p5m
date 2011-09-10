@@ -20,12 +20,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/compatibility/links-svid@$(OSPKGVERS)
+set name=pkg.summary value="X Window System SVID compatibility links"
 set name=pkg.description \
     value="Provides the /usr/X -> X11 link required by the SVID3 ABI"
-set name=pkg.summary value="X Window System SVID compatibility links"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
-legacy pkg=SUNWxwrtl desc="X Window System SVID compatibility links" \
-    name="X Window System SVID compatibility links"
 
 # This link is required by the SVID3 ABI
 link path=usr/X target=./X11
+legacy pkg=SUNWxwrtl desc="X Window System SVID compatibility links" \
+    name="X Window System SVID compatibility links"

@@ -23,10 +23,11 @@
 # Man pages are part of the man page facet
 <transform depend  -> set facet.doc.man true>
 
+
 set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwman@$(OSPKGVERS)
+set name=pkg.summary value="X Window System user man pages group"
 set name=pkg.description \
     value="A group package that provides the same core set of X11 user manual pages as the SUNWxwman & SUNWxorg-client-docs package for prior Solaris releases"
-set name=pkg.summary value="X Window System user man pages group"
 set name=facet.doc.man value=true
 set name=info.classification value=org.opensolaris.category.2008:System/X11
 legacy pkg=SUNWxorg-client-docs \
@@ -38,130 +39,130 @@ legacy pkg=SUNWxwman desc="X Window System online user man pages" \
 ### Depends on packages split out of the old SVR4 versions
 
 # app/x11perf
-depend fmri=pkg:/benchmark/x11perf type=require
+depend type=require fmri=pkg:/benchmark/x11perf
 
 # app/twm
-depend fmri=pkg:/desktop/window-manager/twm type=require
+depend type=require fmri=pkg:/desktop/window-manager/twm
 
 # util/imake, xorg-cf-files
-depend fmri=pkg:/developer/build/imake type=require
+depend type=require fmri=pkg:/developer/build/imake
 
 # util/makedepend
-depend fmri=pkg:/developer/build/makedepend type=require
+depend type=require fmri=pkg:/developer/build/makedepend
 
 # app/constype
-depend fmri=pkg:/diagnostic/constype type=require
+depend type=require fmri=pkg:/diagnostic/constype
 
 # app/xload
-depend fmri=pkg:/diagnostic/xload type=require
+depend type=require fmri=pkg:/diagnostic/xload
 
 # app/xditview
-depend fmri=pkg:/document/viewer/xditview type=require
+depend type=require fmri=pkg:/document/viewer/xditview
 
 # app/xedit
-depend fmri=pkg:/editor/xedit type=require
+depend type=require fmri=pkg:/editor/xedit
 
 # app/bitmap
-depend fmri=pkg:/image/editor/bitmap type=require
+depend type=require fmri=pkg:/image/editor/bitmap
 
 # app/xcursorgen
-depend fmri=pkg:/image/xcursorgen type=require
+depend type=require fmri=pkg:/image/xcursorgen
 
 # app/luit
-depend fmri=pkg:/terminal/luit type=require
+depend type=require fmri=pkg:/terminal/luit
 
 # app/xterm
-depend fmri=pkg:/terminal/xterm type=require
-
-# app/oclock
-depend fmri=pkg:/x11/oclock type=require
-
-# app/xbiff
-depend fmri=pkg:/x11/xbiff type=require
-
-# app/xcalc
-depend fmri=pkg:/x11/xcalc type=require
-
-# app/xclipboard
-depend fmri=pkg:/x11/xclipboard type=require
-
-# app/ico, xeyes, xgc, xlogo
-depend fmri=pkg:/x11/demo type=require
-
-# app/xdpyinfo, xdriinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xwininfo
-depend fmri=pkg:/x11/diagnostic/x11-info-clients type=require
-
-# app/xev
-depend fmri=pkg:/x11/diagnostic/xev type=require
-
-# app/xscope
-depend fmri=pkg:/x11/diagnostic/xscope type=require
-
-# doc/xorg-docs
-depend fmri=pkg:/x11/documentation/xorg-docs type=require
-
-# app/bdftopcf, mkfontdir, mkfontscale
-depend fmri=pkg:/x11/font-utilities type=require
-
-# app/setxkbmap, xkbprint, xkbutils
-depend fmri=pkg:/x11/keyboard/xkb-utilities type=require
-
-# app/iceauth
-depend fmri=pkg:/x11/library/libice type=require
-
-# lib/libXpm
-depend fmri=pkg:/x11/library/libxpm type=require
-
-# app/lbxproxy, proxymgr, xfindproxy, xfwp
-depend fmri=pkg:/x11/network/x11-network-proxies type=require
-
-# app/sessreg
-depend fmri=pkg:/x11/session/sessreg type=require
-
-# app/smproxy
-depend fmri=pkg:/x11/session/smproxy type=require
-
-# app/xauth
-depend fmri=pkg:/x11/session/xauth type=require
-
-# app/xinit
-depend fmri=pkg:/x11/session/xinit type=require
-
-# app/appres, editres, listres, viewres
-depend fmri=pkg:/x11/xt-resource-utilities type=require
+depend type=require fmri=pkg:/terminal/xterm
 
 # app/cmap_alloc, cmap_compact, xcolor, xstdcmap
-depend fmri=pkg:/x11/colormap-utilities type=require
+depend type=require fmri=pkg:/x11/colormap-utilities
+
+# app/ico, xeyes, xgc, xlogo
+depend type=require fmri=pkg:/x11/demo
+
+# app/xdpyinfo, xdriinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xwininfo
+depend type=require fmri=pkg:/x11/diagnostic/x11-info-clients
+
+# app/xev
+depend type=require fmri=pkg:/x11/diagnostic/xev
+
+# app/xscope
+depend type=require fmri=pkg:/x11/diagnostic/xscope
+
+# doc/xorg-docs
+depend type=require fmri=pkg:/x11/documentation/xorg-docs
+
+# app/bdftopcf, mkfontdir, mkfontscale
+depend type=require fmri=pkg:/x11/font-utilities
+
+# app/setxkbmap, xkbprint, xkbutils
+depend type=require fmri=pkg:/x11/keyboard/xkb-utilities
+
+# app/iceauth
+depend type=require fmri=pkg:/x11/library/libice
+
+# lib/libXpm
+depend type=require fmri=pkg:/x11/library/libxpm
+
+# app/lbxproxy, proxymgr, xfindproxy, xfwp
+depend type=require fmri=pkg:/x11/network/x11-network-proxies
+
+# app/oclock
+depend type=require fmri=pkg:/x11/oclock
+
+# app/sessreg
+depend type=require fmri=pkg:/x11/session/sessreg
+
+# app/smproxy
+depend type=require fmri=pkg:/x11/session/smproxy
+
+# app/xauth
+depend type=require fmri=pkg:/x11/session/xauth
+
+# app/xinit
+depend type=require fmri=pkg:/x11/session/xinit
 
 # app/rgb, xcmsdb, xhost, xmodmap, xprop, xrdb, xrefresh, xset, xsetroot
-depend fmri=pkg:/x11/x11-server-utilities type=require
+depend type=require fmri=pkg:/x11/x11-server-utilities
 
 # app/xpr, xwd, xwud
-depend fmri=pkg:/x11/x11-window-dump type=require
+depend type=require fmri=pkg:/x11/x11-window-dump
+
+# app/xbiff
+depend type=require fmri=pkg:/x11/xbiff
+
+# app/xcalc
+depend type=require fmri=pkg:/x11/xcalc
+
+# app/xclipboard
+depend type=require fmri=pkg:/x11/xclipboard
 
 # app/xconsole
-depend fmri=pkg:/x11/xconsole type=require
+depend type=require fmri=pkg:/x11/xconsole
 
 # app/xfd
-depend fmri=pkg:/x11/xfd type=require
+depend type=require fmri=pkg:/x11/xfd
 
 # app/xfontsel
-depend fmri=pkg:/x11/xfontsel type=require
-
-# app/xkill
-depend fmri=pkg:/x11/xkill type=require
-
-# app/xlock
-depend fmri=pkg:/x11/xlock type=require
-
-# app/xmag, xmag_multivis
-depend fmri=pkg:/x11/xmag type=require
-
-# app/xman
-depend fmri=pkg:/x11/xman type=require
+depend type=require fmri=pkg:/x11/xfontsel
 
 # app/xfs
-depend fmri=pkg:/x11/xfs type=require
+depend type=require fmri=pkg:/x11/xfs
 
 # app/fslsfonts, fstobdf, showfont, xfsinfo
-depend fmri=pkg:/x11/xfs/xfs-utilities type=require
+depend type=require fmri=pkg:/x11/xfs/xfs-utilities
+
+# app/xkill
+depend type=require fmri=pkg:/x11/xkill
+
+# app/xlock
+depend type=require fmri=pkg:/x11/xlock
+
+# app/xmag, xmag_multivis
+depend type=require fmri=pkg:/x11/xmag
+
+# app/xman
+depend type=require fmri=pkg:/x11/xman
+
+# app/appres, editres, listres, viewres
+depend type=require fmri=pkg:/x11/xt-resource-utilities

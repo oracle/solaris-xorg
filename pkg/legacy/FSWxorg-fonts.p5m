@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,18 +23,18 @@
 set name=pkg.fmri value=pkg:/FSWxorg-fonts@0.5.11,5.11-0.130
 set name=pkg.renamed value=true
 set name=variant.arch value=i386
-depend fmri=pkg:/FSWxorg-fonts-core@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-cyrillic@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-daewoo@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-ethiopic@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-10@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-13@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-14@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-16@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-2@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-3@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-4@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-iso8859-9@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-jiskan@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-syriac@0.5.11-0.130 type=require
-depend fmri=pkg:/FSWxorg-fonts-vera@0.5.11-0.130 type=require
+depend type=require fmri=pkg:/FSWxorg-fonts-core@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-cyrillic@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-daewoo@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-ethiopic@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-10@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-13@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-14@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-16@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-2@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-3@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-4@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-iso8859-9@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-jiskan@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-syriac@0.5.11-0.130
+depend type=require fmri=pkg:/FSWxorg-fonts-vera@0.5.11-0.130

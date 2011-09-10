@@ -20,13 +20,27 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/font/xorg/iso8859-1@$(X11PKGVERS)
+set name=pkg.summary value="X.Org Foundation X11 iso8859-1 bitmap fonts"
 set name=pkg.description \
     value="X Window System bitmap font files based on X.Org Foundation open source release"
-set name=pkg.summary value="X.Org Foundation X11 iso8859-1 bitmap fonts"
-dir path=usr/share/fonts/X11
-dir path=usr/share/fonts/X11/100dpi-ISO8859-1
-dir path=usr/share/fonts/X11/75dpi-ISO8859-1
-dir path=usr/share/fonts/X11/misc-ISO8859-1
+link path=etc/X11/fontpath.d/100dpi-ISO8859-1:pri=90 \
+    target=../../../usr/share/fonts/X11/100dpi-ISO8859-1
+link path=etc/X11/fontpath.d/100dpi-ISO8859-1:unscaled:pri=20 \
+    target=../../../usr/share/fonts/X11/100dpi-ISO8859-1
+link path=etc/X11/fontpath.d/75dpi-ISO8859-1:pri=95 \
+    target=../../../usr/share/fonts/X11/75dpi-ISO8859-1
+link path=etc/X11/fontpath.d/75dpi-ISO8859-1:unscaled:pri=25 \
+    target=../../../usr/share/fonts/X11/75dpi-ISO8859-1
+link path=etc/X11/fontpath.d/misc-ISO8859-1:pri=85 \
+    target=../../../usr/share/fonts/X11/misc-ISO8859-1
+link path=etc/X11/fontpath.d/misc-ISO8859-1:unscaled:pri=15 \
+    target=../../../usr/share/fonts/X11/misc-ISO8859-1
+link path=usr/X11/lib/X11/fonts/100dpi \
+    target=../../../../share/fonts/X11/100dpi-ISO8859-1
+link path=usr/X11/lib/X11/fonts/75dpi \
+    target=../../../../share/fonts/X11/75dpi-ISO8859-1
+dir  path=usr/share/fonts/X11
+dir  path=usr/share/fonts/X11/100dpi-ISO8859-1
 file path=usr/share/fonts/X11/100dpi-ISO8859-1/UTBI__10-ISO8859-1.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-1/UTBI__12-ISO8859-1.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-1/UTBI__14-ISO8859-1.pcf
@@ -216,6 +230,7 @@ file path=usr/share/fonts/X11/100dpi-ISO8859-1/timR12-ISO8859-1.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-1/timR14-ISO8859-1.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-1/timR18-ISO8859-1.pcf
 file path=usr/share/fonts/X11/100dpi-ISO8859-1/timR24-ISO8859-1.pcf
+dir  path=usr/share/fonts/X11/75dpi-ISO8859-1
 file path=usr/share/fonts/X11/75dpi-ISO8859-1/UTBI__10-ISO8859-1.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-1/UTBI__12-ISO8859-1.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-1/UTBI__14-ISO8859-1.pcf
@@ -405,6 +420,7 @@ file path=usr/share/fonts/X11/75dpi-ISO8859-1/timR12-ISO8859-1.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-1/timR14-ISO8859-1.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-1/timR18-ISO8859-1.pcf
 file path=usr/share/fonts/X11/75dpi-ISO8859-1/timR24-ISO8859-1.pcf
+dir  path=usr/share/fonts/X11/misc-ISO8859-1
 file path=usr/share/fonts/X11/misc-ISO8859-1/10x20-ISO8859-1.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-1/4x6-ISO8859-1.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-1/5x7-ISO8859-1.pcf
@@ -434,19 +450,3 @@ file path=usr/share/fonts/X11/misc-ISO8859-1/fonts.dir
 legacy pkg=SUNWfont-xorg-iso8859-1 \
     desc="X Window System font files based on X.Org Foundation open source release" \
     name="X.Org Foundation X11 iso8859-1 fonts"
-link path=etc/X11/fontpath.d/100dpi-ISO8859-1:pri=90 \
-    target=../../../usr/share/fonts/X11/100dpi-ISO8859-1
-link path=etc/X11/fontpath.d/100dpi-ISO8859-1:unscaled:pri=20 \
-    target=../../../usr/share/fonts/X11/100dpi-ISO8859-1
-link path=etc/X11/fontpath.d/75dpi-ISO8859-1:pri=95 \
-    target=../../../usr/share/fonts/X11/75dpi-ISO8859-1
-link path=etc/X11/fontpath.d/75dpi-ISO8859-1:unscaled:pri=25 \
-    target=../../../usr/share/fonts/X11/75dpi-ISO8859-1
-link path=etc/X11/fontpath.d/misc-ISO8859-1:pri=85 \
-    target=../../../usr/share/fonts/X11/misc-ISO8859-1
-link path=etc/X11/fontpath.d/misc-ISO8859-1:unscaled:pri=15 \
-    target=../../../usr/share/fonts/X11/misc-ISO8859-1
-link path=usr/X11/lib/X11/fonts/100dpi \
-    target=../../../../share/fonts/X11/100dpi-ISO8859-1
-link path=usr/X11/lib/X11/fonts/75dpi \
-    target=../../../../share/fonts/X11/75dpi-ISO8859-1

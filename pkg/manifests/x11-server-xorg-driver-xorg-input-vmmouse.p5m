@@ -21,10 +21,10 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-vmmouse@__version:xf86-input-vmmouse__
-set name=pkg.description \
-    value="VMMouse driver for Xorg server running in a VMWare guest OS"
 set name=pkg.summary \
     value="xf86-input-vmmouse - VMWare guest mouse input driver for the Xorg X server"
+set name=pkg.description \
+    value="VMMouse driver for Xorg server running in a VMWare guest OS"
 set name=variant.arch value=i386
 file path=etc/hal/fdi/policy/10osvendor/11-x11-vmmouse.fdi
 file path=usr/lib/hal/hal-probe-vmmouse mode=0555

@@ -20,14 +20,14 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/dps@$(X11PKGVERS)
-set name=pkg.description \
-    value="Libraries provided for binary compatibility with X clients designed to connect to servers supporting the DPS extension."
 set name=pkg.summary \
     value="X Window System DPS extension client compatibility libraries"
+set name=pkg.description \
+    value="Libraries provided for binary compatibility with X clients designed to connect to servers supporting the DPS extension."
+link path=usr/X11/bin/makepsres target=../../bin/makepsres
+link path=usr/X11/bin/pswrap target=../../bin/pswrap
 file path=usr/bin/makepsres
 file path=usr/bin/pswrap
 file path=usr/lib/libdps.so.5
 file path=usr/lib/libdpstk.so.5
 file path=usr/lib/libpsres.so.5
-link path=usr/X11/bin/makepsres target=../../bin/makepsres
-link path=usr/X11/bin/pswrap target=../../bin/pswrap

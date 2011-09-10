@@ -20,20 +20,18 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/system/graphics/fbconfig/fbconfig-ast@$(OSPKGVERS)
+set name=pkg.fmri value=pkg:/system/graphics/fbconfig/fbconfig-ast@$(OSPKGVERS)
+set name=pkg.summary value="AST Graphics Configuration and Diagnostics Software"
 set name=pkg.description \
     value="Plugins for fbconfig configuration and Oracle VTS diagnostics software for AST graphics"
-set name=pkg.summary \
-    value="AST Graphics Configuration and Diagnostics Software"
 set name=variant.arch value=sparc
+link path=usr/lib/fbconfig/libSUNWast_conf.so target=libSUNWast_conf.so.1
 file path=usr/lib/fbconfig/libSUNWast_conf.so.1
 file path=usr/lib/sparcv9/libvtsSUNWast.so.1
 legacy pkg=SUNWastfbcf arch=sparc category=application,graphics \
     desc="Configuration and diagnostics software for AST graphics" \
     name="AST Graphics Configuration and Diagnostics Software" \
     version=11.0.0,REV=2010.10.22
-link path=usr/lib/fbconfig/libSUNWast_conf.so target=libSUNWast_conf.so.1
 
 # Requires kernel driver for astfb
-depend fmri=pkg:/driver/graphics/ast type=require
+depend type=require fmri=pkg:/driver/graphics/ast

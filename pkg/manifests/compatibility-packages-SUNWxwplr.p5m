@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwplr@$(OSPKGVERS)
-set name=pkg.description \
-    value="A group package that provides the same set of SMF services and configuration files as the SUNWxwplr package for prior Solaris releases"
 set name=pkg.summary \
     value="X Window System platform software configuration group"
+set name=pkg.description \
+    value="A group package that provides the same set of SMF services and configuration files as the SUNWxwplr package for prior Solaris releases"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
 legacy pkg=SUNWxwplr desc="X Window System platform software configuration" \
     name="X Window System platform software configuration"
@@ -31,14 +31,14 @@ legacy pkg=SUNWxwplr desc="X Window System platform software configuration" \
 ### Depends on packages split out of the old SVR4 versions
 
 # application/opengl/ogl-select SMF service
-depend fmri=pkg:/service/opengl/ogl-select type=require
+depend type=require fmri=pkg:/service/opengl/ogl-select
 
 # etc/security/auth_attr entries for solaris.smf.manage.font
-depend fmri=pkg:/system/library/fontconfig type=require
+depend type=require fmri=pkg:/system/library/fontconfig
 
 # etc/security/auth_attr & prof_attr entries for solaris.smf.manage.x11
 # and application/x11/x11-server SMF service
-depend fmri=pkg:/x11/server/xserver-common type=require
+depend type=require fmri=pkg:/x11/server/xserver-common
 
 # application/x11/xfs SMF service, /etc/X11/fontpath.d catalogue directory
-depend fmri=pkg:/x11/xfs type=require
+depend type=require fmri=pkg:/x11/xfs

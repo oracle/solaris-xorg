@@ -21,9 +21,8 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-void@__version:xf86-input-void__
+set name=pkg.summary value="xf86-input-void - null input driver for Xorg server"
 set name=pkg.description \
     value="Xorg input driver that doesn't connect to any device and never delivers any events.  It functions as both a pointer and keyboard device, and may be used as an X server's core pointer and/or core keyboard."
-set name=pkg.summary \
-    value="xf86-input-void - null input driver for Xorg server"
 file path=usr/lib/xorg/modules/input/void_drv.so
 file path=usr/share/man/man7/void.7

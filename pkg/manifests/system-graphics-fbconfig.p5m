@@ -21,16 +21,16 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/graphics/fbconfig@$(OSPKGVERS)
-set name=pkg.description value="Generic frame buffer configuration utility"
 set name=pkg.summary value="Frame Buffer Configuration Utility"
+set name=pkg.description value="Generic frame buffer configuration utility"
 set name=variant.arch value=sparc
-dir path=usr/lib/fbconfig
 file path=etc/security/exec_attr.d/fbconfig group=sys
+dir  path=usr/lib/fbconfig
 file path=usr/lib/fbconfig/SunModes_xorg.conf
 file path=usr/lib/fbconfig/fbconf_xorg mode=0555
+link path=usr/lib/fbconfig/libfbconf_xorg.so target=libfbconf_xorg.so.1
 file path=usr/lib/fbconfig/libfbconf_xorg.so.1
 file path=usr/sbin/fbconfig
 legacy pkg=SUNWfbc arch=sparc category=application,graphics \
     desc="Generic frame buffer configuration utility" \
     name="Frame Buffer Configuration Utility" version=11.0.0,REV=2010.08.02
-link path=usr/lib/fbconfig/libfbconf_xorg.so target=libfbconf_xorg.so.1

@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/image/xcursorgen@__version:xcursorgen__
-set name=pkg.description \
-    value="xcursorgen creates an X cursor set file from a collection of PNG images and a metadata file."
 set name=pkg.summary \
     value="xcursorgen prepares X11 cursor sets for use with libXcursor."
+set name=pkg.description \
+    value="xcursorgen creates an X cursor set file from a collection of PNG images and a metadata file."
+link path=usr/X11/bin/xcursorgen target=../../bin/xcursorgen
 file path=usr/bin/xcursorgen
 file path=usr/share/man/man1/xcursorgen.1
-link path=usr/X11/bin/xcursorgen target=../../bin/xcursorgen

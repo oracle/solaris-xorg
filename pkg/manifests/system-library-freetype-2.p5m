@@ -20,15 +20,14 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/library/freetype-2@__version:freetype__
+set name=pkg.summary value="FreeType 2 font engine"
 set name=pkg.description \
     value="FreeType 2 is a software font engine that is designed to be small, efficient, highly customizable, and portable while capable of producing high-quality output (glyph images). It can be used in graphics libraries, display servers, font conversion tools, text image generation tools, and many other products as well."
-set name=pkg.summary value="FreeType 2 font engine"
-dir path=usr/include/freetype2
-dir path=usr/include/freetype2/freetype
-dir path=usr/include/freetype2/freetype/config
-dir path=usr/share/doc/freetype
 file path=usr/bin/$(ARCH64)/freetype-config
 file path=usr/bin/freetype-config
+dir  path=usr/include/freetype2
+dir  path=usr/include/freetype2/freetype
+dir  path=usr/include/freetype2/freetype/config
 file path=usr/include/freetype2/freetype/config/ftconfig.h
 file path=usr/include/freetype2/freetype/config/ftheader.h
 file path=usr/include/freetype2/freetype/config/ftmodule.h
@@ -77,11 +76,14 @@ file path=usr/include/freetype2/freetype/tttables.h
 file path=usr/include/freetype2/freetype/tttags.h
 file path=usr/include/freetype2/freetype/ttunpat.h
 file path=usr/include/ft2build.h
+link path=usr/lib/$(ARCH64)/libfreetype.so target=libfreetype.so.6
 file path=usr/lib/$(ARCH64)/libfreetype.so.6
 file path=usr/lib/$(ARCH64)/pkgconfig/freetype2.pc
+link path=usr/lib/libfreetype.so target=libfreetype.so.6
 file path=usr/lib/libfreetype.so.6
 file path=usr/lib/pkgconfig/freetype2.pc
 file path=usr/share/aclocal/freetype2.m4
+dir  path=usr/share/doc/freetype
 file path=usr/share/doc/freetype/VERSION.DLL
 file path=usr/share/doc/freetype/formats.txt
 file path=usr/share/doc/freetype/ft2-base_interface.html
@@ -123,9 +125,7 @@ file path=usr/share/doc/freetype/ft2-type1_tables.html
 file path=usr/share/doc/freetype/ft2-user_allocation.html
 file path=usr/share/doc/freetype/ft2-version.html
 file path=usr/share/doc/freetype/ft2-winfnt_fonts.html
+link path=usr/share/doc/freetype/index.html target=ft2-toc.html
 legacy pkg=SUNWfreetype2 \
     desc="FreeType2 font handling library and rendering engine" \
     name="FreeType2 Font library"
-link path=usr/lib/$(ARCH64)/libfreetype.so target=libfreetype.so.6
-link path=usr/lib/libfreetype.so target=libfreetype.so.6
-link path=usr/share/doc/freetype/index.html target=ft2-toc.html

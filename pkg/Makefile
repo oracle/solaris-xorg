@@ -457,7 +457,12 @@ protocmp: $(PROC_PKGS) $(EXCEPTIONS) $(PROC_EXCEPTIONS) fix_perms
 pmodes: $(PROC_PKGS) fix_perms
 	$(PKGDEBUG)validate_pkg -a $(PKGMACH) -M -m $(PDIR)
 
-check: protocmp pmodes lint
+check-pkgfmt: $(ALL_MANIFESTS)
+	@print "## Checking for manifests not in pkgfmt expected form"
+	$(PKGDEBUG)$(PKGFMT) -c $(ALL_MANIFESTS) || true
+	@print ""
+
+check: protocmp pmodes lint check-pkgfmt
 
 # Instead of fixing all the upstream packages to follow our permission rules
 # just fix the proto area to match our rules

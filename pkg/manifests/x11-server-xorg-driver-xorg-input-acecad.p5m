@@ -21,9 +21,10 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-acecad@__version:xf86-input-acecad__
-set name=pkg.description value="Xorg input driver for Acecad Flair devices"
 set name=pkg.summary \
-    value="xf86-input-acecad - Acecad Flair input driver for the Xorg X server"
+    value="xf86-input-acecad - Acecad Flair tablet input driver for the Xorg X server"
+set name=pkg.description \
+    value="Xorg input driver for Acecad Flair pen-based graphics tablets"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/input/acecad_drv.so
 file path=usr/share/man/man7/acecad.7

@@ -20,12 +20,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libowconfig@$(OSPKGVERS)
-set name=pkg.description \
-    value="libowconfig is provided for binary compatibility with programs such as fbconfig that were written to read or write the now-obsolete OWconfig file used by the Xsun X server."
 set name=pkg.summary \
     value="libowconfig - library for Xsun OWconfig file handling"
-file path=usr/include/X11/Sunowconfig.h
-file path=usr/lib/libowconfig.so.0
+set name=pkg.description \
+    value="libowconfig is provided for binary compatibility with programs such as fbconfig that were written to read or write the now-obsolete OWconfig file used by the Xsun X server."
 link path=usr/X11/lib/libowconfig.so target=../../lib/libowconfig.so
 link path=usr/X11/lib/libowconfig.so.0 target=../../lib/libowconfig.so.0
+file path=usr/include/X11/Sunowconfig.h
 link path=usr/lib/libowconfig.so target=libowconfig.so.0
+file path=usr/lib/libowconfig.so.0

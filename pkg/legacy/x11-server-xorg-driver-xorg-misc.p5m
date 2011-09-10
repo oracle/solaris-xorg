@@ -20,47 +20,35 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-misc@0.5.11,5.11-0.167
+set name=pkg.fmri value=pkg:/x11/server/xorg/driver/xorg-misc@0.5.11,5.11-0.167
 set name=pkg.renamed value=true
 
 # Depends on packages for video drivers split out of this package in snv_144
 # and remaining after the removal of the EOF drivers in 153 & 162.
 
-depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ast@0.91.10,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-ati@6.13.1,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus@1.3.2,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-intel@2.6.3,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64@6.8.2,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-mga@1.4.13,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-nv@2.1.18,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-openchrome@0.2.904,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-r128@6.8.1,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-trident@1.3.4,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-vesa@2.3.0,5.11-0.152 \
-    type=require
-$(i386_ONLY)depend \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-vmware@10.16.9,5.11-0.152 \
-    type=require
-depend fmri=pkg:/x11/server/xorg/driver/xorg-video@0.5.11,5.11-0.167 \
-    type=require
+depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-ast@0.91.10,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-ati@6.13.1,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus@1.3.2,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-intel@2.6.3,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64@6.8.2,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-mga@1.4.13,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-nv@2.1.18,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-openchrome@0.2.904,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-r128@6.8.1,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-trident@1.3.4,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-vesa@2.3.0,5.11-0.152
+$(i386_ONLY)depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-vmware@10.16.9,5.11-0.152
+depend type=require \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video@0.5.11,5.11-0.167

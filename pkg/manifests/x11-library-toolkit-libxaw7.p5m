@@ -20,13 +20,23 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw7@__version:libXaw__
-set name=pkg.description \
-    value="Xaw is the X Athena Widget Set. Xaw is a widget set based on the X Toolkit Intrinsics (Xt) Library."
 set name=pkg.summary \
     value="libXaw7 - X Athena Widgets Toolkit (current/X11R7 version)"
-dir path=usr/include/X11/Xaw
-dir path=usr/share/doc/libXaw
-dir path=usr/share/man/man3xaw
+set name=pkg.description \
+    value="Xaw is the X Athena Widget Set. Xaw is a widget set based on the X Toolkit Intrinsics (Xt) Library."
+link path=usr/X11/lib/$(ARCH64)/libXaw.so \
+    target=../../../lib/$(ARCH64)/libXaw.so
+link path=usr/X11/lib/$(ARCH64)/libXaw.so.7 \
+    target=../../../lib/$(ARCH64)/libXaw.so.7
+link path=usr/X11/lib/$(ARCH64)/libXaw7.so \
+    target=../../../lib/$(ARCH64)/libXaw7.so
+link path=usr/X11/lib/$(ARCH64)/libXaw7.so.7 \
+    target=../../../lib/$(ARCH64)/libXaw7.so.7
+link path=usr/X11/lib/libXaw.so target=../../lib/libXaw.so
+link path=usr/X11/lib/libXaw.so.7 target=../../lib/libXaw.so.7
+link path=usr/X11/lib/libXaw7.so target=../../lib/libXaw7.so
+link path=usr/X11/lib/libXaw7.so.7 target=../../lib/libXaw7.so.7
+dir  path=usr/include/X11/Xaw
 file path=usr/include/X11/Xaw/AllWidgets.h
 file path=usr/include/X11/Xaw/AsciiSink.h
 file path=usr/include/X11/Xaw/AsciiSinkP.h
@@ -98,10 +108,17 @@ file path=usr/include/X11/Xaw/Viewport.h
 file path=usr/include/X11/Xaw/ViewportP.h
 file path=usr/include/X11/Xaw/XawImP.h
 file path=usr/include/X11/Xaw/XawInit.h
+link path=usr/lib/$(ARCH64)/libXaw.so target=libXaw7.so
+link path=usr/lib/$(ARCH64)/libXaw.so.7 target=libXaw7.so.7
+link path=usr/lib/$(ARCH64)/libXaw7.so target=libXaw7.so.7
 file path=usr/lib/$(ARCH64)/libXaw7.so.7
 file path=usr/lib/$(ARCH64)/pkgconfig/xaw7.pc
+link path=usr/lib/libXaw.so target=libXaw7.so
+link path=usr/lib/libXaw.so.7 target=libXaw7.so.7
+link path=usr/lib/libXaw7.so target=libXaw7.so.7
 file path=usr/lib/libXaw7.so.7
 file path=usr/lib/pkgconfig/xaw7.pc
+dir  path=usr/share/doc/libXaw
 file path=usr/share/doc/libXaw/AsciiSink.xml
 file path=usr/share/doc/libXaw/AsciiSource.xml
 file path=usr/share/doc/libXaw/AsciiText.xml
@@ -148,23 +165,6 @@ file path=usr/share/doc/libXaw/Toggle.xml
 file path=usr/share/doc/libXaw/Tree.xml
 file path=usr/share/doc/libXaw/Viewport.xml
 file path=usr/share/doc/libXaw/libXaw.xml
+dir  path=usr/share/man/man3xaw
 file path=usr/share/man/man3xaw/Xaw.3xaw
-link path=usr/X11/lib/$(ARCH64)/libXaw.so \
-    target=../../../lib/$(ARCH64)/libXaw.so
-link path=usr/X11/lib/$(ARCH64)/libXaw.so.7 \
-    target=../../../lib/$(ARCH64)/libXaw.so.7
-link path=usr/X11/lib/$(ARCH64)/libXaw7.so \
-    target=../../../lib/$(ARCH64)/libXaw7.so
-link path=usr/X11/lib/$(ARCH64)/libXaw7.so.7 \
-    target=../../../lib/$(ARCH64)/libXaw7.so.7
-link path=usr/X11/lib/libXaw.so target=../../lib/libXaw.so
-link path=usr/X11/lib/libXaw.so.7 target=../../lib/libXaw.so.7
-link path=usr/X11/lib/libXaw7.so target=../../lib/libXaw7.so
-link path=usr/X11/lib/libXaw7.so.7 target=../../lib/libXaw7.so.7
-link path=usr/lib/$(ARCH64)/libXaw.so target=libXaw7.so
-link path=usr/lib/$(ARCH64)/libXaw.so.7 target=libXaw7.so.7
-link path=usr/lib/$(ARCH64)/libXaw7.so target=libXaw7.so.7
-link path=usr/lib/libXaw.so target=libXaw7.so
-link path=usr/lib/libXaw.so.7 target=libXaw7.so.7
-link path=usr/lib/libXaw7.so target=libXaw7.so.7
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

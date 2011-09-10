@@ -21,7 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-set name=pkg.fmri \
-    value=pkg:/consolidation/X/X-redistributable@0.5.11,5.11-0.170
+set name=pkg.fmri value=pkg:/consolidation/X/X-redistributable@0.5.11,5.11-0.170
 set name=pkg.renamed value=true
-depend fmri=pkg:/consolidation/X/X-all@0.5.11,5.11-0.170 type=require
+depend type=require fmri=pkg:/consolidation/X/X-all@0.5.11,5.11-0.170

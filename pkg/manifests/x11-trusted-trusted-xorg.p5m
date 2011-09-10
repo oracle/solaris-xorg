@@ -20,15 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/trusted/trusted-xorg@__version:xorg-server__
+set name=pkg.summary value="Xorg X server - Trusted Extensions support"
 set name=pkg.description \
     value="Loadable extension module for the Xorg X server to provide the XTSOL extension required to support labeled desktops under Trusted Extensions."
-set name=pkg.summary value="Xorg X server - Trusted Extensions support"
 file path=usr/lib/xorg/modules/extensions/libxtsol.so
 legacy pkg=SUNWxorg-tsol-module \
     desc="Solaris Trusted Extensions, Xorg X Server support" \
     name="Trusted Extensions, Xorg"
 # Requires Xorg itself of course
-depend fmri=pkg:/x11/server/xorg type=require
+depend type=require fmri=pkg:/x11/server/xorg
 # Requires the TrustedExtensionsPolicy file from xserver-common pkg, but
 # that is currently auto-added by open-src/xserver/Makefile.inc rules.
 # depend fmri=pkg:/x11/server/xserver-common type=require

@@ -21,13 +21,13 @@
 #
 set name=pkg.fmri \
     value=pkg:/system/font/misc-ethiopic@__version:font-misc-ethiopic__
-set name=pkg.description \
-    value="TrueType and OpenType fonts for Ethiopic scripts released as open source by the Ge'ez Frontier Foundation"
 set name=pkg.summary \
     value="Ethiopic language fonts from the Ge'ez Frontiers Foundation"
-
-
-dir path=usr/share/fonts/TrueType/ethiopic
+set name=pkg.description \
+    value="TrueType and OpenType fonts for Ethiopic scripts released as open source by the Ge'ez Frontier Foundation"
+link path=etc/X11/fontpath.d/ethiopic:pri=60 \
+    target=../../../usr/share/fonts/TrueType/ethiopic
+dir  path=usr/share/fonts/TrueType/ethiopic
 file path=usr/share/fonts/TrueType/ethiopic/GohaTibebZemen.otf
 file path=usr/share/fonts/TrueType/ethiopic/GohaTibebZemen.ttf
 file path=usr/share/fonts/TrueType/ethiopic/fonts.dir
@@ -35,5 +35,3 @@ file path=usr/share/fonts/TrueType/ethiopic/fonts.scale
 legacy pkg=SUNWfont-misc-ethiopic \
     desc="TrueType and OpenType fonts for Ethiopic scripts released as open source by the Ge'ez Frontier Foundation" \
     name="Ethiopic language fonts from the Ge'ez Frontiers Foundation"
-link path=etc/X11/fontpath.d/ethiopic:pri=60 \
-    target=../../../usr/share/fonts/TrueType/ethiopic

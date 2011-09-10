@@ -19,40 +19,35 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/x11/library/libxcomposite@__version:libXcomposite__
-set name=pkg.description \
-    value="Xlib-based client API for the Composite extension to the X11 protocol"
+set name=pkg.fmri value=pkg:/x11/library/libxcomposite@__version:libXcomposite__
 set name=pkg.summary \
     value="libXcomposite - X Composite extension client library"
-dir path=usr/share/man/man3xcomposite
-file path=usr/include/X11/extensions/Xcomposite.h
-file path=usr/lib/$(ARCH64)/libXcomposite.so.1
-file path=usr/lib/$(ARCH64)/pkgconfig/xcomposite.pc
-file path=usr/lib/libXcomposite.so.1
-file path=usr/lib/pkgconfig/xcomposite.pc
-file \
-    path=usr/share/man/man3xcomposite/XCompositeCreateRegionFromBorderClip.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeGetOverlayWindow.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeNameWindowPixmap.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeQueryExtension.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeQueryVersion.3xcomposite
-file \
-    path=usr/share/man/man3xcomposite/XCompositeRedirectSubwindows.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeRedirectWindow.3xcomposite
-file \
-    path=usr/share/man/man3xcomposite/XCompositeReleaseOverlayWindow.3xcomposite
-file \
-    path=usr/share/man/man3xcomposite/XCompositeUnredirectSubwindows.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeUnredirectWindow.3xcomposite
-file path=usr/share/man/man3xcomposite/XCompositeVersion.3xcomposite
-file path=usr/share/man/man3xcomposite/Xcomposite.3xcomposite
+set name=pkg.description \
+    value="Xlib-based client API for the Composite extension to the X11 protocol"
 link path=usr/X11/lib/$(ARCH64)/libXcomposite.so \
     target=../../../lib/$(ARCH64)/libXcomposite.so
 link path=usr/X11/lib/$(ARCH64)/libXcomposite.so.1 \
     target=../../../lib/$(ARCH64)/libXcomposite.so.1
 link path=usr/X11/lib/libXcomposite.so target=../../lib/libXcomposite.so
 link path=usr/X11/lib/libXcomposite.so.1 target=../../lib/libXcomposite.so.1
+file path=usr/include/X11/extensions/Xcomposite.h
 link path=usr/lib/$(ARCH64)/libXcomposite.so target=libXcomposite.so.1
+file path=usr/lib/$(ARCH64)/libXcomposite.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/xcomposite.pc
 link path=usr/lib/libXcomposite.so target=libXcomposite.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libXcomposite.so.1
+file path=usr/lib/pkgconfig/xcomposite.pc
+dir  path=usr/share/man/man3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeCreateRegionFromBorderClip.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeGetOverlayWindow.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeNameWindowPixmap.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeQueryExtension.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeQueryVersion.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeRedirectSubwindows.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeRedirectWindow.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeReleaseOverlayWindow.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeUnredirectSubwindows.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeUnredirectWindow.3xcomposite
+file path=usr/share/man/man3xcomposite/XCompositeVersion.3xcomposite
+file path=usr/share/man/man3xcomposite/Xcomposite.3xcomposite
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

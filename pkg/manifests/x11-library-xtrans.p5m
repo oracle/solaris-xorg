@@ -25,13 +25,12 @@
 # the developer facet, except for the documentation, which is facet.doc.
 <transform dir file path=usr/include/X11/Xtrans -> set facet.devel true>
 set name=pkg.fmri value=pkg:/x11/library/xtrans@__version:xtrans__
-set name=pkg.description \
-    value="xtrans is a library of code that is shared among various X packages to handle network protocol transport in a modular fashion, allowing a single place to add new transport types.  It is used by the X server, libX11, libICE, the X font server, and related components."
 set name=pkg.summary \
     value="xtrans - X network protocol transport layer development files"
+set name=pkg.description \
+    value="xtrans is a library of code that is shared among various X packages to handle network protocol transport in a modular fashion, allowing a single place to add new transport types.  It is used by the X server, libX11, libICE, the X font server, and related components."
 set name=facet.devel value=true
-dir path=usr/include/X11/Xtrans
-dir path=usr/share/doc/xtrans
+dir  path=usr/include/X11/Xtrans
 file path=usr/include/X11/Xtrans/Xtrans.c
 file path=usr/include/X11/Xtrans/Xtrans.h
 file path=usr/include/X11/Xtrans/Xtransint.h
@@ -41,6 +40,7 @@ file path=usr/include/X11/Xtrans/Xtranstli.c
 file path=usr/include/X11/Xtrans/Xtransutil.c
 file path=usr/include/X11/Xtrans/transport.c
 file path=usr/share/aclocal/xtrans.m4
+dir  path=usr/share/doc/xtrans
 file path=usr/share/doc/xtrans/xtrans.xml
 file path=usr/share/pkgconfig/xtrans.pc
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

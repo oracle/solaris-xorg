@@ -20,10 +20,14 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/font/xorg/iso8859-5@$(X11PKGVERS)
+set name=pkg.summary value="X.Org Foundation X11 iso8859-5 bitmap fonts"
 set name=pkg.description \
     value="X Window System bitmap font files based on X.Org Foundation open source release"
-set name=pkg.summary value="X.Org Foundation X11 iso8859-5 bitmap fonts"
-dir path=usr/share/fonts/X11/misc-ISO8859-5
+link path=etc/X11/fontpath.d/misc-ISO8859-5:pri=86 \
+    target=../../../usr/share/fonts/X11/misc-ISO8859-5
+link path=etc/X11/fontpath.d/misc-ISO8859-5:unscaled:pri=16 \
+    target=../../../usr/share/fonts/X11/misc-ISO8859-5
+dir  path=usr/share/fonts/X11/misc-ISO8859-5
 file path=usr/share/fonts/X11/misc-ISO8859-5/10x20-ISO8859-5.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-5/4x6-ISO8859-5.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-5/5x7-ISO8859-5.pcf
@@ -51,7 +55,3 @@ file path=usr/share/fonts/X11/misc-ISO8859-5/fonts.dir
 legacy pkg=SUNWfont-xorg-iso8859-5 \
     desc="X Window System font files based on X.Org Foundation open source release" \
     name="X.Org Foundation X11 iso8859-5 fonts"
-link path=etc/X11/fontpath.d/misc-ISO8859-5:pri=86 \
-    target=../../../usr/share/fonts/X11/misc-ISO8859-5
-link path=etc/X11/fontpath.d/misc-ISO8859-5:unscaled:pri=16 \
-    target=../../../usr/share/fonts/X11/misc-ISO8859-5

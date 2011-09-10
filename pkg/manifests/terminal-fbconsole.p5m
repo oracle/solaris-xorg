@@ -20,8 +20,8 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/terminal/fbconsole@$(OSPKGVERS)
+set name=pkg.summary value="fbconsole - fallback console"
 set name=pkg.description \
     value="This program is intended to address the problem of console messages corrupting a user's frame buffer by providing a program to act as a ``fallback console'' and by arranging for this program to consume output directed to /dev/console when no console window is active."
-set name=pkg.summary value="fbconsole - fallback console"
-file path=usr/bin/fbconsole
 link path=usr/X11/bin/fbconsole target=../../bin/fbconsole
+file path=usr/bin/fbconsole

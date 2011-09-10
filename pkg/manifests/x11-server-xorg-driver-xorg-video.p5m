@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/server/xorg/driver/xorg-video@$(OSPKGVERS)
+set name=pkg.summary value="Xorg server video drivers group"
 set name=pkg.description \
     value="A group package that provides all of the available Xorg video drivers for a given platform"
-set name=pkg.summary value="Xorg server video drivers group"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
 legacy pkg=SUNWxorg-graphics-ddx \
     desc="Graphics device DDX modules for X Window System server based on X.Org Foundation open source release" \
@@ -31,49 +31,45 @@ legacy pkg=SUNWxorg-graphics-ddx \
 ### Depends on packages delivering the drivers
 
 # Nvidia driver (from outside the X gate)
-$(i386_ONLY)depend fmri=pkg:/driver/graphics/nvidia type=group
+$(i386_ONLY)depend type=group fmri=pkg:/driver/graphics/nvidia
 
 # driver/efb
-$(sparc_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-efb type=group
+$(sparc_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-efb
 
 # driver/xf86-video-ast
-depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ast type=group
+depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-ast
 
 # driver/xf86-video-ati
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-ati type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-ati
 
 # driver/xf86-video-cirrus
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus \
-    type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus
 
 # driver/xf86-video-intel
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-intel \
-    type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-intel
 
 # driver/xf86-video-mach64
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64 \
-    type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64
 
 # driver/xf86-video-mga
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-mga type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-mga
 
 # driver/xf86-video-nv
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-nv type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-nv
 
 # driver/xf86-video-openchrome
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-openchrome \
-    type=group
+$(i386_ONLY)depend type=group \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-openchrome
 
 # driver/xf86-video-r128
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-r128 type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-r128
 
 # driver/xf86-video-trident
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-trident \
-    type=group
+$(i386_ONLY)depend type=group \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-trident
 
 # driver/xf86-video-vesa
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-vesa type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-vesa
 
 # driver/xf86-video-vmware
-$(i386_ONLY)depend fmri=pkg:/x11/server/xorg/driver/xorg-video-vmware \
-    type=group
+$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-vmware

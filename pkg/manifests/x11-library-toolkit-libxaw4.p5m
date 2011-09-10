@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw4@$(OSPKGVERS)
-set name=pkg.description \
-    value="This package provides a libXaw.so.4 binary for backwards compatibility with programs compiled on older releases of Solaris."
 set name=pkg.summary \
     value="libXaw4 - X Athena Widgets Toolkit (X11R4 binary compatibility version)"
-file path=usr/lib/libXaw.so.4
+set name=pkg.description \
+    value="This package provides a libXaw.so.4 binary for backwards compatibility with programs compiled on older releases of Solaris."
 link path=usr/X11/lib/libXaw.so.4 target=../../lib/libXaw.so.4
+file path=usr/lib/libXaw.so.4

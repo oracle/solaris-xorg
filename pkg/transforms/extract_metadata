@@ -51,15 +51,15 @@
 
 <transform pkg org.opensolaris.noincorp=false \
     org.opensolaris.version-lock-facet=true -> print \
-    %(org.opensolaris.incorporation): depend fmri=%(pkg.fmri) type=incorporate \
+    %(org.opensolaris.incorporation): depend type=incorporate fmri=%(pkg.fmri) \
     facet.version-lock.%(pkg.name)=%(org.opensolaris.version-lock-facet)>
 <transform pkg org.opensolaris.noincorp=false \
     org.opensolaris.version-lock-facet=false -> print \
-    %(org.opensolaris.incorporation): depend fmri=%(pkg.fmri) type=incorporate>
+    %(org.opensolaris.incorporation): depend type=incorporate fmri=%(pkg.fmri)>
 
 # Add dependency on the incorporation to each non-obsolete package in it
 <transform pkg pkg.obsolete=false org.opensolaris.noincorp=false -> emit \
-    depend fmri=%(org.opensolaris.incorporation) type=require>
+    depend type=require fmri=%(org.opensolaris.incorporation)>
 
 <transform set name=org.opensolaris.noincorp -> drop>
 <transform set name=org.opensolaris.incorporation -> drop>
@@ -72,5 +72,5 @@
 <transform pkg -> default org.opensolaris.nogroup false>
 <transform pkg pkg.renamed=false pkg.obsolete=false \
     org.opensolaris.nogroup=false pkg.fmri=^(.*)@.* -> print \
-    pkg:/consolidation/X/X-all: depend fmri=%<1> type=group>
+    pkg:/consolidation/X/X-all: depend type=group fmri=%<1> >
 <transform set name=org.opensolaris.nogroup -> drop>

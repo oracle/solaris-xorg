@@ -20,13 +20,13 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri \
-    value=pkg:/system/graphics/fbconfig/fbconfig-efb@$(OSPKGVERS)
-set name=pkg.description \
-    value="Plugins for fbconfig configuration and Oracle VTS diagnostics software for the Sun XVR-300, XVR-100, and XVR-50 graphics accelerators"
+set name=pkg.fmri value=pkg:/system/graphics/fbconfig/fbconfig-efb@$(OSPKGVERS)
 set name=pkg.summary \
     value="Sun XVR-300, XVR-100, XVR-50 Graphics Configuration and Diagnostics Software"
+set name=pkg.description \
+    value="Plugins for fbconfig configuration and Oracle VTS diagnostics software for the Sun XVR-300, XVR-100, and XVR-50 graphics accelerators"
 set name=variant.arch value=sparc
+link path=usr/lib/fbconfig/libSUNWefb_conf.so target=libSUNWefb_conf.so.1
 file path=usr/lib/fbconfig/libSUNWefb_conf.so.1
 file path=usr/lib/sparcv9/libvtsSUNWefb.so.1
 legacy pkg=SUNWefbcf arch=sparc category=application,graphics \
@@ -34,7 +34,6 @@ legacy pkg=SUNWefbcf arch=sparc category=application,graphics \
     hotline="Please contact your local service provider" \
     name="Sun XVR-300, XVR-100, XVR-50 Graphics Configuration Software" \
     version=11.0.0,REV=2011.03.15
-link path=usr/lib/fbconfig/libSUNWefb_conf.so target=libSUNWefb_conf.so.1
 
 # Requires kernel driver for efb
-depend fmri=pkg:/driver/graphics/efb type=require
+depend type=require fmri=pkg:/driver/graphics/efb

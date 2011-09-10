@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/compatibility/packages/SUNWxwplt@$(OSPKGVERS)
-set name=pkg.description \
-    value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwplt and SUNWxorg-client-programs packages for prior Solaris releases"
 set name=pkg.summary \
     value="X Window System core client libraries and applications group"
+set name=pkg.description \
+    value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwplt and SUNWxorg-client-programs packages for prior Solaris releases"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
 legacy pkg=SUNWxorg-client-programs \
     desc="X Window System client programs based on X.Org Foundation open source release" \
@@ -38,186 +38,186 @@ legacy pkg=SUNWxwplt \
 ### Depends on packages split out of the old SVR4 versions
 
 # app/x11perf
-depend fmri=pkg:/benchmark/x11perf type=require
+depend type=require fmri=pkg:/benchmark/x11perf
 
 # app/constype
-depend fmri=pkg:/diagnostic/constype type=require
+depend type=require fmri=pkg:/diagnostic/constype
 
 # app/kbd_mode
-depend fmri=pkg:/system/keyboard/kbd_mode type=require
+depend type=require fmri=pkg:/system/keyboard/kbd_mode
 
 # app/fbconsole
-depend fmri=pkg:/terminal/fbconsole type=require
+depend type=require fmri=pkg:/terminal/fbconsole
 
 # app/luit
-depend fmri=pkg:/terminal/luit type=require
+depend type=require fmri=pkg:/terminal/luit
 
 # app/xterm
-depend fmri=pkg:/terminal/xterm type=require
-
-# app/xcalc
-depend fmri=pkg:/x11/xcalc type=require
-
-# data/workspace-patterns
-depend fmri=pkg:/x11/data/workspace-patterns type=require
-
-# data/xbitmaps
-depend fmri=pkg:/x11/data/xbitmaps type=require
-
-# app/xlogo
-depend fmri=pkg:/x11/demo type=require
-
-# app/xdpyinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xvinfo, xwininfo
-depend fmri=pkg:/x11/diagnostic/x11-info-clients type=require
-
-# app/bdftopcf
-depend fmri=pkg:/x11/font-utilities type=require
-
-# app/setxkbmap, xkbprint, xkbutils
-depend fmri=pkg:/x11/keyboard/xkb-utilities type=require
-
-# lib/DPS
-depend fmri=pkg:/x11/library/dps type=require
-
-# lib/libdga
-depend fmri=pkg:/x11/library/libdga type=require
-
-# lib/libFS
-depend fmri=pkg:/x11/library/libfs type=require
-
-# lib/libSM
-depend fmri=pkg:/x11/library/libsm type=require
-
-# lib/libX11
-depend fmri=pkg:/x11/library/libx11 type=require
-
-# lib/libXau
-depend fmri=pkg:/x11/library/libxau type=require
-
-# lib/libXcomposite
-depend fmri=pkg:/x11/library/libxcomposite type=require
-
-# lib/libXcursor
-depend fmri=pkg:/x11/library/libxcursor type=require
-
-# lib/libXdamage
-depend fmri=pkg:/x11/library/libxdamage type=require
-
-# lib/libXdmcp
-depend fmri=pkg:/x11/library/libxdmcp type=require
-
-# lib/libXevie
-depend fmri=pkg:/x11/library/libxevie type=require
-
-# lib/libXext
-depend fmri=pkg:/x11/library/libxext type=require
-
-# lib/libXfixes
-depend fmri=pkg:/x11/library/libxfixes type=require
-
-# lib/libXi
-depend fmri=pkg:/x11/library/libxi type=require
-
-# lib/libXinerama
-depend fmri=pkg:/x11/library/libxinerama type=require
-
-# lib/libxkbfile
-depend fmri=pkg:/x11/library/libxkbfile type=require
-
-# lib/libXmu
-depend fmri=pkg:/x11/library/libxmu type=require
-depend fmri=pkg:/x11/library/libxmuu type=require
-
-# lib/libXp
-depend fmri=pkg:/x11/library/libxp type=require
-
-# lib/libXpm
-depend fmri=pkg:/x11/library/libxpm type=require
-
-# lib/libXrandr
-depend fmri=pkg:/x11/library/libxrandr type=require
-
-# lib/libXrender
-depend fmri=pkg:/x11/library/libxrender type=require
-
-# lib/libXres
-depend fmri=pkg:/x11/library/libxres type=require
-
-# lib/libXScrnSaver
-depend fmri=pkg:/x11/library/libxscrnsaver type=require
-
-# lib/libXtst
-depend fmri=pkg:/x11/library/libxtst type=require
-
-# lib/libXv
-depend fmri=pkg:/x11/library/libxv type=require
-
-# lib/libXvMC
-depend fmri=pkg:/x11/library/libxvmc type=require
-
-# lib/libXxf86misc
-depend fmri=pkg:/x11/library/libxxf86misc type=require
-
-# lib/libXxf86vm
-depend fmri=pkg:/x11/library/libxxf86vm type=require
-
-# lib/libxtrans
-depend fmri=pkg:/x11/library/xtrans type=require
-
-# app/sessreg
-depend fmri=pkg:/x11/session/sessreg type=require
-
-# app/smproxy
-depend fmri=pkg:/x11/session/smproxy type=require
-
-# app/winsysck
-depend fmri=pkg:/x11/session/winsysck type=require
-
-# app/mkcookie, xauth
-depend fmri=pkg:/x11/session/xauth type=require
-
-# app/xinit
-depend fmri=pkg:/x11/session/xinit type=require
-
-# lib/libXaw4
-depend fmri=pkg:/x11/library/toolkit/libxaw4 type=require
-
-# lib/libXaw5
-depend fmri=pkg:/x11/library/toolkit/libxaw5 type=require
-
-# lib/libXaw
-depend fmri=pkg:/x11/library/toolkit/libxaw7 type=require
-
-# lib/libXt
-depend fmri=pkg:/x11/library/toolkit/libxt type=require
-
-# lib/libXtsol
-depend fmri=pkg:/x11/trusted/libxtsol type=require
+depend type=require fmri=pkg:/terminal/xterm
 
 # app/cmap_alloc, cmap_compact, xstdcmap
-depend fmri=pkg:/x11/colormap-utilities type=require
+depend type=require fmri=pkg:/x11/colormap-utilities
+
+# data/workspace-patterns
+depend type=require fmri=pkg:/x11/data/workspace-patterns
+
+# data/xbitmaps
+depend type=require fmri=pkg:/x11/data/xbitmaps
+
+# app/xlogo
+depend type=require fmri=pkg:/x11/demo
+
+# app/xdpyinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xvinfo, xwininfo
+depend type=require fmri=pkg:/x11/diagnostic/x11-info-clients
+
+# app/bdftopcf
+depend type=require fmri=pkg:/x11/font-utilities
+
+# app/setxkbmap, xkbprint, xkbutils
+depend type=require fmri=pkg:/x11/keyboard/xkb-utilities
+
+# lib/DPS
+depend type=require fmri=pkg:/x11/library/dps
+
+# lib/libdga
+depend type=require fmri=pkg:/x11/library/libdga
+
+# lib/libFS
+depend type=require fmri=pkg:/x11/library/libfs
+
+# lib/libSM
+depend type=require fmri=pkg:/x11/library/libsm
+
+# lib/libX11
+depend type=require fmri=pkg:/x11/library/libx11
+
+# lib/libXau
+depend type=require fmri=pkg:/x11/library/libxau
+
+# lib/libXcomposite
+depend type=require fmri=pkg:/x11/library/libxcomposite
+
+# lib/libXcursor
+depend type=require fmri=pkg:/x11/library/libxcursor
+
+# lib/libXdamage
+depend type=require fmri=pkg:/x11/library/libxdamage
+
+# lib/libXdmcp
+depend type=require fmri=pkg:/x11/library/libxdmcp
+
+# lib/libXevie
+depend type=require fmri=pkg:/x11/library/libxevie
+
+# lib/libXext
+depend type=require fmri=pkg:/x11/library/libxext
+
+# lib/libXfixes
+depend type=require fmri=pkg:/x11/library/libxfixes
+
+# lib/libXi
+depend type=require fmri=pkg:/x11/library/libxi
+
+# lib/libXinerama
+depend type=require fmri=pkg:/x11/library/libxinerama
+
+# lib/libxkbfile
+depend type=require fmri=pkg:/x11/library/libxkbfile
+
+# lib/libXmu
+depend type=require fmri=pkg:/x11/library/libxmu
+depend type=require fmri=pkg:/x11/library/libxmuu
+
+# lib/libXp
+depend type=require fmri=pkg:/x11/library/libxp
+
+# lib/libXpm
+depend type=require fmri=pkg:/x11/library/libxpm
+
+# lib/libXrandr
+depend type=require fmri=pkg:/x11/library/libxrandr
+
+# lib/libXrender
+depend type=require fmri=pkg:/x11/library/libxrender
+
+# lib/libXres
+depend type=require fmri=pkg:/x11/library/libxres
+
+# lib/libXScrnSaver
+depend type=require fmri=pkg:/x11/library/libxscrnsaver
+
+# lib/libXtst
+depend type=require fmri=pkg:/x11/library/libxtst
+
+# lib/libXv
+depend type=require fmri=pkg:/x11/library/libxv
+
+# lib/libXvMC
+depend type=require fmri=pkg:/x11/library/libxvmc
+
+# lib/libXxf86misc
+depend type=require fmri=pkg:/x11/library/libxxf86misc
+
+# lib/libXxf86vm
+depend type=require fmri=pkg:/x11/library/libxxf86vm
+
+# lib/libXaw4
+depend type=require fmri=pkg:/x11/library/toolkit/libxaw4
+
+# lib/libXaw5
+depend type=require fmri=pkg:/x11/library/toolkit/libxaw5
+
+# lib/libXaw
+depend type=require fmri=pkg:/x11/library/toolkit/libxaw7
+
+# lib/libXt
+depend type=require fmri=pkg:/x11/library/toolkit/libxt
+
+# lib/libxtrans
+depend type=require fmri=pkg:/x11/library/xtrans
+
+# app/sessreg
+depend type=require fmri=pkg:/x11/session/sessreg
+
+# app/smproxy
+depend type=require fmri=pkg:/x11/session/smproxy
+
+# app/winsysck
+depend type=require fmri=pkg:/x11/session/winsysck
+
+# app/mkcookie, xauth
+depend type=require fmri=pkg:/x11/session/xauth
+
+# app/xinit
+depend type=require fmri=pkg:/x11/session/xinit
+
+# lib/libXtsol
+depend type=require fmri=pkg:/x11/trusted/libxtsol
 
 # app/rgb, xgamma, xhost, xinput, xmodmap, xprop, xrandr, xrdb
 # xrefresh, xset, xsetroot
-depend fmri=pkg:/x11/x11-server-utilities type=require
+depend type=require fmri=pkg:/x11/x11-server-utilities
 
 # app/xpr, xwd, xwud
-depend fmri=pkg:/x11/x11-window-dump type=require
+depend type=require fmri=pkg:/x11/x11-window-dump
+
+# app/xcalc
+depend type=require fmri=pkg:/x11/xcalc
 
 # app/xfd
-depend fmri=pkg:/x11/xfd type=require
-
-# app/xkill
-depend fmri=pkg:/x11/xkill type=require
-
-# app/xlock
-depend fmri=pkg:/x11/xlock type=require
-
-# app/xmag
-depend fmri=pkg:/x11/xmag type=require
-
-# app/xvidtune
-depend fmri=pkg:/x11/xvidtune type=require
+depend type=require fmri=pkg:/x11/xfd
 
 # app/fslsfonts, fstobdf, showfont, xfsinfo
-depend fmri=pkg:/x11/xfs/xfs-utilities type=require
+depend type=require fmri=pkg:/x11/xfs/xfs-utilities
+
+# app/xkill
+depend type=require fmri=pkg:/x11/xkill
+
+# app/xlock
+depend type=require fmri=pkg:/x11/xlock
+
+# app/xmag
+depend type=require fmri=pkg:/x11/xmag
+
+# app/xvidtune
+depend type=require fmri=pkg:/x11/xvidtune

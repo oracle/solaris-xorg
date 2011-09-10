@@ -20,26 +20,25 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libsm@__version:libSM__
+set name=pkg.summary value="libSM - X Session Management Library"
 set name=pkg.description \
     value="The purpose of the X Session Management Protocol (XSMP) is to provide a uniform mechanism for users to save and restore their sessions.  The Session Management Library (SMlib) is a low-level C language interface to XSMP. It is expected that higher level toolkits will hide many of the details of session management from clients."
-set name=pkg.summary value="libSM - X Session Management Library"
-dir path=usr/include/X11/SM
-dir path=usr/share/doc/libSM
-file path=usr/include/X11/SM/SM.h
-file path=usr/include/X11/SM/SMlib.h
-file path=usr/include/X11/SM/SMproto.h
-file path=usr/lib/$(ARCH64)/libSM.so.6
-file path=usr/lib/$(ARCH64)/pkgconfig/sm.pc
-file path=usr/lib/libSM.so.6
-file path=usr/lib/pkgconfig/sm.pc
-file path=usr/share/doc/libSM/SMlib.xml
-file path=usr/share/doc/libSM/xsmp.xml
-link path=usr/X11/lib/$(ARCH64)/libSM.so \
-    target=../../../lib/$(ARCH64)/libSM.so
+link path=usr/X11/lib/$(ARCH64)/libSM.so target=../../../lib/$(ARCH64)/libSM.so
 link path=usr/X11/lib/$(ARCH64)/libSM.so.6 \
     target=../../../lib/$(ARCH64)/libSM.so.6
 link path=usr/X11/lib/libSM.so target=../../lib/libSM.so
 link path=usr/X11/lib/libSM.so.6 target=../../lib/libSM.so.6
+dir  path=usr/include/X11/SM
+file path=usr/include/X11/SM/SM.h
+file path=usr/include/X11/SM/SMlib.h
+file path=usr/include/X11/SM/SMproto.h
 link path=usr/lib/$(ARCH64)/libSM.so target=libSM.so.6
+file path=usr/lib/$(ARCH64)/libSM.so.6
+file path=usr/lib/$(ARCH64)/pkgconfig/sm.pc
 link path=usr/lib/libSM.so target=libSM.so.6
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libSM.so.6
+file path=usr/lib/pkgconfig/sm.pc
+dir  path=usr/share/doc/libSM
+file path=usr/share/doc/libSM/SMlib.xml
+file path=usr/share/doc/libSM/xsmp.xml
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

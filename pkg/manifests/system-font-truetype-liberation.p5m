@@ -21,10 +21,12 @@
 #
 set name=pkg.fmri \
     value=pkg:/system/font/truetype/liberation@__version:liberation-fonts__
+set name=pkg.summary value="Liberation fonts"
 set name=pkg.description \
     value="TrueType font files for the Liberation family of open source fonts designed by Ascender and released by Red Hat.  The Liberation Fonts are intended to be open font replacements for the three most commonly used fonts on Microsoft systems: Times New Roman, Arial, and Courier New."
-set name=pkg.summary value="Liberation fonts"
-dir path=usr/share/fonts/TrueType/liberation
+link path=etc/X11/fontpath.d/liberation:pri=42 \
+    target=../../../usr/share/fonts/TrueType/liberation
+dir  path=usr/share/fonts/TrueType/liberation
 file path=usr/share/fonts/TrueType/liberation/LiberationMono-Bold.ttf
 file path=usr/share/fonts/TrueType/liberation/LiberationMono-BoldItalic.ttf
 file path=usr/share/fonts/TrueType/liberation/LiberationMono-Italic.ttf
@@ -43,5 +45,3 @@ file path=usr/share/fonts/TrueType/liberation/fonts.scale
 legacy pkg=SUNWttf-liberation \
     desc="TrueType font files for the Liberation family of open source fonts" \
     name="Liberation fonts"
-link path=etc/X11/fontpath.d/liberation:pri=42 \
-    target=../../../usr/share/fonts/TrueType/liberation

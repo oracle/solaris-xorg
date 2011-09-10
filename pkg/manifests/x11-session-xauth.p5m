@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/session/xauth@__version:xauth__
+set name=pkg.summary value="xauth - X authority file utility"
 set name=pkg.description \
     value="The xauth program is used to edit and display the authorization information used in connecting to the X server."
-set name=pkg.summary value="xauth - X authority file utility"
+link path=usr/X11/bin/xauth target=../../bin/xauth
 file path=usr/bin/xauth
 file path=usr/lib/X11/mkcookie mode=0555
 file path=usr/share/man/man1/xauth.1
-link path=usr/X11/bin/xauth target=../../bin/xauth

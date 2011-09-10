@@ -374,6 +374,10 @@ MIN_XSERVER_VERS=1.9.99
 # in each minor release train (1.8, 1.9, etc.)
 NEXT_XSERVER_VERS=1.10.99
 
+# Version of pkgfmt output rules to apply
+PKGFMT_OUTPUT=v2
+PKGFMT= PKGFMT_OUTPUT=$(PKGFMT_OUTPUT) /usr/bin/pkgfmt
+
 ### Misc rules
 
 # For use in debugging or calling from scripts like the code review helper

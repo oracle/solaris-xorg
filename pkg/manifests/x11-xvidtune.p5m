@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xvidtune@__version:xvidtune__
+set name=pkg.summary value="xvidtune - video mode tuner for Xorg servers"
 set name=pkg.description \
     value="Xvidtune is a client interface to the X server video mode extension (XFree86-VidModeExtension), allowing a user to interactively adjust existing video modes."
-set name=pkg.summary value="xvidtune - video mode tuner for Xorg servers"
+link path=usr/X11/bin/xvidtune target=../../bin/xvidtune
 file path=usr/bin/xvidtune
 file path=usr/share/X11/app-defaults/Xvidtune
 file path=usr/share/man/man1/xvidtune.1
-link path=usr/X11/bin/xvidtune target=../../bin/xvidtune

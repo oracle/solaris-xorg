@@ -20,13 +20,13 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xcalc@__version:xcalc__
+set name=pkg.summary value="xcalc - scientific calculator for X"
 set name=pkg.description \
     value="xcalc is a scientific calculator desktop accessory that can emulate a TI-30 or an HP-10C."
-set name=pkg.summary value="xcalc - scientific calculator for X"
+link path=usr/X11/bin/xcalc target=../../bin/xcalc
 file path=usr/bin/xcalc
 file path=usr/share/X11/app-defaults/XCalc
 file path=usr/share/X11/app-defaults/XCalc-color
 file path=usr/share/man/man1/xcalc.1
-link path=usr/X11/bin/xcalc target=../../bin/xcalc
 # XCalc app-defaults specifies -adobe-symbol-*-*-*-*-*-120-*-*-*-*-*-* font
-depend fmri=pkg:/system/font/xorg/xorg-core type=require
+depend type=require fmri=pkg:/system/font/xorg/xorg-core

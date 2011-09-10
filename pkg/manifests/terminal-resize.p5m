@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/terminal/resize@0.__version:xterm__
-set name=pkg.description \
-    value="Resize prints a shell command for setting the COLUMNS and LINES environment variables to indicate the current size of the terminal window from which the command is run."
 set name=pkg.summary \
     value="resize - adjust terminal settings to current window size"
+set name=pkg.description \
+    value="Resize prints a shell command for setting the COLUMNS and LINES environment variables to indicate the current size of the terminal window from which the command is run."
+link path=usr/X11/bin/resize target=../../bin/resize
 file path=usr/bin/resize
 file path=usr/share/man/man1/resize.1
-link path=usr/X11/bin/resize target=../../bin/resize

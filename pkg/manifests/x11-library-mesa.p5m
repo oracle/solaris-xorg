@@ -20,20 +20,31 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/mesa@__version:mesa__
-set name=pkg.description \
-    value="The Mesa 3-D graphics library is an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics."
 set name=pkg.summary \
     value="Mesa - open-source implementation of the OpenGL specification"
-dir path=usr/include/GL
-dir path=usr/include/GL/internal
-dir path=usr/include/mesa
-dir path=usr/include/mesa/internal
-dir path=usr/lib/GL
-dir path=usr/lib/GL/$(ARCH64)
-dir path=usr/lib/mesa
-dir path=usr/lib/mesa/$(ARCH64)
-dir path=usr/lib/mesa/modules
-dir path=usr/lib/mesa/modules/extensions
+set name=pkg.description \
+    value="The Mesa 3-D graphics library is an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics."
+link path=usr/X11/include/mesa target=../../include/mesa
+link path=usr/X11/lib/$(ARCH64)/libGLU.so target=libGLU.so.1
+link path=usr/X11/lib/$(ARCH64)/libGLU.so.1 target=../GL/$(ARCH64)/libGLU.so.1
+link path=usr/X11/lib/$(ARCH64)/libGLw.so target=libGLw.so.1
+link path=usr/X11/lib/$(ARCH64)/libGLw.so.1 target=../GL/$(ARCH64)/libGLw.so.1
+link path=usr/X11/lib/libGLU.so target=libGLU.so.1
+link path=usr/X11/lib/libGLU.so.1 target=GL/libGLU.so.1
+link path=usr/X11/lib/libGLw.so target=libGLw.so.1
+link path=usr/X11/lib/libGLw.so.1 target=GL/libGLw.so.1
+link path=usr/X11/lib/mesa target=../../lib/mesa
+dir  path=usr/include/GL
+link path=usr/include/GL/GLwDrawA.h target=../mesa/GLwDrawA.h
+link path=usr/include/GL/GLwDrawAP.h target=../mesa/GLwDrawAP.h
+link path=usr/include/GL/GLwMDrawA.h target=../mesa/GLwMDrawA.h
+link path=usr/include/GL/GLwMDrawAP.h target=../mesa/GLwMDrawAP.h
+link path=usr/include/GL/glu.h target=../mesa/glu.h
+dir  path=usr/include/GL/internal
+link path=usr/include/GL/internal/dri_interface.h \
+    target=../../mesa/internal/dri_interface.h
+link path=usr/include/GL/osmesa.h target=../mesa/osmesa.h
+dir  path=usr/include/mesa
 file path=usr/include/mesa/GLwDrawA.h
 file path=usr/include/mesa/GLwDrawAP.h
 file path=usr/include/mesa/GLwMDrawA.h
@@ -47,53 +58,23 @@ file path=usr/include/mesa/glu_mangle.h
 file path=usr/include/mesa/glx.h
 file path=usr/include/mesa/glx_mangle.h
 file path=usr/include/mesa/glxext.h
+dir  path=usr/include/mesa/internal
 file path=usr/include/mesa/internal/dri_interface.h
 file path=usr/include/mesa/mesa_wgl.h
 file path=usr/include/mesa/osmesa.h
 file path=usr/include/mesa/vms_x_fix.h
 file path=usr/include/mesa/wglext.h
 file path=usr/include/mesa/wmesa.h
-file path=usr/lib/$(ARCH64)/pkgconfig/dri.pc
-file path=usr/lib/$(ARCH64)/pkgconfig/gl.pc
-file path=usr/lib/$(ARCH64)/pkgconfig/glu.pc
-file path=usr/lib/$(ARCH64)/pkgconfig/glw.pc
-file path=usr/lib/mesa/$(ARCH64)/libGL.so.1
-file path=usr/lib/mesa/$(ARCH64)/libGLU.so.1
-file path=usr/lib/mesa/$(ARCH64)/libGLw.so.1
-file path=usr/lib/mesa/libGL.so.1
-file path=usr/lib/mesa/libGLU.so.1
-file path=usr/lib/mesa/libGLw.so.1
-file path=usr/lib/mesa/modules/extensions/libglx.so
-file path=usr/lib/pkgconfig/dri.pc
-file path=usr/lib/pkgconfig/gl.pc
-file path=usr/lib/pkgconfig/glu.pc
-file path=usr/lib/pkgconfig/glw.pc
-file path=usr/lib/xorg/modules/dri/swrast_dri.so
-legacy pkg=SUNWxorg-mesa \
-    desc="Server modules and client libraries for X Window System GLX extension based on Mesa open source project" \
-    name="Xorg Server Mesa Modules and Libraries"
-link path=usr/X11/include/mesa target=../../include/mesa
-link path=usr/X11/lib/$(ARCH64)/libGLU.so target=libGLU.so.1
-link path=usr/X11/lib/$(ARCH64)/libGLU.so.1 target=../GL/$(ARCH64)/libGLU.so.1
-link path=usr/X11/lib/$(ARCH64)/libGLw.so target=libGLw.so.1
-link path=usr/X11/lib/$(ARCH64)/libGLw.so.1 target=../GL/$(ARCH64)/libGLw.so.1
-link path=usr/X11/lib/libGLU.so target=libGLU.so.1
-link path=usr/X11/lib/libGLU.so.1 target=GL/libGLU.so.1
-link path=usr/X11/lib/libGLw.so target=libGLw.so.1
-link path=usr/X11/lib/libGLw.so.1 target=GL/libGLw.so.1
-link path=usr/X11/lib/mesa target=../../lib/mesa
-link path=usr/include/GL/GLwDrawA.h target=../mesa/GLwDrawA.h
-link path=usr/include/GL/GLwDrawAP.h target=../mesa/GLwDrawAP.h
-link path=usr/include/GL/GLwMDrawA.h target=../mesa/GLwMDrawA.h
-link path=usr/include/GL/GLwMDrawAP.h target=../mesa/GLwMDrawAP.h
-link path=usr/include/GL/glu.h target=../mesa/glu.h
-link path=usr/include/GL/internal/dri_interface.h \
-    target=../../mesa/internal/dri_interface.h
-link path=usr/include/GL/osmesa.h target=../mesa/osmesa.h
 link path=usr/lib/$(ARCH64)/libGLU.so target=libGLU.so.1
 link path=usr/lib/$(ARCH64)/libGLU.so.1 target=../GL/$(ARCH64)/libGLU.so.1
 link path=usr/lib/$(ARCH64)/libGLw.so target=libGLw.so.1
 link path=usr/lib/$(ARCH64)/libGLw.so.1 target=../GL/$(ARCH64)/libGLw.so.1
+file path=usr/lib/$(ARCH64)/pkgconfig/dri.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/gl.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/glu.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/glw.pc
+dir  path=usr/lib/GL
+dir  path=usr/lib/GL/$(ARCH64)
 link path=usr/lib/GL/$(ARCH64)/libGLU.so target=libGLU.so.1
 link path=usr/lib/GL/$(ARCH64)/libGLU.so.1 \
     target=../../mesa/$(ARCH64)/libGLU.so.1
@@ -108,13 +89,32 @@ link path=usr/lib/libGLU.so target=libGLU.so.1
 link path=usr/lib/libGLU.so.1 target=GL/libGLU.so.1
 link path=usr/lib/libGLw.so target=libGLw.so.1
 link path=usr/lib/libGLw.so.1 target=GL/libGLw.so.1
+dir  path=usr/lib/mesa
+dir  path=usr/lib/mesa/$(ARCH64)
 link path=usr/lib/mesa/$(ARCH64)/libGL.so target=libGL.so.1
+file path=usr/lib/mesa/$(ARCH64)/libGL.so.1
 link path=usr/lib/mesa/$(ARCH64)/libGLU.so target=libGLU.so.1
+file path=usr/lib/mesa/$(ARCH64)/libGLU.so.1
 link path=usr/lib/mesa/$(ARCH64)/libGLw.so target=libGLw.so.1
+file path=usr/lib/mesa/$(ARCH64)/libGLw.so.1
 link path=usr/lib/mesa/64 target=$(ARCH64)
 link path=usr/lib/mesa/libGL.so target=libGL.so.1
+file path=usr/lib/mesa/libGL.so.1
 link path=usr/lib/mesa/libGLU.so target=libGLU.so.1
+file path=usr/lib/mesa/libGLU.so.1
 link path=usr/lib/mesa/libGLw.so target=libGLw.so.1
+file path=usr/lib/mesa/libGLw.so.1
+dir  path=usr/lib/mesa/modules
+dir  path=usr/lib/mesa/modules/extensions
+file path=usr/lib/mesa/modules/extensions/libglx.so
+file path=usr/lib/pkgconfig/dri.pc
+file path=usr/lib/pkgconfig/gl.pc
+file path=usr/lib/pkgconfig/glu.pc
+file path=usr/lib/pkgconfig/glw.pc
+file path=usr/lib/xorg/modules/dri/swrast_dri.so
+legacy pkg=SUNWxorg-mesa \
+    desc="Server modules and client libraries for X Window System GLX extension based on Mesa open source project" \
+    name="Xorg Server Mesa Modules and Libraries"
 # Autodetected for now
 # depend fmri=pkg:/service/opengl/ogl-select type=require
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

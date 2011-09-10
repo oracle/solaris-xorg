@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/desktop/synergy@__version:synergy__
+set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
 set name=pkg.description \
     value="Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware.  It's intended for users with multiple computers on their desk since each system uses its own display."
-set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
 file path=usr/bin/synergyc
 file path=usr/bin/synergys
 legacy pkg=SUNWsynergy \

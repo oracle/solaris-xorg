@@ -20,26 +20,26 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxkbfile@__version:libxkbfile__
-set name=pkg.description \
-    value="libxkbfile is used by X servers and utilities to access the data files for XKB layout information.  It also contains some utility routines used by some Xlib-based clients when used with the XKB extension."
 set name=pkg.summary \
     value="libxkbfile - library for the X Keyboard (XKB) extension"
-file path=usr/include/X11/extensions/XKBbells.h
-file path=usr/include/X11/extensions/XKBconfig.h
-file path=usr/include/X11/extensions/XKBfile.h
-file path=usr/include/X11/extensions/XKBrules.h
-file path=usr/include/X11/extensions/XKM.h
-file path=usr/include/X11/extensions/XKMformat.h
-file path=usr/lib/$(ARCH64)/libxkbfile.so.5
-file path=usr/lib/$(ARCH64)/pkgconfig/xkbfile.pc
-file path=usr/lib/libxkbfile.so.5
-file path=usr/lib/pkgconfig/xkbfile.pc
+set name=pkg.description \
+    value="libxkbfile is used by X servers and utilities to access the data files for XKB layout information.  It also contains some utility routines used by some Xlib-based clients when used with the XKB extension."
 link path=usr/X11/lib/$(ARCH64)/libxkbfile.so \
     target=../../../lib/$(ARCH64)/libxkbfile.so
 link path=usr/X11/lib/$(ARCH64)/libxkbfile.so.5 \
     target=../../../lib/$(ARCH64)/libxkbfile.so.5
 link path=usr/X11/lib/libxkbfile.so target=../../lib/libxkbfile.so
 link path=usr/X11/lib/libxkbfile.so.5 target=../../lib/libxkbfile.so.5
+file path=usr/include/X11/extensions/XKBbells.h
+file path=usr/include/X11/extensions/XKBconfig.h
+file path=usr/include/X11/extensions/XKBfile.h
+file path=usr/include/X11/extensions/XKBrules.h
+file path=usr/include/X11/extensions/XKM.h
+file path=usr/include/X11/extensions/XKMformat.h
 link path=usr/lib/$(ARCH64)/libxkbfile.so target=libxkbfile.so.5
+file path=usr/lib/$(ARCH64)/libxkbfile.so.5
+file path=usr/lib/$(ARCH64)/pkgconfig/xkbfile.pc
 link path=usr/lib/libxkbfile.so target=libxkbfile.so.5
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libxkbfile.so.5
+file path=usr/lib/pkgconfig/xkbfile.pc
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

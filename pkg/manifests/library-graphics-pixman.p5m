@@ -20,17 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/library/graphics/pixman@__version:pixman__
-set name=pkg.description \
-    value="pixman is a library that provides low-level pixel manipulation features such as image compositing and trapezoid rasterization."
 set name=pkg.summary \
     value="Pixman: The pixel-manipulation library for X and Cairo."
-dir path=usr/include/pixman-1
+set name=pkg.description \
+    value="pixman is a library that provides low-level pixel manipulation features such as image compositing and trapezoid rasterization."
+dir  path=usr/include/pixman-1
 file path=usr/include/pixman-1/pixman-version.h
 file path=usr/include/pixman-1/pixman.h
+link path=usr/lib/$(ARCH64)/libpixman-1.so target=libpixman-1.so.0
 file path=usr/lib/$(ARCH64)/libpixman-1.so.0
 file path=usr/lib/$(ARCH64)/pkgconfig/pixman-1.pc
+link path=usr/lib/libpixman-1.so target=libpixman-1.so.0
 file path=usr/lib/libpixman-1.so.0
 file path=usr/lib/pkgconfig/pixman-1.pc
 legacy pkg=SUNWpixman desc="Pixman library" name="Pixman library"
-link path=usr/lib/$(ARCH64)/libpixman-1.so target=libpixman-1.so.0
-link path=usr/lib/libpixman-1.so target=libpixman-1.so.0

@@ -20,20 +20,28 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxtst@__version:libXtst__
-set name=pkg.description \
-    value="Xlib-based client API for the XTEST and RECORD extensions to the X11 protocol"
 set name=pkg.summary \
     value="libXtst - X Test and Record extensions client library"
-dir path=usr/share/doc/libXtst
-dir path=usr/share/man/man3xtst
+set name=pkg.description \
+    value="Xlib-based client API for the XTEST and RECORD extensions to the X11 protocol"
+link path=usr/X11/lib/$(ARCH64)/libXtst.so \
+    target=../../../lib/$(ARCH64)/libXtst.so
+link path=usr/X11/lib/$(ARCH64)/libXtst.so.1 \
+    target=../../../lib/$(ARCH64)/libXtst.so.1
+link path=usr/X11/lib/libXtst.so target=../../lib/libXtst.so
+link path=usr/X11/lib/libXtst.so.1 target=../../lib/libXtst.so.1
 file path=usr/include/X11/extensions/XTest.h
 file path=usr/include/X11/extensions/record.h
+link path=usr/lib/$(ARCH64)/libXtst.so target=libXtst.so.1
 file path=usr/lib/$(ARCH64)/libXtst.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xtst.pc
+link path=usr/lib/libXtst.so target=libXtst.so.1
 file path=usr/lib/libXtst.so.1
 file path=usr/lib/pkgconfig/xtst.pc
+dir  path=usr/share/doc/libXtst
 file path=usr/share/doc/libXtst/recordlib.xml
 file path=usr/share/doc/libXtst/xtestlib.xml
+dir  path=usr/share/man/man3xtst
 file path=usr/share/man/man3xtst/XTestCompareCurrentCursorWithWindow.3xtst
 file path=usr/share/man/man3xtst/XTestCompareCursorWithWindow.3xtst
 file path=usr/share/man/man3xtst/XTestDiscard.3xtst
@@ -45,12 +53,4 @@ file path=usr/share/man/man3xtst/XTestGrabControl.3xtst
 file path=usr/share/man/man3xtst/XTestQueryExtension.3xtst
 file path=usr/share/man/man3xtst/XTestSetGContextOfGC.3xtst
 file path=usr/share/man/man3xtst/XTestSetVisualIDOfVisual.3xtst
-link path=usr/X11/lib/$(ARCH64)/libXtst.so \
-    target=../../../lib/$(ARCH64)/libXtst.so
-link path=usr/X11/lib/$(ARCH64)/libXtst.so.1 \
-    target=../../../lib/$(ARCH64)/libXtst.so.1
-link path=usr/X11/lib/libXtst.so target=../../lib/libXtst.so
-link path=usr/X11/lib/libXtst.so.1 target=../../lib/libXtst.so.1
-link path=usr/lib/$(ARCH64)/libXtst.so target=libXtst.so.1
-link path=usr/lib/libXtst.so target=libXtst.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

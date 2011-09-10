@@ -20,8 +20,8 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/transset@__version:transset__
+set name=pkg.summary value="transset - Set transparency on a window"
 set name=pkg.description \
     value="transset is a simple program for use with X sessions utilizing a compositing manager such as xcompmgr or compiz.  It lets the user set the transparency on a window."
-set name=pkg.summary value="transset - Set transparency on a window"
 file path=usr/bin/transset
 file path=usr/share/man/man1/transset.1

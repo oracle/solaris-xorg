@@ -352,6 +352,11 @@ sub check_pkg_log {
 	$publisher = $1;
       }
 
+      # Make pkgfmt issues better match the other patterns
+      if ($issue_type =~ m{pkgfmt}) {
+	$l =~ s{^pkgfmt:}{};
+      }
+
       # Clear saved lines for each new class of issue
       if (($l =~ m{^\S+ .*:+$}ms) || ($l =~ m{^\#\# })) {
 	$issue_type = $l;

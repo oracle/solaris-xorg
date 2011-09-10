@@ -20,20 +20,20 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/trusted/libxtsol@$(OSPKGVERS)
-set name=pkg.description \
-    value="Xlib-based client API for the Solaris Trusted Extensions (SUN_TSOL) extension to the X11 protocol"
 set name=pkg.summary \
     value="libXtsol - Solaris Trusted Extensions X11 extension client library"
-file path=usr/include/X11/extensions/Xtsol.h
-file path=usr/include/X11/extensions/Xtsolproto.h
-file path=usr/lib/$(ARCH64)/libXtsol.so.1
-file path=usr/lib/libXtsol.so.1
+set name=pkg.description \
+    value="Xlib-based client API for the Solaris Trusted Extensions (SUN_TSOL) extension to the X11 protocol"
 link path=usr/X11/lib/$(ARCH64)/libXtsol.so \
     target=../../../lib/$(ARCH64)/libXtsol.so
 link path=usr/X11/lib/$(ARCH64)/libXtsol.so.1 \
     target=../../../lib/$(ARCH64)/libXtsol.so.1
 link path=usr/X11/lib/libXtsol.so target=../../lib/libXtsol.so
 link path=usr/X11/lib/libXtsol.so.1 target=../../lib/libXtsol.so.1
+file path=usr/include/X11/extensions/Xtsol.h
+file path=usr/include/X11/extensions/Xtsolproto.h
 link path=usr/lib/$(ARCH64)/libXtsol.so target=libXtsol.so.1
+file path=usr/lib/$(ARCH64)/libXtsol.so.1
 link path=usr/lib/libXtsol.so target=libXtsol.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/libXtsol.so.1
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

@@ -20,12 +20,27 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/x11-server-utilities@$(X11PKGVERS)
+set name=pkg.summary value="X11 server state utilities"
 set name=pkg.description \
     value="A collection of common utilities for manipulating the state of an X server in a running X session."
-set name=pkg.summary value="X11 server state utilities"
-dir path=etc/xdg
-dir path=etc/xdg/autostart
+dir  path=etc/xdg
+dir  path=etc/xdg/autostart
 file path=etc/xdg/autostart/gnome-dispswitch.desktop
+link path=usr/X11/bin/dispswitch target=../../bin/dispswitch
+link path=usr/X11/bin/showrgb target=../../bin/showrgb
+link path=usr/X11/bin/xcmsdb target=../../bin/xcmsdb
+link path=usr/X11/bin/xgamma target=../../bin/xgamma
+link path=usr/X11/bin/xhost target=../../bin/xhost
+link path=usr/X11/bin/xinput target=../../bin/xinput
+link path=usr/X11/bin/xmakemap target=../../bin/xmakemap
+link path=usr/X11/bin/xmodmap target=../../bin/xmodmap
+link path=usr/X11/bin/xprop target=../../bin/xprop
+link path=usr/X11/bin/xrandr target=../../bin/xrandr
+link path=usr/X11/bin/xrdb target=../../bin/xrdb
+link path=usr/X11/bin/xrefresh target=../../bin/xrefresh
+link path=usr/X11/bin/xset target=../../bin/xset
+link path=usr/X11/bin/xsetroot target=../../bin/xsetroot
+link path=usr/X11/lib/X11/rgb.txt target=../../../share/X11/rgb.txt
 file path=usr/bin/dispswitch
 file path=usr/bin/showrgb
 file path=usr/bin/xcmsdb
@@ -56,20 +71,5 @@ file path=usr/share/man/man1/xrdb.1
 file path=usr/share/man/man1/xrefresh.1
 file path=usr/share/man/man1/xset.1
 file path=usr/share/man/man1/xsetroot.1
-link path=usr/X11/bin/dispswitch target=../../bin/dispswitch
-link path=usr/X11/bin/showrgb target=../../bin/showrgb
-link path=usr/X11/bin/xcmsdb target=../../bin/xcmsdb
-link path=usr/X11/bin/xgamma target=../../bin/xgamma
-link path=usr/X11/bin/xhost target=../../bin/xhost
-link path=usr/X11/bin/xinput target=../../bin/xinput
-link path=usr/X11/bin/xmakemap target=../../bin/xmakemap
-link path=usr/X11/bin/xmodmap target=../../bin/xmodmap
-link path=usr/X11/bin/xprop target=../../bin/xprop
-link path=usr/X11/bin/xrandr target=../../bin/xrandr
-link path=usr/X11/bin/xrdb target=../../bin/xrdb
-link path=usr/X11/bin/xrefresh target=../../bin/xrefresh
-link path=usr/X11/bin/xset target=../../bin/xset
-link path=usr/X11/bin/xsetroot target=../../bin/xsetroot
-link path=usr/X11/lib/X11/rgb.txt target=../../../share/X11/rgb.txt
 # xrdb requires cpp
-depend fmri=pkg:/developer/macro/cpp type=require
+depend type=require fmri=pkg:/developer/macro/cpp

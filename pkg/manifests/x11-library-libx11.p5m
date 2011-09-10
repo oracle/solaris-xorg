@@ -20,88 +20,23 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libx11@__version:libX11__
+set name=pkg.summary value="libX11 - X11 core protocol client library"
 set name=pkg.description \
     value="libX11 provides the basic API most X11 clients use to communicate with an X server."
-set name=pkg.summary value="libX11 - X11 core protocol client library"
-
-
-dir path=usr/lib/X11
-dir path=usr/lib/X11/locale
-dir path=usr/lib/X11/locale/$(ARCH64)
-dir path=usr/lib/X11/locale/$(ARCH64)/common
-dir path=usr/lib/X11/locale/common
-dir path=usr/share/X11
-dir path=usr/share/X11/locale
-dir path=usr/share/X11/locale/C
-dir path=usr/share/X11/locale/am_ET.UTF-8
-dir path=usr/share/X11/locale/armscii-8
-dir path=usr/share/X11/locale/el_GR.UTF-8
-dir path=usr/share/X11/locale/en_US.UTF-8
-dir path=usr/share/X11/locale/fi_FI.UTF-8
-dir path=usr/share/X11/locale/georgian-academy
-dir path=usr/share/X11/locale/georgian-ps
-dir path=usr/share/X11/locale/ibm-cp1133
-dir path=usr/share/X11/locale/iscii-dev
-dir path=usr/share/X11/locale/isiri-3342
-dir path=usr/share/X11/locale/iso8859-1
-dir path=usr/share/X11/locale/iso8859-10
-dir path=usr/share/X11/locale/iso8859-11
-dir path=usr/share/X11/locale/iso8859-13
-dir path=usr/share/X11/locale/iso8859-14
-dir path=usr/share/X11/locale/iso8859-15
-dir path=usr/share/X11/locale/iso8859-2
-dir path=usr/share/X11/locale/iso8859-3
-dir path=usr/share/X11/locale/iso8859-4
-dir path=usr/share/X11/locale/iso8859-5
-dir path=usr/share/X11/locale/iso8859-6
-dir path=usr/share/X11/locale/iso8859-7
-dir path=usr/share/X11/locale/iso8859-8
-dir path=usr/share/X11/locale/iso8859-9
-dir path=usr/share/X11/locale/iso8859-9e
-dir path=usr/share/X11/locale/ja
-dir path=usr/share/X11/locale/ja.JIS
-dir path=usr/share/X11/locale/ja.S90
-dir path=usr/share/X11/locale/ja.SJIS
-dir path=usr/share/X11/locale/ja.U90
-dir path=usr/share/X11/locale/ja_JP.UTF-8
-dir path=usr/share/X11/locale/ko
-dir path=usr/share/X11/locale/ko_KR.UTF-8
-dir path=usr/share/X11/locale/koi8-c
-dir path=usr/share/X11/locale/koi8-r
-dir path=usr/share/X11/locale/koi8-u
-dir path=usr/share/X11/locale/microsoft-cp1251
-dir path=usr/share/X11/locale/microsoft-cp1255
-dir path=usr/share/X11/locale/microsoft-cp1256
-dir path=usr/share/X11/locale/mulelao-1
-dir path=usr/share/X11/locale/nokhchi-1
-dir path=usr/share/X11/locale/pt_BR.UTF-8
-dir path=usr/share/X11/locale/ru_RU.UTF-8
-dir path=usr/share/X11/locale/tatar-cyr
-dir path=usr/share/X11/locale/th_TH
-dir path=usr/share/X11/locale/th_TH.UTF-8
-dir path=usr/share/X11/locale/tscii-0
-dir path=usr/share/X11/locale/vi_VN.tcvn
-dir path=usr/share/X11/locale/vi_VN.viscii
-dir path=usr/share/X11/locale/zh_CN
-dir path=usr/share/X11/locale/zh_CN.UTF-8
-dir path=usr/share/X11/locale/zh_CN.gb18030
-dir path=usr/share/X11/locale/zh_CN.gbk
-dir path=usr/share/X11/locale/zh_HK.UTF-8
-dir path=usr/share/X11/locale/zh_HK.big5
-dir path=usr/share/X11/locale/zh_HK.big5hkscs
-dir path=usr/share/X11/locale/zh_TW
-dir path=usr/share/X11/locale/zh_TW.UTF-8
-dir path=usr/share/X11/locale/zh_TW.big5
-dir path=usr/share/doc/libX11
-dir path=usr/share/doc/libX11/Compose
-dir path=usr/share/doc/libX11/XIM
-dir path=usr/share/doc/libX11/XKB
-dir path=usr/share/doc/libX11/i18n
-dir path=usr/share/doc/libX11/i18n/framework
-dir path=usr/share/doc/libX11/i18n/localedb
-dir path=usr/share/doc/libX11/i18n/trans
-dir path=usr/share/doc/libX11/libX11
-dir path=usr/share/man/man3x11
+link path=usr/X11/lib/$(ARCH64)/libX.so target=../../../lib/$(ARCH64)/libX.so
+link path=usr/X11/lib/$(ARCH64)/libX.so.4 \
+    target=../../../lib/$(ARCH64)/libX.so.4
+link path=usr/X11/lib/$(ARCH64)/libX11.so \
+    target=../../../lib/$(ARCH64)/libX11.so
+link path=usr/X11/lib/$(ARCH64)/libX11.so.4 \
+    target=../../../lib/$(ARCH64)/libX11.so.4
+link path=usr/X11/lib/$(ARCH64)/libX11.so.5 \
+    target=../../../lib/$(ARCH64)/libX11.so.5
+link path=usr/X11/lib/libX.so target=../../lib/libX.so
+link path=usr/X11/lib/libX.so.4 target=../../lib/libX.so.4
+link path=usr/X11/lib/libX11.so target=../../lib/libX11.so
+link path=usr/X11/lib/libX11.so.4 target=../../lib/libX11.so.4
+link path=usr/X11/lib/libX11.so.5 target=../../lib/libX11.so.5
 file path=usr/include/X11/ImUtil.h
 file path=usr/include/X11/XKBlib.h
 file path=usr/include/X11/Xcms.h
@@ -120,215 +55,315 @@ file path=usr/include/X11/Xutil.h
 file path=usr/include/X11/Xvarargs.h
 file path=usr/include/X11/cursorfont.h
 file path=usr/include/X11/extensions/XInteractive.h
+link path=usr/lib/$(ARCH64)/libX.so target=libX11.so.4
+link path=usr/lib/$(ARCH64)/libX.so.4 target=libX11.so.4
+link path=usr/lib/$(ARCH64)/libX11-xcb.so target=libX11-xcb.so.1
 file path=usr/lib/$(ARCH64)/libX11-xcb.so.1
+link path=usr/lib/$(ARCH64)/libX11.so target=libX11.so.4
 file path=usr/lib/$(ARCH64)/libX11.so.4
+link path=usr/lib/$(ARCH64)/libX11.so.5 target=libX11.so.4
 file path=usr/lib/$(ARCH64)/llib-lX11.ln
 file path=usr/lib/$(ARCH64)/pkgconfig/x11-xcb.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/x11.pc
+
+
+dir  path=usr/lib/X11
 file path=usr/lib/X11/Xcms.txt
+dir  path=usr/lib/X11/locale
+dir  path=usr/lib/X11/locale/$(ARCH64)
+dir  path=usr/lib/X11/locale/$(ARCH64)/common
+link path=usr/lib/X11/locale/$(ARCH64)/common/ximcp.so target=ximcp.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/ximcp.so.2
+link path=usr/lib/X11/locale/$(ARCH64)/common/xlcDef.so target=xlcDef.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlcDef.so.2
+link path=usr/lib/X11/locale/$(ARCH64)/common/xlcGB18030.so \
+    target=xlcGB18030.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlcGB18030.so.2
+link path=usr/lib/X11/locale/$(ARCH64)/common/xlcUTF8Load.so \
+    target=xlcUTF8Load.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlcUTF8Load.so.2
+link path=usr/lib/X11/locale/$(ARCH64)/common/xlibi18n.so target=xlibi18n.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlibi18n.so.2
+link path=usr/lib/X11/locale/$(ARCH64)/common/xlocale.so target=xlocale.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlocale.so.2
+link path=usr/lib/X11/locale/$(ARCH64)/common/xomGeneric.so \
+    target=xomGeneric.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xomGeneric.so.2
+dir  path=usr/lib/X11/locale/common
+link path=usr/lib/X11/locale/common/ximcp.so target=ximcp.so.2
 file path=usr/lib/X11/locale/common/ximcp.so.2
+link path=usr/lib/X11/locale/common/xlcDef.so target=xlcDef.so.2
 file path=usr/lib/X11/locale/common/xlcDef.so.2
+link path=usr/lib/X11/locale/common/xlcGB18030.so target=xlcGB18030.so.2
 file path=usr/lib/X11/locale/common/xlcGB18030.so.2
+link path=usr/lib/X11/locale/common/xlcUTF8Load.so target=xlcUTF8Load.so.2
 file path=usr/lib/X11/locale/common/xlcUTF8Load.so.2
+link path=usr/lib/X11/locale/common/xlibi18n.so target=xlibi18n.so.2
 file path=usr/lib/X11/locale/common/xlibi18n.so.2
+link path=usr/lib/X11/locale/common/xlocale.so target=xlocale.so.2
 file path=usr/lib/X11/locale/common/xlocale.so.2
+link path=usr/lib/X11/locale/common/xomGeneric.so target=xomGeneric.so.2
 file path=usr/lib/X11/locale/common/xomGeneric.so.2
+link path=usr/lib/libX.so target=libX11.so.4
+link path=usr/lib/libX.so.4 target=libX11.so.4
+link path=usr/lib/libX11-xcb.so target=libX11-xcb.so.1
 file path=usr/lib/libX11-xcb.so.1
+link path=usr/lib/libX11.so target=libX11.so.4
 file path=usr/lib/libX11.so.4
+# Additional link required by SVID ABI (see PSARC/1997/141)
+link path=usr/lib/libX11.so.5 target=libX11.so.4
 file path=usr/lib/llib-lX11.ln
 file path=usr/lib/pkgconfig/x11-xcb.pc
 file path=usr/lib/pkgconfig/x11.pc
+dir  path=usr/share/X11
 file path=usr/share/X11/XErrorDB
+dir  path=usr/share/X11/locale
+dir  path=usr/share/X11/locale/C
 file path=usr/share/X11/locale/C/Compose
 file path=usr/share/X11/locale/C/XI18N_OBJS
 file path=usr/share/X11/locale/C/XLC_LOCALE
+dir  path=usr/share/X11/locale/am_ET.UTF-8
 file path=usr/share/X11/locale/am_ET.UTF-8/Compose
 file path=usr/share/X11/locale/am_ET.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/am_ET.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/armscii-8
 file path=usr/share/X11/locale/armscii-8/Compose
 file path=usr/share/X11/locale/armscii-8/XI18N_OBJS
 file path=usr/share/X11/locale/armscii-8/XLC_LOCALE
 file path=usr/share/X11/locale/compose.dir
+dir  path=usr/share/X11/locale/el_GR.UTF-8
 file path=usr/share/X11/locale/el_GR.UTF-8/Compose
 file path=usr/share/X11/locale/el_GR.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/el_GR.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/en_US.UTF-8
 file path=usr/share/X11/locale/en_US.UTF-8/Compose
 file path=usr/share/X11/locale/en_US.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/en_US.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/fi_FI.UTF-8
 file path=usr/share/X11/locale/fi_FI.UTF-8/Compose
 file path=usr/share/X11/locale/fi_FI.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/fi_FI.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/georgian-academy
 file path=usr/share/X11/locale/georgian-academy/Compose
 file path=usr/share/X11/locale/georgian-academy/XI18N_OBJS
 file path=usr/share/X11/locale/georgian-academy/XLC_LOCALE
+dir  path=usr/share/X11/locale/georgian-ps
 file path=usr/share/X11/locale/georgian-ps/Compose
 file path=usr/share/X11/locale/georgian-ps/XI18N_OBJS
 file path=usr/share/X11/locale/georgian-ps/XLC_LOCALE
+dir  path=usr/share/X11/locale/ibm-cp1133
 file path=usr/share/X11/locale/ibm-cp1133/Compose
 file path=usr/share/X11/locale/ibm-cp1133/XI18N_OBJS
 file path=usr/share/X11/locale/ibm-cp1133/XLC_LOCALE
+dir  path=usr/share/X11/locale/iscii-dev
 file path=usr/share/X11/locale/iscii-dev/Compose
 file path=usr/share/X11/locale/iscii-dev/XI18N_OBJS
 file path=usr/share/X11/locale/iscii-dev/XLC_LOCALE
+dir  path=usr/share/X11/locale/isiri-3342
 file path=usr/share/X11/locale/isiri-3342/Compose
 file path=usr/share/X11/locale/isiri-3342/XI18N_OBJS
 file path=usr/share/X11/locale/isiri-3342/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-1
 file path=usr/share/X11/locale/iso8859-1/Compose
 file path=usr/share/X11/locale/iso8859-1/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-1/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-10
 file path=usr/share/X11/locale/iso8859-10/Compose
 file path=usr/share/X11/locale/iso8859-10/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-10/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-11
 file path=usr/share/X11/locale/iso8859-11/Compose
 file path=usr/share/X11/locale/iso8859-11/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-11/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-13
 file path=usr/share/X11/locale/iso8859-13/Compose
 file path=usr/share/X11/locale/iso8859-13/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-13/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-14
 file path=usr/share/X11/locale/iso8859-14/Compose
 file path=usr/share/X11/locale/iso8859-14/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-14/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-15
 file path=usr/share/X11/locale/iso8859-15/Compose
 file path=usr/share/X11/locale/iso8859-15/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-15/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-2
 file path=usr/share/X11/locale/iso8859-2/Compose
 file path=usr/share/X11/locale/iso8859-2/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-2/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-3
 file path=usr/share/X11/locale/iso8859-3/Compose
 file path=usr/share/X11/locale/iso8859-3/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-3/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-4
 file path=usr/share/X11/locale/iso8859-4/Compose
 file path=usr/share/X11/locale/iso8859-4/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-4/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-5
 file path=usr/share/X11/locale/iso8859-5/Compose
 file path=usr/share/X11/locale/iso8859-5/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-5/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-6
 file path=usr/share/X11/locale/iso8859-6/Compose
 file path=usr/share/X11/locale/iso8859-6/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-6/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-7
 file path=usr/share/X11/locale/iso8859-7/Compose
 file path=usr/share/X11/locale/iso8859-7/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-7/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-8
 file path=usr/share/X11/locale/iso8859-8/Compose
 file path=usr/share/X11/locale/iso8859-8/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-9
 file path=usr/share/X11/locale/iso8859-9/Compose
 file path=usr/share/X11/locale/iso8859-9/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-9/XLC_LOCALE
+dir  path=usr/share/X11/locale/iso8859-9e
 file path=usr/share/X11/locale/iso8859-9e/Compose
 file path=usr/share/X11/locale/iso8859-9e/XI18N_OBJS
 file path=usr/share/X11/locale/iso8859-9e/XLC_LOCALE
+dir  path=usr/share/X11/locale/ja
+dir  path=usr/share/X11/locale/ja.JIS
 file path=usr/share/X11/locale/ja.JIS/Compose
 file path=usr/share/X11/locale/ja.JIS/XI18N_OBJS
 file path=usr/share/X11/locale/ja.JIS/XLC_LOCALE
+dir  path=usr/share/X11/locale/ja.S90
 file path=usr/share/X11/locale/ja.S90/Compose
 file path=usr/share/X11/locale/ja.S90/XI18N_OBJS
 file path=usr/share/X11/locale/ja.S90/XLC_LOCALE
+dir  path=usr/share/X11/locale/ja.SJIS
 file path=usr/share/X11/locale/ja.SJIS/Compose
 file path=usr/share/X11/locale/ja.SJIS/XI18N_OBJS
 file path=usr/share/X11/locale/ja.SJIS/XLC_LOCALE
+dir  path=usr/share/X11/locale/ja.U90
 file path=usr/share/X11/locale/ja.U90/Compose
 file path=usr/share/X11/locale/ja.U90/XI18N_OBJS
 file path=usr/share/X11/locale/ja.U90/XLC_LOCALE
 file path=usr/share/X11/locale/ja/Compose
 file path=usr/share/X11/locale/ja/XI18N_OBJS
 file path=usr/share/X11/locale/ja/XLC_LOCALE
+dir  path=usr/share/X11/locale/ja_JP.UTF-8
 file path=usr/share/X11/locale/ja_JP.UTF-8/Compose
 file path=usr/share/X11/locale/ja_JP.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/ja_JP.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/ko
 file path=usr/share/X11/locale/ko/Compose
 file path=usr/share/X11/locale/ko/XI18N_OBJS
 file path=usr/share/X11/locale/ko/XLC_LOCALE
+dir  path=usr/share/X11/locale/ko_KR.UTF-8
 file path=usr/share/X11/locale/ko_KR.UTF-8/Compose
 file path=usr/share/X11/locale/ko_KR.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/ko_KR.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/koi8-c
 file path=usr/share/X11/locale/koi8-c/Compose
 file path=usr/share/X11/locale/koi8-c/XI18N_OBJS
 file path=usr/share/X11/locale/koi8-c/XLC_LOCALE
+dir  path=usr/share/X11/locale/koi8-r
 file path=usr/share/X11/locale/koi8-r/Compose
 file path=usr/share/X11/locale/koi8-r/XI18N_OBJS
 file path=usr/share/X11/locale/koi8-r/XLC_LOCALE
+dir  path=usr/share/X11/locale/koi8-u
 file path=usr/share/X11/locale/koi8-u/Compose
 file path=usr/share/X11/locale/koi8-u/XI18N_OBJS
 file path=usr/share/X11/locale/koi8-u/XLC_LOCALE
 file path=usr/share/X11/locale/locale.alias
 file path=usr/share/X11/locale/locale.dir
+dir  path=usr/share/X11/locale/microsoft-cp1251
 file path=usr/share/X11/locale/microsoft-cp1251/Compose
 file path=usr/share/X11/locale/microsoft-cp1251/XI18N_OBJS
 file path=usr/share/X11/locale/microsoft-cp1251/XLC_LOCALE
+dir  path=usr/share/X11/locale/microsoft-cp1255
 file path=usr/share/X11/locale/microsoft-cp1255/Compose
 file path=usr/share/X11/locale/microsoft-cp1255/XI18N_OBJS
 file path=usr/share/X11/locale/microsoft-cp1255/XLC_LOCALE
+dir  path=usr/share/X11/locale/microsoft-cp1256
 file path=usr/share/X11/locale/microsoft-cp1256/Compose
 file path=usr/share/X11/locale/microsoft-cp1256/XI18N_OBJS
 file path=usr/share/X11/locale/microsoft-cp1256/XLC_LOCALE
+dir  path=usr/share/X11/locale/mulelao-1
 file path=usr/share/X11/locale/mulelao-1/Compose
 file path=usr/share/X11/locale/mulelao-1/XI18N_OBJS
 file path=usr/share/X11/locale/mulelao-1/XLC_LOCALE
+dir  path=usr/share/X11/locale/nokhchi-1
 file path=usr/share/X11/locale/nokhchi-1/Compose
 file path=usr/share/X11/locale/nokhchi-1/XI18N_OBJS
 file path=usr/share/X11/locale/nokhchi-1/XLC_LOCALE
+dir  path=usr/share/X11/locale/pt_BR.UTF-8
 file path=usr/share/X11/locale/pt_BR.UTF-8/Compose
 file path=usr/share/X11/locale/pt_BR.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/pt_BR.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/ru_RU.UTF-8
 file path=usr/share/X11/locale/ru_RU.UTF-8/Compose
 file path=usr/share/X11/locale/ru_RU.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/ru_RU.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/tatar-cyr
 file path=usr/share/X11/locale/tatar-cyr/Compose
 file path=usr/share/X11/locale/tatar-cyr/XI18N_OBJS
 file path=usr/share/X11/locale/tatar-cyr/XLC_LOCALE
+dir  path=usr/share/X11/locale/th_TH
+dir  path=usr/share/X11/locale/th_TH.UTF-8
 file path=usr/share/X11/locale/th_TH.UTF-8/Compose
 file path=usr/share/X11/locale/th_TH.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/th_TH.UTF-8/XLC_LOCALE
 file path=usr/share/X11/locale/th_TH/Compose
 file path=usr/share/X11/locale/th_TH/XI18N_OBJS
 file path=usr/share/X11/locale/th_TH/XLC_LOCALE
+dir  path=usr/share/X11/locale/tscii-0
 file path=usr/share/X11/locale/tscii-0/Compose
 file path=usr/share/X11/locale/tscii-0/XI18N_OBJS
 file path=usr/share/X11/locale/tscii-0/XLC_LOCALE
+dir  path=usr/share/X11/locale/vi_VN.tcvn
 file path=usr/share/X11/locale/vi_VN.tcvn/Compose
 file path=usr/share/X11/locale/vi_VN.tcvn/XI18N_OBJS
 file path=usr/share/X11/locale/vi_VN.tcvn/XLC_LOCALE
+dir  path=usr/share/X11/locale/vi_VN.viscii
 file path=usr/share/X11/locale/vi_VN.viscii/Compose
 file path=usr/share/X11/locale/vi_VN.viscii/XI18N_OBJS
 file path=usr/share/X11/locale/vi_VN.viscii/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_CN
+dir  path=usr/share/X11/locale/zh_CN.UTF-8
 file path=usr/share/X11/locale/zh_CN.UTF-8/Compose
 file path=usr/share/X11/locale/zh_CN.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/zh_CN.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_CN.gb18030
 file path=usr/share/X11/locale/zh_CN.gb18030/Compose
 file path=usr/share/X11/locale/zh_CN.gb18030/XI18N_OBJS
 file path=usr/share/X11/locale/zh_CN.gb18030/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_CN.gbk
 file path=usr/share/X11/locale/zh_CN.gbk/Compose
 file path=usr/share/X11/locale/zh_CN.gbk/XI18N_OBJS
 file path=usr/share/X11/locale/zh_CN.gbk/XLC_LOCALE
 file path=usr/share/X11/locale/zh_CN/Compose
 file path=usr/share/X11/locale/zh_CN/XI18N_OBJS
 file path=usr/share/X11/locale/zh_CN/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_HK.UTF-8
 file path=usr/share/X11/locale/zh_HK.UTF-8/Compose
 file path=usr/share/X11/locale/zh_HK.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/zh_HK.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_HK.big5
 file path=usr/share/X11/locale/zh_HK.big5/Compose
 file path=usr/share/X11/locale/zh_HK.big5/XI18N_OBJS
 file path=usr/share/X11/locale/zh_HK.big5/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_HK.big5hkscs
 file path=usr/share/X11/locale/zh_HK.big5hkscs/Compose
 file path=usr/share/X11/locale/zh_HK.big5hkscs/XI18N_OBJS
 file path=usr/share/X11/locale/zh_HK.big5hkscs/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_TW
+dir  path=usr/share/X11/locale/zh_TW.UTF-8
 file path=usr/share/X11/locale/zh_TW.UTF-8/Compose
 file path=usr/share/X11/locale/zh_TW.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/zh_TW.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/zh_TW.big5
 file path=usr/share/X11/locale/zh_TW.big5/Compose
 file path=usr/share/X11/locale/zh_TW.big5/XI18N_OBJS
 file path=usr/share/X11/locale/zh_TW.big5/XLC_LOCALE
 file path=usr/share/X11/locale/zh_TW/Compose
 file path=usr/share/X11/locale/zh_TW/XI18N_OBJS
 file path=usr/share/X11/locale/zh_TW/XLC_LOCALE
+dir  path=usr/share/doc/libX11
+dir  path=usr/share/doc/libX11/Compose
+dir  path=usr/share/doc/libX11/XIM
 file path=usr/share/doc/libX11/XIM/dynamicflow.svg
 file path=usr/share/doc/libX11/XIM/dynamicflowsampleseq.svg
 file path=usr/share/doc/libX11/XIM/eventflow.svg
@@ -337,6 +372,7 @@ file path=usr/share/doc/libX11/XIM/sampleprotocolflow2.svg
 file path=usr/share/doc/libX11/XIM/staticflow.svg
 file path=usr/share/doc/libX11/XIM/staticflowsampleseq.svg
 file path=usr/share/doc/libX11/XIM/xim.xml
+dir  path=usr/share/doc/libX11/XKB
 file path=usr/share/doc/libX11/XKB/XKBlib-1.svg
 file path=usr/share/doc/libX11/XKB/XKBlib-10.svg
 file path=usr/share/doc/libX11/XKB/XKBlib-11.svg
@@ -383,10 +419,15 @@ file path=usr/share/doc/libX11/XKB/ch21.xml
 file path=usr/share/doc/libX11/XKB/ch22.xml
 file path=usr/share/doc/libX11/XKB/glossary.xml
 file path=usr/share/doc/libX11/XKB/xkblib.xml
+dir  path=usr/share/doc/libX11/i18n
+dir  path=usr/share/doc/libX11/i18n/framework
 file path=usr/share/doc/libX11/i18n/framework/framework.svg
 file path=usr/share/doc/libX11/i18n/framework/framework.xml
+dir  path=usr/share/doc/libX11/i18n/localedb
 file path=usr/share/doc/libX11/i18n/localedb/localedb.xml
+dir  path=usr/share/doc/libX11/i18n/trans
 file path=usr/share/doc/libX11/i18n/trans/trans.xml
+dir  path=usr/share/doc/libX11/libX11
 file path=usr/share/doc/libX11/libX11/AppA.xml
 file path=usr/share/doc/libX11/libX11/AppB.xml
 file path=usr/share/doc/libX11/libX11/AppC.xml
@@ -410,6 +451,7 @@ file path=usr/share/doc/libX11/libX11/CH16.xml
 file path=usr/share/doc/libX11/libX11/credits.xml
 file path=usr/share/doc/libX11/libX11/glossary.xml
 file path=usr/share/doc/libX11/libX11/libX11.xml
+dir  path=usr/share/man/man3x11
 file path=usr/share/man/man3x11/AllPlanes.3x11
 file path=usr/share/man/man3x11/BitmapBitOrder.3x11
 file path=usr/share/man/man3x11/BitmapPad.3x11
@@ -1229,46 +1271,4 @@ file path=usr/share/man/man3x11/XwcTextPerCharExtents.3x11
 file path=usr/share/man/man3x11/XwcTextPropertyToTextList.3x11
 file path=usr/share/man/man4/Compose.4
 file path=usr/share/man/man4/XCompose.4
-link path=usr/X11/lib/$(ARCH64)/libX.so target=../../../lib/$(ARCH64)/libX.so
-link path=usr/X11/lib/$(ARCH64)/libX.so.4 \
-    target=../../../lib/$(ARCH64)/libX.so.4
-link path=usr/X11/lib/$(ARCH64)/libX11.so \
-    target=../../../lib/$(ARCH64)/libX11.so
-link path=usr/X11/lib/$(ARCH64)/libX11.so.4 \
-    target=../../../lib/$(ARCH64)/libX11.so.4
-link path=usr/X11/lib/$(ARCH64)/libX11.so.5 \
-    target=../../../lib/$(ARCH64)/libX11.so.5
-link path=usr/X11/lib/libX.so target=../../lib/libX.so
-link path=usr/X11/lib/libX.so.4 target=../../lib/libX.so.4
-link path=usr/X11/lib/libX11.so target=../../lib/libX11.so
-link path=usr/X11/lib/libX11.so.4 target=../../lib/libX11.so.4
-link path=usr/X11/lib/libX11.so.5 target=../../lib/libX11.so.5
-link path=usr/lib/$(ARCH64)/libX.so target=libX11.so.4
-link path=usr/lib/$(ARCH64)/libX.so.4 target=libX11.so.4
-link path=usr/lib/$(ARCH64)/libX11-xcb.so target=libX11-xcb.so.1
-link path=usr/lib/$(ARCH64)/libX11.so target=libX11.so.4
-link path=usr/lib/$(ARCH64)/libX11.so.5 target=libX11.so.4
-link path=usr/lib/X11/locale/$(ARCH64)/common/ximcp.so target=ximcp.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xlcDef.so target=xlcDef.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xlcGB18030.so \
-    target=xlcGB18030.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xlcUTF8Load.so \
-    target=xlcUTF8Load.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xlibi18n.so target=xlibi18n.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xlocale.so target=xlocale.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xomGeneric.so \
-    target=xomGeneric.so.2
-link path=usr/lib/X11/locale/common/ximcp.so target=ximcp.so.2
-link path=usr/lib/X11/locale/common/xlcDef.so target=xlcDef.so.2
-link path=usr/lib/X11/locale/common/xlcGB18030.so target=xlcGB18030.so.2
-link path=usr/lib/X11/locale/common/xlcUTF8Load.so target=xlcUTF8Load.so.2
-link path=usr/lib/X11/locale/common/xlibi18n.so target=xlibi18n.so.2
-link path=usr/lib/X11/locale/common/xlocale.so target=xlocale.so.2
-link path=usr/lib/X11/locale/common/xomGeneric.so target=xomGeneric.so.2
-link path=usr/lib/libX.so target=libX11.so.4
-link path=usr/lib/libX.so.4 target=libX11.so.4
-link path=usr/lib/libX11-xcb.so target=libX11-xcb.so.1
-link path=usr/lib/libX11.so target=libX11.so.4
-# Additional link required by SVID ABI (see PSARC/1997/141)
-link path=usr/lib/libX11.so.5 target=libX11.so.4
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

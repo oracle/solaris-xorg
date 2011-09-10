@@ -20,14 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/developer/build/imake@__version:imake__
+set name=pkg.summary value="imake - makefile generation tool from X.Org"
 set name=pkg.description \
     value="Imake is used to generate Makefiles from a template, a set of cpp macro functions, and a per-directory input file called an Imakefile. This allows machine dependencies (such as compiler options, alternate command names, and special make rules) to be kept separate from the descriptions of the various items to be built."
-set name=pkg.summary value="imake - makefile generation tool from X.Org"
-dir path=usr/lib/X11
-dir path=usr/lib/X11/config
+link path=usr/X11/bin/imake target=../../bin/imake
+link path=usr/X11/bin/mkdirhier target=../../bin/mkdirhier
+link path=usr/X11/bin/xmkmf target=../../bin/xmkmf
 file path=usr/bin/imake
 file path=usr/bin/mkdirhier
 file path=usr/bin/xmkmf
+dir  path=usr/lib/X11
+dir  path=usr/lib/X11/config
 file path=usr/lib/X11/config/Amoeba.cf
 file path=usr/lib/X11/config/DGUX.cf
 file path=usr/lib/X11/config/DragonFly.cf
@@ -152,6 +155,3 @@ file path=usr/lib/X11/config/xorgversion.def
 file path=usr/share/man/man1/imake.1
 file path=usr/share/man/man1/mkdirhier.1
 file path=usr/share/man/man1/xmkmf.1
-link path=usr/X11/bin/imake target=../../bin/imake
-link path=usr/X11/bin/mkdirhier target=../../bin/mkdirhier
-link path=usr/X11/bin/xmkmf target=../../bin/xmkmf

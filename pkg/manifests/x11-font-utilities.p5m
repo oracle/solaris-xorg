@@ -20,10 +20,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/font-utilities@$(X11PKGVERS)
+set name=pkg.summary value="X Window System font utilities"
 set name=pkg.description \
     value="Utilities for building and installing X font and font metadata files."
-set name=pkg.summary value="X Window System font utilities"
-dir path=usr/share/fonts/X11/util
+link path=usr/X11/bin/bdftopcf target=../../bin/bdftopcf
+link path=usr/X11/bin/mkfontdir  target=../../bin/mkfontdir
+link path=usr/X11/bin/mkfontscale target=../../bin/mkfontscale
 file path=usr/bin/bdftopcf
 file path=usr/bin/bdftruncate
 file path=usr/bin/mkfontdir
@@ -31,6 +33,7 @@ file path=usr/bin/mkfontscale
 file path=usr/bin/ucs2any
 file path=usr/lib/X11/installalias mode=0555
 file path=usr/share/aclocal/fontutil.m4
+dir  path=usr/share/fonts/X11/util
 file path=usr/share/fonts/X11/util/map-ISO8859-1
 file path=usr/share/fonts/X11/util/map-ISO8859-10
 file path=usr/share/fonts/X11/util/map-ISO8859-11
@@ -61,6 +64,3 @@ file path=usr/share/pkgconfig/fontutil.pc
 #
 legacy pkg=SUNWxwfsw desc="X Window System required font software" \
     name="X Window System platform required font software"
-link path=usr/X11/bin/bdftopcf target=../../bin/bdftopcf
-link path=usr/X11/bin/mkfontdir target=../../bin/mkfontdir
-link path=usr/X11/bin/mkfontscale target=../../bin/mkfontscale

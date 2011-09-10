@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/xconsole@__version:xconsole__
+set name=pkg.summary value="xconsole - monitor system console messages with X"
 set name=pkg.description \
     value="The xconsole program displays in a X window the messages which are usually sent to /dev/console."
-set name=pkg.summary value="xconsole - monitor system console messages with X"
+link path=usr/X11/bin/xconsole target=../../bin/xconsole
 file path=usr/bin/xconsole
 file path=usr/share/X11/app-defaults/XConsole
 file path=usr/share/man/man1/xconsole.1
-link path=usr/X11/bin/xconsole target=../../bin/xconsole

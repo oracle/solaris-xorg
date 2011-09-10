@@ -21,10 +21,12 @@
 #
 set name=pkg.fmri \
     value=pkg:/system/font/truetype/bitstream-vera@__version:ttf-bitstream-vera__
+set name=pkg.summary value="Bitstream Vera fonts"
 set name=pkg.description \
     value="TrueType font files for the Vera family of redistributable fonts from Bitstream, Inc."
-set name=pkg.summary value="Bitstream Vera fonts"
-dir path=usr/share/fonts/TrueType/bitstream-vera
+link path=etc/X11/fontpath.d/bitstream-vera:pri=42 \
+    target=../../../usr/share/fonts/TrueType/bitstream-vera
+dir  path=usr/share/fonts/TrueType/bitstream-vera
 file path=usr/share/fonts/TrueType/bitstream-vera/COPYRIGHT.TXT
 file path=usr/share/fonts/TrueType/bitstream-vera/Vera.ttf
 file path=usr/share/fonts/TrueType/bitstream-vera/VeraBI.ttf
@@ -41,5 +43,3 @@ file path=usr/share/fonts/TrueType/bitstream-vera/fonts.scale
 legacy pkg=SUNWttf-bitstream-vera \
     desc="TrueType font files for the Vera family of redistributable fonts from Bitstream, Inc." \
     name="Bitstream Vera fonts"
-link path=etc/X11/fontpath.d/bitstream-vera:pri=42 \
-    target=../../../usr/share/fonts/TrueType/bitstream-vera

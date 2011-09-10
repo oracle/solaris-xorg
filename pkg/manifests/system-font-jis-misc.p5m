@@ -20,18 +20,17 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/font/jis-misc@__version:font-jis-misc__
+set name=pkg.summary value="Japanese Industrial Standard 9051-1984 bitmap fonts"
 set name=pkg.description \
     value="X Window System font files based on Japanese Industrial Standard, JIS X 9051-1984: 16-dots Matrix Character Patterns for Display Devices"
-set name=pkg.summary \
-    value="Japanese Industrial Standard 9051-1984 bitmap fonts"
-dir path=usr/share/fonts/X11/jiskan
+link path=etc/X11/fontpath.d/jiskan:pri=84 \
+    target=../../../usr/share/fonts/X11/jiskan
+link path=etc/X11/fontpath.d/jiskan:unscaled:pri=14 \
+    target=../../../usr/share/fonts/X11/jiskan
+dir  path=usr/share/fonts/X11/jiskan
 file path=usr/share/fonts/X11/jiskan/fonts.dir
 file path=usr/share/fonts/X11/jiskan/jiskan16.pcf
 file path=usr/share/fonts/X11/jiskan/jiskan24.pcf
 legacy pkg=SUNWfont-jis-misc \
     desc="X Window System font files based on Japanese Industrial Standard, JIS X 9051-1984: 16-dots Matrix Character Patterns for Display Devices" \
     name="Japanese Industrial Standard 9051-1984 bitmap fonts"
-link path=etc/X11/fontpath.d/jiskan:pri=84 \
-    target=../../../usr/share/fonts/X11/jiskan
-link path=etc/X11/fontpath.d/jiskan:unscaled:pri=14 \
-    target=../../../usr/share/fonts/X11/jiskan

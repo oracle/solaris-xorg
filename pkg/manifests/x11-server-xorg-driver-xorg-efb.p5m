@@ -21,10 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/server/xorg/driver/xorg-efb@$(OSPKGVERS)
-set name=pkg.description \
-    value="Xorg video driver for Sun XVR-300, XVR-100, XVR-50 Graphics"
 set name=pkg.summary \
     value="efb - Sun XVR-300, XVR-100, XVR-50 video driver for the Xorg X server"
+set name=pkg.description \
+    value="Xorg video driver for Sun XVR-300, XVR-100, XVR-50 Graphics"
 set name=variant.arch value=sparc
 file path=usr/lib/xorg/modules/drivers/efb_drv.so
 legacy pkg=SUNWefbw arch=sparc category=application,graphics \
@@ -33,4 +33,4 @@ legacy pkg=SUNWefbw arch=sparc category=application,graphics \
     version=11.0.0,REV=2011.03.15
 
 # Requires kernel driver for efb
-depend fmri=pkg:/driver/graphics/efb type=require
+depend type=require fmri=pkg:/driver/graphics/efb

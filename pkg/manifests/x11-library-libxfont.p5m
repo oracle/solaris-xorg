@@ -20,12 +20,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxfont@__version:libXfont__
-set name=pkg.description \
-    value="libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them.   It is used by the X servers, the X Font Server (xfs), and some font utilities (bdftopcf for instance), but should not be used by normal X11 clients.  X11 clients access fonts via either the new API's in libXft, or the legacy API's in libX11."
 set name=pkg.summary \
     value="libXfont - library for X servers and utilities to access font files"
-dir path=etc/X11
-dir path=etc/X11/fontpath.d
+set name=pkg.description \
+    value="libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them.   It is used by the X servers, the X Font Server (xfs), and some font utilities (bdftopcf for instance), but should not be used by normal X11 clients.  X11 clients access fonts via either the new API's in libXft, or the legacy API's in libX11."
+dir  path=etc/X11
+dir  path=etc/X11/fontpath.d
 file path=usr/include/X11/fonts/bdfint.h
 file path=usr/include/X11/fonts/bitmap.h
 file path=usr/include/X11/fonts/bufio.h
@@ -43,8 +43,8 @@ file path=usr/include/X11/fonts/ftfuncs.h
 file path=usr/include/X11/fonts/pcf.h
 file path=usr/lib/$(ARCH64)/pkgconfig/xfont.pc
 file path=usr/lib/pkgconfig/xfont.pc
-file path=usr/lib/xorg/$(ARCH64)/libXfont.so.1
-file path=usr/lib/xorg/libXfont.so.1
 link path=usr/lib/xorg/$(ARCH64)/libXfont.so target=libXfont.so.1
+file path=usr/lib/xorg/$(ARCH64)/libXfont.so.1
 link path=usr/lib/xorg/libXfont.so target=libXfont.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+file path=usr/lib/xorg/libXfont.so.1
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

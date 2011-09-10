@@ -21,9 +21,9 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-video-cirrus@__version:xf86-video-cirrus__
-set name=pkg.description value="Xorg driver for Cirrus Logic video chips"
 set name=pkg.summary \
     value="xf86-video-cirrus - Cirrus Logic video driver for the Xorg X server"
+set name=pkg.description value="Xorg driver for Cirrus Logic video chips"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/drivers/cirrus_alpine.so
 file path=usr/lib/xorg/modules/drivers/cirrus_drv.so

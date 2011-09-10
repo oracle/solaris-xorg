@@ -20,17 +20,25 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/library/libxcursor@__version:libXcursor__
-set name=pkg.description \
-    value="Xcursor is a simple library designed to help locate and load cursors.  When the Render extension is available in the X server, cursors can be full 32-bit color images, including alpha channels for translucency."
 set name=pkg.summary \
     value="libXcursor - X Window System Cursor management library"
-dir path=usr/include/X11/Xcursor
-dir path=usr/share/man/man3xcursor
+set name=pkg.description \
+    value="Xcursor is a simple library designed to help locate and load cursors.  When the Render extension is available in the X server, cursors can be full 32-bit color images, including alpha channels for translucency."
+link path=usr/X11/lib/$(ARCH64)/libXcursor.so \
+    target=../../../lib/$(ARCH64)/libXcursor.so
+link path=usr/X11/lib/$(ARCH64)/libXcursor.so.1 \
+    target=../../../lib/$(ARCH64)/libXcursor.so.1
+link path=usr/X11/lib/libXcursor.so target=../../lib/libXcursor.so
+link path=usr/X11/lib/libXcursor.so.1 target=../../lib/libXcursor.so.1
+dir  path=usr/include/X11/Xcursor
 file path=usr/include/X11/Xcursor/Xcursor.h
+link path=usr/lib/$(ARCH64)/libXcursor.so target=libXcursor.so.1
 file path=usr/lib/$(ARCH64)/libXcursor.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/xcursor.pc
+link path=usr/lib/libXcursor.so target=libXcursor.so.1
 file path=usr/lib/libXcursor.so.1
 file path=usr/lib/pkgconfig/xcursor.pc
+dir  path=usr/share/man/man3xcursor
 file path=usr/share/man/man3xcursor/Xcursor.3xcursor
 file path=usr/share/man/man3xcursor/XcursorCursorsCreate.3xcursor
 file path=usr/share/man/man3xcursor/XcursorCursorsDestroy.3xcursor
@@ -63,12 +71,4 @@ file path=usr/share/man/man3xcursor/XcursorXcFileLoadAllImages.3xcursor
 file path=usr/share/man/man3xcursor/XcursorXcFileLoadImage.3xcursor
 file path=usr/share/man/man3xcursor/XcursorXcFileLoadImages.3xcursor
 file path=usr/share/man/man3xcursor/XcursorXcFileSave.3xcursor
-link path=usr/X11/lib/$(ARCH64)/libXcursor.so \
-    target=../../../lib/$(ARCH64)/libXcursor.so
-link path=usr/X11/lib/$(ARCH64)/libXcursor.so.1 \
-    target=../../../lib/$(ARCH64)/libXcursor.so.1
-link path=usr/X11/lib/libXcursor.so target=../../lib/libXcursor.so
-link path=usr/X11/lib/libXcursor.so.1 target=../../lib/libXcursor.so.1
-link path=usr/lib/$(ARCH64)/libXcursor.so target=libXcursor.so.1
-link path=usr/lib/libXcursor.so target=libXcursor.so.1
-depend fmri=pkg:/x11/header/x11-protocols type=require facet.devel=true
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

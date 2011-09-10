@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/session/winsysck@$(OSPKGVERS)
-set name=pkg.description \
-    value="winsysck reports whether a program can connect to a window system such as X11."
 set name=pkg.summary \
     value="winsysck - check which window system protocols are available"
+set name=pkg.description \
+    value="winsysck reports whether a program can connect to a window system such as X11."
+link path=usr/X11/bin/winsysck target=../../bin/winsysck
 file path=usr/bin/winsysck
 file path=usr/share/man/man1/winsysck.1
-link path=usr/X11/bin/winsysck target=../../bin/winsysck

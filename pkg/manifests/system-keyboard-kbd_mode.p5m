@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/system/keyboard/kbd_mode@$(OSPKGVERS)
+set name=pkg.summary value="kbd_mode - change the keyboard translation mode"
 set name=pkg.description \
     value="kbd_mode sets the translation mode of the console's keyboard (/dev/kbd) to one of the four values defined for KIOCTRANS in kb(7M). This is useful when a program, such as an X server, that resets the translation mode terminates abnormally and fails to restore the original translation mode."
-set name=pkg.summary value="kbd_mode - change the keyboard translation mode"
+link path=usr/X11/bin/kbd_mode target=../../bin/kbd_mode
 file path=usr/bin/kbd_mode
 file path=usr/share/man/man1/kbd_mode.1
-link path=usr/X11/bin/kbd_mode target=../../bin/kbd_mode

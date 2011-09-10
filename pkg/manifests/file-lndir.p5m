@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/file/lndir@__version:lndir__
-set name=pkg.description \
-    value="The lndir program makes a shadow copy of a directory tree, except that the shadow is not populated with real files but instead with symbolic links pointing at the real files.  This is usually useful for maintaining source code for different machine architectures. "
 set name=pkg.summary \
-    value="lndir - create a shadow directory of symbolic links to another directory tree"
+    value="lndir: create a shadow directory of symbolic links to another directory tree"
+set name=pkg.description \
+    value="This program makes a shadow copy of a directory tree, except that the shadow is not populated with real files but instead with symbolic links pointing at the real files.  This is usually useful for maintaining source code for different machine architectures."
 file path=usr/bin/lndir
 file path=usr/share/man/man1/lndir.1

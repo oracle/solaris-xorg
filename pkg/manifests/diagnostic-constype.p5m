@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/diagnostic/constype@__version:constype__
+set name=pkg.summary value="constype - print type of console"
 set name=pkg.description \
     value="constype prints on the standard output the identifier code for the type of display that the specified console device is."
-set name=pkg.summary value="constype - print type of console"
+link path=usr/X11/bin/constype target=../../bin/constype
 file path=usr/bin/constype
 file path=usr/share/man/man1/constype.1
-link path=usr/X11/bin/constype target=../../bin/constype

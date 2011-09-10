@@ -20,9 +20,9 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/x11/header/rasterfile@$(OSPKGVERS)
+set name=pkg.summary value="Sun rasterfile image format"
 set name=pkg.description \
     value="Documentation and C language definition of Sun rasterfile image format"
-set name=pkg.summary value="Sun rasterfile image format"
-dir path=usr/include/pixrect
+dir  path=usr/include/pixrect
 file path=usr/include/pixrect/rasterfile.h
 file path=usr/share/man/man4/rasterfile.4

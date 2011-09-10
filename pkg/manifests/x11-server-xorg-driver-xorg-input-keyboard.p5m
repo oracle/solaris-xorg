@@ -21,8 +21,8 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-keyboard@__version:xf86-input-keyboard__
-set name=pkg.description value="Xorg keyboard input driver (kbd)"
 set name=pkg.summary \
     value="xf86-input-kbd - Keyboard input driver for the Xorg X server"
+set name=pkg.description value="Xorg keyboard input driver (kbd)"
 file path=usr/lib/xorg/modules/input/kbd_drv.so
 file path=usr/share/man/man7/kbd.7

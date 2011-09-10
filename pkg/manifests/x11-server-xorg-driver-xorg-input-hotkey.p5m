@@ -21,9 +21,9 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-input-hotkey@$(OSPKGVERS)
+set name=pkg.summary \
+    value="xf86-input-hotkey - ACPI hotkey input driver for the Xorg server"
 set name=pkg.description \
     value="Xorg hotkey driver handles ACPI hotkey events for display/output selection hotkeys on certain laptop models."
-set name=pkg.summary \
-    value="xf86-input-hotkey: ACPI hotkey input driver for the Xorg server"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/input/hotkey_drv.so

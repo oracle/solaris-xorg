@@ -20,12 +20,14 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri value=pkg:/benchmark/x11perf@__version:x11perf__
+set name=pkg.summary value="x11perf - X11 server performance test program"
 set name=pkg.description \
     value="The x11perf program runs one or more performance tests and reports how fast an X server can execute the tests."
-set name=pkg.summary value="x11perf - X11 server performance test program"
-dir path=usr/lib/X11/x11perfcomp
+link path=usr/X11/bin/x11perf target=../../bin/x11perf
+link path=usr/X11/bin/x11perfcomp target=../../bin/x11perfcomp
 file path=usr/bin/x11perf
 file path=usr/bin/x11perfcomp
+dir  path=usr/lib/X11/x11perfcomp
 file path=usr/lib/X11/x11perfcomp/Xmark mode=0555
 file path=usr/lib/X11/x11perfcomp/fillblnk mode=0555
 file path=usr/lib/X11/x11perfcomp/perfboth mode=0555
@@ -33,5 +35,3 @@ file path=usr/lib/X11/x11perfcomp/perfratio mode=0555
 file path=usr/share/man/man1/Xmark.1
 file path=usr/share/man/man1/x11perf.1
 file path=usr/share/man/man1/x11perfcomp.1
-link path=usr/X11/bin/x11perf target=../../bin/x11perf
-link path=usr/X11/bin/x11perfcomp target=../../bin/x11perfcomp

@@ -21,10 +21,9 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-video-r128@__version:xf86-video-r128__
-set name=pkg.description \
-    value="Xorg driver for ATI Rage 128 based video cards"
 set name=pkg.summary \
     value="xf86-video-r128 - ATI Rage 128 video driver for the Xorg X server"
+set name=pkg.description value="Xorg driver for ATI Rage 128 based video cards"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/drivers/r128_drv.so
 file path=usr/share/doc/X11/README.r128

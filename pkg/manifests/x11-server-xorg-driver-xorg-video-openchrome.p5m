@@ -21,10 +21,10 @@
 #
 set name=pkg.fmri \
     value=pkg:/x11/server/xorg/driver/xorg-video-openchrome@__version:xf86-video-openchrome__
-set name=pkg.description \
-    value="openchrome is an Xorg driver for VIA chipsets that have an integrated Unichrome graphics engine."
 set name=pkg.summary \
     value="xf86-video-openchrome - VIA Unichrome video driver for the Xorg X server"
+set name=pkg.description \
+    value="openchrome is an Xorg driver for VIA chipsets that have an integrated Unichrome graphics engine."
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/drivers/openchrome_drv.so
 file path=usr/share/man/man7/openchrome.7
