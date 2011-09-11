@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -87,7 +87,7 @@ typedef	unsigned long fbc_api_ver_t;	/* fbconf_xorg(1M) API version type */
 #define	FBC_FILE_PATH_MACHINE	"/etc/X11/xorg.conf"
 
 #define	FBC_FILE_KEYWD_SYSTEM	"system"
-#define	FBC_FILE_PATH_SYSTEM	"/usr/X11/xorg.conf"
+#define	FBC_FILE_PATH_SYSTEM	"/usr/lib/X11/xorg.conf"
 
 #define	FBC_DEFAULT_CONFIG_LOC	FBC_FILE_KEYWD_MACHINE	/* "machine" */
 

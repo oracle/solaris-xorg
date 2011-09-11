@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,7 @@
 #include <stdio.h>		/* fprintf(), fputs() */
 #include <stdlib.h>		/* exit(), malloc(), strtof(), strtol() */
 #include <string.h>		/* strchr(), strcmp(), strlen() */
+#include <unistd.h>		/* issetugid() */
 
 #include "fbc.h"		/* Common fbconf_xorg(1M) definitions */
 #include "fbc_error.h"		/* Error reporting */
@@ -874,6 +875,13 @@ fbc_opt_file(
 		 */
 		fbvar->config_file_loc  = NULL;
 		fbvar->config_file_path = argv[*arg+1];
+
+		if (issetugid()) {
+		    fbc_errormsg("%s %s not allowed with added privileges\n",
+				 argv[*arg], argv[*arg+1]);
+		    fbvar->usage(stderr, fbvar);
+		    exit(FBC_EXIT_USAGE);
+		}
 	} else {
 		/*
 		 * Look up the configuration file location keyword

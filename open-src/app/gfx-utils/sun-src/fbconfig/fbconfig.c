@@ -109,7 +109,7 @@ PrintError(const char *format, ...)
  *        svccfg -s svc:/application/x11/x11-server \
  *                        setprop options/server=/usr/openwin/bin/Xsun
  *        svccfg -s svc:/application/x11/x11-server \
- *                        setprop options/server=/usr/X11/bin/Xorg
+ *                        setprop options/server=/usr/bin/Xorg
  *
  *        svccfg -s svc:/application/x11/x11-server listprop 'options/server'
  */
@@ -144,8 +144,8 @@ typedef enum {
 #define GFX_DEV_XORG	GFX_DEV_PFB | GFX_DEV_NFB | GFX_DEV_EFB | GFX_DEV_KFB | GFX_DEV_AST
 #endif
 
-char *xserver_str[]  = {"Xsun", "Xorg"};
-char *xserver_path[] = {"/usr/openwin/bin/Xsun", "/usr/X11/bin/Xorg"};
+const char *xserver_str[]  = {"Xsun", "Xorg"};
+const char *xserver_path[] = {"/usr/openwin/bin/Xsun", "/usr/bin/Xorg"};
 unsigned int xserver_device[] = { GFX_DEV_XSUN, GFX_DEV_XORG };
 
 static
@@ -1464,7 +1464,7 @@ SetXServer(xserv_t x_server, xserv_t xserver_arg, unsigned int device_mask)
 			}
 		}
 
-		system("svccfg -s svc:/application/x11/x11-server setprop options/server=/usr/X11/bin/Xorg");
+		system("svccfg -s svc:/application/x11/x11-server setprop options/server=/usr/bin/Xorg");
 
 		if (stat(efb_path, &stat_buf) == 0) {
 			system("rem_drv nfb 2>/dev/null&");
