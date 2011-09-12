@@ -206,7 +206,7 @@ tsol_check_policy(TsolInfoPtr tsolinfo, TsolResPtr tsolres,
 
 bad:
 	/* Access denied */
-	LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+	LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		TSOL_LOG_PREFIX
 		"tsol_check_policy(%s, %s, %d, pid=%d, %s, %d, %s) = %s\n",
 		tsolinfo->pname, xsltos(tsolinfo->sl), tsolinfo->uid,
@@ -474,7 +474,7 @@ TsolCheckDrawableAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldat
 
     if (rec->status != Success) {
     	tsolinfo = GetClientTsolInfo(client);
-    	LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+    	LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		   TSOL_LOG_PREFIX
 		   "TsolCheckDrawableAccess(%s, %s, 0x%x, %s, %s) = %s\n",
 		   tsolinfo->pname,
@@ -575,7 +575,7 @@ TsolCheckXIDAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 
     if (rec->status != Success) {
 	    tsolinfo = GetClientTsolInfo(client);
-	    LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+	    LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		   TSOL_LOG_PREFIX
 		   "TsolCheckXIDAccess(%s, %s, 0x%x, %s, %s) = %s\n",
 		   tsolinfo->pname,
@@ -662,7 +662,7 @@ TsolCheckServerAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 
     if (rec->status != Success) {
     	tsolinfo = GetClientTsolInfo(client);
-    	LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+    	LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		   TSOL_LOG_PREFIX
 		   "TsolCheckServerAccess(%s, %s, %s) = %s\n",
 		   tsolinfo->pname,
@@ -722,7 +722,7 @@ TsolCheckClientAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 
     if (rec->status != Success) {
     	tsolinfo = GetClientTsolInfo(client);
-    	LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+    	LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		   TSOL_LOG_PREFIX
 		   "TsolCheckClientAccess(%s, %s, %s) = %s\n",
 		   tsolinfo->pname,
@@ -753,6 +753,12 @@ TsolCheckDeviceAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 	}
 
 	rec->status = BadWindow;
+
+	/* Allow all device access to the server itself */
+	if (client == serverClient) {
+		rec->status = Success;
+		check_mode = 0;
+	}
 
 	/* get/read access is allowed */
 	modes = (DixCreateAccess | DixGetAttrAccess | DixGetFocusAccess |
@@ -789,7 +795,7 @@ TsolCheckDeviceAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 
     if (rec->status != Success) {
     	tsolinfo = GetClientTsolInfo(client);
-    	LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+    	LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		   TSOL_LOG_PREFIX
 		   "TsolCheckDeviceAccess(%s, %s, %s) = %s\n",
 		   tsolinfo->pname,

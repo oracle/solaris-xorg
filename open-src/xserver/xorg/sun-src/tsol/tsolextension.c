@@ -1584,7 +1584,7 @@ TsolSetClientInfo(ClientPtr client)
 		tsolinfo->sl = NULL;
 		snprintf(tsolinfo->pname, MAXNAME,
 			 "client id %d (pid unknown)", client->index);
-		LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+		LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 			       TSOL_LOG_PREFIX "Cannot get client attributes"
 			       " for %s, getpeerucred failed: %s\n",
 			       tsolinfo->pname, errmsg);
@@ -1977,7 +1977,7 @@ TsolCheckSendAccess)
 #ifndef NO_TSOL_DEBUG_MESSAGES
     if (rec->status != Success) {
     	tsolinfo = GetClientTsolInfo(client);
-    	LogMessageVerb(X_ERROR, TSOL_MSG_ERROR,
+    	LogMessageVerb(X_WARNING, TSOL_MSG_WARNING,
 		   TSOL_LOG_PREFIX
 		   "TsolCheckSendAccess(%s, %s) = %s\n",
 		   tsolinfo->pname,

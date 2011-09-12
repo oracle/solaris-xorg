@@ -55,6 +55,7 @@
  */
  
 #define TSOL_MSG_ERROR		0		/* Always printed */
+#define TSOL_MSG_WARNING	4
 #define TSOL_MSG_POLICY_DENIED	5
 #define TSOL_MSG_UNIMPLEMENTED	6
 #define TSOL_MSG_ACCESS_TRACE	7
