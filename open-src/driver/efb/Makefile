@@ -45,7 +45,7 @@ SOURCE_PATCHES = \
 AUTORECONF=yes
 
 # pkg(5) name we deliver the files in (override default)
-MODULE_PKGTAIL=xorg-efb
+MODULE_PKGTAIL=xorg-video-efb
 MODULE_PKGTAIL_SET=yes
 
 # Man pages to apply Sun footer to & attributes to list

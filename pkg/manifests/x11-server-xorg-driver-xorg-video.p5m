@@ -33,9 +33,6 @@ legacy pkg=SUNWxorg-graphics-ddx \
 # Nvidia driver (from outside the X gate)
 $(i386_ONLY)depend type=group fmri=pkg:/driver/graphics/nvidia
 
-# driver/efb
-$(sparc_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-efb
-
 # driver/xf86-video-ast
 depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-ast
 
@@ -44,6 +41,9 @@ $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-ati
 
 # driver/xf86-video-cirrus
 $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-cirrus
+
+# driver/efb
+$(sparc_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-efb
 
 # driver/xf86-video-intel
 $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-intel
