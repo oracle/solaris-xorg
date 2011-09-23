@@ -36,7 +36,8 @@ TARBALL_MD5  = 792e8a7ddc7175911d69f823d38eaff6
 TARBALL_SHA1 = c66cfdee74e8d169a7992b5f257395e653ca761b
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-abi.patch,-p1 man-fixme.patch,-p1
+SOURCE_PATCHES = solaris-abi.patch,-p1
+SOURCE_PATCHES += man-fixme.patch,-p1 shadow-man-pages.patch,-p1
 
 # Need to regen Makefile.in after man-fixme.patch changes Makefile.am
 AUTORECONF=yes
