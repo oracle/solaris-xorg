@@ -387,7 +387,8 @@ SUNWprivate {
 	_XtAddCallback;
 	_XtProcessLock;
 	_XtRemoveStateTreeByIndex;
-	_XtInherit;
+# See src/Initialize.c for explanation of why _XtInherit needs special linking
+	_XtInherit = NODIRECT;
 	_XtDependencies;
 	XtCvtStringToAcceleratorTable;
 	_XtRemoveAllInputs;
