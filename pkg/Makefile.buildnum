@@ -61,24 +61,35 @@
 #
 
 #
-# Generate the trunk id of the packages from the tag in the gate.
-# In X the Nevada builds are tagged with nv_XXX where XXX is the
+# Generate various ids of the packages from the tag in the gate.
+# In X the Nevada builds were tagged with nv_XXX where XXX is the
 # build/trunk number.
 #
 # When the next development train is started this pattern will need to be
-# changed in order to match the tag used there.
+# uncommented & changed in order to match the tag used there:
 #
-TRUNKID :sh = hg parent --template '{latesttag}\n' | \
-        perl -l -n -e 'if ($_ =~ m/^nv_(\d+)/) {print $1} else {exit 1}'
+# TRUNKID :sh = hg parent --template '{latesttag}\n' | \
+#        perl -l -n -e 'if ($_ =~ m/^nv_(\d+)/) {print $1} else {exit 1}'
+
 # If you get mksh: Fatal error from the above, then you have an unexpected
 # tag other than nv_XXX in your hg repo.   You can run make TRUNKID=123 to
 # override with a different build id until you fix your repo or this regexp.
+
+# For Solaris 11 updates, the TRUNKID is always 175, since that's the build
+# we branched the updates at.
+TRUNKID= 175
 
 #
 # The Solaris Update number. This will be set by the gatekeepers.
 # The value must match the update number of the release.
 #
-UPDATENUM= 0
+# Uncomment for development train:
+# UPDATENUM= 0
+
+# For Solaris 11 updates, the update number is part of the tag (s11u1_01 for
+# instance):
+UPDATENUM:sh = hg parent --template '{latesttag}\n' | \
+        perl -l -n -e 'if ($_ =~ m/^s11u(\d+)_/) {print $1} else {exit 1}'
 
 #
 # Support Respository Update number. This is here to reserve space within the
@@ -99,7 +110,13 @@ PLATNUM= 0
 # the development build) of the Solaris Update is being built. 
 # This is set by the gatekeepers.
 #
-BUILDID= 0
+# Uncomment for development train:
+# BUILDID= 0
+
+# For Solaris 11 updates, the build number is part of the tag (s11u1_01 for
+# instance):
+BUILDID:sh = hg parent --template '{latesttag}\n' | \
+        perl -l -n -e 'if ($_ =~ m/^s11u\d+_0*(\d+)/) {print $1} else {exit 1}'
 
 #
 # Each (nightly) build of the code that produces packages needs to

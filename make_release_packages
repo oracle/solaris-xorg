@@ -68,18 +68,15 @@ done
 LOG="$(pwd)/log/make-pkgs"
 CHECK_LOG="$(pwd)/log/check-pkgs"
 
-if [[ -z "${XNV_BUILDNUM}" ]] ; then
-    # Get build version from hg by searching for most recent tag matching nv_*
-    BUILD_TAG="$(hg parent --template '{latesttag}\n' | \
-        perl -l -n -e 'if ($_ =~ m/^nv_(\d+)/) {print $1}')"
+# Get build version from hg by searching for most recent tag matching s11u*
+BUILD_TAG="$(hg parent --template '{latesttag}\n' | \
+    perl -l -n -e 'if ($_ =~ m/^s11u\d+_\d+/) {print $_}')"
 
-    if [[ -z "${BUILD_TAG}" ]] ; then
-	fatal_error "BUILD_TAG could not be found from hg parent"
-    fi
-    XNV_BUILDNUM="${BUILD_TAG}"
+if [[ -z "${BUILD_TAG}" ]] ; then
+    fatal_error "BUILD_TAG could not be found from hg parent"
 fi
 
-print "Building packages for X Consolidation, Nevada build ${XNV_BUILDNUM}"
+print "Building packages for X Consolidation, build ${BUILD_TAG}"
 
 MACH="$(uname -p)"
 
@@ -90,11 +87,11 @@ XMAKE="${BUILD_TOOLS}/xmake ${VERBOSE_FLAGS} -k"
 
 cd pkg
 ${XMAKE} clean > "${LOG}" 2>&1
-${XMAKE} install TRUNKID="${XNV_BUILDNUM}" "${PUBLISHER_FLAGS}" > "${LOG}" 2>&1
+${XMAKE} install "${PUBLISHER_FLAGS}" > "${LOG}" 2>&1
 print "Result log is in ${LOG}"
 
 print "Checking built packages"
-${XMAKE} check TRUNKID="${XNV_BUILDNUM}" > "${CHECK_LOG}" 2>&1
+${XMAKE} check > "${CHECK_LOG}" 2>&1
 print "Package check log is in ${CHECK_LOG}"
 
 "${BUILD_TOOLS}/find-build-errors" -s "${LOG}"
