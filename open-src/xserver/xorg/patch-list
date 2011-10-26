@@ -1,5 +1,7 @@
 oslog-race.patch,-p1
 dtrace-doc.patch,-p1
+CVE-2011-4028.patch,-p1
+CVE-2011-4029.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
