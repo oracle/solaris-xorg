@@ -63,11 +63,11 @@ MODULE_LICENSE_SET	= yes
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.6
+MODULE_VERSION=2.4.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5e6510613f612809d2d7862592b92ab7
-TARBALL_SHA1 = 9d874398118c805478e81d80449dc4aa5a40b6f2
+TARBALL_MD5  = dbadce8f0c5e70a0b7c51eadf2dd9394
+TARBALL_SHA1 = e1b2356ebbc6d39d813797572b1e5d8a2635e969
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
