@@ -24,7 +24,7 @@ set name=pkg.summary value="X Window System font utilities"
 set name=pkg.description \
     value="Utilities for building and installing X font and font metadata files."
 link path=usr/X11/bin/bdftopcf target=../../bin/bdftopcf
-link path=usr/X11/bin/mkfontdir  target=../../bin/mkfontdir
+link path=usr/X11/bin/mkfontdir target=../../bin/mkfontdir
 link path=usr/X11/bin/mkfontscale target=../../bin/mkfontscale
 file path=usr/bin/bdftopcf
 file path=usr/bin/bdftruncate

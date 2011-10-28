@@ -110,10 +110,15 @@ install: all
 	$(INSTALL) -m 0444 FontSelect.ad \
 		$(DESTDIR)$(datadir)/X11/app-defaults/FontSelect
 
-ColorSB.c:	CSBwraps.h
-DPSScrollW.c:	DSWwraps.h
-FontCreato.c:	FSBwraps.h
-FontSample.c:	FSBwraps.h
-FontSB.c:	FSBwraps.h
-XDPSpreview.c:	XDPSpwraps.h
-XDPSshare.c:	XDPSswraps.h
+ColorSB.o:	CSBwraps.h
+CSBwraps.o:	CSBwraps.h
+DPSScrollW.o:	DSWwraps.h
+DSWwraps.o:	DSWwraps.h
+FontCreato.o:	FSBwraps.h
+FontSample.o:	FSBwraps.h
+FontSB.o:	FSBwraps.h
+FSBWraps.o:	FSBwraps.h
+XDPSpreview.o:	XDPSpwraps.h
+XDPSpwraps.o:	XDPSpwraps.h
+XDPSshare.o:	XDPSswraps.h
+XDPSswraps.o:	XDPSswraps.h
