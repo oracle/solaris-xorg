@@ -47,6 +47,8 @@ LIBNAME=Xft
 SUNTOUCHED_MANPAGES=man/Xft.man
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3
+MODULE_MTLEVEL=Unsafe
+MODULE_MTLEVEL_SET=yes
 
 # ARC cases that covered this module
 # LSARC/2003/274 Xft2 library
