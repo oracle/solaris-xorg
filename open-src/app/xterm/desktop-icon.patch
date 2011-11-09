@@ -1,0 +1,11 @@
+diff --git a/xterm.desktop b/xterm.desktop
+index 82e1927..4af7622 100644
+--- a/xterm.desktop
++++ b/xterm.desktop
+@@ -37,5 +37,5 @@ Exec=xterm
+ Terminal=false
+ Type=Application
+ Encoding=UTF-8
+-Icon=xterm-color_48x48
++Icon=gnome-xterm
+ Categories=System;TerminalEmulator;
