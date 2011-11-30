@@ -63,7 +63,6 @@ TARBALL_SHA1 = 570fb55eb14f2c92a7b470b941e9d35dbfafa716
 # Source tarball
 SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
-SOURCE_UNCOMPRESS=gzcat
 
 # Download site for source
 SOURCE_URL=http://fontconfig.org/release/$(SOURCE_TARBALL_NAME)

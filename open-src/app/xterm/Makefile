@@ -59,7 +59,6 @@ SOURCE_URL_SET=yes
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
-SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = resize.man.patch,-p1 desktop-icon.patch,-p1

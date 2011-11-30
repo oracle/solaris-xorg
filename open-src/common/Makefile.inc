@@ -377,13 +377,14 @@ $(SOURCE_INIT_TARGET): $(SOURCE_DEPS)
 	else \
 	  if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
 	    SOURCE_CMD='gtar --exclude=.git* -cf - $(GIT_CLONE_DIR)' ; \
+	    SOURCE_FILE='-' ; \
 	  else \
-	    UNCOMP_CMD="$(SOURCE_UNCOMPRESS)" ; \
-	    SOURCE_CMD="$${UNCOMP_CMD:-bzcat} $(SOURCE_TARBALL)" ; \
+	    SOURCE_CMD=':' ; SOURCE_FILE='$(SOURCE_TARBALL)' ; \
 	  fi ; \
 	  $(START_CMD_ECHO) ; \
 	  $${SOURCE_CMD} | \
-		gtar --directory="$(BUILD_DIR)" $(ADD_TAR_FLAGS) -xf -  ; \
+	    gtar --directory="$(BUILD_DIR)" $(ADD_TAR_FLAGS) \
+		 -xf $${SOURCE_FILE} ; \
 	fi
 	touch $(SOURCE_INIT_TARGET)
 

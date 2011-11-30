@@ -51,7 +51,6 @@ SOURCE_TARBALL_NAME_SET=yes
 # Download site for source
 SOURCE_URL=http://fedorahosted.org/releases/l/i/liberation-fonts/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
-SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None

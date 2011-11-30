@@ -52,7 +52,6 @@ SOURCE_PATCHES =
 # Source tarball
 SOURCE_TARBALL_NAME = freeglut-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
-SOURCE_UNCOMPRESS=gzcat
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=glut

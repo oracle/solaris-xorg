@@ -59,7 +59,6 @@ SOURCE_DIRNAME_SET=yes
 # http://android.git.kernel.org/?p=platform/frameworks/base.git;a=snapshot;h=54e235b011be9e1e38a2b9be787d0a196493d89e;sf=tgz
 SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
-SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=		# None

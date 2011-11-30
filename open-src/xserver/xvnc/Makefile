@@ -60,7 +60,6 @@ JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src/com/tigervnc/vncviewer
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.0.90%20%281.1beta1%29/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
-SOURCE_UNCOMPRESS=gzcat
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -153,7 +152,6 @@ $(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL)
 		BUILD_TYPE="$(BUILD_TYPE)" \
 		SOURCE_TARBALL="$(XORG_TARBALL)" \
 		SOURCE_DEPS="$(XORG_TARBALL)" \
-		SOURCE_UNCOMPRESS="bzcat" \
 		SOURCE_DIR="$(XORG_BUILD_DIR)" \
 		BUILD_DIR="$(XORG_BUILD_DIR)" \
 		ADD_TAR_FLAGS="--strip-components=1"
