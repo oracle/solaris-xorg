@@ -40,7 +40,8 @@ SOURCE_PATCHES = \
 	scanpci.man.patch \
 	solx_devfs.c.patch \
 	solx_devfs.c.domain.patch \
-	scanpci_64bit.patch
+	scanpci_64bit.patch \
+	sparc.patch
 
 # Library name
 LIBNAME=libpciaccess
