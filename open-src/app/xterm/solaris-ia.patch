@@ -1,0 +1,49 @@
+#
+# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+diff --git a/main.c b/main.c
+index 29a51db..626d5a3 100644
+--- a/main.c
++++ b/main.c
+@@ -96,6 +96,8 @@ SOFTWARE.
+ #include <X11/cursorfont.h>
+ #include <X11/Xlocale.h>
+ 
++#include <X11/extensions/XInteractive.h> /* Solaris addition */
++
+ #if OPT_TOOLBAR
+ 
+ #if defined(HAVE_LIB_XAW)
+@@ -4617,6 +4619,12 @@ spawnXTerm(XtermWidget xw)
+     signal(SIGPIPE, Exit);
+ #endif /* USE_SYSV_SIGNALS and not SIGTSTP */
+ 
++    /* Solaris addition: add child to our IA scheduling class priority boost */
++    if (XSolarisIAQueryExtension(screen->display)) {
++	long pids[2] = { getpid(), screen->pid };
++	XSolarisIASetProcessInfo(screen->display, (unsigned char *) pids,
++				 INTERACTIVE_INFO, 2);
++    }
+     return 0;
+ }				/* end spawnXTerm */
+ 

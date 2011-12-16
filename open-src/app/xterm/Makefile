@@ -62,6 +62,7 @@ SOURCE_TARBALL_NAME_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = resize.man.patch,-p1 desktop-icon.patch,-p1
+SOURCE_PATCHES += solaris-ia.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=koi8rxterm.man resize.man uxterm.man xterm.man
