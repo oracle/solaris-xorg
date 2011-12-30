@@ -40,11 +40,11 @@
 #endif /* SHAPE */
 #include "multivis.h"
 
-static MVColmap *mvFindColormap();
-static XVisualInfo *mvMatchVisual();
-static void mvGetColormap();
-static void mvCalculateComposite();
-static unsigned long mvCompositePixel();
+static MVColmap *mvFindColormap(Colormap cmap);
+static XVisualInfo *mvMatchVisual(VisualID vid);
+static void mvGetColormap(MVWinVisInfo *pWI);
+static void mvCalculateComposite(MVWinVisInfo *pWI);
+static unsigned long mvCompositePixel(unsigned long i, MVColmap *pCmp);
 
 static Display *mvDpy; 			/* Display */
 static int mvScreen;			/* Screen */
@@ -78,19 +78,19 @@ static mvCallbackFunc mvCallbackFunction;
 
 void
 #ifdef UPDATE_HACK
-mvInit(dpy, screen, vlist, num_vis, callbackData, callbackFunction)
-  Display *dpy;
-  int screen;
-  XVisualInfo *vlist;
-  int num_vis;
-  void *callbackData;
-  mvCallbackFunc callbackFunction;
+mvInit(
+    Display *dpy,
+    int screen,
+    XVisualInfo *vlist,
+    int num_vis,
+    void *callbackData,
+    mvCallbackFunc callbackFunction)
 #else
-mvInit(dpy, screen, vlist, num_vis)
-  Display *dpy;
-  int screen;
-  XVisualInfo *vlist;
-  int num_vis;
+mvInit(
+    Display *dpy,
+    int screen,
+    XVisualInfo *vlist,
+    int num_vis)
 #endif /* UPDATE_HACK */
 {
 #ifdef SHAPE
@@ -121,9 +121,7 @@ mvInit(dpy, screen, vlist, num_vis)
  * is fully within the bounds of the screen.
 */
 int
-mvCreatImg(wd, ht, x, y)
-  int wd, ht;
-  int x, y;
+mvCreatImg(int wd, int ht, int x, int y)
 {
   /* Create mvImg */
   request_width = wd;
@@ -141,7 +139,7 @@ mvCreatImg(wd, ht, x, y)
  * Reset the mvLib routines
 */
 void
-mvReset()
+mvReset(void)
 {
 #ifdef SHAPE
   int i;
@@ -180,19 +178,16 @@ mvReset()
  * Assumes winList was cleared beforehand.
 */
 void
+mvWalkTree(
+    Window win,		/* This window */
+    int px, int py,	/* parent's origin in root space */
+    int x, int y,	/* Top left of requested rectangle in root space */
+    int wi, int hi, 	/* size of requested rectangle */
 #ifdef SHAPE
-mvWalkTree(win, px, py, x, y, wi, hi, ancestorShaped, ancestorRegion)
-#else /* ! SHAPE */
-mvWalkTree(win, px, py, x, y, wi, hi)
+    Bool ancestorShaped, /* ancestor was a Shaped window */
+    Region ancestorRegion /* parent rel. effective Bounding region of ancestors */
 #endif /* SHAPE */
-  Window win;	/* This window */
-  int px, py;	/* parent's origin in root space */
-  int x, y;	/* Top left of requested rectangle in root space */
-  int wi, hi; 	/* size of requested rectangle */
-#ifdef SHAPE
-  Bool ancestorShaped; /* ancestor was a Shaped window */
-  Region ancestorRegion; /* parent rel. effective Bounding region of ancestors */
-#endif /* SHAPE */
+    )
 {
   XWindowAttributes xwa;
   int width, height, x1, y1;
@@ -346,7 +341,7 @@ mvWalkTree(win, px, py, x, y, wi, hi)
 	 * else returns 0
 */
 int 
-mvIsMultiVis()
+mvIsMultiVis(void)
 {
   int retcode = 0;
   int i = winList.used;
@@ -376,7 +371,7 @@ mvIsMultiVis()
 */
 
 void
-mvDoWindowsFrontToBack()
+mvDoWindowsFrontToBack(void)
 {
   int i;
   MVWinVisInfo *pWI;
@@ -448,8 +443,7 @@ mvDoWindowsFrontToBack()
 */
 
 static void
-mvGetColormap(pWI)
-  MVWinVisInfo *pWI;
+mvGetColormap(MVWinVisInfo *pWI)
 {
   if (!pWI->colmap->Colors) { /* This is the first time we're visiting */
     MVColmap *pCmp = pWI->colmap;
@@ -485,8 +479,7 @@ mvGetColormap(pWI)
  * Returns NULL if the vid is not matched.
 */
 static XVisualInfo *
-mvMatchVisual(vid)
-  VisualID vid;
+mvMatchVisual(VisualID vid)
 {
   XVisualInfo *pVis = mvVlist;
   while (pVis < (mvVlist+mvNumVis)) {
@@ -504,9 +497,7 @@ mvMatchVisual(vid)
  * already on the colmap.
 */
 static unsigned long
-mvCompositePixel(i, pCmp)
-  unsigned long i;
-  MVColmap *pCmp;
+mvCompositePixel(unsigned long i, MVColmap *pCmp)
 {
   unsigned long val = 0;
 
@@ -522,8 +513,7 @@ mvCompositePixel(i, pCmp)
  * Assumes its called only on a True or DirectColor visual.
 */
 static void
-mvCalculateComposite(pWI)
-  MVWinVisInfo *pWI;
+mvCalculateComposite(MVWinVisInfo *pWI)
 {
   MVColmap *pCmp = pWI->colmap;
   XVisualInfo *pVis = pWI->visinfo;
@@ -549,8 +539,7 @@ mvCalculateComposite(pWI)
  * Classic hack not written by this author.
 */
 int
-mvOnes(mask)
-  unsigned long mask;
+mvOnes(unsigned long mask)
 {
   unsigned long y;
 
@@ -563,8 +552,7 @@ mvOnes(mask)
  * Calculate the number of shifts till we hit the mask
 */
 int 
-mvShifts(mask)
-  unsigned long mask;
+mvShifts(unsigned long mask)
 {
   int y = 0;
 
@@ -583,8 +571,7 @@ mvShifts(mask)
  * it is called.
 */
 static MVColmap *
-mvFindColormap(cmap)
-  Colormap(cmap);
+mvFindColormap(Colormap cmap)
 {
   MVColmap *pCmap;
   /* if we've seen this cmap before, return its struct colmap */
@@ -608,8 +595,7 @@ mvFindColormap(cmap)
  * and colmap as parameters, to get RGB values directly.
 */
 XColor *
-mvFindColorInColormap(x, y)
-  int x, y;
+mvFindColorInColormap(int x, int y)
 {
   MVPel *pPel = mvFindPel(x, y);
   MVColmap *pCmap = pPel->colmap;

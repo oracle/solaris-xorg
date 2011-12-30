@@ -1,4 +1,4 @@
-/* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -36,13 +36,20 @@
 
 #ifndef _ALLPLANES_SERVER_
 
-extern Bool XAllPlanesQueryExtension();
-extern Status XAllPlanesQueryVersion();
-extern void XAllPlanesDrawPoints();
-extern void XAllPlanesDrawLines();
-extern void XAllPlanesDrawSegments();
-extern void XAllPlanesDrawRectangles();
-extern void XAllPlanesFillRectangles();
+extern Bool XAllPlanesQueryExtension(Display *dpy, int *event_basep,
+				     int *error_basep);
+extern Status XAllPlanesQueryVersion(Display *dpy, int *major_versionp,
+				     int *minor_versionp);
+extern void XAllPlanesDrawPoints(Display *dpy, Drawable d,
+				 XPoint *points, int n_points, int mode);
+extern void XAllPlanesDrawLines(Display *dpy, Drawable d,
+				XPoint *points, int n_points, int mode);
+extern void XAllPlanesDrawSegments(Display *dpy, Drawable d,
+				   XSegment *segments, int nsegment);
+extern void XAllPlanesDrawRectangles(Display *dpy, Drawable d,
+				     XRectangle *rects, int n_rects);
+extern void XAllPlanesFillRectangles(Display *dpy, Drawable d,
+				     XRectangle *rectangles, int n_rects);
 
 #endif /* _ALLPLANES_SERVER_ */
 

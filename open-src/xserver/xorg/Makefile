@@ -236,7 +236,7 @@ SYMBOL_AWK_SCRIPT  = \
  END   { print "};" } \
  $$7 ~ /UNDEF|\.tdata/  { next } \
  $$5 !~ /GLOB/  { next } \
- $$8 ~ /^(__|_end|_etext|_start|_environ|_lib_version)/ { next } \
+ $$8 ~ /^(__|_edata|_end|_etext|_start|_environ|_lib_version)/ { next } \
  $$4 ~ /FUNC/ && $$7 ~ /\.text/ { printf "\t\t%-40s { FLAGS = EXTERN };\n", $$8 } \
  $$4 ~ /OBJT/ && $$7 ~ /data|bss/ { printf "\t\t%-40s { FLAGS = EXTERN };\n", $$8}'
 

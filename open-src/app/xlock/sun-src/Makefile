@@ -34,7 +34,7 @@ SRCS=${C_SRCS} ${HDRS} ${IMAGES} xlock.man XLock.ad
 OBJS=${C_SRCS:.c=.o}
 
 xlock: ${OBJS}
-	cc -o $@ ${OBJS} $(CFLAGS) $(LDFLAGS) -lX11 -lm -lpam -lbsm -lnsl
+	${CC} -o $@ ${OBJS} $(CFLAGS) ${LDFLAGS} -lX11 -lm -lpam -lbsm -lnsl
 
 pyro.o:=DEFINES=-DSTARSIZE=2
 

@@ -395,7 +395,7 @@ skipVisual (int format, char **pChar, unsigned long *pCount)
 static int XSolarisGetVisualGammaCalledFlag = 0;
 
 int
-XSolarisGetVisualGammaCalled ()
+XSolarisGetVisualGammaCalled (void)
 {
     return (XSolarisGetVisualGammaCalledFlag);
 }

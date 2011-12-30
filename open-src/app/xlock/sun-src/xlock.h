@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -61,8 +61,8 @@ extern Display *dsp;
 extern int  screen;
 
 extern char *ProgramName;
-extern char *display;
-extern char *mode;
+extern const char *display;
+extern const char *mode;
 extern char *fontname;
 extern char *background;
 extern char *foreground;
@@ -85,14 +85,49 @@ extern Bool enablesaver;
 extern Bool allowaccess;
 extern Bool echokeys;
 extern Bool verbose;
-extern void (*callback) ();
-extern void (*init) ();
+extern void (*callback) (Window);
+extern void (*init) (Window);
 
-extern void GetResources();
-extern void hsbramp();
-extern void error();
-extern long seconds();
-extern void usage();
+extern void GetResources(int argc, char *argv[]);
+extern void CheckResources(void);
+extern void hsbramp(double h1, double s1, double b1,
+		    double h2, double s2, double b2,
+		    int count, u_char *red, u_char *green, u_char *blue);
+extern long seconds(void);
+
+/* PRINTFLIKE1 */
+extern void error(const char *format, ...) _X_ATTRIBUTE_PRINTF(1,2);
+
+/*
+ * Declare external interface routines for supported screen savers.
+ */
+
+extern void inithop(Window);
+extern void drawhop(Window);
+
+extern void initlife(Window);
+extern void drawlife(Window);
+
+extern void initqix(Window);
+extern void drawqix(Window);
+
+extern void initimage(Window);
+extern void drawimage(Window);
+
+extern void initblank(Window);
+extern void drawblank(Window);
+
+extern void initswarm(Window);
+extern void drawswarm(Window);
+
+extern void initrotor(Window);
+extern void drawrotor(Window);
+
+extern void initpyro(Window);
+extern void drawpyro(Window);
+
+extern void initflame(Window);
+extern void drawflame(Window);
 
 /* System V Release 4 redefinitions of BSD functions and structures */
 

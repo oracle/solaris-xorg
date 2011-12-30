@@ -1,6 +1,6 @@
 /*
 *
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -31,27 +31,27 @@
 #ifndef CMC_INCLUDE
 #define CMC_INCLUDE
 
+#include <stdlib.h>
 
 /*
 ** External Data
 */
 
 extern char	*display_name;
-extern char	*basename;
-extern int	warn;
+extern char	*basename_arg;
+extern int	warn_flag;
 
 
 /*
 ** External Functions
 */
 
-extern void	fatal_error();
-extern void	cmc_save();
-extern void	cmc_init();
-extern void	cmc_show();
-extern void	cmc_discard();
-extern void	cmc_dealloc();
-extern void	cmc_NeWSinit();
+extern void	cmc_save(void);
+extern void	cmc_init(void);
+extern void	cmc_show(void);
+extern void	cmc_discard(void);
+extern void	cmc_dealloc(void);
+extern void	cmc_NeWSinit(void);
 
 
-#endif  !CMC_INCLUDE
+#endif /* CMC_INCLUDE */

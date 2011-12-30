@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1988, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1988, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -140,6 +140,8 @@
 #include <stdio.h>
 #include <signal.h>
 #include <string.h>
+#include <stdarg.h>
+#include <crypt.h>
 #ifdef SYSV
 #include <shadow.h>
 #endif
@@ -222,12 +224,15 @@ static Bool stoptryingfornow = False;
 	Button5MotionMask | ButtonMotionMask | \
 	KeymapStateMask)
 
-/* VARARGS1 */
 void
-error(s1, s2)
-    char       *s1, *s2;
+error(const char *format, ...)
 {
-    fprintf(stderr, s1, ProgramName, s2);
+    va_list args;
+
+    fprintf(stderr, "%s: ", ProgramName);
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
     exit(1);
 }
 
@@ -282,7 +287,7 @@ GrabKeyboardAndMouse()
 			       GrabModeAsync, GrabModeAsync, CurrentTime);
 
 	if (status != GrabSuccess)
-	    error("%s: couldn't grab keyboard! (%d)\n", status);
+	    error("couldn't grab keyboard! (%d)\n", status);
     }
     status = XGrabPointer(dsp, win[0], True, AllPointerEventMask,
 			  GrabModeAsync, GrabModeAsync, None, mycursor,
@@ -294,7 +299,7 @@ GrabKeyboardAndMouse()
 			      CurrentTime);
 
 	if (status != GrabSuccess)
-	    error("%s: couldn't grab pointer! (%d)\n", status);
+	    error("couldn't grab pointer! (%d)\n", status);
     }
 }
 
@@ -480,7 +485,7 @@ CheckPassword()
 #ifdef SYSV
     struct spwd *rspw, *uspw;
     struct passwd *upw;
-    char       *user;
+    const char  *user;
 #else
     struct passwd *rpw, *upw;
 #endif /* SYSV */
@@ -776,9 +781,9 @@ getPassword()
     struct spwd *rspw, *uspw;
     char       *suserpass = NULL;
     char       *srootpass = NULL;
-    char       *user;
+    const char *user;
 #else
-    char       *user = getenv("USER");
+    const char *user = getenv("USER");
 #endif /* SYSV */
     struct passwd *rpw, *upw;
 #ifdef USE_PAM
@@ -1114,7 +1119,7 @@ static void
 sigcatch()
 {
     finish();
-    error("%s: caught terminate signal.\nAccess control list restored.\n",(char*)NULL);
+    error("caught terminate signal.\nAccess control list restored.\n");
 }
 
 
@@ -1189,20 +1194,18 @@ main(argc, argv)
 		ProgramName, fontname, FALLBACK_FONTNAME);
 	font = XLoadQueryFont(dsp, FALLBACK_FONTNAME);
 	if (font == NULL)
-	    error("%s: can't even find %s!!!\n", FALLBACK_FONTNAME);
+	    error("can't even find %s!!!\n", FALLBACK_FONTNAME);
     }
 
     if (CheckPassword()) {
-	fprintf(stderr, "%s: can't get the user password. Exiting ...\n", 
-		ProgramName);
-
-	fprintf(stderr,"\tYou need to run xlock in setuid root mode on your local machine.\n");
-	error("\tContact your system administrator.\n", (char *) NULL);
+	error("can't get the user password. Exiting ...\n"
+	"\tYou need to run xlock in setuid root mode on your local machine.\n"
+	"\tContact your system administrator.\n");
     }
 	
     screens = ScreenCount(dsp);
     if (screens > MAXSCREENS)
-	error("%s: can only support %d screens.\n", MAXSCREENS);
+	error("can only support %d screens.\n", MAXSCREENS);
     for (screen = 0; screen < screens; screen++) {
 	XColor      tmp;
 	Screen     *scr = ScreenOfDisplay(dsp, screen);

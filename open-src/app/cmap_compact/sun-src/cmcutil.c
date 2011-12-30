@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -36,9 +36,8 @@
 */
 
 /*ARGSUSED*/
-static void 
-disp_err_handler (dpy)
-Display *dpy;	
+static int 
+disp_err_handler (Display *dpy)
 
 {
 	fatal_error("cannot open display \"%s\"", display_name);
@@ -92,13 +91,12 @@ Screen	*screen;
 ** relative to home directory.
 */
 
-static char *
-fn_absolutize (relname)
-char *relname;
+static const char *
+fn_absolutize (const char *relname)
 
 {
 	static char 	filename[256];
-	char		*homedir;
+	const char	*homedir;
 
 	if (*relname == '/') 
 		return relname;
@@ -110,9 +108,8 @@ char *relname;
 }
 
 
-char *
-comp_colors_filename (basename)
-char	*basename;
+const char *
+comp_colors_filename (const char *basename)
 
 {
 	if (!basename)
@@ -122,11 +119,11 @@ char	*basename;
 }
 
 int
-cmc_write (f, scr_num, ncolors, colors)
-FILE	*f;
-int	scr_num;
-int	ncolors;
-XColor	*colors;
+cmc_write (
+    FILE	*f,
+    int		scr_num,
+    int		ncolors,
+    XColor	*colors)
 
 {
 	(void)fwrite(&scr_num, sizeof(int), 1, f);
@@ -142,11 +139,11 @@ XColor	*colors;
 */
 
 int
-cmc_read (f, scr_num, ncolors, colors)
-FILE	*f;
-int	*scr_num;
-int	*ncolors;
-XColor	**colors;
+cmc_read (
+    FILE	*f,
+    int		*scr_num,
+    int		*ncolors,
+    XColor	**colors)
 
 {
 	if (!fread(scr_num, sizeof(int), 1, f)) 
@@ -170,8 +167,8 @@ XColor	**colors;
 
 
 void
-cmc_header_write (f)
-FILE	*f;
+cmc_header_write (
+    FILE	*f)
 
 {
 	int	value;
@@ -185,8 +182,8 @@ FILE	*f;
 
 
 void
-cmc_header_test (f)
-FILE	*f;
+cmc_header_test (
+    FILE	*f)
 
 {
 	int	value;
@@ -206,14 +203,14 @@ Actual = %x", CMC_VERSION, value);
 
 
 void
-prop_update (dpy, w, name, type, format, data, nelem)
-Display	*dpy;
-Window	w;
-char	*name;
-Atom	type;
-int	format;
-int	data;
-int	nelem;
+prop_update (
+    Display	*dpy,
+    Window	w,
+    const char	*name,
+    Atom	type,
+    int		format,
+    int		data,
+    int		nelem)
 
 {
 	/* intern the property name */
@@ -233,8 +230,8 @@ int	nelem;
 */
 
 void
-resource_preserve (dpy)
-Display	*dpy;
+resource_preserve (
+    Display	*dpy)
 
 {
 	Window	w = DefaultRootWindow(dpy);
@@ -256,15 +253,15 @@ Display	*dpy;
 */
 
 void
-resource_discard (dpy)
-Display	*dpy;
+resource_discard (
+    Display	*dpy)
 
 {
 	Pixmap	*pm;			
 	Atom	actual_type;		/* NOTUSED */
 	int	format;
-	int	nitems;
-	int	bytes_after;
+	unsigned long	nitems;
+	unsigned long	bytes_after;
 
 	/* intern the property name */
 	Atom	atom = XInternAtom(dpy, RETAIN_PROP_NAME, 0);
@@ -272,17 +269,19 @@ Display	*dpy;
 	/* look for existing resource allocation */
 	if (XGetWindowProperty(dpy, DefaultRootWindow(dpy), atom, 0, 1,
 		1/*delete*/, AnyPropertyType, &actual_type, &format, &nitems,
-		&bytes_after, &pm) == Success && nitems == 1) 
+		&bytes_after, (unsigned char **) &pm) == Success
+	    && nitems == 1) {
 
 		if (actual_type == XA_PIXMAP && format == 32 &&
 		    nitems == 1 && bytes_after == 0) {
 			/* blast it away */
-			XKillClient(dpy, (Pixmap *) *pm);
+			XKillClient(dpy, *pm);
 			XFree(pm);
 		} else if (actual_type != None) {
 		    extern char *program;
 		    fprintf(stderr, "%s: warning: invalid format encountered for property %s\n",
 				 RETAIN_PROP_NAME, program);
+		}
 	}
 }
 

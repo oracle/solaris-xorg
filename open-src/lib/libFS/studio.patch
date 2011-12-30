@@ -1,0 +1,42 @@
+From 4ebfa48f74deb4f35490e02eeeb1e59ff56856ab Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Sun, 4 Dec 2011 08:54:38 -0800
+Subject: [PATCH:libFS] Fix builds of FSlibInt.c with Solaris Studio compilers
+
+Required in order to build with Studio cc now that xorg-macros is
+setting -errwarn=E_FUNC_HAS_NO_RETURN_STMT since a bug in the Solaris
+system headers causes the noreturn attribute to not be correctly
+applied to the exit() prototype in <stdlib.h> when building with
+Studio instead of gcc.
+
+Otherwise compiler exits with error:
+"FSlibInt.c", line 976: Function has no return statement : _FSDefaultIOError
+
+Uses Studio-specific pragma instead of adding another exit() prototype
+with a noreturn attribute to avoid causing gcc to warn about having
+a redundant prototype for the exit() function.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/FSlibInt.c |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+diff --git a/src/FSlibInt.c b/src/FSlibInt.c
+index eea9840..db9cc47 100644
+--- a/src/FSlibInt.c
++++ b/src/FSlibInt.c
+@@ -946,6 +946,11 @@ _SysErrorMsg(int n)
+     return (s ? s : "no such error");
+ }
+ 
++#ifdef __SUNPRO_C
++/* prevent "Function has no return statement" error for _FSDefaultIOError */
++#pragma does_not_return(exit)
++#endif
++
+ /*
+  * _FSDefaultIOError - Default fatal system error reporting routine.  Called
+  * when an X internal system error is encountered.
+-- 
+1.7.3.2
+

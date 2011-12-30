@@ -34,6 +34,8 @@ static char Xrcsid[] = "$XConsortium: AsciiSrc.c,v 1.28 90/01/10 14:25:21 kit Ex
 
 #include <stdio.h>
 #include <ctype.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
 

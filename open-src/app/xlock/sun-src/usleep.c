@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -70,7 +70,7 @@ usleep(usec)
  * This is used to control rate and timeout in many of the animations.
  */
 long
-seconds()
+seconds(void)
 {
     struct timeval now;
 

@@ -59,10 +59,9 @@
 #endif
 #include "multivis.h"
 
-#ifdef SYSV
-#ifndef bzero
-#define bzero(a,b) memset(a,0,b)
-#endif
+#ifdef __SUNPRO_C
+/* prevent "Function has no return statement" error for shhh() */
+#pragma does_not_return(exit)
 #endif
 
 #define DEFAULT_BORDER_SIZE 2
@@ -104,7 +103,7 @@ XImage *FinalImage;			/* XImage corresponding to Img */
 
 int multiVis=0;				/* if (multiVis), MultiVisual kludge */
 int red_shift, blue_shift, green_shift, rgb_shift;
-XImage *CreateImageFromImg();
+static XImage *CreateImageFromImg(void);
 #ifdef ALLPLANES
 int allplanes;                          /* Is the SUN_ASLLPLANES extension present ? */
 #endif /* ALLPLANES */
@@ -112,12 +111,24 @@ Atom wm_delete_window;
 
 /* end MultiVisual Fix */
 
-void magnify(), get_source(), repaint_image();
-Bool do_magnify();
+static void magnify (char *window_geometry, char *source_geometry,
+		     int magnification, char *border_color, int border_width,
+		     char *back_color);
+static void get_source (XSizeHints *shp);
+static void repaint_image (XImage *image, XEvent *eventp, int magnification,
+			   unsigned long back_pixel);
 
+static Bool do_magnify (XSizeHints *shp, XSizeHints *whp, int magnification,
+			unsigned long back_pixel);
 
-void Exit (status)
-    int status;
+static int IsMultiVis (int multivisFromMvLib);
+static void MapPixWindow (Window wind, int bot);
+static void DrawPixWindow (char *str);
+static void UnmapPixWindow (void);
+static int shhh(Display *dsp, XErrorEvent *err); /* quiet IO error handler */
+
+static void
+Exit (int status)
 {
     if (dpy) {
 	XCloseDisplay (dpy);
@@ -126,9 +137,10 @@ void Exit (status)
     (void) exit (status);
 }
 
-Usage ()
+static void
+Usage (void)
 {
-    static char *help_message[] = {
+    static const char *help_message[] = {
 "where options include:",
 "    -display displaystring        X server to contact",
 "    -geometry geomstring          size and location of enlargement",
@@ -153,9 +165,8 @@ NULL
 }
 
 
-main (argc, argv)
-    int argc;
-    char **argv;
+int
+main (int argc, char **argv)
 {
     int i;				/* iterator variable */
     char *displayname = NULL;		/* name of X server to contact */
@@ -165,7 +176,6 @@ main (argc, argv)
     char *border_color = NULL;		/* border color name */
     char *back_color = NULL;		/* background of enlargement */
     int border_width = -1;		/* border width in pixels */
-    int shhh();				/* quiet IO error handler */
 
     ProgramName = argv[0];
     Argc = argc;
@@ -358,14 +368,13 @@ main (argc, argv)
  */
 
 void 
-magnify(window_geometry, source_geometry, magnification, 
-	 border_color, border_width, back_color)
-    char *window_geometry;		/* size and location of enlargement */
-    char *source_geometry;		/* size and location of area */
-    int magnification;			/* enlargement ratio */
-    char *border_color;			/* name of color to use for border */
-    int border_width;			/* width of border */
-    char *back_color;			/* color name or pixel value */
+magnify(
+    char *window_geometry,		/* size and location of enlargement */
+    char *source_geometry,		/* size and location of area */
+    int magnification,			/* enlargement ratio */
+    char *border_color,			/* name of color to use for border */
+    int border_width,			/* width of border */
+    char *back_color)			/* color name or pixel value */
 {
     XTextProperty windowName, iconName;
     XWMHints wmHints;
@@ -554,7 +563,7 @@ magnify(window_geometry, source_geometry, magnification,
 	XColor cdef;
 
 	if (back_color[0] == '%') {	/* pixel specifier */
-	    char *fmt = "%lu";
+	    const char *fmt = "%lu";
 	    register char *s = back_color + 1;
 
 	    if (!*s) Usage ();
@@ -716,8 +725,8 @@ magnify(window_geometry, source_geometry, magnification,
 #define NITERATIONS 6
 #define NPOINTS (1 + (NITERATIONS * 2 * 4))  /* 1 move, 2 inverts, 4 sides */
 
-void get_source (shp)
-    XSizeHints *shp;
+static void
+get_source (XSizeHints *shp)
 {
     register int x, y;
     int width = shp->width, height = shp->height;
@@ -778,7 +787,7 @@ void get_source (shp)
 		done = True;
 		break;
 	      default:
-		fprintf (stderr, "%s:  warning unhandled event %lu = 0x%lx\n",
+		fprintf (stderr, "%s:  warning unhandled event %u = 0x%x\n",
 			 ProgramName, event.type, event.type);
 		continue;
 	    }				/* end switch */
@@ -833,11 +842,12 @@ void get_source (shp)
     return;
 }
 
-Bool 
-do_magnify (shp, whp, magnification, back_pixel)
-    XSizeHints *shp, *whp;
-    int magnification;
-    unsigned long back_pixel;
+static Bool 
+do_magnify (
+    XSizeHints *shp,
+    XSizeHints *whp,
+    int magnification,
+    unsigned long back_pixel)
 {
     int x = shp->x, y = shp->y, width = shp->width, height = shp->height;
     int dw = DisplayWidth (dpy, screen), dh = DisplayHeight (dpy, screen);
@@ -1042,11 +1052,12 @@ if (!image) { /* clean up */
     return (domore);
 }
 
-void repaint_image (image, eventp, magnification, back_pixel)
-    XImage *image;
-    XEvent *eventp;
-    int magnification;
-    unsigned long back_pixel;
+static void
+repaint_image (
+    XImage *image,
+    XEvent *eventp,
+    int magnification,
+    unsigned long back_pixel)
 {
     XExposeEvent *ev = &eventp->xexpose;  /* to get repaint section */
     int e_row, e_column;		/* expose dimensions */
@@ -1152,9 +1163,10 @@ static Window pixwind = None;
 static XFontStruct *pixfinfo = NULL;
 GC pixGC = (GC) NULL;
 
-MapPixWindow (wind, bot)
-    Window wind;
-    int bot;
+static void
+MapPixWindow (
+    Window wind,
+    int bot)
 {
 
     /* creates a small window inside of 'wind', at the top or bottom,
@@ -1221,8 +1233,8 @@ MapPixWindow (wind, bot)
 }
 
 
-DrawPixWindow (str)
-char *str;
+static void
+DrawPixWindow (char *str)
 {
     XClearWindow (dpy, pixwind);
     XSetForeground (dpy, pixGC, WhitePixel(dpy, screen));
@@ -1231,7 +1243,8 @@ char *str;
 }
 
 
-UnmapPixWindow()
+static void
+UnmapPixWindow(void)
 {
     XUnmapWindow (dpy, pixwind);
 /* start MultiVisual Fix */
@@ -1255,8 +1268,8 @@ UnmapPixWindow()
  * The TrueColor visual is assumed to provide a 
  * linear ramp in each primary.
 */
-XImage *
-CreateImageFromImg()
+static XImage *
+CreateImageFromImg(void)
 {
   XImage *image = FinalImage;
   int x, y;
@@ -1277,9 +1290,10 @@ CreateImageFromImg()
   return image;
 }
 
-int shhh(dsp, err)
-  Display *dsp;
-  XErrorEvent *err;
+static int
+shhh(
+    Display *dsp,
+    XErrorEvent *err)
 {
   /* be quiet */
   exit(1);
@@ -1290,8 +1304,7 @@ int shhh(dsp, err)
  * Based on what mvLib returns, determine the best thing to do ...
 */
 int 
-IsMultiVis(multivisFromMvLib)
-  int multivisFromMvLib;
+IsMultiVis(int multivisFromMvLib)
 {
   switch (multivisFromMvLib) {
     case 0: /* No multiVis problems, do it the simple way */
@@ -1310,5 +1323,6 @@ IsMultiVis(multivisFromMvLib)
 	      ProgramName);
       return 0;
   }
+  return 0;
 }
 /* end MultiVisual Fix */

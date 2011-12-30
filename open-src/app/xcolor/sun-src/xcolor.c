@@ -45,28 +45,20 @@
 #define ICON_WIDTH 48
 #define ICON_HEIGHT 48
 
-Display    *dsp = NULL;		/* current display (must be inited) */
-int         screen;
-Visual	    *visual;
-Window      win;		/* window used to cover screen */
-Window	    icon;
-GC	    gc;			/* graphics context */
-int         height = 0,
-            width = 0;
-Colormap    cmap;
-char       *pname;
-Atom	    ATOM_WM_PROTOCOLS;
-Atom	    ATOM_WM_DELETE_WINDOW;
+Display    	   *dsp = NULL;		/* current display (must be inited) */
+static int	    screen;
+static Visual	   *visual;
+static Window	    win;		/* window used to cover screen */
+static GC	    gc;			/* graphics context */
+static int	    height = 0,
+	            width = 0;
+static Colormap	    cmap;
+static Atom	    ATOM_WM_PROTOCOLS;
+static Atom	    ATOM_WM_DELETE_WINDOW;
 
-int    	    cmap_size;
+static int    	    cmap_size;
 
-
-static void
-error(const char *s1, const void *s2)
-{
-    fprintf(stderr, s1, pname, s2);
-    exit(1);
-}
+#define error(...) do { fprintf(stderr, __VA_ARGS__) ; exit(1); } while (0)
 
 static void
 dumpCmap(void)
@@ -256,7 +248,8 @@ main(
     int		install = 1;
     int		mask;
     int		useiconwin = 0;
-    
+    const char *pname;
+
     if (getenv("_SYNC")) { 
 	extern int _Xdebug;
 	_Xdebug = 1;
@@ -279,12 +272,12 @@ main(
 	else if (!strcmp(argv[i], "-iconwin"))
 	    useiconwin = 1;
 	else
-	    error("usage:  %s [-display dpystr] [-geometry geomstr]\n\
-\t[-dump] [-nobw] [-half] [-noinst] [-iconwin]\n", NULL);
+	    error("usage:  %s [-display dpystr] [-geometry geomstr]\n"
+		  "\t[-dump] [-nobw] [-half] [-noinst] [-iconwin]\n", pname);
     }
 
     if (!(dsp = XOpenDisplay(displayName))) {
-	error("%s: unable to open display, %s.\n",
+	error("%s: unable to open display, %s.\n", pname,
 	      displayName ? displayName : "no display specified");
     }
 
@@ -304,7 +297,7 @@ main(
 				      0.0, 1.0, 1.0,
 				      1.0, 1.0, 1.0, !nobw, &visual);
 	    if (stat != Success)
-		error("%s: unable create colormap (%d).\n", (void *) stat);
+		error("%s: unable to create colormap (%d).\n", pname, stat);
     }
 
     size_hints.x = DEFX;
@@ -354,12 +347,14 @@ main(
 	);
 
     XSetStandardProperties(dsp, win, " XColor ", " XCOLOR ",
-			   NULL, argv, argc, &size_hints);
+			   None, argv, argc, &size_hints);
 
     wmhints.flags = InputHint;
     wmhints.input = True;
 
     if (useiconwin) {
+	Window	    icon;
+
 	xswa.event_mask = ExposureMask;
 	mask = CWEventMask;
 

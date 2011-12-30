@@ -48,7 +48,8 @@ SOFTWARE.
  *************************************************************/
 
 #include <stdio.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <X11/StringDefs.h>
 #include <X11/IntrinsicP.h>
 #include <X11/Shell.h> 

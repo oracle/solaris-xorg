@@ -37,6 +37,8 @@ TARBALL_SHA1 = 2b33fa17369605303ae70a7de1aa681879249c92
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch
+SOURCE_PATCHES += studio.patch,-p1
+SOURCE_PATCHES += lint.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

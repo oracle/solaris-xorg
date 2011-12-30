@@ -1,4 +1,4 @@
-/* Copyright (c) 1990, 2008, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -68,10 +68,10 @@ XEXT_GENERATE_FIND_DISPLAY(find_display,
 /**********************************************************************/
 
 Bool
-XAllPlanesQueryExtension(dpy, event_basep, error_basep)
-    Display    *dpy;
+XAllPlanesQueryExtension(
+    Display    *dpy,
     int        *event_basep,
-               *error_basep;
+    int        *error_basep)
 {
     XExtDisplayInfo *info = find_display(dpy);
 
@@ -86,10 +86,10 @@ XAllPlanesQueryExtension(dpy, event_basep, error_basep)
 
 
 Status
-XAllPlanesQueryVersion(dpy, major_versionp, minor_versionp)
-    Display    *dpy;
+XAllPlanesQueryVersion(
+    Display    *dpy,
     int        *major_versionp,
-               *minor_versionp;
+    int        *minor_versionp)
 {
     XExtDisplayInfo *info = find_display(dpy);
     xAllPlanesQueryVersionReply rep;
@@ -115,12 +115,12 @@ XAllPlanesQueryVersion(dpy, major_versionp, minor_versionp)
 
 
 void
-XAllPlanesDrawPoints(dpy, d, points, n_points, mode)
-    Display *dpy;
-    Drawable    d;
-    XPoint     *points;
-    int         n_points;
-    int         mode;		/* CoordMode */
+XAllPlanesDrawPoints(
+    Display    *dpy,
+    Drawable    d,
+    XPoint     *points,
+    int         n_points,
+    int         mode)		/* CoordMode */
 {
     XExtDisplayInfo *info = find_display(dpy);
     xAllPlanesPolyPointReq *req;
@@ -173,12 +173,12 @@ XAllPlanesDrawPoints(dpy, d, points, n_points, mode)
 
 
 void
-XAllPlanesDrawLines(dpy, d, points, npoints, mode)
-    Display *dpy;
-    Drawable    d;
-    XPoint     *points;
-    int         npoints;
-    int         mode;
+XAllPlanesDrawLines(
+    Display    *dpy,
+    Drawable    d,
+    XPoint     *points,
+    int         npoints,
+    int         mode)
 {
     XExtDisplayInfo *info = find_display(dpy);
     xAllPlanesPolyLineReq *req;
@@ -204,11 +204,11 @@ XAllPlanesDrawLines(dpy, d, points, npoints, mode)
 
 
 void
-XAllPlanesDrawSegments(dpy, d, segments, nsegments)
-    Display *dpy;
-    Drawable    d;
-    XSegment   *segments;
-    int         nsegments;
+XAllPlanesDrawSegments(
+    Display    *dpy,
+    Drawable    d,
+    XSegment   *segments,
+    int         nsegments)
 {
     XExtDisplayInfo *info = find_display(dpy);
     xAllPlanesPolySegmentReq *req;
@@ -241,11 +241,11 @@ XAllPlanesDrawSegments(dpy, d, segments, nsegments)
 
 
 void
-XAllPlanesDrawRectangles(dpy, d, rects, n_rects)
-    Display *dpy;
-    Drawable    d;
-    XRectangle *rects;
-    int         n_rects;
+XAllPlanesDrawRectangles(
+    Display    *dpy,
+    Drawable    d,
+    XRectangle *rects,
+    int         n_rects)
 {
     XExtDisplayInfo *info = find_display(dpy);
     xAllPlanesPolyRectangleReq *req;
@@ -278,11 +278,11 @@ XAllPlanesDrawRectangles(dpy, d, rects, n_rects)
 
 
 void
-XAllPlanesFillRectangles(dpy, d, rectangles, n_rects)
-    Display *dpy;
-    Drawable    d;
-    XRectangle *rectangles;
-    int         n_rects;
+XAllPlanesFillRectangles(
+    Display    *dpy,
+    Drawable    d,
+    XRectangle *rectangles,
+    int         n_rects)
 {
     XExtDisplayInfo *info = find_display(dpy);
     xAllPlanesPolyFillRectangleReq *req;

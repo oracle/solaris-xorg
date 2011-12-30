@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -36,10 +36,10 @@
 
 
 static void
-cmc_alloc (screen, ncolors, colors)
-Screen	*screen;
-int	ncolors;
-XColor	*colors;
+cmc_alloc (
+    Screen	*screen,
+    int		ncolors,
+    XColor	*colors)
 
 {
 	register Colormap cmap = DefaultColormapOfScreen(screen);
@@ -48,7 +48,7 @@ XColor	*colors;
 	register int	nalloc;
 	register int	total_alloc = 0;
 	register int	ntotal;
-	int		mask;
+	unsigned long	mask;
 	Pixel		*pixels;
 	int		nc;
 
@@ -132,12 +132,12 @@ XColor	*colors;
 */
 
 void
-cmc_init ()
+cmc_init (void)
 
 {
 	Display		*dpy;
 	FILE		*f;
-	char		*filename;
+	const char	*filename;
 
 	/* Open display */
 	if (!(dpy = open_display(display_name))) 
@@ -148,7 +148,7 @@ cmc_init ()
 	XSynchronize(dpy, 1);
 
 	/* Open file where workspace colors are stored */
-	filename = comp_colors_filename(basename);	
+	filename = comp_colors_filename(basename_arg);	
 	if ((f = fopen(filename, "r")) == NULL) 
 		/* Do nothing if not found */
 		return;

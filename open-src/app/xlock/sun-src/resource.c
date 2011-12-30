@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -62,48 +62,18 @@
 #include <stdlib.h>
 #include <X11/Xresource.h>
 
-/*
- * Declare external interface routines for supported screen savers.
- */
-
-extern void inithop();
-extern void drawhop();
-
-extern void initlife();
-extern void drawlife();
-
-extern void initqix();
-extern void drawqix();
-
-extern void initimage();
-extern void drawimage();
-
-extern void initblank();
-extern void drawblank();
-
-extern void initswarm();
-extern void drawswarm();
-
-extern void initrotor();
-extern void drawrotor();
-
-extern void initpyro();
-extern void drawpyro();
-
-extern void initflame();
-extern void drawflame();
 
 typedef struct {
-    char       *cmdline_arg;
+    const char *cmdline_arg;
     void        (*lp_init) ();
     void        (*lp_callback) ();
     int         def_delay;
     int         def_batchcount;
     float       def_saturation;
-    char       *desc;
+    const char *desc;
 }           LockStruct;
 
-static char randomstring[] = "random";
+static const char randomstring[] = "random";
 
 static LockStruct LockProcs[] = {
     {"hop", inithop, drawhop, 0, 1000, 1.0, "Hopalong iterated fractals"},
@@ -214,8 +184,8 @@ static XrmOptionDescRec nameTable[] = {
 
 
 typedef struct {
-    char       *opt;
-    char       *desc;
+    const char *opt;
+    const char *desc;
 }           OptionStruct;
 
 static OptionStruct opDesc[] = {
@@ -248,8 +218,8 @@ static OptionStruct opDesc[] = {
 };
 #define opDescEntries (sizeof opDesc / sizeof opDesc[0])
 
-char       *display;
-char       *mode;
+const char *display;
+const char *mode;
 char       *fontname;
 char       *background;
 char       *foreground;
@@ -279,47 +249,46 @@ Bool        verbose;
 #define t_Bool		3
 
 typedef struct {
-    caddr_t    *var;
-    char       *name;
-    char       *class;
-    char       *def;
+    void       *var;
+    const char *name;
+    const char *class;
+    const char *def;
     int         type;
 }           argtype;
 
 static argtype genvars[] = {
-    {(caddr_t *) &fontname, "font", "Font", DEF_FONT, t_String},
-    {(caddr_t *) &background, "background", "Background", DEF_BG, t_String},
-    {(caddr_t *) &foreground, "foreground", "Foreground", DEF_FG, t_String},
-    {(caddr_t *) &text_name, "username", "Username", DEF_NAME, t_String},
-    {(caddr_t *) &text_pass, "password", "Password", DEF_PASS, t_String},
-    {(caddr_t *) &text_info, "info", "Info", DEF_INFO, t_String},
-    {(caddr_t *) &text_valid, "validate", "Validate", DEF_VALID, t_String},
-    {(caddr_t *) &text_invalid, "invalid", "Invalid", DEF_INVALID, t_String},
-    {(caddr_t *) &nicelevel, "nice", "Nice", DEF_NICE, t_Int},
-    {(caddr_t *) &timeout, "timeout", "Timeout", DEF_TIMEOUT, t_Int},
-    {(caddr_t *) &mono, "mono", "Mono", "off", t_Bool},
-    {(caddr_t *) &nolock, "nolock", "NoLock", "off", t_Bool},
-    {(caddr_t *) &remote, "remote", "Remote", "off", t_Bool},
-    {(caddr_t *) &allowroot, "allowroot", "AllowRoot", "off", t_Bool},
-    {(caddr_t *) &enablesaver, "enablesaver", "EnableSaver", "off", t_Bool},
-    {(caddr_t *) &allowaccess, "allowaccess", "AllowAccess", "off", t_Bool},
-    {(caddr_t *) &echokeys, "echokeys", "EchoKeys", "off", t_Bool},
-    {(caddr_t *) &usefirst, "usefirst", "Usefirst", "off", t_Bool},
-    {(caddr_t *) &verbose, "verbose", "Verbose", "off", t_Bool},
+    {&fontname, "font", "Font", DEF_FONT, t_String},
+    {&background, "background", "Background", DEF_BG, t_String},
+    {&foreground, "foreground", "Foreground", DEF_FG, t_String},
+    {&text_name, "username", "Username", DEF_NAME, t_String},
+    {&text_pass, "password", "Password", DEF_PASS, t_String},
+    {&text_info, "info", "Info", DEF_INFO, t_String},
+    {&text_valid, "validate", "Validate", DEF_VALID, t_String},
+    {&text_invalid, "invalid", "Invalid", DEF_INVALID, t_String},
+    {&nicelevel, "nice", "Nice", DEF_NICE, t_Int},
+    {&timeout, "timeout", "Timeout", DEF_TIMEOUT, t_Int},
+    {&mono, "mono", "Mono", "off", t_Bool},
+    {&nolock, "nolock", "NoLock", "off", t_Bool},
+    {&remote, "remote", "Remote", "off", t_Bool},
+    {&allowroot, "allowroot", "AllowRoot", "off", t_Bool},
+    {&enablesaver, "enablesaver", "EnableSaver", "off", t_Bool},
+    {&allowaccess, "allowaccess", "AllowAccess", "off", t_Bool},
+    {&echokeys, "echokeys", "EchoKeys", "off", t_Bool},
+    {&usefirst, "usefirst", "Usefirst", "off", t_Bool},
+    {&verbose, "verbose", "Verbose", "off", t_Bool},
 };
 #define NGENARGS (sizeof genvars / sizeof genvars[0])
 
 static argtype modevars[] = {
-    {(caddr_t *) &delay, "delay", "Delay", DEF_DELAY, t_Int},
-    {(caddr_t *) &batchcount, "batchcount", "BatchCount", DEF_BC, t_Int},
-    {(caddr_t *) &saturation, "saturation", "Saturation", DEF_SAT, t_Float},
+    {&delay, "delay", "Delay", DEF_DELAY, t_Int},
+    {&batchcount, "batchcount", "BatchCount", DEF_BC, t_Int},
+    {&saturation, "saturation", "Saturation", DEF_SAT, t_Float},
 };
 #define NMODEARGS (sizeof modevars / sizeof modevars[0])
 
 
 static void
-Syntax(badOption)
-    char       *badOption;
+Syntax(const char *badOption)
 {
     int         col, len, i;
 
@@ -362,7 +331,7 @@ Syntax(badOption)
 }
 
 static void
-Help()
+Help(void)
 {
     int         i;
 
@@ -384,7 +353,7 @@ Help()
 }
 
 static void
-DumpResources()
+DumpResources(void)
 {
     int         i;
 
@@ -419,20 +388,19 @@ LowerString(s)
 }
 
 static void
-GetResource(database, parentname, parentclass,
-	    name, class, valueType, def, valuep)
-    XrmDatabase database;
-    char       *parentname;
-    char       *parentclass;
-    char       *name;
-    char       *class;
-    int         valueType;
-    char       *def;
-    caddr_t    *valuep;		/* RETURN */
+GetResource(
+    XrmDatabase database,
+    const char *parentname,
+    const char *parentclass,
+    const char *name,
+    const char *class,
+    int         valueType,
+    const char *def,
+    void    *valuep)		/* RETURN */
 {
     char       *type;
     XrmValue    value;
-    char       *string;
+    const char *string;
     char        buffer[BUFSIZ];
     char        fullname[BUFSIZ];
     char        fullclass[BUFSIZ];
@@ -456,7 +424,7 @@ GetResource(database, parentname, parentclass,
 	{
 	    char       *s = (char *) malloc(len + 1);
 	    if (s == (char *) NULL)
-		error("%s: GetResource - couldn't allocate memory");
+		error("GetResource - couldn't allocate memory");
 	    (void) strncpy(s, string, len);
 	    s[len] = '\0';
 	    *((char **) valuep) = s;
@@ -571,7 +539,7 @@ parsefilepath(xfilesearchpath, TypeName, ClassName)
 		    dst = appdefaults + buflen;
 		    bufsize = newsize;
 		} else {
-		    error("%s: parsefilepath - couldn't allocate memory");
+		    error("parsefilepath - couldn't allocate memory");
 		    exit(1);
 		}
 	    }
@@ -598,7 +566,7 @@ open_display()
 	int         n = colon - display;
 
 	if (colon == NULL)
-	    error("%s: Malformed -display argument, \"%s\"\n", display);
+	    error("Malformed -display argument, \"%s\"\n", display);
 
 	/*
 	 * only restrict access to other displays if we are locking and if the
@@ -639,14 +607,14 @@ open_display()
             tmp_display[n] = '\0';
 
 	    if (gethostname(hostname, MAXHOSTNAMELEN))
-		error("%s: Can't get local hostname.\n");
+		error("Can't get local hostname.\n");
 
 #ifdef IPv6
 	    if (getaddrinfo(hostname, NULL, NULL, &localhostaddr) != 0) 
-		error("%s: Can't get address information for %s.\n", hostname);
+		error("Can't get address information for %s.\n", hostname);
 
 	    if (getaddrinfo(tmp_display, NULL, NULL, &otherhostaddr) != 0)
-		error("%s: Can't get address information for %s.\n", 
+		error("Can't get address information for %s.\n", 
 		  tmp_display);
 
 	    for (i = localhostaddr; i != NULL && badhost; i = i->ai_next) {
@@ -684,18 +652,18 @@ open_display()
 
 #else
 	    if (!(host_display = gethostbyname(tmp_display)))
-		error("%s: Can't get hostbyname %s.\n", tmp_display);
+		error("Can't get hostbyname %s.\n", tmp_display);
 
             if ( host_display->h_addrtype == AF_INET )
                 strcpy(display_ip,inet_ntoa (*host_display->h_addr_list) );
             else
-                error("%s: Unknown address type for %s.\n", tmp_display);
+                error("Unknown address type for %s.\n", tmp_display);
 
 	    if (!(host = gethostbyname(hostname)))
-		error("%s: Can't get hostbyname.\n");
+		error("Can't get hostbyname.\n");
 
             if ( host->h_addrtype != AF_INET )
-                error("%s: Unknown address type for %s.\n", hostname);
+                error("Unknown address type for %s.\n", hostname);
 
             for ( ;*host->h_addr_list; host->h_addr_list++ ) {
                 strcpy ( host_ip, inet_ntoa(*host->h_addr_list ) );
@@ -722,14 +690,14 @@ open_display()
 	
 	    if (badhost) {
 	        *colon = (char) 0;
-	        error("%s: can't lock %s's display\n", display);
+	        error("can't lock %s's display\n", display);
             }
 	    free(tmp_display);
 	}
     } else
 	display = ":0.0";
     if (!(dsp = XOpenDisplay(display)))
-	error("%s: unable to open display %s.\n", display);
+	error("unable to open display %s.\n", display);
 }
 
 
@@ -761,9 +729,9 @@ printvar(class, var)
 
 
 void
-GetResources(argc, argv)
-    int         argc;
-    char       *argv[];
+GetResources(
+    int         argc,
+    char       *argv[])
 {
     XrmDatabase RDB = NULL;
     XrmDatabase nameDB = NULL;
@@ -775,7 +743,7 @@ GetResources(argc, argv)
     XrmDatabase serverDB = NULL;
     XrmDatabase userDB = NULL;
     char        userfile[BUFSIZ];
-    char       *homeenv;
+    const char *homeenv;
     char       *userpath;
     char       *env;
     char       *serverString;
@@ -826,9 +794,9 @@ GetResources(argc, argv)
     GetResource(RDB, ProgramName, classname, "display", "Display", t_String,
 		env ? env : DEF_DISPLAY, &display);
     GetResource(RDB, ProgramName, classname, "nolock", "NoLock", t_Bool,
-		"off", (caddr_t *) &nolock);
+		"off", &nolock);
     GetResource(RDB, ProgramName, classname, "remote", "Remote", t_Bool,
-		"off", (caddr_t *) &remote);
+		"off", &remote);
 
     open_display();
     serverString = XResourceManagerString(dsp);
@@ -847,7 +815,7 @@ GetResources(argc, argv)
     (void) XrmMergeDatabases(generalDB, &RDB);
 
     GetResource(RDB, ProgramName, classname, "mode", "Mode", t_String,
-		DEF_MODE, (caddr_t *) &mode);
+		DEF_MODE, &mode);
 
     /*
      * if random mode, then just grab a random entry from the table
@@ -914,7 +882,8 @@ GetResources(argc, argv)
 }
 
 
-CheckResources()
+void
+CheckResources(void)
 {
     int         i;
 

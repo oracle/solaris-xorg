@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,8 @@
 
 #ifndef CMCUTIL_INCLUDE
 #define CMCUTIL_INCLUDE
+
+#include <stdio.h>
 
 /*
 ** Symbols
@@ -72,17 +74,22 @@ typedef unsigned long Pixel;
 ** External Functions
 */
 
-extern void		setprogram();
-extern void		fatal_error();
+extern void		fatal_error(const char *format, ...)
+				_X_ATTRIBUTE_PRINTF(1,2) _X_NORETURN;
+extern void		warning(const char *format, ...)
+				_X_ATTRIBUTE_PRINTF(1,2);
 extern Display		*open_display();
 extern int		dynamic_indexed_default_visual();
-extern char		*comp_colors_filename();
-extern int		cmc_write();
-extern int		cmc_read();
-extern void		cmc_header_write();
-extern void		cmc_header_test();
-extern void		resource_preserve();
-extern void		resource_discard();
-extern void		prop_update();
+extern const char *	comp_colors_filename(const char *);
+extern int		cmc_write(FILE *f, int scr_num,
+				  int ncolors, XColor *colors);
+extern int		cmc_read(FILE *f, int *scr_num,
+				 int *ncolors, XColor **colors);
+extern void		cmc_header_write(FILE *f);
+extern void		cmc_header_test(FILE *f);
+extern void		resource_preserve(Display *dpy);
+extern void		resource_discard(Display *dpy);
+extern void		prop_update(Display *dpy, Window w, const char *name,
+				    Atom type, int format, int data, int nelem);
 
-#endif !CMCUTIL_INCLUDE
+#endif /* !CMCUTIL_INCLUDE */

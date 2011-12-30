@@ -22,19 +22,47 @@
  *
  * Author:  Jim Fulton, MIT X Consortium
  */
+/*
+ * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice (including the next
+ * paragraph) shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
 char *ProgramName;
-static char *output_format = "0x%lx";
+static const char *output_format = "0x%lx";
 static char widget_name_buf[1024], widget_class_buf[1024];
 
-static void usage ()
+static void list_window (Display *dpy, Window w, int depth, int indent,
+			 Bool long_version, Bool print_resources,
+			 char *pname, char *pclass);
+
+static void
+usage (void)
 {
-    static char *help[] = {
+    static const char *help[] = {
 "    -display displayname             X server to contact",
 "    -format {hex, decimal, octal}    format used to print window id",
 "    -indent number                   amount to indent per level",
@@ -42,7 +70,7 @@ static void usage ()
 "    -resources                       print a listing of widget resources",
 "",
 NULL};
-    char **cpp;
+    const char **cpp;
 
     fprintf (stderr, "usage:\n        %s [-options ...] [windowid] ...\n\n",
 	     ProgramName);
@@ -53,10 +81,10 @@ NULL};
     exit (1);
 }
 
-static long parse_long (s)
-    char *s;
+static long
+parse_long (const char *s)
 {
-    char *fmt = "%lu";
+    const char *fmt = "%lu";
     long retval = 0;
 
     if (s && *s) {
@@ -69,14 +97,15 @@ static long parse_long (s)
 
 static int got_xerror = 0;
 
-static int myxerror (dpy, rep)
-    Display *dpy;
-    XErrorEvent *rep;
+static int
+myxerror (
+    Display *dpy,
+    XErrorEvent *rep)
 {
     char buffer[BUFSIZ];
     char mesg[BUFSIZ];
     char number[32];
-    char *mtype = "XlibMessage";
+    const char *mtype = "XlibMessage";
 
     got_xerror++;
     if (rep->error_code == BadWindow) {
@@ -117,9 +146,10 @@ static int myxerror (dpy, rep)
 }
 
 
-main (argc, argv)
-    int argc;
-    char *argv[];
+int
+main (
+    int argc,
+    char *argv[])
 {
     char *displayname = NULL;
     Display *dpy;
@@ -204,15 +234,15 @@ main (argc, argv)
 }
 
 
-list_window (dpy, w, depth, indent, long_version, print_resources,
-	     pname, pclass)
-    Display *dpy;
-    Window w;
-    int depth;
-    int indent;
-    Bool long_version;
-    Bool print_resources;
-    char *pname, *pclass;
+static void
+list_window (
+    Display *dpy,
+    Window w,
+    int depth,
+    int indent,
+    Bool long_version,
+    Bool print_resources,
+    char *pname, char *pclass)
 {
     Window root, parent;
     unsigned int nchildren;

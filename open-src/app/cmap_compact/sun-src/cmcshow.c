@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -28,7 +28,7 @@
 #include "cmcutil.h"
 
 
-static void print_xcolors();
+static void print_xcolors(XColor *colors, int ncolors);
 
 
 /*
@@ -36,13 +36,13 @@ static void print_xcolors();
 */
 
 void
-cmc_show ()
+cmc_show (void)
 
 {
-	char	*filename;
+	const char *filename;
 	FILE	*f;
 
-	filename = comp_colors_filename(basename);
+	filename = comp_colors_filename(basename_arg);
 	if ((f = fopen(filename, "r")) == NULL)
 		fatal_error("cannot open file '%s' for reading\n", filename);
 
@@ -69,16 +69,11 @@ cmc_show ()
 
 
 static void
-print_xcolors (colors, ncolors)
-XColor	*colors;
-int	ncolors;
+print_xcolors (XColor *colors, int ncolors)
 
 {
 	register XColor	*c;
 	register int	i;
-	register int	max = 0;
-	char	      	format[50];
-	int		ndigits = 4;
 	int		planes;
 
 	for (c = colors; c < colors + ncolors; c++) {

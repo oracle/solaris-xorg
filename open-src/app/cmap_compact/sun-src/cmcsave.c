@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,7 @@
 #include <alloca.h>
 #endif
 #include <X11/Xlib.h>
+#include <X11/Xlibint.h>
 #include "cmc.h"
 #include "cmcutil.h"
 
@@ -48,15 +49,16 @@ static int badaccess_error;
 **  Any other errors are processed normally.
 */
 
-static void
-bad_handler (dpy, err)
-Display 	*dpy;
-XErrorEvent 	*err;
+static int
+bad_handler (
+    Display 	*dpy,
+    XErrorEvent	*err)
 {
     if (err->error_code == BadAccess)
         badaccess_error = 1;
     else
-        _XDefaultError(dpy,err);
+        return _XDefaultError(dpy,err);
+    return 0;
 }
 
 
@@ -80,7 +82,7 @@ XColor		**colors;
 	register int	*p;
 	register XColor *c;
 	int		totalpix;
-	int		masks;		/* NOTUSED */
+	unsigned long	masks;		/* NOTUSED */
 	Pixel		*pixels;
 	int		*pixtype;
 	XColor		color;
@@ -212,7 +214,7 @@ cmc_save ()
 	register int 	scr_num;
 	Display 	*dpy;
 	FILE		*f;
-	char		*filename;
+	const char	*filename;
 
 	/* Open display */
 	if (!(dpy = open_display(display_name))) 
@@ -223,7 +225,7 @@ cmc_save ()
 	XSynchronize(dpy, 1); 
 
 	/* Open file to save in */
-	filename = comp_colors_filename(basename);
+	filename = comp_colors_filename(basename_arg);
 	if ((f = fopen(filename, "w")) == NULL)
 		fatal_error("cannot open file '%s' for writing", filename);
 
@@ -238,7 +240,7 @@ cmc_save ()
 
 		/* Do nothing if default visual is not dynamic */
 		if (!dynamic_indexed_default_visual(screen)) {
-			if (warn) {
+			if (warn_flag) {
 			    warning("default visual for screen %d is not dynamic indexed",
 					scr_num);
 			    warning("no colors saved for screen %d", scr_num );

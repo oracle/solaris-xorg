@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -46,13 +46,13 @@
 */
 
 void
-cmc_NeWSinit ()
+cmc_NeWSinit (void)
 
 {
-	char	*filename;
+	const char *filename;
 	FILE	*f;
 
-	filename = comp_colors_filename(basename);
+	filename = comp_colors_filename(basename_arg);
 	if ((f = fopen(filename, "r")) == NULL)
 		exit(0);
 

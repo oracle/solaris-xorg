@@ -24,6 +24,8 @@
 
 #include <stdio.h>			/* for printing error messages */
 #include <pwd.h>			/* for getting username */
+#include <stdlib.h>			/* for system, exit */
+#include <unistd.h>			/* for getuid, getlogin */
 
 #include <X11/cursorfont.h>		/* for cursor constants */
 #include <X11/StringDefs.h>		/* for useful atom names */
@@ -495,7 +497,6 @@ static void check_mailbox (w, force_redraw, reset)
 static void GetMailFile (w)
     MailboxWidget w;
 {
-    char *getlogin();
     char *username;
 
     username = getlogin ();

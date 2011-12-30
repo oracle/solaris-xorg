@@ -2,7 +2,7 @@
 *
 * mkcookie.c 1.x
 *
-* Copyright (c) 1990, 2004, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -81,14 +81,17 @@
  */
 #define DEF_USER_AUTH_DIR "/tmp" /* Backup directory for User Auth file */
   
-extern int InitAuth ();
-extern Xauth *GetAuth ();
-#ifdef X_NOT_STDC_ENV
-extern char *malloc(), *realloc();
-#else
 #include <stdlib.h>
-#endif
 
+static void setAuthNumber (Xauth *auth, char *name);
+static void DefineLocal (FILE *file, Xauth *auth);
+static void DefineSelf (int fd, FILE *file, Xauth *auth);
+static void writeAuth (FILE *file, Xauth *auth);
+static int ConvertAddr (register struct sockaddr *saddr, int *len, char **addr);
+static void InitAuth (unsigned short name_len, const char *name);
+static Xauth *GetAuth (int namelen, const char *name);
+static void GenerateCryptoKey (char *auth, int len);
+    
 #define Local 1
 #define Foreign	0
 
@@ -103,8 +106,8 @@ struct display {
   int		authorize;	/* enable authorization */
   Xauth		*authorization;	/* authorization data */
   char		*authFile;	/* file to store authorization in */
-  char		*userAuthDir;	/* backup directory for tickets */
-  char		*authName;	/* authorization protocol name */
+  const char	*userAuthDir;	/* backup directory for tickets */
+  const char	*authName;	/* authorization protocol name */
   int	        authNameLen;	/* authorization protocol name len */
   int		resetForAuth;	/* server reads auth file at reset */
   DisplayType   displayType;
@@ -122,9 +125,9 @@ struct verify_info {
 
 struct AuthProtocol {
   int       name_length;
-  char	    *name;
-  int	    (*InitAuth)();
-  Xauth	    *(*GetAuth)();
+  const char *name;
+  void	    (*InitAuth)(unsigned short, const char *);
+  Xauth *   (*GetAuth)(int, const char *);
   int	    (*GetXdmcpAuth)();
   int	    inited;
 };
@@ -151,9 +154,8 @@ static struct AuthProtocol AuthProtocols[] = {
     }
 };
 
-static char * makeEnv (name, value)
-char    *name;
-char    *value;
+static char *
+makeEnv (const char *name, const char *value)
 {
   char  *result;
   
@@ -167,10 +169,10 @@ char    *value;
 }
 
 
-char ** setEnv (e, name, value)
-char    **e;
-char    *name;
-char    *value;
+static char **
+setEnv (char      **e,
+	const char *name,
+	const char *value)
 {
   char    **new, **old;
   char    *newe;
@@ -211,9 +213,8 @@ char    *value;
 }
 
 
-binaryEqual (a, b, len)
-     char	*a, *b;
-     int	len;
+static int
+binaryEqual (const char	*a, const char *b, int len)
 {
   while (len-- > 0)
     if (*a++ != *b++)
@@ -222,9 +223,8 @@ binaryEqual (a, b, len)
 }
 
 #ifdef DEBUG
-dumpBytes (len, data)
-     int	len;
-     char	*data;
+static void
+dumpBytes (int len, const char *data)
 {
   int	i;
   
@@ -234,8 +234,8 @@ dumpBytes (len, data)
   printf ("\n");
 }
 
-dumpAuth (auth)
-     Xauth	*auth;
+static void
+dumpAuth (Xauth *auth)
 {
   printf ("family: %d\n", auth->family);
   printf ("addr:   ");
@@ -251,10 +251,10 @@ dumpAuth (auth)
 
 #endif
 
-checkAddr (family, address_length, address, number_length, number)
-     int	family;
-     unsigned short	address_length, number_length;
-     char	*address, *number;
+static int
+checkAddr (int family,
+	   unsigned short address_length, const char *address,
+	   unsigned short number_length, const char *number)
 {
   struct addrList	*a;
   
@@ -271,11 +271,10 @@ checkAddr (family, address_length, address, number_length, number)
   return 0;
 }
 
-void
-saveAddr (family, address_length, address, number_length, number)
-     unsigned short	family;
-     unsigned short	address_length, number_length;
-     char	*address, *number;
+static void
+saveAddr (int family,
+	   unsigned short address_length, const char *address,
+	   unsigned short number_length, const char *number)
 {
   struct addrList	*new;
   
@@ -312,10 +311,11 @@ saveAddr (family, address_length, address, number_length, number)
   addrs = new;
 }
 
-writeLocalAuth (file, auth, name)
-     FILE	*file;
-     Xauth	*auth;
-     char	*name;
+static void
+writeLocalAuth (
+    FILE	*file,
+    Xauth	*auth,
+    char	*name)
 {
   int	fd;
 
@@ -339,12 +339,13 @@ writeLocalAuth (file, auth, name)
 }
 
 
-writeAddr (family, addr_length, addr, file, auth)
-     int	family;
-     int	addr_length;
-     char	*addr;
-     FILE	*file;
-     Xauth	*auth;
+static void
+writeAddr (
+    int		family,
+    int		addr_length,
+    char	*addr,
+    FILE	*file,
+    Xauth	*auth)
 {
 
   auth->family = (unsigned short) family;
@@ -355,11 +356,11 @@ writeAddr (family, addr_length, addr, file, auth)
 
 
 #if defined(SYSV) && defined(TCPCONN)
-int
-ifioctl(s, cmd, arg)
-        int s;
-        int cmd;
-        char *arg;
+static int
+ifioctl(
+    int s,
+    int cmd,
+    char *arg)
 {
         struct strioctl ioc;
         int ret;
@@ -384,10 +385,11 @@ ifioctl(s, cmd, arg)
 #endif /* SYSV && TCPCONN */
 
 
-DefineSelf (fd, file, auth)
-     int fd;
-     FILE	*file;
-     Xauth	*auth;
+static void
+DefineSelf (
+    int 	 fd,
+    FILE	*file,
+    Xauth	*auth)
 {
   char		buf[2048];
   void *        bufptr = buf;
@@ -485,10 +487,10 @@ DefineSelf (fd, file, auth)
   }
 }
 
-
-DefineLocal (file, auth)
-     FILE	*file;
-     Xauth	*auth;
+static void
+DefineLocal (
+    FILE	*file,
+    Xauth	*auth)
 {
   char	displayname[100];
   
@@ -514,10 +516,10 @@ DefineLocal (file, auth)
 /* code stolen from server/os/4.2bsd/access.c */
 
 static int
-ConvertAddr (saddr, len, addr)
-     register struct sockaddr	*saddr;
-     int				*len;
-     char			**addr;
+ConvertAddr (
+    register struct sockaddr	*saddr,
+    int				*len,
+    char			**addr)
 {
   if (len == 0)
     return (0);
@@ -553,10 +555,10 @@ ConvertAddr (saddr, len, addr)
   return (-1);
 }
 
-
-setAuthNumber (auth, name)
-     Xauth   *auth;
-     char    *name;
+static void
+setAuthNumber (
+    Xauth   *auth,
+    char    *name)
 {
   char	*colon;
   char	*dot, *number;
@@ -564,7 +566,7 @@ setAuthNumber (auth, name)
   colon = rindex (name, ':');
   if (colon) {
     ++colon;
-    if (dot = index (colon, '.'))
+    if ((dot = index (colon, '.')))
       auth->number_length = dot - colon;
     else
       auth->number_length = strlen (colon);
@@ -580,10 +582,8 @@ setAuthNumber (auth, name)
   }
 }
 
-static
-  openFiles (name, new_name, oldp, newp)
-char	*name, *new_name;
-FILE	**oldp, **newp;
+static int
+openFiles (char *name, char *new_name, FILE **oldp, FILE **newp)
 {
   int	mask;
   
@@ -601,9 +601,10 @@ FILE	**oldp, **newp;
   return 1;
 }
 
-writeAuth (file, auth)
-     FILE	*file;
-     Xauth	*auth;
+static void
+writeAuth (
+    FILE	*file,
+    Xauth	*auth)
 {
   saveAddr (auth->family, auth->address_length, auth->address,
 	    auth->number_length,  auth->number);
@@ -612,7 +613,9 @@ writeAuth (file, auth)
 	exit(-1);
   }
 }
-doneAddrs ()
+
+static void
+doneAddrs (void)
 {
   struct addrList	*a, *n;
   for (a = addrs; a; a = n) {
@@ -625,9 +628,10 @@ doneAddrs ()
   }
 }
 
-InitAuth (name_len, name)
-     unsigned short  name_len;
-     char	    *name;
+static void
+InitAuth (
+    unsigned short  name_len,
+    const char	    *name)
 {
   if (strcmp(name,"SUN-DES-1") != 0) {
     if (name_len > 256)
@@ -637,9 +641,10 @@ InitAuth (name_len, name)
   bcopy (name, auth_name, name_len);
 }
 
-Xauth * GetAuth (namelen, name)
-     int  namelen;
-     char	    *name;
+static Xauth *
+GetAuth (
+    int  	     namelen,
+    const char	    *name)
 {
   Xauth   *new;
   int uid = getuid();
@@ -684,17 +689,16 @@ Xauth * GetAuth (namelen, name)
   return new;
 }
 
-static long	key[2];
-
-GenerateCryptoKey (auth, len)
-     char	*auth;
-     int	len;
+static void
+GenerateCryptoKey (
+    char	*auth,
+    int		 len)
 {
   long    data[2];
   int	  seed;
   int	  value;
   int	  i, t;
-  char   *ran_file = "/dev/random";
+  const char   *ran_file = "/dev/random";
   int     fd;
 
   if ((fd = open(ran_file, O_RDONLY)) == -1)
@@ -728,9 +732,10 @@ GenerateCryptoKey (auth, len)
   auth[len-1] = '\0';
 }
 
-SaveServerAuthorization (authFile, auth)
-     char *authFile;
-     Xauth	    *auth;
+static int
+SaveServerAuthorization (
+    char 	*authFile,
+    Xauth	*auth)
 {
   FILE	*auth_file;
   int		mask;
@@ -760,9 +765,9 @@ SaveServerAuthorization (authFile, auth)
 #define NUM_AUTHORIZATION (sizeof (AuthProtocols) / sizeof (AuthProtocols[0]))
 
 static struct AuthProtocol *
-  findProtocol (name_length, name)
-int  name_length;
-char	    *name;
+findProtocol (
+    int  	 name_length,
+    const char 	*name)
 {
   int	i;
   
@@ -775,9 +780,10 @@ char	    *name;
   return (struct AuthProtocol *) 0;
 }
 
-Xauth *GenerateAuthorization (name, name_length)
-     char		*name;
-     int	name_length;
+static Xauth *
+GenerateAuthorization (
+    const char	*name,
+    int		 name_length)
 {
   struct AuthProtocol	*a;
   Xauth   *auth = 0;
@@ -795,9 +801,9 @@ Xauth *GenerateAuthorization (name, name_length)
   return auth;
 }
 
-void
-SetLocalAuthorization (d)
-     struct display	*d;
+static void
+SetLocalAuthorization (
+    struct display	*d)
 {
   Xauth	*auth;
   int nl = d->authNameLen;
@@ -825,10 +831,10 @@ SetLocalAuthorization (d)
   }
 }
 
-void
-SetUserAuthorization (d, verify)
-     struct display		*d;
-     struct verify_info	*verify;
+static void
+SetUserAuthorization (
+    struct display	*d,
+    struct verify_info	*verify)
 {
   FILE	*old, *new;
   char	home_name[1024], backup_name[1024], new_name[1024];
@@ -838,11 +844,9 @@ SetUserAuthorization (d, verify)
   int	lockStatus;
   Xauth	*entry, *auth;
   int	setenv;
-  char	**setEnv ();
-  extern char *getenv ();
   struct stat	statb;
   
-  if (auth = d->authorization) {
+  if ((auth = d->authorization)) {
     home = getenv("HOME");
     lockStatus = LOCK_ERROR;
     if (home) {
@@ -883,7 +887,7 @@ SetUserAuthorization (d, verify)
     if (old) {
       if (fstat (fileno (old), &statb) != -1)
 	chmod (new_name, (int) (statb.st_mode & 0777));
-      while (entry = XauReadAuth (old)) {
+      while ((entry = XauReadAuth (old))) {
 	if (!checkAddr (entry->family,
 			entry->address_length, entry->address,
 			entry->number_length, entry->number))
@@ -918,20 +922,18 @@ SetUserAuthorization (d, verify)
 
 }
 
-usage(str)
-char *str;
+static void
+usage(const char *str)
 {
   fprintf(stderr,"usage: %s Server_auth_file [-auth protocol]\n",str);
   fprintf(stderr,"      where protocol is one of magic-cookie or sun-des\n");
 }
 
-main(argc, argv)
-int argc;
-char *argv[];
+int
+main(int argc, char *argv[])
 {
   struct display d;
   struct verify_info verify;
-  int server_number;
   char *au_name;
 
 

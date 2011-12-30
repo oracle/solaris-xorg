@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -23,6 +23,7 @@
 */
 
 #include <sys/fcntl.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 #include "cmc.h"
 #include "cmcutil.h"
@@ -34,10 +35,10 @@
 */
 
 void
-cmc_discard ()
+cmc_discard (void)
 
 {
-	char	*filename = comp_colors_filename(basename);	
+	const char	*filename = comp_colors_filename(basename_arg);	
 
 	if (unlink(filename) < 0)
 		fatal_error("cannot remove file '%s'", filename);

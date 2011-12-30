@@ -1,6 +1,6 @@
 /*
 *
-* Copyright (c) 1990, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -25,6 +25,8 @@
 
 
 #include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
 #include "cmc.h"
 
 
@@ -33,34 +35,38 @@
 */
 
 char	*display_name 	= NULL;		/* -display */
-int	warn		= 0;		/* -warn */
-char	*basename 	= NULL;		/* optional argument */
+int	warn_flag	= 0;		/* -warn */
+char	*basename_arg 	= NULL;		/* optional argument */
 
 char *program;
 
 
-/*VARARGS1*/
 void
-fatal_error (format, arg1, arg2, arg3, arg4)
-char	*format;
+fatal_error (const char *format, ...)
 
 {
+	va_list args;
+
+	va_start(args, format);
 	(void) fprintf(stderr, "%s: error: ", program);
-	(void) fprintf(stderr, format, arg1, arg2, arg3, arg4);
+	(void) vfprintf(stderr, format, args);
 	(void) fprintf(stderr, "\n");
+	va_end(args);
 	exit(1);
 }
 
 
-/*VARARGS1*/
 void
-warning (format, arg1, arg2, arg3, arg4)
-char	*format;
+warning (const char *format, ...)
 
 {
+	va_list args;
+
+	va_start(args, format);
 	(void) fprintf(stderr, "Warning: ");
-	(void) fprintf(stderr, format, arg1, arg2, arg3, arg4);
+	(void) vfprintf(stderr, format, args);
 	(void) fprintf(stderr, "\n");
+	va_end(args);
 	exit(1);
 }
 
@@ -89,7 +95,7 @@ char	**argv;
 	for (a = argv; *a; a++) {
 		if (**a == '-') {
 			if        (!strcmp(*a, "-warn")) {
-			    warn = 1;
+			    warn_flag = 1;
 			} else if (!strcmp(*a, "-display")) {
 			    if (*++a)
 				display_name = *a;
@@ -102,21 +108,19 @@ char	**argv;
 				usage();
 			}
 	        } else {
-		    if (basename) {
+		    if (basename_arg) {
 			fprintf(stderr, "error: unrecognized argument '%s'\n", *a);
 			usage();
 		    } else
-			basename = *a;
+			basename_arg = *a;
 		}
 	}
 }
 
 
 /*ARGSUSED*/
-void
-main (argc,argv)
-int 	argc;
-char    **argv;
+int
+main (int argc, char **argv)
 
 {
 	void	(*op)();

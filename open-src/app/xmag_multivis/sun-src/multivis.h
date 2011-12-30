@@ -3,7 +3,7 @@
 /*-
  * multivis.h - Header file for Mechanism for GetImage across Multiple Visuals
  *
- * Copyright (c) 1990, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -130,16 +130,16 @@ void mvInit(Display *display, int screen, XVisualInfo *visuals, int numVisual,
 void mvInit(Display *display, int screen, XVisualInfo *visuals, int numVisual);
 #endif /* UPDATE_HACK */
 
-void mvReset();
+void mvReset(void);
 void mvWalkTree(Window window, int parentX, int parentY, 
 		int requestX, int requestY, int requestWidth, int requestHeight
 #ifdef SHAPE
 		, Bool ancestorShaped, Region ancestorRegion
 #endif /* SHAPE */
 		);
-int mvIsMultiVis();
+int mvIsMultiVis(void);
 int mvCreatImg(int width, int height, int x, int y);
-void mvDoWindowsFrontToBack();
+void mvDoWindowsFrontToBack(void);
 XColor *mvFindColorInColormap(int x, int y);
 #else /* ! __STDC__ */
 extern int mvShifts();

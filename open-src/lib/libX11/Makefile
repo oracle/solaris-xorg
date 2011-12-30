@@ -41,7 +41,7 @@ SOURCE_PATCHES = \
 	4614834.patch \
 	5039226.patch \
 	solaris-abi.patch,-p1 \
-	solaris-kbd.patch \
+	solaris-kbd.patch,-p1 \
 	SolarisIA.patch \
 	6714036.patch \
 	6789219.patch,-p1 \
