@@ -1165,7 +1165,6 @@ SYMBOL_SCOPE {
 		_dixFreeObjectWithPrivates               { FLAGS = EXTERN };
 		_dixGetScreenPrivateKey                  { FLAGS = EXTERN };
 		_dixInitPrivates                         { FLAGS = EXTERN };
-		_edata                                   { FLAGS = EXTERN };
 		auditTrailLevel                          { FLAGS = EXTERN };
 		bgNoneRoot                               { FLAGS = EXTERN };
 		byte_reversed                            { FLAGS = EXTERN };
