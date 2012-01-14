@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1993, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1993, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -172,8 +172,10 @@ static IAExtDisplayInfo *ia_find_display(Display *dpy)
     di->codes = XInitExtension(dpy, ia_extension_name);
     di->next = iaExtDisplayList;
     iaExtDisplayList = di;
-    XESetCloseDisplay(dpy, di->codes->extension, ia_close_display);
-    XESetErrorString(dpy, di->codes->extension, ia_error_string);
+    if (di->codes) { /* if the server has the extension */
+	XESetCloseDisplay(dpy, di->codes->extension, ia_close_display);
+	XESetErrorString(dpy, di->codes->extension, ia_error_string);
+    }
     return di;
 }
 
