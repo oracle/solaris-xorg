@@ -1,0 +1,29 @@
+From fa9cb860a6c7d85428bb5a28664961c8585700a5 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Tue, 17 Jan 2012 20:05:45 -0800
+Subject: [PATCH:xload] Solaris: Read avenrun_1min kstat as a uint32, not a long
+
+Fixes garbage data & crashes when built as a 64-bit binary on
+Solaris SPARC, since the high 32-bits was being filled with randomness.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ get_load.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/get_load.c b/get_load.c
+index 0828350..185a7fb 100644
+--- a/get_load.c
++++ b/get_load.c
+@@ -641,7 +641,7 @@ GetLoadPoint(Widget w, XtPointer closure, XtPointer call_data)
+ 	if ((vp = kstat_data_lookup(ksp, "avenrun_1min")) == NULL)
+ 		xload_error("kstat_data_lookup failed:", strerror(errno));
+ 
+-	*loadavg = (double)vp->value.l / FSCALE;
++	*loadavg = (double)vp->value.ui32 / FSCALE;
+ }
+ #else /* not Solaris */
+ 
+-- 
+1.7.3.2
+
