@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,7 +36,7 @@ TARBALL_MD5  = e2abe9f13e526a73cb68a7d257546eba
 TARBALL_SHA1 = 8e845086749f8c4b64fdfa852b4b26cf7bb62dc9
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = leds.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
