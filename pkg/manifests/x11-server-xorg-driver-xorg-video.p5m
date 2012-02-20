@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,7 @@ $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-intel
 $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-mach64
 
 # driver/xf86-video-mga
-$(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-mga
+depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-mga
 
 # driver/xf86-video-nv
 $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-nv

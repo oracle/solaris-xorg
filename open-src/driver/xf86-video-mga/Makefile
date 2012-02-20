@@ -2,7 +2,7 @@
 #
 # xf86-video-mga Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,11 @@ TARBALL_SHA1 = 55aa185cf381def4b5905c8b93694b8dfbd5c378
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = no-hal.patch \
-		7027761.patch,-p1
+		7027761.patch,-p1 \
+		g200se_pilot3_memory_bandwidth.patch \
+		g200se_pilot3_memory_sizing.patch \
+		g200se_pilot3_offscreen.patch \
+		sparc.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

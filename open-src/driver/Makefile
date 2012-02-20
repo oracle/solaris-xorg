@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Xorg driver modules
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,7 @@ OS_SUBDIRS_common = \
 	xf86-input-mouse		\
 	xf86-input-void			\
 	xf86-video-ast			\
+	xf86-video-mga			\
 	xf86-video-dummy		
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common) \
@@ -43,7 +44,6 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-cirrus		\
 	xf86-video-intel		\
 	xf86-video-mach64		\
-	xf86-video-mga			\
 	xf86-video-nv			\
 	xf86-video-openchrome		\
 	xf86-video-r128			\

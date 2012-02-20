@@ -1,0 +1,82 @@
+--- src/mga_driver.c	Thu Feb  9 16:48:48 2012
++++ src/mga_driver.c	Thu Feb  9 15:21:20 2012
+@@ -1124,7 +1124,7 @@
+ 
+ 	if (pMga->is_G200SE)
+ 	    pMga->reg_1e24 = INREG(0x1e24); /* stash the model for later */
+-	if (pMga->reg_1e24 == 0x01) {
++	if (pMga->reg_1e24 >= 0x01) {
+ 	    MGAUnmapMem(pScrn);
+ 	    ProbeSize = 16384;
+ 	    ProbeSizeOffset = 0x10000;
+@@ -3582,13 +3582,20 @@
+     pMga = MGAPTR(pScrn);
+     MGAdac = &pMga->Dac;
+ 
+-    if (pMga->is_G200SE) {
+-	VRTemp = pScrn->videoRam;
+-	FBTemp = pMga->FbMapSize;
+-	pScrn->videoRam = 8192;
+-	pMga->FbMapSize = pScrn->videoRam * 1024;
++    if (pMga->is_G200SE)
++    {
++        VRTemp = pScrn->videoRam;
++        FBTemp = pMga->FbMapSize;
++        if (pMga->reg_1e24 >= 0x01)
++        {
++            pScrn->videoRam = 16384;
++        }
++        else
++        {
++            pScrn->videoRam = 8192;
++        }
++        pMga->FbMapSize = pScrn->videoRam * 1024;
+     }
+-    
+ 
+     /* Map the MGA memory and MMIO areas */
+     if (!MGAMapMem(pScrn))
+@@ -4320,6 +4327,7 @@
+     vgaHWPtr hwp = VGAHWPTR(pScrn);
+     MGAPtr pMga = MGAPTR(pScrn);
+     MGAEntPtr pMgaEnt = NULL;
++    CARD32 VRTemp, FBTemp;
+ 
+ #ifdef USEMGAHAL    
+     MGA_HAL( RESTORE_TEXTMODE_ON_DVI(pMga); );
+@@ -4327,6 +4335,21 @@
+     if (pMga->MergedFB)
+          MGACloseScreenMerged(scrnIndex, pScreen);
+ 
++    if (pMga->is_G200SE)
++    {
++        VRTemp = pScrn->videoRam;
++        FBTemp = pMga->FbMapSize;
++        if (pMga->reg_1e24 >= 0x01)
++        {
++            pScrn->videoRam = 16384;
++        }
++        else
++        {
++            pScrn->videoRam = 8192;
++        }
++        pMga->FbMapSize = pScrn->videoRam * 1024;
++    }
++
+     if (pScrn->vtSema) {
+ 	if (pMga->FBDev) {
+ 	    fbdevHWRestore(pScrn);
+@@ -4338,6 +4361,13 @@
+ 	    vgaHWUnmapMem(pScrn);
+ 	}
+     }
++
++    if (pMga->is_G200SE)
++    {
++        pScrn->videoRam = VRTemp;
++        pMga->FbMapSize = FBTemp;
++    }
++
+ #ifdef XF86DRI
+    if (pMga->directRenderingEnabled) {
+        MGADRICloseScreen(pScreen);
