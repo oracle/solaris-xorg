@@ -1,0 +1,30 @@
+From 7f9415e399b306b648235bde11c68cd00a5b17cc Mon Sep 17 00:00:00 2001
+From: Arvind Umrao <arvind.umrao@oracle.com>
+Date: Mon, 20 Feb 2012 02:12:32 -0800
+Subject: [PATCH] Open file in non blocking mode
+Sometime special files like fifo need to open in nonblocking mode
+otherwise whole xconsole GUI freezes.
+
+---
+ xconsole.c |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+diff --git a/xconsole.c b/xconsole.c
+index d8656e8..b74cc3b 100644
+--- a/xconsole.c
++++ b/xconsole.c
+@@ -334,7 +334,10 @@ OpenConsole(void)
+ 	    regularFile = FALSE;
+ 	    if (access(app_resources.file, R_OK) == 0)
+ 	    {
+-		input = fopen (app_resources.file, "r");
++		int fd  = open (app_resources.file, O_RDONLY | O_NONBLOCK | O_NOCTTY);
++ 		if (fd != -1)
++		    input = fdopen (fd, "r");
++
+ 		if (input)
+ 		    if (!stat(app_resources.file, &sbuf) &&
+ 			S_ISREG( sbuf.st_mode ) )
+-- 
+1.7.3.2
+

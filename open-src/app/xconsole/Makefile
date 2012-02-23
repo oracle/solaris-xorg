@@ -36,7 +36,7 @@ TARBALL_MD5  = 8665c037032e5f6a3acd4b341749aa17
 TARBALL_SHA1 = 195299d4948ba4c62e961ddd0bd4572283244715
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = 7134751.patch,-p1
 
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/System Utilities
