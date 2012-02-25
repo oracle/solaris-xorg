@@ -1,6 +1,5 @@
-# Makefile for gfx-util sub-modules
 #
-# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,23 +20,14 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
 #
-###############################################################################
+# Target device
+#
+DEV     = MGA
+Dev     = mga
 
-default_target: all
+DEV_CSRCS = dma.c
+DEV_OBJS = dma.o
 
-OS_SUBDIRS_sparc = \
-	fbconfig \
-	fbconf_xorg \
-	vts/ast \
-	vts/efb \
-	vts/mga
-
-# Dependencies needed for parallel make:
-
-PWD:sh=pwd
-TOP=$(PWD)/../../../../..
-
-### Include common definitions
-DIRNAME="app/gfx-utils/build_sparc/"
-include $(TOP)/open-src/common/Makefile.subdirs
+include ../Makefile.common
