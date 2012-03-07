@@ -39,9 +39,10 @@ TARBALL_SHA1 = 55aa185cf381def4b5905c8b93694b8dfbd5c378
 SOURCE_PATCHES = no-hal.patch \
 		7027761.patch,-p1 \
 		g200se_pilot3_memory_bandwidth.patch \
-		g200se_pilot3_memory_sizing.patch \
 		g200se_pilot3_offscreen.patch \
-		sparc.patch
+		sparc.patch \
+		g200se_pilot3_memory_sizing.patch \
+		7150315.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

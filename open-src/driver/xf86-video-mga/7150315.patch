@@ -1,0 +1,11 @@
+--- src/mga_driver.c	Mon Feb 20 13:01:10 2012
++++ src/mga_driver.c	Thu Mar  1 18:02:42 2012
+@@ -4437,6 +4437,8 @@
+ 	xfree(pMga->ScratchBuffer);
+ 
+ #ifdef __sparc__
++    MGANotifyModeChanged(pScrn);
++
+     if (pMga->fd)
+ 	close(pMga->fd);
+ #endif
