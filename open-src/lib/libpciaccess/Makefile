@@ -41,14 +41,10 @@ SOURCE_PATCHES = \
 	solx_devfs.c.patch \
 	solx_devfs.c.domain.patch \
 	scanpci_64bit.patch \
-	sparc.patch \
-	sparc_rom_read.patch
+	sparc.patch
 
 # Library name
 LIBNAME=libpciaccess
-
-# Need to do autoreconf
-AUTORECONF=yes
 
 # Where to install libpciaccess files
 MODULE_PREFIX=/usr
