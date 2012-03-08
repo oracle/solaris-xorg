@@ -1,4 +1,4 @@
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,7 +72,7 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vn
  bin_PROGRAMS = Xvnc
  
 @@ -32,10 +32,17 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW
- Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DNO_HW_ONLY_EXTS -DNO_MODULE_EXTS -UHAVE_CONFIG_H \
+ 	-UHAVE_CONFIG_H \
  	-DXFree86Server -DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
  	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(TIGERVNC_SRCDIR)/common \
 -	-I$(top_srcdir)/include -I$(includedir)/pixman-1 -I$(includedir)
@@ -83,11 +83,11 @@ diff -urp -x '*~' -x '*.orig' unix/xserver/hw/vnc/Makefile.am unix/xserver/hw/vn
 +endif
  
  Xvnc_LDADD = $(XVNC_LIBS) libvnccommon.la $(COMMON_LIBS) \
--	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) -lX11
+-	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) $(XVNC_SYS_LIBS) -lX11
 +	-ljpeg -lz \
 +	../../IA/libIA.la \
 +	$(TSOL_LIBS) \
-+	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS)
++	$(XSERVER_LIBS) $(XSERVER_SYS_LIBS) $(XVNC_SYS_LIBS)
  
  Xvnc_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
  

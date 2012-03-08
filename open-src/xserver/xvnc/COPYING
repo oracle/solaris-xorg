@@ -1,7 +1,7 @@
 This distribution of VNC software incorporates changes distributed by 
 the Fedora Project under the GNU General Public License version 2.
 
-Those changes are Copyright 2003-2008 Red Hat, Inc.  All rights reserved.
+Those changes are Copyright 2003-2011 Red Hat, Inc.  All rights reserved.
 
 --------------------------------------------------------------------
 
@@ -14,16 +14,30 @@ source files, may be found on the OpenSolaris web site at:
 TigerVNC Source Distribution for Unix platforms
 ===============================================
 
-Copyright (C) 2002-2005 RealVNC Ltd.  All Rights Reserved.
-Copyright (C) 2000-2006 TightVNC Group
-Copyright (C) 2004-2009 Peter Astrand for Cendio AB
+TigerVNC is
+
+        Copyright (C) 1999 AT&T Laboratories Cambridge
+        Copyright (C) 2002-2005 RealVNC Ltd.
+        Copyright (C) 2000-2006 TightVNC Group
+        Copyright (C) 2005-2006 Martin Koegler
+        Copyright (C) 2005-2006 Sun Microsystems, Inc.
+        Copyright (C) 2006 OCCAM Financial Technology
+        Copyright (C) 2000-2008 Constantin Kaplinsky
+        Copyright (C) 2004-2009 Peter Astrand for Cendio AB
+        Copyright (C) 2010 Antoine Martin
+        Copyright (C) 2010 m-privacy GmbH
+        Copyright (C) 2009-2011 D. R. Commander
+        Copyright (C) 2009-2011 Pierre Ossman for Cendio AB
+        Copyright (C) 2004, 2009-2011 Red Hat, Inc.
+        Copyright (C) 2009-2011 TigerVNC Team
+        All Rights Reserved.
 
 This software is distributed under the GNU General Public Licence as
 published by the Free Software Foundation.  See the copy of the license
 below for the conditions under which this software is made available.
-TigerVNC also contains code from other sources.  See the
-sections below, and the individual files for details
-of the conditions under which they are made available.
+TigerVNC also contains code from other sources.  See the sections below,
+and the individual files, for details of the conditions under which they 
+are made available.
 
 This distribution contains public domain DES software by Richard Outerbridge.
 This is:

@@ -4,7 +4,7 @@
 # Based on Fedora's tigervnc.spec revision 1.20 from
 # http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,11 +39,11 @@ MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.90
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 90db4d34543e20f053e2ac93745af7e3
-TARBALL_SHA1 = 9fbfb1680bf118ad9d5033159504552c779629ad
+TARBALL_MD5  = 1a5598b4a2ac530fb51411438959e11e
+TARBALL_SHA1 = a678745c231a37eea92c7c7c259f7495061a9a0d
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -58,12 +58,11 @@ XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xserver
 JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src/com/tigervnc/vncviewer
 
 # Download site for source
-SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.0.90%20%281.1beta1%29/$(SOURCE_TARBALL_NAME)
+SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	miext-sync.patch,-p1 \
 	$(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix' \
 	no-nasm.patch,-p1 \
 	applet-html.patch \
@@ -168,11 +167,16 @@ $(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
 	touch $(XORG_PATCHED_TARGET)
 
 # Command line options to GNU autoconf configure script for Xvnc
-XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS) \
-	--disable-builddocs --without-int10 \
-	--disable-dga --disable-xfree86-utils --disable-config-hal \
-	--disable-xorg --disable-xnest --disable-xvfb --disable-dmx \
-	--disable-xwin --disable-xephyr --disable-kdrive
+XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS)
+# Disable all the things we don't need in the Xvnc build since we
+# get them in the normal Xorg build instead
+XVNC_CONFIG_OPTS += --disable-builddocs --disable-xfree86-utils
+XVNC_CONFIG_OPTS += --disable-xorg --disable-xnest --disable-xvfb --disable-dmx
+XVNC_CONFIG_OPTS += --disable-xwin --disable-xephyr --disable-kdrive
+# Disable building Xorg hardware device support that Xvnc can't use
+XVNC_CONFIG_OPTS += --without-int10 --disable-config-hal --disable-dga 
+# The X server unit tests currently depend on the Xorg ddx being built
+XVNC_CONFIG_OPTS += --disable-unit-tests
 
 MODULE_CPPFLAGS = \
 	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \

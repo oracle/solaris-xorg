@@ -8,17 +8,18 @@
  INSTALL_DIR = /usr/local/vnc/classes
  
  CLASSES = VncViewer.class RfbProto.class AuthPanel.class VncCanvas.class \
-@@ -44,8 +45,11 @@ $(ARCHIVE): $(CLASSES) $(MANIFEST)
+@@ -44,9 +45,12 @@ $(ARCHIVE): $(CLASSES) $(MANIFEST)
  		com/tigervnc/decoder/*.class \
  		com/tigervnc/decoder/common/*.class
  
--install: $(CLASSES) $(ARCHIVE)
--	$(CP) $(CLASSES) $(ARCHIVE) $(PAGES) $(INSTALL_DIR)
+-install: $(PAGES) README $(ARCHIVE)
 +$(ICON):
 +	convert -background transparent ../../media/tigervnc_16.svg $@
 +
-+install: $(CLASSES) $(ARCHIVE) $(ICON)
-+	$(CP) $(CLASSES) $(ARCHIVE) $(ICON) $(PAGES) $(INSTALL_DIR)
++install: $(PAGES) README $(ARCHIVE) $(ICON)
+ 	mkdir -p $(INSTALL_DIR)
+-	$(CP) $(ARCHIVE) $(PAGES) README $(INSTALL_DIR)
++	$(CP) $(ARCHIVE) $(PAGES) README $(ICON) $(INSTALL_DIR)
  
  export:: $(CLASSES) $(ARCHIVE) $(PAGES)
  	@$(ExportJavaClasses)
