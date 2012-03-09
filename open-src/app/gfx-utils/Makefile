@@ -2,7 +2,7 @@
 #
 # SPARC graphics utilities modules (fbconfig & VTS) Makefile
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,8 +63,10 @@ include ../Makefile.inc
 
 # Install metadata for fb-specific packages too
 FB_MODULES = ast efb
+VTS_MODULES = mga
 
 EXTRA_METADATA_DIRS = $(FB_MODULES:%=$(MODULE_PKG_METADATA_DIR)-fbconfig-%)
+EXTRA_METADATA_DIRS += $(VTS_MODULES:%=$(MODULE_PKG_METADATA_DIR)-sunvts-%)
 
 EXTRA_ATTRDATA_FILES	= $(EXTRA_METADATA_DIRS:%=%/$(ATTRDATA_FILE_NAME))
 EXTRA_LICENSE_FILES	= $(EXTRA_METADATA_DIRS:%=%/$(LICENSE_FILE_NAME))
@@ -82,9 +84,11 @@ $(EXTRA_METADATA_DIRS):
 # Modules for specific frame buffers are covered only by Oracle copyright
 AST_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-ast/$(LICENSE_FILE_NAME)
 EFB_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-efb/$(LICENSE_FILE_NAME)
+MGA_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-sunvts-mga/$(LICENSE_FILE_NAME)
 
 $(AST_LICENSE_FILE):=		LICENSE_FILE	= COPYING.ast
 $(EFB_LICENSE_FILE):=		LICENSE_FILE	= COPYING.efb
+$(MGA_LICENSE_FILE):=		LICENSE_FILE	= COPYING.mga
 
 $(EXTRA_LICENSE_FILES):=      	LICENSE_NAME    = $(ORACLE_LICENSE_NAME)
 $(EXTRA_LICENSE_FILES):= 	LICENSE_APPEND  = $(ORACLE_LICENSE_APPEND)
