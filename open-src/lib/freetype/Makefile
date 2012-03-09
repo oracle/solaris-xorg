@@ -2,7 +2,7 @@
 #
 # Freetype 2.x Makefile
 #
-# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,11 +63,12 @@ MODULE_LICENSE_SET	= yes
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.8
+MODULE_VERSION=2.4.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = dbf2caca1d3afd410a29217a9809d397
-TARBALL_SHA1 = 1634cef894460ab98dd37eadfcdd055ffda9a27c
+TARBALL_MD5   = 77a893dae81fd5b896632715ca041179
+TARBALL_SHA1  = 5cb80ab9d369c4e81a2221bcf45adcea2c996b9b
+TARBALL_SHA256= c4204ac1d48e99d4375a2f32bf4f3f92780a9d9f015e64e57e852f6c004859b9
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)

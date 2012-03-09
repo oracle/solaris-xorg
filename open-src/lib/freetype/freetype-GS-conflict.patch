@@ -1,7 +1,8 @@
-diff -urp freetype-2.4.1/src/truetype/ttinterp.h freetype-2.4.1/src/truetype/ttinterp.h
---- freetype-2.4.1/src/truetype/ttinterp.h	2010-05-20 05:04:47.000000000 -0700
-+++ freetype-2.4.1/src/truetype/ttinterp.h	2010-08-05 17:23:58.073273648 -0700
-@@ -138,6 +138,8 @@ FT_BEGIN_HEADER
+diff --git a/src/truetype/ttinterp.h b/src/truetype/ttinterp.h
+index 6d0fc03..5c21a36 100644
+--- a/src/truetype/ttinterp.h
++++ b/src/truetype/ttinterp.h
+@@ -139,6 +139,8 @@ FT_BEGIN_HEADER
      FT_Size_Metrics    metrics;
      TT_Size_Metrics    tt_metrics; /* size metrics */
  
@@ -10,10 +11,11 @@ diff -urp freetype-2.4.1/src/truetype/ttinterp.h freetype-2.4.1/src/truetype/tti
      TT_GraphicsState   GS;         /* current graphics state */
  
      FT_Int             curRange;  /* current code range number   */
-diff -urp freetype-2.4.1/src/truetype/ttobjs.h freetype-2.4.1/src/truetype/ttobjs.h
---- freetype-2.4.1/src/truetype/ttobjs.h	2009-07-03 06:28:24.000000000 -0700
-+++ freetype-2.4.1/src/truetype/ttobjs.h	2010-08-05 17:24:05.630291335 -0700
-@@ -311,6 +311,8 @@ FT_BEGIN_HEADER
+diff --git a/src/truetype/ttobjs.h b/src/truetype/ttobjs.h
+index 47e4129..adf5920 100644
+--- a/src/truetype/ttobjs.h
++++ b/src/truetype/ttobjs.h
+@@ -312,6 +312,8 @@ FT_BEGIN_HEADER
  
      TT_CodeRangeTable  codeRangeTable;
  
