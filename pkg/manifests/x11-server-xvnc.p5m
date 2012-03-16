@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,6 +48,20 @@ file path=usr/share/vnc/classes/tigervnc_16.gif
 legacy pkg=SUNWxvnc \
     desc="X Window System server based on X.Org Foundation open source release and TigerVNC open source release that displays over RFB protocol to a VNC client" \
     name="X11/VNC server"
+
+# Fallback vncserver session runs xterm & twm, but GNOME will be used instead
+# if installed, and customers can configure an alternate session that does
+# not require those, so these are not listed as strict requirements.
+depend type=group fmri=pkg:/desktop/window-manager/twm
+depend type=group fmri=pkg:/terminal/xterm
+
+# vncserver script requires xdpyinfo
+depend type=require fmri=pkg:/x11/diagnostic/x11-info-clients
+
 # X servers require xkbcomp & data-xkb for keyboard layouts
 depend type=require fmri=pkg:/x11/keyboard/data-xkb
 depend type=require fmri=pkg:/x11/keyboard/xkbcomp
+
+# vncserver script requires xauth & xrdb programs
+depend type=require fmri=pkg:/x11/session/xauth
+depend type=require fmri=pkg:/x11/x11-server-utilities
