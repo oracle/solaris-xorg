@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-# Drop files needed for dependency resolution but which should not be
-# published in the packages.
-<transform file dir link org.opensolaris.nopublish=true -> drop>
-
-# Drop attributes used to filter developer-opensolaris-X.p5m for the
-# pkgdepend resolve -e list of packages to resolve against
-<transform depend -> delete org.opensolaris.pkgdepend.resolve .*>
+# Print fmri for each depend line in a manifest
+# Used in pkg/Makefile rule for generating input to pkgdepend resolve -e
+<transform depend org.opensolaris.pkgdepend.resolve=true -> print %(fmri)>

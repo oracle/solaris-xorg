@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,8 +29,20 @@ set name=info.classification \
 # without having to uninstall all the X packages first.
 set name=org.opensolaris.noincorp value=true
 
+#############################################################################
+# This package is used for dual purposes - it defines what build machines
+# should have installed for building X, and it defines the subset of those
+# packages that pkgdepend resolve should look in for dependencies that were
+# detected by pkgdepend generate.
+#
+# Dependencies to be used by pkgdepend generate bear the additional attribute
+# org.opensolaris.pkgdepend.resolve=true which is used by the extract_depends
+# pkgmogrify filter when making the list for pkgdepend resolve -e to use.
+#############################################################################
+
 # Builds need to be able to uncompress upstream tar.bz2 & tar.gz files
-depend type=require fmri=pkg:/compress/bzip2
+depend type=require fmri=pkg:/compress/bzip2 \
+    org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/compress/gzip
 
 # X.Org ships many docs using the DocBook XML DTD's and stylesheets
@@ -107,19 +119,28 @@ $(i386_ONLY)depend type=require fmri=pkg:/driver/graphics/agpgart
 depend type=require fmri=pkg:/driver/usb
 
 # autoconf scripts prefer various gnu utilities (mkdir, install, etc.)
-depend type=require fmri=pkg:/file/gnu-coreutils
+depend type=require fmri=pkg:/file/gnu-coreutils \
+    org.opensolaris.pkgdepend.resolve=true
 
 # tigervnc links with libjpg
-depend type=require fmri=pkg:/image/library/libjpeg
+depend type=require fmri=pkg:/image/library/libjpeg \
+    org.opensolaris.pkgdepend.resolve=true
 
 # app/xcursorgen links with libpng12
-depend type=require fmri=pkg:/image/library/libpng
+depend type=require fmri=pkg:/image/library/libpng \
+    org.opensolaris.pkgdepend.resolve=true
 
 # synergy-plus links against libstdcxx
-depend type=require fmri=pkg:/library/c++/stdcxx
+depend type=require fmri=pkg:/library/c++/stdcxx \
+    org.opensolaris.pkgdepend.resolve=true
 
 # lib/fontconfig links with libexpat
-depend type=require fmri=pkg:/library/expat
+depend type=require fmri=pkg:/library/expat \
+    org.opensolaris.pkgdepend.resolve=true
+
+# TigerVNC links with gnutls libraries
+depend type=require fmri=pkg:/library/gnutls \
+    org.opensolaris.pkgdepend.resolve=true
 
 # xcb-proto runs xmllint
 depend type=require fmri=pkg:/library/libxml2
@@ -128,7 +149,8 @@ depend type=require fmri=pkg:/library/libxml2
 depend type=require fmri=pkg:/library/libxslt
 
 # AccessX & DPS require motif libraries
-depend type=require fmri=pkg:/library/motif
+depend type=require fmri=pkg:/library/motif \
+    org.opensolaris.pkgdepend.resolve=true
 
 # xterm uses ncurses/term.h
 depend type=require fmri=pkg:/library/ncurses
@@ -137,25 +159,39 @@ depend type=require fmri=pkg:/library/ncurses
 depend type=require fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION)
 
 # freetype, libXfont & libfontenc link with libz
-depend type=require fmri=pkg:/library/zlib
+depend type=require fmri=pkg:/library/zlib \
+    org.opensolaris.pkgdepend.resolve=true
 
-# Build runs a number of perl scripts
-depend type=require fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION)
+# Build runs a number of perl scripts, and vncserver is shipped as one
+depend type=require fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION) \
+    org.opensolaris.pkgdepend.resolve=true
 
 # xcb & mesa require python interpreter/compiler
 depend type=require fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION)
 
+# Build uses and packages deliver a lot of shell/ksh93 scripts
+depend type=require fmri=pkg:/shell/ksh org.opensolaris.pkgdepend.resolve=true
+
+# Build uses and packages depend on core OS commands & files
+depend type=require fmri=pkg:/system/core-os \
+    org.opensolaris.pkgdepend.resolve=true
+
 # Xserver currently links with HAL & Dbus
-depend type=require fmri=pkg:/service/hal
+depend type=require fmri=pkg:/system/hal org.opensolaris.pkgdepend.resolve=true
 
 # Basic system headers & libraries
 depend type=require fmri=pkg:/system/header
-depend type=require fmri=pkg:/system/library
-depend type=require fmri=pkg:/system/library/c++-runtime
+depend type=require fmri=pkg:/system/library \
+    org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/system/library/c++-runtime \
+    org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/flex-runtime
-depend type=require fmri=pkg:/system/library/gcc-3-runtime
-depend type=require fmri=pkg:/system/library/libdbus
-depend type=require fmri=pkg:/system/library/math
+depend type=require fmri=pkg:/system/library/gcc-3-runtime \
+    org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/system/library/libdbus \
+    org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/system/library/math \
+    org.opensolaris.pkgdepend.resolve=true
 
 # Almost all modules need Solaris ld to link binaries
 depend type=require fmri=pkg:/system/linker

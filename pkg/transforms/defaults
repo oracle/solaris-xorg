@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,13 +56,6 @@
 <transform legacy -> default category "system">
 # This is set to the final version number delivered as SVR4 format
 <transform legacy -> default version "6.9.0.5.11.14300,REV=0.2010.06.21">
-
-# Ensure we don't accidentally list dependencies on gcc-4 runtime libraries
-# if they're installed on build systems, since we always build with gcc-3
-# Also works around https://defect.opensolaris.org/bz/show_bug.cgi?id=19009
-<transform file -> add pkg.depend.bypass-generate usr/gcc/4.*>
-<transform file -> add pkg.depend.bypass-generate usr/lib(.*)/libgcc_s.so.1>
-<transform file -> add pkg.depend.bypass-generate usr/lib(.*)/libstdc\\+\\+\\.so.*>
 
 #
 # These aren't really transforms, but are valid defaults for

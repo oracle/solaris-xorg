@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -243,9 +243,16 @@ $(PDIR)/%.mog: $(PDIR)/%.p5m $(PDIR)/%.attr
 	$(PKGDEBUG)$(TOUCH) $(@)
 
 ### Dependency detection
+
+# Package manifest containing list of packages to use in dependency
+# resolution, and not containing any dependencies to be detected/resolved.
+DEP_LIST_PKG = developer-opensolaris-X
+
 DEP_PKGS= $(PKGS:%=$(PDIR)/%.dep)
-DEP_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.dep)
+DEP_CURRENT_PKGS_1 = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.dep)
+DEP_CURRENT_PKGS = $(DEP_CURRENT_PKGS_1:$(PDIR)/$(DEP_LIST_PKG).dep=)
 DEP_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.dep)
+DEP_LEGACY_PKGS += $(DEP_LIST_PKG:%=$(PDIR)/%.dep)
 DEP_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.dep)
 
 PKGDEP_TOKENS_i386= \
@@ -277,10 +284,10 @@ $(DEP_SYNTH_PKGS) $(DEP_LEGACY_PKGS): $$(@:%.dep=%.mog)
 
 ### Dependency resolution
 
-DEP_RES_PKGS = $(PKGS:%=$(PDIR)/%.dep.res)
-DEP_RES_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.dep.res)
-DEP_RES_LEGACY_PKGS = $(LEGACY_MANIFESTS:%.p5m=$(PDIR)/%.dep.res)
-DEP_RES_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.dep.res)
+DEP_RES_PKGS = $(DEP_PKGS:%=%.res)
+DEP_RES_CURRENT_PKGS = $(DEP_CURRENT_PKGS:%=%.res)
+DEP_RES_LEGACY_PKGS = $(DEP_LEGACY_PKGS:%=%.res)
+DEP_RES_SYNTH_PKGS = $(DEP_SYNTH_PKGS:%=%.res)
 
 PKGDEP_VERBOSE_FLAG_0 =
 PKGDEP_VERBOSE_FLAG_1 = -v
@@ -290,9 +297,19 @@ PKGDEP_VERBOSE_FLAG = $(PKGDEP_VERBOSE_FLAG_$(V))
 # Normally / on the machine used to build the binaries
 PKGDEP_RESOLVE_IMAGE = /
 
+# File listing packages to consider in dependency resolution.
+# Automatically generated from the developer package to ensure they
+# stay in sync.
+PKGDEP_RESOLVE_LIST = $(PDIR)/resolve.deps
+
+$(PKGDEP_RESOLVE_LIST): $(PDIR)/$(DEP_LIST_PKG).mog
+	@print "## Generating package list for dependency resolution"
+	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
+	    -O /dev/null -P $(@) $(PDIR)/$(DEP_LIST_PKG).mog extract_depends
+
 # This rule resolves dependencies across all manifests for packages
 # currently delivering files.
-$(PDIR)/gendeps: $(DEP_CURRENT_PKGS)
+$(PDIR)/gendeps: $(DEP_CURRENT_PKGS) $(PKGDEP_RESOLVE_LIST)
 	$(PKGDEBUG)if [[ "$(SUPPRESSPKGDEP)" = "true" ]]; then \
 		print "## Suppressing dependency resolution"; \
 		for p in $(DEP_CURRENT_PKGS:%.dep=%); do \
@@ -300,8 +317,9 @@ $(PDIR)/gendeps: $(DEP_CURRENT_PKGS)
 		done; \
 	else \
 		print "## Resolving dependencies"; \
-		pkgdepend -R $(PKGDEP_RESOLVE_IMAGE) resolve \
-		    $(PKGDEP_VERBOSE_FLAG) -m $(DEP_CURRENT_PKGS) ; \
+		pkgdepend -R $(PKGDEP_RESOLVE_IMAGE) resolve -E \
+		    $(PKGDEP_VERBOSE_FLAG) -e $(PKGDEP_RESOLVE_LIST) \
+		    -m $(DEP_CURRENT_PKGS) ; \
 	fi
 	$(PKGDEBUG)$(TOUCH) $(@)
 
