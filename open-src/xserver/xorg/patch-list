@@ -17,7 +17,6 @@ xtsol.patch,-p1
 amd64-loader-path.patch,-p1
 fontmod.patch,-p1
 sparc-probe.patch,-p1
-glx-impure.patch,-p1
 nvidia-autoconfig.patch,-p1
 autoconfig.patch,-p1
 signal-handler.patch,-p1
