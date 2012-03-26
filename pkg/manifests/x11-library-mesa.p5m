@@ -111,6 +111,7 @@ file path=usr/lib/pkgconfig/dri.pc
 file path=usr/lib/pkgconfig/gl.pc
 file path=usr/lib/pkgconfig/glu.pc
 file path=usr/lib/pkgconfig/glw.pc
+file path=usr/lib/xorg/modules/dri/$(ARCH64)/swrast_dri.so
 file path=usr/lib/xorg/modules/dri/swrast_dri.so
 legacy pkg=SUNWxorg-mesa \
     desc="Server modules and client libraries for X Window System GLX extension based on Mesa open source project" \

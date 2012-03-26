@@ -65,6 +65,8 @@ MODULE_CONFIG_ENV = \
 # What to build
 BUILD_TARGETS= $(GLXGEARS_BIN) $(GLXINFO_BIN) $(MODTYPE_ADD_BUILD_TARGETS)
 BUILD_TARGETS_SET=yes
+BUILD_TYPES_SET=yes
+BUILD_TYPES=32 64
 
 # What to install
 INSTALL_TARGETS= install_demos install_man
@@ -106,7 +108,7 @@ DESTDIR=$(PROTODIR)
 
 install_demos: $(INSTALL_DEPS)
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin		 
-	cp -pf $(GLXGEARS_BIN) $(GLXINFO_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin
+	cp -pf $(GLXGEARS_BIN) $(GLXINFO_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 
 install_man: 
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/share/man/man1

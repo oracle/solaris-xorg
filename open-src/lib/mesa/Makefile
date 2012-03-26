@@ -79,7 +79,7 @@ DRI_DRIVER_LIST= $(DRI_DRIVER_LIST_$(MACH)) swrast
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --with-driver=dri --disable-egl --disable-gallium \
-	--with-dri-driverdir='$(X11_SERVERMODS_DIR)/dri' \
+	--with-dri-driverdir='$(X11_SERVERMODS_DIR)/dri$(ARCHLIBSUBDIR)' \
 	--with-dri-drivers='$(DRI_DRIVER_LIST)'
 
 # Build mesa with this define (CR 7032292)

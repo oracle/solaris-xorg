@@ -42,7 +42,7 @@ include $(TOP)/open-src/common/Makefile.init
 XORG_SOURCE_PATCHES:sh=sed '/^\#/ d' ../xorg/patch-list
 
 SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)'
-DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri'
+DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(ARCHLIBSUBDIR)'
 
 # Changes to apply to man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS = -p $(MODULE_PREFIX)/bin/
