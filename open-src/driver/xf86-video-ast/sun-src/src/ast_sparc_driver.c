@@ -66,7 +66,7 @@ extern Bool ASTGetRec(ScrnInfoPtr pScrn);
 #define AST_REG_SIZE       		(256*1024)
 #define AST_REG_SIZE_LOG2  		18
 
-#define AST_DEFAULT_DEVICE_PATH 	"/dev/fb"
+#define AST_DEFAULT_DEVICE_PATH 	"/dev/fb0"
 
 #define PCI_MAP_MEMORY                  0x00000000
 #define PCI_MAP_IO                      0x00000001
@@ -172,7 +172,11 @@ ASTAllocScreen(DriverPtr drv, GDevPtr pDev)
                 info->deviceName = dev;
                 info->fd = fd;
             }
-        }
+        } else  {
+	    xf86DrvMsg(pScrn->scrnIndex, X_ERROR, 
+				"Cannot open device %s\n", dev);
+	    return NULL;
+	}
     }
     return pScrn;
 }
