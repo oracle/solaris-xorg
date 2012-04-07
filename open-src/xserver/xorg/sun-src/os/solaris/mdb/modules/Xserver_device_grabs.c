@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -97,6 +97,19 @@ _X_HIDDEN void
 inputdev_walk_fini(mdb_walk_state_t *wsp)
 {
     mdb_free(wsp->walk_data, sizeof (struct inputdev_walk_data));
+}
+
+_X_HIDDEN void
+inputdev_grabs_help(void)
+{
+    mdb_printf(
+	"Prints information about a DeviceIntRec entry in the X server's list\n"
+	"of currently connected input devices.\n"
+	"\n"
+	"If no %<u>addr%</u> is specified, uses ::inputdev_walk to walk the linked list\n"
+	"of DeviceIntRec entries starting at the entry stored in the global\n"
+	"variable \"InputInfo\" and print information about each one.\n"
+	);
 }
 
 _X_HIDDEN int

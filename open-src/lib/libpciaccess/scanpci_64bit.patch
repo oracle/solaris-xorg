@@ -1,7 +1,29 @@
-diff -urp -x '*~' -x '*.orig' src/solx_devfs.c src/solx_devfs.c
---- src/solx_devfs.c	Fri Jul 15 15:29:25 2011
-+++ src/solx_devfs.c	Mon Jul 25 18:57:29 2011
-@@ -865,14 +865,10 @@
+diff --git a/scanpci/scanpci.c b/scanpci/scanpci.c
+index 1f5f8bd..480e152 100644
+--- a/scanpci/scanpci.c
++++ b/scanpci/scanpci.c
+@@ -151,11 +151,14 @@ print_pci_device( struct pci_device * dev, int verbose )
+ 	pci_device_probe( dev );
+ 	for ( i = 0 ; i < 6 ; i++ ) {
+ 	    if ( dev->regions[i].base_addr != 0 ) {
+-		printf( "  BASE%u     0x%08"PRIxPTR" SIZE %zu  %s",
++		static const char *fmt8 = "  BASE%u     0x%08llx SIZE %d  %s";
++		static const char *fmt16 = "  BASE%u     0x%016llx SIZE %d  %s";
++		printf( dev->regions[i].is_64 ? fmt16 : fmt8,
+ 			i,
+ 			(intptr_t) dev->regions[i].base_addr,
+ 			(size_t) dev->regions[i].size,
+-			(dev->regions[i].is_IO) ? "I/O" : "MEM" );
++			(dev->regions[i].is_IO) ? "I/O" : 
++			((dev->regions[i].is_64) ? "MEM64" : "MEM") );
+ 
+ 		if ( ! dev->regions[i].is_IO ) {
+ 		    if ( dev->regions[i].is_prefetchable ) {
+diff --git a/src/solx_devfs.c b/src/solx_devfs.c
+index 5f0db2d..6b8db2c 100644
+--- a/src/solx_devfs.c
++++ b/src/solx_devfs.c
+@@ -897,14 +897,10 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
  	}
  
  
@@ -20,24 +42,3 @@ diff -urp -x '*~' -x '*.orig' src/solx_devfs.c src/solx_devfs.c
  
  	switch (reg->pci_phys_hi & PCI_REG_ADDR_M) {
  	    case PCI_ADDR_IO:
-
-diff -urp -x '*~' -x '*.orig' scanpci/scanpci.c scanpci/scanpci.c
---- scanpci/scanpci.c	Thu Oct  7 14:14:44 2010
-+++ scanpci/scanpci.c	Mon Jul 25 17:16:07 2011
-@@ -132,11 +132,14 @@
- 	pci_device_probe( dev );
- 	for ( i = 0 ; i < 6 ; i++ ) {
- 	    if ( dev->regions[i].base_addr != 0 ) {
--		printf( "  BASE%u     0x%08x SIZE %d  %s",
-+		static const char *fmt8 = "  BASE%u     0x%08llx SIZE %d  %s";
-+		static const char *fmt16 = "  BASE%u     0x%016llx SIZE %d  %s";
-+		printf( dev->regions[i].is_64 ? fmt16 : fmt8,
- 			i,
- 			(intptr_t) dev->regions[i].base_addr,
- 			(size_t) dev->regions[i].size,
--			(dev->regions[i].is_IO) ? "I/O" : "MEM" );
-+			(dev->regions[i].is_IO) ? "I/O" : 
-+			((dev->regions[i].is_64) ? "MEM64" : "MEM") );
- 
- 		if ( ! dev->regions[i].is_IO ) {
- 		    if ( dev->regions[i].is_prefetchable ) {

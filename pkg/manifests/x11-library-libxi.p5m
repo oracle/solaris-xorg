@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,10 +37,9 @@ link path=usr/lib/libXi.so target=libXi.so.5
 file path=usr/lib/libXi.so.5
 file path=usr/lib/pkgconfig/xi.pc
 dir  path=usr/share/doc/libXi
-dir  path=usr/share/doc/libXi/specs
-file path=usr/share/doc/libXi/specs/encoding.xml
-file path=usr/share/doc/libXi/specs/inputlib.xml
-file path=usr/share/doc/libXi/specs/library.xml
+file path=usr/share/doc/libXi/encoding.xml
+file path=usr/share/doc/libXi/inputlib.xml
+file path=usr/share/doc/libXi/library.xml
 dir  path=usr/share/man/man3xi
 file path=usr/share/man/man3xi/XAllowDeviceEvents.3xi
 file path=usr/share/man/man3xi/XChangeDeviceControl.3xi

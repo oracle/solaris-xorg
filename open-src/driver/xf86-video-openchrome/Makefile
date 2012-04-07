@@ -2,7 +2,7 @@
 #
 # xf86-video-openchrome Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,11 +34,11 @@ UPSTREAM_URL    = http://www.openchrome.org/
 UPSTREAM_SET    = yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.2.904
+MODULE_VERSION=0.2.905
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f2481d98ef54febf5bffbb88a2a2426d
-TARBALL_SHA1 = 23225057d5b75d6aac3e7a710cbc067b2eb29228
+TARBALL_MD5  = 51871431a4a9204ab8ec79335c0cc041
+TARBALL_SHA1 = bbd64f258e69b29498e5f68d5a28e5253d252dd1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = manpage-sections.patch,-p1

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -68,31 +68,32 @@ OSAuditClientInit (ClientPtr pClient)
     if (saveid != 0) {
 	/* reset privs back to root */
         if (seteuid(0) < 0) {
-	    Error("OSAuditClientInit: seteuid(0)");
+	    ErrorF("OSAuditClientInit: seteuid(0): %s\n", strerror(errno));
 	    saveid = 0;
 	}
     }
     
     if (adt_start_session(&ah, NULL, 0) != 0) {
-	Error("OSAuditClientInit: adt_start_session");
+	ErrorF("OSAuditClientInit: adt_start_session: %s\n", strerror(errno));
 	goto end;
     }
 
     if (pClient->osPrivate == NULL) {
-	Error("OSAuditClientInit: NULL osPrivate");
+	ErrorF("OSAuditClientInit: NULL osPrivate: %s\n", strerror(errno));
 	goto end;
     }
     ci = ((OsCommPtr)pClient->osPrivate)->trans_conn;
     peer = _XSERVTransGetConnectionNumber(ci);
     if (getpeerucred(peer, &uc) == 0) {
 	if (adt_set_from_ucred(ah, uc, ADT_NEW) != 0) {
-	    Error("OSAuditClientInit: adt_set_from_ucred");
+	    ErrorF("OSAuditClientInit: adt_set_from_ucred: %s\n",
+		   strerror(errno));
 	}
 	ucred_free(uc);
     } else {
 	if (adt_set_user(ah, ADT_NO_ATTRIB, ADT_NO_ATTRIB, ADT_NO_ATTRIB,
 			 ADT_NO_ATTRIB, NULL, ADT_NEW) != 0) {
-	    Error("OSAuditClientInit: adt_set_user");
+	    ErrorF("OSAuditClientInit: adt_set_user: %s\n", strerror(errno));
 	}
     }
 
@@ -102,7 +103,7 @@ OSAuditClientInit (ClientPtr pClient)
     if (saveid != 0) {
 	/* set privs back to user */
         if (seteuid(saveid) < 0) {
-	    Error("OSAuditClientInit: seteuid(saveid)");
+	    ErrorF("OSAuditClientInit: seteuid(saveid): %s\n", strerror(errno));
 	}
     }
 
@@ -119,12 +120,12 @@ OSAudit (ClientPtr pClient, int event_id, int status, int reason)
     OSAuditClientPrivatePtr	 priv = GetOSAuditClient(pClient);
 
     if (priv->ah == NULL) {
-	Error("OSAudit: NULL adt_session_data");
+	ErrorF("OSAudit: NULL adt_session_data: %s\n", strerror(errno));
 	return;
     }
 
     if ((event = adt_alloc_event(priv->ah, event_id)) == NULL) {
-	Error("OSAudit: adt_set_from_ucred");
+	ErrorF("OSAudit: adt_set_from_ucred: %s\n", strerror(errno));
 	return;
     }
 
@@ -144,26 +145,26 @@ OSAudit (ClientPtr pClient, int event_id, int status, int reason)
 	event->adt_xdisconnect.client = pClient->index;
 	break;
     default:
-	Error("OSAudit: unknown event_id");
+	ErrorF("OSAudit: unknown event_id: %s\n", strerror(errno));
     }
 
     saveid = geteuid();
     if (saveid != 0) {
 	/* reset privs back to root */
         if (seteuid(0) < 0) {
-	    Error("OSAuditClientInit: seteuid(0)");
+	    ErrorF("OSAuditClientInit: seteuid(0): %s\n", strerror(errno));
 	    saveid = 0;
 	}
     }
     
     if (adt_put_event(event, status, reason) != 0) {
-	Error("OSAudit: adt_put_event");
+	ErrorF("OSAudit: adt_put_event: %s\n", strerror(errno));
     }
 
     if (saveid != 0) {
 	/* set privs back to user */
         if (seteuid(saveid) < 0) {
-	    Error("OSAuditClientInit: seteuid(saveid)");
+	    ErrorF("OSAuditClientInit: seteuid(saveid): %s\n", strerror(errno));
 	}
     }    
     

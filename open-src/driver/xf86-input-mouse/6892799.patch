@@ -1,4 +1,4 @@
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/mouse.c b/src/mouse.c
-index d981f6f..298f042 100644
+index f4c7c82..0e577b3 100644
 --- a/src/mouse.c
 +++ b/src/mouse.c
-@@ -1614,13 +1614,14 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1616,13 +1616,14 @@ MouseProc(DeviceIntPtr device, int what)
  	ErrorF("assigning %p atom=%d name=%s\n", device, pInfo->atom,
  		pInfo->name);
  #endif
@@ -42,7 +42,7 @@ index d981f6f..298f042 100644
  	    if (pMse->xisbscale)
  		pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
  	    else
-@@ -1676,8 +1677,6 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1678,8 +1679,6 @@ MouseProc(DeviceIntPtr device, int what)
  		XisbFree(pMse->buffer);
  		pMse->buffer = NULL;
  	    }
@@ -51,7 +51,7 @@ index d981f6f..298f042 100644
  	    if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
  	    {
  		RemoveBlockAndWakeupHandlers (MouseBlockHandler,
-@@ -1688,6 +1687,10 @@ MouseProc(DeviceIntPtr device, int what)
+@@ -1690,6 +1689,10 @@ MouseProc(DeviceIntPtr device, int what)
  	device->public.on = FALSE;
  	break;
      case DEVICE_CLOSE:

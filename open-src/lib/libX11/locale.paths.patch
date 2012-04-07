@@ -1,7 +1,7 @@
 Allow passing multi-directory paths to configure search for locale files
 
 diff --git a/configure.ac b/configure.ac
-index c2f2376..9d85355 100644
+index 5f82e47..b1ee4f6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -414,11 +414,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRING([--with-locale-lib-dir=DIR],
@@ -23,4 +23,4 @@ index c2f2376..9d85355 100644
 +AX_DEFINE_DIR(XLOCALEDIR, XLOCALEDIR, [Location of libX11 locale data])
  AC_SUBST(X11_LOCALEDIR)
  
- XKEYSYMDB="${X11_DATADIR}/XKeysymDB"
+ locales="\

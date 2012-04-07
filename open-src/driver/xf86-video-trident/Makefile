@@ -2,7 +2,7 @@
 #
 # xf86-video-trident 1.x Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,15 @@
 MODULE_NAME=xf86-video-trident
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.4
+MODULE_VERSION=1.3.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7a646ba7033dd4eb10d38dca8682b391
-TARBALL_SHA1 = 7c40f5c02bddf399862782b708941e79302318af
+TARBALL_MD5   = 5ca073f0ca52b83e51def3115e6cae4a
+TARBALL_SHA1  = d4ef8112eeabb7a7e31e287172425e3540bb34fd
+TARBALL_SHA256= 4bb3d091ab7788e1883d6d9e7e0c7ecbf9f57e5ef03d94a5082c2870dbbfc50b
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6452329.patch
+SOURCE_PATCHES = 6452329.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

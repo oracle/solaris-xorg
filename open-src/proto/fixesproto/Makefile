@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=fixesproto
 
 # Version number (used in path names)
-MODULE_VERSION=4.1.2
+MODULE_VERSION=5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bdb58ecc313b509247036d5c11fa99df
-TARBALL_SHA1 = c9cda7ff37849250c328f8dc52dc0f6e546df3a5
+TARBALL_MD5  = e7431ab84d37b2678af71e29355e101d
+TARBALL_SHA1 = ab605af5da8c98c0c2f8b2c578fed7c864ee996a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

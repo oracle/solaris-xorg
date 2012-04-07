@@ -1,9 +1,3 @@
-oslog-race.patch,-p1
-dtrace-doc.patch,-p1
-CVE-2011-4028.patch,-p1
-CVE-2011-4029.patch,-p1
-loadmod.patch,-p1
-dmx-glxproxy.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
@@ -29,5 +23,4 @@ vt.patch,-p1
 6912996.patch,-p1
 record-regset.patch,-p1
 autodetect-kernel-dev-fb.patch,-p1
-trim-fallbacks.patch,-p1
-CR7054054.patch,-p1
+workaround-7154410.patch,-p1

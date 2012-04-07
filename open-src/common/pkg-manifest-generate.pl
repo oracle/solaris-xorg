@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,7 +72,10 @@ sub next_action_seen {
 
     while (my $l = <$FH>) {
       chomp($l);
-      if ($l =~ m{^(.*)\\$}) {  # Line continues
+      if ($l =~ m{^\#}) { # comment
+	$action .= $l;
+	return $action;
+      } elsif ($l =~ m{^(.*)\\$}) {  # Line continues
 	$action .= $1 . " ";
       } else {
 	$action .= $l;

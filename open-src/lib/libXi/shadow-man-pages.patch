@@ -13,10 +13,10 @@ Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
  1 files changed, 3 insertions(+), 0 deletions(-)
 
 diff --git a/man/Makefile.am b/man/Makefile.am
-index d4c37b3..28211a1 100644
+index 7e328a5..0af2c5f 100644
 --- a/man/Makefile.am
 +++ b/man/Makefile.am
-@@ -159,6 +159,9 @@ MAN_SUBSTS += -e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g'
+@@ -166,6 +166,9 @@ MAN_SUBSTS += -e 's/^\.so X/.so man$(LIB_MAN_SUFFIX)\/X/'
  MAN_SUBSTS += -e 's/\[FIXME: source\]/$(XORG_MAN_PAGE)/'
  MAN_SUBSTS += -e 's/\[FIXME: manual\]/XINPUT FUNCTIONS/'
  
@@ -26,6 +26,3 @@ index d4c37b3..28211a1 100644
  SUFFIXES = .man .$(LIB_MAN_SUFFIX)
  .man.$(LIB_MAN_SUFFIX):
  	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
--- 
-1.7.3.2
-

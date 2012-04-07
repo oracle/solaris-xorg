@@ -1,4 +1,4 @@
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 
 diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
-index eaa99e8..0c8b21c 100644
+index 5b9f8d1..d1dd595 100644
 --- a/hw/xfree86/loader/loadmod.c
 +++ b/hw/xfree86/loader/loadmod.c
-@@ -166,6 +166,13 @@ InitPathList(const char *path)
+@@ -168,6 +168,13 @@ InitPathList(const char *path)
  		list[n][len - 1] = '/';
  		list[n][len] = '\0';
  	    }
@@ -37,7 +37,7 @@ index eaa99e8..0c8b21c 100644
  	    n++;
  	}
  	elem = strtok(NULL, ",");
-@@ -387,6 +394,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -389,6 +396,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      char *ret = NULL, tmpBuf[PATH_MAX];
      struct stat stat_buf;
  
@@ -62,7 +62,7 @@ index eaa99e8..0c8b21c 100644
      dir = opendir(dirpath);
      if (!dir)
          return NULL;
-@@ -394,6 +419,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -396,6 +421,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      while ((direntry = readdir(dir))) {
          if (direntry->d_name[0] == '.')
              continue;
@@ -76,7 +76,7 @@ index eaa99e8..0c8b21c 100644
          snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpath, direntry->d_name);
  	/* the stat with the appended / fails for normal files,
  	   and works for sub dirs fine, looks a bit strange in strace
-@@ -403,6 +435,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -405,6 +437,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
                  break;
              continue;
          }

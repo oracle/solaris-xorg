@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -26,10 +26,11 @@ Somehow we shipped in Solaris libXfixes.so.1 the same version the open
 source community shipped as libXfixes.so.3.   This thus maintains ABI
 compatibility with the existing Solaris binaries.
 
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2010-06-08 19:03:20.000000000 -0700
-+++ src/Makefile.am	2011-02-11 16:45:27.624708354 -0800
-@@ -13,7 +13,7 @@ AM_CFLAGS = $(CWARNFLAGS) @FIXESEXT_CFLA
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 544230f..93b58ff 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -13,7 +13,7 @@ AM_CFLAGS = $(CWARNFLAGS) @FIXESEXT_CFLAGS@
  
  INCLUDES = -I$(top_srcdir)/include/X11/extensions
  
@@ -38,10 +39,11 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  
  libXfixesincludedir = $(includedir)/X11/extensions
  libXfixesinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xfixes.h 
-diff -urp -x '*~' -x '*.orig' src/Makefile.in src/Makefile.in
---- src/Makefile.in	2010-06-09 20:19:28.000000000 -0700
-+++ src/Makefile.in	2011-02-11 16:45:27.625141798 -0800
-@@ -258,7 +258,7 @@ libXfixes_la_SOURCES = \
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 904f023..17f3d3b 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -259,7 +259,7 @@ libXfixes_la_SOURCES = \
  libXfixes_la_LIBADD = @FIXESEXT_LIBS@
  AM_CFLAGS = $(CWARNFLAGS) @FIXESEXT_CFLAGS@
  INCLUDES = -I$(top_srcdir)/include/X11/extensions

@@ -9,12 +9,12 @@ Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
  1 files changed, 4 insertions(+), 0 deletions(-)
 
 diff --git a/man/Makefile.am b/man/Makefile.am
-index 2181ea9..d4c37b3 100644
+index 28211a1..7e328a5 100644
 --- a/man/Makefile.am
 +++ b/man/Makefile.am
-@@ -155,6 +155,10 @@ XIFreeDeviceInfo.man: XIQueryDevice.man
- # Unable to use __libmansuffix__ as underscores are lost in txt --> xml conversion
- MAN_SUBSTS += -e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g'
+@@ -162,6 +162,10 @@ MAN_SUBSTS += -e 's/\[FIXME: manual\]/XINPUT FUNCTIONS/'
+ # asciidoc generates shadow page references without the man section directory
+ MAN_SUBSTS += -e 's/^\.so X/.so man$(LIB_MAN_SUFFIX)\/X/'
  
 +# asciidoc is generating [FIXME...] values in the .TH line we should fix.
 +MAN_SUBSTS += -e 's/\[FIXME: source\]/$(XORG_MAN_PAGE)/'
@@ -23,6 +23,3 @@ index 2181ea9..d4c37b3 100644
  SUFFIXES = .man .$(LIB_MAN_SUFFIX)
  .man.$(LIB_MAN_SUFFIX):
  	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
--- 
-1.7.3.2
-

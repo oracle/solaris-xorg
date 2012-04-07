@@ -1,0 +1,23 @@
+Based on upstream commit e057a56448e2e785f74bc13dbd6ead8572ebed91
+intel: add Ivy Bridge GT2 server variant
+We were missing this one and it is being used by Bromolow. Signed-off-by: Eugeni Dodonov <eugeni.dodonov@intel.com>
+--- src/mesa/drivers/dri/intel/intel_chipset.h	Thu Apr  5 14:17:15 2012
++++ src/mesa/drivers/dri/intel/intel_chipset.h	Thu Apr  5 14:21:27 2012
+@@ -85,6 +85,7 @@
+ #define PCI_CHIP_IVYBRIDGE_M_GT1        0x0156  /* Mobile */
+ #define PCI_CHIP_IVYBRIDGE_M_GT2        0x0166
+ #define PCI_CHIP_IVYBRIDGE_S_GT1        0x015a  /* Server */
++#define PCI_CHIP_IVYBRIDGE_S_GT2 	0x016a  /* server */
+ 
+ #define IS_MOBILE(devid)	(devid == PCI_CHIP_I855_GM || \
+ 				 devid == PCI_CHIP_I915_GM || \
+@@ -147,7 +148,8 @@
+ 				 devid == PCI_CHIP_IVYBRIDGE_S_GT1)
+ 
+ #define IS_IVB_GT2(devid)       (devid == PCI_CHIP_IVYBRIDGE_GT2 || \
+-				 devid == PCI_CHIP_IVYBRIDGE_M_GT2)
++				 devid == PCI_CHIP_IVYBRIDGE_M_GT2 || \
++				 devid == PCI_CHIP_IVYBRIDGE_S_GT2)
+ 
+ #define IS_IVYBRIDGE(devid)     (IS_IVB_GT1(devid) || IS_IVB_GT2(devid))
+ 

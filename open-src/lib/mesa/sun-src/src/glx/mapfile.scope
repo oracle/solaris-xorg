@@ -665,5 +665,6 @@
 	__glConvolutionParameteriv_size;
 	__glPointParameterfvEXT_size;
 	__glPointParameterivNV_size;
+	__indirect_glClampColorARB;
 
 };

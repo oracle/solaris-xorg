@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index 7638e5c..d5e2097 100644
+index f02a7ba..86aedba 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
-@@ -523,6 +523,25 @@ fixup_video_driver_list(char **drivers)
+@@ -522,6 +522,25 @@ fixup_video_driver_list(char **drivers)
              }
          }
      }

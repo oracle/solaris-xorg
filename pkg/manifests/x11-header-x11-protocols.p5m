@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -179,13 +179,12 @@ dir  path=usr/share/doc/compositeproto
 file path=usr/share/doc/compositeproto/compositeproto.txt
 dir  path=usr/share/doc/damageproto
 file path=usr/share/doc/damageproto/damageproto.txt
+dir  path=usr/share/doc/dri2proto
+file path=usr/share/doc/dri2proto/dri2proto.txt
 dir  path=usr/share/doc/fixesproto
 file path=usr/share/doc/fixesproto/fixesproto.txt
 dir  path=usr/share/doc/fontsproto
 file path=usr/share/doc/fontsproto/fsproto.xml
-dir  path=usr/share/doc/inputproto
-file path=usr/share/doc/inputproto/XI2proto.txt
-file path=usr/share/doc/inputproto/XIproto.txt
 dir  path=usr/share/doc/randrproto
 file path=usr/share/doc/randrproto/randrproto.txt
 dir  path=usr/share/doc/recordproto

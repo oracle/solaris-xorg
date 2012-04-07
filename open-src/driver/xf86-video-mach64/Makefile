@@ -2,7 +2,7 @@
 #
 # xf86-video-mach64 Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xf86-video-mach64
 
 # Version number (used in path names)
-MODULE_VERSION=6.9.0
+MODULE_VERSION=6.9.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ae62936e11af4fc0fac9f2db601a844f
-TARBALL_SHA1 = 95a7ec9761fe11dadbcd9078c55148198a91b2f1
+TARBALL_MD5   = 8484c18f08e77564a56ccbf226694038
+TARBALL_SHA1  = 7129cf61a1c70d923a370fea66686d7a13be8fe8
+TARBALL_SHA256= 9f6ad49f07c8785a64caac6f4aaf58fc7746a24b718491d047c45bc1ee9e834e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6205248.patch,-p1

@@ -2,7 +2,7 @@
 #
 # xfs Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=xfs
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e02c6cae689c082b8c98a421df8f8670
-TARBALL_SHA1 = aa0f4cb4e307c531a78ba9d09c44d042c072742b
+TARBALL_MD5   = 39e507a7a1b656885c4828a915e5805b
+TARBALL_SHA1  = d4a64e12f8a773bd0120977191586ca12baf1ace
+TARBALL_SHA256= 0dea61cce3897b4d9d844bbd2c7850cd4e80e12c12b38158b4f92574b027e39d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	solaris-make.patch,-p1 \
 	smf-manpage.patch \
 	config-warning.patch
 

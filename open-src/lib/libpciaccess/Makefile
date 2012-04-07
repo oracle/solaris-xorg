@@ -2,7 +2,7 @@
 #
 # libpciaccess Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,20 +28,18 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.12.1
+MODULE_VERSION=0.13
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d6363ee9f4df79f6fc47cba7c67b0d35
-TARBALL_SHA1 = 4933bda545df37395e57ff6b4bd61e17a5431770
+TARBALL_MD5   = 2604307ba43c76ee8aec11ea137ae1e8
+TARBALL_SHA1  = 7ddd8e1de27326f6f4a3ac6b4d2241fe77ef5353
+TARBALL_SHA256= 24368520b0947487ec73729e3c97c95f3d9bf83704a910bb0abe1d5a63df32fd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	pciaccess_private.h.patch \
 	scanpci.man.patch \
-	solx_devfs.c.patch \
-	solx_devfs.c.domain.patch \
-	scanpci_64bit.patch \
-	sparc.patch
+	primary-vga.patch,-p1 \
+	scanpci_64bit.patch,-p1
 
 # Library name
 LIBNAME=libpciaccess

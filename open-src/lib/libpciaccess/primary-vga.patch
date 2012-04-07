@@ -1,0 +1,102 @@
+diff --git a/src/pciaccess_private.h b/src/pciaccess_private.h
+index 32f8a75..9d65a51 100644
+--- a/src/pciaccess_private.h
++++ b/src/pciaccess_private.h
+@@ -133,6 +133,7 @@ struct pci_device_private {
+     struct pci_device_mapping *mappings;
+     unsigned num_mappings;
+     /*@}*/
++    int is_primary;
+ };
+ 
+ 
+diff --git a/src/solx_devfs.c b/src/solx_devfs.c
+index 5e91a14..5f0db2d 100644
+--- a/src/solx_devfs.c
++++ b/src/solx_devfs.c
+@@ -791,6 +791,18 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+ #ifdef __sparc
+ 	di_minor_t minor;
+ #endif
++	int *prop;
++	struct pci_device_private *priv =
++	    (struct pci_device_private *) dev;
++
++	priv->is_primary = 0;
++
++    	if (di_prop_lookup_ints(DDI_DEV_T_ANY,
++	    args.node, "primary-controller", &prop) >= 1) {
++	        if (prop[0])
++			priv->is_primary = 1;
++
++	}
+ 
+ #ifdef __sparc
+ 	if (minor = di_minor_next(args.node, DI_MINOR_NIL))
+@@ -845,22 +857,33 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+     }
+ 
+     /*
+-     * Solaris has its own BAR index.
++     * Each BAR address get its own region slot in sequence.
++     * 32 bit BAR:
++     * BAR 0x10 -> slot0, BAR 0x14 -> slot1...
++     * 64 bit BAR:
++     * BAR 0x10 -> slot0, BAR 0x18 -> slot2...,
++     * slot1 is part of BAR 0x10
+      * Linux give two region slot for 64 bit address.
+      */
+     for (i = 0; i < len; i = i + CELL_NUMS_1275) {
+ 
+ 	reg = (pci_regspec_t *)&regbuf[i];
+ 	ent = reg->pci_phys_hi & 0xff;
++
++	if (ent > PCI_CONF_BASE5) {
++		fprintf(stderr, "error ent = %d\n", ent);
++		break;
++	}
+ 	/*
+ 	 * G35 broken in BAR0
+ 	 */
+-	ent = (ent - PCI_CONF_BASE0) >> 2;
+-	if (ent >= 6) {
+-	    fprintf(stderr, "error ent = %d\n", ent);
+-	    break;
+-	}
+-
++	if (ent < PCI_CONF_BASE0) {
++	/*
++	 * VGA resource here and ignore it
++	 */                                                             
++		break;
++	} else
++		ent = (ent - PCI_CONF_BASE0) >> 2;
+ 	/*
+ 	 * non relocatable resource is excluded
+ 	 * such like 0xa0000, 0x3b0. If it is met,
+@@ -1122,6 +1145,15 @@ pci_device_solx_devfs_write( struct pci_device * dev, const void * data,
+     return (err);
+ }
+ 
++static int pci_device_solx_devfs_boot_vga(struct pci_device *dev)
++{
++	struct pci_device_private *priv =
++	    (struct pci_device_private *) dev;
++
++	return (priv->is_primary);
++
++}
++
+ 
+ 
+ static const struct pci_system_methods solx_devfs_methods = {
+@@ -1135,7 +1167,8 @@ static const struct pci_system_methods solx_devfs_methods = {
+     .read = pci_device_solx_devfs_read,
+     .write = pci_device_solx_devfs_write,
+ 
+-    .fill_capabilities = pci_fill_capabilities_generic
++    .fill_capabilities = pci_fill_capabilities_generic,
++    .boot_vga = pci_device_solx_devfs_boot_vga
+ };
+ 
+ /*

@@ -2,7 +2,7 @@
 #
 # xf86-input-mouse 1.x Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.1
+MODULE_VERSION=1.7.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 13276d780b8ef3a82088f009185bf42b
-TARBALL_SHA1 = 11a6402e82d65bda5fb559c5e9bc72f3fd7af2ed
+TARBALL_MD5    = 871c828b88e9c973f1457724b35576fb
+TARBALL_SHA1   = 0da6390c6f3d7d636110a52f08193739929ae4ae
+TARBALL_SHA256 = 332b7357c18e6b9daba51c8ed48ce118e9b51fb5990b6a2a68637be62da7413b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = \
-	vuid-autoprobe.patch,-p1 \
 	6892799.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list

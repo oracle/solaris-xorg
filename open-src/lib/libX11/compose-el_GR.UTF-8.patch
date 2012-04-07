@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,7 +24,7 @@
 diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compose.pre
 --- nls/el_GR.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
 +++ nls/el_GR.UTF-8/Compose.pre	2010-06-07 15:49:35.703893203 -0700
-@@ -1,1981 +1,2694 @@
+@@ -1,1981 +1,2680 @@
  XCOMM
 +XCOMM Copyright 1996, 2002, Oracle and/or its affiliates. All rights reserved.
  XCOMM
@@ -1116,8 +1116,6 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<Byelorussian_SHORTU>   : "\xd0\x8e"    Byelorussian_SHORTU
 +<Byelorussian_shortu>   : "\xd1\x9e"    Byelorussian_shortu
 +XCOMM Cyrillic keysyms:
-+<Zabovedot>             : "\xc5\xbb"    Zabovedot
-+<zabovedot>             : "\xc5\xbc"    zabovedot
 +<Gabovedot>             : "\xc4\xa0"    Gabovedot
 +<gabovedot>             : "\xc4\xa1"    gabovedot
 +<Cabovedot>             : "\xc4\x8a"    Cabovedot
@@ -1699,7 +1697,6 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<Multi_key> <comma> <L>		: "\xc4\xbb"	Lcedilla
 +<Multi_key> <l> <comma>		: "\xc4\xbc"	lcedilla
 +<Multi_key> <comma> <l>		: "\xc4\xbc"	lcedilla
-+<diaeresis>			: "\xc2\xa8"	diaeresis
 +<Multi_key> <S> <v>		: "\xc5\xa0"	Scaron
 +<Multi_key> <S> <V>		: "\xc5\xa0"	Scaron
 +<Multi_key> <v> <S>		: "\xc5\xa0"	Scaron
@@ -3503,16 +3500,6 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +Ctrl<T> <i> <underscore>	: "\xc4\xab"	imacron
 +Ctrl<T> <underscore> <i> 	: "\xc4\xab"	imacron
 +XCOMM
-+XCOMM Latin-9 input sequences:
-+<Multi_key> <o> <e> 		: "\xc5\x93"
-+<Multi_key> <O> <E> 		: "\xc5\x92"
-+<Multi_key> <Y> <quotedbl> 	: "\xc5\xb8"
-+<Multi_key> <quotedbl> <Y> 	: "\xc5\xb8"
-+Ctrl<T> <o> <e> 		: "\xc5\x93"
-+Ctrl<T> <O> <E> 		: "\xc5\x92"
-+Ctrl<T> <Y> <quotedbl> 		: "\xc5\xb8"
-+Ctrl<T> <quotedbl> <Y>		: "\xc5\xb8"
-+XCOMM
 +XCOMM Rules for SunXK_FA_* keysyms:
 +<SunFA_Acute> <apostrophe>	: "\xc2\xb4"
 +<SunFA_Acute> <A>		: "\xc3\x81"
@@ -3601,7 +3588,6 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<SunFA_Diaeresis> <U>		: "\xc3\x9c"
 +<SunFA_Diaeresis> <u>		: "\xc3\xbc"
 +<SunFA_Diaeresis> <y>		: "\xc3\xbf"
-+<SunFA_Diaeresis> <Y>		: "\xc5\xb8"
 +<SunFA_Grave> <A>		: "\xc3\x80"
 +<SunFA_Grave> <a>		: "\xc3\xa0"
 +<SunFA_Grave> <E>		: "\xc3\x88"

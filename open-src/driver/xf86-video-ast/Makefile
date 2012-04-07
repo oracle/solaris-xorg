@@ -2,7 +2,7 @@
 #
 # xf86-video-ast 1.x Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,15 @@
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.91.10
+MODULE_VERSION=0.93.10
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 65da53af3ebd1685149b6145976fdb2d
-TARBALL_SHA1 = a90624e63f33fdcb50ccefcdeebb34052f341ef3
+TARBALL_MD5   = de0bf8e0c8ab67be42c14f07ca427271
+TARBALL_SHA1  = 40e8acd04ccf670b196be74a2c806d064f7b68db
+TARBALL_SHA256= c9d466fef391bdf960f79b82f1f776a1c1ab870e93475c3d1b3d028531fac4e0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-		sparc-ast.patch \
-		6924667.patch 
+SOURCE_PATCHES += sparc-ast.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

@@ -1,5 +1,5 @@
 diff --git a/dix/main.c b/dix/main.c
-index 9c3951a..86afa8c 100644
+index 5631d02..69eb5f3 100644
 --- a/dix/main.c
 +++ b/dix/main.c
 @@ -79,6 +79,8 @@ Equipment Corporation.
@@ -11,7 +11,7 @@ index 9c3951a..86afa8c 100644
  #include <X11/X.h>
  #include <X11/Xos.h>   /* for unistd.h  */
  #include <X11/Xproto.h>
-@@ -122,6 +124,30 @@ extern void DtloginCloseDown(void);
+@@ -123,6 +125,30 @@ extern void DtloginCloseDown(void);
  
  extern void Dispatch(void);
  
@@ -42,7 +42,7 @@ index 9c3951a..86afa8c 100644
  #ifdef XQUARTZ
  #include <pthread.h>
  
-@@ -138,6 +164,9 @@ int main(int argc, char *argv[], char *envp[])
+@@ -139,6 +165,9 @@ int main(int argc, char *argv[], char *envp[])
  {
      int		i;
      HWEventQueueType	alwaysCheckForInput[2];
@@ -52,7 +52,7 @@ index 9c3951a..86afa8c 100644
  
      display = "0";
  
-@@ -153,6 +182,12 @@ int main(int argc, char *argv[], char *envp[])
+@@ -152,6 +181,12 @@ int main(int argc, char *argv[], char *envp[])
  
      ProcessCommandLine(argc, argv);
  
@@ -66,7 +66,7 @@ index 9c3951a..86afa8c 100644
      alwaysCheckForInput[1] = 1;
      while(1)
 diff --git a/hw/xfree86/os-support/solaris/sun_init.c b/hw/xfree86/os-support/solaris/sun_init.c
-index 281a6df..42e20ac 100644
+index 800fc1c..4fe40ca 100644
 --- a/hw/xfree86/os-support/solaris/sun_init.c
 +++ b/hw/xfree86/os-support/solaris/sun_init.c
 @@ -45,6 +45,9 @@
@@ -79,7 +79,7 @@ index 281a6df..42e20ac 100644
  static Bool KeepTty = FALSE;
  static Bool Protect0 = FALSE;
  static Bool UseConsole = FALSE;
-@@ -234,6 +237,8 @@ OPENCONSOLE:
+@@ -254,6 +257,8 @@ OPENCONSOLE:
  
  	    if (ioctl(xf86Info.consoleFd, VT_SETDISPINFO, atoi(display)) < 0)
  		xf86Msg(X_WARNING, "xf86OpenConsole: VT_SETDISPINFO failed\n");

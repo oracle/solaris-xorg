@@ -1,8 +1,9 @@
-diff -ur old/src/mga.h new/src/mga.h
---- src/mga.h	Wed Jan  4 18:11:17 2012
-+++ src/mga.h	Wed Jan  4 18:12:40 2012
-@@ -47,6 +47,10 @@
- #include "client.h"
+diff --git a/src/mga.h b/src/mga.h
+index 77406f1..25dcf53 100644
+--- a/src/mga.h
++++ b/src/mga.h
+@@ -46,6 +46,10 @@
+ #include "mga_dri.h"
  #endif
  
 +#ifdef __sparc__
@@ -12,7 +13,7 @@ diff -ur old/src/mga.h new/src/mga.h
  typedef enum {
      OPTION_SW_CURSOR,
      OPTION_HW_CURSOR,
-@@ -201,6 +205,28 @@
+@@ -200,6 +204,28 @@ void MGAdbg_outreg32(ScrnInfoPtr, int,int, char*);
  #define MGA_MODULE_DATA mgaModuleData
  #define MGA_DRIVER_NAME "mga"
  
@@ -41,7 +42,7 @@ diff -ur old/src/mga.h new/src/mga.h
  typedef struct {
      unsigned char	ExtVga[6];
      unsigned char 	DacClk[6];
-@@ -682,6 +708,9 @@
+@@ -667,6 +693,9 @@ typedef struct {
                                         if in merged mode */
  /* End of Merged Framebuffer Data */
    int			HALGranularityOffX, HALGranularityOffY;
@@ -51,10 +52,11 @@ diff -ur old/src/mga.h new/src/mga.h
  } MGARec, *MGAPtr;
  
  extern CARD32 MGAAtype[16];
-diff -ur old/src/mga_dacG.c new/src/mga_dacG.c
---- src/mga_dacG.c	Wed Jan  4 18:11:17 2012
-+++ src/mga_dacG.c	Thu Jan 19 11:54:04 2012
-@@ -1753,11 +1753,35 @@
+diff --git a/src/mga_dacG.c b/src/mga_dacG.c
+index b489dea..e549f6c 100644
+--- a/src/mga_dacG.c
++++ b/src/mga_dacG.c
+@@ -1711,11 +1711,35 @@ MGAGLoadCursorImage(ScrnInfoPtr pScrn, unsigned char *src)
      MGAPtr pMga = MGAPTR(pScrn);
      CARD32 *dst = (CARD32*)(pMga->FbBase + pMga->FbCursorOffset);
      int i = 128;
@@ -92,10 +94,11 @@ diff -ur old/src/mga_dacG.c new/src/mga_dacG.c
          src += 8;
      }
  }
-diff -ur old/src/mga_driver.c new/src/mga_driver.c
---- src/mga_driver.c	Wed Jan  4 18:11:17 2012
-+++ src/mga_driver.c	Wed Jan 11 12:45:12 2012
-@@ -104,6 +104,11 @@
+diff --git a/src/mga_driver.c b/src/mga_driver.c
+index af005f1..ae4a005 100644
+--- a/src/mga_driver.c
++++ b/src/mga_driver.c
+@@ -107,6 +107,11 @@
  
  #include <unistd.h>
  
@@ -107,7 +110,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
  /*
   * Forward definitions for the functions that make up the driver.
   */
-@@ -153,6 +158,10 @@
+@@ -156,6 +161,10 @@ static Bool	MGAModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode);
  static void 	MGABlockHandler(int, pointer, pointer, pointer);
  static void	MGAG100BlackMagic(ScrnInfoPtr pScrn);
  
@@ -118,7 +121,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
  static int MGAEntityIndex = -1;
  
  #include "mga_merge.h"
-@@ -452,7 +461,16 @@
+@@ -455,6 +464,15 @@ static const struct pci_id_match mga_device_match[] = {
  
      { 0, 0, 0 },
  };
@@ -130,12 +133,11 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
 +    const char * device_string;
 +};
 +#define DEV_PATH(dev)    (((struct mga_device_private *) (dev))->device_string)
- #endif
 +#endif
+ #endif
  
  /* Supported chipsets */
- static SymTabRec MGAChipsets[] = {
-@@ -1295,9 +1316,11 @@
+@@ -1296,9 +1314,11 @@ MGAdoDDC(ScrnInfoPtr pScrn)
  
      /* Map the VGA memory when the primary video */
      if (pMga->Primary) {
@@ -147,7 +149,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
      } else {
  	/* XXX Need to write an MGA mode ddc1SetSpeed */
  	if (pMga->DDC1SetSpeed == vgaHWddc1SetSpeedWeak()) {
-@@ -1340,6 +1363,7 @@
+@@ -1341,6 +1361,7 @@ MGAdoDDC(ScrnInfoPtr pScrn)
  					  pMga->ddc1Read ) ;
  		from = "DDC1";
  	    }
@@ -155,7 +157,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
  	if (!MonInfo){
  	    vbeInfoPtr pVbe;
  	    if (xf86LoadSubModule(pScrn, "vbe")) {
-@@ -1349,6 +1373,7 @@
+@@ -1350,6 +1371,7 @@ MGAdoDDC(ScrnInfoPtr pScrn)
  		from = "VBE";
  	    }
  	}
@@ -163,7 +165,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
      }
  
      if (MonInfo) {
-@@ -1574,7 +1599,21 @@
+@@ -1571,6 +1593,20 @@ MGAPreInit(ScrnInfoPtr pScrn, int flags)
      pMga->PciInfo = xf86GetPciInfoForEntity(pMga->pEnt->index);
      pMga->PciTag = pciTag(pMga->PciInfo->bus, pMga->PciInfo->device,
  			  pMga->PciInfo->func);
@@ -180,12 +182,11 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
 +	if ((pMga->fd = open(dev, O_RDWR)) < 0)
 +	    xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "Cannot open device %s\n", dev);
 +    }
- #endif
 +#endif
+ #endif
  
      pMga->Primary = xf86IsPrimaryPci(pMga->PciInfo);
- 
-@@ -1960,7 +1999,7 @@
+@@ -1922,7 +1958,7 @@ MGAPreInit(ScrnInfoPtr pScrn, int flags)
          xf86DrvMsg(pScrn->scrnIndex, X_CONFIG, "Enabling KVM\n");
      }
      
@@ -194,7 +195,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
      pMga->softbooted = FALSE;
      Default = (pMga->chip_attribs->dual_head_possible
  	       && !pMga->Primary && !pMga->SecondCrtc);
-@@ -3012,7 +3051,11 @@
+@@ -2838,7 +2874,11 @@ MGASave(ScrnInfoPtr pScrn)
      /* Could call it dac2Saved */
  
      /* Only save text mode fonts/text for the primary card */
@@ -205,8 +206,8 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
 +#endif
  }
  
- #ifdef USEMGAHAL
-@@ -3370,6 +3413,10 @@
+ /*
+@@ -2996,6 +3036,10 @@ MGAModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
  #ifdef DEBUG
     MGAG450PrintPLL(pScrn);
  #endif
@@ -217,19 +218,19 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
      return TRUE;
  }
  
-@@ -3467,7 +3514,11 @@
- 	    }
- 	    );	/* MGA_HAL */
- #endif
+@@ -3085,7 +3129,11 @@ MGARestore(ScrnInfoPtr pScrn)
+ 	vgaHWProtect(pScrn, TRUE);
+     }
+     if (pMga->Primary) {
 +#ifdef __sparc__
-+	(*pMga->Restore)(pScrn, vgaReg, mgaReg, FALSE);
++        (*pMga->Restore)(pScrn, vgaReg, mgaReg, FALSE);
 +#else
          (*pMga->Restore)(pScrn, vgaReg, mgaReg, TRUE);
 +#endif
      } else {
          vgaHWRestore(pScrn, vgaReg, VGA_SR_MODE);
      }
-@@ -3658,9 +3709,11 @@
+@@ -3215,9 +3263,11 @@ MGAScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
      /* Map the VGA memory when the primary video */
      if (!pMga->FBDev) {
  	if (pMga->Primary) {
@@ -241,7 +242,7 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
  	}
  
  	/* Save the current state */
-@@ -3916,6 +3969,10 @@
+@@ -3473,6 +3523,10 @@ MGAScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
  
      MGAInitVideo(pScreen);
  
@@ -249,22 +250,24 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
 +    MGANotifyModeChanged(pScrn);
 +#endif
 +
- #ifdef XF86DRI
+ #ifdef MGADRI
      if (pMga->directRenderingEnabled) {
         /* Now that mi, drm and others have done their thing,
-@@ -4352,6 +4409,11 @@
-     if (pMga->ScratchBuffer)
- 	xfree(pMga->ScratchBuffer);
+@@ -3792,6 +3846,13 @@ MGACloseScreen(int scrnIndex, ScreenPtr pScreen)
+     free(pMga->portPrivate);
+     free(pMga->ScratchBuffer);
  
 +#ifdef __sparc__
++    MGANotifyModeChanged(pScrn);
++
 +    if (pMga->fd)
 +	close(pMga->fd);
 +#endif
 +
      pScrn->vtSema = FALSE;
  
-     if (xf86IsPc98())
-@@ -4757,3 +4819,21 @@
+     xf86ClearPrimInitDone(pScrn->entityList[0]);
+@@ -4194,3 +4253,21 @@ MGAG100BlackMagic(ScrnInfoPtr pScrn)
      usleep(10);
  }
  
@@ -286,10 +289,11 @@ diff -ur old/src/mga_driver.c new/src/mga_driver.c
 +
 +}
 +#endif
-diff -ur old/src/mga_storm.c new/src/mga_storm.c
---- src/mga_storm.c	Wed Jan  4 18:11:17 2012
-+++ src/mga_storm.c	Wed Jan 11 12:41:33 2012
-@@ -989,7 +989,12 @@
+diff --git a/src/mga_storm.c b/src/mga_storm.c
+index 96bb6b9..57fdba5 100644
+--- a/src/mga_storm.c
++++ b/src/mga_storm.c
+@@ -989,7 +989,12 @@ static void mgaRestoreAccelState(ScrnInfoPtr pScrn)
  #if X_BYTE_ORDER == X_LITTLE_ENDIAN
     OUTREG(MGAREG_OPMODE, MGAOPM_DMA_BLIT );
  #else
@@ -303,7 +307,7 @@ diff -ur old/src/mga_storm.c new/src/mga_storm.c
  #endif
     OUTREG(MGAREG_CXBNDRY, 0xFFFF0000); /* (maxX << 16) | minX */
     OUTREG(MGAREG_YTOP, 0x00000000);    /* minPixelPointer */
-@@ -1077,9 +1082,9 @@
+@@ -1077,9 +1082,9 @@ void MGAStormEngineInit( ScrnInfoPtr pScrn )
          maccess |= (1 << 31);
      }
  

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,11 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/locale.alias.pre nls/locale.alias.pre
---- nls/locale.alias.pre	2010-10-29 00:21:12.000000000 -0700
-+++ nls/locale.alias.pre	2010-11-21 18:48:27.884466309 -0800
-@@ -121,7 +121,7 @@ be_BY.MICROSOFT-CP1251:				be_BY.CP1251
+diff --git a/nls/locale.alias.pre b/nls/locale.alias.pre
+index 7b35460..069b011 100644
+--- a/nls/locale.alias.pre
++++ b/nls/locale.alias.pre
+@@ -119,7 +119,7 @@ be_BY.MICROSOFT-CP1251:				be_BY.CP1251
  be_BY.utf8:					be_BY.UTF-8
  be_BY.utf8@latin:				be_BY.UTF-8@latin
  bg:						bg_BG.CP1251
@@ -33,7 +34,7 @@ diff -urp -x '*~' -x '*.orig' nls/locale.alias.pre nls/locale.alias.pre
  bg_BG.cp1251:					bg_BG.CP1251
  bg_BG.microsoftcp1251:				bg_BG.CP1251
  bg_BG.microsoft-cp1251:				bg_BG.CP1251
-@@ -1154,16 +1154,19 @@ yi_US.cp1255:					yi_US.CP1255
+@@ -1135,16 +1135,19 @@ yi_US.cp1255:					yi_US.CP1255
  yi_US.microsoftcp1255:				yi_US.CP1255
  yi_US.microsoft-cp1255:				yi_US.CP1255
  yi_US.MICROSOFT-CP1255:				yi_US.CP1255
@@ -54,7 +55,7 @@ diff -urp -x '*~' -x '*.orig' nls/locale.alias.pre nls/locale.alias.pre
  zh_HK:						zh_HK.big5hkscs
  zh_HK.BIG5HK:					zh_HK.big5hkscs
  zh_HK.Big5hkscs:				zh_HK.big5hkscs
-@@ -1176,7 +1179,7 @@ zh_HK.Big5:					zh_HK.big5
+@@ -1157,7 +1160,7 @@ zh_HK.Big5:					zh_HK.big5
  zh_HK.utf8:					zh_HK.UTF-8
  ZH_HK.UTF-8:					zh_HK.UTF-8
  ZH_SG.UTF-8:					zh_SG.UTF-8

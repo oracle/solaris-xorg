@@ -64,6 +64,7 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	$(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix' \
+	tigervnc11-xorg111.patch,-p1 \
 	no-nasm.patch,-p1 \
 	applet-html.patch \
 	icon.patch \
@@ -183,6 +184,9 @@ MODULE_CPPFLAGS = \
 	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
 	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig
+
+# Workaround for Java failure with JDK 7 in S11U1b12 - continue using JDK 6 for now
+MODULE_BUILD_ENV = PATH="/usr/jdk/instances/jdk1.6.0/bin:$$PATH"
 
 CFLAGS_gcc += -fPIC
 

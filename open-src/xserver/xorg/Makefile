@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,13 +28,13 @@
 # Package name used in tarballs
 MODULE_NAME=xorg-server
 
-# Version number (used in path names)
+# Version number (used in path names) - set in open-src/common/Makefile.init
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fc1bb18a09244cd43a998625a6a1b071
-TARBALL_SHA1 = 1699be5c0edeca553cfa3ee6caa228483465136b
-TARBALL_SHA256 = 05ec05fbc8ec336127071db38cfb61c618e43b720edbd8d51d171c0cd359e290
+TARBALL_MD5   = 3a3c4281f32c8702749e8f129372a355
+TARBALL_SHA1  = 5f48db767f71e9f58ded6ff356f3b8340820e524
+TARBALL_SHA256= 280a14c5de8697a4aab18dca85429671286e69e5ada0c1535f03666e56f07799
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -80,13 +80,13 @@ MODULE_ARC_CASES += PSARC/2011/214
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \
-	doc/man/Xserver.man \
+	man/Xserver.man \
 	hw/kdrive/ephyr/man/Xephyr.man \
 	hw/xfree86/utils/man/cvt.man \
 	hw/xfree86/utils/man/gtf.man \
-	hw/xfree86/doc/man/Xorg.man \
-	hw/xfree86/doc/man/xorg.conf.man \
-	hw/xfree86/doc/man/xorg.conf.d.man \
+	hw/xfree86/man/Xorg.man \
+	hw/xfree86/man/xorg.conf.man \
+	hw/xfree86/man/xorg.conf.d.man \
 	hw/vfb/man/Xvfb.man
 
 MODULE_STABILITY=Volatile
@@ -111,8 +111,8 @@ BUILD_TARGETS_SET=yes
 # Solaris doesn't bundle the xmlto tool used upstream
 MODULE_DOC_DIR  = $(MODULE_PREFIX)/share/doc/Xserver
 MODULE_DOC_DIR_SET=yes
-MODULE_XML_PATH = $(SOURCE_DIR)/doc/xml
-DTRACE_DOC_DIR  = $(SOURCE_DIR)/doc/xml/dtrace
+MODULE_XML_PATH = $(SOURCE_DIR)/doc
+DTRACE_DOC_DIR  = $(MODULE_XML_PATH)/dtrace
 DTRACE_DOCS     = $(DTRACE_DOC_DIR)/Xserver-DTrace.html
 DTRACE_DOCS    += $(DTRACE_DOC_DIR)/Xserver-DTrace.txt
 BUILD_TARGETS  += $(DTRACE_DOCS)
@@ -203,8 +203,8 @@ install_extras: default_install
 	       $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h \
 	       $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
 	mkdir -p $(PROTODIR)$(X11_MAN_DIR)/man1
-	cp -pf $(SOURCE_DIR)/hw/xfree86/doc/man/xorgcfg.1 \
-	       $(SOURCE_DIR)/hw/xfree86/doc/man/xorgconfig.1 \
+	cp -pf $(SOURCE_DIR)/hw/xfree86/man/xorgcfg.1 \
+	       $(SOURCE_DIR)/hw/xfree86/man/xorgconfig.1 \
 	       $(PROTODIR)$(X11_MAN_DIR)/man1
 	mkdir -p $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor
 	cp -pf $(SOURCE_DIR)/config/x11-input.fdi \

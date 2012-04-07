@@ -19,10 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 diff --git a/os/utils.c b/os/utils.c
-index 18fd911..0cf4d37 100644
+index 6461ed5..0644e6a 100644
 --- a/os/utils.c
 +++ b/os/utils.c
-@@ -509,7 +509,9 @@ void UseMsg(void)
+@@ -498,7 +498,9 @@ void UseMsg(void)
  #ifdef RLIMIT_STACK
      ErrorF("-ls int                limit stack space to N Kb\n");
  #endif
@@ -32,7 +32,7 @@ index 18fd911..0cf4d37 100644
      ErrorF("-nolisten string       don't listen on protocol\n");
      ErrorF("-noreset               don't reset after last client exists\n");
      ErrorF("-background [none]     create root window with no background\n");
-@@ -757,6 +759,7 @@ ProcessCommandLine(int argc, char *argv[])
+@@ -747,6 +749,7 @@ ProcessCommandLine(int argc, char *argv[])
  		UseMsg();
  	}
  #endif
@@ -40,7 +40,7 @@ index 18fd911..0cf4d37 100644
  	else if ( strcmp ( argv[i], "-nolock") == 0)
  	{
  #if !defined(WIN32) && !defined(__CYGWIN__)
-@@ -766,6 +769,7 @@ ProcessCommandLine(int argc, char *argv[])
+@@ -756,6 +759,7 @@ ProcessCommandLine(int argc, char *argv[])
  #endif
  	    nolock = TRUE;
  	}

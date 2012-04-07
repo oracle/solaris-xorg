@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,7 +24,7 @@
 diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/Compose.pre nls/zh_CN.UTF-8/Compose.pre
 --- nls/zh_CN.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
 +++ nls/zh_CN.UTF-8/Compose.pre	2010-06-07 15:49:40.781722582 -0700
-@@ -0,0 +1,2539 @@
+@@ -0,0 +1,2538 @@
 +XCOMM
 +XCOMM Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
 +XCOMM
@@ -1193,7 +1193,6 @@ diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/Compose.pre nls/zh_CN.UTF-8/Compos
 +<Multi_key> <comma> <L>		: "\xc4\xbb"	Lcedilla
 +<Multi_key> <l> <comma>		: "\xc4\xbc"	lcedilla
 +<Multi_key> <comma> <l>		: "\xc4\xbc"	lcedilla
-+<diaeresis>			: "\xc2\xa8"	diaeresis
 +<Multi_key> <S> <v>		: "\xc5\xa0"	Scaron
 +<Multi_key> <S> <V>		: "\xc5\xa0"	Scaron
 +<Multi_key> <v> <S>		: "\xc5\xa0"	Scaron

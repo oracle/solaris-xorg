@@ -2,7 +2,7 @@
 #
 # Xfixes 1.x Makefile
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,14 @@
 MODULE_NAME=libXfixes
 
 # Version number (used in path names)
-MODULE_VERSION=4.0.5
+MODULE_VERSION=5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1b4b8386bd5d1751b2c7177223ad4629
-TARBALL_SHA1 = 255dfb9a8c50d795c60711ec4764f76cd0620cbf
+TARBALL_MD5  = 678071bd7f9f7467e2fc712d81022318
+TARBALL_SHA1 = 3e4d374e9026111a04cd669d4b3434273fc34fe0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = soversion.patch
+SOURCE_PATCHES = soversion.patch,-p1
 
 # Need to autoreconf since soversion.patch changes Makefile.am's
 AUTORECONF=yes

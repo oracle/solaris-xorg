@@ -1,8 +1,8 @@
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 855d99c..5fcb4ec 100644
+index dc77c02..db4fa12 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -171,3 +171,39 @@ EXTRA_DIST = \
+@@ -174,3 +174,39 @@ EXTRA_DIST = \
  	radeon_atombios.h \
  	radeon_dri2.h \
  	drmmode_display.h

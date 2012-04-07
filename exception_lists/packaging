@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,7 +48,7 @@ usr/share/doc/X11/specs/Xserver/appgroup.xml
 usr/share/doc/X11/specs/Xserver/analysis.xml
 usr/share/doc/X11/specs/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
-usr/share/doc/libXi/doc
+usr/share/doc/inputproto
 
 # Obsolete man pages
 usr/share/man/man5/Consortium.5

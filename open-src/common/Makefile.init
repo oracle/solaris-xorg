@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -364,15 +364,15 @@ UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 # referenced in multiple places, so it's kept here for easy sharing.
 # 
 # Current Xorg server source tarball to use sources from:
-XORGSERVER_VERS=1.10.3
+XORGSERVER_VERS=1.12.0
 # Minimum Xorg server version that we expect to be ABI compatible with.
 # Usually .99 of the previous minor release series, as that's the convention
 # for the development snapshots of the next release series.
-MIN_XSERVER_VERS=1.9.99
+MIN_XSERVER_VERS=1.11.99
 # Next highest Xorg server version that we expect to be ABI incompatible with.
 # Usually .99 of the current release series, as Xorg tends to break ABI's
 # in each minor release train (1.8, 1.9, etc.)
-NEXT_XSERVER_VERS=1.10.99
+NEXT_XSERVER_VERS=1.12.99
 
 # Version of pkgfmt output rules to apply
 PKGFMT_OUTPUT=v2

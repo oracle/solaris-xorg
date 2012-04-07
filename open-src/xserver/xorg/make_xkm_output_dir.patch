@@ -68,9 +68,9 @@ index a935698..d751c2a 100644
 +    gid_t	usr_gid = getgid();
 +
 +    if (setregid(0, usr_gid) < 0)
-+        Error("Error in setting regid to 0");
++        ErrorF("Error in setting regid to 0: %s\n", strerror(errno));
 +    if (setegid(0) < 0)
-+        Error("Error in setting egid to 0");
++        ErrorF("Error in setting egid to 0: %s\n", strerror(errno));
 +    
      snprintf(keymap, sizeof(keymap), "server-%s", display);
  
@@ -81,9 +81,9 @@ index a935698..d751c2a 100644
  #endif
 +
 +    if (setregid(usr_gid, 0) < 0)
-+        Error("Error in resetting regid");
++        ErrorF("Error in resetting regid: %s\n", strerror(errno));
 +    if (setegid(usr_gid) < 0)
-+        Error("Error in resetting egid");
++        ErrorF("Error in resetting egid: %s\n", strerror(errno));
      
      if (out!=NULL) {
  #ifdef DEBUG

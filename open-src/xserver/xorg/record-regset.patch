@@ -1,8 +1,8 @@
 diff --git a/record/record.c b/record/record.c
-index facaebb..8256738 100644
+index b956b4a..d0604e0 100644
 --- a/record/record.c
 +++ b/record/record.c
-@@ -1470,6 +1470,9 @@ typedef struct
+@@ -1475,6 +1475,9 @@ typedef struct
      short first, last;	/* if for extension, major opcode interval */
  } SetInfoRec, *SetInfoPtr;
  

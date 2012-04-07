@@ -29,20 +29,17 @@
 MODULE_NAME=xf86-video-mga
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.13
+MODULE_VERSION=1.5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f967fb3e655f6f68aa3f495eaadcaac2
-TARBALL_SHA1 = 55aa185cf381def4b5905c8b93694b8dfbd5c378
+TARBALL_MD5   = ff7a9d63978f538a7d5ff5dafe431562
+TARBALL_SHA1  = de82e4dc8d05fe1306498e3067f9e65479cfa5a1
+TARBALL_SHA256= ca983d780dd90115c0599980a7a83425b5e4eeb16f2e8c7fed15823fcbe7830e
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = no-hal.patch \
-		7027761.patch,-p1 \
-		g200se_pilot3_memory_bandwidth.patch \
-		g200se_pilot3_offscreen.patch \
-		sparc.patch \
-		g200se_pilot3_memory_sizing.patch \
-		7150315.patch
+SOURCE_PATCHES = \
+		g200se_pilot3_offscreen.patch,-p1 \
+		sparc.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

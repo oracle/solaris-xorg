@@ -1,15 +1,15 @@
---- configure.ac	Wed Feb 10 11:08:23 2010
-+++ configure.ac	Wed Feb 10 11:09:48 2010
-@@ -97,7 +97,11 @@
-                   HAVE_XEXTPROTO_71="no")
- AM_CONDITIONAL(HAVE_XEXTPROTO_71, [ test "$HAVE_XEXTPROTO_71" = "yes" ])
+--- configure.ac	Fri Aug 12 15:56:51 2011
++++ configure.ac	Fri Aug 12 15:59:25 2011
+@@ -108,7 +108,11 @@
+ PKG_CHECK_MODULES(DRM, [libdrm >= 2.4.23])
+ PKG_CHECK_MODULES(PCIACCESS, [pciaccess >= 0.10])
  
 -sdkdir=`$PKG_CONFIG --variable=sdkdir xorg-server`
 +AC_ARG_WITH(xorg-sdk-dir,
-+	AC_HELP_STRING([--with-xorg-sdk-dir=DIR],
-+	[Default xorg sdk include directory [[default is taken from pkgconfig]]]),
-+	[sdkdir="$withval"],
-+	[sdkdir=$(pkg-config --variable=sdkdir xorg-server)])
++       AC_HELP_STRING([--with-xorg-sdk-dir=DIR],
++       [Default xorg sdk include directory [[default is taken from pkgconfig]]]),
++       [sdkdir="$withval"],
++       [sdkdir=$(pkg-config --variable=sdkdir xorg-server)])
  
  save_CFLAGS="$CFLAGS"
  CFLAGS="$XORG_CFLAGS $DRI_CFLAGS $DRM_CFLAGS"

@@ -2,7 +2,7 @@
 #
 # xf86-input-vmmouse Makefile
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,15 @@
 MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-MODULE_VERSION=12.7.0
+MODULE_VERSION=12.8.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = dc77181330f983c7d0ec1ea1592c2ca7
-TARBALL_SHA1 = 6618f84a037c8f4817e1a2822d6a5a795814e544
+TARBALL_MD5   = 15fce165117706cd5e774a8aa58122ce
+TARBALL_SHA1  = ecca90d5e992f9358f7932e0c46e92ebe715f9de
+TARBALL_SHA256= a8a6ec0b567c48c130ccb830e15dfc2b201831841de0c2cc56bd87256d2d869a
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES =
 
 # vmmouse_client code won't build with Sun compiler
 MODULE_COMPILER=gcc

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,7 +24,7 @@
 diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/Compose.pre nls/zh_HK.UTF-8/Compose.pre
 --- nls/zh_HK.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
 +++ nls/zh_HK.UTF-8/Compose.pre	2010-06-07 15:49:41.532854761 -0700
-@@ -0,0 +1,2540 @@
+@@ -0,0 +1,2538 @@
 +XCOMM
 +XCOMM Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
 +XCOMM
@@ -1193,7 +1193,6 @@ diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/Compose.pre nls/zh_HK.UTF-8/Compos
 +<Multi_key> <comma> <L>		: "\xc4\xbb"	Lcedilla
 +<Multi_key> <l> <comma>		: "\xc4\xbc"	lcedilla
 +<Multi_key> <comma> <l>		: "\xc4\xbc"	lcedilla
-+<diaeresis>			: "\xc2\xa8"	diaeresis
 +<Multi_key> <S> <v>		: "\xc5\xa0"	Scaron
 +<Multi_key> <S> <V>		: "\xc5\xa0"	Scaron
 +<Multi_key> <v> <S>		: "\xc5\xa0"	Scaron
@@ -2469,7 +2468,6 @@ diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/Compose.pre nls/zh_HK.UTF-8/Compos
 +XCOMM 無延伸的希臘文    :  0x1f00 0x1fff
 +"k - 通用標點符號"       :       0x2000 0x206f
 +"l - 上標符號 下標符號"  :  0x2070 0x209f
-+"m - 貨幣符號"  :       0x20a0 0x20cf
 +"m - 貨幣符號"  :       0x20a0 0x20cf
 +XCOMM 無符號的合併 Diacritical 標記:  0x20d0 0x20ff
 +"n - 像字元的符號"        :  0x2100 0x214f

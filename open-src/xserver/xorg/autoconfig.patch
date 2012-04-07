@@ -1,4 +1,4 @@
-# Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,10 @@
 6385111: Xorg auto-configuration Improvement
 
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index 3c3735e..764fe7e 100644
+index 86aedba..eef2f24 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
-@@ -2019,7 +2019,7 @@ configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
+@@ -1947,7 +1947,7 @@ configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
      cmodep = conf_monitor->mon_modeline_lst;
      while( cmodep ) {
          mode = xnfcalloc(1, sizeof(DisplayModeRec));

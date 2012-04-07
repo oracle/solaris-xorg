@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,11 +40,11 @@ MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 MODULE_ARC_CASES = LSARC/2005/109
 
 # Version number (used in path names)
-MODULE_VERSION=7.10.2
+MODULE_VERSION=7.11.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f5de82852f1243f42cc004039e10b771
-TARBALL_SHA1 = 71bbb2686230f6334aa625a951b58b4b2d5d6aa0
+TARBALL_MD5  = 0837c52698fe3252369c3fdb5195afcc
+TARBALL_SHA1 = 5981ac2de8438e5f4a1f3561f2044d700c5f0de9
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -63,9 +63,11 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
+	gallium-endian.patch,-p1 \
+	gcc-bitcount.patch,-p1 \
 	install-pc-dir.patch \
 	glu-no-mangled-exports.patch \
-	solaris-port.patch glsl.patch
+	solaris-port.patch bromolow-chipset.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
@@ -80,7 +82,8 @@ DRI_DRIVER_LIST= $(DRI_DRIVER_LIST_$(MACH)) swrast
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --with-driver=dri --disable-egl --disable-gallium \
 	--with-dri-driverdir='$(X11_SERVERMODS_DIR)/dri$(ARCHLIBSUBDIR)' \
-	--with-dri-drivers='$(DRI_DRIVER_LIST)'
+	--with-dri-drivers='$(DRI_DRIVER_LIST)' \
+	--with-gallium-drivers=  --disable-gallium-llvm
 
 # Build mesa with this define (CR 7032292)
 MODULE_CFLAGS = -D__EXTENSIONS__

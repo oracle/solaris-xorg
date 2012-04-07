@@ -2,7 +2,7 @@
 #
 # xf86-video-r128 Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xf86-video-r128
 
 # Version number (used in path names)
-MODULE_VERSION=6.8.1
+MODULE_VERSION=6.8.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2b90854a62a4d45d652062f582dc8d13
-TARBALL_SHA1 = 14f33cbd248dfd1584ee14949475ab3bb922da17
+TARBALL_MD5   = 31e0358b5d1189e3f30f5b11e9b86865
+TARBALL_SHA1  = bb01cbdc173dbb53070c4ac06f3eeb3ad2645164
+TARBALL_SHA256= 7b41135c3d177e61644573e5c16e35fd9eff98b4d6685c9c6de9e33401e904b1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -62,5 +63,5 @@ MODULE_ADD_INSTALL_TARGETS=install_docs
 include ../Makefile.inc
 
 install_docs: $(INSTALL_DEPS)
-	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/README.r128 \
+	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/README \
 		$(PROTODIR)$(X11_DOC_DIR)/README.r128

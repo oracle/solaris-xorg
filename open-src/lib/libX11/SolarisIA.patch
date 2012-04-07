@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,12 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-diff -Nurp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2011-04-06 13:52:16.515334675 -0700
-+++ src/Makefile.am	2011-04-06 13:52:17.726885350 -0700
-@@ -352,6 +352,9 @@ libX11_xcb_la_SOURCES = x11_xcb.c Xxcbin
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index a825bb9..263b493 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -352,6 +352,9 @@ libX11_xcb_la_SOURCES = x11_xcb.c Xxcbint.h
  libX11_xcb_la_LDFLAGS = -version-number 1:0:0 -no-undefined
  libX11_xcb_la_LIBADD = libX11.la
  
@@ -33,10 +35,11 @@ diff -Nurp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  #
  # Figure out which sub-libraries to link into Xlib
  #
-diff -Nurp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
---- src/OpenDis.c	2011-04-06 13:52:16.502368856 -0700
-+++ src/OpenDis.c	2011-04-06 13:52:17.727406866 -0700
-@@ -38,6 +38,12 @@ in this Software without prior written a
+diff --git a/src/OpenDis.c b/src/OpenDis.c
+index 6d6111e..ff717f9 100644
+--- a/src/OpenDis.c
++++ b/src/OpenDis.c
+@@ -38,6 +38,12 @@ in this Software without prior written authorization from The Open Group.
  #include "XKBlib.h"
  #endif /* XKB */
  
@@ -49,7 +52,7 @@ diff -Nurp -x '*~' -x '*.orig' src/OpenDis.c src/OpenDis.c
  #if defined(XTHREADS) && defined(SUNSOFT)
  struct _DisplayPtrLink {
      Display *dpy;
-@@ -605,6 +611,21 @@ fallback_success:
+@@ -586,6 +592,21 @@ XOpenDisplay (
  #ifdef XKB
  	XkbUseExtension(dpy,NULL,NULL);
  #endif

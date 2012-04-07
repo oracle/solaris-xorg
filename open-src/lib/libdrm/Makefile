@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,11 +31,12 @@ UPSTREAM_URL	= http://dri.freedesktop.org/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.25
+MODULE_VERSION=2.4.32
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f53dc4c72109b17908e4113c3b8addfe
-TARBALL_SHA1 = b950f29cd1c4bb9f1c98a926486a47256b0a4194
+TARBALL_MD5  = b731faf4a49f89c318d84378cb563cf8
+TARBALL_SHA1 = 4aab6cc1c0d2a4822ffd83bd3da0e7a5479bf842
+TARBALL_SHA256 = 9ba8a1613de57af8f501a162747ed69aff30d63fc1316602770974bdd9ee984e
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -82,7 +83,8 @@ $(PROTODIR)/usr/include/drm:
 
 # Upstream seems to install in $(X11_SERVERLIBS_SUBDIR)/pkgconfig no matter
 # what, so just move them afterwards
-PC_FILES = libdrm.pc libdrm_intel.pc libkms.pc
+PC_FILES_i386 = libdrm_intel.pc
+PC_FILES = libdrm.pc libkms.pc $(PC_FILES_$(MACH))
 MOVED_PC_FILES = $(PC_FILES:%=$(PROTODIR)/$(PKGCONFIG_DIR)/%)
 XSERVER_PC_DIR = $(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/pkgconfig
 

@@ -2,7 +2,7 @@
 #
 # xf86-input-synaptics Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xf86-input-synaptics
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.1
+MODULE_VERSION=1.5.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2dac10f93918ed5bf7d1039d56880cf4
-TARBALL_SHA1 = e41201476f4bc8658291808d2d6ef2e0535179ae
+TARBALL_MD5   = f064477ef3a553634f3dcf6696d0f538
+TARBALL_SHA1  = ce93cfa218c2c7bce7881ac2dd2160e583eb4c4f
+TARBALL_SHA256= ac6f6efad8ddf85fa6c5d68cac0c452bcea91aa53d5ee10b6205a353dfffaa92
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

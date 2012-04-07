@@ -1,4 +1,4 @@
-/* Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -258,7 +258,7 @@ ASTNotifyModeChanged(ScrnInfoPtr pScrn)
 void
 ASTSaveHW(ScrnInfoPtr pScrn)
 {
-   ASTDECL
+   ASTRecPtr pAST = ASTPTR(pScrn);
    ASTRegPtr astReg;
    int i, icount=0;
    UCHAR jReg;
@@ -296,7 +296,7 @@ ASTSaveHW(ScrnInfoPtr pScrn)
 void
 ASTRestoreHW(ScrnInfoPtr pScrn)
 {
-   ASTDECL
+   ASTRecPtr pAST = ASTPTR(pScrn);
    ASTRegPtr astReg;
    int i, icount=0;
    UCHAR jReg;

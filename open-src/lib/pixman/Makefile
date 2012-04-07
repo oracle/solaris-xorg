@@ -2,7 +2,7 @@
 #
 # pixman Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,19 +28,17 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.22.0
+MODULE_VERSION=0.24.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 307fe4d7dc83b1a558c362907097c0d0
-TARBALL_SHA1 = d24ea233755d7dce9f0d93136ad99fba8d4e4fa0
+TARBALL_MD5  = 89eb7db8853681bbcea626b161de0488
+TARBALL_SHA1 = 683450f917015366ac7918fc517c76801aeff374
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Override default CFLAGS for x86 builds to avoid clashes between
-# -xtarget=pentium and the MMX/SSE flags added by configure for specific
-# files in pixman and to work around assertions in Studio 12 when the 
-# -xspace flag is used (Studio bug #6825222)
+# Override default CFLAGS for x86 builds to work around assembler syntax 
+# errors reported by Studio 12.1 when the -xspace flag is used
 include ../../common/Makefile.init
 NO_XSPACE_CFLAGS = $(LIB_CFLAGS:-xspace=)
 MODULE_CONFIG_ENV_i386 = CFLAGS="$(NO_XSPACE_CFLAGS)"

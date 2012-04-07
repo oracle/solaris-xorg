@@ -1,12 +1,69 @@
---- src/Makefile.am	Wed Apr 21 09:30:36 2010
-+++ src/Makefile.am	Wed Apr 21 09:31:45 2010
+--- src/Makefile.in	Fri Feb 24 13:44:41 2012
++++ src/Makefile.in	Fri Feb 24 13:44:54 2012
+@@ -433,7 +433,7 @@
+ intel_drv_la_LIBADD = legacy/liblegacy.la @PCIACCESS_LIBS@ \
+ 	$(am__append_2) $(am__append_4) $(am__append_7) \
+ 	$(am__append_10)
+-NULL := #
++#NULL := #
+ intel_drv_la_SOURCES = intel_list.h intel_module.c $(NULL) \
+ 	$(am__append_5) $(am__append_8) $(am__append_9) \
+ 	$(am__append_11)
+--- src/legacy/Makefile.in	Fri Feb 24 13:45:20 2012
++++ src/legacy/Makefile.in	Fri Feb 24 13:45:38 2012
+@@ -293,7 +293,7 @@
+ top_srcdir = @top_srcdir@
+ SUBDIRS = $(am__append_1)
+ noinst_LTLIBRARIES = liblegacy.la
+-NULL := #
++#NULL := #
+ liblegacy_la_SOURCES = legacy.h $(am__append_2)
+ liblegacy_la_LIBADD = $(am__append_3)
+ EXTRA_DIST = README
+--- src/Makefile.am	Mon Dec  5 14:30:20 2011
++++ src/Makefile.am	Mon Dec  5 14:55:55 2011
 @@ -33,6 +33,9 @@
  intel_drv_la_LDFLAGS = -module -avoid-version
  intel_drv_ladir = @moduledir@/drivers
- intel_drv_la_LIBADD = -lm @DRM_LIBS@ -ldrm_intel ../uxa/libuxa.la
+ intel_drv_la_LIBADD = legacy/liblegacy.la @PCIACCESS_LIBS@
 +intel_drv_la_LDFLAGS += -R $(moduledir) -R $(moduledir)/extensions
-+intel_drv_la_LIBADD += -lfb -lextmod -lshadowfb -lXfont \
++intel_drv_la_LIBADD += -lfb -lextmod -lshadowfb -lXfont -lm \
 +	-lvbe -lvgahw -lxaa -lexa -ldri -ldri2 -lglx $(XORG_LIBS)
- intel_drv_la_LIBADD += @PCIACCESS_LIBS@
  
- INTEL_DRI_SRCS = \
+ if SNA
+ SUBDIRS += sna
+@@ -39,7 +42,7 @@
+ intel_drv_la_LIBADD += sna/libsna.la
+ endif
+ 
+-NULL:=#
++#NULL:=#
+ 
+ intel_drv_la_SOURCES = \
+ 	intel_module.c \
+--- src/legacy/Makefile.am	Mon Dec  5 15:01:13 2011
++++ src/legacy/Makefile.am	Mon Dec  5 15:06:04 2011
+@@ -1,10 +1,20 @@
+ SUBDIRS =
+ noinst_LTLIBRARIES = liblegacy.la
+ 
+-NULL:=#
++#NULL:=#
++liblegacy_la_SOURCES = legacy.h \
++                      i810/i810_accel.c \
++                      i810/i810_cursor.c \
++                      i810/i810_dga.c \
++                      i810/i810_dri.c \
++                      i810/i810_driver.c \
++                      i810/i810_hwmc.c \
++                      i810/i810_memory.c \
++                      i810/i810_video.c \
++                      i810/i810_wmark.c
+ 
+-liblegacy_la_SOURCES = legacy.h
+-liblegacy_la_LIBADD =
++AM_CFLAGS = @XORG_CFLAGS@ @DRM_CFLAGS@ @DRI_CFLAGS@ -I$(top_srcdir)/src
++liblegacy_la_LIBADD = @DRI_LIBS@ @DRM_LIBS@ @XVMCLIB_LIBS@
+ 
+ if ! KMS_ONLY
+ SUBDIRS += i810

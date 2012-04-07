@@ -1,4 +1,4 @@
-/* Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -184,13 +184,13 @@ hotkey_read_input(InputInfoPtr pInfo)
 	keysym = buf + HOTKEY_KEYSYM_ROOT;
 
 #if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 5
-    if (dev->u.master)
-	curKeySyms = XkbGetCoreMap(dev->u.master);
+    if (dev->master)
+	curKeySyms = XkbGetCoreMap(dev->master);
     else
 	curKeySyms = XkbGetCoreMap(inputInfo.keyboard);
 #else
-    if (dev->u.master)
-	curKeySyms = &dev->u.master->key->curKeySyms;
+    if (dev->master)
+	curKeySyms = &dev->master->key->curKeySyms;
     else
 	curKeySyms = &inputInfo.keyboard->key->curKeySyms;
 #endif
@@ -261,8 +261,8 @@ HkeyProc(DeviceIntPtr device, int what)
 	    xf86FlushInput(pInfo->fd);
 	    AddEnabledDevice(pInfo->fd);
 
-	    if (device->u.master)
-		dixSetPrivate(&device->u.master->devPrivates, 
+	    if (device->master)
+		dixSetPrivate(&device->master->devPrivates, 
 		    HotkeyMapDevicePrivateKey, device);
 
 	    device->public.on = TRUE;
@@ -280,8 +280,8 @@ HkeyProc(DeviceIntPtr device, int what)
 	    if (pInfo->fd != -1)
 		RemoveEnabledDevice(pInfo->fd);
 
-	    if (device->u.master)
-		dixSetPrivate(&device->u.master->devPrivates, 
+	    if (device->master)
+		dixSetPrivate(&device->master->devPrivates, 
 		    HotkeyMapDevicePrivateKey, NULL);
 
     	    device->public.on = FALSE;

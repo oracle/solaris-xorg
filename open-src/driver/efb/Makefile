@@ -2,7 +2,7 @@
 #
 # efb Makefile
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,7 +39,8 @@ TARBALL_SHA1 = b6974237b6ae9b45b32fc37f31a3fee7358230d3
 SOURCE_PATCHES = \
 	RAC-API-removal.patch,-p1 \
 	no-modes.patch,-p1 \
-	sparc-efb.patch,-p1
+	sparc-efb.patch,-p1 \
+	pciTag.patch
 
 # Need to regenerate configure after patching Makefile.am in sparc-efb.patch
 AUTORECONF=yes

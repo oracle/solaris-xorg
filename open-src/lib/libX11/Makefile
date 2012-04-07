@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,23 +27,23 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION = 1.4.4
+MODULE_VERSION = 1.4.99.901
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ed7c382cbf8c13425b6a66bcac0ca5d9
-TARBALL_SHA1 = 2d9d38bfd7003ec60eea0b1999ab72cfd5fa3b90
-TARBALL_SHA256 = 7fe62180f08ef5f0a0062fb444591e349cae2ab5af6ad834599f5c654e6c840d
+TARBALL_MD5   = 520376557363da2df412beec9b4be749
+TARBALL_SHA1  = af10b064c1c64ee9e7daae0a7f1f9719eb7e965a
+TARBALL_SHA256= bf238569e07e459651265735e093103322478e4d07265ad9eb55aba4d9db26db
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	1234757.patch \
+	1234757.patch,-p1 \
 	4010755.patch \
 	4614834.patch \
 	5039226.patch \
 	solaris-abi.patch,-p1 \
 	solaris-kbd.patch,-p1 \
-	SolarisIA.patch \
-	6714036.patch \
+	SolarisIA.patch,-p1 \
+	6714036.patch,-p1 \
 	6789219.patch,-p1 \
 	im-suneu-greek.patch \
 	im-ximcp.patch \
@@ -57,21 +57,21 @@ SOURCE_PATCHES = \
 	compose-iso8859-2.patch \
 	compose-iso8859-5.patch \
 	compose-iso8859-6.patch \
-	compose-iso8859-7.patch \
+	compose-iso8859-7.patch,-p1 \
 	compose-iso8859-8.patch \
 	compose-iso8859-9.patch \
 	compose-iso8859-13.patch \
 	compose-iso8859-15.patch \
 	compose-el_GR.UTF-8.patch \
-	compose-en_US.UTF-8.patch \
+	compose-en_US.UTF-8.patch,-p1 \
 	compose-ja_JP.UTF-8.patch \
 	compose-ko_KR.UTF-8.patch \
-	compose-pt_BR.UTF-8.patch \
+	compose-pt_BR.UTF-8.patch,-p1 \
 	compose-th_TH.UTF-8.patch \
 	compose-zh_CN.UTF-8.patch \
 	compose-zh_HK.UTF-8.patch \
 	compose-zh_TW.UTF-8.patch \
-	locale.aliases.patch \
+	locale.aliases.patch,-p1 \
 	locale.dir.patch \
 	locale.paths.patch,-p1 \
 	locale-C.patch \

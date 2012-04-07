@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -65,8 +65,6 @@ link path=usr/lib/$(ARCH64)/libX11.so.5 target=libX11.so.4
 file path=usr/lib/$(ARCH64)/llib-lX11.ln
 file path=usr/lib/$(ARCH64)/pkgconfig/x11-xcb.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/x11.pc
-
-
 dir  path=usr/lib/X11
 file path=usr/lib/X11/Xcms.txt
 dir  path=usr/lib/X11/locale
@@ -362,7 +360,6 @@ file path=usr/share/X11/locale/zh_TW/Compose
 file path=usr/share/X11/locale/zh_TW/XI18N_OBJS
 file path=usr/share/X11/locale/zh_TW/XLC_LOCALE
 dir  path=usr/share/doc/libX11
-dir  path=usr/share/doc/libX11/Compose
 dir  path=usr/share/doc/libX11/XIM
 file path=usr/share/doc/libX11/XIM/dynamicflow.svg
 file path=usr/share/doc/libX11/XIM/dynamicflowsampleseq.svg
@@ -420,6 +417,68 @@ file path=usr/share/doc/libX11/XKB/ch22.xml
 file path=usr/share/doc/libX11/XKB/glossary.xml
 file path=usr/share/doc/libX11/XKB/xkblib.xml
 dir  path=usr/share/doc/libX11/i18n
+dir  path=usr/share/doc/libX11/i18n/compose
+file path=usr/share/doc/libX11/i18n/compose/C.xml
+file path=usr/share/doc/libX11/i18n/compose/am_ET.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/armscii-8.xml
+file path=usr/share/doc/libX11/i18n/compose/el_GR.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/en_US.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/fi_FI.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/georgian-academy.xml
+file path=usr/share/doc/libX11/i18n/compose/georgian-ps.xml
+file path=usr/share/doc/libX11/i18n/compose/ibm-cp1133.xml
+file path=usr/share/doc/libX11/i18n/compose/iscii-dev.xml
+file path=usr/share/doc/libX11/i18n/compose/isiri-3342.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-1.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-10.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-11.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-13.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-14.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-15.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-2.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-3.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-4.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-5.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-6.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-7.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-8.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-9.xml
+file path=usr/share/doc/libX11/i18n/compose/iso8859-9e.xml
+file path=usr/share/doc/libX11/i18n/compose/ja.JIS.xml
+file path=usr/share/doc/libX11/i18n/compose/ja.S90.xml
+file path=usr/share/doc/libX11/i18n/compose/ja.SJIS.xml
+file path=usr/share/doc/libX11/i18n/compose/ja.U90.xml
+file path=usr/share/doc/libX11/i18n/compose/ja.xml
+file path=usr/share/doc/libX11/i18n/compose/ja_JP.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/ko.xml
+file path=usr/share/doc/libX11/i18n/compose/ko_KR.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/koi8-c.xml
+file path=usr/share/doc/libX11/i18n/compose/koi8-r.xml
+file path=usr/share/doc/libX11/i18n/compose/koi8-u.xml
+file path=usr/share/doc/libX11/i18n/compose/libX11-keys.xml
+file path=usr/share/doc/libX11/i18n/compose/microsoft-cp1251.xml
+file path=usr/share/doc/libX11/i18n/compose/microsoft-cp1255.xml
+file path=usr/share/doc/libX11/i18n/compose/microsoft-cp1256.xml
+file path=usr/share/doc/libX11/i18n/compose/mulelao-1.xml
+file path=usr/share/doc/libX11/i18n/compose/nokhchi-1.xml
+file path=usr/share/doc/libX11/i18n/compose/pt_BR.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/ru_RU.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/tatar-cyr.xml
+file path=usr/share/doc/libX11/i18n/compose/th_TH.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/th_TH.xml
+file path=usr/share/doc/libX11/i18n/compose/tscii-0.xml
+file path=usr/share/doc/libX11/i18n/compose/vi_VN.tcvn.xml
+file path=usr/share/doc/libX11/i18n/compose/vi_VN.viscii.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_CN.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_CN.gb18030.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_CN.gbk.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_CN.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_HK.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_HK.big5.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_HK.big5hkscs.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_TW.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_TW.big5.xml
+file path=usr/share/doc/libX11/i18n/compose/zh_TW.xml
 dir  path=usr/share/doc/libX11/i18n/framework
 file path=usr/share/doc/libX11/i18n/framework/framework.svg
 file path=usr/share/doc/libX11/i18n/framework/framework.xml

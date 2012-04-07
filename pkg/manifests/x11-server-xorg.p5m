@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,6 +48,7 @@ file path=usr/include/xorg/XIstubs.h
 file path=usr/include/xorg/Xprintf.h
 file path=usr/include/xorg/bt829.h
 file path=usr/include/xorg/callback.h
+file path=usr/include/xorg/client.h
 file path=usr/include/xorg/closestr.h
 file path=usr/include/xorg/closure.h
 file path=usr/include/xorg/colormap.h
@@ -117,6 +118,7 @@ file path=usr/include/xorg/miwideline.h
 file path=usr/include/xorg/mizerarc.h
 file path=usr/include/xorg/msp3430.h
 file path=usr/include/xorg/opaque.h
+file path=usr/include/xorg/optionstr.h
 file path=usr/include/xorg/os.h
 file path=usr/include/xorg/panoramiX.h
 file path=usr/include/xorg/panoramiXsrv.h
@@ -173,6 +175,7 @@ file path=usr/include/xorg/xf86DDC.h
 file path=usr/include/xorg/xf86Modes.h
 file path=usr/include/xorg/xf86Module.h
 file path=usr/include/xorg/xf86Opt.h
+file path=usr/include/xorg/xf86Optionstr.h
 file path=usr/include/xorg/xf86Optrec.h
 file path=usr/include/xorg/xf86Parser.h
 file path=usr/include/xorg/xf86Pci.h

@@ -2,7 +2,7 @@
 #
 # xf86-video-vmware Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,15 @@
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=11.0.3
+MODULE_VERSION=12.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 579bee487309b1bdc8329bf627d43413
-TARBALL_SHA1 = 8aa23618a3dfa91f88094a4d1dc45c878f386f69
+TARBALL_MD5   = 0743ec7c479603fba60d118858fd5783
+TARBALL_SHA1  = efa47f365d88da245804a9934719ff860ed04f95
+TARBALL_SHA256= c827875fd94805ec9b925fe09aaa973e7e3f9096c7ef311d449c3f134ae75147
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6370961.patch 
+SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

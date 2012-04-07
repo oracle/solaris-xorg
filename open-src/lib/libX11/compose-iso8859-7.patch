@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -ru nls/iso8859-7/Compose.pre nls.new/iso8859-7/Compose.pre
-diff -urp -x '*~' -x '*.orig' nls/iso8859-7/Compose.pre nls/iso8859-7/Compose.pre
---- nls/iso8859-7/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/iso8859-7/Compose.pre	2010-06-07 15:49:32.087244734 -0700
+diff --git a/nls/iso8859-7/Compose.pre b/nls/iso8859-7/Compose.pre
+index c79b277..965cf1a 100644
+--- a/nls/iso8859-7/Compose.pre
++++ b/nls/iso8859-7/Compose.pre
 @@ -1,4 +1,34 @@
  XCOMM
 +XCOMM Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
@@ -218,9 +218,9 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-7/Compose.pre nls/iso8859-7/Compose.pr
 -<Multi_key> <quotedbl> <apostrophe> <Greek_upsilon>	: "\340" Greek_upsilonaccentdieresis
 -<Multi_key> <apostrophe> <quotedbl> <space>		: "\265" Greek_accentdieresis
 -<Multi_key> <quotedbl> <apostrophe> <space>		: "\265" Greek_accentdieresis
- 
- XCOMM
- XCOMM
+-
+-XCOMM
+-XCOMM
 -XCOMM dead key accent keysyms
 -XCOMM Special Character
 -<dead_circumflex> <slash>		: "|"	bar
@@ -277,6 +277,9 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-7/Compose.pre nls/iso8859-7/Compose.pr
 -<dead_diaeresis> <dead_acute> <Greek_iota>	: "\300"	Greek_iotaaccentdieresis
 -<dead_diaeresis> <dead_acute> <Greek_upsilon>	: "\340"	Greek_upsilonaccentdieresis
 -<dead_diaeresis> <dead_acute> <space>		: "\265"	Greek_accentdieresis
++
++XCOMM
++XCOMM
 +XCOMM Compose table for the Greek language [timf]
 +XCOMM
 +

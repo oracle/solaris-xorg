@@ -1,0 +1,44 @@
+[Backport to Mesa 7.11 of this patch from git master]
+
+From 086f84d9f1c19480a1e09f693bf8a56dd16709d3 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 20 Oct 2011 17:14:05 -0700
+Subject: [PATCH] Fix _GNUC__ typo in check for gcc 3.x for _mesa_bitcount
+
+Without this fix, builds with gcc 3.4.x end up depending on undefined
+_mesa_bitcount instead of gcc's __builtin_popcount.
+
+NOTE: This is a candidate for the stable branches.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/mesa/main/imports.c |    2 +-
+ src/mesa/main/imports.h |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/mesa/main/imports.c b/src/mesa/main/imports.c
+index 0a572ec..098db08 100644
+--- a/src/mesa/main/imports.c
++++ b/src/mesa/main/imports.c
+@@ -514,7 +514,7 @@ _mesa_ffsll(int64_t val)
+ #endif
+ 
+ #if !defined(__GNUC__) ||\
+-   ((_GNUC__ == 3 && __GNUC_MINOR__ < 4) && __GNUC__ < 4)
++   ((__GNUC__ == 3 && __GNUC_MINOR__ < 4) && __GNUC__ < 4)
+ /**
+  * Return number of bits set in given GLuint.
+  */
+diff --git a/src/mesa/main/imports.h b/src/mesa/main/imports.h
+index 3fa1db0..b577874 100644
+--- a/src/mesa/main/imports.h
++++ b/src/mesa/main/imports.h
+@@ -570,7 +570,7 @@ _mesa_init_sqrt_table(void);
+ #define _mesa_ffs(i)  ffs(i)
+ #define _mesa_ffsll(i)  ffsll(i)
+ 
+-#if ((_GNUC__ == 3 && __GNUC_MINOR__ >= 4) || __GNUC__ >= 4)
++#if ((__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || __GNUC__ >= 4)
+ #define _mesa_bitcount(i) __builtin_popcount(i)
+ #else
+ extern unsigned int

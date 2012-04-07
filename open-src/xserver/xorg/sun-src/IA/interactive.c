@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1993, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1993, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -61,6 +61,7 @@
 #include <X11/extensions/interactive.h>
 #include <X11/Xfuncproto.h>
 #include "dix.h"
+#include "client.h"
 
 #include "interactive_srv.h"
 
@@ -265,13 +266,12 @@ IAClientStateChange(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 
     case ClientStateInitial:
 	IAInitClientPrivate(pClient);
-	if (GetLocalClientCreds(pClient, &lcc) != -1) {
-	    if (lcc->fieldsSet & LCC_PID_SET) {
-		ConnectionPidRec clientPid = lcc->pid;
+	{
+	    ConnectionPidRec clientPid = GetClientPid(pClient);
+	    if (clientPid != -1) {
 		SetClientPrivate(pClient, &clientPid, 1);
 		ChangeInteractive(pClient);
 	    }
-	    FreeLocalClientCreds(lcc);
 	}
 	break;
 
@@ -557,7 +557,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
     }
 
     if ( setegid(0) < 0 ) {
-	Error("Error in setting egid to 0");
+	ErrorF("Error in setting egid to 0: %s\n", strerror(errno));
     }
 
     for (i = 0; i < cpp->count ; i++) {
@@ -566,7 +566,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
 	pcinfo.pc_cid = PC_CLNULL;
 	if ((priocntl(P_PID, pid, PC_GETPARMS, (caddr_t)&pcinfo)) < 0) {
 	    if ( setegid(usr_egid) < 0 ) {
-		Error("Error in resetting egid");
+		ErrorF("Error in resetting egid: %s\n", strerror(errno));
 	    }
 	    return ~Success; /* Scary time; punt */
 	}
@@ -614,7 +614,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
     }
 
     if (setegid(usr_egid) < 0)
-	Error("Error in resetting egid");
+	ErrorF("Error in resetting egid: %s\n", strerror(errno));
 
     if (ret == Success) {
 	if (cmd == SET_PRIORITY) {

@@ -20,10 +20,10 @@
 # DEALINGS IN THE SOFTWARE.
 
 diff --git a/os/utils.c b/os/utils.c
-index 0cf4d37..55c0ecf 100644
+index 0644e6a..c650db0 100644
 --- a/os/utils.c
 +++ b/os/utils.c
-@@ -770,6 +770,12 @@ ProcessCommandLine(int argc, char *argv[])
+@@ -760,6 +760,12 @@ ProcessCommandLine(int argc, char *argv[])
  	    nolock = TRUE;
  	}
  #endif

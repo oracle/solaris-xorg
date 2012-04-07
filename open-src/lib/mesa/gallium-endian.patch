@@ -1,0 +1,33 @@
+From 0eb30cfa9cbf865828708cfef401974ae4662311 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Tue, 18 Oct 2011 14:04:15 -0700
+Subject: [PATCH] Add solaris detection for PIPE_ARCH_LITTLE_ENDIAN/PIPE_ARCH_BIG_ENDIAN
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/gallium/include/pipe/p_config.h |    9 +++++++++
+ 1 files changed, 9 insertions(+), 0 deletions(-)
+
+diff --git a/src/gallium/include/pipe/p_config.h b/src/gallium/include/pipe/p_config.h
+index b3a7b33..7cd42c6 100644
+--- a/src/gallium/include/pipe/p_config.h
++++ b/src/gallium/include/pipe/p_config.h
+@@ -129,6 +129,15 @@
+ # define PIPE_ARCH_BIG_ENDIAN
+ #endif
+ 
++#elif defined(__sun)
++#include <sys/isa_defs.h>
++
++#if defined(_LITTLE_ENDIAN)
++# define PIPE_ARCH_LITTLE_ENDIAN
++#elif defined(_BIG_ENDIAN)
++# define PIPE_ARCH_BIG_ENDIAN
++#endif
++
+ #else
+ 
+ #if defined(PIPE_ARCH_X86) || defined(PIPE_ARCH_X86_64)
+-- 
+1.7.3.2
+

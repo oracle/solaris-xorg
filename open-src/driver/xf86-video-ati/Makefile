@@ -2,7 +2,7 @@
 #
 # xf86-video-ati Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=6.14.1
+MODULE_VERSION=6.14.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 395e23ad026e4246dd70bbd2143688b5
-TARBALL_SHA1 = 89b8a64a23fc307646a11cd2c2636a8125fada8f
+TARBALL_MD5   = 17dd4f0bf4dbe9839e5f7d1161994222
+TARBALL_SHA1  = 75ad000bc00599e1797134f2d20d3094cba6af92
+TARBALL_SHA256= 4ffe435ef8fbe0989f6576f04f789e147a2de7fdefc3644e39d5ef626c37ef85
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	r6xx-r7xx-UMS.patch,-p1 \
 	mapfiles.patch,-p1 \
 	solaris-dri-drv-port.patch
 

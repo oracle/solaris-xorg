@@ -2,7 +2,7 @@
 #
 # libX11 version mapfile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -752,6 +752,11 @@ SUNW_1.3 {
 	XGetEventData;
 	XFreeEventData;
 } SUNW_1.2;
+
+# New function added in libX11 1.5 for extension request handling
+SUNW_1.4 {
+	_XGetRequest;
+} SUNW_1.3;
 
 SUNWprivate {
     global:

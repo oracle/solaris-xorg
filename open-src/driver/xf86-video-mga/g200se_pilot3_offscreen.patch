@@ -1,11 +1,12 @@
---- src/mga_storm.c.    Wed Jan 11 12:42:02 2012
-+++ src/mga_storm.c     Wed Jan 11 12:42:23 2012
-@@ -786,7 +786,6 @@
+diff --git a/src/mga_storm.c b/src/mga_storm.c
+index 7ac3ae0..96bb6b9 100644
+--- a/src/mga_storm.c
++++ b/src/mga_storm.c
+@@ -786,7 +786,6 @@ Bool mgaAccelInit( ScreenPtr pScreen )
      }
-
+ 
      switch (pMga->Chipset) {
 -    case PCI_CHIP_MGAG200_SE_A_PCI:
      case PCI_CHIP_MGAG200_SE_B_PCI:
-        maxlines = (min(pMga->FbUsableSize, 1*1024*1024)) /
-                   (pScrn->displayWidth * pMga->CurrentLayout.bitsPerPixel / 8);
-
+ 	maxlines = (min(pMga->FbUsableSize, 1*1024*1024)) /
+ 		   (pScrn->displayWidth * pMga->CurrentLayout.bitsPerPixel / 8);

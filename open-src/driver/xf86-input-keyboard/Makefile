@@ -29,11 +29,12 @@
 MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.0
+MODULE_VERSION=1.6.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e2abe9f13e526a73cb68a7d257546eba
-TARBALL_SHA1 = 8e845086749f8c4b64fdfa852b4b26cf7bb62dc9
+TARBALL_MD5   = 09744e8dc9a1fe5e61927c1073cd3428
+TARBALL_SHA1  = ef30fecb9e846a5268ae339846401489a785e413
+TARBALL_SHA256= aa9ec96e7f7f87bc086cb86b871ee6f4b9a7809fb1e7d50d0abbd7c2e50a8cc3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = leds.patch,-p1

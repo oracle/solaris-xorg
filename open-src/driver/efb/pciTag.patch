@@ -1,0 +1,14 @@
+--- src/radeon_driver.c	Tue Mar 20 13:30:57 2012
++++ src/radeon_driver.c	Tue Mar 20 13:33:00 2012
+@@ -2662,9 +2662,11 @@
+     }
+ 
+     info->PciInfo = RADEONGetPciInfo(info);
++#ifndef XSERVER_LIBPCIACCESS
+     info->PciTag  = pciTag(PCI_DEV_BUS(info->PciInfo),
+ 			   PCI_DEV_DEV(info->PciInfo),
+ 			   PCI_DEV_FUNC(info->PciInfo));
++#endif
+     info->MMIOAddr = PCI_REGION_BASE(info->PciInfo, 2, REGION_MEM) & ~0xffUL;
+     info->MMIOSize = PCI_REGION_SIZE(info->PciInfo, 2);
+     if (info->pEnt->device->IOBase) {

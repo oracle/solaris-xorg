@@ -1,6 +1,6 @@
---- src/mesa/drivers/dri/intel/intel_context.h	Thu Feb 10 09:26:20 2011
-+++ src/mesa/drivers/dri/intel/intel_context.h	Thu Feb 10 09:27:22 2011
-@@ -271,9 +271,13 @@
+--- src/mesa/drivers/dri/intel/intel_context.h	Thu Aug 18 08:49:56 2011
++++ src/mesa/drivers/dri/intel/intel_context.h	Thu Aug 18 08:52:57 2011
+@@ -304,9 +304,13 @@
     driOptionCache optionCache;
  };
  
@@ -15,7 +15,7 @@
  #define SUBPIXEL_X 0.125
  #define SUBPIXEL_Y 0.125
  
-@@ -307,7 +311,7 @@
+@@ -364,7 +368,7 @@
   * than COPY_DWORDS would:
   * XXX Put this in src/mesa/main/imports.h ???
   */
@@ -24,47 +24,6 @@
  static INLINE void * __memcpy(void * to, const void * from, size_t n)
  {
     int d0, d1, d2;
---- src/mesa/drivers/dri/intel/intel_batchbuffer.h	Thu Feb 10 09:28:18 2011
-+++ src/mesa/drivers/dri/intel/intel_batchbuffer.h	Thu Feb 10 13:28:05 2011
-@@ -8,9 +8,9 @@
- #include "intel_reg.h"
- 
- #define BATCH_SZ 16384
--#define BATCH_RESERVED 16
-+#define BATCH_RESERVED16 16
-+#define BATCH_RESERVED4k 4096
- 
--
- struct intel_batchbuffer
- {
-    struct intel_context *intel;
-@@ -92,8 +92,12 @@
- static INLINE GLint
- intel_batchbuffer_space(struct intel_batchbuffer *batch)
- {
--   return (batch->state_batch_offset - batch->reserved_space) -
--      (batch->ptr - batch->map);
-+   if (batch->intel->intelScreen->deviceID == PCI_CHIP_I865_G)
-+   	return (batch->state_batch_offset - BATCH_RESERVED16) -
-+      		(batch->ptr - batch->map);
-+   else 
-+   	return (batch->state_batch_offset - BATCH_RESERVED4k) -
-+      		(batch->ptr - batch->map);
- }
- 
- 
---- src/mesa/drivers/dri/Makefile.template	Thu Feb 10 13:58:58 2011
-+++ src/mesa/drivers/dri/Makefile.template	Thu Feb 10 14:01:53 2011
-@@ -1,5 +1,9 @@
- # -*-makefile-*-
- 
-+# Needed to specify symbols which are allowed to be undefined when
-+# linking DRI modules with -z defs
-+DRI_LIB_DEPS += -Wl,-M,$(TOP)/src/mesa/drivers/dri/mapfile.externs
-+
- MESA_MODULES = $(TOP)/src/mesa/libmesa.a
- 
- COMMON_GALLIUM_SOURCES = \
 --- src/mesa/drivers/dri/common/dri_util.h	Thu Feb 10 14:04:16 2011
 +++ src/mesa/drivers/dri/common/dri_util.h	Thu Feb 10 14:04:54 2011
 @@ -58,6 +58,10 @@
@@ -88,20 +47,9 @@
  
  #if defined( __powerpc__ )
  
---- src/mesa/drivers/dri/i915/intel_tris.c	Thu Feb 10 14:07:48 2011
-+++ src/mesa/drivers/dri/i915/intel_tris.c	Thu Feb 10 14:08:17 2011
-@@ -325,7 +325,7 @@
-  *                    Emit primitives as inline vertices               *
-  ***********************************************************************/
- 
--#ifdef __i386__
-+#if (defined(i386) || defined(__i386__)) && !(defined(__SOLARIS__) || defined(sun))
- #define COPY_DWORDS( j, vb, vertsize, v )			\
- do {								\
-    int __tmp;							\
---- src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Feb 10 14:09:00 2011
-+++ src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Feb 10 14:09:49 2011
-@@ -159,7 +159,24 @@
+--- src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Aug 18 08:59:09 2011
++++ src/mesa/drivers/dri/i965/brw_draw_upload.c	Thu Aug 18 09:01:56 2011
+@@ -160,7 +160,24 @@
     BRW_SURFACEFORMAT_R8G8B8A8_SSCALED
  };
  
@@ -126,63 +74,20 @@
  /**
   * Given vertex array type/size/format/normalized info, return
   * the appopriate hardware surface type.
---- src/mesa/drivers/dri/intel/intel_batchbuffer.c	Thu Feb 10 14:12:23 2011
-+++ src/mesa/drivers/dri/intel/intel_batchbuffer.c	Thu Feb 10 14:13:06 2011
-@@ -49,7 +49,10 @@
+--- src/mesa/drivers/dri/i915/intel_tris.c	Thu Aug 18 08:58:29 2011
++++ src/mesa/drivers/dri/i915/intel_tris.c	Thu Aug 18 09:01:06 2011
+@@ -337,7 +337,7 @@
+  *                    Emit primitives as inline vertices               *
+  ***********************************************************************/
  
-    batch->size = intel->maxBatchSize;
-    batch->ptr = batch->map;
--   batch->reserved_space = BATCH_RESERVED;
-+   if (batch->intel->intelScreen->deviceID == PCI_CHIP_I865_G)
-+	batch->reserved_space = BATCH_RESERVED16;
-+   else
-+	batch->reserved_space = BATCH_RESERVED4k;
-    batch->dirty_state = ~0;
-    batch->state_batch_offset = batch->size;
- }
---- configure.ac	Thu Mar 24 13:20:29 2011
-+++ configure.ac	Thu Mar 24 13:21:39 2011
-@@ -150,7 +150,7 @@
-     # Enable -fvisibility=hidden if using a gcc that supports it
-     save_CFLAGS="$CFLAGS"
-     AC_MSG_CHECKING([whether $CC supports -fvisibility=hidden])
--    CFLAGS="$CFLAGS -fvisibility=hidden"
-+    CFLAGS="$CFLAGS"
-     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
- 		   [CFLAGS="$save_CFLAGS" ; AC_MSG_RESULT([no])]);
- 
-@@ -163,7 +163,7 @@
-     # Enable -fvisibility=hidden if using a gcc that supports it
-     save_CXXFLAGS="$CXXFLAGS"
-     AC_MSG_CHECKING([whether $CXX supports -fvisibility=hidden])
--    CXXFLAGS="$CXXFLAGS -fvisibility=hidden"
-+    CXXFLAGS="$CXXFLAGS "
-     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
- 		   [CXXFLAGS="$save_CXXFLAGS" ; AC_MSG_RESULT([no])]);
- 
---- configure	Thu Mar 24 13:20:33 2011
-+++ configure	Thu Mar 24 13:22:08 2011
-@@ -4884,7 +4884,7 @@
-     save_CFLAGS="$CFLAGS"
-     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CC supports -fvisibility=hidden" >&5
- $as_echo_n "checking whether $CC supports -fvisibility=hidden... " >&6; }
--    CFLAGS="$CFLAGS -fvisibility=hidden"
-+    CFLAGS="$CFLAGS "
-     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
- /* end confdefs.h.  */
- 
-@@ -4916,7 +4916,7 @@
-     save_CXXFLAGS="$CXXFLAGS"
-     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CXX supports -fvisibility=hidden" >&5
- $as_echo_n "checking whether $CXX supports -fvisibility=hidden... " >&6; }
--    CXXFLAGS="$CXXFLAGS -fvisibility=hidden"
-+    CXXFLAGS="$CXXFLAGS "
-     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
- /* end confdefs.h.  */
- 
---- src/glx/Makefile	Tue Apr 19 10:57:29 2011
-+++ src/glx/Makefile	Tue Apr 19 10:58:54 2011
-@@ -73,6 +73,10 @@
+-#ifdef __i386__
++#if (defined(i386) || defined(__i386__)) && !(defined(__SOLARIS__) || defined(sun))
+ #define COPY_DWORDS( j, vb, vertsize, v )			\
+ do {								\
+    int __tmp;							\
+--- src/glx/Makefile	Thu Aug 18 09:02:07 2011
++++ src/glx/Makefile	Thu Aug 18 09:04:41 2011
+@@ -80,6 +80,10 @@
  
  default: depend $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME)
  
@@ -193,3 +98,90 @@
  # Make libGL
  $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME): $(OBJECTS) $(GLAPI_LIB) Makefile
  	$(MKLIB) -o $(GL_LIB) -linker '$(CXX)' -ldflags '$(LDFLAGS)' \
+--- configure.ac	Thu Aug 18 10:29:24 2011
++++ configure.ac	Thu Aug 18 10:31:37 2011
+@@ -158,7 +158,7 @@
+     # Enable -fvisibility=hidden if using a gcc that supports it
+     save_CFLAGS="$CFLAGS"
+     AC_MSG_CHECKING([whether $CC supports -fvisibility=hidden])
+-    VISIBILITY_CFLAGS="-fvisibility=hidden"
++    VISIBILITY_CFLAGS=""
+     CFLAGS="$CFLAGS $VISIBILITY_CFLAGS"
+     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
+ 		   [VISIBILITY_CFLAGS=""; AC_MSG_RESULT([no])]);
+@@ -175,7 +175,7 @@
+     # Enable -fvisibility=hidden if using a gcc that supports it
+     save_CXXFLAGS="$CXXFLAGS"
+     AC_MSG_CHECKING([whether $CXX supports -fvisibility=hidden])
+-    VISIBILITY_CXXFLAGS="-fvisibility=hidden"
++    VISIBILITY_CXXFLAGS=""
+     CXXFLAGS="$CXXFLAGS $VISIBILITY_CXXFLAGS"
+     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
+ 		   [VISIBILITY_CXXFLAGS="" ; AC_MSG_RESULT([no])]);
+--- configure	Thu Aug 18 10:31:34 2011
++++ configure	Thu Aug 18 10:32:15 2011
+@@ -5012,7 +5012,7 @@
+     save_CFLAGS="$CFLAGS"
+     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CC supports -fvisibility=hidden" >&5
+ $as_echo_n "checking whether $CC supports -fvisibility=hidden... " >&6; }
+-    VISIBILITY_CFLAGS="-fvisibility=hidden"
++    VISIBILITY_CFLAGS=""
+     CFLAGS="$CFLAGS $VISIBILITY_CFLAGS"
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+@@ -5048,7 +5048,7 @@
+     save_CXXFLAGS="$CXXFLAGS"
+     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CXX supports -fvisibility=hidden" >&5
+ $as_echo_n "checking whether $CXX supports -fvisibility=hidden... " >&6; }
+-    VISIBILITY_CXXFLAGS="-fvisibility=hidden"
++    VISIBILITY_CXXFLAGS=""
+     CXXFLAGS="$CXXFLAGS $VISIBILITY_CXXFLAGS"
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+--- src/mesa/drivers/dri/Makefile.targets	Fri Jul  8 18:37:10 2011
++++ src/mesa/drivers/dri/Makefile.targets	Thu Aug 18 11:09:47 2011
+@@ -16,7 +16,12 @@
+ 
+ default: subdirs lib
+ 
++DRI_LIB_DEPS += -Wl,-M,$(TOP)/src/mesa/drivers/dri/mapfile.externs
+ 
++MESA_MODULES = $(TOP)/src/mesa/libmesa.a
++
++LIBGLSL_MOBULES = $(TOP)/src/glsl/libglsl.a
++
+ .PHONY: lib
+ lib: symlinks subdirs depend
+ 	@$(MAKE) $(LIBNAME) $(TOP)/$(LIB_DIR)/$(LIBNAME)
+@@ -24,7 +29,7 @@
+ $(LIBNAME): $(OBJECTS) $(EXTRA_MODULES) $(MESA_MODULES) Makefile \
+ 		$(TOP)/src/mesa/drivers/dri/Makefile.targets $(TOP)/src/mesa/drivers/dri/common/dri_test.o
+ 	$(MKLIB) -o $@.tmp -noprefix -linker '$(CXX)' -ldflags '$(LDFLAGS)' \
+-		$(OBJECTS) $(EXTRA_MODULES) $(DRI_LIB_DEPS)
++		$(OBJECTS) $(EXTRA_MODULES) $(DRI_LIB_DEPS) $(MESA_MODULES) $(LIBGLSL_MOBULES)
+ 	$(CXX) $(CFLAGS) -o $@.test $(TOP)/src/mesa/drivers/dri/common/dri_test.o $@.tmp $(DRI_LIB_DEPS)
+ 	@rm -f $@.test
+ 	mv -f $@.tmp $@
+
+--- src/mesa/drivers/dri/intel/intel_context.c	Tue Sep  6 09:26:10 2011
++++ src/mesa/drivers/dri/intel/intel_context.c	Tue Sep  6 09:29:16 2011
+@@ -737,7 +737,7 @@
+    driParseConfigFiles(&intel->optionCache, &intelScreen->optionCache,
+                        sPriv->myNum, (intel->gen >= 4) ? "i965" : "i915");
+    if (intel->gen < 4)
+-      intel->maxBatchSize = 4096;
++      intel->maxBatchSize = 2*4096;
+    else
+       intel->maxBatchSize = sizeof(intel->batch.map);
+ 
+--- src/mesa/drivers/dri/intel/intel_batchbuffer.c	Tue Sep  6 09:28:13 2011
++++ src/mesa/drivers/dri/intel/intel_batchbuffer.c	Tue Sep  6 09:30:56 2011
+@@ -82,7 +82,7 @@
+    intel->batch.bo = drm_intel_bo_alloc(intel->bufmgr, "batchbuffer",
+ 					intel->maxBatchSize, 4096);
+ 
+-   intel->batch.reserved_space = BATCH_RESERVED;
++   intel->batch.reserved_space = 4096;
+    intel->batch.state_batch_offset = intel->batch.bo->size;
+    intel->batch.used = 0;
+ }

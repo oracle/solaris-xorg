@@ -1,11 +1,11 @@
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index 5312ca6..9622eab 100644
+index f51be7e..aa3d97e 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
 @@ -74,9 +74,9 @@
   */
- #ifndef ROOT_CONFIGPATH
- #define ROOT_CONFIGPATH	"%A," "%R," \
+ #ifndef ALL_CONFIGPATH
+ #define ALL_CONFIGPATH	"%A," "%R," \
 -			"/etc/X11/%R," "%P/etc/X11/%R," \
 +			"/etc/X11/%R," "%P/lib/X11/%R," \
  			"%E," "%F," \
@@ -17,19 +17,19 @@ index 5312ca6..9622eab 100644
 @@ -84,8 +84,8 @@
  			"%P/lib/X11/%X"
  #endif
- #ifndef USER_CONFIGPATH
--#define USER_CONFIGPATH	"/etc/X11/%S," "%P/etc/X11/%S," \
+ #ifndef RESTRICTED_CONFIGPATH
+-#define RESTRICTED_CONFIGPATH	"/etc/X11/%S," "%P/etc/X11/%S," \
 -			"/etc/X11/%G," "%P/etc/X11/%G," \
-+#define USER_CONFIGPATH	"/etc/X11/%S," "%P/lib/X11/%S," \
++#define RESTRICTED_CONFIGPATH	"/etc/X11/%S," "%P/lib/X11/%S," \
 +			"/etc/X11/%G," "%P/lib/X11/%G," \
  			"/etc/X11/%X," "/etc/%X," \
  			"%P/etc/X11/%X.%H," \
  			"%P/etc/X11/%X," \
 diff --git a/hw/xfree86/common/xf86Globals.c b/hw/xfree86/common/xf86Globals.c
-index 16d5557..f87c1eb 100644
+index d576fb9..2c19c54 100644
 --- a/hw/xfree86/common/xf86Globals.c
 +++ b/hw/xfree86/common/xf86Globals.c
-@@ -138,7 +138,8 @@ xf86InfoRec xf86Info = {
+@@ -135,7 +135,8 @@ xf86InfoRec xf86Info = {
  };
  const char *xf86ConfigFile = NULL;
  const char *xf86ConfigDir = NULL;
@@ -39,10 +39,10 @@ index 16d5557..f87c1eb 100644
  MessageType xf86ModPathFrom = X_DEFAULT;
  const char *xf86LogFile = DEFAULT_LOGPREFIX;
  MessageType xf86LogFileFrom = X_DEFAULT;
-diff --git a/hw/xfree86/doc/man/xorg.conf.man b/hw/xfree86/doc/man/xorg.conf.man
-index e3fd0ea..dac9a10 100644
---- a/hw/xfree86/doc/man/xorg.conf.man
-+++ b/hw/xfree86/doc/man/xorg.conf.man
+diff --git a/hw/xfree86/man/xorg.conf.man b/hw/xfree86/man/xorg.conf.man
+index 5790185..ac9d626 100644
+--- a/hw/xfree86/man/xorg.conf.man
++++ b/hw/xfree86/man/xorg.conf.man
 @@ -36,9 +36,9 @@ server is started as a normal user:
  .RS 4
  .nf
@@ -69,10 +69,10 @@ index e3fd0ea..dac9a10 100644
  .I /etc/__xconfigfile__
  .IR __projectroot__/etc/X11/__xconfigfile__. <hostname>
 diff --git a/include/xorg-server.h.in b/include/xorg-server.h.in
-index b10b994..feaedfc 100644
+index 8086f32..37b9315 100644
 --- a/include/xorg-server.h.in
 +++ b/include/xorg-server.h.in
-@@ -184,6 +184,7 @@
+@@ -205,6 +205,7 @@
  /* X Access Control Extension */
  #undef XACE
  

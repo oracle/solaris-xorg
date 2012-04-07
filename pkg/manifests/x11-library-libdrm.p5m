@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,10 +28,12 @@ link path=usr/X11/include/drm target=../../include/drm
 link path=usr/include/drm target=libdrm
 dir  path=usr/include/libdrm
 file path=usr/include/libdrm/drm.h
+file path=usr/include/libdrm/drm_fourcc.h
 file path=usr/include/libdrm/drm_mode.h
 file path=usr/include/libdrm/drm_sarea.h
 file path=usr/include/libdrm/i915_drm.h
-file path=usr/include/libdrm/intel_bufmgr.h
+$(i386_ONLY)file path=usr/include/libdrm/intel_bufmgr.h
+$(i386_ONLY)file path=usr/include/libdrm/intel_debug.h
 file path=usr/include/libdrm/mach64_drm.h
 file path=usr/include/libdrm/mga_drm.h
 file path=usr/include/libdrm/nouveau_drm.h
