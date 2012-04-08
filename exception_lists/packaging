@@ -75,6 +75,9 @@ usr/lib/xorg/sparcv9/libdrm_intel.so.1		sparc
 usr/lib/pkgconfig/libdrm_intel.pc		sparc
 usr/lib/sparcv9/pkgconfig/libdrm_intel.pc	sparc
 
+# Skip delivering the header file for an intel internal validation tool
+usr/include/libdrm/intel_aub.h
+
 # We don't install the XCB SELinux extension
 usr/include/xcb/xselinux.h
 usr/share/xcb/xselinux.xml
