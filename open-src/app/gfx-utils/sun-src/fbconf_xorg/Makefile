@@ -3,7 +3,7 @@
 #
 
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -97,6 +97,7 @@ TARGETS	= \
 	$(BIN_DIR) \
 	$(BIN_DIR)/$(LIB_EFB_SO)$(VERS) \
 	$(BIN_DIR)/$(LIB_AST_SO)$(VERS) \
+	$(BIN_DIR)/$(LIB_MGA_SO)$(VERS) \
 	$(BIN_DIR)/$(BIN)
 
 all:		init $(TARGETS) 
@@ -116,6 +117,9 @@ $(BIN_DIR)/$(LIB_EFB_SO)$(VERS): $(BIN_DIR)/$(LIB_FBC_SO)$(VERS) Makefile.efb
 $(BIN_DIR)/$(LIB_AST_SO)$(VERS): $(BIN_DIR)/$(LIB_FBC_SO)$(VERS) Makefile.ast
 	$(MAKE) -f Makefile.ast all
 
+$(BIN_DIR)/$(LIB_MGA_SO)$(VERS): $(BIN_DIR)/$(LIB_FBC_SO)$(VERS) Makefile.mga
+	$(MAKE) -f Makefile.mga all
+
 # Component-specific compilation rule
 
 $(FBC_BIN_DIR)/%.o: $(FBC_SRC_DIR)/%.c $(FBC_HDRS)
@@ -126,6 +130,7 @@ install: $(INSTALL_BIN_DIR)/$(BIN) $(INSTALL_LIB_DIR)/SunModes_xorg.conf
 	$(MAKE) -f Makefile.fbc install
 	$(MAKE) -f Makefile.efb install
 	$(MAKE) -f Makefile.ast install
+	$(MAKE) -f Makefile.mga install
 
 $(INSTALL_BIN_DIR)/$(BIN): $(BIN)
 	$(INSTALL) -m 0555 $? $@
@@ -142,6 +147,7 @@ clean:
 	$(MAKE) -f Makefile.fbc clean
 	$(MAKE) -f Makefile.efb clean
 	$(MAKE) -f Makefile.ast clean
+	$(MAKE) -f Makefile.mga clean
 	-rm -f $(BIN_OBJS) $(FBC_SRC_DIR)/*~ *~
 
 clobber: clean
@@ -150,6 +156,7 @@ clobber: clean
 	$(MAKE) -f Makefile.fbc clobber
 	$(MAKE) -f Makefile.efb clobber
 	$(MAKE) -f Makefile.ast clobber
+	$(MAKE) -f Makefile.mga clobber
 	rm -f $(BIN_DIR)/$(BIN)
 	rm -rf $(BIN_DIR)
 

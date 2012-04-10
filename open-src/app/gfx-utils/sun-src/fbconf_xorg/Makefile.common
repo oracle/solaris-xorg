@@ -3,7 +3,7 @@
 #
 
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,6 +59,10 @@ L_AST      = SUNWast_conf
 LIB_AST    = lib$(L_AST)
 LIB_AST_SO = $(LIB_AST).so
 
+L_MGA      = SUNWmga_conf
+LIB_MGA    = lib$(L_MGA)
+LIB_MGA_SO = $(LIB_MGA).so
+
 
 #
 # Environment pathnames
@@ -87,6 +91,9 @@ EFB_BIN_DIR  = $(BIN_DIR)/efb
 
 AST_SRC_DIR  = $(SRC_DIR)/ast
 AST_BIN_DIR  = $(BIN_DIR)/ast
+
+MGA_SRC_DIR  = $(SRC_DIR)/mga
+MGA_BIN_DIR  = $(BIN_DIR)/mga
 
 
 INSTALL_BIN_DIR = $(DESTDIR)/usr/lib/fbconfig

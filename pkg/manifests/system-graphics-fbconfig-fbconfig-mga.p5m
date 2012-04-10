@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,12 +20,13 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-
-set name=pkg.fmri value=pkg:/system/graphics/sunvts/sunvts-mga@$(OSPKGVERS)
-set name=pkg.summary value="MGA Graphics Diagnostics Software"
+set name=pkg.fmri value=pkg:/system/graphics/fbconfig/fbconfig-mga@$(OSPKGVERS)
+set name=pkg.summary value="MGA Graphics Configuration and Diagnostics Software"
 set name=pkg.description \
-    value="Plugins for Oracle VTS diagnostics software for MGA graphics"
+    value="Plugins for fbconfig configuration and Oracle VTS diagnostics software for MGA graphics"
 set name=variant.arch value=sparc
+link path=usr/lib/fbconfig/libSUNWmga_conf.so target=libSUNWmga_conf.so.1
+file path=usr/lib/fbconfig/libSUNWmga_conf.so.1
 file path=usr/lib/sparcv9/libvtsSUNWmga.so.1
 
 # Requires kernel driver for mgafb
