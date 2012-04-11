@@ -104,6 +104,10 @@ SUNTOUCH_MAN_FLAGS_vncviewer = -o '{Availability, $(VNCVIEWER_PKGNAME)}' \
 MODULE_COMPILER=suncc
 MODULE_COMPILER_SET=yes
 
+# Make command to use
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
+
 # Xvnc has to configure, build, and install in different directories due to 
 # the mixed codebases and unusual directory layout
 $(NO_RECURSE)MODULE_ADD_SOURCE_TARGETS = Xvnc_source_init 

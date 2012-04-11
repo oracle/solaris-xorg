@@ -1,21 +1,11 @@
---- a/glx/glapi_gentable.c.orig  Tue Mar 27 09:06:48 2012
-+++ b/glx/glapi_gentable.c       Tue Mar 27 09:07:56 2012
-@@ -57,6 +57,18 @@
- #include "os.h"
- #endif
+diff --git a/glx/Makefile.am b/glx/Makefile.am
+index ced78b7..443d374 100644
+--- a/glx/Makefile.am
++++ b/glx/Makefile.am
+@@ -101,3 +101,6 @@ libglx_la_SOURCES = \
+         xfont.c
  
-+#if defined(__sparc__) || defined(__sparc)
-+#define WORKAROUND_7154410
-+#endif
+ libglx_la_LIBADD = $(DLOPEN_LIBS)
 +
-+#ifdef WORKAROUND_7154410
-+static void *
-+workaround_dlsym(void *handle, const char *name) {
-+    return dlsym(handle, name);
-+}
-+#define dlsym workaround_dlsym
-+#endif
-+
- static void
- __glapi_gentable_NoOp(void) {
-     const char *fstr = "Unknown";
++# Workaround Studio 12.1 optimizer bug 7154410
++glapi_gentable.lo: CFLAGS = $(CCASFLAGS:-xO4=-xO0)
