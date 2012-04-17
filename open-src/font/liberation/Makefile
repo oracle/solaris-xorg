@@ -2,7 +2,7 @@
 #
 # Liberation Fonts Makefile
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@
 #
 
 # Package name used in tarballs
-MODULE_NAME=liberation-fonts
+MODULE_NAME=liberation-fonts-ttf
 
 # Package metadata
 UPSTREAM	= Fedora Fonts SIG
@@ -38,11 +38,12 @@ MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
 # Version number (used in path names)
-MODULE_VERSION=1.04
+MODULE_VERSION=1.07.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4846797ef0fc70b0cbaede2514677c58
-TARBALL_SHA1 = 097882c92e3260742a3dc3bf033792120d8635a3
+TARBALL_MD5   = 274ba7088e294d5dd27616aabbd88d34
+TARBALL_SHA1  = bf6314386793d99d4f86987ff86fd274e9a679e6
+TARBALL_SHA256= b1bbf2df80f388ca1748a41068fafebc8efdfdee7612afb78a7a7cd31004d50f
 
 # Source tarball
 SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
@@ -69,6 +70,10 @@ TTF_FONT_FILES= \
 	LiberationSans-BoldItalic.ttf \
 	LiberationSans-Italic.ttf \
 	LiberationSans-Regular.ttf \
+	LiberationSansNarrow-Bold.ttf \
+	LiberationSansNarrow-BoldItalic.ttf \
+	LiberationSansNarrow-Italic.ttf \
+	LiberationSansNarrow-Regular.ttf \
 	LiberationSerif-Bold.ttf \
 	LiberationSerif-BoldItalic.ttf \
 	LiberationSerif-Italic.ttf \
@@ -77,6 +82,11 @@ TTF_FONT_FILES= \
 # Directory to install to
 TTF_SUBDIR=liberation
 TTF_SUBDIR_SET=yes
+
+# Since normal package version includes a number starting with 0, which
+# pkg rules disallow, add a human-version to display that
+MODULE_ATTRDATA_COMMANDS = \
+	print 'set name=pkg.human-version value="$(MODULE_VERSION)"' >> $@
 
 ### Include common rulesets
 include ../Makefile.ttf
