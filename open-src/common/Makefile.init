@@ -288,7 +288,6 @@ PKGCONFIG_DIR_SHARE=/usr/share$(PKGCONFIG_DIR_suffix)
 # Directory used for installing tools used during build but not
 # delivered in packages
 TOOLS_DIR=$(PROTOTOP)/tools_$(MACH)
-TOOLS_ACLOCAL_DIR=$(TOOLS_DIR)/share/aclocal
 
 # Work around _TIME, _DATE, embedded date chatter in component builds
 # to use, set TIME_CONSTANT in the component Makefile and add $(CONSTANT_TIME)

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -484,7 +484,6 @@ $(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 # and use automake 1.10 instead of the older 1.9.
 ACLOCAL_PATH=/usr/bin/aclocal-1.10
 ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
-	-I $(TOOLS_ACLOCAL_DIR) \
 	-I /usr/share/aclocal -I /usr/share/aclocal-1.10
 AUTOMAKE_PATH=/usr/bin/automake-1.10
 AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \

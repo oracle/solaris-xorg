@@ -65,7 +65,8 @@ depend type=require fmri=pkg:/developer/build/automake-110
 depend type=require fmri=pkg:/developer/build/gnu-make
 
 # Many packages need to use GNU libtool to rebuild upstream libtool files
-depend type=require fmri=pkg:/developer/build/libtool
+# To build 64-bit libraries correctly, we need libtool 2.2.2 or later
+depend type=require fmri=pkg:/developer/build/libtool@2.2.2
 
 # Most of the X gate requires Solaris make to build
 depend type=require fmri=pkg:/developer/build/make
