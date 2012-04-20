@@ -71,7 +71,8 @@ SOURCE_PATCHES = \
 	solaris-libraries.patch,-p1 \
 	vnc-nobuildtime.patch \
 	vnc-nohttpd.patch \
-	solaris-port.patch
+	solaris-port.patch \
+	solaris-audit.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
