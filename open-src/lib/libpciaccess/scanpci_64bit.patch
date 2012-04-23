@@ -20,10 +20,10 @@ index 1f5f8bd..480e152 100644
  		if ( ! dev->regions[i].is_IO ) {
  		    if ( dev->regions[i].is_prefetchable ) {
 diff --git a/src/solx_devfs.c b/src/solx_devfs.c
-index 5f0db2d..6b8db2c 100644
+index 908bb9f..6127f5d 100644
 --- a/src/solx_devfs.c
 +++ b/src/solx_devfs.c
-@@ -897,14 +897,10 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
+@@ -902,14 +902,10 @@ pci_device_solx_devfs_probe( struct pci_device * dev )
  	}
  
  
