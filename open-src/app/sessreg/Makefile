@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# sessreg 1.x Makefile
+# sessreg - tool for X display manager session registration in utmpx
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8c8fcda19f4cffe573d43ec9b8255f8e
-TARBALL_SHA1 = 6f260f1ddc366da070a6d60301b9fb64a99c119a
+TARBALL_MD5   = e99172cbd72700eeeae99f64632b5dc2
+TARBALL_SHA1  = 2c806506e1ebdd27b0628dac5c699aae9268a11d
+TARBALL_SHA256= 8734ee580264ab92e984d8f84611dada89906d6b548334a5e7d4b0ddba7c2e52
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/sessreg.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

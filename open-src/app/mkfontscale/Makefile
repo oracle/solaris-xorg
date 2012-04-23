@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# mkfontscale 1.x Makefile
+# mkfontscale - legacy X11 core font metadata creation tool
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,12 @@ MODULE_PKGNAME=x11/font-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.9
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3d1dc487f3e859f4e5c46540cb49abd3
-TARBALL_SHA1 = 5a8ac438d6d6694dcf1314b74c4d9f029da4f486
+TARBALL_MD5   = 414fcb053418fb1418e3a39f4a37e0f7
+TARBALL_SHA1  = ba021369ae3b364ba083b9eb5e570e54b21fd583
+TARBALL_SHA256= ce55f862679b8ec127d7f7315ac04a8d64a0d90a0309a70dc56c1ba3f9806994
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

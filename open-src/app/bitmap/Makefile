@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# bitmap 1.x Makefile
+# bitmap (XBM format) editor application
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,12 @@ MODULE_PKGCLASS=Applications/Graphics and Imaging
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0b7ceb0ded994dac645bb81e86ce69cc
-TARBALL_SHA1 = 4f6f847b6cfc3e250f1befe907a3d1957f4a43c8
+TARBALL_MD5   = cea3a96b32d23c9019daeb9881d33dc3
+TARBALL_SHA1  = 5527034785dec2b93a8d0931edc58602032d1f91
+TARBALL_SHA256= f70100002faf7c54b1b851261a14606c147abcc9e43f9b4e980ffc82f56eb5eb
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -54,7 +55,6 @@ MODULE_STABILITY=Committed
 MODULE_X11_BINCOMPAT_LINKS = bitmap atobm bmtoa
 
 # ignore some unneeded dependencies that upstream includes:
-# unreferenced object=/usr/lib/libm.so.2; unused dependency of /usr/bin/bitmap
 # unreferenced object=/usr/lib/libXt.so.4; unused dependency of /usr/bin/bmtoa
 # unreferenced object=/usr/lib/libX11.so.4; unused dependency of /usr/bin/bmtoa
 MODULE_LDFLAGS = -z ignore

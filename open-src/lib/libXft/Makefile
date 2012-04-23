@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xft 2.x Makefile
+# libXft library for client-side font rendering via freetype/fontconfig
 #
-# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,15 @@
 MODULE_NAME=libXft
 
 # Version number (used in path names)
-MODULE_VERSION=2.2.0
+MODULE_VERSION=2.3.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cce3c327258116493b753f157e0360c7
-TARBALL_SHA1 = ed29784259f4e26df78141035560ae8a7c62e83f
+TARBALL_MD5   = bd0a8d8cace1dfbb963250bf3eb9a19a
+TARBALL_SHA1  = 687f38a810b9ae58e1169c295d9d438370235e23
+TARBALL_SHA256= 3426393ad72a5c47006536d474e396c7a21c33131bb28f495578e05a5858b044
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	xftcore-6261221.patch \
-	6872780.patch
+SOURCE_PATCHES = upstream-bold-fonts.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xft

@@ -1,6 +1,7 @@
-diff -urp -x '*~' -x '*.orig' man/Makefile.am man/Makefile.am
---- man/Makefile.am	2010-09-03 16:16:02.000000000 -0700
-+++ man/Makefile.am	2011-01-14 07:43:31.479488320 -0800
+diff --git a/man/Makefile.am b/man/Makefile.am
+index fef283f..c2b8482 100644
+--- a/man/Makefile.am
++++ b/man/Makefile.am
 @@ -1,6 +1,16 @@
  libmandir = $(LIB_MAN_DIR)
  
@@ -18,12 +19,13 @@ diff -urp -x '*~' -x '*.orig' man/Makefile.am man/Makefile.am
  	$(all_shadows:=.man)			\
  	DBE.man					\
  	DPMSCapable.man				\
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2010-06-11 18:24:33.000000000 -0700
-+++ src/Makefile.am	2011-01-14 07:43:31.479666685 -0800
+diff --git a/src/Makefile.am b/src/Makefile.am
+index e236c33..53b04ed 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
 @@ -63,3 +63,13 @@ lintlib_DATA = $(LINTLIB)
  $(LINTLIB): $(libXext_la_SOURCES)
- 	$(LINT) -y -oXext -x $(ALL_LINT_FLAGS) $(libXext_la_SOURCES) 
+ 	$(LINT) -y -oXext -x $(ALL_LINT_FLAGS) $(libXext_la_SOURCES)
  endif MAKE_LINT_LIB
 +
 +# Solaris specific additions:

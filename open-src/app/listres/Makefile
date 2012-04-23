@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# listres 1.x Makefile
+# listres - Xt toolkit resource list utility
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGNAME=x11/xt-resource-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3c0d5d8d6abaf411cd0647bc7073ac38
-TARBALL_SHA1 = 4c1c9b16dbd9c442a76203b57a9fef33965415d9
+TARBALL_MD5   = 4e8edcc03001203c101e79d880d55762
+TARBALL_SHA1  = ff226b0e565c337ac1ae60027487131920b8d86b
+TARBALL_SHA256= c3d71e9a01650e3fd470189a749cd0202ef03d9e399350a7a7443d7595ed478e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/listres.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

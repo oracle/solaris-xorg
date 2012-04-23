@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xt 1.x Makefile
+# X Toolkit Intrinsics library (libXt)
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,15 @@ MODULE_PKGNAME=x11/library/toolkit/libxt
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.9
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8a414f8f2327aaa616ca2dcac1f5d8c3
-TARBALL_SHA1 = 3222c028b37e70a1d0d88feba5e52c2408e6bd5c
+TARBALL_MD5   = a6f137ae100e74ebe3b71eb4a38c40b3
+TARBALL_SHA1  = 2cef068bc4d7170e31b89b5c06aeaf4451a7699a
+TARBALL_SHA256= 8db593c3fc5ffc4e9cd854ba50af1eac9b90d66521ba17802b8f1e0d2d7f05bd
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6671721.patch
+SOURCE_PATCHES = 6671721.patch,-p1
 
 # Regenerate configure script & Makefile.in's after applying patches
 AUTORECONF=yes
@@ -54,6 +55,8 @@ LIBNAME=Xt
 # ARC cases that covered this module
 # PSARC/1997/141 Sym links needed in /usr/lib for SPARC ABI compliance
 MODULE_ARC_CASES = PSARC/1997/141
+# PSARC/2012/151 libXt 1.1 [XtAsprintf()]
+MODULE_ARC_CASES += PSARC/2012/151
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

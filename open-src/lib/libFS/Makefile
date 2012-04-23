@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# libFS Makefile
+# libFS - client library to connect to xfs font servers
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=libFS
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8e68a3a6f3cac936042b240b20d1fb7d
-TARBALL_SHA1 = 2b33fa17369605303ae70a7de1aa681879249c92
+TARBALL_MD5   = 645f83160cf7b562734e2038045106d1
+TARBALL_SHA1  = f114f32f60eb84d3e1d0e6f0dfe7679b07e91295
+TARBALL_SHA256= 7073761e7594d43180a922605fb64cce60e5ccb8c06f8efa24f2d4621f5e8315
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-abi.patch
-SOURCE_PATCHES += studio.patch,-p1
+SOURCE_PATCHES += solaris-abi.patch,-p1
 SOURCE_PATCHES += lint.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
@@ -50,9 +50,6 @@ LIBNAME=FS
 #SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3FS
-
-# Link with version mapfile
-MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=libfs.pc.in

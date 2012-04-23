@@ -10,10 +10,10 @@ not needed because --with-system-jpeg was passed
  1 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 5acd762..66b9b34 100644
+index 50ebdb6..1f9786e 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -5,8 +5,6 @@ BUILD=`date +%Y%m%d`
+@@ -10,8 +10,6 @@ BUILD=`date +%Y%m%d`
  AC_CONFIG_AUX_DIR([.])
  AM_INIT_AUTOMAKE([-Wall foreign dist-bzip2])
  
@@ -22,7 +22,7 @@ index 5acd762..66b9b34 100644
  AC_CONFIG_HEADERS([config.h])
  
  dnl Checks for programs.
-@@ -136,7 +134,9 @@ AC_ARG_WITH([included-zlib],
+@@ -192,7 +190,9 @@ AC_ARG_WITH([included-zlib],
  	[AC_SEARCH_LIBS([inflateEnd], [z], [], [INCLUDED_ZLIB=yes])])
  
  AM_CONDITIONAL([INCLUDED_ZLIB], [ test "x$INCLUDED_ZLIB" = xyes ])
@@ -33,7 +33,7 @@ index 5acd762..66b9b34 100644
  
  dnl Check for libjpeg library
  INCLUDED_JPEG=yes
-@@ -148,7 +148,9 @@ AC_ARG_WITH([system-jpeg],
+@@ -204,7 +204,9 @@ AC_ARG_WITH([system-jpeg],
  	[])
  
  AM_CONDITIONAL([INCLUDED_JPEG], [ test "x$INCLUDED_JPEG" = xyes ])
@@ -44,6 +44,3 @@ index 5acd762..66b9b34 100644
  
  AC_CHECK_FUNCS([vsnprintf snprintf strcasecmp strncasecmp])
  
--- 
-1.7.3.2
-

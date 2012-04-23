@@ -4,9 +4,9 @@ Kamil Toman
 
 Ivan U. Pascal
 
-November 2010
+X Version 11, Release 7.7
 
-Abstract
+November 2010
 
 This document describes how to configure Xorg XKB from a user's point of view.
 It covers basic configuration syntax and gives also a few examples.

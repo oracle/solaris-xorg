@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# constype 1.x Makefile
+# constype utility for printing console/frame buffer type code
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,17 +36,18 @@ MODULE_PKGCLASS=System/Hardware
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7347bb324e3095f8791386b8154edc11
-TARBALL_SHA1 = fc4cbf7773fbc755b5ebba5b85b7d0e39e6d3e82
+TARBALL_MD5   = e967cc9d05848b1ef8921da0f112b4d2
+TARBALL_SHA1  = f4c332c0eec27b6ab34a6d64580b6012f012de25
+TARBALL_SHA256= c1848a3af93200a6db8a5905e1d9a3ca152cf4eeec4e1e7a50a8fcc6b4a0049a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=constype.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

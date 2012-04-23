@@ -27,10 +27,11 @@ used "inetv6" - the final standard renamed it to "inet6", but since we already
 shipped, we retain the old name for backwards compatibility.  
 (See PSARC 2004/285.)
 
-diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
---- Xtranssock.c	2010-10-29 18:21:40.000000000 -0700
-+++ Xtranssock.c	2011-02-11 16:46:56.023653158 -0800
-@@ -188,6 +188,9 @@ static Sockettrans2dev Sockettrans2devta
+diff --git a/Xtranssock.c b/Xtranssock.c
+index dfa41cf..8c11b9d 100644
+--- a/Xtranssock.c
++++ b/Xtranssock.c
+@@ -188,6 +188,9 @@ static Sockettrans2dev Sockettrans2devtab[] = {
      {"tcp",AF_INET6,SOCK_STREAM,SOCK_DGRAM,0},
      {"tcp",AF_INET,SOCK_STREAM,SOCK_DGRAM,0}, /* fallback */
      {"inet6",AF_INET6,SOCK_STREAM,SOCK_DGRAM,0},

@@ -178,7 +178,7 @@ PKGMOG_DEFINES =
 # Some use $(X11PKGVERS) to refer to the X11 katamari version since they
 # bundle together components from multiple upstream packages with individual
 # version numbers
-PKGMOG_DEFINES += X11PKGVERS=7.6
+PKGMOG_DEFINES += X11PKGVERS=7.7
 PKGMOG_DEFINES += OSPKGVERS=0.$(RELEASE)
 
 # Base URL for ARC cases used in opensolaris.arc_url metadata

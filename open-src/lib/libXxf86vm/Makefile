@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xxf86vm 1.x Makefile
+# libXxf86vm - Xlib-based client library for XFree86-VidMode extension protocol
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXxf86vm
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 34dc3df888c164378da89a7deeb245a0
-TARBALL_SHA1 = 2ff2d2b3c60a5c5c0cc4e0a18492d3b7168a03af
+TARBALL_MD5   = ffd93bcedd8b2b5aeabf184e7b91f326
+TARBALL_SHA1  = 57bbf3bb69a49f6a6dec515813394a383f85502f
+TARBALL_SHA256= a564172fb866b1b587bbccb7d041088931029845245e0d15c32ca7f1bb48fc84
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

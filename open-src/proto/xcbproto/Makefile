@@ -2,7 +2,7 @@
 #
 # xcbproto Makefile
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,11 +28,11 @@
 MODULE_NAME=xcb-proto
 
 # Version number (used in path names)
-MODULE_VERSION=1.6
+MODULE_VERSION=1.7.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 04313e1d914b44d0e457f6c494fc178b
-TARBALL_SHA1 = e82418557c7f59f29da9ec18e0906d6d78e3a164
+TARBALL_MD5  = 948fec39dd42f3694edd5d9689735ec4
+TARBALL_SHA1 = 82a568559235fc6e26d0a38911c5ea18f8e8455c
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -42,8 +42,7 @@ UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = configure.0.patch \
-		 Makefile.in.1.patch
+SOURCE_PATCHES += xia.patch,-p1
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

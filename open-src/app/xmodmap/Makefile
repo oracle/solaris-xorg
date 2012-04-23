@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xmodmap 1.x Makefile
+# xmodmap - X11 keyboard/mouse mapping configuration utility
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,12 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b18850d373f3717dca569377c449d091
-TARBALL_SHA1 = c97fb42f40b094868f6ef445f25c600f326b1942
+TARBALL_MD5   = d9b65f6881afe0d6d9863b30e1081bde
+TARBALL_SHA1  = 9f9c6b7bd058c09a8e15b1c4f4eccb972e51ffef
+TARBALL_SHA256= ef22ede9c4a3c720da539292c6911515a8408e618e0dec6aa2196ee2153de4b5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

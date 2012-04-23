@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xinit 1.x Makefile
+# xinit - starts a X server & session without a display manager
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xinit
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ee234056d8a3dbf37b61b4bcb35b88e4
-TARBALL_SHA1 = 6d3981c23ce49212a26912651d6d2473a5065766
-TARBALL_SHA256 = c7468dfae94bdb42785d79623c27156dc4bf379d8372992830482cb04d8439b0
+TARBALL_MD5   = 9c0943cbd83e489ad1b05221b97efd44
+TARBALL_SHA1  = 1c287ac016d277f973652fa3707eef6db8353d5a
+TARBALL_SHA256= a1867fdaa83f68750b12ba4305c3c62f5992d0f52cfeb98e96c27a8e690e0235
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6714067.patch,-p1 7023672.patch,-p1

@@ -1,14 +1,14 @@
 diff --git a/record/record.c b/record/record.c
-index b956b4a..d0604e0 100644
+index 8a38118..296fd58 100644
 --- a/record/record.c
 +++ b/record/record.c
-@@ -1475,6 +1475,9 @@ typedef struct
-     short first, last;	/* if for extension, major opcode interval */
+@@ -1394,6 +1394,9 @@ typedef struct {
+     short first, last;          /* if for extension, major opcode interval */
  } SetInfoRec, *SetInfoPtr;
  
 +#undef ERR /* protect against #define ERR in <sys/regset.h> on Solaris x86,
 +	      which gets included indirectly via #include <stdlib.h> */
 +
  /* These constant are used to index into an array of SetInfoRec. */
- enum {REQ,	/* set info for requests */
-       REP,	/* set info for replies */
+ enum { REQ,                     /* set info for requests */
+     REP,                        /* set info for replies */

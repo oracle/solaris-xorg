@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,7 +22,7 @@
 set name=pkg.fmri value=pkg:/x11/library/toolkit/libxt@__version:libXt__
 set name=pkg.summary value="libXt - X Toolkit Intrinsics library"
 set name=pkg.description \
-    value="The X Toolkit Intrinsics are a programming library tailored to the special requirements of user interface construction within a network window system, specifically the X Window System.  The X Toolkit Intrinsics and a widget set such as the Athena Widgets (Xaw) or Motif (Xm) make up an X Toolkit."
+    value="The X Toolkit Intrinsics are a programming library tailored to the special requirements of user interface construction within a network window system, specifically the X Window System. The X Toolkit Intrinsics and a widget set such as the Athena Widgets (Xaw) or Motif (Xm) make up an X Toolkit."
 link path=usr/X11/lib/$(ARCH64)/libXt.so target=../../../lib/$(ARCH64)/libXt.so
 link path=usr/X11/lib/$(ARCH64)/libXt.so.4 \
     target=../../../lib/$(ARCH64)/libXt.so.4
@@ -74,6 +74,29 @@ file path=usr/lib/libXt.so.4
 link path=usr/lib/libXt.so.5 target=libXt.so.4
 file path=usr/lib/pkgconfig/xt.pc
 dir  path=usr/share/X11/app-defaults
+dir  path=usr/share/doc/libXt
+file path=usr/share/doc/libXt/CH01.xml
+file path=usr/share/doc/libXt/CH02.xml
+file path=usr/share/doc/libXt/CH03.xml
+file path=usr/share/doc/libXt/CH04.xml
+file path=usr/share/doc/libXt/CH05.xml
+file path=usr/share/doc/libXt/CH06.xml
+file path=usr/share/doc/libXt/CH07.xml
+file path=usr/share/doc/libXt/CH08.xml
+file path=usr/share/doc/libXt/CH09.xml
+file path=usr/share/doc/libXt/CH10.xml
+file path=usr/share/doc/libXt/CH11.xml
+file path=usr/share/doc/libXt/CH12.xml
+file path=usr/share/doc/libXt/CH13.xml
+file path=usr/share/doc/libXt/acknowledgement.xml
+file path=usr/share/doc/libXt/appA.xml
+file path=usr/share/doc/libXt/appB.xml
+file path=usr/share/doc/libXt/appC.xml
+file path=usr/share/doc/libXt/appD.xml
+file path=usr/share/doc/libXt/appE.xml
+file path=usr/share/doc/libXt/appF.xml
+file path=usr/share/doc/libXt/intrinsics.xml
+file path=usr/share/doc/libXt/preface.xml
 dir  path=usr/share/man/man3xt
 file path=usr/share/man/man3xt/MenuPopdown.3xt
 file path=usr/share/man/man3xt/MenuPopup.3xt
@@ -123,6 +146,7 @@ file path=usr/share/man/man3xt/XtAppSetWarningMsgHandler.3xt
 file path=usr/share/man/man3xt/XtAppUnlock.3xt
 file path=usr/share/man/man3xt/XtAppWarning.3xt
 file path=usr/share/man/man3xt/XtAppWarningMsg.3xt
+file path=usr/share/man/man3xt/XtAsprintf.3xt
 file path=usr/share/man/man3xt/XtAugmentTranslations.3xt
 file path=usr/share/man/man3xt/XtBuildEventMask.3xt
 file path=usr/share/man/man3xt/XtCallAcceptFocus.3xt

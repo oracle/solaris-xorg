@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,14 +31,15 @@ MODULE_PKGCLASS=Development/C
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4e6cb97bbecfbb34f3f644a75e513093
-TARBALL_SHA1 = 9a2ea514c0e52b59712678be1f9a33a74a4e0b8e
+TARBALL_MD5   = 7acb9a831817fdd11ba7f7aaa3c74fd8
+TARBALL_SHA1  = 1f0f8aea1526c6c022f2cf16f7a6c67118c68336
+TARBALL_SHA256= ab56b8aeee00ed78d93c57d102e33ef4e6828ef5edd7108574966ed7d212f7fe
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=		MAXFILES.patch
+SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

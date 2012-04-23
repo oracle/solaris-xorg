@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xinerama library Makefile
+# libXinerama - Xlib-based client library for Xinerama extension protocol
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXinerama
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ecd4839ad01f6f637c6fb5327207f89b
-TARBALL_SHA1 = f030b0cfcce15502aac78188524f32a6f29bd0a4
+TARBALL_MD5   = cb45d6672c93a608f003b6404f1dd462
+TARBALL_SHA1  = 06a5b636305725ce09f6c3a4d5a15f2f188b5afd
+TARBALL_SHA256= a4e77c2fd88372e4ae365f3ca0434a23613da96c5b359b1a64bf43614ec06aac
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = sun-abi.patch

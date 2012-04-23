@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xtst library Makefile
+# libXtst - Xlib-based client library for Xtest & Record extension protocols
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXtst
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7c592c72da6676f8b0aeec9133b81686
-TARBALL_SHA1 = 9fb06ed599caf7f9e7115cbbfadf02b47c17aa72
+TARBALL_MD5   = e8abc5c00c666f551cf26aa53819d592
+TARBALL_SHA1  = 44e19899f9938d3db5546e51c338d6f86d88cfe2
+TARBALL_SHA256= 7eea3e66e392aca3f9dad6238198753c28e1c32fa4903cbb7739607a2504e5e0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

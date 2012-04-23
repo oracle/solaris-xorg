@@ -2,7 +2,7 @@
 #
 # libXt version mapfile
 #
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -520,4 +520,10 @@ SUNWprivate {
 	_XtCopyToArg;
 	_XtResourceConfigurationEH;
 };
+
+# Added in libXt 1.1
+SUNW_1.2 {
+    global:
+	XtAsprintf;
+} SUNW_1.1;
 

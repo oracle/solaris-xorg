@@ -28,9 +28,10 @@ zones from the global zone. A link is created from /tmp/.X11-unix
 to the above loopback mounted dir.
 (See LSARC/2008/506)
 
-diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
---- Xtranssock.c	2011-02-11 16:46:56.023653158 -0800
-+++ Xtranssock.c	2011-02-11 16:46:56.447445693 -0800
+diff --git a/Xtranssock.c b/Xtranssock.c
+index 8c11b9d..8428314 100644
+--- a/Xtranssock.c
++++ b/Xtranssock.c
 @@ -95,6 +95,9 @@ from the copyright holders.
  #include <sys/stat.h>
  #endif
@@ -40,8 +41,8 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
 +#endif /* X11_t */
  
  #ifndef NO_TCP_H
- #if defined(linux) || defined(__GLIBC__) 
-@@ -213,6 +216,7 @@ static int TRANS(SocketINETClose) (Xtran
+ #if defined(linux) || defined(__GLIBC__)
+@@ -213,6 +216,7 @@ static int TRANS(SocketINETClose) (XtransConnInfo ciptr);
  #if defined(X11_t)
  #define UNIX_PATH "/tmp/.X11-unix/X"
  #define UNIX_DIR "/tmp/.X11-unix"
@@ -49,7 +50,7 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
  #endif /* X11_t */
  #if defined(XIM_t)
  #define UNIX_PATH "/tmp/.XIM-unix/XIM"
-@@ -1088,6 +1092,29 @@ TRANS(SocketUNIXCreateListener) (XtransC
+@@ -1086,6 +1090,29 @@ TRANS(SocketUNIXCreateListener) (XtransConnInfo ciptr, char *port,
  #else
      mode = 0777;
  #endif
@@ -59,17 +60,17 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
 +	struct stat sbuf;
 +
 +        if (!abstract && trans_mkdir(TSOL_UNIX_DIR, mode) == -1) {
-+	    PRMSG (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
-+	       TSOL_UNIX_DIR, errno, 0);
++	    prmsg (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
++	       TSOL_UNIX_DIR, errno);
 +	    (void) umask (oldUmask);
 +	    return TRANS_CREATE_LISTENER_FAILED;
 +        }
 +
 +        /* Create a symlink for UNIX_DIR to TSOL_UNIX_DIR */
 +        if (stat(UNIX_DIR, &sbuf) != 0 && symlink(TSOL_UNIX_DIR, UNIX_DIR) != 0) {
-+		PRMSG (1, 
++		prmsg (1, 
 +		    "SocketUNIXCreateListener: symlink to %s failed, errno = %d\n",
-+	       	    TSOL_UNIX_DIR, errno, 0);
++	       	    TSOL_UNIX_DIR, errno);
 +	    (void) umask (oldUmask);
 +	    return TRANS_CREATE_LISTENER_FAILED;
 +        }
@@ -77,9 +78,9 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
 +    } else 
 +#endif /* X11_t */
      if (!abstract && trans_mkdir(UNIX_DIR, mode) == -1) {
- 	PRMSG (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
- 	       UNIX_DIR, errno, 0);
-@@ -1983,10 +2010,28 @@ TRANS(SocketUNIXConnect) (XtransConnInfo
+ 	prmsg (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
+ 	       UNIX_DIR, errno);
+@@ -1967,6 +1994,24 @@ TRANS(SocketUNIXConnect) (XtransConnInfo ciptr, char *host, char *port)
  	return TRANS_CONNECT_FAILED;
      }
  
@@ -94,8 +95,8 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
 +	struct stat sbuf;
 +
 +        if (stat(UNIX_DIR, &sbuf) != 0 && symlink(TSOL_UNIX_DIR, UNIX_DIR) != 0) {
-+	    PRMSG (1, "SocketUNIXConnect:: symlink to %s failed, errno = %d\n",
-+		TSOL_UNIX_DIR, errno, 0);
++	    prmsg (1, "SocketUNIXConnect:: symlink to %s failed, errno = %d\n",
++		TSOL_UNIX_DIR, errno);
 +	    return TRANS_CONNECT_FAILED;
 +         }
 +     }
@@ -104,8 +105,3 @@ diff -urp -x '*~' -x '*.orig' Xtranssock.c Xtranssock.c
      /*
       * Build the socket name.
       */
--    
-+
-     sockname.sun_family = AF_UNIX;
- 
-     if (set_sun_path(port, UNIX_PATH, sockname.sun_path, abstract) != 0) {

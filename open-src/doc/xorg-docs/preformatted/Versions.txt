@@ -6,8 +6,6 @@ Updated for X.Org by Keith Packard, Kevin E. Martin, and Alan Coopersmith
 
 November 2010
 
-Abstract
-
 X.Org has adopted the same basic numbering scheme used by the XFree86 Project,
 Inc. for their releases. The actual numbers are different, but the basic scheme
 is the same. This document reflects the policy that X.Org uses.
@@ -17,7 +15,7 @@ is the same. This document reflects the policy that X.Org uses.
 Table of Contents
 
 Module Versions
-Releases, Development Streams and Branches
+Releases, Development Streams, and Branches
 Current Version Numbering Scheme
 
     Development Branch
@@ -42,7 +40,7 @@ Window System version when reporting its version number in log files, the
 was corrected with X server 1.3, which caused the visible version number string
 to appear to jump backwards from 7.2 to 1.3.
 
-Releases, Development Streams and Branches
+Releases, Development Streams, and Branches
 
 X.Org has two release branches for the X server software, and several other
 modules with active ongoing development. First is the trunk of the git
@@ -127,8 +125,8 @@ branch:
 
 1.8.0.901 The first pre 1.8.1 snapshot.
 
-          The third pre 1.8.1 snapshot, also known as the third 1.8.1 release
-1.8.0.903 candidate.
+1.8.0.903 The third pre 1.8.1 snapshot, also known as the third 1.8.1 release
+          candidate.
 
 1.8.1     The 1.8.1 release.
 

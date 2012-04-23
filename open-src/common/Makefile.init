@@ -304,6 +304,8 @@ CONSTANT_TIME += TIME_CONSTANT=$(TIME_CONSTANT)
 PYTHON_VERSION=2.6
 PYTHON=/usr/bin/python$(PYTHON_VERSION)
 PYTHON_PATH=$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/vendor-packages:$(PROTODIR)/usr/lib/python$(PYTHON_VERSION)/site-packages:/usr/lib/python$(PYTHON_VERSION)/vendor-packages:/usr/lib/python$(PYTHON_VERSION)/site-packages
+# We want our python modules installed to vendor-packages, not site-packages
+PYTHON_VENDOR_DIR = /usr/lib/python$(PYTHON_VERSION)/vendor-packages
 
 ## Perl tools & paths
 # When changing PERL_VERSION, check that PERL_PKG_VERSION is
@@ -363,7 +365,7 @@ UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 # referenced in multiple places, so it's kept here for easy sharing.
 # 
 # Current Xorg server source tarball to use sources from:
-XORGSERVER_VERS=1.12.0
+XORGSERVER_VERS=1.12.1
 # Minimum Xorg server version that we expect to be ABI compatible with.
 # Usually .99 of the previous minor release series, as that's the convention
 # for the development snapshots of the next release series.

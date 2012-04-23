@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,4 +25,6 @@ set name=pkg.description \
     value="The xkbcomp keymap compiler converts a description of an XKB keymap into one of several output formats, including the one used by X servers to load keymap data."
 link path=usr/X11/bin/xkbcomp target=../../bin/xkbcomp
 file path=usr/bin/xkbcomp
+file path=usr/lib/$(ARCH64)/pkgconfig/xkbcomp.pc
+link path=usr/lib/pkgconfig/xkbcomp.pc target=../$(ARCH64)/pkgconfig/xkbcomp.pc
 file path=usr/share/man/man1/xkbcomp.1

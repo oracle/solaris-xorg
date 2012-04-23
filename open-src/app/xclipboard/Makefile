@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xclipboard 1.x Makefile
+# xclipboard & xcutsel tools for clipboard & cut buffer manipulation
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b9102fe787eda2a1c9578079d8f55eed
-TARBALL_SHA1 = 922ddf89acd0781156e9ccdf191a3e0c6376415a
+TARBALL_MD5   = f53f9276c0d009b539d7f64c6db9f0ff
+TARBALL_SHA1  = 8dc77e1234c1c2853805124536676a4d5f7c7a3b
+TARBALL_SHA256= 5f3b12da1eae4ed24883d8a5633b6150a0291deede818aeb5c9e827599b6429e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES= man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlsfonts 1.x Makefile
+# xlsfonts - utility to list X11 core protocol fonts available from an X server
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xlsfonts
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bf6f3e7074479839d5182ffed735d2be
-TARBALL_SHA1 = 9d4e0adbcb83362dd9234e90507c0528f60e309b
+TARBALL_MD5   = 5a2b476c2d84759529f01e0cd06145fe
+TARBALL_SHA1  = 6fc23537797bb1ae4945efd8c01e675edf4a4c3f
+TARBALL_SHA256= 28179185ec2bf81dfe13652d65bdb2a4ae74e2775df591a62d66a70f80e90cd2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2008/178
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xlsfonts.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

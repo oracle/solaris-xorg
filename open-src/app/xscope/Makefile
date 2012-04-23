@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xscope 1.x Makefile
+# xscope - X11 protocol monitor/analyzer utility
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,15 @@
 MODULE_NAME=xscope
 
 # Version number (used in path names)
-MODULE_VERSION=1.3
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4198c875ebc4808b73fa5468e009f14b
-TARBALL_SHA1 = 228773993bf1e5b4b4a772205e550e81f41e8fd9
+TARBALL_MD5   = 6b26a40429f868b726c4953eead03f0a
+TARBALL_SHA1  = c0bf5bce04a3b46cb53d443ccedc5c6c393784aa
+TARBALL_SHA256= 25e6db9a2d556c56797f9bb32cac650ac3afd130b49a1cea074694c2754c8582
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = COPYING.patch,-p1
+SOURCE_PATCHES = 
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = LSARC/2009/549
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xscope.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

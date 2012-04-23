@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# fstobdf Makefile
+# fstobdf utility to retrieve bdf fonts from an xfs font server
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGNAME=x11/xfs/xfs-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fc1f42aac16d6b76c79a1a3a0fb6a53b
-TARBALL_SHA1 = 5310493f53277fd196f93bbb7f2a204cad8997b7
+TARBALL_MD5   = c536ac53e51df0a28e764a7cf7ef4924
+TARBALL_SHA1  = 7c316ab446f6efa0862570bc137e1c103311ace2
+TARBALL_SHA256= 9c44ef069174ec501fa848fe0dfa41c06c2367df84721e94b3bca670608f15a8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/fstobdf.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

@@ -1,17 +1,19 @@
-diff -urp -x '*~' -x '*.orig' configure.ac configure.ac
---- configure.ac	2010-10-28 12:03:12.000000000 -0700
-+++ configure.ac	2011-02-02 22:30:12.520558379 -0800
-@@ -65,6 +65,7 @@ AC_CHECK_HEADER([alloca.h], AC_DEFINE(IN
+diff --git a/configure.ac b/configure.ac
+index d15b326..28185fe 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -72,6 +72,7 @@ AC_SUBST(LDFLAGS_FOR_BUILD)
+ 
+ # Map function checks to old Imake #defines
  case $host_os in
- 	# darwin has poll() but can't be used to poll character devices (atleast through SnowLeopard)
- 	darwin*) ;;
 +	solaris*) ;; # our changes to NextEvent.c break if poll() is used
- 	*)
- 		AC_CHECK_FUNC(poll, AC_DEFINE(USE_POLL,1,
- 	        	[Define to 1 if you have the "poll" function.]))
-diff -urp -x '*~' -x '*.orig' include/X11/Intrinsic.h include/X11/Intrinsic.h
---- include/X11/Intrinsic.h	2010-10-06 22:58:48.000000000 -0700
-+++ include/X11/Intrinsic.h	2011-02-02 22:30:12.521315837 -0800
+ 	# darwin through Snow Leopard has poll() but can't be used to poll character devices.
+ 	darwin@<:@789@:>@*|darwin10*) ;;
+ 	darwin*)
+diff --git a/include/X11/Intrinsic.h b/include/X11/Intrinsic.h
+index d09acad..d30e01f 100644
+--- a/include/X11/Intrinsic.h
++++ b/include/X11/Intrinsic.h
 @@ -125,6 +125,7 @@ typedef int		XtCacheType;
  #define			XtCacheAll	  0x002
  #define			XtCacheByDisplay  0x003
@@ -47,9 +49,10 @@ diff -urp -x '*~' -x '*.orig' include/X11/Intrinsic.h include/X11/Intrinsic.h
  extern void XtAppSetTypeConverter(
      XtAppContext 	/* app_context */,
      _Xconst _XtString 	/* from_type */,
-diff -urp -x '*~' -x '*.orig' src/Convert.c src/Convert.c
---- src/Convert.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Convert.c	2011-02-02 22:30:12.522740519 -0800
+diff --git a/src/Convert.c b/src/Convert.c
+index cea8fd3..265b162 100644
+--- a/src/Convert.c
++++ b/src/Convert.c
 @@ -87,6 +87,7 @@ typedef struct _ConverterRec {
      XrmRepresentation	from, to;
      XtTypeConverter	converter;
@@ -134,7 +137,7 @@ diff -urp -x '*~' -x '*.orig' src/Convert.c src/Convert.c
  
  #define CACHEHASHSIZE	256
  #define CACHEHASHMASK	255
-@@ -183,6 +192,28 @@ typedef CachePtr CacheHashTable[CACHEHAS
+@@ -183,6 +192,28 @@ typedef CachePtr CacheHashTable[CACHEHASHSIZE];
  static CacheHashTable	cacheHashTable;
  
  void _XtTableAddConverter(
@@ -336,11 +339,11 @@ diff -urp -x '*~' -x '*.orig' src/Convert.c src/Convert.c
 +        }
 +
 +        memmove(dest_ptr, src_ptr, to->size);
-     }
++    }
 +
 +    if ((succeeded && destructor) || do_ref) {
 +	p->ref_count = 1;
-+    }
+     }
 +
      UNLOCK_PROCESS;
      return p;
@@ -564,21 +567,10 @@ diff -urp -x '*~' -x '*.orig' src/Convert.c src/Convert.c
  }
  
  
-diff -urp -x '*~' -x '*.orig' src/Converters.c src/Converters.c
---- src/Converters.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Converters.c	2011-02-02 22:30:12.523272932 -0800
-@@ -1360,7 +1360,7 @@ Boolean XtCvtIntToPixmap(
- 		  XtNwrongParameters,"cvtIntToPixmap",XtCXtToolkitError,
-                   "Integer to Pixmap conversion needs no extra arguments",
-                    (String *) NULL, (Cardinal *)NULL);
--    done(Pixmap, *(Pixmap*)fromVal->addr);
-+    done(Pixmap, *(int*)fromVal->addr);
- }
- 
- #ifdef MOTIFBC
-diff -urp -x '*~' -x '*.orig' src/Create.c src/Create.c
---- src/Create.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Create.c	2011-02-02 22:30:12.523600114 -0800
+diff --git a/src/Create.c b/src/Create.c
+index da00192..b756223 100644
+--- a/src/Create.c
++++ b/src/Create.c
 @@ -405,8 +405,7 @@ xtCreate(
      CompileCallbacks(widget);
  
@@ -589,9 +581,10 @@ diff -urp -x '*~' -x '*.orig' src/Create.c src/Create.c
      }
  
      wsize = widget_class->core_class.widget_size;
-diff -urp -x '*~' -x '*.orig' src/Display.c src/Display.c
---- src/Display.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Display.c	2011-02-02 22:30:12.523919842 -0800
+diff --git a/src/Display.c b/src/Display.c
+index 4ccf079..72ed668 100644
+--- a/src/Display.c
++++ b/src/Display.c
 @@ -323,12 +323,15 @@ _XtAppInit(
   * Save away argv and argc so we can set the properties later
   */
@@ -614,9 +607,10 @@ diff -urp -x '*~' -x '*.orig' src/Display.c src/Display.c
  
      *app_context_return = XtCreateApplicationContext();
  
-diff -urp -x '*~' -x '*.orig' src/Event.c src/Event.c
---- src/Event.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Event.c	2011-02-02 22:30:12.524445626 -0800
+diff --git a/src/Event.c b/src/Event.c
+index 11823d6..7c15e83 100644
+--- a/src/Event.c
++++ b/src/Event.c
 @@ -563,6 +563,14 @@ void XtRegisterDrawable(
      UNLOCK_APP(app);
  }
@@ -647,9 +641,10 @@ diff -urp -x '*~' -x '*.orig' src/Event.c src/Event.c
  static void ExpandWWTable(
      register WWTable tab)
  {
-diff -urp -x '*~' -x '*.orig' src/Geometry.c src/Geometry.c
---- src/Geometry.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Geometry.c	2011-02-02 22:30:12.524790396 -0800
+diff --git a/src/Geometry.c b/src/Geometry.c
+index d64c8e2..c8ddbd6 100644
+--- a/src/Geometry.c
++++ b/src/Geometry.c
 @@ -330,6 +330,12 @@ _XtMakeGeometryRequest (
  	} else {
  	    returnCode = (*manager)(widget, request, reply);
@@ -663,10 +658,11 @@ diff -urp -x '*~' -x '*.orig' src/Geometry.c src/Geometry.c
      }
  
      /*
-diff -urp -x '*~' -x '*.orig' src/Initialize.c src/Initialize.c
---- src/Initialize.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Initialize.c	2011-02-02 22:30:12.525183805 -0800
-@@ -478,7 +478,7 @@ static String _XtDefaultLanguageProc(
+diff --git a/src/Initialize.c b/src/Initialize.c
+index 9783deb..2a5a8a8 100644
+--- a/src/Initialize.c
++++ b/src/Initialize.c
+@@ -473,7 +473,7 @@ static String _XtDefaultLanguageProc(
      if (! XSetLocaleModifiers(""))
  	XtWarning("X locale modifiers not supported, using default");
  
@@ -675,7 +671,7 @@ diff -urp -x '*~' -x '*.orig' src/Initialize.c src/Initialize.c
  }
  
  XtLanguageProc XtSetLanguageProc(
-@@ -999,8 +999,13 @@ Widget XtOpenApplication(XtAppContext *a
+@@ -994,8 +994,13 @@ Widget XtOpenApplication(XtAppContext *app_context_return,
  
      LOCK_APP(app_con);
      XtSetArg(args[num], XtNscreen, DefaultScreenOfDisplay(dpy)); num++;
@@ -691,9 +687,10 @@ diff -urp -x '*~' -x '*.orig' src/Initialize.c src/Initialize.c
  
      merged_args = XtMergeArgLists(args_in, num_args_in, args, num);
      num += num_args_in;
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2010-04-09 17:46:51.000000000 -0700
-+++ src/Makefile.am	2011-02-02 22:30:12.525351712 -0800
+diff --git a/src/Makefile.am b/src/Makefile.am
+index cf54a5c..a786d94 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
 @@ -74,7 +74,8 @@ DISTCLEANFILES = StringDefs.c
  
  libXt_la_LIBADD = @XT_LIBS@
@@ -703,10 +700,11 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +	-M $(top_srcdir)/../../mapfile-vers -lc
  
  #
- # The util directory contains a program that builds some of the sources. 
-diff -urp -x '*~' -x '*.orig' src/NextEvent.c src/NextEvent.c
---- src/NextEvent.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/NextEvent.c	2011-02-02 22:30:12.525957107 -0800
+ # The util directory contains a program that builds some of the sources.
+diff --git a/src/NextEvent.c b/src/NextEvent.c
+index b1f7bc7..c9b53db 100644
+--- a/src/NextEvent.c
++++ b/src/NextEvent.c
 @@ -347,6 +347,51 @@ static void AdjustTimes (
  #endif
  }
@@ -875,7 +873,7 @@ diff -urp -x '*~' -x '*.orig' src/NextEvent.c src/NextEvent.c
  	} /* timed out or input available */
  	break;
      }
-@@ -743,6 +840,33 @@ WaitLoop:
+@@ -750,6 +847,33 @@ WaitLoop:
  #define SeCallProc(ptr) \
      (*ptr->se_proc) (ptr->se_closure, (XtSignalId*)&ptr);
  
@@ -909,30 +907,3 @@ diff -urp -x '*~' -x '*.orig' src/NextEvent.c src/NextEvent.c
  /*
   * Public Routines
   */
-diff -urp -x '*~' -x '*.orig' src/Resources.c src/Resources.c
---- src/Resources.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Resources.c	2011-02-02 22:30:12.526402498 -0800
-@@ -944,7 +944,7 @@ static XtCacheRef *GetResources(
- 		    register XtTypedArg* arg = typed_args + typed[j] - 1;
- 		    register int i;
- 
--		    for (i = num_typed_args - typed[j]; i; i--, arg++) {
-+		    for (i = num_typed_args - typed[j]; i > 0; i--, arg++) {
- 			*arg = *(arg+1);
- 		    }
- 		    num_typed_args--;
-diff -urp -x '*~' -x '*.orig' src/Shell.c src/Shell.c
---- src/Shell.c	2010-10-06 22:58:48.000000000 -0700
-+++ src/Shell.c	2011-02-02 22:30:12.527326238 -0800
-@@ -2481,6 +2481,11 @@ static Boolean TopLevelSetValues(
- 		XFree((XPointer)icon_name.value);
- 	}
-     }
-+    /* fix for bug 1243761 - leob */
-+    else if (new->topLevel.iconic != old->topLevel.iconic) {
-+        if (new->topLevel.iconic)
-+            new->wm.wm_hints.initial_state = IconicState;
-+    }
-     return False;
- }
- 

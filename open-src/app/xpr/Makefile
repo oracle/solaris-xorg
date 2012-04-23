@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xpr Makefile
+# xpr - utility to print xwd window dump images
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,14 +33,15 @@ MODULE_PKGNAME=x11/x11-window-dump
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1c2c540d240def3ea65ff2030f059f8a
-TARBALL_SHA1 = 9dbd0ff136b612285e00d92d0c7675a4207b1c4a
+TARBALL_MD5   = 6101f04731ffd40803df80eca274ec4b
+TARBALL_SHA1  = 0645404e9aa2c9f979e4d006c483633bf6cfc2d9
+TARBALL_SHA256= fed98df31eb93d3dca4688cb535aabad06be572e70ace3b1685679c18dd86cb5
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6724753.patch
+SOURCE_PATCHES += 6724753.patch,-p1
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
 MODULE_LDFLAGS = -z ignore

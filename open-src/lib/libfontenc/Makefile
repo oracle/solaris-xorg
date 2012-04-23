@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# fontenc 1.x Makefile
+# libfontenc - font encoding table parser & mapping library
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libfontenc
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 11d3c292f05a90f6f67840a9e9c3d9b8
-TARBALL_SHA1 = ba158e4c10a1aff2351ef632def03dec0e0ee11e
+TARBALL_MD5   = a2a861f142c3b4367f14fc14239fc1f7
+TARBALL_SHA1  = 90bdd53d75585dd0f06ad7bc23faccd8a01bb733
+TARBALL_SHA256= de72812f1856bb63bd2226ec8c2e2301931d3c72bd0f08b0d63a0cdf0722017f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

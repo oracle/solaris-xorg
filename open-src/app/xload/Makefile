@@ -37,17 +37,18 @@ MODULE_PKGCLASS=Applications/System Utilities
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5f6e8c54da51ad0e751abf54980b0ef1
-TARBALL_SHA1 = dcad93d769b0614466f1e48fed5dd956349cfcfb
+TARBALL_MD5   = ccc788704d66fcbe4e3e8755a600264c
+TARBALL_SHA1  = 50f6ee958e6fb609af92cf9403e7bd68720575cb
+TARBALL_SHA256= de12f0991ef124c291e0416ca8417073fe47328e9221d4be8e4076fcee151450
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 7117061.patch,-p1
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xload.man
 MODULE_STABILITY=Committed
 
 # Specify which cpp to use instead of depending on builder's $PATH

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xdmcp 1.x Makefile
+# X Display Manager Control Protocol (XDMCP) library (client & server sides)
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXdmcp
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 762b6bbaff7b7d0831ddb4f072f939a5
-TARBALL_SHA1 = 28132db24727552f77e998e6a6798a5b9b30789f
+TARBALL_MD5   = b94af6cef211cf3ee256f7e81f70fcd9
+TARBALL_SHA1  = 3b63e8fc1600c51d9897d017da190fc6c16245b6
+TARBALL_SHA256= 9ace6d4230f9dce4ed090692f82f613253ada8f887b23b3d8ff3dd4e3a7c118e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

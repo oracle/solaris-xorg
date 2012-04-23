@@ -1,6 +1,8 @@
---- doc/Makefile.am	2008-08-14 01:18:25.000000000 -0700
-+++ doc/Makefile.am	2010-10-13 08:40:57.478825000 -0700
-@@ -29,8 +29,8 @@
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+index dbe2e0b..fff55cc 100644
+--- a/doc/Makefile.am
++++ b/doc/Makefile.am
+@@ -31,8 +31,8 @@ install-data-local:
  	  $(mkinstalldirs) '$(DESTDIR)$(htmldir)'; \
  	fi
  	@for d in $(docdirs); do \

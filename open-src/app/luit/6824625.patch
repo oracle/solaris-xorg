@@ -1,6 +1,7 @@
-diff -urp -x '*~' -x '*.orig' luit.c luit.c
---- luit.c	2010-07-01 10:55:09.000000000 -0700
-+++ luit.c	2011-01-25 08:15:02.448685019 -0800
+diff --git a/luit.c b/luit.c
+index 0ece7b6..a0b62cb 100644
+--- a/luit.c
++++ b/luit.c
 @@ -25,6 +25,7 @@ THE SOFTWARE.
  #endif
  
@@ -29,7 +30,7 @@ diff -urp -x '*~' -x '*.orig' luit.c luit.c
  
      rc = setRawTermios();
      if (rc < 0)
-@@ -627,6 +631,10 @@ child(char *line, char *path, char *cons
+@@ -627,6 +631,10 @@ child(char *line, char *path, char *const argv[])
  	write_waitpipe(c2p_waitpipe);
      }
  
@@ -40,9 +41,10 @@ diff -urp -x '*~' -x '*.orig' luit.c luit.c
      if (tty != 0)
  	dup2(tty, 0);
      if (tty != 1)
-diff -urp -x '*~' -x '*.orig' sys.c sys.c
---- sys.c	2010-07-01 10:55:09.000000000 -0700
-+++ sys.c	2011-01-25 08:15:02.448290768 -0800
+diff --git a/sys.c b/sys.c
+index 8463b05..adda4b5 100644
+--- a/sys.c
++++ b/sys.c
 @@ -24,6 +24,7 @@ THE SOFTWARE.
  # include "config.h"
  #endif
@@ -66,10 +68,11 @@ diff -urp -x '*~' -x '*.orig' sys.c sys.c
  setRawTermios(void)
  {
      struct termios tio;
-diff -urp -x '*~' -x '*.orig' sys.h sys.h
---- sys.h	2010-07-01 10:55:09.000000000 -0700
-+++ sys.h	2011-01-25 08:15:02.447938807 -0800
-@@ -38,6 +38,7 @@ int installHandler(int signum, void (*ha
+diff --git a/sys.h b/sys.h
+index 5bfe0d2..3d95f20 100644
+--- a/sys.h
++++ b/sys.h
+@@ -38,6 +38,7 @@ int installHandler(int signum, void (*handler) (int));
  int copyTermios(int sfd, int dfd);
  int saveTermios(void);
  int restoreTermios(void);

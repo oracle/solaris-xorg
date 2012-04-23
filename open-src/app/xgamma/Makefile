@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xgamma 1.x Makefile
+# xgamma - monitor gamma correction setting application
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xgamma
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 34d22b130bffd8aa857eae6d9da4bbb1
-TARBALL_SHA1 = c4124b42618c6d4bc9eb9690348b5d60e4c9daed
+TARBALL_MD5   = c06067f572bc4a5298f324f27340da95
+TARBALL_SHA1  = 9cd3272fd24f51b75223cf9c59949ded6df04800
+TARBALL_SHA256= e322a2fea80d559c09d6bc285ebe1a9e454dbeae2a07116cb7d2207db9d2c310
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2005/189
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xgamma.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

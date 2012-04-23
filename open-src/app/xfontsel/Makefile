@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xfontsel 1.x Makefile
+# xfontsel - simple X11 font selection/display application
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,18 +29,18 @@
 MODULE_NAME=xfontsel
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 299fabe7d7be92b6572d814895ce3bb1
-TARBALL_SHA1 = df2eb12b90339b7091bd362b095344015ec8b6fa
+TARBALL_MD5   = 3f7e8ba9e34589a07d190575ae6c86cf
+TARBALL_SHA1  = 8e3da9d050ad71531bfeb98d5f1071c7b392b3bd
+TARBALL_SHA256= 25491e9b7762607299f8a7099c97452d9b83e92266f8b0579b380ca01e5a5f7e
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	xfontsel.patch
+SOURCE_PATCHES  = xfontsel.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xfontsel.man
 MODULE_STABILITY=Committed
 
 MODULE_CPPFLAGS= -DXLOCALEDIR=\"$(XLOCALEDIR)\"

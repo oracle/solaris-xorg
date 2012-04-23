@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xwud 1.x Makefile
+# xwud - simple application to display window dump images saved by xwd
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xwud
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a37020053e8ee32c6fd1145242d53ee3
-TARBALL_SHA1 = 2e706d50c7039e3daa4963d36ab703e48aa652ed
+TARBALL_MD5   = 3025b152b4f13fdffd0c46d0be587be6
+TARBALL_SHA1  = 786cd4b18bf576fae3ffd417545b1394b27c7f06
+TARBALL_SHA256= d6b3a09ccfe750868e26bd2384900ab5ff0d434f7f40cd272a50eda8aaa1f8bd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2008/108
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xwud.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

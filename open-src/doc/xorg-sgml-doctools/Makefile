@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,11 +31,12 @@ MODULE_PKGTAIL=xorg-docs
 MODULE_PKGTAIL_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.8
+MODULE_VERSION=1.10.99.901
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c6ad2cca27c24115e3e74a34beb9f4d5
-TARBALL_SHA1 = 524c994832508d3097c1a42bd3623251c9f87d77
+TARBALL_MD5   = d96d4a2cac9265d6f3638232431c75c9
+TARBALL_SHA1  = 4269ab3d0cf49a2a80503e30bb6224e0657147fe
+TARBALL_SHA256= 57666a83f1c08358bb801b17902b5ca48e85a33f733fefc1b32a99583ef19604
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

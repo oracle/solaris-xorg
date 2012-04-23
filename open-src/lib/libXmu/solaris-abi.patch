@@ -58,6 +58,6 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  
 -$(LINTLIB): $(libXmu_la_SOURCES)
 +$(LINTLIB): $(libXmu_la_SOURCES) $(libXmuu_la_SOURCES)
- 	$(LINT) -y -oXmu -x $(ALL_LINT_FLAGS) $(libXmu_la_SOURCES) 
+ 	$(LINT) -y -oXmu -x $(ALL_LINT_FLAGS) $(libXmu_la_SOURCES)
  
  $(LINTLIBUU): $(libXmuu_la_SOURCES)

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# XvMC 1.x Makefile
+# libXvMC - Xlib-based client library for X-Video Motion Compensation extension
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXvMC
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bfc7524646f890dfc30dea1d676004a3
-TARBALL_SHA1 = 4ace7e7ce6b646b5715b2efa561affc89bc87f91
+TARBALL_MD5   = 3340c99ff556ea2457b4be47f5cb96fa
+TARBALL_SHA1  = b8ee482514dfdf226694c830bdf292cc14e1cb91
+TARBALL_SHA256= 28f085fc8518a3dadfe355360705d50153051f09898093e69af806c0b437cea3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -1,4 +1,4 @@
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,10 +43,10 @@ index b1408f2..54d64ab 100644
  	config \
  	hw \
 diff --git a/Xext/security.c b/Xext/security.c
-index df5bd58..8825bb6 100644
+index 3699510..843a33a 100644
 --- a/Xext/security.c
 +++ b/Xext/security.c
-@@ -1138,3 +1138,27 @@ SecurityExtensionInit(INITARGS)
+@@ -1082,3 +1082,27 @@ SecurityExtensionInit(INITARGS)
      /* Label objects that were created before we could register ourself */
      SecurityLabelInitial();
  }
@@ -75,10 +75,10 @@ index df5bd58..8825bb6 100644
 +    return oldLevel;
 +}
 diff --git a/Xext/securitysrv.h b/Xext/securitysrv.h
-index 3d3894a..8b7317f 100644
+index 8904242..56dbfc6 100644
 --- a/Xext/securitysrv.h
 +++ b/Xext/securitysrv.h
-@@ -80,4 +80,8 @@ typedef struct {
+@@ -79,4 +79,8 @@ typedef struct {
  /* Give this value or higher to the -audit option to get security messages */
  #define SECURITY_AUDIT_LEVEL 4
  
@@ -86,9 +86,9 @@ index 3d3894a..8b7317f 100644
 +extern _X_EXPORT unsigned int getClientTrustLevel(ClientPtr client);
 +extern _X_EXPORT unsigned int setClientTrustLevel(ClientPtr client, unsigned int newLevel);
 +
- #endif /* _SECURITY_SRV_H */
+ #endif                          /* _SECURITY_SRV_H */
 diff --git a/configure.ac b/configure.ac
-index 460da17..c3b310d 100644
+index a7c8900..4ad4011 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -221,6 +221,14 @@ dnl Find the math libary, then check for cbrt function in it.
@@ -140,10 +140,10 @@ index 460da17..c3b310d 100644
 +# Add Sun Trusted Extensions extension
 +AC_OUTPUT([tsol/Makefile])
 diff --git a/dix/dispatch.c b/dix/dispatch.c
-index 44c2433..e710ea4 100644
+index 104dcc9..5a80c13 100644
 --- a/dix/dispatch.c
 +++ b/dix/dispatch.c
-@@ -74,8 +74,8 @@ Equipment Corporation.
+@@ -73,8 +73,8 @@ Equipment Corporation.
  
  ******************************************************************/
  
@@ -154,7 +154,7 @@ index 44c2433..e710ea4 100644
   *
   * Permission is hereby granted, free of charge, to any person obtaining a
   * copy of this software and associated documentation files (the "Software"),
-@@ -163,6 +163,10 @@ int connBlockScreenStart;
+@@ -162,6 +162,10 @@ int connBlockScreenStart;
  
  static void KillAllClients(void);
  
@@ -162,10 +162,10 @@ index 44c2433..e710ea4 100644
 +SecurityHookPtr pSecHook = NULL;
 +#endif /* TSOL */
 +
- static int nextFreeClientID; /* always MIN free client ID */
+ static int nextFreeClientID;    /* always MIN free client ID */
  
- static int	nClients;	/* number of authorized clients */
-@@ -904,7 +908,12 @@ ProcCirculateWindow(ClientPtr client)
+ static int nClients;            /* number of authorized clients */
+@@ -884,7 +888,12 @@ ProcCirculateWindow(ClientPtr client)
      return Success;
  }
  
@@ -176,11 +176,11 @@ index 44c2433..e710ea4 100644
 +static
 +#endif
 +int
- GetGeometry(ClientPtr client, xGetGeometryReply *rep)
+ GetGeometry(ClientPtr client, xGetGeometryReply * rep)
  {
      DrawablePtr pDraw;
-@@ -1997,7 +2006,12 @@ ProcPutImage(ClientPtr client)
-      return Success;
+@@ -1964,7 +1973,12 @@ ProcPutImage(ClientPtr client)
+     return Success;
  }
  
 -static int
@@ -190,14 +190,14 @@ index 44c2433..e710ea4 100644
 +static
 +#endif
 +int
- DoGetImage(ClientPtr client, int format, Drawable drawable, 
-            int x, int y, int width, int height, 
-            Mask planemask, xGetImageReply **im_return)
+ DoGetImage(ClientPtr client, int format, Drawable drawable,
+            int x, int y, int width, int height,
+            Mask planemask, xGetImageReply ** im_return)
 diff --git a/dix/events.c b/dix/events.c
-index 04d7fb5..e39b4f9 100644
+index 0e4ba86..66e9104 100644
 --- a/dix/events.c
 +++ b/dix/events.c
-@@ -2842,6 +2842,9 @@ PointInBorderSize(WindowPtr pWin, int x, int y)
+@@ -2723,6 +2723,9 @@ PointInBorderSize(WindowPtr pWin, int x, int y)
   *
   * @returns the window at the given coordinates.
   */
@@ -208,10 +208,10 @@ index 04d7fb5..e39b4f9 100644
  XYToWindow(SpritePtr pSprite, int x, int y)
  {
 diff --git a/dix/window.c b/dix/window.c
-index 823294b..78cc845 100644
+index a31e78f..4cf5fdf 100644
 --- a/dix/window.c
 +++ b/dix/window.c
-@@ -97,6 +97,33 @@ Equipment Corporation.
+@@ -96,6 +96,34 @@ Equipment Corporation.
  
  ******************************************************************/
  
@@ -242,10 +242,11 @@ index 823294b..78cc845 100644
 + * or other dealings in this Software without prior written authorization
 + * of the copyright holder.
 + */ 
- 
++
  #ifdef HAVE_DIX_CONFIG_H
  #include <dix-config.h>
-@@ -183,6 +210,11 @@ static Bool TileScreenSaver(ScreenPtr pScreen, int kind);
+ #endif
+@@ -180,6 +208,11 @@ static Bool TileScreenSaver(ScreenPtr pScreen, int kind);
  
  #define SubStrSend(pWin,pParent) (StrSend(pWin) || SubSend(pParent))
  
@@ -257,7 +258,7 @@ index 823294b..78cc845 100644
  #ifdef COMPOSITE
  static const char *overlay_win_name = "<composite overlay>";
  #endif
-@@ -1934,7 +1966,12 @@ IsSiblingAboveMe(
+@@ -1833,7 +1866,12 @@ IsSiblingAboveMe(WindowPtr pMe, WindowPtr pSib)
      return Below;
  }
  
@@ -268,10 +269,10 @@ index 823294b..78cc845 100644
 +static
 +#endif
 +BoxPtr
- WindowExtents(
-     WindowPtr pWin,
-     BoxPtr pBox)
-@@ -1964,7 +2001,12 @@ MakeBoundingRegion (
+ WindowExtents(WindowPtr pWin, BoxPtr pBox)
+ {
+     pBox->x1 = pWin->drawable.x - wBorderWidth(pWin);
+@@ -1860,7 +1898,12 @@ MakeBoundingRegion(WindowPtr pWin, BoxPtr pBox)
      return pRgn;
  }
  
@@ -282,10 +283,10 @@ index 823294b..78cc845 100644
 +static
 +#endif
 +Bool
- ShapeOverlap (
-     WindowPtr	pWin,
-     BoxPtr	pWinBox,
-@@ -2164,7 +2206,12 @@ WhereDoIGoInTheStack(
+ ShapeOverlap(WindowPtr pWin, BoxPtr pWinBox, WindowPtr pSib, BoxPtr pSibBox)
+ {
+     RegionPtr pWinRgn, pSibRgn;
+@@ -2036,7 +2079,12 @@ WhereDoIGoInTheStack(WindowPtr pWin,
      }
  }
  
@@ -296,19 +297,19 @@ index 823294b..78cc845 100644
 +static
 +#endif
 +void
- ReflectStackChange(
-     WindowPtr pWin,
-     WindowPtr pSib,
+ ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind kind)
+ {
+ /* Note that pSib might be NULL */
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index 87004df..1455dae 100644
+index b38d265..4299257 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
 @@ -126,6 +126,7 @@ static ModuleDefault ModuleDefaults[] = {
-     {.name = "dri2",     .toLoad = TRUE,    .load_opt=NULL},
+     {.name = "dri2",.toLoad = TRUE,.load_opt = NULL},
  #endif
-     {.name = "ia",       .toLoad = TRUE,    .load_opt=NULL},
-+    {.name = "xtsol",    .toLoad = TRUE,    .load_opt=NULL},
-     {.name = NULL,       .toLoad = FALSE,   .load_opt=NULL}
+     {.name = "ia",.toLoad = TRUE,.load_opt = NULL},
++    {.name = "xtsol",.toLoad = TRUE,.load_opt = NULL},
+     {.name = NULL,.toLoad = FALSE,.load_opt = NULL}
  };
  
 diff --git a/hw/xfree86/dixmods/Makefile.am b/hw/xfree86/dixmods/Makefile.am
@@ -328,30 +329,29 @@ index 02a6d0d..00f8021 100644
 +libxtsol_la_SOURCES = tsolmodule.c
 +endif
 diff --git a/include/dix.h b/include/dix.h
-index f3f68d3..45e4834 100644
+index d604e06..012a5a5 100644
 --- a/include/dix.h
 +++ b/include/dix.h
-@@ -172,6 +172,15 @@ extern _X_EXPORT void MarkClientException(
-     ClientPtr /*client*/);
+@@ -164,6 +164,14 @@ extern _X_EXPORT void MarkClientException(ClientPtr /*client */ );
  
  extern _X_HIDDEN Bool CreateConnectionBlock(void);
-+ 
+ 
 +#ifdef TSOL
 +extern _X_EXPORT int DoGetImage(ClientPtr client, int format, Drawable drawable, 
-+		      int x, int y, int width, int height, 
-+		      Mask planemask, xGetImageReply **im_return);
++                      int x, int y, int width, int height, 
++                      Mask planemask, xGetImageReply **im_return);
 +
 +extern _X_EXPORT int GetGeometry(ClientPtr client, xGetGeometryReply *rep);
 +#endif
 +
  /* dixutils.c */
  
- extern _X_EXPORT int CompareISOLatin1Lowered(
+ extern _X_EXPORT int CompareISOLatin1Lowered(const unsigned char * /*a */ ,
 diff --git a/include/extnsionst.h b/include/extnsionst.h
-index aeefa99..de5e448 100644
+index e825236..5417c57 100644
 --- a/include/extnsionst.h
 +++ b/include/extnsionst.h
-@@ -45,6 +45,34 @@ SOFTWARE.
+@@ -44,6 +44,34 @@ SOFTWARE.
  
  ******************************************************************/
  
@@ -384,9 +384,9 @@ index aeefa99..de5e448 100644
 + */ 
 +
  #ifndef EXTENSIONSTRUCT_H
- #define EXTENSIONSTRUCT_H 
+ #define EXTENSIONSTRUCT_H
  
-@@ -55,6 +83,10 @@ SOFTWARE.
+@@ -54,6 +82,10 @@ SOFTWARE.
  #include "gc.h"
  #include "privates.h"
  
@@ -396,10 +396,10 @@ index aeefa99..de5e448 100644
 +
  typedef struct _ExtensionEntry {
      int index;
-     void (* CloseDown)(	/* called at server shutdown */
-@@ -108,5 +140,21 @@ extern _X_EXPORT Bool AddExtensionAlias(
- extern _X_EXPORT ExtensionEntry *CheckExtension(const char *extname);
- extern _X_EXPORT ExtensionEntry *GetExtensionEntry(int major);
+     void (*CloseDown) (         /* called at server shutdown */
+@@ -109,4 +141,20 @@ CheckExtension(const char *extname);
+ extern _X_EXPORT ExtensionEntry *
+ GetExtensionEntry(int major);
  
 +#ifdef TSOL
 +typedef struct
@@ -417,40 +417,40 @@ index aeefa99..de5e448 100644
 +
 +#endif /* TSOL */
 +
- #endif /* EXTENSIONSTRUCT_H */
- 
+ #endif                          /* EXTENSIONSTRUCT_H */
 diff --git a/include/input.h b/include/input.h
-index fb45617..93039c9 100644
+index d891fe5..63a7e79 100644
 --- a/include/input.h
 +++ b/include/input.h
-@@ -422,7 +422,7 @@ extern void NoteLedState(
-     int /*led*/,
-     Bool /*on*/);
+@@ -397,7 +397,7 @@ extern void NoteLedState(DeviceIntPtr /*keybd */ ,
+                          int /*led */ ,
+                          Bool /*on */ );
  
--extern void MaybeStopHint(
-+extern _X_EXPORT void MaybeStopHint(
-     DeviceIntPtr /*device*/,
-     ClientPtr /*client*/);
+-extern void MaybeStopHint(DeviceIntPtr /*device */ ,
++extern _X_EXPORT void MaybeStopHint(DeviceIntPtr /*device */ ,
+                           ClientPtr /*client */ );
  
+ extern void ProcessPointerEvent(InternalEvent * /* ev */ ,
 diff --git a/include/window.h b/include/window.h
-index e13598b..8860dc7 100644
+index 64c56ae..f3a8a37 100644
 --- a/include/window.h
 +++ b/include/window.h
-@@ -269,4 +269,9 @@ extern _X_EXPORT void EnableMapUnmapEvents(
+@@ -229,4 +229,10 @@ extern _X_EXPORT void EnableMapUnmapEvents(WindowPtr /* pWin */ );
  extern _X_EXPORT void SetRootClip(ScreenPtr pScreen, Bool enable);
  extern _X_EXPORT void PrintWindowTree(void);
  
 +#ifdef TSOL
 +# include "validate.h" /* needed for VTKind enum definition */
-+extern _X_EXPORT void ReflectStackChange(WindowPtr pWin, WindowPtr pSib, VTKind  kind);
++extern _X_EXPORT void ReflectStackChange(WindowPtr pWin, WindowPtr pSib,
++                                         VTKind  kind);
 +#endif
 +
- #endif /* WINDOW_H */
+ #endif                          /* WINDOW_H */
 diff --git a/mi/miinitext.c b/mi/miinitext.c
-index b3c29fb..f3d5a33 100644
+index 433aec7..08b9309 100644
 --- a/mi/miinitext.c
 +++ b/mi/miinitext.c
-@@ -66,6 +66,7 @@ SOFTWARE.
+@@ -65,6 +65,7 @@ SOFTWARE.
  #undef DAMAGE
  #undef COMPOSITE
  #undef MITSHM
@@ -458,7 +458,7 @@ index b3c29fb..f3d5a33 100644
  #endif
  
  #ifdef HAVE_XNEST_CONFIG_H
-@@ -157,6 +158,9 @@ extern Bool noGEExtension;
+@@ -158,6 +159,9 @@ extern Bool noGEExtension;
  #ifdef SolarisIAExtension
  Bool noIAExtension;
  #endif
@@ -468,7 +468,7 @@ index b3c29fb..f3d5a33 100644
  
  #ifndef XFree86LOADER
  #define INITARGS void
-@@ -192,6 +196,9 @@ typedef void (*InitExtension)(INITARGS);
+@@ -193,6 +197,9 @@ typedef void (*InitExtension) (INITARGS);
  #include <X11/extensions/interactive.h>
  #include "../IA/interactive_srv.h"
  #endif
@@ -478,7 +478,7 @@ index b3c29fb..f3d5a33 100644
  
  /* FIXME: this whole block of externs should be from the appropriate headers */
  #ifdef MITSHM
-@@ -315,6 +322,9 @@ static ExtensionToggle ExtensionToggleList[] =
+@@ -319,6 +326,9 @@ static ExtensionToggle ExtensionToggleList[] = {
  #ifdef SolarisIAExtension
      { IANAME /* "SolarisIA" */, &noIAExtension },
  #endif
@@ -486,25 +486,25 @@ index b3c29fb..f3d5a33 100644
 +    { TSOLNAME /* "SUN_TSOL" */, &noXTSolExtension },
 +#endif
  #ifdef RES
-     { "X-Resource", &noResExtension },
+     {"X-Resource", &noResExtension},
  #endif
-@@ -484,6 +494,11 @@ InitExtensions(int argc, char *argv[])
+@@ -512,6 +522,11 @@ InitExtensions(int argc, char *argv[])
  #ifdef SolarisIAExtension
      if (!noIAExtension) IAExtensionInit();
  #endif
 +#ifdef TSOL
 +    if (!noXTSolExtension) {
-+	TsolExtensionInit();
++        TsolExtensionInit();
 +    }
 +#endif
  }
  
- #else /* XFree86LOADER */
+ #else                           /* XFree86LOADER */
 diff --git a/os/connection.c b/os/connection.c
-index 0e557a5..bb911f4 100644
+index 1099752..f9ba2d7 100644
 --- a/os/connection.c
 +++ b/os/connection.c
-@@ -44,6 +44,33 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+@@ -43,6 +43,33 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  SOFTWARE.
  
  ******************************************************************/
@@ -538,9 +538,9 @@ index 0e557a5..bb911f4 100644
  /*****************************************************************
   *  Stuff to create connections --- OS dependent
   *
-@@ -255,6 +282,11 @@ static int		ListenTransCount;
+@@ -254,6 +281,11 @@ static int ListenTransCount;
  
- static void ErrorConnMax(XtransConnInfo /* trans_conn */);
+ static void ErrorConnMax(XtransConnInfo /* trans_conn */ );
  
 +#ifdef TSOL
 +#include "extnsionst.h"
@@ -548,18 +548,18 @@ index 0e557a5..bb911f4 100644
 +#endif /* TSOL */
 +
  static XtransConnInfo
- lookup_trans_conn (int fd)
+ lookup_trans_conn(int fd)
  {
-@@ -645,6 +677,12 @@ ClientAuthorized(ClientPtr client,
-     priv = (OsCommPtr)client->osPrivate;
+@@ -638,6 +670,12 @@ ClientAuthorized(ClientPtr client,
+     priv = (OsCommPtr) client->osPrivate;
      trans_conn = priv->trans_conn;
  
 +#ifdef TSOL
 +    if (pSecHook)
-+	auth_id = (*pSecHook->CheckAuthorization) (proto_n, auth_proto,
-+				   string_n, auth_string, client, &reason);
++        auth_id = (*pSecHook->CheckAuthorization) (proto_n, auth_proto,
++                                   string_n, auth_string, client, &reason);
 +    else
 +#endif /* TSOL */
      /* Allow any client to connect without authorization on a launchd socket,
         because it is securely created -- this prevents a race condition on launch */
-     if(trans_conn->flags & TRANS_NOXAUTH) {
+     if (trans_conn->flags & TRANS_NOXAUTH) {

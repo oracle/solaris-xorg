@@ -27,11 +27,12 @@
 MODULE_NAME=imake
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 48133c75bd77c127c7eff122e08ebbf6
-TARBALL_SHA1 = 23400fa4f5fa7601ccb00d11d17a58df473c8979
+TARBALL_MD5   = 797ec5dcad4df56eaafa0c701d6aa5ce
+TARBALL_SHA1  = 1fd3dca267d125ad86583d7f9663b6ff532cddd1
+TARBALL_SHA256= 99ce77ce73892d262522ee621032cef2fad2d30a36088b1305a156af4ee21cc1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xcmsdb 1.x Makefile
+# xcmsdb - Device Color Characterization utility
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a8f013229f7234d582e0ee2c89879e30
-TARBALL_SHA1 = 14df39b4d5518f551302c210131dcc5bac03f3ff
+TARBALL_MD5   = 5812be48cbbec1068e7b718eec801766
+TARBALL_SHA1  = a633f76af38ea40b33d55c3ac820fd19f17f9428
+TARBALL_SHA256= e460b9bee74200fac42294ae3762308b8c6024186d317f70a36acf41c338ba0e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xcmsdb.man
 MODULE_STABILITY=Committed
 
 # ARC cases that covered this module

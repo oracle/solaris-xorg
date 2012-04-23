@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xhost 1.x Makefile
+# xhost - utility for mananging X server access control lists
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,26 +33,24 @@ MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2be663a0afbcc0856c1591477d5bf32a
-TARBALL_SHA1 = b4fde9899861f1a97395f8c7197db00cc44242a7
+TARBALL_MD5   = a0fcd2cb6ddd9f378944cc6f4f83cd7c
+TARBALL_SHA1  = c9ad0447c709fc7a9a2afbbca712cf47fbb29757
+TARBALL_SHA256= 2870d19f3f4867ead5ba4e35bb73d1fa302be29d812c13e4195066c78d1f8850
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = xhost.patch manual.patch
+SOURCE_PATCHES += xhost.patch,-p1
+SOURCE_PATCHES += manual.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xhost.man
 MODULE_STABILITY=Committed
 
 # ARC cases that covered this module
 # PSARC/2001/108 X11 Over IPv6
 MODULE_ARC_CASES = PSARC/2001/108
-
-# ignore some unneeded dependencies that upstream includes:
-#   unreferenced object=libXau.so.6; unused dependency of /usr/bin/xhost
-MODULE_LDFLAGS = -z ignore
 
 MODULE_ADD_INSTALL_TARGETS = install_po
 

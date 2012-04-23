@@ -4,11 +4,13 @@ X Consortium Standard
 
 Robert W. Scheifler
 
-X Version 11, Release 6.8
+X Consortium
+
+X Version 11, Release 7.7
 
 Version 1.1
 
-Copyright   1989 X Consortium
+Copyright © 1989 X Consortium
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -20,7 +22,7 @@ so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE X
 CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
@@ -30,6 +32,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Except as contained in this notice, the name of the X Consortium shall not be
 used in advertising or otherwise to promote the sale, use or other dealings in
 this Software without prior written authorization from the X Consortium.
+
+X Window System is a trademark of The Open Group.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -198,37 +202,54 @@ Text. Note that none have Intermediate characters; however, a good parser will
 still deal with Intermediate characters in the event that additional encodings
 are later added to this list.
 
-{I}  94/  Description
-F    96
-4/02 94   7-bit ASCII graphics (ANSI X3.4-1968), Left half of ISO 8859 sets
-04/  94   Right half of JIS X0201-1976 (reaffirmed 1984), 8-Bit
-09        Alphanumeric-Katakana Code
-04/  94   Left half of JIS X0201-1976 (reaffirmed 1984), 8-Bit
-10        Alphanumeric-Katakana Code
-04/  96   Right half of ISO 8859-1, Latin alphabet No. 1
-01
-04/  96   Right half of ISO 8859-2, Latin alphabet No. 2
-02
-04/  96   Right half of ISO 8859-3, Latin alphabet No. 3
-03
-04/  96   Right half of ISO 8859-4, Latin alphabet No. 4
-04
-04/  96   Right half of ISO 8859-7, Latin/Greek alphabet
-06
-04/  96   Right half of ISO 8859-6, Latin/Arabic alphabet
-07
-04/  96   Right half of ISO 8859-8, Latin/Hebrew alphabet
-08
-04/  96   Right half of ISO 8859-5, Latin/Cyrillic alphabet
-12
-04/  96   Right half of ISO 8859-9, Latin alphabet No. 5
-13
-04/  942  GB2312-1980, China (PRC) Hanzi
-01
-04/  942  JIS X0208-1983, Japanese Graphic Character Set
-02
-04/  942  KS C5601-1987, Korean Graphic Character Set
-03
+┌────┬────┬───────────────────────────────────────────────────────────────────┐
+│{I} │94/ │Description                                                        │
+│F   │96  │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│4/02│94  │7-bit ASCII graphics (ANSI X3.4-1968), Left half of ISO 8859 sets  │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │94  │Right half of JIS X0201-1976 (reaffirmed 1984), 8-Bit              │
+│09  │    │Alphanumeric-Katakana Code                                         │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │94  │Left half of JIS X0201-1976 (reaffirmed 1984), 8-Bit               │
+│10  │    │Alphanumeric-Katakana Code                                         │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-1, Latin alphabet No. 1                     │
+│01  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-2, Latin alphabet No. 2                     │
+│02  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-3, Latin alphabet No. 3                     │
+│03  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-4, Latin alphabet No. 4                     │
+│04  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-7, Latin/Greek alphabet                     │
+│06  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-6, Latin/Arabic alphabet                    │
+│07  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-8, Latin/Hebrew alphabet                    │
+│08  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-5, Latin/Cyrillic alphabet                  │
+│12  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │96  │Right half of ISO 8859-9, Latin alphabet No. 5                     │
+│13  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │942 │GB2312-1980, China (PRC) Hanzi                                     │
+│01  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │942 │JIS X0208-1983, Japanese Graphic Character Set                     │
+│02  │    │                                                                   │
+├────┼────┼───────────────────────────────────────────────────────────────────┤
+│04/ │942 │KS C5601-1987, Korean Graphic Character Set                        │
+│03  │    │                                                                   │
+└────┴────┴───────────────────────────────────────────────────────────────────┘
 
 The sets listed as "Left half of ..." should always be defined as GL. The sets
 listed as "Right half of ..." should always be defined as GR. Other sets can be
@@ -333,21 +354,36 @@ Font Names
 The following CharSet names for the standard character set encodings are
 registered for use in font names under the X Logical Font Description:
 
-Name            Encoding Standard               Description
-ISO8859-1       ISO8859-1                       Latinalphabet No. 1
-ISO8859-2       ISO8859-2                       Latinalphabet No. 2
-ISO8859-3       ISO8859-3                       Latinalphabet No. 3
-ISO8859-4       ISO8859-4                       Latinalphabet No. 4
-ISO8859-5       ISO 8859-5                      Latin/Cyrillic alphabet
-ISO8859-6       ISO 8859-6                      Latin/Arabic alphabet
-ISO8859-7       ISO8859-7                       Latin/Greekalphabet
-ISO8859-8       ISO8859-8                       Latin/Hebrew alphabet
-ISO8859-9       ISO8859-9                       Latinalphabet No. 5
-JISX0201.1976-0 JIS X0201-1976 (reaffirmed      8-bit Alphanumeric-Katakana
-                1984)                           Code
-GB2312.1980-0   GB2312-1980, GL encoding        China (PRC) Hanzi
-JISX0208.1983-0 JIS X0208-1983, GL encoding     Japanese Graphic Character Set
-KSC5601.1987-0  KS C5601-1987, GL encoding      Korean Graphic Character Set
+┌───────────────┬──────────────────────────────┬──────────────────────────────┐
+│Name           │Encoding Standard             │Description                   │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-1      │ISO8859-1                     │Latinalphabet No. 1           │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-2      │ISO8859-2                     │Latinalphabet No. 2           │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-3      │ISO8859-3                     │Latinalphabet No. 3           │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-4      │ISO8859-4                     │Latinalphabet No. 4           │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-5      │ISO 8859-5                    │Latin/Cyrillic alphabet       │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-6      │ISO 8859-6                    │Latin/Arabic alphabet         │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-7      │ISO8859-7                     │Latin/Greekalphabet           │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-8      │ISO8859-8                     │Latin/Hebrew alphabet         │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│ISO8859-9      │ISO8859-9                     │Latinalphabet No. 5           │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│JISX0201.1976-0│JIS X0201-1976 (reaffirmed    │8-bit Alphanumeric-Katakana   │
+│               │1984)                         │Code                          │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│GB2312.1980-0  │GB2312-1980, GL encoding      │China (PRC) Hanzi             │
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│JISX0208.1983-0│JIS X0208-1983, GL encoding   │Japanese Graphic Character Set│
+├───────────────┼──────────────────────────────┼──────────────────────────────┤
+│KSC5601.1987-0 │KS C5601-1987, GL encoding    │Korean Graphic Character Set  │
+└───────────────┴──────────────────────────────┴──────────────────────────────┘
 
 Extensions
 

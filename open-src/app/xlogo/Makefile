@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlogo 1.x Makefile
+# xlogo - simple application to display the X Window System logo 
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xlogo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8149f95f5a0f04f404549363557eef41
-TARBALL_SHA1 = 5016e74ba16ac80f3eac1c97738a6afbfc8b3bdd
+TARBALL_MD5   = 4ce21861f7b9398805beba8b62d8ff8e
+TARBALL_SHA1  = 8087ca621c48506b26bb2cf3219a957b31537267
+TARBALL_SHA256= 17af6f4fb73e7310e087fbfe5d773bab2b0d6f37a894ae5ee32de4693af6ba92
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2008/177
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xlogo.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

@@ -1,4 +1,4 @@
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -18,18 +18,20 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
+
 Change .so version to match existing Solaris libraries, since there's
 no incompatible change since libFS.so.5
 
-diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
---- src/Makefile.am	2008-05-21 17:27:09.000000000 -0700
-+++ src/Makefile.am	2008-05-21 19:03:29.651500000 -0700
-@@ -35,7 +35,7 @@ libFS_la_LIBADD = $(FS_LIBS) $(XTRANS_LI
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 06e958f..c668d15 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -40,7 +40,7 @@ libFS_la_LIBADD = $(FS_LIBS)
  
  INCLUDES = -I$(top_srcdir)/include/X11/fonts
  
--libFS_la_LDFLAGS = -version-number 6:0:0 -no-undefined
-+libFS_la_LDFLAGS = -version-number 5 -no-undefined
+-libFS_la_LDFLAGS = -export-symbols-regex '^FS.*' -version-number 6:0:0 -no-undefined
++libFS_la_LDFLAGS = -M $(top_srcdir)/../../mapfile-vers -version-number 5 -no-undefined
  
  libFSincludedir = $(includedir)/X11/fonts
  libFSinclude_HEADERS = \

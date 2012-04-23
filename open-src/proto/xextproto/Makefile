@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,12 @@
 MODULE_NAME=xextproto
 
 # Version number (used in path names)
-MODULE_VERSION=7.2.0
+MODULE_VERSION=7.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 220732210ceffb01bf1caf970e3b1bfb
-TARBALL_SHA1 = a117fb9d7fdebee7af3f9e79efe9812e39e650a5
+TARBALL_MD5   = eaac343af094e6b608cf15cfba0f77c5
+TARBALL_SHA1  = f969e02009adf2d51fd1ba4583a859984728a461
+TARBALL_SHA256= 7c53b105407ef3b2eb180a361bd672c1814524a600166a0a7dbbe76b97556d1a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

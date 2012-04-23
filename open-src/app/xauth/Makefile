@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xauth 1.x Makefile
+# xauth - utility for managing cookies in .Xauthority files
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,12 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 105f5b00bb9293b3db36f7e500d4f950
-TARBALL_SHA1 = 10a68367ecc60a641b9aa89e6f24f7ca71f23874
+TARBALL_MD5   = cbcbd8f2156a53b609800bec4c6b6c0e
+TARBALL_SHA1  = 54f93f0539a98900c36c4f7c8ae933f77699dc7b
+TARBALL_SHA256= 84f78c08ebc6687e2e36c9ff1f5610988c6a03fc5bf51ef89aec4d155de3028d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

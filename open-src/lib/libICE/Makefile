@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# ICE 1.x Makefile
+# libICE - Inter-Client Exchange library
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libICE
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bb72a732b15e9dc25c3036559387eed5
-TARBALL_SHA1 = c7d0f4c5b0e999385445b8be1bc89aec4e5de71d
+TARBALL_MD5   = 471b5ca9f5562ac0d6eac7a0bf650738
+TARBALL_SHA1  = ddb14df8bbc43df7322978f5f9f802936e2a7324
+TARBALL_SHA256= 24a991284d02ff0c789bc8d11ad2e4dffe144cb70f24e28f9ce3e8b1ee08b71e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

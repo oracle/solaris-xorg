@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xdpyinfo Makefile
+# xdpyinfo - utility to print information about X11 display, server, extensions
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.3.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c52fda7bbc80e74b7839f29298cb1d77
-TARBALL_SHA1 = 5d53cd31afd40bdc4575b5347f2cda67f135f5f2
+TARBALL_MD5   = 1ef08f4c8d0e669c2edd49e4a1bf650d
+TARBALL_SHA1  = 39936ff600434614d3ee53038d814246a03f4acf
+TARBALL_SHA256= 23ee4944a32b5701b4379cb420729eb7a4dde54de2b5b006d4747855efd6d73f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xdpyinfo.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

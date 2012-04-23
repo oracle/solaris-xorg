@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# oclock 1.x Makefile
+# oclock - round shaped window clock application
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 353d939113901ea3cdcf1c0369b522e4
-TARBALL_SHA1 = ba606d39fba6021c4db76d79751779f7b5c862e9
+TARBALL_MD5   = f73ad0fa3fda1efe1036e1f48f8a3953
+TARBALL_SHA1  = 1aa05864019a55610aca5471c5206858dde9a34a
+TARBALL_SHA256= 54f5fb85f5828705683f457e559fb18753332db15ae82da561b0ae5a63915091
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/oclock.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

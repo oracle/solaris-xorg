@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xev 1.x Makefile
+# xev - X11 event dumping tool
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,12 @@ MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 515cfd1fe857b66abe43ec3343634954
-TARBALL_SHA1 = 77dcbdaa2046db56f31936f921843bd05df2255f
+TARBALL_MD5   = 2727c72f3eba0c23f8f6b2e618d195a2
+TARBALL_SHA1  = 6b05706ed39382b5d08c5351c00ba7e127709eec
+TARBALL_SHA256= 3786a77dab17741d508d5d117a0ff33bb6eabf93e0935388b5f920bfcf2fb38f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,7 +49,7 @@ SOURCE_PATCHES =
 MODULE_ARC_CASES = PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xev.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

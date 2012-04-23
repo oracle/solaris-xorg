@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,12 @@
 MODULE_NAME=bigreqsproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6f6c24436c2b3ab235eb14a85b9aaacf
-TARBALL_SHA1 = 2db1d1e98958eee4d6cae0f68dbd03b2ec1018ce
+TARBALL_MD5   = 1a05fb01fa1d5198894c931cf925c025
+TARBALL_SHA1  = ef1765eeb5e9e38d080225fe6a64ed7cd2984b46
+TARBALL_SHA256= 462116ab44e41d8121bfde947321950370b285a5316612b8fce8334d50751b1e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xtrans 1.x Makefile
+# libxtrans - shared source code for TCP/pipe/socket transport
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,16 +36,17 @@ MODULE_PKGCLASS=Development/X11
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.6
+MODULE_VERSION=1.2.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c66f9ffd2da4fb012220c6c40ebc7609
-TARBALL_SHA1 = 99f019a6e6d4d2b8274c4a27f9c8482c7fc64e85
+TARBALL_MD5   = 84c66908cf003ad8c272b0eecbdbaee3
+TARBALL_SHA1  = b6ed421edf577816f6e641e1846dc0bff337676c
+TARBALL_SHA256= 7f811191ba70a34a9994d165ea11a239e52c527f039b6e7f5011588f075fe1a6
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = inetv6.patch \
-	tsol-unix-domain.patch \
-	Xtranslc-7053010.patch
+SOURCE_PATCHES  = inetv6.patch,-p1
+SOURCE_PATCHES += tsol-unix-domain.patch,-p1
+
 # Library name (used for specfiles/mapfiles)
 LIBNAME=xtrans
 

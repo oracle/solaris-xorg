@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# SM 1.x Makefile
+# Session Management protocol library
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,15 @@
 MODULE_NAME=libSM
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e78c447bf1790552b644eca81b542742
-TARBALL_SHA1 = f78bc72f0b3ec26cbf980f84f014422ba854544d
+TARBALL_MD5   = 766de9d1e1ecf8bf74cebe2111d8e2bd
+TARBALL_SHA1  = 8d354a165e330022ffd3606aba562b8c8154213d
+TARBALL_SHA256= 93c11d569c64f40723b93b44af1efb474a0cfe92573b0c8c330343cabb897f1d
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = pkgconfig.patch,-p1
+SOURCE_PATCHES =
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=SM

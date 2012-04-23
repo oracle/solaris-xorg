@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,7 +24,7 @@
 7010804 Xorg should audit connections and disconnections.
 
 diff --git a/configure.ac b/configure.ac
-index 6de92b4..c6ce0fc 100644
+index a12783c..3047b2a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -306,6 +306,12 @@ AC_CHECK_HEADER([execinfo.h],[
@@ -41,17 +41,17 @@ index 6de92b4..c6ce0fc 100644
  dnl Bus options and CPU capabilities.  Replaces logic in
  dnl hw/xfree86/os-support/bus/Makefile.am, among others.
 diff --git a/dix/main.c b/dix/main.c
-index 16575ce..94be6a9 100644
+index 70dcc94..4563cb3 100644
 --- a/dix/main.c
 +++ b/dix/main.c
-@@ -201,6 +201,7 @@ int main(int argc, char *argv[], char *envp[])
- 	dixResetRegistry();
- 	ResetFontPrivateIndex();
- 	InitCallbackManager();
-+	OSAuditInit(); /* Must be after InitCallbackManager() */
- 	InitOutput(&screenInfo, argc, argv);
+@@ -200,6 +200,7 @@ main(int argc, char *argv[], char *envp[])
+         dixResetRegistry();
+         ResetFontPrivateIndex();
+         InitCallbackManager();
++        OSAuditInit(); /* Must be after InitCallbackManager() */
+         InitOutput(&screenInfo, argc, argv);
  
- 	if (screenInfo.numScreens < 1)
+         if (screenInfo.numScreens < 1)
 diff --git a/include/dix-config.h.in b/include/dix-config.h.in
 index 3fb6413..93f5ce5 100644
 --- a/include/dix-config.h.in
@@ -67,17 +67,18 @@ index 3fb6413..93f5ce5 100644
  #undef HAVE_LIBM
  
 diff --git a/include/os.h b/include/os.h
-index 48ce329..e0fd97c 100644
+index 4b5b440..9ecdfa9 100644
 --- a/include/os.h
 +++ b/include/os.h
-@@ -560,4 +560,7 @@ extern _X_EXPORT void LogPrintMarkers(void);
- 
- extern _X_EXPORT void xorg_backtrace(void);
+@@ -652,4 +652,8 @@ LogPrintMarkers(void);
+ extern _X_EXPORT void
+ xorg_backtrace(void);
  
 +/* in osaudit.c */
-+extern void OSAuditInit (void);
++extern void
++OSAuditInit (void);
 +
- #endif /* OS_H */
+ #endif                          /* OS_H */
 diff --git a/os/Makefile.am b/os/Makefile.am
 index 8891485..c4825ad 100644
 --- a/os/Makefile.am

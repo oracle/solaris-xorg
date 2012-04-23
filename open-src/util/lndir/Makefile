@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,11 +39,12 @@ MODULE_PKGCLASS_SET=yes
 MODULE_ARC_CASES = PSARC/2010/219
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 619acbb2ed766d7762f02328513b1f72
-TARBALL_SHA1 = bad5a03b82cd817e4a2a7d2e83b820326fb2a7b7
+TARBALL_MD5   = a47bcd6cecda1a6ebd3395926ea4f53a
+TARBALL_SHA1  = fc71a6ff2cc0a1065cfb608796ffd6b4f0ce76fe
+TARBALL_SHA256= 49f4fab0de8d418db4ce80dad34e9b879a4199f3e554253a8e1ab68f7c7cb65d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

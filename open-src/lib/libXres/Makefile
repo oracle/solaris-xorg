@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# libXres 1.x Makefile
+# libXres - Xlib-based client library for Xinerama extension protocol
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXres
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d08f0b6df3f96c051637d37009f4e55a
-TARBALL_SHA1 = d3a36f9b6ae430da91f2cbae409916f605074195
+TARBALL_MD5   = 80d0c6d8522fa7a645e4f522e9a9cd20
+TARBALL_SHA1  = 31a9b7d4f7a978de36c6f1c867dced29bfe7ef0f
+TARBALL_SHA256= ff8661c925e8b182f98ae98f02bbd93c55259ef7f34a92c1a126b6074ebde890
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers

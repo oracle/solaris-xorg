@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xcursorgen 1.x Makefile
+# xcursorgen - prepares X11 cursor sets for use with libXcursor
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,17 +37,18 @@ MODULE_PKGCLASS=Applications/Graphics and Imaging
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 731c39ea88217c12ddd37f8627d97f3f
-TARBALL_SHA1 = 244c180aae8cc07175b93f314d5bbbf24171658a
+TARBALL_MD5   = 09f56978a62854534deacc8aa8ff3031
+TARBALL_SHA1  = 1d0ca82422d328522b06b218f86b5901a7d5521b
+TARBALL_SHA256= bc7171a0fa212da866fca2301241630e2009aea8c4ddb75f21b51a31c2e4c581
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xcursorgen.man
 MODULE_STABILITY=Volatile
 
 # ARC cases that covered this module

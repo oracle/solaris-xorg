@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# luit 1.x Makefile
+# luit - character set encoding filter for terminal emulators like xterm
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,16 @@
 MODULE_NAME=luit
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cb9377b09e562e4084cc614a44df2641
-TARBALL_SHA1 = fa974b417f6b65c241398d8d011207c6facb0766
+TARBALL_MD5   = c4a3664e08e5a47c120ff9263ee2f20c
+TARBALL_SHA1  = 3130c14d7267cecce0ba2280643844b48cca49b0
+TARBALL_SHA256= 30b0e787cb07a0f504b70f1d6123930522111ce9d4276f6683a69b322b49c636
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-man.patch \
-	remove-zlib.patch,-p1 \
-	6824625.patch
+SOURCE_PATCHES += solaris-man.patch,-p1
+SOURCE_PATCHES += 6824625.patch,-p1
 
 # Need to rebuild configure after patching configure.ac in remove-zlib.patch
 AUTORECONF=yes

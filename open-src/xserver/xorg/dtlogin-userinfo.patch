@@ -1,4 +1,4 @@
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -18,8 +18,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
+
+Integration of Display Manager (gdm/xdm/etc.) to X server communication pipe
+with core server code - see sun-src/os/dtlogin.c for the main implementation.
+
 diff --git a/configure.ac b/configure.ac
-index c4262ef..9e07c44 100644
+index 3047b2a..1ff432f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1457,6 +1457,7 @@ PKG_CHECK_MODULES([XSERVERLIBS], [$REQUIRED_LIBS])
@@ -31,10 +35,10 @@ index c4262ef..9e07c44 100644
  AC_SUBST([XSERVER_SYS_LIBS])
  
 diff --git a/dix/main.c b/dix/main.c
-index 94be6a9..5631d02 100644
+index 4563cb3..f9ecfa7 100644
 --- a/dix/main.c
 +++ b/dix/main.c
-@@ -116,6 +116,11 @@ Equipment Corporation.
+@@ -115,6 +115,11 @@ Equipment Corporation.
  #include "dpmsproc.h"
  #endif
  
@@ -46,32 +50,32 @@ index 94be6a9..5631d02 100644
  extern void Dispatch(void);
  
  #ifdef XQUARTZ
-@@ -164,6 +169,13 @@ int main(int argc, char *argv[], char *envp[])
- 	InitBlockAndWakeupHandlers();
- 	/* Perform any operating system dependent initializations you'd like */
- 	OsInit();
+@@ -164,6 +169,13 @@ main(int argc, char *argv[], char *envp[])
+         InitBlockAndWakeupHandlers();
+         /* Perform any operating system dependent initializations you'd like */
+         OsInit();
 +
 +#ifdef SUNSOFT
-+	/* Create pipe for dtlogin authentication info before we tell dtlogin 
-+	   we're done and ready for it to run. */
-+	DtloginInit ();
++        /* Create pipe for dtlogin authentication info before we tell dtlogin 
++           we're done and ready for it to run. */
++        DtloginInit ();
 +#endif
 +
- 	if(serverGeneration == 1)
- 	{
- 	    CreateWellKnownSockets();
-@@ -294,6 +306,11 @@ int main(int argc, char *argv[], char *envp[])
- 	pthread_mutex_unlock(&serverRunningMutex);
+         if (serverGeneration == 1) {
+             CreateWellKnownSockets();
+             for (i = 1; i < MAXCLIENTS; i++)
+@@ -295,6 +307,11 @@ main(int argc, char *argv[], char *envp[])
+         pthread_mutex_unlock(&serverRunningMutex);
  #endif
  
 +#ifdef SUNSOFT
-+	/* Return to root privs before calling the rest of close down */
-+	DtloginCloseDown ();
++        /* Return to root privs before calling the rest of close down */
++        DtloginCloseDown ();
 +#endif
 +
- 	UndisplayDevices();
+         UndisplayDevices();
  
- 	/* Now free up whatever must be freed */
+         /* Now free up whatever must be freed */
 diff --git a/os/Makefile.am b/os/Makefile.am
 index c4825ad..27d70ca 100644
 --- a/os/Makefile.am
@@ -87,10 +91,10 @@ index c4825ad..27d70ca 100644
  
  if SPECIAL_DTRACE_OBJECTS
 diff --git a/os/auth.c b/os/auth.c
-index 6669c14..f9207d8 100644
+index ac20de4..d43795b 100644
 --- a/os/auth.c
 +++ b/os/auth.c
-@@ -290,6 +290,19 @@ AddAuthorization (unsigned name_length, const char *name,
+@@ -277,6 +277,19 @@ AddAuthorization(unsigned name_length, const char *name,
      return 0;
  }
  

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xau 1.x Makefile
+# libXau - library for manipulating .Xauthority files
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXau
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4a2cbd83727682f9ee1c1e719bac6adb
-TARBALL_SHA1 = 0e1ab449f98026e4599f6e0d7491810d36c8fe4d
+TARBALL_MD5   = 2d241521df40d27034413436d1a1465c
+TARBALL_SHA1  = 29c47207fd246425b906f525b2220235ce4cd0f6
+TARBALL_SHA256= 7153ba503e2362d552612d9dc2e7d7ad3106d5055e310a26ecf28addf471a489
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -42,7 +43,7 @@ SOURCE_PATCHES =
 LIBNAME=Xau
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=Xau.man
+SUNTOUCHED_MANPAGES=man/Xau.man
 MODULE_STABILITY=Committed
 MODULE_MTLEVEL=Unsafe
 MODULE_MTLEVEL_SET=yes

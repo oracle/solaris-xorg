@@ -31,7 +31,7 @@ index cea140b..b1408f2 100644
  	config \
  	hw \
 diff --git a/configure.ac b/configure.ac
-index 9e07c44..460da17 100644
+index 1ff432f..a7c8900 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1191,6 +1191,10 @@ AC_DEFINE(XINPUT, 1, [Support X Input extension])
@@ -53,15 +53,15 @@ index 9e07c44..460da17 100644
 +# Add Sun IA extension
 +AC_OUTPUT([IA/Makefile])
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index aa3d97e..87004df 100644
+index 19feac1..b38d265 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
 @@ -125,6 +125,7 @@ static ModuleDefault ModuleDefaults[] = {
  #ifdef DRI2
-     {.name = "dri2",     .toLoad = TRUE,    .load_opt=NULL},
+     {.name = "dri2",.toLoad = TRUE,.load_opt = NULL},
  #endif
-+    {.name = "ia",       .toLoad = TRUE,    .load_opt=NULL},
-     {.name = NULL,       .toLoad = FALSE,   .load_opt=NULL}
++    {.name = "ia",.toLoad = TRUE,.load_opt = NULL},
+     {.name = NULL,.toLoad = FALSE,.load_opt = NULL}
  };
  
 diff --git a/hw/xfree86/dixmods/Makefile.am b/hw/xfree86/dixmods/Makefile.am
@@ -81,28 +81,23 @@ index a5be3ae..02a6d0d 100644
 +libia_la_LIBADD = $(top_builddir)/IA/libIA.la
 +libia_la_SOURCES = iamodule.c
 diff --git a/mi/miinitext.c b/mi/miinitext.c
-index 8836992..b3c29fb 100644
+index 6ceae05..433aec7 100644
 --- a/mi/miinitext.c
 +++ b/mi/miinitext.c
-@@ -94,6 +94,7 @@ SOFTWARE.
- #include "micmap.h"
- #include "globals.h"
- 
-+#define SolarisIAExtension
- 
- extern Bool noTestExtensions;
- 
-@@ -153,6 +154,9 @@ extern Bool noSELinuxExtension;
- extern Bool noXvExtension;
+@@ -153,6 +153,12 @@ extern Bool noXvExtension;
  #endif
  extern Bool noGEExtension;
+ 
++#define SolarisIAExtension
++
 +#ifdef SolarisIAExtension
 +Bool noIAExtension;
 +#endif
- 
++
  #ifndef XFree86LOADER
  #define INITARGS void
-@@ -184,6 +188,10 @@ typedef void (*InitExtension)(INITARGS);
+ typedef void (*InitExtension) (INITARGS);
+@@ -183,6 +189,10 @@ typedef void (*InitExtension) (INITARGS);
  #ifdef RES
  #include <X11/extensions/XResproto.h>
  #endif
@@ -113,23 +108,23 @@ index 8836992..b3c29fb 100644
  
  /* FIXME: this whole block of externs should be from the appropriate headers */
  #ifdef MITSHM
-@@ -304,6 +312,9 @@ static ExtensionToggle ExtensionToggleList[] =
+@@ -306,6 +316,9 @@ static ExtensionToggle ExtensionToggleList[] = {
  #ifdef XCSECURITY
-     { "SECURITY", &noSecurityExtension },
+     {"SECURITY", &noSecurityExtension},
  #endif
 +#ifdef SolarisIAExtension
 +    { IANAME /* "SolarisIA" */, &noIAExtension },
 +#endif
  #ifdef RES
-     { "X-Resource", &noResExtension },
+     {"X-Resource", &noResExtension},
  #endif
-@@ -470,6 +481,9 @@ InitExtensions(int argc, char *argv[])
- 	GlxPushProvider(&__glXDRISWRastProvider);
-     if (!noGlxExtension) GlxExtensionInit();
+@@ -496,6 +509,9 @@ InitExtensions(int argc, char *argv[])
+     if (!noGlxExtension)
+         GlxExtensionInit();
  #endif
 +#ifdef SolarisIAExtension
 +    if (!noIAExtension) IAExtensionInit();
 +#endif
  }
  
- #else /* XFree86LOADER */
+ #else                           /* XFree86LOADER */

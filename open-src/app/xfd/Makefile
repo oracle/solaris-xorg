@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xfd 1.x Makefile
+# xfd - simple X11/Xft font display application
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xfd
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 17d8ef0d490301158f8abf7641cca243
-TARBALL_SHA1 = 9cf24f00b428bc02d8635634cdb3b7422e7d74a5
+TARBALL_MD5   = b3893e03a5288927781acd5d3c65ba19
+TARBALL_SHA1  = b8662c6c6821f1f82995bcb98bb986b56716b787
+TARBALL_SHA256= 3fbef0d5ed6dc088017df156e748d187b2d1aaedc3de7ea96e505ea6d1af7b73
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -43,7 +44,7 @@ SOURCE_PATCHES =
 MODULE_ARC_CASES = PSARC/2008/137
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xfd.man
 MODULE_STABILITY=Committed
 
 # Additional install rules beyond what upstream installs
@@ -51,11 +52,6 @@ MODULE_ADD_INSTALL_TARGETS=install_po
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xfd
-
-# ignore some unneeded dependencies that upstream includes:
-# unreferenced object=/usr/lib/amd64/libfreetype.so.6;
-#   unused dependency of /usr/bin/xfd
-MODULE_LDFLAGS = -z ignore
 
 include ../Makefile.inc
 

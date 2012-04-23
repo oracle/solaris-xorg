@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,12 @@
 MODULE_NAME=xcmiscproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = cd7372cd827bfd7ca7e9238f2ce274b1
-TARBALL_SHA1 = ff7ddb6e5698bf4461a524ca30f3b32e2a9dce8a
+TARBALL_MD5   = 5f4847c78e41b801982c8a5e06365b24
+TARBALL_SHA1  = 59ae9ec6414964440bf654b207618e5dd66a32fb
+TARBALL_SHA256= b13236869372256c36db79ae39d54214172677fb79e9cdc555dceec80bd9d2df
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

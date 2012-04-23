@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xaw Makefile
+# libXaw - Athena Widgets toolkit, based on libXt intrinsics
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXaw
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.9
+MODULE_VERSION=1.0.10
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ccc57478c41b7a75b9702241b889b1d4
-TARBALL_SHA1 = 5f8fc1b10316f31d4c6fa1d938b2297ff5bd2da5
+TARBALL_MD5   = f1ea52debce7a18cc26b21647a00ad8b
+TARBALL_SHA1  = 8caa4c692e28f9681678a22168978b7668df57be
+TARBALL_SHA256= 2d96bcf92638b8ec5c91d379f5ec2e7b15133adeb2ba22066d48bf3239ee1bdd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

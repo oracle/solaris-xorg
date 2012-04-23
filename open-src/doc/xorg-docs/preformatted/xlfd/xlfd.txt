@@ -6,28 +6,17 @@ Jim Flowers
 
 Digital Equipment Corporation
 
-edited by: Stephen Gildea
+Edited by
+
+Stephen Gildea
+
+X Consortium
+
+X Version 11, Release 7.7
 
 Version 1.5
 
-Copyright © 1988,1994 X Consortium
-
-Copyright © 1988,1994 Digital Equipment Corporation
-
-X Window System is a trademark of The Open Group.
-
-Helvetica and Times are registered trademarks of Linotype Company.
-
-ITC Avant Garde Gothic is a registered trademark of International Typeface
-Corporation.
-
-Times Roman is a registered trademark of Monotype Corporation.
-
-Bitstream Amerigo is a registered trademark of Bitstream Inc.
-
-Stone is a registered trademark of Adobe Systems Inc.
-
-Copyright 1988, 1994 X Consortium
+Copyright © 1988, 1994 X Consortium
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -39,7 +28,7 @@ so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE X
 CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
@@ -50,7 +39,9 @@ Except as contained in this notice, the name of the X Consortium shall not be
 used in advertising or otherwise to promote the sale, use or other dealings in
 this Software without prior written authorization from the X Consortium.
 
-Copyright 1988, 1989 Digital Equipment Corporation, Maynard MA. All rights
+X Window System is a trademark of The Open Group.
+
+Copyright © 1988, 1989 Digital Equipment Corporation, Maynard MA. All rights
 reserved.
 
 Permission to use, copy, modify, and distribute this documentation for any
@@ -59,6 +50,17 @@ notice and this permission notice appear in all copies. Digital Equipment
 Corporation makes no representations about the suitability for any purpose of
 the information in this document. This documentation is provided as is without
 express or implied warranty.
+
+Helvetica and Times are registered trademarks of Linotype Company.
+
+ITC Avant Garde Gothic is a registered trademark of International Typeface
+Corporation.
+
+Times Roman is a registered trademark of Monotype Corporation.
+
+Bitstream Amerigo is a registered trademark of Bitstream Inc.
+
+Stone is a registered trademark of Adobe Systems Inc.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -528,8 +530,7 @@ WEIGHT_NAME Field
 WEIGHT_NAME is a string that identifies the font's typographic weight, that is,
 the nominal blackness of the font, according to the FOUNDRY's judgment. This
 name must be human-understandable and suitable for presentation to a font user.
-The value "0" is used to indicate a polymorphic font (see Chapter 6, 
-Polymorphic Fonts).
+The value "0" is used to indicate a polymorphic font (see Polymorphic Fonts).
 
 The interpretation of this field is somewhat problematic because the
 typographic judgment of weight has traditionally depended on the overall design
@@ -548,18 +549,27 @@ SLANT Field
 SLANT is a code-string that indicates the overall posture of the typeface
 design used in the font. The encoding is as follows:
 
-Code    English          Description
-        Translation
-"R"     Roman            Upright design
-"I"     Italic           Italic design, slanted clockwise from the vertical
-"O"     Oblique          Obliqued upright design, slanted clockwise from the
-                         vertical
-"RI"    Reverse Italic   Italic design, slanted counterclockwise from the
-                         vertical
-"RO"    Reverse Oblique  Obliqued upright design, slanted counterclockwise from
-                         the vertical
-"OT"    Other            Other
-numeric Polymorphic      See Chapter 6, Polymorphic Fonts.
+┌───────┬───────────────┬─────────────────────────────────────────────────────┐
+│Code   │English        │Description                                          │
+│       │Translation    │                                                     │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│"R"    │Roman          │Upright design                                       │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│"I"    │Italic         │Italic design, slanted clockwise from the vertical   │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│"O"    │Oblique        │Obliqued upright design, slanted clockwise from the  │
+│       │               │vertical                                             │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│"RI"   │Reverse Italic │Italic design, slanted counterclockwise from the     │
+│       │               │vertical                                             │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│"RO"   │Reverse Oblique│Obliqued upright design, slanted counterclockwise    │
+│       │               │from the vertical                                    │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│"OT"   │Other          │Other                                                │
+├───────┼───────────────┼─────────────────────────────────────────────────────┤
+│numeric│Polymorphic    │See Polymorphic Fonts.                               │
+└───────┴───────────────┴─────────────────────────────────────────────────────┘
 
 The SLANT codes are for programming convenience only and usually are converted
 into their equivalent human-understandable form before being presented to a
@@ -570,7 +580,7 @@ SETWIDTH_NAME Field
 SETWIDTH_NAME is a string that gives the font's typographic proportionate
 width, that is, the nominal width per horizontal unit of the font, according to
 the FOUNDRY's judgment. The value "0" is used to indicate a polymorphic font
-(see Chapter 6, Polymorphic Fonts).
+(see Polymorphic Fonts).
 
 As with WEIGHT_NAME, the interpretation of this field or font property is
 somewhat problematic, because the designer's judgment of setwidth has
@@ -594,7 +604,7 @@ ADD_STYLE_NAME Field
 ADD_STYLE_NAME is a string that identifies additional typographic style
 information that is not captured by other fields but is needed to identify the
 particular font. The character "[" anywhere in the field is used to indicate a
-polymorphic font (see Chapter 6, Polymorphic Fonts).
+polymorphic font (see Polymorphic Fonts).
 
 ADD_STYLE_NAME is not a typeface classification field and is only used for
 uniqueness. Its use, as such, is not limited to typographic style distinctions.
@@ -613,11 +623,11 @@ PIXEL_SIZE Field
 
 PIXEL_SIZE gives the body size of the font at a particular POINT_SIZE and
 RESOLUTION_Y. PIXEL_SIZE is either an integer-string or a string beginning with
-"[". A string beginning with "[" represents a matrix (see Chapter 4, Matrix
+"[". A string beginning with "[" represents a matrix (see Matrix
 Transformations). PIXEL_SIZE usually incorporates additional vertical spacing
 that is considered part of the font design. (Note, however, that this value is
 not necessarily equivalent to the height of the font bounding box.) Zero is
-used to indicate a scalable font (see Chapter 5, Scalable Fonts).
+used to indicate a scalable font (see Scalable Fonts).
 
 PIXEL_SIZE usually is used by X client applications that need to query fonts
 according to device-dependent size, regardless of the point size or vertical
@@ -627,13 +637,12 @@ SN POINT_SIZE Field
 
 POINT_SIZE gives the body size for which the font was designed. POINT_SIZE is
 either an integer-string or a string beginning with "[". A string beginning
-with "[" represents a matrix (see Chapter 4, Matrix Transformations). This
-field usually incorporates additional vertical spacing that is considered part
-of the font design. (Note, however, that POINT_SIZE is not necessarily
-equivalent to the height of the font bounding box.) POINT_SIZE is expressed in
-decipoints (where points are as defined in the X protocol or 72.27 points equal
-1 inch). Zero is used to indicate a scalable font (see Chapter 5, Scalable
-Fonts).
+with "[" represents a matrix (see Matrix Transformations). This field usually
+incorporates additional vertical spacing that is considered part of the font
+design. (Note, however, that POINT_SIZE is not necessarily equivalent to the
+height of the font bounding box.) POINT_SIZE is expressed in decipoints (where
+points are as defined in the X protocol or 72.27 points equal 1 inch). Zero is
+used to indicate a scalable font (see Scalable Fonts).
 
 POINT_SIZE and RESOLUTION_Y are used by X clients to query fonts according to
 device-independent size to maintain constant text size on the display
@@ -644,9 +653,9 @@ RESOLUTION_X and RESOLUTION_Y Fields
 RESOLUTION_X and RESOLUTION_Y are unsigned integer-strings that give the
 horizontal and vertical resolution, measured in pixels or dots per inch (dpi),
 for which the font was designed. Zero is used to indicate a scalable font (see
-Chapter 5, Scalable Fonts). Horizontal and vertical values are required because
-a separate bitmap font must be designed for displays with very different aspect
-ratios (for example, 1:1, 4:3, 2:1, and so on).
+Scalable Fonts). Horizontal and vertical values are required because a separate
+bitmap font must be designed for displays with very different aspect ratios
+(for example, 1:1, 4:3, 2:1, and so on).
 
 The separation of pixel or point size and resolution is necessary because X
 allows for servers with very different video characteristics (for example,
@@ -666,28 +675,35 @@ is, monospace (fixed pitch), proportional (variable pitch), or charcell (a
 special monospaced font that conforms to the traditional data-processing
 character cell font model). The encoding is as follows:
 
-Code English      Description
-     Translation
-                  A font whose logical character widths vary for each glyph.
-"P"  Proportional Note that no other restrictions are placed on the metrics of
-                  a proportional font.
-                  A font whose logical character widths are constant (that is,
-"M"  Monospaced   every glyph in the font has the same logical width). No other
-                  restrictions are placed on the metrics of a monospaced font.
-                  A monospaced font that follows the standard typewriter
-                  character cell model (that is, the glyphs of the font can be
-                  modeled by X clients as "boxes" of the same width and height
-                  that are imaged side-by-side to form text strings or
-                  top-to-bottom to form text lines). By definition, all glyphs
-                  have the same logical character width, and no glyphs have
-"C"  CharCell     "ink" outside of the character cell. There is no kerning
-                  (that is, on a per-character basis with positive metrics: 0
-                  <= left-bearing <= right-bearing <= width; with negative
-                  metrics: width <= left-bearing <= right-bearing <= zero).
-                  Also, the vertical extents of the font do not exceed the
-                  vertical spacing (that is, on a per-character basis: ascent
-                  <= font-ascent and descent <= font-descent). The cell height
-                  = font-descent + font-ascent, and the width = AVERAGE_WIDTH.
+┌────┬────────────┬───────────────────────────────────────────────────────────┐
+│Code│English     │Description                                                │
+│    │Translation │                                                           │
+├────┼────────────┼───────────────────────────────────────────────────────────┤
+│    │            │A font whose logical character widths vary for each glyph. │
+│"P" │Proportional│Note that no other restrictions are placed on the metrics  │
+│    │            │of a proportional font.                                    │
+├────┼────────────┼───────────────────────────────────────────────────────────┤
+│    │            │A font whose logical character widths are constant (that   │
+│"M" │Monospaced  │is, every glyph in the font has the same logical width). No│
+│    │            │other restrictions are placed on the metrics of a          │
+│    │            │monospaced font.                                           │
+├────┼────────────┼───────────────────────────────────────────────────────────┤
+│    │            │A monospaced font that follows the standard typewriter     │
+│    │            │character cell model (that is, the glyphs of the font can  │
+│    │            │be modeled by X clients as "boxes" of the same width and   │
+│    │            │height that are imaged side-by-side to form text strings or│
+│    │            │top-to-bottom to form text lines). By definition, all      │
+│    │            │glyphs have the same logical character width, and no glyphs│
+│    │            │have "ink" outside of the character cell. There is no      │
+│"C" │CharCell    │kerning (that is, on a per-character basis with positive   │
+│    │            │metrics: 0 <= left-bearing <= right-bearing <= width; with │
+│    │            │negative metrics: width <= left-bearing <= right-bearing <=│
+│    │            │zero). Also, the vertical extents of the font do not exceed│
+│    │            │the vertical spacing (that is, on a per-character basis:   │
+│    │            │ascent <= font-ascent and descent <= font-descent). The    │
+│    │            │cell height = font-descent + font-ascent, and the width =  │
+│    │            │AVERAGE_WIDTH.                                             │
+└────┴────────────┴───────────────────────────────────────────────────────────┘
 
 AVERAGE_WIDTH Field
 
@@ -697,7 +713,7 @@ the font (measured in tenths of pixels), multiplied by -1 if the dominant
 writing direction for the font is right-to-left. A leading "~" (TILDE)
 indicates a negative value. For monospaced and character cell fonts, this is
 the width of all glyphs in the font. Zero is used to indicate a scalable font
-(see Chapter 5, Scalable Fonts).
+(see Scalable Fonts).
 
 CHARSET_REGISTRY and CHARSET_ENCODING Fields
 
@@ -788,62 +804,85 @@ Examples
 The following examples of font names are derived from the screen fonts shipped
 with the X Consortium distribution.
 
-Font     X FontName
-75-dpi    
-Fonts
-Charter  -Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1
-12 pt
-Charter
-Bold 12  -Bitstream-Charter-Bold-R-Normal--12-120-75-75-P-76-ISO8859-1
-pt
-Charter
-Bold     -Bitstream-Charter-Bold-I-Normal--12-120-75-75-P-75-ISO8859-1
-Italic
-12 pt
-Charter
-Italic   -Bitstream-Charter-Medium-I-Normal--12-120-75-75-P-66-ISO8859-1
-12 pt
-Courier  -Adobe-Courier-Medium-R-Normal--8-80-75-75-M-50-ISO8859-1
-8 pt
-Courier  -Adobe-Courier-Medium-R-Normal--10-100-75-75-M-60-ISO8859-1
-10 pt
-Courier  -Adobe-Courier-Medium-R-Normal--12-120-75-75-M-70-ISO8859-1
-12 pt
-Courier  -Adobe-Courier-Medium-R-Normal--24-240-75-75-M-150-ISO8859-1
-24 pt
-Courier
-Bold 10  -Adobe-Courier-Bold-R-Normal--10-100-75-75-M-60-ISO8859-1
-pt
-Courier
-Bold     -Adobe-Courier-Bold-O-Normal--10-100-75-75-M-60-ISO8859-1
-Oblique
-10 pt
-Courier
-Oblique  -Adobe-Courier-Medium-O-Normal--10-100-75-75-M-60-ISO8859-1
-10 pt
-100-dpi   
-Fonts
-Symbol   -Adobe-Symbol-Medium-R-Normal--14-100-100-100-P-85-Adobe-FONTSPECIFIC
-10 pt
-Symbol   -Adobe-Symbol-Medium-R-Normal--20-140-100-100-P-107-Adobe-FONTSPECIFIC
-14 pt
-Symbol   -Adobe-Symbol-Medium-R-Normal--25-180-100-100-P-142-Adobe-FONTSPECIFIC
-18 pt
-Symbol   -Adobe-Symbol-Medium-R-Normal--34-240-100-100-P-191-Adobe-FONTSPECIFIC
-24 pt
-Times
-Bold 10  -Adobe-Times-Bold-R-Normal--14-100-100-100-P-76-ISO8859-1
-pt
-Times
-Bold     -Adobe-Times-Bold-I-Normal--14-100-100-100-P-77-ISO8859-1
-Italic
-10 pt
-Times
-Italic   -Adobe-Times-Medium-I-Normal--14-100-100-100-P-73-ISO8859-1
-10 pt
-Times
-Roman 10 -Adobe-Times-Medium-R-Normal--14-100-100-100-P-74-ISO8859-1
-pt
+┌───────┬──────────────────────────────────────────────────────────────────────┐
+│Font   │X FontName                                                            │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│75-dpi │                                                                      │
+│Fonts  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Charter│-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1       │
+│12 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Charter│                                                                      │
+│Bold 12│-Bitstream-Charter-Bold-R-Normal--12-120-75-75-P-76-ISO8859-1         │
+│pt     │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Charter│                                                                      │
+│Bold   │-Bitstream-Charter-Bold-I-Normal--12-120-75-75-P-75-ISO8859-1         │
+│Italic │                                                                      │
+│12 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Charter│                                                                      │
+│Italic │-Bitstream-Charter-Medium-I-Normal--12-120-75-75-P-66-ISO8859-1       │
+│12 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│-Adobe-Courier-Medium-R-Normal--8-80-75-75-M-50-ISO8859-1             │
+│8 pt   │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│-Adobe-Courier-Medium-R-Normal--10-100-75-75-M-60-ISO8859-1           │
+│10 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│-Adobe-Courier-Medium-R-Normal--12-120-75-75-M-70-ISO8859-1           │
+│12 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│-Adobe-Courier-Medium-R-Normal--24-240-75-75-M-150-ISO8859-1          │
+│24 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│                                                                      │
+│Bold 10│-Adobe-Courier-Bold-R-Normal--10-100-75-75-M-60-ISO8859-1             │
+│pt     │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│                                                                      │
+│Bold   │-Adobe-Courier-Bold-O-Normal--10-100-75-75-M-60-ISO8859-1             │
+│Oblique│                                                                      │
+│10 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Courier│                                                                      │
+│Oblique│-Adobe-Courier-Medium-O-Normal--10-100-75-75-M-60-ISO8859-1           │
+│10 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│100-dpi│                                                                      │
+│Fonts  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Symbol │-Adobe-Symbol-Medium-R-Normal--14-100-100-100-P-85-Adobe-FONTSPECIFIC │
+│10 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Symbol │-Adobe-Symbol-Medium-R-Normal--20-140-100-100-P-107-Adobe-FONTSPECIFIC│
+│14 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Symbol │-Adobe-Symbol-Medium-R-Normal--25-180-100-100-P-142-Adobe-FONTSPECIFIC│
+│18 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Symbol │-Adobe-Symbol-Medium-R-Normal--34-240-100-100-P-191-Adobe-FONTSPECIFIC│
+│24 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Times  │                                                                      │
+│Bold 10│-Adobe-Times-Bold-R-Normal--14-100-100-100-P-76-ISO8859-1             │
+│pt     │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Times  │                                                                      │
+│Bold   │-Adobe-Times-Bold-I-Normal--14-100-100-100-P-77-ISO8859-1             │
+│Italic │                                                                      │
+│10 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Times  │                                                                      │
+│Italic │-Adobe-Times-Medium-I-Normal--14-100-100-100-P-73-ISO8859-1           │
+│10 pt  │                                                                      │
+├───────┼──────────────────────────────────────────────────────────────────────┤
+│Times  │                                                                      │
+│Roman  │-Adobe-Times-Medium-R-Normal--14-100-100-100-P-74-ISO8859-1           │
+│10 pt  │                                                                      │
+└───────┴──────────────────────────────────────────────────────────────────────┘
 
 Font Properties
 
@@ -867,29 +906,28 @@ the property name.
 
 The Backus-Naur Form syntax description of X font properties is as follows:
 
-Properties ::=  OptFontPropList                                                
-OptFontPropList NULL | OptFontProp OptFontPropList                             
+Properties ::=  OptFontPropList
+OptFontPropList NULL | OptFontProp OptFontPropList
 ::=
-OptFontProp ::= PrivateFontProp | XFontProp                                    
-PrivateFontProp STRING8 | Underscore OrganizationId Underscore STRING8         
+OptFontProp ::= PrivateFontProp | XFontProp
+PrivateFontProp STRING8 | Underscore OrganizationId Underscore STRING8
 ::=
                 FOUNDRY | FAMILY_NAME | WEIGHT_NAME | SLANT | SETWIDTH_NAME |
                 ADD_STYLE_NAME | PIXEL_SIZE | POINT_SIZE | RESOLUTION_X |
                 RESOLUTION_Y | SPACING | AVERAGE_WIDTH | CHARSET_REGISTRY |
                 CHARSET_ENCODING | QUAD_WIDTH | RESOLUTION | MIN_SPACE |
                 NORM_SPACE | MAX_SPACE | END_SPACE | SUPERSCRIPT_X |
-                SUPERSCRIPT_Y | SUBSCRIPT_X | SUBSCRIPT_Y |
-                UNDERLINE_POSITION | UNDERLINE_THICKNESS | STRIKEOUT_ASCENT |
-XFontProp ::=   STRIKEOUT_DESCENT | ITALIC_ANGLE | X_HEIGHT | WEIGHT |         
-                FACE_NAME | FULL_NAME | FONT | COPYRIGHT | AVG_CAPITAL_WIDTH
-                | AVG_LOWERCASE_WIDTH | RELATIVE_SETWIDTH | RELATIVE_WEIGHT |
-                CAP_HEIGHT | SUPERSCRIPT_ SIZE | FIGURE_WIDTH |
-                SUBSCRIPT_SIZE | SMALL_CAP_SIZE | NOTICE | DESTINATION |
-                FONT_TYPE | FONT_VERSION | RASTERIZER_NAME |
+                SUPERSCRIPT_Y | SUBSCRIPT_X | SUBSCRIPT_Y | UNDERLINE_POSITION
+XFontProp ::=   | UNDERLINE_THICKNESS | STRIKEOUT_ASCENT | STRIKEOUT_DESCENT |
+                ITALIC_ANGLE | X_HEIGHT | WEIGHT | FACE_NAME | FULL_NAME | FONT
+                | COPYRIGHT | AVG_CAPITAL_WIDTH | AVG_LOWERCASE_WIDTH |
+                RELATIVE_SETWIDTH | RELATIVE_WEIGHT | CAP_HEIGHT | SUPERSCRIPT_
+                SIZE | FIGURE_WIDTH | SUBSCRIPT_SIZE | SMALL_CAP_SIZE | NOTICE
+                | DESTINATION | FONT_TYPE | FONT_VERSION | RASTERIZER_NAME |
                 RASTERIZER_VERSION | RAW_ASCENT | RAW_DESCENT | RAW_* |
                 AXIS_NAMES | AXIS_LIMITS | AXIS_TYPES
-Underscore ::=  OCTET-"_" (LOW LINE)                                           
-OrganizationId  STRING8-the registered name of the organization                
+Underscore ::=  OCTET-"_" (LOW LINE)
+OrganizationId  STRING8-the registered name of the organization
 ::=
 
 FOUNDRY
@@ -1384,17 +1422,29 @@ typeface family, according to the type designer's or FOUNDRY's judgment.
 RELATIVE_SETWIDTH ranges from 10 to 90 or is 0 if undefined or unknown. The
 following reference values are defined:
 
-Code English Translation Description
-0    Undefined           Undefined or unknown
-10   UltraCondensed      The lowest ratio of average width to height
-20   ExtraCondensed       
-30   Condensed           Condensed, Narrow, Compressed, ...
-40   SemiCondensed        
-50   Medium              Medium, Normal, Regular, ...
-60   SemiExpanded        SemiExpanded, DemiExpanded, ...
-70   Expanded             
-80   ExtraExpanded       ExtraExpanded, Wide, ...
-90   UltraExpanded       The highest ratio of average width to height
+┌────┬───────────────────┬────────────────────────────────────────────┐
+│Code│English Translation│Description                                 │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│0   │Undefined          │Undefined or unknown                        │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│10  │UltraCondensed     │The lowest ratio of average width to height │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│20  │ExtraCondensed     │                                            │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│30  │Condensed          │Condensed, Narrow, Compressed, ...          │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│40  │SemiCondensed      │                                            │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│50  │Medium             │Medium, Normal, Regular, ...                │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│60  │SemiExpanded       │SemiExpanded, DemiExpanded, ...             │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│70  │Expanded           │                                            │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│80  │ExtraExpanded      │ExtraExpanded, Wide, ...                    │
+├────┼───────────────────┼────────────────────────────────────────────┤
+│90  │UltraExpanded      │The highest ratio of average width to height│
+└────┴───────────────────┴────────────────────────────────────────────┘
 
 RELATIVE_SETWIDTH can be defaulted if not provided as a font property,
 according to the following algorithm:
@@ -1423,19 +1473,31 @@ family, according to the type designer's or FOUNDRY's judgment.
 RELATIVE_WEIGHT ranges from 10 to 90 or is 0 if undefined or unknown. The
 following reference values are defined:
 
-Code English           Description
-     Translation
-0    Undefined         Undefined or unknown
-10   UltraLight        The lowest ratio of stem width to height
-20   ExtraLight         
-30   Light              
-40   SemiLight         SemiLight, Book, ...
-50   Medium            Medium, Normal, Regular,...
-60   SemiBold          SemiBold, DemiBold, ...
-70   Bold               
-80   ExtraBold         ExtraBold, Heavy, ...
-90   UltraBold         UltraBold, Black, ..., the highest ratio of stem width
-                       to height
+┌────┬────────────────┬───────────────────────────────────────────────────────┐
+│Code│English         │Description                                            │
+│    │Translation     │                                                       │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│0   │Undefined       │Undefined or unknown                                   │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│10  │UltraLight      │The lowest ratio of stem width to height               │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│20  │ExtraLight      │                                                       │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│30  │Light           │                                                       │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│40  │SemiLight       │SemiLight, Book, ...                                   │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│50  │Medium          │Medium, Normal, Regular,...                            │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│60  │SemiBold        │SemiBold, DemiBold, ...                                │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│70  │Bold            │                                                       │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│80  │ExtraBold       │ExtraBold, Heavy, ...                                  │
+├────┼────────────────┼───────────────────────────────────────────────────────┤
+│90  │UltraBold       │UltraBold, Black, ..., the highest ratio of stem width │
+│    │                │to height                                              │
+└────┴────────────────┴───────────────────────────────────────────────────────┘
 
 RELATIVE_WEIGHT can be defaulted if not provided as a font property, according
 to the following algorithm:
@@ -1544,11 +1606,16 @@ browsers, to query for X screen fonts that suit their particular requirements.
 
 The encoding is as follows:
 
-Code English      Description
-     Translation
-0    WYSIWYG      The font is optimized to match the typographic design and
-                  metrics of an equivalent printer font.
-1    Video text   The font is optimized for screen legibility and readability.
+┌────┬────────────┬───────────────────────────────────────────────────────────┐
+│Code│English     │Description                                                │
+│    │Translation │                                                           │
+├────┼────────────┼───────────────────────────────────────────────────────────┤
+│0   │WYSIWYG     │The font is optimized to match the typographic design and  │
+│    │            │metrics of an equivalent printer font.                     │
+├────┼────────────┼───────────────────────────────────────────────────────────┤
+│1   │Video text  │The font is optimized for screen legibility and            │
+│    │            │readability.                                               │
+└────┴────────────┴───────────────────────────────────────────────────────────┘
 
 FONT_TYPE
 
@@ -1560,18 +1627,26 @@ rasterizer used to render the font.
 
 Predefined values are as follows:
 
-Value      When applicable                                                     
-           Hand-tuned bitmap fonts. Some attempt has been made to optimize
-"Bitmap"   the visual appearance of the font for the requested size and        
-           resolution.
-           All bitmap format fonts that cannot be described as "Bitmap", that
-"Prebuilt" is, handtuned. For example, a bitmap format font that was           
-           generated mechanically using a scalable font rasterizer would be
-           considered "Prebuilt", not "Bitmap".
-"Type 1"   Any Type 1 font.                                                    
-"TrueType" Any TrueType font.                                                  
-"Speedo"   Any Speedo font.                                                    
-"F3"       Any F3 font.                                                        
+┌──────────┬──────────────────────────────────────────────────────────────────┐
+│Value     │When applicable                                                   │
+├──────────┼──────────────────────────────────────────────────────────────────┤
+│          │Hand-tuned bitmap fonts. Some attempt has been made to optimize   │
+│"Bitmap"  │the visual appearance of the font for the requested size and      │
+│          │resolution.                                                       │
+├──────────┼──────────────────────────────────────────────────────────────────┤
+│          │All bitmap format fonts that cannot be described as "Bitmap", that│
+│"Prebuilt"│is, handtuned. For example, a bitmap format font that was         │
+│          │generated mechanically using a scalable font rasterizer would be  │
+│          │considered "Prebuilt", not "Bitmap".                              │
+├──────────┼──────────────────────────────────────────────────────────────────┤
+│"Type 1"  │Any Type 1 font.                                                  │
+├──────────┼──────────────────────────────────────────────────────────────────┤
+│"TrueType"│Any TrueType font.                                                │
+├──────────┼──────────────────────────────────────────────────────────────────┤
+│"Speedo"  │Any Speedo font.                                                  │
+├──────────┼──────────────────────────────────────────────────────────────────┤
+│"F3"      │Any F3 font.                                                      │
+└──────────┴──────────────────────────────────────────────────────────────────┘
 
 Other values may be registered with the X Consortium.
 
@@ -1618,19 +1693,19 @@ to users, when applicable.
 RAW_ASCENT
 
 For a font with a transformation matrix, RAW_ASCENT is the font ascent in 1000
-pixel metrics (see the section called “Metrics and Font Properties”).
+pixel metrics (see Metrics and Font Properties).
 
 RAW_DESCENT
 
 For a font with a transformation matrix, RAW_DESCENT is the font descent in
-1000 pixel metrics (see the section called “Metrics and Font Properties”).
+1000 pixel metrics (see Metrics and Font Properties).
 
 RAW_*
 
 For a font with a transformation matrix, all font properties that represent
 horizontal or vertical sizes or displacements will be accompanied by a new
 property, named as the original except prefixed with "RAW_", that is computed
-as described in the section called “Metrics and Font Properties”.
+as described in Metrics and Font Properties.
 
 AXIS_NAMES
 
@@ -1641,8 +1716,8 @@ user interface (see section 6).
 AXIS_LIMITS
 
 AXIS_LIMITS is a list of integers, two for each axis, giving the minimum and
-maximum allowable values for that axis of a polymorphic font (see Chapter 6, 
-Polymorphic Fonts).
+maximum allowable values for that axis of a polymorphic font (see Polymorphic
+Fonts).
 
 AXIS_TYPES
 
@@ -1654,31 +1729,57 @@ Built-in Font Property Atoms
 The following font property atom definitions were predefined in the initial
 version of the core protocol:
 
-Font Property/Atom Name Property Type
-MIN_SPACE               INT32
-NORM_SPACE              INT32
-MAX_SPACE               INT32
-END_SPACE               INT32
-SUPERSCRIPT_X           INT32
-SUPERSCRIPT_Y           INT32
-SUBSCRIPT_X             INT32
-SUBSCRIPT_Y             INT32
-UNDERLINE_POSITION      INT32
-UNDERLINE_THICKNESS     INT32
-STRIKEOUT_ASCENT        INT32
-STRIKEOUT_DESCENT       INT32
-FONT_ASCENT             INT32
-FONT_DESCENT            INT32
-ITALIC_ANGLE            INT32
-X_HEIGHT                INT32
-QUAD_WIDTH              INT32 −^deprecated
-WEIGHT                  CARD32
-POINT_SIZE              INT32
-RESOLUTION              CARD32 −^deprecated
-COPYRIGHT               ATOM
-FULL_NAME               ATOM −^deprecated
-FAMILY_NAME             ATOM
-DEFAULT_CHAR            CARD32
+┌───────────────────────┬───────────────────┐
+│Font Property/Atom Name│Property Type      │
+├───────────────────────┼───────────────────┤
+│MIN_SPACE              │INT32              │
+├───────────────────────┼───────────────────┤
+│NORM_SPACE             │INT32              │
+├───────────────────────┼───────────────────┤
+│MAX_SPACE              │INT32              │
+├───────────────────────┼───────────────────┤
+│END_SPACE              │INT32              │
+├───────────────────────┼───────────────────┤
+│SUPERSCRIPT_X          │INT32              │
+├───────────────────────┼───────────────────┤
+│SUPERSCRIPT_Y          │INT32              │
+├───────────────────────┼───────────────────┤
+│SUBSCRIPT_X            │INT32              │
+├───────────────────────┼───────────────────┤
+│SUBSCRIPT_Y            │INT32              │
+├───────────────────────┼───────────────────┤
+│UNDERLINE_POSITION     │INT32              │
+├───────────────────────┼───────────────────┤
+│UNDERLINE_THICKNESS    │INT32              │
+├───────────────────────┼───────────────────┤
+│STRIKEOUT_ASCENT       │INT32              │
+├───────────────────────┼───────────────────┤
+│STRIKEOUT_DESCENT      │INT32              │
+├───────────────────────┼───────────────────┤
+│FONT_ASCENT            │INT32              │
+├───────────────────────┼───────────────────┤
+│FONT_DESCENT           │INT32              │
+├───────────────────────┼───────────────────┤
+│ITALIC_ANGLE           │INT32              │
+├───────────────────────┼───────────────────┤
+│X_HEIGHT               │INT32              │
+├───────────────────────┼───────────────────┤
+│QUAD_WIDTH             │INT32 −^deprecated │
+├───────────────────────┼───────────────────┤
+│WEIGHT                 │CARD32             │
+├───────────────────────┼───────────────────┤
+│POINT_SIZE             │INT32              │
+├───────────────────────┼───────────────────┤
+│RESOLUTION             │CARD32 −^deprecated│
+├───────────────────────┼───────────────────┤
+│COPYRIGHT              │ATOM               │
+├───────────────────────┼───────────────────┤
+│FULL_NAME              │ATOM −^deprecated  │
+├───────────────────────┼───────────────────┤
+│FAMILY_NAME            │ATOM               │
+├───────────────────────┼───────────────────┤
+│DEFAULT_CHAR           │CARD32             │
+└───────────────────────┴───────────────────┘
 
 Chapter 4. Matrix Transformations
 

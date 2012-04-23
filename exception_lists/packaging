@@ -42,11 +42,11 @@ var/run
 # Documentation it doesn't make sense to ship in our packages
 usr/share/doc/X11/graphics/dps.xml
 usr/share/doc/X11/platforms/Darwin.xml
-usr/share/doc/X11/specs/Xext/lbxalg.xml
-usr/share/doc/X11/specs/Xserver/XACE-Spec.xml
-usr/share/doc/X11/specs/Xserver/appgroup.xml
-usr/share/doc/X11/specs/Xserver/analysis.xml
-usr/share/doc/X11/specs/Xserver/secint.xml
+usr/share/doc/X11/xext/lbxalg.xml
+usr/share/doc/X11/Xserver/XACE-Spec.xml
+usr/share/doc/X11/Xserver/appgroup.xml
+usr/share/doc/X11/Xserver/analysis.xml
+usr/share/doc/X11/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
 usr/share/doc/inputproto
 
@@ -66,17 +66,8 @@ usr/lib/64
 usr/lib/amd64/X11			i386
 usr/lib/sparcv9/X11			sparc
 
-# Intel DRM modules make no sense on SPARC, but upstream doesn't provide
-# an option not to build them
-usr/lib/xorg/libdrm_intel.so			sparc
-usr/lib/xorg/libdrm_intel.so.1			sparc
-usr/lib/xorg/sparcv9/libdrm_intel.so		sparc
-usr/lib/xorg/sparcv9/libdrm_intel.so.1		sparc
-usr/lib/pkgconfig/libdrm_intel.pc		sparc
-usr/lib/sparcv9/pkgconfig/libdrm_intel.pc	sparc
-
 # Skip delivering the header file for an intel internal validation tool
-usr/include/libdrm/intel_aub.h
+usr/include/libdrm/intel_aub.h		i386
 
 # We don't install the XCB SELinux extension
 usr/include/xcb/xselinux.h

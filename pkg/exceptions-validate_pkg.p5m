@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -78,9 +78,9 @@ dir  path=usr/share
 dir  path=usr/share/aclocal
 dir  path=usr/share/applications
 dir  path=usr/share/doc
+dir  path=usr/share/doc/X11/Xserver
 dir  path=usr/share/doc/X11/graphics
-dir  path=usr/share/doc/X11/specs/Xext
-dir  path=usr/share/doc/X11/specs/Xserver
+dir  path=usr/share/doc/X11/xext
 dir  path=usr/share/locale
 dir  path=usr/share/locale/C
 dir  path=usr/share/locale/C/LC_MESSAGES

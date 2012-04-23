@@ -27,12 +27,12 @@
 MODULE_NAME=inputproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.99.6
+MODULE_VERSION=2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f131c9b60d4fff33ae4a44e4813e13d6
-TARBALL_SHA1  = 36d5ff554c9edc6eb116f3f08d32cd2acd75e9b5
-TARBALL_SHA256= 88f8206bd7f181df4b83510fbfd85400a48a16b081d1d6bb97d5cba880aa5da1
+TARBALL_MD5   = 13c8aedaf98a92e282b7e456c0a5bed9
+TARBALL_SHA1  = 500e0a6dac3523887c0b82753fe5e9d4bb982137
+TARBALL_SHA256= de7516ab25c299740da46c0f1af02f1831c5aa93b7283f512c0f35edaac2bcb0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 

@@ -1,23 +1,309 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>X Logical Font Description Conventions</title><link rel="stylesheet" href="/usr/share/sgml/X11/xorg.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.69.1" /></head><body><div class="book" lang="en" xml:lang="en"><div class="titlepage"><div><div><h1 class="title"><a id="xlfd"></a>X Logical Font Description Conventions</h1></div><div><h2 class="subtitle">X Consortium Standard</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Jim</span> <span class="surname">Flowers</span></h3><div class="affiliation"><span class="orgname">
-Digital Equipment Corporation
-         <br /></span></div></div><p class="othercredit"><span class="contrib">edited by</span>: <span class="firstname">Stephen </span> <span class="surname">Gildea</span></p></div></div><div><p class="releaseinfo">Version 1.5</p></div><div><p class="copyright">Copyright © 1988,1994 X Consortium</p></div><div><p class="copyright">Copyright © 1988,1994 Digital Equipment Corporation</p></div><div><div class="legalnotice"><a id="id2467509"></a><p>
-<span class="emphasis"><em>X Window System</em></span> is a trademark of The Open Group.
-</p><p>
-Helvetica and Times are registered trademarks of Linotype Company.
-</p><p>
-ITC Avant Garde Gothic is a registered trademark of International
-Typeface Corporation.
-</p><p>
-Times Roman is a registered trademark of Monotype Corporation.
-</p><p>
-Bitstream Amerigo is a registered trademark of Bitstream Inc.
-</p><p>
-Stone is a registered trademark of Adobe Systems Inc.
-</p><p>
-Copyright 1988, 1994 X Consortium
-</p><p>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>X Logical Font Description Conventions</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot_9276" /><style xmlns="" type="text/css">/*
+ * Copyright (c) 2011 Gaetan Nadon
+ * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice (including the next
+ * paragraph) shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
+/*
+ * Shared stylesheet for X.Org documentation translated to HTML format
+ * http://www.sagehill.net/docbookxsl/UsingCSS.html
+ * http://www.w3schools.com/css/default.asp
+ * https://addons.mozilla.org/en-US/firefox/addon/web-developer/developers
+ * https://addons.mozilla.org/en-US/firefox/addon/font-finder/
+ */
+
+/*
+ * The sans-serif fonts are considered more legible on a computer screen
+ * http://dry.sailingissues.com/linux-equivalents-verdana-arial.html
+ *
+ */
+body {
+  font-family: "Bitstream Vera Sans", "DejaVu Sans", Tahoma, Geneva, Arial, Sans-serif;
+  /* In support of using "em" font size unit, the w3c recommended method */
+  font-size: 100%;
+}
+
+/*
+ * Selection: all elements requiring mono spaced fonts.
+ *
+ * The family names attempt to match the proportionally spaced font
+ * family names such that the same font name is used for both.
+ * We'd like to use Bitstream, for example, in both proportionally and
+ * mono spaced font text.
+ */
+.command,
+.errorcode,
+.errorname,
+.errortype,
+.filename,
+.funcsynopsis,
+.function,
+.parameter,
+.programlisting,
+.property,
+.screen,
+.structname,
+.symbol,
+.synopsis,
+.type
+{
+  font-family:  "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Courier, "Liberation Mono", Monospace;
+}
+
+/*
+ * Books have a title page, a preface, some chapters and appendices,
+ * a glossary, an index and a bibliography, in that order.
+ *
+ * An Article has no preface and no chapters. It has sections, appendices,
+ * a glossary, an index and a bibliography.
+ */
+
+/*
+ * Selection: book main title and subtitle
+ */
+div.book>div.titlepage h1.title,
+div.book>div.titlepage h2.subtitle {
+  text-align: center;
+}
+
+/*
+ * Selection: article main title and subtitle
+ */
+div.article>div.titlepage h2.title,
+div.article>div.titlepage h3.subtitle,
+div.article>div.sect1>div.titlepage h2.title,
+div.article>div.section>div.titlepage h2.title {
+  text-align: center;
+}
+
+/*
+ * Selection: various types of authors and collaborators, individuals or corporate
+ *
+ * These authors are not always contained inside an authorgroup.
+ * They can be contained inside a lot of different parent types where they might
+ * not be centered.
+ * Reducing the margin at the bottom makes a visual separation between authors
+ * We specify here the ones on the title page, others may be added based on merit.
+ */
+div.titlepage .authorgroup,
+div.titlepage .author,
+div.titlepage .collab,
+div.titlepage .corpauthor,
+div.titlepage .corpcredit,
+div.titlepage .editor,
+div.titlepage .othercredit {
+  text-align: center;
+  margin-bottom: 0.25em;
+}
+
+/*
+ * Selection: the affiliation of various types of authors and collaborators,
+ * individuals or corporate.
+ */
+div.titlepage .affiliation {
+  text-align: center;
+}
+
+/*
+ * Selection: product release information (X Version 11, Release 7)
+ *
+ * The releaseinfo element can be contained inside a lot of different parent
+ * types where it might not be centered.
+ * We specify here the one on the title page, others may be added based on merit.
+ */
+div.titlepage p.releaseinfo {
+  font-weight: bold;
+  text-align: center;
+}
+
+/*
+ * Selection: publishing date
+ */
+div.titlepage .pubdate {
+  text-align: center;
+}
+
+/*
+ * The legal notices are displayed in smaller sized fonts
+ * Justification is only supported in IE and therefore not requested.
+ *
+ */
+.legalnotice {
+  font-size: small;
+  font-style: italic;
+}
+
+/*
+ * For documentation having multiple licenses, the copyright and legalnotice
+ * elements sequence cannot instantiated multiple times.
+ * The copyright notice and license text are therefore coded inside a legalnotice
+ * element. The role attribute on the paragraph is used to allow styling of the
+ * copyright notice text which should not be italicized.
+ */
+p.multiLicensing {
+  font-style: normal;
+  font-size: medium;
+}
+
+/*
+ * Selection: book or article main ToC title
+ * A paragraph is generated for the title rather than a level 2 heading.
+ * We do not want to select chapters sub table of contents, only the main one
+ */
+div.book>div.toc>p,
+div.article>div.toc>p {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+/*
+ * Selection: major sections of a book or an article
+ *
+ * Unlike books, articles do not have a titlepage element for appendix.
+ * Using the selector "div.titlepage h2.title" would be too general.
+ */
+div.book>div.preface>div.titlepage h2.title,
+div.book>div.chapter>div.titlepage h2.title,
+div.article>div.sect1>div.titlepage h2.title,
+div.article>div.section>div.titlepage h2.title,
+div.book>div.appendix>div.titlepage h2.title,
+div.article>div.appendix h2.title,
+div.glossary>div.titlepage h2.title,
+div.index>div.titlepage h2.title,
+div.bibliography>div.titlepage h2.title {
+   /* Add a border top over the major parts, just like printed books */
+   /* The Gray color is already used for the ruler over the main ToC. */
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: Gray;
+  /* Put some space between the border and the title */
+  padding-top: 0.2em;
+  text-align: center;
+}
+
+/*
+ * A Screen is a verbatim environment for displaying text that the user might
+ * see on a computer terminal. It is often used to display the results of a command.
+ *
+ * http://www.css3.info/preview/rounded-border/
+ */
+.screen {
+  background: #e0ffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #B0C4DE;
+  border-radius: 1.0em;
+  /* Browser's vendor properties prior to CSS 3 */
+  -moz-border-radius: 1.0em;
+  -webkit-border-radius: 1.0em;
+  -khtml-border-radius: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 1.0em;
+  padding: 0.5em;
+}
+
+/*
+ * Emphasis program listings with a light shade of gray similar to what
+ * DocBook XSL guide does: http://www.sagehill.net/docbookxsl/ProgramListings.html
+ * Found many C API docs on the web using like shades of gray.
+ */
+.programlisting {
+  background: #F4F4F4;
+  border-width: 1px;
+  border-style: solid;
+  border-color: Gray;
+  padding: 0.5em;
+}
+
+/*
+ * Emphasis functions synopsis using a darker shade of gray.
+ * Add a border such that it stands out more.
+ * Set the padding so the text does not touch the border.
+ */
+.funcsynopsis, .synopsis {
+  background: #e6e6fa;
+  border-width: 1px;
+  border-style: solid;
+  border-color: Gray;
+  clear: both;
+  margin: 0.5em;
+  padding: 0.25em;
+}
+
+/*
+ * Selection: paragraphs inside synopsis
+ *
+ * Removes the default browser margin, let the container set the padding.
+ * Paragraphs are not always used in synopsis
+ */
+.funcsynopsis p,
+.synopsis p {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Selection: variable lists, informal tables and tables
+ *
+ * Note the parameter name "variablelist.as.table" in xorg-xhtml.xsl
+ * A table with rows and columns is constructed inside div.variablelist
+ *
+ * Set the left margin so it is indented to the right
+ * Display informal tables with single line borders
+ */
+table {
+  margin-left: 0.5em;
+  border-collapse: collapse;
+}
+
+/*
+ * Selection: paragraphs inside tables
+ *
+ * Removes the default browser margin, let the container set the padding.
+ * Paragraphs are not always used in tables
+ */
+td p {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Add some space between the left and right column.
+ * The vertical alignment helps the reader associate a term
+ * with a multi-line definition.
+ */
+td, th {
+  padding-left: 1.0em;
+  padding-right: 1.0em;
+  vertical-align: top;
+}
+
+.warning {
+  border: 1px solid red;
+  background: #FFFF66;
+  padding-left: 0.5em;
+}
+</style></head><body><div class="book"><div class="titlepage"><div><div><h1 class="title"><a id="xlfd"></a>X Logical Font Description Conventions</h1></div><div><h2 class="subtitle">X Consortium Standard</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Jim</span> <span class="surname">Flowers</span></h3><div class="affiliation"><span class="orgname">Digital Equipment Corporation<br /></span></div></div><div class="editor"><h4 class="editedby">Edited by</h4><h3 class="editor"><span class="firstname">Stephen </span> <span class="surname">Gildea</span></h3><div class="affiliation"><span class="orgname">X Consortium<br /></span></div></div></div></div><div><p class="releaseinfo">X Version 11, Release 7.7</p></div><div><p class="releaseinfo">Version 1.5</p></div><div><p class="copyright">Copyright © 1988, 1994 X Consortium</p></div><div><div class="legalnotice"><a id="id2525478"></a><p>
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -29,7 +315,7 @@ the following conditions:
 The above copyright notice and this permission notice shall be included
 in all copies or substantial portions of the Software.
 </p><p>
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR
@@ -41,8 +327,8 @@ Except as contained in this notice, the name of the X Consortium shall
 not be used in advertising or otherwise to promote the sale, use or
 other dealings in this Software without prior written authorization
 from the X Consortium.
-</p><p>
-Copyright 1988, 1989
+</p><p>X Window System is a trademark of The Open Group.</p></div></div><div><div class="legalnotice"><a id="id2526154"></a><p class="multiLicensing">
+Copyright © 1988, 1989
 Digital Equipment Corporation, Maynard MA.  All rights reserved.
 </p><p>
 Permission to use, copy, modify, and distribute this documentation
@@ -53,7 +339,18 @@ Digital Equipment Corporation makes no representations
 about the
 suitability for any purpose of the information in this document.
 This documentation is provided as is without express or implied warranty.
-</p></div></div></div><hr /></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#introduction">1. Introduction</a></span></dt><dt><span class="chapter"><a href="#requirements_and_goals">2. Requirements and Goals</a></span></dt><dd><dl><dt><span class="sect1"><a href="#provide_unique_and_descriptive_font_names">Provide Unique and Descriptive Font Names</a></span></dt><dt><span class="sect1"><a href="#support_multiple_font_vendors_and_character_sets">Support Multiple Font Vendors and Character Sets</a></span></dt><dt><span class="sect1"><a href="#support_scalable_and_polymorphic_fonts">Support Scalable and Polymorphic Fonts</a></span></dt><dt><span class="sect1"><a href="#support_transformations_and_subsetting_of_fonts">Support Transformations and Subsetting of Fonts</a></span></dt><dt><span class="sect1"><a href="#be_independent_of_x_server_and_operating_or_file_system_implementations">Be Independent of X Server and Operating or File System Implementations</a></span></dt><dt><span class="sect1"><a href="#support_arbitrarily_complex_font_matching_and_substitution">Support Arbitrarily Complex Font Matching and Substitution</a></span></dt><dt><span class="sect1"><a href="#be_extensible">Be Extensible</a></span></dt></dl></dd><dt><span class="chapter"><a href="#x_logical_font_description">3. X Logical Font Description</a></span></dt><dd><dl><dt><span class="sect1"><a href="#fontname">FontName</a></span></dt><dd><dl><dt><span class="sect2"><a href="#fontname_syntax">FontName Syntax</a></span></dt><dt><span class="sect2"><a href="#fontname_field_definitions">FontName Field Definitions</a></span></dt><dt><span class="sect2"><a href="#examples">Examples</a></span></dt></dl></dd><dt><span class="sect1"><a href="#font_properties">Font Properties</a></span></dt><dd><dl><dt><span class="sect2"><a href="#foundry">FOUNDRY</a></span></dt><dt><span class="sect2"><a href="#family_name">FAMILY_NAME</a></span></dt><dt><span class="sect2"><a href="#weight_name">WEIGHT_NAME</a></span></dt><dt><span class="sect2"><a href="#slant">SLANT </a></span></dt><dt><span class="sect2"><a href="#setwidth_name">SETWIDTH_NAME</a></span></dt><dt><span class="sect2"><a href="#add_style_name">ADD_STYLE_NAME</a></span></dt><dt><span class="sect2"><a href="#pixel_size">PIXEL_SIZE</a></span></dt><dt><span class="sect2"><a href="#point_size">POINT_SIZE</a></span></dt><dt><span class="sect2"><a href="#resolution_x">RESOLUTION_X</a></span></dt><dt><span class="sect2"><a href="#resolution_y">RESOLUTION_Y</a></span></dt><dt><span class="sect2"><a href="#spacing">SPACING</a></span></dt><dt><span class="sect2"><a href="#average_width">AVERAGE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#charset_registry">CHARSET_REGISTRY</a></span></dt><dt><span class="sect2"><a href="#charset_encoding">CHARSET_ENCODING</a></span></dt><dt><span class="sect2"><a href="#min_space">MIN_SPACE</a></span></dt><dt><span class="sect2"><a href="#norm_space">NORM_SPACE</a></span></dt><dt><span class="sect2"><a href="#max_space">MAX_SPACE</a></span></dt><dt><span class="sect2"><a href="#end_space">END_SPACE</a></span></dt><dt><span class="sect2"><a href="#avg_capital_width">AVG_CAPITAL_WIDTH</a></span></dt><dt><span class="sect2"><a href="#avg_lowercase_width">AVG_LOWERCASE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#quad_width">QUAD_WIDTH</a></span></dt><dt><span class="sect2"><a href="#figure_width">FIGURE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#superscript_x">SUPERSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#superscript_y">SUPERSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#subscript_x">SUBSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#subscript_y">SUBSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#superscript_size">SUPERSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#subscript_size">SUBSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#small_cap_size">SMALL_CAP_SIZE</a></span></dt><dt><span class="sect2"><a href="#underline_position">UNDERLINE_POSITION </a></span></dt><dt><span class="sect2"><a href="#underline_thickness">UNDERLINE_THICKNESS</a></span></dt><dt><span class="sect2"><a href="#strikeout_ascent">STRIKEOUT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#strikeout_descent">STRIKEOUT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#italic_angle">ITALIC_ANGLE</a></span></dt><dt><span class="sect2"><a href="#cap_height">CAP_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#x_height">X_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#relative_setwidth">RELATIVE_SETWIDTH</a></span></dt><dt><span class="sect2"><a href="#relative_weight">RELATIVE_WEIGHT</a></span></dt><dt><span class="sect2"><a href="#weight">WEIGHT</a></span></dt><dt><span class="sect2"><a href="#resolution">RESOLUTION</a></span></dt><dt><span class="sect2"><a href="#font">FONT</a></span></dt><dt><span class="sect2"><a href="#face_name">FACE_NAME</a></span></dt><dt><span class="sect2"><a href="#full_name">FULL_NAME</a></span></dt><dt><span class="sect2"><a href="#copyright">COPYRIGHT</a></span></dt><dt><span class="sect2"><a href="#notice">NOTICE</a></span></dt><dt><span class="sect2"><a href="#destination">DESTINATION</a></span></dt><dt><span class="sect2"><a href="#font_type">FONT_TYPE</a></span></dt><dt><span class="sect2"><a href="#font_version">FONT_VERSION</a></span></dt><dt><span class="sect2"><a href="#rasterizer_name">RASTERIZER_NAME</a></span></dt><dt><span class="sect2"><a href="#rasterizer_version">RASTERIZER_VERSION</a></span></dt><dt><span class="sect2"><a href="#raw_ascent">RAW_ASCENT</a></span></dt><dt><span class="sect2"><a href="#raw_descent">RAW_DESCENT</a></span></dt><dt><span class="sect2"><a href="#raw_">RAW_*</a></span></dt><dt><span class="sect2"><a href="#axis_names">AXIS_NAMES</a></span></dt><dt><span class="sect2"><a href="#axis_limits">AXIS_LIMITS</a></span></dt><dt><span class="sect2"><a href="#axis_types">AXIS_TYPES</a></span></dt></dl></dd><dt><span class="sect1"><a href="#built-in_font_property_atoms">Built-in Font Property Atoms</a></span></dt></dl></dd><dt><span class="chapter"><a href="#matrix_transformations">4. Matrix Transformations</a></span></dt><dd><dl><dt><span class="sect1"><a href="#metrics_and_font_properties">Metrics and Font Properties</a></span></dt></dl></dd><dt><span class="chapter"><a href="#scalable_fonts">5. Scalable Fonts</a></span></dt><dt><span class="chapter"><a href="#polymorphic_fonts">6. Polymorphic Fonts</a></span></dt><dt><span class="chapter"><a href="#affected_elements_of_xlib_and_the_x_protocol">7. Affected Elements of Xlib and the X Protocol</a></span></dt><dt><span class="chapter"><a href="#bdf_conformance">8. BDF Conformance</a></span></dt><dd><dl><dt><span class="sect1"><a href="#xlfd_conformance_requirements">XLFD Conformance Requirements</a></span></dt><dt><span class="sect1"><a href="#font_ascent_font_descent_and_default_char">FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR</a></span></dt><dd><dl><dt><span class="sect2"><a href="#font_ascent">FONT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#font_descent">FONT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#default_char">DEFAULT_CHAR</a></span></dt></dl></dd></dl></dd></dl></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="introduction"></a>Chapter 1. Introduction</h2></div></div></div><p>
+</p></div></div><div><div class="legalnotice"><a id="id2524904"></a><p>
+Helvetica and Times are registered trademarks of Linotype Company.
+</p><p>
+ITC Avant Garde Gothic is a registered trademark of International
+Typeface Corporation.
+</p><p>
+Times Roman is a registered trademark of Monotype Corporation.
+</p><p>
+Bitstream Amerigo is a registered trademark of Bitstream Inc.
+</p><p>
+Stone is a registered trademark of Adobe Systems Inc.
+</p></div></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="chapter"><a href="#Introduction">1. Introduction</a></span></dt><dt><span class="chapter"><a href="#Requirements_and_Goals">2. Requirements and Goals</a></span></dt><dd><dl><dt><span class="sect1"><a href="#Provide_Unique_and_Descriptive_Font_Names">Provide Unique and Descriptive Font Names</a></span></dt><dt><span class="sect1"><a href="#Support_Multiple_Font_Vendors_and_Character_Sets">Support Multiple Font Vendors and Character Sets</a></span></dt><dt><span class="sect1"><a href="#Support_Scalable_and_Polymorphic_Fonts">Support Scalable and Polymorphic Fonts</a></span></dt><dt><span class="sect1"><a href="#Support_Transformations_and_Subsetting_of_Fonts">Support Transformations and Subsetting of Fonts</a></span></dt><dt><span class="sect1"><a href="#Be_Independent_of_X_Server_and_Operating_or_File_System_Implementations">Be Independent of X Server and Operating or File System Implementations</a></span></dt><dt><span class="sect1"><a href="#Support_Arbitrarily_Complex_Font_Matching_and_Substitution">Support Arbitrarily Complex Font Matching and Substitution</a></span></dt><dt><span class="sect1"><a href="#Be_Extensible">Be Extensible</a></span></dt></dl></dd><dt><span class="chapter"><a href="#X_Logical_Font_Description">3. X Logical Font Description</a></span></dt><dd><dl><dt><span class="sect1"><a href="#FontName">FontName</a></span></dt><dd><dl><dt><span class="sect2"><a href="#FontName_Syntax">FontName Syntax</a></span></dt><dt><span class="sect2"><a href="#FontName_Field_Definitions">FontName Field Definitions</a></span></dt><dt><span class="sect2"><a href="#Examples">Examples</a></span></dt></dl></dd><dt><span class="sect1"><a href="#Font_Properties">Font Properties</a></span></dt><dd><dl><dt><span class="sect2"><a href="#FOUNDRY">FOUNDRY</a></span></dt><dt><span class="sect2"><a href="#FAMILY_NAME">FAMILY_NAME</a></span></dt><dt><span class="sect2"><a href="#WEIGHT_NAME">WEIGHT_NAME</a></span></dt><dt><span class="sect2"><a href="#SLANT">SLANT</a></span></dt><dt><span class="sect2"><a href="#SETWIDTH_NAME">SETWIDTH_NAME</a></span></dt><dt><span class="sect2"><a href="#ADD_STYLE_NAME">ADD_STYLE_NAME</a></span></dt><dt><span class="sect2"><a href="#PIXEL_SIZE">PIXEL_SIZE</a></span></dt><dt><span class="sect2"><a href="#POINT_SIZE">POINT_SIZE</a></span></dt><dt><span class="sect2"><a href="#RESOLUTION_X_x">RESOLUTION_X</a></span></dt><dt><span class="sect2"><a href="#RESOLUTION_Y_y">RESOLUTION_Y</a></span></dt><dt><span class="sect2"><a href="#SPACING">SPACING</a></span></dt><dt><span class="sect2"><a href="#AVERAGE_WIDTH">AVERAGE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#CHARSET_REGISTRY">CHARSET_REGISTRY</a></span></dt><dt><span class="sect2"><a href="#CHARSET_ENCODING">CHARSET_ENCODING</a></span></dt><dt><span class="sect2"><a href="#MIN_SPACE">MIN_SPACE</a></span></dt><dt><span class="sect2"><a href="#NORM_SPACE">NORM_SPACE</a></span></dt><dt><span class="sect2"><a href="#MAX_SPACE">MAX_SPACE</a></span></dt><dt><span class="sect2"><a href="#END_SPACE">END_SPACE</a></span></dt><dt><span class="sect2"><a href="#AVG_CAPITAL_WIDTH">AVG_CAPITAL_WIDTH</a></span></dt><dt><span class="sect2"><a href="#AVG_LOWERCASE_WIDTH">AVG_LOWERCASE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#QUAD_WIDTH">QUAD_WIDTH</a></span></dt><dt><span class="sect2"><a href="#FIGURE_WIDTH">FIGURE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#SUPERSCRIPT_X_x">SUPERSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#SUPERSCRIPT_Y_y">SUPERSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#SUBSCRIPT_X_x">SUBSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#SUBSCRIPT_Y_y">SUBSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#SUPERSCRIPT_SIZE">SUPERSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#SUBSCRIPT_SIZE">SUBSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#SMALL_CAP_SIZE">SMALL_CAP_SIZE</a></span></dt><dt><span class="sect2"><a href="#UNDERLINE_POSITION">UNDERLINE_POSITION</a></span></dt><dt><span class="sect2"><a href="#UNDERLINE_THICKNESS">UNDERLINE_THICKNESS</a></span></dt><dt><span class="sect2"><a href="#STRIKEOUT_ASCENT">STRIKEOUT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#STRIKEOUT_DESCENT">STRIKEOUT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#ITALIC_ANGLE">ITALIC_ANGLE</a></span></dt><dt><span class="sect2"><a href="#CAP_HEIGHT">CAP_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#X_HEIGHT">X_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#RELATIVE_SETWIDTH">RELATIVE_SETWIDTH</a></span></dt><dt><span class="sect2"><a href="#RELATIVE_WEIGHT">RELATIVE_WEIGHT</a></span></dt><dt><span class="sect2"><a href="#WEIGHT">WEIGHT</a></span></dt><dt><span class="sect2"><a href="#RESOLUTION">RESOLUTION</a></span></dt><dt><span class="sect2"><a href="#Font_support">FONT</a></span></dt><dt><span class="sect2"><a href="#FACE_NAME">FACE_NAME</a></span></dt><dt><span class="sect2"><a href="#FULL_NAME">FULL_NAME</a></span></dt><dt><span class="sect2"><a href="#COPYRIGHT">COPYRIGHT</a></span></dt><dt><span class="sect2"><a href="#NOTICE">NOTICE</a></span></dt><dt><span class="sect2"><a href="#DESTINATION">DESTINATION</a></span></dt><dt><span class="sect2"><a href="#FONT_TYPE">FONT_TYPE</a></span></dt><dt><span class="sect2"><a href="#FONT_VERSION">FONT_VERSION</a></span></dt><dt><span class="sect2"><a href="#RASTERIZER_NAME">RASTERIZER_NAME</a></span></dt><dt><span class="sect2"><a href="#RASTERIZER_VERSION">RASTERIZER_VERSION</a></span></dt><dt><span class="sect2"><a href="#RAW_ASCENT">RAW_ASCENT</a></span></dt><dt><span class="sect2"><a href="#RAW_DESCENT">RAW_DESCENT</a></span></dt><dt><span class="sect2"><a href="#RAW_">RAW_*</a></span></dt><dt><span class="sect2"><a href="#AXIS_NAMES">AXIS_NAMES</a></span></dt><dt><span class="sect2"><a href="#AXIS_LIMITS">AXIS_LIMITS</a></span></dt><dt><span class="sect2"><a href="#AXIS_TYPES">AXIS_TYPES</a></span></dt></dl></dd><dt><span class="sect1"><a href="#Built_in_Font_Property_Atoms">Built-in Font Property Atoms</a></span></dt></dl></dd><dt><span class="chapter"><a href="#Matrix_Transformations">4. Matrix Transformations</a></span></dt><dd><dl><dt><span class="sect1"><a href="#Metrics_and_Font_Properties">Metrics and Font Properties</a></span></dt></dl></dd><dt><span class="chapter"><a href="#Scalable_Fonts">5. Scalable Fonts</a></span></dt><dt><span class="chapter"><a href="#Polymorphic_Fonts">6. Polymorphic Fonts</a></span></dt><dt><span class="chapter"><a href="#Affected_Elements_of_Xlib_and_the_X_Protocol">7. Affected Elements of Xlib and the X Protocol</a></span></dt><dt><span class="chapter"><a href="#BDF_Conformance">8. BDF Conformance</a></span></dt><dd><dl><dt><span class="sect1"><a href="#XLFD_Conformance_Requirements">XLFD Conformance Requirements</a></span></dt><dt><span class="sect1"><a href="#FONT_ASCENT_FONT_DESCENT_and_DEFAULT_CHAR">FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR</a></span></dt><dd><dl><dt><span class="sect2"><a href="#FONT_ASCENT">FONT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#FONT_DESCENT">FONT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#DEFAULT_CHAR">DEFAULT_CHAR</a></span></dt></dl></dd></dl></dd></dl></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="Introduction"></a>Chapter 1. Introduction</h2></div></div></div><p>
 It is a requirement that X client applications must be portable across server
 implementations, with very different file systems, naming conventions, and
 font libraries.
@@ -96,25 +393,25 @@ In addition,
 this information is required by certain clients
 to position subscripts automatically and determine small capital heights,
 recommended leading, word-space values, and so on.
-</p></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="requirements_and_goals"></a>Chapter 2. Requirements and Goals</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#provide_unique_and_descriptive_font_names">Provide Unique and Descriptive Font Names</a></span></dt><dt><span class="sect1"><a href="#support_multiple_font_vendors_and_character_sets">Support Multiple Font Vendors and Character Sets</a></span></dt><dt><span class="sect1"><a href="#support_scalable_and_polymorphic_fonts">Support Scalable and Polymorphic Fonts</a></span></dt><dt><span class="sect1"><a href="#support_transformations_and_subsetting_of_fonts">Support Transformations and Subsetting of Fonts</a></span></dt><dt><span class="sect1"><a href="#be_independent_of_x_server_and_operating_or_file_system_implementations">Be Independent of X Server and Operating or File System Implementations</a></span></dt><dt><span class="sect1"><a href="#support_arbitrarily_complex_font_matching_and_substitution">Support Arbitrarily Complex Font Matching and Substitution</a></span></dt><dt><span class="sect1"><a href="#be_extensible">Be Extensible</a></span></dt></dl></div><p>
+</p></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="Requirements_and_Goals"></a>Chapter 2. Requirements and Goals</h2></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="sect1"><a href="#Provide_Unique_and_Descriptive_Font_Names">Provide Unique and Descriptive Font Names</a></span></dt><dt><span class="sect1"><a href="#Support_Multiple_Font_Vendors_and_Character_Sets">Support Multiple Font Vendors and Character Sets</a></span></dt><dt><span class="sect1"><a href="#Support_Scalable_and_Polymorphic_Fonts">Support Scalable and Polymorphic Fonts</a></span></dt><dt><span class="sect1"><a href="#Support_Transformations_and_Subsetting_of_Fonts">Support Transformations and Subsetting of Fonts</a></span></dt><dt><span class="sect1"><a href="#Be_Independent_of_X_Server_and_Operating_or_File_System_Implementations">Be Independent of X Server and Operating or File System Implementations</a></span></dt><dt><span class="sect1"><a href="#Support_Arbitrarily_Complex_Font_Matching_and_Substitution">Support Arbitrarily Complex Font Matching and Substitution</a></span></dt><dt><span class="sect1"><a href="#Be_Extensible">Be Extensible</a></span></dt></dl></div><p>
 The XLFD meets the short-term and long-term goals to have a
 standard logical font description that:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 Provides unique, descriptive font names that support simple pattern
 matching
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Supports multiple font vendors, arbitrary character sets, and encodings
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Supports naming and instancing of scalable and polymorphic fonts
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Supports transformations and subsetting of fonts
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Is independent of X server and operating or file system implementations
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Supports arbitrarily complex font matching or substitution
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Is extensible
-    </p></li></ul></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="provide_unique_and_descriptive_font_names"></a>Provide Unique and Descriptive Font Names</h2></div></div></div><p>
+    </p></li></ul></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Provide_Unique_and_Descriptive_Font_Names"></a>Provide Unique and Descriptive Font Names</h2></div></div></div><p>
 It should be possible to have font names that are long enough and
 descriptive enough to have a reasonable probability of being unique
 without inventing a new registration organization.
@@ -125,7 +422,7 @@ and so on must be anticipated and handled by the font name alone.
 The name itself should be structured to be amenable to simple pattern
 matching and parsing, thus allowing X clients to restrict font queries to
 some subset of all possible fonts in the server.
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="support_multiple_font_vendors_and_character_sets"></a>Support Multiple Font Vendors and Character Sets</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Support_Multiple_Font_Vendors_and_Character_Sets"></a>Support Multiple Font Vendors and Character Sets</h2></div></div></div><p>
 
 The font name and properties should distinguish between fonts
 that were supplied by different font vendors
@@ -142,21 +439,21 @@ Others may desire to perform the mapping dynamically in the server.
 Provisions must be made in the font name
 that allows a font request to specify or identify specific charset mappings
 in server environments where multiple charsets are supported.
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="support_scalable_and_polymorphic_fonts"></a>Support Scalable and Polymorphic Fonts</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Support_Scalable_and_Polymorphic_Fonts"></a>Support Scalable and Polymorphic Fonts</h2></div></div></div><p>
 
 If a font source can be scaled to an arbitrary size or varied in other
 ways, it should be possible for an application to determine
 that fact from the font name, and the
 application should be able to construct a font name for any specific
 instance.
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="support_transformations_and_subsetting_of_fonts"></a>Support Transformations and Subsetting of Fonts</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Support_Transformations_and_Subsetting_of_Fonts"></a>Support Transformations and Subsetting of Fonts</h2></div></div></div><p>
 
 Arbitrary two-dimensional linear transformations of fonts should be
 able to be requested by applications.  Since such transformed fonts
 may be used for special effects requiring a few characters from each
 of many differently transformed fonts, it should be possible to
 request only a few characters from a font for efficiency.
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="be_independent_of_x_server_and_operating_or_file_system_implementations"></a>Be Independent of X Server and Operating or File System Implementations</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Be_Independent_of_X_Server_and_Operating_or_File_System_Implementations"></a>Be Independent of X Server and Operating or File System Implementations</h2></div></div></div><p>
 
 X client applications that require a particular font should be able to use
 the descriptive name without knowledge of the file system or other
@@ -167,7 +464,7 @@ into a file name syntax that it knows how to deal with,
 without compromising the uniqueness of the font name.
 This algorithm should be reversible (exactly how this translation is done is
 implementation dependent).
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="support_arbitrarily_complex_font_matching_and_substitution"></a>Support Arbitrarily Complex Font Matching and Substitution</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Support_Arbitrarily_Complex_Font_Matching_and_Substitution"></a>Support Arbitrarily Complex Font Matching and Substitution</h2></div></div></div><p>
 
 In addition to the font name,
 the XLFD should define a standard list of descriptive font properties,
@@ -175,12 +472,12 @@ with agreed-upon fallbacks for all fonts.
 This allows client applications to derive font-specific formatting
 or display data and to perform font matching or substitution
 when asked to handle potentially unknown fonts, as required.
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="be_extensible"></a>Be Extensible</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Be_Extensible"></a>Be Extensible</h2></div></div></div><p>
 
 The XLFD must be extensible so that new and/or private descriptive font
 properties can be added to conforming fonts without making existing
 X client or server implementations obsolete.
-</p></div></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="x_logical_font_description"></a>Chapter 3. X Logical Font Description</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#fontname">FontName</a></span></dt><dd><dl><dt><span class="sect2"><a href="#fontname_syntax">FontName Syntax</a></span></dt><dt><span class="sect2"><a href="#fontname_field_definitions">FontName Field Definitions</a></span></dt><dt><span class="sect2"><a href="#examples">Examples</a></span></dt></dl></dd><dt><span class="sect1"><a href="#font_properties">Font Properties</a></span></dt><dd><dl><dt><span class="sect2"><a href="#foundry">FOUNDRY</a></span></dt><dt><span class="sect2"><a href="#family_name">FAMILY_NAME</a></span></dt><dt><span class="sect2"><a href="#weight_name">WEIGHT_NAME</a></span></dt><dt><span class="sect2"><a href="#slant">SLANT </a></span></dt><dt><span class="sect2"><a href="#setwidth_name">SETWIDTH_NAME</a></span></dt><dt><span class="sect2"><a href="#add_style_name">ADD_STYLE_NAME</a></span></dt><dt><span class="sect2"><a href="#pixel_size">PIXEL_SIZE</a></span></dt><dt><span class="sect2"><a href="#point_size">POINT_SIZE</a></span></dt><dt><span class="sect2"><a href="#resolution_x">RESOLUTION_X</a></span></dt><dt><span class="sect2"><a href="#resolution_y">RESOLUTION_Y</a></span></dt><dt><span class="sect2"><a href="#spacing">SPACING</a></span></dt><dt><span class="sect2"><a href="#average_width">AVERAGE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#charset_registry">CHARSET_REGISTRY</a></span></dt><dt><span class="sect2"><a href="#charset_encoding">CHARSET_ENCODING</a></span></dt><dt><span class="sect2"><a href="#min_space">MIN_SPACE</a></span></dt><dt><span class="sect2"><a href="#norm_space">NORM_SPACE</a></span></dt><dt><span class="sect2"><a href="#max_space">MAX_SPACE</a></span></dt><dt><span class="sect2"><a href="#end_space">END_SPACE</a></span></dt><dt><span class="sect2"><a href="#avg_capital_width">AVG_CAPITAL_WIDTH</a></span></dt><dt><span class="sect2"><a href="#avg_lowercase_width">AVG_LOWERCASE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#quad_width">QUAD_WIDTH</a></span></dt><dt><span class="sect2"><a href="#figure_width">FIGURE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#superscript_x">SUPERSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#superscript_y">SUPERSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#subscript_x">SUBSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#subscript_y">SUBSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#superscript_size">SUPERSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#subscript_size">SUBSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#small_cap_size">SMALL_CAP_SIZE</a></span></dt><dt><span class="sect2"><a href="#underline_position">UNDERLINE_POSITION </a></span></dt><dt><span class="sect2"><a href="#underline_thickness">UNDERLINE_THICKNESS</a></span></dt><dt><span class="sect2"><a href="#strikeout_ascent">STRIKEOUT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#strikeout_descent">STRIKEOUT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#italic_angle">ITALIC_ANGLE</a></span></dt><dt><span class="sect2"><a href="#cap_height">CAP_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#x_height">X_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#relative_setwidth">RELATIVE_SETWIDTH</a></span></dt><dt><span class="sect2"><a href="#relative_weight">RELATIVE_WEIGHT</a></span></dt><dt><span class="sect2"><a href="#weight">WEIGHT</a></span></dt><dt><span class="sect2"><a href="#resolution">RESOLUTION</a></span></dt><dt><span class="sect2"><a href="#font">FONT</a></span></dt><dt><span class="sect2"><a href="#face_name">FACE_NAME</a></span></dt><dt><span class="sect2"><a href="#full_name">FULL_NAME</a></span></dt><dt><span class="sect2"><a href="#copyright">COPYRIGHT</a></span></dt><dt><span class="sect2"><a href="#notice">NOTICE</a></span></dt><dt><span class="sect2"><a href="#destination">DESTINATION</a></span></dt><dt><span class="sect2"><a href="#font_type">FONT_TYPE</a></span></dt><dt><span class="sect2"><a href="#font_version">FONT_VERSION</a></span></dt><dt><span class="sect2"><a href="#rasterizer_name">RASTERIZER_NAME</a></span></dt><dt><span class="sect2"><a href="#rasterizer_version">RASTERIZER_VERSION</a></span></dt><dt><span class="sect2"><a href="#raw_ascent">RAW_ASCENT</a></span></dt><dt><span class="sect2"><a href="#raw_descent">RAW_DESCENT</a></span></dt><dt><span class="sect2"><a href="#raw_">RAW_*</a></span></dt><dt><span class="sect2"><a href="#axis_names">AXIS_NAMES</a></span></dt><dt><span class="sect2"><a href="#axis_limits">AXIS_LIMITS</a></span></dt><dt><span class="sect2"><a href="#axis_types">AXIS_TYPES</a></span></dt></dl></dd><dt><span class="sect1"><a href="#built-in_font_property_atoms">Built-in Font Property Atoms</a></span></dt></dl></div><p>
+</p></div></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="X_Logical_Font_Description"></a>Chapter 3. X Logical Font Description</h2></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="sect1"><a href="#FontName">FontName</a></span></dt><dd><dl><dt><span class="sect2"><a href="#FontName_Syntax">FontName Syntax</a></span></dt><dt><span class="sect2"><a href="#FontName_Field_Definitions">FontName Field Definitions</a></span></dt><dt><span class="sect2"><a href="#Examples">Examples</a></span></dt></dl></dd><dt><span class="sect1"><a href="#Font_Properties">Font Properties</a></span></dt><dd><dl><dt><span class="sect2"><a href="#FOUNDRY">FOUNDRY</a></span></dt><dt><span class="sect2"><a href="#FAMILY_NAME">FAMILY_NAME</a></span></dt><dt><span class="sect2"><a href="#WEIGHT_NAME">WEIGHT_NAME</a></span></dt><dt><span class="sect2"><a href="#SLANT">SLANT</a></span></dt><dt><span class="sect2"><a href="#SETWIDTH_NAME">SETWIDTH_NAME</a></span></dt><dt><span class="sect2"><a href="#ADD_STYLE_NAME">ADD_STYLE_NAME</a></span></dt><dt><span class="sect2"><a href="#PIXEL_SIZE">PIXEL_SIZE</a></span></dt><dt><span class="sect2"><a href="#POINT_SIZE">POINT_SIZE</a></span></dt><dt><span class="sect2"><a href="#RESOLUTION_X_x">RESOLUTION_X</a></span></dt><dt><span class="sect2"><a href="#RESOLUTION_Y_y">RESOLUTION_Y</a></span></dt><dt><span class="sect2"><a href="#SPACING">SPACING</a></span></dt><dt><span class="sect2"><a href="#AVERAGE_WIDTH">AVERAGE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#CHARSET_REGISTRY">CHARSET_REGISTRY</a></span></dt><dt><span class="sect2"><a href="#CHARSET_ENCODING">CHARSET_ENCODING</a></span></dt><dt><span class="sect2"><a href="#MIN_SPACE">MIN_SPACE</a></span></dt><dt><span class="sect2"><a href="#NORM_SPACE">NORM_SPACE</a></span></dt><dt><span class="sect2"><a href="#MAX_SPACE">MAX_SPACE</a></span></dt><dt><span class="sect2"><a href="#END_SPACE">END_SPACE</a></span></dt><dt><span class="sect2"><a href="#AVG_CAPITAL_WIDTH">AVG_CAPITAL_WIDTH</a></span></dt><dt><span class="sect2"><a href="#AVG_LOWERCASE_WIDTH">AVG_LOWERCASE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#QUAD_WIDTH">QUAD_WIDTH</a></span></dt><dt><span class="sect2"><a href="#FIGURE_WIDTH">FIGURE_WIDTH</a></span></dt><dt><span class="sect2"><a href="#SUPERSCRIPT_X_x">SUPERSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#SUPERSCRIPT_Y_y">SUPERSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#SUBSCRIPT_X_x">SUBSCRIPT_X</a></span></dt><dt><span class="sect2"><a href="#SUBSCRIPT_Y_y">SUBSCRIPT_Y</a></span></dt><dt><span class="sect2"><a href="#SUPERSCRIPT_SIZE">SUPERSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#SUBSCRIPT_SIZE">SUBSCRIPT_SIZE</a></span></dt><dt><span class="sect2"><a href="#SMALL_CAP_SIZE">SMALL_CAP_SIZE</a></span></dt><dt><span class="sect2"><a href="#UNDERLINE_POSITION">UNDERLINE_POSITION</a></span></dt><dt><span class="sect2"><a href="#UNDERLINE_THICKNESS">UNDERLINE_THICKNESS</a></span></dt><dt><span class="sect2"><a href="#STRIKEOUT_ASCENT">STRIKEOUT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#STRIKEOUT_DESCENT">STRIKEOUT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#ITALIC_ANGLE">ITALIC_ANGLE</a></span></dt><dt><span class="sect2"><a href="#CAP_HEIGHT">CAP_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#X_HEIGHT">X_HEIGHT</a></span></dt><dt><span class="sect2"><a href="#RELATIVE_SETWIDTH">RELATIVE_SETWIDTH</a></span></dt><dt><span class="sect2"><a href="#RELATIVE_WEIGHT">RELATIVE_WEIGHT</a></span></dt><dt><span class="sect2"><a href="#WEIGHT">WEIGHT</a></span></dt><dt><span class="sect2"><a href="#RESOLUTION">RESOLUTION</a></span></dt><dt><span class="sect2"><a href="#Font_support">FONT</a></span></dt><dt><span class="sect2"><a href="#FACE_NAME">FACE_NAME</a></span></dt><dt><span class="sect2"><a href="#FULL_NAME">FULL_NAME</a></span></dt><dt><span class="sect2"><a href="#COPYRIGHT">COPYRIGHT</a></span></dt><dt><span class="sect2"><a href="#NOTICE">NOTICE</a></span></dt><dt><span class="sect2"><a href="#DESTINATION">DESTINATION</a></span></dt><dt><span class="sect2"><a href="#FONT_TYPE">FONT_TYPE</a></span></dt><dt><span class="sect2"><a href="#FONT_VERSION">FONT_VERSION</a></span></dt><dt><span class="sect2"><a href="#RASTERIZER_NAME">RASTERIZER_NAME</a></span></dt><dt><span class="sect2"><a href="#RASTERIZER_VERSION">RASTERIZER_VERSION</a></span></dt><dt><span class="sect2"><a href="#RAW_ASCENT">RAW_ASCENT</a></span></dt><dt><span class="sect2"><a href="#RAW_DESCENT">RAW_DESCENT</a></span></dt><dt><span class="sect2"><a href="#RAW_">RAW_*</a></span></dt><dt><span class="sect2"><a href="#AXIS_NAMES">AXIS_NAMES</a></span></dt><dt><span class="sect2"><a href="#AXIS_LIMITS">AXIS_LIMITS</a></span></dt><dt><span class="sect2"><a href="#AXIS_TYPES">AXIS_TYPES</a></span></dt></dl></dd><dt><span class="sect1"><a href="#Built_in_Font_Property_Atoms">Built-in Font Property Atoms</a></span></dt></dl></div><p>
 
 XLFD is divided into two basic components:
 the
@@ -214,7 +511,7 @@ The names and associated data values for each of the
 may also appear as items of the
 <code class="function">STARTPROPERTIES</code>...<code class="function">ENDPROPERTIES</code>list
 in the BDF V2.1 specification. 
-</p><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="fontname"></a>FontName</h2></div></div></div><p>
+</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="FontName"></a>FontName</h2></div></div></div><p>
 
 Each
 <code class="function">FontName</code>
@@ -264,13 +561,13 @@ fields are also defined as
 <code class="function">FontProperties</code>;
 numeric property values are represented as signed or unsigned integers,
 as appropriate.
-</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="fontname_syntax"></a>FontName Syntax</h3></div></div></div><p>
+</p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FontName_Syntax"></a>FontName Syntax</h3></div></div></div><p>
 
 The
 <code class="function">FontName</code>
 is a structured, parsable string (of type STRING8)
 whose Backus-Naur Form syntax description is as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /></colgroup><tbody><tr><td align="left">FontName ::=</td><td align="left">
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><tbody><tr><td align="left">FontName ::=</td><td align="left">
 XFontNameRegistry XFontNameSuffix |
 PrivFontNameRegistry PrivFontNameSuffix
       </td></tr><tr><td align="left">XFontNameRegistry ::=</td><td align="left">XFNDelim | XFNExtPrefix Version XFNDelim</td></tr><tr><td align="left">XFontNameSuffix ::=</td><td align="left">
@@ -287,14 +584,14 @@ to the font name syntax (for example, "1.4")
 
 Field values are constructed as strings of ISO 8859-1 graphic characters,
 excluding the following:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 '-' (HYPHEN), the XLFD font name delimiter character
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 '?' (QUESTION MARK) and "*" (ASTERISK), the X protocol
 font name wildcard characters
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 ',' (COMMA), used by Xlib to separate XLFD font names in a font set.
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 '"' (QUOTATION MARK), used by some commercial products to quote a
 font name.
     </p></li></ul></div><p>
@@ -310,35 +607,35 @@ Note that SPACE is a valid character of a
 <code class="function">FontName</code>
 field; for example, the string "ITC Avant Garde Gothic" might be a
 FAMILY_NAME.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="fontname_field_definitions"></a>FontName Field Definitions</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FontName_Field_Definitions"></a>FontName Field Definitions</h3></div></div></div><p>
 
 This section discusses the
 <code class="function">FontName</code>:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 FOUNDRY field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 FAMILY_NAME field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 WEIGHT_NAME field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 SLANT field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 SETWIDTH_NAME field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 ADD_STYLE_NAME field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 PIXEL_SIZE field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 POINT_SIZE field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 RESOLUTION_X and RESOLUTION_Y fields
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 SPACING field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 AVERAGE_WIDTH field
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 CHARSET_REGISTRY and CHARSET_ENCODING fields
-    </p></li></ul></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="foundry_field"></a>FOUNDRY Field</h4></div></div></div><p>
+    </p></li></ul></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="FOUNDRY_Field"></a>FOUNDRY Field</h4></div></div></div><p>
 
 FOUNDRY is an x-registered-name,
 the name or identifier of the digital type foundry
@@ -369,7 +666,7 @@ as part of its public distribution,
 a registry of such registered names for use in XLFD font names and properties.
 </p><p>
 
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="family_name_field"></a>FAMILY_NAME Field</h4></div></div></div><p>
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="FAMILY_NAME_Field"></a>FAMILY_NAME Field</h4></div></div></div><p>
 
 FAMILY_NAME is a string that identifies the range or family of
 typeface designs that are all variations of one basic typographic style.
@@ -390,26 +687,26 @@ typeface family name.
 </p><p>
 
 The following are examples of FAMILY_NAME:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 Helvetica
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 ITC Avant Garde Gothic
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Times
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Times Roman
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Bitstream Amerigo
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Stone
-    </p></li></ul></div></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="weight_name_field"></a>WEIGHT_NAME Field</h4></div></div></div><p>
+    </p></li></ul></div></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="WEIGHT_NAME_Field"></a>WEIGHT_NAME Field</h4></div></div></div><p>
 
 WEIGHT_NAME is a string that identifies the font's typographic weight,
 that is, the nominal blackness of the font,
 according to the FOUNDRY's judgment.
 This name must be human-understandable and suitable for presentation to a
 font user.
-The value "0" is used to indicate a polymorphic font (see <a href="#polymorphic_fonts" title="Chapter 6. Polymorphic Fonts">Chapter 6, <i>Polymorphic Fonts</i></a>).
+The value "0" is used to indicate a polymorphic font (see <a class="xref" href="#Polymorphic_Fonts" title="Chapter 6. Polymorphic Fonts"><em>Polymorphic Fonts</em></a>).
 </p><p>
 
 The interpretation of this field is somewhat problematic
@@ -426,22 +723,22 @@ For this purpose,
 X client applications should use the weight-related font properties
 (RELATIVE_WEIGHT and WEIGHT) that give the coded relative weight
 and the calculated weight, respectively.
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="slant_field"></a>SLANT Field</h4></div></div></div><p>
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="SLANT_Field"></a>SLANT Field</h4></div></div></div><p>
 
 SLANT is a code-string that indicates the overall posture of the
 typeface design used in the font.
 The encoding is as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">"R"</td><td align="left">Roman</td><td align="left">Upright design</td></tr><tr><td align="left">"I"</td><td align="left">Italic</td><td align="left">Italic design, slanted clockwise from the vertical</td></tr><tr><td align="left">"O"</td><td align="left">Oblique</td><td align="left">Obliqued upright design, slanted clockwise from the vertical</td></tr><tr><td align="left">"RI"</td><td align="left">Reverse Italic</td><td align="left">Italic design, slanted counterclockwise from the vertical</td></tr><tr><td align="left">"RO"</td><td align="left">Reverse Oblique</td><td align="left">Obliqued upright design, slanted counterclockwise from the vertical</td></tr><tr><td align="left">"OT"</td><td align="left">Other</td><td align="left">Other</td></tr><tr><td align="left">numeric</td><td align="left">Polymorphic</td><td align="left">See <a href="#polymorphic_fonts" title="Chapter 6. Polymorphic Fonts">Chapter 6, <i>Polymorphic Fonts</i></a>.</td></tr></tbody></table></div><p>
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /><col align="left" class="c3" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">"R"</td><td align="left">Roman</td><td align="left">Upright design</td></tr><tr><td align="left">"I"</td><td align="left">Italic</td><td align="left">Italic design, slanted clockwise from the vertical</td></tr><tr><td align="left">"O"</td><td align="left">Oblique</td><td align="left">Obliqued upright design, slanted clockwise from the vertical</td></tr><tr><td align="left">"RI"</td><td align="left">Reverse Italic</td><td align="left">Italic design, slanted counterclockwise from the vertical</td></tr><tr><td align="left">"RO"</td><td align="left">Reverse Oblique</td><td align="left">Obliqued upright design, slanted counterclockwise from the vertical</td></tr><tr><td align="left">"OT"</td><td align="left">Other</td><td align="left">Other</td></tr><tr><td align="left">numeric</td><td align="left">Polymorphic</td><td align="left">See <a class="xref" href="#Polymorphic_Fonts" title="Chapter 6. Polymorphic Fonts"><em>Polymorphic Fonts</em></a>.</td></tr></tbody></table></div><p>
 
 The SLANT codes are for programming convenience only and usually are
 converted into their equivalent human-understandable form before being
 presented to a user.
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="setwidth_name_field"></a>SETWIDTH_NAME Field</h4></div></div></div><p>
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="SETWIDTH_NAME_Field"></a>SETWIDTH_NAME Field</h4></div></div></div><p>
 
 SETWIDTH_NAME is a string that gives the font's typographic
 proportionate width, that is, the nominal width per horizontal unit of the
 font, according to the FOUNDRY's judgment.
-The value "0" is used to indicate a polymorphic font (see <a href="#polymorphic_fonts" title="Chapter 6. Polymorphic Fonts">Chapter 6, <i>Polymorphic Fonts</i></a>).
+The value "0" is used to indicate a polymorphic font (see <a class="xref" href="#Polymorphic_Fonts" title="Chapter 6. Polymorphic Fonts"><em>Polymorphic Fonts</em></a>).
 </p><p>
 
 As with WEIGHT_NAME, the interpretation of this field or font property is
@@ -455,21 +752,21 @@ the proportionate width.
 </p><p>
 
 The following are examples of SETWIDTH_NAME:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 Normal
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Condensed
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Narrow
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Double Wide
-    </p></li></ul></div></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="add_style_name_field"></a>ADD_STYLE_NAME Field</h4></div></div></div><p>
+    </p></li></ul></div></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="ADD_STYLE_NAME_Field"></a>ADD_STYLE_NAME Field</h4></div></div></div><p>
 
 ADD_STYLE_NAME is a string that identifies additional typographic
 style information that is not captured by other fields but is needed
 to identify the particular font.
 The character "[" anywhere in the field is used to indicate a
-polymorphic font (see <a href="#polymorphic_fonts" title="Chapter 6. Polymorphic Fonts">Chapter 6, <i>Polymorphic Fonts</i></a>).
+polymorphic font (see <a class="xref" href="#Polymorphic_Fonts" title="Chapter 6. Polymorphic Fonts"><em>Polymorphic Fonts</em></a>).
 </p><p>
 
 ADD_STYLE_NAME is not a typeface classification field
@@ -478,59 +775,59 @@ Its use, as such, is not limited to typographic style distinctions.
 </p><p>
 
 The following are examples of ADD_STYLE_NAME:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 Serif
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Sans Serif
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Informal
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Decorated
-    </p></li></ul></div></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="pixel_size_field"></a>PIXEL_SIZE Field</h4></div></div></div><p>
+    </p></li></ul></div></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="PIXEL_SIZE_Field"></a>PIXEL_SIZE Field</h4></div></div></div><p>
 
 PIXEL_SIZE
 gives the body size of the font at a particular
 POINT_SIZE and RESOLUTION_Y.
 PIXEL_SIZE is either an integer-string or a string beginning
 with "[".  A string beginning with "[" represents a matrix
-(see <a href="#matrix_transformations" title="Chapter 4. Matrix Transformations">Chapter 4, <i>Matrix Transformations</i></a>).
+(see <a class="xref" href="#Matrix_Transformations" title="Chapter 4. Matrix Transformations"><em>Matrix Transformations</em></a>).
 PIXEL_SIZE usually incorporates additional vertical spacing
 that is considered part of the font design.
 (Note, however, that this value is not necessarily equivalent to the height
 of the font bounding box.)
-Zero is used to indicate a scalable font (see <a href="#scalable_fonts" title="Chapter 5. Scalable Fonts">Chapter 5, <i>Scalable Fonts</i></a>).
+Zero is used to indicate a scalable font (see <a class="xref" href="#Scalable_Fonts" title="Chapter 5. Scalable Fonts"><em>Scalable Fonts</em></a>).
 </p><p>
 
 PIXEL_SIZE usually is used by X client applications that need to
 query fonts according to device-dependent size,
 regardless of the point size or vertical resolution
 for which the font was designed.
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="point_size_field"></a>SN POINT_SIZE Field</h4></div></div></div><p>
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="SN_POINT_SIZE_Field"></a>SN POINT_SIZE Field</h4></div></div></div><p>
 
 POINT_SIZE gives the body size
 for which the font was designed.
 POINT_SIZE is either an integer-string or a string beginning
 with "[".  A string beginning with "[" represents a matrix
-(see <a href="#matrix_transformations" title="Chapter 4. Matrix Transformations">Chapter 4, <i>Matrix Transformations</i></a>).
+(see <a class="xref" href="#Matrix_Transformations" title="Chapter 4. Matrix Transformations"><em>Matrix Transformations</em></a>).
 This field usually incorporates additional vertical spacing
 that is considered part of the font design.
 (Note, however, that POINT_SIZE is not necessarily equivalent to the height
 of the font bounding box.)
 POINT_SIZE is expressed in decipoints (where points are as defined
 in the X protocol or 72.27 points equal 1 inch).
-Zero is used to indicate a scalable font (see <a href="#scalable_fonts" title="Chapter 5. Scalable Fonts">Chapter 5, <i>Scalable Fonts</i></a>).
+Zero is used to indicate a scalable font (see <a class="xref" href="#Scalable_Fonts" title="Chapter 5. Scalable Fonts"><em>Scalable Fonts</em></a>).
 </p><p>
 
 POINT_SIZE and RESOLUTION_Y are used by X clients to query fonts
 according to device-independent size to maintain constant text
 size on the display regardless of the PIXEL_SIZE used for the font.
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="resolution_x_and_resolution_y_fields"></a>RESOLUTION_X and RESOLUTION_Y Fields</h4></div></div></div><p>
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="RESOLUTION_X_and_RESOLUTION_Y_Fields"></a>RESOLUTION_X and RESOLUTION_Y Fields</h4></div></div></div><p>
 
 RESOLUTION_X and RESOLUTION_Y are unsigned integer-strings that give
 the horizontal and vertical resolution,
 measured in pixels or dots per inch (dpi),
 for which the font was designed.
-Zero is used to indicate a scalable font (see <a href="#scalable_fonts" title="Chapter 5. Scalable Fonts">Chapter 5, <i>Scalable Fonts</i></a>).
+Zero is used to indicate a scalable font (see <a class="xref" href="#Scalable_Fonts" title="Chapter 5. Scalable Fonts"><em>Scalable Fonts</em></a>).
 Horizontal and vertical values are required
 because a separate bitmap font must be designed
 for displays with very different aspect ratios
@@ -549,14 +846,14 @@ and scan-converted outlines,
 POINT_SIZE and RESOLUTION_Y will help the server to differentiate
 between potentially separate font masters for text, title,
 and display sizes or for other typographic considerations.
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="spacing_field"></a>SPACING Field</h4></div></div></div><p>
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="SPACING_Field"></a>SPACING Field</h4></div></div></div><p>
 
 SPACING is a code-string that indicates the escapement class of the font,
 that is, monospace (fixed pitch), proportional (variable pitch),
 or charcell (a special monospaced font that conforms to the traditional
 data-processing character cell font model).
 The encoding is as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">"P"</td><td align="left">Proportional</td><td align="left">
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /><col align="left" class="c3" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">"P"</td><td align="left">Proportional</td><td align="left">
 A font whose logical character widths vary for each glyph.
 Note that no other restrictions are placed on the metrics
 of a proportional font.
@@ -579,7 +876,7 @@ Also, the vertical extents of the font do not exceed the vertical spacing
 (that is, on a per-character basis:
 ascent &lt;= font-ascent and descent &lt;= font-descent).
 The cell height = font-descent + font-ascent, and the width = AVERAGE_WIDTH.
-      </td></tr></tbody></table></div></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="average_width_field"></a>AVERAGE_WIDTH Field</h4></div></div></div><p>
+      </td></tr></tbody></table></div></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="AVERAGE_WIDTH_Field"></a>AVERAGE_WIDTH Field</h4></div></div></div><p>
 
 AVERAGE_WIDTH is an integer-string typographic metric value
 that gives the unweighted arithmetic mean of the absolute value of the
@@ -589,8 +886,8 @@ writing direction for the font is right-to-left.
 A leading "~" (TILDE) indicates a negative value.
 For monospaced and character cell fonts,
 this is the width of all glyphs in the font.
-Zero is used to indicate a scalable font (see <a href="#scalable_fonts" title="Chapter 5. Scalable Fonts">Chapter 5, <i>Scalable Fonts</i></a>).
-</p></div><div class="sect3" lang="en" xml:lang="en"><div class="titlepage"><div><div><h4 class="title"><a id="charset_registry_and_charset_encoding_fields"></a>CHARSET_REGISTRY and CHARSET_ENCODING Fields</h4></div></div></div><p>
+Zero is used to indicate a scalable font (see <a class="xref" href="#Scalable_Fonts" title="Chapter 5. Scalable Fonts"><em>Scalable Fonts</em></a>).
+</p></div><div class="sect3"><div class="titlepage"><div><div><h4 class="title"><a id="CHARSET_REGISTRY_and_CHARSET_ENCODING_Fields"></a>CHARSET_REGISTRY and CHARSET_ENCODING Fields</h4></div></div></div><p>
 
 The character set used to encode the glyphs of the font (and implicitly
 the font's glyph repertoire), as maintained by the X Consortium character
@@ -617,7 +914,7 @@ character set is font and server implementation dependent.
 To prevent collisions when defining character set names,
 it is recommended that CHARSET_REGISTRY and CHARSET_ENCODING name pairs
 be constructed according to the following conventions:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /></colgroup><tbody><tr><td align="left">CharsetRegistry ::=</td><td align="left">StdCharsetRegistryName | PrivCharsetRegistryName</td></tr><tr><td align="left">CharsetEncoding ::=</td><td align="left">StdCharsetEncodingName | PrivCharsetEncodingName</td></tr><tr><td align="left">StdCharsetRegistryName ::=</td><td align="left">StdOrganizationId StdNumber | StdOrganizationId StdNumber Dot Year</td></tr><tr><td align="left">PrivCharsetRegistryName ::=</td><td align="left">OrganizationId STRING8</td></tr><tr><td align="left">StdCharsetEncodingName ::=</td><td align="left">STRING8-numeric part number of referenced standard</td></tr><tr><td align="left">PrivCharsetEncodingName ::=</td><td align="left">STRING8</td></tr><tr><td align="left">StdOrganizationId ::=</td><td align="left">STRING8-the registered name or acronym of the referenced standard organization</td></tr><tr><td align="left">StdNumber ::=</td><td align="left">STRING8-referenced standard number</td></tr><tr><td align="left">OrganizationId ::=</td><td align="left">STRING8-the registered name or acronym of the organization</td></tr><tr><td align="left">Dot ::=</td><td align="left">OCTET-"." (FULL STOP)</td></tr><tr><td align="left">Year ::=</td><td align="left">STRING8-numeric year (for example, 1989)</td></tr></tbody></table></div><p>
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><tbody><tr><td align="left">CharsetRegistry ::=</td><td align="left">StdCharsetRegistryName | PrivCharsetRegistryName</td></tr><tr><td align="left">CharsetEncoding ::=</td><td align="left">StdCharsetEncodingName | PrivCharsetEncodingName</td></tr><tr><td align="left">StdCharsetRegistryName ::=</td><td align="left">StdOrganizationId StdNumber | StdOrganizationId StdNumber Dot Year</td></tr><tr><td align="left">PrivCharsetRegistryName ::=</td><td align="left">OrganizationId STRING8</td></tr><tr><td align="left">StdCharsetEncodingName ::=</td><td align="left">STRING8-numeric part number of referenced standard</td></tr><tr><td align="left">PrivCharsetEncodingName ::=</td><td align="left">STRING8</td></tr><tr><td align="left">StdOrganizationId ::=</td><td align="left">STRING8-the registered name or acronym of the referenced standard organization</td></tr><tr><td align="left">StdNumber ::=</td><td align="left">STRING8-referenced standard number</td></tr><tr><td align="left">OrganizationId ::=</td><td align="left">STRING8-the registered name or acronym of the organization</td></tr><tr><td align="left">Dot ::=</td><td align="left">OCTET-"." (FULL STOP)</td></tr><tr><td align="left">Year ::=</td><td align="left">STRING8-numeric year (for example, 1989)</td></tr></tbody></table></div><p>
 
 The X Consortium shall maintain and publish a registry
 of such character set names for use in X protocol font names and properties
@@ -642,7 +939,7 @@ the characters in the subset.
 </p><p>
 
 The BNF for the subsetting hint is
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /></colgroup><tbody><tr><td align="left">Subset ::=</td><td align="left">LeftBracket RangeList RightBracket</td></tr><tr><td align="left">RangeList ::=</td><td align="left">Range | Range Space RangeList</td></tr><tr><td align="left">Range ::=</td><td align="left">Number | Number Underscore Number</td></tr><tr><td align="left">Number ::=</td><td align="left">"0x" HexNumber | DecNumber</td></tr><tr><td align="left">HexNumber ::=</td><td align="left">HexDigit | HexDigit HexNumber</td></tr><tr><td align="left">DecNumber ::=</td><td align="left">DecDigit | DecDigit DecNumber</td></tr><tr><td align="left">DecDigit ::=</td><td align="left">"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"</td></tr><tr><td align="left">HexDigit ::=</td><td align="left">DecDigit | "a" | "b" | "c" | "d" | "e" | "f"</td></tr><tr><td align="left">LeftBracket ::=</td><td align="left">"[" (LEFT SQUARE BRACKET)</td></tr><tr><td align="left">RightBracket ::=</td><td align="left">"]" (RIGHT SQUARE BRACKET)</td></tr><tr><td align="left">Space ::=</td><td align="left">"\0" (SPACE)</td></tr><tr><td align="left">Underscore ::=</td><td align="left">"_" (LOW LINE)</td></tr></tbody></table></div><p>
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><tbody><tr><td align="left">Subset ::=</td><td align="left">LeftBracket RangeList RightBracket</td></tr><tr><td align="left">RangeList ::=</td><td align="left">Range | Range Space RangeList</td></tr><tr><td align="left">Range ::=</td><td align="left">Number | Number Underscore Number</td></tr><tr><td align="left">Number ::=</td><td align="left">"0x" HexNumber | DecNumber</td></tr><tr><td align="left">HexNumber ::=</td><td align="left">HexDigit | HexDigit HexNumber</td></tr><tr><td align="left">DecNumber ::=</td><td align="left">DecDigit | DecDigit DecNumber</td></tr><tr><td align="left">DecDigit ::=</td><td align="left">"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"</td></tr><tr><td align="left">HexDigit ::=</td><td align="left">DecDigit | "a" | "b" | "c" | "d" | "e" | "f"</td></tr><tr><td align="left">LeftBracket ::=</td><td align="left">"[" (LEFT SQUARE BRACKET)</td></tr><tr><td align="left">RightBracket ::=</td><td align="left">"]" (RIGHT SQUARE BRACKET)</td></tr><tr><td align="left">Space ::=</td><td align="left">"\0" (SPACE)</td></tr><tr><td align="left">Underscore ::=</td><td align="left">"_" (LOW LINE)</td></tr></tbody></table></div><p>
 
 Each Range specifies characters that are to be part of the subset
 included in the font.
@@ -662,11 +959,11 @@ For example,
 </pre><p>
 tells the font source that the client is interested only in characters
 65, 70, and 80-90.
-</p></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="examples"></a>Examples</h3></div></div></div><p>
+</p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="Examples"></a>Examples</h3></div></div></div><p>
 
 The following examples of font names are derived from the screen fonts
 shipped with the X Consortium distribution.
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Font</th><th align="left">X FontName</th></tr></thead><tbody><tr><td align="left"><code class="function">75-dpi Fonts</code></td><td class="auto-generated"> </td></tr><tr><td align="left">Charter 12 pt</td><td align="left">-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1</td></tr><tr><td align="left">Charter Bold 12 pt</td><td align="left">-Bitstream-Charter-Bold-R-Normal--12-120-75-75-P-76-ISO8859-1</td></tr><tr><td align="left">Charter Bold Italic 12 pt</td><td align="left">-Bitstream-Charter-Bold-I-Normal--12-120-75-75-P-75-ISO8859-1</td></tr><tr><td align="left">Charter Italic 12 pt</td><td align="left">-Bitstream-Charter-Medium-I-Normal--12-120-75-75-P-66-ISO8859-1</td></tr><tr><td align="left">Courier 8 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--8-80-75-75-M-50-ISO8859-1</td></tr><tr><td align="left">Courier 10 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left">Courier 12 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--12-120-75-75-M-70-ISO8859-1</td></tr><tr><td align="left">Courier 24 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--24-240-75-75-M-150-ISO8859-1</td></tr><tr><td align="left">Courier Bold 10 pt</td><td align="left">-Adobe-Courier-Bold-R-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left">Courier Bold Oblique 10 pt</td><td align="left">-Adobe-Courier-Bold-O-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left">Courier Oblique 10 pt</td><td align="left">-Adobe-Courier-Medium-O-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left"><code class="function">100-dpi Fonts</code></td><td class="auto-generated"> </td></tr><tr><td align="left">Symbol 10 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--14-100-100-100-P-85-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Symbol 14 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--20-140-100-100-P-107-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Symbol 18 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--25-180-100-100-P-142-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Symbol 24 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--34-240-100-100-P-191-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Times Bold 10 pt</td><td align="left">-Adobe-Times-Bold-R-Normal--14-100-100-100-P-76-ISO8859-1</td></tr><tr><td align="left">Times Bold Italic 10 pt</td><td align="left">-Adobe-Times-Bold-I-Normal--14-100-100-100-P-77-ISO8859-1</td></tr><tr><td align="left">Times Italic 10 pt</td><td align="left">-Adobe-Times-Medium-I-Normal--14-100-100-100-P-73-ISO8859-1</td></tr><tr><td align="left">Times Roman 10 pt</td><td align="left">-Adobe-Times-Medium-R-Normal--14-100-100-100-P-74-ISO8859-1</td></tr></tbody></table></div></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="font_properties"></a>Font Properties</h2></div></div></div><p>
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><thead><tr><th align="left">Font</th><th align="left">X FontName</th></tr></thead><tbody><tr><td align="left"><code class="function">75-dpi Fonts</code></td><td class="auto-generated"> </td></tr><tr><td align="left">Charter 12 pt</td><td align="left">-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1</td></tr><tr><td align="left">Charter Bold 12 pt</td><td align="left">-Bitstream-Charter-Bold-R-Normal--12-120-75-75-P-76-ISO8859-1</td></tr><tr><td align="left">Charter Bold Italic 12 pt</td><td align="left">-Bitstream-Charter-Bold-I-Normal--12-120-75-75-P-75-ISO8859-1</td></tr><tr><td align="left">Charter Italic 12 pt</td><td align="left">-Bitstream-Charter-Medium-I-Normal--12-120-75-75-P-66-ISO8859-1</td></tr><tr><td align="left">Courier 8 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--8-80-75-75-M-50-ISO8859-1</td></tr><tr><td align="left">Courier 10 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left">Courier 12 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--12-120-75-75-M-70-ISO8859-1</td></tr><tr><td align="left">Courier 24 pt</td><td align="left">-Adobe-Courier-Medium-R-Normal--24-240-75-75-M-150-ISO8859-1</td></tr><tr><td align="left">Courier Bold 10 pt</td><td align="left">-Adobe-Courier-Bold-R-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left">Courier Bold Oblique 10 pt</td><td align="left">-Adobe-Courier-Bold-O-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left">Courier Oblique 10 pt</td><td align="left">-Adobe-Courier-Medium-O-Normal--10-100-75-75-M-60-ISO8859-1</td></tr><tr><td align="left"><code class="function">100-dpi Fonts</code></td><td class="auto-generated"> </td></tr><tr><td align="left">Symbol 10 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--14-100-100-100-P-85-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Symbol 14 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--20-140-100-100-P-107-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Symbol 18 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--25-180-100-100-P-142-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Symbol 24 pt</td><td align="left">-Adobe-Symbol-Medium-R-Normal--34-240-100-100-P-191-Adobe-FONTSPECIFIC</td></tr><tr><td align="left">Times Bold 10 pt</td><td align="left">-Adobe-Times-Bold-R-Normal--14-100-100-100-P-76-ISO8859-1</td></tr><tr><td align="left">Times Bold Italic 10 pt</td><td align="left">-Adobe-Times-Bold-I-Normal--14-100-100-100-P-77-ISO8859-1</td></tr><tr><td align="left">Times Italic 10 pt</td><td align="left">-Adobe-Times-Medium-I-Normal--14-100-100-100-P-73-ISO8859-1</td></tr><tr><td align="left">Times Roman 10 pt</td><td align="left">-Adobe-Times-Medium-R-Normal--14-100-100-100-P-74-ISO8859-1</td></tr></tbody></table></div></div></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Font_Properties"></a>Font Properties</h2></div></div></div><p>
 
 All font properties are optional but will generally include the
 font name fields and, on a font-by-font basis, any other useful font
@@ -694,7 +991,7 @@ and terminated with the property name.
 </p><p>
 
 The Backus-Naur Form syntax description of X font properties is as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col align="left" /></colgroup><tbody><tr><td align="left">Properties ::=</td><td align="left">OptFontPropList</td><td class="auto-generated"> </td></tr><tr><td align="left">OptFontPropList ::=</td><td align="left">NULL | OptFontProp OptFontPropList</td><td class="auto-generated"> </td></tr><tr><td align="left">OptFontProp ::=</td><td align="left">PrivateFontProp | XFontProp</td><td class="auto-generated"> </td></tr><tr><td align="left">PrivateFontProp ::=</td><td align="left">STRING8 | Underscore OrganizationId Underscore STRING8</td><td class="auto-generated"> </td></tr><tr><td align="left">XFontProp ::=</td><td align="left">
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><tbody><tr><td align="left">Properties ::=</td><td align="left">OptFontPropList</td></tr><tr><td align="left">OptFontPropList ::=</td><td align="left">NULL | OptFontProp OptFontPropList</td></tr><tr><td align="left">OptFontProp ::=</td><td align="left">PrivateFontProp | XFontProp</td></tr><tr><td align="left">PrivateFontProp ::=</td><td align="left">STRING8 | Underscore OrganizationId Underscore STRING8</td></tr><tr><td align="left">XFontProp ::=</td><td align="left">
 FOUNDRY | FAMILY_NAME | WEIGHT_NAME | SLANT | SETWIDTH_NAME | ADD_STYLE_NAME
 | PIXEL_SIZE | POINT_SIZE | RESOLUTION_X | RESOLUTION_Y | SPACING |
 AVERAGE_WIDTH | CHARSET_REGISTRY | CHARSET_ENCODING | QUAD_WIDTH |
@@ -709,7 +1006,7 @@ SUPERSCRIPT_ SIZE | FIGURE_WIDTH | SUBSCRIPT_SIZE | SMALL_CAP_SIZE |
 NOTICE | DESTINATION
 | FONT_TYPE | FONT_VERSION | RASTERIZER_NAME | RASTERIZER_VERSION |
 RAW_ASCENT | RAW_DESCENT | RAW_* | AXIS_NAMES | AXIS_LIMITS |
-AXIS_TYPES</td><td class="auto-generated"> </td></tr><tr><td align="left">Underscore ::=</td><td align="left">OCTET-"_" (LOW LINE)</td><td class="auto-generated"> </td></tr><tr><td align="left">OrganizationId ::=</td><td align="left">STRING8-the registered name of the organization</td><td class="auto-generated"> </td></tr></tbody></table></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="foundry"></a>FOUNDRY</h3></div></div></div><p>
+AXIS_TYPES</td></tr><tr><td align="left">Underscore ::=</td><td align="left">OCTET-"_" (LOW LINE)</td></tr><tr><td align="left">OrganizationId ::=</td><td align="left">STRING8-the registered name of the organization</td></tr></tbody></table></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FOUNDRY"></a>FOUNDRY</h3></div></div></div><p>
 
 FOUNDRY is as defined in the
 <code class="function">FontName</code>
@@ -717,7 +1014,7 @@ except that the property type is ATOM.
 </p><p>
 
 FOUNDRY cannot be calculated or defaulted if not supplied as a font property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="family_name"></a>FAMILY_NAME</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FAMILY_NAME"></a>FAMILY_NAME</h3></div></div></div><p>
 
 FAMILY_NAME is as defined in the
 <code class="function">FontName</code>
@@ -726,7 +1023,7 @@ except that the property type is ATOM.
 
 FAMILY_NAME cannot be calculated or defaulted if not supplied as a font
 property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="weight_name"></a>WEIGHT_NAME</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="WEIGHT_NAME"></a>WEIGHT_NAME</h3></div></div></div><p>
 
 WEIGHT_NAME is as defined in the
 <code class="function">FontName</code>
@@ -737,7 +1034,7 @@ WEIGHT_NAME can be defaulted if not supplied as a font property, as follows:
 </p><pre class="literallayout">
 if (WEIGHT_NAME undefined) then
    WEIGHT_NAME = ATOM("Medium")
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="slant"></a>SLANT </h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SLANT"></a>SLANT</h3></div></div></div><p>
 
 SLANT is as defined in the
 <code class="function">FontName</code>
@@ -748,7 +1045,7 @@ SLANT can be defaulted if not supplied as a font property, as follows:
 </p><pre class="literallayout">
 if (SLANT undefined) then
    SLANT = ATOM("R")
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="setwidth_name"></a>SETWIDTH_NAME</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SETWIDTH_NAME"></a>SETWIDTH_NAME</h3></div></div></div><p>
 
 SETWIDTH_NAME is as defined in the
 <code class="function">FontName</code>
@@ -759,7 +1056,7 @@ SETWIDTH_NAME can be defaulted if not supplied as a font property, as follows:
 </p><pre class="literallayout">
 if (SETWIDTH_NAME undefined) then
    SETWIDTH_NAME = ATOM("Normal")
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="add_style_name"></a>ADD_STYLE_NAME</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="ADD_STYLE_NAME"></a>ADD_STYLE_NAME</h3></div></div></div><p>
 
 ADD_STYLE_NAME is as defined in the
 <code class="function">FontName</code>
@@ -770,7 +1067,7 @@ ADD_STYLE_NAME can be defaulted if not supplied as a font property, as follows:
 </p><pre class="literallayout">
 if (ADD_STYLE_NAME undefined) then
    ADD_STYLE_NAME = ATOM("")
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="pixel_size"></a>PIXEL_SIZE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="PIXEL_SIZE"></a>PIXEL_SIZE</h3></div></div></div><p>
 
 PIXEL_SIZE is as defined in the
 <code class="function">FontName</code>
@@ -805,7 +1102,7 @@ according to the following algorithm:
 DeciPointsPerInch = 722.7
 if (PIXEL_SIZE undefined) then
    PIXEL_SIZE = ROUND ((RESOLUTION_Y * POINT_SIZE) / DeciPointsPerInch)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="point_size"></a>POINT_SIZE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="POINT_SIZE"></a>POINT_SIZE</h3></div></div></div><p>
 
 POINT_SIZE is as defined in the
 <code class="function">FontName</code>
@@ -821,7 +1118,7 @@ en space, and thin space can use the following algorithm:
 </pre><p>
 
 Design POINT_SIZE cannot be calculated or approximated.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="resolution_x"></a>RESOLUTION_X</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RESOLUTION_X_x"></a>RESOLUTION_X</h3></div></div></div><p>
 
 RESOLUTION_X is as defined in the
 <code class="function">FontName</code>
@@ -829,7 +1126,7 @@ except that the property type is CARD32.
 </p><p>
 
 RESOLUTION_X cannot be calculated or approximated.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="resolution_y"></a>RESOLUTION_Y</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RESOLUTION_Y_y"></a>RESOLUTION_Y</h3></div></div></div><p>
 
 RESOLUTION_Y is as defined in the
 <code class="function">FontName</code>
@@ -837,7 +1134,7 @@ except that the property type is CARD32.
 </p><p>
 
 RESOLUTION_X cannot be calculated or approximated.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="spacing"></a>SPACING</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SPACING"></a>SPACING</h3></div></div></div><p>
 
 SPACING is as defined in the
 <code class="function">FontName</code>
@@ -847,7 +1144,7 @@ except that the property type is ATOM.
 SPACING can be calculated if not supplied as a font property,
 according to the definitions given above for the
 <code class="function">FontName</code>.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="average_width"></a>AVERAGE_WIDTH</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="AVERAGE_WIDTH"></a>AVERAGE_WIDTH</h3></div></div></div><p>
 
 AVERAGE_WIDTH is as defined in the
 <code class="function">FontName</code>
@@ -871,7 +1168,7 @@ AVERAGE_WIDTH and RESOLUTION_X font properties:
 </p><pre class="literallayout">
 if (SPACING not proportional) then
    CharPitch = (RESOLUTION_X * 10) / AVERAGE_WIDTH
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="charset_registry"></a>CHARSET_REGISTRY</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="CHARSET_REGISTRY"></a>CHARSET_REGISTRY</h3></div></div></div><p>
 
 CHARSET_REGISTRY is as defined in the
 <code class="function">FontName</code>
@@ -879,7 +1176,7 @@ except that the property type is ATOM.
 </p><p>
 
 CHARSET_REGISTRY cannot be defaulted if not supplied as a font property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="charset_encoding"></a>CHARSET_ENCODING</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="CHARSET_ENCODING"></a>CHARSET_ENCODING</h3></div></div></div><p>
 
 CHARSET_ENCODING is as defined in the
 <code class="function">FontName</code>
@@ -887,7 +1184,7 @@ except that the property type is ATOM.
 </p><p>
 
 CHARSET_ENCODING cannot be defaulted if not supplied as a font property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="min_space"></a>MIN_SPACE</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="MIN_SPACE"></a>MIN_SPACE</h3></div></div></div><p>
 
 MIN_SPACE is an integer value (of type INT32)
 that gives the recommended minimum word-space value to be used with this font.
@@ -898,7 +1195,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (MIN_SPACE undefined) then
    MIN_SPACE = ROUND(0.75 * NORM_SPACE)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="norm_space"></a>NORM_SPACE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="NORM_SPACE"></a>NORM_SPACE</h3></div></div></div><p>
 
 NORM_SPACE is an integer value (of type INT32)
 that gives the recommended normal word-space value to be used with this font.
@@ -912,7 +1209,7 @@ if (NORM_SPACE undefined) then
    if (SPACE glyph exists) then
       NORM_SPACE = width of SPACE
    else NORM_SPACE = ROUND((0.33 * RESOLUTION_X * POINT_SIZE)/ DeciPointsPerInch)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="max_space"></a>MAX_SPACE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="MAX_SPACE"></a>MAX_SPACE</h3></div></div></div><p>
 
 MAX_SPACE is an integer value (of type INT32)
 that gives the recommended maximum word-space value to be used with this font.
@@ -923,7 +1220,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (MAX_SPACE undefined) then
    MAX_SPACE = ROUND(1.5 * NORM_SPACE)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="end_space"></a>END_SPACE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="END_SPACE"></a>END_SPACE</h3></div></div></div><p>
 
 END_SPACE is an integer value (of type INT32)
 that gives the recommended spacing at the end of sentences.
@@ -934,7 +1231,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (END_SPACE undefined) then
    END_SPACE = NORM_SPACE
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="avg_capital_width"></a>AVG_CAPITAL_WIDTH</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="AVG_CAPITAL_WIDTH"></a>AVG_CAPITAL_WIDTH</h3></div></div></div><p>
 
 AVG_CAPITAL_WIDTH is an integer value (of type INT32)
 that gives the unweighted arithmetic mean of the absolute value of the
@@ -956,7 +1253,7 @@ if (AVG_CAPITAL_WIDTH undefined) then
            (ABS (width of each capital glyph)) * 10)
            * (if (dominant writing direction L-to-R) then 1 else -1)
    else AVG_CAPITAL_WIDTH undefined
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="avg_lowercase_width"></a>AVG_LOWERCASE_WIDTH</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="AVG_LOWERCASE_WIDTH"></a>AVG_LOWERCASE_WIDTH</h3></div></div></div><p>
 
 AVG_LOWERCASE_WIDTH is an integer value (of type INT32)
 that gives the unweighted arithmetic mean width of the absolute value
@@ -978,7 +1275,7 @@ if (AVG_LOWERCASE_WIDTH undefined) then
                        (ABS (width of each lowercase glyph)) * 10)
        * (if (dominant writing direction L-to-R) then 1 else -1)
    else AVG_LOWERCASE_WIDTH undefined
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="quad_width"></a>QUAD_WIDTH</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="QUAD_WIDTH"></a>QUAD_WIDTH</h3></div></div></div><p>
 
 QUAD_WIDTH is an integer typographic metric (of type INT32)
 that gives the width of a quad (em) space.
@@ -993,7 +1290,7 @@ from other font properties (for example, PIXEL_SIZE).
 X clients that require  a font-dependent width value should use either
 the FIGURE_WIDTH or one of the average character width font properties
 (AVERAGE_WIDTH, AVG_CAPITAL_WIDTH or AVG_LOWERCASE_WIDTH).
-</p></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="figure_width"></a>FIGURE_WIDTH</h3></div></div></div><p>
+</p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FIGURE_WIDTH"></a>FIGURE_WIDTH</h3></div></div></div><p>
 
 FIGURE_WIDTH is an integer typographic metric (of type INT32)
 that gives the width of the tabular figures and the dollar sign,
@@ -1007,7 +1304,7 @@ according to the following algorithm:
 if (numerals and DOLLAR sign are defined &amp; widths are equal) then
    FIGURE_WIDTH = width of DOLLAR
 else FIGURE_WIDTH property undefined
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="superscript_x"></a>SUPERSCRIPT_X</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SUPERSCRIPT_X_x"></a>SUPERSCRIPT_X</h3></div></div></div><p>
 
 SUPERSCRIPT_X is an integer value (of type INT32)
 that gives the recommended horizontal offset in pixels
@@ -1027,7 +1324,7 @@ if (SUPERSCRIPT_X undefined) then
 
 where TANGENT is a trigonometric function that returns the tangent of
 its argument, which is in 1/64 degrees.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="superscript_y"></a>SUPERSCRIPT_Y</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SUPERSCRIPT_Y_y"></a>SUPERSCRIPT_Y</h3></div></div></div><p>
 
 SUPERSCRIPT_Y is an integer value (of type INT32)
 that gives the recommended vertical offset in pixels
@@ -1041,7 +1338,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (SUPERSCRIPT_Y undefined) then
    SUPERSCRIPT_Y = ROUND(0.40 * CAP_HEIGHT)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="subscript_x"></a>SUBSCRIPT_X</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SUBSCRIPT_X_x"></a>SUBSCRIPT_X</h3></div></div></div><p>
 
 SUBSCRIPT_X is an integer value (of type INT32)
 that gives the recommended horizontal offset in pixels
@@ -1057,7 +1354,7 @@ if (SUBSCRIPT_X undefined) then
    if (TANGENT(ITALIC_ANGLE) defined) then
       SUBSCRIPT_X = ROUND((0.40 * CAP_HEIGHT) / TANGENT(ITALIC_ANGLE))
    else SUBSCRIPT_X = ROUND(0.40 * CAP_HEIGHT)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="subscript_y"></a>SUBSCRIPT_Y</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SUBSCRIPT_Y_y"></a>SUBSCRIPT_Y</h3></div></div></div><p>
 
 SUBSCRIPT_Y is an integer value (of type INT32)
 that gives the recommended vertical offset in pixels
@@ -1071,7 +1368,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (SUBSCRIPT_Y undefined) then
    SUBSCRIPT_Y = ROUND(0.40 * CAP_HEIGHT)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="superscript_size"></a>SUPERSCRIPT_SIZE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SUPERSCRIPT_SIZE"></a>SUPERSCRIPT_SIZE</h3></div></div></div><p>
 
 SUPERSCRIPT_SIZE is an integer value (of type INT32)
 that gives the recommended body size of synthetic superscripts
@@ -1086,7 +1383,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (SUPERSCRIPT_SIZE undefined) then
    SUPERSCRIPT_SIZE = ROUND(0.60 * PIXEL_SIZE)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="subscript_size"></a>SUBSCRIPT_SIZE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SUBSCRIPT_SIZE"></a>SUBSCRIPT_SIZE</h3></div></div></div><p>
 
 SUBSCRIPT_SIZE is an integer value (of type INT32)
 that gives the recommended body size of synthetic subscripts
@@ -1102,7 +1399,7 @@ according to the algorithm:
 </p><pre class="literallayout">
 if (SUBSCRIPT_SIZE undefined) then
    SUBSCRIPT_SIZE = ROUND(0.60 * PIXEL_SIZE)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="small_cap_size"></a>SMALL_CAP_SIZE</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="SMALL_CAP_SIZE"></a>SMALL_CAP_SIZE</h3></div></div></div><p>
 
 SMALL_CAP_SIZE is an integer value (of type INT32)
 that gives the recommended body size of synthetic small capitals
@@ -1118,7 +1415,7 @@ according to the following algorithm:
 if (SMALL_CAP_SIZE undefined) then
    SMALL_CAP_SIZE = ROUND(PIXEL_SIZE * ((X_HEIGHT
                               + ((CAP_HEIGHT - X_HEIGHT) / 3)) / CAP_HEIGHT))
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="underline_position"></a>UNDERLINE_POSITION </h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="UNDERLINE_POSITION"></a>UNDERLINE_POSITION</h3></div></div></div><p>
 
 UNDERLINE_POSITION is an integer value (of type INT32)
 that gives the recommended vertical offset in pixels
@@ -1136,7 +1433,7 @@ if (UNDERLINE_POSITION undefined) then
 where <span class="emphasis"><em>maximum descent</em></span>
 is the maximum descent (below the baseline)
 in pixels of any glyph in the font.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="underline_thickness"></a>UNDERLINE_THICKNESS</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="UNDERLINE_THICKNESS"></a>UNDERLINE_THICKNESS</h3></div></div></div><p>
 
 UNDERLINE_THICKNESS is an integer value (of type INT32)
 that gives the recommended underline thickness, in pixels.
@@ -1148,7 +1445,7 @@ according to the following algorithm:
 CapStemWidth = average width of the stems of capitals
 if (UNDERLINE_THICKNESS undefined) then
    UNDERLINE_THICKNESS = CapStemWidth
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="strikeout_ascent"></a>STRIKEOUT_ASCENT</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="STRIKEOUT_ASCENT"></a>STRIKEOUT_ASCENT</h3></div></div></div><p>
 
 STRIKEOUT_ASCENT is an integer value (of type INT32)
 that gives the vertical ascent for boxing or voiding glyphs in this font.
@@ -1166,7 +1463,7 @@ if (STRIKEOUT_ASCENT undefined)
 where <span class="emphasis"><em>maximum ascent</em></span>
 is the maximum ascent (above the baseline)
 in pixels of any glyph in the font.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="strikeout_descent"></a>STRIKEOUT_DESCENT</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="STRIKEOUT_DESCENT"></a>STRIKEOUT_DESCENT</h3></div></div></div><p>
 
 STRIKEOUT_DESCENT is an integer value (of type INT32)
 that gives the vertical descent for boxing or voiding glyphs in this font.
@@ -1185,7 +1482,7 @@ if (STRIKEOUT_DESCENT undefined)
 where <span class="emphasis"><em>maximum descent</em></span> is the maximum
 descent (below the baseline)
 in pixels of any glyph in the font.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="italic_angle"></a>ITALIC_ANGLE</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="ITALIC_ANGLE"></a>ITALIC_ANGLE</h3></div></div></div><p>
 
 ITALIC_ANGLE is an integer value (of type INT32)
 that gives the nominal posture angle of the typeface design, in 1/64 degrees,
@@ -1197,7 +1494,7 @@ according to the following algorithm:
 </p><pre class="literallayout">
 if (ITALIC_ANGLE undefined) then
    ITALIC_ANGLE = (90 * 64)
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="cap_height"></a>CAP_HEIGHT</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="CAP_HEIGHT"></a>CAP_HEIGHT</h3></div></div></div><p>
 
 CAP_HEIGHT is an integer value (of type INT32)
 that gives the nominal height of the capital letters contained in the font,
@@ -1220,7 +1517,7 @@ if (CAP_HEIGHT undefined) then
    else if (capitals exist) then
        CAP_HEIGHT = XCharStruct.ascent[some unaccented capital glyph]
    else CAP_HEIGHT undefined
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="x_height"></a>X_HEIGHT</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="X_HEIGHT"></a>X_HEIGHT</h3></div></div></div><p>
 
 X_HEIGHT is an integer value (of type INT32)
 that gives the nominal height above the baseline of the lowercase glyphs
@@ -1244,7 +1541,7 @@ if (X_HEIGHT undefined) then
    else if (lowercase exists) then
         X_HEIGHT = XCharStruct.ascent[some unaccented lc glyph without an ascender]
    else X_HEIGHT undefined
-</pre></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="relative_setwidth"></a>RELATIVE_SETWIDTH</h3></div></div></div><p>
+</pre></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RELATIVE_SETWIDTH"></a>RELATIVE_SETWIDTH</h3></div></div></div><p>
 
 RELATIVE_SETWIDTH is an unsigned integer value (of type CARD32)
 that gives the coded proportionate width of the font,
@@ -1254,7 +1551,7 @@ according to the type designer's or FOUNDRY's judgment.
 
 RELATIVE_SETWIDTH ranges from 10 to 90 or is 0 if undefined or unknown.
 The following reference values are defined:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">Undefined</td><td align="left">Undefined or unknown</td></tr><tr><td align="left">10</td><td align="left">UltraCondensed</td><td align="left">The lowest ratio of average width to height</td></tr><tr><td align="left">20</td><td align="left">ExtraCondensed</td><td class="auto-generated"> </td></tr><tr><td align="left">30</td><td align="left">Condensed</td><td align="left">Condensed, Narrow, Compressed, ...</td></tr><tr><td align="left">40</td><td align="left">SemiCondensed</td><td class="auto-generated"> </td></tr><tr><td align="left">50</td><td align="left">Medium</td><td align="left">Medium, Normal, Regular, ...</td></tr><tr><td align="left">60</td><td align="left">SemiExpanded</td><td align="left">SemiExpanded, DemiExpanded, ...</td></tr><tr><td align="left">70</td><td align="left">Expanded</td><td class="auto-generated"> </td></tr><tr><td align="left">80</td><td align="left">ExtraExpanded</td><td align="left">ExtraExpanded, Wide, ...</td></tr><tr><td align="left">90</td><td align="left">UltraExpanded</td><td align="left">The highest ratio of average width to height</td></tr></tbody></table></div><p>
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /><col align="left" class="c3" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">Undefined</td><td align="left">Undefined or unknown</td></tr><tr><td align="left">10</td><td align="left">UltraCondensed</td><td align="left">The lowest ratio of average width to height</td></tr><tr><td align="left">20</td><td align="left">ExtraCondensed</td><td class="auto-generated"> </td></tr><tr><td align="left">30</td><td align="left">Condensed</td><td align="left">Condensed, Narrow, Compressed, ...</td></tr><tr><td align="left">40</td><td align="left">SemiCondensed</td><td class="auto-generated"> </td></tr><tr><td align="left">50</td><td align="left">Medium</td><td align="left">Medium, Normal, Regular, ...</td></tr><tr><td align="left">60</td><td align="left">SemiExpanded</td><td align="left">SemiExpanded, DemiExpanded, ...</td></tr><tr><td align="left">70</td><td align="left">Expanded</td><td class="auto-generated"> </td></tr><tr><td align="left">80</td><td align="left">ExtraExpanded</td><td align="left">ExtraExpanded, Wide, ...</td></tr><tr><td align="left">90</td><td align="left">UltraExpanded</td><td align="left">The highest ratio of average width to height</td></tr></tbody></table></div><p>
 
 RELATIVE_SETWIDTH can be defaulted if not provided as a font property,
 according to the following algorithm:
@@ -1276,7 +1573,7 @@ SETWIDTH = AVG_CAPITAL_WIDTH / (CAP_HEIGHT * 10)
 
 where SETWIDTH is a real number with zero being the narrowest
 calculated setwidth.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="relative_weight"></a>RELATIVE_WEIGHT</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RELATIVE_WEIGHT"></a>RELATIVE_WEIGHT</h3></div></div></div><p>
 
 RELATIVE_WEIGHT is an unsigned integer value (of type CARD32)
 that gives the coded weight of the font,
@@ -1286,7 +1583,7 @@ according to the type designer's or FOUNDRY's judgment.
 
 RELATIVE_WEIGHT ranges from 10 to 90 or is 0 if undefined or unknown.
 The following reference values are defined:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">Undefined</td><td align="left">Undefined or unknown</td></tr><tr><td align="left">10</td><td align="left">UltraLight</td><td align="left">The lowest ratio of stem width to height</td></tr><tr><td align="left">20</td><td align="left">ExtraLight</td><td class="auto-generated"> </td></tr><tr><td align="left">30</td><td align="left">Light</td><td class="auto-generated"> </td></tr><tr><td align="left">40</td><td align="left">SemiLight</td><td align="left">SemiLight, Book, ...</td></tr><tr><td align="left">50</td><td align="left">Medium</td><td align="left">Medium, Normal, Regular,...</td></tr><tr><td align="left">60</td><td align="left">SemiBold</td><td align="left">SemiBold, DemiBold, ...</td></tr><tr><td align="left">70</td><td align="left">Bold</td><td class="auto-generated"> </td></tr><tr><td align="left">80</td><td align="left">ExtraBold</td><td align="left">ExtraBold, Heavy, ...</td></tr><tr><td align="left">90</td><td align="left">UltraBold</td><td align="left">
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /><col align="left" class="c3" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">Undefined</td><td align="left">Undefined or unknown</td></tr><tr><td align="left">10</td><td align="left">UltraLight</td><td align="left">The lowest ratio of stem width to height</td></tr><tr><td align="left">20</td><td align="left">ExtraLight</td><td class="auto-generated"> </td></tr><tr><td align="left">30</td><td align="left">Light</td><td class="auto-generated"> </td></tr><tr><td align="left">40</td><td align="left">SemiLight</td><td align="left">SemiLight, Book, ...</td></tr><tr><td align="left">50</td><td align="left">Medium</td><td align="left">Medium, Normal, Regular,...</td></tr><tr><td align="left">60</td><td align="left">SemiBold</td><td align="left">SemiBold, DemiBold, ...</td></tr><tr><td align="left">70</td><td align="left">Bold</td><td class="auto-generated"> </td></tr><tr><td align="left">80</td><td align="left">ExtraBold</td><td align="left">ExtraBold, Heavy, ...</td></tr><tr><td align="left">90</td><td align="left">UltraBold</td><td align="left">
 UltraBold, Black, ..., the highest ratio of stem width to height
       </td></tr></tbody></table></div><p>
 
@@ -1299,7 +1596,7 @@ if (RELATIVE_WEIGHT undefined) then
 
 For polymorphic fonts, RELATIVE_WEIGHT is not necessarily a
 linear function of the font's weight axis.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="weight"></a>WEIGHT</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="WEIGHT"></a>WEIGHT</h3></div></div></div><p>
 
 Calculated WEIGHT is an unsigned integer value (of type CARD32)
 that gives the calculated weight of the font,
@@ -1321,7 +1618,7 @@ assigned by the typeface supplier, according to its tradition and practice,
 and therefore, are somewhat subjective.
 Calculated WEIGHT provides a font-independent way of identifying
 the weight across all fonts and all font vendors.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="resolution"></a>RESOLUTION</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RESOLUTION"></a>RESOLUTION</h3></div></div></div><p>
 
 RESOLUTION is an integer value (of type INT32)
 that gives the resolution for which this font was created,
@@ -1337,7 +1634,7 @@ X clients are encouraged to discontinue use of the RESOLUTION property
 and are encouraged to use the appropriate X,Y resolution properties,
 as required.
 
-</p></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="font"></a>FONT</h3></div></div></div><p>
+</p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="Font_support"></a>FONT</h3></div></div></div><p>
 
 FONT is a string (of type ATOM) that gives the full XLFD name of the
 font-that is, the value can be used to open another
@@ -1345,7 +1642,7 @@ instance of the same font.
 </p><p>
 
 If not provided, the FONT property cannot be calculated.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="face_name"></a>FACE_NAME</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FACE_NAME"></a>FACE_NAME</h3></div></div></div><p>
 
 FACE_NAME is a human-understandable string (of type ATOM)
 that gives the full device-independent typeface name,
@@ -1356,11 +1653,11 @@ This property may be used as feedback during font selection.
 
 FACE_NAME cannot be calculated or approximated if not provided as a font
 property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="full_name"></a>FULL_NAME</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FULL_NAME"></a>FULL_NAME</h3></div></div></div><p>
 
 FULL_NAME is the same as FACE_NAME.
 Its use is deprecated, but it is found on some old fonts.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="copyright"></a>COPYRIGHT</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="COPYRIGHT"></a>COPYRIGHT</h3></div></div></div><p>
 
 COPYRIGHT is a human-understandable string (of type ATOM)
 that gives the copyright information of the legal owner
@@ -1375,7 +1672,7 @@ be thrown away for efficiency reasons).
 
 COPYRIGHT cannot be calculated or approximated if not provided as a font
 property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="notice"></a>NOTICE</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="NOTICE"></a>NOTICE</h3></div></div></div><p>
 
 NOTICE is a human-understandable string (of type ATOM)
 that gives the copyright information of the legal owner of the font design
@@ -1393,7 +1690,7 @@ but is independent of the particular format used to represent it.
 
 NOTICE cannot be calculated or approximated if not provided as
 a font property.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="destination"></a>DESTINATION</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="DESTINATION"></a>DESTINATION</h3></div></div></div><p>
 
 DESTINATION is an unsigned integer code (of type CARD32)
 that gives the font design destination,
@@ -1412,12 +1709,12 @@ to query for X screen fonts that suit their particular requirements.
 </p><p>
 
 The encoding is as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">WYSIWYG</td><td align="left">
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /><col align="left" class="c3" /></colgroup><thead><tr><th align="left">Code</th><th align="left">English Translation</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">WYSIWYG</td><td align="left">
 The font is optimized to match the typographic design and metrics of an
 equivalent printer font.
       </td></tr><tr><td align="left">1</td><td align="left">Video text</td><td align="left">
 The font is optimized for screen legibility and readability.
-      </td></tr></tbody></table></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="font_type"></a>FONT_TYPE</h3></div></div></div><p>
+      </td></tr></tbody></table></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FONT_TYPE"></a>FONT_TYPE</h3></div></div></div><p>
 
 FONT_TYPE is a human-understandable string (of type ATOM) that
 describes the format of
@@ -1428,22 +1725,22 @@ without regard to the rasterizer used to render the font.
 </p><p>
 
 Predefined values are as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /><col /></colgroup><thead><tr><th align="left">Value</th><th align="left">When applicable</th><td class="auto-generated"> </td></tr></thead><tbody><tr><td align="left">"Bitmap"</td><td align="left">
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><thead><tr><th align="left">Value</th><th align="left">When applicable</th></tr></thead><tbody><tr><td align="left">"Bitmap"</td><td align="left">
 Hand-tuned bitmap fonts. Some attempt has been made to optimize the visual
 appearance of the font for the requested size and resolution.
-      </td><td class="auto-generated"> </td></tr><tr><td align="left">"Prebuilt"</td><td align="left">
+      </td></tr><tr><td align="left">"Prebuilt"</td><td align="left">
 All bitmap format fonts that cannot be described as "Bitmap", that is,
 handtuned.
 For example, a bitmap format font that was generated mechanically using
 a scalable font rasterizer would be considered "Prebuilt", not "Bitmap".
-      </td><td class="auto-generated"> </td></tr><tr><td align="left">"Type 1"</td><td align="left">Any Type 1 font.</td><td class="auto-generated"> </td></tr><tr><td align="left">"TrueType"</td><td align="left">Any TrueType font.</td><td class="auto-generated"> </td></tr><tr><td align="left">"Speedo"</td><td align="left">Any Speedo font.</td><td class="auto-generated"> </td></tr><tr><td align="left">"F3"</td><td align="left">Any F3 font.</td><td class="auto-generated"> </td></tr></tbody></table></div><p>
+      </td></tr><tr><td align="left">"Type 1"</td><td align="left">Any Type 1 font.</td></tr><tr><td align="left">"TrueType"</td><td align="left">Any TrueType font.</td></tr><tr><td align="left">"Speedo"</td><td align="left">Any Speedo font.</td></tr><tr><td align="left">"F3"</td><td align="left">Any F3 font.</td></tr></tbody></table></div><p>
 Other values may be registered with the X Consortium.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="font_version"></a>FONT_VERSION</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FONT_VERSION"></a>FONT_VERSION</h3></div></div></div><p>
 
 FONT_VERSION is a human-understandable string (of type ATOM)
 that describes the formal or informal version of the font.
 <code class="function">None</code> is a valid value.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="rasterizer_name"></a>RASTERIZER_NAME</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RASTERIZER_NAME"></a>RASTERIZER_NAME</h3></div></div></div><p>
 
 RASTERIZER_NAME is a human-understandable string (of type ATOM)
 that is the specific name of the
@@ -1453,7 +1750,7 @@ rasterizer that has performed some rasterization operation
 
 To define a RASTERIZER_NAME, the following format is
 recommended:
-</p><div class="informaltable"><table border="0"><colgroup><col /><col /></colgroup><tbody><tr><td align="left">RasterizerName ::=</td><td align="left">OrganizationId Space Rasterizer</td></tr><tr><td align="left">OrganizationId ::=</td><td align="left">
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><tbody><tr><td align="left">RasterizerName ::=</td><td align="left">OrganizationId Space Rasterizer</td></tr><tr><td align="left">OrganizationId ::=</td><td align="left">
 STRING8—the X Registry ORGANIZATION name of the rasterizer
 implementor or maintainer.
       </td></tr><tr><td align="left">Rasterizer ::=</td><td align="left">
@@ -1472,52 +1769,52 @@ Examples:
 
 If RASTERIZER_NAME is not defined, or is <code class="function">None</code>, no
 rasterization operation has been applied to the FONT_TYPE.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="rasterizer_version"></a>RASTERIZER_VERSION</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RASTERIZER_VERSION"></a>RASTERIZER_VERSION</h3></div></div></div><p>
 
 RASTERIZER_VERSION is a human-understandable string (of type
 ATOM) that represents the formal or informal version of a
 font rasterizer.
 The RASTERIZER_VERSION should match the corresponding
 product version number known to users, when applicable.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="raw_ascent"></a>RAW_ASCENT</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RAW_ASCENT"></a>RAW_ASCENT</h3></div></div></div><p>
 
 For a font with a transformation matrix, RAW_ASCENT is the font ascent
 in 1000 pixel metrics
-(see <a href="#metrics_and_font_properties" title="Metrics and Font Properties">the section called “Metrics and Font Properties”</a>).
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="raw_descent"></a>RAW_DESCENT</h3></div></div></div><p>
+(see <a class="xref" href="#Metrics_and_Font_Properties" title="Metrics and Font Properties">Metrics and Font Properties</a>).
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RAW_DESCENT"></a>RAW_DESCENT</h3></div></div></div><p>
 
 For a font with a transformation matrix, RAW_DESCENT is the font
 descent in 1000 pixel metrics
-(see <a href="#metrics_and_font_properties" title="Metrics and Font Properties">the section called “Metrics and Font Properties”</a>).
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="raw_"></a>RAW_*</h3></div></div></div><p>
+(see <a class="xref" href="#Metrics_and_Font_Properties" title="Metrics and Font Properties">Metrics and Font Properties</a>).
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="RAW_"></a>RAW_*</h3></div></div></div><p>
 
 For a font with a transformation matrix,
 all font properties that represent horizontal or vertical sizes or
 displacements will be accompanied by a new property, named as the
 original except prefixed with "RAW_", that is computed as
-described in <a href="#metrics_and_font_properties" title="Metrics and Font Properties">the section called “Metrics and Font Properties”</a>.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="axis_names"></a>AXIS_NAMES</h3></div></div></div><p>
+described in <a class="xref" href="#Metrics_and_Font_Properties" title="Metrics and Font Properties">Metrics and Font Properties</a>.
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="AXIS_NAMES"></a>AXIS_NAMES</h3></div></div></div><p>
 
 AXIS_NAMES is a list of all the
 names of the axes for a polymorphic font, separated by a null (0) byte.
 These names are suitable for presentation in a user interface
 (see section 6).
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="axis_limits"></a>AXIS_LIMITS</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="AXIS_LIMITS"></a>AXIS_LIMITS</h3></div></div></div><p>
 
 AXIS_LIMITS is a list of integers, two for each axis,
 giving the minimum and maximum allowable values for that axis of a
 polymorphic font
-(see <a href="#polymorphic_fonts" title="Chapter 6. Polymorphic Fonts">Chapter 6, <i>Polymorphic Fonts</i></a>).
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="axis_types"></a>AXIS_TYPES</h3></div></div></div><p>
+(see <a class="xref" href="#Polymorphic_Fonts" title="Chapter 6. Polymorphic Fonts"><em>Polymorphic Fonts</em></a>).
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="AXIS_TYPES"></a>AXIS_TYPES</h3></div></div></div><p>
 
 AXIS_TYPES is like AXIS_NAMES,
 but can be registered as having specific semantics
 (see section 6).
-</p></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="built-in_font_property_atoms"></a>Built-in Font Property Atoms</h2></div></div></div><p>
+</p></div></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Built_in_Font_Property_Atoms"></a>Built-in Font Property Atoms</h2></div></div></div><p>
 
 The following font property atom definitions were predefined in the initial
 version of the core protocol:
-</p><div class="informaltable"><table border="0"><colgroup><col align="left" /><col align="left" /></colgroup><thead><tr><th align="left">Font Property/Atom Name</th><th align="left">Property Type</th></tr></thead><tbody><tr><td align="left">MIN_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">NORM_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">MAX_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">END_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">SUPERSCRIPT_X</td><td align="left">INT32</td></tr><tr><td align="left">SUPERSCRIPT_Y</td><td align="left">INT32</td></tr><tr><td align="left">SUBSCRIPT_X</td><td align="left">INT32</td></tr><tr><td align="left">SUBSCRIPT_Y</td><td align="left">INT32</td></tr><tr><td align="left">UNDERLINE_POSITION</td><td align="left">INT32</td></tr><tr><td align="left">UNDERLINE_THICKNESS</td><td align="left">INT32</td></tr><tr><td align="left">STRIKEOUT_ASCENT</td><td align="left">INT32</td></tr><tr><td align="left">STRIKEOUT_DESCENT</td><td align="left">INT32</td></tr><tr><td align="left">FONT_ASCENT</td><td align="left">INT32</td></tr><tr><td align="left">FONT_DESCENT</td><td align="left">INT32</td></tr><tr><td align="left">ITALIC_ANGLE</td><td align="left">INT32</td></tr><tr><td align="left">X_HEIGHT</td><td align="left">INT32</td></tr><tr><td align="left">QUAD_WIDTH</td><td align="left">INT32 −<sup>deprecated</sup></td></tr><tr><td align="left">WEIGHT</td><td align="left">CARD32</td></tr><tr><td align="left">POINT_SIZE</td><td align="left">INT32</td></tr><tr><td align="left">RESOLUTION</td><td align="left">CARD32 −<sup>deprecated</sup></td></tr><tr><td align="left">COPYRIGHT</td><td align="left">ATOM</td></tr><tr><td align="left">FULL_NAME</td><td align="left">ATOM −<sup>deprecated</sup></td></tr><tr><td align="left">FAMILY_NAME</td><td align="left">ATOM</td></tr><tr><td align="left">DEFAULT_CHAR</td><td align="left">CARD32</td></tr></tbody></table></div></div></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="matrix_transformations"></a>Chapter 4. Matrix Transformations</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#metrics_and_font_properties">Metrics and Font Properties</a></span></dt></dl></div><p>
+</p><div class="informaltable"><table border="1"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><thead><tr><th align="left">Font Property/Atom Name</th><th align="left">Property Type</th></tr></thead><tbody><tr><td align="left">MIN_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">NORM_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">MAX_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">END_SPACE</td><td align="left">INT32</td></tr><tr><td align="left">SUPERSCRIPT_X</td><td align="left">INT32</td></tr><tr><td align="left">SUPERSCRIPT_Y</td><td align="left">INT32</td></tr><tr><td align="left">SUBSCRIPT_X</td><td align="left">INT32</td></tr><tr><td align="left">SUBSCRIPT_Y</td><td align="left">INT32</td></tr><tr><td align="left">UNDERLINE_POSITION</td><td align="left">INT32</td></tr><tr><td align="left">UNDERLINE_THICKNESS</td><td align="left">INT32</td></tr><tr><td align="left">STRIKEOUT_ASCENT</td><td align="left">INT32</td></tr><tr><td align="left">STRIKEOUT_DESCENT</td><td align="left">INT32</td></tr><tr><td align="left">FONT_ASCENT</td><td align="left">INT32</td></tr><tr><td align="left">FONT_DESCENT</td><td align="left">INT32</td></tr><tr><td align="left">ITALIC_ANGLE</td><td align="left">INT32</td></tr><tr><td align="left">X_HEIGHT</td><td align="left">INT32</td></tr><tr><td align="left">QUAD_WIDTH</td><td align="left">INT32 −<sup>deprecated</sup></td></tr><tr><td align="left">WEIGHT</td><td align="left">CARD32</td></tr><tr><td align="left">POINT_SIZE</td><td align="left">INT32</td></tr><tr><td align="left">RESOLUTION</td><td align="left">CARD32 −<sup>deprecated</sup></td></tr><tr><td align="left">COPYRIGHT</td><td align="left">ATOM</td></tr><tr><td align="left">FULL_NAME</td><td align="left">ATOM −<sup>deprecated</sup></td></tr><tr><td align="left">FAMILY_NAME</td><td align="left">ATOM</td></tr><tr><td align="left">DEFAULT_CHAR</td><td align="left">CARD32</td></tr></tbody></table></div></div></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="Matrix_Transformations"></a>Chapter 4. Matrix Transformations</h2></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="sect1"><a href="#Metrics_and_Font_Properties">Metrics and Font Properties</a></span></dt></dl></div><p>
 
 An XLFD name presented to the server can have the POINT_SIZE or PIXEL_SIZE
 field begin with the character "[".  If the first character of the field
@@ -1530,7 +1827,7 @@ or exponent.
 </p><p>
 
 The BNF for a matrix transformation string is as follows:
-</p><div class="informaltable"><table border="0"><colgroup><col /><col /></colgroup><tbody><tr><td align="left">MatrixString ::=</td><td align="left">
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /><col align="left" class="c2" /></colgroup><tbody><tr><td align="left">MatrixString ::=</td><td align="left">
 LeftBracket OptionalSpace Float Space Float Space
 Float Space Float OptionalSpace RightBracket
       </td></tr><tr><td align="left">OptionalSpace ::=</td><td align="left">"" | Space</td></tr><tr><td align="left">Space ::=</td><td align="left">SpaceChar | SpaceChar Space</td></tr><tr><td align="left">Float ::=</td><td align="left">Mantissa | Mantissa Exponent</td></tr><tr><td align="left">Mantissa ::=</td><td align="left">Sign Number | Number</td></tr><tr><td align="left">Sign ::=</td><td align="left">Plus | Tilde</td></tr><tr><td align="left">Number ::=</td><td align="left">Integer | Integer Dot Integer | Dot Integer</td></tr><tr><td align="left">Integer ::=</td><td align="left">Digit | Digit Integer</td></tr><tr><td align="left">Digit ::=</td><td align="left">
@@ -1539,7 +1836,7 @@ Float Space Float OptionalSpace RightBracket
 
 The string "[a b c d]" represents a graphical transformation of the glyphs
 in the font by the matrix
-</p><div class="informaltable"><table border="0"><colgroup><col /></colgroup><tbody><tr><td align="left"> [  a  b  0  ]</td></tr><tr><td align="left"> [  c  d  0  ]</td></tr><tr><td align="left"> [  0  0  1  ]</td></tr></tbody></table></div><p>
+</p><div class="informaltable"><table border="0"><colgroup><col align="left" class="c1" /></colgroup><tbody><tr><td align="left">[  a  b  0  ]</td></tr><tr><td align="left">[  c  d  0  ]</td></tr><tr><td align="left">[  0  0  1  ]</td></tr></tbody></table></div><p>
 
 All transformations occur around the origin of the glyph.  The
 relationship between the current scalar values and the matrix
@@ -1565,7 +1862,7 @@ where
 If either the POINT_SIZE or PIXEL_SIZE field is unspecified (either "0" or
 wildcarded), the preceding formulas can be used to compute one from the
 other.
-</p><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="metrics_and_font_properties"></a>Metrics and Font Properties</h2></div></div></div><p>
+</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="Metrics_and_Font_Properties"></a>Metrics and Font Properties</h2></div></div></div><p>
 
 In this section, the phrase "1000 pixel metrics" means the
 metrics that would be obtained if the rasterizer took the base untransformed
@@ -1623,7 +1920,7 @@ displacements have as their value the y component of the transformed
 height or displacement.  Each such property will be accompanied by a new
 property, named as the original except prefixed with "RAW_", that gives
 the value of the width, height, or displacement in 1000 pixel metrics.
-</p></div></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="scalable_fonts"></a>Chapter 5. Scalable Fonts</h2></div></div></div><p>
+</p></div></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="Scalable_Fonts"></a>Chapter 5. Scalable Fonts</h2></div></div></div><p>
 
 The XLFD is designed to support scalable fonts.  A scalable font is a
 font source from which instances of arbitrary size can be derived.
@@ -1638,23 +1935,23 @@ The following definitions are useful for discussing scalable fonts:
 </p><p>
 
 <code class="function">Well-formed XLFD pattern</code>
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 <span class="bold"><strong>Well-formed XLFD pattern</strong></span>
     </p><p>
 A pattern string containing 14 hyphens, one of which is
 the first character of the pattern.  Wildcard characters are permitted
 in the fields of a well-formed XLFD pattern.
-    </p></li></ul></div><div class="itemizedlist"><ul type="disc"><li><p>
+    </p></li></ul></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 <code class="function">Scalable font name</code>
 </p><p>
 A well-formed XLFD pattern containing no wildcards and containing the
 digit "0" in the PIXEL_SIZE, POINT_SIZE, and AVERAGE_WIDTH fields.
-    </p></li></ul></div><div class="itemizedlist"><ul type="disc"><li><p>
+    </p></li></ul></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 <code class="function">Scalable fields</code>
 </p><p>
 The XLFD fields PIXEL_SIZE, POINT_SIZE, RESOLUTION_X,
 RESOLUTION_Y, and AVERAGE_WIDTH.
-    </p></li></ul></div><div class="itemizedlist"><ul type="disc"><li><p>
+    </p></li></ul></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 <code class="function">Derived instance</code>
 </p><p>
 The result of replacing the scalable fields of a font name
@@ -1662,7 +1959,7 @@ with values to yield a font name that could actually be
 produced from the font source.  A scaling engine is
 permitted, but not required, to interpret the scalable
 fields in font names to support anamorphic scaling.
-    </p></li></ul></div><div class="itemizedlist"><ul type="disc"><li><p>
+    </p></li></ul></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 <code class="function">Global list</code>
     </p><p>
 The list of names that would be returned by an X server for a
@@ -1741,7 +2038,7 @@ pattern is only required to return the list obtained by performing
 a simple pattern match against the global list.
 X servers are permitted, but not required,
 to use a more sophisticated matching algorithm.
-</p></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="polymorphic_fonts"></a>Chapter 6. Polymorphic Fonts</h2></div></div></div><p>
+</p></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="Polymorphic_Fonts"></a>Chapter 6. Polymorphic Fonts</h2></div></div></div><p>
 
 Fonts that can be varied in ways other than size or resolution are called
 <span class="emphasis"><em>polymorphic fonts.</em></span>  Multiple Master Type 1 font programs are one type of
@@ -1875,35 +2172,35 @@ undefined.  The font source may treat this as a
 <code class="function">BadName</code> error, treat the
 value as if it were the closest legal value, or extrapolate to try to
 accommodate the value.
-</p></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="affected_elements_of_xlib_and_the_x_protocol"></a>Chapter 7. Affected Elements of Xlib and the X Protocol</h2></div></div></div><p>
+</p></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="Affected_Elements_of_Xlib_and_the_X_Protocol"></a>Chapter 7. Affected Elements of Xlib and the X Protocol</h2></div></div></div><p>
 
 The following X protocol requests must support the XLFD conventions:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 <code class="function">OpenFont</code>
 - for the name argument
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 <code class="function">ListFonts</code>
 - for the pattern argument
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 <code class="function">ListFontsWithInfo</code>
 - for the pattern argument
     </p></li></ul></div><p>
 
 In addition,
 the following Xlib functions must support the XLFD conventions:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
-<code class="function">XLoadFont</code>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+<a href="../../libX11/libX11/libX11.html#XLoadFont" class="olink"><code class="function">XLoadFont</code></a>
 - for the name argument
-    </p></li><li><p>
-<code class="function">XListFontsWithInfo</code>
+    </p></li><li class="listitem"><p>
+<a href="../../libX11/libX11/libX11.html#XListFontsWithInfo" class="olink"><code class="function">XListFontsWithInfo</code></a>
 - for the pattern argument
-    </p></li><li><p>
-<code class="function">XLoadQueryFont</code>
+    </p></li><li class="listitem"><p>
+<a href="../../libX11/libX11/libX11.html#XLoadQueryFont" class="olink"><code class="function">XLoadQueryFont</code></a>
 - for the name argument
-    </p></li><li><p>
-<code class="function">XListFonts</code>
+    </p></li><li class="listitem"><p>
+<a href="../../libX11/libX11/libX11.html#XListFonts" class="olink"><code class="function">XListFonts</code></a>
 - for the pattern argument
-    </p></li></ul></div></div><div class="chapter" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="bdf_conformance"></a>Chapter 8. BDF Conformance</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#xlfd_conformance_requirements">XLFD Conformance Requirements</a></span></dt><dt><span class="sect1"><a href="#font_ascent_font_descent_and_default_char">FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR</a></span></dt><dd><dl><dt><span class="sect2"><a href="#font_ascent">FONT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#font_descent">FONT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#default_char">DEFAULT_CHAR</a></span></dt></dl></dd></dl></div><p>
+    </p></li></ul></div></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a id="BDF_Conformance"></a>Chapter 8. BDF Conformance</h2></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="sect1"><a href="#XLFD_Conformance_Requirements">XLFD Conformance Requirements</a></span></dt><dt><span class="sect1"><a href="#FONT_ASCENT_FONT_DESCENT_and_DEFAULT_CHAR">FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR</a></span></dt><dd><dl><dt><span class="sect2"><a href="#FONT_ASCENT">FONT_ASCENT</a></span></dt><dt><span class="sect2"><a href="#FONT_DESCENT">FONT_DESCENT</a></span></dt><dt><span class="sect2"><a href="#DEFAULT_CHAR">DEFAULT_CHAR</a></span></dt></dl></dd></dl></div><p>
 
 The bitmap font distribution and interchange format adopted by the
 X Consortium (BDF V2.1) provides a general mechanism for identifying the
@@ -1911,26 +2208,26 @@ font name of an X font and a variable list of font properties,
 but it does not mandate the syntax or semantics of the font name
 or the semantics of the font properties that might be provided in a BDF font.
 This section identifies the requirements for BDF fonts that conform to XLFD.
-</p><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="xlfd_conformance_requirements"></a>XLFD Conformance Requirements</h2></div></div></div><p>
+</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="XLFD_Conformance_Requirements"></a>XLFD Conformance Requirements</h2></div></div></div><p>
 
 A BDF font conforms to the XLFD specification if and only if the
 following conditions are satisfied:
-</p><div class="itemizedlist"><ul type="disc"><li><p>
+</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
 The value for the BDF item <code class="function">FONT</code> conforms to the syntax
 and semantic definition of a XLFD
 <code class="function">FontName</code>
 string.
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 The
 <code class="function">FontName</code>
 begins with the X
 <code class="function">FontNameRegistry</code>
 prefix: "-".
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 All XLFD
 <code class="function">FontName</code>
 fields are defined.
-    </p></li><li><p>
+    </p></li><li class="listitem"><p>
 Any FontProperties provided conform in name and semantics to the XLFD
 <code class="function">FontProperty</code>
 definitions.
@@ -1943,7 +2240,7 @@ that the number of field delimiters in the string and coded field values
 are valid,
 and that each font property name either matches a standard XLFD property name
 or follows the definition of a private property.
-</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="font_ascent_font_descent_and_default_char"></a>FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR</h2></div></div></div><p>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="FONT_ASCENT_FONT_DESCENT_and_DEFAULT_CHAR"></a>FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR</h2></div></div></div><p>
 
 FONT_ASCENT, FONT_DESCENT, and DEFAULT_CHAR are provided in the BDF
 specification as properties that are moved to the
@@ -1952,7 +2249,7 @@ by the BDF font compiler in generating the X server-specific
 binary font encoding.
 If present,
 these properties shall comply with the following semantic definitions.
-</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="font_ascent"></a>FONT_ASCENT</h3></div></div></div><p>
+</p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FONT_ASCENT"></a>FONT_ASCENT</h3></div></div></div><p>
 
 FONT_ASCENT is an integer value (of type INT32)
 that gives the recommended typographic ascent above the baseline
@@ -1972,7 +2269,7 @@ if (FONT_ASCENT undefined) then
 </pre><p>
 where maximum ascent is the maximum ascent (above the baseline)
 in pixels of any glyph in the font.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="font_descent"></a>FONT_DESCENT</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="FONT_DESCENT"></a>FONT_DESCENT</h3></div></div></div><p>
 
 FONT_DESCENT is an integer value (of type INT32)
 that gives the recommended typographic descent below the baseline
@@ -1995,7 +2292,7 @@ if (FONT_DESCENT undefined) then
 </pre><p>
 where maximum descent is the maximum descent (below the baseline)
 in pixels of any glyph in the font.
-</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="default_char"></a>DEFAULT_CHAR</h3></div></div></div><p>
+</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="DEFAULT_CHAR"></a>DEFAULT_CHAR</h3></div></div></div><p>
 
 The DEFAULT_CHAR is an unsigned integer value (of type CARD32)
 that specifies the index

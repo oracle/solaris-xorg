@@ -4,9 +4,9 @@ Kamil Toman
 
 Ivan U. Pascal
 
-25 November 2002
+X Version 11, Release 7.7
 
-Abstract
+25 November 2002
 
 This guide is aimed to relieve one's labour to create a new (internationalized)
 keyboard layout. Unlike other documents this guide accents the keymap
@@ -64,8 +64,8 @@ modules:
          primary sence of this component is to allow definitions of maps of
          symbols (see below) to be independent of physical keyboard scancodes.
          There are two main naming conventions for symbolic names (always four
-         bytes long):
-Keycodes
+Keycodes bytes long):
+
            ● names which express some traditional meaning like <SPCE> (stands
              for space bar) or
 
@@ -78,8 +78,8 @@ Types    (like Shift, Control, Alt, ...). There are several predefined types
          which cover most of used combinations.
 
          Compatibility component defines internal behaviour of modifiers. Using
-         compat component you can assign various actions (elaborately described
-Compat   in xkb specification) to key events. This is also the place where
+Compat   compat component you can assign various actions (elaborately described
+         in xkb specification) to key events. This is also the place where
          LED-indicators behaviour is defined.
 
          For i18n purposes, this is the most important table. It defines what
@@ -133,7 +133,7 @@ keycodes need to bind different values for different combination of modifiers.
 row has only one column defined.
 
 Note that in XKB there is no prior assumption that certain modifiers are bound
-to certain columns. By editing proper files (see keytypes) this mapping can be
+to certain columns. By editing proper files (see Key Types) this mapping can be
 changed as well.
 
 Unlike the original X protocol the XKB approach is far more flexible. It is
@@ -237,8 +237,8 @@ xkb component's subdirectory.
 
 The most used schemes are:
 
-                      The key does not depend on any modifiers. The symbol from
-ONE_LEVEL             first level is always chosen.
+ONE_LEVEL             The key does not depend on any modifiers. The symbol from
+                      first level is always chosen.
 
                       The key uses a modifier Shift and may have two possible
                       values. The second level may be chosen by Shift modifier.
@@ -251,8 +251,8 @@ TWO_LEVEL             is further processed using system-specific capitalization
                       The key uses modifiers Shift and Lock. It may have two
                       possible values. The second level may be chosen by Shift
                       modifier. When Lock modifier applies, the symbol from the
-                      first level is taken and further processed using
-ALPHABETIC            system-specific capitalization rules. If both Shift+Lock
+ALPHABETIC            first level is taken and further processed using
+                      system-specific capitalization rules. If both Shift+Lock
                       modifier apply the symbol from the first level is taken
                       and no capitalization rules applied. This is often called
                       shift-cancels-caps behaviour.
@@ -273,16 +273,16 @@ FOUR_LEVEL            Shift+LevelThree modifiers apply the symbol is taken from
 
                       Is similar to FOUR_LEVEL but also defines
                       shift-cancels-caps behaviour as in ALPHABETIC. If
-                      Lock+LevelThree apply the symbol from the third level is
-FOUR_LEVEL_ALPHABETIC taken and the capitalization rules are applied. If
+FOUR_LEVEL_ALPHABETIC Lock+LevelThree apply the symbol from the third level is
+                      taken and the capitalization rules are applied. If
                       Lock+Shift+LevelThree apply the symbol from the third
                       level is taken and no capitalization rules are applied.
 
                       As the name suggest this scheme is primarily used for
                       numeric keypads. The scheme considers two modifiers -
                       Shift and NumLock. If none of modifiers applies the
-                      symbol from the first level is taken. If either Shift or
-KEYPAD                NumLock modifiers apply the symbol from the second level
+KEYPAD                symbol from the first level is taken. If either Shift or
+                      NumLock modifiers apply the symbol from the second level
                       is taken. If both Shift+NumLock modifiers apply the
                       symbol from the first level is taken. Again,
                       shift-cancels-caps variant.
@@ -306,8 +306,8 @@ PC_SYSRQ  rather than Shift. That means, the symbol from the second level is
           chosen by Alt rather than by Shift.
 
           The key uses modifiers Alt and Control. It may have two possible
-          values. If only one modifier (Alt or Control) applies the symbol from
-CTRL+ALT  the first level is chosen. Only if both Alt+Control modifiers apply
+CTRL+ALT  values. If only one modifier (Alt or Control) applies the symbol from
+          the first level is chosen. Only if both Alt+Control modifiers apply
           the symbol from the second level is chosen.
 
           The key uses modifiers Shift and Alt. It may have two possible

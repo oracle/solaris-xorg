@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlsatoms 1.x Makefile
+# xlsatoms - utility to list atoms defined on a given X server
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c543ccb6489b629d427810d9a57d0724
-TARBALL_SHA1 = 2982df6844d60cd12a09208808ab6baa767fe35f
+TARBALL_MD5   = 9d0e16d116d1c89e6b668c1b2672eb57
+TARBALL_SHA1  = 271880bf9dcd37b85b08e5f4a43e6015747b45e1
+TARBALL_SHA256= 3b8bd98c1ca9789178db80bca75556b0c76e5092403014995d5ddaa3117536f9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xlsatoms.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

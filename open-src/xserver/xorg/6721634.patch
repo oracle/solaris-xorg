@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 diff --git a/hw/xfree86/common/xf86AutoConfig.c b/hw/xfree86/common/xf86AutoConfig.c
-index 5c6e721..64377d3 100644
+index 43c746b..2e86f72 100644
 --- a/hw/xfree86/common/xf86AutoConfig.c
 +++ b/hw/xfree86/common/xf86AutoConfig.c
 @@ -59,6 +59,18 @@
@@ -60,13 +60,13 @@ index 5c6e721..64377d3 100644
  
      for (p = deviceList; *p; p++) {
 +#ifdef sun
-+	const char *nvidia_string = "nvidia";
-+	const char *nvidia_opt_no_logo = "\tOption \"NoLogo\" \"True\"\n";
-+	if (!strncmp(*p, nvidia_string, sizeof(nvidia_string)))
-+	    snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION_OPT,
-+		     *p, 0, *p, nvidia_opt_no_logo);
-+	else
++        const char *nvidia_string = "nvidia";
++        const char *nvidia_opt_no_logo = "\tOption \"NoLogo\" \"True\"\n";
++        if (!strncmp(*p, nvidia_string, sizeof(nvidia_string)))
++            snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION_OPT,
++                     *p, 0, *p, nvidia_opt_no_logo);
++        else
 +#endif
- 	snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
- 	AppendToConfig(buf);
- 	snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);
+         snprintf(buf, sizeof(buf), BUILTIN_DEVICE_SECTION, *p, 0, *p);
+         AppendToConfig(buf);
+         snprintf(buf, sizeof(buf), BUILTIN_SCREEN_SECTION, *p, 0, *p, 0);

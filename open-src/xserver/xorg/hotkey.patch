@@ -1,8 +1,8 @@
 diff --git a/Xi/exevents.c b/Xi/exevents.c
-index 6b2db4b..16ae210 100644
+index f681a8b..9ffb87f 100644
 --- a/Xi/exevents.c
 +++ b/Xi/exevents.c
-@@ -230,7 +230,16 @@ CopyKeyClass(DeviceIntPtr device, DeviceIntPtr master)
+@@ -225,7 +225,16 @@ CopyKeyClass(DeviceIntPtr device, DeviceIntPtr master)
  {
      KeyClassPtr mk = master->key;
  
@@ -20,10 +20,10 @@ index 6b2db4b..16ae210 100644
  
      mk->sourceid = device->id;
 diff --git a/Xi/extinit.c b/Xi/extinit.c
-index a81c8f1..2171d82 100644
+index 4483076..e40c5d0 100644
 --- a/Xi/extinit.c
 +++ b/Xi/extinit.c
-@@ -370,6 +370,10 @@ extern XExtensionVersion XIVersion;
+@@ -367,6 +367,10 @@ extern XExtensionVersion XIVersion;
  
  Mask PropagateMask[MAXDEVICES];
  
@@ -34,8 +34,8 @@ index a81c8f1..2171d82 100644
  /*****************************************************************
   *
   * Versioning support
-@@ -1258,6 +1262,11 @@ XInputExtensionInit(void)
-     if (!dixRegisterPrivateKey(&XIClientPrivateKeyRec, PRIVATE_CLIENT, sizeof(XIClientRec)))
+@@ -1260,6 +1264,11 @@ XInputExtensionInit(void)
+         (&XIClientPrivateKeyRec, PRIVATE_CLIENT, sizeof(XIClientRec)))
          FatalError("Cannot request private for XI.\n");
  
 +#ifdef SUNSOFT   
@@ -47,10 +47,10 @@ index a81c8f1..2171d82 100644
          FatalError("Failed to add callback to XI.\n");
  
 diff --git a/config/hal.c b/config/hal.c
-index 088c993..98934d3 100644
+index 2ead556..c3eab4a 100644
 --- a/config/hal.c
 +++ b/config/hal.c
-@@ -123,6 +123,49 @@ get_prop_string_array(LibHalContext *hal_ctx, const char *udi, const char *prop)
+@@ -123,6 +123,49 @@ get_prop_string_array(LibHalContext * hal_ctx, const char *udi,
      return ret;
  }
  
@@ -98,10 +98,10 @@ index 088c993..98934d3 100644
 +#endif
 +
  static void
- device_added(LibHalContext *hal_ctx, const char *udi)
+ device_added(LibHalContext * hal_ctx, const char *udi)
  {
-@@ -371,6 +414,14 @@ device_added(LibHalContext *hal_ctx, const char *udi)
-         input_options = input_option_new(input_options, "xkb_options", xkb_opts.options);
+@@ -382,6 +425,14 @@ device_added(LibHalContext * hal_ctx, const char *udi)
+             input_option_new(input_options, "xkb_options", xkb_opts.options);
      input_options = input_option_new(input_options, "config_info", config_info);
  
 +#ifdef SUNSOFT
@@ -133,10 +133,10 @@ index b263f36..425aec2 100644
        <match key="/org/freedesktop/Hal/devices/computer:system.kernel.name"
               string="Linux">
 diff --git a/include/inputstr.h b/include/inputstr.h
-index c3297db..3d7f83d 100644
+index 841e805..a338ea8 100644
 --- a/include/inputstr.h
 +++ b/include/inputstr.h
-@@ -59,6 +59,11 @@ SOFTWARE.
+@@ -57,6 +57,11 @@ SOFTWARE.
  #include "geext.h"
  #include "privates.h"
  

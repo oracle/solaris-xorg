@@ -62,17 +62,18 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	$(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix' \
-	tigervnc11-xorg111.patch,-p1 \
-	no-nasm.patch,-p1 \
-	applet-html.patch \
-	icon.patch \
-	solaris-libraries.patch,-p1 \
-	vnc-nobuildtime.patch \
-	vnc-nohttpd.patch \
-	solaris-port.patch \
-	solaris-audit.patch,-p1
+SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix'
+SOURCE_PATCHES += tigervnc11-xorg111.patch,-p1
+SOURCE_PATCHES += tigervnc11-xorg112.patch,'-p0 -d unix'
+SOURCE_PATCHES += xorg-1.12.1.patch,-p1
+SOURCE_PATCHES += no-nasm.patch,-p1
+SOURCE_PATCHES += applet-html.patch
+SOURCE_PATCHES += icon.patch,-p1
+SOURCE_PATCHES += solaris-libraries.patch,-p1
+SOURCE_PATCHES += vnc-nobuildtime.patch,-p1
+SOURCE_PATCHES += vnc-nohttpd.patch,-p1
+SOURCE_PATCHES += solaris-port.patch,-p1
+SOURCE_PATCHES += solaris-audit.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes

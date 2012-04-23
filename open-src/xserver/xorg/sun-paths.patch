@@ -1,5 +1,5 @@
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
-index f51be7e..aa3d97e 100644
+index ec679df..19feac1 100644
 --- a/hw/xfree86/common/xf86Config.c
 +++ b/hw/xfree86/common/xf86Config.c
 @@ -74,9 +74,9 @@
@@ -26,11 +26,11 @@ index f51be7e..aa3d97e 100644
  			"%P/etc/X11/%X.%H," \
  			"%P/etc/X11/%X," \
 diff --git a/hw/xfree86/common/xf86Globals.c b/hw/xfree86/common/xf86Globals.c
-index d576fb9..2c19c54 100644
+index 0071004..6f6c766 100644
 --- a/hw/xfree86/common/xf86Globals.c
 +++ b/hw/xfree86/common/xf86Globals.c
 @@ -135,7 +135,8 @@ xf86InfoRec xf86Info = {
- };
+ 
  const char *xf86ConfigFile = NULL;
  const char *xf86ConfigDir = NULL;
 -const char *xf86ModulePath = DEFAULT_MODULE_PATH;
@@ -40,7 +40,7 @@ index d576fb9..2c19c54 100644
  const char *xf86LogFile = DEFAULT_LOGPREFIX;
  MessageType xf86LogFileFrom = X_DEFAULT;
 diff --git a/hw/xfree86/man/xorg.conf.man b/hw/xfree86/man/xorg.conf.man
-index 5790185..ac9d626 100644
+index c1b3c4f..d15bbf5 100644
 --- a/hw/xfree86/man/xorg.conf.man
 +++ b/hw/xfree86/man/xorg.conf.man
 @@ -36,9 +36,9 @@ server is started as a normal user:

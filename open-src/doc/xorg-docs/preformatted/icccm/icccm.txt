@@ -6,13 +6,15 @@ David Rosenthal
 
 Sun Microsystems, Inc.
 
-Version 2 edited by: Stuart W. Marks
+Edited by
+
+Stuart W. Marks
 
 SunSoft, Inc.
 
-Version 2.0
+X Version 11, Release 7.7
 
-X Window System is a trademark of The Open Group
+Version 2.0
 
 Copyright © 1988, 1991, 1993, 1994 X Consortium
 
@@ -26,7 +28,7 @@ so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE X
 CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
@@ -36,6 +38,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Except as contained in this notice, the name of the X Consortium shall not be
 used in advertising or otherwise to promote the sale, use or other dealings in
 this Software without prior written authorization from the X Consortium.
+
+X Window System is a trademark of The Open Group.
 
 Copyright © 1987, 1988, 1989, 1993, 1994 Sun Microsystems, Inc
 
@@ -392,13 +396,21 @@ The protocol defines six distinct spaces in which atoms are interpreted. Any
 particular atom may or may not have some valid interpretation with respect to
 each of these name spaces.
 
-Space              Briefly   Examples                                 
-Property name      Name      WM_HINTS, WM_NAME, RGB_BEST_MAP, ...     
-Property type      Type      WM_HINTS, CURSOR, RGB_COLOR_MAP, ...     
-Selection name     Selection PRIMARY, SECONDARY, CLIPBOARD            
-Selection target   Target    FILE_NAME, POSTSCRIPT, PIXMAP, ...       
-Font property                QUAD_WIDTH, POINT_SIZE, ...              
-ClientMessage type           WM_SAVE_YOURSELF, _DEC_SAVE_EDITS, &...  
+┌──────────────────┬─────────┬───────────────────────────────────────┐
+│Space             │Briefly  │Examples                               │
+├──────────────────┼─────────┼───────────────────────────────────────┤
+│Property name     │Name     │WM_HINTS, WM_NAME, RGB_BEST_MAP, ...   │
+├──────────────────┼─────────┼───────────────────────────────────────┤
+│Property type     │Type     │WM_HINTS, CURSOR, RGB_COLOR_MAP, ...   │
+├──────────────────┼─────────┼───────────────────────────────────────┤
+│Selection name    │Selection│PRIMARY, SECONDARY, CLIPBOARD          │
+├──────────────────┼─────────┼───────────────────────────────────────┤
+│Selection target  │Target   │FILE_NAME, POSTSCRIPT, PIXMAP, ...     │
+├──────────────────┼─────────┼───────────────────────────────────────┤
+│Font property     │         │QUAD_WIDTH, POINT_SIZE, ...            │
+├──────────────────┼─────────┼───────────────────────────────────────┤
+│ClientMessage type│         │WM_SAVE_YOURSELF, _DEC_SAVE_EDITS, &...│
+└──────────────────┴─────────┴───────────────────────────────────────┘
 
 Discriminated Names
 
@@ -421,9 +433,13 @@ If name is a descriptive portion for the name, d is a decimal number with no
 leading zeroes, and x is a hexadecimal number with exactly 8 digits, and using
 uppercase letters, then such discriminated names shall have the form:
 
-Name Discriminated by Form    Example                 
-screen number         name_Sd WM_COMMS_S2             
-X resource            name_Rx GROUP_LEADER_R1234ABCD  
+┌─────────────────────┬───────┬──────────────────────┐
+│Name Discriminated by│Form   │Example               │
+├─────────────────────┼───────┼──────────────────────┤
+│screen number        │name_Sd│WM_COMMS_S2           │
+├─────────────────────┼───────┼──────────────────────┤
+│X resource           │name_Rx│GROUP_LEADER_R1234ABCD│
+└─────────────────────┴───────┴──────────────────────┘
 
 To discriminate a name by client, use an X resource ID created by that client.
 This resource can be of any type.
@@ -496,9 +512,9 @@ Manager Selections
 Selections are the primary mechanism that X Version 11 defines for the exchange
 of information between clients, for example, by cutting and pasting between
 windows. Note that there can be an arbitrary number of selections (each named
-by an atom) and that they are global to the server.  the section called “Use of
-Selection Atoms”. discusses the choice of an atom. Each selection is owned by a
-client and is attached to a window.
+by an atom) and that they are global to the server. Use of Selection Atoms.
+discusses the choice of an atom. Each selection is owned by a client and is
+attached to a window.
 
 Selections communicate between an owner and a requestor. The owner has the data
 representing the value of its selection, and the requestor receives it. A
@@ -649,7 +665,7 @@ which need not be the same as the specified target.
 In either case, if the data comprising the selection cannot be stored on the
 requestor window (for example, because the server cannot provide sufficient
 memory), the owner must refuse the SelectionRequest, as previously described.
-See also  the section called “Large Data Transfers”.
+See also Large Data Transfers.
 
 If the property is successfully stored, the owner should acknowledge the
 successful conversion by sending the requestor window a SelectionNotify event
@@ -693,8 +709,8 @@ needed to assign the responsibility for doing so.
     Convention
 
     Selection requestors are responsible for deleting properties whose names
-    they receive in SelectionNotify events (See  the section called “Requesting
-    a Selection” ) or in properties with type MULTIPLE.
+    they receive in SelectionNotify events (See Requesting a Selection ) or in
+    properties with type MULTIPLE.
 
 A selection owner will often need confirmation that the data comprising the
 selection has actually been transferred. (For example, if the operation has
@@ -751,7 +767,7 @@ Forcibly Giving Up Selection Ownership
 If a client gives up ownership of a selection or if some other client executes
 a SetSelectionOwner for it and thus reassigns it forcibly, the previous owner
 will receive a SelectionClear event. For the definition of a SelectionClear
-event, see  the section called “Responsibilities of the Selection Owner”
+event, see Responsibilities of the Selection Owner
 
 The timestamp is the time the selection changed hands. The specified owner is
 the window that was specified by the current owner in its SetSelectionOwner
@@ -771,12 +787,11 @@ time: TIMESTAMP or CurrentTime
 
 The selection argument specifies the particular selection involved, and the
 target argument specifies the required form of the information. For information
-about the choice of suitable atoms to use, see  the section called “Use of
-Selection Atoms” The requestor should set the requestor argument to a window
-that it created; the owner will place the reply property there. The requestor
-should set the time argument to the timestamp on the event that triggered the
-request for the selection value. Note that clients should not specify
-CurrentTime.
+about the choice of suitable atoms to use, see Use of Selection Atoms The
+requestor should set the requestor argument to a window that it created; the
+owner will place the reply property there. The requestor should set the time
+argument to the timestamp on the event that triggered the request for the
+selection value. Note that clients should not specify CurrentTime.
 
     Convention
 
@@ -822,8 +837,8 @@ Conventions
     the property name to be used for the reply.
 
 The result of the ConvertSelection request is that a SelectionNotify event will
-be received. For the definition of a SelectionNotify event, see  the section
-called “Responsibilities of the Selection Owner”.
+be received. For the definition of a SelectionNotify event, see
+Responsibilities of the Selection Owner.
 
 The requestor, selection, time, and target arguments will be the same as those
 on the ConvertSelection request.
@@ -856,24 +871,24 @@ requestor has no way of knowing beforehand what type the selection owner will
 use, the type argument should be set to AnyPropertyType. Several GetProperty
 requests may be needed to retrieve all the data in the selection; each should
 set the long-offset argument to the amount of data received so far, and the
-size argument to some reasonable buffer size (see  the section called “Large
-Data Transfers”. ). If the returned value of bytes-after is zero, the whole
-property has been transferred.
+size argument to some reasonable buffer size (see Large Data Transfers. ). If
+the returned value of bytes-after is zero, the whole property has been
+transferred.
 
 Once all the data in the selection has been retrieved (which may require
-getting the values of several properties -- see  the section called “Use of
-Selection Properties”. ), the requestor should delete the property in the
-SelectionNotify request by using a GetProperty request with the delete argument
-set to True. As previously discussed, the owner has no way of knowing when the
-data has been transferred to the requestor unless the property is removed.
+getting the values of several properties -- see Use of Selection Properties. ),
+the requestor should delete the property in the SelectionNotify request by
+using a GetProperty request with the delete argument set to True. As previously
+discussed, the owner has no way of knowing when the data has been transferred
+to the requestor unless the property is removed.
 
     Convention
 
     The requestor must delete the property named in the SelectionNotify once
     all the data has been retrieved. The requestor should invoke either
     DeleteProperty or GetProperty (delete==True) after it has successfully
-    retrieved all the data in the selection. For further information, see  the
-    section called “Large Data Transfers”.
+    retrieved all the data in the selection. For further information, see Large
+    Data Transfers.
 
 Large Data Transfers
 
@@ -892,8 +907,7 @@ Conventions
 
   ● Selection owners should transfer the data describing a large selection
     (relative to the maximum-request-size they received in the connection
-    handshake) using the INCR property mechanism (see  the section called “INCR
-    Properties”. ).
+    handshake) using the INCR property mechanism (see INCR Properties. ).
 
   ● Any client using SetSelectionOwner to acquire selection ownership should
     arrange to process Alloc errors in property change requests. For clients
@@ -911,8 +925,8 @@ Conventions
 
   ● If an Alloc error occurs during the storing of the selection data, all
     properties stored for this selection should be deleted and the
-    ConvertSelection request should be refused (see  the section called
-    “Responsibilities of the Selection Owner”. ).
+    ConvertSelection request should be refused (see Responsibilities of the
+    Selection Owner. ).
 
   ● To avoid locking servers up for inordinate lengths of time, requestors
     retrieving large quantities of data from a property should perform a series
@@ -1037,82 +1051,119 @@ but a generally accepted base set of target atoms is needed. As a starting
 point for this, the following table contains those that have been suggested so
 far.
 
-Atom                                Type          Data Received
-ADOBE_PORTABLE_DOCUMENT_FORMAT      STRING        [1]
-APPLE_PICT                          APPLE_PICT    [2]
-BACKGROUND                          PIXEL         A list of pixel values
-BITMAP                              BITMAP        A list of bitmap IDs
-CHARACTER_POSITION                  SPAN          The start and end of the
-                                                  selection in bytes
-CLASS                               TEXT          (see  the section called
-                                                  “WM_CLASS Property”. )
-CLIENT_WINDOW                       WINDOW        Any top-level window owned by
-                                                  the selection owner
-COLORMAP                            COLORMAP      A list of colormap IDs
-COLUMN_NUMBER                       SPAN          The start and end column
-                                                  numbers
-COMPOUND_TEXT                       COMPOUND_TEXT Compound Text
-DELETE                              NULL          (see  the section called
-                                                  “DELETE”. )
-DRAWABLE                            DRAWABLE      A list of drawable IDs
-ENCAPSULATED_POSTSCRIPT             STRING        [3], Appendix H ^[a]
-ENCAPSULATED_POSTSCRIPT_INTERCHANGE STRING        [3], Appendix H
-FILE_NAME                           TEXT          The full path name of a file
-FOREGROUND                          PIXEL         A list of pixel values
-                                                  (see  the section called
-HOST_NAME                           TEXT          “WM_CLIENT_MACHINE Property”.
-                                                  )
-INSERT_PROPERTY                     NULL          (see  the section called
-                                                  “INSERT_PROPERTY”. )
-INSERT_SELECTION                    NULL          (see  the section called
-                                                  “INSERT_SELECTION”. )
-LENGTH                              INTEGER       The number of bytes in the
-                                                  selection ^[b]
-LINE_NUMBER                         SPAN          The start and end line
-                                                  numbers
-LIST_LENGTH                         INTEGER       The number of disjoint parts
-                                                  of the selection
-MODULE                              TEXT          The name of the selected
-                                                  procedure
-MULTIPLE                            ATOM_PAIR     (see the discussion that
-                                                  follows)
-NAME                                TEXT          (see  the section called
-                                                  “WM_NAME Property”. )
-ODIF                                TEXT          ISO Office Document
-                                                  Interchange Format
-OWNER_OS                            TEXT          The operating system of the
-                                                  owner client
-PIXMAP                              PIXMAP ^[c]   A list of pixmap IDs
-POSTSCRIPT                          STRING        [3]
-PROCEDURE                           TEXT          The name of the selected
-                                                  procedure
-PROCESS                             INTEGER, TEXT The process ID of the owner
-STRING                              STRING        ISO Latin-1 (+TAB+NEWLINE)
-                                                  text
-TARGETS                             ATOM          A list of valid target atoms
-TASK                                INTEGER, TEXT The task ID of the owner
-TEXT                                TEXT          The text in the owner's
-                                                  choice of encoding
-TIMESTAMP                           INTEGER       The timestamp used to acquire
-                                                  the selection
-USER                                TEXT          The name of the user running
-                                                  the owner
-^[a] Earlier versions of this document erroneously specified that conversion of
-the PIXMAP target returns a property of type DRAWABLE instead of PIXMAP.
-Implementors should be aware of this and may want to support the DRAWABLE type
-as well to allow for compatibility with older clients.
-
-^[b] The targets ENCAPSULATED_POSTSCRIPT and
-ENCAPSULATED_POSTSCRIPT_INTERCHANGE are equivalent to the targets _ADOBE_EPS
-and _ADOBE_EPSI (respectively) that appear in the selection targets registry.
-The _ADOBE_ targets are deprecated, but clients are encouraged to continue to
-support them for backward compatibility.
-
-^[c] This definition is ambiguous, as the selection may be converted into any
-of several targets that may return differing amounts of data. The requestor has
-no way of knowing which, if any, of these targets corresponds to the result of
-LENGTH. Clients are advised that no guarantees can be made about the result of
-a conversion to LENGTH; its use is thus deprecated.
+┌────────────────────────────────────┬─────────────┬──────────────────────────┐
+│Atom                                │Type         │Data Received             │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│ADOBE_PORTABLE_­DOCUMENT_­FORMAT    │STRING       │[1]                       │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│APPLE_PICT                          │APPLE_PICT   │[2]                       │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│BACKGROUND                          │PIXEL        │A list of pixel values    │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│BITMAP                              │BITMAP       │A list of bitmap IDs      │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│CHARACTER_POSITION                  │SPAN         │The start and end of the  │
+│                                    │             │selection in bytes        │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│CLASS                               │TEXT         │(see WM_CLASS Property. ) │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│CLIENT_WINDOW                       │WINDOW       │Any top-level window owned│
+│                                    │             │by the selection owner    │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│COLORMAP                            │COLORMAP     │A list of colormap IDs    │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│COLUMN_NUMBER                       │SPAN         │The start and end column  │
+│                                    │             │numbers                   │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│COMPOUND_TEXT                       │COMPOUND_TEXT│Compound Text             │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│DELETE                              │NULL         │(see DELETE. )            │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│DRAWABLE                            │DRAWABLE     │A list of drawable IDs    │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│ENCAPSULATED_POSTSCRIPT             │STRING       │[3], Appendix H ^[a]      │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│ENCAPSULATED_POSTSCRIPT_­INTERCHANGE│STRING       │[3], Appendix H           │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│FILE_NAME                           │TEXT         │The full path name of a   │
+│                                    │             │file                      │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│FOREGROUND                          │PIXEL        │A list of pixel values    │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│HOST_NAME                           │TEXT         │(see WM_CLIENT_MACHINE    │
+│                                    │             │Property. )               │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│INSERT_PROPERTY                     │NULL         │(see INSERT_PROPERTY. )   │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│INSERT_SELECTION                    │NULL         │(see INSERT_SELECTION. )  │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│LENGTH                              │INTEGER      │The number of bytes in the│
+│                                    │             │selection ^[b]            │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│LINE_NUMBER                         │SPAN         │The start and end line    │
+│                                    │             │numbers                   │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│LIST_LENGTH                         │INTEGER      │The number of disjoint    │
+│                                    │             │parts of the selection    │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│MODULE                              │TEXT         │The name of the selected  │
+│                                    │             │procedure                 │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│MULTIPLE                            │ATOM_PAIR    │(see the discussion that  │
+│                                    │             │follows)                  │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│NAME                                │TEXT         │(see WM_NAME Property. )  │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│ODIF                                │TEXT         │ISO Office Document       │
+│                                    │             │Interchange Format        │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│OWNER_OS                            │TEXT         │The operating system of   │
+│                                    │             │the owner client          │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│PIXMAP                              │PIXMAP ^[c]  │A list of pixmap IDs      │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│POSTSCRIPT                          │STRING       │[3]                       │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│PROCEDURE                           │TEXT         │The name of the selected  │
+│                                    │             │procedure                 │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│PROCESS                             │INTEGER, TEXT│The process ID of the     │
+│                                    │             │owner                     │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│STRING                              │STRING       │ISO Latin-1 (+TAB+NEWLINE)│
+│                                    │             │text                      │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│TARGETS                             │ATOM         │A list of valid target    │
+│                                    │             │atoms                     │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│TASK                                │INTEGER, TEXT│The task ID of the owner  │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│TEXT                                │TEXT         │The text in the owner's   │
+│                                    │             │choice of encoding        │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│TIMESTAMP                           │INTEGER      │The timestamp used to     │
+│                                    │             │acquire the selection     │
+├────────────────────────────────────┼─────────────┼──────────────────────────┤
+│USER                                │TEXT         │The name of the user      │
+│                                    │             │running the owner         │
+├────────────────────────────────────┴─────────────┴──────────────────────────┤
+│^[a] Earlier versions of this document erroneously specified that conversion │
+│of the PIXMAP target returns a property of type DRAWABLE instead of PIXMAP.  │
+│Implementors should be aware of this and may want to support the DRAWABLE    │
+│type as well to allow for compatibility with older clients.                  │
+│                                                                             │
+│^[b] The targets ENCAPSULATED_POSTSCRIPT and                                 │
+│ENCAPSULATED_POSTSCRIPT_INTERCHANGE are equivalent to the targets _ADOBE_EPS │
+│and _ADOBE_EPSI (respectively) that appear in the selection targets registry.│
+│The _ADOBE_ targets are deprecated, but clients are encouraged to continue to│
+│support them for backward compatibility.                                     │
+│                                                                             │
+│^[c] This definition is ambiguous, as the selection may be converted into any│
+│of several targets that may return differing amounts of data. The requestor  │
+│has no way of knowing which, if any, of these targets corresponds to the     │
+│result of LENGTH. Clients are advised that no guarantees can be made about   │
+│the result of a conversion to LENGTH; its use is thus deprecated.            │
+└─────────────────────────────────────────────────────────────────────────────┘
 
 References:
 
@@ -1157,8 +1208,8 @@ targets are optional.
         Convention
 
         The entries in a MULTIPLE property must be processed in the order they
-        appear in the property. For further information, see  the section
-        called “Selection Targets with Side Effects”.
+        appear in the property. For further information, see Selection Targets
+        with Side Effects.
 
     The requestor should delete each individual property when it has copied the
     data from that conversion, and the property specified in the MULTIPLE
@@ -1267,22 +1318,39 @@ requestor may determine the number of items by the property size. Selection
 property types are listed in the table below. For variable-length items such as
 text, the separators are also listed.
 
-Type Atom     Format Separator
-APPLE_PICT    8      Self-sizing
-ATOM          32     Fixed-size
-ATOM_PAIR     32     Fixed-size
-BITMAP        32     Fixed-size
-C_STRING      8      Zero
-COLORMAP      32     Fixed-size
-COMPOUND_TEXT 8      Zero
-DRAWABLE      32     Fixed-size
-INCR          32     Fixed-size
-INTEGER       32     Fixed-size
-PIXEL         32     Fixed-size
-PIXMAP        32     Fixed-size
-SPAN          32     Fixed-size
-STRING        8      Zero
-WINDOW        32     Fixed-size
+┌─────────────┬──────┬───────────┐
+│Type Atom    │Format│Separator  │
+├─────────────┼──────┼───────────┤
+│APPLE_PICT   │8     │Self-sizing│
+├─────────────┼──────┼───────────┤
+│ATOM         │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│ATOM_PAIR    │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│BITMAP       │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│C_STRING     │8     │Zero       │
+├─────────────┼──────┼───────────┤
+│COLORMAP     │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│COMPOUND_TEXT│8     │Zero       │
+├─────────────┼──────┼───────────┤
+│DRAWABLE     │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│INCR         │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│INTEGER      │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│PIXEL        │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│PIXMAP       │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│SPAN         │32    │Fixed-size │
+├─────────────┼──────┼───────────┤
+│STRING       │8     │Zero       │
+├─────────────┼──────┼───────────┤
+│WINDOW       │32    │Fixed-size │
+└─────────────┴──────┴───────────┘
 
 It is expected that this table will grow over time.
 
@@ -1302,10 +1370,10 @@ a type; it will never be the returned type from a selection conversion request.
 If the requestor wants the owner to return the contents of the selection in a
 specific encoding, it should request conversion into the name of that encoding.
 
-In the table in  the section called “Target Atoms”, the word TEXT (in the Type
-column) is used to indicate one of the registered encoding names. The type
-would not actually be TEXT; it would be STRING or some other ATOM naming the
-encoding chosen by the owner.
+In the table in Target Atoms, the word TEXT (in the Type column) is used to
+indicate one of the registered encoding names. The type would not actually be
+TEXT; it would be STRING or some other ATOM naming the encoding chosen by the
+owner.
 
 STRING as a type or a target specifies the ISO Latin-1 character set plus the
 control characters TAB (octal 11) and NEWLINE (octal 12). The spacing
@@ -1394,9 +1462,8 @@ items are not:
   ● Colormap ID
 
 In general, requestors converting into targets whose returned type in the table
-in  the section called “Target Atoms” is one of the DRAWABLE types should
-expect to convert also into the following targets (using the MULTIPLE
-mechanism):
+in Target Atoms is one of the DRAWABLE types should expect to convert also into
+the following targets (using the MULTIPLE mechanism):
 
   ● FOREGROUND returns a PIXEL value.
 
@@ -1417,10 +1484,10 @@ Manager Selections
 
 Certain clients, often called managers, take on responsibility for managing
 shared resources. A client that manages a shared resource should take ownership
-of an appropriate selection, named using the conventions described in  the
-section called “Naming Conventions” and  the section called “Discriminated
-Names”. A client that manages multiple shared resources (or groups of
-resources) should take ownership of a selection for each one.
+of an appropriate selection, named using the conventions described in Naming
+Conventions and Discriminated Names. A client that manages multiple shared
+resources (or groups of resources) should take ownership of a selection for
+each one.
 
 The manager may support conversion of various targets for that selection.
 Managers are encouraged to use this technique as the primary means by which
@@ -1434,10 +1501,9 @@ another client, and, where appropriate, it should ask the user if the new
 manager should replace the old one. If so, it may then take ownership of the
 selection. Managers should acquire the selection using a window created
 expressly for this purpose. Managers must conform to the rules for selection
-owners described in  the section called “Acquiring Selection Ownership” and  
-the section called “Responsibilities of the Selection Owner” , and they must
-also support the required targets listed in  the section called “Use of
-Selection Atoms”.
+owners described in Acquiring Selection Ownership and Responsibilities of the
+Selection Owner , and they must also support the required targets listed in Use
+of Selection Atoms.
 
 If a manager loses ownership of a manager selection, this means that a new
 manager is taking over its responsibilities. The old manager must release all
@@ -1470,28 +1536,42 @@ selection, it should announce its arrival by sending a ClientMessage event.
 This event should be sent using the SendEvent protocol request with the
 following arguments:
 
-Argument       Value
-               the root window of screen 0, or the root window of the
-destination:   appropriate screen if the manager is managing a screen-specific
-               resource
-propogate:     False
-event-mask:    StructureNotify
-event:         ClientMessage
-       type:   MANAGER
-       format: 32
-       data[0] timestamp
-       ^[a]
-       data    manager selection atom
-       [1]:
-       data    the window owning the selection
-       [2]:
-       data    manager-selection-specific data
-       [3]:
-       data    manager-selection-specific data
-       [4]:
-^[a] We use the notation data[n] to indicate the n ^th element of the
-LISTofINT8, LISTofINT16, or LISTofINT32 in the data field of the ClientMessage,
-according to the format field. The list is indexed from zero.
+┌────────────┬────────────────────────────────────────────────────────────────┐
+│Argument    │Value                                                           │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│            │the root window of screen 0, or the root window of the          │
+│destination:│appropriate screen if the manager is managing a screen-specific │
+│            │resource                                                        │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│propogate:  │False                                                           │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│event-mask: │StructureNotify                                                 │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│event:      │ClientMessage                                                   │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     type:  │MANAGER                                                         │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     format:│32                                                              │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     data[0]│timestamp                                                       │
+│^[a]        │                                                                │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     data   │manager selection atom                                          │
+│[1]:        │                                                                │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     data   │the window owning the selection                                 │
+│[2]:        │                                                                │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     data   │manager-selection-specific data                                 │
+│[3]:        │                                                                │
+├────────────┼────────────────────────────────────────────────────────────────┤
+│     data   │manager-selection-specific data                                 │
+│[4]:        │                                                                │
+├────────────┴────────────────────────────────────────────────────────────────┤
+│^[a] We use the notation data[n] to indicate the n ^th element of the        │
+│LISTofINT8, LISTofINT16, or LISTofINT32 in the data field of the             │
+│ClientMessage, according to the format field. The list is indexed from zero. │
+└─────────────────────────────────────────────────────────────────────────────┘
 
 Clients that wish to know when a specific manager has started should select for
 StructureNotify on the appropriate root window and should watch for the
@@ -1678,8 +1758,8 @@ window as being in one of three states:
 
 Newly created windows start in the Withdrawn state. Transitions between states
 happen when the top-level window is mapped and unmapped and when the window
-manager receives certain messages. For further details, see  the section called
-“WM_HINTS Property”. and  the section called “Changing Window State”.
+manager receives certain messages. For further details, see WM_HINTS Property.
+and Changing Window State.
 
 Client Properties
 
@@ -1716,12 +1796,11 @@ Consortium; private extensions to them are forbidden. Private additional
 communication between clients and window managers should take place using
 separate properties. The only exception to this rule is the WM_PROTOCOLS
 property, which may be of arbitrary length and which may contain atoms
-representing private protocols (see  the section called “WM_PROTOCOLS Property”
-).
+representing private protocols (see WM_PROTOCOLS Property ).
 
 The next sections describe each of the properties the clients need to set, in
-turn. They are summarized in the table in  the section called “Summary of
-Window Manager Property Types”
+turn. They are summarized in the table in Summary of Window Manager Property
+Types
 
 WM_NAME Property
 
@@ -1731,7 +1810,7 @@ window headline bar).
 
 The encoding used for this string (and all other uninterpreted string
 properties) is implied by the type of the property. The type atoms to be used
-for this purpose are described in  the section called “TEXT Properties”.
+for this purpose are described in TEXT Properties.
 
 Window managers are expected to make an effort to display this information.
 Simply ignoring WM_NAME is not acceptable behavior. Clients can assume that at
@@ -1768,34 +1847,61 @@ WM_NORMAL_HINTS Property
 The type of the WM_NORMAL_HINTS property is WM_SIZE_HINTS. Its contents are as
 follows:
 
-Field       Type          Comments
-flags       CARD32        (see the next table)
-pad         4*CARD32      For backwards compatibility
-min_width   INT32         If missing, assume base_width
-min_height  INT32         If missing, assume base_height
-max_width   INT32          
-max_height  INT32          
-width_inc   INT32          
-height_inc  INT32          
-min_aspect  (INT32,INT32)  
-max_aspect  (INT32,INT32)  
-base_width  INT32         If missing, assume min_width
-base_height INT32         If missing, assume min_height
-win_gravity INT32         If missing, assume NorthWest
+┌───────────┬─────────────┬──────────────────────────────┐
+│Field      │Type         │Comments                      │
+├───────────┼─────────────┼──────────────────────────────┤
+│flags      │CARD32       │(see the next table)          │
+├───────────┼─────────────┼──────────────────────────────┤
+│pad        │4*CARD32     │For backwards compatibility   │
+├───────────┼─────────────┼──────────────────────────────┤
+│min_width  │INT32        │If missing, assume base_width │
+├───────────┼─────────────┼──────────────────────────────┤
+│min_height │INT32        │If missing, assume base_height│
+├───────────┼─────────────┼──────────────────────────────┤
+│max_width  │INT32        │                              │
+├───────────┼─────────────┼──────────────────────────────┤
+│max_height │INT32        │                              │
+├───────────┼─────────────┼──────────────────────────────┤
+│width_inc  │INT32        │                              │
+├───────────┼─────────────┼──────────────────────────────┤
+│height_inc │INT32        │                              │
+├───────────┼─────────────┼──────────────────────────────┤
+│min_aspect │(INT32,INT32)│                              │
+├───────────┼─────────────┼──────────────────────────────┤
+│max_aspect │(INT32,INT32)│                              │
+├───────────┼─────────────┼──────────────────────────────┤
+│base_width │INT32        │If missing, assume min_width  │
+├───────────┼─────────────┼──────────────────────────────┤
+│base_height│INT32        │If missing, assume min_height │
+├───────────┼─────────────┼──────────────────────────────┤
+│win_gravity│INT32        │If missing, assume NorthWest  │
+└───────────┴─────────────┴──────────────────────────────┘
 
 The WM_SIZE_HINTS.flags bit definitions are as follows:
 
-Name        Value Field
-USPosition  1     User-specified x, y
-USSize      2     User-specified width, height
-PPosition   4     Program-specified position
-PSize       8     Program-specified size
-PMinSize    16    Program-specified minimum size
-PMaxSize    32    Program-specified maximum size
-PResizeInc  64    Program-specified resize increments
-PAspect     128   Program-specified min and max aspect ratios
-PBaseSize   256   Program-specified base size
-PWinGravity 512   Program-specified window gravity
+┌───────────┬─────┬───────────────────────────────────────────┐
+│Name       │Value│Field                                      │
+├───────────┼─────┼───────────────────────────────────────────┤
+│USPosition │1    │User-specified x, y                        │
+├───────────┼─────┼───────────────────────────────────────────┤
+│USSize     │2    │User-specified width, height               │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PPosition  │4    │Program-specified position                 │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PSize      │8    │Program-specified size                     │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PMinSize   │16   │Program-specified minimum size             │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PMaxSize   │32   │Program-specified maximum size             │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PResizeInc │64   │Program-specified resize increments        │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PAspect    │128  │Program-specified min and max aspect ratios│
+├───────────┼─────┼───────────────────────────────────────────┤
+│PBaseSize  │256  │Program-specified base size                │
+├───────────┼─────┼───────────────────────────────────────────┤
+│PWinGravity│512  │Program-specified window gravity           │
+└───────────┴─────┴───────────────────────────────────────────┘
 
 To indicate that the size and position of the window (when a transition from
 the Withdrawn state occurs) was specified by the user, the client should set
@@ -1859,35 +1965,57 @@ on that geometry, which is available from the WM_NORMAL_HINTS structure; and
 various strings, which need separate properties, such as WM_NAME. The contents
 of the properties are as follows:
 
-Field         Type   Comments
-flags         CARD32 (see the next table)
-input         CARD32 The client's input model
-initial_state CARD32 The state when first mapped
-icon_pixmap   PIXMAP The pixmap for the icon image
-icon_window   WINDOW The window for the icon image
-icon_x        INT32  The icon location
-icon_y        INT32   
-icon_mask     PIXMAP The mask for the icon shape
-window_group  WINDOW The ID of the group leader window
+┌─────────────┬──────┬─────────────────────────────────┐
+│Field        │Type  │Comments                         │
+├─────────────┼──────┼─────────────────────────────────┤
+│flags        │CARD32│(see the next table)             │
+├─────────────┼──────┼─────────────────────────────────┤
+│input        │CARD32│The client's input model         │
+├─────────────┼──────┼─────────────────────────────────┤
+│initial_state│CARD32│The state when first mapped      │
+├─────────────┼──────┼─────────────────────────────────┤
+│icon_pixmap  │PIXMAP│The pixmap for the icon image    │
+├─────────────┼──────┼─────────────────────────────────┤
+│icon_window  │WINDOW│The window for the icon image    │
+├─────────────┼──────┼─────────────────────────────────┤
+│icon_x       │INT32 │The icon location                │
+├─────────────┼──────┼─────────────────────────────────┤
+│icon_y       │INT32 │                                 │
+├─────────────┼──────┼─────────────────────────────────┤
+│icon_mask    │PIXMAP│The mask for the icon shape      │
+├─────────────┼──────┼─────────────────────────────────┤
+│window_group │WINDOW│The ID of the group leader window│
+└─────────────┴──────┴─────────────────────────────────┘
 
 The WM_HINTS.flags bit definitions are as follows:
 
-Name             Value Field
-InputHint        1     input
-StateHint        2     initial_state
-IconPixmapHint   4     icon_pixmap
-IconWindowHint   8     icon_window
-IconPositionHint 16    icon_x & icon_y
-IconMaskHint     32    icon_mask
-WindowGroupHint  64    window_group
-MessageHint      128   (this bit is obsolete)
-UrgencyHint      256   urgency
+┌────────────────┬─────┬──────────────────────┐
+│Name            │Value│Field                 │
+├────────────────┼─────┼──────────────────────┤
+│InputHint       │1    │input                 │
+├────────────────┼─────┼──────────────────────┤
+│StateHint       │2    │initial_state         │
+├────────────────┼─────┼──────────────────────┤
+│IconPixmapHint  │4    │icon_pixmap           │
+├────────────────┼─────┼──────────────────────┤
+│IconWindowHint  │8    │icon_window           │
+├────────────────┼─────┼──────────────────────┤
+│IconPositionHint│16   │icon_x & icon_y       │
+├────────────────┼─────┼──────────────────────┤
+│IconMaskHint    │32   │icon_mask             │
+├────────────────┼─────┼──────────────────────┤
+│WindowGroupHint │64   │window_group          │
+├────────────────┼─────┼──────────────────────┤
+│MessageHint     │128  │(this bit is obsolete)│
+├────────────────┼─────┼──────────────────────┤
+│UrgencyHint     │256  │urgency               │
+└────────────────┴─────┴──────────────────────┘
 
 Window managers are free to assume convenient values for all fields of the
 WM_HINTS property if a window is mapped without one.
 
 The input field is used to communicate to the window manager the input focus
-model used by the client (see  the section called “Input Focus” ).
+model used by the client (see Input Focus ).
 
 Clients with the Globally Active and No Input models should set the input flag
 to False. Clients with the Passive and Locally Active models should set the
@@ -1902,24 +2030,28 @@ top-level window as being in one of three states:
 
   ● Withdrawn
 
-The semantics of these states are described in  the section called “Changing
-Window State”. Newly created windows start in the Withdrawn state. Transitions
-between states happen when a top-level window is mapped and unmapped and when
-the window manager receives certain messages.
+The semantics of these states are described in Changing Window State. Newly
+created windows start in the Withdrawn state. Transitions between states happen
+when a top-level window is mapped and unmapped and when the window manager
+receives certain messages.
 
 The value of the initial_state field determines the state the client wishes to
 be in at the time the top-level window is mapped from the Withdrawn state, as
 shown in the following table:
 
-State       Value Comments
-NormalState 1     The window is visible
-IconicState 3     The icon is visible
+┌───────────┬─────┬─────────────────────┐
+│State      │Value│Comments             │
+├───────────┼─────┼─────────────────────┤
+│NormalState│1    │The window is visible│
+├───────────┼─────┼─────────────────────┤
+│IconicState│3    │The icon is visible  │
+└───────────┴─────┴─────────────────────┘
 
 The icon_pixmap field may specify a pixmap to be used as an icon. This pixmap
 should be:
 
   ● One of the sizes specified in the WM_ICON_SIZE property on the root if it
-    exists (see  the section called “WM_ICON_SIZE Property” ).
+    exists (see WM_ICON_SIZE Property ).
 
   ● 1-bit deep. The window manager will select, through the defaults database,
     suitable background (for the 0 bits) and foreground (for the 1 bits)
@@ -1936,8 +2068,7 @@ icons are completely inappropriate. Clients should not attempt to remedy the
 omission by working around it.
 
 Clients that need more capabilities from the icons than a simple 2-color bitmap
-should use icon windows. Rules for clients that do are set out in  the section
-called “Icons”.
+should use icon windows. Rules for clients that do are set out in Icons.
 
 The (icon_x,icon_y) coordinate is a hint to the window manager as to where it
 should position the icon. The policies of the window manager control the
@@ -1964,7 +2095,7 @@ Clients, at present, have no way to operate on the group as a whole.
 
 The messages bit, if set in the flags field, indicates that the client is using
 an obsolete window manager communication protocol, ^[7] rather than the
-WM_PROTOCOLS mechanism of  the section called “WM_PROTOCOLS Property”
+WM_PROTOCOLS mechanism of WM_PROTOCOLS Property
 
 The UrgencyHint flag, if set in the flags field, indicates that the client
 deems the window contents to be urgent, requiring the timely response of the
@@ -2056,9 +2187,9 @@ protocols and private protocols specific to individual window managers.
 
 All the protocols in which a client can volunteer to take part involve the
 window manager sending the client a ClientMessage event and the client taking
-appropriate action. For details of the contents of the event, see  the section
-called “ClientMessage Events” In each case, the protocol transactions are
-initiated by the window manager.
+appropriate action. For details of the contents of the event, see ClientMessage
+Events In each case, the protocol transactions are initiated by the window
+manager.
 
 The WM_PROTOCOLS property is not required. If it is not present, the client
 does not want to participate in any window manager protocols.
@@ -2067,13 +2198,15 @@ The X Consortium will maintain a registry of protocols to avoid collisions in
 the name space. The following table lists the protocols that have been defined
 to date.
 
-Protocol         Section                        Purpose
-WM_TAKE_FOCUS     the section called “Input     Assignment of input focus
-                 Focus”
-WM_SAVE_YOURSELF Appendix C                     Save client state request
-                                                (deprecated)
-WM_DELETE_WINDOW  the section called “Window    Request to delete top-level
-                 Deletion”                      window
+┌────────────────┬───────────────┬──────────────────────────────────────┐
+│Protocol        │Section        │Purpose                               │
+├────────────────┼───────────────┼──────────────────────────────────────┤
+│WM_TAKE_FOCUS   │Input Focus    │Assignment of input focus             │
+├────────────────┼───────────────┼──────────────────────────────────────┤
+│WM_SAVE_YOURSELF│Appendix C     │Save client state request (deprecated)│
+├────────────────┼───────────────┼──────────────────────────────────────┤
+│WM_DELETE_WINDOW│Window Deletion│Request to delete top-level window    │
+└────────────────┴───────────────┴──────────────────────────────────────┘
 
 It is expected that this table will grow over time.
 
@@ -2084,7 +2217,7 @@ list of the IDs of windows that may need colormaps installed that differ from
 the colormap of the top-level window. The window manager will watch this list
 of windows for changes in their colormap attributes. The top-level window is
 always (implicitly or explicitly) on the watch list. For the details of this
-mechanism, see  the section called “Colormaps”
+mechanism, see Colormaps
 
 WM_CLIENT_MACHINE Property
 
@@ -2119,16 +2252,25 @@ beneath the selected location.
 
 The contents of the WM_STATE property are defined as follows:
 
-Field Type   Comments
-state CARD32 (see the next table)
-icon  WINDOW ID of icon window
+┌─────┬──────┬────────────────────┐
+│Field│Type  │Comments            │
+├─────┼──────┼────────────────────┤
+│state│CARD32│(see the next table)│
+├─────┼──────┼────────────────────┤
+│icon │WINDOW│ID of icon window   │
+└─────┴──────┴────────────────────┘
 
 The following table lists the WM_STATE.state values:
 
-State           Value
-WithdrawnState  0
-NormalState     1
-IconicState     3
+┌───────────────┬─────┐
+│State          │Value│
+├───────────────┼─────┤
+│WithdrawnState │0    │
+├───────────────┼─────┤
+│NormalState    │1    │
+├───────────────┼─────┤
+│IconicState    │3    │
+└───────────────┴─────┘
 
 Adding other fields to this property is reserved to the X Consortium. Values
 for the state field other than those defined in the above table are reserved
@@ -2160,13 +2302,21 @@ A window manager that wishes to place constraints on the sizes of icon pixmaps
 and/or windows should place a property called WM_ICON_SIZE on the root. The
 contents of this property are listed in the following table.
 
-Field      Type   Comments
-min_width  CARD32 The data for the icon size series
-min_height CARD32  
-max_width  CARD32  
-max_height CARD32  
-width_inc  CARD32  
-height_inc CARD32  
+┌──────────┬──────┬─────────────────────────────────┐
+│Field     │Type  │Comments                         │
+├──────────┼──────┼─────────────────────────────────┤
+│min_width │CARD32│The data for the icon size series│
+├──────────┼──────┼─────────────────────────────────┤
+│min_height│CARD32│                                 │
+├──────────┼──────┼─────────────────────────────────┤
+│max_width │CARD32│                                 │
+├──────────┼──────┼─────────────────────────────────┤
+│max_height│CARD32│                                 │
+├──────────┼──────┼─────────────────────────────────┤
+│width_inc │CARD32│                                 │
+├──────────┼──────┼─────────────────────────────────┤
+│height_inc│CARD32│                                 │
+└──────────┴──────┴─────────────────────────────────┘
 
 For more details see section 14.1.12 in Xlib - C Language X Interface.
 
@@ -2234,14 +2384,24 @@ When changing the state of the window to Withdrawn, the client must (in
 addition to unmapping the window) send a synthetic UnmapNotify event by using a
 SendEvent request with the following arguments:
 
-Argument                    Value
-destination                 The root
-propogate                   False
-event-mask                  (SubstructureRedirect|SubstructureNotify)
-event: an UnmapNotify with:  
-  event:                    The root
-  window:                   The window itself
-  from-configure:           False
+┌───────────────────────────┬─────────────────────────────────────────┐
+│Argument                   │Value                                    │
+├───────────────────────────┼─────────────────────────────────────────┤
+│destination                │The root                                 │
+├───────────────────────────┼─────────────────────────────────────────┤
+│propogate                  │False                                    │
+├───────────────────────────┼─────────────────────────────────────────┤
+│event-mask                 │(SubstructureRedirect|SubstructureNotify)│
+├───────────────────────────┼─────────────────────────────────────────┤
+│event: an UnmapNotify with:│                                         │
+├───────────────────────────┼─────────────────────────────────────────┤
+│     event:                │The root                                 │
+├───────────────────────────┼─────────────────────────────────────────┤
+│     window:               │The window itself                        │
+├───────────────────────────┼─────────────────────────────────────────┤
+│     from-configure:       │False                                    │
+└───────────────────────────┴─────────────────────────────────────────┘
+
 
     Rationale
 
@@ -2259,12 +2419,11 @@ event: an UnmapNotify with:  
     yet received a real UnmapNotify.
 
 When a client withdraws a window, the window manager will then update or remove
-the WM_STATE property as described in  the section called “WM_STATE Property”.
-Clients that want to re-use a client window (e.g., by mapping it again or
-reparenting it elsewhere) after withdrawing it must wait for the withdrawal to
-be complete before proceeding. The preferred method for doing this is for
-clients to wait for the window manager to update or remove the WM_STATE
-property. ^[8]
+the WM_STATE property as described in WM_STATE Property. Clients that want to
+re-use a client window (e.g., by mapping it again or reparenting it elsewhere)
+after withdrawing it must wait for the withdrawal to be complete before
+proceeding. The preferred method for doing this is for clients to wait for the
+window manager to update or remove the WM_STATE property. ^[8]
 
 If the transition is from the Normal to the Iconic state, the client should
 send a ClientMessage event to the root with:
@@ -2280,9 +2439,9 @@ send a ClientMessage event to the root with:
     Rationale
 
     The format of this ClientMessage event does not match the format of
-    ClientMessages in  the section called “ClientMessage Events”. This is
-    because they are sent by the window manager to clients, and this message is
-    sent by clients to the window manager.
+    ClientMessages in ClientMessage Events. This is because they are sent by
+    the window manager to clients, and this message is sent by clients to the
+    window manager.
 
 Other values of data[0] are reserved for future extensions to these
 conventions. The parameters of the SendEvent request should be those described
@@ -2325,11 +2484,11 @@ The coordinate system in which the location is expressed is that of the root
 be used and win_gravity position hint to be used are those most recently
 requested by the client. Client configure requests are interpreted by the
 window manager in the same manner as the initial window geometry mapped from
-the Withdrawn state, as described in  the section called “WM_NORMAL_HINTS
-Property” Clients must be aware that there is no guarantee that the window
-manager will allocate them the requested size or location and must be prepared
-to deal with any size and location. If the window manager decides to respond to
-a ConfigureRequest request by:
+the Withdrawn state, as described in WM_NORMAL_HINTS Property Clients must be
+aware that there is no guarantee that the window manager will allocate them the
+requested size or location and must be prepared to deal with any size and
+location. If the window manager decides to respond to a ConfigureRequest
+request by:
 
   ● Not changing the size, location, border width, or stacking order of the
     window at all.
@@ -2414,16 +2573,25 @@ running under a nonreparenting window manager), be prepared to deal with a
 resulting error, and then follow with a synthetic ConfigureRequest event by
 invoking a SendEvent request with the following arguments:
 
-Argument                        Value
-destination                     The root
-propogate                       False
-event-mask                      (SubstructureRedirect|SubstructureNotify)
-event: an ConfigureRequest       
-with:
-    event:                      The root
-    window:                     The window itself
-    ...                         Other parameters from the ConfigureWindow
-                                request
+┌──────────────────────────────┬──────────────────────────────────────────────┐
+│Argument                      │Value                                         │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│destination                   │The root                                      │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│propogate                     │False                                         │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│event-mask                    │(SubstructureRedirect|SubstructureNotify)     │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│event: an ConfigureRequest    │                                              │
+│with:                         │                                              │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│     event:                   │The root                                      │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│     window:                  │The window itself                             │
+├──────────────────────────────┼──────────────────────────────────────────────┤
+│     ...                      │Other parameters from the ConfigureWindow     │
+│                              │request                                       │
+└──────────────────────────────┴──────────────────────────────────────────────┘
 
 Window managers are in any case free to position windows in the stack as they
 see fit, and so clients should not rely on receiving the stacking order they
@@ -2437,20 +2605,35 @@ The attributes that may be supplied when a window is created may be changed by
 using the ChangeWindowAttributes request. The window attributes are listed in
 the following table:
 
-Attribute              Private to Client
-Background pixmap      Yes
-Background pixel       Yes
-Border pixmap          Yes
-Border pixel           Yes
-Bit gravity            Yes
-Window gravity         No
-Backing-store hint     Yes
-Save-under hint        No
-Event Mask             No
-Do-not-propagate mask  Yes
-Override-redirect flag No
-Colormap               Yes
-Cursor                 Yes
+┌──────────────────────┬─────────────────┐
+│Attribute             │Private to Client│
+├──────────────────────┼─────────────────┤
+│Background pixmap     │Yes              │
+├──────────────────────┼─────────────────┤
+│Background pixel      │Yes              │
+├──────────────────────┼─────────────────┤
+│Border pixmap         │Yes              │
+├──────────────────────┼─────────────────┤
+│Border pixel          │Yes              │
+├──────────────────────┼─────────────────┤
+│Bit gravity           │Yes              │
+├──────────────────────┼─────────────────┤
+│Window gravity        │No               │
+├──────────────────────┼─────────────────┤
+│Backing-store hint    │Yes              │
+├──────────────────────┼─────────────────┤
+│Save-under hint       │No               │
+├──────────────────────┼─────────────────┤
+│Event Mask            │No               │
+├──────────────────────┼─────────────────┤
+│Do-not-propagate mask │Yes              │
+├──────────────────────┼─────────────────┤
+│Override-redirect flag│No               │
+├──────────────────────┼─────────────────┤
+│Colormap              │Yes              │
+├──────────────────────┼─────────────────┤
+│Cursor                │Yes              │
+└──────────────────────┴─────────────────┘
 
 Most attributes are private to the client and will never be interfered with by
 the window manager. For the attributes that are not private to the client:
@@ -2469,8 +2652,8 @@ the window manager. For the attributes that are not private to the client:
     any of the client's windows.
 
   ● Clients can set override-redirect on top-level windows but are encouraged
-    not to do so except as described in  the section called “Pop-up Windows”.
-    and  the section called “Redirecting Requests”.
+    not to do so except as described in Pop-up Windows. and Redirecting
+    Requests.
 
 Input Focus
 
@@ -2505,11 +2688,17 @@ The four input models and the corresponding values of the input field and the
 presence or absence of the WM_TAKE_FOCUS atom in the WM_PROTOCOLS property are
 listed in the following table:
 
-Input Model     Input Field WM_TAKE_FOCUS
-No Input        False       Absent
-Passive         True        Absent
-Locally Active  True        Present
-Globally Active False       Present
+┌───────────────┬───────────┬─────────────┐
+│Input Model    │Input Field│WM_TAKE_FOCUS│
+├───────────────┼───────────┼─────────────┤
+│No Input       │False      │Absent       │
+├───────────────┼───────────┼─────────────┤
+│Passive        │True       │Absent       │
+├───────────────┼───────────┼─────────────┤
+│Locally Active │True       │Present      │
+├───────────────┼───────────┼─────────────┤
+│Globally Active│False      │Present      │
+└───────────────┴───────────┴─────────────┘
 
 Passive and Locally Active clients set the input field of WM_HINTS to True,
 which indicates that they require window manager assistance in acquiring the
@@ -2544,13 +2733,13 @@ window is up to the window manager. For example, clients cannot determine
 whether they will see the click that transfers the focus.
 
 Windows with the atom WM_TAKE_FOCUS in their WM_PROTOCOLS property may receive
-a ClientMessage event from the window manager (as described in  the section
-called “ClientMessage Events”. ) with WM_TAKE_FOCUS in its data[0] field and a
-valid timestamp (i.e., not CurrentTime) in its data[1] field. If they want the
-focus, they should respond with a SetInputFocus request with its window field
-set to the window of theirs that last had the input focus or to their default
-input window, and the time field set to the timestamp in the message. For
-further information, see  the section called “Input Focus”
+a ClientMessage event from the window manager (as described in ClientMessage
+Events. ) with WM_TAKE_FOCUS in its data[0] field and a valid timestamp (i.e.,
+not CurrentTime) in its data[1] field. If they want the focus, they should
+respond with a SetInputFocus request with its window field set to the window of
+theirs that last had the input focus or to their default input window, and the
+time field set to the timestamp in the message. For further information, see
+Input Focus
 
 A client could receive WM_TAKE_FOCUS when opening from an icon or when the user
 has clicked outside the top-level window in an area that indicates to the
@@ -2627,10 +2816,10 @@ whose colormap requirements differ from the top-level window should have a
 WM_COLORMAP_WINDOWS property. This property contains a list of IDs for windows
 whose colormaps the window manager should attempt to have installed when, in
 the course of its individual colormap focus policy, it assigns the colormap
-focus to the top-level window (see  the section called “WM_COLORMAP_WINDOWS
-Property” ). The list is ordered by the importance to the client of having the
-colormaps installed. The window manager will track changes to this property and
-will track changes to the colormap attribute of the windows in the property.
+focus to the top-level window (see WM_COLORMAP_WINDOWS Property ). The list is
+ordered by the importance to the client of having the colormaps installed. The
+window manager will track changes to this property and will track changes to
+the colormap attribute of the windows in the property.
 
 If the relative importance of colormaps changes, the client should update the
 WM_COLORMAP_WINDOWS property to reflect the new ordering. If the top-level
@@ -2670,32 +2859,46 @@ colormap installation, it must also notify the window manager. The client
 notifies the window manager by issuing a SendEvent request with the following
 arguments:
 
-Argument           Value
-destination        The root window of the screen on which the colormap is
-                   installed
-propogate          False
-event-mask         ColormapChange
-event: an
-ClientMessage       
-with:
-  window:          The root window, as above
-  type:            WM_COLORMAP_NOTIFY
-  format           32
-  data[0]          the timestampe of the event that caused the client to start
-                   or stop installing colormaps
-  data[1]          1 if the client is starting colormap installation, 0 if the
-                   client is finished with colormap installation
-  data[2]          reserved, must be zero
-  data[3]          reserved, must be zero
-  data[4]          reserved, must be zero
+┌─────────────────┬───────────────────────────────────────────────────────────┐
+│Argument         │Value                                                      │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│destination      │The root window of the screen on which the colormap is     │
+│                 │installed                                                  │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│propogate        │False                                                      │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│event-mask       │ColormapChange                                             │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│event: an        │                                                           │
+│ClientMessage    │                                                           │
+│with:            │                                                           │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     window:     │The root window, as above                                  │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     type:       │WM_COLORMAP_NOTIFY                                         │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     format      │32                                                         │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     data[0]     │the timestampe of the event that caused the client to start│
+│                 │or stop installing colormaps                               │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     data[1]     │1 if the client is starting colormap installation, 0 if the│
+│                 │client is finished with colormap installation              │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     data[2]     │reserved, must be zero                                     │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     data[3]     │reserved, must be zero                                     │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│     data[4]     │reserved, must be zero                                     │
+└─────────────────┴───────────────────────────────────────────────────────────┘
 
 This feature was introduced in version 2.0 of this document, and there will be
 a significant period of time before all window managers can be expected to
 implement this feature. Before using this feature, clients must check the
-compliance level of the window manager (using the mechanism described in  the
-section called “Communication with the Window Manager by Means of Selections” )
-to verify that it supports this feature. This is necessary to prevent colormap
-installation conflicts between clients and older window managers.
+compliance level of the window manager (using the mechanism described in
+Communication with the Window Manager by Means of Selections ) to verify that
+it supports this feature. This is necessary to prevent colormap installation
+conflicts between clients and older window managers.
 
 Window managers should refrain from installing colormaps while a client has
 requested control of colormap installation. The window manager should continue
@@ -2822,9 +3025,8 @@ Clients that wish to pop up a window can do one of three things:
     client must have another top-level window that is not override-redirect and
     that has selected the Locally Active or Globally Active focus model. The
     client may set the focus to the override-redirect window when the other
-    window receives a WM_TAKE_FOCUS message or one of the events listed in  the
-    section called “Input Focus” in the description of the Globally Active
-    focus model.
+    window receives a WM_TAKE_FOCUS message or one of the events listed in
+    Input Focus in the description of the Globally Active focus model.
 
 Window managers are free to decide if WM_TRANSIENT_FOR windows should be
 iconified when the window they are transient for is. Clients displaying
@@ -2875,14 +3077,13 @@ effects that this reparenting will have on the client are as follows:
   ● The server will interpret the (x,y) coordinates in a ConfigureWindow
     request in the new parent's coordinate space. In fact, they usually will
     not be interpreted by the server because a reparenting window manager
-    usually will have intercepted these operations (see  the section called
-    “Redirection of Operations” ). Clients should use the root coordinate space
-    for these requests (see  the section called “Configuring the Window” ).
+    usually will have intercepted these operations (see Redirection of
+    Operations ). Clients should use the root coordinate space for these
+    requests (see Configuring the Window ).
 
   ● ConfigureWindow requests that name a specific sibling window may fail
     because the window named, which used to be a sibling, no longer is after
-    the reparenting operation (see  the section called “Configuring the Window”
-    ).
+    the reparenting operation (see Configuring the Window ).
 
   ● The (x,y) coordinates returned by a GetGeometry request are in the parent's
     coordinate space and are thus not directly useful after a reparent
@@ -2925,8 +3126,8 @@ MapWindow, ConfigureWindow, and CirculateWindow.
     MapWindow A
     PolyLine A GC <point> <point> ...
 
-    The client must wait for an Expose event before drawing in the window. ^[10
-    ]
+    The client must wait for an Expose event before drawing in the window. ^
+    [10]
 
     This next example incorrectly assumes that the ConfigureWindow request is
     actually executed with the arguments supplied:
@@ -2961,8 +3162,8 @@ MapWindow, ConfigureWindow, and CirculateWindow.
 A window with the override-redirect bit set is immune from redirection, but the
 bit should be set on top-level windows only in cases where other windows should
 be prevented from processing input while the override-redirect window is mapped
-(see  the section called “Pop-up Windows” ) and while responding to
-ResizeRequest events (see  the section called “Redirecting Requests” ).
+(see Pop-up Windows ) and while responding to ResizeRequest events (see
+Redirecting Requests ).
 
 Clients that have no non-Withdrawn top-level windows and that map an
 override-redirect top-level window are taking over total responsibility for the
@@ -2997,10 +3198,15 @@ directly useful.
 The window manager will send these events by using a SendEvent request with the
 following arguments:
 
-Argument    Value
-destination The client's window
-propagate   False
-event-mask  StructureNotify
+┌───────────┬───────────────────┐
+│Argument   │Value              │
+├───────────┼───────────────────┤
+│destination│The client's window│
+├───────────┼───────────────────┤
+│propagate  │False              │
+├───────────┼───────────────────┤
+│event-mask │StructureNotify    │
+└───────────┴───────────────────┘
 
 Window Resize
 
@@ -3046,14 +3252,13 @@ WM_PROTOCOLS property and have done one of the following:
     in one of their top-level windows
 
   ● Set the input field of WM_HINTS to False and have received a suitable event
-    as described in  the section called “Input Focus”.
+    as described in Input Focus.
 
-  ● Have received a WM_TAKE_FOCUS message as described in  the section called
-    “Input Focus”.
+  ● Have received a WM_TAKE_FOCUS message as described in Input Focus.
 
 Clients should not warp the pointer in an attempt to transfer the focus; they
 should set the focus and leave the pointer alone. For further information, see
- the section called “The Pointer”.
+The Pointer.
 
 Once a client satisfies these conditions, it may transfer the focus to another
 of its windows by using the SetInputFocus request, which is defined as follows:
@@ -3081,9 +3286,8 @@ There is no way for clients to prevent themselves being sent ClientMessage
 events.
 
 Top-level windows with a WM_PROTOCOLS property may be sent ClientMessage events
-specific to the protocols named by the atoms in the property (see  the section
-called “WM_PROTOCOLS Property” ). For all protocols, the ClientMessage events
-have the following:
+specific to the protocols named by the atoms in the property (see WM_PROTOCOLS
+Property ). For all protocols, the ClientMessage events have the following:
 
   ● WM_PROTOCOLS as the type field
 
@@ -3099,11 +3303,17 @@ by the protocol.
 These events will be sent by using a SendEvent request with the following
 arguments:
 
-Argument    Value
-destination The client's window
-propagate   False
-event-mask  () empty
-event       As specified by the protocol
+┌───────────┬────────────────────────────┐
+│Argument   │Value                       │
+├───────────┼────────────────────────────┤
+│destination│The client's window         │
+├───────────┼────────────────────────────┤
+│propagate  │False                       │
+├───────────┼────────────────────────────┤
+│event-mask │() empty                    │
+├───────────┼────────────────────────────┤
+│event      │As specified by the protocol│
+└───────────┴────────────────────────────┘
 
 Window Deletion
 
@@ -3118,8 +3328,8 @@ selected "delete window" from a hypothetical menu. They should perform any
 confirmation dialog with the user and, if they decide to complete the deletion,
 should do the following:
 
-  ● Either change the window's state to Withdrawn (as described in  the section
-    called “Changing Window State” ) or destroy the window.
+  ● Either change the window's state to Withdrawn (as described in Changing
+    Window State ) or destroy the window.
 
   ● Destroy any internal state associated with the window.
 
@@ -3182,52 +3392,57 @@ free to take whatever measures it deems appropriate to deal with the client.
 Communication with the Window Manager by Means of Selections
 
 For each screen they manage, window managers will acquire ownership of a
-selection named WM_Sn, where n is the screen number, as described in  the
-section called “Discriminated Names” Window managers should comply with the
-conventions for "Manager Selections" described in  the section called “Manager
-Selections”. The intent is for clients to be able to request a variety of
-information or services by issuing conversion requests on this selection.
-Window managers should support conversion of the following target on their
-manager selection:
+selection named WM_Sn, where n is the screen number, as described in
+Discriminated Names Window managers should comply with the conventions for
+"Manager Selections" described in Manager Selections. The intent is for clients
+to be able to request a variety of information or services by issuing
+conversion requests on this selection. Window managers should support
+conversion of the following target on their manager selection:
 
-Atom    Type    Data Received
-                Two integers, which are the major and minor release numbers
-VERSION INTEGER (respectively) of the ICCCM with which the window manager
-                complies. For this version of the ICCCM, the numbers are 2 and
-                0. ^[a]
-^[a] As a special case, clients not wishing to implement a selection request
-may simply issue a GetSelectionOwner request on the appropriate WM_Sn
-selection. If this selection is owned, clients may assume that the window
-manager complies with ICCCM version 2.0 or later.
+┌───────┬───────┬─────────────────────────────────────────────────────────────┐
+│Atom   │Type   │Data Received                                                │
+├───────┼───────┼─────────────────────────────────────────────────────────────┤
+│       │       │Two integers, which are the major and minor release numbers  │
+│VERSION│INTEGER│(respectively) of the ICCCM with which the window manager    │
+│       │       │complies. For this version of the ICCCM, the numbers are 2   │
+│       │       │and 0. ^[a]                                                  │
+├───────┴───────┴─────────────────────────────────────────────────────────────┤
+│^[a] As a special case, clients not wishing to implement a selection request │
+│may simply issue a GetSelectionOwner request on the appropriate WM_Sn        │
+│selection. If this selection is owned, clients may assume that the window    │
+│manager complies with ICCCM version 2.0 or later.                            │
+└─────────────────────────────────────────────────────────────────────────────┘
 
 Summary of Window Manager Property Types
 
 The window manager properties are summarized in the following table (see also
 section 14.1 of Xlib - C Language X Interface).
 
-Name                Type          Format See Section
-WM_CLASS            STRING        8       the section called “WM_CLASS
-                                         Property”
-WM_CLIENT_MACHINE   TEXT                  the section called “WM_CLIENT_MACHINE
-                                         Property”
-WM_COLORMAP_WINDOWS WINDOW        32      the section called
-                                         “WM_COLORMAP_WINDOWS Property”
-WM_HINTS            WM_HINTS      32      the section called “WM_HINTS
-                                         Property”
-WM_ICON_NAME        TEXT                  the section called “WM_ICON_NAME
-                                         Property”
-WM_ICON_SIZE        WM_ICON_SIZE  32      the section called “WM_ICON_SIZE
-                                         Property”
-WM_NAME             TEXT                  the section called “WM_NAME Property”
-WM_NORMAL_HINTS     WM_SIZE_HINTS 32      the section called “WM_NORMAL_HINTS
-                                         Property”
-WM_PROTOCOLS        ATOM          32      the section called “WM_PROTOCOLS
-                                         Property”
-WM_STATE            WM_STATE      32      the section called “WM_STATE
-                                         Property”
-WM_TRANSIENT_FOR    WINDOW        32      the section called “WM_TRANSIENT_FOR
-                                         Property”
-
+┌───────────────────┬─────────────┬──────┬────────────────────────────┐
+│Name               │Type         │Format│See Section                 │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_CLASS           │STRING       │8     │WM_CLASS Property           │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_CLIENT_MACHINE  │TEXT         │      │WM_CLIENT_MACHINE Property  │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_COLORMAP_WINDOWS│WINDOW       │32    │WM_COLORMAP_WINDOWS Property│
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_HINTS           │WM_HINTS     │32    │WM_HINTS Property           │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_ICON_NAME       │TEXT         │      │WM_ICON_NAME Property       │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_ICON_SIZE       │WM_ICON_SIZE │32    │WM_ICON_SIZE Property       │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_NAME            │TEXT         │      │WM_NAME Property            │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_NORMAL_HINTS    │WM_SIZE_HINTS│32    │WM_NORMAL_HINTS Property    │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_PROTOCOLS       │ATOM         │32    │WM_PROTOCOLS Property       │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_STATE           │WM_STATE     │32    │WM_STATE Property           │
+├───────────────────┼─────────────┼──────┼────────────────────────────┤
+│WM_TRANSIENT_FOR   │WINDOW       │32    │WM_TRANSIENT_FOR Property   │
+└───────────────────┴─────────────┴──────┴────────────────────────────┘
 
 ━━━━━━━━━━━━━━
 
@@ -3479,26 +3694,38 @@ theirs. The dilemma is resolved by:
 
 Colormaps
 
- the section called “Colormaps” prescribes conventions for clients to
-communicate with the window manager about their colormap needs. If your clients
-are DirectColor type applications, you should consult section 14.3 of Xlib - C
-Language X Interface for conventions connected with sharing standard colormaps.
-They should look for and create the properties described there on the root
-window of the appropriate screen.
+Colormaps prescribes conventions for clients to communicate with the window
+manager about their colormap needs. If your clients are DirectColor type
+applications, you should consult section 14.3 of Xlib - C Language X Interface
+for conventions connected with sharing standard colormaps. They should look for
+and create the properties described there on the root window of the appropriate
+screen.
 
 The contents of the RGB_COLOR_MAP type property are as follows:
 
-Field      Type     Comments
-colormap   COLORMAP ID of the colormap described
-red_max    CARD32   Values for pixel calculations
-red_mult   CARD32    
-green_max  CARD32    
-green_mult CARD32    
-blue_max   CARD32    
-blue_mult  CARD32    
-base_pixel CARD32    
-visual_id  VISUALID Visual to which colormap belongs
-kill_id    CARD32   ID for destroying the resources
+┌──────────┬────────┬────────────────────────────────┐
+│Field     │Type    │Comments                        │
+├──────────┼────────┼────────────────────────────────┤
+│colormap  │COLORMAP│ID of the colormap described    │
+├──────────┼────────┼────────────────────────────────┤
+│red_max   │CARD32  │Values for pixel calculations   │
+├──────────┼────────┼────────────────────────────────┤
+│red_mult  │CARD32  │                                │
+├──────────┼────────┼────────────────────────────────┤
+│green_max │CARD32  │                                │
+├──────────┼────────┼────────────────────────────────┤
+│green_mult│CARD32  │                                │
+├──────────┼────────┼────────────────────────────────┤
+│blue_max  │CARD32  │                                │
+├──────────┼────────┼────────────────────────────────┤
+│blue_mult │CARD32  │                                │
+├──────────┼────────┼────────────────────────────────┤
+│base_pixel│CARD32  │                                │
+├──────────┼────────┼────────────────────────────────┤
+│visual_id │VISUALID│Visual to which colormap belongs│
+├──────────┼────────┼────────────────────────────────┤
+│kill_id   │CARD32  │ID for destroying the resources │
+└──────────┴────────┴────────────────────────────────┘
 
 When deleting or replacing an RGB_COLOR_MAP, it is not sufficient to delete the
 property; it is important to free the associated colormap resources as well. If
@@ -3717,15 +3944,25 @@ screen, using values appropriate for that screen.
 
 This will be encoded as shown in the following table:
 
-Field     Type  Comments
-M[0,0]    INT32 Interpreted as a fixed-point number -16 ≤ x < 16
-M[0,1]    INT32  
-...       INT32  
-M[3,3]    INT32  
-M^-1[0,0] INT32  
-M^-1[0,1] INT32  
-...       INT32  
-M^-1[3,3] INT32  
+┌─────────┬─────┬────────────────────────────────────────────────┐
+│Field    │Type │Comments                                        │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│M[0,0]   │INT32│Interpreted as a fixed-point number -16 ≤ x < 16│
+├─────────┼─────┼────────────────────────────────────────────────┤
+│M[0,1]   │INT32│                                                │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│...      │INT32│                                                │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│M[3,3]   │INT32│                                                │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│M^-1[0,0]│INT32│                                                │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│M^-1[0,1]│INT32│                                                │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│...      │INT32│                                                │
+├─────────┼─────┼────────────────────────────────────────────────┤
+│M^-1[3,3]│INT32│                                                │
+└─────────┴─────┴────────────────────────────────────────────────┘
 
 Intensity (dA RGB Value Conversion
 
@@ -3768,28 +4005,48 @@ This will be encoded as shown in the following table:
 
 XDCCC_LINEAR_RGB_CORRECTION Property Contents for Type 0 Correction
 
-Field     Type Comments
-VisualID0 CARD Most significant portion of VisualID
-VisualID1 CARD Exists if and only if the property format is 8
-VisualID2 CARD Exists if and only if the property format is 8
-VisualID3 CARD Least significant portion, exists if and only if the property
-               format is 8 or 16
-type      CARD 0 for this type of correction
-count     CARD Number of tables following (either 1 or 3)
-length    CARD Number of pairs -1 following in this table
-value     CARD X Protocol RBG value
-intensity CARD Interpret as number 0 ≤ intensity ≤ 1
-...       ...  Total of length+1 pairs of value/intensity values
-lengthg   CARD Number of pairs -1 following in this table (if and only if count
-               is 3
-value     CARD X Protocol RBG value
-intensity CARD Interpret as a number 0 ≤ intensity ≤ 1
-...       ...  Total of length+1 pairs of value/intensity values
-lengthb   CARD Number of pairs -1 following in this table (if and only if count
-               is 3
-value     CARD X Protocol RBG value
-intensity CARD Interpret as a number 0 ≤ intensity ≤ 1
-...       ...  Total of length+1 pairs of value/intensity values
+┌─────────┬────┬──────────────────────────────────────────────────────────────┐
+│Field    │Type│Comments                                                      │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID0│CARD│Most significant portion of VisualID                          │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID1│CARD│Exists if and only if the property format is 8                │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID2│CARD│Exists if and only if the property format is 8                │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID3│CARD│Least significant portion, exists if and only if the property │
+│         │    │format is 8 or 16                                             │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│type     │CARD│0 for this type of correction                                 │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│count    │CARD│Number of tables following (either 1 or 3)                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│length   │CARD│Number of pairs -1 following in this table                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│value    │CARD│X Protocol RBG value                                          │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│intensity│CARD│Interpret as number 0 ≤ intensity ≤ 1                         │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│...      │... │Total of length+1 pairs of value/intensity values             │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│lengthg  │CARD│Number of pairs -1 following in this table (if and only if    │
+│         │    │count is 3                                                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│value    │CARD│X Protocol RBG value                                          │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│intensity│CARD│Interpret as a number 0 ≤ intensity ≤ 1                       │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│...      │... │Total of length+1 pairs of value/intensity values             │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│lengthb  │CARD│Number of pairs -1 following in this table (if and only if    │
+│         │    │count is 3                                                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│value    │CARD│X Protocol RBG value                                          │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│intensity│CARD│Interpret as a number 0 ≤ intensity ≤ 1                       │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│...      │... │Total of length+1 pairs of value/intensity values             │
+└─────────┴────┴──────────────────────────────────────────────────────────────┘
 
 The VisualID is stored in 4, 2, or 1 pieces, depending on whether the property
 format is 8, 16, or 32, respectively. The VisualID is always stored most
@@ -3813,25 +4070,42 @@ This will be encoded as shown in the following table:
 
 XDCCC_LINEAR_RGB_CORRECTION Property Contents for Type 1 Correction
 
-Field     Type Comments
-VisualID0 CARD Most significant portion of VisualID
-VisualID1 CARD Exists if and only if the property format is 8
-VisualID2 CARD Exists if and only if the property format is 8
-VisualID3 CARD Least significant portion, exists if and only if the property
-               format is 8 or 16
-type      CARD 1 for this type of correction
-count     CARD Number of tables following (either 1 or 3)
-length    CARD Number of pairs -1 following in this table
-intensity CARD Interpret as number 0 ≤ intensity ≤ 1
-...       ...  Total of length+1 pairs of value/intensity values
-lengthg   CARD Number of pairs -1 following in this table (if and only if count
-               is 3
-intensity CARD Interpret as a number 0 ≤ intensity ≤ 1
-...       ...  Total of length+1 pairs of value/intensity values
-lengthb   CARD Number of pairs -1 following in this table (if and only if count
-               is 3
-intensity CARD Interpret as a number 0 ≤ intensity ≤ 1
-...       ...  Total of length+1 pairs of value/intensity values
+┌─────────┬────┬──────────────────────────────────────────────────────────────┐
+│Field    │Type│Comments                                                      │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID0│CARD│Most significant portion of VisualID                          │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID1│CARD│Exists if and only if the property format is 8                │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID2│CARD│Exists if and only if the property format is 8                │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│VisualID3│CARD│Least significant portion, exists if and only if the property │
+│         │    │format is 8 or 16                                             │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│type     │CARD│1 for this type of correction                                 │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│count    │CARD│Number of tables following (either 1 or 3)                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│length   │CARD│Number of pairs -1 following in this table                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│intensity│CARD│Interpret as number 0 ≤ intensity ≤ 1                         │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│...      │... │Total of length+1 pairs of value/intensity values             │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│lengthg  │CARD│Number of pairs -1 following in this table (if and only if    │
+│         │    │count is 3                                                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│intensity│CARD│Interpret as a number 0 ≤ intensity ≤ 1                       │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│...      │... │Total of length+1 pairs of value/intensity values             │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│lengthb  │CARD│Number of pairs -1 following in this table (if and only if    │
+│         │    │count is 3                                                    │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│intensity│CARD│Interpret as a number 0 ≤ intensity ≤ 1                       │
+├─────────┼────┼──────────────────────────────────────────────────────────────┤
+│...      │... │Total of length+1 pairs of value/intensity values             │
+└─────────┴────┴──────────────────────────────────────────────────────────────┘
 
 Chapter 8. Conclusion
 
@@ -3995,9 +4269,8 @@ The public review resulted in a set of mostly editorial changes. The changes in
 version 1.0 that introduced some degree of incompatibility with the earlier
 drafts are:
 
-  ● A new section (  the section called “Grabs” ) was added covering the window
-    manager's use of Grabs. The restrictions it imposes should affect only
-    window managers.
+  ● A new section ( Grabs ) was added covering the window manager's use of
+    Grabs. The restrictions it imposes should affect only window managers.
 
   ● The TARGETS selection target has been clarified, and it may be necessary
     for clients to add some entries to their replies.
@@ -4053,9 +4326,8 @@ Version 2.0.
   ● [P03] A technique for clients to detect when it is safe to reuse a
     top-level window has been added.
 
-  ● [P06]  the section called “Colormaps” , on colormaps, has been rewritten. A
-    new feature that allows clients to install their own colormaps has also
-    been added.
+  ● [P06] Colormaps , on colormaps, has been rewritten. A new feature that
+    allows clients to install their own colormaps has also been added.
 
   ● [P08] The LENGTH target has been deprecated.
 
@@ -4243,7 +4515,7 @@ otherwise be ignored.
 
 WM_CLIENT_MACHINE Property
 
-This property is described in  the section called “WM_CLIENT_MACHINE Property”.
+This property is described in WM_CLIENT_MACHINE Property.
 
 Termination
 
@@ -4273,8 +4545,8 @@ Clients that want to be warned when the session manager feels that they should
 save their internal state (for example, when termination impends) should
 include the atom WM_SAVE_YOURSELF in the WM_PROTOCOLS property on their
 top-level windows to participate in the WM_SAVE_YOURSELF protocol. They will
-receive a ClientMessage event as described in  the section called
-“ClientMessage Events” with the atom WM_SAVE_YOURSELF in its data[0] field.
+receive a ClientMessage event as described in ClientMessage Events with the
+atom WM_SAVE_YOURSELF in its data[0] field.
 
 Clients that receive WM_SAVE_YOURSELF should place themselves in a state from
 which they can be restarted and should update WM_COMMAND to be a command that
@@ -4316,18 +4588,21 @@ entire client state. ^[11]
 Window Deletion
 
 Windows are deleted using the WM_DELETE_WINDOW protocol, which is described in
- the section called “Window Deletion”.
+Window Deletion.
 
 Summary of Session Manager Property Types
 
 The session manager properties are listed in the following table:
 
-Name              Type     Format See Section
-WM_CLIENT_MACHINE TEXT             the section called “WM_CLIENT_MACHINE
-                                  Property”
-WM_COMMAND        TEXT             the section called “WM_COMMAND Property”
-WM_STATE          WM_STATE 32      the section called “WM_STATE Property”
-
+┌─────────────────┬────────┬──────┬──────────────────────────┐
+│Name             │Type    │Format│See Section               │
+├─────────────────┼────────┼──────┼──────────────────────────┤
+│WM_CLIENT_MACHINE│TEXT    │      │WM_CLIENT_MACHINE Property│
+├─────────────────┼────────┼──────┼──────────────────────────┤
+│WM_COMMAND       │TEXT    │      │WM_COMMAND Property       │
+├─────────────────┼────────┼──────┼──────────────────────────┤
+│WM_STATE         │WM_STATE│32    │WM_STATE Property         │
+└─────────────────┴────────┴──────┴──────────────────────────┘
 
 ━━━━━━━━━━━━━━
 

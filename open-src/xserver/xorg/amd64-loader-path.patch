@@ -20,24 +20,24 @@
 # DEALINGS IN THE SOFTWARE.
 
 diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
-index 5b9f8d1..d1dd595 100644
+index c6b5590..0ad500c 100644
 --- a/hw/xfree86/loader/loadmod.c
 +++ b/hw/xfree86/loader/loadmod.c
-@@ -168,6 +168,13 @@ InitPathList(const char *path)
- 		list[n][len - 1] = '/';
- 		list[n][len] = '\0';
- 	    }
+@@ -166,6 +166,13 @@ InitPathList(const char *path)
+                 list[n][len - 1] = '/';
+                 list[n][len] = '\0';
+             }
 +
 +#ifdef SUNSOFT /* strip amd64/ off loader path if it's there */
-+	    if (strcmp(list[n] + (len - 6), "amd64/") == 0) {
-+		    list[n][len - 6] = '\0';
-+	    }
++            if (strcmp(list[n] + (len - 6), "amd64/") == 0) {
++                    list[n][len - 6] = '\0';
++            }
 +#endif
-+	    
- 	    n++;
- 	}
- 	elem = strtok(NULL, ",");
-@@ -389,6 +396,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
++            
+             n++;
+         }
+         elem = strtok(NULL, ",");
+@@ -391,6 +398,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      char *ret = NULL, tmpBuf[PATH_MAX];
      struct stat stat_buf;
  
@@ -55,14 +55,14 @@ index 5b9f8d1..d1dd595 100644
 +       but legacy modules under /usr/X11/lib are still split into 32-bit
 +       and 64-bit versions */
 +    if (strncmp(dirpath, "/usr/X11/lib/modules/", 21) != 0) {
-+	in_64_dir = TRUE;
++        in_64_dir = TRUE;
 +    }
 +#endif
 +
      dir = opendir(dirpath);
      if (!dir)
          return NULL;
-@@ -396,6 +421,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -398,6 +423,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
      while ((direntry = readdir(dir))) {
          if (direntry->d_name[0] == '.')
              continue;
@@ -74,18 +74,18 @@ index 5b9f8d1..d1dd595 100644
 +#endif
 +
          snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpath, direntry->d_name);
- 	/* the stat with the appended / fails for normal files,
- 	   and works for sub dirs fine, looks a bit strange in strace
-@@ -405,6 +437,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
-                 break;
+         /* the stat with the appended / fails for normal files,
+            and works for sub dirs fine, looks a bit strange in strace
+@@ -408,6 +440,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
              continue;
          }
-+
+ 
 +#if defined(SUNSOFT) && (defined(__amd64) || defined(__amd64__))
 +        /* Don't match files in non-amd64 directories */
 +        if (!in_64_dir)
 +            continue;
-+#endif	
-  
++#endif
++
          snprintf(tmpBuf, PATH_MAX, "lib%s.so", module);
          if (strcmp(direntry->d_name, tmpBuf) == 0) {
+             if (asprintf(&ret, "%s%s", dirpath, tmpBuf) == -1)

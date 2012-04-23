@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,10 +36,18 @@ file path=usr/share/doc/X11/ReleaseNotes.xml
 file path=usr/share/doc/X11/Versions.html
 file path=usr/share/doc/X11/Versions.txt
 file path=usr/share/doc/X11/Versions.xml
+dir  path=usr/share/doc/X11/ctext
+file path=usr/share/doc/X11/ctext/ctext.html
+file path=usr/share/doc/X11/ctext/ctext.txt
+file path=usr/share/doc/X11/ctext/ctext.xml
 dir  path=usr/share/doc/X11/fonts
 file path=usr/share/doc/X11/fonts/fonts.html
 file path=usr/share/doc/X11/fonts/fonts.txt
 file path=usr/share/doc/X11/fonts/fonts.xml
+dir  path=usr/share/doc/X11/icccm
+file path=usr/share/doc/X11/icccm/icccm.html
+file path=usr/share/doc/X11/icccm/icccm.txt
+file path=usr/share/doc/X11/icccm/icccm.xml
 dir  path=usr/share/doc/X11/input
 file path=usr/share/doc/X11/input/XKB-Config.html
 file path=usr/share/doc/X11/input/XKB-Config.txt
@@ -51,19 +59,10 @@ dir  path=usr/share/doc/X11/platforms
 file path=usr/share/doc/X11/platforms/Solaris.html
 file path=usr/share/doc/X11/platforms/Solaris.txt
 file path=usr/share/doc/X11/platforms/Solaris.xml
-dir  path=usr/share/doc/X11/specs
-dir  path=usr/share/doc/X11/specs/CTEXT
-file path=usr/share/doc/X11/specs/CTEXT/ctext.html
-file path=usr/share/doc/X11/specs/CTEXT/ctext.txt
-file path=usr/share/doc/X11/specs/CTEXT/ctext.xml
-dir  path=usr/share/doc/X11/specs/ICCCM
-file path=usr/share/doc/X11/specs/ICCCM/icccm.html
-file path=usr/share/doc/X11/specs/ICCCM/icccm.txt
-file path=usr/share/doc/X11/specs/ICCCM/icccm.xml
-dir  path=usr/share/doc/X11/specs/XLFD
-file path=usr/share/doc/X11/specs/XLFD/xlfd.html
-file path=usr/share/doc/X11/specs/XLFD/xlfd.txt
-file path=usr/share/doc/X11/specs/XLFD/xlfd.xml
+dir  path=usr/share/doc/X11/xlfd
+file path=usr/share/doc/X11/xlfd/xlfd.html
+file path=usr/share/doc/X11/xlfd/xlfd.txt
+file path=usr/share/doc/X11/xlfd/xlfd.xml
 file path=usr/share/man/man5/X.5
 file path=usr/share/man/man5/X11.5
 file path=usr/share/man/man5/XOrgFoundation.5
@@ -75,9 +74,8 @@ dir  path=usr/share/sgml/X11
 dir  path=usr/share/sgml/X11/dbs
 file path=usr/share/sgml/X11/dbs/masterdb.html.xml
 file path=usr/share/sgml/X11/dbs/masterdb.pdf.xml
-file path=usr/share/sgml/X11/dbs/masterdb.ps.xml
-file path=usr/share/sgml/X11/dbs/masterdb.txt.xml
 file path=usr/share/sgml/X11/defs.ent
+file path=usr/share/sgml/X11/xorg-chunk.xsl
 file path=usr/share/sgml/X11/xorg-fo.xsl
 file path=usr/share/sgml/X11/xorg-xhtml.xsl
 file path=usr/share/sgml/X11/xorg.css

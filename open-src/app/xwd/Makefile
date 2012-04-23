@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xwd 1.x Makefile
+# xwd - X window dump utility to take screen shots
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xwd
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ecd9167fbfdfc3cfef7e0bb089edd25b
-TARBALL_SHA1 = 4ef4fd9072a507e9a1ee88ba1d28b314006cc109
+TARBALL_MD5   = 2113126f9ac9c02bb8547c112c5d037e
+TARBALL_SHA1  = 3b0e4f3f9d28a07444e72952342e21544d4785b6
+TARBALL_SHA256= 02752ba737299cf4a1b75d777166c5b5e5ba8d3cabdf2c54cbe77de175356f3a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,7 +48,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2008/107
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xwd.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

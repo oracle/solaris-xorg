@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xcb 1.7 Makefile
+# xcb library Makefile
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,11 +28,11 @@
 MODULE_NAME=libxcb
 
 # Version number (used in path names)
-MODULE_VERSION=1.7
+MODULE_VERSION=1.8.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 925699df361b99491165ebc12068056b
-TARBALL_SHA1 = 7540f0587907bce421914f0ddb813810cb2f36f8
+TARBALL_MD5  = 9da03df9e2f4c048202920d9f6a7e123
+TARBALL_SHA1 = 98199b6054750a06cddd4e77baa4354af547ce6f
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -42,12 +42,8 @@ UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-		 tsol-sockets.patch,-p1 \
-		 unix-sockets.patch,-p1 \
-		 Makefile.am.0.patch \
-		 xcb_conn.c.3.patch \
-		 Makefile.am.4.patch
+SOURCE_PATCHES  = Makefile.am.0.patch,-p1
+SOURCE_PATCHES += Makefile.am.4.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

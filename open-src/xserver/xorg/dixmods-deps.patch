@@ -23,7 +23,7 @@ index 72be889..38afb02 100644
  	-I$(srcdir)/ddc -I$(srcdir)/i2c -I$(srcdir)/modes -I$(srcdir)/ramdac
  
 diff --git a/hw/xfree86/dixmods/Makefile.am b/hw/xfree86/dixmods/Makefile.am
-index 35f46c8..cd9e744 100644
+index 00f8021..4ba404a 100644
 --- a/hw/xfree86/dixmods/Makefile.am
 +++ b/hw/xfree86/dixmods/Makefile.am
 @@ -35,7 +35,9 @@ libdbe_la_LIBADD = $(top_builddir)/dbe/libdbe.la
@@ -48,7 +48,7 @@ index 35f46c8..cd9e744 100644
  endif
  libglx_la_LIBADD = \
  	$(top_builddir)/glx/libglx.la \
-@@ -59,6 +63,9 @@ librecord_la_SOURCES = recordmod.c
+@@ -59,6 +64,9 @@ librecord_la_SOURCES = recordmod.c
  
  libshadow_la_LDFLAGS = -module -avoid-version
  libshadow_la_LIBADD = $(top_builddir)/miext/shadow/libshadow.la

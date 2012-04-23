@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xrender 1.x Makefile
+# libXrender - Xlib-based client library for Render extension protocol
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXrender
 
 # Version number (used in path names)
-MODULE_VERSION=0.9.6
+MODULE_VERSION=0.9.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3b3b7d076c2384b6c600c0b5f4ba971f
-TARBALL_SHA1 = 65bd96dc17da6b064f95109da02d9c9d14cb06dc
+TARBALL_MD5   = ee62f4c7f0f16ced4da63308963ccad2
+TARBALL_SHA1  = 6e4d75d8316d5217324258f555eba3a5d383feb2
+TARBALL_SHA256= f9b46b93c9bc15d5745d193835ac9ba2a2b411878fad60c504bbb8f98492bbe6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

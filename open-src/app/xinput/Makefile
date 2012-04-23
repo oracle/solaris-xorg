@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xinput 1.x Makefile
+# xinput - input device management utility
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xinput
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.3
+MODULE_VERSION=1.5.99.901
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1e2f0ad4f3fa833b65c568907f171d28
-TARBALL_SHA1 = 70f258279acaa45fb77820ae3f8c2bee9f2d2235
+TARBALL_MD5   = 3b57cb4cbac70eb0d7a553def7dd333e
+TARBALL_SHA1  = bc99cddeac306a23ad96f35d8ff3314d7e45d460
+TARBALL_SHA256= 4765ca49af591ad5fed1af6847a16b807317212d40d5d21e5f97aa834f3e815e
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

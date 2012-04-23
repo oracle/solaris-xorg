@@ -1,6 +1,8 @@
---- java/src/com/tigervnc/vncviewer/Makefile	2009-10-30 00:10:31.496797111 -0700
-+++ java/src/com/tigervnc/vncviewer/Makefile.icon	2009-10-30 00:10:14.375398782 -0700
-@@ -9,6 +9,7 @@
+diff --git a/java/src/com/tigervnc/vncviewer/Makefile b/java/src/com/tigervnc/vncviewer/Makefile
+index f434441..00323f6 100644
+--- a/java/src/com/tigervnc/vncviewer/Makefile
++++ b/java/src/com/tigervnc/vncviewer/Makefile
+@@ -9,6 +9,7 @@ JAR = jar
  ARCHIVE = VncViewer.jar
  MANIFEST = MANIFEST.MF
  PAGES = index.vnc index.html
@@ -23,8 +25,10 @@
  
  export:: $(CLASSES) $(ARCHIVE) $(PAGES)
  	@$(ExportJavaClasses)
---- java/src/com/tigervnc/vncviewer/index.html	2009-10-30 00:12:27.490801957 -0700
-+++ java/src/com/tigervnc/vncviewer/index.html.icon	2009-10-30 00:26:29.413918281 -0700
+diff --git a/java/src/com/tigervnc/vncviewer/index.html b/java/src/com/tigervnc/vncviewer/index.html
+index b17cf70..c982196 100644
+--- a/java/src/com/tigervnc/vncviewer/index.html
++++ b/java/src/com/tigervnc/vncviewer/index.html
 @@ -19,12 +19,13 @@
  <TITLE>
  TigerVNC desktop
@@ -40,18 +44,19 @@
 +<A href="http://www.tigervnc.org/"><IMG border="0" hspace="4" src="tigervnc_16.gif">TigerVNC site</A>
  </BODY>
  </HTML>
-
---- java/src/com/tigervnc/vncviewer/index.vnc	2009-10-30 00:12:40.622099898 -0700
-+++ java/src/com/tigervnc/vncviewer/index.vnc.icon	2009-10-30 00:28:45.392640755 -0700
+diff --git a/java/src/com/tigervnc/vncviewer/index.vnc b/java/src/com/tigervnc/vncviewer/index.vnc
+index d71234f..948e506 100644
+--- a/java/src/com/tigervnc/vncviewer/index.vnc
++++ b/java/src/com/tigervnc/vncviewer/index.vnc
 @@ -14,6 +14,7 @@
  <TITLE>
  $USER's $DESKTOP desktop ($DISPLAY)
  </TITLE>
 +<link rel="icon" type="image/gif" href="tigervnc_16.gif">
  </HEAD><BODY>
- <APPLET CODE="com.tigervnc.vncviewer.VncViewer.class" ARCHIVE="VncViewer.jar"
+ <APPLET CODE="com.tigervnc.vncviewer.VncViewer" ARCHIVE="VncViewer.jar"
          WIDTH="$APPLETWIDTH" HEIGHT="$APPLETHEIGHT">
-@@ -21,6 +22,6 @@
+@@ -21,6 +22,6 @@ $USER's $DESKTOP desktop ($DISPLAY)
  $PARAMS
  </APPLET>
  <BR>

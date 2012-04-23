@@ -1,6 +1,8 @@
---- src/Makefile.am	2009-12-10 05:43:43.000000000 -0800
-+++ src/Makefile.am	2010-10-26 07:18:03.869184761 -0700
-@@ -8,7 +8,7 @@
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 950de5c..627995c 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -8,7 +8,7 @@ AM_CFLAGS = $(CWARNFLAGS) $(NEEDED_CFLAGS) $(XDMCP_CFLAGS)
  libxcb_la_LIBADD = $(NEEDED_LIBS) $(XDMCP_LIBS)
  libxcb_la_SOURCES = \
  		xcb_conn.c xcb_out.c xcb_in.c xcb_ext.c xcb_xid.c \
@@ -9,19 +11,15 @@
  nodist_libxcb_la_SOURCES = xproto.c bigreq.c xc_misc.c
  
  # Explanation for -version-info:
-@@ -208,9 +208,10 @@
+@@ -216,6 +216,7 @@ libxcb_xvmc_la_LIBADD = $(XCB_LIBS)
  nodist_libxcb_xvmc_la_SOURCES = xvmc.c xvmc.h
  endif
  
 +EXTSOURCES += xia.c
  
  EXTHEADERS=$(EXTSOURCES:.c=.h)
--xcbinclude_HEADERS = xcb.h xcbext.h
-+xcbinclude_HEADERS = xcb.h xcbext.h xia.h
- nodist_xcbinclude_HEADERS = $(EXTHEADERS)
- noinst_HEADERS = xcbint.h
- 
-@@ -218,4 +219,4 @@
+ xcbinclude_HEADERS = xcb.h xcbext.h
+@@ -229,4 +230,4 @@ BUILT_SOURCES = $(EXTSOURCES)
  CLEANFILES = $(EXTSOURCES) $(EXTHEADERS)
  
  $(EXTSOURCES): c_client.py

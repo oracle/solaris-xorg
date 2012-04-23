@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xv 1.x Makefile
+# libXv - Xlib-based client library for XVideo extension protocol
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXv
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e292445a64b63e918bbc8b6aae6391dd
-TARBALL_SHA1 = 9ebb6d7936a7b247b9b0f6dc81def39a18e4214c
+TARBALL_MD5   = 5e1ac203ccd3ce3e89755ed1fbe75b0b
+TARBALL_SHA1  = 49c87e0ccb999966b7b1b4e72cb927f05e0835bd
+TARBALL_SHA256= 5d664aeb641f8c867331a0c6b4574a5e7e420f00bf5fcefd874e8d003ea59010
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

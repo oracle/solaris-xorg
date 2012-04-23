@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# libXScrnSaver 1.x Makefile
+# libXScrnSaver - Xlib-based client library for MIT-SCREEN-SAVER extension
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=libXScrnSaver
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 898794bf6812fc9be9bf1bb7aa4d2b08
-TARBALL_SHA1 = 3c29e2222fd68e26e408234c51c6d8b2edf6ab19
+TARBALL_MD5   = 7a773b16165e39e938650bcc9027c1d5
+TARBALL_SHA1  = 7b8298eec371c33a71232e3653370a98f03c6c88
+TARBALL_SHA256= 8ff1efa7341c7f34bcf9b17c89648d6325ddaae22e3904e091794e0b4426ce1d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

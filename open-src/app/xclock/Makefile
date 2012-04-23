@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xclock 1.x Makefile
+# xclock - analog or digital clock display application
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,17 +33,18 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = eaf124bbc9d13e1a12a29faaa2ed3612
-TARBALL_SHA1 = 1651ac8961c0aa287a6a7412ee5e6d3bfc3bb3e2
+TARBALL_MD5   = 773782f20d5fb3232384889deca00754
+TARBALL_SHA1  = 993817c9e3cc2baaaebe52b29fa2ad26e58b124d
+TARBALL_SHA256= 21bb6f57b0a158c05a47558302321c4764a8d2e1b8e5d4ad23e3809b4cee3fd0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xclock.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

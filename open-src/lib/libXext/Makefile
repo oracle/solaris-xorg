@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Xext 1.x Makefile
+# Xlib-based client library for common X11 protocol extensions
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,17 +29,16 @@
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 161d200b690ace818db1cc7537e70ba9
-TARBALL_SHA1 = 0bf3708177b9320091ebc069e905c042c31d859d
+TARBALL_MD5   = 71251a22bc47068d60a95f50ed2ec3cf
+TARBALL_SHA1  = 764ac472ae19a0faade193717a9e0938d3430aaa
+TARBALL_SHA256= 56229c617eb7bfd6dec40d2805bc4dfb883dfe80f130d99b9a2beb632165e859
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	install-xml-specs.patch,-p1 \
-	shm.patch \
-	sun-exts.patch
+SOURCE_PATCHES  = shm.patch,-p1
+SOURCE_PATCHES += sun-exts.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xext

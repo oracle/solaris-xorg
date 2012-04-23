@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,16 +27,15 @@
 MODULE_NAME=xorg-docs
 
 # Version number (used in path names)
-MODULE_VERSION=1.6
+MODULE_VERSION=1.6.99.901
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 86101433834b485ab243f235757d7079
-TARBALL_SHA1 = be4a0259d52a5f39acbe5aa34d213cceb90f59d8
+TARBALL_MD5   = 4bf32718bf6bc8377f8fda43190398be
+TARBALL_SHA1  = a011c5a5190e530efe98c373691fa96cb53b3edd
+TARBALL_SHA256= 6b906cba725df441e1350e2530db7f15b95c5087a655e67bb096cca0be991338
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	\
-	X.man-decnet.patch,-p1 \
-	solaris-manpages.patch
+SOURCE_PATCHES += solaris-manpages.patch,-p1
 
 # Man pages to apply distro customizations to
 # Normal attributes table not added, since these aren't simple interfaces

@@ -1,7 +1,8 @@
-diff -urp -x '*~' -x '*.orig' xfontsel.c xfontsel.c
---- xfontsel.c	2009-10-16 14:39:19.000000000 -0700
-+++ xfontsel.c	2011-01-28 17:56:03.979720384 -0800
-@@ -54,6 +54,9 @@ Modified: Mark Leisher <mleisher@crl.nms
+diff --git a/xfontsel.c b/xfontsel.c
+index cf334e4..0b4bfdb 100644
+--- a/xfontsel.c
++++ b/xfontsel.c
+@@ -52,6 +52,9 @@ Modified: Mark Leisher <mleisher@crl.nmsu.edu> to deal with UCS sample text.
  #include <X11/Xfuncs.h>
  #include "ULabel.h"
  
@@ -11,7 +12,7 @@ diff -urp -x '*~' -x '*.orig' xfontsel.c xfontsel.c
  #define MIN_APP_DEFAULTS_VERSION 1
  #define FIELD_COUNT 14
  #define DELIM '-'
-@@ -152,24 +155,25 @@ static XrmOptionDescRec options[] = {
+@@ -150,24 +153,25 @@ static XrmOptionDescRec options[] = {
  
  static void Syntax(char *call)
  {
@@ -19,19 +20,19 @@ diff -urp -x '*~' -x '*.orig' xfontsel.c xfontsel.c
 -    fprintf (stderr, "where options include:\n");
 -    fprintf (stderr,
 -	"    -display dpy           X server to contact\n");
--    fprintf (stderr, 
+-    fprintf (stderr,
 -	"    -geometry geom         size and location of window\n");
--    fprintf (stderr, 
+-    fprintf (stderr,
 -	"    -pattern fontspec      font name pattern to match against\n");
--    fprintf (stderr, 
+-    fprintf (stderr,
 -	"    -print                 print selected font name on exit\n");
--    fprintf (stderr, 
+-    fprintf (stderr,
 -	"    -sample string         sample text to use for 1-byte fonts\n");
--    fprintf (stderr, 
+-    fprintf (stderr,
 -	"    -sample16 string       sample text to use for 2-byte fonts\n");
 -    fprintf (stderr,
 -	"    -sampleUCS string      sample text to use for ISO10646 fonts\n");
--    fprintf (stderr, 
+-    fprintf (stderr,
 -	"    -scaled                use scaled instances of fonts\n");
 +    /* Internationalize these strings for Bug:      4363521 Jhobson 6/9/00 */
 +    fprintf (stderr, gettext("usage:  %s [-options ...] -fn font\n\n"), call);
@@ -55,7 +56,7 @@ diff -urp -x '*~' -x '*.orig' xfontsel.c xfontsel.c
      fprintf (stderr, "\n");
      exit (1);
  }
-@@ -263,10 +267,28 @@ main(int argc, char **argv)
+@@ -261,10 +265,28 @@ main(int argc, char **argv)
  {
      Widget topLevel, pane;
  
@@ -84,7 +85,7 @@ diff -urp -x '*~' -x '*.orig' xfontsel.c xfontsel.c
  
      if (argc != 1) Syntax(argv[0]);
  
-@@ -277,12 +299,15 @@ main(int argc, char **argv)
+@@ -275,12 +297,15 @@ main(int argc, char **argv)
      XtGetApplicationResources( topLevel, (XtPointer)&AppRes,
  			       resources, XtNumber(resources), NZ );
      if (AppRes.app_defaults_version < MIN_APP_DEFAULTS_VERSION) {
@@ -105,43 +106,43 @@ diff -urp -x '*~' -x '*.orig' xfontsel.c xfontsel.c
      }
  
      ScheduleWork(GetFontNames, (XtPointer)XtDisplay(topLevel), 0);
-@@ -524,7 +549,7 @@ void GetFontNames(XtPointer closure)
+@@ -514,7 +539,7 @@ void GetFontNames(XtPointer closure)
  	    }
  	    else
- 		XtAppWarning( appCtx, 
+ 		XtAppWarning( appCtx,
 -		    "internal error; pattern didn't match first font" );
 +		    gettext("internal error; pattern didn't match first font" ));
  	}
  	else {
  	    SetNoFonts();
-@@ -1026,11 +1051,11 @@ static void SetCurrentFontCount(void)
+@@ -1012,11 +1037,11 @@ static void SetCurrentFontCount(void)
      char label[80];
      Arg args[1];
      if (matchingFontCount == 1)
 -	strcpy( label, "1 name matches" );
 +	strcpy( label, gettext("1 name matches") );
      else if (matchingFontCount)
--	sprintf( label, "%d names match", matchingFontCount );
-+	sprintf( label, gettext("%d names match"), matchingFontCount);
+-	snprintf( label, sizeof(label), "%d names match", matchingFontCount );
++	snprintf( label, sizeof(label), gettext("%d names match"), matchingFontCount);
      else
 -	strcpy( label, "no names match" );
 +	strcpy( label, gettext("no names match") );
      XtSetArg( args[0], XtNlabel, label );
      XtSetValues( countLabel, args, ONE );
  }
-@@ -1041,9 +1066,9 @@ static void SetParsingFontCount(int coun
+@@ -1027,9 +1052,9 @@ static void SetParsingFontCount(int count)
      char label[80];
      Arg args[1];
      if (count == 1)
 -	strcpy( label, "1 name to parse" );
 +	strcpy( label, gettext("1 name to parse") );
      else
--	sprintf( label, "%d names to parse", count );
-+	sprintf( label, gettext("%d names to parse"), count );
+-	snprintf( label, sizeof(label), "%d names to parse", count );
++	snprintf( label, sizeof(label), gettext("%d names to parse"), count );
      XtSetArg( args[0], XtNlabel, label );
      XtSetValues( countLabel, args, ONE );
      FlushXqueue(XtDisplay(countLabel));
-@@ -1252,9 +1277,9 @@ void SelectField(Widget w, XtPointer clo
+@@ -1234,9 +1259,9 @@ void SelectField(Widget w, XtPointer closure, XtPointer callData)
      int field = (long)closure;
      FieldValue *values = fieldValues[field]->value;
      int count = fieldValues[field]->count;
