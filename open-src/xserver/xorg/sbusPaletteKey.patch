@@ -1,0 +1,39 @@
+From 12e1e1599213c413ccdfed5f0c7a8884974b7210 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 26 Jan 2012 15:44:40 -0800
+Subject: [PATCH] Convert sbusPaletteKey to latest DevPrivate API
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ hw/xfree86/common/xf86sbusBus.c |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/hw/xfree86/common/xf86sbusBus.c b/hw/xfree86/common/xf86sbusBus.c
+index c993b60..9716146 100644
+--- a/hw/xfree86/common/xf86sbusBus.c
++++ b/hw/xfree86/common/xf86sbusBus.c
+@@ -619,8 +619,9 @@ xf86SbusUseBuiltinMode(ScrnInfoPtr pScrn, sbusDevicePtr psdp)
+     pScrn->virtualY = psdp->height;
+ }
+ 
+-static sbusPaletteKeyIndex;
+-static DevPrivateKey sbusPaletteKey = &sbusPaletteKeyIndex;
++static DevPrivateKeyRec sbusPaletteKeyRec;
++#define sbusPaletteKey (&sbusPaletteKeyRec)
++
+ typedef struct _sbusCmap {
+     sbusDevicePtr psdp;
+     CloseScreenProcPtr CloseScreen;
+@@ -692,6 +693,9 @@ xf86SbusHandleColormaps(ScreenPtr pScreen, sbusDevicePtr psdp)
+     struct fbcmap fbcmap;
+     unsigned char data[2];
+ 
++    if (!dixRegisterPrivateKey(sbusPaletteKey, PRIVATE_SCREEN, 0))
++	FatalError("Cannot register sbus private key");
++
+     cmap = xnfcalloc(1, sizeof(sbusCmapRec));
+     dixSetPrivate(&pScreen->devPrivates, sbusPaletteKey, cmap);
+     cmap->psdp = psdp;
+-- 
+1.7.9.2
+

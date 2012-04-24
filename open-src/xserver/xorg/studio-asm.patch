@@ -1,0 +1,45 @@
+From 4c42aef04d9f256d434e3459596d918dc8420d53 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Mon, 23 Apr 2012 22:43:27 -0700
+Subject: [PATCH] Provide prototypes for Mmio functions for Solaris Studio on
+ SPARC
+
+Actual inline implementations are provided via external *.il files
+generated from *.S files in hw/xfree86/os-support/solaris
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ hw/xfree86/common/compiler.h |   17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/hw/xfree86/common/compiler.h b/hw/xfree86/common/compiler.h
+index 0abdfb6..3467e15 100644
+--- a/hw/xfree86/common/compiler.h
++++ b/hw/xfree86/common/compiler.h
+@@ -119,6 +119,23 @@ extern _X_EXPORT unsigned int inb(unsigned long);
+ extern _X_EXPORT unsigned int inw(unsigned long);
+ extern _X_EXPORT unsigned int inl(unsigned long);
+ 
++#ifdef __SUNPRO_C
++extern _X_EXPORT unsigned char  (*xf86ReadMmio8)    (void *, unsigned long);
++extern _X_EXPORT unsigned short (*xf86ReadMmio16Be) (void *, unsigned long);
++extern _X_EXPORT unsigned short (*xf86ReadMmio16Le) (void *, unsigned long);
++extern _X_EXPORT unsigned int   (*xf86ReadMmio32Be) (void *, unsigned long);
++extern _X_EXPORT unsigned int   (*xf86ReadMmio32Le) (void *, unsigned long);
++extern _X_EXPORT void xf86WriteMmio8    (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio16Be (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio16Le (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio32Be (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio32Le (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio8NB    (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio16BeNB (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio16LeNB (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio32BeNB (void *, unsigned long, unsigned int);
++extern _X_EXPORT void xf86WriteMmio32LeNB (void *, unsigned long, unsigned int);
++#endif                          /* _SUNPRO_C */
+ #endif                          /* __sparc__,  __arm32__, __alpha__, __nds32__ */
+ #endif                          /* __arm__ */
+ 
+-- 
+1.7.9.2
+
