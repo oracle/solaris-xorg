@@ -36,6 +36,9 @@ TARBALL_MD5   = 56f125403497c55e0c88130b90c1c7b2
 TARBALL_SHA1  = adb8e28a8aced2ff660a4058d35b8656ffdf46ce
 TARBALL_SHA256= d76f631e8e851ab631f9fde4ec2585be6702c5a28e2a951c9ad9545baf0fb0e2
 
+# Patches to apply to source after unpacking, in order
+SOURCE_PATCHES= 7164323.patch
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
@@ -57,6 +60,9 @@ MODULE_ADD_INSTALL_TARGETS = install_fdi
 
 # Fix path for installing headers in proto area
 MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)'
+
+# Regenerate configure after patching configure.ac
+AUTORECONF=yes
 
 # Install xorg-synaptics.pc to /usr/share since it defines the architecture
 # independent header files in /usr/include and not any library flags
