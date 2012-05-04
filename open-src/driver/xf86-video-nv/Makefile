@@ -36,11 +36,14 @@ TARBALL_MD5  = b12f0b2114849d1a542d8084732573d3
 TARBALL_SHA1 = d35b2fa5a26a507a9cc95b69243d9fd0c0f32aa2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = 7163065.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
+
+# Regenerate configure after patching configure.ac
+AUTORECONF=yes
 
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
