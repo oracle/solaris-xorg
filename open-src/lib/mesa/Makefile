@@ -67,7 +67,8 @@ SOURCE_PATCHES= \
 	gcc-bitcount.patch,-p1 \
 	install-pc-dir.patch \
 	glu-no-mangled-exports.patch \
-	solaris-port.patch bromolow-chipset.patch
+	solaris-port.patch bromolow-chipset.patch \
+	fix-gen6-viewperf-hang.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
