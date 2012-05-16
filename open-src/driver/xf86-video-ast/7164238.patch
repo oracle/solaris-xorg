@@ -1,0 +1,109 @@
+--- src/ast_driver.c	Wed May  9 13:56:51 2012
++++ src/ast_driver.c	Wed May  9 15:46:40 2012
+@@ -1392,11 +1392,7 @@
+    unsigned char DDC_data[128];
+    Bool Flags;
+ 
+-#if defined(__sparc__)
+    if (xf86LoadSubModule(pScrn, "ddc"))
+-#else
+-   if ( (pAST->jChipType == AST1180) || (!xf86IsPrimaryPci(pAST->PciInfo)) )
+-#endif
+    {
+        if (pAST->jChipType == AST1180)	
+            Flags = GetVGA2EDID(pScrn, DDC_data);
+@@ -1410,16 +1406,10 @@
+        else
+            xf86DrvMsg(pScrn->scrnIndex, X_INFO,"[ASTProbeDDC] Can't Get EDID Properly \n");               
+    }   
+-#if !defined(__sparc__)
+    else
+    {
+-       if (xf86LoadSubModule(pScrn, "vbe")) {
+-          vbeInfoPtr pVbe = VBEInit(NULL, index);
+-          ConfiguredMonitor = vbeDoEDID(pVbe, NULL);
+-          vbeFree(pVbe);
+-       }
++       xf86DrvMsg(pScrn->scrnIndex, X_INFO,"[ASTProbeDDC] Can't Load DDC Sub-Modules or Read EDID Failed \n");
+    }
+-#endif
+ }
+ 
+ #define SkipDT	0x00
+@@ -1430,7 +1420,6 @@
+ ASTDoDDC(ScrnInfoPtr pScrn, int index)
+ {
+ #if !defined(__sparc__)
+-   vbeInfoPtr pVbe;
+    xf86MonPtr MonInfo = NULL, MonInfo1 = NULL, MonInfo2 = NULL;
+    ASTRecPtr pAST = ASTPTR(pScrn);
+    unsigned long i, j, k;
+@@ -1445,7 +1434,7 @@
+       return MonInfo;
+    }
+ 
+-   if ( (pAST->jChipType == AST1180) || (!xf86IsPrimaryPci(pAST->PciInfo)) )
++   if (xf86LoadSubModule(pScrn, "ddc"))
+    {
+    	   	
+         if (pAST->jChipType == AST1180)	
+@@ -1454,22 +1443,10 @@
+             Flags = GetVGAEDID(pScrn, DDC_data);
+         
+         if (Flags)
+-        {	
+-            MonInfo = xf86InterpretEDID(pScrn->scrnIndex, DDC_data);       
+-            xf86PrintEDID(MonInfo);
+-            xf86SetDDCproperties(pScrn, MonInfo);   	
++        {
++	    MonInfo = MonInfo1 = xf86InterpretEDID(pScrn->scrnIndex, DDC_data);
+         }
+-        else
+-            xf86DrvMsg(pScrn->scrnIndex, X_INFO,"[ASTDoDDC] Can't Get EDID Properly \n");                
+ 
+-   }
+-   else
+-   {
+-   	
+-       if (xf86LoadSubModule(pScrn, "vbe") && (pVbe = VBEInit(NULL, index))) {
+-          MonInfo1 = vbeDoEDID(pVbe, NULL);
+-          MonInfo = MonInfo1;
+-      
+           /* For VGA2 CLONE Support, ycchen@012508 */
+           if ((xf86ReturnOptValBool(pAST->Options, OPTION_VGA2_CLONE, FALSE)) || pAST->VGA2Clone) {
+               if (GetVGA2EDID(pScrn, DDC_data) == TRUE) {
+@@ -1611,18 +1588,24 @@
+          
+           }
+ 
+-          /* save MonInfo to Private */
++      xf86PrintEDID(MonInfo);
++      xf86SetDDCproperties(pScrn, MonInfo);
++   }
++   else
++   {
++      xf86DrvMsg(pScrn->scrnIndex, X_INFO,"[ASTDoDDC] Can't Load DDC Sub-Modules  or Read EDID Failed \n");
++   }
++
++   /* Fill pAST Monitor Info */
++   if (MonInfo == NULL)
++   {    /* default for Non-EDID */
++       pAST->mon_h_active = 1024;
++       pAST->mon_v_active = 768;
++   }
++   else
++   {    /* save MonInfo to Private */
+           pAST->mon_h_active = MonInfo->det_mon[0].section.d_timings.h_active;
+           pAST->mon_v_active = MonInfo->det_mon[0].section.d_timings.v_active;
+-      
+-          xf86PrintEDID(MonInfo);
+-          xf86SetDDCproperties(pScrn, MonInfo);
+-          vbeFree(pVbe);
+-       } else {
+-          xf86DrvMsg(pScrn->scrnIndex, X_INFO,
+-		     "this driver cannot do DDC without VBE\n");   
+-       }
+-   
+    } /* AST1180 */
+ #else /* __sparc__ */
+ 
