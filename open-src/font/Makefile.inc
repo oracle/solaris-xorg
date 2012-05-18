@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org font modules
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -58,6 +58,11 @@ MODTYPE_CONFIG_OPTS += $(MODULE_FONTDIR:%=--with-fontdir="%")
 
 # Disable compression of pcf fonts
 MODTYPE_CONFIG_OPTS += --without-compression
+
+# Avoid races between modules that install to the same directory by not 
+# running mkfontdir at build time, but waiting for later (either in the
+# sun-aliases module or during packaging in generate_font_metadata.pl).
+MODTYPE_CONFIG_OPTS += MKFONTDIR=/usr/bin/true
 
 # Most font modules have nothing to build, for those that do, use lib flags
 MODTYPE_CFLAGS=$(LIB_CFLAGS)

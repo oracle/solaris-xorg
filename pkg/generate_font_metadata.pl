@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -70,6 +70,10 @@ foreach my $fd (keys %fontdirs) {
   my $protometafile = join('/', $proto_dir, $fd, 'fonts.dir');
   my %xlfds = ();
 
+  if (! -f $protometafile) {
+      run_cmd("$proto_dir/usr/bin/mkfontdir", $protofontpath);
+  }
+
   open my $XFILE, '<', $protometafile
     or die "Cannot open $protometafile: $!\n";
 
@@ -126,21 +130,24 @@ my $fc_scan_format = q(--format=%{?fullname{%{[]fullname,fullnamelang{<transform
 
 
 chdir($proto_dir);
-system($fc_scan, $fc_scan_format, keys %fontdirs);
-if ($? == -1) {
-  print STDERR "failed to execute $fc_scan: $!\n";
-}
-elsif ($? & 127) {
-  printf STDERR "$fc_scan died with signal %d, %s coredump\n",
-    ($? & 127),  ($? & 128) ? 'with' : 'without';
-}
-elsif ($? != 0) {
-  my $exit_code = $? >> 8;
-  if ($exit_code != 1) {
-    printf STDERR "$fc_scan exited with value %d\n", $exit_code;
-    exit($exit_code);
-  }
-}
-
+run_cmd($fc_scan, $fc_scan_format, keys %fontdirs);
 exit(0);
 
+sub run_cmd {
+    my $cmd = $_[0];
+    system(@_);
+    if ($? == -1) {
+	print STDERR "failed to execute $cmd: $!\n";
+    }
+    elsif ($? & 127) {
+	printf STDERR "$cmd died with signal %d, %s coredump\n",
+	($? & 127),  ($? & 128) ? 'with' : 'without';
+    }
+    elsif ($? != 0) {
+	my $exit_code = $? >> 8;
+	if ($exit_code != 1) {
+	    printf STDERR "$cmd exited with value %d\n", $exit_code;
+	    exit($exit_code);
+	}
+    }
+}

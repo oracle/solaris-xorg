@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,14 +68,15 @@ ALIAS_FILES = $(ALIAS_DIRS:%=$(INSTDIR)/%/fonts.alias)
 
 install_aliases: $(ALIAS_FILES)
 
-$(INSTDIR)/%-ISO8859-1/fonts.alias.all: $(INSTDIR)/%/fonts.alias.all
+$(ALIAS_DIRS:%=$(INSTDIR)/%):
+	mkdir -p $@
+
+$(INSTDIR)/%-ISO8859-1/fonts.alias.all: $(INSTDIR)/%/fonts.alias.all $(INSTDIR)/%-ISO8859-1
 	-rm -f $@
-	mkdir -p $(@D)
 	cp -pf $< $@
 
-$(INSTDIR)/%/fonts.alias.all: fonts.alias.%
+$(INSTDIR)/%/fonts.alias.all: fonts.alias.% $(INSTDIR)/%
 	-rm -f $@
-	mkdir -p $(@:fonts.alias.all=)
 	@if [[ -f $(@:.all=) ]] ; then \
 		$(START_CMD_ECHO) ; \
 		cat $(@:.all=) > $@ ; \
@@ -83,14 +84,11 @@ $(INSTDIR)/%/fonts.alias.all: fonts.alias.%
 	cat $< >> $@
 
 $(INSTDIR)/%/fonts.alias: $(INSTDIR)/%/fonts.alias.all $(INSTDIR)/%/fonts.dir
-	(cd $(@:fonts.alias=) ; \
+	(cd $(@D) ; \
 	 LD_LIBRARY_PATH="$(FONT_LIBS_PATH)" $(INSTALLALIAS) fonts.alias.all .)
 
-# Needed when installing to alternate protodir, such as when
-# generating pkg manifests
-$(INSTDIR)/%/fonts.dir:
-	print '0' > $@.fake
-	ln $@.fake $@ ; rm $@.fake
+$(INSTDIR)/%/fonts.dir: $(INSTDIR)/%
+	$(MKFONTDIR) $(@D)
 
 manifest_%: 
 	$(MAKE) $(MAKEFLAGS) manifest-per-type \
