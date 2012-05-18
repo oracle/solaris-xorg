@@ -24,10 +24,10 @@ index fb3ccbf..5a82e09 100644
  DDX_SRCS = \
          ddxBeep.c \
 diff --git a/xkb/ddxLoad.c b/xkb/ddxLoad.c
-index cb2dfc3..d21e2c7 100644
+index cb2dfc3..937fea4 100644
 --- a/xkb/ddxLoad.c
 +++ b/xkb/ddxLoad.c
-@@ -143,10 +143,27 @@ Win32System(const char *cmdline)
+@@ -143,14 +143,30 @@ Win32System(const char *cmdline)
  #define System(x) Win32System(x)
  #endif
  
@@ -48,14 +48,18 @@ index cb2dfc3..d21e2c7 100644
  {
  #ifndef WIN32
 +#ifdef MAKE_XKM_OUTPUT_DIR
-+    if (geteuid() == 0) {
-+        trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE);
-+    }
-+#endif
++    if (geteuid() == 0 && trans_mkdir(XKM_OUTPUT_DIR, XKM_OUTPUT_DIR_MODE) == 0 && (strlen(XKM_OUTPUT_DIR) < size)) {
++#else
      /* Can we write an xkm and then open it too? */
      if (access(XKM_OUTPUT_DIR, W_OK | X_OK) == 0 &&
          (strlen(XKM_OUTPUT_DIR) < size)) {
-@@ -188,6 +205,15 @@ XkbDDXCompileKeymapByNames(XkbDescPtr xkb,
+-        (void) strcpy(outdir, XKM_OUTPUT_DIR);
++#endif
++        (void) strcpy (outdir, XKM_OUTPUT_DIR);
+     }
+     else
+ #else
+@@ -188,6 +204,15 @@ XkbDDXCompileKeymapByNames(XkbDescPtr xkb,
      const char *xkmfile = "-";
  #endif
  
@@ -71,7 +75,7 @@ index cb2dfc3..d21e2c7 100644
      snprintf(keymap, sizeof(keymap), "server-%s", display);
  
      OutputDirectory(xkm_output_dir, sizeof(xkm_output_dir));
-@@ -239,6 +265,11 @@ XkbDDXCompileKeymapByNames(XkbDescPtr xkb,
+@@ -239,6 +264,11 @@ XkbDDXCompileKeymapByNames(XkbDescPtr xkb,
      out = fopen(tmpname, "w");
  #endif
  
