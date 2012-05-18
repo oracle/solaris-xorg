@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -103,3 +103,7 @@ file path=usr/share/man/man1/ogl-select.1
 
 # constype is required to detect which vendor_select script to run
 depend type=require fmri=pkg:/diagnostic/constype
+
+# mesa is needed for the libraries we link to for generic versions,
+# since vendor-specific GL implementations don't provide all of them
+depend type=require fmri=pkg:/x11/library/mesa
