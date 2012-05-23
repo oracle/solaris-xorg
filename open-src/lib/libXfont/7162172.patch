@@ -1,0 +1,28 @@
+From 9a383bbf7195c1256a9e92ee251691c7a4a37732 Mon Sep 17 00:00:00 2001
+From: Arvind Umrao <arvind.umrao@oracle.com>
+Date: Tue, 8 May 2012 10:49:40 +0530
+Subject: [PATCH] 7162172.patch
+
+---
+ src/fc/fsio.c |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git src/fc/fsio.c src/fc/fsio.c
+--- src/fc/fsio.c
++++ src/fc/fsio.c
+@@ -184,8 +184,11 @@ _fs_fill (FSFpePtr conn)
+ 		    continue;
+ 		}
+ 	    }
+-	    _fs_connection_died (conn);
+-	    return FSIO_ERROR;
++	    if (!ECHECK(EINTR))
++	    {
++	        _fs_connection_died(conn);
++	        return FSIO_ERROR;
++	    }
+ 	}
+     }
+     return FSIO_READY;
+1.7.3.2
+

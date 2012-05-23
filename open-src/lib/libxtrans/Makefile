@@ -44,7 +44,8 @@ TARBALL_SHA1  = b6ed421edf577816f6e641e1846dc0bff337676c
 TARBALL_SHA256= 7f811191ba70a34a9994d165ea11a239e52c527f039b6e7f5011588f075fe1a6
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES  = inetv6.patch,-p1
+SOURCE_PATCHES  = inetv6.patch,-p1 \
+	7162172.patch
 SOURCE_PATCHES += tsol-unix-domain.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
