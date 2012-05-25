@@ -1,7 +1,7 @@
 #!/usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -111,6 +111,9 @@ while ($filename = shift) {
     }
   }
 
+  if ($text_subref) {
+    $firstline = &$text_subref($firstline);
+  }
   print OUT $firstline;
 
   my $nextline;
