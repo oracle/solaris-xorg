@@ -1,4 +1,5 @@
 sbusPaletteKey.patch,-p1
+SProcDRI2Connect.patch,-p1
 studio-asm.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
