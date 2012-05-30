@@ -455,6 +455,7 @@ GC gc;
  *      NOTE: no action taken on an unrealized widget.
  */
 
+void
 PaintItemName(w, item)
 Widget w;
 int item;

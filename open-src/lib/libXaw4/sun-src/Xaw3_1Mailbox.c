@@ -291,9 +291,9 @@ static void Check (gw, event, params, nparams)
 
 
 /* ARGSUSED */
-static XtTimerCallbackProc clock_tic (client_data, id)
-    caddr_t client_data;
-    XtIntervalId *id;
+static void clock_tic (
+    caddr_t client_data,
+    XtIntervalId *id)
 {
     MailboxWidget w = (MailboxWidget) client_data;
 

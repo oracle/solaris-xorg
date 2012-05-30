@@ -405,7 +405,7 @@ index e825236..5417c57 100644
 +typedef struct
 +{
 +    XID (*CheckAuthorization)(unsigned int, char *, unsigned int,
-+        char *, ClientPtr , char **);
++        char *, ClientPtr , const char **);
 +    int (*ChangeWindowProperty)(ClientPtr, WindowPtr, Atom, Atom, int, int,
 +        unsigned long, pointer, Bool);
 +    int (*DeleteProperty)(ClientPtr, WindowPtr, Atom);

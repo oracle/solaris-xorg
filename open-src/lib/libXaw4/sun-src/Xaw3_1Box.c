@@ -136,7 +136,7 @@ WidgetClass boxWidgetClass = (WidgetClass)&boxClassRec;
  *
  */
 
-static DoLayout(bbw, width, height, reply_width, reply_height, position)
+static void DoLayout(bbw, width, height, reply_width, reply_height, position)
     BoxWidget	bbw;
     Dimension	width, height;
     Dimension	*reply_width, *reply_height; /* bounding box */

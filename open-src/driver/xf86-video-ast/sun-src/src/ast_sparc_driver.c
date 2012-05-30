@@ -266,7 +266,7 @@ ASTSaveHW(ScrnInfoPtr pScrn)
    astReg = &pAST->SavedReg;
 
    /* Save Misc */
-   GetReg(MISC_PORT_READ, astReg->MISC);
+   astReg->MISC = GetReg(MISC_PORT_READ);
 
    /* Save SR */
    for (i=0; i<4; i++)
@@ -281,10 +281,10 @@ ASTSaveHW(ScrnInfoPtr pScrn)
        GetIndexReg(GR_PORT, (UCHAR) (i), astReg->GR[i]);
 
    /* Save AR */
-   GetReg(INPUT_STATUS1_READ, jReg);
+   jReg = GetReg(INPUT_STATUS1_READ);
    for (i=0; i<20; i++)
       GetIndexReg(AR_PORT_WRITE, (UCHAR) (i), astReg->AR[i]);
-   GetReg(INPUT_STATUS1_READ, jReg);
+   jReg = GetReg(INPUT_STATUS1_READ);
    SetReg (AR_PORT_WRITE, 0x20);                /* set POS */
 
    /* Save DAC */
@@ -320,7 +320,7 @@ ASTRestoreHW(ScrnInfoPtr pScrn)
        SetIndexReg(GR_PORT, (UCHAR) (i), astReg->GR[i]);
   
    /* Restore AR */
-   GetReg(INPUT_STATUS1_READ, jReg);
+   jReg = GetReg(INPUT_STATUS1_READ);
    for (i=0; i<20; i++)
    {
         SetReg(AR_PORT_WRITE, (UCHAR) i);
@@ -329,7 +329,7 @@ ASTRestoreHW(ScrnInfoPtr pScrn)
    SetReg(AR_PORT_WRITE, 0x14);
    SetReg(AR_PORT_WRITE, 0x00);
 
-   GetReg(INPUT_STATUS1_READ, jReg);
+   jReg = GetReg(INPUT_STATUS1_READ);
    SetReg (AR_PORT_WRITE, 0x20);                /* set POS */
   
    /* Restore DAC */

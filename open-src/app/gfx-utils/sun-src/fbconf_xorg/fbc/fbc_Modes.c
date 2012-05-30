@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -177,7 +177,7 @@ fbc_trim_Modes_sections(
 
 	modes_sectn_ptr = xf86findModes("SunModes", configIR->conf_modes_lst);
 	if (modes_sectn_ptr == NULL) 
-		return;
+		return FALSE;
 
 	modes = modes_sectn_ptr->mon_modeline_lst;
 	ptr = modes;
@@ -211,7 +211,7 @@ fbc_trim_Modes_sections(
  * removes the external representation of the device specific SunModes section
  */
 
-int
+void
 fbc_remove_monitor_sunmodes_section_ER(
 	XF86ConfigPtr		configIR,
         XF86ConfMonitorPtr 	monitor_sectn_ptr  /* Ptr to Monitor section IR */
@@ -245,7 +245,7 @@ fbc_remove_monitor_sunmodes_section_ER(
  * removes the device specific use SunModes entry from the external representation
  */
 
-int
+void
 fbc_remove_monitor_usemodes_entry_ER(
 	XF86ConfigPtr		configIR,
         XF86ConfMonitorPtr 	monitor_sectn_ptr  /* Ptr to Monitor section IR */

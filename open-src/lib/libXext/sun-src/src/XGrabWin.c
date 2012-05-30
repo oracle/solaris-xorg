@@ -1,4 +1,4 @@
-/* Copyright (c) 1990, 2009, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1990, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -298,7 +298,7 @@ XGetRetainedPath(
     UnlockDisplay(dpy);
     SyncHandle();
     strcpy(path, rep.path);
-    return;
+    return Success;
   case USE_EXTRA_PROTOCOL:
   case NOT_INITIALIZED:
     WxError(dpy,X_WxGetRetainedPath);

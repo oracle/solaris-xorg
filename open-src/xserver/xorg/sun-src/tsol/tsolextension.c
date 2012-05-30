@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -133,7 +133,7 @@ static SecurityHook tsolSecHook;
 
 static XID TsolCheckAuthorization (unsigned int name_length,
 	char *name, unsigned int data_length,
-	char *data, ClientPtr client, char **reason);
+	char *data, ClientPtr client, const char **reason);
 
 static void TsolSetClientInfo(ClientPtr client);
 
@@ -503,12 +503,11 @@ ProcTsolDispatch(register ClientPtr client)
 static int
 SProcTsolDispatch(register ClientPtr client)
 {
-    int n;
     int retval;
 
     REQUEST(xReq);
 
-    swaps(&stuff->length, n);
+    swaps(&stuff->length);
     switch (stuff->data)
     {
         case X_SetPolyInstInfo:
@@ -562,12 +561,10 @@ SProcTsolDispatch(register ClientPtr client)
 static int
 SProcSetPolyInstInfo(ClientPtr client)
 {
-    int n;
-
     REQUEST(xSetPolyInstInfoReq);
-    swapl(&stuff->uid, n);
-    swapl(&stuff->enabled, n);
-    swaps(&stuff->sllength, n);
+    swapl(&stuff->uid);
+    swapl(&stuff->enabled);
+    swaps(&stuff->sllength);
 
     return (ProcSetPolyInstInfo(client));
 }
@@ -575,14 +572,12 @@ SProcSetPolyInstInfo(ClientPtr client)
 static int
 SProcSetPropLabel(ClientPtr client)
 {
-    int n;
-
     REQUEST(xSetPropLabelReq);
-    swapl(&stuff->id, n);
-    swapl(&stuff->atom, n);
-    swaps(&stuff->labelType, n);
-    swaps(&stuff->sllength, n);
-    swaps(&stuff->illength, n);
+    swapl(&stuff->id);
+    swapl(&stuff->atom);
+    swaps(&stuff->labelType);
+    swaps(&stuff->sllength);
+    swaps(&stuff->illength);
 
     return (ProcSetPropLabel(client));
 }
@@ -590,12 +585,10 @@ SProcSetPropLabel(ClientPtr client)
 static int
 SProcSetPropUID(ClientPtr client)
 {
-    int n;
-
     REQUEST(xSetPropUIDReq);
-    swapl(&stuff->id, n);
-    swapl(&stuff->atom, n);
-    swapl(&stuff->uid, n);
+    swapl(&stuff->id);
+    swapl(&stuff->atom);
+    swapl(&stuff->uid);
 
     return (ProcSetPropUID(client));
 }
@@ -603,14 +596,12 @@ SProcSetPropUID(ClientPtr client)
 static int
 SProcSetResLabel(ClientPtr client)
 {
-    int n;
-
     REQUEST(xSetResLabelReq);
-    swapl(&stuff->id, n);
-    swaps(&stuff->resourceType, n);
-    swaps(&stuff->labelType, n);
-    swaps(&stuff->sllength, n);
-    swaps(&stuff->illength, n);
+    swapl(&stuff->id);
+    swaps(&stuff->resourceType);
+    swaps(&stuff->labelType);
+    swaps(&stuff->sllength);
+    swaps(&stuff->illength);
 
     return (ProcSetResLabel(client));
 }
@@ -618,12 +609,10 @@ SProcSetResLabel(ClientPtr client)
 static int
 SProcSetResUID(ClientPtr client)
 {
-    int n;
-
     REQUEST(xSetResUIDReq);
-    swapl(&stuff->id, n);
-    swaps(&stuff->resourceType, n);
-    swapl(&stuff->uid, n);
+    swapl(&stuff->id);
+    swaps(&stuff->resourceType);
+    swapl(&stuff->uid);
 
     return (ProcSetResUID(client));
 }
@@ -631,10 +620,8 @@ SProcSetResUID(ClientPtr client)
 static int
 SProcGetClientAttributes(ClientPtr client)
 {
-    int n;
-
     REQUEST(xGetClientAttributesReq);
-    swapl(&stuff->id, n);
+    swapl(&stuff->id);
 
     return (ProcGetClientAttributes(client));
 }
@@ -642,11 +629,9 @@ SProcGetClientAttributes(ClientPtr client)
 static int
 SProcGetClientLabel(ClientPtr client)
 {
-    int n;
-
     REQUEST(xGetClientLabelReq);
-    swapl(&stuff->id, n);
-    swaps(&stuff->mask, n);
+    swapl(&stuff->id);
+    swaps(&stuff->mask);
 
     return (ProcGetClientLabel(client));
 }
@@ -654,12 +639,10 @@ SProcGetClientLabel(ClientPtr client)
 static int
 SProcGetPropAttributes(ClientPtr client)
 {
-    int n;
-
     REQUEST(xGetPropAttributesReq);
-    swapl(&stuff->id, n);
-    swapl(&stuff->atom, n);
-    swaps(&stuff->mask, n);
+    swapl(&stuff->id);
+    swapl(&stuff->atom);
+    swaps(&stuff->mask);
 
     return (ProcGetPropAttributes(client));
 }
@@ -667,12 +650,10 @@ SProcGetPropAttributes(ClientPtr client)
 static int
 SProcGetResAttributes(ClientPtr client)
 {
-    int n;
-
     REQUEST(xGetResAttributesReq);
-    swapl(&stuff->id, n);
-    swaps(&stuff->resourceType, n);
-    swaps(&stuff->mask, n);
+    swapl(&stuff->id);
+    swaps(&stuff->resourceType);
+    swaps(&stuff->mask);
 
     return (ProcGetResAttributes(client));
 }
@@ -680,10 +661,8 @@ SProcGetResAttributes(ClientPtr client)
 static int
 SProcMakeTPWindow(ClientPtr client)
 {
-    int n;
-
     REQUEST(xMakeTPWindowReq);
-    swapl(&stuff->id, n);
+    swapl(&stuff->id);
 
     return (ProcMakeTPWindow(client));
 }
@@ -691,10 +670,8 @@ SProcMakeTPWindow(ClientPtr client)
 static int
 SProcMakeTrustedWindow(ClientPtr client)
 {
-    int n;
-
     REQUEST(xMakeTrustedWindowReq);
-    swapl(&stuff->id, n);
+    swapl(&stuff->id);
 
     return (ProcMakeTrustedWindow(client));
 }
@@ -702,10 +679,8 @@ SProcMakeTrustedWindow(ClientPtr client)
 static int
 SProcMakeUntrustedWindow(ClientPtr client)
 {
-    int n;
-
     REQUEST(xMakeUntrustedWindowReq);
-    swapl(&stuff->id, n);
+    swapl(&stuff->id);
 
     return (ProcMakeUntrustedWindow(client));
 }
@@ -1080,14 +1055,14 @@ ProcGetClientAttributes(ClientPtr client)
 
     if (client->swapped)
     {
-        swaps(&rep.sequenceNumber, n);
-        swapl(&rep.length, n);
-        swapl(&rep.uid, n);
-        swapl(&rep.pid, n);
-        swapl(&rep.gid, n);
-        swapl(&rep.auditid, n);
-        swapl(&rep.sessionid, n);
-        swapl(&rep.iaddr, n);
+        swaps(&rep.sequenceNumber);
+        swapl(&rep.length);
+        swapl(&rep.uid);
+        swapl(&rep.pid);
+        swapl(&rep.gid);
+        swapl(&rep.auditid);
+        swapl(&rep.sessionid);
+        swapl(&rep.iaddr);
     }
 
     WriteToClient(client, sizeof(xGetClientAttributesReply), (char *)&rep);
@@ -1152,10 +1127,10 @@ ProcGetClientLabel(ClientPtr client)
     }
     if (client->swapped)
     {
-        swaps(&rep.sequenceNumber, n);
-        swapl(&rep.length, n);
-        swapl(&rep.data00, n);
-        swapl(&rep.data01, n);
+        swaps(&rep.sequenceNumber);
+        swapl(&rep.length);
+        swapl(&rep.data00);
+        swapl(&rep.data01);
     }
 
     WriteToClient(client, sizeof(xGenericReply), (char *)&rep);
@@ -1257,11 +1232,11 @@ ProcGetPropAttributes(ClientPtr client)
     }
     if (client->swapped)
     {
-        swaps(&rep.sequenceNumber, n);
-        swapl(&rep.length, n);
-        swapl(&rep.uid, n);
-        swaps(&rep.sllength, n);
-        swaps(&rep.illength, n);
+        swaps(&rep.sequenceNumber);
+        swapl(&rep.length);
+        swapl(&rep.uid);
+        swaps(&rep.sllength);
+        swaps(&rep.illength);
     }
 
     WriteToClient(client, sizeof(xGetPropAttributesReply), (char *)&rep);
@@ -1351,13 +1326,13 @@ ProcGetResAttributes(ClientPtr client)
     }
     if (client->swapped)
     {
-        swaps(&rep.sequenceNumber, n);
-        swapl(&rep.length, n);
-        swapl(&rep.uid, n);
-        swapl(&rep.owneruid, n);
-        swaps(&rep.sllength, n);
-        swaps(&rep.illength, n);
-        swaps(&rep.iillength, n);
+        swaps(&rep.sequenceNumber);
+        swapl(&rep.length);
+        swapl(&rep.uid);
+        swapl(&rep.owneruid);
+        swaps(&rep.sllength);
+        swaps(&rep.illength);
+        swaps(&rep.iillength);
     }
 
     WriteToClient(client, sizeof(xGetResAttributesReply), (char *)&rep);
@@ -1783,7 +1758,7 @@ extern	int getdomainname(char *, int);
 static XID
 TsolCheckAuthorization(unsigned int name_length, char *name,
 		       unsigned int data_length, char *data,
-		       ClientPtr client, char **reason)
+		       ClientPtr client, const char **reason)
 {
 	char	domainname[128];
 	char	netname[128];
