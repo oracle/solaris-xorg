@@ -62,7 +62,7 @@ index f3468ed..b8682f6 100755
         "xsetroot -solid grey\n".
         "xterm -geometry 80x24+10+10 -ls -title \"\$VNCDESKTOP Desktop\" &\n".
 diff --git a/unix/xserver/hw/vnc/Makefile.am b/unix/xserver/hw/vnc/Makefile.am
-index 80e93e5..33e2d50 100644
+index 8c49429..50b03e5 100644
 --- a/unix/xserver/hw/vnc/Makefile.am
 +++ b/unix/xserver/hw/vnc/Makefile.am
 @@ -17,7 +17,7 @@ libvnccommon_la_SOURCES = $(HDRS) vncExtInit.cc vncHooks.cc XserverDesktop.cc \
@@ -74,7 +74,7 @@ index 80e93e5..33e2d50 100644
  
  bin_PROGRAMS = Xvnc
  
-@@ -33,10 +33,17 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DTIGERVNC -DNO_HW_ONLY_EXTS -DNO_MODULE_EXTS \
+@@ -33,13 +33,21 @@ Xvnc_CPPFLAGS = $(XVNC_CPPFLAGS) -DTIGERVNC -DNO_HW_ONLY_EXTS -DNO_MODULE_EXTS \
  	-UHAVE_CONFIG_H \
  	-DXFree86Server -DVENDOR_RELEASE="$(VENDOR_RELEASE)" \
  	-DVENDOR_STRING="\"$(VENDOR_STRING)\"" -I$(TIGERVNC_SRCDIR)/common \
@@ -94,7 +94,11 @@ index 80e93e5..33e2d50 100644
  
  Xvnc_LDFLAGS = $(LD_EXPORT_SYMBOLS_FLAG)
  
-@@ -49,7 +56,7 @@ libvnc_la_CPPFLAGS = $(XVNC_CPPFLAGS) -I$(TIGERVNC_SRCDIR)/common -UHAVE_CONFIG_
++if XORG
+ libvnc_la_LTLIBRARIES = libvnc.la
+ libvnc_ladir = $(moduledir)/extensions
+ 
+@@ -49,11 +57,12 @@ libvnc_la_CPPFLAGS = $(XVNC_CPPFLAGS) -I$(TIGERVNC_SRCDIR)/common -UHAVE_CONFIG_
  	-I$(top_srcdir)/hw/xfree86/common \
  	-I$(top_srcdir)/hw/xfree86/os-support \
  	-I$(top_srcdir)/hw/xfree86/os-support/bus \
@@ -103,7 +107,12 @@ index 80e93e5..33e2d50 100644
  
  libvnc_la_LDFLAGS = -module -avoid-version
  
-@@ -63,8 +70,8 @@ BUILT_SOURCES = $(nodist_Xvnc_SOURCES)
+ libvnc_la_LIBADD = libvnccommon.la $(COMMON_LIBS)
++endif
+ 
+ EXTRA_DIST = Xvnc.man
+ 
+@@ -63,8 +72,8 @@ BUILT_SOURCES = $(nodist_Xvnc_SOURCES)
  fb.h: $(top_srcdir)/fb/fb.h
  	cat $(top_srcdir)/fb/fb.h | sed -e 's,and,c_and,g' -e 's,xor,c_xor,g' > $(srcdir)/fb.h
  

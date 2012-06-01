@@ -1,6 +1,6 @@
-# X build options for Oracle Solaris
+# X build options for Oracle Solaris -*- Makefile -*-
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,3 +59,8 @@ PKG_BRANDING_TRANSFORMS = branding_Oracle
 
 # Reference repository for pkglint to check against
 PKGLINT_REFERENCE_REPO = http://ipkg.us.oracle.com/solaris11/dev/
+
+# Enable parfait static analysis of code by default
+DEFAULT_PARFAIT_1 =	$(USE_PARFAIT:yes=)
+DEFAULT_PARFAIT_2 =	$(DEFAULT_PARFAIT_1:no=$(POUND_SIGN))
+$(DEFAULT_PARFAIT_2)	USE_PARFAIT = yes

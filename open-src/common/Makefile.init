@@ -152,9 +152,30 @@ ARCH64_FLAGS_i386_gcc 		= -march=opteron -m64
 ARCH_LIB_FLAGS_sparc_gcc 	= -mno-app-regs
 ARCH_LIB_FLAGS_i386_gcc 	= 
 
+## Parfait wrappers
+CC_suncc_parfait	= parfait-cc
+CXX_suncc_parfait	= parfait-CC
+CC_gcc_parfait		= parfait-gcc
+CXX_gcc_parfait		= parfait-g++
+AR_parfait		= parfait-ar
+AS_parfait		= parfait-as
+
+# If USE_PARFAIT is yes, use _parfait variants
+PARFAIT_1 =	$(USE_PARFAIT:no=)
+PARFAIT_2 =	$(PARFAIT_1:yes=$(POUND_SIGN))
+$(PARFAIT_2)	WITH_PARFAIT=$(POUND_SIGN)
+$(WITH_PARFAIT)	WITHOUT_PARFAIT=$(POUND_SIGN)
+
+$(WITH_PARFAIT)		CHOSEN_COMPILER=$(MODULE_COMPILER)_parfait
+$(WITHOUT_PARFAIT)	CHOSEN_COMPILER=$(MODULE_COMPILER)
+$(WITH_PARFAIT)		AR=$(AR_parfait)
+$(WITHOUT_PARFAIT)	AR=/usr/bin/ar
+$(WITH_PARFAIT)		AS=$(AS_parfait)
+$(WITHOUT_PARFAIT)	AS=/usr/bin/as
+
 ## Set common variables based on above rules
-CC			= $(CC_$(MODULE_COMPILER))
-CXX			= $(CXX_$(MODULE_COMPILER))
+CC			= $(CC_$(CHOSEN_COMPILER))
+CXX			= $(CXX_$(CHOSEN_COMPILER))
 CFLAGS			= $(CFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
 CXXFLAGS		= $(CXXFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
 ARCH32_FLAGS		= $(ARCH32_FLAGS_$(MACH)_$(MODULE_COMPILER))

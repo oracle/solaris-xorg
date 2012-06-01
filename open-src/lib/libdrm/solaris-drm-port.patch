@@ -25,9 +25,10 @@
 # or other dealings in this Software without prior written authorization
 # of the copyright holder.
 
-diff -urp -x '*~' -x '*.orig' include/drm/drm.h include/drm/drm.h
---- include/drm/drm.h	2010-06-06 18:11:46.000000000 -0700
-+++ include/drm/drm.h	2011-01-24 19:15:45.548418714 -0800
+diff --git a/include/drm/drm.h b/include/drm/drm.h
+index 8adb9d5..f9bedd0 100644
+--- a/include/drm/drm.h
++++ b/include/drm/drm.h
 @@ -54,10 +54,39 @@ typedef int32_t  __s32;
  typedef uint32_t __u32;
  typedef int64_t  __s64;
@@ -115,17 +116,18 @@ diff -urp -x '*~' -x '*.orig' include/drm/drm.h include/drm/drm.h
  	unsigned long agp_start; /**<
  				  * Start address of where the AGP buffers are
  				  * in the AGP aperture
-@@ -375,6 +409,7 @@ struct drm_buf_map {
- 	int count;		/**< Length of the buffer list */
+@@ -379,6 +413,7 @@ struct drm_buf_map {
  	void *virtual;		/**< Mmap'd area in user-virtual */
+ #endif
  	struct drm_buf_pub *list;	/**< Buffer information */
 +	int fd;
  };
  
  /**
-diff -urp -x '*~' -x '*.orig' include/drm/i915_drm.h include/drm/i915_drm.h
---- include/drm/i915_drm.h	2010-06-07 16:33:16.000000000 -0700
-+++ include/drm/i915_drm.h	2011-01-24 19:15:45.548058832 -0800
+diff --git a/include/drm/i915_drm.h b/include/drm/i915_drm.h
+index af3ce17..96d391d 100644
+--- a/include/drm/i915_drm.h
++++ b/include/drm/i915_drm.h
 @@ -75,6 +75,7 @@ typedef struct _drm_i915_sarea {
  	int pf_current_page;	/* which buffer is being displayed? */
  	int perf_boxes;		/* performance boxes to be displayed */
@@ -143,51 +145,10 @@ diff -urp -x '*~' -x '*.orig' include/drm/i915_drm.h include/drm/i915_drm.h
  	/* fill out some space for old userspace triple buffer */
  	drm_handle_t unused_handle;
  	__u32 unused1, unused2, unused3;
-diff -urp -x '*~' -x '*.orig' libkms/intel.c libkms/intel.c
---- libkms/intel.c	2010-06-06 18:11:46.000000000 -0700
-+++ libkms/intel.c	2011-01-24 19:15:45.549160465 -0800
-@@ -37,6 +37,7 @@
- 
- #include <sys/mman.h>
- #include <sys/ioctl.h>
-+#include <unistd.h>
- #include "xf86drm.h"
- 
- #include "i915_drm.h"
-@@ -190,6 +191,30 @@ intel_bo_unmap(struct kms_bo *_bo)
- 	return 0;
- }
- 
-+int
-+drmIoctl(int fd, unsigned long request, void *arg)
-+{
-+    int ret;
-+
-+    do {
-+        ret = ioctl(fd, request, arg);
-+    } while (ret == -1 && (errno == EINTR || errno == EAGAIN));
-+    return ret;
-+}
-+
-+int drmCommandWriteRead(int fd, unsigned long drmCommandIndex, void *data,
-+                        unsigned long size)
-+{
-+    unsigned long request;
-+
-+    request = DRM_IOC( DRM_IOC_READ|DRM_IOC_WRITE, DRM_IOCTL_BASE,
-+        DRM_COMMAND_BASE + drmCommandIndex, size);
-+
-+    if (drmIoctl(fd, request, data))
-+        return -errno;
-+    return 0;
-+}
-+
- static int
- intel_bo_destroy(struct kms_bo *_bo)
- {
-diff -urp -x '*~' -x '*.orig' libkms/linux.c libkms/linux.c
---- libkms/linux.c	2010-06-06 18:11:46.000000000 -0700
-+++ libkms/linux.c	2011-01-24 19:15:45.548957995 -0800
+diff --git a/libkms/linux.c b/libkms/linux.c
+index fc4f205..5d66fc7 100644
+--- a/libkms/linux.c
++++ b/libkms/linux.c
 @@ -39,6 +39,7 @@
  #include <unistd.h>
  
@@ -196,10 +157,24 @@ diff -urp -x '*~' -x '*.orig' libkms/linux.c libkms/linux.c
  
  #include "internal.h"
  
-diff -urp -x '*~' -x '*.orig' xf86drm.h xf86drm.h
---- xf86drm.h	2010-06-06 18:11:46.000000000 -0700
-+++ xf86drm.h	2011-01-24 19:15:45.547758484 -0800
-@@ -451,6 +451,17 @@ do {	register unsigned int __old __asm("
+diff --git a/xf86drm.c b/xf86drm.c
+index 6ea068f..67e29a0 100644
+--- a/xf86drm.c
++++ b/xf86drm.c
+@@ -984,7 +984,7 @@ int drmRmMap(int fd, drm_handle_t handle)
+ {
+     drm_map_t map;
+ 
+-    map.handle = (void *)(uintptr_t)handle;
++    map.handle = (drm_handle_t)(uintptr_t)handle;
+ 
+     if(drmIoctl(fd, DRM_IOCTL_RM_MAP, &map))
+ 	return -errno;
+diff --git a/xf86drm.h b/xf86drm.h
+index 76eb94e..6a14120 100644
+--- a/xf86drm.h
++++ b/xf86drm.h
+@@ -458,6 +458,17 @@ do {	register unsigned int __old __asm("o0");		\
  #endif /* architecture */
  #endif /* __GNUC__ >= 2 */
  
@@ -217,10 +192,11 @@ diff -urp -x '*~' -x '*.orig' xf86drm.h xf86drm.h
  #ifndef DRM_CAS
  #define DRM_CAS(lock,old,new,ret) do { ret=1; } while (0) /* FAST LOCK FAILS */
  #endif
-diff -urp -x '*~' -x '*.orig' xf86drmMode.c xf86drmMode.c
---- xf86drmMode.c	2010-06-06 18:11:45.000000000 -0700
-+++ xf86drmMode.c	2011-01-24 19:15:45.548770835 -0800
-@@ -708,7 +708,9 @@ int drmCheckModesettingSupported(const c
+diff --git a/xf86drmMode.c b/xf86drmMode.c
+index c809c44..715f23a 100644
+--- a/xf86drmMode.c
++++ b/xf86drmMode.c
+@@ -737,7 +737,9 @@ int drmCheckModesettingSupported(const char *busid)
  	if (found)
  		return 0;
  #endif
@@ -230,15 +206,4 @@ diff -urp -x '*~' -x '*.orig' xf86drmMode.c xf86drmMode.c
 +	return 0;
  
  }
-
---- xf86drm.c	Mon Dec  5 12:57:15 2011
-+++ xf86drm.c	Mon Dec  5 13:03:00 2011
-@@ -984,7 +984,7 @@
- {
-     drm_map_t map;
  
--    map.handle = (void *)(uintptr_t)handle;
-+    map.handle = (drm_handle_t)(uintptr_t)handle;
- 
-     if(drmIoctl(fd, DRM_IOCTL_RM_MAP, &map))
- 	return -errno;

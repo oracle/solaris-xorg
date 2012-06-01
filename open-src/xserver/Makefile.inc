@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all xserver build trees
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,6 +66,9 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--with-xkb-bin-directory='$${exec_prefix}/bin' \
 	--with-default-xkb-model=pc105 \
 	$(ADDITIONAL_CONFIG_OPTS)
+
+# Xorg's unit tests don't build correctly with parfait yet
+$(WITH_PARFAIT) XSERVER_CONFIG_OPTS_COMMON += --disable-unit-tests
 
 XSERVER_CONFIG_OPTS_sparc=$(XSERVER_CONFIG_OPTS_COMMON)
 XSERVER_CONFIG_OPTS_i386=$(XSERVER_CONFIG_OPTS_COMMON)

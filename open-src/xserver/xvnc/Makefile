@@ -185,6 +185,9 @@ XVNC_CONFIG_OPTS += --without-int10 --disable-config-hal --disable-dga
 # The X server unit tests currently depend on the Xorg ddx being built
 XVNC_CONFIG_OPTS += --disable-unit-tests
 
+# Workaround libtool dropping -R paths
+MODULE_LDFLAGS += -Wl,-R,$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+
 MODULE_CPPFLAGS = \
 	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
 	-D__extension__=\"\" \

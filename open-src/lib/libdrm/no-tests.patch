@@ -1,0 +1,15 @@
+Disable build of tests subdirectory, needed when using parfait
+
+diff --git a/Makefile.am b/Makefile.am
+index a4d07f4..bfebfa2 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -41,7 +41,7 @@ if HAVE_RADEON
+ RADEON_SUBDIR = radeon
+ endif
+ 
+-SUBDIRS = . $(LIBKMS_SUBDIR) $(INTEL_SUBDIR) $(NOUVEAU_SUBDIR) $(RADEON_SUBDIR) tests include
++SUBDIRS = . $(LIBKMS_SUBDIR) $(INTEL_SUBDIR) $(NOUVEAU_SUBDIR) $(RADEON_SUBDIR) include
+ 
+ libdrm_la_LTLIBRARIES = libdrm.la
+ libdrm_ladir = $(libdir)

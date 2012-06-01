@@ -5,7 +5,7 @@
 #
 ###########################################################################
 #
-# Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -69,6 +69,18 @@ fi
 # Send all further output & errors to the log file
 exec > log/buildit-XW 2>&1
 
+START="$(perl -e 'print time')"
+
+XMAKE="$(pwd)/open-src/util/build-tools/xmake ${VERBOSE_FLAGS} -k"
+
+${XMAKE} setup || fatal_error "make setup failed: cannot build"
+
+# Extract variables from makefiles via make and set them in the shell
+get_make_var() {
+    typeset -n var=$1
+    eval "$(${XMAKE} -s -C open-src/util/util-macros print_make_vars VARS=$1)"
+}
+
 # Find hg id and export it so set-elf-comments.pl doesn't have to re-run
 # for every module built
 hg_id() {
@@ -80,18 +92,21 @@ hg_id() {
 }
 export XBUILD_HG_ID="$(hg_id)"
 
-START="$(perl -e 'print time')"
-
 print "------------------------------------------------------------------------------"
 print "Building gate at hg id: ${XBUILD_HG_ID}"
 print -n "Start time: " ; date
 print -n "Building on: " ; uname -a
-print "Using these compilers: "
-whence cc gcc
+print "Using these tools: "
 # Make sure Sun C compiler is at least version 5.10 (Studio 12 Update 1)
+whence cc
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
     print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 10) ) }'
-gcc -v
+# Log paths & versions of tools which use gnu standard --version flag
+get_make_var GCC
+for tool in parfait ${GCC} gmake autoconf automake libtool ; do
+    printf "%-22s\t" "$(whence ${tool}):"
+    ${tool} --version | head -1
+done
 
 # Exported to stop Sun compilers from reporting home on each usage
 export SUNW_NO_UPDATE_NOTIFY='true'
@@ -103,21 +118,9 @@ print "-------------------------------------------------------------------------
 
 MACH="$(uname -p)"
 
-# Remove old proto area & package area to clean after moving to new locations
-if [ "${MACH}" = "i386" ]; then
-    /bin/rm -rf proto-i386-svr4
-else
-    /bin/rm -rf proto-sun4-svr4
-fi
-/bin/rm -rf proto-packages
-
 # Clean new proto areas for this architecture
 /bin/rm -rf "proto/root_${MACH}" "proto/metadata_${MACH}" \
     "proto/pkg_${MACH}" "proto/tools_${MACH}"
-
-XMAKE="$(pwd)/open-src/util/build-tools/xmake ${VERBOSE_FLAGS} -k"
-
-${XMAKE} setup || fatal_error "make setup failed: cannot build"
 
 cd open-src
 # Run as two steps to avoid race between cleaning & rebuilding when
@@ -127,8 +130,17 @@ ${XMAKE} install
 ${XMAKE} check_rtime > ../log/check-rtime 2>&1 &
 cd ..
 
+get_make_var USE_PARFAIT
+if [[ "${USE_PARFAIT}" == "yes" ]] ; then
+    get_make_var DMAKE_MAX_JOBS
+    /bin/rm -rf log/parfait
+    parfait -e all -c open-src/common/X-parfait.conf -z "$(pwd)" \
+        -j "${DMAKE_MAX_JOBS:-100%}" -r "${XBUILD_HG_ID}" \
+        -o log/parfait.txt -g log/parfait open-src > log/parfait.out 2>&1 &
+fi
+
 # Set DISTRO_NAME based on open-src/common/Makefile.options
-eval "$(cd open-src/util/util-macros ; make print_make_vars VARS=DISTRO_NAME)"
+get_make_var DISTRO_NAME
 
 print "\nFinished building the X Window System Consolidation for" \
     "${DISTRO_NAME:-OpenSolaris}.\n"
@@ -139,6 +151,13 @@ if [ "${MAKE_PKGS}" = 1 ] ; then
 fi
 
 wait
+
+if [[ "${USE_PARFAIT}" == "yes" ]] ; then
+    print -n "\nParfait issues: "
+    wc -l < log/parfait/bugstatus.db
+    print "Parfait results:"
+    print " file:///net/$(hostname)$(pwd)/log/parfait/index.html"
+fi
 
 print -n "\ncheck-rtime errors: "
 grep -c '^====' log/check-rtime

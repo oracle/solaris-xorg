@@ -521,7 +521,7 @@ $(CONFIG_SHELL_DEFAULT)		CONFIG_SHELL = /usr/bin/bash
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
-DEFAULT_CONFIG_ENV  = CC="$(CC)" CXX="$(CXX)"
+DEFAULT_CONFIG_ENV  = CC="$(CC)" CXX="$(CXX)" AR="$(AR)"
 DEFAULT_CONFIG_ENV += LD="$(CC) $(ARCH_FLAGS) $(LDFLAGS)"
 DEFAULT_CONFIG_ENV += CFLAGS="$(MODTYPE_CFLAGS) $(MODULE_CFLAGS)" 
 DEFAULT_CONFIG_ENV += CXXFLAGS="$(MODTYPE_CXXFLAGS) $(MODULE_CXXFLAGS)"
@@ -553,6 +553,7 @@ $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
 	if [[ "$(DELIBTOOLIZE)" = "yes" ]] ; then \
 	    $(PERL) $(TOP)/open-src/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
 	fi
+	-rm -f $(SOURCE_DIR)/a.out.bc
 
 default_configure: $(AUTOCONF_TARGET)
 
@@ -564,18 +565,20 @@ LD_OPTIONS = -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR) \
 # MKDIRPROG - Workaround parallel build race condition
 #		in older upstream packaged install-sh
 
-BUILD_ENV = LD_OPTIONS='$(LD_OPTIONS)' \
-	PROTODIR='$(PROTODIR)' \
-	MAKE='$(MODULE_MAKE)' \
-	MKDIRPROG='mkdir -p' \
-	PYTHONPATH="$(PYTHON_PATH)" \
-	$(MODTYPE_BUILD_ENV) $(MODULE_BUILD_ENV)
+BUILD_ENV  = LD_OPTIONS='$(LD_OPTIONS)'
+BUILD_ENV += PROTODIR='$(PROTODIR)'
+BUILD_ENV += MAKE='$(MODULE_MAKE)'
+BUILD_ENV += MKDIRPROG='mkdir -p'
+BUILD_ENV += PYTHONPATH="$(PYTHON_PATH)"
+$(WITH_PARFAIT) BUILD_ENV += PARFAIT_NATIVEGCC="$(GCC)"
+$(WITH_PARFAIT) BUILD_ENV += PARFAIT_NATIVEGXX="$(GXX)"
+BUILD_ENV += $(MODTYPE_BUILD_ENV) $(MODULE_BUILD_ENV)
 
 DEFAULT_BUILD_MAKEFLAGS=$(MODTYPE_MAKEFLAGS) $(MODULE_MAKEFLAGS) \
 	$(MODTYPE_BUILD_MAKEFLAGS) $(MODULE_BUILD_MAKEFLAGS)
 
 # Dependencies for make build step
-BUILD_DEPS = $(SOURCE_TARGETS) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS) $(MODULE_MAKE)
+BUILD_DEPS = $(SOURCE_TARGETS) $(CONFIGURE_TARGETS) $(MODTYPE_BUILD_DEPS) $(MODULE_BUILD_DEPS)
 
 DEFAULT_BUILD_COMMAND = cd @DIR@ ; \
 	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)
@@ -740,14 +743,6 @@ HTML_TO_TEXT = /usr/bin/w3m -dump -O UTF-8
 	@ if [[ ! -s $@ ]] ; then print "html to text failed" ; exit 1 ; fi
 
 ### Other tools/dependencies needed to build
-
-# Some modules (such as FreeType 2) require GNU make
-$(GNUMAKE):
-	@print -n "Building with GNU make from $$(whence gmake): "
-	@$(GNUMAKE) --version
-
-$(MAKE):
-	@print "Building with make from $$(whence $(MAKE))"
 
 # Some modules use lndir to merge in sources from Sun specific directories
 $(LNDIR):
@@ -932,3 +927,9 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 	fi
 
 install_metadata: $(METADATA_TARGETS)
+
+### Parfait scans
+
+parfait:
+	parfait -e all -c "$(TOP)/open-src/common/X-parfait.conf" -z "$(TOP)" \
+		-j "$${DMAKE_MAX_JOBS:-100%}" . || true

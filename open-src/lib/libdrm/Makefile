@@ -48,8 +48,14 @@ GIT_URL=$(FDO_GIT_URL)/mesa/drm
 GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	solaris-drm-port.patch atomic.patch
+SOURCE_PATCHES += solaris-drm-port.patch,-p1
+SOURCE_PATCHES += atomic.patch
+
+# Can't build tests with parfait yet, due to parfait-ld error:
+# llvm-ld: error: Cannot link file '../../libkms/libkms.so.1.bc: 
+#    Linking globals named 'drmSetServerInfo': symbol multiply defined!
+$(WITH_PARFAIT) SOURCE_PATCHES += no-tests.patch,-p1
+$(WITH_PARFAIT) AUTORECONF = yes
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)

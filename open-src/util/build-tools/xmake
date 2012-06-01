@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,10 +32,37 @@ use File::Spec;
 use English qw( -nomatchvars );
 use POSIX qw(uname);
 
+my @pass_args;   # arguments to pass on to the make we call
 my $verbose = 0;
-if ((scalar(@ARGV) > 0) && ($ARGV[0] eq '-v')) {
-  shift @ARGV;
-  $verbose = 1;
+my $silent = 0;
+my $max_jobs;
+
+for (my $i = 0; $i <= $#ARGV; $i++ ) {
+  if ($ARGV[$i] eq '-s') {
+    $silent = 1;
+    $verbose = 0;
+    goto pass_to_make;
+  }
+  elsif ($ARGV[$i] eq '-v') {
+    $verbose = 1;
+    next;
+  }
+
+  if ($i < $#ARGV) { # more than one arg left
+    if ($ARGV[$i] eq '-j') {
+      $max_jobs = $ARGV[++$i];
+      next;
+    }
+    if ($ARGV[$i] eq '-C') {
+      chdir($ARGV[++$i])
+          or die "$0: Can't chdir $ARGV[$i]: $OS_ERROR";
+      next;
+    }
+  }
+
+ pass_to_make:
+  # not used, pass to make command
+  push @pass_args, $ARGV[$i];
 }
 
 my @makeargs = ();
@@ -94,16 +121,6 @@ if ($make_cmd =~ m/dmake/) {
   setenv_default('DMAKE_MODE', 'parallel');
   setenv_default('DMAKE_OUTPUT_MODE', 'TXT2');
 
-  my $max_jobs;
-
-  foreach my $i ( 0..($#ARGV - 1) ) {
-    if ($ARGV[$i] eq '-j') {
-      $max_jobs = $ARGV[$i+1];
-      $ARGV[$i] = '';
-      $ARGV[$i+1] = '';
-    }
-  }
-
   if (!defined($max_jobs) && exists $ENV{'DMAKE_MAX_JOBS'}) {
     $max_jobs = $ENV{'DMAKE_MAX_JOBS'};
   }
@@ -160,12 +177,14 @@ push @makeargs, "TOP=$topdir", "V=$verbose";
 
 # if in top two levels, just run make
 if ($osdepth >= ($#dirtree - 2)) {
-  print join(' ', $make_cmd, @makeargs, @ARGV), "\n";
-  exec_verbose($make_cmd, @makeargs, @ARGV);
+  if ($silent == 0) {
+    print join(' ', $make_cmd, @makeargs, @pass_args), "\n";
+  }
+  exec_verbose($make_cmd, @makeargs, @pass_args);
 }
 
 my $subdir_target = 'build-in-subdir';
-for my $f (@ARGV) {
+for my $f (@pass_args) {
   if ($f =~ m{^install}ms) {
     $subdir_target = 'install-in-subdir';
   }
@@ -175,11 +194,13 @@ for my $f (@ARGV) {
 my $moduledir = File::Spec->catdir( @dirtree[0..($osdepth+2)] );
 
 push @makeargs, $subdir_target, qq{subdir='$startdir'};
-if (scalar(@ARGV) > 0) {
-  push @makeargs, join(q{ }, q{subdir_cmd=}, @ARGV);
+if (scalar(@pass_args) > 0) {
+  push @makeargs, join(q{ }, q{subdir_cmd=}, @pass_args);
 }
 
-print join(' ', "(cd $moduledir ;\\\n", $make_cmd, @makeargs), ")\n";
+if ($silent == 0) {
+  print join(' ', "(cd $moduledir ;\\\n", $make_cmd, @makeargs), ")\n";
+}
 chdir $moduledir
   or die "$0: Can't chdir $moduledir: $OS_ERROR";
 exec_verbose($make_cmd, @makeargs);
