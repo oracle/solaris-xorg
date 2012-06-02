@@ -36,7 +36,6 @@ SRCS = PSres.c
 
 OBJS = PSres.o
 
-             CC = cc
       CPPFLAGS += $(DEFINES) -I ../include $(INCLUDES)
         CFLAGS += -Kpic
         MAPFILE = mapfile

@@ -25,7 +25,6 @@
 
 # Manual conversion of X11R6.9 xc/programs/makepsres/Imakefile
 
-           CC = cc
       DEFINES = -DXENVIRONMENT
     CPPFLAGS += $(DEFINES)
 

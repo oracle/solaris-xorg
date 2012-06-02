@@ -35,7 +35,6 @@
 # code here needs work.  For now force ConnectionFlags to be
 #  -DTCPCONN -DUNIXCONN
 
-             CC = cc
         DEFINES = -DXDPS -DCSDPS -DTCPCONN -DUNIXCONN -DSVR4
     DPSCPPFLAGS = $(DEFINES) -I ../include
       DPSCFLAGS = -Kpic

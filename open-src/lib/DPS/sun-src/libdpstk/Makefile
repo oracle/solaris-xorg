@@ -53,7 +53,6 @@ SRCS =  XDPSpwraps.c XDPSswraps.c XDPSshare.c XDPSpreview.c \
 OBJS = 	XDPSpwraps.o XDPSswraps.o XDPSshare.o XDPSpreview.o \
 	XDPSuserpath.o
 
-             CC = cc
       CPPFLAGS += $(DEFINES) -I ../include $(INCLUDES)
         CFLAGS += -Kpic
    SHLIBLDFLAGS = -G -z defs $(LDFLAGS) -R $(libdir)

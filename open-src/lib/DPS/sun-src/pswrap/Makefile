@@ -25,7 +25,6 @@
 
 # Manual conversion of X11R6.9 xc/config/pswrap/Imakefile
 
-             CC = cc
      FRIENDSDEF = -DFRIENDSFILE='"<DPS/dpsfriends.h>"'
         DEFINES = -DXENVIRONMENT
       CPPFLAGS += $(DEFINES)
