@@ -59,7 +59,7 @@ depend type=require fmri=pkg:/developer/base-developer-utilities
 
 # Many packages need to use GNU autotools to rebuild upstream configure files
 depend type=require fmri=pkg:/developer/build/autoconf
-depend type=require fmri=pkg:/developer/build/automake-110
+depend type=require fmri=pkg:/developer/build/automake-$(AUTOMAKE_PKG_VERSION)
 
 # Some packages need GNU make to build
 depend type=require fmri=pkg:/developer/build/gnu-make

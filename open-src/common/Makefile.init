@@ -340,6 +340,9 @@ INSTALL_SCRIPT=$(TOP)/open-src/common/install-sh -c
 # Some modules (such as FreeType 2) require GNU make
 GNUMAKE = gmake
 
+# Pick a version of GNU automake, since Solaris includes multiple ones
+AUTOMAKE_VERSION=1.11
+
 # Directory to find tools used during build, even when installing to a
 # temporary dest dir, such as during 'make manifest'
 PROTOTOOLSDIR=$(PROTODIR)

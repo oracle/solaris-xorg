@@ -483,11 +483,11 @@ $(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 ### Run configure scripts
 
 # Include Xorg autoconf macros when rebuilding configure scripts
-# and use automake 1.10 instead of the older 1.9.
-ACLOCAL_PATH=/usr/bin/aclocal-1.10
+# and use specific version of automake.
+ACLOCAL_PATH=/usr/bin/aclocal-$(AUTOMAKE_VERSION)
 ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
-	-I /usr/share/aclocal -I /usr/share/aclocal-1.10
-AUTOMAKE_PATH=/usr/bin/automake-1.10
+	-I /usr/share/aclocal -I /usr/share/aclocal-$(AUTOMAKE_VERSION)
+AUTOMAKE_PATH=/usr/bin/automake-$(AUTOMAKE_VERSION)
 AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
 	AUTOMAKE="$(AUTOMAKE_PATH)"
 
