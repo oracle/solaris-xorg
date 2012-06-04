@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -84,8 +84,9 @@ MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 
 MODTYPE_LDFLAGS=$(LDFLAGS) -R/lib$(ARCHLIBSUBDIR)
 
-XORG_EXTERNS_FLAG = -M $(TOP)/open-src/xserver/xorg/$(XORG_EXTERNS_FILE)
-MODTYPE_LD_OPTIONS=-z defs $(XORG_EXTERNS_FLAG) -z ignore -lc
+XORG_EXTERNS_FLAG = -z parent=$(X11_BIN_DIR)/Xorg
+DEFAULT_MODTYPE_LD_OPTIONS = -z defs $(XORG_EXTERNS_FLAG) -z ignore -lc
+$(USE_DEFAULT_MODTYPE_LD_OPTIONS:no=$(POUND_SIGN)) MODTYPE_LD_OPTIONS = $(DEFAULT_MODTYPE_LD_OPTIONS)
 
 $(BUILD_DEBUG:yes=)			MODTYPE_DEBUG_LD_OPTIONS = -lpixman-1
 $(BUILD_DEBUG:yes=$(POUND_SIGN))	MODTYPE_DEBUG_LD_OPTIONS =

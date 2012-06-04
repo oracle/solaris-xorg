@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@ MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
 
 CFLAGS += -K pic -g
 CPPFLAGS += -I ../../../../include -I ../../../.. -I ../../../../Xext
-LDFLAGS += -Wl,-z,text -M mapfile
+LDFLAGS += -Wl,-z,text -M mapfile -Wl,-z,parent=/usr/bin/$(ARCHLIBSUBDIR)/mdb
 
 HEADERS = Xserver_mdb.h
 SOURCES = Xserver_clients.c Xserver_device_grabs.c mdb_module.c

@@ -38,6 +38,7 @@ TARBALL_SHA256= ca983d780dd90115c0599980a7a83425b5e4eeb16f2e8c7fed15823fcbe7830e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+		libraries.patch,-p1 \
 		g200se_pilot3_offscreen.patch,-p1 \
 		sparc.patch,-p1
 
@@ -49,14 +50,15 @@ MODULE_STABILITY=Volatile
 # - Disable DRI since the kernel module isn't ported
 MODULE_CONFIG_OPTS=--disable-dri
 
-# Libraries/modules to link with
-MODULE_LD_OPTIONS= \
+# Extra flags to link mga_drv.so, but not util/stormdwg binary with
+DRIVER_LD_FLAGS = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lpixman-1 -lint10 -lpciaccess -lshadowfb -lXfont -lvbe \
-	-lvgahw -lxaa -lfbdevhw
+	$(DEFAULT_MODTYPE_LD_OPTIONS)
+MODULE_CONFIG_OPTS += XORG_LIBS="$(DRIVER_LD_FLAGS)"
+USE_DEFAULT_MODTYPE_LD_OPTIONS = no
 
 AUTORECONF=yes
 

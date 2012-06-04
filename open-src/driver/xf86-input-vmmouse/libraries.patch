@@ -1,0 +1,26 @@
+From b9d5b05cdfce05929b3014deb6aab0f33ba1afd7 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 25 May 2012 15:17:40 -0700
+Subject: [PATCH:xf86-input-vmmouse] Link with modules needed to build with
+ no-undefined linking
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/Makefile.am |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 7e6ea36..81accf7 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -21,6 +21,7 @@
+ @DRIVER_NAME@_drv_la_LTLIBRARIES = @DRIVER_NAME@_drv.la
+ @DRIVER_NAME@_drv_la_LDFLAGS = -module -avoid-version
+ @DRIVER_NAME@_drv_la_LIBADD = $(top_builddir)/shared/lib@DRIVER_NAME@.la
++@DRIVER_NAME@_drv_la_LIBADD += $(XORG_LIBS)
+ @DRIVER_NAME@_drv_ladir = @inputdir@
+ 
+ AM_CPPFLAGS = -I$(top_srcdir)/shared $(XORG_CFLAGS)
+-- 
+1.7.9.2
+

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -73,6 +73,7 @@ UNUSED_RPATH	/usr/ccs/lib.*\ from\ .*libgcc_s\.so\.1
 UNUSED_RPATH	/usr/sfw/lib.*\ from\ .*libgcc_s\.so\.1
 UNUSED_RPATH	/usr/lib.*\ from\ .*libstdc\+\+\.so\.6
 UNUSED_RPATH	/usr/ccs/lib.*\ from\ .*libstdc\+\+\.so\.6
+UNUSED_RPATH	/opt/VRTSvxvm/lib.*\ from\ .*libdiskmgt\.so\.1
 #
 ## Things we might be able to fix eventually, but not today:
 #

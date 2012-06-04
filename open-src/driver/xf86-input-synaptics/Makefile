@@ -37,7 +37,7 @@ TARBALL_SHA1  = adb8e28a8aced2ff660a4058d35b8656ffdf46ce
 TARBALL_SHA256= d76f631e8e851ab631f9fde4ec2585be6702c5a28e2a951c9ad9545baf0fb0e2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES= 7164323.patch
+SOURCE_PATCHES= 7164323.patch libraries.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -46,8 +46,10 @@ MODULE_STABILITY=Volatile
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS= --bindir=$(X11_SERVERLIBS_DIR)
 
-# Libraries/modules to link with
-MODULE_LD_OPTIONS= -z ignore -lm
+# Extra flags to link driver, but not utility programs with
+DRIVER_LD_FLAGS = $(DEFAULT_MODTYPE_LD_OPTIONS) -lm
+MODULE_CONFIG_OPTS += XORG_LIBS="$(DRIVER_LD_FLAGS)"
+USE_DEFAULT_MODTYPE_LD_OPTIONS = no
 
 # Override linker flags for programs
 SYN_PROG_LDFLAGS=$(MAPFILES_FOR_PROGS)
