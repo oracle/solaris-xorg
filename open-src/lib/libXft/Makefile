@@ -29,15 +29,15 @@
 MODULE_NAME=libXft
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.0
+MODULE_VERSION=2.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = bd0a8d8cace1dfbb963250bf3eb9a19a
-TARBALL_SHA1  = 687f38a810b9ae58e1169c295d9d438370235e23
-TARBALL_SHA256= 3426393ad72a5c47006536d474e396c7a21c33131bb28f495578e05a5858b044
+TARBALL_MD5   = 78d64dece560c9e8699199f3faa521c0
+TARBALL_SHA1  = c7ec1361e3d4f095910f8c58988ab42e32f314d9
+TARBALL_SHA256= 7fce32b92dcb7b2869bed567af2abc7bbad0d5d6fcf471b8a3e137964a31bbbd
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = upstream-bold-fonts.patch,-p1
+SOURCE_PATCHES = 
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xft

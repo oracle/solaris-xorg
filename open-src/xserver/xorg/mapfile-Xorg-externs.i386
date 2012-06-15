@@ -1151,6 +1151,7 @@ SYMBOL_SCOPE {
 		XkmReadFile                              { FLAGS = EXTERN };
 		Xprintf                                  { FLAGS = EXTERN };
 		Xrealloc                                 { FLAGS = EXTERN };
+		Xscnprintf                               { FLAGS = EXTERN };
 		Xstrdup                                  { FLAGS = EXTERN };
 		XvGetRTPortProc                          { FLAGS = EXTERN };
 		XvGetScreenKeyProc                       { FLAGS = EXTERN };
@@ -1158,6 +1159,7 @@ SYMBOL_SCOPE {
 		XvScreenInitProc                         { FLAGS = EXTERN };
 		Xvasprintf                               { FLAGS = EXTERN };
 		Xvprintf                                 { FLAGS = EXTERN };
+		Xvscnprintf                              { FLAGS = EXTERN };
 		_CallCallbacks                           { FLAGS = EXTERN };
 		_XkbKSCheckCase                          { FLAGS = EXTERN };
 		_XkbLookupAnyDevice                      { FLAGS = EXTERN };

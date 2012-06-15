@@ -27,12 +27,12 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION = 1.4.99.901
+MODULE_VERSION = 1.5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 520376557363da2df412beec9b4be749
-TARBALL_SHA1  = af10b064c1c64ee9e7daae0a7f1f9719eb7e965a
-TARBALL_SHA256= bf238569e07e459651265735e093103322478e4d07265ad9eb55aba4d9db26db
+TARBALL_MD5   = 78b4b3bab4acbdf0abcfca30a8c70cc6
+TARBALL_SHA1  = 8177535c9c59d8c3ab98d55ce53520b5737ccd1a
+TARBALL_SHA256= c382efd7e92bfc3cef39a4b7f1ecf2744ba4414a705e3bc1e697f75502bd4d86
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

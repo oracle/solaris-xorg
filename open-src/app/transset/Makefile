@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# transset 1.x Makefile
+# transset utility for setting window transparency properties
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,29 +28,16 @@
 # Package name used in tarballs
 MODULE_NAME=transset
 
-# Package metadata - set manually since we download from somewhere
-# other than the normal X.Org site
-UPSTREAM	= $(UPSTREAM_xorg)
-UPSTREAM_URL	= $(UPSTREAM_URL_xorg)
-UPSTREAM_SET	= yes
-
 # Version number (used in path names)
-MODULE_VERSION=0.9.1
+MODULE_VERSION=1.0.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d289dd300124c9680e9eeae83947b0cf
-TARBALL_SHA1 = 6e59ffc4f7ccca4d88bf5ec1bb7700ad611720f9
-
-# Source tarball
-SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
-SOURCE_URL_SET=yes
+TARBALL_MD5   = 1aac8670c17803e30885eb5911f68d3d
+TARBALL_SHA1  = 583fc57eecbb4558127805093af8cc46ec677cdd
+TARBALL_SHA256= 19ee2525c4044743c49a95e43716bc3bd1dddf527e47585ee118e650b83a7e8f
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=transset.1
+SUNTOUCHED_MANPAGES = man/transset.man
 MODULE_STABILITY=Volatile
-
-# The configure script in the tarball adds many unnecessary dependencies,
-# ignore them for now until we get a fixed tarball from upstream
-MODULE_LDFLAGS = -z ignore
 
 include ../Makefile.inc

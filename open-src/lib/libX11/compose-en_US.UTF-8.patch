@@ -22,7 +22,7 @@
 #
 
 diff --git a/nls/en_US.UTF-8/Compose.pre b/nls/en_US.UTF-8/Compose.pre
-index 2eae912..3c73a1f 100644
+index bf6599a..2ef3b95 100644
 --- a/nls/en_US.UTF-8/Compose.pre
 +++ b/nls/en_US.UTF-8/Compose.pre
 @@ -1,7 +1,70 @@
@@ -97,7 +97,7 @@ index 2eae912..3c73a1f 100644
  XCOMM Part 1 - Manual definitions
  
  XCOMM Spacing versions of dead accents
-@@ -863,7 +926,8 @@ XCOMM Part 3
+@@ -845,7 +908,8 @@ XCOMM Part 3
  <Multi_key> <period> <c>         	: "ċ"   U010B # LATIN SMALL LETTER C WITH DOT ABOVE
  <Multi_key> <c> <period> 		: "ċ"   U010B # LATIN SMALL LETTER C WITH DOT ABOVE
  <dead_caron> <C>                 	: "Č"   U010C # LATIN CAPITAL LETTER C WITH CARON
@@ -107,10 +107,10 @@ index 2eae912..3c73a1f 100644
  <Multi_key> <less> <C> 			: "Č"   U010C # LATIN CAPITAL LETTER C WITH CARON
  <Multi_key> <C> <less> 			: "Č"   U010C # LATIN CAPITAL LETTER C WITH CARON
  <dead_caron> <c>                 	: "č"   U010D # LATIN SMALL LETTER C WITH CARON
-@@ -5830,3 +5894,2320 @@ XCOMM
- <Multi_key> <asciicircum> <Cyrillic_ER>		: "Р̂"		# CYRILLIC CAPITAL LETTER ER WITH COMBINING CIRCUMFLEX ACCENT
- 
- <Multi_key> <backslash> <o> <slash>		: "🙌"		# PERSON RAISING BOTH HANDS IN CELEBRATION
+@@ -5987,3 +6051,2320 @@ XCOMM Given that no extant APLs use ⍮ I will just leave the line in place.
+ <Multi_key> <underscore> <U2373>                : "⍸"   U2378   # _ ⍳ APL FUNCTIONAL SYMBOL IOTA UNDERBAR
+ <Multi_key> <U2375> <underscore>                : "⍹"   U2379   # ⍵ _ APL FUNCTIONAL SYMBOL OMEGA UNDERBAR
+ <Multi_key> <underscore> <U2375>                : "⍹"   U2379   # _ ⍵ APL FUNCTIONAL SYMBOL OMEGA UNDERBAR
 +
 +XCOMM ---- Solaris added key sequences
 +

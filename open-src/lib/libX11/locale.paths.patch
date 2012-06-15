@@ -1,10 +1,10 @@
 Allow passing multi-directory paths to configure search for locale files
 
 diff --git a/configure.ac b/configure.ac
-index 5f82e47..b1ee4f6 100644
+index a2e2bc9..6f2e43a 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -414,11 +414,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRING([--with-locale-lib-dir=DIR],
+@@ -418,11 +418,16 @@ AC_ARG_WITH(locale-lib-dir,	AS_HELP_STRING([--with-locale-lib-dir=DIR],
   [Directory where locale libraries files are installed (default: $libdir/X11/locale)]),
  				[ X11_LOCALELIBDIR="$withval" ],
  				[ X11_LOCALELIBDIR="${X11_LIBDIR}/locale" ])

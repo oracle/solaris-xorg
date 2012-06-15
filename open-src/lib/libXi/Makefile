@@ -29,12 +29,12 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.0
+MODULE_VERSION=1.6.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 2e7f84711035e672c34549eac5660a0f
-TARBALL_SHA1  = b7edf48f93e8abd13ca688fa7f597452c4b74346
-TARBALL_SHA256= b2fc65a24a269405c5bbe27152e97ed4c5987ca728b9d7e7576e4c9543c4a7af
+TARBALL_MD5   = 78ee882e1ff3b192cf54070bdb19938e
+TARBALL_SHA1  = 4b53b41fdaa3acc86606c696c68d5eed11454612
+TARBALL_SHA256= f2e3627d7292ec5eff488ab58867fba14a62f06e72a8d3337ab6222c09873109
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1

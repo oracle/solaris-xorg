@@ -1,288 +1,23 @@
-src/psmcomm.c:
-
  Copyright © 1997 C. Scott Ananian
  Copyright © 1998-2000 Bruce Kalk
- Copyright © 2001 Stefan Gmeiner
- Copyright © 2002 Linuxcare Inc. David Kennedy
- Copyright © 2003 Fred Hucht
- Copyright © 2004 Arne Schwabe
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Stefan Gmeiner (riddlebox@freesurf.ch)
-      C. Scott Ananian (cananian@alumni.priceton.edu)
-      Bruce Kalk (kall@compass.com)
-      Linuxcare Inc. David Kennedy (dkennedy@linuxcare.com)
-      Fred Hucht (fred@thp.Uni-Duisburg.de)
-      Arne Schwabe <schwabe@uni-paderborn.de>
-
---------------------------------------------------------------------
-
-tools/synclient.c:
-
- Copyright © 2002-2005,2007 Peter Osterlund
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Peter Osterlund (petero2@telia.com)
-
---------------------------------------------------------------------
-
-src/alpscomm.c:
-
- Copyright © 2001 Stefan Gmeiner
- Copyright © 2003 Neil Brown
- Copyright © 2003-2005,2007 Peter Osterlund
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Stefan Gmeiner (riddlebox@freesurf.ch)
-      Neil Brown (neilb@cse.unsw.edu.au)
-      Peter Osterlund (petero2@telia.com)
-
---------------------------------------------------------------------
-
-src/ps2comm.c:
-
- Copyright © 1997 C. Scott Ananian
- Copyright © 1998-2000 Bruce Kalk
- Copyright © 2001 Stefan Gmeiner
- Copyright © 2002 Linuxcare Inc. David Kennedy
- Copyright © 2003 Fred Hucht <fred@thp.Uni-Duisburg.de>
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Stefan Gmeiner (riddlebox@freesurf.ch)
-      C. Scott Ananian (cananian@alumni.priceton.edu)
-      Bruce Kalk (kall@compass.com)
-      Linuxcare Inc. David Kennedy (dkennedy@linuxcare.com)
-      Fred Hucht (fred@thp.Uni-Duisburg.de)
-
---------------------------------------------------------------------
-
-include/synaptics-properties.h, src/properties.c:
-
- Copyright © 2008 Red Hat, Inc.
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors: Peter Hutterer
-
---------------------------------------------------------------------
-
-src/eventcomm.c:
-
- Copyright © 2004-2007 Peter Osterlund
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Peter Osterlund (petero2@telia.com)
-
---------------------------------------------------------------------
-
-src/alpscomm.h, src/eventcomm.h, src/synproto.h:
-
- Copyright © 2004 Peter Osterlund
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Peter Osterlund (petero2@telia.com)
-
---------------------------------------------------------------------
-
-include/synaptics.h, src/ps2comm.h, src/synapticsstr.h:
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
---------------------------------------------------------------------
-
-tools/syndaemon.c:
-
- Copyright © 2003-2004 Peter Osterlund
-
- Permission to use, copy, modify, distribute, and sell this software
- and its documentation for any purpose is hereby granted without
- fee, provided that the above copyright notice appear in all copies
- and that both that copyright notice and this permission notice
- appear in supporting documentation, and that the name of Red Hat
- not be used in advertising or publicity pertaining to distribution
- of the software without specific, written prior permission.  Red
- Hat makes no representations about the suitability of this software
- for any purpose.  It is provided "as is" without express or implied
- warranty.
-
- THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
- INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
- NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
- CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
- OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
- NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
- Authors:
-      Peter Osterlund (petero2@telia.com)
-
---------------------------------------------------------------------
-
-src/synaptics.c:
-
  Copyright © 1999 Henry Davies
  Copyright © 2001 Stefan Gmeiner
  Copyright © 2002 S. Lehner
- Copyright © 2002 Peter Osterlund
  Copyright © 2002 Linuxcare Inc. David Kennedy
+ Copyright © 2002-2007 Peter Osterlund
+ Copyright © 2003 Fred Hucht
+ Copyright © 2003 Neil Brown
  Copyright © 2003 Hartwig Felger
  Copyright © 2003 Jörg Bösner
- Copyright © 2003 Fred Hucht
  Copyright © 2004 Alexei Gilchrist
+ Copyright © 2004 Arne Schwabe
  Copyright © 2004 Matthias Ihmig
  Copyright © 2006 Stefan Bethge
  Copyright © 2006 Christian Thaeter
  Copyright © 2007 Joseph P. Skudlarek
  Copyright © 2008 Fedor P. Goncharov
- Copyright © 2008-2009 Red Hat, Inc.
+ Copyright © 2008-2009, 2011 Red Hat, Inc.
+ Copyright © 2011 The Chromium OS Authors
 
  Permission to use, copy, modify, distribute, and sell this software
  and its documentation for any purpose is hereby granted without
@@ -303,22 +38,27 @@ src/synaptics.c:
  NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
- Authors:
-      Joseph P. Skudlarek <Jskud@Jskud.com>
-      Christian Thaeter <chth@gmx.net>
-      Stefan Bethge <stefan.bethge@web.de>
-      Matthias Ihmig <m.ihmig@gmx.net>
-      Alexei Gilchrist <alexei@physics.uq.edu.au>
-      Jörg Bösner <ich@joerg-boesner.de>
-      Hartwig Felger <hgfelger@hgfelger.de>
-      Peter Osterlund <petero2@telia.com>
-      S. Lehner <sam_x@bluemail.ch>
-      Stefan Gmeiner <riddlebox@freesurf.ch>
-      Henry Davies <hdavies@ameritech.net> for the
-      Linuxcare Inc. David Kennedy <dkennedy@linuxcare.com>
-      Fred Hucht <fred@thp.Uni-Duisburg.de>
-      Fedor P. Goncharov <fedgo@gorodok.net>
-      Simon Thum <simon.thum@gmx.de>
-
  Trademarks are the property of their respective owners.
 
+--------------------------------------------------------------------
+
+ Copyright © 2012 Canonical, Ltd.
+
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
+ the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice (including the next
+ paragraph) shall be included in all copies or substantial portions of the
+ Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ DEALINGS IN THE SOFTWARE.

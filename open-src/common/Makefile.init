@@ -389,7 +389,7 @@ UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 # referenced in multiple places, so it's kept here for easy sharing.
 # 
 # Current Xorg server source tarball to use sources from:
-XORGSERVER_VERS=1.12.1
+XORGSERVER_VERS=1.12.2
 # Minimum Xorg server version that we expect to be ABI compatible with.
 # Usually .99 of the previous minor release series, as that's the convention
 # for the development snapshots of the next release series.

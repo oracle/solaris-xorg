@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-input-synaptics
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.99.903
+MODULE_VERSION=1.6.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 56f125403497c55e0c88130b90c1c7b2
-TARBALL_SHA1  = adb8e28a8aced2ff660a4058d35b8656ffdf46ce
-TARBALL_SHA256= d76f631e8e851ab631f9fde4ec2585be6702c5a28e2a951c9ad9545baf0fb0e2
+TARBALL_MD5   = 9914022a173e3f0ccfe7137ab84f6133
+TARBALL_SHA1  = 6e59871c0cb683a1fa84731db73a662727a76976
+TARBALL_SHA256= c3f7d6a085d480c352f030aeb43db2e5560d1468ed34be24d44a0fc3fda25920
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES= 7164323.patch libraries.patch,-p1
+SOURCE_PATCHES= libraries.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

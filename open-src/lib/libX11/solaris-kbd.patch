@@ -572,10 +572,10 @@ index 221cedd..732c0cf 100644
 +}
 +#endif /* SUNSOFT_KBD */
 diff --git a/src/imConv.c b/src/imConv.c
-index e212049..35e58a3 100644
+index c3c1974..40f5328 100644
 --- a/src/imConv.c
 +++ b/src/imConv.c
-@@ -214,7 +214,9 @@ _XimLookupMBText(
+@@ -213,7 +213,9 @@ _XimLookupMBText(
  			    args, 1 ) != 0) {
  		count = 0;
  	    } else {
@@ -586,7 +586,7 @@ index e212049..35e58a3 100644
  	    }
  	}
      }
-@@ -284,7 +286,9 @@ _XimLookupWCText(
+@@ -283,7 +285,9 @@ _XimLookupWCText(
  			    args, 1 ) != 0) {
  		count = 0;
  	    } else {
@@ -597,7 +597,7 @@ index e212049..35e58a3 100644
  	    }
  	}
      } else
-@@ -345,7 +349,9 @@ _XimLookupUTF8Text(
+@@ -344,7 +348,9 @@ _XimLookupUTF8Text(
                          NULL, 0) != 0) {
  	    count = 0;
  	} else {

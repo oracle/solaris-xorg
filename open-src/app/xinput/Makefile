@@ -29,12 +29,12 @@
 MODULE_NAME=xinput
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.99.901
+MODULE_VERSION=1.6.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3b57cb4cbac70eb0d7a553def7dd333e
-TARBALL_SHA1  = bc99cddeac306a23ad96f35d8ff3314d7e45d460
-TARBALL_SHA256= 4765ca49af591ad5fed1af6847a16b807317212d40d5d21e5f97aa834f3e815e
+TARBALL_MD5   = d2459d35b4e0b41ded26a1d1159b7ac6
+TARBALL_SHA1  = 958b77a2acf52197b9a1e3e3d11e9bc57fbb1e6c
+TARBALL_SHA256= 4ab007d952c76665603bcb82ceb15fd3929d10faf0580fc4873ac16f5f63847e
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

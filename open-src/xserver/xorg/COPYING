@@ -1,12 +1,3 @@
-The following software (or certain identified files distributed with the
-software) may be included in this product. Unless otherwise specified,
-the software identified in this file is licensed under the licenses
-described below. The disclaimers and copyright notices provided are
-based on information made available to Oracle by the third party
-licensors listed.
-
---------------------------------------------------------------------
-
 hw/xfree86/dri2/dri2.h:
 
 Copyright © 2007 Red Hat, Inc.
@@ -118,7 +109,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/dmx/config/dmxcompat.c, hw/dmx/config/dmxcompat.h, hw/dmx/config/dmxconfig.h, hw/dmx/config/dmxparse.c, hw/dmx/config/dmxparse.h, hw/dmx/config/dmxprint.c, hw/dmx/config/dmxprint.h, hw/dmx/config/dmxtodmx.c, hw/dmx/config/vdltodmx.c, hw/dmx/config/xdmxconfig.c, hw/dmx/dmxstat.h, hw/dmx/dmxsync.h, hw/dmx/dmxvisual.h, hw/dmx/examples/ev.c, hw/dmx/examples/xbell.c, hw/dmx/input/ChkNotMaskEv.h, hw/dmx/input/dmxarg.h, hw/dmx/input/dmxbackend.h, hw/dmx/input/dmxconsole.h, hw/dmx/input/dmxdummy.c, hw/dmx/input/dmxdummy.h, hw/dmx/input/dmxinputinit.h, hw/dmx/input/dmxmotion.h, hw/dmx/input/usb-common.h, hw/dmx/input/usb-keyboard.h, hw/dmx/input/usb-mouse.c, hw/dmx/input/usb-mouse.h, hw/dmx/input/usb-other.c, hw/dmx/input/usb-other.h, hw/dmx/input/usb-private.h:
+hw/dmx/config/dmxcompat.c, hw/dmx/config/dmxcompat.h, hw/dmx/config/dmxconfig.h, hw/dmx/config/dmxparse.c, hw/dmx/config/dmxparse.h, hw/dmx/config/dmxprint.c, hw/dmx/config/dmxprint.h, hw/dmx/config/dmxtodmx.c, hw/dmx/config/scanner.c, hw/dmx/config/vdltodmx.c, hw/dmx/config/xdmxconfig.c, hw/dmx/dmxstat.h, hw/dmx/dmxsync.h, hw/dmx/dmxvisual.h, hw/dmx/examples/ev.c, hw/dmx/examples/xbell.c, hw/dmx/input/ChkNotMaskEv.h, hw/dmx/input/dmxarg.h, hw/dmx/input/dmxbackend.h, hw/dmx/input/dmxconsole.h, hw/dmx/input/dmxdummy.c, hw/dmx/input/dmxdummy.h, hw/dmx/input/dmxinputinit.h, hw/dmx/input/dmxmotion.h, hw/dmx/input/usb-common.h, hw/dmx/input/usb-keyboard.h, hw/dmx/input/usb-mouse.c, hw/dmx/input/usb-mouse.h, hw/dmx/input/usb-other.c, hw/dmx/input/usb-other.h, hw/dmx/input/usb-private.h:
 
 Copyright 2002 Red Hat Inc., Durham, North Carolina.
 
@@ -225,33 +216,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-dix/getevents.c:
-
-Copyright © 2006 Nokia Corporation
-Copyright © 2006-2007 Daniel Stone
-Copyright © 2008 Red Hat, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
---------------------------------------------------------------------
-
 os/xprintf.c:
 
 Copyright (c) 2004 Alexander Gottwald
@@ -301,6 +265,31 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
+include/client.h:
+
+Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies). All
+rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 os/strlcat.c, os/strlcpy.c:
 
 Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -316,6 +305,37 @@ FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
 OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+--------------------------------------------------------------------
+
+os/strndup.c:
+
+Copyright (c) 1988, 1993
+The Regents of the University of California.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+4. Neither the name of the University nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
 
 --------------------------------------------------------------------
 
@@ -427,7 +447,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-xkb/maprules.c:
+include/xkbrules.h, xkb/maprules.c:
 
 Copyright (c) 1996 by Silicon Graphics Computer Systems, Inc.
 
@@ -533,6 +553,37 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
+hw/xfree86/common/xf86Optionstr.h, test/fixes.c, test/list.c, test/misc.c, test/touch.c, test/xfree86.c, test/xi2/protocol-xipassivegrabdevice.c, test/xi2/xi2.c:
+
+Copyright © 2011 Red Hat, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
+hw/xfree86/shadowfb/shadow.c:
+
+Copyright (C) 1999.  The XFree86 Project Inc.
+
+--------------------------------------------------------------------
+
 glx/glxdri.c:
 
 Copyright © 2006 Red Hat, Inc
@@ -583,7 +634,7 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-Xi/xiallowev.c, Xi/xiallowev.h, Xi/xigrabdev.c, Xi/xigrabdev.h, Xi/xipassivegrab.c, Xi/xipassivegrab.h, Xi/xiquerydevice.c, Xi/xiquerydevice.h, Xi/xiqueryversion.c, Xi/xiqueryversion.h, dix/eventconvert.c, include/eventconvert.h, include/events.h, include/eventstr.h, include/protocol-versions.h, test/input.c, test/xi2/protocol-common.c, test/xi2/protocol-common.h, test/xi2/protocol-eventconvert.c, test/xi2/protocol-xigetclientpointer.c, test/xi2/protocol-xigetselectedevents.c, test/xi2/protocol-xiquerydevice.c, test/xi2/protocol-xiquerypointer.c, test/xi2/protocol-xiqueryversion.c, test/xi2/protocol-xiselectevents.c, test/xi2/protocol-xisetclientpointer.c, test/xi2/protocol-xiwarppointer.c, test/xkb.c, test/xtest.c:
+Xi/xiallowev.c, Xi/xiallowev.h, Xi/xigrabdev.c, Xi/xigrabdev.h, Xi/xipassivegrab.c, Xi/xipassivegrab.h, Xi/xiquerydevice.c, Xi/xiquerydevice.h, Xi/xiqueryversion.c, Xi/xiqueryversion.h, dix/eventconvert.c, include/eventconvert.h, include/events.h, include/eventstr.h, include/protocol-versions.h, test/input.c, test/xi2/protocol-common.c, test/xi2/protocol-common.h, test/xi2/protocol-xigetclientpointer.c, test/xi2/protocol-xigetselectedevents.c, test/xi2/protocol-xiquerydevice.c, test/xi2/protocol-xiquerypointer.c, test/xi2/protocol-xiqueryversion.c, test/xi2/protocol-xiselectevents.c, test/xi2/protocol-xisetclientpointer.c, test/xi2/protocol-xiwarppointer.c, test/xkb.c, test/xtest.c:
 
 Copyright © 2009 Red Hat, Inc.
 
@@ -608,7 +659,7 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-Xext/shape.c, Xext/shm.c, include/validate.h, mi/mifillarc.c, mi/mifillarc.h, mi/mipointer.c, mi/mipointer.h, mi/mipointrst.h, mi/misprite.c, mi/misprite.h, mi/mizerarc.c, mi/mizerarc.h:
+Xext/shape.c, Xext/shm.c, include/validate.h, mi/midispcur.c, mi/mifillarc.c, mi/mifillarc.h, mi/mipointer.c, mi/mipointer.h, mi/mipointrst.h, mi/misprite.c, mi/misprite.h, mi/mizerarc.c, mi/mizerarc.h:
 
 Copyright 1989, 1998  The Open Group
 
@@ -924,7 +975,7 @@ of the copyright holder.
 
 --------------------------------------------------------------------
 
-hw/dmx/dmx-config.h, hw/xnest/xnest-config.h:
+hw/dmx/dmx-config.h:
 
 Copyright 2005 Red Hat Inc., Raleigh, North Carolina.
 
@@ -1254,6 +1305,31 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
+randr/rrcrtc.c:
+
+Copyright © 2006 Keith Packard
+Copyright 2010 Red Hat, Inc
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting documentation, and
+that the name of the copyright holders not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  The copyright holders make no representations
+about the suitability of this software for any purpose.  It is provided "as
+is" without express or implied warranty.
+
+THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+OF THIS SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/kdrive/src/kxv.c, hw/kdrive/src/kxv.h:
 
 Copyright (C) 2000, 2001 - Nokia Home Communications
@@ -1461,35 +1537,6 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/kdrive/linux/tslib.c:
-
-Copyright © 1999 Keith Packard
-Copyright © 2000 Compaq Computer Corporation
-Copyright © 2002 MontaVista Software Inc.
-Copyright © 2005 OpenedHand Ltd.
-Copyright © 2006 Nokia Corporation
-
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of the authors and/or copyright holders
-not be used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.  The authors and/or
-copyright holders make no representations about the suitability of this
-software for any purpose.  It is provided "as is" without express or
-implied warranty.
-
-THE AUTHORS AND/OR COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD
-TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS, IN NO EVENT SHALL THE AUTHORS AND/OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
---------------------------------------------------------------------
-
 include/misc.h:
 
 Copyright 1987, 1998  The Open Group
@@ -1557,6 +1604,12 @@ OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
+hw/xfree86/os-support/linux/int10/linux.c:
+
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2008 Egbert Eich
+
+--------------------------------------------------------------------
+
 randr/rrtransform.c, randr/rrtransform.h, render/matrix.c:
 
 Copyright © 2007 Keith Packard
@@ -1578,54 +1631,6 @@ CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
 DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
 TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 OF THIS SOFTWARE.
-
---------------------------------------------------------------------
-
-hw/xfree86/os-support/bus/linuxPci.c:
-
-Copyright 1998 by Concurrent Computer Corporation
-
-Permission to use, copy, modify, distribute, and sell this software
-and its documentation for any purpose is hereby granted without fee,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Concurrent Computer
-Corporation not be used in advertising or publicity pertaining to
-distribution of the software without specific, written prior
-permission.  Concurrent Computer Corporation makes no representations
-about the suitability of this software for any purpose.  It is
-provided "as is" without express or implied warranty.
-
-CONCURRENT COMPUTER CORPORATION DISCLAIMS ALL WARRANTIES WITH REGARD
-TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS, IN NO EVENT SHALL CONCURRENT COMPUTER CORPORATION BE
-LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
-DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
-SOFTWARE.
-
-Copyright 1998 by Metro Link Incorporated
-
-Permission to use, copy, modify, distribute, and sell this software
-and its documentation for any purpose is hereby granted without fee,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Metro Link
-Incorporated not be used in advertising or publicity pertaining to
-distribution of the software without specific, written prior
-permission.  Metro Link Incorporated makes no representations
-about the suitability of this software for any purpose.  It is
-provided "as is" without express or implied warranty.
-
-METRO LINK INCORPORATED DISCLAIMS ALL WARRANTIES WITH REGARD
-TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS, IN NO EVENT SHALL METRO LINK INCORPORATED BE
-LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
-DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
-SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -1983,6 +1988,31 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
+os/osaudit.c:
+
+Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/xfree86/loader/loadext.c, hw/xfree86/os-support/shared/kmod_noop.c, hw/xfree86/os-support/shared/pm_noop.c, hw/xfree86/os-support/shared/xf86Axp.c:
 
 Copyright (c) 2000 by The XFree86 Project, Inc.
@@ -2065,6 +2095,31 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
+include/ptrveloc.h:
+
+Copyright © 2006-2011 Simon Thum             simon dot thum at gmx dot de
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 dix/inpututils.c:
 
 Copyright © 2008 Daniel Stone
@@ -2090,7 +2145,7 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/common/xf86Configure.c, hw/xfree86/common/xf86ShowOpts.c:
+hw/xfree86/common/xf86Configure.c:
 
 Copyright 2000-2002 by Alan Hourihane, Flint Mountain, North Wales.
 
@@ -2380,7 +2435,7 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
-Xi/allowev.c, Xi/chgdctl.c, Xi/chgfctl.c, Xi/chgkbd.c, Xi/chgkmap.c, Xi/chgprop.c, Xi/chgptr.c, Xi/closedev.c, Xi/devbell.c, Xi/exevents.c, Xi/extinit.c, Xi/getbmap.c, Xi/getdctl.c, Xi/getfctl.c, Xi/getfocus.c, Xi/getkmap.c, Xi/getmmap.c, Xi/getprop.c, Xi/getselev.c, Xi/getvers.c, Xi/grabdev.c, Xi/grabdevb.c, Xi/grabdevk.c, Xi/gtmotion.c, Xi/listdev.c, Xi/opendev.c, Xi/selectev.c, Xi/setbmap.c, Xi/setdval.c, Xi/setfocus.c, Xi/setmmap.c, Xi/setmode.c, Xi/stubs.c, Xi/ungrdev.c, Xi/ungrdevb.c, Xi/ungrdevk.c:
+Xi/allowev.c, Xi/chgdctl.c, Xi/chgfctl.c, Xi/chgkbd.c, Xi/chgkmap.c, Xi/chgprop.c, Xi/chgptr.c, Xi/closedev.c, Xi/devbell.c, Xi/extinit.c, Xi/getbmap.c, Xi/getdctl.c, Xi/getfctl.c, Xi/getfocus.c, Xi/getkmap.c, Xi/getmmap.c, Xi/getprop.c, Xi/getselev.c, Xi/getvers.c, Xi/grabdev.c, Xi/grabdevb.c, Xi/grabdevk.c, Xi/gtmotion.c, Xi/listdev.c, Xi/opendev.c, Xi/selectev.c, Xi/sendexev.c, Xi/setbmap.c, Xi/setdval.c, Xi/setfocus.c, Xi/setmmap.c, Xi/setmode.c, Xi/stubs.c, Xi/ungrdev.c, Xi/ungrdevb.c, Xi/ungrdevk.c:
 
 Copyright 1989, 1998  The Open Group
 
@@ -2477,7 +2532,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-tsol/tsol.h, tsol/tsolextension.c, tsol/tsolinfo.h, tsol/tsolpolicy.c, tsol/tsolprotocol.c, tsol/tsolutils.c:
+tsol/tsol.h, tsol/tsolinfo.h, tsol/tsolpolicy.c, tsol/tsolprotocol.c, tsol/tsolutils.c:
 
 Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
 
@@ -2552,30 +2607,6 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-
---------------------------------------------------------------------
-
-hw/kdrive/linux/mouse.c:
-
-Copyright © 2001 Keith Packard
-
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of Keith Packard not be used in
-advertising or publicity pertaining to distribution of the software without
-specific, written prior permission.  Keith Packard makes no
-representations about the suitability of this software for any purpose.  It
-is provided "as is" without express or implied warranty.
-
-KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -2660,34 +2691,6 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
-glx/glapioffsets.h, glx/glapitemp.h:
-
-Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
-(C) Copyright IBM Corporation 2004
-All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sub license,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.  IN NO EVENT SHALL
-BRIAN PAUL, IBM,
-AND/OR THEIR SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
-OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
---------------------------------------------------------------------
-
 hw/xfree86/ddc/edid.h, hw/xfree86/ddc/xf86DDC.h:
 
 Copyright 1998 by Egbert Eich <Egbert.Eich@Physik.TU-Darmstadt.DE>
@@ -2745,40 +2748,6 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/kdrive/linux/keyboard.c:
-
-Copyright © 1999 Keith Packard
-XKB integration © 2006 Nokia Corporation, author: Tomas Frydrych <tf@o-hand.com>
-
-LinuxKeyboardRead() XKB code based on xf86KbdLnx.c:
-Copyright © 1990,91 by Thomas Roell, Dinkelscherben, Germany.
-Copyright © 1994-2001 by The XFree86 Project, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of the copyright holder(s)
-and author(s) shall not be used in advertising or otherwise to promote
-the sale, use or other dealings in this Software without prior written
-authorization from the copyright holder(s) and author(s).
-
---------------------------------------------------------------------
-
 hw/xfree86/loader/loader.h:
 
 Copyright 1995-1998 by Metro Link, Inc.
@@ -2828,6 +2797,76 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
+test/xi2/protocol-eventconvert.c:
+
+Copyright © 2009 Red Hat, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
+xfixes/cursor.c, xfixes/xfixes.c, xfixes/xfixesint.h:
+
+Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright 2010 Red Hat, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+Copyright © 2002 Keith Packard
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of Keith Packard not be used in
+advertising or publicity pertaining to distribution of the software without
+specific, written prior permission.  Keith Packard makes no
+representations about the suitability of this software for any purpose.  It
+is provided "as is" without express or implied warranty.
+
+KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+--------------------------------------------------------------------
+
 mi/mieq.c:
 
 Copyright 1990, 1998  The Open Group
@@ -2851,35 +2890,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Except as contained in this notice, the name of The Open Group shall not be
 used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from The Open Group.
-
---------------------------------------------------------------------
-
-mi/micmap.c:
-
-Copyright (c) 1987, Oracle and/or its affiliates. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-This is based on cfbcmap.c.  The functions here are useful independently
-of cfb, which is the reason for including them here.  How "mi" these
-are may be debatable.
 
 --------------------------------------------------------------------
 
@@ -3150,27 +3160,28 @@ Copyright (C) 1998 Itai Nahshon, Michael Schimek
 
 --------------------------------------------------------------------
 
-Xext/xcalibrate.c:
+hw/xfree86/modes/xf86Cursors.c:
 
-Copyright © 2003 Philip Blundell
+Copyright © 2007 Keith Packard
+Copyright © 2010-2011 Aaron Plattner
 
 Permission to use, copy, modify, distribute, and sell this software and its
 documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of Philip Blundell not be used in
-advertising or publicity pertaining to distribution of the software without
-specific, written prior permission.  Philip Blundell makes no
-representations about the suitability of this software for any purpose.  It
-is provided "as is" without express or implied warranty.
+the above copyright notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting documentation, and
+that the name of the copyright holders not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  The copyright holders make no representations
+about the suitability of this software for any purpose.  It is provided "as
+is" without express or implied warranty.
 
-PHILIP BLUNDELL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-EVENT SHALL PHILIP BLUNDELL BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
 CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
 DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -3276,6 +3287,17 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
+include/privates.h, include/registry.h:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/xfree86/common/xf86InPriv.h:
 
 Copyright (c) 1999 by The XFree86 Project, Inc.
@@ -3378,6 +3400,31 @@ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+--------------------------------------------------------------------
+
+config/wscons.c:
+
+Copyright (c) 2011 Matthieu Herrb
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -3493,52 +3540,10 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
-hw/dmx/input/usb-keyboard.c:
+hw/xfree86/os-support/linux/lnx_agp.c:
 
-Copyright 1990,91 by Thomas Roell, Dinkelscherben, Germany.
-
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of Thomas Roell not be used in
-advertising or publicity pertaining to distribution of the software without
-specific, written prior permission.  Thomas Roell makes no representations
-about the suitability of this software for any purpose.  It is provided
-"as is" without express or implied warranty.
-
-THOMAS ROELL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-EVENT SHALL THOMAS ROELL BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-
-Copyright 2001,2002 Red Hat Inc., Durham, North Carolina.
-
-All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation on the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of the Software,
-and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice (including the
-next paragraph) shall be included in all copies or substantial
-portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NON-INFRINGEMENT.  IN NO EVENT SHALL RED HAT AND/OR THEIR SUPPLIERS
-BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Copyright © 2000 VA Linux Systems, Inc.
+Copyright © 2001 The XFree86 Project, Inc.
 
 --------------------------------------------------------------------
 
@@ -3682,68 +3687,33 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/common/xf86xv.c:
+os/client.c:
 
-XFree86 Xv DDX written by Mark Vojkovich (markv@valinux.com)
+Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies). All
+rights reserved.
+Copyright (c) 1993, 2010, Oracle and/or its affiliates. All rights reserved.
 
-Copyright (c) 1998-2003 by The XFree86 Project, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of the copyright holder(s)
-and author(s) shall not be used in advertising or otherwise to promote
-the sale, use or other dealings in this Software without prior written
-authorization from the copyright holder(s) and author(s).
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-glx/extension_string.c, glx/extension_string.h:
-
-(C) Copyright IBM Corporation 2002-2006
-All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-on the rights to use, copy, modify, merge, publish, distribute, sub
-license, and/or sell copies of the Software, and to permit persons to whom
-the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.  IN NO EVENT SHALL
-THE COPYRIGHT HOLDERS AND/OR THEIR SUPPLIERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Routines to manage the GLX extension string and GLX version for AIGLX
-drivers.  This code is loosely based on src/glx/x11/glxextensions.c from
-Mesa.
-
---------------------------------------------------------------------
-
-fb/fbtrap.c, hw/kdrive/fake/fake.c, hw/kdrive/fake/fake.h, hw/kdrive/fake/fakeinit.c, hw/kdrive/fake/mouse.c, hw/kdrive/fake/os.c, hw/kdrive/linux/evdev.c:
+fb/fbtrap.c:
 
 Copyright © 2004 Keith Packard
 
@@ -3967,7 +3937,7 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/modes/xf86Crtc.h, hw/xfree86/modes/xf86DiDGA.c, hw/xfree86/modes/xf86RandR12.h, hw/xfree86/modes/xf86Rename.h, hw/xfree86/modes/xf86Rotate.c, randr/rrcrtc.c, randr/rrdispatch.c, randr/rrinfo.c, randr/rrmode.c, randr/rrpointer.c, randr/rrproperty.c, randr/rrscreen.c, randr/rrsdispatch.c:
+hw/xfree86/modes/xf86DiDGA.c, hw/xfree86/modes/xf86RandR12.h, hw/xfree86/modes/xf86Rename.h, randr/rrdispatch.c, randr/rrinfo.c, randr/rrmode.c, randr/rrpointer.c, randr/rrproperty.c, randr/rrscreen.c, randr/rrsdispatch.c:
 
 Copyright © 2006 Keith Packard
 
@@ -4048,51 +4018,61 @@ use or other dealings in this Software without prior written authorization.
 
 --------------------------------------------------------------------
 
-Xi/sendexev.c:
+glx/glapi_gentable.c:
 
-Copyright 1989, 1998  The Open Group
+Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
+(C) Copyright IBM Corporation 2004, 2005
+(C) Copyright Apple Inc 2011
+All Rights Reserved.
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sub license,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
-
-Copyright 1989 by Hewlett-Packard Company, Palo Alto, California.
-
-All Rights Reserved
-
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Hewlett-Packard not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
-
-HEWLETT-PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
-ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
-HEWLETT-PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
-ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.  IN NO EVENT SHALL
+BRIAN PAUL, IBM,
+AND/OR THEIR SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Request to send an extension event.
+--------------------------------------------------------------------
+
+hw/dmx/glxProxy/compsize.h, hw/dmx/glxProxy/glxcmds.h:
+
+Copyright 2011 Apple Inc.
+
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation on the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice (including the
+next paragraph) shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT.  IN NO EVENT SHALL RED HAT AND/OR THEIR SUPPLIERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -4339,34 +4319,6 @@ Copyright (c) 2002  XFree86 Inc
 
 --------------------------------------------------------------------
 
-hw/xfree86/os-support/shared/ia64Pci.c:
-
-Copyright (C) 2002-2003 The XFree86 Project, Inc.  All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to
-deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-XFREE86 PROJECT BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of the XFree86 Project shall
-not be used in advertising or otherwise to promote the sale, use or other
-dealings in this Software without prior written authorization from the
-XFree86 Project.
-
---------------------------------------------------------------------
-
 hw/xfree86/os-support/solaris/sun_agp.c:
 
 Copyright © 2000 VA Linux Systems, Inc.
@@ -4607,6 +4559,31 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
+hw/xfree86/modes/xf86Crtc.h, hw/xfree86/modes/xf86Rotate.c:
+
+Copyright © 2006 Keith Packard
+Copyright © 2011 Aaron Plattner
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting documentation, and
+that the name of the copyright holders not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  The copyright holders make no representations
+about the suitability of this software for any purpose.  It is provided "as
+is" without express or implied warranty.
+
+THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+OF THIS SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/dmx/config/Canvas.c:
 
 Copyright 1987, 1998  The Open Group
@@ -4655,6 +4632,31 @@ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+--------------------------------------------------------------------
+
+os/solaris/mdb/modules/Xserver_device_grabs.c:
+
+Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -4861,11 +4863,28 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/xaa/xaaOverlayDF.c:
+test/ddxstubs.c:
 
-Copyright (c) 1999 - The XFree86 Project Inc.
+Copyright © 2012 Apple Inc.
 
-Written by Mark Vojkovich
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -4894,31 +4913,6 @@ Except as contained in this notice, the name of The Open Group shall
 not be used in advertising or otherwise to promote the sale, use or
 other dealings in this Software without prior written authorization
 from The Open Group.
-
---------------------------------------------------------------------
-
-hw/xfree86/modes/xf86Cursors.c:
-
-Copyright © 2007 Keith Packard
-Copyright © 2010 Aaron Plattner
-
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that copyright
-notice and this permission notice appear in supporting documentation, and
-that the name of the copyright holders not be used in advertising or
-publicity pertaining to distribution of the software without specific,
-written prior permission.  The copyright holders make no representations
-about the suitability of this software for any purpose.  It is provided "as
-is" without express or implied warranty.
-
-THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
-OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -5277,6 +5271,61 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
+miext/rootless/rootlessWindow.c:
+
+Copyright (c) 2001 Greg Parker. All Rights Reserved.
+Copyright (c) 2002-2004 Torrey T. Lyons. All Rights Reserved.
+Copyright (c) 2002 Apple Computer, Inc. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+Except as contained in this notice, the name(s) of the above copyright
+holders shall not be used in advertising or otherwise to promote the sale,
+use or other dealings in this Software without prior written authorization.
+
+--------------------------------------------------------------------
+
+os/solaris/mdb/modules/Xserver_mdb.h, os/solaris/mdb/modules/mdb_module.c:
+
+Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/xfree86/os-support/solaris/sun_VTsw.c:
 
 Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
@@ -5554,47 +5603,28 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
-hw/xnest/Args.c, hw/xnest/Args.h, hw/xnest/Color.c, hw/xnest/Color.h, hw/xnest/Cursor.c, hw/xnest/Display.c, hw/xnest/Display.h, hw/xnest/Drawable.h, hw/xnest/Events.c, hw/xnest/Events.h, hw/xnest/Font.c, hw/xnest/GC.c, hw/xnest/GCOps.c, hw/xnest/GCOps.h, hw/xnest/Handlers.c, hw/xnest/Handlers.h, hw/xnest/Init.c, hw/xnest/Init.h, hw/xnest/Keyboard.c, hw/xnest/Keyboard.h, hw/xnest/Pixmap.c, hw/xnest/Pointer.c, hw/xnest/Pointer.h, hw/xnest/Screen.c, hw/xnest/Screen.h, hw/xnest/Visual.c, hw/xnest/Visual.h, hw/xnest/Window.c, hw/xnest/XNCursor.h, hw/xnest/XNFont.h, hw/xnest/XNGC.h, hw/xnest/XNPixmap.h, hw/xnest/XNWindow.h:
+test/string.c:
 
-Copyright 1993 by Davor Matic
+Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
 
-Permission to use, copy, modify, distribute, and sell this software
-and its documentation for any purpose is hereby granted without fee,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation.  Davor Matic makes no representations about
-the suitability of this software for any purpose.  It is provided "as
-is" without express or implied warranty.
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
 
---------------------------------------------------------------------
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
 
-hw/xfree86/common/xf86VGAarbiter.c:
-
-This code was stolen from RAC and adapted to control the legacy vga
-interface.
-
-Copyright (c) 2007 Paulo R. Zanoni, Tiago Vignatti
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -5858,7 +5888,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/os-support/shared/bios_devmem.c, hw/xfree86/os-support/shared/bios_mmap.c:
+hw/xfree86/os-support/shared/bios_mmap.c:
 
 Copyright 1993 by David Wexelblat <dwex@goblin.org>
 
@@ -6150,6 +6180,102 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
+dix/getevents.c:
+
+Copyright © 2006 Nokia Corporation
+Copyright © 2006-2007 Daniel Stone
+Copyright © 2008 Red Hat, Inc.
+Copyright © 2011 The Chromium Authors
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
+Xi/exevents.c:
+
+Copyright 1989, 1998  The Open Group
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation.
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Except as contained in this notice, the name of The Open Group shall not be
+used in advertising or otherwise to promote the sale, use or other dealings
+in this Software without prior written authorization from The Open Group.
+
+Copyright 1989 by Hewlett-Packard Company, Palo Alto, California.
+
+All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation, and that the name of Hewlett-Packard not be
+used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+HEWLETT-PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+HEWLETT-PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+
+Copyright © 2010 Collabora Ltd.
+Copyright © 2011 Red Hat, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/xfree86/common/xisb.c, hw/xfree86/common/xisb.h:
 
 Copyright (c) 1997  Metro Link Incorporated
@@ -6178,7 +6304,7 @@ in this Software without prior written authorization from Metro Link.
 
 --------------------------------------------------------------------
 
-exa/exa_unaccel.c, hw/kdrive/fake/kbd.c, hw/kdrive/fbdev/fbdev.c, hw/kdrive/fbdev/fbdev.h, hw/kdrive/fbdev/fbinit.c, hw/kdrive/linux/linux.c, hw/kdrive/linux/ps2.c, hw/kdrive/src/kcmap.c, hw/kdrive/src/kdrive.c, hw/kdrive/src/kdrive.h, hw/kdrive/src/kinfo.c, hw/kdrive/src/kshadow.c, render/mipict.c:
+exa/exa_unaccel.c, hw/kdrive/src/kcmap.c, hw/kdrive/src/kdrive.c, hw/kdrive/src/kdrive.h, hw/kdrive/src/kinfo.c, hw/kdrive/src/kshadow.c, render/mipict.c:
 
 Copyright © 1999 Keith Packard
 
@@ -6398,51 +6524,6 @@ Equipment Corporation.
 
 --------------------------------------------------------------------
 
-xfixes/cursor.c, xfixes/xfixes.c, xfixes/xfixesint.h:
-
-Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-Copyright © 2002 Keith Packard
-
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation, and that the name of Keith Packard not be used in
-advertising or publicity pertaining to distribution of the software without
-specific, written prior permission.  Keith Packard makes no
-representations about the suitability of this software for any purpose.  It
-is provided "as is" without express or implied warranty.
-
-KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-
---------------------------------------------------------------------
-
 hw/xfree86/dri/drimodule.c:
 
 Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
@@ -6467,38 +6548,6 @@ IN NO EVENT SHALL PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
---------------------------------------------------------------------
-
-miext/rootless/rootlessCommon.c:
-
-Common rootless definitions and code
-
-Copyright (c) 2001 Greg Parker. All Rights Reserved.
-Copyright (c) 2002-2003 Torrey T. Lyons. All Rights Reserved.
-Copyright (c) 2002 Apple Computer, Inc. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name(s) of the above copyright
-holders shall not be used in advertising or otherwise to promote the sale,
-use or other dealings in this Software without prior written authorization.
 
 --------------------------------------------------------------------
 
@@ -7014,7 +7063,7 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/vbe/vbeModes.h:
+hw/xfree86/vbe/vbeModes.c, hw/xfree86/vbe/vbeModes.h:
 
 Copyright © 2002 David Dawes
 
@@ -7091,7 +7140,7 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
-glx/glxcmds.c, glx/glxcmdsswap.c, glx/glxext.c, glx/glxscreens.c, glx/render2.c, glx/render2swap.c, glx/renderpix.c, glx/renderpixswap.c, glx/rensize.c, glx/single2.c, glx/single2swap.c, glx/singlepix.c, glx/singlepixswap.c, glx/singlesize.c, glx/xfont.c, hw/dmx/dmx_glxvisuals.c, hw/dmx/dmx_glxvisuals.h, hw/dmx/glxProxy/compsize.c, hw/dmx/glxProxy/g_disptab.c, hw/dmx/glxProxy/g_renderswap.c, hw/dmx/glxProxy/global.c, hw/dmx/glxProxy/glxcmds.c, hw/dmx/glxProxy/glxcmdsswap.c, hw/dmx/glxProxy/glxext.c, hw/dmx/glxProxy/glxfbconfig.c, hw/dmx/glxProxy/glxfbconfig.h, hw/dmx/glxProxy/glxscreens.c, hw/dmx/glxProxy/glxsingle.c, hw/dmx/glxProxy/glxsingle.h, hw/dmx/glxProxy/glxutil.c, hw/dmx/glxProxy/glxvendor.c, hw/dmx/glxProxy/glxvendor.h, hw/dmx/glxProxy/glxvisuals.c, hw/dmx/glxProxy/glxvisuals.h, hw/dmx/glxProxy/render2swap.c, hw/dmx/glxProxy/renderpixswap.c:
+glx/glxcmds.c, glx/glxcmdsswap.c, glx/glxcontext.h, glx/glxdrawable.h, glx/glxext.c, glx/glxext.h, glx/glxscreens.c, glx/glxscreens.h, glx/glxserver.h, glx/glxutil.h, glx/render2.c, glx/render2swap.c, glx/renderpix.c, glx/renderpixswap.c, glx/rensize.c, glx/single2.c, glx/single2swap.c, glx/singlepix.c, glx/singlepixswap.c, glx/singlesize.c, glx/singlesize.h, glx/unpack.h, glx/xfont.c, hw/dmx/dmx_glxvisuals.c, hw/dmx/dmx_glxvisuals.h, hw/dmx/glxProxy/compsize.c, hw/dmx/glxProxy/g_disptab.c, hw/dmx/glxProxy/g_disptab.h, hw/dmx/glxProxy/g_renderswap.c, hw/dmx/glxProxy/global.c, hw/dmx/glxProxy/glxcmds.c, hw/dmx/glxProxy/glxcmdsswap.c, hw/dmx/glxProxy/glxcontext.h, hw/dmx/glxProxy/glxdrawable.h, hw/dmx/glxProxy/glxerror.h, hw/dmx/glxProxy/glxext.c, hw/dmx/glxProxy/glxext.h, hw/dmx/glxProxy/glxfbconfig.c, hw/dmx/glxProxy/glxfbconfig.h, hw/dmx/glxProxy/glxscreens.c, hw/dmx/glxProxy/glxscreens.h, hw/dmx/glxProxy/glxserver.h, hw/dmx/glxProxy/glxsingle.c, hw/dmx/glxProxy/glxsingle.h, hw/dmx/glxProxy/glxutil.c, hw/dmx/glxProxy/glxutil.h, hw/dmx/glxProxy/glxvendor.c, hw/dmx/glxProxy/glxvendor.h, hw/dmx/glxProxy/glxvisuals.c, hw/dmx/glxProxy/glxvisuals.h, hw/dmx/glxProxy/render2swap.c, hw/dmx/glxProxy/renderpixswap.c, hw/dmx/glxProxy/unpack.h:
 
 SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
 Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
@@ -7179,6 +7228,111 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
+hw/dmx/input/lnx-keyboard.c:
+
+Portions of this file were derived from the following files:
+
+xfree86/common/{xf86Io.c,xf86Kbd.c,xf86Events.c}
+
+Copyright 1990,91 by Thomas Roell, Dinkelscherben, Germany.
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of Thomas Roell not be used in
+advertising or publicity pertaining to distribution of the software without
+specific, written prior permission.  Thomas Roell makes no representations
+about the suitability of this software for any purpose.  It is provided
+"as is" without express or implied warranty.
+
+THOMAS ROELL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL THOMAS ROELL BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+xfree86/common/xf86KbdLnx.c
+
+Linux version of keymapping setup. The kernel (since 0.99.14) has support
+for fully remapping the keyboard, but there are some differences between
+the Linux map and the SVR4 map (esp. in the extended keycodes). We also
+remove the restriction on what keycodes can be remapped.
+Orest Zborowski.
+
+Copyright 1990,91 by Thomas Roell, Dinkelscherben, Germany.
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of Thomas Roell not be used in
+advertising or publicity pertaining to distribution of the software without
+specific, written prior permission.  Thomas Roell makes no representations
+about the suitability of this software for any purpose.  It is provided
+"as is" without express or implied warranty.
+
+THOMAS ROELL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL THOMAS ROELL BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+xfree86/os-support/linux/lnx_io.c
+
+Copyright 1992 by Orest Zborowski <obz@Kodak.com>
+Copyright 1993 by David Dawes <dawes@xfree86.org>
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the names of Orest Zborowski and David Dawes
+not be used in advertising or publicity pertaining to distribution of
+the software without specific, written prior permission.  Orest Zborowski
+and David Dawes make no representations about the suitability of this
+software for any purpose.  It is provided "as is" without express or
+implied warranty.
+
+OREST ZBOROWSKI AND DAVID DAWES DISCLAIMS ALL WARRANTIES WITH REGARD
+TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS, IN NO EVENT SHALL OREST ZBOROWSKI OR DAVID DAWES BE LIABLE
+FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Copyright 2001-2003 Red Hat Inc., Durham, North Carolina.
+
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation on the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice (including the
+next paragraph) shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT.  IN NO EVENT SHALL RED HAT AND/OR THEIR SUPPLIERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------
+
 glx/glxdriswrast.c:
 
 Copyright © 2008 George Sapountzis <gsap7@yahoo.gr>
@@ -7204,6 +7358,31 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
 AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
 OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
+
+--------------------------------------------------------------------
+
+glx/clientinfo.c, glx/createcontext.c:
+
+Copyright © 2011 Intel Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -7549,16 +7728,6 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/dixmods/extmod/xf86dga2.c:
-
-Copyright (c) 1995  Jon Tombs
-Copyright (c) 1995, 1996, 1999  XFree86 Inc
-Copyright (c) 1999 - The XFree86 Project Inc.
-
-Written by Mark Vojkovich
-
---------------------------------------------------------------------
-
 os/utils.c:
 
 Copyright 1987, 1998  The Open Group
@@ -7606,6 +7775,36 @@ OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
 OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
 OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE
 OR PERFORMANCE OF THIS SOFTWARE.
+
+--------------------------------------------------------------------
+
+hw/xfree86/os-support/bsd/bsd_kqueue_apm.c:
+
+Copyright (C) 2001 The XFree86 Project, Inc.  All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE XFREE86 PROJECT BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Except as contained in this notice, the name of the XFree86 Project
+shall not be used in advertising or otherwise to promote the sale, use
+or other dealings in this Software without prior written authorization
+from the XFree86 Project.
 
 --------------------------------------------------------------------
 
@@ -7712,38 +7911,6 @@ in this Software without prior written authorization from The Open Group.
 
 --------------------------------------------------------------------
 
-miext/rootless/rootlessWindow.c:
-
-Rootless window management
-
-Copyright (c) 2001 Greg Parker. All Rights Reserved.
-Copyright (c) 2002-2004 Torrey T. Lyons. All Rights Reserved.
-Copyright (c) 2002 Apple Computer, Inc. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name(s) of the above copyright
-holders shall not be used in advertising or otherwise to promote the sale,
-use or other dealings in this Software without prior written authorization.
-
---------------------------------------------------------------------
-
 Xext/geext.h:
 
 Copyright 2007 Peter Hutterer <peter@cs.unisa.edu.au>
@@ -7769,6 +7936,33 @@ Except as contained in this notice, the name of the author shall
 not be used in advertising or otherwise to promote the sale, use or
 other dealings in this Software without prior written authorization
 from the author.
+
+--------------------------------------------------------------------
+
+hw/xfree86/common/xf86VGAarbiter.c:
+
+Copyright (c) 2007 Paulo R. Zanoni, Tiago Vignatti
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -7944,39 +8138,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xnest/Xnest.h:
-
-Copyright (c) 1995  X Consortium
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of the X Consortium shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
-from the X Consortium.
-
---------------------------------------------------------------------
-
 Xext/panoramiX.c, Xext/panoramiX.h, Xext/panoramiXSwap.c, Xext/panoramiXprocs.c:
 
 Copyright (c) 1991, 1997 Digital Equipment Corporation, Maynard, Massachusetts.
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -8030,6 +8195,17 @@ SOFTWARE.
 
 --------------------------------------------------------------------
 
+include/dixaccess.h:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 config/config-backends.h, config/config.c, config/dbus-core.c, config/dbus.c, include/hotplug.h:
 
 Copyright © 2006-2007 Daniel Stone
@@ -8075,7 +8251,7 @@ All rights reserved.
 
 --------------------------------------------------------------------
 
-dix/atom.c, dix/colormap.c, dix/cursor.c, dix/deprecated.c, dix/devices.c, dix/extension.c, dix/gc.c, dix/globals.c, dix/glyphcurs.c, dix/property.c, dix/swaprep.c, dix/swapreq.c, dix/tables.c, include/callback.h, include/closure.h, include/colormap.h, include/colormapst.h, include/cursor.h, include/cursorstr.h, include/dix.h, include/extension.h, include/gc.h, include/gcstruct.h, include/input.h, include/inputstr.h, include/miscstruct.h, include/os.h, include/pixmap.h, include/pixmapstr.h, include/property.h, include/propertyst.h, include/region.h, include/regionstr.h, include/rgb.h, include/screenint.h, include/scrnintstr.h, include/selection.h, include/servermd.h, include/site.h, include/window.h, include/windowstr.h, mi/mi.h, mi/miarc.c, mi/mibitblt.c, mi/micursor.c, mi/midash.c, mi/mifillrct.c, mi/mifpoly.h, mi/mifpolycon.c, mi/miglblt.c, mi/miinitext.c, mi/mipoly.c, mi/mipolycon.c, mi/mipolygen.c, mi/mipolypnt.c, mi/mipolyrect.c, mi/mipolyseg.c, mi/mipolytext.c, mi/mipolyutil.c, mi/mipushpxl.c, mi/mistruct.h, mi/miwindow.c, mi/mizerclip.c, mi/mizerline.c, os/WaitFor.c, os/oscolor.c, os/osdep.h, os/osinit.c:
+dix/atom.c, dix/colormap.c, dix/cursor.c, dix/devices.c, dix/extension.c, dix/gc.c, dix/globals.c, dix/glyphcurs.c, dix/property.c, dix/swaprep.c, dix/swapreq.c, dix/tables.c, include/callback.h, include/closure.h, include/colormap.h, include/colormapst.h, include/cursor.h, include/cursorstr.h, include/dix.h, include/extension.h, include/gc.h, include/gcstruct.h, include/input.h, include/inputstr.h, include/miscstruct.h, include/os.h, include/pixmap.h, include/pixmapstr.h, include/property.h, include/propertyst.h, include/region.h, include/regionstr.h, include/rgb.h, include/screenint.h, include/scrnintstr.h, include/selection.h, include/servermd.h, include/site.h, include/window.h, include/windowstr.h, mi/mi.h, mi/miarc.c, mi/mibitblt.c, mi/micursor.c, mi/midash.c, mi/mifillrct.c, mi/mifpoly.h, mi/mifpolycon.c, mi/miglblt.c, mi/miinitext.c, mi/mipoly.c, mi/mipolycon.c, mi/mipolygen.c, mi/mipolypnt.c, mi/mipolyrect.c, mi/mipolyseg.c, mi/mipolytext.c, mi/mipolyutil.c, mi/mipushpxl.c, mi/mistruct.h, mi/miwindow.c, mi/mizerclip.c, mi/mizerline.c, os/WaitFor.c, os/oscolor.c, os/osdep.h, os/osinit.c:
 
 Copyright 1987, 1998  The Open Group
 
@@ -8173,6 +8349,14 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
+hw/xfree86/dixmods/extmod/xf86dga2.c:
+
+Copyright (c) 1995  Jon Tombs
+Copyright (c) 1995, 1996, 1999  XFree86 Inc
+Copyright (c) 1999 - The XFree86 Project Inc.
+
+--------------------------------------------------------------------
+
 hw/dmx/config/Canvas.h, hw/dmx/config/CanvasP.h:
 
 Copyright 1987, 1998  The Open Group
@@ -8200,9 +8384,9 @@ in this Software without prior written authorization from The Open Group.
 
 --------------------------------------------------------------------
 
-dix/ptrveloc.c, include/ptrveloc.h:
+dix/ptrveloc.c:
 
-Copyright © 2006-2011 Simon Thum             simon dot thum at gmx dot de
+Copyright © 2006-2009 Simon Thum             simon dot thum at gmx dot de
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -8225,9 +8409,34 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-fb/fbcmap_mi.c:
+fb/fbcmap_mi.c, mi/micmap.c:
 
 Copyright (c) 1987, Oracle and/or its affiliates. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
+IA/interactive.c:
+
+Copyright (c) 1993, 2012, Oracle and/or its affiliates. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -8447,7 +8656,7 @@ OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-hw/xfree86/common/xf86Opt.h, hw/xfree86/common/xf86Option.c, hw/xfree86/common/xf86xv.h:
+hw/xfree86/common/xf86Opt.h, hw/xfree86/common/xf86Option.c, hw/xfree86/common/xf86xv.c, hw/xfree86/common/xf86xv.h:
 
 Copyright (c) 1998-2003 by The XFree86 Project, Inc.
 
@@ -8501,7 +8710,29 @@ DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
-"AS, 1989, 1998, A, ACTION, AN, AND, ANY, ANY, ARISING, BE, BUT, CLAIM, CONNECTION, CONTRACT, Copyright, DAMAGES, DEALINGS, EVENT, EXPRESS, Except, FITNESS, FOR, FOR, FROM, GROUP, Group, Group, Group., IMPLIED, IN, IN, IN, IN, INCLUDING, IS, IS", KIND, LIABILITY, LIABLE, LIMITED, MERCHANTABILITY, NO, NONINFRINGEMENT., NOT, OF, OF, OF, OF, OPEN, OR, OR, OR, OR, OR, OR, OTHER, OTHER, OTHERWISE, OUT, Open, Open, Open, PARTICULAR, PROVIDED, PURPOSE, Permission, SHALL, SOFTWARE, SOFTWARE, SOFTWARE., Software, Software., THE, THE, THE, THE, THE, THE, TO, TORT, The, The, The, The, USE, WARRANTIES, WARRANTY, WHETHER, WITH, WITHOUT, above, above, advertising, all, all, and, and, and, and, and, any, appear, appear, as, authorization, be, be, both, contained, copies, copies, copy, copyright, copyright, copyright, dealings, distribute, documentation, documentation., fee, for, from, granted, hereby, in, in, in, in, in, in, included, is, its, modify, name, not, notice, notice, notice, notice, notice, notice, of, of, or, or, or, other, otherwise, permission, permission, portions, prior, promote, provided, purpose, sale, sell, shall, shall, software, substantial, supporting, that, that, that, the, the, the, the, this, this, this, this, this, to, to, use, use, used, without, without, written:
+glx/extension_string.c, glx/extension_string.h:
+
+(C) Copyright IBM Corporation 2002-2006
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+on the rights to use, copy, modify, merge, publish, distribute, sub
+license, and/or sell copies of the Software, and to permit persons to whom
+the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.  IN NO EVENT SHALL
+THE COPYRIGHT HOLDERS AND/OR THEIR SUPPLIERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -8600,7 +8831,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 --------------------------------------------------------------------
 
-miext/rootless/rootlessGC.c, miext/rootless/rootlessScreen.c:
+miext/rootless/rootlessCommon.c, miext/rootless/rootlessGC.c, miext/rootless/rootlessScreen.c:
 
 Copyright (c) 2001 Greg Parker. All Rights Reserved.
 Copyright (c) 2002-2003 Torrey T. Lyons. All Rights Reserved.
@@ -8683,7 +8914,6 @@ IN THE SOFTWARE.
 hw/xfree86/vbe/vbe.c, hw/xfree86/vbe/vbe.h:
 
 Copyright 2000 Egbert Eich
-
 Copyright (c) 2000 by Conectiva S.A. (http://www.conectiva.com)
 
 --------------------------------------------------------------------
@@ -8943,7 +9173,6 @@ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
 --------------------------------------------------------------------
 
 Xext/dpms.c, Xext/dpmsstubs.c:
@@ -9028,6 +9257,65 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
+hw/dmx/input/usb-keyboard.c:
+
+Portions of this file were derived from the following files:
+
+xfree86/common/xf86KbdLnx.c
+
+Linux version of keymapping setup. The kernel (since 0.99.14) has support
+for fully remapping the keyboard, but there are some differences between
+the Linux map and the SVR4 map (esp. in the extended keycodes). We also
+remove the restriction on what keycodes can be remapped.
+Orest Zborowski.
+
+Copyright 1990,91 by Thomas Roell, Dinkelscherben, Germany.
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of Thomas Roell not be used in
+advertising or publicity pertaining to distribution of the software without
+specific, written prior permission.  Thomas Roell makes no representations
+about the suitability of this software for any purpose.  It is provided
+"as is" without express or implied warranty.
+
+THOMAS ROELL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+EVENT SHALL THOMAS ROELL BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+Copyright 2001,2002 Red Hat Inc., Durham, North Carolina.
+
+All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation on the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice (including the
+next paragraph) shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT.  IN NO EVENT SHALL RED HAT AND/OR THEIR SUPPLIERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/xfree86/dixmods/extmod/xf86vmode.c:
 
 Copyright 1995  Kaleb S. KEITHLEY
@@ -9058,11 +9346,28 @@ from Kaleb S. KEITHLEY
 
 --------------------------------------------------------------------
 
-hw/xfree86/shadowfb/shadow.c:
+os/solaris/mdb/modules/Xserver_clients.c, tsol/tsolextension.c:
 
-Copyright (C) 1999.  The XFree86 Project Inc.
+Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
 
-Written by Mark Vojkovich (mvojkovi@ucsd.edu)
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -9095,7 +9400,13 @@ authorization from the copyright holder(s) and author(s).
 
 --------------------------------------------------------------------
 
-IA/interactive_srv.h, include/Xprintf.h, os/solaris/mdb/modules/Xserver_clients.c, os/solaris/mdb/modules/Xserver_device_grabs.c, os/solaris/mdb/modules/Xserver_mdb.h, os/solaris/mdb/modules/mdb_module.c:
+hw/xfree86/xaa/xaaOverlayDF.c:
+
+Copyright (c) 1999 - The XFree86 Project Inc.
+
+--------------------------------------------------------------------
+
+IA/interactive_srv.h, include/Xprintf.h:
 
 Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 
@@ -9146,31 +9457,6 @@ Except as contained in this notice, the name of the copyright holder(s)
 and author(s) shall not be used in advertising or otherwise to promote
 the sale, use or other dealings in this Software without prior written
 authorization from the copyright holder(s) and author(s).
-
---------------------------------------------------------------------
-
-IA/interactive.c:
-
-Copyright (c) 1993, 2012, Oracle and/or its affiliates. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
 
 --------------------------------------------------------------------
 
@@ -9272,6 +9558,32 @@ if advised of the possibility of such damage.
 
 --------------------------------------------------------------------
 
+dix/touch.c:
+
+Copyright © 2011 Collabra Ltd.
+Copyright © 2011 Red Hat, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------
+
 hw/xfree86/os-support/linux/lnx_init.c, hw/xfree86/os-support/linux/lnx_video.c:
 
 Copyright 1992 by Orest Zborowski <obz@Kodak.com>
@@ -9352,80 +9664,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
---------------------------------------------------------------------
-
-dix/getevents.c
-
-Copyright © 2006 Nokia Corporation
-Copyright © 2006-2007 Daniel Stone
-Copyright © 2008 Red Hat, Inc.
-Copyright © 2011 The Chromium Authors
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
---------------------------------------------------------------------
-
-dix/touch.c
-
-Copyright © 2011 Collabra Ltd.
-Copyright © 2011 Red Hat, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
---------------------------------------------------------------------
-os/osaudit.c
-
-Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.

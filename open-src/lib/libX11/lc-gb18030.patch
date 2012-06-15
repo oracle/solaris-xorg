@@ -22,10 +22,10 @@
 #
 
 diff --git a/configure.ac b/configure.ac
-index 64c9f60..c2f2376 100644
+index 2371d24..a2e2bc9 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -442,6 +442,7 @@ AC_CONFIG_FILES([Makefile
+@@ -460,6 +460,7 @@ AC_CONFIG_FILES([Makefile
  		modules/im/ximcp/Makefile
  		modules/lc/Makefile
  		modules/lc/def/Makefile
