@@ -864,6 +864,10 @@ METADATA_TARGETS += $(ATTRDATA_FILE)
 
 ## License files
 
+LICENSE_FILE_NAME = license_$(MODULE_NAME)
+LICENSE_FILE_DEST = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
+LICENSE_ATTR_FILE = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME).p5m
+
 # Default license file name is COPYING (X.Org & GNU autoconf default)
 # For other license file names, set LICENSE_FILE to the file name
 # and set LICENSE_FILE_SET=yes
@@ -878,6 +882,26 @@ MIT_LICENSE_FILE = $(PKG_SRC_DIR)/license_files/lic_X11
 
 MODULE_LICENSE_DEFAULT		= $(MODULE_LICENSE_SET:yes=$(POUND_SIGN))
 $(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = $(MIT_LICENSE_NAME)
+
+# Each license file should have a header showing which upstream module it's 
+# from for easier viewing/cross-referencing.  The format of this header is
+# common to all Solaris consolidations, so should not be changed without
+# coordination.
+DEFAULT_LICENSE_PREPEND		= $(LICENSE_FILE_DEST).head
+DEFAULT_LICENSE_PREPEND_FILE	= $(LICENSE_FILE_NAME).head
+
+PRINT_IN_BOX = perl -n -e '$$border = "-" x length($$_) ; printf "--%s--\n- %s -\n--%s--\n\n", $$border, $$_, $$border'
+
+%/$(DEFAULT_LICENSE_PREPEND_FILE): %
+	@ $(START_CMD_ECHO) ; \
+	m='$(MODULE_NAME)' ; \
+	if [[ '$(MODULE_VERSION)' != 'src' ]] ; then \
+	    m+=' $(MODULE_VERSION)' ; \
+	fi ; \
+	print -n $$m | $(PRINT_IN_BOX) > $@
+	if [[ -n '$(ORACLE_TPNO)' && '$(LICENSE_CHOICE)' == 'Oracle' ]] ; then \
+	    print 'Oracle Internal Tracking Number $(ORACLE_TPNO)\n' >> $@ ; \
+	fi
 
 # Some packages contain only code that Oracle owns all the rights to.
 # For these, Makefile.options.oracle.com chooses to omit the license
@@ -898,7 +922,8 @@ ORACLE_LICENSE_APPEND		= $(ORACLE_LICENSE_APPEND_$(LICENSE_CHOICE))
 
 # Use default license info unless MODULE_LICENSE = "Oracle"
 LICENSE_NAME			= $(MODULE_LICENSE)
-LICENSE_PREPEND 		= $(MODULE_LICENSE_PREPEND)
+LICENSE_PREPEND 		= $(DEFAULT_LICENSE_PREPEND)
+LICENSE_PREPEND			+= $(MODULE_LICENSE_PREPEND)
 LICENSE_APPEND 			= $(MODULE_LICENSE_APPEND)
 
 LICENSE_OVERRIDE_1		= $(POUND_SIGN)$(MODULE_LICENSE)
@@ -907,14 +932,10 @@ $(LICENSE_OVERRIDE)		LICENSE_NAME = $(ORACLE_LICENSE_NAME)
 $(LICENSE_OVERRIDE)		LICENSE_PREPEND = $(ORACLE_LICENSE_PREPEND)
 $(LICENSE_OVERRIDE)		LICENSE_APPEND = $(ORACLE_LICENSE_APPEND)
 
-LICENSE_FILE_NAME = license_$(MODULE_NAME)
-LICENSE_FILE_DEST = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
-LICENSE_ATTR_FILE = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME).p5m
-
 install_license: $(LICENSE_FILE_DEST)
 METADATA_TARGETS += $(LICENSE_FILE_DEST)
 
-%/$(LICENSE_FILE_NAME): % $(SOURCE_TARGETS)
+%/$(LICENSE_FILE_NAME): % $(SOURCE_TARGETS) $(LICENSE_PREPEND) $(LICENSE_APPEND)
 	@ $(START_CMD_ECHO) ; \
 	if [[ -f "$(LICENSE_FILE)" ]] ; then \
 	    license_to_copy="$(LICENSE_FILE)" ; \

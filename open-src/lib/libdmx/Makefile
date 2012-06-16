@@ -36,6 +36,9 @@ TARBALL_MD5   = 782ced3a9e754dfeb53a8a006a75eb1a
 TARBALL_SHA1  = 76956d4127ded2e6d1bb5746a6d1603ee23b442a
 TARBALL_SHA256= a7870b648a8768d65432af76dd11581ff69f3955118540d5967eb1eef43838ba
 
+# Package metadata
+ORACLE_TPNO = 3811
+
 # Library name (used for specfiles/mapfiles)
 LIBNAME=dmx
 

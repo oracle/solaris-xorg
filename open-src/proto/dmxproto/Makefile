@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,9 @@ MODULE_VERSION=2.3.1
 # Checksums for upstream tarball
 TARBALL_MD5  = 4ee175bbd44d05c34d43bb129be5098a
 TARBALL_SHA1 = 3b8b273b8ef3d8dbab998df9ec1dddf99edf4d91
+
+# Package metadata
+ORACLE_TPNO = 3811
 
 ### Include common rulesets
 include ../Makefile.inc

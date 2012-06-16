@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# synergy 1.x Makefile
+# synergy application to share input devices across computers
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,6 +44,8 @@ UPSTREAM_SET		= yes
 MODULE_LICENSE		= GPLv2
 MODULE_LICENSE_SET	= yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
+
+ORACLE_TPNO = 3822
 
 # Version number (used in path names)
 MODULE_VERSION=1.3.4
