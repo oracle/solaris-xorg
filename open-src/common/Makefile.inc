@@ -877,7 +877,7 @@ LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
 # Default is the MIT/X11 license
-MIT_LICENSE_NAME = MIT License ($(MODULE_NAME))
+MIT_LICENSE_NAME = MIT License
 MIT_LICENSE_FILE = $(PKG_SRC_DIR)/license_files/lic_X11
 
 MODULE_LICENSE_DEFAULT		= $(MODULE_LICENSE_SET:yes=$(POUND_SIGN))
@@ -913,7 +913,7 @@ $(LICENSE_CHOICE_DEFAULT)	LICENSE_CHOICE=open
 ORACLE_LICENSE_NAME_open	= $(MIT_LICENSE_NAME)
 ORACLE_LICENSE_APPEND_open	= $(MIT_LICENSE_FILE)
 
-ORACLE_LICENSE_NAME_Oracle	= Oracle Copyright Notice ($(MODULE_NAME))
+ORACLE_LICENSE_NAME_Oracle	= Oracle Copyright Notice
 ORACLE_LICENSE_APPEND_Oracle 	= # Nothing to append to copyright notice
 
 ORACLE_LICENSE_NAME 		= $(ORACLE_LICENSE_NAME_$(LICENSE_CHOICE))
@@ -944,7 +944,7 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 	fi ; \
 	if [[ -n "$${license_to_copy}" ]] ; then \
 	    cat $(LICENSE_PREPEND) "$${license_to_copy}" $(LICENSE_APPEND) > "$@" ; \
-	    print 'license $(LICENSE_FILE_NAME) license="$(LICENSE_NAME)"' > "$@.p5m" ; \
+	    print 'license $(LICENSE_FILE_NAME) license="$(LICENSE_NAME) ($(MODULE_NAME))"' > "$@.p5m" ; \
 	fi
 
 install_metadata: $(METADATA_TARGETS)
