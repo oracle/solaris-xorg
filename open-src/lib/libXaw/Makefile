@@ -53,6 +53,8 @@ MODULE_ARC_CASES = LSARC/2008/609
 # Library man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Uncommitted
+MODULE_MTLEVEL=See XtToolkitThreadInitialize(3XT)
+MODULE_MTLEVEL_SET=yes
 LIB_MAN_SUFFIX=3xaw
 
 # Link with version mapfile
@@ -71,3 +73,11 @@ MODULE_CONFIG_OPTS= --disable-xaw6
 MODULE_X11_LIBCOMPAT_LINKS = libXaw.so libXaw.so.7 libXaw7.so libXaw7.so.7
 
 include ../Makefile.inc
+
+# Additional man page to install
+MAN3LIB_DIR = $(PROTODIR)$(X11_MAN_DIR)/man3lib
+install: $(MAN3LIB_DIR)/libXaw.3lib
+
+$(MAN3LIB_DIR)/libXaw.3lib: libXaw.3lib
+	mkdir -p $(MAN3LIB_DIR)
+	sed -e 's%__distroname__%$(DISTRO_NAME)%g' libXaw.3lib > $@
