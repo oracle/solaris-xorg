@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,7 +44,7 @@ set name=org.opensolaris.consolidation value=X
 set name=info.maintainer-url \
 	value="http://hub.opensolaris.org/bin/view/Community+Group+x_win/"
 set name=info.repository-url \
-	value="ssh://anon@hg.opensolaris.org/hg/x-cons/xnv-clone"
+	value="ssh://anon@hg.opensolaris.org/hg/x-cons/x-s11-update-clone"
 
 #
 # Indicate that the package was published in a zones aware
