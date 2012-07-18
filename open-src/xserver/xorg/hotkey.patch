@@ -107,7 +107,7 @@ index 2ead556..c3eab4a 100644
 +#ifdef SUNSOFT
 +    InputOption *md = input_option_find(input_options, "mdriver");
 +    if (md) {
-+	char *mdriver = input_option_get_key(md);
++	char *mdriver = input_option_get_value(md);
 +	add_extra_device (mdriver);
 +    }
 +#endif
