@@ -171,7 +171,7 @@ depend type=require fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION) \
 depend type=require fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION)
 
 # Build uses and packages deliver a lot of shell/ksh93 scripts
-depend type=require fmri=pkg:/shell/ksh org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/shell/ksh93 org.opensolaris.pkgdepend.resolve=true
 
 # Build uses and packages depend on core OS commands & files
 depend type=require fmri=pkg:/system/core-os \
