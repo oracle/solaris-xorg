@@ -40,7 +40,8 @@ TARBALL_SHA256= ca983d780dd90115c0599980a7a83425b5e4eeb16f2e8c7fed15823fcbe7830e
 SOURCE_PATCHES = \
 		libraries.patch,-p1 \
 		g200se_pilot3_offscreen.patch,-p1 \
-		sparc.patch,-p1
+		sparc.patch,-p1 \
+		sparc-bus-probe.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

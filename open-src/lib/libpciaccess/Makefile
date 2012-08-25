@@ -40,7 +40,8 @@ SOURCE_PATCHES = \
 	legacy-io.patch,-p1 \
 	scanpci.man.patch \
 	primary-vga.patch,-p1 \
-	scanpci_64bit.patch,-p1
+	scanpci_64bit.patch,-p1 \
+	sparc.patch
 
 # Library name
 LIBNAME=libpciaccess

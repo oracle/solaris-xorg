@@ -27,3 +27,4 @@ vt.patch,-p1
 record-regset.patch,-p1
 autodetect-kernel-dev-fb.patch,-p1
 workaround-7154410.patch,-p1
+sparc-no-bus-probe.patch,-p1

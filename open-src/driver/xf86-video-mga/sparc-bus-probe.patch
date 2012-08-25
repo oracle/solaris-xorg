@@ -1,0 +1,44 @@
+--- a/src/mga_driver.c	Fri Aug 10 17:30:22 2012
++++ b/src/mga_driver.c	Fri Aug 17 16:33:15 2012
+@@ -120,6 +120,9 @@
+ static const OptionInfoRec *	MGAAvailableOptions(int chipid, int busid);
+ static void	MGAIdentify(int flags);
+ #ifdef XSERVER_LIBPCIACCESS
++#ifdef __sparc__
++static Bool     MGACompProbe(DriverPtr drv, int flags);
++#endif
+ static Bool MGAPciProbe(DriverPtr drv, int entity_num,
+     struct pci_device * dev, intptr_t match_data);
+ #else
+@@ -535,7 +538,11 @@
+     MGA_DRIVER_NAME,
+     MGAIdentify,
+ #ifdef XSERVER_LIBPCIACCESS
++#ifdef __sparc__
++    MGACompProbe,
++#else
+     NULL,
++#endif
+ #else
+     MGAProbe,
+ #endif
+@@ -4273,3 +4280,19 @@
+ 
+ }
+ #endif
++
++#ifdef __sparc__
++static Bool
++MGACompProbe(DriverPtr drvp, int flags)
++{
++    static Bool PciInitDone = FALSE;
++
++    /* Create pci system for use by the driver */
++    if (!PciInitDone) {
++	xf86BusProbe();
++	PciInitDone = TRUE;
++    }
++
++    return xf86PciProbeDev(drvp);
++}
++#endif

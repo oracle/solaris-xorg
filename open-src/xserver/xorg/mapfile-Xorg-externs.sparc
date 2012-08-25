@@ -1779,6 +1779,7 @@ SYMBOL_SCOPE {
 		xf86PMGetEventFromOs                     { FLAGS = EXTERN };
 		xf86ParsePciBusString                    { FLAGS = EXTERN };
 		xf86PathIsSafe                           { FLAGS = EXTERN };
+		xf86PciProbeDev                          { FLAGS = EXTERN };
 		xf86Pix24                                { FLAGS = EXTERN };
 		xf86PointerName                          { FLAGS = EXTERN };
 		xf86PostButtonEvent                      { FLAGS = EXTERN };
