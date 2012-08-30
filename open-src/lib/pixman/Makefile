@@ -28,11 +28,11 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.24.4
+MODULE_VERSION=0.26.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 89eb7db8853681bbcea626b161de0488
-TARBALL_SHA1 = 683450f917015366ac7918fc517c76801aeff374
+TARBALL_MD5  = 6b3e4c5300adb893a2baa9631c23efb2
+TARBALL_SHA1 = 1daf014714cc29147726abada12359345d156705
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
