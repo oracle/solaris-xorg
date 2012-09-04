@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ TARBALL_MD5  = 700c6d040d36a569e657a3ba5e1d8b24
 TARBALL_SHA1 = c58b7252df481572ec1ccd77b9f1ab561ed89e45
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES=	usr-ucb.patch,-p1
 
 ### Include common rulesets
 include ../Makefile.inc
