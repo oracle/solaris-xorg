@@ -41,7 +41,8 @@ SOURCE_PATCHES = \
 	scanpci.man.patch \
 	primary-vga.patch,-p1 \
 	scanpci_64bit.patch,-p1 \
-	sparc.patch
+	sparc.patch \
+	nexus_devlist.patch,-p1
 
 # Library name
 LIBNAME=libpciaccess
