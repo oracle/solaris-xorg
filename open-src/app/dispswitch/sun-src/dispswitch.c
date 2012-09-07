@@ -77,6 +77,7 @@ static Rotation	init_rotation;
 static int 	init_x;
 static int 	init_y;
 static Bool	use_init_pos = False;
+static Bool	need_off_deferred = False;
 
 static void
 usage(void)
@@ -734,6 +735,11 @@ apply (void)
 	    if (x + w <= fb_width && y + h <= fb_height) 
 		continue;
 	}
+
+	if (need_off_deferred)
+	    /* Defer taking off */
+	    continue;
+
 	s = crtc_disable (crtc);
 	if (s != RRSetConfigSuccess)
 	    panic (s, crtc);
@@ -1544,6 +1550,7 @@ do_switch (void)
 {
     int 	i, j;
     int		single;
+    int		save;
 
     for (i = 0; i < ncon; i++) 
 	new_mode[i] = NULL;
@@ -1669,11 +1676,14 @@ do_switch (void)
 			con_outputs[i].output->rotation);
     	    } 
 	} else if (con_outputs[i].on ) {
-	    output->mode_info = NULL;
-	    con_outputs[i].on = False;
-	    if (verbose)
-		fprintf(stderr, "turn off output %d (%s) \n", 
-		    i, con_outputs[i].output->output_info->name);
+	    if (!need_off_deferred) {
+		output->mode_info = NULL;
+		con_outputs[i].on = False;
+		if (verbose)
+		    fprintf(stderr, "turn off output %d (%s) \n", 
+			i, con_outputs[i].output->output_info->name);
+	    } else
+		save = i;
 	}
     }
   
@@ -1712,6 +1722,26 @@ do_switch (void)
 
     set_crtcs ();
     apply();
+
+    if (need_off_deferred) {
+	/* Now, take the deferred output off */
+	output_t    *output;
+	crtc_t      *crtc;
+	Status      s;
+	
+	output = con_outputs[save].output;
+	output->mode_info = NULL;
+	con_outputs[save].on = False;
+	if (verbose)
+	    fprintf(stderr, "turn off output %d (%s) \n",
+		save, con_outputs[save].output->output_info->name);
+	
+	crtc = output->crtc_info;
+	s = crtc_disable (crtc);
+	if (s != RRSetConfigSuccess)
+	    panic (s, crtc);
+    }
+
     XSync (dpy, False);
 
     did_init = False;
@@ -1937,6 +1967,8 @@ main (int argc, char **argv)
 
     for(;;)
     {
+	need_off_deferred = False;
+
 	if (testrun) {
 	    usleep(4000000);
 	    fprintf(stderr, "\n");
@@ -1995,7 +2027,13 @@ main (int argc, char **argv)
 	    } else if (ncon == 1)
 		do_not_switch = True;
 
-    	    if (!do_not_switch)
+    	    if (!do_not_switch) {
+		if ((ncon == 2) && (start == 1))
+		    /* 
+		     * Workaround for intel based graphics: in switching from 
+		     * LVDS to VGA, off on LVDS needs to be deferred.
+		     */
+		    need_off_deferred = True;
 	    	if (!do_switch()) {
 		    if ((ncon == 2) && (start == 4)) {
 			start = 5;
@@ -2004,6 +2042,7 @@ main (int argc, char **argv)
 			(void) do_switch();
 		    }
 		}
+	    }
     
 	    X_GETTIMEOFDAY(&time_val);
 	}
