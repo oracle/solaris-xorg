@@ -42,7 +42,8 @@ SOURCE_PATCHES = \
 	primary-vga.patch,-p1 \
 	scanpci_64bit.patch,-p1 \
 	sparc.patch \
-	nexus_devlist.patch,-p1
+	nexus_devlist.patch,-p1 \
+	rom_and_scanpci.patch,-p1
 
 # Library name
 LIBNAME=libpciaccess
@@ -90,6 +91,8 @@ MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = scanpci
+
+AUTORECONF=yes
 
 include ../Makefile.inc
 

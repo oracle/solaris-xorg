@@ -1,0 +1,221 @@
+--- a/scanpci/Makefile.am	Tue Oct 23 17:35:09 2012
++++ b/scanpci/Makefile.am	Tue Oct 23 17:26:39 2012
+@@ -23,7 +23,7 @@
+ 
+ noinst_PROGRAMS = scanpci
+ 
+-AM_CPPFLAGS = -I$(top_srcdir)/include
++AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
+ LDADD =  $(top_builddir)/src/libpciaccess.la
+ 
+ scanpci_SOURCES = scanpci.c
+--- a/scanpci/scanpci.c	Tue Oct 23 17:34:59 2012
++++ b/scanpci/scanpci.c	Tue Oct 23 17:25:59 2012
+@@ -47,8 +47,8 @@
+ #endif
+ 
+ #include "pciaccess.h"
++#include "pciaccess_private.h"
+ 
+-
+ static void
+ print_pci_bridge( const struct pci_bridge_info * info )
+ {
+@@ -171,8 +171,12 @@
+ 	}
+ 
+ 	if ( dev->rom_size ) {
+-	    printf( "  BASEROM   0x%08x  addr 0x%08x\n",
+-		    0, 0 );
++	    struct pci_device_private *priv =
++		(struct pci_device_private *) dev;
++
++	    if (priv->rom_base)
++		printf( "  BASEROM   0x%08llx SIZE %d\n",
++		    priv->rom_base, (size_t) dev->rom_size);
+ 	}
+ 
+ 	pci_device_cfg_read_u8( dev, & int_pin, 61 );
+--- a/src/solx_devfs.c	Tue Oct 23 17:34:46 2012
++++ b/src/solx_devfs.c	Tue Oct 30 14:01:09 2012
+@@ -871,6 +871,8 @@
+     int i;
+     int len = 0;
+     uint ent = 0;
++    struct pci_device_private *priv =
++	(struct pci_device_private *) dev;
+     nexus_t *nexus;
+ 
+ #ifdef __sparc
+@@ -900,18 +902,9 @@
+ 	di_minor_t minor;
+ #endif
+ 	int *prop;
+-	struct pci_device_private *priv =
+-	    (struct pci_device_private *) dev;
+ 
+ 	priv->is_primary = 0;
+ 
+-    	if (di_prop_lookup_ints(DDI_DEV_T_ANY,
+-	    args.node, "primary-controller", &prop) >= 1) {
+-	        if (prop[0])
+-			priv->is_primary = 1;
+-
+-	}
+-
+ #ifdef __sparc
+ 	if (minor = di_minor_next(args.node, DI_MINOR_NIL))
+ 	    MAPPING_DEV_PATH(dev) = di_devfs_minor_path (minor);
+@@ -919,6 +912,13 @@
+ 	    MAPPING_DEV_PATH(dev) = NULL;
+ #endif
+ 
++    	if (di_prop_lookup_ints(DDI_DEV_T_ANY,
++	    args.node, "primary-controller", &prop) >= 1) {
++	        if (prop[0])
++			priv->is_primary = 1;
++
++	}
++
+ 	/*
+ 	 * It will succeed for sure, because it was
+ 	 * successfully called in find_target_node
+@@ -938,33 +938,7 @@
+     if (len <= 0)
+ 	goto cleanup;
+ 
+-
+     /*
+-     * how to find the size of rom???
+-     * if the device has expansion rom,
+-     * it must be listed in the last
+-     * cells because solaris find probe
+-     * the base address from offset 0x10
+-     * to 0x30h. So only check the last
+-     * item.
+-     */
+-    reg = (pci_regspec_t *)&regbuf[len - CELL_NUMS_1275];
+-    if (PCI_REG_REG_G(reg->pci_phys_hi) == PCI_CONF_ROM) {
+-	/*
+-	 * rom can only be 32 bits
+-	 */
+-	dev->rom_size = reg->pci_size_low;
+-	len = len - CELL_NUMS_1275;
+-    }
+-    else {
+-	/*
+-	 * size default to 64K and base address
+-	 * default to 0xC0000
+-	 */
+-	dev->rom_size = 0x10000;
+-    }
+-
+-    /*
+      * Each BAR address get its own region slot in sequence.
+      * 32 bit BAR:
+      * BAR 0x10 -> slot0, BAR 0x14 -> slot1...
+@@ -978,7 +952,7 @@
+ 	reg = (pci_regspec_t *)&regbuf[i];
+ 	ent = reg->pci_phys_hi & 0xff;
+ 
+-	if (ent > PCI_CONF_BASE5) {
++	if (ent > PCI_CONF_ROM) {
+ 		fprintf(stderr, "error ent = %d\n", ent);
+ 		break;
+ 	}
+@@ -990,38 +964,43 @@
+ 	 * VGA resource here and ignore it
+ 	 */                                                             
+ 		break;
+-	} else
++	} else if (ent == PCI_CONF_ROM) {
++		priv->rom_base = reg->pci_phys_low |
++		    ((uint64_t)reg->pci_phys_mid << 32);
++		dev->rom_size = reg->pci_size_low; 
++	} else {
+ 		ent = (ent - PCI_CONF_BASE0) >> 2;
+-	/*
+-	 * non relocatable resource is excluded
+-	 * such like 0xa0000, 0x3b0. If it is met,
+-	 * the loop is broken;
+-	 */
+-	if (!PCI_REG_REG_G(reg->pci_phys_hi))
+-	    break;
++		/*
++	 	 * non relocatable resource is excluded
++	 	 * such like 0xa0000, 0x3b0. If it is met,
++	 	 * the loop is broken;
++	 	 */
++		if (!PCI_REG_REG_G(reg->pci_phys_hi))
++	    	    break;
+ 
+-	if (reg->pci_phys_hi & PCI_PREFETCH_B) {
+-	    dev->regions[ent].is_prefetchable = 1;
+-	}
++		if (reg->pci_phys_hi & PCI_PREFETCH_B) {
++		    dev->regions[ent].is_prefetchable = 1;
++		}
+ 
+ 
+-	dev->regions[ent].base_addr = reg->pci_phys_low |
+-	    ((uint64_t)reg->pci_phys_mid << 32);
+-	dev->regions[ent].size = reg->pci_size_low |
+-	    ((uint64_t)reg->pci_size_hi << 32);
++		dev->regions[ent].base_addr = reg->pci_phys_low |
++	    	    ((uint64_t)reg->pci_phys_mid << 32);
++		dev->regions[ent].size = reg->pci_size_low |
++	    	    ((uint64_t)reg->pci_size_hi << 32);
+ 
+-	switch (reg->pci_phys_hi & PCI_REG_ADDR_M) {
+-	    case PCI_ADDR_IO:
+-		dev->regions[ent].is_IO = 1;
+-		break;
+-	    case PCI_ADDR_MEM32:
+-		break;
+-	    case PCI_ADDR_MEM64:
+-		dev->regions[ent].is_64 = 1;
+-		/*
+-		 * Skip one slot for 64 bit address
+-		 */
+-		break;
++		switch (reg->pci_phys_hi & PCI_REG_ADDR_M) {
++	    	    case PCI_ADDR_IO:
++			dev->regions[ent].is_IO = 1;
++			break;
++	    	    case PCI_ADDR_MEM32:
++			break;
++		    case PCI_ADDR_MEM64:
++			dev->regions[ent].is_64 = 1;
++			/*
++		 	 * Skip one slot for 64 bit address
++		 	 */
++			break;
++		}
+ 	}
+     }
+ 
+@@ -1105,15 +1084,22 @@
+     int err;
+     struct pci_device_mapping prom = {
+ 	.base = 0xC0000,
+-	.size = dev->rom_size,
++	.size = 0x10000,
+ 	.flags = 0
+     };
++    struct pci_device_private *priv =
++	(struct pci_device_private *) dev;
+ 
++    if (priv->rom_base) {
++	prom.base = priv->rom_base;
++	prom.size = dev->rom_size;
++    }
++
+     err = pci_device_solx_devfs_map_range(dev, &prom);
+     if (err == 0) {
+ 	(void) bcopy(prom.memory, buffer, dev->rom_size);
+ 
+-	if (munmap(prom.memory, dev->rom_size) == -1) {
++	if (munmap(prom.memory, prom.size) == -1) {
+ 	    err = errno;
+ 	}
+     }
