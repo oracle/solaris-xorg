@@ -58,7 +58,7 @@ VENDOR_SUPPORT_URL = http://support.oracle.com/
 PKG_BRANDING_TRANSFORMS = branding_Oracle
 
 # Reference repository for pkglint to check against
-PKGLINT_REFERENCE_REPO = http://ipkg.us.oracle.com/solaris11/dev/
+PKGLINT_REFERENCE_REPO = http://ipkg.us.oracle.com/solaris12/dev/
 
 # Enable parfait static analysis of code by default
 DEFAULT_PARFAIT_1 =	$(USE_PARFAIT:yes=)
