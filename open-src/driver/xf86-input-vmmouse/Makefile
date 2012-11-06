@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-vmmouse
 
 # Version number (used in path names)
-MODULE_VERSION=12.8.0
+MODULE_VERSION=12.9.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 15fce165117706cd5e774a8aa58122ce
-TARBALL_SHA1  = ecca90d5e992f9358f7932e0c46e92ebe715f9de
-TARBALL_SHA256= a8a6ec0b567c48c130ccb830e15dfc2b201831841de0c2cc56bd87256d2d869a
+TARBALL_MD5   = 2b3bfea9ba1f73d9d68bddd0d6b20112
+TARBALL_SHA1  = 83500beddba2da390389705d482131872fe9be8b
+TARBALL_SHA256= fbcf00f6bfee38bc65e0f0b812a4d076f7e203e81ed908e57de4026792b299bf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = libraries.patch,-p1

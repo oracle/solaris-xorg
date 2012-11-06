@@ -40,7 +40,8 @@ SOURCE_PATCHES = \
 	RAC-API-removal.patch,-p1 \
 	no-modes.patch,-p1 \
 	sparc-efb.patch,-p1 \
-	pciTag.patch
+	pciTag.patch \
+	disable-xaa.patch
 
 # Need to regenerate configure after patching Makefile.am in sparc-efb.patch
 AUTORECONF=yes
@@ -78,8 +79,8 @@ MODULE_LD_OPTIONS= \
         -R$(X11_SERVERMODS_DIR)/extensions \
         -R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
         -R$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
-        -lexa -lfb -lint10 -lvbe -lvgahw -lxaa -lshadow \
-        -lpciaccess -lpixman-1 -ldrm -ldri -lglx -lm \
+        -lexa -lfb -lint10 -lvbe -lvgahw -lshadow \
+        -lpciaccess -lpixman-1 -ldrm -lglx -lm \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-bt829_drv-external \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-fi1236_drv-external \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-msp3430_drv-external \

@@ -1,0 +1,14 @@
+--- src/atiscreen.c	Thu Sep 20 08:11:15 2012
++++ src/atiscreen.c	Thu Sep 20 08:12:36 2012
+@@ -580,7 +580,11 @@
+ #ifdef TV_OUT
+     /* Fix-up TV out after ImpacTV probe */
+     if (pATI->OptionTvOut && pATI->Chip < ATI_CHIP_264GTPRO)
++#ifndef XF86_SCRN_INTERFACE
+         ATISwitchMode(0, pScreenInfo->currentMode, 0);
++#else
++        ATISwitchMode(pScreenInfo->currentMode, 0);
++#endif
+ #endif /* TV_OUT */
+ 
+ #ifdef XF86DRI_DEVEL

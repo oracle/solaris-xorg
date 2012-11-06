@@ -58,3 +58,14 @@
  		drm_intel_bufmgr_gem *bufmgr_gem =
  		    (drm_intel_bufmgr_gem *) bo->bufmgr;
  		struct timespec time;
+--- intel/intel_bufmgr_gem.c	Wed Sep 26 12:45:00 2012
++++ intel/intel_bufmgr_gem.c	Wed Sep 26 12:45:42 2012
+@@ -2438,7 +2438,7 @@
+ 
+ 	bo_gem->gem_handle = handle;
+ 
+-	atomic_set(&bo_gem->refcount, 1);
++	bo_gem->refcount = 1;
+ 
+ 	bo_gem->name = "prime";
+ 	bo_gem->validate_index = -1;

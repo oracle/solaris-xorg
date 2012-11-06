@@ -1,0 +1,5 @@
+{
+  global:
+    TRIDENT_Sync = FUNCTION extern;
+};
+

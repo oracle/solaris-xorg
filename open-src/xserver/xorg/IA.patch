@@ -80,35 +80,9 @@ index a5be3ae..02a6d0d 100644
 +libia_la_LDFLAGS = -avoid-version
 +libia_la_LIBADD = $(top_builddir)/IA/libIA.la
 +libia_la_SOURCES = iamodule.c
-diff --git a/mi/miinitext.c b/mi/miinitext.c
-index 6ceae05..433aec7 100644
---- a/mi/miinitext.c
-+++ b/mi/miinitext.c
-@@ -153,6 +153,12 @@ extern Bool noXvExtension;
- #endif
- extern Bool noGEExtension;
- 
-+#define SolarisIAExtension
-+
-+#ifdef SolarisIAExtension
-+Bool noIAExtension;
-+#endif
-+
- #ifndef XFree86LOADER
- #define INITARGS void
- typedef void (*InitExtension) (INITARGS);
-@@ -183,6 +189,10 @@ typedef void (*InitExtension) (INITARGS);
- #ifdef RES
- #include <X11/extensions/XResproto.h>
- #endif
-+#ifdef SolarisIAExtension
-+#include <X11/extensions/interactive.h>
-+#include "../IA/interactive_srv.h"
-+#endif
- 
- /* FIXME: this whole block of externs should be from the appropriate headers */
- #ifdef MITSHM
-@@ -306,6 +316,9 @@ static ExtensionToggle ExtensionToggleList[] = {
+--- a/mi/miinitext.c	Tue Sep 11 14:41:49 2012
++++ b/mi/miinitext.c	Tue Sep 11 14:45:20 2012
+@@ -151,6 +151,9 @@
  #ifdef XCSECURITY
      {"SECURITY", &noSecurityExtension},
  #endif
@@ -118,13 +92,3 @@ index 6ceae05..433aec7 100644
  #ifdef RES
      {"X-Resource", &noResExtension},
  #endif
-@@ -496,6 +509,9 @@ InitExtensions(int argc, char *argv[])
-     if (!noGlxExtension)
-         GlxExtensionInit();
- #endif
-+#ifdef SolarisIAExtension
-+    if (!noIAExtension) IAExtensionInit();
-+#endif
- }
- 
- #else                           /* XFree86LOADER */

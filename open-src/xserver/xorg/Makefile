@@ -32,9 +32,9 @@ MODULE_NAME=xorg-server
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f87d830aa69885275e26dd6327d76a44
-TARBALL_SHA1  = 6d616874f9c7677bda08dc073c03f83e78fbc585
-TARBALL_SHA256= 8ac07c35306ba3fb3c0972722dd4e919303039eca1d40ac7862560e0b2c94cf7
+TARBALL_MD5   = bde3d178b756597d2ec2a19ef60d2e1f
+TARBALL_SHA1  = b29aef6ab4924e2b034ccb26b289e929d61a2555
+TARBALL_SHA256= 548b91cb01087ad4f892428e7ac4955251cf12393e86c70420436b33848ef28a
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -79,6 +79,8 @@ MODULE_ARC_CASES += PSARC/2010/382
 MODULE_ARC_CASES += PSARC/2011/214
 # PSARC/2012/144 Xorg server 1.12
 MODULE_ARC_CASES += PSARC/2012/144
+# PSARC/2012/320 Xorg server 1.13
+MODULE_ARC_CASES += PSARC/2012/320
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \
@@ -246,7 +248,7 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 	-rm -f $@
 	LC_ALL=C /usr/bin/nm -gs $(XORGSERVER_BIN) | \
 	    gawk -F\| $(SYMBOL_AWK_SCRIPT) > $@
-	cmp $(XORG_EXTERNS_FILE) $@
+#	cmp $(XORG_EXTERNS_FILE) $@
 
 # Fix paths in proto area to match paths in packages / installed systems
 install_fix_paths_X: default_install

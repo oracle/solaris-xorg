@@ -1,5 +1,3 @@
-SProcDRI2Connect.patch,-p1
-studio-asm.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
@@ -27,3 +25,4 @@ record-regset.patch,-p1
 autodetect-kernel-dev-fb.patch,-p1
 workaround-7154410.patch,-p1
 sparc-no-bus-probe.patch,-p1
+113-port.patch,-p1

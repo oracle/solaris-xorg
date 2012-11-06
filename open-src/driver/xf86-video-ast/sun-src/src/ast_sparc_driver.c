@@ -49,7 +49,9 @@
 #include "xf86fbman.h"
 
 /* include xaa includes */
+#ifdef HAVE_XAA
 #include "xaa.h"
+#endif
 #include "xaarop.h"
 
 /* H/W cursor support */

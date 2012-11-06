@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-cirrus
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.5.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 1e449789da866f974dbf6cbe3c8cc7bf
-TARBALL_SHA1  = 3f76802415e7dc02058222a5fe44cacd9e3529dd
-TARBALL_SHA256= 2b07fa5d4a86acb277d72c7ae35566ae21b08836645c6a88e7662422af5e962e
+TARBALL_MD5   = 16ea047a601896fb0ec995dbe9fb7ef2
+TARBALL_SHA1  = 4cc24018761ed775b36552091747fec38c374da9
+TARBALL_SHA256= a955429cbd673230c4b171afd6d0a6b28372d2f9d0a400f5124869274a27c557
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = mapfiles.patch

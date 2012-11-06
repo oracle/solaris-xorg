@@ -26,11 +26,11 @@
 MODULE_NAME=dri2proto
 
 # Version number (used in path names)
-MODULE_VERSION=2.6
+MODULE_VERSION=2.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2eb74959684f47c862081099059a11ab
-TARBALL_SHA1 = ba65fc53376fd6e6b41bf6ef1e2ea1ba4b12ca96
+TARBALL_MD5  = b2721d5d24c04d9980a0c6540cb5396a
+TARBALL_SHA1 = 2bc4e8f00778b1f3fe58b4c4f93607ac2adafbbf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

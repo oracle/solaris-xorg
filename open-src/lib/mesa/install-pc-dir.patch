@@ -13,24 +13,9 @@
  
  clean:
  	-@for dir in $(SUBDIRS) ; do \
---- src/glw/Makefile	Mon Mar  1 09:57:10 2010
-+++ src/glw/Makefile	Mon Mar  1 09:57:34 2010
-@@ -41,10 +41,10 @@
- install: glw.pc
- 	$(INSTALL) -d $(DESTDIR)$(INSTALL_INC_DIR)/GL
- 	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -d $(DESTDIR)$(INSTALL_PC_DIR)
- 	$(INSTALL) -m 644 *.h $(DESTDIR)$(INSTALL_INC_DIR)/GL
- 	$(MINSTALL) $(TOP)/$(LIB_DIR)/$(GLW_LIB_GLOB) $(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -m 644 glw.pc $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -m 644 glw.pc $(DESTDIR)$(INSTALL_PC_DIR)
- 
- clean:
- 	-rm -f depend depend.bak
---- src/mesa/Makefile	Mon Mar  1 09:57:46 2010
-+++ src/mesa/Makefile	Mon Mar  1 10:01:04 2010
-@@ -128,17 +128,17 @@
+--- src/mesa/Makefile	Thu Sep  6 08:25:24 2012
++++ src/mesa/Makefile	Thu Sep  6 08:26:13 2012
+@@ -205,17 +205,17 @@
  
  install-libgl: default gl.pc install-headers
  	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)
@@ -52,10 +37,9 @@
  
  install-dri: default
  	cd drivers/dri && $(MAKE) install
- 
---- configs/default	Wed Apr 20 08:55:46 2011
-+++ configs/default	Wed Apr 20 08:56:29 2011
-@@ -137,6 +137,7 @@
+--- configs/default	Thu Sep  6 08:27:01 2012
++++ configs/default	Thu Sep  6 08:27:19 2012
+@@ -152,6 +152,7 @@
  INSTALL_DIR = /usr/local
  INSTALL_LIB_DIR = $(INSTALL_DIR)/$(LIB_DIR)
  INSTALL_INC_DIR = $(INSTALL_DIR)/include

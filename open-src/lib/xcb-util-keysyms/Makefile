@@ -2,7 +2,7 @@
 #
 # xcb-util-keysyms Makefile
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,11 +32,11 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.8
+MODULE_VERSION=0.3.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c75bb20e709093580a67eaf263251b50
-TARBALL_SHA1 = e835f800688f0cc89d7d362a35a28152d3251828
+TARBALL_MD5  = 64e4aad2d48cd4a92e2da13b9f35bfd2
+TARBALL_SHA1 = 74d9d0eeb13ec0e36b35f4b812e8073d1a09e51c
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109

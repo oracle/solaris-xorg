@@ -1,0 +1,1102 @@
+--- src/mesa/drivers/dri/i965/brw_context.c	Tue Oct  9 10:23:05 2012
++++ src/mesa/drivers/dri/i965/brw_context.c	Tue Oct  9 10:31:57 2012
+@@ -240,7 +240,7 @@
+    /* WM maximum threads is number of EUs times number of threads per EU. */
+    if (intel->gen >= 7) {
+       if (intel->gt == 1) {
+-	 brw->max_wm_threads = 86;
++	 brw->max_wm_threads = 48;
+ 	 brw->max_vs_threads = 36;
+ 	 brw->max_gs_threads = 36;
+ 	 brw->urb.size = 128;
+--- src/mesa/drivers/dri/i965/brw_fs.h	Tue Oct  9 10:33:03 2012
++++ src/mesa/drivers/dri/i965/brw_fs.h	Tue Oct  9 10:33:57 2012
+@@ -409,7 +409,7 @@
+ 	 this->reg_null_cmp = reg_null_f;
+ 
+       this->frag_depth = NULL;
+-      memset(this->outputs, 0, sizeof(this->outputs));
++      memset(this->output_components, 0, sizeof(this->output_components));
+       this->first_non_payload_grf = 0;
+       this->max_grf = intel->gen >= 7 ? GEN7_MRF_HACK_START : BRW_MAX_GRF;
+ 
+--- src/mesa/main/extensions.c	Tue Oct  9 10:34:28 2012
++++ src/mesa/main/extensions.c	Tue Oct  9 10:36:24 2012
+@@ -916,7 +916,7 @@
+ 
+    base = (GLboolean *) &ctx->Extensions;
+    for (i = extension_table; i->name != 0; ++i) {
+-      if (base[i->offset]) {
++      if (base[i->offset] && (i->api_set & (1 << ctx->API))) {
+ 	 ctx->Extensions.Count++;
+       }
+    }
+@@ -939,10 +939,11 @@
+    base = (GLboolean*) &ctx->Extensions;
+    n = 0;
+    for (i = extension_table; i->name != 0; ++i) {
+-      if (n == index && base[i->offset]) {
+-	 return (GLubyte*) i->name;
+-      } else if (base[i->offset]) {
+-	 ++n;
++      if (base[i->offset] & (i->api_set & (1 << ctx->API))) {
++	 if (n == index)
++	    return (const GLubyte*) i->name;
++	 else
++	    ++n;
+       }
+    }
+ 
+--- src/mesa/drivers/dri/i965/brw_vs_constval.c	Tue Oct  9 10:37:03 2012
++++ src/mesa/drivers/dri/i965/brw_vs_constval.c	Tue Oct  9 10:37:48 2012
+@@ -143,14 +143,12 @@
+    /* Examine vertex program output sizes to set the size_masks[] info
+     * which describes the fragment program input sizes.
+     */
+-   for (vertRes = VERT_RESULT_TEX0; vertRes < VERT_RESULT_MAX; vertRes++) {
++   for (vertRes = 0; vertRes < VERT_RESULT_MAX; vertRes++) {
+ 
+       /* map vertex program output index to fragment program input index */
+       GLint fragAttrib = _mesa_vert_result_to_frag_attrib(vertRes);
+       if (fragAttrib < 0)
+          continue;
+-      assert(fragAttrib >= FRAG_ATTRIB_TEX0);
+-      assert(fragAttrib <= FRAG_ATTRIB_MAX);
+ 
+       switch (get_output_size(t, vertRes)) {
+       case 4: t->size_masks[4-1] |= 1 << fragAttrib;
+--- src/mesa/main/pack.c	Tue Oct  9 10:38:12 2012
++++ src/mesa/main/pack.c	Tue Oct  9 10:38:47 2012
+@@ -4900,7 +4900,7 @@
+       else {
+          /* need to use double precision to prevent overflow problems */
+          for (i = 0; i < n; i++) {
+-            GLdouble z = depthValues[i] * (GLfloat) depthMax;
++            GLdouble z = depthValues[i] * (GLdouble) depthMax;
+             if (z >= (GLdouble) 0xffffffff)
+                zValues[i] = 0xffffffff;
+             else
+--- src/mesa/drivers/dri/i965/gen7_hiz.c	Tue Oct  9 10:39:24 2012
++++ src/mesa/drivers/dri/i965/gen7_hiz.c	Tue Oct  9 10:40:58 2012
+@@ -349,6 +349,24 @@
+          offset = intel_renderbuffer_tile_offsets(&rb, &tile_x, &tile_y);
+       }
+ 
++     /* According to the Sandy Bridge PRM, volume 2 part 1, pp326-327
++      * (3DSTATE_DEPTH_BUFFER dw5), in the documentation for "Depth
++      * Coordinate Offset X/Y":
++      *
++      * "The 3 LSBs of both offsets must be zero to ensure correct
++      * alignment"
++      *
++      * We have no guarantee that tile_x and tile_y are correctly aligned,
++      * since they are determined by the mipmap layout, which is only aligned
++      * to multiples of 4.
++      *
++      * So, to avoid hanging the GPU, just smash the low order 3 bits of
++      * tile_x and tile_y to 0. This is a temporary workaround until we come
++      * up with a better solution.
++      */
++      tile_x &= ~7;
++      tile_y &= ~7;
++
+       intel_emit_depth_stall_flushes(intel);
+ 
+       BEGIN_BATCH(7);
+--- src/mesa/drivers/dri/i965/gen7_misc_state.c	Tue Oct  9 10:41:04 2012
++++ src/mesa/drivers/dri/i965/gen7_misc_state.c	Tue Oct  9 10:42:30 2012
+@@ -92,6 +92,24 @@
+       uint32_t tile_x, tile_y, offset;
+ 
+       offset = intel_renderbuffer_tile_offsets(drb, &tile_x, &tile_y);
++ 
++      /* According to the Sandy Bridge PRM, volume 2 part 1, pp326-327
++       * (3DSTATE_DEPTH_BUFFER dw5), in the documentation for "Depth
++       * Coordinate Offset X/Y":
++       *
++       * "The 3 LSBs of both offsets must be zero to ensure correct
++       * alignment"
++       *
++       * We have no guarantee that tile_x and tile_y are correctly aligned,
++       * since they are determined by the mipmap layout, which is only aligned
++       * to multiples of 4.
++       *
++       * So, to avoid hanging the GPU, just smash the low order 3 bits of
++       * tile_x and tile_y to 0. This is a temporary workaround until we come
++       * up with a better solution.
++       */
++       tile_x &= ~7;
++       tile_y &= ~7;
+ 
+       assert(region->tiling == I915_TILING_Y);
+ 
+--- src/mesa/main/formats.c	Tue Oct  9 10:43:08 2012
++++ src/mesa/main/formats.c	Tue Oct  9 10:43:57 2012
+@@ -1860,8 +1860,7 @@
+       const GLuint wblocks = (width + bw - 1) / bw;
+       const GLuint hblocks = (height + bh - 1) / bh;
+       const GLuint sz = wblocks * hblocks * info->BytesPerBlock;
+-      assert(depth == 1);
+-      return sz;
++      return sz * depth;
+    }
+    else {
+       /* non-compressed */
+@@ -1887,8 +1886,7 @@
+       const uint64_t wblocks = (width + bw - 1) / bw;
+       const uint64_t hblocks = (height + bh - 1) / bh;
+       const uint64_t sz = wblocks * hblocks * info->BytesPerBlock;
+-      assert(depth == 1);
+-      return sz;
++      return sz * depth;
+    }
+    else {
+       /* non-compressed */
+--- src/mesa/drivers/dri/i965/brw_misc_state.c	Tue Oct  9 10:44:17 2012
++++ src/mesa/drivers/dri/i965/brw_misc_state.c	Tue Oct  9 10:45:24 2012
+@@ -376,6 +376,24 @@
+       assert(intel->gen < 6 || region->tiling == I915_TILING_Y);
+       assert(!hiz_region || region->tiling == I915_TILING_Y);
+ 
++      /* According to the Sandy Bridge PRM, volume 2 part 1, pp326-327
++       * (3DSTATE_DEPTH_BUFFER dw5), in the documentation for "Depth
++       * Coordinate Offset X/Y":
++       *
++       * "The 3 LSBs of both offsets must be zero to ensure correct
++       * alignment"
++       *
++       * We have no guarantee that tile_x and tile_y are correctly aligned,
++       * since they are determined by the mipmap layout, which is only aligned
++       * to multiples of 4.
++       *
++       * So, to avoid hanging the GPU, just smash the low order 3 bits of
++       * tile_x and tile_y to 0. This is a temporary workaround until we come
++       * up with a better solution.
++       */
++      tile_x &= ~7;
++      tile_y &= ~7;
++
+       BEGIN_BATCH(len);
+       OUT_BATCH(_3DSTATE_DEPTH_BUFFER << 16 | (len - 2));
+       OUT_BATCH(((region->pitch * region->cpp) - 1) |
+--- src/mesa/drivers/dri/i965/gen6_hiz.c	Tue Oct  9 10:45:26 2012
++++ src/mesa/drivers/dri/i965/gen6_hiz.c	Tue Oct  9 10:46:35 2012
+@@ -489,6 +489,24 @@
+          offset = intel_renderbuffer_tile_offsets(&rb, &tile_x, &tile_y);
+       }
+ 
++      /* According to the Sandy Bridge PRM, volume 2 part 1, pp326-327
++       * (3DSTATE_DEPTH_BUFFER dw5), in the documentation for "Depth
++       * Coordinate Offset X/Y":
++       *
++       * "The 3 LSBs of both offsets must be zero to ensure correct
++       * alignment"
++       *
++       * We have no guarantee that tile_x and tile_y are correctly aligned,
++       * since they are determined by the mipmap layout, which is only aligned
++       * to multiples of 4.
++       *
++       * So, to avoid hanging the GPU, just smash the low order 3 bits of
++       * tile_x and tile_y to 0. This is a temporary workaround until we come
++       * up with a better solution.
++       */
++      tile_x &= ~7;
++      tile_y &= ~7;
++
+       uint32_t format;
+       switch (mt->format) {
+       case MESA_FORMAT_Z16:       format = BRW_DEPTHFORMAT_D16_UNORM; break;
+--- src/mesa/drivers/dri/i965/brw_fs.cpp	Tue Oct  9 10:46:47 2012
++++ src/mesa/drivers/dri/i965/brw_fs.cpp	Tue Oct  9 10:47:54 2012
+@@ -1595,6 +1595,9 @@
+       }
+    }
+ 
++   if (progress)
++      live_intervals_valid = false;
++
+    return progress;
+ }
+ 
+@@ -1671,6 +1674,9 @@
+       }
+    }
+ 
++   if (progress)
++	live_intervals_valid = false;
++
+    return progress;
+ }
+ 
+--- src/mesa/drivers/dri/i965/brw_fs.cpp	Tue Oct  9 10:46:47 2012
++++ src/mesa/drivers/dri/i965/brw_fs.cpp	Tue Oct  9 10:50:34 2012
+@@ -1595,6 +1595,9 @@
+       }
+    }
+ 
++   if (progress)
++      live_intervals_valid = false;
++
+    return progress;
+ }
+ 
+@@ -1671,6 +1674,9 @@
+       }
+    }
+ 
++   if (progress)
++	live_intervals_valid = false;
++
+    return progress;
+ }
+ 
+@@ -1883,6 +1889,7 @@
+    struct gl_fragment_program *fp = (struct gl_fragment_program *)
+       prog->_LinkedShaders[MESA_SHADER_FRAGMENT]->Program;
+    struct brw_fragment_program *bfp = brw_fragment_program(fp);
++   bool program_uses_dfdy = fp->UsesDFdy;
+ 
+    memset(&key, 0, sizeof(key));
+ 
+--- src/mesa/drivers/dri/i965/brw_fs_emit.cpp	Tue Oct  9 10:50:54 2012
++++ src/mesa/drivers/dri/i965/brw_fs_emit.cpp	Tue Oct  9 10:52:38 2012
+@@ -913,7 +913,11 @@
+ 	 generate_ddx(inst, dst, src[0]);
+ 	 break;
+       case FS_OPCODE_DDY:
+-	 generate_ddy(inst, dst, src[0]);
++         /* Make sure fp->UsesDFdy flag got set (otherwise there's no
++          * guarantee that c->key.render_to_fbo is set).
++          */
++         assert(fp->UsesDFdy);
++	 generate_ddy(inst, dst, src[0], c->key.render_to_fbo);
+ 	 break;
+ 
+       case FS_OPCODE_SPILL:
+--- src/mesa/drivers/dri/i965/brw_wm.c	Tue Oct  9 10:52:52 2012
++++ src/mesa/drivers/dri/i965/brw_wm.c	Tue Oct  9 10:53:21 2012
+@@ -417,6 +417,8 @@
+    GLuint line_aa;
+    GLuint i;
+ 
++   bool program_uses_dfdy = fp->program.UsesDFdy;
++
+    memset(key, 0, sizeof(*key));
+ 
+    /* Build the index for table lookup
+--- src/mesa/drivers/dri/i965/brw_wm_emit.c	Tue Oct  9 10:53:23 2012
++++ src/mesa/drivers/dri/i965/brw_wm_emit.c	Tue Oct  9 10:54:30 2012
+@@ -1743,7 +1743,11 @@
+ 	 break;
+ 
+       case OPCODE_DDY:
+-	 emit_ddxy(p, dst, dst_flags, false, args[0]);
++	 /* Make sure fp->program.UsesDFdy flag got set (otherwise there's no
++          * guarantee that c->key.render_to_fbo is set).
++          */
++         assert(c->fp->program.UsesDFdy);
++	 emit_ddxy(p, dst, dst_flags, false, args[0], c->key.render_to_fbo);
+ 	 break;
+ 
+       case OPCODE_DP2:
+--- src/mesa/main/mtypes.h	Tue Oct  9 10:54:55 2012
++++ src/mesa/main/mtypes.h	Tue Oct  9 10:55:39 2012
+@@ -1974,6 +1974,7 @@
+ {
+    struct gl_program Base;   /**< base class */
+    GLboolean UsesKill;          /**< shader uses KIL instruction */
++   GLboolean UsesDFdy; 		/**< shader uses DDY instruction */
+    GLboolean OriginUpperLeft;
+    GLboolean PixelCenterInteger;
+    enum gl_frag_depth_layout FragDepthLayout;
+--- src/mesa/program/program.c	Tue Oct  9 10:55:46 2012
++++ src/mesa/program/program.c	Tue Oct  9 10:56:26 2012
+@@ -551,6 +551,7 @@
+             = (const struct gl_fragment_program *) prog;
+          struct gl_fragment_program *fpc = (struct gl_fragment_program *) clone;
+          fpc->UsesKill = fp->UsesKill;
++   	 fpc->UsesDFdy = fp->UsesDFdy;
+          fpc->OriginUpperLeft = fp->OriginUpperLeft;
+          fpc->PixelCenterInteger = fp->PixelCenterInteger;
+       }
+@@ -772,6 +773,7 @@
+       newFprog = (struct gl_fragment_program *) newProg;
+ 
+       newFprog->UsesKill = fprogA->UsesKill || fprogB->UsesKill;
++      newFprog->UsesDFdy = fprogA->UsesDFdy || fprogB->UsesDFdy;
+ 
+       /* We'll do a search and replace for instances
+        * of progB_colorFile/progB_colorIndex below...
+--- src/mesa/drivers/dri/i965/brw_fs_emit.cpp	Tue Oct  9 10:59:36 2012
++++ src/mesa/drivers/dri/i965/brw_fs_emit.cpp	Tue Oct  9 11:02:03 2012
+@@ -475,8 +475,13 @@
+    brw_ADD(p, dst, src0, negate(src1));
+ }
+ 
++/* The negate_value boolean is used to negate the derivative computation for
++ * FBOs, since they place the origin at the upper left instead of the lower
++ * left.
++ */
+ void
+-fs_visitor::generate_ddy(fs_inst *inst, struct brw_reg dst, struct brw_reg src)
++fs_visitor::generate_ddy(fs_inst *inst, struct brw_reg dst, struct brw_reg src,
++		         bool negate_value)
+ {
+    struct brw_reg src0 = brw_reg(src.file, src.nr, 0,
+ 				 BRW_REGISTER_TYPE_F,
+@@ -490,7 +495,10 @@
+ 				 BRW_WIDTH_4,
+ 				 BRW_HORIZONTAL_STRIDE_0,
+ 				 BRW_SWIZZLE_XYZW, WRITEMASK_XYZW);
+-   brw_ADD(p, dst, src0, negate(src1));
++   if (negate_value)
++	brw_ADD(p, dst, src1, negate(src0));
++   else
++	brw_ADD(p, dst, src0, negate(src1));
+ }
+ 
+ void
+--- src/mesa/drivers/dri/i965/brw_wm.c	Tue Oct  9 11:02:28 2012
++++ src/mesa/drivers/dri/i965/brw_wm.c	Tue Oct  9 11:04:07 2012
+@@ -517,8 +517,11 @@
+     */
+    if (fp->program.Base.InputsRead & FRAG_BIT_WPOS) {
+       key->drawable_height = ctx->DrawBuffer->Height;
+-      key->render_to_fbo = ctx->DrawBuffer->Name != 0;
+    }
++   
++   if ((fp->program.Base.InputsRead & FRAG_BIT_WPOS) || program_uses_dfdy) {
++      key->render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
++   }
+ 
+    /* _NEW_BUFFERS */
+    key->nr_color_regions = ctx->DrawBuffer->_NumColorDrawBuffers;
+--- src/mesa/drivers/dri/i965/brw_wm.h	Tue Oct  9 11:04:11 2012
++++ src/mesa/drivers/dri/i965/brw_wm.h	Tue Oct  9 11:05:00 2012
+@@ -346,7 +346,8 @@
+ 	       const struct brw_reg *dst,
+ 	       GLuint mask,
+ 	       bool is_ddx,
+-	       const struct brw_reg *arg0);
++	       const struct brw_reg *arg0,
++	       bool negate_value);
+ void emit_delta_xy(struct brw_compile *p,
+ 		   const struct brw_reg *dst,
+ 		   GLuint mask,
+--- src/mesa/drivers/dri/i965/brw_wm_emit.c	Tue Oct  9 11:05:05 2012
++++ src/mesa/drivers/dri/i965/brw_wm_emit.c	Tue Oct  9 11:06:53 2012
+@@ -462,7 +462,8 @@
+ 	       const struct brw_reg *dst,
+ 	       GLuint mask,
+ 	       bool is_ddx,
+-	       const struct brw_reg *arg0)
++	       const struct brw_reg *arg0,
++	       bool negate_value)
+ {
+    int i;
+    struct brw_reg src0, src1;
+@@ -498,7 +499,10 @@
+ 			   BRW_HORIZONTAL_STRIDE_0,
+ 			   BRW_SWIZZLE_XYZW, WRITEMASK_XYZW);
+ 	 }
+-	 brw_ADD(p, dst[i], src0, negate(src1));
++         if (negate_value)
++		brw_ADD(p, dst[i], src1, negate(src0));
++	 else
++		brw_ADD(p, dst[i], src0, negate(src1));
+       }
+    }
+    if (mask & SATURATE)
+@@ -1739,7 +1743,7 @@
+ 	 break;
+ 
+       case OPCODE_DDX:
+-	 emit_ddxy(p, dst, dst_flags, true, args[0]);
++	 emit_ddxy(p, dst, dst_flags, true, args[0], false);
+ 	 break;
+ 
+       case OPCODE_DDY:
+--- src/mesa/drivers/dri/i915/i830_state.c	Tue Oct  9 11:08:37 2012
++++ src/mesa/drivers/dri/i915/i830_state.c	Tue Oct  9 11:09:25 2012
+@@ -30,6 +30,7 @@
+ #include "main/context.h"
+ #include "main/macros.h"
+ #include "main/enums.h"
++#include "main/fbobject.h"
+ #include "main/dd.h"
+ #include "main/state.h"
+ 
+@@ -545,7 +546,7 @@
+ 
+    DBG("%s %d,%d %dx%d\n", __FUNCTION__, x, y, w, h);
+ 
+-   if (ctx->DrawBuffer->Name == 0) {
++   if (_mesa_is_winsys_fbo(ctx->DrawBuffer)) {
+       x1 = x;
+       y1 = ctx->DrawBuffer->Height - (y + h);
+       x2 = x + w - 1;
+--- src/mesa/drivers/dri/i915/i915_state.c	Tue Oct  9 11:09:25 2012
++++ src/mesa/drivers/dri/i915/i915_state.c	Tue Oct  9 11:11:07 2012
+@@ -30,6 +30,7 @@
+ #include "main/context.h"
+ #include "main/macros.h"
+ #include "main/enums.h"
++#include "main/fbobject.h"
+ #include "main/dd.h"
+ #include "main/state.h"
+ #include "tnl/tnl.h"
+@@ -400,7 +401,7 @@
+ {
+    struct intel_context *intel = intel_context(ctx);
+ 
+-   if (ctx->DrawBuffer->Name == 0) {
++   if (_mesa_is_winsys_fbo(ctx->DrawBuffer)) {
+       _math_matrix_viewport(&intel->ViewportMatrix,
+ 			    ctx->Viewport.X,
+ 			    ctx->DrawBuffer->Height - ctx->Viewport.Y,
+@@ -518,7 +519,7 @@
+ 
+    DBG("%s %d,%d %dx%d\n", __FUNCTION__, x, y, w, h);
+ 
+-   if (ctx->DrawBuffer->Name == 0) {
++   if (_mesa_is_winsys_fbo(ctx->DrawBuffer)) {
+       x1 = x;
+       y1 = ctx->DrawBuffer->Height - (y + h);
+       x2 = x + w - 1;
+@@ -577,7 +578,7 @@
+    else if (ctx->Polygon.CullFaceMode != GL_FRONT_AND_BACK) {
+       mode = S4_CULLMODE_CW;
+ 
+-      if (ctx->DrawBuffer && ctx->DrawBuffer->Name != 0)
++      if (ctx->DrawBuffer && _mesa_is_user_fbo(ctx->DrawBuffer))
+          mode ^= (S4_CULLMODE_CW ^ S4_CULLMODE_CCW);
+       if (ctx->Polygon.CullFaceMode == GL_FRONT)
+          mode ^= (S4_CULLMODE_CW ^ S4_CULLMODE_CCW);
+--- src/mesa/drivers/dri/i965/brw_fs.cpp	Tue Oct  9 11:11:13 2012
++++ src/mesa/drivers/dri/i965/brw_fs.cpp	Tue Oct  9 11:11:53 2012
+@@ -35,6 +35,7 @@
+ #include "main/macros.h"
+ #include "main/shaderobj.h"
+ #include "main/uniforms.h"
++#include "main/fbobject.h"
+ #include "program/prog_parameter.h"
+ #include "program/prog_print.h"
+ #include "program/register_allocate.h"
+@@ -1928,7 +1929,7 @@
+ 
+    if (fp->Base.InputsRead & FRAG_BIT_WPOS) {
+       key.drawable_height = ctx->DrawBuffer->Height;
+-      key.render_to_fbo = ctx->DrawBuffer->Name != 0;
++      key.render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+    }
+ 
+    key.nr_color_regions = 1;
+--- src/mesa/drivers/dri/i965/brw_misc_state.c	Tue Oct  9 11:12:03 2012
++++ src/mesa/drivers/dri/i965/brw_misc_state.c	Tue Oct  9 12:54:26 2012
+@@ -40,6 +40,8 @@
+ #include "brw_state.h"
+ #include "brw_defines.h"
+ 
++#include "main/fbobject.h"
++
+ /* Constant single cliprect for framebuffer object or DRI2 drawing */
+ static void upload_drawing_rect(struct brw_context *brw)
+ {
+@@ -524,7 +526,7 @@
+     * to a FBO (i.e. any named frame buffer object), we *don't*
+     * need to invert - we already match the layout.
+     */
+-   if (ctx->DrawBuffer->Name == 0) {
++   if (_mesa_is_winsys_fbo(ctx->DrawBuffer)) {
+       for (i = 0; i < 32; i++)
+ 	  OUT_BATCH(ctx->PolygonStipple[31 - i]); /* invert */
+    }
+@@ -567,15 +569,13 @@
+ 
+    /* _NEW_BUFFERS
+     *
+-    * If we're drawing to a system window (ctx->DrawBuffer->Name == 0),
+-    * we have to invert the Y axis in order to match the OpenGL
+-    * pixel coordinate system, and our offset must be matched
+-    * to the window position.  If we're drawing to a FBO
+-    * (ctx->DrawBuffer->Name != 0), then our native pixel coordinate
+-    * system works just fine, and there's no window system to
+-    * worry about.
++    * If we're drawing to a system window we have to invert the Y axis
++    * in order to match the OpenGL pixel coordinate system, and our
++    * offset must be matched to the window position. If we're drawing
++    * to a user-created FBO then our native pixel coordinate system
++    * works just fine, and there's no window system to worry about
+     */
+-   if (brw->intel.ctx.DrawBuffer->Name == 0)
++   if (_mesa_is_winsys_fbo(brw->intel.ctx.DrawBuffer))
+       OUT_BATCH((32 - (ctx->DrawBuffer->Height & 31)) & 31);
+    else
+       OUT_BATCH(0);
+--- src/mesa/drivers/dri/i965/brw_sf.c	Tue Oct  9 12:54:49 2012
++++ src/mesa/drivers/dri/i965/brw_sf.c	Tue Oct  9 12:55:45 2012
+@@ -32,7 +32,9 @@
+ 
+ #include "main/glheader.h"
+ #include "main/macros.h"
++#include "main/mtypes.h"
+ #include "main/enums.h"
++#include "main/fbobject.h"
+ 
+ #include "intel_batchbuffer.h"
+ 
+@@ -136,7 +138,7 @@
+    struct gl_context *ctx = &brw->intel.ctx;
+    struct brw_sf_prog_key key;
+    /* _NEW_BUFFERS */
+-   bool render_to_fbo = ctx->DrawBuffer->Name != 0;
++   bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+ 
+    memset(&key, 0, sizeof(key));
+ 
+--- src/mesa/drivers/dri/i965/brw_sf_state.c	Tue Oct  9 12:55:43 2012
++++ src/mesa/drivers/dri/i965/brw_sf_state.c	Tue Oct  9 12:56:51 2012
+@@ -30,11 +30,12 @@
+   */
+    
+ 
+-
++#include "main/mtypes.h"
++#include "main/macros.h"
++#include "main/fbobject.h"
+ #include "brw_context.h"
+ #include "brw_state.h"
+ #include "brw_defines.h"
+-#include "main/macros.h"
+ #include "brw_sf.h"
+ 
+ static void upload_sf_vp(struct brw_context *brw)
+@@ -44,7 +45,7 @@
+    const GLfloat depth_scale = 1.0F / ctx->DrawBuffer->_DepthMaxF;
+    struct brw_sf_viewport *sfv;
+    GLfloat y_scale, y_bias;
+-   const bool render_to_fbo = (ctx->DrawBuffer->Name != 0);
++   const bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+    const GLfloat *v = ctx->Viewport._WindowMap.m;
+ 
+    sfv = brw_state_batch(brw, AUB_TRACE_SF_VP_STATE,
+@@ -142,7 +143,7 @@
+    struct brw_sf_unit_state *sf;
+    drm_intel_bo *bo = intel->batch.bo;
+    int chipset_max_threads;
+-   bool render_to_fbo = brw->intel.ctx.DrawBuffer->Name != 0;
++   bool render_to_fbo = _mesa_is_user_fbo(brw->intel.ctx.DrawBuffer);
+ 
+    sf = brw_state_batch(brw, AUB_TRACE_SF_STATE,
+ 			sizeof(*sf), 64, &brw->sf.state_offset);
+--- src/mesa/drivers/dri/i965/brw_wm.c	Tue Oct  9 12:56:53 2012
++++ src/mesa/drivers/dri/i965/brw_wm.c	Tue Oct  9 12:57:54 2012
+@@ -33,6 +33,7 @@
+ #include "brw_wm.h"
+ #include "brw_state.h"
+ #include "main/formats.h"
++#include "main/fbobject.h"
+ #include "main/samplerobj.h"
+ #include "program/prog_parameter.h"
+ 
+--- src/mesa/drivers/dri/i965/gen6_scissor_state.c	Tue Oct  9 12:57:55 2012
++++ src/mesa/drivers/dri/i965/gen6_scissor_state.c	Tue Oct  9 12:58:26 2012
+@@ -29,6 +29,7 @@
+ #include "brw_state.h"
+ #include "brw_defines.h"
+ #include "intel_batchbuffer.h"
++#include "main/fbobject.h"
+ 
+ static void
+ gen6_upload_scissor_state(struct brw_context *brw)
+@@ -35,7 +36,7 @@
+ {
+    struct intel_context *intel = &brw->intel;
+    struct gl_context *ctx = &intel->ctx;
+-   const bool render_to_fbo = (ctx->DrawBuffer->Name != 0);
++   const bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+    struct gen6_scissor_rect *scissor;
+    uint32_t scissor_state_offset;
+ 
+--- src/mesa/drivers/dri/i965/gen6_sf_state.c	Tue Oct  9 12:58:30 2012
++++ src/mesa/drivers/dri/i965/gen6_sf_state.c	Tue Oct  9 12:59:12 2012
+@@ -30,6 +30,7 @@
+ #include "brw_defines.h"
+ #include "brw_util.h"
+ #include "main/macros.h"
++#include "main/fbobject.h"
+ #include "intel_batchbuffer.h"
+ 
+ /**
+@@ -123,7 +124,7 @@
+    uint32_t dw1, dw2, dw3, dw4, dw16, dw17;
+    int i;
+    /* _NEW_BUFFER */
+-   bool render_to_fbo = brw->intel.ctx.DrawBuffer->Name != 0;
++   bool render_to_fbo = _mesa_is_user_fbo(brw->intel.ctx.DrawBuffer);
+    int attr = 0, input_index = 0;
+    int urb_entry_read_offset = 1;
+    float point_size;
+--- src/mesa/drivers/dri/i965/gen6_viewport_state.c	Tue Oct  9 12:59:16 2012
++++ src/mesa/drivers/dri/i965/gen6_viewport_state.c	Tue Oct  9 12:59:51 2012
+@@ -29,6 +29,7 @@
+ #include "brw_state.h"
+ #include "brw_defines.h"
+ #include "intel_batchbuffer.h"
++#include "main/fbobject.h"
+ 
+ /* The clip VP defines the guardband region where expensive clipping is skipped
+  * and fragments are allowed to be generated and clipped out cheaply by the SF.
+@@ -70,7 +71,7 @@
+    const GLfloat depth_scale = 1.0F / ctx->DrawBuffer->_DepthMaxF;
+    struct brw_sf_viewport *sfv;
+    GLfloat y_scale, y_bias;
+-   const bool render_to_fbo = (ctx->DrawBuffer->Name != 0);
++   const bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+    const GLfloat *v = ctx->Viewport._WindowMap.m;
+ 
+    sfv = brw_state_batch(brw, AUB_TRACE_SF_VP_STATE,
+--- src/mesa/drivers/dri/i965/gen7_clip_state.c	Tue Oct  9 12:59:54 2012
++++ src/mesa/drivers/dri/i965/gen7_clip_state.c	Tue Oct  9 13:00:49 2012
+@@ -26,6 +26,7 @@
+ #include "brw_defines.h"
+ #include "brw_util.h"
+ #include "intel_batchbuffer.h"
++#include "main/fbobject.h"
+ 
+ static void
+ upload_clip_state(struct brw_context *brw)
+@@ -40,7 +41,7 @@
+    const struct gl_fragment_program *fprog = brw->fragment_program;
+ 
+    /* _NEW_BUFFERS */
+-   bool render_to_fbo = brw->intel.ctx.DrawBuffer->Name != 0;
++   bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+ 
+    if (brw_fprog_uses_noperspective(fprog)) {
+       nonperspective_barycentric_enable_flag =
+--- src/mesa/drivers/dri/i965/gen7_sf_state.c	Tue Oct  9 13:00:52 2012
++++ src/mesa/drivers/dri/i965/gen7_sf_state.c	Tue Oct  9 13:01:35 2012
+@@ -26,6 +26,7 @@
+ #include "brw_defines.h"
+ #include "brw_util.h"
+ #include "main/macros.h"
++#include "main/fbobject.h"
+ #include "intel_batchbuffer.h"
+ 
+ static void
+@@ -49,7 +50,7 @@
+    bool userclip_active = (ctx->Transform.ClipPlanesEnabled != 0);
+    uint16_t attr_overrides[FRAG_ATTRIB_MAX];
+    /* _NEW_BUFFERS */
+-   bool render_to_fbo = ctx->DrawBuffer->Name != 0;
++   bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+    uint32_t point_sprite_origin;
+ 
+    brw_compute_vue_map(&vue_map, intel, userclip_active, vs_outputs_written);
+@@ -163,7 +164,7 @@
+    uint32_t dw1, dw2, dw3;
+    float point_size;
+    /* _NEW_BUFFERS */
+-   bool render_to_fbo = brw->intel.ctx.DrawBuffer->Name != 0;
++   bool render_to_fbo = _mesa_is_user_fbo(brw->intel.ctx.DrawBuffer);
+ 
+    dw1 = GEN6_SF_STATISTICS_ENABLE |
+          GEN6_SF_VIEWPORT_TRANSFORM_ENABLE;
+--- src/mesa/drivers/dri/i965/gen7_viewport_state.c	Tue Oct  9 13:01:35 2012
++++ src/mesa/drivers/dri/i965/gen7_viewport_state.c	Tue Oct  9 13:02:11 2012
+@@ -25,6 +25,7 @@
+ #include "brw_state.h"
+ #include "brw_defines.h"
+ #include "intel_batchbuffer.h"
++#include "main/fbobject.h"
+ 
+ static void
+ gen7_upload_sf_clip_viewport(struct brw_context *brw)
+@@ -33,7 +34,7 @@
+    struct gl_context *ctx = &intel->ctx;
+    const GLfloat depth_scale = 1.0F / ctx->DrawBuffer->_DepthMaxF;
+    GLfloat y_scale, y_bias;
+-   const bool render_to_fbo = (ctx->DrawBuffer->Name != 0);
++   const bool render_to_fbo = _mesa_is_user_fbo(ctx->DrawBuffer);
+    const GLfloat *v = ctx->Viewport._WindowMap.m;
+    struct gen7_sf_clip_viewport *vp;
+ 
+--- src/mesa/drivers/dri/intel/intel_buffers.c	Tue Oct  9 13:02:22 2012
++++ src/mesa/drivers/dri/intel/intel_buffers.c	Tue Oct  9 13:03:25 2012
+@@ -30,6 +30,7 @@
+ #include "intel_fbo.h"
+ #include "intel_mipmap_tree.h"
+ 
++#include "main/fbobject.h"
+ #include "main/framebuffer.h"
+ #include "main/renderbuffer.h"
+ 
+@@ -82,7 +83,7 @@
+ static void
+ intelDrawBuffer(struct gl_context * ctx, GLenum mode)
+ {
+-   if ((ctx->DrawBuffer != NULL) && (ctx->DrawBuffer->Name == 0)) {
++   if (ctx->DrawBuffer && _mesa_is_winsys_fbo(ctx->DrawBuffer)) {
+       struct intel_context *const intel = intel_context(ctx);
+       const bool was_front_buffer_rendering =
+ 	intel->is_front_buffer_rendering;
+@@ -105,7 +106,7 @@
+ static void
+ intelReadBuffer(struct gl_context * ctx, GLenum mode)
+ {
+-   if ((ctx->DrawBuffer != NULL) && (ctx->DrawBuffer->Name == 0)) {
++   if (ctx->DrawBuffer && _mesa_is_winsys_fbo(ctx->DrawBuffer))  {
+       struct intel_context *const intel = intel_context(ctx);
+       const bool was_front_buffer_reading =
+ 	intel->is_front_buffer_reading;
+--- src/mesa/drivers/dri/intel/intel_context.c	Tue Oct  9 13:03:24 2012
++++ src/mesa/drivers/dri/intel/intel_context.c	Tue Oct  9 13:04:08 2012
+@@ -206,7 +206,7 @@
+     __DRIcontext *driContext = intel->driContext;
+     __DRIscreen *const screen = intel->intelScreen->driScrnPriv;
+ 
+-   if ((ctx->DrawBuffer->Name == 0) && intel->front_buffer_dirty) {
++   if (_mesa_is_winsys_fbo(ctx->DrawBuffer) && intel->front_buffer_dirty) {
+       if (screen->dri2.loader &&
+           (screen->dri2.loader->base.version >= 2)
+ 	  && (screen->dri2.loader->flushFrontBuffer != NULL) &&
+@@ -445,7 +445,7 @@
+     if (intel->saved_viewport)
+ 	intel->saved_viewport(ctx, x, y, w, h);
+ 
+-    if (ctx->DrawBuffer->Name == 0) {
++    if (_mesa_is_winsys_fbo(ctx->DrawBuffer)) {
+        dri2InvalidateDrawable(driContext->driDrawablePriv);
+        dri2InvalidateDrawable(driContext->driReadablePriv);
+     }
+--- src/mesa/drivers/dri/intel/intel_pixel_read.c	Tue Oct  9 13:04:08 2012
++++ src/mesa/drivers/dri/intel/intel_pixel_read.c	Tue Oct  9 13:06:10 2012
+@@ -29,6 +29,7 @@
+ #include "main/enums.h"
+ #include "main/mtypes.h"
+ #include "main/macros.h"
++#include "main/fbobject.h"
+ #include "main/image.h"
+ #include "main/bufferobj.h"
+ #include "main/readpix.h"
+@@ -116,7 +117,7 @@
+       return false;
+    }
+    else {
+-      if (ctx->ReadBuffer->Name == 0)
++      if (_mesa_is_winsys_fbo(ctx->ReadBuffer))
+ 	 rowLength = -rowLength;
+    }
+ 
+@@ -145,7 +146,7 @@
+ 				       all ? INTEL_WRITE_FULL :
+ 				       INTEL_WRITE_PART);
+ 
+-   if (ctx->ReadBuffer->Name == 0)
++   if (_mesa_is_winsys_fbo(ctx->ReadBuffer))
+       y = ctx->ReadBuffer->Height - (y + height);
+ 
+    if (!intelEmitCopyBlit(intel,
+--- src/mesa/main/buffers.c	Tue Oct  9 13:13:37 2012
++++ src/mesa/main/buffers.c	Tue Oct  9 13:17:25 2012
+@@ -35,6 +35,7 @@
+ #include "colormac.h"
+ #include "context.h"
+ #include "enums.h"
++#include "fbobject.h"
+ #include "mtypes.h"
+ 
+ 
+@@ -55,7 +56,7 @@
+ {
+    GLbitfield mask = 0x0;
+ 
+-   if (fb->Name > 0) {
++   if (_mesa_is_user_fbo(fb)) {
+       /* A user-created renderbuffer */
+       GLuint i;
+       ASSERT(ctx->Extensions.EXT_framebuffer_object);
+@@ -354,7 +355,7 @@
+       struct gl_framebuffer *fb = ctx->DrawBuffer;
+ 
+       /* Flag the FBO as requiring validation. */
+-      if (fb->Name != 0) {
++      if (_mesa_is_user_fbo(fb)) {
+ 	 fb->_Status = 0;
+       }
+    }
+@@ -448,7 +449,7 @@
+       fb->ColorDrawBuffer[buf] = GL_NONE;
+    }
+ 
+-   if (fb->Name == 0) {
++   if (_mesa_is_winsys_fbo(fb)) {
+       /* also set context drawbuffer state */
+       for (buf = 0; buf < ctx->Const.MaxDrawBuffers; buf++) {
+          if (ctx->Color.DrawBuffer[buf] != fb->ColorDrawBuffer[buf]) {
+@@ -472,7 +473,7 @@
+    GLuint i;
+ 
+    /* should be a window system FBO */
+-   assert(ctx->DrawBuffer->Name == 0);
++   assert(_mesa_is_winsys_fbo(ctx->DrawBuffer));
+ 
+    for (i = 0; i < ctx->Const.MaxDrawBuffers; i++)
+       buffers[i] = ctx->Color.DrawBuffer[i];
+@@ -493,7 +494,7 @@
+ {
+    struct gl_framebuffer *fb = ctx->ReadBuffer;
+ 
+-   if (fb->Name == 0) {
++   if (_mesa_is_winsys_fbo(fb)) {
+       /* Only update the per-context READ_BUFFER state if we're bound to
+        * a window-system framebuffer.
+        */
+@@ -529,7 +530,7 @@
+    if (MESA_VERBOSE & VERBOSE_API)
+       _mesa_debug(ctx, "glReadBuffer %s\n", _mesa_lookup_enum_by_nr(buffer));
+ 
+-   if (fb->Name > 0 && buffer == GL_NONE) {
++   if (_mesa_is_user_fbo(fb) && buffer == GL_NONE) {
+       /* This is legal for user-created framebuffer objects */
+       srcBuffer = -1;
+    }
+--- src/mesa/main/fbobject.c	Tue Oct  9 13:17:25 2012
++++ src/mesa/main/fbobject.c	Tue Oct  9 13:22:17 2012
+@@ -78,27 +78,6 @@
+  * drawable/surface in make current. */
+ static struct gl_framebuffer IncompleteFramebuffer;
+ 
+-
+-/**
+- * Is the given FBO a user-created FBO?
+- */
+-static inline GLboolean
+-is_user_fbo(const struct gl_framebuffer *fb)
+-{
+-   return fb->Name != 0;
+-}
+-
+-
+-/**
+- * Is the given FBO a window system FBO (like an X window)?
+- */
+-static inline GLboolean
+-is_winsys_fbo(const struct gl_framebuffer *fb)
+-{
+-   return fb->Name == 0;
+-}
+-
+-
+ static void
+ delete_dummy_renderbuffer(struct gl_renderbuffer *rb)
+ {
+@@ -214,7 +193,7 @@
+ {
+    GLuint i;
+ 
+-   assert(is_user_fbo(fb));
++   assert(_mesa_is_user_fbo(fb));
+ 
+    switch (attachment) {
+    case GL_COLOR_ATTACHMENT0_EXT:
+@@ -265,7 +244,7 @@
+ _mesa_get_fb0_attachment(struct gl_context *ctx, struct gl_framebuffer *fb,
+                          GLenum attachment)
+ {
+-   assert(is_winsys_fbo(fb));
++   assert(_mesa_is_user_fbo(fb));
+ 
+    switch (attachment) {
+    case GL_FRONT_LEFT:
+@@ -1009,10 +988,10 @@
+                _mesa_BindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+             }
+ 
+-            if (is_user_fbo(ctx->DrawBuffer)) {
++            if (_mesa_is_user_fbo(ctx->DrawBuffer)) {
+                detach_renderbuffer(ctx, ctx->DrawBuffer, rb);
+             }
+-            if (is_user_fbo(ctx->ReadBuffer)
++            if (_mesa_is_user_fbo(ctx->ReadBuffer)
+                 && ctx->ReadBuffer != ctx->DrawBuffer) {
+                detach_renderbuffer(ctx, ctx->ReadBuffer, rb);
+             }
+@@ -1322,7 +1301,7 @@
+    struct gl_renderbuffer *rb = (struct gl_renderbuffer *) userData;
+ 
+    /* If this is a user-created FBO */
+-   if (is_user_fbo(fb)) {
++   if (_mesa_is_user_fbo(fb)) {
+       GLuint i;
+       for (i = 0; i < BUFFER_COUNT; i++) {
+          struct gl_renderbuffer_attachment *att = fb->Attachment + i;
+@@ -1614,7 +1593,7 @@
+    GLuint i;
+    ASSERT(ctx->Driver.RenderTexture);
+ 
+-   if (is_winsys_fbo(fb))
++   if (_mesa_is_winsys_fbo(fb))
+       return; /* can't render to texture with winsys framebuffers */
+ 
+    for (i = 0; i < BUFFER_COUNT; i++) {
+@@ -1634,7 +1613,7 @@
+ static void
+ check_end_texture_render(struct gl_context *ctx, struct gl_framebuffer *fb)
+ {
+-   if (is_winsys_fbo(fb))
++   if (_mesa_is_winsys_fbo(fb))
+       return; /* can't render to texture with winsys framebuffers */
+ 
+    if (ctx->Driver.FinishRenderTexture) {
+@@ -1887,7 +1866,7 @@
+       return 0;
+    }
+ 
+-   if (is_winsys_fbo(buffer)) {
++   if (_mesa_is_winsys_fbo(buffer)) {
+       /* The window system / default framebuffer is always complete */
+       return GL_FRAMEBUFFER_COMPLETE_EXT;
+    }
+@@ -1950,7 +1929,7 @@
+    }
+ 
+    /* check framebuffer binding */
+-   if (is_winsys_fbo(fb)) {
++   if (_mesa_is_winsys_fbo(fb)) {
+       _mesa_error(ctx, GL_INVALID_OPERATION,
+                   "glFramebufferTexture%sEXT", caller);
+       return;
+@@ -2211,7 +2190,7 @@
+       return;
+    }
+ 
+-   if (is_winsys_fbo(fb)) {
++   if (_mesa_is_winsys_fbo(fb)) {
+       /* Can't attach new renderbuffers to a window system framebuffer */
+       _mesa_error(ctx, GL_INVALID_OPERATION, "glFramebufferRenderbufferEXT");
+       return;
+@@ -2292,7 +2271,7 @@
+       return;
+    }
+ 
+-   if (is_winsys_fbo(buffer)) {
++   if (_mesa_is_winsys_fbo(buffer)) {
+       /* Page 126 (page 136 of the PDF) of the OpenGL ES 2.0.25 spec
+        * says:
+        *
+@@ -2339,7 +2318,8 @@
+ 
+    switch (pname) {
+    case GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT:
+-      *params = is_winsys_fbo(buffer) ? GL_FRAMEBUFFER_DEFAULT : att->Type;
++      *params = _mesa_is_winsys_fbo(buffer)
++		? GL_FRAMEBUFFER_DEFAULT : att->Type;
+       return;
+    case GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT:
+       if (att->Type == GL_RENDERBUFFER_EXT) {
+No differences encountered
+--- src/mesa/main/framebuffer.c	Tue Oct  9 13:23:05 2012
++++ src/mesa/main/framebuffer.c	Tue Oct  9 13:24:10 2012
+@@ -281,8 +281,8 @@
+     * and return early.
+     */
+ 
+-   /* For window system framebuffers, Name is zero */
+-   assert(fb->Name == 0);
++   /* Can only resize win-sys framebuffer objects */
++   assert(_mesa_is_winsys_fbo(fb));
+ 
+    for (i = 0; i < BUFFER_COUNT; i++) {
+       struct gl_renderbuffer_attachment *att = &fb->Attachment[i];
+@@ -408,7 +408,7 @@
+    GLuint i;
+ 
+    /* user-created framebuffers only */
+-   assert(fb->Name);
++   assert(_mesa_is_user_fbo(fb));
+ 
+    for (i = 0; i < BUFFER_COUNT; i++) {
+       struct gl_renderbuffer_attachment *att = &fb->Attachment[i];
+@@ -687,7 +687,7 @@
+ static void
+ update_framebuffer(struct gl_context *ctx, struct gl_framebuffer *fb)
+ {
+-   if (fb->Name == 0) {
++   if (_mesa_is_winsys_fbo(fb)) {
+       /* This is a window-system framebuffer */
+       /* Need to update the FB's GL_DRAW_BUFFER state to match the
+        * context state (GL_READ_BUFFER too).
+--- src/mesa/main/renderbuffer.c	Tue Oct  9 13:24:08 2012
++++ src/mesa/main/renderbuffer.c	Tue Oct  9 13:24:36 2012
+@@ -104,7 +104,7 @@
+           fb->Attachment[bufferName].Renderbuffer == NULL);
+ 
+    /* winsys vs. user-created buffer cross check */
+-   if (fb->Name) {
++   if (_mesa_is_user_fbo(fb)) {
+       assert(rb->Name);
+    }
+    else {
+--- src/mesa/main/texobj.c	Tue Oct  9 13:25:20 2012
++++ src/mesa/main/texobj.c	Tue Oct  9 13:25:46 2012
+@@ -893,7 +893,7 @@
+ 
+    for (i = 0; i < n; i++) {
+       struct gl_framebuffer *fb = (i == 0) ? ctx->DrawBuffer : ctx->ReadBuffer;
+-      if (fb->Name) {
++      if (_mesa_is_user_fbo(fb)) {
+          GLuint j;
+          for (j = 0; j < BUFFER_COUNT; j++) {
+             if (fb->Attachment[j].Type == GL_TEXTURE &&
+--- src/mesa/main/fbobject.h	Tue Oct  9 14:22:02 2012
++++ src/mesa/main/fbobject.h	Tue Oct  9 14:23:50 2012
+@@ -32,6 +32,24 @@
+ struct gl_context;
+ struct gl_texture_object;
+ 
++/**
++ * Is the given FBO a user-created FBO?
++ */
++static inline GLboolean
++_mesa_is_user_fbo(const struct gl_framebuffer *fb)
++{
++ return fb->Name != 0;
++}
++
++/**
++ * Is the given FBO a window system FBO (like an X window)?
++ */
++static inline GLboolean
++_mesa_is_winsys_fbo(const struct gl_framebuffer *fb)
++{
++ return fb->Name == 0;
++}
++
+ extern void
+ _mesa_init_fbobjects(struct gl_context *ctx);
+ 
+--- src/mesa/main/fbobject.c	Tue Oct  9 14:26:31 2012
++++ src/mesa/main/fbobject.c	Tue Oct  9 14:43:34 2012
+@@ -690,7 +690,7 @@
+    GLint i;
+    GLuint j;
+ 
+-   assert(is_user_fbo(fb));
++   assert(_mesa_is_user_fbo(fb));
+ 
+    numImages = 0;
+    fb->Width = 0;
+--- src/mesa/drivers/dri/i965/brw_fs.h	Tue Oct  9 14:57:14 2012
++++ src/mesa/drivers/dri/i965/brw_fs.h	Tue Oct  9 14:58:26 2012
+@@ -542,7 +542,8 @@
+ 			   struct brw_reg src);
+    void generate_discard(fs_inst *inst);
+    void generate_ddx(fs_inst *inst, struct brw_reg dst, struct brw_reg src);
+-   void generate_ddy(fs_inst *inst, struct brw_reg dst, struct brw_reg src);
++   void generate_ddy(fs_inst *inst, struct brw_reg dst, struct brw_reg src,
++			bool negate_value);
+    void generate_spill(fs_inst *inst, struct brw_reg src);
+    void generate_unspill(fs_inst *inst, struct brw_reg dst);
+    void generate_pull_constant_load(fs_inst *inst, struct brw_reg dst);

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,11 @@
 MODULE_NAME=randrproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 597491c0d8055e2a66f11350c4985775
-TARBALL_SHA1 = 55d4b1a09fc8e645d9674a452ae151988caabad1
+TARBALL_MD5  = ce4d0b05675968e4c83e003cc809660d
+TARBALL_SHA1 = 65d2fc4440adf1557cde2b36901a3de21ab189c1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
@@ -43,6 +43,8 @@ MODULE_ARC_CASES = PSARC/2004/187
 MODULE_ARC_CASES += PSARC/2007/430
 # PSARC/2009/269 X Resize, Rotate and Reflect (RandR) 1.3
 MODULE_ARC_CASES += PSARC/2009/269
+# PSARC/2012/318 X Resize, Rotate and Reflect (RandR) 1.4
+MODULE_ARC_CASES += PSARC/2012/318
 
 ### Include common rulesets
 include ../Makefile.inc

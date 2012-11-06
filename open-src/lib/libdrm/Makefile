@@ -31,12 +31,12 @@ UPSTREAM_URL	= http://dri.freedesktop.org/
 UPSTREAM_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.32
+MODULE_VERSION=2.4.39
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b731faf4a49f89c318d84378cb563cf8
-TARBALL_SHA1 = 4aab6cc1c0d2a4822ffd83bd3da0e7a5479bf842
-TARBALL_SHA256 = 9ba8a1613de57af8f501a162747ed69aff30d63fc1316602770974bdd9ee984e
+TARBALL_MD5  = 9a299e021d81bab6c82307582c78319d
+TARBALL_SHA1 = c0e841850d7164c63d36f486ca3a64040357660e
+TARBALL_SHA256 = 386b17388980504bca16ede81ceed4c77b12c3488f46ecb7f4d48e48512a733d
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -61,10 +61,19 @@ $(WITH_PARFAIT) AUTORECONF = yes
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
+# To build with gcc, uncomment these lines and comment out the MODULE_CFLAGS
+MODULE_COMPILER=gcc
+MODULE_COMPILER_SET=yes
+
+# Tell Sun compiler to not apply optimizations that increase binary sizes
+# Without this flag, Studio 12 binaries are almost 2x bigger (CR 6808868)
+#MODULE_CFLAGS = -xspace
+
+
 MODULE_BUILD_MAKEFLAGS = libkms_la_LIBADD=../libdrm.so.2
 
 # Command line options to GNU autoconf configure script
-MODULE_CONFIG_OPTS = --disable-radeon --enable-libkms
+MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man
@@ -72,7 +81,7 @@ MODULE_CONFIG_OPTS = --disable-radeon --enable-libkms
 #LIB_MAN_SUFFIX=3drm
 
 # pkg-config files that need to have -R added
-FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in
+FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in radeon/libdrm_radeon.pc
 
 # Where to install files
 MODULE_ADD_LIB_SUBDIR = $(X11_SERVERLIBS_SUBDIR)
@@ -89,7 +98,7 @@ $(PROTODIR)/usr/include/drm:
 
 # Upstream seems to install in $(X11_SERVERLIBS_SUBDIR)/pkgconfig no matter
 # what, so just move them afterwards
-PC_FILES_i386 = libdrm_intel.pc
+PC_FILES_i386 = libdrm_intel.pc libdrm_radeon.pc
 PC_FILES = libdrm.pc libkms.pc $(PC_FILES_$(MACH))
 MOVED_PC_FILES = $(PC_FILES:%=$(PROTODIR)/$(PKGCONFIG_DIR)/%)
 XSERVER_PC_DIR = $(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/pkgconfig

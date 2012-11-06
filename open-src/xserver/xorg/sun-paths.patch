@@ -39,35 +39,6 @@ index 0071004..6f6c766 100644
  MessageType xf86ModPathFrom = X_DEFAULT;
  const char *xf86LogFile = DEFAULT_LOGPREFIX;
  MessageType xf86LogFileFrom = X_DEFAULT;
-diff --git a/hw/xfree86/man/xorg.conf.man b/hw/xfree86/man/xorg.conf.man
-index c1b3c4f..d15bbf5 100644
---- a/hw/xfree86/man/xorg.conf.man
-+++ b/hw/xfree86/man/xorg.conf.man
-@@ -36,9 +36,9 @@ server is started as a normal user:
- .RS 4
- .nf
- .IR /etc/X11/ <cmdline>
--.IR __projectroot__/etc/X11/ <cmdline>
-+.IR __projectroot__/lib/X11/ <cmdline>
- .IB /etc/X11/ $XORGCONFIG
--.IB __projectroot__/etc/X11/ $XORGCONFIG
-+.IB __projectroot__/lib/X11/ $XORGCONFIG
- .I /etc/X11/__xconfigfile__
- .I /etc/__xconfigfile__
- .IR __projectroot__/etc/X11/__xconfigfile__. <hostname>
-@@ -67,10 +67,10 @@ search locations are as follows:
- .nf
- <cmdline>
- .IR /etc/X11/ <cmdline>
--.IR __projectroot__/etc/X11/ <cmdline>
-+.IR __projectroot__/lib/X11/ <cmdline>
- .B $XORGCONFIG
- .IB /etc/X11/ $XORGCONFIG
--.IB __projectroot__/etc/X11/ $XORGCONFIG
-+.IB __projectroot__/lib/X11/ $XORGCONFIG
- .I /etc/X11/__xconfigfile__
- .I /etc/__xconfigfile__
- .IR __projectroot__/etc/X11/__xconfigfile__. <hostname>
 diff --git a/include/xorg-server.h.in b/include/xorg-server.h.in
 index 8086f32..37b9315 100644
 --- a/include/xorg-server.h.in
@@ -80,3 +51,30 @@ index 8086f32..37b9315 100644
  #ifdef _LP64
  #define _XSERVER64 1
  #endif
+--- a/hw/xfree86/man/xorg.conf.man	Wed Sep  5 16:06:49 2012
++++ b/hw/xfree86/man/xorg.conf.man	Wed Sep  5 16:08:06 2012
+@@ -36,9 +36,9 @@
+ .RS 4
+ .nf
+ .IR /etc/X11/ <cmdline>
+-.IR __projectroot__/etc/X11/ <cmdline>
++.IR __projectroot__/lib/X11/ <cmdline>
+ .IB /etc/X11/ $XORGCONFIG
+-.IB __projectroot__/etc/X11/ $XORGCONFIG
++.IB __projectroot__/lib/X11/ $XORGCONFIG
+ .I /etc/X11/xorg.conf
+ .I /etc/xorg.conf
+ .IR __projectroot__/etc/X11/xorg.conf. <hostname>
+@@ -67,10 +67,10 @@
+ .nf
+ <cmdline>
+ .IR /etc/X11/ <cmdline>
+-.IR __projectroot__/etc/X11/ <cmdline>
++.IR __projectroot__/lib/X11/ <cmdline>
+ .B $XORGCONFIG
+ .IB /etc/X11/ $XORGCONFIG
+-.IB __projectroot__/etc/X11/ $XORGCONFIG
++.IB __projectroot__/lib/X11/ $XORGCONFIG
+ .I /etc/X11/xorg.conf
+ .I /etc/xorg.conf
+ .IR __projectroot__/etc/X11/xorg.conf. <hostname>

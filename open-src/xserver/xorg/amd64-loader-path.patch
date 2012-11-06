@@ -19,11 +19,9 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
-index c6b5590..0ad500c 100644
---- a/hw/xfree86/loader/loadmod.c
-+++ b/hw/xfree86/loader/loadmod.c
-@@ -166,6 +166,13 @@ InitPathList(const char *path)
+--- a/hw/xfree86/loader/loadmod.c	Wed Sep 12 10:49:02 2012
++++ b/hw/xfree86/loader/loadmod.c	Wed Sep 12 10:52:48 2012
+@@ -166,6 +166,12 @@
                  list[n][len - 1] = '/';
                  list[n][len] = '\0';
              }
@@ -33,11 +31,10 @@ index c6b5590..0ad500c 100644
 +                    list[n][len - 6] = '\0';
 +            }
 +#endif
-+            
              n++;
          }
          elem = strtok(NULL, ",");
-@@ -391,6 +398,24 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -397,6 +403,24 @@
      char *ret = NULL, tmpBuf[PATH_MAX];
      struct stat stat_buf;
  
@@ -62,7 +59,7 @@ index c6b5590..0ad500c 100644
      dir = opendir(dirpath);
      if (!dir)
          return NULL;
-@@ -398,6 +423,13 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -404,6 +428,12 @@
      while ((direntry = readdir(dir))) {
          if (direntry->d_name[0] == '.')
              continue;
@@ -72,11 +69,10 @@ index c6b5590..0ad500c 100644
 +        if (strcmp(direntry->d_name, "amd64") == 0)
 +            continue;
 +#endif
-+
          snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpath, direntry->d_name);
          /* the stat with the appended / fails for normal files,
             and works for sub dirs fine, looks a bit strange in strace
-@@ -408,6 +440,12 @@ FindModuleInSubdir(const char *dirpath, const char *module)
+@@ -414,6 +444,12 @@
              continue;
          }
  
@@ -86,6 +82,6 @@ index c6b5590..0ad500c 100644
 +            continue;
 +#endif
 +
-         snprintf(tmpBuf, PATH_MAX, "lib%s.so", module);
-         if (strcmp(direntry->d_name, tmpBuf) == 0) {
-             if (asprintf(&ret, "%s%s", dirpath, tmpBuf) == -1)
+ #ifdef __CYGWIN__
+         snprintf(tmpBuf, PATH_MAX, "cyg%s.dll", module);
+ #else

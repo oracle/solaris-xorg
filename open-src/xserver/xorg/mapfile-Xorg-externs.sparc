@@ -289,6 +289,7 @@ SYMBOL_SCOPE {
 		GetExtensionEntry                        { FLAGS = EXTERN };
 		GetFontPath                              { FLAGS = EXTERN };
 		GetGeometry                              { FLAGS = EXTERN };
+		GetGlyphPicture                          { FLAGS = EXTERN };
 		GetHosts                                 { FLAGS = EXTERN };
 		GetKeyboardEvents                        { FLAGS = EXTERN };
 		GetLocalClientCreds                      { FLAGS = EXTERN };
@@ -479,6 +480,7 @@ SYMBOL_SCOPE {
 		PictureTransformPoint3d                  { FLAGS = EXTERN };
 		PictureType                              { FLAGS = EXTERN };
 		PictureWindowPrivateKeyRec               { FLAGS = EXTERN };
+		PixmapShareToSlave			 { FLAGS = EXTERN };
 		PixmapWidthPaddingInfo                   { FLAGS = EXTERN };
 		PointInWindowIsVisible                   { FLAGS = EXTERN };
 		PointerBarrierType                       { FLAGS = EXTERN };
@@ -1205,6 +1207,7 @@ SYMBOL_SCOPE {
 		dixChangeWindowProperty                  { FLAGS = EXTERN };
 		dixDestroyPixmap                         { FLAGS = EXTERN };
 		dixFreePrivates                          { FLAGS = EXTERN };
+		dixGetGlyphs				 { FLAGS = EXTERN };
 		dixLookupClient                          { FLAGS = EXTERN };
 		dixLookupDevice                          { FLAGS = EXTERN };
 		dixLookupDrawable                        { FLAGS = EXTERN };
@@ -1219,6 +1222,7 @@ SYMBOL_SCOPE {
 		dixPrivatesSize                          { FLAGS = EXTERN };
 		dixRegisterPrivateKey                    { FLAGS = EXTERN };
 		dixRegisterScreenPrivateKey              { FLAGS = EXTERN };
+		dixRegisterScreenSpecificPrivateKey      { FLAGS = EXTERN };
 		dixResetPrivates                         { FLAGS = EXTERN };
 		dixResetRegistry                         { FLAGS = EXTERN };
 		dixSaveScreens                           { FLAGS = EXTERN };
@@ -1870,6 +1874,8 @@ SYMBOL_SCOPE {
 		xf86ScreenKeyRec                         { FLAGS = EXTERN };
 		xf86ScreenName                           { FLAGS = EXTERN };
 		xf86Screens                              { FLAGS = EXTERN };
+		xf86ScreenToScrn                         { FLAGS = EXTERN };
+		xf86ScrnToScreen                         { FLAGS = EXTERN };
 		xf86SerialModemClearBits                 { FLAGS = EXTERN };
 		xf86SerialModemSetBits                   { FLAGS = EXTERN };
 		xf86SerialSendBreak                      { FLAGS = EXTERN };

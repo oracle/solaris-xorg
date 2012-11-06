@@ -267,28 +267,6 @@ index af005f1..ae4a005 100644
      pScrn->vtSema = FALSE;
  
      xf86ClearPrimInitDone(pScrn->entityList[0]);
-@@ -4194,3 +4253,21 @@ MGAG100BlackMagic(ScrnInfoPtr pScrn)
-     usleep(10);
- }
- 
-+#ifdef __sparc__
-+static void
-+MGANotifyModeChanged(ScrnInfoPtr pScrn)
-+{
-+    struct vis_video_mode mode;
-+    MGAPtr pMga = MGAPTR(pScrn);
-+
-+    if (pScrn->currentMode->name != NULL) {
-+	strlcpy(mode.mode_name, pScrn->currentMode->name, VIS_MAX_VMODE_LEN);
-+    } else {
-+	strlcpy(mode.mode_name, " ", VIS_MAX_VMODE_LEN);
-+    }
-+    mode.vRefresh = pScrn->currentMode->VRefresh;
-+
-+    ioctl(pMga->fd, VIS_STOREVIDEOMODENAME, &mode);
-+
-+}
-+#endif
 diff --git a/src/mga_storm.c b/src/mga_storm.c
 index 96bb6b9..57fdba5 100644
 --- a/src/mga_storm.c
@@ -452,3 +430,31 @@ index 96bb6b9..57fdba5 100644
  
  
  static void
+--- a/src/mga_driver.c	Thu Oct 18 14:08:08 2012
++++ b/src/mga_driver.c	Thu Oct 18 14:11:07 2012
+@@ -2890,6 +2890,25 @@
+ #endif
+ }
+ 
++#ifdef __sparc__
++static void
++MGANotifyModeChanged(ScrnInfoPtr pScrn)
++{
++    struct vis_video_mode mode;
++    MGAPtr pMga = MGAPTR(pScrn);
++
++    if (pScrn->currentMode->name != NULL) {
++      strlcpy(mode.mode_name, pScrn->currentMode->name, VIS_MAX_VMODE_LEN);
++    } else {
++      strlcpy(mode.mode_name, " ", VIS_MAX_VMODE_LEN);
++    }
++    mode.vRefresh = pScrn->currentMode->VRefresh;
++
++    ioctl(pMga->fd, VIS_STOREVIDEOMODENAME, &mode);
++
++}
++#endif
++
+ /*
+  * Initialise a new mode.  This is currently still using the old
+  * "initialise struct, restore/write struct to HW" model.  That could

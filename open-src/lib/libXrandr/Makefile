@@ -2,7 +2,7 @@
 #
 # Xrandr 1.x Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,11 @@
 MODULE_NAME=libXrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 92473da2fccf5fac665be4fa4f2037fa
-TARBALL_SHA1 = 0c844a4c5237f96794f0c18a5af16dc5ab7a36ec
+TARBALL_MD5  = 0c843636124cc1494e3d87df16957672
+TARBALL_SHA1 = 2353d16635a20521a64838f568bb4c8a10823316
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -48,6 +48,8 @@ MODULE_ARC_CASES = PSARC/2004/187
 MODULE_ARC_CASES += PSARC/2007/430
 # PSARC/2009/269 X Resize, Rotate and Reflect (RandR) 1.3
 MODULE_ARC_CASES += PSARC/2009/269
+# PSARC/2012/318 X Resize, Rotate and Reflect (RandR) 1.4
+MODULE_ARC_CASES += PSARC/2012/318
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

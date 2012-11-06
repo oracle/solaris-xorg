@@ -328,25 +328,6 @@ index 02a6d0d..00f8021 100644
 +libxtsol_la_LIBADD = $(top_builddir)/tsol/libxtsol.la $(PIXMAN_LIBS)
 +libxtsol_la_SOURCES = tsolmodule.c
 +endif
-diff --git a/include/dix.h b/include/dix.h
-index d604e06..012a5a5 100644
---- a/include/dix.h
-+++ b/include/dix.h
-@@ -164,6 +164,14 @@ extern _X_EXPORT void MarkClientException(ClientPtr /*client */ );
- 
- extern _X_HIDDEN Bool CreateConnectionBlock(void);
- 
-+#ifdef TSOL
-+extern _X_EXPORT int DoGetImage(ClientPtr client, int format, Drawable drawable, 
-+                      int x, int y, int width, int height, 
-+                      Mask planemask, xGetImageReply **im_return);
-+
-+extern _X_EXPORT int GetGeometry(ClientPtr client, xGetGeometryReply *rep);
-+#endif
-+
- /* dixutils.c */
- 
- extern _X_EXPORT int CompareISOLatin1Lowered(const unsigned char * /*a */ ,
 diff --git a/include/extnsionst.h b/include/extnsionst.h
 index e825236..5417c57 100644
 --- a/include/extnsionst.h
@@ -431,75 +412,6 @@ index d891fe5..63a7e79 100644
                            ClientPtr /*client */ );
  
  extern void ProcessPointerEvent(InternalEvent * /* ev */ ,
-diff --git a/include/window.h b/include/window.h
-index 64c56ae..f3a8a37 100644
---- a/include/window.h
-+++ b/include/window.h
-@@ -229,4 +229,10 @@ extern _X_EXPORT void EnableMapUnmapEvents(WindowPtr /* pWin */ );
- extern _X_EXPORT void SetRootClip(ScreenPtr pScreen, Bool enable);
- extern _X_EXPORT void PrintWindowTree(void);
- 
-+#ifdef TSOL
-+# include "validate.h" /* needed for VTKind enum definition */
-+extern _X_EXPORT void ReflectStackChange(WindowPtr pWin, WindowPtr pSib,
-+                                         VTKind  kind);
-+#endif
-+
- #endif                          /* WINDOW_H */
-diff --git a/mi/miinitext.c b/mi/miinitext.c
-index 433aec7..08b9309 100644
---- a/mi/miinitext.c
-+++ b/mi/miinitext.c
-@@ -65,6 +65,7 @@ SOFTWARE.
- #undef DAMAGE
- #undef COMPOSITE
- #undef MITSHM
-+#undef TSOL
- #endif
- 
- #ifdef HAVE_XNEST_CONFIG_H
-@@ -158,6 +159,9 @@ extern Bool noGEExtension;
- #ifdef SolarisIAExtension
- Bool noIAExtension;
- #endif
-+#ifdef TSOL
-+Bool noXTSolExtension;
-+#endif
- 
- #ifndef XFree86LOADER
- #define INITARGS void
-@@ -193,6 +197,9 @@ typedef void (*InitExtension) (INITARGS);
- #include <X11/extensions/interactive.h>
- #include "../IA/interactive_srv.h"
- #endif
-+#ifdef TSOL
-+#include "../tsol/tsolextension.h"
-+#endif
- 
- /* FIXME: this whole block of externs should be from the appropriate headers */
- #ifdef MITSHM
-@@ -319,6 +326,9 @@ static ExtensionToggle ExtensionToggleList[] = {
- #ifdef SolarisIAExtension
-     { IANAME /* "SolarisIA" */, &noIAExtension },
- #endif
-+#ifdef TSOL
-+    { TSOLNAME /* "SUN_TSOL" */, &noXTSolExtension },
-+#endif
- #ifdef RES
-     {"X-Resource", &noResExtension},
- #endif
-@@ -512,6 +522,11 @@ InitExtensions(int argc, char *argv[])
- #ifdef SolarisIAExtension
-     if (!noIAExtension) IAExtensionInit();
- #endif
-+#ifdef TSOL
-+    if (!noXTSolExtension) {
-+        TsolExtensionInit();
-+    }
-+#endif
- }
- 
- #else                           /* XFree86LOADER */
 diff --git a/os/connection.c b/os/connection.c
 index 1099752..f9ba2d7 100644
 --- a/os/connection.c
@@ -563,3 +475,54 @@ index 1099752..f9ba2d7 100644
      /* Allow any client to connect without authorization on a launchd socket,
         because it is securely created -- this prevents a race condition on launch */
      if (trans_conn->flags & TRANS_NOXAUTH) {
+--- a/include/dix.h	Wed Sep 12 09:31:22 2012
++++ b/include/dix.h	Wed Sep 12 09:32:04 2012
+@@ -166,6 +166,14 @@
+ 
+ extern _X_HIDDEN Bool CreateConnectionBlock(void);
+ 
++#ifdef TSOL
++extern _X_EXPORT int DoGetImage(ClientPtr client, int format, Drawable drawable,
++                      int x, int y, int width, int height,
++                      Mask planemask, xGetImageReply **im_return);
++
++extern _X_EXPORT int GetGeometry(ClientPtr client, xGetGeometryReply *rep);
++#endif
++
+ /* dixutils.c */
+ 
+ extern _X_EXPORT int CompareISOLatin1Lowered(const unsigned char * /*a */ ,
+--- a/include/window.h	Wed Sep 12 09:32:37 2012
++++ b/include/window.h	Wed Sep 12 09:33:11 2012
+@@ -227,5 +227,11 @@
+ extern _X_EXPORT void SetRootClip(ScreenPtr pScreen, Bool enable);
+ extern _X_EXPORT void PrintWindowTree(void);
+ 
++#ifdef TSOL
++#include "validate.h" /* needed for VTKind enum definition */
++extern _X_EXPORT void ReflectStackChange(WindowPtr pWin, WindowPtr pSib,
++                                         VTKind  kind);
++#endif
++
+ extern _X_EXPORT VisualPtr WindowGetVisual(WindowPtr /*pWin*/);
+ #endif                          /* WINDOW_H */
+--- a/mi/miinitext.c	Wed Sep 12 09:34:15 2012
++++ b/mi/miinitext.c	Wed Sep 12 09:37:36 2012
+@@ -90,6 +90,7 @@
+ #undef DAMAGE
+ #undef COMPOSITE
+ #undef MITSHM
++#undef TSOL
+ #endif
+ 
+ #ifdef HAVE_XNEST_CONFIG_H
+@@ -154,6 +155,9 @@
+ #ifdef SolarisIAExtension
+     { IANAME /* "SolarisIA" */, &noIAExtension },
+ #endif
++#ifdef TSOL
++    { TSOLNAME /* "SUN_TSOL" */, &noXTSolExtension },
++#endif
+ #ifdef RES
+     {"X-Resource", &noResExtension},
+ #endif

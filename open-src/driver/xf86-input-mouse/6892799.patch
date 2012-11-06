@@ -19,46 +19,44 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-diff --git a/src/mouse.c b/src/mouse.c
-index f4c7c82..0e577b3 100644
---- a/src/mouse.c
-+++ b/src/mouse.c
-@@ -1616,13 +1616,14 @@ MouseProc(DeviceIntPtr device, int what)
- 	ErrorF("assigning %p atom=%d name=%s\n", device, pInfo->atom,
- 		pInfo->name);
+--- a/src/mouse.c	Wed Sep 26 13:43:27 2012
++++ b/src/mouse.c	Wed Sep 26 13:45:30 2012
+@@ -1727,13 +1727,14 @@
+                 pInfo->name);
  #endif
--	break;
--
--    case DEVICE_ON:
- 	pInfo->fd = xf86OpenSerial(pInfo->options);
- 	if (pInfo->fd == -1)
- 	    xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
--	else {
+         MouseInitProperties(device);
++	pInfo->fd = xf86OpenSerial(pInfo->options);
++	if (pInfo->fd == -1)
++	    xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
 +
-+	break;
-+
-+    case DEVICE_ON:
-+	if (pInfo->fd != -1) {
- 	    if (pMse->xisbscale)
- 		pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
- 	    else
-@@ -1678,8 +1679,6 @@ MouseProc(DeviceIntPtr device, int what)
- 		XisbFree(pMse->buffer);
- 		pMse->buffer = NULL;
- 	    }
--	    xf86CloseSerial(pInfo->fd);
--	    pInfo->fd = -1;
- 	    if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
- 	    {
- 		RemoveBlockAndWakeupHandlers (MouseBlockHandler,
-@@ -1690,6 +1689,10 @@ MouseProc(DeviceIntPtr device, int what)
- 	device->public.on = FALSE;
- 	break;
+         break;
+ 
+     case DEVICE_ON:
+-        pInfo->fd = xf86OpenSerial(pInfo->options);
+-        if (pInfo->fd == -1)
+-            xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
+-        else {
++	if (pInfo->fd != -1) { 
+             if (pMse->xisbscale)
+                 pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
+             else
+@@ -1789,8 +1790,6 @@
+                 XisbFree(pMse->buffer);
+                 pMse->buffer = NULL;
+             }
+-            xf86CloseSerial(pInfo->fd);
+-            pInfo->fd = -1;
+             if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
+             {
+                 RemoveBlockAndWakeupHandlers (MouseBlockHandler,
+@@ -1801,6 +1800,10 @@
+         device->public.on = FALSE;
+         break;
      case DEVICE_CLOSE:
-+ 	if (pInfo->fd != -1) {
-+	    xf86CloseSerial(pInfo->fd);
-+	    pInfo->fd = -1;
-+	}
- 	free(pMse->mousePriv);
- 	pMse->mousePriv = NULL;
- 	break;
++        if (pInfo->fd != -1) {
++            xf86CloseSerial(pInfo->fd);
++            pInfo->fd = -1;
++        }
+         free(pMse->mousePriv);
+         pMse->mousePriv = NULL;
+         break;

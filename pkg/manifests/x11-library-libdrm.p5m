@@ -48,21 +48,28 @@ file path=usr/include/xf86drm.h
 file path=usr/include/xf86drmMode.h
 file path=usr/lib/$(ARCH64)/pkgconfig/libdrm.pc
 $(i386_ONLY)file path=usr/lib/$(ARCH64)/pkgconfig/libdrm_intel.pc
+$(i386_ONLY)file path=usr/lib/$(ARCH64)/pkgconfig/libdrm_radeon.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/libkms.pc
 file path=usr/lib/pkgconfig/libdrm.pc
 $(i386_ONLY)file path=usr/lib/pkgconfig/libdrm_intel.pc
+$(i386_ONLY)file path=usr/lib/pkgconfig/libdrm_radeon.pc
 file path=usr/lib/pkgconfig/libkms.pc
 link path=usr/lib/xorg/$(ARCH64)/libdrm.so target=libdrm.so.2
 file path=usr/lib/xorg/$(ARCH64)/libdrm.so.2
 $(i386_ONLY)link path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so \
     target=libdrm_intel.so.1
 $(i386_ONLY)file path=usr/lib/xorg/$(ARCH64)/libdrm_intel.so.1
+$(i386_ONLY)link path=usr/lib/xorg/$(ARCH64)/libdrm_radeon.so \
+    target=libdrm_radeon.so.1
+$(i386_ONLY)file path=usr/lib/xorg/$(ARCH64)/libdrm_radeon.so.1
 link path=usr/lib/xorg/$(ARCH64)/libkms.so target=libkms.so.1
 file path=usr/lib/xorg/$(ARCH64)/libkms.so.1
 link path=usr/lib/xorg/libdrm.so target=libdrm.so.2
 file path=usr/lib/xorg/libdrm.so.2
 $(i386_ONLY)link path=usr/lib/xorg/libdrm_intel.so target=libdrm_intel.so.1
 $(i386_ONLY)file path=usr/lib/xorg/libdrm_intel.so.1
+$(i386_ONLY)link path=usr/lib/xorg/libdrm_radeon.so target=libdrm_radeon.so.1
+$(i386_ONLY)file path=usr/lib/xorg/libdrm_radeon.so.1
 link path=usr/lib/xorg/libkms.so target=libkms.so.1
 file path=usr/lib/xorg/libkms.so.1
 depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

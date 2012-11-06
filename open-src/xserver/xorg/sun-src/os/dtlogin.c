@@ -204,7 +204,7 @@ DtloginCloseScreen (int i, ScreenPtr pScreen)
     pScreen->CloseScreen = pScreenPriv->CloseScreen;
     free (pScreenPriv);
 
-    return (*pScreen->CloseScreen) (i, pScreen);
+    return (*pScreen->CloseScreen) (pScreen);
 }
 
 static void

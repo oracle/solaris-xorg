@@ -44,11 +44,11 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
 +
 +cirrus_alpine_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lfb -lint10 -lpciaccess -lshadowfb -lvgahw -lxaa
++	-lfb -lint10 -lpciaccess -lshadowfb -lvgahw
 +
 +cirrus_laguna_la_LDFLAGS += \
 +	-Wl,-M,mapfile-cirrus_drv-external \
-+	-lfb -lint10 -lvgahw -lxaa
++	-lfb -lint10 -lvgahw
 +
 +mapfiles: $(MAPFILES)
 +

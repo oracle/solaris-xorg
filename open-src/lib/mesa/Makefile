@@ -40,11 +40,11 @@ MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 MODULE_ARC_CASES = LSARC/2005/109
 
 # Version number (used in path names)
-MODULE_VERSION=7.11.2
+MODULE_VERSION=8.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0837c52698fe3252369c3fdb5195afcc
-TARBALL_SHA1 = 5981ac2de8438e5f4a1f3561f2044d700c5f0de9
+TARBALL_MD5  = d546f988adfdf986cff45b1efa2d8a46
+TARBALL_SHA1 = c64f8c03caf9ededd5f7011e246c42a649096c8c
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -63,12 +63,10 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	gallium-endian.patch,-p1 \
-	gcc-bitcount.patch,-p1 \
 	install-pc-dir.patch \
 	glu-no-mangled-exports.patch \
-	solaris-port.patch bromolow-chipset.patch \
-	fix-gen6-viewperf-hang.patch
+	solaris-port.patch \
+	bugfix-post804.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
@@ -77,7 +75,7 @@ MODULE_ADD_CONFIGURE_TARGETS=set_pc_dir
 MODULE_INSTALL_DEPS=set_pc_dir
 
 DRI_DRIVER_LIST_sparc=
-DRI_DRIVER_LIST_i386=i915 i965 r200 r300 radeon
+DRI_DRIVER_LIST_i386=i915 i965 radeon r200
 DRI_DRIVER_LIST= $(DRI_DRIVER_LIST_$(MACH)) swrast
 
 # Command line options to GNU autoconf configure script
@@ -129,17 +127,15 @@ set_pc_dir: $(AUTOCONF_TARGET)
 	echo 'INSTALL_PC_DIR=$(PKGCONFIG_DIR)' >> $(AUTOCONF_TARGET)
 
 # Move installed files to mesa subdirs and make links back
-LIBRARIES_TO_DIRECT_LINK = libGLU.so.1 libGLw.so.1
+LIBRARIES_TO_DIRECT_LINK = libGLU.so.1
 LIBRARIES_TO_RUNTIME_LINK = libGL.so.1
 LIBRARIES_TO_MOVE = $(LIBRARIES_TO_DIRECT_LINK) $(LIBRARIES_TO_RUNTIME_LINK)
 MESA_LIBDIR = $(PROTODIR)/usr/lib/mesa$(ARCHLIBSUBDIR)
 
-HEADERS_TO_MOVE = GLwDrawA.h GLwDrawAP.h GLwMDrawA.h GLwMDrawAP.h \
-	gl.h gl_mangle.h glext.h glfbdev.h \
+HEADERS_TO_MOVE = gl.h gl_mangle.h glext.h \
 	glu.h glu_mangle.h glx.h glx_mangle.h glxext.h \
-	mesa_wgl.h osmesa.h vms_x_fix.h wglext.h wmesa.h
-HEADERS_TO_DIRECT_LINK = GLwDrawA.h GLwDrawAP.h GLwMDrawA.h GLwMDrawAP.h \
-	glu.h osmesa.h
+	osmesa.h vms_x_fix.h wglext.h wmesa.h
+HEADERS_TO_DIRECT_LINK = glu.h osmesa.h
 HEADERS_TO_RUNTIME_LINK = gl.h glext.h glx.h glxext.h
 
 # Run just once after all other install steps are done for both 32/64-bit

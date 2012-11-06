@@ -2,7 +2,7 @@
 #
 # xcb-util-wm Makefile
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,11 +32,11 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.8
+MODULE_VERSION=0.3.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = dda47289bc846a6a3e07824e9ec3aef8
-TARBALL_SHA1 = e7684921870a62c9e4f53ff8376a468206dc977f
+TARBALL_MD5  = c612aae7ffe2e70fe743efab9c5548e9
+TARBALL_SHA1 = 22d4bc822ef53e4716ce14349e7241a7f8810fa0
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109

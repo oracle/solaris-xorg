@@ -20,8 +20,8 @@ index dc77c02..db4fa12 100644
 +	mapfile-bt829_drv-external
 +
 +radeon_drv_la_LDFLAGS += $(radeon_MAPFILES:%=-Wl,-M,%) \
-+	-lexa -lfb -lint10 -lvbe -lvgahw -lxaa -lshadow \
-+	-lpixman-1 -ldrm -ldri -lglx -lm
++	-lexa -lfb -lint10 -lvbe -lvgahw -lshadow \
++	-lpixman-1 -ldrm -lglx -lm
 +
 +radeon_drv_la_DEPENDENCIES = $(radeon_MAPFILES)
 +

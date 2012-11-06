@@ -29,15 +29,16 @@
 MODULE_NAME=xf86-video-mach64
 
 # Version number (used in path names)
-MODULE_VERSION=6.9.1
+MODULE_VERSION=6.9.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 8484c18f08e77564a56ccbf226694038
-TARBALL_SHA1  = 7129cf61a1c70d923a370fea66686d7a13be8fe8
-TARBALL_SHA256= 9f6ad49f07c8785a64caac6f4aaf58fc7746a24b718491d047c45bc1ee9e834e
+TARBALL_MD5   = 94189e4ad9dc431a962228c61dae6f77
+TARBALL_SHA1  = 04a121dfb4e77218219739ef7729ed647004ae27
+TARBALL_SHA256= 5473d0e7dfd7bcff3f759e9e6bd6794ab464958f2f647d9b6d3edf3c66c53218
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6205248.patch,-p1
+SOURCE_PATCHES = 6205248.patch,-p1 \
+		 113.patch
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
@@ -53,7 +54,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lint10 -lpciaccess -lfb -lpixman-1 -lshadowfb -lXfont -lvbe -lxaa
+	-lexa -lint10 -lpciaccess -lfb -lpixman-1 -lshadowfb -lXfont -lvbe
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

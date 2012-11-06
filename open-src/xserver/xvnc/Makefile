@@ -62,9 +62,10 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix'
+SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver113.patch,'-p0 -d unix'
 SOURCE_PATCHES += tigervnc11-xorg111.patch,-p1
 SOURCE_PATCHES += tigervnc11-xorg112.patch,'-p0 -d unix'
+SOURCE_PATCHES += tigervnc11-xorg113.patch,'-p0 -d unix'
 SOURCE_PATCHES += xorg-1.12.1.patch,-p1
 SOURCE_PATCHES += no-nasm.patch,-p1
 SOURCE_PATCHES += applet-html.patch
@@ -171,6 +172,7 @@ $(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
 		SOURCE_PATCHES="$(XORG_SOURCE_PATCHES:%=../xorg/%)" \
 		SOURCE_DIR="$(XORG_BUILD_DIR)" \
 		XORG_BUILD_DIR="$(XORG_BUILD_DIR)"
+	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
 	touch $(XORG_PATCHED_TARGET)
 
 # Command line options to GNU autoconf configure script for Xvnc
@@ -192,7 +194,8 @@ MODULE_CPPFLAGS = \
 	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
 	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
-	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig
+	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig \
+	-I$(PWD)/$(SOURCE_DIR)/unix/xserver/miext/damage \
 
 # Workaround for Java failure with JDK 7 in S11U1b12 - continue using JDK 6 for now
 MODULE_BUILD_ENV = PATH="/usr/jdk/instances/jdk1.6.0/bin:$$PATH"

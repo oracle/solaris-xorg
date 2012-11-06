@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-r128
 
 # Version number (used in path names)
-MODULE_VERSION=6.8.2
+MODULE_VERSION=6.8.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 31e0358b5d1189e3f30f5b11e9b86865
-TARBALL_SHA1  = bb01cbdc173dbb53070c4ac06f3eeb3ad2645164
-TARBALL_SHA256= 7b41135c3d177e61644573e5c16e35fd9eff98b4d6685c9c6de9e33401e904b1
+TARBALL_MD5   = 4c4cf0031dda485830b082cde53976c7
+TARBALL_SHA1  = 39d2b3667a5796e9333a41abaf1197cc0f0590ff
+TARBALL_SHA256= 6fbfbba2589c1daf45f048009d6521bb687adbdf2f695eb961b316ce68935cd7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -55,7 +55,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERMODS_DIR)/extensions \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lint10 -lpciaccess -lfb -lpixman-1 -lvbe -lxaa -lfbdevhw -lvgahw
+	-lint10 -lpciaccess -lfb -lpixman-1 -lvbe -lfbdevhw -lvgahw
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

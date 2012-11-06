@@ -29,17 +29,16 @@
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.18.0
+MODULE_VERSION=2.20.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 34f3987ffe86e30c57abc33b7f8030e9
-TARBALL_SHA1 = 77fae98e73414140bf214dca5da32bcf079c4463
+TARBALL_MD5  = 6aa7b041fcd8fc7c080d9ad21a295be6
+TARBALL_SHA1 = 43c789bae74dceeb5a5e5ff099679f28c6dfa057
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
 	build-dri.patch \
-	libraries.patch batch.patch \
-	bromolow-chipset.patch
+	batch.patch libraries.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -75,7 +74,8 @@ MODULE_COMPILER_SET=yes
 
 # Extra flags to pass to configure script
 # --libdir is needed to set path for XvMC libraries
-MODULE_CONFIG_OPTS=--enable-dri --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)'
+MODULE_CONFIG_OPTS=--enable-dri --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)' \
+		   --disable-sna --enable-uxa
 
 # echo is set to workaround configure/libtool strangeness in 2.15.0 that
 # causes ../../libtool: line 791: X--mode=install: command not found errors
@@ -83,7 +83,7 @@ MODULE_CONFIG_ENV = echo=/usr/gnu/bin/echo
 MODULE_BUILD_ENV += echo=/usr/gnu/bin/echo
 
 # Library paths at build time
-MODULE_LD_OPTIONS= -z ignore \
+MODULE_LD_OPTIONS= -z ignore\
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \

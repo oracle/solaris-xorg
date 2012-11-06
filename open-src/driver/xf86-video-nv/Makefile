@@ -2,7 +2,7 @@
 #
 # xf86-video-nv Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,14 @@
 MODULE_NAME=xf86-video-nv
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.18
+MODULE_VERSION=2.1.20
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b12f0b2114849d1a542d8084732573d3
-TARBALL_SHA1 = d35b2fa5a26a507a9cc95b69243d9fd0c0f32aa2
+TARBALL_MD5  = e263dd0cd149b5224e92baa5a227bb00
+TARBALL_SHA1 = 42b129be471d16444c5a7b443491e8d9e3e5df1a
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 7163065.patch
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -51,7 +51,7 @@ MODULE_LD_OPTIONS= \
         -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
         -R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lfb -lint10 -lshadowfb -lXfont -lvbe -lvgahw -lxaa -lfbdevhw \
+	-lexa -lfb -lint10 -lshadowfb -lXfont -lvbe -lvgahw -lfbdevhw \
 	-L$(PROTODIR)/usr/lib -lpciaccess -lpixman-1 -lm
 
 include ../Makefile.inc

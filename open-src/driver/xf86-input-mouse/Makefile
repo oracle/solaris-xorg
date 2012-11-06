@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.2
+MODULE_VERSION=1.8.1
 
 # Checksums for upstream tarball
-TARBALL_MD5    = 871c828b88e9c973f1457724b35576fb
-TARBALL_SHA1   = 0da6390c6f3d7d636110a52f08193739929ae4ae
-TARBALL_SHA256 = 332b7357c18e6b9daba51c8ed48ce118e9b51fb5990b6a2a68637be62da7413b
+TARBALL_MD5    = f314c56e4ac6c8fc0cc2710892d5776e
+TARBALL_SHA1   = e00e825c9506b7b9c31bf4b8a3a609df8ef408c1
+TARBALL_SHA256 = f5b97aac9aab8fa8b933e960631441ae23b18681c8bf3d5007c00da838f9c9c8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = \
@@ -49,6 +49,10 @@ MODULE_LD_OPTIONS= -lm
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs
+
+# Install xorg-mouse.pc to /usr/share
+MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
+MODULE_PKGCONFIG_DIR_SET=yes
 
 include ../Makefile.inc
 

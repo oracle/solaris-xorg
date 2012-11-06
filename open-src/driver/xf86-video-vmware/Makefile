@@ -37,7 +37,10 @@ TARBALL_SHA1  = efa47f365d88da245804a9934719ff860ed04f95
 TARBALL_SHA256= c827875fd94805ec9b925fe09aaa973e7e3f9096c7ef311d449c3f134ae75147
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES =
+SOURCE_PATCHES = compat.patch
+
+# Merge in additional sources from sun-src directory
+ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,3 +27,4 @@ set name=pkg.description value="Xorg mouse input driver"
 file path=usr/lib/xorg/modules/input/mouse_drv.so
 file path=usr/share/doc/X11/README.mouse
 file path=usr/share/man/man7/mousedrv.7
+file path=usr/share/pkgconfig/xorg-mouse.pc

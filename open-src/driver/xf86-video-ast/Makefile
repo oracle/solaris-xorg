@@ -29,16 +29,15 @@
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.93.10
+MODULE_VERSION=0.97.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = de0bf8e0c8ab67be42c14f07ca427271
-TARBALL_SHA1  = 40e8acd04ccf670b196be74a2c806d064f7b68db
-TARBALL_SHA256= c9d466fef391bdf960f79b82f1f776a1c1ab870e93475c3d1b3d028531fac4e0
+TARBALL_MD5   = 2b630ed7d7864045b324b39cd58da367
+TARBALL_SHA1  = 11cb9a687cec6f0943ad6b9a47434815334d2a20
+TARBALL_SHA256= 28fcd4781676485293f6dcd46e0797866f6219e22e1851c9796b037589998e76
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += sparc-ast.patch,-p1 \
-		  7164238.patch
+SOURCE_PATCHES += sparc-ast.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
@@ -53,7 +52,7 @@ MODULE_STABILITY=Volatile
 # Libraries/modules to link with
 AST_LIBRARIES_sparc = # nothing extra
 AST_LIBRARIES_i386 = -lint10 -lpciaccess -lvbe -lvgahw
-AST_LIBRARIES = -lfb -lxaa $(AST_LIBRARIES_$(MACH))
+AST_LIBRARIES = -lfb $(AST_LIBRARIES_$(MACH))
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERMODS_DIR) \

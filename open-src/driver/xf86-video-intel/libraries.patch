@@ -1,17 +1,17 @@
---- src/Makefile.in	Fri Feb 24 13:44:41 2012
-+++ src/Makefile.in	Fri Feb 24 13:44:54 2012
-@@ -433,7 +433,7 @@
+--- src/Makefile.in	Fri Sep 14 12:39:05 2012
++++ src/Makefile.in	Fri Sep 14 12:39:15 2012
+@@ -454,7 +454,7 @@
  intel_drv_la_LIBADD = legacy/liblegacy.la @PCIACCESS_LIBS@ \
  	$(am__append_2) $(am__append_4) $(am__append_7) \
  	$(am__append_10)
 -NULL := #
 +#NULL := #
- intel_drv_la_SOURCES = intel_list.h intel_module.c $(NULL) \
- 	$(am__append_5) $(am__append_8) $(am__append_9) \
- 	$(am__append_11)
---- src/legacy/Makefile.in	Fri Feb 24 13:45:20 2012
-+++ src/legacy/Makefile.in	Fri Feb 24 13:45:38 2012
-@@ -293,7 +293,7 @@
+ intel_drv_la_SOURCES = intel_list.h intel_options.h intel_options.c \
+ 	intel_module.c compat-api.h $(NULL) $(am__append_5) \
+ 	$(am__append_8) $(am__append_9) $(am__append_11)
+--- src/legacy/Makefile.in	Fri Sep 14 12:40:07 2012
++++ src/legacy/Makefile.in	Fri Sep 14 12:40:17 2012
+@@ -316,7 +316,7 @@
  top_srcdir = @top_srcdir@
  SUBDIRS = $(am__append_1)
  noinst_LTLIBRARIES = liblegacy.la
@@ -20,19 +20,19 @@
  liblegacy_la_SOURCES = legacy.h $(am__append_2)
  liblegacy_la_LIBADD = $(am__append_3)
  EXTRA_DIST = README
---- src/Makefile.am	Mon Dec  5 14:30:20 2011
-+++ src/Makefile.am	Mon Dec  5 14:55:55 2011
-@@ -33,6 +33,9 @@
+--- src/Makefile.am	Fri Sep 14 12:40:49 2012
++++ src/Makefile.am	Fri Sep 14 12:43:18 2012
+@@ -32,6 +32,9 @@
  intel_drv_la_LDFLAGS = -module -avoid-version
  intel_drv_ladir = @moduledir@/drivers
  intel_drv_la_LIBADD = legacy/liblegacy.la @PCIACCESS_LIBS@
 +intel_drv_la_LDFLAGS += -R $(moduledir) -R $(moduledir)/extensions
-+intel_drv_la_LIBADD += -lfb -lextmod -lshadowfb -lXfont -lm \
-+	-lvbe -lvgahw -lxaa -lexa -ldri -ldri2 -lglx $(XORG_LIBS)
++intel_drv_la_LIBADD += -lfb -lshadowfb -lXfont -lm \
++       -lvbe -lvgahw -lexa -lglx $(XORG_LIBS)
  
  if SNA
  SUBDIRS += sna
-@@ -39,7 +42,7 @@
+@@ -38,7 +41,7 @@
  intel_drv_la_LIBADD += sna/libsna.la
  endif
  
@@ -40,15 +40,18 @@
 +#NULL:=#
  
  intel_drv_la_SOURCES = \
- 	intel_module.c \
---- src/legacy/Makefile.am	Mon Dec  5 15:01:13 2011
-+++ src/legacy/Makefile.am	Mon Dec  5 15:06:04 2011
-@@ -1,10 +1,20 @@
+ 	intel_list.h \
+--- src/legacy/Makefile.am	Fri Sep 14 12:43:52 2012
++++ src/legacy/Makefile.am	Fri Sep 14 12:45:12 2012
+@@ -1,11 +1,22 @@
  SUBDIRS =
  noinst_LTLIBRARIES = liblegacy.la
  
 -NULL:=#
 +#NULL:=#
+ 
+-liblegacy_la_SOURCES = legacy.h
+-liblegacy_la_LIBADD =
 +liblegacy_la_SOURCES = legacy.h \
 +                      i810/i810_accel.c \
 +                      i810/i810_cursor.c \
@@ -60,10 +63,9 @@
 +                      i810/i810_video.c \
 +                      i810/i810_wmark.c
  
--liblegacy_la_SOURCES = legacy.h
--liblegacy_la_LIBADD =
 +AM_CFLAGS = @XORG_CFLAGS@ @DRM_CFLAGS@ @DRI_CFLAGS@ -I$(top_srcdir)/src
 +liblegacy_la_LIBADD = @DRI_LIBS@ @DRM_LIBS@ @XVMCLIB_LIBS@
- 
++
  if ! KMS_ONLY
  SUBDIRS += i810
+ liblegacy_la_SOURCES +=
