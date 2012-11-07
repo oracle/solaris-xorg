@@ -34,6 +34,7 @@ set name=pkg.description \
 #
 file path=usr/include/xcb/xcb_atom.h
 file path=usr/include/xcb/xcb_aux.h
+file path=usr/include/xcb/xcb_bitops.h
 file path=usr/include/xcb/xcb_event.h
 file path=usr/include/xcb/xcb_ewmh.h
 file path=usr/include/xcb/xcb_icccm.h
