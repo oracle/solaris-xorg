@@ -37,7 +37,7 @@ VPATH	=$(GFX_COMMON)/include:$(GFX_SRC_DIR)
 
 GFX_DEFINE=
 
-GFX_INC = -I$(GFX_COMMON)/include
+GFX_INC = -I$(GFX_COMMON)/include  -I$(PROTODIR)/usr/include
 
 
 #
