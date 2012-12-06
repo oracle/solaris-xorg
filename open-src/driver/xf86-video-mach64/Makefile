@@ -38,7 +38,8 @@ TARBALL_SHA256= 5473d0e7dfd7bcff3f759e9e6bd6794ab464958f2f647d9b6d3edf3c66c53218
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6205248.patch,-p1 \
-		 113.patch
+		 113.patch,-p1 \
+		 exa-crash.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
@@ -47,6 +48,8 @@ MODULE_STABILITY=Volatile
 # Extra flags to pass to configure script
 # - Disable DRI since the kernel module isn't ported
 MODULE_CONFIG_OPTS=--disable-dri
+# - Disable EXA for now since it isn't completely working & crashes a lot
+MODULE_CONFIG_OPTS += --disable-exa
 
 # Paths to find libraries/modules to link with
 MODULE_LD_OPTIONS= \
@@ -54,7 +57,7 @@ MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lexa -lint10 -lpciaccess -lfb -lpixman-1 -lshadowfb -lXfont -lvbe
+	-lint10 -lpciaccess -lfb -lpixman-1 -lshadowfb -lXfont -lvbe
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs
