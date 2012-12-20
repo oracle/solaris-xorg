@@ -1,8 +1,8 @@
 diff --git a/exa/exa.c b/exa/exa.c
-index 754c830..714b6b7 100644
+index d12344f..ba82382 100644
 --- a/exa/exa.c
 +++ b/exa/exa.c
-@@ -61,7 +61,11 @@ exaGetPixmapOffset(PixmapPtr pPix)
+@@ -59,7 +59,11 @@ exaGetPixmapOffset(PixmapPtr pPix)
      ExaScreenPriv(pPix->drawable.pScreen);
      ExaPixmapPriv(pPix);
  
