@@ -1,8 +1,8 @@
 diff --git a/src/truetype/ttinterp.h b/src/truetype/ttinterp.h
-index 6d0fc03..5c21a36 100644
+index f433612..5ed3790 100644
 --- a/src/truetype/ttinterp.h
 +++ b/src/truetype/ttinterp.h
-@@ -139,6 +139,8 @@ FT_BEGIN_HEADER
+@@ -181,6 +181,8 @@ FT_BEGIN_HEADER
      FT_Size_Metrics    metrics;
      TT_Size_Metrics    tt_metrics; /* size metrics */
  
@@ -12,10 +12,10 @@ index 6d0fc03..5c21a36 100644
  
      FT_Int             curRange;  /* current code range number   */
 diff --git a/src/truetype/ttobjs.h b/src/truetype/ttobjs.h
-index 47e4129..adf5920 100644
+index 5c3cb06..6b52e80 100644
 --- a/src/truetype/ttobjs.h
 +++ b/src/truetype/ttobjs.h
-@@ -312,6 +312,8 @@ FT_BEGIN_HEADER
+@@ -313,6 +313,8 @@ FT_BEGIN_HEADER
  
      TT_CodeRangeTable  codeRangeTable;
  

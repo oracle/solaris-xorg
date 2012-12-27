@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,7 @@ file path=usr/include/freetype2/freetype/config/ftoption.h
 file path=usr/include/freetype2/freetype/config/ftstdlib.h
 file path=usr/include/freetype2/freetype/freetype.h
 file path=usr/include/freetype2/freetype/ftadvanc.h
+file path=usr/include/freetype2/freetype/ftautoh.h
 file path=usr/include/freetype2/freetype/ftbbox.h
 file path=usr/include/freetype2/freetype/ftbdf.h
 file path=usr/include/freetype2/freetype/ftbitmap.h
@@ -86,6 +87,7 @@ file path=usr/share/aclocal/freetype2.m4
 dir  path=usr/share/doc/freetype
 file path=usr/share/doc/freetype/VERSION.DLL
 file path=usr/share/doc/freetype/formats.txt
+file path=usr/share/doc/freetype/ft2-auto_hinter.html
 file path=usr/share/doc/freetype/ft2-base_interface.html
 file path=usr/share/doc/freetype/ft2-basic_types.html
 file path=usr/share/doc/freetype/ft2-bdf_fonts.html
