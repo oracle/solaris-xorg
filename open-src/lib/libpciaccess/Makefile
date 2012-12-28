@@ -43,7 +43,8 @@ SOURCE_PATCHES = \
 	scanpci_64bit.patch,-p1 \
 	sparc.patch \
 	nexus_devlist.patch,-p1 \
-	rom_and_scanpci.patch,-p1
+	rom_and_scanpci.patch,-p1 \
+	sparc_domain.patch,-p1
 
 # Library name
 LIBNAME=libpciaccess
