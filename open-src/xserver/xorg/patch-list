@@ -26,3 +26,4 @@ autodetect-kernel-dev-fb.patch,-p1
 workaround-7154410.patch,-p1
 sparc-no-bus-probe.patch,-p1
 113-port.patch,-p1
+16080810.patch,-p1
