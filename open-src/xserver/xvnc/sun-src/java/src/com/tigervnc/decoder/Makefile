@@ -1,6 +1,6 @@
 
 JC = javac
-JCFLAGS = -target 1.5 -classpath ../../../
+JCFLAGS = -target 1.7 -classpath ../../../
 
 SOURCES = \
 	common/Repaintable.java \

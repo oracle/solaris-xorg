@@ -70,6 +70,7 @@ SOURCE_PATCHES += xorg-1.12.1.patch,-p1
 SOURCE_PATCHES += no-nasm.patch,-p1
 SOURCE_PATCHES += applet-html.patch
 SOURCE_PATCHES += icon.patch,-p1
+SOURCE_PATCHES += jdk17.patch,-p1
 SOURCE_PATCHES += solaris-libraries.patch,-p1
 SOURCE_PATCHES += vnc-nobuildtime.patch,-p1
 SOURCE_PATCHES += vnc-nohttpd.patch,-p1
@@ -196,9 +197,6 @@ MODULE_CPPFLAGS = \
 	-I$(PWD)/$(SOURCE_DIR)/common \
 	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig \
 	-I$(PWD)/$(SOURCE_DIR)/unix/xserver/miext/damage \
-
-# Workaround for Java failure with JDK 7 in S11U1b12 - continue using JDK 6 for now
-MODULE_BUILD_ENV = PATH="/usr/jdk/instances/jdk1.6.0/bin:$$PATH"
 
 CFLAGS_gcc += -fPIC
 
