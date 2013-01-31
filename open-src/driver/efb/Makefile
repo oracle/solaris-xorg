@@ -41,7 +41,8 @@ SOURCE_PATCHES = \
 	no-modes.patch,-p1 \
 	sparc-efb.patch,-p1 \
 	pciTag.patch \
-	disable-xaa.patch
+	disable-xaa.patch \
+	15918273.patch
 
 # Need to regenerate configure after patching Makefile.am in sparc-efb.patch
 AUTORECONF=yes
