@@ -2,7 +2,7 @@
 #
 # xfs Makefile
 #
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,9 +37,9 @@ TARBALL_SHA1  = d4a64e12f8a773bd0120977191586ca12baf1ace
 TARBALL_SHA256= 0dea61cce3897b4d9d844bbd2c7850cd4e80e12c12b38158b4f92574b027e39d
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	smf-manpage.patch \
-	config-warning.patch
+SOURCE_PATCHES += smf-manpage.patch
+SOURCE_PATCHES += config-warning.patch
+SOURCE_PATCHES += ReopenCOTSServer-crash.patch,-p1
 
 # Need to rebuild config/Makefile.in after applying solaris-make.patch
 AUTORECONF=yes

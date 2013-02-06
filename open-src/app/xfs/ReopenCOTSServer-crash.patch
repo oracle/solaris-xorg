@@ -1,0 +1,33 @@
+From d27fea63c95f98b09f8242db71423f959a1665ba Mon Sep 17 00:00:00 2001
+From: Arvind Umrao <arvind.umrao@oracle.com>
+Date: Thu, 23 Aug 2012 16:55:18 +0530
+Subject: [PATCH:xfs] Revert of ac59cccf8bc1ae3d41e0608f131b5eb888f9362b
+
+xfs service will go to maintenance status after running fsinfo.
+NULL is passed to socket layer causing crash.  It was missed that
+it also gets passed to ReopenCOTSServer which attempts to strdup
+the port string without checking if it's null.
+
+Signed-off-by: Arvind Umrao <arvind.umrao@oracle.com>
+Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ os/xfstrans.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/os/xfstrans.c b/os/xfstrans.c
+index 5c07abd..81cd91f 100644
+--- a/os/xfstrans.c
++++ b/os/xfstrans.c
+@@ -35,7 +35,7 @@
+ OldListenRec *
+ TRANS(GetInetdListenInfo) (int fd)
+ {
+-    char *port = NULL;
++    char *port = "0";
+     XtransConnInfo inetdCI;
+     OldListenRec *old_listen;
+     int portnum;
+-- 
+1.7.9.2
+
