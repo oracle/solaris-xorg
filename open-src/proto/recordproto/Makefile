@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ TARBALL_SHA256= a777548d2e92aa259f1528de3c4a36d15e07a4650d0976573a8e2ff5437e7370
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Package metadata
+MODULE_DESC = headers & documentation for RECORD extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,7 @@ MODULE_NAME=font-ibm-type1
 # Package metadata
 MODULE_LICENSE          = IBM/MIT X Consortium Courier Typefont agreement
 MODULE_LICENSE_SET      = yes
+MODULE_DESC 		= Postscript Type 1 version of IBM Courier fonts
 
 
 # pkg(5) name we deliver the files in (override default)

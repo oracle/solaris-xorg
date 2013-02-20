@@ -2,7 +2,7 @@
 #
 # libfontenc - font encoding table parser & mapping library
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,9 @@
 
 # Package name used in tarballs
 MODULE_NAME=libfontenc
+
+# Package metadata
+MODULE_DESC = the libfontenc font encoding table parser & mapping library
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.1

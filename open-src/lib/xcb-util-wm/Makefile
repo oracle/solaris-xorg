@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xcb-util-wm Makefile
+# xcb-util-wm - Library of xcb utility functions for Window Manager hints
 #
-# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,7 @@ TARBALL_SHA1 = 22d4bc822ef53e4716ce14349e7241a7f8810fa0
 MODULE_ARC_CASES = PSARC/2010/109
 
 # Package metadata
+MODULE_DESC = the xcb-util-wm library of xcb utility functions for Window Manager hints
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
 

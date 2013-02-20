@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,9 @@
 
 MODULE_NAME = xserver-common
 
+# Package metadata
+MODULE_DESC = Xserver SMF & RBAC configuration files
+
 # ARC cases that covered this module
 # PSARC/2004/752 X Consolidation conversion to SMF
 MODULE_ARC_CASES = PSARC/2004/752
@@ -50,6 +53,10 @@ BUILD_TARGETS_SET=yes
 
 INSTALL_TARGETS = install_common
 INSTALL_TARGETS_SET=yes
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 2004, 2011
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = X Xserver

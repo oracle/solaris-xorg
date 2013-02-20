@@ -2,7 +2,7 @@
 #
 # xwud - simple application to display window dump images saved by xwd
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,9 @@ SOURCE_PATCHES =
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-window-dump
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xwud viewer application for xwd images
 
 # ARC cases that covered this module
 # PSARC/2008/108  xwud -dumpheader & -scale

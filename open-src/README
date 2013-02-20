@@ -3,7 +3,7 @@ This is documentation of the Makefile system used in this tree.
 General Overview:
 -----------------
 This tree builds dozens of open source modules that are each released 
-separately and delivered as source in seperate tarballs.   These modules
+separately and delivered as source in separate tarballs.   These modules
 are organized in subdirectories based on the X.Org module list, though
 modules from other sources are included as appropriate.   For instance,
 the application xterm is built in open-src/app/xterm, while the fontconfig
@@ -207,9 +207,31 @@ MODULE_ARC_CASES
    and for publication in opensolaris.arc_url metadata attributes in packages.
    Must be in the format "ARC/year/case", such as "PSARC/2004/187".
 
+MODULE_DESC
+ - description of the module to be used in license notices or package metadata
+   It should be short, specific, concise text, identifying the technology 
+   covered by the associated license(s).  It should fit naturally in the 
+   sentence "This package may contain XXX."  For example, "XXX" might be 
+   "the xset command" or "bzip2 compression software."  When appropriate, 
+   this may begin with "portions of" or another, more specific qualifying
+   clause.
+
+MODULE_LICENSE_DESC
+ - description of software covered by a particular license notice, overrides
+   MODULE_DESC if set.
+
 MODULE_LICENSE_PREPEND, MODULE_LICENSE_APPEND
  - Files to be added to the beginning or end of LICENSE_FILE when generating
    the license notice placed in the package.
+
+ORACLE_COPYRIGHT_YEARS
+ - If an Oracle copyright notice should be added to a package to reflect
+   Oracle's modifications, then this should be the year string to include,
+   usually in the form "first, last", as in "1970, 2038".  May be a single
+   year if modifications were all made in the same year.
+
+ORACLE_TPNO
+ - Third party license tracking number from Oracle's licensing database.
 
 FIX_PC_FILES
  - Names of pkgconfig .pc or .pc.in files in the module, which will be
@@ -452,6 +474,7 @@ MODTYPE
 Optional, default is empty:
 
 	- MODTYPE_SUNTOUCH_MAN_FLAGS
+	- MODTYPE_DESC
 	- MODTYPE_SOURCE_DEPS
 	- MODTYPE_CONFIGURE_DEPS
 	- MODTYPE_BUILD_DEPS
@@ -646,7 +669,7 @@ Things we should fix someday, but haven't had time to do yet, include:
 
 =============================================================================
 
-Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

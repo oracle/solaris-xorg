@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,9 @@ SOURCE_PATCHES=
 
 # Extra configure flags
 MODULE_CONFIG_OPTS=
+
+# Description to include in package metadata
+MODULE_DESC = PostScript Type1 font containing mouse cursor pointer glyphs
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,9 @@ TARBALL_SHA1 = aa7b5abcfd5bbfad7cb681ce89dc1d6e381e3044
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Package metadata
+MODULE_DESC = headers & documentation for COMPOSITE extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

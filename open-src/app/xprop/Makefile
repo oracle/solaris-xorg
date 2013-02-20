@@ -1,8 +1,8 @@
 ##############################################################################
 #
-# xprop 1.x Makefile
+# xprop - utility to display X11 window and font properties
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,9 @@
 
 # Package name used in tarballs
 MODULE_NAME=xprop
+
+# Package metadata
+MODULE_DESC = the xprop utility to display X11 window and font properties
 
 # Version number (used in path names)
 MODULE_VERSION=1.2.1

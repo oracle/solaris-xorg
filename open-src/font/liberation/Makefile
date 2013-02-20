@@ -2,7 +2,7 @@
 #
 # Liberation Fonts Makefile
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,8 @@ UPSTREAM_SET	= yes
 MODULE_LICENSE          = Liberation Font Software License Agreement
 MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
+MODULE_DESC		= the Liberation fonts
+ORACLE_TPNO		= 9925
 
 # Version number (used in path names)
 MODULE_VERSION=1.07.2
@@ -57,11 +59,12 @@ SOURCE_URL_SET=yes
 SOURCE_PATCHES=		# None
 
 # License file
-LICENSE_FILE=License.txt
+LICENSE_FILE = pkg-license.txt
 LICENSE_FILE_SET=yes
+MODULE_ADD_INSTALL_TARGETS = $(SOURCE_DIR)/$(LICENSE_FILE)
 
 TTF_FONT_FILES= \
-	$(LICENSE_FILE) \
+	License.txt \
 	LiberationMono-Bold.ttf \
 	LiberationMono-BoldItalic.ttf \
 	LiberationMono-Italic.ttf \
@@ -91,10 +94,11 @@ MODULE_ATTRDATA_COMMANDS = \
 ### Include common rulesets
 include ../Makefile.ttf
 
-# Additional license file
-install_license: $(MODULE_PKG_METADATA_DIR)/license_GPL
+# Generate a combined license file
+$(LICENSE_FILE_DEST): $(SOURCE_DIR)/$(LICENSE_FILE)
 
-$(MODULE_PKG_METADATA_DIR)/license_GPL: $(SOURCE_DATA_DIR)/COPYING
+$(SOURCE_DIR)/$(LICENSE_FILE): $(SOURCE_TARGETS)
 	rm -f $@
-	cp -pf $(SOURCE_DATA_DIR)/COPYING $@
-	print 'license license_GPL license="GPLv2"' > $(LICENSE_ATTR_FILE)
+	fmt $(SOURCE_DIR)/License.txt > $@
+	print '\n________________________________________________________________________________\n' >> $@
+	cat $(SOURCE_DIR)/COPYING >> $@

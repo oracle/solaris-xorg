@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 1995, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,8 +28,12 @@ MODULE_NAME=workspace-patterns
 MODULE_LICENSE = Oracle
 MODULE_LICENSE_SET = yes
 
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1993
+
 # No upstream sources for these files, since they're Solaris-specific
-MODULE_VERSION=NONE
+MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 

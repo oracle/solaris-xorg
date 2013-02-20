@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,9 @@ TARBALL_SHA1 = 6a2ec569336b5646682a14eee3c7790274beffd1
 
 # Subdirectory of $(FONTDIR) to install fonts in
 FONTSUBDIR=75dpi
+
+# Description to include in package metadata
+MODULE_DESC = 75dpi bitmap versions of Adobe PostScript core font set
 
 ### Include common rulesets
 include ../Makefile.bdf

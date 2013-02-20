@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xedit 1.x Makefile
+# xedit - simple Xaw-based text editor for X
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ MODULE_NAME=xedit
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=editor/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
+MODULE_DESC = the xedit text editor
 
 # Package classification (override default)
 MODULE_PKGCLASS=Development/Editors

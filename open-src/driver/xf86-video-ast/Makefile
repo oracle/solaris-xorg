@@ -1,8 +1,9 @@
 ###############################################################################
 #
-# xf86-video-ast 1.x Makefile
+# xf86-video-ast - Xorg driver for ASpeed Technologies graphics devices 
+#  (such as found in some Sun/Oracle server ILOMs)
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,6 +45,10 @@ ADDITIONAL_SOURCE_DIR=sun-src
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 2009, 2012
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man

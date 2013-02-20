@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# x11perf 1.x Makefile
+# x11perf - X11 server performance test program
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,9 @@ TARBALL_SHA256 = 24ee8857a2bf414b360addabf1c27ef797f7f504ee9bc409c151760bfbe5318
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# Package metadata
+MODULE_DESC = the x11perf performance test program for X11 servers
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=benchmark/x11perf

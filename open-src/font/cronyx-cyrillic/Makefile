@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ MODULE_VERSION = 1.0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = e452b94b59b9cfd49110bb49b6267fba
 TARBALL_SHA1 = e5af8c2e8fb23955808a08bd38728ab3ad284d61
+
+# Description to include in package metadata
+MODULE_DESC = Cronyx bitmap fonts containing Cyrillic glyphs
 
 ### Include common rulesets
 include ../Makefile.inc

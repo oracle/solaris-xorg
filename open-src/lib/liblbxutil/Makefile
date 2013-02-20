@@ -1,7 +1,8 @@
 ###############################################################################
-# lbxutil 1.x Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# liblbxutil - Low Bandwidth X implementation private library
+#
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +36,9 @@ MODULE_PKGNAME_SET=yes
 MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
 
+# Package metadata
+MODULE_DESC = the liblbxutil Low Bandwidth X implementation private library
+
 # Version number (used in path names)
 MODULE_VERSION=1.1.0
 
@@ -49,7 +53,7 @@ SOURCE_PATCHES =
 LIBNAME=lbxutil
 
 # Man pages to apply Sun footer to & attributes to list
-#LIB_STABILITY=Committed
+#LIB_STABILITY=Project Private
 #LIB_MAN_SUFFIX=3lbxutil
 
 ### Include common definitions

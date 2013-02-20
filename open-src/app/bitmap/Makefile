@@ -2,7 +2,7 @@
 #
 # bitmap (XBM format) editor application
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ MODULE_NAME=bitmap
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=image/editor/bitmap
 MODULE_PKGNAME_SET=yes
+MODULE_DESC = the bitmap, bmtoa, and atobm utilities
 
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/Graphics and Imaging

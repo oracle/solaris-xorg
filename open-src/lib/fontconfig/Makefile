@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Fontconfig 2.x Makefile
+# Fontconfig - Font configuration and customization library
 #
-# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,9 @@
 # Package name used in tarballs
 MODULE_NAME=fontconfig
 
+# Package metadata
+MODULE_DESC = the FontConfig font configuration and customization library
+
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=system/library/fontconfig
 MODULE_PKGNAME_SET=yes
@@ -52,6 +55,7 @@ MODULE_ARC_CASES += LSARC/2008/140
 UPSTREAM	= fontconfig
 UPSTREAM_URL	= http://fontconfig.org/
 UPSTREAM_SET	= yes
+ORACLE_TPNO	= 12113
 
 # Version number (used in path names)
 MODULE_VERSION=2.8.0

@@ -2,7 +2,7 @@
 #
 # xauth - utility for managing cookies in .Xauthority files
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,9 @@ MODULE_NAME=xauth
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xauth utility for managing cookies in .Xauthority files
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.7

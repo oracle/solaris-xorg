@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,7 @@ MODULE_NAME=font-adobe-utopia-type1
 # Package metadata
 MODULE_LICENSE          = Adobe Utopia Font License
 MODULE_LICENSE_SET      = yes
+MODULE_DESC		= Adobe Utopia fonts in PostScript Type1 format
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=system/font/xorg/xorg-core

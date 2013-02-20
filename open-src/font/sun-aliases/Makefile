@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@ MODTYPE_PKGHIER=system/font/xorg
 MODTYPE_PKGHIER_SET=yes
 
 # No upstream sources for these files, since they're Solaris-specific
-MODULE_VERSION=NONE
+MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 

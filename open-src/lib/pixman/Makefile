@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# pixman Makefile
+# Pixman: The pixel-manipulation library for X and Cairo.
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -51,6 +51,9 @@ LIBNAME=pixman
 # Where to install pixman files
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes
+
+# Package metadata
+MODULE_DESC = the pixman pixel-manipulation library
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=library/graphics/pixman

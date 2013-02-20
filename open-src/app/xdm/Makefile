@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xdm Makefile
+# xdm - X Display Manager with support for XDMCP and host chooser
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ MODULE_NAME=xdm
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=system/display-manager/xdm
 MODULE_PKGNAME_SET=yes
+MODULE_DESC = the X Display Manager (xdm) server
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.9

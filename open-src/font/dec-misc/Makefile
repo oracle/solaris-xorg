@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ MODULE_VERSION = 1.0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = 6e7c5108f1b16d7a1c7b2c9760edd6e5
 TARBALL_SHA1 = a748d35b8b0241abd3e1d85f80da318b529a74d0
+
+# Description to include in package metadata
+MODULE_DESC = DEC bitmap fonts containing mouse cursor pointer glyphs
 
 ### Include common rulesets
 include ../Makefile.inc

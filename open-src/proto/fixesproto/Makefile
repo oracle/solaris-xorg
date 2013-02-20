@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,6 +41,9 @@ SOURCE_PATCHES=
 MODULE_ARC_CASES = PSARC/2004/318
 # PSARC/2006/702 XFixes 4.0
 MODULE_ARC_CASES += PSARC/2006/702
+
+# Package metadata
+MODULE_DESC = headers & documentation for XFIXES extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

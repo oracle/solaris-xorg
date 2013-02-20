@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# dispswitch module Makefile
+# dispswitch - utility for changing display configuration upon hotkey press
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,9 +30,14 @@ MODULE_NAME=dispswitch
 
 # No upstream sources, only local sources
 MODULE_VERSION=src
+MODULE_LICENSE_DESC = portions of the xrandr utility
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 2008, 2010
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

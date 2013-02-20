@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ TARBALL_SHA256= 869c97e5a536a8f3c9bc8b9923780ff1f062094bab935e26f96df3d6f1aa68a9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Package metadata
+MODULE_DESC = headers & documentation for font support in the X Window System
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,9 @@ MODULE_NAME=xorg-cf-files
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGTAIL=imake
 MODULE_PKGTAIL_SET=yes
+
+# Package metadata
+MODULE_DESC = X.Org platform configuration files for imake
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4

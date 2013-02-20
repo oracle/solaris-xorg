@@ -2,7 +2,7 @@
 #
 # Droid Fonts Makefile
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,8 @@ UPSTREAM_SET	= yes
 
 MODULE_LICENSE          = Apache License, Version 2.0
 MODULE_LICENSE_SET      = yes
+MODULE_DESC		= the Droid font families
+ORACLE_TPNO		= 12030
 
 # Version number (used in path names)
 MODULE_VERSION=2010.02.24

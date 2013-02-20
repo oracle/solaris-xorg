@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# iceauth 1.x Makefile
+# iceauth - Utility to manage ICE connection authentication data
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

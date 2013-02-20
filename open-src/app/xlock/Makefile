@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlock 1.x Makefile
+# xlock - manually activated screen lock program
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,14 @@
 
 # Package name used in tarballs
 MODULE_NAME=xlock
+
+# Package metadata
+MODULE_DESC = the xlock screen lock program
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1988, 2011
+ORACLE_TPNO = 9808
 
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src

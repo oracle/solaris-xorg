@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ MODULE_VERSION = 1.0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = 6d25f64796fef34b53b439c2e9efa562
 TARBALL_SHA1 = 96b0aa38f88a54ef32ab85d3eef6f29b0437f70d
+
+# Description to include in package metadata
+MODULE_DESC = Font name aliases for X.Org bitmap fonts
 
 ### Include common rulesets
 include ../Makefile.inc

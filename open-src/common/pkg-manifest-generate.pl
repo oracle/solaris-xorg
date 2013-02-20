@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,6 +34,7 @@
 
 use strict;
 use warnings;
+use POSIX qw(strftime);
 
 my %options;
 
@@ -129,6 +130,9 @@ if (!@manifest_header) {
   my $manifest_license_listref = required_option_list
     ('manifest_license', 'when not merging with existing manifest.');
 
+  # substitute the current year for @YEARS@ in the license template
+  my $current_year = strftime '%Y', localtime;
+
   foreach my $lf (@{$options{'manifest_license'}}) {
     open my $LICENSE, '<', $lf or die "Cannot open manifest_license $lf: $!\n";
     while (my $ll = <$LICENSE>) {
@@ -136,6 +140,7 @@ if (!@manifest_header) {
       if ($ll !~ m{^\#}) {
 	$ll = '# ' . $ll;
       }
+      $ll =~ s{\@YEARS\@}{$current_year};
       push @manifest_header, $ll;
     }
     close $LICENSE;
@@ -156,7 +161,11 @@ if (!@manifest_header) {
     'value="XXX: Please provide a descriptive paragraph for the package."';
 
   my $pkg_summary = '';
+  if (exists $options{'summary'}) {
+    $pkg_summary = $options{'summary'}->[0];
+  }
 
+  if ($pkg_summary =~ m{^\s*$}) {
 SDIR:  foreach my $sdir (@{$options{'source_dir'}}) {
     foreach my $bdir (glob("build-*/$sdir")) {
       # First try looking in a README file for a short summary
@@ -209,6 +218,7 @@ SDIR:  foreach my $sdir (@{$options{'source_dir'}}) {
 	}
       }
     }
+   }
   }
 
   if ($pkg_summary eq '') {

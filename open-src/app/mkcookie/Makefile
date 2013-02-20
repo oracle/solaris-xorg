@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# mkcookie 1.x module Makefile
+# mkcookie - Utility to create xauth cookies
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,13 @@ MODULE_NAME=mkcookie
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/session/xauth
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_LICENSE_DESC = portions of the xauth utility source code
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1990, 2011
 
 # No upstream sources, only local sources
 MODULE_VERSION=src

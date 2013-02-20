@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# viewres 1.x Makefile
+# viewres - graphical class browser for Xt widget classes
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,9 @@ MODULE_NAME=viewres
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/xt-resource-utilities
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the viewres Xt widget class browser
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3

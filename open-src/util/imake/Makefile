@@ -1,6 +1,8 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# imake - Legacy X11 build configuration and makefile generation tool
+#
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,6 +27,9 @@
 
 # Package name used in tarballs
 MODULE_NAME=imake
+
+# Package metadata
+MODULE_DESC = the imake makefile generation tool
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.5

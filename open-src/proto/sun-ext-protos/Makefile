@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,6 +50,13 @@ INSTALL_TARGETS=install_sun_headers
 INSTALL_TARGETS_SET=yes
 FIX_PC_FILES=
 FIX_PC_FILES_SET=yes
+
+# Package metadata
+MODULE_DESC = headers & documentation for X11 protocol extensions created by Sun
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1990, 2011
 
 ### Include common rulesets
 include ../Makefile.inc

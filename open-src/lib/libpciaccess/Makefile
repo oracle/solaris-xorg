@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# libpciaccess Makefile
+# libpciaccess - generic PCI access software library & scanpci utility
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,6 +54,8 @@ LIBNAME=libpciaccess
 MODULE_PREFIX=/usr
 MODULE_PREFIX_SET=yes
 
+# Package metadata
+MODULE_DESC = the libpciaccess library and scanpci utility
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=diagnostic/scanpci
 MODULE_PKGNAME_SET=yes

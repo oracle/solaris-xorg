@@ -1,8 +1,6 @@
 ###############################################################################
 #
-# xset 1.x Makefile
-#
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +40,9 @@ SOURCE_PATCHES = xsetfbpm.patch,-p1
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xset X server configuration utility
 
 # ARC cases that covered this module
 # PSARC 1999/188 - FBPM (Frame Buffer Power Management) Extension

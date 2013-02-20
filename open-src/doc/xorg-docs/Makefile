@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,6 +25,9 @@
 
 # Package name used in tarballs
 MODULE_NAME=xorg-docs
+
+# Package metadata
+MODULE_DESC = X.Org documentation for the X Window System
 
 # Version number (used in path names)
 MODULE_VERSION=1.7

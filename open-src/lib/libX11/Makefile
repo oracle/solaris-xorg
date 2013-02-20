@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -95,6 +95,10 @@ SOURCE_PATCHES = \
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1986, 2012
 
 # ARC cases that covered this module
 # PSARC/1992/077 X11/R5 Xlib API

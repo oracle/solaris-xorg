@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# proxymngr 1.x Makefile
+# proxymngr - X11 proxy manager service
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,9 @@ MODULE_NAME=proxymngr
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/network/x11-network-proxies
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the X11 proxy manager service
 
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/Internet

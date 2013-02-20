@@ -2,7 +2,7 @@
 #
 # synergy application to share input devices across computers
 #
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,6 +45,7 @@ MODULE_LICENSE		= GPLv2
 MODULE_LICENSE_SET	= yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 
+MODULE_DESC = the Synergy mouse and keyboard sharing system
 ORACLE_TPNO = 3822
 
 # Version number (used in path names)

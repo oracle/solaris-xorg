@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# fbconsole Makefile
+# fbconsole - fallback console utility
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,11 @@ MODULE_PKGCLASS_SET=yes
 # Package metadata
 MODULE_LICENSE = Oracle
 MODULE_LICENSE_SET = yes
+MODULE_DESC = the fbconsole console fallback utility
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1992, 2005
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/1992/130 LSARC/2005/590

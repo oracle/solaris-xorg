@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# bdftopcf Makefile
+# bdftopcf - Utility to convert X font from BDF to PCF
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ MODULE_NAME=bdftopcf
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/font-utilities
 MODULE_PKGNAME_SET=yes
+MODULE_DESC = the bdftopcf font conversion utility
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3

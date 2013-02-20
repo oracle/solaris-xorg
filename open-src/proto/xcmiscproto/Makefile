@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ TARBALL_SHA256= b13236869372256c36db79ae39d54214172677fb79e9cdc555dceec80bd9d2df
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Package metadata
+MODULE_DESC = headers & documentation for XC-MISC extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ MODULE_VERSION = 1.0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = 3e0069d4f178a399cffe56daa95c2b63
 TARBALL_SHA1 = 1649271129bbeff3aeee70a9da87a8e5e59162c1
+
+# Description to include in package metadata
+MODULE_DESC = the X.Org cursor bitmap font
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org font modules
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,6 +45,9 @@ MODULE_PKGTAIL_SET	      	= yes
 MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
 $(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=System/Fonts
 MODULE_PKGCLASS_SET		= yes
+
+# Default module description for packages in this area
+MODTYPE_DESC = the $(MODULE_NAME:font-%=%) fonts
 
 # Most font modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 

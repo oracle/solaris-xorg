@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ TARBALL_SHA256= 037cac0aeb80c4fccf44bf736d791fccb2ff7fd34c558ef8f03ac60b61085479
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	5077065.patch
+
+# Package metadata
+MODULE_DESC = headers & documentation for XKEYBOARD extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

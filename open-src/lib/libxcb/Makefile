@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xcb library Makefile
+# xcb - Lighter weight X11 client libraries
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,7 @@ TARBALL_SHA1 = 98199b6054750a06cddd4e77baa4354af547ce6f
 MODULE_ARC_CASES = PSARC/2010/109
 
 # Package metadata
+MODULE_DESC = the XCB family of X11 client libraries
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
 

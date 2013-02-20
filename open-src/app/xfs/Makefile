@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# xfs Makefile
+# xfs - X11 font server
 #
 # Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
@@ -51,6 +51,13 @@ MODULE_STABILITY=Committed
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/xfs
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the X Font Server (xfs)
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1994, 2010
 
 # ARC cases that covered this module
 # PSARC/2004/752 X Consolidation conversion to SMF

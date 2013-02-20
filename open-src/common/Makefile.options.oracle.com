@@ -1,6 +1,6 @@
 # X build options for Oracle Solaris -*- Makefile -*-
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,10 +42,6 @@ DISTRO_NAME = Oracle Solaris
 # the distro's top-level license notice apply.
 LICENSE_CHOICE = Oracle
 LICENSE_CHOICE_SET = yes
-
-# When packages contain code covered by GPL/LGPL, Oracle prepends to the GPL
-# a notice specifying the version Oracle is publishing the software under.
-GPL_CHOICE_FILE = $(PKG_SRC_DIR)/license_files/gpl_choice_Oracle
 
 # Xserver configuration options for vendor name & support URL
 # The vendor name needs to include "X.Org Foundation" for software

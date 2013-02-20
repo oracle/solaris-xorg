@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,6 +34,8 @@ UPSTREAM_SET	= yes
 MODULE_LICENSE          = Mesa License (Mixed: MIT, LGPLv2, others)
 MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
+MODULE_DESC		= the Mesa 3-D Graphics Libraries
+ORACLE_TPNO		= 9926
 
 # ARC cases that covered this module
 # LSARC/2005/109 MESA, Open Source OpenGL clone

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,6 +19,12 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
+# Override license info description from xterm Makefile for this subset
+<transform set name=com.oracle.info.description -> \
+    edit value (.*) "the resize utility from \1" >
+
+
 set name=pkg.fmri value=pkg:/terminal/resize@0.__version:xterm__
 set name=pkg.summary \
     value="resize - adjust terminal settings to current window size"

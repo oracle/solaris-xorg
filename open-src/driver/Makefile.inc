@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -51,6 +51,9 @@ MODULE_PKGCLASS_video		= Drivers/Display
 MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
 $(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=$(MODULE_PKGCLASS_$(DRIVER_CLASS))
 $(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS_SET=yes
+
+# Default module description for packages in this area
+MODTYPE_DESC = the $(MODULE_NAME) driver
 
 # Additional command line options to GNU autoconf configure script
 MODTYPE_CONFIG_OPTS = \

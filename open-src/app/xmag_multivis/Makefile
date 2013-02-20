@@ -1,8 +1,6 @@
 ###############################################################################
 #
-# xmag-multivis 1.x Makefile
-#
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +29,9 @@ MODULE_NAME=xmag_multivis
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/xmag
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the multiple visual version of xmag screen magnification utility
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.4

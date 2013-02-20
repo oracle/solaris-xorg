@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,9 @@
 
 # Package name used in tarballs
 MODULE_NAME=xorg-server
+
+# Package metadata
+MODULE_DESC = portions of the X.Org X server software
 
 # Version number (used in path names) - set in open-src/common/Makefile.init
 MODULE_VERSION=$(XORGSERVER_VERS)

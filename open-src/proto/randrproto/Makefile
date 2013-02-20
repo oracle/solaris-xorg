@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,6 +45,9 @@ MODULE_ARC_CASES += PSARC/2007/430
 MODULE_ARC_CASES += PSARC/2009/269
 # PSARC/2012/318 X Resize, Rotate and Reflect (RandR) 1.4
 MODULE_ARC_CASES += PSARC/2012/318
+
+# Package metadata
+MODULE_DESC = headers & documentation for RANDR extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

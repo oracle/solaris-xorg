@@ -2,7 +2,7 @@
 #
 # xclipboard & xcutsel tools for clipboard & cut buffer manipulation
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ MODULE_NAME=xclipboard
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
+MODULE_DESC = the xclipboard & xcutsel utilities
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.2

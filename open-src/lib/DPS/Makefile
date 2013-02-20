@@ -2,7 +2,7 @@
 #
 # DPS Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,9 @@ BUILD_TYPES_SET=yes
 BUILD_TYPES=32
 
 MODULE_NAME=DPS
+
+# Package metadata
+MODULE_DESC = the Adobe Display Postscript (DPS) client libraries
 
 # Sources were extracted from X11R6.9 source tree, but we don't want
 # to download & unpack all that, and upstream isn't maintaining, so

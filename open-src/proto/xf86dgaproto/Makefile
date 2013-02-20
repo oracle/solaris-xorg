@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,9 @@ TARBALL_SHA1 = 97a06120e7195c968875e8ba42e82c90ab54948b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Package metadata
+MODULE_DESC = headers & documentation for XF86DGA extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,8 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# xmakemap script to generate xmodmap files from current keyboard settings
+#
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +29,13 @@ MODULE_NAME=xmakemap
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xmakemap script to generate xmodmap files
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1992, 2011
 
 # No upstream sources for these files, since they're Sun created
 MODULE_VERSION=src

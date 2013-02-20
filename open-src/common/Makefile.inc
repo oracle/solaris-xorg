@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,7 +68,7 @@ $(MODULE_PKGNAME_DEFAULT)	MODULE_PKGNAME=$(MODTYPE_PKGHIER)/$(MODULE_PKGTAIL)
 # Package manifest file
 PKG_SRC_DIR			= $(TOP)/pkg
 PKG_MANIFEST_DIR		= $(PKG_SRC_DIR)/manifests
-PKG_LICENSE_DIR			= $(PKG_SRC_DIR)/license_files
+PKG_LICENSE_DIR			= $(TOP)/open-src/common/license_files
 MODULE_PKG_MANIFEST_NAME_CMD	= print $(MODULE_PKGNAME) | tr '/' '-'
 MODULE_PKG_MANIFEST_NAME	= $(MODULE_PKG_MANIFEST_NAME_CMD:sh)
 MODULE_PKG_MANIFEST = $(PKG_MANIFEST_DIR)/$(MODULE_PKG_MANIFEST_NAME).p5m
@@ -680,9 +680,6 @@ set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
 	$(PERL) $(TOP)/open-src/common/set-elf-comments.pl \
 	 $(ELF_COMMENTS_FLAGS) $(SOURCE_DIR)
 
-# Help generate templates for package manifests
-DEFAULT_LICENSE=$(PKG_LICENSE_DIR)/cr_Oracle $(PKG_LICENSE_DIR)/lic_X11
-
 MANIFEST_DEST=$(PWD)/tmp-proto-$(MACH)
 MANIFEST_TMP=$(PWD)/tmp.p5m
 
@@ -704,9 +701,10 @@ $(MANIFEST_TMP): $(MANIFEST_DEST)
 	$(PERL) $(TOP)/open-src/common/pkg-manifest-generate.pl \
 		input_manifest='$(MODULE_PKG_MANIFEST)' \
 		exception_manifest='$(PKG_SRC_DIR)/exceptions-validate_pkg.p5m' \
-		manifest_license='$(PKG_LICENSE_DIR)/cr_Oracle' \
+		manifest_license='$(PKG_LICENSE_DIR)/cr_Oracle.tmpl' \
 		manifest_license='$(PKG_LICENSE_DIR)/lic_X11' \
 		pkg_name='$(MODULE_PKGNAME)' \
+		summary='$(MODULE_DESC)' \
 		source_dir='$(SOURCE_DIRNAME)' \
 		arch_64='$(ARCH64)' subdir_64='$(SUBDIR64)' \
 		proto_area='$(MANIFEST_DEST)' \
@@ -879,9 +877,12 @@ LICENSE_ATTR_FILE = $(MODULE_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME).p5m
 LICENSE_FILE_DEFAULT	= $(LICENSE_FILE_SET:yes=$(POUND_SIGN))
 $(LICENSE_FILE_DEFAULT)	LICENSE_FILE=COPYING
 
+# Oracle copyright notice template
+ORACLE_COPYRIGHT_TEMPLATE=$(PKG_LICENSE_DIR)/cr_Oracle.tmpl
+
 # Default is the MIT/X11 license
 MIT_LICENSE_NAME = MIT License
-MIT_LICENSE_FILE = $(PKG_SRC_DIR)/license_files/lic_X11
+MIT_LICENSE_FILE = $(PKG_LICENSE_DIR)/lic_X11
 
 MODULE_LICENSE_DEFAULT		= $(MODULE_LICENSE_SET:yes=$(POUND_SIGN))
 $(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = $(MIT_LICENSE_NAME)
@@ -890,21 +891,7 @@ $(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = $(MIT_LICENSE_NAME)
 # from for easier viewing/cross-referencing.  The format of this header is
 # common to all Solaris consolidations, so should not be changed without
 # coordination.
-DEFAULT_LICENSE_PREPEND		= $(LICENSE_FILE_DEST).head
-DEFAULT_LICENSE_PREPEND_FILE	= $(LICENSE_FILE_NAME).head
-
 PRINT_IN_BOX = perl -n -e '$$border = "-" x length($$_) ; printf "--%s--\n- %s -\n--%s--\n\n", $$border, $$_, $$border'
-
-%/$(DEFAULT_LICENSE_PREPEND_FILE): %
-	@ $(START_CMD_ECHO) ; \
-	m='$(MODULE_NAME)' ; \
-	if [[ '$(MODULE_VERSION)' != 'src' ]] ; then \
-	    m+=' $(MODULE_VERSION)' ; \
-	fi ; \
-	print -n $$m | $(PRINT_IN_BOX) > $@
-	if [[ -n '$(ORACLE_TPNO)' && '$(LICENSE_CHOICE)' == 'Oracle' ]] ; then \
-	    print 'Oracle Internal Tracking Number $(ORACLE_TPNO)\n' >> $@ ; \
-	fi
 
 # Some packages contain only code that Oracle owns all the rights to.
 # For these, Makefile.options.oracle.com chooses to omit the license
@@ -920,13 +907,11 @@ ORACLE_LICENSE_NAME_Oracle	= Oracle Copyright Notice
 ORACLE_LICENSE_APPEND_Oracle 	= # Nothing to append to copyright notice
 
 ORACLE_LICENSE_NAME 		= $(ORACLE_LICENSE_NAME_$(LICENSE_CHOICE))
-ORACLE_LICENSE_PREPEND	 	= # Nothing to prepend to copyright notice
 ORACLE_LICENSE_APPEND		= $(ORACLE_LICENSE_APPEND_$(LICENSE_CHOICE))
 
 # Use default license info unless MODULE_LICENSE = "Oracle"
 LICENSE_NAME			= $(MODULE_LICENSE)
-LICENSE_PREPEND 		= $(DEFAULT_LICENSE_PREPEND)
-LICENSE_PREPEND			+= $(MODULE_LICENSE_PREPEND)
+LICENSE_PREPEND			= $(MODULE_LICENSE_PREPEND)
 LICENSE_APPEND 			= $(MODULE_LICENSE_APPEND)
 
 LICENSE_OVERRIDE_1		= $(POUND_SIGN)$(MODULE_LICENSE)
@@ -940,14 +925,59 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 
 %/$(LICENSE_FILE_NAME): % $(SOURCE_TARGETS) $(LICENSE_PREPEND) $(LICENSE_APPEND)
 	@ $(START_CMD_ECHO) ; \
-	if [[ -f "$(LICENSE_FILE)" ]] ; then \
-	    license_to_copy="$(LICENSE_FILE)" ; \
-	elif [[ -f "$(SOURCE_DIR)/$(LICENSE_FILE)" ]] ; then \
-	    license_to_copy="$(SOURCE_DIR)/$(LICENSE_FILE)" ; \
+	if [[ -f '$(LICENSE_FILE)' ]] ; then \
+	    license_to_copy='$(LICENSE_FILE)' ; \
+	elif [[ -f '$(SOURCE_DIR)/$(LICENSE_FILE)' ]] ; then \
+	    license_to_copy='$(SOURCE_DIR)/$(LICENSE_FILE)' ; \
+	else \
+	    license_to_copy='/dev/null' ; \
 	fi ; \
-	if [[ -n "$${license_to_copy}" ]] ; then \
-	    cat $(LICENSE_PREPEND) "$${license_to_copy}" $(LICENSE_APPEND) > "$@" ; \
-	    print 'license $(LICENSE_FILE_NAME) license="$(LICENSE_NAME) ($(MODULE_NAME))"' > "$@.p5m" ; \
+	if [[ -s "$${license_to_copy}" || -n '$(ORACLE_COPYRIGHT_YEARS)' ]] ; then \
+	    m='$(MODULE_NAME)' ; \
+	    if [[ '$(MODULE_VERSION)' != 'src' ]] ; then \
+		m+=' $(MODULE_VERSION)' ; \
+	    fi ; \
+	    print -n $$m | $(PRINT_IN_BOX) > $@ ; \
+	    if [[ -n '$(LICENSE_PREPEND)' ]] ; then \
+		cat $(LICENSE_PREPEND) >> $@ ; \
+	    fi ; \
+	fi ; \
+	if [[ -n '$(ORACLE_COPYRIGHT_YEARS)' ]] ; then \
+	    sed 's/@YEARS@/$(ORACLE_COPYRIGHT_YEARS)/' \
+		$(ORACLE_COPYRIGHT_TEMPLATE) >> $@ ; \
+	    if [[ -n '$(LICENSE_APPEND)' ]] ; then \
+		cat $(LICENSE_APPEND) >> $@ ; \
+	    fi ; \
+	fi ; \
+	if [[ -n '$(MODULE_LICENSE_DESC)' ]] ; then \
+	    license_desc='$(MODULE_LICENSE_DESC)' ; \
+	elif [[ -n '$(MODULE_DESC)' ]] ; then \
+	    license_desc='$(MODULE_DESC)' ; \
+	else \
+	    license_desc='$(MODTYPE_DESC)' ; \
+	fi ; \
+	if [[ -s "$${license_to_copy}" ]] ; then \
+	    if [[ -n "$${license_desc}" ]] ; then \
+		contents="$${license_desc}," ; \
+	    else \
+		contents="technology" ; \
+	    fi ; \
+	    print "This package may include $${contents} which may be subject to one or more of the following notices:\n" | fmt >> $@ ; \
+	    cat "$${license_to_copy}" >> $@ ; \
+	fi ; \
+	if [[ -s $@ ]] ; then \
+	    license_attributes='license="$(LICENSE_NAME) ($(MODULE_NAME))"' ; \
+	    license_attributes+=' com.oracle.info.name="$(MODULE_NAME)"' ; \
+	    if [[ '$(MODULE_VERSION)' != 'src' ]] ; then \
+		license_attributes+=' com.oracle.info.version="$(MODULE_VERSION)"' ; \
+	    fi ; \
+	    license_attributes+=" com.oracle.info.description=\"$${license_desc}\"" ; \
+	    if [[ -n '$(ORACLE_TPNO)' && '$(LICENSE_CHOICE)' == 'Oracle' ]] ; then \
+		license_attributes+=' com.oracle.info.tpno="$(ORACLE_TPNO)"' ; \
+	    fi ; \
+	    print 'license $(LICENSE_FILE_NAME)' "$${license_attributes}" > $@.p5m ; \
+	else \
+	    print '*** $@ is empty' ; \
 	fi
 
 install_metadata: $(METADATA_TARGETS)

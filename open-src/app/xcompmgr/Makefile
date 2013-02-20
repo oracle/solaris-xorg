@@ -2,7 +2,7 @@
 #
 # xcompmgr - simple Composite Manager
 #
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,7 @@ TARBALL_SHA256= c98949d36793b30ed1ed47495c87a05fa245ac0fc2857d2abc54979124687c02
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=desktop/window-manager/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
+MODULE_DESC = the xcompmgr X compositing manager
 
 # ARC cases that covered this module
 # LSARC/2009/597  xcompmgr & transset 

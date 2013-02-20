@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org utility modules
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,9 @@ MODTYPE=util
 # Hierarchical parent for pkg names in this area
 MODTYPE_PKGHIER=developer/build
 MODTYPE_PKGHIER_SET=yes
+
+# Default module description for packages in this area
+MODTYPE_DESC = the $(MODULE_NAME) utility
 
 # Package classification - must be a valid value recognized by pkg gui
 MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))

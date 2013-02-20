@@ -2,7 +2,7 @@
 #
 # xinit - starts a X server & session without a display manager
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,7 @@ SOURCE_PATCHES = 6714067.patch,-p1 7023672.patch,-p1 \
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
+MODULE_DESC = the xinit & startx utilities
 
 # ARC cases that covered this module
 # PSARC/2008/379  startx

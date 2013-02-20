@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# libowconfig Makefile
+# libowconfig - library for reading & writing Xsun OWconfig files
 #
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,10 @@ MODULE_NAME=libowconfig
 # Package metadata
 MODULE_LICENSE = Oracle
 MODULE_LICENSE_SET = yes
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1993, 1996
 
 # No upstream sources, only local sources
 MODULE_VERSION=src

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,3 +28,4 @@ set name=pkg.description \
 set name=pkg.depend.install-hold value=core-os.X
 set name=info.classification \
     value="org.opensolaris.category.2008:Meta Packages/Incorporations"
+license cr_Oracle license="Oracle Copyright Notice"

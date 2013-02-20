@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# Freetype 2.x Makefile
+# Freetype 2.x font rendering library
 #
-# Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -58,6 +58,8 @@ UPSTREAM_SET		= yes
 
 MODULE_LICENSE		= The FreeType Project License
 MODULE_LICENSE_SET	= yes
+ORACLE_TPNO		= 9935
+MODULE_DESC		= the FreeType 2 font engine
 
 # Library name used in man pages & spec files
 LIBNAME=freetype

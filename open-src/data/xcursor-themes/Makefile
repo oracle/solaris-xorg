@@ -1,6 +1,8 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# xcursor-themes: X.Org default X11 cursor themes
+#
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,6 +26,9 @@
 
 # Package name used in tarballs
 MODULE_NAME=xcursor-themes
+
+# Package metadata
+MODULE_DESC = cursor themes from X.Org
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.3

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,9 @@ TARBALL_SHA1 = 818bffc16139d6e3de4344c83f00c495d3536753
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	 Xsun-extended-proto.patch
+
+# Package metadata
+MODULE_DESC = headers & documentation for XINERAMA extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

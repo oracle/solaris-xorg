@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,7 @@ TARBALL_SHA1 = 3b8b273b8ef3d8dbab998df9ec1dddf99edf4d91
 
 # Package metadata
 ORACLE_TPNO = 3811
+MODULE_DESC = headers & documentation for DMX extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

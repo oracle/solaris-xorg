@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xvinfo 1.x Makefile
+# xvinfo - utility to display X-Video extension adaptor information
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,9 @@ TARBALL_SHA1 = dc326464748fa608da50386112a89024804c1910
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# Package metadata
+MODULE_DESC = the xvinfo utility to display X-Video extension adaptor information
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/diagnostic/x11-info-clients

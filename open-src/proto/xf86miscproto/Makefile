@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,9 @@ SOURCE_PATCHES=
 # ARC cases that covered this module
 # PSARC/2005/189 X client support for XFree86 extensions
 MODULE_ARC_CASES = PSARC/2005/189
+
+# Package metadata
+MODULE_DESC = headers & documentation for XF86MISC extension to the X11 protocol
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,15 @@ MODULE_NAME=compat-links
 MODULE_PKGNAME=x11/compatibility/links-xorg
 MODULE_PKGNAME_SET=yes
 
+# Package metadata
+MODULE_DESC = compatibility links for X11 files
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 2004, 2010
+
 # Package classification (override default)
 MODULE_PKGCLASS=System/X11
 MODULE_PKGCLASS_SET=yes
@@ -44,7 +53,7 @@ MODULE_ARC_CASES = PSARC/2004/187
 MODULE_ARC_CASES += PSARC/2008/405
 
 # No sources
-MODULE_VERSION=NONE
+MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 

@@ -2,7 +2,7 @@
 #
 # xcbproto Makefile
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,14 @@
 # Package name used in tarballs
 MODULE_NAME=xcb-proto
 
+# pkg(5) name we deliver the files in (override default)
+MODULE_PKGNAME=x11/library/libxcb
+MODULE_PKGNAME_SET=yes
+
+# Package classification (override default)
+MODULE_PKGCLASS=System/X11
+MODULE_PKGCLASS_SET=yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.7.1
 
@@ -40,6 +48,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 # Package metadata
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
+MODULE_DESC = X Window System protocol descriptions used by xcb
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += xia.patch,-p1

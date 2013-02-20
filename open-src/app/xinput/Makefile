@@ -2,7 +2,7 @@
 #
 # xinput - input device management utility
 #
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,9 @@ TARBALL_SHA256= 4ab007d952c76665603bcb82ceb15fd3929d10faf0580fc4873ac16f5f63847e
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xinput input device management utility
 
 # ARC cases that covered this module
 # LSARC/2009/506  xinput program

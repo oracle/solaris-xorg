@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -55,6 +55,9 @@ MODULE_PKGCONFIG_DIR_SET=yes
 MODULE_CFLAGS=$(PROG_CFLAGS)
 MODULE_LDFLAGS=$(PROG_LDFLAGS)
 MODULE_ADD_BUILD_TARGETS=set-elf-comments
+
+# Description to include in package metadata
+MODULE_DESC = X.Org font package creation/installation utilities
 
 ### Include common rulesets
 include ../Makefile.inc

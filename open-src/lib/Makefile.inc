@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,9 @@ MODTYPE=lib
 # Hierarchical parent for pkg names in this area
 MODTYPE_PKGHIER=x11/library
 MODTYPE_PKGHIER_SET=yes
+
+# Default module description for packages in this area
+MODTYPE_DESC = the $(MODULE_NAME) library
 
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init

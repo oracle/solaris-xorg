@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xdriinfo 1.x Makefile
+# xdriinfo - Utility to query configuration information of DRI drivers
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,9 @@ TARBALL_SHA1 = 723482b3fc627d7cc6124fec43dd1c21d102daaa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = compile-on-sparc.patch
+
+# Package metadata
+MODULE_DESC = the xdriinfo DRI driver query utility
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/diagnostic/x11-info-clients

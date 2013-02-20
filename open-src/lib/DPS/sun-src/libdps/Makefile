@@ -2,7 +2,7 @@
 #
 # libdps Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -307,3 +307,5 @@ install: all
 
 clean ::
 	${RM} $(DERIVED_FILES) .sort .ttt .att psops.h dpsops.h *% *.o
+
+.NO_PARALLEL: $(DERIVED_FILES) $(MOTIFOBJS) $(OBJS)

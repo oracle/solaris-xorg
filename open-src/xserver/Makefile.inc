@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all xserver build trees
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,10 @@ MODULE_PKGTAIL_SET	      	= yes
 
 ### Include common definitions
 include $(TOP)/open-src/common/Makefile.init
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1993, 2012
 
 # Patches shared between Xorg & Xvnc builds
 XORG_SOURCE_PATCHES:sh=sed '/^\#/ d' ../xorg/patch-list

@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xrandr 1.x Makefile
+# xrandr - utility to configure screen sizes and layout via XRANDR extension
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,9 @@ TARBALL_SHA1 = ef45925d5b0e72c73d21798d65a41d476fdb0d3f
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xrandr utility to configure screen sizes and layout
 
 # ARC cases that covered this module
 # PSARC/2005/189 X client support for XFree86 extensions

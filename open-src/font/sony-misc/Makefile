@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,9 @@ MODULE_VERSION = 1.0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = beef61a9b0762aba8af7b736bb961f86
 TARBALL_SHA1 = 8d0dd87148283c8ac8c5ac37906b12fab5ddb1d8
+
+# Description to include in package metadata
+MODULE_DESC = Sony bitmap fonts containing Japanese glyphs
 
 ### Include common rulesets
 include ../Makefile.inc

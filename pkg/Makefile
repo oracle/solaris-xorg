@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -131,6 +131,16 @@ manifests: $(ALL_MANIFESTS)
 $(ALL_MANIFESTS): $(PDIR)
 
 ### Additional metadata generation
+
+$(PROTOMETA)/%/:
+	$(PKGDEBUG)mkdir -p $@
+
+# Generate default copyright notice for packages without contents
+$(PROTOMETA)/%/cr_Oracle: $(PDIR)/%.p5m $(PROTOMETA)/%/
+	$(PKGDEBUG)gsed -n -e '/# Copyright .* Oracle/ {' \
+	 -e 's/^# //' -e 'p' -e 'q' -e'}' $< > $@
+
+SYNTH_LICENSES = $(SYNTH_PKGS:%=$(PROTOMETA)/%/cr_Oracle)
 
 # This should eventually move into pkg publication
 
@@ -408,20 +418,23 @@ clean-repo:
 	$(RM) -r $(PKGDEST)
 
 ### Package publication to repo
-PUB_PKGS= $(SYNTH_PKGS:%=$(PDIR)/%.pub) $(PKGS:%=$(PDIR)/%.pub)
+PUB_PKGS = $(SYNTH_PKGS:%=$(PDIR)/%.pub) $(PKGS:%=$(PDIR)/%.pub)
+PUB_SYNTH_PKGS = $(SYNTH_MANIFESTS:%.p5m=$(PDIR)/%.pub)
 publish_pkgs: $(PKGDEST) $(PDIR)/gendeps $(PDIR)/checkmf $(PUB_PKGS)
 
 $(PUB_PKGS): $(PKGDEST) $(PDIR)/gendeps $(PDIR)/checkmf
 
-$(PDIR)/%.pub:  $(PKGDEST) $(PDIR)/gendeps $(PDIR)/%.res
+$(PDIR)/%.pub: $(PKGDEST) $(PDIR)/gendeps $(PDIR)/%.res
 	$(PKGDEBUG) if [ -s $(@:%.pub=%.res) ]; then \
 		print "## Publishing $(@F:%.pub=%) to proto repository"; \
 		pkgsend -s $(PKGDEST) publish -d $(PKGROOT) \
-		    -d license_files -d $(PROTOMETA)/$(@F:%.pub=%) \
+		    -d $(PROTOMETA)/$(@F:%.pub=%) \
 		    --fmri-in-manifest --no-index --no-catalog -T '*.py' \
 		    $(@:%.pub=%.res) > /dev/null; \
 	fi; \
 	$(TOUCH) $(@)
+
+$(PUB_SYNTH_PKGS): $(SYNTH_LICENSES)
 
 ### Repo finalization
 

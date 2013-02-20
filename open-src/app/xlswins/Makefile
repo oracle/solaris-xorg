@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlswins Makefile
+# xlswins - utility to list windows displayed on an X server
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,9 @@ MODULE_NAME=xlswins
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_DESC = the xlswins utility to list windows displayed on an X server
 
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src

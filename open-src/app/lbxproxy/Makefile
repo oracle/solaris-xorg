@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# lbxproxy 1.x Makefile
+# lbxproxy - Low Bandwidth X (LBX) proxy
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,9 @@ MODULE_PKGNAME_SET=yes
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
+
+# Package metadata
+MODULE_DESC = the Low Bandwidth X (LBX) proxy
 
 # Version number (used in path names)
 MODULE_VERSION=1.0.2

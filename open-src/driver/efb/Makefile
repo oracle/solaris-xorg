@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# efb Makefile
+# efb driver for Sun XVR-100 & XVR-300 boards (based on ATI Radeon)
 #
-# Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,6 +30,11 @@ MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
 MODULE_VERSION=6.8.0
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 2008, 2009
+MODULE_LICENSE_DESC = portions of the ATI Radeon graphics driver from X.Org
 
 # Checksums for upstream tarball
 TARBALL_MD5  = 3c97c7925ebf4162eeb3463e23adc0e3
