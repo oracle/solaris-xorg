@@ -148,7 +148,8 @@ MODULE_LDFLAGS += $(XORG_EXTERNS_FLAG)
 # Optimization doesn't always remove unused inline functions, leaving many 
 # binaries referencing pixman symbols that normally don't need them.  Using
 # -z ignore should ensure that it's not added when not really needed.
-MODULE_CONFIG_OPTS += LIBS="-z ignore -lpixman-1"
+# Adding -z muldefs for 16418361 - which should be removed once we fix that
+MODULE_CONFIG_OPTS += LIBS="-z ignore -lpixman-1 -z muldefs"
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xorg-server.pc.in

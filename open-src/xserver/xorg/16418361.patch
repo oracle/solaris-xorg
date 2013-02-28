@@ -1,0 +1,17 @@
+--- a/hw/xfree86/modes/xf86cvt.c	Sat Oct 13 16:38:50 2012
++++ b/hw/xfree86/modes/xf86cvt.c	Thu Feb 28 13:00:17 2013
+@@ -63,6 +63,14 @@
+  * want that. -- libv
+  *
+  */
++
++/* this should be removed once we figure out why ld is complaining
++   even though these are included in the mapfile - 16418361 */
++#if (defined(__sparc__) || defined(__sparc))
++extern _X_EXPORT BoxRec RegionEmptyBox = { 0, 0, 0, 0 };
++extern _X_EXPORT RegDataRec RegionEmptyData = { 0, 0 };
++#endif
++
+ DisplayModePtr
+ xf86CVTMode(int HDisplay, int VDisplay, float VRefresh, Bool Reduced,
+             Bool Interlaced)
