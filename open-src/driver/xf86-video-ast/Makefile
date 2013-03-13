@@ -38,7 +38,8 @@ TARBALL_SHA1  = 11cb9a687cec6f0943ad6b9a47434815334d2a20
 TARBALL_SHA256= 28fcd4781676485293f6dcd46e0797866f6219e22e1851c9796b037589998e76
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += sparc-ast.patch,-p1
+SOURCE_PATCHES += sparc-ast.patch,-p1 \
+		16027951.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
