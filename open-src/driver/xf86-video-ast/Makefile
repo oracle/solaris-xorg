@@ -39,7 +39,9 @@ TARBALL_SHA256= 28fcd4781676485293f6dcd46e0797866f6219e22e1851c9796b037589998e76
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += sparc-ast.patch,-p1 \
-		16027951.patch,-p1
+		16027951.patch,-p1 \
+		ast.patch,-p1 \
+		ast_vgatool.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

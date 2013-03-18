@@ -1,0 +1,72 @@
++++ a/src/ast_vgatool.h	Fri Mar 15 10:45:43 2013
+--- /net/overthere/export/home/x-s12-clone/open-src/driver/xf86-video-ast/ast_vgatool.h	Fri Mar 15 10:44:35 2013
+@@ -86,11 +86,10 @@
+ #define GetIndexReg(off, index, val)   do {                            \
+                        struct vis_io_reg   io_reg = {                  \
+                               .offset = off,                           \
+-                              .value = index                           \
++                              .value = index,                           \
++			      .offset1 = off+1			       \
+                        };                                              \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
+-                       io_reg.offset = off+1;                          \
+-                       ioctl(pAST->fd, VIS_GETIOREG, &io_reg);         \
++                       ioctl(pAST->fd, AST_GET_INDEX, &io_reg);        \
+                        val = io_reg.value;                             \
+                        } while (0)
+ 
+@@ -97,22 +96,20 @@
+ #define SetIndexReg(off, index, val) do {                              \
+                        struct vis_io_reg   io_reg = {                  \
+                              .offset = off,                           \
+-                              .value = index                           \
++                             .value = index,                           \
++			     .offset1 = off+1,				\
++				.value1 = val				\
+                        };                                              \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
+-                       io_reg.offset = off+1;                          \
+-                       io_reg.value = val;                             \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
++                       ioctl(pAST->fd, AST_SET_INDEX, &io_reg);         \
+                        } while (0)
+ 
+ #define GetIndexRegMask(off, index, and, val) do {                     \
+                        struct vis_io_reg   io_reg = {                  \
+                               .offset = off,                           \
+-                              .value = index                           \
++                              .value = index,                           \
++				.offset1 = off+1 		       \
+                        };                                              \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
+-                       io_reg.offset = off+1;                          \
+-                       ioctl(pAST->fd, VIS_GETIOREG, &io_reg);         \
++                       ioctl(pAST->fd, AST_GET_INDEX, &io_reg);         \
+                        val = io_reg.value & and;                       \
+                        } while (0)
+ 
+@@ -120,18 +117,16 @@
+                        UCHAR __Temp;                                   \
+                        struct vis_io_reg   io_reg = {                  \
+                               .offset = off,                           \
+-                              .value = index                           \
++                              .value = index,                           \
++				.offset1 = off+1			\
+                        };                                              \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
+-                       io_reg.offset = off + 1;                        \
+-                       ioctl(pAST->fd, VIS_GETIOREG, &io_reg);         \
++                       ioctl(pAST->fd, AST_GET_INDEX, &io_reg);         \
+                        __Temp = (io_reg.value & and) | val;            \
+                        io_reg.offset = off;                            \
+                        io_reg.value = index;                           \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
+-                       io_reg.offset = off+1;                          \
+-                       io_reg.value = __Temp;                          \
+-                       ioctl(pAST->fd, VIS_SETIOREG, &io_reg);         \
++                       io_reg.offset1 = off+1;                          \
++                       io_reg.value1 = __Temp;                          \
++                       ioctl(pAST->fd, AST_SET_INDEX, &io_reg);         \
+                        } while (0)
+ 
+ #else /* !__sparc__ */
