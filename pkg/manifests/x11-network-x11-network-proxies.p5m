@@ -24,6 +24,10 @@ set name=pkg.summary \
     value="X11 Network Proxy utilities - lbxproxy, xfwp, xfindproxy, proxymngr"
 set name=pkg.description \
     value="A collection of programs to proxy X11 protocol over the network and to find and manage running X11 network proxies.   In modern environments, ssh X forwarding is generally recommended for use instead of these."
+dir  path=etc/X11/lbxproxy
+file path=etc/X11/lbxproxy/AtomControl
+dir  path=etc/X11/proxymngr
+file path=etc/X11/proxymngr/pmconfig
 link path=usr/X11/bin/lbxproxy target=../../bin/lbxproxy
 link path=usr/X11/bin/proxymngr target=../../bin/proxymngr
 link path=usr/X11/bin/xfindproxy target=../../bin/xfindproxy
@@ -32,10 +36,6 @@ file path=usr/bin/lbxproxy
 file path=usr/bin/proxymngr
 file path=usr/bin/xfindproxy
 file path=usr/bin/xfwp
-dir  path=etc/X11/lbxproxy
-file path=etc/X11/lbxproxy/AtomControl
-dir  path=etc/X11/proxymngr
-file path=etc/X11/proxymngr/pmconfig
 file path=usr/share/man/man1/lbxproxy.1
 file path=usr/share/man/man1/proxymngr.1
 file path=usr/share/man/man1/xfindproxy.1
