@@ -1,0 +1,10 @@
+--- src/r128_driver.c	Mon Feb 25 12:24:16 2013
++++ src/r128_driver.c	Mon Feb 25 12:25:52 2013
+@@ -2549,7 +2549,6 @@
+     R128DGAInit(pScreen);
+ 
+ 				/* Backing store setup */
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+ 
+ 				/* Set Silken Mouse */

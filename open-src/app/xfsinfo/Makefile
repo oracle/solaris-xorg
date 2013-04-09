@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xfsinfo X font server query utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = aae6fa48b5c2ce9186a5ff4ccc14a1d4
-TARBALL_SHA1 = 21c5f544f34d9164797575da85727558f5e09d33
+TARBALL_MD5  = 76149e6c6d77c5c7252b8fb5b24bcac5
+TARBALL_SHA1 = f382a7e3fcd9908496454d10c73709bf543d0c7b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

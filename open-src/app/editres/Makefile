@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the editres application
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 87e499fd2599910af7961187205ca7ed
-TARBALL_SHA1 = a1a8af23afde85bada5472da1ac029a384dedae4
+TARBALL_MD5  = 623322610e4040393e0ff2a69e6612cd
+TARBALL_SHA1 = dfaecb0b038d5c8d7244c518cf8c0c48d10455f9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # ARC cases that covered this module

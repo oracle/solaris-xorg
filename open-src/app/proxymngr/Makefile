@@ -40,11 +40,11 @@ MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 714c4656e749ce856690b872e3d4ac4c
-TARBALL_SHA1 = 1fe5a8d935c4b5f15c35fb37d9828465b599c2cd
+TARBALL_MD5  = b0dad55abda277f919f6213751badb04
+TARBALL_SHA1 = 50f517d017663faf45a99e46a032647060791ba0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -65,6 +65,8 @@ MODULE_CONFIG_OPTS = LBXPROXY="$(X11_BIN_DIR)/lbxproxy"
 #    [fixed in git post-1.0.2]
 #  unreferenced object=libnsl.so.1; unused dependency of /usr/bin/proxymngr
 MODULE_LDFLAGS = -z ignore
+
+MODULE_CONFIG_OPTS += --sysconfdir=/etc
 
 include ../Makefile.inc
 

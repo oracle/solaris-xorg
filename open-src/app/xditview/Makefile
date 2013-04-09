@@ -33,17 +33,17 @@ MODULE_PKGNAME=document/viewer/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = dbf480019b75377154b6976726809bba
-TARBALL_SHA1 = 18f603e76a82fd2a62017dbd0c51258769539b0a
+TARBALL_MD5  = a9a49c84477be93cdd1cd7726d758574
+TARBALL_SHA1 = 38eb96a186d9e0507291be30a9b9b65de667635b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Uncommitted
 
 # Compatibility links from /usr/X11/bin to /usr/bin

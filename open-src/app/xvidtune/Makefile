@@ -29,11 +29,11 @@
 MODULE_NAME=xvidtune
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e40eeb4454f2a7cdde3a14f5dfd3aadd
-TARBALL_SHA1 = 2f3f821943018c07efd4547afa4313ac92718b1e
+TARBALL_MD5  = 8676c9bb1658fe91de244e850f6c3ca8
+TARBALL_SHA1 = 5ed9967f61cb7f6698fc6da6a2ca7afc5305468d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -43,7 +43,7 @@ SOURCE_PATCHES =
 MODULE_ARC_CASES = PSARC/2005/189
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

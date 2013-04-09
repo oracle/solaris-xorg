@@ -36,7 +36,8 @@ TARBALL_MD5   = 3eddd393fba79550e012d717499d58ad
 TARBALL_SHA1  = d49a57de24e7923bf17270084ce91ecf2feb4286
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = vesa_xorg72.patch,-p1
+SOURCE_PATCHES = vesa_xorg72.patch,-p1 \
+		 bstore.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

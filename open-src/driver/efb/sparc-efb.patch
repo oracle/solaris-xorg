@@ -1438,3 +1438,45 @@ index ccc1367..01958af 100644
  #define R200_DRIVER_NAME     "r200"
  #define R300_DRIVER_NAME     "r300"
  
+--- a/src/radeon_driver.c	Thu Apr  4 08:18:50 2013
++++ b/src/radeon_driver.c	Thu Apr  4 08:19:41 2013
+@@ -3362,9 +3362,9 @@
+ 	int  maxy        = info->FbMapSize / width_bytes;
+ 
+ 	if (maxy <= pScrn->virtualY * 3) {
+-	    xf86DrvMsg(scrnIndex, X_ERROR,
++	    xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+ 		       "Static buffer allocation failed.  Disabling DRI.\n");
+-	    xf86DrvMsg(scrnIndex, X_ERROR,
++	    xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
+ 		       "At least %d kB of video memory needed at this "
+ 		       "resolution and depth.\n",
+ 		       (pScrn->displayWidth * pScrn->virtualY *
+@@ -3477,7 +3477,6 @@
+     /* Backing store setup */
+     xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, RADEON_LOGLEVEL_DEBUG,
+ 		   "Initializing backing store\n");
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+ 
+     /* DRI finalisation */
+--- a/src/atiscreen.c	Thu Apr  4 08:19:09 2013
++++ b/src/atiscreen.c	Thu Apr  4 08:19:16 2013
+@@ -550,7 +550,6 @@
+ #endif /* AVOID_DGA */
+ 
+     /* Initialise backing store */
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+ 
+     /* Initialise cursor */
+--- a/src/r128_driver.c	Thu Apr  4 08:18:37 2013
++++ b/src/r128_driver.c	Thu Apr  4 08:18:44 2013
+@@ -2550,7 +2550,6 @@
+     R128DGAInit(pScreen);
+ 
+ 				/* Backing store setup */
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+ 
+ 				/* Set Silken Mouse */

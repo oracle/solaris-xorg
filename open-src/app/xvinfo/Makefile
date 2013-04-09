@@ -29,11 +29,11 @@
 MODULE_NAME=xvinfo
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c88feb501083951a8f47a21aaeb1529d
-TARBALL_SHA1 = dc326464748fa608da50386112a89024804c1910
+TARBALL_MD5  = 1fbd65e81323a8c0a4b5e24db0058405
+TARBALL_SHA1 = cc2a8d8585450ae0a8c259c90cf6bfdb85eb7d86
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -50,7 +50,7 @@ MODULE_PKGNAME_SET=yes
 MODULE_ARC_CASES = PSARC/2005/189
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

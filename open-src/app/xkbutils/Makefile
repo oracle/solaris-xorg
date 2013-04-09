@@ -36,11 +36,11 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xkbutils clients for X11 Keyboard (XKB) extension
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 52ad6d8d87577a8ac736ab5488bec210
-TARBALL_SHA1 = e5a2619b9449f95e02b520b492de0575bc4551d6
+TARBALL_MD5  = 502b14843f610af977dffc6cbf2102d5
+TARBALL_SHA1 = b09aef7cc3853eb12dbda332f55adec3add4447b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

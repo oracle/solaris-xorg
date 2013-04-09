@@ -1,8 +1,6 @@
-diff --git a/src/Makefile.am b/src/Makefile.am
-index 950de5c..627995c 100644
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -8,7 +8,7 @@ AM_CFLAGS = $(CWARNFLAGS) $(NEEDED_CFLAGS) $(XDMCP_CFLAGS)
+--- a/src/Makefile.am	Wed Feb  6 13:47:17 2013
++++ b/src/Makefile.am	Wed Feb  6 13:55:46 2013
+@@ -8,7 +8,7 @@
  libxcb_la_LIBADD = $(NEEDED_LIBS) $(XDMCP_LIBS)
  libxcb_la_SOURCES = \
  		xcb_conn.c xcb_out.c xcb_in.c xcb_ext.c xcb_xid.c \
@@ -11,17 +9,20 @@ index 950de5c..627995c 100644
  nodist_libxcb_la_SOURCES = xproto.c bigreq.c xc_misc.c
  
  # Explanation for -version-info:
-@@ -216,6 +216,7 @@ libxcb_xvmc_la_LIBADD = $(XCB_LIBS)
- nodist_libxcb_xvmc_la_SOURCES = xvmc.c xvmc.h
- endif
+@@ -24,6 +24,8 @@
  
-+EXTSOURCES += xia.c
+ # FIXME: find a way to autogenerate this from the XML files.
  
- EXTHEADERS=$(EXTSOURCES:.c=.h)
- xcbinclude_HEADERS = xcb.h xcbext.h
-@@ -229,4 +230,4 @@ BUILT_SOURCES = $(EXTSOURCES)
- CLEANFILES = $(EXTSOURCES) $(EXTHEADERS)
++EXTSOURCES += xia.c 
++
+ EXTSOURCES += composite.c
+ if BUILD_COMPOSITE
+ lib_LTLIBRARIES += libxcb-composite.la
+@@ -234,6 +236,6 @@
+ CLEANFILES = $(EXTSOURCES) $(EXTHEADERS) $(BUILT_MANS)
  
  $(EXTSOURCES): c_client.py
 -	$(PYTHON) $(srcdir)/c_client.py -p $(XCBPROTO_XCBPYTHONDIR) $(XCBPROTO_XCBINCLUDEDIR)/$(@:.c=.xml)
 +	$(PYTHON) $(srcdir)/c_client.py -p $(PROTODIR)/$(XCBPROTO_XCBPYTHONDIR) $(PROTODIR)/$(XCBPROTO_XCBINCLUDEDIR)/$(@:.c=.xml)
+ 
+ $(man_MANS): $(EXTSOURCES)

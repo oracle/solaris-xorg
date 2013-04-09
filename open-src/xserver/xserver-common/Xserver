@@ -149,7 +149,7 @@ else
 	Specified server ${XSERVER} not found, using ${newserver} instead.
 	To correct this warning, change the server property with
 	  /usr/sbin/svccfg -s ${XSERVER_INSTANCE} \\
-		setprop options/server == ${newserver}
+		setprop options/server = ${newserver}
 	EOF
     XSERVER="${newserver}"
 fi

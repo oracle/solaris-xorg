@@ -33,12 +33,12 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e99172cbd72700eeeae99f64632b5dc2
-TARBALL_SHA1  = 2c806506e1ebdd27b0628dac5c699aae9268a11d
-TARBALL_SHA256= 8734ee580264ab92e984d8f84611dada89906d6b548334a5e7d4b0ddba7c2e52
+TARBALL_MD5   = f548e389ff68424947b87785df6a321b
+TARBALL_SHA1  = dc4fa8b804e7cb4cfbadbef3708c3b97076ddb65
+TARBALL_SHA256= 0e2accc6272fcc2321aef7370f4ccf0df0fe259b2e942938264e2aaedee6c4c3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

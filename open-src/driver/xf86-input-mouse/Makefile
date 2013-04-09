@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.8.1
+MODULE_VERSION=1.9.0
 
 # Checksums for upstream tarball
-TARBALL_MD5    = f314c56e4ac6c8fc0cc2710892d5776e
-TARBALL_SHA1   = e00e825c9506b7b9c31bf4b8a3a609df8ef408c1
-TARBALL_SHA256 = f5b97aac9aab8fa8b933e960631441ae23b18681c8bf3d5007c00da838f9c9c8
+TARBALL_MD5    = 36b5b92000c4644f648b58a535e4ee73
+TARBALL_SHA1   = 5f9e5f450100252efa4f8b074fbb262c42811d46
+TARBALL_SHA256 = 5d601e4bae53d5e9ead4ecd700f1beb5aeaf78b79e634c4aa381a9ce00276488
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = \

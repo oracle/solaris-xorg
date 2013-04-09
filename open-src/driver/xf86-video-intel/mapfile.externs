@@ -3,4 +3,8 @@
     I830DRI2FrameEventHandler = FUNCTION extern;
     I830DRI2FlipEventHandler = FUNCTION extern;
     noXFree86DRIExtension = FUNCTION extern;
+    XFree = FUNCTION extern;
+    XQueryTree = FUNCTION extern;
+    XInternAtom = FUNCTION extern;
+    XGetGeometry = FUNCTION extern;
 };

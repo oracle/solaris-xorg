@@ -40,11 +40,11 @@ MODULE_PKGCLASS_SET=yes
 MODULE_DESC = the Low Bandwidth X (LBX) proxy
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0aa9284354552ce6700485a36d2803c3
-TARBALL_SHA1 = 8aca328ae2e19a389263ef59cacc3074b8e20697
+TARBALL_MD5  = 0bd565b5464f38f606dae15459ff4b09
+TARBALL_SHA1 = 2c6db0a501d7ee88ccfe60436f894d5749ade5e4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6718029.patch
@@ -55,5 +55,9 @@ MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = lbxproxy
+
+MODULE_LDFLAGS = -lz
+
+MODULE_CONFIG_OPTS = --sysconfdir=/etc
 
 include ../Makefile.inc

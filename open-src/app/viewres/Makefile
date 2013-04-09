@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the viewres Xt widget class browser
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c9d15462c0190dce61d04a6717dd7622
-TARBALL_SHA1 = 383ff3cc93340b246e9fee29cad605478399eb62
+TARBALL_MD5  = e4651e55dccb0ae234e49bdc0b984fc9
+TARBALL_SHA1 = 02d251213b18b1f2588f20663e89052df58bcb8a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # ARC cases that covered this module

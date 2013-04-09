@@ -2,7 +2,6 @@ osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
 sun-manpage.patch,-p1
-cli-nolock.patch,-p1
 cli-nobanner.patch,-p1
 make_xkm_output_dir.patch,-p1
 dtlogin-userinfo.patch,-p1
@@ -26,5 +25,5 @@ autodetect-kernel-dev-fb.patch,-p1
 workaround-7154410.patch,-p1
 sparc-no-bus-probe.patch,-p1
 113-port.patch,-p1
-16080810.patch,-p1
+cli-nolock.patch,-p1
 16418361.patch,-p1

@@ -63,10 +63,10 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver113.patch,'-p0 -d unix'
+SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver114.patch,'-p0 -d unix'
 SOURCE_PATCHES += tigervnc11-xorg111.patch,-p1
 SOURCE_PATCHES += tigervnc11-xorg112.patch,'-p0 -d unix'
-SOURCE_PATCHES += tigervnc11-xorg113.patch,'-p0 -d unix'
+SOURCE_PATCHES += tigervnc11-xorg114.patch,'-p0 -d unix'
 SOURCE_PATCHES += xorg-1.12.1.patch,-p1
 SOURCE_PATCHES += no-nasm.patch,-p1
 SOURCE_PATCHES += applet-html.patch

@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=12.0.2
+MODULE_VERSION=13.0.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 0743ec7c479603fba60d118858fd5783
-TARBALL_SHA1  = efa47f365d88da245804a9934719ff860ed04f95
-TARBALL_SHA256= c827875fd94805ec9b925fe09aaa973e7e3f9096c7ef311d449c3f134ae75147
+TARBALL_MD5   = b72be57517cbc7a56362f2ee0f092269
+TARBALL_SHA1  = d9b8d37eb408636856c52fce5b5e3e816599b49a
+TARBALL_SHA256= 44919ecd88654f2ab40a1732b5ea6a1dbd1c696b4b0748e68e8b5f1a3486bca6
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = compat.patch
+SOURCE_PATCHES = bstore.patch
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

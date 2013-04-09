@@ -40,7 +40,8 @@ TARBALL_SHA256= aa5286b3e4f0187d7df14785c06dd800255d9405205dbf061da5d77df86bec36
 SOURCE_PATCHES = \
 	mapfiles.patch,-p1 \
 	solaris-dri-drv-port.patch \
-	disable-xaa.patch
+	disable-xaa.patch \
+	bstore.patch
 
 # Need to regenerate Makefile.in after patching Makefile.am in mapfiles.patch
 AUTORECONF=yes

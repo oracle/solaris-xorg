@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the ico X11 animation demo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9574a53c122b3a6e85bbf3476ebf8ee8
-TARBALL_SHA1 = f5a73d6626b9d4016423594ad18b3073b556e3bf
+TARBALL_MD5  = be8062c90bd91f3cb848290170be83a1
+TARBALL_SHA1 = 53e7bb52227f2458bf20c7f95f34b19c26cf8885
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Uncommitted
 
 # Compatibility links from /usr/X11/bin to /usr/bin

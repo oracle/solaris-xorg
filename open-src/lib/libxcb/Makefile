@@ -28,11 +28,11 @@
 MODULE_NAME=libxcb
 
 # Version number (used in path names)
-MODULE_VERSION=1.8.1
+MODULE_VERSION=1.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9da03df9e2f4c048202920d9f6a7e123
-TARBALL_SHA1 = 98199b6054750a06cddd4e77baa4354af547ce6f
+TARBALL_MD5  = 2b05856e9d1cb37836aae7406f2f4ce2
+TARBALL_SHA1 = ad2fb95eeec41ba3d39502a4f7460c3b64fdf061
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109

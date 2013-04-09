@@ -98,7 +98,6 @@ file path=usr/include/xorg/input.h
 file path=usr/include/xorg/inputstr.h
 file path=usr/include/xorg/list.h
 file path=usr/include/xorg/mi.h
-file path=usr/include/xorg/mibstore.h
 file path=usr/include/xorg/micmap.h
 file path=usr/include/xorg/micoord.h
 file path=usr/include/xorg/mifillarc.h

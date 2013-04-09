@@ -29,12 +29,12 @@
 MODULE_NAME=xscope
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 6b26a40429f868b726c4953eead03f0a
-TARBALL_SHA1  = c0bf5bce04a3b46cb53d443ccedc5c6c393784aa
-TARBALL_SHA256= 25e6db9a2d556c56797f9bb32cac650ac3afd130b49a1cea074694c2754c8582
+TARBALL_MD5   = 4fb4086e29af1b5b6d07d4d1ccbda5ca
+TARBALL_SHA1  = 20a727f8925626d03112c67d88bb57cd343309f1
+TARBALL_SHA256= eb4adf06f274bdd5d87b30367cd137b485b650b5dc6dc5ae1104bd8afaf22b1f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

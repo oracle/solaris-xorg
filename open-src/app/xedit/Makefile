@@ -38,17 +38,17 @@ MODULE_PKGCLASS=Development/Editors
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.0
+MODULE_VERSION=1.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f55e84713542a36887e966fc0648dd7b
-TARBALL_SHA1 = e6f8735d09c9da67bba3cd3c39f34f5d1fc79a70
+TARBALL_MD5  = 89b0800691feabe1c8a28554c3f73164
+TARBALL_SHA1 = 2003a467a44120fe52703d122b537142dc25c8c3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

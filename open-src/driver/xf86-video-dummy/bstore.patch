@@ -1,0 +1,18 @@
+--- src/dummy_driver.c	Wed Feb 20 11:34:42 2013
++++ src/dummy_driver.c	Wed Feb 20 11:36:11 2013
+@@ -15,7 +15,6 @@
+ #include "mipointer.h"
+ 
+ /* All drivers implementing backing store need this */
+-#include "mibstore.h"
+ 
+ /* All drivers using the mi colormap manipulation need this */
+ #include "micmap.h"
+@@ -617,7 +616,6 @@
+ 		   , lines - pScrn->virtualY);
+     }
+ 
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+     xf86SetSilkenMouse(pScreen);
+ 	

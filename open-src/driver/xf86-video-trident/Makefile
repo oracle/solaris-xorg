@@ -37,7 +37,9 @@ TARBALL_SHA1  = 9af5d275e6f4247cde19765178c3a797b4a7351d
 TARBALL_SHA256= 6a58e3f3034abd8803af8a5c7dd5a6a4a28ed4fdac742ffb05518caaddc28104
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6452329.patch,-p1
+SOURCE_PATCHES = 6452329.patch,-p1 \
+		 16067432.patch \
+		 bstore.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -54,8 +56,7 @@ MODULE_LD_OPTIONS= \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lexa -lfb -lint10 -lpciaccess -lpixman-1 -lshadow -lvbe -lvgahw \
-	-lexa -lm \
-	-M $(PWD)/mapfile.externs
+	-lexa -lm
 
 include ../Makefile.inc
 

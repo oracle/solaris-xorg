@@ -33,11 +33,11 @@ UPSTREAM_SET    = yes
 ORACLE_TPNO	= 12031
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.1
+MODULE_VERSION=0.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4f488b7bd4d34d17d5cbcdc0fe8e659d
-TARBALL_SHA1 = 89e56dcfe851345f72c61a95b4fa5ab6ad7e0d83
+TARBALL_MD5  = 172509a5a7ab5c89ff09501d733cf5f6
+TARBALL_SHA1 = e5be9a8200410b3e3e66349bab4c8acd1ead4402
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = manpage-sections.patch,-p1

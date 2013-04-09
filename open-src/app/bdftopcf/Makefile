@@ -34,17 +34,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the bdftopcf font conversion utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4a7a4a848c43c42f7d499b60666434a4
-TARBALL_SHA1 = 146b4ece2867479045c3b4593b22c9f1d21da14a
+TARBALL_MD5  = 96a648a332160a7482885800f7a506fa
+TARBALL_SHA1 = 6010f4748d30007ebfeaa8cb053ec3c2e9bbda34
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

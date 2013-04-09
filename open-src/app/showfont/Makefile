@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the showfont font server data display utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 50b466ab6ed4a5b8df5abf1ef844309a
-TARBALL_SHA1 = 161bf5f037db70dd75cb327648fbba559e821e76
+TARBALL_MD5  = f7be42f846bb9cd951b5cbeb6aa85dde
+TARBALL_SHA1 = d4aaaf32fba38af3f46813118f316689ca3d86f8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

@@ -29,11 +29,11 @@
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.20.9
+MODULE_VERSION=2.21.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6aa7b041fcd8fc7c080d9ad21a295be6
-TARBALL_SHA1 = 43c789bae74dceeb5a5e5ff099679f28c6dfa057
+TARBALL_MD5  = 0dac21775fc67149d1a8b61988b1386b
+TARBALL_SHA1 = 41aaf6ada255b4094cb6b6cab8f990079d676e29
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
@@ -64,7 +64,7 @@ INSTALL_TARGETS_64 = install_docs
 INSTALL_TARGETS += $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
 LIBXVMC_LD_OPTIONS = -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
-LIBXVMC_LD_OPTIONS += $(LIB_REQUIRED_LDFLAGS) -z ignore -lc
+LIBXVMC_LD_OPTIONS += $(LIB_REQUIRED_LDFLAGS) -z ignore -lc -lX11
 MODULE_BUILD_ENV_32 = LD_OPTIONS="$(LIBXVMC_LD_OPTIONS)"
 MODULE_BUILD_ENV = $(MODULE_BUILD_ENV_$(BUILD_TYPE))
 
@@ -83,7 +83,7 @@ MODULE_CONFIG_ENV = echo=/usr/gnu/bin/echo
 MODULE_BUILD_ENV += echo=/usr/gnu/bin/echo
 
 # Library paths at build time
-MODULE_LD_OPTIONS= -z ignore\
+MODULE_LD_OPTIONS= -z ignore \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \

@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xstdcmap X11 standard colormap utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ee97f0cbb80e321c914dc7bc5d49960a
-TARBALL_SHA1 = 32374e671e5cdd4d55bd7f3f6619cc5b5267fda8
+TARBALL_MD5  = eb5473acaef15a5db9b50df29c6a7f90
+TARBALL_SHA1 = b7fcc50ae6100d2ba91d6847969fd9d2b6784a90
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

@@ -36,17 +36,17 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xgc graphics demo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f9addda7d1e157fc7d17ff87b1e360f8
-TARBALL_SHA1 = cb0c0285f1354a983b5cd4a925844a8ab56e4f09
+TARBALL_MD5  = 8ac1c5d687d6f0a333965b340afab8fd
+TARBALL_SHA1 = 1406624f697988df232b9434794af02841488900
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Uncommitted
 
 # Compatibility links from /usr/X11/bin to /usr/bin

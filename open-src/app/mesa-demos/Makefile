@@ -35,21 +35,15 @@ MODULE_PKGNAME=x11/demo/mesa-demos
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=8.0.1
+MODULE_VERSION=8.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 320c2a4b6edc6faba35d9cb1e2a30bf4
-TARBALL_SHA1 = 8fc77885ae20f3b9cc22f65045a7573befbde2eb
+TARBALL_MD5  = 9df33ba69a26bbfbc7c8148602e59542
+TARBALL_SHA1 = c970ebd5aaae561b5fb499985bef004e11b72501
 
 # Download site for source
 SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/demos/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
-
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = glew-config.patch,-p1
-
-# Need to regenerate autoconf files after applying glew-config.patch
-AUTORECONF=yes
 
 # Binaries built in tree
 DEMOS_DIR=$(SOURCE_DIR)/src/xdemos

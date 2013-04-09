@@ -36,11 +36,11 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the X11 rgb color name mapping list data and utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 35c6cccbf25a872bdd62bfcb1a73d951
-TARBALL_SHA1 = d0360dda290b76c41fa467c47d4c122ea8cc92a4
+TARBALL_MD5  = bcd820d967eaa51bd25b86c0ee682d4e
+TARBALL_SHA1 = c3e62229ca6ee8f4ca96d6f4997fe3e4381f3cc7
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

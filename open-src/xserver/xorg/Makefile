@@ -35,9 +35,9 @@ MODULE_DESC = portions of the X.Org X server software
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a13d8876e3e804189392119638a07a1f
-TARBALL_SHA1  = 634b14f38b0208b2c5714955eb40c59d2a99fd84
-TARBALL_SHA256= c93540e2799df4655c6f1b67dc7d8d6db96df4f08ef1702fffbc5df843a43d00
+TARBALL_MD5   = 86110278b784e279381b7f6f2295c508
+TARBALL_SHA1  = 62b35456ece3e2bb9944b0c1f8b880ec02aab91e
+TARBALL_SHA256= 1f5107573252c26439fdd165481765a2c0964e02a2e9fab36e02414d08f30630
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -84,6 +84,8 @@ MODULE_ARC_CASES += PSARC/2011/214
 MODULE_ARC_CASES += PSARC/2012/144
 # PSARC/2012/320 Xorg server 1.13
 MODULE_ARC_CASES += PSARC/2012/320
+# PSARC/2013/091 Xorg server 1.14
+MODULE_ARC_CASES += PSARC/2013/091
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \

@@ -29,14 +29,14 @@
 MODULE_NAME=xconsole
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8665c037032e5f6a3acd4b341749aa17
-TARBALL_SHA1 = 195299d4948ba4c62e961ddd0bd4572283244715
+TARBALL_MD5  = ba55aab63d056520fda1b7098c3929a1
+TARBALL_SHA1 = 0049a65edde5e9dd4774abec69adb78689270c90
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 7134751.patch,-p1
+SOURCE_PATCHES = 
 
 # Package classification (override default)
 MODULE_PKGCLASS=Applications/System Utilities
@@ -47,7 +47,7 @@ MODULE_PKGCLASS_SET=yes
 MODULE_ARC_CASES = PSARC/2008/089
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # ARC cases that covered this module

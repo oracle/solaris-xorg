@@ -1,0 +1,10 @@
+--- src/via_driver.c	Mon Feb 25 12:24:26 2013
++++ src/via_driver.c	Mon Feb 25 12:24:32 2013
+@@ -1864,7 +1864,6 @@
+     if (!pVia->NoAccel && !viaInitExa(pScreen))
+         return FALSE;
+ 
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+ #if 0
+     xf86SetSilkenMouse(pScreen);

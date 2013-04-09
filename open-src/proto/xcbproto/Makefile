@@ -36,11 +36,11 @@ MODULE_PKGCLASS=System/X11
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.1
+MODULE_VERSION=1.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 948fec39dd42f3694edd5d9689735ec4
-TARBALL_SHA1 = 82a568559235fc6e26d0a38911c5ea18f8e8455c
+TARBALL_MD5  = a5de3432cc6e43cc6a27f241dbb991b1
+TARBALL_SHA1 = a8e71b9a09066870ff12049f45e8bccaaf83fc31
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109

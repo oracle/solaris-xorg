@@ -29,12 +29,12 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.1
+MODULE_VERSION=1.7.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 78ee882e1ff3b192cf54070bdb19938e
-TARBALL_SHA1  = 4b53b41fdaa3acc86606c696c68d5eed11454612
-TARBALL_SHA256= f2e3627d7292ec5eff488ab58867fba14a62f06e72a8d3337ab6222c09873109
+TARBALL_MD5   = 24d71afed1b86c60d4eb361628d7f47b
+TARBALL_SHA1  = 0737f2344c661523bd5903a727c3371cebb2b0f3
+TARBALL_SHA256= e92adb6b69c53c51e05c1e65db97e23751b935a693000fb0606c11b88c0066c5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1
@@ -53,6 +53,8 @@ MODULE_ARC_CASES = PSARC/1992/172
 MODULE_ARC_CASES += PSARC/2009/303
 # PSARC/2009/678  X Input Extension version 2.0 (XI2)
 MODULE_ARC_CASES += PSARC/2009/678
+# PSARC/2013/088  X Input Extension version 2.3 (XI2)
+MODULE_ARC_CASES += PSARC/2013/088
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

@@ -36,11 +36,11 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xsetroot X11 root window settings utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b78a2da4cf128775031a5a3422fc0b78
-TARBALL_SHA1 = 1ef9ddd80c7013dc6d33e5c421537eb8b0427da4
+TARBALL_MD5  = 7211b31ec70631829ebae9460999aa0b
+TARBALL_SHA1 = 63bfcf55e95553df1e28f538bf009883568115d1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -51,7 +51,7 @@ SOURCE_PATCHES =
 MODULE_ARC_CASES = PSARC/2011/033
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

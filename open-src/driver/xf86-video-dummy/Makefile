@@ -37,7 +37,7 @@ TARBALL_SHA1  = 9a73abc1444dd3034e5724b16d7101696219665b
 TARBALL_SHA256= 44335b640126d339700256dae731bd5af79afd027da172bad8a991a33a1de798
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = bstore.patch
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man

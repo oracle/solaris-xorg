@@ -30,11 +30,11 @@ MODULE_NAME=xmag
 MODULE_DESC = the xmag screen magnification utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2a76128511214bde973258baef537be3
-TARBALL_SHA1 = 95695d4d4a731e5deb4196a0cc6d04ecaba023fe
+TARBALL_MD5  = 280b81cb09d1903aa868a058d90128ad
+TARBALL_SHA1 = a5055999e61bd03d7741e534a776d9e1388a8cc8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -43,7 +43,7 @@ SOURCE_PATCHES =
 MODULE_LDFLAGS = -z ignore
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin
