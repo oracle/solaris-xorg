@@ -48,7 +48,6 @@ usr/share/doc/X11/Xserver/appgroup.xml
 usr/share/doc/X11/Xserver/analysis.xml
 usr/share/doc/X11/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
-usr/share/doc/inputproto
 
 # Obsolete man pages
 usr/share/man/man5/Consortium.5

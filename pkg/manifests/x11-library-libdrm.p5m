@@ -50,6 +50,7 @@ file path=usr/include/libdrm/radeon_surface.h
 file path=usr/include/libdrm/savage_drm.h
 file path=usr/include/libdrm/sis_drm.h
 file path=usr/include/libdrm/via_drm.h
+file path=usr/include/libdrm/vmwgfx_drm.h
 dir  path=usr/include/libkms
 file path=usr/include/libkms/libkms.h
 file path=usr/include/xf86drm.h
@@ -80,4 +81,13 @@ $(i386_ONLY)link path=usr/lib/xorg/libdrm_radeon.so target=libdrm_radeon.so.1
 $(i386_ONLY)file path=usr/lib/xorg/libdrm_radeon.so.1
 link path=usr/lib/xorg/libkms.so target=libkms.so.1
 file path=usr/lib/xorg/libkms.so.1
+file path=usr/share/man/man3/drmAvailable.3
+file path=usr/share/man/man3/drmHandleEvent.3
+file path=usr/share/man/man3/drmModeGetResources.3
+file path=usr/share/man/man7/drm-gem.7
+file path=usr/share/man/man7/drm-kms.7
+file path=usr/share/man/man7/drm-memory.7
+file path=usr/share/man/man7/drm-mm.7
+file path=usr/share/man/man7/drm-ttm.7
+file path=usr/share/man/man7/drm.7
 depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true
