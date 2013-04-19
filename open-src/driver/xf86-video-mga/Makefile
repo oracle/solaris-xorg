@@ -40,7 +40,6 @@ TARBALL_SHA256= 3f89ce250eea93f0de890954687790e06c0bab9e3e303df393e8759a187eca6c
 SOURCE_PATCHES = \
 		libraries.patch,-p1 \
 		g200se_pilot3_offscreen.patch,-p1 \
-		sparc-bus-probe.patch,-p1 \
 		sparc.patch,-p1 \
 		rom_map.patch,-p1
 

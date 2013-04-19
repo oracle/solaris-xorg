@@ -23,7 +23,7 @@ vt.patch,-p1
 record-regset.patch,-p1
 autodetect-kernel-dev-fb.patch,-p1
 workaround-7154410.patch,-p1
-sparc-no-bus-probe.patch,-p1
 113-port.patch,-p1
 cli-nolock.patch,-p1
 16418361.patch,-p1
+sparc-config-improv.patch,-p1
