@@ -45,6 +45,7 @@ UPSTREAM_PROJECT_SET = yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = Makefile.am.0.patch,-p1
 SOURCE_PATCHES += Makefile.am.4.patch,-p1
+SOURCE_PATCHES += 16702043.patch
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes
@@ -53,9 +54,9 @@ AUTORECONF=yes
 LIBNAME=xcb
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=
-MODULE_STABILITY=Uncommitted
-LIB_MAN_SUFFIX=
+SUNTOUCHED_MANPAGES=src/man/*
+MODULE_STABILITY=Volatile
+LIB_MAN_SUFFIX=3xcb
 
 MODULE_LD_OPTIONS = -z ignore -lc
 LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
@@ -95,5 +96,18 @@ DELIBTOOLIZE=yes
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=*.pc.in
+
+# Additional rules beyond what upstream provides
+MODULE_ADD_INSTALL_TARGETS=install_solaris_exts
+
+# Additional files we need to install
+CP = cp -pf
+MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xcb
+
+install_solaris_exts: $(INSTALL_DEPS)
+	mkdir -p $(MANDIR)
+	$(CP) $(SOURCE_DIR)/src/man/xcb-examples.3 $(MANDIR)/xcb-examples.3xcb
+	$(CP) $(SOURCE_DIR)/src/man/xcb-requests.3 $(MANDIR)/xcb-requests.3xcb
+
 
 include ../Makefile.inc

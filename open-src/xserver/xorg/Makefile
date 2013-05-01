@@ -35,9 +35,9 @@ MODULE_DESC = portions of the X.Org X server software
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 86110278b784e279381b7f6f2295c508
-TARBALL_SHA1  = 62b35456ece3e2bb9944b0c1f8b880ec02aab91e
-TARBALL_SHA256= 1f5107573252c26439fdd165481765a2c0964e02a2e9fab36e02414d08f30630
+TARBALL_MD5   = 6a0f1a1639ada4b9da7e9582bc79252a
+TARBALL_SHA1  = f67a3a250216ab40f0e31648151ee1a457b70a3a
+TARBALL_SHA256= a5adb02571efb7d7459dde83286a3adb77dfd1a52a7348e75d2dc72d6f8d28aa
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
