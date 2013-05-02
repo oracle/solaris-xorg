@@ -1,0 +1,70 @@
+# Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri \
+    value=pkg:/x11/diagnostic/intel-gpu-tools@__version:intel-gpu-tools__
+set name=pkg.summary value="Intel graphics driver debug tools"
+set name=pkg.description \
+    value="A collection of tools for development, testing, and debugging of the i915 DRM driver for Intel integrated graphics chipsets."
+set name=variant.arch value=i386
+file path=usr/bin/intel_audio_dump
+file path=usr/bin/intel_backlight
+file path=usr/bin/intel_bios_dumper
+file path=usr/bin/intel_bios_reader
+file path=usr/bin/intel_disable_clock_gating
+file path=usr/bin/intel_dpio_read
+file path=usr/bin/intel_dpio_write
+file path=usr/bin/intel_error_decode
+file path=usr/bin/intel_forcewaked
+file path=usr/bin/intel_gpu_time
+file path=usr/bin/intel_gpu_top
+file path=usr/bin/intel_gtt
+file path=usr/bin/intel_l3_parity
+file path=usr/bin/intel_reg_checker
+file path=usr/bin/intel_reg_dumper
+file path=usr/bin/intel_reg_read
+file path=usr/bin/intel_reg_snapshot
+file path=usr/bin/intel_reg_write
+file path=usr/bin/intel_sprite_on
+file path=usr/bin/intel_stepping
+file path=usr/bin/intel_upload_blit_large
+file path=usr/bin/intel_upload_blit_large_gtt
+file path=usr/bin/intel_upload_blit_large_map
+file path=usr/bin/intel_upload_blit_small
+file path=usr/share/man/man1/intel_audio_dump.1
+file path=usr/share/man/man1/intel_bios_dumper.1
+file path=usr/share/man/man1/intel_bios_reader.1
+file path=usr/share/man/man1/intel_error_decode.1
+file path=usr/share/man/man1/intel_gpu_top.1
+file path=usr/share/man/man1/intel_gtt.1
+file path=usr/share/man/man1/intel_infoframes.1
+file path=usr/share/man/man1/intel_lid.1
+file path=usr/share/man/man1/intel_panel_fitter.1
+file path=usr/share/man/man1/intel_reg_dumper.1
+file path=usr/share/man/man1/intel_reg_read.1
+file path=usr/share/man/man1/intel_reg_write.1
+file path=usr/share/man/man1/intel_stepping.1
+file path=usr/share/man/man1/intel_upload_blit_large.1
+file path=usr/share/man/man1/intel_upload_blit_large_gtt.1
+file path=usr/share/man/man1/intel_upload_blit_large_map.1
+file path=usr/share/man/man1/intel_upload_blit_small.1
+# Tools require Intel DRM kernel module
+depend type=require fmri=pkg:/driver/graphics/drm

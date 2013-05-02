@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Application modules
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -126,7 +126,8 @@ OS_SUBDIRS_common = \
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common) \
 	gfx-utils
 
-OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
+OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
+	intel-gpu-tools
 
 OBSOLETE_SUBDIRS = \
 	rstart \

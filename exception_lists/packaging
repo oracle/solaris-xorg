@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -94,3 +94,6 @@ usr/lib/xorg/libdrm_radeon.so	     		sparc
 usr/lib/xorg/libdrm_radeon.so.1	     		sparc
 usr/lib/xorg/sparcv9/libdrm_radeon.so	     	sparc
 usr/lib/xorg/sparcv9/libdrm_radeon.so.1	     	sparc
+
+# Deliver it once the driver provides the correct plumbing for use on solaris
+usr/bin/intel_gpu_abrt				i386

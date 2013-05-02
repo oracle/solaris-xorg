@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -133,6 +133,10 @@ depend type=require fmri=pkg:/image/library/libpng \
 
 # synergy-plus links against libstdcxx
 depend type=require fmri=pkg:/library/c++/stdcxx \
+    org.opensolaris.pkgdepend.resolve=true
+
+# intel-gpu-tools links against libcairo
+depend type=require fmri=pkg:/library/desktop/cairo \
     org.opensolaris.pkgdepend.resolve=true
 
 # lib/fontconfig links with libexpat
