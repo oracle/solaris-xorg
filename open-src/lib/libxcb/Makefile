@@ -100,6 +100,8 @@ FIX_PC_FILES=*.pc.in
 # Additional rules beyond what upstream provides
 MODULE_ADD_INSTALL_TARGETS=install_solaris_exts
 
+include ../Makefile.inc
+
 # Additional files we need to install
 CP = cp -pf
 MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xcb
@@ -108,6 +110,3 @@ install_solaris_exts: $(INSTALL_DEPS)
 	mkdir -p $(MANDIR)
 	$(CP) $(SOURCE_DIR)/src/man/xcb-examples.3 $(MANDIR)/xcb-examples.3xcb
 	$(CP) $(SOURCE_DIR)/src/man/xcb-requests.3 $(MANDIR)/xcb-requests.3xcb
-
-
-include ../Makefile.inc
