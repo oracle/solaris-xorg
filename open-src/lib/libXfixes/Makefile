@@ -2,7 +2,7 @@
 #
 # Xfixes 1.x Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,7 @@ TARBALL_SHA1 = 3e4d374e9026111a04cd669d4b3434273fc34fe0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch,-p1
+SOURCE_PATCHES += CVE-2013-1983.patch,-p1
 
 # Need to autoreconf since soversion.patch changes Makefile.am's
 AUTORECONF=yes

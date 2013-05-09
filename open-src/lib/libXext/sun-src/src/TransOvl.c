@@ -1,4 +1,4 @@
-/* Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,7 @@
 #include <X11/extensions/extutil.h>
 #include <X11/extensions/transovlstr.h>
 #include <X11/extensions/multibuf.h>
+#include <limits.h>
 
 typedef struct {
     XExtData		extdata;
@@ -1171,10 +1172,14 @@ XReadScreen(
 	SyncHandle();
 	return NULL;
     }
-    nbytes = (long)rep.length << 2;
-    data = (char *)Xmalloc((size_t)nbytes);
+    if (rep.length < (INT_MAX >> 2)) {
+	nbytes = (long)rep.length << 2;
+	data = Xmalloc((size_t)nbytes);
+    } else {
+	data = NULL;
+    }
     if (!data) {
-	_XEatData(dpy, (unsigned long)nbytes);
+	_XEatDataWords(dpy, rep.length);
 	UnlockDisplay(dpy);
 	SyncHandle();
 	return NULL;

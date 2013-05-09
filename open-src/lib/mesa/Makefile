@@ -65,6 +65,7 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
+	CVE-2013-1993.patch,-p1 \
 	install-pc-dir.patch \
 	glu-no-mangled-exports.patch \
 	solaris-port.patch \

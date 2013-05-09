@@ -2,7 +2,7 @@
 #
 # Xp 1.x Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,7 @@ TARBALL_SHA1 = 9c76823c7cfcb43f097963d0c930dcc4e38807a8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch 6724993.patch
+SOURCE_PATCHES += CVE-2013-2062.patch,-p1
 
 # Since we're patching src/Makefile.am in solaris-abi.patch,
 # we need to autoreconf

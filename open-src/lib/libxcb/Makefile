@@ -46,6 +46,7 @@ UPSTREAM_PROJECT_SET = yes
 SOURCE_PATCHES  = Makefile.am.0.patch,-p1
 SOURCE_PATCHES += Makefile.am.4.patch,-p1
 SOURCE_PATCHES += 16702043.patch
+SOURCE_PATCHES += CVE-2013-2064.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

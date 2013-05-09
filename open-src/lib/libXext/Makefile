@@ -2,7 +2,7 @@
 #
 # Xlib-based client library for common X11 protocol extensions
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,11 +37,16 @@ TARBALL_SHA1  = 764ac472ae19a0faade193717a9e0938d3430aaa
 TARBALL_SHA256= 56229c617eb7bfd6dec40d2805bc4dfb883dfe80f130d99b9a2beb632165e859
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES  = shm.patch,-p1
+SOURCE_PATCHES += CVE-2013-1982.patch,-p1
+SOURCE_PATCHES += shm.patch,-p1
 SOURCE_PATCHES += sun-exts.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xext
+
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1990, 2013
 
 # ARC cases that covered this module
 # PSARC 1999/188 FBPM (Frame Buffer Power Management) Extension

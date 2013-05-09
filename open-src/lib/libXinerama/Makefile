@@ -2,7 +2,7 @@
 #
 # libXinerama - Xlib-based client library for Xinerama extension protocol
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,7 @@ TARBALL_SHA256= a4e77c2fd88372e4ae365f3ca0434a23613da96c5b359b1a64bf43614ec06aac
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = sun-abi.patch
+SOURCE_PATCHES += CVE-2013-1985.patch,-p1
 
 # Library name
 LIBNAME=Xinerama

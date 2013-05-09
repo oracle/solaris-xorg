@@ -1,0 +1,3327 @@
+From 0dc93f7e43deb102b1f8fb7c4c4844cdce7ffd1e Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 29 Jun 2012 22:57:13 -0700
+Subject: [PATCH:libX11 02/58] XCreate{Pix,Bit}map...Data: Free pixmap in
+ error path if XCreateGC fails
+
+Fixes leaks in error paths found by Parfait 1.0.0:
+
+Error: X Resource Leak
+   Leaked X Resource pix
+        at line 62 of CrBFData.c in function 'XCreateBitmapFromData'.
+          pix initialized at line 60 with XCreatePixmap
+Error: X Resource Leak
+   Leaked X Resource pix
+        at line 70 of CrPFBData.c in function 'XCreatePixmapFromBitmapData'.
+          pix initialized at line 66 with XCreatePixmap
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Aaron Plattner <aplattner@nvidia.com>
+---
+ src/CrBFData.c  |    7 +++++--
+ src/CrPFBData.c |    7 +++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/src/CrBFData.c b/src/CrBFData.c
+index 4490956..9515875 100644
+--- a/src/CrBFData.c
++++ b/src/CrBFData.c
+@@ -58,8 +58,11 @@ Pixmap XCreateBitmapFromData(
+     Pixmap pix;
+ 
+     pix = XCreatePixmap(display, d, width, height, 1);
+-    if (! (gc = XCreateGC(display, pix, (unsigned long) 0, (XGCValues *) 0)))
+-	return (Pixmap) None;
++    gc = XCreateGC(display, pix, (unsigned long) 0, (XGCValues *) 0);
++    if (gc == NULL) {
++        XFreePixmap(display, pix);
++        return (Pixmap) None;
++    }
+     ximage.height = height;
+     ximage.width = width;
+     ximage.depth = 1;
+diff --git a/src/CrPFBData.c b/src/CrPFBData.c
+index 57cd153..d343420 100644
+--- a/src/CrPFBData.c
++++ b/src/CrPFBData.c
+@@ -66,8 +66,11 @@ Pixmap XCreatePixmapFromBitmapData(
+     pix = XCreatePixmap(display, d, width, height, depth);
+     gcv.foreground = fg;
+     gcv.background = bg;
+-    if (! (gc = XCreateGC(display, pix, GCForeground|GCBackground, &gcv)))
+-	return (Pixmap) NULL;
++    gc = XCreateGC(display, pix, GCForeground|GCBackground, &gcv);
++    if (gc == NULL) {
++        XFreePixmap(display, pix);
++        return (Pixmap) None;
++    }
+     ximage.height = height;
+     ximage.width = width;
+     ximage.depth = 1;
+-- 
+1.7.9.2
+
+From 65358ea5079236b2508f787ac2fb2024a477e36d Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 29 Jun 2012 23:08:04 -0700
+Subject: [PATCH:libX11 03/58] Convert XCreate{Pix,Bit}map...Data to use C99
+ designated initializers
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/CrBFData.c  |   42 ++++++++++++++++++++----------------------
+ src/CrPFBData.c |   49 ++++++++++++++++++++++++-------------------------
+ 2 files changed, 44 insertions(+), 47 deletions(-)
+
+diff --git a/src/CrBFData.c b/src/CrBFData.c
+index 9515875..6708a9b 100644
+--- a/src/CrBFData.c
++++ b/src/CrBFData.c
+@@ -53,30 +53,28 @@ Pixmap XCreateBitmapFromData(
+      unsigned int width,
+      unsigned int height)
+ {
+-    XImage ximage;
+-    GC gc;
+-    Pixmap pix;
+-
+-    pix = XCreatePixmap(display, d, width, height, 1);
+-    gc = XCreateGC(display, pix, (unsigned long) 0, (XGCValues *) 0);
++    Pixmap pix = XCreatePixmap(display, d, width, height, 1);
++    GC gc = XCreateGC(display, pix, (unsigned long) 0, (XGCValues *) 0);
+     if (gc == NULL) {
+         XFreePixmap(display, pix);
+         return (Pixmap) None;
++    } else {
++        XImage ximage = {
++            .height = height,
++            .width = width,
++            .depth = 1,
++            .bits_per_pixel = 1,
++            .xoffset = 0,
++            .format = XYPixmap,
++            .data = (char *) data,
++            .byte_order = LSBFirst,
++            .bitmap_unit = 8,
++            .bitmap_bit_order = LSBFirst,
++            .bitmap_pad = 8,
++            .bytes_per_line = (width + 7) / 8,
++        };
++        XPutImage(display, pix, gc, &ximage, 0, 0, 0, 0, width, height);
++        XFreeGC(display, gc);
++        return(pix);
+     }
+-    ximage.height = height;
+-    ximage.width = width;
+-    ximage.depth = 1;
+-    ximage.bits_per_pixel = 1;
+-    ximage.xoffset = 0;
+-    ximage.format = XYPixmap;
+-    ximage.data = (char *)data;
+-    ximage.byte_order = LSBFirst;
+-    ximage.bitmap_unit = 8;
+-    ximage.bitmap_bit_order = LSBFirst;
+-    ximage.bitmap_pad = 8;
+-    ximage.bytes_per_line = (width+7)/8;
+-
+-    XPutImage(display, pix, gc, &ximage, 0, 0, 0, 0, width, height);
+-    XFreeGC(display, gc);
+-    return(pix);
+ }
+diff --git a/src/CrPFBData.c b/src/CrPFBData.c
+index d343420..17d551b 100644
+--- a/src/CrPFBData.c
++++ b/src/CrPFBData.c
+@@ -58,33 +58,32 @@ Pixmap XCreatePixmapFromBitmapData(
+     unsigned long bg,
+     unsigned int depth)
+ {
+-    XImage ximage;
+-    GC gc;
+-    XGCValues gcv;
+-    Pixmap pix;
+-
+-    pix = XCreatePixmap(display, d, width, height, depth);
+-    gcv.foreground = fg;
+-    gcv.background = bg;
+-    gc = XCreateGC(display, pix, GCForeground|GCBackground, &gcv);
++    Pixmap pix = XCreatePixmap(display, d, width, height, depth);
++    XGCValues gcv = {
++        .foreground = fg,
++        .background = bg
++    };
++    GC gc = XCreateGC(display, pix, GCForeground|GCBackground, &gcv);
+     if (gc == NULL) {
+         XFreePixmap(display, pix);
+         return (Pixmap) None;
++    } else {
++        XImage ximage = {
++            .height = height,
++            .width = width,
++            .depth = 1,
++            .bits_per_pixel = 1,
++            .xoffset = 0,
++            .format = XYBitmap,
++            .data = data,
++            .byte_order = LSBFirst,
++            .bitmap_unit = 8,
++            .bitmap_bit_order = LSBFirst,
++            .bitmap_pad = 8,
++            .bytes_per_line = (width + 7) / 8
++        };
++        XPutImage(display, pix, gc, &ximage, 0, 0, 0, 0, width, height);
++        XFreeGC(display, gc);
++        return(pix);
+     }
+-    ximage.height = height;
+-    ximage.width = width;
+-    ximage.depth = 1;
+-    ximage.bits_per_pixel = 1;
+-    ximage.xoffset = 0;
+-    ximage.format = XYBitmap;
+-    ximage.data = data;
+-    ximage.byte_order = LSBFirst;
+-    ximage.bitmap_unit = 8;
+-    ximage.bitmap_bit_order = LSBFirst;
+-    ximage.bitmap_pad = 8;
+-    ximage.bytes_per_line = (width+7)/8;
+-
+-    XPutImage(display, pix, gc, &ximage, 0, 0, 0, 0, width, height);
+-    XFreeGC(display, gc);
+-    return(pix);
+ }
+-- 
+1.7.9.2
+
+From 59c9ee8cd58857c5769b643611cbe526005a9e45 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Sun, 16 Dec 2012 17:44:42 -0800
+Subject: [PATCH:libX11 31/58] Tell clang not to report -Wpadded warnings on
+ public headers we can't fix
+
+Better to silence the compiler warning than break ABI.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ include/X11/Xcms.h    |   12 ++++++++++++
+ include/X11/Xlib.h    |   12 ++++++++++++
+ include/X11/Xlibint.h |   12 ++++++++++++
+ include/X11/Xutil.h   |   12 ++++++++++++
+ 4 files changed, 48 insertions(+)
+
+diff --git a/include/X11/Xcms.h b/include/X11/Xcms.h
+index 8151fd1..6631854 100644
+--- a/include/X11/Xcms.h
++++ b/include/X11/Xcms.h
+@@ -31,6 +31,14 @@
+ 
+ #include <X11/Xlib.h>
+ 
++/* The Xcms structs are full of implicit padding to properly align members.
++   We can't clean that up without breaking ABI, so tell clang not to bother
++   complaining about it. */
++#ifdef __clang__
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wpadded"
++#endif
++
+     /*
+      * XCMS Status Values
+      */
+@@ -798,6 +806,10 @@ extern Visual *XcmsVisualOfCCC (
+     XcmsCCC		/* ccc */
+ );
+ 
++#ifdef __clang__
++#pragma clang diagnostic pop
++#endif
++
+ _XFUNCPROTOEND
+ 
+ #endif /* _X11_XCMS_H_ */
+diff --git a/include/X11/Xlib.h b/include/X11/Xlib.h
+index dd4c7c4..9618081 100644
+--- a/include/X11/Xlib.h
++++ b/include/X11/Xlib.h
+@@ -81,6 +81,14 @@ _Xmblen(
+    November 2000. Its presence is indicated through the following macro. */
+ #define X_HAVE_UTF8_STRING 1
+ 
++/* The Xlib structs are full of implicit padding to properly align members.
++   We can't clean that up without breaking ABI, so tell clang not to bother
++   complaining about it. */
++#ifdef __clang__
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wpadded"
++#endif
++
+ typedef char *XPointer;
+ 
+ #define Bool int
+@@ -4019,6 +4027,10 @@ extern void XFreeEventData(
+     XGenericEventCookie*	/* cookie*/
+ );
+ 
++#ifdef __clang__
++#pragma clang diagnostic pop
++#endif
++
+ _XFUNCPROTOEND
+ 
+ #endif /* _X11_XLIB_H_ */
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index 80edeec..23e751b 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -42,6 +42,14 @@ from The Open Group.
+ #include <X11/Xproto.h>		/* to declare xEvent */
+ #include <X11/XlibConf.h>	/* for configured options like XTHREADS */
+ 
++/* The Xlib structs are full of implicit padding to properly align members.
++   We can't clean that up without breaking ABI, so tell clang not to bother
++   complaining about it. */
++#ifdef __clang__
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wpadded"
++#endif
++
+ #ifdef WIN32
+ #define _XFlush _XFlushIt
+ #endif
+@@ -1364,6 +1372,10 @@ extern void xlocaledir(
+     int buf_len
+ );
+ 
++#ifdef __clang__
++#pragma clang diagnostic pop
++#endif
++
+ _XFUNCPROTOEND
+ 
+ #endif /* _X11_XLIBINT_H_ */
+diff --git a/include/X11/Xutil.h b/include/X11/Xutil.h
+index 8cab50e..62cdf55 100644
+--- a/include/X11/Xutil.h
++++ b/include/X11/Xutil.h
+@@ -53,6 +53,14 @@ SOFTWARE.
+ #include <X11/Xlib.h>
+ #include <X11/keysym.h>
+ 
++/* The Xlib structs are full of implicit padding to properly align members.
++   We can't clean that up without breaking ABI, so tell clang not to bother
++   complaining about it. */
++#ifdef __clang__
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wpadded"
++#endif
++
+ /*
+  * Bitmask returned by XParseGeometry().  Each bit tells if the corresponding
+  * value (x, y, width, height) was found in the parsed string.
+@@ -821,6 +829,10 @@ extern int XXorRegion(
+     Region		/* dr_return */
+ );
+ 
++#ifdef __clang__
++#pragma clang diagnostic pop
++#endif
++
+ _XFUNCPROTOEND
+ 
+ #endif /* _X11_XUTIL_H_ */
+-- 
+1.7.9.2
+
+From a6e5b36a3e6d4a7a9fb4bad905ed127e67b1957e Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Wed, 26 Dec 2012 22:56:38 -0800
+Subject: [PATCH:libX11 32/58] Remove unused TLI ("STREAMSCONN") code from
+ Xlib
+
+Has never been converted to build in modular builds, so has been unusable
+since X11R7.0 release in 2005.  All known platforms with TLI/XTI support
+that X11R7 & later releases run on also have (and mostly prefer) BSD
+socket support for their networking API.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ modules/im/ximcp/imTransR.c |    3 --
+ src/globals.c               |  121 -------------------------------------------
+ src/xlibi18n/XimTrInt.h     |    2 +-
+ 3 files changed, 1 insertion(+), 125 deletions(-)
+
+diff --git a/modules/im/ximcp/imTransR.c b/modules/im/ximcp/imTransR.c
+index 1fd0088..4f843a0 100644
+--- a/modules/im/ximcp/imTransR.c
++++ b/modules/im/ximcp/imTransR.c
+@@ -69,9 +69,6 @@ TransportSW _XimTransportRec[] = {
+ #ifdef DNETCONN
+     { "dnet",     _XimTransConf }, /* use X transport lib */
+ #endif /* DNETCONN */
+-#ifdef STREAMSCONN
+-    { "streams",    _XimTransConf }, /* use X transport lib */
+-#endif /* STREAMSCONN */
+     { (char *)NULL, (Bool (*)(Xim, char *))NULL },
+ };
+ 
+diff --git a/src/globals.c b/src/globals.c
+index 89e38a7..b7e49dd 100644
+--- a/src/globals.c
++++ b/src/globals.c
+@@ -87,127 +87,6 @@ ZEROINIT (int, _Xdebug, 0);
+ ZEROINIT (Display *, _XHeadOfDisplayList, NULL);
+ 
+ 
+-
+-#if 0
+-#ifdef STREAMSCONN
+-
+-
+-/* The following are how the Xstream connections are used:              */
+-/*      1)      Local connections over pseudo-tty ports.                */
+-/*      2)      SVR4 local connections using named streams or SVR3.2    */
+-/*              local connections using streams.                        */
+-/*      3)      SVR4 stream pipe code. This code is proprietary and     */
+-/*              the actual code is not included in the XC distribution. */
+-/*      4)      remote connections using tcp                            */
+-/*      5)      remote connections using StarLan                        */
+-
+-/*
+- * descriptor block for streams connections
+- */
+-
+-#include "Xstreams.h"
+-
+-char _XsTypeOfStream[100] = { 0 };
+-
+-extern int write();
+-extern int close();
+-#ifdef SVR4
+-extern int _XsSetupSpStream();
+-extern int _XsSetupNamedStream();
+-#endif
+-extern int _XsSetupLocalStream();
+-extern int _XsConnectLocalClient();
+-extern int _XsCallLocalServer();
+-extern int _XsReadLocalStream();
+-extern int _XsErrorCall();
+-extern int _XsWriteLocalStream();
+-extern int _XsCloseLocalStream();
+-extern int _XsSetupTliStream();
+-extern int _XsConnectTliClient();
+-extern int _XsCallTliServer();
+-extern int _XsReadTliStream();
+-extern int _XsWriteTliStream();
+-extern int _XsCloseTliStream();
+-
+-
+-Xstream _XsStream[] = {
+-
+-    {
+-	/* local connections using pseudo-ttys */
+-
+-	_XsSetupLocalStream,
+-	_XsConnectLocalClient,
+-	_XsCallLocalServer,
+-	_XsReadLocalStream,
+-	_XsErrorCall,
+-	write,
+-	close,
+-	NULL
+-    },
+-    {
+-#ifdef SVR4
+-	/* local connections using named streams */
+-
+-        _XsSetupNamedStream,
+-#else
+-	/* local connections using streams */
+-        _XsSetupLocalStream,
+-#endif
+-        _XsConnectLocalClient,
+-        _XsCallLocalServer,
+-        _XsReadLocalStream,
+-        _XsErrorCall,
+-        write,
+-        close,
+-        NULL
+-    },
+-    /* Enhanced Application Compatibility Support */
+-    {
+-#ifdef SVR4
+-	/* SVR4 stream pipe code */
+-	_XsSetupSpStream,
+-#else
+-	_XsSetupLocalStream,
+-#endif
+-	_XsConnectLocalClient,
+-	_XsCallLocalServer,
+-	_XsReadLocalStream,
+-	_XsErrorCall,
+-	write,
+-	close,
+-	NULL
+-    },
+-    /* End Enhanced Application Compatibility Support */
+-
+-    {
+-	/* remote connections using tcp */
+-        _XsSetupTliStream,
+-        _XsConnectTliClient,
+-        _XsCallTliServer,
+-        _XsReadLocalStream,
+-        _XsErrorCall,
+-	write,
+-	close,
+-	NULL
+-    },
+-    {
+-	/* remote connections using StarLan */
+-        _XsSetupTliStream,
+-        _XsConnectTliClient,
+-        _XsCallTliServer,
+-        _XsReadLocalStream,
+-        _XsErrorCall,
+-        write,
+-        close,
+-        NULL
+-    }
+-};
+-
+-
+-#endif /* STREAMSCONN */
+-#endif
+-
+-
+ #ifdef XTEST1
+ /*
+  * Stuff for input synthesis extension:
+diff --git a/src/xlibi18n/XimTrInt.h b/src/xlibi18n/XimTrInt.h
+index a08ac03..7cc9f85 100644
+--- a/src/xlibi18n/XimTrInt.h
++++ b/src/xlibi18n/XimTrInt.h
+@@ -73,7 +73,7 @@ extern Bool	_XimXConf(
+     char	*address
+ );
+ 
+-#if defined(TCPCONN) || defined(UNIXCONN) || defined(DNETCONN) || defined(STREAMSCONN)
++#if defined(TCPCONN) || defined(UNIXCONN) || defined(DNETCONN)
+ 
+ extern Bool	_XimTransConf(
+     Xim		 im,
+-- 
+1.7.9.2
+
+From 3cd974b1d4d1fa6389d3695fa9fcc0c22a51d50c Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Wed, 26 Dec 2012 22:57:39 -0800
+Subject: [PATCH:libX11 33/58] Remove unused DECnet ("DNETCONN") code from
+ Xlib
+
+Has never been converted to build in modular builds, so has been unusable
+since X11R7.0 release in 2005.  DNETCONN support was removed from xtrans
+back in 2008.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ modules/im/ximcp/imTransR.c |    3 ---
+ src/xlibi18n/XimTrInt.h     |    2 +-
+ 2 files changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/modules/im/ximcp/imTransR.c b/modules/im/ximcp/imTransR.c
+index 4f843a0..caa5309 100644
+--- a/modules/im/ximcp/imTransR.c
++++ b/modules/im/ximcp/imTransR.c
+@@ -66,9 +66,6 @@ TransportSW _XimTransportRec[] = {
+ #if defined(UNIXCONN) || defined(LOCALCONN)
+     { "local",      _XimTransConf }, /* use X transport lib */
+ #endif /* UNIXCONN */
+-#ifdef DNETCONN
+-    { "dnet",     _XimTransConf }, /* use X transport lib */
+-#endif /* DNETCONN */
+     { (char *)NULL, (Bool (*)(Xim, char *))NULL },
+ };
+ 
+diff --git a/src/xlibi18n/XimTrInt.h b/src/xlibi18n/XimTrInt.h
+index 7cc9f85..bceab98 100644
+--- a/src/xlibi18n/XimTrInt.h
++++ b/src/xlibi18n/XimTrInt.h
+@@ -73,7 +73,7 @@ extern Bool	_XimXConf(
+     char	*address
+ );
+ 
+-#if defined(TCPCONN) || defined(UNIXCONN) || defined(DNETCONN)
++#if defined(TCPCONN) || defined(UNIXCONN)
+ 
+ extern Bool	_XimTransConf(
+     Xim		 im,
+-- 
+1.7.9.2
+
+From deedeada53676ee529d700bf96fde0b29a3a1def Mon Sep 17 00:00:00 2001
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+Date: Tue, 22 Jan 2013 10:03:00 -0500
+Subject: [PATCH:libX11 36/58] XListFontsWithInfo: avoid accessing realloc'ed
+ memory
+
+If exactly one of the two reallocs in XListFontsWithInfo() fails, the
+subsequent code accesses memory freed by the other realloc.
+
+Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
+Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/FontInfo.c |   13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/src/FontInfo.c b/src/FontInfo.c
+index a3ab65b..97de40e 100644
+--- a/src/FontInfo.c
++++ b/src/FontInfo.c
+@@ -90,6 +90,11 @@ XFontStruct **info)	/* RETURN */
+ 		    Xrealloc ((char *) flist,
+ 			      (unsigned) (sizeof(char *) * (size+1)));
+ 
++		if (tmp_finfo)
++		    finfo = tmp_finfo;
++		if (tmp_flist)
++		    flist = tmp_flist;
++
+ 		if ((! tmp_finfo) || (! tmp_flist)) {
+ 		    /* free all the memory that we allocated */
+ 		    for (j=(i-1); (j >= 0); j--) {
+@@ -97,14 +102,10 @@ XFontStruct **info)	/* RETURN */
+ 			if (finfo[j].properties)
+ 			    Xfree((char *) finfo[j].properties);
+ 		    }
+-		    if (tmp_flist) Xfree((char *) tmp_flist);
+-		    else Xfree((char *) flist);
+-		    if (tmp_finfo) Xfree((char *) tmp_finfo);
+-		    else Xfree((char *) finfo);
++		    Xfree((char *) flist);
++		    Xfree((char *) finfo);
+ 		    goto clearwire;
+ 		}
+-		finfo = tmp_finfo;
+-		flist = tmp_flist;
+ 	    }
+ 	    else {
+ 		if (! (finfo = (XFontStruct *)
+-- 
+1.7.9.2
+
+From 54527eab93d46055cf11eb6c18abb353a03ae544 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 15 Feb 2013 22:45:19 -0800
+Subject: [PATCH:libX11 37/58] cmsColNm.c: maintain constness of arguments to
+ qsort helper function
+
+Fixes gcc warning:
+
+cmsColNm.c: In function 'FirstCmp':
+cmsColNm.c:257:20: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+cmsColNm.c:257:45: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/xcms/cmsColNm.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/xcms/cmsColNm.c b/src/xcms/cmsColNm.c
+index 73977e5..a6749c0 100644
+--- a/src/xcms/cmsColNm.c
++++ b/src/xcms/cmsColNm.c
+@@ -254,7 +254,7 @@ FirstCmp(const void *p1, const void *p2)
+  *
+  */
+ {
+-    return(strcmp(((XcmsPair *)p1)->first, ((XcmsPair *)p2)->first));
++    return(strcmp(((const XcmsPair *)p1)->first, ((const XcmsPair *)p2)->first));
+ }
+ 
+ 
+-- 
+1.7.9.2
+
+From 7e3bf4dd83fec22bd568146de75e6d59eff74e21 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 15 Feb 2013 23:14:40 -0800
+Subject: [PATCH:libX11 38/58] XRebindKeysym: Drop unnecessary const-removing
+ cast
+
+C89 defines memcpy as taking a const void *, so casting from
+const unsigned char * to char * simply angers gcc for no benefit:
+
+KeyBind.c:1017:24: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/KeyBind.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/KeyBind.c b/src/KeyBind.c
+index 221cedd..f22feca 100644
+--- a/src/KeyBind.c
++++ b/src/KeyBind.c
+@@ -1014,7 +1014,7 @@ XRebindKeysym (
+     dpy->key_bindings = p;
+     dpy->free_funcs->key_bindings = _XFreeKeyBindings;
+     p->next = tmp;	/* chain onto list */
+-    memcpy (p->string, (char *) str, nbytes);
++    memcpy (p->string, str, nbytes);
+     p->len = nbytes;
+     memcpy ((char *) p->modifiers, (char *) mlist, nb);
+     p->key = keysym;
+-- 
+1.7.9.2
+
+From afd6593da90e51234d59f8921c411317f91ab48b Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 15 Feb 2013 23:25:38 -0800
+Subject: [PATCH:libX11 39/58] XStringToKeysym: preserve constness when
+ casting off unsignedness for strcmp
+
+Fixes gcc warning:
+StrKeysym.c:97:17: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/StrKeysym.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/StrKeysym.c b/src/StrKeysym.c
+index 4394e0c..12fce68 100644
+--- a/src/StrKeysym.c
++++ b/src/StrKeysym.c
+@@ -94,7 +94,7 @@ XStringToKeysym(_Xconst char *s)
+     {
+ 	entry = &_XkeyTable[idx];
+ 	if ((entry[0] == sig1) && (entry[1] == sig2) &&
+-	    !strcmp(s, (char *)entry + 6))
++	    !strcmp(s, (const char *)entry + 6))
+ 	{
+ 	    val = (entry[2] << 24) | (entry[3] << 16) |
+ 	          (entry[4] << 8)  | entry[5];
+-- 
+1.7.9.2
+
+From 6c558ee357292dd9dfc6d9006f4525f625327c52 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 15 Feb 2013 22:58:54 -0800
+Subject: [PATCH:libX11 40/58] Fix comment typo & confusing indentation levels
+ in Data() macro definition
+
+The final } matches the one on the #define line, not one that doesn't
+appear after the else statement it was lined up with
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ include/X11/Xlibint.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index 23e751b..7911fd7 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -574,7 +574,7 @@ extern void _XFlushGCCache(Display *dpy, GC gc);
+  * 32 bit word alignment.  Transmit if the buffer fills.
+  *
+  * "dpy" is a pointer to a Display.
+- * "data" is a pinter to a data buffer.
++ * "data" is a pointer to a data buffer.
+  * "len" is the length of the data buffer.
+  */
+ #ifndef DataRoutineIsProcedure
+@@ -584,7 +584,7 @@ extern void _XFlushGCCache(Display *dpy, GC gc);
+ 		dpy->bufptr += ((len) + 3) & ~3;\
+ 	} else\
+ 		_XSend(dpy, data, len);\
+-	}
++}
+ #endif /* DataRoutineIsProcedure */
+ 
+ 
+-- 
+1.7.9.2
+
+From f0b171c8ea7b055ba520272ea9a2604e18841ac7 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 15 Feb 2013 23:34:40 -0800
+Subject: [PATCH:libX11 41/58] Preserve constness in casting arguments through
+ the Data*() routines
+
+Casts were annoying gcc by dropping constness when changing types,
+when routines simply either copy data into the request buffer or
+send it directly to the X server, and never modify the input.
+
+Fixes gcc warnings including:
+ChProp.c: In function 'XChangeProperty':
+ChProp.c:65:6: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+ChProp.c:65:6: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+ChProp.c:74:6: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+ChProp.c:74:6: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+ChProp.c:83:6: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+SetHints.c: In function 'XSetStandardProperties':
+SetHints.c:262:20: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+SetPntMap.c: In function 'XSetPointerMapping':
+SetPntMap.c:46:5: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+SetPntMap.c:46:5: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+StBytes.c: In function 'XStoreBuffer':
+StBytes.c:97:33: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+StName.c: In function 'XStoreName':
+StName.c:40:27: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+StName.c: In function 'XSetIconName':
+StName.c:51:27: warning: cast discards '__attribute__((const))' qualifier from pointer target type [-Wcast-qual]
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ include/X11/Xlibint.h |   12 ++++++------
+ src/ChProp.c          |    6 +++---
+ src/SetHints.c        |    4 +++-
+ src/SetPntMap.c       |    2 +-
+ src/StBytes.c         |    2 +-
+ src/StName.c          |    6 +++---
+ src/XlibInt.c         |   12 ++++++------
+ 7 files changed, 23 insertions(+), 21 deletions(-)
+
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index 7911fd7..c2232de 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -610,17 +610,17 @@ extern void _XFlushGCCache(Display *dpy, GC gc);
+     dpy->bufptr += (n);
+ 
+ #ifdef WORD64
+-#define Data16(dpy, data, len) _XData16(dpy, (short *)data, len)
+-#define Data32(dpy, data, len) _XData32(dpy, (long *)data, len)
++#define Data16(dpy, data, len) _XData16(dpy, (_Xconst short *)data, len)
++#define Data32(dpy, data, len) _XData32(dpy, (_Xconst long *)data, len)
+ #else
+-#define Data16(dpy, data, len) Data((dpy), (char *)(data), (len))
++#define Data16(dpy, data, len) Data((dpy), (_Xconst char *)(data), (len))
+ #define _XRead16Pad(dpy, data, len) _XReadPad((dpy), (char *)(data), (len))
+ #define _XRead16(dpy, data, len) _XRead((dpy), (char *)(data), (len))
+ #ifdef LONG64
+-#define Data32(dpy, data, len) _XData32(dpy, (long *)data, len)
++#define Data32(dpy, data, len) _XData32(dpy, (_Xconst long *)data, len)
+ extern int _XData32(
+ 	     Display *dpy,
+-	     register long *data,
++	     register _Xconst long *data,
+ 	     unsigned len
+ );
+ extern void _XRead32(
+@@ -629,7 +629,7 @@ extern void _XRead32(
+ 	     long len
+ );
+ #else
+-#define Data32(dpy, data, len) Data((dpy), (char *)(data), (len))
++#define Data32(dpy, data, len) Data((dpy), (_Xconst char *)(data), (len))
+ #define _XRead32(dpy, data, len) _XRead((dpy), (char *)(data), (len))
+ #endif
+ #endif /* not WORD64 */
+diff --git a/src/ChProp.c b/src/ChProp.c
+index b957751..190a224 100644
+--- a/src/ChProp.c
++++ b/src/ChProp.c
+@@ -62,7 +62,7 @@ XChangeProperty (
+ 	len = ((long)nelements + 3)>>2;
+ 	if (dpy->bigreq_size || req->length + len <= (unsigned) 65535) {
+ 	    SetReqLen(req, len, len);
+-	    Data (dpy, (char *)data, nelements);
++	    Data (dpy, (_Xconst char *)data, nelements);
+ 	} /* else force BadLength */
+         break;
+ 
+@@ -71,7 +71,7 @@ XChangeProperty (
+ 	if (dpy->bigreq_size || req->length + len <= (unsigned) 65535) {
+ 	    SetReqLen(req, len, len);
+ 	    len = (long)nelements << 1;
+-	    Data16 (dpy, (short *) data, len);
++	    Data16 (dpy, (_Xconst short *) data, len);
+ 	} /* else force BadLength */
+ 	break;
+ 
+@@ -80,7 +80,7 @@ XChangeProperty (
+ 	if (dpy->bigreq_size || req->length + len <= (unsigned) 65535) {
+ 	    SetReqLen(req, len, len);
+ 	    len = (long)nelements << 2;
+-	    Data32 (dpy, (long *) data, len);
++	    Data32 (dpy, (_Xconst long *) data, len);
+ 	} /* else force BadLength */
+ 	break;
+ 
+diff --git a/src/SetHints.c b/src/SetHints.c
+index 0c33f59..1cde48f 100644
+--- a/src/SetHints.c
++++ b/src/SetHints.c
+@@ -259,7 +259,9 @@ XSetStandardProperties (
+ 
+ 	if (icon_string != NULL) {
+ 	    XChangeProperty (dpy, w, XA_WM_ICON_NAME, XA_STRING, 8,
+-		PropModeReplace, (unsigned char *)icon_string, safestrlen(icon_string));
++                             PropModeReplace,
++                             (_Xconst unsigned char *)icon_string,
++                             safestrlen(icon_string));
+ 		}
+ 
+ 	if (icon_pixmap != None) {
+diff --git a/src/SetPntMap.c b/src/SetPntMap.c
+index 2e29201..14e104d 100644
+--- a/src/SetPntMap.c
++++ b/src/SetPntMap.c
+@@ -43,7 +43,7 @@ XSetPointerMapping (
+     GetReq (SetPointerMapping, req);
+     req->nElts = nmaps;
+     req->length += (nmaps + 3)>>2;
+-    Data (dpy, (char *)map, (long) nmaps);
++    Data (dpy, (_Xconst char *)map, (long) nmaps);
+     if (_XReply (dpy, (xReply *)&rep, 0, xFalse) == 0)
+ 	rep.success = MappingSuccess;
+     UnlockDisplay(dpy);
+diff --git a/src/StBytes.c b/src/StBytes.c
+index 13ac879..07ee441 100644
+--- a/src/StBytes.c
++++ b/src/StBytes.c
+@@ -94,7 +94,7 @@ XStoreBuffer (
+ {
+     if ((buffer < 0) || (buffer > 7)) return 0;
+     return XChangeProperty(dpy, RootWindow(dpy, 0), n_to_atom[buffer],
+-	XA_STRING, 8, PropModeReplace, (unsigned char *) bytes, nbytes);
++	XA_STRING, 8, PropModeReplace, (_Xconst unsigned char *) bytes, nbytes);
+ }
+ 
+ int
+diff --git a/src/StName.c b/src/StName.c
+index fb1e6f5..b4048bf 100644
+--- a/src/StName.c
++++ b/src/StName.c
+@@ -37,7 +37,7 @@ XStoreName (
+     _Xconst char *name)
+ {
+     return XChangeProperty(dpy, w, XA_WM_NAME, XA_STRING,
+-			   8, PropModeReplace, (unsigned char *)name,
++			   8, PropModeReplace, (_Xconst unsigned char *)name,
+ 			   name ? strlen(name) : 0);
+ }
+ 
+@@ -47,7 +47,7 @@ XSetIconName (
+     Window w,
+     _Xconst char *icon_name)
+ {
+-    return XChangeProperty(dpy, w, XA_WM_ICON_NAME, XA_STRING,
+-			   8, PropModeReplace, (unsigned char *)icon_name,
++    return XChangeProperty(dpy, w, XA_WM_ICON_NAME, XA_STRING, 8,
++                           PropModeReplace, (_Xconst unsigned char *)icon_name,
+ 			   icon_name ? strlen(icon_name) : 0);
+ }
+diff --git a/src/XlibInt.c b/src/XlibInt.c
+index 2827c10..e4d35fd 100644
+--- a/src/XlibInt.c
++++ b/src/XlibInt.c
+@@ -1722,7 +1722,7 @@ void _Xbcopy(b1, b2, length)
+ #ifdef DataRoutineIsProcedure
+ void Data(
+ 	Display *dpy,
+-	char *data,
++	_Xconst char *data,
+ 	long len)
+ {
+ 	if (dpy->bufptr + (len) <= dpy->bufmax) {
+@@ -1739,7 +1739,7 @@ void Data(
+ int
+ _XData32(
+     Display *dpy,
+-    register long *data,
++    register _Xconst long *data,
+     unsigned len)
+ {
+     register int *buf;
+@@ -1781,7 +1781,7 @@ _XData32(
+ 
+ static doData16(
+     register Display *dpy,
+-    short *data,
++    _Xconst short *data,
+     unsigned len,
+     char *packbuffer)
+ {
+@@ -1814,7 +1814,7 @@ static doData16(
+ 
+ _XData16 (
+     Display *dpy,
+-    short *data,
++    _Xconst short *data,
+     unsigned len)
+ {
+     char packbuffer[PACKBUFFERSIZE];
+@@ -1836,7 +1836,7 @@ _XData16 (
+ 
+ static doData32(
+     register Display *dpy
+-    long *data,
++    _Xconst long *data,
+     unsigned len,
+     char *packbuffer)
+ {
+@@ -1867,7 +1867,7 @@ static doData32(
+ 
+ void _XData32(
+     Display *dpy,
+-    long *data,
++    _Xconst long *data,
+     unsigned len)
+ {
+     char packbuffer[PACKBUFFERSIZE];
+-- 
+1.7.9.2
+
+From b092dabbd712d7b656abcf572d253b9b206c0237 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 15 Feb 2013 23:43:12 -0800
+Subject: [PATCH:libX11 42/58] XKeysymToString: move variable declarations to
+ the scope of their usage
+
+Makes it easier for readers to understand scope of variable usage, and
+clears up gcc warning:
+
+KeysymStr.c: In function 'XKeysymToString':
+KeysymStr.c:128:13: warning: declaration of 'i' shadows a previous local [-Wshadow]
+KeysymStr.c:73:18: warning: shadowed declaration is here [-Wshadow]
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/KeysymStr.c |   24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
+
+diff --git a/src/KeysymStr.c b/src/KeysymStr.c
+index 101f297..f24f3b1 100644
+--- a/src/KeysymStr.c
++++ b/src/KeysymStr.c
+@@ -70,11 +70,6 @@ SameValue(
+ 
+ char *XKeysymToString(KeySym ks)
+ {
+-    register int i, n;
+-    int h;
+-    register int idx;
+-    const unsigned char *entry;
+-    unsigned char val1, val2, val3, val4;
+     XrmDatabase keysymdb;
+ 
+     if (!ks || (ks & ((unsigned long) ~0x1fffffff)) != 0)
+@@ -83,16 +78,17 @@ char *XKeysymToString(KeySym ks)
+ 	ks = 0;
+     if (ks <= 0x1fffffff)
+     {
+-	val1 = ks >> 24;
+-	val2 = (ks >> 16) & 0xff;
+-	val3 = (ks >> 8) & 0xff;
+-	val4 = ks & 0xff;
+-	i = ks % VTABLESIZE;
+-	h = i + 1;
+-	n = VMAXHASH;
++	unsigned char val1 = ks >> 24;
++	unsigned char val2 = (ks >> 16) & 0xff;
++	unsigned char val3 = (ks >> 8) & 0xff;
++	unsigned char val4 = ks & 0xff;
++	int i = ks % VTABLESIZE;
++	int h = i + 1;
++	int n = VMAXHASH;
++	int idx;
+ 	while ((idx = hashKeysym[i]))
+ 	{
+-	    entry = &_XkeyTable[idx];
++	    const unsigned char *entry = &_XkeyTable[idx];
+ 	    if ((entry[0] == val1) && (entry[1] == val2) &&
+                 (entry[2] == val3) && (entry[3] == val4))
+ 		return ((char *)entry + 4);
+@@ -136,7 +132,7 @@ char *XKeysymToString(KeySym ks)
+         i--;
+         s[i--] = '\0';
+         for (; i; i--){
+-            val1 = val & 0xf;
++            unsigned char val1 = val & 0xf;
+             val >>= 4;
+             if (val1 < 10)
+                 s[i] = '0'+ val1;
+-- 
+1.7.9.2
+
+From b687440c28c7da6ee0ae44514d20248db5161606 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Sat, 16 Feb 2013 10:42:23 -0800
+Subject: [PATCH:libX11 43/58] Convert more sprintf calls to snprintf
+
+You could analyze most of these and quickly recognize that there was no
+chance of buffer overflow already, but why make everyone spend time doing
+that when we can just make it obviously safe?
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/ErrDes.c    |    9 +++++----
+ src/GetDflt.c   |    2 +-
+ src/KeysymStr.c |    2 +-
+ src/XlibInt.c   |    8 ++++----
+ 4 files changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/src/ErrDes.c b/src/ErrDes.c
+index 9a5b180..ef5edad 100644
+--- a/src/ErrDes.c
++++ b/src/ErrDes.c
+@@ -109,7 +109,7 @@ XGetErrorText(
+ 
+     if (nbytes == 0) return 0;
+     if (code <= BadImplementation && code > 0) {
+-	sprintf(buf, "%d", code);
++        snprintf(buf, sizeof(buf), "%d", code);
+         (void) XGetErrorDatabaseText(dpy, "XProtoError", buf,
+                                      _XErrorList + _XErrorOffsets[code],
+ 				     buffer, nbytes);
+@@ -125,11 +125,12 @@ XGetErrorText(
+ 	    bext = ext;
+     }
+     if (!buffer[0] && bext) {
+-	sprintf(buf, "%s.%d", bext->name, code - bext->codes.first_error);
++	snprintf(buf, sizeof(buf), "%s.%d",
++                 bext->name, code - bext->codes.first_error);
+ 	(void) XGetErrorDatabaseText(dpy, "XProtoError", buf, "", buffer, nbytes);
+     }
+     if (!buffer[0])
+-	sprintf(buffer, "%d", code);
++	snprintf(buffer, nbytes, "%d", code);
+     return 0;
+ }
+ 
+@@ -190,7 +191,7 @@ XGetErrorDatabaseText(
+ 	else
+ 	    tptr = Xmalloc (tlen);
+ 	if (tptr) {
+-	    sprintf(tptr, "%s.%s", name, type);
++	    snprintf(tptr, tlen, "%s.%s", name, type);
+ 	    XrmGetResource(db, tptr, "ErrorType.ErrorNumber",
+ 	      &type_str, &result);
+ 	    if (tptr != temp)
+diff --git a/src/GetDflt.c b/src/GetDflt.c
+index dfda1c6..6f62cd8 100644
+--- a/src/GetDflt.c
++++ b/src/GetDflt.c
+@@ -110,7 +110,7 @@ GetHomeDir(
+ 	len2 = strlen (ptr2);
+     }
+     if ((len1 + len2 + 1) < len)
+-	sprintf (dest, "%s%s", ptr1, (ptr2) ? ptr2 : "");
++	snprintf (dest, len, "%s%s", ptr1, (ptr2) ? ptr2 : "");
+     else
+ 	*dest = '\0';
+ #else
+diff --git a/src/KeysymStr.c b/src/KeysymStr.c
+index f24f3b1..c7c4704 100644
+--- a/src/KeysymStr.c
++++ b/src/KeysymStr.c
+@@ -107,7 +107,7 @@ char *XKeysymToString(KeySym ks)
+ 	XrmQuark empty = NULLQUARK;
+ 	GRNData data;
+ 
+-	sprintf(buf, "%lX", ks);
++	snprintf(buf, sizeof(buf), "%lX", ks);
+ 	resval.addr = (XPointer)buf;
+ 	resval.size = strlen(buf) + 1;
+ 	data.name = (char *)NULL;
+diff --git a/src/XlibInt.c b/src/XlibInt.c
+index e4d35fd..c436842 100644
+--- a/src/XlibInt.c
++++ b/src/XlibInt.c
+@@ -1432,7 +1432,7 @@ static int _XPrintDefaultError(
+ 	mesg, BUFSIZ);
+     (void) fprintf(fp, mesg, event->request_code);
+     if (event->request_code < 128) {
+-	sprintf(number, "%d", event->request_code);
++	snprintf(number, sizeof(number), "%d", event->request_code);
+ 	XGetErrorDatabaseText(dpy, "XRequest", number, "", buffer, BUFSIZ);
+     } else {
+ 	for (ext = dpy->ext_procs;
+@@ -1452,7 +1452,7 @@ static int _XPrintDefaultError(
+ 	fputs("  ", fp);
+ 	(void) fprintf(fp, mesg, event->minor_code);
+ 	if (ext) {
+-	    sprintf(mesg, "%s.%d", ext->name, event->minor_code);
++	    snprintf(mesg, sizeof(mesg), "%s.%d", ext->name, event->minor_code);
+ 	    XGetErrorDatabaseText(dpy, "XRequest", mesg, "", buffer, BUFSIZ);
+ 	    (void) fprintf(fp, " (%s)", buffer);
+ 	}
+@@ -1475,8 +1475,8 @@ static int _XPrintDefaultError(
+ 		bext = ext;
+ 	}
+ 	if (bext)
+-	    sprintf(buffer, "%s.%d", bext->name,
+-		    event->error_code - bext->codes.first_error);
++	    snprintf(buffer, sizeof(buffer), "%s.%d", bext->name,
++                     event->error_code - bext->codes.first_error);
+ 	else
+ 	    strcpy(buffer, "Value");
+ 	XGetErrorDatabaseText(dpy, mtype, buffer, "", mesg, BUFSIZ);
+-- 
+1.7.9.2
+
+From 9399caf2c12cbe1ed56f4f6b368c5811cb5d0458 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 28 Feb 2013 20:04:25 -0800
+Subject: [PATCH:libX11 44/58] unifdef MUSTCOPY
+
+MUSTCOPY seems to have only been defined in <X11/Xmd.h> when building for
+CRAY, to handle missing some sizes of integer type.
+
+(mostly performed with unifdef, followed by some manual cleanup of
+ spacing/indenting in the remaining code)
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ include/X11/Xlibint.h        |    9 -----
+ modules/om/generic/omXChar.c |   91 +++++-------------------------------------
+ src/ChWindow.c               |    9 -----
+ src/ConfWind.c               |   13 ------
+ src/CrWindow.c               |    9 -----
+ src/DrArc.c                  |   12 ------
+ src/DrLine.c                 |   16 --------
+ src/DrPoint.c                |   15 -------
+ src/DrRect.c                 |   16 --------
+ src/FillArc.c                |   16 --------
+ src/FillRct.c                |   15 -------
+ src/Font.c                   |   44 +-------------------
+ src/FontInfo.c               |   24 +----------
+ src/MoveWin.c                |    9 -----
+ src/PolyTxt16.c              |   23 -----------
+ src/RestackWs.c              |    9 -----
+ src/StColor.c                |   12 ------
+ src/Text16.c                 |   23 -----------
+ src/XlibAsync.c              |    5 ---
+ 19 files changed, 11 insertions(+), 359 deletions(-)
+
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index c2232de..5a7c0ed 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -701,19 +701,10 @@ extern void _XRead32(
+ }
+ 
+ 
+-#ifdef MUSTCOPY
+-
+-/* for when 32-bit alignment is not good enough */
+-#define OneDataCard32(dpy,dstaddr,srcvar) \
+-  { dpy->bufptr -= 4; Data32 (dpy, (char *) &(srcvar), 4); }
+-
+-#else
+-
+ /* srcvar must be a variable for large architecture version */
+ #define OneDataCard32(dpy,dstaddr,srcvar) \
+   { *(CARD32 *)(dstaddr) = (srcvar); }
+ 
+-#endif /* MUSTCOPY */
+ 
+ typedef struct _XInternalAsync {
+     struct _XInternalAsync *next;
+diff --git a/modules/om/generic/omXChar.c b/modules/om/generic/omXChar.c
+index ff517d5..c9bbb8e 100644
+--- a/modules/om/generic/omXChar.c
++++ b/modules/om/generic/omXChar.c
+@@ -262,47 +262,6 @@ _XomGetFontSetFromCharSet(
+     return (FontSet) NULL;
+ }
+ 
+-#ifdef MUSTCOPY
+-static void
+-cs_to_xchar2b(
+-    register char *from,
+-    register XChar2b *to,
+-    register length)
+-{
+-    while (length-- > 0) {
+-	to->byte1 = *from++;
+-	to->byte2 = *from++;
+-	to++;
+-    }
+-}
+-
+-static void
+-cs_to_xchar2b_gl(
+-    register char *from,
+-    register XChar2b *to,
+-    register length)
+-{
+-    while (length-- > 0) {
+-	to->byte1 = *from++ & 0x7f;
+-	to->byte2 = *from++ & 0x7f;
+-	to++;
+-    }
+-}
+-
+-static void
+-cs_to_xchar2b_gr(
+-    register char *from,
+-    register XChar2b *to,
+-    register length)
+-{
+-    while (length-- > 0) {
+-	to->byte1 = *from++ | 0x80;
+-	to->byte2 = *from++ | 0x80;
+-	to++;
+-    }
+-}
+-#endif
+-
+ static void
+ shift_to_gl(
+     register char *text,
+@@ -358,10 +317,6 @@ _XomConvert(
+     XlcCharSet charset;
+     int length, cs_left, ret;
+     FontSet font_set;
+-#ifdef MUSTCOPY
+-    XChar2b *xchar2b;
+-    char *buf, buf_local[BUFSIZ];
+-#endif
+ 
+     cs = *to;
+     cs_left = *to_left;
+@@ -380,46 +335,18 @@ _XomConvert(
+ 
+     length = *to_left - cs_left;
+ 
+-#ifdef MUSTCOPY
+-    if (font_set->is_xchar2b) {
+-	buf = (length > BUFSIZ) ? Xmalloc(length) : buf_local;
+-	if (buf == NULL)
+-	    return -1;
+-	memcpy(buf, (char *) *to, length);
+-
+-	xchar2b = (XChar2b *) *to;
+-	length >>= 1;
+-
+-	if (font_set->side == charset->side)
+-	    cs_to_xchar2b(buf, xchar2b, length);
+-	else if (font_set->side == XlcGL)
+-	    cs_to_xchar2b_gl(buf, xchar2b, length);
++    if (font_set->side != charset->side) {
++	if (font_set->side == XlcGL)
++	    shift_to_gl(*to, length);
+ 	else if (font_set->side == XlcGR)
+-	    cs_to_xchar2b_gr(buf, xchar2b, length);
+-	else
+-	    cs_to_xchar2b(buf, xchar2b, length);
+-
+-	if (buf != buf_local)
+-	    Xfree(buf);
+-
+-	*to = (XPointer) (xchar2b + length);
+-	*to_left -= length;
+-    } else
+-#endif
+-    {
+-	if (font_set->side != charset->side) {
+-	    if (font_set->side == XlcGL)
+-		shift_to_gl(*to, length);
+-	    else if (font_set->side == XlcGR)
+-		shift_to_gr(*to, length);
+-	}
+-
+-	if (font_set->is_xchar2b)
+-	    length >>= 1;
+-	*to = cs;
+-	*to_left -= length;
++	    shift_to_gr(*to, length);
+     }
+ 
++    if (font_set->is_xchar2b)
++	length >>= 1;
++    *to = cs;
++    *to_left -= length;
++
+     *((XFontStruct **) args[0]) = font_set->font;
+     *((Bool *) args[1]) = font_set->is_xchar2b;
+     if(num_args >= 3){
+diff --git a/src/ChWindow.c b/src/ChWindow.c
+index fbd6e88..89a81e1 100644
+--- a/src/ChWindow.c
++++ b/src/ChWindow.c
+@@ -43,20 +43,11 @@ XResizeWindow(
+ 
+     req->window = w;
+     req->mask = CWWidth | CWHeight;
+-#ifdef MUSTCOPY
+-    {
+-	unsigned long lwidth = width, lheight = height;
+-    dpy->bufptr -= 8;
+-    Data32 (dpy, (long *) &lwidth, 4);	/* order dictated by values of */
+-    Data32 (dpy, (long *) &lheight, 4);	/* CWWidth and CWHeight */
+-    }
+-#else
+     {
+ 	CARD32 *valuePtr = (CARD32 *) NEXTPTR(req,xConfigureWindowReq);
+ 	*valuePtr++ = width;
+ 	*valuePtr = height;
+     }
+-#endif /* MUSTCOPY */
+     UnlockDisplay(dpy);
+     SyncHandle();
+     return 1;
+diff --git a/src/ConfWind.c b/src/ConfWind.c
+index dd55b44..eefce4d 100644
+--- a/src/ConfWind.c
++++ b/src/ConfWind.c
+@@ -44,18 +44,6 @@ XMoveResizeWindow(
+     GetReqExtra(ConfigureWindow, 16, req);
+     req->window = w;
+     req->mask = CWX | CWY | CWWidth | CWHeight;
+-#ifdef MUSTCOPY
+-    {
+-	long lx = x, ly = y;
+-	unsigned long lwidth = width, lheight = height;
+-
+-	dpy->bufptr -= 16;
+-	Data32 (dpy, (long *) &lx, 4);	/* order must match values of */
+-	Data32 (dpy, (long *) &ly, 4);	/* CWX, CWY, CWWidth, and CWHeight */
+-	Data32 (dpy, (long *) &lwidth, 4);
+-	Data32 (dpy, (long *) &lheight, 4);
+-    }
+-#else
+     {
+ 	register CARD32 *valuePtr =
+ 	  (CARD32 *) NEXTPTR(req,xConfigureWindowReq);
+@@ -64,7 +52,6 @@ XMoveResizeWindow(
+ 	*valuePtr++ = width;
+ 	*valuePtr   = height;
+     }
+-#endif /* MUSTCOPY */
+     UnlockDisplay(dpy);
+     SyncHandle();
+     return 1;
+diff --git a/src/CrWindow.c b/src/CrWindow.c
+index 23f7ddc..7b54601 100644
+--- a/src/CrWindow.c
++++ b/src/CrWindow.c
+@@ -57,20 +57,11 @@ Window XCreateSimpleWindow(
+     wid = req->wid = XAllocID(dpy);
+     req->mask = CWBackPixel | CWBorderPixel;
+ 
+-#ifdef MUSTCOPY
+-    {
+-	unsigned long lbackground = background, lborder = border;
+-	dpy->bufptr -= 8;
+-	Data32 (dpy, (long *) &lbackground, 4);
+-	Data32 (dpy, (long *) &lborder, 4);
+-    }
+-#else
+     {
+ 	register CARD32 *valuePtr = (CARD32 *) NEXTPTR(req,xCreateWindowReq);
+ 	*valuePtr++ = background;
+ 	*valuePtr = border;
+     }
+-#endif /* MUSTCOPY */
+ 
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/DrArc.c b/src/DrArc.c
+index 1dc4a07..d72fac9 100644
+--- a/src/DrArc.c
++++ b/src/DrArc.c
+@@ -49,12 +49,6 @@ XDrawArc(
+ {
+     register xPolyArcReq *req;
+     register xArc *arc;
+-#ifdef MUSTCOPY
+-    xArc arcdata;
+-    long len = SIZEOF(xArc);
+-
+-    arc = &arcdata;
+-#endif /* MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     FlushGC(dpy, gc);
+@@ -63,9 +57,7 @@ XDrawArc(
+     req->drawable = d;
+     req->gc = gc->gid;
+ 
+-#ifndef MUSTCOPY
+     arc = (xArc *) NEXTPTR(req,xPolyArcReq);
+-#endif /* MUSTCOPY */
+ 
+     arc->x = x;
+     arc->y = y;
+@@ -74,10 +66,6 @@ XDrawArc(
+     arc->angle1 = angle1;
+     arc->angle2 = angle2;
+ 
+-#ifdef MUSTCOPY
+-    dpy->bufptr -= SIZEOF(xArc);
+-    Data (dpy, (char *) arc, len);
+-#endif /* MUSTCOPY */
+ 
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/DrLine.c b/src/DrLine.c
+index 3786f59..dc82d5a 100644
+--- a/src/DrLine.c
++++ b/src/DrLine.c
+@@ -45,12 +45,6 @@ XDrawLine (
+     int y2)
+ {
+     register xSegment *segment;
+-#ifdef MUSTCOPY
+-    xSegment segmentdata;
+-    long len = SIZEOF(xSegment);
+-
+-    segment = &segmentdata;
+-#endif /* not MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     FlushGC(dpy, gc);
+@@ -67,21 +61,15 @@ XDrawLine (
+        && (((char *)dpy->bufptr - (char *)req) < (gc->values.line_width ?
+ 						  wsize : zsize)) ) {
+ 	 req->length += SIZEOF(xSegment) >> 2;
+-#ifndef MUSTCOPY
+          segment = (xSegment *) dpy->bufptr;
+ 	 dpy->bufptr += SIZEOF(xSegment);
+-#endif /* not MUSTCOPY */
+ 	 }
+ 
+     else {
+ 	GetReqExtra (PolySegment, SIZEOF(xSegment), req);
+ 	req->drawable = d;
+ 	req->gc = gc->gid;
+-#ifdef MUSTCOPY
+-	dpy->bufptr -= SIZEOF(xSegment);
+-#else
+ 	segment = (xSegment *) NEXTPTR(req,xPolySegmentReq);
+-#endif /* MUSTCOPY */
+ 	}
+ 
+     segment->x1 = x1;
+@@ -89,10 +77,6 @@ XDrawLine (
+     segment->x2 = x2;
+     segment->y2 = y2;
+ 
+-#ifdef MUSTCOPY
+-    Data (dpy, (char *) &segmentdata, len);
+-#endif /* MUSTCOPY */
+-
+     UnlockDisplay(dpy);
+     SyncHandle();
+     }
+diff --git a/src/DrPoint.c b/src/DrPoint.c
+index 5c89b5c..f0332e8 100644
+--- a/src/DrPoint.c
++++ b/src/DrPoint.c
+@@ -42,12 +42,6 @@ XDrawPoint(
+     int y) /* INT16 */
+ {
+     xPoint *point;
+-#ifdef MUSTCOPY
+-    xPoint pointdata;
+-    long len = SIZEOF(xPoint);
+-
+-    point = &pointdata;
+-#endif /* MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     FlushGC(dpy, gc);
+@@ -65,10 +59,8 @@ XDrawPoint(
+        && ((dpy->bufptr + SIZEOF(xPoint)) <= dpy->bufmax)
+        && (((char *)dpy->bufptr - (char *)req) < size) ) {
+ 	 req->length += SIZEOF(xPoint) >> 2;
+-#ifndef MUSTCOPY
+          point = (xPoint *) dpy->bufptr;
+ 	 dpy->bufptr += SIZEOF(xPoint);
+-#endif /* not MUSTCOPY */
+ 	 }
+ 
+     else {
+@@ -76,19 +68,12 @@ XDrawPoint(
+ 	req->drawable = d;
+ 	req->gc = gc->gid;
+ 	req->coordMode = CoordModeOrigin;
+-#ifdef MUSTCOPY
+-	dpy->bufptr -= SIZEOF(xPoint);
+-#else
+ 	point = (xPoint *) NEXTPTR(req,xPolyPointReq);
+-#endif /* MUSTCOPY */
+ 	}
+ 
+     point->x = x;
+     point->y = y;
+ 
+-#ifdef MUSTCOPY
+-    Data (dpy, (char *) point, len);
+-#endif /* MUSTCOPY */
+     }
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/DrRect.c b/src/DrRect.c
+index dadd55e..d9141ee 100644
+--- a/src/DrRect.c
++++ b/src/DrRect.c
+@@ -45,12 +45,6 @@ XDrawRectangle(
+     unsigned int height) /* CARD16 */
+ {
+     xRectangle *rect;
+-#ifdef MUSTCOPY
+-    xRectangle rectdata;
+-    long len = SIZEOF(xRectangle);
+-
+-    rect = &rectdata;
+-#endif /* MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     FlushGC(dpy, gc);
+@@ -67,21 +61,15 @@ XDrawRectangle(
+        && (((char *)dpy->bufptr - (char *)req) < (gc->values.line_width ?
+ 						  wsize : zsize)) ) {
+ 	 req->length += SIZEOF(xRectangle) >> 2;
+-#ifndef MUSTCOPY
+          rect = (xRectangle *) dpy->bufptr;
+ 	 dpy->bufptr += SIZEOF(xRectangle);
+-#endif /* not MUSTCOPY */
+ 	 }
+ 
+     else {
+ 	GetReqExtra(PolyRectangle, SIZEOF(xRectangle), req);
+ 	req->drawable = d;
+ 	req->gc = gc->gid;
+-#ifdef MUSTCOPY
+-	dpy->bufptr -= SIZEOF(xRectangle);
+-#else
+ 	rect = (xRectangle *) NEXTPTR(req,xPolyRectangleReq);
+-#endif /* MUSTCOPY */
+ 	}
+ 
+     rect->x = x;
+@@ -89,10 +77,6 @@ XDrawRectangle(
+     rect->width = width;
+     rect->height = height;
+ 
+-#ifdef MUSTCOPY
+-    Data (dpy, (char *) rect, len);	/* subtracted bufptr up above */
+-#endif /* MUSTCOPY */
+-
+     }
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/FillArc.c b/src/FillArc.c
+index 0f1ad02..c67f977 100644
+--- a/src/FillArc.c
++++ b/src/FillArc.c
+@@ -46,12 +46,6 @@ XFillArc(
+     int angle2) /* INT16 */
+ {
+     xArc *arc;
+-#ifdef MUSTCOPY
+-    xArc arcdata;
+-    long len = SIZEOF(xArc);
+-
+-    arc = &arcdata;
+-#endif /* MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     FlushGC(dpy, gc);
+@@ -67,10 +61,8 @@ XFillArc(
+        && ((dpy->bufptr + SIZEOF(xArc)) <= dpy->bufmax)
+        && (((char *)dpy->bufptr - (char *)req) < size) ) {
+ 	 req->length += SIZEOF(xArc) >> 2;
+-#ifndef MUSTCOPY
+          arc = (xArc *) dpy->bufptr;
+ 	 dpy->bufptr += SIZEOF(xArc);
+-#endif /* not MUSTCOPY */
+ 	 }
+ 
+     else {
+@@ -78,11 +70,7 @@ XFillArc(
+ 
+ 	req->drawable = d;
+ 	req->gc = gc->gid;
+-#ifdef MUSTCOPY
+-	dpy->bufptr -= SIZEOF(xArc);
+-#else
+ 	arc = (xArc *) NEXTPTR(req,xPolyFillArcReq);
+-#endif /* MUSTCOPY */
+ 	}
+     arc->x = x;
+     arc->y = y;
+@@ -91,10 +79,6 @@ XFillArc(
+     arc->angle1 = angle1;
+     arc->angle2 = angle2;
+ 
+-#ifdef MUSTCOPY
+-    Data (dpy, (char *) arc, len);
+-#endif /* MUSTCOPY */
+-
+     }
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/FillRct.c b/src/FillRct.c
+index 4cd104c..3ca9afe 100644
+--- a/src/FillRct.c
++++ b/src/FillRct.c
+@@ -44,12 +44,6 @@ XFillRectangle(
+     unsigned int height) /* CARD16 */
+ {
+     xRectangle *rect;
+-#ifdef MUSTCOPY
+-    xRectangle rectdata;
+-    long len = SIZEOF(xRectangle);
+-
+-    rect = &rectdata;
+-#endif /* MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     FlushGC(dpy, gc);
+@@ -66,30 +60,21 @@ XFillRectangle(
+        && ((dpy->bufptr + SIZEOF(xRectangle)) <= dpy->bufmax)
+        && (((char *)dpy->bufptr - (char *)req) < size) ) {
+ 	 req->length += SIZEOF(xRectangle) >> 2;
+-#ifndef MUSTCOPY
+          rect = (xRectangle *) dpy->bufptr;
+ 	 dpy->bufptr += SIZEOF(xRectangle);
+-#endif /* not MUSTCOPY */
+ 	 }
+ 
+     else {
+ 	GetReqExtra(PolyFillRectangle, SIZEOF(xRectangle), req);
+ 	req->drawable = d;
+ 	req->gc = gc->gid;
+-#ifdef MUSTCOPY
+-	dpy->bufptr -= SIZEOF(xRectangle);
+-#else
+ 	rect = (xRectangle *) NEXTPTR(req,xPolyFillRectangleReq);
+-#endif /* MUSTCOPY */
+ 	}
+     rect->x = x;
+     rect->y = y;
+     rect->width = width;
+     rect->height = height;
+ 
+-#ifdef MUSTCOPY
+-    Data (dpy, (char *) rect, len);
+-#endif /* MUSTCOPY */
+     }
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/Font.c b/src/Font.c
+index 7f56f68..25e1790 100644
+--- a/src/Font.c
++++ b/src/Font.c
+@@ -32,7 +32,7 @@ authorization from the X Consortium and the XFree86 Project.
+ #endif
+ #include "Xlibint.h"
+ 
+-#if defined(XF86BIGFONT) && !defined(MUSTCOPY)
++#if defined(XF86BIGFONT)
+ #define USE_XF86BIGFONT
+ #endif
+ #ifdef USE_XF86BIGFONT
+@@ -228,31 +228,9 @@ _XQueryFont (
+     fs->ascent 			= cvtINT16toInt (reply.fontAscent);
+     fs->descent 		= cvtINT16toInt (reply.fontDescent);
+ 
+-#ifdef MUSTCOPY
+-    {
+-	xCharInfo *xcip;
+-
+-	xcip = (xCharInfo *) &reply.minBounds;
+-	fs->min_bounds.lbearing = cvtINT16toShort(xcip->leftSideBearing);
+-	fs->min_bounds.rbearing = cvtINT16toShort(xcip->rightSideBearing);
+-	fs->min_bounds.width = cvtINT16toShort(xcip->characterWidth);
+-	fs->min_bounds.ascent = cvtINT16toShort(xcip->ascent);
+-	fs->min_bounds.descent = cvtINT16toShort(xcip->descent);
+-	fs->min_bounds.attributes = xcip->attributes;
+-
+-	xcip = (xCharInfo *) &reply.maxBounds;
+-	fs->max_bounds.lbearing = cvtINT16toShort(xcip->leftSideBearing);
+-	fs->max_bounds.rbearing =  cvtINT16toShort(xcip->rightSideBearing);
+-	fs->max_bounds.width =  cvtINT16toShort(xcip->characterWidth);
+-	fs->max_bounds.ascent =  cvtINT16toShort(xcip->ascent);
+-	fs->max_bounds.descent =  cvtINT16toShort(xcip->descent);
+-	fs->max_bounds.attributes = xcip->attributes;
+-    }
+-#else
+     /* XXX the next two statements won't work if short isn't 16 bits */
+     fs->min_bounds = * (XCharStruct *) &reply.minBounds;
+     fs->max_bounds = * (XCharStruct *) &reply.maxBounds;
+-#endif /* MUSTCOPY */
+ 
+     fs->n_properties = reply.nFontProps;
+     /*
+@@ -276,7 +254,6 @@ _XQueryFont (
+      * If no characters in font, then it is a bad font, but
+      * shouldn't try to read nothing.
+      */
+-    /* have to unpack charinfos on some machines (CRAY) */
+     fs->per_char = NULL;
+     if (reply.nCharInfos > 0){
+ 	nbytes = reply.nCharInfos * sizeof(XCharStruct);
+@@ -288,27 +265,8 @@ _XQueryFont (
+ 	    return (XFontStruct *)NULL;
+ 	}
+ 
+-#ifdef MUSTCOPY
+-	{
+-	    register XCharStruct *cs = fs->per_char;
+-	    register int i;
+-
+-	    for (i = 0; i < reply.nCharInfos; i++, cs++) {
+-		xCharInfo xcip;
+-
+-		_XRead(dpy, (char *)&xcip, SIZEOF(xCharInfo));
+-		cs->lbearing = cvtINT16toShort(xcip.leftSideBearing);
+-		cs->rbearing = cvtINT16toShort(xcip.rightSideBearing);
+-		cs->width =  cvtINT16toShort(xcip.characterWidth);
+-		cs->ascent =  cvtINT16toShort(xcip.ascent);
+-		cs->descent =  cvtINT16toShort(xcip.descent);
+-		cs->attributes = xcip.attributes;
+-	    }
+-	}
+-#else
+ 	nbytes = reply.nCharInfos * SIZEOF(xCharInfo);
+ 	_XRead16 (dpy, (char *)fs->per_char, nbytes);
+-#endif
+     }
+ 
+     /* call out to any extensions interested */
+diff --git a/src/FontInfo.c b/src/FontInfo.c
+index 97de40e..fb296b8 100644
+--- a/src/FontInfo.c
++++ b/src/FontInfo.c
+@@ -29,7 +29,7 @@ in this Software without prior written authorization from The Open Group.
+ #endif
+ #include "Xlibint.h"
+ 
+-#if defined(XF86BIGFONT) && !defined(MUSTCOPY)
++#if defined(XF86BIGFONT)
+ #define USE_XF86BIGFONT
+ #endif
+ #ifdef USE_XF86BIGFONT
+@@ -133,31 +133,9 @@ XFontStruct **info)	/* RETURN */
+ 	fs->ascent 		= cvtINT16toInt (reply.fontAscent);
+ 	fs->descent 		= cvtINT16toInt (reply.fontDescent);
+ 
+-#ifdef MUSTCOPY
+-	{
+-	    xCharInfo *xcip;
+-
+-	    xcip = (xCharInfo *) &reply.minBounds;
+-	    fs->min_bounds.lbearing = xcip->leftSideBearing;
+-	    fs->min_bounds.rbearing = xcip->rightSideBearing;
+-	    fs->min_bounds.width = xcip->characterWidth;
+-	    fs->min_bounds.ascent = xcip->ascent;
+-	    fs->min_bounds.descent = xcip->descent;
+-	    fs->min_bounds.attributes = xcip->attributes;
+-
+-	    xcip = (xCharInfo *) &reply.maxBounds;
+-	    fs->max_bounds.lbearing = xcip->leftSideBearing;
+-	    fs->max_bounds.rbearing = xcip->rightSideBearing;
+-	    fs->max_bounds.width = xcip->characterWidth;
+-	    fs->max_bounds.ascent = xcip->ascent;
+-	    fs->max_bounds.descent = xcip->descent;
+-	    fs->max_bounds.attributes = xcip->attributes;
+-	}
+-#else
+ 	/* XXX the next two statements won't work if short isn't 16 bits */
+ 	fs->min_bounds = * (XCharStruct *) &reply.minBounds;
+ 	fs->max_bounds = * (XCharStruct *) &reply.maxBounds;
+-#endif /* MUSTCOPY */
+ 
+ 	fs->n_properties = reply.nFontProps;
+ 	if (fs->n_properties > 0) {
+diff --git a/src/MoveWin.c b/src/MoveWin.c
+index 3cd75e1..2eb2283 100644
+--- a/src/MoveWin.c
++++ b/src/MoveWin.c
+@@ -44,20 +44,11 @@ XMoveWindow (
+     req->window = w;
+     req->mask = CWX | CWY;
+ 
+-#ifdef MUSTCOPY
+-    {
+-	long lx = (long) x, ly = (long) y;
+-	dpy->bufptr -= 8;
+-	Data32 (dpy, (long *) &lx, 4);	/* order dictated by CWX and CWY */
+-	Data32 (dpy, (long *) &ly, 4);
+-    }
+-#else
+     {
+ 	CARD32 *valuePtr = (CARD32 *) NEXTPTR(req,xConfigureWindowReq);
+ 	*valuePtr++ = x;
+ 	*valuePtr = y;
+     }
+-#endif /* MUSTCOPY */
+     UnlockDisplay(dpy);
+     SyncHandle();
+     return 1;
+diff --git a/src/PolyTxt16.c b/src/PolyTxt16.c
+index dd65818..2e4be16 100644
+--- a/src/PolyTxt16.c
++++ b/src/PolyTxt16.c
+@@ -168,18 +168,7 @@ XDrawText16(
+ 		}
+ 	    	elt->len = 254;
+ 
+-#if defined(MUSTCOPY) || defined(MUSTCOPY2B)
+-		{
+-		    register int i;
+-		    register unsigned char *cp;
+-		    for (i = 0, cp = ((unsigned char *)elt) + 2; i < 254; i++) {
+-			*cp++ = CharacterOffset[i].byte1;
+-			*cp++ = CharacterOffset[i].byte2;
+-		    }
+-		}
+-#else
+ 		memcpy ((char *) (elt + 1), (char *)CharacterOffset, 254 * 2);
+-#endif
+ 		PartialNChars = PartialNChars - 254;
+ 		CharacterOffset += 254;
+ 
+@@ -213,21 +202,9 @@ XDrawText16(
+ 		}
+ 	    	elt->len = PartialNChars;
+ 
+-#if defined(MUSTCOPY) || defined(MUSTCOPY2B)
+-		{
+-		    register int i;
+-		    register unsigned char *cp;
+-		    for (i = 0, cp = ((unsigned char *)elt) + 2; i < PartialNChars;
+-			 i++) {
+-			*cp++ = CharacterOffset[i].byte1;
+-			*cp++ = CharacterOffset[i].byte2;
+-		    }
+-		}
+-#else
+ 		memcpy ((char *) (elt + 1), (char *)CharacterOffset,
+ 			PartialNChars *
+ 2);
+-#endif
+ 	    }
+ 	}
+     item++;
+diff --git a/src/RestackWs.c b/src/RestackWs.c
+index 1dba3c8..52391ec 100644
+--- a/src/RestackWs.c
++++ b/src/RestackWs.c
+@@ -36,9 +36,6 @@ XRestackWindows (
+     int n)
+ {
+     int i = 0;
+-#ifdef MUSTCOPY
+-    unsigned long val = Below;		/* needed for macro below */
+-#endif
+ 
+     LockDisplay(dpy);
+     while (windows++, ++i < n) {
+@@ -47,18 +44,12 @@ XRestackWindows (
+     	GetReqExtra (ConfigureWindow, 8, req);
+ 	req->window = *windows;
+ 	req->mask = CWSibling | CWStackMode;
+-#ifdef MUSTCOPY
+-	dpy->bufptr -= 8;
+-	Data32 (dpy, (long *)(windows-1), 4);
+-	Data32 (dpy, (long *)&val, 4);
+-#else
+ 	{
+ 	    register CARD32 *values = (CARD32 *)
+ 	      NEXTPTR(req,xConfigureWindowReq);
+ 	    *values++ = *(windows-1);
+ 	    *values   = Below;
+ 	}
+-#endif /* MUSTCOPY */
+ 	}
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/StColor.c b/src/StColor.c
+index 19f2a4b..d5a217f 100644
+--- a/src/StColor.c
++++ b/src/StColor.c
+@@ -37,21 +37,13 @@ XStoreColor(
+ {
+     xColorItem *citem;
+     register xStoreColorsReq *req;
+-#ifdef MUSTCOPY
+-    xColorItem citemdata;
+-    long len = SIZEOF(xColorItem);
+-
+-    citem = &citemdata;
+-#endif /* MUSTCOPY */
+ 
+     LockDisplay(dpy);
+     GetReqExtra(StoreColors, SIZEOF(xColorItem), req); /* assume size is 4*n */
+ 
+     req->cmap = cmap;
+ 
+-#ifndef MUSTCOPY
+     citem = (xColorItem *) NEXTPTR(req,xStoreColorsReq);
+-#endif /* not MUSTCOPY */
+ 
+     citem->pixel = def->pixel;
+     citem->red = def->red;
+@@ -59,10 +51,6 @@ XStoreColor(
+     citem->blue = def->blue;
+     citem->flags = def->flags; /* do_red, do_green, do_blue */
+ 
+-#ifdef MUSTCOPY
+-    dpy->bufptr -= SIZEOF(xColorItem);		/* adjust for GetReqExtra */
+-    Data (dpy, (char *) citem, len);
+-#endif /* MUSTCOPY */
+ 
+     UnlockDisplay(dpy);
+     SyncHandle();
+diff --git a/src/Text16.c b/src/Text16.c
+index 5a66a2b..008a3f7 100644
+--- a/src/Text16.c
++++ b/src/Text16.c
+@@ -82,18 +82,7 @@ XDrawString16(
+ 	    BufAlloc (xTextElt *, elt, nbytes);
+ 	    elt->delta = 0;
+ 	    elt->len = 254;
+-#if defined(MUSTCOPY) || defined(MUSTCOPY2B)
+-	    {
+-		register int i;
+-		register unsigned char *cp;
+-		for (i = 0, cp = ((unsigned char *)elt) + 2; i < 254; i++) {
+-		    *cp++ = CharacterOffset[i].byte1;
+-		    *cp++ = CharacterOffset[i].byte2;
+-		}
+-	    }
+-#else
+             memcpy (((char *) elt) + 2, (char *)CharacterOffset, 254 * 2);
+-#endif
+ 	    PartialNChars = PartialNChars - 254;
+ 	    CharacterOffset += 254;
+ 	}
+@@ -104,19 +93,7 @@ XDrawString16(
+ 	    BufAlloc (xTextElt *, elt, nbytes);
+ 	    elt->delta = 0;
+ 	    elt->len = PartialNChars;
+-#if defined(MUSTCOPY) || defined(MUSTCOPY2B)
+-	    {
+-		register int i;
+-		register unsigned char *cp;
+-		for (i = 0, cp = ((unsigned char *)elt) + 2; i < PartialNChars;
+-		     i++) {
+-		    *cp++ = CharacterOffset[i].byte1;
+-		    *cp++ = CharacterOffset[i].byte2;
+-		}
+-	    }
+-#else
+             memcpy(((char *)elt) + 2, (char *)CharacterOffset, PartialNChars * 2);
+-#endif
+ 	 }
+     }
+ 
+diff --git a/src/XlibAsync.c b/src/XlibAsync.c
+index b17135c..eb2b819 100644
+--- a/src/XlibAsync.c
++++ b/src/XlibAsync.c
+@@ -100,11 +100,6 @@ _XGetAsyncReply(
+ 	    _XRead(dpy, replbuf + len, size - len);
+ 	    buf = replbuf;
+ 	    len = size;
+-#ifdef MUSTCOPY
+-	} else {
+-	    memcpy(replbuf, buf, size);
+-	    buf = replbuf;
+-#endif
+ 	}
+ 
+ 	if (discard && rep->generic.length > extra &&
+-- 
+1.7.9.2
+
+From ca106eb03e5f5468df8033300c5caae3d3c6936b Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 28 Feb 2013 20:04:25 -0800
+Subject: [PATCH:libX11 45/58] unifdef WORD64
+
+WORD64 seems to have only been defined in <X11/Xmd.h> when building for
+CRAY, to handle int being a 64-bit value (ILP64, not LP64) and having
+64-bit alignment requirements.
+
+It hadn't been fully supported even before autotooling, as can be
+seen by removed code such as:
+
+ #ifdef WORD64
+ _XkbWriteCopyData32 Not Implemented Yet for sizeof(int)==8
+ #endif
+
+(mostly performed with unifdef, followed by some manual cleanup of
+ the remaining code)
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ include/X11/Xlibint.h |   37 +-------
+ src/ImUtil.c          |   14 +--
+ src/LiHosts.c         |    7 --
+ src/Macros.c          |    5 --
+ src/Quarks.c          |    4 -
+ src/SendEvent.c       |    5 --
+ src/XlibInt.c         |  236 -------------------------------------------------
+ src/xkb/XKBNames.c    |   56 ------------
+ src/xkb/XKBRdBuf.c    |   28 ------
+ src/xkb/XKBlibint.h   |    2 +-
+ 10 files changed, 4 insertions(+), 390 deletions(-)
+
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index 5a7c0ed..48323f7 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -408,25 +408,8 @@ extern LockInfoPtr _Xglobal_lock;
+  * X Protocol packetizing macros.
+  */
+ 
+-/*   Need to start requests on 64 bit word boundaries
+- *   on a CRAY computer so add a NoOp (127) if needed.
+- *   A character pointer on a CRAY computer will be non-zero
+- *   after shifting right 61 bits of it is not pointing to
+- *   a word boundary.
+- */
+-#ifdef WORD64
+-#define WORD64ALIGN if ((long)dpy->bufptr >> 61) {\
+-           dpy->last_req = dpy->bufptr;\
+-           *(dpy->bufptr)   = X_NoOperation;\
+-           *(dpy->bufptr+1) =  0;\
+-           *(dpy->bufptr+2) =  0;\
+-           *(dpy->bufptr+3) =  1;\
+-             dpy->request++;\
+-             dpy->bufptr += 4;\
+-         }
+-#else /* else does not require alignment on 64-bit boundaries */
++/* Leftover from CRAY support - was defined empty on all non-Cray systems */
+ #define WORD64ALIGN
+-#endif /* WORD64 */
+ 
+ /**
+  * Return a len-sized request buffer for the request type. This function may
+@@ -510,18 +493,6 @@ extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
+ 	req = (xReq *) _XGetRequest(dpy, X_/**/name, SIZEOF(xReq))
+ #endif
+ 
+-#ifdef WORD64
+-#define MakeBigReq(req,n) \
+-    { \
+-    char _BRdat[4]; \
+-    unsigned long _BRlen = req->length - 1; \
+-    req->length = 0; \
+-    memcpy(_BRdat, ((char *)req) + (_BRlen << 2), 4); \
+-    memmove(((char *)req) + 8, ((char *)req) + 4, _BRlen << 2); \
+-    memcpy(((char *)req) + 4, _BRdat, 4); \
+-    Data32(dpy, (long *)&_BRdat, 4); \
+-    }
+-#else
+ #ifdef LONG64
+ #define MakeBigReq(req,n) \
+     { \
+@@ -545,7 +516,6 @@ extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
+     Data32(dpy, &_BRdat, 4); \
+     }
+ #endif
+-#endif
+ 
+ #ifndef __clang_analyzer__
+ #define SetReqLen(req,n,badlen) \
+@@ -609,10 +579,6 @@ extern void _XFlushGCCache(Display *dpy, GC gc);
+     memset(ptr, '\0', n); \
+     dpy->bufptr += (n);
+ 
+-#ifdef WORD64
+-#define Data16(dpy, data, len) _XData16(dpy, (_Xconst short *)data, len)
+-#define Data32(dpy, data, len) _XData32(dpy, (_Xconst long *)data, len)
+-#else
+ #define Data16(dpy, data, len) Data((dpy), (_Xconst char *)(data), (len))
+ #define _XRead16Pad(dpy, data, len) _XReadPad((dpy), (char *)(data), (len))
+ #define _XRead16(dpy, data, len) _XRead((dpy), (char *)(data), (len))
+@@ -632,7 +598,6 @@ extern void _XRead32(
+ #define Data32(dpy, data, len) Data((dpy), (_Xconst char *)(data), (len))
+ #define _XRead32(dpy, data, len) _XRead((dpy), (char *)(data), (len))
+ #endif
+-#endif /* not WORD64 */
+ 
+ #define PackData16(dpy,data,len) Data16 (dpy, data, len)
+ #define PackData32(dpy,data,len) Data32 (dpy, data, len)
+diff --git a/src/ImUtil.c b/src/ImUtil.c
+index 3164d43..fa8d464 100644
+--- a/src/ImUtil.c
++++ b/src/ImUtil.c
+@@ -528,9 +528,7 @@ static unsigned long _XGetPixel (
+ 	  return (pixel & low_bits_table[ximage->depth]);
+ }
+ 
+-#ifndef WORD64
+ static CARD32 const byteorderpixel = MSBFirst << 24;
+-#endif
+ 
+ static unsigned long _XGetPixel32 (
+     register XImage *ximage,
+@@ -543,12 +541,9 @@ static unsigned long _XGetPixel32 (
+ 	if ((ximage->format == ZPixmap) && (ximage->bits_per_pixel == 32)) {
+ 	    addr = &((unsigned char *)ximage->data)
+ 			[y * ximage->bytes_per_line + (x << 2)];
+-#ifndef WORD64
+ 	    if (*((const char *)&byteorderpixel) == ximage->byte_order)
+ 		pixel = *((CARD32 *)addr);
+-	    else
+-#endif
+-	    if (ximage->byte_order == MSBFirst)
++	    else if (ximage->byte_order == MSBFirst)
+ 		pixel = ((unsigned long)addr[0] << 24 |
+ 			 (unsigned long)addr[1] << 16 |
+ 			 (unsigned long)addr[2] << 8 |
+@@ -734,12 +729,9 @@ static int _XPutPixel32 (
+ 	if ((ximage->format == ZPixmap) && (ximage->bits_per_pixel == 32)) {
+ 	    addr = &((unsigned char *)ximage->data)
+ 			[y * ximage->bytes_per_line + (x << 2)];
+-#ifndef WORD64
+ 	    if (*((const char *)&byteorderpixel) == ximage->byte_order)
+ 		*((CARD32 *)addr) = pixel;
+-	    else
+-#endif
+-	    if (ximage->byte_order == MSBFirst) {
++	    else if (ximage->byte_order == MSBFirst) {
+ 		addr[0] = pixel >> 24;
+ 		addr[1] = pixel >> 16;
+ 		addr[2] = pixel >> 8;
+@@ -997,7 +989,6 @@ _XAddPixel (
+ 	    x = ximage->bytes_per_line * ximage->height;
+ 	    while (--x >= 0)
+ 		*dp++ += value;
+-#ifndef WORD64
+ 	} else if ((ximage->format == ZPixmap) &&
+ 		   (ximage->bits_per_pixel == 16) &&
+ 		   (*((const char *)&byteorderpixel) == ximage->byte_order)) {
+@@ -1012,7 +1003,6 @@ _XAddPixel (
+ 	    x = (ximage->bytes_per_line >> 2) * ximage->height;
+ 	    while (--x >= 0)
+ 		*dp++ += value;
+-#endif
+ 	} else {
+ 	    for (y = ximage->height; --y >= 0; ) {
+ 		for (x = ximage->width; --x >= 0; ) {
+diff --git a/src/LiHosts.c b/src/LiHosts.c
+index 5ae70d5..0f5e837 100644
+--- a/src/LiHosts.c
++++ b/src/LiHosts.c
+@@ -111,15 +111,8 @@ XHostAddress *XListHosts (
+ 	_XRead (dpy, (char *) buf, nbytes);
+ 
+ 	for (i = 0; i < reply.nHosts; i++) {
+-#ifdef WORD64
+-	    xHostEntry xhe;
+-	    memcpy((char *)&xhe, bp, SIZEOF(xHostEntry));
+-	    op->family = xhe.family;
+-	    op->length = xhe.length;
+-#else
+ 	    op->family = ((xHostEntry *) bp)->family;
+ 	    op->length =((xHostEntry *) bp)->length;
+-#endif
+ 	    if (op->family == FamilyServerInterpreted) {
+ 		char *tp = (char *) (bp + SIZEOF(xHostEntry));
+ 		char *vp = memchr(tp, 0, op->length);
+diff --git a/src/Macros.c b/src/Macros.c
+index 42d4cf1..cfc083a 100644
+--- a/src/Macros.c
++++ b/src/Macros.c
+@@ -137,12 +137,7 @@ int XImageByteOrder(Display *dpy) { return (ImageByteOrder(dpy)); }
+ 
+ unsigned long XNextRequest(Display *dpy)
+ {
+-#ifdef WORD64
+-    WORD64ALIGN
+-    return dpy->request + 1;
+-#else
+     return (NextRequest(dpy));
+-#endif
+ }
+ 
+ unsigned long XLastKnownRequestProcessed(Display *dpy)
+diff --git a/src/Quarks.c b/src/Quarks.c
+index 7a704b1..4eb90c5 100644
+--- a/src/Quarks.c
++++ b/src/Quarks.c
+@@ -131,10 +131,8 @@ static char *permalloc(unsigned int length)
+     return(ret);
+ }
+ 
+-#ifndef WORD64
+ typedef struct {char a; double b;} TestType1;
+ typedef struct {char a; unsigned long b;} TestType2;
+-#endif
+ 
+ #ifdef XTHREADS
+ static char *_Xpermalloc(unsigned int length);
+@@ -157,7 +155,6 @@ char *Xpermalloc(unsigned int length)
+     int i;
+ 
+     if (neverFreeTableSize && length < NEVERFREETABLESIZE) {
+-#ifndef WORD64
+ 	if ((sizeof(TestType1) !=
+ 	     (sizeof(TestType2) - sizeof(unsigned long) + sizeof(double))) &&
+ 	    !(length & (DALIGN-1)) &&
+@@ -165,7 +162,6 @@ char *Xpermalloc(unsigned int length)
+ 	    neverFreeTableSize -= DALIGN - i;
+ 	    neverFreeTable += DALIGN - i;
+ 	} else
+-#endif
+ 	    if ((i = (NEVERFREETABLESIZE - neverFreeTableSize) & (WALIGN-1))) {
+ 		neverFreeTableSize -= WALIGN - i;
+ 		neverFreeTable += WALIGN - i;
+diff --git a/src/SendEvent.c b/src/SendEvent.c
+index cc8bd5a..1de9860 100644
+--- a/src/SendEvent.c
++++ b/src/SendEvent.c
+@@ -67,12 +67,7 @@ XSendEvent(
+ 	req->destination = w;
+ 	req->propagate = propagate;
+ 	req->eventMask = event_mask;
+-#ifdef WORD64
+-	/* avoid quad-alignment problems */
+-	memcpy ((char *) req->eventdata, (char *) &ev, SIZEOF(xEvent));
+-#else
+ 	req->event = ev;
+-#endif /* WORD64 */
+     }
+ 
+     UnlockDisplay(dpy);
+diff --git a/src/XlibInt.c b/src/XlibInt.c
+index c436842..1c964fd 100644
+--- a/src/XlibInt.c
++++ b/src/XlibInt.c
+@@ -293,124 +293,6 @@ void _XRead32(
+ }
+ #endif /* LONG64 */
+ 
+-#ifdef WORD64
+-
+-/*
+- * XXX This is a *really* stupid way of doing this....
+- * PACKBUFFERSIZE must be a multiple of 4.
+- */
+-
+-#define PACKBUFFERSIZE 4096
+-
+-
+-/*
+- * _XRead32 - Read bytes from the socket unpacking each 32 bits
+- *            into a long (64 bits on a CRAY computer).
+- *
+- */
+-static void _doXRead32(
+-        register Display *dpy,
+-        register long *data
+-        register long size,
+-	register char *packbuffer)
+-{
+- long *lpack,*lp;
+- long mask32 = 0x00000000ffffffff;
+- long maskw, nwords, i, bits;
+-
+-        _XReadPad (dpy, packbuffer, size);
+-
+-        lp = data;
+-        lpack = (long *) packbuffer;
+-        nwords = size >> 2;
+-        bits = 32;
+-
+-        for(i=0;i<nwords;i++){
+-            maskw = mask32 << bits;
+-           *lp++ = ( *lpack & maskw ) >> bits;
+-            bits = bits ^32;
+-            if(bits){
+-               lpack++;
+-            }
+-        }
+-}
+-
+-void _XRead32(
+-    Display *dpy,
+-    long *data,
+-    long len)
+-{
+-    char packbuffer[PACKBUFFERSIZE];
+-    unsigned nunits = PACKBUFFERSIZE >> 2;
+-
+-    for (; len > PACKBUFFERSIZE; len -= PACKBUFFERSIZE, data += nunits) {
+-	_doXRead32 (dpy, data, PACKBUFFERSIZE, packbuffer);
+-    }
+-    if (len) _doXRead32 (dpy, data, len, packbuffer);
+-}
+-
+-
+-
+-/*
+- * _XRead16 - Read bytes from the socket unpacking each 16 bits
+- *            into a long (64 bits on a CRAY computer).
+- *
+- */
+-static _doXRead16(
+-        register Display *dpy,
+-        register short *data,
+-        register long size,
+-	char *packbuffer)
+-{
+-	long *lpack,*lp;
+-	long mask16 = 0x000000000000ffff;
+-	long maskw, nwords, i, bits;
+-
+-        (void) _XRead(dpy,packbuffer,size);	/* don't do a padded read... */
+-
+-        lp = (long *) data;
+-        lpack = (long *) packbuffer;
+-        nwords = size >> 1;  /* number of 16 bit words to be unpacked */
+-        bits = 48;
+-        for(i=0;i<nwords;i++){
+-            maskw = mask16 << bits;
+-           *lp++ = ( *lpack & maskw ) >> bits;
+-            bits -= 16;
+-            if(bits < 0){
+-               lpack++;
+-               bits = 48;
+-            }
+-        }
+-}
+-
+-void _XRead16(
+-    Display *dpy,
+-    short *data,
+-    long len)
+-{
+-    char packbuffer[PACKBUFFERSIZE];
+-    unsigned nunits = PACKBUFFERSIZE >> 1;
+-
+-    for (; len > PACKBUFFERSIZE; len -= PACKBUFFERSIZE, data += nunits) {
+-	_doXRead16 (dpy, data, PACKBUFFERSIZE, packbuffer);
+-    }
+-    if (len) _doXRead16 (dpy, data, len, packbuffer);
+-}
+-
+-void _XRead16Pad(
+-    Display *dpy,
+-    short *data,
+-    long size)
+-{
+-    int slop = (size & 3);
+-    short slopbuf[3];
+-
+-    _XRead16 (dpy, data, size);
+-    if (slop > 0) {
+-	_XRead16 (dpy, slopbuf, 4 - slop);
+-    }
+-}
+-#endif /* WORD64 */
+ 
+ /*
+  * The hard part about this is that we only get 16 bits from a reply.
+@@ -1764,122 +1646,6 @@ _XData32(
+ }
+ #endif /* LONG64 */
+ 
+-#ifdef WORD64
+-
+-/*
+- * XXX This is a *really* stupid way of doing this.  It should just use
+- * dpy->bufptr directly, taking into account where in the word it is.
+- */
+-
+-/*
+- * Data16 - Place 16 bit data in the buffer.
+- *
+- * "dpy" is a pointer to a Display.
+- * "data" is a pointer to the data.
+- * "len" is the length in bytes of the data.
+- */
+-
+-static doData16(
+-    register Display *dpy,
+-    _Xconst short *data,
+-    unsigned len,
+-    char *packbuffer)
+-{
+-    long *lp,*lpack;
+-    long i, nwords,bits;
+-    long mask16 = 0x000000000000ffff;
+-
+-        lp = (long *)data;
+-        lpack = (long *)packbuffer;
+-
+-/*  nwords is the number of 16 bit values to be packed,
+- *  the low order 16 bits of each word will be packed
+- *  into 64 bit words
+- */
+-        nwords = len >> 1;
+-        bits = 48;
+-
+-        for(i=0;i<nwords;i++){
+-	   if (bits == 48) *lpack = 0;
+-           *lpack ^= (*lp & mask16) << bits;
+-           bits -= 16 ;
+-           lp++;
+-           if(bits < 0){
+-               lpack++;
+-               bits = 48;
+-           }
+-        }
+-        Data(dpy, packbuffer, len);
+-}
+-
+-_XData16 (
+-    Display *dpy,
+-    _Xconst short *data,
+-    unsigned len)
+-{
+-    char packbuffer[PACKBUFFERSIZE];
+-    unsigned nunits = PACKBUFFERSIZE >> 1;
+-
+-    for (; len > PACKBUFFERSIZE; len -= PACKBUFFERSIZE, data += nunits) {
+-	doData16 (dpy, data, PACKBUFFERSIZE, packbuffer);
+-    }
+-    if (len) doData16 (dpy, data, len, packbuffer);
+-}
+-
+-/*
+- * Data32 - Place 32 bit data in the buffer.
+- *
+- * "dpy" is a pointer to a Display.
+- * "data" is a pointer to the data.
+- * "len" is the length in bytes of the data.
+- */
+-
+-static doData32(
+-    register Display *dpy
+-    _Xconst long *data,
+-    unsigned len,
+-    char *packbuffer)
+-{
+-    long *lp,*lpack;
+-    long i,bits,nwords;
+-    long mask32 = 0x00000000ffffffff;
+-
+-        lpack = (long *) packbuffer;
+-        lp = data;
+-
+-/*  nwords is the number of 32 bit values to be packed
+- *  the low order 32 bits of each word will be packed
+- *  into 64 bit words
+- */
+-        nwords = len >> 2;
+-        bits = 32;
+-
+-        for(i=0;i<nwords;i++){
+-	   if (bits == 32) *lpack = 0;
+-           *lpack ^= (*lp & mask32) << bits;
+-           bits = bits ^32;
+-           lp++;
+-           if(bits)
+-              lpack++;
+-        }
+-        Data(dpy, packbuffer, len);
+-}
+-
+-void _XData32(
+-    Display *dpy,
+-    _Xconst long *data,
+-    unsigned len)
+-{
+-    char packbuffer[PACKBUFFERSIZE];
+-    unsigned nunits = PACKBUFFERSIZE >> 2;
+-
+-    for (; len > PACKBUFFERSIZE; len -= PACKBUFFERSIZE, data += nunits) {
+-	doData32 (dpy, data, PACKBUFFERSIZE, packbuffer);
+-    }
+-    if (len) doData32 (dpy, data, len, packbuffer);
+-}
+-
+-#endif /* WORD64 */
+ 
+ 
+ /* Make sure this produces the same string as DefineLocal/DefineSelf in xdm.
+@@ -1967,8 +1733,6 @@ void *_XGetRequest(Display *dpy, CARD8 type, size_t len)
+ {
+     xReq *req;
+ 
+-    WORD64ALIGN
+-
+     if (dpy->bufptr + len > dpy->bufmax)
+ 	_XFlush(dpy);
+ 
+diff --git a/src/xkb/XKBNames.c b/src/xkb/XKBNames.c
+index cf2382c..0276c05 100644
+--- a/src/xkb/XKBNames.c
++++ b/src/xkb/XKBNames.c
+@@ -494,38 +494,10 @@ XkbSetNames(	Display *	dpy,
+     if (which&XkbGroupNamesMask)
+ 	_XkbCopyAtoms(dpy,names->groups,groups,XkbNumKbdGroups);
+     if (which&XkbKeyNamesMask) {
+-#ifdef WORD64
+-	char *tmp;
+-	register int i;
+-	BufAlloc(char *,tmp,nKeys*XkbKeyNameLength);
+-	for (i=0;i<nKeys;i++,tmp+= XkbKeyNameLength) {
+-	    tmp[0]= names->keys[firstKey+i].name[0];
+-	    tmp[1]= names->keys[firstKey+i].name[1];
+-	    tmp[2]= names->keys[firstKey+i].name[2];
+-	    tmp[3]= names->keys[firstKey+i].name[3];
+-	}
+-#else
+ 	Data(dpy,(char *)&names->keys[firstKey],nKeys*XkbKeyNameLength);
+-#endif
+     }
+     if (which&XkbKeyAliasesMask) {
+-#ifdef WORD64
+-	char *tmp;
+-	register int i;
+-	BufAlloc(char *,tmp,nKA*XkbKeyNameLength*2);
+-	for (i=0;i<nKeys;i++,tmp+= 2*XkbKeyNameLength) {
+-	    tmp[0]= names->key_aliases[i].real[0];
+-	    tmp[1]= names->key_aliases[i].real[1];
+-	    tmp[2]= names->key_aliases[i].real[2];
+-	    tmp[3]= names->key_aliases[i].real[3];
+-	    tmp[4]= names->key_aliases[i].alias[0];
+-	    tmp[5]= names->key_aliases[i].alias[1];
+-	    tmp[6]= names->key_aliases[i].alias[2];
+-	    tmp[7]= names->key_aliases[i].alias[3];
+-	}
+-#else
+ 	Data(dpy,(char *)names->key_aliases,nKA*XkbKeyNameLength*2);
+-#endif
+     }
+     if (which&XkbRGNamesMask) {
+ 	Data32(dpy,(long *)names->radio_groups,nRG*4);
+@@ -750,38 +722,10 @@ XkbChangeNames(Display *dpy,XkbDescPtr xkb,XkbNameChangesPtr changes)
+     if (which&XkbGroupNamesMask)
+ 	_XkbCopyAtoms(dpy,names->groups,groups,XkbNumKbdGroups);
+     if (which&XkbKeyNamesMask) {
+-#ifdef WORD64
+-	char *tmp;
+-	register int i;
+-	BufAlloc(char *,tmp,nKeys*4);
+-	for (i=0;i<nKeys;i++,tmp+= 4) {
+-	    tmp[0]= names->keys[firstKey+i].name[0];
+-	    tmp[1]= names->keys[firstKey+i].name[1];
+-	    tmp[2]= names->keys[firstKey+i].name[2];
+-	    tmp[3]= names->keys[firstKey+i].name[3];
+-	}
+-#else
+ 	Data(dpy,(char *)&names->keys[firstKey],nKeys*XkbKeyNameLength);
+-#endif
+     }
+     if (which&XkbKeyAliasesMask) {
+-#ifdef WORD64
+-	char *tmp;
+-	register int i;
+-	BufAlloc(char *,tmp,nKA*XkbKeyNameLength*2);
+-	for (i=0;i<nKeys;i++,tmp+= 2*XkbKeyNameLength) {
+-	    tmp[0]= names->key_aliases[i].real[0];
+-	    tmp[1]= names->key_aliases[i].real[1];
+-	    tmp[2]= names->key_aliases[i].real[2];
+-	    tmp[3]= names->key_aliases[i].real[3];
+-	    tmp[4]= names->key_aliases[i].alias[0];
+-	    tmp[5]= names->key_aliases[i].alias[1];
+-	    tmp[6]= names->key_aliases[i].alias[2];
+-	    tmp[7]= names->key_aliases[i].alias[3];
+-	}
+-#else
+ 	Data(dpy,(char *)names->key_aliases,nKA*XkbKeyNameLength*2);
+-#endif
+     }
+     if (which&XkbRGNamesMask) {
+ 	Data32(dpy,(long *)names->radio_groups,nRG*4);
+diff --git a/src/xkb/XKBRdBuf.c b/src/xkb/XKBRdBuf.c
+index 3023a32..bf2883a 100644
+--- a/src/xkb/XKBRdBuf.c
++++ b/src/xkb/XKBRdBuf.c
+@@ -116,30 +116,7 @@ _XkbReadCopyData32(int *wire,long *to,int num_words)
+     }
+     return 1;
+ }
+-#endif
+-#ifdef WORD64
+-int
+-_XkbReadCopyData32(int *from,long *lp,int num_words)
+-{
+-long *lpack;
+-long mask32 = 0x00000000ffffffff;
+-long maskw, i, bits;
+-
+-    lpack = (long *)from;
+-    bits = 32;
+-
+-    for (i=0;i<num_words;i++) {
+-	maskw = mask32 << bits;
+-	*lp++ = (*lpack & maskw) >> bits;
+-	bits = bits ^ 32;
+-	if (bits)
+-	    lpack++;
+-    }
+-    return 1;
+-}
+-#endif
+ 
+-#if defined(LONG64) || defined(WORD64)
+ int
+ _XkbReadBufferCopy32(XkbReadBufferPtr from,long *to,int num_words)
+ {
+@@ -149,9 +126,7 @@ _XkbReadBufferCopy32(XkbReadBufferPtr from,long *to,int num_words)
+     from->data+= (4*num_words);
+     return True;
+ }
+-#endif
+ 
+-#ifdef LONG64
+ int
+ _XkbWriteCopyData32 (register unsigned long *from,CARD32 *to,int len)
+ {
+@@ -163,9 +138,6 @@ _XkbWriteCopyData32 (register unsigned long *from,CARD32 *to,int len)
+ }
+ #endif /* LONG64 */
+ 
+-#ifdef WORD64
+-_XkbWriteCopyData32 Not Implemented Yet for sizeof(int)==8
+-#endif
+ 
+ char *
+ _XkbPeekAtReadBuffer(XkbReadBufferPtr from,int size)
+diff --git a/src/xkb/XKBlibint.h b/src/xkb/XKBlibint.h
+index ce14527..7b41c3b 100644
+--- a/src/xkb/XKBlibint.h
++++ b/src/xkb/XKBlibint.h
+@@ -213,7 +213,7 @@ extern int _XkbCopyFromReadBuffer(
+ );
+ 
+ 
+-#if defined(WORD64) || defined(LONG64)
++#ifdef LONG64
+ extern	int _XkbReadCopyData32(
+     int *		/* from */,
+     long *		/* to */,
+-- 
+1.7.9.2
+
+From 769a0efa2298040fe8316a89fc9e75fb61e288e5 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 28 Feb 2013 20:04:25 -0800
+Subject: [PATCH:libX11 46/58] unifdef CRAY & _CRAY
+
+(mostly performed with unifdef, followed by some manual cleanup of
+ the remaining code)
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ include/X11/Xlib.h    |    4 ----
+ include/X11/Xlibint.h |    7 -------
+ src/xcms/cmsTrig.c    |    4 ----
+ 3 files changed, 15 deletions(-)
+
+diff --git a/include/X11/Xlib.h b/include/X11/Xlib.h
+index 9618081..65f253c 100644
+--- a/include/X11/Xlib.h
++++ b/include/X11/Xlib.h
+@@ -128,11 +128,7 @@ typedef char *XPointer;
+ #define BitmapBitOrder(dpy) 	(((_XPrivDisplay)dpy)->bitmap_bit_order)
+ #define BitmapPad(dpy) 		(((_XPrivDisplay)dpy)->bitmap_pad)
+ #define ImageByteOrder(dpy) 	(((_XPrivDisplay)dpy)->byte_order)
+-#ifdef CRAY /* unable to get WORD64 without pulling in other symbols */
+-#define NextRequest(dpy)	XNextRequest(dpy)
+-#else
+ #define NextRequest(dpy)	(((_XPrivDisplay)dpy)->request + 1)
+-#endif
+ #define LastKnownRequestProcessed(dpy)	(((_XPrivDisplay)dpy)->last_request_read)
+ 
+ /* macros for screen oriented applications (toolkit) */
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index 48323f7..40965c4 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -209,13 +209,6 @@ struct _XDisplay
+ 
+ #define XAllocIDs(dpy,ids,n) (*(dpy)->idlist_alloc)(dpy,ids,n)
+ 
+-/*
+- * define the following if you want the Data macro to be a procedure instead
+- */
+-#ifdef CRAY
+-#define DataRoutineIsProcedure
+-#endif /* CRAY */
+-
+ #ifndef _XEVENT_
+ /*
+  * _QEvent datatype for use in input queueing.
+diff --git a/src/xcms/cmsTrig.c b/src/xcms/cmsTrig.c
+index 5a01a56..a917b78 100644
+--- a/src/xcms/cmsTrig.c
++++ b/src/xcms/cmsTrig.c
+@@ -80,12 +80,8 @@ _XcmsModuloF(
+ #define XCMS_FABS(x)		((x) < 0.0 ? -(x) : (x))
+ 
+ /* XCMS_DMAXPOWTWO - largest power of two exactly representable as a double */
+-#ifdef _CRAY
+-#define XCMS_DMAXPOWTWO	((double)(1 < 47))
+-#else
+ #define XCMS_DMAXPOWTWO	((double)(XCMS_LONG_MAX) * \
+ 	    (1L << ((XCMS_NBITS(double)-XCMS_DEXPLEN) - XCMS_NBITS(int) + 1)))
+-#endif
+ 
+ /*
+  *	LOCAL VARIABLES
+-- 
+1.7.9.2
+
+From 9bcfd84aa1410387bc8cf002a5f90f44705aa0d1 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 1 Mar 2013 18:09:07 -0800
+Subject: [PATCH:libX11 47/58] unifdef XKB_IN_SERVER
+
+Leftovers from XKB files that were previously shared between the client
+and server code, but aren't any more.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ src/xkb/XKBAlloc.c  |   12 ------------
+ src/xkb/XKBGAlloc.c |   12 ------------
+ src/xkb/XKBMAlloc.c |   13 -------------
+ src/xkb/XKBMisc.c   |   13 -------------
+ 4 files changed, 50 deletions(-)
+
+diff --git a/src/xkb/XKBAlloc.c b/src/xkb/XKBAlloc.c
+index 05e9f73..034539b 100644
+--- a/src/xkb/XKBAlloc.c
++++ b/src/xkb/XKBAlloc.c
+@@ -30,7 +30,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <config.h>
+ #endif
+ 
+-#ifndef XKB_IN_SERVER
+ 
+ #include <stdio.h>
+ #include "Xlibint.h"
+@@ -39,17 +38,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <X11/extensions/XKBproto.h>
+ #include "XKBlibint.h"
+ 
+-#else
+-
+-#include <stdio.h>
+-#include <X11/X.h>
+-#include <X11/Xproto.h>
+-#include "misc.h"
+-#include "inputstr.h"
+-#include <X11/extensions/XKBsrv.h>
+-#include <X11/extensions/XKBgeom.h>
+-
+-#endif /* XKB_IN_SERVER */
+ 
+ /***===================================================================***/
+ 
+diff --git a/src/xkb/XKBGAlloc.c b/src/xkb/XKBGAlloc.c
+index 7679496..e55f5e8 100644
+--- a/src/xkb/XKBGAlloc.c
++++ b/src/xkb/XKBGAlloc.c
+@@ -30,7 +30,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <config.h>
+ #endif
+ 
+-#ifndef XKB_IN_SERVER
+ 
+ #include <stdio.h>
+ #include "Xlibint.h"
+@@ -38,17 +37,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <X11/extensions/XKBgeom.h>
+ #include <X11/extensions/XKBproto.h>
+ 
+-#else
+-
+-#include <stdio.h>
+-#include <X11/X.h>
+-#include <X11/Xproto.h>
+-#include "misc.h"
+-#include "inputstr.h"
+-#include <X11/extensions/XKBsrv.h>
+-#include <X11/extensions/XKBgeom.h>
+-
+-#endif /* XKB_IN_SERVER */
+ 
+ #ifdef X_NOT_POSIX
+ #define Size_t unsigned int
+diff --git a/src/xkb/XKBMAlloc.c b/src/xkb/XKBMAlloc.c
+index a6b3921..fd75f0c 100644
+--- a/src/xkb/XKBMAlloc.c
++++ b/src/xkb/XKBMAlloc.c
+@@ -30,7 +30,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <config.h>
+ #endif
+ 
+-#ifndef XKB_IN_SERVER
+ 
+ #include <stdio.h>
+ #include "Xlibint.h"
+@@ -38,18 +37,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <X11/keysym.h>
+ #include "XKBlibint.h"
+ 
+-#else
+-
+-#include <stdio.h>
+-#include <X11/X.h>
+-#include <X11/Xproto.h>
+-#include "misc.h"
+-#include "inputstr.h"
+-#include <X11/keysym.h>
+-#define	XKBSRV_NEED_FILE_FUNCS
+-#include <X11/extensions/XKBsrv.h>
+-
+-#endif /* XKB_IN_SERVER */
+ 
+ /***====================================================================***/
+ 
+diff --git a/src/xkb/XKBMisc.c b/src/xkb/XKBMisc.c
+index 4aa1f73..cd90da7 100644
+--- a/src/xkb/XKBMisc.c
++++ b/src/xkb/XKBMisc.c
+@@ -30,7 +30,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <config.h>
+ #endif
+ 
+-#ifndef XKB_IN_SERVER
+ 
+ #include <stdio.h>
+ #include "Xlibint.h"
+@@ -38,18 +37,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <X11/keysym.h>
+ #include "XKBlibint.h"
+ 
+-#else
+-
+-#include <stdio.h>
+-#include <X11/X.h>
+-#include <X11/Xproto.h>
+-#include "misc.h"
+-#include "inputstr.h"
+-#include <X11/keysym.h>
+-#define	XKBSRV_NEED_FILE_FUNCS
+-#include <X11/extensions/XKBsrv.h>
+-
+-#endif /* XKB_IN_SERVER */
+ 
+ /***====================================================================***/
+ 
+-- 
+1.7.9.2
+
+From c23d61d1b84dca3740bf4786978c7908d0065fb9 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 1 Mar 2013 18:10:27 -0800
+Subject: [PATCH:libX11 48/58] Assume size_t is always available, since it was
+ defined in C89
+
+Don't provide a fallback definition #ifdef X_NOT_POSIX anymore.
+We already use size_t throughout the rest of Xlib, just had this
+one instance left in XKBGAlloc.c of a fallback definition.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/xkb/XKBGAlloc.c |    9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/src/xkb/XKBGAlloc.c b/src/xkb/XKBGAlloc.c
+index e55f5e8..6d4c676 100644
+--- a/src/xkb/XKBGAlloc.c
++++ b/src/xkb/XKBGAlloc.c
+@@ -37,13 +37,6 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <X11/extensions/XKBgeom.h>
+ #include <X11/extensions/XKBproto.h>
+ 
+-
+-#ifdef X_NOT_POSIX
+-#define Size_t unsigned int
+-#else
+-#define Size_t size_t
+-#endif
+-
+ /***====================================================================***/
+ 
+ static void
+@@ -464,7 +457,7 @@ _XkbGeomAlloc(	XPointer *		old,
+ 		unsigned short *	num,
+ 		unsigned short *	total,
+ 		int			num_new,
+-		Size_t			sz_elem)
++		size_t			sz_elem)
+ {
+     if (num_new<1)
+ 	return Success;
+-- 
+1.7.9.2
+
+From 466404007f2c8f7166e4faddfea1454c5bfe1e9a Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 8 Mar 2013 17:13:09 -0800
+Subject: [PATCH:libX11 50/58] _xudc_code_to_glyph: check for NULL pointer
+ *before* writing to it, not after
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/udcInf.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/udcInf.c b/src/udcInf.c
+index db7ad10..b7577ac 100644
+--- a/src/udcInf.c
++++ b/src/udcInf.c
+@@ -702,14 +702,14 @@ int 		*num_gi;
+     _XlcCloseConverter(conv);
+     _XlcDestroyLC(lcd);
+ 
+-    *gi = (_XUDCGIInf *)Xmalloc(sizeof(_XUDCGIInf));
+-    (*gi)->charset_str = (char *)Xmalloc(strlen(charsetname)+1);
+-    strcpy((*gi)->charset_str,charsetname);
+-    (*gi)->glyph_index = glyph;
++    *gi = Xmalloc(sizeof(_XUDCGIInf));
+     if(*gi == NULL){
+ 	_xudc_utyerrno = 0x03 ;
+         return(_XUDC_ERROR);
+     }
++    (*gi)->charset_str = Xmalloc(strlen(charsetname)+1);
++    strcpy((*gi)->charset_str,charsetname);
++    (*gi)->glyph_index = glyph;
+     *num_gi = 1;
+     return(0);
+ }
+-- 
+1.7.9.2
+
+From 3facbe5c0df1b5597571b7b00d5f7bdbc92fb278 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Sat, 2 Mar 2013 12:01:39 -0800
+Subject: [PATCH:libX11 51/58] Add <X11/Xresource.h> hint to all Xrm* man
+ pages
+
+Help users figure out which header file they need to #include
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ man/XrmEnumerateDatabase.man |    2 ++
+ man/XrmGetFileDatabase.man   |    2 ++
+ man/XrmGetResource.man       |    2 ++
+ man/XrmInitialize.man        |    2 ++
+ man/XrmMergeDatabases.man    |    2 ++
+ man/XrmPutResource.man       |    2 ++
+ man/XrmUniqueQuark.man       |    2 ++
+ 7 files changed, 14 insertions(+)
+
+diff --git a/man/XrmEnumerateDatabase.man b/man/XrmEnumerateDatabase.man
+index 8431006..03c0f30 100644
+--- a/man/XrmEnumerateDatabase.man
++++ b/man/XrmEnumerateDatabase.man
+@@ -84,6 +84,8 @@
+ .SH NAME
+ XrmEnumerateDatabase \- enumerate resource database entries
+ .SH SYNTAX
++.HP
++#include <X11/Xresource.h>
+ .TS
+ lw(.5i) lw(2i) lw(2.5i).
+ T{
+diff --git a/man/XrmGetFileDatabase.man b/man/XrmGetFileDatabase.man
+index 3a8a6fa..71ddd9f 100644
+--- a/man/XrmGetFileDatabase.man
++++ b/man/XrmGetFileDatabase.man
+@@ -93,6 +93,8 @@
+ XrmGetFileDatabase, XrmPutFileDatabase, XrmGetStringDatabase, XrmLocaleOfDatabase, XrmGetDatabase, XrmSetDatabase, XrmDestroyDatabase \- retrieve and store resource databases
+ .SH SYNTAX
+ .HP
++#include <X11/Xresource.h>
++.HP
+ XrmDatabase XrmGetFileDatabase\^(\^char *\fIfilename\fP\^); 
+ .HP
+ void XrmPutFileDatabase\^(\^XrmDatabase \fIdatabase\fP\^, char
+diff --git a/man/XrmGetResource.man b/man/XrmGetResource.man
+index 76ca921..ef2cf9a 100644
+--- a/man/XrmGetResource.man
++++ b/man/XrmGetResource.man
+@@ -85,6 +85,8 @@
+ XrmGetResource, XrmQGetResource, XrmQGetSearchList, XrmQGetSearchResource \- retrieve database resources and search lists
+ .SH SYNTAX
+ .HP
++#include <X11/Xresource.h>
++.HP
+ Bool XrmGetResource\^(\^XrmDatabase \fIdatabase\fP\^, char *\fIstr_name\fP\^,
+ char *\fIstr_class\fP\^, char **\fIstr_type_return\fP\^, XrmValue
+ *\fIvalue_return\fP\^); 
+diff --git a/man/XrmInitialize.man b/man/XrmInitialize.man
+index b8b549d..3b3ddd7 100644
+--- a/man/XrmInitialize.man
++++ b/man/XrmInitialize.man
+@@ -83,6 +83,8 @@
+ XrmInitialize, XrmParseCommand, XrmValue, XrmOptionKind, XrmOptionDescRec \- initialize the Resource Manager, Resource Manager structures, and parse the command line
+ .SH SYNTAX
+ .HP
++#include <X11/Xresource.h>
++.HP
+ void XrmInitialize\^(void\^);
+ .HP
+ void XrmParseCommand\^(\^XrmDatabase *\fIdatabase\fP\^, XrmOptionDescList
+diff --git a/man/XrmMergeDatabases.man b/man/XrmMergeDatabases.man
+index 57a6578..41b27bb 100644
+--- a/man/XrmMergeDatabases.man
++++ b/man/XrmMergeDatabases.man
+@@ -83,6 +83,8 @@
+ XrmMergeDatabases, XrmCombineDatabase, XrmCombineFileDatabase \- merge resource databases
+ .SH SYNTAX
+ .HP
++#include <X11/Xresource.h>
++.HP
+ void XrmMergeDatabases(\^XrmDatabase \fIsource_db\fP, XrmDatabase
+ *\fItarget_db\fP\^); 
+ .HP
+diff --git a/man/XrmPutResource.man b/man/XrmPutResource.man
+index 9f9d088..fd64463 100644
+--- a/man/XrmPutResource.man
++++ b/man/XrmPutResource.man
+@@ -83,6 +83,8 @@
+ XrmPutResource, XrmQPutResource, XrmPutStringResource, XrmQPutStringResource, XrmPutLineResource \- store database resources
+ .SH SYNTAX
+ .HP
++#include <X11/Xresource.h>
++.HP
+ void XrmPutResource\^(\^XrmDatabase *\fIdatabase\fP\^, char
+ *\fIspecifier\fP\^, char *\fItype\fP\^, XrmValue *\fIvalue\fP\^); 
+ .HP
+diff --git a/man/XrmUniqueQuark.man b/man/XrmUniqueQuark.man
+index 383d26c..93755f7 100644
+--- a/man/XrmUniqueQuark.man
++++ b/man/XrmUniqueQuark.man
+@@ -83,6 +83,8 @@
+ XrmUniqueQuark, XrmStringToQuark, XrmPermStringToQuark, XrmQuarkToString, XrmStringToQuarkList, XrmStringToBindingQuarkList \- manipulate resource quarks
+ .SH SYNOPSIS
+ .HP
++#include <X11/Xresource.h>
++.HP
+ XrmQuark XrmUniqueQuark\^(void); 
+ .LP
+ \&#define XrmStringToName(string) XrmStringToQuark(string)
+-- 
+1.7.9.2
+
+From 39547d600a13713e15429f49768e54c3173c828d Mon Sep 17 00:00:00 2001
+From: Karl Tomlinson <xmail@karlt.net>
+Date: Mon, 18 Feb 2013 01:25:34 +0000
+Subject: [PATCH:libX11 54/58] MakeBigReq: don't move the last word, already
+ handled by Data32
+
+MakeBigReq inserts a length field after the first 4 bytes of the request
+(after req->length), pushing everything else back by 4 bytes.
+
+The current memmove moves everything but the first 4 bytes back.
+If a request aligns to the end of the buffer pointer when MakeBigReq is
+invoked for that request, this runs over the buffer.
+Instead, we need to memmove minus the first 4 bytes (which aren't moved),
+minus the last 4 bytes (so we still align to the previous tail).
+
+The 4 bytes that fell out are already handled with Data32, which will
+handle the buffermax correctly.
+
+The case where req->length = 1 was already not functional.
+
+Reported by Abhishek Arya <inferno@chromium.org>.
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=803762
+
+Reviewed-by: Jeff Muizelaar <jmuizelaar@mozilla.com>
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ include/X11/Xlibint.h |   19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
+index 40965c4..06395b3 100644
+--- a/include/X11/Xlibint.h
++++ b/include/X11/Xlibint.h
+@@ -486,6 +486,14 @@ extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
+ 	req = (xReq *) _XGetRequest(dpy, X_/**/name, SIZEOF(xReq))
+ #endif
+ 
++/*
++ * MakeBigReq sets the CARD16 "req->length" to 0 and inserts a new CARD32
++ * length, after req->length, before the data in the request.  The new length
++ * includes the "n" extra 32-bit words.
++ *
++ * Do not use MakeBigReq if there is no data already in the request.
++ * req->length must already be >= 2.
++ */
+ #ifdef LONG64
+ #define MakeBigReq(req,n) \
+     { \
+@@ -493,7 +501,7 @@ extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
+     CARD32 _BRlen = req->length - 1; \
+     req->length = 0; \
+     _BRdat = ((CARD32 *)req)[_BRlen]; \
+-    memmove(((char *)req) + 8, ((char *)req) + 4, _BRlen << 2); \
++    memmove(((char *)req) + 8, ((char *)req) + 4, (_BRlen - 1) << 2); \
+     ((CARD32 *)req)[1] = _BRlen + n + 2; \
+     Data32(dpy, &_BRdat, 4); \
+     }
+@@ -504,12 +512,19 @@ extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
+     CARD32 _BRlen = req->length - 1; \
+     req->length = 0; \
+     _BRdat = ((CARD32 *)req)[_BRlen]; \
+-    memmove(((char *)req) + 8, ((char *)req) + 4, _BRlen << 2); \
++    memmove(((char *)req) + 8, ((char *)req) + 4, (_BRlen - 1) << 2); \
+     ((CARD32 *)req)[1] = _BRlen + n + 2; \
+     Data32(dpy, &_BRdat, 4); \
+     }
+ #endif
+ 
++/*
++ * SetReqLen increases the count of 32-bit words in the request by "n",
++ * or by "badlen" if "n" is too large.
++ *
++ * Do not use SetReqLen if "req" does not already have data after the
++ * xReq header.  req->length must already be >= 2.
++ */
+ #ifndef __clang_analyzer__
+ #define SetReqLen(req,n,badlen) \
+     if ((req->length + n) > (unsigned)65535) { \
+-- 
+1.7.9.2
+
+From e9bd757630368afb374c5d1bcc5d4d85ad3c6c4c Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 8 Mar 2013 15:37:33 -0800
+Subject: [PATCH:libX11 55/58] XAllocClassHint: Assume calloc sets pointers in
+ allocated memory to NULL
+
+While the C standard technically allows for the compiler to translate
+pointer = 0 or pointer = NULL into something other than filling the
+pointer address with 0 bytes, the rest of the Xlib code already assumes
+that calloc initializes any pointers in the struct to NULL, and there
+are no known systems supported by X.Org where this is not true.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/PropAlloc.c |    7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/src/PropAlloc.c b/src/PropAlloc.c
+index bad7681..5162830 100644
+--- a/src/PropAlloc.c
++++ b/src/PropAlloc.c
+@@ -58,12 +58,7 @@ XWMHints *XAllocWMHints (void)
+ 
+ XClassHint *XAllocClassHint (void)
+ {
+-    register XClassHint *h;
+-
+-    if ((h = (XClassHint *) Xcalloc (1, (unsigned) sizeof (XClassHint))))
+-      h->res_name = h->res_class = NULL;
+-
+-    return h;
++    return Xcalloc (1, sizeof (XClassHint));
+ }
+ 
+ 
+-- 
+1.7.9.2
+
+From f9cd175a471116a616e681fb0ca1a61b3d84a6a0 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Fri, 8 Mar 2013 22:33:28 -0800
+Subject: [PATCH:libX11 56/58] Fix very weird indenting in src/GetFProp.c
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/GetFProp.c |   27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
+
+diff --git a/src/GetFProp.c b/src/GetFProp.c
+index 27ec98b..1e0cd32 100644
+--- a/src/GetFProp.c
++++ b/src/GetFProp.c
+@@ -29,27 +29,24 @@ in this Software without prior written authorization from The Open Group.
+ #endif
+ #include "Xlibint.h"
+ 
+-Bool XGetFontProperty (
++Bool
++XGetFontProperty(
+     XFontStruct *fs,
+     register Atom name,
+     unsigned long *valuePtr)
+ {
+     /* XXX this is a simple linear search for now.  If the
+-      protocol is changed to sort the property list, this should
+-      become a binary search. */
++       protocol is changed to sort the property list, this should
++       become a binary search. */
+     register XFontProp *prop = fs->properties;
+     register XFontProp *last = prop + fs->n_properties;
++
+     while (prop != last) {
+-	if (prop->name == name) {
+-	    *valuePtr = prop->card32;
+-	    return (1);
+-	    }
+-	prop++;
+-	}
+-    return (0);
++        if (prop->name == name) {
++            *valuePtr = prop->card32;
++            return (1);
++        }
++        prop++;
+     }
+-
+-
+-
+-
+-
++    return (0);
++}
+-- 
+1.7.9.2
+
+From f49bb2dd6d4ea45c55bd21acc0efe2b764441020 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Sat, 16 Mar 2013 18:30:56 -0700
+Subject: [PATCH:libX11 58/58] Move big request comment in XOpenDisplay to the
+ right place
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/OpenDis.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/OpenDis.c b/src/OpenDis.c
+index 9379fec..f6d8c70 100644
+--- a/src/OpenDis.c
++++ b/src/OpenDis.c
+@@ -499,6 +499,9 @@ XOpenDisplay (
+ 	    return(NULL);
+ 	}
+ 
++/*
++ * get availability of large requests
++ */
+ 	dpy->bigreq_size = xcb_get_maximum_request_length(dpy->xcb->connection);
+ 	if(dpy->bigreq_size <= dpy->max_request_size)
+ 		dpy->bigreq_size = 0;
+@@ -525,7 +528,6 @@ XOpenDisplay (
+ 	(void) XSynchronize(dpy, _Xdebug);
+ 
+ /*
+- * get availability of large requests, and
+  * get the resource manager database off the root window.
+  */
+ 	LockDisplay(dpy);
+-- 
+1.7.9.2
+

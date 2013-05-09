@@ -2,7 +2,7 @@
 #
 # libXv - Xlib-based client library for XVideo extension protocol
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,7 @@ TARBALL_SHA1  = 49c87e0ccb999966b7b1b4e72cb927f05e0835bd
 TARBALL_SHA256= 5d664aeb641f8c867331a0c6b4574a5e7e420f00bf5fcefd874e8d003ea59010
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = CVE-2013-1989.patch,-p1
 
 # Library name
 LIBNAME=Xv

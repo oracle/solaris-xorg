@@ -1,0 +1,1182 @@
+From 995dd372e73fcec43fb65bd42ff5adb409765f66 Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Thu, 7 Mar 2013 23:46:05 -0800
+Subject: [PATCH:libX11 35/38] Remove more unnecessary casts from
+ Xmalloc/calloc calls
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/Context.c    |    8 ++++----
+ src/CrGC.c       |    2 +-
+ src/Depths.c     |    2 +-
+ src/FSWrap.c     |    6 +++---
+ src/Font.c       |   12 ++++++------
+ src/GetAtomNm.c  |    8 ++++----
+ src/GetHints.c   |    9 ++++-----
+ src/GetRGBCMap.c |    3 +--
+ src/ImUtil.c     |    6 +++---
+ src/InitExt.c    |    4 ++--
+ src/IntAtom.c    |    6 +++---
+ src/KeyBind.c    |    8 +++-----
+ src/ModMap.c     |    4 ++--
+ src/OpenDis.c    |   21 +++++++--------------
+ src/PixFormats.c |    4 ++--
+ src/PolyReg.c    |   13 +++++--------
+ src/PropAlloc.c  |    9 ++++-----
+ src/PutBEvent.c  |    2 +-
+ src/PutImage.c   |   13 ++++++-------
+ src/Quarks.c     |    9 ++++-----
+ src/RdBitF.c     |    2 +-
+ src/Region.c     |   19 +++++++++----------
+ src/RegstFlt.c   |    4 ++--
+ src/SetFPath.c   |    2 +-
+ src/SetHints.c   |    6 +++---
+ src/StrToText.c  |    2 +-
+ src/TextToStr.c  |    4 ++--
+ src/VisUtil.c    |    8 +++-----
+ src/WrBitF.c     |    2 +-
+ src/XlibInt.c    |   20 +++++++++-----------
+ src/Xrm.c        |   20 +++++++++-----------
+ src/locking.c    |    8 ++++----
+ src/udcInf.c     |    9 ++++-----
+ 33 files changed, 115 insertions(+), 140 deletions(-)
+
+diff --git a/src/Context.c b/src/Context.c
+index 79ae7d6..4bb465b 100644
+--- a/src/Context.c
++++ b/src/Context.c
+@@ -111,7 +111,7 @@ static void ResizeTable(DB db)
+     otable = db->table;
+     for (i = INITHASHMASK+1; (i + i) < db->numentries; )
+ 	i += i;
+-    db->table = (TableEntry *) Xcalloc((unsigned)i, sizeof(TableEntry));
++    db->table = Xcalloc(i, sizeof(TableEntry));
+     if (!db->table) {
+ 	db->table = otable;
+ 	return;
+@@ -180,11 +180,11 @@ int XSaveContext(
+ 	UnlockDisplay(display);
+     }
+     if (!db) {
+-	db = (DB) Xmalloc(sizeof(DBRec));
++	db = Xmalloc(sizeof(DBRec));
+ 	if (!db)
+ 	    return XCNOMEM;
+ 	db->mask = INITHASHMASK;
+-	db->table = (TableEntry *)Xcalloc(db->mask + 1, sizeof(TableEntry));
++	db->table = Xcalloc(db->mask + 1, sizeof(TableEntry));
+ 	if (!db->table) {
+ 	    Xfree((char *)db);
+ 	    return XCNOMEM;
+@@ -210,7 +210,7 @@ int XSaveContext(
+ 	    return 0;
+ 	}
+     }
+-    entry = (TableEntry) Xmalloc(sizeof(TableEntryRec));
++    entry = Xmalloc(sizeof(TableEntryRec));
+     if (!entry)
+ 	return XCNOMEM;
+     entry->rid = rid;
+diff --git a/src/CrGC.c b/src/CrGC.c
+index 11de94c..2d5f17c 100644
+--- a/src/CrGC.c
++++ b/src/CrGC.c
+@@ -72,7 +72,7 @@ GC XCreateGC (
+     register _XExtension *ext;
+ 
+     LockDisplay(dpy);
+-    if ((gc = (GC)Xmalloc (sizeof(struct _XGC))) == NULL) {
++    if ((gc = Xmalloc (sizeof(struct _XGC))) == NULL) {
+ 	UnlockDisplay(dpy);
+ 	SyncHandle();
+ 	return (NULL);
+diff --git a/src/Depths.c b/src/Depths.c
+index f49655c..a8b719d 100644
+--- a/src/Depths.c
++++ b/src/Depths.c
+@@ -49,7 +49,7 @@ int *XListDepths (
+ 	register Depth *dp;
+ 	register int i;
+ 
+-	depths = (int *) Xmalloc (count * sizeof(int));
++	depths = Xmalloc (count * sizeof(int));
+ 	if (!depths) return NULL;
+ 	for (i = 0, dp = scr->depths; i < count; i++, dp++)
+ 	  depths[i] = dp->depth;
+diff --git a/src/FSWrap.c b/src/FSWrap.c
+index 910e602..12d0406 100644
+--- a/src/FSWrap.c
++++ b/src/FSWrap.c
+@@ -112,7 +112,7 @@ _XParseBaseFontNameList(
+ 	if (!*ptr)
+ 	    break;
+     }
+-    if (!(list = (char **) Xmalloc((unsigned)sizeof(char *) * (*num + 1)))) {
++    if (!(list = Xmalloc(sizeof(char *) * (*num + 1)))) {
+ 	Xfree(psave);
+ 	return (char **)NULL;
+     }
+@@ -133,7 +133,7 @@ copy_string_list(
+     if (string_list == NULL || list_count <= 0)
+ 	return (char **) NULL;
+ 
+-    string_list_ret = (char **) Xmalloc(sizeof(char *) * list_count);
++    string_list_ret = Xmalloc(sizeof(char *) * list_count);
+     if (string_list_ret == NULL)
+ 	return (char **) NULL;
+ 
+@@ -142,7 +142,7 @@ copy_string_list(
+     for (length = 0; count-- > 0; list_src++)
+ 	length += strlen(*list_src) + 1;
+ 
+-    dst = (char *) Xmalloc(length);
++    dst = Xmalloc(length);
+     if (dst == NULL) {
+ 	Xfree(string_list_ret);
+ 	return (char **) NULL;
+diff --git a/src/Font.c b/src/Font.c
+index 5dbdb29..3beb8a5 100644
+--- a/src/Font.c
++++ b/src/Font.c
+@@ -215,7 +215,7 @@ _XQueryFont (
+ 	DeqAsyncHandler(dpy, &async);
+     reply_left = reply.length -
+ 	((SIZEOF(xQueryFontReply) - SIZEOF(xReply)) >> 2);
+-    if (! (fs = (XFontStruct *) Xmalloc (sizeof (XFontStruct)))) {
++    if (! (fs = Xmalloc (sizeof (XFontStruct)))) {
+ 	_XEatDataWords(dpy, reply_left);
+ 	return (XFontStruct *)NULL;
+     }
+@@ -323,7 +323,7 @@ _XF86BigfontCodes (
+     if (pData)
+ 	return (XF86BigfontCodes *) pData->private_data;
+ 
+-    pData = (XExtData *) Xmalloc(sizeof(XExtData) + sizeof(XF86BigfontCodes));
++    pData = Xmalloc(sizeof(XExtData) + sizeof(XF86BigfontCodes));
+     if (!pData) {
+ 	/* Out of luck. */
+ 	return (XF86BigfontCodes *) NULL;
+@@ -459,7 +459,7 @@ _XF86BigfontQueryFont (
+ 	DeqAsyncHandler(dpy, &async1);
+     reply_left = reply.length -
+ 	((SIZEOF(xXF86BigfontQueryFontReply) - SIZEOF(xReply)) >> 2);
+-    if (! (fs = (XFontStruct *) Xmalloc (sizeof (XFontStruct)))) {
++    if (! (fs = Xmalloc (sizeof (XFontStruct)))) {
+ 	_XEatDataWords(dpy, reply_left);
+ 	return (XFontStruct *)NULL;
+     }
+@@ -521,14 +521,14 @@ _XF86BigfontQueryFont (
+ 
+ 	    nbytes = reply.nUniqCharInfos * SIZEOF(xCharInfo)
+ 	             + (reply.nCharInfos+1)/2 * 2 * sizeof(CARD16);
+-	    pUniqCI = (xCharInfo *) Xmalloc (nbytes);
++	    pUniqCI = Xmalloc (nbytes);
+ 	    if (!pUniqCI) {
+ 		if (fs->properties) Xfree((char *) fs->properties);
+ 		Xfree((char *) fs);
+ 		_XEatDataWords(dpy, reply_left);
+ 		return (XFontStruct *)NULL;
+ 	    }
+-	    if (! (fs->per_char = (XCharStruct *) Xmalloc (reply.nCharInfos * sizeof(XCharStruct)))) {
++	    if (! (fs->per_char = Xmalloc (reply.nCharInfos * sizeof(XCharStruct)))) {
+ 		Xfree((char *) pUniqCI);
+ 		if (fs->properties) Xfree((char *) fs->properties);
+ 		Xfree((char *) fs);
+@@ -555,7 +555,7 @@ _XF86BigfontQueryFont (
+ 	    XEDataObject fs_union;
+ 	    char *addr;
+ 
+-	    pData = (XExtData *) Xmalloc(sizeof(XExtData));
++	    pData = Xmalloc(sizeof(XExtData));
+ 	    if (!pData) {
+ 		if (fs->properties) Xfree((char *) fs->properties);
+ 		Xfree((char *) fs);
+diff --git a/src/GetAtomNm.c b/src/GetAtomNm.c
+index 996f7eb..32de50d 100644
+--- a/src/GetAtomNm.c
++++ b/src/GetAtomNm.c
+@@ -46,7 +46,7 @@ char *_XGetAtomName(
+ 	for (idx = TABLESIZE; --idx >= 0; ) {
+ 	    if ((e = *table++) && (e->atom == atom)) {
+ 		idx = strlen(EntryName(e)) + 1;
+-		if ((name = (char *)Xmalloc(idx)))
++		if ((name = Xmalloc(idx)))
+ 		    strcpy(name, EntryName(e));
+ 		return name;
+ 	    }
+@@ -73,7 +73,7 @@ char *XGetAtomName(
+ 	SyncHandle();
+ 	return(NULL);
+     }
+-    if ((name = (char *) Xmalloc(rep.nameLength+1))) {
++    if ((name = Xmalloc(rep.nameLength + 1))) {
+ 	_XReadPad(dpy, name, (long)rep.nameLength);
+ 	name[rep.nameLength] = '\0';
+ 	_XUpdateAtomCache(dpy, name, atom, 0, -1, 0);
+@@ -124,7 +124,7 @@ Bool _XGetAtomNameHandler(
+ 	_XGetAsyncReply(dpy, (char *)&replbuf, rep, buf, len,
+ 			(SIZEOF(xGetAtomNameReply) - SIZEOF(xReply)) >> 2,
+ 			False);
+-    state->names[state->idx] = (char *) Xmalloc(repl->nameLength+1);
++    state->names[state->idx] = Xmalloc(repl->nameLength + 1);
+     _XGetAsyncData(dpy, state->names[state->idx], buf, len,
+ 		   SIZEOF(xGetAtomNameReply), repl->nameLength,
+ 		   repl->length << 2);
+@@ -170,7 +170,7 @@ XGetAtomNames (
+     }
+     if (missed >= 0) {
+ 	if (_XReply(dpy, (xReply *)&rep, 0, xFalse)) {
+-	    if ((names_return[missed] = (char *) Xmalloc(rep.nameLength+1))) {
++	    if ((names_return[missed] = Xmalloc(rep.nameLength + 1))) {
+ 		_XReadPad(dpy, names_return[missed], (long)rep.nameLength);
+ 		names_return[missed][rep.nameLength] = '\0';
+ 		_XUpdateAtomCache(dpy, names_return[missed], atoms[missed],
+diff --git a/src/GetHints.c b/src/GetHints.c
+index 4800fe7..3c410d3 100644
+--- a/src/GetHints.c
++++ b/src/GetHints.c
+@@ -128,7 +128,7 @@ XWMHints *XGetWMHints (
+                 return(NULL);
+ 		}
+ 	/* static copies not allowed in library, due to reentrancy constraint*/
+-	if ((hints = (XWMHints *) Xcalloc (1, (unsigned) sizeof(XWMHints)))) {
++	if ((hints = Xcalloc (1, sizeof(XWMHints)))) {
+ 	    hints->flags = prop->flags;
+ 	    hints->input = (prop->input ? True : False);
+ 	    hints->initial_state = cvtINT32toInt (prop->initialState);
+@@ -203,8 +203,7 @@ Status XGetIconSizes (
+ 	/* static copies not allowed in library, due to reentrancy constraint*/
+ 
+ 	nitems /= NumPropIconSizeElements;
+-	if (! (hp = hints = (XIconSize *)
+-	  Xcalloc ((unsigned) nitems, (unsigned) sizeof(XIconSize)))) {
++	if (! (hp = hints = Xcalloc (nitems, sizeof(XIconSize)))) {
+ 	    if (prop) Xfree ((char *) prop);
+ 	    return 0;
+ 	}
+@@ -317,14 +316,14 @@ XGetClassHint(
+ 
+    if ( (actual_type == XA_STRING) && (actual_format == 8) ) {
+ 	len_name = strlen((char *) data);
+-	if (! (classhint->res_name = Xmalloc((unsigned) (len_name+1)))) {
++	if (! (classhint->res_name = Xmalloc(len_name + 1))) {
+ 	    Xfree((char *) data);
+ 	    return (0);
+ 	}
+ 	strcpy(classhint->res_name, (char *) data);
+ 	if (len_name == nitems) len_name--;
+ 	len_class = strlen((char *) (data+len_name+1));
+-	if (! (classhint->res_class = Xmalloc((unsigned) (len_class+1)))) {
++	if (! (classhint->res_class = Xmalloc(len_class + 1))) {
+ 	    Xfree(classhint->res_name);
+ 	    classhint->res_name = (char *) NULL;
+ 	    Xfree((char *) data);
+diff --git a/src/GetRGBCMap.c b/src/GetRGBCMap.c
+index 9e227a2..2f0b752 100644
+--- a/src/GetRGBCMap.c
++++ b/src/GetRGBCMap.c
+@@ -99,8 +99,7 @@ Status XGetRGBColormaps (
+     /*
+      * allocate array
+      */
+-    cmaps = (XStandardColormap *) Xmalloc (ncmaps *
+-					   sizeof (XStandardColormap));
++    cmaps = Xmalloc (ncmaps * sizeof (XStandardColormap));
+     if (!cmaps) {
+ 	if (data) Xfree ((char *) data);
+ 	return False;
+diff --git a/src/ImUtil.c b/src/ImUtil.c
+index fa8d464..240a261 100644
+--- a/src/ImUtil.c
++++ b/src/ImUtil.c
+@@ -332,7 +332,7 @@ XImage *XCreateImage (
+ 	    (xpad != 8 && xpad != 16 && xpad != 32) ||
+ 	    offset < 0)
+ 	    return (XImage *) NULL;
+-	if ((image = (XImage *) Xcalloc(1, (unsigned) sizeof(XImage))) == NULL)
++	if ((image = Xcalloc(1, sizeof(XImage))) == NULL)
+ 	    return (XImage *) NULL;
+ 
+ 	image->width = width;
+@@ -842,7 +842,7 @@ static XImage *_XSubImage (
+ 	register unsigned long pixel;
+ 	char *data;
+ 
+-	if ((subimage = (XImage *) Xcalloc (1, sizeof (XImage))) == NULL)
++	if ((subimage = Xcalloc (1, sizeof (XImage))) == NULL)
+ 	    return (XImage *) NULL;
+ 	subimage->width = width;
+ 	subimage->height = height;
+@@ -868,7 +868,7 @@ static XImage *_XSubImage (
+ 	_XInitImageFuncPtrs (subimage);
+ 	dsize = subimage->bytes_per_line * height;
+ 	if (subimage->format == XYPixmap) dsize = dsize * subimage->depth;
+-	if (((data = Xcalloc (1, (unsigned) dsize)) == NULL) && (dsize > 0)) {
++	if (((data = Xcalloc (1, dsize)) == NULL) && (dsize > 0)) {
+ 	    Xfree((char *) subimage);
+ 	    return (XImage *) NULL;
+ 	}
+diff --git a/src/InitExt.c b/src/InitExt.c
+index 19515cc..75991bd 100644
+--- a/src/InitExt.c
++++ b/src/InitExt.c
+@@ -49,7 +49,7 @@ XExtCodes *XInitExtension (
+ 		&codes.first_error)) return (NULL);
+ 
+ 	LockDisplay (dpy);
+-	if (! (ext = (_XExtension *) Xcalloc (1, sizeof (_XExtension))) ||
++	if (! (ext = Xcalloc (1, sizeof (_XExtension))) ||
+ 	    ! (ext->name = strdup(name))) {
+ 	    if (ext) Xfree((char *) ext);
+ 	    UnlockDisplay(dpy);
+@@ -71,7 +71,7 @@ XExtCodes *XAddExtension (Display *dpy)
+     register _XExtension *ext;
+ 
+     LockDisplay (dpy);
+-    if (! (ext = (_XExtension *) Xcalloc (1, sizeof (_XExtension)))) {
++    if (! (ext = Xcalloc (1, sizeof (_XExtension)))) {
+ 	UnlockDisplay(dpy);
+ 	return (XExtCodes *) NULL;
+     }
+diff --git a/src/IntAtom.c b/src/IntAtom.c
+index 7a56258..25466ca 100644
+--- a/src/IntAtom.c
++++ b/src/IntAtom.c
+@@ -72,7 +72,7 @@ Atom _XInternAtom(
+ 
+     /* look in the cache first */
+     if (!(atoms = dpy->atoms)) {
+-	dpy->atoms = atoms = (AtomTable *)Xcalloc(1, sizeof(AtomTable));
++	dpy->atoms = atoms = Xcalloc(1, sizeof(AtomTable));
+ 	dpy->free_funcs->atoms = _XFreeAtomTable;
+     }
+     sig = 0;
+@@ -127,7 +127,7 @@ _XUpdateAtomCache(
+ 
+     if (!dpy->atoms) {
+ 	if (idx < 0) {
+-	    dpy->atoms = (AtomTable *)Xcalloc(1, sizeof(AtomTable));
++	    dpy->atoms = Xcalloc(1, sizeof(AtomTable));
+ 	    dpy->free_funcs->atoms = _XFreeAtomTable;
+ 	}
+ 	if (!dpy->atoms)
+@@ -147,7 +147,7 @@ _XUpdateAtomCache(
+ 	    }
+ 	}
+     }
+-    e = (Entry)Xmalloc(sizeof(EntryRec) + n + 1);
++    e = Xmalloc(sizeof(EntryRec) + n + 1);
+     if (e) {
+ 	e->sig = sig;
+ 	e->atom = atom;
+diff --git a/src/KeyBind.c b/src/KeyBind.c
+index f22feca..2110772 100644
+--- a/src/KeyBind.c
++++ b/src/KeyBind.c
+@@ -997,11 +997,9 @@ XRebindKeysym (
+     tmp = dpy->key_bindings;
+     nb = sizeof(KeySym) * nm;
+ 
+-    if ((! (p = (struct _XKeytrans *) Xcalloc( 1, sizeof(struct _XKeytrans)))) ||
+-	((! (p->string = (char *) Xmalloc( (unsigned) nbytes))) &&
+-	 (nbytes > 0)) ||
+-	((! (p->modifiers = (KeySym *) Xmalloc( (unsigned) nb))) &&
+-	 (nb > 0))) {
++    if ((! (p = Xcalloc( 1, sizeof(struct _XKeytrans)))) ||
++	((! (p->string = Xmalloc(nbytes))) && (nbytes > 0)) ||
++	((! (p->modifiers = Xmalloc(nb))) && (nb > 0))) {
+ 	if (p) {
+ 	    if (p->string) Xfree(p->string);
+ 	    if (p->modifiers) Xfree((char *) p->modifiers);
+diff --git a/src/ModMap.c b/src/ModMap.c
+index 122ca80..5c5b426 100644
+--- a/src/ModMap.c
++++ b/src/ModMap.c
+@@ -97,11 +97,11 @@ XSetModifierMapping(
+ XModifierKeymap *
+ XNewModifiermap(int keyspermodifier)
+ {
+-    XModifierKeymap *res = (XModifierKeymap *) Xmalloc((sizeof (XModifierKeymap)));
++    XModifierKeymap *res = Xmalloc((sizeof (XModifierKeymap)));
+     if (res) {
+ 	res->max_keypermod = keyspermodifier;
+ 	res->modifiermap = (keyspermodifier > 0 ?
+-			    (KeyCode *) Xmalloc((unsigned) (8 * keyspermodifier))
++			    Xmalloc(8 * keyspermodifier)
+ 			    : (KeyCode *) NULL);
+ 	if (keyspermodifier && (res->modifiermap == NULL)) {
+ 	    Xfree((char *) res);
+diff --git a/src/OpenDis.c b/src/OpenDis.c
+index 0bf1b91..7318ad9 100644
+--- a/src/OpenDis.c
++++ b/src/OpenDis.c
+@@ -112,7 +112,7 @@ XOpenDisplay (
+ /*
+  * Attempt to allocate a display structure. Return NULL if allocation fails.
+  */
+-	if ((dpy = (Display *)Xcalloc(1, sizeof(Display))) == NULL) {
++	if ((dpy = Xcalloc(1, sizeof(Display))) == NULL) {
+ 		return(NULL);
+ 	}
+ 
+@@ -246,9 +246,7 @@ XOpenDisplay (
+ 	dpy->qlen = 0;
+ 
+ 	/* Set up free-function record */
+-	if ((dpy->free_funcs = (_XFreeFuncRec *)Xcalloc(1,
+-							sizeof(_XFreeFuncRec)))
+-	    == NULL) {
++	if ((dpy->free_funcs = Xcalloc(1, sizeof(_XFreeFuncRec))) == NULL) {
+ 	    OutOfMemory (dpy);
+ 	    return(NULL);
+ 	}
+@@ -316,7 +314,7 @@ XOpenDisplay (
+ 	    return (NULL);
+ 	}
+ 
+-	dpy->vendor = (char *) Xmalloc((unsigned) (u.setup->nbytesVendor + 1));
++	dpy->vendor = Xmalloc(u.setup->nbytesVendor + 1);
+ 	if (dpy->vendor == NULL) {
+ 	    OutOfMemory(dpy);
+ 	    return (NULL);
+@@ -342,9 +340,7 @@ XOpenDisplay (
+ /*
+  * Now iterate down setup information.....
+  */
+-	dpy->pixmap_format =
+-	    (ScreenFormat *)Xmalloc(
+-		(unsigned) (dpy->nformats *sizeof(ScreenFormat)));
++	dpy->pixmap_format = Xmalloc(dpy->nformats * sizeof(ScreenFormat));
+ 	if (dpy->pixmap_format == NULL) {
+ 	        OutOfMemory (dpy);
+ 		return(NULL);
+@@ -372,8 +368,7 @@ XOpenDisplay (
+ /*
+  * next the Screen structures.
+  */
+-	dpy->screens =
+-	    (Screen *)Xmalloc((unsigned) dpy->nscreens*sizeof(Screen));
++	dpy->screens = Xmalloc(dpy->nscreens * sizeof(Screen));
+ 	if (dpy->screens == NULL) {
+ 	        OutOfMemory (dpy);
+ 		return(NULL);
+@@ -415,8 +410,7 @@ XOpenDisplay (
+ /*
+  * lets set up the depth structures.
+  */
+-	    sp->depths = (Depth *)Xmalloc(
+-			(unsigned)sp->ndepths*sizeof(Depth));
++	    sp->depths = Xmalloc(sp->ndepths * sizeof(Depth));
+ 	    if (sp->depths == NULL) {
+ 		OutOfMemory (dpy);
+ 		return(NULL);
+@@ -438,8 +432,7 @@ XOpenDisplay (
+ 		dp->nvisuals = u.dp->nVisuals;
+ 		u.dp = (xDepth *) (((char *) u.dp) + sz_xDepth);
+ 		if (dp->nvisuals > 0) {
+-		    dp->visuals =
+-		      (Visual *)Xmalloc((unsigned)dp->nvisuals*sizeof(Visual));
++		    dp->visuals = Xmalloc(dp->nvisuals * sizeof(Visual));
+ 		    if (dp->visuals == NULL) {
+ 			OutOfMemory (dpy);
+ 			return(NULL);
+diff --git a/src/PixFormats.c b/src/PixFormats.c
+index 8e4a100..6d9f64d 100644
+--- a/src/PixFormats.c
++++ b/src/PixFormats.c
+@@ -38,8 +38,8 @@ XPixmapFormatValues *XListPixmapFormats (
+     Display *dpy,
+     int *count)	/* RETURN */
+ {
+-    XPixmapFormatValues *formats = (XPixmapFormatValues *)
+-	Xmalloc((unsigned) (dpy->nformats * sizeof (XPixmapFormatValues)));
++    XPixmapFormatValues *formats =
++	Xmalloc(dpy->nformats * sizeof (XPixmapFormatValues));
+ 
+     if (formats) {
+ 	register int i;
+diff --git a/src/PolyReg.c b/src/PolyReg.c
+index 74c8765..6d02773 100644
+--- a/src/PolyReg.c
++++ b/src/PolyReg.c
+@@ -95,8 +95,7 @@ InsertEdgeInET(
+     {
+         if (*iSLLBlock > SLLSPERBLOCK-1)
+         {
+-            tmpSLLBlock =
+-		  (ScanLineListBlock *)Xmalloc(sizeof(ScanLineListBlock));
++            tmpSLLBlock = Xmalloc(sizeof(ScanLineListBlock));
+             (*SLLBlock)->next = tmpSLLBlock;
+             tmpSLLBlock->next = (ScanLineListBlock *)NULL;
+             *SLLBlock = tmpSLLBlock;
+@@ -410,8 +409,7 @@ static int PtsToRegion(
+ 
+     numRects = ((numFullPtBlocks * NUMPTSTOBUFFER) + iCurPtBlock) >> 1;
+ 
+-    if (!(reg->rects = (BOX *)Xrealloc((char *)reg->rects,
+-	    (unsigned) (sizeof(BOX) * numRects))))  {
++    if (!(reg->rects = Xrealloc(reg->rects, sizeof(BOX) * numRects))) {
+ 	Xfree(prevRects);
+ 	return(0);
+     }
+@@ -521,8 +519,7 @@ XPolygonRegion(
+ 
+     if (Count < 2) return region;
+ 
+-    if (! (pETEs = (EdgeTableEntry *)
+-	   Xmalloc((unsigned) (sizeof(EdgeTableEntry) * Count)))) {
++    if (! (pETEs = Xmalloc(sizeof(EdgeTableEntry) * Count))) {
+ 	XDestroyRegion(region);
+ 	return (Region) NULL;
+     }
+@@ -559,7 +556,7 @@ XPolygonRegion(
+                  *  send out the buffer
+                  */
+                 if (iPts == NUMPTSTOBUFFER) {
+-                    tmpPtBlock = (POINTBLOCK *)Xmalloc(sizeof(POINTBLOCK));
++                    tmpPtBlock = Xmalloc(sizeof(POINTBLOCK));
+                     curPtBlock->next = tmpPtBlock;
+                     curPtBlock = tmpPtBlock;
+                     pts = curPtBlock->pts;
+@@ -605,7 +602,7 @@ XPolygonRegion(
+                      *  send out the buffer
+                      */
+                     if (iPts == NUMPTSTOBUFFER) {
+-                        tmpPtBlock = (POINTBLOCK *)Xmalloc(sizeof(POINTBLOCK));
++                        tmpPtBlock = Xmalloc(sizeof(POINTBLOCK));
+                         curPtBlock->next = tmpPtBlock;
+                         curPtBlock = tmpPtBlock;
+                         pts = curPtBlock->pts;
+diff --git a/src/PropAlloc.c b/src/PropAlloc.c
+index 5162830..87817d8 100644
+--- a/src/PropAlloc.c
++++ b/src/PropAlloc.c
+@@ -39,20 +39,19 @@ in this Software without prior written authorization from The Open Group.
+ 
+ XSizeHints *XAllocSizeHints (void)
+ {
+-    return ((XSizeHints *) Xcalloc (1, (unsigned) sizeof (XSizeHints)));
++    return Xcalloc (1, sizeof (XSizeHints));
+ }
+ 
+ 
+ XStandardColormap *XAllocStandardColormap (void)
+ {
+-    return ((XStandardColormap *)
+-	    Xcalloc (1, (unsigned) sizeof (XStandardColormap)));
++    return Xcalloc (1, sizeof (XStandardColormap));
+ }
+ 
+ 
+ XWMHints *XAllocWMHints (void)
+ {
+-    return ((XWMHints *) Xcalloc (1, (unsigned) sizeof (XWMHints)));
++    return Xcalloc (1, sizeof (XWMHints));
+ }
+ 
+ 
+@@ -64,7 +63,7 @@ XClassHint *XAllocClassHint (void)
+ 
+ XIconSize *XAllocIconSize (void)
+ {
+-    return ((XIconSize *) Xcalloc (1, (unsigned) sizeof (XIconSize)));
++    return Xcalloc (1, sizeof (XIconSize));
+ }
+ 
+ 
+diff --git a/src/PutBEvent.c b/src/PutBEvent.c
+index f9d4c29..1768e03 100644
+--- a/src/PutBEvent.c
++++ b/src/PutBEvent.c
+@@ -41,7 +41,7 @@ _XPutBackEvent (
+ 	XEvent store = *event;
+ 
+ 	if (!dpy->qfree) {
+-    	    if ((dpy->qfree = (_XQEvent *) Xmalloc (sizeof (_XQEvent))) == NULL) {
++	    if ((dpy->qfree = Xmalloc (sizeof (_XQEvent))) == NULL) {
+ 		return 0;
+ 	    }
+ 	    dpy->qfree->next = NULL;
+diff --git a/src/PutImage.c b/src/PutImage.c
+index 6dad4f1..2a694f0 100644
+--- a/src/PutImage.c
++++ b/src/PutImage.c
+@@ -680,7 +680,7 @@ SendXYImage(
+ 
+     length = ROUNDUP(length, 4);
+     if ((dpy->bufptr + length) > dpy->bufmax) {
+-	if ((buf = _XAllocScratch(dpy, (unsigned long) (length))) == NULL) {
++	if ((buf = _XAllocScratch(dpy, length)) == NULL) {
+ 	    UnGetReq(PutImage);
+ 	    return;
+ 	}
+@@ -703,13 +703,13 @@ SendXYImage(
+ 	bytes_per_temp_plane = bytes_per_line * req->height;
+ 	temp_length = ROUNDUP(bytes_per_temp_plane * image->depth, 4);
+ 	if (buf == dpy->bufptr) {
+-	    if (! (temp = _XAllocScratch(dpy, (unsigned long) temp_length))) {
++	    if (! (temp = _XAllocScratch(dpy, temp_length))) {
+ 		UnGetReq(PutImage);
+ 		return;
+ 	    }
+ 	}
+ 	else
+-	    if ((extra = temp = Xmalloc((unsigned) temp_length)) == NULL) {
++	    if ((extra = temp = Xmalloc(temp_length)) == NULL) {
+ 		UnGetReq(PutImage);
+ 		return;
+ 	    }
+@@ -778,8 +778,7 @@ SendZImage(
+ 	  (req_yoffset * image->bytes_per_line) +
+ 	  ((req_xoffset * image->bits_per_pixel) >> 3);
+     if ((image->bits_per_pixel == 4) && ((unsigned int) req_xoffset & 0x01)) {
+-	if (! (shifted_src = (unsigned char *)
+-	       Xmalloc((unsigned) (req->height * image->bytes_per_line)))) {
++	if (! (shifted_src = Xmalloc(req->height * image->bytes_per_line))) {
+ 	    UnGetReq(PutImage);
+ 	    return;
+ 	}
+@@ -810,7 +809,7 @@ SendZImage(
+ 	dest = (unsigned char *)dpy->bufptr;
+     else
+ 	if ((dest = (unsigned char *)
+-	     _XAllocScratch(dpy, (unsigned long)(length))) == NULL) {
++	     _XAllocScratch(dpy, length)) == NULL) {
+ 	    if (shifted_src) Xfree((char *) shifted_src);
+ 	    UnGetReq(PutImage);
+ 	    return;
+@@ -1001,7 +1000,7 @@ XPutImage (
+ 	    img.bits_per_pixel = dest_bits_per_pixel;
+ 	    img.bytes_per_line = ROUNDUP((dest_bits_per_pixel * width),
+ 					 dest_scanline_pad) >> 3;
+-	    img.data = Xmalloc((unsigned) (img.bytes_per_line * height));
++	    img.data = Xmalloc(img.bytes_per_line * height);
+ 	    if (img.data == NULL)
+ 		return 0;
+ 	    _XInitImageFuncPtrs(&img);
+diff --git a/src/Quarks.c b/src/Quarks.c
+index 4eb90c5..60fe127 100644
+--- a/src/Quarks.c
++++ b/src/Quarks.c
+@@ -186,15 +186,14 @@ ExpandQuarkTable(void)
+ 	newmask = (oldmask << 1) + 1;
+     else {
+ 	if (!stringTable) {
+-	    stringTable = (XrmString **)Xmalloc(sizeof(XrmString *) *
+-						CHUNKPER);
++	    stringTable = Xmalloc(sizeof(XrmString *) * CHUNKPER);
+ 	    if (!stringTable)
+ 		return False;
+ 	    stringTable[0] = (XrmString *)NULL;
+ 	}
+ #ifdef PERMQ
+ 	if (!permTable)
+-	    permTable = (Bits **)Xmalloc(sizeof(Bits *) * CHUNKPER);
++	    permTable = Xmalloc(sizeof(Bits *) * CHUNKPER);
+ 	if (!permTable)
+ 	    return False;
+ #endif
+@@ -289,13 +288,13 @@ nomatch:    if (!rehash)
+     q = nextQuark;
+     if (!(q & QUANTUMMASK)) {
+ 	if (!(q & CHUNKMASK)) {
+-	    if (!(new = Xrealloc((char *)stringTable,
++	    if (!(new = Xrealloc(stringTable,
+ 				 sizeof(XrmString *) *
+ 				 ((q >> QUANTUMSHIFT) + CHUNKPER))))
+ 		goto fail;
+ 	    stringTable = (XrmString **)new;
+ #ifdef PERMQ
+-	    if (!(new = Xrealloc((char *)permTable,
++	    if (!(new = Xrealloc(permTable,
+ 				 sizeof(Bits *) *
+ 				 ((q >> QUANTUMSHIFT) + CHUNKPER))))
+ 		goto fail;
+diff --git a/src/RdBitF.c b/src/RdBitF.c
+index ab7d800..727204f 100644
+--- a/src/RdBitF.c
++++ b/src/RdBitF.c
+@@ -191,7 +191,7 @@ XReadBitmapFileData (
+ 	bytes_per_line = (ww+7)/8 + padding;
+ 
+ 	size = bytes_per_line * hh;
+-	bits = (unsigned char *) Xmalloc ((unsigned int) size);
++	bits = Xmalloc (size);
+ 	if (!bits)
+ 	  RETURN (BitmapNoMemory);
+ 
+diff --git a/src/Region.c b/src/Region.c
+index 41047b2..d3d431a 100644
+--- a/src/Region.c
++++ b/src/Region.c
+@@ -139,9 +139,9 @@ XCreateRegion(void)
+ {
+     Region temp;
+ 
+-    if (! (temp = ( Region )Xmalloc( (unsigned) sizeof( REGION ))))
++    if (! (temp = Xmalloc(sizeof( REGION ))))
+ 	return (Region) NULL;
+-    if (! (temp->rects = ( BOX * )Xmalloc( (unsigned) sizeof( BOX )))) {
++    if (! (temp->rects = Xmalloc(sizeof( BOX )))) {
+ 	Xfree((char *) temp);
+ 	return (Region) NULL;
+     }
+@@ -521,9 +521,9 @@ miRegionCopy(
+             {
+ 		BOX *prevRects = dstrgn->rects;
+ 
+-                if (! (dstrgn->rects = (BOX *)
+-		       Xrealloc((char *) dstrgn->rects,
+-				(unsigned) rgn->numRects * (sizeof(BOX))))) {
++		dstrgn->rects = Xrealloc(dstrgn->rects,
++					 rgn->numRects * (sizeof(BOX)));
++		if (! dstrgn->rects) {
+ 		    Xfree(prevRects);
+ 		    return;
+ 		}
+@@ -788,8 +788,7 @@ miRegionOp(
+      */
+     newReg->size = max(reg1->numRects,reg2->numRects) * 2;
+ 
+-    if (! (newReg->rects = (BoxPtr)
+-	   Xmalloc ((unsigned) (sizeof(BoxRec) * newReg->size)))) {
++    if (! (newReg->rects = Xmalloc (sizeof(BoxRec) * newReg->size))) {
+ 	newReg->size = 0;
+ 	return;
+     }
+@@ -980,8 +979,8 @@ miRegionOp(
+ 	{
+ 	    BoxPtr prev_rects = newReg->rects;
+ 	    newReg->size = newReg->numRects;
+-	    newReg->rects = (BoxPtr) Xrealloc ((char *) newReg->rects,
+-				   (unsigned) (sizeof(BoxRec) * newReg->size));
++	    newReg->rects = Xrealloc (newReg->rects,
++				      sizeof(BoxRec) * newReg->size);
+ 	    if (! newReg->rects)
+ 		newReg->rects = prev_rects;
+ 	}
+@@ -993,7 +992,7 @@ miRegionOp(
+ 	     */
+ 	    newReg->size = 1;
+ 	    Xfree((char *) newReg->rects);
+-	    newReg->rects = (BoxPtr) Xmalloc(sizeof(BoxRec));
++	    newReg->rects = Xmalloc(sizeof(BoxRec));
+ 	}
+     }
+     Xfree ((char *) oldRects);
+diff --git a/src/RegstFlt.c b/src/RegstFlt.c
+index 9a560e7..5a1faa7 100644
+--- a/src/RegstFlt.c
++++ b/src/RegstFlt.c
+@@ -85,7 +85,7 @@ _XRegisterFilterByMask(
+ {
+     XFilterEventRec		*rec;
+ 
+-    rec = (XFilterEventList)Xmalloc(sizeof(XFilterEventRec));
++    rec = Xmalloc(sizeof(XFilterEventRec));
+     if (!rec)
+ 	return;
+     rec->window = window;
+@@ -117,7 +117,7 @@ _XRegisterFilterByType(
+ {
+     XFilterEventRec		*rec;
+ 
+-    rec = (XFilterEventList)Xmalloc(sizeof(XFilterEventRec));
++    rec = Xmalloc(sizeof(XFilterEventRec));
+     if (!rec)
+ 	return;
+     rec->window = window;
+diff --git a/src/SetFPath.c b/src/SetFPath.c
+index 89955c2..b1afd82 100644
+--- a/src/SetFPath.c
++++ b/src/SetFPath.c
+@@ -52,7 +52,7 @@ XSetFontPath (
+ 	}
+ 	nbytes = (n + 3) & ~3;
+ 	req->length += nbytes >> 2;
+-	if ((p = (char *) Xmalloc ((unsigned) nbytes))) {
++	if ((p = Xmalloc (nbytes))) {
+ 		/*
+ 	 	 * pack into counted strings.
+ 	 	 */
+diff --git a/src/SetHints.c b/src/SetHints.c
+index 1cde48f..0ae0764 100644
+--- a/src/SetHints.c
++++ b/src/SetHints.c
+@@ -184,7 +184,7 @@ XSetIconSizes (
+ #define size_of_the_real_thing sizeof	/* avoid grepping screwups */
+ 	unsigned nbytes = count * size_of_the_real_thing(xPropIconSize);
+ #undef size_of_the_real_thing
+-	if ((prop = pp = (xPropIconSize *) Xmalloc (nbytes))) {
++	if ((prop = pp = Xmalloc (nbytes))) {
+ 	    for (i = 0; i < count; i++) {
+ 		pp->minWidth  = list->min_width;
+ 		pp->minHeight = list->min_height;
+@@ -216,7 +216,7 @@ XSetCommand (
+ 	for (i = 0, nbytes = 0; i < argc; i++) {
+ 		nbytes += safestrlen(argv[i]) + 1;
+ 	}
+-	if ((bp = buf = Xmalloc((unsigned) nbytes))) {
++	if ((bp = buf = Xmalloc(nbytes))) {
+ 	    /* copy arguments into single buffer */
+ 	    for (i = 0; i < argc; i++) {
+ 		if (argv[i]) {
+@@ -299,7 +299,7 @@ XSetClassHint(
+ 
+ 	len_nm = safestrlen(classhint->res_name);
+ 	len_cl = safestrlen(classhint->res_class);
+-	if ((class_string = s = Xmalloc((unsigned) (len_nm + len_cl + 2)))) {
++	if ((class_string = s = Xmalloc(len_nm + len_cl + 2))) {
+ 	    if (len_nm) {
+ 		strcpy(s, classhint->res_name);
+ 		s += len_nm + 1;
+diff --git a/src/StrToText.c b/src/StrToText.c
+index b5327e8..ef927f3 100644
+--- a/src/StrToText.c
++++ b/src/StrToText.c
+@@ -78,7 +78,7 @@ Status XStringListToTextProperty (
+ 	    }
+ 	}
+     } else {
+-	proto.value = (unsigned char *) Xmalloc (1);	/* easier for client */
++	proto.value = Xmalloc (1);		/* easier for client */
+ 	if (!proto.value) return False;
+ 
+ 	proto.value[0] = '\0';
+diff --git a/src/TextToStr.c b/src/TextToStr.c
+index 216391c..36d9f07 100644
+--- a/src/TextToStr.c
++++ b/src/TextToStr.c
+@@ -72,10 +72,10 @@ Status XTextPropertyToStringList (
+     /*
+      * allocate list and duplicate
+      */
+-    list = (char **) Xmalloc (nelements * sizeof (char *));
++    list = Xmalloc (nelements * sizeof (char *));
+     if (!list) return False;
+ 
+-    start = (char *) Xmalloc ((datalen + 1) * sizeof (char));	/* for <NUL> */
++    start = Xmalloc ((datalen + 1) * sizeof (char));	/* for <NUL> */
+     if (!start) {
+ 	Xfree ((char *) list);
+ 	return False;
+diff --git a/src/VisUtil.c b/src/VisUtil.c
+index 3434c01..aa67992 100644
+--- a/src/VisUtil.c
++++ b/src/VisUtil.c
+@@ -75,8 +75,7 @@ XVisualInfo *XGetVisualInfo(
+ 
+   count = 0;
+   total = 10;
+-  if (! (vip_base = vip = (XVisualInfo *)
+-	 Xmalloc((unsigned) (sizeof(XVisualInfo) * total)))) {
++  if (! (vip_base = vip = Xmalloc(sizeof(XVisualInfo) * total))) {
+       UnlockDisplay(dpy);
+       return (XVisualInfo *) NULL;
+   }
+@@ -132,9 +131,8 @@ XVisualInfo *XGetVisualInfo(
+                 {
+ 		  XVisualInfo *old_vip_base = vip_base;
+                   total += 10;
+-                  if (! (vip_base = (XVisualInfo *)
+-			 Xrealloc((char *) vip_base,
+-				  (unsigned) (sizeof(XVisualInfo) * total)))) {
++                  if (! (vip_base = Xrealloc(vip_base,
++					     sizeof(XVisualInfo) * total))) {
+ 		      Xfree((char *) old_vip_base);
+ 		      UnlockDisplay(dpy);
+ 		      return (XVisualInfo *) NULL;
+diff --git a/src/WrBitF.c b/src/WrBitF.c
+index 1ec6280..75a93a7 100644
+--- a/src/WrBitF.c
++++ b/src/WrBitF.c
+@@ -53,7 +53,7 @@ static char *Format_Image(
+   bytes_per_line = (width+7)/8;
+   *resultsize = bytes_per_line * height;           /* Calculate size of data */
+ 
+-  data = (char *) Xmalloc( *resultsize );           /* Get space for data */
++  data = Xmalloc( *resultsize );                   /* Get space for data */
+   if (!data)
+     return(ERR_RETURN);
+ 
+diff --git a/src/XlibInt.c b/src/XlibInt.c
+index 1c964fd..b06e57b 100644
+--- a/src/XlibInt.c
++++ b/src/XlibInt.c
+@@ -152,7 +152,7 @@ Bool _XPollfdCacheInit(
+ #ifdef USE_POLL
+     struct pollfd *pfp;
+ 
+-    pfp = (struct pollfd *)Xmalloc(POLLFD_CACHE_SIZE * sizeof(struct pollfd));
++    pfp = Xmalloc(POLLFD_CACHE_SIZE * sizeof(struct pollfd));
+     if (!pfp)
+ 	return False;
+     pfp[0].fd = dpy->fd;
+@@ -374,10 +374,10 @@ _XRegisterInternalConnection(
+     struct _XConnWatchInfo *watchers;
+     XPointer *wd;
+ 
+-    new_conni = (struct _XConnectionInfo*)Xmalloc(sizeof(struct _XConnectionInfo));
++    new_conni = Xmalloc(sizeof(struct _XConnectionInfo));
+     if (!new_conni)
+ 	return 0;
+-    new_conni->watch_data = (XPointer *)Xmalloc(dpy->watcher_count * sizeof(XPointer));
++    new_conni->watch_data = Xmalloc(dpy->watcher_count * sizeof(XPointer));
+     if (!new_conni->watch_data) {
+ 	Xfree(new_conni);
+ 	return 0;
+@@ -464,7 +464,7 @@ XInternalConnectionNumbers(
+     count = 0;
+     for (info_list=dpy->im_fd_info; info_list; info_list=info_list->next)
+ 	count++;
+-    fd_list = (int*) Xmalloc (count * sizeof(int));
++    fd_list = Xmalloc (count * sizeof(int));
+     if (!fd_list) {
+ 	UnlockDisplay(dpy);
+ 	return 0;
+@@ -537,9 +537,8 @@ XAddConnectionWatch(
+ 
+     /* allocate new watch data */
+     for (info_list=dpy->im_fd_info; info_list; info_list=info_list->next) {
+-	wd_array = (XPointer *)Xrealloc((char *)info_list->watch_data,
+-					(dpy->watcher_count + 1) *
+-					sizeof(XPointer));
++	wd_array = Xrealloc(info_list->watch_data,
++			    (dpy->watcher_count + 1) * sizeof(XPointer));
+ 	if (!wd_array) {
+ 	    UnlockDisplay(dpy);
+ 	    return 0;
+@@ -548,7 +547,7 @@ XAddConnectionWatch(
+ 	wd_array[dpy->watcher_count] = NULL;	/* for cleanliness */
+     }
+ 
+-    new_watcher = (struct _XConnWatchInfo*)Xmalloc(sizeof(struct _XConnWatchInfo));
++    new_watcher = Xmalloc(sizeof(struct _XConnWatchInfo));
+     if (!new_watcher) {
+ 	UnlockDisplay(dpy);
+ 	return 0;
+@@ -756,8 +755,7 @@ void _XEnq(
+ 		/* If dpy->qfree is non-NULL do this, else malloc a new one. */
+ 		dpy->qfree = qelt->next;
+ 	}
+-	else if ((qelt =
+-	    (_XQEvent *) Xmalloc((unsigned)sizeof(_XQEvent))) == NULL) {
++	else if ((qelt = Xmalloc(sizeof(_XQEvent))) == NULL) {
+ 		/* Malloc call failed! */
+ 		ESET(ENOMEM);
+ 		_XIOError(dpy);
+@@ -1518,7 +1516,7 @@ char *_XAllocScratch(
+ {
+ 	if (nbytes > dpy->scratch_length) {
+ 	    if (dpy->scratch_buffer) Xfree (dpy->scratch_buffer);
+-	    if ((dpy->scratch_buffer = Xmalloc((unsigned) nbytes)))
++	    if ((dpy->scratch_buffer = Xmalloc(nbytes)))
+ 		dpy->scratch_length = nbytes;
+ 	    else dpy->scratch_length = 0;
+ 	}
+diff --git a/src/Xrm.c b/src/Xrm.c
+index 2c0c324..d8272ee 100644
+--- a/src/Xrm.c
++++ b/src/Xrm.c
+@@ -495,7 +495,7 @@ static XrmDatabase NewDatabase(void)
+ {
+     register XrmDatabase db;
+ 
+-    db = (XrmDatabase) Xmalloc(sizeof(XrmHashBucketRec));
++    db = Xmalloc(sizeof(XrmHashBucketRec));
+     if (db) {
+ 	_XCreateMutex(&db->linfo);
+ 	db->table = (NTable)NULL;
+@@ -828,7 +828,7 @@ static void PutEntry(
+     NTable *nprev, *firstpprev;
+ 
+ #define NEWTABLE(q,i) \
+-    table = (NTable)Xmalloc(sizeof(LTableRec)); \
++    table = Xmalloc(sizeof(LTableRec)); \
+     if (!table) \
+ 	return; \
+     table->name = q; \
+@@ -841,7 +841,7 @@ static void PutEntry(
+ 	nprev = NodeBuckets(table); \
+     } else { \
+ 	table->leaf = 1; \
+-	if (!(nprev = (NTable *)Xmalloc(sizeof(VEntry *)))) {\
++	if (!(nprev = Xmalloc(sizeof(VEntry *)))) {\
+ 	    Xfree(table); \
+ 	    return; \
+         } \
+@@ -955,9 +955,8 @@ static void PutEntry(
+ 	prev = nprev;
+     }
+     /* now allocate the value entry */
+-    entry = (VEntry)Xmalloc(((type == XrmQString) ?
+-			     sizeof(VEntryRec) : sizeof(DEntryRec)) +
+-			    value->size);
++    entry = Xmalloc(((type == XrmQString) ?
++		     sizeof(VEntryRec) : sizeof(DEntryRec)) + value->size);
+     if (!entry)
+ 	return;
+     entry->name = q = *quarks;
+@@ -987,13 +986,12 @@ static void PutEntry(
+ 	if (resourceQuarks) {
+ 	    unsigned char *prevQuarks = resourceQuarks;
+ 
+-	    resourceQuarks = (unsigned char *)Xrealloc((char *)resourceQuarks,
+-						       size);
++	    resourceQuarks = Xrealloc(resourceQuarks, size);
+ 	    if (!resourceQuarks) {
+ 		Xfree(prevQuarks);
+ 	    }
+ 	} else
+-	    resourceQuarks = (unsigned char *)Xmalloc(size);
++	    resourceQuarks = Xmalloc(size);
+ 	if (resourceQuarks) {
+ 	    bzero((char *)&resourceQuarks[oldsize], size - oldsize);
+ 	    maxResourceQuark = (size << 3) - 1;
+@@ -1138,11 +1136,11 @@ static void GetDatabase(
+ 
+     str_len = strlen (str);
+     if (DEF_BUFF_SIZE > str_len) lhs = lhs_s;
+-    else if ((lhs = (char*) Xmalloc (str_len)) == NULL)
++    else if ((lhs = Xmalloc (str_len)) == NULL)
+ 	return;
+ 
+     alloc_chars = DEF_BUFF_SIZE < str_len ? str_len : DEF_BUFF_SIZE;
+-    if ((rhs = (char*) Xmalloc (alloc_chars)) == NULL) {
++    if ((rhs = Xmalloc (alloc_chars)) == NULL) {
+ 	if (lhs != lhs_s) Xfree (lhs);
+ 	return;
+     }
+diff --git a/src/locking.c b/src/locking.c
+index b3dfb3b..7c09c44 100644
+--- a/src/locking.c
++++ b/src/locking.c
+@@ -82,7 +82,7 @@ _Xthread_waiter(void)
+     struct _xthread_waiter *me;
+ 
+     if (!(me = TlsGetValue(_X_TlsIndex))) {
+-	me = (struct _xthread_waiter *)xmalloc(sizeof(struct _xthread_waiter));
++	me = xmalloc(sizeof(struct _xthread_waiter));
+ 	me->sem = CreateSemaphore(NULL, 0, 1, NULL);
+ 	me->next = NULL;
+ 	TlsSetValue(_X_TlsIndex, me);
+@@ -249,7 +249,7 @@ static struct _XCVList *_XCreateCVL(
+ 	dpy->lock->free_cvls = cvl->next;
+ 	dpy->lock->num_free_cvls--;
+     } else {
+-	cvl = (struct _XCVList *)Xmalloc(sizeof(struct _XCVList));
++	cvl = Xmalloc(sizeof(struct _XCVList));
+ 	if (!cvl)
+ 	    return NULL;
+ 	cvl->cv = xcondition_malloc();
+@@ -512,10 +512,10 @@ void _XUserUnlockDisplay(
+ static int _XInitDisplayLock(
+     Display *dpy)
+ {
+-    dpy->lock_fns = (struct _XLockPtrs*)Xmalloc(sizeof(struct _XLockPtrs));
++    dpy->lock_fns = Xmalloc(sizeof(struct _XLockPtrs));
+     if (dpy->lock_fns == NULL)
+ 	return -1;
+-    dpy->lock = (struct _XLockInfo *)Xmalloc(sizeof(struct _XLockInfo));
++    dpy->lock = Xmalloc(sizeof(struct _XLockInfo));
+     if (dpy->lock == NULL) {
+ 	_XFreeDisplayLock(dpy);
+ 	return -1;
+diff --git a/src/udcInf.c b/src/udcInf.c
+index b7577ac..9ecf156 100644
+--- a/src/udcInf.c
++++ b/src/udcInf.c
+@@ -145,12 +145,11 @@ int  *num_codeset;
+             if(!_XlcCompareISOLatin1(charset_str,buf)){
+                 num_ret += 1;
+                 if(num_ret == 1){
+-                    ret = (int *)Xmalloc(sizeof(int));
++		    ret = Xmalloc(sizeof(int));
+                 } else {
+ 		    int *prev_ret = ret;
+ 
+-		    ret =
+-                        (int *)Xrealloc(ret,num_ret*sizeof(int));
++		    ret = Xrealloc(ret, num_ret * sizeof(int));
+ 		    if (ret == NULL){
+ 			Xfree(prev_ret);
+ 		    }
+@@ -272,7 +271,7 @@ int  *num_gr;
+         sprintf(buf, "fs%d.charset.udc_area", codeset-1);
+         _XlcGetLocaleDataBase(lcd, "XLC_FONTSET", buf, &value, &count);
+         if(count > 0){
+-            udc = (_XUDCGlyphRegion *)Xmalloc(count * sizeof(_XUDCGlyphRegion));
++            udc = Xmalloc(count * sizeof(_XUDCGlyphRegion));
+             if(udc == NULL){
+ 		_xudc_utyerrno = 0x03 ;
+ 		_xudc_utyerrno |= (0x0b<<8) ;
+@@ -524,7 +523,7 @@ int  *num_cr;
+ 	return(ret);
+     }
+ 
+-    crr = (_XUDCCodeRegion *)Xmalloc(num_gr*sizeof(_XUDCCodeRegion));
++    crr = Xmalloc(num_gr * sizeof(_XUDCCodeRegion));
+     if(crr == NULL){
+ 	Xfree(gr);
+ 	_xudc_utyerrno = 0x03 ;
+-- 
+1.7.9.2
+
+From 993349bf944ad312b0dd7096558fb8cfe1eff16b Mon Sep 17 00:00:00 2001
+From: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date: Sat, 16 Mar 2013 10:03:13 -0700
+Subject: [PATCH:libX11 36/38] Use calloc in XOpenDisplay to initialize
+ structs containing pointers
+
+Prevents trying to free uninitialized pointers if we have to bail out
+partway through setup, such as if we receive a corrupted or incomplete
+connection setup block from the server.
+
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+---
+ src/OpenDis.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/OpenDis.c b/src/OpenDis.c
+index 7318ad9..fc67d1a 100644
+--- a/src/OpenDis.c
++++ b/src/OpenDis.c
+@@ -340,7 +340,7 @@ XOpenDisplay (
+ /*
+  * Now iterate down setup information.....
+  */
+-	dpy->pixmap_format = Xmalloc(dpy->nformats * sizeof(ScreenFormat));
++	dpy->pixmap_format = Xcalloc(dpy->nformats, sizeof(ScreenFormat));
+ 	if (dpy->pixmap_format == NULL) {
+ 	        OutOfMemory (dpy);
+ 		return(NULL);
+@@ -368,7 +368,7 @@ XOpenDisplay (
+ /*
+  * next the Screen structures.
+  */
+-	dpy->screens = Xmalloc(dpy->nscreens * sizeof(Screen));
++	dpy->screens = Xcalloc(dpy->nscreens, sizeof(Screen));
+ 	if (dpy->screens == NULL) {
+ 	        OutOfMemory (dpy);
+ 		return(NULL);
+@@ -410,7 +410,7 @@ XOpenDisplay (
+ /*
+  * lets set up the depth structures.
+  */
+-	    sp->depths = Xmalloc(sp->ndepths * sizeof(Depth));
++	    sp->depths = Xcalloc(sp->ndepths, sizeof(Depth));
+ 	    if (sp->depths == NULL) {
+ 		OutOfMemory (dpy);
+ 		return(NULL);
+@@ -432,7 +432,7 @@ XOpenDisplay (
+ 		dp->nvisuals = u.dp->nVisuals;
+ 		u.dp = (xDepth *) (((char *) u.dp) + sz_xDepth);
+ 		if (dp->nvisuals > 0) {
+-		    dp->visuals = Xmalloc(dp->nvisuals * sizeof(Visual));
++		    dp->visuals = Xcalloc(dp->nvisuals, sizeof(Visual));
+ 		    if (dp->visuals == NULL) {
+ 			OutOfMemory (dpy);
+ 			return(NULL);
+-- 
+1.7.9.2
+

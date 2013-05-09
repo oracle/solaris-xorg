@@ -93,12 +93,20 @@ SOURCE_PATCHES = \
 	locale-zh_TW.patch \
 	locale-ru-RU.UTF-8.patch
 
+# Patches from May 2013 security alert - will be integrated into libX11 1.6
+SOURCE_PATCHES += upstream-cleanup.patch,-p1
+SOURCE_PATCHES += XEatDataWords.patch,-p1
+SOURCE_PATCHES += CVE-2013-1981.patch,-p1
+SOURCE_PATCHES += CVE-2013-1997.patch,-p1
+SOURCE_PATCHES += CVE-2013-2004.patch,-p1
+SOURCE_PATCHES += alloc-cleanup.patch,-p1
+
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1986, 2012
+ORACLE_COPYRIGHT_YEARS = 1986, 2013
 
 # ARC cases that covered this module
 # PSARC/1992/077 X11/R5 Xlib API

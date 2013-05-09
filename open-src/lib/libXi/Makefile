@@ -2,7 +2,7 @@
 #
 # libXi Makefile
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,7 @@ TARBALL_SHA256= e92adb6b69c53c51e05c1e65db97e23751b935a693000fb0606c11b88c0066c5
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1
 SOURCE_PATCHES += man-fixme.patch,-p1 shadow-man-pages.patch,-p1
+SOURCE_PATCHES += CVE-2013-19XX.patch,-p1
 
 # Need to regen Makefile.in after man-fixme.patch changes Makefile.am
 AUTORECONF=yes

@@ -2,7 +2,7 @@
 #
 # Xrandr 1.x Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,7 +36,7 @@ TARBALL_MD5  = 0c843636124cc1494e3d87df16957672
 TARBALL_SHA1 = 2353d16635a20521a64838f568bb4c8a10823316
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = CVE-2013-1986.patch,-p1
 
 # Library name
 LIBNAME=Xrandr

@@ -2,7 +2,7 @@
 #
 # libFS - client library to connect to xfs font servers
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,7 @@ TARBALL_SHA256= 7073761e7594d43180a922605fb64cce60e5ccb8c06f8efa24f2d4621f5e8315
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-abi.patch,-p1
 SOURCE_PATCHES += lint.patch,-p1
+SOURCE_PATCHES += CVE-2013-1996.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

@@ -2,7 +2,7 @@
 #
 # X Toolkit Intrinsics library (libXt)
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,7 @@ TARBALL_SHA256= 8db593c3fc5ffc4e9cd854ba50af1eac9b90d66521ba17802b8f1e0d2d7f05bd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch,-p1
+SOURCE_PATCHES += CVE-2013-2002.patch,-p1 CVE-2013-2005.patch,-p1
 
 # Regenerate configure script & Makefile.in's after applying patches
 AUTORECONF=yes

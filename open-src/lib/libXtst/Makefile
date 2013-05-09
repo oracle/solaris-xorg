@@ -2,7 +2,7 @@
 #
 # libXtst - Xlib-based client library for Xtest & Record extension protocols
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,8 +37,8 @@ TARBALL_SHA1  = 44e19899f9938d3db5546e51c338d6f86d88cfe2
 TARBALL_SHA256= 7eea3e66e392aca3f9dad6238198753c28e1c32fa4903cbb7739607a2504e5e0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	solaris-abi.patch
+SOURCE_PATCHES  = solaris-abi.patch
+SOURCE_PATCHES += CVE-2013-2063.patch,-p1
 
 # Need to regenerate automake files after solaris-abi.patch
 AUTORECONF=yes
