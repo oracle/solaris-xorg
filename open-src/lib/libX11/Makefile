@@ -91,7 +91,8 @@ SOURCE_PATCHES = \
 	locale-zh_HK.UTF-8.patch \
 	locale-zh_TW.UTF-8.patch \
 	locale-zh_TW.patch \
-	locale-ru-RU.UTF-8.patch
+	locale-ru-RU.UTF-8.patch \
+	16815647.patch
 
 # Patches from May 2013 security alert - will be integrated into libX11 1.6
 SOURCE_PATCHES += upstream-cleanup.patch,-p1

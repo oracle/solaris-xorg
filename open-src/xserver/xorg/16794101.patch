@@ -1,0 +1,25 @@
+--- a/hw/xfree86/modes/xf86Crtc.c	Tue Apr 16 23:07:39 2013
++++ b/hw/xfree86/modes/xf86Crtc.c	Wed May 15 09:54:30 2013
+@@ -2599,7 +2599,7 @@
+     xf86CrtcConfigPtr config = XF86_CRTC_CONFIG_PTR(scrn);
+     xf86CrtcPtr crtc = config->crtc[0];
+     int c;
+-    int enabled = 0;
++    int enabled = 0, failed = 0;
+ 
+     /* A driver with this hook will take care of this */
+     if (!crtc->funcs->set_mode_major) {
+@@ -2659,11 +2659,12 @@
+                 if (config->output[o]->crtc == crtc)
+                     config->output[o]->crtc = NULL;
+             crtc->enabled = FALSE;
++            ++failed;
+ 	}
+     }
+ 
+     xf86DisableUnusedFunctions(scrn);
+-    return enabled != 0;
++    return enabled != 0 || failed == 0;
+ }
+ 
+ /**

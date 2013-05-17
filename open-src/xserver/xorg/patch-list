@@ -27,3 +27,4 @@ workaround-7154410.patch,-p1
 cli-nolock.patch,-p1
 16418361.patch,-p1
 sparc-config-improv.patch,-p1
+16794101.patch,-p1
