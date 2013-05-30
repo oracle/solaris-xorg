@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,10 +24,6 @@
 # SMF service manifests
 <transform file path=lib/svc/manifest/.+\.xml -> \
     add restart_fmri svc:/system/manifest-import:default>
-
-# RBAC files
-<transform file path=etc/security/[^/]+_attr.d/.+ -> \
-    add restart_fmri svc:/system/rbac:default>
 
 # Fonts and font configuration
 <transform file path=etc/fonts/conf\.(avail|d)/.+ -> \
