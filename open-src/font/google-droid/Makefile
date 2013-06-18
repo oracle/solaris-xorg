@@ -39,26 +39,22 @@ MODULE_DESC		= the Droid font families
 ORACLE_TPNO		= 12030
 
 # Version number (used in path names)
-MODULE_VERSION=2010.02.24
+MODULE_VERSION=2013.06.07
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6ea3273ac2868f72499276a562838289
-TARBALL_SHA1 = 4eef8d0fc11231350cb3fe59cdd19716f192e311
+TARBALL_MD5   = 05d2a6da4cacf5b294d65ea981861cf8
+TARBALL_SHA1  = 50f649133d0f75b889058261f625ae14e89fa09f
+TARBALL_SHA256= 61bb7b67050efcdbf5d434085c9cbe7570ed31d97a5ffa920401132bde0f07b1
 
 # Source tarball
-SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
+SOURCE_TARBALL_NAME=$(SOURCE_DIRNAME).tar.xz
 SOURCE_TARBALL_NAME_SET=yes
-
-# Directory created when unpacking tarball
-SOURCE_DIRNAME=base
-SOURCE_DIRNAME_SET=yes
 
 # Download site for source
 # Upstream doesn't have a stable download tarball, so we use our mirror
-# to get consistent checksums - updates will come from snapshot link on
-# http://android.git.kernel.org/?p=platform/frameworks/base.git;a=tree;f=data/fonts;hb=HEAD
-# Current version was downloaded on 2/24/2010 from 
-# http://android.git.kernel.org/?p=platform/frameworks/base.git;a=snapshot;h=54e235b011be9e1e38a2b9be787d0a196493d89e;sf=tgz
+# to get consistent checksums - updates will come from snapshot of
+# https://android.googlesource.com/platform/frameworks/base.git
+# via "make upstream" target below
 SOURCE_URL=http://dlc.sun.com/osol/x/downloads/mirrors/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
@@ -71,17 +67,14 @@ LICENSE_FILE_SET=yes
 
 TTF_FONT_FILES = \
     $(LICENSE_FILE)		\
-    DroidSans.ttf		\
-    DroidSans-Bold.ttf		\
-    DroidSerif-Regular.ttf	\
-    DroidSerif-Bold.ttf		\
-    DroidSerif-Italic.ttf	\
-    DroidSerif-BoldItalic.ttf	\
-    DroidSansMono.ttf		\
-    DroidSansFallback.ttf
+    *.ttf
 
 TTF_SUBDIR=google-droid
 TTF_SUBDIR_SET=yes
 
 ### Include common rulesets
 include ../Makefile.ttf
+
+# Download latest sources from upstream & make new tarball
+upstream:
+	/bin/bash ./getdroid.sh
