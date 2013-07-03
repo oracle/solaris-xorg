@@ -306,6 +306,9 @@ PKGCONFIG_DIR_32=$(PKGCONFIG_DIR_prefix)$(PKGCONFIG_DIR_suffix)
 PKGCONFIG_DIR_64=$(PKGCONFIG_DIR_prefix)/$(SUBDIR64)$(PKGCONFIG_DIR_suffix)
 PKGCONFIG_DIR_SHARE=/usr/share$(PKGCONFIG_DIR_suffix)
 
+# System-wide directory for packaged release notes
+RELNOTES_DIR=/usr/share/doc/release-notes
+
 # Directory used for installing tools used during build but not
 # delivered in packages
 TOOLS_DIR=$(PROTOTOP)/tools_$(MACH)

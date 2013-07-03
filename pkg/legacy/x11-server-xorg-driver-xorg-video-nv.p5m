@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-video-trident@__version:xf86-video-trident__
-set name=pkg.summary \
-    value="xf86-video-trident - Trident video driver for the Xorg X server"
-set name=pkg.description value="Xorg driver for Trident video cards"
-set name=variant.arch value=i386
-file path=usr/lib/xorg/modules/drivers/trident_drv.so
-file path=usr/share/man/man7/trident.7
+    value=pkg:/x11/server/xorg/driver/xorg-video-nv@2.1.20,5.12-5.12.0.0.0.26.0
+set name=pkg.obsolete value=true
+

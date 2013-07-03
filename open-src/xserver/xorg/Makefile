@@ -379,5 +379,10 @@ install_mdb: $(INSTALLED_MDB_ALL)
 ## Dtrace docs rules
 $(DTRACE_DOC_DIR)/Xserver-DTrace.xml: $(AUTOCONF_TARGET)
 
-install_docs: $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR)
+$(PROTODIR)$(RELNOTES_DIR):
+	mkdir -p $@
+
+install_docs: $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR) $(PROTODIR)$(RELNOTES_DIR)
 	$(INSTALL_SCRIPT) -c -m 0444 $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR)
+	$(INSTALL_SCRIPT) -c -m 0444 release-notes/*.txt \
+		$(PROTODIR)$(RELNOTES_DIR)
