@@ -136,7 +136,7 @@ depend type=require fmri=pkg:/library/c++/stdcxx \
     org.opensolaris.pkgdepend.resolve=true
 
 # intel-gpu-tools links against libcairo
-depend type=require fmri=pkg:/library/desktop/cairo \
+$(i386_ONLY)depend type=require fmri=pkg:/library/desktop/cairo \
     org.opensolaris.pkgdepend.resolve=true
 
 # lib/fontconfig links with libexpat
@@ -196,6 +196,10 @@ depend type=require fmri=pkg:/system/library/gcc-3-runtime \
 depend type=require fmri=pkg:/system/library/libdbus \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/math \
+    org.opensolaris.pkgdepend.resolve=true
+
+# Xdmx needs libmd - which moved - 15214282
+depend type=require fmri=pkg:/system/library/security/crypto \
     org.opensolaris.pkgdepend.resolve=true
 
 # Almost all modules need Solaris ld to link binaries
