@@ -1,0 +1,129 @@
+--- src/mesa/drivers/dri/intel/intel_screen.c   Mon Mar 25 09:22:16 2013
++++ src/mesa/drivers/dri/intel/intel_screen.c   Mon Mar 25 10:14:00 2013
+@@ -36,6 +36,7 @@
+ #include "main/mfeatures.h"
+ #include "main/version.h"
+ #include "swrast/s_renderbuffer.h"
++#include "../../../../../include/GL/internal/dri_interface.h"
+
+ #include "utils.h"
+ #include "xmlpool.h"
+--- src/mesa/drivers/dri/i965/brw_context.c     Mon Mar 25 10:57:00 2013
++++ src/mesa/drivers/dri/i965/brw_context.c     Mon Mar 25 10:58:40 2013
+@@ -395,8 +395,10 @@
+    if ((flags & __DRI_CTX_FLAG_FORWARD_COMPATIBLE) != 0)
+       ctx->Const.ContextFlags |= GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT;
+
++#ifdef GL_VERSION_4_3
+    if ((flags & __DRI_CTX_FLAG_DEBUG) != 0)
+       ctx->Const.ContextFlags |= GL_CONTEXT_FLAG_DEBUG_BIT;
++#endif
+
+    return true;
+ }
+--- src/glx/dri2_glx.c  Thu Feb 21 06:25:41 2013
++++ src/glx/dri2_glx.c  Mon Mar 25 13:48:18 2013
+@@ -54,6 +54,11 @@
+ #define DRI_CONF_VBLANK_DEF_INTERVAL_1 2
+ #define DRI_CONF_VBLANK_ALWAYS_SYNC 3
+
++#define __DRI_CTX_RESET_NO_NOTIFICATION         0
++#define __DRI_CTX_ATTRIB_RESET_STRATEGY         3
++#define __DRI2_ROBUSTNESS "DRI_Robustness"
++
++
+ #undef DRI2_MINOR
+ #define DRI2_MINOR 1
+
+--- src/glx/dri_common.c        Thu Feb 21 01:25:29 2013
++++ src/glx/dri_common.c        Mon Mar 25 13:45:06 2013
+@@ -48,6 +48,11 @@
+ #define RTLD_GLOBAL 0
+ #endif
+
++#define __DRI_CTX_RESET_NO_NOTIFICATION         0
++#define __DRI_CTX_RESET_LOSE_CONTEXT            1
++#define __DRI_CTX_FLAG_ROBUST_BUFFER_ACCESS     0x00000004
++
++
+ /**
+  * Print informational message to stderr if LIBGL_DEBUG is set to
+  * "verbose".
+--- src/glx/drisw_glx.c Thu Feb 21 01:25:29 2013
++++ src/glx/drisw_glx.c Mon Mar 25 13:40:31 2013
+@@ -28,6 +28,9 @@
+ #include <dlfcn.h>
+ #include "dri_common.h"
+
++#define __DRI_CTX_RESET_NO_NOTIFICATION         0
++
++
+ struct drisw_display
+ {
+    __GLXDRIdisplay base;
+
+--- src/mesa/drivers/dri/i915/Makefile.am	Tue Jun 18 13:26:19 2013
++++ src/mesa/drivers/dri/i915/Makefile.am	Tue Jun 18 13:26:34 2013
+@@ -53,6 +53,7 @@
+ i915_dri_la_LDFLAGS = -module -avoid-version -shared
+ i915_dri_la_LIBADD = \
+ 	../common/libdricommon.la \
++	../../../../mapi/shared-glapi/libglapi.la \
+ 	$(DRI_LIB_DEPS) \
+ 	$(INTEL_LIBS)
+ 
+--- src/mesa/drivers/dri/radeon/Makefile.am	Tue Jun 18 13:27:05 2013
++++ src/mesa/drivers/dri/radeon/Makefile.am	Tue Jun 18 13:27:22 2013
+@@ -51,6 +51,7 @@
+ radeon_dri_la_LDFLAGS = -module -avoid-version -shared
+ radeon_dri_la_LIBADD = \
+ 	../common/libdricommon.la \
++	../../../../mapi/shared-glapi/libglapi.la \
+ 	$(DRI_LIB_DEPS) \
+ 	$(RADEON_LIBS)
+ 
+--- src/mesa/drivers/dri/swrast/Makefile.am	Tue Jun 18 13:27:34 2013
++++ src/mesa/drivers/dri/swrast/Makefile.am	Tue Jun 18 13:27:52 2013
+@@ -48,6 +48,7 @@
+ 
+ swrast_dri_la_LDFLAGS = -module -avoid-version -shared
+ swrast_dri_la_LIBADD = \
++	../../../../mapi/shared-glapi/libglapi.la \ 
+ 	$(DRI_LIB_DEPS)
+ 
+ # Provide compatibility with scripts for the old Mesa build system for
+--- src/mesa/drivers/dri/r200/Makefile.am	Tue Jun 18 13:27:56 2013
++++ src/mesa/drivers/dri/r200/Makefile.am	Tue Jun 18 13:28:03 2013
+@@ -51,6 +51,7 @@
+ r200_dri_la_LDFLAGS = -module -avoid-version -shared
+ r200_dri_la_LIBADD = \
+ 	../common/libdricommon.la \
++	../../../../mapi/shared-glapi/libglapi.la \
+ 	$(DRI_LIB_DEPS) \
+ 	$(RADEON_LIBS)
+
+--- src/mesa/drivers/dri/i965/Makefile.am	Tue Jun 18 13:45:59 2013
++++ src/mesa/drivers/dri/i965/Makefile.am	Tue Jun 18 13:39:37 2013
+@@ -54,6 +54,7 @@
+ i965_dri_la_LDFLAGS = -module -avoid-version -shared
+ i965_dri_la_LIBADD = \
+ 	../common/libdricommon.la \
++	../../../../mapi/shared-glapi/libglapi.la \
+ 	$(DRI_LIB_DEPS) \
+ 	$(INTEL_LIBS)
+
+diff -rupN Mesa-9.0.3.ori/src/mesa/libdricore/Makefile.am Mesa-9.0.3/src/mesa/libdricore/Makefile.am
+--- src/mesa/libdricore/Makefile.am	2013-03-21 23:26:42.497508661 +0800
++++ src/mesa/libdricore/Makefile.am	2013-03-22 00:23:31.688844257 +0800
+@@ -45,8 +45,9 @@ libdricore@VERSION@_la_SOURCES = \
+ 	$(LIBGLSL_CXX_FILES) \
+ 	$(BUILTIN_COMPILER_GENERATED_CXX_FILES) \
+ 	$(top_builddir)/src/glsl/builtin_function.cpp
+-libdricore@VERSION@_la_LDFLAGS = -version-number 1:0
+-libdricore@VERSION@_la_LIBADD = libdricore-asm.la
++libdricore@VERSION@_la_LDFLAGS = ../../mapi/shared-glapi/libglapi.la -version-number 1:0
++#libdricore@VERSION@_la_LIBADD = libdricore-asm.la
++libdricore@VERSION@_la_LIBADD = 
+ 
+ # This is separated from libdricore to avoid conflics in object
+ # outputs between main/clip.c and sparc/clip.c.  The documented way to

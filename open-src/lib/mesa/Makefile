@@ -40,13 +40,15 @@ ORACLE_TPNO		= 9926
 # ARC cases that covered this module
 # LSARC/2005/109 MESA, Open Source OpenGL clone
 MODULE_ARC_CASES = LSARC/2005/109
+# PSARC/2013/264 Mesa 9.0.3
+MODULE_ARC_CASES += PSARC/2013/264
 
 # Version number (used in path names)
-MODULE_VERSION=8.0.4
+MODULE_VERSION=9.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d546f988adfdf986cff45b1efa2d8a46
-TARBALL_SHA1 = c64f8c03caf9ededd5f7011e246c42a649096c8c
+TARBALL_MD5  = d7515cc5116c72ac63d735655bd63689
+TARBALL_SHA1 = c4d88d83d8dbe243e30dc07195888e19ddb1c402
 
 # Source tarball
 SOURCE_TARBALL_NAME=MesaLib-$(MODULE_VERSION).tar.bz2
@@ -67,9 +69,8 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 SOURCE_PATCHES= \
 	CVE-2013-1993.patch,-p1 \
 	install-pc-dir.patch \
-	glu-no-mangled-exports.patch \
 	solaris-port.patch \
-	bugfix-post804.patch
+	mesa9-port.patch
 
 # File created by running configure script
 AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
@@ -92,7 +93,7 @@ MODULE_CFLAGS = -D__EXTENSIONS__
 
 # Override LDFLAGS passed to configure to not include CFLAGS, since that
 # breaks building libGLU with Sun Studio C++ compiler
-MODULE_CONFIG_ENV = LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(ARCH_FLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)"
+#MODULE_CONFIG_ENV = LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(ARCH_FLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)"
 
 # Add proto area to path to find makedepend
 MODULE_BUILD_ENV = PATH="$(PROTODIR)/$(X11_BIN_DIR):$(PATH)"
@@ -130,23 +131,23 @@ set_pc_dir: $(AUTOCONF_TARGET)
 	echo 'INSTALL_PC_DIR=$(PKGCONFIG_DIR)' >> $(AUTOCONF_TARGET)
 
 # Move installed files to mesa subdirs and make links back
-LIBRARIES_TO_DIRECT_LINK = libGLU.so.1
-LIBRARIES_TO_RUNTIME_LINK = libGL.so.1
-LIBRARIES_TO_MOVE = $(LIBRARIES_TO_DIRECT_LINK) $(LIBRARIES_TO_RUNTIME_LINK)
+LIBRARIES_TO_LINK = libGL.so.1.2.0 libdricore9.0.3.so.1.0.0 libglapi.so.0.0.0
 MESA_LIBDIR = $(PROTODIR)/usr/lib/mesa$(ARCHLIBSUBDIR)
 
 HEADERS_TO_MOVE = gl.h gl_mangle.h glext.h \
-	glu.h glu_mangle.h glx.h glx_mangle.h glxext.h \
+	glx.h glx_mangle.h glxext.h \
 	osmesa.h vms_x_fix.h wglext.h wmesa.h
-HEADERS_TO_DIRECT_LINK = glu.h osmesa.h
+HEADERS_TO_DIRECT_LINK = osmesa.h
 HEADERS_TO_RUNTIME_LINK = gl.h glext.h glx.h glxext.h
 
 # Run just once after all other install steps are done for both 32/64-bit
 install: install_ogl_layout
 
-install_ogl_layout: $(INSTALL_RULES)
+install_ogl_layout:
 	-rm -rf $(PROTODIR)/usr/include/mesa
 	mkdir -p $(PROTODIR)/usr/include/mesa/internal
+	mkdir -p $(PROTODIR)/system/volatile/opengl/include
+	mkdir -p $(PROTODIR)/system/volatile/opengl/lib/$(SUBDIR64)
 	mv $(HEADERS_TO_MOVE:%=$(PROTODIR)/usr/include/GL/%) \
 		$(PROTODIR)/usr/include/mesa
 	mv $(PROTODIR)/usr/include/GL/internal/dri_interface.h \
@@ -154,65 +155,109 @@ install_ogl_layout: $(INSTALL_RULES)
 	ln -s ../../mesa/internal/dri_interface.h \
 		$(PROTODIR)/usr/include/GL/internal/
 	-rm -f $(HEADERS_TO_DIRECT_LINK:%=$(PROTODIR)/usr/include/GL/%) \
-	       $(HEADERS_TO_RUNTIME_LINK:%=$(PROTODIR)/usr/include/GL/%)
+		$(HEADERS_TO_RUNTIME_LINK:%=$(PROTODIR)/usr/include/GL/%)
 	ln -s $(HEADERS_TO_DIRECT_LINK:%=../mesa/%) \
-	      $(HEADERS_TO_RUNTIME_LINK:%=../../../system/volatile/opengl/include/%) \
-	      $(PROTODIR)/usr/include/GL
+		$(HEADERS_TO_RUNTIME_LINK:%=../../../system/volatile/opengl/include/%) \
+		$(PROTODIR)/usr/include/GL
 	mkdir -p $(PROTODIR)/usr/lib/GL/$(SUBDIR64) \
-		 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)
+		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)
 	-rm -f $(PROTODIR)/usr/lib/GL/64 $(PROTODIR)/usr/lib/mesa/64
 	ln -s $(SUBDIR64) $(PROTODIR)/usr/lib/GL/64
 	ln -s $(SUBDIR64) $(PROTODIR)/usr/lib/mesa/64
-	-rm -f $(LIBRARIES_TO_MOVE:%=$(PROTODIR)/usr/lib/mesa/%) \
-	       $(LIBRARIES_TO_MOVE:%=$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/%)
-	mv $(LIBRARIES_TO_MOVE:%=$(PROTODIR)/usr/lib/%) \
+	-rm -f $(LIBRARIES_TO_LINK:%=$(PROTODIR)/usr/lib/mesa/%) \
+		$(LIBRARIES_TO_LINK:%=$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/%)
+	mv $(LIBRARIES_TO_LINK:%=$(PROTODIR)/usr/lib/%) \
 		$(PROTODIR)/usr/lib/mesa/
-	mv $(LIBRARIES_TO_MOVE:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
+	mv $(LIBRARIES_TO_LINK:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
 		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/
-	@for l in $(LIBRARIES_TO_MOVE) ; do \
-	    $(START_CMD_ECHO) ; \
-	    rm -f $(PROTODIR)/usr/lib/mesa/$${l%.1} \
-		  $(PROTODIR)/usr/lib/GL/$${l%.1} \
-		  $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/$${l%.1} \
-		  $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/$${l%.1} ; \
-	    ln -s $${l} $(PROTODIR)/usr/lib/mesa/$${l%.1} ; \
-	    ln -s $${l} $(PROTODIR)/usr/lib/GL/$${l%.1} ; \
-	    ln -s $${l} $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/$${l%.1} ; \
-	    ln -s $${l} $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/$${l%.1} ; \
-	done
-	(cd $(PROTODIR)/usr/lib ; ln -s $(LIBRARIES_TO_MOVE:%=GL/%) .)
-	(cd $(PROTODIR)/usr/lib/$(SUBDIR64) ; \
-	    ln -s $(LIBRARIES_TO_MOVE:%=../GL/$(SUBDIR64)/%) .)
-	-rm -f $(LIBRARIES_TO_DIRECT_LINK:%=$(PROTODIR)/usr/lib/GL/%)
-	(cd $(PROTODIR)/usr/lib/GL ; \
-	    ln -s $(LIBRARIES_TO_DIRECT_LINK:%=../mesa/%) .)
-	-rm -f $(LIBRARIES_TO_DIRECT_LINK:%=$(PROTODIR)/usr/lib/GL/$(SUBDIR64)/%)
-	(cd $(PROTODIR)/usr/lib/GL/$(SUBDIR64) ; \
-	    ln -s $(LIBRARIES_TO_DIRECT_LINK:%=../../mesa/$(SUBDIR64)/%) .)
-	-rm -f $(PROTODIR)/usr/lib/GL/libGL.so.1 \
-	       $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1
-	ln -s ../../../system/volatile/opengl/lib/libGL.so.1 \
-		$(PROTODIR)/usr/lib/GL/libGL.so.1
-	ln -s ../../../../system/volatile/opengl/lib/$(SUBDIR64)/libGL.so.1 \
-		$(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1
+	-rm -f $(PROTODIR)/usr/lib/mesa/libGL.so.1 
+	-rm -f $(PROTODIR)/usr/lib/mesa/libGL.so 
+	-rm -f $(PROTODIR)/usr/lib/mesa/libGLU.so.1
+	-rm -f $(PROTODIR)/usr/lib/GL/libGL.so.1
+	-rm -f $(PROTODIR)/usr/lib/GL/libGLU.so.1
+	-rm -f $(PROTODIR)/usr/lib/GL/libGL.so 
+	-rm -f $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGL.so.1 
+	-rm -f $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/ibGLU.so.1
+	-rm -f $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1
+	-rm -f $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so
+	-rm -f $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLU.so.1
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/lib/mesa/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/lib/mesa/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/lib/mesa/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/lib/mesa/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/lib/mesa/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/lib/mesa/libglapi.so
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libglapi.so
+	rm -f $(PROTODIR)/usr/lib/*libglapi*
+	rm -f $(PROTODIR)/usr/lib/*dricore9.0.3*
+	rm -f $(PROTODIR)/usr/lib/*libGL.*
+	rm -f $(PROTODIR)/usr/lib/$(SUBDIR64)/*libglapi*
+	rm -f $(PROTODIR)/usr/lib/$(SUBDIR64)/*libdricore*
+	rm -f $(PROTODIR)/usr/lib/$(SUBDIR64)/*libGL.*
+	rm -f $(PROTODIR)/usr/lib/xorg/modules/dri/*.la
+	rm -f $(PROTODIR)/usr/lib/xorg/modules/dri/$(SUBDIR64)/*.la
+	(cd $(PROTODIR)/usr/lib/GL; ln -s $(LIBRARIES_TO_LINK:%=../mesa/%) .)
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/lib/GL/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/lib/GL/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/lib/GL/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/lib/GL/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/lib/GL/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/lib/GL/libglapi.so
+	(cd $(PROTODIR)/usr/lib/GL/$(SUBDIR64); ln -s $(LIBRARIES_TO_LINK:%=../../mesa/$(SUBDIR64)/%) .)
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libglapi.so
+	(cd $(PROTODIR)/usr/lib; ln -s $(LIBRARIES_TO_LINK:%=GL/%) .)
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/lib/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/lib/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/lib/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/lib/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/lib/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/lib/libglapi.so
+	(cd $(PROTODIR)/usr/lib/$(SUBDIR64); ln -s $(LIBRARIES_TO_LINK:%=../GL/$(SUBDIR64)/%) .)
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/lib/$(SUBDIR64)/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libglapi.so
+	-rm -f $(PROTODIR)/usr/lib/GL/libGL.so.1.2.0
+	ln -s ../../../system/volatile/opengl/lib/libGL.so.1.2.0 \
+		$(PROTODIR)/usr/lib/GL/libGL.so.1.2.0
+	ln -s ../../../../usr/lib/mesa/libGL.so.1.2.0 $(PROTODIR)/system/volatile/opengl/lib/libGL.so.1.2.0
+	-rm -f $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1.2.0
+	ln -s ../../../../system/volatile/opengl/lib/$(SUBDIR64)/libGL.so.1.2.0 \
+		$(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGL.so.1.2.0
+	ln -s ../../../../../usr/lib/mesa/$(SUBDIR64)/libGL.so.1.2.0 $(PROTODIR)/system/volatile/opengl/lib/$(SUBDIR64)/libGL.so.1.2.0
 	mkdir -p $(PROTODIR)/usr/X11/lib/$(SUBDIR64) \
-		 $(PROTODIR)/usr/X11/include
+		$(PROTODIR)/usr/X11/include
 	-rm -f $(PROTODIR)/usr/X11/lib/GL $(PROTODIR)/usr/X11/lib/mesa
 	ln -s ../../lib/GL $(PROTODIR)/usr/X11/lib/GL
 	ln -s ../../lib/mesa $(PROTODIR)/usr/X11/lib/mesa
 	-rm -f $(PROTODIR)/usr/X11/lib/64
 	ln -s $(SUBDIR64) $(PROTODIR)/usr/X11/lib/64
-	@for l in $(LIBRARIES_TO_MOVE) ; do \
-	    $(START_CMD_ECHO) ; \
-	    rm -f $(PROTODIR)/usr/X11/lib/$${l} \
-		  $(PROTODIR)/usr/X11/lib/$${l%.1} \
-		  $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/$${l} \
-		  $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/$${l%.1} ; \
-	    ln -s $${l} $(PROTODIR)/usr/X11/lib/$${l%.1} ; \
-	    ln -s GL/$${l} $(PROTODIR)/usr/X11/lib/$${l} ; \
-	    ln -s $${l} $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/$${l%.1} ; \
-	    ln -s ../GL/$(SUBDIR64)/$${l} $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/$${l} ; \
-	done
+	(cd $(PROTODIR)/usr/X11/lib; ln -s $(LIBRARIES_TO_LINK:%=GL/%) .)
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/X11/lib/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/X11/lib/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/X11/lib/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/X11/lib/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/X11/lib/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/X11/lib/libglapi.so
+	(cd $(PROTODIR)/usr/X11/lib/$(SUBDIR64); ln -s $(LIBRARIES_TO_LINK:%=../GL/$(SUBDIR64)/%) .)
+	ln -s libGL.so.1.2.0 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libGL.so.1
+	ln -s libGL.so.1 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libGL.so
+	ln -s libdricore9.0.3.so.1.0.0 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libdricore9.0.3.so.1
+	ln -s libdricore9.0.3.so.1 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libdricore9.0.3.so
+	ln -s libglapi.so.0.0.0 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libglapi.so.0
+	ln -s libglapi.so.0 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libglapi.so
 	-rm -f $(PROTODIR)/usr/X11/include/GL $(PROTODIR)/usr/X11/include/mesa
 	ln -s ../../include/GL ../../include/mesa $(PROTODIR)/usr/X11/include/
 	$(TOP)/open-src/data/ogl-select/mesa_vendor_select root="$(PROTODIR)"

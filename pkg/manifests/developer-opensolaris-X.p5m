@@ -90,6 +90,9 @@ depend type=require fmri=pkg:/developer/gcc-3
 # For now, this is the package that delivers pkg-config (Defect #15543)
 depend type=require fmri=pkg:/developer/gnome/gettext
 
+# Some packages need GNU indent to build
+depend type=require fmri=pkg:/developer/gnu-indent
+
 # xcb-util needs gperf to generate hash functions
 depend type=require fmri=pkg:/developer/gperf
 

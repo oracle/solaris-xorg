@@ -1,45 +1,6 @@
- # Where libGL will look for DRI hardware drivers
---- src/glu/Makefile	Mon Mar  1 09:54:01 2010
-+++ src/glu/Makefile	Mon Mar  1 09:56:50 2010
-@@ -29,9 +29,9 @@
- 
- install: glu.pc
- 	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -d $(DESTDIR)$(INSTALL_PC_DIR)
- 	$(MINSTALL) $(TOP)/$(LIB_DIR)/$(GLU_LIB_GLOB) $(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -m 644 glu.pc $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -m 644 glu.pc $(DESTDIR)$(INSTALL_PC_DIR)
- 
- clean:
- 	-@for dir in $(SUBDIRS) ; do \
---- src/mesa/Makefile	Thu Sep  6 08:25:24 2012
-+++ src/mesa/Makefile	Thu Sep  6 08:26:13 2012
-@@ -205,17 +205,17 @@
- 
- install-libgl: default gl.pc install-headers
- 	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -d $(DESTDIR)$(INSTALL_PC_DIR)
- 	$(MINSTALL) $(TOP)/$(LIB_DIR)/$(GL_LIB_GLOB) \
- 		$(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -m 644 gl.pc $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -m 644 gl.pc $(DESTDIR)$(INSTALL_PC_DIR)
- 
- install-osmesa: default osmesa.pc
- 	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -d $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -d $(DESTDIR)$(INSTALL_PC_DIR)
- 	$(MINSTALL) $(TOP)/$(LIB_DIR)/$(OSMESA_LIB_GLOB) \
- 		$(DESTDIR)$(INSTALL_LIB_DIR)
--	$(INSTALL) -m 644 osmesa.pc $(DESTDIR)$(INSTALL_LIB_DIR)/pkgconfig
-+	$(INSTALL) -m 644 osmesa.pc $(DESTDIR)$(INSTALL_PC_DIR)
- 
- install-dri: default
- 	cd drivers/dri && $(MAKE) install
---- configs/default	Thu Sep  6 08:27:01 2012
-+++ configs/default	Thu Sep  6 08:27:19 2012
-@@ -152,6 +152,7 @@
+--- configs/default	Wed Jun 19 13:39:19 2013
++++ configs/default	Wed Jun 19 13:39:50 2013
+@@ -131,6 +131,7 @@
  INSTALL_DIR = /usr/local
  INSTALL_LIB_DIR = $(INSTALL_DIR)/$(LIB_DIR)
  INSTALL_INC_DIR = $(INSTALL_DIR)/include

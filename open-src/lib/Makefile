@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Library modules
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -86,6 +86,7 @@ libXxf86misc: libX11 libXext
 libXxf86vm: libX11 libXext
 libxkbfile: libX11
 mesa: libdrm libX11 libXext libXdamage libXfixes libXxf86vm
+libglu: mesa
 freeglut: mesa
 
 # pixman doesn't need these itself, but its test framework uses gtk,
@@ -147,6 +148,7 @@ OS_SUBDIRS_common = \
 	libXxf86misc \
 	libXxf86vm \
 	mesa \
+	libglu \
 	freeglut \
 	pixman
 
