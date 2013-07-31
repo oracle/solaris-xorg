@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,14 +20,16 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+############################################################################
+# This file lists which files in the X gate should not trigger a warning from
+# 'hg nits' or 'hg pbchk' about missing Oracle copyright notices
 
-#
-# Assign human readable labels to default licenses
-#
+# Use shell style pattern globbing for this file
+syntax: glob
 
-<transform license license="^GPLv2$" -> \
-	set license "GNU General Public License 2.0 (GPL)" >
+# Copyright/license notice templates, not full code files:
+open-src/common/license_files/*
 
-<transform license license="^MIT$" -> \
-	set license "MIT License" >
-
+# Upstream license notices only:
+open-src/font/X11-font-license.txt
+open-src/*/*/COPYING

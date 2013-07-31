@@ -28,6 +28,9 @@
 # Package name used in tarballs
 MODULE_NAME=dispswitch
 
+# Package metadata
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
+
 # No upstream sources, only local sources
 MODULE_VERSION=src
 MODULE_LICENSE_DESC = portions of the xrandr utility

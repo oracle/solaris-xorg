@@ -45,6 +45,8 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-wm library of xcb utility functions for Window Manager hints
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
+ORACLE_TPNO = 5071
+ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

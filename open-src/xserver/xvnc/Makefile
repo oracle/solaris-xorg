@@ -38,6 +38,7 @@ MODULE_LICENSE          = GPLv2
 MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 MODULE_LICENSE_DESC	= portions of the TigerVNC software
+ORACLE_TPNO		= 9801
 
 # Version number (used in path names)
 MODULE_VERSION=1.1.0

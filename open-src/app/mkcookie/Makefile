@@ -34,6 +34,7 @@ MODULE_PKGNAME_SET=yes
 
 # Package metadata
 MODULE_LICENSE_DESC = portions of the xauth utility source code
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg

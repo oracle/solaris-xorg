@@ -32,6 +32,7 @@ MODULE_NAME=DPS
 
 # Package metadata
 MODULE_DESC = the Adobe Display Postscript (DPS) client libraries
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # Sources were extracted from X11R6.9 source tree, but we don't want
 # to download & unpack all that, and upstream isn't maintaining, so

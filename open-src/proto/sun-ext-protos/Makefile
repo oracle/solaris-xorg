@@ -28,6 +28,7 @@
 MODULE_NAME=sun-ext-protos
 
 # No upstream sources for these files, since they're Solaris-specific
+MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 
@@ -53,6 +54,8 @@ FIX_PC_FILES_SET=yes
 
 # Package metadata
 MODULE_DESC = headers & documentation for X11 protocol extensions created by Sun
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg

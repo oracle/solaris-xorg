@@ -32,6 +32,8 @@ MODULE_PKGNAME_SET=yes
 
 # Package metadata
 MODULE_DESC = the xmakemap script to generate xmodmap files
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg

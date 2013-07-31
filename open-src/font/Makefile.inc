@@ -49,6 +49,13 @@ MODULE_PKGCLASS_SET		= yes
 # Default module description for packages in this area
 MODTYPE_DESC = the $(MODULE_NAME:font-%=%) fonts
 
+# Default TPNO & license text for X.Org fonts
+$(UPSTREAM_SET:yes=$(POUND_SIGN))	ORACLE_TPNO = $(ORACLE_TPNO_xorg_fonts)
+$(UPSTREAM_SET:yes=$(POUND_SIGN))	ORACLE_TPNO_SET = yes
+$(UPSTREAM_SET:yes=$(POUND_SIGN))	LICENSE_FILE = ../X11-font-license.txt
+$(UPSTREAM_SET:yes=$(POUND_SIGN))	LICENSE_FILE_SET = yes
+$(UPSTREAM_SET:yes=$(POUND_SIGN))	LICENSE_APPEND = $(SOURCE_DIR)/COPYING
+
 # Most font modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 
 

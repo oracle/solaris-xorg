@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,8 @@ MODULE_NAME=mesa-demos
 UPSTREAM	= The Mesa 3-D Graphics Library
 UPSTREAM_URL	= http://mesa3d.org/
 UPSTREAM_SET	= yes
+MODULE_DESC	= the Mesa 3-D Graphics demo applications
+ORACLE_TPNO	= 9926
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/demo/mesa-demos

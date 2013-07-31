@@ -2,7 +2,7 @@
 #
 # FreeGLUT 2.6.0 Makefile
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,6 +41,7 @@ MODULE_ARC_CASES = LSARC/2010/016
 UPSTREAM = The FreeGLUT Project
 UPSTREAM_URL = http://freeglut.sourceforge.net/
 UPSTREAM_SET = yes
+ORACLE_TPNO = 4509
 
 # Download site for source
 SOURCE_URL = $(SF_DOWNLOADS_URL)/freeglut/freeglut/$(SOURCE_TARBALL_NAME)

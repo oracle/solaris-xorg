@@ -30,6 +30,7 @@ MODULE_NAME = xserver-common
 
 # Package metadata
 MODULE_DESC = Xserver SMF & RBAC configuration files
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # ARC cases that covered this module
 # PSARC/2004/752 X Consolidation conversion to SMF

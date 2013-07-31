@@ -34,6 +34,7 @@ MODULE_PKGNAME_SET=yes
 
 # Package metadata
 MODULE_LICENSE_DESC = portions of the libXfont library code
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # No upstream sources, only local sources
 MODULE_VERSION=src

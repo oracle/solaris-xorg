@@ -228,7 +228,7 @@ PROC_EXCEPTIONS = $(EXCEPTION_MANIFESTS:%.p5m=$(PDIR)/%.mog)
 # Default transformations to apply
 PM_TRANSFORMS = $(PKG_BRANDING_TRANSFORMS) \
 		common_actions publish restart_fmri facets \
-		licenses $(PDIR)/versions
+		$(PDIR)/versions
 PM_INC = transforms
 
 # Additional transforms for specific types of packages

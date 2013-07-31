@@ -34,6 +34,7 @@ MODULE_PKGNAME_SET=yes
 
 # Package metadata
 MODULE_DESC = the xlswins utility to list windows displayed on an X server
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src

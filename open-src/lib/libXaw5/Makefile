@@ -2,7 +2,7 @@
 #
 # Xaw5 Makefile
 #
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,6 +26,9 @@
 #
 
 MODULE_NAME=libXaw5
+
+# Package metadata
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/library/toolkit/libxaw5

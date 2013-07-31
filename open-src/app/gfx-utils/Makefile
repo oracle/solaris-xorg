@@ -2,7 +2,7 @@
 #
 # SPARC graphics utilities modules (fbconfig & VTS) Makefile
 #
-# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,14 @@ MODULE_NAME=fbconfig
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=system/graphics/fbconfig
 MODULE_PKGNAME_SET=yes
+
+# Package metadata
+MODULE_LICENSE = Oracle
+MODULE_LICENSE_SET = yes
+
+# Dates to show in Oracle copyright notice in fbconfig pkg license file
+# Earliest & latest of the copyrights in the Oracle files in the base pkg
+ORACLE_COPYRIGHT_YEARS = 1999, 2011
 
 # Package classification (override default)
 MODULE_PKGCLASS=Drivers/Display
@@ -84,9 +92,16 @@ AST_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-ast/$(LICENSE_FILE_NAME)
 EFB_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-efb/$(LICENSE_FILE_NAME)
 MGA_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-mga/$(LICENSE_FILE_NAME)
 
-$(AST_LICENSE_FILE):=		LICENSE_FILE	= COPYING.ast
-$(EFB_LICENSE_FILE):=		LICENSE_FILE	= COPYING.efb
-$(MGA_LICENSE_FILE):=		LICENSE_FILE	= COPYING.mga
+$(AST_LICENSE_FILE):=		DEVICE_NAME = ast
+$(EFB_LICENSE_FILE):=		DEVICE_NAME = efb
+$(MGA_LICENSE_FILE):=		DEVICE_NAME = mga
 
-$(EXTRA_LICENSE_FILES):=      	LICENSE_NAME    = $(ORACLE_LICENSE_NAME)
-$(EXTRA_LICENSE_FILES):= 	LICENSE_APPEND  = $(ORACLE_LICENSE_APPEND)
+# Module names to show in per-device pkg license files
+$(EXTRA_LICENSE_FILES):=	MODULE_NAME = fbconfig-$(DEVICE_NAME)
+$(EXTRA_LICENSE_FILES):=	MODULE_DESC = fbconfig & VTS modules for graphics devices using the $(DEVICE_NAME) driver
+
+# Dates to show in Oracle copyright notice in per-device pkg license files
+$(AST_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2009, 2011
+$(EFB_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2009
+$(MGA_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2012
+

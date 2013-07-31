@@ -28,8 +28,18 @@ MODULE_NAME=sun-aliases
 MODTYPE_PKGHIER=system/font/xorg
 MODTYPE_PKGHIER_SET=yes
 
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1994, 2008
+LICENSE_FILE = NONE
+LICENSE_FILE_SET = yes
+
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src
+UPSTREAM=NONE
+UPSTREAM_SET=yes
+UPSTREAM_PROJECT=NONE
+UPSTREAM_PROJECT_SET=yes
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 

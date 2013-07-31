@@ -45,6 +45,8 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-keysyms library of xcb utility functions for handling X keysyms
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
+ORACLE_TPNO = 5069
+ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
