@@ -926,6 +926,10 @@ $(LICENSE_OVERRIDE)		LICENSE_NAME = $(ORACLE_LICENSE_NAME)
 $(LICENSE_OVERRIDE)		LICENSE_PREPEND = $(ORACLE_LICENSE_PREPEND)
 $(LICENSE_OVERRIDE)		LICENSE_INSERT = $(ORACLE_LICENSE_INSERT)
 
+# Name to use in TPNO metadata & license file headers
+MODULE_TPNO_NAME_DEFAULT	= $(MODULE_COMPILER_SET:yes=$(POUND_SIGN))
+$(MODULE_TPNO_NAME_DEFAULT)	MODULE_TPNO_NAME = $(MODULE_NAME)
+
 install_license: $(LICENSE_FILE_DEST)
 METADATA_TARGETS += $(LICENSE_FILE_DEST)
 
@@ -939,7 +943,7 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 	    license_to_copy='/dev/null' ; \
 	fi ; \
 	if [[ -s "$${license_to_copy}" || -n '$(ORACLE_COPYRIGHT_YEARS)' ]] ; then \
-	    m='$(MODULE_NAME)' ; \
+	    m='$(MODULE_TPNO_NAME)' ; \
 	    if [[ '$(MODULE_VERSION)' != 'src' ]] ; then \
 		m+=' $(MODULE_VERSION)' ; \
 	    fi ; \
@@ -975,8 +979,8 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 	  cat $(LICENSE_APPEND) >> $@ ; \
 	fi ; \
 	if [[ -s $@ ]] ; then \
-	    license_attributes='license="$(LICENSE_NAME) ($(MODULE_NAME))"' ; \
-	    license_attributes+=' com.oracle.info.name="$(MODULE_NAME)"' ; \
+	    license_attributes='license="$(LICENSE_NAME) ($(MODULE_TPNO_NAME))"' ; \
+	    license_attributes+=' com.oracle.info.name="$(MODULE_TPNO_NAME)"' ; \
 	    if [[ '$(MODULE_VERSION)' != 'src' ]] ; then \
 		license_attributes+=' com.oracle.info.version="$(MODULE_VERSION)"' ; \
 	    fi ; \

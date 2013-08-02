@@ -96,8 +96,9 @@ $(AST_LICENSE_FILE):=		DEVICE_NAME = ast
 $(EFB_LICENSE_FILE):=		DEVICE_NAME = efb
 $(MGA_LICENSE_FILE):=		DEVICE_NAME = mga
 
-# Module names to show in per-device pkg license files
-$(EXTRA_LICENSE_FILES):=	MODULE_NAME = fbconfig-$(DEVICE_NAME)
+# Module info to show in per-device pkg license files
+$(EXTRA_LICENSE_FILES):=	MODULE_TPNO_NAME = fbconfig-$(DEVICE_NAME)
+$(EXTRA_LICENSE_FILES):=	MODULE_TPNO_NAME_SET = YES
 $(EXTRA_LICENSE_FILES):=	MODULE_DESC = fbconfig & VTS modules for graphics devices using the $(DEVICE_NAME) driver
 
 # Dates to show in Oracle copyright notice in per-device pkg license files
