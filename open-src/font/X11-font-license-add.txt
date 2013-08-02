@@ -1,0 +1,5 @@
+  ------------------------------------------------------------------------
+
+Additional terms and/or notices apply to certain fonts within the X11 Fonts
+as follows:
+

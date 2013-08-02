@@ -26,8 +26,3 @@ tium.
 
 X Window System is a trademark of X Consortium, Inc.
 
-  ------------------------------------------------------------------------
-
-Additional terms and/or notices apply to certain fonts within the X11 Fonts
-as follows:
-

@@ -50,11 +50,24 @@ MODULE_PKGCLASS_SET		= yes
 MODTYPE_DESC = the $(MODULE_NAME:font-%=%) fonts
 
 # Default TPNO & license text for X.Org fonts
-$(UPSTREAM_SET:yes=$(POUND_SIGN))	ORACLE_TPNO = $(ORACLE_TPNO_xorg_fonts)
-$(UPSTREAM_SET:yes=$(POUND_SIGN))	ORACLE_TPNO_SET = yes
-$(UPSTREAM_SET:yes=$(POUND_SIGN))	LICENSE_FILE = ../X11-font-license.txt
-$(UPSTREAM_SET:yes=$(POUND_SIGN))	LICENSE_FILE_SET = yes
-$(UPSTREAM_SET:yes=$(POUND_SIGN))	LICENSE_APPEND = $(SOURCE_DIR)/COPYING
+UPSTREAM_DEFAULT	= $(UPSTREAM_SET:yes=$(POUND_SIGN))	
+$(UPSTREAM_DEFAULT)	ORACLE_TPNO = $(ORACLE_TPNO_xorg_fonts)
+$(UPSTREAM_DEFAULT)	ORACLE_TPNO_SET = yes
+$(UPSTREAM_DEFAULT)	XORG_FONT_LICENSE  = ../X11-font-license.txt
+$(UPSTREAM_DEFAULT) 	ADD_LICENSE_HEADER = ../X11-font-license-add.txt
+$(UPSTREAM_DEFAULT)	LICENSE_APPEND = $(ADD_LICENSE_FILES)
+
+# If font makefile contains AUTO_ADD_LICENSE = no, we just display the X.Org
+# font license, as there is no other attribution notice required for the 
+# package.  Otherwise we display the X11 license, plus a header and the 
+# package's own COPYING file.
+ADD_LICENSE_YES  = $(AUTO_ADD_LICENSE:no=$(POUND_SIGN)) 
+$(ADD_LICENSE_YES) ADD_LICENSE_NO = $(POUND_SIGN)
+
+$(UPSTREAM_DEFAULT)$(ADD_LICENSE_YES)	MODULE_LICENSE_PREPEND  = $(XORG_FONT_LICENSE)
+$(UPSTREAM_DEFAULT)$(ADD_LICENSE_YES)	MODULE_LICENSE_PREPEND += $(ADD_LICENSE_HEADER)
+$(UPSTREAM_DEFAULT)$(ADD_LICENSE_NO)	LICENSE_FILE = $(XORG_FONT_LICENSE)
+$(UPSTREAM_DEFAULT)$(ADD_LICENSE_NO)	LICENSE_FILE_SET = yes
 
 # Most font modules have no man pages
 MODTYPE_SUNTOUCH_MAN_FLAGS= 

@@ -27,8 +27,7 @@
 MODULE_NAME=font-misc-misc
 
 # Package metadata
-MODULE_LICENSE          = Public domain
-MODULE_LICENSE_SET      = yes
+AUTO_ADD_LICENSE	= no
 MODULE_DESC 		= X.Org miscellaneous fonts in bitmap format
 
 # Version number (used in path names)

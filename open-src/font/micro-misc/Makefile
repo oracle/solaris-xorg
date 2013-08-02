@@ -27,8 +27,7 @@
 MODULE_NAME=font-micro-misc
 
 # Package metadata
-MODULE_LICENSE          = Public domain
-MODULE_LICENSE_SET      = yes
+AUTO_ADD_LICENSE 	= no
 MODULE_DESC 		= the Micro bitmap font containing teeny, tiny glyphs
 
 # pkg(5) name we deliver the files in (override default)

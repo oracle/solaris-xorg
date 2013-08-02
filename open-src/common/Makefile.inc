@@ -923,7 +923,6 @@ LICENSE_INSERT 			= $(MODULE_LICENSE_INSERT)
 LICENSE_OVERRIDE_1		= $(POUND_SIGN)$(MODULE_LICENSE)
 LICENSE_OVERRIDE		= $(LICENSE_OVERRIDE_1:$(POUND_SIGN)Oracle%=)
 $(LICENSE_OVERRIDE)		LICENSE_NAME = $(ORACLE_LICENSE_NAME)
-$(LICENSE_OVERRIDE)		LICENSE_PREPEND = $(ORACLE_LICENSE_PREPEND)
 $(LICENSE_OVERRIDE)		LICENSE_INSERT = $(ORACLE_LICENSE_INSERT)
 
 # Name to use in TPNO metadata & license file headers
@@ -948,9 +947,6 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 		m+=' $(MODULE_VERSION)' ; \
 	    fi ; \
 	    print -n $$m | $(PRINT_IN_BOX) > $@ ; \
-	    if [[ -n '$(LICENSE_PREPEND)' ]] ; then \
-		cat $(LICENSE_PREPEND) >> $@ ; \
-	    fi ; \
 	fi ; \
 	if [[ -n '$(ORACLE_COPYRIGHT_YEARS)' ]] ; then \
 	    sed 's/@YEARS@/$(ORACLE_COPYRIGHT_YEARS)/' \
@@ -973,6 +969,9 @@ METADATA_TARGETS += $(LICENSE_FILE_DEST)
 		contents="technology" ; \
 	    fi ; \
 	    print "This package may include $${contents} which may be subject to one or more of the following notices:\n" | fmt >> $@ ; \
+	    if [[ -n '$(LICENSE_PREPEND)' ]] ; then \
+		cat $(LICENSE_PREPEND) >> $@ ; \
+	    fi ; \
 	    cat "$${license_to_copy}" >> $@ ; \
 	fi ; \
 	if [[ -n '$(LICENSE_APPEND)' ]] ; then \

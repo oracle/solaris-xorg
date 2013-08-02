@@ -27,8 +27,7 @@
 MODULE_NAME=font-winitzki-cyrillic
 
 # Package metadata
-MODULE_LICENSE          = Public domain
-MODULE_LICENSE_SET      = yes
+AUTO_ADD_LICENSE	= no
 MODULE_DESC 		= Winitzki proof Bitmap font containing Cyrillic glyphs
 
 # pkg(5) name we deliver the files in (override default)

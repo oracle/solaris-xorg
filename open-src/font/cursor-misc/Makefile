@@ -39,6 +39,7 @@ TARBALL_SHA1 = 1649271129bbeff3aeee70a9da87a8e5e59162c1
 
 # Description to include in package metadata
 MODULE_DESC = the X.Org cursor bitmap font
+AUTO_ADD_LICENSE = no
 
 ### Include common rulesets
 include ../Makefile.inc

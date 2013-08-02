@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,8 +27,7 @@
 MODULE_NAME=font-jis-misc
 
 # Package metadata
-MODULE_LICENSE          = Japanese Industrial Standard
-MODULE_LICENSE_SET      = yes
+AUTO_ADD_LICENSE = no
 
 # Version number (used in path names)
 MODULE_VERSION = 1.0.3
