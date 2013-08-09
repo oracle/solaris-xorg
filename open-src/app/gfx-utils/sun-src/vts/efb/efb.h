@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,98 +21,52 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef EFB_H
-#define EFB_H
+#ifndef	_EFB_H
+#define	_EFB_H
 
-#include <sys/types.h>
-#include <stdio.h>
-#include <sys/mman.h>
-
-#include "gfx_common.h"		/* GFX Common definitions */
-#include "graphicstest.h"
-#include "libvtsSUNWefb.h"	/* Common VTS library definitions */
-
-#include "X11/Xlib.h"
-#include "gfx_vts.h"		/* VTS Graphics Test common routines */
 #include "radeon_reg.h"
 #include "efb_reg.h"
 
-#define EFB_REG_SIZE_LOG2	18
+#define	EFB_REG_SIZE_LOG2	18
 
-struct pci_info {
-	unsigned long	memBase[6];
-	unsigned long	ioBase[6];
-	unsigned int	type [6];
-	unsigned int	size [6];
-	unsigned int	deviceID;
-};
+#define	READ_MMIO_UINT(addr)		*((uint_t volatile *)(addr))
+#define	WRITE_MMIO_UINT(addr, val)	*((uint_t volatile *)(addr)) = \
+	(val)
 
+#define	INREG(offset)		READ_MMIO_UINT(efb_info.efb_mmio_ptr + \
+	(offset))
+#define	REGW(offset, value)	WRITE_MMIO_UINT(efb_info.efb_mmio_ptr + \
+	(offset), (value))
+#define	REGR(offset)		READ_MMIO_UINT(efb_info.efb_mmio_ptr + \
+	(offset))
 
-#define READ_MMIO_UINT(addr)		*((unsigned int *)(addr))
-#define WRITE_MMIO_UINT(addr, val)	*((unsigned int *)(addr)) = (val)
+#define	PCI_MAP_MEMORY			0x00000000
+#define	PCI_MAP_IO			0x00000001
 
-#define INREG(offset)		READ_MMIO_UINT(pEFB->MMIOvaddr + (offset))
-#define REGW(offset, value)	WRITE_MMIO_UINT(pEFB->MMIOvaddr + (offset), (value))
-#define REGR(offset)		READ_MMIO_UINT(pEFB->MMIOvaddr + (offset))
+#define	PCI_MAP_MEMORY_TYPE		0x00000007
+#define	PCI_MAP_IO_TYPE			0x00000003
 
-typedef unsigned int (*PFNRead32)  (unsigned char *);
-typedef void         (*PFNWrite32) (unsigned char *, unsigned int);
+#define	PCI_MAP_MEMORY_TYPE_32BIT	0x00000000
+#define	PCI_MAP_MEMORY_TYPE_32BIT_1M	0x00000002
+#define	PCI_MAP_MEMORY_TYPE_64BIT	0x00000004
+#define	PCI_MAP_MEMORY_TYPE_MASK	0x00000006
+#define	PCI_MAP_MEMORY_CACHABLE		0x00000008
+#define	PCI_MAP_MEMORY_ATTR_MASK	0x0000000e
+#define	PCI_MAP_MEMORY_ADDRESS_MASK	0xfffffff0
 
-struct efb_info {
-	int		fd;
+#define	PCI_MAP_IO_ATTR_MASK		0x00000003
+#define	PCI_MAP_IS_IO(b)		((b) & PCI_MAP_IO)
+#define	PCI_MAP_IO_ADDRESS_MASK		0xfffffffc
 
-	int		screenWidth;
-	int		screenHeight;
-	int		screenPitch;
-	int		bitsPerPixel;
+#define	PCIGETIO(b)			((b) & PCI_MAP_IO_ADDRESS_MASK)
 
-	unsigned int	ChipSet;
+#define	PCI_MAP_IS64BITMEM(b) \
+	(((b) & PCI_MAP_MEMORY_TYPE) == PCI_MAP_MEMORY_TYPE_64BIT)
 
-	unsigned long	FBPhysAddr;
-	unsigned long	MMIOPhysAddr;
-	unsigned long	RelocateIO;
-	unsigned long	fbLocation;
+#define	PCIGETMEMORY(b)			((b) & PCI_MAP_MEMORY_ADDRESS_MASK)
 
-	int		FBMapSize;
-	int		MMIOMapSize;
+#define	PCI_REGION_BASE(_pcidev, _b, _type)			\
+	(((_type) == REGION_MEM) ? (_pcidev)->memBase[(_b)] :	\
+	(_pcidev)->ioBase[(_b)])
 
-	unsigned char	*FBvaddr;
-	unsigned char	*MMIOvaddr;
-};
-
-#define PCI_MAP_MEMORY                  0x00000000
-#define PCI_MAP_IO			0x00000001
-
-#define PCI_MAP_MEMORY_TYPE             0x00000007
-#define PCI_MAP_IO_TYPE                 0x00000003
-
-#define PCI_MAP_MEMORY_TYPE_32BIT       0x00000000
-#define PCI_MAP_MEMORY_TYPE_32BIT_1M    0x00000002
-#define PCI_MAP_MEMORY_TYPE_64BIT       0x00000004
-#define PCI_MAP_MEMORY_TYPE_MASK        0x00000006
-#define PCI_MAP_MEMORY_CACHABLE         0x00000008
-#define PCI_MAP_MEMORY_ATTR_MASK        0x0000000e
-#define PCI_MAP_MEMORY_ADDRESS_MASK     0xfffffff0
-
-#define PCI_MAP_IO_ATTR_MASK		0x00000003
-#define PCI_MAP_IS_IO(b)		((b) & PCI_MAP_IO)
-#define PCI_MAP_IO_ADDRESS_MASK		0xfffffffc
-
-#define PCIGETIO(b)			((b) & PCI_MAP_IO_ADDRESS_MASK)
-
-#define PCI_MAP_IS64BITMEM(b)   \
-        (((b) & PCI_MAP_MEMORY_TYPE) == PCI_MAP_MEMORY_TYPE_64BIT)
-
-#define PCIGETMEMORY(b)         	((b) & PCI_MAP_MEMORY_ADDRESS_MASK)
-
-#define PCI_REGION_BASE(_pcidev, _b, _type)             \
-    (((_type) == REGION_MEM) ? (_pcidev)->memBase[(_b)] \
-                             : (_pcidev)->ioBase[(_b)])
-
-int efb_get_pci_info(int fd, struct pci_info *pci_info); 
-int efb_get_mem_info(struct pci_info *pci_info, struct efb_info *pEFB); 
-int efb_map_mem(struct efb_info *pEFB, return_packet *rp, int test);
-int efb_unmap_mem(struct efb_info *pEFB, return_packet *rp, int test);
-int efb_init_info(struct efb_info *);
-
-#endif /* EFB_H */
+#endif	/* _EFB_H */

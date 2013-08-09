@@ -1,6 +1,5 @@
-
 /*
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,315 +21,239 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <errno.h>
-#include <signal.h>		/* signal() */
-#include <stdio.h>
-#include <stropts.h>		/* ioctl() */
-#include <unistd.h>		/* ioctl(), sleep() */
-#include <sys/mman.h>
+#include "libvtsSUNWefb.h"
 
-#include "gfx_common.h"		/* VTS Graphics Test common routines */
-#include "graphicstest.h"
-#include "gfx_vts.h"		/* VTS Graphics Test common routines */
-#include "efb.h"		
+/*
+ * efb_test_chip()
+ *
+ *    Test Chip, functional tests.
+ */
 
-void
-box(struct efb_info *pEFB, int x1, int y1, int x2, int y2, unsigned int color)
+return_packet *
+efb_test_chip(
+    register int const fd)
 {
-	int		tmp;
-	int		width;
-	int		height;
-	unsigned int	v;
+	static return_packet rp;
 
-	width  = x2 - x1;
-	height = y2 - y1;
+	memset(&rp, 0, sizeof (return_packet));
 
-	if ((width <= 0) || (height <= 0)) {
-#ifdef DEBUG
-		printf("x1=%d x2=%d y1=%d y2=%d\n", x1, x2, y1, y2);
-#endif
-		return;
-	}
+	if (gfx_vts_debug_mask & GRAPHICS_VTS_CHIP_OFF)
+		return (&rp);
 
-	efb_wait_for_fifo(pEFB, 5);
+	TraceMessage(VTS_DEBUG, "efb_test_chip", "efb_test_chip running\n");
 
-	REGW(RADEON_DP_WRITE_MASK, 0xffffffff);
-	REGW(RADEON_DP_CNTL,	
-		(RADEON_DST_X_LEFT_TO_RIGHT | RADEON_DST_Y_TOP_TO_BOTTOM));
+	efb_block_signals();
 
-	REGW(RADEON_DP_BRUSH_FRGD_CLR, color);
-        REGW(DST_Y_X,  x1 << DST_Y_X__DST_X__SHIFT |
-                       y1 << DST_Y_X__DST_Y__SHIFT) ;
-        REGW(DST_WIDTH_HEIGHT,
-              height << DST_WIDTH_HEIGHT__DST_HEIGHT__SHIFT |
-              width << DST_WIDTH_HEIGHT__DST_WIDTH__SHIFT ) ;
+	efb_lock_display();
 
-}	/* box() */
+	chip_test(&rp, fd);
 
-void
-line(struct efb_info *pEFB,
-	int		x1,
-	int		y1,
-	int		x2,
-	int		y2,
-	unsigned int	color
-	)
-{
-	efb_wait_for_fifo(pEFB, 5);
+	efb_unlock_display();
 
-	REGW(RADEON_DP_WRITE_MASK, 0xffffffff);
-	REGW(RADEON_DP_CNTL,	
-		(RADEON_DST_X_LEFT_TO_RIGHT | RADEON_DST_Y_TOP_TO_BOTTOM));
+	efb_restore_signals();
 
-	REGW(RADEON_DP_BRUSH_FRGD_CLR, color);
-        REGW(DST_LINE_START,  
-		(x1 << DST_LINE_START__DST_START_X__SHIFT | y1 << DST_LINE_START__DST_START_Y__SHIFT));
-        REGW(DST_LINE_END,  
-		(x2 << DST_LINE_END__DST_END_X__SHIFT | y2 << DST_LINE_END__DST_END_Y__SHIFT));
+	TraceMessage(VTS_DEBUG, "efb_test_chip", "efb_test_chip completed\n");
 
-}	/* line() */
+	return (&rp);
 
-#define NBOX 100
+}	/* efb_test_chip() */
 
-void
-draw_cascaded_box(struct efb_info *pEFB, int width, int height)
-{
-	unsigned int	x1;
-	unsigned int	y1;
-	unsigned int	x2;
-	unsigned int	y2;
-	unsigned int	w;
-	unsigned int	h;
-	unsigned int	i, j;
-	unsigned int	k = 0;
-	unsigned int    cinc = 0;
-	unsigned int	xinc, yinc;
-
-	cinc = 256 / NBOX;
-	xinc = width / (NBOX * 2);
-	yinc = height / (NBOX * 2);
-	x1 = y1 = 0;
-
-	for (i = 0; i < NBOX; i++) {
-
-	    x2 = width - x1;
-	    y2 = height - y1;
-
-	    j = i * cinc;
-
-	    k = (j<<24 | j<<16 | j<<8 | j);
-
-	    box(pEFB, x1, y1, x2, y2, k);
-
-	    x1 += xinc;
-	    y1 += yinc;
-	}
-
-}	/* draw_cascaded_box() */
-
-
-#define NLINE 128
-
-void
-draw_lines(struct efb_info *pEFB, int width, int height)
-{
-	unsigned int	x1;
-	unsigned int	y1;
-	unsigned int	x2;
-	unsigned int	y2;
-	int		k;
-	int		i;
-	unsigned int	xinc, yinc;
-
-	xinc = width / NLINE;
-	yinc = height / NLINE;
-	x1 = y1 = 0;
-
-
-	k = 0;
-	x1 = 0;
-	y1 = 0;
-	y2 = height;
-	for (i = 0; i < NLINE; i++) {
-	    k  = 0x00af0000 | (i << 8) | i;
-
-	    x2 = x1;
-
-	    line(pEFB, x1, y1, x2, y2, k);
-	
-	    x1 += xinc;
-	}
-
-	x1 = 0;
-	x2 = width;
-	y1 = 0;
-
-	for (i = 0; i < NLINE; i++) {
-	    k  = 0x00af0000 | (i << 8) | i;
-
-	    y2 = y1;
-
-	    line(pEFB, x1, y1, x2, y2, k);
-
-	    y1 += yinc;
-	}
-}
 
 int
-efb_init_2D(struct efb_info *pEFB)
+chip_test(
+    register return_packet *const rp,
+    register int const fd)
 {
-	unsigned int pitch_offset;
-	unsigned int pitch;
-	unsigned int offset;
-	unsigned int bytepp;
-	unsigned int gmc_bpp;
-	unsigned int dp_datatype;
-	unsigned int v;
-	int i;
+	register uint_t black;
+	register uint_t white;
 
-	switch (pEFB->bitsPerPixel) {
-	case 8:
-		gmc_bpp = GMC_DST_8BPP;
-		dp_datatype = DST_8BPP | BRUSH_SOLIDCOLOR | SRC_DSTCOLOR;
-		bytepp = 1;
-		break;
-	case 32:
-		gmc_bpp = GMC_DST_32BPP;
-		dp_datatype = DST_32BPP | BRUSH_SOLIDCOLOR | SRC_DSTCOLOR;
-		bytepp = 4;
-		break;
-	}
+	memset(&efb_info, 0, sizeof (efb_info));
+	efb_info.efb_fd = fd;
 
-	offset = REGR(CRTC_OFFSET) & 0x7ffffff;
-	pitch = REGR(CRTC_PITCH) & 0x7ff;
-
-	pitch = pitch * 8;	// was in groups of 8 pixels
-
-	pitch_offset = 
-		((pitch * bytepp / 64) << 22) |
-		(offset / 1024);
-
-        /*
-         * Initialize GUI engine
-         */
-        efb_wait_for_idle(pEFB);
-
-	efb_wait_for_fifo(pEFB, 5);
-
-
-        REGW(DEFAULT_PITCH_OFFSET, pitch_offset);
-        REGW(RADEON_DST_PITCH_OFFSET, pitch_offset);
-        REGW(RADEON_SRC_PITCH_OFFSET, pitch_offset);
-
-        REGW(DEFAULT_SC_BOTTOM_RIGHT,  
-		(pEFB->screenHeight << 16) |
-		(pEFB->screenWidth));
-
-        v = (
-	    GMC_SRC_PITCH_OFFSET_DEFAULT |
-	    GMC_DST_PITCH_OFFSET_LEAVE |
-	    GMC_SRC_CLIP_DEFAULT	|
-	    GMC_DST_CLIP_DEFAULT	|
-            GMC_BRUSH_SOLIDCOLOR        |
-            gmc_bpp                     |
-            GMC_SRC_DSTCOLOR            |
-            RADEON_ROP3_P               |
-            GMC_WRITE_MASK_LEAVE);
-
-        REGW(RADEON_DP_GUI_MASTER_CNTL,  v);
-
-#ifdef DEBUG
-	printf("v=0x%x\n", v);
-#endif
-}
-
-
-
-
-void
-chip_test(return_packet *rp, int fd)
-{
-        struct efb_info  efb_info;
-        struct efb_info  *pEFB;
-        unsigned int red;
-        unsigned char *fbaddr;
-        int i;
-        int bytepp;
-        int fb_offset, fb_pitch, fb_height, fb_width;
-
-        pEFB = &efb_info;
-        pEFB->fd = fd;
-
-        /*
-         * map the registers & frame buffers memory
-         */
-        if (efb_map_mem(pEFB, rp, GRAPHICS_ERR_CHIP) == -1) {
-            return;
-        }
-
-        /*
-         * initialize efb info
-         */
-        if (efb_init_info(pEFB) == -1) {
-            return;
-        }
-
-	if (efb_init_2D(pEFB) == -1) {
-	    return;
-	}
-
-
-	/* 
-	 * Clear screen 
+	/*
+	 * map the registers & frame buffers memory
 	 */
-	box(pEFB, 0, 0, pEFB->screenWidth, pEFB->screenHeight, 0);
-	efb_wait_for_idle(pEFB);
-	efb_flush_pixel_cache(pEFB);
-	sleep(2);
+	if (efb_map_mem(rp, GRAPHICS_ERR_CHIP) != 0)
+		return (-1);
+
+	if (efb_init_info(rp, GRAPHICS_ERR_CHIP) != 0) {
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	if (!efb_init_graphics()) {
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	efb_save_palet();
+	efb_set_palet();
+
+	/*
+	 * Clear screen black
+	 */
+	black = efb_color(0x00, 0x00, 0x00);
+	if (!efb_fill_solid_rect(0, 0,
+	    efb_info.efb_width, efb_info.efb_height, black)) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	if (!efb_wait_idle()) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	efb_flush_pixel_cache();
 
 	/*
 	 * line test
 	 */
-	draw_lines(pEFB, pEFB->screenWidth, pEFB->screenHeight);
-	efb_wait_for_idle(pEFB);
-	efb_flush_pixel_cache(pEFB);
-	sleep(1);
-
-	/*
-	 * fill test
-	 */
-	draw_cascaded_box(pEFB, pEFB->screenWidth, pEFB->screenHeight);
-	efb_wait_for_idle(pEFB);
-	efb_flush_pixel_cache(pEFB);
-	sleep(1);
-	efb_wait_for_idle(pEFB);
-	efb_flush_pixel_cache(pEFB);
-
-	/* 
-	 * Clear screen 
-	 */
-	box(pEFB, 0, 0, pEFB->screenWidth, pEFB->screenHeight, 0xff);
-	efb_wait_for_idle(pEFB);
-	efb_flush_pixel_cache(pEFB);
-	sleep(2);
-
-
-done:
-        /*
-         * Unmap the registers & frame buffers memory
-         */
-        if (efb_unmap_mem(pEFB, rp, GRAPHICS_ERR_CHIP) == -1) {
-            return;
-        }
-
-
-	if (close(fd) == -1) {
-	    gfx_vts_set_message(rp, 1, GRAPHICS_ERR_CHIP, "error closing device\n");
-	    return;
+	if (!draw_lines(efb_info.efb_width, efb_info.efb_height)) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
 	}
 
+	if (!efb_wait_idle()) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	efb_flush_pixel_cache();
+
+	if (efb_sleep(2)) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	/*
+	 * fill rectangle test
+	 */
+	if (!draw_cascaded_box(efb_info.efb_width, efb_info.efb_height)) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	if (!efb_wait_idle()) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	efb_flush_pixel_cache();
+
+	if (efb_sleep(2)) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	/* Clear screen white */
+
+	white = efb_color(0xff, 0xff, 0xff);
+
+	/*
+	 * Clear screen
+	 */
+	if (!efb_fill_solid_rect(0, 0,
+	    efb_info.efb_width, efb_info.efb_height, white)) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	if (!efb_wait_idle()) {
+		efb_restore_palet();
+		efb_unmap_mem(NULL, GRAPHICS_ERR_CHIP);
+		return (-1);
+	}
+
+	efb_flush_pixel_cache();
+
+	efb_sleep(2);
+
+	efb_restore_palet();
+
+	if (efb_unmap_mem(rp, GRAPHICS_ERR_CHIP) != 0)
+		return (-1);
+
+	return (0);
 }	/* chip_test() */
 
+
+int
+draw_lines(
+    register uint_t const width,
+    register uint_t const height)
+{
+	register uint_t x1;
+	register uint_t y1;
+	register uint_t x2;
+	register uint_t y2;
+	register uint_t color;
+	register uint_t lineon;
+	register uint_t const numlines = 128;
+
+	for (lineon = 0; lineon < numlines; lineon++) {
+		color = efb_color(0xaf, lineon, lineon);
+
+		x1 = (uint_t)((width * lineon) / numlines);
+		x2 = x1;
+		y1 = 0;
+		y2 = height;
+
+		if (!efb_draw_solid_line(x1, y1, x2, y2, color))
+			return (0);
+	}
+
+	for (lineon = 0; lineon < numlines; lineon++) {
+		color = efb_color(0xaf, lineon, lineon);
+
+		x1 = 0;
+		x2 = width;
+		y1 = (uint_t)((height * lineon) / numlines);
+		y2 = y1;
+
+		if (!efb_draw_solid_line(x1, y1, x2, y2, color))
+			return (0);
+	}
+	return (1);
+}
+
+int
+draw_cascaded_box(
+    register uint_t const width,
+    register uint_t const height)
+{
+	register uint_t x1;
+	register uint_t y1;
+	register uint_t x2;
+	register uint_t y2;
+	register uint_t color;
+	register uint_t recton;
+	register uint_t const numrects = 256;
+
+	for (recton = 0; recton < numrects; recton++) {
+
+		x1 = (uint_t)((width * recton) / 512);
+		x2 = width - x1;
+
+		y1 = (uint_t)((height * recton) / 512);
+		y2 = height - y1;
+
+		color = efb_color(recton, recton, recton);
+
+		if (!efb_fill_solid_rect(x1, y1, x2, y2, color))
+			return (0);
+	}
+
+	return (1);
+}
 
 /* End of chip.c */
