@@ -58,27 +58,21 @@ dir  path=system/volatile/opengl/lib
 dir  path=system/volatile/opengl/lib/$(ARCH64)
 link path=system/volatile/opengl/lib/$(ARCH64)/libGL.so.1 \
     target=../../../../../usr/lib/mesa/$(ARCH64)/libGL.so.1
-link path=system/volatile/opengl/lib/$(ARCH64)/libGL.so.1.2.0 \
-    target=../../../../../usr/lib/mesa/$(ARCH64)/libGL.so.1.2.0
 link path=system/volatile/opengl/lib/64 target=$(ARCH64)
 link path=system/volatile/opengl/lib/libGL.so.1 \
     target=../../../../usr/lib/mesa/libGL.so.1
-link path=system/volatile/opengl/lib/libGL.so.1.2.0 \
-    target=../../../../usr/lib/mesa/libGL.so.1.2.0
 dir  path=system/volatile/opengl/server
 link path=system/volatile/opengl/server/libglx.so \
     target=../../../../usr/lib/mesa/modules/extensions/libglx.so
 
 
 link path=usr/X11/lib/$(ARCH64)/libGL.so target=libGL.so.1
-link path=usr/X11/lib/$(ARCH64)/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/X11/lib/$(ARCH64)/libGL.so.1.2.0 \
-    target=../GL/$(ARCH64)/libGL.so.1.2.0
+link path=usr/X11/lib/$(ARCH64)/libGL.so.1 \
+    target=../../../lib/GL/$(ARCH64)/libGL.so.1
 link path=usr/X11/lib/64 target=$(ARCH64)
 link path=usr/X11/lib/GL target=../../lib/GL
 link path=usr/X11/lib/libGL.so target=libGL.so.1
-link path=usr/X11/lib/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/X11/lib/libGL.so.1.2.0 target=GL/libGL.so.1.2.0
+link path=usr/X11/lib/libGL.so.1 target=../../lib/GL/libGL.so.1
 dir  path=usr/include/GL
 link path=usr/include/GL/gl.h \
     target=../../../system/volatile/opengl/include/gl.h
@@ -89,22 +83,18 @@ link path=usr/include/GL/glx.h \
 link path=usr/include/GL/glxext.h \
     target=../../../system/volatile/opengl/include/glxext.h
 link path=usr/lib/$(ARCH64)/libGL.so target=libGL.so.1
-link path=usr/lib/$(ARCH64)/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/lib/$(ARCH64)/libGL.so.1.2.0 target=../GL/$(ARCH64)/libGL.so.1.2.0
+link path=usr/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
 dir  path=usr/lib/GL
 dir  path=usr/lib/GL/$(ARCH64)
 link path=usr/lib/GL/$(ARCH64)/libGL.so target=libGL.so.1
-link path=usr/lib/GL/$(ARCH64)/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/lib/GL/$(ARCH64)/libGL.so.1.2.0 \
-    target=../../../../system/volatile/opengl/lib/$(ARCH64)/libGL.so.1.2.0
+link path=usr/lib/GL/$(ARCH64)/libGL.so.1 \
+    target=../../../../system/volatile/opengl/lib/$(ARCH64)/libGL.so.1
 link path=usr/lib/GL/64 target=$(ARCH64)
 link path=usr/lib/GL/libGL.so target=libGL.so.1
-link path=usr/lib/GL/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/lib/GL/libGL.so.1.2.0 \
-    target=../../../system/volatile/opengl/lib/libGL.so.1.2.0
+link path=usr/lib/GL/libGL.so.1 \
+    target=../../../system/volatile/opengl/lib/libGL.so.1
 link path=usr/lib/libGL.so target=libGL.so.1
-link path=usr/lib/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/lib/libGL.so.1.2.0 target=GL/libGL.so.1.2.0
+link path=usr/lib/libGL.so.1 target=GL/libGL.so.1
 dir  path=usr/lib/xorg
 dir  path=usr/lib/xorg/modules
 dir  path=usr/lib/xorg/modules/extensions

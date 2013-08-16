@@ -71,8 +71,7 @@ file path=usr/include/mesa/vms_x_fix.h
 file path=usr/include/mesa/wglext.h
 file path=usr/include/mesa/wmesa.h
 link path=usr/lib/$(ARCH64)/libGL.so target=libGL.so.1
-link path=usr/lib/$(ARCH64)/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/lib/$(ARCH64)/libGL.so.1.2.0 target=../GL/$(ARCH64)/libGL.so.1.2.0
+link path=usr/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
 link path=usr/lib/$(ARCH64)/libGLU.so target=libGLU.so.1
 link path=usr/lib/$(ARCH64)/libGLU.so.1 target=libGLU.so.1.3.1
 link path=usr/lib/$(ARCH64)/libGLU.so.1.3.1 \
@@ -114,8 +113,7 @@ link path=usr/lib/GL/libglapi.so target=libglapi.so.0
 link path=usr/lib/GL/libglapi.so.0 target=libglapi.so.0.0.0
 link path=usr/lib/GL/libglapi.so.0.0.0 target=../mesa/libglapi.so.0.0.0
 link path=usr/lib/libGL.so target=libGL.so.1
-link path=usr/lib/libGL.so.1 target=libGL.so.1.2.0
-link path=usr/lib/libGL.so.1.2.0 target=GL/libGL.so.1.2.0
+link path=usr/lib/libGL.so.1 target=GL/libGL.so.1
 link path=usr/lib/libGLU.so target=libGLU.so.1
 link path=usr/lib/libGLU.so.1 target=libGLU.so.1.3.1
 link path=usr/lib/libGLU.so.1.3.1 target=GL/libGLU.so.1.3.1
