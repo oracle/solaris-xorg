@@ -29,3 +29,4 @@ cli-nolock.patch,-p1
 sparc-config-improv.patch,-p1
 16794101.patch,-p1
 remove-sbus-probe.patch,-p1
+17385060.patch,-p1
