@@ -1,6 +1,5 @@
-
 /*
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,86 +21,138 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <stdio.h>
-#include <sys/mman.h>
+#include "libvtsSUNWast.h"
 
-#include "gfx_common.h"		/* GFX Common definitions */
-#include "graphicstest.h"
-#include "libvtsSUNWast.h"	/* Common VTS library definitions */
 
-#include "X11/Xlib.h"
-#include "gfx_vts.h"		/* VTS Graphics Test common routines */
-#include "ast.h"
+/*
+ * ast_test_open()
+ *
+ *    This test will open the device, read and write some registers
+ *    after mmaping in the register and frame buffer spaces.
+ */
+
+return_packet *
+ast_test_open(
+    register int const fd)
+{
+	static return_packet rp;
+	int rc = 0;
+	struct vis_identifier vis_identifier;
+
+	memset(&rp, 0, sizeof (return_packet));
+
+	if (gfx_vts_check_fd(fd, &rp))
+		return (&rp);
+
+	TraceMessage(VTS_TEST_STATUS, "ast_test_open", "check_fd passed.\n");
+
+	/* vis identifier will do this */
+	rc = ioctl(fd, VIS_GETIDENTIFIER, &vis_identifier);
+
+	TraceMessage(VTS_TEST_STATUS, "ast_test_open", "rc = %d\n", rc);
+
+	if (rc != 0) {
+		gfx_vts_set_message(&rp, 1, GRAPHICS_ERR_OPEN, NULL);
+		return (&rp);
+	}
+
+	if (strncmp(vis_identifier.name, "SUNWast", 7) != 0 &&
+	    strncmp(vis_identifier.name, "ORCLast", 7) != 0) {
+		gfx_vts_set_message(&rp, 1, GRAPHICS_ERR_OPEN, NULL);
+		return (&rp);
+	}
+
+	ast_block_signals();
+
+	ast_lock_display();
+
+	map_me(&rp, fd);
+
+	ast_unlock_display();
+
+	ast_restore_signals();
+
+	TraceMessage(VTS_DEBUG, "ast_test_open", "Open completed OK\n");
+
+	return (&rp);
+
+}	/* ast_test_open() */
 
 
 /*
  * map_me()
  */
 
-void
-map_me(return_packet *rp, int fd)
+int
+map_me(
+    register return_packet *const rp,
+    register int const fd)
 {
-	struct ast_info  ast_info;
-	struct ast_info  *pAST;
 	unsigned int	 value, chipType;
-	
 
-	pAST = &ast_info;
-	pAST->fd = fd;
+	memset(&ast_info, 0, sizeof (ast_info));
+	ast_info.ast_fd = fd;
 
 	/*
 	 * map the registers & frame buffers memory
 	 */
-	if (ast_map_mem(pAST, rp, GRAPHICS_ERR_OPEN) == -1) {
-	    return;
+	if (ast_map_mem(rp, GRAPHICS_ERR_OPEN) != 0)
+		return (-1);
+
+	if (ast_test_scratch(rp, GRAPHICS_ERR_OPEN) != 0) {
+		ast_unmap_mem(NULL, GRAPHICS_ERR_OPEN);
+		return (-1);
 	}
-
-        if (ast_init_info(pAST) == -1) {
-            return;
-        }
-
-	/*
-	 * 32 bits support only for now
-	 */
-	if (pAST->bytesPerPixel == 1) {
-	    goto done;
-	}
-	
-	/*
-	 * Write some registers
-	 */
-	pAST->write32(pAST->MMIOvaddr + 0xF004, 0x1e6e0000);
-	value = pAST->read32(pAST->MMIOvaddr + 0xF004);
-	if (value != 0x1e6e0000) {
-	    gfx_vts_set_message(rp, 1, GRAPHICS_ERR_OPEN, "write/read registers failed");
-	    return;
-	}
-
-	pAST->write32(pAST->MMIOvaddr + 0xF000, 0x1);
-	value = pAST->read32(pAST->MMIOvaddr + 0xF000);
-	if (value != 0x1) {
-	    gfx_vts_set_message(rp, 1, GRAPHICS_ERR_OPEN, "write/read registers failed");
-	    return;
-	}
-
-
-	value = pAST->read32(pAST->MMIOvaddr + 0x1207c);
+	value = ast_mmio_read32(0x1207c);
 	chipType = value & 0x0300;
-#if DEBUG
-	printf("chipType = 0x%x\n", chipType);
-#endif
+	TraceMessage(VTS_DEBUG, "ast_test_chip",
+	    "chip type 0x%x\n", chipType);
 
-
-done:
 	/*
 	 * Unmap the registers & frame buffers memory
 	 */
-	if (ast_unmap_mem(pAST, rp, GRAPHICS_ERR_OPEN) == -1) {
-	    return;
+	if (ast_unmap_mem(rp, GRAPHICS_ERR_OPEN) != 0)
+		return (-1);
+
+	return (0);
+}	/* map_me() */
+
+
+int
+ast_test_scratch(
+    register return_packet *const rp,
+    register int const test)
+{
+	uchar_t scratch;
+	uchar_t newscratch;
+
+	if (ast_get_index_reg(&scratch, CRTC_PORT, 0x90) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get scratch");
+		return (-1);
 	}
 
-}	/* map_me() */
+	if (ast_set_index_reg(CRTC_PORT, 0x90, scratch ^ 0x33) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to set scratch");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&newscratch, CRTC_PORT, 0x90) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get newscratch");
+		return (-1);
+	}
+
+	if ((scratch ^ 0x33) != newscratch) {
+		gfx_vts_set_message(rp, 1, test, "scratch mismatch");
+		return (-1);
+	}
+
+	if (ast_set_index_reg(CRTC_PORT, 0x90, scratch) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to set scratch");
+		return (-1);
+	}
+
+	return (1);
+}
 
 
 /* End of mapper.c */

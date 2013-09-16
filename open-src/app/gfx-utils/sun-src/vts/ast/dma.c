@@ -1,6 +1,5 @@
-
 /*
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,97 +21,108 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <errno.h>		/* errno */
-#include <stdio.h>
-#include <string.h>		/* strerror() */
-#include <stropts.h>		/* ioctl() */
-#include <unistd.h>		/* ioctl() */
-#include <sys/mman.h>
-#include <stdlib.h>
+#include "libvtsSUNWast.h"
 
-#include "gfx_common.h"
-#include "graphicstest.h"
-#include "libvtsSUNWxfb.h"	/* Common VTS library definitions */
-#include "gfx_vts.h"		/* VTS Graphics Test common routines */
-#include "ast.h"
+/*
+ * ast_test_dma
+ *
+ *    This test will open the device, allocate the dma buffers to
+ *    separate memory spaces, and read/write the data, verifying it.
+ */
 
-static int
-cmp_value(struct ast_info *pAST, int x, int y)
+return_packet *
+ast_test_dma(
+    register int const fd)
 {
-	unsigned char *addr;
-	unsigned int  val;
+	static return_packet rp;
 
-	addr = pAST->FBvaddr + (y-1) * pAST->screenPitch + x * pAST->bytesPerPixel;
-	val = read32(addr);
-	if ((val != 0x0) && (val != 0x00ffffff)) {
-	    printf("value at [%d %d] is different...0x%x\n", x, y, val);
-	    return -1;
-	}
+	memset(&rp, 0, sizeof (return_packet));
 
-	return 0;
+	TraceMessage(VTS_DEBUG, "ast_test_dma",
+	    "ast_test_dma running\n");
+
+	ast_block_signals();
+
+	ast_lock_display();
+
+	dma_test(&rp, fd);
+
+	TraceMessage(VTS_DEBUG, "ast_test_dma",
+	    "ast_test_dma completed\n");
+
+	ast_unlock_display();
+
+	ast_restore_signals();
+
+	return (&rp);
 }
 
 
-void
-dma_test(return_packet *rp, int fd)
+int
+dma_test(
+    register return_packet *const rp,
+    register int const fd)
 {
-        struct ast_info  ast_info;
-        struct ast_info  *pAST;
-	unsigned int red;
-	unsigned char *fbaddr;
-	int i;
-	int bytepp;
-	int fb_offset, fb_pitch, fb_height, fb_width;
+	register uint_t fg;
+	register uint_t bg;
 
-        pAST = &ast_info;
-        pAST->fd = fd;
-
-        /*
-         * map the registers & frame buffers memory
-         */
-        if (ast_map_mem(pAST, rp, GRAPHICS_ERR_DMA) == -1) {
-            return;
-        }
+	memset(&ast_info, 0, sizeof (ast_info));
+	ast_info.ast_fd = fd;
 
 	/*
-	 * initialize ast info
+	 * map the registers & frame buffers memory
 	 */
-	if (ast_init_info(pAST) == -1) {
-	    return;
+	if (ast_map_mem(rp, GRAPHICS_ERR_DMA) != 0)
+		return (-1);
+
+	if (ast_init_info(rp, GRAPHICS_ERR_DMA) != 0) {
+		ast_unmap_mem(NULL, GRAPHICS_ERR_DMA);
+		return (-1);
 	}
 
-	/*
-	 * for now, disable dma test when running on 8 bits
-	 */
-	if (pAST->bytesPerPixel == 1) {
-	    goto done;
+	if (ast_init_graphics() < 0) {
+		ast_unmap_mem(NULL, GRAPHICS_ERR_DMA);
+		return (-1);
 	}
 
-
-	ASTEnable2D(pAST);
-
-	if (ASTInitCMDQ(pAST) == -1) {
-	    pAST->MMIO2D = 1;
-	} else {
-	    ASTEnableCMDQ(pAST);
+	if (ast_save_palet() < 0) {
+		ast_unmap_mem(NULL, GRAPHICS_ERR_DMA);
+		return (-1);
 	}
 
-	ASTSetupForMonoPatternFill(pAST, 0x77ddbbee, 0x77ddbbee, 0, 0xffffff, 0xf0);
-	ASTMonoPatternFill(pAST, 0x77ddbbee, 0x77ddbbee, 0, 0, 
-				pAST->screenWidth, pAST->screenHeight);
-	ASTWaitEngIdle(pAST);
+	if (ast_set_palet() < 0) {
+		ast_unmap_mem(NULL, GRAPHICS_ERR_DMA);
+		return (-1);
+	}
 
-	sleep(1);
+	fg = ast_color(0xff, 0x00, 0x00);
+	bg = ast_color(0xff, 0xff, 0xff);
 
-done:
-        /*
-         * Unmap the registers & frame buffers memory
-         */
-        if (ast_unmap_mem(pAST, rp, GRAPHICS_ERR_DMA) == -1) {
-            return;
-        }
-}	/* dma_test() */
+	/* Do pattern fill */
 
+	if (!ast_fill_pattern_rect(0, 0,
+	    ast_info.ast_width, ast_info.ast_height,
+	    fg, bg, 0x77ddbbee77ddbbee)) {
+		ast_restore_palet();
+		ast_finish_graphics();
+		ast_unmap_mem(NULL, GRAPHICS_ERR_DMA);
+		return (-1);
+	}
 
-/* End of dma.c */
+	if (!ast_wait_idle()) {
+		ast_restore_palet();
+		ast_finish_graphics();
+		ast_unmap_mem(NULL, GRAPHICS_ERR_DMA);
+		return (-1);
+	}
+
+	ast_sleep(2);
+
+	ast_restore_palet();
+	ast_finish_graphics();
+
+	if (ast_unmap_mem(rp, GRAPHICS_ERR_DMA) != 0)
+		return (-1);
+
+	return (0);
+}

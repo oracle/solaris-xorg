@@ -1,6 +1,5 @@
-
 /*
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,984 +21,1226 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <stdio.h>
-#include <sys/mman.h>
+#include "libvtsSUNWast.h"
 
-#include "gfx_common.h"		/* GFX Common definitions */
-#include "graphicstest.h"
-#include "libvtsSUNWast.h"	/* Common VTS library definitions */
+hrtime_t ast_loop_time = (hrtime_t)10 * NANOSEC;	/* time to busy wait */
 
-#include "X11/Xlib.h"
-#include "gfx_vts.h"		/* VTS Graphics Test common routines */
-#include "ast.h"
-
-void
-ASTSetReg(int fd, int offset, int value)
-{
-	ast_io_reg	io_reg;
-	
-	io_reg.offset = offset;
-	io_reg.value = value;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-}
-
-void
-ASTGetReg(int fd, int offset, int *value)
-{
-	ast_io_reg	io_reg;
-	
-	io_reg.offset = offset;
-	ioctl(fd, AST_GET_IO_REG, &io_reg);
-	*value = io_reg.value;
-}
-
-void
-ASTSetIndexReg(int fd, int offset, int index, unsigned char value)
-{
-	ast_io_reg	io_reg;
-
-	io_reg.offset = offset;
-	io_reg.value = index;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-	io_reg.offset = offset + 1;
-	io_reg.value = value;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-}
-
-void
-ASTGetIndexReg(int fd, int offset, int index, unsigned char *value)
-{
-	ast_io_reg	io_reg;
-
-	io_reg.offset = offset;
-	io_reg.value = index;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-	io_reg.offset = offset + 1;
-	ioctl(fd, AST_GET_IO_REG, &io_reg);
-	*value = io_reg.value;
-}
-
-void
-ASTSetIndexRegMask(int fd, int offset, int index, int and, unsigned char value)
-{
-	ast_io_reg	io_reg;
-	unsigned char	temp;
-
-	io_reg.offset = offset;
-	io_reg.value = index;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-	io_reg.offset = offset + 1;
-	ioctl(fd, AST_GET_IO_REG, &io_reg);
-	temp = (io_reg.value & and) | value;
-	io_reg.offset = offset;
-	io_reg.value = index;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-	io_reg.offset = offset + 1;
-	io_reg.value = temp;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-}
-
-void
-ASTGetIndexRegMask(int fd, int offset, int index, int and, unsigned char *value)
-{
-	ast_io_reg	io_reg;
-	unsigned char	temp;
-
-	io_reg.offset = offset;
-	io_reg.value = index;
-	ioctl(fd, AST_SET_IO_REG, &io_reg);
-	io_reg.offset = offset + 1;
-	ioctl(fd, AST_GET_IO_REG, &io_reg);
-	*value = io_reg.value & and;
-}
-
-void
-ASTOpenKey(int fd)
-{
-	ASTSetIndexReg(fd, CRTC_PORT, 0x80, 0xA8);
-}
-
-unsigned int 
-ASTMMIORead32(unsigned char *addr)
-{
-	return (*(volatile unsigned int *)(addr));
-}
-
-void 
-ASTMMIOWrite32(unsigned char *addr, unsigned int data)
-{
-	*(unsigned int *)(addr) = data;
-}
-
-
-unsigned int 
-ASTMMIORead32_8pp(unsigned char *addr)
-{
-    union
-    {
-        unsigned int   ul;
-        unsigned char  b[4];
-    } data;
-
-    unsigned int m;
-
-    data.ul = *((volatile unsigned int *)(addr));
-
-    m = (((unsigned int)data.b[3]) << 24) |
-                (((unsigned int)data.b[2]) << 16) |
-                (((unsigned int)data.b[1]) << 8) |
-                (((unsigned int)data.b[0]));
-    return (m);
-}
-
-void 
-ASTMMIOWrite32_8pp(unsigned char *addr, unsigned int val)
-{
-    union
-    {
-        unsigned int   ul;
-        unsigned char  b[4];
-    } data;
-
-    unsigned int m;
-
-    data.ul = val;
-    m = (((unsigned int)data.b[3]) << 24) |
-                (((unsigned int)data.b[2]) << 16) |
-                (((unsigned int)data.b[1]) << 8) |
-                (((unsigned int)data.b[0]));
-
-    *(unsigned int*)(addr) = m;
-}
-
-void
-ASTWaitEngIdle(struct ast_info *pAST)
-{
-	unsigned int ulEngState, ulEngState2;
-	unsigned char reg;
-	unsigned int ulEngCheckSetting;
-
-
-	if (pAST->MMIO2D)
-	    return;
-
-	ulEngCheckSetting = 0x80000000;
-
-	ASTGetIndexRegMask(pAST->fd, CRTC_PORT, 0xA4, 0x01, &reg);
-	if (!reg) {
-	    printf("2d disabled\n");
-	    return;
-	}
-
-	ASTGetIndexRegMask(pAST->fd, CRTC_PORT, 0xA3, 0x0F, &reg);
-	if (!reg) {
-	    printf("2d not work if in std mode\n");
-	    return;
-	}
-
-	do
-	{
-	    ulEngState   = pAST->read32((pAST->CMDQInfo.pjEngStatePort));
-	    ulEngState2   = pAST->read32((pAST->CMDQInfo.pjEngStatePort));
-	    ulEngState2   = pAST->read32((pAST->CMDQInfo.pjEngStatePort));
-	    ulEngState2   = pAST->read32((pAST->CMDQInfo.pjEngStatePort));
-	    ulEngState2   = pAST->read32((pAST->CMDQInfo.pjEngStatePort));
-	    ulEngState2   = pAST->read32((pAST->CMDQInfo.pjEngStatePort));
-	    ulEngState   &= 0xFFFC0000;
-	    ulEngState2  &= 0xFFFC0000;
-	} while ((ulEngState & ulEngCheckSetting) || (ulEngState != ulEngState2));
-}
-
-void
-ASTSaveState(struct ast_info *pAST)
-{
-	pAST->save_dst_base   = pAST->read32(MMIOREG_DST_BASE);
-	pAST->save_line_xy    = pAST->read32(MMIOREG_LINE_XY);
-	pAST->save_line_err   = pAST->read32(MMIOREG_LINE_Err);
-	pAST->save_line_width = pAST->read32(MMIOREG_LINE_WIDTH);
-	pAST->save_line_k1    = pAST->read32(MMIOREG_LINE_K1);
-	pAST->save_line_k2    = pAST->read32(MMIOREG_LINE_K2);
-	pAST->save_mono_pat1  = pAST->read32(MMIOREG_MONO1);
-	pAST->save_mono_pat2  = pAST->read32(MMIOREG_MONO2);
-}
-
-void
-ASTResetState(struct ast_info *pAST)
-{
-	pAST->write32(MMIOREG_DST_BASE,   pAST->save_dst_base);
-	pAST->write32(MMIOREG_LINE_XY,    pAST->save_line_xy);
-	pAST->write32(MMIOREG_LINE_Err,   pAST->save_line_err);
-	pAST->write32(MMIOREG_LINE_WIDTH, pAST->save_line_width);
-	pAST->write32(MMIOREG_LINE_K1,    pAST->save_line_k1);
-	pAST->write32(MMIOREG_LINE_K2,    pAST->save_line_k2);
-	pAST->write32(MMIOREG_MONO1,      pAST->save_mono_pat1);
-	pAST->write32(MMIOREG_MONO2,      pAST->save_mono_pat2);
-}
 
 int
-ASTInitCMDQ(struct ast_info *pAST)
+ast_map_mem(
+    register return_packet *const rp,
+    register int const test)
 {
-	int availableLen;
+	register int const pagesize = getpagesize();
 
-	availableLen = pAST->FBMapSize - 
-			(pAST->screenWidth * pAST->bytesPerPixel * pAST->screenHeight);
-
-	if (availableLen < 0x100000) {
-
-#if DEBUG
-	    printf("Not enough memory to initialize CMDQ, fallback to MMIO\n");
-#endif
-	    return -1;
+	if (ast_get_pci_info() != 0) {
+		gfx_vts_set_message(rp, 1, test, "get pci info failed");
+		return (-1);
 	}
 
-	pAST->CMDQInfo.pjCmdQBasePort	= pAST->MMIOvaddr + 0x8044;
-	pAST->CMDQInfo.pjWritePort	= pAST->MMIOvaddr + 0x8048;
-	pAST->CMDQInfo.pjReadPort	= pAST->MMIOvaddr + 0x804C;
-	pAST->CMDQInfo.pjEngStatePort	= pAST->MMIOvaddr + 0x804C;
 
-	pAST->CMDQInfo.ulCMDQSize 	= 0x40000;			/* byte */
-	pAST->CMDQInfo.ulCMDQOffset 	= 
-			(pAST->screenWidth * pAST->bytesPerPixel * pAST->screenHeight);
-	pAST->CMDQInfo.pjCMDQvaddr 	= pAST->FBvaddr + pAST->CMDQInfo.ulCMDQOffset;
-	pAST->CMDQInfo.ulCMDQueueLen 	= pAST->CMDQInfo.ulCMDQSize - CMD_QUEUE_GUARD_BAND;
-	pAST->CMDQInfo.ulCMDQMask 	= pAST->CMDQInfo.ulCMDQSize - 1;
-
-
-	pAST->CMDQInfo.ulWritePointer = 0;
-
-	return 0;
-}
-
-ASTEnableCMDQ(struct ast_info *pAST) 
-{
-	unsigned int ulVMCmdQBasePort = 0;
-	
-	ASTWaitEngIdle(pAST);
-
-	ulVMCmdQBasePort = pAST->CMDQInfo.ulCMDQOffset >> 3;
+	ast_info.ast_fb_size = (ast_info.ast_fb_size + pagesize - 1) /
+	    pagesize * pagesize;
 
 	/*
-	 * set CMDQ Threshold 
+	 * Map framebuffer
 	 */
-	ulVMCmdQBasePort |= 0xF0000000;
 
-	pAST->write32((pAST->CMDQInfo.pjCmdQBasePort), ulVMCmdQBasePort);
-	pAST->CMDQInfo.ulWritePointer = pAST->read32((pAST->CMDQInfo.pjWritePort));
-	pAST->CMDQInfo.ulWritePointer <<= 3;	/* byte offset */
-}
-
-
-ASTEnable2D(struct ast_info *pAST)
-{
-	unsigned int ulData;
-
-	pAST->write32((pAST->MMIOvaddr + 0xF004), 0x1e6e0000);
-	pAST->write32((pAST->MMIOvaddr + 0xF000), 0x1);
-
-	ulData = pAST->read32((pAST->MMIOvaddr + 0x1200c));
-	pAST->write32((pAST->MMIOvaddr + 0x1200c), (ulData & 0xFFFFFFFD));
-
-	ASTSetIndexRegMask(pAST->fd, CRTC_PORT, 0xA4, 0xFE, 0x01);
-}
-
-unsigned int
-ASTGetCMDQLength(struct ast_info *pAST, unsigned int ulWritePointer, unsigned int ulCMDQMask)
-{
-	unsigned long ulReadPointer, ulReadPointer2;
-
-	do {
-	    ulReadPointer  = pAST->read32((pAST->CMDQInfo.pjReadPort));
-	    ulReadPointer2 = pAST->read32((pAST->CMDQInfo.pjReadPort));
-	    ulReadPointer2 = pAST->read32((pAST->CMDQInfo.pjReadPort));
-	    ulReadPointer2 = pAST->read32((pAST->CMDQInfo.pjReadPort));
-	    ulReadPointer2 = pAST->read32((pAST->CMDQInfo.pjReadPort));
-	    ulReadPointer2 = pAST->read32((pAST->CMDQInfo.pjReadPort));
-	    ulReadPointer  &= 0x3FFFF;
-	    ulReadPointer2 &= 0x3FFFF;
-	} while (ulReadPointer != ulReadPointer2);
-
-	return ((ulReadPointer << 3) - ulWritePointer - CMD_QUEUE_GUARD_BAND) & ulCMDQMask;
-}
- 
-PKT_SC *
-ASTRequestCMDQ(struct ast_info *pAST, int ncmd)
-{
-	unsigned char   *pjBuffer;
-	unsigned long   i, ulWritePointer, ulCMDQMask, ulCurCMDQLen, ulContinueCMDQLen;
-	unsigned long	ulDataLen;
-	
-	ulDataLen = ncmd * 2 * 4;
-	ulWritePointer = pAST->CMDQInfo.ulWritePointer;
-	ulContinueCMDQLen = pAST->CMDQInfo.ulCMDQSize - ulWritePointer;
-	ulCMDQMask = pAST->CMDQInfo.ulCMDQMask;
-
-	if (ulContinueCMDQLen >= ulDataLen)
-	{
-	    /* Get CMDQ Buffer */
-	    if (pAST->CMDQInfo.ulCMDQueueLen >= ulDataLen)
-	    {
-	        ;
-	    }
-	    else
-	    {
-	        do
-	        {
-	            ulCurCMDQLen = ASTGetCMDQLength(pAST, ulWritePointer, ulCMDQMask);
-	        } while (ulCurCMDQLen < ulDataLen);
-
-	        pAST->CMDQInfo.ulCMDQueueLen = ulCurCMDQLen;
-
-	    }
-
-	    pjBuffer = pAST->CMDQInfo.pjCMDQvaddr + ulWritePointer;
-	    pAST->CMDQInfo.ulCMDQueueLen -= ulDataLen;
-	    pAST->CMDQInfo.ulWritePointer = (ulWritePointer + ulDataLen) & ulCMDQMask;
-	    return (PKT_SC *)pjBuffer;
-	}
-	else
-	{        /* Fill NULL CMD to the last of the CMDQ */
-	    if (pAST->CMDQInfo.ulCMDQueueLen >= ulContinueCMDQLen)
-	    {
-	        ;
-	    }
-	    else
-	    {
-    
-	        do
-	        {
-	            ulCurCMDQLen = ASTGetCMDQLength(pAST, ulWritePointer, ulCMDQMask);
-	        } while (ulCurCMDQLen < ulContinueCMDQLen);
-	
-	        pAST->CMDQInfo.ulCMDQueueLen = ulCurCMDQLen;
-	
-	    }
-	
-	    pjBuffer = pAST->CMDQInfo.pjCMDQvaddr + ulWritePointer;
-	    for (i = 0; i<ulContinueCMDQLen/8; i++, pjBuffer+=8)
-	    {
-	        pAST->write32(pjBuffer , (unsigned long) PKT_NULL_CMD);
-	        pAST->write32((pjBuffer+4) , 0);
-    	
-	    }
-	    pAST->CMDQInfo.ulCMDQueueLen -= ulContinueCMDQLen;
-	    pAST->CMDQInfo.ulWritePointer = ulWritePointer = 0;
-	
-	    /* Get CMDQ Buffer */
-	    if (pAST->CMDQInfo.ulCMDQueueLen >= ulDataLen)
-	    {
-	        ;
-	    }
-	    else
-	    {
-	
-	        do
-	        {
-	            ulCurCMDQLen = ASTGetCMDQLength(pAST, ulWritePointer, ulCMDQMask);
-	        } while (ulCurCMDQLen < ulDataLen);
-	
-	        pAST->CMDQInfo.ulCMDQueueLen = ulCurCMDQLen;
-	
-	    }
-
-	    pAST->CMDQInfo.ulCMDQueueLen -= ulDataLen;
-	    pjBuffer = pAST->CMDQInfo.pjCMDQvaddr + ulWritePointer;
-	    pAST->CMDQInfo.ulWritePointer = (ulWritePointer + ulDataLen) & ulCMDQMask;
-	    return (PKT_SC *)pjBuffer;
-	}
-}
-
-void
-ASTUpdateWritePointer(struct ast_info *pAST)
-{
-	pAST->write32((pAST->CMDQInfo.pjWritePort), (pAST->CMDQInfo.ulWritePointer >> 3));
-}
-
-
-void
-ASTSetupCmdArg1(struct ast_info *pAST, PKT_SC *pCMD, unsigned int header, unsigned int arg)
-{
-	pAST->write32((unsigned char *)&pCMD->header, PKT_SINGLE_CMD_HEADER + header);
-	pAST->write32((unsigned char *)pCMD->data, arg);
-	return;
-}
-
-void
-ASTSetupCmdArg2(struct ast_info *pAST, PKT_SC *pCMD, unsigned int header, 
-			unsigned int arg1, unsigned int arg2, 
-			unsigned int shift1, unsigned int shift2)
-{
-	unsigned int ul;
-
-	pAST->write32((unsigned char *)&pCMD->header, PKT_SINGLE_CMD_HEADER + header);
-	ul = (arg1 << shift1) | (arg2 << shift2);
-	pAST->write32((unsigned char *)pCMD->data, ul);
-	return;
-}
-
-
-void
-ASTSetupMMIOArg1(struct ast_info *pAST, unsigned char *addr, unsigned int arg)
-{
-	unsigned int argr;
-
-	do {
-	    pAST->write32(addr, arg);
-	    argr = pAST->read32(addr);
-	} while (arg != argr);
-
-	return;
-}
-
-void
-ASTSetupMMIOArg2(struct ast_info *pAST, unsigned char *addr,
-			unsigned int arg1, unsigned int arg2, 
-			unsigned int shift1, unsigned int shift2)
-{
-	unsigned int ul;
-	unsigned int ulr;
-
-	ul = (arg1 << shift1) | (arg2 << shift2);
-
-	do {
-	    pAST->write32(addr, ul);
-	    ulr = pAST->read32(addr);
-	} while (ul != ulr);
-
-	return;
-}
-
-
-void *
-ASTSetupForMonoPatternFill(struct ast_info *pAST, int patx, int paty, int fg, int bg, int rop)
-{
-	unsigned int cmdreg;
-	unsigned int ul;
-	PKT_SC *pCMD;
-    	
-	cmdreg = CMD_BITBLT | CMD_PAT_MONOMASK;
-	switch (pAST->bytesPerPixel) {
-	    case 1:
-	        cmdreg |= CMD_COLOR_08;
-		break;
-	    case 2:
-	        cmdreg |= CMD_COLOR_16;
-		break;
-	    case 3:
-	    case 4:
-	    default:
-	        cmdreg |= CMD_COLOR_32;
-		break;
+	if (ast_map_fb() != 0) {
+		gfx_vts_set_message(rp, 1, test, "map framebuffer failed");
+		return (-1);
 	}
 
-	cmdreg |= rop << 8;
-	pAST->cmdreg = cmdreg;
 
-	if (!pAST->MMIO2D) {
-	    pCMD = ASTRequestCMDQ(pAST, 5);
+	ast_info.ast_mmio_size = (ast_info.ast_mmio_size + pagesize - 1) /
+	    pagesize * pagesize;
 
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_DST_PITCH, pAST->screenPitch, MASK_DST_HEIGHT, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_FG, fg);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_BG, bg);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_MONO1, patx);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_MONO2, paty);
-	
-	} else {
-	    ASTSetupMMIOArg2(pAST, MMIOREG_DST_PITCH, pAST->screenPitch, MASK_DST_HEIGHT, 16, 0);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_FG, fg);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_BG, bg);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_MONO1, patx);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_MONO2, paty);
+	/*
+	 * Map MMIO
+	 */
+	if (ast_map_mmio() != 0) {
+		gfx_vts_set_message(rp, 1, test, "map MMIO failed");
+		return (-1);
 	}
+
+	return (0);
 }
 
-void
-ASTMonoPatternFill(struct ast_info *pAST, int patx, int paty, int x, int y,
-			int width, int height)
-{
-	unsigned int cmdreg;
-	PKT_SC *pCMD;
-
-	cmdreg = pAST->cmdreg;
-
-	if (!pAST->MMIO2D) {
-
-	    pCMD = ASTRequestCMDQ(pAST, 4);
-	
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_DST_BASE, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_DST_XY, x, y, 16, 0);
-	    pCMD++;
-	
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_RECT_XY, width, height, 16, 0);
-	    pCMD++;
-	
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_CMD, cmdreg);
-
-	    ASTUpdateWritePointer(pAST);
-
-	} else {
-
-	    ASTSetupMMIOArg1(pAST, MMIOREG_DST_BASE, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_DST_XY, x, y, 16, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_RECT_XY, width, height, 16, 0);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_CMD, cmdreg);
-	}
-}
-
-void
-ASTSetupForSolidFill(struct ast_info *pAST, int color, int rop)
-{
-	unsigned int cmdreg;
-	unsigned int ul;
-	PKT_SC *pCMD;
-    	
-	cmdreg = CMD_BITBLT | CMD_PAT_FGCOLOR;
-	switch (pAST->bytesPerPixel) {
-	    case 1:
-	        cmdreg |= CMD_COLOR_08;
-		break;
-	    case 2:
-	        cmdreg |= CMD_COLOR_16;
-		break;
-	    case 3:
-	    case 4:
-	    default:
-	        cmdreg |= CMD_COLOR_32;
-		break;
-	}
-
-	cmdreg |= rop << 8;
-	pAST->cmdreg = cmdreg;
-
-	if (!pAST->MMIO2D) {
-
-	    pCMD = ASTRequestCMDQ(pAST, 2);
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_DST_PITCH, pAST->screenPitch, MASK_DST_HEIGHT, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_FG, color);
-	    pCMD++;
-
-	} else {
-
-	    ASTSetupMMIOArg2(pAST, MMIOREG_DST_PITCH, pAST->screenPitch, MASK_DST_HEIGHT, 16, 0);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_FG, color);
-	}
-}
-
-void
-ASTSolidFillRect(struct ast_info *pAST, int x, int y, int width, int height)
-{
-	unsigned int cmdreg;
-	unsigned int ul;
-	PKT_SC *pCMD;
-
-	cmdreg = pAST->cmdreg;
-
-
-	if (!pAST->MMIO2D) {
-
-	    pCMD = ASTRequestCMDQ(pAST, 4);
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_DST_BASE, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_DST_XY, x, y, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_RECT_XY, width, height, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_CMD, cmdreg);
-	    pCMD++;
-
-	    ASTUpdateWritePointer(pAST);
-	
-	} else {
-
-	    ASTSetupMMIOArg1(pAST, MMIOREG_DST_BASE, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_DST_XY, x, y, 16, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_RECT_XY, width, height, 16, 0);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_CMD, cmdreg);
-	}
-}
-
-void
-ASTSetupForSolidLine(struct ast_info *pAST, int color, int rop)
-{
-	unsigned int cmdreg;
-	unsigned int ul;
-	PKT_SC *pCMD;
-    	
-	cmdreg = CMD_BITBLT;
-	switch (pAST->bytesPerPixel) {
-	    case 1:
-	        cmdreg |= CMD_COLOR_08;
-		break;
-	    case 2:
-	        cmdreg |= CMD_COLOR_16;
-		break;
-	    case 3:
-	    case 4:
-	    default:
-	        cmdreg |= CMD_COLOR_32;
-		break;
-	}
-
-	cmdreg |= rop << 8;
-	pAST->cmdreg = cmdreg;
-
-	if (!pAST->MMIO2D) {
-
-	    pCMD = ASTRequestCMDQ(pAST, 3);
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_DST_PITCH, pAST->screenPitch, MASK_DST_HEIGHT, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_FG, color);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_BG, 0);
-	    pCMD++;
-
-	} else {
-
-	    ASTSetupMMIOArg2(pAST, MMIOREG_DST_PITCH, pAST->screenPitch, MASK_DST_HEIGHT, 16, 0);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_FG, color);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_BG, 0);
-	}
-}
-
-void
-ASTSolidLine(struct ast_info *pAST, int x1, int y1, int x2, int y2)
-{
-	unsigned int cmdreg;
-	unsigned int ul;
-	PKT_SC   *pCMD;
-	int	 GAbsX, GAbsY;
-	int      MM, mm, err, k1, k2, xm;
-	int	 width, height;
-
-	cmdreg = (pAST->cmdreg & (~CMD_MASK)) | CMD_ENABLE_CLIP | CMD_NOT_DRAW_LAST_PIXEL;
-
-	GAbsX = abs(x1 - x2);
-	GAbsY = abs(y1 - y2);
-
-	cmdreg |= CMD_LINEDRAW; 
-
-	if (GAbsX >= GAbsY) {
-	    MM = GAbsX;
-	    mm = GAbsY;
-	    xm = 1;
-	} else {
-	    MM = GAbsY;
-	    mm = GAbsX;
-	    xm = 0;
-	} 
-
-	if (x1 >= x2) {
-	    cmdreg |= CMD_X_DEC;
-	}
-
-	if (y1 >= y2) {
-	    cmdreg |= CMD_Y_DEC;
-	}
-
-	err = (signed) (2 * mm - MM);
-	k1 = 2 * mm;
-	k2 = (signed) 2 * mm - 2 * MM;
-	
-
-	if (!pAST->MMIO2D) {
-
-	    pCMD = ASTRequestCMDQ(pAST, 7);
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_DST_BASE, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_LINE_XY, x1, y1, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_LINE_Err, xm, (err & MASK_LINE_ERR), 24, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_LINE_WIDTH, (MM & MASK_LINE_WIDTH), 0, 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_LINE_K1, (k1 & MASK_LINE_K1));
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_LINE_K2, (k2 & MASK_LINE_K2));
-	    pCMD++;
-
-	    ASTSetupCmdArg1(pAST, pCMD, CMDQREG_CMD, cmdreg);
-	    pCMD++;
-
-	    ASTUpdateWritePointer(pAST);
-
-	    ASTWaitEngIdle(pAST);
-
-	} else {
-
-	    ASTSetupMMIOArg1(pAST, MMIOREG_DST_BASE, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_LINE_XY, x1, y1, 16, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_LINE_Err, xm, (err & MASK_LINE_ERR), 24, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_LINE_WIDTH, (MM & MASK_LINE_WIDTH), 0, 16, 0);
-	    ASTSetupMMIOArg1(pAST, MMIOREG_LINE_K1, (k1 & MASK_LINE_K1));
-	    ASTSetupMMIOArg1(pAST, MMIOREG_LINE_K2, (k1 & MASK_LINE_K2));
-	    ASTSetupMMIOArg1(pAST, MMIOREG_CMD, cmdreg);
-	}
-}
-
-void
-ASTSetClippingRectangle(struct ast_info *pAST, int left, int top, int right, int bottom)
-{
-	PKT_SC *pCMD;
-    	
-	if (!pAST->MMIO2D) {
-
-	    pCMD = ASTRequestCMDQ(pAST, 2);
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_CLIP1, (left & MASK_CLIP), (top & MASK_CLIP), 16, 0);
-	    pCMD++;
-
-	    ASTSetupCmdArg2(pAST, pCMD, CMDQREG_CLIP2, (right & MASK_CLIP), (bottom & MASK_CLIP), 16, 0);
-	    ASTUpdateWritePointer(pAST);
-	
-	} else {
-
-	    ASTSetupMMIOArg2(pAST, MMIOREG_CLIP1, (left & MASK_CLIP), (top & MASK_CLIP), 16, 0);
-	    ASTSetupMMIOArg2(pAST, MMIOREG_CLIP2, (right & MASK_CLIP), (bottom & MASK_CLIP), 16, 0);
-	}
-}
 
 int
-ast_get_pci_info(int fd, struct pci_info *pciInfo)
+ast_get_pci_info(
+    void)
 {
-	struct gfx_pci_cfg pciCfg;
+	struct gfx_pci_cfg pciconfig;
 	int i;
-	unsigned int bar;
+	uint_t bar;
+	uint_t bar_hi;
+	offset_t mem_base[6];
+	offset_t io_base[6];
+	int type[6];
+	uchar_t pots;
 
-	if (ioctl(fd, GFX_IOCTL_GET_PCI_CONFIG, &pciCfg) == -1) {
-		return -1;
+	if (ioctl(ast_info.ast_fd, GFX_IOCTL_GET_PCI_CONFIG,
+	    &pciconfig) != 0) {
+		return (-1);
+	}
+
+	ast_info.ast_vendor = pciconfig.VendorID;
+	ast_info.ast_device = pciconfig.DeviceID;
+
+	for (i = 0; i < 6; i++) {
+		type[i] = 0;
+		mem_base[i] = 0;
+		io_base[i] = 0;
 	}
 
 	for (i = 0; i < 6; i++) {
-	    bar = pciCfg.bar[i];
-	    if (bar != 0) {
-		if (bar & PCI_MAP_IO) {
-		    pciInfo->ioBase[i] = PCIGETIO(bar);
-		    pciInfo->type[i] = bar & PCI_MAP_IO_ATTR_MASK;
-		} else {
-		    pciInfo->type[i] = bar & PCI_MAP_MEMORY_ATTR_MASK;
-		    pciInfo->memBase[i] = PCIGETMEMORY(bar);
-		    if (PCI_MAP_IS64BITMEM(bar)) {
-			if (i == 5) {
-			    pciInfo->memBase[i] = 0;
+		bar = pciconfig.bar[i];
+		if (bar != 0) {
+			if (bar & PCI_MAP_IO) {
+				io_base[i] = PCIGETIO(bar);
+				type[i] = bar & PCI_MAP_IO_ATTR_MASK;
 			} else {
-			    int bar_hi = pciCfg.bar[i+1];
-			    pciInfo->memBase[i] |= (bar_hi << 32);
-			    ++i;
+				type[i] = bar & PCI_MAP_MEMORY_ATTR_MASK;
+				mem_base[i] = PCIGETMEMORY(bar);
+				if (PCI_MAP_IS64BITMEM(bar)) {
+					if (i == 5) {
+						mem_base[i] = 0;
+					} else {
+						bar_hi = pciconfig.bar[i+1];
+						mem_base[i] |=
+						    ((offset_t)bar_hi << 32);
+						++i;
+					}
+				}
 			}
-		    }
-		    pciInfo->size[i] = AST_REG_SIZE_LOG2;
 		}
-	    }
 	}
 
-	return 0;
-}
+	ast_info.ast_fb_addr = mem_base[0] & 0xfff00000;
+	ast_info.ast_fb_size = 0;
 
-int
-ast_get_mem_info(struct pci_info *pci_info, struct ast_info *pAST) 
-{
-	unsigned char reg;
+	ast_info.ast_mmio_addr = mem_base[1] & 0xffff0000;
+	ast_info.ast_mmio_size = AST_MMIO_SIZE;
 
-	pAST->FBPhysAddr = pci_info->memBase[0] & 0xfff00000;
-	pAST->FBMapSize = 0;
+	ast_info.ast_relocate_io = io_base[2];
 
-	pAST->MMIOPhysAddr = pci_info->memBase[1] & 0xffff0000;
-	pAST->MMIOMapSize =  AST_MMIO_SIZE;
+	if (ast_open_key() != 0)
+		return (-1);
 
-	pAST->RelocateIO = pci_info->ioBase[2];
+	if (ast_get_index_reg(&pots, CRTC_PORT, 0xAA) != 0)
+		return (-1);
 
-	ASTOpenKey(pAST->fd);
-	ASTGetIndexRegMask(pAST->fd, CRTC_PORT, 0xAA, 0xFF, &reg);
-	switch (reg & 0x03)
-	{
-	    case 0x00:
-		pAST->FBMapSize = AST_VRAM_SIZE_08M;
+	switch (pots & 0x03) {
+	case 0x00:
+		ast_info.ast_fb_size = AST_VRAM_SIZE_08M;
 		break;
-	    case 0x01:
-		pAST->FBMapSize = AST_VRAM_SIZE_16M;
+
+	case 0x01:
+		ast_info.ast_fb_size = AST_VRAM_SIZE_16M;
 		break;
-	    case 0x02:
-		pAST->FBMapSize = AST_VRAM_SIZE_32M;
+
+	case 0x02:
+		ast_info.ast_fb_size = AST_VRAM_SIZE_32M;
 		break;
-	    case 0x03:
-		pAST->FBMapSize = AST_VRAM_SIZE_64M;
-		break;
-	    default:
-		pAST->FBMapSize = AST_VRAM_SIZE_08M;
+
+	case 0x03:
+		ast_info.ast_fb_size = AST_VRAM_SIZE_64M;
 		break;
 	}
 
-#if DEBUG
-	printf("FBPhysAddr=0x%x FBMapSize=0x%x\n", pAST->FBPhysAddr, pAST->FBMapSize);
-	printf("MMIOPhysAddr=0x%x MMIOMapSize=0x%x\n", pAST->MMIOPhysAddr, pAST->MMIOMapSize);
-	printf("RelocateIO=0x%x\n", pAST->RelocateIO);
-#endif
+	if (gfx_vts_debug_mask & VTS_DEBUG) {
+		printf("ast_vendor = 0x%04x, ast_device = 0x%04x\n",
+		    ast_info.ast_vendor, ast_info.ast_device);
+		printf("ast_fb_addr 0x%llx, ast_fb_size 0x%lx\n",
+		    (unsigned long long)ast_info.ast_fb_addr,
+		    (unsigned long)ast_info.ast_fb_size);
+		printf("ast_mmio_addr 0x%llx, ast_mmio_size 0x%lx\n",
+		    (unsigned long long)ast_info.ast_mmio_addr,
+		    (unsigned long)ast_info.ast_mmio_size);
+		printf("ast_relocate_io 0x%llx\n",
+		    (unsigned long long)ast_info.ast_relocate_io);
+	}
 
-	return 0;
+	return (0);
+}
+
+int
+ast_map_mmio(
+    void)
+{
+	register void *ptr;
+
+	if (ast_info.ast_mmio_ptr == NULL) {
+		ptr = mmap(NULL, ast_info.ast_mmio_size,
+		    PROT_READ | PROT_WRITE, MAP_SHARED,
+		    ast_info.ast_fd, ast_info.ast_mmio_addr);
+
+		if (ptr == MAP_FAILED)
+			return (-1);
+	}
+
+	ast_info.ast_mmio_ptr = (uchar_t *)ptr;
+
+	if (gfx_vts_debug_mask & VTS_DEBUG)
+		printf("ast_mmio_ptr = 0x%llx\n",
+		    (unsigned long long)ast_info.ast_mmio_ptr);
+
+	return (0);
 }
 
 
 int
-ast_init_info(struct ast_info *pAST)
+ast_map_fb(
+    void)
 {
-	unsigned char val;
-	unsigned int  status = 0;
+	register void *ptr;
 
-	/* 
+	if (ast_info.ast_fb_ptr == NULL) {
+		ptr = mmap(NULL, ast_info.ast_fb_size,
+		    PROT_READ | PROT_WRITE, MAP_SHARED,
+		    ast_info.ast_fd, ast_info.ast_fb_addr);
+
+		if (ptr == MAP_FAILED)
+			return (-1);
+
+		ast_info.ast_fb_ptr = (uchar_t *)ptr;
+	}
+
+	if (gfx_vts_debug_mask & VTS_DEBUG)
+		printf("ast_fb_ptr = 0x%llx\n",
+		    (unsigned long long)ast_info.ast_fb_ptr);
+
+	return (0);
+}
+
+
+int
+ast_init_info(
+    register return_packet *const rp,
+    register int const test)
+{
+	register uint_t mode;
+	register uint_t width;
+	register uint_t height;
+	register uint_t depth;
+	register uint_t pixelsize;
+	register uint_t offset;
+	register uint_t memsize;
+	uchar_t save_gctl;
+	uchar_t misc;
+	uchar_t hde;
+	uchar_t ovf;
+	uchar_t vde;
+	uchar_t off;
+	uchar_t undloc;
+	uchar_t modectl;
+	uchar_t pcicr3;
+	uchar_t ecm;
+	uchar_t xhovf;
+	uchar_t xvovf;
+	uchar_t offovf;
+	unsigned int status = 0;
+
+	/*
 	 * first check if the hardware is already initialized.
 	 * If not, abort
 	 */
-	ioctl(pAST->fd, AST_GET_STATUS_FLAGS, &status);
-	if (!(status & AST_STATUS_HW_INITIALIZED))
-		return -1;
-
-	pAST->MMIO2D = 0;
-
-	ASTOpenKey(pAST->fd);
-	
-	/*
-	 * get the VDE
-	 */
-	ASTGetIndexRegMask(pAST->fd, CRTC_PORT, 0x01, 0xff, &val);
-	pAST->screenWidth = ((int)(val + 1)) << 3;
-
-	switch (pAST->screenWidth) {
-	case 1920:
-	case 1600:
-		pAST->screenHeight = 1200;
-		break;
-	case 1280:
-		pAST->screenHeight = 1024;
-		break;
-	case 1024:
-		pAST->screenHeight = 768;
-		break;
-	case 800:
-		pAST->screenHeight = 600;
-		break;
-	case 640:
-	default:
-		pAST->screenHeight = 480;
-		break;
+	if (ioctl(ast_info.ast_fd, AST_GET_STATUS_FLAGS, &status) != 0) {
+		gfx_vts_set_message(rp, 1, test,
+		    "AST_GET_STATUS_FLAGS failed");
+		return (-1);
 	}
 
-	/*
-	 * get the display depth info 
-	 */
-	ASTGetIndexRegMask(pAST->fd, CRTC_PORT, 0xA2, 0xff, &val);
-	if (val & 0x80) {
-		/* 32 bits */
-		pAST->bytesPerPixel = 4;
-		pAST->read32	    = (PFNRead32)  ASTMMIORead32;
-		pAST->write32	    = (PFNWrite32) ASTMMIOWrite32;
-	
+	if (!(status & AST_STATUS_HW_INITIALIZED)) {
+		gfx_vts_set_message(rp, 1, test,
+		    "AST_GET_STATUS_FLAGS not initialized");
+		return (-1);
+	}
+
+	if (ast_open_key() != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to open key");
+		return (-1);
+	}
+
+	if (ast_get_reg(&save_gctl, GR_PORT) != 0) {
+		gfx_vts_set_message(rp, 1, test,
+		    "unable to get the gctl index");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&misc, GR_PORT, 0x06) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the misc");
+		return (-1);
+	}
+
+	if (ast_set_reg(GR_PORT, save_gctl) != 0) {
+		gfx_vts_set_message(rp, 1, test,
+		    "unable to set the gctl index");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&hde, CRTC_PORT, 0x01) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the hde");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&ovf, CRTC_PORT, 0x07) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the ovf");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&vde, CRTC_PORT, 0x12) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the vde");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&off, CRTC_PORT, 0x13) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the offset");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&undloc, CRTC_PORT, 0x14) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the undloc");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&modectl, CRTC_PORT, 0x17) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the modectl");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&pcicr3, CRTC_PORT, 0xa2) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the pcicr3");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&ecm, CRTC_PORT, 0xa3) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the ecm");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&xhovf, CRTC_PORT, 0xac) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the xhovf");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&xvovf, CRTC_PORT, 0xae) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the xvovf");
+		return (-1);
+	}
+
+	if (ast_get_index_reg(&offovf, CRTC_PORT, 0xb0) != 0) {
+		gfx_vts_set_message(rp, 1, test, "unable to get the offovf");
+		return (-1);
+	}
+
+	width = (((((uint_t)xhovf & 0x4) >> 2 << 8) |
+	    (uint_t)hde) + 1) << 3;
+
+	height = ((((uint_t)xvovf & 0x2) >> 1 << 10) |
+	    (((uint_t)ovf & 0x40) >> 6 << 9) |
+	    (((uint_t)ovf & 0x02) >> 1 << 8) |
+	    (uint_t)vde) + 1;
+
+	offset = (((uint_t)offovf & 0x3f) << 8) | (uint_t)off;
+
+	memsize = (undloc & 0x40) ? 4 :
+	    ((modectl & 0x40) ? 1 : 2);
+
+	if (!(misc & 0x01)) {
+		if (!(ecm & 0x01)) {
+			mode = VIS_TEXT;
+			depth = 4;
+			width /= 8;
+			height /= 16;
+			pixelsize = 2;
+		} else {
+			mode = VIS_PIXEL;
+			depth = 8;
+			pixelsize = 1;
+		}
 	} else {
-		pAST->bytesPerPixel = 1;
-		pAST->read32	    = (PFNRead32)  ASTMMIORead32_8pp;
-		pAST->write32	    = (PFNWrite32) ASTMMIOWrite32_8pp;
+		mode = VIS_PIXEL;
+
+		switch (ecm & 0xf) {
+		case 0x01:
+			/* enable enhanced 256 color display mode */
+			depth = 8;
+			pixelsize = 1;
+			break;
+
+		case 0x02:
+			/* enable 15-bpp high color display mode (rgb:555) */
+			depth = 15;
+			pixelsize = 2;
+			break;
+
+		case 0x04:
+			/* enable 16-bpp high color display mode (rgb:565) */
+			depth = 16;
+			pixelsize = 2;
+			break;
+
+		case 0x08:
+			/* enable 32-bpp true color display mode (argb:8888) */
+			depth = 32;
+			pixelsize = 4;
+			break;
+
+		default:
+			gfx_vts_set_message(rp, 1, test, "invalid ecm");
+			return (-1);
+		}
 	}
 
-	pAST->screenPitch = pAST->screenWidth * pAST->bytesPerPixel;
+	ast_info.ast_mode = mode;
+	ast_info.ast_width = width;
+	ast_info.ast_height = height;
+	ast_info.ast_depth = depth;
+	ast_info.ast_pixelsize = pixelsize;
+	ast_info.ast_linesize = offset * memsize * 2;
+
+	switch (pcicr3 & 0xc0) {
+	case 0x00:	/* little endian */
+	case 0x40:
+		ast_info.ast_endian = 0;
+		break;
+
+	case 0x80:	/* big endian 32 */
+		ast_info.ast_endian = 2;
+		break;
+
+	case 0xc0:	/* big endian 16 */
+		ast_info.ast_endian = 1;
+		break;
+	}
+
+	if (gfx_vts_debug_mask & VTS_DEBUG) {
+		printf("width=%d height=%d depth=%d pitch=%d\n",
+		    ast_info.ast_width, ast_info.ast_height,
+		    ast_info.ast_depth, ast_info.ast_linesize);
+	}
+
+	return (0);
+}
+
+
+int
+ast_init_graphics(
+    void)
+{
+	unsigned int ulData;
+	register int status = 0;
 
 	/*
 	 * Enable MMIO
 	 */
-	ASTSetIndexRegMask(pAST->fd, CRTC_PORT, 0xA1, 0xff, 0x04);
 
-	return 0;
+	if (ast_get_index_reg(&ast_info.ast_pcicr2, CRTC_PORT, 0xA1) != 0)
+		return (-1);
+
+	if (ast_set_index_reg(CRTC_PORT, 0xA1, 0x4) != 0)
+		return (-1);
+
+	ast_info.ast_remap_base = ast_mmio_read32(0xF004);
+	ast_info.ast_prot_key = ast_mmio_read32(0xF000);
+	if (ast_get_index_reg(&ast_info.ast_misc_control, CRTC_PORT, 0xA4) != 0)
+		return (-1);
+
+	ast_mmio_write32(0xF004, 0x1e6e0000);
+	ast_mmio_write32(0xF000, 0x1);
+
+	ulData = ast_mmio_read32(0x1200c);
+	ast_mmio_write32(0x1200c, ulData & 0xFFFFFFFD);
+
+	if (!(ast_info.ast_misc_control & 0x01)) {
+		if (ast_set_index_reg(CRTC_PORT, 0xA4,
+		    ast_info.ast_misc_control | 0x01) != 0)
+			return (-1);
+		status = 1;
+	}
+
+	if (!ast_wait_idle())
+		return (-1);
+
+	ast_info.ast_queue = ast_mmio_read32(MMIOREG_QUEUE);
+	ast_info.ast_dst_base = ast_mmio_read32(MMIOREG_DST_BASE);
+	ast_info.ast_dst_pitch = ast_mmio_read32(MMIOREG_DST_PITCH);
+	ast_info.ast_dst_xy = ast_mmio_read32(MMIOREG_DST_XY);
+	ast_info.ast_line_err = ast_mmio_read32(MMIOREG_LINE_ERR);
+	ast_info.ast_rect_xy = ast_mmio_read32(MMIOREG_RECT_XY);
+	ast_info.ast_fg = ast_mmio_read32(MMIOREG_FG);
+	ast_info.ast_bg = ast_mmio_read32(MMIOREG_BG);
+	ast_info.ast_mono1 = ast_mmio_read32(MMIOREG_MONO1);
+	ast_info.ast_mono2 = ast_mmio_read32(MMIOREG_MONO2);
+	ast_info.ast_clip1 = ast_mmio_read32(MMIOREG_CLIP1);
+	ast_info.ast_clip2 = ast_mmio_read32(MMIOREG_CLIP2);
+
+	if (!(ast_info.ast_queue & QUEUE_MEMORY_MAP)) {
+		ast_mmio_write32(MMIOREG_QUEUE,
+		    ast_info.ast_queue | QUEUE_MEMORY_MAP);
+		status = 1;
+	}
+
+	if (!ast_store_mmio(MMIOREG_CLIP1,
+	    ((0 & MASK_CLIP) << 16) |
+	    (0 & MASK_CLIP)))
+		return (-1);
+
+	if (!ast_store_mmio(MMIOREG_CLIP2,
+	    ((ast_info.ast_width & MASK_CLIP) << 16) |
+	    (ast_info.ast_height & MASK_CLIP)))
+		return (-1);
+
+	return (status);
+}
+
+
+int
+ast_finish_graphics(
+    void)
+{
+	register int status = 0;
+
+	ast_store_mmio(MMIOREG_DST_BASE, ast_info.ast_dst_base);
+	ast_store_mmio(MMIOREG_DST_PITCH, ast_info.ast_dst_pitch);
+	ast_store_mmio(MMIOREG_DST_XY, ast_info.ast_dst_xy);
+	ast_store_mmio(MMIOREG_LINE_ERR, ast_info.ast_line_err);
+	ast_store_mmio(MMIOREG_RECT_XY, ast_info.ast_rect_xy);
+	ast_store_mmio(MMIOREG_FG, ast_info.ast_fg);
+	ast_store_mmio(MMIOREG_BG, ast_info.ast_bg);
+	ast_store_mmio(MMIOREG_MONO1, ast_info.ast_mono1);
+	ast_store_mmio(MMIOREG_MONO2, ast_info.ast_mono2);
+	ast_store_mmio(MMIOREG_CLIP1, ast_info.ast_clip1);
+	ast_store_mmio(MMIOREG_CLIP2, ast_info.ast_clip2);
+
+	ast_store_mmio(MMIOREG_QUEUE, ast_info.ast_queue);
+
+	if (!(ast_info.ast_misc_control & 0x01)) {
+		if (ast_set_index_reg(CRTC_PORT,
+		    0xA4, ast_info.ast_misc_control) != 0)
+			status = -1;
+		else
+			status = 1;
+	}
+
+	ast_mmio_write32(0xF004, ast_info.ast_remap_base);
+	ast_mmio_write32(0xF000, ast_info.ast_prot_key);
+
+	if (ast_set_index_reg(CRTC_PORT, 0xA1, ast_info.ast_pcicr2) != 0)
+		status = -1;
+
+	return (status);
+}
+
+
+int
+ast_save_palet(
+    void)
+{
+	register uint_t coloron;
+	register int status = 1;
+	uchar_t junk;
+
+	for (coloron = 0; coloron < 256; coloron++) {
+		if (ast_set_reg(DAC_INDEX_READ, coloron) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_get_reg(&ast_info.ast_red[coloron], DAC_DATA) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_get_reg(&ast_info.ast_green[coloron], DAC_DATA) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_get_reg(&ast_info.ast_blue[coloron], DAC_DATA) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+	}
+
+	return (status);
+}
+
+
+int
+ast_set_palet(
+    void)
+{
+	register uint_t coloron;
+	register int status = 1;
+	register uint_t maxdac;
+	uchar_t ramdac_ctrl;
+	uchar_t new_red[256];
+	uchar_t new_green[256];
+	uchar_t new_blue[256];
+	uchar_t junk;
+
+	if (ast_get_index_reg(&ramdac_ctrl, CRTC_PORT, 0xA8) != 0)
+		return (-1);
+
+	maxdac = (ramdac_ctrl & 0x2) ? 255 : 63;
+
+	switch (ast_info.ast_depth) {
+	case 8:		/* 3, 3, 2 */
+		for (coloron = 0; coloron < 256; coloron++) {
+			new_red[coloron] =
+			    (uint8_t)(((coloron >> 5) & 0x7) * maxdac / 7);
+			new_green[coloron] =
+			    (uint8_t)(((coloron >> 2) & 0x7) * maxdac / 7);
+			new_blue[coloron] =
+			    (uint8_t)((coloron & 0x3) * maxdac / 3);
+		}
+		break;
+
+	case 15:	/* 5, 5, 5 */
+		for (coloron = 0; coloron < 256; coloron++) {
+			new_red[coloron] =
+			    (uint8_t)((coloron / 8) * maxdac / 31);
+			new_green[coloron] =
+			    (uint8_t)((coloron / 8) * maxdac / 31);
+			new_blue[coloron] =
+			    (uint8_t)((coloron / 8) * maxdac / 31);
+		}
+		break;
+
+	case 16:	/* 5, 6, 5 */
+		for (coloron = 0; coloron < 256; coloron++) {
+			new_red[coloron] =
+			    (uint8_t)((coloron / 8) * maxdac / 31);
+			new_green[coloron] =
+			    (uint8_t)((coloron / 4) * maxdac / 63);
+			new_blue[coloron] =
+			    (uint8_t)((coloron / 8) * maxdac / 31);
+		}
+		break;
+
+	default:	/* 8, 8, 8 */
+		for (coloron = 0; coloron < 256; coloron++) {
+			new_red[coloron] =
+			    (uint8_t)(coloron * maxdac / 255);
+			new_green[coloron] =
+			    (uint8_t)(coloron * maxdac / 255);
+			new_blue[coloron] =
+			    (uint8_t)(coloron * maxdac / 255);
+		}
+		break;
+	}
+
+	/* Don't set the palet if it matches what we will set. */
+
+	for (coloron = 0; coloron < 256; coloron++) {
+		if ((ast_info.ast_red[coloron] != new_red[coloron]) ||
+		    (ast_info.ast_green[coloron] != new_green[coloron]) ||
+		    (ast_info.ast_blue[coloron] != new_blue[coloron]))
+			break;
+	}
+
+	if (coloron == 256)
+		return (0);
+
+	ast_info.ast_palet_changed = 1;
+
+	for (coloron = 0; coloron < 256; coloron++) {
+		if (ast_set_reg(DAC_INDEX_WRITE, coloron) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_set_reg(DAC_DATA, new_red[coloron]) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_set_reg(DAC_DATA, new_green[coloron]) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_set_reg(DAC_DATA, new_blue[coloron]) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+	}
+
+	return (status);
+}
+
+
+int
+ast_restore_palet(
+    void)
+{
+	register uint_t coloron;
+	register int status = 1;
+	uchar_t junk;
+
+	if (!ast_info.ast_palet_changed)
+		return (0);
+
+	for (coloron = 0; coloron < 256; coloron++) {
+		if (ast_set_reg(DAC_INDEX_WRITE, coloron) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_set_reg(DAC_DATA, ast_info.ast_red[coloron]) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_set_reg(DAC_DATA, ast_info.ast_green[coloron]) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+
+		if (ast_set_reg(DAC_DATA, ast_info.ast_blue[coloron]) != 0)
+			status = -1;
+
+		if (ast_get_reg(&junk, SEQ_PORT) != 0)
+			status = -1;
+	}
+
+	ast_info.ast_palet_changed = 0;
+	return (status);
+}
+
+
+uint_t
+ast_color(
+    register uint_t const red,
+    register uint_t const green,
+    register uint_t const blue)
+{
+	register uint_t value;
+
+	switch (ast_info.ast_depth) {
+	case 8:		/* 3, 3, 2 */
+		value = ((red >> 5) & 0x7) << 5;
+		value |= ((green >> 5) & 0x7) << 2;
+		value |= (blue >> 6) & 0x3;
+		break;
+
+	case 15:	/* 5, 5, 5 */
+		value = ((red >> 3) & 0x1f) << 10;
+		value |= ((green >> 3) & 0x1f) << 5;
+		value |= (blue >> 3) & 0x1f;
+		break;
+
+	case 16:	/* 5, 6, 5 */
+		value = ((red >> 3) & 0x1f) << 11;
+		value |= ((green >> 2) & 0x3f) << 5;
+		value |= (blue >> 3) & 0x1f;
+		break;
+
+	default:	/* 8, 8, 8 */
+		value = (red & 0xff) << 16;
+		value |= (green & 0xff) << 8;
+		value |= blue & 0xff;
+		break;
+	}
+
+	return (value);
+}
+
+
+int
+ast_open_key(
+    void)
+{
+	if (ast_set_index_reg(CRTC_PORT, 0x80, 0xA8) != 0)
+		return (-1);
+	return (0);
+}
+
+
+int
+ast_fill_solid_rect(
+    register uint_t const x1,
+    register uint_t const y1,
+    register uint_t const x2,
+    register uint_t const y2,
+    register uint_t const fg)
+{
+	register uint_t cmdreg;
+
+	cmdreg = CMD_BITBLT | CMD_PAT_FGCOLOR | 0xf000;
+	switch (ast_info.ast_pixelsize) {
+	case 1:
+		cmdreg |= CMD_COLOR_08;
+		break;
+	case 2:
+		cmdreg |= CMD_COLOR_16;
+		break;
+	case 3:
+	case 4:
+	default:
+		cmdreg |= CMD_COLOR_32;
+		break;
+	}
+
+	if (!ast_store_mmio(MMIOREG_DST_PITCH,
+	    (ast_info.ast_linesize << 16) | MASK_DST_HEIGHT))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_FG, fg))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_DST_BASE, 0))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_DST_XY,
+	    (x1 << 16) | y1))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_RECT_XY,
+	    ((x2 - x1) << 16) | (y2 - y1)))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_CMD, cmdreg))
+		return (0);
+
+	return (1);
+}
+
+
+int
+ast_fill_pattern_rect(
+    register uint_t const x1,
+    register uint_t const y1,
+    register uint_t const x2,
+    register uint_t const y2,
+    register uint_t const bg,
+    register uint_t const fg,
+    register uint64_t const pat)
+{
+	register uint_t cmdreg;
+
+	cmdreg = CMD_BITBLT | CMD_PAT_MONOMASK | 0xf000;
+	switch (ast_info.ast_pixelsize) {
+	case 1:
+		cmdreg |= CMD_COLOR_08;
+		break;
+	case 2:
+		cmdreg |= CMD_COLOR_16;
+		break;
+	case 3:
+	case 4:
+	default:
+		cmdreg |= CMD_COLOR_32;
+		break;
+	}
+
+	if (!ast_store_mmio(MMIOREG_DST_PITCH,
+	    (ast_info.ast_linesize << 16) | MASK_DST_HEIGHT))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_FG, fg))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_BG, bg))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_MONO1, (uint_t)(pat >> 32)))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_MONO2, (uint_t)pat))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_DST_BASE, 0))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_DST_XY,
+	    (x1 << 16) | y1))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_RECT_XY,
+	    ((x2 - x1) << 16) | (y2 - y1)))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_CMD, cmdreg))
+		return (0);
+
+	return (1);
+}
+
+
+int
+ast_draw_solid_line(
+    register uint_t const x1,
+    register uint_t const y1,
+    register uint_t const x2,
+    register uint_t const y2,
+    register uint_t const fg)
+{
+	register uint_t cmdreg;
+	register uint_t GAbsX;
+	register uint_t GAbsY;
+	register uint_t MM;
+	register uint_t mm;
+	register int err;
+	register int k1;
+	register int k2;
+	register int xm;
+
+	cmdreg = 0xf000 | CMD_LINEDRAW | CMD_ENABLE_CLIP |
+	    CMD_NOT_DRAW_LAST_PIXEL;
+	switch (ast_info.ast_pixelsize) {
+	case 1:
+		cmdreg |= CMD_COLOR_08;
+		break;
+	case 2:
+		cmdreg |= CMD_COLOR_16;
+		break;
+	case 3:
+	case 4:
+	default:
+		cmdreg |= CMD_COLOR_32;
+		break;
+	}
+
+	if (x1 < x2)
+		GAbsX = x2 - x1;
+	else
+		GAbsX = x1 - x2;
+
+	if (y1 < y2)
+		GAbsY = y2 - y1;
+	else
+		GAbsY = y1 - y2;
+
+	if (GAbsX >= GAbsY) {
+		MM = GAbsX;
+		mm = GAbsY;
+		xm = 1;
+	} else {
+		MM = GAbsY;
+		mm = GAbsX;
+		xm = 0;
+	}
+
+	if (x1 >= x2)
+		cmdreg |= CMD_X_DEC;
+
+	if (y1 >= y2)
+		cmdreg |= CMD_Y_DEC;
+
+	err = (int)(2 * mm) - (int)MM;
+	k1 = 2 * mm;
+	k2 = (int)(2 * mm) - (int)(2 * MM);
+
+	if (!ast_store_mmio(MMIOREG_DST_BASE, 0))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_DST_PITCH,
+	    (ast_info.ast_linesize << 16) | MASK_DST_HEIGHT))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_FG, fg))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_LINE_XY,
+	    (x1 << 16) | y1))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_LINE_ERR,
+	    (xm << 24) | (err & MASK_LINE_ERR)))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_LINE_WIDTH,
+	    (MM & MASK_LINE_WIDTH) << 16))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_LINE_K1,
+	    (k1 & MASK_LINE_K1)))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_LINE_K2,
+	    (k2 & MASK_LINE_K2)))
+		return (0);
+
+	if (!ast_store_mmio(MMIOREG_CMD, cmdreg))
+		return (0);
+
+	return (1);
 }
 
 int
-ast_map_mem(struct ast_info *pAST, return_packet *rp, int test)
+ast_unmap_mem(
+    register return_packet *const rp,
+    register int const test)
 {
-        struct pci_info  pci_info;
-        int              pageSize, size;
-	int		 fd = pAST->fd;
+	if (ast_unmap_fb() != 0) {
+		gfx_vts_set_message(rp, 1, test, "unmap framebuffer failed");
+		return (-1);
+	}
 
-        if (ast_get_pci_info(fd, &pci_info) == -1) {
-            gfx_vts_set_message(rp, 1, test, "get pci info failed");
-            return -1;
-        }
+	if (ast_unmap_mmio() != 0) {
+		gfx_vts_set_message(rp, 1, test, "unmap MMIO failed");
+		return (-1);
+	}
 
-
-        if (ast_get_mem_info(&pci_info, pAST) == -1) {
-            gfx_vts_set_message(rp, 1, test, "get mem info failed");
-            return -1;
-        }
-
-        /*
-         * Map framebuffer
-         */
-        pageSize = getpagesize();
-        size = pAST->FBMapSize + (pageSize - 1) & (~(pageSize - 1));
-
-        pAST->FBvaddr = (unsigned char *)mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED,
-                                        fd, pAST->FBPhysAddr);
-
-        if (pAST->FBvaddr == MAP_FAILED) {
-            gfx_vts_set_message(rp, 1, test, "map framebuffer failed");
-            return -1;
-        }
+	return (0);
+}
 
 
-        /*
-         * Map MMIO
-         */
-        size = pAST->MMIOMapSize + (pageSize - 1) & (~(pageSize - 1));
+int
+ast_unmap_fb(
+    void)
+{
+	register int status;
 
-        pAST->MMIOvaddr = (unsigned char *)mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED,
-                                        fd, pAST->MMIOPhysAddr);
+	if (ast_info.ast_fb_ptr == NULL)
+		return (0);
 
-        if (pAST->MMIOvaddr == MAP_FAILED) {
-            gfx_vts_set_message(rp, 1, test, "map MMIO failed");
-            return -1;
-        }
+	status = munmap((char *)ast_info.ast_fb_ptr, ast_info.ast_fb_size);
+	ast_info.ast_fb_ptr = NULL;
 
-	return 0;
+	return (status);
+}
+
+
+int
+ast_unmap_mmio(
+    void)
+{
+	register int status;
+
+	if (ast_info.ast_mmio_ptr == NULL)
+		return (0);
+
+	status = munmap((char *)ast_info.ast_mmio_ptr,
+	    ast_info.ast_mmio_size);
+	ast_info.ast_mmio_ptr = NULL;
+
+	return (status);
+}
+
+
+
+int
+ast_store_mmio(
+    register uint_t const port,
+    register uint_t const value)
+{
+	register uint_t readvalue;
+	register hrtime_t starttime;
+	register hrtime_t curtime;
+	register hrtime_t endtime;
+	register ulong_t count = 0;
+
+	ast_mmio_write32(port, value);
+	readvalue = ast_mmio_read32(port);
+
+	if (readvalue == value)
+		return (1);
+
+	starttime = gethrtime();
+	endtime = starttime + ast_loop_time;
+
+	do {
+		count++;
+		ast_mmio_write32(port, value);
+		readvalue = ast_mmio_read32(port);
+
+		if (readvalue == value)
+			return (1);
+		curtime = gethrtime();
+	} while (curtime < endtime);
+
+	ast_mmio_write32(port, value);
+	readvalue = ast_mmio_read32(port);
+
+	if (readvalue == value)
+		return (1);
+
+	return (0);
 }
 
 int
-ast_unmap_mem(struct ast_info *pAST, return_packet *rp, int test)
+ast_get_index_reg(
+    register uchar_t *const valueptr,
+    register uchar_t const offset,
+    register uchar_t const index)
 {
-        /*
-         * Unmap Frame Buffer
-         */
+	if (ast_set_reg(offset, index) != 0)
+		return (-1);
 
-        if (munmap((void *)pAST->FBvaddr, pAST->FBMapSize) == -1) {
-            gfx_vts_set_message(rp, 1, test, "unmap framebuffer failed");
-            return -1;
-        }
+	if (ast_get_reg(valueptr, offset + 1) != 0)
+		return (-1);
 
-        if (munmap((void *)pAST->MMIOvaddr, pAST->MMIOMapSize) == -1) {
-            gfx_vts_set_message(rp, 1, test, "unmap MMIO failed");
-            return -1;
-        }
+	return (0);
+}
 
-	return 0;
+
+int
+ast_set_index_reg(
+    register uchar_t const offset,
+    register uchar_t const index,
+    register uchar_t const value)
+{
+	if (ast_set_reg(offset, index) != 0)
+		return (-1);
+
+	if (ast_set_reg(offset + 1, value) != 0)
+		return (-1);
+
+	return (0);
+}
+
+
+int
+ast_get_reg(
+    register uchar_t *const valueptr,
+    register uchar_t const offset)
+{
+	ast_io_reg io_reg;
+
+	io_reg.offset = offset;
+	io_reg.value = (uchar_t)-1;
+
+	if (ioctl(ast_info.ast_fd, AST_GET_IO_REG, &io_reg) != 0)
+		return (-1);
+
+	*valueptr = io_reg.value;
+	return (0);
+}
+
+
+int
+ast_set_reg(
+    register uchar_t const offset,
+    register uchar_t const value)
+{
+	ast_io_reg  io_reg;
+
+	io_reg.offset = offset;
+	io_reg.value = value;
+
+	if (ioctl(ast_info.ast_fd, AST_SET_IO_REG, &io_reg) != 0)
+		return (-1);
+
+	return (0);
+}
+
+
+uint_t
+ast_mmio_read32(
+    register uint_t const port)
+{
+	register uint_t volatile const *const addr =
+	    (uint_t volatile const *) (ast_info.ast_mmio_ptr + port);
+	register uint_t value;
+
+	union {
+		uint_t l;
+		ushort_t w[2];
+		uchar_t b[4];
+	} data;
+
+	data.l = *addr;
+
+	switch (ast_info.ast_endian) {
+	case 0:	/* little endian */
+		value = ((uint_t)data.b[3] << 24) |
+		    ((uint_t)data.b[2] << 16) |
+		    ((uint_t)data.b[1] << 8) |
+		    (uint_t)data.b[0];
+		break;
+
+	case 1:	/* big endian 16 */
+	case 2:	/* big endian 32 */
+		value = ((uint_t)data.b[0] << 24) |
+		    ((uint_t)data.b[1] << 16) |
+		    ((uint_t)data.b[2] << 8) |
+		    (uint_t)data.b[3];
+		break;
+	}
+
+	return (value);
+}
+
+
+
+void
+ast_mmio_write32(
+    register uint_t const port,
+    register uint_t const val)
+{
+	register uint_t volatile *const addr =
+	    (uint_t volatile *) (ast_info.ast_mmio_ptr + port);
+	register uint_t value;
+
+	union {
+		uint_t l;
+		ushort_t w[2];
+		uchar_t b[4];
+	} data;
+
+	data.l = val;
+
+	switch (ast_info.ast_endian) {
+	case 0:	/* little endian */
+		value = ((uint_t)data.b[3] << 24) |
+		    ((uint_t)data.b[2] << 16) |
+		    ((uint_t)data.b[1] << 8) |
+		    (uint_t)data.b[0];
+		break;
+
+	case 1:	/* big endian 16 */
+	case 2:	/* big endian 32 */
+		value = ((uint_t)data.b[0] << 24) |
+		    ((uint_t)data.b[1] << 16) |
+		    ((uint_t)data.b[2] << 8) |
+		    (uint_t)data.b[3];
+		break;
+	}
+
+	*addr = value;
+}
+
+
+int
+ast_wait_idle(
+    void)
+{
+	register hrtime_t starttime;
+	register hrtime_t curtime;
+	register hrtime_t endtime;
+	register ulong_t count = 0;
+
+	if (!(ast_mmio_read32(MMIOREG_STAT) & STAT_BUSY))
+		return (1);
+
+	starttime = gethrtime();
+	endtime = starttime + ast_loop_time;
+
+	do {
+		count++;
+		if (!(ast_mmio_read32(MMIOREG_STAT) & STAT_BUSY))
+			return (1);
+		curtime = gethrtime();
+	} while (curtime < endtime);
+
+	if (!(ast_mmio_read32(MMIOREG_STAT) & STAT_BUSY))
+		return (1);
+
+	return (0);
 }
