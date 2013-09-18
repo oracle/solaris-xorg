@@ -36,17 +36,18 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xrefresh X screen update utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2f63f88ad0dcecd33c8cf000f38e9250
-TARBALL_SHA1 = 5e85ee14ea9a357c1d4372bbc068a8d452a134aa
+TARBALL_MD5   = a896382bc53ef3e149eaf9b13bc81d42
+TARBALL_SHA1  = f0372afb62f75ad29343abc96dbf80be12050b72
+TARBALL_SHA256= 3213671b0a8a9d1e8d1d5d9e3fd86842c894dd9acc1be2560eda50bc1fb791d6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/xrefresh.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

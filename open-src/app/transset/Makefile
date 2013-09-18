@@ -2,7 +2,7 @@
 #
 # transset utility for setting window transparency properties
 #
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=transset
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.0
+MODULE_VERSION=1.0.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 1aac8670c17803e30885eb5911f68d3d
-TARBALL_SHA1  = 583fc57eecbb4558127805093af8cc46ec677cdd
-TARBALL_SHA256= 19ee2525c4044743c49a95e43716bc3bd1dddf527e47585ee118e650b83a7e8f
+TARBALL_MD5   = 4afa9e30637171ae9e557a986e423720
+TARBALL_SHA1  = 8d5219f138fafc7146e4b45b94bc7e568efbcd43
+TARBALL_SHA256= 70c3d033874fe48286bc4971d5de9027f2e8ccd0f21b7506fe1bb4472218036d
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/transset.man

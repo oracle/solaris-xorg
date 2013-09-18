@@ -34,7 +34,7 @@ TARBALL_MD5  = 4ee175bbd44d05c34d43bb129be5098a
 TARBALL_SHA1 = 3b8b273b8ef3d8dbab998df9ec1dddf99edf4d91
 
 # Package metadata
-ORACLE_TPNO = 3811
+ORACLE_TPNO = 14484
 MODULE_DESC = headers & documentation for DMX extension to the X11 protocol
 
 ### Include common rulesets

@@ -2,7 +2,7 @@
 #
 # xload 1.x Makefile
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,12 +37,12 @@ MODULE_PKGCLASS=Applications/System Utilities
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ccc788704d66fcbe4e3e8755a600264c
-TARBALL_SHA1  = 50f6ee958e6fb609af92cf9403e7bd68720575cb
-TARBALL_SHA256= de12f0991ef124c291e0416ca8417073fe47328e9221d4be8e4076fcee151450
+TARBALL_MD5   = b9e9808db18acecf4cdec134d86b157c
+TARBALL_SHA1  = 4a34135ff51c3bc4029d6644e60e03f17ccf8c81
+TARBALL_SHA256= 83f8e6260435f1df2e2e5036bb3325688b79f0b33069ef445eff5058d127e078
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -51,9 +51,6 @@ SOURCE_PATCHES =
 SUNTOUCHED_MANPAGES = man/xload.man
 MODULE_STABILITY=Committed
 
-# Specify which cpp to use instead of depending on builder's $PATH
-MODULE_CONFIG_OPTS = --with-cpp=/usr/lib/cpp
-
 MODULE_ADD_INSTALL_TARGETS=install_po
 
 # Compatibility links from /usr/X11/bin to /usr/bin
@@ -61,7 +58,7 @@ MODULE_X11_BINCOMPAT_LINKS = xload
 
 include ../Makefile.inc
 
-install_po:
+install_po: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	cp -f xload.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -f $(SOURCE_DIR)/xload.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
 

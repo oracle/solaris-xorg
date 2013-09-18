@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcUniConv/jisx0212.h
---- src/xlibi18n/lcUniConv/jisx0212.h	2010-09-03 22:52:39.000000000 -0700
-+++ src/xlibi18n/lcUniConv/jisx0212.h	2010-11-21 20:00:51.399834544 -0800
+diff --git a/src/xlibi18n/lcUniConv/jisx0212.h b/src/xlibi18n/lcUniConv/jisx0212.h
+index 05cca52..1458e9c 100644
+--- a/src/xlibi18n/lcUniConv/jisx0212.h
++++ b/src/xlibi18n/lcUniConv/jisx0212.h
 @@ -3,6 +3,1592 @@
   * JISX0212.1990-0
   */
@@ -1617,7 +1618,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcU
  static const unsigned short jisx0212_2uni_page22[81] = {
    /* 0x22 */
    0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-@@ -919,11 +2505,19 @@ jisx0212_mbtowc (conv_t conv, ucs4_t *pw
+@@ -919,11 +2505,19 @@ jisx0212_mbtowc (conv_t conv, ucs4_t *pwc, const unsigned char *s, int n)
            return 2;
          }
        }
@@ -1637,7 +1638,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcU
  }
  
  static const unsigned short jisx0212_2charset[6067] = {
-@@ -2134,7 +3728,7 @@ jisx0212_wctomb (conv_t conv, unsigned c
+@@ -2134,7 +3728,7 @@ jisx0212_wctomb (conv_t conv, unsigned char *r, ucs4_t wc, int n)
  {
    if (n >= 2) {
      const Summary16 *summary = NULL;
@@ -1646,7 +1647,7 @@ diff -urp -x '*~' -x '*.orig' src/xlibi18n/lcUniConv/jisx0212.h src/xlibi18n/lcU
        summary = &jisx0212_uni2indx_page00[(wc>>4)];
      else if (wc >= 0x2100 && wc < 0x2130)
        summary = &jisx0212_uni2indx_page21[(wc>>4)-0x210];
-@@ -2157,7 +3751,11 @@ jisx0212_wctomb (conv_t conv, unsigned c
+@@ -2157,7 +3751,11 @@ jisx0212_wctomb (conv_t conv, unsigned char *r, ucs4_t wc, int n)
          return 2;
        }
      }

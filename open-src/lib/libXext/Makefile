@@ -29,15 +29,14 @@
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 71251a22bc47068d60a95f50ed2ec3cf
-TARBALL_SHA1  = 764ac472ae19a0faade193717a9e0938d3430aaa
-TARBALL_SHA256= 56229c617eb7bfd6dec40d2805bc4dfb883dfe80f130d99b9a2beb632165e859
+TARBALL_MD5   = 4376101e51bb2c6c44d9ab14344e85ad
+TARBALL_SHA1  = 49b6f026b0555d020014dbc24b49afc2986a30e0
+TARBALL_SHA256= f829075bc646cdc085fa25d98d5885d83b1759ceb355933127c257e8e50432e0
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += CVE-2013-1982.patch,-p1
 SOURCE_PATCHES += shm.patch,-p1
 SOURCE_PATCHES += sun-exts.patch,-p1
 

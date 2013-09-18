@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/zh_TW/XI18N_OBJS nls/zh_TW/XI18N_OBJS
---- nls/zh_TW/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
-+++ nls/zh_TW/XI18N_OBJS	2010-11-21 18:48:46.686739982 -0800
+diff --git a/nls/zh_TW/XI18N_OBJS b/nls/zh_TW/XI18N_OBJS
+index 0f471dd..b88ad49 100644
+--- a/nls/zh_TW/XI18N_OBJS
++++ b/nls/zh_TW/XI18N_OBJS
 @@ -3,5 +3,5 @@
  #	XI18N objects table for zh_TW locale
  #
@@ -31,9 +32,10 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW/XI18N_OBJS nls/zh_TW/XI18N_OBJS
 -XIM	common/ximp40		_Ximp_OpenIM		# XIM_open
 +XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
-diff -urp -x '*~' -x '*.orig' nls/zh_TW/XLC_LOCALE.pre nls/zh_TW/XLC_LOCALE.pre
---- nls/zh_TW/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/zh_TW/XLC_LOCALE.pre	2010-11-21 18:48:46.687115085 -0800
+diff --git a/nls/zh_TW/XLC_LOCALE.pre b/nls/zh_TW/XLC_LOCALE.pre
+index d75ece8..be84511 100644
+--- a/nls/zh_TW/XLC_LOCALE.pre
++++ b/nls/zh_TW/XLC_LOCALE.pre
 @@ -20,14 +20,14 @@ fs0	{
  		name	ISO8859-1:GL
  	}

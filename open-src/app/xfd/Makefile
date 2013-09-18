@@ -2,7 +2,7 @@
 #
 # xfd - simple X11/Xft font display application
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xfd
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = b3893e03a5288927781acd5d3c65ba19
-TARBALL_SHA1  = b8662c6c6821f1f82995bcb98bb986b56716b787
-TARBALL_SHA256= 3fbef0d5ed6dc088017df156e748d187b2d1aaedc3de7ea96e505ea6d1af7b73
+TARBALL_MD5   = f19de745d181f5547ed59d6d9ed7a588
+TARBALL_SHA1  = cac5ca0f5fb6044840b15cf6fb9c541bd4fbce4a
+TARBALL_SHA256= c1a32222fbb891e46f9a82ebab005bc5e54ce006a2586195ec9ea7ab308e2759
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

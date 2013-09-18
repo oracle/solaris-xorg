@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xman 1.x Makefile
+# xman - manual page browser
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xman
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 17d89b043083cba9e335379fc61981c0
-TARBALL_SHA1 = ba10cf0b2d0c2b40ded93e892c69e7bd4586ad1e
+TARBALL_MD5   = 77d6489d46ed4a0729f3bdc9a0bfc50f
+TARBALL_SHA1  = 9d83b14869ffadfda3407a2ab3b5fee13f667366
+TARBALL_SHA256= 405211b606a7fa420029897f099dc107791bb4c29bc88481c6efac9c4590bb1a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6708109.patch,-p1

@@ -36,14 +36,15 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xrdb X server resource database utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.9
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ed2e48cf33584455d74615ad4bbe4246
-TARBALL_SHA1 = efa5f2420411988d6a6e142934393fd272507857
+TARBALL_MD5   = b54c7e3e53b4f332d41ed435433fbda0
+TARBALL_SHA1  = b95ae53b767ee7b56baa55fc78eb9c0b9e5ccd29
+TARBALL_SHA256= 73827b6bbfc9d27ca287d95a1224c306d7053cd7b8156641698d7dc541ca565b
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 7051970.patch,-p1
+SOURCE_PATCHES =
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/xrdb.man

@@ -29,15 +29,15 @@
 MODULE_NAME=libXrender
 
 # Version number (used in path names)
-MODULE_VERSION=0.9.7
+MODULE_VERSION=0.9.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ee62f4c7f0f16ced4da63308963ccad2
-TARBALL_SHA1  = 6e4d75d8316d5217324258f555eba3a5d383feb2
-TARBALL_SHA256= f9b46b93c9bc15d5745d193835ac9ba2a2b411878fad60c504bbb8f98492bbe6
+TARBALL_MD5   = 2bd9a15fcf64d216e63b8d129e4f1f1c
+TARBALL_SHA1  = 0f5c843410029944bd06e19366db4932cf5944fa
+TARBALL_SHA256= 1d14b02f0060aec5d90dfdcf16a996f17002e515292906ed26e3dcbba0f4fc62
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CVE-2013-1987.patch,-p1
+SOURCE_PATCHES = 
 
 # Library name
 LIBNAME=Xrender

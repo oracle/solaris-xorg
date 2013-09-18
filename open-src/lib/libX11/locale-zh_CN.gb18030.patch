@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/zh_CN.gb18030/XI18N_OBJS nls/zh_CN.gb18030/XI18N_OBJS
---- nls/zh_CN.gb18030/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_CN.gb18030/XI18N_OBJS	2009-04-08 00:27:32.563032000 -0700
+diff --git a/nls/zh_CN.gb18030/XI18N_OBJS b/nls/zh_CN.gb18030/XI18N_OBJS
+index a92b403..0a5a137 100644
+--- a/nls/zh_CN.gb18030/XI18N_OBJS
++++ b/nls/zh_CN.gb18030/XI18N_OBJS
 @@ -2,6 +2,6 @@
  #
  #	XI18N objects table for zh_CN.gb18030 locale
@@ -32,9 +33,10 @@ diff -urp -x '*~' -x '*.orig' nls/zh_CN.gb18030/XI18N_OBJS nls/zh_CN.gb18030/XI1
 +XLC	common/xlcGB18030	_XlcGb18030Loader	# XLC_open
  XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
-diff -urp -x '*~' -x '*.orig' nls/zh_CN.gb18030/XLC_LOCALE.pre nls/zh_CN.gb18030/XLC_LOCALE.pre
---- nls/zh_CN.gb18030/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_CN.gb18030/XLC_LOCALE.pre	2009-04-08 00:27:32.563332000 -0700
+diff --git a/nls/zh_CN.gb18030/XLC_LOCALE.pre b/nls/zh_CN.gb18030/XLC_LOCALE.pre
+index f9544c7..8950080 100644
+--- a/nls/zh_CN.gb18030/XLC_LOCALE.pre
++++ b/nls/zh_CN.gb18030/XLC_LOCALE.pre
 @@ -1,70 +1,51 @@
  XCOMM     XFree86 NLS for Chinese encoding GB18030
 -XCOMM		Modified from xc/nls/XLC_LOCALE/en_US.UTF-8

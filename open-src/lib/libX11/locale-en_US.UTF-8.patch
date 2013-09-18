@@ -21,24 +21,21 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XI18N_OBJS nls/en_US.UTF-8/XI18N_OBJS
---- nls/en_US.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
-+++ nls/en_US.UTF-8/XI18N_OBJS	2010-06-07 15:49:48.410747016 -0700
-@@ -3,6 +3,10 @@
- #	XI18N objects table for euro locales
- #
+diff --git a/nls/en_US.UTF-8/XI18N_OBJS b/nls/en_US.UTF-8/XI18N_OBJS
+index 97b30b9..337b362 100644
+--- a/nls/en_US.UTF-8/XI18N_OBJS
++++ b/nls/en_US.UTF-8/XI18N_OBJS
+@@ -5,3 +5,6 @@
  XLC	common/xlcUTF8Load	_XlcUtf8Loader	        # XLC_open
--XOM	common/xomLTRTTB	_XomGenericOpenOM	# XOM_open
-+#XOM	common/xomLTRTTB	_XomGenericOpenOM	# XOM_open
-+XOM	common/xomGeneric       _XomGenericOpenOM       # XOM_open
- XIM	common/xiiimp		_SwitchOpenIM		# XIM_open
-+XIM	common/ximcp    _XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open    XIM_register XIM_unregister
- XIM	common/xiiimp		_XimpLocalOpenIM	# XIM_open
+ XOM	common/xomGeneric	_XomGenericOpenOM	# XOM_open
+ XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
++XIM	common/xiiimp		_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximll            _XimpLocalOpenIM        # XIM_open
 +XIM	common/ximlocal         _XimpLocalOpenIM        # XIM_open
-diff -urp -x '*~' -x '*.orig' nls/en_US.UTF-8/XLC_LOCALE.pre nls/en_US.UTF-8/XLC_LOCALE.pre
---- nls/en_US.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/en_US.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:48.411369670 -0700
+diff --git a/nls/en_US.UTF-8/XLC_LOCALE.pre b/nls/en_US.UTF-8/XLC_LOCALE.pre
+index 35d009f..949a877 100644
+--- a/nls/en_US.UTF-8/XLC_LOCALE.pre
++++ b/nls/en_US.UTF-8/XLC_LOCALE.pre
 @@ -53,6 +53,7 @@ fs4	{
  		name	ISO8859-4:GR
  	}

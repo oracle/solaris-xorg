@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XI18N_OBJS nls/ko_KR.UTF-8/XI18N_OBJS
---- nls/ko_KR.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
-+++ nls/ko_KR.UTF-8/XI18N_OBJS	2010-06-07 15:49:53.100568379 -0700
+diff --git a/nls/ko_KR.UTF-8/XI18N_OBJS b/nls/ko_KR.UTF-8/XI18N_OBJS
+index 96e753c..c548068 100644
+--- a/nls/ko_KR.UTF-8/XI18N_OBJS
++++ b/nls/ko_KR.UTF-8/XI18N_OBJS
 @@ -4,5 +4,8 @@
  #
  #
@@ -33,9 +34,10 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XI18N_OBJS nls/ko_KR.UTF-8/XI18N_O
 +XIM	common/ximll		_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
-diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC_LOCALE.pre
---- nls/ko_KR.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/ko_KR.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:53.100967122 -0700
+diff --git a/nls/ko_KR.UTF-8/XLC_LOCALE.pre b/nls/ko_KR.UTF-8/XLC_LOCALE.pre
+index b3db89d..de28978 100644
+--- a/nls/ko_KR.UTF-8/XLC_LOCALE.pre
++++ b/nls/ko_KR.UTF-8/XLC_LOCALE.pre
 @@ -33,10 +33,10 @@ fs1 {
  XCOMM   fs2 class (Korean Character)
  fs2	{
@@ -236,8 +238,8 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC
 +	side		GR:Default
 +	length		1
 +	ct_encoding	ISO8859-7:GR
- }
- 
++}
++
 +XCOMM 	cs10 class
 +cs10	{
 +	side		GR:Default
@@ -271,7 +273,7 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC
 +	side		GR:Default
 +	length		2
 +	ct_encoding	ISO8859-6:GLGR
-+}
+ }
 +XCOMM 	cs15 class
 +cs15	{
 +	side		GR:Default
@@ -299,5 +301,5 @@ diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/XLC_LOCALE.pre nls/ko_KR.UTF-8/XLC
 +XCOMM	side		none
 +XCOMM	ct_encoding	ISO10646-1
 +XCOMM}
-+
+ 
  END XLC_XLOCALE

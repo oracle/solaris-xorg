@@ -36,11 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xwininfo X11 window information utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9e8b58c8aa6172e87ab4f9cf3612fedd
-TARBALL_SHA1 = c90b3c289f95474aa8eb6cf1bf4caf3b9dbf82d3
+TARBALL_MD5   = b777bafb674555e48fd8437618270931
+TARBALL_SHA1  = 179253e6b8266bc3e3b6496964077c9cdcb2dcba
+TARBALL_SHA256= 218eb0ea95bd8de7903dfaa26423820c523ad1598be0751d2d8b6a2c23b23ff8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

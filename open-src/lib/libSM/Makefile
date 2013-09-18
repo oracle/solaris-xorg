@@ -2,7 +2,7 @@
 #
 # Session Management protocol library
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libSM
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 766de9d1e1ecf8bf74cebe2111d8e2bd
-TARBALL_SHA1  = 8d354a165e330022ffd3606aba562b8c8154213d
-TARBALL_SHA256= 93c11d569c64f40723b93b44af1efb474a0cfe92573b0c8c330343cabb897f1d
+TARBALL_MD5   = 499a7773c65aba513609fe651853c5f3
+TARBALL_SHA1  = e6d5dab6828dfd296e564518d2ed0a349a25a714
+TARBALL_SHA256= 0baca8c9f5d934450a70896c4ad38d06475521255ca63b717a6510fdb6e287bd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

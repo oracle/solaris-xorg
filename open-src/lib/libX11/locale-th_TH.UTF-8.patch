@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XI18N_OBJS nls/th_TH.UTF-8/XI18N_OBJS
---- nls/th_TH.UTF-8/XI18N_OBJS	2010-01-14 17:11:36.000000000 -0800
-+++ nls/th_TH.UTF-8/XI18N_OBJS	2010-06-07 15:49:53.964572637 -0700
+diff --git a/nls/th_TH.UTF-8/XI18N_OBJS b/nls/th_TH.UTF-8/XI18N_OBJS
+index dec38b0..fceb448 100644
+--- a/nls/th_TH.UTF-8/XI18N_OBJS
++++ b/nls/th_TH.UTF-8/XI18N_OBJS
 @@ -4,5 +4,9 @@
  #
  #
@@ -34,10 +35,11 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XI18N_OBJS nls/th_TH.UTF-8/XI18N_O
 +XIM	common/ximll		_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
-diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC_LOCALE.pre
---- nls/th_TH.UTF-8/XLC_LOCALE.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/th_TH.UTF-8/XLC_LOCALE.pre	2010-06-07 15:49:53.964950384 -0700
-@@ -7,27 +7,171 @@ XCOMM 
+diff --git a/nls/th_TH.UTF-8/XLC_LOCALE.pre b/nls/th_TH.UTF-8/XLC_LOCALE.pre
+index f79091a..ba29336 100644
+--- a/nls/th_TH.UTF-8/XLC_LOCALE.pre
++++ b/nls/th_TH.UTF-8/XLC_LOCALE.pre
+@@ -7,27 +7,171 @@ XCOMM
  XCOMM 	XLC_FONTSET category
  XCOMM 
  XLC_FONTSET
@@ -223,7 +225,7 @@ diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/XLC_LOCALE.pre nls/th_TH.UTF-8/XLC
  END XLC_FONTSET
  
  XCOMM 
-@@ -36,44 +180,138 @@ XCOMM 
+@@ -36,44 +180,138 @@ XCOMM
  XLC_XLOCALE
  
  encoding_name           UTF-8

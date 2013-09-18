@@ -29,18 +29,18 @@
 MODULE_NAME=libXres
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 80d0c6d8522fa7a645e4f522e9a9cd20
-TARBALL_SHA1  = 31a9b7d4f7a978de36c6f1c867dced29bfe7ef0f
-TARBALL_SHA256= ff8661c925e8b182f98ae98f02bbd93c55259ef7f34a92c1a126b6074ebde890
+TARBALL_MD5   = 45ef29206a6b58254c81bea28ec6c95f
+TARBALL_SHA1  = 45e09c6b771af5d8c448ce31de65d15bf83b7579
+TARBALL_SHA256= 26899054aa87f81b17becc68e8645b240f140464cf90c42616ebb263ec5fa0e5
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CVE-2013-1988.patch,-p1
+SOURCE_PATCHES =
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=XRes

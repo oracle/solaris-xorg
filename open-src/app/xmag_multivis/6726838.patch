@@ -1,18 +1,17 @@
-diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2010-10-30 17:17:29.000000000 -0700
-+++ Makefile.am	2011-01-28 20:22:00.477766877 -0800
-@@ -19,24 +19,18 @@
- #  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+diff --git a/Makefile.am b/Makefile.am
+index 6c1a81c..9ca5088 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -20,21 +20,16 @@
  #  PERFORMANCE OF THIS SOFTWARE.
  
+ SUBDIRS = man
 -bin_PROGRAMS = xmag
 +bin_PROGRAMS = xmag_multivis
  
--AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS)
--xmag_LDADD = $(XMAG_LIBS) -lm
-+AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS) -DSHAPE -DALLPLANES
-+xmag_multivis_LDADD = -lXext -lX11
- 
+ AM_CFLAGS = $(XMAG_CFLAGS) $(CWARNFLAGS)
+-xmag_LDADD = $(XMAG_LIBS)
+-
 -xmag_SOURCES =	\
 -        CutPaste.c \
 -        CutPaste.h \
@@ -23,14 +22,25 @@ diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
 -        Scale.h \
 -        ScaleP.h \
 -        xmag.c
++AM_CFLAGS += -DSHAPE -DALLPLANES
++xmag_multivis_LDADD = -lXext -lX11
++
 +xmag_multivis_SOURCES = \
 +        xmag_multivis.c \
 +        multivis.c \
 +        multivis.h
  
- appman_PRE = \
--        xmag.man
-+        xmag_multivis.man
- 
  # App default files  (*.ad)
  
+diff --git a/man/Makefile.am b/man/Makefile.am
+index 2b87098..cc1c8f2 100644
+--- a/man/Makefile.am
++++ b/man/Makefile.am
+@@ -1,6 +1,6 @@
+ 
+ appmandir = $(APP_MAN_DIR)
+-appman_PRE = xmag.man
++appman_PRE = xmag_multivis.man
+ appman_DATA = $(appman_PRE:man=$(APP_MAN_SUFFIX))
+ 
+ EXTRA_DIST = $(appman_PRE)

@@ -34,14 +34,15 @@ MODULE_PKGTAIL_SET=yes
 MODULE_DESC = X.Org platform configuration files for imake
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 700c6d040d36a569e657a3ba5e1d8b24
-TARBALL_SHA1 = c58b7252df481572ec1ccd77b9f1ab561ed89e45
+TARBALL_MD5   = 4a9cd7fc995ebf8f3cdad5395f9d8eba
+TARBALL_SHA1  = ae22eb81d56d018f0b3b149f70965ebfef2385fd
+TARBALL_SHA256= ed23b85043edecc38fad4229e0ebdb7ff80b570e746bc03a7c8678d601be7ed4
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	usr-ucb.patch,-p1
+SOURCE_PATCHES=	
 
 ### Include common rulesets
 include ../Makefile.inc

@@ -2,7 +2,7 @@
 #
 # xkill 1.x Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,17 +29,18 @@
 MODULE_NAME=xkill
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e7f0d57b6ba49c384e9cf8c9ff3243c1
-TARBALL_SHA1 = bab7b9c7f3bc053d743eb339cf5fa496bace57e5
+TARBALL_MD5   = 0ae6bc2a8d3af68e9c76b1a6ca5f7a78
+TARBALL_SHA1  = 3a9c253ed698ae2e6c176a6f4a5a7d43497818f6
+TARBALL_SHA256= 88ef2a304f32f24b255e879f03c1dcd3a2be3e71d5562205414f267d919f812e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/xkill.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

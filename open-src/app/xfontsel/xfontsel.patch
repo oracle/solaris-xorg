@@ -1,5 +1,5 @@
 diff --git a/xfontsel.c b/xfontsel.c
-index cf334e4..0b4bfdb 100644
+index 9ab33d1..861a6ce 100644
 --- a/xfontsel.c
 +++ b/xfontsel.c
 @@ -52,6 +52,9 @@ Modified: Mark Leisher <mleisher@crl.nmsu.edu> to deal with UCS sample text.
@@ -12,51 +12,24 @@ index cf334e4..0b4bfdb 100644
  #define MIN_APP_DEFAULTS_VERSION 1
  #define FIELD_COUNT 14
  #define DELIM '-'
-@@ -150,24 +153,25 @@ static XrmOptionDescRec options[] = {
- 
- static void Syntax(char *call)
+@@ -151,6 +154,7 @@ static XrmOptionDescRec options[] = {
+ static void Syntax(const char *call)
  {
--    fprintf (stderr, "usage:  %s [-options ...] -fn font\n\n", call);
--    fprintf (stderr, "where options include:\n");
--    fprintf (stderr,
--	"    -display dpy           X server to contact\n");
--    fprintf (stderr,
--	"    -geometry geom         size and location of window\n");
--    fprintf (stderr,
--	"    -pattern fontspec      font name pattern to match against\n");
--    fprintf (stderr,
--	"    -print                 print selected font name on exit\n");
--    fprintf (stderr,
--	"    -sample string         sample text to use for 1-byte fonts\n");
--    fprintf (stderr,
--	"    -sample16 string       sample text to use for 2-byte fonts\n");
--    fprintf (stderr,
--	"    -sampleUCS string      sample text to use for ISO10646 fonts\n");
--    fprintf (stderr,
+     fprintf (stderr, "usage:  %s [-options ...] -fn font\n\n%s\n", call,
++       gettext(
+ 	"where options include:\n"
+ 	"    -display dpy           X server to contact\n"
+ 	"    -geometry geom         size and location of window\n"
+@@ -159,7 +163,7 @@ static void Syntax(const char *call)
+ 	"    -sample string         sample text to use for 1-byte fonts\n"
+ 	"    -sample16 string       sample text to use for 2-byte fonts\n"
+ 	"    -sampleUCS string      sample text to use for ISO10646 fonts\n"
 -	"    -scaled                use scaled instances of fonts\n");
-+    /* Internationalize these strings for Bug:      4363521 Jhobson 6/9/00 */
-+    fprintf (stderr, gettext("usage:  %s [-options ...] -fn font\n\n"), call);
-+    fprintf (stderr, gettext("where options include:\n"));
-+    fprintf (stderr, "    -display ");
-+    fprintf (stderr, gettext("display       X server to contact\n"));
-+    fprintf (stderr, "    -geometry ");
-+    fprintf (stderr, gettext("geometry     size and location of window\n"));
-+    fprintf (stderr, "    -pattern ");
-+    fprintf (stderr, gettext("fontspec      font name pattern to match against\n"));
-+    fprintf (stderr, "    -print ");
-+    fprintf (stderr, gettext("print selected font name on exit\n"));
-+    fprintf (stderr, "    -sample ");
-+    fprintf (stderr, gettext("string         sample text to use for 1-byte fonts\n"));
-+    fprintf (stderr, "    -sample16 ");
-+    fprintf (stderr, gettext("string       sample text to use for 2-byte fonts\n"));
-+    fprintf (stderr, "    -sampleUCS ");
-+    fprintf (stderr, gettext("string      sample text to use for ISO10646 fonts\n"));
-+    fprintf (stderr, "    -scaled ");
-+    fprintf (stderr, gettext("do use scaled instances of fonts\n"));
-     fprintf (stderr, "\n");
++	"    -scaled                use scaled instances of fonts\n"));
      exit (1);
  }
-@@ -261,10 +265,28 @@ main(int argc, char **argv)
+ 
+@@ -252,10 +256,28 @@ main(int argc, char **argv)
  {
      Widget topLevel, pane;
  
@@ -85,7 +58,7 @@ index cf334e4..0b4bfdb 100644
  
      if (argc != 1) Syntax(argv[0]);
  
-@@ -275,12 +297,15 @@ main(int argc, char **argv)
+@@ -266,12 +288,15 @@ main(int argc, char **argv)
      XtGetApplicationResources( topLevel, (XtPointer)&AppRes,
  			       resources, XtNumber(resources), NZ );
      if (AppRes.app_defaults_version < MIN_APP_DEFAULTS_VERSION) {
@@ -106,7 +79,7 @@ index cf334e4..0b4bfdb 100644
      }
  
      ScheduleWork(GetFontNames, (XtPointer)XtDisplay(topLevel), 0);
-@@ -514,7 +539,7 @@ void GetFontNames(XtPointer closure)
+@@ -507,7 +532,7 @@ void GetFontNames(XtPointer closure)
  	    }
  	    else
  		XtAppWarning( appCtx,
@@ -115,7 +88,7 @@ index cf334e4..0b4bfdb 100644
  	}
  	else {
  	    SetNoFonts();
-@@ -1012,11 +1037,11 @@ static void SetCurrentFontCount(void)
+@@ -1005,11 +1030,11 @@ static void SetCurrentFontCount(void)
      char label[80];
      Arg args[1];
      if (matchingFontCount == 1)
@@ -130,7 +103,7 @@ index cf334e4..0b4bfdb 100644
      XtSetArg( args[0], XtNlabel, label );
      XtSetValues( countLabel, args, ONE );
  }
-@@ -1027,9 +1052,9 @@ static void SetParsingFontCount(int count)
+@@ -1020,9 +1045,9 @@ static void SetParsingFontCount(int count)
      char label[80];
      Arg args[1];
      if (count == 1)
@@ -142,7 +115,7 @@ index cf334e4..0b4bfdb 100644
      XtSetArg( args[0], XtNlabel, label );
      XtSetValues( countLabel, args, ONE );
      FlushXqueue(XtDisplay(countLabel));
-@@ -1234,9 +1259,9 @@ void SelectField(Widget w, XtPointer closure, XtPointer callData)
+@@ -1228,9 +1253,9 @@ void SelectField(Widget w, XtPointer closure, XtPointer callData)
      int field = (long)closure;
      FieldValue *values = fieldValues[field]->value;
      int count = fieldValues[field]->count;

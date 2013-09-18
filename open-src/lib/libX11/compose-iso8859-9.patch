@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/iso8859-9/Compose.pre nls/iso8859-9/Compose.pre
---- nls/iso8859-9/Compose.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/iso8859-9/Compose.pre	2010-11-21 18:48:14.880056336 -0800
+diff --git a/nls/iso8859-9/Compose.pre b/nls/iso8859-9/Compose.pre
+index 83122a2..0e893a9 100644
+--- a/nls/iso8859-9/Compose.pre
++++ b/nls/iso8859-9/Compose.pre
 @@ -9,6 +9,7 @@ XCOMM Special Character
  <Multi_key> <plus> <plus>		: "#"	numbersign
  <Multi_key> <apostrophe> <space>	: "'"	apostrophe

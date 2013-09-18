@@ -32,12 +32,12 @@ MODULE_NAME=libfontenc
 MODULE_DESC = the libfontenc font encoding table parser & mapping library
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a2a861f142c3b4367f14fc14239fc1f7
-TARBALL_SHA1  = 90bdd53d75585dd0f06ad7bc23faccd8a01bb733
-TARBALL_SHA256= de72812f1856bb63bd2226ec8c2e2301931d3c72bd0f08b0d63a0cdf0722017f
+TARBALL_MD5   = ad2919764933e075bb0361ad5caa3d19
+TARBALL_SHA1  = 2beffa0e9260c479b49f90f789318c7f9db2d41d
+TARBALL_SHA256= a9a4efed3359b2e80161bb66b65038fac145137fa134e71335264cbc23b02f62
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

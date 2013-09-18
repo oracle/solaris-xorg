@@ -1,5 +1,4 @@
-###############################################################################
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,9 +20,22 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -ru nls/th_TH.UTF-8/Compose.pre nls.new/th_TH.UTF-8/Compose.pre
-diff -urp -x '*~' -x '*.orig' nls/th_TH.UTF-8/Compose.pre nls/th_TH.UTF-8/Compose.pre
---- nls/th_TH.UTF-8/Compose.pre	2009-03-24 22:23:13.000000000 -0700
-+++ nls/th_TH.UTF-8/Compose.pre	2009-03-25 18:27:27.444778000 -0700
-@@ -0,0 +1 @@
-+#include "../en_US.UTF-8/Compose.pre"
+SRCS = 	xmag_multivis.c multivis.c
+OBJS = $(SRCS:.c=.o)
+
+MULTIVIS_CPPFLAGS = -DSHAPE -DALLPLANES
+LIBS = -lXext -lX11
+
+all:: xmag_multivis
+
+xmag_multivis: $(OBJS)
+	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) $(MULTIVIS_CPPFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
+
+install: xmag_multivis
+	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
+	$(INSTALL) -m 0555 xmag_multivis $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) -m 0444 xmag_multivis.man $(DESTDIR)$(PREFIX)/share/man/man1/xmag_multivis.1
+

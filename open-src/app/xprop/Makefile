@@ -32,11 +32,12 @@ MODULE_NAME=xprop
 MODULE_DESC = the xprop utility to display X11 window and font properties
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = d5529dc8d811efabd136ca2d8e857deb
-TARBALL_SHA1 = d531be0f5f2b7758216ea4d7890f88c42c5fa3fd
+TARBALL_MD5   = fae3d2fda07684027a643ca783d595cc
+TARBALL_SHA1  = f62e85e333132ea746fee7d99ca20a9e5b24e77b
+TARBALL_SHA256= 9bee88b1025865ad121f72d32576dd3027af1446774aa8300cce3c261d869bc6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the mkfontscale legacy X11 scalable font metadata creation tool
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 414fcb053418fb1418e3a39f4a37e0f7
-TARBALL_SHA1  = ba021369ae3b364ba083b9eb5e570e54b21fd583
-TARBALL_SHA256= ce55f862679b8ec127d7f7315ac04a8d64a0d90a0309a70dc56c1ba3f9806994
+TARBALL_MD5   = 03de3f15db678e277f5ef9c013aca1ad
+TARBALL_SHA1  = ad1887ca253b9234ab6a6989de53d3127e302c6c
+TARBALL_SHA256= 244017992477ced2397a44fd0ddcfb0f1d9899128613f5c4db81471163b0b731
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw.c
---- modules/im/ximcp/imImSw.c	2010-09-03 22:52:38.000000000 -0700
-+++ modules/im/ximcp/imImSw.c	2011-04-06 13:52:23.090417547 -0700
+diff --git a/modules/im/ximcp/imImSw.c b/modules/im/ximcp/imImSw.c
+index 28b1725..327736e 100644
+--- a/modules/im/ximcp/imImSw.c
++++ b/modules/im/ximcp/imImSw.c
 @@ -48,7 +48,9 @@ _XimCheckIfDefault(
  }
  
@@ -34,28 +35,30 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imImSw.c modules/im/ximcp/imImSw
      { _XimCheckIfThaiProcessing,	_XimThaiOpenIM,	 _XimThaiIMFree },
      { _XimCheckIfDefault,         _XimProtoOpenIM, _XimProtoIMFree },
      { NULL,                       NULL,		 NULL },
-diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imThaiFlt.c
---- modules/im/ximcp/imThaiFlt.c	2011-03-24 22:34:22.000000000 -0700
-+++ modules/im/ximcp/imThaiFlt.c	2011-04-06 13:52:23.091092465 -0700
+diff --git a/modules/im/ximcp/imThaiFlt.c b/modules/im/ximcp/imThaiFlt.c
+index f134e84..898fc1f 100644
+--- a/modules/im/ximcp/imThaiFlt.c
++++ b/modules/im/ximcp/imThaiFlt.c
 @@ -76,6 +76,12 @@ SOFTWARE.
  #include "XimThai.h"
  #include "XlcPubI.h"
  
 +#ifdef sun
-+#include "XlcGeneric.h"
-+#if !defined(macII) && !defined(Lynx_22) && !defined(X_LOCALE)
-+#define STDCVT
-+#endif
++# include "XlcGeneric.h"
++# if !defined(X_LOCALE)
++#  define STDCVT
++# endif
 +#endif
  
  #define SPACE   32
  
-@@ -516,6 +522,45 @@ Private Bool ThaiComposeConvert(
+@@ -516,6 +522,47 @@ static Bool ThaiComposeConvert(
       (wchar_t)(c) : \
       ((0x0A1<=(c)) ? ((wchar_t)(c)-0xA0+0x0E00) : 0))
  
 +#ifdef sun
-+Private int wc2tis(XLCd lcd, unsigned char* ch, wchar_t wc)
++static int
++wc2tis(XLCd lcd, unsigned char* ch, wchar_t wc)
 +{
 +#ifdef STDCVT
 +    if (XLC_GENERIC(lcd, use_stdc_env) == True)
@@ -70,7 +73,8 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imT
 +}
 +
 +
-+Private int tis2wc(XLCd lcd, wchar_t *pwc,  unsigned char* ch)
++static int
++tis2wc(XLCd lcd, wchar_t *pwc,  unsigned char* ch)
 +{
 +#ifdef STDCVT
 +    if (XLC_GENERIC(lcd, use_stdc_env) == True)
@@ -96,12 +100,13 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imT
  /*
   * Macros to save and recall last input character in XIC
   */
-@@ -1210,6 +1255,41 @@ Private void InitIscMode(Xic ic)
+@@ -1210,6 +1257,42 @@ static void InitIscMode(Xic ic)
      return;
  }
  
 +#ifdef sun
-+Private Bool is_utf8_locale()
++static Bool
++is_utf8_locale(void)
 +{
 +    const char* locale;
 +    locale = getenv("LC_ALL");
@@ -138,7 +143,7 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imT
  /*
   * Helper functions for _XimThaiFilter()
   */
-@@ -1217,8 +1297,20 @@ Private Bool
+@@ -1217,8 +1300,20 @@ static Bool
  ThaiFltAcceptInput(Xic ic, unsigned char new_char, KeySym symbol)
  {
      DefTreeBase *b = &ic->private.local.base;
@@ -159,7 +164,7 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imT
  
      if ((new_char <= 0x1f) || (new_char == 0x7f))
          b->tree[ic->private.local.composed].keysym = symbol;
-@@ -1233,10 +1325,23 @@ ThaiFltReorderInput(Xic ic, unsigned cha
+@@ -1233,9 +1328,23 @@ ThaiFltReorderInput(Xic ic, unsigned char previous_char, unsigned char new_char)
  {
      DefTreeBase *b = &ic->private.local.base;
      if (!IC_DeletePreviousChar(ic)) return False;
@@ -179,12 +184,11 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imT
      b->wc[b->tree[ic->private.local.composed].wc+0] = tis2ucs(new_char);
      b->wc[b->tree[ic->private.local.composed].wc+1] = tis2ucs(previous_char);
      b->wc[b->tree[ic->private.local.composed].wc+2] = '\0';
--
 +#endif
+ 
      b->tree[ic->private.local.composed].keysym = NoSymbol;
  
-     return True;
-@@ -1247,9 +1352,20 @@ ThaiFltReplaceInput(Xic ic, unsigned cha
+@@ -1247,8 +1356,20 @@ ThaiFltReplaceInput(Xic ic, unsigned char new_char, KeySym symbol)
  {
      DefTreeBase *b = &ic->private.local.base;
      if (!IC_DeletePreviousChar(ic)) return False;
@@ -201,12 +205,11 @@ diff -Nurp -x '*~' -x '*.orig' modules/im/ximcp/imThaiFlt.c modules/im/ximcp/imT
 +#else
      b->wc[b->tree[ic->private.local.composed].wc+0] = tis2ucs(new_char);
      b->wc[b->tree[ic->private.local.composed].wc+1] = '\0';
--
 +#endif
+ 
      if ((new_char <= 0x1f) || (new_char == 0x7f))
          b->tree[ic->private.local.composed].keysym = symbol;
-     else
-@@ -1374,7 +1490,15 @@ _XimThaiFilter(Display *d, Window w, XEv
+@@ -1374,7 +1495,15 @@ _XimThaiFilter(Display *d, Window w, XEvent *ev, XPointer client_data)
       */
      isc_mode = IC_IscMode(ic);
      if (!(previous_char = IC_GetPreviousChar(ic))) previous_char = ' ';

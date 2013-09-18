@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/ja/XI18N_OBJS nls/ja/XI18N_OBJS
---- nls/ja/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
-+++ nls/ja/XI18N_OBJS	2010-11-21 18:48:37.485411943 -0800
+diff --git a/nls/ja/XI18N_OBJS b/nls/ja/XI18N_OBJS
+index 50b51fe..f682a19 100644
+--- a/nls/ja/XI18N_OBJS
++++ b/nls/ja/XI18N_OBJS
 @@ -4,8 +4,5 @@
  #
  XLC	ja/xlibi18n_ja	_XlcGenericLoader	# XLC_open
@@ -33,9 +34,10 @@ diff -urp -x '*~' -x '*.orig' nls/ja/XI18N_OBJS nls/ja/XI18N_OBJS
 -XIM	common/ximlocal	_XimpLocalOpenIM	# XIM_open
  XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_regiser XIM_unregister
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
-diff -urp -x '*~' -x '*.orig' nls/ja/XLC_LOCALE.pre nls/ja/XLC_LOCALE.pre
---- nls/ja/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/ja/XLC_LOCALE.pre	2010-11-21 18:48:37.485721624 -0800
+diff --git a/nls/ja/XLC_LOCALE.pre b/nls/ja/XLC_LOCALE.pre
+index 99decf0..69af5a6 100644
+--- a/nls/ja/XLC_LOCALE.pre
++++ b/nls/ja/XLC_LOCALE.pre
 @@ -39,16 +39,18 @@ fs2	{
  		vertical_rotate	all
  	}
@@ -64,7 +66,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja/XLC_LOCALE.pre nls/ja/XLC_LOCALE.pre
  END XLC_FONTSET
  
  XCOMM 
-@@ -107,18 +109,16 @@ cs2	{
+@@ -107,18 +109,17 @@ cs2	{
  }
  
  XCOMM 	cs3 class
@@ -93,4 +95,4 @@ diff -urp -x '*~' -x '*.orig' nls/ja/XLC_LOCALE.pre nls/ja/XLC_LOCALE.pre
 +}
  
  END XLC_XLOCALE
--
+ 

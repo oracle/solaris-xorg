@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,10 +35,10 @@ make the call to XInitThreads, even if the client has already made
 other Xlib calls.
 
 diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
-index 80edeec..fbade18 100644
+index 4431559..bc32bdf 100644
 --- a/include/X11/Xlibint.h
 +++ b/include/X11/Xlibint.h
-@@ -199,6 +199,10 @@ struct _XDisplay
+@@ -207,6 +207,10 @@ struct _XDisplay
  	void *cookiejar;  /* cookie events returned but not claimed */
  };
  
@@ -48,9 +48,9 @@ index 80edeec..fbade18 100644
 +
  #define XAllocIDs(dpy,ids,n) (*(dpy)->idlist_alloc)(dpy,ids,n)
  
- /*
+ #ifndef _XEVENT_
 diff --git a/src/OpenDis.c b/src/OpenDis.c
-index 9379fec..6d6111e 100644
+index 3793814..a14d13b 100644
 --- a/src/OpenDis.c
 +++ b/src/OpenDis.c
 @@ -38,6 +38,21 @@ in this Software without prior written authorization from The Open Group.
@@ -89,7 +89,7 @@ index 9379fec..6d6111e 100644
  	if (!_XPollfdCacheInit(dpy)) {
  	        OutOfMemory (dpy);
  		return(NULL);
-@@ -581,6 +603,10 @@ XOpenDisplay (
+@@ -576,6 +598,10 @@ XOpenDisplay (
  
  void _XFreeDisplayStructure(Display *dpy)
  {
@@ -100,8 +100,8 @@ index 9379fec..6d6111e 100644
  	/* move all cookies in the EQ to the jar, then free them. */
  	if (dpy->qfree) {
  	    _XQEvent *qelt = dpy->qfree;
-@@ -709,6 +735,105 @@ void _XFreeDisplayStructure(Display *dpy)
- 	Xfree ((char *)dpy);
+@@ -704,6 +730,103 @@ void _XFreeDisplayStructure(Display *dpy)
+ 	Xfree (dpy);
  }
  
 +#if defined(XTHREADS) && defined(SUNSOFT)
@@ -115,10 +115,9 @@ index 9379fec..6d6111e 100644
 + * Attempt to allocate a display array. Return NULL if allocation fails.
 + */
 +    if ( !HeadDisplay ) {
-+        if ((HeadDisplay = (DisplayPtrLink *) Xcalloc
-+                   (1, sizeof(struct _DisplayPtrLink))) == NULL ) {
++        HeadDisplay = Xcalloc (1, sizeof(struct _DisplayPtrLink));
++        if (HeadDisplay == NULL)
 +            return 0;
-+        }
 +
 +        HeadDisplay->dpy = dpy;
 +        HeadDisplay->next = NULL;
@@ -126,10 +125,9 @@ index 9379fec..6d6111e 100644
 +        return 1;
 +    }
 +
-+    if ((LastDisplay->next = (DisplayPtrLink *) Xcalloc
-+                       (1, sizeof(struct _DisplayPtrLink))) == NULL ) {
++    LastDisplay->next = Xcalloc (1, sizeof(struct _DisplayPtrLink));
++    if (LastDisplay->next == NULL )
 +        return 0;
-+    }
 +
 +    LastDisplay = LastDisplay->next;
 +    LastDisplay->dpy = dpy;
@@ -207,7 +205,7 @@ index 9379fec..6d6111e 100644
     after this returns. */
  
 diff --git a/src/locking.c b/src/locking.c
-index b3dfb3b..9f340c9 100644
+index 9f4fe06..e4e0444 100644
 --- a/src/locking.c
 +++ b/src/locking.c
 @@ -614,6 +614,11 @@ Status XInitThreads(void)

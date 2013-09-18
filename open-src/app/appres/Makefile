@@ -34,17 +34,18 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the appres Xt application resource list utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 48d56924f76738872ef6c90f99030e34
-TARBALL_SHA1 = 7303f12fae8cce92da2dbd88c9d31d816dc5da06
+TARBALL_MD5   = ed598f0599d726963c1bdfdc691960d9
+TARBALL_SHA1  = f89d6fff84d838c0b8b4adeca46185b6d4812a27
+TARBALL_SHA256= 9f614e9427cd9641a4a801ed5055700afa410674c0b7aa186b86078f11b83e8d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES = man/appres.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

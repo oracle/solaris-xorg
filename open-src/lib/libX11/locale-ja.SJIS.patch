@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XI18N_OBJS nls/ja.SJIS/XI18N_OBJS
---- nls/ja.SJIS/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
-+++ nls/ja.SJIS/XI18N_OBJS	2010-11-21 18:48:36.526767266 -0800
+diff --git a/nls/ja.SJIS/XI18N_OBJS b/nls/ja.SJIS/XI18N_OBJS
+index 29dffff..c07e623 100644
+--- a/nls/ja.SJIS/XI18N_OBJS
++++ b/nls/ja.SJIS/XI18N_OBJS
 @@ -4,7 +4,7 @@
  #
  XLC	ja_JP.PCK/xlibi18n_PCK	_XlcGenericLoader	# XLC_open
@@ -34,9 +35,10 @@ diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XI18N_OBJS nls/ja.SJIS/XI18N_OBJS
 +XIM	common/ximlocal	_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximp40	_Ximp_OpenIM		# XIM_open
  XOM	common/xomGeneric	_XomGenericOpenOM # XOM_open
-diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XLC_LOCALE.pre nls/ja.SJIS/XLC_LOCALE.pre
---- nls/ja.SJIS/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/ja.SJIS/XLC_LOCALE.pre	2010-11-21 18:48:36.527360324 -0800
+diff --git a/nls/ja.SJIS/XLC_LOCALE.pre b/nls/ja.SJIS/XLC_LOCALE.pre
+index 671a985..38448db 100644
+--- a/nls/ja.SJIS/XLC_LOCALE.pre
++++ b/nls/ja.SJIS/XLC_LOCALE.pre
 @@ -29,9 +29,20 @@ fs1	{
  		substitute      JISX0208.1990-0:GL
  	}
@@ -76,7 +78,7 @@ diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XLC_LOCALE.pre nls/ja.SJIS/XLC_LOCALE.
  END XLC_FONTSET
  
  XCOMM 
-@@ -143,30 +146,279 @@ cs1	{
+@@ -143,8 +146,273 @@ cs1	{
      [\xef40,\xef7e]->\x7d21,[\xef80,\xef9e]->\x7d60,[\xef9f,\xeffc]->\x7e21
  }
  
@@ -350,26 +352,4 @@ diff -urp -x '*~' -x '*.orig' nls/ja.SJIS/XLC_LOCALE.pre nls/ja.SJIS/XLC_LOCALE.
 +cs3	{
  	side		GR
  	length		1
--#if WCHAR32
- 	wc_encoding	\x10000000
--#else
--	wc_encoding	\x00000080
--#endif
- 	ct_encoding	JISX0201.1976-0:GR
- }
- 
--XCOMM 	cs3 class
--XCOMM cs3	{
--XCOMM 	side		GR
--XCOMM 	length		2
--XCOMM #if WCHAR32
--XCOMM 	wc_encoding	\x20000000
--XCOMM #else
--XCOMM 	wc_encoding	\x00008000
--XCOMM #endif
--XCOMM 	ct_encoding	JISX0212.1990-0:GL; JISX0212.1990-0:GR
--XCOMM }
--
- END XLC_XLOCALE
- 
- #else /* __uxp__ */
+ #if WCHAR32

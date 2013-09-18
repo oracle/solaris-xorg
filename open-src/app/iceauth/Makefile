@@ -33,11 +33,12 @@ MODULE_PKGNAME=x11/library/libice
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 08e3f6b523da8b0af179f22f339508b2
-TARBALL_SHA1 = d996c6ecaa93dcaccee4a11991eeacd40bddc13e
+TARBALL_MD5   = 2527344acc60741a709f4858564c5ae6
+TARBALL_SHA1  = ee56608a52eec81682b8ca204a1afa4ec15bf01f
+TARBALL_SHA256= bd990837353b439e6f45d478a87b8dbfa3f67d72d903e7a9ed4eb8de52f2e2f4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

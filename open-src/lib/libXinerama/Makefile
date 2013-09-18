@@ -29,16 +29,15 @@
 MODULE_NAME=libXinerama
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = cb45d6672c93a608f003b6404f1dd462
-TARBALL_SHA1  = 06a5b636305725ce09f6c3a4d5a15f2f188b5afd
-TARBALL_SHA256= a4e77c2fd88372e4ae365f3ca0434a23613da96c5b359b1a64bf43614ec06aac
+TARBALL_MD5   = 9336dc46ae3bf5f81c247f7131461efd
+TARBALL_SHA1  = 6a3956d73f7457ef0b4db12806d99c6918e328e3
+TARBALL_SHA256= 7a45699f1773095a3f821e491cbd5e10c887c5a5fce5d8d3fced15c2ff7698e2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = sun-abi.patch
-SOURCE_PATCHES += CVE-2013-1985.patch,-p1
+SOURCE_PATCHES = sun-abi.patch,-p1
 
 # Library name
 LIBNAME=Xinerama

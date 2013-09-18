@@ -37,17 +37,18 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xlsclients utility to list clients connected to a given X server
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 760099f0af112401735801e3b9aa8595
-TARBALL_SHA1 = c4051429c190444ae9ba327f0ad776a74eb7b27b
+TARBALL_MD5   = 9fbf6b174a5138a61738a42e707ad8f5
+TARBALL_SHA1  = a980aa006c0ca180e4c79be2bd6514205dd218a3
+TARBALL_SHA256= 5d9666fcc6c3de210fc70d5a841a404955af709a616fde530fe4e8f7723e3d3d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES = man/xlsclients.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

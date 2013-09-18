@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/pt_BR.UTF-8/XI18N_OBJS nls/C/XI18N_OBJS
---- nls/pt_BR.UTF-8/XI18N_OBJS	2011-06-01 12:57:53.296031365 +0200
-+++ nls/pt_BR.UTF-8/XI18N_OBJS	2011-06-01 12:58:10.788031372 +0200
+diff --git a/nls/pt_BR.UTF-8/XI18N_OBJS b/nls/pt_BR.UTF-8/XI18N_OBJS
+index 8eac6d8..8afd412 100644
+--- a/nls/pt_BR.UTF-8/XI18N_OBJS
++++ b/nls/pt_BR.UTF-8/XI18N_OBJS
 @@ -4,4 +4,5 @@
  #
  XLC	common/xlcUTF8Load	_XlcUtf8Loader	# XLC_open

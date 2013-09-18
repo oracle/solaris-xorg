@@ -27,80 +27,68 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION = 1.5.0
+MODULE_VERSION = 1.6.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 78b4b3bab4acbdf0abcfca30a8c70cc6
-TARBALL_SHA1  = 8177535c9c59d8c3ab98d55ce53520b5737ccd1a
-TARBALL_SHA256= c382efd7e92bfc3cef39a4b7f1ecf2744ba4414a705e3bc1e697f75502bd4d86
+TARBALL_MD5   = c35d6ad95b06635a524579e88622fdb5
+TARBALL_SHA1  = 0dd74854e6f6bb8a322e88ba3e89f87c3dcf9e08
+TARBALL_SHA256= 2aa027e837231d2eeea90f3a4afe19948a6eb4c8b2bec0241eba7dbc8106bd16
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	1234757.patch,-p1 \
-	4010755.patch \
-	4614834.patch \
-	5039226.patch \
+	4010755.patch,-p1 \
+	4614834.patch,-p1 \
+	5039226.patch,-p1 \
 	solaris-abi.patch,-p1 \
 	solaris-kbd.patch,-p1 \
 	SolarisIA.patch,-p1 \
-	6714036.patch,-p1 \
 	6789219.patch,-p1 \
-	im-suneu-greek.patch \
-	im-ximcp.patch \
-	lc-jisx0212.patch \
-	lc-jisx0208.patch \
+	im-suneu-greek.patch,-p1 \
+	im-ximcp.patch,-p1 \
+	lc-jisx0212.patch,-p1 \
+	lc-jisx0208.patch,-p1 \
 	lc-ksc5601.1992-3.patch,-p1 \
 	lc-gb18030.patch,-p1 \
 	om-generic.patch,-p1 \
-	compose.dir.patch \
-	compose-iso8859-1.patch \
-	compose-iso8859-2.patch \
-	compose-iso8859-5.patch \
-	compose-iso8859-6.patch \
+	compose.dir.patch,-p1 \
+	compose-iso8859-1.patch,-p1 \
+	compose-iso8859-2.patch,-p1 \
+	compose-iso8859-5.patch,-p1 \
+	compose-iso8859-6.patch,-p1 \
 	compose-iso8859-7.patch,-p1 \
-	compose-iso8859-8.patch \
-	compose-iso8859-9.patch \
-	compose-iso8859-13.patch \
-	compose-iso8859-15.patch \
-	compose-el_GR.UTF-8.patch \
+	compose-iso8859-8.patch,-p1 \
+	compose-iso8859-9.patch,-p1 \
+	compose-iso8859-13.patch,-p1 \
+	compose-iso8859-15.patch,-p1 \
+	compose-el_GR.UTF-8.patch,-p1 \
 	compose-en_US.UTF-8.patch,-p1 \
-	compose-ja_JP.UTF-8.patch \
-	compose-ko_KR.UTF-8.patch \
+	compose-ja_JP.UTF-8.patch,-p1 \
+	compose-ko_KR.UTF-8.patch,-p1 \
 	compose-pt_BR.UTF-8.patch,-p1 \
-	compose-th_TH.UTF-8.patch \
-	compose-zh_CN.UTF-8.patch \
-	compose-zh_HK.UTF-8.patch \
-	compose-zh_TW.UTF-8.patch \
+	compose-zh_CN.UTF-8.patch,-p1 \
+	compose-zh_HK.UTF-8.patch,-p1 \
+	compose-zh_TW.UTF-8.patch,-p1 \
 	locale.aliases.patch,-p1 \
-	locale.dir.patch \
 	locale.paths.patch,-p1 \
-	locale-C.patch \
-	locale-iso8859-1.patch \
-	locale-iso8859-6.patch \
-	locale-iso8859-8.patch \
-	locale-en_US.UTF-8.patch \
-	locale-ja.SJIS.patch \
-	locale-ja.patch \
-	locale-ja_JP.UTF-8.patch \
-	locale-ko.patch \
-	locale-ko_KR.UTF-8.patch \
-	locale-pt_BR.UTF-8.patch \
-	locale-th_TH.UTF-8.patch \
-	locale-zh_CN.UTF-8.patch \
-	locale-zh_CN.gb18030.patch \
-	locale-zh_HK.UTF-8.patch \
-	locale-zh_TW.UTF-8.patch \
-	locale-zh_TW.patch \
-	locale-ru-RU.UTF-8.patch \
-	16815647.patch
-
-# Patches from May 2013 security alert - will be integrated into libX11 1.6
-SOURCE_PATCHES += upstream-cleanup.patch,-p1
-SOURCE_PATCHES += XEatDataWords.patch,-p1
-SOURCE_PATCHES += CVE-2013-1981.patch,-p1
-SOURCE_PATCHES += CVE-2013-1997.patch,-p1
-SOURCE_PATCHES += CVE-2013-2004.patch,-p1
-SOURCE_PATCHES += alloc-cleanup.patch,-p1
+	locale-C.patch,-p1 \
+	locale-iso8859-1.patch,-p1 \
+	locale-iso8859-6.patch,-p1 \
+	locale-iso8859-8.patch,-p1 \
+	locale-en_US.UTF-8.patch,-p1 \
+	locale-ja.SJIS.patch,-p1 \
+	locale-ja.patch,-p1 \
+	locale-ja_JP.UTF-8.patch,-p1 \
+	locale-ko.patch,-p1 \
+	locale-ko_KR.UTF-8.patch,-p1 \
+	locale-pt_BR.UTF-8.patch,-p1 \
+	locale-th_TH.UTF-8.patch,-p1 \
+	locale-zh_CN.UTF-8.patch,-p1 \
+	locale-zh_CN.gb18030.patch,-p1 \
+	locale-zh_HK.UTF-8.patch,-p1 \
+	locale-zh_TW.UTF-8.patch,-p1 \
+	locale-zh_TW.patch,-p1 \
+	locale-ru-RU.UTF-8.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11

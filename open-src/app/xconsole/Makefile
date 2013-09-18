@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xconsole 1.x Makefile
+# xconsole - X window to display /dev/console messages
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xconsole
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ba55aab63d056520fda1b7098c3929a1
-TARBALL_SHA1 = 0049a65edde5e9dd4774abec69adb78689270c90
+TARBALL_MD5   = 5f2f9d97bd078715dffea2fd05b53544
+TARBALL_SHA1  = 1b3b3a2342bb94fecc70d7401da10ef7bbcc98a0
+TARBALL_SHA256= e561959b6ee8b735a32c1050015cfd8c551ed162cabb6cb72e36ce72966855d1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

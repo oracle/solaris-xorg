@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pre
---- nls/iso8859-1/Compose.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/iso8859-1/Compose.pre	2010-11-21 18:48:06.890258020 -0800
+diff --git a/nls/iso8859-1/Compose.pre b/nls/iso8859-1/Compose.pre
+index c726ecf..da43183 100644
+--- a/nls/iso8859-1/Compose.pre
++++ b/nls/iso8859-1/Compose.pre
 @@ -11,6 +11,7 @@ XCOMM Special Character
  <Multi_key> <apostrophe> <space>	: "'"	apostrophe
  <Multi_key> <space> <apostrophe>	: "'"	apostrophe
@@ -59,7 +60,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  XCOMM Ctrl<T> Means <Compose>
  XCOMM Special Character
  Ctrl<T> <plus> <plus>			: "#"	numbersign
-@@ -658,7 +659,6 @@ Ctrl<T> <A> <diaeresis>			: "\304"	Adiae
+@@ -658,7 +659,6 @@ Ctrl<T> <A> <diaeresis>			: "\304"	Adiaeresis
  Ctrl<T> <diaeresis> <A>			: "\304"	Adiaeresis
  Ctrl<T> <A> <asterisk>			: "\305"	Aring
  Ctrl<T> <asterisk> <A>			: "\305"	Aring
@@ -67,7 +68,7 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-1/Compose.pre nls/iso8859-1/Compose.pr
  Ctrl<T> <A> <O>				: "\305"	Aring
  Ctrl<T> <A> <E>				: "\306"	AE
  Ctrl<T> <a> <grave>			: "\340"	agrave
-@@ -839,5 +839,70 @@ Ctrl<T> <y> <quotedbl>			: "\377"	ydiaer
+@@ -839,5 +839,70 @@ Ctrl<T> <y> <quotedbl>			: "\377"	ydiaeresis
  Ctrl<T> <quotedbl> <y>			: "\377"	ydiaeresis
  Ctrl<T> <y> <diaeresis>			: "\377"	ydiaeresis
  Ctrl<T> <diaeresis> <y>			: "\377"	ydiaeresis

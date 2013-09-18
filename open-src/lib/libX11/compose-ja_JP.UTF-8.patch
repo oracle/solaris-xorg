@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/ja_JP.UTF-8/Compose.pre nls/ja_JP.UTF-8/Compose.pre
---- nls/ja_JP.UTF-8/Compose.pre	2007-05-16 08:34:44.000000000 -0700
-+++ nls/ja_JP.UTF-8/Compose.pre	2008-02-27 21:08:32.576467000 -0800
-@@ -0,0 +1,2583 @@
+diff --git a/nls/ja_JP.UTF-8/Compose.pre b/nls/ja_JP.UTF-8/Compose.pre
+index 6c2c411..c191627 100644
+--- a/nls/ja_JP.UTF-8/Compose.pre
++++ b/nls/ja_JP.UTF-8/Compose.pre
+@@ -1 +1,2583 @@
+-include "X11_LOCALEDATADIR/en_US.UTF-8/Compose"
 +XCOMM
 +XCOMM Copyright 1996, 2002, Oracle and/or its affiliates. All rights reserved.
 +XCOMM

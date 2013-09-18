@@ -21,10 +21,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/ko_KR.UTF-8/Compose.pre nls/ko_KR.UTF-8/Compose.pre
---- nls/ko_KR.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/ko_KR.UTF-8/Compose.pre	2010-06-07 15:49:38.139156903 -0700
-@@ -0,0 +1,2538 @@
+diff --git a/nls/ko_KR.UTF-8/Compose.pre b/nls/ko_KR.UTF-8/Compose.pre
+index 6c2c411..2292bc8 100644
+--- a/nls/ko_KR.UTF-8/Compose.pre
++++ b/nls/ko_KR.UTF-8/Compose.pre
+@@ -1 +1,2538 @@
+-include "X11_LOCALEDATADIR/en_US.UTF-8/Compose"
 +XCOMM
 +XCOMM Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
 +XCOMM

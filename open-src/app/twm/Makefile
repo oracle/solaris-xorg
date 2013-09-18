@@ -34,18 +34,18 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the Tab Window Manager (twm)
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c1c124ff16255d6525a53a0d5cec8bf9
-TARBALL_SHA1 = ff535ef8e676f9ca876a6166858798c7fe70d446
-TARBALL_SHA256 = 0f5d53dec62540fa97c96b4e983695cc32114836d256b64885253ab58b5bcd44
+TARBALL_MD5   = 4b28317d4a9f7ca61bef8462e132bd4c
+TARBALL_SHA1  = b568e6242c5a2b9a05d0a198b96f3d43cf792931
+TARBALL_SHA256= 7660352353d632127ff50390991706aa660b28a4ada816c2582ac02720722e44
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES = man/twm.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

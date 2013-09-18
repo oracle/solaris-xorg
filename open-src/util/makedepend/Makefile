@@ -36,12 +36,12 @@ MODULE_PKGCLASS_SET=yes
 MODULE_DESC = the makedepend makefile dependency generation utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 7acb9a831817fdd11ba7f7aaa3c74fd8
-TARBALL_SHA1  = 1f0f8aea1526c6c022f2cf16f7a6c67118c68336
-TARBALL_SHA256= ab56b8aeee00ed78d93c57d102e33ef4e6828ef5edd7108574966ed7d212f7fe
+TARBALL_MD5   = 0475638eb40a3920d0d3f14482c924a4
+TARBALL_SHA1  = 2599afa039d2070bae9df6ce43da288b3a4adf97
+TARBALL_SHA256= f7a80575f3724ac3d9b19eaeab802892ece7e4b0061dd6425b4b789353e25425
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

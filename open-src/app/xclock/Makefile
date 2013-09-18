@@ -2,7 +2,7 @@
 #
 # xclock - analog or digital clock display application
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,12 +33,12 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 773782f20d5fb3232384889deca00754
-TARBALL_SHA1  = 993817c9e3cc2baaaebe52b29fa2ad26e58b124d
-TARBALL_SHA256= 21bb6f57b0a158c05a47558302321c4764a8d2e1b8e5d4ad23e3809b4cee3fd0
+TARBALL_MD5   = 6f150d063b20d08030b98c45b9bee7af
+TARBALL_SHA1  = 1b54b96e057469f90a00a9f1ca79ed056cbde271
+TARBALL_SHA256= 23ceeca94e3e20a6c26a703ac7f789066d4517f8d2cb717ae7cb28a617d97dd0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -29,15 +29,15 @@
 MODULE_NAME=libXv
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.10
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5e1ac203ccd3ce3e89755ed1fbe75b0b
-TARBALL_SHA1  = 49c87e0ccb999966b7b1b4e72cb927f05e0835bd
-TARBALL_SHA256= 5d664aeb641f8c867331a0c6b4574a5e7e420f00bf5fcefd874e8d003ea59010
+TARBALL_MD5   = e0af49d7d758b990e6fef629722d4aca
+TARBALL_SHA1  = 1e93df036bb2bb01e85b7c8886760affb33b8e88
+TARBALL_SHA256= 55fe92f8686ce8612e2c1bfaf58c057715534419da700bda8d517b1d97914525
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CVE-2013-1989.patch,-p1
+SOURCE_PATCHES =
 
 # Library name
 LIBNAME=Xv

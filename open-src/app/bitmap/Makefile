@@ -38,18 +38,18 @@ MODULE_PKGCLASS=Applications/Graphics and Imaging
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = cea3a96b32d23c9019daeb9881d33dc3
-TARBALL_SHA1  = 5527034785dec2b93a8d0931edc58602032d1f91
-TARBALL_SHA256= f70100002faf7c54b1b851261a14606c147abcc9e43f9b4e980ffc82f56eb5eb
+TARBALL_MD5   = 9c18cc1048146e29d68bfa9d0348b11d
+TARBALL_SHA1  = 18c4762b8c94b519ee2ca6c3171cc2f85e6b2421
+TARBALL_SHA256= 7ea2823a930ddfe3bfc0c7fbb16a5b463222edf05284c5cdc40a6d3c5c3988af
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/bitmap.man
+SUNTOUCHED_MANPAGES = man/bitmap.man man/atobm.man man/bmtoa.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

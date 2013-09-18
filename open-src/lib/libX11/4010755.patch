@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,9 +42,10 @@ Another area besides the functions in Context.c are the functions in
 Xrm.c. A similar fix was added to them as well.
 
 
-diff -urp -x '*~' -x '*.orig' src/Context.c src/Context.c
---- src/Context.c	2010-09-03 22:52:39.000000000 -0700
-+++ src/Context.c	2010-11-21 18:47:52.531197588 -0800
+diff --git a/src/Context.c b/src/Context.c
+index 8a07871..dd4df6b 100644
+--- a/src/Context.c
++++ b/src/Context.c
 @@ -190,6 +190,9 @@ int XSaveContext(
  	    return XCNOMEM;
  	}
@@ -55,12 +56,13 @@ diff -urp -x '*~' -x '*.orig' src/Context.c src/Context.c
  	_XCreateMutex(&db->linfo);
  #ifdef MOTIFBC
  	if (!display) *pdb = db; else
-diff -urp -x '*~' -x '*.orig' src/Xrm.c src/Xrm.c
---- src/Xrm.c	2010-09-03 22:52:39.000000000 -0700
-+++ src/Xrm.c	2010-11-21 18:47:52.531960970 -0800
-@@ -496,6 +496,9 @@ static XrmDatabase NewDatabase(void)
+diff --git a/src/Xrm.c b/src/Xrm.c
+index 36b71d6..b3283e6 100644
+--- a/src/Xrm.c
++++ b/src/Xrm.c
+@@ -497,6 +497,9 @@ static XrmDatabase NewDatabase(void)
  
-     db = (XrmDatabase) Xmalloc(sizeof(XrmHashBucketRec));
+     db = Xmalloc(sizeof(XrmHashBucketRec));
      if (db) {
 +#ifdef SUNSOFT
 +        db->linfo.lock = (xmutex_t) NULL;
@@ -68,9 +70,10 @@ diff -urp -x '*~' -x '*.orig' src/Xrm.c src/Xrm.c
  	_XCreateMutex(&db->linfo);
  	db->table = (NTable)NULL;
  	db->mbstate = (XPointer)NULL;
-diff -urp -x '*~' -x '*.orig' src/locking.c src/locking.c
---- src/locking.c	2010-11-21 18:47:51.772597162 -0800
-+++ src/locking.c	2010-11-21 18:47:52.532327934 -0800
+diff --git a/src/locking.c b/src/locking.c
+index e4e0444..eb875e3 100644
+--- a/src/locking.c
++++ b/src/locking.c
 @@ -104,6 +104,16 @@ static void _XLockMutex(
      XTHREADS_FILE_LINE_ARGS
      )

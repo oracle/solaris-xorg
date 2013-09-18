@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/zh_TW.UTF-8/XI18N_OBJS nls/zh_TW.UTF-8/XI18N_OBJS
---- nls/zh_TW.UTF-8/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
-+++ nls/zh_TW.UTF-8/XI18N_OBJS	2010-11-21 18:48:45.802760490 -0800
+diff --git a/nls/zh_TW.UTF-8/XI18N_OBJS b/nls/zh_TW.UTF-8/XI18N_OBJS
+index a3a644b..1e48fef 100644
+--- a/nls/zh_TW.UTF-8/XI18N_OBJS
++++ b/nls/zh_TW.UTF-8/XI18N_OBJS
 @@ -3,5 +3,9 @@
  #	XI18N objects table for zh_TW.UTF-8 locale
  #
@@ -34,9 +35,10 @@ diff -urp -x '*~' -x '*.orig' nls/zh_TW.UTF-8/XI18N_OBJS nls/zh_TW.UTF-8/XI18N_O
 +XIM	common/ximll		_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
-diff -urp -x '*~' -x '*.orig' nls/zh_TW.UTF-8/XLC_LOCALE.pre nls/zh_TW.UTF-8/XLC_LOCALE.pre
---- nls/zh_TW.UTF-8/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/zh_TW.UTF-8/XLC_LOCALE.pre	2010-11-21 18:48:45.803025953 -0800
+diff --git a/nls/zh_TW.UTF-8/XLC_LOCALE.pre b/nls/zh_TW.UTF-8/XLC_LOCALE.pre
+index d5b19c0..4f55b70 100644
+--- a/nls/zh_TW.UTF-8/XLC_LOCALE.pre
++++ b/nls/zh_TW.UTF-8/XLC_LOCALE.pre
 @@ -47,6 +47,7 @@ fs3	{
  		name	ISO10646-1
  	}

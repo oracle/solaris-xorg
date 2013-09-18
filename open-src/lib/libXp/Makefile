@@ -29,15 +29,15 @@
 MODULE_NAME=libXp
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7ae1d63748e79086bd51a633da1ff1a9
-TARBALL_SHA1 = 9c76823c7cfcb43f097963d0c930dcc4e38807a8
+TARBALL_MD5   = bb038577c7f4e42a1b675fa6451bc4aa
+TARBALL_SHA1  = bac586283c089536e526529de21b13778a428c07
+TARBALL_SHA256= 952fe5b5e90abd2cf04739aef3a9b63a253cd9309ed066a82bab7ca9112fd0b5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch 6724993.patch
-SOURCE_PATCHES += CVE-2013-2062.patch,-p1
 
 # Since we're patching src/Makefile.am in solaris-abi.patch,
 # we need to autoreconf

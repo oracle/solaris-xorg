@@ -29,17 +29,16 @@
 MODULE_NAME=libFS
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 645f83160cf7b562734e2038045106d1
-TARBALL_SHA1  = f114f32f60eb84d3e1d0e6f0dfe7679b07e91295
-TARBALL_SHA256= 7073761e7594d43180a922605fb64cce60e5ccb8c06f8efa24f2d4621f5e8315
+TARBALL_MD5   = e3c77ca27942ebc5eb2ca99f29363515
+TARBALL_SHA1  = 3a94bc42775f4aa2eac14a51e0043299d7cd31b6
+TARBALL_SHA256= 22eb3005dd8053aef7ff82758da5dd59ca9738410bcf847e675780e3a1f96107
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-abi.patch,-p1
 SOURCE_PATCHES += lint.patch,-p1
-SOURCE_PATCHES += CVE-2013-1996.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

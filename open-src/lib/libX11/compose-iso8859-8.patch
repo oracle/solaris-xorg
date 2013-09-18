@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/iso8859-8/Compose.pre nls/iso8859-8/Compose.pre
---- nls/iso8859-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/iso8859-8/Compose.pre	2010-06-07 15:49:32.801727080 -0700
+diff --git a/nls/iso8859-8/Compose.pre b/nls/iso8859-8/Compose.pre
+index 1ca90c7..108087e 100644
+--- a/nls/iso8859-8/Compose.pre
++++ b/nls/iso8859-8/Compose.pre
 @@ -1,14 +1,57 @@
 +XCOMM Arabic input table (Ascii input mode)
  XCOMM

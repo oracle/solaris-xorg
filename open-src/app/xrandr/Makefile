@@ -29,11 +29,12 @@
 MODULE_NAME=xrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 4d68317238bb14a33c0e419233d57d87
-TARBALL_SHA1 = 01bdbe3905e19fad93fe9fcb6185f16d22ad33b2
+TARBALL_MD5   = 52c3de0297bf45be6a189dc2e0515638
+TARBALL_SHA1  = 48d59ff6403c116daaf2c73185a57141ed4089fc
+TARBALL_SHA256= 67b554ab975652778bef587f86dab7fec8cb95dfd21c11d98a203dac5c241e50
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
@@ -49,6 +50,8 @@ MODULE_ARC_CASES = PSARC/2005/189
 MODULE_ARC_CASES += PSARC/2007/430
 # PSARC/2009/269 X Resize, Rotate and Reflect (RandR) 1.3
 MODULE_ARC_CASES += PSARC/2009/269
+# PSARC/2013/089 X11 application updates
+MODULE_ARC_CASES += PSARC/2013/089
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/xrandr.man

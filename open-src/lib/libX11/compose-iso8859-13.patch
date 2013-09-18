@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/iso8859-13/Compose.pre nls/iso8859-13/Compose.pre
---- nls/iso8859-13/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/iso8859-13/Compose.pre	2010-06-07 15:49:34.269131380 -0700
+diff --git a/nls/iso8859-13/Compose.pre b/nls/iso8859-13/Compose.pre
+index 3e02ca9..c95fce0 100644
+--- a/nls/iso8859-13/Compose.pre
++++ b/nls/iso8859-13/Compose.pre
 @@ -1,18 +1,106 @@
  XCOMM
  XCOMM ISO 8859-13 (Latin7) Compose Sequence

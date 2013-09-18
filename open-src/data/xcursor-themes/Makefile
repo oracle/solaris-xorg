@@ -31,11 +31,12 @@ MODULE_NAME=xcursor-themes
 MODULE_DESC = cursor themes from X.Org
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ba21aad0b353f1881f5069e423a44587
-TARBALL_SHA1 = d65dd5cb931bf4a9722e64b5a265eb14dcc6ec09
+TARBALL_MD5   = fdfb0ad9cfceed60e3bfe9f18765aa0d
+TARBALL_SHA1  = fb22702607810607ab1b9cde1c9a033430c5f037
+TARBALL_SHA256= e3fd2c05b9df0d88a3d1192c02143295744685f4f9a03db116e206698331bb86
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -32,32 +32,32 @@ MODULE_PKGNAME_SET=yes
 
 # Package metadata
 MODULE_DESC = the multiple visual version of xmag screen magnification utility
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
-# Version number (used in path names)
-MODULE_VERSION=1.0.4
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1990, 2011
 
-# Checksums for upstream tarball
-TARBALL_MD5  = 2a76128511214bde973258baef537be3
-TARBALL_SHA1 = 95695d4d4a731e5deb4196a0cc6d04ecaba023fe
-
-# Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6726838.patch
-
-AUTORECONF=yes
-
-# Directory created by unpacking source
-SOURCE_DIRNAME=xmag-$(MODULE_VERSION)
-SOURCE_DIRNAME_SET=yes
-
-# Merge in additional sources from sun-src directory
+# No upstream sources, only local sources
+MODULE_VERSION=src
+SOURCE_TARBALL_NAME=NONE
+SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=xmag_multivis.man
 MODULE_STABILITY=Committed
+
+# No configure script to run
+CONFIGURE_TARGETS=
+CONFIGURE_TARGETS_SET=yes
+
+# Since we don't have a configure script, pass configure flags to make
+MODULE_CONFIG_ENV = PREFIX=$(MODULE_PREFIX) $(CONSTANT_TIME)
+MODULE_BUILD_MAKEFLAGS  = $(CONFIG_ENV)
+MODULE_INSTALL_MAKEFLAGS= $(CONFIG_ENV)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xmag_multivis
 
 include ../Makefile.inc
-

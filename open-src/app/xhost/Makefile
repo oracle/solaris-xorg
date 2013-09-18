@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xhost utility for mananging X server access control lists
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a0fcd2cb6ddd9f378944cc6f4f83cd7c
-TARBALL_SHA1  = c9ad0447c709fc7a9a2afbbca712cf47fbb29757
-TARBALL_SHA256= 2870d19f3f4867ead5ba4e35bb73d1fa302be29d812c13e4195066c78d1f8850
+TARBALL_MD5   = f1669af1fe0554e876f03319c678e79d
+TARBALL_SHA1  = 6224c8bcd909bf205c7e92dbdc349356890c4428
+TARBALL_SHA256= a6f5b922df0a7be5d3ba43f525fa8e69c539c738418f013a0b7adaa423a89dc2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += xhost.patch,-p1

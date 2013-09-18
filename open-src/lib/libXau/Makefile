@@ -2,7 +2,7 @@
 #
 # libXau - library for manipulating .Xauthority files
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXau
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 2d241521df40d27034413436d1a1465c
-TARBALL_SHA1  = 29c47207fd246425b906f525b2220235ce4cd0f6
-TARBALL_SHA256= 7153ba503e2362d552612d9dc2e7d7ad3106d5055e310a26ecf28addf471a489
+TARBALL_MD5   = 685f8abbffa6d145c0f930f00703b21b
+TARBALL_SHA1  = d9512d6869e022d4e9c9d33f6d6199eda4ad096b
+TARBALL_SHA256= fdd477320aeb5cdd67272838722d6b7d544887dfe7de46e1e7cc0c27c2bea4f2
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

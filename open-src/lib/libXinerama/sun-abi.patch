@@ -26,10 +26,11 @@
 Solaris already has the old XPanoramiX* API in libXext, so we don't export
 it from libXinerama to avoid symbol clashes.
 
-diff -urp -x '*~' -x '*.orig' src/Xinerama.c src/Xinerama.c
---- src/Xinerama.c	2010-10-06 21:13:01.000000000 -0700
-+++ src/Xinerama.c	2011-02-11 16:43:46.565053733 -0800
-@@ -72,6 +72,9 @@ static XEXT_GENERATE_CLOSE_DISPLAY (clos
+diff --git a/src/Xinerama.c b/src/Xinerama.c
+index 67a35b5..e0e5c5d 100644
+--- a/src/Xinerama.c
++++ b/src/Xinerama.c
+@@ -89,6 +89,9 @@ static XEXT_GENERATE_CLOSE_DISPLAY (close_display, panoramiX_ext_info)
   *                                                                          *
   ****************************************************************************/
  
@@ -39,7 +40,7 @@ diff -urp -x '*~' -x '*.orig' src/Xinerama.c src/Xinerama.c
  Bool XPanoramiXQueryExtension (
      Display *dpy,
      int *event_base_return,
-@@ -90,6 +93,9 @@ Bool XPanoramiXQueryExtension (
+@@ -107,6 +110,9 @@ Bool XPanoramiXQueryExtension (
  }
  
  
@@ -49,7 +50,7 @@ diff -urp -x '*~' -x '*.orig' src/Xinerama.c src/Xinerama.c
  Status XPanoramiXQueryVersion(
      Display *dpy,
      int     *major_version_return,
-@@ -120,6 +126,7 @@ Status XPanoramiXQueryVersion(
+@@ -137,6 +143,7 @@ Status XPanoramiXQueryVersion(
      return 1;
  }
  
@@ -57,7 +58,7 @@ diff -urp -x '*~' -x '*.orig' src/Xinerama.c src/Xinerama.c
  XPanoramiXInfo *XPanoramiXAllocInfo(void)
  {
  	return (XPanoramiXInfo *) Xmalloc (sizeof (XPanoramiXInfo));
-@@ -215,6 +222,7 @@ Status XPanoramiXGetScreenSize (
+@@ -232,6 +239,7 @@ Status XPanoramiXGetScreenSize (
      panoramiX_info->height = rep.height;
      return 1;
  }

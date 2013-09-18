@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 
 
 diff --git a/src/KeyBind.c b/src/KeyBind.c
-index 221cedd..732c0cf 100644
+index a49de3d..86bd3b6 100644
 --- a/src/KeyBind.c
 +++ b/src/KeyBind.c
 @@ -45,6 +45,7 @@ in this Software without prior written authorization from The Open Group.
@@ -280,7 +280,7 @@ index 221cedd..732c0cf 100644
  }
  
  static void
-@@ -1076,3 +1214,290 @@ ComputeMaskFromKeytrans(
+@@ -1074,3 +1212,290 @@ ComputeMaskFromKeytrans(
      }
      p->state &= AllMods;
  }
@@ -538,7 +538,7 @@ index 221cedd..732c0cf 100644
 +static int
 +DoCompose(KeySym first_keysym, KeySym second_keysym, KeySym *result_keysym)
 +{
-+    ComposeTableEntry *ptr;
++    const ComposeTableEntry *ptr;
 +
 +        /* Note:  this code presumes first_keysym rangecheck has
 +         * been done in invoking routine.
@@ -572,7 +572,7 @@ index 221cedd..732c0cf 100644
 +}
 +#endif /* SUNSOFT_KBD */
 diff --git a/src/imConv.c b/src/imConv.c
-index c3c1974..40f5328 100644
+index c3c1974..ec8493f 100644
 --- a/src/imConv.c
 +++ b/src/imConv.c
 @@ -213,7 +213,9 @@ _XimLookupMBText(
@@ -580,7 +580,7 @@ index c3c1974..40f5328 100644
  		count = 0;
  	    } else {
 -                count = nbytes - to_len;
-+                if(count != 0){
++                if (count != 0){
 +                    count = nbytes - to_len;
 +                }
  	    }
@@ -591,7 +591,7 @@ index c3c1974..40f5328 100644
  		count = 0;
  	    } else {
 -                count = nbytes - to_len;
-+                if(count != 0){
++                if (count != 0){
 +                    count = nbytes - to_len;
 +                }
  	    }
@@ -602,19 +602,19 @@ index c3c1974..40f5328 100644
  	    count = 0;
  	} else {
 -            count = nbytes - to_len;
-+            if(count != 0){
++            if (count != 0){
 +                count = nbytes - to_len;
 +            }
  	}
      }
      /* FIXME:
 diff --git a/src/xkb/XKBBind.c b/src/xkb/XKBBind.c
-index 1c16adc..3370896 100644
+index 29870b5..9e95c02 100644
 --- a/src/xkb/XKBBind.c
 +++ b/src/xkb/XKBBind.c
-@@ -53,6 +53,12 @@ static int _XkbLoadDpy(
-     Display *dpy
- );
+@@ -51,6 +51,12 @@ from The Open Group.
+ 
+ static int _XkbLoadDpy(Display *dpy);
  
 +static int XkbTranslateKeySymExt(
 +    register Display * dpy, register KeySym *sym_rtrn, unsigned int mods,
@@ -623,126 +623,126 @@ index 1c16adc..3370896 100644
 +);
 +
  struct _XKeytrans {
- 	struct _XKeytrans *next;/* next on list */
- 	char *string;		/* string to return when the time comes */
-@@ -577,6 +583,20 @@ XkbTranslateKeySym(	register Display *	dpy,
- 			int 			nbytes,
- 			int *			extra_rtrn)
+     struct _XKeytrans *next;    /* next on list */
+     char *string;               /* string to return when the time comes */
+@@ -599,6 +605,20 @@ XkbTranslateKeySym(register Display *dpy,
+                    int nbytes,
+                    int *extra_rtrn)
  {
-+	/* Call the new extended function but put in NULL for the extra params */
-+	return XkbTranslateKeySymExt(dpy, sym_rtrn, mods, buffer, nbytes, extra_rtrn, NULL, NULL);
++       /* Call the new extended function but put in NULL for the extra params */
++       return XkbTranslateKeySymExt(dpy, sym_rtrn, mods, buffer, nbytes, extra_rtrn, NULL, NULL);
 +}
 +
 +static int
-+XkbTranslateKeySymExt(	register Display *	dpy,
-+			register KeySym *	sym_rtrn,
-+			unsigned int 		mods,
-+			char *			buffer,
-+			int 			nbytes,
-+			int *			extra_rtrn,
-+			XKeyEvent *		event,
-+			XComposeStatus *	status)
++XkbTranslateKeySymExt(register Display *dpy,
++                      register KeySym *sym_rtrn,
++                      unsigned int mods,
++                      char *buffer,
++                      int nbytes,
++                      int *extra_rtrn,
++                      XKeyEvent *event,
++                      XComposeStatus *status)
 +{
-     register XkbInfoPtr	xkb;
+     register XkbInfoPtr xkb;
      XkbKSToMBFunc cvtr;
      XPointer priv;
-@@ -618,6 +638,17 @@ XkbTranslateKeySym(	register Display *	dpy,
+@@ -641,6 +661,17 @@ XkbTranslateKeySym(register Display *dpy,
  
-     n = (*cvtr)(priv,*sym_rtrn,buffer,nbytes,extra_rtrn);
+     n = (*cvtr) (priv, *sym_rtrn, buffer, nbytes, extra_rtrn);
  
 +    /* Add Suns specific compose key handler here. Be sure the special
 +     * globals are set before calling this function.
 +     */
 +    {
-+	int return_val;
++       int return_val;
 +
-+	if (event && HandleComposeSequence(*sym_rtrn, buffer, sym_rtrn,
-+					  status, &return_val, event))
-+	    return return_val;
++       if (event && HandleComposeSequence(*sym_rtrn, buffer, sym_rtrn,
++                                         status, &return_val, event))
++           return return_val;
 +    }
 +
-     if ((!xkb->cvt.KSToUpper)&&( mods&LockMask )) {
- 	register int i;
- 	int change;
-@@ -744,9 +775,9 @@ XLookupString (	register XKeyEvent *	event,
+     if ((!xkb->cvt.KSToUpper) && (mods & LockMask)) {
+         register int i;
+         int change;
+@@ -774,9 +805,9 @@ XLookupString(register XKeyEvent *event,
  #endif
- 		    for (n=len=0;rtrn.sym[n]!=XK_VoidSymbol;n++) {
- 			if ( nbytes-len > 0 ) {
--			    len+= XkbTranslateKeySym(dpy,&rtrn.sym[n],new_mods,
-+			    len+= XkbTranslateKeySymExt(dpy,&rtrn.sym[n],new_mods,
- 							buffer+len,nbytes-len,
--							NULL);
-+							NULL, event, status);
- 			}
- 		    }
- 		    if ( keysym!=NULL ) {
-@@ -772,16 +803,16 @@ XLookupString (	register XKeyEvent *	event,
- 			len = (int)strlen(buffer);
- 		    }
- 		    else {
--			len = XkbTranslateKeySym(dpy,keysym,new_mods,
-+			len = XkbTranslateKeySymExt(dpy,keysym,new_mods,
- 							buffer,nbytes,
--							NULL);
-+							NULL, event, status);
- 		    }
- 		    for (n=0;rtrn.sym[n]!=XK_VoidSymbol;n++) {
- 			if ( nbytes-len > 0 ) {
--			    len+= XkbTranslateKeySym(dpy,&rtrn.sym[n],
-+			    len+= XkbTranslateKeySymExt(dpy,&rtrn.sym[n],
- 							event->state,
- 							buffer+len,nbytes-len,
--							NULL);
-+							NULL, event, status);
- 			}
- 		    }
- 		    return len;
-@@ -802,7 +833,8 @@ XLookupString (	register XKeyEvent *	event,
-     if (rtrnLen>0)
- 	return rtrnLen;
+                 for (n = len = 0; rtrn.sym[n] != XK_VoidSymbol; n++) {
+                     if (nbytes - len > 0) {
+-                        len += XkbTranslateKeySym(dpy, &rtrn.sym[n], new_mods,
++                        len += XkbTranslateKeySymExt(dpy, &rtrn.sym[n], new_mods,
+                                                   buffer + len, nbytes - len,
+-                                                  NULL);
++                                                  NULL, event, status);
+                     }
+                 }
+                 if (keysym != NULL) {
+@@ -804,15 +835,16 @@ XLookupString(register XKeyEvent *event,
+                     len = (int) strlen(buffer);
+                 }
+                 else {
+-                    len = XkbTranslateKeySym(dpy, keysym, new_mods,
+-                                             buffer, nbytes, NULL);
++                    len = XkbTranslateKeySymExt(dpy, keysym, new_mods,
++                                                buffer, nbytes, NULL,
++                                                event, status);
+                 }
+                 for (n = 0; rtrn.sym[n] != XK_VoidSymbol; n++) {
+                     if (nbytes - len > 0) {
+-                        len += XkbTranslateKeySym(dpy, &rtrn.sym[n],
++                        len += XkbTranslateKeySymExt(dpy, &rtrn.sym[n],
+                                                   event->state,
+                                                   buffer + len, nbytes - len,
+-                                                  NULL);
++                                                  NULL, event, status);
+                     }
+                 }
+                 return len;
+@@ -833,7 +865,8 @@ XLookupString(register XKeyEvent *event,
+     if (rtrnLen > 0)
+         return rtrnLen;
  
--    return XkbTranslateKeySym(dpy,keysym,new_mods,buffer,nbytes,NULL);
-+    return XkbTranslateKeySymExt(dpy,keysym,new_mods,buffer,nbytes,NULL,
-+				 event,status);
+-    return XkbTranslateKeySym(dpy, keysym, new_mods, buffer, nbytes, NULL);
++    return XkbTranslateKeySymExt(dpy ,keysym, new_mods, buffer, nbytes, NULL,
++                                 event, status);
  }
  
  
 diff --git a/src/xkb/XKBlibint.h b/src/xkb/XKBlibint.h
-index ce14527..9945321 100644
+index ca7dc0b..70e2475 100644
 --- a/src/xkb/XKBlibint.h
 +++ b/src/xkb/XKBlibint.h
-@@ -175,10 +175,19 @@ extern int _XTranslateKey(
+@@ -169,10 +169,19 @@ extern int _XTranslateKey(
  
- extern int	_XTranslateKeySym(
-     Display *		/* dpy */,
+ extern int      _XTranslateKeySym(
+     Display *           /* dpy */,
 +#ifdef SUNSOFT_KBD
-+    register KeySym *	/* symbol */,
++    register KeySym *   /* symbol */,
 +#else
-     register KeySym 	/* symbol */,
+     register KeySym     /* symbol */,
 +#endif
-     unsigned int 	/* modifiers */,
-     char *		/* buffer */,
-     int 		/* nbytes */
+     unsigned int        /* modifiers */,
+     char *              /* buffer */,
+     int                 /* nbytes */
 +#ifdef SUNSOFT_KBD
-+	,
-+     XKeyEvent *	/* event */,
-+     XComposeStatus *	/* status */
++       ,
++    XKeyEvent *         /* event */,
++    XComposeStatus *    /* status */
 +#endif
  );
  
- extern	int _XLookupString(
-@@ -338,6 +347,17 @@ extern	Status	_XkbReadGetGeometryReply(
+ extern  int _XLookupString(
+@@ -332,6 +341,17 @@ extern  Status  _XkbReadGetGeometryReply(
  
  #endif
  
 +#ifdef SUNSOFT_KBD
 +extern int HandleComposeSequence(
-+	KeySym		 symbol,
-+	char		*buffer,
-+	KeySym		*keysym,
-+	XComposeStatus	*status,
-+	int		*return_val,
-+	XKeyEvent	*event);
++       KeySym           symbol,
++       char            *buffer,
++       KeySym          *keysym,
++       XComposeStatus  *status,
++       int             *return_val,
++       XKeyEvent       *event);
 +#endif /* SUNSOFT_KBD */
 +
 +
@@ -750,7 +750,7 @@ index ce14527..9945321 100644
  
  #endif /* _XKBLIBINT_H_ */
 diff --git a/src/xlibi18n/ICWrap.c b/src/xlibi18n/ICWrap.c
-index 1eacfa5..72f6b9d 100644
+index 2a1d0d6..8b445ef 100644
 --- a/src/xlibi18n/ICWrap.c
 +++ b/src/xlibi18n/ICWrap.c
 @@ -67,6 +67,12 @@ from The Open Group.

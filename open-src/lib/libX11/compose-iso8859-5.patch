@@ -21,15 +21,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -ru nls/iso8859-5/Compose.pre nls.new/iso8859-5/Compose.pre
-diff -urp -x '*~' -x '*.orig' nls/iso8859-5/Compose.pre nls/iso8859-5/Compose.pre
---- nls/iso8859-5/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/iso8859-5/Compose.pre	2010-06-07 15:49:30.652025458 -0700
+diff --git a/nls/iso8859-5/Compose.pre b/nls/iso8859-5/Compose.pre
+index 01ee440..8dbb2c4 100644
+--- a/nls/iso8859-5/Compose.pre
++++ b/nls/iso8859-5/Compose.pre
 @@ -3,12 +3,165 @@ XCOMM ISO 8859-5 Compose Sequence
  XCOMM
  XCOMM Sequence Definition
  XCOMM
-+XCOMM Copyright (c) 2009, 2006, Oracle and/or its affiliates. All rights reserved.
++XCOMM Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
 +XCOMM
 +XCOMM Copyright (C) 1994 X Consortium
 +XCOMM

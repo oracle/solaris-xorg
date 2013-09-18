@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,15 +20,16 @@
 # DEALINGS IN THE SOFTWARE.
 
 Change .so version to match existing Solaris libraries, since there's
-no incompatible change since libFS.so.5
+no incompatible change since libFS.so.5, and use our versioning mapfile
+instead of just using the regex to control the exported symbols.
 
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 06e958f..c668d15 100644
+index 56fd0db..ccc2a83 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -40,7 +40,7 @@ libFS_la_LIBADD = $(FS_LIBS)
+@@ -40,7 +40,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include/X11/fonts
  
- INCLUDES = -I$(top_srcdir)/include/X11/fonts
+ libFS_la_LIBADD = $(FS_LIBS)
  
 -libFS_la_LDFLAGS = -export-symbols-regex '^FS.*' -version-number 6:0:0 -no-undefined
 +libFS_la_LDFLAGS = -M $(top_srcdir)/../../mapfile-vers -version-number 5 -no-undefined

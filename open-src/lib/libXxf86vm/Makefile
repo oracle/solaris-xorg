@@ -29,15 +29,15 @@
 MODULE_NAME=libXxf86vm
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ffd93bcedd8b2b5aeabf184e7b91f326
-TARBALL_SHA1  = 57bbf3bb69a49f6a6dec515813394a383f85502f
-TARBALL_SHA256= a564172fb866b1b587bbccb7d041088931029845245e0d15c32ca7f1bb48fc84
+TARBALL_MD5   = e46f6ee4f4567349a3189044fe1bb712
+TARBALL_SHA1  = 5a307415da68e0b71abcf0cb9b5005f16a41ede8
+TARBALL_SHA256= da5e86c32ee2069b9e6d820e4c2e4242d4877cb155a2b2fbf2675a1480ec37b8
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = upstream-error-fixes.patch,-p1 CVE-2013-2001.patch,-p1
+SOURCE_PATCHES =
 
 # Library name
 LIBNAME=Xxf86vm

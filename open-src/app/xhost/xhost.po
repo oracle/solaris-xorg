@@ -55,11 +55,6 @@ msgstr ""
 msgid "%s:  must be on local machine to enable or disable access control.\n"
 msgstr ""
 
-#: xhost.c:393
-#, c-format
-msgid "%s:  unable to get node name for \"%s::\"\n"
-msgstr ""
-
 #: xhost.c:179
 #, c-format
 msgid "%s:  unable to open display \"%s\"\n"

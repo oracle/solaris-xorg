@@ -29,16 +29,16 @@
 MODULE_NAME=xinit
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.3.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 9c0943cbd83e489ad1b05221b97efd44
-TARBALL_SHA1  = 1c287ac016d277f973652fa3707eef6db8353d5a
-TARBALL_SHA256= a1867fdaa83f68750b12ba4305c3c62f5992d0f52cfeb98e96c27a8e690e0235
+TARBALL_MD5   = 3b8da0e6237aee9828cc809c647510a7
+TARBALL_SHA1  = c3c01c8c6012317f995669894d9e7b2838b61e58
+TARBALL_SHA256= 74b2878de6e3d5b5948f1562a77e7f53b4e10621e505ddb278050c7f3cae00af
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6714067.patch,-p1 7023672.patch,-p1 \
-		 7182943.patch
+SOURCE_PATCHES += 7023672.patch,-p1
+SOURCE_PATCHES += 7182943.patch,-p1
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/session/$(MODULE_NAME)

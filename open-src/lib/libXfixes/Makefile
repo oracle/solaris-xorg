@@ -29,15 +29,15 @@
 MODULE_NAME=libXfixes
 
 # Version number (used in path names)
-MODULE_VERSION=5.0
+MODULE_VERSION=5.0.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 678071bd7f9f7467e2fc712d81022318
-TARBALL_SHA1 = 3e4d374e9026111a04cd669d4b3434273fc34fe0
+TARBALL_MD5   = b985b85f8b9386c85ddcfe1073906b4d
+TARBALL_SHA1  = e14fa072bd70b30eef47391cac637bdb4de9e8a3
+TARBALL_SHA256= 63bec085084fa3caaee5180490dd871f1eb2020ba9e9b39a30f93693ffc34767
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = soversion.patch,-p1
-SOURCE_PATCHES += CVE-2013-1983.patch,-p1
 
 # Need to autoreconf since soversion.patch changes Makefile.am's
 AUTORECONF=yes

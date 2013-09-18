@@ -28,24 +28,15 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.13.1
+MODULE_VERSION=0.13.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 399a419ac6a54f0fc07c69c9bdf452dc
-TARBALL_SHA1  = ae4dcf27a1b52c6a1fd90b21165fbaecae34e8ac
-TARBALL_SHA256= 27ab68f645691a4ca258dcc9d131040586e134f9233ce079794496f6264da084
+TARBALL_MD5   = b7c0d3afce14eedca57312a3141ec13a
+TARBALL_SHA1  = 63df515a4c5d5a339a7c1f9e4baa6543efa3c7da
+TARBALL_SHA256= abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	legacy-io.patch,-p1 \
-	scanpci.man.patch \
-	primary-vga.patch,-p1 \
-	scanpci_64bit.patch,-p1 \
-	sparc.patch \
-	nexus_devlist.patch,-p1 \
-	rom_and_scanpci.patch,-p1 \
-	sparc_domain.patch,-p1 \
-	probe_improve.patch,-p1
+SOURCE_PATCHES = scanpci.man.patch 
 
 # Library name
 LIBNAME=libpciaccess
@@ -95,8 +86,6 @@ MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = scanpci
-
-AUTORECONF=yes
 
 include ../Makefile.inc
 

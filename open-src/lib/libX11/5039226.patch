@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,9 +34,10 @@ environment to make sure Xserver is ungrabbed *before* new lock
 requests come in. Without this XSync, a dead lock may formed just like
 this case.
 
-diff -urp -x '*~' -x '*.orig' src/UngrabSvr.c src/UngrabSvr.c
---- src/UngrabSvr.c	2010-09-03 22:52:39.000000000 -0700
-+++ src/UngrabSvr.c	2010-11-21 18:47:54.042619136 -0800
+diff --git a/src/UngrabSvr.c b/src/UngrabSvr.c
+index ea00848..cea7f99 100644
+--- a/src/UngrabSvr.c
++++ b/src/UngrabSvr.c
 @@ -39,6 +39,9 @@ XUngrabServer (
          GetEmptyReq(UngrabServer, req);
          UnlockDisplay(dpy);

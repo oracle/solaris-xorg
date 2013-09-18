@@ -28,11 +28,12 @@
 MODULE_NAME=libxcb
 
 # Version number (used in path names)
-MODULE_VERSION=1.9
+MODULE_VERSION=1.9.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2b05856e9d1cb37836aae7406f2f4ce2
-TARBALL_SHA1 = ad2fb95eeec41ba3d39502a4f7460c3b64fdf061
+TARBALL_MD5   = ed632cb0dc31b6fbd7ea5c0f931cf5a4
+TARBALL_SHA1  = bf786bb7b9089102b73753135e061c87dc8e8685
+TARBALL_SHA256= d44a5ff4eb0b9569e6f7183b51fdaf6f58da90e7d6bfc36b612d7263f83e362f
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -44,9 +45,7 @@ UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = Makefile.am.0.patch,-p1
-SOURCE_PATCHES += Makefile.am.4.patch,-p1
 SOURCE_PATCHES += 16702043.patch
-SOURCE_PATCHES += CVE-2013-2064.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

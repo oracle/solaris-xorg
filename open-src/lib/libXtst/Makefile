@@ -29,16 +29,15 @@
 MODULE_NAME=libXtst
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e8abc5c00c666f551cf26aa53819d592
-TARBALL_SHA1  = 44e19899f9938d3db5546e51c338d6f86d88cfe2
-TARBALL_SHA256= 7eea3e66e392aca3f9dad6238198753c28e1c32fa4903cbb7739607a2504e5e0
+TARBALL_MD5   = 25c6b366ac3dc7a12c5d79816ce96a59
+TARBALL_SHA1  = 7fd92a3c865c3c5e1cc724646babc3e1cdc799bc
+TARBALL_SHA256= ef0a7ffd577e5f1a25b1663b375679529663a1880151beaa73e9186c8309f6d9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = solaris-abi.patch
-SOURCE_PATCHES += CVE-2013-2063.patch,-p1
 
 # Need to regenerate automake files after solaris-abi.patch
 AUTORECONF=yes

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -27,28 +27,28 @@ source community shipped as libXfixes.so.3.   This thus maintains ABI
 compatibility with the existing Solaris binaries.
 
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 544230f..93b58ff 100644
+index 4e3f542..6c8842c 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -13,7 +13,7 @@ AM_CFLAGS = $(CWARNFLAGS) @FIXESEXT_CFLAGS@
+@@ -12,7 +12,7 @@ AM_CFLAGS = $(CWARNFLAGS) @FIXESEXT_CFLAGS@
+ AM_CPPFLAGS = -I$(top_srcdir)/include/X11/extensions
  
- INCLUDES = -I$(top_srcdir)/include/X11/extensions
- 
+ libXfixes_la_LIBADD = @FIXESEXT_LIBS@
 -libXfixes_la_LDFLAGS = -version-number 3:1:0 -no-undefined
 +libXfixes_la_LDFLAGS = -version-number 1 -no-undefined
  
  libXfixesincludedir = $(includedir)/X11/extensions
- libXfixesinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xfixes.h 
+ libXfixesinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xfixes.h
 diff --git a/src/Makefile.in b/src/Makefile.in
-index 904f023..17f3d3b 100644
+index fbf8351..2077f2c 100644
 --- a/src/Makefile.in
 +++ b/src/Makefile.in
-@@ -259,7 +259,7 @@ libXfixes_la_SOURCES = \
- libXfixes_la_LIBADD = @FIXESEXT_LIBS@
+@@ -342,7 +342,7 @@ libXfixes_la_SOURCES = \
  AM_CFLAGS = $(CWARNFLAGS) @FIXESEXT_CFLAGS@
- INCLUDES = -I$(top_srcdir)/include/X11/extensions
+ AM_CPPFLAGS = -I$(top_srcdir)/include/X11/extensions
+ libXfixes_la_LIBADD = @FIXESEXT_LIBS@
 -libXfixes_la_LDFLAGS = -version-number 3:1:0 -no-undefined
 +libXfixes_la_LDFLAGS = -version-number 1 -no-undefined
  libXfixesincludedir = $(includedir)/X11/extensions
- libXfixesinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xfixes.h 
+ libXfixesinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xfixes.h
  all: all-am

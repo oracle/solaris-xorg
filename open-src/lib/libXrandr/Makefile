@@ -29,14 +29,15 @@
 MODULE_NAME=libXrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.4.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0c843636124cc1494e3d87df16957672
-TARBALL_SHA1 = 2353d16635a20521a64838f568bb4c8a10823316
+TARBALL_MD5   = 210ed9499a3d9c96e3a221629b7d39b0
+TARBALL_SHA1  = 00865ccefe1040e4d9866d878556710cdc4b2ae6
+TARBALL_SHA256= caa7b31ac769be51a532343c65376f1d4df3f307afaed58e34fb5e82e8b825ad
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CVE-2013-1986.patch,-p1
+SOURCE_PATCHES =
 
 # Library name
 LIBNAME=Xrandr

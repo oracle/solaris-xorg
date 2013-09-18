@@ -29,15 +29,15 @@
 MODULE_NAME=libXcursor
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.13
+MODULE_VERSION=1.1.14
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 52efa81b7f26c8eda13510a2fba98eea
-TARBALL_SHA1  = 4e461d9e4324689ca8a84706926a8c0fe9470e47
-TARBALL_SHA256= f78827de4a1b7ce8cceca24a9ab9d1b1d2f6a61362f505166ffc19b07c0bad8f
+TARBALL_MD5   = 1e7c17afbbce83e2215917047c57d1b3
+TARBALL_SHA1  = 89870756758439f9216ddf5f2d3dca56570fc6b7
+TARBALL_SHA256= 9bc6acb21ca14da51bda5bc912c8955bc6e5e433f0ab00c5e8bef842596c33df
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CVE-2013-2003.patch,-p1
+SOURCE_PATCHES = 
 
 # Library name
 LIBNAME=Xcursor

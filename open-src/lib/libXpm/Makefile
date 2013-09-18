@@ -2,7 +2,7 @@
 #
 # libXpm - library for handling XPM format images
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXpm
 
 # Version number (used in path names)
-MODULE_VERSION=3.5.10
+MODULE_VERSION=3.5.11
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 7ae7eff7a14d411e84a67bd166bcec1a
-TARBALL_SHA1  = eca9dbfa6253f7d6cc7d593dc83110c6c4876d7c
-TARBALL_SHA256= a6db7e234750e7d60330017972e31d8e1f29f0a8c1391e4ac82f6102d919a735
+TARBALL_MD5   = 769ee12a43611cdebd38094eaf83f3f0
+TARBALL_SHA1  = 77b95dd1c8cd9bc00b3b834b53d824409202acbb
+TARBALL_SHA256= c5bdafa51d1ae30086fac01ab83be8d47fe117b238d3437f8e965434090e041c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = setuid.patch

@@ -1,5 +1,5 @@
 /*
- * Copyright © 1986, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1986, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,6 +20,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
+
+#ifndef _SUNCOMPOSE_H
+#define _SUNCOMPOSE_H
+
 /*
  * Suncompose.h -- Compose Key Sequence Table
  * 
@@ -42,7 +46,7 @@
 
 #define ASCII_SET_SIZE	128
 
-char compose_map[ASCII_SET_SIZE] = {
+const char compose_map[ASCII_SET_SIZE] = {
 	 -1,	/* 000 (^@) */
 	 -1,	/* 001 (^A) */
 	 -1,	/* 002 (^B) */
@@ -189,7 +193,7 @@ typedef struct _ComposeTableEntry {
 
 /* COMPOSE + first character + second character => ISO character */
 
-ComposeTableEntry compose_table[] = {
+const ComposeTableEntry compose_table[] = {
 
 	{' ', ' ', 0xA0},	/* 000 */	/* NBSP (non-breaking space) */
 	{'!', '!', 0xA1},	/* 001 */	/* inverted ! */
@@ -307,3 +311,4 @@ ComposeTableEntry compose_table[] = {
 	{0, 0, 0},			/* end of table */
 };
 
+#endif /* _SUNCOMPOSE_H */

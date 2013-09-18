@@ -27,11 +27,12 @@
 MODULE_NAME=videoproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.1
+MODULE_VERSION=2.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c3b348c6e2031b72b11ae63fc7f805c2
-TARBALL_SHA1 = bb8b366687a7f345e3a8697bac516cb436cbf4b2
+TARBALL_MD5   = e658641595327d3990eab70fdb55ca8b
+TARBALL_SHA1  = aa60e3b93c6a78ad03f1c502b910e7c45faaedbc
+TARBALL_SHA256= 8dae168cb820fcd32f564879afb3f24d27c176300d9af66819a18265539bd4b6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XI18N_OBJS nls/iso8859-6/XI18N_OBJS
---- nls/iso8859-6/XI18N_OBJS	2010-09-03 22:52:38.000000000 -0700
-+++ nls/iso8859-6/XI18N_OBJS	2010-11-21 18:48:33.986029438 -0800
+diff --git a/nls/iso8859-6/XI18N_OBJS b/nls/iso8859-6/XI18N_OBJS
+index ab2d300..82adf9b 100644
+--- a/nls/iso8859-6/XI18N_OBJS
++++ b/nls/iso8859-6/XI18N_OBJS
 @@ -3,5 +3,6 @@
  #	XI18N objects table for iso8859-6 locale
  #
@@ -32,9 +33,10 @@ diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XI18N_OBJS nls/iso8859-6/XI18N_OBJS
 +XIM     common/ximlocal _XimpLocalOpenIM        # XIM_open
 +#XIM	common/ximcp	_XimOpenIM _XimRegisterIMInstantiateCallback  _XimUnRegisterIMInstantiateCallback # XIM_open	XIM_register XIM_unregister
  XOM	common/xomGeneric 	_XomGenericOpenOM	# XOM_open
-diff -urp -x '*~' -x '*.orig' nls/iso8859-6/XLC_LOCALE.pre nls/iso8859-6/XLC_LOCALE.pre
---- nls/iso8859-6/XLC_LOCALE.pre	2010-09-03 22:52:38.000000000 -0700
-+++ nls/iso8859-6/XLC_LOCALE.pre	2010-11-21 18:48:33.986304874 -0800
+diff --git a/nls/iso8859-6/XLC_LOCALE.pre b/nls/iso8859-6/XLC_LOCALE.pre
+index 5b0d4d4..fd3fe6d 100644
+--- a/nls/iso8859-6/XLC_LOCALE.pre
++++ b/nls/iso8859-6/XLC_LOCALE.pre
 @@ -11,8 +11,7 @@ fs0	{
  		name		ISO8859-1:GL
  	}

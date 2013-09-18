@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xmodmap X11 keyboard/mouse mapping configuration utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = d9b65f6881afe0d6d9863b30e1081bde
-TARBALL_SHA1  = 9f9c6b7bd058c09a8e15b1c4f4eccb972e51ffef
-TARBALL_SHA256= ef22ede9c4a3c720da539292c6911515a8408e618e0dec6aa2196ee2153de4b5
+TARBALL_MD5   = 5511da3361eea4eaa21427652c559e1c
+TARBALL_SHA1  = 44ebb0a1047fc9391422108007c30c64cc0782bc
+TARBALL_SHA256= efe2e3c89858a2db3bdcf969f55f55d0af4f5007789198344de0595249a99fc3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,9 +34,10 @@ same time by multi threads. Adding some lock and unlock code to make
 sure only one thread can access the data at one time fixed the
 problem.
 
-diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
---- src/GetColor.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/GetColor.c	2010-11-21 18:47:53.290042212 -0800
+diff --git a/src/GetColor.c b/src/GetColor.c
+index cd0eb9f..62b3bce 100644
+--- a/src/GetColor.c
++++ b/src/GetColor.c
 @@ -55,12 +55,14 @@ XColor *exact_def) /* RETURN */
      if ((ccc = XcmsCCCOfColormap(dpy, cmap)) != (XcmsCCC)NULL) {
  	const char *tmpName = colorname;
@@ -60,9 +61,10 @@ diff -urp -x '*~' -x '*.orig' src/GetColor.c src/GetColor.c
      }
  #endif
  
-diff -urp -x '*~' -x '*.orig' src/LookupCol.c src/LookupCol.c
---- src/LookupCol.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/LookupCol.c	2010-11-21 18:47:53.290371408 -0800
+diff --git a/src/LookupCol.c b/src/LookupCol.c
+index f7f969f..718e043 100644
+--- a/src/LookupCol.c
++++ b/src/LookupCol.c
 @@ -53,6 +53,7 @@ XLookupColor (
  	if ((ccc = XcmsCCCOfColormap(dpy, cmap)) != (XcmsCCC)NULL) {
  	    const char *tmpName = spec;

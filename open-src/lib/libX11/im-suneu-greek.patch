@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' src/imConv.c src/imConv.c
---- src/imConv.c	2010-09-21 18:25:24.000000000 -0700
-+++ src/imConv.c	2010-11-21 18:47:58.605389418 -0800
+diff --git a/src/imConv.c b/src/imConv.c
+index ec8493f..93e683f 100644
+--- a/src/imConv.c
++++ b/src/imConv.c
 @@ -69,6 +69,7 @@ struct SubstRec {
  };
  

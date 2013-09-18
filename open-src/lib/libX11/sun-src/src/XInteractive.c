@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1993, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1993, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -166,8 +166,9 @@ static IAExtDisplayInfo *ia_find_display(Display *dpy)
 	}
     }
     /* Did not find on list, add new entry */
-    di = (IAExtDisplayInfo *) Xmalloc(sizeof(IAExtDisplayInfo));
-    if (di == NULL) { return NULL; }
+    di = Xcalloc(1, sizeof(IAExtDisplayInfo));
+    if (di == NULL)
+        return NULL;
     di->display = dpy;
     di->codes = XInitExtension(dpy, ia_extension_name);
     di->next = iaExtDisplayList;
@@ -261,11 +262,12 @@ XSolarisIAGetProcessInfo(
 	return False;
     }
     *count = rep.count;
-    *Pinfo = (unsigned char *)Xmalloc((rep.count) * sizeof(ConnectionPidRec));
+    *Pinfo = Xcalloc(rep.count, sizeof(ConnectionPidRec));
     if (*Pinfo == NULL) {
-            UnlockDisplay(dpy);
-            SyncHandle();
-            return False;   /* not Success */
+        _XEatDataWords(dpy, rep.length);
+        UnlockDisplay(dpy);
+        SyncHandle();
+        return False;   /* not Success */
     }
     length = rep.count << 2;
     _XRead32(dpy, (long *)(*Pinfo), length);
@@ -297,7 +299,7 @@ XSolarisIASetProcessInfo(
     req->length            += count;
     req->uid                = (CARD32)getuid();
     if (flags & INTERACTIVE_INFO) {
-        length=count << 2;
+        length = count << 2;
 	Data32(dpy, (long *)Pinfo, length);
     }
     if (flags & INTERACTIVE_SETTING) {

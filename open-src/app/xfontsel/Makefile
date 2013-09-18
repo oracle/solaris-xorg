@@ -2,7 +2,7 @@
 #
 # xfontsel - simple X11 font selection/display application
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xfontsel
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3f7e8ba9e34589a07d190575ae6c86cf
-TARBALL_SHA1  = 8e3da9d050ad71531bfeb98d5f1071c7b392b3bd
-TARBALL_SHA256= 25491e9b7762607299f8a7099c97452d9b83e92266f8b0579b380ca01e5a5f7e
+TARBALL_MD5   = a40302b88c599b63e3d3d412e02871e6
+TARBALL_SHA1  = fbd8fa8a1c87d8da2e71def964e97bca1d4c4adf
+TARBALL_SHA256= 170d8550b96fb47b04db6181b947e6f6b8b97f4df5d691c351a278480cc931bf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = xfontsel.patch,-p1
@@ -52,6 +52,7 @@ MODULE_X11_BINCOMPAT_LINKS = xfontsel
 
 include ../Makefile.inc
 
-install_po:
+install_po: $(SOURCE_TARGETS)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	cp -f xfontsel.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	(cd $(SOURCE_DIR) ; xgettext -n -d xfontsel *.c)
+	cp -f $(SOURCE_DIR)/xfontsel.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

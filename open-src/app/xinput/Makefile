@@ -29,12 +29,12 @@
 MODULE_NAME=xinput
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.0
+MODULE_VERSION=1.6.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = d2459d35b4e0b41ded26a1d1159b7ac6
-TARBALL_SHA1  = 958b77a2acf52197b9a1e3e3d11e9bc57fbb1e6c
-TARBALL_SHA256= 4ab007d952c76665603bcb82ceb15fd3929d10faf0580fc4873ac16f5f63847e
+TARBALL_MD5   = 305980ac78a6954e306a14d80a54c441
+TARBALL_SHA1  = 859d98b428c4b343f40fd93dd6c63bec1f546ae4
+TARBALL_SHA256= b7632d0f228a8a6be93b09857ea413940fcf44091e60f4a0fe9f5fd82efd871f
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities
@@ -48,7 +48,7 @@ MODULE_DESC = the xinput input device management utility
 MODULE_ARC_CASES = LSARC/2009/506
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES=man/xinput.man
 MODULE_STABILITY=Volatile
 
 # Compatibility links from /usr/X11/bin to /usr/bin

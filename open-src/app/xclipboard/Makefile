@@ -34,12 +34,12 @@ MODULE_PKGCLASS_SET=yes
 MODULE_DESC = the xclipboard & xcutsel utilities
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f53f9276c0d009b539d7f64c6db9f0ff
-TARBALL_SHA1  = 8dc77e1234c1c2853805124536676a4d5f7c7a3b
-TARBALL_SHA256= 5f3b12da1eae4ed24883d8a5633b6150a0291deede818aeb5c9e827599b6429e
+TARBALL_MD5   = 3facff108f65b0733b04becf20274e45
+TARBALL_SHA1  = 971ac3900b4eb5ad54f3c3d9527e96ccdcb9e504
+TARBALL_SHA256= 9c0e0a1f4f1d49f73c6cf3ccd27b5ca0e18afc63679f1a1ee466b1d82446ebb5
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

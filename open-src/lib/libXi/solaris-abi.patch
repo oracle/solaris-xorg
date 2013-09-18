@@ -1,8 +1,8 @@
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 806265c..ad41371 100644
+index fbbca45..eb24a4d 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -73,7 +73,7 @@ AM_CFLAGS = $(XI_CFLAGS) \
+@@ -75,7 +75,7 @@ AM_CFLAGS = $(XI_CFLAGS) \
              $(CWARNFLAGS)
  
  
@@ -12,10 +12,10 @@ index 806265c..ad41371 100644
  libXiincludedir = $(includedir)/X11/extensions
  libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h \
 diff --git a/src/Makefile.in b/src/Makefile.in
-index b3c9830..776ba0c 100644
+index 2f58bbb..6c0f927 100644
 --- a/src/Makefile.in
 +++ b/src/Makefile.in
-@@ -343,7 +343,7 @@ AM_CFLAGS = $(XI_CFLAGS) \
+@@ -430,7 +430,7 @@ AM_CFLAGS = $(XI_CFLAGS) \
              $(MALLOC_ZERO_CFLAGS) \
              $(CWARNFLAGS)
  

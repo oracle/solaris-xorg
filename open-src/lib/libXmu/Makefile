@@ -2,7 +2,7 @@
 #
 # libXmu - miscellaneous utility functions based on libX11 & libXt
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,14 @@
 MODULE_NAME=libXmu
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a4efff8de85bd45dd3da124285d10c00
-TARBALL_SHA1  = 3e280aa927d78c05f94db6c7ae606f7ad132b495
-TARBALL_SHA256= 709081c550cc3a866d7c760a3f97384a1fe16e27fc38fe8169b8db9f33aa7edd
+TARBALL_MD5   = 41d92ab627dfa06568076043f3e089e4
+TARBALL_SHA1  = 7e6aeef726743d21aa272c424e7d7996e92599eb
+TARBALL_SHA256= 756edc7c383254eef8b4e1b733c3bf1dc061b523c9f9833ac7058378b8349d0b
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += bitmap-path.patch
 SOURCE_PATCHES += solaris-abi.patch
 
 # Library name (used for specfiles/mapfiles)

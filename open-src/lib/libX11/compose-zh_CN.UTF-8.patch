@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +21,12 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/zh_CN.UTF-8/Compose.pre nls/zh_CN.UTF-8/Compose.pre
---- nls/zh_CN.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/zh_CN.UTF-8/Compose.pre	2010-06-07 15:49:40.781722582 -0700
-@@ -0,0 +1,2538 @@
+diff --git a/nls/zh_CN.UTF-8/Compose.pre b/nls/zh_CN.UTF-8/Compose.pre
+index 6c2c411..eb35680 100644
+--- a/nls/zh_CN.UTF-8/Compose.pre
++++ b/nls/zh_CN.UTF-8/Compose.pre
+@@ -1 +1,2538 @@
+-include "X11_LOCALEDATADIR/en_US.UTF-8/Compose"
 +XCOMM
 +XCOMM Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
 +XCOMM

@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compose.pre
---- nls/el_GR.UTF-8/Compose.pre	2010-01-14 17:11:36.000000000 -0800
-+++ nls/el_GR.UTF-8/Compose.pre	2010-06-07 15:49:35.703893203 -0700
+diff --git a/nls/el_GR.UTF-8/Compose.pre b/nls/el_GR.UTF-8/Compose.pre
+index ad90337..834af21 100644
+--- a/nls/el_GR.UTF-8/Compose.pre
++++ b/nls/el_GR.UTF-8/Compose.pre
 @@ -1,1981 +1,2680 @@
  XCOMM
 +XCOMM Copyright 1996, 2002, Oracle and/or its affiliates. All rights reserved.
@@ -1082,18 +1083,7 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<diaeresis> <e>		: "\xc3\xab"	ediaeresis
 +<diaeresis> <o>		: "\xc3\xb6"	odiaeresis
 +<diaeresis> <u>		: "\xc3\xbc"	udiaeresis
- XCOMM
--XCOMM The definitions herein cover the following ISO 10646 / Unicode
--XCOMM ranges:
--XCOMM	- Basic Latin (0000-007F) (complete coverage)
--XCOMM	- Latin-1 Supplement (0080-00FF) (complete coverage)
--XCOMM	- Greek and Coptic (0370-03FF) (only the big ISO 8859-7 based
--XCOMM	  part at the beginning)
--XCOMM	- Greek Extended (1F00-1FFF) (complete coverage)
--XCOMM	- There are also six (6) characters from other ranges.
--XCOMM Moreover, the following character sets are completely covered:
--XCOMM	- ISO 8859-1
--XCOMM	- ISO 8859-7
++XCOMM
 +XCOMM Additional latin-2 sequences
 +<Ukrainian_IE>          : "\xd0\x84"    Ukrainian_IE
 +<Ukrainian_ie>          : "\xd1\x94"    Ukrainian_ie
@@ -1219,15 +1209,7 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<Multi_key> <r> <apostrophe>	: "\xc5\x95"	racute
 +<Multi_key> <u> <asterisk>	: "\xc5\xaf"	uring
 +<Multi_key> <z> <apostrophe>	: "\xc5\xba"	zacute
- XCOMM
--XCOMM This file consists of four parts. Two of them have been adapted from
--XCOMM the iso8859-1/Compose and iso8859-7/Compose files. The other two
--XCOMM parts have been created by:
--XCOMM	Vasilis Vasaitis <vvas@hal.csd.auth.gr>
--XCOMM based on the idea and initial implementation by:
--XCOMM	Alejandros Diamandidis <adia@egnatia.ee.auth.gr>
--
--XCOMM Part 1
++XCOMM
 +XCOMM Latin-3 sequences
 +<Multi_key> <C> <asciicircum>	: "\xc4\x88"	Ccircumflex
 +<Multi_key> <asciicircum> <C>	: "\xc4\x88"	Ccircumflex
@@ -1299,6 +1281,434 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<Multi_key> <u> <breve>		: "\xc5\xad"	ubreve
 +<Multi_key> <breve> <u>		: "\xc5\xad"	ubreve
 +<Multi_key> <u> <u>		: "\xc5\xad"	ubreve
+ XCOMM
+-XCOMM The definitions herein cover the following ISO 10646 / Unicode
+-XCOMM ranges:
+-XCOMM	- Basic Latin (0000-007F) (complete coverage)
+-XCOMM	- Latin-1 Supplement (0080-00FF) (complete coverage)
+-XCOMM	- Greek and Coptic (0370-03FF) (only the big ISO 8859-7 based
+-XCOMM	  part at the beginning)
+-XCOMM	- Greek Extended (1F00-1FFF) (complete coverage)
+-XCOMM	- There are also six (6) characters from other ranges.
+-XCOMM Moreover, the following character sets are completely covered:
+-XCOMM	- ISO 8859-1
+-XCOMM	- ISO 8859-7
++XCOMM Latin-4 sequences
++<Multi_key> <N> <N>		: "\xc5\x8a"	ENG
++<Multi_key> <U> <a>		: "\xc5\xb2"	Uogonek
++<Multi_key> <u> <a>		: "\xc5\xb3"	uogonek
++<Multi_key> <k> <k>		: "\xc4\xb8"	kra
++<Multi_key> <R> <comma>		: "\xc5\x96"	Rcedilla
++<Multi_key> <comma> <R>		: "\xc5\x96"	Rcedilla
++<Multi_key> <r> <comma>		: "\xc5\x97"	rcedilla
++<Multi_key> <comma> <r>		: "\xc5\x97"	rcedilla
++<Multi_key> <I> <asciitilde>	: "\xc4\xa8"	Itilde
++<Multi_key> <asciitilde> <I>	: "\xc4\xa8"	Itilde
++<Multi_key> <i> <asciitilde>	: "\xc4\xa9"	itilde
++<Multi_key> <asciitilde> <i>	: "\xc4\xa9"	itilde
++<Multi_key> <L> <comma>		: "\xc4\xbb"	Lcedilla
++<Multi_key> <comma> <L>		: "\xc4\xbb"	Lcedilla
++<Multi_key> <l> <comma>		: "\xc4\xbc"	lcedilla
++<Multi_key> <comma> <l>		: "\xc4\xbc"	lcedilla
++<Multi_key> <S> <v>		: "\xc5\xa0"	Scaron
++<Multi_key> <S> <V>		: "\xc5\xa0"	Scaron
++<Multi_key> <v> <S>		: "\xc5\xa0"	Scaron
++<Multi_key> <V> <S>		: "\xc5\xa0"	Scaron
++<Multi_key> <s> <v>		: "\xc5\xa1"	scaron
++<Multi_key> <s> <V>		: "\xc5\xa1"	scaron
++<Multi_key> <v> <s>		: "\xc5\xa1"	scaron
++<Multi_key> <V> <s>		: "\xc5\xa1"	scaron
++<Multi_key> <E> <underscore>	: "\xc4\x92"	Emacron
++<Multi_key> <underscore> <E>	: "\xc4\x92"	Emacron
++<Multi_key> <e> <underscore>	: "\xc4\x93"	emacron
++<Multi_key> <underscore> <e>	: "\xc4\x93"	emacron
++<Multi_key> <G> <comma>		: "\xc4\xa2"	Gcedilla
++<Multi_key> <comma> <G>		: "\xc4\xa2"	Gcedilla
++<Multi_key> <g> <comma>		: "\xc4\xa3"	gcedilla
++<Multi_key> <comma> <g>		: "\xc4\xa3"	gcedilla
++<Multi_key> <T> <bar>		: "\xc5\xa6"	Tslash
++<Multi_key> <bar> <T>		: "\xc5\xa6"	Tslash
++<Multi_key> <t> <bar>		: "\xc5\xa7"	tslash
++<Multi_key> <bar> <t>		: "\xc5\xa7"	tslash
++<Multi_key> <n> <n>		: "\xc5\x8b" 	eng
++<Multi_key> <A> <underscore>	: "\xc4\x80"	Amacron
++<Multi_key> <underscore> <A>	: "\xc4\x80"	Amacron
++<Multi_key> <a> <underscore>	: "\xc4\x81"	amacron
++<Multi_key> <underscore> <a>	: "\xc4\x81"	amacron
++<Multi_key> <d> <underscore>	: "\xc4\x91"
++<Multi_key> <underscore> <d> 	: "\xc4\x91"
++<Multi_key> <N> <comma>		: "\xc5\x85"	Ncedilla
++<Multi_key> <comma> <N>		: "\xc5\x85"	Ncedilla
++<Multi_key> <n> <comma>		: "\xc5\x86"	ncedilla
++<Multi_key> <comma> <n>		: "\xc5\x86"	ncedilla
++<Multi_key> <O> <underscore>	: "\xc5\x8c"	Omacron
++<Multi_key> <underscore> <O>	: "\xc5\x8c"	Omacron
++<Multi_key> <o> <underscore>	: "\xc5\x8d"	omacron
++<Multi_key> <underscore> <o>	: "\xc5\x8d"	omacron
++<Multi_key> <K> <comma>		: "\xc4\xb6"	Kcedilla
++<Multi_key> <comma> <K>		: "\xc4\xb6"	Kcedilla
++<Multi_key> <k> <comma>		: "\xc4\xb7"	kcedilla
++<Multi_key> <comma> <k>		: "\xc4\xb7"	kcedilla
++<Multi_key> <I> <a>		: "\xc4\xae"	Iogonek
++<Multi_key> <a> <I>		: "\xc4\xae"	Iogonek
++<Multi_key> <i> <a>		: "\xc4\xaf"	iogonek
++<Multi_key> <a> <i>		: "\xc4\xaf"	iogonek
++<Multi_key> <E> <period>	: "\xc4\x96"	Eabovedot
++<Multi_key> <e> <period>	: "\xc4\x97"	eabovedot
++<Multi_key> <U> <asciitilde>	: "\xc5\xa8"	Utilde
++<Multi_key> <asciitilde> <U>	: "\xc5\xa8"	Utilde
++<Multi_key> <u> <asciitilde>	: "\xc5\xa9"	utilde
++<Multi_key> <asciitilde> <u>	: "\xc5\xa9"	utilde
++<Multi_key> <U> <underscore>	: "\xc5\xaa"	Umacron
++<Multi_key> <underscore> <U>	: "\xc5\xaa"	Umacron
++<Multi_key> <u> <underscore>	: "\xc5\xab"	umacron
++<Multi_key> <underscore> <u>	: "\xc5\xab"	umacron
++<Multi_key> <I> <underscore>	: "\xc4\xaa"	Imacron
++<Multi_key> <underscore> <I> 	: "\xc4\xaa"	Imacron
++<Multi_key> <i> <underscore>	: "\xc4\xab"	imacron
++<Multi_key> <underscore> <i> 	: "\xc4\xab"	imacron
++
++XCOMM Ctrl<T> combo
++Ctrl<T> <a> <A>			: "\xc4\x84"	Aogonek
++Ctrl<T> <A> <a> 			: "\xc4\x84"	Aogonek
++Ctrl<T> <a> <a> 			: "\xc4\x85"	aogonek
++Ctrl<T> <C> <acute> 		: "\xc4\x86"	Cacute
++Ctrl<T> <c> <acute> 		: "\xc4\x87"	cacute
++Ctrl<T> <acute> <C>			: "\xc4\x86"	Cacute
++Ctrl<T> <acute> <c>			: "\xc4\x87"	cacute
++Ctrl<T> <acute> <N>			: "\xc5\x83"	Nacute
++Ctrl<T> <N> <acute> 		: "\xc5\x83"	Nacute
++XCOMM Ctrl<T> <minus> <D>		: "\xc3\x90"	ETH
++XCOMM Ctrl<T> <minus> <d>		: "\xc3\xb0"	eth
++Ctrl<T> <slash> <D>			: "\xc4\x90"	Dstroke
++Ctrl<T> <slash> <d>			: "\xc4\x91"	dstroke
++Ctrl<T> <caron> <Z>		: "\xc5\xbd"	Zcaron
++Ctrl<T> <Z> <caron> 	: "\xc5\xbd"	Zcaron
++Ctrl<T> <v> <Z>		: "\xc5\xbd"	Zcaron
++Ctrl<T> <Z> <v>		: "\xc5\xbd"	Zcaron
++Ctrl<T> <caron> <z>		: "\xc5\xbe"	zcaron
++Ctrl<T> <z> <caron> 	: "\xc5\xbe"	zcaron
++Ctrl<T> <z> <v>		: "\xc5\xbe"	zcaron
++Ctrl<T> <v> <z>		: "\xc5\xbe"	zcaron
++Ctrl<T> <G> <u>		: "\xc4\x9e"	Gbreve
++Ctrl<T> <u> <G>		: "\xc4\x9e"	Gbreve
++Ctrl<T> <g> <u>		: "\xc4\x9f"	gbreve
++Ctrl<T> <u> <g>		: "\xc4\x9f"	gbreve
++Ctrl<T> <I> <period>	: "\xc4\xb0"	Iabovedot
++Ctrl<T> <period> <I>	: "\xc4\xb0"	Iabovedot
++Ctrl<T> <i> <period>	: "\xc4\xb1"	idotless
++Ctrl<T> <period> <i>	: "\xc4\xb1"	idotless
++Ctrl<T> <space> <breve>	: "\xcb\x98"	breve
++Ctrl<T> <space> <degree>	: "\xc2\xb0"	degree
++Ctrl<T> <space> <ogonek>	: "\xcb\x9b"	ogonek
++Ctrl<T> <space> <caron>	: "\xcb\x87"	caron
++Ctrl<T> <space> <v>		: "\xcb\x87"	caron
++Ctrl<T> <space> <doubleacute> : "\xcb\x9d"	doubleacute
++Ctrl<T> <diaeresis> <A>	: "\xc3\x84"	Adiaeresis
++Ctrl<T> <A> <diaeresis> 	: "\xc3\x84"	Adiaeresis
++Ctrl<T> <diaeresis> <E>	: "\xc3\x8b" 	Ediaeresis
++Ctrl<T> <E> <diaeresis> 	: "\xc3\x8b" 	Ediaeresis
++Ctrl<T> <diaeresis> <O>	: "\xc3\x96"	Odiaeresis
++Ctrl<T> <O> <diaeresis> 	: "\xc3\x96"	Odiaeresis
++Ctrl<T> <diaeresis> <U>	: "\xc3\x9c"	Udiaeresis
++Ctrl<T> <U> <diaeresis> 	: "\xc3\x9c"	Udiaeresis
++Ctrl<T> <diaeresis> <a>	: "\xc3\xa4"	adiaeresis
++Ctrl<T> <a> <diaeresis> 	: "\xc3\xa4"	adiaeresis
++Ctrl<T> <diaeresis> <e>	: "\xc3\xab"	ediaeresis
++Ctrl<T> <e> <diaeresis> 	: "\xc3\xab"	ediaeresis
++Ctrl<T> <diaeresis> <o>	: "\xc3\xb6"	odiaeresis
++Ctrl<T> <o> <diaeresis> 	: "\xc3\xb6"	odiaeresis
++Ctrl<T> <diaeresis> <u>	: "\xc3\xbc"	udiaeresis
++Ctrl<T> <u> <diaeresis> 	: "\xc3\xbc"	udiaeresis
++Ctrl<T> <acute> <R>		: "\xc5\x94"	Racute
++Ctrl<T> <R> <acute> 	: "\xc5\x94"	Racute
++Ctrl<T> <acute> <S>		: "\xc5\x9a"	Sacute
++Ctrl<T> <S> <acute> 	: "\xc5\x9a"	Sacute
++Ctrl<T> <acute> <Z>		: "\xc4\xbe"	Zacute
++Ctrl<T> <Z> <acute> 	: "\xc4\xbe"	Zacute
++Ctrl<T> <acute> <n>		: "\xc5\x84"	nacute
++Ctrl<T> <n> <acute> 	: "\xc5\x84"	nacute
++Ctrl<T> <acute> <r>		: "\xc5\x95"	racute
++Ctrl<T> <r> <acute> 	: "\xc5\x95"	racute
++Ctrl<T> <acute> <s>		: "\xc5\x9b"	sacute
++Ctrl<T> <s> <acute> 	: "\xc5\x9b"	sacute
++Ctrl<T> <acute> <z>		: "\xc5\xba"	zacute
++Ctrl<T> <z> <acute> 	: "\xc5\xba"	zacute
++Ctrl<T> <0> <O>		: "\xc2\xb0"	degree
++Ctrl<T> <o> <o> 		: "\xc2\xb0"	degree
++Ctrl<T> <comma> <S>		: "\xc5\x9e"	Scedilla
++Ctrl<T> <S> <comma> 	: "\xc5\x9e"	Scedilla
++Ctrl<T> <comma> <T>		: "\xc5\xa2"	Tcedilla
++Ctrl<T> <T> <comma> 	: "\xc5\xa2"	Tcedilla
++Ctrl<T> <comma> <s>		: "\xc5\x9f"	scedilla
++Ctrl<T> <s> <comma> 	: "\xc5\x9f"	scedilla
++Ctrl<T> <comma> <t>		: "\xc5\xa3"	tcedilla
++Ctrl<T> <t> <comma> 	: "\xc5\xa3"	tcedilla
++Ctrl<T> <caron> <C>		: "\xc4\x8c"	Ccaron
++Ctrl<T> <C> <caron> 	: "\xc4\x8c"	Ccaron
++Ctrl<T> <caron> <D>		: "\xc4\x8e"	Dcaron
++Ctrl<T> <D> <caron> 	: "\xc4\x8e"	Dcaron
++Ctrl<T> <caron> <E>		: "\xc4\x9a"	Ecaron
++Ctrl<T> <E> <caron> 	: "\xc4\x9a"	Ecaron
++Ctrl<T> <caron> <L>		: "\xc4\xbd"	Lcaron
++Ctrl<T> <L> <caron> 	: "\xc4\xbd"	Lcaron
++Ctrl<T> <caron> <N>		: "\xc5\x87" 	Ncaron
++Ctrl<T> <N> <caron>		: "\xc5\x87" 	Ncaron
++Ctrl<T> <caron> <R>		: "\xc5\x98"	Rcaron
++Ctrl<T> <R> <caron> 	: "\xc5\x98"	Rcaron
++Ctrl<T> <caron> <S>		: "\xc5\xa0"	Scaron
++Ctrl<T> <S> <caron> 	: "\xc5\xa0"	Scaron
++Ctrl<T> <caron> <T>		: "\xc5\xa4"	Tcaron
++Ctrl<T> <T> <caron> 	: "\xc5\xa4"	Tcaron
++Ctrl<T> <caron> <U>		: "\xc5\xae"	Uring
++Ctrl<T> <U> <caron> 	: "\xc5\xae"	Uring
++Ctrl<T> <caron> <c>		: "\xc4\x8d"	ccaron
++Ctrl<T> <c> <caron> 	: "\xc4\x8d"	ccaron
++Ctrl<T> <caron> <d>		: "\xc4\x8f"	dcaron
++Ctrl<T> <d> <caron> 	: "\xc4\x8f"	dcaron
++Ctrl<T> <caron> <e>		: "\xc4\x9b"	ecaron
++Ctrl<T> <e> <caron> 	: "\xc4\x9b"	ecaron
++Ctrl<T> <caron> <l>		: "\xc4\xbe"	lcaron
++Ctrl<T> <l> <caron> 	: "\xc4\xbe"	lcaron
++Ctrl<T> <caron> <n>		: "\xc5\x88"	ncaron
++Ctrl<T> <n> <caron> 	: "\xc5\x88"	ncaron
++Ctrl<T> <caron> <r>		: "\xc5\x99"	rcaron
++Ctrl<T> <r> <caron> 	: "\xc5\x99"	rcaron
++Ctrl<T> <caron> <s>		: "\xc5\xa1"	scaron
++Ctrl<T> <s> <caron> 	: "\xc5\xa1"	scaron
++Ctrl<T> <caron> <t>		: "\xc5\xa5"	tcaron
++Ctrl<T> <t> <caron> 	: "\xc5\xa5"	tcaron
++Ctrl<T> <caron> <u>		: "\xc5\xaf"	uring
++Ctrl<T> <u> <caron> 	: "\xc5\xaf"	uring
++Ctrl<T> <v> <C>		: "\xc4\x8c"	Ccaron
++Ctrl<T> <C> <v> 		: "\xc4\x8c"	Ccaron
++Ctrl<T> <v> <D>		: "\xc4\x8e"	Dcaron
++Ctrl<T> <D> <v> 		: "\xc4\x8e"	Dcaron
++Ctrl<T> <v> <E>		: "\xc4\x9a"	Ecaron
++Ctrl<T> <E> <v> 		: "\xc4\x9a"	Ecaron
++Ctrl<T> <v> <N>		: "\xc5\x87" 	Ncaron
++Ctrl<T> <N> <v>		: "\xc5\x87" 	Ncaron
++Ctrl<T> <v> <R>		: "\xc5\x98"	Rcaron
++Ctrl<T> <R> <v> 		: "\xc5\x98"	Rcaron
++Ctrl<T> <v> <T>		: "\xc5\xa4"	Tcaron
++Ctrl<T> <T> <v> 		: "\xc5\xa4"	Tcaron
++Ctrl<T> <v> <U>		: "\xc5\xae"	Uring
++Ctrl<T> <U> <v> 		: "\xc5\xae"	Uring
++Ctrl<T> <v> <c>		: "\xc4\x8d"	ccaron
++Ctrl<T> <c> <v> 		: "\xc4\x8d"	ccaron
++Ctrl<T> <v> <d>		: "\xc4\x8f"	dcaron
++Ctrl<T> <d> <v> 		: "\xc4\x8f"	dcaron
++Ctrl<T> <v> <e>		: "\xc4\x9b"	ecaron
++Ctrl<T> <e> <v> 		: "\xc4\x9b"	ecaron
++Ctrl<T> <v> <n>		: "\xc5\x88"	ncaron
++Ctrl<T> <n> <v> 		: "\xc5\x88"	ncaron
++Ctrl<T> <v> <r>		: "\xc5\x99"	rcaron
++Ctrl<T> <r> <v> 		: "\xc5\x99"	rcaron
++Ctrl<T> <v> <t>		: "\xc5\xa5"	tcaron
++Ctrl<T> <t> <v> 		: "\xc5\xa5"	tcaron
++Ctrl<T> <v> <u>		: "\xc5\xaf"	uring
++Ctrl<T> <u> <v> 		: "\xc5\xaf"	uring
++Ctrl<T> <breve> <A>		: "\xc4\x82"	Abreve
++Ctrl<T> <A> <breve> 	: "\xc4\x82"	Abreve
++Ctrl<T> <breve> <a>		: "\xc4\x83"	abreve
++Ctrl<T> <a> <breve> 	: "\xc4\x83"	abreve
++Ctrl<T> <ogonek> <A>	: "\xc4\x84"	Aogonek
++Ctrl<T> <A> <ogonek> 	: "\xc4\x84"	Aogonek
++Ctrl<T> <ogonek> <E>	: "\xc4\x98"	Eogonek
++Ctrl<T> <E> <ogonek> 	: "\xc4\x98"	Eogonek
++Ctrl<T> <ogonek> <a> 	: "\xc4\x85"	aogonek
++Ctrl<T> <a> <ogonek> 	: "\xc4\x85"	aogonek
++Ctrl<T> <ogonek> <e> 	: "\xc4\x99"	eogonek
++Ctrl<T> <e> <ogonek> 	: "\xc4\x99"	eogonek
++Ctrl<T> <E> <a> 		: "\xc4\x98"	Eogonek
++Ctrl<T> <e> <a> 		: "\xc4\x99"	eogonek
++Ctrl<T> <doubleacute> <O>	: "\xc5\x90"	Odoubleacute
++Ctrl<T> <O> <doubleacute> 	: "\xc5\x90"	Odoubleacute
++Ctrl<T> <doubleacute> <U>	: "\xc5\xb0"	Udoubleacute
++Ctrl<T> <U> <doubleacute> 	: "\xc5\xb0"	Udoubleacute
++Ctrl<T> <doubleacute> <o>	: "\xc5\x91"	odoubleacute
++Ctrl<T> <o> <doubleacute> 	: "\xc5\x91"	odoubleacute
++Ctrl<T> <doubleacute> <u>	: "\xc5\xb1"	udoubleacute
++Ctrl<T> <u> <doubleacute> 	: "\xc5\xb1"	udoubleacute
++Ctrl<T> <period> <U>	: "\xc5\xae"	Uring
++Ctrl<T> <U> <period> 	: "\xc5\xae"	Uring
++Ctrl<T> <period> <u>	: "\xc5\xaf"	uring
++Ctrl<T> <u> <period> 	: "\xc5\xaf"	uring
++Ctrl<T> <period> <z>	: "\xc5\xbc"	zabovedot
++Ctrl<T> <z> <period> 	: "\xc5\xbc"	zabovedot
++Ctrl<T> <period> <Z>	: "\xc5\xbb"	Zabovedot
++Ctrl<T> <Z> <period> 	: "\xc5\xbb"	Zabovedot
++Ctrl<T> <a> <space>	: "\xcb\x9b"	ogonek
++Ctrl<T> <u> <space>	: "\xcb\x98"	breve
++Ctrl<T> <v> <space>	: "\xcb\x87"	caron
++Ctrl<T> <quotedbl> <space>	: "\xcb\x9d"	doubleacute
++Ctrl<T> <A> <u>			: "\xc4\x82"	Abreve
++Ctrl<T> <C> <apostrophe>	: "\xc4\x86"	Cacute
++Ctrl<T> <L> <apostrophe>	: "\xc4\xb9"	Lacute
++Ctrl<T> <L> <slash>		: "\xc5\x81"	Lstroke
++Ctrl<T> <L> <greater>		: "\xc4\xbd"	Lcaron
++Ctrl<T> <N> <apostrophe>	: "\xc5\x83"	Nacute
++Ctrl<T> <S> <apostrophe>	: "\xc5\x9a"	Sacute
++Ctrl<T> <R> <apostrophe>	: "\xc5\x94"	Racute
++Ctrl<T> <U> <asterisk>		: "\xc5\xae"	Uring
++Ctrl<T> <Z> <apostrophe>	: "\xc5\xb9"	Zacute
++Ctrl<T> <a> <u>			: "\xc4\x83"	abreve
++Ctrl<T> <c> <apostrophe>	: "\xc4\x87"	cacute
++Ctrl<T> <l> <apostrophe>	: "\xc4\xba"	lacute
++Ctrl<T> <l> <slash>		: "\xc5\x82"	lstroke
++Ctrl<T> <l> <greater>		: "\xc4\xbe"	lcaron
++Ctrl<T> <n> <apostrophe>	: "\xc5\x84"	nacute
++Ctrl<T> <s> <apostrophe>	: "\xc5\x9b"	sacute
++Ctrl<T> <r> <apostrophe>	: "\xc5\x95"	racute
++Ctrl<T> <u> <asterisk>		: "\xc5\xaf"	uring
++Ctrl<T> <z> <apostrophe>	: "\xc5\xba"	zacute
++XCOMM
++XCOMM Latin-3 sequences
++Ctrl<T> <C> <asciicircum>	: "\xc4\x88"	Ccircumflex
++Ctrl<T> <asciicircum> <C>	: "\xc4\x88"	Ccircumflex
++Ctrl<T> <C> <greater>		: "\xc4\x88"	Ccircumflex
++Ctrl<T> <greater> <C>		: "\xc4\x88"	Ccircumflex
++
++Ctrl<T> <c> <asciicircum>	: "\xc4\x89"	ccircumflex
++Ctrl<T> <asciicircum> <c>	: "\xc4\x89"	ccircumflex
++Ctrl<T> <c> <greater>		: "\xc4\x89"	ccircumflex
++Ctrl<T> <greater> <c>		: "\xc4\x89"	ccircumflex
++
++Ctrl<T> <period> <C>		: "\xc4\x8a"	Cabovedot
++Ctrl<T> <C> <period> 		: "\xc4\x8a"	Cabovedot
++
++Ctrl<T> <period> <c>		: "\xc4\x8b"	cabovedot
++Ctrl<T> <c> <period> 		: "\xc4\x8b"	cabovedot
++
++Ctrl<T> <G> <asciicircum>	: "\xc4\x9c"	Gcircumflex
++Ctrl<T> <asciicircum> <G>	: "\xc4\x9c"	Gcircumflex
++Ctrl<T> <G> <greater>		: "\xc4\x9c"	Gcircumflex
++Ctrl<T> <greater> <G>		: "\xc4\x9c"	Gcircumflex
++
++Ctrl<T> <g> <asciicircum>	: "\xc4\x9d"	gcircumflex
++Ctrl<T> <asciicircum> <g>	: "\xc4\x9d"	gcircumflex
++Ctrl<T> <g> <greater>		: "\xc4\x9d"	gcircumflex
++Ctrl<T> <greater> <g>		: "\xc4\x9d"	gcircumflex
++
++Ctrl<T> <period> <G>		: "\xc4\xa0"	Gabovedot
++Ctrl<T> <G> <period> 		: "\xc4\xa0"	Gabovedot
++
++Ctrl<T> <period> <g>		: "\xc4\xa1"	gabovedot
++Ctrl<T> <g> <period> 		: "\xc4\xa1"	gabovedot
++
++Ctrl<T> <H> <asciicircum>	: "\xc4\xa4"	Hcircumflex
++Ctrl<T> <asciicircum> <H>	: "\xc4\xa4"	Hcircumflex
++Ctrl<T> <H> <greater>		: "\xc4\xa4"	Hcircumflex
++Ctrl<T> <greater> <H>		: "\xc4\xa4"	Hcircumflex
++
++Ctrl<T> <h> <asciicircum>	: "\xc4\xa5"	hcircumflex
++Ctrl<T> <asciicircum> <h>	: "\xc4\xa5"	hcircumflex
++Ctrl<T> <h> <greater>		: "\xc4\xa5"	hcircumflex
++Ctrl<T> <greater> <h>		: "\xc4\xa5"	hcircumflex
++
++Ctrl<T> <J> <asciicircum>	: "\xc4\xb4"	Jcircumflex
++Ctrl<T> <asciicircum> <J>	: "\xc4\xb4"	Jcircumflex
++Ctrl<T> <J> <greater>		: "\xc4\xb4"	Jcircumflex
++Ctrl<T> <greater> <J>		: "\xc4\xb4"	Jcircumflex
++
++Ctrl<T> <j> <asciicircum>	: "\xc4\xb5"	jcircumflex
++Ctrl<T> <asciicircum> <j>	: "\xc4\xb5"	jcircumflex
++Ctrl<T> <j> <greater>		: "\xc4\xb5"	jcircumflex
++Ctrl<T> <greater> <j>		: "\xc4\xb5"	jcircumflex
++
++Ctrl<T> <S> <asciicircum>	: "\xc5\x9c"	Scircumflex
++Ctrl<T> <asciicircum> <S>	: "\xc5\x9c"	Scircumflex
++Ctrl<T> <S> <greater>		: "\xc5\x9c"	Scircumflex
++Ctrl<T> <greater> <S>		: "\xc5\x9c"	Scircumflex
++
++Ctrl<T> <s> <asciicircum>	: "\xc5\x9d"	scircumflex
++Ctrl<T> <asciicircum> <s>	: "\xc5\x9d"	scircumflex
++Ctrl<T> <s> <greater>		: "\xc5\x9d"	scircumflex
++Ctrl<T> <greater> <s>		: "\xc5\x9d"	scircumflex
++
++Ctrl<T> <U> <breve>		: "\xc5\xac"	Ubreve
++Ctrl<T> <breve> <U>		: "\xc5\xac"	Ubreve
++Ctrl<T> <U> <u>			: "\xc5\xac"	Ubreve
++Ctrl<T> <u> <U>			: "\xc5\xac"	Ubreve
++
++Ctrl<T> <u> <breve>		: "\xc5\xad"	ubreve
++Ctrl<T> <breve> <u>		: "\xc5\xad"	ubreve
++Ctrl<T> <u> <u>			: "\xc5\xad"	ubreve
+ XCOMM
+-XCOMM This file consists of four parts. Two of them have been adapted from
+-XCOMM the iso8859-1/Compose and iso8859-7/Compose files. The other two
+-XCOMM parts have been created by:
+-XCOMM	Vasilis Vasaitis <vvas@hal.csd.auth.gr>
+-XCOMM based on the idea and initial implementation by:
+-XCOMM	Alejandros Diamandidis <adia@egnatia.ee.auth.gr>
+-
+-XCOMM Part 1
++XCOMM Latin-4 sequences
++Ctrl<T> <N> <N>		: "\xc5\x8a"	ENG
++Ctrl<T> <U> <a>		: "\xc5\xb2"	Uogonek
++Ctrl<T> <u> <a>		: "\xc5\xb3"	uogonek
++Ctrl<T> <k> <k>		: "\xc4\xb8"	kra
++Ctrl<T> <R> <comma>		: "\xc5\x96"	Rcedilla
++Ctrl<T> <comma> <R>		: "\xc5\x96"	Rcedilla
++Ctrl<T> <r> <comma>		: "\xc5\x97"	rcedilla
++Ctrl<T> <comma> <r>		: "\xc5\x97"	rcedilla
++Ctrl<T> <I> <asciitilde>	: "\xc4\xa8"	Itilde
++Ctrl<T> <asciitilde> <I>	: "\xc4\xa8"	Itilde
++Ctrl<T> <i> <asciitilde>	: "\xc4\xa9"	itilde
++Ctrl<T> <asciitilde> <i>	: "\xc4\xa9"	itilde
++Ctrl<T> <L> <comma>		: "\xc4\xbb"	Lcedilla
++Ctrl<T> <comma> <L>		: "\xc4\xbb"	Lcedilla
++Ctrl<T> <l> <comma>		: "\xc4\xbc"	lcedilla
++Ctrl<T> <comma> <l>		: "\xc4\xbc"	lcedilla
++Ctrl<T> <S> <v>		: "\xc5\xa0"	Scaron
++Ctrl<T> <S> <V>		: "\xc5\xa0"	Scaron
++Ctrl<T> <v> <S>		: "\xc5\xa0"	Scaron
++Ctrl<T> <V> <S>		: "\xc5\xa0"	Scaron
++Ctrl<T> <s> <v>		: "\xc5\xa1"	scaron
++Ctrl<T> <s> <V>		: "\xc5\xa1"	scaron
++Ctrl<T> <v> <s>		: "\xc5\xa1"	scaron
++Ctrl<T> <V> <s>		: "\xc5\xa1"	scaron
++Ctrl<T> <E> <underscore>	: "\xc4\x92"	Emacron
++Ctrl<T> <underscore> <E>	: "\xc4\x92"	Emacron
++Ctrl<T> <e> <underscore>	: "\xc4\x93"	emacron
++Ctrl<T> <underscore> <e>	: "\xc4\x93"	emacron
++Ctrl<T> <G> <comma>		: "\xc4\xa2"	Gcedilla
++Ctrl<T> <comma> <G>		: "\xc4\xa2"	Gcedilla
++Ctrl<T> <g> <comma>		: "\xc4\xa3"	gcedilla
++Ctrl<T> <comma> <g>		: "\xc4\xa3"	gcedilla
++Ctrl<T> <T> <bar>		: "\xc5\xa6"	Tslash
++Ctrl<T> <bar> <T>		: "\xc5\xa6"	Tslash
++Ctrl<T> <t> <bar>		: "\xc5\xa7"	tslash
++Ctrl<T> <bar> <t>		: "\xc5\xa7"	tslash
++Ctrl<T> <n> <n>		: "\xc5\x8b" 	eng
++Ctrl<T> <d> <underscore>	: "\xc4\x91"
++Ctrl<T> <underscore> <d> 	: "\xc4\x91"
++Ctrl<T> <N> <comma>		: "\xc5\x85"	Ncedilla
++Ctrl<T> <comma> <N>		: "\xc5\x85"	Ncedilla
++Ctrl<T> <n> <comma>		: "\xc5\x86"	ncedilla
++Ctrl<T> <comma> <n>		: "\xc5\x86"	ncedilla
++Ctrl<T> <K> <comma>		: "\xc4\xb6"	Kcedilla
++Ctrl<T> <comma> <K>		: "\xc4\xb6"	Kcedilla
++Ctrl<T> <k> <comma>		: "\xc4\xb7"	kcedilla
++Ctrl<T> <comma> <k>		: "\xc4\xb7"	kcedilla
++Ctrl<T> <I> <a>		: "\xc4\xae"	Iogonek
++Ctrl<T> <a> <I>		: "\xc4\xae"	Iogonek
++Ctrl<T> <i> <a>		: "\xc4\xaf"	iogonek
++Ctrl<T> <a> <i>		: "\xc4\xaf"	iogonek
++Ctrl<T> <E> <period>	: "\xc4\x96"	Eabovedot
++Ctrl<T> <e> <period>	: "\xc4\x97"	eabovedot
++Ctrl<T> <U> <asciitilde>	: "\xc5\xa8"	Utilde
++Ctrl<T> <asciitilde> <U>	: "\xc5\xa8"	Utilde
++Ctrl<T> <u> <asciitilde>	: "\xc5\xa9"	utilde
++Ctrl<T> <asciitilde> <u>	: "\xc5\xa9"	utilde
++Ctrl<T> <U> <underscore>	: "\xc5\xaa"	Umacron
++Ctrl<T> <underscore> <U>	: "\xc5\xaa"	Umacron
++Ctrl<T> <u> <underscore>	: "\xc5\xab"	umacron
++Ctrl<T> <underscore> <u>	: "\xc5\xab"	umacron
++Ctrl<T> <I> <underscore>	: "\xc4\xaa"	Imacron
++Ctrl<T> <underscore> <I> 	: "\xc4\xaa"	Imacron
++Ctrl<T> <i> <underscore>	: "\xc4\xab"	imacron
++Ctrl<T> <underscore> <i> 	: "\xc4\xab"	imacron
  XCOMM
 -XCOMM ISO 8859-1 (Latin-1) multi-key definitions extracted and converted
 -XCOMM from the iso8859-1/Compose file.
@@ -1680,347 +2090,256 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 -<Multi_key> <diaeresis> <y>		: "ÿ"	ydiaeresis
 -
 -XCOMM Part 2
-+XCOMM Latin-4 sequences
-+<Multi_key> <N> <N>		: "\xc5\x8a"	ENG
-+<Multi_key> <U> <a>		: "\xc5\xb2"	Uogonek
-+<Multi_key> <u> <a>		: "\xc5\xb3"	uogonek
-+<Multi_key> <k> <k>		: "\xc4\xb8"	kra
-+<Multi_key> <R> <comma>		: "\xc5\x96"	Rcedilla
-+<Multi_key> <comma> <R>		: "\xc5\x96"	Rcedilla
-+<Multi_key> <r> <comma>		: "\xc5\x97"	rcedilla
-+<Multi_key> <comma> <r>		: "\xc5\x97"	rcedilla
-+<Multi_key> <I> <asciitilde>	: "\xc4\xa8"	Itilde
-+<Multi_key> <asciitilde> <I>	: "\xc4\xa8"	Itilde
-+<Multi_key> <i> <asciitilde>	: "\xc4\xa9"	itilde
-+<Multi_key> <asciitilde> <i>	: "\xc4\xa9"	itilde
-+<Multi_key> <L> <comma>		: "\xc4\xbb"	Lcedilla
-+<Multi_key> <comma> <L>		: "\xc4\xbb"	Lcedilla
-+<Multi_key> <l> <comma>		: "\xc4\xbc"	lcedilla
-+<Multi_key> <comma> <l>		: "\xc4\xbc"	lcedilla
-+<Multi_key> <S> <v>		: "\xc5\xa0"	Scaron
-+<Multi_key> <S> <V>		: "\xc5\xa0"	Scaron
-+<Multi_key> <v> <S>		: "\xc5\xa0"	Scaron
-+<Multi_key> <V> <S>		: "\xc5\xa0"	Scaron
-+<Multi_key> <s> <v>		: "\xc5\xa1"	scaron
-+<Multi_key> <s> <V>		: "\xc5\xa1"	scaron
-+<Multi_key> <v> <s>		: "\xc5\xa1"	scaron
-+<Multi_key> <V> <s>		: "\xc5\xa1"	scaron
-+<Multi_key> <E> <underscore>	: "\xc4\x92"	Emacron
-+<Multi_key> <underscore> <E>	: "\xc4\x92"	Emacron
-+<Multi_key> <e> <underscore>	: "\xc4\x93"	emacron
-+<Multi_key> <underscore> <e>	: "\xc4\x93"	emacron
-+<Multi_key> <G> <comma>		: "\xc4\xa2"	Gcedilla
-+<Multi_key> <comma> <G>		: "\xc4\xa2"	Gcedilla
-+<Multi_key> <g> <comma>		: "\xc4\xa3"	gcedilla
-+<Multi_key> <comma> <g>		: "\xc4\xa3"	gcedilla
-+<Multi_key> <T> <bar>		: "\xc5\xa6"	Tslash
-+<Multi_key> <bar> <T>		: "\xc5\xa6"	Tslash
-+<Multi_key> <t> <bar>		: "\xc5\xa7"	tslash
-+<Multi_key> <bar> <t>		: "\xc5\xa7"	tslash
-+<Multi_key> <n> <n>		: "\xc5\x8b" 	eng
-+<Multi_key> <A> <underscore>	: "\xc4\x80"	Amacron
-+<Multi_key> <underscore> <A>	: "\xc4\x80"	Amacron
-+<Multi_key> <a> <underscore>	: "\xc4\x81"	amacron
-+<Multi_key> <underscore> <a>	: "\xc4\x81"	amacron
-+<Multi_key> <d> <underscore>	: "\xc4\x91"
-+<Multi_key> <underscore> <d> 	: "\xc4\x91"
-+<Multi_key> <N> <comma>		: "\xc5\x85"	Ncedilla
-+<Multi_key> <comma> <N>		: "\xc5\x85"	Ncedilla
-+<Multi_key> <n> <comma>		: "\xc5\x86"	ncedilla
-+<Multi_key> <comma> <n>		: "\xc5\x86"	ncedilla
-+<Multi_key> <O> <underscore>	: "\xc5\x8c"	Omacron
-+<Multi_key> <underscore> <O>	: "\xc5\x8c"	Omacron
-+<Multi_key> <o> <underscore>	: "\xc5\x8d"	omacron
-+<Multi_key> <underscore> <o>	: "\xc5\x8d"	omacron
-+<Multi_key> <K> <comma>		: "\xc4\xb6"	Kcedilla
-+<Multi_key> <comma> <K>		: "\xc4\xb6"	Kcedilla
-+<Multi_key> <k> <comma>		: "\xc4\xb7"	kcedilla
-+<Multi_key> <comma> <k>		: "\xc4\xb7"	kcedilla
-+<Multi_key> <I> <a>		: "\xc4\xae"	Iogonek
-+<Multi_key> <a> <I>		: "\xc4\xae"	Iogonek
-+<Multi_key> <i> <a>		: "\xc4\xaf"	iogonek
-+<Multi_key> <a> <i>		: "\xc4\xaf"	iogonek
-+<Multi_key> <E> <period>	: "\xc4\x96"	Eabovedot
-+<Multi_key> <e> <period>	: "\xc4\x97"	eabovedot
-+<Multi_key> <U> <asciitilde>	: "\xc5\xa8"	Utilde
-+<Multi_key> <asciitilde> <U>	: "\xc5\xa8"	Utilde
-+<Multi_key> <u> <asciitilde>	: "\xc5\xa9"	utilde
-+<Multi_key> <asciitilde> <u>	: "\xc5\xa9"	utilde
-+<Multi_key> <U> <underscore>	: "\xc5\xaa"	Umacron
-+<Multi_key> <underscore> <U>	: "\xc5\xaa"	Umacron
-+<Multi_key> <u> <underscore>	: "\xc5\xab"	umacron
-+<Multi_key> <underscore> <u>	: "\xc5\xab"	umacron
-+<Multi_key> <I> <underscore>	: "\xc4\xaa"	Imacron
-+<Multi_key> <underscore> <I> 	: "\xc4\xaa"	Imacron
-+<Multi_key> <i> <underscore>	: "\xc4\xab"	imacron
-+<Multi_key> <underscore> <i> 	: "\xc4\xab"	imacron
++XCOMM Rules for SunXK_FA_* keysyms:
++<SunFA_Acute> <apostrophe>	: "\xc2\xb4"
++<SunFA_Acute> <A>		: "\xc3\x81"
++<SunFA_Acute> <a>		: "\xc3\xa1"
++<SunFA_Acute> <C>		: "\xc4\x86"
++<SunFA_Acute> <c>		: "\xc4\x87"
++<SunFA_Acute> <E>		: "\xc3\x89"
++<SunFA_Acute> <e>		: "\xc3\xa9"
++<SunFA_Acute> <I>		: "\xc3\x8d"
++<SunFA_Acute> <i>		: "\xc3\xad"
++<SunFA_Acute> <L>		: "\xc4\xb9"
++<SunFA_Acute> <l>		: "\xc4\xba"
++<SunFA_Acute> <N>		: "\xc5\x83"
++<SunFA_Acute> <n>		: "\xc5\x84"
++<SunFA_Acute> <O>		: "\xc3\x93"
++<SunFA_Acute> <o>		: "\xc3\xb3"
++<SunFA_Acute> <R>		: "\xc5\x94"
++<SunFA_Acute> <r>		: "\xc5\x95"
++<SunFA_Acute> <space>		: "\x27"
++<SunFA_Acute> <S>		: "\xc5\x9a"
++<SunFA_Acute> <s>		: "\xc5\x9b"
++<SunFA_Acute> <U>		: "\xc3\x9a"
++<SunFA_Acute> <u>		: "\xc3\xba"
++<SunFA_Acute> <Y>		: "\xc3\x9d"
++<SunFA_Acute> <y>		: "\xc3\xbd"
++<SunFA_Acute> <Z>		: "\xc4\xbe"
++<SunFA_Acute> <z>		: "\xc5\xba"
++<SunFA_Cedilla> <comma>		: "\xc2\xb8"
++<SunFA_Cedilla> <C>		: "\xc3\x87"
++<SunFA_Cedilla> <c>		: "\xc3\xa7"
++<SunFA_Cedilla> <G>		: "\xc4\xa2"
++<SunFA_Cedilla> <g>		: "\xc4\xa3"
++<SunFA_Cedilla> <K>		: "\xc4\xb6"
++<SunFA_Cedilla> <k>		: "\xc4\xb7"
++<SunFA_Cedilla> <L>		: "\xc4\xbb"
++<SunFA_Cedilla> <l>		: "\xc4\xbc"
++<SunFA_Cedilla> <minus>		: "\xc2\xac"
++<SunFA_Cedilla> <N>		: "\xc5\x85"
++<SunFA_Cedilla> <n>		: "\xc5\x86"
++<SunFA_Cedilla> <R>		: "\xc5\x96"
++<SunFA_Cedilla> <r>		: "\xc5\x97"
++<SunFA_Cedilla> <S>		: "\xc5\x9e"
++<SunFA_Cedilla> <s>		: "\xc5\x9f"
++<SunFA_Cedilla> <T>		: "\xc5\xa2"
++<SunFA_Cedilla> <t>		: "\xc5\xa3"
++<SunFA_Circum> <0>		: "\xc2\xb0"
++<SunFA_Circum> <1>		: "\xc2\xb9"
++<SunFA_Circum> <2>		: "\xc2\xb2"
++<SunFA_Circum> <3>		: "\xc2\xb3"
++<SunFA_Circum> <A>		: "\xc3\x82"
++<SunFA_Circum> <a>		: "\xc3\xa2"
++<SunFA_Circum> <C>		: "\xc4\x88"
++<SunFA_Circum> <c>		: "\xc4\x89"
++<SunFA_Circum> <E>		: "\xc3\x8a"
++<SunFA_Circum> <e>		: "\xc3\xaa"
++<SunFA_Circum> <exclam>		: "\xc2\xa6"
++<SunFA_Circum> <G>		: "\xc4\x9c"
++<SunFA_Circum> <g>		: "\xc4\x9d"
++<SunFA_Circum> <H>		: "\xc4\xa4"
++<SunFA_Circum> <h>		: "\xc4\xa5"
++<SunFA_Circum> <I>		: "\xc3\x8e"
++<SunFA_Circum> <i>		: "\xc3\xae"
++<SunFA_Circum> <J>		: "\xc4\xb4"
++<SunFA_Circum> <j>		: "\xc4\xb5"
++<SunFA_Circum> <minus>		: "\xc2\xaf"
++<SunFA_Circum> <O>		: "\xc3\x94"
++<SunFA_Circum> <o>		: "\xc3\xb4"
++<SunFA_Circum> <period>		: "\xc2\xb7"
++<SunFA_Circum> <slash>		: "\x7c"
++<SunFA_Circum> <space>		: "\x5e"
++<SunFA_Circum> <S>		: "\xc5\x9c"
++<SunFA_Circum> <s>		: "\xc5\x9d"
++<SunFA_Circum> <underscore>	: "\xc2\xaf"
++<SunFA_Circum> <U>		: "\xc3\x9b"
++<SunFA_Circum> <u>		: "\xc3\xbb"
++<SunFA_Diaeresis> <A>		: "\xc3\x84"
++<SunFA_Diaeresis> <a>		: "\xc3\xa4"
++<SunFA_Diaeresis> <E>		: "\xc3\x8b"
++<SunFA_Diaeresis> <e>		: "\xc3\xab"
++<SunFA_Diaeresis> <I>		: "\xc3\x8f"
++<SunFA_Diaeresis> <i>		: "\xc3\xaf"
++<SunFA_Diaeresis> <O>		: "\xc3\x96"
++<SunFA_Diaeresis> <o>		: "\xc3\xb6"
++<SunFA_Diaeresis> <quotedbl>	: "\xc2\xa8"
++<SunFA_Diaeresis> <space>	: "\xc2\xa8"
++<SunFA_Diaeresis> <U>		: "\xc3\x9c"
++<SunFA_Diaeresis> <u>		: "\xc3\xbc"
++<SunFA_Diaeresis> <y>		: "\xc3\xbf"
++<SunFA_Grave> <A>		: "\xc3\x80"
++<SunFA_Grave> <a>		: "\xc3\xa0"
++<SunFA_Grave> <E>		: "\xc3\x88"
++<SunFA_Grave> <e>		: "\xc3\xa8"
++<SunFA_Grave> <I>		: "\xc3\x8c"
++<SunFA_Grave> <i>		: "\xc3\xac"
++<SunFA_Grave> <O>		: "\xc3\x92"
++<SunFA_Grave> <o>		: "\xc3\xb2"
++<SunFA_Grave> <space>		: "\x60"
++<SunFA_Grave> <U>		: "\xc3\x99"
++<SunFA_Grave> <u>		: "\xc3\xb9"
++<SunFA_Tilde> <A>		: "\xc3\x83"
++<SunFA_Tilde> <a>		: "\xc3\xa3"
++<SunFA_Tilde> <N>		: "\xc3\x91"
++<SunFA_Tilde> <n>		: "\xc3\xb1"
++<SunFA_Tilde> <O>		: "\xc3\x95"
++<SunFA_Tilde> <o>		: "\xc3\xb5"
++<SunFA_Tilde> <space>		: "\x7e"
++END_STATE
 +
-+XCOMM Ctrl<T> combo
-+Ctrl<T> <a> <A>			: "\xc4\x84"	Aogonek
-+Ctrl<T> <A> <a> 			: "\xc4\x84"	Aogonek
-+Ctrl<T> <a> <a> 			: "\xc4\x85"	aogonek
-+Ctrl<T> <C> <acute> 		: "\xc4\x86"	Cacute
-+Ctrl<T> <c> <acute> 		: "\xc4\x87"	cacute
-+Ctrl<T> <acute> <C>			: "\xc4\x86"	Cacute
-+Ctrl<T> <acute> <c>			: "\xc4\x87"	cacute
-+Ctrl<T> <acute> <N>			: "\xc5\x83"	Nacute
-+Ctrl<T> <N> <acute> 		: "\xc5\x83"	Nacute
-+XCOMM Ctrl<T> <minus> <D>		: "\xc3\x90"	ETH
-+XCOMM Ctrl<T> <minus> <d>		: "\xc3\xb0"	eth
-+Ctrl<T> <slash> <D>			: "\xc4\x90"	Dstroke
-+Ctrl<T> <slash> <d>			: "\xc4\x91"	dstroke
-+Ctrl<T> <caron> <Z>		: "\xc5\xbd"	Zcaron
-+Ctrl<T> <Z> <caron> 	: "\xc5\xbd"	Zcaron
-+Ctrl<T> <v> <Z>		: "\xc5\xbd"	Zcaron
-+Ctrl<T> <Z> <v>		: "\xc5\xbd"	Zcaron
-+Ctrl<T> <caron> <z>		: "\xc5\xbe"	zcaron
-+Ctrl<T> <z> <caron> 	: "\xc5\xbe"	zcaron
-+Ctrl<T> <z> <v>		: "\xc5\xbe"	zcaron
-+Ctrl<T> <v> <z>		: "\xc5\xbe"	zcaron
-+Ctrl<T> <G> <u>		: "\xc4\x9e"	Gbreve
-+Ctrl<T> <u> <G>		: "\xc4\x9e"	Gbreve
-+Ctrl<T> <g> <u>		: "\xc4\x9f"	gbreve
-+Ctrl<T> <u> <g>		: "\xc4\x9f"	gbreve
-+Ctrl<T> <I> <period>	: "\xc4\xb0"	Iabovedot
-+Ctrl<T> <period> <I>	: "\xc4\xb0"	Iabovedot
-+Ctrl<T> <i> <period>	: "\xc4\xb1"	idotless
-+Ctrl<T> <period> <i>	: "\xc4\xb1"	idotless
-+Ctrl<T> <space> <breve>	: "\xcb\x98"	breve
-+Ctrl<T> <space> <degree>	: "\xc2\xb0"	degree
-+Ctrl<T> <space> <ogonek>	: "\xcb\x9b"	ogonek
-+Ctrl<T> <space> <caron>	: "\xcb\x87"	caron
-+Ctrl<T> <space> <v>		: "\xcb\x87"	caron
-+Ctrl<T> <space> <doubleacute> : "\xcb\x9d"	doubleacute
-+Ctrl<T> <diaeresis> <A>	: "\xc3\x84"	Adiaeresis
-+Ctrl<T> <A> <diaeresis> 	: "\xc3\x84"	Adiaeresis
-+Ctrl<T> <diaeresis> <E>	: "\xc3\x8b" 	Ediaeresis
-+Ctrl<T> <E> <diaeresis> 	: "\xc3\x8b" 	Ediaeresis
-+Ctrl<T> <diaeresis> <O>	: "\xc3\x96"	Odiaeresis
-+Ctrl<T> <O> <diaeresis> 	: "\xc3\x96"	Odiaeresis
-+Ctrl<T> <diaeresis> <U>	: "\xc3\x9c"	Udiaeresis
-+Ctrl<T> <U> <diaeresis> 	: "\xc3\x9c"	Udiaeresis
-+Ctrl<T> <diaeresis> <a>	: "\xc3\xa4"	adiaeresis
-+Ctrl<T> <a> <diaeresis> 	: "\xc3\xa4"	adiaeresis
-+Ctrl<T> <diaeresis> <e>	: "\xc3\xab"	ediaeresis
-+Ctrl<T> <e> <diaeresis> 	: "\xc3\xab"	ediaeresis
-+Ctrl<T> <diaeresis> <o>	: "\xc3\xb6"	odiaeresis
-+Ctrl<T> <o> <diaeresis> 	: "\xc3\xb6"	odiaeresis
-+Ctrl<T> <diaeresis> <u>	: "\xc3\xbc"	udiaeresis
-+Ctrl<T> <u> <diaeresis> 	: "\xc3\xbc"	udiaeresis
-+Ctrl<T> <acute> <R>		: "\xc5\x94"	Racute
-+Ctrl<T> <R> <acute> 	: "\xc5\x94"	Racute
-+Ctrl<T> <acute> <S>		: "\xc5\x9a"	Sacute
-+Ctrl<T> <S> <acute> 	: "\xc5\x9a"	Sacute
-+Ctrl<T> <acute> <Z>		: "\xc4\xbe"	Zacute
-+Ctrl<T> <Z> <acute> 	: "\xc4\xbe"	Zacute
-+Ctrl<T> <acute> <n>		: "\xc5\x84"	nacute
-+Ctrl<T> <n> <acute> 	: "\xc5\x84"	nacute
-+Ctrl<T> <acute> <r>		: "\xc5\x95"	racute
-+Ctrl<T> <r> <acute> 	: "\xc5\x95"	racute
-+Ctrl<T> <acute> <s>		: "\xc5\x9b"	sacute
-+Ctrl<T> <s> <acute> 	: "\xc5\x9b"	sacute
-+Ctrl<T> <acute> <z>		: "\xc5\xba"	zacute
-+Ctrl<T> <z> <acute> 	: "\xc5\xba"	zacute
-+Ctrl<T> <0> <O>		: "\xc2\xb0"	degree
-+Ctrl<T> <o> <o> 		: "\xc2\xb0"	degree
-+Ctrl<T> <comma> <S>		: "\xc5\x9e"	Scedilla
-+Ctrl<T> <S> <comma> 	: "\xc5\x9e"	Scedilla
-+Ctrl<T> <comma> <T>		: "\xc5\xa2"	Tcedilla
-+Ctrl<T> <T> <comma> 	: "\xc5\xa2"	Tcedilla
-+Ctrl<T> <comma> <s>		: "\xc5\x9f"	scedilla
-+Ctrl<T> <s> <comma> 	: "\xc5\x9f"	scedilla
-+Ctrl<T> <comma> <t>		: "\xc5\xa3"	tcedilla
-+Ctrl<T> <t> <comma> 	: "\xc5\xa3"	tcedilla
-+Ctrl<T> <caron> <C>		: "\xc4\x8c"	Ccaron
-+Ctrl<T> <C> <caron> 	: "\xc4\x8c"	Ccaron
-+Ctrl<T> <caron> <D>		: "\xc4\x8e"	Dcaron
-+Ctrl<T> <D> <caron> 	: "\xc4\x8e"	Dcaron
-+Ctrl<T> <caron> <E>		: "\xc4\x9a"	Ecaron
-+Ctrl<T> <E> <caron> 	: "\xc4\x9a"	Ecaron
-+Ctrl<T> <caron> <L>		: "\xc4\xbd"	Lcaron
-+Ctrl<T> <L> <caron> 	: "\xc4\xbd"	Lcaron
-+Ctrl<T> <caron> <N>		: "\xc5\x87" 	Ncaron
-+Ctrl<T> <N> <caron>		: "\xc5\x87" 	Ncaron
-+Ctrl<T> <caron> <R>		: "\xc5\x98"	Rcaron
-+Ctrl<T> <R> <caron> 	: "\xc5\x98"	Rcaron
-+Ctrl<T> <caron> <S>		: "\xc5\xa0"	Scaron
-+Ctrl<T> <S> <caron> 	: "\xc5\xa0"	Scaron
-+Ctrl<T> <caron> <T>		: "\xc5\xa4"	Tcaron
-+Ctrl<T> <T> <caron> 	: "\xc5\xa4"	Tcaron
-+Ctrl<T> <caron> <U>		: "\xc5\xae"	Uring
-+Ctrl<T> <U> <caron> 	: "\xc5\xae"	Uring
-+Ctrl<T> <caron> <c>		: "\xc4\x8d"	ccaron
-+Ctrl<T> <c> <caron> 	: "\xc4\x8d"	ccaron
-+Ctrl<T> <caron> <d>		: "\xc4\x8f"	dcaron
-+Ctrl<T> <d> <caron> 	: "\xc4\x8f"	dcaron
-+Ctrl<T> <caron> <e>		: "\xc4\x9b"	ecaron
-+Ctrl<T> <e> <caron> 	: "\xc4\x9b"	ecaron
-+Ctrl<T> <caron> <l>		: "\xc4\xbe"	lcaron
-+Ctrl<T> <l> <caron> 	: "\xc4\xbe"	lcaron
-+Ctrl<T> <caron> <n>		: "\xc5\x88"	ncaron
-+Ctrl<T> <n> <caron> 	: "\xc5\x88"	ncaron
-+Ctrl<T> <caron> <r>		: "\xc5\x99"	rcaron
-+Ctrl<T> <r> <caron> 	: "\xc5\x99"	rcaron
-+Ctrl<T> <caron> <s>		: "\xc5\xa1"	scaron
-+Ctrl<T> <s> <caron> 	: "\xc5\xa1"	scaron
-+Ctrl<T> <caron> <t>		: "\xc5\xa5"	tcaron
-+Ctrl<T> <t> <caron> 	: "\xc5\xa5"	tcaron
-+Ctrl<T> <caron> <u>		: "\xc5\xaf"	uring
-+Ctrl<T> <u> <caron> 	: "\xc5\xaf"	uring
-+Ctrl<T> <v> <C>		: "\xc4\x8c"	Ccaron
-+Ctrl<T> <C> <v> 		: "\xc4\x8c"	Ccaron
-+Ctrl<T> <v> <D>		: "\xc4\x8e"	Dcaron
-+Ctrl<T> <D> <v> 		: "\xc4\x8e"	Dcaron
-+Ctrl<T> <v> <E>		: "\xc4\x9a"	Ecaron
-+Ctrl<T> <E> <v> 		: "\xc4\x9a"	Ecaron
-+Ctrl<T> <v> <N>		: "\xc5\x87" 	Ncaron
-+Ctrl<T> <N> <v>		: "\xc5\x87" 	Ncaron
-+Ctrl<T> <v> <R>		: "\xc5\x98"	Rcaron
-+Ctrl<T> <R> <v> 		: "\xc5\x98"	Rcaron
-+Ctrl<T> <v> <T>		: "\xc5\xa4"	Tcaron
-+Ctrl<T> <T> <v> 		: "\xc5\xa4"	Tcaron
-+Ctrl<T> <v> <U>		: "\xc5\xae"	Uring
-+Ctrl<T> <U> <v> 		: "\xc5\xae"	Uring
-+Ctrl<T> <v> <c>		: "\xc4\x8d"	ccaron
-+Ctrl<T> <c> <v> 		: "\xc4\x8d"	ccaron
-+Ctrl<T> <v> <d>		: "\xc4\x8f"	dcaron
-+Ctrl<T> <d> <v> 		: "\xc4\x8f"	dcaron
-+Ctrl<T> <v> <e>		: "\xc4\x9b"	ecaron
-+Ctrl<T> <e> <v> 		: "\xc4\x9b"	ecaron
-+Ctrl<T> <v> <n>		: "\xc5\x88"	ncaron
-+Ctrl<T> <n> <v> 		: "\xc5\x88"	ncaron
-+Ctrl<T> <v> <r>		: "\xc5\x99"	rcaron
-+Ctrl<T> <r> <v> 		: "\xc5\x99"	rcaron
-+Ctrl<T> <v> <t>		: "\xc5\xa5"	tcaron
-+Ctrl<T> <t> <v> 		: "\xc5\xa5"	tcaron
-+Ctrl<T> <v> <u>		: "\xc5\xaf"	uring
-+Ctrl<T> <u> <v> 		: "\xc5\xaf"	uring
-+Ctrl<T> <breve> <A>		: "\xc4\x82"	Abreve
-+Ctrl<T> <A> <breve> 	: "\xc4\x82"	Abreve
-+Ctrl<T> <breve> <a>		: "\xc4\x83"	abreve
-+Ctrl<T> <a> <breve> 	: "\xc4\x83"	abreve
-+Ctrl<T> <ogonek> <A>	: "\xc4\x84"	Aogonek
-+Ctrl<T> <A> <ogonek> 	: "\xc4\x84"	Aogonek
-+Ctrl<T> <ogonek> <E>	: "\xc4\x98"	Eogonek
-+Ctrl<T> <E> <ogonek> 	: "\xc4\x98"	Eogonek
-+Ctrl<T> <ogonek> <a> 	: "\xc4\x85"	aogonek
-+Ctrl<T> <a> <ogonek> 	: "\xc4\x85"	aogonek
-+Ctrl<T> <ogonek> <e> 	: "\xc4\x99"	eogonek
-+Ctrl<T> <e> <ogonek> 	: "\xc4\x99"	eogonek
-+Ctrl<T> <E> <a> 		: "\xc4\x98"	Eogonek
-+Ctrl<T> <e> <a> 		: "\xc4\x99"	eogonek
-+Ctrl<T> <doubleacute> <O>	: "\xc5\x90"	Odoubleacute
-+Ctrl<T> <O> <doubleacute> 	: "\xc5\x90"	Odoubleacute
-+Ctrl<T> <doubleacute> <U>	: "\xc5\xb0"	Udoubleacute
-+Ctrl<T> <U> <doubleacute> 	: "\xc5\xb0"	Udoubleacute
-+Ctrl<T> <doubleacute> <o>	: "\xc5\x91"	odoubleacute
-+Ctrl<T> <o> <doubleacute> 	: "\xc5\x91"	odoubleacute
-+Ctrl<T> <doubleacute> <u>	: "\xc5\xb1"	udoubleacute
-+Ctrl<T> <u> <doubleacute> 	: "\xc5\xb1"	udoubleacute
-+Ctrl<T> <period> <U>	: "\xc5\xae"	Uring
-+Ctrl<T> <U> <period> 	: "\xc5\xae"	Uring
-+Ctrl<T> <period> <u>	: "\xc5\xaf"	uring
-+Ctrl<T> <u> <period> 	: "\xc5\xaf"	uring
-+Ctrl<T> <period> <z>	: "\xc5\xbc"	zabovedot
-+Ctrl<T> <z> <period> 	: "\xc5\xbc"	zabovedot
-+Ctrl<T> <period> <Z>	: "\xc5\xbb"	Zabovedot
-+Ctrl<T> <Z> <period> 	: "\xc5\xbb"	Zabovedot
-+Ctrl<T> <a> <space>	: "\xcb\x9b"	ogonek
-+Ctrl<T> <u> <space>	: "\xcb\x98"	breve
-+Ctrl<T> <v> <space>	: "\xcb\x87"	caron
-+Ctrl<T> <quotedbl> <space>	: "\xcb\x9d"	doubleacute
-+Ctrl<T> <A> <u>			: "\xc4\x82"	Abreve
-+Ctrl<T> <C> <apostrophe>	: "\xc4\x86"	Cacute
-+Ctrl<T> <L> <apostrophe>	: "\xc4\xb9"	Lacute
-+Ctrl<T> <L> <slash>		: "\xc5\x81"	Lstroke
-+Ctrl<T> <L> <greater>		: "\xc4\xbd"	Lcaron
-+Ctrl<T> <N> <apostrophe>	: "\xc5\x83"	Nacute
-+Ctrl<T> <S> <apostrophe>	: "\xc5\x9a"	Sacute
-+Ctrl<T> <R> <apostrophe>	: "\xc5\x94"	Racute
-+Ctrl<T> <U> <asterisk>		: "\xc5\xae"	Uring
-+Ctrl<T> <Z> <apostrophe>	: "\xc5\xb9"	Zacute
-+Ctrl<T> <a> <u>			: "\xc4\x83"	abreve
-+Ctrl<T> <c> <apostrophe>	: "\xc4\x87"	cacute
-+Ctrl<T> <l> <apostrophe>	: "\xc4\xba"	lacute
-+Ctrl<T> <l> <slash>		: "\xc5\x82"	lstroke
-+Ctrl<T> <l> <greater>		: "\xc4\xbe"	lcaron
-+Ctrl<T> <n> <apostrophe>	: "\xc5\x84"	nacute
-+Ctrl<T> <s> <apostrophe>	: "\xc5\x9b"	sacute
-+Ctrl<T> <r> <apostrophe>	: "\xc5\x95"	racute
-+Ctrl<T> <u> <asterisk>		: "\xc5\xaf"	uring
-+Ctrl<T> <z> <apostrophe>	: "\xc5\xba"	zacute
-+XCOMM
-+XCOMM Latin-3 sequences
-+Ctrl<T> <C> <asciicircum>	: "\xc4\x88"	Ccircumflex
-+Ctrl<T> <asciicircum> <C>	: "\xc4\x88"	Ccircumflex
-+Ctrl<T> <C> <greater>		: "\xc4\x88"	Ccircumflex
-+Ctrl<T> <greater> <C>		: "\xc4\x88"	Ccircumflex
++STATE "[ Cyrillic ]"
++Ctrl<space>		: SWITCH_STATE_TO "[ English/European ]"
++<Multi_key> <g> <g>	: SWITCH_STATE_TO "[ Greek ]"
++<Multi_key> <t> <t>	: SWITCH_STATE_TO "[ Thai ]"
++<Multi_key> <a> <r>	: SWITCH_STATE_TO "[ Arabic ]"
++<Multi_key> <h> <i>	: SWITCH_STATE_TO "[ Indic ]"
++<Multi_key> <i> <n>	: SWITCH_STATE_TO "[ Indic ]"
++<Multi_key> <h> <h>	: SWITCH_STATE_TO "[ Hebrew ]"
++<Multi_key> <u> <h>	: SWITCH_STATE_TO "[ Unicode Hex ]"
++<Multi_key> <u> <o>	: SWITCH_STATE_TO "[ Unicode Octal ]"
++<Multi_key> <l> <l>	: SWITCH_STATE_TO "[ Lookup ]"
++<Multi_key> <j>	<a>	: SWITCH_STATE_TO "[ Japanese ]"
++<Multi_key> <k>	<o>	: SWITCH_STATE_TO "[ Korean ]"
++<Multi_key> <s>	<c>	: SWITCH_STATE_TO "[ S-Chinese ]"
++<Multi_key> <t>	<c>	: SWITCH_STATE_TO "[ T-Chinese ]"
++<Multi_key> <h>	<k>	: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
 +
-+Ctrl<T> <c> <asciicircum>	: "\xc4\x89"	ccircumflex
-+Ctrl<T> <asciicircum> <c>	: "\xc4\x89"	ccircumflex
-+Ctrl<T> <c> <greater>		: "\xc4\x89"	ccircumflex
-+Ctrl<T> <greater> <c>		: "\xc4\x89"	ccircumflex
++Ctrl<T> <g> <g>		: SWITCH_STATE_TO "[ Greek ]"
++Ctrl<T> <t> <t>		: SWITCH_STATE_TO "[ Thai ]"
++Ctrl<T> <a> <r>		: SWITCH_STATE_TO "[ Arabic ]"
++Ctrl<T> <h> <i>		: SWITCH_STATE_TO "[ Indic ]"
++Ctrl<T> <i> <n>		: SWITCH_STATE_TO "[ Indic ]"
++Ctrl<T> <h> <h>		: SWITCH_STATE_TO "[ Hebrew ]"
++Ctrl<T> <u> <h>		: SWITCH_STATE_TO "[ Unicode Hex ]"
++Ctrl<T> <u> <o>		: SWITCH_STATE_TO "[ Unicode Octal ]"
++Ctrl<T> <l> <l>		: SWITCH_STATE_TO "[ Lookup ]"
++Ctrl<T> <j> <a>		: SWITCH_STATE_TO "[ Japanese ]"
++Ctrl<T> <k> <o>		: SWITCH_STATE_TO "[ Korean ]"
++Ctrl<T> <s> <c>		: SWITCH_STATE_TO "[ S-Chinese ]"
++Ctrl<T> <t> <c>		: SWITCH_STATE_TO "[ T-Chinese ]"
++Ctrl<T> <h> <k>		: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
 +
-+Ctrl<T> <period> <C>		: "\xc4\x8a"	Cabovedot
-+Ctrl<T> <C> <period> 		: "\xc4\x8a"	Cabovedot
++<at>		: "\x22"	quotedbl
++<numbersign>	: "\xe2\x84\x96"	numerosign
++<dollar>	: "\x25"	percent
++<percent>	: "\x3a"	colon
++<asciicircum>	: "\x2c"	comma
++<ampersand>	: "\x2e"	period
++<asterisk>	: "\x3b"	semicolon
++<numerosign>	: "\xe2\x84\x96" numerosign
++<q>		: "\xd0\xb9"	Cyrillic_shorti
++<w>		: "\xd1\x86"	Cyrillic_tse
++<e>		: "\xd1\x83"	Cyrillic_u
++<r>		: "\xd0\xba"	Cyrillic_ka
++<t>		: "\xd0\xb5"	Cyrillic_ie
++<y>		: "\xd0\xbd"	Cyrillic_en
++<u>		: "\xd0\xb3"	Cyrillic_ghe
++<i>		: "\xd1\x88"	Cyrillic_sha
++<o>		: "\xd1\x89"	Cyrillic_shcha
++<p>		: "\xd0\xb7"	Cyrillic_ze
++<bracketleft>	: "\xd1\x85"	Cyrillic_ha
++<bracketright>	: "\xd1\x8a"	Cyrillic_hardsign
++<Q>		: "\xd0\x99"	Cyrillic_SHORTI
++<W>		: "\xd0\xa6"	Cyrillic_TSE
++<E>		: "\xd0\xa3"	Cyrillic_U
++<R>		: "\xd0\x9a"	Cyrillic_KA
++<T>		: "\xd0\x95"	Cyrillic_IE
++<Y>		: "\xd0\x9d"	Cyrillic_EN
++<U>		: "\xd0\x93"	Cyrillic_GHE
++<I>		: "\xd0\xa8"	Cyrillic_SHA
++<O>		: "\xd0\xa9"	Cyrillic_SHCHA
++<P>		: "\xd0\x97"	Cyrillic_ZE
++Lock<bracketleft> 	: "\xd0\xa5"	Cyrillic_HA
++Lock<bracketright>	: "\xd0\xaa"	Cyrillic_HARDSIGN
++<braceleft> 	: "\xd0\xa5"	Cyrillic_HA
++<braceright>	: "\xd0\xaa"	Cyrillic_HARDSIGN
++<a>		: "\xd1\x84"	Cyrillic_ef
++<s>		: "\xd1\x8b"	Cyrillic_yeru
++<d>		: "\xd0\xb2"	Cyrillic_ve
++<f>		: "\xd0\xb0"	Cyrillic_a
++<g>		: "\xd0\xbf"	Cyrillic_pe
++<h>		: "\xd1\x80"	Cyrillic_er
++<j>		: "\xd0\xbe"	Cyrillic_o
++<k>		: "\xd0\xbb"	Cyrillic_el
++<l>		: "\xd0\xb4"	Cyrillic_de
++<semicolon>	: "\xd0\xb6"	Cyrillic_zhe
++<quoteright>	: "\xd1\x8d"	Cyrillic_e
++<A>		: "\xd0\xa4"	Cyrillic_EF
++<S>		: "\xd0\xab"	Cyrillic_YERU
++<D>		: "\xd0\x92"	Cyrillic_VE
++<F>		: "\xd0\x90"	Cyrillic_A
++<G>		: "\xd0\x9f"	Cyrillic_PE
++<H>		: "\xd0\xa0"	Cyrillic_ER
++<J>		: "\xd0\x9e"	Cyrillic_O
++<K>		: "\xd0\x9b"	Cyrillic_EL
++<L>		: "\xd0\x94"	Cyrillic_DE
++<colon>		: "\xd0\x96"	Cyrillic_ZHE
++<quotedbl>	: "\xd0\xad"	Cyrillic_E
++<z>		: "\xd1\x8f"	Cyrillic_ya
++<x>		: "\xd1\x87"	Cyrillic_che
++<c>		: "\xd1\x81"	Cyrillic_es
++<v>		: "\xd0\xbc"	Cyrillic_em
++<b>		: "\xd0\xb8"	Cyrillic_i
++<n>		: "\xd1\x82"	Cyrillic_te
++<m>		: "\xd1\x8c"	Cyrillic_softsign
++<comma>		: "\xd0\xb1"	Cyrillic_be
++<period>	: "\xd1\x8e"	Cyrillic_yu
++<slash>		: "\xd1\x91"	Cyrillic_io
++<Z>		: "\xd0\xaf"	Cyrillic_YA
++<X>		: "\xd0\xa7"	Cyrillic_CHE
++<C>		: "\xd0\xa1"	Cyrillic_ES
++<V>		: "\xd0\x9c"	Cyrillic_EM
++<B>		: "\xd0\x98"	Cyrillic_I
++<N>		: "\xd0\xa2"	Cyrillic_TE
++<M>		: "\xd0\xac"	Cyrillic_SOFTSIGN
++<less>		: "\xd0\x91"	Cyrillic_BE
++<greater>	: "\xd0\xae"	Cyrillic_YU
++<question>	: "\xd0\x81"	Cyrillic_IO
++END_STATE
 +
-+Ctrl<T> <period> <c>		: "\xc4\x8b"	cabovedot
-+Ctrl<T> <c> <period> 		: "\xc4\x8b"	cabovedot
++STATE "[ Greek ]"
++Ctrl<space> 		: SWITCH_STATE_TO "[ English/European ]"
++<Multi_key> <c> <c>	: SWITCH_STATE_TO "[ Cyrillic ]"
++<Multi_key> <t> <t>	: SWITCH_STATE_TO "[ Thai ]"
++<Multi_key> <a> <r>	: SWITCH_STATE_TO "[ Arabic ]"
++<Multi_key> <h> <i>	: SWITCH_STATE_TO "[ Indic ]"
++<Multi_key> <i> <n>	: SWITCH_STATE_TO "[ Indic ]"
++<Multi_key> <h> <h>	: SWITCH_STATE_TO "[ Hebrew ]"
++<Multi_key> <u> <h>	: SWITCH_STATE_TO "[ Unicode Hex ]"
++<Multi_key> <u> <o>	: SWITCH_STATE_TO "[ Unicode Octal ]"
++<Multi_key> <l> <l>	: SWITCH_STATE_TO "[ Lookup ]"
++<Multi_key> <j>	<a>	: SWITCH_STATE_TO "[ Japanese ]"
++<Multi_key> <k>	<o>	: SWITCH_STATE_TO "[ Korean ]"
++<Multi_key> <s>	<c>	: SWITCH_STATE_TO "[ S-Chinese ]"
++<Multi_key> <t>	<c>	: SWITCH_STATE_TO "[ T-Chinese ]"
++<Multi_key> <h>	<k>	: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
 +
-+Ctrl<T> <G> <asciicircum>	: "\xc4\x9c"	Gcircumflex
-+Ctrl<T> <asciicircum> <G>	: "\xc4\x9c"	Gcircumflex
-+Ctrl<T> <G> <greater>		: "\xc4\x9c"	Gcircumflex
-+Ctrl<T> <greater> <G>		: "\xc4\x9c"	Gcircumflex
++Ctrl<T> <c> <c>		: SWITCH_STATE_TO "[ Cyrillic ]"
++Ctrl<T> <t> <t>		: SWITCH_STATE_TO "[ Thai ]"
++Ctrl<T> <a> <r>		: SWITCH_STATE_TO "[ Arabic ]"
++Ctrl<T> <h> <i>		: SWITCH_STATE_TO "[ Indic ]"
++Ctrl<T> <i> <n>		: SWITCH_STATE_TO "[ Indic ]"
++Ctrl<T> <h> <h>		: SWITCH_STATE_TO "[ Hebrew ]"
++Ctrl<T> <u> <h>		: SWITCH_STATE_TO "[ Unicode Hex ]"
++Ctrl<T> <u> <o>		: SWITCH_STATE_TO "[ Unicode Octal ]"
++Ctrl<T> <l> <l>		: SWITCH_STATE_TO "[ Lookup ]"
++Ctrl<T> <j> <a>		: SWITCH_STATE_TO "[ Japanese ]"
++Ctrl<T> <k> <o>		: SWITCH_STATE_TO "[ Korean ]"
++Ctrl<T> <s> <c>		: SWITCH_STATE_TO "[ S-Chinese ]"
++Ctrl<T> <t> <c>		: SWITCH_STATE_TO "[ T-Chinese ]"
++Ctrl<T> <h> <k>		: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
 +
-+Ctrl<T> <g> <asciicircum>	: "\xc4\x9d"	gcircumflex
-+Ctrl<T> <asciicircum> <g>	: "\xc4\x9d"	gcircumflex
-+Ctrl<T> <g> <greater>		: "\xc4\x9d"	gcircumflex
-+Ctrl<T> <greater> <g>		: "\xc4\x9d"	gcircumflex
-+
-+Ctrl<T> <period> <G>		: "\xc4\xa0"	Gabovedot
-+Ctrl<T> <G> <period> 		: "\xc4\xa0"	Gabovedot
-+
-+Ctrl<T> <period> <g>		: "\xc4\xa1"	gabovedot
-+Ctrl<T> <g> <period> 		: "\xc4\xa1"	gabovedot
-+
-+Ctrl<T> <H> <asciicircum>	: "\xc4\xa4"	Hcircumflex
-+Ctrl<T> <asciicircum> <H>	: "\xc4\xa4"	Hcircumflex
-+Ctrl<T> <H> <greater>		: "\xc4\xa4"	Hcircumflex
-+Ctrl<T> <greater> <H>		: "\xc4\xa4"	Hcircumflex
-+
-+Ctrl<T> <h> <asciicircum>	: "\xc4\xa5"	hcircumflex
-+Ctrl<T> <asciicircum> <h>	: "\xc4\xa5"	hcircumflex
-+Ctrl<T> <h> <greater>		: "\xc4\xa5"	hcircumflex
-+Ctrl<T> <greater> <h>		: "\xc4\xa5"	hcircumflex
-+
-+Ctrl<T> <J> <asciicircum>	: "\xc4\xb4"	Jcircumflex
-+Ctrl<T> <asciicircum> <J>	: "\xc4\xb4"	Jcircumflex
-+Ctrl<T> <J> <greater>		: "\xc4\xb4"	Jcircumflex
-+Ctrl<T> <greater> <J>		: "\xc4\xb4"	Jcircumflex
-+
-+Ctrl<T> <j> <asciicircum>	: "\xc4\xb5"	jcircumflex
-+Ctrl<T> <asciicircum> <j>	: "\xc4\xb5"	jcircumflex
-+Ctrl<T> <j> <greater>		: "\xc4\xb5"	jcircumflex
-+Ctrl<T> <greater> <j>		: "\xc4\xb5"	jcircumflex
-+
-+Ctrl<T> <S> <asciicircum>	: "\xc5\x9c"	Scircumflex
-+Ctrl<T> <asciicircum> <S>	: "\xc5\x9c"	Scircumflex
-+Ctrl<T> <S> <greater>		: "\xc5\x9c"	Scircumflex
-+Ctrl<T> <greater> <S>		: "\xc5\x9c"	Scircumflex
-+
-+Ctrl<T> <s> <asciicircum>	: "\xc5\x9d"	scircumflex
-+Ctrl<T> <asciicircum> <s>	: "\xc5\x9d"	scircumflex
-+Ctrl<T> <s> <greater>		: "\xc5\x9d"	scircumflex
-+Ctrl<T> <greater> <s>		: "\xc5\x9d"	scircumflex
-+
-+Ctrl<T> <U> <breve>		: "\xc5\xac"	Ubreve
-+Ctrl<T> <breve> <U>		: "\xc5\xac"	Ubreve
-+Ctrl<T> <U> <u>			: "\xc5\xac"	Ubreve
-+Ctrl<T> <u> <U>			: "\xc5\xac"	Ubreve
-+
-+Ctrl<T> <u> <breve>		: "\xc5\xad"	ubreve
-+Ctrl<T> <breve> <u>		: "\xc5\xad"	ubreve
-+Ctrl<T> <u> <u>			: "\xc5\xad"	ubreve
  XCOMM
 -XCOMM Greek Extended multi-key and dead key definitions. These have been
 -XCOMM machine-generated by a perl script, found at:
@@ -3433,327 +3752,8 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 -<dead_iota> <underscore>                                : "ι"  U1fbe
 -<dead_iota> <space>                                     : "ͺ"  U037a
 -<dead_iota> <dead_iota>                                 : "ͺ"  U037a
-+XCOMM Latin-4 sequences
-+Ctrl<T> <N> <N>		: "\xc5\x8a"	ENG
-+Ctrl<T> <U> <a>		: "\xc5\xb2"	Uogonek
-+Ctrl<T> <u> <a>		: "\xc5\xb3"	uogonek
-+Ctrl<T> <k> <k>		: "\xc4\xb8"	kra
-+Ctrl<T> <R> <comma>		: "\xc5\x96"	Rcedilla
-+Ctrl<T> <comma> <R>		: "\xc5\x96"	Rcedilla
-+Ctrl<T> <r> <comma>		: "\xc5\x97"	rcedilla
-+Ctrl<T> <comma> <r>		: "\xc5\x97"	rcedilla
-+Ctrl<T> <I> <asciitilde>	: "\xc4\xa8"	Itilde
-+Ctrl<T> <asciitilde> <I>	: "\xc4\xa8"	Itilde
-+Ctrl<T> <i> <asciitilde>	: "\xc4\xa9"	itilde
-+Ctrl<T> <asciitilde> <i>	: "\xc4\xa9"	itilde
-+Ctrl<T> <L> <comma>		: "\xc4\xbb"	Lcedilla
-+Ctrl<T> <comma> <L>		: "\xc4\xbb"	Lcedilla
-+Ctrl<T> <l> <comma>		: "\xc4\xbc"	lcedilla
-+Ctrl<T> <comma> <l>		: "\xc4\xbc"	lcedilla
-+Ctrl<T> <S> <v>		: "\xc5\xa0"	Scaron
-+Ctrl<T> <S> <V>		: "\xc5\xa0"	Scaron
-+Ctrl<T> <v> <S>		: "\xc5\xa0"	Scaron
-+Ctrl<T> <V> <S>		: "\xc5\xa0"	Scaron
-+Ctrl<T> <s> <v>		: "\xc5\xa1"	scaron
-+Ctrl<T> <s> <V>		: "\xc5\xa1"	scaron
-+Ctrl<T> <v> <s>		: "\xc5\xa1"	scaron
-+Ctrl<T> <V> <s>		: "\xc5\xa1"	scaron
-+Ctrl<T> <E> <underscore>	: "\xc4\x92"	Emacron
-+Ctrl<T> <underscore> <E>	: "\xc4\x92"	Emacron
-+Ctrl<T> <e> <underscore>	: "\xc4\x93"	emacron
-+Ctrl<T> <underscore> <e>	: "\xc4\x93"	emacron
-+Ctrl<T> <G> <comma>		: "\xc4\xa2"	Gcedilla
-+Ctrl<T> <comma> <G>		: "\xc4\xa2"	Gcedilla
-+Ctrl<T> <g> <comma>		: "\xc4\xa3"	gcedilla
-+Ctrl<T> <comma> <g>		: "\xc4\xa3"	gcedilla
-+Ctrl<T> <T> <bar>		: "\xc5\xa6"	Tslash
-+Ctrl<T> <bar> <T>		: "\xc5\xa6"	Tslash
-+Ctrl<T> <t> <bar>		: "\xc5\xa7"	tslash
-+Ctrl<T> <bar> <t>		: "\xc5\xa7"	tslash
-+Ctrl<T> <n> <n>		: "\xc5\x8b" 	eng
-+Ctrl<T> <d> <underscore>	: "\xc4\x91"
-+Ctrl<T> <underscore> <d> 	: "\xc4\x91"
-+Ctrl<T> <N> <comma>		: "\xc5\x85"	Ncedilla
-+Ctrl<T> <comma> <N>		: "\xc5\x85"	Ncedilla
-+Ctrl<T> <n> <comma>		: "\xc5\x86"	ncedilla
-+Ctrl<T> <comma> <n>		: "\xc5\x86"	ncedilla
-+Ctrl<T> <K> <comma>		: "\xc4\xb6"	Kcedilla
-+Ctrl<T> <comma> <K>		: "\xc4\xb6"	Kcedilla
-+Ctrl<T> <k> <comma>		: "\xc4\xb7"	kcedilla
-+Ctrl<T> <comma> <k>		: "\xc4\xb7"	kcedilla
-+Ctrl<T> <I> <a>		: "\xc4\xae"	Iogonek
-+Ctrl<T> <a> <I>		: "\xc4\xae"	Iogonek
-+Ctrl<T> <i> <a>		: "\xc4\xaf"	iogonek
-+Ctrl<T> <a> <i>		: "\xc4\xaf"	iogonek
-+Ctrl<T> <E> <period>	: "\xc4\x96"	Eabovedot
-+Ctrl<T> <e> <period>	: "\xc4\x97"	eabovedot
-+Ctrl<T> <U> <asciitilde>	: "\xc5\xa8"	Utilde
-+Ctrl<T> <asciitilde> <U>	: "\xc5\xa8"	Utilde
-+Ctrl<T> <u> <asciitilde>	: "\xc5\xa9"	utilde
-+Ctrl<T> <asciitilde> <u>	: "\xc5\xa9"	utilde
-+Ctrl<T> <U> <underscore>	: "\xc5\xaa"	Umacron
-+Ctrl<T> <underscore> <U>	: "\xc5\xaa"	Umacron
-+Ctrl<T> <u> <underscore>	: "\xc5\xab"	umacron
-+Ctrl<T> <underscore> <u>	: "\xc5\xab"	umacron
-+Ctrl<T> <I> <underscore>	: "\xc4\xaa"	Imacron
-+Ctrl<T> <underscore> <I> 	: "\xc4\xaa"	Imacron
-+Ctrl<T> <i> <underscore>	: "\xc4\xab"	imacron
-+Ctrl<T> <underscore> <i> 	: "\xc4\xab"	imacron
-+XCOMM
-+XCOMM Rules for SunXK_FA_* keysyms:
-+<SunFA_Acute> <apostrophe>	: "\xc2\xb4"
-+<SunFA_Acute> <A>		: "\xc3\x81"
-+<SunFA_Acute> <a>		: "\xc3\xa1"
-+<SunFA_Acute> <C>		: "\xc4\x86"
-+<SunFA_Acute> <c>		: "\xc4\x87"
-+<SunFA_Acute> <E>		: "\xc3\x89"
-+<SunFA_Acute> <e>		: "\xc3\xa9"
-+<SunFA_Acute> <I>		: "\xc3\x8d"
-+<SunFA_Acute> <i>		: "\xc3\xad"
-+<SunFA_Acute> <L>		: "\xc4\xb9"
-+<SunFA_Acute> <l>		: "\xc4\xba"
-+<SunFA_Acute> <N>		: "\xc5\x83"
-+<SunFA_Acute> <n>		: "\xc5\x84"
-+<SunFA_Acute> <O>		: "\xc3\x93"
-+<SunFA_Acute> <o>		: "\xc3\xb3"
-+<SunFA_Acute> <R>		: "\xc5\x94"
-+<SunFA_Acute> <r>		: "\xc5\x95"
-+<SunFA_Acute> <space>		: "\x27"
-+<SunFA_Acute> <S>		: "\xc5\x9a"
-+<SunFA_Acute> <s>		: "\xc5\x9b"
-+<SunFA_Acute> <U>		: "\xc3\x9a"
-+<SunFA_Acute> <u>		: "\xc3\xba"
-+<SunFA_Acute> <Y>		: "\xc3\x9d"
-+<SunFA_Acute> <y>		: "\xc3\xbd"
-+<SunFA_Acute> <Z>		: "\xc4\xbe"
-+<SunFA_Acute> <z>		: "\xc5\xba"
-+<SunFA_Cedilla> <comma>		: "\xc2\xb8"
-+<SunFA_Cedilla> <C>		: "\xc3\x87"
-+<SunFA_Cedilla> <c>		: "\xc3\xa7"
-+<SunFA_Cedilla> <G>		: "\xc4\xa2"
-+<SunFA_Cedilla> <g>		: "\xc4\xa3"
-+<SunFA_Cedilla> <K>		: "\xc4\xb6"
-+<SunFA_Cedilla> <k>		: "\xc4\xb7"
-+<SunFA_Cedilla> <L>		: "\xc4\xbb"
-+<SunFA_Cedilla> <l>		: "\xc4\xbc"
-+<SunFA_Cedilla> <minus>		: "\xc2\xac"
-+<SunFA_Cedilla> <N>		: "\xc5\x85"
-+<SunFA_Cedilla> <n>		: "\xc5\x86"
-+<SunFA_Cedilla> <R>		: "\xc5\x96"
-+<SunFA_Cedilla> <r>		: "\xc5\x97"
-+<SunFA_Cedilla> <S>		: "\xc5\x9e"
-+<SunFA_Cedilla> <s>		: "\xc5\x9f"
-+<SunFA_Cedilla> <T>		: "\xc5\xa2"
-+<SunFA_Cedilla> <t>		: "\xc5\xa3"
-+<SunFA_Circum> <0>		: "\xc2\xb0"
-+<SunFA_Circum> <1>		: "\xc2\xb9"
-+<SunFA_Circum> <2>		: "\xc2\xb2"
-+<SunFA_Circum> <3>		: "\xc2\xb3"
-+<SunFA_Circum> <A>		: "\xc3\x82"
-+<SunFA_Circum> <a>		: "\xc3\xa2"
-+<SunFA_Circum> <C>		: "\xc4\x88"
-+<SunFA_Circum> <c>		: "\xc4\x89"
-+<SunFA_Circum> <E>		: "\xc3\x8a"
-+<SunFA_Circum> <e>		: "\xc3\xaa"
-+<SunFA_Circum> <exclam>		: "\xc2\xa6"
-+<SunFA_Circum> <G>		: "\xc4\x9c"
-+<SunFA_Circum> <g>		: "\xc4\x9d"
-+<SunFA_Circum> <H>		: "\xc4\xa4"
-+<SunFA_Circum> <h>		: "\xc4\xa5"
-+<SunFA_Circum> <I>		: "\xc3\x8e"
-+<SunFA_Circum> <i>		: "\xc3\xae"
-+<SunFA_Circum> <J>		: "\xc4\xb4"
-+<SunFA_Circum> <j>		: "\xc4\xb5"
-+<SunFA_Circum> <minus>		: "\xc2\xaf"
-+<SunFA_Circum> <O>		: "\xc3\x94"
-+<SunFA_Circum> <o>		: "\xc3\xb4"
-+<SunFA_Circum> <period>		: "\xc2\xb7"
-+<SunFA_Circum> <slash>		: "\x7c"
-+<SunFA_Circum> <space>		: "\x5e"
-+<SunFA_Circum> <S>		: "\xc5\x9c"
-+<SunFA_Circum> <s>		: "\xc5\x9d"
-+<SunFA_Circum> <underscore>	: "\xc2\xaf"
-+<SunFA_Circum> <U>		: "\xc3\x9b"
-+<SunFA_Circum> <u>		: "\xc3\xbb"
-+<SunFA_Diaeresis> <A>		: "\xc3\x84"
-+<SunFA_Diaeresis> <a>		: "\xc3\xa4"
-+<SunFA_Diaeresis> <E>		: "\xc3\x8b"
-+<SunFA_Diaeresis> <e>		: "\xc3\xab"
-+<SunFA_Diaeresis> <I>		: "\xc3\x8f"
-+<SunFA_Diaeresis> <i>		: "\xc3\xaf"
-+<SunFA_Diaeresis> <O>		: "\xc3\x96"
-+<SunFA_Diaeresis> <o>		: "\xc3\xb6"
-+<SunFA_Diaeresis> <quotedbl>	: "\xc2\xa8"
-+<SunFA_Diaeresis> <space>	: "\xc2\xa8"
-+<SunFA_Diaeresis> <U>		: "\xc3\x9c"
-+<SunFA_Diaeresis> <u>		: "\xc3\xbc"
-+<SunFA_Diaeresis> <y>		: "\xc3\xbf"
-+<SunFA_Grave> <A>		: "\xc3\x80"
-+<SunFA_Grave> <a>		: "\xc3\xa0"
-+<SunFA_Grave> <E>		: "\xc3\x88"
-+<SunFA_Grave> <e>		: "\xc3\xa8"
-+<SunFA_Grave> <I>		: "\xc3\x8c"
-+<SunFA_Grave> <i>		: "\xc3\xac"
-+<SunFA_Grave> <O>		: "\xc3\x92"
-+<SunFA_Grave> <o>		: "\xc3\xb2"
-+<SunFA_Grave> <space>		: "\x60"
-+<SunFA_Grave> <U>		: "\xc3\x99"
-+<SunFA_Grave> <u>		: "\xc3\xb9"
-+<SunFA_Tilde> <A>		: "\xc3\x83"
-+<SunFA_Tilde> <a>		: "\xc3\xa3"
-+<SunFA_Tilde> <N>		: "\xc3\x91"
-+<SunFA_Tilde> <n>		: "\xc3\xb1"
-+<SunFA_Tilde> <O>		: "\xc3\x95"
-+<SunFA_Tilde> <o>		: "\xc3\xb5"
-+<SunFA_Tilde> <space>		: "\x7e"
-+END_STATE
-+
-+STATE "[ Cyrillic ]"
-+Ctrl<space>		: SWITCH_STATE_TO "[ English/European ]"
-+<Multi_key> <g> <g>	: SWITCH_STATE_TO "[ Greek ]"
-+<Multi_key> <t> <t>	: SWITCH_STATE_TO "[ Thai ]"
-+<Multi_key> <a> <r>	: SWITCH_STATE_TO "[ Arabic ]"
-+<Multi_key> <h> <i>	: SWITCH_STATE_TO "[ Indic ]"
-+<Multi_key> <i> <n>	: SWITCH_STATE_TO "[ Indic ]"
-+<Multi_key> <h> <h>	: SWITCH_STATE_TO "[ Hebrew ]"
-+<Multi_key> <u> <h>	: SWITCH_STATE_TO "[ Unicode Hex ]"
-+<Multi_key> <u> <o>	: SWITCH_STATE_TO "[ Unicode Octal ]"
-+<Multi_key> <l> <l>	: SWITCH_STATE_TO "[ Lookup ]"
-+<Multi_key> <j>	<a>	: SWITCH_STATE_TO "[ Japanese ]"
-+<Multi_key> <k>	<o>	: SWITCH_STATE_TO "[ Korean ]"
-+<Multi_key> <s>	<c>	: SWITCH_STATE_TO "[ S-Chinese ]"
-+<Multi_key> <t>	<c>	: SWITCH_STATE_TO "[ T-Chinese ]"
-+<Multi_key> <h>	<k>	: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
-+
-+Ctrl<T> <g> <g>		: SWITCH_STATE_TO "[ Greek ]"
-+Ctrl<T> <t> <t>		: SWITCH_STATE_TO "[ Thai ]"
-+Ctrl<T> <a> <r>		: SWITCH_STATE_TO "[ Arabic ]"
-+Ctrl<T> <h> <i>		: SWITCH_STATE_TO "[ Indic ]"
-+Ctrl<T> <i> <n>		: SWITCH_STATE_TO "[ Indic ]"
-+Ctrl<T> <h> <h>		: SWITCH_STATE_TO "[ Hebrew ]"
-+Ctrl<T> <u> <h>		: SWITCH_STATE_TO "[ Unicode Hex ]"
-+Ctrl<T> <u> <o>		: SWITCH_STATE_TO "[ Unicode Octal ]"
-+Ctrl<T> <l> <l>		: SWITCH_STATE_TO "[ Lookup ]"
-+Ctrl<T> <j> <a>		: SWITCH_STATE_TO "[ Japanese ]"
-+Ctrl<T> <k> <o>		: SWITCH_STATE_TO "[ Korean ]"
-+Ctrl<T> <s> <c>		: SWITCH_STATE_TO "[ S-Chinese ]"
-+Ctrl<T> <t> <c>		: SWITCH_STATE_TO "[ T-Chinese ]"
-+Ctrl<T> <h> <k>		: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
-+
-+<at>		: "\x22"	quotedbl
-+<numbersign>	: "\xe2\x84\x96"	numerosign
-+<dollar>	: "\x25"	percent
-+<percent>	: "\x3a"	colon
-+<asciicircum>	: "\x2c"	comma
-+<ampersand>	: "\x2e"	period
-+<asterisk>	: "\x3b"	semicolon
-+<numerosign>	: "\xe2\x84\x96" numerosign
-+<q>		: "\xd0\xb9"	Cyrillic_shorti
-+<w>		: "\xd1\x86"	Cyrillic_tse
-+<e>		: "\xd1\x83"	Cyrillic_u
-+<r>		: "\xd0\xba"	Cyrillic_ka
-+<t>		: "\xd0\xb5"	Cyrillic_ie
-+<y>		: "\xd0\xbd"	Cyrillic_en
-+<u>		: "\xd0\xb3"	Cyrillic_ghe
-+<i>		: "\xd1\x88"	Cyrillic_sha
-+<o>		: "\xd1\x89"	Cyrillic_shcha
-+<p>		: "\xd0\xb7"	Cyrillic_ze
-+<bracketleft>	: "\xd1\x85"	Cyrillic_ha
-+<bracketright>	: "\xd1\x8a"	Cyrillic_hardsign
-+<Q>		: "\xd0\x99"	Cyrillic_SHORTI
-+<W>		: "\xd0\xa6"	Cyrillic_TSE
-+<E>		: "\xd0\xa3"	Cyrillic_U
-+<R>		: "\xd0\x9a"	Cyrillic_KA
-+<T>		: "\xd0\x95"	Cyrillic_IE
-+<Y>		: "\xd0\x9d"	Cyrillic_EN
-+<U>		: "\xd0\x93"	Cyrillic_GHE
-+<I>		: "\xd0\xa8"	Cyrillic_SHA
-+<O>		: "\xd0\xa9"	Cyrillic_SHCHA
-+<P>		: "\xd0\x97"	Cyrillic_ZE
-+Lock<bracketleft> 	: "\xd0\xa5"	Cyrillic_HA
-+Lock<bracketright>	: "\xd0\xaa"	Cyrillic_HARDSIGN
-+<braceleft> 	: "\xd0\xa5"	Cyrillic_HA
-+<braceright>	: "\xd0\xaa"	Cyrillic_HARDSIGN
-+<a>		: "\xd1\x84"	Cyrillic_ef
-+<s>		: "\xd1\x8b"	Cyrillic_yeru
-+<d>		: "\xd0\xb2"	Cyrillic_ve
-+<f>		: "\xd0\xb0"	Cyrillic_a
-+<g>		: "\xd0\xbf"	Cyrillic_pe
-+<h>		: "\xd1\x80"	Cyrillic_er
-+<j>		: "\xd0\xbe"	Cyrillic_o
-+<k>		: "\xd0\xbb"	Cyrillic_el
-+<l>		: "\xd0\xb4"	Cyrillic_de
-+<semicolon>	: "\xd0\xb6"	Cyrillic_zhe
-+<quoteright>	: "\xd1\x8d"	Cyrillic_e
-+<A>		: "\xd0\xa4"	Cyrillic_EF
-+<S>		: "\xd0\xab"	Cyrillic_YERU
-+<D>		: "\xd0\x92"	Cyrillic_VE
-+<F>		: "\xd0\x90"	Cyrillic_A
-+<G>		: "\xd0\x9f"	Cyrillic_PE
-+<H>		: "\xd0\xa0"	Cyrillic_ER
-+<J>		: "\xd0\x9e"	Cyrillic_O
-+<K>		: "\xd0\x9b"	Cyrillic_EL
-+<L>		: "\xd0\x94"	Cyrillic_DE
-+<colon>		: "\xd0\x96"	Cyrillic_ZHE
-+<quotedbl>	: "\xd0\xad"	Cyrillic_E
-+<z>		: "\xd1\x8f"	Cyrillic_ya
-+<x>		: "\xd1\x87"	Cyrillic_che
-+<c>		: "\xd1\x81"	Cyrillic_es
-+<v>		: "\xd0\xbc"	Cyrillic_em
-+<b>		: "\xd0\xb8"	Cyrillic_i
-+<n>		: "\xd1\x82"	Cyrillic_te
-+<m>		: "\xd1\x8c"	Cyrillic_softsign
-+<comma>		: "\xd0\xb1"	Cyrillic_be
-+<period>	: "\xd1\x8e"	Cyrillic_yu
-+<slash>		: "\xd1\x91"	Cyrillic_io
-+<Z>		: "\xd0\xaf"	Cyrillic_YA
-+<X>		: "\xd0\xa7"	Cyrillic_CHE
-+<C>		: "\xd0\xa1"	Cyrillic_ES
-+<V>		: "\xd0\x9c"	Cyrillic_EM
-+<B>		: "\xd0\x98"	Cyrillic_I
-+<N>		: "\xd0\xa2"	Cyrillic_TE
-+<M>		: "\xd0\xac"	Cyrillic_SOFTSIGN
-+<less>		: "\xd0\x91"	Cyrillic_BE
-+<greater>	: "\xd0\xae"	Cyrillic_YU
-+<question>	: "\xd0\x81"	Cyrillic_IO
-+END_STATE
-+
-+STATE "[ Greek ]"
-+Ctrl<space> 		: SWITCH_STATE_TO "[ English/European ]"
-+<Multi_key> <c> <c>	: SWITCH_STATE_TO "[ Cyrillic ]"
-+<Multi_key> <t> <t>	: SWITCH_STATE_TO "[ Thai ]"
-+<Multi_key> <a> <r>	: SWITCH_STATE_TO "[ Arabic ]"
-+<Multi_key> <h> <i>	: SWITCH_STATE_TO "[ Indic ]"
-+<Multi_key> <i> <n>	: SWITCH_STATE_TO "[ Indic ]"
-+<Multi_key> <h> <h>	: SWITCH_STATE_TO "[ Hebrew ]"
-+<Multi_key> <u> <h>	: SWITCH_STATE_TO "[ Unicode Hex ]"
-+<Multi_key> <u> <o>	: SWITCH_STATE_TO "[ Unicode Octal ]"
-+<Multi_key> <l> <l>	: SWITCH_STATE_TO "[ Lookup ]"
-+<Multi_key> <j>	<a>	: SWITCH_STATE_TO "[ Japanese ]"
-+<Multi_key> <k>	<o>	: SWITCH_STATE_TO "[ Korean ]"
-+<Multi_key> <s>	<c>	: SWITCH_STATE_TO "[ S-Chinese ]"
-+<Multi_key> <t>	<c>	: SWITCH_STATE_TO "[ T-Chinese ]"
-+<Multi_key> <h>	<k>	: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
-+
-+Ctrl<T> <c> <c>		: SWITCH_STATE_TO "[ Cyrillic ]"
-+Ctrl<T> <t> <t>		: SWITCH_STATE_TO "[ Thai ]"
-+Ctrl<T> <a> <r>		: SWITCH_STATE_TO "[ Arabic ]"
-+Ctrl<T> <h> <i>		: SWITCH_STATE_TO "[ Indic ]"
-+Ctrl<T> <i> <n>		: SWITCH_STATE_TO "[ Indic ]"
-+Ctrl<T> <h> <h>		: SWITCH_STATE_TO "[ Hebrew ]"
-+Ctrl<T> <u> <h>		: SWITCH_STATE_TO "[ Unicode Hex ]"
-+Ctrl<T> <u> <o>		: SWITCH_STATE_TO "[ Unicode Octal ]"
-+Ctrl<T> <l> <l>		: SWITCH_STATE_TO "[ Lookup ]"
-+Ctrl<T> <j> <a>		: SWITCH_STATE_TO "[ Japanese ]"
-+Ctrl<T> <k> <o>		: SWITCH_STATE_TO "[ Korean ]"
-+Ctrl<T> <s> <c>		: SWITCH_STATE_TO "[ S-Chinese ]"
-+Ctrl<T> <t> <c>		: SWITCH_STATE_TO "[ T-Chinese ]"
-+Ctrl<T> <h> <k>		: SWITCH_STATE_TO "[ T-Chinese (Hong Kong) ]"
- 
+-
 -XCOMM Part 3
- XCOMM
--XCOMM ISO 8859-7 (Greek) multi-key and dead key definitions extracted and
--XCOMM converted from the iso8859-7/Compose file.
 +XCOMM Key sequences for euro sign:
 +AltGraph<e>		: "\xe2\x82\xac"
 +AltGraph<E>		: "\xe2\x82\xac"
@@ -3776,7 +3776,12 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +Ctrl<T> <E> <equal>	: "\xe2\x82\xac"
 +Ctrl<T> <equal> <E>	: "\xe2\x82\xac"
 +<EuroSign>		: "\xe2\x82\xac"
- 
++
++
+ XCOMM
+-XCOMM ISO 8859-7 (Greek) multi-key and dead key definitions extracted and
+-XCOMM converted from the iso8859-7/Compose file.
+-
 -<Multi_key> <Greek_ALPHA> <apostrophe>	: "Ά" Greek_ALPHAaccent
 -<Multi_key> <apostrophe> <Greek_ALPHA>	: "Ά" Greek_ALPHAaccent
 -<Multi_key> <Greek_EPSILON> <apostrophe>: "Έ" Greek_EPSILONaccent
@@ -3859,10 +3864,8 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 -<dead_diaeresis> <dead_acute> <Greek_iota>	: "ΐ"	Greek_iotaaccentdieresis
 -<dead_diaeresis> <dead_acute> <Greek_upsilon>	: "ΰ"	Greek_upsilonaccentdieresis
 -<dead_diaeresis> <dead_acute> <space>		: "΅"	Greek_accentdieresis
- 
+-
 -XCOMM Part 4
- XCOMM
--XCOMM Miscellaneous extensions.
 +XCOMM The following seven mappings are not appropriate here; this kind of mappings
 +XCOMM should be done at the keytable level at /usr/openwin/share/etc/keytables,
 +XCOMM not in the Compose file.
@@ -3979,7 +3982,10 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<Greek_NU>	: "\xce\x9d"	Greek_NU
 +<Greek_MU>	: "\xce\x9c"	Greek_MU
 +<periodcentered> : "\xc2\xb7"	periodcentered
- 
++
+ XCOMM
+-XCOMM Miscellaneous extensions.
+-
 -<dead_macron> <space>			: "¯"	macron
 -<dead_macron> <dead_macron>		: "¯"	macron
 -<dead_breve> <space>			: "˘"	breve
@@ -4034,7 +4040,6 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 -<Multi_key> <3> <8>			: "⅜"	U215C # VULGAR FRACTION THREE EIGHTHS
 -<Multi_key> <5> <8>			: "⅝"	U215D # VULGAR FRACTION FIVE EIGHTHS
 -<Multi_key> <7> <8>			: "⅞"	U215E # VULGAR FRACTION SEVEN EIGHTHS
-+XCOMM
 +XCOMM XK_dead_acute and XK_dead_diaeresis defined in Greece*.kt keytable files.
 +XCOMM XK_Greek_* are not defined in Greece*.kt keytable files. Nonetheless, we
 +XCOMM keep them here for user-defined keytable file possibility.
@@ -4140,14 +4145,6 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +<ordfeminine> <bracketleft>	:"\xc2\xab"	guillemotleft
 +<ordfeminine> <bracketright>	:"\xc2\xbb"	guillemotright
  XCOMM
--
--<U17ff> :   "ាំ"
--<U17fe> :   "ោះ"
--<U17fd> :   "េះ"
--<U17fc> :   "ុំ"
--<U17fb> :   "ុះ"
--
--XCOMM End
 +XCOMM Rules for SunXK_FA_* keysyms:
 +<SunFA_Acute> <A>		:"\xce\x86"
 +<SunFA_Acute> <E>		:"\xce\x88"
@@ -4657,13 +4654,19 @@ diff -urp -x '*~' -x '*.orig' nls/el_GR.UTF-8/Compose.pre nls/el_GR.UTF-8/Compos
 +Ctrl<space>		: SWITCH_STATE_TO "[ English/European ]"
 +LANGUAGE : zh_HK
 +END_STATE
-+
+ 
+-<U17ff> :   "ាំ"
+-<U17fe> :   "ោះ"
+-<U17fd> :   "េះ"
+-<U17fc> :   "ុំ"
+-<U17fb> :   "ុះ"
 +STATE "[ Thai ]"
 +STATE_TYPE: REMOTE_IM
 +Ctrl<space>		: SWITCH_STATE_TO "[ English/European ]"
 +LANGUAGE : th_TH
 +END_STATE
-+
+ 
+-XCOMM End
 +STATE "[ Indic ]"
 +STATE_TYPE: REMOTE_IM
 +Ctrl<space>		: SWITCH_STATE_TO "[ English/European ]"

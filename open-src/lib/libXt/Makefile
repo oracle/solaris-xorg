@@ -33,18 +33,17 @@ MODULE_PKGNAME=x11/library/toolkit/libxt
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.3
+MODULE_VERSION=1.1.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a6f137ae100e74ebe3b71eb4a38c40b3
-TARBALL_SHA1  = 2cef068bc4d7170e31b89b5c06aeaf4451a7699a
-TARBALL_SHA256= 8db593c3fc5ffc4e9cd854ba50af1eac9b90d66521ba17802b8f1e0d2d7f05bd
+TARBALL_MD5   = 03149823ae57bb02d0cec90d5b97d56c
+TARBALL_SHA1  = 0111c316d83fb7e830c517128150094cb0a48ae7
+TARBALL_SHA256= 843a97a988f5654872682a4120486d987d853a71651515472f55519ffae2dd57
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6671721.patch,-p1
-SOURCE_PATCHES += CVE-2013-2002.patch,-p1 CVE-2013-2005.patch,-p1
 
-# Regenerate configure script & Makefile.in's after applying patches
+# Regenerate configure script & Makefile.in's after patching in 6671721.patch
 AUTORECONF=yes
 
 # Work around libtool's interference

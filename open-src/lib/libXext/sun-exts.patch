@@ -20,10 +20,10 @@ index fef283f..c2b8482 100644
  	DBE.man					\
  	DPMSCapable.man				\
 diff --git a/src/Makefile.am b/src/Makefile.am
-index e236c33..53b04ed 100644
+index b828547..fc57d28 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -63,3 +63,13 @@ lintlib_DATA = $(LINTLIB)
+@@ -64,3 +64,13 @@ lintlib_DATA = $(LINTLIB)
  $(LINTLIB): $(libXext_la_SOURCES)
  	$(LINT) -y -oXext -x $(ALL_LINT_FLAGS) $(libXext_la_SOURCES)
  endif MAKE_LINT_LIB

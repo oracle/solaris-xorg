@@ -34,6 +34,7 @@ MODULE_DESC = Intel graphics driver debug tools
 # Earliest & latest of the copyrights in the Oracle files in this pkg
 ORACLE_COPYRIGHT_YEARS = 2013
 ORACLE_TPNO = 13224
+ORACLE_TPNO_SET = yes
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)

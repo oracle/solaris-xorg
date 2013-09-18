@@ -29,18 +29,18 @@
 MODULE_NAME=libdmx
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 782ced3a9e754dfeb53a8a006a75eb1a
-TARBALL_SHA1  = 76956d4127ded2e6d1bb5746a6d1603ee23b442a
-TARBALL_SHA256= a7870b648a8768d65432af76dd11581ff69f3955118540d5967eb1eef43838ba
+TARBALL_MD5   = ba983eba5a9f05d152a0725b8e863151
+TARBALL_SHA1  = 0eeac14a06cffb04a1c78793563f233a8f8b79be
+TARBALL_SHA256= c97da36d2e56a2d7b6e4f896241785acc95e97eb9557465fd66ba2a155a7b201
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CVE-2013-1992.patch,-p1
+SOURCE_PATCHES = 
 
 # Package metadata
-ORACLE_TPNO = 3811
+ORACLE_TPNO = 14484
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=dmx

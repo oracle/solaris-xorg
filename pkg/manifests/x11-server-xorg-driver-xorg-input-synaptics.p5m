@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,6 @@ set name=variant.arch value=i386
 
 file path=etc/hal/fdi/policy/10osvendor/11-x11-synaptics.fdi
 file path=usr/include/xorg/synaptics-properties.h
-file path=usr/include/xorg/synaptics.h
 file path=usr/lib/xorg/modules/input/synaptics_drv.so
 file path=usr/lib/xorg/synclient mode=0555
 file path=usr/lib/xorg/syndaemon mode=0555

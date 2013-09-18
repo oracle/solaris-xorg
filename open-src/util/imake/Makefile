@@ -32,12 +32,12 @@ MODULE_NAME=imake
 MODULE_DESC = the imake makefile generation tool
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 797ec5dcad4df56eaafa0c701d6aa5ce
-TARBALL_SHA1  = 1fd3dca267d125ad86583d7f9663b6ff532cddd1
-TARBALL_SHA256= 99ce77ce73892d262522ee621032cef2fad2d30a36088b1305a156af4ee21cc1
+TARBALL_MD5   = d5058b1317a85bedc1dc40c7e85c8d26
+TARBALL_SHA1  = a54c025d7ac9894b6bc919d13454c6adb12ae140
+TARBALL_SHA256= fa8983fdb0a72ba8482d1d2683967fb45c29edd7149b25f619f97ea5a599069d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
@@ -55,6 +55,9 @@ BUILD_TYPES=32
 MODULE_CONFIG_OPTS  = --enable-mkdirhier \
  --disable-ccmakedep --disable-cleanlinks --disable-makeg \
  --disable-mergelib --disable-mkhtmlindex --disable-revpath
+
+# Prefer cpp from /usr/lib
+MODULE_CONFIG_OPTS += RAWCPP=/usr/lib/cpp
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = imake xmkmf mkdirhier

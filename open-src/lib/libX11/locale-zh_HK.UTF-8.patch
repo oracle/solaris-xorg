@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/XI18N_OBJS nls/zh_HK.UTF-8/XI18N_OBJS
---- nls/zh_HK.UTF-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_HK.UTF-8/XI18N_OBJS	2009-04-08 00:27:45.159198000 -0700
+diff --git a/nls/zh_HK.UTF-8/XI18N_OBJS b/nls/zh_HK.UTF-8/XI18N_OBJS
+index e9d5ef8..fff0d41 100644
+--- a/nls/zh_HK.UTF-8/XI18N_OBJS
++++ b/nls/zh_HK.UTF-8/XI18N_OBJS
 @@ -3,5 +3,9 @@
  #	XI18N objects table for zh_HK.UTF-8 locale
  #
@@ -35,9 +36,10 @@ diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/XI18N_OBJS nls/zh_HK.UTF-8/XI18N_O
 +XIM	common/xiiimp		_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximll		_XimpLocalOpenIM	# XIM_open
 +XIM	common/ximlocal		_XimpLocalOpenIM	# XIM_open
-diff -urp -x '*~' -x '*.orig' nls/zh_HK.UTF-8/XLC_LOCALE.pre nls/zh_HK.UTF-8/XLC_LOCALE.pre
---- nls/zh_HK.UTF-8/XLC_LOCALE.pre	2008-10-07 10:18:18.000000000 -0700
-+++ nls/zh_HK.UTF-8/XLC_LOCALE.pre	2009-04-08 00:27:45.167059000 -0700
+diff --git a/nls/zh_HK.UTF-8/XLC_LOCALE.pre b/nls/zh_HK.UTF-8/XLC_LOCALE.pre
+index c088032..22b8cf4 100644
+--- a/nls/zh_HK.UTF-8/XLC_LOCALE.pre
++++ b/nls/zh_HK.UTF-8/XLC_LOCALE.pre
 @@ -37,10 +37,10 @@ fs1    {
  XCOMM   fs2 class
  fs2    {

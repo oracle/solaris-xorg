@@ -22,10 +22,10 @@
 #
 
 diff --git a/configure.ac b/configure.ac
-index 2371d24..a2e2bc9 100644
+index a8ed884..95ab955 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -460,6 +460,7 @@ AC_CONFIG_FILES([Makefile
+@@ -465,6 +465,7 @@ AC_CONFIG_FILES([Makefile
  		modules/im/ximcp/Makefile
  		modules/lc/Makefile
  		modules/lc/def/Makefile
@@ -70,7 +70,7 @@ index 95d1f5d..7ce4d7e 100644
  extern XLCd _XlcEucLoader(
      const char*		name
 diff --git a/src/xlibi18n/lcCT.c b/src/xlibi18n/lcCT.c
-index ac07cb1..045c45d 100644
+index 624379a..bbf3ebe 100644
 --- a/src/xlibi18n/lcCT.c
 +++ b/src/xlibi18n/lcCT.c
 @@ -126,6 +126,8 @@ static const CTDataRec default_ct_data[] =
@@ -117,7 +117,7 @@ index 5aaf183..da7a8c2 100644
      _XlcRemoveLoader(_XlcDynamicLoader);
  #endif
 diff --git a/src/xlibi18n/lcUTF8.c b/src/xlibi18n/lcUTF8.c
-index 59dfe1a..32241ce 100644
+index 18af23d..3ae51b1 100644
 --- a/src/xlibi18n/lcUTF8.c
 +++ b/src/xlibi18n/lcUTF8.c
 @@ -213,6 +213,7 @@ typedef struct {

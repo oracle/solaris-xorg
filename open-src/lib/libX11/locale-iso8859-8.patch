@@ -21,9 +21,10 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff -urp -x '*~' -x '*.orig' nls/iso8859-8/XI18N_OBJS nls/iso8859-8/XI18N_OBJS
---- nls/iso8859-8/XI18N_OBJS	2008-10-07 10:18:18.000000000 -0700
-+++ nls/iso8859-8/XI18N_OBJS	2009-04-08 00:25:41.364080000 -0700
+diff --git a/nls/iso8859-8/XI18N_OBJS b/nls/iso8859-8/XI18N_OBJS
+index e85b513..b01d0c5 100644
+--- a/nls/iso8859-8/XI18N_OBJS
++++ b/nls/iso8859-8/XI18N_OBJS
 @@ -3,5 +3,6 @@
  #	XI18N objects table for iso8859-8 locale
  #

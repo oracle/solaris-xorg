@@ -40,11 +40,12 @@ MODULE_PKGCLASS_SET=yes
 MODULE_DESC = the xfindproxy X11 proxy service locator utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2fa74c68511ae845f52c2f33e641d0fd
-TARBALL_SHA1 = 26da3f96eeeae0deeb10797dc0b8479c1fe16924
+TARBALL_MD5   = 88bf1e959865a3c5f31ea8efc9fe9e37
+TARBALL_SHA1  = ac068e0fcca5775685052d0c1915eedbf0c01c78
+TARBALL_SHA256= a6ecfbbb869c4bee84401914954e431444ee9469866ec58c0c17bbbed456c112
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -55,9 +56,5 @@ MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xfindproxy
-
-# ignore some unneeded dependencies that upstream includes:
-#   unreferenced object=libX11.so.4; unused dependency of /usr/bin/xfindproxy
-MODULE_LDFLAGS = -z ignore
 
 include ../Makefile.inc

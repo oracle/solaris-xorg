@@ -29,20 +29,16 @@
 MODULE_NAME=xfs
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 39e507a7a1b656885c4828a915e5805b
-TARBALL_SHA1  = d4a64e12f8a773bd0120977191586ca12baf1ace
-TARBALL_SHA256= 0dea61cce3897b4d9d844bbd2c7850cd4e80e12c12b38158b4f92574b027e39d
+TARBALL_MD5   = 38a5cb2d9103b91b4497310393a88d6d
+TARBALL_SHA1  = 68b9c6032f4ac91334a9ad07b0c58a89841e83b1
+TARBALL_SHA256= 7bf44a32ad04dbbcf3b5eef2cbfe879459378b312cb795e0d2d25e665f7196b7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += smf-manpage.patch
 SOURCE_PATCHES += config-warning.patch
-SOURCE_PATCHES += ReopenCOTSServer-crash.patch,-p1
-
-# Need to rebuild config/Makefile.in after applying solaris-make.patch
-AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/xfs.man
