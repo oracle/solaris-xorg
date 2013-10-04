@@ -30,3 +30,5 @@ sparc-config-improv.patch,-p1
 16794101.patch,-p1
 remove-sbus-probe.patch,-p1
 17385060.patch,-p1
+add-input-dev-in-multi-session.patch,-p1
+create-multi-session-built-in-config.patch,-p1
