@@ -85,7 +85,7 @@ depend type=require fmri=pkg:/developer/documentation-tool/opensp
 depend type=require fmri=pkg:/developer/dtrace
 
 # Some modules use gcc to build
-depend type=require fmri=pkg:/developer/gcc-3
+depend type=require fmri=pkg:/developer/gcc-47
 
 # For now, this is the package that delivers pkg-config (Defect #15543)
 depend type=require fmri=pkg:/developer/gnome/gettext
@@ -194,7 +194,7 @@ depend type=require fmri=pkg:/system/library \
 depend type=require fmri=pkg:/system/library/c++-runtime \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/flex-runtime
-depend type=require fmri=pkg:/system/library/gcc-3-runtime \
+depend type=require fmri=pkg:/system/library/gcc-45-runtime \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/libdbus \
     org.opensolaris.pkgdepend.resolve=true

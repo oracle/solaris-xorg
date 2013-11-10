@@ -129,8 +129,9 @@ ARCH_LIB_FLAGS_sparc_suncc 	= -Qoption cg -xregs=no%appl
 ARCH_LIB_FLAGS_i386_suncc 	=  
 
 ## GNU Compilers
-GCC				= /usr/sfw/bin/gcc
-GXX				= /usr/sfw/bin/g++
+GCC_VERSION        		= 4.7 
+GCC				= /usr/gcc/$(GCC_VERSION)/bin/gcc
+GXX				= /usr/gcc/$(GCC_VERSION)/bin/g++
 CC_gcc				= $(GCC)
 CXX_gcc				= $(GXX)
 OPT_FLAGS_gcc			= -O3
@@ -239,8 +240,8 @@ LIB_LDFLAGS_suncc	= $(LIB_LDFLAGS_common)
 PROG_LDFLAGS_suncc	= $(PROG_LDFLAGS_common)
 
 # gcc requires additional library path for libgcc_s.so
-DEFAULT_LDFLAGS_gcc = -L/usr/sfw/lib$(ARCHLIBSUBDIR) \
-		      -R/usr/sfw/lib$(ARCHLIBSUBDIR)
+DEFAULT_LDFLAGS_gcc = -L/usr/gcc/$(GCC_VERSION)/lib$(ARCHLIBSUBDIR) \
+		      -R/usr/gcc/$(GCC_VERSION)/lib$(ARCHLIBSUBDIR)
 
 # Need to use -Wl,.. to pass linker flags through gcc
 GCC_CONVERT_LDFLAGS_CMD=sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
@@ -368,7 +369,7 @@ START_CMD_ECHO = PS4="" ; set -x
 ### Sources, in-tree and upstream
 
 TARBALLDIR=$(TOP)/open-src/tarballs
-WGET=/usr/sfw/bin/wget --no-check-certificate
+WGET=/usr/bin/wget --no-check-certificate
 GIT=git
 
 # If you need to use a closer mirror for X.Org or SourceForge, override

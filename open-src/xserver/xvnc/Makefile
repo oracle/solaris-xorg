@@ -82,6 +82,9 @@ SOURCE_PATCHES += solaris-audit.patch,-p1
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
 
+# Disable parfait build with 1.3 - 17759056
+USE_PARFAIT=no
+
 # ARC cases that covered this module
 # PSARC/2007/545 Xvnc
 MODULE_ARC_CASES = PSARC/2007/545
