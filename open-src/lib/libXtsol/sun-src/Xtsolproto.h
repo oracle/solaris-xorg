@@ -1,4 +1,4 @@
-/* Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -68,6 +68,7 @@
 
 /* extension reply sizes */
 #define sz_xGetClientAttributesReply  32
+#define sz_xGetClientLabelReply       32
 #define sz_xGetPropAttributesReply    32
 #define sz_xGetResAttributesReply     32
 #define sz_xTSOLInternReply            0
@@ -195,6 +196,19 @@ typedef struct {
     CARD32 sessionid             B32;
     CARD32 iaddr;                        /* internet address    */
 } xGetClientAttributesReply;
+
+typedef struct {
+    BYTE   type;                         /* = X_Reply            */
+    BYTE   pad1;                         /* not used             */
+    CARD16 sequenceNumber        B16;
+    CARD32 length                B32;    /* = blabel_bytes / 4;  */
+    CARD32 blabel_bytes          B32;    /* = blabel_size()      */
+    CARD32 pad2                  B32;
+    CARD32 pad3                  B32;
+    CARD32 pad4                  B32;
+    CARD32 pad5                  B32;
+    CARD32 pad6                  B32;
+} xGetClientLabelReply;
 
 typedef struct {
     BYTE   type;                         /* = X_Reply            */

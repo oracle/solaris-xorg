@@ -1,4 +1,4 @@
-/* Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -34,8 +34,6 @@
 #include <X11/Xutil.h>
 #include <X11/extensions/Xext.h>
 #include <X11/extensions/extutil.h>
-
-#define _XTSOL_SERVER
 
 #include "Xtsolproto.h"
 #include "Xtsol.h"
@@ -454,7 +452,7 @@ XTSOLgetClientLabel(dpy, object, sl)
     m_label_t *sl;
 {
     register xGetClientLabelReq *req;
-    xGenericReply rep;
+    xGetClientLabelReply rep;
     Status status;
 
     TsolCheckExtension(dpy);
@@ -468,11 +466,16 @@ XTSOLgetClientLabel(dpy, object, sl)
     req->mask = RES_LABEL;
 
     status = _XReply (dpy, (xReply *)&rep, 0, xFalse);
-    if (status)
+    if (status && (rep.length > 0))
     {
-        if ((int)(rep.data00+rep.data01) > 0)
+        if (rep.blabel_bytes == blabel_size())
         {
-            _XRead (dpy, (char *) sl, rep.data00);
+            _XRead (dpy, (char *) sl, rep.blabel_bytes);
+        }
+        else
+        {
+            _XEatDataWords(dpy, rep.length);
+            status = BadLength;
         }
     }
 
@@ -509,8 +512,15 @@ XTSOLgetPropAttributes(dpy, window, property, propattrp)
         /* copy the data to user struct */
         propattrp->uid = rep.uid;
         /* read the label info */
-        if (rep.sllength > 0)
+        if (rep.sllength == blabel_size())
+        {
             _XRead (dpy, (char *) (propattrp->sl), rep.sllength);
+        }
+        else if (rep.length > 0)
+        {
+            _XEatDataWords(dpy, rep.length);
+            status = BadLength;
+        }	    
     }
     
     UnlockDisplay(dpy);
@@ -541,14 +551,20 @@ XTSOLgetPropLabel(dpy, win, property, sl)
     req->mask = RES_LABEL;
 
     status = _XReply (dpy, (xReply *)&rep, 0, xFalse); 
-    if (status)
+    if (status && (rep.length > 0))
     {
         /* copy the data to user struct */
         /* read the label info */
-        if ((int)(rep.sllength) > 0)
+        if (rep.sllength == blabel_size())
+        {
             _XRead (dpy, (char *) sl, rep.sllength);
+        }
+        else
+        {
+            _XEatDataWords(dpy, rep.length);
+            status = BadLength;
+        }
     }
-    
     UnlockDisplay(dpy);
     SyncHandle();
     return status;
@@ -618,8 +634,15 @@ XTSOLgetResAttributes(dpy, object, resourceFlag, resattrp)
         resattrp->uid = rep.uid;
         resattrp->ouid = rep.owneruid;
         /* read the label info */
-        if (rep.sllength > 0)
+        if (rep.sllength  == blabel_size())
+        {
             _XRead (dpy, (char *) (resattrp->sl), rep.sllength);
+        }
+        else if (rep.length > 0)
+        {
+            _XEatDataWords(dpy, rep.length);
+            status = BadLength;
+        }
     }
     UnlockDisplay(dpy);
     SyncHandle();
@@ -652,11 +675,16 @@ XTSOLgetResLabel(dpy, object, resourceFlag, sl)
     req->mask = RES_LABEL;
 
     status = _XReply (dpy, (xReply *)&rep, 0, xFalse); 
-    if (status)
+    if (status && (rep.length > 0))
     {
-        if ((int)(rep.sllength) > 0) 
+        if (rep.sllength == blabel_size())
         {
             _XRead (dpy, (char *) sl, rep.sllength);
+        }
+        else
+        {
+            _XEatDataWords(dpy, rep.length);
+            status = BadLength;
         }
     }
 

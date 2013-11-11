@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1021,7 +1021,11 @@ ProcGetClientAttributes(ClientPtr client)
     TsolInfoPtr tsolinfo, res_tsolinfo;
     WindowPtr	pWin;
 
-    xGetClientAttributesReply rep;
+    xGetClientAttributesReply rep = {
+	.type = X_Reply,
+	.sequenceNumber = client->sequence,
+	.length = 0
+    };
 
     REQUEST(xGetClientAttributesReq);
     REQUEST_SIZE_MATCH(xGetClientAttributesReq);
@@ -1041,8 +1045,6 @@ ProcGetClientAttributes(ClientPtr client)
     res_tsolinfo = GetClientTsolInfo(res_client);
 
     /* Transfer the client info to reply rec */
-    rep.type = X_Reply;
-    rep.sequenceNumber = client->sequence;
     rep.trustflag = (res_tsolinfo->forced_trust == 1
 	|| res_tsolinfo->trusted_path) ? (BYTE)1 : (BYTE)0;
     rep.uid = (CARD32) res_tsolinfo->uid;
@@ -1051,7 +1053,6 @@ ProcGetClientAttributes(ClientPtr client)
     rep.auditid = (CARD32) res_tsolinfo->auid;
     rep.sessionid = (CARD32) res_tsolinfo->asid;
     rep.iaddr = (CARD32) res_tsolinfo->iaddr;
-    rep.length = (CARD32) 0;
 
     if (client->swapped)
     {
@@ -1082,7 +1083,12 @@ ProcGetClientLabel(ClientPtr client)
     TsolInfoPtr tsolinfo, res_tsolinfo;
     WindowPtr	pWin;
 
-    xGenericReply rep;
+    xGetClientLabelReply rep = {
+	.type = X_Reply,
+	.sequenceNumber = client->sequence,
+	.length = 0,
+	.blabel_bytes = 0
+    };
 
     REQUEST(xGetClientLabelReq);
     REQUEST_SIZE_MATCH(xGetClientLabelReq);
@@ -1101,13 +1107,8 @@ ProcGetClientLabel(ClientPtr client)
     tsolinfo = GetClientTsolInfo(client);
     res_tsolinfo = GetClientTsolInfo(res_client);
 
-    /* Transfer the client info to reply rec */
-    rep.type = X_Reply;
-    rep.sequenceNumber = client->sequence;
-
     /* allocate temp storage for labels */
     sl = malloc(SL_SIZE);
-    rep.data00 = rep.data01 = 0;
     if (sl == NULL)
         return (BadAlloc);
 
@@ -1115,10 +1116,10 @@ ProcGetClientLabel(ClientPtr client)
     if (stuff->mask & RES_SL)
     {
         memcpy(sl, res_tsolinfo->sl, SL_SIZE);
-        rep.data00 = SL_SIZE;
+        rep.blabel_bytes = SL_SIZE;
     }
 
-    rep.length = (CARD32)(rep.data00)/4;
+    rep.length = (CARD32)(rep.blabel_bytes)/4;
 
     if (rep.length > 0)
     {
@@ -1129,11 +1130,10 @@ ProcGetClientLabel(ClientPtr client)
     {
         swaps(&rep.sequenceNumber);
         swapl(&rep.length);
-        swapl(&rep.data00);
-        swapl(&rep.data01);
+        swapl(&rep.blabel_bytes);
     }
 
-    WriteToClient(client, sizeof(xGenericReply), (char *)&rep);
+    WriteToClient(client, sizeof(xGetClientLabelReply), &rep);
 
     if (write_to_client == 1)
     {
@@ -1158,7 +1158,13 @@ ProcGetPropAttributes(ClientPtr client)
     TsolResPtr	tsolres;
     TsolInfoPtr  tsolinfo = GetClientTsolInfo(client);
 
-    xGetPropAttributesReply rep;
+    xGetPropAttributesReply rep  = {
+	.type = X_Reply,
+	.sequenceNumber = client->sequence,
+	.length = 0,
+	.sllength = 0,
+	.illength = 0
+    };
 
     REQUEST(xGetPropAttributesReq);
 
@@ -1210,7 +1216,6 @@ ProcGetPropAttributes(ClientPtr client)
 
     /* allocate temp storage for labels */
     sl = malloc(SL_SIZE);
-    rep.sllength = rep.illength = 0;
     if (sl == NULL)
         return (BadAlloc);
 
@@ -1221,8 +1226,6 @@ ProcGetPropAttributes(ClientPtr client)
         rep.sllength = SL_SIZE;
     }
 
-    rep.type = X_Reply;
-    rep.sequenceNumber = client->sequence;
     rep.length = (CARD32) (rep.sllength)/4;
 
     if (rep.length > 0)
@@ -1262,7 +1265,14 @@ ProcGetResAttributes(ClientPtr client)
     WindowPtr   pWin;
     TsolResPtr  tsolres = NULL;
 
-    xGetResAttributesReply rep;
+    xGetResAttributesReply rep  = {
+	.type = X_Reply,
+	.sequenceNumber = client->sequence,
+	.length = 0,
+	.sllength = 0,
+	.illength = 0,
+	.iillength = 0
+    };
 
     REQUEST(xGetResAttributesReq);
 
@@ -1304,7 +1314,6 @@ ProcGetResAttributes(ClientPtr client)
 
     /* allocate temp storage for labels */
     sl = malloc(SL_SIZE);
-    rep.sllength = rep.illength = rep.iillength = 0;
     if (sl == NULL)
         return (BadAlloc);
 
@@ -1315,8 +1324,6 @@ ProcGetResAttributes(ClientPtr client)
         rep.sllength = SL_SIZE;
     }
 
-    rep.type = X_Reply;
-    rep.sequenceNumber = client->sequence;
     rep.length = (CARD32) (rep.sllength)/4;
 
     if (rep.length > 0)
