@@ -142,6 +142,12 @@ BUILD_32_FLAGS= ARCH_FLAGS="$(ARCH32_FLAGS)" \
 BUILD_64_FLAGS= ARCH_FLAGS="$(ARCH64_FLAGS)" \
 	$(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
 
+# Rules to make build logs quieter by default, verbose with V=1, like automake
+MAKE_QUIET_V_0 = @
+MAKE_QUIET_V_1 = 
+MAKE_QUIET_V_ = $(MAKE_QUIET_V_0)
+MAKE_QUIET = $(MAKE_QUIET_V_$(V))
+
 all: $(BUILD_TYPES:%=build_%)
 all_%: build_%
 
@@ -462,14 +468,21 @@ ORIG_PC_FILES = $(SOURCE_PC_FILES:%=%.orig)
 FIXED_PC_TARGET = $(ORIG_PC_FILES)
 fixed_pc: $(FIXED_PC_TARGET)
 
-FIX_PC_OPS= \
-	-e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;' \
-	-e 's|-R\$${libdir}( .*)? -R\$${libdir}|-R\$${libdir}$$1|g;' \
-	$(MODTYPE_FIX_PC_FLAGS) \
-	$(MODULE_FIX_PC_FLAGS)
+# Perl operations to perform on pkg-config *.pc files we build/install
+# First, make warnings about missing files into fatal errors
+FIX_PC_OPS  = $(PERL_MISSING_FILES_ERROR)
+# Remove -L flags for libraries in the default library path (/usr/lib{/64})
+FIX_PC_OPS += -e 's|-L\$${libdir}|| if "$(MODULE_ADD_LIB_SUBDIR)" eq "";'
+# Add -R flags for libraries in non-default library paths
+FIX_PC_OPS += -e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;'
+# Remove duplicate -R flags if upstream already provided one
+FIX_PC_OPS += -e 's|-R\$${libdir}( .*)? -R\$${libdir}|-R\$${libdir}$$1|g;'
+# Allow modules to add their own operations
+FIX_PC_OPS += $(MODTYPE_FIX_PC_FLAGS) $(MODULE_FIX_PC_FLAGS)
 
 $(ORIG_PC_FILES): $(PATCHED_TARGET)
-	$(PERL) -i.orig -p $(FIX_PC_OPS) $(@:.orig=)
+	@ print "FIX_PC: $(@:.orig=)"
+	$(MAKE_QUIET)$(PERL) -i.orig -p $(FIX_PC_OPS) $(@:.orig=)
 
 # Tie them all together
 UNPACK_TARGETS = $(SOURCE_INIT_TARGET) $(PATCHED_TARGET) \
@@ -617,12 +630,17 @@ install-in-subdir:
 		$(install_subdir_cmd)
 
 # Adjust paths in pkg-config files for -uninstalled variants used during build
-UNINSTALLED_PC_OPS= \
-	-e 'BEGIN {use Cwd; $$protodir=Cwd::realpath("$(PROTODIR)");}' \
-	-e 's|(-[LI]\s*)\$$|$$1$$protodir\$$|g;' \
-	-e 's|^sdkdir=|sdkdir=$$protodir|g;' \
-	-e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;' \
-	$(MODTYPE_ADD_UNINSTALLED_PC_OPS) $(MODULE_ADD_UNINSTALLED_PC_OPS)
+# First, make warnings about missing files into fatal errors
+UNINSTALLED_PC_OPS  = $(PERL_MISSING_FILES_ERROR)
+# Set perl $protodir to absolute path to $(PROTODIR)
+UNINSTALLED_PC_OPS += -e 'BEGIN {use Cwd; $$protodir=Cwd::realpath("$(PROTODIR)");}'
+# Prepend $protodir to paths for includes, libraries to link against, etc.
+UNINSTALLED_PC_OPS += -e 's|(-[LI]\s*)\$$|$$1$$protodir\$$|g;'
+UNINSTALLED_PC_OPS += -e 's|^sdkdir=|sdkdir=$$protodir|g;'
+UNINSTALLED_PC_OPS += -e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;'
+# Allow modules to add their own operations
+UNINSTALLED_PC_OPS += $(MODTYPE_ADD_UNINSTALLED_PC_OPS)
+UNINSTALLED_PC_OPS += $(MODULE_ADD_UNINSTALLED_PC_OPS)
 
 INSTALL_PCU_DEPS_DEFAULT	= $(INSTALL_PCU_DEPS_SET:yes=$(POUND_SIGN))
 $(INSTALL_PCU_DEPS_DEFAULT)	INSTALL_PCU_DEPS = $(INSTALL_TARGETS)
@@ -899,7 +917,8 @@ $(MODULE_LICENSE_DEFAULT)	MODULE_LICENSE = $(MIT_LICENSE_NAME)
 # from for easier viewing/cross-referencing.  The format of this header is
 # common to all Solaris consolidations, so should not be changed without
 # coordination.
-PRINT_IN_BOX = perl -n -e '$$border = "-" x length($$_) ; printf "--%s--\n- %s -\n--%s--\n\n", $$border, $$_, $$border'
+PRINT_IN_BOX = $(PERL) -n -e '$$border = "-" x length($$_);' \
+	-e 'printf "--%s--\n- %s -\n--%s--\n\n", $$border, $$_, $$border'
 
 # Some packages contain only code that Oracle owns all the rights to.
 # For these, Makefile.options.oracle.com chooses to omit the license

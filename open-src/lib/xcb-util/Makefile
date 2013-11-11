@@ -54,6 +54,9 @@ LIBNAME=xcbutil
 SUNTOUCHED_MANPAGES=
 MODULE_STABILITY=Uncommitted
 
+# pkg-config files to update
+FIX_PC_FILES=xcb-atom.pc.in xcb-aux.pc.in xcb-event.pc.in xcb-util.pc.in 
+
 # Need to use GNU Make to build, due to the use of $< in explicit rules
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes

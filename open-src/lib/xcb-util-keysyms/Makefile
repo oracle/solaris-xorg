@@ -58,4 +58,7 @@ LIBNAME=xcb-keysyms
 SUNTOUCHED_MANPAGES=
 MODULE_STABILITY=Uncommitted
 
+# pkg-config files to update
+FIX_PC_FILES=keysyms/xcb-keysyms.pc.in
+
 include ../Makefile.inc

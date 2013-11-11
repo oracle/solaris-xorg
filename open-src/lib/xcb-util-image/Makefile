@@ -63,6 +63,9 @@ DELIBTOOLIZE_FLAGS = --shared libxcb-image.so.0
 SUNTOUCHED_MANPAGES=
 MODULE_STABILITY=Uncommitted
 
+# pkg-config files to update
+FIX_PC_FILES=image/xcb-image.pc.in
+
 include ../Makefile.inc
 
 

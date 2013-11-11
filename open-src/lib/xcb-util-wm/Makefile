@@ -58,6 +58,9 @@ LIBNAME=xcbutil
 SUNTOUCHED_MANPAGES=
 MODULE_STABILITY=Uncommitted
 
+# pkg-config files to update
+FIX_PC_FILES=ewmh/xcb-ewmh.pc.in icccm/xcb-icccm.pc.in  
+
 # Need to use GNU Make to build, due to the use of $< in explicit rules
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes

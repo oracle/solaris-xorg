@@ -109,9 +109,8 @@ SUNTOUCH_MAN_FLAGS_fc-cat.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 SUNTOUCH_MAN_FLAGS_fc-match.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 SUNTOUCH_MAN_FLAGS_fc-scan.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 
-# Install to /usr, not /usr/X11
-MODULE_PREFIX=/usr
-MODULE_PREFIX_SET=yes
+# pkg-config files to update
+FIX_PC_FILES=fontconfig.pc.in
 
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = \

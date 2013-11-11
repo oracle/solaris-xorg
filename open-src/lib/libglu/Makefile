@@ -66,6 +66,9 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=glu-exports.patch
 
+# pkg-config files to update
+FIX_PC_FILES=glu.pc.in
+
 # Build mesa with this define (CR 7032292)
 MODULE_CFLAGS = -D__EXTENSIONS__
 

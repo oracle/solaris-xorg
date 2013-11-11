@@ -49,4 +49,7 @@ LIBNAME=dmx
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 
+# pkg-config files to update
+FIX_PC_FILES=dmx.pc.in
+
 include ../Makefile.inc

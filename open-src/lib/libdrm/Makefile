@@ -81,8 +81,9 @@ MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau
 #MODULE_STABILITY=Volatile
 #LIB_MAN_SUFFIX=3drm
 
-# pkg-config files that need to have -R added
-FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in radeon/libdrm_radeon.pc
+# pkg-config files that need to be updated
+FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in \
+	radeon/libdrm_radeon.pc.in
 
 # Where to install files
 MODULE_ADD_LIB_SUBDIR = $(X11_SERVERLIBS_SUBDIR)

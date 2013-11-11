@@ -156,8 +156,8 @@ DELIBTOOLIZE_FLAGS = $(DELIBTOOLIZE_FLAGS_$(MACH))
 # Need additional mapfile for additional symbols in 64-bit versions
 MODULE_BUILD_64_FLAGS = ADD_libX11_LDFLAGS="-M $(PWD)/mapfile-vers-64"
 
-# pkg-config files that need to have -R added
-FIX_PC_FILES=x11.pc.in
+# pkg-config files that need to be updated
+FIX_PC_FILES=x11.pc.in x11-xcb.pc.in
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

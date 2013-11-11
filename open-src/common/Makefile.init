@@ -337,6 +337,9 @@ PYTHON_VENDOR_DIR = /usr/lib/python$(PYTHON_VERSION)/vendor-packages
 # still set correctly in pkg/Makefile
 PERL_VERSION = 5.12
 PERL = /usr/perl5/$(PERL_VERSION)/bin/perl
+# perl -p/-n commands treat missing files as warnings, not fatal errors
+# Adding the following raises them to errors so that make detects a problem
+PERL_MISSING_FILES_ERROR = -e 'BEGIN {$$SIG{__WARN__} = sub { die $$_[0] };}'
 
 # Script used to install files in proto area
 INSTALL_SCRIPT=$(TOP)/open-src/common/install-sh -c

@@ -62,4 +62,7 @@ DELIBTOOLIZE_FLAGS = --shared libxcb-render-util.so.0
 SUNTOUCHED_MANPAGES=
 MODULE_STABILITY=Uncommitted
 
+# pkg-config files to update
+FIX_PC_FILES=renderutil/xcb-renderutil.pc.in
+
 include ../Makefile.inc
