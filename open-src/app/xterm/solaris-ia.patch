@@ -22,10 +22,10 @@
 #
 
 diff --git a/main.c b/main.c
-index 29a51db..626d5a3 100644
+index adc3759..e046531 100644
 --- a/main.c
 +++ b/main.c
-@@ -96,6 +96,8 @@ SOFTWARE.
+@@ -95,6 +95,8 @@
  #include <X11/cursorfont.h>
  #include <X11/Xlocale.h>
  
@@ -34,9 +34,9 @@ index 29a51db..626d5a3 100644
  #if OPT_TOOLBAR
  
  #if defined(HAVE_LIB_XAW)
-@@ -4617,6 +4619,12 @@ spawnXTerm(XtermWidget xw)
-     signal(SIGPIPE, Exit);
- #endif /* USE_SYSV_SIGNALS and not SIGTSTP */
+@@ -4748,6 +4750,12 @@ spawnXTerm(XtermWidget xw)
+ 	free(TermName);
+ #endif
  
 +    /* Solaris addition: add child to our IA scheduling class priority boost */
 +    if (XSolarisIAQueryExtension(screen->display)) {

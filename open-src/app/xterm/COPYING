@@ -300,7 +300,7 @@ VTparse.h:
 
 button.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -386,7 +386,7 @@ authorization.
 
 charproc.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -464,7 +464,7 @@ charproc.c:
 
 charsets.c:
 
-Copyright 1998-2008,2009 by Thomas E. Dickey
+Copyright 1998-2011,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -496,7 +496,7 @@ authorization.
 
 cursor.c:
 
- Copyright 2002-2009,2010 by Thomas E. Dickey
+ Copyright 2002-2010,2012 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -602,7 +602,7 @@ data.c:
 
 data.h:
 
- Copyright 2002-2009,2011 by Thomas E. Dickey
+ Copyright 2002-2011,2012 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -657,7 +657,7 @@ data.h:
 
 doublechr.c:
 
-Copyright 1997-2009,2010 by Thomas E. Dickey
+Copyright 1997-2011,2012 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -714,7 +714,7 @@ error.h:
 
 fontutils.c:
 
-Copyright 1998-2009,2010 by Thomas E. Dickey
+Copyright 1998-2012,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -746,7 +746,7 @@ authorization.
 
 fontutils.h:
 
-Copyright 1998-2010,2011 by Thomas E. Dickey
+Copyright 1998-2011,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -808,9 +808,75 @@ gen-pc-fkeys.pl:
 
 --------------------------------------------------------------------
 
+graphics.c:
+
+ Copyright 2013 by Ross Combs
+
+                         All Rights Reserved
+
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ Except as contained in this notice, the name(s) of the above copyright
+ holders shall not be used in advertising or otherwise to promote the
+ sale, use or other dealings in this Software without prior written
+ authorization.
+
+
+--------------------------------------------------------------------
+
+graphics.h:
+
+ Copyright 2013 by Ross Combs
+ Copyright 2013 by Thomas E. Dickey
+
+                         All Rights Reserved
+
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ Except as contained in this notice, the name(s) of the above copyright
+ holders shall not be used in advertising or otherwise to promote the
+ sale, use or other dealings in this Software without prior written
+ authorization.
+
+--------------------------------------------------------------------
+
 input.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2011,2012 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -875,7 +941,7 @@ keysym2ucs.c:
 
 linedata.c:
 
-Copyright 2009-2010,2011 by Thomas E. Dickey
+Copyright 2009-2012,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -906,7 +972,7 @@ authorization.
 
 main.c:
 
-Copyright 2002-2010,2011 by Thomas E. Dickey
+Copyright 2002-2012,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -980,7 +1046,7 @@ SOFTWARE.
 
 main.h:
 
- Copyright 2000-2009,2010 by Thomas E. Dickey
+ Copyright 2000-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1034,7 +1100,7 @@ main.h:
 
 menu.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1091,7 +1157,7 @@ menu.c:
 
 menu.h:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2011,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1152,7 +1218,7 @@ menu.h:
 
 misc.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1206,56 +1272,9 @@ misc.c:
 
 --------------------------------------------------------------------
 
-os2main.c:
-
-Copyright (c) 1987, 1988  X Consortium
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of the X Consortium shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from the X Consortium.
-
-Copyright 1987, 1988 by Digital Equipment Corporation, Maynard.
-
-                        All Rights Reserved
-
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be used in
-advertising or publicity pertaining to distribution of the software
-without specific, written prior permission.
-
-DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
-ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
-DIGITAL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
-ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
-SOFTWARE.
-
---------------------------------------------------------------------
-
 print.c:
 
-Copyright 1997-2010,2011 by Thomas E. Dickey
+Copyright 1997-2012,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1285,41 +1304,9 @@ authorization.
 
 --------------------------------------------------------------------
 
-proto.h:
-
- Copyright 1996-2008,2003 by Thomas E. Dickey
-
-                         All Rights Reserved
-
- Permission is hereby granted, free of charge, to any person obtaining a
- copy of this software and associated documentation files (the
- "Software"), to deal in the Software without restriction, including
- without limitation the rights to use, copy, modify, merge, publish,
- distribute, sublicense, and/or sell copies of the Software, and to
- permit persons to whom the Software is furnished to do so, subject to
- the following conditions:
-
- The above copyright notice and this permission notice shall be included
- in all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- Except as contained in this notice, the name(s) of the above copyright
- holders shall not be used in advertising or otherwise to promote the
- sale, use or other dealings in this Software without prior written
- authorization.
-
---------------------------------------------------------------------
-
 ptydata.c:
 
-Copyright 1999-2010,2011 by Thomas E. Dickey
+Copyright 1999-2011,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1351,7 +1338,7 @@ authorization.
 
 ptyx.h:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1407,7 +1394,7 @@ ptyx.h:
 
 resize.c:
 
- Copyright 2003-2009,2010 by Thomas E. Dickey
+ Copyright 2003-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1461,7 +1448,7 @@ resize.c:
 
 screen.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1515,7 +1502,7 @@ screen.c:
 
 scrollback.c:
 
-Copyright 2009,2010 by Thomas E. Dickey
+Copyright 2009-2011,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1547,7 +1534,7 @@ authorization.
 
 scrollbar.c:
 
- Copyright 2000-2010,2011 by Thomas E. Dickey
+ Copyright 2000-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1603,7 +1590,7 @@ scrollbar.c:
 
 tabs.c:
 
- Copyright 2000-2009,2010 by Thomas E. Dickey
+ Copyright 2000-2011,2012 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1656,7 +1643,7 @@ tabs.c:
 
 testxmc.c:
 
-Copyright 1997-2009,2010 by Thomas E. Dickey
+Copyright 1997-2010,2011 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1688,7 +1675,7 @@ authorization.
 
 trace.c:
 
- Copyright 1997-2010,2011 by Thomas E. Dickey
+ Copyright 1997-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1720,7 +1707,7 @@ trace.c:
 
 trace.h:
 
- Copyright 1997-2009,2010 by Thomas E. Dickey
+ Copyright 1997-2011,2012 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1752,7 +1739,7 @@ trace.h:
 
 util.c:
 
- Copyright 1999-2010,2011 by Thomas E. Dickey
+ Copyright 1999-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1804,9 +1791,41 @@ util.c:
 
 --------------------------------------------------------------------
 
+version.c:
+
+ Copyright 2013 by Thomas E. Dickey
+
+                         All Rights Reserved
+
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE ABOVE LISTED COPYRIGHT HOLDER(S) BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ Except as contained in this notice, the name(s) of the above copyright
+ holders shall not be used in advertising or otherwise to promote the
+ sale, use or other dealings in this Software without prior written
+ authorization.
+
+--------------------------------------------------------------------
+
 version.h:
 
- Copyright 1998-2010,2011 by Thomas E. Dickey
+ Copyright 1998-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -1875,7 +1894,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 xstrings.c:
 
-Copyright 2000-2009,2010 by Thomas E. Dickey
+Copyright 2000-2012,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1906,7 +1925,7 @@ authorization.
 
 xstrings.h:
 
-Copyright 2000-2008,2009 by Thomas E. Dickey
+Copyright 2000-2011,2012 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1938,7 +1957,7 @@ authorization.
 
 xterm.h:
 
-Copyright 1999-2010,2011 by Thomas E. Dickey
+Copyright 1999-2012,2013 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -1970,7 +1989,7 @@ authorization.
 
 xterm_io.h:
 
- Copyright 2000-2006,2010 by Thomas E. Dickey
+ Copyright 2000-2012,2013 by Thomas E. Dickey
 
                          All Rights Reserved
 
@@ -2034,7 +2053,7 @@ xtermcap.c:
 
 xtermcap.h:
 
-Copyright 2007-2009,2010 by Thomas E. Dickey
+Copyright 2007-2010,2011 by Thomas E. Dickey
 
                         All Rights Reserved
 

@@ -45,14 +45,15 @@ UPSTREAM	= Thomas Dickey
 UPSTREAM_URL	= http://invisible-island.net/xterm/
 UPSTREAM_SET	= yes
 MODULE_DESC	= the xterm terminal emulator application
-ORACLE_TPNO 	= 9811
+ORACLE_TPNO 	= 15694
 
 # Version number (used in path names)
-MODULE_VERSION=271
+MODULE_VERSION=297
 
 # Checksums for upstream tarball
-TARBALL_MD5  = e07b05bd3d3a666a8cf086fcc8d227f3
-TARBALL_SHA1 = 53586916147cb88e71b3d620a7d1b80f1696749b
+TARBALL_MD5   = 45610ae6fe90cf086fcd75b9cb97bbaf
+TARBALL_SHA1  = 64b1531ee31f0a5880cc5e44c245887264b6f587
+TARBALL_SHA256= a2dc32a9a8401a2d3d2ae99844ba9cd9f81f0bc930870ebef783a9bcf165d179
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)
@@ -63,7 +64,7 @@ SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = resize.man.patch,-p1 desktop-icon.patch,-p1
+SOURCE_PATCHES = desktop-icon.patch,-p1
 SOURCE_PATCHES += solaris-ia.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
