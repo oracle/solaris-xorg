@@ -98,8 +98,8 @@ MODTYPE_CONFIG_ENV = \
 	XSERVERCFLAGS_CFLAGS="-DHAS_FCHOWN -DHAS_STICKY_DIR_BIT -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DXTHREADS -DXUSE_MTSAFE_API" \
 	PATH=$(PATH):/usr/sbin
 
-# 64-bit X servers on SPARC crash on startup when built with Sun Studio 
-# with -g unless -xmemalign=8i is also used (Sun bug #6545113)
+# 64-bit X servers on SPARC crash on startup when built with Studio cc
+# with -g unless -xmemalign=8i is also used (Oracle bug #15389926)
 MODTYPE_DEBUG_FLAGS_sparc_suncc = -xmemalign=8i
 MODTYPE_DEBUG_FLAGS=$(MODTYPE_DEBUG_FLAGS_$(MACH)_$(MODULE_COMPILER))
 

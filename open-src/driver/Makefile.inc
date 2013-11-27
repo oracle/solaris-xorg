@@ -82,7 +82,7 @@ MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_$(MACH)_$(BUILD_TYPE))
 # Replaces @symbol_visibilty@ in xorg-server.pc, since that fails when
 # some drivers are compiled with a different compiler than the server
 MODTYPE_CFLAGS_suncc_common = -xldscope=hidden
-MODTYPE_CFLAGS_gcc_common = # -fvisibility=hidden - doesn't work with gcc 3.4.3
+MODTYPE_CFLAGS_gcc_common = -fvisibility=hidden
 MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 
 MODTYPE_LDFLAGS=$(LDFLAGS) -R/lib$(ARCHLIBSUBDIR)

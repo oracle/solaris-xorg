@@ -2,7 +2,7 @@
 #
 # xf86-input-vmmouse Makefile
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,11 +42,11 @@ SOURCE_PATCHES = libraries.patch,-p1
 # Regenerate configure after patching src/Makefile.am in libraries.patch
 AUTORECONF=yes
 
-# vmmouse_client code won't build with Sun compiler
+# vmmouse_client code won't build with Studio compiler
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
-# Need to use GNU Make to build due to Sun make bug 6474905
+# Need to use GNU Make to build due to Solaris make bug 15352407
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 

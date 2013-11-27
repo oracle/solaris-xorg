@@ -1,11 +1,11 @@
 #!/bin/ksh93
 #
 # buildit
-# Script for building OpenSolaris X Consolidation
+# Script for building Solaris X Consolidation
 #
 ###########################################################################
 #
-# Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -97,10 +97,11 @@ print "Building gate at hg id: ${XBUILD_HG_ID}"
 print -n "Start time: " ; date
 print -n "Building on: " ; uname -a
 print "Using these tools: "
-# Make sure Sun C compiler is at least version 5.10 (Studio 12 Update 1)
+# Make sure Studio C compiler is at least version 5.12 (Studio 12.3)
 whence cc
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
-    print $_ ; print "*** Compiler too old!\n" if ( ($1 != 5) || ($2 < 10) ) }'
+    print $_ ; ( ($1 != 5) || ($2 < 12) ) ? exit(1) : exit(0) }' \
+    || fatal_error '*** Studio Compiler is too old! Studio 12.3 is required.' 
 # Log paths & versions of tools which use gnu standard --version flag
 get_make_var GCC
 for tool in parfait ${GCC} gmake autoconf automake libtool ; do

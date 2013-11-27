@@ -88,12 +88,8 @@ MODULE_CONFIG_OPTS = --with-driver=dri --disable-egl --disable-gallium \
 	--with-dri-drivers='$(DRI_DRIVER_LIST)' \
 	--with-gallium-drivers=  --disable-gallium-llvm
 
-# Build mesa with this define (CR 7032292)
+# Build mesa with this define (Bug 15706016)
 MODULE_CFLAGS = -D__EXTENSIONS__
-
-# Override LDFLAGS passed to configure to not include CFLAGS, since that
-# breaks building libGLU with Sun Studio C++ compiler
-#MODULE_CONFIG_ENV = LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(ARCH_FLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)"
 
 # Add proto area to path to find makedepend
 MODULE_BUILD_ENV = PATH="$(PROTODIR)/$(X11_BIN_DIR):$(PATH)"
@@ -103,13 +99,9 @@ MODULE_CONFIG_ENV += $(MODULE_BUILD_ENV)
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# To build with gcc, uncomment these lines and comment out the MODULE_CFLAGS
+# Need to build with gcc
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
-
-# Tell Sun compiler to not apply optimizations that increase binary sizes
-# Without this flag, Studio 12 binaries are almost 2x bigger (CR 6808868)
-#MODULE_CFLAGS = -xspace
 
 # Add include paths and linker paths needed for DRM modules
 MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/libdrm

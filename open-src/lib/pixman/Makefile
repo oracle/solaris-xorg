@@ -37,14 +37,6 @@ TARBALL_SHA1 = c1367c28cfb6a1c79c39b5df2d1a05351f57c702
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# Override default CFLAGS for x86 builds to work around assembler syntax 
-# errors reported by Studio 12.1 when the -xspace flag is used
-include ../../common/Makefile.init
-NO_XSPACE_CFLAGS = $(LIB_CFLAGS:-xspace=)
-MODULE_CONFIG_ENV_i386 = CFLAGS="$(NO_XSPACE_CFLAGS)"
-MODULE_CONFIG_ENV_sparc = # not needed
-MODULE_CONFIG_ENV = $(MODULE_CONFIG_ENV_$(MACH))
-
 # Library name
 LIBNAME=pixman
 

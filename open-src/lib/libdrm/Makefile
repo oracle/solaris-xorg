@@ -62,14 +62,9 @@ $(WITH_PARFAIT) AUTORECONF = yes
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# To build with gcc, uncomment these lines and comment out the MODULE_CFLAGS
+# Need to build with gcc
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
-
-# Tell Sun compiler to not apply optimizations that increase binary sizes
-# Without this flag, Studio 12 binaries are almost 2x bigger (CR 6808868)
-#MODULE_CFLAGS = -xspace
-
 
 MODULE_BUILD_MAKEFLAGS = libkms_la_LIBADD=../libdrm.so.2
 

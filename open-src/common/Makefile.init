@@ -84,7 +84,7 @@ ARCHLIBSUBDIR	= $(LIBSUBDIR)
 
 ### Default compiler & options
 
-# Our default compiler is Sun Studio, but if you want to default to GNU 
+# Our default compiler is Solaris Studio, but if you want to default to GNU 
 # compilers, you can change this here - some modules with specific 
 # requirements override this in their makefiles with MODULE_COMPILER.
 DEFAULT_COMPILER	 = suncc
@@ -92,11 +92,11 @@ DEFAULT_COMPILER	 = suncc
 # Flags used by either compiler in debug builds
 DEBUG_FLAGS_common	 = -g $(MODTYPE_DEBUG_FLAGS) $(MODULE_DEBUG_FLAGS)
 
-## Sun Studio
+## Solaris Studio compilers
 CC_suncc		 = cc
 CXX_suncc		 = CC
 OPT_FLAGS_suncc		 = -xO4 -xbuiltin=%none -xlibmil -xprefetch -xdepend
-OPT_FLAGS_suncc		+= -xspace -W0,-xglobalstatic -W2,-Rext_tail_dup
+OPT_FLAGS_suncc		+= -xspace -W0,-xglobalstatic
 DEBUG_FLAGS_suncc	 = $(DEBUG_FLAGS_common)
 $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_suncc = $(DEBUG_FLAGS_suncc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
@@ -118,14 +118,8 @@ ARCH_FLAGS_i386_suncc		= -xregs=no%frameptr
 ARCH32_FLAGS_i386_suncc 	= -m32 -xarch=sse2 -D__i386__
 ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -D__amd64__
 
-# Workaround for Studio 12.1 compiler bug 7086868 (see CR 7086762)
-ARCH64_FLAGS_i386_suncc 	+= -W2,-Rtail
-
 # SPARC ABI requires system libraries not use application registers
-# The normal/documented flag for this is -xregs=no%appl, but for now,
-# we use "-Qoption cg -xregs=no%appl" to workaround bug 7030022 in 
-# the Studio 12.1 compilers that fails to honor the normal option.
-ARCH_LIB_FLAGS_sparc_suncc 	= -Qoption cg -xregs=no%appl
+ARCH_LIB_FLAGS_sparc_suncc 	= -xregs=no%appl
 ARCH_LIB_FLAGS_i386_suncc 	=  
 
 ## GNU Compilers
@@ -173,6 +167,11 @@ $(WITH_PARFAIT)		AR=$(AR_parfait)
 $(WITHOUT_PARFAIT)	AR=/usr/bin/ar
 $(WITH_PARFAIT)		AS=$(AS_parfait)
 $(WITHOUT_PARFAIT)	AS=/usr/bin/as
+
+# Additional environment variables needed to build with parfait
+PARFAIT_ENV_gcc		= PARFAIT_NATIVEGCC="$(GCC)"
+PARFAIT_ENV_gcc	       += PARFAIT_NATIVEGXX="$(GXX)"
+PARFAIT_ENV		= $(PARFAIT_ENV_$(MODULE_COMPILER))
 
 ## Set common variables based on above rules
 CC			= $(CC_$(CHOSEN_COMPILER))

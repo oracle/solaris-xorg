@@ -62,9 +62,6 @@ MODULE_CONFIG_OPTS += RAWCPP=/usr/lib/cpp
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = imake xmkmf mkdirhier
 
-# Workaround Parfait 0.5.0.1 bug 14139420
-MODULE_BUILD_ENV += PARFAIT_CLANG=0
-
 ### Include common rulesets
 include ../Makefile.inc
 
