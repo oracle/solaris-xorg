@@ -57,4 +57,7 @@ MODULE_STABILITY=Committed
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xfindproxy
 
+# discard unneeded libX11 dependency that pkgconfig -libs xt generates
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
+
 include ../Makefile.inc

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,60 +50,50 @@ NOSYMSORT	usr/bin/vncconfig
 NOSYMSORT	usr/bin/vncpasswd
 NOSYMSORT	usr/bin/vncviewer
 NOSYMSORT	usr/bin/x0vncserver
-NOSYMSORT	usr/lib/MACH(mesa)/libGL.so.1
-#
+NOSYMSORT	usr/lib/MACH(mesa)/libdricore.*\.so\.1.*
+NOSYMSORT	usr/lib/MACH(mesa)/libGL\.so\.1.*
+NOSYMSORT	usr/lib/MACH(mesa)/libGLU\.so\.1.*
+NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/i965_dri\.so
+
+# Loadable modules without dependencies on other modules may have no direct
+# bindings
+NODIRECT        ^usr/lib/mesa/modules/.*$
+NODIRECT        ^usr/lib/xorg/modules/.*$
+
 # Unreferenced object of X objects we can't change for specific reasons
 # - Old versions of Java rely on this dependency, even though it forms a
-#   loop in the dependency graph, so we can't remove it (see CR 6192234)
+#   loop in the dependency graph, so we can't remove it (see Bug 15235619)
 UNREF_OBJ       /libXext\.so\.0;\ unused\ dependency\ of .*/libX11\.so\.4
 #
 # Unreferenced objects of objects from other consolidations
 UNREF_OBJ	/lib.*\ of\ .*libgnutls\.so\.26
-UNREF_OBJ	/lib.*\ of\ .*libnvidia-tls\.so\.1
 UNREF_OBJ	/lib.*\ of\ .*libstdcxx4\.so\.4
-UNREF_OBJ	/libdl\.so\.1;.*\ of\ .*libXm\.so\.4
+# Unused dependencies included in objects from other consolidations
+UNUSED_OBJ      unused object=.*MACH(libm)/libm_hwcap1\.so\.2
+
 #
 # Unused runpaths due to use of both relative & absolute paths
 UNUSED_RPATH    /usr/lib/xorg.*\ from\ .*/mkfontscale
 #
 # Unused runpaths in objects from other consolidations
 UNUSED_RPATH	/usr/dt/lib.*\ from\ .*libXm\.so\.4
-UNUSED_RPATH	/usr/lib.*\ from\ .*libgcc_s\.so\.1
-UNUSED_RPATH	/usr/ccs/lib.*\ from\ .*libgcc_s\.so\.1
-UNUSED_RPATH	/usr/sfw/lib.*\ from\ .*libgcc_s\.so\.1
-UNUSED_RPATH	/usr/lib.*\ from\ .*libstdc\+\+\.so\.6
-UNUSED_RPATH	/usr/ccs/lib.*\ from\ .*libstdc\+\+\.so\.6
+UNUSED_RPATH	/usr/lib.*\ from\ .*libcairo\.so\.2
 UNUSED_RPATH	/opt/VRTSvxvm/lib.*\ from\ .*libdiskmgt\.so\.1
 #
+# Ancient non-thread-safe version of libXaw in the process of being EOF'ed
+ERRNO		^usr/lib/libXaw\.so\.4$
+
 ## Things we might be able to fix eventually, but not today:
 #
 # libXinerama only uses libc for malloc() - when linked with synergyc &
 # synergys, which get malloc from libumem via libstdcxx4, libc appears unused.
-UNREF_OBJ	/libc.so.1;.*\ of\ .*/usr/lib/libXinerama\.so\.1
-#
-# Unused runpaths due to libtool forcing the target directory into the runpath
-UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*libdrm.so.2
-UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*libfontenc.so.1
-UNUSED_RPATH	/usr/lib/X11/MACH(locale)/common.*\ from\ .*/common/.*\.so\.2
-UNUSED_RPATH	/usr/lib/X11/xdm.*\ from\ .*libXdmGreet.so
-#
-# gcc adds several directories to the runpath automatically
-UNUSED_RPATH	/MACH(lib).* from\ .*/libGL.*.so.1
-UNUSED_RPATH	/usr/MACH(lib).* from\ .*/libGL.*.so.1
-UNUSED_RPATH	/MACH(lib).* from\ .*/lib.*XvMC.so.1
-UNUSED_RPATH	/usr/MACH(lib).* from\ .*/lib.*XvMC.so.1
-UNUSED_RPATH	/usr/ccs/MACH(lib).* from\ .*/lib.*XvMC.so.1
-UNUSED_RPATH	/usr/sfw/MACH(lib).* from\ .*/lib.*XvMC.so.1
-UNUSED_RPATH	/MACH(lib).* from\ .*/usr/lib/xorg/modules/.*.so
-UNUSED_RPATH	/usr/MACH(lib).* from\ .*/usr/lib/xorg/modules/.*.so
-UNUSED_RPATH	/usr/sfw/MACH(lib).* from\ .*/usr/lib/xorg/modules/.*.so
-UNUSED_RPATH	/MACH(lib).* from\ .*/usr/lib/xorg/vmmouse_detect
-UNUSED_RPATH	/usr/MACH(lib).* from\ .*/usr/lib/xorg/vmmouse_detect
-UNUSED_RPATH	/usr/sfw/MACH(lib).* from\ .*/usr/lib/xorg/vmmouse_detect
-#
+UNREF_OBJ	/libc\.so\.1;.*\ of\ .*/usr/lib/libXinerama\.so\.1
+
 # Issues caused by having to pass a single set of linker flags to module
 # configure scripts/Makefiles used to build a mixed bag of objects
-UNUSED_RPATH	/MACH(lib).*\ from\ .*/usr/lib/xorg/synclient
-UNUSED_RPATH	/MACH(lib).*\ from\ .*/usr/lib/xorg/syndaemon
-UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*/usr/lib/xorg/modules/.*\.so
-UNUSED_RPATH	/usr/lib/fbconfig.*\ from\ .*/usr/lib/fbconfig/.*\.so
+UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*/usr/bin/intel_.*
+UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*/usr/lib/mesa/.*\.so.*
+UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*/usr/lib/MACH(xorg)/libdrm\.so\.2
+UNUSED_RPATH	/usr/lib/xorg.*\ from\ .*/usr/lib/xorg/modules/MACH(dri)/swrast_dri\.so
+UNREF_OBJ	/usr/lib/.*libCstd\.so\.1;.*\ of\ .*/usr/bin/vncconfig
+UNREF_OBJ	/usr/lib/.*libCstd\.so\.1;.*\ of\ .*/usr/bin/vncpasswd

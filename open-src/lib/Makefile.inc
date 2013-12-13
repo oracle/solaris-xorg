@@ -53,7 +53,7 @@ MODTYPE_CPPFLAGS=$(LIB_CPPFLAGS)
 MODTYPE_CFLAGS=$(LIB_CFLAGS)
 MODTYPE_CXXFLAGS=$(LIB_CXXFLAGS)
 MODTYPE_LDFLAGS=$(LIB_LDFLAGS) -lc
-MODTYPE_LD_OPTIONS=$(LIB_REQUIRED_LDFLAGS)
+MODTYPE_LD_OPTIONS=
 
 # Additional command line options to GNU autoconf configure script
 MODTYPE_CONFIG_OPTS = --enable-shared=yes --enable-static=no \

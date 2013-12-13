@@ -104,8 +104,9 @@ MODULE_CPPFLAGS = -DSYSAPI_UNIX=1 \
 MODULE_LDFLAGS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 		 -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 		 -R$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
-		 -KPIC -Bdynamic -z ignore \
-		 -lstdcxx4 -lCrun -lCstd -lsocket -lnsl
+		 -KPIC -Bdynamic $(ZDISCARD_UNUSED_DEP) \
+		 -lstdcxx4 -lCrun -lsocket -lnsl
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 INSTALL = /usr/bin/ginstall -c
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes

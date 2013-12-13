@@ -54,6 +54,9 @@ MODULE_CONFIG_OPTS = --disable-nouveau
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
+# Different programs need different libraries, but upstream links them all in
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
+
 # Override default config environment - if PYTHON is set to a specific version
 # then configure will complain it's version is not >= 3, but if it's unset it's
 # fine with not finding a python version >= 3.

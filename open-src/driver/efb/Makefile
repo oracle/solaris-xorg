@@ -78,15 +78,10 @@ XF86_VIDEO_ATI_SRC = $(PWD:efb=xf86-video-ati)
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
         -L$(PROTODIR)$(X11_SERVERMODS_DIR) \
-        -L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \
-        -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
         -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
         -R$(X11_SERVERMODS_DIR) \
-        -R$(X11_SERVERMODS_DIR)/extensions \
-        -R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-        -R$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
         -lexa -lfb -lint10 -lvbe -lvgahw -lshadow \
-        -lpciaccess -lpixman-1 -ldrm -lglx -lm \
+        -lpciaccess -lpixman-1 -lm \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-bt829_drv-external \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-fi1236_drv-external \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-msp3430_drv-external \

@@ -77,25 +77,25 @@ include ../Makefile.inc
 ### Rules specific to this directory:
 
 # Only care about building X demos
-DEMO_LDFLAGS=$(PROG_LDFLAGS) -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -z ignore
+DEMO_LDFLAGS = $(PROG_LDFLAGS) -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
+	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 
 # Flags passed on make command line when building
 MODULE_BUILD_MAKEFLAGS = LDFLAGS="$(DEMO_LDFLAGS)"
 
+DEMO_BUILD_COMMAND = $(DEFAULT_BUILD_COMMAND:@DIR@=$(DEMOS_DIR))
+
 # Build Mesa demos
 $(GLXGEARS_BIN): $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
-	(cd $(DEMOS_DIR) && \
-	 $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) glxgears )
+	$(DEMO_BUILD_COMMAND) glxgears
 
 $(GLXINFO_BIN): $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
-	(cd $(DEMOS_DIR) && \
-	 $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) glxinfo )
+	$(DEMO_BUILD_COMMAND) glxinfo
 
 # For testing - we don't ship the rest of these
 all-xdemos_gen: $(UNPACK_TARGET) $(CONFIGURE_TARGETS)
-	(cd $(DEMOS_DIR) && \
-	 $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+	$(DEMO_BUILD_COMMAND)
 
 all-xdemos:
 	$(MAKE) $(MAKEFLAGS) $(BUILD_64_FLAGS) all-xdemos_gen

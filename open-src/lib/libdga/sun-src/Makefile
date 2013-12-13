@@ -2,7 +2,7 @@
 #
 # libdga Makefile
 #
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,8 +25,8 @@
 #
 #
 
-SHLIBLDFLAGS = -G -z defs $(LDFLAGS)
-REQUIREDLIBS = -lX11 -lsocket -lc
+SHLIBLDFLAGS = -G -z defs -z text $(LDFLAGS)
+REQUIREDLIBS = -lX11 -lc
 DEFINES = -D_TS_ERRNO -DMT -DXTHREADS -DPANORAMIX -DIPv6 -DSVR4
 
 HEADERS = dga_Xrequests.h win_grab.h rtn_grab.h cmap_grab.h pix_grab.h \

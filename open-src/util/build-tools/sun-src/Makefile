@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,7 +32,7 @@ time-%.o:	$(srcdir)/time.c
 	$(CC) -Kpic $(CFLAGS) -c -o $@ $<
 
 time-%.so: time-%.o
-	$(CC) -G $(CFLAGS) -o $@ $<
+	$(CC) -G $(CFLAGS) -o $@ $< -lc
 
 clean:
 	$(RM) time-*.o time-*.so

@@ -106,7 +106,6 @@ OS_SUBDIRS_common = \
 	xmakemap \
 	xman \
 	xmodmap \
-	xpm \
 	xpr \
 	xprop \
 	xrandr \
@@ -132,6 +131,7 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
 OBSOLETE_SUBDIRS = \
 	rstart \
 	xplsprinters \
+	xpm \
 	xprehashprinterlist \
 	xrx \
 	xscreensaver \

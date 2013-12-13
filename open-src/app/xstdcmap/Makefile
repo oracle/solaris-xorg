@@ -54,6 +54,6 @@ MODULE_X11_BINCOMPAT_LINKS = xstdcmap
 
 # ignore some unneeded dependencies that upstream includes:
 #   unreferenced object=libXt.so.4; unused dependency of /usr/bin/xstdcmap
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 include ../Makefile.inc

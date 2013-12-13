@@ -3,7 +3,7 @@
 #
 
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,7 +46,7 @@ FBC_INC	= -I$(FBC_SRC_DIR) -I$(XF86_SRC_DIR) -I$(GFX_COMMON)/include
 # Linker flags
 #
 
-LIBS	= -L$(BIN_DIR) -l$(L_FBC) -L$(GFX_BIN_DIR) -lgfx
+LIBS	= $(L_FBC)
 
 #
 # Code modules
@@ -102,11 +102,8 @@ TARGETS	= \
 
 all:		init $(TARGETS) 
 
-$(BIN_DIR)/$(BIN): $(BIN_OBJS) $(BIN_DIR)/$(LIB_FBC_SO)$(VERS) $(GFX_BIN_DIR)/$(LIB_GFX_A)
-	$(CC) -o $@ $(BIN_OBJS) $(LDFLAGS) $(LIBS) $(DYNFLAGS)
-
-$(GFX_BIN_DIR)/$(LIB_GFX_A): Makefile.gfx
-	$(MAKE) -f Makefile.gfx all
+$(BIN_DIR)/$(BIN): $(BIN_OBJS) $(BIN_DIR)/$(LIB_FBC_SO)$(VERS)
+	$(CC) -o $@ $(BIN_OBJS) $(LDFLAGS) $(LIBS)
 
 $(BIN_DIR)/$(LIB_FBC_SO)$(VERS): Makefile.fbc
 	$(MAKE) -f Makefile.fbc all
@@ -142,7 +139,6 @@ init:
 	$(MKDIR) -p $(BIN_DIR)
 
 clean:
-	$(MAKE) -f Makefile.gfx clean
 	$(MAKE) -f Makefile.xf86 clean
 	$(MAKE) -f Makefile.fbc clean
 	$(MAKE) -f Makefile.efb clean
@@ -151,14 +147,12 @@ clean:
 	-rm -f $(BIN_OBJS) $(FBC_SRC_DIR)/*~ *~
 
 clobber: clean
-	$(MAKE) -f Makefile.gfx clobber
 	$(MAKE) -f Makefile.xf86 clobber
 	$(MAKE) -f Makefile.fbc clobber
 	$(MAKE) -f Makefile.efb clobber
 	$(MAKE) -f Makefile.ast clobber
 	$(MAKE) -f Makefile.mga clobber
 	rm -f $(BIN_DIR)/$(BIN)
-	rm -rf $(BIN_DIR)
 
 
 # End of Makefile

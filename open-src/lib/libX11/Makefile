@@ -137,8 +137,9 @@ MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD \
 
 MODULE_LDFLAGS = -R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 
-# Need to ignore extra libraries like -lsocket & -lnsl in i18n modules
-MODULE_LD_OPTIONS = -z ignore
+# Need to discard -lc in .so's that don't need it, but leave it for those
+# which do need to link to it.
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 
 # Backwards compatibility for old paths until g11n moves all input methods
 MODULE_CONFIG_ENV = \

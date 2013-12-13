@@ -60,7 +60,7 @@ MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
 	PROG_LDFLAGS="$(PROG_LDFLAGS)"
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = makepsres pswrap

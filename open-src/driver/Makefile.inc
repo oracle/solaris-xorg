@@ -85,12 +85,19 @@ MODTYPE_CFLAGS_suncc_common = -xldscope=hidden
 MODTYPE_CFLAGS_gcc_common = -fvisibility=hidden
 MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_common)
 
-MODTYPE_LDFLAGS=$(LDFLAGS) -R/lib$(ARCHLIBSUBDIR)
+# Many drivers fail to list -lc in their dependencies upstream, but not
+# all shared objects need it, so add it, but discard if not useful.
+MODTYPE_LD_SHARED_OPTIONS = $(ZDISCARD_UNUSED_DEP) -lc
 
+# Resolve calls to functions in Xorg against the Xorg binary
 XORG_EXTERNS_FLAG = -z parent=$(PROTODIR)$(X11_BIN_DIR)/Xorg
-DEFAULT_MODTYPE_LD_OPTIONS = -z defs $(XORG_EXTERNS_FLAG) -z ignore -lc
-$(USE_DEFAULT_MODTYPE_LD_OPTIONS:no=$(POUND_SIGN)) MODTYPE_LD_OPTIONS = $(DEFAULT_MODTYPE_LD_OPTIONS)
+# added to shared flags by default, but can be overridden if building
+# non-driver shared objects in a driver module
+$(XORG_EXTERNS_IN_LD_SHARED_OPTIONS:no=$(POUND_SIGN)) \
+	MODTYPE_LD_SHARED_OPTIONS += $(XORG_EXTERNS_FLAG)
 
+# Debug builds may leave references to pixman functions from inline function 
+# calls in headers that normally get optimized out in non-debug builds.
 $(BUILD_DEBUG:yes=)			MODTYPE_DEBUG_LD_OPTIONS = -lpixman-1
 $(BUILD_DEBUG:yes=$(POUND_SIGN))	MODTYPE_DEBUG_LD_OPTIONS =
 MODTYPE_LD_OPTIONS += $(MODTYPE_DEBUG_LD_OPTIONS)

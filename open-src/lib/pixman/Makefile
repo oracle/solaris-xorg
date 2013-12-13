@@ -76,4 +76,7 @@ FIX_PC_FILES=pixman-1.pc.in
 #   building in our builds.
 MODULE_CONFIG_OPTS = --disable-gtk
 
+# Discard unneeded libraries & files that get linked into many test programs
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP) $(ZDISCARD_UNUSED_FIL)
+
 include ../Makefile.inc

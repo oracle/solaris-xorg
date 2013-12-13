@@ -184,11 +184,13 @@ ARCH64_FLAGS		= $(ARCH64_FLAGS_$(MACH)_$(MODULE_COMPILER))
 ARCH64_FLAGS	       += $(ARCH_FLAGS_$(MACH)_$(MODULE_COMPILER))
 ARCH_LIB_FLAGS		= $(ARCH_LIB_FLAGS_$(MACH)_$(MODULE_COMPILER))
 
+CPPFLAGS		= -D_REENTRANT
+
 # Flags for specific binary types
-LIB_CPPFLAGS 		= -D_REENTRANT
+LIB_CPPFLAGS 		= $(CPPFLAGS)
 LIB_CFLAGS 		= $(CFLAGS) $(ARCH_LIB_FLAGS)
 LIB_CXXFLAGS 		= $(CXXFLAGS) $(ARCH_LIB_FLAGS)
-PROG_CPPFLAGS		= -DFD_SETSIZE=$(FD_SETSIZE)
+PROG_CPPFLAGS		= $(CPPFLAGS) -DFD_SETSIZE=$(FD_SETSIZE)
 PROG_CFLAGS		= $(CFLAGS)
 PROG_CXXFLAGS		= $(CXXFLAGS)
 
@@ -217,43 +219,34 @@ MAPFILES_FOR_PROGS     += $(MAPFILE_NOEXBSS)
 
 XORG_EXTERNS_FILE 	= mapfile-Xorg-externs.$(MACH)
 
+# Flags to discard at link time unnecessary dependencies, .o files or
+# ELF sections that upstream may have included that we don't use.
+ZDISCARD_UNUSED_DEP	= -zdiscard-unused=dependencies
+ZDISCARD_UNUSED_FIL	= -zdiscard-unused=files
+ZDISCARD_UNUSED_SEC	= -zdiscard-unused=sections
+
+# Include -lc as workaround for bug 17815318 so libm can actually go away
+# if -xlibmil manages to inline all math functions.
+ZDISCARD_UNUSED_DEP    += -lc
+
 # Common flags for all binaries
-LDFLAGS_common 		= -z lazyload -B direct -z guidance
-LDFLAGS_common	       += $(MAPFILES_FOR_ALL)
+DEFAULT_LD_OPTIONS	= -z lazyload -B direct -z guidance
+DEFAULT_LD_OPTIONS     += $(MAPFILES_FOR_ALL)
+DEFAULT_LD_OPTIONS     += -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
 
 # Strip debug info out of non-debug builds
-$(BUILD_DEBUG:yes=$(POUND_SIGN))  LDFLAGS_common += -z strip-class=debug
+$(BUILD_DEBUG:yes=$(POUND_SIGN))  DEFAULT_LD_OPTIONS += -z strip-class=debug
 
-# LIB_REQUIRED_LDFLAGS are forced on via LD_OPTIONS to override libtool when
-# building libraries.
-LIB_REQUIRED_LDFLAGS	= -z text -z defs
-LIB_LDFLAGS_common	= $(LDFLAGS_common) $(LIB_REQUIRED_LDFLAGS)
+# gcc often links with libgcc.a and/or libgcc_s.so whether it's needed or not
+DEFAULT_LD_OPTIONS_gcc  = $(ZDISCARD_UNUSED_DEP) $(ZDISCARD_UNUSED_FIL)
 
-# Flags for programs
-PROG_LDFLAGS_common	= $(LDFLAGS_common) $(MAPFILES_FOR_PROGS)
+DEFAULT_LD_OPTIONS     += $(DEFAULT_LD_OPTIONS_$(MODULE_COMPILER))
 
-# Sun Studio recognizes the common linker flags without -Wl, and 
-# Sun Studio CC can't handle -Wl,-flag,option format, so just pass directly
-LDFLAGS_suncc		= $(LDFLAGS_common)
-LIB_LDFLAGS_suncc	= $(LIB_LDFLAGS_common)
-PROG_LDFLAGS_suncc	= $(PROG_LDFLAGS_common)
+# Ensure required flags for .so's are applied, despite libtool interference
+DEFAULT_LD_SHARED_OPTIONS = -z text -z defs
 
-# gcc requires additional library path for libgcc_s.so
-DEFAULT_LDFLAGS_gcc = -L/usr/gcc/$(GCC_VERSION)/lib$(ARCHLIBSUBDIR) \
-		      -R/usr/gcc/$(GCC_VERSION)/lib$(ARCHLIBSUBDIR)
-
-# Need to use -Wl,.. to pass linker flags through gcc
-GCC_CONVERT_LDFLAGS_CMD=sed -e 's/-M /-Wl,-M,/g' -e 's/-B /-Wl,-B,/g'
-GCC_LDFLAGS_CMD=echo $(LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
-LDFLAGS_gcc=$(GCC_LDFLAGS_CMD:sh) $(DEFAULT_LDFLAGS_gcc)
-GCC_LIB_LDFLAGS_CMD=echo $(LIB_LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
-LIB_LDFLAGS_gcc=$(GCC_LIB_LDFLAGS_CMD:sh)
-GCC_PROG_LDFLAGS_CMD=echo $(PROG_LDFLAGS_common) | $(GCC_CONVERT_LDFLAGS_CMD)
-PROG_LDFLAGS_gcc=$(GCC_PROG_LDFLAGS_CMD:sh)
-
-LDFLAGS=$(LDFLAGS_$(MODULE_COMPILER))
-LIB_LDFLAGS=$(LIB_LDFLAGS_$(MODULE_COMPILER))
-PROG_LDFLAGS=$(PROG_LDFLAGS_$(MODULE_COMPILER))
+# Ensure we do ASLR tagging & mark stacks/heaps non-executable on programs
+DEFAULT_LD_EXEC_OPTIONS	= -z aslr=enable $(MAPFILES_FOR_PROGS)
 
 ## Commonly added options
 

@@ -58,6 +58,6 @@ MODULE_X11_BINCOMPAT_LINKS = bitmap atobm bmtoa
 # ignore some unneeded dependencies that upstream includes:
 # unreferenced object=/usr/lib/libXt.so.4; unused dependency of /usr/bin/bmtoa
 # unreferenced object=/usr/lib/libX11.so.4; unused dependency of /usr/bin/bmtoa
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 include ../Makefile.inc

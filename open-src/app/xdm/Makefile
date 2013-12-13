@@ -45,6 +45,7 @@ SOURCE_PATCHES = \
 	mkdir.patch,-p1 \
 	pam_tty.patch,-p1 \
 	pam_user.patch,-p1 \
+	greeter-linking.patch,-p1 \
 	bindir.patch,-p1 \
 	terminateServer.patch \
 	bug-6822636.patch \
@@ -81,7 +82,9 @@ MODULE_CONFIG_OPTS= \
 
 # configure scripts add libraries like -lXt & -lXinerama to the global $(LIBS)
 # when only some objects need them, so ignore them in the rest.
-MODTYPE_LD_OPTIONS = -z ignore
+MODULE_LD_OPTIONS  = $(ZDISCARD_UNUSED_DEP)
+# but it misses adding -lc to the greeter shared object, so add it
+MODULE_LD_OPTIONS += -lc
 
 # Additional build & install targets
 MODULE_ADD_BUILD_TARGETS=build_xdm_configs

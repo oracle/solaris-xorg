@@ -2,7 +2,7 @@
 #
 # Xevie 1.x Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -58,9 +58,9 @@ FIX_PC_FILES=xevie.pc.in
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 
-# libXevie actually doesn't call any libc functions, but even if we don't
-# pass -lc, the compiler sneaks it in, so we tell the linker to ignore it
-MODULE_LD_OPTIONS += -z ignore
+# libXevie actually doesn't call any libc functions, so we can discard
+# the -lc automatically added by MODTYPE_LDFLAGS in ../Makefile.inc
+MODULE_LD_OPTIONS += $(ZDISCARD_UNUSED_DEP)
 
 # Compatibility links from /usr/X11/lib to /usr/lib
 MODULE_X11_LIBCOMPAT_LINKS = libXevie.so libXevie.so.1

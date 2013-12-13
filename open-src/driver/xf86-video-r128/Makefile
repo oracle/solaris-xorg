@@ -2,7 +2,7 @@
 #
 # xf86-video-r128 Makefile
 #
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,11 +50,7 @@ MODULE_CONFIG_OPTS=--disable-dri
 # Paths to find libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \
-	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
-	-R$(X11_SERVERMODS_DIR)/extensions \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lint10 -lpciaccess -lfb -lpixman-1 -lvbe -lfbdevhw -lvgahw
 
 # Additional install rules beyond what upstream installs

@@ -145,13 +145,13 @@ MODULE_LD_OPTIONS = $(MAPFILES_FOR_ALL)
 # from the Xorg binary itself
 XORG_EXTERNS_FLAG = -Wl,-M,$(PWD)/$(XORG_EXTERNS_FILE)
 MODULE_BUILD_ENV = XORG_EXTERNS_FLAG='$(XORG_EXTERNS_FLAG)'
-MODULE_LDFLAGS += $(XORG_EXTERNS_FLAG)
+MODULE_LD_SHARED_OPTIONS += -M $(PWD)/$(XORG_EXTERNS_FILE)
 
 # Optimization doesn't always remove unused inline functions, leaving many 
-# binaries referencing pixman symbols that normally don't need them.  Using
-# -z ignore should ensure that it's not added when not really needed.
-# Adding -z muldefs for 16418361 - which should be removed once we fix that
-MODULE_CONFIG_OPTS += LIBS="-z ignore -lpixman-1 -z muldefs"
+# binaries referencing pixman symbols that normally don't need them.  The
+# $(ZDISCARD_UNUSED_DEP) in LD_OPTIONS should avoid adding it when
+# not really needed.
+MODULE_CONFIG_OPTS += LIBS="-lpixman-1"
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xorg-server.pc.in

@@ -68,15 +68,8 @@ SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
 	CVE-2013-1993.patch,-p1 \
-	install-pc-dir.patch \
 	solaris-port.patch \
 	mesa9-port.patch
-
-# File created by running configure script
-AUTOCONF_TARGET=$(SOURCE_DIR)/configs/autoconf
-AUTOCONF_TARGET_SET=yes
-MODULE_ADD_CONFIGURE_TARGETS=set_pc_dir
-MODULE_INSTALL_DEPS=set_pc_dir
 
 DRI_DRIVER_LIST_sparc=
 DRI_DRIVER_LIST_i386=i915 i965 radeon r200
@@ -107,7 +100,7 @@ MODULE_COMPILER_SET=yes
 MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/libdrm
 
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -z ignore
+		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
@@ -117,10 +110,6 @@ FIX_PC_FILES=src/*/*.pc.in src/mesa/drivers/dri/dri.pc.in
 
 ### Include common rulesets
 include ../Makefile.inc
-
-# Mesa makefiles use a different variable name/method for pkgconfig path
-set_pc_dir: $(AUTOCONF_TARGET)
-	echo 'INSTALL_PC_DIR=$(PKGCONFIG_DIR)' >> $(AUTOCONF_TARGET)
 
 # Move installed files to mesa subdirs and make links back
 LIBRARIES_TO_LINK = libGL.so.1.2.0 libdricore9.0.3.so.1.0.0 libglapi.so.0.0.0

@@ -55,6 +55,6 @@ MODULE_X11_LIBCOMPAT_LINKS = libXvMC.so libXvMC.so.1 libXvMCW.so libXvMCW.so.1
 
 # configure passes "xv" to PKG_CHECK_MODULES since libXv headers are needed,
 # but we don't need to link with it, so ignore it at link time.
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 include ../Makefile.inc

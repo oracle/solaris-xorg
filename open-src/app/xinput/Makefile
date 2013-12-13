@@ -56,6 +56,6 @@ MODULE_X11_BINCOMPAT_LINKS = xinput
 
 # ignore some unneeded dependencies that upstream includes:
 #   unreferenced object=libXext.so.0; unused dependency of /usr/bin/xinput
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 include ../Makefile.inc

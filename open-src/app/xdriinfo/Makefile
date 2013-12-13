@@ -56,6 +56,10 @@ MODULE_STABILITY=Committed
 # Needed for libGL to find libdrm at build time
 MODULE_LDFLAGS=-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
+# Needed to force use of Mesa libGL at runtime, since xdriinfo just prints
+# "libGL is too old" if nvidia libGL is found.
+MODULE_LDFLAGS += -R$(X11_LIB_DIR)/mesa$(ARCHLIBSUBDIR)
+
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xdriinfo
 

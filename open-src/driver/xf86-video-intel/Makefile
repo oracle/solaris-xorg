@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,10 +63,6 @@ INSTALL_TARGETS_32 = install_legacy_xvmc
 INSTALL_TARGETS_64 = install_docs
 INSTALL_TARGETS += $(INSTALL_TARGETS_$(BUILD_TYPE))
 INSTALL_TARGETS_SET=yes
-LIBXVMC_LD_OPTIONS = -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
-LIBXVMC_LD_OPTIONS += $(LIB_REQUIRED_LDFLAGS) -z ignore -lc -lX11
-MODULE_BUILD_ENV_32 = LD_OPTIONS="$(LIBXVMC_LD_OPTIONS)"
-MODULE_BUILD_ENV = $(MODULE_BUILD_ENV_$(BUILD_TYPE))
 
 # Intel driver doesn't work on some chipsets if built with Sun compiler
 MODULE_COMPILER=gcc
@@ -82,14 +78,17 @@ MODULE_CONFIG_OPTS=--enable-dri --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)' \
 MODULE_CONFIG_ENV = echo=/usr/gnu/bin/echo
 MODULE_BUILD_ENV += echo=/usr/gnu/bin/echo
 
+# Instead of allowing the default MODTYPE_LD_SHARED_OPTIONS to link everything
+# against the Xorg server binary, libraries.patch adds the XORG_EXTERNS_FLAG 
+# variable to the link of just intel_drv.so not to the client-side XvMC libs.
+XORG_EXTERNS_IN_LD_SHARED_OPTIONS=no
+MODULE_BUILD_ENV += XORG_EXTERNS_FLAG='$(XORG_EXTERNS_FLAG)'
+
 # Library paths at build time
-MODULE_LD_OPTIONS= -z ignore \
+MODULE_LD_OPTIONS = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
-	-L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions \
-	-L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
-	-M $(PWD)/mapfile.externs
+	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
 
 # Need to regenerate configure & Makefile.in's after patching
 # configure.ac & Makefile.am's in libraries.patch & build-dri.patch

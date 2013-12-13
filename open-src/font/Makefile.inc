@@ -87,9 +87,11 @@ MODTYPE_CONFIG_OPTS += --without-compression
 # sun-aliases module or during packaging in generate_font_metadata.pl).
 MODTYPE_CONFIG_OPTS += MKFONTDIR=/usr/bin/true
 
-# Most font modules have nothing to build, for those that do, use lib flags
-MODTYPE_CFLAGS=$(LIB_CFLAGS)
-MODTYPE_LDFLAGS=$(LIB_LDFLAGS)
+# Most font modules have nothing to build, but font-util builds some programs
+MODTYPE_CFLAGS=$(PROG_CFLAGS)
+MODTYPE_CPPFLAGS=$(PROG_CPPFLAGS)
+MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
+MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 MODTYPE_LD_OPTIONS=
 
 # Paths to find mkfontscale, fc-cache & the libraries they need in build area

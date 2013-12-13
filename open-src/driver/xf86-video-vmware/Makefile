@@ -53,9 +53,7 @@ MODULE_COMPILER_SET=yes
 # Libraries/modules to link with
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
-	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-lfb -lpixman-1 -lshadowfb -lXfont -lvgahw -lpciaccess
+	-lfb -lpixman-1 -lshadowfb -lvgahw -lpciaccess
 
 include ../Makefile.inc

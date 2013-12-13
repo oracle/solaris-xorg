@@ -3,7 +3,7 @@
 #
 
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,27 +41,18 @@ BIN	= fbconf_xorg
 
 VERS	= .1
 
-L_GFX      = gfx
+L_GFX      = -L$(GFX_BIN_DIR) -lgfx
 LIB_GFX_A  = libgfx.a
 
-L_XF86     = xf86conf
+L_XF86     = -L$(XF86_BIN_DIR) -lxf86conf
 LIB_XF86_A = libxf86conf.a
 
-L_FBC      = $(BIN)
-LIB_FBC    = lib$(L_FBC)
-LIB_FBC_SO = $(LIB_FBC).so
+L_FBC      = -L$(BIN_DIR) -R$(INSTALL_LIB_DIR) -lfbconf_xorg
+LIB_FBC_SO = libfbconf_xorg.so
 
-L_EFB      = SUNWefb_conf
-LIB_EFB    = lib$(L_EFB)
-LIB_EFB_SO = $(LIB_EFB).so
-
-L_AST      = SUNWast_conf
-LIB_AST    = lib$(L_AST)
-LIB_AST_SO = $(LIB_AST).so
-
-L_MGA      = SUNWmga_conf
-LIB_MGA    = lib$(L_MGA)
-LIB_MGA_SO = $(LIB_MGA).so
+LIB_EFB_SO = libSUNWefb_conf.so
+LIB_AST_SO = libSUNWast_conf.so
+LIB_MGA_SO = libSUNWmga_conf.so
 
 
 #
@@ -115,19 +106,16 @@ INSTALL_LIB_DIR = $(DESTDIR)/usr/lib/fbconfig
 DEBUG_FLAG= 
 PIC_FLAG = -xcode=pic32				# Needed with dynamic linking
 CFLAGS	+= $(DEBUG_FLAG) $(PIC_FLAG)
+CFLAGS += $(CPPFLAGS)
 
 
 #
 # Linker flags
 #
 
-DYNFLAGS  = -lc
-DYNFLAGS += -Wl,-R$(INSTALL_LIB_DIR)
-
 DYNLIBFLAGS  = -lc
 DYNLIBFLAGS += -G
-DYNLIBFLAGS += -Wl,-L$(INSTALL_LIB_DIR)
-DYNLIBFLAGS += -Wl,-R$(INSTALL_LIB_DIR)
+DYNLIBFLAGS += -h $(@F)
 
 
 # End of Makefile.common

@@ -58,7 +58,7 @@ SUNTOUCHED_MANPAGES=src/man/*
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xcb
 
-MODULE_LD_OPTIONS = -z ignore -lc
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP) -lc
 LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
 
 # Command line options to GNU autoconf configure script

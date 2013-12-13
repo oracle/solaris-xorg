@@ -66,8 +66,6 @@ MODULE_MAKE_SET=yes
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
-MODULE_BUILD_MAKEFLAGS = libkms_la_LIBADD=../libdrm.so.2
-
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau
 
@@ -82,6 +80,7 @@ FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in \
 
 # Where to install files
 MODULE_ADD_LIB_SUBDIR = $(X11_SERVERLIBS_SUBDIR)
+MODULE_LDFLAGS = -R $(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
 MODULE_PKGCONFIG_DIR = $(PKGCONFIG_DIR)
 MODULE_PKGCONFIG_DIR_SET = yes
 

@@ -62,7 +62,7 @@ MODULE_X11_BINCOMPAT_LINKS = xrandr
 
 # ignore some unneeded dependencies that upstream includes:
 #   unreferenced object=libXrender.so.1; unused dependency of /usr/bin/xrandr
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 include ../Makefile.inc
 

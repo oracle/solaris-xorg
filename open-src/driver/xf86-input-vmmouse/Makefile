@@ -37,10 +37,7 @@ TARBALL_SHA1  = 0fa67d2ca9b2b26d32b93cc030fc3ea28964fe81
 TARBALL_SHA256= 04cfb60366008d4db815c550d8fb8d0a4270c75fa7a20fa3bddc9ecbd355612c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = libraries.patch,-p1
-
-# Regenerate configure after patching src/Makefile.am in libraries.patch
-AUTORECONF=yes
+SOURCE_PATCHES =
 
 # vmmouse_client code won't build with Studio compiler
 MODULE_COMPILER=gcc
@@ -61,16 +58,5 @@ MODULE_CONFIG_OPTS= \
 	--with-hal-callouts-dir=/usr/lib/hal \
 	--with-hal-fdi-dir=/etc/hal/fdi/policy/10osvendor \
 	--bindir=$(X11_SERVERLIBS_DIR)
-
-# Extra flags to link driver, but not utility programs with
-DRIVER_LD_FLAGS = $(DEFAULT_MODTYPE_LD_OPTIONS)
-MODULE_CONFIG_OPTS += XORG_LIBS="$(DRIVER_LD_FLAGS)"
-USE_DEFAULT_MODTYPE_LD_OPTIONS = no
-
-# Override linker flags for programs
-VMM_PROG_LDFLAGS=$(PROG_LDFLAGS) ../shared/libvmmouse.a
-PROGRAM_VARS = vmmouse_detect
-PROGRAM_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(VMM_PROG_LDFLAGS)")
-MODULE_BUILD_MAKEFLAGS = AM_MAKEFLAGS='$(PROGRAM_MAKEFLAGS)'
 
 include ../Makefile.inc

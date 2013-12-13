@@ -108,9 +108,11 @@ MODTYPE_CPPFLAGS += $(PROG_CPPFLAGS)
 MODTYPE_CXXFLAGS=$(PROG_CXXFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 
-# configure scripts add libraries like -lsocket & -lnsl to the global $(LIBS)
-# when only some objects need them, so ignore them in the rest.
-MODTYPE_LD_OPTIONS = -z ignore
+# configure scripts add libraries like -lm to the global $(LIBS) when only 
+# some objects need them, so discard them in the rest, but only when building
+# programs or .so's, not the Dtrace magic relocatable objects.
+MODTYPE_LD_EXEC_OPTIONS = $(ZDISCARD_UNUSED_DEP) $(ZDISCARD_UNUSED_FIL)
+MODTYPE_LD_SHARED_OPTIONS = $(ZDISCARD_UNUSED_DEP) $(ZDISCARD_UNUSED_FIL)
 
 # Environment variable options to use when building
 #  - PATH - include /usr/sbin for dtrace command (needed for building probes)

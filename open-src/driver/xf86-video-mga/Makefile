@@ -43,6 +43,9 @@ SOURCE_PATCHES = \
 		sparc.patch,-p1 \
 		rom_map.patch,-p1
 
+# Regenerate Makefile after libraries.patch patches src/Makefile.am
+AUTORECONF=yes
+
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
@@ -54,14 +57,8 @@ MODULE_CONFIG_OPTS=--disable-dri
 # Extra flags to link mga_drv.so, but not util/stormdwg binary with
 DRIVER_LD_FLAGS = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
-	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-R$(X11_SERVERMODS_DIR) \
-	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	$(DEFAULT_MODTYPE_LD_OPTIONS)
+	-R$(X11_SERVERMODS_DIR)
 MODULE_CONFIG_OPTS += XORG_LIBS="$(DRIVER_LD_FLAGS)"
-USE_DEFAULT_MODTYPE_LD_OPTIONS = no
-
-AUTORECONF=yes
 
 include ../Makefile.inc
 

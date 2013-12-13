@@ -67,6 +67,9 @@ MODULE_CONFIG_ENV	= LIB_LDFLAGS="$(LIB_LDFLAGS)"
 MODULE_BUILD_MAKEFLAGS	= $(CONFIG_ENV)
 MODULE_INSTALL_MAKEFLAGS= $(CONFIG_ENV)
 
+# Allow linker to skip linking to libm if compiler inlined all math functions
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
+
 include ../Makefile.inc
 
 # Install metadata for fb-specific packages too

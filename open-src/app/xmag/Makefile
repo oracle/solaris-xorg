@@ -40,7 +40,7 @@ TARBALL_SHA1 = a5055999e61bd03d7741e534a776d9e1388a8cc8
 SOURCE_PATCHES = 
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

@@ -1,4 +1,4 @@
-# Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@ SRCS = 	AllWidgets.c AsciiSink.c AsciiText.c Box.c \
 	Repeater.c Scrollbar.c Simple.c SimpleMenu.c Sme.c SmeBSB.c \
 	SmeLine.c StripChart.c TextSrc.c \
 	TextAction.c TextPop.c TextTr.c Toggle.c Tree.c Vendor.c \
-	XawIm.c XawInit.c XawI18n.c sharedlib.c \
+	XawIm.c XawInit.c XawI18n.c \
 	Text.c TextSink.c Viewport.c AsciiSrc.c MultiSrc.c
 OBJS = $(SRCS:.c=.o)
 

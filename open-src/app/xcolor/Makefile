@@ -58,7 +58,7 @@ MODULE_BUILD_ENV=$(CONFIG_ENV)
 MODULE_INSTALL_MAKEFLAGS = bindir=$(X11_BIN_DIR) mandir=$(X11_MAN_DIR)
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=# None

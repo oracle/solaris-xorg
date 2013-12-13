@@ -77,7 +77,7 @@ MODULE_CPPFLAGS = -D__posix__ -D__unix__
 #   unreferenced object=libXext.so.0; unused dependency of libglut.so.3.9.0
 #   unreferenced object=libXxf86vm.so.1; unused dependency of libglut.so.3.9.0
 #   unreferenced object=libXi.so.5; unused dependency of libglut.so.3.9.0
-MODULE_LD_OPTIONS = -z ignore
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 
 # Additional targets to install
 MODULE_ADD_INSTALL_TARGETS = install_doc

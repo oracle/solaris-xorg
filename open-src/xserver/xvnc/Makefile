@@ -193,8 +193,9 @@ XVNC_CONFIG_OPTS += --without-int10 --disable-config-hal --disable-dga
 # The X server unit tests currently depend on the Xorg ddx being built
 XVNC_CONFIG_OPTS += --disable-unit-tests
 
-# Workaround libtool dropping -R paths
-MODULE_LDFLAGS += -Wl,-R,$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
+# Include -lc as workaround for bug 17815318 so libm can actually go away
+# if -xlibmil manages to inline all math functions.
+MODULE_LDFLAGS += -lc -lm
 
 MODULE_CPPFLAGS = \
 	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
@@ -218,15 +219,11 @@ $(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 Xvnc_build: $(CONFIGURE_TARGETS)
 	$(PERL) -i -p -e 's{/usr/bin/env perl}{$(PERL)}' \
 		$(SOURCE_DIR)/unix/vncserver
-	(cd $(SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
-	(cd $(XORG_BUILD_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(SOURCE_DIR))
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(XORG_BUILD_DIR))
 
 Xvnc_install_server: $(BUILD_TARGETS)
-	(cd $(XORG_BUILD_DIR)/hw/vnc \
-	 &&  $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS) \
-	 CPPROG="cp -p" install)
+	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(XORG_BUILD_DIR)/hw/vnc) install
 	rm -f $(PROTODIR)/$(X11_SERVERMODS_DIR)/extensions/libvnc.so
 
 Xvnc_install_programs: $(BUILD_TARGETS)
@@ -262,17 +259,14 @@ JAVA_JAR_FILE = $(JAVA_SOURCE_DIR)/VncViewer.jar
 java_build: $(JAVA_JAR_FILE)
 
 $(JAVA_JAR_FILE): $(SOURCE_TARGETS)
-	(cd $(JAVA_SOURCE_DIR)/../decoder ; \
-	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
-	(cd $(JAVA_SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(JAVA_SOURCE_DIR)/../decoder)
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(JAVA_SOURCE_DIR))
 
 java_install: $(JAVA_JAR_FILE)
 	-rm -rf $(JAVA_INSTALL_DIR)
 	mkdir -p $(JAVA_INSTALL_DIR)
-	(cd $(JAVA_SOURCE_DIR) ; \
-	 $(BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS) \
-		install INSTALL_DIR=$(JAVA_INSTALL_DIR))
+	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(JAVA_SOURCE_DIR)) \
+		install INSTALL_DIR=$(JAVA_INSTALL_DIR)
 	$(INSTALL_SCRIPT) -m 0444 $(JAVA_SOURCE_DIR)/README \
 		$(JAVA_SOURCE_DIR)/LICENCE.TXT \
 		$(JAVA_INSTALL_DIR)

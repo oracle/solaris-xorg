@@ -59,7 +59,7 @@ MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
 # configure includes xi in PKG_CHECK_MODULES since libXi headers & macros
 # are used, but currently no functions are actually linked with, so we can
 # ignore it when linking
-MODULE_LD_OPTIONS += -z ignore
+MODULE_LD_OPTIONS += $(ZDISCARD_UNUSED_DEP)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xtst.pc.in

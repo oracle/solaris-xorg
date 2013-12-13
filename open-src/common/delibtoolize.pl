@@ -1,6 +1,6 @@
 #! /usr/perl5/bin/perl
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -241,8 +241,8 @@ sub modify_file {
 	    [\\\s]+ --mode=link
 	  }{}xs;
 
-    # Change -rpath to -R in link arguments
-    $l =~ s{(\s*)-rpath(\s*)}{$1-R$2}msg;
+    # Remove -rpath <directory> from link arguments
+    $l =~ s{(\s*)-rpath[\\\s]+\S+(\s*)}{$1}msg;
 
     # Change flags for building shared object from arguments to libtool
     # script into arguments to linker
@@ -251,6 +251,7 @@ sub modify_file {
       $l =~ s{(_la_LDFLAGS\s*=\s*)}{$1 $sharedobjflags }ms;
       $l =~ s{(\s+)-avoid-version\b}{$1}ms;
       $l =~ s{(\s+)-module\b}{$1}ms;
+      $l =~ s{(\s+)-export-symbols(-regex)?\s*\S+}{$1}ms;
       $l =~ s{(\s+)-version-(?:number|info)\s+\S+}{$1-h \$\@}ms;
       $l =~ s{(\s+)-no-undefined\b}{$1-z defs}ms;
     }

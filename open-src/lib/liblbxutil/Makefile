@@ -66,6 +66,7 @@ include $(TOP)/open-src/common/Makefile.init
 MODULE_CONFIG_OPTS = --enable-shared=no --enable-static=yes
 MODULE_CONFIG_OPTS += --libdir='$${exec_prefix}/lib$(ARCHLIBSUBDIR)'
 MODULE_CFLAGS = $(PROG_CFLAGS)
+MODULE_CPPFLAGS = $(PROG_CPPFLAGS)
 MODULE_ADD_UNINSTALLED_PC_OPS = -e 's|$$protodir|$(TOOLS_DIR)|g;' \
 	-e 's|^Libs: |Libs: -L$(TOOLS_DIR)/\$${libdir}|g;'
 MODULE_INSTALL_MAKEFLAGS = DESTDIR=$(TOOLS_DIR)

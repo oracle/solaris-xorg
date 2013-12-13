@@ -37,7 +37,7 @@ TARBALL_SHA1  = 85018b51dfa0c2dcf5c257cf283298836273700d
 TARBALL_SHA256= db5825660e1fb23190697f609bf75d4450fe707344a14298e1c9b47039bbb58e
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES= libraries.patch,-p1
+SOURCE_PATCHES=
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -46,25 +46,14 @@ MODULE_STABILITY=Volatile
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS= --bindir=$(X11_SERVERLIBS_DIR)
 
-# Extra flags to link driver, but not utility programs with
-DRIVER_LD_FLAGS = $(DEFAULT_MODTYPE_LD_OPTIONS) -lm
-MODULE_CONFIG_OPTS += XORG_LIBS="$(DRIVER_LD_FLAGS)"
-USE_DEFAULT_MODTYPE_LD_OPTIONS = no
-
-# Override linker flags for programs
-SYN_PROG_LDFLAGS=$(MAPFILES_FOR_PROGS)
-PROGRAM_VARS = synclient syndaemon
-PROGRAM_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(SYN_PROG_LDFLAGS)")
-MODULE_BUILD_MAKEFLAGS = AM_MAKEFLAGS='$(PROGRAM_MAKEFLAGS)'
+# Extra flags to link with
+MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP) -lm
 
 # Extra install rules
 MODULE_ADD_INSTALL_TARGETS = install_fdi
 
 # Fix path for installing headers in proto area
 MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)'
-
-# Regenerate configure after patching configure.ac
-AUTORECONF=yes
 
 # Install xorg-synaptics.pc to /usr/share since it defines the architecture
 # independent header files in /usr/include and not any library flags

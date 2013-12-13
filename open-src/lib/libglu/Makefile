@@ -64,7 +64,15 @@ SOURCE_DIRNAME_SET=yes
 SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=glu-exports.patch
+SOURCE_PATCHES=
+
+# Regenerate Makefile.in's from Makefile.am's after applying glu-exports.patch
+AUTORECONF=yes
+
+# Use -KPIC instead of -Kpic because we have too many symbols on SPARC
+DELIBTOOLIZE_FLAGS_sparc = -P
+DELIBTOOLIZE_FLAGS_i386 = 
+DELIBTOOLIZE_FLAGS = $(DELIBTOOLIZE_FLAGS_$(MACH))
 
 # pkg-config files to update
 FIX_PC_FILES=glu.pc.in
@@ -92,56 +100,53 @@ MODULE_INDENT_SET=yes
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
-# Add include paths and linker paths needed for DRM modules
-MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/libdrm
-
-MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) -z ignore
-
 ### Include common rulesets
 include ../Makefile.inc
 
 HEADERS_TO_MOVE = glu.h glu_mangle.h
 HEADERS_TO_DIRECT_LINK = glu.h
-LIBRARY_TO_LINK = libGLU.so.1.3.1
+LIBRARY_TO_LINK = libGLU.so.1
 
 # Run just once after all other install steps are done for both 32/64-bit
 install: install_ogl_layout
 
 install_ogl_layout:
-	-rm -f $(PROTODIR)/usr/lib/libGLU.so.1
-	-rm -f $(PROTODIR)/usr/lib/libGLU.so
-	-rm -f $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLU.so.1
-	-rm -f $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLU.so
-	mv $(PROTODIR)/usr/include/GL/glu.h $(PROTODIR)/usr/include/mesa
-	mv $(PROTODIR)/usr/include/GL/glu_mangle.h $(PROTODIR)/usr/include/mesa
+	mv -f $(PROTODIR)/usr/include/GL/glu.h \
+	      $(PROTODIR)/usr/include/GL/glu_mangle.h \
+	      $(PROTODIR)/usr/include/mesa/
 	ln -s $(HEADERS_TO_DIRECT_LINK:%=../mesa/%) \
 		$(PROTODIR)/usr/include/GL
 	mkdir -p $(PROTODIR)/usr/lib/GL/$(SUBDIR64) \
 		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)
-	mv $(LIBRARY_TO_LINK:%=$(PROTODIR)/usr/lib/%) \
+	mv -f $(LIBRARY_TO_LINK:%=$(PROTODIR)/usr/lib/%) \
 		$(PROTODIR)/usr/lib/mesa/
-	mv $(LIBRARY_TO_LINK:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
+	mv -f $(LIBRARY_TO_LINK:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
 		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/lib/mesa/libGLU.so.1
+	-rm -f $(PROTODIR)/usr/lib/mesa/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/lib/mesa/libGLU.so
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGLU.so.1
+	-rm -f $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGLU.so
-	(cd $(PROTODIR)/usr/lib/GL; ln -s $(LIBRARY_TO_LINK:%=../mesa/%) .)
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/lib/GL/libGLU.so.1
+	(cd $(PROTODIR)/usr/lib/GL; rm -f $(LIBRARY_TO_LINK) ; \
+	 ln -s $(LIBRARY_TO_LINK:%=../mesa/%) .)
+	-rm -f $(PROTODIR)/usr/lib/GL/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/lib/GL/libGLU.so
-	(cd $(PROTODIR)/usr/lib/GL/$(SUBDIR64); ln -s $(LIBRARY_TO_LINK:%=../../mesa/$(SUBDIR64)/%) .)
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLU.so.1
+	(cd $(PROTODIR)/usr/lib/GL/$(SUBDIR64); rm -f $(LIBRARY_TO_LINK) ; \
+	 ln -s $(LIBRARY_TO_LINK:%=../../mesa/$(SUBDIR64)/%) .)
+	-rm -f $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLU.so
-	(cd $(PROTODIR)/usr/lib; ln -s $(LIBRARY_TO_LINK:%=GL/%) .)
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/lib/libGLU.so.1
+	(cd $(PROTODIR)/usr/lib; rm -f $(LIBRARY_TO_LINK) ; \
+	 ln -s $(LIBRARY_TO_LINK:%=GL/%) .)
+	-rm -f $(PROTODIR)/usr/lib/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/lib/libGLU.so
-	(cd $(PROTODIR)/usr/lib/$(SUBDIR64); ln -s $(LIBRARY_TO_LINK:%=../GL/$(SUBDIR64)/%) .)
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLU.so.1
+	(cd $(PROTODIR)/usr/lib/$(SUBDIR64); rm -f $(LIBRARY_TO_LINK) ; \
+	 ln -s $(LIBRARY_TO_LINK:%=../GL/$(SUBDIR64)/%) .)
+	-rm -f $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLU.so
-	(cd $(PROTODIR)/usr/X11/lib; ln -s $(LIBRARY_TO_LINK:%=GL/%) .)
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/X11/lib/libGLU.so.1
+	(cd $(PROTODIR)/usr/X11/lib; rm -f $(LIBRARY_TO_LINK) ; \
+	 ln -s $(LIBRARY_TO_LINK:%=GL/%) .)
+	-rm -f $(PROTODIR)/usr/X11/lib/libGLU.so
 	ln -s libGLU.so.1 $(PROTODIR)/usr/X11/lib/libGLU.so
-	(cd $(PROTODIR)/usr/X11/lib/$(SUBDIR64); ln -s $(LIBRARY_TO_LINK:%=../GL/$(SUBDIR64)/%) .)
-	ln -s libGLU.so.1.3.1 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libGLU.so.1
+	(cd $(PROTODIR)/usr/X11/lib/$(SUBDIR64); rm -f $(LIBRARY_TO_LINK) ; \
+	 ln -s $(LIBRARY_TO_LINK:%=../GL/$(SUBDIR64)/%) .)
+	-rm -f $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libGLU.so 
 	ln -s libGLU.so.1 $(PROTODIR)/usr/X11/lib/$(SUBDIR64)/libGLU.so

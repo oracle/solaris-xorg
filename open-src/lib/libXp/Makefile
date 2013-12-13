@@ -43,6 +43,8 @@ SOURCE_PATCHES = solaris-abi.patch 6724993.patch
 # we need to autoreconf
 AUTORECONF=yes
 
+# Override the libraries pkg-config returns, to exclude the unneeded libXau
+MODULE_CONFIG_ENV = XPRINT_LIBS='-lX11 -lXext'
 
 # Library name
 LIBNAME=Xp

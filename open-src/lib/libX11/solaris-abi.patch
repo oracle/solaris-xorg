@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,24 +20,11 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-diff --git a/configure.ac b/configure.ac
-index 8ad1f00..a8ed884 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -195,7 +195,7 @@ if test x$XLIB_LOADABLE_I18N = xyes; then
- 	fi
- 	AC_DEFINE(USE_DYNAMIC_LC,1,
- 		  [Split some i18n functions into loadable modules])
--	AC_SUBST(I18N_MODULE_LIBS,'${top_builddir}/src/libX11.la')
-+	AC_SUBST(I18N_MODULE_LIBS,'${top_builddir}/src/libX11.so.4 -lc')
- fi
- AC_MSG_RESULT($XLIB_LOADABLE_I18N)
- 
 diff --git a/src/Makefile.am b/src/Makefile.am
 index d46b493..ddad93c 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -364,9 +364,14 @@ if XKB
+@@ -364,7 +364,11 @@ if XKB
  USE_XKB_LIBS = $(XKB_LIBS)
  endif
  
@@ -49,7 +36,4 @@ index d46b493..ddad93c 100644
 +	-N libXext.so.0
  
  libX11_la_LIBADD = \
-+	-lc \
  	$(USE_I18N_LIBS) \
- 	$(USE_XCMS_LIBS) \
- 	$(USE_XKB_LIBS) \

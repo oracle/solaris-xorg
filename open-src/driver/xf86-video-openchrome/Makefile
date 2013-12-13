@@ -42,6 +42,7 @@ TARBALL_SHA1 = e5be9a8200410b3e3e66349bab4c8acd1ead4402
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = manpage-sections.patch,-p1
 SOURCE_PATCHES += CVE-2013-1994.patch,-p1
+SOURCE_PATCHES += ldflags.patch,-p1
 
 # Extra rules to run when unpacking upstream source
 CLEAN_LINEFEED_TARGET = $(SOURCE_DIR)/.source.clean.done
@@ -58,18 +59,22 @@ MODULE_STABILITY=Volatile
 # - Disable DRI since the kernel module isn't ported
 MODULE_CONFIG_OPTS=--disable-dri --disable-kms
 
-# Libraries/modules to link with
-MODULE_LD_OPTIONS= \
+# Instead of allowing the default MODTYPE_LD_SHARED_OPTIONS to link all
+# the libraries against the Xorg server binary, ldflags.patch adds
+# $(openchrome_drv_la_LDFLAGS_add) to the link of just openchrome_drv.so,
+# but not to the client side XvMC libs.
+XORG_EXTERNS_IN_LD_SHARED_OPTIONS=no
+openchrome_drv_la_LDFLAGS_add = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-        -L$(PROTODIR)$(MESA_XSERVERMODS_DIR)/extensions \
-        -L$(PROTODIR)$(X11_SERVERMODS_DIR)/extensions \
         -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 	-lfb -lint10 -lpciaccess -lpixman-1 -lvbe \
-	-lexa -lvgahw -lshadowfb -lXfont -lm -ldrm -lshadow \
-	-M $(PWD)/mapfile.externs
+	-lexa -lvgahw -lm -ldrm -lshadow \
+	-M $(PWD)/mapfile.externs $(XORG_EXTERNS_FLAG)
+MODULE_BUILD_ENV = \
+	openchrome_drv_la_LDFLAGS_add='$(openchrome_drv_la_LDFLAGS_add)'
 
 include ../Makefile.inc
 

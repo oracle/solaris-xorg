@@ -55,6 +55,6 @@ MODULE_X11_BINCOMPAT_LINKS = listres
 
 # pkg-config dependencies cause a link to libX11 to be brought in that we
 # can ignore
-MODULE_LDFLAGS = -z ignore
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 include ../Makefile.inc

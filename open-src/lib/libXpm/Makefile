@@ -45,22 +45,30 @@ MODULE_ARC_CASES = PSARC/2001/060
 # Library name
 LIBNAME=Xpm
 
-# Library man pages to apply Sun footer to & attributes to list
-# SUNTOUCHED_MANPAGES=
+# man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/cxpm.man man/sxpm.man
 MODULE_STABILITY=Uncommitted
 LIB_MAN_SUFFIX=3
 
-# Link with version mapfile
-MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
+# Link shared library with version mapfile
+MODULE_LD_SHARED_OPTIONS = -M $(PWD)/mapfile-vers
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xpm.pc.in
 
 # Additional arguments to pass to make
-MODULE_MAKEFLAGS= -e SUBDIRS="src include"
+# - in 32-bit builds, only install library, not apps or headers
+# - install 64-bit apps in default directory, not 64-bit subdir
+MODULE_INSTALL_MAKEFLAGS_32 = -e SUBDIRS="src"
+MODULE_INSTALL_MAKEFLAGS_64 = bindir=$(MODULE_PREFIX)/bin
+MODULE_INSTALL_MAKEFLAGS = $(MODULE_INSTALL_MAKEFLAGS_$(BUILD_TYPE))
 
-# Install documentation as well
-MODULE_ADD_INSTALL_TARGETS = install-docs
+# Install docs & l10n files as well
+MODULE_ADD_INSTALL_TARGETS_64 = install-docs install-po
+MODULE_ADD_INSTALL_TARGETS = $(MODULE_ADD_INSTALL_TARGETS_$(BUILD_TYPE))
+
+# Compatibility links from /usr/X11/bin to /usr/bin
+MODULE_X11_BINCOMPAT_LINKS = cxpm sxpm
 
 # Compatibility links from /usr/X11/lib to /usr/lib
 MODULE_X11_LIBCOMPAT_LINKS = libXpm.so libXpm.so.4
@@ -72,3 +80,9 @@ install-docs: $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps
 $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps: $(INSTALL_DEPS) $(PROTODIR)$(MODULE_DOC_DIR)
 	-rm -f $@
 	gzcat $(SOURCE_DIR)/doc/xpm.PS.gz > $@
+
+PO_FILES = $(SOURCE_DIR)/cxpm/cxpm.po $(SOURCE_DIR)/sxpm/sxpm.po
+
+install-po: $(INSTALL_DEPS)
+	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	$(INSTALL_SCRIPT) -m 0444 $(PO_FILES) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
