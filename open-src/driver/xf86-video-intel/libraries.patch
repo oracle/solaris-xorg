@@ -27,8 +27,8 @@
  intel_drv_ladir = @moduledir@/drivers
  intel_drv_la_LIBADD = legacy/liblegacy.la @PCIACCESS_LIBS@
 +intel_drv_la_LDFLAGS += -R $(moduledir)
-+intel_drv_la_LIBADD += -lfb -lshadowfb -lXfont -lm \
-+       -lvbe -lvgahw -lexa $(XORG_LIBS) $(XORG_EXTERNS_FLAG)
++intel_drv_la_LIBADD += $(XORG_EXTERNS_FLAG) -lfb -lshadowfb -lm \
++       -lvbe -lvgahw -lexa $(XORG_LIBS)
  
  if SNA
  SUBDIRS += sna

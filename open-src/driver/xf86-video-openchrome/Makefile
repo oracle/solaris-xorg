@@ -70,9 +70,9 @@ openchrome_drv_la_LDFLAGS_add = \
         -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
 	-R$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+	$(XORG_EXTERNS_FLAG) -M $(PWD)/mapfile.externs \
 	-lfb -lint10 -lpciaccess -lpixman-1 -lvbe \
-	-lexa -lvgahw -lm -ldrm -lshadow \
-	-M $(PWD)/mapfile.externs $(XORG_EXTERNS_FLAG)
+	-lexa -lvgahw -lm -ldrm -lshadow
 MODULE_BUILD_ENV = \
 	openchrome_drv_la_LDFLAGS_add='$(openchrome_drv_la_LDFLAGS_add)'
 
