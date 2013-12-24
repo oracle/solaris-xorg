@@ -504,6 +504,9 @@ check: protocmp pmodes lint check-pkgfmt
 # Instead of fixing all the upstream packages to follow our permission rules
 # just fix the proto area to match our rules
 
+# Uses xargs instead of -exec chmod a-w \{\} \+ as a temporary workaround
+# for Solaris find bug 17962619 until all build machines are running s12_39
+
 fix_perms: 
 	@print "## Fixing proto area permissions"
-	$(PKGDEBUG)find $(PKGROOT) -type f -exec chmod a-w \{\} \+
+	$(PKGDEBUG)find $(PKGROOT) -type f | xargs chmod a-w
