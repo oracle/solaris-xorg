@@ -35,9 +35,9 @@ MODULE_DESC = portions of the X.Org X server software
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 9d68a30258c67faa3c036a4a85e8bf97
-TARBALL_SHA1  = 5ee112b52f0cec043aa68bd909457b2ea2a11380
-TARBALL_SHA256= 608ccfaafb845f6e559884a30f946d365209172416710d687b190e9e1ff65dc3
+TARBALL_MD5   = 89a9e2cbcf2be3bfe3da96f19100c978
+TARBALL_SHA1  = 3891522665195ac722403e34840ec94b0b5cc5bc
+TARBALL_SHA256= 8d0f06bf1416487a5170318477088826a8d737d4a201e996b2dc1ecff47461d1
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -146,6 +146,9 @@ MODULE_LD_OPTIONS = $(MAPFILES_FOR_ALL)
 XORG_EXTERNS_FLAG = -Wl,-M,$(PWD)/$(XORG_EXTERNS_FILE)
 MODULE_BUILD_ENV = XORG_EXTERNS_FLAG='$(XORG_EXTERNS_FLAG)'
 MODULE_LD_SHARED_OPTIONS += -M $(PWD)/$(XORG_EXTERNS_FILE)
+
+# Disable direct binding in shared objects, since it breaks libglx.so
+MODULE_BUILD_ENV += LD_SHARED_UNSET="-B direct"
 
 # Optimization doesn't always remove unused inline functions, leaving many 
 # binaries referencing pixman symbols that normally don't need them.  The

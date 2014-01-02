@@ -102,6 +102,8 @@ MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/libdrm
 MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
+MODULE_LD_OPTIONS += -M $(PWD)/mapfile.externs
+
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
 
