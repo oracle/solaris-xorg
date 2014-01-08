@@ -24,10 +24,11 @@ Solaris ships some old Type1 fonts in files with *.ps file names instead of
 the usual *.pfa or *.pfb - we need to accept those as valid font names for
 mkfontdir/installalias to work properly.
 
-diff -urp -x '*~' -x '*.orig' src/FreeType/ftfuncs.c src/FreeType/ftfuncs.c
---- src/FreeType/ftfuncs.c	2010-10-06 21:12:21.000000000 -0700
-+++ src/FreeType/ftfuncs.c	2011-02-11 16:51:56.393628727 -0800
-@@ -3897,6 +3897,8 @@ static FontRendererRec renderers[] = {
+diff --git a/src/FreeType/ftfuncs.c b/src/FreeType/ftfuncs.c
+index 44e5e02..9be01b0 100644
+--- a/src/FreeType/ftfuncs.c
++++ b/src/FreeType/ftfuncs.c
+@@ -3898,6 +3898,8 @@ static FontRendererRec renderers[] = {
       FreeTypeGetInfoScalable, 0, CAPABILITIES},
      {".pfb", 4, 0, FreeTypeOpenScalable, 0,
       FreeTypeGetInfoScalable, 0, CAPABILITIES},
