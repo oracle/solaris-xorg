@@ -2,7 +2,7 @@
 #
 # xf86-input-mouse 1.x Makefile
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,7 +39,8 @@ TARBALL_SHA256 = 5d601e4bae53d5e9ead4ecd700f1beb5aeaf78b79e634c4aa381a9ce0027648
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = \
 	6892799.patch,-p1 \
-	15798251.patch,-p1
+	15798251.patch,-p1 \
+	17429216.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
