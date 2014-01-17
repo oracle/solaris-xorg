@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,10 @@ MODULE_PKGNAME_SET=yes
 # Package classification (override default)
 MODULE_PKGCLASS=System/X11
 MODULE_PKGCLASS_SET=yes
+
+# Set upstream/license info for X.Org software, not X.Org fonts
+UPSTREAM_PROJECT = xorg
+UPSTREAM_SET     = yes
 
 # Version number (used in path names)
 MODULE_VERSION = 1.3.0
