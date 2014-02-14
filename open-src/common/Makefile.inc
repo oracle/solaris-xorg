@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -510,7 +510,7 @@ CONFIGURE_DEPS = $(SOURCE_TARGETS) \
 
 # Command line options to GNU autoconf configure script
 DEFAULT_CONFIG_OPTS = --prefix=$(MODULE_PREFIX) \
-	--without-xmlto --without-asciidoc --without-fop \
+	--without-xmlto --with-asciidoc --without-fop \
 	--mandir='$${prefix}/share/man' --localstatedir=/var
 
 CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \

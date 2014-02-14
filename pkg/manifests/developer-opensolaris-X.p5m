@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -77,7 +77,8 @@ depend type=require fmri=pkg:/developer/build/onbld
 # Xserver build includes mdb modules
 depend type=require fmri=pkg:/developer/debug/mdb
 
-# Tools needed to process DocBook docs
+# Tools needed to process upstream docs
+depend type=require fmri=pkg:/developer/documentation-tool/asciidoc
 depend type=require fmri=pkg:/developer/documentation-tool/openjade
 depend type=require fmri=pkg:/developer/documentation-tool/opensp
 

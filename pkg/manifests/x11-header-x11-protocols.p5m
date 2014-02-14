@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -185,6 +185,11 @@ dir  path=usr/share/doc/fixesproto
 file path=usr/share/doc/fixesproto/fixesproto.txt
 dir  path=usr/share/doc/fontsproto
 file path=usr/share/doc/fontsproto/fsproto.xml
+dir  path=usr/share/doc/inputproto
+file path=usr/share/doc/inputproto/XI2proto.html
+file path=usr/share/doc/inputproto/XI2proto.txt
+file path=usr/share/doc/inputproto/XIproto.html
+file path=usr/share/doc/inputproto/XIproto.txt
 dir  path=usr/share/doc/kbproto
 file path=usr/share/doc/kbproto/XKBproto-1.svg
 file path=usr/share/doc/kbproto/XKBproto-10.svg
