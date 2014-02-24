@@ -3,7 +3,7 @@
 # xf86-video-ast - Xorg driver for ASpeed Technologies graphics devices 
 #  (such as found in some Sun/Oracle server ILOMs)
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,7 +42,8 @@ SOURCE_PATCHES += sparc-ast.patch,-p1 \
 		16027951.patch,-p1 \
 		ast.patch,-p1 \
 		ast_vgatool.patch,-p1 \
-		bstore.patch
+		bstore.patch \
+		17907916.patch
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
