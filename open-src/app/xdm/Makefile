@@ -2,7 +2,7 @@
 #
 # xdm - X Display Manager with support for XDMCP and host chooser
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,7 +50,8 @@ SOURCE_PATCHES = \
 	terminateServer.patch \
 	bug-6822636.patch \
 	bug-6820612.patch,-p1 \
-	Xsession.patch
+	Xsession.patch \
+	18286609.patch,-p1
 
 # Need to rebuild configure/Makefile.in after applying bindir.patch
 AUTORECONF=yes
