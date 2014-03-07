@@ -2,7 +2,7 @@
 #
 # libpthread-stubs Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,10 @@ MODULE_VERSION=0.3
 # Checksums for upstream tarball
 TARBALL_MD5  = e8fa31b42e13f87e8f5a7a2b731db7ee
 TARBALL_SHA1 = 7fc486ad0ec54938f8b781cc374218f50eac8b99
+
+# Package metadata
+ORACLE_TPNO = $(ORACLE_TPNO_xorg)
+ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
