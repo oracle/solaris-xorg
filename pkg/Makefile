@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -489,7 +489,7 @@ $(PDIR)/generated-exceptions:
 
 protocmp: $(PROC_PKGS) $(EXCEPTIONS) $(PROC_EXCEPTIONS) fix_perms
 	$(PKGDEBUG)validate_pkg -a $(PKGMACH) -v $(EXCEPTIONS:%=-e %) \
-		-m $(PDIR) -p $(PKGROOT)
+		-m $(PDIR) -p $(PKGROOT) || true
 
 pmodes: $(PROC_PKGS) fix_perms
 	$(PKGDEBUG)validate_pkg -a $(PKGMACH) -M -m $(PDIR)

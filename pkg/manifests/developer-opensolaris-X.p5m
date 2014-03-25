@@ -197,6 +197,10 @@ depend type=require fmri=pkg:/system/library/c++-runtime \
 depend type=require fmri=pkg:/system/library/flex-runtime
 depend type=require fmri=pkg:/system/library/gcc-45-runtime \
     org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/system/library/gcc/gcc-c++-runtime \
+    org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/system/library/gcc/gcc-c-runtime \
+    org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/libdbus \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/math \
