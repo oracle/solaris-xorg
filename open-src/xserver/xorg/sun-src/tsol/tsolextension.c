@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1539,7 +1539,7 @@ BreakAllGrabs(ClientPtr client)
  */
 extern au_id_t ucred_getauid(const ucred_t *uc);
 extern au_asid_t ucred_getasid(const ucred_t *uc);
-extern const au_mask_t *ucred_getamask(const ucred_t *uc);
+extern const au_mask32_t *ucred_getamask(const ucred_t *uc);
 extern tsol_host_type_t tsol_getrhtype(char *);
 
 static void
@@ -1548,10 +1548,8 @@ TsolSetClientInfo(ClientPtr client)
 	bslabel_t *sl;
 	bslabel_t admin_low;
 	priv_set_t *privs;
-	const au_mask_t *amask;
+	const au_mask32_t *amask;
 	socklen_t namelen;
-	struct auditinfo auinfo;
-	struct auditinfo *pauinfo;
 	OsCommPtr oc = (OsCommPtr)client->osPrivate;
 	int fd = oc->fd;
 	ucred_t *uc = NULL;
@@ -1661,11 +1659,6 @@ TsolSetClientInfo(ClientPtr client)
 	}
 
 	/* setup audit context */
-	if (getaudit(&auinfo) == 0) {
-	    pauinfo = &auinfo;
-	} else {
-	    pauinfo = NULL;
-	}
 
 	/* Audit id */
 	tsolinfo->auid = ucred_getauid(uc);
@@ -1678,14 +1671,14 @@ TsolSetClientInfo(ClientPtr client)
 
 	/* Audit mask */
 	if ((amask = ucred_getamask(uc)) != NULL) {
-	    tsolinfo->amask = *amask;
+	    tsolinfo->amask.am_failure = AU_CLASS_64(amask->am_failure_lo,
+	        amask->am_failure_hi);
+	    tsolinfo->amask.am_success = AU_CLASS_64(amask->am_success_lo,
+	        amask->am_success_hi);
 	} else {
-	    if (pauinfo != NULL) {
-	        tsolinfo->amask = pauinfo->ai_mask;
-	    } else {
-	        tsolinfo->amask.am_failure = 0; /* clear the masks */
-	        tsolinfo->amask.am_success = 0;
-	    }
+	    /* clear the masks */
+	    tsolinfo->amask.am_failure = AU_MASK_NONE;
+	    tsolinfo->amask.am_success = AU_MASK_NONE;
 	}
 
 	tsolinfo->asaverd = 0;
