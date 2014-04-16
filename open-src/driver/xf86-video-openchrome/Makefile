@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ UPSTREAM        = The OpenChrome project
 UPSTREAM_URL    = http://www.openchrome.org/
 UPSTREAM_SET    = yes
 ORACLE_TPNO	= 12031
+ORACLE_TPNO_SET	= yes
 
 # Version number (used in path names)
 MODULE_VERSION=0.3.2
