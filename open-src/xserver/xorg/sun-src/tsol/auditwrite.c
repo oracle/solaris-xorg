@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -40,6 +40,7 @@
 #include <thread.h>
 #include <synch.h>
 #include <bsm/audit.h>
+#include <bsm/adt.h>
 #include <bsm/audit_record.h>
 #include <bsm/libbsm.h>
 #include "auditwrite.h"
@@ -380,20 +381,13 @@ static int auditctl(uint32_t command, uint32_t value, caddr_t data);
 static void aw_debuglog(char *string, int rc, int param, va_list arglist);
 #endif
 
-/* from private <adt_ucred.h> */
-#include <ucred.h>
-extern	au_id_t ucred_getauid(const ucred_t *uc);
-extern	au_asid_t ucred_getasid(const ucred_t *uc);
-extern	const au_mask32_t *ucred_getamask(const ucred_t *uc);
-extern	const au_tid64_addr_t *ucred_getatid(const ucred_t *uc);
+/* adt private */
+extern	void adt_get_asid(const adt_session_data_t *, au_asid_t *);
+extern	void adt_get_auid(const adt_session_data_t *, au_id_t *);
+extern	void adt_get_mask(const adt_session_data_t *, au_mask_t *);
+extern	void adt_get_termid(const adt_session_data_t *, au_tid_addr_t *);
 
-/* just plain private - hack for now till libbsm delivers the change */
-#if 0
-extern	void adt_cpy_tid(au_tid_addr_t *, const au_tid64_addr_t *);
-#else
-#define adt_cpy_tid(dest, src) memcpy(dest, src, sizeof (au_tid_addr_t)) 
-#endif
-extern	int cannot_audit(int);
+extern int	cannot_audit(int);
 
 /*
  * a w _ g e t _ a r g s ( )
@@ -587,25 +581,18 @@ auditwrite(int param, ...)
 		break;
 
 	case AW_NOPRESELECT_FLAG: {
-		ucred_t *uc = ucred_get(P_MYID);
-		const au_mask32_t *m32;
-
-		pmask.am_success = pmask.am_failure = AU_MASK_NONE;
+		adt_session_data_t	*ah;
 
 		/* Get the info from the proc */
-		if (((uc == NULL) ||
-		    (m32 = ucred_getamask(uc)) == NULL)) {
+		if (adt_start_session(&ah, NULL, ADT_USE_PROC_DATA) != 0) {
 			aw_set_err(AW_ERR_GETAUDIT_FAIL);
 			retval = AW_ERR_RTN;
 		}
 
 		/* Stuff the real values in */
-		pmask.am_success = AU_CLASS_64(m32->am_success_lo,
-		    m32->am_success_hi);
-		pmask.am_failure = AU_CLASS_64(m32->am_failure_lo,
-		    m32->am_failure_hi);
+		adt_get_mask(ah, &pmask);
 
-		ucred_free(uc);
+		(void) adt_end_session(ah);
 
 		aw_static_flags &= ~AW_PRESELECT_FLAG;
 		break;
@@ -1000,9 +987,10 @@ aw_do_subject(int rd)
 {
 	token_t *tokp;
 	gid_t gidset[NGROUPS_MAX];
-	ucred_t *uc;
-	const au_tid64_addr_t *tid64;
-	au_tid_addr_t tid;
+	adt_session_data_t      *ah;
+	au_asid_t		asid;
+	au_id_t			auid;
+	au_tid_addr_t		tid;
 	bslabel_t label_p;
 
 	/*
@@ -1012,33 +1000,32 @@ aw_do_subject(int rd)
 	if (AW_REC_SUBJECT_FLAG & aw_recs[rd]->aflags)
 		return (AW_SUCCESS_RTN);
 
-	if (((uc = ucred_get(P_MYID)) == NULL) ||
-	    ((tid64 = ucred_getatid(uc)) == NULL)) {
-		ucred_free(uc);
+	if (adt_start_session(&ah, NULL, ADT_USE_PROC_DATA) != 0) {
 		AW_GEN_ERR(AW_ERR_GETAUDIT_FAIL);
-	} else {
-		adt_cpy_tid(&tid, tid64);
-	}
+	} 
+	adt_get_asid(ah, &asid);
+	adt_get_termid(ah, &tid);
+	adt_get_auid(ah, &auid);
 
 	/*
 	 * Add the subject token using the values we have.
 	 * Append them to the record under construction
 	 */
 
-	if ((tokp = au_to_subject_ex(ucred_getauid(uc), ucred_geteuid(uc),
-		    ucred_getegid(uc), ucred_getruid(uc), ucred_getrgid(uc),
-		    ucred_getpid(uc), ucred_getasid(uc), &tid))
+	if ((tokp = au_to_subject_ex(auid, geteuid(),
+		    getegid(), getuid(), getgid(), getpid(),
+		    asid, &tid))
 		    == (token_t *)0)
-		ucred_free(uc);
+		(void) adt_end_session(ah);
 		AW_GEN_ERR(AW_ERR_ALLOC_FAIL);
 	if (aw_buf_append(&(aw_recs[rd]->buf), &(aw_recs[rd]->len),
 		tokp->tt_data, (int)tokp->tt_size) ==
 		AW_ERR_RTN) {
-		ucred_free(uc);
+		(void) adt_end_session(ah);
 		aw_free_tok(tokp);
 		return (AW_ERR_RTN);
 	}
-	ucred_free(uc);
+	(void) adt_end_session(ah);
 	aw_free_tok(tokp);
 
 	/* Go grab the sensitivity label for this process */
@@ -2459,8 +2446,7 @@ aw_set_event(int rd, au_event_t event_id, uint_t class)
 static int
 aw_init(void)
 {
-	ucred_t *uc = ucred_get(P_MYID);
-	const au_mask32_t *m32;
+	adt_session_data_t	*ah;
 
 	aw_errno = AW_ERR_NO_ERROR;	/* No error so far */
 
@@ -2491,17 +2477,14 @@ aw_init(void)
 	 * to reduce system call overhead. If they change, we will be
 	 * auditing with stale values.
 	 */
-	if (((uc == NULL) ||
-	    (m32 = ucred_getamask(uc)) == NULL)) {
-		ucred_free(uc);
+	if (adt_start_session(&ah, NULL, ADT_USE_PROC_DATA) != 0) {
 		AW_GEN_ERR(AW_ERR_GETAUDIT_FAIL);
 	}
 
 	/* Stuff the real values in */
-	pmask.am_success = AU_CLASS_64(m32->am_success_lo, m32->am_success_hi);
-	pmask.am_failure = AU_CLASS_64(m32->am_failure_lo, m32->am_failure_hi);
+	adt_get_mask(ah, &pmask);
 
-	ucred_free(uc);
+	(void) adt_end_session(ah);
 
 	if (auditon(A_GETPOLICY, (caddr_t)&audit_policies, 0) == -1)
 		AW_GEN_ERR(AW_ERR_AUDIT_FAIL);
