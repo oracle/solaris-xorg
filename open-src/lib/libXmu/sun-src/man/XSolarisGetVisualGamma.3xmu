@@ -25,8 +25,6 @@
 XSolarisGetVisualGamma \- obtain gamma information for a visual
 .SH SYNOPSIS
 .LP
-cc [ flag ... ] file ... -lXmu  [ library ... ]
-.br
 #include <X11/Xmu/XmuSolaris.h>
 .LP
 Status

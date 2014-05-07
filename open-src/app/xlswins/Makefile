@@ -2,7 +2,7 @@
 #
 # xlswins - utility to list windows displayed on an X server
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,8 +46,8 @@ ADDITIONAL_SOURCE_DIR=sun-src
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES= # None
-MODULE_STABILITY=Committed
+SUNTOUCHED_MANPAGES = xlswins.1
+MODULE_STABILITY = Obsolete
 
 # ARC cases that covered this module
 # PSARC/1992/173 - Update MIT-based Clients to X11R5 Level

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,7 +46,13 @@ $(BUILD_TYPES_DEFAULT)	BUILD_TYPES_SET=yes
 # Changes to apply to man pages
 MODULE_MTLEVEL_DEFAULT	= $(MODULE_MTLEVEL_SET:yes=$(POUND_SIGN))
 $(MODULE_MTLEVEL_DEFAULT)	MODULE_MTLEVEL=See XInitThreads(3X11)
-MODTYPE_SUNTOUCH_MAN_FLAGS= -l $(LIBNAME) -a '{MT-Level, $(MODULE_MTLEVEL)}'
+MODULE_PKGCONFIG_MAN_DEFAULT	= $(MODULE_PKGCONFIG_MAN_SET:yes=$(POUND_SIGN))
+$(MODULE_PKGCONFIG_MAN_DEFAULT)	MODULE_PKGCONFIG_MAN = $(FIX_PC_FILES:%.pc.in=%)
+LIB_SUNTOUCH_DEFAULTS	= -a '{MT-Level, $(MODULE_MTLEVEL)}'
+LIB_SUNTOUCH_DEFAULTS	+= --library='$(LIBNAME)'
+LIB_SUNTOUCH_DEFAULTS	+= --pkg-config='$(MODULE_PKGCONFIG_MAN)'
+MODTYPE_SUNTOUCH_DEFAULT = $(OVERRIDE_LIB_SUNTOUCH_DEFAULT:yes=$(POUND_SIGN))
+$(MODTYPE_SUNTOUCH_DEFAULT) MODTYPE_SUNTOUCH_MAN_FLAGS = $(LIB_SUNTOUCH_DEFAULTS)
 
 # Flags to build & link libraries with
 MODTYPE_CPPFLAGS=$(LIB_CPPFLAGS)

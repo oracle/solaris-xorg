@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,11 @@ ORACLE_COPYRIGHT_YEARS = 1989, 1994
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
+ADDITIONAL_SOURCE_DIR=sun-src
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=rasterfile.4
+MODULE_STABILITY=Committed
 
 CONFIGURE_TARGETS =
 CONFIGURE_TARGETS_SET=yes
@@ -60,7 +65,7 @@ DESTDIR=$(PROTODIR)
 INCDIR=$(DESTDIR)/usr/include/pixrect
 MANDIR=$(DESTDIR)/usr/share/man/man4
 
-install_files:
+install_files: $(UNPACK_TARGET) $(INSTALL_DEPS)
 	mkdir -p $(INCDIR) $(MANDIR)
-	cp -pf rasterfile.h $(INCDIR)
-	cp -pf rasterfile.4 $(MANDIR)
+	ginstall -m 0444 $(SOURCE_DIR)/rasterfile.h $(INCDIR)
+	ginstall -m 0444 $(SOURCE_DIR)/rasterfile.4 $(MANDIR)

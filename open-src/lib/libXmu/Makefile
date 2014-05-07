@@ -2,7 +2,7 @@
 #
 # libXmu - miscellaneous utility functions based on libX11 & libXt
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,8 +43,10 @@ SOURCE_PATCHES += solaris-abi.patch
 LIBNAME=Xmu
 
 # Man pages to apply Sun footer to & attributes to list
-#SUNTOUCHED_MANPAGES= no man pages in upstream package
+SUNTOUCHED_MANPAGES= man/*.3*
 MODULE_STABILITY=Committed
+MODULE_PKGCONFIG_MAN=xmu
+MODULE_PKGCONFIG_MAN_SET=yes
 LIB_MAN_SUFFIX=3xmu
 
 # ARC cases that covered this module
@@ -89,7 +91,7 @@ install_solaris_exts: $(INSTALL_DEPS)
 	$(CP) $(SOURCE_DIR)/include/X11/Xmu/XmuSolaris.h \
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu
-	$(CP) $(ADDITIONAL_SOURCE_DIR)/*.3xmu $(MANDIR)
+	$(CP) $(SOURCE_DIR)/man/*.3xmu $(MANDIR)
 
 # Metadata for libxmuu package
 LIBXMUU_PKG_METADATA_DIR      = $(PROTOMETA)/x11-library-libxmuu

@@ -2,7 +2,7 @@
 #
 # libXpm - library for handling XPM format images
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,10 +45,20 @@ MODULE_ARC_CASES = PSARC/2001/060
 # Library name
 LIBNAME=Xpm
 
+# Merge in additional sources from sun-src directory
+ADDITIONAL_SOURCE_DIR=sun-src
+
 # man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/cxpm.man man/sxpm.man
+SUNTOUCHED_MANPAGES=man/cxpm.man man/sxpm.man man/libXpm.3lib
 MODULE_STABILITY=Uncommitted
+MODULE_MTLEVEL=Unsafe
+MODULE_MTLEVEL_SET=yes
 LIB_MAN_SUFFIX=3
+# Don't want to add MT-Level & -l flags to cxpm & sxpm command man pages
+OVERRIDE_LIB_SUNTOUCH_DEFAULT=yes
+# But do want to add them to the libXpm man page
+MODULE_SUNTOUCH_MAN_FLAGS= $(SUNTOUCH_MAN_FLAGS_$(@F:%.$(FIXED_MAN_SUFFIX)=%))
+SUNTOUCH_MAN_FLAGS_libXpm.3lib = $(LIB_SUNTOUCH_DEFAULTS)
 
 # Link shared library with version mapfile
 MODULE_LD_SHARED_OPTIONS = -M $(PWD)/mapfile-vers
@@ -75,14 +85,22 @@ MODULE_X11_LIBCOMPAT_LINKS = libXpm.so libXpm.so.4
 
 include ../Makefile.inc
 
+3LIB_MAN_DIR = $(X11_MAN_DIR)/man3lib
+
 install-docs: $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps
+install-docs: $(PROTODIR)$(3LIB_MAN_DIR)/libXpm.3lib
 
 $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps: $(INSTALL_DEPS) $(PROTODIR)$(MODULE_DOC_DIR)
 	-rm -f $@
 	gzcat $(SOURCE_DIR)/doc/xpm.PS.gz > $@
 
+$(PROTODIR)$(3LIB_MAN_DIR)/libXpm.3lib: $(INSTALL_DEPS) $(PROTODIR)$(3LIB_MAN_DIR)
+	ginstall -m 0444 $(SOURCE_DIR)/man/libXpm.3lib $@
+
 PO_FILES = $(SOURCE_DIR)/cxpm/cxpm.po $(SOURCE_DIR)/sxpm/sxpm.po
 
-install-po: $(INSTALL_DEPS)
-	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	$(INSTALL_SCRIPT) -m 0444 $(PO_FILES) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+install-po: $(INSTALL_DEPS) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	ginstall -m 0444 $(PO_FILES) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+
+$(PROTODIR)$(3LIB_MAN_DIR) $(PROTODIR)$(X11_LC_MESSAGES_DIR):
+	mkdir -p $@

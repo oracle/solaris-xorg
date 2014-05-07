@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -71,8 +71,12 @@ MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man
-#MODULE_STABILITY=Volatile
-#LIB_MAN_SUFFIX=3drm
+MODULE_STABILITY = Volatile
+LIB_MAN_SUFFIX = 3
+MODULE_MTLEVEL=Unknown
+MODULE_MTLEVEL_SET=yes
+MODULE_PKGCONFIG_MAN=libdrm
+MODULE_PKGCONFIG_MAN_SET=yes
 
 # pkg-config files that need to be updated
 FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in \
@@ -99,10 +103,18 @@ PC_FILES = libdrm.pc libkms.pc $(PC_FILES_$(MACH))
 MOVED_PC_FILES = $(PC_FILES:%=$(PROTODIR)/$(PKGCONFIG_DIR)/%)
 XSERVER_PC_DIR = $(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/pkgconfig
 
-install-gen: $(MOVED_PC_FILES)
+install-gen: $(MOVED_PC_FILES) install_fixed_manpages
 
 $(PROTODIR)/$(PKGCONFIG_DIR)/%.pc: $(PROTODIR)/$(XSERVER_PC_DIR)/%.pc
 	-rm -f $@
 	mv $< $@
 
 $(PC_FILES:%=$(PROTODIR)/$(XSERVER_PC_DIR)/%): default_install
+
+# Need to apply suntouch changes to man pages generated during build
+MANDIR = $(PROTODIR)$(X11_MAN_DIR)
+install_fixed_manpages: default_install
+	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
+		$(SUNTOUCH_MAN_FLAGS) $(SOURCE_DIR)/man/*.{3,7}
+	ginstall -m 0444 $(SOURCE_DIR)/man/*.3 $(MANDIR)/man3
+	ginstall -m 0444 $(SOURCE_DIR)/man/*.7 $(MANDIR)/man7

@@ -2,7 +2,7 @@
 #
 # xkbutils - assorted XKB client programs
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,8 +46,8 @@ TARBALL_SHA1 = b09aef7cc3853eb12dbda332f55adec3add4447b
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=# None
-MODULE_STABILITY=Committed
+SUNTOUCHED_MANPAGES = man/xkbbell.man man/xkbvleds.man man/xkbwatch.man
+MODULE_STABILITY = Uncommitted
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xkbbell xkbvleds xkbwatch

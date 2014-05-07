@@ -2,7 +2,7 @@
 #
 # xcb - Lighter weight X11 client libraries
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,8 +54,10 @@ AUTORECONF=yes
 LIBNAME=xcb
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=src/man/*
+SUNTOUCHED_MANPAGES= src/man/xcb-examples.3 src/man/xcb-requests.3
 MODULE_STABILITY=Volatile
+MODULE_MTLEVEL=Safe
+MODULE_MTLEVEL_SET=yes
 LIB_MAN_SUFFIX=3xcb
 
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP) -lc
@@ -103,10 +105,15 @@ MODULE_ADD_INSTALL_TARGETS=install_solaris_exts
 include ../Makefile.inc
 
 # Additional files we need to install
-CP = cp -pf
 MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xcb
 
+# Need to apply suntouch changes to man pages generated during build
 install_solaris_exts: $(INSTALL_DEPS)
+	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
+		$(SUNTOUCH_MAN_FLAGS) $(SOURCE_DIR)/src/man/*.3xcb
 	mkdir -p $(MANDIR)
-	$(CP) $(SOURCE_DIR)/src/man/xcb-examples.3 $(MANDIR)/xcb-examples.3xcb
-	$(CP) $(SOURCE_DIR)/src/man/xcb-requests.3 $(MANDIR)/xcb-requests.3xcb
+	ginstall -m 0444 $(SOURCE_DIR)/src/man/xcb-examples.3 \
+		$(MANDIR)/xcb-examples.3xcb
+	ginstall -m 0444 $(SOURCE_DIR)/src/man/xcb-requests.3 \
+		$(MANDIR)/xcb-requests.3xcb
+	ginstall -m 0444 $(SOURCE_DIR)/src/man/*.3xcb $(MANDIR)/

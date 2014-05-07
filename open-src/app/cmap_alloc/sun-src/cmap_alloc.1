@@ -1,4 +1,4 @@
-.\" Copyright (c) 1991, 1994, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1991, 2014, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -18,7 +18,7 @@
 .\" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 .\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 .\" DEALINGS IN THE SOFTWARE.
-.TH cmap_alloc 1 "18 March 1992"
+.TH cmap_alloc 1 "2 May 2014"
 .IX cmap_alloc "" "\f3cmap_alloc\f1(1) \(em colormap utility" ""
 .IX "color" "defa" "color" "default colormap allocation \(em \f3cmap_alloc\f1(1)" ""
 .SH NAME
@@ -61,7 +61,7 @@ the colormap's XID into the
 .SM RGB_DEFAULT_MAP
 property on the root window of the display.  Clients that need to access
 non-default dynamic visuals should search this property using 
-.SM XGetRBGColormaps()
+.SM XGetRGBColormaps(3x11)
 for a suitable colormap to use. 
 .SH OPTIONS
 .IP "\f3\-display \fIdisplay:n.screen\f1" 1i
@@ -93,6 +93,7 @@ Print out diagnostic messages useful for debugging.
 .IP "\f3\-help\f1" 1i
 Print out a short usage message and exit.
 .SH "SEE ALSO"
+.BR XGetRGBColormaps (3x11),
 .BR xstdcmap (1) ,
 .BR cmap_compact (1)
 .sp

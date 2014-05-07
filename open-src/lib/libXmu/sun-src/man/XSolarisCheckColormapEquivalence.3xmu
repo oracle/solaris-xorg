@@ -26,8 +26,6 @@ XSolarisCheckColormapEquivalence \- determines if two visuals are colormap
 equivalent
 .SH SYNOPSIS
 .LP
-cc [ flag ... ] file ... -lXmu  [ library ... ]
-.br
 #include <X11/Xmu/XmuSolaris.h>
 .LP
 Bool XSolarisCheckColormapEquivalence\^(

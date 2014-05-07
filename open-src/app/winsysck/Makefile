@@ -2,7 +2,7 @@
 #
 # winsysck - utility to check & report if a window system is in use
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,6 +48,10 @@ ADDITIONAL_SOURCE_DIR=sun-src
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=winsysck.man
+MODULE_STABILITY=Obsolete
 
 # No configure script, so pass usual environment to build/install instead
 CONFIGURE_TARGETS=

@@ -2,7 +2,7 @@
 #
 # xcolor - utility to display used & available entries in PseudoColor colormaps
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -61,7 +61,7 @@ MODULE_INSTALL_MAKEFLAGS = bindir=$(X11_BIN_DIR) mandir=$(X11_MAN_DIR)
 MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=# None
+SUNTOUCHED_MANPAGES=xcolor.1
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

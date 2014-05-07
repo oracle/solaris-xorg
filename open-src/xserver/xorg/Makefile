@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -90,7 +90,13 @@ MODULE_ARC_CASES += PSARC/2013/091
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \
 	man/Xserver.man \
+	hw/dmx/config/man/xdmxconfig.man \
+	hw/dmx/config/man/vdltodmx.man \
+	hw/dmx/config/man/dmxtodmx.man \
+	hw/dmx/man/Xdmx.man \
 	hw/kdrive/ephyr/man/Xephyr.man \
+	hw/xfree86/exa/man/exa.man \
+	hw/xfree86/fbdevhw/man/fbdevhw.man \
 	hw/xfree86/utils/man/cvt.man \
 	hw/xfree86/utils/man/gtf.man \
 	hw/xfree86/man/Xorg.man \
@@ -108,6 +114,9 @@ SUNTOUCH_MAN_FLAGS_Xephyr = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xephyr)}'
 SUNTOUCH_MAN_FLAGS_Xvfb = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xvfb)}'
 SUNTOUCH_MAN_FLAGS_Xdmx = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xdmx)}'
 SUNTOUCH_MAN_FLAGS_Xserver = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xserver-common)}'
+SUNTOUCH_MAN_FLAGS_xdmxconfig = $(SUNTOUCH_MAN_FLAGS_Xdmx)
+SUNTOUCH_MAN_FLAGS_vdltodmx = $(SUNTOUCH_MAN_FLAGS_Xdmx)
+SUNTOUCH_MAN_FLAGS_dmxtodmx = $(SUNTOUCH_MAN_FLAGS_Xdmx)
 
 # Binary built in tree
 XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg

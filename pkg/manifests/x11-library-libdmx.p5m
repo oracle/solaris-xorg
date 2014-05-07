@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,21 +31,22 @@ file path=usr/lib/$(ARCH64)/pkgconfig/dmx.pc
 link path=usr/lib/libdmx.so target=libdmx.so.1
 file path=usr/lib/libdmx.so.1
 file path=usr/lib/pkgconfig/dmx.pc
-file path=usr/share/man/man3/DMX.3
-file path=usr/share/man/man3/DMXAddInput.3
-file path=usr/share/man/man3/DMXAddScreen.3
-file path=usr/share/man/man3/DMXChangeDesktopAttributes.3
-file path=usr/share/man/man3/DMXChangeScreensAttributes.3
-file path=usr/share/man/man3/DMXForceWindowCreation.3
-file path=usr/share/man/man3/DMXGetDesktopAttributes.3
-file path=usr/share/man/man3/DMXGetInputAttributes.3
-file path=usr/share/man/man3/DMXGetInputCount.3
-file path=usr/share/man/man3/DMXGetScreenAttributes.3
-file path=usr/share/man/man3/DMXGetScreenCount.3
-file path=usr/share/man/man3/DMXGetWindowAttributes.3
-file path=usr/share/man/man3/DMXQueryExtension.3
-file path=usr/share/man/man3/DMXQueryVersion.3
-file path=usr/share/man/man3/DMXRemoveInput.3
-file path=usr/share/man/man3/DMXRemoveScreen.3
-file path=usr/share/man/man3/DMXSync.3
+dir  path=usr/share/man/man3dmx
+file path=usr/share/man/man3dmx/DMX.3dmx
+file path=usr/share/man/man3dmx/DMXAddInput.3dmx
+file path=usr/share/man/man3dmx/DMXAddScreen.3dmx
+file path=usr/share/man/man3dmx/DMXChangeDesktopAttributes.3dmx
+file path=usr/share/man/man3dmx/DMXChangeScreensAttributes.3dmx
+file path=usr/share/man/man3dmx/DMXForceWindowCreation.3dmx
+file path=usr/share/man/man3dmx/DMXGetDesktopAttributes.3dmx
+file path=usr/share/man/man3dmx/DMXGetInputAttributes.3dmx
+file path=usr/share/man/man3dmx/DMXGetInputCount.3dmx
+file path=usr/share/man/man3dmx/DMXGetScreenAttributes.3dmx
+file path=usr/share/man/man3dmx/DMXGetScreenCount.3dmx
+file path=usr/share/man/man3dmx/DMXGetWindowAttributes.3dmx
+file path=usr/share/man/man3dmx/DMXQueryExtension.3dmx
+file path=usr/share/man/man3dmx/DMXQueryVersion.3dmx
+file path=usr/share/man/man3dmx/DMXRemoveInput.3dmx
+file path=usr/share/man/man3dmx/DMXRemoveScreen.3dmx
+file path=usr/share/man/man3dmx/DMXSync.3dmx
 

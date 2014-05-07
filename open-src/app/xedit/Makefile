@@ -2,7 +2,7 @@
 #
 # xedit - simple Xaw-based text editor for X
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,10 +45,10 @@ TARBALL_MD5  = 89b0800691feabe1c8a28554c3f73164
 TARBALL_SHA1 = 2003a467a44120fe52703d122b537142dc25c8c3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = man-tbl-markup.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/*.man
+SUNTOUCHED_MANPAGES=man/xedit.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

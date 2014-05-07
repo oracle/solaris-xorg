@@ -1,7 +1,7 @@
 #!/usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,13 +24,14 @@
 #
 #
 
-# Updates manual pages to include standard Sun man page sections
+# Updates manual pages to include standard Solaris man page sections
 #
 # Arguments:
 #	-a '{attribute, value}, ...' - add entries to Attributes section table
 #	-o '{attribute, value}, ...' - override previous entries in
 #					Attributes section table
 #	-l libname		     - add library line to synopsis
+#	-c libname		     - add pkgconfig line to synopsis
 #	-p path			     - add path to command in synopsis
 #	-r '{text, replacement}'     - replace text with replacement
 
@@ -42,12 +43,14 @@ my @attributes;
 my @overrides;
 my @replacements;
 my $library;
+my $pkgconfig;
 my $synpath;
 
 my $result = GetOptions('a|attribute=s' => \@attributes,
 			'o|override=s'  => \@overrides,
 			'r|replace=s'	=> \@replacements,
 			'l|library=s'	=> \$library,
+			'c|pkg-config=s' => \$pkgconfig,
 			'p|path=s'	=> \$synpath);
 
 my $add_attributes = 0;
@@ -67,9 +70,15 @@ if (scalar(@replacements) > 0) {
 
 my $add_library_to_synopsis = 0;
 
-if (defined($library)) {
+if (defined($library) && $library ne '') {
   $add_library_to_synopsis = 1;
 }
+
+my $add_pkgconfig_to_synopsis = 0;
+if (defined($pkgconfig) && $pkgconfig ne '') {
+  $add_pkgconfig_to_synopsis = 1;
+}
+
 
 my $add_path_to_synopsis = 0;
 
@@ -128,6 +137,16 @@ while ($filename = shift) {
 	print OUT ".nf\n",
 	  q(\fBcc\fR [ \fIflag\fR\&.\&.\&. ] \fIfile\fR\&.\&.\&. \fB\-l),
 	    $library, q(\fR [ \fIlibrary\fR\&.\&.\&. ]), "\n.fi\n";
+	if ($add_pkgconfig_to_synopsis) {
+	    print OUT ( 
+		".sp\n",
+		".nf\n",
+		q(\fBcc\fR [ \fIflag\fR\&.\&.\&. ] `pkg-config --cflags ),
+		$pkgconfig,
+		q(` \fIfile\fR\&.\&.\&. `pkg-config --libs ),
+	        $pkgconfig,
+		"\` \n.fi\n");
+	}
       }
       elsif ($add_path_to_synopsis) {
 	$nextline = <IN>;
@@ -151,7 +170,7 @@ sub get_attributes_table {
   my ($attributes_ref, $overrides_ref) = @_;
 
   my $attributes_table = q{
-.\\" Begin Sun update
+.\\" Begin Oracle Solaris update
 .SH "ATTRIBUTES"
 See \fBattributes\fR(5) for descriptions of the following attributes:
 .sp
@@ -163,7 +182,7 @@ ATTRIBUTE TYPE	ATTRIBUTE VALUE
 <attributes>
 .TE
 .sp
-.\\" End Sun update
+.\\" End Oracle Solaris update
 };
 
   my $attribute_entries = "";

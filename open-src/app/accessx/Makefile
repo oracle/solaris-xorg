@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# accessx 1.x module Makefile
+# accessx accessibility feature configuration utility Makefile
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,7 +54,7 @@ BUILD_TYPES_SET=yes
 BUILD_TYPES=32
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES= # None
+SUNTOUCHED_MANPAGES= accessx.1
 MODULE_STABILITY=Committed
 
 # No configure script to run

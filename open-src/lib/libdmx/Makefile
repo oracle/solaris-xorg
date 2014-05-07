@@ -2,7 +2,7 @@
 #
 # Xlib-based client library for Distributed Multihead X (DMX) extension
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,6 +48,7 @@ LIBNAME=dmx
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
+LIB_MAN_SUFFIX=3dmx
 
 # pkg-config files to update
 FIX_PC_FILES=dmx.pc.in

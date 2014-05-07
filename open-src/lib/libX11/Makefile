@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,6 +36,7 @@ TARBALL_SHA256= 2aa027e837231d2eeea90f3a4afe19948a6eb4c8b2bec0241eba7dbc8106bd16
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	man-tbl-markup.patch,-p1 \
 	1234757.patch,-p1 \
 	4010755.patch,-p1 \
 	4614834.patch,-p1 \
@@ -117,6 +118,8 @@ MODULE_ARC_CASES += PSARC/2010/109
 SUNTOUCHED_MANPAGES=man/*.man man/xkb/*.man
 MODULE_STABILITY=Committed
 LIB_MAN_SUFFIX=3x11
+MODULE_PKGCONFIG_MAN=x11
+MODULE_PKGCONFIG_MAN_SET=yes
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \

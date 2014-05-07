@@ -63,5 +63,10 @@ MODULE_ADD_BUILD_TARGETS=set-elf-comments
 # Description to include in package metadata
 MODULE_DESC = X.Org font package creation/installation utilities
 
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES=man/bdftruncate.man man/ucs2any.man
+MODULE_STABILITY=Volatile
+MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
+
 ### Include common rulesets
 include ../Makefile.inc

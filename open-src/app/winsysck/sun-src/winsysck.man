@@ -1,4 +1,4 @@
-.\" Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1990, 2014, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -18,7 +18,7 @@
 .\" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 .\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 .\" DEALINGS IN THE SOFTWARE.
-.TH winsysck 1 "15 February 2010"
+.TH winsysck 1 "2 May 2014"
 .IX "winsysck" "" "\f3winsysck\f1(1) \(em check window protocols" ""
 .IX "window" "check" "window" "check system protocols \(em \f3winsysck\f1(1)" ""
 .SH NAME
@@ -153,7 +153,11 @@ example% winsysck -v x11news news sunview
 .LP
 There is no way to determine whether a SunView connection is
 actually connected to an X11/NeWS server with SunView
-compatability enabled or to a SunView server.
+compatibility enabled or to a SunView server.
+.LP
+winsysck assumes that no system running this version of __distroname__
+could be running SunView, NeWS, or X11/NeWS, so doesn't bother checking
+for anything but X11.
 .SH BUGS
 .LP
 None known.

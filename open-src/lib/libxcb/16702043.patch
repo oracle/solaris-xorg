@@ -57,8 +57,8 @@
  
 -STATIC_MANS = man/xcb-examples.3 man/xcb-requests.3
 -BUILT_MANS = man/xcb_*.3
-+STATIC_MANS = 
-+BUILT_MANS = man/xcb_*.3xcb
++STATIC_MANS = # handled in Solaris Makefile
++BUILT_MANS = # handled in Solaris Makefile
  man_MANS = $(STATIC_MANS) $(BUILT_MANS)
  EXTRA_DIST = $(STATIC_MANS)
  
