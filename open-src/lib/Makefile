@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Library modules
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -81,7 +81,7 @@ libXt: libX11 libSM libICE
 libXtsol: libX11 libXext
 libXtst: libX11 libXext
 libXv: libX11 libXext
-libXvMC: libX11 libXext
+libXvMC: libX11 libXext libXv
 libXxf86misc: libX11 libXext
 libXxf86vm: libX11 libXext
 libxkbfile: libX11
