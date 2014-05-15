@@ -37,7 +37,8 @@ TARBALL_SHA1  = 77f60d0a2190cb36c07c2217693f46d5e8942ca2
 TARBALL_SHA256= d16ea3541835d296b19cfb05d7e64fc62173d8e7eb93284402ec761b951d1543
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	ps-fonts.patch,-p1
+SOURCE_PATCHES  = ps-fonts.patch,-p1
+SOURCE_PATCHES += upstream-backports.patch,-p1
 
 # Library name
 LIBNAME=Xfont
