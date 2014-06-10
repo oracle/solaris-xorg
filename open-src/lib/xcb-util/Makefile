@@ -2,7 +2,7 @@
 #
 # xcb-util - Library of xcb utility functions
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,7 +41,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util library of xcb utility functions
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 5068
+ORACLE_TPNO = 18007
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order

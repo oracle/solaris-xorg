@@ -41,6 +41,7 @@ SOURCE_PATCHES =
 
 # Package metadata
 ORACLE_TPNO = 14484
+ORACLE_TPNO_SET	= yes
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=dmx

@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,7 +36,7 @@ UPSTREAM_SET	= yes
 MODULE_LICENSE          = Bitstream Vera Fonts License
 MODULE_LICENSE_SET      = yes
 MODULE_DESC		= the DejaVu fonts
-ORACLE_TPNO		= 12114
+ORACLE_TPNO		= 18005
 
 # Version number (used in path names)
 MODULE_VERSION=2.33

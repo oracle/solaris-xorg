@@ -30,7 +30,7 @@ MODULE_NAME=xf86-video-openchrome
 UPSTREAM        = The OpenChrome project
 UPSTREAM_URL    = http://www.openchrome.org/
 UPSTREAM_SET    = yes
-ORACLE_TPNO	= 12031
+ORACLE_TPNO	= 18004
 ORACLE_TPNO_SET	= yes
 
 # Version number (used in path names)

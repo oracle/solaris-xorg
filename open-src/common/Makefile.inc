@@ -835,13 +835,13 @@ UPSTREAM_xorg		= X.Org Foundation
 UPSTREAM_URL_xorg	= http://www.x.org/
 SOURCE_URL_xorg		= $(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 # TPNO's for X.Org software & font batches
-ORACLE_TPNO_xorg	= 11362
+ORACLE_TPNO_xorg	= 18028
 ORACLE_TPNO_xorg_fonts	= 11716
 
 UPSTREAM_xcb		= The XCB Project
 UPSTREAM_URL_xcb	= http://xcb.freedesktop.org/
 SOURCE_URL_xcb		= http://xcb.freedesktop.org/dist/$(SOURCE_TARBALL_NAME)
-ORACLE_TPNO_xcb		= 4914
+ORACLE_TPNO_xcb		= 18006
 
 UPSTREAM_PROJECT_DEFAULT	= $(UPSTREAM_PROJECT_SET:yes=$(POUND_SIGN))
 $(UPSTREAM_PROJECT_DEFAULT)	UPSTREAM_PROJECT = xorg

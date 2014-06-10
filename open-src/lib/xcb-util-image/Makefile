@@ -2,7 +2,7 @@
 #
 # xcb-util-image - Library of xcb utility functions for handling X images
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,7 +46,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-image library of xcb utility functions for handling X images
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 5070
+ORACLE_TPNO = 18009
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order
