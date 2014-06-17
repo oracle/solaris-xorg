@@ -82,9 +82,6 @@ depend type=require fmri=pkg:/developer/documentation-tool/asciidoc
 depend type=require fmri=pkg:/developer/documentation-tool/openjade
 depend type=require fmri=pkg:/developer/documentation-tool/opensp
 
-# Xserver build includes dtrace probes
-depend type=require fmri=pkg:/developer/dtrace
-
 # Some modules use gcc to build
 depend type=require fmri=pkg:/developer/gcc-47
 
@@ -103,9 +100,6 @@ depend type=require fmri=pkg:/developer/java/jdk
 # Various modules need flex to generate lexers
 depend type=require fmri=pkg:/developer/lexer/flex
 
-# Various libraries build lint libraries, that depend on system lint libs
-depend type=require fmri=pkg:/developer/library/lint
-
 # xcb, xcb-util, xcb-util-wm need GNU M4 to build
 # (also required by any module running autoconf/autoreconf)
 depend type=require fmri=pkg:/developer/macro/gnu-m4
@@ -121,7 +115,6 @@ depend type=require fmri=pkg:/developer/versioning/mercurial
 
 # Driver packages delivering headers we require
 $(i386_ONLY)depend type=require fmri=pkg:/driver/graphics/agpgart
-depend type=require fmri=pkg:/driver/usb
 
 # autoconf scripts prefer various gnu utilities (mkdir, install, etc.)
 depend type=require fmri=pkg:/file/gnu-coreutils \
@@ -165,7 +158,7 @@ depend type=require fmri=pkg:/library/motif \
 depend type=require fmri=pkg:/library/ncurses
 
 # Mesa 7.10.2 requires libxml2 python module
-depend type=require fmri=pkg:/library/python-2/libxml2-$(PYTHON_PKG_VERSION)
+depend type=require fmri=pkg:/library/python/libxml2-$(PYTHON_PKG_VERSION)
 
 # freetype, libXfont & libfontenc link with libz
 depend type=require fmri=pkg:/library/zlib \
@@ -185,11 +178,15 @@ depend type=require fmri=pkg:/shell/ksh93 org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/core-os \
     org.opensolaris.pkgdepend.resolve=true
 
+# Xserver build includes dtrace probes
+depend type=require fmri=pkg:/system/dtrace
+
 # Xserver currently links with HAL & Dbus
 depend type=require fmri=pkg:/system/hal org.opensolaris.pkgdepend.resolve=true
 
 # Basic system headers & libraries
 depend type=require fmri=pkg:/system/header
+depend type=require fmri=pkg:/system/io/usb
 depend type=require fmri=pkg:/system/library \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/c++-runtime \
