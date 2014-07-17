@@ -1,0 +1,13 @@
+--- a/unix/xserver/include/misc.h	Thu Jul 10 11:37:34 2014
++++ b/unix/xserver/include/misc.h	Thu Jul 10 11:38:50 2014
+@@ -297,7 +297,9 @@
+ }
+ #endif
+ 
+-#if !(defined(__GNUC__) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)))
++#if !(defined(__GNUC__) \
++       || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)) \
++       || (defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x5130))) 
+ static inline int
+ __builtin_constant_p(int x)
+ {

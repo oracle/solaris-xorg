@@ -4,7 +4,7 @@
 # Based on Fedora's tigervnc.spec revision 1.20 from
 # http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,13 +72,14 @@ SOURCE_PATCHES += xorg-1.12.1.patch,-p1
 SOURCE_PATCHES += no-nasm.patch,-p1
 SOURCE_PATCHES += applet-html.patch
 SOURCE_PATCHES += icon.patch,-p1
-SOURCE_PATCHES += jdk17.patch,-p1
+SOURCE_PATCHES += jdk-version.patch,-p1
 SOURCE_PATCHES += solaris-libraries.patch,-p1
 SOURCE_PATCHES += vnc-nobuildtime.patch,-p1
 SOURCE_PATCHES += vnc-nohttpd.patch,-p1
 SOURCE_PATCHES += solaris-port.patch,-p1
 SOURCE_PATCHES += solaris-audit.patch,-p1
 SOURCE_PATCHES += 17950657.patch,-p1
+SOURCE_PATCHES += studio12.4-patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes

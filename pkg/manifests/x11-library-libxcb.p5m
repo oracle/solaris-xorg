@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,7 +27,9 @@
 # Autogenerate *.pyc manifest entries for each *.py file
 <transform file path=.*\.py$ -> emit file path=%(path)c>
 
-
+# Autogenerate *.pyc manifest entries for the *.pyc files in __pycache__ dir
+<transform file path=^(.*/xcbgen)/(.*)\.py$ -> \
+    emit file path=%<1>/__pycache__/%<2>.cpython-34.pyc>
 set name=pkg.fmri value=pkg:/x11/library/libxcb@__version:libxcb__
 set name=pkg.summary value="libxcb - The X11 protocol C Binding"
 set name=pkg.description \
@@ -210,6 +212,7 @@ file path=usr/lib/pkgconfig/xcb.pc
 #
 dir  path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen
 file path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen/__init__.py
+dir  path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen/__pycache__
 file path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen/error.py
 file path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen/expr.py
 file path=usr/lib/python$(PYTHON_PATH_VERSION)/vendor-packages/xcbgen/matcher.py
