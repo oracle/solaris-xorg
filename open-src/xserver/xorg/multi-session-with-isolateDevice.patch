@@ -1,0 +1,124 @@
+diff --git a/config/hal.c.orig b/config/hal.c
+index 24d4ca6..66abdd0 100644
+--- a/config/hal.c.orig
++++ b/config/hal.c
+@@ -1,7 +1,7 @@
+ /*
+  * Copyright © 2007 Daniel Stone
+  * Copyright © 2007 Red Hat, Inc.
+- * Copyright (c) 2013 Oracle and/or its affiliates. All Rights Reserved.
++ * Copyright (c) 2013, 2014 Oracle and/or its affiliates. All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -151,7 +151,7 @@ Bool check_inactive_session(char const *path) {
+     char *ptr;
+     char disppath[PATH_MAX];
+ 
+-    if ((num_session_disp_dev == num_total_disp_dev) || !disp_dev_path[0])
++    if (((num_session_disp_dev & 0xFF) == num_total_disp_dev) || !disp_dev_path[0])
+ 	return FALSE;
+ 
+     if (lstat(path, &statbuf) == 0 &&
+@@ -533,7 +533,7 @@ device_added(LibHalContext * hal_ctx, const char *udi)
+     }
+ 
+ #if ((defined(__sparc__) || defined(__sparc)) && defined(SUNSOFT))
+-    if ((num_session_disp_dev < num_total_disp_dev) &&
++    if ((num_session_disp_dev < (num_total_disp_dev & 0x0FF)) &&
+ 		(!strcmp(name, "keyboard") || !strcmp(name, "mouse"))) {
+ 	int i;
+
+diff --git a/hw/xfree86/common/xf86AutoConfig.c.orig b/hw/xfree86/common/xf86AutoConfig.c
+index ebf93cf..2f97e37 100644
+--- a/hw/xfree86/common/xf86AutoConfig.c.orig
++++ b/hw/xfree86/common/xf86AutoConfig.c
+@@ -1,7 +1,7 @@
+ /*
+  * Copyright 2003 by David H. Dawes.
+  * Copyright 2003 by X-Oz Technologies.
+- * Copyright (c) 2013 Oracle and/or its affiliates.
++ * Copyright (c) 2013, 2014 Oracle and/or its affiliates.
+  * All rights reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+@@ -51,6 +51,7 @@
+ #include <ctype.h>
+ #if (defined(__sparc__) || defined(__sparc))
+ static Bool MultiSessionConfig (void);
++extern int num_total_disp_dev;
+ #endif
+ #endif
+ 
+@@ -173,7 +174,8 @@ xf86AutoConfig(void)
+     ConfigStatus ret;
+ 
+ #if ((defined(__sparc__) || defined(__sparc)) && defined (sun))
+-    if (!MultiSessionConfig()) {
++    /* Do not do MultiSessionConfig() when invoked with -isolateDevice option */
++    if ((num_total_disp_dev & 0x1000)|| !MultiSessionConfig()) {
+ #endif
+ 
+     listPossibleVideoDrivers(deviceList, 20);
+diff --git a/hw/xfree86/common/xf86Xinput.c.orig b/hw/xfree86/common/xf86Xinput.c
+index b60166c..c7d771b 100644
+--- a/hw/xfree86/common/xf86Xinput.c.orig
++++ b/hw/xfree86/common/xf86Xinput.c
+@@ -46,7 +46,7 @@
+  * authorization from the copyright holder(s) and author(s).
+  */
+ /*
+- * Copyright (c) 2013 Oracle and/or its affiliates. All Rights Reserved.
++ * Copyright (c) 2013, 2014 Oracle and/or its affiliates. All Rights Reserved.
+  */
+ 
+ #ifdef HAVE_XORG_CONFIG_H
+@@ -1446,7 +1446,7 @@ xf86DisableDevice(DeviceIntPtr dev, Bool panic)
+     }
+ 
+ #if ((defined(__sparc__) || defined(__sparc)) && defined(sun))
+-    if (num_session_disp_dev < num_total_disp_dev) {
++    if (num_session_disp_dev < (num_total_disp_dev & 0x0FFF)) {
+ 	int i;
+ 
+ 	for (i = 0; i < MAX_DEVICES; i++) {
+diff --git a/hw/xfree86/common/xf86pciBus.c.old b/hw/xfree86/common/xf86pciBus.c
+index e1fb321..745b04e 100644
+--- a/hw/xfree86/common/xf86pciBus.c.old
++++ b/hw/xfree86/common/xf86pciBus.c
+@@ -1,6 +1,6 @@
+ /*
+  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
+- * Copyright (c) 2013 Oracle and/or its affiliates. All Rights Reserved.
++ * Copyright (c) 2013, 2014 Oracle and/or its affiliates. All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -131,6 +131,27 @@ xf86PciProbe(void)
+     }
+     free(iter);
+ 
++#if ((defined(__sparc__) || defined(__sparc)) && defined (sun))
++    /* 
++     * num_total_disp_dev does not reflect accurate number of display
++     * device when xf86IsolateDevice is set, redo it.
++     */
++    if (xf86IsolateDevice.domain != PCI_MATCH_ANY) {
++	num_total_disp_dev = 0x1000;
++
++	iter = pci_slot_match_iterator_create (NULL);
++	while ((info = pci_device_next(iter)) != NULL) {
++	    if (PCIINFOCLASSES(info->device_class)) {
++		pci_device_probe(info);
++
++		if (IS_VGA(info->device_class))
++		    num_total_disp_dev++;
++	    }
++	}
++    }
++    free(iter);
++#endif
++
+     /* If we haven't found a primary device try a different heuristic */
+     if (primaryBus.type == BUS_NONE && num) {
+         for (i = 0; i < num; i++) {
