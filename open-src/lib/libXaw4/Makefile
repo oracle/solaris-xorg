@@ -2,7 +2,7 @@
 #
 # Xaw4 Makefile
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,7 +44,8 @@ MODULE_PKGNAME_SET=yes
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
+SOURCE_TARGETS =
+SOURCE_TARGETS_SET=yes
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xaw4
@@ -57,15 +58,16 @@ MODULE_STABILITY=Committed
 # PSARC/1992/173 - Update MIT-based Clients to X11R5 Level
 MODULE_ARC_CASES = PSARC/1992/173
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-
-MODULE_CFLAGS += -I.
+# and pass path to $(REL_SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../sun-src
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_CPPFLAGS += -I $(REL_SOURCE_DIR)
 MODULE_CPPFLAGS += -DSYSV
 
 # Link with version mapfile

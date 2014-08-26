@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,14 +48,15 @@ ADDITIONAL_SOURCE_DIR=sun-src
 SUNTOUCHED_MANPAGES=xmag_multivis.man
 MODULE_STABILITY=Committed
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_CONFIG_ENV = PREFIX=$(MODULE_PREFIX) $(CONSTANT_TIME)
-MODULE_BUILD_MAKEFLAGS  = $(CONFIG_ENV)
-MODULE_INSTALL_MAKEFLAGS= $(CONFIG_ENV)
+# and pass path to $(SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../$(SOURCE_DIR)
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xmag_multivis

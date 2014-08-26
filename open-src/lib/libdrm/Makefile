@@ -115,6 +115,6 @@ $(PC_FILES:%=$(PROTODIR)/$(XSERVER_PC_DIR)/%): default_install
 MANDIR = $(PROTODIR)$(X11_MAN_DIR)
 install_fixed_manpages: default_install
 	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
-		$(SUNTOUCH_MAN_FLAGS) $(SOURCE_DIR)/man/*.{3,7}
-	ginstall -m 0444 $(SOURCE_DIR)/man/*.3 $(MANDIR)/man3
-	ginstall -m 0444 $(SOURCE_DIR)/man/*.7 $(MANDIR)/man7
+		$(SUNTOUCH_MAN_FLAGS) $(BUILD_DIR)/man/*.{3,7}
+	ginstall -m 0444 $(BUILD_DIR)/man/*.3 $(MANDIR)/man3
+	ginstall -m 0444 $(BUILD_DIR)/man/*.7 $(MANDIR)/man7

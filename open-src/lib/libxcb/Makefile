@@ -110,10 +110,10 @@ MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xcb
 # Need to apply suntouch changes to man pages generated during build
 install_solaris_exts: $(INSTALL_DEPS)
 	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
-		$(SUNTOUCH_MAN_FLAGS) $(SOURCE_DIR)/src/man/*.3xcb
+		$(SUNTOUCH_MAN_FLAGS) $(BUILD_DIR)/src/man/*.3xcb
 	mkdir -p $(MANDIR)
 	ginstall -m 0444 $(SOURCE_DIR)/src/man/xcb-examples.3 \
 		$(MANDIR)/xcb-examples.3xcb
 	ginstall -m 0444 $(SOURCE_DIR)/src/man/xcb-requests.3 \
 		$(MANDIR)/xcb-requests.3xcb
-	ginstall -m 0444 $(SOURCE_DIR)/src/man/*.3xcb $(MANDIR)/
+	ginstall -m 0444 $(BUILD_DIR)/src/man/*.3xcb $(MANDIR)/

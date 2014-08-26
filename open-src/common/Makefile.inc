@@ -89,9 +89,7 @@ BUILD_DIR_32 = build-$(MACH32)
 BUILD_DIR_64 = build-$(MACH64)
 BUILD_DIR = $(BUILD_DIR_$(BUILD_TYPE))
 
-SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
-SOURCE_DIR_32 = $(BUILD_DIR_32)/$(SOURCE_DIRNAME)
-SOURCE_DIR_64 = $(BUILD_DIR_64)/$(SOURCE_DIRNAME)
+SOURCE_DIR = unpacked-src
 
 # Set default tarball if not set in module makefile
 SOURCE_TARBALL_NAME_DEFAULT	= $(SOURCE_TARBALL_NAME_SET:yes=$(POUND_SIGN))
@@ -160,32 +158,27 @@ CLEAN_RULES_2 = $(CLEAN_RULES_1:clean_32=)
 CLEAN_RULES_3 = $(CLEAN_RULES_2:clean_64=)
 CLEAN_RULES =  clean_32 clean_64 $(CLEAN_RULES_3)
 clean: $(CLEAN_RULES)
-.PARALLEL: $(CLEAN_RULES)
+.PARALLEL: $(CLEAN_RULES) clobber
 
 # Remove directories with both styles of naming
 $(CLEAN_RULES):
 	-rm -rf $(BUILD_DIR_$(@:clean_%=%)) $(@:clean_%=build_%) $(@:clean_%=build-%)
 
+clobber: clean
+	-rm -rf $(SOURCE_DIR)
+
 # Tell dmake not to remove and create source in parallel
-.NOPARALLEL: clean source
-.NOPARALLEL: clean_$(BUILD_TYPE) source_$(BUILD_TYPE)
+.NOPARALLEL: clobber source
 
-SOURCE_RULES = $(BUILD_TYPES:%=source_%)
-source: $(SOURCE_RULES)
-.PARALLEL: $(SOURCE_RULES)
-
-source-gen: $(SOURCE_TARGETS)
-
-$(SOURCE_RULES):
-	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:source_%=%)" source-gen
+# Rules for steps repeated for each build type
 
 CONFIGURE_RULES = $(BUILD_TYPES:%=configure_%)
 configure: $(CONFIGURE_RULES)
 .PARALLEL: $(CONFIGURE_RULES)
 
-configure-gen: source-gen $(CONFIGURE_TARGETS)
+configure-gen: source $(CONFIGURE_TARGETS)
 
-$(CONFIGURE_RULES):
+$(CONFIGURE_RULES): $(SOURCE_TARGETS)
 	$(MAKE) $(MAKEFLAGS) BUILD_TYPE="$(@:configure_%=%)" \
 	 $(BUILD_$(@:configure_%=%)_FLAGS) configure-gen
 
@@ -340,8 +333,7 @@ git-update:
 git-import:
 	mkdir $(GIT_CLONE_DIR)
 	cd $(GIT_CLONE_DIR) && git init
-	$(MAKE) BUILD_DIR="$(GIT_CLONE_DIR)" SOURCE_DIR="$(GIT_CLONE_DIR)" \
-		ADD_TAR_FLAGS="--strip-components=1" init_source
+	$(MAKE) SOURCE_DIR="$(GIT_CLONE_DIR)" init_source
 	cd $(GIT_CLONE_DIR) && git add . && \
 		git commit -a -m 'Initialized from $(SOURCE_TARBALL_NAME)' \
 		&& git tag '$(MODULE_NAME)-$(MODULE_VERSION)'
@@ -353,8 +345,8 @@ git-import:
 		(cd $(GIT_CLONE_DIR) ; $(START_CMD_ECHO) ; git am $(PWD)/$$p) ; \
 	    else \
 		rm -f $(GIT_CLONE_DIR)/$(PATCHED_TARGET_FILE) ; \
-		$(MAKE) SOURCE_PATCHES="$$f" BUILD_DIR="$(GIT_CLONE_DIR)" \
-			SOURCE_DIR="$(GIT_CLONE_DIR)" patched_source ; \
+		$(MAKE) SOURCE_PATCHES="$$f" SOURCE_DIR="$(GIT_CLONE_DIR)" \
+			patched_source ; \
 		printf '%s\n\n' "$${p%.patch}" > git.comments ; \
 	    	gawk '/^--- /		{exit} \
 		      /^diff -/		{exit} \
@@ -379,10 +371,8 @@ SOURCE_INIT_TARGET=$(SOURCE_DIR)/$(SOURCE_INIT_TARGET_FILE)
 init_source: $(SOURCE_INIT_TARGET)
 
 $(SOURCE_INIT_TARGET): $(SOURCE_DEPS)
-	mkdir -p $(BUILD_DIR)
-	@ if [[ "$(SOURCE_TARBALL_NAME)" == "NONE" ]] ; then \
-	  $(START_CMD_ECHO); mkdir -p $(SOURCE_DIR) ; \
-	else \
+	mkdir -p $(SOURCE_DIR)
+	@ if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
 	  if [[ "$(MODULE_VERSION)" = "git" ]] ; then \
 	    SOURCE_CMD='gtar --exclude=.git* -cf - $(GIT_CLONE_DIR)' ; \
 	    SOURCE_FILE='-' ; \
@@ -391,8 +381,8 @@ $(SOURCE_INIT_TARGET): $(SOURCE_DEPS)
 	  fi ; \
 	  $(START_CMD_ECHO) ; \
 	  $${SOURCE_CMD} | \
-	    gtar --directory="$(BUILD_DIR)" $(ADD_TAR_FLAGS) \
-		 -xf $${SOURCE_FILE} ; \
+	    gtar --directory="$(SOURCE_DIR)" --strip-components=1 \
+		$(ADD_TAR_FLAGS) -xf $${SOURCE_FILE} ; \
 	fi
 	touch $(SOURCE_INIT_TARGET)
 
@@ -408,12 +398,11 @@ $(SOURCE_ADD_TARGET): $(SOURCE_INIT_TARGET)
 	    (cd $(TOP)/open-src/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
 	  fi ; \
 	  $(START_CMD_ECHO) ; \
-	  cd $(SOURCE_DIR) && $(LNDIR) ../../$(ADDITIONAL_SOURCE_DIR) ; \
+	  cd $(SOURCE_DIR) && $(LNDIR) ../$(ADDITIONAL_SOURCE_DIR) ; \
 	fi
 	touch $(SOURCE_ADD_TARGET)
 
-# Step 3: Apply any local patches (may be done in parallel to add_source,
-# but must come after init_source is finished)
+# Step 3: Apply any local patches (must come after add_source is finished)
 #
 # SOURCE_PATCHES is a list in the format: filename[,flags]
 # $${p/*,} is ksh93 syntax to remove the comma and everything before it in $p
@@ -422,7 +411,16 @@ PATCHED_TARGET_FILE=.patches.done
 PATCHED_TARGET=$(SOURCE_DIR)/$(PATCHED_TARGET_FILE)
 patched_source: $(PATCHED_TARGET)
 
-$(PATCHED_TARGET): $(SOURCE_INIT_TARGET)
+# Include Xorg autoconf macros when rebuilding configure scripts
+# and use specific version of automake.
+ACLOCAL_PATH=/usr/bin/aclocal-$(AUTOMAKE_VERSION)
+ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
+	-I /usr/share/aclocal -I /usr/share/aclocal-$(AUTOMAKE_VERSION)
+AUTOMAKE_PATH=/usr/bin/automake-$(AUTOMAKE_VERSION)
+AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
+	AUTOMAKE="$(AUTOMAKE_PATH)"
+
+$(PATCHED_TARGET): $(SOURCE_ADD_TARGET)
 	@ if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
 	        if [[ "$$p" != "x" ]] ; then \
@@ -436,7 +434,11 @@ $(PATCHED_TARGET): $(SOURCE_INIT_TARGET)
 		     gpatch -d $(SOURCE_DIR) $${patch_flags} < "$${patch_file}" ) ; \
 		fi ; \
 	    done ; \
-	fi
+	fi ; \
+	if [[ "$(AUTORECONF)" = "yes" || "$(MODULE_VERSION)" = "git" ]] ; then \
+	     ($(START_CMD_ECHO) ; cd $(SOURCE_DIR) && \
+	      $(AUTORECONF_ENV) autoreconf -v --install --force) ; \
+	fi ; \
 	touch $(PATCHED_TARGET)
 
 # Step 4: Apply common Solaris changes to man pages in $(SUNTOUCHED_MANPAGES)
@@ -488,24 +490,25 @@ $(ORIG_PC_FILES): $(PATCHED_TARGET)
 UNPACK_TARGETS = $(SOURCE_INIT_TARGET) $(PATCHED_TARGET) \
 	$(SOURCE_ADD_TARGET) $(FIXED_MAN_TARGET) $(FIXED_PC_TARGET)
 
-default_source: $(UNPACK_TARGET)
+source: $(SOURCE_TARGETS)
+default_source: $(SOURCE_TARGETS)
 
 $(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 	touch $(UNPACK_TARGET)
 
+# Make sure build directory exists, and if CLONE_SRC=yes, then
+# lndir the sources into it.
+$(BUILD_DIR): $(SOURCE_TARGETS)
+	mkdir -p $@
+	@if [[ "$(CLONE_SRC)" = "yes" ]]; then \
+		$(START_CMD_ECHO) ; \
+		cd $(BUILD_DIR) && $(LNDIR) ../$(SOURCE_DIR) ; \
+	fi
+
 ### Run configure scripts
 
-# Include Xorg autoconf macros when rebuilding configure scripts
-# and use specific version of automake.
-ACLOCAL_PATH=/usr/bin/aclocal-$(AUTOMAKE_VERSION)
-ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
-	-I /usr/share/aclocal -I /usr/share/aclocal-$(AUTOMAKE_VERSION)
-AUTOMAKE_PATH=/usr/bin/automake-$(AUTOMAKE_VERSION)
-AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
-	AUTOMAKE="$(AUTOMAKE_PATH)"
-
 # Dependencies for running configure to make a Makefile
-CONFIGURE_DEPS = $(SOURCE_TARGETS) \
+CONFIGURE_DEPS = $(SOURCE_TARGETS) $(BUILD_DIR) \
 	$(MODTYPE_CONFIGURE_DEPS) $(MODULE_CONFIGURE_DEPS)
 
 # Command line options to GNU autoconf configure script
@@ -524,7 +527,7 @@ $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
 	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
 
-DEFAULT_PKG_CONFIG_PATH=$(TOP)/open-src/common/pc-files/$(BUILD_DIR):$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
+DEFAULT_PKG_CONFIG_PATH=$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
 
 # Most upstream software is written by developers using bash as /bin/sh, so
 # we run configure scripts with that to minimize problems and work around
@@ -559,17 +562,16 @@ CONFIG_ENV += $(MODTYPE_CONFIG_ENV) $(MODULE_CONFIG_ENV)
 AUTOCONF_TARGET_DEFAULT = $(AUTOCONF_TARGET_SET:yes=$(POUND_SIGN))
 $(AUTOCONF_TARGET_DEFAULT)	AUTOCONF_TARGET=$(SOURCE_DIR)/Makefile
 
+CONFIG_SCRIPT = ../$(SOURCE_DIR)/configure
+
 $(AUTOCONF_TARGET): $(CONFIGURE_DEPS)
-	cd $(SOURCE_DIR) ; \
-	if [[ "$(AUTORECONF)" = "yes" || "$(MODULE_VERSION)" = "git" ]] ; then \
-	     $(AUTORECONF_ENV) autoreconf -v --install --force ; \
-	fi ; \
-	chmod a+x configure ; \
-	$(CONFIG_ENV) $(CONFIG_SHELL) ./configure $(CONFIG_OPTS) ; \
+	cd $(BUILD_DIR) ; \
+	chmod a+x $(CONFIG_SCRIPT) ; \
+	$(CONFIG_ENV) $(CONFIG_SHELL) $(CONFIG_SCRIPT) $(CONFIG_OPTS) ; \
 	if [[ "$(DELIBTOOLIZE)" = "yes" ]] ; then \
 	    $(PERL) $(TOP)/open-src/common/delibtoolize.pl $(DELIBTOOLIZE_FLAGS) . ; \
 	fi
-	-rm -f $(SOURCE_DIR)/a.out.bc
+	-rm -f $(BUILD_DIR)/a.out.bc
 
 default_configure: $(AUTOCONF_TARGET)
 
@@ -605,7 +607,7 @@ DEFAULT_BUILD_COMMAND = cd @DIR@ ; \
 	$(BUILD_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS)
 
 default_build: $(BUILD_DEPS)
-	$(DEFAULT_BUILD_COMMAND:@DIR@=$(SOURCE_DIR))
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(BUILD_DIR))
 
 build-in-subdir:
 	$(DEFAULT_BUILD_COMMAND:@DIR@=$(subdir)) $(subdir_cmd)
@@ -626,7 +628,7 @@ DEFAULT_INSTALL_COMMAND = cd @DIR@ ; \
 	$(INSTALL_ENV) $(MODULE_MAKE) $(MAKEFLAGS) $(DEFAULT_INSTALL_MAKEFLAGS)
 
 default_install: $(INSTALL_DEPS)
-	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(SOURCE_DIR)) install
+	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(BUILD_DIR)) install
 
 install-in-subdir:
 	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(subdir)) $(subdir_cmd) \
@@ -650,7 +652,7 @@ $(INSTALL_PCU_DEPS_DEFAULT)	INSTALL_PCU_DEPS = $(INSTALL_TARGETS)
 
 install_pkgconfig_uninstalled: $(INSTALL_PCU_DEPS)
 	@ if [[ ! -z "$(FIX_PC_FILES)" ]] ; then \
-	    cd $(SOURCE_DIR) ; \
+	    cd $(BUILD_DIR) ; \
 	    for pcin in $(FIX_PC_FILES:.in=) ; do \
 		pc="$${pcin%%+(.pc|.in)}" ; \
 		pcu="$${pc##*/}-uninstalled.pc" ; \
@@ -701,7 +703,7 @@ ELF_COMMENTS_FLAGS += $(MODTYPE_ELF_COMMENTS_FLAGS) $(MODULE_ELF_COMMENTS_FLAGS)
 
 set-elf-comments: $(BUILD_TARGETS:set-elf-comments=)
 	$(PERL) $(TOP)/open-src/common/set-elf-comments.pl \
-	 $(ELF_COMMENTS_FLAGS) $(SOURCE_DIR)
+	 $(ELF_COMMENTS_FLAGS) $(BUILD_DIR)
 
 MANIFEST_DEST=$(PWD)/tmp-proto-$(MACH)
 MANIFEST_TMP=$(PWD)/tmp.p5m
@@ -780,20 +782,22 @@ $(LNDIR):
 regen-patches:
 	CUR_LIST=""
 	rm -rf tmp-regen
-	$(MAKE) SOURCE_PATCHES="$(CUR_LIST)" BUILD_DIR=tmp-regen patched_source
+	$(MAKE) SOURCE_PATCHES="$(CUR_LIST)" SOURCE_DIR=tmp-regen \
+	    AUTORECONF="no" patched_source
 	mkdir -p new
 	for f in $(SOURCE_PATCHES) ; do \
 	    p=$${f%,*} ; \
 	    print '=================' $$p ; \
 	    rm -rf prev ; \
 	    mv tmp-regen prev ; \
-	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" BUILD_DIR=tmp-regen patched_source ; \
+	    $(MAKE) SOURCE_PATCHES="$${CUR_LIST} $$f" SOURCE_DIR=tmp-regen \
+		AUTORECONF="no" patched_source ; \
 	    find tmp-regen -name '*.orig' -exec rm {} \+ ; \
 	    gawk '/^--- /	{exit} \
 		  /^diff -/	{exit} \
 			 	{print}' $$p > new/$$p ; \
 	    LC_COLLATE=C git diff --no-color ./prev ./tmp-regen \
-		| sed -e 's% a/\./prev/$(SOURCE_DIRNAME)/% a/%' -e 's% b/\./tmp-regen/$(SOURCE_DIRNAME)/% b/%' \
+		| sed -e 's% a/\./prev/% a/%' -e 's% b/\./tmp-regen/% b/%' \
 		| grep -v '^Common subdirectories:' \
 		| grep -v '^Only in ' \
 		>> new/$$p ; \

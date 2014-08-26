@@ -1,4 +1,4 @@
-# Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,7 +34,7 @@ xmag_multivis: $(OBJS)
 .c.o:
 	$(CC) $(CFLAGS) $(MULTIVIS_CPPFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
 
-install: xmag_multivis
+install: xmag_multivis xmag_multivis.man
 	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
 	$(INSTALL) -m 0555 xmag_multivis $(DESTDIR)$(PREFIX)/bin
 	$(INSTALL) -m 0444 xmag_multivis.man $(DESTDIR)$(PREFIX)/share/man/man1/xmag_multivis.1

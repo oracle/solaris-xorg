@@ -97,7 +97,7 @@ $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps: $(INSTALL_DEPS) $(PROTODIR)$(MODULE_DOC_DIR
 $(PROTODIR)$(3LIB_MAN_DIR)/libXpm.3lib: $(INSTALL_DEPS) $(PROTODIR)$(3LIB_MAN_DIR)
 	ginstall -m 0444 $(SOURCE_DIR)/man/libXpm.3lib $@
 
-PO_FILES = $(SOURCE_DIR)/cxpm/cxpm.po $(SOURCE_DIR)/sxpm/sxpm.po
+PO_FILES = $(BUILD_DIR)/cxpm/cxpm.po $(BUILD_DIR)/sxpm/sxpm.po
 
 install-po: $(INSTALL_DEPS) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
 	ginstall -m 0444 $(PO_FILES) $(PROTODIR)$(X11_LC_MESSAGES_DIR)

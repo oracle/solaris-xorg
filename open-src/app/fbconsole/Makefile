@@ -2,7 +2,7 @@
 #
 # fbconsole - fallback console utility
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -51,18 +51,21 @@ MODULE_ARC_CASES = PSARC/1992/130 LSARC/2005/590
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
+SOURCE_TARGETS =
+SOURCE_TARGETS_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# No configure script, so pass usual environment to build/install instead
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+# and pass path to $(REL_SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../sun-src
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = fbconsole

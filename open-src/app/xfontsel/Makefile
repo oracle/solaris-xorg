@@ -2,7 +2,7 @@
 #
 # xfontsel - simple X11 font selection/display application
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,7 @@ MODULE_X11_BINCOMPAT_LINKS = xfontsel
 
 include ../Makefile.inc
 
-install_po: $(SOURCE_TARGETS)
+install_po: $(SOURCE_TARGETS) $(BUILD_DIR)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	(cd $(SOURCE_DIR) ; xgettext -n -d xfontsel *.c)
-	cp -f $(SOURCE_DIR)/xfontsel.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	(cd $(SOURCE_DIR) ; xgettext -n -d xfontsel -p ../$(BUILD_DIR) *.c)
+	cp -f $(BUILD_DIR)/xfontsel.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)

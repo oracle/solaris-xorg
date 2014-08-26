@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,8 +54,8 @@ BUILD_TARGETS = build-in-subdir $(MODTYPE_ADD_BUILD_TARGETS)
 BUILD_TARGETS_32 = build_legacy_xvmc
 BUILD_TARGETS += $(BUILD_TARGETS_$(BUILD_TYPE))
 BUILD_TARGETS_SET=yes
-subdir_32 = $(SOURCE_DIR)/src/xvmc
-subdir_64 = $(SOURCE_DIR)
+subdir_32 = $(BUILD_DIR)/src/xvmc
+subdir_64 = $(BUILD_DIR)
 subdir = $(subdir_$(BUILD_TYPE))
 install_subdir_cmd = install
 INSTALL_TARGETS = install-in-subdir $(MODTYPE_ADD_INSTALL_TARGETS)
@@ -103,7 +103,7 @@ install_docs: $(INSTALL_DEPS)
 build-in-subdir: $(BUILD_DEPS)
 install-in-subdir: $(INSTALL_DEPS)
 
-LEGACY_XVMC_SUBDIR = $(SOURCE_DIR)/src/legacy/i810/xvmc
+LEGACY_XVMC_SUBDIR = $(BUILD_DIR)/src/legacy/i810/xvmc
 
 build_legacy_xvmc: $(BUILD_DEPS)
 	$(DEFAULT_BUILD_COMMAND:@DIR@=$(LEGACY_XVMC_SUBDIR)) $(subdir_cmd)

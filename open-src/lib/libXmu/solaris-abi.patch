@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,8 +30,8 @@ diff -urp -x '*~' -x '*.orig' src/Makefile.am src/Makefile.am
  
 -libXmu_la_LDFLAGS = -version-number 6:2:0 -no-undefined
 -libXmuu_la_LDFLAGS = -version-number 1:0:0 -no-undefined
-+libXmu_la_LDFLAGS = -version-number 4:0:0 -no-undefined -M ../../../mapfile-Xmu
-+libXmuu_la_LDFLAGS = -version-number 1:0:0 -no-undefined -M ../../../mapfile-Xmuu
++libXmu_la_LDFLAGS = -version-number 4:0:0 -no-undefined -M ../../mapfile-Xmu
++libXmuu_la_LDFLAGS = -version-number 1:0:0 -no-undefined -M ../../mapfile-Xmuu
  
 -libXmu_la_LIBADD = $(XMU_LIBS)
 -libXmuu_la_LIBADD = $(XMUU_LIBS)

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,13 +63,18 @@ GIT_URL_SET=yes
 # Directory created by unpacking source
 SOURCE_DIRNAME=Mesa-$(MODULE_VERSION)
 SOURCE_DIRNAME_SET=yes
-SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
 	CVE-2013-1993.patch,-p1 \
 	solaris-port.patch \
 	mesa9-port.patch
+
+# Regenerate configure after patching configure.ac in mesa9-port.patch
+AUTORECONF=yes
+
+# delibtoolize does not get along with Mesa 9.0.3
+DELIBTOOLIZE = no
 
 DRI_DRIVER_LIST_sparc=
 DRI_DRIVER_LIST_i386=i915 i965 radeon r200

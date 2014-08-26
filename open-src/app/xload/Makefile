@@ -2,7 +2,7 @@
 #
 # xload 1.x Makefile
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -60,5 +60,5 @@ include ../Makefile.inc
 
 install_po: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	cp -f $(SOURCE_DIR)/xload.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	cp -f $(BUILD_DIR)/xload.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
 

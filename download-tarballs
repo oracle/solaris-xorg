@@ -2,7 +2,7 @@
 #
 ###########################################################################
 #
-# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,9 +36,9 @@ function fatal_error
 
 CLOBBER=0
 WGET='/usr/bin/wget'
-MAKE_FLAGS="-k"
+XMAKE="$(pwd)/open-src/util/build-tools/xmake ${VERBOSE_FLAGS} -k"
 # Make sure Solaris make, not GNU make, is first in the $PATH
-export PATH=/usr/bin:/usr/ccs/bin
+export PATH=/usr/bin:${PATH}
 
 set -- $(getopt cn $*)
 if [[ $? != 0 ]] ; then
@@ -53,17 +53,17 @@ for i in $* ; do
     esac
 done
 
-make setup || fatal_error "make setup failed: cannot continue"
+${XMAKE} setup || fatal_error "make setup failed: cannot continue"
 
 set -v
 
 cd open-src
-if [[ $CLOBBER = 1 ]] ; then
+if [[ $CLOBBER == 1 ]] ; then
     rm -rf tarballs
 fi
 if [[ ! -d tarballs ]] ; then 
     mkdir tarballs
 fi
-make ${MAKE_FLAGS} download
+${XMAKE} download
 cd ../..
 

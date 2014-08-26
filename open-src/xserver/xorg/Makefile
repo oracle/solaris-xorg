@@ -45,7 +45,8 @@ SOURCE_PATCHES=$(XORG_SOURCE_PATCHES)
 
 # Used in rules shared between Xorg & Xvnc builds in Makefile.inc
 # to allow for different source layouts
-XORG_BUILD_DIR=$(SOURCE_DIR)
+XORG_SOURCE_DIR=$(SOURCE_DIR)
+XORG_BUILD_DIR=$(BUILD_DIR)
 
 # ARC cases that covered this module
 # PSARC/2004/187 Xorg Server for Solaris
@@ -119,7 +120,7 @@ SUNTOUCH_MAN_FLAGS_vdltodmx = $(SUNTOUCH_MAN_FLAGS_Xdmx)
 SUNTOUCH_MAN_FLAGS_dmxtodmx = $(SUNTOUCH_MAN_FLAGS_Xdmx)
 
 # Binary built in tree
-XORGSERVER_BIN=$(SOURCE_DIR)/hw/xfree86/Xorg
+XORGSERVER_BIN=$(BUILD_DIR)/hw/xfree86/Xorg
 
 BUILD_TARGETS=$(XORGSERVER_BIN) build_mdb set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
@@ -211,7 +212,7 @@ clear_build_date: $(CBD_TARGET)
 
 actually_clear_build_date: $(AUTOCONF_TARGET)
 	printf '#undef BUILD_DATE\n#undef BUILD_TIME\n' > \
-		$(SOURCE_DIR)/hw/xfree86/common/xf86Build.h
+		$(BUILD_DIR)/hw/xfree86/common/xf86Build.h
 
 $(XORGSERVER_BIN): default_build
 
@@ -220,7 +221,7 @@ SDK_INCLUDES_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/xorg/
 install_extras: default_install
 	-rm -f $(SDK_INCLUDES_DIR)/xorg-server.h
 	sed -e 's%#define XF86DRI 1%/* #define XF86DRI 1 */%' \
-	    $(SOURCE_DIR)/include/xorg-server.h > $(SDK_INCLUDES_DIR)/xorg-server.h
+	    $(BUILD_DIR)/include/xorg-server.h > $(SDK_INCLUDES_DIR)/xorg-server.h
 	cp -pf $(SOURCE_DIR)/mi/mioverlay.h \
 	       $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h \
 	       $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
@@ -241,7 +242,7 @@ install_extras: default_install
 install_pc_common: default_install install_pkgconfig_uninstalled 
 	-rm -f $(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
 	mkdir -p $(PROTODIR)$(PKGCONFIG_DIR)
-	cp -pf $(SOURCE_DIR)/xorg-server.pc \
+	cp -pf $(BUILD_DIR)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR)/xorg-server.pc
 	-rm -f $(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server.pc \
 		$(PROTODIR)$(PKGCONFIG_DIR_32)/xorg-server-uninstalled.pc
@@ -339,7 +340,9 @@ $(X11_INCLUDE_COMPAT_LINKS): $(X11_INCLUDE_COMPAT_DIR)
 ## mdb module rules
 # Build & install mdb modules & scripts that aren't integrated to
 # normal build process.
-MDB_SOURCE_DIR=$(XORG_BUILD_DIR)/os/solaris/mdb
+MDB_SOURCE_DIR = $(XORG_SOURCE_DIR)/os/solaris/mdb
+MDB_BUILD_DIR  =  $(XORG_BUILD_DIR)/os/solaris/mdb
+MDB_REL_SOURCE_DIR = ../../../../$(MDB_SOURCE_DIR)
 MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
 MDB_SCRIPT_DIR=/usr/demo/Xserver/mdb
 MDB_SCRIPTS=list_Xserver_clients \
@@ -347,8 +350,8 @@ MDB_SCRIPTS=list_Xserver_clients \
 	list_Xserver_servergrab_client
 MDB_MODULE_NAMES=Xephyr Xorg Xvfb Xvnc Xdmx
 
-BUILT_MDB_MODULE=$(MDB_SOURCE_DIR)/modules/Xserver.so
-BUILT_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(MDB_SOURCE_DIR)/scripts/%)
+BUILT_MDB_MODULE=$(MDB_BUILD_DIR)/modules/Xserver.so
+BUILT_MDB_SCRIPTS=$(MDB_SCRIPTS:%=$(MDB_BUILD_DIR)/scripts/%)
 
 INSTALLED_MDB_LINKS=$(MDB_MODULE_NAMES:%=$(PROTODIR)$(MDB_MODULE_DIR)/%.so)
 INSTALLED_MDB_MODULE=$(PROTODIR)$(MDB_MODULE_DIR)/Xserver.so
@@ -361,13 +364,19 @@ INSTALLED_MDB_ALL=$(INSTALLED_MDB_MODULE) $(INSTALLED_MDB_LINKS) \
 MDB_BUILD_ENV=$(CONFIG_ENV) $(BUILD_ENV)
 MDB_BUILD_ENV += CFLAGS="$(LIB_CFLAGS)" LDFLAGS="$(LIB_LDFLAGS)"
 MDB_BUILD_ENV += ARCHLIBSUBDIR="$(ARCHLIBSUBDIR)"
+MDB_BUILD_ENV += top_builddir="$(PWD)/$(BUILD_DIR)"
+MDB_BUILD_ENV += top_srcdir="$(PWD)/$(SOURCE_DIR)"
 
 build_mdb: $(BUILT_MDB_MODULE)
 
 $(BUILT_MDB_SCRIPTS): $(SOURCE_TARGETS)
 
-$(BUILT_MDB_MODULE): $(CONFIGURE_TARGETS)
-	(cd $(MDB_SOURCE_DIR) ; \
+$(MDB_BUILD_DIR): $(SOURCE_TARGETS) $(BUILD_DIR) $(LNDIR)
+	mkdir -p $(MDB_BUILD_DIR)
+	cd $(MDB_BUILD_DIR) && $(LNDIR) $(MDB_REL_SOURCE_DIR)
+
+$(BUILT_MDB_MODULE): $(CONFIGURE_TARGETS) $(MDB_BUILD_DIR)
+	(cd $(MDB_BUILD_DIR) && \
          $(MDB_BUILD_ENV) $(MAKE) $(MAKEFLAGS) $(DEFAULT_BUILD_MAKEFLAGS))
 
 $(PROTODIR)$(MDB_MODULE_DIR) $(PROTODIR)$(MDB_SCRIPT_DIR):

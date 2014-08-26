@@ -2,7 +2,7 @@
 #
 # DPS Makefile
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,10 @@ SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
+# Since the Makefiles in these subdirs haven't been updated to support VPATH
+# builds, just clone the whole source tree to the build tree for now.
+CLONE_SRC = yes
+
 # Library name (used for specfiles/mapfiles)
 LIBNAME=dps
 
@@ -49,8 +53,8 @@ LIBNAME=dps
 SUNTOUCHED_MANPAGES= # None
 MODULE_STABILITY=Obsolete
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to clone sources into build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make

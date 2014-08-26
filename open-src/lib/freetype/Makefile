@@ -89,39 +89,27 @@ MODULE_PREFIX_SET=yes
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS= \
 	--enable-biarch-config \
-	--libdir='$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)' \
 	--with-zlib \
 	--with-pic
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=builds/unix/freetype2.in
+install_pkgconfig_uninstalled:= FIX_PC_FILES=freetype2.in
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
-# Don't run normal configure/install rules - freetype is different
-CONFIGURE_TARGETS=$(SOURCE_DIR)/config.mk
-CONFIGURE_TARGETS_SET=yes
-INSTALL_TARGETS=install_freetype install_freetype_docs
-INSTALL_TARGETS_SET=yes
-
 # Environment variables to pass to configure & build steps
-MODULE_ENV = \
-    SHELL="/bin/bash" \
-    MAKESHELL="/bin/bash" \
-    CPP="$(CC) -E $(LIB_CFLAGS)" \
-    CXXCPP="$(CXX) -E $(CXXFLAGS)" \
-    MAKEFLAGS= \
-    MAKE=$(GNUMAKE) GNUMAKE=$(GNUMAKE) CFG="$(CONFIG_OPTS)"
+MODULE_CONFIG_ENV = GNUMAKE=$(GNUMAKE)
+MODULE_BUILD_ENV = $(MODULE_CONFIG_ENV)
+
+MODULE_ADD_INSTALL_TARGETS = install_freetype_docs install_freetype_links
 
 # Don't use -I paths to proto area, since freetype doesn't depend on
 # anything there, but can break if it finds old freetype headers during
 # an incremental rebuild.
 USE_DEFAULT_CONFIG_CPPFLAGS=no
-
-MODULE_CONFIG_ENV = $(MODULE_ENV)
-MODULE_BUILD_ENV = $(CONFIG_ENV)
 
 MODULE_INSTALL_MAKEFLAGS=bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 
@@ -134,35 +122,23 @@ include ../Makefile.inc
 
 ### Rules specific to this directory:
 
-# Run configure script (Freetype helpfully does this the first time you call
-# gmake - this isn't normal for autoconf programs)
-$(SOURCE_DIR)/config.mk: $(UNPACK_TARGET)
-	(cd $(SOURCE_DIR) ; \
-	chmod a+x builds/unix/configure builds/unix/mkinstalldirs builds/unix/install-sh ; \
-	$(CONFIG_ENV) $(GNUMAKE) )
-
-FT_bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
 FT_libdir=$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)
-FT_docdir=$(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
 
-# Have to override default_install since the -e causes our BUILD_DIR to
-# clash with the one in freetype's Makefiles
-install_freetype: $(BUILD_TARGETS)
-	mkdir -p $(PROTODIR)$(FT_bindir)
-	( cd $(SOURCE_DIR) ; \
-	  $(GNUMAKE) DESTDIR=$(PROTODIR) prefix=$(MODULE_PREFIX) libdir=$(FT_libdir) bindir=$(FT_bindir) install )
-	( cd $(PROTODIR)$(FT_libdir) ; \
-	  rm -f libfreetype.so ; ln -s libfreetype.so.6 libfreetype.so )
+install_freetype_links: $(PROTODIR)$(FT_libdir)/libfreetype.so
 
+$(PROTODIR)$(FT_libdir)/libfreetype.so: default_install
+	mkdir -p $(@D)
+	-rm -f $@
+	ln -s libfreetype.so.6 $@
 
-install_freetype_docs: $(PROTODIR)$(FT_docdir)/index.html
+install_freetype_docs: $(PROTODIR)$(MODULE_DOC_DIR)/index.html
 
-$(PROTODIR)$(FT_docdir)/index.html: $(BUILD_TARGETS)
-	-rm -rf $(PROTODIR)$(FT_docdir)
-	mkdir -p $(PROTODIR)$(FT_docdir)
-	( cd $(SOURCE_DIR) ; \
-	    cp -fp docs/reference/*.html $(PROTODIR)$(FT_docdir)/ )
-	cp -fp $(SOURCE_DIR)/docs/formats.txt $(PROTODIR)$(FT_docdir)/
-	cp -fp $(SOURCE_DIR)/docs/VERSION.DLL $(PROTODIR)$(FT_docdir)/
-	ln -sf ft2-toc.html $(PROTODIR)$(FT_docdir)/index.html
-
+$(PROTODIR)$(MODULE_DOC_DIR)/index.html: $(BUILD_TARGETS)
+	-rm -rf $(PROTODIR)$(MODULE_DOC_DIR)
+	mkdir -p $(PROTODIR)$(MODULE_DOC_DIR)
+	$(INSTALL_SCRIPT) -m 0444 \
+		$(SOURCE_DIR)/docs/reference/*.html \
+		$(SOURCE_DIR)/docs/formats.txt \
+		$(SOURCE_DIR)/docs/VERSION.DLL \
+		$(PROTODIR)$(MODULE_DOC_DIR)/
+	ln -sf ft2-toc.html $(PROTODIR)$(MODULE_DOC_DIR)/index.html

@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all X.Org drivers
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -71,13 +71,6 @@ MODTYPE_CPPFLAGS= $(PROG_CPPFLAGS) \
 	-I$(PROTODIR)$(X11_INCLUDES_DIR)/X11/dri
 
 MODTYPE_CFLAGS=$(PROG_CFLAGS)
-
-ASM_IL_DIR = $(PROTODIR)$(XORG_SDK_INCLUDES_DIR)
-MODTYPE_CFLAGS_suncc_i386_32 = $(ASM_IL_DIR)/solaris-ia32.il
-MODTYPE_CFLAGS_suncc_i386_64 = $(ASM_IL_DIR)/solaris-amd64.il
-MODTYPE_CFLAGS_suncc_sparc_32 = $(ASM_IL_DIR)/solaris-sparcv8plus.il
-MODTYPE_CFLAGS_suncc_sparc_64 = $(ASM_IL_DIR)/solaris-sparcv8plus.il
-MODTYPE_CFLAGS += $(MODTYPE_CFLAGS_$(MODULE_COMPILER)_$(MACH)_$(BUILD_TYPE))
 
 # Replaces @symbol_visibilty@ in xorg-server.pc, since that fails when
 # some drivers are compiled with a different compiler than the server

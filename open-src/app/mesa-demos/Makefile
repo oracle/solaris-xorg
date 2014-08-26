@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,7 +48,7 @@ SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/demos/$(MODULE_VERSION)/$(SOURCE_T
 SOURCE_URL_SET=yes
 
 # Binaries built in tree
-DEMOS_DIR=$(SOURCE_DIR)/src/xdemos
+DEMOS_DIR=$(BUILD_DIR)/src/xdemos
 GLXGEARS_BIN=$(DEMOS_DIR)/glxgears
 GLXINFO_BIN=$(DEMOS_DIR)/glxinfo
 

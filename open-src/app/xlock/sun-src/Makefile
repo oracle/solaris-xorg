@@ -2,7 +2,7 @@
 #
 # xlock Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ xlock: ${OBJS}
 
 pyro.o:=DEFINES=-DSTARSIZE=2
 
-install:
+install: xlock xlock.1 XLock.ad
 	$(INSTALL) -m 0555 xlock $(DESTDIR)$(bindir)/xlock
 	$(INSTALL) -m 0444 xlock.1 $(DESTDIR)$(mandir)/man1/xlock.1
 	$(INSTALL) -m 0444 XLock.ad $(DESTDIR)$(datadir)/X11/app-defaults/XLock

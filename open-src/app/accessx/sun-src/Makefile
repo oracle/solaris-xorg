@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,6 +29,9 @@ SRCS = \
 
 OBJS = $(SRCS:.c=.o)
 
+# Files to be translated
+L10N_FILES = accessx.hlp accessx.uid accessx.uil accessxstrings.uil
+
 all:: accessx.uid accessx
 
 accessx.uid: accessx.uil
@@ -38,11 +41,10 @@ accessx.uid: accessx.uil
 accessx: $(OBJS)
 	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) -lMrm -lXm -lXt -lX11 -lXext
 
-install: accessx
+install: accessx accessx.uid accessx.1 $(L10N_FILES)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
 	mkdir -p $(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx
 	$(INSTALL) -m 0555 accessx $(DESTDIR)$(PREFIX)/bin
 	$(INSTALL) -m 0444 accessx.1 $(DESTDIR)$(PREFIX)/share/man/man1
-	$(INSTALL) -m 0444 \
-		accessx.hlp accessx.uid accessx.uil accessxstrings.uil \
+	$(INSTALL) -m 0444 $(L10N_FILES) \
 		$(DESTDIR)$(PREFIX)/share/X11/locale/C/accessx/

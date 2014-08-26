@@ -53,11 +53,12 @@ SOURCE_TARBALL_NAME_SET=yes
 
 # Xorg server source tarball to use sources from
 XORG_TARBALL=$(TARBALLDIR)/xorg-server-$(XORGSERVER_VERS).tar.bz2
-XORG_SOURCE_DIR=$(BUILD_DIR)/xorg-server-$(XORGSERVER_VERS)
-XORG_BUILD_DIR=$(SOURCE_DIR)/unix/xserver
+XORG_SOURCE_DIR = $(SOURCE_DIR)/unix/xserver
+XORG_BUILD_DIR  = $(BUILD_DIR)/unix/xserver
 
 # Java VNCviewer applet for connecting from a web browser
-JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src/com/tigervnc/vncviewer
+JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/src/com/tigervnc
+JAVA_BUILD_DIR  = $(BUILD_DIR)/java/src/com/tigervnc
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
@@ -83,6 +84,9 @@ SOURCE_PATCHES += studio12.4-patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
+
+# TigerVNC 1.1 doesn't fully support out-of-tree builds, so clone the source
+CLONE_SRC = yes
 
 # Disable parfait build with 1.3 - 17759056
 USE_PARFAIT=no
@@ -153,8 +157,8 @@ include ../Makefile.inc
 # Merge in additional sources from Xorg tarball & sun-src directory
 # This step has to be done before default_source, so that patches applied
 # in that step work correctly.
-$(NO_RECURSE)XORG_SOURCE_INIT_TARGET = $(XORG_BUILD_DIR)/$(SOURCE_INIT_TARGET_FILE)
-$(NO_RECURSE)XORG_PATCHED_TARGET = $(XORG_BUILD_DIR)/$(PATCHED_TARGET_FILE)
+$(NO_RECURSE)XORG_SOURCE_INIT_TARGET = $(XORG_SOURCE_DIR)/$(SOURCE_INIT_TARGET_FILE)
+$(NO_RECURSE)XORG_PATCHED_TARGET = $(XORG_SOURCE_DIR)/$(PATCHED_TARGET_FILE)
 Xvnc_source_init: $(XORG_PATCHED_TARGET)
 
 $(XORG_TARBALL):
@@ -167,10 +171,9 @@ $(XORG_SOURCE_INIT_TARGET): $(XORG_TARBALL)
 		BUILD_TYPE="$(BUILD_TYPE)" \
 		SOURCE_TARBALL="$(XORG_TARBALL)" \
 		SOURCE_DEPS="$(XORG_TARBALL)" \
-		SOURCE_DIR="$(XORG_BUILD_DIR)" \
-		BUILD_DIR="$(XORG_BUILD_DIR)" \
-		ADD_TAR_FLAGS="--strip-components=1"
-	(cd $(XORG_BUILD_DIR) && $(LNDIR) ../../../../../xorg/sun-src)
+		SOURCE_DIR="$(XORG_SOURCE_DIR)" \
+		BUILD_DIR="$(XORG_BUILD_DIR)"
+	(cd $(XORG_SOURCE_DIR) && $(LNDIR) ../../../../xorg/sun-src)
 	touch $(XORG_SOURCE_INIT_TARGET)
 
 $(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
@@ -178,9 +181,10 @@ $(XORG_PATCHED_TARGET): $(XORG_SOURCE_INIT_TARGET)
 		NO_RECURSE="$(POUND_SIGN)" \
 		BUILD_TYPE="$(BUILD_TYPE)" \
 		SOURCE_PATCHES="$(XORG_SOURCE_PATCHES:%=../xorg/%)" \
-		SOURCE_DIR="$(XORG_BUILD_DIR)" \
+		SOURCE_DIR="$(XORG_SOURCE_DIR)" \
+		BUILD_DIR="$(XORG_BUILD_DIR)" \
 		XORG_BUILD_DIR="$(XORG_BUILD_DIR)"
-	(cd $(SOURCE_DIR) && $(LNDIR) ../../sun-src)
+	(cd $(SOURCE_DIR) && $(LNDIR) ../sun-src)
 	touch $(XORG_PATCHED_TARGET)
 
 # Command line options to GNU autoconf configure script for Xvnc
@@ -213,7 +217,7 @@ CFLAGS_gcc += -fPIC
 MODULE_MAKEFLAGS = PROTODIR=$(PROTODIR)
 
 # Run configure script for Xvnc
-$(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
+$(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS) $(BUILD_DIR)
 	(cd $(XORG_BUILD_DIR) &&  \
 		$(AUTORECONF_ENV) autoreconf --install --force && \
 		$(CONFIG_ENV) $(CONFIG_SHELL) ./configure $(XVNC_CONFIG_OPTS) )
@@ -221,7 +225,7 @@ $(XORG_BUILD_DIR)/Makefile: $(SOURCE_TARGETS)
 Xvnc_build: $(CONFIGURE_TARGETS)
 	$(PERL) -i -p -e 's{/usr/bin/env perl}{$(PERL)}' \
 		$(SOURCE_DIR)/unix/vncserver
-	$(DEFAULT_BUILD_COMMAND:@DIR@=$(SOURCE_DIR))
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(BUILD_DIR))
 	$(DEFAULT_BUILD_COMMAND:@DIR@=$(XORG_BUILD_DIR))
 
 Xvnc_install_server: $(BUILD_TARGETS)
@@ -230,11 +234,11 @@ Xvnc_install_server: $(BUILD_TARGETS)
 
 Xvnc_install_programs: $(BUILD_TARGETS)
 	mkdir -p $(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
-	$(INSTALL_SCRIPT) -m 0755 $(SOURCE_DIR)/unix/vncserver \
-		$(SOURCE_DIR)/unix/vncpasswd/vncpasswd \
-		$(SOURCE_DIR)/unix/vncconfig/vncconfig \
-		$(SOURCE_DIR)/unix/vncviewer/vncviewer \
-		$(SOURCE_DIR)/unix/x0vncserver/x0vncserver \
+	$(INSTALL_SCRIPT) -m 0755 $(BUILD_DIR)/unix/vncserver \
+		$(BUILD_DIR)/unix/vncpasswd/vncpasswd \
+		$(BUILD_DIR)/unix/vncconfig/vncconfig \
+		$(BUILD_DIR)/unix/vncviewer/vncviewer \
+		$(BUILD_DIR)/unix/x0vncserver/x0vncserver \
 		$(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
 
 Xvnc_install_data: $(SOURCE_TARGETS)
@@ -256,21 +260,21 @@ Xvnc_install_data: $(SOURCE_TARGETS)
 
 # Java VNCviewer applet for connecting from a web browser
 JAVA_INSTALL_DIR = $(PROTODIR)/usr/share/vnc/classes
-JAVA_JAR_FILE = $(JAVA_SOURCE_DIR)/VncViewer.jar
+JAVA_JAR_FILE = $(JAVA_BUILD_DIR)/vncviewer/VncViewer.jar
 
 java_build: $(JAVA_JAR_FILE)
 
-$(JAVA_JAR_FILE): $(SOURCE_TARGETS)
-	$(DEFAULT_BUILD_COMMAND:@DIR@=$(JAVA_SOURCE_DIR)/../decoder)
-	$(DEFAULT_BUILD_COMMAND:@DIR@=$(JAVA_SOURCE_DIR))
+$(JAVA_JAR_FILE): $(SOURCE_TARGETS) $(BUILD_DIR)
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(JAVA_BUILD_DIR)/decoder)
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(JAVA_BUILD_DIR)/vncviewer)
 
 java_install: $(JAVA_JAR_FILE)
 	-rm -rf $(JAVA_INSTALL_DIR)
 	mkdir -p $(JAVA_INSTALL_DIR)
-	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(JAVA_SOURCE_DIR)) \
+	$(DEFAULT_INSTALL_COMMAND:@DIR@=$(JAVA_BUILD_DIR)/vncviewer) \
 		install INSTALL_DIR=$(JAVA_INSTALL_DIR)
-	$(INSTALL_SCRIPT) -m 0444 $(JAVA_SOURCE_DIR)/README \
-		$(JAVA_SOURCE_DIR)/LICENCE.TXT \
+	$(INSTALL_SCRIPT) -m 0444 $(JAVA_SOURCE_DIR)/vncviewer/README \
+		$(JAVA_SOURCE_DIR)/vncviewer/LICENCE.TXT \
 		$(JAVA_INSTALL_DIR)
 	chmod a+x $(JAVA_INSTALL_DIR)/VncViewer.jar
 	rm -f $(JAVA_INSTALL_DIR)/*.class

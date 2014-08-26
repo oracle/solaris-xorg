@@ -2,7 +2,7 @@
 #
 # efb driver for Sun XVR-100 & XVR-300 boards (based on ATI Radeon)
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -87,7 +87,7 @@ MODULE_LD_OPTIONS= \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-msp3430_drv-external \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-tda9885_drv-external \
         -M $(XF86_VIDEO_ATI_SRC)/mapfile-uda1380_drv-external \
-	-M drv.mapfile
+	-M ../../$(SOURCE_DIR)/src/drv.mapfile
 
 include ../Makefile.inc
 
@@ -97,6 +97,6 @@ $(SOURCE_ADD_TARGET): $(CLEAN_LINEFEED_TARGET)
 $(PATCHED_TARGET): $(CLEAN_LINEFEED_TARGET)
 
 $(CLEAN_LINEFEED_TARGET): $(SOURCE_INIT_TARGET)
-	find $(BUILD_DIR) -type f -name '*.[ch]' | \
+	find $(SOURCE_DIR) -type f -name '*.[ch]' | \
 		xargs $(PERL) -i -p -e 's{\r\n}{\n}g'
 	touch $(CLEAN_LINEFEED_TARGET)

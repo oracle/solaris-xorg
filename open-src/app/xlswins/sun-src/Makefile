@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xlswins 1.x Makefile
+# xlswins Makefile
 #
-# Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,7 +30,7 @@ OBJS = xlswins.o
 xlswins: $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) -lX11
 
-install: xlswins
+install: xlswins xlswins.1
 	mkdir -p $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)/man1
 	$(INSTALL) -m 755 xlswins $(DESTDIR)$(bindir)/xlswins
 	$(INSTALL) -m 644 xlswins.1 \

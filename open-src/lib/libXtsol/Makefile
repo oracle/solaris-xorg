@@ -2,7 +2,7 @@
 #
 # libXtsol - client library for TSOL extension for Solaris Trusted Extensions 
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,13 +63,15 @@ MODULE_PKGNAME_SET=yes
 # LSARC/2004/109 - Trusted Solaris X Server Extension
 MODULE_ARC_CASES = LSARC/2004/109
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_BUILD_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_INSTALL_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+# and pass path to $(SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../$(SOURCE_DIR)
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 # Compatibility links from /usr/X11/lib to /usr/lib
 MODULE_X11_LIBCOMPAT_LINKS = libXtsol.so libXtsol.so.1
@@ -81,4 +83,4 @@ source_auditwrite: $(SOURCE_DIR)/auditwrite.c $(SOURCE_DIR)/auditwrite.h
 $(SOURCE_DIR)/auditwrite.c + $(SOURCE_DIR)/auditwrite.h:
 	mkdir -p $(SOURCE_DIR)
 	(cd $(SOURCE_DIR) ; \
-	 ln -s ../../../../xserver/xorg/sun-src/tsol/auditwrite.[ch] . )
+	 ln -s ../../../xserver/xorg/sun-src/tsol/auditwrite.[ch] . )

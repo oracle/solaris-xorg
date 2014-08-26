@@ -2,7 +2,7 @@ This is documentation of the Makefile system used in this tree.
 
 General Overview:
 -----------------
-This tree builds dozens of open source modules that are each released 
+This tree builds hundreds of open source modules that are each released
 separately and delivered as source in separate tarballs.   These modules
 are organized in subdirectories based on the X.Org module list, though
 modules from other sources are included as appropriate.   For instance,
@@ -12,28 +12,32 @@ library is in open-src/lib/fontconfig.
 In this tree, the term "module" is used for a specific set of source built
 generally from a single tarball from upstream, such as xterm or fontconfig.
 The directories grouping these together are referred to as "module type"
-directories - app, lib, font, etc.   Each module is thus found in a 
+directories - app, lib, font, etc.   Each module is thus found in a
 subdirectory of the form open-src/<module type>/<module> .   Various flags
 can be set at either the individual module level or for all modules of a
 module type.
 
-For each module, at build time the tarball is unpacked, patches applied for
-post-release bug fixes or customizations, and then the build is run.
+For each module, at build time the tarball is unpacked to a directory named
+"unpacked-src", patches applied for post-release bug fixes or customizations,
+and then the build is run.  Since those subdirectories can be competely
+recreated from the source tarball and patches, rebuilding the tree or running
+"make clobber" simply removes them entirely and recreates them.
 
 To allow building both 32-bit and 64-bit versions in the same build,
-and building both sparc and x86 versions in the same tree, this all 
-happens in subdirectories named build-amd64, build-i386, build-sparc,
-and build-sparcv9 in each modules' directory.   Since those subdirectories
-are competely recreatable from the source tarball and patches, rebuilding the
-tree or running make clean simply removes them entirely and recreates them.
+and building both sparc and x86 versions in the same tree, the objects are
+then built in subdirectories named build-amd64, build-i386, build-sparc,
+and build-sparcv9 in each modules' directory.   "make clean" or "make clobber"
+simply removes these build directories entirely, and lets the next build
+recreate them as needed.
+
 Note that some modules, especially the fonts, use different build-* patterns
-for the variants they build, and thus trying to have both sparc & x86 
+for the variants they build, and thus trying to have both sparc & x86
 platforms building in the same directory at the same time will likely fail
 as they stomp on each other in those directories.  Running one build then
 the other should work.
 
 You should be able to run make commands in any module directory or
-module-type directory, though since most of the intermodule dependencies 
+module-type directory, though since most of the intermodule dependencies
 are not declared, many modules will break unless you've done a full-tree
 build at some point to populate the proto area with the bits needed.
 
@@ -45,21 +49,25 @@ Make targets you can build in each module:
 
 For most of these you can append _32 or _64 to do just the 32-bit or 64-bit
 versions of the targets, while the version listed here repeats for all build
-types set in the BUILD_TYPES variable.    These are defined in the 
+types set in the BUILD_TYPES variable.    These are defined in the
 open-src/common/Makefile.inc file, though open-src/<module type>/Makefile.inc
 may add additional rules needed for modules of that type.
 
 make clean
-	Completely removes build_* directories.
+	Completely removes build-* directories.
+
+make clobber
+	Completely removes build-* & unpacked-src directories.
 
 make source
-	Creates build_* directories by unpacking sources from tarball
+	Creates unpacked-src directories by unpacking sources from tarball
 	and applying patches.
 
 make configure
 	Runs GNU autoconf script or similar configuration steps if
 	needed, including autoreconf or delibtoolize if variables are set.
-	(Runs make source first if needed.)
+	(Runs make source first if needed, and creates build-* directory
+	 if needed.)
 
 make build
 	Compile the software into the binaries that get installed.
@@ -74,13 +82,13 @@ make all (or just "make" with no arguments)
 	equivalent to make build for most modules
 
 make debug
-	same as make all, but with compiler optimization flags changed 
-	to "-g".  (Note that if you haven't done a make clean first, 
-	doesn't force a recompile, so running make debug in a directory 
+	same as make all, but with compiler optimization flags changed
+	to "-g".  (Note that if you haven't done a make clean first,
+	doesn't force a recompile, so running make debug in a directory
 	you already built non-debug may not actually build debug versions.)
 
 make debug-install
-	same as make install, but with compiler optimization flags changed 
+	same as make install, but with compiler optimization flags changed
 	to "-g".  (See warning on make debug about doing a make clean first.)
 
 make download
@@ -98,7 +106,7 @@ make git-update
 	See "Building from git" section below.
 
 make manifest
-	Run the make install rules with DESTDIR set to a temporary directory, 
+	Run the make install rules with DESTDIR set to a temporary directory,
 	and then generate a pkg manifest in pkg/manifests/$(MODULE_PKGNAME).mf
 	that includes all the installed files.   If a manifest already exists
 	there, this merges changes with the existing manifest so that you can
@@ -120,8 +128,11 @@ make all
 make clean
 	Run make clean in all subdirectories.
 
+make clobber
+	Run make clobber in all subdirectories.
+
 make World
-	Run make clean in all subdirectories, then make all in all subdirs.
+	Run make clobber in all subdirectories, then make all in all subdirs.
 
 make install
 	Run make install in all subdirectories.
@@ -154,12 +165,11 @@ MODULE_NAME
 
 MODULE_VERSION
  - Version of the source to use, used by default in the tarball name and
-   source directory unpacked from it.   Also exported to the package 
+   source directory unpacked from it.   Also exported to the package
    attributes as __version:$(MODULE_NAME)__ for use in package manifests.
-   - Special values:  
+   - Special values:
 	"git" - see "Building from git" below
-        "src" - used when there is no upstream tarball, only local sources
-	"NONE" - used when no build_* directories are created
+	"src" - used when there is no upstream tarball, only local sources
 
 Required for some modules:
 
@@ -183,11 +193,15 @@ SOURCE_PATCHES
    to specify flags to be passed to gpatch.   The flags argument
    is most commonly used to specify -p1 to ignore the a/ & b/ path
    prefixes in git-generated patch files - if no flags are specified,
-   -p0 is passed to treat paths as relative to the top of $(BUILD_DIR).
+   -p0 is passed to treat paths as relative to the top of $(SOURCE_DIR).
 
 ADDITIONAL_SOURCE_DIR
  - Directory containing additional source files to be linked into the
-   build directory by the default_source rule.
+   source directory by the default_source rule.
+
+CLONE_SRC
+ - If set to "yes", causes the build directory creation to make links for
+   all the files in the source directory into each build directory.
 
 SUNTOUCHED_MANPAGES
  - Man pages to add Solaris attributes section and other common Solaris
@@ -209,10 +223,10 @@ MODULE_ARC_CASES
 
 MODULE_DESC
  - description of the module to be used in license notices or package metadata
-   It should be short, specific, concise text, identifying the technology 
-   covered by the associated license(s).  It should fit naturally in the 
-   sentence "This package may contain XXX."  For example, "XXX" might be 
-   "the xset command" or "bzip2 compression software."  When appropriate, 
+   It should be short, specific, concise text, identifying the technology
+   covered by the associated license(s).  It should fit naturally in the
+   sentence "This package may contain XXX."  For example, "XXX" might be
+   "the xset command" or "bzip2 compression software."  When appropriate,
    this may begin with "portions of" or another, more specific qualifying
    clause.
 
@@ -238,20 +252,21 @@ FIX_PC_FILES
    "fixed" to add required -R flags for linking libraries with and remove
    unnecessary Requires.privates lines from.
 
-MODULE_SOURCE_DEPS, MODULE_CONFIGURE_DEPS, 
+MODULE_SOURCE_DEPS, MODULE_CONFIGURE_DEPS,
 MODULE_BUILD_DEPS, MODULE_INSTALL_DEPS
  - Makefile targets/rules that the default_* rules list as dependencies
 
-MODULE_ADD_SOURCE_TARGETS, MODULE_ADD_CONFIGURE_TARGETS, 
+MODULE_ADD_SOURCE_TARGETS, MODULE_ADD_CONFIGURE_TARGETS,
 MODULE_ADD_BUILD_TARGETS, MODULE_ADD_INSTALL_TARGETS
  - Additional targets/rules run by "make source", "make configure", etc.
-   in addition to default_* if *_TARGETS is not overridden.
+   in addition to default_* if *_TARGETS is not overridden.  Run for each
+   build type.
 
 MODULE_CONFIG_OPTS
  - Additional arguments passed to configure script by default_config rule
 
 MODULE_CONFIG_ENV
- - Additional environment variables passed to configure script 
+ - Additional environment variables passed to configure script
    by default_config rule
 
 MODULE_CFLAGS
@@ -263,7 +278,7 @@ MODULE_CXXFLAGS
    default_config rule.
 
 MODULE_CPPFLAGS
- - C preprocessor flags (-I & -D) passed to configure via CPPFLAGS 
+ - C preprocessor flags (-I & -D) passed to configure via CPPFLAGS
    variable by default_config rule.
 
 MODULE_DEBUG_FLAGS
@@ -290,9 +305,9 @@ USE_DEFAULT_CONFIG_ENV
    MODTYPE_CONFIG_ENG will still be passed.
 
 AUTORECONF
- - If set to "yes", the default_config rule will run autoreconf before
-   running configure, to regenerate autoconf/automake/libtool created
-   files after patches have been applied to the *.ac/*.am/*.in source files.
+ - If set to "yes", the default_source rule will run autoreconf in the source
+   directory, to regenerate autoconf/automake/libtool created files after
+   patches have been applied to the *.ac/*.am/*.in source files.
 
 DELIBTOOLIZE
  - If set to "yes", the default_config rule will run the script
@@ -324,7 +339,7 @@ MODULE_X11_BINCOMPAT_LINKS
 MODULE_X11_LIBCOMPAT_LINKS
  - For binaries previously delivered in /usr/X11/bin or libraries previously
    delivered in /usr/X11/lib (or their /usr/openwin predecessors), set these
-   to the basenames of files to link from each of those directories to 
+   to the basenames of files to link from each of those directories to
    /usr/lib & /usr/bin.   For libraries, be sure to include both the .so and
    the .so.* names, if both are still delivered.
 
@@ -338,7 +353,7 @@ Optional, with non-empty default:
 	SOURCE_URL_SET=yes
 
 MODULE_PKGNAME
- - IPS/pkg(5) package name that this module is shipped in.  Used in 
+ - IPS/pkg(5) package name that this module is shipped in.  Used in
    attributes section of man page, when generating manifests, and for
    delivering license and other metadata from the build to the package.
    Default: $(MODTYPE_PKGHIER)/$(MODULE_NAME), translated to lowercase
@@ -362,12 +377,12 @@ UPSTREAM_URL
    Default: http://www.x.org/
 
 MODULE_COMPILER
- - Compiler to use, either "suncc" or "gcc".   
-   Default: $(DEFAULT_COMPILER) setting in common/Makefile.init, 
+ - Compiler to use, either "suncc" or "gcc".
+   Default: $(DEFAULT_COMPILER) setting in common/Makefile.init,
    which is set to suncc in the master sources.
 
 MODULE_MAKE
- - make command to use, either "$(MAKE)" or "$(GNUMAKE)".   
+ - make command to use, either "$(MAKE)" or "$(GNUMAKE)".
    Default: "$(MAKE)" (which is assumed to be Solaris make, not GNU).
 
 MODULE_PREFIX
@@ -400,14 +415,14 @@ SOURCE_URL
    Default: $(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 
 GIT_URL
- - URL to check out the current sources via the git code manager if 
+ - URL to check out the current sources via the git code manager if
    MODULE_VERSION is set to "git" - see "Building from git" below
    Default: $(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME).git
 
 BUILD_TYPES
  - What type of output to build for this module - usually the word-size of
    the binaries built (32 and/or 64), but may be set to any string if other
-   distinctions are useful.   For most modules that don't build binaries, 
+   distinctions are useful.   For most modules that don't build binaries,
    (fonts, proto headers, docs, etc.) it's set to 32 for simplicity.
    For each value xx in this list, a build_xx directory will be made and
    the source_xx, configure_xx, build_xx and install_xx rules run.
@@ -417,7 +432,7 @@ SOURCE_TARGETS, CONFIGURE_TARGETS, BUILD_TARGETS, INSTALL_TARGETS
  - Makefile targets/rules to run for "make source", "make configure",
    "make build", and "make install"
    Defaults: default_source, default_configure, default_build, default_install
-   The *_TARGETS may be appended to by setting the MODTYPE_ADD_*_TARGETS 
+   The *_TARGETS may be appended to by setting the MODTYPE_ADD_*_TARGETS
    and/or MODULE_ADD_*_TARGETS variables.
 
 AUTOCONF_TARGET
@@ -436,7 +451,7 @@ LICENSE_FILE
 
 MODULE_LICENSE
  - Name of the license.   See the "license" attribute in pkg(5) for details.
-   Must be unique for each license aggregated into a package, so if two 
+   Must be unique for each license aggregated into a package, so if two
    upstream modules with different license texts are delivered into the
    same package, they cannot both have the license name "MIT License", which
    is why our default string includes the package name to disambiguate.
@@ -459,7 +474,7 @@ Variables that can be set in the Makefile.inc for each module type:
 -------------------------------------------------------------------
 
 Some settings are common to most, if not all of the modules of a given
-type.   For those, these variables can be set in 
+type.   For those, these variables can be set in
 open-src/<module_type>/Makefile.inc - they have the same meanings and uses
 as the MODULE_* versions documented above, and appear in commands before
 the MODULE_* versions - the general pattern is
@@ -468,7 +483,7 @@ the MODULE_* versions - the general pattern is
 Required for all module types:
 
 MODTYPE
- - Name of the directory for this module type, usually the same as the 
+ - Name of the directory for this module type, usually the same as the
    directory for the module type in X.Org's source trees.
 
 Optional, default is empty:
@@ -513,7 +528,7 @@ Setting per-platform variables:
 open-src/common/Makefile.init defines $MACH to be either sparc or i386
 for the platform being built.   You can reference this variable in the
 names of other variables to set different values for each platform.
-For instance, to build only 64-bit on SPARC, but both 32-bit and 64-bit 
+For instance, to build only 64-bit on SPARC, but both 32-bit and 64-bit
 on x86/x64, you can do:
 
 	BUILD_TYPES_sparc=64
@@ -588,7 +603,7 @@ Optional, with non-empty default:
   Makefile.inc is included to prevent the default from being set.
 
 LICENSE_CHOICE
-- For modules with MODULE_LICENSE="Oracle", this controls which license 
+- For modules with MODULE_LICENSE="Oracle", this controls which license
   terms are published in the package.  This must be set to "Oracle" for
   builds done for Oracle Solaris.   If not set, it defaults to "open",
   which is the value that all others must use, unless they have obtained
@@ -601,7 +616,7 @@ XORG_RELEASES_URL & SF_DOWNLOADS_URL
 
 FDO_GIT_URL & XORG_GIT_URL
 - url for git repositories hosted on freedesktop.org, including
-  X.Org, Mesa, pixman, etc.  - defaults to anonymous git over http, can 
+  X.Org, Mesa, pixman, etc.  - defaults to anonymous git over http, can
   change to use another protocol if needed
 
 =============================================================================
@@ -613,7 +628,7 @@ directory of the tree.
 
 find-build-errors - looks for a log/buildit-XW file (or another file you
 	specify on the command line) and tries to isolate out just the
-	build errors for easier reading than the raw build logs.   
+	build errors for easier reading than the raw build logs.
 	If you did buildit -p, also shows packaging errors.
 
 xmake - when you change one file in a large module like xserver and just
@@ -631,7 +646,7 @@ xmake - when you change one file in a large module like xserver and just
 Building from git:
 
 For debugging and development purposes, such as working on the merge of
-a X.org release still in development, you can choose to  to check out a 
+a X.org release still in development, you can choose to  to check out a
 the upstream sources from a the git repository instead of a tarball.
 
 You must *NOT* check in to the master gate a module using this feature,
@@ -669,7 +684,7 @@ Things we should fix someday, but haven't had time to do yet, include:
 
 =============================================================================
 
-Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

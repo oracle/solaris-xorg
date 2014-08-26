@@ -57,17 +57,19 @@ BUILD_TYPES=32
 SUNTOUCHED_MANPAGES= accessx.1
 MODULE_STABILITY=Committed
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Override timestamps embedded in uil output files
 TIME_CONSTANT = 1272503297
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_CONFIG_ENV = PREFIX=$(MODULE_PREFIX) $(CONSTANT_TIME)
-MODULE_BUILD_MAKEFLAGS	= $(CONFIG_ENV)
-MODULE_INSTALL_MAKEFLAGS= $(CONFIG_ENV)
+# and pass path to $(SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../$(SOURCE_DIR)
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_CONFIG_ENV = $(CONSTANT_TIME)
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = accessx

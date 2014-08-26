@@ -25,7 +25,8 @@ MODULES=Xserver.so
 MDB_MODULE_DIR=/usr/lib/mdb/proc/$(ARCHLIBSUBDIR)
 
 CFLAGS += -K pic -g
-CPPFLAGS += -I ../../../../include -I ../../../.. -I ../../../../Xext
+CPPFLAGS += -I $(top_srcdir)/include -I $(top_srcdir) -I $(top_srcdir)/Xext
+CPPFLAGS += -I $(top_builddir)/include
 LDFLAGS += -Wl,-z,direct -Wl,-z,text -M mapfile -lc
 LDFLAGS += -Wl,-z,parent=/usr/bin$(ARCHLIBSUBDIR)/mdb
 

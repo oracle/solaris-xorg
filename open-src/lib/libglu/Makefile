@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,20 +48,11 @@ MODULE_VERSION=9.0.0
 TARBALL_MD5  = be9249132ff49275461cf92039083030
 TARBALL_SHA1 = c2814bbaf1e60e28a75ec80f4646047c0da742bd
 
-# Source tarball
-SOURCE_TARBALL_NAME=glu-$(MODULE_VERSION).tar.bz2
-SOURCE_TARBALL_NAME_SET=yes
-
 # Download site for source
 SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/glu/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 GIT_URL=$(FDO_GIT_URL)/mesa/glu
 GIT_URL_SET=yes
-
-# Directory created by unpacking source
-SOURCE_DIRNAME=glu-$(MODULE_VERSION)
-SOURCE_DIRNAME_SET=yes
-SOURCE_DIR = $(BUILD_DIR)/$(SOURCE_DIRNAME)
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

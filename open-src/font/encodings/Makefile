@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,10 @@ TARBALL_SHA1 = 24ace2470403f85a0d393769204029bd8247992a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
+
+# Clone sources into build dir, since mkfontdir can't build encodings in
+# other directories very well.
+CLONE_SRC = yes
 
 # Extra configure flags
 MODULE_CONFIG_OPTS=--disable-gzip-small-encodings \

@@ -37,6 +37,7 @@ TARBALL_SHA256= 2aa027e837231d2eeea90f3a4afe19948a6eb4c8b2bec0241eba7dbc8106bd16
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 	man-tbl-markup.patch,-p1 \
+	lintlib.patch,-p1 \
 	1234757.patch,-p1 \
 	4010755.patch,-p1 \
 	4614834.patch,-p1 \

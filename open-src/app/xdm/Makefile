@@ -107,13 +107,14 @@ XDM_ETC_CONFIGDIR=/etc/X11/xdm
 XDM_USR_CONFIGDIR=/usr/lib/X11/xdm
 XCF_USR_FILES=$(XDM_CONFIG_FILES:%=$(PROTODIR)/$(XDM_USR_CONFIGDIR)/%)
 XCF_ETC_SRCDIR=$(SOURCE_DIR)/config
-XCF_ETC_SRCFILES=$(XDM_CONFIG_FILES:%=$(XCF_ETC_SRCDIR)/%)
-XCF_USR_SRCDIR=$(SOURCE_DIR)/config/annotated
-XCF_USR_SRCFILES=$(XDM_CONFIG_FILES:%=$(XCF_USR_SRCDIR)/%)
+XCF_ETC_BLDDIR=$(BUILD_DIR)/config
+XCF_ETC_BLDFILES=$(XDM_CONFIG_FILES:%=$(XCF_ETC_BLDDIR)/%)
+XCF_USR_BLDDIR=$(BUILD_DIR)/config/annotated
+XCF_USR_BLDFILES=$(XDM_CONFIG_FILES:%=$(XCF_USR_BLDDIR)/%)
 
 build_xdm_configs: $(XCF_USR_SRCFILES)
 install_xdm_configs: $(XCF_USR_FILES) $(PROTODIR)/$(XDM_USR_CONFIGDIR)/README
-$(XCF_ETC_SRCFILES): default_build
+$(XCF_ETC_BLDFILES): default_build
 
 XCF_HEADER = %1$$s----------------------------------------------------------------------------
 XCF_HEADER += \n%1$$s NOTE: The file provided in $(XDM_USR_CONFIGDIR) is a sample %2$$s
@@ -124,20 +125,25 @@ XCF_HEADER += \n%1$$s (unless configured otherwise by $(XDM_ETC_CONFIGDIR)/xdm-c
 XCF_HEADER += \n%1$$s  a file specified via the -config command line option).
 XCF_HEADER += \n%1$$s----------------------------------------------------------------------------\n
 
-$(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_SRCDIR):
+$(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_BLDDIR):
 	mkdir -p $@
 
-$(XCF_USR_FILES): $(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_SRCFILES)
+$(XCF_USR_FILES): $(PROTODIR)/$(XDM_USR_CONFIGDIR) $(XCF_USR_BLDFILES)
 	-rm -f $@
 	mkdir -p $(PROTODIR)/$(XDM_USR_CONFIGDIR)
-	cp -p $(XCF_USR_SRCDIR)/$(@F) $@
+	cp -p $(XCF_USR_BLDDIR)/$(@F) $@
 
-$(XCF_USR_SRCFILES): $(XCF_USR_SRCDIR) $(XCF_ETC_SRCFILES)
+$(XCF_USR_BLDFILES): $(XCF_USR_BLDDIR) $(XCF_ETC_BLDFILES)
 	-rm -f $@
 	FILENAME=$(@F) ; \
-	COMMENT_CHAR=$$(head -n 1 $(XCF_ETC_SRCDIR)/$${FILENAME}) ; \
+	if [[ -f $(XCF_ETC_BLDDIR)/$${FILENAME} ]] ; then \
+	    ORIGFILE="$(XCF_ETC_BLDDIR)/$${FILENAME}" ; \
+	else \
+	    ORIGFILE="$(XCF_ETC_SRCDIR)/$${FILENAME}" ; \
+	fi ; \
+	COMMENT_CHAR=$$(head -n 1 $${ORIGFILE}) ; \
 	printf '$(XCF_HEADER)' $${COMMENT_CHAR} $${FILENAME} > $@ ; \
-	cat $(XCF_ETC_SRCDIR)/$${FILENAME} >> $@
+	cat $${ORIGFILE} >> $@
 
 $(PROTODIR)/$(XDM_USR_CONFIGDIR)/README:$(PROTODIR)/$(XDM_USR_CONFIGDIR)  config-README.txt
 	cp -p config-README.txt $@

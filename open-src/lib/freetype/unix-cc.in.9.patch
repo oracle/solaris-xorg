@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,7 +20,8 @@
 # DEALINGS IN THE SOFTWARE.
 
 Call compiler directly to build & link, avoiding libtool, so we can pass
-the compiler & linker flags we want.
+the compiler & linker flags we want, since delibtoolize.pl doesn't work
+with freetype's unique Makefile/*.mk structure.
 
 diff --git a/builds/unix/unix-cc.in b/builds/unix/unix-cc.in
 index b84bc5d..d6c19bc 100644
@@ -68,6 +69,6 @@ index b84bc5d..d6c19bc 100644
 -                          # -export-symbols $(EXPORTS_LIST)
 +LINK_LIBRARY = $(CCraw) -G @CFLAGS@ -o $@ $(OBJECTS_LIST) \
 +                          -R $(libdir) -h $(@F) -mc \
-+                          $(LDFLAGS)
++                          $(LDFLAGS) -z defs
  
  # EOF

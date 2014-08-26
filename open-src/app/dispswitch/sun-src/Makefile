@@ -1,4 +1,4 @@
-# Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,7 +32,7 @@ LIBS = $(PKG_LIBS:sh)
 dispswitch: $(OBJS)
 	$(LD) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBS)
 
-install: dispswitch
+install: dispswitch dispswitch.man gnome-dispswitch.desktop
 	mkdir -p $(DESTDIR)$(PREFIX)/bin \
 		 $(DESTDIR)$(PREFIX)/share/man/man1 \
 		 $(DESTDIR)/etc/xdg/autostart

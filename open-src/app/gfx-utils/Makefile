@@ -2,7 +2,7 @@
 #
 # SPARC graphics utilities modules (fbconfig & VTS) Makefile
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,6 +50,10 @@ SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
 ADDITIONAL_SOURCE_DIR=sun-src
 
+# Since the Makefiles in these subdirs haven't been updated to support VPATH
+# builds, just clone the whole source tree to the build tree for now.
+CLONE_SRC = yes
+
 # Haven't made sure it's 64-bit clean yet, so continue building 32-bit for now
 BUILD_TYPES_SET=yes
 BUILD_TYPES=32
@@ -58,14 +62,13 @@ BUILD_TYPES=32
 SUNTOUCHED_MANPAGES= # None
 MODULE_STABILITY=Committed
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to clone sources into build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_CONFIG_ENV	= LIB_LDFLAGS="$(LIB_LDFLAGS)"
-MODULE_BUILD_MAKEFLAGS	= $(CONFIG_ENV)
-MODULE_INSTALL_MAKEFLAGS= $(CONFIG_ENV)
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
+MODULE_CONFIG_ENV = LIB_LDFLAGS="$(LIB_LDFLAGS)"
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)

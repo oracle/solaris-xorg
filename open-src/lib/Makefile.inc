@@ -77,7 +77,9 @@ MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 MODTYPE_INSTALL_MAKEFLAGS = \
 	libdir=$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
 
-# Need to fix libtool interference with our linker flags
-DELIBTOOLIZE=yes
+# Need to fix libtool interference with our linker flags, unless module overrides
+DELIBTOOLIZE_1 =	$(DELIBTOOLIZE:no=$(POUND_SIGN))
+DELIBTOOLIZE_2 =	$(DELIBTOOLIZE_1:yes=$(POUND_SIGN))
+$(DELIBTOOLIZE_2)	DELIBTOOLIZE=yes
 
 include $(TOP)/open-src/common/Makefile.inc

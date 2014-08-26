@@ -50,11 +50,15 @@ ADDITIONAL_SOURCE_DIR=sun-src
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
-# No configure script, so pass usual environment to build/install instead
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
-MODULE_BUILD_ENV=$(CONFIG_ENV)
+# Since we don't have a configure script, pass configure flags to make
+# and pass path to $(SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../$(SOURCE_DIR)
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS = bindir=$(X11_BIN_DIR) mandir=$(X11_MAN_DIR)
 
 # Allow linker to skip linking to libm if compiler inlined all math functions

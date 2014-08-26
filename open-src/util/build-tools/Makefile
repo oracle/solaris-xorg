@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,9 @@ MODULE_NAME		= build-tools
 MODULE_VERSION 		= src
 SOURCE_TARBALL_NAME	= NONE
 SOURCE_TARBALL_NAME_SET	= yes
-ACTUAL_SOURCE_DIR	= ../../sun-src
+SOURCE_TARGETS 		=
+SOURCE_TARGETS_SET	= yes
+ACTUAL_SOURCE_DIR	= ../sun-src
 
 # Package metadata
 MODULE_DESC = custom tools used for building Solaris X11 consolidation
@@ -37,8 +39,8 @@ MODULE_LICENSE_SET = yes
 # Earliest & latest of the copyrights in the Oracle files in this pkg
 ORACLE_COPYRIGHT_YEARS = 2008, 2012
 
-# No configure script to run
-CONFIGURE_TARGETS	=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS	= $(BUILD_DIR)
 CONFIGURE_TARGETS_SET	= yes
 
 # Build both 32-bit & 64-bit versions
@@ -48,7 +50,7 @@ BUILD_TYPES_SET		= yes
 # Since we don't have a configure script, pass configure flags to make
 MODULE_CONFIG_ENV	= MACH="$(MACH$(BUILD_TYPE))" DESTDIR="$(TOOLS_DIR)"
 MODULE_CONFIG_ENV      += srcdir="$(ACTUAL_SOURCE_DIR)"
-MODULE_BUILD_MAKEFLAGS	= $(CONFIG_ENV) -f "$(ACTUAL_SOURCE_DIR)/Makefile"
-MODULE_INSTALL_MAKEFLAGS= $(MODULE_BUILD_MAKEFLAGS)
+MODULE_MAKEFLAGS	= $(CONFIG_ENV) -f "$(ACTUAL_SOURCE_DIR)/Makefile"
+MODULE_MAKEFLAGS       += VPATH="$(ACTUAL_SOURCE_DIR)"
 
 include ../Makefile.inc

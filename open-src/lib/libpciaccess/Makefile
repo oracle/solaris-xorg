@@ -95,9 +95,9 @@ install_scanpci: default_install
 	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin \
 		 $(PROTODIR)/etc/security/exec_attr.d/ \
 		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
-	$(INSTALL_SCRIPT) -m 755 $(SOURCE_DIR)/scanpci/scanpci \
+	$(INSTALL_SCRIPT) -m 755 $(BUILD_DIR)/scanpci/scanpci \
 		$(PROTODIR)$(MODULE_PREFIX)/bin/scanpci
-	$(INSTALL_SCRIPT) -m 444 $(SOURCE_DIR)/man/scanpci.1 \
+	$(INSTALL_SCRIPT) -m 444 $(BUILD_DIR)/man/scanpci.1 \
 		$(PROTODIR)$(MODULE_PREFIX)/share/man/man1/scanpci.1
 	$(INSTALL_SCRIPT) -m 444 exec_attr \
 		$(PROTODIR)/etc/security/exec_attr.d/scanpci

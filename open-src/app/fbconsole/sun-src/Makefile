@@ -2,7 +2,7 @@
 #
 # fbconsole Makefile
 #
-# Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 fbconsole: $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) -lX11
 
-install:
+install: fbconsole
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	$(INSTALL) -m 755 fbconsole $(DESTDIR)$(PREFIX)/bin/fbconsole
 

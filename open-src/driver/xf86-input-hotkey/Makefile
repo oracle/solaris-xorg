@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,21 +33,25 @@ MODULE_LICENSE_SET = yes
 # Earliest & latest of the copyrights in the Oracle files in this pkg
 ORACLE_COPYRIGHT_YEARS = 2009, 2010
 
-# Version number (used in path names)
+# No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
+SOURCE_TARGETS =
+SOURCE_TARGETS_SET=yes
 
-# No configure script to run
-CONFIGURE_TARGETS=
+# No configure script to run, but need to make build dirs
+CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 MODULE_STABILITY=Volatile
 
 # Since we don't have a configure script, pass configure flags to make
-MODULE_MAKEFLAGS=$(CONFIG_ENV) PREFIX=$(MODULE_PREFIX) \
-	MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR)
+# and pass path to $(REL_SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../sun-src
+MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
+MODULE_MAKEFLAGS += MODULEDIR=/lib$(X11_SERVERMODS_SUBDIR)
+MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
 include ../Makefile.inc
 

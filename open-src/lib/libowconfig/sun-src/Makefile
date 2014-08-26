@@ -2,7 +2,7 @@
 #
 # libowconfig Makefile
 #
-# Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -55,7 +55,7 @@ libowconfig.so.0: $(OBJS)
 
 INCDIR = $(X11_INCLUDES_DIR)/X11
 
-install: libowconfig.so.0
+install: libowconfig.so.0 Sunowconfig.h
 	mkdir -p $(DESTDIR)$(libdir) $(DESTDIR)$(INCDIR)
 	$(INSTALL) libowconfig.so.0 $(DESTDIR)$(libdir)/libowconfig.so.0
 	@rm -f $(DESTDIR)$(libdir)/libowconfig.so

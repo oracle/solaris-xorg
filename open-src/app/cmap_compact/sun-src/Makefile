@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,7 +35,7 @@ OBJS = $(SRCS:.c=.o)
 cmap_compact: $(OBJS)
 	$(LD) -g -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) -lX11
 
-install: cmap_compact
+install: cmap_compact cmap_compact.1
 	mkdir -p $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/man/man1
 	$(INSTALL) -m 0555 cmap_compact $(DESTDIR)$(PREFIX)/bin
 	$(INSTALL) -m 0444 cmap_compact.1 $(DESTDIR)$(PREFIX)/share/man/man1
