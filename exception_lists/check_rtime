@@ -87,6 +87,11 @@ ERRNO		^usr/lib/libXaw\.so\.4$
 # not during the build process.
 NOELFSIGN	.*
 
+# check_rtime tests for the DT_SUNW_NXHEAP dynamic entry, as defined by
+# PSARC/2014/247 Non-executable stack and heap security extensions - 19229055
+# provide a blanket exemption for now
+EXEC_HEAP       .*
+
 ## Things we might be able to fix eventually, but not today:
 #
 # libXinerama only uses libc for malloc() - when linked with synergyc &
