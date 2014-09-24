@@ -23,10 +23,10 @@
 HEADERSPublic = Xtsol.h Xtsolproto.h
 HEADERSPublic_dir = $(PREFIX)/include/X11/extensions
 
-SRCS = Xtsol.c auditwrite.c
+SRCS = Xtsol.c
 OBJS = $(SRCS:.c=.o)
 
-REQUIREDLIBS = -lX11 -lbsm -ltsol -lc
+REQUIREDLIBS = -lX11 -ltsol -lc
 
 XLIB_CFLAGS:sh = pkg-config --cflags x11
 

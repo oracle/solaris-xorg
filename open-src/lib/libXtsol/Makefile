@@ -38,14 +38,14 @@ MODULE_LICENSE_SET = yes
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 2004, 2007
+ORACLE_COPYRIGHT_YEARS = 2004, 2014
 
 # No upstream sources, only local sources
 MODULE_VERSION=src
 SOURCE_TARBALL_NAME=NONE
 SOURCE_TARBALL_NAME_SET=yes
-ADDITIONAL_SOURCE_DIR=sun-src
-MODULE_ADD_SOURCE_TARGETS=source_auditwrite
+SOURCE_TARGETS =
+SOURCE_TARGETS_SET=yes
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xtsol
@@ -68,8 +68,8 @@ CONFIGURE_TARGETS = $(BUILD_DIR)
 CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
-# and pass path to $(SOURCE_DIR) for makefiles & source files
-REL_SOURCE_DIR = ../$(SOURCE_DIR)
+# and pass path to $(REL_SOURCE_DIR) for makefiles & source files
+REL_SOURCE_DIR = ../sun-src
 MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
 MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 
@@ -77,10 +77,3 @@ MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_X11_LIBCOMPAT_LINKS = libXtsol.so libXtsol.so.1
 
 include ../Makefile.inc
-
-source_auditwrite: $(SOURCE_DIR)/auditwrite.c $(SOURCE_DIR)/auditwrite.h
-
-$(SOURCE_DIR)/auditwrite.c + $(SOURCE_DIR)/auditwrite.h:
-	mkdir -p $(SOURCE_DIR)
-	(cd $(SOURCE_DIR) ; \
-	 ln -s ../../../xserver/xorg/sun-src/tsol/auditwrite.[ch] . )
