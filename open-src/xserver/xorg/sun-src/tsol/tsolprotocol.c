@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -822,8 +822,7 @@ TsolAuditStart)
     Bool audit_event = FALSE;
     TsolInfoPtr tsolinfo = (TsolInfoPtr)NULL;
     tsolinfo = GetClientTsolInfo(client);
-    if (system_audit_on &&
-	(tsolinfo->amask.am_success || tsolinfo->amask.am_failure)) {
+    if (tsolinfo->amask.am_success || tsolinfo->amask.am_failure) {
 
 	do_x_audit = TRUE;
         auditwrite(AW_PRESELECT, &(tsolinfo->amask), AW_END);

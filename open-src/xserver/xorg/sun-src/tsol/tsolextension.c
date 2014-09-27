@@ -399,8 +399,8 @@ CALLBACK(TsolClientStateCallback)
 			priv_freeset(tsolinfo->privs);
 		}
 		/* Audit disconnect */
-		if (system_audit_on && (au_preselect(AUE_ClientDisconnect, &(tsolinfo->amask),
-                              AU_PRS_BOTH, AU_PRS_USECACHE) == 1)) {
+		if (au_preselect(AUE_ClientDisconnect, &(tsolinfo->amask),
+				 AU_PRS_BOTH, AU_PRS_USECACHE) == 1) {
 			auditwrite(AW_PRESELECT, &(tsolinfo->amask),AW_END);
 			auditwrite(AW_EVENTNUM, AUE_ClientDisconnect,
                                AW_XCLIENT, client->index,
@@ -1850,9 +1850,8 @@ TsolCheckAuthorization(unsigned int name_length, char *name,
 		audit_val = 0;
 	}
 
-	if (system_audit_on &&
-		(au_preselect(AUE_ClientConnect, &(tsolinfo->amask),
-                      AU_PRS_BOTH, AU_PRS_USECACHE) == 1)) {
+	if (au_preselect(AUE_ClientConnect, &(tsolinfo->amask),
+			 AU_PRS_BOTH, AU_PRS_USECACHE) == 1) {
 		int status;
 		ushort_t connect_port = 0;
 		struct in_addr *connect_addr = NULL;

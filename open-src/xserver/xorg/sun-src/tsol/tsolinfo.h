@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -337,7 +337,6 @@ extern  int PolyProperty(Atom atom, WindowPtr pWin);
 extern  int PolySelection(Atom atom);
 extern  TsolPolyInstInfoRec tsolpolyinstinfo;
 extern  uid_t OwnerUID;                 /* Workstation owner uid */
-extern Bool system_audit_on;
 
 /*********************************
  *

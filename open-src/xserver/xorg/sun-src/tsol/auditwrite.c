@@ -387,8 +387,6 @@ extern	void adt_get_auid(const adt_session_data_t *, au_id_t *);
 extern	void adt_get_mask(const adt_session_data_t *, au_mask_t *);
 extern	void adt_get_termid(const adt_session_data_t *, au_tid_addr_t *);
 
-extern int	cannot_audit(int);
-
 /*
  * a w _ g e t _ a r g s ( )
  *
@@ -431,10 +429,6 @@ auditwrite(int param, ...)
 	int get_rd;		/* rd to pass back */
 	register int i;		/* counter */
 	int retval;		/* return value */
-
-	/* Is auditing even enabled?  If not, just exit */
-	if (cannot_audit(0) == 1)
-		AW_GEN_ERR(AW_ERR_AUDITON_FAIL);
 
 	/* Grab the lock */
 	(void) mutex_lock(&mutex_auditwrite);
