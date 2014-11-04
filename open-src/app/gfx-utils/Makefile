@@ -54,10 +54,6 @@ ADDITIONAL_SOURCE_DIR=sun-src
 # builds, just clone the whole source tree to the build tree for now.
 CLONE_SRC = yes
 
-# Haven't made sure it's 64-bit clean yet, so continue building 32-bit for now
-BUILD_TYPES_SET=yes
-BUILD_TYPES=32
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
 MODULE_STABILITY=Committed
@@ -68,7 +64,7 @@ CONFIGURE_TARGETS_SET=yes
 
 # Since we don't have a configure script, pass configure flags to make
 MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_CONFIG_ENV = LIB_LDFLAGS="$(LIB_LDFLAGS)"
+MODULE_CONFIG_ENV = LIB_LDFLAGS="$(LIB_LDFLAGS) $(ARCH_FLAGS)"
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
