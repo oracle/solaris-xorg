@@ -153,6 +153,7 @@ MODULE_LD_OPTIONS = $(MAPFILES_FOR_ALL)
 
 # Pass linker mapfile listing symbols that modules can count on resolving
 # from the Xorg binary itself
+XORG_EXTERNS_FILE = mapfile-Xorg-externs.$(MACH)
 XORG_EXTERNS_FLAG = -Wl,-M,$(PWD)/$(XORG_EXTERNS_FILE)
 MODULE_BUILD_ENV = XORG_EXTERNS_FLAG='$(XORG_EXTERNS_FLAG)'
 MODULE_LD_SHARED_OPTIONS += -M $(PWD)/$(XORG_EXTERNS_FILE)

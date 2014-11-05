@@ -199,10 +199,6 @@ XVNC_CONFIG_OPTS += --without-int10 --disable-config-hal --disable-dga
 # The X server unit tests currently depend on the Xorg ddx being built
 XVNC_CONFIG_OPTS += --disable-unit-tests
 
-# Include -lc as workaround for bug 17815318 so libm can actually go away
-# if -xlibmil manages to inline all math functions.
-MODULE_LDFLAGS += -lc -lm
-
 MODULE_CPPFLAGS = \
 	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
 	-D__extension__=\"\" \

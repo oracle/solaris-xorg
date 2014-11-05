@@ -207,25 +207,43 @@ MAPFILE_NOEXBSS		= -M /usr/lib/ld/map.noexbss
 MAPFILE_NOEXDATA_sparc	= $(MAPFILE_NOEXBSS)
 MAPFILE_NOEXDATA_i386	= -M /usr/lib/ld/map.noexdata
 MAPFILE_NOEXDATA	= $(MAPFILE_NOEXDATA_$(MACH))
-MAPFILE_NOEXSTACK	= -M /usr/lib/ld/map.noexstk
 MAPFILE_PAGEALIGN	= -M /usr/lib/ld/map.pagealign
 MAPFILE_HEAPALIGN	= -M /usr/lib/ld/map.bssalign
 
 MAPFILES_FOR_ALL   	= $(MAPFILE_PAGEALIGN) $(MAPFILE_NOEXDATA)
-MAPFILES_FOR_PROGS 	= $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXSTACK)
-MAPFILES_FOR_PROGS     += $(MAPFILE_NOEXBSS)
+MAPFILES_FOR_PROGS 	= $(MAPFILE_HEAPALIGN) $(MAPFILE_NOEXBSS)
 
-XORG_EXTERNS_FILE 	= mapfile-Xorg-externs.$(MACH)
+# Security Extensions file tagging.
+#
+# Security Extensions  can be explicitly controlled at the binary level via
+# tagging. Binaries built with -z <extension>=enable will have the extension
+# enabled in the 'tagged-files' model, while binaries built with
+# -z <extension>=disable will have it disabled regardless of the model.
+#
+# Currently supported extensions are:
+#  -z aslr      Address Space Layout Randomization
+#  -z nxstack   Non-executable Stack
+#  -z nxheap    Non-executable Heap
+#
+# -z aslr|nxstack|nxheap are only valid when linking executables.
+
+ZASLR_ENABLE=		-z aslr=enable
+ZASLR_DISABLE=		-z aslr=disable
+ZASLR=			$(ZASLR_ENABLE)
+
+ZNXSTACK_ENABLE=	-z nxstack=enable
+ZNXSTACK_DISABLE=	-z nxstack=disable
+ZNXSTACK=		$(ZNXSTACK_ENABLE)
+
+ZNXHEAP_ENABLE=		-z nxheap=enable
+ZNXHEAP_DISABLE=	-z nxheap=disable
+ZNXHEAP=		$(ZNXHEAP_ENABLE)
 
 # Flags to discard at link time unnecessary dependencies, .o files or
 # ELF sections that upstream may have included that we don't use.
 ZDISCARD_UNUSED_DEP	= -zdiscard-unused=dependencies
 ZDISCARD_UNUSED_FIL	= -zdiscard-unused=files
 ZDISCARD_UNUSED_SEC	= -zdiscard-unused=sections
-
-# Include -lc as workaround for bug 17815318 so libm can actually go away
-# if -xlibmil manages to inline all math functions.
-ZDISCARD_UNUSED_DEP    += -lc
 
 # Common flags for all binaries
 DEFAULT_LD_OPTIONS	= -z lazyload -B direct -z guidance
@@ -244,7 +262,7 @@ DEFAULT_LD_OPTIONS     += $(DEFAULT_LD_OPTIONS_$(MODULE_COMPILER))
 DEFAULT_LD_SHARED_OPTIONS = -z text -z defs
 
 # Ensure we do ASLR tagging & mark stacks/heaps non-executable on programs
-DEFAULT_LD_EXEC_OPTIONS	= -z aslr=enable $(MAPFILES_FOR_PROGS)
+DEFAULT_LD_EXEC_OPTIONS	= $(ZASLR) $(ZNXHEAP) $(ZNXSTACK) $(MAPFILES_FOR_PROGS)
 
 ## Commonly added options
 
