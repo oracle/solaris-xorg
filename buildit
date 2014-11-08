@@ -45,15 +45,17 @@ function fatal_error
 }
 
 MAKE_PKGS=0
+MAKE_SRC_RELEASE=0	# generate sources for Solaris FOSS release process
 VERBOSE_FLAGS=""	# verbosity flag passed to xmake/make_release_packages
 PUBLISHER_FLAGS=""
 
-while getopts pP:v i; do
+while getopts pP:sv i; do
     case $i in
 	p) MAKE_PKGS=1 ;;
+	s) MAKE_SRC_RELEASE=1 ;;
 	v) VERBOSE_FLAGS="-v" ;;
 	P) PUBLISHER_FLAGS="-p $OPTARG" ;;
-	?) print -u2 "USAGE: $0 [-p [-P publisher]] [-v]"; exit 2 ;;
+	?) print -u2 "USAGE: $0 [-p [-P publisher]] [-s] [-v]"; exit 2 ;;
     esac
 done
 
@@ -109,7 +111,7 @@ for tool in parfait ${GCC} gmake autoconf automake libtool ; do
     ${tool} --version | head -1
 done
 
-# Exported to stop Sun compilers from reporting home on each usage
+# Exported to stop Studio compilers from reporting home on each usage
 export SUNW_NO_UPDATE_NOTIFY='true'
 export UT_NO_USAGE_TRACKING='1'
 
@@ -123,10 +125,22 @@ MACH="$(uname -p)"
 /bin/rm -rf "proto/root_${MACH}" "proto/metadata_${MACH}" \
     "proto/pkg_${MACH}" "proto/tools_${MACH}"
 
-cd open-src
-# Run as two steps to avoid race between cleaning & rebuilding when
-# using parallel make
 ${XMAKE} clobber
+
+# Generate source release while tree is in clean state, but ensure we have all
+# the required tarballs for both platforms, (and no extras/old ones) first.
+if [ "${MAKE_SRC_RELEASE}" = 1 ] ; then
+    rm -rf open-src/tarballs
+    mkdir -p open-src/tarballs
+    for darch in i386 sparc ; do
+	(cd open-src ; \
+	  ${XMAKE} download MACH="${darch}" ADD_PASSDOWN_VARS="MACH=${darch}")
+    done
+    rm -f proto/x.zip BUILD_INSTRUCTIONS.txt pkglist.txt
+    ${XMAKE} proto/x.zip
+fi
+
+cd open-src
 ${XMAKE} install
 ${XMAKE} check_rtime > ../log/check-rtime 2>&1 &
 cd ..
@@ -137,7 +151,8 @@ if [[ "${USE_PARFAIT}" == "yes" ]] ; then
     /bin/rm -rf log/parfait
     parfait -e all -c open-src/common/X-parfait.conf -z "$(pwd)" \
         -j "${DMAKE_MAX_JOBS:-100%}" -r "${XBUILD_HG_ID}" \
-        -o log/parfait.txt -g log/parfait open-src > log/parfait.out 2>&1 &
+        -o log/parfait.txt -g log/parfait ${X_ADD_PARFAIT_FLAGS} \
+        open-src > log/parfait.out 2>&1 &
 fi
 
 # Set DISTRO_NAME based on open-src/common/Makefile.options

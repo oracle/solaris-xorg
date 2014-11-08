@@ -43,6 +43,8 @@ open-src/tarballs
 # Skip other files built during the build
 ^open-src/common/Makefile.options$
 ^open-src/data/smf-rbac/x11-server.xml$
+^pkglist.txt$
+^BUILD_INSTRUCTIONS.txt$
 # Skip emacs/patch backup files
 .*\~$
 # Skip xref files

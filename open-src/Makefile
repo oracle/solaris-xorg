@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -102,3 +102,22 @@ check: check_rtime
 # linker flags
 check_rtime:
 	check_rtime -e ../exception_lists/check_rtime -d $(PROTODIR) $(PROTODIR)
+
+# This is generated here instead of in $(TOP)/Makefile so that it has access
+# to the variables defined in Makefile.init like $(GCC)
+include $(TOP)/open-src/common/Makefile.init
+
+$(TOP)/BUILD_INSTRUCTIONS.txt: $(TOP)/BUILD_INSTRUCTIONS
+	-rm -f $(@)
+	cp $(TOP)/BUILD_INSTRUCTIONS $(@)
+	printf '\nThe software in this package was built using:\n\n' >> $(@)
+	(for tool in cc CC fbe lint ; do \
+	    $${tool} -V 2>&1 | head -1 ; \
+	done) >> $(@)
+	dmake -v >> $(@)
+	(for tool in ${GCC} gmake autoconf automake libtool ${PERL} ${PYTHON} hg ; do \
+	    printf "%s: " "$$(whence $${tool})" ; \
+	    $${tool} --version | head -1 ; \
+	done) >> $(@)
+	printf '\non a machine installed with:\n\n' >> $(@) 
+	pkg list '*-incorporation' >> $(@)

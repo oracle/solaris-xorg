@@ -366,11 +366,13 @@ PROTOTOOLSDIR=$(PROTODIR)
 LNDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/lndir
 
 # Commands to run font utilities from proto area
-MKFONTDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontdir
 MKFONTSCALE=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontscale
 INSTALLALIAS=$(PROTOTOOLSDIR)$(X11_X11LIB_DIR)/installalias
 FC_QUERY=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-query
 FC_SCAN=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-scan
+# mkfontdir is just a shell wrapper around /usr/bin/mkfontscale, so we call
+# it directly here, instead of futzing with command paths in the script
+MKFONTDIR=$(MKFONTSCALE) -b -s -l
 
 # Script fragment to start echoing commands in shell sequences in make rules
 # Sets PS4 to "" so output isn't prepended with "+ " and looks like normal

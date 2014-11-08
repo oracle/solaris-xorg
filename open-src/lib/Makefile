@@ -90,7 +90,7 @@ libXxf86vm: libX11 libXext
 libxkbfile: libX11
 mesa: libdrm libX11 libXext libXdamage libXfixes libXxf86vm
 libglu: mesa
-freeglut: mesa
+freeglut: mesa libglu
 
 # pixman doesn't need these itself, but its test framework uses gtk,
 # which does depend on these

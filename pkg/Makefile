@@ -122,11 +122,8 @@ $(PDIR)/%.p5m: legacy/%.p5m
 $(PDIR)/%.p5m: %.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
 
-PMANIFESTS = $(MANIFESTS:%=$(PDIR)/%)
-SMANIFESTS = $(SYNTH_MANIFESTS:%=$(PDIR)/%)
-EMANIFESTS = $(EXCEPTION_MANIFESTS:%=$(PDIR)/%)
-
-ALL_MANIFESTS = $(PMANIFESTS) $(SMANIFESTS) $(EMANIFESTS)
+ALL_MANIFEST_SRCS = $(MANIFESTS) $(SYNTH_MANIFESTS) $(EXCEPTION_MANIFESTS)
+ALL_MANIFESTS = $(ALL_MANIFEST_SRCS:%=$(PDIR)/%)
 manifests: $(ALL_MANIFESTS)
 $(ALL_MANIFESTS): $(PDIR)
 
@@ -150,10 +147,13 @@ FONT_ATTRS = $(FONT_MANIFESTS:%.p5m=$(PDIR)/%.attr)
 
 $(FONT_ATTRS): $(FONT_METADATA)
 
+FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(LIBSUBDIR_64):$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR_64):$(PROTODIR)/usr/lib$(LIBSUBDIR_64)
+
 $(PDIR)/%.font: $(PDIR)/%.p5m
 	@print "## Generating font metadata in $(@F)"
 	$(PKGDEBUG)$(RM) $(@)
-	$(PKGDEBUG)$(PERL) generate_font_metadata.pl \
+	$(PKGDEBUG)LD_LIBRARY_PATH=$(FONT_LIBS_PATH) \
+		$(PERL) generate_font_metadata.pl \
 		-p $(PROTODIR) -m $< > $@ || ( rm $@ ; exit 1 )
 
 ### Manifest mogrification
@@ -218,6 +218,9 @@ PKGMOG_DEFINES += PYTHON_PKG_VERSION=$(PYTHON_PKG_VERSION_CMD:sh)
 AUTOMAKE_PKG_VERSION_CMD = print $(AUTOMAKE_VERSION) | tr -d '.'
 PKGMOG_DEFINES += AUTOMAKE_PKG_VERSION=$(AUTOMAKE_PKG_VERSION_CMD:sh)
 
+# gcc version needed for build dependencies
+GCC_PKG_VERSION_CMD = print $(GCC_VERSION) | tr -d '.'
+PKGMOG_DEFINES += GCC_PKG_VERSION=$(GCC_PKG_VERSION_CMD:sh)
 
 PROC_PKGS = $(PKGS:%=$(PDIR)/%.mog)
 PROC_CURRENT_PKGS = $(CURRENT_MANIFESTS:%.p5m=$(PDIR)/%.mog)
@@ -257,6 +260,14 @@ $(PDIR)/%.mog: $(PDIR)/%.p5m $(PDIR)/%.attr
 		$(@:%.mog=%.p5m) $(@:%.mog=%.attr) \
 		$(PM_TRANSFORMS) $(EXTRA_TRANSFORMS)
 	$(PKGDEBUG)$(TOUCH) $(@)
+
+# List of all packages we build, used in open source code release zip files
+$(TOP)/pkglist.txt:
+	@print "## Generating pkglist.txt"
+	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
+		$(PKGMOG_DEFINES:%=-D %) -O /dev/null \
+		-I manifests -I legacy $(ALL_MANIFEST_SRCS) extract_names \
+		| LC_ALL=C sort -u > $(@)
 
 ### Dependency detection
 
@@ -472,6 +483,8 @@ all: $(PROC_PKGS) $(PROC_SYNTH_PKGS) $(DEP_PKGS) $(DEP_SYNTH_PKGS) \
 clean:
 	-$(RM) -r $(PDIR)
 
+clobber: clean clean-repo
+
 .PARALLEL: $(PKGS) $(PROC_PKGS) $(DEP_PKGS) \
 	$(PROC_SYNTH_PKGS) $(DEP_SYNTH_PKGS) $(PUB_PKGS)
 
@@ -504,9 +517,6 @@ check: protocmp pmodes lint check-pkgfmt
 # Instead of fixing all the upstream packages to follow our permission rules
 # just fix the proto area to match our rules
 
-# Uses xargs instead of -exec chmod a-w \{\} \+ as a temporary workaround
-# for Solaris find bug 17962619 until all build machines are running s12_39
-
 fix_perms: 
 	@print "## Fixing proto area permissions"
-	$(PKGDEBUG)find $(PKGROOT) -type f | xargs chmod a-w
+	$(PKGDEBUG)find $(PKGROOT) -type f -exec chmod a-w \{\} \+

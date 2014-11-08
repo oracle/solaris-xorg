@@ -40,10 +40,11 @@ set name=org.opensolaris.noincorp value=true
 # pkgmogrify filter when making the list for pkgdepend resolve -e to use.
 #############################################################################
 
-# Builds need to be able to uncompress upstream tar.bz2 & tar.gz files
+# Builds need to be able to uncompress upstream .bz2, .gz, & .xz files
 depend type=require fmri=pkg:/compress/bzip2 \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/compress/gzip
+depend type=require fmri=pkg:/compress/xz
 
 # X.Org ships many docs using the DocBook XML DTD's and stylesheets
 depend type=require fmri=pkg:/data/docbook/docbook-style-dsssl
@@ -74,6 +75,9 @@ depend type=require fmri=pkg:/developer/build/make
 # The X gate borrows some ON scripts to build, such as validate_pkg
 depend type=require fmri=pkg:/developer/build/onbld
 
+# Many packages use pkg-config to find information about their dependencies
+depend type=require fmri=pkg:/developer/build/pkg-config
+
 # Xserver build includes mdb modules
 depend type=require fmri=pkg:/developer/debug/mdb
 
@@ -82,20 +86,17 @@ depend type=require fmri=pkg:/developer/documentation-tool/asciidoc
 depend type=require fmri=pkg:/developer/documentation-tool/openjade
 depend type=require fmri=pkg:/developer/documentation-tool/opensp
 
-# Some modules use gcc to build
-depend type=require fmri=pkg:/developer/gcc-47
+# Some modules use gcc to build (look for MODULE_COMPILER=gcc in Makefiles)
+depend type=require fmri=pkg:/developer/gcc-$(GCC_PKG_VERSION)
 
-# For now, this is the package that delivers pkg-config (Defect #15543)
-depend type=require fmri=pkg:/developer/gnome/gettext
-
-# Some packages need GNU indent to build
+# Mesa needs GNU indent to build
 depend type=require fmri=pkg:/developer/gnu-indent
 
 # xcb-util needs gperf to generate hash functions
 depend type=require fmri=pkg:/developer/gperf
 
 # tigervnc builds a java applet with javac
-depend type=require fmri=pkg:/developer/java/jdk
+depend type=require fmri=pkg:/developer/java/jdk-8
 
 # Various modules need flex to generate lexers
 depend type=require fmri=pkg:/developer/lexer/flex
@@ -192,8 +193,6 @@ depend type=require fmri=pkg:/system/library \
 depend type=require fmri=pkg:/system/library/c++-runtime \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/flex-runtime
-depend type=require fmri=pkg:/system/library/gcc-45-runtime \
-    org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/gcc/gcc-c++-runtime \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/gcc/gcc-c-runtime \

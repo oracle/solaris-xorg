@@ -2,7 +2,7 @@
 #
 # FreeGLUT 2.6.0 Makefile
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,6 +72,9 @@ MODULE_CONFIG_OPTS += --x-libraries=/usr/lib$(ARCHLIBSUBDIR)
 
 #  FreeGLUT really wants to know that we are POSIX friendly
 MODULE_CPPFLAGS = -D__posix__ -D__unix__
+
+# Need to find libdrm in protodir at build time, since libGL links to it
+MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # ignore some unneeded dependencies that upstream includes:
 #   unreferenced object=libXext.so.0; unused dependency of libglut.so.3.9.0

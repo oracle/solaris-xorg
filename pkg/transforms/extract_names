@@ -1,6 +1,5 @@
-# X build options for OpenSolaris sources
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,21 +20,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#
-###############################################################################
-#
 
-# These defaults should be sufficient for people building OpenSolaris
-# sources for their own use.   Distro makers will probably want to copy
-# this file or the oracle.com file to customize/brand for their distro.
-
-# Local mirror/archive of tarballs used to build - default: none
-# TARBALL_ARCHIVE = http://...
-# TARBALL_ARCHIVE_SET=yes
-
-# OS/Distro name for use in documentation
-DISTRO_NAME = OpenSolaris
-
-# Xserver configuration options for vendor name & support URL
-VENDOR_NAME = OpenSolaris, based on X.Org Foundation sources
-VENDOR_SUPPORT_URL = http://solaris-x11.java.net/
+# Print short name, without version or pkg:/ prefix, for each package
+<transform pkg pkg.fmri=(pkg:/)?([^@]*) -> print %<2>>

@@ -1,7 +1,7 @@
 #! /usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -71,7 +71,9 @@ foreach my $fd (keys %fontdirs) {
   my %xlfds = ();
 
   if (! -f $protometafile) {
-      run_cmd("$proto_dir/usr/bin/mkfontdir", $protofontpath);
+      # mkfontscale -b -s -l is equivalent to mkfontdir
+      run_cmd("$proto_dir/usr/bin/mkfontscale", "-b", "-s", "-l",
+	      $protofontpath);
   }
 
   open my $XFILE, '<', $protometafile

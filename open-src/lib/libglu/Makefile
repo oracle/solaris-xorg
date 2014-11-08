@@ -57,9 +57,6 @@ GIT_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=
 
-# Regenerate Makefile.in's from Makefile.am's after applying glu-exports.patch
-AUTORECONF=yes
-
 # Use -KPIC instead of -Kpic because we have too many symbols on SPARC
 DELIBTOOLIZE_FLAGS_sparc = -P
 DELIBTOOLIZE_FLAGS_i386 = 
@@ -68,8 +65,8 @@ DELIBTOOLIZE_FLAGS = $(DELIBTOOLIZE_FLAGS_$(MACH))
 # pkg-config files to update
 FIX_PC_FILES=glu.pc.in
 
-# Build mesa with this define (Bug 15706016)
-MODULE_CFLAGS = -D__EXTENSIONS__
+# Need to find libdrm in protodir at build time, since libGL links to it
+MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 # Override LDFLAGS passed to configure to not include CFLAGS, since that
 # breaks building libGLU with Sun Studio C++ compiler
@@ -82,10 +79,6 @@ MODULE_CONFIG_ENV += $(MODULE_BUILD_ENV)
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
-
-# Need to use GNU indent
-MODULE_INDENT=$(GNUINDENT)
-MODULE_INDENT_SET=yes
 
 # Need to build with gcc
 MODULE_COMPILER=gcc

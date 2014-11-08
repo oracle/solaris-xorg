@@ -1,0 +1,112 @@
+Solaris X Window System Consolidation Build Instructions
+--------------------------------------------------------
+
+Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+____________________________________________________________________________
+
+== Build requirements & preparation ==
+
+To build X, you need to set up a machine with the correct build environment:
+ - A machine running a recent build of the target version of Solaris,
+   with the IPS package developer/opensolaris/X installed. This meta-package
+   ensures all the other packages in Solaris which are needed to build X are
+   installed.
+ - The current Solaris Common Build Environment (CBE) version of the
+   Oracle Solaris Studio C & C++ compilers & associated tools.
+   These must be found first for cc/CC/etc. in $PATH when you build, and
+   must include at least these packages (or their equivalents):
+        developer/solarisstudio-123/backend
+        developer/solarisstudio-123/c++
+        developer/solarisstudio-123/cc
+        developer/solarisstudio-123/dmake
+        developer/solarisstudio-123/library/c++-libs
+
+There are several options that may be configured when building this software,
+such as whether to use tools & servers internal to Oracle's network or not.
+Before you build the software for the first time, you will need to ensure
+these options are correctly set for you - see the section titled
+"Setting builder/distro variables" in open-src/README for a list of these
+settings and instructions to configure open-src/common/Makefile.options.
+
+== Building the software ==
+
+To build the software, simply cd into the top level directory and run
+
+ ./buildit
+
+To build the software and create packages, add the -p flag to buildit:
+
+ ./buildit -p
+
+Output of various stages is stored into log files which you can check for
+errors with the included open-src/util/build-tools/find-build-errors script:
+
+build step      files under log/ directory in build tree
+----------      ----------------------------------------
+Software build  buildit-XW, check-rtime
+IPS packaging   make-pkgs, check-pkgs
+
+The built binaries are found after the build in a proto area:
+
+SPARC           proto/root_sparc/
+x86/x64         proto/root_i386/
+
+The file open-src/README has further details on the build system and
+directory organizaiton of this software repository.
+
+== Installing IPS packages ==
+
+The built packages will be found in a repository in the directory
+proto/pkg_sparc or proto/pkg_i386 as appropriate.
+
+Builds made by individual developers default to using the publisher
+name "xnv-devel" but that can be overridden via flags to the buildit or
+make_release_packages scripts.  They will depend on the versions of
+packages from other consolidations that were installed on the system
+they built them on.
+
+The recommended mechanism for installing any of these builds is the onu
+tool provided by ON. You can install the pkg:/developer/build/onbld package
+to get a local copy installed as /opt/onbld/bin/onu .
+
+onu will create a new boot environment and install the packages there - you
+will then need to reboot into that BE to use them. Since none of the X
+packages have the reboot required flag, it is possible to use pkg to install
+them to the live BE, but then you have more work to do if you need to switch
+back to the previous versions.
+
+Note that onu uses pkg image-update, which means there are two important
+things to remember:
+
+1) It will upgrade all of your packages and not just the X packages.
+2) It will normally only upgrade the X packages you already have installed
+   on the system, though it will leave the BE mounted so that you can add
+   other packages via pkg -R /tmp/onu.* install package-name.
+
+To install all the packages provided by the X consolidation for the build
+in your BE, you can install the group package pkg:/consolidation/X/X-all .
+
+Example: Install to a new BE named "X14" that is cloned from the current BE:
+
+ # onu -O -u file://`pwd`/proto/pkgs_i386 -U xnv-devel -t X14
+
+____________________________________________________________________________

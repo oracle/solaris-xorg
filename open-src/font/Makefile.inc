@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org font modules
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -96,7 +96,7 @@ MODTYPE_LD_OPTIONS=
 
 # Paths to find mkfontscale, fc-cache & the libraries they need in build area
 FONT_UTILS_PATH=$(PROTODIR)$(X11_DIR)/bin:$(PROTODIR)/usr/bin
-FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR):$(PROTODIR)$(X11_DIR)/lib:$(PROTODIR)/usr/lib
+FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(LIBSUBDIR_64):$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR_64):$(PROTODIR)/usr/lib$(LIBSUBDIR_64)
 
 # Additional environment variable options to GNU autoconf configure script
 MODTYPE_CONFIG_ENV = PATH="$(FONT_UTILS_PATH):$$PATH" \
