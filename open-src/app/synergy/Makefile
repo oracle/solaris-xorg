@@ -2,7 +2,7 @@
 #
 # synergy application to share input devices across computers
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -81,7 +81,7 @@ BUILD_TYPES_SET=yes
 BUILD_TYPES=32
 
 MODULE_CXXFLAGS = -library=no%Cstd -library=Crun
-MODULE_CXXFLAGS += -m32 $(OPTIM) -xspace
+MODULE_CXXFLAGS += -m32 $(OPTIM) -xspace -template=extdef
 MODULE_CXXFLAGS += -features=except,rtti,export,extensions,nestedaccess,tmplife,tmplrefstatic
 MODULE_CXXFLAGS += -instances=global -template=geninlinefuncs -verbose=template
 MODULE_CXXFLAGS += -xlang=c99 -xbuiltin=%none
