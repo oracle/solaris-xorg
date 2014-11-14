@@ -2,7 +2,7 @@
 #
 # xman - manual page browser
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,7 @@ TARBALL_SHA256= 405211b606a7fa420029897f099dc107791bb4c29bc88481c6efac9c4590bb1a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6708109.patch,-p1
+SOURCE_PATCHES += groff.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/xman.man

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,3 +31,5 @@ file path=usr/share/locale/C/LC_MESSAGES/xman.po
 file path=usr/share/man/man1/xman.1
 # Xman app-defaults uses fonts including courier, symbol, helvetica, lucida
 depend type=require fmri=pkg:/system/font/xorg/xorg-core
+# Xman uses groff utilities to process man pages in nroff format
+depend type=require fmri=pkg:/text/groff/groff-core
