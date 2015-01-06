@@ -2,7 +2,7 @@
 #
 # libXmu - miscellaneous utility functions based on libX11 & libXt
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -60,6 +60,9 @@ XMUU_PKGNAME=$(MODULE_PKGNAME:libxmu=libxmuu)
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
+
+# sun-src/src/VisGamma.c requires libX11 private headers for _Xcms functions
+MODULE_CPPFLAGS += -I $(TOOLS_DIR)$(X11_INCLUDES_DIR)/X11/xcms
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xmu.pc.in xmuu.pc.in

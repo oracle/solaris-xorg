@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -28,107 +28,12 @@
 #include <X11/Xatom.h>
 #include <X11/Xcms.h>
 #include <X11/Xmu/XmuSolaris.h>
-
-/* from X11/Xcmsint.h */
-#define XDCCC_CORRECT_ATOM_NAME            "XDCCC_LINEAR_RGB_CORRECTION"
+#include "Xcmsint.h"
+#include "Cv.h"
 
 #define XSOLARIS_STD_GAMMA	2.22
 
 #define MAX_SAMPLES            	16
-
-
-/*
-** The following two routines are taken from libX11/XcmsProp.c.
-*/
-
-/*
- *	NAME
- *		getElement -- get an element value from the property passed
- *
- *	SYNOPSIS
- */
-static unsigned long
-getElement (int format, char **pValue, unsigned long *pCount) 
-/*
- *	DESCRIPTION
- *	    Get the next element from the property and return it.
- *	    Also increment the pointer the amount needed.
- *
- *	Returns
- *	    unsigned long
- */
-{
-    unsigned long value;
-
-    switch (format) {
-      case 32:
-	value = *((unsigned long *)(*pValue));
-	*pValue += 4;
-	*pCount -= 1;
-	break;
-      case 16:
-	value = *((unsigned short *)(*pValue));
-	*pValue += 2;
-	*pCount -= 1;
-	break;
-      case 8:
-	value = *((unsigned char *) (*pValue));
-	*pValue += 1;
-	*pCount -= 1;
-	break;
-      default:
-	value = 0;
-	break;
-    }
-    return(value);
-}
-
-
-/*
- *	NAME
- *		getProperty -- Determine the existance of a property
- *
- *	SYNOPSIS
- */
-static int
-getProperty (Display *pDpy, Window w, Atom property, int *pFormat, unsigned long *pNItems, 
-	     unsigned long *pNBytes, char **pValue) 
-/*
- *	DESCRIPTION
- *
- *	Returns
- *	    0 if property does not exist.
- *	    1 if property exists.
- */
-{
-    char *prop_ret;
-    int format_ret;
-    long len = 6516;
-    unsigned long nitems_ret, after_ret;
-    Atom atom_ret;
-    
-    while (XGetWindowProperty (pDpy, w, property, 0, len, False, 
-			       XA_INTEGER, &atom_ret, &format_ret, 
-			       &nitems_ret, &after_ret, 
-			       (unsigned char **)&prop_ret)) {
-	if (after_ret > 0) {
-	    len += nitems_ret * (format_ret >> 3);
-	    XFree (prop_ret);
-	} else {
-	    break;
-	}
-    }
-    if (format_ret == 0 || nitems_ret == 0) { 
-	/* the property does not exist or is of an unexpected type */
-	return(XcmsFailure);
-    }
-
-    *pFormat = format_ret;
-    *pNItems = nitems_ret;
-    *pNBytes = nitems_ret * (format_ret >> 3);
-    *pValue = prop_ret;
-    return(XcmsSuccess);
-}
 
 /*
 ** The following three routines are derived from code in bin/xcmsdb/xcmsdb.c.
@@ -142,7 +47,7 @@ QueryTableType0 (unsigned int maxcolor, int format, char **pChar, unsigned long 
     unsigned short *ph = NULL;
     unsigned int   *pf = NULL;
 
-    nElements = getElement(format, pChar, pCount) + 1;
+    nElements = _XcmsGetElement(format, pChar, pCount) + 1;
     *nelem = nElements;
     if (!(ph = (unsigned short *) malloc(nElements * sizeof(unsigned short))) ||
         !(pf = (unsigned int *) malloc(nElements * sizeof(unsigned int)))) {
@@ -156,24 +61,24 @@ QueryTableType0 (unsigned int maxcolor, int format, char **pChar, unsigned long 
       case 8:
 	while (nElements--) {
 	    /* 0xFFFF/0xFF = 0x101 */
-	    *ph++ = getElement (format, pChar, pCount) * 0x101;
-	    *pf++ = (getElement (format, pChar, pCount)
+	    *ph++ = _XcmsGetElement (format, pChar, pCount) * 0x101;
+	    *pf++ = (_XcmsGetElement (format, pChar, pCount)
 		    / (XcmsFloat)255.0) * maxcolor;
 	}
 	break;
 
       case 16:
 	while (nElements--) {
-	    *ph++ = (unsigned short)getElement (format, pChar, pCount);
-	    *pf++ = (getElement (format, pChar, pCount)
+	    *ph++ = (unsigned short)_XcmsGetElement (format, pChar, pCount);
+	    *pf++ = (_XcmsGetElement (format, pChar, pCount)
 		    / (XcmsFloat)65535.0) * maxcolor;
 	}
 	break;
 
       case 32:
 	while (nElements--) {
-	    *ph++ = (unsigned short)getElement (format, pChar, pCount);
-	    *pf++ = (getElement (format, pChar, pCount)
+	    *ph++ = (unsigned short)_XcmsGetElement (format, pChar, pCount);
+	    *pf++ = (_XcmsGetElement (format, pChar, pCount)
 	            / (XcmsFloat)4294967295.0) * maxcolor;
 	}
 	break;
@@ -206,7 +111,7 @@ QueryTableType1 (unsigned int maxcolor, int format, char **pChar, unsigned long 
     unsigned short *ph = NULL;
     unsigned int   *pf = NULL;
 
-    max_index = getElement(format, pChar, pCount);
+    max_index = _XcmsGetElement(format, pChar, pCount);
     nElements = max_index + 1;
     *nelem = nElements;
 
@@ -222,7 +127,7 @@ QueryTableType1 (unsigned int maxcolor, int format, char **pChar, unsigned long 
       case 8:
 	for (count = 0; count < nElements; count++) {
 	    *ph++ = count;
-	    *pf++ = ((XcmsFloat) getElement(format, pChar, pCount) / (XcmsFloat)255.0) * 
+	    *pf++ = ((XcmsFloat) _XcmsGetElement(format, pChar, pCount) / (XcmsFloat)255.0) * 
 		     (XcmsFloat)maxcolor;
 	}
 	break;
@@ -230,7 +135,7 @@ QueryTableType1 (unsigned int maxcolor, int format, char **pChar, unsigned long 
       case 16:
 	for (count = 0; count < nElements; count++) {
 	    *ph++ = count;
-	    *pf++ = ((XcmsFloat) getElement(format, pChar, pCount) / (XcmsFloat)65535.0) * 
+	    *pf++ = ((XcmsFloat) _XcmsGetElement(format, pChar, pCount) / (XcmsFloat)65535.0) * 
 	            (XcmsFloat)maxcolor;
 	}
 	break;
@@ -238,7 +143,7 @@ QueryTableType1 (unsigned int maxcolor, int format, char **pChar, unsigned long 
       case 32:
 	for (count = 0; count < nElements; count++) {
 	    *ph++ = count;
-	    *pf++ = ((XcmsFloat) getElement (format, pChar, pCount) / (XcmsFloat)4294967295.0) 
+	    *pf++ = ((XcmsFloat) _XcmsGetElement (format, pChar, pCount) / (XcmsFloat)4294967295.0) 
 	            * (XcmsFloat)maxcolor;
 	}
 	break;
@@ -325,7 +230,7 @@ skipChannel (int cType, int format, char **pChar, unsigned long *pCount)
     if ((long)*pCount <= 0) {
 	return (0);
     }
-    length = getElement(format, pChar, pCount) + 1;
+    length = _XcmsGetElement(format, pChar, pCount) + 1;
     
     nElements = ((cType == 0) ? 2 : 1) * length;
     if ((long)nElements > *pCount) {
@@ -333,7 +238,7 @@ skipChannel (int cType, int format, char **pChar, unsigned long *pCount)
     }
 
     while (nElements--) {
-	(void) getElement (format, pChar, pCount);
+	(void) _XcmsGetElement (format, pChar, pCount);
     }
 
     return (1);
@@ -356,7 +261,7 @@ skipVisual (int format, char **pChar, unsigned long *pCount)
     if ((long)*pCount <= 0) {
 	return (0);
     }
-    cType = (int)getElement(format, pChar, pCount);
+    cType = (int)_XcmsGetElement(format, pChar, pCount);
     if (cType != 0 && cType != 1) {
 	return (0);
     }
@@ -365,7 +270,7 @@ skipVisual (int format, char **pChar, unsigned long *pCount)
     if ((long)*pCount <= 0) {
 	return (0);
     }
-    nTables = (int)getElement(format, pChar, pCount);
+    nTables = (int)_XcmsGetElement(format, pChar, pCount);
     if (nTables != 1 && nTables != 3) {
 	return (0);
     }
@@ -426,8 +331,8 @@ XSolarisGetVisualGamma (Display *dpy, int screen_number, Visual *visual,
      */
     CorrectAtom = XInternAtom (dpy, XDCCC_CORRECT_ATOM_NAME, False);
     if (CorrectAtom != None) {
-	if (getProperty (dpy, XRootWindow(dpy, screen_number), CorrectAtom, 
-			      &format, &nitems, &nbytes_return, 
+	if (_XcmsGetProperty (dpy, XRootWindow(dpy, screen_number),
+			      CorrectAtom, &format, &nitems, &nbytes_return,
 			      &property_return) == XcmsFailure) {
 
 	    *gamma = XSOLARIS_STD_GAMMA;
@@ -514,10 +419,10 @@ XSolarisGetVisualGamma (Display *dpy, int screen_number, Visual *visual,
 	}
 	
 	/* Get VisualID */
-	visualID = getElement(format, &pChar, &nitems);
+	visualID = _XcmsGetElement(format, &pChar, &nitems);
 	while (count--) {
 	    visualID = visualID << format;
-	    visualID |= getElement(format, &pChar, &nitems);
+	    visualID |= _XcmsGetElement(format, &pChar, &nitems);
 	}
 	if (visual->visualid != visualID) {
 	    if (!skipVisual(format, &pChar, &nitems)) {
@@ -531,8 +436,8 @@ XSolarisGetVisualGamma (Display *dpy, int screen_number, Visual *visual,
 	maxcolor = 0xffff;
 
 	/* Get table type and number of channels */
-	cType = (int)getElement(format, &pChar, &nitems);
-	nTables = (int)getElement(format, &pChar, &nitems);
+	cType = (int)_XcmsGetElement(format, &pChar, &nitems);
+	nTables = (int)_XcmsGetElement(format, &pChar, &nitems);
 
 	/* 
 	** Note: it is assumed that the per-channel maps in the table all have

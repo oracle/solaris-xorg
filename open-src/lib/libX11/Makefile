@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -192,6 +192,9 @@ install_extra_headers: $(INSTALL_DEPS)
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/extensions/
 	cp -pf $(SOURCE_DIR)/src/xlibi18n/Xlc*.h \
 		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/
+	mkdir -p $(TOOLS_DIR)$(X11_INCLUDES_DIR)/X11/xcms
+	cp -pf $(SOURCE_DIR)/src/xcms/*.h \
+		$(TOOLS_DIR)$(X11_INCLUDES_DIR)/X11/xcms
 
 # Install additional links to libX11 that we include in our packages
 EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
