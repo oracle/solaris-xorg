@@ -49,6 +49,10 @@ MODULE_PKGCONFIG_MAN=xmu
 MODULE_PKGCONFIG_MAN_SET=yes
 LIB_MAN_SUFFIX=3xmu
 
+# Dates to show in Oracle copyright notice in pkg license file
+# Earliest & latest of the copyrights in the Oracle files in this pkg
+ORACLE_COPYRIGHT_YEARS = 1994, 2015
+
 # ARC cases that covered this module
 # PSARC/2005/192 Update libXmu to X11R6.8 version
 MODULE_ARC_CASES = PSARC/2005/192
@@ -104,6 +108,9 @@ LIBXMUU_METADATA_TARGETS = \
 	$(LIBXMUU_PKG_METADATA_DIR) \
 	$(LIBXMUU_PKG_ATTRDATA_FILE) \
 	$(LIBXMUU_PKG_LICENSE_FILE)
+
+# Added Solaris files are only in libXmu, not libXmuu
+$(LIBXMUU_PKG_LICENSE_FILE)	:= ORACLE_COPYRIGHT_YEARS =
 
 install_metadata: $(LIBXMUU_METADATA_TARGETS)
 
