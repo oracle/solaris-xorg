@@ -2,7 +2,7 @@
 #
 # synergy application to share input devices across computers
 #
-# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -69,19 +69,18 @@ SOURCE_URL=http://synergy-plus.googlecode.com/files/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = CConfig.cpp.patch
+SOURCE_PATCHES = CConfig.cpp.patch LP64.patch CPLUSPLUS2011.patch
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 USE_DEFAULT_CONFIG_ENV=no
 
-# Haven't made sure it's 64-bit clean yet, so continue building 32-bit for now
 BUILD_TYPES_SET=yes
-BUILD_TYPES=32
+BUILD_TYPES=64
 
 MODULE_CXXFLAGS = -library=no%Cstd -library=Crun
-MODULE_CXXFLAGS += -m32 $(OPTIM) -xspace -template=extdef
+MODULE_CXXFLAGS += $(OPTIM) -xspace -template=extdef
 MODULE_CXXFLAGS += -features=except,rtti,export,extensions,nestedaccess,tmplife,tmplrefstatic
 MODULE_CXXFLAGS += -instances=global -template=geninlinefuncs -verbose=template
 MODULE_CXXFLAGS += -xlang=c99 -xbuiltin=%none
