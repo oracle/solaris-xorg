@@ -2,7 +2,7 @@
 #
 # imake - Legacy X11 build configuration and makefile generation tool
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,11 +45,6 @@ SOURCE_PATCHES=
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man
 MODULE_STABILITY=Uncommitted
-
-# Build 32-bit so that the default flags it sets in generated Makefiles are 
-# 32-bit, requiring users to request 64-bit flags when they want them.
-BUILD_TYPES_SET=yes
-BUILD_TYPES=32
 
 # Additional flags to pass to configure script
 MODULE_CONFIG_OPTS  = --enable-mkdirhier \

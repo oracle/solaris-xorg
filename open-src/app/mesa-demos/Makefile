@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -102,9 +102,13 @@ all-xdemos:
 
 DESTDIR=$(PROTODIR)
 
+BINSUBDIR       = $(BINSUBDIR_$(BUILD_TYPE))
+BINSUBDIR_32    = /$(SUBDIR32)
+BINSUBDIR_64    = # None
+
 install_demos: $(INSTALL_DEPS)
-	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin		 
-	cp -pf $(GLXGEARS_BIN) $(GLXINFO_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
+	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/bin$(BINSUBDIR)
+	cp -pf $(GLXGEARS_BIN) $(GLXINFO_BIN) $(DESTDIR)$(MODULE_PREFIX)/bin$(BINSUBDIR)
 
 install_man: 
 	mkdir -p $(DESTDIR)$(MODULE_PREFIX)/share/man/man1
