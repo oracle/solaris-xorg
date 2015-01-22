@@ -154,6 +154,7 @@ CC_gcc_parfait		= parfait-gcc
 CXX_gcc_parfait		= parfait-g++
 AR_parfait		= parfait-ar
 AS_parfait		= parfait-as
+LD_parfait		= parfait-ld
 
 # If USE_PARFAIT is yes, use _parfait variants
 PARFAIT_1 =	$(USE_PARFAIT:no=)
@@ -167,6 +168,8 @@ $(WITH_PARFAIT)		AR=$(AR_parfait)
 $(WITHOUT_PARFAIT)	AR=/usr/bin/ar
 $(WITH_PARFAIT)		AS=$(AS_parfait)
 $(WITHOUT_PARFAIT)	AS=/usr/bin/as
+$(WITH_PARFAIT)		LD=$(LD_parfait)
+$(WITHOUT_PARFAIT)	LD=/usr/bin/ld
 
 # Additional environment variables needed to build with parfait
 PARFAIT_ENV_gcc		= PARFAIT_NATIVEGCC="$(GCC)"
@@ -276,6 +279,7 @@ X11_SERVERLIBS_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
 # Proto directory to install into for packaging
 PROTOTOP=$(TOP)/proto
 PROTODIR=$(PROTOTOP)/root_$(MACH)
+PROTODIR_DEBUG=$(PROTOTOP)/root_$(MACH)-debug
 PROTOMETA=$(PROTOTOP)/metadata_$(MACH)
 
 SMF_MANIFEST_DIR=/lib/svc/manifest

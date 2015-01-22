@@ -5,7 +5,7 @@
 #
 ###########################################################################
 #
-# Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,7 +34,9 @@
 # Add /usr/gnu/bin to path for gnu sed/awk/etc. that configure scripts prefer
 # Add /usr/sbin to path for dtrace (to build probes in X servers)
 
-PATH=/usr/bin:${PATH}:/usr/gnu/bin:/usr/sbin
+MACH="$(uname -p)"
+
+PATH=/usr/bin:${PATH}:/usr/gnu/bin:/usr/sbin:/opt/onbld/bin/${MACH}
 export PATH
 
 progname="$0"
@@ -118,8 +120,6 @@ export UT_NO_USAGE_TRACKING='1'
 print "Using these environment variables: "
 env
 print "------------------------------------------------------------------------------"
-
-MACH="$(uname -p)"
 
 # Clean new proto areas for this architecture
 /bin/rm -rf "proto/root_${MACH}" "proto/metadata_${MACH}" \

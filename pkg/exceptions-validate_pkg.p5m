@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,6 +44,13 @@ dir  path=etc/security
 dir  path=etc/security/auth_attr.d
 dir  path=etc/security/exec_attr.d
 dir  path=etc/security/prof_attr.d
+dir  path=kernel
+dir  path=kernel/drv
+dir  path=kernel/drv/$(ARCH64)
+dir  path=kernel/kmdb
+dir  path=kernel/kmdb/$(ARCH64)
+dir  path=kernel/misc
+dir  path=kernel/misc/$(ARCH64)
 dir  path=lib
 dir  path=lib/svc
 dir  path=lib/svc/manifest
@@ -68,6 +75,8 @@ dir  path=usr/lib/help/profiles
 dir  path=usr/lib/help/profiles/locale
 dir  path=usr/lib/help/profiles/locale/C
 dir  path=usr/lib/mdb
+dir  path=usr/lib/mdb/kvm
+dir  path=usr/lib/mdb/kvm/$(ARCH64)
 dir  path=usr/lib/mdb/proc
 dir  path=usr/lib/mdb/proc/$(ARCH64)
 dir  path=usr/lib/pkgconfig
@@ -92,6 +101,7 @@ dir  path=usr/share/man/man3lib
 dir  path=usr/share/man/man4
 dir  path=usr/share/man/man5
 dir  path=usr/share/man/man7
+dir  path=usr/share/man/man7d
 dir  path=usr/share/pixmaps
 dir  path=usr/share/pkgconfig
 dir  path=usr/share/sgml

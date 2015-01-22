@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source bits
 #
-# Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -75,6 +75,7 @@ OS_SUBDIRS_common = \
 	xserver/xvnc \
 	xserver/xserver-common \
 	driver \
+	kernel \
 	app/rgb \
 	data \
 	font

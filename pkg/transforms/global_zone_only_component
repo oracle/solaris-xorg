@@ -1,0 +1,92 @@
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+
+#
+# For packagers:
+#
+# This ruleset is useful for "system" components-- ones which are expected
+# to appear primarily in the global zone, but which may have some small
+# pieces (man pages, header files) which may need to appear in all zones.
+#
+# The current rules specify that all payload-bearing actions (file,
+# dir, hardlink, link) should appear *only* in the global zone, with
+# the following exceptions:
+#
+# 	- man pages appear in all zones
+# 	- header files appear in all zones
+# 	- mdb(1) modules appear in all zones
+#
+# You may well have other actions which you wish to appear in all zones.
+# An example would be an administrative utility for a driver which has
+# been virtualized to work within zones.  For those actions you wish to
+# appear in all zones, add the following attribute to your action.
+#
+#         variant.opensolaris.zone=__NODEFAULT
+#
+# You DO NOT need to specify __NODEFAULT for man pages, headers, or
+# mdb modules, as those are covered by the automatic rules below.
+#
+# Note: When you specify variant.opensolaris.zone=__NODEFAULT, the
+# net effect is that *no* variant.opensolaris.zone attribute will
+# appear in the post-processed manifest.
+#
+
+#
+# For packaging nerds:
+#
+# We have a problem to solve here: To make an action appear in all zones,
+# it should have *no* variant.opensolaris.zone attribute.  So it's a bit
+# more complicated to use "default".
+#
+# Here's what we do: we use "default" to set all payload bearing actions
+# which have no variant.opensolaris.zone attribute to be
+# variant.opensolaris.zone=global.  For those actions which need to appear
+# in all zones, the packager must specify
+# variant.opensolaris.zone=__NODEFAULT.  Additionally we have some rules
+# which set __NODEFAULT for a few classes of well known things, like man
+# pages and headers.
+#
+# We then go through and clean up all of the __NODEFAULTed attributes by
+# simply deleting them.
+# 
+
+# Man pages should appear in all zones.
+<transform dir file link hardlink path=.*/man/.* -> default variant.opensolaris.zone __NODEFAULT>
+<transform dir path=.*/man$ -> default variant.opensolaris.zone __NODEFAULT>
+
+# Headers should appear in all zones.
+<transform dir file link hardlink path=.*/include/.* -> default variant.opensolaris.zone __NODEFAULT>
+<transform dir path=.*/include$ -> default variant.opensolaris.zone __NODEFAULT>
+
+# MDB modules should appear in all zones, as one might debug a crash dump
+# in a zone.
+<transform dir file link hardlink path=.*/mdb/.* -> default variant.opensolaris.zone __NODEFAULT>
+<transform dir path=.*/mdb$ -> default variant.opensolaris.zone __NODEFAULT>
+
+# Everything else is global zone only unless the user overrides
+# action-by-action with __NODEFAULT.
+<transform dir file link hardlink -> default variant.opensolaris.zone global>
+
+#
+# Buff out the __NODEFAULT attributes. 
+#
+<transform dir file link hardlink -> delete variant.opensolaris.zone __NODEFAULT>

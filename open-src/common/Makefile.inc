@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,128 +23,10 @@
 #
 #
 
-### Default rules
+TOP:sh=hg root
 
-# Which compiler to use to build module
-MODTYPE_COMPILER_DEFAULT	= $(MODTYPE_COMPILER_SET:yes=$(POUND_SIGN))
-$(MODTYPE_COMPILER_DEFAULT)	MODTYPE_COMPILER = $(DEFAULT_COMPILER)
-MODULE_COMPILER_DEFAULT		= $(MODULE_COMPILER_SET:yes=$(POUND_SIGN))
-$(MODULE_COMPILER_DEFAULT)	MODULE_COMPILER = $(MODTYPE_COMPILER)
-
-# Which make to use to build module
-MODTYPE_MAKE_DEFAULT		= $(MODTYPE_MAKE_SET:yes=$(POUND_SIGN))
-$(MODTYPE_MAKE_DEFAULT)		MODTYPE_MAKE = $(MAKE)
-MODULE_MAKE_DEFAULT		= $(MODULE_MAKE_SET:yes=$(POUND_SIGN))
-$(MODULE_MAKE_DEFAULT)		MODULE_MAKE = $(MODTYPE_MAKE)
-
-# Where to install files
-MODTYPE_PREFIX_DEFAULT		= $(MODTYPE_PREFIX_SET:yes=$(POUND_SIGN))
-$(MODTYPE_PREFIX_DEFAULT)	MODTYPE_PREFIX=$(X11_DIR)
-MODULE_PREFIX_DEFAULT		= $(MODULE_PREFIX_SET:yes=$(POUND_SIGN))
-$(MODULE_PREFIX_DEFAULT)	MODULE_PREFIX=$(MODTYPE_PREFIX)
-
-# Where to install documentation files
-MODTYPE_DOC_DIR_DEFAULT		= $(MODTYPE_DOC_DIR_SET:yes=$(POUND_SIGN))
-$(MODTYPE_DOC_DIR_DEFAULT)	MODTYPE_DOC_DIR=$(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
-MODULE_DOC_DIR_DEFAULT		= $(MODULE_DOC_DIR_SET:yes=$(POUND_SIGN))
-$(MODULE_DOC_DIR_DEFAULT)	MODULE_DOC_DIR=$(MODTYPE_DOC_DIR)
-
-# Where to install pkgconfig files
-MODTYPE_PKGCONFIG_DIR_DEFAULT	= $(MODTYPE_PKGCONFIG_DIR_SET:yes=$(POUND_SIGN))
-$(MODTYPE_PKGCONFIG_DIR_DEFAULT) MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR)
-MODULE_PKGCONFIG_DIR_DEFAULT	= $(MODULE_PKGCONFIG_DIR_SET:yes=$(POUND_SIGN))
-$(MODULE_PKGCONFIG_DIR_DEFAULT)	MODULE_PKGCONFIG_DIR=$(MODTYPE_PKGCONFIG_DIR)
-
-# Package files will be delivered in
-MODTYPE_PKGHIER_DEFAULT		= $(MODTYPE_PKGHIER_SET:yes=$(POUND_SIGN))
-$(MODTYPE_PKGHIER_DEFAULT)	MODTYPE_PKGHIER=x11/$(MODTYPE)
-MODULE_PKGTAIL_DEFAULT		= $(MODULE_PKGTAIL_SET:yes=$(POUND_SIGN))
-$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL_CMD=print $(MODULE_NAME) | \
-						   tr '[:upper:]' '[:lower:]'
-$(MODULE_PKGTAIL_DEFAULT)	MODULE_PKGTAIL=$(MODULE_PKGTAIL_CMD:sh)
-MODULE_PKGNAME_DEFAULT		= $(MODULE_PKGNAME_SET:yes=$(POUND_SIGN))
-$(MODULE_PKGNAME_DEFAULT)	MODULE_PKGNAME=$(MODTYPE_PKGHIER)/$(MODULE_PKGTAIL)
-
-# Package manifest file
-PKG_SRC_DIR			= $(TOP)/pkg
-PKG_MANIFEST_DIR		= $(PKG_SRC_DIR)/manifests
-PKG_LICENSE_DIR			= $(TOP)/open-src/common/license_files
-MODULE_PKG_MANIFEST_NAME_CMD	= print $(MODULE_PKGNAME) | tr '/' '-'
-MODULE_PKG_MANIFEST_NAME	= $(MODULE_PKG_MANIFEST_NAME_CMD:sh)
-MODULE_PKG_MANIFEST = $(PKG_MANIFEST_DIR)/$(MODULE_PKG_MANIFEST_NAME).p5m
-
-# Package classification - must be a valid value recognized by pkg gui
-MODULE_PKGCLASS_DEFAULT		= $(MODULE_PKGCLASS_SET:yes=$(POUND_SIGN))
-$(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS=System/X11
-
-# Directory created by unpacking source, if not set in module makefile
-SOURCE_DIRNAME_DEFAULT		= $(SOURCE_DIRNAME_SET:yes=$(POUND_SIGN))
-$(SOURCE_DIRNAME_DEFAULT)	SOURCE_DIRNAME=$(MODULE_NAME)-$(MODULE_VERSION)
-
-BUILD_DIR_$(BUILD_TYPE) = build-$(BUILD_TYPE)
-# Special cases for 32-bit & 64-bit directory names to allow building
-# both architectures in the same tree (serially - building both in
-# parallel is likely to have race conditions)
-BUILD_DIR_32 = build-$(MACH32)
-BUILD_DIR_64 = build-$(MACH64)
-BUILD_DIR = $(BUILD_DIR_$(BUILD_TYPE))
-
-SOURCE_DIR = unpacked-src
-
-# Set default tarball if not set in module makefile
-SOURCE_TARBALL_NAME_DEFAULT	= $(SOURCE_TARBALL_NAME_SET:yes=$(POUND_SIGN))
-$(SOURCE_TARBALL_NAME_DEFAULT)	SOURCE_TARBALL_NAME=$(SOURCE_DIRNAME).tar.bz2
-
-# Tarballs for most modules built here are found in the X.Org archives/repos
-# in a directory with the same name as what we use in our tree
-SOURCE_TARBALL_DIR_DEFAULT	= $(SOURCE_TARBALL_DIR_SET:yes=$(POUND_SIGN))
-$(SOURCE_TARBALL_DIR_DEFAULT)	SOURCE_TARBALL_DIR=$(MODTYPE)
-
-# Set default download location if not set in module makefile
-SOURCE_URL_DEFAULT		= $(SOURCE_URL_SET:yes=$(POUND_SIGN))
-$(SOURCE_URL_DEFAULT)		SOURCE_URL=$(SOURCE_URL_$(UPSTREAM_PROJECT))
-
-# Set default git repo location if not set in module makefile
-GIT_URL_DEFAULT		= $(GIT_URL_SET:yes=$(POUND_SIGN))
-$(GIT_URL_DEFAULT)	GIT_URL=$(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME).git
-
-# Set default build type to 64-bit if not set in module makefile
-BUILD_TYPES_DEFAULT	= $(BUILD_TYPES_SET:yes=$(POUND_SIGN))
-$(BUILD_TYPES_DEFAULT)	BUILD_TYPES=64
-
-# Set default rules if not set in module/modtype Makefile
-SOURCE_TARGETS_DEFAULT		= $(SOURCE_TARGETS_SET:yes=$(POUND_SIGN))
-$(SOURCE_TARGETS_DEFAULT)	SOURCE_TARGETS=$(UNPACK_TARGET) \
-					$(MODTYPE_ADD_SOURCE_TARGETS) \
-					$(MODULE_ADD_SOURCE_TARGETS)
-
-CONFIGURE_TARGETS_DEFAULT	= $(CONFIGURE_TARGETS_SET:yes=$(POUND_SIGN))
-$(CONFIGURE_TARGETS_DEFAULT)	CONFIGURE_TARGETS=default_configure \
-					$(MODTYPE_ADD_CONFIGURE_TARGETS) \
-					$(MODULE_ADD_CONFIGURE_TARGETS)
-
-BUILD_TARGETS_DEFAULT		= $(BUILD_TARGETS_SET:yes=$(POUND_SIGN))
-$(BUILD_TARGETS_DEFAULT)	BUILD_TARGETS=default_build \
-					$(MODTYPE_ADD_BUILD_TARGETS) \
-					$(MODULE_ADD_BUILD_TARGETS)
-
-INSTALL_TARGETS_DEFAULT		= $(INSTALL_TARGETS_SET:yes=$(POUND_SIGN))
-$(INSTALL_TARGETS_DEFAULT)	INSTALL_TARGETS=default_install \
-					$(MODTYPE_ADD_INSTALL_TARGETS) \
-					$(MODULE_ADD_INSTALL_TARGETS)
-
-# Additional flags to pass to make in 32-bit & 64-bit builds
-BUILD_32_FLAGS= ARCH_FLAGS="$(ARCH32_FLAGS)" \
-	$(MODTYPE_BUILD_32_FLAGS) $(MODULE_BUILD_32_FLAGS)
-
-BUILD_64_FLAGS= ARCH_FLAGS="$(ARCH64_FLAGS)" \
-	$(MODTYPE_BUILD_64_FLAGS) $(MODULE_BUILD_64_FLAGS)
-
-# Rules to make build logs quieter by default, verbose with V=1, like automake
-MAKE_QUIET_V_0 = @
-MAKE_QUIET_V_1 = 
-MAKE_QUIET_V_ = $(MAKE_QUIET_V_0)
-MAKE_QUIET = $(MAKE_QUIET_V_$(V))
+### For compatibility, include Makefile.defs
+include $(TOP)/open-src/common/Makefile.defs
 
 all: $(BUILD_TYPES:%=build_%)
 all_%: build_%
