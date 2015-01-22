@@ -42,6 +42,8 @@ TARGET	=
 
 all clean clobber install lint: $(SUBDIRS)
 
+download source configure regen-patches git-update manifest:
+
 $(SUBDIRS): FRC
 	@cd $@; pwd; $(MAKE) $(MAKEFLAGS) $(TARGET)
 
