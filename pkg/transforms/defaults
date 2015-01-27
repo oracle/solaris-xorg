@@ -39,6 +39,15 @@
 <transform dir path=usr/share/icons -> default group other>
 
 #
+# For kernel/drv, set .conf files to mode 0644.  Assume all other
+# files there are drivers, and give them mode 0755.
+#
+<transform file path=.*kernel/drv/.+\.conf -> default mode 0644>
+<transform file path=.*kernel/drv/.+ -> default mode 0555>
+<transform file path=.*kernel/kmdb/.+ -> default mode 0555>
+<transform file path=.*kernel/misc/.+ -> default mode 0555>
+
+#
 # For what's left, go with root:bin 0444 for files, 0755 for directories
 #
 <transform file dir -> default owner root>
@@ -56,14 +65,6 @@
 <transform legacy -> default category "system">
 # This is set to the final version number delivered as SVR4 format
 <transform legacy -> default version "6.9.0.5.11.14300,REV=0.2010.06.21">
-
-#
-# For kernel/drv, set .conf files to mode 0644.  Assume all other
-# files there are drivers, and give them mode 0755.
-#
-<transform file path=.*kernel/drv/.+\.conf -> default mode 0644>
-<transform file path=.*kernel/drv/.+ -> default mode 0755>
-<transform file path=.*kernel/misc/.+ -> default mode 0755>
 
 #
 # All files in kernel/ subdirs are reboot-needed.
