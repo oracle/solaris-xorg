@@ -24,7 +24,7 @@
  */
 
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -545,7 +545,7 @@ static Status
 crtc_disable (crtc_t *crtc)
 {
     if (verbose)
-    	fprintf (stderr, "crtc %d (%x) : disable\n", crtc->crtc.index, crtc->crtc.xid);
+    	fprintf (stderr, "crtc %d (0x%lx) : disable\n", crtc->crtc.index, crtc->crtc.xid);
 	
     if (dryrun)
 	return RRSetConfigSuccess;
@@ -588,7 +588,7 @@ crtc_apply (crtc_t *crtc)
 	rr_outputs[o] = crtc->outputs[o]->output.xid;
     mode = crtc->mode_info->id;
     if (verbose) {
-	fprintf (stderr, "crtc %d (%x) : %12s %6.1f +%d+%d", crtc->crtc.index,
+	fprintf (stderr, "crtc %d (0x%lx) : %12s %6.1f +%d+%d", crtc->crtc.index,
 		crtc->crtc.xid,
 		crtc->mode_info->name, mode_refresh (crtc->mode_info),
 		crtc->x, crtc->y);
@@ -1119,7 +1119,7 @@ pick_crtcs (void)
 		    break;
 		else {
 		    if (verbose)
-			fprintf(stderr, "picked crtc %x for output %d (%s)\n",
+			fprintf(stderr, "picked crtc 0x%lx for output %d (%s)\n",
 			    output->crtc_info->crtc.xid, i, output->output_info->name);
 		}
 	    }
@@ -1466,8 +1466,8 @@ do_init (void)
 		con_outputs[j].smodes[0]->name,
 		con_outputs[j].output->rotation); 
 	    for (i = 0; i < con_outputs[j].output->output_info->ncrtc; i++)
-		fprintf(stderr, " %x", con_outputs[j].output->output_info->crtcs[i]);
-	    fprintf(stderr, ", using %x", con_outputs[j].output->output_info->crtc);
+		fprintf(stderr, " 0x%lx", con_outputs[j].output->output_info->crtcs[i]);
+	    fprintf(stderr, ", using 0x%lx", con_outputs[j].output->output_info->crtc);
 	    fprintf(stderr, "\n");
 	}
 	fprintf(stderr, "Total disconnected outputs = %d :\n", dis_ncon);
@@ -1476,8 +1476,8 @@ do_init (void)
 		dis_con_outputs[j].output->output_info->name, 
 		dis_con_outputs[j].output->output_info->ncrtc);
 	    for (i = 0; i < dis_con_outputs[j].output->output_info->ncrtc; i++)
-		fprintf(stderr, " %x", dis_con_outputs[j].output->output_info->crtcs[i]);
-	    fprintf(stderr, ", using %x", dis_con_outputs[j].output->output_info->crtc);
+		fprintf(stderr, " 0x%lx", dis_con_outputs[j].output->output_info->crtcs[i]);
+	    fprintf(stderr, ", using 0x%lx", dis_con_outputs[j].output->output_info->crtc);
 	    fprintf(stderr, "\n");
 	}
     }
@@ -1501,7 +1501,7 @@ do_init (void)
 
     if ((ncon < 1) || (ncon > 3)) {
 	if ((ncon < 1) && verbose)
-	    fprintf (stderr, "warn: no connection\n", ncon);
+	    fprintf (stderr, "warn: no connection\n");
 	else if ((ncon > 3) && verbose)
 	    fprintf (stderr, "warn: too many (more than 3) connections: %d: can't switch\n", ncon);
 	do_not_switch = True;
@@ -1520,7 +1520,7 @@ grab_key (Display *dpy, int keysym, unsigned int modifier,
     int keycode = XKeysymToKeycode(dpy, keysym);
 
     if (keycode ==  NoSymbol)
-	fatal ("grab_key: keycode not defined for keysym %x\n", keysym);
+	fatal ("grab_key: keycode not defined for keysym 0x%x\n", keysym);
 
     had_error = 0;
     prev_handler = XSetErrorHandler (cur_handler);
@@ -1550,14 +1550,15 @@ do_switch (void)
 {
     int 	i, j;
     int		single;
-    int		save;
+    int		save = -1;
 
-    for (i = 0; i < ncon; i++) 
-	new_mode[i] = NULL;
+    if (ncon <= 0)
+	return True; 
 
     for (i = 0; i < ncon; i++) {
 	output_t	*output = con_outputs[i].output;
 
+	new_mode[i] = NULL;
 	output->relation = same_as;
 	output->relative_to = NULL;
 	if (use_init_pos) {
@@ -1723,7 +1724,7 @@ do_switch (void)
     set_crtcs ();
     apply();
 
-    if (need_off_deferred) {
+    if (need_off_deferred && (save != -1)) {
 	/* Now, take the deferred output off */
 	output_t    *output;
 	crtc_t      *crtc;
@@ -1958,8 +1959,8 @@ main (int argc, char **argv)
     res = XRRGetScreenResources (dpy, root);
     if (!res)
 	fatal ("could not get screen resources\n");
-    if (res->ncrtc != 2)
-	fatal ("too few (less than 2) or too many (more than 2) crtcs: %d\n", res->ncrtc);
+    if (res->ncrtc < 2)
+	fatal ("too few crtcs: %d\n", res->ncrtc);
 
     do_init();
 
