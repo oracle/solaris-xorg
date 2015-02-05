@@ -127,9 +127,9 @@ KFLAGS		= -m64 -U$(MACH) -U__$(MACH) -xmodel=kernel -xvector=none \
 
 # Architecture specific flags
 # New flags for sunstudio12.4
-# KFLAGS_i386	+= -W2,-xregs=no%float
-# KFLAGS_i386	+= -Wu,-xregs=no%float
-# KFLAGS_i386	+= -W0,-y-xregs=no%float
+KFLAGS_i386	+= -W2,-xregs=no%float
+KFLAGS_i386	+= -Wu,-xregs=no%float
+KFLAGS_i386	+= -W0,-y-xregs=no%float
 
 # To make sure ctfconvert has CTF data
 CTF_FLAGS	= -g

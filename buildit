@@ -101,11 +101,12 @@ print "Building gate at hg id: ${XBUILD_HG_ID}"
 print -n "Start time: " ; date
 print -n "Building on: " ; uname -a
 print "Using these tools: "
-# Make sure Studio C compiler is at least version 5.12 (Studio 12.3)
+# Make sure Studio C compiler is at least version 5.13 (Studio 12.4) 
+# or else the kernel builds will fail
 whence cc
 cc -V 2>&1 | perl -n -e 'if (($_ =~ m| C (\d+).(\d+)|)) { \
-    print $_ ; ( ($1 != 5) || ($2 < 12) ) ? exit(1) : exit(0) }' \
-    || fatal_error '*** Studio Compiler is too old! Studio 12.3 is required.' 
+    print $_ ; ( ($1 != 5) || ($2 < 13) ) ? exit(1) : exit(0) }' \
+    || fatal_error '*** Studio Compiler is too old! Studio 12.4 is required.' 
 # Log paths & versions of tools which use gnu standard --version flag
 get_make_var GCC
 for tool in parfait ${GCC} gmake autoconf automake libtool ; do
