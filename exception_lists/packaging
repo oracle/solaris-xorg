@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -81,10 +81,10 @@ usr/lib/python3.4/vendor-packages/xcbgen/state.pyo
 usr/lib/python3.4/vendor-packages/xcbgen/xtypes.pyo
 
 # No need to deliver libchromeXvMC.so since it requires DRI which we don't build with
-usr/lib/libchromeXvMC.so			i386
-usr/lib/libchromeXvMC.so.1			i386	
-usr/lib/libchromeXvMCPro.so			i386
-usr/lib/libchromeXvMCPro.so.1			i386	
+usr/lib/amd64/libchromeXvMC.so			i386
+usr/lib/amd64/libchromeXvMC.so.1		i386	
+usr/lib/amd64/libchromeXvMCPro.so		i386
+usr/lib/amd64/libchromeXvMCPro.so.1		i386	
 
 # No need to deliver libdrm_radeon on sparc
 usr/lib/xorg/libdrm_radeon.so	     		sparc

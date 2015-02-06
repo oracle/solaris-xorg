@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -100,12 +100,6 @@ MODULE_MAKE_SET=yes
 # Need to build with gcc
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
-
-# Add include paths and linker paths needed for DRM modules
-MODULE_CPPFLAGS = -I$(PROTODIR)/usr/include/libdrm
-
-MODULE_LDFLAGS= -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-		-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 
 MODULE_LD_OPTIONS += -M $(PWD)/mapfile.externs
 

@@ -31,13 +31,12 @@
 
 TOP:sh=hg root
 KERNEL	= $(TOP)/open-src/kernel
+BUILD_TYPE = 64
 include $(TOP)/open-src/common/Makefile.init
 # Need common defaults
 include $(TOP)/open-src/common/Makefile.defs
 include $(KERNEL)/Makefile.rules
 
-# Need to figure out how to import this.
-# ARCHLIBSUBDIR=amd64
 KMOD	= i915
 MDBMOD	= i915.so
 MODULES	= $(KMOD) $(MDBMOD)
@@ -46,7 +45,7 @@ CFLAGS		+= -v -K PIC -xc99=%all -xdebugformat=stabs  -xildoff
 CFLAGS		+= -D_ELF64 -DMDB_DEBUG -D_KERNEL -D_KMDB -g -m64
 CPPFLAGS	+= -I$(KERNEL) -I$(KERNEL)/sys/drm -I/usr/include
 KMOD_LDFLAGS	= -dy -r -Nmisc/kmdbmod -Mmapfile
-SO_LDFLAGS	= $(LDFLAGS) -Wl,-z,direct -Wl,-z,text -M mapfile -lc
+SO_LDFLAGS	= $(LDFLAGS) -Wl,-z,direct -Wl,-z,text -M mapfile
 SO_LDFLAGS	+= -Wl,-z,parent=/usr/bin$(ARCHLIBSUBDIR)/mdb
 CPPFLAGS	+= -xO3 -m64 -Ui386 -U__i386  -Xa  -errtags=yes -errwarn=%all \
 	-erroff=E_EMPTY_TRANSLATION_UNIT -erroff=E_STATEMENT_NOT_REACHED \

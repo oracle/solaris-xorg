@@ -40,8 +40,6 @@ MODULE			= drm
 
 # MODULE_NAME - the package this module is installed in
 MODULE_NAME		= $(MODULE)
-MODULE_DESC		= drm kernel module
-MODULE_VERSION		= src
 
 # This is the package this module should be installed into
 MODULE_PKGTAIL		= drm
@@ -73,9 +71,10 @@ MODULE_LDFLAGS		= -r -dy -Nmisc/agpmaster -Nmisc/gfx_private
 #
 MODULE_LICENSE		= Intel license
 MODULE_LICENSE_SET	= yes
-MODULE_DESC		= The Direct Rendering Manager
+MODULE_DESC		= the Direct Rendering Manager
+MODULE_VERSION		= 1.6
 ORACLE_TPNO		= 5772
-LICENSE_FILE		= ../license_drm
+LICENSE_FILE		= license_drm
 LICENSE_FILE_SET	= yes
 
 #

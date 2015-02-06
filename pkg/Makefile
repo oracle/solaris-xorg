@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -515,8 +515,9 @@ check-pkgfmt: $(ALL_MANIFESTS)
 check: protocmp pmodes lint check-pkgfmt
 
 # Instead of fixing all the upstream packages to follow our permission rules
-# just fix the proto area to match our rules
+# just fix the files in these subdirs of the proto area to match our rules.
+FIX_PERMS_IN = /usr /lib /etc/X11 /etc/fonts /etc/hal
 
 fix_perms: 
 	@print "## Fixing proto area permissions"
-	$(PKGDEBUG)find $(PKGROOT) -type f -exec chmod a-w \{\} \+
+	$(PKGDEBUG)find $(FIX_PERMS_IN:%=$(PKGROOT)%) -type f -exec chmod a-w \{\} \+

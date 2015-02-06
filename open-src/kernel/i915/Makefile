@@ -38,8 +38,6 @@ MODULE			= i915
 
 # MODULE_NAME - the package this module is installed in
 MODULE_NAME		= $(MODULE)
-MODULE_DESC		= i915 kernel driver
-MODULE_VERSION		= src
 
 # This is the package this module should be installed into
 MODULE_PKGTAIL		= drm
@@ -71,9 +69,10 @@ MODULE_LDFLAGS		= -r -dy -Nmisc/drm
 #
 MODULE_LICENSE		= Intel license
 MODULE_LICENSE_SET	= yes
-MODULE_DESC		= Intel i915 KMS driver
+MODULE_DESC		= the Intel i915 KMS driver
+MODULE_VERSION		= 2013Q3
 ORACLE_TPNO		= 5800
-LICENSE_FILE		= ../license_i915
+LICENSE_FILE		= license_i915
 LICENSE_FILE_SET	= yes
 
 #

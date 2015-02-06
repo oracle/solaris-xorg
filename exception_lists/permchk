@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,33 +20,19 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+############################################################################
+# This file lists which files in the X gate should not trigger a warning from
+# 'hg permchk', 'hg nits', or 'hg pbchk' about being executable
 
-$mapfile_version 2
+# Use shell style pattern globbing for this file
+syntax: glob
 
-#
-# mapfile for Xserver mdb modules
-#
+buildit
+download-tarballs
+make_release_packages
+open-src/common/*.pl
+open-src/common/install-sh
+open-src/util/build-tools/find-build-errors
+open-src/util/build-tools/xmake
+pkg/*.pl
 
-SYMBOL_SCOPE {
-	global:
-
-# mdb modules reference symbols exported by mdb - this list should only
-# contain entries found in the ON gate's master copy of the mdb mapfile
-# in usr/src/cmd/mdb/common/modules/conf/mapfile-extern
-	mdb_alloc			{ FLAGS = EXTERN };
-	mdb_free			{ FLAGS = EXTERN };
-	mdb_getopts			{ FLAGS = EXTERN };
-	mdb_pread			{ FLAGS = EXTERN };
-	mdb_printf			{ FLAGS = EXTERN };
-	mdb_pwalk_dcmd			{ FLAGS = EXTERN };
-	mdb_readsym			{ FLAGS = EXTERN };
-	mdb_readvar			{ FLAGS = EXTERN };
-	mdb_vread			{ FLAGS = EXTERN };
-	mdb_warn			{ FLAGS = EXTERN };
-
-# mdb modules aren't allowed to export any symbols except for _mdb_init
-		_mdb_init;
-
-	local:
-		*;
-};

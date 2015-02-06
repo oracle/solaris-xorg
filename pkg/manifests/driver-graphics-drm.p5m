@@ -32,7 +32,6 @@ set name=pkg.fmri value=pkg:/driver/graphics/drm@$(OSPKGVERS)
 set name=pkg.summary value="DRM Kernel Drivers"
 set name=pkg.description \
     value="Direct Rendering Manager kernel drivers and modules.  Currently supports Intel(R) integrated graphics devices with hardware acceleration, video memory management, Graphics Execution Manager (GEM), and kernel modesetting (KMS)."
-set name=info.classification value=org.opensolaris.category.2008:Drivers/Display
 set name=info.upstream value="Direct Rendering Infrastructure (DRI) project"
 set name=info.upstream-url value=http://dri.freedesktop.org/
 set name=variant.arch value=i386
@@ -144,11 +143,3 @@ driver name=i915 perms="* 0644 root sys" \
     alias=pci8086,a011
 legacy pkg=SUNWdrmr desc="Direct Rendering Manager kernel drivers and modules" \
     name="DRM Kernel Drivers, (Root)"
-license license_drm license=license_drm \
-    com.oracle.info.description="the Direct Rendering Manager" \
-    com.oracle.info.name=drm com.oracle.info.tpno=5772 \
-    com.oracle.info.version=1.6
-license license_i915 license=license_i915 \
-    com.oracle.info.description="Intel i915 KMS driver" \
-    com.oracle.info.name=i915 com.oracle.info.tpno=5800 \
-    com.oracle.info.version=2013Q3

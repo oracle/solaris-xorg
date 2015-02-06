@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,6 +59,8 @@ MODULE_STABILITY=Volatile
 # Extra flags to pass to configure script
 # - Disable DRI since the kernel module isn't ported
 MODULE_CONFIG_OPTS=--disable-dri --disable-kms
+# --libdir is needed to set path for XvMC libraries
+MODULE_CONFIG_OPTS += --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)'
 
 # Instead of allowing the default MODTYPE_LD_SHARED_OPTIONS to link all
 # the libraries against the Xorg server binary, ldflags.patch adds

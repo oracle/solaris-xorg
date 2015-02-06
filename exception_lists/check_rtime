@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,8 +68,6 @@ UNREF_OBJ       /libXext\.so\.0;\ unused\ dependency\ of .*/libX11\.so\.4
 # Unreferenced objects of objects from other consolidations
 UNREF_OBJ	/lib.*\ of\ .*libgnutls\.so\.26
 UNREF_OBJ	/lib.*\ of\ .*libstdcxx4\.so\.4
-# Unused dependencies included in objects from other consolidations
-UNUSED_OBJ      unused object=.*MACH(libm)/libm_hwcap1\.so\.2
 
 #
 # Unused runpaths due to use of both relative & absolute paths
@@ -77,7 +75,6 @@ UNUSED_RPATH    /usr/lib/xorg.*\ from\ .*/mkfontscale
 #
 # Unused runpaths in objects from other consolidations
 UNUSED_RPATH	/usr/dt/lib.*\ from\ .*libXm\.so\.4
-UNUSED_RPATH	/usr/lib.*\ from\ .*libcairo\.so\.2
 UNUSED_RPATH	/opt/VRTSvxvm/lib.*\ from\ .*libdiskmgt\.so\.1
 #
 # Ancient non-thread-safe version of libXaw in the process of being EOF'ed
@@ -89,9 +86,10 @@ NOELFSIGN	.*
 
 ## Things we might be able to fix eventually, but not today:
 #
-# libXinerama only uses libc for malloc() - when linked with synergyc &
+# libXinerama & libXss only use libc for malloc() - when linked with synergyc &
 # synergys, which get malloc from libumem via libstdcxx4, libc appears unused.
-UNREF_OBJ	/libc\.so\.1;.*\ of\ .*/usr/lib/libXinerama\.so\.1
+UNREF_OBJ	/libc\.so\.1;.*\ of\ .*/usr/MACH(lib)/libXinerama\.so\.1
+UNREF_OBJ	/libc\.so\.1;.*\ of\ .*/usr/lib/64/libXss\.so\.1
 
 # Issues caused by having to pass a single set of linker flags to module
 # configure scripts/Makefiles used to build a mixed bag of objects

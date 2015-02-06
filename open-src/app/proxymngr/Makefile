@@ -2,7 +2,7 @@
 #
 # proxymngr - X11 proxy manager service
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,8 +63,6 @@ MODULE_CONFIG_OPTS = LBXPROXY="$(X11_BIN_DIR)/lbxproxy"
 # ignore some unneeded dependencies that upstream includes:
 #  unreferenced object=libX11.so.4; unused dependency of /usr/bin/proxymngr
 MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
-
-MODULE_CONFIG_OPTS += --sysconfdir=/etc
 
 include ../Makefile.inc
 

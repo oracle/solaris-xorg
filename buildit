@@ -39,6 +39,9 @@ MACH="$(uname -p)"
 PATH=/usr/bin:${PATH}:/usr/gnu/bin:/usr/sbin:/opt/onbld/bin/${MACH}
 export PATH
 
+# Ensure mkdir sets expected permissions for directories in proto area
+umask 022
+
 progname="$0"
 function fatal_error
 {
@@ -127,6 +130,7 @@ print "-------------------------------------------------------------------------
     "proto/pkg_${MACH}" "proto/tools_${MACH}"
 
 ${XMAKE} clobber
+mkdir -p proto
 
 # Generate source release while tree is in clean state, but ensure we have all
 # the required tarballs for both platforms, (and no extras/old ones) first.

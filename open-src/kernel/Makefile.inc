@@ -39,8 +39,8 @@ MODTYPE=driver
 MODTYPE_PKGHIER		= driver/graphics
 MODTYPE_PKGHIER_SET	= yes
 
-# PKGCLASS - Driver/Display for framebuffers.
-# MODULE_PKGCLASS		= Driver/Display
+# PKGCLASS - Drivers/Display for framebuffers.
+MODULE_PKGCLASS		= Drivers/Display
 MODULE_PKGCLASS_SET	= yes
 
 # The package that this belongs in - must match the name in pkg/manifests
@@ -110,7 +110,6 @@ CONFIG_ENV	+= NM="/usr/gnu/bin/nm"
 CONFIG_ENV	+= POUND_SIGN="$(POUND_SIGN)"
 CONFIG_ENV	+= PROTOMETA="$(PROTOMETA)/$(MODULE_PKG)"
 CONFIG_ENV	+= X11_MAN_DIR="$(X11_MAN_DIR)"
-$(LICENSE_FILE_DEFAULT) CONFIG_ENV += LICENSE_FILE="$(LICENSE_FILE)"
 
 # Where to finde the common include files
 DRM_INCL	= $(TOP)/open-src/kernel/sys/drm
