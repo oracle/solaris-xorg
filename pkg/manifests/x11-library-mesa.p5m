@@ -24,7 +24,7 @@ set name=pkg.summary \
     value="Mesa - open-source implementation of the OpenGL specification"
 set name=pkg.description \
     value="The Mesa 3-D graphics library is an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics."
-file path=etc/drirc mode=0644 overlay=allow preserve=renamenew
+$(i386_ONLY)file path=etc/drirc mode=0644 overlay=allow preserve=renamenew
 link path=usr/X11/include/mesa target=../../include/mesa
 link path=usr/X11/lib/$(ARCH64)/libGLU.so target=libGLU.so.1
 link path=usr/X11/lib/$(ARCH64)/libGLU.so.1 target=../GL/$(ARCH64)/libGLU.so.1
