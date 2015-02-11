@@ -1,6 +1,6 @@
 #!/bin/ksh93
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -75,19 +75,26 @@ if [ "$PROPVAL" = "true" ] ; then
     POSTCMD="svccfg -s application/font/fc-cache setprop options/force_rebuild=false"
 fi
 
-/usr/bin/fc-cache $ARGS
-if [ $? -ne 0 ] ; then
-    RETVAL=$SMF_EXIT_MON_DEGRADE
-fi
-
 case "$(uname -p)" in
-    sparc)	ARCH64="sparcv9" ;;
-    i386)	ARCH64="amd64" ;;
+    sparc)	ARCH32="sparcv7" ARCH64="sparcv9" ;;
+    i386)	ARCH32="i86" ARCH64="amd64" ;;
     *)		echo "Unknown architecture $(uname -p)"
     		exit $SMF_EXIT_ERR_FATAL ;;
 esac
 
-/usr/bin/${ARCH64}/fc-cache $ARGS
+# Run 32-bit & 64-bit cache builds in parallel
+/usr/bin/${ARCH32}/fc-cache $ARGS &
+pid32=$!
+
+/usr/bin/${ARCH64}/fc-cache $ARGS &
+pid64=$!
+
+wait $pid32
+if [ $? -ne 0 ] ; then
+    RETVAL=$SMF_EXIT_MON_DEGRADE
+fi
+
+wait $pid64
 if [ $? -ne 0 ] ; then
     RETVAL=$SMF_EXIT_MON_DEGRADE
 fi

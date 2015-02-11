@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -93,18 +93,24 @@ file path=etc/security/auth_attr.d/fontconfig group=sys
 dir  path=lib/svc/manifest/application/font
 file path=lib/svc/manifest/application/font/fc-cache.xml
 file path=lib/svc/method/fc-cache
+file path=usr/bin/$(ARCH32)/fc-cache
+file path=usr/bin/$(ARCH32)/fc-cat
+file path=usr/bin/$(ARCH32)/fc-list
+file path=usr/bin/$(ARCH32)/fc-match
+file path=usr/bin/$(ARCH32)/fc-query
+file path=usr/bin/$(ARCH32)/fc-scan
 file path=usr/bin/$(ARCH64)/fc-cache
 file path=usr/bin/$(ARCH64)/fc-cat
 file path=usr/bin/$(ARCH64)/fc-list
 file path=usr/bin/$(ARCH64)/fc-match
 file path=usr/bin/$(ARCH64)/fc-query
 file path=usr/bin/$(ARCH64)/fc-scan
-file path=usr/bin/fc-cache
-file path=usr/bin/fc-cat
-file path=usr/bin/fc-list
-file path=usr/bin/fc-match
-file path=usr/bin/fc-query
-file path=usr/bin/fc-scan
+link path=usr/bin/fc-cache target=$(ARCH64)/fc-cache
+link path=usr/bin/fc-cat target=$(ARCH64)/fc-cat
+link path=usr/bin/fc-list target=$(ARCH64)/fc-list
+link path=usr/bin/fc-match target=$(ARCH64)/fc-match
+link path=usr/bin/fc-query target=$(ARCH64)/fc-query
+link path=usr/bin/fc-scan target=$(ARCH64)/fc-scan
 dir  path=usr/include/fontconfig
 file path=usr/include/fontconfig/fcfreetype.h
 file path=usr/include/fontconfig/fcprivate.h

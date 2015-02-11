@@ -2,7 +2,7 @@
 #
 # Fontconfig - Font configuration and customization library
 #
-# Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,6 +50,10 @@ MODULE_ARC_CASES += LSARC/2006/485
 MODULE_ARC_CASES += LSARC/2007/532
 # LSARC/2008/140 fontconfig 2.5.0
 MODULE_ARC_CASES += LSARC/2008/140
+# PSARC/2010/162 fontconfig 2.8.0
+MODULE_ARC_CASES += PSARC/2010/162
+# PSARC/2015/035 Moving fontconfig utilities to LP64 by default
+MODULE_ARC_CASES += PSARC/2015/035
 
 # Package metadata
 UPSTREAM	= fontconfig
@@ -112,8 +116,13 @@ SUNTOUCH_MAN_FLAGS_fc-scan.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 # pkg-config files to update
 FIX_PC_FILES=fontconfig.pc.in
 
+BINSUBDIR       = $(BINSUBDIR_$(BUILD_TYPE))
+BINSUBDIR_32    = $(SUBDIR32)
+BINSUBDIR_64    = $(SUBDIR64)
+
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = \
+    --bindir='$${exec_prefix}/bin/$(BINSUBDIR)' \
     --with-confdir=/etc/fonts \
     --with-default-fonts='/usr/share/fonts' \
     --with-add-fonts='/etc/X11/fontpath.d,/usr/share/ghostscript/fonts,/usr/X11/lib/X11/fonts' \
@@ -153,12 +162,21 @@ FONTCONFIG_CONFDIR = $(PROTODIR)/etc/fonts/conf.avail
 SUN_CONFFILES = 20-indic.conf 49-sun-preuser.conf 90-sun-prefer-bitmap.conf
 FONTCONFIG_SUN_CONFFILES = $(SUN_CONFFILES:%=$(FONTCONFIG_CONFDIR)/%)
 
+# Link /usr/bin/$cmdname to the 64-bit version
+FONTCONFIG_CMD_LINKS = $(FONTCONFIG_CMDS:%=$(PROTODIR)/usr/bin/%)
+$(FONTCONFIG_CMD_LINKS): $(PROTODIR)/usr/bin
+	-rm -f $@
+	ln -s $(BINSUBDIR_64)/${@F} $@
+
+$(PROTODIR)/usr/bin:
+	mkdir $@
+
 # Additional targets to install beyond the default_install,
 # run just once, not per bitwidth
 FONTCONFIG_INSTALL_RULES = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
 	$(FONTCONFIG_RBAC_AUTH) $(FONTCONFIG_RBAC_HELP) \
-	$(FONTCONFIG_SUN_CONFFILES)
+	$(FONTCONFIG_SUN_CONFFILES) $(FONTCONFIG_CMD_LINKS)
 
 install: $(FONTCONFIG_INSTALL_RULES)
 
@@ -169,7 +187,7 @@ $(FONTCONFIG_SMF_MANIFEST): fc-cache.xml
 
 $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 	mkdir -p $(FONTCONFIG_SMF_METHOD_dir)
-	$(INSTALL_SCRIPT) -c -m 0755 fc-cache.sh $@
+	$(INSTALL_SCRIPT) -c -m 0555 fc-cache.sh $@
 
 $(FONTCONFIG_RBAC_AUTH): auth_attr
 	mkdir -p $(FONTCONFIG_RBAC_AUTH_dir)
