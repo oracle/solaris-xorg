@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Library modules
 #
-# Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -61,8 +61,6 @@ libICE: libxtrans
 libSM: libxtrans libICE
 libX11: libxtrans libXau libXdmcp libxcb
 libXaw: libX11 libXt libXmu libXpm
-libXaw4: libX11 libXt libXmu
-libXaw5: libX11 libXt libXmu
 libXcomposite: libX11 libXext libXfixes
 libXcursor: libX11 libXfixes libXrender
 libXdamage: libXfixes
@@ -128,8 +126,6 @@ OS_SUBDIRS_common = \
 	libXpm \
 	libXp \
 	libXaw \
-	libXaw4 \
-	libXaw5 \
 	libXfixes \
 	libXcomposite \
 	libXrender \
@@ -161,6 +157,8 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
 	hwc \
+	libXaw4 \
+	libXaw5 \
 	libXlg3d \
 	libXprintUtil \
 	libXprintAppUtil

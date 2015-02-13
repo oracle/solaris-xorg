@@ -1,4 +1,4 @@
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,27 +19,5 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-
-SRCS = 	AllWidgets.c AsciiSink.c AsciiText.c Box.c \
-	Command.c Dialog.c Form.c Grip.c Label.c List.c MenuButton.c \
-	MultiSink.c Paned.c Panner.c Porthole.c \
-	Repeater.c Scrollbar.c Simple.c SimpleMenu.c Sme.c SmeBSB.c \
-	SmeLine.c StripChart.c TextSrc.c \
-	TextAction.c TextPop.c TextTr.c Toggle.c Tree.c Vendor.c \
-	XawIm.c XawInit.c XawI18n.c \
-	Text.c TextSink.c Viewport.c AsciiSrc.c MultiSrc.c
-OBJS = $(SRCS:.c=.o)
-
-REQUIREDLIBS = -lX11 -lc -lXext -lXmu -lXt
-
-XLIB_CFLAGS:sh = pkg-config --cflags x11
-
-libXaw.so.5: $(OBJS) 
-	$(CC) -G -o $@ -h $@ $(CFLAGS) $(LDFLAGS) \
-	$(OBJS) $(REQUIREDLIBS)
-
-.c.o:
-	$(CC) -Kpic $(CFLAGS) $(XLIB_CFLAGS) $(CPPFLAGS) -c $<
-
-install: libXaw.so.5
-	$(INSTALL) libXaw.so.5 $(DESTDIR)$(libdir)/libXaw.so.5
+set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw5@5.12.0.0.0.69.1506
+set name=pkg.obsolete value=true

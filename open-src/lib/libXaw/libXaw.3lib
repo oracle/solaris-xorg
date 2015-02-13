@@ -1,6 +1,6 @@
 '\" t
 .\"
-.\" Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -22,13 +22,13 @@
 .\" DEALINGS IN THE SOFTWARE.
 .\"
 .\"
-.TH libXaw 3lib "18 June 2012" "X Version 11"
+.TH libXaw 3lib "13 Feb 2015" "X Version 11"
 .SH NAME
 libXaw \- X Athena Widgets
 .SH DESCRIPTION
 .B Xaw
 is a widget set based on the X Toolkit Intrinsics (Xt) Library.  This
-release of __distroname__ includes 3 versions of the Xaw library.  Since
+release of __distroname__ includes the latest version of the Xaw library. Since
 the libXaw object model exposes structure sizes and layouts as part of the
 ABI, binary compatibility is not always maintained between major releases
 from the upstream X Window System projects.
@@ -40,18 +40,17 @@ provided for building applications against this version, and the
 compilation link for -lXaw points to this version.
 .PP
 .BR libXaw.so.5 " and " libXaw.so.4
-are provided for binary compatibility with applications built on older Solaris
-releases.
+were previously provided for binary compatibility with applications built on 
+older Solaris releases, but are no longer included in this release.
 .B libXaw.so.5
-is compatible with the X11R5 and X11R6 release series, and was the version of
+was compatible with the X11R5 and X11R6 release series, and was the version of
 libXaw that applications built on Solaris 2.3 through Solaris 10 were linked
 with.
 .B libXaw.so.4
-is based on the X11R4 sources, and was linked to applications built on
+was based on the X11R4 sources, and was linked to applications built on
 Solaris 2.2 and prior releases of Solaris.
 .PP
-Future releases of Solaris might not include the libXaw.so.4 or libXaw.so.5
-libraries.   Applications using the Athena Widgets which need to run on
+Applications using the Athena Widgets which need to run on current and
 future releases of Solaris should be rebuilt against the current Xaw headers
 and 
 .B libXaw.so.7
@@ -65,11 +64,8 @@ allbox;
 cw(2.750000i)| cw(2.750000i)
 lw(2.750000i)| lw(2.750000i).
 ATTRIBUTE TYPE	ATTRIBUTE VALUE
-Availability	libXaw.so.7: x11/library/toolkit/libxaw7 
-\^	libXaw.so.5: x11/library/toolkit/libxaw5 
-\^	libXaw.so.4: x11/library/toolkit/libxaw4 
+Availability	x11/library/toolkit/libxaw7 
 Interface Stability	libXaw.so.7: Uncommitted
-\^	libXaw.so.5, libXaw.so.4: Obsolete
 MT-Level	See XtToolkitThreadInitialize(3XT)
 .TE
 .sp

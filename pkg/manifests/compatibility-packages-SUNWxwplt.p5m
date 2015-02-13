@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -67,7 +67,7 @@ depend type=require fmri=pkg:/x11/data/xbitmaps
 # app/xlogo
 depend type=require fmri=pkg:/x11/demo
 
-# app/xdpyinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xvinfo, xwininfo
+# app/xdpyinfo, xlsatoms, xlsclients, xlsfonts, xvinfo, xwininfo
 depend type=require fmri=pkg:/x11/diagnostic/x11-info-clients
 
 # app/bdftopcf
@@ -160,12 +160,6 @@ depend type=require fmri=pkg:/x11/library/libxxf86misc
 
 # lib/libXxf86vm
 depend type=require fmri=pkg:/x11/library/libxxf86vm
-
-# lib/libXaw4
-depend type=require fmri=pkg:/x11/library/toolkit/libxaw4
-
-# lib/libXaw5
-depend type=require fmri=pkg:/x11/library/toolkit/libxaw5
 
 # lib/libXaw
 depend type=require fmri=pkg:/x11/library/toolkit/libxaw7
