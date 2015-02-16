@@ -102,7 +102,6 @@ OS_SUBDIRS_common = \
 	libdga \
 	libdmx \
 	libdrm \
-	libowconfig \
 	libpthread-stubs \
 	libxtrans \
 	libXau \
@@ -157,6 +156,7 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
 	hwc \
+	libowconfig \
 	libXaw4 \
 	libXaw5 \
 	libXlg3d \

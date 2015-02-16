@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -25,7 +25,7 @@
 #define	_GFX_RES_UTIL_H
 
 /*
- * gfx_res_util.h: declarations for generic resolution file routines.
+ * gfx_res_util.h: declarations for generic resolution structures.
  */
 
 typedef enum {
@@ -64,14 +64,6 @@ typedef struct sun_video_timing {
 	double          Hund;   /* horizontal underscan                 */
 	double          Vund;   /* vertical   underscan                 */
 } SunVideoTiming;
-
-
-
-extern int sun_get_ow_video_values_raw  (char*, SunVideoTiming*);
-extern int sun_get_ow_video_values_1152 (char*, SunVideoTiming*);
-extern char** sun_get_ow_video_timing_names();
-
-
 
 #endif /* _GFX_RES_UTIL_H */
 
