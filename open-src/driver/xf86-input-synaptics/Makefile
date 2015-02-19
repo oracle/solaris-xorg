@@ -2,7 +2,7 @@
 #
 # xf86-input-synaptics driver for Synaptics & compatible touchpads
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-synaptics
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.1
+MODULE_VERSION=1.7.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 6505de717972b6a24b8eb13e69eb996c
-TARBALL_SHA1  = 85018b51dfa0c2dcf5c257cf283298836273700d
-TARBALL_SHA256= db5825660e1fb23190697f609bf75d4450fe707344a14298e1c9b47039bbb58e
+TARBALL_MD5   = 4279611b096e17865912c6f91b86a648
+TARBALL_SHA1  = 6c18b4858bd4322922f8a8ce612c552845949fa7
+TARBALL_SHA256= 14e7d54f81c2a2503f8acbe5e265dc336a0f2b30d007657d7afbeff979821c11
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

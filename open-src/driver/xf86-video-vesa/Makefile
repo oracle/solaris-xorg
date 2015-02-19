@@ -2,7 +2,7 @@
 #
 # xf86-video-vesa Makefile
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-video-vesa
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.2
+MODULE_VERSION=2.3.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3eddd393fba79550e012d717499d58ad
-TARBALL_SHA1  = d49a57de24e7923bf17270084ce91ecf2feb4286
+TARBALL_MD5   = 3690a5356ed121b1a7dfb59a6dcf4bf9
+TARBALL_SHA1  = 762da8131738a7b2d3da07a83a12ba812941fef4
+TARBALL_SHA256  = ce8b75e5a40e9dae76f2ac9e2880f7f73a848653ca2eed5880f52dc2c0d3aef8
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = vesa_xorg72.patch,-p1 \
-		 bstore.patch
+SOURCE_PATCHES = vesa_xorg72.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

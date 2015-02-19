@@ -1,4 +1,4 @@
-# Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,28 +19,33 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
---- a/src/mouse.c	Wed Sep 26 13:43:27 2012
-+++ b/src/mouse.c	Wed Sep 26 13:45:30 2012
-@@ -1727,13 +1727,14 @@
-                 pInfo->name);
+--- a/src/mouse.c	Tue Nov 11 16:06:53 2014
++++ b/src/mouse.c	Tue Nov 11 16:09:14 2014
+@@ -1753,18 +1753,19 @@
+         ErrorF("assigning %p name=%s\n", device, pInfo->name);
  #endif
          MouseInitProperties(device);
-+	pInfo->fd = xf86OpenSerial(pInfo->options);
-+	if (pInfo->fd == -1)
-+	    xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
-+
-         break;
- 
-     case DEVICE_ON:
--        pInfo->fd = xf86OpenSerial(pInfo->options);
--        if (pInfo->fd == -1)
--            xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
+-        break;
+-
+-    case DEVICE_ON:
+         pInfo->fd = xf86OpenSerial(pInfo->options);
+         if (pInfo->fd == -1)
+             xf86Msg(X_WARNING, "%s: cannot open input device\n", pInfo->name);
 -        else {
-+	if (pInfo->fd != -1) { 
++
++        break;
++
++    case DEVICE_ON:
+ #if defined(__NetBSD__) && defined(WSCONS_SUPPORT) && defined(WSMOUSEIO_SETVERSION)
+             int version = WSMOUSE_EVENT_VERSION;
+             if (ioctl(pInfo->fd, WSMOUSEIO_SETVERSION, &version) == -1)
+                 xf86Msg(X_WARNING, "%s: cannot set version\n", pInfo->name);
+ #endif
++	if (pInfo->fd != -1) {
              if (pMse->xisbscale)
                  pMse->buffer = XisbNew(pInfo->fd, pMse->xisbscale * 4);
              else
-@@ -1789,8 +1790,6 @@
+@@ -1820,8 +1821,6 @@
                  XisbFree(pMse->buffer);
                  pMse->buffer = NULL;
              }
@@ -49,7 +54,7 @@
              if (pMse->emulate3Buttons || pMse->emulate3ButtonsSoft)
              {
                  RemoveBlockAndWakeupHandlers (MouseBlockHandler,
-@@ -1801,6 +1800,10 @@
+@@ -1832,6 +1831,10 @@
          device->public.on = FALSE;
          break;
      case DEVICE_CLOSE:

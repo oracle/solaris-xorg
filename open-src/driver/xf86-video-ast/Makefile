@@ -3,7 +3,7 @@
 # xf86-video-ast - Xorg driver for ASpeed Technologies graphics devices 
 #  (such as found in some Sun/Oracle server ILOMs)
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,20 +30,18 @@
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=0.97.0
+MODULE_VERSION=1.0.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 2b630ed7d7864045b324b39cd58da367
-TARBALL_SHA1  = 11cb9a687cec6f0943ad6b9a47434815334d2a20
-TARBALL_SHA256= 28fcd4781676485293f6dcd46e0797866f6219e22e1851c9796b037589998e76
+TARBALL_MD5   = 63ac98d6526e3e27e290e1836a229059
+TARBALL_SHA1  = 446a446dc5b4f3de305ae2662a48910f1067880b
+TARBALL_SHA256= e778f1824f5eed7e3197f00f39418de1525e310fd78e0335f6178c26b9b0495b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += sparc-ast.patch,-p1 \
+		16448336.patch,-p1 \
 		16027951.patch,-p1 \
-		ast.patch,-p1 \
-		ast_vgatool.patch,-p1 \
-		bstore.patch \
-		17907916.patch
+		17907916.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
@@ -62,7 +60,7 @@ MODULE_STABILITY=Volatile
 # Libraries/modules to link with
 AST_LIBRARIES_sparc = # nothing extra
 AST_LIBRARIES_i386 = -lint10 -lpciaccess -lvbe -lvgahw
-AST_LIBRARIES = -lfb $(AST_LIBRARIES_$(MACH))
+AST_LIBRARIES = -lfb -lshadow $(AST_LIBRARIES_$(MACH))
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERMODS_DIR) \

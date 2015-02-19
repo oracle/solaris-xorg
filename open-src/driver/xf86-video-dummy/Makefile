@@ -2,7 +2,7 @@
 #
 # xf86-video-dummy 1.x Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-video-dummy
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.6
+MODULE_VERSION=0.3.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = dc40aebf031f933523dcf101befe99e4
-TARBALL_SHA1  = 9a73abc1444dd3034e5724b16d7101696219665b
-TARBALL_SHA256= 44335b640126d339700256dae731bd5af79afd027da172bad8a991a33a1de798
+TARBALL_MD5   = 071e408461f2fec1764723474fbafdf4
+TARBALL_SHA1  = b4a189b12406c6cbd5a68628a740ca59acef790a
+TARBALL_SHA256= 56f84fcbc515685529ad8e10bca1072731d9c096b97c5d35ddc95cd589b98680
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = bstore.patch
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man

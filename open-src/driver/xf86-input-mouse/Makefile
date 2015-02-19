@@ -2,7 +2,7 @@
 #
 # xf86-input-mouse 1.x Makefile
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-mouse
 
 # Version number (used in path names)
-MODULE_VERSION=1.9.0
+MODULE_VERSION=1.9.1
 
 # Checksums for upstream tarball
-TARBALL_MD5    = 36b5b92000c4644f648b58a535e4ee73
-TARBALL_SHA1   = 5f9e5f450100252efa4f8b074fbb262c42811d46
-TARBALL_SHA256 = 5d601e4bae53d5e9ead4ecd700f1beb5aeaf78b79e634c4aa381a9ce00276488
+TARBALL_MD5    = 77085b649c5c0b333565ba562f573951
+TARBALL_SHA1   = edde3e0201ec18fbbbcf3c157f912dbae3b5a3cd
+TARBALL_SHA256 = 3485d375779c08406f0789feedde15933dc703158a086ddac638598f479fc5ce
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = \

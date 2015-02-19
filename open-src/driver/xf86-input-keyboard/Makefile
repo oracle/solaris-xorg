@@ -2,7 +2,7 @@
 #
 # xf86-input-keyboard 1.x Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.0
+MODULE_VERSION=1.8.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 97387046c5a450ff78793d5da8e66d5e
-TARBALL_SHA1  = 92fabe29afd240464b37bb954f847b073499ea7f
-TARBALL_SHA256= 0cd5e2845149c7f0e19ec830c6914b7f3d154bff134ce84519e39f16ce65523c
+TARBALL_MD5   = ce936e219682bacf5a4a9c4ab940edb8
+TARBALL_SHA1  = 7728d733ef16d664a201868ecae5db3705cf8ef1
+TARBALL_SHA256= 41c51c4e0a87aad6a1c4973c68a8de23b61162d0223f4ab36c627c307830cb5b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

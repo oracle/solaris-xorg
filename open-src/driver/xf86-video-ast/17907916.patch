@@ -1,26 +1,24 @@
---- src/ast_vgatool.c Wed Feb 12 18:36:02 2014
-+++ src/ast_vgatool.c Wed Feb 12 18:33:31 2014
-@@ -650,16 +650,31 @@
- void vEnableVGA(ScrnInfoPtr pScrn)
+--- a/src/ast_vgatool.c	Wed Nov 12 12:52:46 2014
++++ b/src/ast_vgatool.c	Wed Nov 12 12:53:51 2014
+@@ -1076,16 +1076,29 @@
+ static void vEnableVGA(ScrnInfoPtr pScrn)
  {
      ASTRecPtr pAST;
 +    UCHAR miscout;
-    
+ 
      pAST = ASTPTR(pScrn);
  
      SetReg(VGA_ENABLE_PORT, 0x01);
--    SetReg(MISC_PORT_WRITE, 0x01);   
-+
+-    SetReg(MISC_PORT_WRITE, 0x01);
 +    /*
 +     * Only set the Input/Output Address bit in the Miscellaneous
 +     * output register, as clearing others bits and accessing the
 +     * frame buffer caused non-resumable errors on sparc.
 +     */
-+
+ 
 +    miscout = GetReg(MISC_PORT_READ);
 +    SetReg(MISC_PORT_WRITE, miscout | 0x01);
- 	
- }	
+ }
  
 +/*
 + * Leave video memory enabled in PCI Control Register #1 (0xa0), as
@@ -28,25 +26,25 @@
 + * errors on sparc.
 + */
 +
- UCHAR ExtRegInfo[] = {
+ static UCHAR ExtRegInfo[] = {
 -    0x0F,
 +    0x7F,
      0x04,
      0x1C,
      0xFF
-@@ -666,7 +681,7 @@
+@@ -1092,7 +1105,7 @@
  };
  
- UCHAR ExtRegInfo_AST2300A0[] = {
+ static UCHAR ExtRegInfo_AST2300A0[] = {
 -    0x0F,
 +    0x7F,
      0x04,
      0x1C,
      0xFF
-@@ -673,7 +688,7 @@
+@@ -1099,7 +1112,7 @@
  };
  
- UCHAR ExtRegInfo_AST2300[] = {
+ static UCHAR ExtRegInfo_AST2300[] = {
 -    0x0F,
 +    0x7F,
      0x04,

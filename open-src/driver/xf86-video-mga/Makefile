@@ -2,7 +2,7 @@
 #
 # xf86-video-mga Makefile
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-mga
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.2
+MODULE_VERSION=1.6.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f543877db4e260d8b43c7da3095605ed
-TARBALL_SHA1  = 030e097dc435b17f603c64e46f7b655a185a075b
-TARBALL_SHA256= 3f89ce250eea93f0de890954687790e06c0bab9e3e303df393e8759a187eca6c
+TARBALL_MD5   = a53b5ce166e31c181aaa4c3816d8babb
+TARBALL_SHA1  = 6ac9f61ece9d9449f914137b3eef685b2eebf66c
+TARBALL_SHA256= 7704b1ea35098769787a9c93e903b827be97a99facfb1696aa5236a58ff1c7d7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

@@ -1,4 +1,4 @@
-/* Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -57,6 +57,7 @@
 #include "xf86Cursor.h"
 
 #include "ast.h"
+#include "ast_vgatool.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
