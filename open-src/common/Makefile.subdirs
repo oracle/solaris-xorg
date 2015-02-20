@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.subdirs has rules for recursively iterating through module subdirs
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,9 +40,10 @@ PASSDOWN_VARS += $(ADD_PASSDOWN_VARS) ADD_PASSDOWN_VARS='$(ADD_PASSDOWN_VARS)'
 World: clobber all
 
 clean: clean-subdirs clean-obsolete-subdirs
+clobber: clobber-subdirs clean-obsolete-subdirs
 
-clean-subdirs:
-	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=clean
+clean-subdirs clobber-subdirs:
+	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=$(@:-subdirs=)
 
 subdirs: $(OS_SUBDIRS)
 
@@ -74,4 +75,4 @@ clean-obsolete-subdirs:
 ALWAYS_RUN:
 
 # Tell dmake it can build subdirs in parallel
-.PARALLEL: $(OS_SUBDIRS)
+.PARALLEL: $(OS_SUBDIRS) clean-subdirs clobber-subdirs clean-obsolete-subdirs
