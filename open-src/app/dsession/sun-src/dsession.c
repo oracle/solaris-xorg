@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files(the "Software"),
@@ -211,7 +211,7 @@ cmd_exec(char *cmd, char *output, size_t size)
 
 	free(buf);
 
-	close(p_fd[0]);
+	fclose(fd);
 
 	if (waitpid(pid, &status, 0) != pid) {
 	    fprintf(stderr, "cmd_exec command %s: ", eargv[0]);
@@ -480,7 +480,7 @@ get_sessions(char *session)
 	    }
 	}
 
-	close(p_fd[0]);
+	fclose(fd);
 
 	if (waitpid(pid, &status, 0) != pid) {
 	    perror("get_sessions: error waiting for child process");
@@ -746,7 +746,7 @@ verify_and_set(char *type, int index)
 	}
 
     } else if (strcmp(type, "add") == 0) {
-	while (!verified && (count++ < RETRY_COUNT)) {
+	do {
 	    usleep(2000000);
 
 	    if (allsessions) {
@@ -775,7 +775,7 @@ verify_and_set(char *type, int index)
 			(ck_sessions[0].display != -1))
 		    verified = TRUE;
 	    }
-	}
+	} while (!verified && (count++ < RETRY_COUNT));
 
 	if (allsessions) {
 	    /* add all sessions */
