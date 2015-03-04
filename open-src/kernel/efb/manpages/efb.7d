@@ -1,0 +1,58 @@
+'\" te
+.\" Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+.TH efb 7D "30 Jun 2011" "SunOS 5.12" "Devices"
+.SH NAME
+efb \- device driver for XVR-50, XVR-100, and XVR-300 graphics
+.SH DESCRIPTION
+.sp
+.LP
+The \fBefb\fR driver is the graphics device driver for the XVR-50, XVR-100, and XVR-300 frame buffers for SPARC systems. This driver provides kernel terminal emulator support for the text console, and frame buffer support for the Xorg server.
+.sp
+.LP
+The \fBefb\fR driver responds to the \fBVIS_GETIDENTIFIER\fR ioctl defined in \fBvisual_io\fR(7I) with the identification string \fBSUNWefb\fR.
+.SH FILES
+.sp
+.ne 2
+.mk
+.na
+\fB\fB/dev/fbs/efb0\fR\fR
+.ad
+.RS 27n
+.rt  
+Device special file
+.RE
+
+.sp
+.ne 2
+.mk
+.na
+\fB\fB/kernel/drv/sparcv9/efb\fR\fR
+.ad
+.RS 27n
+.rt  
+64-bit device driver
+.RE
+
+.SH ATTRIBUTES
+.sp
+.LP
+See \fBattributes\fR(5) for a description of the following attributes:
+.sp
+
+.sp
+.TS
+tab() box;
+lw(2.75i) |lw(2.75i) 
+lw(2.75i) |lw(2.75i) 
+.
+ATTRIBUTE TYPEATTRIBUTE VALUE
+_
+ArchitectureSPARC
+_
+Availabilitydriver/graphics/efb
+.TE
+
+.SH SEE ALSO
+.sp
+.LP
+\fBfbconfig\fR(1M), \fBattributes\fR(5), \fBvisual_io\fR(7I)

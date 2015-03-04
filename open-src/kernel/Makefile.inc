@@ -111,8 +111,8 @@ CONFIG_ENV	+= POUND_SIGN="$(POUND_SIGN)"
 CONFIG_ENV	+= PROTOMETA="$(PROTOMETA)/$(MODULE_PKG)"
 CONFIG_ENV	+= X11_MAN_DIR="$(X11_MAN_DIR)"
 
-# Where to finde the common include files
-DRM_INCL	= $(TOP)/open-src/kernel/sys/drm
+# Where to find the common include files
+DRM_INCL	= -I$(TOP)/open-src/kernel/sys/drm -I$(TOP)/open-src/kernel/sys
 
 #
 # CFLAGS for modules in open-src/kernel
@@ -133,14 +133,13 @@ KFLAGS_i386	+= -W0,-y-xregs=no%float
 # To make sure ctfconvert has CTF data
 CTF_FLAGS	= -g
 
-INC_PATH	= -I$(DRM_INCL) -I/usr/include
-
+INC_PATH	= -I. $(DRM_INCL) -I/usr/include
 
 # Debug cflags - added in the "debug" path of the target makefile.
 MODTYPE_CFLAGS_DEBUG = -DDEBUG
 
-MODTYPE_CPPFLAGS = -I$(DRM_INCL) -I/usr/include
-MODTYPE_CFLAGS	= -I$(DRM_INCL) -I/usr/include $(KFLAGS) $(KFLAGS_$(MACH)) $(CTF_FLAGS) $(PROG_FLAGS)
+MODTYPE_CPPFLAGS = $(INC_PATH)
+MODTYPE_CFLAGS	= $(INC_PATH) $(KFLAGS) $(KFLAGS_$(MACH)) $(CTF_FLAGS) $(PROG_FLAGS)
 
 #
 # Define the MODTYPE environment

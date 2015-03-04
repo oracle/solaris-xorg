@@ -185,11 +185,9 @@ depend type=require fmri=pkg:/system/dtrace
 # Xserver currently links with HAL & Dbus
 depend type=require fmri=pkg:/system/hal org.opensolaris.pkgdepend.resolve=true
 
-# Basic system headers & libraries
+# Basic drivers, system headers & libraries
 depend type=require fmri=pkg:/system/header
 depend type=require fmri=pkg:/system/io/usb
-
-# Kernel drivers need these following ON driver packages
 depend type=require fmri=pkg:/system/kernel \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/kernel/platform \

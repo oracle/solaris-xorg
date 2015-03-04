@@ -43,7 +43,7 @@ MODULES	= $(KMOD) $(MDBMOD)
 
 CFLAGS		+= -v -K PIC -xc99=%all -xdebugformat=stabs  -xildoff
 CFLAGS		+= -D_ELF64 -DMDB_DEBUG -D_KERNEL -D_KMDB -g -m64
-CPPFLAGS	+= -I$(KERNEL) -I$(KERNEL)/sys/drm -I/usr/include
+CPPFLAGS	+= -I$(KERNEL) -I$(KERNEL)/sys/drm -I$(KERNEL)/sys -I/usr/include
 KMOD_LDFLAGS	= -dy -r -Nmisc/kmdbmod -Mmapfile
 SO_LDFLAGS	= $(LDFLAGS) -Wl,-z,direct -Wl,-z,text -M mapfile
 SO_LDFLAGS	+= -Wl,-z,parent=/usr/bin$(ARCHLIBSUBDIR)/mdb

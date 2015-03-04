@@ -1,5 +1,7 @@
+/* BEGIN CSTYLED */
+
 /*
- * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
  */
 
 /**
@@ -15,6 +17,7 @@
 /*
  * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
  * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+ * Copyright (c) 2009, Intel Corporation.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -40,16 +43,19 @@
 #ifndef _DRM_H_
 #define _DRM_H_
 
-#if defined(__linux__)
+#include <sys/types32.h>
 
-#include <linux/types.h>
-#include <asm/ioctl.h>
-typedef unsigned int drm_handle_t;
+#ifndef __user
+#define __user
+#endif
 
-#else /* One of the BSDs or Solaris */
+#ifdef __GNUC__
+# define DEPRECATED  __attribute__ ((deprecated))
+#else
+# define DEPRECATED
+# define __volatile__ volatile
+#endif
 
-#include <sys/ioccom.h>
-#include <sys/types.h>
 typedef int8_t   __s8;
 typedef uint8_t  __u8;
 typedef int16_t  __s16;
@@ -58,16 +64,91 @@ typedef int32_t  __s32;
 typedef uint32_t __u32;
 typedef int64_t  __s64;
 typedef uint64_t __u64;
-typedef unsigned long drm_handle_t;
 
-#if defined(__sun)
-#ifndef __user
-#define __user
+/* Solaris-specific. */
+#if defined(__SOLARIS__) || defined(sun)
+#define	_IOC_NR(nr)	(((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
+
+#define	_IOC_NRBITS	8
+#define	_IOC_TYPEBITS   8
+#define	_IOC_SIZEBITS   14
+#define	_IOC_DIRBITS    2
+
+#define	_IOC_NRMASK	((1 << _IOC_NRBITS)-1)
+#define	_IOC_TYPEMASK   ((1 << _IOC_TYPEBITS)-1)
+#define	_IOC_SIZEMASK   ((1 << _IOC_SIZEBITS)-1)
+#define	_IOC_DIRMASK    ((1 << _IOC_DIRBITS)-1)
+
+#define	_IOC_NRSHIFT    0
+#define	_IOC_TYPESHIFT  (_IOC_NRSHIFT+_IOC_NRBITS)
+#define	_IOC_SIZESHIFT  (_IOC_TYPESHIFT+_IOC_TYPEBITS)
+#define	_IOC_DIRSHIFT   (_IOC_SIZESHIFT+_IOC_SIZEBITS)
+
+#define	_IOC_NONE	0U
+#define	_IOC_WRITE	1U
+#define	_IOC_READ	2U
+
+#define	_IOC(dir, type, nr, size) \
+	(((dir) << _IOC_DIRSHIFT) | \
+	((type) << _IOC_TYPESHIFT) | \
+	((nr)   << _IOC_NRSHIFT) | \
+	((size) << _IOC_SIZESHIFT))
+
+/* used for X server compile */
+#if !defined(_KERNEL)
+#define	_IO(type, nr)		_IOC(_IOC_NONE, (type), (nr), 0)
+#define	_IOR(type, nr, size)	_IOC(_IOC_READ, (type), (nr), sizeof (size))
+#define	_IOW(type, nr, size)	_IOC(_IOC_WRITE, (type), (nr), sizeof (size))
+#define	_IOWR(type, nr, size)	_IOC(_IOC_READ|_IOC_WRITE, \
+				(type), (nr), sizeof (size))
+
+#define	_IOC_DIR(nr)		(((nr) >> _IOC_DIRSHIFT) & _IOC_DIRMASK)
+#define	_IOC_TYPE(nr)		(((nr) >> _IOC_TYPESHIFT) & _IOC_TYPEMASK)
+#define	_IOC_NR(nr)		(((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
+
+#define	IOC_IN			(_IOC_WRITE << _IOC_DIRSHIFT)
+#define	IOC_OUT			(_IOC_READ << _IOC_DIRSHIFT)
+#define	IOC_INOUT		((_IOC_WRITE|_IOC_READ) << _IOC_DIRSHIFT)
+#define	IOCSIZE_MASK		(_IOC_SIZEMASK << _IOC_SIZESHIFT)
+#define	IOCSIZE_SHIFT		(_IOC_SIZESHIFT)
+#endif /* _KERNEL */
+
+#define	_IOC_SIZE(nr)		(((nr) >> _IOC_SIZESHIFT) & _IOC_SIZEMASK)
+
+#define	DRM_IOCTL_NR(n)		_IOC_NR(n)
+#define	DRM_IOC_VOID		IOC_VOID
+#define	DRM_IOC_READ		IOC_OUT
+#define	DRM_IOC_WRITE		IOC_IN
+#define	DRM_IOC_READWRITE	IOC_INOUT
+#define	DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
+
+#endif /* __Solaris__ or sun */
+#define XFREE86_VERSION(major,minor,patch,snap) \
+		((major << 16) | (minor << 8) | patch)
+
+#ifndef CONFIG_XFREE86_VERSION
+#define CONFIG_XFREE86_VERSION XFREE86_VERSION(4,1,0,0)
 #endif
-#endif /* __sun */
 
-#endif /* __linux__ */
+#if CONFIG_XFREE86_VERSION < XFREE86_VERSION(4,1,0,0)
+#define DRM_PROC_DEVICES "/proc/devices"
+#define DRM_PROC_MISC	 "/proc/misc"
+#define DRM_PROC_DRM	 "/proc/drm"
+#define DRM_DEV_DRM	 "/dev/drm"
+#define DRM_DEV_MODE	 (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)
+#define DRM_DEV_UID	 0
+#define DRM_DEV_GID	 0
+#endif
 
+#if CONFIG_XFREE86_VERSION >= XFREE86_VERSION(4,1,0,0)
+#ifdef __OpenBSD__
+#define DRM_MAJOR       81
+#endif
+#if defined(__linux__) || defined(__NetBSD__)
+#define DRM_MAJOR       226
+#endif
+#define DRM_MAX_MINOR   15
+#endif
 #define DRM_NAME	"drm"	  /**< Name in kernel, /dev, and /proc */
 #define DRM_MIN_ORDER	5	  /**< At least 2^5 bytes = 32 bytes */
 #define DRM_MAX_ORDER	22	  /**< Up to 2^22 bytes = 4MB */
@@ -79,6 +160,19 @@ typedef unsigned long drm_handle_t;
 #define _DRM_LOCK_IS_CONT(lock)	   ((lock) & _DRM_LOCK_CONT)
 #define _DRM_LOCKING_CONTEXT(lock) ((lock) & ~(_DRM_LOCK_HELD|_DRM_LOCK_CONT))
 
+#if defined(__linux__)
+#if defined(__KERNEL__)
+typedef __u64 drm_u64_t;
+#else
+typedef unsigned long long drm_u64_t;
+#endif
+
+typedef unsigned int drm_handle_t;
+#else
+#include <sys/types.h>
+typedef uint64_t drm_u64_t;
+typedef unsigned long long drm_handle_t;	/**< To mapped regions */
+#endif
 typedef unsigned int drm_context_t;
 typedef unsigned int drm_drawable_t;
 typedef unsigned int drm_magic_t;
@@ -140,11 +234,11 @@ struct drm_version {
 	int version_minor;	  /**< Minor version */
 	int version_patchlevel;	  /**< Patch level */
 	size_t name_len;	  /**< Length of name buffer */
-	char *name;	  /**< Name of driver */
+	char __user *name;	  /**< Name of driver */
 	size_t date_len;	  /**< Length of date buffer */
-	char *date;	  /**< User-space buffer to hold date */
+	char __user *date;	  /**< User-space buffer to hold date */
 	size_t desc_len;	  /**< Length of desc buffer */
-	char *desc;	  /**< User-space buffer to hold desc */
+	char __user *desc;	  /**< User-space buffer to hold desc */
 };
 
 /**
@@ -154,12 +248,12 @@ struct drm_version {
  */
 struct drm_unique {
 	size_t unique_len;	  /**< Length of unique */
-	char *unique;	  /**< Unique name for driver instantiation */
+	char __user *unique;	  /**< Unique name for driver instantiation */
 };
 
 struct drm_list {
 	int count;		  /**< Length of user-space structures */
-	struct drm_version *version;
+	struct drm_version __user *version;
 };
 
 struct drm_block {
@@ -191,7 +285,7 @@ enum drm_map_type {
 	_DRM_AGP = 3,		  /**< AGP/GART */
 	_DRM_SCATTER_GATHER = 4,  /**< Scatter/gather memory for PCI DMA */
 	_DRM_CONSISTENT = 5,	  /**< Consistent memory for PCI DMA */
-	_DRM_GEM = 6		  /**< GEM object */
+	_DRM_GEM = 6,		  /**< GEM object */
 };
 
 /**
@@ -220,21 +314,13 @@ struct drm_ctx_priv_map {
  * \sa drmAddMap().
  */
 struct drm_map {
-#if defined(__sun)
 	unsigned long long offset;	 /**< Requested physical address (0 for SAREA)*/
-#else
-	unsigned long offset;	 /**< Requested physical address (0 for SAREA)*/
-#endif
+	unsigned long long handle;
+					 /**< User-space: "Handle" to pass to mmap() */
+					 /**< Kernel-space: kernel-virtual address */
 	unsigned long size;	 /**< Requested physical size (bytes) */
 	enum drm_map_type type;	 /**< Type of memory to map */
 	enum drm_map_flags flags;	 /**< Flags */
-#if defined(__sun)
-	/* Till handle is converted to a void * */
-	unsigned long long handle;
-#else
-	void *handle;		 /**< User-space: "Handle" to pass to mmap() */
-				 /**< Kernel-space: kernel-virtual address */
-#endif
 	int mtrr;		 /**< MTRR slot used */
 	/*   Private data */
 };
@@ -336,9 +422,10 @@ enum drm_dma_flags {
 	_DRM_DMA_LARGER_OK = 0x40     /**< Larger-than-requested buffers OK */
 };
 
-/*
- * XXXX This is the enum for flags in drm_buf_desc used by current driver
- * in drm_io32, and should be removed by the final port.
+/**
+ * DRM_IOCTL_ADD_BUFS and DRM_IOCTL_MARK_BUFS ioctl argument type.
+ *
+ * \sa drmAddBufs().
  */
 enum drm_buf_flag {
 	_DRM_PAGE_ALIGN = 0x01,	/**< Align on page boundaries for DMA */
@@ -347,12 +434,6 @@ enum drm_buf_flag {
 	_DRM_FB_BUFFER  = 0x08,  /**< Buffer is in frame buffer */
 	_DRM_PCI_BUFFER_RO = 0x10 /**< Map PCI DMA buffer read-only */
 };
-
-/**
- * DRM_IOCTL_ADD_BUFS and DRM_IOCTL_MARK_BUFS ioctl argument type.
- *
- * \sa drmAddBufs().
- */
 struct drm_buf_desc {
 	int count;		 /**< Number of buffers of this size */
 	int size;		 /**< Size in bytes */
@@ -370,7 +451,7 @@ struct drm_buf_desc {
  */
 struct drm_buf_info {
 	int count;		/**< Entries in list */
-	struct drm_buf_desc *list;
+	struct drm_buf_desc __user *list;
 };
 
 /**
@@ -378,7 +459,7 @@ struct drm_buf_info {
  */
 struct drm_buf_free {
 	int count;
-	int *list;
+	int __user *list;
 };
 
 /**
@@ -390,7 +471,7 @@ struct drm_buf_pub {
 	int idx;		       /**< Index into the master buffer list */
 	int total;		       /**< Buffer size */
 	int used;		       /**< Amount of buffer in use (for DMA) */
-	void *address;	       /**< Address of buffer */
+	void __user *address;	       /**< Address of buffer */
 };
 
 /**
@@ -398,16 +479,13 @@ struct drm_buf_pub {
  */
 struct drm_buf_map {
 	int count;		/**< Length of the buffer list */
-#ifdef __cplusplus
-	void *virt;
+#if defined(__cplusplus)
+	void __user *c_virtual;
 #else
-	void *virtual;		/**< Mmap'd area in user-virtual */
+	void __user *virtual;		/**< Mmap'd area in user-virtual */
 #endif
-	struct drm_buf_pub *list;	/**< Buffer information */
-#if defined(__sun)
-	/* XXXX Used in drm_io32.h, remove this comment when use is resolved */
+	struct drm_buf_pub __user *list;	/**< Buffer information */
 	int	fd;
-#endif /* 0 */
 };
 
 /**
@@ -420,13 +498,13 @@ struct drm_buf_map {
 struct drm_dma {
 	int context;			  /**< Context handle */
 	int send_count;			  /**< Number of buffers to send */
-	int *send_indices;	  /**< List of handles to buffers */
-	int *send_sizes;		  /**< Lengths of data to send */
+	int __user *send_indices;	  /**< List of handles to buffers */
+	int __user *send_sizes;		  /**< Lengths of data to send */
 	enum drm_dma_flags flags;	  /**< Flags */
 	int request_count;		  /**< Number of buffers requested */
 	int request_size;		  /**< Desired size for buffers */
-	int *request_indices;	  /**< Buffer information */
-	int *request_sizes;
+	int __user *request_indices;	  /**< Buffer information */
+	int __user *request_sizes;
 	int granted_count;		  /**< Number of buffers granted */
 };
 
@@ -450,7 +528,7 @@ struct drm_ctx {
  */
 struct drm_ctx_res {
 	int count;
-	struct drm_ctx *contexts;
+	struct drm_ctx __user *contexts;
 };
 
 /**
@@ -464,7 +542,7 @@ struct drm_draw {
  * DRM_IOCTL_UPDATE_DRAW ioctl argument type.
  */
 typedef enum {
-	DRM_DRAWABLE_CLIPRECTS
+	DRM_DRAWABLE_CLIPRECTS,
 } drm_drawable_info_type_t;
 
 struct drm_update_draw {
@@ -497,6 +575,7 @@ enum drm_vblank_seq_type {
 	_DRM_VBLANK_ABSOLUTE = 0x0,	/**< Wait for specific vblank sequence number */
 	_DRM_VBLANK_RELATIVE = 0x1,	/**< Wait for given number of vblanks */
 	/* bits 1-6 are reserved for high crtcs */
+	_DRM_VBLANK_HIGH_CRTC_MASK = 0x0000003e,
 	_DRM_VBLANK_EVENT = 0x4000000,   /**< Send event instead of blocking */
 	_DRM_VBLANK_FLIP = 0x8000000,   /**< Scheduled buffer swap should flip */
 	_DRM_VBLANK_NEXTONMISS = 0x10000000,	/**< If missed, wait for next vblank */
@@ -504,7 +583,6 @@ enum drm_vblank_seq_type {
 	_DRM_VBLANK_SIGNAL = 0x40000000	/**< Send signal instead of blocking, unsupported */
 };
 #define _DRM_VBLANK_HIGH_CRTC_SHIFT 1
-#define	_DRM_VBLANK_HIGH_CRTC_MASK 0x0000003e
 
 #define _DRM_VBLANK_TYPES_MASK (_DRM_VBLANK_ABSOLUTE | _DRM_VBLANK_RELATIVE)
 #define _DRM_VBLANK_FLAGS_MASK (_DRM_VBLANK_EVENT | _DRM_VBLANK_SIGNAL | \
@@ -644,51 +722,8 @@ struct drm_gem_open {
 	__u64 size;
 };
 
-/*
- * The CURSOR_WIDTH and CURSOR_HEIGHT capabilities return a valid widthxheight
- * combination for the hardware cursor. The intention is that a hardware
- * agnostic userspace can query a cursor plane size to use.
- *
- * Note that the cross-driver contract is to merely return a valid size;
- * drivers are free to attach another meaning on top, eg. i915 returns the
- * maximum plane size.
- */
-#define DRM_CAP_CURSOR_WIDTH		0x8
-#define DRM_CAP_CURSOR_HEIGHT		0x9
-#define DRM_CAP_ADDFB2_MODIFIERS	0x10
-
 /** DRM_IOCTL_GET_CAP ioctl argument type */
 struct drm_get_cap {
-	__u64 capability;
-	__u64 value;
-};
-
-/**
- * DRM_CLIENT_CAP_STEREO_3D
- *
- * if set to 1, the DRM core will expose the stereo 3D capabilities of the
- * monitor by advertising the supported 3D layouts in the flags of struct
- * drm_mode_modeinfo.
- */
-#define DRM_CLIENT_CAP_STEREO_3D	1
-
-/**
- * DRM_CLIENT_CAP_UNIVERSAL_PLANES
- *
- * If set to 1, the DRM core will expose all planes (overlay, primary, and
- * cursor) to userspace.
- */
-#define DRM_CLIENT_CAP_UNIVERSAL_PLANES  2
-
-/**
- * DRM_CLIENT_CAP_ATOMIC
- *
- * If set to 1, the DRM core will expose atomic properties to userspace
- */
-#define DRM_CLIENT_CAP_ATOMIC	3
-
-/** DRM_IOCTL_SET_CLIENT_CAP ioctl argument type */
-struct drm_set_client_cap {
 	__u64 capability;
 	__u64 value;
 };
@@ -725,7 +760,6 @@ struct drm_prime_handle {
 #define DRM_IOCTL_GEM_FLINK		DRM_IOWR(0x0a, struct drm_gem_flink)
 #define DRM_IOCTL_GEM_OPEN		DRM_IOWR(0x0b, struct drm_gem_open)
 #define DRM_IOCTL_GET_CAP		DRM_IOWR(0x0c, struct drm_get_cap)
-#define DRM_IOCTL_SET_CLIENT_CAP	DRM_IOW( 0x0d, struct drm_set_client_cap)
 
 #define DRM_IOCTL_SET_UNIQUE		DRM_IOW( 0x10, struct drm_unique)
 #define DRM_IOCTL_AUTH_MAGIC		DRM_IOW( 0x11, struct drm_auth)
@@ -810,11 +844,10 @@ struct drm_prime_handle {
 #define DRM_IOCTL_MODE_OBJ_GETPROPERTIES	DRM_IOWR(0xB9, struct drm_mode_obj_get_properties)
 #define DRM_IOCTL_MODE_OBJ_SETPROPERTY	DRM_IOWR(0xBA, struct drm_mode_obj_set_property)
 #define DRM_IOCTL_MODE_CURSOR2		DRM_IOWR(0xBB, struct drm_mode_cursor2)
-#define DRM_IOCTL_MODE_ATOMIC		DRM_IOWR(0xBC, struct drm_mode_atomic)
 
 /**
  * Device specific ioctls should only be in their respective headers
- * The device specific ioctl range is from 0x40 to 0x9f.
+ * The device specific ioctl range is from 0x40 to 0x99.
  * Generic IOCTLS restart at 0xA0.
  *
  * \sa drmCommandNone(), drmCommandRead(), drmCommandWrite(), and
@@ -846,30 +879,22 @@ struct drm_event {
 struct drm_event_vblank {
 	struct drm_event base;
 	__u64 user_data;
-#if defined(__sun)
 	__u64 tv_sec;
 	__u64 tv_usec;
-#else
-	__u32 tv_sec;
-	__u32 tv_usec;
-#endif
 	__u32 sequence;
 	__u32 reserved;
 };
 
-#define DRM_CAP_DUMB_BUFFER		0x1
-#define DRM_CAP_VBLANK_HIGH_CRTC	0x2
-#define DRM_CAP_DUMB_PREFERRED_DEPTH	0x3
-#define DRM_CAP_DUMB_PREFER_SHADOW	0x4
-#define DRM_CAP_PRIME			0x5
-#define DRM_CAP_TIMESTAMP_MONOTONIC	0x6
-#define DRM_CAP_ASYNC_PAGE_FLIP		0x7
+#define DRM_CAP_DUMB_BUFFER 0x1
+#define DRM_CAP_VBLANK_HIGH_CRTC 0x2
+#define DRM_CAP_DUMB_PREFERRED_DEPTH 0x3
+#define DRM_CAP_DUMB_PREFER_SHADOW 0x4
+#define DRM_CAP_PRIME 0x5
 
 #define DRM_PRIME_CAP_IMPORT 0x1
 #define DRM_PRIME_CAP_EXPORT 0x2
 
 /* typedef area */
-#ifndef __KERNEL__
 typedef struct drm_clip_rect drm_clip_rect_t;
 typedef struct drm_drawable_info drm_drawable_info_t;
 typedef struct drm_tex_region drm_tex_region_t;
@@ -911,6 +936,5 @@ typedef struct drm_agp_binding drm_agp_binding_t;
 typedef struct drm_agp_info drm_agp_info_t;
 typedef struct drm_scatter_gather drm_scatter_gather_t;
 typedef struct drm_set_version drm_set_version_t;
-#endif
 
 #endif /* _DRM_H_ */

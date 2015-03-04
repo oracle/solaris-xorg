@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1549,7 +1549,7 @@ err1:
 }
 
 void
-i915_hws_info_help()
+i915_hws_info_help(void)
 {
 	mdb_printf("Print hardware status page for each RING\n");
 }

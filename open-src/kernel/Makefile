@@ -36,7 +36,8 @@ include $(TOP)/open-src/common/Makefile.init
 #
 OS_SUBDIRS_common =
 
-OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
+OS_SUBDIRS_sparc = $(OS_SUBDIRS_common) \
+	efb
 
 OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	drm \
@@ -65,6 +66,9 @@ clean: clean-subdirs clean-obsolete-subdirs
 
 clean-subdirs:
 	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=clean
+
+clobber: xref-clobber
+	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=clobber
 
 subdirs: $(OS_SUBDIRS)
 
@@ -97,6 +101,26 @@ clean-obsolete-subdirs:
 	fi ; \
 	return 0
 
+# Build various x-ref's
+xref: tags cscope.out
+
+xref-clobber: tags-clobber cscope-clobber
+
+cscope.files: ALWAYS_RUN
+	@find sys $(OS_SUBDIRS_i386) $(OS_SUBDIRS_sparc) -name "Make*" -o -name "*.[ch]" > $@
+
+tags: cscope.files
+	@ctags -tw `cat cscope.files`
+
+tags-clobber:
+	@rm -f tags cscope.files
+
+cscope.out: cscope.files
+	@cscope-fast -bq
+
+cscope-clobber:
+	@rm -f cscope.files cscope.in.out cscope.out cscope.out.in cscope.out.po cscope.po.out
+	
 # Dummy target to force another target to always be run, even if a file
 # or directory with the same name already exists (as it will for subdirs)
 ALWAYS_RUN:
