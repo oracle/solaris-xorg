@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -106,14 +106,10 @@ typedef struct flightstruct {
 }           flightstruct;
 
 
-extern XColor ssblack[];
-extern XColor sswhite[];
-
 static flightstruct flights[MAXSCREENS];
 
 void
-initrotor(win)
-    Window      win;
+initrotor(Window      win)
 {
     flightstruct *fs = &flights[screen];
     XWindowAttributes xgwa;
@@ -133,21 +129,19 @@ initrotor(win)
      */
 
     wassmall = fs->smallscreen;
-    fs->smallscreen = (xgwa.width < 100);
+    fs->smallscreen = (Boolean) (xgwa.width < 100);
 
     if (wassmall && !fs->smallscreen)
 	fs->firsttime = True;
     else {
-	if (batchcount > 12)
+	if ((batchcount < 1) || (batchcount > 12))
 	    batchcount = DEFAULTCOUNT;
 	fs->num = batchcount;
 
 	if (fs->elements == NULL) {
-	    if ((fs->elements = (struct elem *)
-		malloc(sizeof(struct elem) * fs->num)) == 0) {
-		perror("malloc");
-		exit(1);
-	    }
+	    fs->elements = calloc(fs->num, sizeof(struct elem));
+	    if (fs->elements == NULL)
+		error("allocation failed, unable to motor our rotor\n");
 	}
 	memset(fs->savex, 0, sizeof(fs->savex));
 
@@ -176,8 +170,7 @@ initrotor(win)
 }
 
 void
-drawrotor(win)
-    Window      win;
+drawrotor(Window      win)
 {
     register flightstruct *fs = &flights[screen];
     register struct elem *pelem;

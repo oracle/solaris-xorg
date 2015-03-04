@@ -2,7 +2,7 @@
 #
 # xlock Makefile
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,20 +25,40 @@
 #
 # Makefile for xlock. 
 
-CFLAGS += ${DEFINES} -DSYSV -DUSE_PAM
-C_SRCS=xlock.c hsbramp.c usleep.c resource.c \
+CPPFLAGS += ${DEFINES} -DUSE_PAM -DIPv6
+C_SRCS=xlock.c hsbramp.c resource.c \
 	hopalong.c qix.c life.c image.c blank.c swarm.c rotor.c pyro.c flame.c
 HDRS=xlock.h
 IMAGES=lifeicon.bit sunlogo.bit
 SRCS=${C_SRCS} ${HDRS} ${IMAGES} xlock.man XLock.ad
 OBJS=${C_SRCS:.c=.o}
+LIBS=-lX11 -lm -lpam -lbsm
+# Base lint flags
+LINTFLAGS = -fd -s -errtags=yes -Xc99
+# 64-bit checks
+LINTFLAGS += -m64 -L/usr/lib/64 -errchk=longptr64,sizematch
+LINTFLAGS += -erroff=E_CAST_INT_TO_SMALL_INT -erroff=E_CAST_UINT_TO_SIGNED_INT
+# higher level checks for potential security issues since xlock is setuid
+LINTFLAGS += -errsecurity=extended
+# but don't warn about use of random() for screen displays, not security purposes
+LINTFLAGS += -erroff=E_SEC_RAND_WARN
+
+# Get default XFILESEARCHPATH from libXt & use it in resource.c
+DEF_FILESEARCHPATH:sh=pkg-config --variable=xfilesearchpath xt 
+datadir=$(PREFIX)/share
+libdir=$(PREFIX)/lib
+sysconfdir=/etc
+resource.o lint := CPPFLAGS += -DDEF_FILESEARCHPATH=\"$(DEF_FILESEARCHPATH)\"
 
 xlock: ${OBJS}
-	${CC} -o $@ ${OBJS} $(CFLAGS) ${LDFLAGS} -lX11 -lm -lpam -lbsm -lnsl
-
-pyro.o:=DEFINES=-DSTARSIZE=2
+	@print $(DEF_FILESEARCHPATH) | perl -n -e \
+	   'die("*** xfilesearchpath not found in xt.pc") if $$_ =~ /^$$/'
+	${CC} -o $@ ${OBJS} ${CFLAGS} ${LDFLAGS} ${LIBS}
 
 install: xlock xlock.1 XLock.ad
 	$(INSTALL) -m 0555 xlock $(DESTDIR)$(bindir)/xlock
 	$(INSTALL) -m 0444 xlock.1 $(DESTDIR)$(mandir)/man1/xlock.1
 	$(INSTALL) -m 0444 XLock.ad $(DESTDIR)$(datadir)/X11/app-defaults/XLock
+
+lint: ${C_SRCS}
+	${LINT} ${LINTFLAGS} ${CPPFLAGS} ${C_SRCS} ${LIBS}

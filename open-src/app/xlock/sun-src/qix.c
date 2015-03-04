@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1989, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1989, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -63,10 +63,10 @@ typedef struct {
 }           point;
 
 typedef struct {
-    int         pix;
     long        startTime;
-    int         first;
-    int         last;
+    uint_t      pix;
+    uint_t      first;
+    uint_t      last;
     int         dx1;
     int         dy1;
     int         dx2;
@@ -77,29 +77,28 @@ typedef struct {
     int         y2;
     int         offset;
     int         delta;
-    int         width;
-    int         height;
-    int         nlines;
+    uint_t      width;
+    uint_t      height;
+    uint_t      nlines;
     point      *lineq;
 }           qixstruct;
-
-extern XColor ssblack[];
-extern XColor sswhite[];
 
 static qixstruct qixs[MAXSCREENS];
 
 void
-initqix(win)
-    Window      win;
+initqix(Window      win)
 {
     XWindowAttributes xgwa;
     qixstruct  *qp = &qixs[screen];
 
     qp->startTime = seconds();
+    if ((batchcount < 1) || (batchcount > 1024))
+	batchcount = 64;
     qp->nlines = (batchcount + 1) * 2;
     if (!qp->lineq) {
-	qp->lineq = (point *) malloc(qp->nlines * sizeof(point));
-	memset(qp->lineq, '\0', qp->nlines * sizeof(point));
+	qp->lineq = calloc(qp->nlines, sizeof(point));
+	if (qp->lineq == NULL)
+	    error("allocation failed, unable to get our qix\n");
     }
 
     XGetWindowAttributes(dsp, win, &xgwa);
@@ -114,14 +113,14 @@ initqix(win)
     qp->offset = qp->delta / 3;
     qp->last = 0;
     qp->pix = 0;
-    qp->dx1 = random() % qp->delta + qp->offset;
-    qp->dy1 = random() % qp->delta + qp->offset;
-    qp->dx2 = random() % qp->delta + qp->offset;
-    qp->dy2 = random() % qp->delta + qp->offset;
-    qp->x1 = random() % qp->width;
-    qp->y1 = random() % qp->height;
-    qp->x2 = random() % qp->width;
-    qp->y2 = random() % qp->height;
+    qp->dx1 = (int) random() % qp->delta + qp->offset;
+    qp->dy1 = (int) random() % qp->delta + qp->offset;
+    qp->dx2 = (int) random() % qp->delta + qp->offset;
+    qp->dy2 = (int) random() % qp->delta + qp->offset;
+    qp->x1 = (int) random() % qp->width;
+    qp->y1 = (int) random() % qp->height;
+    qp->x2 = (int) random() % qp->width;
+    qp->y2 = (int) random() % qp->height;
     XSetForeground(dsp, Scr[screen].gc, ssblack[screen].pixel);
     XFillRectangle(dsp, win, Scr[screen].gc, 0, 0, qp->width, qp->height);
 }
@@ -129,15 +128,14 @@ initqix(win)
 #define check_bounds(qp, val, del, max)				\
 {								\
     if ((val) < 0) {						\
-	*(del) = (random() % (qp)->delta) + (qp)->offset;	\
+	*(del) = ((int)random() % (qp)->delta) + (qp)->offset;	\
     } else if ((val) > (max)) {					\
-	*(del) = -(random() % (qp)->delta) - (qp)->offset;	\
+	*(del) = -((int)random() % (qp)->delta) - (qp)->offset;	\
     }								\
 }
 
 void
-drawqix(win)
-    Window      win;
+drawqix(Window      win)
 {
     qixstruct  *qp = &qixs[screen];
 

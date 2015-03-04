@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -52,14 +52,12 @@
 
 /*ARGSUSED*/
 void
-drawblank(win)
-    Window      win;
+drawblank(Window      win)
 {
 }
 
 void
-initblank(win)
-    Window      win;
+initblank(Window      win)
 {
     XClearWindow(dsp, win);
 }

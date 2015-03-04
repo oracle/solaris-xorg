@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -61,21 +61,22 @@
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <X11/Xresource.h>
-
+#include <limits.h>
+#include <arpa/inet.h>
 
 typedef struct {
     const char *cmdline_arg;
-    void        (*lp_init) ();
-    void        (*lp_callback) ();
+    void        (*lp_init) (Window win);
+    void        (*lp_callback) (Window win);
     int         def_delay;
     int         def_batchcount;
-    float       def_saturation;
+    double      def_saturation;
     const char *desc;
 }           LockStruct;
 
 static const char randomstring[] = "random";
 
-static LockStruct LockProcs[] = {
+static const LockStruct LockProcs[] = {
     {"hop", inithop, drawhop, 0, 1000, 1.0, "Hopalong iterated fractals"},
     {"qix", initqix, drawqix, 30000, 64, 1.0, "Spinning lines a la Qix(tm)"},
     {"image", initimage, drawimage, 2000000, 8, 0.3, "Random bouncing image"},
@@ -89,17 +90,8 @@ static LockStruct LockProcs[] = {
 };
 #define NUMPROCS (sizeof LockProcs / sizeof LockProcs[0])
 
-#ifndef MAXHOSTNAMELEN
-#define MAXHOSTNAMELEN 64	/* SunOS 3.5 does not define this */
-#endif
-
-#ifdef X_NOT_STDC_ENV
-extern char *getenv();
-#endif
-extern char *inet_ntoa();
-
 #ifndef DEF_FILESEARCHPATH
-#define DEF_FILESEARCHPATH "/usr/lib/X11/%T/%N%S"
+#define DEF_FILESEARCHPATH "/usr/share/X11/%T/%N%S"
 #endif
 #define DEF_DISPLAY	":0"
 #define DEF_MODE	"life"
@@ -218,8 +210,7 @@ static OptionStruct opDesc[] = {
 };
 #define opDescEntries (sizeof opDesc / sizeof opDesc[0])
 
-const char *display;
-const char *mode;
+static const char *mode;
 char       *fontname;
 char       *background;
 char       *foreground;
@@ -228,7 +219,7 @@ char       *text_pass;
 char       *text_info;
 char       *text_valid;
 char       *text_invalid;
-float       saturation;
+double      saturation;
 int         nicelevel;
 int         delay;
 int         batchcount;
@@ -287,10 +278,10 @@ static argtype modevars[] = {
 #define NMODEARGS (sizeof modevars / sizeof modevars[0])
 
 
-static void
+static void _X_NORETURN
 Syntax(const char *badOption)
 {
-    int         col, len, i;
+    size_t	col, len, i;
 
     fprintf(stderr, "%s:  bad command line option \"%s\"\n\n",
 	    ProgramName, badOption);
@@ -330,10 +321,10 @@ Syntax(const char *badOption)
     exit(1);
 }
 
-static void
+static void _X_NORETURN
 Help(void)
 {
-    int         i;
+    unsigned int i;
 
     fprintf(stderr, "usage:\n        %s [-options ...]\n\n", ProgramName);
     fprintf(stderr, "where options include:\n");
@@ -352,10 +343,10 @@ Help(void)
     exit(0);
 }
 
-static void
+static void _X_NORETURN
 DumpResources(void)
 {
-    int         i;
+    unsigned int i;
 
     printf("%s.mode: %s\n", classname, DEF_MODE);
 
@@ -372,19 +363,6 @@ DumpResources(void)
 	       "saturation", LockProcs[i].def_saturation);
     }
     exit(0);
-}
-
-
-static void
-LowerString(s)
-    char       *s;
-{
-
-    while (*s) {
-	if (isupper(*s))
-	    *s += ('a' - 'A');
-	s++;
-    }
 }
 
 static void
@@ -404,11 +382,10 @@ GetResource(
     char        buffer[BUFSIZ];
     char        fullname[BUFSIZ];
     char        fullclass[BUFSIZ];
-    int         len;
+    size_t      len;
 
-/* 4036289. Limit the size of string to print. */
-    snprintf(fullname, BUFSIZ, "%s.%s", parentname, name);
-    snprintf(fullclass, BUFSIZ, "%s.%s", parentclass, class);
+    snprintf(fullname, sizeof(fullname), "%s.%s", parentname, name);
+    snprintf(fullclass, sizeof(fullclass), "%s.%s", parentclass, class);
     if (XrmGetResource(database, fullname, fullclass, &type, &value)) {
 	string = value.addr;
 	len = value.size;
@@ -416,70 +393,67 @@ GetResource(
 	string = def;
 	len = strlen(string);
     }
-    (void) strncpy(buffer, string, sizeof(buffer));
-    buffer[sizeof(buffer) - 1] = '\0';
+    (void) strlcpy(buffer, string, sizeof(buffer));
 
     switch (valueType) {
     case t_String:
 	{
-	    char       *s = (char *) malloc(len + 1);
-	    if (s == (char *) NULL)
-		error("GetResource - couldn't allocate memory");
-	    (void) strncpy(s, string, len);
-	    s[len] = '\0';
+	    char       *s = calloc(len + 1, 1);
+	    if (s == NULL)
+		error("GetResource - couldn't allocate memory\n");
+	    (void) strlcpy(s, string, len + 1);
 	    *((char **) valuep) = s;
 	}
 	break;
     case t_Bool:
-	LowerString(buffer);
-	*((int *) valuep) = (!strcmp(buffer, "true") ||
-			     !strcmp(buffer, "on") ||
-			     !strcmp(buffer, "enabled") ||
-			     !strcmp(buffer, "yes")) ? True : False;
+	*((int *) valuep) = (!strcasecmp(buffer, "true") ||
+			     !strcasecmp(buffer, "on") ||
+			     !strcasecmp(buffer, "enabled") ||
+			     !strcasecmp(buffer, "yes")) ? True : False;
 	break;
     case t_Int:
 	*((int *) valuep) = atoi(buffer);
 	break;
     case t_Float:
-	*((float *) valuep) = atof(buffer);
+	*((double *) valuep) = atof(buffer);
 	break;
     }
 }
 
 
 static      XrmDatabase
-parsefilepath(xfilesearchpath, TypeName, ClassName)
-    char       *xfilesearchpath;
-    char       *TypeName;
-    char       *ClassName;
+parsefilepath(
+    char       *xfilesearchpath,
+    char       *TypeName,
+    char       *ClassName
+    )
 {
     XrmDatabase database = NULL;
-/* 4036289, do not use stack buffer, allocate this buffer from the heap*/
     char       *appdefaults;
     char       *src;
     char       *dst;
-    int	       buflen;
-    int	       bufsize = BUFSIZ;
+    size_t      bufsize = BUFSIZ;
 
     src = xfilesearchpath;
 
-    appdefaults = (char *)malloc(BUFSIZ);
+    appdefaults = malloc(bufsize);
     if (!appdefaults)
 	return NULL;
 
     appdefaults[0] = '\0';
     dst = appdefaults;
+    /* CONSTCOND */
     while (1) {
 	/* Scan through source, expanding % strings as necessary, and
 	   passing completed paths to XrmGetFileDatabase when ':' or
-	   end of string is found.  To prevent buffer overflows (bug 
+	   end of string is found.  To prevent buffer overflows (bug
 	   4483090) each time we decide to append to the string, we
-	   set appenddata to point to the data to be appended & 
+	   set appenddata to point to the data to be appended &
 	   appendsize to the size to be appended, and then do all the
 	   appending & size checking in one place at the end.
 	 */
-	char *appenddata;
-	int appendsize = 0;
+	char *appenddata = NULL;
+	size_t appendsize = 0;
 
 	if (*src == '%') {
 	    src++;
@@ -521,32 +495,37 @@ parsefilepath(xfilesearchpath, TypeName, ClassName)
 	    appenddata = src++;
 	    appendsize = 1;
 	}
-	if (appendsize > 0) {
-	    buflen = dst - appdefaults;
+	if (appendsize > (1024 * 1024))		/* Don't be ridiculous */
+	    error("parsefilepath - requested too much memory\n");
+	else if (appendsize > 0) {
+	    size_t buflen = dst - appdefaults;
 	    if (buflen + appendsize >= bufsize) {
-		int newsize;
-		
+		size_t newsize;
+
 		/* Grow by a bit more than we need so we don't have to
 		   realloc constantly. */
-		if (appendsize > BUFSIZ) {
-		    newsize = bufsize + appendsize;
+		if (appendsize >= BUFSIZ) {
+		    newsize = bufsize + appendsize + 1;
 		} else {
 		    newsize = bufsize + BUFSIZ;
 		}
-		
+
+		/* But don't grow to ridiculous sizes - 1MB should be enough */
+		if (newsize > (1024 * 1024))
+		    error("parsefilepath - requested too much memory\n");
+
 		appdefaults = realloc(appdefaults, newsize);
 		if (appdefaults) {
 		    dst = appdefaults + buflen;
 		    bufsize = newsize;
 		} else {
-		    error("parsefilepath - couldn't allocate memory");
-		    exit(1);
+		    error("parsefilepath - couldn't allocate memory\n");
 		}
 	    }
 	    if (appendsize == 1) {
 		*dst++ = *appenddata;
 	    } else {
-		strncat(dst, appenddata, appendsize);
+		strlcat(dst, appenddata, appendsize + 1);
 		dst += appendsize;
 	    }
 	    *dst = '\0';
@@ -559,14 +538,16 @@ parsefilepath(xfilesearchpath, TypeName, ClassName)
 
 
 static void
-open_display()
+open_display(const char *display)
 {
     if (display != NULL) {
 	char       *colon = strrchr(display, ':');
-	int         n = colon - display;
+	size_t      n;
 
 	if (colon == NULL)
 	    error("Malformed -display argument, \"%s\"\n", display);
+	else
+	    n = colon - display;
 
 	/*
 	 * only restrict access to other displays if we are locking and if the
@@ -577,13 +558,13 @@ open_display()
 	if (!remote && n
 		&& strncmp(display, "unix", n)
 		&& strncmp(display, "localhost", n)) {
-    /* 1183055(rfe):  xlock doesnt accept long display/host name 
-     *         Get the ip address of $DISPLAY and the machine name.       
+    /* 1183055(rfe):  xlock doesnt accept long display/host name
+     *         Get the ip address of $DISPLAY and the machine name.
      *	       If both are matching then allow to open display.
      *         ( also check against the ip addr list returned by gethostbyname.
      *	       Otherwise, report error and exit.
      *         New Local Variables:
-     *            display_ip   contains IP address of the $DISPLAY 
+     *            display_ip   contains IP address of the $DISPLAY
      *            host_ip      contains IP address of the machine_name
      *            tmp_display  contains the $DISPLAY - [:0.0 or :0]
      *     This fix will take care of long host name and IP address form.
@@ -600,45 +581,42 @@ open_display()
 	    struct hostent *host_display;
 #endif
 	    int         badhost = 1;
-	    char       *tmp_display = malloc(n + 1);
+	    char       *tmp_display = strndup(display, n);
 	    char        hostname[MAXHOSTNAMELEN];
-
-            strncpy(tmp_display, display, n);
-            tmp_display[n] = '\0';
 
 	    if (gethostname(hostname, MAXHOSTNAMELEN))
 		error("Can't get local hostname.\n");
 
 #ifdef IPv6
-	    if (getaddrinfo(hostname, NULL, NULL, &localhostaddr) != 0) 
+	    if (getaddrinfo(hostname, NULL, NULL, &localhostaddr) != 0)
 		error("Can't get address information for %s.\n", hostname);
 
 	    if (getaddrinfo(tmp_display, NULL, NULL, &otherhostaddr) != 0)
-		error("Can't get address information for %s.\n", 
+		error("Can't get address information for %s.\n",
 		  tmp_display);
 
 	    for (i = localhostaddr; i != NULL && badhost; i = i->ai_next) {
 		for (j = otherhostaddr; j != NULL && badhost; j = j->ai_next) {
 		    if (i->ai_family == j->ai_family) {
 			if (i->ai_family == AF_INET) {
-			    struct sockaddr_in *sinA 
+			    struct sockaddr_in *sinA
 			      = (struct sockaddr_in *) i->ai_addr;
 			    struct sockaddr_in *sinB
 			      = (struct sockaddr_in *) j->ai_addr;
 			    struct in_addr *A = &sinA->sin_addr;
 			    struct in_addr *B = &sinB->sin_addr;
-			    
+
 			    if (memcmp(A,B,sizeof(struct in_addr)) == 0) {
 				badhost = 0;
 			    }
 			} else if (i->ai_family == AF_INET6) {
-			    struct sockaddr_in6 *sinA 
+			    struct sockaddr_in6 *sinA
 			      = (struct sockaddr_in6 *) i->ai_addr;
-			    struct sockaddr_in6 *sinB 
+			    struct sockaddr_in6 *sinB
 			      = (struct sockaddr_in6 *) j->ai_addr;
 			    struct in6_addr *A = &sinA->sin6_addr;
 			    struct in6_addr *B = &sinB->sin6_addr;
-			    
+
 			    if (memcmp(A,B,sizeof(struct in6_addr)) == 0) {
 				badhost = 0;
 			    }
@@ -667,17 +645,17 @@ open_display()
 
             for ( ;*host->h_addr_list; host->h_addr_list++ ) {
                 strcpy ( host_ip, inet_ntoa(*host->h_addr_list ) );
-		if (!strcmp(display_ip, host_ip ) ) { 
+		if (!strcmp(display_ip, host_ip ) ) {
 		    /* check against the list of Internet address */
-		    badhost = 0;  
+		    badhost = 0;
 		    break;
                  }
             }
 
             if ( badhost ) {
 		for (hp = host->h_aliases; *hp; hp++) {
-		    if (!strncmp(tmp_display, *hp, n)) { 
-		    /* display has been replaced tmp_display because 
+		    if (!strncmp(tmp_display, *hp, n)) {
+		    /* display has been replaced by tmp_display because
 		     * display will be in :0.0 format and tmp_display
 		     * will have only the hostname/ip_address form.
 		     */
@@ -687,7 +665,7 @@ open_display()
                 }
             }
 #endif /* IPv6 */
-	
+
 	    if (badhost) {
 	        *colon = (char) 0;
 	        error("can't lock %s's display\n", display);
@@ -701,10 +679,11 @@ open_display()
 }
 
 
-void
-printvar(class, var)
-    char       *class;
-    argtype     var;
+static void
+printvar(
+    const char *class,
+    argtype     var
+    )
 {
     switch (var.type) {
     case t_String:
@@ -722,7 +701,7 @@ printvar(class, var)
 	break;
     case t_Float:
 	fprintf(stderr, "%s.%s: %g\n",
-		class, var.name, *((float *) var.var));
+		class, var.name, *((double *) var.var));
 	break;
     }
 }
@@ -747,8 +726,8 @@ GetResources(
     char       *userpath;
     char       *env;
     char       *serverString;
-    int         i;
-    int		modeLength;
+    char       *display;
+    unsigned int i;
 
     XrmInitialize();
 
@@ -777,11 +756,9 @@ GetResources(
     if (!userpath) {
 	env = getenv("XAPPLRESDIR");
 	if (env)
-/* 4036289, Limit the string to print */
-	    snprintf(userfile, BUFSIZ, "%s/%%N:%s/%%N", env, homeenv);
+	    snprintf(userfile, sizeof(userfile), "%s/%%N:%s/%%N", env, homeenv);
 	else
-/* 4036289, Limit the string to print */
-	    snprintf(userfile, BUFSIZ, "%s/%%N", homeenv);
+	    snprintf(userfile, sizeof(userfile), "%s/%%N", homeenv);
 	userpath = userfile;
     }
     userDB = parsefilepath(userpath, "app-defaults", classname);
@@ -798,15 +775,15 @@ GetResources(
     GetResource(RDB, ProgramName, classname, "remote", "Remote", t_Bool,
 		"off", &remote);
 
-    open_display();
+    open_display(display);
     serverString = XResourceManagerString(dsp);
     if (serverString) {
 	serverDB = XrmGetStringDatabase(serverString);
 	(void) XrmMergeDatabases(serverDB, &RDB);
     } else {
 	char        buf[BUFSIZ];
-/* 4036289, Limit the string to print */
-	snprintf(buf, BUFSIZ, "%s/.Xdefaults", homeenv);
+
+	snprintf(buf, sizeof(buf), "%s/.Xdefaults", homeenv);
 	homeDB = XrmGetFileDatabase(buf);
 	(void) XrmMergeDatabases(homeDB, &RDB);
     }
@@ -823,21 +800,16 @@ GetResources(
     if (!strncmp(mode, randomstring, strlen(mode)))
 	mode = LockProcs[random() % (NUMPROCS - 2)].cmdline_arg;
 
-/* 4036289, Limit the string to print */
-    snprintf(modename, BUFSIZ, "%s.%s", ProgramName, mode);
-    snprintf(modeclass, BUFSIZ, "%s.%s", classname, mode);
+    snprintf(modename, sizeof(modename), "%s.%s", ProgramName, mode);
+    snprintf(modeclass, sizeof(modeclass), "%s.%s", classname, mode);
 
-    modeLength = strlen(mode);
-    modeTable[0].specifier = (char *)malloc(modeLength + 
-					    strlen(MODESPECIFIER0) + 2);
-    modeTable[1].specifier = (char *)malloc(modeLength + 
-					    strlen(MODESPECIFIER1) + 2);
-    modeTable[2].specifier = (char *)malloc(modeLength + 
-					    strlen(MODESPECIFIER2) + 2);
-    
-    sprintf(modeTable[0].specifier, "%s.%s", mode, MODESPECIFIER0);
-    sprintf(modeTable[1].specifier, "%s.%s", mode, MODESPECIFIER1);
-    sprintf(modeTable[2].specifier, "%s.%s", mode, MODESPECIFIER2);
+    if ((asprintf(&modeTable[0].specifier, "%s%s", mode, MODESPECIFIER0) == -1)
+	||
+	(asprintf(&modeTable[1].specifier, "%s%s", mode, MODESPECIFIER1) == -1)
+	||
+	(asprintf(&modeTable[2].specifier, "%s%s", mode, MODESPECIFIER2) == -1)
+	)
+	error("GetResources - couldn't allocate strings\n");
 
     XrmParseCommand(&modeDB, modeTable, modeEntries, ProgramName, &argc, argv);
     (void) XrmMergeDatabases(modeDB, &RDB);
@@ -885,7 +857,7 @@ GetResources(
 void
 CheckResources(void)
 {
-    int         i;
+    unsigned int  i;
 
     if (batchcount < 1)
 	Syntax("-batchcount argument must be positive.");

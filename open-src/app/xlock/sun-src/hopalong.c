@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1988, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1988, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -74,17 +74,13 @@ typedef struct {
     long        startTime;
 }           hopstruct;
 
-extern XColor ssblack[];
-extern XColor sswhite[];
-
 static hopstruct hops[MAXSCREENS];
 static XPoint *pointBuffer = 0;	/* pointer for XDrawPoints */
 
 #define TIMEOUT 30
 
 void
-inithop(win)
-    Window      win;
+inithop(Window      win)
 {
     double      range;
     XWindowAttributes xgwa;
@@ -108,8 +104,14 @@ inithop(win)
 
     hp->i = hp->j = 0.0;
 
-    if (!pointBuffer)
-	pointBuffer = (XPoint *) malloc(batchcount * sizeof(XPoint));
+    if ((batchcount < 1) || (batchcount > 131072))
+	batchcount = 1000;
+
+    if (pointBuffer == NULL) {
+	pointBuffer = calloc(batchcount, sizeof(XPoint));
+	if (pointBuffer == NULL)
+	    error("allocation failed, unable to hopalong now\n");
+    }
 
     XSetForeground(dsp, Scr[screen].gc, ssblack[screen].pixel);
     XFillRectangle(dsp, win, Scr[screen].gc, 0, 0,
@@ -120,8 +122,7 @@ inithop(win)
 
 
 void
-drawhop(win)
-    Window      win;
+drawhop(Window      win)
 {
     double      oldj;
     int         k = batchcount;
@@ -140,8 +141,8 @@ drawhop(win)
 	hp->i = oldj + (hp->i < 0
 			? sqrt(fabs(hp->b * (hp->i + hp->inc) - hp->c))
 			: -sqrt(fabs(hp->b * (hp->i + hp->inc) - hp->c)));
-	xp->x = hp->centerx + (int) (hp->i + hp->j);
-	xp->y = hp->centery - (int) (hp->i - hp->j);
+	xp->x = (short) (hp->centerx + (int) (hp->i + hp->j));
+	xp->y = (short) (hp->centery - (int) (hp->i - hp->j));
 	xp++;
     }
     XDrawPoints(dsp, win, Scr[screen].gc,

@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -37,9 +37,12 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef _XLOCK_H
+#define _XLOCK_H
+
 /*-
  *
- * xlock.h - external interfaces for new modes and SYSV OS defines.
+ * xlock.h - external interfaces for new modes and OS defines.
  */
 
 #include <X11/Xlib.h>
@@ -59,10 +62,10 @@ typedef struct {
 extern perscreen Scr[MAXSCREENS];
 extern Display *dsp;
 extern int  screen;
+extern XColor ssblack[MAXSCREENS];/* black color for screen saver screen */
+extern XColor sswhite[MAXSCREENS];/* white color for screen saver screen */
 
 extern char *ProgramName;
-extern const char *display;
-extern const char *mode;
 extern char *fontname;
 extern char *background;
 extern char *foreground;
@@ -71,7 +74,7 @@ extern char *text_pass;
 extern char *text_info;
 extern char *text_valid;
 extern char *text_invalid;
-extern float saturation;
+extern double saturation;
 extern int  nicelevel;
 extern int  delay;
 extern int  batchcount;
@@ -93,10 +96,11 @@ extern void CheckResources(void);
 extern void hsbramp(double h1, double s1, double b1,
 		    double h2, double s2, double b2,
 		    int count, u_char *red, u_char *green, u_char *blue);
-extern long seconds(void);
+
+#define seconds()	time(NULL)
 
 /* PRINTFLIKE1 */
-extern void error(const char *format, ...) _X_ATTRIBUTE_PRINTF(1,2);
+extern void error(const char *format, ...) _X_ATTRIBUTE_PRINTF(1,2) _X_NORETURN;
 
 /*
  * Declare external interface routines for supported screen savers.
@@ -129,22 +133,6 @@ extern void drawpyro(Window);
 extern void initflame(Window);
 extern void drawflame(Window);
 
-/* System V Release 4 redefinitions of BSD functions and structures */
-
-#ifdef SYSV
-
-#include <sys/time.h>
-#include <poll.h>
-#include <shadow.h>
-/*
-#define srandom srand
-#define random rand
-#define MAXRAND (32767.0)
-*/
 #define MAXRAND (2147483648.0)
 
-#else
-
-#define MAXRAND (2147483648.0)
-
-#endif
+#endif /* _XLOCK_H */

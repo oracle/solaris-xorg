@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -58,15 +58,6 @@
 #include "xlock.h"
 #include "lifeicon.bit"
 
-#ifdef SYSV
-#ifndef bcopy
-#define bcopy(a,b,c) memmove(b,a,c)
-#endif
-#ifndef bzero
-#define bzero(a,b) memset(a,0,b)
-#endif
-#endif
-
 static XImage logo = {
     0, 0,			/* width, height */
     0, XYBitmap, 0,		/* xoffset, format, data */
@@ -95,9 +86,6 @@ typedef struct {
     unsigned char lastbuf[MAXCOLS];
     unsigned char agebuf[(MAXROWS + 2) * (MAXCOLS + 2)];
 }           lifestruct;
-
-extern XColor ssblack[];
-extern XColor sswhite[];
 
 static lifestruct lifes[MAXSCREENS];
 static int  icon_width, icon_height;
@@ -343,16 +331,18 @@ static int  patterns[][128] = {
 
 
 static void
-drawcell(win, row, col)
-    Window      win;
-    int         row, col;
+drawcell(
+    Window      win,
+    int         row,
+    int         col
+    )
 {
     lifestruct *lp = &lifes[screen];
 
     XSetForeground(dsp, Scr[screen].gc, sswhite[screen].pixel);
     if (!mono && Scr[screen].npixels > 2) {
-	unsigned char *loc = lp->buffer + ((row + 1) * (lp->ncols + 2)) + col + 1;
-	unsigned char *ageptr = lp->agebuf + (loc - lp->buffer);
+	int off = ((row + 1) * (lp->ncols + 2)) + col + 1;
+	unsigned char *ageptr = lp->agebuf + off;
 	unsigned char age = *ageptr;
 
 	/* if we aren't up to blue yet, then keep aging the cell. */
@@ -373,9 +363,11 @@ drawcell(win, row, col)
 
 
 static void
-erasecell(win, row, col)
-    Window      win;
-    int         row, col;
+erasecell(
+    Window      win,
+    int         row,
+    int         col
+    )
 {
     lifestruct *lp = &lifes[screen];
     XSetForeground(dsp, Scr[screen].gc, ssblack[screen].pixel);
@@ -385,8 +377,7 @@ erasecell(win, row, col)
 
 
 static void
-spawn(loc)
-    unsigned char *loc;
+spawn(unsigned char *loc)
 {
     lifestruct *lp = &lifes[screen];
     unsigned char *ulloc, *ucloc, *urloc, *clloc, *crloc, *llloc, *lcloc, *lrloc,
@@ -394,7 +385,7 @@ spawn(loc)
     int         off, row, col, lastrow;
 
     lastrow = (lp->nrows) * (lp->ncols + 2);
-    off = loc - lp->buffer;
+    off = (int) (loc - lp->buffer);
     col = off % (lp->ncols + 2);
     row = (off - col) / (lp->ncols + 2);
     ulloc = loc - lp->ncols - 3;
@@ -441,8 +432,7 @@ spawn(loc)
 
 
 static void
-killcell(loc)
-    unsigned char *loc;
+killcell(unsigned char *loc)
 {
     lifestruct *lp = &lifes[screen];
 
@@ -451,7 +441,7 @@ killcell(loc)
     int         off, row, col, lastrow;
 
     lastrow = (lp->nrows) * (lp->ncols + 2);
-    off = loc - lp->buffer;
+    off = (int) (loc - lp->buffer);
     row = off / (lp->ncols + 2);
     col = off % (lp->ncols + 2);
     row = (off - col) / (lp->ncols + 2);
@@ -497,10 +487,11 @@ killcell(loc)
 
 
 static void
-setcell(win, row, col)
-    Window      win;
-    int         row;
-    int         col;
+setcell(
+    Window      win,
+    int         row,
+    int         col
+    )
 {
     lifestruct *lp = &lifes[screen];
     unsigned char *loc;
@@ -512,7 +503,7 @@ setcell(win, row, col)
 
 
 static void
-init_fates()
+init_fates(void)
 {
     int         i, bits, neighbors;
 
@@ -531,8 +522,7 @@ init_fates()
 
 
 void
-initlife(win)
-    Window      win;
+initlife(Window      win)
 {
     int         row, col;
     int        *patptr;
@@ -583,8 +573,7 @@ initlife(win)
 
 
 void
-drawlife(win)
-    Window      win;
+drawlife(Window      win)
 {
     unsigned char *loc, *temploc, *lastloc;
     int         row, col;
@@ -612,7 +601,7 @@ drawlife(win)
 		if (!(*(loc + 1) & RT)) {
 		    spawn(loc);
 		}
-		/* NO BREAK */
+		/* FALLTHROUGH */
 	    case SAME:
 		if (*(loc + 1) & RT) {
 		    drawcell(win, row, col);
@@ -642,8 +631,8 @@ drawlife(win)
      */
 
     if (seconds() - lp->shooterTime > TIMEOUT) {
-	int         hsp = random() % (lp->ncols - 5) + 3;
-	int         vsp = random() % (lp->nrows - 5) + 3;
+	int         hsp = (int) random() % (lp->ncols - 5) + 3;
+	int         vsp = (int) random() % (lp->nrows - 5) + 3;
 	int         hoff = 1;
 	int         voff = 1;
 	if (vsp > lp->nrows / 2)

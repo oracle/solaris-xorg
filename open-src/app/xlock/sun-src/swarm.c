@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -64,7 +64,7 @@ typedef struct {
     long        startTime;
     int         width;
     int         height;
-    int         beecount;	/* number of bees */
+    uint_t      beecount;	/* number of bees */
     XSegment   *segs;		/* bee lines */
     XSegment   *old_segs;	/* old bee lines */
     short      *x;
@@ -77,21 +77,19 @@ typedef struct {
     short       wyv;
 }           swarmstruct;
 
-extern XColor ssblack[];
-extern XColor sswhite[];
-
 static swarmstruct swarms[MAXSCREENS];
 
 void
-initswarm(win)
-    Window      win;
+initswarm(Window      win)
 {
     XWindowAttributes xgwa;
     swarmstruct *sp = &swarms[screen];
-    int         b;
+    uint_t       b;
 
     sp->startTime = seconds();
-    sp->beecount = batchcount;
+    if ((batchcount < 1) || (batchcount > 1024))
+	batchcount = 100;
+    sp->beecount = (uint_t) batchcount;
 
     XGetWindowAttributes(dsp, win, &xgwa);
     sp->width = xgwa.width;
@@ -104,18 +102,24 @@ initswarm(win)
     /* Allocate memory. */
 
     if (!sp->segs) {
-	sp->segs = (XSegment *) malloc(sizeof(XSegment) * sp->beecount);
-	sp->old_segs = (XSegment *) malloc(sizeof(XSegment) * sp->beecount);
-	sp->x = (short *) malloc(sizeof(short) * sp->beecount * TIMES);
-	sp->y = (short *) malloc(sizeof(short) * sp->beecount * TIMES);
-	sp->xv = (short *) malloc(sizeof(short) * sp->beecount);
-	sp->yv = (short *) malloc(sizeof(short) * sp->beecount);
+	sp->segs = malloc(sizeof(XSegment) * sp->beecount);
+	sp->old_segs = malloc(sizeof(XSegment) * sp->beecount);
+	sp->x = malloc(sizeof(short) * sp->beecount * TIMES);
+	sp->y = malloc(sizeof(short) * sp->beecount * TIMES);
+	sp->xv = malloc(sizeof(short) * sp->beecount);
+	sp->yv = malloc(sizeof(short) * sp->beecount);
+
+	if ((sp->segs == NULL) || (sp->old_segs == NULL) ||
+	    (sp->x == NULL) || (sp->y == NULL) ||
+	    (sp->xv  == NULL) || (sp->yv == NULL)) {
+	    error("allocation failed, colony collapsed, no bees left in the swarm\n");
+	}
     }
     /* Initialize point positions, velocities, etc. */
 
     /* wasp */
-    sp->wx[0] = BORDER + random() % (sp->width - 2 * BORDER);
-    sp->wy[0] = BORDER + random() % (sp->height - 2 * BORDER);
+    sp->wx[0] = (short) (BORDER + random() % (sp->width - 2 * BORDER));
+    sp->wy[0] = (short) (BORDER + random() % (sp->height - 2 * BORDER));
     sp->wx[1] = sp->wx[0];
     sp->wy[1] = sp->wy[0];
     sp->wxv = 0;
@@ -123,23 +127,22 @@ initswarm(win)
 
     /* bees */
     for (b = 0; b < sp->beecount; b++) {
-	X(0, b) = random() % sp->width;
+	X(0, b) = (short) (random() % sp->width);
 	X(1, b) = X(0, b);
-	Y(0, b) = random() % sp->height;
+	Y(0, b) = (short) (random() % sp->height);
 	Y(1, b) = Y(0, b);
-	sp->xv[b] = RAND(7);
-	sp->yv[b] = RAND(7);
+	sp->xv[b] = (short) RAND(7);
+	sp->yv[b] = (short) RAND(7);
     }
 }
 
 
 
 void
-drawswarm(win)
-    Window      win;
+drawswarm(Window      win)
 {
     swarmstruct *sp = &swarms[screen];
-    int         b;
+    uint_t       b;
 
     /* <=- Wasp -=> */
     /* Age the arrays. */
@@ -148,8 +151,8 @@ drawswarm(win)
     sp->wy[2] = sp->wy[1];
     sp->wy[1] = sp->wy[0];
     /* Accelerate */
-    sp->wxv += RAND(WASPACC);
-    sp->wyv += RAND(WASPACC);
+    sp->wxv += (short) RAND(WASPACC);
+    sp->wyv += (short) RAND(WASPACC);
 
     /* Speed Limit Checks */
     if (sp->wxv > WASPVEL)
@@ -162,8 +165,8 @@ drawswarm(win)
 	sp->wyv = -WASPVEL;
 
     /* Move */
-    sp->wx[0] = sp->wx[1] + sp->wxv;
-    sp->wy[0] = sp->wy[1] + sp->wyv;
+    sp->wx[0] = (short) (sp->wx[1] + sp->wxv);
+    sp->wy[0] = (short) (sp->wy[1] + sp->wyv);
 
     /* Bounce Checks */
     if ((sp->wx[0] < BORDER) || (sp->wx[0] > sp->width - BORDER - 1)) {
@@ -175,8 +178,8 @@ drawswarm(win)
 	sp->wy[0] += sp->wyv;
     }
     /* Don't let things settle down. */
-    sp->xv[random() % sp->beecount] += RAND(3);
-    sp->yv[random() % sp->beecount] += RAND(3);
+    sp->xv[random() % sp->beecount] += (short) RAND(3);
+    sp->yv[random() % sp->beecount] += (short) RAND(3);
 
     /* <=- Bees -=> */
     for (b = 0; b < sp->beecount; b++) {
@@ -226,7 +229,7 @@ drawswarm(win)
     XSetForeground(dsp, Scr[screen].gc, ssblack[screen].pixel);
     XDrawLine(dsp, win, Scr[screen].gc,
 	      sp->wx[1], sp->wy[1], sp->wx[2], sp->wy[2]);
-    XDrawSegments(dsp, win, Scr[screen].gc, sp->old_segs, sp->beecount);
+    XDrawSegments(dsp, win, Scr[screen].gc, sp->old_segs, (int) sp->beecount);
 
     XSetForeground(dsp, Scr[screen].gc, sswhite[screen].pixel);
     XDrawLine(dsp, win, Scr[screen].gc,
@@ -236,5 +239,5 @@ drawswarm(win)
 	if (++sp->pix >= Scr[screen].npixels)
 	    sp->pix = 0;
     }
-    XDrawSegments(dsp, win, Scr[screen].gc, sp->segs, sp->beecount);
+    XDrawSegments(dsp, win, Scr[screen].gc, sp->segs, (int) sp->beecount);
 }

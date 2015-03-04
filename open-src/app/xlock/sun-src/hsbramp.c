@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1988, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1988, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -52,6 +52,7 @@
 
 #include <sys/types.h>
 #include <math.h>
+#include "xlock.h"
 
 static void
 hsb2rgb(
@@ -71,8 +72,8 @@ hsb2rgb(
 
     H -= floor(H);		/* remove anything over 1 */
     H *= 6.0;
-    i = floor(H);		/* 0..5 */
-    f = H - (float) i;		/* f = fractional part of H */
+    i = (int) floor(H);		/* 0..5 */
+    f = H - (double) i;		/* f = fractional part of H */
     bb = 255.0 * B;
     p = (u_char) (bb * (1.0 - S));
     q = (u_char) (bb * (1.0 - (S * f)));

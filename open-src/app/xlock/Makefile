@@ -2,7 +2,7 @@
 #
 # xlock - manually activated screen lock program
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,7 +33,7 @@ MODULE_DESC = the xlock screen lock program
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1988, 2011
+ORACLE_COPYRIGHT_YEARS = 1988, 2015
 ORACLE_TPNO = 9808
 
 # No upstream sources for these files, since they're Solaris-specific
@@ -45,10 +45,6 @@ ADDITIONAL_SOURCE_DIR=sun-src
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= xlock.1
 MODULE_STABILITY=Committed
-
-# Haven't made sure it's 64-bit clean yet, so continue building 32-bit for now
-BUILD_TYPES_SET=yes
-BUILD_TYPES=32
 
 # No configure script to run, but need to make build dirs
 CONFIGURE_TARGETS = $(BUILD_DIR)
@@ -66,3 +62,6 @@ MODULE_INSTALL_MAKEFLAGS = \
 MODULE_X11_BINCOMPAT_LINKS = xlock
 
 include ../Makefile.inc
+
+lint: $(BUILD_DEPS)
+	$(DEFAULT_BUILD_COMMAND:@DIR@=$(BUILD_DIR)) lint

@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1990, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -78,14 +78,10 @@ typedef struct {
     long        startTime;
 }           imagestruct;
 
-extern XColor ssblack[];
-extern XColor sswhite[];
-
 static imagestruct ims[MAXSCREENS];
 
 void
-drawimage(win)
-    Window      win;
+drawimage(Window      win)
 {
     imagestruct *ip = &ims[screen];
     int         i;
@@ -98,8 +94,8 @@ drawimage(win)
 			   ip->yb + sunlogo_height * ip->icons[i].y,
 			   sunlogo_width, sunlogo_height);
 
-	ip->icons[i].x = random() % ip->ncols;
-	ip->icons[i].y = random() % ip->nrows;
+	ip->icons[i].x = (int) random() % ip->ncols;
+	ip->icons[i].y = (int) random() % ip->nrows;
     }
     if (Scr[screen].npixels == 2)
 	XSetForeground(dsp, Scr[screen].gc, sswhite[screen].pixel);
@@ -117,8 +113,7 @@ drawimage(win)
 }
 
 void
-initimage(win)
-    Window      win;
+initimage(Window      win)
 {
     XWindowAttributes xgwa;
     imagestruct *ip = &ims[screen];

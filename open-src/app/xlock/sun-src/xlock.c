@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1988, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1988, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -139,13 +139,17 @@
 
 #include <stdio.h>
 #include <signal.h>
+#include <siginfo.h>
 #include <string.h>
 #include <stdarg.h>
 #include <crypt.h>
-#ifdef SYSV
 #include <shadow.h>
-#endif
 #include <pwd.h>
+#ifdef __sun
+# include <note.h>
+#else
+# define NOTE(s)  /* ignored */
+#endif
 
 #include "xlock.h"
 #include <X11/cursorfont.h>
@@ -170,8 +174,8 @@ char       *ProgramName;	/* argv[0] */
 perscreen   Scr[MAXSCREENS];
 Display    *dsp = NULL;		/* server display connection */
 int         screen;		/* current screen */
-void        (*callback) () = NULL;
-void        (*init) () = NULL;
+void        (*callback) (Window win) = NULL;
+void        (*init) (Window win) = NULL;
 
 static int  screens;		/* number of screens */
 static Window win[MAXSCREENS];	/* window used to cover screen */
@@ -245,8 +249,7 @@ static int  HostAccessCount;	/* the number of machines in XHosts */
 static Bool HostAccessState;	/* whether or not we even look at the list */
 
 static void
-XGrabHosts(dsp)
-    Display    *dsp;
+XGrabHosts(Display    *dsp)
 {
     XHosts = XListHosts(dsp, &HostAccessCount, &HostAccessState);
     if (XHosts)
@@ -255,12 +258,11 @@ XGrabHosts(dsp)
 }
 
 static void
-XUngrabHosts(dsp)
-    Display    *dsp;
+XUngrabHosts(Display    *dsp)
 {
     if (XHosts) {
 	XAddHosts(dsp, XHosts, HostAccessCount);
-	XFree((char *) XHosts);
+	XFree(XHosts);
     }
     if (HostAccessState == False)
 	XDisableAccessControl(dsp);
@@ -275,7 +277,7 @@ XUngrabHosts(dsp)
  * an error message and exit.
  */
 static void
-GrabKeyboardAndMouse()
+GrabKeyboardAndMouse(void)
 {
     Status      status;
 
@@ -309,8 +311,7 @@ GrabKeyboardAndMouse()
  * just grab it again with a new cursor shape and ignore the return code.
  */
 static void
-XChangeGrabbedCursor(cursor)
-    Cursor      cursor;
+XChangeGrabbedCursor(Cursor cursor)
 {
 #ifndef DEBUG
     (void) XGrabPointer(dsp, win[0], True, AllPointerEventMask,
@@ -323,7 +324,7 @@ XChangeGrabbedCursor(cursor)
  * Restore all grabs, reset screensaver, restore colormap, close connection.
  */
 static void
-finish()
+finish(void)
 {
     XSync(dsp, False);
     if (!nolock && !allowaccess)
@@ -337,10 +338,31 @@ finish()
 }
 
 
+static volatile int sigcaught = 0;
+
+static void
+sigcatch(int sig, siginfo_t *info, void *context)
+{
+    NOTE(ARGUNUSED(context))
+    /* note that we were caught, but don't try to re-enter Xlib from here */
+    sigcaught = sig;
+    psiginfo(info, ProgramName);
+}
+
+static void _X_NORETURN
+sigfinish(void)
+{
+    finish();
+    error("caught terminate signal %d.\nAccess control list restored.\n",
+	  sigcaught);
+}
+
+
 static int
-ReadXString(s, slen)
-    char       *s;
-    int         slen;
+ReadXString(
+    char       *s,
+    unsigned int slen
+    )
 {
     XEvent      event;
     char        keystr[20];
@@ -358,17 +380,20 @@ ReadXString(s, slen)
 	    init(win[screen]);
     bp = 0;
     *s = 0;
+    /*CONSTCOND*/
     while (True) {
-	unsigned long lasteventtime = seconds();
+	long lasteventtime = seconds();
 	while (!XPending(dsp)) {
+	    if (sigcaught)
+		sigfinish();
 	    for (screen = 0; screen < screens; screen++)
 		if (thisscreen == screen)
 		    callback(icon[screen]);
 		else
 		    callback(win[screen]);
 	    XFlush(dsp);
-	    usleep(delay);
-	    if (seconds() - lasteventtime > timeout) {
+	    usleep((useconds_t) delay);
+	    if (seconds() - lasteventtime > (long) timeout) {
 		screen = thisscreen;
 		stoptryingfornow = True;
 		return 1;
@@ -376,6 +401,8 @@ ReadXString(s, slen)
 	}
 	screen = thisscreen;
 	XNextEvent(dsp, &event);
+	if (sigcaught)
+	    sigfinish();
 	switch (event.type) {
 	case KeyPress:
 	    len = XLookupString((XKeyEvent *) & event, keystr, 20, NULL, NULL);
@@ -425,7 +452,7 @@ ReadXString(s, slen)
 
 		XFillRectangle(dsp, win[screen], Scr[screen].gc,
 			       passx, passy - font->ascent,
-			       XTextWidth(font, pwbuf, slen),
+			       XTextWidth(font, pwbuf, (int) slen),
 			       font->ascent + font->descent);
 		XDrawString(dsp, win[screen], textgc[screen],
 			    passx, passy, pwbuf, bp);
@@ -476,21 +503,17 @@ ReadXString(s, slen)
 	    break;
 	}
     }
+    /* NOTREACHED */
 }
 
 
 static int
-CheckPassword()
+CheckPassword(void)
 {
-#ifdef SYSV
     struct spwd *rspw, *uspw;
     struct passwd *upw;
     const char  *user;
-#else
-    struct passwd *rpw, *upw;
-#endif /* SYSV */
 
-#ifdef SYSV
     rspw = getspnam("root");
 
     upw = (struct passwd *)getpwuid(getuid());
@@ -510,21 +533,6 @@ CheckPassword()
 	}
 	return(1);
     }
-#else 	/* SYSV */
-    rpw = (struct passwd *)getpwuid(0);
- 
-    upw = (struct passwd *)getpwuid(getuid());
-
-    if (!upw) {
-	if (allowroot) {
-		if (!rpw)
-			return(1);
-		else
-			return(0);
-	}
-	return(1);
-    }
-#endif 	/* SYSV */
 
     return(0);
 }
@@ -545,11 +553,11 @@ static void passwordPrompt(const char *prompt)
       		       font->ascent + font->descent + 2);
 
     XDrawString(dsp, win[screen], textgc[screen],
-		left, y, prompt, strlen(prompt));
+		left, y, prompt, (int) strlen(prompt));
     XDrawString(dsp, win[screen], textgc[screen],
-		left + 1, y, prompt, strlen(prompt));
+		left + 1, y, prompt, (int) strlen(prompt));
 
-    passx = left + 1 + XTextWidth(font, prompt, strlen(prompt))
+    passx = left + 1 + XTextWidth(font, prompt, (int) strlen(prompt))
 	+ XTextWidth(font, " ", 1);
     passy = y;
 }
@@ -569,13 +577,14 @@ static void displayTextInfo(const char *infoMsg)
       		       font->ascent + font->descent + 2);
 
     XDrawString(dsp, win[screen], textgc[screen],
-		iconx[screen], y, infoMsg, strlen(infoMsg));
+		iconx[screen], y, infoMsg, (int) strlen(infoMsg));
 }
 
 #ifdef USE_PAM
 static int pamconv(int num_msg, struct pam_message **msg,
               struct pam_response **response, void *appdata_ptr)
 {
+    NOTE(ARGUNUSED(appdata_ptr))
     int i;
     int status = PAM_SUCCESS;
     
@@ -771,20 +780,16 @@ audit_passwd(int pam_status)
 #endif	/* sun */
 
 static int
-getPassword()
+getPassword(void)
 {
     char       *userpass = NULL;
     char       *rootpass = NULL;
     XWindowAttributes xgwa;
     int         y, left, done;
-#ifdef SYSV
     struct spwd *rspw, *uspw;
     char       *suserpass = NULL;
     char       *srootpass = NULL;
     const char *user;
-#else
-    const char *user = getenv("USER");
-#endif /* SYSV */
     struct passwd *rpw, *upw;
 #ifdef USE_PAM
     pam_handle_t *pamh = NULL;
@@ -795,7 +800,6 @@ getPassword()
 #endif
     const char *authErrMsg = text_invalid;  
 
-#ifdef SYSV
     rpw = getpwuid(0);
     if (rpw) {
        user = rpw->pw_name;
@@ -817,15 +821,6 @@ getPassword()
     }
     else 
        user = "";
-#else
-    rpw = (struct passwd *)getpwuid(0);
-    if (rpw)
-       rootpass = strdup(rpw->pw_passwd);
- 
-    upw = (struct passwd *)getpwuid(getuid());
-    if (upw)
-       userpass = strdup(upw->pw_passwd);
-#endif /* SYSV */
 
 #ifdef USE_PAM
     pc.conv = pamconv;
@@ -839,7 +834,7 @@ getPassword()
 	/* Check /etc/default/login to see if we should add
 	   PAM_DISALLOW_NULL_AUTHTOK to pam_flags */
 	if (defopen("/etc/default/login") == 0) {
-	    char *ptr;
+	    const char *ptr;
 
 	    int flags = defcntl(DC_GETFLAGS, 0);
 	    TURNOFF(flags, DC_CASE);
@@ -850,11 +845,11 @@ getPassword()
 		pam_flags |= PAM_DISALLOW_NULL_AUTHTOK;
 	    }
 
-	    (void) defopen((char *)NULL); /* close current file */
+	    (void) defopen(NULL); /* close current file */
 	}
 
 #endif
-#ifdef SYSV
+
 	/* Disable user password non-PAM authentication */
 	if (userpass) {
 	    memset(userpass, 0, strlen(userpass));
@@ -866,7 +861,6 @@ getPassword()
 	    free(suserpass);
 	    suserpass = NULL;
 	}
-#endif
     }
 #endif /* USE_PAM */
 
@@ -885,17 +879,17 @@ getPassword()
     y = icony[screen] + font->ascent;
 
     XDrawString(dsp, win[screen], textgc[screen],
-		left, y, text_name, strlen(text_name));
+		left, y, text_name, (int) strlen(text_name));
     XDrawString(dsp, win[screen], textgc[screen],
-		left + 1, y, text_name, strlen(text_name));
+		left + 1, y, text_name, (int) strlen(text_name));
     XDrawString(dsp, win[screen], textgc[screen],
-		left + XTextWidth(font, text_name, strlen(text_name)), y,
-		user, strlen(user));
+		left + XTextWidth(font, text_name, (int) strlen(text_name)), y,
+		user, (int) strlen(user));
 
     y = icony[screen] - (font->descent + 2);
 
     XDrawString(dsp, win[screen], textgc[screen],
-		iconx[screen], y, text_info, strlen(text_info));
+		iconx[screen], y, text_info, (int) strlen(text_info));
 
     passwordPrompt(text_pass);
 
@@ -907,6 +901,8 @@ getPassword()
     done = False;
     stoptryingfornow = False;
     while (!done) {
+	if (sigcaught)
+	    sigfinish();
 #ifdef USE_PAM
 	if (use_pam) {
 
@@ -953,8 +949,7 @@ getPassword()
 	    if (pam_error != PAM_SUCCESS) {
 		authErrMsg = pam_strerror(pamh, pam_error);
 	    }
-	} else 
-	if (ReadXString(buffer, PAM_MAX_RESP_SIZE))
+	} else if (ReadXString(buffer, PAM_MAX_RESP_SIZE))
 	    break;
 #endif
 
@@ -966,7 +961,6 @@ getPassword()
 	 *  nil.  Hopefully the code below is easy enough to follow.
 	 */
 
-#ifdef SYSV
 	if (userpass) {
 	    if (*userpass == NULL) {
 		done = (*buffer == NULL);
@@ -997,22 +991,6 @@ getPassword()
 		}
 	    }
         }
-#else
-	done = !((strcmp(crypt(buffer, userpass), userpass))
-	       && (!allowroot || strcmp(crypt(buffer, rootpass), rootpass)));
-
-	if (!done && *buffer == NULL) {
-	    /* just hit return, and it wasn't his password */
-	    break;
-	}
-	if (*userpass == NULL && *buffer != NULL) {
-	    /*
-	     * the user has no password, but something was typed anyway.
-	     * sounds fishy: don't let him in...
-	     */
-	    done = False;
-	}
-#endif /* SYSV */
 
 	/* clear plaintext password so you can't grunge around /dev/kmem */
 	memset(buffer, 0, sizeof(buffer));
@@ -1029,7 +1007,6 @@ getPassword()
 		memset(userpass, 0, strlen(userpass));
 		free(userpass);
 	    }
-#ifdef SYSV
 	    if (srootpass) {
 		memset(srootpass, 0, strlen(srootpass));
 		free(srootpass);  
@@ -1038,7 +1015,6 @@ getPassword()
 		memset(suserpass, 0, strlen(suserpass));
 		free(suserpass);
 	    }
-#endif
 #ifdef USE_PAM
 #ifdef	sun
 	    audit_unlock(pam_error);
@@ -1068,7 +1044,6 @@ getPassword()
 	memset(userpass, 0, strlen(userpass));
 	free(userpass);
     }
-#ifdef SYSV
     if (srootpass) {
 	memset(srootpass, 0, strlen(srootpass));
 	free(srootpass);  
@@ -1077,7 +1052,7 @@ getPassword()
 	memset(suserpass, 0, strlen(suserpass));
 	free(suserpass);
     }
-#endif
+
 #ifdef USE_PAM
     pam_end(pamh, pam_error);
 #endif
@@ -1086,9 +1061,8 @@ getPassword()
     return 1;
 }
 
-
 static void
-justDisplay()
+justDisplay(void)
 {
     XEvent      event;
 
@@ -1096,12 +1070,16 @@ justDisplay()
 	init(win[screen]);
     do {
 	while (!XPending(dsp)) {
+	    if (sigcaught)
+		sigfinish();
 	    for (screen = 0; screen < screens; screen++)
 		callback(win[screen]);
 	    XFlush(dsp);
-	    usleep(delay);
+	    usleep((useconds_t) delay);
 	}
 	XNextEvent(dsp, &event);
+	if (sigcaught)
+	    sigfinish();
 #ifndef DEBUG
 	if (event.type == VisibilityNotify)
 	    XRaiseWindow(dsp, event.xany.window);
@@ -1116,20 +1094,12 @@ justDisplay()
 
 
 static void
-sigcatch()
-{
-    finish();
-    error("caught terminate signal.\nAccess control list restored.\n");
-}
-
-
-static void
-lockDisplay()
+lockDisplay(void)
 {
     if (!allowaccess) {
-#ifdef SYSV
 	sigset_t    oldsigmask;
 	sigset_t    newsigmask;
+	struct sigaction sigact;
 
 	sigemptyset(&newsigmask);
 	sigaddset(&newsigmask, SIGHUP);
@@ -1137,30 +1107,22 @@ lockDisplay()
 	sigaddset(&newsigmask, SIGQUIT);
 	sigaddset(&newsigmask, SIGTERM);
 	sigprocmask(SIG_BLOCK, &newsigmask, &oldsigmask);
-#else
-	int         oldsigmask;
 
-	oldsigmask = sigblock(sigmask(SIGHUP) |
-			      sigmask(SIGINT) |
-			      sigmask(SIGQUIT) |
-			      sigmask(SIGTERM));
-#endif
+	sigact.sa_sigaction = sigcatch;
+	sigact.sa_mask = newsigmask;
+	sigact.sa_flags = SA_SIGINFO;
 
-	signal(SIGHUP, (void (*)()) sigcatch);
-	signal(SIGINT, (void (*)()) sigcatch);
-	signal(SIGQUIT, (void (*)()) sigcatch);
-	signal(SIGTERM, (void (*)()) sigcatch);
+	sigaction(SIGHUP, &sigact, NULL);
+	sigaction(SIGINT, &sigact, NULL);
+	sigaction(SIGQUIT, &sigact, NULL);
+	sigaction(SIGTERM, &sigact, NULL);
 
 	XGrabHosts(dsp);
 
-#ifdef SYSV
 	sigprocmask(SIG_SETMASK, &oldsigmask, &oldsigmask);
-#else
-	sigsetmask(oldsigmask);
-#endif
     }
 #ifdef	sun
-	audit_lock();
+    audit_lock();
 #endif	/* sun */
     do {
 	justDisplay();
@@ -1169,9 +1131,10 @@ lockDisplay()
 
 
 int
-main(argc, argv)
-    int         argc;
-    char       *argv[];
+main(
+    int         argc,
+    char       *argv[]
+    )
 {
     XSetWindowAttributes xswa;
     XGCValues   xgcv;
@@ -1182,7 +1145,7 @@ main(argc, argv)
     else
 	ProgramName = argv[0];
 
-    srandom(time((long *) 0));	/* random mode needs the seed set. */
+    srandom((uint_t) time((long *) 0));	/* random mode needs the seed set. */
 
     GetResources(argc, argv);
 
@@ -1251,12 +1214,12 @@ main(argc, argv)
 		    red, green, blue);
 	    Scr[screen].npixels = 0;
 	    for (i = 0; i < colorcount; i++) {
-		XColor      xcolor;
-
-		xcolor.red = red[i] << 8;
-		xcolor.green = green[i] << 8;
-		xcolor.blue = blue[i] << 8;
-		xcolor.flags = DoRed | DoGreen | DoBlue;
+		XColor      xcolor = {
+		    .red = (unsigned short) (red[i] << 8),
+		    .green = (unsigned short) (green[i] << 8),
+		    .blue = (unsigned short) (blue[i] << 8),
+		    .flags = DoRed | DoGreen | DoBlue
+		};
 
 		if (!XAllocColor(dsp, cmap, &xcolor))
 		    break;
@@ -1290,7 +1253,7 @@ main(argc, argv)
 #endif
 	
   	iconx[screen] = (DisplayWidth(dsp, screen) -
-  			 XTextWidth(font, text_info, strlen(text_info))) / 2;
+  		 XTextWidth(font, text_info, (int) strlen(text_info))) / 2;
 	
   	icony[screen] = DisplayHeight(dsp, screen) / 6;
 	

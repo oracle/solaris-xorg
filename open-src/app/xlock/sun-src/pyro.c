@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1991, 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1991, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -97,18 +97,13 @@
 #define MINSFUSE 50		/* Range of fuse lengths for stars */
 #define MAXSFUSE 100
 
-#define INTRAND(min,max) (random()%((max+1)-(min))+(min))
+#define INTRAND(min,max) ((int) (random()%((max+1)-(min))+(min)))
 #define FLOATRAND(min,max) ((min)+(random()/MAXRAND)*((max)-(min)))
-
-static void ignite();
-static void animate();
-static void shootup();
-static void burst();
 
 typedef struct {
     int         state;
     int         shelltype;
-    int         color1, color2;
+    unsigned long color1, color2;
     int         fuse;
     float       xvel, yvel;
     float       x, y;
@@ -144,36 +139,48 @@ typedef struct {
     rocket     *rockq;
 }           pyrostruct;
 
-extern XColor ssblack[];
-extern XColor sswhite[];
-
 static pyrostruct pyros[MAXSCREENS];
 static int  orig_p_ignite;
 static int  just_started = True;/* Greet the user right away */
 
+static void ignite(pyrostruct *pp);
+static void animate(Window win, pyrostruct *pp, rocket *rp);
+static void shootup(Window win, pyrostruct *pp, rocket *rp);
+static void burst(Window win, pyrostruct *pp, rocket *rp);
+
 void
-initpyro(win)
-    Window      win;
+initpyro(Window      win)
 {
     pyrostruct *pp = &pyros[screen];
     rocket     *rp;
     XWindowAttributes xwa;
     XGCValues   xgcv;
-    int         rockn, starn, bsize;
+    unsigned int rockn;
+#if STARSIZE > 1
+    unsigned int starn;
+    short       bsize;
+#endif
 
     XGetWindowAttributes(dsp, win, &xwa);
+
+    if ((batchcount < 1) || (batchcount > 1024))
+	batchcount = 40;
 
     orig_p_ignite = P_IGNITE / batchcount;
     if (orig_p_ignite <= 0)
 	orig_p_ignite = 1;
     pp->p_ignite = orig_p_ignite;
 
-    if (!pp->rockq) {
-	pp->rockq = (rocket *) malloc(batchcount * sizeof(rocket));
+    if (pp->rockq == NULL) {
+	pp->rockq = calloc(batchcount, sizeof(rocket));
+	if (pp->rockq == NULL)
+	    error("allocation failed, unable to launch rockets\n");
     }
     pp->nflying = pp->fusilcount = 0;
 
-    bsize = (xwa.height <= 64) ? 1 : STARSIZE;
+#if STARSIZE > 1
+    bsize = (short) ((xwa.height <= 64) ? 1 : STARSIZE);
+#endif
     for (rockn = 0, rp = pp->rockq; rockn < batchcount; rockn++, rp++) {
 	rp->state = SILENT;
 #if STARSIZE > 1
@@ -215,10 +222,8 @@ initpyro(win)
     XFillRectangle(dsp, win, pp->bgGC, 0, 0, xwa.width, xwa.height);
 }
 
-/*ARGSUSED*/
 void
-drawpyro(win)
-    Window      win;
+drawpyro(Window      win)
 {
     pyrostruct *pp = &pyros[screen];
     rocket     *rp;
@@ -247,11 +252,11 @@ drawpyro(win)
 }
 
 static void
-ignite(pp)
-    pyrostruct *pp;
+ignite(pyrostruct *pp)
 {
     rocket     *rp;
-    int         multi, shelltype, nstars, fuse, npix, pix, color1, color2;
+    int         multi, shelltype, nstars, fuse, npix, pix;
+    unsigned long color1, color2;
     float       xvel, yvel, x;
 
     x = random() % pp->width;
@@ -263,7 +268,7 @@ ignite(pp)
     fuse = INTRAND(MINFUSE, MAXFUSE);
     nstars = INTRAND(MINSTARS, MAXSTARS);
     if (!mono && (npix = Scr[screen].npixels) > 2) {
-	color1 = Scr[screen].pixels[pix = random() % npix];
+	color1 = Scr[screen].pixels[pix = (int) random() % npix];
 	color2 = Scr[screen].pixels[(pix + (npix / 2)) % npix];
     } else {
 	color1 = color2 = sswhite[screen].pixel;
@@ -299,10 +304,11 @@ ignite(pp)
 }
 
 static void
-animate(win, pp, rp)
-    Window      win;
-    pyrostruct *pp;
-    rocket     *rp;
+animate(
+    Window      win,
+    pyrostruct *pp,
+    rocket     *rp
+    )
 {
     int         starn;
     float       r, theta;
@@ -314,11 +320,11 @@ animate(win, pp, rp)
 	if (rp->state == BURSTINGINAIR) {
 	    for (starn = 0; starn < rp->nstars; starn++) {
 		rp->sx[starn] = rp->sy[starn] = 0.0;
-		rp->Xpoints[starn].x = (int) rp->x;
-		rp->Xpoints[starn].y = (int) rp->y;
+		rp->Xpoints[starn].x = (short) rp->x;
+		rp->Xpoints[starn].y = (short) rp->y;
 		if (rp->shelltype == DOUBLECLOUD) {
-		    rp->Xpoints2[starn].x = (int) rp->x;
-		    rp->Xpoints2[starn].y = (int) rp->y;
+		    rp->Xpoints2[starn].x = (short) rp->x;
+		    rp->Xpoints2[starn].y = (short) rp->y;
 		}
 /* This isn't accurate solid geometry, but it looks OK. */
 
@@ -336,10 +342,11 @@ animate(win, pp, rp)
 }
 
 static void
-shootup(win, pp, rp)
-    Window      win;
-    pyrostruct *pp;
-    rocket     *rp;
+shootup(
+    Window      win,
+    pyrostruct *pp,
+    rocket     *rp
+    )
 {
     XFillRectangle(dsp, win, pp->bgGC, (int) (rp->x), (int) (rp->y),
 		   ROCKETW, ROCKETH + 3);
@@ -353,14 +360,15 @@ shootup(win, pp, rp)
     rp->yvel += pp->rockdecel;
     XSetForeground(dsp, Scr[screen].gc, pp->rockpixel);
     XFillRectangle(dsp, win, Scr[screen].gc, (int) (rp->x), (int) (rp->y),
-		   ROCKETW, ROCKETH + random() % 4);
+		   ROCKETW, (int) (ROCKETH + random() % 4));
 }
 
 static void
-burst(win, pp, rp)
-    Window      win;
-    pyrostruct *pp;
-    rocket     *rp;
+burst(
+    Window      win,
+    pyrostruct *pp,
+    rocket     *rp
+    )
 {
     register int starn;
     register int nstars, stype;
@@ -397,11 +405,11 @@ burst(win, pp, rp)
 	sx = rp->sx[starn] += rp->sxvel[starn];
 	sy = rp->sy[starn] += rp->syvel[starn];
 	rp->syvel[starn] += sd;
-	rp->Xpoints[starn].x = (int) (rx + sx);
-	rp->Xpoints[starn].y = (int) (ry + sy);
+	rp->Xpoints[starn].x = (short) (rx + sx);
+	rp->Xpoints[starn].y = (short) (ry + sy);
 	if (stype == DOUBLECLOUD) {
-	    rp->Xpoints2[starn].x = (int) (rx + 1.7 * sx);
-	    rp->Xpoints2[starn].y = (int) (ry + 1.7 * sy);
+	    rp->Xpoints2[starn].x = (short) (rx + 1.7 * sx);
+	    rp->Xpoints2[starn].y = (short) (ry + 1.7 * sy);
 	}
     }
     rp->x = rx + rp->xvel;

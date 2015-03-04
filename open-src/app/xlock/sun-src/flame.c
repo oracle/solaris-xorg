@@ -15,7 +15,7 @@
  */
 
 /*
- * Copyright (c) 1991, 1994, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1991, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -69,36 +69,34 @@ typedef struct {
     XPoint      pts[MAXBATCH];
 }           flamestruct;
 
-extern XColor ssblack[];
-extern XColor sswhite[];
-
 static flamestruct flames[MAXSCREENS];
 
 static short
-halfrandom(mv)
-    int         mv;
+halfrandom(int mv)
 {
     static short lasthalf = 0;
     unsigned long r;
 
     if (lasthalf) {
-	r = lasthalf;
+	r = (unsigned long) lasthalf;
 	lasthalf = 0;
     } else {
-	r = random();
-	lasthalf = r >> 16;
+	r = (unsigned long) random();
+	lasthalf = (short) (r >> 16);
     }
-    return r % mv;
+    return (short) (r % mv);
 }
 
 void
-initflame(win)
-    Window      win;
+initflame(Window      win)
 {
     flamestruct *fs = &flames[screen];
     XWindowAttributes xwa;
 
-    srandom(time((long *) 0));
+    srandom((uint_t) time((long *) 0));
+
+    if ((batchcount < 1) || (batchcount > 64))
+	batchcount = 20;
 
     XGetWindowAttributes(dsp, win, &xwa);
     fs->width = xwa.width;
@@ -119,24 +117,21 @@ initflame(win)
 }
 
 static      Bool
-recurse(fs, x, y, l)
-    flamestruct *fs;
-    register double x, y;
-    register int l;
+recurse(
+    flamestruct *fs,
+    double x,
+    double y,
+    int l
+    )
 {
-    int         xp, yp, i;
-    double      nx, ny;
-
     if (l == fs->max_levels) {
 	fs->total_points++;
 	if (fs->total_points > MAXTOTAL)	/* how long each fractal runs */
 	    return False;
 
 	if (x > -1.0 && x < 1.0 && y > -1.0 && y < 1.0) {
-	    xp = fs->pts[fs->num_points].x = (int) ((fs->width / 2)
-						    * (x + 1.0));
-	    yp = fs->pts[fs->num_points].y = (int) ((fs->height / 2)
-						    * (y + 1.0));
+	    fs->pts[fs->num_points].x = (short) ((fs->width / 2) * (x + 1.0));
+	    fs->pts[fs->num_points].y = (short) ((fs->height / 2) * (y + 1.0));
 	    fs->num_points++;
 	    if (fs->num_points > MAXBATCH) {	/* point buffer size */
 		XDrawPoints(dsp, fs->win, Scr[screen].gc, fs->pts,
@@ -145,7 +140,9 @@ recurse(fs, x, y, l)
 	    }
 	}
     } else {
+	int i;
 	for (i = 0; i < fs->SNUM; i++) {
+	    double      nx, ny;
 	    nx = fs->f[0][0][i] * x + fs->f[0][1][i] * y + fs->f[0][2][i];
 	    ny = fs->f[1][0][i] * x + fs->f[1][1][i] * y + fs->f[1][2][i];
 	    if (i < fs->ANUM) {
@@ -161,8 +158,7 @@ recurse(fs, x, y, l)
 
 
 void
-drawflame(win)
-    Window      win;
+drawflame(Window win)
 {
     flamestruct *fs = &flames[screen];
 
