@@ -33,7 +33,6 @@ set name=pkg.summary \
     value="efb - Sun XVR-300, XVR-100, XVR-50 kernel graphics driver"
 set name=pkg.description \
     value="The efb driver is the graphics device driver for the XVR-50, XVR-100, and XVR-300 frame buffers for SPARC systems.  This driver provides kernel terminal emulator support for the text console, and frame buffer support for the Xorg server."
-set name=info.classification value=org.opensolaris.category.2008:Drivers/Display
 set name=variant.arch value=sparc
 file path=kernel/drv/sparcv9/efb group=sys
 file path=usr/share/man/man7d/efb.7d
