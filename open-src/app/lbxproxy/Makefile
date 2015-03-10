@@ -56,6 +56,7 @@ MODULE_STABILITY=Committed
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = lbxproxy
 
+MODULE_CPPFLAGS = -DNO_ALLOCA
 MODULE_LDFLAGS = -lz
 
 include ../Makefile.inc

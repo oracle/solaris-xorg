@@ -1,7 +1,5 @@
-#pragma ident "@(#)gfx_vts.c	1.1 09/04/01 SMI"
-
 /*
- * Copyright (c) 2006, 2008-2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,10 +21,13 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#include <sys/types.h>
 #include <stdarg.h>		/* va_end(), va_start(), vfprintf() */
 #include <stdio.h>		/* fprintf() */
 #include <stdlib.h>		/* free(), getenv(), malloc() */
 #include <string.h>		/* strdup() */
+#include <signal.h>		/* kill() */
+#include <unistd.h>		/* getpid() */
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
@@ -103,7 +104,7 @@ TraceMessage(
  */
 
 static
-int
+void
 gfx_vts_add_message(
 	return_packet	*rp,		/* VTS test return packet */
 	int		count,

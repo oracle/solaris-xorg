@@ -1,4 +1,4 @@
-/* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -33,7 +33,7 @@
 #include <X11/extensions/extutil.h>
 #include <X11/extensions/allplanesstr.h>
 
-static int  close_display();
+static int  close_display(Display *dpy, XExtCodes *codes);
 
 static XExtensionInfo *ext_info;
 static char *ext_name = ALLPLANESNAME;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,6 +21,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef _GRAPHICSTEST_H
+#define _GRAPHICSTEST_H
+
 #include <sys/param.h>
 #include <kvm.h>
 #include <fcntl.h>
@@ -32,10 +35,7 @@
 
 #define TEST_ERROR 1	/*A non-zero exit value signals fatal error. */
 
-extern int process_args();	/* These two functions are externs so */
-extern int test_usage();	/* that test_init() can use them to   */
-int runtest();              
-				/* initialize the test environment.   */
+extern void graphicstest_finish(int const flag);
 
 #define GRAPHICS_ERROR 1
 
@@ -107,5 +107,4 @@ int runtest();
 #define GRAPHICS_ERR_MALLOC_FAIL 7689  /* !!!! malloc() failed!!!! */
 #define GRAPHICS_ERR_ABORT       7690  /* Errors detected -- aborting*/
 
-
-
+#endif /* _GRAPHICSTEST_H */

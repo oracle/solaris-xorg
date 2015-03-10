@@ -1,4 +1,4 @@
-/* Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -106,7 +106,7 @@ typedef struct {
     Visual	*pVisuals;
 } XOvlVisEnumData;
 
-static int  close_display();
+static int  close_display(Display *dpy, XExtCodes *codes);
 
 static XExtensionInfo	*ext_info;
 static char		*ext_name = OVLNAME;

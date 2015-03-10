@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1992, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1992, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -44,7 +44,7 @@
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 
-char		LogPath[MAXPATHLEN];	/* pathname of log file */
+static char		LogPath[MAXPATHLEN];	/* pathname of log file */
 
 /*
  * Default settings to use if they can't actually be obtained from a
@@ -54,7 +54,7 @@ char		LogPath[MAXPATHLEN];	/* pathname of log file */
  *	they're almost certain to get out of sync with the kernel's defaults
  *	(which is what they're intended to be).
  */
-struct termios	termios_dflt = {
+static struct termios	termios_dflt = {
 	BRKINT|ICRNL|IXON|IGNPAR|IMAXBEL,	    	/* input modes */
 	OPOST|ONLCR,				    	/* output modes */
 	B9600|(B9600 << IBSHIFT)|CS8|HUPCL|CREAD,    	/* control modes */
@@ -86,8 +86,8 @@ struct termios	termios_dflt = {
  *
  * This version (unused) opens a pipe and redirects the console to it.
  */
-int
-OpenConsole()
+static int
+OpenConsole(void)
 {
 	int	fds[2];
 	int	fdcons;
@@ -120,7 +120,7 @@ OpenConsole()
  * Opens a pty, copies tty settings into it from /dev/console, and redirects
  * console output to it.  Returns the master end of the pty.
  */
-int
+static int
 OpenConsole(void)
 {
 	int	console;
@@ -219,7 +219,7 @@ OpenConsole(void)
  * OpenLog
  *	Opens the console log file; returns a file descriptor
  */
-FILE *
+static FILE *
 OpenLog(
 	const char *dpyName,
 	char	*path)
@@ -270,8 +270,8 @@ OpenLog(
 /*
  * CloseLog
  */
-void
-CloseLog()
+static void
+CloseLog(void)
 {
 	if (LogPath[0] == '\0')
 		return;
@@ -284,7 +284,7 @@ CloseLog()
  * CleanupAndExit
  *	Closes log file and exits
  */
-void
+static void
 CleanupAndExit(void)
 {
 	CloseLog();
@@ -321,7 +321,7 @@ DisplayErrorHandler(Display *dpy)
  * LogConsole
  *	Reads a console message and writes it to the console log file
  */
-void
+static void
 LogConsole(
 	int	console,
 	FILE	*log)
@@ -343,7 +343,7 @@ LogConsole(
  *	On input from the console - logs it to the console log file.
  *	On any input (or EOF) from the xserver, exits
  */
-void
+static void
 InputLoop(
 	Display		*dpy,
 	int		console,
@@ -381,8 +381,8 @@ InputLoop(
  * Usage
  *	Prints a usage message
  */
-void
-Usage()
+static void
+Usage(void)
 {
 	
 	fprintf(stderr,"Usage: fbconsole [-d <display>] [-f <logfile>] [-n]\n");

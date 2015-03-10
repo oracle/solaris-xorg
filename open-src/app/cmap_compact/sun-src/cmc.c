@@ -1,6 +1,6 @@
 /*
 *
-* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -71,8 +71,7 @@ warning (const char *format, ...)
 }
 
 static void
-usage ()
-
+usage (void)
 {
 	/* Note: optional filename arg explicitly not documented */
 	fprintf(stderr, "usage: %s <op> [-display name] [-warn]\n", program);
@@ -86,9 +85,7 @@ usage ()
 */
 
 void
-process_arguments (argv)
-char	**argv;
-
+process_arguments (char **argv)
 {
 	register char	**a;
 
@@ -121,9 +118,8 @@ char	**argv;
 /*ARGSUSED*/
 int
 main (int argc, char **argv)
-
 {
-	void	(*op)();
+	void	(*op)(void);
 
 	/* Initialize error handling */
 	program = argv[0];

@@ -2,7 +2,7 @@
 #
 # xfs - X11 font server
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,6 +66,7 @@ MODULE_CONFIG_OPTS= --sysconfdir=$(X11_DIR)/lib \
 	--enable-syslog --enable-inetd --disable-devel-docs \
 	--with-default-font-path='catalogue:/etc/X11/fontpath.d' \
 	--with-default-config-file='/etc/X11/fs/config,$(X11_X11LIB_DIR)/fs/config,/etc/openwin/fs/fontserver.cfg,/usr/openwin/lib/X11/fontserver.cfg'
+MODULE_CPPFLAGS = -DNO_ALLOCA
 
 # Need to link with libfontenc in server private directory
 MODULE_LDFLAGS=$(X11_SERVERLIBS_LDFLAGS)

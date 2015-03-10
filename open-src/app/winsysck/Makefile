@@ -2,7 +2,7 @@
 #
 # winsysck - utility to check & report if a window system is in use
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ MODULE_LICENSE_SET = yes
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1990, 2008
+ORACLE_COPYRIGHT_YEARS = 1990, 2015
 
 # No upstream sources for these files, since they're Solaris-specific
 MODULE_VERSION=src

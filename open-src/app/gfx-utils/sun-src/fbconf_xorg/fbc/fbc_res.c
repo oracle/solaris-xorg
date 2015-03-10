@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -40,6 +40,7 @@
 #include "fbc_ask.h"		/* User interaction */
 #include "fbc_dev.h"		/* Identify the graphics device (-dev opt) */
 #include "fbc_error.h"		/* Error reporting */
+#include "fbc_Modes.h"		/* Edit Modes sections */
 #include "fbc_mode_list.h"	/* List of Modes from the config file */
 #include "fbc_properties.h"	/* fbconf_xorg(1M) program properties */
 #include "fbc_res.h"		/* Video modes/resolutions (-res option) */

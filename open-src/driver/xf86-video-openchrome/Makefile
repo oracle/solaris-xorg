@@ -44,6 +44,7 @@ TARBALL_SHA1 = e5be9a8200410b3e3e66349bab4c8acd1ead4402
 SOURCE_PATCHES = manpage-sections.patch,-p1
 SOURCE_PATCHES += CVE-2013-1994.patch,-p1
 SOURCE_PATCHES += ldflags.patch,-p1
+SOURCE_PATCHES += disable-xvmc.patch,-p1
 
 # Extra rules to run when unpacking upstream source
 CLEAN_LINEFEED_TARGET = $(SOURCE_DIR)/.source.clean.done

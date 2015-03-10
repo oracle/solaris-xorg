@@ -2,7 +2,7 @@
 #
 # cmap_alloc - Utility to allocate default colormaps for non-default visuals
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,7 +39,7 @@ MODULE_LICENSE_SET = yes
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1991, 2010
+ORACLE_COPYRIGHT_YEARS = 1991, 2015
 
 # No upstream sources, only local sources
 MODULE_VERSION=src

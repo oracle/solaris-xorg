@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -39,7 +39,7 @@ int fbc_append_Modes_sections(
 
 int fbc_trim_Modes_sections(
         XF86ConfigPtr   configIR,       /* Ptr to configuration Internal Rep */
-        char            *mode
+        const char      *mode
         );
 
 void
@@ -53,6 +53,13 @@ fbc_remove_monitor_usemodes_section_ER(
         XF86ConfigPtr           configIR,
         XF86ConfMonitorPtr      monitor_sectn_ptr  /* Ptr to Monitor section IR */
         );
+
+void
+fbc_remove_monitor_usemodes_entry_ER(
+        XF86ConfigPtr           configIR,
+        XF86ConfMonitorPtr      monitor_sectn_ptr  /* Ptr to Monitor section IR */
+        );
+
 #endif	/* _FBC_MODES_H */
 
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -113,11 +113,10 @@ cmc_alloc (
 
 
 static void
-cmc_alloc_protected (screen, ncolors, colors)
-Screen	*screen;
-int	ncolors;
-XColor	*colors;
-
+cmc_alloc_protected (
+    Screen	*screen,
+    int		ncolors,
+    XColor	*colors)
 {
 	XGrabServer(DisplayOfScreen(screen));
 	cmc_alloc(screen, ncolors, colors);

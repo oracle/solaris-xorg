@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1990, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -70,7 +70,7 @@
 static char* cmdname;
 
 static void
-usage () {
+usage (void) {
     fprintf(stderr, "usage: %s %s\n\t%s\n", cmdname,
 	    "[-va] [-display display_name] [-timeout seconds] protocol [...]",
 	    "protocol can be one of: x11 news x11news sunview");

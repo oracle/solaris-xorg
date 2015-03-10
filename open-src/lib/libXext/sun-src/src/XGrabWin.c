@@ -1,4 +1,4 @@
-/* Copyright (c) 1990, 2012, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -63,8 +63,7 @@ static enum {
   } WxInitialized = NOT_INITIALIZED;
 
 static void
-Initialize(dpy)
-     Display *dpy;
+Initialize(Display *dpy)
 {
   int tmp;
 
@@ -318,7 +317,6 @@ WxError (
     int mc)
 {
   XErrorEvent event;
-  extern int (*_XErrorFunction)();
 
   event.display = dpy;
   event.type = X_Error;

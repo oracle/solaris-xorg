@@ -33,7 +33,7 @@ ORACLE_TPNO = $(ORACLE_TPNO_xorg)
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1993, 2009
+ORACLE_COPYRIGHT_YEARS = 1993, 2015
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/keyboard/accessx

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 
 
 diff --git a/src/KeyBind.c b/src/KeyBind.c
-index a49de3d..86bd3b6 100644
+index a49de3d..c3ecc61 100644
 --- a/src/KeyBind.c
 +++ b/src/KeyBind.c
 @@ -45,6 +45,7 @@ in this Software without prior written authorization from The Open Group.
@@ -55,19 +55,20 @@ index a49de3d..86bd3b6 100644
  #ifdef XKB
  #include "XKBlib.h"
  #include "XKBlibint.h"
-@@ -77,6 +92,11 @@ ComputeMaskFromKeytrans(
+@@ -77,6 +92,12 @@ ComputeMaskFromKeytrans(
      Display *dpy,
      register struct _XKeytrans *p);
  
 +#ifdef SUNSOFT_KBD
-+static int DoCompose();
++static int DoCompose (KeySym first_keysym, KeySym second_keysym,
++                      KeySym *result_keysym);
 +      void SetLed (Display *dpy, int num, int state);
 +#endif /* SUNSOFT_KBD */
 +
  struct _XKeytrans {
  	struct _XKeytrans *next;/* next on list */
  	char *string;		/* string to return when the time comes */
-@@ -98,6 +118,10 @@ KeyCodetoKeySym(register Display *dpy, KeyCode keycode, int col)
+@@ -98,6 +119,10 @@ KeyCodetoKeySym(register Display *dpy, KeyCode keycode, int col)
  	((int)keycode < dpy->min_keycode) || ((int)keycode > dpy->max_keycode))
        return NoSymbol;
  
@@ -78,7 +79,7 @@ index a49de3d..86bd3b6 100644
      syms = &dpy->keysyms[(keycode - dpy->min_keycode) * per];
      if (col < 4) {
  	if (col > 1) {
-@@ -766,6 +790,9 @@ _XTranslateKey(	register Display *dpy,
+@@ -766,6 +791,9 @@ _XTranslateKey(	register Display *dpy,
      int per;
      register KeySym *syms;
      KeySym sym, lsym, usym;
@@ -88,7 +89,7 @@ index a49de3d..86bd3b6 100644
  
      if ((! dpy->keysyms) && (! _XKeyInitialize(dpy)))
  	return 0;
-@@ -780,17 +807,54 @@ _XTranslateKey(	register Display *dpy,
+@@ -780,17 +808,54 @@ _XTranslateKey(	register Display *dpy,
      syms = &dpy->keysyms[(keycode - dpy->min_keycode) * per];
      while ((per > 2) && (syms[per - 1] == NoSymbol))
  	per--;
@@ -143,7 +144,7 @@ index a49de3d..86bd3b6 100644
      } else if (!(modifiers & ShiftMask) &&
  	(!(modifiers & LockMask) || (dpy->lock_meaning == NoSymbol))) {
  	if ((per == 1) || (syms[1] == NoSymbol))
-@@ -818,19 +882,41 @@ _XTranslateKey(	register Display *dpy,
+@@ -818,19 +883,41 @@ _XTranslateKey(	register Display *dpy,
  
  int
  _XTranslateKeySym(
@@ -191,7 +192,7 @@ index a49de3d..86bd3b6 100644
      /* see if symbol rebound, if so, return that string. */
      for (p = dpy->key_bindings; p; p = p->next) {
  	if (((modifiers & AllMods) == p->state) && (symbol == p->key)) {
-@@ -844,8 +930,29 @@ _XTranslateKeySym(
+@@ -844,8 +931,29 @@ _XTranslateKeySym(
      hiBytes = symbol >> 8;
      if (!(nbytes &&
  	  ((hiBytes == 0) ||
@@ -221,7 +222,7 @@ index a49de3d..86bd3b6 100644
  	     (symbol == XK_Return) ||
  	     (symbol == XK_Escape) ||
  	     (symbol == XK_KP_Space) ||
-@@ -856,15 +963,35 @@ _XTranslateKeySym(
+@@ -856,15 +964,35 @@ _XTranslateKeySym(
  	     (symbol == XK_Delete))))))
  	return 0;
  
@@ -257,7 +258,7 @@ index a49de3d..86bd3b6 100644
  	if ((c >= '@' && c < '\177') || c == ' ') c &= 0x1F;
  	else if (c == '2') c = '\000';
  	else if (c >= '3' && c <= '7') c -= ('3' - '\033');
-@@ -958,11 +1085,22 @@ XLookupString (
+@@ -958,11 +1086,22 @@ XLookupString (
      }
  #endif
  
@@ -280,7 +281,7 @@ index a49de3d..86bd3b6 100644
  }
  
  static void
-@@ -1074,3 +1212,290 @@ ComputeMaskFromKeytrans(
+@@ -1074,3 +1213,290 @@ ComputeMaskFromKeytrans(
      }
      p->state &= AllMods;
  }

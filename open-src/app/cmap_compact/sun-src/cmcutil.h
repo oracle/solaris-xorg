@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -78,8 +78,8 @@ extern void		fatal_error(const char *format, ...)
 				_X_ATTRIBUTE_PRINTF(1,2) _X_NORETURN;
 extern void		warning(const char *format, ...)
 				_X_ATTRIBUTE_PRINTF(1,2);
-extern Display		*open_display();
-extern int		dynamic_indexed_default_visual();
+extern Display		*open_display(const char *dpyname);
+extern int		dynamic_indexed_default_visual(Screen *screen);
 extern const char *	comp_colors_filename(const char *);
 extern int		cmc_write(FILE *f, int scr_num,
 				  int ncolors, XColor *colors);

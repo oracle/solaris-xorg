@@ -2,7 +2,7 @@
 #
 # xkbcomp - XKB keyboard layout parser/compiler
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,6 +52,9 @@ MODULE_X11_BINCOMPAT_LINKS = xkbcomp
 
 # Also need an extra link for the pkgconfig file
 MODULE_ADD_INSTALL_TARGETS = install_extra_link
+
+# Silence warnings from unnecessary inclusion of Xalloca.h in parseutils.c
+MODULE_CPPFLAGS = -DNO_ALLOCA
 
 include ../Makefile.inc
 

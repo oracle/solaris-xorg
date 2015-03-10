@@ -102,7 +102,7 @@ $(BUILD_DEBUG:yes=) DEBUG_OR_OPT_FLAGS_suncc = $(DEBUG_FLAGS_suncc)
 $(BUILD_DEBUG:yes=$(POUND_SIGN)) DEBUG_OR_OPT_FLAGS_suncc = $(OPT_FLAGS_suncc)
 
 CFLAGS_suncc 		 = $(DEBUG_OR_OPT_FLAGS_suncc)
-CFLAGS_suncc		+= -v -xstrconst -features=extensions
+CFLAGS_suncc		+= -v -fd -features=extensions,conststrings
 CXXFLAGS_suncc		 = $(DEBUG_OR_OPT_FLAGS_suncc)
 CXXFLAGS_suncc		+= +w2 -norunpath -features=extensions
 

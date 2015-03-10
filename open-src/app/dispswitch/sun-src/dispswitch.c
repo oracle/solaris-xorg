@@ -1752,7 +1752,7 @@ do_switch (void)
 }
 
 static Bool 
-do_toggle ()
+do_toggle (void)
 {
     Atom		atom;
     XEvent		xev;

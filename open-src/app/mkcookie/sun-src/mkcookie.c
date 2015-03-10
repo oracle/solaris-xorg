@@ -2,7 +2,7 @@
 *
 * mkcookie.c 1.x
 *
-* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -128,7 +128,6 @@ struct AuthProtocol {
   const char *name;
   void	    (*InitAuth)(unsigned short, const char *);
   Xauth *   (*GetAuth)(int, const char *);
-  int	    (*GetXdmcpAuth)();
   int	    inited;
 };
 

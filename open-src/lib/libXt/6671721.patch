@@ -61,13 +61,7 @@ index cea8fd3..265b162 100644
      unsigned short	num_args;
      unsigned int	do_ref_count:1;
      unsigned int	new_style:1;
-@@ -94,11 +95,25 @@ typedef struct _ConverterRec {
-     char		cache_type;
- } ConverterRec;
- 
--#define ConvertArgs(p) ((XtConvertArgList)((p)+1))
-+#define ConvertArgs(p) ((XtConvertArgList)((p)+(ptrdiff_t)1))
- 
+@@ -94,6 +95,20 @@ typedef struct _ConverterRec {
  /* used for old-style type converter cache only */
  static Heap globalHeap = {NULL, NULL, 0};
  
@@ -616,9 +610,9 @@ index 11823d6..7c15e83 100644
  }
  
 +/* need this for backward compatability */
-+void _XtRegisterWindow(window, widget)
-+    Window window;
-+    Widget widget;
++void _XtRegisterWindow(
++    Window window,
++    Widget widget)
 +{
 +    XtRegisterDrawable(XtDisplay(widget), (Drawable)window, widget);
 +}
@@ -631,9 +625,9 @@ index 11823d6..7c15e83 100644
  }
  
 +/* need this for backward compatability */
-+void _XtUnregisterWindow(window, widget)
-+    register Window window;
-+    register Widget widget;
++void _XtUnregisterWindow(
++    register Window window,
++    register Widget widget)
 +{
 +    XtUnregisterDrawable(XtDisplay(widget), (Drawable)window);
 +}

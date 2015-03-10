@@ -1,6 +1,6 @@
 /*
 *
-* Copyright (c) 1993, 2004, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -77,9 +77,9 @@
 #define _XRead32(dpy, data, len) _XRead((dpy), (char *)(data), (len))
 #endif
 
-int		XAccessXCloseDisplay();
-Bool		XAccessXWireToEvent();
-Status		XAccessXEventToWire();
+static int	XAccessXCloseDisplay(Display *dpy, XExtCodes *codes);
+static Bool	XAccessXWireToEvent(Display *dpy, XEvent *event, xEvent *wire);
+static Status	XAccessXEventToWire(Display *dpy, XEvent *event, xEvent *wire);
 
 XExtensionInfo	*accessXExtensionInfo = NULL;
 XExtensionHooks	accessXExtensionHooks = 

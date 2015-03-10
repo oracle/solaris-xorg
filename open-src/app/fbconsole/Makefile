@@ -2,7 +2,7 @@
 #
 # fbconsole - fallback console utility
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,7 +42,7 @@ MODULE_DESC = the fbconsole console fallback utility
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1992, 2005
+ORACLE_COPYRIGHT_YEARS = 1992, 2015
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/1992/130 LSARC/2005/590

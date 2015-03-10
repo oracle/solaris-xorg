@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -55,7 +55,7 @@ stack_info(uintptr_t pc, int signo, void *arg)
 }
 
 static char *
-my_execname()
+my_execname(void)
 {
 	static char *execname;
 
@@ -77,7 +77,7 @@ my_execname()
 }
 
 static time_t
-time_constant()
+time_constant(void)
 {
 	char *execname = my_execname();
 	time_t result = -1;

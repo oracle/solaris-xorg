@@ -2,7 +2,7 @@
 *
 * cmap_alloc.c 1.x
 *
-* Copyright (c) 1991, 2000, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1991, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -49,20 +49,22 @@ int			 num_cmaps;
 XVisualInfo		*available_visuals;
 int			 num_visuals;
 
-static void	alloc_cmaps_for_screen();
-static void	alloc_cmap_for_visual();
-static void	create_colormap();
-static char    *visual_class_name();
-static void	parse_cmdline();
-static int	string_to_depth();
-static int	string_to_visual();
-static void	usage();
+static void	alloc_cmaps_for_screen(Display *display, int screen);
+static void	alloc_cmap_for_visual(Display *display, int screen,
+				      XVisualInfo *vinfo);
+static void	create_colormap(Display *display, XVisualInfo *vinfo,
+				XStandardColormap *std_colormap);
+static char    *visual_class_name(int class);
+static void	parse_cmdline(int argc, char **argv);
+static int	string_to_depth(const char *str);
+static int	string_to_visual(const char *str);
+static void	usage(void) _X_NORETURN;
 
 
 int
-main(argc, argv)
-    int         argc;
-    char      **argv;
+main(
+    int         argc,
+    char      **argv)
 {
     Display *display;
     int screen;
@@ -96,9 +98,9 @@ main(argc, argv)
 
 
 static void
-alloc_cmaps_for_screen(display, screen)
-    Display *display;
-    int	     screen;
+alloc_cmaps_for_screen(
+    Display *display,
+    int	     screen)
 {
     XVisualInfo vinfo_template;
     XVisualInfo *vinfo;
@@ -165,10 +167,10 @@ alloc_cmaps_for_screen(display, screen)
 
 
 static void
-alloc_cmap_for_visual(display, screen, vinfo)
-    Display *display;
-    int screen;
-    XVisualInfo *vinfo;
+alloc_cmap_for_visual(
+    Display *display,
+    int screen,
+    XVisualInfo *vinfo)
 {
     int c = 0;
     XStandardColormap *std_cmap = NULL;
@@ -209,10 +211,11 @@ alloc_cmap_for_visual(display, screen, vinfo)
 
 
 static void
-create_colormap(display, vinfo, std_colormap)
-    Display		*display;
-    XVisualInfo		*vinfo;
-    XStandardColormap	*std_colormap;	/* RETURN */
+create_colormap(
+    Display		*display,
+    XVisualInfo		*vinfo,
+    XStandardColormap	*std_colormap	/* RETURN */
+    )
 {
     Colormap colormap;
     XColor color;
@@ -245,8 +248,8 @@ create_colormap(display, vinfo, std_colormap)
 
 
 static char *
-visual_class_name(class)
-    int         class;
+visual_class_name(
+    int         class)
 {
     char *name;
     
@@ -278,9 +281,9 @@ visual_class_name(class)
 
 
 static void
-parse_cmdline(argc, argv)
-    int         argc;
-    char      **argv;
+parse_cmdline(
+    int         argc,
+    char      **argv)
 {
     int option = 1;
     
@@ -340,8 +343,7 @@ parse_cmdline(argc, argv)
 
 
 static int
-string_to_depth(str)
-    char *str;
+string_to_depth(const char *str)
 {
     int depth;
     
@@ -353,8 +355,7 @@ string_to_depth(str)
 
 
 static int
-string_to_visual(str)
-    char *str;
+string_to_visual(const char *str)
 {
     int visual_class;
     
@@ -378,7 +379,7 @@ string_to_visual(str)
 
 
 static void
-usage()
+usage(void)
 {
     (void)fprintf(stderr, "Usage: %s [-display <display:n.screen>]\n", prog_name);
     (void)fprintf(stderr, "\t\t[-force] [-allscreens]\n");

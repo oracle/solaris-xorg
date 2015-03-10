@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1993, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -60,6 +60,8 @@
 /************************************************************************/
 #ifndef ACCESSX_LIB_H
 #define ACCESSX_LIB_H
+
+#include "AccessXproto.h"
 
 /************************************************************************
  *
@@ -160,7 +162,7 @@ typedef struct _AccessXClientContextRec
     CARD16	majorOpcode;
     CARD16	eventBase;
     CARD16	errorBase;
-    void	(*eventHandler)();
+    void	(*eventHandler)(XAccessXEvent *);
 } AccessXClientContextRec;
 
 /************************************************************************

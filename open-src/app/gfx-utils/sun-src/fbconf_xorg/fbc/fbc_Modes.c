@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -168,7 +168,7 @@ fbc_append_Modes_sections(
 int
 fbc_trim_Modes_sections(
 	XF86ConfigPtr	configIR,	/* Ptr to configuration Internal Rep */
-	char		*mode
+	const char	*mode
 	)
 {
 	XF86ConfModesPtr modes_sectn_ptr; /* Ptr to Modes section IR */

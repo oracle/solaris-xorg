@@ -26,7 +26,7 @@ dealings in this Software without prior written authorization from Digital
 Equipment Corporation.
 
 ******************************************************************/
-/* Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1999, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -70,9 +70,9 @@ static /* const */ char *panoramiX_extension_name = PANORAMIX_PROTOCOL_NAME;
 #define PanoramiXSimpleCheckExtension(dpy,i) \
   XextSimpleCheckExtension (dpy, i, panoramiX_extension_name)
 
-static int close_display();
-static Bool wire_to_event();
-static Status event_to_wire();
+static int close_display(Display *dpy, XExtCodes *codes);
+static Bool wire_to_event(Display *dpy, XEvent *libevent, xEvent *netevent);
+static Status event_to_wire(Display *dpy, XEvent *libevent, xEvent *netevent);
 static /* const */ XExtensionHooks panoramiX_extension_hooks = {
     NULL,				/* create_gc */
     NULL,				/* copy_gc */
@@ -136,9 +136,10 @@ XineramaQueryScreens(
  *                                                                          *
  ****************************************************************************/
 
-Bool XPanoramiXQueryExtension (dpy, event_basep, error_basep)
-    Display *dpy;
-    int *event_basep, *error_basep;
+Bool XPanoramiXQueryExtension (
+    Display *dpy,
+    int *event_basep,
+    int *error_basep)
 {
     XExtDisplayInfo *info = find_display (dpy);
 
@@ -152,9 +153,10 @@ Bool XPanoramiXQueryExtension (dpy, event_basep, error_basep)
 }
 
 
-Status XPanoramiXQueryVersion(dpy, major_versionp, minor_versionp)
-    Display *dpy;
-    int	    *major_versionp, *minor_versionp;
+Status XPanoramiXQueryVersion(
+    Display *dpy,
+    int	    *major_versionp,
+    int     *minor_versionp)
 {
     XExtDisplayInfo *info = find_display (dpy);
     xPanoramiXQueryVersionReply	    rep;
@@ -201,15 +203,15 @@ Status XPanoramiXQueryVersion(dpy, major_versionp, minor_versionp)
     return 1;
 }
 
-XPanoramiXInfo *XPanoramiXAllocInfo()
+XPanoramiXInfo *XPanoramiXAllocInfo(void)
 {
 	return (XPanoramiXInfo *) Xmalloc (sizeof (XPanoramiXInfo));
 }
 
-Status XPanoramiXGetState (dpy, drawable, panoramiX_info)
-    Display		*dpy;
-    Drawable		drawable;
-    XPanoramiXInfo	*panoramiX_info	;
+Status XPanoramiXGetState (
+    Display		*dpy,
+    Drawable		drawable,
+    XPanoramiXInfo	*panoramiX_info)
 {
     XExtDisplayInfo			*info = find_display (dpy);
     xPanoramiXGetStateReply	rep;
@@ -234,10 +236,10 @@ Status XPanoramiXGetState (dpy, drawable, panoramiX_info)
     return 1;
 }
 
-Status XPanoramiXGetScreenCount (dpy, drawable, panoramiX_info)
-    Display		*dpy;
-    Drawable		drawable;
-    XPanoramiXInfo	*panoramiX_info	;
+Status XPanoramiXGetScreenCount (
+    Display		*dpy,
+    Drawable		drawable,
+    XPanoramiXInfo	*panoramiX_info)
 {
     XExtDisplayInfo			*info = find_display (dpy);
     xPanoramiXGetScreenCountReply	rep;
@@ -262,11 +264,11 @@ Status XPanoramiXGetScreenCount (dpy, drawable, panoramiX_info)
     return 1;
 }
 
-Status XPanoramiXGetScreenSize (dpy, drawable, screen_num, panoramiX_info)
-    Display		*dpy;
-    Drawable		drawable;
-    int			screen_num;
-    XPanoramiXInfo	*panoramiX_info	;
+Status XPanoramiXGetScreenSize (
+    Display		*dpy,
+    Drawable		drawable,
+    int			screen_num,
+    XPanoramiXInfo	*panoramiX_info)
 {
     XExtDisplayInfo			*info = find_display (dpy);
     xPanoramiXGetScreenSizeReply	rep;

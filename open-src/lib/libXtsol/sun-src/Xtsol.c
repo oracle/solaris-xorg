@@ -1,4 +1,4 @@
-/* Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -57,8 +57,7 @@ static int X_TsolExtensionCode;
     }
 
 static int
-InitializeTsol(dpy)
-    register Display *dpy;
+InitializeTsol(Display *dpy)
 {
     int tmp;
     int event;
@@ -79,9 +78,9 @@ InitializeTsol(dpy)
  * returns true if win is trusted path
  */
 Bool
-XTSOLIsWindowTrusted(dpy, win)
-    Display *dpy;
-    Window win;
+XTSOLIsWindowTrusted(
+    Display *dpy,
+    Window win)
 {
     XTsolClientAttributes    clientattr;
     Status result;
@@ -95,11 +94,11 @@ XTSOLIsWindowTrusted(dpy, win)
 }
 
 Status
-XTSOLsetPolyInstInfo(dpy, sl, uidp, enabled)
-    register Display *dpy;
-    m_label_t *sl;
-    uid_t *uidp;
-    int enabled;
+XTSOLsetPolyInstInfo(
+    Display *dpy,
+    m_label_t *sl,
+    uid_t *uidp,
+    int enabled)
 {
     register xSetPolyInstInfoReq *req;
 
@@ -121,11 +120,11 @@ XTSOLsetPolyInstInfo(dpy, sl, uidp, enabled)
 }
 
 Status
-XTSOLsetPropLabel(dpy, win, property, sl)
-    register Display *dpy;
-    register Window win;
-    Atom property;
-    m_label_t *sl;
+XTSOLsetPropLabel(
+    Display *dpy,
+    Window win,
+    Atom property,
+    m_label_t *sl)
 {
     register xSetPropLabelReq *req;
 
@@ -149,11 +148,11 @@ XTSOLsetPropLabel(dpy, win, property, sl)
 }
 
 Status
-XTSOLsetPropUID(dpy, win, property, uidp)
-    register Display *dpy;
-    register Window win;
-    Atom property;
-    uid_t *uidp;
+XTSOLsetPropUID(
+    Display *dpy,
+    Window win,
+    Atom property,
+    uid_t *uidp)
 {
     register xSetPropUIDReq *req;
 
@@ -174,11 +173,11 @@ XTSOLsetPropUID(dpy, win, property, uidp)
 }
 
 Status
-XTSOLsetResLabel(dpy, object, resourceFlag, sl)
-    register Display *dpy;
-    register XID object;
-    ResourceType resourceFlag;
-    m_label_t *sl;
+XTSOLsetResLabel(
+    Display *dpy,
+    XID object,
+    ResourceType resourceFlag,
+    m_label_t *sl)
 {
     register xSetResLabelReq *req;
 
@@ -202,11 +201,11 @@ XTSOLsetResLabel(dpy, object, resourceFlag, sl)
 }
 
 Status
-XTSOLsetResUID(dpy, object, resourceFlag, uidp)
-    register Display *dpy;
-    register XID object;
-    ResourceType resourceFlag;
-    uid_t *uidp;
+XTSOLsetResUID(
+    Display *dpy,
+    XID object,
+    ResourceType resourceFlag,
+    uid_t *uidp)
 {
     register xSetResUIDReq *req;
 
@@ -227,10 +226,10 @@ XTSOLsetResUID(dpy, object, resourceFlag, uidp)
 }
 
 Status
-XTSOLsetSSHeight(dpy, screen_num, newHeight)
-    Display *dpy;
-    int screen_num;
-    int newHeight;
+XTSOLsetSSHeight(
+    Display *dpy,
+    int screen_num,
+    int newHeight)
 {
     register xSetResUIDReq *req;
 
@@ -251,9 +250,9 @@ XTSOLsetSSHeight(dpy, screen_num, newHeight)
 }
 
 Status
-XTSOLsetSessionHI(dpy, sl)
-    Display *dpy;
-    bclear_t *sl;
+XTSOLsetSessionHI(
+    Display *dpy,
+    bclear_t *sl)
 {
     register xSetResLabelReq *req;
 
@@ -278,9 +277,9 @@ XTSOLsetSessionHI(dpy, sl)
 }
 
 Status
-XTSOLsetSessionLO(dpy, sl)
-    Display *dpy;
-    m_label_t *sl;
+XTSOLsetSessionLO(
+    Display *dpy,
+    m_label_t *sl)
 {
     register xSetResLabelReq *req;
 
@@ -305,9 +304,9 @@ XTSOLsetSessionLO(dpy, sl)
 }
 
 Status
-XTSOLsetWorkstationOwner(dpy, uidp)
-    Display *dpy;
-    uid_t *uidp;
+XTSOLsetWorkstationOwner(
+    Display *dpy,
+    uid_t *uidp)
 {    
     register xSetResUIDReq *req;
 
@@ -331,9 +330,9 @@ XTSOLsetWorkstationOwner(dpy, uidp)
  * make the window a trusted path window
  */
 Status
-XTSOLMakeTPWindow(dpy, win) 
-    Display *dpy;
-    Window win;
+XTSOLMakeTPWindow(
+    Display *dpy,
+    Window win)
 {
     register xMakeTPWindowReq *req;
 
@@ -356,9 +355,9 @@ XTSOLMakeTPWindow(dpy, win)
  * Turn on the trusted bit of window
  */
 Status
-XTSOLMakeTrustedWindow(dpy, win) 
-    Display *dpy;
-    Window win;
+XTSOLMakeTrustedWindow(
+    Display *dpy,
+    Window win)
 {
     register xMakeTrustedWindowReq *req;
 
@@ -381,9 +380,9 @@ XTSOLMakeTrustedWindow(dpy, win)
  * Turn off the  trusted bit of window
  */
 Status
-XTSOLMakeUntrustedWindow(dpy, win) 
-    Display *dpy;
-    Window win;
+XTSOLMakeUntrustedWindow(
+    Display *dpy,
+    Window win)
 {
     register xMakeUntrustedWindowReq *req;
 
@@ -406,10 +405,10 @@ XTSOLMakeUntrustedWindow(dpy, win)
  * get resource attributes. 
  */
 Status
-XTSOLgetClientAttributes(dpy, xid, clientattr)
-    register Display *dpy;
-    XID xid;    /* window id of client */
-    XTsolClientAttributes    *clientattr;
+XTSOLgetClientAttributes(
+    Display *dpy,
+    XID xid,    /* window id of client */
+    XTsolClientAttributes    *clientattr)
 {
     register xGetClientAttributesReq *req;
     xGetClientAttributesReply rep;
@@ -446,10 +445,10 @@ XTSOLgetClientAttributes(dpy, xid, clientattr)
 }
 
 Status
-XTSOLgetClientLabel(dpy, object, sl)
-    register Display *dpy;
-    register XID object;
-    m_label_t *sl;
+XTSOLgetClientLabel(
+    Display *dpy,
+    XID object,
+    m_label_t *sl)
 {
     register xGetClientLabelReq *req;
     xGetClientLabelReply rep;
@@ -485,11 +484,11 @@ XTSOLgetClientLabel(dpy, object, sl)
 }
 
 Status
-XTSOLgetPropAttributes(dpy, window, property, propattrp)
-    register Display *dpy;
-    Window window;
-    Atom property;
-    XTsolPropAttributes *propattrp;
+XTSOLgetPropAttributes(
+    Display *dpy,
+    Window window,
+    Atom property,
+    XTsolPropAttributes *propattrp)
 {
     register xGetPropAttributesReq *req;
     xGetPropAttributesReply rep;
@@ -529,11 +528,11 @@ XTSOLgetPropAttributes(dpy, window, property, propattrp)
 }
 
 Status
-XTSOLgetPropLabel(dpy, win, property, sl)
-    register Display *dpy;
-    register Window win;
-    Atom property;
-    m_label_t *sl;
+XTSOLgetPropLabel(
+    Display *dpy,
+    Window win,
+    Atom property,
+    m_label_t *sl)
 {
     register xGetPropAttributesReq *req;
     xGetPropAttributesReply rep;
@@ -572,11 +571,11 @@ XTSOLgetPropLabel(dpy, win, property, sl)
 }
 
 Status
-XTSOLgetPropUID(dpy, win, property, uidp)
-    register Display *dpy;
-    register Window win;
-    Atom property;
-    uid_t *uidp;
+XTSOLgetPropUID(
+    Display *dpy,
+    Window win,
+    Atom property,
+    uid_t *uidp)
 {
     register xGetPropAttributesReq *req;
     xGetPropAttributesReply rep;
@@ -606,11 +605,11 @@ XTSOLgetPropUID(dpy, win, property, uidp)
 }
 
 Status
-XTSOLgetResAttributes(dpy, object, resourceFlag, resattrp)
-    register Display *dpy;
-    register XID object;
-    ResourceType resourceFlag;
-    XTsolResAttributes *resattrp;
+XTSOLgetResAttributes(
+    Display *dpy,
+    XID object,
+    ResourceType resourceFlag,
+    XTsolResAttributes *resattrp)
 {
     register xGetResAttributesReq *req;
     xGetResAttributesReply rep;
@@ -653,11 +652,11 @@ XTSOLgetResAttributes(dpy, object, resourceFlag, resattrp)
  * get resource label. 
  */
 Status
-XTSOLgetResLabel(dpy, object, resourceFlag, sl)
-    register Display *dpy;
-    register XID object;
-    ResourceType resourceFlag;
-    m_label_t *sl;
+XTSOLgetResLabel(
+    Display *dpy,
+    XID object,
+    ResourceType resourceFlag,
+    m_label_t *sl)
 {
     register xGetResAttributesReq *req;
     xGetResAttributesReply rep;
@@ -694,11 +693,11 @@ XTSOLgetResLabel(dpy, object, resourceFlag, sl)
 }
 
 Status
-XTSOLgetResUID(dpy, object, resourceFlag, uidp)
-    register Display *dpy;
-    register XID object;
-    ResourceType resourceFlag;
-    uid_t *uidp;
+XTSOLgetResUID(
+    Display *dpy,
+    XID object,
+    ResourceType resourceFlag,
+    uid_t *uidp)
 {
     register xGetResAttributesReq *req;
     xGetResAttributesReply rep;
@@ -727,10 +726,10 @@ XTSOLgetResUID(dpy, object, resourceFlag, uidp)
 }
 
 Status
-XTSOLgetSSHeight(dpy, screen_num, newHeight)
-    Display *dpy;
-    int screen_num;
-    int *newHeight;
+XTSOLgetSSHeight(
+    Display *dpy,
+    int screen_num,
+    int *newHeight)
 {
     register xGetResAttributesReq *req;
     xGetResAttributesReply rep;
@@ -761,9 +760,9 @@ XTSOLgetSSHeight(dpy, screen_num, newHeight)
 }
 
 Status 
-XTSOLgetWorkstationOwner(dpy, uidp)
-    Display *dpy;
-    uid_t *uidp;
+XTSOLgetWorkstationOwner(
+    Display *dpy,
+    uid_t *uidp)
 {
     register xGetResAttributesReq *req;
     xGetResAttributesReply rep;

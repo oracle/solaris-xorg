@@ -2,7 +2,7 @@
 #
 # SPARC graphics utilities modules (fbconfig & VTS) Makefile
 #
-# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ MODULE_LICENSE_SET = yes
 
 # Dates to show in Oracle copyright notice in fbconfig pkg license file
 # Earliest & latest of the copyrights in the Oracle files in the base pkg
-ORACLE_COPYRIGHT_YEARS = 1999, 2011
+ORACLE_COPYRIGHT_YEARS = 1999, 2015
 
 # Package classification (override default)
 MODULE_PKGCLASS=Drivers/Display
@@ -104,7 +104,7 @@ $(EXTRA_LICENSE_FILES):=	MODULE_TPNO_NAME_SET = YES
 $(EXTRA_LICENSE_FILES):=	MODULE_DESC = fbconfig & VTS modules for graphics devices using the $(DEVICE_NAME) driver
 
 # Dates to show in Oracle copyright notice in per-device pkg license files
-$(AST_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2009, 2011
-$(EFB_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2009
+$(AST_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2009, 2013
+$(EFB_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2013
 $(MGA_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2012
 

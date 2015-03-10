@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -48,9 +48,7 @@ disp_err_handler (Display *dpy)
 */
 
 Display *
-open_display (dpyname)
-char	*dpyname;
-
+open_display (const char *dpyname)
 {
 	Display *dpy;
 
@@ -76,9 +74,7 @@ char	*dpyname;
 */
 
 int
-dynamic_indexed_default_visual (screen)
-Screen	*screen;
-
+dynamic_indexed_default_visual (Screen *screen)
 {
 	int class = DefaultVisualOfScreen(screen)->class;
 

@@ -1568,7 +1568,7 @@ usage(void)
 }
 
 static Bool
-get_shm_key() {
+get_shm_key(void) {
     struct stat statbuf;
 
     if (stat(FTOK_FILE, &statbuf) != 0) {

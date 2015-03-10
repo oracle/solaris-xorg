@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1990, 2011, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1990, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -71,11 +71,10 @@ bad_handler (
 */
 
 static void
-cmc_record (screen, ncolors, colors)
-Screen		*screen;
-int		*ncolors;
-XColor		**colors;
-
+cmc_record (
+    Screen	*screen,
+    int		*ncolors,
+    XColor	**colors)
 {
 	register Colormap cmap = DefaultColormapOfScreen(screen);
 	register int 	i, nalloc;
@@ -190,11 +189,10 @@ XColor		**colors;
 */
 
 static void
-cmc_record_protected (screen, ncolors, colors)
-Screen		*screen;
-int		*ncolors;
-XColor		**colors;
-
+cmc_record_protected (
+    Screen	*screen,
+    int		*ncolors,
+    XColor	**colors)
 {
 	XGrabServer(DisplayOfScreen(screen));
 	cmc_record(screen, ncolors, colors);
@@ -208,8 +206,7 @@ XColor		**colors;
 */
 
 void
-cmc_save ()
-
+cmc_save (void)
 {
 	register int 	scr_num;
 	Display 	*dpy;

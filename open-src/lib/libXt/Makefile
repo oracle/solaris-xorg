@@ -69,10 +69,12 @@ LIB_MAN_SUFFIX=3xt
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xt.pc.in
 
+MODULE_CPPFLAGS = -DGETVALUES_BUG -DNO_ALLOCA
+
 # the xinline option is here to fix bug 15508570, No Hands lib
 # needs to interpose on these functions, and if they are inline
 # then the loader can't find them.  It complains silently.
-MODULE_CFLAGS = -DGETVALUES_BUG \
+MODULE_CFLAGS = \
 	-xinline=no%_XtAppCreateShell,no%XtAppNextEvent,no%XtAppProcessEvent
 
 # Extra links to libXt for compatibility with SVID / SPARC ABI / etc.
