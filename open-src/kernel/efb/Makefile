@@ -66,10 +66,9 @@ MODULE_LDFLAGS		= -r -dy
 #
 # License info
 #
-# MODULE_LICENSE		= Oracle License
-# MODULE_LICENSE_SET	= yes
-MODULE_DESC		= efb KMS driver
-ORACLE_TPNO		= 5800
+MODULE_DESC		= the efb driver
+ORACLE_TPNO		= 5896
+MODULE_VERSION		= 1.25
 LICENSE_FILE		= license_efb
 LICENSE_FILE_SET	= yes
 
