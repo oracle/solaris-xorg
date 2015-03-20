@@ -2,7 +2,7 @@
 #
 # Freetype 2.x font rendering library
 #
-# Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,6 +50,10 @@ MODULE_ARC_CASES += LSARC/2004/568
 MODULE_ARC_CASES += LSARC/2005/397
 # LSARC/2007/662 FreeType move from /usr/sfw to /usr
 MODULE_ARC_CASES += LSARC/2007/662
+# PSARC/2010/342 FreeType 2.4.2
+MODULE_ARC_CASES += PSARC/2010/342
+# PSARC/2015/148 FreeType 2.5.5
+MODULE_ARC_CASES += PSARC/2015/148
 
 # Package metadata
 UPSTREAM		= The FreeType Project
@@ -58,19 +62,19 @@ UPSTREAM_SET		= yes
 
 MODULE_LICENSE		= The FreeType Project License
 MODULE_LICENSE_SET	= yes
-ORACLE_TPNO		= 18003
+ORACLE_TPNO		= 21936
 MODULE_DESC		= the FreeType 2 font engine
 
 # Library name used in man pages & spec files
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.11
+MODULE_VERSION=2.5.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = b93435488942486c8d0ca22e8f768034
-TARBALL_SHA1  = b15e5a0b30c1e854484b410340f6429ad1253c74
-TARBALL_SHA256= ef9d0bcb64647d9e5125dc7534d7ca371c98310fec87677c410f397f71ffbe3f
+TARBALL_MD5   = 2a7a314927011d5030903179cf183be0
+TARBALL_SHA1  = 7b7460ef51a8fdb17baae53c6658fc1ad000a1c2
+TARBALL_SHA256= 387bcc4b780b12484aa2ec9f7db1a55d8286eb5639f45fbc0fbba7a4e5a1afb9
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -78,7 +82,6 @@ SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= \
-	freetype-config.patch,-p1 \
 	freetype-GS-conflict.patch,-p1 \
 	unix-cc.in.9.patch,-p1
 

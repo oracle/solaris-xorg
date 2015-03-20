@@ -2,7 +2,7 @@
 #
 # libXft library for client-side font rendering via freetype/fontconfig
 #
-# Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2005, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,7 @@ TARBALL_SHA1  = c7ec1361e3d4f095910f8c58988ab42e32f314d9
 TARBALL_SHA256= 7fce32b92dcb7b2869bed567af2abc7bbad0d5d6fcf471b8a3e137964a31bbbd
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = freetype-2.5.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xft
