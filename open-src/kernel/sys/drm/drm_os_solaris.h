@@ -101,7 +101,22 @@ typedef uint64_t drm_u64_t;
 #endif /* CONFIG_XFREE86_VERSION >= XFREE86_VERSION(4,1,0,0) */
 
 
+#ifdef _KERNEL
+/* Defines that are only relevant for kernel modules and drivers */
 
+#ifdef	__lint
+/* Don't lint these macros. */
+#define	BUG_ON(a)
+#define	WARN_ON(a)
+#else
+#define BUG_ON(a)	ASSERT(a)
+#define WARN_ON(a)	do { \
+		if(a) drm_debug_print(CE_WARN, __func__, __LINE__, #a);\
+	} while (__lintzero)
+#endif /* __lint */
 
+#define BUG()		BUG_ON(1)
+
+#endif /* _KERNEL */
 #endif /* __sun */
 #endif /* _DRM_OS_SOLARIS_H */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -128,17 +128,6 @@
 #define copy_to_user DRM_COPY_TO_USER
 #define copy_from_user DRM_COPY_FROM_USER
 #define unlikely(a)  (a)
-
-#ifdef __lint
-/* Don't lint these macros. */
-#define BUG_ON(a)
-#define WARN_ON(a)
-#else /* !__lint */
-#define BUG_ON(a)	ASSERT(!(a))
-#define WARN_ON(a)	BUG_ON(a)
-#endif /* __lint */
-
-#define BUG()		BUG_ON(1)
 
 #define AGP_USER_TYPES (1 << 16)
 #define AGP_USER_MEMORY (AGP_USER_TYPES)
