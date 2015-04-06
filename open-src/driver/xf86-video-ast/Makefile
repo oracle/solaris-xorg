@@ -41,7 +41,8 @@ TARBALL_SHA256= e778f1824f5eed7e3197f00f39418de1525e310fd78e0335f6178c26b9b0495b
 SOURCE_PATCHES += sparc-ast.patch,-p1 \
 		16448336.patch,-p1 \
 		16027951.patch,-p1 \
-		17907916.patch,-p1
+		17907916.patch,-p1 \
+		20816358-disable-DP501.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
