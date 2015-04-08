@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -115,6 +115,8 @@ SUNTOUCH_MAN_FLAGS_Xephyr = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xephyr)}'
 SUNTOUCH_MAN_FLAGS_Xvfb = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xvfb)}'
 SUNTOUCH_MAN_FLAGS_Xdmx = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xdmx)}'
 SUNTOUCH_MAN_FLAGS_Xserver = -o '{Availability, $(MODULE_PKGNAME:%xorg=%xserver-common)}'
+SUNTOUCH_MAN_FLAGS_cvt = -o '{Availability, x11/modeline-utilities}'
+SUNTOUCH_MAN_FLAGS_gtf = -o '{Availability, x11/modeline-utilities}' 
 SUNTOUCH_MAN_FLAGS_xdmxconfig = $(SUNTOUCH_MAN_FLAGS_Xdmx)
 SUNTOUCH_MAN_FLAGS_vdltodmx = $(SUNTOUCH_MAN_FLAGS_Xdmx)
 SUNTOUCH_MAN_FLAGS_dmxtodmx = $(SUNTOUCH_MAN_FLAGS_Xdmx)
@@ -297,12 +299,14 @@ XEPHYR_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xephyr)
 XVFB_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xvfb)
 XDMX_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xdmx)
 XTSOL_PKG_METADATA_DIR =  $(MODULE_PKG_METADATA_DIR:%-server-xorg=%-trusted-trusted-xorg)
+MODES_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-server-xorg=%-modeline-utilities)
 
 EXTRA_METADATA_DIRS =	$(XCOMMON_PKG_METADATA_DIR) \
 			$(XEPHYR_PKG_METADATA_DIR) \
 			$(XVFB_PKG_METADATA_DIR) \
 			$(XDMX_PKG_METADATA_DIR) \
-			$(XTSOL_PKG_METADATA_DIR)
+			$(XTSOL_PKG_METADATA_DIR) \
+			$(MODES_PKG_METADATA_DIR)
 
 EXTRA_ATTRDATA_FILES = $(EXTRA_METADATA_DIRS:%=%/$(ATTRDATA_FILE_NAME))
 EXTRA_LICENSE_FILES =  $(EXTRA_METADATA_DIRS:%=%/$(LICENSE_FILE_NAME))

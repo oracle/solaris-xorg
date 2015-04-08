@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,8 +38,6 @@ $(i386_ONLY)link path=usr/bin/$(ARCH64)/Xorg target=../Xorg
 # On SPARC, Xorg only requires setuid root in order to create the
 # Xorg.*.log file in /var/log
 file path=usr/bin/Xorg owner=root mode=4555
-file path=usr/bin/cvt
-file path=usr/bin/gtf
 dir  path=usr/include/xorg
 file path=usr/include/xorg/BT.h
 file path=usr/include/xorg/IBM.h
@@ -246,8 +244,6 @@ file \
     path=usr/share/doc/release-notes/x11:server:xorg:driver:xorg-video-trident-1.txt \
     release-note=pkg:/x11/server/xorg/driver/xorg-video-trident@1.3.6,5.12-5.12.0.0.0.26.0
 file path=usr/share/man/man1/Xorg.1
-file path=usr/share/man/man1/cvt.1
-file path=usr/share/man/man1/gtf.1
 file path=usr/share/man/man1/xorgcfg.1
 file path=usr/share/man/man1/xorgconfig.1
 file path=usr/share/man/man4/xorg.conf.4
@@ -260,6 +256,10 @@ legacy pkg=SUNWxorg-headers \
 legacy pkg=SUNWxorg-server \
     desc="X Window System server based on X.Org Foundation open source release" \
     name="X.Org Foundation Xserver"
+
+# cvt and gtf were part of the Xorg pkg - moving them to a different pkg
+# as per 20738319
+depend type=group fmri=pkg:/x11/modeline-utilities
 
 # keyboard & mouse drivers used to be part of this package, so we preserve
 # the dependency to ensure they're not lost on upgrade, and normally installed
