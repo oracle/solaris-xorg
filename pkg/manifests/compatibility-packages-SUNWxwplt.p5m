@@ -76,9 +76,6 @@ depend type=require fmri=pkg:/x11/font-utilities
 # app/setxkbmap, xkbprint, xkbutils
 depend type=require fmri=pkg:/x11/keyboard/xkb-utilities
 
-# lib/DPS
-depend type=require fmri=pkg:/x11/library/dps
-
 # lib/libdga
 depend type=require fmri=pkg:/x11/library/libdga
 

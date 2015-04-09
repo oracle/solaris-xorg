@@ -151,7 +151,7 @@ depend type=require fmri=pkg:/library/libxml2
 # A number of X packages use xsltproc to process DocBook and other XML files
 depend type=require fmri=pkg:/library/libxslt
 
-# AccessX & DPS require motif libraries
+# AccessX requires motif libraries
 depend type=require fmri=pkg:/library/motif \
     org.opensolaris.pkgdepend.resolve=true
 

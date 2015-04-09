@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,7 @@ INCL	+= -I ${GFX_COMMON}/vts/include
 CFLAGS	+= ${DEBUG} -m64 -xCC ${DEFS} -DSUN__${DEV} -Dsun -Dsparc -DSVR4 \
  -DSYSV -D__EXTENSIONS__ -DDPMSExtension -DXRECORD -DEVI -DSHAPE -DXINPUT \
  -DXKB -DLBX -DXAPPGROUP -DXCSECURITY -DTOGCUP -DPANORAMIX -DNEED_DBE_BUF_BITS \
- -DNEED_DBE_BUF_VALIDATE -DPIXPRIV -DFBPM -DSUNSOFT -DSUNSOFT_BUYBACK -DXDPS \
+ -DNEED_DBE_BUF_VALIDATE -DPIXPRIV -DFBPM -DSUNSOFT -DSUNSOFT_BUYBACK \
  -DNEED_LINEHELPER -DINCLUDE_ALLOCA_H -DMITSHM -DNODBBS
 
 LIB_CSRCS = libvtsSUNW${Dev}.c ${GFX_COMMON}/vts/gfx_vts.c tools.c \

@@ -76,9 +76,6 @@ UNUSED_RPATH    /usr/lib/xorg.*\ from\ .*/mkfontscale
 # Unused runpaths in objects from other consolidations
 UNUSED_RPATH	/usr/dt/lib.*\ from\ .*libXm\.so\.4
 UNUSED_RPATH	/opt/VRTSvxvm/lib.*\ from\ .*libdiskmgt\.so\.1
-#
-# Ancient non-thread-safe version of libXaw in the process of being EOF'ed
-ERRNO		^usr/lib/libXaw\.so\.4$
 
 # Since we're not in ON, elfsigning happens at RE dock integration,
 # not during the build process.

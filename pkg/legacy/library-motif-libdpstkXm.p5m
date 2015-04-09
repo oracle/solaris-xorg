@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -20,6 +20,5 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/library/motif/libdpstkXm@0.5.11,5.11-0.134
-set name=pkg.renamed value=true
-depend type=require fmri=pkg:/library/motif/libdpstkxm@0.5.11-0.134
+set name=pkg.fmri value=pkg:/library/motif/libdpstkXm@0.5.12-5.12.0.0.0.73.0
+set name=pkg.obsolete value=true

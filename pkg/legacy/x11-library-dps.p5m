@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,14 +19,5 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/library/motif/libdpstkxm@$(OSPKGVERS)
-set name=pkg.summary \
-    value="X Window System DPS extension Motif client compatibility libraries"
-set name=pkg.description \
-    value="Libraries provided for binary compatibility with Motif clients designed to connect to servers supporting the DPS extension."
-file path=usr/lib/libdpstkXm.so.5
-file path=usr/share/X11/app-defaults/ColorSelect
-file path=usr/share/X11/app-defaults/FontSelect
-legacy pkg=SUNWxwdxm desc="DPS Motif library" name="DPS Motif library"
-# ColorSelect & FontSelect use -adobe-helvetica-....-iso8859-1 font
-depend type=require fmri=pkg:/system/font/xorg/iso8859-1
+set name=pkg.fmri value=pkg:/x11/library/dps@7.7-5.12.0.0.0.73.0
+set name=pkg.obsolete value=true

@@ -41,11 +41,7 @@ default_target: install
 # libpthread-stubs before libdrm and xcb
 # libdrm before mesa
 
-# Additional Solaris requirements:
-# libXtsol before DPS, since libdpstkXm depends indirectly on it via Motif
-
 # Dependencies needed for parallel make:
-DPS: libX11 libXt libXtsol
 fontconfig: freetype
 libdga: libX11
 libdmx: libX11 libXext
@@ -96,7 +92,6 @@ pixman: libXext libXrender libXinerama libXi libXrandr libXcursor
 pixman: libXcomposite libXdamage libXfixes libX11 freetype fontconfig 
 
 OS_SUBDIRS_common = \
-	DPS \
 	freetype \
 	fontconfig \
 	libdga \
@@ -155,6 +150,7 @@ OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 OS_SUBDIRS_i386 = $(OS_SUBDIRS_common)
 
 OBSOLETE_SUBDIRS = \
+	DPS \
 	hwc \
 	libowconfig \
 	libXaw4 \

@@ -1,6 +1,4 @@
-###############################################################################
-#
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,35 +19,5 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-#
-
-# Manual conversion of X11R6.9 xc/programs/makepsres/Imakefile
-
-      DEFINES = -DXENVIRONMENT
-    CPPFLAGS += $(DEFINES)
-
-SRCS = makepsres.c
-
-OBJS = makepsres.o
-
-# Inspired by automake 1.11 silent rules - hides details by default
-# Run make V=1 to show details
-DEFAULT_V  = 0
-V_CC       = $(V_CC_$(V))
-V_CC_      = $(V_CC_$(DEFAULT_V))
-V_CC_0     = @echo "  CC    " $@;
-
-all: makepsres
-
-makepsres: $(OBJS)
-	$(V_CC)$(CC) -o $@ $(LDFLAGS) $(PROG_LDFLAGS) $(OBJS) $(EXTRA_LIBRARIES)
-
-.c.o:
-	$(V_CC)$(CC) $(CFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
-
-install: makepsres
-	$(INSTALL) makepsres $(DESTDIR)$(bindir)/makepsres
-
-clean:
-	${RM} *.o makepsres
-
+set name=pkg.fmri value=pkg:/library/motif/libdpstkxm@5.12-5.12.0.0.0.73.0
+set name=pkg.obsolete value=true
