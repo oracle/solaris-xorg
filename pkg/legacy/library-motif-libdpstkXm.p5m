@@ -20,5 +20,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/library/motif/libdpstkXm@0.5.12-5.12.0.0.0.73.0
+set name=pkg.fmri \
+    value=pkg:/library/motif/libdpstkXm@0.5.12,5.12-5.12.0.0.0.73.0
 set name=pkg.obsolete value=true
