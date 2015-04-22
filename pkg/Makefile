@@ -106,7 +106,7 @@ PKGS= $(MANIFESTS:%.p5m=%)
 # build rules and dependencies.  The synthetic and real packages use
 # different sets of transforms and macros for pkgmogrify.
 #
-SYNTH_PKGS= X-incorporation X-all
+SYNTH_PKGS= X-incorporation
 SYNTH_MANIFESTS = $(SYNTH_PKGS:%=%.p5m)
 
 # Special manifest for exceptions to pass to pkglint & validate_pkg

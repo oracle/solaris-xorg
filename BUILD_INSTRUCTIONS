@@ -1,7 +1,7 @@
 Solaris X Window System Consolidation Build Instructions
 --------------------------------------------------------
 
-Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -34,11 +34,11 @@ To build X, you need to set up a machine with the correct build environment:
    Oracle Solaris Studio C & C++ compilers & associated tools.
    These must be found first for cc/CC/etc. in $PATH when you build, and
    must include at least these packages (or their equivalents):
-        developer/solarisstudio-123/backend
-        developer/solarisstudio-123/c++
-        developer/solarisstudio-123/cc
-        developer/solarisstudio-123/dmake
-        developer/solarisstudio-123/library/c++-libs
+        developer/solarisstudio-124/backend
+        developer/solarisstudio-124/c++
+        developer/solarisstudio-124/cc
+        developer/solarisstudio-124/dmake
+        developer/solarisstudio-124/library/c++-libs
 
 There are several options that may be configured when building this software,
 such as whether to use tools & servers internal to Oracle's network or not.
@@ -101,9 +101,6 @@ things to remember:
 2) It will normally only upgrade the X packages you already have installed
    on the system, though it will leave the BE mounted so that you can add
    other packages via pkg -R /tmp/onu.* install package-name.
-
-To install all the packages provided by the X consolidation for the build
-in your BE, you can install the group package pkg:/consolidation/X/X-all .
 
 Example: Install to a new BE named "X14" that is cloned from the current BE:
 
