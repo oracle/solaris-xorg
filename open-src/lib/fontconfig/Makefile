@@ -154,8 +154,6 @@ FONTCONFIG_SMF_METHOD_dir=$(PROTODIR)$(SMF_METHOD_DIR)
 FONTCONFIG_SMF_METHOD=$(FONTCONFIG_SMF_METHOD_dir)/fc-cache
 FONTCONFIG_RBAC_AUTH_dir=$(PROTODIR)/etc/security/auth_attr.d
 FONTCONFIG_RBAC_AUTH=$(FONTCONFIG_RBAC_AUTH_dir)/fontconfig
-FONTCONFIG_RBAC_HELP_dir=$(PROTODIR)/usr/lib/help/auths/locale/C
-FONTCONFIG_RBAC_HELP=$(FONTCONFIG_RBAC_HELP_dir)/FontStates.html
 
 # Sun specification configuration files to be installed in /etc/fonts/conf.d
 FONTCONFIG_CONFDIR = $(PROTODIR)/etc/fonts/conf.avail
@@ -175,7 +173,7 @@ $(PROTODIR)/usr/bin:
 # run just once, not per bitwidth
 FONTCONFIG_INSTALL_RULES = fontconfig-sunman-install \
 	$(FONTCONFIG_SMF_MANIFEST) $(FONTCONFIG_SMF_METHOD) \
-	$(FONTCONFIG_RBAC_AUTH) $(FONTCONFIG_RBAC_HELP) \
+	$(FONTCONFIG_RBAC_AUTH) \
 	$(FONTCONFIG_SUN_CONFFILES) $(FONTCONFIG_CMD_LINKS)
 
 install: $(FONTCONFIG_INSTALL_RULES)
@@ -192,10 +190,6 @@ $(FONTCONFIG_SMF_METHOD): fc-cache.sh
 $(FONTCONFIG_RBAC_AUTH): auth_attr
 	mkdir -p $(FONTCONFIG_RBAC_AUTH_dir)
 	$(INSTALL_SCRIPT) -c -m 0444 auth_attr $@
-
-$(FONTCONFIG_RBAC_HELP): FontStates.html
-	mkdir -p $(FONTCONFIG_RBAC_HELP_dir)
-	$(INSTALL_SCRIPT) -c -m 0444 FontStates.html $@
 
 $(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
 	mkdir -p $(PROTODIR)/etc/fonts/conf.d $(PROTODIR)/etc/fonts/conf.avail

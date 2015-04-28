@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -71,9 +71,6 @@ DESTDIR=$(PROTODIR)
 check: x11-server.xml
 	/usr/sbin/svccfg validate x11-server.xml
 
-RBAC_AUTH_HELP=X11States.html
-RBAC_PROFILE_HELP=RtDesktopConfiguration.html
-
 install_common: $(BUILD_TARGETS)
 	mkdir -p \
 		$(DESTDIR)$(X11_SMF_MANIFEST_DIR) \
@@ -81,9 +78,7 @@ install_common: $(BUILD_TARGETS)
 		$(DESTDIR)$(X11_DIR)/bin \
 		$(DESTDIR)$(X11_DIR)/share/man/man1 \
 		$(DESTDIR)/etc/security/auth_attr.d \
-		$(DESTDIR)/etc/security/prof_attr.d \
-		$(DESTDIR)/usr/lib/help/auths/locale/C \
-		$(DESTDIR)/usr/lib/help/profiles/locale/C
+		$(DESTDIR)/etc/security/prof_attr.d
 	$(INSTALL_SCRIPT) -c -m 0444 x11-server.xml \
 		$(DESTDIR)$(X11_SMF_MANIFEST_DIR)/
 	$(INSTALL_SCRIPT) -c -m 0755 x11-server $(DESTDIR)$(SMF_METHOD_DIR)/
@@ -92,8 +87,4 @@ install_common: $(BUILD_TARGETS)
 		$(DESTDIR)/etc/security/auth_attr.d/$(MODULE_NAME)
 	$(INSTALL_SCRIPT) -c -m 0444 prof_attr \
 		$(DESTDIR)/etc/security/prof_attr.d/$(MODULE_NAME)
-	$(INSTALL_SCRIPT) -c -m 0444 X11States.html \
-		$(DESTDIR)/usr/lib/help/auths/locale/C/
-	$(INSTALL_SCRIPT) -c -m 0444 RtDesktopConfiguration.html \
-		$(DESTDIR)/usr/lib/help/profiles/locale/C/
 	$(INSTALL_SCRIPT) -c -m 0444 Xnest.1 $(DESTDIR)$(X11_MAN_DIR)/man1/

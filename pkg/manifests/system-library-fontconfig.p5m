@@ -118,7 +118,6 @@ file path=usr/include/fontconfig/fontconfig.h
 link path=usr/lib/$(ARCH64)/libfontconfig.so target=libfontconfig.so.1
 file path=usr/lib/$(ARCH64)/libfontconfig.so.1
 file path=usr/lib/$(ARCH64)/pkgconfig/fontconfig.pc
-file path=usr/lib/help/auths/locale/C/FontStates.html
 link path=usr/lib/libfontconfig.so target=libfontconfig.so.1
 file path=usr/lib/libfontconfig.so.1
 file path=usr/lib/pkgconfig/fontconfig.pc
