@@ -37,3 +37,4 @@ multi-session-with-isolateDevice.patch,-p1
 security-2014-12-09.patch,-p1
 20395984.patch,-p1
 CVE-2015-0255.patch,-p1
+CVE-2015-3418.patch,-p1
