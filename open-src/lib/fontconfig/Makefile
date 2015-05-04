@@ -79,7 +79,7 @@ SOURCE_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 		arial-narrow.conf.patch \
-		cjk-fonts.conf.patch \
+		cjk-fonts.conf.patch,-p1 \
 		Makefile.am.0.patch \
 		bitmap-hacks.patch \
 		6447517.patch \
