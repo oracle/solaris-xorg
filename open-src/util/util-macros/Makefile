@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -61,7 +61,7 @@ source_fix_pkgname: $(PATCHED_TARGET)
 		$(SOURCE_DIR)/configure.ac
 
 # autoreconf fails if the aclocal include directories don't exist yet
-$(AUTOCONF_TARGET): $(PROTODIR)$(X11_ACLOCAL_DIR)
+$(PATCHED_TARGET) $(AUTOCONF_TARGET): $(PROTODIR)$(X11_ACLOCAL_DIR)
 
 $(PROTODIR)$(X11_ACLOCAL_DIR):
 	mkdir -p $@

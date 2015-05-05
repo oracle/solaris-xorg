@@ -52,6 +52,9 @@ $(error You must use Solaris make, not GNU make in this build - make sure /usr/c
 # sets the Makefile.options link to point to a included Makefile to
 # set these up.
 
+$(TOP)/open-src/common/Makefile.options:
+	cd $(TOP) ; $(MAKE) $(MAKEFLAGS) setup
+
 include "Makefile.options"
 
 ###  Machine architecture macros

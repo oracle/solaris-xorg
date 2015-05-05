@@ -521,3 +521,7 @@ FIX_PERMS_IN = /usr /lib /etc/X11 /etc/fonts /etc/hal
 fix_perms: 
 	@print "## Fixing proto area permissions"
 	$(PKGDEBUG)find $(FIX_PERMS_IN:%=$(PKGROOT)%) -type f -exec chmod a-w \{\} \+
+
+# Nothing to do for "make source", but avoid error when run at top-level
+source:
+	@true

@@ -1,6 +1,6 @@
 # Makefile for X Consolidation
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,7 @@ all: setup install check
 MK_OPTS = open-src/common/Makefile.options
 
 setup: $(MK_OPTS)
+.INIT: setup
 
 $(MK_OPTS):
 	@ if [[ -n "${X_BUILD_OPTIONS}" ]] ; then \
