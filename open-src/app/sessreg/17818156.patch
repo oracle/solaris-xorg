@@ -1,0 +1,34 @@
+--- sessreg.h.orig	2015-04-29 02:01:08.788812460 -0700
++++ sessreg.h	2015-04-24 10:45:05.959217430 -0700
+@@ -53,7 +53,8 @@
+ #include <sys/types.h>
+ #include <time.h>
+ 
+-#ifdef HAVE_UTMP_H
++/* Prefer POSIX standard utmpx interfaces if present, otherwise use utmp */
++#if defined(HAVE_UTMP_H) && !defined(HAVE_UTMPX_H)
+ # include <utmp.h>
+ # define USE_UTMP
+ #endif
+--- sessreg.c.orig	2013-02-10 18:43:50.000000000 -0800
++++ sessreg.c	2015-04-29 01:54:37.542587470 -0700
+@@ -205,11 +205,19 @@ main (int argc, char **argv)
+ 			wtmp_file = getstring (&argv, &wflag);
+ 			if (!strcmp (wtmp_file, "none"))
+ 				wtmp_none = 1;
++#if defined(USE_UTMPX) && defined(HAVE_UPDWTMPX)
++			else
++				wtmpx_file = wtmp_file;
++#endif
+ 			break;
+ 		case 'u':
+ 			utmp_file = getstring (&argv, &uflag);
+ 			if (!strcmp (utmp_file, "none"))
+ 				utmp_none = 1;
++#if defined(USE_UTMPX) && defined(HAVE_UTMPXNAME)
++			else
++				utmpx_file = utmp_file;
++#endif
+ 			break;
+ #ifdef USE_LASTLOG
+ 		case 'L':

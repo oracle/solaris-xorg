@@ -2,7 +2,7 @@
 #
 # sessreg - tool for X display manager session registration in utmpx
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,7 +41,8 @@ TARBALL_SHA1  = dc4fa8b804e7cb4cfbadbef3708c3b97076ddb65
 TARBALL_SHA256= 0e2accc6272fcc2321aef7370f4ccf0df0fe259b2e942938264e2aaedee6c4c3
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = \
+	17818156.patch,-p0
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/sessreg.man
