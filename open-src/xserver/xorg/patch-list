@@ -38,3 +38,4 @@ security-2014-12-09.patch,-p1
 20395984.patch,-p1
 CVE-2015-0255.patch,-p1
 CVE-2015-3418.patch,-p1
+autoconf-269.patch,-p1

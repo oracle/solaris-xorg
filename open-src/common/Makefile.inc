@@ -638,7 +638,7 @@ XML_TO_HTML += --path "$(PROTODIR)$(X11_SGML_DIR) $(MODULE_XML_PATH)"
 XML_TO_HTML += $(TOP)/open-src/doc/xorg-sgml-doctools/xmltohtml.xsl
 
 # Convert HTML to text (also normally done by xmlto upstream)
-HTML_TO_TEXT = /usr/bin/w3m -dump -O UTF-8
+HTML_TO_TEXT = /usr/bin/lynx -dump
 
 .SUFFIXES: .xml .html .txt
 

@@ -86,6 +86,9 @@ depend type=require fmri=pkg:/developer/documentation-tool/asciidoc
 depend type=require fmri=pkg:/developer/documentation-tool/openjade
 depend type=require fmri=pkg:/developer/documentation-tool/opensp
 
+# adding xmlto since we want to use xmlto for docs instead of w3m or lynx eventually
+depend type=require fmri=pkg:/developer/documentation-tool/xmlto
+
 # Some modules use gcc to build (look for MODULE_COMPILER=gcc in Makefiles)
 depend type=require fmri=pkg:/developer/gcc-$(GCC_PKG_VERSION)
 
@@ -227,6 +230,9 @@ depend type=require fmri=pkg:/text/gnu-patch
 
 # autoconf scripts prefer gnu sed
 depend type=require fmri=pkg:/text/gnu-sed
+
+# temporarily using lynx because of regression with w3m on sparc - 21097691
+depend type=require fmri=pkg:/web/browser/lynx
 
 # w3m is used to convert html docs to text, after generating html from docbook
 depend type=require fmri=pkg:/web/browser/w3m
