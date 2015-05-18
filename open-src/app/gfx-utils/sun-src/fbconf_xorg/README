@@ -19,7 +19,7 @@ frame buffer device:
         fbconf_xorg/<xfb>/<xfb>_properties.c
     and
         fbconf_xorg/<xfb>/<xfb>_properties.h,
-    based on existing examples, such as in fbconf_xorg/efb.
+    based on existing examples.
     Prominent details will be:
         SUNW<xfb>_api_version
                 API version number (prominent but trivial)

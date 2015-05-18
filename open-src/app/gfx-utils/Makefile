@@ -72,7 +72,7 @@ MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 include ../Makefile.inc
 
 # Install metadata for fb-specific packages too
-FB_MODULES = ast efb mga
+FB_MODULES = ast mga
 
 EXTRA_METADATA_DIRS = $(FB_MODULES:%=$(MODULE_PKG_METADATA_DIR)-fbconfig-%)
 
@@ -91,11 +91,9 @@ $(EXTRA_METADATA_DIRS):
 
 # Modules for specific frame buffers are covered only by Oracle copyright
 AST_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-ast/$(LICENSE_FILE_NAME)
-EFB_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-efb/$(LICENSE_FILE_NAME)
 MGA_LICENSE_FILE = $(MODULE_PKG_METADATA_DIR)-fbconfig-mga/$(LICENSE_FILE_NAME)
 
 $(AST_LICENSE_FILE):=		DEVICE_NAME = ast
-$(EFB_LICENSE_FILE):=		DEVICE_NAME = efb
 $(MGA_LICENSE_FILE):=		DEVICE_NAME = mga
 
 # Module info to show in per-device pkg license files
@@ -105,6 +103,5 @@ $(EXTRA_LICENSE_FILES):=	MODULE_DESC = fbconfig & VTS modules for graphics devic
 
 # Dates to show in Oracle copyright notice in per-device pkg license files
 $(AST_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2009, 2013
-$(EFB_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2013
 $(MGA_LICENSE_FILE):=		ORACLE_COPYRIGHT_YEARS = 2006, 2012
 

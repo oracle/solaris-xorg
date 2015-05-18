@@ -1,7 +1,6 @@
 #
 # Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
-
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -21,26 +20,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-
-#
-# The default for payload-bearing actions in this package is to appear in the
-# global zone only.  See the include file for greater detail, as well as
-# information about overriding the defaults.
-#
-<include global_zone_only_component>
-set name=pkg.fmri value=pkg:/driver/graphics/efb@$(OSPKGVERS)
-set name=pkg.summary \
-    value="efb - Sun XVR-300, XVR-100, XVR-50 kernel graphics driver"
-set name=pkg.description \
-    value="The efb driver is the graphics device driver for the XVR-50, XVR-100, and XVR-300 frame buffers for SPARC systems.  This driver provides kernel terminal emulator support for the text console, and frame buffer support for the Xorg server."
+set name=pkg.fmri \
+    value=pkg:/system/graphics/fbconfig/fbconfig-efb@5.12.0.0.0.75.0
+set name=pkg.obsolete value=true
 set name=variant.arch value=sparc
-file path=kernel/drv/sparcv9/efb group=sys
-file path=usr/share/man/man7d/efb.7d
-driver name=efb perms="* 0666 root sys" \
-    alias=SUNW,XVR-100 \
-    alias=SUNW,XVR-300 \
-    alias=SUNW,XVR-50
-legacy pkg=SUNWefb category=system,graphics \
-    desc="Device driver for the XVR-300/XVR-100, XVR-50 graphics accelerators" \
-    name="Sun XVR-300/XVR-100, XVR-50 Graphics System Software Device Driver" \
-    version=11.0.0,REV=2011.03.15

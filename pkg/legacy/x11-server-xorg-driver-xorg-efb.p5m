@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,8 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-efb@0.5.11,5.11-0.175.0.0.0.0.1210
-set name=pkg.renamed value=true
+    value=pkg:/x11/server/xorg/driver/xorg-efb@0.5.12,5.12.0.0.0.75.0
+set name=pkg.obsolete value=true
 set name=variant.arch value=sparc
-depend type=require \
-    fmri=pkg:/x11/server/xorg/driver/xorg-video-efb@0.5.11,5.11-0.175.0.0.0.0.1210

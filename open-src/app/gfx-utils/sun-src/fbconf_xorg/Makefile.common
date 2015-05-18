@@ -3,7 +3,7 @@
 #
 
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,7 +50,6 @@ LIB_XF86_A = libxf86conf.a
 L_FBC      = -L$(BIN_DIR) -R$(INSTALL_LIB_DIR) -lfbconf_xorg
 LIB_FBC_SO = libfbconf_xorg.so
 
-LIB_EFB_SO = libSUNWefb_conf.so
 LIB_AST_SO = libSUNWast_conf.so
 LIB_MGA_SO = libSUNWmga_conf.so
 
@@ -76,9 +75,6 @@ FBC_BIN_DIR  = $(BIN_DIR)/fbc
 
 KFB_SRC_DIR  = $(SRC_DIR)/kfb
 KFB_BIN_DIR  = $(BIN_DIR)/kfb
-
-EFB_SRC_DIR  = $(SRC_DIR)/efb
-EFB_BIN_DIR  = $(BIN_DIR)/efb
 
 AST_SRC_DIR  = $(SRC_DIR)/ast
 AST_BIN_DIR  = $(BIN_DIR)/ast
