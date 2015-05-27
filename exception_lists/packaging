@@ -54,11 +54,6 @@ usr/share/man/man5/Consortium.5
 usr/share/man/man5/XProjectTeam.5
 usr/share/man/man5/Xprint.5
 
-# Upstream ati man pages don't apply to efb driver on sparc
-usr/share/man/man7/ati.7       	        sparc
-usr/share/man/man7/r128.7		sparc
-usr/share/man/man7/radeon.7		sparc
-
 # ON delivers the packaged version of this link
 usr/lib/64
 
