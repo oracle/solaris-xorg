@@ -82,6 +82,7 @@ SOURCE_PATCHES += solaris-audit.patch,-p1
 SOURCE_PATCHES += 17950657.patch,-p1
 SOURCE_PATCHES += studio12.4-patch,-p1
 SOURCE_PATCHES += CVE-2014-8240.patch,-p1
+SOURCE_PATCHES += gnutls-disable-sslv3.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
