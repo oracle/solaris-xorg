@@ -19,5 +19,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/library/toolkit/libxaw4@5.12.0.0.0.69.1506
+set name=pkg.fmri \
+    value=pkg:/x11/library/toolkit/libxaw4@0.5.12,5.12-5.12.0.0.0.77.0
 set name=pkg.obsolete value=true

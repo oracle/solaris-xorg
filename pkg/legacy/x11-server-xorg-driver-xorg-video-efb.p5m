@@ -21,6 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/server/xorg/driver/xorg-video-efb@5.12.0.0.0.75.0
+    value=pkg:/x11/server/xorg/driver/xorg-video-efb@0.5.12,5.12-5.12.0.0.0.77.0
 set name=pkg.obsolete value=true
 set name=variant.arch value=sparc
