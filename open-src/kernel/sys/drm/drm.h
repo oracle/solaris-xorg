@@ -220,21 +220,12 @@ struct drm_ctx_priv_map {
  * \sa drmAddMap().
  */
 struct drm_map {
-#if defined(__sun)
 	unsigned long long offset;	 /**< Requested physical address (0 for SAREA)*/
-#else
-	unsigned long offset;	 /**< Requested physical address (0 for SAREA)*/
-#endif
+	unsigned long long handle;	/**< User-space: "Handle" to pass to mmap() */
+				 /**< Kernel-space: kernel-virtual address */
 	unsigned long size;	 /**< Requested physical size (bytes) */
 	enum drm_map_type type;	 /**< Type of memory to map */
 	enum drm_map_flags flags;	 /**< Flags */
-#if defined(__sun)
-	/* Till handle is converted to a void * */
-	unsigned long long handle;
-#else
-	void *handle;		 /**< User-space: "Handle" to pass to mmap() */
-				 /**< Kernel-space: kernel-virtual address */
-#endif
 	int mtrr;		 /**< MTRR slot used */
 	/*   Private data */
 };
