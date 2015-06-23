@@ -47,10 +47,6 @@ SOURCE_TARBALL_NAME_SET=yes
 SOURCE_TARGETS =
 SOURCE_TARGETS_SET=yes
 
-# Haven't made sure it's 64-bit clean yet, so continue building 32-bit for now
-BUILD_TYPES_SET=yes
-BUILD_TYPES=32
-
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= # None
 MODULE_STABILITY=Committed

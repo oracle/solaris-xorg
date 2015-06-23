@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,7 +25,7 @@ OBJS = $(SRCS:.c=.o)
 CFLAGS1 = -DTCPCONN -DUNIXCONN -DIPv6
 
 mkcookie: $(OBJS)
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) -lXau -lsocket -lnsl
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(OBJS) -lXau
 
 .c.o:
 	$(CC) $(CFLAGS) $(CFLAGS1) $(CPPFLAGS) -c $<
