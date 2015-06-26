@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -85,3 +85,9 @@ SUNW_1.1 {
 } XFIXES_3.0;
 
 XFIXES_4.0 {} SUNW_1.1;
+
+XFIXES_5.0 {
+    global:
+	XFixesCreatePointerBarrier;
+	XFixesDestroyPointerBarrier;
+} XFIXES_4.0;
